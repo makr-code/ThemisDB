@@ -71,7 +71,7 @@ public:
     AdapterSelectionResult selectCandidates(const AdapterSelectionInput&) const override {
         AdapterSelectionResult r;
         r.selected_adapter_id = id_;
-        r.confidence          = 1.0f;
+        r.candidates.push_back({id_, 1.0f, "test-layer", "tenant-w3"});
         return r;
     }
 private:

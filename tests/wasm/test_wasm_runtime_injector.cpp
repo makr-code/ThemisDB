@@ -141,12 +141,12 @@ TEST_F(InjectorFixture, RuntimeCallAfterInstantiate) {
     auto rt = WasmRuntimeInjector::create("echo");
     ASSERT_NE(rt, nullptr);
 
-    rt->instantiate({}, {}, 0);
+    [[maybe_unused]] const auto instantiate_ok = rt->instantiate({}, {}, 0);
     EXPECT_TRUE(rt->isInstantiated());
 
     std::vector<uint8_t> args = {1, 2, 3};
     std::vector<uint8_t> out;
-    rt->call("myfn", args, out);
+    [[maybe_unused]] const auto call_ok = rt->call("myfn", args, out);
     EXPECT_EQ(out, args);
     EXPECT_EQ(dynamic_cast<MockWasmRuntime*>(rt.get())->last_fn_, "myfn");
 }

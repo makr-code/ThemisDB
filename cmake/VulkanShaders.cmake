@@ -111,9 +111,15 @@ function(compile_vulkan_shaders TARGET)
         list(APPEND COMPILED_SHADERS ${OUTPUT_FILE})
     endforeach()
     
-    add_custom_target(${TARGET} ALL
-        DEPENDS ${COMPILED_SHADERS}
-    )
+    if(THEMIS_EAGER_SHADER_BUILD)
+        add_custom_target(${TARGET} ALL
+            DEPENDS ${COMPILED_SHADERS}
+        )
+    else()
+        add_custom_target(${TARGET}
+            DEPENDS ${COMPILED_SHADERS}
+        )
+    endif()
 endfunction()
 
 # Function to install compiled shaders

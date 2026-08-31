@@ -441,18 +441,25 @@ public:
  * @brief Shared-library entry point symbol for the LLM Wiki plugin.
  *
  * Every shared library built from the private plugin repository MUST export
- * this function with C linkage:
+ * this function with C linkage and return a raw plugin instance pointer; the
+ * PluginManager owns the resulting object and deletes it through the matching
+ * destroy function.
  *
  * @code
  *   extern "C" THEMIS_PLUGIN_EXPORT
- *   std::shared_ptr<ILLMWikiPlugin> themisdb_llm_wiki_create();
+ *   themis::plugins::llm_wiki::ILLMWikiPlugin* themisdb_llm_wiki_create();
  * @endcode
  */
-using LLMWikiPluginFactory = std::shared_ptr<ILLMWikiPlugin> (*)();
+using LLMWikiPluginFactory = ILLMWikiPlugin* (*)();
+using LLMWikiPluginDestroyFunc = void (*)(ILLMWikiPlugin*);
 
 /// @brief Canonical export symbol name expected by the plugin loader.
 inline constexpr const char* kLLMWikiPluginFactorySymbol =
     "themisdb_llm_wiki_create";
+
+/// @brief Canonical destroy symbol name expected by the plugin loader.
+inline constexpr const char* kLLMWikiPluginDestroySymbol =
+    "themisdb_llm_wiki_destroy";
 
 /// @brief Canonical plugin identifier passed to `PluginManager::load()`.
 inline constexpr const char* kLLMWikiPluginId = "llm_wiki";

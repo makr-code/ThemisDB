@@ -154,6 +154,7 @@
     "test-integration": "Integration test suite",
     "test-performance": "Performance/benchmark tests",
     "static-analysis": "Static analysis (clang-tidy, cppcheck)",
+    "Doxygen Governance": "Doxygen source-governance gate for changed public C/C++ APIs",
     "security-scan": "CodeQL security scanning",
     "validate-ai-guardrails": "AI-Guardrails validation workflow",
     "validate-roadmap": "Roadmap structure validation"
@@ -165,6 +166,7 @@
     "Review protection rules quarterly for effectiveness",
     "Commit signing (GPG) is required for main and release/* branches",
     "Roadmap validation (validate-roadmap) is required before merge on all protected branches",
+    "Add the 'Doxygen Governance' required check to protected branches that enforce source-governance before merge",
     "Code owner review is required for main and release/* branches",
     "Restricted push access on main and release/* to @makr-code/maintainers team"
   ]

@@ -93,7 +93,7 @@ TEST(ObservabilityErrorContracts, TracerInitializeFailOpenOnUnreachableEndpoint)
     // Use a localhost port that is almost certainly not listening.
     // initialize() should return false within the 3-second probe timeout.
     // We allow up to 5 s total; CI machines should be fine.
-    const auto result = themis::utils::Tracer::initialize(
+    const auto result = themis::Tracer::initialize(
         "test-service",
         "http://127.0.0.1:19999");
 

@@ -42,51 +42,17 @@ using namespace themis::updates;
 
 class RollbackHardeningTest : public ::testing::Test {
 protected:
-    UpdateStateMachine state_machine_;
-    
-    void SetUp() override {
-        // Initialize with empty log path (in-memory only)
-        state_machine_ = UpdateStateMachine("");
-    }
+    UpdateStateMachine state_machine_{"", ""};
 };
 
 class CoordinatedRollbackTest : public ::testing::Test {
 protected:
-    // Mock HotReloadEngine for testing (simplified)
-    class MockHotReloadEngine : public HotReloadEngine {
-    public:
-        std::string last_version_;
-        std::string last_rollback_id_;
-        bool apply_should_fail_ = false;
-        bool rollback_should_fail_ = false;
-        int apply_count_ = 0;
-        int rollback_count_ = 0;
-        
-        std::string applyHotReload(const std::string& version,
-                                   const std::string& /*artifact_path*/) override {
-            ++apply_count_;
-            if (apply_should_fail_) return "";
-            
-            last_version_ = version;
-            last_rollback_id_ = "rollback_" + version;
-            return last_rollback_id_;
-        }
-        
-        bool rollback(const std::string& rollback_id) override {
-            ++rollback_count_;
-            if (rollback_should_fail_) return false;
-            return !rollback_id.empty();
-        }
-        
-        std::string currentVersion() const override {
-            return last_version_;
-        }
-    };
-    
-    std::shared_ptr<MockHotReloadEngine> engine_;
+    std::shared_ptr<HotReloadEngine> engine_;
     
     void SetUp() override {
-        engine_ = std::make_shared<MockHotReloadEngine>();
+        engine_ = std::make_shared<HotReloadEngine>(
+            std::shared_ptr<ManifestDatabase>{},
+            std::shared_ptr<themis::utils::UpdateChecker>{});
     }
 };
 
@@ -449,4 +415,3 @@ TEST_F(CoordinatedRollbackTest, ADD_20_LeaderLastSequencing) {
     EXPECT_EQ(leader_status->sequence_number, 2);
 }
 
-} // anonymous namespace

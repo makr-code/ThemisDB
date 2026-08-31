@@ -11,18 +11,21 @@
 
 
 #include "llm/grammar.h"
+#include <llama.h>
 #include <spdlog/spdlog.h>
 #include <utility>
 
-// Forward declarations for llama.cpp grammar API (from llama_grammar_adapter.cpp)
+// These functions are provided by the runtime adapter in llama_grammar_adapter.cpp.
+// Declaring the exact signatures here keeps the symbols consistent with the
+// llama.cpp ABI and avoids MSVC C4273 linkage mismatches while still using the
+// adapter's safe runtime detection/fallback path.
 extern "C" {
-    struct llama_vocab;
-    struct llama_grammar* llama_grammar_init(const struct llama_vocab* vocab, const char* grammar_str, const char* start_rule);
-    void llama_grammar_free(struct llama_grammar* grammar);
     bool themis_llama_grammar_available();
-    
-    // Helper to get vocab from model (defined in llama.h)
-    const struct llama_vocab* llama_model_get_vocab(const struct llama_model* model);
+    struct llama_grammar* llama_grammar_init(
+        const struct llama_vocab* vocab,
+        const char* grammar_str,
+        const char* start_rule);
+    void llama_grammar_free(struct llama_grammar* grammar);
 }
 
 namespace themis {

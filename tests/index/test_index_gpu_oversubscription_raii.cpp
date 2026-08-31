@@ -49,11 +49,11 @@ TEST(GPUOversubscriptionRAII, RAII_1_ManagerWithPartition_DestructorDoesNotCrash
         constexpr size_t kDim = 8;
         constexpr size_t kN   = 16;
         auto data = flat(kN, kDim);
-        size_t id = mgr.addPartition(data.data(), kN, kDim, "raii_test_1");
+        const size_t id = mgr.addPartition(data, kN, kDim, "raii_test_1");
         EXPECT_NE(id, static_cast<size_t>(-1));
         // Access to bring it into VRAM (or CPU alias)
         mgr.accessPartition(id);
-        EXPECT_TRUE(mgr.isPartitionInVram(id));
+        EXPECT_TRUE(mgr.isPartitionInVRAM(id));
         // Manager goes out of scope here — destructor must not crash.
     }
     // If we reach this line the destructor completed without aborting.
@@ -70,10 +70,10 @@ TEST(GPUOversubscriptionRAII, RAII_2_ManagerWithNoVramPartitions_DestructorDoesN
         constexpr size_t kDim = 8;
         constexpr size_t kN   = 8;
         auto data = flat(kN, kDim);
-        size_t id = mgr.addPartition(data.data(), kN, kDim, "cold_partition");
+        const size_t id = mgr.addPartition(data, kN, kDim, "cold_partition");
         EXPECT_NE(id, static_cast<size_t>(-1));
         // Do NOT call accessPartition — partition stays cold (in_vram == false)
-        EXPECT_FALSE(mgr.isPartitionInVram(id));
+        EXPECT_FALSE(mgr.isPartitionInVRAM(id));
         // Destructor must silently skip cold partitions.
     }
     SUCCEED();
@@ -98,8 +98,8 @@ TEST(GPUOversubscriptionRAII, RAII_3_MultipleVramPartitions_AllFreedAfterDestruc
         std::vector<size_t> ids;
         for (int i = 0; i < kCount; ++i) {
             auto data = flat(kN, kDim, static_cast<float>(i + 1));
-            ids.push_back(mgr.addPartition(data.data(), kN, kDim,
-                                           "partition_" + std::to_string(i)));
+            ids.push_back(mgr.addPartition(data, kN, kDim,
+                                          "partition_" + std::to_string(i)));
         }
         // Bring all into VRAM (CPU alias on non-CUDA builds).
         for (size_t id : ids) {

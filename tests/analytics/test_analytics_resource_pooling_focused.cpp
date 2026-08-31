@@ -170,7 +170,7 @@ public:
 
     int getAvailableCount() const {
         std::lock_guard<std::mutex> guard(mtx_);
-        return available_.size();
+        return static_cast<int>(available_.size());
     }
 
 private:

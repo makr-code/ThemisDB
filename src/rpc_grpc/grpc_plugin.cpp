@@ -245,6 +245,15 @@ std::string GRPCServer::getAddress() const {
     return server_address_;
 }
 
+bool GRPCServer::isRunning() const {
+    return running_.load(std::memory_order_acquire);
+}
+
+RPCServerStats GRPCServer::getStats() const {
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    return stats_;
+}
+
 void GRPCServer::resetStats() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_ = RPCServerStats{};

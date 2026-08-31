@@ -101,7 +101,7 @@ static void tbbWaitWithTimeout(
         while (!done->load(std::memory_order_acquire)) {
             if (std::chrono::steady_clock::now() >= deadline) {
                 if (!done->load(std::memory_order_acquire)) {
-                    tg.cancel_group_execution();
+					tg.cancel();
                 }
                 return;
             }

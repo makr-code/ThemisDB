@@ -22,6 +22,7 @@
 #include <gtest/gtest.h>
 #include <thread>
 #include <vector>
+#include <array>
 #include <atomic>
 #include <mutex>
 #include <random>

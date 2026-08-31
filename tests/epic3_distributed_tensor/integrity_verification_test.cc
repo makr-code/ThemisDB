@@ -443,17 +443,17 @@ TEST_F(IntegrityVerificationTest, Phase3_RecoveryHookIntegration) {
         bool recover_called = false;
         
         bool requestArtifactRecovery(
-            const std::string& artifact_id,
-            const std::string& reason) override {
+            [[maybe_unused]] const std::string& artifact_id,
+            [[maybe_unused]] const std::string& reason) override {
             recover_called = true;
             return true;
         }
         
-        bool requestChainRebuild(const std::string& artifact_id) override {
+        bool requestChainRebuild([[maybe_unused]] const std::string& artifact_id) override {
             return true;
         }
         
-        std::string getRecoveryStatus(const std::string& artifact_id) override {
+        std::string getRecoveryStatus([[maybe_unused]] const std::string& artifact_id) override {
             return "completed";
         }
     };

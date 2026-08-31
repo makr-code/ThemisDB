@@ -13,7 +13,7 @@
 // Use the error code definitions visible to the metadata module
 // (metadata/schema_manager.cpp uses these codes for LLM capability checks)
 using namespace themis;
-using namespace themis::utils;
+using namespace themis::errors;
 
 // ── MS1: LLM capability flag reflected in THEMIS_LLM_ENABLED constant ────────
 TEST(MetadataSchemaLlmFocused, MS1_LlmEnabledMacro_CanBeChecked) {

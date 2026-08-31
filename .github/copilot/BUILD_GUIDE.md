@@ -191,21 +191,72 @@ cmake -B build \
 | `THEMIS_STATIC_BUILD` | OFF | Fully static binary (Docker/QNAP) |
 | `THEMIS_ENABLE_LLM` | OFF | llama.cpp integration |
 | `THEMIS_ENABLE_GPU` | OFF | CUDA/Vulkan/ROCm support |
-| `THEMIS_BUILD_TESTS` | ON | Google Test suite |
-| `THEMIS_BUILD_BENCHMARKS` | ON | Google Benchmark suite |
+| `THEMIS_BUILD_TESTS` | Debug: ON / Release: OFF | Google Test suite, enabled by default for debug/dev builds |
+| `THEMIS_BUILD_BENCHMARKS` | OFF | Google Benchmark suite, opt-in for benchmark-only profiles |
+| `THEMIS_MODULES_ENABLE_UNITY` | OFF | Unity Build for modular MSVC targets (explicit opt-in) |
+| `THEMIS_ENABLE_IPO` | OFF | IPO/LTO for Release builds only (explicit opt-in) |
 | `THEMIS_QNAP_BUILD` | OFF | QNAP NAS optimizations (SSE4.2 baseline) |
+
+### Build-System Guardrails (CMake Best-Practice)
+
+- Include paths are applied target-scoped via `target_include_directories(...)`.
+- Feature/build macros are applied target-scoped via `target_compile_definitions(...)`.
+- Unity and IPO/LTO are disabled by default and must be enabled explicitly.
+- Cache overrides from users/presets are respected; defaults are no longer broadly forced for debug/release policy flags.
 
 ## Troubleshooting
 
 ### CMake find_package Issues (FAISS/gRPC)
 
 ```powershell
-# Quick Fix
-.\scripts\fix-cmake-prefix-path.ps1 -Action build -EnableGPU $true
+# Quick Fix (CMake-native bootstrap)
+cmake --preset windows-release -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON
 
 # Or manually set CMAKE_PREFIX_PATH
 $VCPKG = "C:\VCC\themis\vcpkg_installed\x64-windows"
 cmake -DCMAKE_PREFIX_PATH="$VCPKG;$VCPKG\share" ...
+```
+
+### vcpkg Lock Contention (fmt/RocksDB in Auto-Bootstrap)
+
+- Symptom: configure stops with missing `fmt` or `RocksDB` after an auto-bootstrap attempt.
+- Root cause: another concurrent `vcpkg` process holds `vcpkg-running.lock`.
+- CMake now reports this explicitly as lock contention.
+
+Recovery (CMake-native flow):
+
+```powershell
+# 1) ensure no parallel configure/vcpkg process is running
+# 2) rerun configure with auto-bootstrap enabled
+cmake --preset windows-release -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON
+```
+
+Tune auto-bootstrap behavior when needed:
+
+```powershell
+# default retry/backoff: 2 retries, 3s delay
+# default install timeout per attempt: 900s
+# fail-fast mode: stop immediately when another vcpkg process already holds the lock
+cmake --preset windows-release \
+  -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON \
+  -DTHEMIS_VCPKG_INSTALL_RETRY_COUNT=3 \
+  -DTHEMIS_VCPKG_INSTALL_RETRY_DELAY_SEC=5 \
+  -DTHEMIS_VCPKG_LOCK_WAIT_TIMEOUT_SEC=45 \
+  -DTHEMIS_VCPKG_LOCK_WAIT_POLL_SEC=2 \
+  -DTHEMIS_VCPKG_INSTALL_TIMEOUT_SEC=1800 \
+  -DTHEMIS_VCPKG_FAIL_FAST_ON_LOCK=ON
+```
+
+Use fail-fast mode when you want an immediate diagnosis instead of waiting for lock expiry:
+
+```powershell
+cmake -S . -B build-fail-fast -G Ninja -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON -DTHEMIS_VCPKG_FAIL_FAST_ON_LOCK=ON
+```
+
+If lock contention persists, run once manually in the repository root:
+
+```powershell
+vcpkg install --triplet x64-windows
 ```
 
 ### WSL Build Errors (MSVC Flags on Linux)

@@ -33,7 +33,7 @@ namespace importers {
 namespace {
 
 /// Maps Redis-specific error patterns to ImporterErrorCode.
-static ImportErrorCode mapRedisErrorToCode(const std::string& error_msg) {
+[[maybe_unused]] static ImportErrorCode mapRedisErrorToCode(const std::string& error_msg) {
     const auto lower = [](std::string s) {
         for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         return s;

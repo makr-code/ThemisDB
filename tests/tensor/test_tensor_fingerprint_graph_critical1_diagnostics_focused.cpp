@@ -193,4 +193,3 @@ TEST_F(TensorFingerprintGraphCritical1Test,
     EXPECT_TRUE(graph_ != nullptr);
 }
 
-} // namespace themis::tensor

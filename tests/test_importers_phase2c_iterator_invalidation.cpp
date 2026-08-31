@@ -16,7 +16,7 @@
 
 #include <gtest/gtest.h>
 #include "importers/mdm_engine.h"
-#include "importers/deterministic_matcher.h"
+#include "importers/entity_matcher.h"
 #include "importers/data_quality.h"
 
 namespace ti = themis::importers;
@@ -153,9 +153,9 @@ protected:
         for (int i = 0; i < count; ++i) {
             ti::HybridMatchResult match;
             match.entity_id = "entity_" + std::to_string(i);
-            match.confidence_score = 0.50 + (i % 10) * 0.05;  // Varies between 0.50 and 0.95
-            match.deterministic_score = match.confidence_score;
-            match.hybrid_score = match.confidence_score;
+            match.deterministic_score = 0.50 + (i % 10) * 0.05;  // Varies between 0.50 and 0.95
+            match.semantic_score = 0.0;
+            match.hybrid_score = match.deterministic_score;
             match.match_method = "test";
             matches.push_back(match);
         }
@@ -282,11 +282,9 @@ TEST_F(IMPI2CDataQualityTest, QualityReportGenerationIteratorSafety) {
         
         // Add columns
         for (int c = 0; c < 20; ++c) {
-            ti::InferenceColumnSchema col;
-            col.name = "col_" + std::to_string(c);
-            col.inferred_type = "string";
-            col.null_ratio = 0.1 + (c % 5) * 0.05;
-            schema.columns.push_back(col);
+                const std::string column_name = "col_" + std::to_string(c);
+                schema.columns.push_back(column_name);
+                schema.column_types[column_name] = "string";
         }
         schemas.push_back(schema);
     }

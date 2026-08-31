@@ -45,7 +45,7 @@
 #include <thread>
 #include <vector>
 
-using namespace themis::security;
+using namespace themis;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Phase 2 Test Fixtures
@@ -472,5 +472,3 @@ TEST_F(Phase2CryptoHardeningTest, Phase2Integration_ConcurrentKeyOps) {
     EXPECT_GT(ops_count.load(), 0);
     EXPECT_EQ(mock_keys_.size(), num_keys); // Keys not lost
 }
-
-} // namespace

@@ -689,7 +689,7 @@ DocsQueryResult DocsAssistant::getConfigHelp(const std::string& topic) {
         THEMIS_WARN("getConfigHelp: topic blocked by prompt safety policy [{}]: {}",
                     blocked_rule, blocked_reason);
         DocsQueryResult blocked{};
-        blocked.answer = "Request blocked by content safety policy.";
+        blocked.generated_answer = "Request blocked by content safety policy.";
         blocked.confidence_score = 0.0f;
         return blocked;
     }
@@ -712,7 +712,7 @@ DocsQueryResult DocsAssistant::getTroubleshootingHelp(const std::string& error_d
         THEMIS_WARN("getTroubleshootingHelp: error_description blocked by prompt safety policy [{}]: {}",
                     blocked_rule, blocked_reason);
         DocsQueryResult blocked{};
-        blocked.answer = "Request blocked by content safety policy.";
+        blocked.generated_answer = "Request blocked by content safety policy.";
         blocked.confidence_score = 0.0f;
         return blocked;
     }

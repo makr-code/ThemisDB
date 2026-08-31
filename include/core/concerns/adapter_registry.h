@@ -220,7 +220,7 @@ public:
      * @throws std::invalid_argument if @p new_adapter is nullptr.
      */
     template<typename T>
-    bool hotSwap(std::shared_ptr<T> new_adapter, AdapterMetadata meta = {}) {
+    bool hotSwap(std::shared_ptr<T> new_adapter, [[maybe_unused]] AdapterMetadata meta = {}) {
         if (!new_adapter) {
             throw std::invalid_argument(
                 "[AdapterRegistry] hotSwap: new_adapter must not be nullptr");

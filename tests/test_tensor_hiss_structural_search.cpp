@@ -186,12 +186,24 @@ TEST(TensorHissSearch, HissReshaperInfersBitDepthsFromTrainModes) {
 
 TEST(TensorHissSearch, HissReshaperRejectsMismatchedGridSizeCount) {
     const auto train = makeSmallTrain();
-    EXPECT_THROW(themis::tensor::HissReshaper::exposeQuantics(train, {4, 4}), std::invalid_argument);
+    bool threw = false;
+    try {
+        (void)themis::tensor::HissReshaper::exposeQuantics(train, {4, 4});
+    } catch (const std::invalid_argument&) {
+        threw = true;
+    }
+    EXPECT_TRUE(threw);
 }
 
 TEST(TensorHissSearch, HissReshaperRejectsMismatchedGridProduct) {
     const auto train = makeSmallTrain();
-    EXPECT_THROW(themis::tensor::HissReshaper::exposeQuantics(train, {4, 4, 5}), std::invalid_argument);
+    bool threw = false;
+    try {
+        (void)themis::tensor::HissReshaper::exposeQuantics(train, {4, 4, 5});
+    } catch (const std::invalid_argument&) {
+        threw = true;
+    }
+    EXPECT_TRUE(threw);
 }
 
 TEST(TensorHissSearch, HissReshaperPreservesDenseTensorValues) {
@@ -629,8 +641,8 @@ TEST(HissReshaper, QuanticsFnBridgeSetAndGet) {
 
     bool called = false;
     themis::tensor::HissReshaper::setQuanticsFn(
-        [&called](const themis::storage::TTTrain& t,
-                  const std::vector<std::size_t>& gs) {
+        [&called]([[maybe_unused]] const themis::storage::TTTrain& t,
+                  [[maybe_unused]] const std::vector<std::size_t>& gs) {
             called = true;
             return themis::tensor::QTTrain{};
         });
@@ -644,8 +656,8 @@ TEST(HissReshaper, QuanticsFnBridgeSetAndGet) {
 TEST(HissReshaper, QuanticsFnBridgeClearRestoresFallback) {
     bool bridge_called = false;
     themis::tensor::HissReshaper::setQuanticsFn(
-        [&bridge_called](const themis::storage::TTTrain& t,
-                         const std::vector<std::size_t>& gs) {
+        [&bridge_called]([[maybe_unused]] const themis::storage::TTTrain& t,
+                         [[maybe_unused]] const std::vector<std::size_t>& gs) {
             bridge_called = true;
             return themis::tensor::QTTrain{};
         });
@@ -669,7 +681,7 @@ TEST(HissReshaper, QuanticsFnBridgeCallbackInvoked) {
     int call_count = 0;
     themis::tensor::HissReshaper::setQuanticsFn(
         [&call_count](const themis::storage::TTTrain& train,
-                      const std::vector<std::size_t>& grid_sizes) {
+                      [[maybe_unused]] const std::vector<std::size_t>& grid_sizes) {
             ++call_count;
             // Return a minimal valid QTTrain mirroring the input.
             themis::tensor::QTTrain qt;

@@ -40,7 +40,9 @@
 #endif
 
 using namespace themis;
+#ifdef THEMIS_ENABLE_LLM
 using namespace themis::llamacpp;
+#endif
 
 /**
  * Test fixture for inference quality tests.

@@ -4,7 +4,7 @@
 
 # Main GPU feature (already set by edition, but allow user override)
 if(NOT DEFINED THEMIS_ENABLE_GPU)
-    option(THEMIS_ENABLE_GPU "Enable GPU acceleration" ON)
+    option(THEMIS_ENABLE_GPU "Enable GPU acceleration" OFF)
 endif()
 
 # CUDA backend

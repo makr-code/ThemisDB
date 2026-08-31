@@ -47,19 +47,35 @@ namespace fs = std::filesystem;
 /// Minimal concrete ILLMPlugin subclass — only overrides what tests need.
 class MinimalPlugin : public ILLMPlugin {
 public:
-    [[nodiscard]] InferenceResponse generate(
-        const InferenceRequest& /*request*/) override {
+    [[nodiscard]] bool loadModel(const std::string& /*path*/, const json& /*config*/) override {
+        return true;
+    }
+    void unloadModel() override {}
+    [[nodiscard]] std::optional<ModelInfo> getModelInfo() const override {
+        ModelInfo info;
+        info.model_id = "minimal";
+        info.is_loaded = true;
+        return info;
+    }
+    [[nodiscard]] bool isModelLoaded() const override { return true; }
+    [[nodiscard]] bool loadLoRA(const std::string&, const std::string&, float) override { return true; }
+    [[nodiscard]] bool unloadLoRA(const std::string&) override { return true; }
+    [[nodiscard]] std::vector<LoRAInfo> listLoRAs() const override { return {}; }
+    [[nodiscard]] std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }
+    [[nodiscard]] bool importLoRA(const std::string&, const std::vector<uint8_t>&) override { return true; }
+    [[nodiscard]] InferenceResponse generate(const InferenceRequest& /*request*/) override {
         InferenceResponse r;
         r.text    = "hello";
         r.success = true;
         return r;
     }
-
-    [[nodiscard]] std::string modelName() const override { return "minimal"; }
-    [[nodiscard]] bool isLoaded()         const override { return true; }
-    bool loadModel(const std::string& /*path*/,
-                   const json&        /*config*/) override { return true; }
-    void unloadModel() override {}
+    [[nodiscard]] InferenceResponse generateRAG(const RAGContext&, const InferenceRequest& req) override {
+        return generate(req);
+    }
+    [[nodiscard]] std::vector<float> embed(const std::string&) override { return {0.0f}; }
+    [[nodiscard]] LLMCapabilities getCapabilities() const override { return {}; }
+    [[nodiscard]] json getMemoryStats() const override { return {}; }
+    [[nodiscard]] json getPerformanceStats() const override { return {}; }
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -263,7 +279,7 @@ protected:
 TEST_F(Wave5TargetLogitsFnTest, RegisteringFnDoesNotThrow) {
     InferenceEngineEnhanced::TargetLogitsFn fn =
         [](const InferenceRequest&, size_t K, size_t vocab,
-           ILLMPlugin* /*target*/) {
+           std::shared_ptr<ILLMPlugin> /*target*/) {
             std::vector<std::vector<float>> mat(
                 K + 1, std::vector<float>(vocab, 0.0f));
             return mat;
@@ -276,7 +292,7 @@ TEST_F(Wave5TargetLogitsFnTest, RegisteringFnDoesNotThrow) {
 TEST_F(Wave5TargetLogitsFnTest, ClearingFnWithNullptrDoesNotThrow) {
     // Register then clear.
     engine_->setTargetLogitsFn(
-        [](const InferenceRequest&, size_t K, size_t v, ILLMPlugin*) {
+        [](const InferenceRequest&, size_t K, size_t v, std::shared_ptr<ILLMPlugin>) {
             return std::vector<std::vector<float>>(
                 K + 1, std::vector<float>(v, 0.0f));
         });
@@ -287,12 +303,12 @@ TEST_F(Wave5TargetLogitsFnTest, ClearingFnWithNullptrDoesNotThrow) {
 /// W5-TL-03: replacing an existing fn with a new fn does not throw.
 TEST_F(Wave5TargetLogitsFnTest, ReplacingFnDoesNotThrow) {
     engine_->setTargetLogitsFn(
-        [](const InferenceRequest&, size_t K, size_t v, ILLMPlugin*) {
+        [](const InferenceRequest&, size_t K, size_t v, std::shared_ptr<ILLMPlugin>) {
             return std::vector<std::vector<float>>(K + 1, std::vector<float>(v, 0.0f));
         });
 
     EXPECT_NO_THROW(engine_->setTargetLogitsFn(
-        [](const InferenceRequest&, size_t K, size_t v, ILLMPlugin*) {
+        [](const InferenceRequest&, size_t K, size_t v, std::shared_ptr<ILLMPlugin>) {
             return std::vector<std::vector<float>>(K + 1, std::vector<float>(v, 1.0f));
         }));
 }

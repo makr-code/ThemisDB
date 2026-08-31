@@ -16,8 +16,8 @@ name: "Security: Consolidated Scans"
 #   - Issue creation for SLA breaches is delegated to maintenance-security-alerts.yml.
 #
 # Replaces:
-#   - .github/workflows/security.yml  (→ no_workflows/)
-#   - .github/workflows/security-scanning.yml  (→ no_workflows/)
+#   - .github/workflows/security.yml
+#   - .github/workflows/security-scanning.yml
 
 on:
   schedule:
@@ -207,7 +207,7 @@ jobs:
   # ────────────────────────────────────────────────────────────────────────────
   dast-scan:
     name: OWASP ZAP Baseline DAST
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 45
     continue-on-error: true
     if: >

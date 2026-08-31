@@ -145,8 +145,10 @@ TEST_F(AuditExportStressTest, SustainedLoadThousandEventsPerSec) {
 
     // Verify bundle was created and has reasonable structure
     EXPECT_FALSE(bundle.bundle_id.empty());
-    EXPECT_GE(bundle.collected_at_ms, themis::security::SecurityEvidenceCollector::toMs(from));
-    EXPECT_LE(bundle.collected_at_ms, themis::security::SecurityEvidenceCollector::toMs(to));
+    const auto from_ms = std::chrono::duration_cast<std::chrono::milliseconds>(from.time_since_epoch()).count();
+    const auto to_ms = std::chrono::duration_cast<std::chrono::milliseconds>(to.time_since_epoch()).count();
+    EXPECT_GE(bundle.collected_at_ms, from_ms);
+    EXPECT_LE(bundle.collected_at_ms, to_ms);
 
     stats_->export_count++;
     stats_->total_events += events_emitted;
@@ -402,8 +404,6 @@ TEST_F(AuditExportStressTest, ExportLatencyUnderSustainedLoad) {
     uint64_t p95 = latencies[p95_idx];
     uint64_t p99 = latencies[p99_idx];
 
-    THEMIS_INFO("Export latency: p95={}ms, p99={}ms", p95, p99);
-
     // Latency should be reasonable (< 1s for a typical export)
     EXPECT_LT(p95, 1000u) << "p95 latency too high: " << p95 << "ms";
     EXPECT_LT(p99, 2000u) << "p99 latency too high: " << p99 << "ms";
@@ -461,5 +461,3 @@ TEST_F(AuditExportStressTest, VerifyExportMetricsAvailable) {
     EXPECT_TRUE(collector_->export_atomicity_guarantee());
     EXPECT_TRUE(collector_->export_idempotency_check());
 }
-
-} // namespace

@@ -68,6 +68,262 @@ else()
     message(STATUS "vcpkg root not found at ${_the_vcpkg_root}; skipping vcpkg package prefix setup")
 endif()
 
+set(THEMIS_VCPKG_INSTALL_RETRY_COUNT "2" CACHE STRING
+    "Number of retries for vcpkg auto-bootstrap installs on lock contention")
+set(THEMIS_VCPKG_INSTALL_RETRY_DELAY_SEC "3" CACHE STRING
+    "Delay in seconds between vcpkg auto-bootstrap retry attempts")
+set(THEMIS_VCPKG_INSTALL_TIMEOUT_SEC "900" CACHE STRING
+    "Timeout in seconds for a single vcpkg auto-bootstrap install attempt")
+set(THEMIS_VCPKG_LOCK_WAIT_TIMEOUT_SEC "30" CACHE STRING
+    "Maximum time in seconds to wait for a busy vcpkg lock before each install attempt")
+set(THEMIS_VCPKG_LOCK_WAIT_POLL_SEC "2" CACHE STRING
+    "Polling interval in seconds while waiting for vcpkg lock release")
+option(THEMIS_VCPKG_FAIL_FAST_ON_LOCK
+    "Fail immediately when a vcpkg lock is already active instead of waiting/retrying. Useful for diagnosis and CI gating."
+    OFF
+)
+
+function(themis_wait_for_vcpkg_lock)
+    set(_themis_lock_paths
+        "${CMAKE_SOURCE_DIR}/vcpkg_installed/vcpkg/vcpkg-running.lock"
+        "${_the_vcpkg_root}/vcpkg-running.lock"
+    )
+
+    math(EXPR _themis_wait_deadline "${THEMIS_VCPKG_LOCK_WAIT_TIMEOUT_SEC}")
+    if(_themis_wait_deadline LESS 0)
+        set(_themis_wait_deadline 0)
+    endif()
+
+    math(EXPR _themis_wait_poll "${THEMIS_VCPKG_LOCK_WAIT_POLL_SEC}")
+    if(_themis_wait_poll LESS 1)
+        set(_themis_wait_poll 1)
+    endif()
+
+    foreach(_themis_lock_file ${_themis_lock_paths})
+        if(EXISTS "${_themis_lock_file}")
+            if(THEMIS_VCPKG_FAIL_FAST_ON_LOCK)
+                set(THEMIS_VCPKG_LOCK_WAIT_RESULT "FAIL_FAST" PARENT_SCOPE)
+                return()
+            endif()
+            break()
+        endif()
+    endforeach()
+
+    set(_themis_wait_elapsed 0)
+    set(_themis_lock_busy TRUE)
+    while(_themis_lock_busy)
+        set(_themis_lock_busy FALSE)
+        foreach(_themis_lock_file ${_themis_lock_paths})
+            if(EXISTS "${_themis_lock_file}")
+                set(_themis_lock_busy TRUE)
+                break()
+            endif()
+        endforeach()
+
+        if(NOT _themis_lock_busy)
+            break()
+        endif()
+
+        if(THEMIS_VCPKG_FAIL_FAST_ON_LOCK)
+            set(THEMIS_VCPKG_LOCK_WAIT_RESULT "FAIL_FAST" PARENT_SCOPE)
+            return()
+        endif()
+
+        if(_themis_wait_elapsed GREATER_EQUAL _themis_wait_deadline)
+            set(THEMIS_VCPKG_LOCK_WAIT_RESULT "TIMEOUT" PARENT_SCOPE)
+            return()
+        endif()
+
+        message(STATUS "Auto-bootstrap: waiting for vcpkg lock release (${_themis_wait_elapsed}/${_themis_wait_deadline}s)")
+        execute_process(COMMAND "${CMAKE_COMMAND}" -E sleep "${_themis_wait_poll}")
+        math(EXPR _themis_wait_elapsed "${_themis_wait_elapsed} + ${_themis_wait_poll}")
+    endwhile()
+
+    set(THEMIS_VCPKG_LOCK_WAIT_RESULT "OK" PARENT_SCOPE)
+endfunction()
+
+function(themis_try_vcpkg_install _themis_pkg)
+    if(NOT THEMIS_AUTO_BOOTSTRAP_DEPS)
+        return()
+    endif()
+    if(NOT EXISTS "${_the_vcpkg_root}")
+        return()
+    endif()
+
+    set(_themis_vcpkg_exe "${_the_vcpkg_root}/vcpkg")
+    if(WIN32)
+        set(_themis_vcpkg_exe "${_the_vcpkg_root}/vcpkg.exe")
+    endif()
+    if(NOT EXISTS "${_themis_vcpkg_exe}")
+        message(WARNING "vcpkg executable not found at ${_themis_vcpkg_exe}; cannot auto-install ${_themis_pkg}")
+        return()
+    endif()
+
+    if(DEFINED VCPKG_TARGET_TRIPLET AND NOT "${VCPKG_TARGET_TRIPLET}" STREQUAL "")
+        set(_themis_triplet "${VCPKG_TARGET_TRIPLET}")
+    elseif(WIN32)
+        set(_themis_triplet "x64-windows")
+    else()
+        set(_themis_triplet "x64-linux")
+    endif()
+
+    set(_themis_manifest_mode OFF)
+    if(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg.json")
+        set(_themis_manifest_mode ON)
+    endif()
+
+    if(_themis_manifest_mode)
+        get_property(_themis_manifest_install_attempted GLOBAL PROPERTY THEMIS_VCPKG_MANIFEST_INSTALL_ATTEMPTED)
+        if(_themis_manifest_install_attempted)
+            message(STATUS "Auto-bootstrap: manifest install already attempted in this configure run; skipping duplicate trigger for '${_themis_pkg}'")
+            return()
+        endif()
+
+        math(EXPR _themis_retry_max "${THEMIS_VCPKG_INSTALL_RETRY_COUNT}")
+        if(_themis_retry_max LESS 0)
+            set(_themis_retry_max 0)
+        endif()
+        math(EXPR _themis_attempt_total "${_themis_retry_max} + 1")
+
+        set(_themis_install_result 1)
+        set(_themis_install_stdout "")
+        set(_themis_install_stderr "")
+        foreach(_themis_attempt RANGE 1 ${_themis_attempt_total})
+            message(STATUS "Auto-bootstrap: manifest-mode install for '${_themis_pkg}' (attempt ${_themis_attempt}/${_themis_attempt_total}, triplet ${_themis_triplet})")
+            themis_wait_for_vcpkg_lock()
+            if(THEMIS_VCPKG_LOCK_WAIT_RESULT STREQUAL "TIMEOUT")
+                set(_themis_install_result "lock-timeout")
+                set(_themis_install_stdout "")
+                set(_themis_install_stderr "vcpkg-running.lock remained busy before install attempt")
+            elseif(THEMIS_VCPKG_LOCK_WAIT_RESULT STREQUAL "FAIL_FAST")
+                set(_themis_install_result "lock-fail-fast")
+                set(_themis_install_stdout "")
+                set(_themis_install_stderr "vcpkg-running.lock already held and THEMIS_VCPKG_FAIL_FAST_ON_LOCK=ON")
+            else()
+                execute_process(
+                    COMMAND "${_themis_vcpkg_exe}" install --triplet "${_themis_triplet}" --disable-metrics
+                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+                    RESULT_VARIABLE _themis_install_result
+                    OUTPUT_VARIABLE _themis_install_stdout
+                    ERROR_VARIABLE _themis_install_stderr
+                    TIMEOUT ${THEMIS_VCPKG_INSTALL_TIMEOUT_SEC}
+                    OUTPUT_STRIP_TRAILING_WHITESPACE
+                    ERROR_STRIP_TRAILING_WHITESPACE
+                )
+            endif()
+
+            if(_themis_install_result EQUAL 0)
+                break()
+            endif()
+
+            set(_themis_lock_error FALSE)
+            if(_themis_install_stderr MATCHES "failed to take lock" OR _themis_install_stderr MATCHES "waiting to take filesystem lock" OR _themis_install_result MATCHES "timeout" OR _themis_install_result STREQUAL "lock-timeout" OR _themis_install_result STREQUAL "lock-fail-fast")
+                set(_themis_lock_error TRUE)
+            endif()
+            if(NOT _themis_lock_error)
+                break()
+            endif()
+            if(_themis_attempt LESS _themis_attempt_total)
+                message(STATUS "Auto-bootstrap: lock contention detected, retrying in ${THEMIS_VCPKG_INSTALL_RETRY_DELAY_SEC}s")
+                execute_process(COMMAND "${CMAKE_COMMAND}" -E sleep "${THEMIS_VCPKG_INSTALL_RETRY_DELAY_SEC}")
+            endif()
+        endforeach()
+
+        set_property(GLOBAL PROPERTY THEMIS_VCPKG_MANIFEST_INSTALL_ATTEMPTED TRUE)
+    else()
+        math(EXPR _themis_retry_max "${THEMIS_VCPKG_INSTALL_RETRY_COUNT}")
+        if(_themis_retry_max LESS 0)
+            set(_themis_retry_max 0)
+        endif()
+        math(EXPR _themis_attempt_total "${_themis_retry_max} + 1")
+
+        set(_themis_install_result 1)
+        set(_themis_install_stdout "")
+        set(_themis_install_stderr "")
+        foreach(_themis_attempt RANGE 1 ${_themis_attempt_total})
+            message(STATUS "Auto-bootstrap: installing '${_themis_pkg}' (attempt ${_themis_attempt}/${_themis_attempt_total}, triplet ${_themis_triplet})")
+            themis_wait_for_vcpkg_lock()
+            if(THEMIS_VCPKG_LOCK_WAIT_RESULT STREQUAL "TIMEOUT")
+                set(_themis_install_result "lock-timeout")
+                set(_themis_install_stdout "")
+                set(_themis_install_stderr "vcpkg-running.lock remained busy before install attempt")
+            elseif(THEMIS_VCPKG_LOCK_WAIT_RESULT STREQUAL "FAIL_FAST")
+                set(_themis_install_result "lock-fail-fast")
+                set(_themis_install_stdout "")
+                set(_themis_install_stderr "vcpkg-running.lock already held and THEMIS_VCPKG_FAIL_FAST_ON_LOCK=ON")
+            else()
+                execute_process(
+                    COMMAND "${_themis_vcpkg_exe}" install "${_themis_pkg}" --triplet "${_themis_triplet}" --recurse --disable-metrics
+                    WORKING_DIRECTORY "${_the_vcpkg_root}"
+                    RESULT_VARIABLE _themis_install_result
+                    OUTPUT_VARIABLE _themis_install_stdout
+                    ERROR_VARIABLE _themis_install_stderr
+                    TIMEOUT ${THEMIS_VCPKG_INSTALL_TIMEOUT_SEC}
+                    OUTPUT_STRIP_TRAILING_WHITESPACE
+                    ERROR_STRIP_TRAILING_WHITESPACE
+                )
+            endif()
+
+            if(_themis_install_result EQUAL 0)
+                break()
+            endif()
+
+            set(_themis_lock_error FALSE)
+            if(_themis_install_stderr MATCHES "failed to take lock" OR _themis_install_stderr MATCHES "waiting to take filesystem lock" OR _themis_install_result MATCHES "timeout" OR _themis_install_result STREQUAL "lock-timeout" OR _themis_install_result STREQUAL "lock-fail-fast")
+                set(_themis_lock_error TRUE)
+            endif()
+            if(NOT _themis_lock_error)
+                break()
+            endif()
+            if(_themis_attempt LESS _themis_attempt_total)
+                message(STATUS "Auto-bootstrap: lock contention detected, retrying in ${THEMIS_VCPKG_INSTALL_RETRY_DELAY_SEC}s")
+                execute_process(COMMAND "${CMAKE_COMMAND}" -E sleep "${THEMIS_VCPKG_INSTALL_RETRY_DELAY_SEC}")
+            endif()
+        endforeach()
+    endif()
+
+    if(_themis_install_result EQUAL 0)
+        message(STATUS "Auto-bootstrap: vcpkg package '${_themis_pkg}' installed/resolved")
+    else()
+        set(_themis_lock_error FALSE)
+        set(_themis_timeout_error FALSE)
+        if(_themis_install_stderr MATCHES "failed to take lock" OR _themis_install_stderr MATCHES "waiting to take filesystem lock" OR _themis_install_result STREQUAL "lock-timeout" OR _themis_install_result STREQUAL "lock-fail-fast")
+            set(_themis_lock_error TRUE)
+            set_property(GLOBAL PROPERTY THEMIS_VCPKG_LOCK_CONTENTION TRUE)
+        endif()
+        if(_themis_install_result MATCHES "timeout" AND NOT _themis_install_result STREQUAL "lock-timeout")
+            set(_themis_timeout_error TRUE)
+            set_property(GLOBAL PROPERTY THEMIS_VCPKG_INSTALL_TIMEOUT TRUE)
+        endif()
+        message(WARNING
+            "Auto-bootstrap: failed to install '${_themis_pkg}' via vcpkg (exit ${_themis_install_result}).\n"
+            "stdout: ${_themis_install_stdout}\n"
+            "stderr: ${_themis_install_stderr}")
+        if(_themis_lock_error)
+            message(WARNING
+                "Auto-bootstrap: vcpkg lock contention detected. Ensure no parallel vcpkg/cmake configure is running, then rerun configure.")
+        endif()
+        if(_themis_timeout_error)
+            message(WARNING
+                "Auto-bootstrap: vcpkg install timed out after ${THEMIS_VCPKG_INSTALL_TIMEOUT_SEC}s. Increase THEMIS_VCPKG_INSTALL_TIMEOUT_SEC for cold caches/large dependency rebuilds.")
+        endif()
+    endif()
+endfunction()
+
+set(_themis_vcpkg_hint_includes "")
+set(_themis_vcpkg_hint_libs "")
+foreach(_themis_prefix_root ${_vcpkg_prefix_roots})
+    if(EXISTS "${_themis_prefix_root}/include")
+        list(APPEND _themis_vcpkg_hint_includes "${_themis_prefix_root}/include")
+    endif()
+    if(EXISTS "${_themis_prefix_root}/lib")
+        list(APPEND _themis_vcpkg_hint_libs "${_themis_prefix_root}/lib")
+    endif()
+    if(EXISTS "${_themis_prefix_root}/debug/lib")
+        list(APPEND _themis_vcpkg_hint_libs "${_themis_prefix_root}/debug/lib")
+    endif()
+endforeach()
+
 # Prefer CONFIG packages (vcpkg) over FindXXX modules
 set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
 
@@ -211,6 +467,19 @@ if(RocksDB_FOUND)
        endif()
    endif()
 else()
+   if(THEMIS_AUTO_BOOTSTRAP_DEPS)
+       find_path(_themis_rocksdb_probe_include rocksdb/db.h HINTS ${_themis_vcpkg_hint_includes})
+       if(NOT _themis_rocksdb_probe_include)
+           themis_try_vcpkg_install("rocksdb")
+       endif()
+   endif()
+
+   find_package(RocksDB CONFIG QUIET)
+   if(RocksDB_FOUND)
+       message(STATUS "RocksDB found via CONFIG after bootstrap retry")
+   endif()
+
+   if(NOT RocksDB_FOUND)
    # vcpkg often provides 'unofficial-rocksdb' with target 'unofficial::rocksdb'
    find_package(unofficial-rocksdb CONFIG QUIET)
    if(unofficial-rocksdb_FOUND)
@@ -259,8 +528,8 @@ else()
            message(STATUS "RocksDB found via pkg-config: ${RocksDB_PC_VERSION}")
        else()
            # Final fallback for distro packages that do not ship a rocksdb.pc file.
-           find_path(ROCKSDB_INCLUDE_DIR NAMES rocksdb/db.h)
-           find_library(ROCKSDB_LIBRARY NAMES rocksdb)
+           find_path(ROCKSDB_INCLUDE_DIR NAMES rocksdb/db.h HINTS ${_themis_vcpkg_hint_includes})
+           find_library(ROCKSDB_LIBRARY NAMES rocksdb librocksdb HINTS ${_themis_vcpkg_hint_libs})
            if(ROCKSDB_INCLUDE_DIR AND ROCKSDB_LIBRARY)
                message(STATUS "RocksDB found via manual search: ${ROCKSDB_LIBRARY}")
                add_library(RocksDB::rocksdb UNKNOWN IMPORTED)
@@ -280,9 +549,23 @@ else()
                endif()
                set(RocksDB_FOUND FALSE)
            else()
-               message(FATAL_ERROR "RocksDB not found. Install via vcpkg (rocksdb) or system package librocksdb-dev.")
+               get_property(_themis_vcpkg_lock_contention GLOBAL PROPERTY THEMIS_VCPKG_LOCK_CONTENTION)
+               get_property(_themis_vcpkg_install_timeout GLOBAL PROPERTY THEMIS_VCPKG_INSTALL_TIMEOUT)
+               if(_themis_vcpkg_lock_contention)
+                   message(FATAL_ERROR
+                       "RocksDB not found after auto-bootstrap attempt. vcpkg lock contention was detected during dependency install.\n"
+                       "Resolve by stopping parallel vcpkg/cmake processes and rerunning configure.\n"
+                       "Alternative: install manually via vcpkg (rocksdb) or system package librocksdb-dev.")
+               elseif(_themis_vcpkg_install_timeout)
+                   message(FATAL_ERROR
+                       "RocksDB not found after auto-bootstrap attempt. vcpkg install timed out before completion.\n"
+                       "Increase THEMIS_VCPKG_INSTALL_TIMEOUT_SEC (e.g. 1800) and rerun configure, or preinstall via vcpkg.")
+               else()
+                   message(FATAL_ERROR "RocksDB not found. Install via vcpkg (rocksdb) or system package librocksdb-dev.")
+               endif()
            endif()
        endif()
+   endif()
    endif()
 endif()
 
@@ -305,22 +588,54 @@ else()
     message(WARNING "TBB not found - using fallback threading")
 endif()
 
-# fmt: Try CONFIG first (vcpkg), fall back to MODULE (system packages)
+# fmt: Try CONFIG first (vcpkg), fall back to MODULE/system and manual import.
 find_package(fmt CONFIG QUIET)
 if(NOT fmt_FOUND)
+    if(THEMIS_AUTO_BOOTSTRAP_DEPS)
+        themis_try_vcpkg_install("fmt")
+        find_package(fmt CONFIG QUIET)
+    endif()
+endif()
+if(NOT fmt_FOUND)
     find_package(fmt MODULE QUIET)
+endif()
+if(NOT fmt_FOUND)
+    find_path(FMT_INCLUDE_DIR NAMES fmt/core.h HINTS ${_themis_vcpkg_hint_includes})
+    find_library(FMT_LIBRARY NAMES fmt fmtd HINTS ${_themis_vcpkg_hint_libs})
+    if(FMT_INCLUDE_DIR AND FMT_LIBRARY)
+        add_library(fmt::fmt UNKNOWN IMPORTED)
+        set_target_properties(fmt::fmt PROPERTIES
+            IMPORTED_LOCATION "${FMT_LIBRARY}"
+            INTERFACE_INCLUDE_DIRECTORIES "${FMT_INCLUDE_DIR}"
+        )
+        set(fmt_FOUND TRUE)
+        message(STATUS "fmt found via manual vcpkg/system fallback: ${FMT_LIBRARY}")
+    endif()
 endif()
 if(fmt_FOUND)
     message(STATUS "fmt found")
 else()
     # fmt is a CRITICAL dependency - ALWAYS fail if not found
-    message(FATAL_ERROR 
-        "fmt library not found. This is a critical dependency and cannot be skipped. Install via:\n"
-        "  - vcpkg: vcpkg install fmt\n"
-        "  - Debian/Ubuntu: sudo apt-get install libfmt-dev\n"
-        "  - Fedora/RHEL: sudo dnf install fmt-devel\n"
-        "  - macOS: brew install fmt"
-    )
+    get_property(_themis_vcpkg_lock_contention GLOBAL PROPERTY THEMIS_VCPKG_LOCK_CONTENTION)
+    get_property(_themis_vcpkg_install_timeout GLOBAL PROPERTY THEMIS_VCPKG_INSTALL_TIMEOUT)
+    if(_themis_vcpkg_lock_contention)
+        message(FATAL_ERROR
+            "fmt library not found. Auto-bootstrap detected vcpkg lock contention during dependency installation.\n"
+            "Stop parallel vcpkg/cmake jobs and rerun configure.\n"
+            "Manual fallback: vcpkg install fmt (or distro package manager).")
+    elseif(_themis_vcpkg_install_timeout)
+        message(FATAL_ERROR
+            "fmt library not found. Auto-bootstrap timed out before vcpkg dependency installation completed.\n"
+            "Increase THEMIS_VCPKG_INSTALL_TIMEOUT_SEC (e.g. 1800) and rerun configure, or preinstall via vcpkg.")
+    else()
+        message(FATAL_ERROR
+            "fmt library not found. This is a critical dependency and cannot be skipped.\n"
+            "  Auto-bootstrap hint: configure with -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON\n"
+            "  - vcpkg: vcpkg install fmt\n"
+            "  - Debian/Ubuntu: sudo apt-get install libfmt-dev\n"
+            "  - Fedora/RHEL: sudo dnf install fmt-devel\n"
+            "  - macOS: brew install fmt")
+    endif()
 endif()
 
 # spdlog: Try CONFIG first (vcpkg), fall back to MODULE (system packages)

@@ -2,7 +2,7 @@
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
-**Version:** 2.4.0-rc1  
+**Version:** 2.4.0-alpha  
 **Last Updated:** 2026-08-18
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). GA hardening path: Phases 0-6 technical evidence complete, Phase 6 human governance sign-off (D-11) is the only remaining GA blocker at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. Wave C (Security Production Validation) complete with all exit criteria passing 2026-08-18.
 
@@ -15,7 +15,7 @@
 ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across tracked source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
-**Current Release:** v2.4.0-rc1
+**Current Release:** v2.4.0-alpha
 
 ## Research & Papers Integration (Soll-Ist Vergleich)
 
@@ -45,9 +45,9 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | replication | 16 listed | MIXED | Multi-region base exists; geo placement policies and lag-limit WAL shipping are real gaps |
 | access_model | 21 listed | REAL IMPL gaps | Benchmarks and GATE-ACM-01..06 not yet implemented |
 
-## Release Hardening Program (current canonical version: v2.4.0-rc1)
+## Release Hardening Program (current canonical version: v2.4.0-alpha)
 
-> **Canonical version note:** `VERSION` and `CHANGELOG.md` currently identify `v2.4.0-rc1` as the active repository version. Historical `v1.9.0-beta` batch names below are retained only where they are part of existing execution-plan terminology or evidence labels.
+> **Canonical version note:** `VERSION` currently identifies `v2.4.0-alpha` as the active repository version. `CHANGELOG.md` includes the historical GA entry for `v2.4.0`; execution-plan labels below may still retain historical naming.
 
 ## Current Status
 
@@ -219,10 +219,10 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 
 ## LLM Wiki Enterprise Plugin (`themisdb_llm_wiki`)
 
-> Full specification: [`plugins/themisdb_llm_wiki/ROADMAP.md`](plugins/themisdb_llm_wiki/ROADMAP.md)
-> Enhancement spec: [`plugins/themisdb_llm_wiki/FUTURE_ENHANCEMENTS.md`](plugins/themisdb_llm_wiki/FUTURE_ENHANCEMENTS.md)
+> Full specification: [`src/llm_wiki/ROADMAP.md`](src/llm_wiki/ROADMAP.md)
+> Enhancement spec: [`src/llm_wiki/FUTURE_ENHANCEMENTS.md`](src/llm_wiki/FUTURE_ENHANCEMENTS.md)
 > Public SDK header: [`include/llm_wiki/llm_wiki_plugin_interface.h`](include/llm_wiki/llm_wiki_plugin_interface.h)
-> Plugin manifest: [`plugins/themisdb_llm_wiki/plugin.json`](plugins/themisdb_llm_wiki/plugin.json)
+> Plugin manifest: `not maintained as standalone plugin manifest in current tree`
 
 ### Current Status
 
@@ -678,7 +678,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 ## 🚀 NEXT PHASE IMPLEMENTATION (2026-07-22 to 2026-08-31) — EXECUTION
 
 **Status:** 🟡 ACTIVE (Scope-Freeze baseline confirmed 2026-07-20; Batch A complete (2026-08-01); Batch B complete (2026-08-01); Batch C closed — sanitizer/pentest evidence delivered; Batch D in progress — final human governance sign-off pending at `docs/governance/GA_PROMOTION_SIGN_OFF.md`)  
-**Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md), [ai_working/NEXT_PHASE_30_60_90_BACKLOG.md](ai_working/NEXT_PHASE_30_60_90_BACKLOG.md)
+**Implementation Plans:** [docs/ARCHIVED/ai-working-history/NEXT_PHASE_IMPLEMENTATION_PLAN.md](docs/ARCHIVED/ai-working-history/NEXT_PHASE_IMPLEMENTATION_PLAN.md), [docs/ARCHIVED/ai-working-history/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](docs/ARCHIVED/ai-working-history/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [docs/ARCHIVED/ai-working-history/PHASE5_HARDENING_DETAILED_PLAN.md](docs/ARCHIVED/ai-working-history/PHASE5_HARDENING_DETAILED_PLAN.md), [docs/ARCHIVED/ai-working-history/NEXT_PHASE_30_60_90_BACKLOG.md](docs/ARCHIVED/ai-working-history/NEXT_PHASE_30_60_90_BACKLOG.md)
 **Kickoff Runner:** `scripts/next_phase_kickoff.py` (Wave-7 hard-gate + baseline go/no-go report)
 
 ### Parallel Work Streams — v2.4.0-rc1 GA Closure (historical)
@@ -867,10 +867,10 @@ Is L1 conformance audit 4/4 PASS (re-run)? ──NO──> Audit failures must b
 ```
 
 **Primary Evidence:**
-- [ai_working/graph_l2_analysis.md](ai_working/graph_l2_analysis.md) — L2 Master Aggregation (5 snapshots)
-- [MODULE_GAPS.md](MODULE_GAPS.md) — 9 gap specifications (ordered by phase)
+- [docs/ARCHIVED/ai-working-history/graph_l2_analysis.md](docs/ARCHIVED/ai-working-history/graph_l2_analysis.md) — L2 Master Aggregation (5 snapshots)
+- [docs/ARCHIVED/ai-working-history/module_gaps/MODULE_GAPS.md](docs/ARCHIVED/ai-working-history/module_gaps/MODULE_GAPS.md) — 9 gap specifications (ordered by phase)
 - [src/graph/ARCHITECTURE.md](src/graph/ARCHITECTURE.md) — L0 risk section + gap-to-test mapping
-- [ai_working/snapshot_graph_l1_testcoverage.md](ai_working/snapshot_graph_l1_testcoverage.md) — 326 test inventory
+- [docs/ARCHIVED/ai-working-history/snapshot_graph_l1_testcoverage.md](docs/ARCHIVED/ai-working-history/snapshot_graph_l1_testcoverage.md) — 326 test inventory
 
 ---
 
@@ -944,7 +944,7 @@ Is L1 conformance audit 4/4 PASS (re-run)? ──NO──> Audit failures must b
 - ✅ Destructor semantics properly documented
 
 **Evidence & References:**
-- Implementation: [ai_working/PHASE_2_3_ONTOLOGY_MANAGER_IMPLEMENTATION.md](ai_working/PHASE_2_3_ONTOLOGY_MANAGER_IMPLEMENTATION.md)
+- Implementation: [docs/ARCHIVED/ai-working-history/PHASE_2_3_ONTOLOGY_MANAGER_IMPLEMENTATION.md](docs/ARCHIVED/ai-working-history/PHASE_2_3_ONTOLOGY_MANAGER_IMPLEMENTATION.md)
 - Commit: `fb672804c9` — Phase 2.3 OntologyManager complete
 
 ---
@@ -1071,9 +1071,8 @@ Is L1 conformance audit 4/4 PASS (re-run)? ──NO──> Audit failures must b
 - Production Release: Target Q4 2026
 
 **Evidence & References:**
-- Build & Test Report: [ai_working/PHASE_2_4_BUILD_AND_TEST_REPORT.md](ai_working/PHASE_2_4_BUILD_AND_TEST_REPORT.md) ✅ **VERIFIED**
-- Completion Report: [ai_working/PHASE_2_4_COMPLETION_REPORT.md](ai_working/PHASE_2_4_COMPLETION_REPORT.md)
-- Implementation Plan: [ai_working/PHASE_2_4_INTEGRATION_VALIDATION_PLAN.md](ai_working/PHASE_2_4_INTEGRATION_VALIDATION_PLAN.md)
+- Completion Report: [docs/ARCHIVED/ai-working-history/PHASE_2_4_COMPLETION_REPORT.md](docs/ARCHIVED/ai-working-history/PHASE_2_4_COMPLETION_REPORT.md)
+- Implementation Plan: [docs/ARCHIVED/ai-working-history/PHASE_2_4_INTEGRATION_VALIDATION_PLAN.md](docs/ARCHIVED/ai-working-history/PHASE_2_4_INTEGRATION_VALIDATION_PLAN.md)
 - Validation Summary: All 22 graph test files verified, 14 source files validated
 - Sign-Off: AI Validation Team (2026-07-01)
 - Verification: CMake configuration validated, 326 tests verified, Phase 2.3 artifacts complete
@@ -1234,7 +1233,7 @@ Audit method:
 - Issue: `docs/de/aql/AQL_COMPLETE_LANGUAGE_SCOPE.md` claims 72 keywords and DML support (v1.3.1 proposal)
 - Reality: Parser only has 36 tokens; v1.x is read-only
 - Action: Update docs to clarify v1.x vs. v2.0.0 feature status
-- Ref: [DOCUMENTATION_AUDIT_2026_06_18.md](DOCUMENTATION_AUDIT_2026_06_18.md)
+- Ref: [docs/ARCHIVED/ai-working-history/reports/root_cleanup/DOCUMENTATION_AUDIT_2026_06_18.md](docs/ARCHIVED/ai-working-history/reports/root_cleanup/DOCUMENTATION_AUDIT_2026_06_18.md)
 
 ### Phase 1 Kickoff Checklist
 
@@ -1258,11 +1257,11 @@ Audit method:
 >
 > Prior baseline (2026-05-27 before improved pipeline): 185,190 raw gaps (pre-dedup, different counting method).
 >
-> See current triage and scanner documentation in `ai_working/`:
+> See current triage and scanner documentation in `docs/ARCHIVED/ai-working-history/`:
 > - [gap_scan_report_2026-06-13.md](ai_working/gap_scan_report_2026-06-13.md) — konsolidierter Arbeitsstand + aktive Worklist
-> - [scanner_improvements_mapping.md](ai_working/scanner_improvements_mapping.md) — 27 Regelverbesserungen (Phase 1–6 Mapping)
-> - [scanner_integration_guide.md](ai_working/scanner_integration_guide.md) — Phase-by-Phase Integration Guide
-> - [scanner_improvements_implementation_summary.md](ai_working/scanner_improvements_implementation_summary.md) — Implementation Summary Phase 1–2 detail
+> - [scanner_improvements_mapping.md](docs/ARCHIVED/ai-working-history/scanner_improvements_mapping.md) — 27 Regelverbesserungen (Phase 1–6 Mapping)
+> - [scanner_integration_guide.md](docs/ARCHIVED/ai-working-history/scanner_integration_guide.md) — Phase-by-Phase Integration Guide
+> - [scanner_improvements_implementation_summary.md](docs/ARCHIVED/ai-working-history/scanner_improvements_implementation_summary.md) — Implementation Summary Phase 1–2 detail
 
 **Latest Gap Scanner Results Summary (Improved Pipeline 2026-06-14):**
 - Deduplicated findings (current canonical): **22.085**
@@ -1312,6 +1311,7 @@ Plan: `src/MODULE_GAP_ANALYSIS_WAVE2.md` (Wave 2 + Wave 3 konsolidiert).
 | Module | Status | Evidence Snapshot |
 |--------|--------|-------------------|
 | **acceleration** | HARDENING | LOC=26894, Stub/KLOC=7,7, Tests=332, TestRefs=119 |
+| **access_model** | PRODUCTION_CANDIDATE | Phase 5-6 complete (2026-08-17), observability + E2E + benchmark gates delivered (`src/access_model/ROADMAP.md`) |
 | **ai** | HARDENING | LOC=1060, Stub/KLOC=6,6, Tests=47, TestRefs=4 |
 | **ai_working** | THIN/PLACEHOLDER | LOC=0, Stub/KLOC=0, Tests=0, TestRefs=0 |
 | **analytics** | PRODUCTION_CANDIDATE | LOC=34524, Stub/KLOC=3,42, Tests=872, TestRefs=63 |
@@ -1331,17 +1331,21 @@ Plan: `src/MODULE_GAP_ANALYSIS_WAVE2.md` (Wave 2 + Wave 3 konsolidiert).
 | **document** | HARDENING | LOC=2362, Stub/KLOC=8,89, Tests=47, TestRefs=20 |
 | **ethics_ai** | HARDENING | LOC=6315, Stub/KLOC=10,45, Tests=0, TestRefs=42 |
 | **evaluation** | HARDENING | LOC=860, Stub/KLOC=0, Tests=40+, TestRefs=0 | EPIC 2 complete: all 7 components (2.1 Hardware Profiles, 2.2 Benchmark Matrix, 2 Phase 2 Metrics/Ablation, 2.4 Approximation Rules, 2.5 Query Planner, 2.6 Artifact Lifecycle, 2.7 Storage Strategy) implemented, tested (220+ tests), benchmarked |
+| **execution** | HARDENING | Scheduler/thread-pool core delivered; hardening and deployment gate tracking active (`src/execution/ROADMAP.md`) |
 | **exporters** | HARDENING | LOC=9810, Stub/KLOC=7,03, Tests=378, TestRefs=15 |
 | **failover** | HARDENING | LOC=1259, Stub/KLOC=6,35, Tests=17, TestRefs=6 |
 | **geo** | HARDENING | LOC=8825, Stub/KLOC=8,95, Tests=761, TestRefs=38 |
 | **governance** | HARDENING | LOC=16142, Stub/KLOC=7,19, Tests=75, TestRefs=71 |
 | **gpu** | HARDENING | LOC=7747, Stub/KLOC=8,13, Tests=975, TestRefs=0 |
 | **graph** | PRODUCTION_CANDIDATE | LOC=14828, Stub/KLOC=3,51, Tests=682, TestRefs=29 |
+| **image_analysis** | PRODUCTION_CANDIDATE | Phase 1-6 complete (2026-08-10), OCR + YOLOv8 ONNX integration delivered (`src/image_analysis/ROADMAP.md`) |
 | **importers** | HARDENING | LOC=22576, Stub/KLOC=6,07, Tests=0, TestRefs=40 |
 | **index** | PRODUCTION_CANDIDATE | LOC=42914, Stub/KLOC=4,94, Tests=343, TestRefs=419 |
 | **ingestion** | HARDENING | LOC=22666, Stub/KLOC=6,13, Tests=752, TestRefs=75 |
 | **llama_cpp** | EXPERIMENTAL | LOC=1805, Stub/KLOC=41,55, Tests=68, TestRefs=2 |
 | **llm** | PRODUCTION_CANDIDATE | LOC=126274, Stub/KLOC=5,5, Tests=1172, TestRefs=258 |
+| **llm_streaming** | PRODUCTION_CANDIDATE | Phase 1-4 complete (2026-08-10), streaming core + resilience surfaces validated (`src/llm_streaming/ROADMAP.md`) |
+| **llm_wiki** | HARDENING | Phase 3-4 complete, governance/routing hardening and Phase 5-6 follow-up tracked (`src/llm_wiki/ROADMAP.md`) |
 | **maintenance** | HARDENING | LOC=2981, Stub/KLOC=3,69, Tests=0, TestRefs=6 |
 | **metadata** | HARDENING | LOC=8895, Stub/KLOC=6,63, Tests=443, TestRefs=80 |
 | **network** | PRODUCTION_CANDIDATE | LOC=20893, Stub/KLOC=4,98, Tests=1175, TestRefs=59 |
@@ -1375,10 +1379,11 @@ Plan: `src/MODULE_GAP_ANALYSIS_WAVE2.md` (Wave 2 + Wave 3 konsolidiert).
 | **updates** | HARDENING | LOC=13767, Stub/KLOC=5,96, Tests=118, TestRefs=32 |
 | **user_storage_encrypted** | HARDENING | LOC=3326, Stub/KLOC=7,82, Tests=0, TestRefs=4 |
 | **utils** | HARDENING | LOC=31871, Stub/KLOC=7,53, Tests=84, TestRefs=284 |
+| **vector_search** | PRODUCTION_CANDIDATE | Phase 1-4 complete (2026-08-10), ANN infrastructure and similarity search validated (`src/vector_search/ROADMAP.md`) |
 | **voice** | HARDENING | LOC=11483, Stub/KLOC=6,01, Tests=603, TestRefs=26 |
 | **whisper** | HARDENING | LOC=2766, Stub/KLOC=18,08, Tests=76, TestRefs=4 |
 
-**Legend:** PRODUCTION_CANDIDATE · HARDENING · EXPERIMENTAL · THIN/PLACEHOLDER *(full src coverage: 66/66 modules; evidence consolidated in this roadmap table and the corresponding `src/<module>/ROADMAP.md` files)*
+**Legend:** PRODUCTION_CANDIDATE · HARDENING · EXPERIMENTAL · THIN/PLACEHOLDER *(full src coverage: 72/72 modules; evidence consolidated in this roadmap table and the corresponding `src/<module>/ROADMAP.md` files)*
 
 **Phase 1-4 Gap Scanner Results Summary (2026-05-18):**
 - Total gaps: 31,720 across 8 categories
@@ -2292,7 +2297,7 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 - **Note:** Older wave references (#5207, #5221–#5230) are retained only as historical duplicates.
 
 **Detailed Documentation:**
-- [PHASE_5_IMPLEMENTATION_COMPLETE.md](ai_working/PHASE_5_IMPLEMENTATION_COMPLETE.md)
+- [PHASE_5_IMPLEMENTATION_COMPLETE.md](docs/ARCHIVED/ai-working-history/PHASE_5_IMPLEMENTATION_COMPLETE.md)
 - [FUTURE_ENHANCEMENTS.md § Code Quality Scanner](FUTURE_ENHANCEMENTS.md#code-quality-scanner-enhancements-phase-1-6--roadmap-update-2026-05-19)
 
 ### Phase 1-4 Enhancements (Q3 2026) — 🟡 PLANNED
@@ -2314,7 +2319,7 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 - Current Rescan Baseline: 185,190 → **187,390–188,390 gaps** (+2,200–3,200)
 - Key Targets: Top 10 modules (llm, server, sharding, index, query, storage, analytics, rag, security, content)
 
-**Detailed Design:** [PHASE_1_4_IMPROVEMENTS.md](ai_working/PHASE_1_4_IMPROVEMENTS.md)
+**Detailed Design:** [PHASE_1_4_IMPROVEMENTS.md](docs/ARCHIVED/ai-working-history/PHASE_1_4_IMPROVEMENTS.md)
 
 ### Phase 6 Extended Scanners (Q3-Q4 2026) — ✅ COMPLETE 2026-07-13
 
@@ -2336,7 +2341,7 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 - All 65 modules ready for Phase 1-10 suite scanning
 - Integrated with Phase 7-10 scanners (27 total scanners)
 
-**Detailed Design & Sprint Breakdown:** [PHASE_6_SCANNER_DESIGN.md](ai_working/PHASE_6_SCANNER_DESIGN.md)
+**Detailed Design & Sprint Breakdown:** [PHASE_6_SCANNER_DESIGN.md](docs/ARCHIVED/ai-working-history/PHASE_6_SCANNER_DESIGN.md)
 
 ### Module Hardening — Tier 1 (Q3-Q4 2026) — 🟠 IN PROGRESS (Started 2026-07-17)
 
@@ -2363,7 +2368,7 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 
 **Strategy:** Root-cause analysis by gap category; shared patterns across modules; parallel fix development by module teams.
 
-**Detailed Roadmap:** [IMPLEMENTATION_ROADMAP.md](ai_working/IMPLEMENTATION_ROADMAP.md)
+**Detailed Roadmap:** [IMPLEMENTATION_ROADMAP.md](docs/ARCHIVED/ai-working-history/IMPLEMENTATION_ROADMAP.md)
 
 ### Success Criteria & Milestones
 
@@ -2383,7 +2388,7 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 | Phase 10 Runtime & Observability Complete | ✅ 2026-07-13 | P10-1/P10-2 implemented (152+189 LOC); full Phase 1-10 suite (27 scanners) delivered |
 | **Phase 1-10 Full Suite Live** | **✅ 2026-07-13** | **All 27 scanners active; test command: python -m unittest tools.scanners.test_phase7_10_scanners -v** |
 
-**Executive Summary:** [EXECUTIVE_DASHBOARD.md](ai_working/EXECUTIVE_DASHBOARD.md)
+**Executive Summary:** [EXECUTIVE_DASHBOARD.md](docs/ARCHIVED/ai-working-history/EXECUTIVE_DASHBOARD.md)
 
 ---
 
@@ -2553,8 +2558,8 @@ ctest --preset community-release --filter "test_layered_retrieval_orchestrator" 
 
 ### Related Documentation
 - [include/search/layered_retrieval_orchestrator.h](include/search/layered_retrieval_orchestrator.h) — API reference
-- [docs/LAYERED_RETRIEVAL_ORCHESTRATOR.md](docs/LAYERED_RETRIEVAL_ORCHESTRATOR.md) — Complete architecture guide
-- [examples/example_layered_retrieval_integration.cpp](examples/example_layered_retrieval_integration.cpp) — Integration example
+- [src/search/layered_retrieval_orchestrator.cpp](src/search/layered_retrieval_orchestrator.cpp) — Complete architecture implementation
+- [include/search/layered_retrieval_orchestrator.h](include/search/layered_retrieval_orchestrator.h) — Integration API surface
 - GitHub Issue: [#5423](https://github.com/makr-code/ThemisDB/issues/5423) — Epic tracking
 
 ---
@@ -2628,7 +2633,7 @@ ctest --preset community-release --filter "test_layered_retrieval_orchestrator" 
 - [SECURITY.md](SECURITY.md) — Security policy and vulnerability reporting
 - [src/README.md](src/README.md) — Source directory overview
 - [src/ROADMAP.md](src/ROADMAP.md) — Module-level roadmap index
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) — Open enhancement and stub-replacement backlog
-- [FEATURE_ENHANCEMENT.md](FEATURE_ENHANCEMENT.md) — Generated code maturity analysis (reporting snapshot)
+- [src/FUTURE_ENHANCEMENTS.md](src/FUTURE_ENHANCEMENTS.md) — Open enhancement and stub-replacement backlog
+- [docs/ARCHIVED/ai-working-history/FEATURE_ENHANCEMENT.md](docs/ARCHIVED/ai-working-history/FEATURE_ENHANCEMENT.md) — Generated code maturity analysis (historical reporting snapshot)
 
 Zuletzt geprueft (Root-Sync): 2026-07-27

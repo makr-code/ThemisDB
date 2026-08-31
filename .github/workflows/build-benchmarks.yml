@@ -134,7 +134,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-22.04
+          - os: ubuntu-latest
             compiler: gcc-12
             cc: gcc-12
             cxx: g++-12
@@ -469,7 +469,7 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────
   wave-d-observability-gates:
     name: Wave D Observability Gates (Trace, Metrics, Exporter Stress)
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 120
     needs: [preflight-build-status]
     if: >
@@ -585,7 +585,7 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────
   sharding-release-gates:
     name: Sharding Release-Gate Benchmarks (SRG-01..06)
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [preflight-build-status]
     if: >
@@ -702,7 +702,7 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────
   wave-d-soak-tests:
     name: Wave D Soak Tests (48-hour Endurance)
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 2880  # 48 hours
     needs: [preflight-build-status]
     if: >

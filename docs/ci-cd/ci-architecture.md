@@ -46,8 +46,8 @@ Unchanged        → codeql, docker-image, edition-hyperscaler-ci,
 | `security-scanning.yml` | security | Kubesec + OWASP ZAP DAST | `kubesec.yml` + `security-dast-ci.yml` |
 | `security-pentest-quarterly.yml` | security | Quarterly pentest cadence | `security_pentest-quarterly.yml` (renamed) |
 | `compliance-supply-chain.yml` | compliance | License policy, SBOM, SOC2 evidence | 3 compliance workflows |
-| `quality-static-analysis.yml` | quality | clang-tidy, clang-format, Doxygen, perf regression | 4 quality workflows |
-| `governance-gates.yml` | governance | Maturity, phase gates, merge enforcer, RC validation, audit, waivers | 6 governance workflows |
+| `gate-pr-doxygen-governance.yml` | quality | GS3 Doxygen structure gate, advisory `@throws`/`@tparam` checks, Doxygen XML/warning validation, Tier-1 coverage escalation | targeted PR Doxygen enforcement |
+| `governance-gates.yml` | governance | Maturity, phase gates, merge enforcer, RC validation, audit, waiver command handling | 6 governance workflows |
 | `maintenance-docs.yml` | maintenance | AI-context sync, code maturity, orphan check, hygiene, alignment | 5 maintenance workflows |
 | `automation-community.yml` | automation | Greet contributors, auto-label PRs, summarize issues | `greetings.yml` + `label.yml` + `summary.yml` |
 | `codeql.yml` | — | GitHub SARIF upload, own schedule cadence | *(unchanged)* |

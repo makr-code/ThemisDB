@@ -78,7 +78,7 @@ void FederatedSearch::setConfig(const Config& config) {
 
 std::vector<FederatedSearch::Result> FederatedSearch::search(
     const std::string& query,
-    const std::vector<float>& vector_query,
+    [[maybe_unused]] const std::vector<float>& vector_query,
     std::vector<TenantStats>* tenant_stats) {
 
     std::unordered_map<std::string, std::vector<HybridSearch::Result>>

@@ -1,0 +1,51 @@
+name: "Build: Sanitizer Nightly"
+
+# Rechenaufwand-Score: R=6 (K=6, L=6, N=6) | last-calibrated: 2026-08-26
+# Trigger policy: repo framework score calibration for workflow cost controls.
+# Nightly sanitizer lane (ASan/UBSan by default) on selected critical targets.
+
+on:
+  schedule:
+    - cron: '20 2 * * *'
+  workflow_dispatch:
+    inputs:
+      sanitizer_mode:
+        description: 'Sanitizer mode (asan-ubsan or asan-only)'
+        required: false
+        default: 'asan-ubsan'
+        type: choice
+        options:
+          - asan-ubsan
+          - asan-only
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: ci-sanitizer-nightly-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sanitizer-build:
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      runs_on: ubuntu-latest
+      shell: bash
+      fetch_depth: '0'
+      submodules: false
+      working_directory: .
+      setup_command: >-
+        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends clang lld cmake ninja-build pkg-config librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+      configure_command: >-
+        set -euo pipefail; SAN_MODE="${{ inputs.sanitizer_mode || 'asan-ubsan' }}"; if [ "$SAN_MODE" = "asan-only" ]; then SAN_FLAGS="-fsanitize=address -fno-omit-frame-pointer"; else SAN_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"; fi; cmake -S . -B build-sanitizer -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_FLAGS="$SAN_FLAGS" -DCMAKE_CXX_FLAGS="$SAN_FLAGS" -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_BUILD_TESTS=ON
+      build_command: >-
+        cmake --build build-sanitizer --target themis_base module_epic3_distributed_tensor_tensor_shard_summary_focused module_llm_test_llm_phase1_hardening_focused --parallel 8
+      validation_command: >-
+        ctest --test-dir build-sanitizer --output-on-failure -R "TensorShardSummaryPhaseCTests|module_llm_test_llm_phase1_hardening_focused" -j 1 --timeout 90
+      artifact_name: sanitizer-nightly-logs-${{ github.run_number }}
+      artifact_paths: |
+        build-sanitizer/Testing
+        build-sanitizer/CMakeCache.txt
+      artifact_retention_days: '10'
+      summary_title: CI — Sanitizer Nightly

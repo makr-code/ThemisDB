@@ -52,18 +52,18 @@ using namespace themis::utils;
 
 namespace {
 
-AuditLoggerConfig makeTestAuditConfig(const std::string &path) {
+AuditLoggerConfig makeTestAuditConfig(const std::filesystem::path &path) {
     AuditLoggerConfig cfg;
     cfg.enabled           = true;
     cfg.encrypt_then_sign = false;
-    cfg.log_path          = path;
+    cfg.log_path          = path.string();
     cfg.key_id            = "test";
     cfg.enable_hash_chain = false;
     cfg.enable_siem       = false;
     return cfg;
 }
 
-size_t countLogLines(const std::string &path) {
+size_t countLogLines(const std::filesystem::path &path) {
     std::ifstream f(path);
     size_t n = 0;
     std::string line;
@@ -161,7 +161,7 @@ static std::string makeServerAuthOnlyCertPEM() {
 
 class Wave4B2PasskeyVerifyAuditTest : public ::testing::Test {
 protected:
-    std::string log_path_;
+    std::filesystem::path log_path_;
     std::unique_ptr<AuditLogger>     ul_;
     std::unique_ptr<AuthAuditLogger> al_;
     PasskeyAuthenticator auth_{"example.com", "https://example.com"};
@@ -253,7 +253,7 @@ TEST_F(Wave4B2PasskeyVerifyAuditTest, A1b_CompleteAuthChallengeNotFoundEmitsFail
 
 class Wave4B2MTLSAuditDirectTest : public ::testing::Test {
 protected:
-    std::string log_path_;
+    std::filesystem::path log_path_;
     std::unique_ptr<AuditLogger>     ul_;
     std::unique_ptr<AuthAuditLogger> al_;
 
@@ -292,7 +292,7 @@ TEST_F(Wave4B2MTLSAuditDirectTest, A2_MTLSAuditNullLoggerIsNoop) {
 
 class Wave4B2RolePermAuditTest : public ::testing::Test {
 protected:
-    std::string log_path_;
+    std::filesystem::path log_path_;
     std::unique_ptr<AuditLogger>     ul_;
     std::unique_ptr<AuthAuditLogger> al_;
 
@@ -340,7 +340,7 @@ TEST_F(Wave4B2RolePermAuditTest, A4_MultipleRoleChangesEachEmitEvent) {
 
 class Wave4B2JWTKeyAuditTest : public ::testing::Test {
 protected:
-    std::string log_path_;
+    std::filesystem::path log_path_;
     std::unique_ptr<AuditLogger> ul_;
 
     void SetUp() override {
@@ -421,14 +421,12 @@ TEST(Wave4B2FederatedRetry, B2_ExchangeTokenRetriesOn503) {
 
     // exchangeToken() requires a valid realm with a token_endpoint, so add a
     // stub realm that provides a token_endpoint value.
-    OIDCProvider::Config pc;
-    pc.issuer_url   = "https://idp.test";
-    pc.jwks_url     = "https://idp.test/.well-known/jwks.json";
-    pc.client_id    = "client1";
-    pc.client_secret= "secret";
-    auto provider = std::make_shared<OIDCProvider>(pc);
-
-    mgr.addRealm("https://idp.test", provider);
+    OIDCProviderConfig pc;
+    pc.issuer_url    = "https://idp.test";
+    pc.scopes        = {"openid"};
+    pc.client_id     = "client1";
+    pc.client_secret = "secret";
+    mgr.addRealm(pc);
 
     // The function validates the subject_token first (before httpPost).
     // Provide a deliberately invalid token so the call reaches httpPost

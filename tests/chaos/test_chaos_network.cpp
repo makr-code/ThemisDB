@@ -174,18 +174,24 @@ TEST(ChaosPayloads, EmptyBodyIsValidForGetRequests) {
 TEST(ChaosPayloads, MalformedJsonBodyDoesNotCrash) {
     // Verify nlohmann::json throws on malformed input (parse guard in routeRequest)
     const std::string bad_json = "{\"key\": }";
-    EXPECT_THROW(nlohmann::json::parse(bad_json), nlohmann::json::parse_error);
+    EXPECT_THROW({
+        [[maybe_unused]] const auto parsed = nlohmann::json::parse(bad_json);
+    }, nlohmann::json::parse_error);
 }
 
 TEST(ChaosPayloads, TruncatedJsonBodyDoesNotCrash) {
     const std::string truncated = "{\"key\":";
-    EXPECT_THROW(nlohmann::json::parse(truncated), nlohmann::json::parse_error);
+    EXPECT_THROW({
+        [[maybe_unused]] const auto parsed = nlohmann::json::parse(truncated);
+    }, nlohmann::json::parse_error);
 }
 
 TEST(ChaosPayloads, InvalidUtf8InBodyDoesNotCrash) {
     // Strings with invalid UTF-8 bytes should be handled gracefully
     const std::string invalid_utf8 = "{\"key\": \"\xff\xfe\"}";
-    EXPECT_THROW(nlohmann::json::parse(invalid_utf8), nlohmann::json::parse_error);
+    EXPECT_THROW({
+        [[maybe_unused]] const auto parsed = nlohmann::json::parse(invalid_utf8);
+    }, nlohmann::json::parse_error);
 }
 
 TEST(ChaosPayloads, ValidEmptyJsonObject) {
@@ -212,7 +218,9 @@ TEST(ChaosPayloads, DeeplyNestedJsonDoesNotCrash) {
     for (int i = 0; i < 100; ++i) deep += "{\"n\":";
     deep += "1";
     for (int i = 0; i < 100; ++i) deep += "}";
-    EXPECT_NO_THROW(nlohmann::json::parse(deep));
+    EXPECT_NO_THROW({
+        [[maybe_unused]] const auto parsed = nlohmann::json::parse(deep);
+    });
 }
 
 // ---------------------------------------------------------------------------

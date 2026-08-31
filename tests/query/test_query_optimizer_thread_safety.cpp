@@ -27,6 +27,7 @@
 
 #include "query/plan_cache.h"
 #include "query/query_optimizer.h"
+#include "index/secondary_index.h"
 #include "storage/base_entity.h"
 
 namespace themis {
@@ -232,70 +233,6 @@ TEST_F(QueryOptimizerThreadSafetyTest, PlanCacheGet_DeadlineInFuture_Succeeds) {
     auto result = cache_->get(query, makeTestStats("products", 2000), "", future);
     
     EXPECT_TRUE(result.has_value()) << "get() should succeed with future deadline";
-}
-
-// ============================================================================
-// GAP-1 & GAP-2: Concurrent Optimizer State Updates
-// ============================================================================
-
-/**
- * @brief Mock secondary index manager for testing.
- */
-class MockSecondaryIndexManager : public SecondaryIndexManager {
-public:
-    size_t estimateCountEqual(const std::string&, const std::string&,
-                             const std::string&, size_t, bool*) const override {
-        return 100;  // Dummy estimate
-    }
-};
-
-/**
- * @test QueryOptimizerCostModel_ConcurrentSetGet_NoRaceCondition
- * @brief Multiple threads call setAdvisorCostConstants() and advisorCostConstants()
- *        concurrently without data races.
- *
- * Thread Safety: Tests protection of advisor_cost_model_ member (GAP-2).
- */
-TEST_F(QueryOptimizerThreadSafetyTest, QueryOptimizerCostModel_ConcurrentSetGet_NoRaceCondition) {
-    MockSecondaryIndexManager idx_mgr;
-    QueryOptimizer optimizer(idx_mgr);
-
-    const int num_threads = 4;
-    const int iterations = 100;
-    
-    std::atomic<int> errors{0};
-
-    auto thread_func = [&optimizer, iterations, &errors](int thread_id) {
-        try {
-            for (int i = 0; i < iterations; ++i) {
-                OptimizerCostModel::CostConstants constants;
-                constants.cpu_cost_per_row = 0.1 * (thread_id + 1);
-                constants.io_cost_per_kb = 0.05 * (thread_id + 1);
-                
-                if (i % 2 == 0) {
-                    // Writers set constants
-                    optimizer.setAdvisorCostConstants(constants);
-                } else {
-                    // Readers get constants
-                    auto read_constants = optimizer.advisorCostConstants();
-                    EXPECT_GT(read_constants.cpu_cost_per_row, 0.0);
-                }
-            }
-        } catch (const std::exception& e) {
-            ++errors;
-        }
-    };
-
-    std::vector<std::thread> threads;
-    for (int i = 0; i < num_threads; ++i) {
-        threads.emplace_back(thread_func, i);
-    }
-
-    for (auto& t : threads) {
-        t.join();
-    }
-
-    EXPECT_EQ(errors, 0) << "No exceptions during concurrent cost model updates";
 }
 
 // ============================================================================

@@ -394,11 +394,13 @@ std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
         c.chunk_id = doc.id;
         c.score    = score;
         // Populate remaining fields from doc metadata if available
-        for (const auto& [k, v] : doc.metadata) {
-            if      (k == "doc_id")        c.doc_id        = v;
-            else if (k == "section_title") c.section_title = v;
-            else if (k == "source_path")   c.source_path   = v;
-            else if (k == "content")       c.text          = v;
+        for (const auto& meta_entry : doc.metadata) {
+            const auto& meta_key = meta_entry.first;
+            const auto& meta_value = meta_entry.second;
+            if      (meta_key == "doc_id")        c.doc_id        = meta_value;
+            else if (meta_key == "section_title") c.section_title = meta_value;
+            else if (meta_key == "source_path")   c.source_path   = meta_value;
+            else if (meta_key == "content")       c.text          = meta_value;
         }
         if (c.text.empty()) c.text = doc.content;
 

@@ -1419,7 +1419,6 @@ FOR b IN 1..1 OUTBOUND "persons/a" TYPE "FOLLOWS" GRAPH "social"
 ---
 
 #### 1.4 Community Detection (Priorität: NIEDRIG)
->>>>>>> Stashed changes
 **Dateien:**
 - `include/index/graph_analytics.h` (NEU)
 - `src/index/graph_analytics.cpp` (NEU)
@@ -1890,7 +1889,6 @@ VGPlan chooseVGPlan(
 **Status:** Production-Ready ✅
 
 ---
->>>>>>> Stashed changes
 // Current (MVP - Sequential):
 for (const auto& [pk, bm25_score] : ftResults) {  // O(n)
     if (evaluateCondition(q.spatial_filter, ctx)) {
@@ -2360,7 +2358,6 @@ Response 403 Forbidden:
 **Status:** ✅ **Vollständig implementiert** (2024-01-XX)
 
 **Endpoint:**
->>>>>>> Stashed changes
 ```http
 POST /content/search
 {
@@ -2494,7 +2491,6 @@ curl -X DELETE http://localhost:8080/fs/documents/report.pdf
 #### 3.3 Content Retrieval Optimization (Priorität: MITTEL) ✅ IMPLEMENTIERT
 **Status:** ✅ **Vollständig implementiert** (2024-11-19)
 
->>>>>>> Stashed changes
 **Ziel:** Effiziente Chunk-Navigation und Content-Assembly
 
 **Implementation:**
@@ -2601,8 +2597,6 @@ curl http://localhost:8080/chunk/chunk-uuid-5/previous
 - Server build fails due to vcpkg STL annotation conflicts (not related to new code)
 - Live HTTP endpoint testing requires server build fix
 - Core functionality validated via unit tests and code review
-
->>>>>>> Stashed changes
 
 ---
 

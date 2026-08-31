@@ -47,7 +47,12 @@ namespace utils {
 /// - In-Memory Topologie für O(1) Nachbarschaftsabfragen
 /// - Saubere Fehler über Status-Rückgabe, kein Exception-API nach außen
 /// - Optional: Audit Logging für Graph-Operationen (Phase 1 Knowledge Graph Protection)
-class THEMIS_SECURITY_API GraphIndexManager {
+///
+/// Note: Windows DLL exports are handled centrally by the module target via
+/// CMake's WINDOWS_EXPORT_ALL_SYMBOLS. Keeping the explicit class-level export
+/// here creates inconsistent dllimport/dllexport bindings across translation
+/// units and triggers C4273 in mixed build/import scenarios.
+class GraphIndexManager {
 public:
     struct AdjacencyInfo {
         std::string edgeId;

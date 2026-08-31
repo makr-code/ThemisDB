@@ -1,6 +1,6 @@
 name: "Build: Clang Fast"
 
-# Rechenaufwand-Score: R=4 (K=4, L=4, N=4) | last-calibrated: 2026-08-31
+# Rechenaufwand-Score: R=4 (K=4, L=4, N=4) | last-calibrated: 2026-08-26
 # Trigger policy: repo framework score calibration for workflow cost controls.
 # Lightweight clang lane for early diagnostics without sanitizer overhead.
 
@@ -22,6 +22,15 @@ on:
       - 'vcpkg-configuration.json'
       - '.github/workflows/build-clang-fast.yml'
       - '.github/workflows/reusable-cmake-build.yml'
+      - 'src/**'
+      - 'include/**'
+      - 'tests/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'CMakePresets.json'
+      - 'vcpkg.json'
+      - 'vcpkg-configuration.json'
+      - '.github/workflows/build-clang-fast.yml'
   workflow_dispatch:
 
 permissions:

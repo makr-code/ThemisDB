@@ -180,8 +180,15 @@ if(THEMIS_ENABLE_VULKAN)
     
     # Add shader outputs as dependencies
     if(VULKAN_SHADER_OUTPUTS)
-        add_custom_target(vulkan_shaders ALL DEPENDS ${VULKAN_SHADER_OUTPUTS})
-        add_dependencies(themis_flash_attention vulkan_shaders)
+        if(THEMIS_EAGER_SHADER_BUILD)
+            add_custom_target(vulkan_shaders ALL DEPENDS ${VULKAN_SHADER_OUTPUTS})
+        else()
+            add_custom_target(vulkan_shaders DEPENDS ${VULKAN_SHADER_OUTPUTS})
+        endif()
+
+        if(THEMIS_REQUIRE_SHADER_ARTIFACTS)
+            add_dependencies(themis_flash_attention vulkan_shaders)
+        endif()
     endif()
 endif()
 

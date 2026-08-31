@@ -21,25 +21,18 @@
 using namespace themis::tensor;
 using namespace themis::storage;
 
-// Mock RocksDB for testing (in production would use real instance)
-class MockRocksDBWrapper : public RocksDBWrapper {
-public:
-    void put(const std::string&, const std::string&) override {}
-    std::string get(const std::string&) override { return ""; }
-    bool has(const std::string&) override { return false; }
-    void del(const std::string&) override {}
-    void scanPrefix(const std::string&, 
-                   std::function<bool(std::string_view, std::string_view)>) override {}
-};
-
 class TensorIndexManagerConcurrentTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        db_ = std::make_shared<MockRocksDBWrapper>();
+        // TensorIndexManager accepts an optional RocksDB backing store.
+        // The database is only needed for persistence cleanup paths and is
+        // intentionally left empty here so the test exercises in-memory index
+        // behavior without depending on RocksDB-specific virtual overrides.
+        db_ = std::shared_ptr<themis::RocksDBWrapper>();
         mgr_ = TensorIndexManager::create(db_);
     }
 
-    std::shared_ptr<MockRocksDBWrapper> db_;
+    std::shared_ptr<themis::RocksDBWrapper> db_;
     std::shared_ptr<TensorIndexManager> mgr_;
 };
 

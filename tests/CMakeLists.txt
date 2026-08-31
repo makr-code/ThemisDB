@@ -855,6 +855,12 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_streaming.cpp
     ${THEMIS_ROOT_DIR}/src/toolbox/ingestion_toolbox.cpp
     ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_registry.cpp
+    # Restore missing link providers for unresolved test symbols in monolithic themis_tests.
+    ${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp
+    ${THEMIS_ROOT_DIR}/src/replication/lag_alert_manager.cpp
+    ${THEMIS_ROOT_DIR}/src/governance/policy_conflict_detector.cpp
+    ${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp
+    ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
     # AI plugin generator (ai/test_ai_plugin_generator.cpp)
     ${THEMIS_ROOT_DIR}/src/ai/ai_plugin_generator.cpp
     # Continuous query engine helpers (continuous/test_continuous_query_engine.cpp)
@@ -3333,7 +3339,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/api/test_api_grpc_server.cpp")
     )
 
     if(THEMIS_ENABLE_GRPC)
-        target_link_libraries(test_api_grpc_server PRIVATE gRPC::grpc++ gRPC::grpc++_reflection)
+        target_link_libraries(test_api_grpc_server PRIVATE gRPC::grpc++)
+        if(TARGET gRPC::grpc++_reflection)
+            target_link_libraries(test_api_grpc_server PRIVATE gRPC::grpc++_reflection)
+        else()
+            message(WARNING "gRPC reflection target (gRPC::grpc++_reflection) not found; building test_api_grpc_server without reflection")
+        endif()
         target_compile_definitions(test_api_grpc_server PRIVATE THEMIS_ENABLE_GRPC)
     endif()
 
@@ -4069,6 +4080,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_geo_placemen
 
     add_executable(test_replication_geo_placement_wal_shipping_focused
        replication/test_replication_geo_placement_wal_shipping_focused.cpp
+         ../src/replication/async_wal_shipper.cpp
     )
 
     target_include_directories(test_replication_geo_placement_wal_shipping_focused PRIVATE
@@ -15855,6 +15867,23 @@ function(add_llm_focused_test target_name test_src test_name labels description)
         target_link_libraries(${target_name} PRIVATE yaml-cpp::yaml-cpp)
     endif()
 
+    # Some focused LLM tests instantiate themis::llamacpp::LlamaCppPlugin
+    # directly. Keep linkage robust across build variants.
+    if(TARGET llama_cpp_plugin)
+        target_link_libraries(${target_name} PRIVATE llama_cpp_plugin)
+    endif()
+
+    # Build flavors can exclude plugin implementation objects from linked libs.
+    # Compile the implementation units directly into LLM focused tests to keep
+    # symbol availability deterministic across modular/non-modular variants.
+    if(THEMIS_BUILD_MODULAR OR target_name STREQUAL "test_llm_inference_performance")
+        target_sources(${target_name} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_plugin.cpp
+            ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_registrar.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/rag_context_assembler.cpp
+        )
+    endif()
+
     # Boost (Beast/ASIO) is used by server headers included from some LLM tests.
     if(Boost_FOUND)
         target_link_libraries(${target_name} PRIVATE Boost::system)
@@ -16091,6 +16120,14 @@ if(THEMIS_ENABLE_LLM)
         LlmModelLoadingFromThemisDbFocusedTests
         "llm;model;loading;themisdb;integration"
         "Model loading from ThemisDB: store, retrieve, checksum verify, hot-reload"
+    )
+
+    add_llm_focused_test(
+        test_llm_inference_roles
+        llm/test_llm_inference_roles.cpp
+        LlmInferenceRolesFocusedTests
+        "llm;inference;roles;openai;chatml;unit"
+        "Role-aware Llama/OpenAI inference formatting: system/user/assistant preservation and request mapping"
     )
 
     # GTest-based micro-benchmarks (registered as tests with longer timeout)
@@ -21187,6 +21224,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/failover/test_failover_chaos_scenarios.cp
     add_executable(test_failover_chaos_scenarios_focused
         failover/test_failover_chaos_scenarios.cpp
         ${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/failover/topology_snapshot.cpp
         ${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp
     )
     target_include_directories(test_failover_chaos_scenarios_focused PRIVATE

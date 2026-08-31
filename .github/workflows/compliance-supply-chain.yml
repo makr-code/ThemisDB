@@ -76,7 +76,7 @@ permissions:
 jobs:
   license-gate:
     name: License Policy Gate
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
       contents: read
@@ -136,7 +136,7 @@ jobs:
     name: Publish License Release Assets
     if: github.event_name == 'release'
     needs: license-gate
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
@@ -159,7 +159,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   sbom:
     name: SBOM Generation & Verification
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
       contents: write
@@ -275,7 +275,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   dependency-freshness:
     name: Dependency Freshness Gate
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     # Run on monthly schedule (cron '0 4 1 * *'), workflow_dispatch, or release
     if: >
@@ -426,7 +426,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   soc2-evidence:
     name: SOC 2 Evidence Export
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     permissions:
@@ -440,8 +440,14 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
       - name: Start ThemisDB container
+        env:
+          DOCKER_BUILDKIT: '0'
+          COMPOSE_DOCKER_CLI_BUILD: '0'
         run: |
-          docker compose -f docker-compose.yml up -d themis
+          test -f "${GITHUB_WORKSPACE}/LICENSE" || { echo "::error::Missing ${GITHUB_WORKSPACE}/LICENSE"; exit 1; }
+          test -d "${GITHUB_WORKSPACE}/internal" || { echo "::error::Missing ${GITHUB_WORKSPACE}/internal"; exit 1; }
+          docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" build themis
+          docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" up -d --no-build themis
           for _ in $(seq 1 30); do
             if curl -sk "${THEMIS_ADMIN_ENDPOINT}/v1/health" | grep -q "ok"; then
               echo "ThemisDB ready"; break
@@ -476,4 +482,4 @@ jobs:
 
       - name: Stop ThemisDB container
         if: always()
-        run: docker compose -f docker-compose.yml down --volumes
+        run: docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" down --volumes

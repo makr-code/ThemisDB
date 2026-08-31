@@ -46,16 +46,15 @@ TEST(HybridSearchDegradationPhase2, P2H_01_SearchStatsStructure) {
  */
 TEST(HybridSearchDegradationPhase2, P2H_02_ErrorCodeConstants) {
   // Verify error code ranges are defined
-  static_assert(SEARCH_ERR_BM25_NO_RESULTS == 0x0001);
-  static_assert(SEARCH_ERR_VECTOR_BACKEND_UNAVAILABLE == 0x0002);
-  static_assert(SEARCH_ERR_RRF_FUSION_FAILED == 0x1000);
-  static_assert(SEARCH_ERR_SHARD_TIMEOUT == 0x2000);
-  static_assert(SEARCH_ERR_EXPANSION_LIMIT_EXCEEDED == 0x3000);
+  static_assert(static_cast<uint32_t>(SearchErrorCode::BM25_NO_RESULTS) == 0x0001);
+  static_assert(static_cast<uint32_t>(SearchErrorCode::VECTOR_BACKEND_UNAVAILABLE) == 0x0005);
+  static_assert(static_cast<uint32_t>(SearchErrorCode::RRF_FUSION_FAILED) == 0x1001);
+  static_assert(static_cast<uint32_t>(SearchErrorCode::SHARD_TIMEOUT) == 0x2001);
+  static_assert(static_cast<uint32_t>(SearchErrorCode::EXPANSION_LIMIT_EXCEEDED) == 0x3001);
   
   // Verify error code conversion function exists
-  const char* msg = searchErrorCodeToString(SEARCH_ERR_BM25_NO_RESULTS);
-  EXPECT_NE(msg, nullptr);
-  EXPECT_STRNE(msg, "");
+  const std::string msg = searchErrorCodeToString(SearchErrorCode::BM25_NO_RESULTS);
+  EXPECT_FALSE(msg.empty());
 }
 
 /**
@@ -66,7 +65,7 @@ TEST(HybridSearchDegradationPhase2, P2H_03_PrimaryErrorCodeTracking) {
   HybridSearch::SearchStats stats;
   
   // Simulate BM25 failure scenario
-  stats.primary_error_code = SEARCH_ERR_BM25_NO_RESULTS;
+  stats.primary_error_code = static_cast<uint32_t>(SearchErrorCode::BM25_NO_RESULTS);
   stats.bm25_ok = false;
   stats.partial_result = true;
   
@@ -75,10 +74,10 @@ TEST(HybridSearchDegradationPhase2, P2H_03_PrimaryErrorCodeTracking) {
   EXPECT_TRUE(stats.partial_result);
   
   // Simulate vector backend failure
-  stats.primary_error_code = SEARCH_ERR_VECTOR_BACKEND_UNAVAILABLE;
+  stats.primary_error_code = static_cast<uint32_t>(SearchErrorCode::VECTOR_BACKEND_UNAVAILABLE);
   stats.vector_ok = false;
   
-  EXPECT_EQ(stats.primary_error_code, 0x0002);
+  EXPECT_EQ(stats.primary_error_code, 0x0005);
   EXPECT_FALSE(stats.vector_ok);
 }
 
@@ -91,11 +90,11 @@ TEST(HybridSearchDegradationPhase2, P2H_04_DegradationScenarios) {
   {
     HybridSearch::SearchStats stats;
     stats.fusion_failed = true;
-    stats.primary_error_code = SEARCH_ERR_RRF_FUSION_FAILED;
+    stats.primary_error_code = static_cast<uint32_t>(SearchErrorCode::RRF_FUSION_FAILED);
     stats.partial_result = true;
     
     EXPECT_TRUE(stats.fusion_failed);
-    EXPECT_EQ(stats.primary_error_code, 0x1000);
+    EXPECT_EQ(stats.primary_error_code, 0x1001);
   }
   
   // Scenario 2: Reranker fallback

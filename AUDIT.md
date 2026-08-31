@@ -23,4 +23,4 @@ Canonical audit source for this repository is the `/audit/**` tree.
 - `ai_working/**` is evidence and draft material, never canonical source of truth for release/security status claims.
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-08-17
+Zuletzt geprueft (Root-Sync): 2026-08-28

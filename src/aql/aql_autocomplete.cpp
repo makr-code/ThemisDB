@@ -163,13 +163,6 @@ const FunctionEntry kFunctions[] = {
 // Helpers
 // ============================================================================
 
-static std::string toUpper(const std::string &s) {
-    std::string out = s;
-    std::transform(out.begin(), out.end(), out.begin(),
-                   [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
-    return out;
-}
-
 static std::string aqlAutoCompleteToLower(const std::string &s) {
     std::string out = s;
     std::transform(out.begin(), out.end(), out.begin(),
@@ -384,7 +377,7 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std:
 // ============================================================================
 
 std::vector<CompletionItem> AQLAutoComplete::keywordCandidates([[maybe_unused]] const std::string &text,
-                                                               std::size_t cursor) const {
+                                                               [[maybe_unused]] std::size_t cursor) const {
     std::vector<CompletionItem> items;
 
     // Always offer clause-level keywords

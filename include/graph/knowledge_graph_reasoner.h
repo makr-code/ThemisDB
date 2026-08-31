@@ -266,7 +266,7 @@ private:
  * //                      {"bob","reports_to","carol"} ]
  * @endcode
  */
-class THEMIS_GRAPH_API KnowledgeGraphReasoner {
+class KnowledgeGraphReasoner {
 public:
     /// Default maximum inference hops per `infer()` call.
     static constexpr int kDefaultMaxHops = 5;

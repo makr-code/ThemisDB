@@ -44,7 +44,7 @@ TEST_F(AQLParserEdgeCasesTest, EmptyQueryString) {
     std::string query = "";
     auto result = parser_.parse(query);
     // Empty query should fail gracefully
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 2: Whitespace-only query
@@ -52,49 +52,49 @@ TEST_F(AQLParserEdgeCasesTest, WhitespaceOnlyQuery) {
     std::string query = "   \t\n   ";
     auto result = parser_.parse(query);
     // Whitespace-only query should fail gracefully
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 3: Invalid token at start
 TEST_F(AQLParserEdgeCasesTest, InvalidTokenAtStart) {
     std::string query = "INVALID_KEYWORD FOR doc IN users RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 4: Missing collection name
 TEST_F(AQLParserEdgeCasesTest, MissingCollectionName) {
     std::string query = "FOR doc IN RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 5: Unclosed string literal
 TEST_F(AQLParserEdgeCasesTest, UnclosedStringLiteral) {
     std::string query = "FOR doc IN users FILTER doc.name == \"unclosed RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 6: Unmatched parentheses
 TEST_F(AQLParserEdgeCasesTest, UnmatchedParentheses) {
     std::string query = "FOR doc IN users FILTER (doc.age > 18 RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 7: Unmatched brackets
 TEST_F(AQLParserEdgeCasesTest, UnmatchedBrackets) {
     std::string query = "FOR doc IN users RETURN [doc.items RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 8: Unmatched braces
 TEST_F(AQLParserEdgeCasesTest, UnmatchedBraces) {
     std::string query = "FOR doc IN users RETURN {name: doc.name RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 9: Invalid numeric literal (too large for int64)
@@ -110,7 +110,7 @@ TEST_F(AQLParserEdgeCasesTest, InvalidNumericLiteral) {
 TEST_F(AQLParserEdgeCasesTest, InvalidFloatLiteral) {
     std::string query = "FOR doc IN users FILTER doc.value == 3.14.15 RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 11: Duplicate variable binding
@@ -118,14 +118,14 @@ TEST_F(AQLParserEdgeCasesTest, DuplicateVariableBinding) {
     std::string query = "FOR doc IN users LET doc = 42 RETURN doc";
     auto result = parser_.parse(query);
     // This should fail because 'doc' is already bound by FOR
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 12: Invalid operator sequence
 TEST_F(AQLParserEdgeCasesTest, InvalidOperatorSequence) {
     std::string query = "FOR doc IN users FILTER doc.age > > 18 RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 // ============================================================================
@@ -138,7 +138,7 @@ TEST_F(AQLParserEdgeCasesTest, ModeratelyNestedExpression) {
         "((((doc.age > 18 AND doc.active == true) OR doc.vip == true) AND doc.status != \"deleted\") "
         "OR doc.admin == true) RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_TRUE(result.ok());
+    EXPECT_TRUE(result.has_value());
 }
 
 /// Test 14: Deeply nested expression (may hit depth limit)
@@ -166,7 +166,7 @@ TEST_F(AQLParserEdgeCasesTest, NestedFunctionCalls) {
         "  nested: UPPER(LOWER(TRIM(CONCAT(doc.first, ' ', doc.last)))) "
         "} ";
     auto result = parser_.parse(query);
-    EXPECT_TRUE(result.ok());
+    EXPECT_TRUE(result.has_value());
 }
 
 /// Test 16: Deeply nested array construction
@@ -174,7 +174,7 @@ TEST_F(AQLParserEdgeCasesTest, DeeplyNestedArrayConstruction) {
     std::string query = "FOR doc IN users RETURN "
         "[[[[[[[[[[doc.id, doc.name, doc.email, doc.phone]]]]]]]]]]";
     auto result = parser_.parse(query);
-    EXPECT_TRUE(result.ok());
+    EXPECT_TRUE(result.has_value());
 }
 
 // ============================================================================
@@ -185,49 +185,49 @@ TEST_F(AQLParserEdgeCasesTest, DeeplyNestedArrayConstruction) {
 TEST_F(AQLParserEdgeCasesTest, MissingReturnClause) {
     std::string query = "FOR doc IN users FILTER doc.age > 18";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 18: Multiple RETURN clauses
 TEST_F(AQLParserEdgeCasesTest, MultipleReturnClauses) {
     std::string query = "FOR doc IN users RETURN doc RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 19: FILTER with invalid condition
 TEST_F(AQLParserEdgeCasesTest, FilterWithoutCondition) {
     std::string query = "FOR doc IN users FILTER RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 20: LET without assignment
 TEST_F(AQLParserEdgeCasesTest, LetWithoutAssignment) {
     std::string query = "FOR doc IN users LET RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 21: SORT without expression
 TEST_F(AQLParserEdgeCasesTest, SortWithoutExpression) {
     std::string query = "FOR doc IN users SORT RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 22: LIMIT with invalid arguments
 TEST_F(AQLParserEdgeCasesTest, LimitWithInvalidArguments) {
     std::string query = "FOR doc IN users LIMIT abc RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 /// Test 23: Incomplete graph traversal
 TEST_F(AQLParserEdgeCasesTest, IncompleteGraphTraversal) {
     std::string query = "FOR doc IN GRAPH RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.has_value());
 }
 
 // ============================================================================
@@ -332,14 +332,14 @@ TEST_F(AQLParserEdgeCasesTest, ReadQueryPassesSafetyValidation) {
 TEST_F(AQLParserEdgeCasesTest, ValidSimpleQuery) {
     std::string query = "FOR doc IN users RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_TRUE(result.ok());
+    EXPECT_TRUE(result.has_value());
 }
 
 /// Test 34: Collection name with special characters
 TEST_F(AQLParserEdgeCasesTest, CollectionNameWithSpecialCharacters) {
     std::string query = "FOR doc IN users_v2_2024 RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_TRUE(result.ok());
+    EXPECT_TRUE(result.has_value());
 }
 
 /// Test 35: Variable name shadowing
@@ -349,7 +349,7 @@ TEST_F(AQLParserEdgeCasesTest, VariableNameShadowing) {
         "RETURN doc";
     auto result = parser_.parse(query);
     // Should handle shadowing correctly
-    EXPECT_TRUE(result.ok());
+    EXPECT_TRUE(result.has_value());
 }
 
 /// Test 36: Complex filter with multiple AND/OR conditions
@@ -360,7 +360,7 @@ TEST_F(AQLParserEdgeCasesTest, ComplexFilterWithMultipleConditions) {
         "OR (doc.vip == true) "
         "RETURN doc";
     auto result = parser_.parse(query);
-    EXPECT_TRUE(result.ok());
+    EXPECT_TRUE(result.has_value());
 }
 
 /// Test 37: COLLECT with aggregation functions
@@ -370,7 +370,7 @@ TEST_F(AQLParserEdgeCasesTest, CollectWithAggregationFunctions) {
         "AGGREGATE total = SUM(doc.amount), count = COUNT(), avg = AVG(doc.price) "
         "RETURN { category, total, count, avg }";
     auto result = parser_.parse(query);
-    EXPECT_TRUE(result.ok());
+    EXPECT_TRUE(result.has_value());
 }
 
 /// Test 38: Subquery in LET clause
@@ -379,7 +379,7 @@ TEST_F(AQLParserEdgeCasesTest, SubqueryInLetClause) {
         "LET orders = (FOR o IN orders FILTER o.user_id == doc.id RETURN o) "
         "RETURN { user: doc, orders }";
     auto result = parser_.parse(query);
-    EXPECT_TRUE(result.ok());
+    EXPECT_TRUE(result.has_value());
 }
 
 /// Test 39: Graph traversal with depth constraints
@@ -387,7 +387,7 @@ TEST_F(AQLParserEdgeCasesTest, GraphTraversalWithDepthConstraints) {
     std::string query = "FOR v, e IN 1..3 OUTBOUND @start_vertex @edge_collection "
         "RETURN {vertex: v, edge: e}";
     auto result = parser_.parse(query);
-    EXPECT_TRUE(result.ok());
+    EXPECT_TRUE(result.has_value());
 }
 
 // ============================================================================

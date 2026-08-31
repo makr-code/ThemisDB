@@ -121,9 +121,7 @@ if(MSVC)
     # Skip ABI detection for sub-projects to avoid deep CMakeScratch directories
     set(CMAKE_C_COMPILER_WORKS ON CACHE BOOL "C compiler pre-validated" FORCE)
     set(CMAKE_CXX_COMPILER_WORKS ON CACHE BOOL "CXX compiler pre-validated" FORCE)
-    
-    # Use config-style package discovery to avoid deep library searches
-    set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON CACHE BOOL "Prefer -config.cmake over Find modules" FORCE)
+
 endif()
 
 # 4. EXTERNAL PROJECT PATH FLATTENING FUNCTION
@@ -173,8 +171,9 @@ endif()
 # GPU backend auto-discovery (no preset branching required).
 # Semantics: THEMIS_ENABLE_GPU=ON means "probe all supported frameworks and
 # enable what is available", with CPU fallback always present at runtime.
+# Default: CPU-only baseline. Explicit enablement is required for GPU builds.
 if(NOT DEFINED THEMIS_ENABLE_GPU)
-    set(THEMIS_ENABLE_GPU ON CACHE BOOL "Enable GPU acceleration for vector search (default ON)")
+    set(THEMIS_ENABLE_GPU OFF CACHE BOOL "Enable GPU acceleration for vector search (default OFF)")
 endif()
 option(THEMIS_GPU_AUTO_DETECT "Auto-detect CUDA/HIP/Vulkan backends when THEMIS_ENABLE_GPU=ON" ON)
 
@@ -470,12 +469,13 @@ option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks" OFF)
 option(THEMIS_BUILD_CHIMERA "Build CHIMERA adapters, focused tests, and benchmark integration" OFF)
 
 # GPU and LLM defaults (can be overridden via -D flags)
-# GPU acceleration includes FAISS, OpenBLAS, LAPACK via vcpkg
+# CPU-only baseline is the default for local build/test/benchmark workflows.
+# GPU and LLM are enabled explicitly when needed.
 if(NOT DEFINED THEMIS_ENABLE_GPU)
-    set(THEMIS_ENABLE_GPU ON CACHE BOOL "Enable GPU acceleration for vector search (default ON)" )
+    set(THEMIS_ENABLE_GPU OFF CACHE BOOL "Enable GPU acceleration for vector search (default OFF)" )
 endif()
 if(NOT DEFINED THEMIS_ENABLE_LLM)
-    set(THEMIS_ENABLE_LLM ON CACHE BOOL "Enable LLM plugin support with llama.cpp (default ON)" )
+    set(THEMIS_ENABLE_LLM OFF CACHE BOOL "Enable LLM plugin support with llama.cpp (default OFF)" )
 endif()
 
 option(THEMIS_ENABLE_TRACING "Enable OpenTelemetry distributed tracing" ON)
@@ -1816,11 +1816,7 @@ if(THEMIS_ENABLE_GDAL)
     endif()
 endif()
 
-# Include directories
-include_directories(
-    ${THEMIS_ROOT_DIR}/include
-    ${THEMIS_ROOT_DIR}/src
-)
+# Common include directories are applied in target scope (themis_core/modules).
 
 # Copy runtime config files into the build directory so tests and local runs
 # can find `config/*` when executed from ${CMAKE_BINARY_DIR} (common when
@@ -2221,6 +2217,10 @@ set(THEMIS_CORE_SOURCES
     ../src/query/functions/udf_registry.cpp
     ../src/prompt_engineering/prompt_manager.cpp
     ../src/prompt_engineering/prompt_engineering_metrics.cpp
+    ../src/prompt_engineering/rewrite_engine.cpp
+    ../src/prompt_engineering/rewrite_rule_base.cpp
+    ../src/prompt_engineering/rewrite_rule_loader.cpp
+    ../src/prompt_engineering/rewrite_metrics.cpp
     ../src/prompt_engineering/feedback_collector.cpp
     ../src/prompt_engineering/prompt_evaluator.cpp
     ../src/prompt_engineering/meta_prompt_generator.cpp
@@ -2546,6 +2546,7 @@ set(THEMIS_CORE_SOURCES
     ../src/replication/schema_cdc.cpp
     ../src/replication/multi_tier_replication.cpp
     ../src/replication/logical_replication.cpp
+    ../src/replication/async_wal_shipper.cpp
     
     # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp
@@ -2676,6 +2677,7 @@ set(THEMIS_CORE_SOURCES
     ../src/search/query_expander.cpp
     ../src/search/fuzzy_matcher.cpp
     ../src/search/faceted_search.cpp
+    ../src/search/search_highlighter.cpp
     ../src/search/search_analytics.cpp
     ../src/search/autocomplete.cpp
     ../src/search/learning_to_rank.cpp
@@ -3772,6 +3774,20 @@ if(THEMIS_BUILD_MODULAR)
     # Create themis_core as an interface library that links all modules
     # This maintains compatibility with existing code that links to themis_core
     add_library(themis_core INTERFACE)
+    target_include_directories(themis_core INTERFACE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${CMAKE_BINARY_DIR}/proto_generated
+    )
+    if(THEMIS_GENERATED_INCLUDE_DIR)
+        target_include_directories(themis_core INTERFACE "${THEMIS_GENERATED_INCLUDE_DIR}")
+    endif()
+    if(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR)
+        target_include_directories(themis_core SYSTEM INTERFACE "${THEMIS_VCPKG_INCLUDE_FALLBACK_DIR}")
+    endif()
+    if(THEMIS_GLOBAL_COMPILE_DEFINITIONS)
+        target_compile_definitions(themis_core INTERFACE ${THEMIS_GLOBAL_COMPILE_DEFINITIONS})
+    endif()
     target_link_libraries(themis_core INTERFACE ${THEMIS_ALL_MODULES})
     foreach(_themis_mod IN ITEMS
         themis_base
@@ -3841,6 +3857,16 @@ target_include_directories(themis_core
         ${THEMIS_ROOT_DIR}/src
         ${CMAKE_BINARY_DIR}/proto_generated
 )
+
+if(THEMIS_GENERATED_INCLUDE_DIR)
+    target_include_directories(themis_core PRIVATE "${THEMIS_GENERATED_INCLUDE_DIR}")
+endif()
+if(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR)
+    target_include_directories(themis_core SYSTEM PRIVATE "${THEMIS_VCPKG_INCLUDE_FALLBACK_DIR}")
+endif()
+if(THEMIS_GLOBAL_COMPILE_DEFINITIONS)
+    target_compile_definitions(themis_core PUBLIC ${THEMIS_GLOBAL_COMPILE_DEFINITIONS})
+endif()
 
 if(THEMIS_HAS_IO_URING AND THEMIS_IO_URING_LIB)
     target_link_libraries(themis_core PRIVATE ${THEMIS_IO_URING_LIB})
@@ -3989,11 +4015,14 @@ if(THEMIS_GEO_HIP)
 endif()
 
 # Graphics API backends
+# graphics_backends.cpp provides the always-available backend abstractions and
+# stub-safe implementations used by backend_registry.cpp, so it must be linked
+# even when the high-level GPU feature flag is OFF.
+list(APPEND THEMIS_ACCELERATION_SOURCES
+    ../src/acceleration/graphics_backends.cpp
+)
+
 if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
-    list(APPEND THEMIS_ACCELERATION_SOURCES
-        ../src/acceleration/graphics_backends.cpp
-    )
-    
     if(THEMIS_ENABLE_DIRECTX)
         # Add DirectX 12 compute pipeline sources
         list(APPEND THEMIS_ACCELERATION_SOURCES
@@ -4065,14 +4094,26 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
                     VERBATIM
                 )
                 
-                # Custom target to compile all shaders
-                add_custom_target(directx_shaders ALL
-                    DEPENDS
-                        ${SHADER_OUTPUT_DIR}/matmul.cso
-                        ${SHADER_OUTPUT_DIR}/elementwise.cso
-                        ${SHADER_OUTPUT_DIR}/gradient.cso
-                    COMMENT "Building DirectX shaders"
-                )
+                # Custom target to compile all shaders.
+                # For faster debug/test loops this target can be opt-in via
+                # THEMIS_EAGER_SHADER_BUILD=OFF.
+                if(THEMIS_EAGER_SHADER_BUILD)
+                    add_custom_target(directx_shaders ALL
+                        DEPENDS
+                            ${SHADER_OUTPUT_DIR}/matmul.cso
+                            ${SHADER_OUTPUT_DIR}/elementwise.cso
+                            ${SHADER_OUTPUT_DIR}/gradient.cso
+                        COMMENT "Building DirectX shaders"
+                    )
+                else()
+                    add_custom_target(directx_shaders
+                        DEPENDS
+                            ${SHADER_OUTPUT_DIR}/matmul.cso
+                            ${SHADER_OUTPUT_DIR}/elementwise.cso
+                            ${SHADER_OUTPUT_DIR}/gradient.cso
+                        COMMENT "Building DirectX shaders (on-demand)"
+                    )
+                endif()
                 
                 # Install shaders to output directory
                 install(FILES
@@ -4083,8 +4124,10 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
                     COMPONENT shaders
                 )
                 
-                # Make themis_core depend on shader compilation
-                add_dependencies(themis_core directx_shaders)
+                # Optional strict dependency: keep OFF for faster debug/test loops.
+                if(THEMIS_REQUIRE_SHADER_ARTIFACTS)
+                    add_dependencies(themis_core directx_shaders)
+                endif()
                 
                 # Compile ANN/Geospatial HLSL shaders (l2_distance, cosine_distance, etc.)
                 if(EXISTS "${CMAKE_SOURCE_DIR}/src/acceleration/directx/shaders/CMakeLists.txt")
@@ -4154,11 +4197,14 @@ endif()
 
 # Vulkan full backend (cross-platform GPU compute)
 if(THEMIS_ENABLE_VULKAN)
-    list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/vulkan_backend_full.cpp)
     message(STATUS "Vulkan full backend enabled (cross-platform GPU compute)")
 endif()
 
-# Add acceleration sources to core if any were selected
+# Avoid duplicate translation units when multiple feature blocks add the same
+# acceleration sources (for example Vulkan+graphics backends on the same build).
+# Duplicate source entries create stale object/link state and can produce false
+# unresolved-symbol failures even when the corresponding implementation exists.
+list(REMOVE_DUPLICATES THEMIS_ACCELERATION_SOURCES)
 _themis_normalize_sources(THEMIS_ACCELERATION_SOURCES)
 if(THEMIS_ACCELERATION_SOURCES)
     target_sources(themis_core PRIVATE ${THEMIS_ACCELERATION_SOURCES})

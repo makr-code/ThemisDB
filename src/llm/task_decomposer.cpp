@@ -78,8 +78,10 @@ std::vector<const WorkflowStep*> WorkflowDefinition::topologicalOrder() const {
     }
 
     std::vector<std::string> queue;
-    for (const auto& [id, deg] : in_degree) {
-        if (deg == 0) queue.push_back(id);
+    for (const auto& entry : in_degree) {
+        const std::string& node_id = entry.first;
+        const int degree = entry.second;
+        if (degree == 0) queue.push_back(node_id);
     }
 
     std::vector<const WorkflowStep*> result;

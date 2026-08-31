@@ -48,20 +48,23 @@ using namespace std::chrono_literals;
 static void run_concurrent(unsigned n_threads, std::function<void(unsigned /*tid*/)> fn) {
     std::vector<std::thread> workers;
     workers.reserve(n_threads);
-    std::atomic<std::exception_ptr> first_exc{nullptr};
+    std::exception_ptr first_exc = nullptr;
+    std::mutex first_exc_mutex;
 
     for (unsigned tid = 0; tid < n_threads; ++tid) {
-        workers.emplace_back([&fn, &first_exc, tid] {
+        workers.emplace_back([&fn, &first_exc, &first_exc_mutex, tid] {
             try {
                 fn(tid);
             } catch (...) {
-                std::exception_ptr expected = nullptr;
-                first_exc.compare_exchange_strong(expected, std::current_exception());
+                std::lock_guard<std::mutex> lock(first_exc_mutex);
+                if (!first_exc) {
+                    first_exc = std::current_exception();
+                }
             }
         });
     }
     for (auto& t : workers) { t.join(); }
-    if (first_exc.load()) { std::rethrow_exception(first_exc.load()); }
+    if (first_exc) { std::rethrow_exception(first_exc); }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -223,15 +226,15 @@ TEST(UtilsStressConcurrency, CONC06_ErrorRegistryConcurrentReadWrite) {
     constexpr int kWriters  = 2;
     constexpr int kOpsEach  = 50;
 
-    auto& reg = ErrorRegistry::getInstance();
+    auto& reg = themis::errors::ErrorRegistry::getInstance();
 
     // Writers register new error codes (use codes unlikely to collide with production)
     run_concurrent(kWriters + kReaders, [&](unsigned tid) {
         if (tid < static_cast<unsigned>(kWriters)) {
             // Writer path
             for (int i = 0; i < kOpsEach; ++i) {
-                ErrorMetadata meta;
-                meta.code             = static_cast<ErrorCode>(9900 + tid * 100 + i);
+                themis::errors::ErrorMetadata meta;
+                meta.code             = static_cast<themis::errors::ErrorCode>(9900 + tid * 100 + i);
                 meta.category         = "utils/stress";
                 meta.severity         = "Warning";
                 meta.message_template = fmt::format("Stress writer {} code {}", tid, i);
@@ -242,7 +245,7 @@ TEST(UtilsStressConcurrency, CONC06_ErrorRegistryConcurrentReadWrite) {
         } else {
             // Reader path: look up existing codes repeatedly
             for (int i = 0; i < kOpsEach * 4; ++i) {
-                auto result = reg.getError(static_cast<ErrorCode>(9000)); // known base code
+                auto result = reg.getError(static_cast<themis::errors::ErrorCode>(9000)); // known base code
                 (void)result;
             }
         }

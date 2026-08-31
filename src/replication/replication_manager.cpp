@@ -574,13 +574,13 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                     // unsigned wrap can produce a false match.  __builtin_mul_overflow
                     // is additionally applied to the vector allocation so that any
                     // future change to the element type is caught at compile time.
-                    size_t alloc_bytes = 0;
-                    if (__builtin_mul_overflow(static_cast<size_t>(len),
-                                               sizeof(uint8_t), &alloc_bytes)) {
+                    const size_t element_size = sizeof(uint8_t);
+                    if (static_cast<size_t>(len) > (std::numeric_limits<size_t>::max() / element_size)) {
                         THEMIS_ERROR("WAL segment {}: allocation-size overflow for "
                                      "len={}, skipping entry", seg_path_copy, len);
                         break;
                     }
+                    const size_t alloc_bytes = static_cast<size_t>(len) * element_size;
                     std::vector<uint8_t> data(alloc_bytes);
                     ifs.read(reinterpret_cast<char*>(data.data()),
                              static_cast<std::streamsize>(len));

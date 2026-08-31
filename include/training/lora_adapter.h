@@ -96,6 +96,8 @@ public:
 
     LoRAAdapter(const LoRAAdapter&)            = delete;
     LoRAAdapter& operator=(const LoRAAdapter&) = delete;
+    LoRAAdapter(LoRAAdapter&&) noexcept;
+    LoRAAdapter& operator=(LoRAAdapter&&) noexcept;
 
     // -------------------------------------------------------------------------
     // Layer management

@@ -119,7 +119,6 @@ scopes:
       - '*.cmake'
       - 'CMakeLists.txt'
       - '.github/workflows/**'
-      - '.github/no_workflows/**'
       - '.github/ci-scope-config.yaml'
       - '.github/scripts/**'
       - '.github/labeler.yml'
@@ -151,15 +150,14 @@ scopes:
 # `paths:` and dedicated guards rather than a global scope-classifier workflow.
 workflow_scope_map:
   # Active workflows and their required scope signals.
-  # Quarantined workflow entries removed — see .github/no_workflows/.
   ci-benchmarks:                [has_llm_changes, has_acceleration_changes, has_gpu_changes]
   copilot-ollama-router-ci:     [has_code_changes]
   copilot-regression-guard:     [has_code_changes, has_config_changes]
-  quality-static-analysis:      [has_code_changes, has_config_changes]
+  gate-pr-doxygen-governance:   [has_code_changes, has_config_changes]
 
 # ── Quality gate tuning ─────────────────────────────────────────────────────
 # Maintainer knob for Doxygen XML coverage threshold used by
-# .github/workflows/quality-static-analysis.yml (doxygen-coverage job).
+# .github/workflows/gate-pr-doxygen-governance.yml.
 # Increase gradually (recommended): 95 -> 97 -> 99.
 # Raised to 95 after @brief coverage improvement (Classes: 99.9%, 2026-08-12).
 quality_gates:

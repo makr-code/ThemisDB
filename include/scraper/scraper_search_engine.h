@@ -110,8 +110,8 @@ public:
      */
     virtual SearchResultPage parseResults(
         const std::string& html,
-        const std::string& base_url,
-        const std::string& selector = "") const = 0;
+        [[maybe_unused]] const std::string& base_url,
+        [[maybe_unused]] const std::string& selector = "") const = 0;
 
     /**
      * @brief Build the URL (or POST body) to submit a search form.
@@ -158,8 +158,8 @@ public:
 
     SearchResultPage parseResults(
         const std::string& html,
-        const std::string& base_url,
-        const std::string& selector = "") const override;
+        [[maybe_unused]] const std::string& base_url,
+        [[maybe_unused]] const std::string& selector = "") const override;
 
     std::string buildSearchUrl(
         const SearchForm& form,

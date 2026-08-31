@@ -71,10 +71,11 @@ class TransactionSAGAPhase2Test : public ::testing::Test {
 protected:
     void SetUp() override {
         orchestrator_ = std::make_unique<SAGAOrchestrator>(
-            SAGAOrchestrator::OrchestratorOptions{
-                .max_concurrent_steps = 4,
-                .step_timeout_ms = 2000,
-                .max_retries = 3
+            SAGAOrchestratorConfig{
+                .enable_parallel = true,
+                .default_timeout = std::chrono::milliseconds(2000),
+                .default_retry_delay = std::chrono::milliseconds(1000),
+                .circuit_breaker_threshold = 3
             }
         );
     }

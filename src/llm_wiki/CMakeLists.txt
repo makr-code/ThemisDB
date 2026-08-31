@@ -9,6 +9,9 @@ add_library(themis_llm_wiki STATIC
     workspace_state_manager.cpp
     edition_gate.cpp
     process_policy_manager.cpp
+    wikipedia/wiki_workspace_orchestrator.cpp
+    wikipedia/llm_wiki_plugin_impl.cpp
+    wikipedia/llm_wiki_plugin_factory.cpp
     rocksdb_wiki_store.cpp
 )
 

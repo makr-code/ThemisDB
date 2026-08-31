@@ -1,5 +1,13 @@
 # Next Wave Implementation Plan — 2026-08-26
 
+> **Status Sync (2026-08-26, source-verified):**
+> - N1 (`voice`) ✅ abgeschlossen (Wave-A V1/V2/V3 in `src/voice/ROADMAP.md`)
+> - N2 (`analytics`) ✅ abgeschlossen (AN1/AN2 + tests in `src/analytics/ROADMAP.md`)
+> - N4 (`llm_wiki`) ✅ abgeschlossen (`RocksDbWikiStore` + persistence tests)
+> - N3 (`llm` thread-safety top-20) bleibt als eigenständiger Folgeblock offen
+>
+> Diese Datei ist Planungs-/Verlaufsdoku. Der kanonische Status liegt in den Modul-ROADMAPs und `/audit`.
+
 ## Context
 Wave 5 gap closure complete (81/81 checkboxes [x] in MODULE_GAP_ANALYSIS_WAVE2.md).
 This plan targets Wave A closure + Wave B deferred production code gaps.

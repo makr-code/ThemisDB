@@ -17,7 +17,7 @@
 #include <chrono>
 #include <sstream>
 
-#include "core/logger.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace access_model {
@@ -228,19 +228,14 @@ bool AgeBasedPolicy::isValid() const {
     // Ensure thresholds are consistent and non-zero
     if (l1_promotion_threshold == 0 || l2_promotion_threshold == 0 ||
         l3_promotion_threshold == 0 || storage_promotion_threshold == 0) {
-        themis::core::Logger* logger =
-            themis::core::getOrCreateLogger("access_model");
-        logger->warn(
-            "Invalid AgeBasedPolicy: access thresholds must be non-zero");
+        THEMIS_WARN("Invalid AgeBasedPolicy: access thresholds must be non-zero");
         return false;
     }
 
     // Thresholds should decrease as we go down tiers (more aggressive)
     if (!(l1_promotion_threshold > l2_promotion_threshold &&
           l2_promotion_threshold > l3_promotion_threshold)) {
-        themis::core::Logger* logger =
-            themis::core::getOrCreateLogger("access_model");
-        logger->warn(
+        THEMIS_WARN(
             "Invalid AgeBasedPolicy: access thresholds not in decreasing order "
             "({} > {} > {})",
             l1_promotion_threshold, l2_promotion_threshold,
@@ -251,9 +246,7 @@ bool AgeBasedPolicy::isValid() const {
     // Age thresholds should increase as we go down tiers (longer grace periods)
     if (!(l1_zero_access_days < l2_zero_access_days &&
           l2_zero_access_days < l3_to_storage_days)) {
-        themis::core::Logger* logger =
-            themis::core::getOrCreateLogger("access_model");
-        logger->warn(
+        THEMIS_WARN(
             "Invalid AgeBasedPolicy: age thresholds not in increasing order "
             "({} < {} < {})",
             l1_zero_access_days, l2_zero_access_days, l3_to_storage_days);
@@ -262,9 +255,7 @@ bool AgeBasedPolicy::isValid() const {
 
     // Storage age progression should be consistent
     if (!(hot_to_warm_days < warm_to_cold_days)) {
-        themis::core::Logger* logger =
-            themis::core::getOrCreateLogger("access_model");
-        logger->warn(
+        THEMIS_WARN(
             "Invalid AgeBasedPolicy: storage age not in order hot={}, "
             "warm={}, cold={}",
             hot_to_warm_days, warm_to_cold_days, warm_to_cold_days);

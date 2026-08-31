@@ -44,18 +44,18 @@ using namespace themis::utils;
 
 namespace {
 
-AuditLoggerConfig makeTestConfig(const std::string &log_path) {
+AuditLoggerConfig makeTestConfig(const std::filesystem::path &log_path) {
     AuditLoggerConfig cfg;
     cfg.enabled           = true;
     cfg.encrypt_then_sign = false;
-    cfg.log_path          = log_path;
+    cfg.log_path          = log_path.string();
     cfg.key_id            = "test";
     cfg.enable_hash_chain = false;
     cfg.enable_siem       = false;
     return cfg;
 }
 
-size_t countLogLines(const std::string &path) {
+size_t countLogLines(const std::filesystem::path &path) {
     std::ifstream f(path);
     size_t n = 0;
     std::string line;
@@ -72,7 +72,7 @@ size_t countLogLines(const std::string &path) {
 
 class Wave4BPasskeyAuditTest : public ::testing::Test {
 protected:
-    std::string log_path_;
+    std::filesystem::path log_path_;
     std::unique_ptr<AuditLogger>    ul_;
     std::unique_ptr<AuthAuditLogger> al_;
     std::unique_ptr<PasskeyAuthenticator> auth_;
@@ -129,7 +129,7 @@ TEST_F(Wave4BPasskeyAuditTest, A1_SuccessPathLogsPasskeySuccess) {
 
 class Wave4BMTLSAuditTest : public ::testing::Test {
 protected:
-    std::string log_path_;
+    std::filesystem::path log_path_;
     std::unique_ptr<AuditLogger>    ul_;
     std::unique_ptr<AuthAuditLogger> al_;
 
@@ -175,7 +175,7 @@ TEST_F(Wave4BMTLSAuditTest, A2_InvalidCertEmitsNoAuditEvent) {
 
 class Wave4BAuditLoggerNewEventsTest : public ::testing::Test {
 protected:
-    std::string log_path_;
+    std::filesystem::path log_path_;
     std::unique_ptr<AuditLogger>     ul_;
     std::unique_ptr<AuthAuditLogger> al_;
 
@@ -224,7 +224,7 @@ TEST_F(Wave4BAuditLoggerNewEventsTest, A4_NoopWhenLoggerIsNull) {
 
 class Wave4BJWTKeyRotationAuditTest : public ::testing::Test {
 protected:
-    std::string log_path_;
+    std::filesystem::path log_path_;
     std::unique_ptr<AuditLogger>   ul_;
 
     void SetUp() override {
@@ -514,7 +514,7 @@ TEST(Wave4BMTLSHardening, C2_MissingEKURejected) {
 // ===========================================================================
 
 TEST(Wave4BPasskeyAuditExtra, A7_LogPasskeyRegisteredOnCompleteRegistration) {
-    const std::string log_path =
+    const std::filesystem::path log_path =
         std::filesystem::temp_directory_path() / "wave4b_a7.log";
     std::filesystem::remove(log_path);
 

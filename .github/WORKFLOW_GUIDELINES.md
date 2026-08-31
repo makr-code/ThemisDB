@@ -3,10 +3,8 @@
 ## Scope
 Diese Richtlinie gilt fuer den schlanken, release-zentrierten Workflow-Kern.
 Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
-Workflows unter `.github/no_workflows/` gelten als bewusst deaktivierte Quarantaene und
-duerfen nicht stillschweigend reaktiviert werden.
 
-## Aktive Workflows (40)
+## Aktive Workflows (43)
 Die aktuelle kanonische Liste steht in `.github/WORKFLOW_REGISTRY.md`; der alte 21er-Stand war veraltet und wird hier durch den aktuellen, im Repository geltenden Zustand ersetzt.
 
 Kernliste der aktiven Workflows:
@@ -21,6 +19,7 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/build-content-regression.yml`
 - `.github/workflows/build-llm-inference.yml`
 - `.github/workflows/gate-pr-core.yml`
+- `.github/workflows/gate-pr-doxygen-governance.yml`
 - `.github/workflows/release-build-matrix.yml`
 - `.github/workflows/release-mainline.yml`
 - `.github/workflows/build-widget.yml`
@@ -29,10 +28,12 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/compliance-supply-chain.yml`
 - `.github/workflows/build-ollama-router.yml`
 - `.github/workflows/gate-copilot-regression.yml`
+- `.github/workflows/publish-wiki.yml`
 - `.github/workflows/release-docker-image.yml`
 - `.github/workflows/edition-hyperscaler-ci.yml`
 - `.github/workflows/security-fortify.yml`
 - `.github/workflows/security-fuzzing.yml`
+- `.github/workflows/sanitizer-nightly.yml`
 - `.github/workflows/compliance-governance-gates.yml`
 - `.github/workflows/maintenance-ai-working.yml`
 - `.github/workflows/maintenance-build-issues.yml`
@@ -52,13 +53,8 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/gate-distributed-knowledge.yml`
 - `.github/workflows/gate-pr-version-targeting.yml`
 
-Archiviert in `.github/no_workflows/` (im Zuge Workflow Framework Refactoring):
-  `security.yml`, `security-scanning.yml`, `security-scan.yml`,
-  `maintenance-gs3-gaps.yml`, `maintenance-security-alerts.yml`
-
 ## Harte Grenzen fuer neue oder reaktivierte CI
 - Default ist `kein neuer Workflow`. Bevorzuge einen neuen Job in einem bestehenden Workflow.
-- Alles unter `.github/no_workflows/` bleibt deaktiviert, bis eine explizite Reaktivierungsentscheidung dokumentiert ist.
 - Jeder reaktivierte Workflow braucht einen klar benannten Owner, ein Ablaufdatum fuer die naechste Review und einen Abschaltplan.
 - Pull-Request-Trigger sind nur zulaessig, wenn `branches:` und `paths:` beide eng begrenzt sind.
 - `paths:` duerfen nur datei- oder modulspezifische Bereiche enthalten. Globale Trigger wie `src/**`, `include/**`, `**/*.md` oder Repo-weit wirksame Sammelmuster sind fuer neue PR-Workflows nicht zulaessig.
@@ -66,7 +62,6 @@ Archiviert in `.github/no_workflows/` (im Zuge Workflow Framework Refactoring):
 - Schwere Jobs muessen `workflow_dispatch` oder `schedule` bevorzugen. Sie duerfen nicht bei jedem PR-Sync anlaufen.
 - Jeder PR-Workflow braucht `concurrency` mit workflow/ref-Gruppierung und `cancel-in-progress: true`.
 - Jeder Workflow muss minimale `permissions` setzen und darf keine impliziten Default-Rechte nutzen.
-- Wenn Triggergrenzen nicht knapp und messbar formulierbar sind, bleibt der Workflow in `.github/no_workflows/`.
 - Reaktivierungen oder neue Workflow-Dateien muessen den `Workflow Boundary Guard` passieren, bevor sie aktiv bleiben duerfen.
 
 ## Reaktivierungs-Checkliste
@@ -83,7 +78,6 @@ Archiviert in `.github/no_workflows/` (im Zuge Workflow Framework Refactoring):
 - Ein Benchmark-, Audit- oder Nightly-Workflow als Required PR Check.
 - Trigger auf Dokumentationsaenderungen fuer Build-, Security- oder Performance-Jobs.
 - Neue Schatten-CI in Form von fast identischen Kopien bestehender Build- oder Testlogik.
-- Reaktivierung aus `.github/no_workflows/`, ohne die Ursache fuer die frueheren Uebertrigger zu dokumentieren.
 
 ## Naming Conventions
 - Behalte das kanonische, prefixfreie `<domain>-<purpose>[-<scope>].yml`-Schema aus `WORKFLOW_FRAMEWORK_DESIGN.md` bei.
@@ -102,7 +96,7 @@ Archiviert in `.github/no_workflows/` (im Zuge Workflow Framework Refactoring):
 - Publish-Workflows nur ueber Tag- oder Environment-Gates freigeben.
 - Third-party Actions auf immutable Commit-SHAs pinnen (SHA-only, kein `@vX.Y.Z` Tag als einzige Referenz).
   Beispiel: `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2`
-  Enforcement: `actionlint` + SHA-Pin-Prüfung in `quality-static-analysis.yml`.
+  Enforcement: `gate-pr-core.yml` Preflight-Checks + lokales `actionlint` via `scripts/test-github-actions-local.ps1`.
 - Compliance-Gates fuer Dependencies muessen branch- und pfadbegrenzt sein und ein downloadbares Audit-Artefakt erzeugen.
 - OIDC-basierte Authentifizierung (kein long-lived PAT) fuer ghcr.io und neue Registry-Ziele.
 
@@ -111,7 +105,7 @@ Archiviert in `.github/no_workflows/` (im Zuge Workflow Framework Refactoring):
 - `.github/actions/setup-python-script/`  — Reusable checkout→python→script→upload pattern (ersetzt 21× Duplizierung)
 - `.github/actions/status-flags-and-issues/`  — Kanonische Schnittstelle für Issue-/PR-Kommentare, Labels und Status-Tracker; ersetzt direkte `github.rest.issues.*`/`createComment`-Blöcke in Workflows.
 - `.github/actions/manage-governance-issue/`  — Kanonische create/update/close Issue-Action (aktuell noch nicht von Workflows verwendet; kanon. Referenz für künftige Migrations)
-- `build-mainline.yml` und `maintenance-cache-warming.yml` nutzen `mozilla-actions/sccache-action` mit `SCCACHE_GHA_ENABLED=true`.
+- `build-mainline.yml` nutzt `mozilla-actions/sccache-action` mit `SCCACHE_GHA_ENABLED=true`.
 - CMake muss mit `-DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache` konfiguriert werden.
 - Cache-Warming erfolgt wöchentlich (montags 00:00 UTC) für Linux (GCC) und Windows (MSVC).
 - Erwartete Wiedertreffer-Rate: 60–80% bei unveränderter Toolchain + vcpkg-Baseline.
@@ -251,8 +245,11 @@ Damit bleiben Ergebnisse reproduzierbar und lassen sich nach dem Lauf mit
 
 ## Doxygen Coverage Threshold (Maintainer)
 - Der Doxygen-Coverage-Gate liest den Schwellwert zentral aus `.github/ci-scope-config.yaml` unter `quality_gates.docs_coverage_threshold`.
-- Standardwert ist `90`.
-- Empfohlene stufenweise Anhebung: `90 -> 92 -> 95`.
+- Kanonische CI-Konfiguration ist `Doxyfile.audit`; der PR-Gate-Workflow verwendet eine daraus abgeleitete, modul-scoped Laufkonfiguration.
+- Aktueller Standardwert ist `95`.
+- Empfohlene stufenweise Anhebung ab diesem Stand: `95 -> 97 -> 99`.
+- Strukturfehler (`@brief`, `@param`, `@return`, fehlender Doxygen-Block, Doxygen-Warnungen, fehlendes XML`) sind im PR-Gate blocking; Coverage < Threshold ist auf `develop` beobachtbar und auf Release-/Phase-6-Scope eskalationspflichtig.
+- Ein genehmigter Tier-1-Override fuer `T1-DOXYGEN-COVERAGE` muss ueber `.github/workflows/compliance-governance-gates.yml` per `/approve-with-waiver ...` kommentarbasiert freigegeben werden; `gate-pr-doxygen-governance.yml` wertet dazu den kanonischen PR-Kommentar-Marker aus und synchronisiert das Label `governance/doxygen-waiver`.
 - Nach jeder Anhebung zuerst mehrere PR-Laeufe beobachten und nur bei stabiler Signalqualitaet weiter erhoehen.
 - Bei hoher False-Positive-Rate den Schwellwert voruebergehend zuruecksetzen und Doku-Luecken gezielt abbauen.
 

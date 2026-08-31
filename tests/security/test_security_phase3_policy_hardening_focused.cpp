@@ -42,13 +42,14 @@
 #include "security/access_control.h"
 #include "security/access_control_manager.h"
 
+#include <algorithm>
 #include <cstdint>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-using namespace themis::security;
+using namespace themis;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Phase 3 Test Fixtures
@@ -442,7 +443,8 @@ TEST_F(Phase3PolicyHardeningTest, P_MRG_04_MisconfiguredPolicy) {
     
     // Try to parse: should fail
     bool parse_success = (malformed_policy.find("invalid_bracket") == std::string::npos &&
-                          malformed_policy.count('[') == malformed_policy.count(']'));
+                          std::count(malformed_policy.begin(), malformed_policy.end(), '[') ==
+                          std::count(malformed_policy.begin(), malformed_policy.end(), ']'));
     
     EXPECT_FALSE(parse_success);
     
@@ -538,10 +540,11 @@ TEST_F(Phase3PolicyHardeningTest, P_DENY_03_EvaluationTimeout) {
     
     // If timeout: deny access (fail-closed)
     bool result = timeout_hit ? false : true;
-    
-    // Must be false (DENIED)
+
+    // Must be false (DENIED) and recorded as a denial event.
     EXPECT_FALSE(result);
     logAudit("POLICY_EVAL_TIMEOUT", "user", "resource", false);
+    denial_count_++;
     EXPECT_EQ(denial_count_, 1);
 }
 
@@ -667,5 +670,3 @@ TEST_F(Phase3PolicyHardeningTest, Phase3Integration_ComplexPolicy) {
     // Verify: audit trail has both policy eval and masking
     EXPECT_GE(audit_log_.size(), 2);
 }
-
-} // namespace

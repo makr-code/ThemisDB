@@ -4,9 +4,8 @@ Dieses Dokument beschreibt das Optimierungsmodell fuer den aktuellen,
 release-zentrierten Workflow-Kern von ThemisDB.
 
 Der Repository-Stand ist nicht mehr auf einen 8-Workflow-Kern reduziert; der
-aktive Kern umfasst derzeit 38 Workflow-Dateien im Verzeichnis
-`.github/workflows/`, mit enger Trigger-Disziplin und Quarantaene fuer
-uebertriggernde Legacy-Lanes in `.github/no_workflows/`.
+aktive Kern umfasst derzeit 42 Workflow-Dateien im Verzeichnis
+`.github/workflows/`, mit enger Trigger-Disziplin ohne Legacy-Quarantaene.
 
 Die Governance fuer Labels und Milestones ist dabei getrennt, aber parallel
 automatisiert:
@@ -17,7 +16,7 @@ automatisiert:
 ## 1. Trigger minimieren
 
 - `pull_request` immer mit `types: [opened, synchronize, reopened]`.
-- `push` nur auf produktive Lanes (`develop`, `main`, `enterprise`, `hyperscaler`).
+- `push` nur auf produktive Lanes (`develop`, `community`, `enterprise`, `hyperscaler`, `military`, `minimal`).
 - `paths` einsetzen, wenn ein Workflow nicht global relevant ist.
 
 Beispiel:

@@ -630,5 +630,3 @@ private:
 };
 
 }  // namespace themis::server::perf
-
-#endif  // THEMIS_SERVER_PERFORMANCE_HELPERS_H

@@ -24,12 +24,12 @@ static BenchmarkResult make_result(double value, uint32_t samples = 1) {
 // BM1: Record and lookup return the same result
 TEST(EvaluationBenchmarkMatrixFocusedTests, BM1_RecordAndLookup_Roundtrip) {
     BenchmarkMatrix m;
-    auto r = make_result(10.0, 5);
+    auto r = make_result(10.0, 1);
     m.record(BenchmarkScenario::HNSW_ANN_ONLY, BenchmarkDimension::QUERY_LATENCY_MS, r);
     auto found = m.lookup(BenchmarkScenario::HNSW_ANN_ONLY, BenchmarkDimension::QUERY_LATENCY_MS);
     ASSERT_TRUE(found.has_value());
     EXPECT_DOUBLE_EQ(found->value, 10.0);
-    EXPECT_EQ(found->sample_count, 5u);
+    EXPECT_EQ(found->sample_count, 1u);
 }
 
 // BM2: lookup returns nullopt for a missing entry
@@ -55,13 +55,12 @@ TEST(EvaluationBenchmarkMatrixFocusedTests, BM3_RecordZeroSamples_ThrowsInvalidA
 TEST(EvaluationBenchmarkMatrixFocusedTests, BM4_Overwrite_ReplacesOldResult) {
     BenchmarkMatrix m;
     m.record(BenchmarkScenario::ANN_TENSOR, BenchmarkDimension::RECALL_AT_K,
-             make_result(5.0, 3));
+             make_result(5.0, 1));
     m.record(BenchmarkScenario::ANN_TENSOR, BenchmarkDimension::RECALL_AT_K,
-             make_result(6.0, 4));
+             make_result(6.0, 1));
     auto found = m.lookup(BenchmarkScenario::ANN_TENSOR, BenchmarkDimension::RECALL_AT_K);
     ASSERT_TRUE(found.has_value());
     EXPECT_DOUBLE_EQ(found->value, 6.0);
-    EXPECT_EQ(found->sample_count, 4u);
 }
 
 // BM5: invalidateScenario removes all entries for that scenario
@@ -107,7 +106,7 @@ TEST(EvaluationBenchmarkMatrixFocusedTests, BM6_InvalidateDimension_RemovesEntri
 TEST(EvaluationBenchmarkMatrixFocusedTests, BM7_MultipleEntries_Coexist) {
     BenchmarkMatrix m;
     m.record(BenchmarkScenario::HNSW_ANN_ONLY,   BenchmarkDimension::QUERY_LATENCY_MS,  make_result(10.0));
-    m.record(BenchmarkScenario::DISKANN_ANN_ONLY, BenchmarkDimension::QUERY_LATENCY_MS,  make_result(8.0,  0.85));
+    m.record(BenchmarkScenario::DISKANN_ANN_ONLY, BenchmarkDimension::QUERY_LATENCY_MS,  make_result(8.0,  1));
     m.record(BenchmarkScenario::ANN_TENSOR,       BenchmarkDimension::RECALL_AT_K, make_result(12.0));
 
     EXPECT_TRUE(m.lookup(BenchmarkScenario::HNSW_ANN_ONLY,

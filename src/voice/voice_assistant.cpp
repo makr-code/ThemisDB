@@ -407,7 +407,7 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
     
     // Wave-A V2: partial backend failure matrix — STT backend fallback
     // If the STT backend throws or fails, return an empty/partial transcript with error marker.
-    content::STTResult transcription;
+    content::TranscriptionResult transcription;
     try {
         transcription = stt_processor_->transcribe(audio_data);
     } catch (const std::exception& e) {

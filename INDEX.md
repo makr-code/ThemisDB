@@ -31,7 +31,7 @@ Primary (Quelle der Wahrheit): README.md, ROADMAP.md, DOCUMENTATION_GOVERNANCE.m
 - [SECURITY.md](SECURITY.md) — vulnerability reporting and security policy
 - [CONTRIBUTING.md](CONTRIBUTING.md) — contribution process
 - [CMakePresets.json](CMakePresets.json) — canonical configure/build/test presets
-- [RELEASE_TYPE](RELEASE_TYPE) — current release channel marker
+- [VERSION](VERSION) — current project version marker
 
 ---
 
@@ -59,12 +59,11 @@ Primary (Quelle der Wahrheit): README.md, ROADMAP.md, DOCUMENTATION_GOVERNANCE.m
 ## Documentation & Review/Audit References
 
 - [docs/Home.md](docs/Home.md)
-- [docs/DOCUMENTATION_REVIEW_GUIDELINES.md](docs/DOCUMENTATION_REVIEW_GUIDELINES.md)
-- [docs/SYSTEMATISCHER_REVIEWPLAN.md](docs/SYSTEMATISCHER_REVIEWPLAN.md)
+- [docs/governance/documentation-history/DOCUMENTATION_REVIEW_SCHEDULE.md](docs/governance/documentation-history/DOCUMENTATION_REVIEW_SCHEDULE.md)
 - [docs/PR_DOCUMENTATION_CHECKLIST.md](docs/PR_DOCUMENTATION_CHECKLIST.md)
 - [docs/de/development/SOURCE_CODE_AUDIT.md](docs/de/development/SOURCE_CODE_AUDIT.md)
 - [audit/AUDIT.md](audit/AUDIT.md)
 - [audit/docs/audit-framework/AUDIT_RUNBOOK.md](audit/docs/audit-framework/AUDIT_RUNBOOK.md)
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-07-28
+Zuletzt geprueft (Root-Sync): 2026-08-28

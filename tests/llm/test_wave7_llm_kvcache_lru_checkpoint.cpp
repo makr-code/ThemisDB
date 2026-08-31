@@ -204,29 +204,29 @@ TEST(KVCacheLRU, LRU10_EvictionCountMonotonic) {
     auto [bm, cache] = makeCache(1);
     uint64_t prev = cache->evictionCount();
     for (uint64_t seq = 1; seq <= 5; ++seq) {
-        cache->store(seq, 0, oneTokenData());
+        EXPECT_TRUE(cache->store(seq, 0, oneTokenData()));
         uint64_t cur = cache->evictionCount();
         EXPECT_GE(cur, prev) << "evictionCount must never decrease";
         prev = cur;
     }
+}
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // LRU-11  Reused block IDs must not expose stale per-layer data
-    // ═══════════════════════════════════════════════════════════════════════════
-    TEST(KVCacheLRU, LRU11_ReusedBlockDoesNotLeakStaleLayerData) {
-        auto [bm, cache] = makeCache(1);
+// ═══════════════════════════════════════════════════════════════════════════
+// LRU-11  Reused block IDs must not expose stale per-layer data
+// ═══════════════════════════════════════════════════════════════════════════
+TEST(KVCacheLRU, LRU11_ReusedBlockDoesNotLeakStaleLayerData) {
+    auto [bm, cache] = makeCache(1);
 
-        // seq 1 occupies the only block at layer 1
-        ASSERT_TRUE(cache->store(1, 1, oneTokenData()));
-        ASSERT_FALSE(cache->retrieve(1, 1).empty());
+    // seq 1 occupies the only block at layer 1
+    ASSERT_TRUE(cache->store(1, 1, oneTokenData()));
+    ASSERT_FALSE(cache->retrieve(1, 1).empty());
 
-        // seq 2 forces eviction and reuses the same block for layer 0 only
-        ASSERT_TRUE(cache->store(2, 0, oneTokenData()));
-        EXPECT_EQ(cache->evictionCount(), 1u);
+    // seq 2 forces eviction and reuses the same block for layer 0 only
+    ASSERT_TRUE(cache->store(2, 0, oneTokenData()));
+    EXPECT_EQ(cache->evictionCount(), 1u);
 
-        // layer 1 for seq 2 must be empty; stale layer-1 data from seq 1 is forbidden
-        EXPECT_TRUE(cache->retrieve(2, 1).empty());
-    }
+    // layer 1 for seq 2 must be empty; stale layer-1 data from seq 1 is forbidden
+    EXPECT_TRUE(cache->retrieve(2, 1).empty());
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -237,7 +237,7 @@ TEST(KVCacheCheckpoint, CKP05_NullptrDbIsNoOp) {
     // Verify that a null shared_ptr evaluates to false in boolean context so
     // our if (checkpoint_db_) guard works correctly — this is a language
     // guarantee test, not a runtime behaviour test.
-    std::shared_ptr<rocksdb::DB> db_handle = nullptr;
+    std::shared_ptr<int> db_handle = nullptr;
     EXPECT_FALSE(static_cast<bool>(db_handle))
         << "null shared_ptr must evaluate to false; if(checkpoint_db_) guard depends on this";
 }

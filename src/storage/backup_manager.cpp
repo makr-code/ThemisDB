@@ -1360,7 +1360,8 @@ Result<std::string> BackupManager::decompressBackup(const std::string& compresse
 // New Helper Methods
 // ============================================================================
 
-bool BackupManager::compressPath(const std::string& src_path, const std::string& dest_path,
+bool BackupManager::compressPath([[maybe_unused]] const std::string& src_path,
+                                 [[maybe_unused]] const std::string& dest_path,
                                  CompressionType type, std::error_code& ec) {
     namespace fs = std::filesystem;
     // ZSTD: compress each file to dest_path/<relpath>.zst (THEMIS_HAS_ZSTD)
@@ -1472,7 +1473,8 @@ bool BackupManager::compressPath(const std::string& src_path, const std::string&
 #endif
 }
 
-bool BackupManager::decompressPath(const std::string& src_path, const std::string& dest_path,
+bool BackupManager::decompressPath([[maybe_unused]] const std::string& src_path,
+                                   [[maybe_unused]] const std::string& dest_path,
                                    CompressionType type, std::error_code& ec) {
     namespace fs = std::filesystem;
     // ZSTD: decompress *.zst files; THEMIS_HAS_ZSTD must be set.
@@ -1629,7 +1631,8 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
 #endif
 }
 
-bool BackupManager::encryptFile(const std::string& src_path, const std::string& dest_path,
+bool BackupManager::encryptFile([[maybe_unused]] const std::string& src_path,
+                                [[maybe_unused]] const std::string& dest_path,
                                 [[maybe_unused]] const std::string& key, std::error_code& ec) {
     static_cast<void>(key);
 #ifdef THEMIS_ENABLE_OPENSSL
@@ -1715,7 +1718,8 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
 #endif
 }
 
-bool BackupManager::decryptFile(const std::string& src_path, const std::string& dest_path,
+bool BackupManager::decryptFile([[maybe_unused]] const std::string& src_path,
+                                [[maybe_unused]] const std::string& dest_path,
                                 [[maybe_unused]] const std::string& key, std::error_code& ec) {
     static_cast<void>(key);
 #ifdef THEMIS_ENABLE_OPENSSL

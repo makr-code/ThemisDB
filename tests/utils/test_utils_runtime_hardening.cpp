@@ -35,31 +35,17 @@ using namespace themis::utils;
 namespace {
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Minimal concrete Task subclass for testing.
+// Helper: build a small ThreadPool::Config
 // ─────────────────────────────────────────────────────────────────────────────
-class CountingTask : public Task {
-public:
-    explicit CountingTask(std::atomic<int>& counter, const std::string& name = "counting")
-        : counter_(counter), name_(name) {}
-
-    void execute() override { counter_.fetch_add(1, std::memory_order_relaxed); }
-    std::string getName() const override { return name_; }
-
-private:
-    std::atomic<int>& counter_;
-    std::string name_;
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Helper: build a small ThreadPoolConfig
-// ─────────────────────────────────────────────────────────────────────────────
-static ThreadPoolConfig makeConfig(const std::string& name,
-                                   size_t num_threads  = 1,
-                                   size_t queue_size   = 4) {
-    ThreadPoolConfig cfg;
-    cfg.name        = name;
-    cfg.num_threads = num_threads;
-    cfg.queue_size  = queue_size;
+static ThreadPool::Config makeConfig(const std::string& name,
+                                     size_t min_threads = 1,
+                                     size_t max_threads = 1,
+                                     size_t queue_size = 4) {
+    ThreadPool::Config cfg;
+    cfg.name = name;
+    cfg.min_threads = min_threads;
+    cfg.max_threads = max_threads;
+    cfg.queue_size = queue_size;
     return cfg;
 }
 
@@ -69,12 +55,14 @@ static ThreadPoolConfig makeConfig(const std::string& name,
 // RT-01: submit() to a stopped pool returns false immediately
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(RuntimeHardening, ThreadPoolSubmitReturnsFalseWhenStopped) {
-    auto pool = ThreadPool::create(makeConfig("rt01", 1, 4));
-    pool->stop();  // shut down before submitting
+    ThreadPool pool(makeConfig("rt01", 1, 1, 4));
+    pool.shutdown();  // shut down before submitting
 
     std::atomic<int> cnt{0};
-    auto task = std::make_shared<CountingTask>(cnt);
-    bool ok = pool->submit(task, std::chrono::milliseconds(50));
+    auto task = std::make_shared<Task>([&cnt]() noexcept {
+        cnt.fetch_add(1, std::memory_order_relaxed);
+    }, Task::Priority::NORMAL, "counting");
+    bool ok = pool.submit(task, std::chrono::milliseconds(50));
 
     EXPECT_FALSE(ok) << "submit() to stopped pool must return false (fail-closed)";
     EXPECT_EQ(cnt.load(), 0) << "stopped pool must not execute submitted task";
@@ -85,17 +73,21 @@ TEST(RuntimeHardening, ThreadPoolSubmitReturnsFalseWhenStopped) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(RuntimeHardening, ThreadPoolSubmitReturnsFalseWhenQueueFull) {
     // 0 threads: no worker to drain the queue.  Queue capacity = 1.
-    ThreadPoolConfig cfg = makeConfig("rt02", 0, 1);
-    auto pool = ThreadPool::create(cfg);
+    ThreadPool::Config cfg = makeConfig("rt02", 0, 0, 1);
+    ThreadPool pool(cfg);
 
     std::atomic<int> cnt{0};
     // Fill the single queue slot.
-    auto task1 = std::make_shared<CountingTask>(cnt, "task1");
-    bool first = pool->submit(task1, std::chrono::milliseconds(50));
+    auto task1 = std::make_shared<Task>([&cnt]() noexcept {
+        cnt.fetch_add(1, std::memory_order_relaxed);
+    }, Task::Priority::NORMAL, "task1");
+    bool first = pool.submit(task1, std::chrono::milliseconds(50));
 
     // This submission must time out because queue is full and no thread drains it.
-    auto task2 = std::make_shared<CountingTask>(cnt, "task2");
-    bool second = pool->submit(task2, std::chrono::milliseconds(20));
+    auto task2 = std::make_shared<Task>([&cnt]() noexcept {
+        cnt.fetch_add(1, std::memory_order_relaxed);
+    }, Task::Priority::NORMAL, "task2");
+    bool second = pool.submit(task2, std::chrono::milliseconds(20));
 
     // first may or may not succeed depending on internal timing, but
     // at least one of them (the second overflow attempt) must fail.

@@ -276,13 +276,13 @@ TEST_F(QueryOptimizerRegressionTests, CM6_ScanCostScaling) {
     EXPECT_LT(cost1.totalCost, cost2.totalCost);
 }
 
-/// Test 17: External sort detection
+/// Test 17: External sort detection (via public estimateSort API)
 TEST_F(QueryOptimizerRegressionTests, CM7_ExternalSortDetection) {
-    bool needsSort1 = cost_model_->needsExternalSort(100, 100);
-    bool needsSort2 = cost_model_->needsExternalSort(1000000000, 100);
-    
-    EXPECT_FALSE(needsSort1);
-    EXPECT_TRUE(needsSort2);
+    auto small_sort = cost_model_->estimateSort(100, 100);
+    auto large_sort = cost_model_->estimateSort(1000000000, 100);
+
+    EXPECT_FALSE(small_sort.isExternalSort);
+    EXPECT_TRUE(large_sort.isExternalSort);
 }
 
 /// Test 18: Multi-column selectivity
@@ -559,5 +559,3 @@ TEST_F(QueryOptimizerRegressionTests, STRESS1_CacheCoherencyConcurrentDDL) {
     auto retrieved = plan_cache_->get("SELECT * FROM users", stats, "");
     EXPECT_FALSE(retrieved.has_value());
 }
-
-}  // namespace query_optimizer_regression_tests
