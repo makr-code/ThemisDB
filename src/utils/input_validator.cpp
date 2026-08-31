@@ -291,17 +291,18 @@ std::optional<std::string> InputValidator::validateJsonSchema(
                             schema_name, schema_dir_, schema_name);
             }
 
-            std::optional<std::string> InputValidator::validateJsonStub(
-                const nlohmann::json& payload,
-                const std::string& schema_name
-            ) const {
-                return validateJsonSchema(payload, schema_name);
-            }
         }
         return std::string("schema '" + schema_name + "' not found in '" +
                            schema_dir_ + "' — validation failed");
     }
     return validateJson(payload, *schema);
+}
+
+std::optional<std::string> InputValidator::validateJsonStub(
+    const nlohmann::json& payload,
+    const std::string& schema_name
+) const {
+    return validateJsonSchema(payload, schema_name);
 }
 
 std::optional<std::string> InputValidator::validateAqlRequest(const nlohmann::json& payload) const {
