@@ -63,12 +63,20 @@ Result<bool> MongoDBAdapter::connect(
     }
 
     connection_string_ = mask_credentials(connection_string);
-    
-    // TODO: Actual mongocxx client creation
-    // For now, mark as connected in simulation mode
+
+#ifdef THEMIS_CHIMERA_MONGO
+    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
+    // TODO: Actual mongocxx client creation (mongocxx::client, mongocxx::uri)
     connected_ = true;
-    
     return Result<bool>::ok(true);
+#else
+    (void)connection_string_;
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "MongoDB adapter unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_MONGO=ON to enable."
+    );
+#endif
 }
 
 Result<bool> MongoDBAdapter::disconnect() {
@@ -98,9 +106,18 @@ Result<RelationalTable> MongoDBAdapter::execute_query(
         );
     }
 
-    // TODO: Translate AQL to MongoDB query and execute
+#ifdef THEMIS_CHIMERA_MONGO
+    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
+    // TODO: Translate AQL to MongoDB aggregation pipeline and execute
     RelationalTable table;
     return Result<RelationalTable>::ok(std::move(table));
+#else
+    return Result<RelationalTable>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "MongoDB execute_query unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_MONGO=ON to enable."
+    );
+#endif
 }
 
 Result<size_t> MongoDBAdapter::insert_row(
@@ -114,8 +131,17 @@ Result<size_t> MongoDBAdapter::insert_row(
         );
     }
 
-    // TODO: Convert RelationalRow to BSON and insert into collection
+#ifdef THEMIS_CHIMERA_MONGO
+    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
+    // TODO: Convert RelationalRow to BSON document and insert into collection
     return Result<size_t>::ok(1);
+#else
+    return Result<size_t>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "MongoDB insert_row unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_MONGO=ON to enable."
+    );
+#endif
 }
 
 Result<size_t> MongoDBAdapter::batch_insert(
@@ -129,8 +155,17 @@ Result<size_t> MongoDBAdapter::batch_insert(
         );
     }
 
-    // TODO: Batch insert documents into collection
+#ifdef THEMIS_CHIMERA_MONGO
+    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
+    // TODO: Batch insert documents into collection via bulk_write
     return Result<size_t>::ok(rows.size());
+#else
+    return Result<size_t>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "MongoDB batch_insert unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_MONGO=ON to enable."
+    );
+#endif
 }
 
 Result<QueryStatistics> MongoDBAdapter::get_query_statistics() const {
@@ -194,13 +229,31 @@ Result<bool> MongoDBAdapter::create_index(
 // ---------------------------------------------------------------------------
 
 Result<std::string> MongoDBAdapter::insert_node(const GraphNode& /*node*/) {
-    // TODO: Store node as document
+#ifdef THEMIS_CHIMERA_MONGO
+    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
+    // TODO: Store node as document in nodes collection
     return Result<std::string>::ok(generate_id());
+#else
+    return Result<std::string>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "MongoDB insert_node unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_MONGO=ON to enable."
+    );
+#endif
 }
 
 Result<std::string> MongoDBAdapter::insert_edge(const GraphEdge& /*edge*/) {
-    // TODO: Store edge as document with references to nodes
+#ifdef THEMIS_CHIMERA_MONGO
+    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
+    // TODO: Store edge as document with source/target node references
     return Result<std::string>::ok(generate_id());
+#else
+    return Result<std::string>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "MongoDB insert_edge unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_MONGO=ON to enable."
+    );
+#endif
 }
 
 Result<GraphPath> MongoDBAdapter::shortest_path(
@@ -250,9 +303,18 @@ Result<std::string> MongoDBAdapter::insert_document(
         );
     }
 
-    // TODO: Insert document into collection
+#ifdef THEMIS_CHIMERA_MONGO
+    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
+    // TODO: Serialize doc to BSON and insert into named collection
     const std::string id = generate_id();
     return Result<std::string>::ok(id);
+#else
+    return Result<std::string>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "MongoDB insert_document unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_MONGO=ON to enable."
+    );
+#endif
 }
 
 Result<size_t> MongoDBAdapter::batch_insert_documents(
@@ -266,8 +328,17 @@ Result<size_t> MongoDBAdapter::batch_insert_documents(
         );
     }
 
-    // TODO: Batch insert documents
+#ifdef THEMIS_CHIMERA_MONGO
+    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
+    // TODO: Batch insert BSON documents via insert_many
     return Result<size_t>::ok(docs.size());
+#else
+    return Result<size_t>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "MongoDB batch_insert_documents unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_MONGO=ON to enable."
+    );
+#endif
 }
 
 Result<std::vector<Document>> MongoDBAdapter::find_documents(
