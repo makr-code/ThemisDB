@@ -63,7 +63,7 @@ TEST_F(BreakEvenValidatorTest, L2Distance_SmallInput_CPUPreferred) {
     auto decision = validator_.ShouldUseGPU(profile);
     EXPECT_FALSE(decision.use_gpu)
         << "Small input (100 vectors) should prefer CPU (GPU overhead too high)";
-    EXPECT_EQ(decision.reason, "gpu_unavailable");  // Placeholder: GPU too small
+    EXPECT_EQ(decision.reason, "break_even_not_met");
 }
 
 TEST_F(BreakEvenValidatorTest, L2Distance_MediumInput_MaybeGPU) {
@@ -361,6 +361,7 @@ TEST_F(BreakEvenValidatorTest, DeviceType_CPU) {
     auto decision = validator_.ShouldUseGPU(profile);
     // CPU device should not recommend GPU
     EXPECT_FALSE(decision.use_gpu);
+    EXPECT_EQ(decision.reason, "gpu_unavailable");
 }
 
 // ============================================================================
@@ -379,6 +380,44 @@ TEST_F(BreakEvenValidatorTest, Metrics_LatestSpeedupRatio) {
     auto ratio = validator_.GetLatestBreakEvenRatio(KernelType::kDistance);
     EXPECT_EQ(ratio, decision.speedup_ratio);
     EXPECT_GT(ratio, 0.0f);
+}
+
+TEST_F(BreakEvenValidatorTest, Hooks_InjectedProfilersDriveDecisionAndMetrics) {
+    auto profile = MakeProfile(KernelType::kDistance, 4'096);
+    bool metrics_called = false;
+    BreakEvenDecision emitted_decision;
+
+    validator_.SetCPUProfileFn([](const WorkloadProfile&) {
+        return std::chrono::milliseconds(42);
+    });
+    validator_.SetGPUProfileFn([](const WorkloadProfile&) {
+        return std::chrono::milliseconds(14);
+    });
+    validator_.SetMetricsSink([&](const WorkloadProfile& observed_profile,
+                                  const BreakEvenDecision& decision) {
+        metrics_called = true;
+        emitted_decision = decision;
+        EXPECT_EQ(observed_profile.input_size, profile.input_size);
+        EXPECT_EQ(observed_profile.kernel_type, profile.kernel_type);
+    });
+
+    const auto decision = validator_.ShouldUseGPU(profile);
+
+    EXPECT_TRUE(metrics_called);
+    EXPECT_TRUE(decision.use_gpu);
+    EXPECT_EQ(decision.reason, "break_even_met");
+    EXPECT_FLOAT_EQ(decision.speedup_ratio, 3.0f);
+    EXPECT_EQ(emitted_decision.speedup_ratio, decision.speedup_ratio);
+}
+
+TEST_F(BreakEvenValidatorTest, InvalidDistanceProfileFailsClosed) {
+    auto profile = MakeProfile(KernelType::kDistance, 1'024);
+    profile.vector_dimension = 0;
+
+    const auto decision = validator_.ShouldUseGPU(profile);
+
+    EXPECT_FALSE(decision.use_gpu);
+    EXPECT_EQ(decision.reason, "cpu_profile_failed");
 }
 
 // ============================================================================

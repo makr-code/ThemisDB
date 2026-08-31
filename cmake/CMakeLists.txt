@@ -2909,6 +2909,7 @@ set(THEMIS_CORE_SOURCES
     ../src/acceleration/geo_acceleration_bridge.cpp
     ../src/acceleration/device_manager.cpp
     ../src/acceleration/vllm_resource_manager.cpp
+    ../src/acceleration/break_even_validator.cc
     # PERF-D3: Parallel batch insertion + SIMD distance pipeline
     ../src/acceleration/vec_knn.cpp
     # shader_integrity.cpp uses only OpenSSL (SHA-256) — no GPU/graphics dependency.

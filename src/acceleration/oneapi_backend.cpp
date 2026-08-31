@@ -144,6 +144,11 @@ public:
                 sycl::free(d_distances, q);
             };
 
+            if (d_queries == nullptr || d_vectors == nullptr || d_distances == nullptr) {
+                freeUSM();
+                throw std::bad_alloc{};
+            }
+
             try {
                 // Copy data to device; wait_and_throw() propagates SYCL async errors.
                 q.memcpy(d_queries, queries, numQueries * dimension * sizeof(float))

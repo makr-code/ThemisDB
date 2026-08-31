@@ -31,6 +31,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Added explicit delete/delete copy/move constructors; `#include <optional>` added.
 
 ### Changed
+- `include/acceleration/break_even_validator.h`, `src/acceleration/break_even_validator.cc`, `cmake/CMakeLists.txt`, `cmake/ModularBuild.cmake`, and `tests/gpu/CMakeLists.txt`: promoted `BreakEvenValidator` from an uncompiled placeholder path to the production acceleration build, replaced hardcoded CPU/GPU timings with explicit profiling hooks plus deterministic fallback estimates, and retired fallback-only focused GPU test linkage.
+- `tests/gpu/test_break_even_validation.cpp`: aligned regression coverage with production break-even behavior, including injected profiler hooks, metrics sink emission, and fail-closed invalid-profile handling.
+- `src/acceleration/oneapi_backend.cpp`: fail-closed USM allocation path now throws `std::bad_alloc` before any `memcpy` when device allocations return `nullptr`.
 - Documentation governance sync: roadmap/future/audit/readme/architecture/security/performance docs aligned to source-verifiable statements; planning remains in roadmap/future and history remains in changelog.
 
 ### Documentation

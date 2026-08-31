@@ -15,6 +15,7 @@
 
 #include <string>
 #include <chrono>
+#include <functional>
 #include <optional>
 #include <unordered_map>
 #include <mutex>
@@ -124,10 +125,10 @@ struct BreakEvenDecision {
     float speedup_ratio = 0.0f;
 
     /// CPU path execution time (milliseconds)
-    std::chrono::milliseconds cpu_time_ms;
+    std::chrono::milliseconds cpu_time_ms{0};
 
     /// GPU path execution time including transfer (milliseconds)
-    std::chrono::milliseconds gpu_time_ms;
+    std::chrono::milliseconds gpu_time_ms{0};
 
     /// Human-readable reason: "break_even_met", "gpu_unavailable", etc.
     std::string reason;
@@ -170,6 +171,11 @@ struct BreakEvenDecision {
  */
 class BreakEvenValidator {
 public:
+    using ProfileFn = std::function<std::optional<std::chrono::milliseconds>(
+        const WorkloadProfile&)>;
+    using MetricsSinkFn = std::function<void(
+        const WorkloadProfile&, const BreakEvenDecision&)>;
+
     /**
      * @brief Construct a new BreakEvenValidator instance.
      *
@@ -262,6 +268,47 @@ public:
     void SetCacheValidityDuration(std::chrono::hours duration);
 
     /**
+     * @brief Override CPU workload profiling with a caller-provided implementation.
+     *
+     * When set, ProfileCPU() delegates to @p fn instead of the built-in
+     * deterministic cost model. Passing an empty function restores the default
+     * CPU estimator. Any cached decisions are cleared so subsequent calls are
+     * re-profiled with the new behavior.
+     *
+     * @param fn CPU profiling callback, or empty to restore defaults
+     *
+     * @thread Fully thread-safe
+     */
+    void SetCPUProfileFn(ProfileFn fn);
+
+    /**
+     * @brief Override GPU workload profiling with a caller-provided implementation.
+     *
+     * When set, ProfileGPU() delegates to @p fn instead of the built-in
+     * deterministic GPU estimate. Passing an empty function restores the default
+     * GPU estimator. Any cached decisions are cleared so subsequent calls are
+     * re-profiled with the new behavior.
+     *
+     * @param fn GPU profiling callback, or empty to restore defaults
+     *
+     * @thread Fully thread-safe
+     */
+    void SetGPUProfileFn(ProfileFn fn);
+
+    /**
+     * @brief Register a metrics sink that receives every fresh profile decision.
+     *
+     * The sink is called after a non-cached profile completes successfully or
+     * degrades to CPU because GPU profiling is unavailable. Exceptions thrown by
+     * the sink are swallowed to preserve fail-closed decision behavior.
+     *
+     * @param fn Metrics callback, or empty to disable metrics emission
+     *
+     * @thread Fully thread-safe
+     */
+    void SetMetricsSink(MetricsSinkFn fn);
+
+    /**
      * @brief Get the latest break-even speedup ratio for a kernel type.
      *
      * Returns the most recent speedup ratio observed for this kernel,
@@ -321,8 +368,8 @@ private:
     /**
      * @brief Profile CPU execution time for the given workload.
      *
-     * Delegates to CPU reference kernel implementations to measure
-     * end-to-end execution time (no GPU transfer overhead).
+     * Uses a caller-provided profiling hook when configured; otherwise falls
+     * back to the built-in deterministic CPU cost model.
      *
      * @param profile Workload to profile on CPU
      * @return CPU execution time, or nullopt if profiling failed
@@ -333,8 +380,10 @@ private:
     /**
      * @brief Profile GPU execution time for the given workload.
      *
-     * Includes GPU allocation, data transfer, kernel execution, and sync time.
-     * Returns nullopt if GPU is unavailable or profiling fails.
+     * Uses a caller-provided profiling hook when configured; otherwise falls
+     * back to the built-in deterministic GPU estimate including transfer and
+     * launch overhead. Returns nullopt if the selected device cannot run GPU
+     * work or profiling fails.
      *
      * @param profile Workload to profile on GPU
      * @return GPU execution time (transfer + compute), or nullopt if GPU unavailable
@@ -342,7 +391,11 @@ private:
     std::optional<std::chrono::milliseconds> ProfileGPU(
         const WorkloadProfile& profile);
 
-    
+    static bool RequiresVectorDimension(KernelType kernel);
+    static bool IsGpuCapableDevice(DeviceType device);
+    static double EstimateWorkUnits(const WorkloadProfile& profile);
+    static std::optional<std::chrono::milliseconds> MillisecondsFromEstimate(
+        double estimated_ms);
 
     /**
      * @brief Parse KernelType from string.
@@ -394,6 +447,11 @@ private:
 
     // Cache configuration
     std::chrono::hours cache_validity_duration_;
+
+    // Optional profiling/metrics hooks
+    ProfileFn cpu_profile_fn_;
+    ProfileFn gpu_profile_fn_;
+    MetricsSinkFn metrics_sink_;
 };
 
 }  // namespace acceleration
