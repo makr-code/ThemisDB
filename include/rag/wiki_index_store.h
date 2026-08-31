@@ -124,7 +124,11 @@ public:
     WikiIndexStore(WikiIndexStore&&)                 = default;
     WikiIndexStore& operator=(WikiIndexStore&&)      = default;
 
-    /// @brief Index a document for BM25+ retrieval.
+    /**
+     * @brief Index a document for BM25+ retrieval.
+     * @param doc_id  Stable document identifier.
+     * @param text    Raw document text to tokenize and index.
+     */
     void addDocument(const std::string& doc_id, const std::string& text);
 
     /// @brief BM25+ ranked search.
@@ -177,14 +181,21 @@ public:
         size_t distance,
         size_t top_k = 10) const;
 
-    /// @brief Fuse the provided ranked lists with RRF.
+    /**
+     * @brief Fuse the provided ranked lists with reciprocal-rank fusion.
+     * @param ranked_lists  Ranked document-id lists to combine.
+     * @return RRF-ranked results derived from the supplied lists.
+     */
     std::vector<IndexResult> fuseRRF(
         const std::vector<std::vector<std::string>>& ranked_lists) const;
 
     /// @brief Clear all indexed documents.
     void clear();
 
-    /// @brief Number of indexed documents.
+    /**
+     * @brief Return the number of indexed documents.
+     * @return Count of documents currently stored in the index.
+     */
     size_t size() const;
 
     // ─── W8-18: HNSW vector index ─────────────────────────────────────────

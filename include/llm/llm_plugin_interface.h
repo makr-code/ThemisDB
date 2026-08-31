@@ -148,7 +148,11 @@ struct LoRAInfo {
 };
 
 /**
- * @brief Inference request parameters
+ * @brief Inference request parameters.
+ *
+ * Bundles prompt text, model selection, generation controls, tracing
+ * metadata, and optional tool-calling or multimodal inputs for a single
+ * inference request.
  */
 struct InferenceRequest {
     std::string prompt;
@@ -229,7 +233,7 @@ struct InferenceResponse {
     virtual ~InferenceResponse() = default;
 
     /// @brief Move constructor — transfers all members including containers and optional fields.
-    /// @note Move semantics: std::vector/std::string members moved; source left valid-empty.
+    /// @note Move semantics: @c std::vector and @c std::string members are moved; source remains valid-empty.
     InferenceResponse(InferenceResponse&&) noexcept = default;
 
     /// @brief Move assignment operator.
@@ -291,7 +295,7 @@ struct RAGContext {
     virtual ~RAGContext() = default;
 
     /// @brief Move constructor — transfers query, collection, documents, and all parameters.
-    /// @note Move semantics: std::string/std::vector members moved; source left valid-empty.
+    /// @note Move semantics: @c std::string and @c std::vector members are moved; source remains valid-empty.
     RAGContext(RAGContext&&) noexcept = default;
 
     /// @brief Move assignment operator.
@@ -677,4 +681,3 @@ private:
         themis::llm::ILLMPlugin* themis_llm_create();                             \
     extern "C" THEMIS_PLUGIN_EXPORT                                                \
         void themis_llm_destroy(themis::llm::ILLMPlugin* p)
-

@@ -88,7 +88,10 @@ public:
 
     ~PooledConnection();
 
-    /// Access the raw LDAP handle.
+    /**
+     * @brief Access the raw LDAP handle.
+     * @return Underlying LDAP handle currently managed by this pooled wrapper.
+     */
     LDAP* rawHandle() const noexcept { return handle_; }
 
     /// Mark this connection as stale so it is evicted (not returned) on destruction.
@@ -151,7 +154,10 @@ public:
      */
     std::unique_ptr<PooledConnection> checkout();
 
-    /// Return the pool configuration.
+    /**
+     * @brief Return the pool configuration.
+     * @return Immutable reference to the pool configuration used by this pool.
+     */
     const LDAPPoolConfig& config() const noexcept { return config_; }
 
     /**
@@ -169,13 +175,22 @@ public:
     // Metrics accessors (used by auth_metrics)
     // -----------------------------------------------------------------------
 
-    /// Total capacity of the pool (idle + active slots, capped at max_size).
+    /**
+     * @brief Return the total capacity of the pool.
+     * @return Sum of idle and active slots, capped at @c max_size.
+     */
     int poolSize() const noexcept;
 
-    /// Number of connections currently sitting idle in the pool.
+    /**
+     * @brief Return the number of idle connections in the pool.
+     * @return Count of currently idle LDAP connections ready for checkout.
+     */
     int idleConnections() const noexcept;
 
-    /// Number of connections currently checked out by callers.
+    /**
+     * @brief Return the number of active checked-out connections.
+     * @return Count of connections currently checked out by callers.
+     */
     int activeConnections() const noexcept;
 
 private:
@@ -218,4 +233,3 @@ private:
 
 } // namespace auth
 } // namespace themis
-

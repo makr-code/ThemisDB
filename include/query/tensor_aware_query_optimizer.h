@@ -124,6 +124,8 @@ public:
      *
      * After this call the optimizer reverts to the string-scan heuristic.
      * Thread-safe.
+     *
+     * @return Nothing.
      */
     static void clearIRVisitorFn();
 
@@ -205,7 +207,10 @@ public:
         std::size_t nodes_rewritten       = 0; ///< Nodes converted to TensorContraction
         double      total_baseline_cost   = 0.0;
         double      total_optimized_cost  = 0.0;
-        /// Estimated cost reduction factor (baseline / optimized), ≥ 1.0.
+        /**
+         * @brief Return the estimated cost reduction factor.
+         * @return Baseline-cost / optimized-cost ratio, clamped to at least 1.0.
+         */
         double costReductionFactor() const noexcept {
             return total_optimized_cost > 0.0
                 ? total_baseline_cost / total_optimized_cost
@@ -215,6 +220,7 @@ public:
 
     /**
      * @brief Returns statistics from the most recent `rewrite()` call.
+     * @return Snapshot of the last rewrite pass statistics.
      */
     [[nodiscard]] RewriteStats lastStats() const noexcept { return last_stats_; }
 
@@ -234,6 +240,7 @@ public:
 
     /**
      * @brief Remove the AST visitor (reverts to description-scan only).
+     * @return Nothing.
      */
     static void clearAstVisitorFn();
 

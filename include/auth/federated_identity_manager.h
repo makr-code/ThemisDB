@@ -179,11 +179,13 @@ public:
 
     /**
      * @brief Return the normalized issuer URLs of all registered realms.
+     * @return Vector of normalized issuer URLs in their current registry order.
      */
     std::vector<std::string> realmIssuers() const;
 
     /**
      * @brief Return the number of registered realms.
+     * @return Count of realms currently registered in the manager.
      */
     size_t realmCount() const;
 
@@ -326,6 +328,8 @@ public:
     /**
      * @brief Remove a previously registered cross-provider trust relationship.
      *
+     * @param subject_issuer   Normalized issuer URL of the token source.
+     * @param trusting_issuer  Normalized issuer URL of the realm that trusts it.
      * @return true if the trust was found and removed, false otherwise.
      */
     bool removeCrossProviderTrust(const std::string& subject_issuer,
@@ -360,6 +364,9 @@ public:
      *
      * Typically used from tests; production code relies on the implicit
      * cache-fill inside validateToken().
+     *
+     * @param token   Raw bearer token used as the cache key.
+     * @param result  Validation result to cache for @p token.
      */
     void cacheValidationResult(const std::string& token,
                                const FederatedValidationResult& result);
@@ -387,6 +394,7 @@ public:
     /**
      * @brief Return the number of entries currently in the token cache
      *        (including possibly-expired ones not yet evicted).
+     * @return Current number of cached token-validation entries.
      */
     size_t tokenCacheSize() const;
 

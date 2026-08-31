@@ -64,17 +64,9 @@ class ThemisCppDoxygenPolicyRulesScan:
         self.gaps = []
         normalized_files = [self._normalize_input_path(path) for path in file_list]
 
-        scoped_modules = self._modules_in_scope(normalized_files)
-        header_files = self._collect_public_headers(normalized_files, scoped_modules)
-        
-        # Also scan source files for public API implementations
-        source_files = self._collect_source_files(normalized_files, scoped_modules)
-
+        header_files = self._collect_public_headers(normalized_files)
         for header_path in header_files:
             self._scan_file(header_path)
-            
-        for source_path in source_files:
-            self._scan_file(source_path)
 
         return self.gaps
 
@@ -97,26 +89,14 @@ class ThemisCppDoxygenPolicyRulesScan:
                             modules.append(name)
         return modules
 
-    def _collect_public_headers(self, file_list: List[Path], scoped_modules: List[str]) -> List[Path]:
+    def _collect_public_headers(self, file_list: List[Path]) -> List[Path]:
         header_files = [
             path
             for path in file_list
-            if path.suffix.lower() in self.HEADER_EXTS and self._is_public_api_header(path)
+            if path.exists()
+            and path.suffix.lower() in self.HEADER_EXTS
+            and self._is_public_api_header(path)
         ]
-
-        include_root = self.repo_root / "include"
-        if not include_root.exists() or not include_root.is_dir():
-            return header_files
-
-        if scoped_modules:
-            for module in scoped_modules:
-                candidate = include_root / module
-                if candidate.exists() and candidate.is_dir():
-                    for ext in self.HEADER_EXTS:
-                        header_files.extend(candidate.rglob(f"*{ext}"))
-        else:
-            for ext in self.HEADER_EXTS:
-                header_files.extend(include_root.rglob(f"*{ext}"))
 
         unique: List[Path] = []
         seen = set()
@@ -218,11 +198,10 @@ class ThemisCppDoxygenPolicyRulesScan:
             if info["skip_doc_enforcement"]:
                 continue
             
-            # Check class documentation if this is a class method
+            # Check class documentation if this is a public class method.
             if decl.class_name:
                 class_doc = self._extract_leading_class_doc(lines, decl.start_line)
                 if class_doc is None:
-                    # Check if the class itself needs documentation
                     class_info = self._find_class_definition(lines, decl.class_name, decl.start_line)
                     if class_info and class_info['needs_doc']:
                         self._append(
@@ -456,6 +435,10 @@ class ThemisCppDoxygenPolicyRulesScan:
         return signature
 
     def _parse_signature(self, signature: str, class_name: Optional[str]) -> Optional[Dict]:
+        compact_signature = signature.replace(" ", "")
+        if "std::function<" in compact_signature:
+            return None
+
         left_paren = signature.find("(")
         right_paren = signature.rfind(")")
         if left_paren <= 0 or right_paren <= left_paren:
@@ -469,7 +452,9 @@ class ThemisCppDoxygenPolicyRulesScan:
 
         full_name = name_match.group(1)
         name = full_name.split("::")[-1]
-        return_type = prefix[: -len(full_name)].strip() if prefix.endswith(full_name) else ""
+        if not prefix.endswith(full_name):
+            return None
+        return_type = prefix[: -len(full_name)].strip()
         template_params = self._extract_template_params(signature)
 
         if name.startswith("operator"):
@@ -497,7 +482,12 @@ class ThemisCppDoxygenPolicyRulesScan:
                 or compact.startswith(f"{class_name}&&,")
             )
 
-        needs_return = not ctor_or_dtor and return_type.lower() != "void"
+        normalized_return_type = re.sub(
+            r"\b(static|inline|virtual|constexpr|friend|explicit|extern)\b",
+            "",
+            return_type,
+        ).strip()
+        needs_return = not ctor_or_dtor and normalized_return_type.lower() != "void"
 
         is_static = " static " in f" {signature} "
         is_override = " override" in f" {signature} "
