@@ -20,18 +20,19 @@
 
 ### 2.1 Gemessene Repository-Metriken (`src/` + `tests/`)
 
-> **Reproduzierbarkeit:** Alle Metriken wurden am 2026-08-31 auf Commit `b025f8506f` (Branch `develop`) erhoben.  
-> Werkzeug: `find` + `wc -l` für LOC; `grep -rE` für Marker; Filter: Dateiendungen `.c .cc .cpp .cxx .h .hh .hpp .hxx`.  
+> **Reproduzierbarkeit:** Alle Metriken wurden am 2026-08-31 auf Commit `f159aa34be` (Branch `develop`) erhoben.  
+> Werkzeug: `find` + `wc -l` für LOC; `grep -rn -oE` für Marker (1 Treffer pro Vorkommen); Filter: Dateiendungen `.c .cc .cpp .cxx .h .hh .hpp .hxx`.  
 > Befehlsbeispiele (aus Repository-Root):  
 > - Dateizahl: `find src/ -name '*.cpp' -o -name '*.cc' -o -name '*.c' -o -name '*.h' -o -name '*.hpp' | wc -l`  
 > - LOC: `find src/ \( -name '*.cpp' -o -name '*.cc' -o -name '*.c' -o -name '*.h' -o -name '*.hpp' \) -exec cat {} \; | wc -l`  
-> - Marker: `grep -rEic 'TODO|STUB|MOCK|FIXME' src/ | awk -F: '{s+=$2} END{print s}'`  
+> - Marker: `grep -rn --include='*.{cpp,cc,c,h,hpp}' -oE 'TODO|STUB|MOCK|FIXME' src/ | wc -l`  
+> Vollständige Fundortliste: `audit/MARKER_LOCATIONS_2026-08-31.md`  
 > Zahlen sind bei Repository-Änderungen neu zu erheben.
 
 - **Module mit C/C++-Code in `src/`:** 69  
 - **C/C++-Dateien in `src/`:** 1.783  
 - **C/C++-LOC in `src/`:** 939.613  
-- **Marker (`TODO|STUB|MOCK|FIXME`) in `src/`:** 5.109  
+- **Marker (`TODO|STUB|MOCK|FIXME`) in `src/`:** 1.737 (TODO: 1.538 / STUB: 192 / MOCK: 6 / FIXME: 1) — siehe `audit/MARKER_LOCATIONS_2026-08-31.md`
 - **C/C++-Testdateien in `tests/`:** 4.093  
 - **C/C++-Test-LOC in `tests/`:** 1.683.873
 
