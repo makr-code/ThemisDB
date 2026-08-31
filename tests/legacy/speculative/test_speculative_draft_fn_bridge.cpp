@@ -12,6 +12,7 @@
  *   SPEC-TL-02 nullptr fn restores built-in peaked-distribution heuristic
  *   SPEC-TL-03 TargetLogitsFn returning wrong shape falls back to heuristic
  *   SPEC-TL-06 Local tokenizer bridge fail-closed path falls back to target generation
+ *   SPEC-TL-07 Generic non-llama local draft path fails closed without tokenizer bridge
  */
 
 #include <gtest/gtest.h>
@@ -473,4 +474,50 @@ TEST(SpecTlBridge, SPEC_TL_06_LocalDraftTokenizerBridgeFailsClosed) {
 
     EXPECT_EQ(response.text, "target_only");
     EXPECT_EQ(response.metadata.value("speculative_accepted", uint64_t{0}), uint64_t{0});
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SPEC-TL-07: Generic non-llama local draft path fails closed without bridge
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(SpecTlBridge, SPEC_TL_07_GenericLocalDraftWithoutTokenizerBridgeFailsClosed) {
+    constexpr size_t kVocab = 256;
+    constexpr size_t kK     = 2;
+
+    InferenceEngineEnhanced::Config cfg;
+    cfg.enable_speculative_decoding = true;
+    cfg.speculative_draft_tokens    = kK;
+    cfg.speculative_draft_model_id  = "draft";
+    cfg.num_worker_threads          = 1;
+    cfg.enable_context_caching      = false;
+    cfg.batch_timeout_ms            = 50;
+
+    InferenceEngineEnhanced engine(cfg);
+    engine.registerModel("target", std::make_shared<MinimalPlugin>("target_only", kVocab));
+    engine.registerModel("draft",  std::make_shared<MinimalPlugin>("ab",          kVocab));
+    engine.start();
+
+    engine.setTargetLogitsFn(
+        [](const InferenceRequest&, size_t K, size_t vocab_size,
+           std::shared_ptr<ILLMPlugin>) -> std::vector<std::vector<float>> {
+            std::vector<std::vector<float>> mat(K + 1,
+                                                std::vector<float>(vocab_size, -5.0f));
+            mat[0][97] = 5.0f;
+            mat[1][98] = 5.0f;
+            mat[2][0]  = 5.0f;
+            return mat;
+        });
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id          = "spec_tl_07";
+    req.base_request.prompt = "hello local draft no bridge";
+    req.preferred_model_id  = "target";
+    req.allow_caching       = false;
+
+    auto handle   = engine.submit(req);
+    auto response = handle.get();
+    engine.shutdown();
+
+    EXPECT_EQ(response.text, "target_only");
+    EXPECT_EQ(response.metadata.value("speculative_accepted", uint64_t{0}),
+              uint64_t{0});
 }

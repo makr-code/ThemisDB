@@ -582,15 +582,19 @@ public:
                                                        size_t             vocab_size)>;
 
     /// Inject a real tokenizer into trySpeculativeGeneration() for the remote
-    /// draft path.  Pass nullptr / empty fn to restore the byte-modulo
-    /// heuristic (STUB #263).  Thread-safe.
+    /// and generic local draft paths. Pass nullptr / empty fn to remove the
+    /// override. Without an injected tokenizer, speculative decoding proceeds
+    /// only when the draft path has a known native llama-backed token source;
+    /// otherwise the engine falls back to the target-model path. Thread-safe.
     void setTokenizerFn(TokenizerFn fn);
 
     /**
      * @brief Remove the injected tokenizer override.
      *
-     * Equivalent to setTokenizerFn(nullptr) and restores the byte-modulo
-     * fallback used by the speculative-draft bridge. Thread-safe.
+     * Equivalent to setTokenizerFn(nullptr). After clearing the override,
+     * generic non-llama speculative draft paths fail closed back to the
+     * target-model path unless a known native llama-backed tokenizer source is
+     * available. Thread-safe.
      */
     void clearTokenizerFn();
 

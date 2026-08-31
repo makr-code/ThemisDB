@@ -86,6 +86,21 @@ InferenceEngineEnhanced::TokenizerFn makeTokenizerBridgeForPlugin(
     };
 }
 
+[[nodiscard]] bool supportsTokenizerlessNativeDraftTokens(
+    const std::shared_ptr<ILLMPlugin>& plugin
+) {
+    if (!plugin) {
+        return false;
+    }
+
+    if (std::dynamic_pointer_cast<LlamaWrapper>(plugin)) {
+        return true;
+    }
+
+    const auto info = plugin->getModelInfo();
+    return info.has_value() && info->architecture == "llama";
+}
+
 } // namespace
 
 // ═══════════════════════════════════════════════════════════
@@ -2041,9 +2056,8 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     ILLMPlugin::DraftTokensResult draft_result;
 
     if (use_remote) {
-        // Fetch draft text from the remote shard and convert to token IDs +
-        // peaked logit distributions using the same byte-modulo heuristic as
-        // the local generateDraftTokens() path (see STUB/SIMULATION NOTE below).
+        // Fetch draft text from the remote shard and convert it through a real
+        // tokenizer bridge when available; otherwise retry locally.
         std::string remote_text;
         try {
             const nlohmann::json body = {
@@ -2159,6 +2173,17 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         }
         if (!tok_fn_copy) {
             tok_fn_copy = makeTokenizerBridgeForPlugin(target_plugin);
+        }
+
+        const bool allow_native_draft_tokens =
+            supportsTokenizerlessNativeDraftTokens(draft_plugin);
+
+        if (!tok_fn_copy && !allow_native_draft_tokens) {
+            spdlog::info("Speculative draft model '{}' has no tokenizer bridge or "
+                         "known native draft-token implementation; falling back "
+                         "to target generation",
+                         draft_model_id);
+            return false;
         }
 
         if (tok_fn_copy) {

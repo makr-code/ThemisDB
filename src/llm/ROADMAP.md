@@ -90,12 +90,12 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [~] Runtime cancellation semantics and timeout behavior consistency across engine variants (Target: Q3 2026) — COMPLETE 2026-08-16
 - [~] Runtime benchmark and regression gate alignment for RAID/RAG-heavy inference paths (Target: Q3 2026) — COMPLETE 2026-08-16
 - [~] Source-validated runtime gap closure follow-up (Target: Q4 2026)
-  - [~] remove the remaining STUB #261 / STUB #263 draft-token fallback paths in `inference_engine_enhanced.cpp` so speculative decode no longer falls back to byte-modulo token IDs in production-style execution
+  - [x] remove the remaining STUB #261 / STUB #263 draft-token fallback paths in `inference_engine_enhanced.cpp` so speculative decode no longer falls back to byte-modulo token IDs in production-style execution
     - [x] remote speculative-draft wiring now auto-uses `LlamaWrapper` tokenization when the draft or target plugin is a live llama.cpp backend, reducing byte-modulo fallback use in production-style execution
     - [x] remote speculative-draft text no longer byte-modulo-falls back when no tokenizer bridge is available; it now retries the local draft model instead
     - [x] local speculative-draft fallback now also auto-uses `LlamaWrapper` tokenization when the draft or target plugin is a live llama.cpp backend
     - [x] local speculative-draft tokenizer-bridge failures now fail closed back to the target-model path instead of synthesizing byte-modulo token IDs
-    - [ ] generic non-llama plugin paths still retain the documented byte-modulo fallback when no tokenizer bridge or plugin-native draft implementation is available
+    - [x] generic non-llama plugin paths now fail closed back to the target-model path when no tokenizer bridge or known native llama-backed draft-token implementation is available
   - [~] replace simulation-backed validation/telemetry defaults in `gpu_memory_manager.cpp` and `production_validator.cpp` with hardware-backed checks or explicit disabled-state contracts
     - [x] `production_validator.cpp` stress-test execution now fails closed without an attached inference engine instead of synthesizing local responses
     - [x] `gpu_memory_manager.cpp` now keeps CUDA-absent / no-runtime paths in an explicit unavailable state instead of reporting simulated healthy/available GPUs or simulated peer-access success
@@ -164,7 +164,7 @@ The module provides production-grade LLM runtime surfaces across async inference
 > **Source:** Semantic analysis 2026-08-25 — `inference_engine_enhanced.cpp` (8 stubs), `inline_training_engine.cpp` (5 stubs)
 
 - [~] Replace the remaining speculative-decode fallback stubs in `inference_engine_enhanced.cpp` after the Wave-7 bridge work (Target: Q4 2026)
-  - Source revalidation 2026-08-31: TokenizerFn bridging is wired, and production llama.cpp paths now auto-reuse live tokenizer state via `LlamaWrapper::tokenizeForBridge()`, but generic fallback paths still remain as residual runtime debt
+  - Source revalidation 2026-08-31: TokenizerFn bridging is wired, production llama.cpp paths now auto-reuse live tokenizer state via `LlamaWrapper::tokenizeForBridge()`, and generic non-llama draft paths now fail closed without byte-modulo token fabrication; remaining speculative debt centers on target-logit realism rather than draft-token fabrication
   - Inputs: draft-model logits + verify-model logits; KV-cache capacity config
   - Outputs: accepted token count, cache hit/miss metrics
   - Tests: `tests/llm/test_wave7_llm_kvcache_lru_checkpoint.cpp` (LRU-01..LRU-10)
