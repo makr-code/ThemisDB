@@ -14,6 +14,7 @@ The format is based on Keep a Changelog.
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified benchmark symbols from storage-performance and user-storage-mount benchmark suites.
 - `SecuritySignatureManager` now fails closed when constructed without RocksDB unless the caller explicitly opts into the in-memory fallback for tests/ephemeral workflows.
+- `BackupManager` now uses real manifest-driven S3/GCS/Azure transport for cloud backup upload/restore instead of the previous local-mirror-only remote stub path.
 
 ## [2.1.x] - 2026
 

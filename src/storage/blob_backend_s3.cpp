@@ -204,7 +204,7 @@ public:
         
         // Verify hash
         std::string actual_hash = computeSHA256(data);
-        if (actual_hash != ref.hash_sha256) {
+        if (!ref.hash_sha256.empty() && actual_hash != ref.hash_sha256) {
             THEMIS_ERROR("Hash mismatch for blob {}: expected={}, actual={}", 
                         ref.id, ref.hash_sha256, actual_hash);
             return Err<std::vector<uint8_t>>(
@@ -285,4 +285,3 @@ std::mutex S3BlobBackend::init_mutex_;
 } // namespace themis
 
 #endif
-

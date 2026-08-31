@@ -6,7 +6,7 @@
 
 ## Current Status
 
-Production-capable storage runtime exists for durable persistence, MVCC/WAL lifecycle behavior, backup/PITR flows, blob/tiering behavior, and storage audit/integrity surfaces. Source revalidation on 2026-08-31 found two degraded restore paths in `backup_manager.cpp`: when compression or OpenSSL dependencies are absent, restore currently copies bytes verbatim instead of performing real decompression/decryption. Follow-up hardening now fail-closes those restore paths, `ggml_tensor_bridge.cpp` now honors the runtime `ggml_context*` so real ggml allocation/copy can occur without an injected allocator when ggml is linked, EmbeddedLLM startup now registers `GGML_TYPE_TT` once so TT-backed ggml mappings do not rely on an uninitialized type-registration path, and `SecuritySignatureManager` no longer enables an implicit in-memory store when RocksDB is absent unless the caller explicitly opts into that test-only fallback.
+Production-capable storage runtime exists for durable persistence, MVCC/WAL lifecycle behavior, backup/PITR flows, blob/tiering behavior, and storage audit/integrity surfaces. Source revalidation on 2026-08-31 found two degraded restore paths in `backup_manager.cpp`: when compression or OpenSSL dependencies are absent, restore currently copies bytes verbatim instead of performing real decompression/decryption. Follow-up hardening now fail-closes those restore paths, `ggml_tensor_bridge.cpp` now honors the runtime `ggml_context*` so real ggml allocation/copy can occur without an injected allocator when ggml is linked, EmbeddedLLM startup now registers `GGML_TYPE_TT` once so TT-backed ggml mappings do not rely on an uninitialized type-registration path, `SecuritySignatureManager` no longer enables an implicit in-memory store when RocksDB is absent unless the caller explicitly opts into that test-only fallback, and remote S3/GCS/Azure backup transport now uploads a manifest plus payload blobs instead of failing closed with local-mirror-only behavior.
 
 ## In Progress
 
@@ -40,7 +40,7 @@ Production-capable storage runtime exists for durable persistence, MVCC/WAL life
 - [ ] tighten deterministic behavior under heavy WAL replay and compaction pressure (Target: Q4 2026)
 - [ ] expand stress coverage for blob/tiering and PITR edge scenarios (Target: Q4 2026)
 - [ ] improve operator-facing diagnostics for recovery and maintenance incidents (Target: Q4 2026)
-- [ ] finish remote cloud backup transport wiring in `backup_manager.cpp` for S3/GCS/Azure so cloud restore no longer depends on local-mirror-only behavior (Target: Q4 2026)
+- [x] finish remote cloud backup transport wiring in `backup_manager.cpp` for S3/GCS/Azure so cloud restore now reconstructs backups from a manifest plus payload blobs instead of depending on local-mirror-only behavior (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
 - [ ] re-baseline p95/p99 envelopes for write/replay/recovery-sensitive paths (Target: Q1 2027)
@@ -74,7 +74,7 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity â
 ### Phase 2: Core Implementation
 - [~] complete hardening for WAL/MVCC and backup/PITR internals (Target: Q4 2026)
   - [x] `SecuritySignatureManager` now rejects null-backend production use instead of silently downgrading integrity persistence to an in-memory map
-  - [ ] remote cloud backup archive transport remains open for S3/GCS/Azure
+  - [x] remote cloud backup archive transport now uses provider blob backends plus a manifest-driven restore contract for S3/GCS/Azure
 - [ ] align tiered/blob/redundancy behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
@@ -126,7 +126,7 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity â
 - runtime behavior depends on storage configuration, backend profile, and workload shape.
 - selected replay/recovery/tiering edge scenarios need continued hardening.
 - benchmark depth should continue expanding for advanced storage workloads.
-- remote cloud backup transport is still incomplete for S3/GCS/Azure in `backup_manager.cpp`; current fail-closed behavior remains the correct operational contract until the archive transport path lands.
+- provider-native remote transport now depends on the linked blob backend plus credentials/runtime environment; multipart/retry soak hardening remains follow-up work.
 
 ## Breaking Changes
 

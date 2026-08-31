@@ -564,6 +564,10 @@ public:
      * - `StorageBackend::AZURE`: `azure://account/container/path` (requires provider integration).
      * - `StorageBackend::GCS`: `gs://bucket/path` (requires provider integration).
      *
+     * Remote transfers serialize the backup as a manifest plus per-file payload
+     * objects beneath the requested provider URI so that restore can reconstruct
+     * the directory tree without relying on provider-side object listing.
+     *
      * @param local_backup_path Existing local backup directory or archive.
      * @param cloud_uri Provider URI or local mirror path, depending on @p options.storage.
      * @param options Transfer options, backend selection, and provider-specific configuration.
@@ -579,8 +583,9 @@ public:
      *
      * For `StorageBackend::LOCAL`, the method copies the source tree from a
      * `file:///absolute/path` URI or absolute path into @p local_restore_path.
-     * Remote backends validate the URI format and then delegate to the matching
-     * provider integration when available.
+     * Remote backends fetch a manifest object plus the referenced payload
+     * objects from the provider URI and reconstruct the original backup tree
+     * locally.
      *
      * @param cloud_uri Provider URI or local mirror path, depending on @p options.storage.
      * @param local_restore_path Local destination directory for the restored payload.
@@ -898,13 +903,12 @@ private:
      * @param cloud_path Provider URI or local mirror path.
      * @param backend Transport backend to use.
      * @param config Provider-specific configuration values.
-     * @param ec Receives the failure reason when the operation returns `false`.
-     * @return `true` on success, or `false` when validation or transfer fails.
+     * @return `Result<void>` on success, or an error when validation, manifest
+     *         generation, upload, or cleanup fails.
      */
-    bool uploadToCloud(const std::string& local_path, const std::string& cloud_path,
-                       StorageBackend backend, 
-                       const std::map<std::string, std::string>& config,
-                       std::error_code& ec);
+    Result<void> uploadToCloud(const std::string& local_path, const std::string& cloud_path,
+                               StorageBackend backend,
+                               const std::map<std::string, std::string>& config);
     
     /**
      * @brief Download or mirror a backup payload from the selected backend.
@@ -913,13 +917,12 @@ private:
      * @param local_path Local destination directory or archive path.
      * @param backend Transport backend to use.
      * @param config Provider-specific configuration values.
-     * @param ec Receives the failure reason when the operation returns `false`.
-     * @return `true` on success, or `false` when validation or transfer fails.
+     * @return `Result<void>` on success, or an error when validation, manifest
+     *         retrieval, payload download, or local reconstruction fails.
      */
-    bool downloadFromCloud(const std::string& cloud_path, const std::string& local_path,
-                           StorageBackend backend,
-                           const std::map<std::string, std::string>& config,
-                           std::error_code& ec);
+    Result<void> downloadFromCloud(const std::string& cloud_path, const std::string& local_path,
+                                   StorageBackend backend,
+                                   const std::map<std::string, std::string>& config);
     
     /**
      * @brief Find the most recent full backup beneath a base directory.

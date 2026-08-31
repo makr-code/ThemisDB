@@ -52,6 +52,7 @@ The storage module provides persistence, versioned data handling, blob and tiere
 - **WAL durability:** Every durable write is preceded by WAL entry durability; replay is deterministic and idempotent.
 - **Crash recovery:** Unclean shutdown recovery is deterministic; no data loss (MVCC-enabled) and no state corruption.
 - **Backup guarantee:** Backups are atomic point-in-time copies with full consistency across all layers.
+- **Remote backup transport:** S3/GCS/Azure uploads persist a manifest plus payload blobs so restore can rebuild the backup tree without provider-side listing.
 - **PITR accuracy:** Recovery to a specific timestamp ±100ms; no log gaps, no partial transactions.
 - **Tiered migration:** Age-based and access-frequency-based tier migration is transparent to readers; no observable latency spike on promotion.
 - **Configuration scope:** Behavior is bounded by storage configuration; all limits are enforced with explicit error on overage.

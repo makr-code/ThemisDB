@@ -35,6 +35,7 @@ Es definiert verbindliche Anforderungen für Durability, WAL/Replay-Verhalten, B
 ### 2) Blob-Backend-Absicherung
 
 - **MUST:** Blob-Backend (S3/GCS/Azure/Filesystem) mit explizit gesetzten Credentials konfiguriert; leere/Default-Credentials werden nicht akzeptiert.
+- **MUST:** Remote S3/GCS/Azure-Backups über den manifestbasierten Transport in `backup_manager.cpp` betreiben; Restore darf nicht von Provider-Listing oder lokalen Mirror-Pfaden abhängen.
 - **MUST:** Blob-Backend-Verbindungsfehler werden als expliziter Fehler propagiert; kein Silent-Fallback auf lokalen Speicher ohne Konfiguration.
 - **MUST NOT:** Unverschlüsselte Blob-Übertragung in Produktionsdeployments verwenden.
 
