@@ -768,3 +768,104 @@ jobs:
             /tmp/ai-hygiene-report.txt
           retention-days: 30
           if-no-files-found: ignore
+
+
+  # 7. Doxygen API Reference Extraction
+  doxygen-api-extraction:
+    name: Doxygen XML → API Reference wiki pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Run only on schedule or explicit workflow_dispatch to keep costs low.
+    # Push triggers are excluded: Doxygen XML generation is heavy and the
+    # output changes only when public API headers change.
+    if: |
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Install Doxygen
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends doxygen graphviz
+
+      - name: Generate Doxygen XML
+        id: doxygen
+        run: |
+          # Use audit Doxyfile if available (scoped, faster than full build)
+          DOXYFILE="Doxyfile.audit"
+          [ ! -f "$DOXYFILE" ] && DOXYFILE="Doxyfile"
+          if [ ! -f "$DOXYFILE" ]; then
+            echo "::warning::No Doxyfile found — skipping Doxygen XML generation."
+            echo "doxygen_ok=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Ensure XML output is enabled
+          mkdir -p build/doxygen/xml
+          # Run Doxygen with XML output overrides
+          (cat "$DOXYFILE"; echo "GENERATE_XML = YES"; echo "XML_OUTPUT = build/doxygen/xml"; echo "GENERATE_HTML = NO") \
+            | doxygen - 2>&1 | tail -20
+          if [ -f "build/doxygen/xml/index.xml" ]; then
+            echo "doxygen_ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::Doxygen XML index.xml not found — extraction will be skipped."
+            echo "doxygen_ok=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Extract API references from Doxygen XML
+        if: steps.doxygen.outputs.doxygen_ok == 'true'
+        id: extract
+        run: |
+          python3 scripts/extract_doxygen_wiki.py \
+            --xml-dir build/doxygen/xml \
+            --output-dir ai_context/developer_llm_wiki \
+            2>&1 | tee /tmp/doxygen-extraction.txt
+          # Count generated files
+          COUNT=$(find ai_context/developer_llm_wiki -maxdepth 1 -name 'API_REFERENCE_*.md' 2>/dev/null | wc -l)
+          echo "api_ref_count=$COUNT" >> "$GITHUB_OUTPUT"
+
+      - name: Upload extraction report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: doxygen-extraction-${{ github.run_number }}
+          path: |
+            /tmp/doxygen-extraction.txt
+            ai_context/developer_llm_wiki/API_REFERENCE_*.md
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Commit API reference artifacts
+        if: steps.extract.outputs.api_ref_count != '' && steps.extract.outputs.api_ref_count != '0'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ai_context/developer_llm_wiki/API_REFERENCE_*.md
+          if git diff --cached --quiet; then
+            echo "No Doxygen API reference changes to commit."
+          else
+            COUNT="${{ steps.extract.outputs.api_ref_count }}"
+            git commit -m "docs(wiki): update ${COUNT} Doxygen API_REFERENCE_*.md artifacts [skip ci]"
+            git push
+          fi
+
+      - name: Write job summary
+        if: always()
+        run: |
+          {
+            echo "## Doxygen API Reference Extraction"
+            if [ -f /tmp/doxygen-extraction.txt ]; then
+              echo '```'; cat /tmp/doxygen-extraction.txt; echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
