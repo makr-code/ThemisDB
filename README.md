@@ -9,6 +9,8 @@
 [![Status](https://img.shields.io/badge/status-ACTIVE_DEVELOPMENT-orange)](ROADMAP.md)
 [![Maturity](https://img.shields.io/badge/maturity-72_sync__19_PC__48_H__2_E__3_T-orange)](ROADMAP.md)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen)](CONTRIBUTING.md)
+[![Core LOC](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/makr-code/ThemisDB/develop/.github/badges/lines-of-code.json&query=%24.message&label=Core%20LOC&color=blue)](docs/en/badges/loc.md)
+[![Core Files](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/makr-code/ThemisDB/develop/.github/badges/file-count.json&query=%24.message&label=Core%20Files&color=green)](docs/en/badges/loc.md)
 
 [📚 Documentation](docs/Home.md) · [🚀 Quick Start](QUICKSTART.md) · [🛠️ Setup](SETUP.md) · [⚠️ Status](ROADMAP.md) · [🔎 Audit Hub](audit/AUDIT.md) · [🆘 Support](SUPPORT.md) · [Release Notes](CHANGELOG.md)
 
