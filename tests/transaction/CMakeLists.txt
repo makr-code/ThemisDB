@@ -751,6 +751,8 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_grpc_rpc_adapter.cpp")
     add_executable(test_grpc_rpc_adapter
         test_grpc_rpc_adapter.cpp
         ${THEMIS_ROOT_DIR}/src/transaction/distributed_transaction_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/transaction/grpc_rpc_adapter.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/wal_manager.cpp
         ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
@@ -761,6 +763,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_grpc_rpc_adapter.cpp")
 
     target_link_libraries(test_grpc_rpc_adapter PRIVATE
         ${TEST_LIBS}
+        RocksDB::rocksdb
         spdlog::spdlog
         Threads::Threads
     )
