@@ -4,6 +4,8 @@
 **Repository Metadata:** `VERSION=2.4.0-alpha`  
 **Canonical Rule:** `/audit/**` is the audit source of truth; `/docs/**` is downstream publication/legacy mirror unless explicitly marked otherwise.
 
+> **Baseline rule (2026-08-31):** Root audit documents without direct date reference in filename (`AUDIT.md`, `README.md`, `WAVE_C_AUDIT_EVIDENCE.md`) are synchronized to the latest consolidated baseline report.
+
 ---
 
 ## Scope Lock
