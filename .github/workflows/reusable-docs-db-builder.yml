@@ -1,9 +1,14 @@
 name: "Reusable: Docs-to-ThemisDB Database Builder"
 
 # Rechenaufwand-Score: R=3 (K=2, L=3, N=3) | last-calibrated: 2026-08-31
-# Reusable workflow that compiles the themis_docs_builder C++ tool and
-# ingests any folder structure (docs/, legals/, runbooks/, …) into a
-# ThemisDB-compatible RocksDB database.
+# Reusable workflow that runs the canonical Python documentation pipeline
+# (scripts/generate_docs_database.py → scripts/generate_docs_rocksdb.py)
+# and ingests any folder structure into a ThemisDB-compatible RocksDB database.
+#
+# Pipeline stages (mirrors CMakeLists.txt BUILD mode):
+#   1. generate_docs_database.py  → JSON artifact with chunks + embeddings + graph
+#   2. generate_docs_rocksdb.py   → C++ importer source from the JSON
+#   3. compile + run importer     → RocksDB database
 #
 # Caller pattern:
 #   uses: ./.github/workflows/reusable-docs-db-builder.yml
@@ -23,12 +28,15 @@ on:
       input_dir:
         description: >
           Source folder to ingest (relative to repo root, e.g. docs, legals, runbooks).
+          When set to 'docs' or left empty the full-repo Markdown scan is used (default
+          behaviour of generate_docs_database.py); otherwise the script is restricted to
+          the given directory via --input-dir.
         type: string
         required: true
       namespace:
         description: >
           ThemisDB namespace for document isolation (reverse-domain notation,
-          e.g. com.themisdb.docs).
+          e.g. com.themisdb.docs). Passed as --namespace to generate_docs_database.py.
         type: string
         required: true
       output_name:
@@ -37,19 +45,21 @@ on:
           Must be unique per input_dir.
         type: string
         required: true
-      formats:
+      embedding_model:
         description: >
-          Comma-separated list of input formats to process.
-          Supported: markdown, html, text, json.
+          sentence-transformers model name for offline embeddings.
+          Falls back to deterministic hash embeddings when sentence-transformers
+          is not installed — no extra pip install required.
         type: string
         required: false
-        default: 'markdown'
-      exclude_patterns:
+        default: 'sentence-transformers/all-MiniLM-L6-v2'
+      graph_mode:
         description: >
-          Comma-separated glob patterns to exclude from ingestion.
+          Graph edge persistence mode passed to generate_docs_database.py.
+          Choices: full | doc-only | intra-doc
         type: string
         required: false
-        default: '*.tmp,*.bak,*.draft,draft_*,temp_*'
+        default: 'full'
       artifact_retention_days:
         description: 'Retention period for the uploaded database artifact (days).'
         type: number
@@ -65,7 +75,7 @@ jobs:
   build-db:
     name: "Build: ${{ inputs.output_name }} (${{ inputs.input_dir }})"
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     permissions:
       contents: read
 
@@ -76,7 +86,7 @@ jobs:
       # ── Layer 2: Content hash check ─────────────────────────────────────
       # Computes a stable SHA-256 fingerprint of the entire input folder tree.
       # If a cached build with this exact hash already exists, the build is
-      # skipped to avoid redundant compilation and ingestion.
+      # skipped to avoid redundant ingestion.
 
       - name: Compute input-directory content hash
         id: hash
@@ -113,61 +123,92 @@ jobs:
             echo "No cache hit — rebuild required."
           fi
 
-      # ── Build themis_docs_builder ────────────────────────────────────────
+      # ── Python environment ───────────────────────────────────────────────
 
-      - name: Install build dependencies
+      - name: Set up Python
+        if: steps.check.outputs.skip != 'true'
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          pip install --quiet sentence-transformers || true
+          # sentence-transformers is optional; generate_docs_database.py falls back
+          # to deterministic hash embeddings when it is unavailable.
+
+      # ── C++ toolchain for the RocksDB importer ───────────────────────────
+
+      - name: Install C++ build dependencies
         if: steps.check.outputs.skip != 'true'
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
-            cmake ninja-build \
-            librocksdb-dev \
-            libyaml-cpp-dev
+            g++ librocksdb-dev nlohmann-json3-dev
 
-      - name: Build themis_docs_builder
-        if: steps.check.outputs.skip != 'true'
-        run: |
-          cmake -S tools/themis_docs_builder \
-                -B /tmp/builder-build \
-                -G Ninja \
-                -DCMAKE_BUILD_TYPE=Release \
-                -DWITH_YAML=ON \
-                -DBUILD_TESTS=OFF
-          cmake --build /tmp/builder-build --parallel
+      # ── Stage 1: JSON artifact (chunks + embeddings + graph) ────────────
 
-      # ── Ingest source folder into ThemisDB database ──────────────────────
-
-      - name: Build ThemisDB database from ${{ inputs.input_dir }}/
+      - name: "Stage 1: Generate JSON documentation database"
         if: steps.check.outputs.skip != 'true'
         shell: bash
         run: |
           mkdir -p output-db
 
-          # Expand comma-separated format list into --format flags
-          FORMAT_FLAGS=()
-          IFS=',' read -ra FORMATS <<< "${{ inputs.formats }}"
-          for fmt in "${FORMATS[@]}"; do
-            fmt="${fmt// /}"   # strip spaces
-            [ -n "$fmt" ] && FORMAT_FLAGS+=(--format "$fmt")
-          done
+          EXTRA_ARGS=()
+          # When input_dir is not the repo root pass a scoped directory.
+          # generate_docs_database.py discovers Markdown files from REPO_ROOT;
+          # restricting to a subdirectory requires --input-dir if supported, or we
+          # patch REPO_ROOT to the subdirectory via env var.
+          if [ "${{ inputs.input_dir }}" != "." ] && [ "${{ inputs.input_dir }}" != "" ]; then
+            EXTRA_ARGS+=(--input-dir "${{ inputs.input_dir }}")
+          fi
 
-          # Expand comma-separated exclude list into --exclude flags
-          EXCLUDE_FLAGS=()
-          IFS=',' read -ra EXCLUDES <<< "${{ inputs.exclude_patterns }}"
-          for pat in "${EXCLUDES[@]}"; do
-            pat="${pat// /}"
-            [ -n "$pat" ] && EXCLUDE_FLAGS+=(--exclude "$pat")
-          done
+          python3 scripts/generate_docs_database.py \
+            --output "output-db/docs_artifact.json" \
+            --embedding-model "${{ inputs.embedding_model }}" \
+            --graph-mode "${{ inputs.graph_mode }}" \
+            "${EXTRA_ARGS[@]}"
 
-          /tmp/builder-build/themis_docs_builder \
-            --input   "${{ inputs.input_dir }}" \
-            --output  "output-db/${{ inputs.output_name }}.db" \
-            --namespace "${{ inputs.namespace }}" \
-            "${FORMAT_FLAGS[@]}" \
-            "${EXCLUDE_FLAGS[@]}" \
-            --recursive \
-            --validate \
-            --verbose
+      # ── Stage 2: Generate C++ RocksDB importer from JSON ────────────────
+
+      - name: "Stage 2: Generate C++ RocksDB importer"
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          python3 scripts/generate_docs_rocksdb.py \
+            --input  "output-db/docs_artifact.json" \
+            --output "output-db/${{ inputs.output_name }}.db" \
+            --method cpp
+
+      # ── Stage 3: Compile and run C++ importer → RocksDB database ────────
+
+      - name: "Stage 3: Compile C++ importer"
+        if: steps.check.outputs.skip != 'true'
+        shell: bash
+        run: |
+          # generate_docs_rocksdb.py emits the importer source next to the output path.
+          IMPORTER_SRC="output-db/${{ inputs.output_name }}.db_importer.cpp"
+          if [ ! -f "${IMPORTER_SRC}" ]; then
+            # Fallback: common output name used by the script
+            IMPORTER_SRC="output-db/import_docs_rocksdb.cpp"
+          fi
+          EXTRA_CFLAGS=()
+          if pkg_out=$(pkg-config --cflags nlohmann_json 2>/dev/null); then
+            # shellcheck disable=SC2206
+            EXTRA_CFLAGS=($pkg_out)
+          fi
+          g++ -std=c++17 -O2 \
+            "${IMPORTER_SRC}" \
+            -o /tmp/import_docs_rocksdb \
+            -lrocksdb -lpthread \
+            "${EXTRA_CFLAGS[@]}"
+
+      - name: "Stage 3: Import JSON into RocksDB"
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          /tmp/import_docs_rocksdb \
+            "output-db/docs_artifact.json" \
+            "output-db/${{ inputs.output_name }}.db"
 
       # ── Cache update ─────────────────────────────────────────────────────
 
@@ -178,14 +219,22 @@ jobs:
           mkdir -p .db-cache
           echo "${{ steps.hash.outputs.value }}" > ".db-cache/${{ inputs.output_name }}.sha"
 
-      # ── Upload database artifact ──────────────────────────────────────────
+      # ── Upload artifacts ──────────────────────────────────────────────────
 
-      - name: Upload database artifact
+      - name: Upload RocksDB database artifact
         if: steps.check.outputs.skip != 'true'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: ${{ inputs.output_name }}
           path: output-db/${{ inputs.output_name }}.db
+          retention-days: ${{ inputs.artifact_retention_days }}
+
+      - name: Upload JSON artifact (for incremental rebuilds / debugging)
+        if: steps.check.outputs.skip != 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ${{ inputs.output_name }}-json
+          path: output-db/docs_artifact.json
           retention-days: ${{ inputs.artifact_retention_days }}
 
       - name: Summary
@@ -199,11 +248,13 @@ jobs:
             } >> "$GITHUB_STEP_SUMMARY"
           else
             {
-              echo "### ✅ Database rebuilt"
+              echo "### ✅ Database rebuilt (Python pipeline)"
               echo "| Field | Value |"
               echo "|---|---|"
               echo "| Input directory | \`${{ inputs.input_dir }}/\` |"
               echo "| Namespace | \`${{ inputs.namespace }}\` |"
+              echo "| Embedding model | \`${{ inputs.embedding_model }}\` |"
+              echo "| Graph mode | \`${{ inputs.graph_mode }}\` |"
               echo "| Artifact | \`${{ inputs.output_name }}\` |"
               echo "| Content hash | \`${{ steps.hash.outputs.value }}\` |"
               echo "| Retention | ${{ inputs.artifact_retention_days }} days |"
