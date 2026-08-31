@@ -27,7 +27,31 @@ namespace storage {
 /// Provides CRUD operations and file verification capabilities
 class SecuritySignatureManager {
 public:
+    /**
+     * @brief Construction-time options for storage-backed signature verification.
+     */
+    struct Options {
+        /**
+         * @brief Allow an in-memory fallback store when RocksDB is unavailable.
+         *
+         * This is intended for focused tests or explicitly ephemeral workflows.
+         * Production callers should keep the default fail-closed behavior.
+         */
+        bool allow_in_memory_fallback = false;
+    };
+
+    /**
+     * @brief Create a signature manager backed by RocksDB or an explicit test-only
+     *        in-memory fallback.
+     *
+     * @param db Persistent RocksDB wrapper. When null and
+     *        `options.allow_in_memory_fallback` is `false`, the manager stays
+     *        unavailable and all mutating operations fail closed.
+     * @param options Construction-time fallback policy.
+     */
     explicit SecuritySignatureManager(std::shared_ptr<RocksDBWrapper> db);
+    explicit SecuritySignatureManager(std::shared_ptr<RocksDBWrapper> db,
+                                      Options options);
     
     // CRUD Operations
     
@@ -54,8 +78,13 @@ public:
         int total = 0;           ///< Total signatures scanned
         int verified = 0;        ///< Signatures whose files matched their stored hashes
         int failed = 0;          ///< Signatures with hash mismatches or missing files
+        bool backend_available = true; ///< False when no persistent backend exists and fallback was not enabled
+        bool used_fallback_memory_store = false; ///< True when verification ran against the explicit in-memory fallback
+        std::string error_message; ///< Operator-facing reason when verification cannot execute
         std::vector<std::string> failed_resource_ids; ///< resource_ids that failed verification
-        bool success() const { return failed == 0; }
+        bool success() const {
+            return backend_available && error_message.empty() && failed == 0;
+        }
     };
 
     /// Verify all stored signatures by iterating over all document keys and
@@ -68,6 +97,16 @@ public:
     
     /// Normalize resource identifier (resolve relative paths, symlinks)
     static std::string normalizeResourceId(const std::string& path);
+
+    /// Return whether the manager is currently using the explicit in-memory fallback store.
+    [[nodiscard]] bool isUsingFallbackMemoryStore() const noexcept {
+        return use_fallback_memory_store_;
+    }
+
+    /// Return whether a persistent RocksDB backend is available.
+    [[nodiscard]] bool hasPersistentBackend() const noexcept {
+        return static_cast<bool>(db_);
+    }
     
 private:
     std::shared_ptr<RocksDBWrapper> db_;

@@ -55,6 +55,7 @@ The storage module provides persistence, versioned data handling, blob and tiere
 - **PITR accuracy:** Recovery to a specific timestamp ±100ms; no log gaps, no partial transactions.
 - **Tiered migration:** Age-based and access-frequency-based tier migration is transparent to readers; no observable latency spike on promotion.
 - **Configuration scope:** Behavior is bounded by storage configuration; all limits are enforced with explicit error on overage.
+- **Integrity persistence:** `SecuritySignatureManager` requires a persistent RocksDB backend in production and only uses an in-memory store when the caller explicitly opts into the test-only fallback.
 
 ## Production Readiness Status
 

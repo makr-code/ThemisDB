@@ -27,8 +27,10 @@ Es definiert verbindliche Anforderungen für Durability, WAL/Replay-Verhalten, B
 ### 1) Integritätssicherung
 
 - **MUST:** `security_signature.cpp` aktiv für kritische Daten-Schreibpfade; Signatur-Prüfung bei Lese-Operationen aktiv.
+- **MUST:** `SecuritySignatureManager` mit einem persistenten RocksDB-Backend initialisieren; In-Memory-Fallback ist nur mit explizitem Opt-in für Tests oder klar deklarierte ephemere Läufe zulässig.
 - **MUST:** Storage-Audit-Logging für Write-/Delete-Operationen aktiv.
 - **MUST NOT:** Integritätsprüfungen für Produktions-Schreibpfade deaktivieren.
+- **MUST NOT:** `SecuritySignatureManager(nullptr)` als stillschweigenden Produktions-Downgrade verwenden.
 
 ### 2) Blob-Backend-Absicherung
 
@@ -53,6 +55,7 @@ Es definiert verbindliche Anforderungen für Durability, WAL/Replay-Verhalten, B
 - [ ] Backup-Manager mit explizitem Backup-Ziel und Zeitplan konfiguriert
 - [ ] PITR konfiguriert wenn RPO-Anforderungen dies verlangen
 - [ ] Security-Signature-Pfad aktiv
+- [ ] `SecuritySignatureManager` läuft gegen RocksDB oder ein ausdrücklich dokumentiertes test-only Fallback
 - [ ] Blob-Backend-Credentials explizit gesetzt
 - [ ] Storage-Audit-Logging aktiv
 - [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt

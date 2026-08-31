@@ -43,6 +43,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | LLM | 13 listed | MIXED | Major Wave 5 closures landed; remaining real gaps center on distributed collectives, multi-tenant isolation, and final cross-module speculative/TARG wiring |
 | RAG / LLM Wiki | 57 listed | Mostly perf / integration follow-up | BM25+, RRF, persistent cache, and real `LLMJudgeIntegration` path are implemented; remaining work is performance gates, Recall@k sign-off, Wikipedia ABI wiring, and entropy-bridge integration |
 | GPU/CUDA | 21+53 listed | REAL IMPL gaps | Break-even routing now uses production build wiring plus explicit CPU/GPU profiling contracts, but CUDA/HIP kernel parity, unchecked-kernel-call closure, and representative-hardware validation remain open release blockers |
+| storage | 12 real gaps after 2026-08-31 revalidation | MIXED | Backup restore fail-closed hardening, ggml bridge runtime wiring, and `SecuritySignatureManager` null-backend fail-closed behavior are in place; biggest remaining source gap is remote S3/GCS/Azure backup transport plus long-run validation evidence |
 | access_model | roadmap contradiction | Mostly DOC drift | Source and module evidence show Phase 5-6 observability, e2e/concurrency tests, and GATE-ACM-01..06 are complete; stale checklist/known-issues text must stay synchronized |
 
 ## Release Hardening Program (current canonical version: v2.4.0-alpha)

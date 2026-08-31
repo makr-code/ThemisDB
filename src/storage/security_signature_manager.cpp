@@ -23,10 +23,18 @@ namespace storage {
 namespace fs = std::filesystem;
 
 SecuritySignatureManager::SecuritySignatureManager(std::shared_ptr<RocksDBWrapper> db)
-    : db_(db) {
+    : SecuritySignatureManager(std::move(db), Options{}) {}
+
+SecuritySignatureManager::SecuritySignatureManager(std::shared_ptr<RocksDBWrapper> db,
+                                                   Options options)
+    : db_(std::move(db)) {
     if (!db_) {
-        // Allow in-memory fallback for test environments where RocksDB is not wired
-        use_fallback_memory_store_ = true;
+        if (options.allow_in_memory_fallback) {
+            use_fallback_memory_store_ = true;
+            THEMIS_WARN("SecuritySignatureManager: explicit in-memory fallback enabled");
+        } else {
+            THEMIS_ERROR("SecuritySignatureManager: RocksDB backend unavailable; integrity operations will fail closed");
+        }
     }
 }
 
@@ -51,6 +59,11 @@ bool SecuritySignatureManager::storeSignature(const SecuritySignature& sig) {
             return true;
         }
 
+        if (!db_) {
+            THEMIS_ERROR("SecuritySignatureManager::storeSignature rejected because no backend is available");
+            return false;
+        }
+
         return db_->put(key, value);
     } catch (...) {
         THEMIS_WARN("security_signature_manager::db_: unhandled exception caught");
@@ -70,6 +83,10 @@ std::optional<SecuritySignature> SecuritySignatureManager::getSignature(const st
             }
             value = it->second;
         } else {
+            if (!db_) {
+                THEMIS_ERROR("SecuritySignatureManager::getSignature rejected because no backend is available");
+                return std::nullopt;
+            }
             if (!db_->get(key, value)) {
                 return std::nullopt;
             }
@@ -88,6 +105,10 @@ bool SecuritySignatureManager::deleteSignature(const std::string& resource_id) {
         if (use_fallback_memory_store_) {
             return mem_store_.erase(key) > 0;
         }
+        if (!db_) {
+            THEMIS_ERROR("SecuritySignatureManager::deleteSignature rejected because no backend is available");
+            return false;
+        }
         return db_->del(key);
     } catch (...) {
         THEMIS_WARN("security_signature_manager: unhandled exception caught");
@@ -105,6 +126,11 @@ std::vector<SecuritySignature> SecuritySignatureManager::listAllSignatures() {
                 signatures.push_back(*sig);
             }
         }
+        return signatures;
+    }
+
+    if (!db_) {
+        THEMIS_ERROR("SecuritySignatureManager::listAllSignatures rejected because no backend is available");
         return signatures;
     }
     
@@ -212,6 +238,7 @@ SecuritySignatureManager::VerifyAllResult SecuritySignatureManager::verifyAll() 
     VerifyAllResult result;
 
     if (use_fallback_memory_store_) {
+        result.used_fallback_memory_store = true;
         for (const auto& [key, value] : mem_store_) {
             auto sig = SecuritySignature::deserialize(value);
             if (!sig.has_value()) {
@@ -227,6 +254,14 @@ SecuritySignatureManager::VerifyAllResult SecuritySignatureManager::verifyAll() 
                 result.failed_resource_ids.push_back(sig->resource_id);
             }
         }
+        return result;
+    }
+
+    if (!db_) {
+        result.backend_available = false;
+        result.error_message =
+            "SecuritySignatureManager has no RocksDB backend; enable explicit in-memory fallback only for tests";
+        THEMIS_ERROR("SecuritySignatureManager::verifyAll rejected because no backend is available");
         return result;
     }
 
@@ -255,4 +290,3 @@ SecuritySignatureManager::VerifyAllResult SecuritySignatureManager::verifyAll() 
 
 } // namespace storage
 } // namespace themis
-
