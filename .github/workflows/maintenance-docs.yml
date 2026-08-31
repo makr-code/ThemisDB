@@ -221,7 +221,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
-      contents: write
+      contents: read
+    outputs:
+      mode: ${{ steps.mode.outputs.mode }}
+      header_mode: ${{ steps.mode.outputs.header_mode }}
+      min_score: ${{ steps.mode.outputs.min_score }}
+      target_paths: ${{ steps.mode.outputs.target_paths }}
+      include_all_flag: ${{ steps.mode.outputs.include_all_flag }}
+      no_headers_flag: ${{ steps.mode.outputs.no_headers_flag }}
+      fail_on_validation_flag: ${{ steps.mode.outputs.fail_on_validation_flag }}
+      metrics_report_path: ${{ steps.mode.outputs.metrics_report_path }}
+      header_report_path: ${{ steps.mode.outputs.header_report_path }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
@@ -304,36 +314,124 @@ jobs:
             --report-path "${{ steps.mode.outputs.header_report_path }}" \
             2>&1 | tee /tmp/code_maturity_headers.log
 
+      - name: Upload maturity report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: code-maturity-report-${{ github.run_number }}
+          path: |
+            /tmp/code_maturity_metrics.log
+            /tmp/code_maturity_header_report.md
+            /tmp/code_maturity_headers.log
+            docs/code_maturity_report.md
+            .github/badges/
+            .github/version_tracking.json
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Write job summary
+        if: always()
+        run: |
+          {
+            echo "## Code Maturity — ${{ steps.mode.outputs.mode }}"
+            echo "| Mode | ${{ steps.mode.outputs.mode }} |"
+            echo "| Event | \`${{ github.event_name }}\` |"
+            echo "| Header mode | \`${{ steps.mode.outputs.header_mode }}\` |"
+            echo "| Min score | \`${{ steps.mode.outputs.min_score }}\` |"
+            echo "| Target paths | \`${{ steps.mode.outputs.target_paths }}\` |"
+            echo "| Include all files | \`${{ steps.mode.outputs.include_all_flag != '' }}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # 3a. Commit Code Maturity Artifacts (write permission scoped to this job, skipped on PRs)
+  code-maturity-commit:
+    name: Commit Code Maturity Artifacts
+    needs: code-maturity
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Generate code maturity artifacts
+        id: generate
+        run: |
+          python .github/scripts/analyze_code_maturity.py \
+            --root . \
+            --no-headers \
+            --report-path "${{ needs.code-maturity.outputs.metrics_report_path }}" \
+            2>&1 | tee /tmp/code_maturity_commit_metrics.log
+
+          python .github/scripts/code_maturity_header_writer.py \
+            --root . \
+            --header-mode "${{ needs.code-maturity.outputs.header_mode }}" \
+            --min-score "${{ needs.code-maturity.outputs.min_score }}" \
+            --target-paths "${{ needs.code-maturity.outputs.target_paths }}" \
+            ${{ needs.code-maturity.outputs.include_all_flag }} \
+            ${{ needs.code-maturity.outputs.no_headers_flag }} \
+            ${{ needs.code-maturity.outputs.fail_on_validation_flag }} \
+            --report-path "${{ needs.code-maturity.outputs.header_report_path }}" \
+            2>&1 | tee /tmp/code_maturity_commit_headers.log
+
       - name: Commit generated code maturity artifacts
-        if: github.event_name != 'pull_request'
         run: |
           set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           stage_code_maturity_changes() {
-            git add .github/badges/ .github/version_tracking.json docs/code_maturity_report.md || true
+            # Fail fast if expected artifacts are missing rather than silently skipping them
+            for artifact in .github/badges/ .github/version_tracking.json docs/code_maturity_report.md; do
+              if [ ! -e "$artifact" ]; then
+                echo "::error::Expected code maturity artifact is missing: $artifact"
+                exit 1
+              fi
+              git add "$artifact"
+            done
             if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.update_headers }}" = "true" ]; then
-              git add src include tests benchmarks || true
+              git add src include tests benchmarks
             fi
+          }
+
+          has_meaningful_changes() {
+            # Returns true only when staged changes contain more than known-volatile
+            # timestamp-only lines (Last Updated in the report, last_update in JSON).
+            # This prevents churn commits when the codebase itself is unchanged.
+            local non_ts_lines
+            non_ts_lines=$(git diff --cached \
+              | grep '^[-+]' \
+              | grep -v '^---\|^+++' \
+              | grep -vE '^[+-].*\*\*Last Updated:\*\*|^[+-].*"last_update":' \
+              | wc -l)
+            [ "$non_ts_lines" -gt 0 ]
           }
 
           regenerate_code_maturity_outputs() {
             python .github/scripts/analyze_code_maturity.py \
               --root . \
               --no-headers \
-              --report-path "${{ steps.mode.outputs.metrics_report_path }}" \
+              --report-path "${{ needs.code-maturity.outputs.metrics_report_path }}" \
               2>&1 | tee /tmp/code_maturity_metrics_retry.log
 
             python .github/scripts/code_maturity_header_writer.py \
               --root . \
-              --header-mode "${{ steps.mode.outputs.header_mode }}" \
-              --min-score "${{ steps.mode.outputs.min_score }}" \
-              --target-paths "${{ steps.mode.outputs.target_paths }}" \
-              ${{ steps.mode.outputs.include_all_flag }} \
-              ${{ steps.mode.outputs.no_headers_flag }} \
-              ${{ steps.mode.outputs.fail_on_validation_flag }} \
-              --report-path "${{ steps.mode.outputs.header_report_path }}" \
+              --header-mode "${{ needs.code-maturity.outputs.header_mode }}" \
+              --min-score "${{ needs.code-maturity.outputs.min_score }}" \
+              --target-paths "${{ needs.code-maturity.outputs.target_paths }}" \
+              ${{ needs.code-maturity.outputs.include_all_flag }} \
+              ${{ needs.code-maturity.outputs.no_headers_flag }} \
+              ${{ needs.code-maturity.outputs.fail_on_validation_flag }} \
+              --report-path "${{ needs.code-maturity.outputs.header_report_path }}" \
               2>&1 | tee /tmp/code_maturity_headers_retry.log
           }
 
@@ -342,6 +440,11 @@ jobs:
 
             if git diff --cached --quiet; then
               echo "Code maturity artifacts are already up to date."
+              exit 0
+            fi
+
+            if ! has_meaningful_changes; then
+              echo "Staged diff contains only timestamp-only changes; skipping commit to avoid churn."
               exit 0
             fi
 
@@ -369,36 +472,6 @@ jobs:
             git clean -fd
             regenerate_code_maturity_outputs
           done
-
-      - name: Upload maturity report
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
-        with:
-          name: code-maturity-report-${{ github.run_number }}
-          path: |
-            /tmp/code_maturity_metrics.log
-            /tmp/code_maturity_metrics_retry.log
-            /tmp/code_maturity_header_report.md
-            /tmp/code_maturity_headers.log
-            /tmp/code_maturity_headers_retry.log
-            docs/code_maturity_report.md
-            .github/badges/
-            .github/version_tracking.json
-          retention-days: 30
-          if-no-files-found: ignore
-
-      - name: Write job summary
-        if: always()
-        run: |
-          {
-            echo "## Code Maturity — ${{ steps.mode.outputs.mode }}"
-            echo "| Mode | ${{ steps.mode.outputs.mode }} |"
-            echo "| Event | \`${{ github.event_name }}\` |"
-            echo "| Header mode | \`${{ steps.mode.outputs.header_mode }}\` |"
-            echo "| Min score | \`${{ steps.mode.outputs.min_score }}\` |"
-            echo "| Target paths | \`${{ steps.mode.outputs.target_paths }}\` |"
-            echo "| Include all files | \`${{ steps.mode.outputs.include_all_flag != '' }}\` |"
-          } >> "$GITHUB_STEP_SUMMARY"
 
   # 4. Docs Orphan Check
   docs-orphan-check:

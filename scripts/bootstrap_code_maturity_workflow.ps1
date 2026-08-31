@@ -20,7 +20,7 @@
 
 param(
     [switch]$UpdateHeaders = $false,
-    [switch]$FailOnDrift = $false,
+    [switch]$FailOnFindings = $false,
     [switch]$DryRun = $false
 )
 
@@ -85,8 +85,8 @@ else {
 # ────────────────────────────────────────────────────────────────────────────
 
 Write-Host "`n⚙️  Workflow parameters:" -ForegroundColor Cyan
-Write-Host "  update_headers: $($UpdateHeaders.ToString().ToLower())"
-Write-Host "  fail_on_drift:  $($FailOnDrift.ToString().ToLower())"
+Write-Host "  update_headers:    $($UpdateHeaders.ToString().ToLower())"
+Write-Host "  fail_on_findings:  $($FailOnFindings.ToString().ToLower())"
 
 if ($UpdateHeaders) {
     Write-Host "  ⚠️  WARNING: Headers WILL be updated in source files" -ForegroundColor Yellow
@@ -114,7 +114,7 @@ if ($UpdateHeaders) {
     $workflowCmd += @('-f', "update_headers=true")
 }
 
-if ($FailOnDrift) {
+if ($FailOnFindings) {
     $workflowCmd += @('-f', "fail_on_findings=true")
 }
 
