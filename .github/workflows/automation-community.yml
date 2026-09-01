@@ -238,6 +238,10 @@ jobs:
           script: |
             const pr = context.payload.pull_request;
             if (!pr) return;
+            if (pr.user?.login === 'makr-code') {
+              console.log('PR author is makr-code; cannot request self-review — skipping.');
+              return;
+            }
             // Only request if no review has been requested yet for this PR
             const existing = pr.requested_reviewers?.map(r => r.login) ?? [];
             if (existing.includes('makr-code')) {
