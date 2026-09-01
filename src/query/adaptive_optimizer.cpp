@@ -505,9 +505,10 @@ NumaAwareOptimizer::NumaPlacement NumaAwareOptimizer::getOptimalPlacement(
         // Get CPU IDs for this node
         struct bitmask* cpus = numa_allocate_cpumask();
         if (numa_node_to_cpus(best_node, cpus) == 0) {
-            for (size_t i = 0; i < numa_num_possible_cpus(); i++) {
+            const int possible_cpus = numa_num_possible_cpus();
+            for (int i = 0; i < possible_cpus; ++i) {
                 if (numa_bitmask_isbitset(cpus, i)) {
-                    placement.cpu_affinity.push_back(i);
+                    placement.cpu_affinity.push_back(static_cast<size_t>(i));
                 }
             }
         }

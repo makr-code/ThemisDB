@@ -84,28 +84,28 @@ public:
     struct Config {
         std::string vault_addr;      // Production: "https://vault.example.com:8200"; loopback-only dev HTTP is allowed.
         std::string vault_token;     // Authentication token
-    std::string kv_mount_path;   // KV secrets engine mount (default: "themis")
-    // Transit mount for signing (optional)
-    std::string transit_mount;   // Transit mount path (default: "transit")
+        std::string kv_mount_path;   // KV secrets engine mount (default: "themis")
+        std::string transit_mount;   // Transit mount path (default: "transit")
         std::string kv_version;      // "v1" or "v2" (default: "v2")
         int cache_ttl_seconds;       // Cache TTL (default: 3600)
         int cache_capacity;          // Max cached keys (default: 1000)
         int request_timeout_ms;      // HTTP timeout (default: 5000)
         bool verify_ssl;             // SSL verification (default: true)
-    // Optional retry settings for transit calls
-    int transit_max_retries;
-    int transit_backoff_ms;
-        
+        int transit_max_retries;      // Optional retry settings for transit calls
+        int transit_backoff_ms;       // Backoff between retry attempts
+
         Config()
-            : kv_mount_path("themis")
-            , kv_version("v2")
-            , cache_ttl_seconds(3600)
-            , cache_capacity(1000)
-            , request_timeout_ms(5000)
-            , verify_ssl(true)
-            , transit_mount("transit")
-            , transit_max_retries(3)
-            , transit_backoff_ms(200)
+            : vault_addr(),
+              vault_token(),
+              kv_mount_path("themis"),
+              transit_mount("transit"),
+              kv_version("v2"),
+              cache_ttl_seconds(3600),
+              cache_capacity(1000),
+              request_timeout_ms(5000),
+              verify_ssl(true),
+              transit_max_retries(3),
+              transit_backoff_ms(200)
         {}
     };
     

@@ -54,7 +54,8 @@ public:
             .arguments = {{"num", ArgType::NUMBER, true, nullptr, "Number"}},
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(ABS(-5) // 5)"}
+            .examples = {R"(ABS(-5) // 5)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -78,7 +79,8 @@ public:
             .arguments = {{"num", ArgType::NUMBER, true, nullptr, "Number"}},
             .return_type = ArgType::INTEGER,
             .is_deterministic = true,
-            .examples = {R"(CEIL(4.3) // 5)"}
+            .examples = {R"(CEIL(4.3) // 5)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -102,7 +104,8 @@ public:
             .arguments = {{"num", ArgType::NUMBER, true, nullptr, "Number"}},
             .return_type = ArgType::INTEGER,
             .is_deterministic = true,
-            .examples = {R"(FLOOR(4.7) // 4)"}
+            .examples = {R"(FLOOR(4.7) // 4)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -132,7 +135,8 @@ public:
             .examples = {
                 R"(ROUND(4.567) // 5)",
                 R"(ROUND(4.567, 2) // 4.57)"
-            }
+            },
+            .cost = FunctionCost{}
         };
     }
     
@@ -164,7 +168,8 @@ public:
             .arguments = {{"num", ArgType::NUMBER, true, nullptr, "Non-negative number"}},
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(SQRT(16) // 4)"}
+            .examples = {R"(SQRT(16) // 4)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -193,7 +198,8 @@ public:
             },
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(POW(2, 3) // 8)"}
+            .examples = {R"(POW(2, 3) // 8)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -223,7 +229,8 @@ public:
             .examples = {
                 R"(LOG(10) // 2.302...)",
                 R"(LOG(100, 10) // 2)"
-            }
+            },
+            .cost = FunctionCost{}
         };
     }
     
@@ -255,7 +262,8 @@ public:
             .arguments = {{"num", ArgType::NUMBER, true, nullptr, "Positive number"}},
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(LOG10(100) // 2)"}
+            .examples = {R"(LOG10(100) // 2)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -281,7 +289,8 @@ public:
             .arguments = {{"num", ArgType::NUMBER, true, nullptr, "Exponent"}},
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(EXP(1) // 2.718...)"}
+            .examples = {R"(EXP(1) // 2.718...)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -305,7 +314,8 @@ public:
             .arguments = {{"angle", ArgType::NUMBER, true, nullptr, "Angle in radians"}},
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(SIN(0) // 0)"}
+            .examples = {R"(SIN(0) // 0)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -327,7 +337,8 @@ public:
             .arguments = {{"angle", ArgType::NUMBER, true, nullptr, "Angle in radians"}},
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(COS(0) // 1)"}
+            .examples = {R"(COS(0) // 1)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -349,7 +360,8 @@ public:
             .arguments = {{"angle", ArgType::NUMBER, true, nullptr, "Angle in radians"}},
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(TAN(0) // 0)"}
+            .examples = {R"(TAN(0) // 0)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -373,7 +385,8 @@ public:
             .arguments = {{"num", ArgType::NUMBER, true, nullptr, "Number between -1 and 1"}},
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(ASIN(0) // 0)"}
+            .examples = {R"(ASIN(0) // 0)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -397,7 +410,8 @@ public:
             .arguments = {{"num", ArgType::NUMBER, true, nullptr, "Number between -1 and 1"}},
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(ACOS(1) // 0)"}
+            .examples = {R"(ACOS(1) // 0)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -421,7 +435,8 @@ public:
             .arguments = {{"num", ArgType::NUMBER, true, nullptr, "Number"}},
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(ATAN(0) // 0)"}
+            .examples = {R"(ATAN(0) // 0)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -446,7 +461,8 @@ public:
             },
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(ATAN2(1, 1) // 0.785...)"}
+            .examples = {R"(ATAN2(1, 1) // 0.785...)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -470,7 +486,8 @@ public:
             .arguments = {{"radians", ArgType::NUMBER, true, nullptr, "Angle in radians"}},
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(DEGREES(3.14159) // 180)"}
+            .examples = {R"(DEGREES(3.14159) // 180)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -492,7 +509,8 @@ public:
             .arguments = {{"degrees", ArgType::NUMBER, true, nullptr, "Angle in degrees"}},
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(RADIANS(180) // 3.14159...)"}
+            .examples = {R"(RADIANS(180) // 3.14159...)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -516,7 +534,8 @@ public:
             .arguments = {},
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
-            .examples = {R"(PI() // 3.14159...)"}
+            .examples = {R"(PI() // 3.14159...)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -542,7 +561,8 @@ public:
             .arguments = {},
             .return_type = ArgType::NUMBER,
             .is_deterministic = false,
-            .examples = {R"(RANDOM() // 0.7234...)"}
+            .examples = {R"(RANDOM() // 0.7234...)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -574,7 +594,8 @@ public:
             },
             .return_type = ArgType::INTEGER,
             .is_deterministic = false,
-            .examples = {R"(RAND_INT(1, 100) // 42)"}
+            .examples = {R"(RAND_INT(1, 100) // 42)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -607,7 +628,8 @@ public:
             .examples = {
                 R"(MIN(1, 2, 3) // 1)",
                 R"(MIN([5, 2, 8]) // 2)"
-            }
+            },
+            .cost = FunctionCost{}
         };
     }
     
@@ -648,7 +670,8 @@ public:
             .examples = {
                 R"(MAX(1, 2, 3) // 3)",
                 R"(MAX([5, 2, 8]) // 8)"
-            }
+            },
+            .cost = FunctionCost{}
         };
     }
     
@@ -689,7 +712,8 @@ public:
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
             .is_aggregate = true,
-            .examples = {R"(SUM([1, 2, 3, 4]) // 10)"}
+            .examples = {R"(SUM([1, 2, 3, 4]) // 10)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -718,7 +742,8 @@ public:
             .return_type = ArgType::NUMBER,
             .is_deterministic = true,
             .is_aggregate = true,
-            .examples = {R"(AVG([1, 2, 3, 4]) // 2.5)"}
+            .examples = {R"(AVG([1, 2, 3, 4]) // 2.5)"},
+            .cost = FunctionCost{}
         };
     }
     
