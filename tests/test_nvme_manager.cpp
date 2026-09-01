@@ -19,6 +19,7 @@
 #include <filesystem>
 #include <fstream>
 #include <cstring>
+#include <limits>
 #include <string>
 #include <thread>
 
@@ -183,6 +184,20 @@ TEST_F(NVMeBackgroundThreadsTest, AtLeastTwo) {
 TEST_F(NVMeBackgroundThreadsTest, AtMostSixteen) {
     NVMeManager mgr;
     EXPECT_LE(mgr.recommendedBackgroundThreads(), 16u);
+}
+
+class NVMeZoneValidationTest : public ::testing::Test {};
+
+TEST_F(NVMeZoneValidationTest, RejectsMisalignedZoneOffsets) {
+    NVMeConfig cfg;
+    cfg.enable_zns = true;
+    cfg.device_path = "/dev/nvme0n1";
+    cfg.zone_capacity_bytes = 512u * 1024u;
+
+    NVMeManager mgr(cfg);
+    EXPECT_FALSE(mgr.resetZone(7));
+    EXPECT_FALSE(mgr.finishZone(511));
+    EXPECT_EQ(mgr.getZoneWritePointer(13), std::numeric_limits<uint64_t>::max());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
