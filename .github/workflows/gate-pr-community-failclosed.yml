@@ -14,16 +14,38 @@ on:
       - community
       - minimal
     paths:
-      - 'src/**'
+      - 'src/**/*.c'
+      - 'src/**/*.cc'
+      - 'src/**/*.cpp'
+      - 'src/**/*.cxx'
+      - 'src/**/*.h'
+      - 'src/**/*.hh'
+      - 'src/**/*.hpp'
+      - 'src/**/*.hxx'
       - 'plugins/**'
+      - 'include/themis/api.h'
       - 'CMakeLists.txt'
+      - 'cmake/**/*.cmake'
+      - 'cmake/**/*.txt'
+      - 'cmake/**/*.in'
       - '.github/workflows/gate-pr-community-failclosed.yml'
   push:
     branches: [community, minimal]
     paths:
-      - 'src/**'
+      - 'src/**/*.c'
+      - 'src/**/*.cc'
+      - 'src/**/*.cpp'
+      - 'src/**/*.cxx'
+      - 'src/**/*.h'
+      - 'src/**/*.hh'
+      - 'src/**/*.hpp'
+      - 'src/**/*.hxx'
       - 'plugins/**'
+      - 'include/themis/api.h'
       - 'CMakeLists.txt'
+      - 'cmake/**/*.cmake'
+      - 'cmake/**/*.txt'
+      - 'cmake/**/*.in'
   workflow_dispatch:
 
 concurrency:

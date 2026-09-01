@@ -19,16 +19,41 @@ on:
       - minimal
     paths:
       - 'plugins/**'
-      - 'include/**'
-      - 'src/**'
+      - 'include/**/*.h'
+      - 'include/**/*.hh'
+      - 'include/**/*.hpp'
+      - 'include/**/*.hxx'
+      - 'include/**/*.ipp'
+      - 'include/**/*.tpp'
+      - 'src/**/*.c'
+      - 'src/**/*.cc'
+      - 'src/**/*.cpp'
+      - 'src/**/*.cxx'
+      - 'src/**/*.h'
+      - 'src/**/*.hh'
+      - 'src/**/*.hpp'
+      - 'src/**/*.hxx'
       - 'CMakeLists.txt'
       - '.github/workflows/gate-pr-edition-license.yml'
   push:
     branches: [develop]
     paths:
       - 'plugins/**'
-      - 'include/**'
-      - 'src/**'
+      - 'include/**/*.h'
+      - 'include/**/*.hh'
+      - 'include/**/*.hpp'
+      - 'include/**/*.hxx'
+      - 'include/**/*.ipp'
+      - 'include/**/*.tpp'
+      - 'src/**/*.c'
+      - 'src/**/*.cc'
+      - 'src/**/*.cpp'
+      - 'src/**/*.cxx'
+      - 'src/**/*.h'
+      - 'src/**/*.hh'
+      - 'src/**/*.hpp'
+      - 'src/**/*.hxx'
+      - 'CMakeLists.txt'
   workflow_dispatch:
 
 concurrency:
