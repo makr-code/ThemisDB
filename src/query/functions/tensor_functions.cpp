@@ -194,14 +194,7 @@ public:
             .is_deterministic = true,
             .is_aggregate    = false,
             .examples = {},
-            .cost = FunctionCost{
-                .complexity       = CostComplexity::LINEARITHMIC,
-                .base_cost        = 5.0,
-                .per_element_cost = 0.001,
-                .can_use_index    = false,
-                .is_parallelizable = false,
-                .index_type        = {}
-            }
+            .cost = FunctionCost{CostComplexity::LINEARITHMIC, 5.0, 0.001, false, false, ""}
         };
     }
 
@@ -235,11 +228,7 @@ public:
             .is_deterministic = true,
             .is_aggregate    = false,
             .examples = {},
-            .cost = FunctionCost{
-                .complexity = CostComplexity::LINEARITHMIC,
-                .base_cost  = 3.0,
-                .index_type = {}
-            }
+            .cost = FunctionCost{CostComplexity::LINEARITHMIC, 3.0, 0.0, false, false, ""}
         };
     }
 
@@ -274,7 +263,7 @@ public:
             .return_type     = ArgType::OBJECT,
             .is_deterministic = true,
             .examples = {},
-            .cost = FunctionCost{.complexity = CostComplexity::LINEAR, .base_cost = 2.0, .index_type = {}}
+            .cost = FunctionCost{CostComplexity::LINEAR, 2.0, 0.0, false, false, ""}
         };
     }
 
@@ -324,7 +313,7 @@ public:
             .return_type     = ArgType::OBJECT,
             .is_deterministic = true,
             .examples = {},
-            .cost = FunctionCost{.complexity = CostComplexity::LINEARITHMIC, .base_cost = 10.0, .index_type = {}}
+            .cost = FunctionCost{CostComplexity::LINEARITHMIC, 10.0, 0.0, false, false, ""}
         };
     }
 
@@ -374,7 +363,7 @@ public:
             .return_type     = ArgType::OBJECT,
             .is_deterministic = true,
             .examples = {},
-            .cost = FunctionCost{.complexity = CostComplexity::LINEAR, .base_cost = 2.0, .index_type = {}}
+            .cost = FunctionCost{CostComplexity::LINEAR, 2.0, 0.0, false, false, ""}
         };
     }
 
@@ -421,14 +410,7 @@ public:
             .return_type      = ArgType::OBJECT,
             .is_deterministic = true,
             .examples = {},
-            .cost = FunctionCost{
-                .complexity        = CostComplexity::QUADRATIC,
-                .base_cost         = 20.0,
-                .per_element_cost  = 0.01,
-                .can_use_index     = false,
-                .is_parallelizable = false,
-                .index_type        = {}
-            }
+            .cost = FunctionCost{CostComplexity::QUADRATIC, 20.0, 0.01, false, false, ""}
         };
     }
 
@@ -487,11 +469,7 @@ public:
             .return_type      = ArgType::OBJECT,
             .is_deterministic = true,
             .examples = {},
-            .cost = FunctionCost{
-                .complexity = CostComplexity::LINEAR,
-                .base_cost  = 4.0,
-                .index_type = {}
-            }
+            .cost = FunctionCost{CostComplexity::LINEAR, 4.0, 0.0, false, false, ""}
         };
     }
 
@@ -546,13 +524,7 @@ public:
             .return_type      = ArgType::OBJECT,
             .is_deterministic = true,
             .examples = {},
-            .cost = FunctionCost{
-                .complexity       = CostComplexity::LINEARITHMIC,
-                .base_cost        = 15.0,
-                .per_element_cost = 0.005,
-                .is_parallelizable = false,
-                .index_type       = {}
-            }
+            .cost = FunctionCost{CostComplexity::LINEARITHMIC, 15.0, 0.005, false, false, ""}
         };
     }
 
