@@ -185,15 +185,20 @@ if(THEMIS_ENABLE_GPU AND THEMIS_GPU_AUTO_DETECT)
     message(STATUS "GPU backend auto-detect: probing CUDA/HIP/Vulkan")
     set(_themis_detected_gpu_backends)
 
-    # Vulkan is required for the active GPU build contract. Keep it enabled even on
-    # Windows/MSVC so the backend is available instead of silently falling back to CPU.
-    find_package(Vulkan QUIET)
-    if(Vulkan_FOUND)
-        set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
-        list(APPEND _themis_detected_gpu_backends "Vulkan")
+    # Respect an explicit Vulkan disable from the user or cache. When Vulkan is
+    # left enabled, auto-detect still probes for the SDK and preserves the
+    # backend selection for the active GPU build contract.
+    if(THEMIS_ENABLE_VULKAN)
+        find_package(Vulkan QUIET)
+        if(Vulkan_FOUND)
+            set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
+            list(APPEND _themis_detected_gpu_backends "Vulkan")
+        else()
+            message(WARNING "Vulkan SDK not detected, but Vulkan remains enabled by build contract; CPU fallback still applies at runtime.")
+            set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
+        endif()
     else()
-        message(WARNING "Vulkan SDK not detected, but Vulkan remains enabled by build contract; CPU fallback still applies at runtime.")
-        set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
+        message(STATUS "Vulkan backend disabled explicitly; skipping auto-detect")
     endif()
 
     # HIP (AMD ROCm)
