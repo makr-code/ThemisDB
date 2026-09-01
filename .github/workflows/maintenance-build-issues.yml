@@ -317,6 +317,9 @@ jobs:
           ERROR_ARTIFACTS_DIR: /tmp/error-artifacts
           OUTPUT_FILE: /tmp/aggregated-errors.md
           GROUPED_OUTPUT_FILE: /tmp/aggregated-errors-by-module-file.json
+          MAX_GROUPS_IN_REPORT: '30'
+          MAX_ITEMS_PER_GROUP_IN_REPORT: '4'
+          MAX_MARKDOWN_CHARS: '45000'
         run: |
           node "${{ github.workspace }}/.github/scripts/aggregate-build-errors.js"
           

@@ -14,10 +14,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const MAX_GROUPS_IN_REPORT = 120;
-const MAX_ITEMS_PER_GROUP_IN_REPORT = 10;
+const MAX_GROUPS_IN_REPORT = Math.max(1, Number.parseInt(process.env.MAX_GROUPS_IN_REPORT || '40', 10) || 40);
+const MAX_ITEMS_PER_GROUP_IN_REPORT = Math.max(1, Number.parseInt(process.env.MAX_ITEMS_PER_GROUP_IN_REPORT || '5', 10) || 5);
 const CHRONIC_THRESHOLD = 3;
-const MAX_MARKDOWN_CHARS = 60000; // GitHub issue body hard limit is 65536
+const MAX_MARKDOWN_CHARS = Math.max(1000, Number.parseInt(process.env.MAX_MARKDOWN_CHARS || '50000', 10) || 50000);
 
 const GAP_MARKER_PATTERN = /\b(GAP|SIMULATION|MOCKUP|STUB)\b/g;
 
@@ -26,6 +26,14 @@ function safeReadJson(filePath) {
     return JSON.parse(fs.readFileSync(filePath, 'utf8'));
   } catch {
     return null;
+  }
+
+  function enforceMarkdownSizeLimit(markdown) {
+    if (markdown.length <= MAX_MARKDOWN_CHARS) return markdown;
+
+    const summaryNote = `\n\n---\n\nReport truncated to ${MAX_MARKDOWN_CHARS} characters to fit GitHub issue/comment limits. Full data remains in the JSON artifact.\n`;
+    const budget = Math.max(0, MAX_MARKDOWN_CHARS - summaryNote.length);
+    return `${markdown.slice(0, budget)}${summaryNote}`;
   }
 }
 
@@ -487,11 +495,7 @@ async function main() {
   aggregator.aggregate();
 
   const stats = aggregator.getStats();
-  let markdown = aggregator.generateMarkdown();
-  if (markdown.length > MAX_MARKDOWN_CHARS) {
-    const summaryNote = `\n\n---\n\nReport truncated to ${MAX_MARKDOWN_CHARS} characters to fit GitHub issue limits.\n`;
-    markdown = `${markdown.slice(0, MAX_MARKDOWN_CHARS - summaryNote.length)}${summaryNote}`;
-  }
+  let markdown = enforceMarkdownSizeLimit(aggregator.generateMarkdown());
   const grouped = {
     generated_at: new Date().toISOString(),
     stats,
