@@ -123,7 +123,7 @@ jobs:
         run: |
           set -euo pipefail
           cmake --build build-community-release \
-            --target module_distributed_knowledge_test_contract_hardening_focused \
+            --target module_distributed_knowledge_test_dk_contract_hardening_focused \
             --target module_distributed_knowledge_test_adapter_capability_focused \
             --target bench_dk_release_gates \
             --parallel "$(nproc)"

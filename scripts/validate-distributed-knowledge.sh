@@ -123,7 +123,7 @@ phase_build_tests() {
     echo "Building distributed_knowledge module tests..."
     
     if cmake --build --preset "$PRESET" \
-        --target module_distributed_knowledge_test_contract_hardening_focused \
+        --target module_distributed_knowledge_test_dk_contract_hardening_focused \
         --target module_distributed_knowledge_test_adapter_capability_focused \
         --parallel 16 2>&1 | tee "$LOG_DIR/build_${TIMESTAMP}.log"; then
         log_success "Build successful"
