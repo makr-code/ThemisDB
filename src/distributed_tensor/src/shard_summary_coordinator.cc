@@ -260,10 +260,11 @@ std::vector<RoutingDecision> ShardSummaryCoordinator::routeSummaryFirst(
         d.shard_id = s.shard_id;
         d.advisory_score = s.shard_relevance;
 
-        // Resolve actual freshness, preferring coordinator record over
-        // the summary's own field (the coordinator is authoritative).
+        // Resolve actual freshness. Explicit summary state (STALE/INVALID)
+        // takes precedence so a bad advisory summary is not silently
+        // reclassified by an unrefreshed coordinator record.
         tensor::SummaryFreshnessState effective_state = s.freshness_state;
-        {
+        if (effective_state == tensor::SummaryFreshnessState::FRESH) {
             std::lock_guard<std::mutex> lk(records_mutex_);
             auto it = records_.find(s.shard_id);
             if (it != records_.end()) {
