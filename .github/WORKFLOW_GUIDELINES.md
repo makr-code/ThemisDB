@@ -108,7 +108,7 @@ Kernliste der aktiven Workflows:
 - `.github/actions/setup-cpp-build/`  — C++ Build-Setup (sccache, toolchain, deps)
 - `.github/actions/setup-python-script/`  — Reusable checkout→python→script→upload pattern (ersetzt 21× Duplizierung)
 - `.github/actions/status-flags-and-issues/`  — Kanonische Schnittstelle für Issue-/PR-Kommentare, Labels und Status-Tracker; ersetzt direkte `github.rest.issues.*`/`createComment`-Blöcke in Workflows.
-- `.github/actions/manage-governance-issue/`  — Kanonische create/update/close Issue-Action (aktuell noch nicht von Workflows verwendet; kanon. Referenz für künftige Migrations)
+- `.github/actions/manage-governance-issue/`  — Kanonische create/update Issue-Action (close-if-empty ist policy-bedingt no-op; aktuell noch nicht von Workflows verwendet)
 - `build-mainline.yml` nutzt `mozilla-actions/sccache-action` mit `SCCACHE_GHA_ENABLED=true`.
 - CMake muss mit `-DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache` konfiguriert werden.
 - Cache-Warming erfolgt wöchentlich (montags 00:00 UTC) für Linux (GCC) und Windows (MSVC).
@@ -120,7 +120,7 @@ Kernliste der aktiven Workflows:
   - `upsert_issue`
   - `set_status` / `clear_status` / `replace_status_group`
   - `comment_issue`
-  - `close_issue`
+  - `close_issue` (policy-disabled/no-op; keine automatische Issue-Schließung)
 - `comment_issue` darf auf Issues und PRs kommentieren; in GitHub ist ein PR als Issue mit `issue_number` adressierbar. Für klaren Zweck sollte der Workflow den `target-type` explizit auf `issue`, `pr` oder `auto` setzen.
 - Empfehlungskommentare mit dynamischer Evidenz (z. B. `merged PR`/`timeline`-Analyse) sind eine erlaubte Sonderform, sofern sie comment-only bleiben und keine Tracker-Status-Mutation, kein `close_issue`, kein Label-Override und keine Branch-Mutation ausführen. In solchen Workflows muss der Marker-Mechanismus strikt idempotent bleiben.
 - Kommentare müssen idempotent sein: Marker wie `<!-- ci-build:type:build-status -->` oder `<!-- ci-error:... -->` verhindern Spam und doppelte Fehlerposts.

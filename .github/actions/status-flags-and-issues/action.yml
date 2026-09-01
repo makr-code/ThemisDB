@@ -8,14 +8,14 @@ description: |
   - clear_status
   - replace_status_group
   - comment_issue
-  - close_issue
+  - close_issue (deprecated: no-op)
 
 inputs:
   repo-token:
     description: 'GitHub token with issues:write permission'
     required: true
   operation:
-    description: 'Operation: upsert_issue|set_status|clear_status|replace_status_group|comment_issue|close_issue'
+    description: 'Operation: upsert_issue|set_status|clear_status|replace_status_group|comment_issue|close_issue(no-op)'
     required: true
   issue-number:
     description: 'Target issue number (optional if resolving by marker/title)'
@@ -62,7 +62,7 @@ inputs:
     required: false
     default: ''
   close-reason:
-    description: 'Issue close reason: completed|not_planned|duplicate'
+    description: 'Deprecated (close_issue is a no-op)'
     required: false
     default: 'completed'
   allow-missing:
@@ -75,7 +75,7 @@ outputs:
     description: 'Resolved issue number after operation'
     value: ${{ steps.exec.outputs.issue_number }}
   action-result:
-    description: 'Action result: created|updated|closed|commented|labels-updated|unchanged|skipped'
+    description: 'Action result: created|updated|commented|labels-updated|unchanged|skipped'
     value: ${{ steps.exec.outputs.action_result }}
   applied-labels:
     description: 'Comma-separated labels applied in this operation'
@@ -382,17 +382,8 @@ runs:
           }
 
           if (op === 'close_issue') {
-            const reason = ['completed', 'not_planned', 'duplicate'].includes(closeReason)
-              ? closeReason
-              : 'completed';
-            await github.rest.issues.update({
-              owner,
-              repo,
-              issue_number: issueNumber,
-              state: 'closed',
-              state_reason: reason,
-            });
-            out.action_result = 'closed';
+            core.warning('status-flags-and-issues: close_issue is disabled by policy; issue state remains unchanged');
+            out.action_result = 'unchanged';
             setOutputs();
             return;
           }
