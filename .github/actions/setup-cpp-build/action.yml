@@ -56,8 +56,8 @@ runs:
     # SHA pinned to mozilla-actions/sccache-action v0.0.6 (2024-11-01).
     - name: Setup sccache
       uses: mozilla-actions/sccache-action@9e326ebed976843c9932b3aa0e021c6f50310eb4  # v0.0.6
-      with:
-        version: "v0.8.1"
+      # Removed explicit version pin to allow sccache-action to manage compatibility
+      # sccache-action@v0.0.6 already pins stable version; double-pinning breaks cross-platform cache
 
     - name: Install build dependencies
       shell: bash
