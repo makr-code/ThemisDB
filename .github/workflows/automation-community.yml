@@ -240,14 +240,20 @@ jobs:
             const pr = context.payload.pull_request;
             if (!pr) return;
             const reviewer = 'makr-code';
-            const author = (pr.user?.login ?? '').toLowerCase();
-            if (author === reviewer) {
+            const reviewerLogin = reviewer.toLowerCase();
+            const { data: currentPr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+            });
+            const author = (currentPr.user?.login ?? '').toLowerCase();
+            if (author === reviewerLogin) {
               console.log('PR author is makr-code; cannot request self-review — skipping.');
               return;
             }
             // Only request if no review has been requested yet for this PR
-            const existing = pr.requested_reviewers?.map(r => (r.login ?? '').toLowerCase()) ?? [];
-            if (existing.includes(reviewer)) {
+            const existing = currentPr.requested_reviewers?.map(r => (r.login ?? '').toLowerCase()) ?? [];
+            if (existing.includes(reviewerLogin)) {
               console.log('Review from makr-code already requested — skipping.');
               return;
             }
@@ -259,9 +265,12 @@ jobs:
                 reviewers: [reviewer],
               });
             } catch (error) {
-              if (error.status === 422 && String(error.message).includes('pull request author')) {
-                console.log('GitHub rejected self-review request; skipping.');
-                return;
+              if (error.status === 422) {
+                const message = String(error.message || '').toLowerCase();
+                if (message.includes('pull request author') || message.includes('already requested')) {
+                  console.log('GitHub rejected review request due to author/duplicate state; skipping.');
+                  return;
+                }
               }
               throw error;
             }
