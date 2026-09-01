@@ -14,16 +14,54 @@ on:
     branches:
       - develop
     paths:
-      - 'src/**'
-      - 'include/**'
-      - 'tests/**'
-      - 'plugins/**'
+      - 'src/**/*.c'
+      - 'src/**/*.cc'
+      - 'src/**/*.cpp'
+      - 'src/**/*.cxx'
+      - 'src/**/*.h'
+      - 'src/**/*.hh'
+      - 'src/**/*.hpp'
+      - 'src/**/*.hxx'
+      - 'include/**/*.h'
+      - 'include/**/*.hh'
+      - 'include/**/*.hpp'
+      - 'include/**/*.hxx'
+      - 'include/**/*.ipp'
+      - 'include/**/*.tpp'
+      - 'tests/**/*.c'
+      - 'tests/**/*.cc'
+      - 'tests/**/*.cpp'
+      - 'tests/**/*.cxx'
+      - 'tests/**/*.h'
+      - 'tests/**/*.hh'
+      - 'tests/**/*.hpp'
+      - 'tests/**/*.hxx'
+      - 'tests/**/CMakeLists.txt'
+      - 'tests/**/*.cmake'
+      - 'tests/**/*.in'
+      - 'plugins/**/*.c'
+      - 'plugins/**/*.cc'
+      - 'plugins/**/*.cpp'
+      - 'plugins/**/*.cxx'
+      - 'plugins/**/*.h'
+      - 'plugins/**/*.hh'
+      - 'plugins/**/*.hpp'
+      - 'plugins/**/*.hxx'
+      - 'plugins/**/plugin.toml'
+      - 'plugins/**/plugin.json'
+      - 'plugins/**/CMakeLists.txt'
+      - 'plugins/**/*.cmake'
+      - 'plugins/**/*.in'
+      - 'plugins/**/*.txt'
       - 'CMakeLists.txt'
       - 'CMakePresets.json'
-      - 'cmake/**'
+      - 'cmake/**/*.cmake'
+      - 'cmake/**/*.txt'
+      - 'cmake/**/*.in'
       - 'vcpkg.json'
       - 'vcpkg-configuration.json'
-      - '.github/actions/**'
+      - '.github/actions/**/action.yml'
+      - '.github/actions/**/*.js'
       - '.github/workflows/build-mainline.yml'
   workflow_dispatch:
     inputs:
@@ -45,6 +83,10 @@ permissions:
   issues: write
   pull-requests: write
   checks: read
+
+concurrency:
+  group: ci-build-mainline-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:

@@ -7,7 +7,14 @@ on:
     branches: [community, develop]
     paths:
       - 'tests/CMakeLists.txt'
-      - 'src/replication/**'
+      - 'src/replication/**/*.c'
+      - 'src/replication/**/*.cc'
+      - 'src/replication/**/*.cpp'
+      - 'src/replication/**/*.cxx'
+      - 'src/replication/**/*.h'
+      - 'src/replication/**/*.hh'
+      - 'src/replication/**/*.hpp'
+      - 'src/replication/**/*.hxx'
       - 'include/themis_export.h'
       - 'cmake/**/*.cmake'
       - 'cmake/**/*.txt'
