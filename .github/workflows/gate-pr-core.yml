@@ -37,12 +37,6 @@ on:
       - .github/scripts/**
       - .github/WORKFLOW_GUIDELINES.md
       - .github/WORKFLOW_REGISTRY.md
-      - ROADMAP.md
-      - FUTURE_ENHANCEMENTS.md
-      - RELEASE_STRATEGY.md
-      - BRANCHING_STRATEGY.md
-      - VERSIONING.md
-      - CHANGELOG.md
       - tools/ci/**
       - tools/tests/**
   push:
