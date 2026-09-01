@@ -691,14 +691,13 @@ else()
 endif()
 
 # Boost: Try CONFIG first, fall back to MODULE if not found
-find_package(Boost 1.70 CONFIG COMPONENTS system filesystem QUIET)
-if(NOT Boost_FOUND)
-    find_package(Boost 1.70 MODULE QUIET COMPONENTS system filesystem)
-endif()
+## Prefer vcpkg-provided Boost CMake config to avoid ABI/version mismatches.
+## Require a compatible Boost (>= 1.70) built and provided via vcpkg/toolchain.
+find_package(Boost 1.70 CONFIG REQUIRED COMPONENTS system filesystem)
 if(Boost_FOUND)
-    message(STATUS "Boost found: ${Boost_VERSION}")
+    message(STATUS "Boost found via CONFIG: ${Boost_VERSION} (Boost_DIR=${Boost_DIR})")
 else()
-    message(WARNING "Boost not found - some features may be disabled")
+    message(FATAL_ERROR "Boost (>=1.70) not found via CONFIG mode. Ensure vcpkg is installed and the triplet matches the build (VCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}). Run: vcpkg install boost-filesystem boost-system --triplet ${VCPKG_TARGET_TRIPLET}")
 endif()
 
 find_package(Threads REQUIRED)

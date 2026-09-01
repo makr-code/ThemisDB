@@ -1,7 +1,6 @@
 {
   "name": "themisdb",
   "version": "2.4.0",
-  "builtin-baseline": "ac6f4037fe1dbbbb03eeab4470009898bbc486b0",
   "dependencies": [
     "zlib",
     "rocksdb",

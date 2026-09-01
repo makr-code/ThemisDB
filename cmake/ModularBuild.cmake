@@ -320,7 +320,7 @@ set(THEMIS_BASE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_mt.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_tbb.cpp>
     ../src/acceleration/graphics_backends.cpp
-    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/gpu/gpu_memory_manager_edition.cpp>
+    ../src/gpu/gpu_memory_manager_edition.cpp
     # GPU-specific backends
     $<$<AND:$<BOOL:${THEMIS_ENABLE_GPU}>,$<BOOL:${WIN32}>>:../src/acceleration/directx_backend_full.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HIP}>:../src/acceleration/hip_backend.cpp>
@@ -2579,7 +2579,12 @@ function(themis_build_modular)
             if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
                 target_link_libraries(themis_sharding PRIVATE themis_llm_ext)
             endif()
-        elseif(TARGET themis_llm_api)
+        endif()
+        # Also link the small LLM API module when present. Some API
+        # factories (createLLMPluginManager/createLoRAOrchestrator) live
+        # in `themis_llm_api` when the LLM module is split; ensure the
+        # sharding target gets those symbols regardless of split state.
+        if(TARGET themis_llm_api)
             target_link_libraries(themis_sharding PRIVATE themis_llm_api)
         endif()
         # Ensure proto files are generated before compiling sharding sources
@@ -2937,6 +2942,9 @@ function(themis_build_modular)
             SOURCES ${THEMIS_CONTENT_SOURCES}
             DEPENDENCIES ${_themis_content_deps}
         )
+        if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
+            target_link_libraries(themis_content PUBLIC mimalloc)
+        endif()
     endif()
 
     # Ingestion module (always included – covers all connector types)
