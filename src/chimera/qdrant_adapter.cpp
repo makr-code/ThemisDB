@@ -64,10 +64,13 @@ Result<bool> QdrantAdapter::connect(
 #ifdef THEMIS_CHIMERA_QDRANT
     // NOT IMPLEMENTED: Requires qdrant-client-cpp. Gate: THEMIS_CHIMERA_QDRANT
     // TODO: Actual gRPC channel creation to Qdrant endpoint
-    connected_ = true;
-    return Result<bool>::ok(true);
+    connection_string_.clear();
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Qdrant adapter unavailable: gRPC client setup is not implemented yet."
+    );
 #else
-    (void)connection_string_;
+    connection_string_.clear();
     return Result<bool>::err(
         ErrorCode::NOT_IMPLEMENTED,
         "Qdrant adapter unavailable: library not compiled in. "

@@ -47,6 +47,7 @@
 #include <climits>
 #include <cstdlib>
 #include <cstring>
+#include <limits>
 #include <ctime>
 #include <algorithm>
 #include <cctype>
@@ -291,8 +292,19 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
 }
 
 std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes){
+    if (bytes == 0) {
+        return {};
+    }
+
+    constexpr size_t kMaxRandBytes = static_cast<size_t>(std::numeric_limits<int>::max());
+    if (bytes > kMaxRandBytes) {
+        THEMIS_ERROR("TimestampAuthority::generateNonce: requested size {} exceeds RAND_bytes "
+                     "limit {}", bytes, kMaxRandBytes);
+        return {};
+    }
+
     std::vector<uint8_t> n(bytes);
-    if(RAND_bytes(n.data(), (int)bytes) != 1){
+    if(RAND_bytes(n.data(), static_cast<int>(bytes)) != 1){
         for(size_t i=0;i<bytes;++i) n[i] = (uint8_t)i; // fallback deterministic
     }
     return n;

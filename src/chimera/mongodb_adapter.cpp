@@ -67,10 +67,13 @@ Result<bool> MongoDBAdapter::connect(
 #ifdef THEMIS_CHIMERA_MONGO
     // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
     // TODO: Actual mongocxx client creation (mongocxx::client, mongocxx::uri)
-    connected_ = true;
-    return Result<bool>::ok(true);
+    connection_string_.clear();
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "MongoDB adapter unavailable: driver integration is not implemented yet."
+    );
 #else
-    (void)connection_string_;
+    connection_string_.clear();
     return Result<bool>::err(
         ErrorCode::NOT_IMPLEMENTED,
         "MongoDB adapter unavailable: library not compiled in. "

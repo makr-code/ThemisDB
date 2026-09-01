@@ -64,10 +64,13 @@ Result<bool> Neo4jAdapter::connect(
 #ifdef THEMIS_CHIMERA_NEO4J
     // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
     // TODO: Actual neo4j::Driver creation via bolt URI
-    connected_ = true;
-    return Result<bool>::ok(true);
+    connection_string_.clear();
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Neo4j adapter unavailable: driver integration is not implemented yet."
+    );
 #else
-    (void)connection_string_;
+    connection_string_.clear();
     return Result<bool>::err(
         ErrorCode::NOT_IMPLEMENTED,
         "Neo4j adapter unavailable: library not compiled in. "

@@ -662,6 +662,16 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
             impl_->total_sign_time_us.fetch_add(elapsed, std::memory_order_relaxed);
             return bridged;
         }
+        const char* allow_stub = std::getenv("THEMIS_ALLOW_HSM_STUB");
+        if (!allow_stub || std::string(allow_stub) != "1") {
+            r.error_message =
+                "HSMProvider (PKCS#11 path) signHash refused: real HSM not ready and "
+                "returning a stub signature is insecure. Set THEMIS_ALLOW_HSM_STUB=1 to "
+                "explicitly allow the insecure fallback.";
+            THEMIS_ERROR("{}", r.error_message);
+            impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+            return r;
+        }
         // STUB/SIMULATION NOTE:
         // Purpose: Return a non-cryptographic signature when real PKCS#11 HSM is unavailable
         //          (real_ready == false), so that CI and dev environments remain functional.

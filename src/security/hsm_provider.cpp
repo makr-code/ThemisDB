@@ -576,8 +576,9 @@ std::optional<std::string> HSMPKIClient::getCertSerial() {
     // Activation: Compiled when THEMIS_ENABLE_HSM_REAL is NOT defined.
     // Production Delta: Returns hardcoded "STUB-SERIAL" — not a real certificate serial.
     //                   Any downstream code that trusts this for identity validation is insecure.
-    // Removal Plan: Build with -DTHEMIS_ENABLE_HSM_REAL=ON; real getCertSerial() is provided
-    //               by HSMProvider::getCertificate() in hsm_provider_pkcs11.cpp.
+    // Removal Plan: Build with -DTHEMIS_ENABLE_HSM_REAL=ON; real cert-serial extraction
+    //               comes from the PKCS#11 certificate discovery/cache path in
+    //               hsm_provider_pkcs11.cpp.
     // NOT IMPLEMENTED: Real certificate serial retrieval from HSM token.
     // Tracked: src/security/ROADMAP.md — Phase 2: ABAC & HSM Direct Integration
     THEMIS_WARN("HSMPKIClient::getCertSerial() returning stub value 'STUB-SERIAL'. "
@@ -589,5 +590,4 @@ bool HSMPKIClient::isReady() const { return hsm_->isReady(); }
 } } // namespace themis::security
 
 #endif // !THEMIS_ENABLE_HSM_REAL
-
 

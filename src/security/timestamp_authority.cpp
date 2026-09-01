@@ -35,6 +35,7 @@
 #include <chrono>
 #include <sstream>
 #include <iomanip>
+#include <limits>
 #include <cstdlib>
 #include <string>
 #include <mutex>
@@ -296,6 +297,17 @@ std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes) {
     // Cryptographically random nonce using OpenSSL RAND_bytes.
     // Sequential counter bytes were previously used here (security gap) —
     // replaced with RAND_bytes to ensure nonces are unpredictable.
+    if (bytes == 0) {
+        return {};
+    }
+
+    constexpr size_t kMaxRandBytes = static_cast<size_t>(std::numeric_limits<int>::max());
+    if (bytes > kMaxRandBytes) {
+        THEMIS_ERROR("TimestampAuthority::generateNonce: requested size {} exceeds RAND_bytes "
+                     "limit {}", bytes, kMaxRandBytes);
+        return {};
+    }
+
     std::vector<uint8_t> n(bytes);
     if (RAND_bytes(n.data(), static_cast<int>(bytes)) != 1) {
         // RAND_bytes failure is non-recoverable; return empty to signal error.
