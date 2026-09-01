@@ -9,7 +9,7 @@ name: "Gate: PR Core [Community Fail-Closed]"
 on:
   workflow_call: {}
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - community
       - minimal
@@ -22,7 +22,20 @@ on:
       - 'src/**/*.hh'
       - 'src/**/*.hpp'
       - 'src/**/*.hxx'
-      - 'plugins/**'
+      - 'plugins/**/plugin.toml'
+      - 'plugins/**/plugin.json'
+      - 'plugins/**/CMakeLists.txt'
+      - 'plugins/**/*.cmake'
+      - 'plugins/**/*.in'
+      - 'plugins/**/*.txt'
+      - 'plugins/**/*.c'
+      - 'plugins/**/*.cc'
+      - 'plugins/**/*.cpp'
+      - 'plugins/**/*.cxx'
+      - 'plugins/**/*.h'
+      - 'plugins/**/*.hh'
+      - 'plugins/**/*.hpp'
+      - 'plugins/**/*.hxx'
       - 'include/themis/api.h'
       - 'CMakeLists.txt'
       - 'cmake/**/*.cmake'
@@ -40,7 +53,20 @@ on:
       - 'src/**/*.hh'
       - 'src/**/*.hpp'
       - 'src/**/*.hxx'
-      - 'plugins/**'
+      - 'plugins/**/plugin.toml'
+      - 'plugins/**/plugin.json'
+      - 'plugins/**/CMakeLists.txt'
+      - 'plugins/**/*.cmake'
+      - 'plugins/**/*.in'
+      - 'plugins/**/*.txt'
+      - 'plugins/**/*.c'
+      - 'plugins/**/*.cc'
+      - 'plugins/**/*.cpp'
+      - 'plugins/**/*.cxx'
+      - 'plugins/**/*.h'
+      - 'plugins/**/*.hh'
+      - 'plugins/**/*.hpp'
+      - 'plugins/**/*.hxx'
       - 'include/themis/api.h'
       - 'CMakeLists.txt'
       - 'cmake/**/*.cmake'

@@ -9,7 +9,7 @@ name: "Gate: PR Core [Edition & License]"
 on:
   workflow_call: {}
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - develop
       - community
@@ -18,7 +18,20 @@ on:
       - military
       - minimal
     paths:
-      - 'plugins/**'
+      - 'plugins/**/plugin.toml'
+      - 'plugins/**/plugin.json'
+      - 'plugins/**/CMakeLists.txt'
+      - 'plugins/**/*.cmake'
+      - 'plugins/**/*.in'
+      - 'plugins/**/*.txt'
+      - 'plugins/**/*.c'
+      - 'plugins/**/*.cc'
+      - 'plugins/**/*.cpp'
+      - 'plugins/**/*.cxx'
+      - 'plugins/**/*.h'
+      - 'plugins/**/*.hh'
+      - 'plugins/**/*.hpp'
+      - 'plugins/**/*.hxx'
       - 'include/**/*.h'
       - 'include/**/*.hh'
       - 'include/**/*.hpp'
@@ -38,7 +51,20 @@ on:
   push:
     branches: [develop]
     paths:
-      - 'plugins/**'
+      - 'plugins/**/plugin.toml'
+      - 'plugins/**/plugin.json'
+      - 'plugins/**/CMakeLists.txt'
+      - 'plugins/**/*.cmake'
+      - 'plugins/**/*.in'
+      - 'plugins/**/*.txt'
+      - 'plugins/**/*.c'
+      - 'plugins/**/*.cc'
+      - 'plugins/**/*.cpp'
+      - 'plugins/**/*.cxx'
+      - 'plugins/**/*.h'
+      - 'plugins/**/*.hh'
+      - 'plugins/**/*.hpp'
+      - 'plugins/**/*.hxx'
       - 'include/**/*.h'
       - 'include/**/*.hh'
       - 'include/**/*.hpp'
