@@ -148,6 +148,11 @@ jobs:
               echo "::error::workflow_dispatch must run on canonical branch lanes only."
               exit 1
             fi
+
+            if [ -n "${TAG_INPUT}" ] && echo "${TAG_INPUT}" | grep -Eq "^${SEMVER_CORE}${SEMVER_SUFFIX}$"; then
+              TARGET="v${TAG_INPUT}"
+              echo "Normalized dispatch tag to canonical format: ${TARGET}"
+            fi
           fi
 
           if [ -n "${TARGET}" ]; then
@@ -229,6 +234,9 @@ jobs:
         shell: bash
         run: |
           TAG="${{ inputs.tag_name || github.ref_name }}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && echo "${TAG}" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$'; then
+            TAG="v${TAG}"
+          fi
           if   echo "${TAG}" | grep -qE '^enterprise-v'; then
             EDITION=enterprise; VERSION="${TAG#enterprise-}"
           elif echo "${TAG}" | grep -qE '^hyperscaler-v'; then
@@ -398,10 +406,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TARGET_REF: ${{ github.ref_name }}
-          TARGET_TAG: ${{ inputs.tag_name || github.ref_name }}
+          RAW_TARGET_TAG: ${{ inputs.tag_name || github.ref_name }}
         shell: bash
         run: |
           set +e
+          TARGET_TAG="${RAW_TARGET_TAG}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && echo "${TARGET_TAG}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$'; then
+            TARGET_TAG="v${TARGET_TAG}"
+          fi
           gh workflow run .github/workflows/release-docker-image.yml \
             --ref "${TARGET_REF}" \
             -f push_to_registry=true \
@@ -432,10 +444,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TARGET_REF: ${{ github.ref_name }}
-          TARGET_TAG: ${{ inputs.tag_name || github.ref_name }}
+          RAW_TARGET_TAG: ${{ inputs.tag_name || github.ref_name }}
         shell: bash
         run: |
           set +e
+          TARGET_TAG="${RAW_TARGET_TAG}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && echo "${TARGET_TAG}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$'; then
+            TARGET_TAG="v${TARGET_TAG}"
+          fi
           gh workflow run .github/workflows/build-widget.yml \
             --ref "${TARGET_REF}" \
             -f dry_run=true \
@@ -494,6 +510,10 @@ jobs:
             const tag = context.ref.startsWith('refs/tags/')
               ? context.ref.replace('refs/tags/', '')
               : ('${{ inputs.tag_name }}' || '');
+            if (/^\d+\.\d+\.\d+(?:-[0-9A-Za-z][0-9A-Za-z.-]*)?$/.test(tag)) {
+              tag = `v${tag}`;
+              console.log(`Normalized dispatch tag to canonical format: ${tag}`);
+            }
             if (!tag) {
               console.log('No tag — skipping GitHub Release upload.');
               return;
