@@ -65,7 +65,7 @@ on:
         default: ''
         type: string
       close-reason:
-        description: Close reason for close_issue
+        description: Deprecated input (close_issue is policy-disabled/no-op)
         required: false
         default: completed
         type: string
