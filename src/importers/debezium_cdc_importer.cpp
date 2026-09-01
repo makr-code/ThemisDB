@@ -267,6 +267,7 @@ ImportStats DebeziumCDCImporter::importData(
 ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
                                                CDCEventCallback callback) {
     ImportStats stats{};
+    const auto start_time = std::chrono::steady_clock::now();
 
     const auto deadline = (options.deadline_ms > 0)
         ? std::optional<std::chrono::steady_clock::time_point>(

@@ -520,6 +520,12 @@ bool NVMeManager::resetZone(uint64_t zone_offset) {
     if (!config_.enable_zns || config_.device_path.empty()) {
         return false;
     }
+    constexpr uint64_t SECTOR_SIZE = 512;
+    if (config_.zone_capacity_bytes == 0 || (zone_offset % SECTOR_SIZE) != 0) {
+        THEMIS_WARN("NVMeManager::resetZone: invalid zone offset={} or capacity={}",
+                    zone_offset, config_.zone_capacity_bytes);
+        return false;
+    }
     std::lock_guard<std::mutex> lock(zone_mutex_);
 #ifdef __linux__
     int fd = ::open(config_.device_path.c_str(), O_RDWR | O_CLOEXEC);
@@ -528,8 +534,6 @@ bool NVMeManager::resetZone(uint64_t zone_offset) {
                      config_.device_path, std::strerror(errno));
         return false;
     }
-    // Sector size is 512 bytes on most ZNS drives
-    constexpr uint64_t SECTOR_SIZE = 512;
     struct blk_zone_range range{};
     range.sector     = zone_offset / SECTOR_SIZE;
     range.nr_sectors = config_.zone_capacity_bytes / SECTOR_SIZE;
@@ -549,6 +553,12 @@ bool NVMeManager::finishZone(uint64_t zone_offset) {
     if (!config_.enable_zns || config_.device_path.empty()) {
         return false;
     }
+    constexpr uint64_t SECTOR_SIZE = 512;
+    if (config_.zone_capacity_bytes == 0 || (zone_offset % SECTOR_SIZE) != 0) {
+        THEMIS_WARN("NVMeManager::finishZone: invalid zone offset={} or capacity={}",
+                    zone_offset, config_.zone_capacity_bytes);
+        return false;
+    }
     std::lock_guard<std::mutex> lock(zone_mutex_);
 #ifdef __linux__
     int fd = ::open(config_.device_path.c_str(), O_RDWR | O_CLOEXEC);
@@ -557,7 +567,6 @@ bool NVMeManager::finishZone(uint64_t zone_offset) {
                      config_.device_path, std::strerror(errno));
         return false;
     }
-    constexpr uint64_t SECTOR_SIZE = 512;
     struct blk_zone_range range{};
     range.sector     = zone_offset / SECTOR_SIZE;
     range.nr_sectors = config_.zone_capacity_bytes / SECTOR_SIZE;
@@ -577,9 +586,12 @@ uint64_t NVMeManager::getZoneWritePointer(uint64_t zone_offset) const {
     if (!config_.enable_zns || config_.device_path.empty()) {
         return UINT64_MAX;
     }
+    constexpr uint64_t SECTOR_SIZE = 512;
+    if (config_.zone_capacity_bytes == 0 || (zone_offset % SECTOR_SIZE) != 0) {
+        return UINT64_MAX;
+    }
     std::lock_guard<std::mutex> lock(zone_mutex_);
 #ifdef __linux__
-    constexpr uint64_t SECTOR_SIZE = 512;
     int fd = ::open(config_.device_path.c_str(), O_RDONLY | O_CLOEXEC);
     if (fd < 0) {
         return UINT64_MAX;
