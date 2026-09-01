@@ -163,8 +163,6 @@ paths = [
   '''benchmarks/.*''',
   # Documentation files may contain illustrative examples of secret patterns
   '''docs/.*''',
-  # Workflow files may contain regex pattern strings that reference secret formats
-  '''.github/workflows/.*''',
   # AI-generated developer wiki context files (machine-generated, not real secrets)
   '''ai_context/.*''',
   # Go test files use _test.go naming convention
