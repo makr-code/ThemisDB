@@ -1,6 +1,6 @@
 # Docker Build Strategy Quick Reference
 
-**Status:** current as of 2026-08-22  
+**Status:** current as of 2026-09-01  
 **Canonical build entrypoint:** [../Dockerfile](../Dockerfile)  
 **Supporting assets:** [../docker](../docker)
 
@@ -11,6 +11,22 @@
 - The build uses multi-stage layering: `base` -> `deps` -> `llama` -> `build` -> `runtime`.
 - BuildKit cache mounts are used for APT package caches and vcpkg caches.
 - The vcpkg clone step is guarded so a cached build directory does not fail with “destination path ... already exists and is not an empty directory”.
+
+## Base Image Versioning (as of 2026-09-01)
+
+**Primary strategy:** Use floating/latest tags for cross-platform compatibility
+
+| Dockerfile | Base Image | Policy | Rationale |
+|---|---|---|---|
+| `Dockerfile.unified` (Primary) | `ubuntu:latest` | Always track LTS + patches | Auto-resolves across registries; no SHA divergence |
+| `Dockerfile.ethics-ai` | `python:3.11-slim` | Track Python 3.11.x patches | Allows security patches; platform-independent resolution |
+| `Dockerfile.themisdb` (Legacy) | `ubuntu:22.04` | Deprecated; not updated | For backward compatibility only |
+
+**Benefits:**
+- Different Docker registries (Linux/macOS/Windows/Docker Desktop) independently resolve `ubuntu:latest` without SHA conflicts
+- All LTS security patches are applied automatically
+- Reduces maintenance burden of tracking minor versions
+- Improves cross-compilation resilience
 
 ## Why this layout
 

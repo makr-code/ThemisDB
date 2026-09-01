@@ -15,13 +15,35 @@ The supporting files in this directory are deployment/configuration helpers and 
 - runtime and compose support for development/test workflows
 - edition-specific support files under [community](community), [enterprise](enterprise), and [hyperscaler](hyperscaler)
 
+## Base Image Versioning Strategy
+
+### Primary Dockerfile (Dockerfile.unified)
+
+- **Base image:** `ubuntu:latest`
+- **Rationale:** Ubuntu's `latest` tag automatically tracks the current LTS release with security patches
+- **Benefit for cross-compilation:** Different Docker registries (Linux/macOS/Windows) can independently resolve `ubuntu:latest` without SHA divergence
+- **Security:** All LTS patches are applied automatically; no need to manually track minor versions
+
+### Ethics AI Dockerfile (Dockerfile.ethics-ai)
+
+- **Base image:** `python:3.11-slim`
+- **Rationale:** Python slim images receive regular patch updates within the major.minor version
+- **Benefit for cross-compilation:** Allows automatic Python 3.11.x security patches across platforms
+- **Note:** `-slim` is preferred over `-slim-bookworm` to allow flexibility in underlying Debian version
+
+### Legacy Dockerfile (Dockerfile.themisdb)
+
+- **Status:** Deprecated
+- **Migration path:** Use `Dockerfile.unified` for new builds
+- **Note:** Not updated with `ubuntu:latest`; kept for historical compatibility only
+
 ## Local build
 
 From the repository root:
 
 ```bash
 docker buildx build --progress=plain --load \
-  -f Dockerfile \
+  -f docker/Dockerfile.unified \
   -t themisdb:test \
   --build-arg THEMIS_EDITION=COMMUNITY \
   --build-arg ENABLE_LLM=OFF \
