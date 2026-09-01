@@ -291,6 +291,15 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - Some optional backend combinations remain environment dependent.
 - Distributed and plugin-heavy scenarios need continuous hardening evidence.
 
+## Wave 3 Gap-Closure Tracking (2026-08-31)
+
+- [~] `break_even_validator.cc` — Prometheus metrics not yet emitted from
+  `BreakEvenDecision::ToString()`, `CacheEntry::IsExpired()`, and
+  `BreakEvenValidator` constructor. Wire observability counters/gauges via the
+  existing metrics registry once a Prometheus handle is available on the
+  BreakEvenValidator instance. Target: Q2 2027.
+  Tracking comment added in source at `break_even_validator.cc:180`.
+
 ## Breaking Changes
 
 - No roadmap-level breaking change planned; any required contract break must be versioned and documented in changelog and migration notes before merge.

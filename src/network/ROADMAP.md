@@ -112,6 +112,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 
 ### Wave D Contribution for `network`
 - [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
+- [I] **Wire-Protocol Session-State Strand Safety**: Replace shared `payload_buffer_` / `header_buffer_` members with per-dispatch copies or a `net::strand` to eliminate I/O-thread / worker-thread race under pipelining (`wire_protocol_server.cpp`). (Target: Q1 2027)
 - [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
 - [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
 

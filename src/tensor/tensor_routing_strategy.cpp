@@ -76,7 +76,9 @@ std::vector<float> RankBasedPrioritization::prioritize(
         }
 
         // Compute freshness score (0.0 if very old, 1.0 if very recent)
-        float freshness = 1.0f;  // TODO: Parse created_at and compute age
+        // TODO(tracked): Parse created_at and compute age-based freshness decay
+        //   — see src/tensor/ROADMAP.md § "Routing Freshness Scoring"
+        float freshness = 1.0f;
         
         float score = (summary->similarity_score * rank_weight) +
                      (freshness * freshness_weight);
@@ -91,7 +93,9 @@ bool RankBasedPrioritization::sort(
 
     std::sort(summaries.begin(), summaries.end(),
               [this](const BaseTensorSummary& a, const BaseTensorSummary& b) {
-                  float freshness_a = 1.0f;  // TODO: Compute from timestamp
+                  // TODO(tracked): Compute age-based freshness from timestamp
+                  //   — see src/tensor/ROADMAP.md § "Routing Freshness Scoring"
+                  float freshness_a = 1.0f;
                   float freshness_b = 1.0f;
                   float score_a = (a.similarity_score * rank_weight) +
                                  (freshness_a * freshness_weight);
@@ -280,7 +284,8 @@ RoutingDecision AdaptiveRouting::route(
     RoutingDecision decision;
     
     // For now, use a simple heuristic based on learned metrics
-    // TODO: Implement adaptive learning with metrics tracking
+    // TODO(tracked): Implement adaptive learning with metrics tracking
+    //   — see src/tensor/ROADMAP.md § "Adaptive Routing Learning"
     
     decision.primary_target = "GRAPH_VALIDATION";
     decision.fallback_target = "FALLBACK";

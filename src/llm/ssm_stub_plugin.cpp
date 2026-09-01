@@ -15,6 +15,22 @@
 
 namespace themis::llm {
 
+// ============================================================================
+// STUB/SIMULATION NOTE (SyntheticSSMStub — SSM PoC stub):
+// Purpose:           Provide a deterministic, parameter-free SSM implementation
+//                    for Phase 1 dataflow validation without requiring a trained
+//                    state-space model or hardware accelerator.
+// Activation:        Compiled when no real SSM backend is registered via the
+//                    ILLMPlugin interface. This class is always compiled and
+//                    used as a fallback in test and dev-only SSM pipelines.
+// Production Delta:  Uses a fixed seed and linear hidden-state update (no learned
+//                    A/B/C/D matrices). Output quality is deterministic but not
+//                    semantically meaningful. Not suitable for production inference.
+// Removal Plan:      Replace with a trained SSM backend (e.g., Mamba, S4, or H3)
+//                    registered via ILLMPlugin. This stub is retained for PoC
+//                    test scaffolding. Tracking: src/llm/ROADMAP.md § "SSM Backend"
+// ============================================================================
+
 SyntheticSSMStub::SyntheticSSMStub() : rng_(STUB_SEED) {
     // Generate fingerprint from seed and hidden dimension
     std::ostringstream oss;

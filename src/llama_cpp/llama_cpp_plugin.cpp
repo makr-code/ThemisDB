@@ -356,6 +356,11 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
     //             stub echo string, making the failure invisible to callers.
     //             Now returns success=false + error_message="Model not loaded"
     //             so callers can programmatically detect and handle the error.
+    // Removal Plan: Build with -DTHEMIS_LLM_ENABLED=ON, provide a valid model
+    //               file path in config["model_path"], and call loadModel()
+    //               before generate().  Once wrapper_ is non-null the real
+    //               LlamaWrapper inference path executes and this block is
+    //               bypassed entirely.  See SETUP.md §"Enabling real LLM inference".
     // Roadmap ref: src/llama_cpp/ROADMAP.md § "Planned Features"
     // See: llama_cpp/FUTURE_ENHANCEMENTS.md §6; AI_ML_IMPACT_ASSESSMENT.md §7 Gap 1.
 #ifdef THEMIS_LLAMA_CPP_STUB_MODE

@@ -382,6 +382,17 @@ The module provides production-grade LLM runtime surfaces across async inference
 - Runtime behavior can vary with enabled backend/plugin combinations and available hardware acceleration.
 - Not all benchmark targets currently represent transport- or topology-specific production mixes.
 
+## Wave 3 Gap-Closure Tracking (2026-08-31)
+
+- [~] `ssm_state_rocksdb_store.cpp:261` — SSM snapshot serialization uses JSON;
+  binary/protobuf serialization not yet implemented. Serialization is functionally
+  correct but has higher storage overhead.
+  Tracking comment added in source. Target Q2 2027.
+- [I] `ssm_stub_plugin.cpp` — `SyntheticSSMStub` STUB/SIMULATION NOTE block added
+  to constructor; stub retained for Phase 1 PoC dataflow validation only.
+- [I] `llm_plugin_manager.cpp:668` — `THEMIS_LLAMA_CPP_STUB_MODE` block documented
+  with full STUB/SIMULATION NOTE template.
+
 ## Wave B (Q1–Q2 2027) Tracking — B3 Multi-Task LoRA Fine-Tuning
 
 ### Scope

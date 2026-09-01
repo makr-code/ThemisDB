@@ -452,6 +452,26 @@ void AuditBatchWriter::recordMetrics(int64_t submission_latency_us) {
          submission_latency_us) / metrics_.total_entries_submitted;
     
     // TODO: Implement proper p95/p99 tracking with histogram
+    // [RESOLVED] — uses a rolling window of up to 1 000 samples; percentiles
+    // computed by partial sort each time recordMetrics() is called.
+    static constexpr size_t kLatencyWindowSize = 1'000;
+    latency_samples_us_.push_back(static_cast<double>(submission_latency_us));
+    if (latency_samples_us_.size() > kLatencyWindowSize) {
+        latency_samples_us_.erase(latency_samples_us_.begin());
+    }
+    if (latency_samples_us_.size() >= 2) {
+        std::vector<double> sorted = latency_samples_us_;
+        std::sort(sorted.begin(), sorted.end());
+        auto p_idx = [&](double pct) -> double {
+            double pos = pct * (static_cast<double>(sorted.size()) - 1.0);
+            size_t lo  = static_cast<size_t>(pos);
+            size_t hi  = std::min(lo + 1, sorted.size() - 1);
+            double frac = pos - static_cast<double>(lo);
+            return sorted[lo] * (1.0 - frac) + sorted[hi] * frac;
+        };
+        metrics_.p95_submission_latency_us = p_idx(0.95);
+        metrics_.p99_submission_latency_us = p_idx(0.99);
+    }
 }
 
 }  // namespace governance

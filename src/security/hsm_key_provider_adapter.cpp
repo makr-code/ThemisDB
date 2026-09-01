@@ -32,6 +32,18 @@ bool isStubHsmDekWrapAllowed() {
 } // namespace
 
 // ── Process-wide injectable DEK bridge (STUB #47 / #48) ─────────────────────
+// STUB/SIMULATION NOTE:
+// Purpose: Allow test harnesses and CI pipelines to inject custom WrapDEK/UnwrapDEK
+//          implementations without wiring up a real PKCS#11 HSM or stub provider.
+//          Provides a seam for integration testing of key-wrapping logic in isolation.
+// Activation: Caller sets a non-null function via setWrapDEKFn() / setUnwrapDEKFn().
+//             When set, the injected function takes precedence over the HSMProvider path.
+//             When unset (null), the adapter delegates to HSMProvider::encryptData/decryptData.
+// Production Delta: An injected function is caller-controlled and receives raw DEK bytes.
+//                   Must never be set in production deployments; null in all release builds.
+// Removal Plan: These bridges are permanent test seams. Production code paths ignore them
+//               (null check). Remove only if the injectable-bridge pattern is deprecated
+//               in a future major version refactor.
 static HSMKeyProviderAdapter::WrapDEKFn   g_wrap_dek_fn;
 static HSMKeyProviderAdapter::UnwrapDEKFn g_unwrap_dek_fn;
 static std::mutex                          g_dek_fn_mutex;
@@ -602,7 +614,7 @@ int64_t HSMKeyProviderAdapter::getCurrentTimeMs() const {
     ).count();
 }
 
-// ── Static bridge setters (STUB #47 / #48) ───────────────────────────────────
+// ── Static bridge setters (STUB #47 / #48) — see STUB/SIMULATION NOTE above ──
 
 void HSMKeyProviderAdapter::setWrapDEKFn(WrapDEKFn fn) {
     std::lock_guard<std::mutex> lock(g_dek_fn_mutex);

@@ -261,8 +261,11 @@ GeoBackendDispatcher::VincentyResult GeoBackendDispatcher::computeVincentyBatch(
     
     // Attempt GPU dispatch if conditions met
     if (shouldUseCuda(points1.size()) && dispatch_table_) {
-        // GPU Vincenty implementation for per-pair batched dispatch
-        // TODO: Integrate Vincenty CUDA kernel with batch dispatch
+        // GPU Vincenty implementation for per-pair batched dispatch.
+        // [I] ROADMAP: CUDA Vincenty kernel integration — tracked in
+        //     src/geo/ROADMAP.md § "Phase 4: GPU Batch Distance Kernels".
+        //     Requires THEMIS_GEO_CUDA=ON and a GeoKernelDispatch entry for
+        //     the Vincenty formula.  Until then, fall through to CPU path.
         result.cpu_fallback = true;
     }
     

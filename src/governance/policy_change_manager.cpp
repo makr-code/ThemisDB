@@ -645,9 +645,21 @@ bool PolicyChangeManager::executeRollback(
     operation.to_version   = target_version;
     
     // TODO: Implement actual rollback operation with policy manager
-    // For now, assume success for atomic operations
-    
-    return true;
+    // [RESOLVED] — delegate to PolicyManager::rollbackToVersion().
+    if (!policy_manager_) {
+        operation.error_message = "PolicyManager not available — cannot execute rollback";
+        return false;
+    }
+    const std::string& modified_by =
+        operation.operator_user.empty() ? "system" : operation.operator_user;
+    const bool ok = policy_manager_->rollbackToVersion(
+        rule_id, target_version, modified_by);
+    if (!ok) {
+        operation.error_message =
+            "PolicyManager::rollbackToVersion failed for rule=" + rule_id +
+            " target=" + target_version;
+    }
+    return ok;
 }
 
 } // namespace governance

@@ -292,6 +292,9 @@ private:
     };
     mutable std::mutex metrics_mutex_;
     Metrics metrics_;
+    /// Rolling window of the last 1 000 submission latency samples (µs).
+    /// Used to compute p95 / p99 in recordMetrics().  Protected by metrics_mutex_.
+    std::vector<double> latency_samples_us_;
     
     // Internal methods
     void flushThread();
