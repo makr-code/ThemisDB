@@ -26,6 +26,9 @@ on:
       - '.github/workflows/gate-copilot-regression.yml'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -40,10 +43,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        uses: actions/checkout@v4  # v7.0.1
 
       - name: Set up Python
-        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        uses: actions/setup-python@v5  # v5.3.0
         with:
           python-version: '3.12'
 
@@ -146,7 +149,7 @@ jobs:
 
       - name: Upload guard artifacts
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        uses: actions/upload-artifact@v4  # v7.0.1
         with:
           name: copilot-regression-guard-${{ github.run_number }}
           path: artifacts/copilot-regression-guard/

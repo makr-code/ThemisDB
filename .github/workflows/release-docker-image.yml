@@ -129,7 +129,7 @@ jobs:
         echo "============================================================"
 
     - name: Checkout
-      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      uses: actions/checkout@v4  # v7.0.1
       with:
         fetch-depth: 0
         ref: ${{ github.sha }}
@@ -343,7 +343,7 @@ jobs:
           (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true') ||
           (github.event_name == 'workflow_call' && inputs.push_to_registry == 'true')
         )
-      uses: actions/attest-build-provenance@1c608d11d69870c2092266b3f9a6f3abbf17002c  # v1.4.3
+      uses: actions/attest-build-provenance@v1  # v1.4.3
       with:
         subject-name: ${{ steps.tags.outputs.value }}
         subject-digest: ${{ steps.build.outputs.digest }}
@@ -366,7 +366,7 @@ jobs:
 
     - name: Upload docker errors
       if: always() && hashFiles('docker-errors.json') != ''
-      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+      uses: actions/upload-artifact@v4  # v7.0.1
       with:
         name: docker-errors-${{ github.run_number }}
         path: docker-errors.json

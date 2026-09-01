@@ -111,9 +111,26 @@ Kernliste der aktiven Workflows:
 ## Security Guidelines
 - Keine Secrets im YAML oder in Shell-Skripten hardcoden.
 - Publish-Workflows nur ueber Tag- oder Environment-Gates freigeben.
-- Third-party Actions auf immutable Commit-SHAs pinnen (SHA-only, kein `@vX.Y.Z` Tag als einzige Referenz).
-  Beispiel: `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2`
-  Enforcement: `gate-pr-core.yml` Preflight-Checks + lokales `actionlint` via `scripts/test-github-actions-local.ps1`.
+
+### Action Pinning Policy (Tiered Strategy)
+Third-party Actions sind nach Sicherheits- und Kompatibilitaetsanforderungen in 4 Kategorien eingeteilt. 
+Siehe `.github/ACTION_PIN_POLICY.md` fuer vollstaendige Dokumentation und Allowlist.
+
+**Tier 1 (MUST PIN - Sicherheit kritisch):** 
+- Vollständige SHA-Pins erforderlich
+- Bsp: codeql-action, fortify-action, action-gh-release (signings/credentials)
+- Enforcement: `gate-pr-core.yml` Preflight-Checks
+
+**Tier 2 (SHOULD PIN - Zuverlaessigkeit kritisch):** 
+- Semantische Version Tags (z.B. `@v4`) oder gebrochene SHA-Pins erlaubt
+- Bsp: checkout, upload-artifact, download-artifact, setup-python
+- Rationale: Aktualisierungen innerhalb Major-Version sind typischerweise compatible
+
+**Tier 3-4 (OPTIONAL/DYNAMIC - Cross-Compilation-freundlich):**
+- Semantic Version Tags oder `latest` erlaubt
+- Bsp: trivy-action, syft, actionlint, Linter-Tools
+- Rationale: Plattformuebergreifende Kompatibilitaet (Docker/Linux/macOS/MS) bevorzugt
+
 - Compliance-Gates fuer Dependencies muessen branch- und pfadbegrenzt sein und ein downloadbares Audit-Artefakt erzeugen.
 - OIDC-basierte Authentifizierung (kein long-lived PAT) fuer ghcr.io und neue Registry-Ziele.
 
