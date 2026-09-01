@@ -442,16 +442,16 @@ DetectionResult KnowledgeGapDetector::detectGap(
                 break;
         }
 
-        return ethical_gap_detected ? ethical_result : DetectionResult{};
+        return ethical_gap_detected ? ethical_result : DetectionResult{.gap_detected = false, .confidence_score = 0.0, .gap_type = GapType::NONE, .missing_aspects = {}, .recommendation = FallbackStrategy::NONE, .explanation = {}, .avg_similarity_score = 0.0, .num_retrieved_docs = 0, .coverage_score = 0.0};
     } catch (const std::exception& e) {
         // HIGH FIX: Exception guard on main detection path to prevent incomplete state
         THEMIS_WARN("detectGap: detection failed with exception: {}", e.what());
         // Return safe no-gap result rather than propagating exception
-        return DetectionResult{.gap_detected = false, .gap_type = GapType::NONE};
+        return DetectionResult{.gap_detected = false, .confidence_score = 0.0, .gap_type = GapType::NONE, .missing_aspects = {}, .recommendation = FallbackStrategy::NONE, .explanation = {}, .avg_similarity_score = 0.0, .num_retrieved_docs = 0, .coverage_score = 0.0};
     } catch (...) {
         // HIGH FIX: Catch-all for unknown exceptions
         THEMIS_WARN("detectGap: detection failed with unknown exception");
-        return DetectionResult{.gap_detected = false, .gap_type = GapType::NONE};
+        return DetectionResult{.gap_detected = false, .confidence_score = 0.0, .gap_type = GapType::NONE, .missing_aspects = {}, .recommendation = FallbackStrategy::NONE, .explanation = {}, .avg_similarity_score = 0.0, .num_retrieved_docs = 0, .coverage_score = 0.0};
     }
 }
 
@@ -567,10 +567,10 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
         return result;
     } catch (const std::exception& e) {
         THEMIS_WARN("detectWithActiveRetrieval: active retrieval failed: {}", e.what());
-        return DetectionResult{.gap_detected = false, .gap_type = GapType::NONE};
+        return DetectionResult{.gap_detected = false, .confidence_score = 0.0, .gap_type = GapType::NONE, .missing_aspects = {}, .recommendation = FallbackStrategy::NONE, .explanation = {}, .avg_similarity_score = 0.0, .num_retrieved_docs = 0, .coverage_score = 0.0};
     } catch (...) {
         THEMIS_WARN("detectWithActiveRetrieval: active retrieval failed with unknown exception");
-        return DetectionResult{.gap_detected = false, .gap_type = GapType::NONE};
+        return DetectionResult{.gap_detected = false, .confidence_score = 0.0, .gap_type = GapType::NONE, .missing_aspects = {}, .recommendation = FallbackStrategy::NONE, .explanation = {}, .avg_similarity_score = 0.0, .num_retrieved_docs = 0, .coverage_score = 0.0};
     }
 }
 

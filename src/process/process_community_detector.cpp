@@ -118,22 +118,6 @@ float modularityGain(
     return (k_u_in / g.total_weight) - (resolution * sigma_tot * g.degree[u] / (two_m * two_m / 2.f));
 }
 
-/// Sum of edge weights from node u into the given community.
-float communityAttachment(
-    int u,
-    const std::set<int>& community_nodes,
-    const Graph& g)
-{
-    float weight = 0.f;
-    for (int v : community_nodes) {
-        auto it = g.adj[u].find(v);
-        if (it != g.adj[u].end()) {
-            weight += it->second;
-        }
-    }
-    return weight;
-}
-
 /// Run one phase of Louvain: iterate nodes and move each to the neighbouring
 /// community with the best modularity gain. Returns true if any node moved.
 bool louvainPhase(

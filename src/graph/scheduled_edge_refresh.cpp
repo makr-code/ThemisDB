@@ -411,7 +411,7 @@ void ScheduledGraphEdgeRefreshEngine::schedulerLoop() {
 
         {
             std::lock_guard<std::mutex> lock(cycle_mutex_);
-            auto stats = runRefreshCycle();
+            runRefreshCycle();
             // logged inside runRefreshCycle
         }
     }

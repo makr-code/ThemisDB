@@ -49,7 +49,10 @@ AccessControl::AccessControl(const Config& config)
             .encrypt_then_sign = false,
             .log_path = config.audit_config.audit_log_path,
             .key_id = "access_control",
-            .enable_hash_chain = false
+            .enable_hash_chain = false,
+            .splunk_token = {},
+            .siem_ca_bundle_path = {},
+            .secondary_log_path = {}
         }
     ))
     , user_registration_plugin_manager_(std::make_unique<UserRegistrationPluginManager>())
