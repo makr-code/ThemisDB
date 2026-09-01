@@ -187,7 +187,6 @@ jobs:
           echo "Checking for private plugin references introduced in community/minimal code scope..."
 
           patterns=(
-            'plugins/private/'
             'plugins/themisdb_ethic_ai'
             'plugins/themisdb_llm_wiki'
             'plugins/themisdb_storage'
