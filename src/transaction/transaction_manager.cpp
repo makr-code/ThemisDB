@@ -931,10 +931,10 @@ TransactionManager::Transaction::Transaction(Transaction&& other) noexcept
       finished_(other.finished_.load(std::memory_order_acquire)),
       timeout_ms_(other.timeout_ms_.load(std::memory_order_acquire)),
       finished_duration_ms_(other.finished_duration_ms_.load(std::memory_order_acquire)),
-      savepoints_(std::move(other.savepoints_)),
       lock_manager_(other.lock_manager_),
       history_mgr_(other.history_mgr_),
       conflict_mgr_(other.conflict_mgr_),
+      savepoints_(std::move(other.savepoints_)),
       base_values_(std::move(other.base_values_)),
       our_values_(std::move(other.our_values_)),
       tenant_id_(std::move(other.tenant_id_)) {

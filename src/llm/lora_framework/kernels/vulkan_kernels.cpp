@@ -14,6 +14,7 @@
 #include "llm/lora_framework/vulkan_context.h"
 #include "llm/lora_framework/vulkan_buffer.h"
 #include "llm/lora_framework/vulkan_pipeline.h"
+#include <bit>
 #include <stdexcept>
 #include <string>
 #include <iostream>
@@ -645,7 +646,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     pc.op = 4; // scalar multiply operation
     pc.rows = 0;
     pc.cols = 0;
-    pc.scalar_bits = *reinterpret_cast<const uint32_t*>(&scalar);
+    pc.scalar_bits = std::bit_cast<uint32_t>(scalar);
     
     VulkanComputePipeline* pipeline = get_pipeline("elementwise", sizeof(PushConstants));
     
@@ -746,7 +747,7 @@ void launch_lora_grad_A_shader(
     pc.in_dim = 0; // Not used for grad_A
     pc.rank = static_cast<uint32_t>(K);
     pc.out_dim = static_cast<uint32_t>(N);
-    pc.scaling_bits = *reinterpret_cast<const uint32_t*>(&scaling);
+    pc.scaling_bits = std::bit_cast<uint32_t>(scaling);
     pc.compute_mode = 0; // grad_A computation
     
     VulkanComputePipeline* pipeline = get_pipeline("gradient", sizeof(PushConstants));
@@ -809,7 +810,7 @@ void launch_lora_grad_B_shader(
     pc.rank = static_cast<uint32_t>(K);
     pc.out_dim = 0; // Not used for grad_B
     float scaling = 1.0f;
-    pc.scaling_bits = *reinterpret_cast<const uint32_t*>(&scaling);
+    pc.scaling_bits = std::bit_cast<uint32_t>(scaling);
     pc.compute_mode = 1; // grad_B computation
     
     VulkanComputePipeline* pipeline = get_pipeline("gradient", sizeof(PushConstants));

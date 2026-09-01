@@ -132,7 +132,8 @@ FunctionSignature LoraTrainFunction::signature() const {
             .base_cost = 1000.0,
             .per_element_cost = 10.0,
             .can_use_index = false,
-            .is_parallelizable = false
+            .is_parallelizable = false,
+            .index_type = {}
         }
     };
 }
@@ -227,7 +228,8 @@ FunctionSignature LoraQueryFunction::signature() const {
             .base_cost = 100.0,
             .per_element_cost = 1.0,
             .can_use_index = false,
-            .is_parallelizable = true
+            .is_parallelizable = true,
+            .index_type = {}
         }
     };
 }
@@ -534,7 +536,8 @@ FunctionSignature LoraStatsFunction::signature() const {
             .base_cost = 5.0,
             .per_element_cost = 0.1,
             .can_use_index = true,
-            .is_parallelizable = true
+            .is_parallelizable = true,
+            .index_type = {}
         }
     };
 }
@@ -631,7 +634,8 @@ FunctionSignature LoraRecommendFunction::signature() const {
             .base_cost = 20.0,
             .per_element_cost = 2.0,
             .can_use_index = true,
-            .is_parallelizable = true
+            .is_parallelizable = true,
+            .index_type = {}
         }
     };
 }
@@ -744,7 +748,8 @@ FunctionSignature LoraLineageFunction::signature() const {
             .base_cost = 10.0,
             .per_element_cost = 1.0,
             .can_use_index = true,
-            .is_parallelizable = false
+            .is_parallelizable = false,
+            .index_type = {}
         }
     };
 }
@@ -820,7 +825,8 @@ FunctionSignature LoraProvenanceFunction::signature() const {
             .base_cost = 1.0,
             .per_element_cost = 0.0,
             .can_use_index = true,
-            .is_parallelizable = true
+            .is_parallelizable = true,
+            .index_type = {}
         }
     };
 }
@@ -873,7 +879,8 @@ FunctionSignature LoraAuditLogFunction::signature() const {
             .base_cost = 5.0,
             .per_element_cost = 0.5,
             .can_use_index = false,
-            .is_parallelizable = false
+            .is_parallelizable = false,
+            .index_type = {}
         }
     };
 }
@@ -934,7 +941,8 @@ FunctionSignature LoraSnapshotsFunction::signature() const {
             .base_cost = 2.0,
             .per_element_cost = 0.5,
             .can_use_index = false,
-            .is_parallelizable = true
+            .is_parallelizable = true,
+            .index_type = {}
         }
     };
 }
@@ -990,7 +998,8 @@ FunctionSignature LoraVerifyChainFunction::signature() const {
             .base_cost = 10.0,
             .per_element_cost = 1.0,
             .can_use_index = false,
-            .is_parallelizable = false
+            .is_parallelizable = false,
+            .index_type = {}
         }
     };
 }

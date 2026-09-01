@@ -88,7 +88,7 @@ int HnswLayerOptimizer::getOptimalEntryLayer() const {
     
     for (const auto& [layer, perf] : entry_layer_performance) {
         double avg_time = perf.first / perf.second;
-        if (avg_time < best_avg_time && perf.second >= config_.adaptive_layer_selection.min_samples) {
+        if (avg_time < best_avg_time && static_cast<size_t>(perf.second) >= config_.adaptive_layer_selection.min_samples) {
             best_avg_time = avg_time;
             best_layer = layer;
         }
@@ -125,7 +125,7 @@ int HnswLayerOptimizer::getOptimalEf(size_t k) const {
     double best_avg_time = std::numeric_limits<double>::max();
     
     for (const auto& [ef, perf] : ef_performance) {
-        if (perf.second >= config_.adaptive_layer_selection.min_samples) {
+        if (static_cast<size_t>(perf.second) >= config_.adaptive_layer_selection.min_samples) {
             double avg_time = perf.first / perf.second;
             if (avg_time < best_avg_time) {
                 best_avg_time = avg_time;

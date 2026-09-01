@@ -1032,7 +1032,6 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     double max_shard_ms   = 0.0;
     std::string slow_shard;
     bool any_timeout       = false;
-    bool any_circuit_open  = false;
     size_t failed_count    = 0;
     std::vector<std::string> open_cb_shards;
 
@@ -1044,7 +1043,6 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
             }
         }
         if (si.circuit_state == CircuitBreakerState::OPEN) {
-            any_circuit_open = true;
             open_cb_shards.push_back(si.shard_id);
         }
         if (si.execution_time_ms > max_shard_ms) {

@@ -88,7 +88,7 @@ std::string TimestampUtils::format(std::chrono::system_clock::time_point tp, boo
     gmtime_r(&sec, &tm_utc);
 #endif
 
-    char buf[32];
+    char buf[64];
     std::snprintf(buf, sizeof(buf),
                   "%04d-%02d-%02dT%02d:%02d:%02d",
                   tm_utc.tm_year + 1900,
@@ -231,7 +231,7 @@ std::string TimestampUtils::formatDuration(std::chrono::nanoseconds ns) {
     // Seconds with millisecond fraction
     oss << s.count();
     if (ms_part.count() > 0) {
-        char ms_buf[8];
+        char ms_buf[16];
         std::snprintf(ms_buf, sizeof(ms_buf), ".%03lld", static_cast<long long>(ms_part.count()));
         oss << ms_buf;
     }

@@ -1009,8 +1009,8 @@ inline std::string blobChunkKey(std::string_view key, uint32_t idx) {
     // audit_logging scanner alert (line 945): snprintf writes into a local fixed-size
     // char buf[8] to format a 6-digit decimal index — this is pure key construction,
     // not diagnostic output.  No structured logging is applicable here — false positive.
-    // 7 bytes: 6 digits + null terminator.  Extra byte keeps size a power of 2.
-    char buf[8];
+    // 11 bytes: up to 10 decimal digits + null terminator.
+    char buf[12];
     snprintf(buf, sizeof(buf), "%06u", idx);
     std::string ck;
     ck.reserve(10 + key.size() + 7);

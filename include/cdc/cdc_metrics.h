@@ -349,10 +349,13 @@ private:
 };
 
 /**
- * @brief Helper macro for easy latency recording
+ * @brief Helper macro for easy latency recording.
+ * Uses __LINE__ to generate a unique variable name per call site and
+ * avoid variable-shadowing warnings (MSVC C4456, etc.).
  */
-#define CDC_MEASURE_LATENCY(histogram) \
-    ScopedTimer _timer(histogram)
+#define CDC_MEASURE_LATENCY_IMPL(histogram, line) \
+    ScopedTimer CDC_timer_##line(histogram)
+#define CDC_MEASURE_LATENCY(histogram) CDC_MEASURE_LATENCY_IMPL(histogram, __LINE__)
 
 } // namespace cdc
 } // namespace themis

@@ -2263,7 +2263,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
             spdlog::info("Speculative draft model '{}' has no tokenizer bridge or "
                          "known native draft-token implementation; falling back "
                          "to target generation",
-                         draft_model_id);
+                         config_.speculative_draft_model_id);
             return false;
         }
 

@@ -190,7 +190,6 @@ ApproximateRadiusSearch::searchWithTargetCount(
     // Binary search on radius to find the right value that gives ~target_count results
     float min_radius = MIN_SEARCH_RADIUS;
     float max_radius = config.radius * RADIUS_MULTIPLIER;
-    float best_radius = config.radius;
     SearchResult best_result;
     size_t best_count_diff = std::numeric_limits<size_t>::max();
     
@@ -214,7 +213,6 @@ ApproximateRadiusSearch::searchWithTargetCount(
         // Track best result
         if (count_diff < best_count_diff) {
             best_count_diff = count_diff;
-            best_radius = test_radius;
             best_result = std::move(result.value());
         }
         

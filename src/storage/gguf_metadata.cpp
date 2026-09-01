@@ -121,19 +121,6 @@ namespace {
     return static_cast<unsigned char>(cmp_ok & lhs_ok & rhs_ok) == 1;
 }
 
-[[nodiscard]] bool isValidHexSha256Signature(const std::string& signature) {
-    constexpr std::size_t kHexSha256Len = 64;
-    if (signature.size() != kHexSha256Len) {
-        return false;
-    }
-    for (unsigned char ch : signature) {
-        if (!std::isxdigit(ch)) {
-            return false;
-        }
-    }
-    return true;
-}
-
 // ─── Serialisation helpers ────────────────────────────────────────────────
 
 void writeU32(std::vector<uint8_t>& buf, uint32_t v) {

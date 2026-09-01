@@ -573,16 +573,15 @@ std::vector<uint8_t> StorageEngine::encrypt_field(
     const std::string& field_name,
     const std::vector<uint8_t>& plaintext) {
     // Use injected encryption instead of concrete FieldEncryption
-    // CWE-457 Fix: Use move semantics for vector return to avoid unnecessary copy
-    return std::move(encryption_->encrypt_field(field_name, plaintext));
+    // Return directly to allow NRVO/copy-elision; std::move would suppress it.
+    return encryption_->encrypt_field(field_name, plaintext);
 }
 
 std::vector<uint8_t> StorageEngine::decrypt_field(
     const std::string& field_name,
     const std::vector<uint8_t>& ciphertext) {
     // Use injected encryption instead of concrete FieldEncryption
-    // CWE-457 Fix: Use move semantics for vector return to avoid unnecessary copy
-    return std::move(encryption_->decrypt_field(field_name, ciphertext));
+    return encryption_->decrypt_field(field_name, ciphertext);
 }
 
 } // namespace themis

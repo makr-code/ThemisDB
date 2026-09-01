@@ -165,7 +165,7 @@ UdfFunction::UdfFunction(UdfDefinition def) : def_(std::move(def)) {
     sig_.return_type      = def_.return_type;
     sig_.is_deterministic = def_.is_deterministic;
     sig_.is_aggregate     = false;
-    sig_.cost             = FunctionCost{CostComplexity::EXTERNAL, 5.0, 0.0, false, false};
+    sig_.cost             = FunctionCost{CostComplexity::EXTERNAL, 5.0, 0.0, false, false, {}};
 }
 
 FunctionSignature UdfFunction::signature() const {

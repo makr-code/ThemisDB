@@ -42,32 +42,6 @@ namespace voice {
 
 namespace {
 
-// TASK 2.6: Injection detection patterns (SQL, command injection)
-bool detectInjectionAttack(const std::string& input) {
-    // Simple heuristic checks for common injection patterns
-    static const std::vector<std::string> dangerous_patterns = {
-        "'; DROP TABLE",
-        "'; DELETE FROM",
-        "UNION SELECT",
-        "exec(",
-        "eval(",
-        "system(",
-        "../",
-        "..\\",
-        "`",
-        "$(",
-        "$((",
-        "${",
-    };
-    
-    for (const auto& pattern : dangerous_patterns) {
-        if (input.find(pattern) != std::string::npos) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool isRtpVersion2(const std::vector<uint8_t>& pkt) {
     return !pkt.empty() && ((pkt[0] >> 6) == 0x02);
 }

@@ -74,16 +74,6 @@ std::string base64Encode(const unsigned char* data, size_t len) {
 }
 
 // Read file content
-std::string readFile(const std::string& path) {
-    std::ifstream file(path, std::ios::binary);
-    if (!file) {
-        throw std::runtime_error("Failed to open file: " + path);
-    }
-    
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    return buffer.str();
-}
 
 // Check file exists
 bool fileExists(const std::string& path) {

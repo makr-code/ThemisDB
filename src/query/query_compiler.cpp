@@ -355,7 +355,6 @@ private:
      */
     void trySpecialise(Entry& entry, const std::string& key) {
         const auto t0 = std::chrono::steady_clock::now();
-        const auto deadline = t0 + std::chrono::milliseconds(config_.compilation_timeout_ms);
 
         try {
             // Capture everything the hot function needs by value.

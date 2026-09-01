@@ -381,7 +381,6 @@ std::vector<EntityLinkingMatch> EntityLinker::link(const std::string& text) cons
 
     for (auto& entity : candidates) {
         const std::string norm_text = normalise(entity.text);
-        const KGNode* best_node     = nullptr;
         double         best_sim     = 0.0;
 
         // Search through all nodes for the best match. Support both concrete
@@ -402,7 +401,6 @@ std::vector<EntityLinkingMatch> EntityLinker::link(const std::string& text) cons
                 if (s > best_sim) best_sim = s;
             }
             // We don't keep a pointer into optional; store id via node_id later.
-            best_node = nullptr; // indicate we have a match via candidate_node_opt
         }
 
         EntityLinkingMatch match;
