@@ -49,6 +49,12 @@
 	path = projects/Themis.AdminTools.Shared
 	url = https://github.com/makr-code/themisdb_admin_tools.git
 
+[submodule "plugins/themisdb_storage"]
+	path = plugins/themisdb_storage
+	url = https://github.com/makr-code/themisdb_storage.git
+	branch = develop
+	commit = 03eb17c844a0da96eb66155e20075a90cf467c36
+
 [submodule "plugins/themisdb_ethic_ai"]
 	path = plugins/themisdb_ethic_ai
 	url = https://github.com/makr-code/themisdb_ethic_ai.git
