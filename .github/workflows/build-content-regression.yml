@@ -74,7 +74,7 @@ env:
     libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev
     libvulkan-dev glslc
     libcpphttplib-dev
-    libboost-system-dev libboost-filesystem-dev
+    libboost-dev libboost-system-dev libboost-filesystem-dev
     libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc
     libpugixml-dev
   BUILD_DIR: build/content-regression

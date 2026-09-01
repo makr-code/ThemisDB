@@ -233,12 +233,20 @@ void ConfigFileWatcher::stop() {
 #if defined(__linux__)
     if (pipe_write_fd_ != -1) {
         char dummy = 1;
-        [[maybe_unused]] ssize_t rc = write(pipe_write_fd_, &dummy, 1);
+        const ssize_t rc = ::write(pipe_write_fd_, &dummy, sizeof(dummy));
+        if (rc == -1) {
+            spdlog::warn("ConfigFileWatcher: failed to signal stop pipe for '{}': {}",
+                         watch_path_, strerror(errno));
+        }
     }
 #elif defined(__APPLE__)
     if (pipe_write_fd_ != -1) {
         char dummy = 1;
-        [[maybe_unused]] ssize_t rc = write(pipe_write_fd_, &dummy, 1);
+        const ssize_t rc = ::write(pipe_write_fd_, &dummy, sizeof(dummy));
+        if (rc == -1) {
+            spdlog::warn("ConfigFileWatcher: failed to signal stop pipe for '{}': {}",
+                         watch_path_, strerror(errno));
+        }
     }
 #elif defined(_WIN32)
     if (stop_event_ != nullptr) {

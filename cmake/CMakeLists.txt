@@ -1571,9 +1571,19 @@ else()
     endif()
 endif()
 
-find_package(Boost QUIET COMPONENTS system)
-if(NOT Boost_FOUND)
-    message(WARNING "Boost not found - some features may be disabled")
+find_package(Boost REQUIRED COMPONENTS system filesystem headers)
+
+# The core Boost headers package is required for header-only utilities such as
+# boost/throw_exception.hpp, which are used by the base runtime even when the
+# system/filesystem components are available.
+if(NOT TARGET Boost::system)
+    message(FATAL_ERROR "Required CMake target 'Boost::system' not found. Install libboost-dev and the Boost system/filesystem packages.")
+endif()
+if(NOT TARGET Boost::filesystem)
+    message(FATAL_ERROR "Required CMake target 'Boost::filesystem' not found. Install libboost-dev and the Boost system/filesystem packages.")
+endif()
+if(NOT TARGET Boost::headers)
+    message(FATAL_ERROR "Required CMake target 'Boost::headers' not found. Install libboost-dev or the equivalent Boost headers package.")
 endif()
 
 # yaml-cpp might be found via PkgConfig or CONFIG
@@ -1613,14 +1623,11 @@ if(TARGET yaml-cpp::yaml-cpp)
     set(THEMIS_YAML_TARGET yaml-cpp::yaml-cpp)
 endif()
 
-# Defensive check: Ensure Boost::system target exists after find_package
-if(Boost_FOUND)
-    if(NOT TARGET Boost::system)
-        message(FATAL_ERROR "Required CMake target 'Boost::system' not found. "
-                            "Ensure Boost was found and the 'system' component is available.")
-    endif()
-else()
-    message(WARNING "Boost not available - network features may be disabled")
+# Defensive check: Ensure the required Boost components are available after find_package.
+# Missing core headers (for example boost/throw_exception.hpp) are a build blocker even
+# when Boost::system is technically discoverable.
+if(NOT TARGET Boost::system OR NOT TARGET Boost::filesystem OR NOT TARGET Boost::headers)
+    message(FATAL_ERROR "Required Boost targets are missing. Install libboost-dev and the Boost system/filesystem packages before building ThemisDB.")
 endif()
 # Optional ZSTD for content compression wrappers
 # Note: ZSTD packages may expose different target names depending on the build system

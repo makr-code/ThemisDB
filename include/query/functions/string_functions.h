@@ -45,7 +45,8 @@ public:
             .examples = {
                 R"(LENGTH("hello") // 5)",
                 R"(LENGTH([1, 2, 3]) // 3)"
-            }
+            },
+            .cost = FunctionCost{}
         };
     }
     
@@ -78,7 +79,8 @@ public:
             .is_deterministic = true,
             .examples = {
                 R"(CONCAT("Hello", " ", "World") // "Hello World")"
-            }
+            },
+            .cost = FunctionCost{}
         };
     }
     
@@ -117,7 +119,8 @@ public:
             .examples = {
                 R"(SUBSTRING("Hello World", 6) // "World")",
                 R"(SUBSTRING("Hello World", 0, 5) // "Hello")"
-            }
+            },
+            .cost = FunctionCost{}
         };
     }
     
@@ -155,7 +158,8 @@ public:
             },
             .return_type = ArgType::STRING,
             .is_deterministic = true,
-            .examples = {R"(UPPER("hello") // "HELLO")"}
+            .examples = {R"(UPPER("hello") // "HELLO")"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -183,7 +187,8 @@ public:
             },
             .return_type = ArgType::STRING,
             .is_deterministic = true,
-            .examples = {R"(LOWER("HELLO") // "hello")"}
+            .examples = {R"(LOWER("HELLO") // "hello")"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -215,7 +220,8 @@ public:
             .examples = {
                 R"(TRIM("  hello  ") // "hello")",
                 R"(TRIM("xxhelloxx", "x") // "hello")"
-            }
+            },
+            .cost = FunctionCost{}
         };
     }
     
@@ -249,7 +255,8 @@ public:
             },
             .return_type = ArgType::STRING,
             .is_deterministic = true,
-            .examples = {R"(LTRIM("  hello") // "hello")"}
+            .examples = {R"(LTRIM("  hello") // "hello")"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -281,7 +288,8 @@ public:
             },
             .return_type = ArgType::STRING,
             .is_deterministic = true,
-            .examples = {R"(RTRIM("hello  ") // "hello")"}
+            .examples = {R"(RTRIM("hello  ") // "hello")"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -314,7 +322,8 @@ public:
             },
             .return_type = ArgType::ARRAY,
             .is_deterministic = true,
-            .examples = {R"(SPLIT("a,b,c", ",") // ["a", "b", "c"])"}
+            .examples = {R"(SPLIT("a,b,c", ",") // ["a", "b", "c"])"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -358,7 +367,8 @@ public:
             },
             .return_type = ArgType::BOOLEAN,
             .is_deterministic = true,
-            .examples = {R"(CONTAINS("Hello World", "World") // true)"}
+            .examples = {R"(CONTAINS("Hello World", "World") // true)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -387,7 +397,8 @@ public:
             },
             .return_type = ArgType::BOOLEAN,
             .is_deterministic = true,
-            .examples = {R"(STARTS_WITH("Hello World", "Hello") // true)"}
+            .examples = {R"(STARTS_WITH("Hello World", "Hello") // true)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -416,7 +427,8 @@ public:
             },
             .return_type = ArgType::BOOLEAN,
             .is_deterministic = true,
-            .examples = {R"(ENDS_WITH("Hello World", "World") // true)"}
+            .examples = {R"(ENDS_WITH("Hello World", "World") // true)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -447,7 +459,8 @@ public:
             },
             .return_type = ArgType::STRING,
             .is_deterministic = true,
-            .examples = {R"(REPLACE("Hello World", "World", "ThemisDB") // "Hello ThemisDB")"}
+            .examples = {R"(REPLACE("Hello World", "World", "ThemisDB") // "Hello ThemisDB")"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -484,7 +497,8 @@ public:
             },
             .return_type = ArgType::STRING,
             .is_deterministic = true,
-            .examples = {R"(REVERSE("hello") // "olleh")"}
+            .examples = {R"(REVERSE("hello") // "olleh")"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -513,7 +527,8 @@ public:
             },
             .return_type = ArgType::BOOLEAN,
             .is_deterministic = true,
-            .examples = {R"(REGEX_TEST("hello123", "\\d+") // true)"}
+            .examples = {R"(REGEX_TEST("hello123", "\\d+") // true)"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -544,7 +559,8 @@ public:
             },
             .return_type = ArgType::STRING,
             .is_deterministic = true,
-            .examples = {R"(REGEX_REPLACE("hello123world", "\\d+", "-") // "hello-world")"}
+            .examples = {R"(REGEX_REPLACE("hello123world", "\\d+", "-") // "hello-world")"},
+            .cost = FunctionCost{}
         };
     }
     
@@ -575,7 +591,8 @@ public:
             },
             .return_type = ArgType::INTEGER,
             .is_deterministic = true,
-            .examples = {R"(LEVENSHTEIN_DISTANCE("hello", "hallo") // 1)"}
+            .examples = {R"(LEVENSHTEIN_DISTANCE("hello", "hallo") // 1)"},
+            .cost = FunctionCost{}
         };
     }
     

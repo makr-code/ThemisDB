@@ -189,7 +189,7 @@ jobs:
             librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
             libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
             libyaml-cpp-dev libcurl4-openssl-dev libcpp-httplib-dev libboost-system-dev \
-            libboost-filesystem-dev libpugixml-dev libvulkan-dev
+            libboost-dev libboost-filesystem-dev libpugixml-dev libvulkan-dev
 
       - name: Prepare optional submodule paths
         run: |
