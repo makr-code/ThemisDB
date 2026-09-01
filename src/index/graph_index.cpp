@@ -461,7 +461,7 @@ GraphIndexManager::outAdjacency(std::string_view fromPk) const {
 		size_t lastColon = keyStr.rfind(':');
 		if (lastColon != std::string::npos) {
 			std::string edgeId = keyStr.substr(lastColon + 1);
-			result.push_back({edgeId, std::string(val)});
+			result.push_back({.edgeId = edgeId, .targetPk = std::string(val), .graphId = ""});
 		}
 		return true;
 	});
@@ -492,7 +492,7 @@ GraphIndexManager::inAdjacency(std::string_view toPk) const {
 		if (lastColon != std::string::npos) {
 			std::string edgeId = keyStr.substr(lastColon + 1);
 			// hier ist val = fromPk
-			result.push_back({edgeId, std::string(val)});
+			result.push_back({.edgeId = edgeId, .targetPk = std::string(val), .graphId = ""});
 		}
 		return true;
 	});

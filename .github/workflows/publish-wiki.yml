@@ -1,0 +1,235 @@
+name: "Publish: GitHub Wiki"
+
+# Rechenaufwand-Score: R=1 (K=1, L=1, N=1) | last-calibrated: 2026-08-31
+# Publishes repository documentation to the GitHub Wiki.
+#
+# Pipeline phases:
+#   Phase 1 (maintenance-docs.yml): regenerates ai_context/developer_llm_wiki/*.md
+#            and optionally extracts Doxygen XML to API_REFERENCE_<module>.md.
+#   Phase 2 (this workflow):
+#       1. Checkout repository
+#       2. Build wiki staging (scripts/build_wiki.py)
+#            - user-facing docs (tutorials, AQL/API ref, FAQ, quickstart, ...)
+#            - module/plugin docs, developer-wiki artifacts
+#            - audience-first _Sidebar.md, _Footer.md, Module-Index.md
+#       3. Validate internal [[links]] (scripts/validate_wiki_links.py)
+#       4. [Optional] AI enrichment via GitHub Models API (workflow_dispatch opt-in)
+#       5. Wiki-init guard: check remote exists before cloning
+#       6. Clone wiki.git, sync staged pages, commit, push
+#
+# Workflow interplay:
+#   - maintenance-docs.yml fires first (on push to develop when ai_context/** or
+#     root docs change), regenerating developer_llm_wiki artifacts.
+#     This workflow then fires via workflow_run trigger.
+#     Push trigger on develop path-filters serves as immediate fallback.
+#   - gate-pr-doxygen-governance.yml governs quality at PR time only;
+#     this workflow is post-merge.
+#
+# Prerequisites:
+#   1. GitHub Wiki must be enabled (Settings -> Features -> Wikis).
+#   2. Wiki must be initialized with at least one page before this workflow
+#      can push (create one page once via the GitHub UI).
+#   3. GITHUB_TOKEN with contents:write scope for the wiki push.
+
+on:
+  # push and workflow_run triggers removed — wiki updates run on schedule or manual dispatch only.
+  # This prevents the wiki from being rebuilt on every merge to develop.
+
+  schedule:
+    - cron: '0 3 * * *'   # Nightly 03:00 UTC — full wiki sync
+
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry-run only (print pages, do not push wiki)'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+      enable_ai_enrichment:
+        description: 'AI enrichment: generate LLM module overviews via GitHub Models API'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+      fail_on_broken_links:
+        description: 'Fail build if broken [[wiki links]] are found'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-wiki-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish-wiki:
+    name: Build, validate and publish wiki
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # -----------------------------------------------------------------------
+      # Phase 2a: Build wiki staging directory
+      # -----------------------------------------------------------------------
+      - name: Build wiki staging
+        id: build
+        run: |
+          DRY_RUN_FLAG=""
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            DRY_RUN_FLAG="--dry-run"
+          fi
+          python scripts/build_wiki.py \
+            --repo-root . \
+            --output /tmp/wiki-staging \
+            $DRY_RUN_FLAG
+          echo "staging_dir=/tmp/wiki-staging" >> "$GITHUB_OUTPUT"
+          echo "is_dry_run=${DRY_RUN_FLAG:+true}" >> "$GITHUB_OUTPUT"
+
+      # -----------------------------------------------------------------------
+      # Phase 2b: Validate internal [[wiki links]] before publishing
+      # -----------------------------------------------------------------------
+      - name: Validate internal wiki links
+        if: steps.build.outputs.is_dry_run != 'true'
+        id: linkcheck
+        run: |
+          FAIL_FLAG=""
+          if [ "${{ github.event.inputs.fail_on_broken_links }}" = "true" ]; then
+            FAIL_FLAG="--fail-on-broken"
+          fi
+          python scripts/validate_wiki_links.py \
+            --wiki-dir /tmp/wiki-staging \
+            --report /tmp/wiki-link-report.txt \
+            $FAIL_FLAG
+
+      - name: Upload link validation report
+        if: always() && steps.build.outputs.is_dry_run != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: wiki-link-report-${{ github.run_number }}
+          path: /tmp/wiki-link-report.txt
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Write link check summary
+        if: always() && steps.build.outputs.is_dry_run != 'true'
+        run: |
+          {
+            echo "## Wiki Link Validation"
+            if [ -f /tmp/wiki-link-report.txt ]; then
+              echo '```'
+              cat /tmp/wiki-link-report.txt
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # -----------------------------------------------------------------------
+      # Phase 2c: Optional AI Enrichment (workflow_dispatch opt-in only)
+      # Generates LLM-powered module overview pages via GitHub Models API.
+      # Non-blocking: failures are warnings; pipeline always continues.
+      # -----------------------------------------------------------------------
+      - name: AI enrichment — generate module overviews
+        if: |
+          steps.build.outputs.is_dry_run != 'true' &&
+          github.event.inputs.enable_ai_enrichment == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/ai_wiki_enrichment.py \
+            --staging /tmp/wiki-staging \
+            --max-modules 10 \
+            --model gpt-4o-mini \
+            || echo "::warning::AI enrichment failed or partially completed; continuing."
+
+      # -----------------------------------------------------------------------
+      # Phase 3: Wiki-init guard, clone, sync, commit, push
+      # -----------------------------------------------------------------------
+      - name: Check wiki remote availability
+        if: steps.build.outputs.is_dry_run != 'true'
+        id: wiki_check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          WIKI_URL="https://github.com/${{ github.repository }}.wiki.git"
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: token $GH_TOKEN" \
+            "$WIKI_URL")
+          if [ "$HTTP_STATUS" = "200" ] || [ "$HTTP_STATUS" = "301" ] || [ "$HTTP_STATUS" = "302" ]; then
+            echo "wiki_available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "wiki_available=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::GitHub Wiki remote returned HTTP $HTTP_STATUS — wiki may not be initialized."
+            {
+              echo "## ⚠️ Wiki Not Initialized"
+              echo ""
+              echo "Wiki remote returned HTTP **$HTTP_STATUS**."
+              echo ""
+              echo "**Steps to enable:**"
+              echo "1. Go to **Settings → Features → Wikis** and enable the wiki."
+              echo "2. Create at least one page via the GitHub UI."
+              echo "3. Re-run this workflow (manual dispatch or next push to develop)."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Clone wiki remote
+        if: |
+          steps.build.outputs.is_dry_run != 'true' &&
+          steps.wiki_check.outputs.wiki_available == 'true'
+        run: |
+          git clone \
+            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git" \
+            /tmp/wiki-repo
+          # Remove stale .md pages; preserve Git metadata.
+          find /tmp/wiki-repo -maxdepth 1 -name '*.md' -delete
+
+      - name: Sync staged pages into wiki repo
+        if: |
+          steps.build.outputs.is_dry_run != 'true' &&
+          steps.wiki_check.outputs.wiki_available == 'true'
+        run: |
+          cp /tmp/wiki-staging/*.md /tmp/wiki-repo/
+
+      - name: Commit and push wiki
+        if: |
+          steps.build.outputs.is_dry_run != 'true' &&
+          steps.wiki_check.outputs.wiki_available == 'true'
+        run: |
+          cd /tmp/wiki-repo
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No wiki changes to commit."
+          else
+            COMMIT_SHA="${{ github.sha }}"
+            TRIGGER="${{ github.event_name }}"
+            PAGE_COUNT=$(find /tmp/wiki-staging -maxdepth 1 -name '*.md' | wc -l)
+            git commit -m "docs(wiki): sync ${PAGE_COUNT} pages from ${COMMIT_SHA:0:8} (${TRIGGER}) [skip ci]"
+            git push
+          fi
+
+      - name: Write publish summary
+        if: always()
+        run: |
+          PAGE_COUNT=$(find /tmp/wiki-staging -maxdepth 1 -name '*.md' 2>/dev/null | wc -l || echo 0)
+          {
+            echo "## Wiki Publish Summary"
+            echo "- Pages generated: **$PAGE_COUNT**"
+            echo "- Trigger: \`${{ github.event_name }}\`"
+            echo "- Commit: \`${{ github.sha }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"

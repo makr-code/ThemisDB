@@ -28,45 +28,6 @@ namespace themis {
 
 namespace {
 
-[[nodiscard]] std::vector<std::string> parseLabelsField(const std::string& raw_labels) {
-    std::vector<std::string> labels;
-    if (raw_labels.empty()) {
-        return labels;
-    }
-
-    // Preferred format: JSON string array, e.g. ["Person","Employee"].
-    try {
-        auto parsed = nlohmann::json::parse(raw_labels);
-        if (parsed.is_array()) {
-            labels.reserve(parsed.size());
-            for (const auto& entry : parsed) {
-                if (!entry.is_string()) {
-                    continue;
-                }
-                auto label = entry.get<std::string>();
-                if (!label.empty()) {
-                    labels.push_back(std::move(label));
-                }
-            }
-            return labels;
-        }
-    } catch (...) {
-        // Backward-compatible fallback below (legacy comma-separated encoding).
-    }
-
-    // Legacy format fallback: comma-separated string.
-    std::stringstream ss(raw_labels);
-    std::string label;
-    while (std::getline(ss, label, ',')) {
-        label.erase(0, label.find_first_not_of(" \t"));
-        label.erase(label.find_last_not_of(" \t") + 1);
-        if (!label.empty()) {
-            labels.push_back(std::move(label));
-        }
-    }
-    return labels;
-}
-
 [[nodiscard]] std::string encodeLabelsField(const std::vector<std::string>& labels) {
     return nlohmann::json(labels).dump();
 }

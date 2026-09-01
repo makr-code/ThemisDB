@@ -138,8 +138,9 @@ public:
      * @brief Injectable full-vocabulary entropy computation function.
      *
      * When set via `setFullEntropyFn()`, the entropy gate uses the injected
-     * function instead of the top-32 logit approximation.  This allows
-     * plugging in a full-vocabulary softmax-entropy computation at runtime.
+     * function instead of the built-in full-vocabulary softmax entropy path.
+     * This allows plugging in a backend-specific or precomputed entropy
+     * implementation at runtime.
      *
      * Signature: `float fn(const std::vector<float>& logits)` returning
      * the Shannon entropy in nats.
@@ -149,10 +150,11 @@ public:
     /**
      * @brief Inject a full-vocabulary entropy computation function.
      *
-     * Once set, `gate()` will call @p fn instead of the built-in top-32
-     * approximation whenever `TARGConfig::use_entropy_gate == true`.
+     * Once set, `gate()` will call @p fn instead of the built-in
+     * full-vocabulary entropy computation whenever
+     * `TARGConfig::use_entropy_gate == true`.
      * Pass a null / default-constructed `FullEntropyFn` to revert to the
-     * built-in approximation.
+     * built-in exact full-vocabulary entropy path.
      *
      * @param fn  Callable accepting raw logits and returning entropy in nats.
      */
@@ -160,6 +162,27 @@ public:
 
     /** @brief Remove a previously injected FullEntropyFn. */
     static void clearFullEntropyFn();
+
+    /**
+     * @brief Scoped thread-local entropy override for the current request.
+     *
+     * Use this when a caller already has exact entropy inputs for the current
+     * thread and wants `gate()` to reuse them without mutating the global
+     * `FullEntropyFn` bridge for other requests. The scoped override takes
+     * precedence over the global callback while the guard is alive and is
+     * automatically removed at scope exit.
+     */
+    class ScopedFullEntropyFnOverride {
+    public:
+        explicit ScopedFullEntropyFnOverride(FullEntropyFn fn);
+        ~ScopedFullEntropyFnOverride();
+
+        ScopedFullEntropyFnOverride(const ScopedFullEntropyFnOverride&) = delete;
+        ScopedFullEntropyFnOverride& operator=(const ScopedFullEntropyFnOverride&) = delete;
+
+    private:
+        bool active_ = false;
+    };
 
     // ─── State management ─────────────────────────────────────────────────
 

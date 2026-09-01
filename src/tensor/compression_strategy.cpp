@@ -36,8 +36,16 @@ CompressionResult TTDecompositionStrategy::compress(
         return result;
     }
 
-    // For now, return a placeholder result
-    // TODO: Wire to actual TensorTrainDecomposer
+    // STUB/SIMULATION NOTE (STUB #CS-01 — TT decomposer bridge):
+    // Purpose:           Placeholder compress() for TTDecompositionStrategy until the
+    //                    full TensorTrainDecomposer pipeline is wired.
+    // Activation:        Always active; no real TT decomposition is performed.
+    // Production Delta:  Returns synthetic 2× ratio and assumed rank instead of
+    //                    computing true TT-core decomposition (HOSVD/ALS).
+    // Removal Plan:      Wire to TensorTrainDecomposer::decompose() once the
+    //                    decomposer is integrated — Target Q2 2027.
+    //                    Tracking: src/tensor/ROADMAP.md § "TT Decomposer Wiring"
+    // TODO(tracked): Wire to actual TensorTrainDecomposer — see src/tensor/ROADMAP.md
     result.success = true;
     result.original_size = dim * sizeof(float);
     result.compressed_size = (dim * sizeof(float)) / 2;  // Assume 2x compression
@@ -303,7 +311,15 @@ std::unique_ptr<ICompressionStrategy> CompressionFactory::create(
 void CompressionFactory::registerStrategy(
     const std::string& name,
     std::unique_ptr<ICompressionStrategy> strategy) {
-    // TODO: Implement registration mechanism
+    // STUB/SIMULATION NOTE (STUB #CS-02 — strategy registry):
+    // Purpose:           Allow runtime registration of custom compression strategies.
+    // Activation:        Always no-op; the internal strategy map is not yet wired.
+    // Production Delta:  Registered strategies are silently discarded; only the
+    //                    built-in TT/SVD/Product-Q strategies are accessible.
+    // Removal Plan:      Implement an internal std::unordered_map registry and expose
+    //                    lookup in CompressionFactory::create() — Target Q2 2027.
+    //                    Tracking: src/tensor/ROADMAP.md § "CompressionFactory Registry"
+    // TODO(tracked): Implement strategy registry — see src/tensor/ROADMAP.md
     (void)name;
     (void)strategy;
 }

@@ -105,8 +105,8 @@
  *   FR-14  buildQueryEmbedding() returns empty after fn is cleared
  *
  * TARGRetrieval FullEntropyFn bridge — TARG-09..TARG-11 (STUB #262)
- *   TARG-09  no fn → top-32 approximation produces non-zero entropy
- *   TARG-10  fn set → fn return value replaces built-in approximation
+ *   TARG-09  no fn → built-in full-vocabulary entropy produces exact entropy
+ *   TARG-10  fn set → fn return value replaces built-in entropy path
  *   TARG-11  fn that returns high entropy triggers the entropy gate
  *
  * GgmlTensorBridge — GTB-01..GTB-06 (STUB #263a/#263b, THEMIS_ENABLE_GGML_BRIDGE only)
@@ -1502,7 +1502,7 @@ TEST(TensorRAGPipeline, TRPL08_individual_gate_disable) {
 
 namespace {
 
-TEST(TARGRetrievalPhase3, TARG09_full_entropy_fn_not_set_uses_top32_approx) {
+TEST(TARGRetrievalPhase3, TARG09_full_entropy_fn_not_set_uses_exact_entropy) {
     TARGRetrieval::clearFullEntropyFn();
 
     TARGConfig cfg;
@@ -1511,14 +1511,14 @@ TEST(TARGRetrievalPhase3, TARG09_full_entropy_fn_not_set_uses_top32_approx) {
     cfg.gap_threshold = -1.0f;      // gap gate never fires
     TARGRetrieval targ(cfg);
 
-    // Equal logits → entropy = ln(4) ≈ 1.386 via top-32 approx
-    std::vector<float> flat_logits(4, 0.0f);
+    // Equal logits across the full vocabulary → entropy = ln(V).
+    std::vector<float> flat_logits(64, 0.0f);
     auto d = targ.gate(flat_logits);
-    EXPECT_GT(d.entropy, 0.0f);
+    EXPECT_NEAR(d.entropy, std::log(64.0f), 1e-4f);
     EXPECT_LT(d.entropy, 10.0f);
 }
 
-TEST(TARGRetrievalPhase3, TARG10_full_entropy_fn_replaces_top32_approximation) {
+TEST(TARGRetrievalPhase3, TARG10_full_entropy_fn_replaces_builtin_entropy) {
     constexpr float kSentinel = 42.0f;
     TARGRetrieval::setFullEntropyFn([](const std::vector<float>&) {
         return kSentinel;
@@ -1551,6 +1551,31 @@ TEST(TARGRetrievalPhase3, TARG11_full_entropy_fn_triggers_gate_when_above_thresh
     auto d = targ.gate({10.0f, 9.5f});
     EXPECT_FLOAT_EQ(d.entropy, 5.0f);
     EXPECT_TRUE(d.should_retrieve);
+
+    TARGRetrieval::clearFullEntropyFn();
+}
+
+TEST(TARGRetrievalPhase3, TARG12_scoped_entropy_override_precedes_global_without_leakage) {
+    TARGRetrieval::setFullEntropyFn([](const std::vector<float>&) {
+        return 1.0f;
+    });
+
+    TARGConfig cfg;
+    cfg.use_entropy_gate = true;
+    cfg.entropy_threshold = 100.0f;
+    cfg.gap_threshold = -1.0f;
+    TARGRetrieval targ(cfg);
+
+    {
+        TARGRetrieval::ScopedFullEntropyFnOverride scoped([](const std::vector<float>&) {
+            return 7.0f;
+        });
+        auto scoped_decision = targ.gate({1.0f, 0.5f, 0.2f});
+        EXPECT_FLOAT_EQ(scoped_decision.entropy, 7.0f);
+    }
+
+    auto restored_decision = targ.gate({1.0f, 0.5f, 0.2f});
+    EXPECT_FLOAT_EQ(restored_decision.entropy, 1.0f);
 
     TARGRetrieval::clearFullEntropyFn();
 }
@@ -2016,7 +2041,7 @@ TEST(GgmlTensorBridge, GTB01_ggml_tensor_null_without_alloc_fn) {
 TEST(GgmlTensorBridge, GTB02_ggml_tensor_non_null_with_alloc_fn) {
     // Use a process-local buffer as a stand-in for a real ggml_tensor*.
     ggml_tensor local_sentinel{};
-    GgmlTensorBridge::setGgmlAllocFn([&local_sentinel](std::size_t) -> ggml_tensor* {
+    GgmlTensorBridge::setGgmlAllocFn([&local_sentinel](ggml_context*, std::size_t) -> ggml_tensor* {
         return &local_sentinel;
     });
 
@@ -2030,10 +2055,13 @@ TEST(GgmlTensorBridge, GTB02_ggml_tensor_non_null_with_alloc_fn) {
     GgmlTensorBridge::clearGgmlAllocFn();
 }
 
-// GTB-03: n_elements passed to GgmlAllocFn matches data size
+// GTB-03: ggml context and n_elements passed to GgmlAllocFn match map() input
 TEST(GgmlTensorBridge, GTB03_alloc_fn_receives_correct_n_elements) {
+    ggml_context* received_ctx = nullptr;
     std::size_t received_n = 0;
-    GgmlTensorBridge::setGgmlAllocFn([&received_n](std::size_t n) -> ggml_tensor* {
+    GgmlTensorBridge::setGgmlAllocFn([&received_ctx, &received_n](ggml_context* ctx,
+                                                                  std::size_t n) -> ggml_tensor* {
+        received_ctx = ctx;
         received_n = n;
         return nullptr;
     });
@@ -2042,7 +2070,9 @@ TEST(GgmlTensorBridge, GTB03_alloc_fn_receives_correct_n_elements) {
     std::vector<float> data(7, 1.0f);
     auto storage = makeTestStorage(key, data);
     GgmlTensorBridge bridge(storage);
-    bridge.map(nullptr, key);
+    auto* expected_ctx = reinterpret_cast<ggml_context*>(1);
+    bridge.map(expected_ctx, key);
+    EXPECT_EQ(received_ctx, expected_ctx);
     EXPECT_EQ(received_n, 7u);
 
     GgmlTensorBridge::clearGgmlAllocFn();
@@ -2051,7 +2081,7 @@ TEST(GgmlTensorBridge, GTB03_alloc_fn_receives_correct_n_elements) {
 // GTB-04: GgmlAllocFn cleared → ggmlTensor() reverts to nullptr
 TEST(GgmlTensorBridge, GTB04_alloc_fn_cleared_reverts_to_nullptr) {
     ggml_tensor local_sentinel4{};
-    GgmlTensorBridge::setGgmlAllocFn([&local_sentinel4](std::size_t) -> ggml_tensor* {
+    GgmlTensorBridge::setGgmlAllocFn([&local_sentinel4](ggml_context*, std::size_t) -> ggml_tensor* {
         return &local_sentinel4;
     });
     GgmlTensorBridge::clearGgmlAllocFn();

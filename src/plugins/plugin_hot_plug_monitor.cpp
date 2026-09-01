@@ -91,8 +91,8 @@ PluginHotPlugMonitor::PluginHotPlugMonitor(
     PluginManager* manager,
     const std::string& directory,
     const HotPlugConfig& config
-) : plugin_manager_(manager),
-    watch_directory_(directory),
+) : watch_directory_(directory),
+plugin_manager_(manager),
     config_(config)
 {
 #ifdef _WIN32

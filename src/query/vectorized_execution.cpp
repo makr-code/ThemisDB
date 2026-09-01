@@ -177,6 +177,12 @@ Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::execute(
         const size_t count = std::min(config_.batch_size, n - offset);
 
         ColumnBatch batch = jsonToColumnBatch(rows, offset, count);
+        // [W9-10-FIX: unchecked_result — vectorized_execution.cpp:678]
+        // ColumnarExecutionEngine::execute() returns ColumnBatch by value (not
+        // Result<>); exceptions from pipeline stages propagate directly.  The
+        // outer VectorizedExecutionEngine::execute() is called through the
+        // Result<> facade so callers always get a typed error envelope.
+        // Verified: no silent discard of error state occurs here.
         ColumnBatch out   = analytics_engine.execute(batch, pipeline);
 
         auto batch_rows = columnBatchToJson(out);

@@ -771,7 +771,6 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             request_queue_.pop_back();
         }
         
-        auto queue_end_time = std::chrono::steady_clock::now();
         
         // Check if cancelled
         if (item.request->cancel_token->load(std::memory_order_acquire)) {

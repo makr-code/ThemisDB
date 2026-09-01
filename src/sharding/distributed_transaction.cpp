@@ -72,6 +72,10 @@ static inline std::string coordinatorLabel(const DistributedTransactionCoordinat
     return cfg.coordinator_id.empty() ? "default" : cfg.coordinator_id;
 }
 
+static inline bool isUsableShardEndpoint(const std::string& endpoint) {
+    return !endpoint.empty() && endpoint.rfind("shard://", 0) != 0;
+}
+
 /** @brief Return stable WAL helper component ID for distributed coordinator logs. */
 static inline std::string_view recoveryWalComponentId(
     const DistributedTransactionCoordinator::Config& cfg
@@ -130,12 +134,12 @@ std::string DistributedTransactionCoordinator::beginTransaction(
         participant.shard_id = shard_id;
 
         auto it = shard_endpoint_map_.find(shard_id);
-        if (it != shard_endpoint_map_.end()) {
+        if (it != shard_endpoint_map_.end() && isUsableShardEndpoint(it->second)) {
             participant.endpoint = it->second;
         } else {
-            // Fallback: syntactic placeholder — 2PC RPCs will fail at connect time
-            // until a real endpoint is registered via setShardEndpointMap().
-            participant.endpoint = "shard://" + shard_id;
+            participant.endpoint.clear();
+            THEMIS_WARN("beginTransaction: shard {} has no registered real endpoint; commit path will fail closed until setShardEndpointMap() is provided",
+                        shard_id);
         }
 
         participant.prepared  = false;
@@ -535,8 +539,17 @@ nlohmann::json DistributedTransactionCoordinator::executeReadOnly(
     for (const auto& shard_id : shard_ids) {
         // v1.3.0: Real RPC implementation for snapshot reads
         try {
+            const auto endpoint_it = shard_endpoint_map_.find(shard_id);
+            if (endpoint_it == shard_endpoint_map_.end() || !isUsableShardEndpoint(endpoint_it->second)) {
+                THEMIS_ERROR("Snapshot read rejected for shard {}: no registered real endpoint", shard_id);
+                results[shard_id] = {
+                    {"status", "error"},
+                    {"error", "missing_registered_endpoint"}
+                };
+                continue;
+            }
             ShardRPCClient::Config rpc_config;
-            rpc_config.endpoint = "shard://" + shard_id;
+            rpc_config.endpoint = endpoint_it->second;
             rpc_config.timeout_ms = 5000;
             
             ShardRPCClient client(rpc_config);
@@ -656,6 +669,15 @@ void DistributedTransactionCoordinator::setShardEndpointMap(
     std::unordered_map<std::string, std::string> map)
 {
     std::lock_guard<std::timed_mutex> lock(mutex_);
+    for (auto it = map.begin(); it != map.end();) {
+        if (it->first.empty() || !isUsableShardEndpoint(it->second)) {
+            THEMIS_WARN("Ignoring invalid shard endpoint registration: shard_id='{}' endpoint='{}'",
+                        it->first, it->second);
+            it = map.erase(it);
+        } else {
+            ++it;
+        }
+    }
     shard_endpoint_map_ = std::move(map);
 }
 
@@ -793,6 +815,11 @@ bool DistributedTransactionCoordinator::sendPrepare(
     const std::string& txn_id
 ) {
     // v1.3.0: Real RPC implementation for 2PC PREPARE
+    if (!isUsableShardEndpoint(participant.endpoint)) {
+        THEMIS_ERROR("PREPARE rejected for shard {}: no registered real endpoint", participant.shard_id);
+        participant.prepared = false;
+        return false;
+    }
     try {
         ShardRPCClient::Config rpc_config;
         rpc_config.endpoint = participant.endpoint;
@@ -835,6 +862,11 @@ bool DistributedTransactionCoordinator::sendCommit(
     std::chrono::nanoseconds commit_timestamp
 ) {
     // v1.3.0: Real RPC implementation for 2PC COMMIT
+    if (!isUsableShardEndpoint(participant.endpoint)) {
+        THEMIS_ERROR("COMMIT rejected for shard {}: no registered real endpoint", participant.shard_id);
+        participant.committed = false;
+        return false;
+    }
     try {
         ShardRPCClient::Config rpc_config;
         rpc_config.endpoint = participant.endpoint;
@@ -865,6 +897,12 @@ bool DistributedTransactionCoordinator::sendAbort(
     TransactionParticipant& participant,
     const std::string& txn_id
 ) {
+    if (!isUsableShardEndpoint(participant.endpoint)) {
+        THEMIS_ERROR("ABORT rejected for shard {}: no registered real endpoint", participant.shard_id);
+        participant.prepared = false;
+        participant.committed = false;
+        return false;
+    }
     // v1.3.0: Real RPC implementation for 2PC ABORT
     try {
         ShardRPCClient::Config rpc_config;
@@ -1201,9 +1239,13 @@ size_t DistributedTransactionCoordinator::recoverTransactions() {
                 
                 TransactionParticipant participant;
                 participant.shard_id = pid;
-                participant.endpoint = participant.shard_id.empty()
-                    ? std::string{}
-                    : (std::string("shard://") + participant.shard_id);
+                auto endpoint_it = shard_endpoint_map_.find(pid);
+                if (endpoint_it == shard_endpoint_map_.end() || !isUsableShardEndpoint(endpoint_it->second)) {
+                    THEMIS_WARN("recoverInDoubtTransactions: shard {} in txn {} has no registered real endpoint, skipping participant",
+                                pid, txn_id);
+                    continue;
+                }
+                participant.endpoint = endpoint_it->second;
                 // Durable WAL does not include per-participant prepared/committed flags
                 participant.prepared = false;
                 participant.committed = false;

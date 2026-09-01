@@ -80,9 +80,9 @@ namespace {
 
 MultiLoRAManager::MultiLoRAManager(const Config& config)
     : config_(config), 
+      total_vram_bytes_(0),
       next_round_robin_gpu_(0),
       eviction_thread_(nullptr),
-      total_vram_bytes_(0),
       cache_hits_(0),
       cache_misses_(0),
       evictions_(0),
@@ -1456,7 +1456,7 @@ bool MultiLoRAManager::importLoRA(
                      lora->rank, MIN_LORA_RANK, MAX_LORA_RANK);
         return false;
     }
-    if (lora->alpha < 0 || lora->alpha > 1000) {
+    if (lora->alpha > 1000) {
         spdlog::error("[SECURITY] LoRA import rejected: alpha {} out of valid range", lora->alpha);
         return false;
     }
@@ -2066,7 +2066,7 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
     }
     
     // Validate that devices list is not corrupted
-    if (next_round_robin_gpu_ >= config_.multi_gpu.devices.size()) {
+    if (static_cast<size_t>(next_round_robin_gpu_) >= config_.multi_gpu.devices.size()) {
         spdlog::error("next_round_robin_gpu_ {} out of bounds (devices.size()={}), resetting to 0", 
                       next_round_robin_gpu_, config_.multi_gpu.devices.size());
         next_round_robin_gpu_ = 0;

@@ -257,16 +257,24 @@ Performance and scalability optimization with measurable, gated performance impr
 
 ## Planned Features
 
+### Wave 9 Block 3 Delivery (2026-08-26)
+
+- [x] **W9-10**: 7 HIGH gaps closed — catch_all_swallow, memory_leak, null_dereference, todo_as_productionlogic, uncaught_exception, unchecked_result, string_concat_loop (Target: Q3 2026) ✅ COMPLETE
+- [x] **W9-11**: AQL FunctionCall compat shim deprecation warning added; callers documented; **W10-C: compat shim removed** — no callers existed; canonical `SimilarityCall`/`ProximityCall` paths are sole active dispatch (Target: Q4 2026) ✅ COMPLETE
+- [x] **W9-12**: Hybrid ANN+graph planner `planAnnGraphHybrid()` delivered in `tensor_aware_query_optimizer.cpp`; `AnnFrontdoor` + `IKnowledgeGraph::neighbours()` + RRF fusion; 500ms gate; 14 regression tests (Target: Q3 2026) ✅ COMPLETE
+
 ### Hybrid Retrieval Rollout Gates (issue #5468)
 - [~] Phase A gate: fix 50% of return-value check gaps (340 → 170) in optimizer (Target: Q3 2026)
 - [~] Phase A gate: fix 50% of exception-handling gaps (180 → 90) in optimizer (Target: Q3 2026)
 - [x] Phase A ctest gate: `test_query_planner_fallback` with degraded-mode injection (tests/query/test_query_planner_fallback.cpp: degraded mode + query_planner_fallback_total check present)
 - [x] Phase B gate: fix thread-safety gaps in parallel plan optimization (140 → 56) (COMPLETE 2026-08-08: QueryOptimizer per_query_cost_model_mutex_, advisor_cost_model_mutex_, adaptive_init_flag_ added; PlanCache stats atomics + deadline propagation wired; test_query_optimizer_thread_safety.cpp — 9 tests)
-- [~] Phase B gate: hybrid planner (ANN + graph) enabled with single-shard scope (Target: Q3 2026)
+- [x] Phase B gate: hybrid planner (ANN + graph) enabled with single-shard scope (planAnnGraphHybrid delivered W9-12 2026-08-26)
 - [x] Phase B gate: `query_planner_fallback_total` Prometheus metric wired (src/query/query_optimizer.cpp:177)
 - [ ] Phase C gate: parallel optimization enabled after thread-safety gate passed (Target: Q3 2026+)
 
 ### Short-term (3-6 months)
+- [x] Replace `makeNotImplemented()`/stub-backed process-mining AQL gaps with context-backed trace, pattern-match, and ideal-comparison execution in `src/query/functions/process_mining_functions.cpp` (Target: Q4 2026) — delivered 2026-08-31
+- [x] Replace the three generic runtime-error paths in `src/query/functions/ethics_functions.cpp` (`ETHICS_GET_ARGUMENTS`, `ETHICS_FIND_SIMILAR_DILEMMAS`, `ETHICS_TRAVERSE_CHAIN`) with collection/graph/vector-backed execution over `FunctionContext` scanners (Target: Q4 2026) — delivered 2026-08-31
 - [x] **AQL Mutations** — INSERT/UPDATE/REPLACE/REMOVE/UPSERT for data manipulation (UPSERT/INSERT/UPDATE/REMOVE/REPLACE nodes already in include/query/aql_parser.h; DML in parse loop)
 - [ ] Harden optimizer decision quality under skewed statistics and changing workloads (Target: Q4 2026)
 - [ ] Expand federated query failure handling with deterministic partial-result policies (Target: Q4 2026)

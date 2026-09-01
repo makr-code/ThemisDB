@@ -127,10 +127,10 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
                             "using {} communities", instance_id, top_k);
 
                 return LightRetrievalResult{
-                    RetrievalMode::GLOBAL,
-                    ctx.str(),
-                    std::move(used_ids),
-                    std::string(instance_id)
+                    .used_mode = RetrievalMode::GLOBAL,
+                    .llm_context = ctx.str(),
+                    .community_ids_used = std::move(used_ids),
+                    .instance_id_used = std::string(instance_id)
                 };
             }
         }
@@ -146,10 +146,10 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
     THEMIS_INFO("ProcessLightRetriever: LOCAL retrieval for instance '{}'", instance_id);
 
     return LightRetrievalResult{
-        RetrievalMode::LOCAL,
-        ctx.llm_prompt,
-        {},
-        std::string(instance_id)
+        .used_mode = RetrievalMode::LOCAL,
+        .llm_context = ctx.llm_prompt,
+        .community_ids_used = {},
+        .instance_id_used = std::string(instance_id)
     };
 }
 

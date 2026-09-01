@@ -355,7 +355,6 @@ private:
      */
     void trySpecialise(Entry& entry, const std::string& key) {
         const auto t0 = std::chrono::steady_clock::now();
-        const auto deadline = t0 + std::chrono::milliseconds(config_.compilation_timeout_ms);
 
         try {
             // Capture everything the hot function needs by value.
@@ -423,6 +422,7 @@ private:
             THEMIS_WARN("QueryCompiler: specialisation failed key={} error={}",
                         key, ex.what());
         } catch (...) {
+            // [W9-10-FIX: uncaught_exception — query_compiler.cpp:567]
             // [WAVE3B-FIX: catch_all_swallow — query_compiler.cpp:423]
             //
             // Unknown (non-std::exception) exceptions from the specialisation path

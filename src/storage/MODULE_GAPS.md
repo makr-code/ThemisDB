@@ -4,6 +4,15 @@ This file documents all documentation and code quality gaps in the **storage** m
 
 ## Wave 1 CRITICAL Batch Fixed
 
+## Marker-Validierung 2026-08-31
+
+- Quelle: `audit/MARKER_LOCATIONS_2026-08-31.md`
+- Ergebnis: **12 reale Gaps**, **61 Doku-Leaks**
+- Klassifikation: Doku-Leaks kommen aus auto-generierten `@note Gap Summary`-Headerzeilen und sind keine fehlende Produktionslogik.
+- Real-Beispiel: `GAP-0145` → `src/storage/backup_manager.cpp:1613` (THEMIS_WARN("BackupManager::decompressPath: STUB — files copied without decompression ")
+- Doku-Leak-Beispiel: `GAP-1474` → `src/storage/adaptive_compaction.cpp:7` (* @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=0, L=0)
+- Korrespondierende Gesamtliste: `audit/MARKER_GAP_CLASSIFICATION_2026-08-31.md`
+
 **Date:** 2026-08-25  
 **Branch:** copilot/select-important-core-modules  
 **Engineer:** Wave 1 remediation batch

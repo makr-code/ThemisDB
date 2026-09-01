@@ -18,6 +18,7 @@
 #include <condition_variable>
 #include <memory>
 #include <atomic>
+#include "auth/auth_audit_logger.h"
 
 // ---------------------------------------------------------------------------
 // Forward-declare the platform LDAP handle type without pulling in platform
@@ -87,7 +88,10 @@ public:
 
     ~PooledConnection();
 
-    /// Access the raw LDAP handle.
+    /**
+     * @brief Access the raw LDAP handle.
+     * @return Underlying LDAP handle currently managed by this pooled wrapper.
+     */
     LDAP* rawHandle() const noexcept { return handle_; }
 
     /// Mark this connection as stale so it is evicted (not returned) on destruction.
@@ -150,20 +154,43 @@ public:
      */
     std::unique_ptr<PooledConnection> checkout();
 
-    /// Return the pool configuration.
+    /**
+     * @brief Return the pool configuration.
+     * @return Immutable reference to the pool configuration used by this pool.
+     */
     const LDAPPoolConfig& config() const noexcept { return config_; }
+
+    /**
+     * @brief Attach an audit logger for pool-level security events.
+     *
+     * [W8-17] When attached, pool exhaustion timeouts emit a structured
+     * PROVIDER_DEGRADED audit event via @p logger so operators can correlate
+     * pool saturation with downstream auth failures.
+     *
+     * @param logger Non-owning; may be nullptr (disables audit events).
+     */
+    void setAuditLogger(utils::AuditLogger* logger) noexcept { audit_logger_ = logger; }
 
     // -----------------------------------------------------------------------
     // Metrics accessors (used by auth_metrics)
     // -----------------------------------------------------------------------
 
-    /// Total capacity of the pool (idle + active slots, capped at max_size).
+    /**
+     * @brief Return the total capacity of the pool.
+     * @return Sum of idle and active slots, capped at @c max_size.
+     */
     int poolSize() const noexcept;
 
-    /// Number of connections currently sitting idle in the pool.
+    /**
+     * @brief Return the number of idle connections in the pool.
+     * @return Count of currently idle LDAP connections ready for checkout.
+     */
     int idleConnections() const noexcept;
 
-    /// Number of connections currently checked out by callers.
+    /**
+     * @brief Return the number of active checked-out connections.
+     * @return Count of connections currently checked out by callers.
+     */
     int activeConnections() const noexcept;
 
 private:
@@ -199,8 +226,10 @@ private:
 
     /// Total live connections (idle + active); used to enforce max_size.
     int total_count_{0};
+
+    /// [W8-17] Non-owning optional audit logger for pool-level security events.
+    utils::AuditLogger* audit_logger_{nullptr};
 };
 
 } // namespace auth
 } // namespace themis
-

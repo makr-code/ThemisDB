@@ -37,6 +37,12 @@ public:
     //                 enum, minLength, maxLength, pattern,
     //                 minimum, maximum, exclusiveMinimum, exclusiveMaximum
     // Returns std::nullopt if valid (or if no schema file is found), otherwise an error message.
+    std::optional<std::string> validateJsonSchema(
+        const nlohmann::json& payload,
+        const std::string& schema_name
+    ) const;
+
+    // Backward-compatible alias for older call sites/tests.
     std::optional<std::string> validateJsonStub(
         const nlohmann::json& payload,
         const std::string& schema_name

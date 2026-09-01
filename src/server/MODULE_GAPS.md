@@ -226,7 +226,7 @@ These are planned for Wave 2 / Wave B remediation.
 | server/rpc/blob_transfer_handler.cpp | 6 | 0 | 2 | 4 | 0 |
 | server/schema_api_handler.cpp | 6 | 0 | 1 | 5 | 0 |
 | server/session_api_handler.cpp | 6 | 5 | 1 | 0 | 0 |
-| server/themis_core_grpc_service.cpp | 6 | 0 | 0 | 6 | 0 |
+| ~~server/themis_core_grpc_service.cpp~~ | ~~6~~ | ~~0~~ | ~~0~~ | ~~6~~ | ~~0~~ | **RESOLVED 2026-08-26** — Wave 9 Block 1: all data-plane RPCs wired (W9-1..W9-6) |
 | server/compliance_reporting_api_handler.cpp | 5 | 1 | 2 | 2 | 0 |
 | server/opa_adapter.cpp | 5 | 1 | 1 | 3 | 0 |
 | server/saml_auth_provider.cpp | 5 | 0 | 0 | 5 | 0 |
@@ -11457,8 +11457,9 @@ Total findings: 6
   Scanner: Uniform::container
   Context: * PR History (last 5): #2811 [auth] Wire session revocat... (2026-03-12) | #2770 [auth] Implement se
 
-### server/themis_core_grpc_service.cpp
-Total findings: 6
+### ~~server/themis_core_grpc_service.cpp~~ **RESOLVED 2026-08-26 (Wave 9 Block 1)**
+~~Total findings: 6~~
+**RESOLVED**: All 6 UNIMPLEMENTED-data-plane RPC gaps closed. Create, Read, Update, Delete, BatchCreate, BatchRead, BatchUpdate, BatchDelete, BeginTransaction, CommitTransaction, RollbackTransaction, ExecuteAQL, StreamQuery, ScanCollection, GetStatus wired. AQLEngine type alias resolved to IQueryEngine. 16 always-on + 13 gRPC-guarded tests in `tests/server/test_grpc_core_service.cpp`.
 
 - Line 2: severity=MEDIUM; category=missing_correlation_id
   Description: Distributed call without correlation ID

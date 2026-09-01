@@ -323,15 +323,31 @@ TEST_F(SecuritySignatureRocksDBIterationTests, VerifyAll_MixedResults) {
 // In-memory fallback path (no RocksDB)
 // ---------------------------------------------------------------------------
 
-TEST(SecuritySignatureVerifyAllFallbackTests, FallbackVerifyAll_EmptyStore) {
-    SecuritySignatureManager mgr(nullptr); // triggers fallback
+TEST(SecuritySignatureVerifyAllFallbackTests, NullBackendFailsClosedWithoutExplicitFallback) {
+    SecuritySignatureManager mgr(nullptr);
+    SecuritySignature sig;
+    sig.resource_id = "fb_file";
+    sig.hash        = std::string(64, 'e');
+    sig.algorithm   = "sha256";
+    sig.created_at  = 42;
+
+    EXPECT_FALSE(mgr.isUsingFallbackMemoryStore());
+    EXPECT_FALSE(mgr.hasPersistentBackend());
+    EXPECT_FALSE(mgr.storeSignature(sig));
+    EXPECT_TRUE(mgr.listAllSignatures().empty());
+
     auto result = mgr.verifyAll();
     EXPECT_EQ(result.total, 0);
-    EXPECT_TRUE(result.success());
+    EXPECT_FALSE(result.backend_available);
+    EXPECT_FALSE(result.used_fallback_memory_store);
+    EXPECT_FALSE(result.success());
+    EXPECT_FALSE(result.error_message.empty());
 }
 
-TEST(SecuritySignatureVerifyAllFallbackTests, FallbackListAllSignatures_ReturnsStoredSigs) {
-    SecuritySignatureManager mgr(nullptr);
+TEST(SecuritySignatureVerifyAllFallbackTests, ExplicitFallbackListAllSignatures_ReturnsStoredSigs) {
+    SecuritySignatureManager mgr(
+        nullptr,
+        SecuritySignatureManager::Options{.allow_in_memory_fallback = true});
 
     SecuritySignature sig;
     sig.resource_id = "fb_file";
@@ -343,4 +359,17 @@ TEST(SecuritySignatureVerifyAllFallbackTests, FallbackListAllSignatures_ReturnsS
     auto sigs = mgr.listAllSignatures();
     ASSERT_EQ(sigs.size(), 1u);
     EXPECT_EQ(sigs[0].resource_id, "fb_file");
+    EXPECT_TRUE(mgr.isUsingFallbackMemoryStore());
+    EXPECT_FALSE(mgr.hasPersistentBackend());
+}
+
+TEST(SecuritySignatureVerifyAllFallbackTests, ExplicitFallbackVerifyAll_EmptyStore) {
+    SecuritySignatureManager mgr(
+        nullptr,
+        SecuritySignatureManager::Options{.allow_in_memory_fallback = true});
+    auto result = mgr.verifyAll();
+    EXPECT_EQ(result.total, 0);
+    EXPECT_TRUE(result.backend_available);
+    EXPECT_TRUE(result.used_fallback_memory_store);
+    EXPECT_TRUE(result.success());
 }

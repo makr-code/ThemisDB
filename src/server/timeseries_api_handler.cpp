@@ -37,6 +37,13 @@ TimeSeriesApiHandler::TimeSeriesApiHandler(
     , agg_manager_(std::move(agg_manager))
     , auth_(std::move(auth))
 {
+    // TODO(W9-5): Wire setAggregatesProvider() after construction so that
+    // handleAggregatesGet() returns live aggregate names instead of the
+    // built-in fallback {min,max,avg,sum,count}.  The DI root that calls
+    // this constructor should call:
+    //   handler->setAggregatesProvider([engine]{ return engine->listAggregates(); });
+    // where `engine` is an injected ContinuousAggMaterializationEngine.
+    // See handleAggregatesGet() and AggregatesFn in timeseries_api_handler.h.
 }
 
 void TimeSeriesApiHandler::setRetentionPoliciesProviderFn(RetentionPoliciesProviderFn fn) {
@@ -404,16 +411,20 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
     auto span = Tracer::startSpan("handleTimeSeriesAggregatesGet");
     try {
         std::set<std::string> aggregate_names;
-
+        std::string aggregate_source = "builtin";
+        bool degraded_mode = false;
+ 
         // STUB #301 REMEDIATION: Use real aggregates provider if available
         if (aggregates_fn_) {
             auto real_aggregates = aggregates_fn_();
             aggregate_names.insert(real_aggregates.begin(), real_aggregates.end());
+            aggregate_source = "provider";
             span.setAttribute("aggregates.source", "real_provider");
         } else if (agg_engine_) {
             // Fall back to ContinuousAggMaterializationEngine for real registered aggregates
             auto real_aggregates = agg_engine_->listAggregates();
             aggregate_names.insert(real_aggregates.begin(), real_aggregates.end());
+            aggregate_source = "agg_engine";
             span.setAttribute("aggregates.source", "agg_engine");
         } else {
             // STUB/SIMULATION NOTE:
@@ -433,6 +444,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
             //               injected via TimeSeriesApiHandler::setAggregatesFn()
             //               or the relevant DI path, targeting v1.7.0 / Q4 2026.
             aggregate_names = {"min", "max", "avg", "sum", "count"};
+            degraded_mode = true;
             span.setAttribute("aggregates.source", "builtin");
         }
 
@@ -463,8 +475,14 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
         nlohmann::json response = {
             {"aggregates", functions},
             {"materialized_aggregates", materialized},
-            {"materialized_count", materialized.size()}
+            {"materialized_count", materialized.size()},
+            {"source", aggregate_source},
+            {"degraded_mode", degraded_mode}
         };
+        if (degraded_mode) {
+            response["degraded_reason"] =
+                "No aggregate provider is wired; returning the builtin aggregate list only";
+        }
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
     } catch (const std::exception& e) {
@@ -479,6 +497,8 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
     auto span = Tracer::startSpan("handleTimeSeriesRetentionGet");
     try {
         nlohmann::json policies = nlohmann::json::array();
+        std::string policy_source = "storage_config";
+        bool degraded_mode = false;
         
         // STUB #301 REMEDIATION: Use real retention policies provider if available
         if (retentions_fn_) {
@@ -490,14 +510,17 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
                     {"source", "retention_provider"}
                 });
             }
+            policy_source = "provider";
             span.setAttribute("policies.source", "retention_provider");
         } else if (retentionPoliciesFn_) {
             // Also check legacy provider
             auto legacy_policies = retentionPoliciesFn_();
             policies = nlohmann::json(legacy_policies);
+            policy_source = "legacy_provider";
             span.setAttribute("policies.source", "legacy_provider");
         } else {
             // Fall back to storage-based config
+            degraded_mode = true;
             if (storage_) {
                 auto stored = storage_->get("config:timeseries");
                 if (stored) {
@@ -530,8 +553,14 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
 
         nlohmann::json response = {
             {"policies", policies},
-            {"policy_count", policies.size()}
+            {"policy_count", policies.size()},
+            {"source", policy_source},
+            {"degraded_mode", degraded_mode}
         };
+        if (degraded_mode) {
+            response["degraded_reason"] =
+                "No retention provider is wired; returning storage-derived retention metadata only";
+        }
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
     } catch (const std::exception& e) {

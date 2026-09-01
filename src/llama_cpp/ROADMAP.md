@@ -34,6 +34,7 @@ Stub mode (empty path / CI without model) is preserved as a transparent fallback
 - [x] Real embedding vectors via `LlamaWrapper::embed()` (v2.2.0)
 - [x] `exportLoRA` / `importLoRA` delegated to `LlamaWrapper` (v2.2.0)
 - [x] `tests/CMakeLists.txt` updated — registrar + deps added for N1–N6 (v2.2.0)
+- [x] Gap-Closure Wave 2 (2026-08-31): `generate()` STUB/SIMULATION NOTE completed with `Removal Plan` field; all 7 STUB blocks in `llama_cpp_plugin.cpp` and 2 in `llama_cpp_registrar.cpp` have complete documentation templates (Purpose, Activation, Production Delta, Removal Plan)
 
 ## In Progress
 

@@ -41,7 +41,12 @@ namespace themis {
 namespace llm {
 
 /**
- * @brief Enhanced inference engine with context caching and load balancing
+ * @brief Enhanced inference engine with caching, batching, and routing controls.
+ *
+ * Coordinates model selection, request scheduling, cache management, and
+ * optional distributed inference hooks for advanced LLM serving paths.
+ * Public methods are intended for lifecycle control, request submission,
+ * and runtime tuning of registered model backends.
  */
 class InferenceEngineEnhanced {
 public:
@@ -229,15 +234,26 @@ public:
     // Model management
     
     /**
-     * Register a model with the inference engine.
-     * @param model_id Model identifier (non-empty required)
-     * @param plugin Pointer to LLM plugin implementation
-     * @note Rejects empty model_id fail-closed to prevent silent model registration failures
-     *       and key collision vulnerabilities in the models_ map
+     * @brief Register a model with the inference engine.
+     *
+     * @param model_id Model identifier (non-empty required).
+     * @param plugin   Plugin implementation to associate with @p model_id.
+     * @throws std::invalid_argument if @p model_id is empty or @p plugin is null.
+     * @note Rejects empty model_id fail-closed to prevent silent model
+     *       registration failures and key-collision vulnerabilities in @c models_.
      */
     void registerModel(const std::string& model_id, std::shared_ptr<ILLMPlugin> plugin);
     
+    /**
+     * @brief Remove a previously registered model from the engine.
+     * @param model_id Model identifier to remove.
+     */
     void unregisterModel(const std::string& model_id);
+
+    /**
+     * @brief Return the identifiers of all registered models.
+     * @return List of currently registered model identifiers.
+     */
     std::vector<std::string> getAvailableModels() const;
 
     /**
@@ -355,6 +371,7 @@ public:
 
     /**
      * @brief Remove a routing rule by ID.
+     * @param rule_id Rule identifier to remove.
      * @return true if the rule existed and was removed.
      */
     bool removeRoutingRule(const std::string& rule_id);
@@ -370,7 +387,19 @@ public:
     void clearRoutingRules();
 
     // Inference submission
+    /**
+     * @brief Submit a request to the enhanced scheduler.
+     * @param request Enhanced inference request to enqueue.
+     * @return Handle for awaiting completion or cancelling the request.
+     */
     InferenceHandle submit(const EnhancedInferenceRequest& request);
+
+    /**
+     * @brief Submit a request and receive the result through a callback.
+     * @param request  Enhanced inference request to enqueue.
+     * @param callback Completion callback invoked with the final response.
+     * @return Request identifier for later cancellation or reprioritization.
+     */
     std::string submitAsync(
         const EnhancedInferenceRequest& request,
         std::function<void(const InferenceResponse&)> callback
@@ -412,11 +441,31 @@ public:
     );
     
     // Request management
+    /**
+     * @brief Cancel an in-flight or queued request.
+     * @param request_id Identifier returned when the request was submitted.
+     * @return true if the request was found and cancellation was requested.
+     */
     bool cancel(const std::string& request_id);
+
+    /**
+     * @brief Update the scheduling priority of a queued request.
+     * @param request_id    Identifier of the request to reprioritize.
+     * @param new_priority  New scheduler priority value.
+     * @return true if the queued request was found and updated.
+     */
     bool reprioritize(const std::string& request_id, int new_priority);
     
     // Cache management
+    /**
+     * @brief Remove all cached inference entries.
+     */
     void clearCache();
+
+    /**
+     * @brief Seed the cache with prompts expected to be requested soon.
+     * @param common_prompts Prompt texts to precompute or stage for cache reuse.
+     */
     void prewarmCache(const std::vector<std::string>& common_prompts);
     
     // Statistics and monitoring
@@ -424,7 +473,14 @@ public:
     json getDetailedMetrics() const;
     
     // Lifecycle
+    /**
+     * @brief Start worker infrastructure for asynchronous request handling.
+     */
     void start();
+
+    /**
+     * @brief Stop worker infrastructure and reject further queued work.
+     */
     void shutdown();
     bool isRunning() const;
 
@@ -505,9 +561,45 @@ public:
             std::shared_ptr<ILLMPlugin>        /*target_plugin*/)>;
 
     /// Inject a real target-logit computation into trySpeculativeGeneration().
-    /// Pass nullptr / empty fn to restore the built-in peaked-distribution
-    /// heuristic (STUB #262).  Thread-safe.
+    /// Pass nullptr / empty fn to remove the override. Without an injected fn,
+    /// the engine auto-uses a native llama-backed target-logit bridge when the
+    /// target plugin exposes one; otherwise speculative decoding fails closed
+    /// back to the target-model generation path instead of fabricating logits.
+    /// Thread-safe.
     void setTargetLogitsFn(TargetLogitsFn fn);
+
+    // ── STUB #263 bridge — tokenizer injection ────────────────────────────
+
+    /// Callback type for injecting a real tokenizer into
+    /// trySpeculativeGeneration().  Called on the remote draft model's raw text
+    /// output to produce proper vocabulary token IDs in place of the built-in
+    /// byte-modulo heuristic (byte value % vocab_size).
+    ///
+    /// Parameters: (text, vocab_size)
+    /// Returns:    non-empty vector of IDs each in [0, vocab_size).
+    ///             An empty return or a thrown exception never fabricates
+    ///             synthetic token IDs from raw bytes: the remote draft path
+    ///             retries the local draft model, and the local bridge path
+    ///             falls back to the target model response path.
+    using TokenizerFn = std::function<std::vector<int>(const std::string& text,
+                                                       size_t             vocab_size)>;
+
+    /// Inject a real tokenizer into trySpeculativeGeneration() for the remote
+    /// and generic local draft paths. Pass nullptr / empty fn to remove the
+    /// override. Without an injected tokenizer, speculative decoding proceeds
+    /// only when the draft path has a known native llama-backed token source;
+    /// otherwise the engine falls back to the target-model path. Thread-safe.
+    void setTokenizerFn(TokenizerFn fn);
+
+    /**
+     * @brief Remove the injected tokenizer override.
+     *
+     * Equivalent to setTokenizerFn(nullptr). After clearing the override,
+     * generic non-llama speculative draft paths fail closed back to the
+     * target-model path unless a known native llama-backed tokenizer source is
+     * available. Thread-safe.
+     */
+    void clearTokenizerFn();
 
 private:
     Config config_;
@@ -543,6 +635,9 @@ private:
     // STUB #262 bridge — target logit injection.
     TargetLogitsFn target_logits_fn_;
     mutable std::mutex target_logits_fn_mutex_;
+    // STUB #263 bridge — tokenizer injection.
+    TokenizerFn tokenizer_fn_;
+    mutable std::mutex tokenizer_fn_mutex_;
 
     // Lookup decoder (n-gram based, draft-model-free).
     // nullptr when enable_lookup_decoding == false.

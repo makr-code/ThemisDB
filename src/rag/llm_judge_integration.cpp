@@ -16,8 +16,8 @@
 #include <chrono>
 #include <stdexcept>
 #include <functional>
-#include <iomanip>
 #include <sstream>
+#include <string_view>
 
 namespace themis::rag::judge {
 
@@ -32,6 +32,14 @@ ParsedResponse makeUnavailableJudgeResponse(std::string message) {
     response.is_mock = false;
     return response;
 }
+
+std::string makeUnavailableJudgeJson(std::string_view reason) {
+    std::ostringstream response;
+    response << R"({"score":-1,"confidence":0.0,"reasoning":")"
+             << reason
+             << R"(","success":false})";
+    return response.str();
+}
 } // namespace
 
 LLMJudgeIntegration::LLMJudgeIntegration(ILLMInferenceEngine* engine)
@@ -39,34 +47,18 @@ LLMJudgeIntegration::LLMJudgeIntegration(ILLMInferenceEngine* engine)
 }
 
 LLMJudgeIntegration::LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config& config)
-    : config_(config), mock_mode_active_(false), mock_mode_warning_shown_(false) {
-    if (engine == nullptr && !config_.allow_mock) {
+    : config_(config) {
+    if (engine == nullptr) {
         throw std::invalid_argument(
-            "LLMJudgeIntegration: engine must not be nullptr when allow_mock is false. "
-            "Pass a valid ILLMInferenceEngine* or set config.allow_mock = true for testing.");
+            "LLMJudgeIntegration: engine must not be nullptr. "
+            "Pass a valid ILLMInferenceEngine* or use the config-only constructor "
+            "and setInferenceFunction() before evaluation.");
     }
-    if (engine != nullptr) {
-        // Wire the engine's generate() into the inference function slot
-        inference_fn_ = [engine](const std::string& prompt) {
-            return engine->generate(prompt);
-        };
-        mock_mode_active_ = false;
-        THEMIS_INFO("LLMJudgeIntegration initialized with injected inference engine");
-    } else {
-        if (config_.allow_mock && config_.use_mock_mode) {
-            inference_fn_ = defaultInference;
-            mock_mode_active_ = true;
-            if (config_.warn_on_mock_mode) {
-                THEMIS_WARN("LLMJudgeIntegration initialized with nullptr engine in MOCK MODE "
-                            "(allow_mock=true + use_mock_mode=true) - test-only path");
-            }
-        } else {
-            inference_fn_ = nullptr;
-            mock_mode_active_ = false;
-            THEMIS_WARN("LLMJudgeIntegration initialized without engine and without explicit mock mode; "
-                        "calls will return llm_unavailable");
-        }
-    }
+
+    inference_fn_ = [engine](const std::string& prompt) {
+        return engine->generate(prompt);
+    };
+    THEMIS_INFO("LLMJudgeIntegration initialized with injected inference engine");
 }
 
 LLMJudgeIntegration::LLMJudgeIntegration()
@@ -74,19 +66,9 @@ LLMJudgeIntegration::LLMJudgeIntegration()
 }
 
 LLMJudgeIntegration::LLMJudgeIntegration(const Config& config)
-    : config_(config), mock_mode_active_(false), mock_mode_warning_shown_(false) {
-    // Only set default inference function if mock mode is explicitly enabled
-    if (config_.use_mock_mode) {
-        inference_fn_ = defaultInference;
-        mock_mode_active_ = true;
-        if (config_.warn_on_mock_mode) {
-            THEMIS_WARN("LLMJudgeIntegration initialized in MOCK MODE - evaluations will use stub responses");
-        }
-    } else {
-        // In production mode, require inference function to be set
-        inference_fn_ = nullptr;
-        THEMIS_INFO("LLMJudgeIntegration initialized - inference function must be set before use");
-    }
+    : config_(config) {
+    inference_fn_ = nullptr;
+    THEMIS_INFO("LLMJudgeIntegration initialized without backend - setInferenceFunction() before use");
 }
 
 ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
@@ -141,13 +123,6 @@ ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
     // Parse response
     ParsedResponse parsed = ResponseParser::parse(llm_response);
 
-    // Gap 7 (AI_ML_IMPACT_ASSESSMENT.md §7): mark the result as mock-produced
-    // so callers can filter it from production dashboards without having to
-    // separately call isMockMode().
-    if (isMockMode()) {
-        parsed.is_mock = true;
-    }
-
     if (!parsed.success) {
         THEMIS_WARN("Failed to parse LLM response: {}", parsed.error_message);
     }
@@ -160,7 +135,7 @@ std::string LLMJudgeIntegration::evaluateDimension(
     EvaluationDimension dimension
 ) {
     if (!config_.enable_llm_judge) {
-        return R"({"score":-1,"reason":"llm_unavailable","success":false})";
+        return makeUnavailableJudgeJson("llm_unavailable");
     }
 
     THEMIS_DEBUG("LLMJudgeIntegration::evaluateDimension dim={} prompt_len={}",
@@ -188,14 +163,13 @@ std::string LLMJudgeIntegration::evaluateDimension(
     if (dim_result) return *dim_result;
 
     THEMIS_ERROR("LLM failed to respond for dimension {}", static_cast<int>(dimension));
-    return "{}";  // Return empty JSON object as safe fallback
+    return makeUnavailableJudgeJson("llm_unavailable");
 }
 
 void LLMJudgeIntegration::setInferenceFunction(
     std::function<std::string(const std::string&)> fn
 ) {
     inference_fn_ = fn;
-    mock_mode_active_ = false;
     THEMIS_INFO("Custom inference function set for LLM judge");
 }
 
@@ -213,18 +187,11 @@ std::string LLMJudgeIntegration::callLLM(const std::string& prompt) {
     }
     if (!inference_fn_) {
         std::string error_msg = "llm_unavailable: no inference backend configured. ";
-        error_msg += "Provide ILLMBackend via constructor or setInferenceFunction(); ";
-        error_msg += "optional mock path requires allow_mock=true and use_mock_mode=true.";
+        error_msg += "Provide ILLMBackend via constructor or setInferenceFunction().";
         THEMIS_ERROR("{}", error_msg);
         throw std::runtime_error(error_msg);
     }
-    
-    // Warn once if in mock mode
-    if (mock_mode_active_ && config_.warn_on_mock_mode && !mock_mode_warning_shown_) {
-        THEMIS_WARN("LLM evaluation using MOCK MODE - results are not real (warning shown once)");
-        mock_mode_warning_shown_ = true;
-    }
-    
+
     THEMIS_DEBUG("Calling LLM with prompt length: {} chars", prompt.length());
     
     // Call the inference function
@@ -242,42 +209,8 @@ std::string LLMJudgeIntegration::callLLM(const std::string& prompt) {
     return response;
 }
 
-std::string LLMJudgeIntegration::defaultInference(const std::string& prompt) {
-    // PERMANENT FALLBACK NOTE:
-    // Purpose: Provide a structurally-valid LLM-judge response when no real
-    //          ILLMInferenceEngine is injected, enabling unit tests and offline
-    //          evaluation pipelines without a live model endpoint.
-    // Activation: Called only when config.use_mock_mode == true or allow_mock == true
-    //             AND engine == nullptr.  Production deployments always inject a real
-    //             engine via the constructor or setInferenceFunction(); this path is
-    //             never reached in production.
-    // Production path: Inject via constructor:
-    //     LLMJudgeIntegration judge(engine_ptr);
-    //   or at runtime:
-    //     judge.setInferenceFunction([&model](const std::string& p){ return model.generate(p); });
-    // Behaviour: Uses deterministic prompt-hash heuristics; ParsedResponse::is_mock
-    //            is set to true by evaluateWithLLM() so callers can filter mock data
-    //            from production dashboards (AI_ML_IMPACT_ASSESSMENT.md §7).
-    THEMIS_DEBUG("Using mock inference function (for testing only)");
-
-    const auto prompt_hash = std::hash<std::string>{}(prompt);
-    const double score = 2.5 + static_cast<double>(prompt_hash % 251) / 100.0;  // [2.50, 5.00]
-    const double confidence = 0.60 + static_cast<double>((prompt_hash >> 8U) % 351U) / 1000.0;  // [0.600, 0.951]
-
-    std::ostringstream mock_response;
-    mock_response << std::fixed << std::setprecision(3)
-                  << "{\n"
-                  << "  \"score\": " << score << ",\n"
-                  << "  \"confidence\": " << confidence << ",\n"
-                  << "  \"reasoning\": \"Mock evaluation generated from prompt hash. Replace with a real LLM engine for production scoring.\",\n"
-                  << "  \"supporting_claims\": [\"Mock claim " << (1U + (prompt_hash % 3U)) << "\"],\n"
-                  << "  \"unsupported_claims\": []\n"
-                  << "}";
-    return mock_response.str();
-}
-
 bool LLMJudgeIntegration::isMockMode() const {
-    return mock_mode_active_;
+    return false;
 }
 
 } // namespace themis::rag::judge

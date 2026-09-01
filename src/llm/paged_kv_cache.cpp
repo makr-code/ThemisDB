@@ -11,6 +11,7 @@
 
 
 #include "llm/paged_kv_cache.h"
+#include <bit>
 #include <cmath>
 #include <algorithm>
 #include <cmath>
@@ -282,7 +283,7 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
             for (float value : kv_data) {
                 // Simple FP32 -> FP16 conversion (actual implementation would use CUDA/specialized code)
                 // For now, use bit-level approximation
-                uint32_t bits = *reinterpret_cast<uint32_t*>(&value);
+                uint32_t bits = std::bit_cast<uint32_t>(value);
                 uint16_t half = static_cast<uint16_t>((bits >> 16) & 0xFFFF);
                 result.push_back(static_cast<uint8_t>(half & 0xFF));
                 result.push_back(static_cast<uint8_t>((half >> 8) & 0xFF));
@@ -309,13 +310,13 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
             result.reserve(kv_data.size() + 8);  // +8 for metadata (min_val, scale)
             
             // Store metadata: min_val (4 bytes) + scale (4 bytes)
-            uint32_t* min_bits = reinterpret_cast<uint32_t*>(&min_val);
-            uint32_t* scale_bits = reinterpret_cast<uint32_t*>(&scale);
+            uint32_t min_bits = std::bit_cast<uint32_t>(min_val);
+            uint32_t scale_bits = std::bit_cast<uint32_t>(scale);
             for (int i = 0; i < 4; ++i) {
-                result.push_back(static_cast<uint8_t>((*min_bits >> (i * 8)) & 0xFF));
+                result.push_back(static_cast<uint8_t>((min_bits >> (i * 8)) & 0xFF));
             }
             for (int i = 0; i < 4; ++i) {
-                result.push_back(static_cast<uint8_t>((*scale_bits >> (i * 8)) & 0xFF));
+                result.push_back(static_cast<uint8_t>((scale_bits >> (i * 8)) & 0xFF));
             }
             
             // Quantize values
@@ -360,7 +361,7 @@ std::vector<float> PagedKVCache::dequantizeKVData(
             for (size_t i = 0; i + 1 < quantized_data.size(); i += 2) {
                 uint16_t half = (static_cast<uint16_t>(quantized_data[i + 1]) << 8) | quantized_data[i];
                 uint32_t bits = (static_cast<uint32_t>(half) << 16);
-                result.push_back(*reinterpret_cast<float*>(&bits));
+                result.push_back(std::bit_cast<float>(bits));
             }
             return result;
         }
@@ -377,8 +378,8 @@ std::vector<float> PagedKVCache::dequantizeKVData(
                 scale_bits |= (static_cast<uint32_t>(quantized_data[4 + i]) << (i * 8));
             }
             
-            float min_val = *reinterpret_cast<float*>(&min_bits);
-            float scale = *reinterpret_cast<float*>(&scale_bits);
+            float min_val = std::bit_cast<float>(min_bits);
+            float scale = std::bit_cast<float>(scale_bits);
             
             std::vector<float> result;
             result.reserve(quantized_data.size() - 8);
@@ -453,7 +454,7 @@ uint8_t PagedKVCache::quantizeToNVFP4(float value) {
     
     if (value == 0.0f) return 0x00;
     
-    uint32_t bits = *reinterpret_cast<uint32_t*>(&value);
+    uint32_t bits = std::bit_cast<uint32_t>(value);
     uint32_t sign = (bits >> 31) & 0x1;
     uint32_t exp_bias = ((bits >> 23) & 0xFF);
     uint32_t mantissa = (bits >> 22) & 0x1;  // Take only 1 bit for mantissa
@@ -481,7 +482,7 @@ float PagedKVCache::dequantizeFromNVFP4(uint8_t packed) {
     uint32_t mantissa_23bit = mantissa << 22;
     
     uint32_t fp32_bits = (sign << 31) | (exp_8bit << 23) | mantissa_23bit;
-    float result = *reinterpret_cast<float*>(&fp32_bits);
+    float result = std::bit_cast<float>(fp32_bits);
     
     return result;
 }

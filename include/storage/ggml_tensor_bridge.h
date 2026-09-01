@@ -223,15 +223,17 @@ public:
      *
      * When set via `setGgmlAllocFn()`, `map()` will call @p fn to obtain a
      * real `ggml_tensor*` for each successfully decompressed TT-train.  The
-     * fn receives the number of float32 elements and must allocate a
-     * `ggml_tensor` owned by the ggml context supplied to `map()`.
+     * fn receives the live ggml context from `map()` plus the number of
+     * float32 elements and must allocate a `ggml_tensor` owned by that
+     * context.
      *
      * When not set, `ggmlTensor()` on the returned handle returns nullptr
      * (stub fallback — safe for unit tests, not for llama.cpp inference).
      *
-     * Signature: `ggml_tensor* fn(std::size_t n_elements)`
+     * Signature: `ggml_tensor* fn(ggml_context* ctx, std::size_t n_elements)`
      */
-    using GgmlAllocFn = std::function<ggml_tensor*(std::size_t /*n_elements*/)>;
+    using GgmlAllocFn = std::function<ggml_tensor*(ggml_context* /*ctx*/,
+                                                   std::size_t   /*n_elements*/)>;
 
     /**
      * @brief Inject a ggml_tensor allocation function.

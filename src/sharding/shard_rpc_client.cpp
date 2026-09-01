@@ -51,7 +51,7 @@ struct ShardRPCClient::Impl {
     bool use_grpc = false;
     CircuitBreaker circuit_breaker;
 
-    /// Optional injected response handler for the in-process simulation path.
+    /// Optional injected response handler for the explicit in-process test path.
     /// When non-null, sendRequestInProcess() delegates to this function instead
     /// of returning the built-in hardcoded responses.
     std::mutex handler_mutex;
@@ -94,9 +94,10 @@ struct ShardRPCClient::Impl {
     }
 
     explicit Impl(const Config& cfg) : config(cfg), circuit_breaker(makeCb(cfg)) {
-        // Detect if we should use gRPC or in-process simulation
-        // Use in-process if endpoint contains loopback addresses
-        use_grpc = !isLoopbackEndpoint(config.endpoint);
+        // Production transports must use real RPC endpoints whenever gRPC support
+        // is compiled in. In-process routing is reserved for explicit test-only
+        // endpoints such as inproc://shard-a.
+        use_grpc = !isExplicitInProcessEndpoint(config.endpoint);
 
         // If a connection pool is supplied, apply the max_pool_connections limit
         // (propagated from GossipConfigManagerConfig::rpc_max_pool_connections).
@@ -142,15 +143,10 @@ struct ShardRPCClient::Impl {
     }
     
     /**
-     * @brief Check if endpoint is a loopback address
+     * @brief Check if endpoint explicitly requests in-process test routing
      */
-    bool isLoopbackEndpoint(const std::string& endpoint) {
-        // Check for common loopback addresses and hostnames
-        // Note: 0.0.0.0 is not included as it typically means "bind to all interfaces"
-        // and is used for server listening, not client connections
-        return (endpoint.find("localhost") != std::string::npos ||
-                endpoint.find("127.0.0.1") != std::string::npos ||
-                endpoint.find("::1") != std::string::npos);
+    bool isExplicitInProcessEndpoint(const std::string& endpoint) {
+        return endpoint.rfind("inproc://", 0) == 0 || endpoint.rfind("loopback://", 0) == 0;
     }
     
 #if THEMIS_HAS_SHARD_GRPC
@@ -1076,4 +1072,3 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
 }
 
 } // namespace themis::sharding
-

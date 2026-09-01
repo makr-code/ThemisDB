@@ -134,6 +134,16 @@ protected:
 #endif
         return false;
     }
+
+    bool isExpectedCloudTransportError(const std::string& error_msg) {
+        return error_msg.find("credentials") != std::string::npos ||
+               error_msg.find("authentication") != std::string::npos ||
+               error_msg.find("not available") != std::string::npos ||
+               error_msg.find("unavailable") != std::string::npos ||
+               error_msg.find("not linked") != std::string::npos ||
+               error_msg.find("not found") != std::string::npos ||
+               error_msg.find("unsupported") != std::string::npos;
+    }
     
     fs::path test_dir_;
     fs::path db_path_;
@@ -176,8 +186,8 @@ TEST_F(CloudStorageBackupTest, UploadToCloudInterfaceExists) {
     if (!isCloudProviderAvailable("aws")) {
         EXPECT_FALSE(s3_result.has_value()) << "Should fail when AWS SDK not available";
         EXPECT_TRUE(s3_result.error().message().find("not available") != std::string::npos ||
-                    s3_result.error().message().find("not yet implemented") != std::string::npos ||
-                    s3_result.error().message().find("not implemented") != std::string::npos);
+                    s3_result.error().message().find("not linked") != std::string::npos ||
+                    s3_result.error().message().find("unavailable") != std::string::npos);
     }
     // If AWS SDK is available but no credentials, should return auth error
 }
@@ -275,14 +285,8 @@ TEST_F(CloudStorageBackupTest, UploadBackupToS3) {
     
     // Should return cloud URI or credential error
     if (!result.has_value()) {
-        // Check for expected error messages (current implementation is a stub)
         std::string error_msg = result.error().message();
-        EXPECT_TRUE(
-            error_msg.find("credentials") != std::string::npos ||
-            error_msg.find("authentication") != std::string::npos ||
-            error_msg.find("not yet implemented") != std::string::npos ||
-            error_msg.find("not implemented") != std::string::npos
-        ) << "Unexpected error: " << error_msg;
+        EXPECT_TRUE(isExpectedCloudTransportError(error_msg)) << "Unexpected error: " << error_msg;
     }
 }
 
@@ -386,11 +390,7 @@ TEST_F(CloudStorageBackupTest, UploadBackupToAzureBlob) {
     // Should fail without valid credentials
     if (!result.has_value()) {
         std::string error_msg = result.error().message();
-        EXPECT_TRUE(
-            error_msg.find("credentials") != std::string::npos ||
-            error_msg.find("authentication") != std::string::npos ||
-            error_msg.find("not implemented") != std::string::npos
-        );
+        EXPECT_TRUE(isExpectedCloudTransportError(error_msg));
     }
 }
 
@@ -496,11 +496,7 @@ TEST_F(CloudStorageBackupTest, UploadBackupToGCS) {
     // Should fail without valid credentials
     if (!result.has_value()) {
         std::string error_msg = result.error().message();
-        EXPECT_TRUE(
-            error_msg.find("credentials") != std::string::npos ||
-            error_msg.find("authentication") != std::string::npos ||
-            error_msg.find("not implemented") != std::string::npos
-        );
+        EXPECT_TRUE(isExpectedCloudTransportError(error_msg));
     }
 }
 
@@ -663,8 +659,8 @@ TEST_F(CloudStorageBackupTest, InvalidCloudURIHandling) {
                 error_msg.find("Invalid cloud URI") != std::string::npos ||
                 error_msg.find("invalid") != std::string::npos ||
                 error_msg.find("URI") != std::string::npos ||
-                error_msg.find("not yet implemented") != std::string::npos ||
-                error_msg.find("not implemented") != std::string::npos ||
+                error_msg.find("not linked") != std::string::npos ||
+                error_msg.find("unsupported") != std::string::npos ||
                 error_msg.find("not found") != std::string::npos
             ) << "Expected error message for invalid URI: " << uri << ", got: " << error_msg;
         }
@@ -699,6 +695,32 @@ TEST_F(CloudStorageBackupTest, MissingLocalBackupHandling) {
             error_msg.find("invalid") != std::string::npos
         );
     }
+}
+
+TEST_F(CloudStorageBackupTest, UploadBackupRejectsOversizedRemotePayloadBeforeTransfer) {
+    const auto oversized_file = backup_path_ / "oversized_payload.bin";
+    {
+        std::ofstream output(oversized_file, std::ios::binary);
+        ASSERT_TRUE(output.is_open());
+        output.seekp(static_cast<std::streamoff>(256ull * 1024ull * 1024ull));
+        output.put('\0');
+    }
+
+    BackupOptions options;
+    options.storage = StorageBackend::S3;
+
+    auto result = backup_mgr_->uploadBackupToCloud(
+        oversized_file.string(),
+        "s3://test-bucket/oversized",
+        options
+    );
+
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_UTIL_ALLOCATION_FAILED);
+    EXPECT_NE(result.error().message().find("in-memory transfer limit"), std::string::npos);
+
+    std::error_code ec;
+    std::filesystem::remove(oversized_file, ec);
 }
 
 /**

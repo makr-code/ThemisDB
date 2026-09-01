@@ -52,10 +52,6 @@ static int themis_io_uring_enter(int fd, unsigned to_submit, unsigned min_comple
                                        to_submit, min_complete, flags, sig,
                                        _NSIG / 8));
 }
-static int themis_io_uring_register(int fd, unsigned opcode, void* arg, unsigned nr) {
-    return static_cast<int>(::syscall(__NR_io_uring_register, fd, opcode, arg, nr));
-}
-
 #    ifndef IORING_REGISTER_BUFFERS
 #      define IORING_REGISTER_BUFFERS   0
 #      define IORING_UNREGISTER_BUFFERS 1
@@ -76,7 +72,10 @@ struct blk_zone {
     uint64_t start; uint64_t len; uint64_t wp;
     uint8_t  type;  uint8_t  cond; uint8_t  non_seq; uint8_t reserved[36];
 };
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
 struct blk_zone_report { uint64_t sector; uint32_t nr_zones; struct blk_zone zones[]; };
+#pragma GCC diagnostic pop
 #  endif
 #endif  // __linux__
 
@@ -473,7 +472,7 @@ bool NVMeManager::submitWrite(const NVMeIORequest& req) {
 }
 
 int NVMeManager::pollCompletions(std::vector<NVMeIOResult>& results,
-                                  [[maybe_unused]] uint32_t min_complete) {
+                                  uint32_t min_complete) {
     results.clear();
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
@@ -517,8 +516,14 @@ int NVMeManager::pollCompletions(std::vector<NVMeIOResult>& results,
 // ZNS zone management
 // ─────────────────────────────────────────────────────────────────────────────
 
-bool NVMeManager::resetZone([[maybe_unused]] uint64_t zone_offset) {
+bool NVMeManager::resetZone(uint64_t zone_offset) {
     if (!config_.enable_zns || config_.device_path.empty()) {
+        return false;
+    }
+    constexpr uint64_t SECTOR_SIZE = 512;
+    if (config_.zone_capacity_bytes == 0 || (zone_offset % SECTOR_SIZE) != 0) {
+        THEMIS_WARN("NVMeManager::resetZone: invalid zone offset={} or capacity={}",
+                    zone_offset, config_.zone_capacity_bytes);
         return false;
     }
     std::lock_guard<std::mutex> lock(zone_mutex_);
@@ -529,8 +534,6 @@ bool NVMeManager::resetZone([[maybe_unused]] uint64_t zone_offset) {
                      config_.device_path, std::strerror(errno));
         return false;
     }
-    // Sector size is 512 bytes on most ZNS drives
-    constexpr uint64_t SECTOR_SIZE = 512;
     struct blk_zone_range range{};
     range.sector     = zone_offset / SECTOR_SIZE;
     range.nr_sectors = config_.zone_capacity_bytes / SECTOR_SIZE;
@@ -546,8 +549,14 @@ bool NVMeManager::resetZone([[maybe_unused]] uint64_t zone_offset) {
 #endif
 }
 
-bool NVMeManager::finishZone([[maybe_unused]] uint64_t zone_offset) {
+bool NVMeManager::finishZone(uint64_t zone_offset) {
     if (!config_.enable_zns || config_.device_path.empty()) {
+        return false;
+    }
+    constexpr uint64_t SECTOR_SIZE = 512;
+    if (config_.zone_capacity_bytes == 0 || (zone_offset % SECTOR_SIZE) != 0) {
+        THEMIS_WARN("NVMeManager::finishZone: invalid zone offset={} or capacity={}",
+                    zone_offset, config_.zone_capacity_bytes);
         return false;
     }
     std::lock_guard<std::mutex> lock(zone_mutex_);
@@ -558,7 +567,6 @@ bool NVMeManager::finishZone([[maybe_unused]] uint64_t zone_offset) {
                      config_.device_path, std::strerror(errno));
         return false;
     }
-    constexpr uint64_t SECTOR_SIZE = 512;
     struct blk_zone_range range{};
     range.sector     = zone_offset / SECTOR_SIZE;
     range.nr_sectors = config_.zone_capacity_bytes / SECTOR_SIZE;
@@ -574,13 +582,16 @@ bool NVMeManager::finishZone([[maybe_unused]] uint64_t zone_offset) {
 #endif
 }
 
-uint64_t NVMeManager::getZoneWritePointer([[maybe_unused]] uint64_t zone_offset) const {
+uint64_t NVMeManager::getZoneWritePointer(uint64_t zone_offset) const {
     if (!config_.enable_zns || config_.device_path.empty()) {
+        return UINT64_MAX;
+    }
+    constexpr uint64_t SECTOR_SIZE = 512;
+    if (config_.zone_capacity_bytes == 0 || (zone_offset % SECTOR_SIZE) != 0) {
         return UINT64_MAX;
     }
     std::lock_guard<std::mutex> lock(zone_mutex_);
 #ifdef __linux__
-    constexpr uint64_t SECTOR_SIZE = 512;
     int fd = ::open(config_.device_path.c_str(), O_RDONLY | O_CLOEXEC);
     if (fd < 0) {
         return UINT64_MAX;

@@ -413,8 +413,6 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
     long timeout_seconds;
     int max_retries;
     int retry_delay_ms;
-    bool create_repo;
-    bool private_repo;
     std::shared_ptr<themis::utils::AuditLogger> audit_log;
     std::shared_ptr<ExporterMetrics> metrics;
     std::string requesting_user;
@@ -427,8 +425,6 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
         timeout_seconds = config_.timeout_seconds;
         max_retries = config_.max_retries;
         retry_delay_ms = config_.retry_delay_ms;
-        create_repo = config_.create_repo;
-        private_repo = config_.private_repo;
         audit_log = config_.audit_log;
         metrics = config_.metrics;
         requesting_user = config_.requesting_user;
@@ -634,8 +630,6 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
     long timeout_seconds;
     int max_retries;
     int retry_delay_ms;
-    bool create_repo;
-    bool private_repo;
     std::shared_ptr<themis::utils::AuditLogger> audit_log;
     std::shared_ptr<ExporterMetrics> metrics;
     std::string requesting_user;
@@ -648,8 +642,6 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
         timeout_seconds = config_.timeout_seconds;
         max_retries = config_.max_retries;
         retry_delay_ms = config_.retry_delay_ms;
-        create_repo = config_.create_repo;
-        private_repo = config_.private_repo;
         audit_log = config_.audit_log;
         metrics = config_.metrics;
         requesting_user = config_.requesting_user;

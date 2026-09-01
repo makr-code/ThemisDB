@@ -28736,6 +28736,40 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_phase4_security_hardening.cpp")
     message(STATUS "  Phase 4 Security: SEC-IV-01..15 (input validation), SEC-TLS-01..10 (transport), SEC-MEM-01..15 (memory), SEC-RACE-01..10 (concurrency), SEC-ERR-01..05 (error path)")
 endif()
 
+# GCS-01..GCS-29 — gRPC Core Service Layer acceptance tests (Wave 9 Block 1)
+if(THEMIS_ENABLE_GRPC AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/server/test_grpc_core_service.cpp")
+    message(STATUS "Adding gRPC Core Service tests (GCS-01..GCS-29)")
+
+    add_executable(test_grpc_core_service
+        server/test_grpc_core_service.cpp
+    )
+
+    target_include_directories(test_grpc_core_service PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_grpc_core_service PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_grpc_core_service PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_HAS_CORE_GRPC
+    )
+
+    add_test(NAME GrpcCoreServiceTests COMMAND test_grpc_core_service)
+
+    set_tests_properties(GrpcCoreServiceTests PROPERTIES
+        LABELS "server;grpc;wave9;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  GrpcCoreService: GCS-01..GCS-16 (always-on) + GCS-17..GCS-29 (THEMIS_HAS_CORE_GRPC)")
+endif()
+
 # ===========================================================================
 # Aggregate build target: themis_release_critical_tests
 # Builds all test executables labelled release_critical so the CI step

@@ -925,18 +925,26 @@ uint64_t TransactionManager::Transaction::getDurationMs() const {
 }
 
 TransactionManager::Transaction::Transaction(Transaction&& other) noexcept
-    : id_(other.id_), db_(other.db_), secIdx_(other.secIdx_), graphIdx_(other.graphIdx_), 
-      vecIdx_(other.vecIdx_), isolation_(other.isolation_), start_time_(other.start_time_),
-      mvcc_txn_(std::move(other.mvcc_txn_)), saga_(std::move(other.saga_)), 
+    : id_(other.id_),
+      db_(other.db_),
+      secIdx_(other.secIdx_),
+      graphIdx_(other.graphIdx_),
+      vecIdx_(other.vecIdx_),
+      isolation_(other.isolation_),
+      start_time_(other.start_time_),
+      mvcc_txn_(std::move(other.mvcc_txn_)),
+      saga_(std::move(other.saga_)),
       finished_(other.finished_.load(std::memory_order_acquire)),
       timeout_ms_(other.timeout_ms_.load(std::memory_order_acquire)),
       finished_duration_ms_(other.finished_duration_ms_.load(std::memory_order_acquire)),
-      savepoints_(std::move(other.savepoints_)),
       lock_manager_(other.lock_manager_),
       history_mgr_(other.history_mgr_),
       conflict_mgr_(other.conflict_mgr_),
       base_values_(std::move(other.base_values_)),
       our_values_(std::move(other.our_values_)),
+      savepoints_(std::move(other.savepoints_)),
+      write_set_(std::move(other.write_set_)),
+      read_only_(other.read_only_),
       tenant_id_(std::move(other.tenant_id_)) {
     other.finished_.store(true, std::memory_order_release);
     other.lock_manager_ = nullptr;
@@ -956,6 +964,7 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
         mvcc_txn_ = std::move(other.mvcc_txn_);
         saga_ = std::move(other.saga_);
         savepoints_ = std::move(other.savepoints_);
+        write_set_ = std::move(other.write_set_);
         lock_manager_ = other.lock_manager_;
         other.lock_manager_ = nullptr;
         history_mgr_  = other.history_mgr_;
@@ -964,6 +973,7 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
         other.conflict_mgr_ = nullptr;
         base_values_ = std::move(other.base_values_);
         our_values_  = std::move(other.our_values_);
+        read_only_ = other.read_only_;
         tenant_id_   = std::move(other.tenant_id_);
         timeout_ms_.store(other.timeout_ms_.load(std::memory_order_acquire), std::memory_order_release);
         finished_duration_ms_.store(other.finished_duration_ms_.load(std::memory_order_acquire), std::memory_order_release);

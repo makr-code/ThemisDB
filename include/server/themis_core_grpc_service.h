@@ -16,11 +16,18 @@
 #include <memory>
 #include <string>
 
+// Bring in the concrete query-engine interface so AQLEngine can be used
+// as a complete, callable type inside the gRPC service implementation.
+#include "themis/base/interfaces/query_interface.h"
+
 // Forward declarations of the internal components used by the service.
 namespace themis {
     class RocksDBWrapper;
     class TransactionManager;
-    class AQLEngine;
+    /// AQLEngine is the canonical alias for the query engine interface used
+    /// throughout the gRPC service layer.  Resolves to IQueryEngine so that
+    /// execute() / validate() can be called without an additional cast.
+    using AQLEngine = IQueryEngine;
 }
 
 namespace themis {

@@ -266,7 +266,11 @@ void McpServer::start() {
         if (stdio_transport_) {
             stdio_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
             stdio_transport_->start();
-            spdlog::info("MCP stdio transport started");
+            if (stdio_transport_->isRunning()) {
+                spdlog::info("MCP stdio transport started");
+            } else {
+                spdlog::warn("MCP stdio transport disabled: no supported stdio reader is available on this platform");
+            }
         } else {
             spdlog::error("MCP: stdio transport allocation failed — stdio disabled");
         }
@@ -2931,10 +2935,10 @@ StdioTransport::~StdioTransport() {
 void StdioTransport::start() {
     bool expected = false;
     if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
-    spdlog::info("MCP stdio transport started");
     
 #if defined(_WIN32) || defined(__unix__) || defined(__APPLE__)
     // Start async stdin reading
+    spdlog::info("MCP stdio transport started");
     readStdin();
 #else
     // PERMANENT HARDWARE FALLBACK NOTE (MCP StdioTransport — exotic platform):
@@ -2956,14 +2960,11 @@ void StdioTransport::start() {
             fn = stdioReadFnStorage();
         }
         if (fn) {
+            spdlog::info("MCP stdio transport started with injected platform reader");
             try { fn(); } catch (...) {}
         } else {
-            // STUB/SIMULATION NOTE:
-            // Purpose: Non-Linux platform compatibility — Unix socket path uses Linux-specific abstract namespace
-            // Activation: Compile-time: non-Linux platforms (macOS, Windows) — at runtime the path fallback is active
-            // Production Delta: Abstract namespace sockets (Linux) replaced by filesystem socket at /tmp/themisdb_mcp.sock
-            // Removal Plan: Q2 2027 — add native Windows named pipe + macOS launchd socket support
-            spdlog::warn("MCP stdio transport: Unsupported platform, stdin reading not implemented");
+            is_running_.store(false, std::memory_order_release);
+            spdlog::warn("MCP stdio transport disabled: unsupported platform and no StdioReadFn injected");
         }
     }
 #endif
@@ -3972,4 +3973,3 @@ json McpServer::toolExplainQuery(const json& args) {
 } // namespace themis
 
 #endif // THEMIS_ENABLE_MCP
-

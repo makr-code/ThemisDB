@@ -2,6 +2,7 @@
 #include "security/timestamp_authority.h"
 #include <thread>
 #include <chrono>
+#include <limits>
 
 using namespace themis::security;
 
@@ -229,6 +230,16 @@ TEST_F(TimestampAuthorityTest, IsAvailable) {
     }
     
     EXPECT_TRUE(available);
+}
+
+TEST_F(TimestampAuthorityTest, GenerateNonceRejectsZeroAndOversizedRequests) {
+    TSAConfig config = createFreeTSAConfig();
+    TimestampAuthority tsa(config);
+
+    EXPECT_TRUE(tsa.generateNonce(0).empty());
+
+    const auto oversized = static_cast<size_t>(std::numeric_limits<int>::max()) + 1;
+    EXPECT_TRUE(tsa.generateNonce(oversized).empty());
 }
 
 TEST_F(TimestampAuthorityTest, InvalidURL) {

@@ -63,32 +63,6 @@ int progress_callback_wrapper(void* clientp, curl_off_t dltotal, curl_off_t dlno
     return 0;
 }
 
-// Calculate SHA256 checksum of a file
-std::string calculate_sha256(const std::string& file_path) {
-    std::ifstream file(file_path, std::ios::binary);
-    if (!file.is_open()) {
-        return "";
-    }
-    
-    SHA256_CTX sha256;
-    SHA256_Init(&sha256);
-    
-    char buffer[8192];
-    while (file.read(buffer, sizeof(buffer)) || file.gcount() > 0) {
-        SHA256_Update(&sha256, buffer, file.gcount());
-    }
-    
-    unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256_Final(hash, &sha256);
-    
-    std::stringstream ss;
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
-    }
-    
-    return ss.str();
-}
-
 // ── Wave 2-C: insecure_model_url — Ollama URL validation ─────────────────────
 // Purpose: Prevent SSRF and credential-injection attacks via the ollama_url
 //          config value. Called by every outbound HTTP function before the URL

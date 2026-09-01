@@ -67,6 +67,7 @@ JWTValidator::JWTValidator(const std::string &jwks_url)
           .expected_audience           = std::nullopt,
           .cache_ttl                   = std::chrono::seconds(600),
           .clock_skew                  = std::chrono::seconds(60),
+          .revoked_kids                = {},
           .require_issuer_validation   = false,
           .require_audience_validation = false,
       }},

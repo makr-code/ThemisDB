@@ -93,6 +93,8 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 
 ### Wave C Scope for `governance`
 - [ ] Governance: harden policy-gate completeness and integrity under concurrent and high-volume policy loads, and validate governance enforcement across all active editions (Target: Q4 2026)
+- [~] **AuditBatchWriter p95/p99 latency tracking**: Implemented rolling-window (1 000 sample) percentile computation in `audit_batch_writer.cpp::recordMetrics()` (wave4 gap-closure 2026-08-31). Monitor accuracy under production load volumes.
+- [~] **PolicyChangeManager::executeRollback()**: Wired to `PolicyManager::rollbackToVersion()` — was previously a no-op stub (wave4 gap-closure 2026-08-31). Integration test coverage needed.
 
 ### Wave C Entry Gate (prerequisite from Wave B)
 - [ ] Wave B gate is closed: retrieval chain baselines stable, ACM observability gates closed, hardware baselines confirmed (Target: Q4 2026)

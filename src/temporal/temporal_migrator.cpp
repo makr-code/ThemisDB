@@ -239,21 +239,8 @@ std::pair<SystemVersionedTable, bool> TemporalMigrator::migrateToTemporal(
     bool overall_ok = true;
 
     for (const auto& [key, doc] : source_docs) {
-        // Determine creation timestamp: use _created_at field if present
-        Timestamp ts = plan.baseline_timestamp;
-        if (doc.is_object() && doc.contains("_created_at")) {
-            const auto& ca = doc["_created_at"];
-            if (ca.is_number_integer()) {
-                ts = ca.get<Timestamp>();
-            }
-        }
-
         // Insert into the versioned table.  SystemVersionedTable::insert()
-        // sets sys_start = now(); we then patch the first version's sys_start
-        // to the desired ts via the replaceHistoricalPayload/scan approach.
-        // For simplicity and correctness we use the table's insert() API with
-        // the understanding that sys_start reflects migration time; the caller
-        // can pass a pre-populated table via backfillHistory() for exact times.
+        // sets sys_start = now(); sys_start reflects migration time.
         bool inserted = table.insert(key, doc);
         if (inserted) {
             ++stats_.rows_migrated;

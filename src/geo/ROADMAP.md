@@ -128,6 +128,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 
 ### Wave D Contribution for `geo`
 - [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
+- [I] **GPU Batch Distance Kernels**: Integrate Vincenty CUDA kernel with `GeoBackendDispatch::batchVincentyDistance()` when `THEMIS_GEO_CUDA=ON`. Currently falls through to CPU path (wave4 gap-closure 2026-08-31). (Target: Q1 2027)
 - [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
 - [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
 

@@ -16,9 +16,6 @@ find_package(RocksDB REQUIRED)
 # Optional: YAML-CPP for configuration file support
 if(WITH_YAML)
     find_package(yaml-cpp)
-    if(yaml-cpp_FOUND)
-        target_compile_definitions(themis_docs_builder PRIVATE WITH_YAML_SUPPORT)
-    endif()
 endif()
 
 # Include directories
@@ -46,6 +43,10 @@ set(HEADERS
 
 # Executable
 add_executable(themis_docs_builder ${SOURCES} ${HEADERS})
+
+if(WITH_YAML AND yaml-cpp_FOUND)
+    target_compile_definitions(themis_docs_builder PRIVATE WITH_YAML_SUPPORT)
+endif()
 
 # Link libraries
 target_link_libraries(themis_docs_builder

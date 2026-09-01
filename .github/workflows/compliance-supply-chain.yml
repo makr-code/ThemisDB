@@ -24,8 +24,6 @@ on:
       - 'scripts/check_vcpkg_licenses.py'
       - 'tests/test_vcpkg_license_audit.py'
       - '.github/workflows/compliance-supply-chain.yml'
-      - '.github/WORKFLOW_GUIDELINES.md'
-      - '.github/WORKFLOW_REGISTRY.md'
       - '.gitmodules'
       - 'plugins/private/**'
       - 'cmake/PrivatePlugins.cmake'

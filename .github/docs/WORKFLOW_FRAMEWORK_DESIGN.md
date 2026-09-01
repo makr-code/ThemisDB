@@ -55,7 +55,7 @@ Der Repository-Standard fuer Issue-/Status-Tracking ist jetzt die gemeinsame Com
 - `upsert_issue`: vorhandene Tracker-Issue suchen, aktualisieren oder neu anlegen
 - `set_status`, `clear_status`, `replace_status_group`: Labels als Status-Signal verwalten
 - `comment_issue`: Issue- oder PR-Kommentare mit Marker-basierter Idempotenz schreiben
-- `close_issue`: abgeschlossene Tracker-Issues sauber schließen
+- `close_issue`: policy-disabled/no-op (keine automatische Schliessung in CI-Workflows)
 - `target-type`: optionales Target-Flag, damit ein Kommentar explizit als `issue`, `pr` oder `auto` adressiert werden kann
 
 ### 2.5.2 Migrationsstatus der Workflow-Landschaft
@@ -303,7 +303,7 @@ Empfohlene Sub-Workflows (kanonisch):
 
 Ziel:
 - Alle Workflows setzen/entfernen Status-Labels ueber denselben Pfad.
-- Alle Workflows erstellen/aktualisieren/schliessen Issues ueber denselben Pfad.
+- Alle Workflows erstellen/aktualisieren Issues ueber denselben Pfad; Schliessungen sind in CI deaktiviert.
 - Keine ad-hoc GitHub API Skripte mehr pro Workflow fuer diese Aufgaben.
 
 Kanonische Schnittstelle:
@@ -320,7 +320,7 @@ Operationen (Input `operation`):
 - `clear_status`: Label(s) von Ziel-Issue entfernen
 - `replace_status_group`: atomarer Austausch innerhalb einer Label-Gruppe
 - `upsert_issue`: bestehendes Tracker-Issue finden oder neu erstellen
-- `close_issue`: bestehendes Issue mit `state_reason` schliessen
+- `close_issue`: policy-disabled/no-op
 - `comment_issue`: standardisierten Kommentar anhaengen
 
 Pflicht-Inputs:

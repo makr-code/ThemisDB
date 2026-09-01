@@ -148,7 +148,11 @@ struct LoRAInfo {
 };
 
 /**
- * @brief Inference request parameters
+ * @brief Inference request parameters.
+ *
+ * Bundles prompt text, model selection, generation controls, tracing
+ * metadata, and optional tool-calling or multimodal inputs for a single
+ * inference request.
  */
 struct InferenceRequest {
     std::string prompt;
@@ -229,7 +233,7 @@ struct InferenceResponse {
     virtual ~InferenceResponse() = default;
 
     /// @brief Move constructor — transfers all members including containers and optional fields.
-    /// @note Move semantics: std::vector/std::string members moved; source left valid-empty.
+    /// @note Move semantics: @c std::vector and @c std::string members are moved; source remains valid-empty.
     InferenceResponse(InferenceResponse&&) noexcept = default;
 
     /// @brief Move assignment operator.
@@ -291,7 +295,7 @@ struct RAGContext {
     virtual ~RAGContext() = default;
 
     /// @brief Move constructor — transfers query, collection, documents, and all parameters.
-    /// @note Move semantics: std::string/std::vector members moved; source left valid-empty.
+    /// @note Move semantics: @c std::string and @c std::vector members are moved; source remains valid-empty.
     RAGContext(RAGContext&&) noexcept = default;
 
     /// @brief Move assignment operator.
@@ -429,7 +433,8 @@ public:
     };
 
     // ─────────────────────────────────────────────────────────────────────
-    // STUB #261 bridge — callback injection for generateDraftTokens()
+    // STUB #261 — Production Injection Point (wired by
+    //   InferenceEngineEnhanced::trySpeculativeGeneration, 2026-08-27)
     // ─────────────────────────────────────────────────────────────────────
 
     /// Callback type that replaces the default heuristic implementation of
@@ -514,7 +519,8 @@ public:
 
 private:
     // Inline static storage for the default generateDraftTokens() injection
-    // (STUB #261 bridge).  Using inline static avoids a separate .cpp TU.
+    // (STUB #261 — Production Injection Point, wired 2026-08-27).
+    // Using inline static avoids a separate .cpp TU.
     // Placed in a private section between two public ones so that the injected
     // state cannot be accessed directly; access is exclusively through the
     // public static setter setDefaultGenerateDraftTokensFn().
@@ -675,4 +681,3 @@ private:
         themis::llm::ILLMPlugin* themis_llm_create();                             \
     extern "C" THEMIS_PLUGIN_EXPORT                                                \
         void themis_llm_destroy(themis::llm::ILLMPlugin* p)
-

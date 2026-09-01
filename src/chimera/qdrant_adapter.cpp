@@ -60,11 +60,23 @@ Result<bool> QdrantAdapter::connect(
     }
 
     connection_string_ = mask_credentials(connection_string);
-    
-    // TODO: Actual gRPC client connection
-    connected_ = true;
-    
-    return Result<bool>::ok(true);
+
+#ifdef THEMIS_CHIMERA_QDRANT
+    // NOT IMPLEMENTED: Requires qdrant-client-cpp. Gate: THEMIS_CHIMERA_QDRANT
+    // TODO: Actual gRPC channel creation to Qdrant endpoint
+    connection_string_.clear();
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Qdrant adapter unavailable: gRPC client setup is not implemented yet."
+    );
+#else
+    connection_string_.clear();
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Qdrant adapter unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_QDRANT=ON to enable."
+    );
+#endif
 }
 
 Result<bool> QdrantAdapter::disconnect() {
@@ -131,9 +143,18 @@ Result<std::string> QdrantAdapter::insert_vector(
         );
     }
 
-    // TODO: Insert vector into Qdrant collection
+#ifdef THEMIS_CHIMERA_QDRANT
+    // NOT IMPLEMENTED: Requires qdrant-client-cpp. Gate: THEMIS_CHIMERA_QDRANT
+    // TODO: Upsert point via gRPC UpsertPoints RPC
     const std::string id = generate_id();
     return Result<std::string>::ok(id);
+#else
+    return Result<std::string>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Qdrant insert_vector unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_QDRANT=ON to enable."
+    );
+#endif
 }
 
 Result<size_t> QdrantAdapter::batch_insert_vectors(
@@ -170,9 +191,18 @@ Result<std::vector<std::pair<Vector, double>>> QdrantAdapter::search_vectors(
         );
     }
 
-    // TODO: Execute KNN search against Qdrant
+#ifdef THEMIS_CHIMERA_QDRANT
+    // NOT IMPLEMENTED: Requires qdrant-client-cpp. Gate: THEMIS_CHIMERA_QDRANT
+    // TODO: Execute KNN search via gRPC Search RPC with payload filter
     std::vector<std::pair<Vector, double>> results;
     return Result<std::vector<std::pair<Vector, double>>>::ok(std::move(results));
+#else
+    return Result<std::vector<std::pair<Vector, double>>>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Qdrant search_vectors unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_QDRANT=ON to enable."
+    );
+#endif
 }
 
 Result<bool> QdrantAdapter::create_index(
@@ -187,8 +217,17 @@ Result<bool> QdrantAdapter::create_index(
         );
     }
 
-    // TODO: Create vector index with specified distance metric
+#ifdef THEMIS_CHIMERA_QDRANT
+    // NOT IMPLEMENTED: Requires qdrant-client-cpp. Gate: THEMIS_CHIMERA_QDRANT
+    // TODO: Create collection with VectorParams (size, distance metric) via gRPC
     return Result<bool>::ok(true);
+#else
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Qdrant create_index unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_QDRANT=ON to enable."
+    );
+#endif
 }
 
 // ---------------------------------------------------------------------------
@@ -370,7 +409,7 @@ Result<SystemInfo> QdrantAdapter::get_system_info() const {
     SystemInfo info;
     info.adapter_name = "Qdrant";
     info.adapter_version = "0.1.0";
-    info.database_version = "1.0.0";  // TODO: Query actual server version
+    info.database_version = "unknown";  // NOT IMPLEMENTED: Query via qdrant-client-cpp requires THEMIS_CHIMERA_QDRANT
     return Result<SystemInfo>::ok(std::move(info));
 }
 
@@ -490,7 +529,8 @@ bool QdrantAdapter::is_valid_connection_string(const std::string& cs) {
 }
 
 std::string QdrantAdapter::mask_credentials(const std::string& cs) {
-    // TODO: Mask API keys if present
+    // NOT IMPLEMENTED: Full API key masking requires URL parsing.
+    // Gate: THEMIS_CHIMERA_QDRANT. For safety, return as-is; do not log raw cs.
     return cs;
 }
 

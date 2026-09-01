@@ -11,12 +11,15 @@
 
 #include "llm/inference_engine_enhanced.h"
 #include <stdexcept>
+#include "llama_cpp/llama_cpp_plugin.h"
+#include "llm/llama_wrapper.h"
 #include "llm/lookup_decoder.h"
 #include "llm/model_router.h"
 #include "llm/prompt_safety_utils.h"
 #include "llm/scoped_db_connection.h"
 #include "llm/shared_worker_pool.h"
 #include "llm/speculative_decoder.h"
+#include "rag/targ_retrieval.h"
 #include "sharding/remote_executor.h"
 #include <spdlog/spdlog.h>
 #include "utils/thread_join_utils.h"
@@ -53,6 +56,128 @@ void applySelfRAGDouble(const json& cfg_json, const char* key, double& target) {
 
 json makeSelfRAGMetadataObject() {
     return json::object();
+}
+
+float computeExactEntropyFromLogits(const std::vector<float>& logits) {
+    if (logits.empty()) {
+        return 0.0f;
+    }
+
+    const float max_v = *std::max_element(logits.begin(), logits.end());
+    double sum_exp = 0.0;
+    for (const float value : logits) {
+        sum_exp += std::exp(static_cast<double>(value - max_v));
+    }
+
+    if (!(sum_exp > 0.0) || !std::isfinite(sum_exp)) {
+        return 0.0f;
+    }
+
+    double entropy = 0.0;
+    for (const float value : logits) {
+        const double probability =
+            std::exp(static_cast<double>(value - max_v)) / sum_exp;
+        if (probability > 0.0) {
+            entropy -= probability * std::log(probability);
+        }
+    }
+
+    return static_cast<float>(entropy);
+}
+
+themis::rag::TARGRetrieval::FullEntropyFn makeSpeculativeEntropyBridgeFn(
+    const std::vector<std::vector<float>>& target_logit_matrix
+) {
+    if (target_logit_matrix.empty()) {
+        return {};
+    }
+
+    std::vector<std::pair<std::vector<float>, float>> cached_rows;
+    cached_rows.reserve(target_logit_matrix.size());
+    for (const auto& row : target_logit_matrix) {
+        cached_rows.emplace_back(row, computeExactEntropyFromLogits(row));
+    }
+
+    return [cached_rows = std::move(cached_rows)](const std::vector<float>& logits) -> float {
+        for (const auto& cached : cached_rows) {
+            if (cached.first.size() == logits.size() &&
+                std::equal(cached.first.begin(), cached.first.end(), logits.begin())) {
+                return cached.second;
+            }
+        }
+        return computeExactEntropyFromLogits(logits);
+    };
+}
+
+InferenceEngineEnhanced::TokenizerFn makeTokenizerBridgeForPlugin(
+    const std::shared_ptr<ILLMPlugin>& plugin
+) {
+    const auto llama_plugin = std::dynamic_pointer_cast<LlamaWrapper>(plugin);
+    if (!llama_plugin) {
+        return {};
+    }
+
+    return [llama_plugin](const std::string& text, size_t vocab_size) {
+        std::vector<int> tokens = llama_plugin->tokenizeForBridge(text, true);
+        if (tokens.empty()) {
+            return tokens;
+        }
+
+        if (vocab_size == 0) {
+            return tokens;
+        }
+
+        std::vector<int> clamped;
+        clamped.reserve(tokens.size());
+        const int max_token = static_cast<int>(
+            std::min(vocab_size - 1,
+                     static_cast<size_t>(std::numeric_limits<int>::max())));
+        for (const int token : tokens) {
+            clamped.push_back(std::max(0, std::min(token, max_token)));
+        }
+        return clamped;
+    };
+}
+
+[[nodiscard]] bool supportsTokenizerlessNativeDraftTokens(
+    const std::shared_ptr<ILLMPlugin>& plugin
+) {
+    if (!plugin) {
+        return false;
+    }
+
+    if (std::dynamic_pointer_cast<LlamaWrapper>(plugin)) {
+        return true;
+    }
+
+    const auto info = plugin->getModelInfo();
+    return info.has_value() && info->architecture == "llama";
+}
+
+[[nodiscard]] bool tryComputeNativeTargetLogitsForPlugin(
+    const InferenceRequest& request,
+    const std::vector<int>& draft_tokens,
+    const std::shared_ptr<ILLMPlugin>& plugin,
+    std::vector<std::vector<float>>& out_target_logits
+) {
+    if (!plugin) {
+        return false;
+    }
+
+    if (const auto llama_wrapper = std::dynamic_pointer_cast<LlamaWrapper>(plugin)) {
+        out_target_logits =
+            llama_wrapper->computeTargetLogitsForTokens(request, draft_tokens);
+        return true;
+    }
+
+    if (const auto llama_cpp =
+            std::dynamic_pointer_cast<llamacpp::LlamaCppPlugin>(plugin)) {
+        out_target_logits =
+            llama_cpp->computeTargetLogitsForTokens(request, draft_tokens);
+        return true;
+    }
+
+    return false;
 }
 
 } // namespace
@@ -108,7 +233,7 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(const Config& config)
         spdlog::info("  Batch scheduler initialized (max batch size: {})", 
                      sched_config.max_batch_size);
     }
-    
+
     spdlog::info("Enhanced Inference Engine initialized successfully");
 
     // Initialise speculative decoder when requested.
@@ -213,6 +338,17 @@ void InferenceEngineEnhanced::setSelfRAGCriticCallback(SelfRAGCriticCallback cb)
 void InferenceEngineEnhanced::setTargetLogitsFn(TargetLogitsFn fn) {
     std::lock_guard<std::mutex> lock(target_logits_fn_mutex_);
     target_logits_fn_ = std::move(fn);
+}
+
+// ── setTokenizerFn / clearTokenizerFn ────────────────────────────────────────
+void InferenceEngineEnhanced::setTokenizerFn(TokenizerFn fn) {
+    std::lock_guard<std::mutex> lock(tokenizer_fn_mutex_);
+    tokenizer_fn_ = std::move(fn);
+}
+
+void InferenceEngineEnhanced::clearTokenizerFn() {
+    std::lock_guard<std::mutex> lock(tokenizer_fn_mutex_);
+    tokenizer_fn_ = nullptr;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1975,7 +2111,6 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                      vocab_size);
         vocab_size = 32000u;
     }
-    const int vocab_size_int = static_cast<int>(vocab_size);
 
     // ── Remote draft path ─────────────────────────────────────────────────
     // When a remote draft shard is configured and a RemoteExecutor is injected,
@@ -1999,9 +2134,8 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     ILLMPlugin::DraftTokensResult draft_result;
 
     if (use_remote) {
-        // Fetch draft text from the remote shard and convert to token IDs +
-        // peaked logit distributions using the same byte-modulo heuristic as
-        // the local generateDraftTokens() path (see STUB/SIMULATION NOTE below).
+        // Fetch draft text from the remote shard and convert it through a real
+        // tokenizer bridge when available; otherwise retry locally.
         std::string remote_text;
         try {
             const nlohmann::json body = {
@@ -2033,52 +2167,189 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
 
         if (!remote_text.empty()) {
             // Convert remote text to token IDs + logit distributions.
+            // ── Primary path: use the injected TokenizerFn when available ────
+            // ── Fallback:     retry the local draft model when no tokenizer
+            //                   bridge is available for the remote text ─────────
+            TokenizerFn tok_fn_copy;
+            {
+                std::lock_guard<std::mutex> lk(tokenizer_fn_mutex_);
+                tok_fn_copy = tokenizer_fn_;
+            }
+            if (!tok_fn_copy) {
+                tok_fn_copy = makeTokenizerBridgeForPlugin(draft_plugin);
+            }
+            if (!tok_fn_copy) {
+                tok_fn_copy = makeTokenizerBridgeForPlugin(target_plugin);
+            }
+
             constexpr float kPeak     =  5.0f;
             constexpr float kBaseline = -5.0f;
             draft_result.vocab_size = vocab_size;
-            for (size_t i = 0; i < K; ++i) {
-                const size_t tid_raw = (i < remote_text.size())
-                    ? (static_cast<size_t>(static_cast<unsigned char>(remote_text[i])) %
-                       vocab_size)
-                    : 0u;
-                const int tid = static_cast<int>(std::min(
-                    tid_raw,
-                    static_cast<size_t>(std::numeric_limits<int>::max())));
-                draft_result.tokens.push_back(tid);
-                std::vector<float> row(vocab_size, kBaseline);
-                row[static_cast<size_t>(tid)] = kPeak;
-                draft_result.logits.push_back(std::move(row));
+
+            if (!tok_fn_copy) {
+                spdlog::info("Remote draft shard '{}' returned text but no tokenizer bridge "
+                             "is available; retrying with the local draft model",
+                             remote_shard.shard_id);
+            } else {
+                try {
+                    const std::vector<int> tok_ids =
+                        tok_fn_copy(remote_text, vocab_size);
+                    if (!tok_ids.empty()) {
+                        for (size_t i = 0; i < K; ++i) {
+                            const int tid = (i < tok_ids.size())
+                                ? tok_ids[i] : 0;
+                            draft_result.tokens.push_back(tid);
+                            std::vector<float> row(vocab_size, kBaseline);
+                            const size_t idx = static_cast<size_t>(
+                                std::max(0, std::min(tid,
+                                    static_cast<int>(vocab_size) - 1)));
+                            row[idx] = kPeak;
+                            draft_result.logits.push_back(std::move(row));
+                        }
+                        spdlog::debug("Remote draft: TokenizerFn produced {} "
+                                      "token IDs", tok_ids.size());
+                    } else {
+                        spdlog::warn("TokenizerFn returned empty token list for remote draft "
+                                     "text — retrying with the local draft model");
+                    }
+                } catch (const std::exception& e) {
+                    spdlog::warn("TokenizerFn threw for remote draft text: {} — retrying "
+                                 "with the local draft model", e.what());
+                }
             }
         }
     }
 
     // ── Local draft path (fallback or primary) ────────────────────────────
-    // STUB/SIMULATION NOTE:
-    // Purpose: generateDraftTokens() maps generated text to token IDs using
-    //          UTF-8 byte values modulo vocab_size as a surrogate tokenizer.
-    //          This provides a functional draft-token stream without requiring
-    //          a real vocabulary or tokenizer to be bundled with the plugin.
-    // Activation: Active whenever the ILLMPlugin::generateDraftTokens()
-    //             implementation uses the byte-modulo heuristic internally
-    //             (i.e., before a real BPE/SentencePiece tokenizer is wired).
-    // Production Delta: Byte-modulo IDs do not correspond to real vocabulary
-    //                   entries; acceptance rates in speculative decoding will
-    //                   be lower than with a proper tokenizer.  A real tokenizer
-    //                   integration will raise acceptance rates by 15-40 %.
-    // Removal Plan: Replace the byte-modulo mapping inside each plugin's
-    //               generateDraftTokens() with a proper tokenizer call once
-    //               the ThemisDB tokenizer bridge (ROADMAP §"Tokenizer v2") is
-    //               merged (Target: v1.8.0).
+    // STUB #261 — Production Injection Point (wired by
+    //   InferenceEngineEnhanced::trySpeculativeGeneration, 2026-08-27)
+    //
+    // When a TokenizerFn is registered on this engine, it is bridged into
+    // ILLMPlugin::setDefaultGenerateDraftTokensFn() so that the plugin's
+    // generateDraftTokens() calls the real tokenizer instead of the byte-modulo
+    // heuristic.  The bridge lambda:
+    //   1. Captures draft_plugin by value (shared_ptr copy) — safe across threads.
+    //   2. Calls draft_plugin->generate() to obtain draft text.
+    //   3. Runs the TokenizerFn over that text to produce real token IDs.
+    //   4. Returns an empty draft result if the TokenizerFn throws or returns
+    //      empty, causing the caller to fall back to the target model path
+    //      instead of fabricating byte-modulo token IDs.
+    // After the call the injected fn is cleared to avoid global-state pollution
+    // (ILLMPlugin::s_default_draft_fn_ is process-wide).
     if (draft_result.tokens.empty()) {
         InferenceRequest draft_request = request;
         draft_request.stream_callback  = nullptr;
+
+        // ── Bridge: inject TokenizerFn into ILLMPlugin when available ────
+        TokenizerFn tok_fn_copy;
+        {
+            std::lock_guard<std::mutex> lk(tokenizer_fn_mutex_);
+            tok_fn_copy = tokenizer_fn_;
+        }
+        if (!tok_fn_copy) {
+            tok_fn_copy = makeTokenizerBridgeForPlugin(draft_plugin);
+        }
+        if (!tok_fn_copy) {
+            tok_fn_copy = makeTokenizerBridgeForPlugin(target_plugin);
+        }
+
+        const bool allow_native_draft_tokens =
+            supportsTokenizerlessNativeDraftTokens(draft_plugin);
+
+        if (!tok_fn_copy && !allow_native_draft_tokens) {
+            const auto draft_info = draft_plugin ? draft_plugin->getModelInfo() : std::nullopt;
+            const std::string draft_model_id = (draft_info && !draft_info->model_id.empty())
+                ? draft_info->model_id : "(unknown draft model)";
+            spdlog::info("Speculative draft model '{}' has no tokenizer bridge or "
+                         "known native draft-token implementation; falling back "
+                         "to target generation",
+                         config_.speculative_draft_model_id);
+            return false;
+        }
+
+        if (tok_fn_copy) {
+            // Capture draft_plugin by value so the lambda is self-contained and
+            // safe even if this method returns before the fn is cleared.
+            auto local_draft_plugin   = draft_plugin;
+            const size_t vocab_cap    = vocab_size;
+            constexpr float kPeak     =  5.0f;
+            constexpr float kBaseline = -5.0f;
+
+            ILLMPlugin::setDefaultGenerateDraftTokensFn(
+                [local_draft_plugin, tok_fn_copy, vocab_cap,
+                 kPeak, kBaseline](
+                    const InferenceRequest& req,
+                    size_t k,
+                    size_t vocab_size_hint) -> ILLMPlugin::DraftTokensResult
+                {
+                    const size_t vocab = (vocab_size_hint > 0)
+                        ? vocab_size_hint : vocab_cap;
+
+                    // Step 1: obtain draft text from the plugin.
+                    InferenceRequest gen_req = req;
+                    gen_req.max_tokens      = static_cast<int>(k);
+                    gen_req.stream_callback = nullptr;
+                    const auto resp = local_draft_plugin->generate(gen_req);
+
+                    // Step 2: tokenize draft text.
+                    ILLMPlugin::DraftTokensResult result;
+                    result.vocab_size = vocab;
+                    bool used_real_tokenizer = false;
+
+                    try {
+                        const auto ids = tok_fn_copy(resp.text, vocab);
+                        if (!ids.empty()) {
+                            result.tokens.reserve(k);
+                            result.logits.reserve(k);
+                            for (size_t i = 0; i < k; ++i) {
+                                const int tid = (i < ids.size()) ? ids[i] : 0;
+                                result.tokens.push_back(tid);
+                                std::vector<float> row(vocab, kBaseline);
+                                const size_t idx = static_cast<size_t>(
+                                    std::max(0, std::min(tid,
+                                        static_cast<int>(vocab) - 1)));
+                                row[idx] = kPeak;
+                                result.logits.push_back(std::move(row));
+                            }
+                            used_real_tokenizer = true;
+                            spdlog::debug("Local draft (STUB #261 bridge): "
+                                          "TokenizerFn produced {} token IDs",
+                                          ids.size());
+                        } else {
+                            spdlog::warn("Local draft (STUB #261 bridge): "
+                                         "TokenizerFn returned empty list — "
+                                         "falling back to target generation");
+                        }
+                    } catch (const std::exception& ex) {
+                        spdlog::warn("Local draft (STUB #261 bridge): "
+                                     "TokenizerFn threw: {} — falling back to "
+                                     "target generation", ex.what());
+                    }
+
+                    if (!used_real_tokenizer) {
+                        result.tokens.clear();
+                        result.logits.clear();
+                    }
+                    return result;
+                });
+        }
+
         try {
             draft_result = draft_plugin->generateDraftTokens(
                 draft_request, K, vocab_size);
         } catch (const std::exception& e) {
+            // Always clear the injected fn even on failure.
+            if (tok_fn_copy) {
+                ILLMPlugin::setDefaultGenerateDraftTokensFn(nullptr);
+            }
             spdlog::warn("Draft model generateDraftTokens failed: {} — "
                          "falling back to target", e.what());
             return false;
+        }
+
+        // Clear the injected fn to prevent global state pollution.
+        if (tok_fn_copy) {
+            ILLMPlugin::setDefaultGenerateDraftTokensFn(nullptr);
         }
     }
 
@@ -2088,22 +2359,10 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     }
 
     // ── Target logit estimation ───────────────────────────────────────────
-    // STUB/SIMULATION NOTE:
-    // Purpose: When no TargetLogitsFn is injected, a single generate(max_tokens=1)
-    //          call is used to obtain the target's most-likely next token, and
-    //          peaked distributions (kPeak / kBaseline) are synthesised for all
-    //          K+1 positions as a placeholder logit matrix.
-    // Activation: Active when setTargetLogitsFn() has not been called, or when
-    //             the injected function returns a wrong-shape result.
-    // Production Delta: The peaked heuristic overstates target confidence and
-    //                   skips the K-token forward pass; a real implementation
-    //                   would run a single batched forward pass over all K draft
-    //                   tokens and return the true conditional logit matrix.
-    // Removal Plan: Implement a batched forward-pass bridge in each plugin's
-    //               getTargetLogits() and register it via setTargetLogitsFn()
-    //               at startup (Target: v1.8.0, ROADMAP §"Speculative Decoding v2").
-    // Try the injected TargetLogitsFn first; fall back to the single-token
-    // peaked-distribution heuristic when no fn is set.
+    // Prefer an injected TargetLogitsFn. When none is available (or it returns
+    // invalid output), auto-use a native llama-backed target-logit bridge when
+    // the target plugin exposes one. Unsupported generic plugins fail closed
+    // back to the normal target-generation path instead of fabricating logits.
     TargetLogitsFn target_logits_fn_copy;
     {
         std::lock_guard<std::mutex> lk(target_logits_fn_mutex_);
@@ -2112,6 +2371,8 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
 
     std::vector<std::vector<float>> target_logit_matrix;
     bool used_injected_logits = false;
+    bool used_global_target_logits_fn = false;
+    bool used_native_target_logits_bridge = false;
     if (target_logits_fn_copy) {
         try {
             target_logit_matrix = target_logits_fn_copy(request, K, vocab_size, target_plugin);
@@ -2122,63 +2383,63 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                     if (row.size() != vocab_size) { valid = false; break; }
                 }
                 used_injected_logits = valid;
+                used_global_target_logits_fn = valid;
                 if (!valid) {
                     target_logit_matrix.clear();
                     spdlog::warn("TargetLogitsFn returned wrong shape — "
-                                 "falling back to heuristic");
+                                 "trying native target-logit bridge");
                 }
             } else {
                 const size_t actual_rows = target_logit_matrix.size();
                 target_logit_matrix.clear();
                 spdlog::warn("TargetLogitsFn returned {} rows (expected {}) — "
-                             "falling back to heuristic",
+                             "trying native target-logit bridge",
                              actual_rows, K + 1);
             }
         } catch (const std::exception& e) {
             target_logit_matrix.clear();
-            spdlog::warn("TargetLogitsFn threw: {} — falling back to heuristic",
+            spdlog::warn("TargetLogitsFn threw: {} — trying native target-logit bridge",
                          e.what());
         }
     }
 
     if (!used_injected_logits) {
-        // Built-in heuristic: single generate(max_tokens=1) call to obtain the
-        // target's most-likely next token; peaked distributions for all K+1 rows.
-        constexpr float kTargetPeak     =  5.0f;
-        constexpr float kTargetBaseline = -5.0f;
-
-        int target_pred_token = 0;
-        {
-            InferenceRequest one_tok_req = request;
-            one_tok_req.max_tokens      = 1;
-            one_tok_req.stream_callback = nullptr;
-            try {
-                const auto tgt_resp = target_plugin->generate(one_tok_req);
-                if (!tgt_resp.text.empty()) {
-                    target_pred_token =
-                        static_cast<int>(static_cast<unsigned char>(tgt_resp.text[0])) %
-                        vocab_size_int;
-                }
-            } catch (...) {
-                THEMIS_WARN("inference_engine_enhanced: unhandled exception caught");
-                // Non-fatal: keep target_pred_token = 0.
-            }
+        try {
+            used_native_target_logits_bridge = tryComputeNativeTargetLogitsForPlugin(
+                request,
+                draft_result.tokens,
+                target_plugin,
+                target_logit_matrix);
+            used_injected_logits = used_native_target_logits_bridge;
+        } catch (const std::exception& e) {
+            target_logit_matrix.clear();
+            spdlog::warn("Native target-logit bridge failed: {} — falling back "
+                         "to target generation",
+                         e.what());
         }
+    }
 
-        auto make_target_row = [&](int peak_token) {
-            std::vector<float> row(vocab_size, kTargetBaseline);
-            row[static_cast<size_t>(
-                std::max(0, peak_token) % vocab_size_int)] = kTargetPeak;
-            return row;
-        };
+    if (!used_injected_logits) {
+        spdlog::info("Speculative target model has no usable target-logit bridge; "
+                     "falling back to target generation");
+        return false;
+    }
 
-        target_logit_matrix.resize(K + 1);
-        for (size_t i = 0; i < K; ++i) {
-            target_logit_matrix[i] = make_target_row(target_pred_token);
+    if (target_logit_matrix.size() != K + 1) {
+        spdlog::warn("Target-logit bridge returned {} rows (expected {}) — "
+                     "falling back to target generation",
+                     target_logit_matrix.size(),
+                     K + 1);
+        return false;
+    }
+    for (const auto& row : target_logit_matrix) {
+        if (row.size() != vocab_size) {
+            spdlog::warn("Target-logit bridge returned vocab row size {} (expected {}) "
+                         "— falling back to target generation",
+                         row.size(),
+                         vocab_size);
+            return false;
         }
-        // Bonus position: use a token shifted by 1 to distinguish from verification.
-        target_logit_matrix[K] = make_target_row(
-            (target_pred_token + 1) % vocab_size_int);
     }
 
     // ── Acceptance / rejection loop ───────────────────────────────────────
@@ -2194,6 +2455,11 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
 
     recordSpeculativeStep(verify_result);
 
+    auto speculative_entropy_bridge_fn =
+        makeSpeculativeEntropyBridgeFn(target_logit_matrix);
+    themis::rag::TARGRetrieval::ScopedFullEntropyFnOverride
+        speculative_entropy_bridge_scope(std::move(speculative_entropy_bridge_fn));
+
     // Run the target model to produce the actual output.
     // In a production llama.cpp integration this would re-use the KV cache
     // built during draft verification; here we generate from scratch.
@@ -2203,6 +2469,15 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
             static_cast<uint64_t>(verify_result.num_accepted);
         response.metadata["speculative_all_accepted"] = verify_result.all_accepted;
         response.metadata["speculative_acceptance_rate"] = verify_result.acceptance_rate;
+        response.metadata["speculative_targ_entropy_bridge"] = {
+            {"active", true},
+            {"cached_rows", static_cast<uint64_t>(target_logit_matrix.size())},
+            {"source", used_native_target_logits_bridge
+                ? "native_target_logits"
+                : (used_global_target_logits_fn
+                    ? "injected_target_logits"
+                    : "unknown")},
+        };
     } catch (const std::exception& e) {
         spdlog::warn("Target model generation failed in speculative path: {}", e.what());
         return false;
@@ -2329,4 +2604,3 @@ std::string InferenceEngineEnhanced::resolveDraftModelId(
 
 } // namespace llm
 } // namespace themis
-

@@ -20,10 +20,12 @@
 #include "version.h"
 #include <boost/beast/core.hpp>
 #include <algorithm>
+#include <cstdlib>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <cctype>
+#include <charconv>
 #include "utils/logger.h"
 
 namespace {
@@ -51,36 +53,85 @@ namespace {
         return result;
     }
     
+    bool containsControlCharacters(const std::string& input) {
+        return std::any_of(input.begin(), input.end(), [](unsigned char c) {
+            return c == '\0' || (std::iscntrl(c) && c != '\t' && c != '\n' && c != '\r');
+        });
+    }
+
+    bool isIntegerOid(int32_t paramType) {
+        return paramType == 20 || paramType == 21 || paramType == 23;
+    }
+
+    bool isFloatingOid(int32_t paramType) {
+        return paramType == 700 || paramType == 701 || paramType == 1700;
+    }
+
+    bool isBooleanOid(int32_t paramType) {
+        return paramType == 16;
+    }
+
+    std::string replaceAllPlaceholders(
+        std::string query,
+        const std::vector<std::pair<std::string, std::string>>& replacements) {
+        for (const auto& [placeholder, value] : replacements) {
+            size_t pos = 0;
+            while ((pos = query.find(placeholder, pos)) != std::string::npos) {
+                const size_t next = pos + placeholder.size();
+                const bool digit_continuation = next < query.size() &&
+                    std::isdigit(static_cast<unsigned char>(query[next]));
+                if (digit_continuation) {
+                    pos = next;
+                    continue;
+                }
+                query.replace(pos, placeholder.length(), value);
+                pos += value.length();
+            }
+        }
+        return query;
+    }
+
     // Helper function to safely bind parameter value
     std::string bindParameterValue(const std::string& param, int32_t paramType) {
         // Handle NULL
         if (param == "NULL") {
             return "NULL";
         }
-        
-        // For numeric types, validate and pass through
-        if (paramType == 20 || paramType == 21 || paramType == 23 ||  // int8, int2, int4
-            paramType == 700 || paramType == 701) {  // float4, float8
-            // Basic numeric validation
-            bool isValid = true;
-            bool hasDot = false;
-            for (size_t i = 0; i < param.size(); ++i) {
-                char c = param[i];
-                if (i == 0 && (c == '-' || c == '+')) continue;
-                if (c == '.' && !hasDot) {
-                    hasDot = true;
-                    continue;
-                }
-                if (!std::isdigit(c)) {
-                    isValid = false;
-                    break;
-                }
-            }
-            if (isValid && !param.empty()) {
-                return param;
-            }
+        if (containsControlCharacters(param)) {
+            throw std::runtime_error("bound parameter contains control characters");
         }
-        
+
+        if (isIntegerOid(paramType)) {
+            int64_t value = 0;
+            const auto* begin = param.data();
+            const auto* end = begin + param.size();
+            const auto result = std::from_chars(begin, end, value);
+            if (result.ec != std::errc{} || result.ptr != end) {
+                throw std::runtime_error("invalid integer bound parameter");
+            }
+            return param;
+        }
+
+        if (isFloatingOid(paramType)) {
+            char* parse_end = nullptr;
+            const auto numeric = std::strtod(param.c_str(), &parse_end);
+            static_cast<void>(numeric);
+            if (parse_end == nullptr || parse_end != param.c_str() + param.size()) {
+                throw std::runtime_error("invalid floating-point bound parameter");
+            }
+            return param;
+        }
+
+        if (isBooleanOid(paramType)) {
+            if (param == "t" || param == "true" || param == "1") {
+                return "TRUE";
+            }
+            if (param == "f" || param == "false" || param == "0") {
+                return "FALSE";
+            }
+            throw std::runtime_error("invalid boolean bound parameter");
+        }
+
         // For all other types (text, varchar, etc.), escape and quote
         return "'" + escapeSQLString(param) + "'";
     }
@@ -510,18 +561,17 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
         const auto& params = portalData.params;
         const auto& paramTypes = preparedStmt.paramTypes;
         
-        // Replace $1, $2, etc. with properly escaped parameter values
+        // Replace $1, $2, etc. using typed, placeholder-safe literal binding.
+        std::vector<std::pair<std::string, std::string>> replacements;
+        replacements.reserve(params.size());
         for (size_t i = 0; i < params.size(); ++i) {
             std::string placeholder = "$" + std::to_string(i + 1);
             int32_t paramType = (i < paramTypes.size()) ? paramTypes[i] : 25; // default to text
-            std::string escapedValue = bindParameterValue(params[i], paramType);
-            
-            size_t pos = 0;
-            while ((pos = query.find(placeholder, pos)) != std::string::npos) {
-                query.replace(pos, placeholder.length(), escapedValue);
-                pos += escapedValue.length();
-            }
+            replacements.emplace_back(std::move(placeholder), bindParameterValue(params[i], paramType));
         }
+        std::sort(replacements.begin(), replacements.end(),
+                  [](const auto& lhs, const auto& rhs) { return lhs.first.size() > rhs.first.size(); });
+        query = replaceAllPlaceholders(std::move(query), replacements);
         
         // If this is the first execution, fetch and cache results
         if (!portalData.resultsComplete && portalData.currentRow == 0) {
@@ -2307,4 +2357,3 @@ std::string PostgresSession::translateQuery(const std::string& postgresQuery) {
 }
 
 #endif // THEMIS_ENABLE_POSTGRES_WIRE
-

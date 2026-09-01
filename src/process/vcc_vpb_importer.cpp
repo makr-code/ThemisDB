@@ -272,7 +272,6 @@ json parseVccVpbYaml(const std::string& yaml_text) {
         bool in_activities = false;
         bool in_activity   = false;
         json current_activity = json::object();
-        int  activity_indent  = -1;
         
         // Pre-compile regexes for activities block (static const, compiled once)
         static const std::regex activities_header_re(R"(^activities\s*:)");  // NOLINT(readability-static-accessed-through-instance)
@@ -311,7 +310,6 @@ json parseVccVpbYaml(const std::string& yaml_text) {
                     current_activity = json::object();
                 }
                 in_activity    = true;
-                activity_indent = indent;
 
                 // Check if first key is on same line: "- id: foo"
                 std::string rest = (trimmed.size() > 2) ? trimStr(trimmed.substr(2)) : "";

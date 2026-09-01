@@ -163,12 +163,11 @@ public:
     static std::unique_ptr<RedisCache> create(const RedisCacheConfig& config);
 
     /**
-    /**
      * @brief Release Redis connections, stop the subscriber thread, and shut
      *        the cache down.
      *
      * Shutdown is idempotent; callers may invoke it multiple times.
-    */
+     */
     ~RedisCache() override;
 
     // Non-copyable, non-movable (background thread + sockets).

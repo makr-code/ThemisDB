@@ -403,7 +403,8 @@ public:
             .examples = {
                 R"(JSON_SET({a: 1}, "$.b", 2) // {a: 1, b: 2})",
                 R"(JSON_SET({arr: []}, "$.arr[0]", "hello") // {arr: ["hello"]})"
-            }
+            },
+            .cost = FunctionCost{}
         };
     }
     
@@ -439,7 +440,8 @@ public:
             .examples = {
                 R"(JSON_REMOVE({a: 1, b: 2}, "$.b") // {a: 1})",
                 R"(JSON_REMOVE({arr: [1,2,3]}, "$.arr[1]") // {arr: [1,3]})"
-            }
+            },
+            .cost = FunctionCost{}
         };
     }
     
@@ -475,7 +477,8 @@ public:
             .examples = {
                 R"(JSON_TYPE({a: 123}, "$.a") // "number")",
                 R"(JSON_TYPE({arr: []}, "$.arr") // "array")"
-            }
+            },
+            .cost = FunctionCost{}
         };
     }
     
@@ -575,7 +578,8 @@ public:
             .examples = {
                 R"(JSON_PARSE('{"a": 1, "b": 2}') // {a: 1, b: 2})",
                 R"(JSON_PARSE('[1, 2, 3]') // [1, 2, 3])"
-            }
+            },
+            .cost = FunctionCost{}
         };
     }
     
@@ -608,7 +612,8 @@ public:
             .examples = {
                 R"(JSON_STRINGIFY({a: 1, b: 2}) // '{"a":1,"b":2}')",
                 R"(JSON_STRINGIFY([1, 2, 3]) // '[1,2,3]')"
-            }
+            },
+            .cost = FunctionCost{}
         };
     }
     

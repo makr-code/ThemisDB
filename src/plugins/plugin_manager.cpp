@@ -2185,12 +2185,9 @@ PluginsError PluginManager::validateABICompatibility(
     }
     
     // Check capabilities are not reduced
-    // TODO(makr-code): Fix capability comparison - PluginCapabilities is a struct with bool fields, not a container
-    // if (previous_entry.frozen_capabilities.size() > new_manifest.capabilities.size()) {
-    //    THEMIS_WARN("[SECURITY:CAPABILITY_REDUCTION] Plugin capabilities reduced after reload");
-    // }
-    // Check capabilities are not reduced (field-wise implication: every capability that was
-    // true in the frozen snapshot must still be true in the new manifest).
+    // [RESOLVED] Field-wise implication is implemented via check_cap lambda below:
+    // every capability that was true in the frozen snapshot must still be true
+    // in the new manifest.
     const PluginCapabilities& prev_caps = previous_entry.frozen_capabilities;
     const PluginCapabilities& new_caps  = new_manifest.capabilities;
 

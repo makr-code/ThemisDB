@@ -174,7 +174,6 @@ std::vector<PIIFinding> NERDetectionEngine::detectInText(const std::string& text
 
     // Phase 2.2c Hardening: Add timeout enforcement
     auto start_time = std::chrono::high_resolution_clock::now();
-    auto deadline = start_time + std::chrono::milliseconds(inference_timeout_ms_);
 
     auto tokens = tokenise(text);
     std::vector<PIIFinding> findings;

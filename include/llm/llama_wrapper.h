@@ -417,6 +417,45 @@ public:
         size_t k,
         size_t vocab_size_hint
     ) override;
+
+    /**
+     * @brief Tokenize arbitrary text with the loaded llama.cpp vocabulary.
+     *
+     * Intended as a production bridge for speculative-draft/runtime wiring
+     * when the caller needs real token IDs for externally supplied text.
+     *
+     * @param text Text to tokenize.
+     * @param add_bos Whether to prepend the BOS token when supported.
+     * @return Token IDs in llama vocabulary space.
+     *
+     * @throws std::runtime_error if no model is loaded or tokenization fails.
+     */
+    [[nodiscard]] std::vector<int> tokenizeForBridge(
+        const std::string& text,
+        bool add_bos = true
+    );
+
+    /**
+     * @brief Compute exact target-model logits for a speculative draft token sequence.
+     *
+     * Evaluates the request prompt once, captures the next-token logits for the
+     * current prefix, then incrementally feeds each supplied draft token back
+     * through the live llama.cpp context and captures the resulting next-token
+     * logits after every step. The returned matrix therefore has exactly
+     * `draft_token_ids.size() + 1` rows and is directly compatible with
+     * `SpeculativeDecoder::verify()`.
+     *
+     * @param request Inference request whose prompt forms the verification prefix.
+     * @param draft_token_ids Draft token IDs to validate in target-vocabulary space.
+     * @return `(K+1) x vocab_size` raw target-logit matrix.
+     *
+     * @throws std::runtime_error if no live model/context is available or prompt/token evaluation fails.
+     * @throws std::invalid_argument if any supplied token is outside the loaded vocabulary range.
+     */
+    [[nodiscard]] std::vector<std::vector<float>> computeTargetLogitsForTokens(
+        const InferenceRequest& request,
+        const std::vector<int>& draft_token_ids
+    );
     
     InferenceResponse generateRAG(
         const RAGContext& rag_context,

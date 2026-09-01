@@ -29,7 +29,9 @@ Signalqualität und Release-Stabilitaet zu verbessern.
 - `.github/workflows/release-changelog.yml`
   — Reusable/manual changelog update & backfill (artifact-backed proposal, keine Branch-Mutation)
 - `.github/workflows/security-consolidated.yml`
-  — Konsolidierter Security-Scan: Trivy Vulnerability Scan + Gitleaks Secret Scan + KubeSec Manifest-Scan + DAST/ZAP (Schedule/Dispatch only; 4 einzeln guardierte Jobs; ersetzt security.yml + security-scanning.yml)
+  — Konsolidierter Security-Scan: Trivy Vulnerability Scan + Gitleaks Secret Scan + KubeSec Manifest-Scan (Schedule/Dispatch only; 3 einzeln guardierte Jobs; ersetzt security.yml + security-scanning.yml; DAST/ZAP wurde in security-dast-zap.yml ausgelagert)
+- `.github/workflows/security-dast-zap.yml`
+  — OWASP ZAP DAST: Baseline (wöchentlich passiv), API-Scan (OpenAPI-getrieben, aktiv), Full-Scan (manuell, aktiv); SARIF-Upload auf GitHub Security Tab; reusable via workflow_call für pre-release Gate
 - `.github/workflows/security-fortify.yml`
   — Fortify AST Scan (continue-on-error; requires FOD_TENANT/FOD_USER/FOD_PAT secrets)
 - `.github/workflows/sanitizer-nightly.yml`
@@ -44,6 +46,10 @@ Signalqualität und Release-Stabilitaet zu verbessern.
   — Governance- und Release-Policy-Gates
 - `.github/workflows/maintenance-docs.yml`
   — Dokumentations-Hygiene/Alignment Workflows; deckt auch `ai_context/**` und `ai_working/**` ab (Stale-Cleanup + Orphan-Check)
+- `.github/workflows/maintenance-docs-db-build.yml`
+  — Docs-to-ThemisDB: Ingests docs/ into a RocksDB database via themis_docs_builder; triggered on docs/** changes (push develop/community); content-hash guard prevents redundant rebuilds; workflow_dispatch supports arbitrary input_dir
+- `.github/workflows/reusable-docs-db-builder.yml`
+  — Reusable: generalized folder→ThemisDB-DB pipeline; builds themis_docs_builder, hashes input tree, skips if up-to-date, uploads artifact; called by maintenance-docs-db-build.yml and any future per-folder callers
 - `.github/workflows/maintenance-ci-health.yml`
   — Wöchentliches CI Health Dashboard (pass/fail Aggregation, chronische Fehler-Issue; Sunday 06:00 UTC)
 - `.github/workflows/maintenance-issues.yml`
@@ -62,6 +68,10 @@ Signalqualität und Release-Stabilitaet zu verbessern.
   — Scoped CI fuer `tools/copilot-ollama-router/**`
 - `.github/workflows/gate-copilot-regression.yml`
   — Copilot/CMake-Regression Guard
+- `.github/workflows/copilot-code-review.yml`
+  — Self-scoped Copilot review runner declaration (`copilot-setup-steps`) so agentic reviews have an assigned Ubuntu runner
+- `.github/workflows/publish-wiki.yml`
+  — Publishes docs/architecture, docs/governance, src/*/ROADMAP.md and developer wiki to GitHub Wiki on push to develop or manual dispatch; community guardrail blocks private plugin paths
 
 ## Governance fuer neue Workflows
 Neue Workflow-Dateien sind nur erlaubt, wenn mindestens einer der Punkte zutrifft:
@@ -113,8 +123,9 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 - `.github/docs/WORKFLOW_FILENAME_RENAME_MATRIX.md`
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 42
-- Strategie: Lean + harte Triggergrenzen ohne Legacy-Quarantaene
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 44
+- Deaktivierte Workflows in `.github/no_workflows/`: 30
+- Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
 - Der 21er-Zähler war im vorherigen Dokumentationsstand veraltet; der aktuelle Stand wird durch die kanonische Liste in diesem Registry-Dokument und die zugehörigen Workflow-Dateien definiert.
 
 ## Durchgeführte Konsolidierungen (Workflow Framework Refactoring)

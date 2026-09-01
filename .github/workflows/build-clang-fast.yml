@@ -10,15 +10,37 @@ on:
       - develop
       - community
     paths:
-      - 'src/**'
-      - 'include/**'
-      - 'tests/**'
-      - 'cmake/**'
+      - 'src/distributed_tensor/**/*.c'
+      - 'src/distributed_tensor/**/*.cc'
+      - 'src/distributed_tensor/**/*.cpp'
+      - 'src/distributed_tensor/**/*.cxx'
+      - 'src/distributed_tensor/**/*.h'
+      - 'src/distributed_tensor/**/*.hh'
+      - 'src/distributed_tensor/**/*.hpp'
+      - 'src/distributed_tensor/**/*.hxx'
+      - 'include/distributed_tensor/**/*.h'
+      - 'include/distributed_tensor/**/*.hh'
+      - 'include/distributed_tensor/**/*.hpp'
+      - 'include/distributed_tensor/**/*.hxx'
+      - 'include/distributed_tensor/**/*.ipp'
+      - 'include/distributed_tensor/**/*.tpp'
+      - 'tests/epic3_distributed_tensor/**/*.c'
+      - 'tests/epic3_distributed_tensor/**/*.cc'
+      - 'tests/epic3_distributed_tensor/**/*.cpp'
+      - 'tests/epic3_distributed_tensor/**/*.cxx'
+      - 'tests/epic3_distributed_tensor/**/*.h'
+      - 'tests/epic3_distributed_tensor/**/*.hh'
+      - 'tests/epic3_distributed_tensor/**/*.hpp'
+      - 'tests/epic3_distributed_tensor/**/*.hxx'
       - 'CMakeLists.txt'
       - 'CMakePresets.json'
+      - 'cmake/**/*.cmake'
+      - 'cmake/**/*.txt'
+      - 'cmake/**/*.in'
       - 'vcpkg.json'
       - 'vcpkg-configuration.json'
       - '.github/workflows/build-clang-fast.yml'
+      - '.github/workflows/reusable-cmake-build.yml'
   workflow_dispatch:
 
 permissions:
@@ -39,7 +61,7 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends clang lld cmake ninja-build pkg-config librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends clang lld cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
       configure_command: >-
         cmake -S . -B build-clang-fast -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-Wall -Wextra -Wpedantic" -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_BUILD_TESTS=ON
       build_command: >-

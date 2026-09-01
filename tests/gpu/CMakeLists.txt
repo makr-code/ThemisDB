@@ -76,15 +76,6 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
         target_sources(${_target} PRIVATE ${THEMIS_ROOT_DIR}/src/acceleration/kernel_registry.cpp)
     endif()
 
-    # If the acceleration implementation is absent in a modular split, compile
-    # a lightweight fallback implementation into focused tests so unit tests
-    # link and run. This file provides synthetic but deterministic behavior
-    # suitable for unit tests and CI.
-    if(EXISTS "${THEMIS_ROOT_DIR}/src/acceleration/break_even_validator_impl_fallback.cpp"
-       AND NOT _stem STREQUAL "test_gpu_adversarial")
-        target_sources(${_target} PRIVATE ${THEMIS_ROOT_DIR}/src/acceleration/break_even_validator_impl_fallback.cpp)
-    endif()
-
     # Determine labels based on test file
     set(_labels "gpu")
     if(_stem MATCHES "test_gpu_error_handling_comprehensive|test_gpu_phase_c_integration")

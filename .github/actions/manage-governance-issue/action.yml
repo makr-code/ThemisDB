@@ -5,8 +5,8 @@ description: |
   Searches for an open issue whose title matches `title` (exact match).
   - If found: updates the body.
   - If not found and `close-if-empty` is false or `body` is non-empty: creates it.
-  - If `close-if-empty` is true and `body` is blank: closes any matching open issue
-    instead of creating a new one.
+  - If `close-if-empty` is true and `body` is blank: does not close issue state
+    (policy: no automatic issue closures in CI); skips mutation.
 
   Used by: maintenance-security-alerts.yml, maintenance-gs3-gaps.yml,
            maintenance-ci-health.yml, compliance-supply-chain.yml.
@@ -28,8 +28,8 @@ inputs:
     default: ''
   close-if-empty:
     description: |
-      When true and body is blank, close any existing matching open issue rather
-      than creating or updating. Useful for auto-close on recovery.
+      Deprecated for CI closure; when true and body is blank the action skips issue
+      state mutation instead of closing.
     required: false
     default: 'false'
 
@@ -38,7 +38,7 @@ outputs:
     description: 'The issue number that was created, updated, or closed (empty if no action taken)'
     value: ${{ steps.manage.outputs.issue_number }}
   action:
-    description: 'The action taken: created | updated | closed | skipped'
+    description: 'The action taken: created | updated | skipped'
     value: ${{ steps.manage.outputs.action }}
 
 runs:
@@ -70,27 +70,24 @@ runs:
             return;
           }
 
-          // Find existing open issue with matching title
-          const { data: openIssues } = await github.rest.issues.listForRepo({
-            owner, repo,
-            state: 'open',
-            labels: labels.join(','),
-            per_page: 50,
-          });
-          const existing = openIssues.find(i => i.title === title);
+          // Find existing open issue with matching title (search without label filter
+          // to avoid missing issues created with different labels; paginate fully).
+          let existing = null;
+          for await (const response of github.paginate.iterator(
+            github.rest.issues.listForRepo,
+            { owner, repo, state: 'open', per_page: 100 }
+          )) {
+            const match = response.data.find(i => i.pull_request === undefined && i.title === title);
+            if (match) { existing = match; break; }
+          }
 
           const isBodyEmpty = !body || body.trim() === '';
 
           if (closeIfEmpty && isBodyEmpty) {
             if (existing) {
-              await github.rest.issues.update({
-                owner, repo,
-                issue_number: existing.number,
-                state: 'closed',
-              });
-              core.info(`Closed issue #${existing.number} (no active findings)`);
+              core.info(`close-if-empty requested for #${existing.number}, but automatic issue closure is disabled by policy; leaving issue open.`);
               core.setOutput('issue_number', String(existing.number));
-              core.setOutput('action', 'closed');
+              core.setOutput('action', 'skipped');
             } else {
               core.info('No matching open issue to close — skipping');
               core.setOutput('issue_number', '');

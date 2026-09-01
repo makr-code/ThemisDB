@@ -229,7 +229,6 @@ ImportStats DebeziumCDCImporter::importData(
 
     // Delegate to streamEvents() with a ThemisDB-write sink.
     ImportStats stats{};
-    const auto start_time = std::chrono::steady_clock::now();
 
     // Delegate to streamEvents() which returns detailed stats including
     // structured_errors for the no-build-flag guard path. Return the

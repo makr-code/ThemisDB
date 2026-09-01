@@ -164,7 +164,6 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
         static constexpr std::string_view kLoraPrefix = "/api/v1/llm/lora/";
         static constexpr std::string_view kOpenAIChatCompletions = "/v1/chat/completions";
         static constexpr std::string_view kOpenAIModels = "/v1/models";
-        static constexpr std::string_view kLLMPrefix = "/api/v1/llm/";
         
         // Delegate to LoRAApiHandler for LoRA-specific paths
         std::string_view target = req.target();

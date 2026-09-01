@@ -436,9 +436,11 @@ float VectorIndexManager::cosineOneMinus(const std::vector<float>& a, const std:
 	
 	// SIMD-optimized loop
 	for (size_t i = 0; i + simd_width <= n; i += simd_width) {
-		#if defined(__clang__) || defined(__GNUC__)
-		#pragma unroll(8)
-		#endif
+#if defined(__clang__)
+#pragma clang loop unroll_count(8)
+#elif defined(__GNUC__)
+#pragma GCC unroll 8
+#endif
 		for (size_t j = 0; j < simd_width; ++j) {
 			dot += a[i+j] * b[i+j];
 			na += a[i+j] * a[i+j];
@@ -1155,7 +1157,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 				threshold = j.value("auto_threshold", 1000000);
 			}
 		} catch (...) {}
-		if (mode == "none") return false; if (mode == "sq8") return true;
+		if (mode == "none") return false;
+		if (mode == "sq8") return true;
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
 	}();
 	std::string key = makeObjectKey(pk);
@@ -2549,7 +2552,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 				threshold = j.value("auto_threshold", 1000000);
 			}
 		} catch (...) {}
-		if (mode == "none") return false; if (mode == "sq8") return true;
+		if (mode == "none") return false;
+		if (mode == "sq8") return true;
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
 	}();
 	std::vector<uint8_t> serialized;
@@ -2657,7 +2661,9 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 	}
 	
 	// Pre-compute all serialization and quantization
+#if defined(_OPENMP)
 	#pragma omp simd
+#endif
 	for (size_t idx = 0; idx < entities.size(); ++idx) {
 		const auto& entity = entities[idx];
 		const std::string& pk = entity.getPrimaryKey();
@@ -3090,6 +3096,24 @@ VectorIndexManager::Status VectorIndexManager::setRotaryEmbeddingConfig(const Ro
 	}
 }
 
+VectorIndexManager::Status VectorIndexManager::disableRotaryEmbedding() {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
+	if (!rotary_enabled_ && !rotary_embedding_) {
+		return Status::Error("Rotary embeddings not enabled");
+	}
+
+	rotary_enabled_ = false;
+	rotary_embedding_.reset();
+	rotary_positional_rotations_.store(0, std::memory_order_relaxed);
+	rotary_relational_rotations_.store(0, std::memory_order_relaxed);
+	rotary_query_rotations_.store(0, std::memory_order_relaxed);
+	rotary_total_rotation_time_us_.store(0, std::memory_order_relaxed);
+
+	THEMIS_INFO("VectorIndexManager::disableRotaryEmbedding - Rotary embeddings disabled");
+	logAuditEvent_("config", "rotary_embeddings", "disable", 0);
+	return Status::OK();
+}
+
 std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!rotary_enabled_ || !rotary_embedding_) {
@@ -3267,4 +3291,3 @@ std::optional<std::vector<float>> VectorIndexManager::getVectorByPk(std::string_
 }
 
 } // namespace themis
-

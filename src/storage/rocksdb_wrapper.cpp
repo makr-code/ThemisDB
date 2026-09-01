@@ -68,6 +68,7 @@
 #  define THEMIS_HAS_ROCKSDB_ASYNC_IO 0
 #endif
 #include <algorithm>  // For std::max, std::min
+#include <cstdio>
 #include <cstring>
 #include <nlohmann/json.hpp>
 #include <unordered_map>
@@ -1006,18 +1007,18 @@ inline std::string blobManifestKey(std::string_view key) {
 
 // Returns the internal chunk key for chunk index `idx` of a logical blob key.
 inline std::string blobChunkKey(std::string_view key, uint32_t idx) {
-    // audit_logging scanner alert (line 945): snprintf writes into a local fixed-size
-    // char buf[8] to format a 6-digit decimal index — this is pure key construction,
-    // not diagnostic output.  No structured logging is applicable here — false positive.
-    // 7 bytes: 6 digits + null terminator.  Extra byte keeps size a power of 2.
-    char buf[8];
-    snprintf(buf, sizeof(buf), "%06u", idx);
+    char buf[16];
+    const int written = std::snprintf(buf, sizeof(buf), "%06u", idx);
+    if (written < 0 || written >= static_cast<int>(sizeof(buf))) {
+        throw std::overflow_error("RocksDB chunk key index overflow");
+    }
+
     std::string ck;
     ck.reserve(10 + key.size() + 7);
     ck.append("__tmbs_c__:");
     ck.append(key.data(), key.size());
     ck.push_back(':');
-    ck.append(buf, 6);
+    ck.append(buf, static_cast<std::size_t>(written));
     return ck;
 }
 

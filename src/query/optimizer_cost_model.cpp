@@ -702,9 +702,7 @@ void StatisticsManager::refreshAllStatistics() {
     for (auto& [tableName, stats] : tableStats_) {
         if (table_scan_provider_) {
             auto live = (*table_scan_provider_)(tableName);
-            if (live.rowCount >= 0) {
-                stats.rowCount = live.rowCount;
-            }
+            stats.rowCount = live.rowCount;
         }
         // Mark as freshly updated so areStatisticsStale() returns false.
         stats.lastUpdated = now;
@@ -719,9 +717,7 @@ void StatisticsManager::refreshStaleStatistics() {
         if (!areStatisticsStale(tableName, kStaleThresholdSeconds)) continue;
         if (table_scan_provider_) {
             auto live = (*table_scan_provider_)(tableName);
-            if (live.rowCount >= 0) {
-                stats.rowCount = live.rowCount;
-            }
+            stats.rowCount = live.rowCount;
         }
         stats.lastUpdated = now;
         stats.isStale     = false;

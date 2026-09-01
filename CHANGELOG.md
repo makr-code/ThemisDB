@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Wave 9 Block 1 — gRPC Core Service Layer (2026-08-26)
+
+- **[W9-1]** `Create` RPC wired: `db_->put(collection:key, data)` with optional `txn_mgr_` session from `transaction_id` field; response includes key + timestamp.
+- **[W9-2]** `Read` RPC wired: `db_->get(collection:key)` with 404 on miss; `ReadResponse.document` fully populated.
+- **[W9-3]** `Update`, `Delete`, `ScanCollection` RPCs wired: Update guards `create_if_missing`; Delete calls `db_->del()`; ScanCollection streams via `db_->scanPrefix(collection + ":")`.
+- **[W9-4]** All Batch RPCs wired (`BatchCreate`, `BatchRead`, `BatchUpdate`, `BatchDelete`); `GetStatus` returns version + uptime + optional stats.
+- **[W9-5]** `BeginTransaction` / `CommitTransaction` / `RollbackTransaction` wired to `TransactionManager::beginTransaction()` / `commitTransaction()` / `rollbackTransaction()` with proto-to-`themis::IsolationLevel` mapping.
+- **[W9-6]** `ExecuteAQL` and `StreamQuery` wired to `aql_engine_->execute(query)`; null-engine path returns gRPC `UNIMPLEMENTED`; `AQLEngine` type alias resolved to `themis::IQueryEngine` in `include/server/themis_core_grpc_service.h`.
+- Timeseries stub: `TODO(W9-5)` comment added in `TimeSeriesApiHandler` constructor pointing to `setAggregatesProvider()` DI injection site.
+- MCP dispatch: `handleToolsCall()` verified fully wired to `tools_` registry map; no code change required.
+- Tests: `tests/server/test_grpc_core_service.cpp` — 16 always-on source/API tests (GCS-01..GCS-16) + 13 full RPC tests under `THEMIS_HAS_CORE_GRPC` guard (GCS-17..GCS-29).
+- Docs: `src/server/ROADMAP.md` W9 Block 1 section added; `src/server/MODULE_GAPS.md` UNIMPLEMENTED grpc items resolved; `src/STUB_INVENTORY.md` entry 58b added and resolved.
+
 ### Documentation
 
 - **2026-08-24 — Documentation Cleanup (DOC-WEEKLY-2026-34):** Archived 1803 AI agent working session files and 18 subdirectories from `ai_working/` to `docs/ARCHIVED/ai-working-history/` via `git mv` (history preserved). Active stream instructions retained in `ai_working/00_START_HERE.md` and `ai_working/00_STREAM_B_START_HERE.md`. Additionally, 35 `docs/` files carrying stale-marker/archive-candidate headers were moved to appropriate `docs/ARCHIVED/` subdirectories (`implementation-summaries/`, `roadmaps/`, `root-drafts/`); duplicate copies already present in the archive were removed.

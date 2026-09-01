@@ -78,9 +78,9 @@ on:
         default: false
         type: boolean
       close_when_clean:
-        description: '[GS3] Close matching open issue when no actionable findings remain'
+        description: '[GS3] Keep matching issue open and post recovery update when no actionable findings remain'
         required: false
-        default: true
+        default: false
         type: boolean
       # ── Security alert inputs ─────────────────────────────────────────────
       sla_days:
@@ -457,7 +457,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-      - name: Close GS3 issue when clean
+      - name: Post GS3 recovery update when clean
         if: steps.scan.outputs.scan_failed != 'true' && steps.consolidate.outputs.should_open_issue != 'true' && steps.consolidate.outputs.actionable_buckets != ''
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -468,20 +468,21 @@ jobs:
           issue-body: |
             ✅ No actionable GS3 bucket remains above threshold.
 
-            _Auto-closed by maintenance-issues.yml at ${{ github.run_id }}_
+            _Auto-updated by maintenance-issues.yml at ${{ github.run_id }}_
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-      - name: Complete GS3 issue closure
+      - name: Normalize GS3 labels on recovery
         if: steps.scan.outputs.scan_failed != 'true' && steps.consolidate.outputs.should_open_issue != 'true' && steps.consolidate.outputs.actionable_buckets != ''
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          operation: close_issue
+          operation: replace_status_group
           issue-marker: '<!-- gs3-gap:branch:${{ env.TARGET_BRANCH }} -->'
           allow-missing: true
-          close-reason: completed
+          labels-to-add: 'quality,scanner/gs3'
+          status-group: 'quality,scanner/gs3,scanner/runtime,security,security/critical,status/needs-approval'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
@@ -513,7 +514,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-      - name: Close scanner failure issue on recovery
+      - name: Post scanner recovery update
         if: steps.scan.outputs.scan_failed != 'true'
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -524,20 +525,7 @@ jobs:
           issue-body: |
             ✅ GS3 scanner execution recovered.
 
-            _Auto-closed by maintenance-issues.yml at ${{ github.run_id }}_
-          source-workflow: ${{ github.workflow }}
-          source-run-id: ${{ github.run_id }}
-          source-sha: ${{ github.sha }}
-
-      - name: Finalize scanner failure close
-        if: steps.scan.outputs.scan_failed != 'true'
-        uses: ./.github/actions/status-flags-and-issues
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          operation: close_issue
-          issue-marker: '<!-- gs3-gap:branch:${{ env.TARGET_BRANCH }} -->'
-          allow-missing: true
-          close-reason: completed
+            _Auto-updated by maintenance-issues.yml at ${{ github.run_id }}_
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
@@ -685,7 +673,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-      - name: Close resolved security issue
+      - name: Post security recovery update
         if: always() && steps.query.outputs.has_breach != 'true'
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -696,20 +684,21 @@ jobs:
           issue-body: |
             ✅ No open high/critical Code Scanning alerts are beyond SLA anymore.
 
-            _Auto-closed by maintenance-issues.yml at ${{ github.run_id }}_
+            _Auto-updated by maintenance-issues.yml at ${{ github.run_id }}_
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-      - name: Finalize resolved security issue
+      - name: Normalize security labels on recovery
         if: always() && steps.query.outputs.has_breach != 'true'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          operation: close_issue
+          operation: replace_status_group
           issue-marker: '<!-- security-triage:ref:${{ github.ref }} -->'
           allow-missing: true
-          close-reason: completed
+          labels-to-add: 'security'
+          status-group: 'security,security/critical,status/needs-approval'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}

@@ -101,6 +101,25 @@ public:
         size_t                       k,
         size_t                       vocab_size_hint) override;
 
+    /**
+     * @brief Compute exact target-model logits for supplied speculative draft tokens.
+     *
+     * Forwards to the live `LlamaWrapper` when a real llama.cpp model is loaded.
+     * The returned matrix contains exactly `draft_token_ids.size() + 1` rows and
+     * is directly compatible with `SpeculativeDecoder::verify()`.
+     *
+     * @param request Verification request whose prompt defines the current prefix.
+     * @param draft_token_ids Draft token IDs to evaluate in target-vocabulary space.
+     * @return `(K+1) x vocab_size` raw target-logit matrix.
+     *
+     * @throws std::runtime_error if no live llama.cpp wrapper/model is available.
+     * @throws std::invalid_argument if any supplied token is outside the loaded vocabulary range.
+     */
+    [[nodiscard]] std::vector<std::vector<float>> computeTargetLogitsForTokens(
+        const llm::InferenceRequest& request,
+        const std::vector<int>& draft_token_ids
+    );
+
     llm::LLMCapabilities getCapabilities() const override;
     json getMemoryStats() const override;
     json getPerformanceStats() const override;

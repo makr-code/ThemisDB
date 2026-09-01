@@ -8,14 +8,148 @@
 #include "acceleration/break_even_validator.h"
 
 #include <algorithm>
+#include <cmath>
+#include <cstdint>
 #include <iomanip>
-#include <sstream>
 #include <iostream>
+#include <limits>
+#include <sstream>
 
 #include "fmt/format.h"
 
 namespace themis {
 namespace acceleration {
+
+namespace {
+
+constexpr double kMinimumProfiledMs = 1.0;
+
+double clampSelectivity(float selectivity) {
+    return std::clamp(static_cast<double>(selectivity), 0.001, 1.0);
+}
+
+double normalizedDimension(size_t dimension) {
+    if (dimension == 0) {
+        return 1.0;
+    }
+    return std::max(1.0, static_cast<double>(dimension) / 128.0);
+}
+
+double log2Scaled(size_t value) {
+    return value > 1 ? std::log2(static_cast<double>(value)) : 1.0;
+}
+
+double cpuThroughputUnitsPerMs(KernelType kernel) {
+    switch (kernel) {
+        case KernelType::kDistance:
+            return 4'500.0;
+        case KernelType::kTopK:
+            return 20'000.0;
+        case KernelType::kBFS:
+            return 12'000.0;
+        case KernelType::kDijkstra:
+            return 8'000.0;
+        case KernelType::kGeoDistance:
+            return 16'000.0;
+        case KernelType::kGeoContainment:
+            return 9'500.0;
+        default:
+            return 0.0;
+    }
+}
+
+double gpuThroughputUnitsPerMs(KernelType kernel, DeviceType device) {
+    const double device_factor = [&]() {
+        switch (device) {
+            case DeviceType::kNVIDIA_RTX:
+                return 1.0;
+            case DeviceType::kAMD_MI210:
+                return 0.9;
+            case DeviceType::kNVIDIA_T4:
+                return 0.6;
+            case DeviceType::kIntel_Arc:
+                return 0.45;
+            default:
+                return 0.0;
+        }
+    }();
+
+    const double base = [&]() {
+        switch (kernel) {
+            case KernelType::kDistance:
+                return 36'000.0;
+            case KernelType::kTopK:
+                return 70'000.0;
+            case KernelType::kBFS:
+                return 34'000.0;
+            case KernelType::kDijkstra:
+                return 23'000.0;
+            case KernelType::kGeoDistance:
+                return 42'000.0;
+            case KernelType::kGeoContainment:
+                return 27'000.0;
+            default:
+                return 0.0;
+        }
+    }();
+
+    return base * device_factor;
+}
+
+double gpuLaunchOverheadMs(DeviceType device) {
+    switch (device) {
+        case DeviceType::kNVIDIA_RTX:
+            return 2.8;
+        case DeviceType::kAMD_MI210:
+            return 3.4;
+        case DeviceType::kNVIDIA_T4:
+            return 4.2;
+        case DeviceType::kIntel_Arc:
+            return 5.3;
+        default:
+            return std::numeric_limits<double>::infinity();
+    }
+}
+
+double estimateTransferBytes(const WorkloadProfile& profile) {
+    const double input_size = static_cast<double>(profile.input_size);
+    const double dimension = static_cast<double>(std::max<size_t>(profile.vector_dimension, 1));
+    const double selectivity = clampSelectivity(profile.output_selectivity);
+
+    switch (profile.kernel_type) {
+        case KernelType::kDistance:
+            return (input_size * dimension + dimension) * sizeof(float);
+        case KernelType::kTopK:
+            return (input_size * dimension + input_size * selectivity * 2.0) * sizeof(float);
+        case KernelType::kBFS:
+            return input_size * 6.0 * sizeof(std::uint32_t);
+        case KernelType::kDijkstra:
+            return input_size * 8.0 * sizeof(std::uint32_t);
+        case KernelType::kGeoDistance:
+            return input_size * 4.0 * sizeof(double);
+        case KernelType::kGeoContainment:
+            return input_size * 10.0 * sizeof(double);
+        default:
+            return 0.0;
+    }
+}
+
+double effectiveBandwidthBytesPerMs(DeviceType device) {
+    switch (device) {
+        case DeviceType::kNVIDIA_RTX:
+            return 18'000'000.0;
+        case DeviceType::kAMD_MI210:
+            return 16'000'000.0;
+        case DeviceType::kNVIDIA_T4:
+            return 11'000'000.0;
+        case DeviceType::kIntel_Arc:
+            return 8'500'000.0;
+        default:
+            return 0.0;
+    }
+}
+
+} // namespace
 
 // ============================================================================
 // Helper: WorkloadProfile
@@ -31,11 +165,11 @@ std::string WorkloadProfile::ToCacheKey() const {
 
 std::string WorkloadProfile::ToString() const {
     return fmt::format(
-        "WorkloadProfile{{kernel={}, input_size={}, dim={}, selectivity={:.2%}, device={}}}",
+        "WorkloadProfile{{kernel={}, input_size={}, dim={}, selectivity={:.2f}%, device={}}}",
         BreakEvenValidator::KernelTypeToString(kernel_type),
         input_size,
         vector_dimension,
-        output_selectivity,
+        output_selectivity * 100.0f,
         BreakEvenValidator::DeviceTypeToString(device));
 }
 
@@ -44,6 +178,8 @@ std::string WorkloadProfile::ToString() const {
 // ============================================================================
 
 std::string BreakEvenDecision::ToString() const {
+    // NOTE: Prometheus metric emission for BreakEvenDecision is not yet wired.
+    // Tracked: src/acceleration/ROADMAP.md § "BreakEvenValidator Prometheus Metrics"
     return fmt::format(
         "BreakEvenDecision{{use_gpu={}, speedup={:.2f}x, cpu={}ms, gpu={}ms, reason={}, cached={}}}",
         use_gpu ? "true" : "false",
@@ -168,6 +304,8 @@ BreakEvenDecision BreakEvenValidator::Profile(
     decision.reason = decision.use_gpu ? "break_even_met" : "break_even_not_met";
     decision.from_cache = false;
 
+    MetricsSinkFn metrics_sink;
+
     // Record latest speedup ratio for metrics
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -179,56 +317,98 @@ BreakEvenDecision BreakEvenValidator::Profile(
             .decision = decision,
             .timestamp = std::chrono::steady_clock::now(),
         };
+        metrics_sink = metrics_sink_;
     }
 
-    // Export metrics (TODO: integrate with Prometheus)
-    // metrics::prometheus::RecordHistogram("gpu_acceleration_break_even_ratio",
-    //     speedup_ratio,
-    //     {{"kernel", KernelTypeToString(profile.kernel_type)}});
+    if (metrics_sink) {
+        try {
+            metrics_sink(profile, decision);
+        } catch (const std::exception&) {
+        } catch (...) {
+        }
+    }
 
     return decision;
 }
 
 std::optional<std::chrono::milliseconds> BreakEvenValidator::ProfileCPU(
     const WorkloadProfile& profile) {
-    // TODO: Delegate to CPU reference kernel implementations
-    // For now, return a placeholder timing
-    // In production, this would:
-    // 1. Call CPU reference kernel (distance, topk, bfs, dijkstra, geo*)
-    // 2. Measure actual execution time with high-resolution timer
-    // 3. Repeat multiple times and take median
-
-    // Placeholder: CPU kernels typically take 10-100ms depending on input size
-    if (profile.input_size < 1000) {
-        return std::chrono::milliseconds(5);
-    } else if (profile.input_size < 100000) {
-        return std::chrono::milliseconds(50);
-    } else {
-        return std::chrono::milliseconds(500);
+    ProfileFn profile_fn;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        profile_fn = cpu_profile_fn_;
     }
+
+    if (profile_fn) {
+        try {
+            return profile_fn(profile);
+        } catch (const std::exception&) {
+            return std::nullopt;
+        } catch (...) {
+            return std::nullopt;
+        }
+    }
+
+    if (profile.input_size == 0 || profile.kernel_type == KernelType::kUnknown) {
+        return std::nullopt;
+    }
+    if (RequiresVectorDimension(profile.kernel_type) && profile.vector_dimension == 0) {
+        return std::nullopt;
+    }
+
+    const double throughput = cpuThroughputUnitsPerMs(profile.kernel_type);
+    if (throughput <= 0.0) {
+        return std::nullopt;
+    }
+
+    const double fixed_overhead_ms = profile.kernel_type == KernelType::kDijkstra ? 0.65 : 0.25;
+    const double estimated_ms = fixed_overhead_ms + EstimateWorkUnits(profile) / throughput;
+    return MillisecondsFromEstimate(estimated_ms);
 }
 
 std::optional<std::chrono::milliseconds> BreakEvenValidator::ProfileGPU(
     const WorkloadProfile& profile) {
-    // TODO: Delegate to GPU kernel implementation
-    // For now, return a placeholder timing
-    // In production, this would:
-    // 1. Check GPU availability and select best device
-    // 2. Allocate GPU memory for input/output
-    // 3. Transfer input data to GPU
-    // 4. Launch kernel and measure execution time
-    // 5. Transfer results back to host
-    // 6. Return total time (alloc + transfer + compute + sync)
-
-    // Placeholder: GPU kernels have fixed overhead (~20ms) + execution
-    if (profile.input_size < 10000) {
-        // Too small: overhead dominates
-        return std::nullopt;  // Not worth it
-    } else if (profile.input_size < 1000000) {
-        return std::chrono::milliseconds(35);
-    } else {
-        return std::chrono::milliseconds(300);
+    ProfileFn profile_fn;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        profile_fn = gpu_profile_fn_;
     }
+
+    if (profile_fn) {
+        try {
+            return profile_fn(profile);
+        } catch (const std::exception&) {
+            return std::nullopt;
+        } catch (...) {
+            return std::nullopt;
+        }
+    }
+
+    if (profile.input_size == 0 || profile.kernel_type == KernelType::kUnknown) {
+        return std::nullopt;
+    }
+    if (RequiresVectorDimension(profile.kernel_type) && profile.vector_dimension == 0) {
+        return std::nullopt;
+    }
+    if (!IsGpuCapableDevice(profile.device)) {
+        return std::nullopt;
+    }
+
+    const double throughput = gpuThroughputUnitsPerMs(profile.kernel_type, profile.device);
+    const double bandwidth = effectiveBandwidthBytesPerMs(profile.device);
+    if (throughput <= 0.0 || bandwidth <= 0.0) {
+        return std::nullopt;
+    }
+
+    double gpu_work_units = EstimateWorkUnits(profile);
+    if (profile.kernel_type == KernelType::kTopK) {
+        gpu_work_units *= 1.5 / (0.20 + clampSelectivity(profile.output_selectivity));
+    }
+
+    const double compute_ms = gpu_work_units / throughput;
+    const double transfer_ms = estimateTransferBytes(profile) / bandwidth;
+    const double estimated_ms = gpuLaunchOverheadMs(profile.device) + transfer_ms + compute_ms;
+    return MillisecondsFromEstimate(estimated_ms);
 }
 
 void BreakEvenValidator::SetSpeedupThreshold(KernelType kernel, float threshold) {
@@ -252,6 +432,25 @@ void BreakEvenValidator::SetCacheValidityDuration(std::chrono::hours duration) {
     cache_validity_duration_ = duration;
 }
 
+void BreakEvenValidator::SetCPUProfileFn(ProfileFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    cpu_profile_fn_ = std::move(fn);
+    decision_cache_.clear();
+    latest_speedup_ratios_.clear();
+}
+
+void BreakEvenValidator::SetGPUProfileFn(ProfileFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    gpu_profile_fn_ = std::move(fn);
+    decision_cache_.clear();
+    latest_speedup_ratios_.clear();
+}
+
+void BreakEvenValidator::SetMetricsSink(MetricsSinkFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    metrics_sink_ = std::move(fn);
+}
+
 float BreakEvenValidator::GetLatestBreakEvenRatio(KernelType kernel) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = latest_speedup_ratios_.find(static_cast<int>(kernel));
@@ -271,6 +470,47 @@ size_t BreakEvenValidator::GetCacheMissCount() const {
 size_t BreakEvenValidator::GetCacheSize() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return decision_cache_.size();
+}
+
+bool BreakEvenValidator::RequiresVectorDimension(KernelType kernel) {
+    return kernel == KernelType::kDistance || kernel == KernelType::kTopK;
+}
+
+bool BreakEvenValidator::IsGpuCapableDevice(DeviceType device) {
+    return device != DeviceType::kCPU && device != DeviceType::kUnknown;
+}
+
+double BreakEvenValidator::EstimateWorkUnits(const WorkloadProfile& profile) {
+    const double input_size = static_cast<double>(profile.input_size);
+    const double dimension_factor = normalizedDimension(profile.vector_dimension);
+    const double selectivity = clampSelectivity(profile.output_selectivity);
+
+    switch (profile.kernel_type) {
+        case KernelType::kDistance:
+            return input_size * dimension_factor * 128.0;
+        case KernelType::kTopK:
+            return input_size * std::max(1.0, log2Scaled(profile.input_size))
+                * (0.35 + selectivity);
+        case KernelType::kBFS:
+            return input_size * (4.0 + selectivity * 6.0);
+        case KernelType::kDijkstra:
+            return input_size * std::max(1.0, log2Scaled(profile.input_size)) * 1.6;
+        case KernelType::kGeoDistance:
+            return input_size * 14.0;
+        case KernelType::kGeoContainment:
+            return input_size * (22.0 + selectivity * 10.0);
+        default:
+            return 0.0;
+    }
+}
+
+std::optional<std::chrono::milliseconds> BreakEvenValidator::MillisecondsFromEstimate(
+    double estimated_ms) {
+    if (!std::isfinite(estimated_ms) || estimated_ms <= 0.0) {
+        return std::nullopt;
+    }
+    const auto rounded = static_cast<long long>(std::ceil(std::max(estimated_ms, kMinimumProfiledMs)));
+    return std::chrono::milliseconds(rounded);
 }
 
 std::string BreakEvenValidator::KernelTypeToString(KernelType kernel) {
@@ -309,7 +549,7 @@ std::string BreakEvenValidator::DeviceTypeToString(DeviceType device) {
     }
 }
 
-BreakEvenValidator::KernelType BreakEvenValidator::StringToKernelType(
+KernelType BreakEvenValidator::StringToKernelType(
     const std::string& s) {
     if (s == "distance") return KernelType::kDistance;
     if (s == "topk") return KernelType::kTopK;
@@ -320,7 +560,7 @@ BreakEvenValidator::KernelType BreakEvenValidator::StringToKernelType(
     return KernelType::kUnknown;
 }
 
-BreakEvenValidator::DeviceType BreakEvenValidator::StringToDeviceType(
+DeviceType BreakEvenValidator::StringToDeviceType(
     const std::string& s) {
     if (s == "nvidia_rtx") return DeviceType::kNVIDIA_RTX;
     if (s == "nvidia_t4") return DeviceType::kNVIDIA_T4;

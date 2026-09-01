@@ -282,7 +282,7 @@ jobs:
           issue-body: |
             ✅ CI health recovered: no chronic failures detected in the latest maintenance run.
 
-            _Auto-closed by maintenance-ci-health.yml at ${{ github.run_id }}_
+            _Auto-updated by maintenance-ci-health.yml at ${{ github.run_id }}_
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
@@ -298,20 +298,6 @@ jobs:
           allow-missing: true
           labels-to-add: 'ci/chronic-failure'
           status-group: 'ci/chronic-failure,ci/failure,status/needs-approval'
-          source-workflow: ${{ github.workflow }}
-          source-run-id: ${{ github.run_id }}
-          source-sha: ${{ github.sha }}
-
-      - name: Close chronic issue on recovery
-        if: steps.stats.outputs.chronic_count == '0'
-        uses: ./.github/actions/status-flags-and-issues
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          operation: close_issue
-          issue-title: '[CI] Chronic workflow failures detected'
-          allow-missing: true
-          issue-marker: '<!-- ci-health:ref:${{ github.ref }} -->'
-          close-reason: completed
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}

@@ -1,0 +1,32 @@
+name: Copilot code review setup
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [develop, community]
+    paths:
+      - '.github/workflows/copilot-code-review.yml'
+  pull_request:
+    branches: [develop, community]
+    paths:
+      - '.github/workflows/copilot-code-review.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: copilot-code-review-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # The job name must remain `copilot-setup-steps` so Copilot can detect it.
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Confirm runner availability
+        run: echo "Copilot code review runner is configured."

@@ -454,7 +454,6 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
 
     // ---- Step 2: AH scan within selected leaves ----
     size_t reorder_n = std::max(static_cast<size_t>(k), cfg_.reorder_num_neighbors);
-    using Candidate = std::pair<float, size_t>; // (dist, global_idx_in_leaf)
     struct FullCandidate { float dist; const Leaf* leaf; size_t idx; };
     std::vector<FullCandidate> candidates;
     candidates.reserve(reorder_n * 2);

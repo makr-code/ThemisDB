@@ -49,7 +49,7 @@ public:
 class ShardRPCTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Tests will use in-process simulation by default (localhost)
+        // Tests use explicit in-process endpoints.
     }
     
     void TearDown() override {
@@ -62,7 +62,7 @@ protected:
 
 TEST_F(ShardRPCTest, InProcessPrepare) {
     ShardRPCClient::Config config{
-        .endpoint = "localhost:8080",
+        .endpoint = "inproc://shard-a",
         .timeout_ms = 5000,
         .max_retries = 3,
         .retry_delay_ms = 100
@@ -79,7 +79,7 @@ TEST_F(ShardRPCTest, InProcessPrepare) {
 
 TEST_F(ShardRPCTest, InProcessCommit) {
     ShardRPCClient::Config config{
-        .endpoint = "localhost:8080",
+        .endpoint = "inproc://shard-a",
         .timeout_ms = 5000
     };
     
@@ -91,7 +91,7 @@ TEST_F(ShardRPCTest, InProcessCommit) {
 
 TEST_F(ShardRPCTest, InProcessAbort) {
     ShardRPCClient::Config config{
-        .endpoint = "127.0.0.1:8080",
+        .endpoint = "inproc://shard-a",
         .timeout_ms = 5000
     };
     
@@ -103,7 +103,7 @@ TEST_F(ShardRPCTest, InProcessAbort) {
 
 TEST_F(ShardRPCTest, InProcessPing) {
     ShardRPCClient::Config config{
-        .endpoint = "localhost:8080",
+        .endpoint = "inproc://shard-a",
         .timeout_ms = 5000
     };
     
@@ -115,7 +115,7 @@ TEST_F(ShardRPCTest, InProcessPing) {
 
 TEST_F(ShardRPCTest, InProcessSnapshotRead) {
     ShardRPCClient::Config config{
-        .endpoint = "localhost:8080",
+        .endpoint = "inproc://shard-a",
         .timeout_ms = 5000
     };
     
@@ -132,7 +132,7 @@ TEST_F(ShardRPCTest, InProcessSnapshotRead) {
 
 TEST_F(ShardRPCTest, RetryOnFailure) {
     ShardRPCClient::Config config{
-        .endpoint = "localhost:8080",
+        .endpoint = "inproc://shard-a",
         .timeout_ms = 1000,
         .max_retries = 3,
         .retry_delay_ms = 50
@@ -147,7 +147,7 @@ TEST_F(ShardRPCTest, RetryOnFailure) {
 
 TEST_F(ShardRPCTest, TimeoutHandling) {
     ShardRPCClient::Config config{
-        .endpoint = "localhost:8080",
+        .endpoint = "inproc://shard-a",
         .timeout_ms = 100,  // Very short timeout
         .max_retries = 1
     };
@@ -171,7 +171,7 @@ TEST_F(ShardRPCTest, TimeoutHandling) {
 // test infrastructure does not support.
 TEST_F(ShardRPCTest, NegativeCircuitBreakerThresholdIsIgnored) {
     ShardRPCClient::Config config{
-        .endpoint = "localhost:8080",
+        .endpoint = "inproc://shard-a",
         .timeout_ms = 1000,
         .circuit_breaker_failure_threshold = -1,   // invalid — should fall back to default
         .circuit_breaker_recovery_ms       = 5000
@@ -188,7 +188,7 @@ TEST_F(ShardRPCTest, NegativeCircuitBreakerThresholdIsIgnored) {
 // impractical in a unit test.
 TEST_F(ShardRPCTest, NegativeCircuitBreakerRecoveryMsIsIgnored) {
     ShardRPCClient::Config config{
-        .endpoint = "localhost:8080",
+        .endpoint = "inproc://shard-a",
         .timeout_ms = 1000,
         .circuit_breaker_failure_threshold = 5,
         .circuit_breaker_recovery_ms       = -500  // invalid — should fall back to default
@@ -219,7 +219,7 @@ TEST_F(ShardRPCTest, ExponentialBackoffShiftCapPreventsOverflow) {
 // constructs successfully and succeeds on the first attempt without any UB.
 TEST_F(ShardRPCTest, LargeMaxRetriesNoOverflow) {
     ShardRPCClient::Config config{
-        .endpoint       = "localhost:8080",
+        .endpoint       = "inproc://shard-a",
         .timeout_ms     = 1000,
         .max_retries    = 50,   // would overflow without the shift cap
         .retry_delay_ms = 100
@@ -366,7 +366,7 @@ TEST_F(ShardRPCTest, ConcurrentClients) {
     for (int i = 0; i < num_clients; i++) {
         threads.emplace_back([&success_count, i]() {
             ShardRPCClient::Config config{
-                .endpoint = "localhost:8080",
+                .endpoint = "inproc://shard-a",
                 .timeout_ms = 5000
             };
             
@@ -391,7 +391,7 @@ TEST_F(ShardRPCTest, ConcurrentClients) {
 
 TEST_F(ShardRPCTest, InProcessSnapshotRead_ReturnsArray) {
     ShardRPCClient::Config config{
-        .endpoint   = "localhost:8080",
+        .endpoint   = "inproc://shard-a",
         .timeout_ms = 5000
     };
     ShardRPCClient client(config);
@@ -405,7 +405,7 @@ TEST_F(ShardRPCTest, InProcessSnapshotRead_ReturnsArray) {
 
 TEST_F(ShardRPCTest, InProcessSnapshotRead_ZeroTimestamp) {
     ShardRPCClient::Config config{
-        .endpoint   = "localhost:8080",
+        .endpoint   = "inproc://shard-a",
         .timeout_ms = 5000
     };
     ShardRPCClient client(config);

@@ -32,7 +32,8 @@ jobs:
           libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
           libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
           libvulkan-dev glslc \
-          libboost-system-dev libboost-filesystem-dev \
+          libcpphttplib-dev \
+          libboost-dev libboost-system-dev libboost-filesystem-dev \
           libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev \
           dpkg-dev rpm
       configure_command: |
@@ -75,7 +76,8 @@ jobs:
           libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
           libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
           libvulkan-dev glslc \
-          libboost-system-dev libboost-filesystem-dev \
+          libcpphttplib-dev \
+          libboost-dev libboost-system-dev libboost-filesystem-dev \
           libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev \
           dpkg-dev rpm
         git submodule sync -- vcpkg llama.cpp whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true

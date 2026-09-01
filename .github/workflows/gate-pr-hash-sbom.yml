@@ -21,14 +21,18 @@ on:
       - 'CMakeLists.txt'
       - 'CMakePresets.json'
       - 'vcpkg.json'
-      - 'cmake/**'
+      - 'cmake/**/*.cmake'
+      - 'cmake/**/*.txt'
+      - 'cmake/**/*.in'
       - '.github/workflows/gate-pr-hash-sbom.yml'
   push:
     branches: [develop]
     paths:
       - 'CMakeLists.txt'
       - 'vcpkg.json'
-      - 'cmake/**'
+      - 'cmake/**/*.cmake'
+      - 'cmake/**/*.txt'
+      - 'cmake/**/*.in'
   workflow_dispatch:
 
 concurrency:

@@ -11,6 +11,7 @@
 
 
 #include "sharding/cloud_backup.h"
+#include "sharding/cloud_sdk_integration.h"
 #include <stdexcept>
 #include "sharding/cloud_agent.h"
 #include "sharding/shard_topology.h"
@@ -985,11 +986,38 @@ private:
                    static_cast<bool>(g_gcs_exists_fn);
         };
 
+        auto try_initialize_callbacks_from_sdk = [this]() -> bool {
+            if (config_.provider == "s3") {
+                if (config_.s3_bucket.empty() || config_.s3_region.empty()) {
+                    THEMIS_ERROR("S3 provider requires non-empty bucket and region");
+                    return false;
+                }
+                return initializeS3Provider(config_.s3_region, config_.s3_bucket, config_.s3_endpoint);
+            }
+            if (config_.provider == "azure") {
+                if (config_.azure_account.empty() || config_.azure_container.empty()) {
+                    THEMIS_ERROR("Azure provider requires non-empty account and container");
+                    return false;
+                }
+                return initializeAzureProvider(config_.azure_account, config_.azure_container);
+            }
+            if (config_.provider == "gcs") {
+                if (config_.gcs_project_id.empty() || config_.gcs_bucket.empty()) {
+                    THEMIS_ERROR("GCS provider requires non-empty project_id and bucket");
+                    return false;
+                }
+                return initializeGCSProvider(config_.gcs_project_id, config_.gcs_bucket);
+            }
+            return false;
+        };
+
         if (config_.provider == "s3") {
             if (!has_s3_callbacks()) {
-                THEMIS_ERROR("S3 provider requires upload/download/delete/list/exists callbacks");
-                storage_provider_.reset();
-                return;
+                if (!try_initialize_callbacks_from_sdk() || !has_s3_callbacks()) {
+                    THEMIS_ERROR("S3 provider requires upload/download/delete/list/exists callbacks");
+                    storage_provider_.reset();
+                    return;
+                }
             }
             storage_provider_ = std::make_unique<S3StorageProvider>(
                 config_.s3_bucket,
@@ -998,9 +1026,11 @@ private:
             );
         } else if (config_.provider == "azure") {
             if (!has_azure_callbacks()) {
-                THEMIS_ERROR("Azure provider requires upload/download/delete/list/exists callbacks");
-                storage_provider_.reset();
-                return;
+                if (!try_initialize_callbacks_from_sdk() || !has_azure_callbacks()) {
+                    THEMIS_ERROR("Azure provider requires upload/download/delete/list/exists callbacks");
+                    storage_provider_.reset();
+                    return;
+                }
             }
             storage_provider_ = std::make_unique<AzureStorageProvider>(
                 config_.azure_account,
@@ -1008,9 +1038,11 @@ private:
             );
         } else if (config_.provider == "gcs") {
             if (!has_gcs_callbacks()) {
-                THEMIS_ERROR("GCS provider requires upload/download/delete/list/exists callbacks");
-                storage_provider_.reset();
-                return;
+                if (!try_initialize_callbacks_from_sdk() || !has_gcs_callbacks()) {
+                    THEMIS_ERROR("GCS provider requires upload/download/delete/list/exists callbacks");
+                    storage_provider_.reset();
+                    return;
+                }
             }
             storage_provider_ = std::make_unique<GCSStorageProvider>(
                 config_.gcs_project_id,

@@ -14,6 +14,11 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - **Tier 1 Criticality:** Runtime-critical path; thread-safety and fail-closed guarantees are mandatory
 
 ## Recently Completed
+- [x] Wave 4-A residual server runtime contract hardening batch (Completed 2026-08-31)
+  - gRPC-Web status now exposes an explicit availability/operator contract via `requests_supported`, `backend_mode`, and fail-closed reason reporting for non-gRPC builds
+  - RoPE `DELETE /api/v1/vector-index/{index}/rope/config` now performs real runtime disablement via `VectorIndexManager::disableRotaryEmbedding()`
+  - Unsupported exotic-platform MCP stdio transport now self-disables unless a `StdioReadFn` is injected, instead of advertising a started-but-deaf transport
+  - Time-series metadata endpoints now return explicit `source` and `degraded_mode` fields so builtin/storage fallback is visible to operators and tests
 - [x] Phase 5 Server Hardening — P5-S01 Wire-Protocol Retry + P5-S02 HTTP Timeout/Shutdown — Completed Q3 2026 (Validated 2026-07-20)
   - P5-S01: Exponential-backoff retry gate with configurable max_retries, base_delay, budget cap, and optional jitter
   - P5-S01: Retry eligibility gating (kTransient only; kFatal/kInvalidArg fail-fast)
@@ -81,6 +86,12 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [~] Missing audit log: ~12 handler files — tracked in Wave 4-A (Target: Q4 2026)
 
 ### Short-term (3-6 months)
+- [x] Residual runtime gap: replace the build-without-gRPC fallback in `grpc_web_proxy_handler.cpp` with an explicit feature/operator contract so non-gRPC builds advertise fail-closed availability via the status endpoint instead of a silent always-UNIMPLEMENTED path (Target: Q4 2026 → Completed 2026-08-31)
+- [~] Residual runtime gap: make aggregate and retention providers first-class production dependencies for the time-series metadata endpoints in `timeseries_api_handler.cpp`; explicit `source`/`degraded_mode` signaling is now delivered, but full DI wiring remains open (Target: Q4 2026)
+- [x] Residual runtime gap: `DELETE /api/v1/vector-index/{index}/rope/config` now disables rotary embeddings at runtime, and the stats path already uses real rotation metrics from `VectorIndexManager` (Target: Q4 2026 → Completed 2026-08-31)
+- [x] Residual request-validation gap: replace `validateJsonStub()` in `http_server.cpp` for content-import, PKI-sign, and PKI-verify routes with explicit schema validation entrypoints (Target: Q4 2026)
+- [~] Residual SQL-wire safety gap: tighten prepared-statement parameter handling in `postgres_session.cpp` with typed validation and placeholder-safe binding while deeper protocol-level bind execution remains open (Target: Q4 2026)
+- [x] Residual deployment gap: unsupported non-Linux MCP stdio transport in `mcp_server.cpp` is now explicitly self-disabled and documented unless a `StdioReadFn` is injected; native platform implementation still remains future work (Target: Q4 2026 → Completed 2026-08-31)
 - [ ] Plugin-based server adapter loading with signature validation and rollback guardrails (Target: Q4 2026)
 - [ ] Cluster-wide distributed rate-limit state hardening for mixed-node latency profiles (Target: Q4 2026)
 - [ ] GraphQL federation and schema governance hardening for multi-service deployments (Target: Q4 2026)
@@ -216,6 +227,18 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 ### Phase 6: Documentation and Release Readiness
 - [x] Keep server developer docs aligned with source and routing behavior after each hardening wave — `include/server/server_api_contract.h` freezes all handler registration, auth gate, retry/timeout/backpressure, error taxonomy, lifecycle/ownership, and threading contracts for v1.x (Target: Q2 2026)
 - [x] Ensure completed roadmap items are moved only to CHANGELOG and not retained in roadmap history blocks — server ROADMAP Phase 1, Phase 4, Phase 5 checkboxes updated with evidence references (Target: ongoing)
+
+## Wave 9 Block 1 — gRPC Core Service Layer (2026-08-26)
+
+- [x] **W9-1** Create RPC — `db_->put(collection:key, data)` wired; optional TxnManager session (`transaction_id` → `stoull`) for transactional writes; returns `CreateResponse.key` + timestamp
+- [x] **W9-2** Read RPC — `db_->get(collection:key)` wired; `ReadResponse.document` populated; 404 on miss
+- [x] **W9-3** Update / Delete / Scan RPCs — Update: `create_if_missing` guard + `db_->put()`; Delete: `db_->del()`; ScanCollection: `db_->scanPrefix(collection + ":")` streams `ScanResult` rows via `grpc::ServerWriter`
+- [x] **W9-4** Batch RPCs (BatchCreate / BatchRead / BatchUpdate / BatchDelete) — iterate documents/keys, apply each, count successes; GetStatus returns version + uptime
+- [x] **W9-5** Transaction RPCs — BeginTransaction/CommitTransaction/RollbackTransaction wired to `TransactionManager::beginTransaction()` / `commitTransaction()` / `rollbackTransaction()` with proto→`themis::IsolationLevel` mapping
+- [x] **W9-6** AQL RPCs (ExecuteAQL + StreamQuery) — forwarded to `aql_engine_->execute(query)` with null-check returning gRPC UNIMPLEMENTED when no engine is wired; `AQLEngine` type alias resolved to `themis::IQueryEngine` in header
+- [x] Tests — `tests/server/test_grpc_core_service.cpp` — 16 always-on source/API tests (GCS-01..GCS-16) + 13 full RPC tests under `THEMIS_HAS_CORE_GRPC` guard (GCS-17..GCS-29)
+- [x] CMake — `THEMIS_HAS_CORE_GRPC` compile definition added to `themis_core` (PUBLIC) and `themis_server` (PRIVATE) in `cmake/CMakeLists.txt`; `test_grpc_core_service` registered in `tests/CMakeLists.txt` (W10-B, 2026-08-27)
+- Resolved: `src/STUB_INVENTORY.md` entries for `server/themis_core_grpc_service.cpp` marked complete; `src/server/MODULE_GAPS.md` UNIMPLEMENTED grpc items closed
 
 ## Production Readiness Checklist
 - Status: Tracking in progress (last validated 2026-08-17)

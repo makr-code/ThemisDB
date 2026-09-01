@@ -4,6 +4,15 @@ This file documents all documentation and code quality gaps in the **acceleratio
 
 ## Summary
 
+## Marker-Validierung 2026-08-31
+
+- Quelle: `audit/MARKER_LOCATIONS_2026-08-31.md`
+- Ergebnis: **16 reale Gaps**, **26 Doku-Leaks**
+- Klassifikation: Doku-Leaks kommen aus auto-generierten `@note Gap Summary`-Headerzeilen und sind keine fehlende Produktionslogik.
+- Delta seit der 2026-08-31-Baseline: der reale `BreakEvenValidator`-Profiling-/Metrics-TODO in `src/acceleration/break_even_validator.cc` wurde am 2026-08-31 durch produktive Build-Wiring-, Hook- und Fail-Closed-Logik ersetzt; die undatierte Modul-Gap-Lage ist damit mindestens um diesen Einzelgap reduziert, auch wenn noch kein neuer Vollscan committed ist.
+- Doku-Leak-Beispiel: `GAP-0198` → `src/acceleration/ai_hardware_dispatcher.cpp:7` (* @note Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=28, H=49, M=2, L=0)
+- Korrespondierende Gesamtliste: `audit/MARKER_GAP_CLASSIFICATION_2026-08-31.md`
+
 - **Total Gaps**: 2558
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
 - **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)

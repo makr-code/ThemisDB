@@ -202,15 +202,19 @@ public:
             data.insert(data.end(), buffer, buffer + body.gcount());
         }
         
-        // Verify hash
-        std::string actual_hash = computeSHA256(data);
-        if (actual_hash != ref.hash_sha256) {
-            THEMIS_ERROR("Hash mismatch for blob {}: expected={}, actual={}", 
-                        ref.id, ref.hash_sha256, actual_hash);
-            return Err<std::vector<uint8_t>>(
-                errors::ErrorCode::ERR_STORAGE_CORRUPTION,
-                "Hash mismatch for blob: " + ref.id
-            );
+        // Verify hash when the caller supplied an expected digest. Manifest
+        // bootstrap fetches intentionally omit the hash so they do not pay the
+        // checksum cost twice.
+        if (!ref.hash_sha256.empty()) {
+            std::string actual_hash = computeSHA256(data);
+            if (actual_hash != ref.hash_sha256) {
+                THEMIS_ERROR("Hash mismatch for blob {}: expected={}, actual={}",
+                            ref.id, ref.hash_sha256, actual_hash);
+                return Err<std::vector<uint8_t>>(
+                    errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                    "Hash mismatch for blob: " + ref.id
+                );
+            }
         }
         
         THEMIS_DEBUG("Blob retrieved from S3: id={}, size={} bytes", ref.id, data.size());
@@ -285,4 +289,3 @@ std::mutex S3BlobBackend::init_mutex_;
 } // namespace themis
 
 #endif
-

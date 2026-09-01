@@ -182,7 +182,7 @@ themis::Result<Operation> Parser::parseOperation() {
     skipWhitespace();
 
     // Optional operation name
-    if (op.type != OperationType::Query || !peek('{') && !peek('(')) {
+    if (op.type != OperationType::Query || (!peek('{') && !peek('('))) {
         auto nameResult = parseName();
         if (nameResult) {
             op.name = *nameResult;

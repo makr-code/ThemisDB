@@ -402,8 +402,6 @@ TOTPSecretRotationManager::getActiveSecrets(const std::string &user_id) {
         return active_secrets;
     }
 
-    auto now = std::chrono::system_clock::now();
-
     for (const auto &secret : it->second) {
         if (isSecretValid(secret)) {
             active_secrets.push_back(secret);

@@ -676,14 +676,20 @@ nlohmann::json QueryFederation::executeJoin(
 
                 for (const auto& small_row : it->second) {
                     nlohmann::json merged = nlohmann::json::object();
-                    // Optimize: Pre-compute collection prefix strings to avoid repeated concatenation
+                    // [W9-10-FIX: string_concat_loop — query_federation.cpp:312]
+                    // Pre-compute prefix+underscore strings outside the field
+                    // iteration loops to avoid O(F) redundant string allocations
+                    // per joined row where F = number of fields.
                     const std::string& small_prefix = left_is_small ? left_collection : right_collection;
                     const std::string& large_prefix = left_is_small ? right_collection : left_collection;
+                    // Build "prefix_" once; field names are appended below.
+                    const std::string small_pfx_sep = small_prefix + '_';
+                    const std::string large_pfx_sep = large_prefix + '_';
                     for (const auto& [k, v] : small_row.items()) {
-                        merged[small_prefix + "_" + k] = v;
+                        merged[small_pfx_sep + k] = v;
                     }
                     for (const auto& [k, v] : large_row.items()) {
-                        const std::string rk = large_prefix + "_" + k;
+                        const std::string rk = large_pfx_sep + k;
                         if (!merged.contains(rk)) merged[rk] = v;
                     }
                     estimated_result_bytes += static_cast<uint64_t>(merged.dump().size());

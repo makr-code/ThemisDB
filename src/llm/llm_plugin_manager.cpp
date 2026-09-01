@@ -666,6 +666,17 @@ bool createLlamaWrapper(
     const json& config
 ) {
 #ifdef THEMIS_LLAMA_CPP_STUB_MODE
+    // STUB/SIMULATION NOTE (STUB #LPM-01 — llama.cpp stub mode):
+    // Purpose:           Allow LLMPluginManager to compile and link on environments
+    //                    where llama.cpp is not available or not desired (e.g., CI
+    //                    pipelines, cross-compilation targets, or test builds).
+    // Activation:        Compiled when THEMIS_LLAMA_CPP_STUB_MODE is defined.
+    //                    Never set in production release CMake presets.
+    // Production Delta:  Returns true immediately without creating any real LLM
+    //                    plugin. All llama.cpp inference calls will subsequently
+    //                    fail-closed via the EmbeddedLLM no-backend path.
+    // Removal Plan:      Do not set THEMIS_LLAMA_CPP_STUB_MODE in production builds.
+    //                    Tracking: src/llm/ROADMAP.md § "llama.cpp Integration"
     (void)name;
     (void)model_path;
     (void)config;

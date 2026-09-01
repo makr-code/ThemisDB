@@ -144,7 +144,21 @@ def load_coverage_threshold(repo_root: Path) -> float:
     return 95.0
 
 
-def _selected_scope_paths(repo_root: Path, changed_code_files: List[str]) -> List[Path]:
+def _selected_scope_paths(
+    repo_root: Path,
+    changed_code_files: List[str],
+    *,
+    expand_to_module_scope: bool,
+) -> List[Path]:
+    if not expand_to_module_scope:
+        return [
+            (repo_root / rel).resolve()
+            for rel in changed_code_files
+            if _is_cpp_file(rel)
+            and Path(rel).suffix.lower() in {".h", ".hh", ".hpp", ".hxx"}
+            and (repo_root / rel).exists()
+        ]
+
     modules = sorted({name for path in changed_code_files if (name := _module_name(path))})
     scope: List[Path] = []
     for module in modules:
@@ -335,7 +349,11 @@ def main() -> int:
         advisory_findings = [
             finding for finding in scan_findings if finding.get("pattern") in ADVISORY_PATTERNS
         ]
-        scope_paths = _selected_scope_paths(repo_root, changed_code_files)
+        scope_paths = _selected_scope_paths(
+            repo_root,
+            changed_code_files,
+            expand_to_module_scope=coverage_enforced,
+        )
         generated_config, warning_log, xml_index = write_scoped_doxyfile(
             repo_root, artifact_dir, scope_paths
         )
@@ -354,7 +372,7 @@ def main() -> int:
         xml_index_exists = bool(xml_index and xml_index.exists())
         coverage_summary_path = artifact_dir / "doxygen-coverage-summary.txt"
 
-        if doxygen_exit_code == 0 and xml_index_exists:
+        if coverage_enforced and doxygen_exit_code == 0 and xml_index_exists:
             coverage_proc = _run(
                 [
                     "python3",

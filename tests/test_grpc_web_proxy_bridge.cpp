@@ -8,6 +8,7 @@
 #include "server/grpc_web_proxy_handler.h"
 
 #include <boost/beast/http.hpp>
+#include <nlohmann/json.hpp>
 #include <cstdint>
 #include <stdexcept>
 #include <string>
@@ -118,6 +119,15 @@ TEST_F(GrpcWebProxyBridgeTest, InjectedFnIsCalled)
     EXPECT_EQ(res.result(), http::status::ok);
     EXPECT_TRUE(fn_called);
     EXPECT_EQ(extractGrpcStatus(res.body()), 0);
+
+#ifndef THEMIS_ENABLE_GRPC
+    http::request<http::string_body> status_req{http::verb::get, "/api/v1/grpc-web/status", 11};
+    auto status_res = handler.handleStatus(status_req);
+    EXPECT_EQ(status_res.result(), http::status::ok);
+    auto status_body = nlohmann::json::parse(status_res.body());
+    EXPECT_TRUE(status_body["requests_supported"].get<bool>());
+    EXPECT_EQ(status_body["backend_mode"].get<std::string>(), "override");
+#endif
 }
 
 TEST_F(GrpcWebProxyBridgeTest, ThrowingFnPropagatesException)

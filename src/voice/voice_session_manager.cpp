@@ -40,6 +40,8 @@ bool isValidSessionTransition(SessionState current, SessionState next) {
                    next == SessionState::TERMINATED;
         case SessionState::TERMINATED:
             return false;
+        case SessionState::CLOSING:
+            return next == SessionState::TERMINATED;
     }
     return false;
 }

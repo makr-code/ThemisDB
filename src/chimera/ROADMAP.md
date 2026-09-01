@@ -8,6 +8,12 @@
 
 Production adapter runtime (v0.0.47, 96/100 maturity score) exists for the current ThemisDB adapter implementation, including simulation-mode behavior and conditional engine-dispatch integration surfaces. Core module documentation is aligned to source-verifiable behavior. Build system corrected 2026-07-27 (CMakeLists.txt).
 
+**Gap-Closure Wave 2 (2026-08-31):** All MongoDB, Neo4j, and Qdrant adapter methods that previously silently returned `ok` without a real library now:
+- Are guarded by `#ifdef THEMIS_CHIMERA_MONGO` / `#ifdef THEMIS_CHIMERA_NEO4J` / `#ifdef THEMIS_CHIMERA_QDRANT`
+- Return `ErrorCode::NOT_IMPLEMENTED` with an actionable message in the `#else` branch
+- Carry `// NOT IMPLEMENTED: Requires <library>. Gate: THEMIS_CHIMERA_<NAME>` comments
+- Do **not** silently report success when the library is unavailable
+
 ## In Progress
 
 - [~] hardening parity between simulation-mode and engine-backed dispatch paths (Target: Q3 2026, evidence: 2200+ test LOC)
@@ -17,7 +23,11 @@ Production adapter runtime (v0.0.47, 96/100 maturity score) exists for the curre
 - [~] v1.1.0: Transaction Management with ACID properties and savepoints (Target: Q3 2026)
 - [~] v1.1.0: Error Recovery with exponential backoff retry strategy (Target: Q3 2026)
 - [~] v1.1.0: Batch Operation Optimization for throughput (Target: Q3 2026)
-- [ ] v1.2.0: MongoDB/Qdrant/Neo4j Real Driver Integration (Target: Q4 2026)
+- [~] v1.2.0: MongoDB/Qdrant/Neo4j Real Driver Integration (Target: Q4 2026)
+  - [x] Gap-Closure Wave 2 (2026-08-31): `#ifdef` guards + fail-closed `NOT_IMPLEMENTED` returns for all adapter methods requiring `mongocxx` / `neo4j-cpp-driver` / `qdrant-client-cpp`
+  - [ ] Wire real `mongocxx::client` behind `THEMIS_CHIMERA_MONGO` (Target: Q4 2026)
+  - [ ] Wire real `neo4j-cpp-driver` behind `THEMIS_CHIMERA_NEO4J` (Target: Q4 2026)
+  - [ ] Wire real `qdrant-client-cpp` gRPC calls behind `THEMIS_CHIMERA_QDRANT` (Target: Q4 2026)
 
 ## Planned Features
 
@@ -42,6 +52,7 @@ Production adapter runtime (v0.0.47, 96/100 maturity score) exists for the curre
 - [ ] align simulation and engine-backed behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
+- [x] Gap-Closure Wave 2: all third-party adapter methods return `NOT_IMPLEMENTED` when library not compiled in — no silent success (2026-08-31)
 - [ ] standardize fail-closed behavior for invalid connection/dispatch states (Target: Q4 2026)
 - [ ] unify diagnostics across capability mismatch and unsupported-path classes (Target: Q4 2026)
 

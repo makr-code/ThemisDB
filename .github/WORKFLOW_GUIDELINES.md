@@ -4,7 +4,7 @@
 Diese Richtlinie gilt fuer den schlanken, release-zentrierten Workflow-Kern.
 Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 
-## Aktive Workflows (42)
+## Aktive Workflows (44)
 Die aktuelle kanonische Liste steht in `.github/WORKFLOW_REGISTRY.md`; der alte 21er-Stand war veraltet und wird hier durch den aktuellen, im Repository geltenden Zustand ersetzt.
 
 Kernliste der aktiven Workflows:
@@ -28,6 +28,8 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/compliance-supply-chain.yml`
 - `.github/workflows/build-ollama-router.yml`
 - `.github/workflows/gate-copilot-regression.yml`
+- `.github/workflows/copilot-code-review.yml`
+- `.github/workflows/publish-wiki.yml`
 - `.github/workflows/release-docker-image.yml`
 - `.github/workflows/edition-hyperscaler-ci.yml`
 - `.github/workflows/security-fortify.yml`
@@ -89,6 +91,22 @@ Kernliste der aktiven Workflows:
 - `concurrency` mit `cancel-in-progress` auf Push/PR-Workflows setzen.
 - Berechtigungen minimal halten (`permissions` least privilege).
 - Schwere Benchmark-, GPU- und Sweep-Jobs standardmaessig ueber `schedule` oder `workflow_dispatch` isolieren.
+- Copilot-Review-Runner-Konfigurationen muessen als selbstbegrenzte Workflows
+  mit dem Jobnamen `copilot-setup-steps` und einem expliziten Ubuntu
+  `runs-on` deklariert werden.
+
+## Generalisierte Dateityp-Selektion (inkl. Ordner Include/Exclude)
+- Fuer PR-Workflows bevorzugt Dateityp-Muster statt Ordner-Glob:
+  - Gut: `.github/workflows/**/*.yml`, `tools/ci/**/*.py`, `cmake/**/*.cmake`
+  - Vermeiden: `.github/actions/**`, `tools/**`, `src/**` ohne weitere Eingrenzung
+- `paths:` fuer Include nutzen und nur bei Bedarf mit `paths-ignore:` kombinieren.
+- Build-/Security-/Performance-Workflows duerfen nicht auf reine Doku-Aenderungen reagieren.
+- Typische Excludes fuer nicht-fachliche Trigger:
+  - `docs/**`
+  - `ai_context/**`
+  - `ai_working/**`
+  - `**/*.md` (nur wenn der Workflow keine Doku-Governance prueft)
+- Wenn ein Workflow Doku oder Governance explizit validiert, gelten dessen SOT-Pfade als Ausnahme.
 
 ## Security Guidelines
 - Keine Secrets im YAML oder in Shell-Skripten hardcoden.
@@ -103,7 +121,7 @@ Kernliste der aktiven Workflows:
 - `.github/actions/setup-cpp-build/`  — C++ Build-Setup (sccache, toolchain, deps)
 - `.github/actions/setup-python-script/`  — Reusable checkout→python→script→upload pattern (ersetzt 21× Duplizierung)
 - `.github/actions/status-flags-and-issues/`  — Kanonische Schnittstelle für Issue-/PR-Kommentare, Labels und Status-Tracker; ersetzt direkte `github.rest.issues.*`/`createComment`-Blöcke in Workflows.
-- `.github/actions/manage-governance-issue/`  — Kanonische create/update/close Issue-Action (aktuell noch nicht von Workflows verwendet; kanon. Referenz für künftige Migrations)
+- `.github/actions/manage-governance-issue/`  — Kanonische create/update Issue-Action (close-if-empty ist policy-bedingt no-op; aktuell noch nicht von Workflows verwendet)
 - `build-mainline.yml` nutzt `mozilla-actions/sccache-action` mit `SCCACHE_GHA_ENABLED=true`.
 - CMake muss mit `-DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache` konfiguriert werden.
 - Cache-Warming erfolgt wöchentlich (montags 00:00 UTC) für Linux (GCC) und Windows (MSVC).
@@ -115,7 +133,7 @@ Kernliste der aktiven Workflows:
   - `upsert_issue`
   - `set_status` / `clear_status` / `replace_status_group`
   - `comment_issue`
-  - `close_issue`
+  - `close_issue` (policy-disabled/no-op; keine automatische Issue-Schließung)
 - `comment_issue` darf auf Issues und PRs kommentieren; in GitHub ist ein PR als Issue mit `issue_number` adressierbar. Für klaren Zweck sollte der Workflow den `target-type` explizit auf `issue`, `pr` oder `auto` setzen.
 - Empfehlungskommentare mit dynamischer Evidenz (z. B. `merged PR`/`timeline`-Analyse) sind eine erlaubte Sonderform, sofern sie comment-only bleiben und keine Tracker-Status-Mutation, kein `close_issue`, kein Label-Override und keine Branch-Mutation ausführen. In solchen Workflows muss der Marker-Mechanismus strikt idempotent bleiben.
 - Kommentare müssen idempotent sein: Marker wie `<!-- ci-build:type:build-status -->` oder `<!-- ci-error:... -->` verhindern Spam und doppelte Fehlerposts.

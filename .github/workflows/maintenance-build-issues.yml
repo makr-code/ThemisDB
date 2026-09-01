@@ -127,6 +127,8 @@ jobs:
       - name: Fetch failed workflow runs and error artifacts
         id: fetch
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        env:
+          LOOKBACK_MINUTES: ${{ github.event_name == 'workflow_dispatch' && inputs.lookback_minutes || '1440' }}
         with:
           script: |
             const fs = require('fs');
@@ -147,22 +149,28 @@ jobs:
             console.log(`Since: ${since}`);
             
             // Fetch failed workflow runs
-            const workflows = ['Build: Mainline', 'Docker Image CI/CD'];
+            const workflows = [
+              'Build: Mainline',
+              'Build: LLM Inferencing [TinyLlama + doku.db RAG + AdaLoRA]',
+              'Docker Image CI/CD'
+            ];
             const artifactDir = '/tmp/error-artifacts';
             if (!fs.existsSync(artifactDir)) {
               fs.mkdirSync(artifactDir, { recursive: true });
             }
             
             let downloadedCount = 0;
+            let downloadedLogCount = 0;
+            const changedSrcFiles = new Set();
             
+            const repoWorkflows = await github.paginate(github.rest.actions.listRepoWorkflows, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100,
+            });
+
             for (const workflowName of workflows) {
-              const { data: wfList } = await github.rest.actions.listRepoWorkflows({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                per_page: 5,
-              });
-              
-              const wf = wfList.workflows.find(w => w.name === workflowName);
+              const wf = repoWorkflows.find(w => w.name === workflowName);
               if (!wf) {
                 console.log(`  ⏭️  Workflow not found: ${workflowName}`);
                 continue;
@@ -182,6 +190,22 @@ jobs:
               
               // Download error artifacts from each run
               for (const run of runs.workflow_runs) {
+                try {
+                  const { data: commit } = await github.rest.repos.getCommit({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    ref: run.head_sha,
+                    per_page: 100
+                  });
+                  for (const changed of (commit.files || [])) {
+                    if (changed.filename && changed.filename.startsWith('src/')) {
+                      changedSrcFiles.add(changed.filename);
+                    }
+                  }
+                } catch (e) {
+                  core.warning(`Failed to resolve changed files for run #${run.id}: ${e.message}`);
+                }
+
                 const { data: artifacts } = await github.rest.actions.listWorkflowRunArtifacts({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
@@ -189,7 +213,9 @@ jobs:
                 });
                 
                 const errorArtifacts = artifacts.artifacts.filter(a => 
-                  a.name.includes('error') || a.name.startsWith('ctest-results')
+                  a.name.includes('error') ||
+                  a.name.includes('diagnostic') ||
+                  a.name.startsWith('ctest-results')
                 );
                 
                 for (const artifact of errorArtifacts) {
@@ -232,13 +258,56 @@ jobs:
                     core.warning(`Failed to download artifact: ${artifact.name} — ${e.message}`);
                   }
                 }
+
+                try {
+                  console.log(`    📥 Downloading run logs for run #${run.id}`);
+                  const logsResponse = await github.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/logs', {
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    run_id: run.id,
+                    request: { redirect: 'follow' },
+                  });
+
+                  const logsZipPath = path.join(artifactDir, `run-logs-${run.id}.zip`);
+                  fs.writeFileSync(logsZipPath, Buffer.from(logsResponse.data));
+
+                  const logsExtractDir = path.join(artifactDir, `run-logs-${run.id}`);
+                  fs.mkdirSync(logsExtractDir, { recursive: true });
+                  const { execSync } = require('child_process');
+                  execSync(`unzip -o "${logsZipPath}" -d "${logsExtractDir}"`, { stdio: 'pipe' });
+
+                  fs.writeFileSync(
+                    path.join(logsExtractDir, `_metadata.json`),
+                    JSON.stringify({
+                      name: `run-logs-${run.id}`,
+                      run_id: run.id,
+                      run_number: run.run_number,
+                      workflow: workflowName,
+                      created_at: run.created_at,
+                    }, null, 2)
+                  );
+
+                  downloadedLogCount++;
+                } catch (e) {
+                  core.warning(`Failed to download run logs for #${run.id}: ${e.message}`);
+                }
               }
             }
             
             console.log(`  Downloaded: ${downloadedCount} artifact(s)`);
+            console.log(`  Downloaded: ${downloadedLogCount} run log bundle(s)`);
+            console.log(`  Changed src files in failed runs: ${changedSrcFiles.size}`);
+
+            const changedSrcFileList = Array.from(changedSrcFiles).sort();
+            fs.writeFileSync(
+              path.join(artifactDir, 'changed-src-files.json'),
+              JSON.stringify(changedSrcFileList, null, 2)
+            );
             
             core.setOutput('artifact_count', downloadedCount);
-            core.setOutput('has_artifacts', downloadedCount > 0 ? 'true' : 'false');
+            core.setOutput('log_count', downloadedLogCount);
+            core.setOutput('changed_src_file_count', changedSrcFileList.length);
+            core.setOutput('has_artifacts', (downloadedCount > 0 || downloadedLogCount > 0) ? 'true' : 'false');
             core.setOutput('artifact_dir', artifactDir);
 
       - name: Aggregate errors from artifacts
@@ -247,6 +316,10 @@ jobs:
         env:
           ERROR_ARTIFACTS_DIR: /tmp/error-artifacts
           OUTPUT_FILE: /tmp/aggregated-errors.md
+          GROUPED_OUTPUT_FILE: /tmp/aggregated-errors-by-module-file.json
+          MAX_GROUPS_IN_REPORT: '30'
+          MAX_ITEMS_PER_GROUP_IN_REPORT: '4'
+          MAX_MARKDOWN_CHARS: '45000'
         run: |
           node "${{ github.workspace }}/.github/scripts/aggregate-build-errors.js"
           
@@ -259,19 +332,25 @@ jobs:
             } >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Create or update chronic build failure issue
+          if [ -f /tmp/aggregated-errors-by-module-file.json ]; then
+            echo "grouped_json_file=/tmp/aggregated-errors-by-module-file.json" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Ensure single chronic build failure issue
         if: steps.aggregate.outputs.chronic_errors > 0
-        uses: ./.github/actions/manage-governance-issue
+        id: chronic-issue
+        uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          title: '🔴 Chronic Build Failures — Error Report'
-          body: |
+          operation: upsert_issue
+          issue-title: '🔴 Chronic Build Failures — Error Report'
+          issue-marker: '<!-- ci-build:type:chronic-error-report -->'
+          issue-body: |
+            <!-- ci-build:type:chronic-error-report -->
             ## Build Error Aggregation Report
             
             **Aggregation Period**: Last 24 hours  
-            **Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            
-            ${{ steps.aggregate.outputs.report_markdown }}
+            **Latest Aggregation Run**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
             
             ### Debugging Tips
             1. **Navigate to Actions tab** → Find the failed workflow run
@@ -284,9 +363,29 @@ jobs:
             
             **Labels**: `ci/failure,ci/build-error`  
             **Severity**: High (blocking builds)  
-            **Priority**: Address chronic errors immediately
-          labels: 'ci/failure,ci/build-error,maintenance'
-          close-if-empty: 'false'
+            **Priority**: Address chronic errors immediately  
+            _Neue Build-Fehler werden als Kommentare an dieses Issue angehängt._
+          labels-to-add: 'ci/failure,ci/build-error,maintenance'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Append latest chronic build errors as issue comment
+        if: steps.aggregate.outputs.chronic_errors > 0
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ steps.chronic-issue.outputs.issue-number }}
+          issue-body: |
+            ## 📎 Neuer Build-Fehlerreport
+
+            **Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            ${{ steps.aggregate.outputs.report_markdown }}
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
 
       - name: Send Slack notification for chronic errors
         if: steps.aggregate.outputs.chronic_errors > 0
@@ -312,29 +411,6 @@ jobs:
           include-remediation-hints: 'true'
         continue-on-error: true
 
-      - name: Create issue for each error type (if needed)
-        if: steps.fetch.outputs.has_artifacts == 'true'
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
-        with:
-          script: |
-            const fs = require('fs');
-            
-            // Read aggregated report
-            const reportFile = '/tmp/aggregated-errors.md';
-            if (!fs.existsSync(reportFile)) {
-              console.log('No aggregated report found.');
-              return;
-            }
-            
-            const reportMarkdown = fs.readFileSync(reportFile, 'utf8');
-            
-            // Check for critical errors and create separate tracking issue if needed
-            if (reportMarkdown.includes('CRITICAL') || reportMarkdown.includes('Chronic')) {
-              console.log('✅ Critical/chronic errors detected - main issue created');
-            } else {
-              console.log('✅ Error aggregation complete - no critical issues');
-            }
-
       - name: Print error aggregation summary
         if: always()
         run: |
@@ -343,6 +419,7 @@ jobs:
           echo "──────────────────────────────────────────────"
           echo "Total unique errors: ${{ steps.aggregate.outputs.total_errors }}"
           echo "Chronic errors (≥3x): ${{ steps.aggregate.outputs.chronic_errors }}"
+          echo "Module/file groups: ${{ steps.aggregate.outputs.module_file_groups }}"
           if [ -f /tmp/aggregated-errors.md ]; then
             echo ""
             echo "Aggregated Report:"
@@ -377,7 +454,7 @@ jobs:
         uses: ./.github/actions/publish-error-dashboard
         with:
           metrics-artifact: error-metrics
-          create-issue: ${{ steps.aggregate.outputs.chronic_errors > 0 }}
+          create-issue: 'false'
           dashboard-title: '📊 Build Error Dashboard — Run #${{ github.run_number }}'
           send-slack: ${{ env.SLACK_WEBHOOK_URL != '' }}
           slack-webhook: ${{ env.SLACK_WEBHOOK_URL }}

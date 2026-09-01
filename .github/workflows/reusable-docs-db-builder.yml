@@ -1,0 +1,266 @@
+name: "Reusable: Docs-to-ThemisDB Database Builder"
+
+# Rechenaufwand-Score: R=3 (K=2, L=3, N=3) | last-calibrated: 2026-08-31
+# Reusable workflow that runs the canonical Python documentation pipeline
+# (scripts/generate_docs_database.py → scripts/generate_docs_rocksdb.py)
+# and ingests any folder structure into a ThemisDB-compatible RocksDB database.
+#
+# Pipeline stages (mirrors CMakeLists.txt BUILD mode):
+#   1. generate_docs_database.py  → JSON artifact with chunks + embeddings + graph
+#   2. generate_docs_rocksdb.py   → C++ importer source from the JSON
+#   3. compile + run importer     → RocksDB database
+#
+# Caller pattern:
+#   uses: ./.github/workflows/reusable-docs-db-builder.yml
+#   with:
+#     input_dir:   docs            # folder relative to repo root
+#     namespace:   com.themisdb.docs
+#     output_name: docs-db
+#
+# Outdated detection (two-layer):
+#   1. paths: trigger in the calling workflow → only fires when source folder changes.
+#   2. Content hash check inside this job → skip build when file tree is unchanged
+#      (guards against re-runs triggered by unrelated changes).
+
+on:
+  workflow_call:
+    inputs:
+      input_dir:
+        description: >
+          Source folder to ingest (relative to repo root, e.g. docs, legals, runbooks).
+          When set to 'docs' or left empty the full-repo Markdown scan is used (default
+          behaviour of generate_docs_database.py); otherwise the script is restricted to
+          the given directory via --input-dir.
+        type: string
+        required: true
+      namespace:
+        description: >
+          ThemisDB namespace for document isolation (reverse-domain notation,
+          e.g. com.themisdb.docs). Passed as --namespace to generate_docs_database.py.
+        type: string
+        required: true
+      output_name:
+        description: >
+          Name for the output artifact and cache key (e.g. docs-db, legals-db).
+          Must be unique per input_dir.
+        type: string
+        required: true
+      embedding_model:
+        description: >
+          sentence-transformers model name for offline embeddings.
+          Falls back to deterministic hash embeddings when sentence-transformers
+          is not installed — no extra pip install required.
+        type: string
+        required: false
+        default: 'sentence-transformers/all-MiniLM-L6-v2'
+      graph_mode:
+        description: >
+          Graph edge persistence mode passed to generate_docs_database.py.
+          Choices: full | doc-only | intra-doc
+        type: string
+        required: false
+        default: 'full'
+      artifact_retention_days:
+        description: 'Retention period for the uploaded database artifact (days).'
+        type: number
+        required: false
+        default: 30
+      force_rebuild:
+        description: 'Force rebuild even if hash matches cached build.'
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  build-db:
+    name: "Build: ${{ inputs.output_name }} (${{ inputs.input_dir }})"
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      # ── Layer 2: Content hash check ─────────────────────────────────────
+      # Computes a stable SHA-256 fingerprint of the entire input folder tree.
+      # If a cached build with this exact hash already exists, the build is
+      # skipped to avoid redundant ingestion.
+
+      - name: Compute input-directory content hash
+        id: hash
+        shell: bash
+        run: |
+          if [ ! -d "${{ inputs.input_dir }}" ]; then
+            echo "::error::Input directory '${{ inputs.input_dir }}' does not exist."
+            exit 1
+          fi
+          HASH=$(find "${{ inputs.input_dir }}" -type f -print0 \
+                 | LC_ALL=C sort -z \
+                 | xargs -0 sha256sum 2>/dev/null \
+                 | sha256sum | awk '{print $1}')
+          echo "value=${HASH}" >> "$GITHUB_OUTPUT"
+          echo "Input hash: ${HASH}"
+
+      - name: Restore hash-based build cache
+        id: cache
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: |
+            .db-cache/${{ inputs.output_name }}.sha
+            output-db/${{ inputs.output_name }}.db
+          key: docs-db-${{ inputs.output_name }}-${{ inputs.namespace }}-${{ inputs.graph_mode }}-${{ inputs.embedding_model }}-${{ steps.hash.outputs.value }}
+
+      - name: Determine whether rebuild is needed
+        id: check
+        shell: bash
+        run: |
+          if [ "${{ inputs.force_rebuild }}" = "true" ]; then
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "Force rebuild requested."
+          elif [ "${{ steps.cache.outputs.cache-hit }}" = "true" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Cache hit — input hash unchanged. Skipping rebuild."
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "No cache hit — rebuild required."
+          fi
+
+      # ── Python environment ───────────────────────────────────────────────
+
+      - name: Set up Python
+        if: steps.check.outputs.skip != 'true'
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          pip install --quiet sentence-transformers || true
+          # sentence-transformers is optional; generate_docs_database.py falls back
+          # to deterministic hash embeddings when it is unavailable.
+
+      # ── C++ toolchain for the RocksDB importer ───────────────────────────
+
+      - name: Install C++ build dependencies
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            g++ librocksdb-dev nlohmann-json3-dev
+
+      # ── Stage 1: JSON artifact (chunks + embeddings + graph) ────────────
+
+      - name: "Stage 1: Generate JSON documentation database"
+        if: steps.check.outputs.skip != 'true'
+        shell: bash
+        run: |
+          mkdir -p output-db
+
+          EXTRA_ARGS=()
+          # When input_dir is not the repo root pass a scoped directory.
+          # generate_docs_database.py discovers Markdown files from REPO_ROOT;
+          # restricting to a subdirectory requires --input-dir if supported, or we
+          # patch REPO_ROOT to the subdirectory via env var.
+          if [ "${{ inputs.input_dir }}" != "." ] && [ "${{ inputs.input_dir }}" != "" ]; then
+            EXTRA_ARGS+=(--input-dir "${{ inputs.input_dir }}")
+          fi
+
+          python3 scripts/generate_docs_database.py \
+            --output "output-db/docs_artifact.json" \
+            --embedding-model "${{ inputs.embedding_model }}" \
+            --graph-mode "${{ inputs.graph_mode }}" \
+            "${EXTRA_ARGS[@]}"
+
+      # ── Stage 2: Generate C++ RocksDB importer from JSON ────────────────
+
+      - name: "Stage 2: Generate C++ RocksDB importer"
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          python3 scripts/generate_docs_rocksdb.py \
+            --input  "output-db/docs_artifact.json" \
+            --output "output-db/${{ inputs.output_name }}.db" \
+            --method cpp
+
+      # ── Stage 3: Compile and run C++ importer → RocksDB database ────────
+
+      - name: "Stage 3: Compile C++ importer"
+        if: steps.check.outputs.skip != 'true'
+        shell: bash
+        run: |
+          # generate_docs_rocksdb.py emits the importer source next to the output path.
+          IMPORTER_SRC="output-db/${{ inputs.output_name }}.db_importer.cpp"
+          if [ ! -f "${IMPORTER_SRC}" ]; then
+            # Fallback: common output name used by the script
+            IMPORTER_SRC="output-db/import_docs_rocksdb.cpp"
+          fi
+          EXTRA_CFLAGS=()
+          if pkg_out=$(pkg-config --cflags nlohmann_json 2>/dev/null); then
+            # shellcheck disable=SC2206
+            EXTRA_CFLAGS=($pkg_out)
+          fi
+          g++ -std=c++17 -O2 \
+            "${IMPORTER_SRC}" \
+            -o /tmp/import_docs_rocksdb \
+            -lrocksdb -lpthread \
+            "${EXTRA_CFLAGS[@]}"
+
+      - name: "Stage 3: Import JSON into RocksDB"
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          /tmp/import_docs_rocksdb \
+            "output-db/docs_artifact.json" \
+            "output-db/${{ inputs.output_name }}.db"
+
+      # ── Cache update ─────────────────────────────────────────────────────
+
+      - name: Save content hash to cache
+        if: steps.check.outputs.skip != 'true'
+        shell: bash
+        run: |
+          mkdir -p .db-cache
+          echo "${{ steps.hash.outputs.value }}" > ".db-cache/${{ inputs.output_name }}.sha"
+
+      # ── Upload artifacts ──────────────────────────────────────────────────
+
+      - name: Upload RocksDB database artifact
+        if: always() && (steps.check.outputs.skip != 'true' || steps.cache.outputs.cache-hit == 'true')
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ${{ inputs.output_name }}
+          path: output-db/${{ inputs.output_name }}.db
+          retention-days: ${{ inputs.artifact_retention_days }}
+
+      - name: Upload JSON artifact (for incremental rebuilds / debugging)
+        if: steps.check.outputs.skip != 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ${{ inputs.output_name }}-json
+          path: output-db/docs_artifact.json
+          retention-days: ${{ inputs.artifact_retention_days }}
+
+      - name: Summary
+        if: always()
+        shell: bash
+        run: |
+          if [ "${{ steps.check.outputs.skip }}" = "true" ]; then
+            {
+              echo "### ✅ Database up-to-date — no rebuild required"
+              echo "Artifact \`${{ inputs.output_name }}\` was already current (hash matched cached build)."
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            {
+              echo "### ✅ Database rebuilt (Python pipeline)"
+              echo "| Field | Value |"
+              echo "|---|---|"
+              echo "| Input directory | \`${{ inputs.input_dir }}/\` |"
+              echo "| Namespace | \`${{ inputs.namespace }}\` |"
+              echo "| Embedding model | \`${{ inputs.embedding_model }}\` |"
+              echo "| Graph mode | \`${{ inputs.graph_mode }}\` |"
+              echo "| Artifact | \`${{ inputs.output_name }}\` |"
+              echo "| Content hash | \`${{ steps.hash.outputs.value }}\` |"
+              echo "| Retention | ${{ inputs.artifact_retention_days }} days |"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi

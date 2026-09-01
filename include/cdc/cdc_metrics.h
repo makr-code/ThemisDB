@@ -47,6 +47,7 @@ public:
     
     /**
      * @brief Record a latency sample in microseconds
+     * @param latency_micros Sample latency value in microseconds.
      */
     void record(uint64_t latency_micros) {
         count_++;
@@ -59,6 +60,7 @@ public:
     
     /**
      * @brief Get count of samples
+     * @return Total number of recorded samples.
      */
     uint64_t count() const {
         return count_.load();
@@ -66,6 +68,7 @@ public:
     
     /**
      * @brief Get average latency in microseconds
+     * @return Average latency in microseconds, or 0.0 when empty.
      */
     double average() const {
         uint64_t cnt = count_.load();
@@ -74,6 +77,7 @@ public:
     
     /**
      * @brief Get P50 (median) latency in microseconds
+     * @return Median latency in microseconds, or 0 when empty.
      */
     uint64_t p50() const {
         return percentile(0.50);
@@ -81,6 +85,7 @@ public:
     
     /**
      * @brief Get P95 latency in microseconds
+     * @return 95th percentile latency in microseconds, or 0 when empty.
      */
     uint64_t p95() const {
         return percentile(0.95);
@@ -88,6 +93,7 @@ public:
     
     /**
      * @brief Get P99 latency in microseconds
+     * @return 99th percentile latency in microseconds, or 0 when empty.
      */
     uint64_t p99() const {
         return percentile(0.99);
@@ -95,6 +101,8 @@ public:
     
     /**
      * @brief Get percentile latency in microseconds
+     * @param p Target percentile as a fraction in the range [0.0, 1.0].
+     * @return Requested percentile latency in microseconds, or 0 when empty.
      */
     uint64_t percentile(double p) const {
         uint64_t total = count_.load();
@@ -115,6 +123,7 @@ public:
     
     /**
      * @brief Convert to JSON for monitoring
+     * @return JSON object containing the histogram snapshot.
      */
     nlohmann::json toJson() const {
         return {
@@ -278,6 +287,7 @@ struct CDCMetrics {
     
     /**
      * @brief Convert all metrics to JSON
+     * @return JSON object containing the full CDC metrics snapshot.
      */
     nlohmann::json toJson() const {
         return {
@@ -349,10 +359,13 @@ private:
 };
 
 /**
- * @brief Helper macro for easy latency recording
+ * @brief Helper macro for easy latency recording.
+ * Uses __LINE__ to generate a unique variable name per call site and
+ * avoid variable-shadowing warnings (MSVC C4456, etc.).
  */
-#define CDC_MEASURE_LATENCY(histogram) \
-    ScopedTimer _timer(histogram)
+#define CDC_MEASURE_LATENCY_IMPL(histogram, line) \
+    ScopedTimer CDC_timer_##line(histogram)
+#define CDC_MEASURE_LATENCY(histogram) CDC_MEASURE_LATENCY_IMPL(histogram, __LINE__)
 
 } // namespace cdc
 } // namespace themis

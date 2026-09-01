@@ -20,12 +20,51 @@ on:
     branches:
       - develop
     paths:
-      - 'src/llm/**'
-      - 'src/training/**'
-      - 'src/llm_wiki/**'
-      - 'tests/llm/**'
-      - 'include/llm/**'
-      - 'include/training/**'
+      - 'src/llm/**/*.c'
+      - 'src/llm/**/*.cc'
+      - 'src/llm/**/*.cpp'
+      - 'src/llm/**/*.cxx'
+      - 'src/llm/**/*.h'
+      - 'src/llm/**/*.hh'
+      - 'src/llm/**/*.hpp'
+      - 'src/llm/**/*.hxx'
+      - 'src/training/**/*.c'
+      - 'src/training/**/*.cc'
+      - 'src/training/**/*.cpp'
+      - 'src/training/**/*.cxx'
+      - 'src/training/**/*.h'
+      - 'src/training/**/*.hh'
+      - 'src/training/**/*.hpp'
+      - 'src/training/**/*.hxx'
+      - 'src/llm_wiki/**/*.c'
+      - 'src/llm_wiki/**/*.cc'
+      - 'src/llm_wiki/**/*.cpp'
+      - 'src/llm_wiki/**/*.cxx'
+      - 'src/llm_wiki/**/*.h'
+      - 'src/llm_wiki/**/*.hh'
+      - 'src/llm_wiki/**/*.hpp'
+      - 'src/llm_wiki/**/*.hxx'
+      - 'tests/llm/**/*.c'
+      - 'tests/llm/**/*.cc'
+      - 'tests/llm/**/*.cpp'
+      - 'tests/llm/**/*.cxx'
+      - 'tests/llm/**/*.h'
+      - 'tests/llm/**/*.hh'
+      - 'tests/llm/**/*.hpp'
+      - 'tests/llm/**/*.hxx'
+      - 'include/llm/**/*.h'
+      - 'include/llm/**/*.hh'
+      - 'include/llm/**/*.hpp'
+      - 'include/llm/**/*.hxx'
+      - 'include/training/**/*.h'
+      - 'include/training/**/*.hh'
+      - 'include/training/**/*.hpp'
+      - 'include/training/**/*.hxx'
+      - 'CMakeLists.txt'
+      - 'CMakePresets.json'
+      - 'cmake/**/*.cmake'
+      - 'cmake/**/*.txt'
+      - 'cmake/**/*.in'
       - 'scripts/ci-download-tinyllama.sh'
       - 'scripts/ci-build-doku-db.sh'
   schedule:
@@ -87,10 +126,10 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.MODEL_DIR }}
-          # Key includes week number so cache refreshes weekly on schedule
-          key: tinyllama-gguf-q4km-${{ hashFiles('scripts/ci-download-tinyllama.sh') }}-week${{ github.run_number }}
+          # Stable key by OS + download script hash for high cache reuse across runs.
+          key: tinyllama-gguf-q4km-${{ runner.os }}-${{ hashFiles('scripts/ci-download-tinyllama.sh') }}
           restore-keys: |
-            tinyllama-gguf-q4km-
+            tinyllama-gguf-q4km-${{ runner.os }}-
 
       - name: Download TinyLlama GGUF (HuggingFace → Ollama fallback)
         if: steps.cache-model.outputs.cache-hit != 'true' || inputs.force_model_download == true
@@ -149,8 +188,8 @@ jobs:
             build-essential cmake ninja-build pkg-config ccache \
             librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
             libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
-            libyaml-cpp-dev libcurl4-openssl-dev libboost-system-dev \
-            libboost-filesystem-dev libpugixml-dev
+            libyaml-cpp-dev libcurl4-openssl-dev libcpp-httplib-dev libboost-system-dev \
+            libboost-dev libboost-filesystem-dev libpugixml-dev libvulkan-dev
 
       - name: Prepare optional submodule paths
         run: |

@@ -381,6 +381,8 @@ TEST_F(HttpTimeSeriesTest, GetAggregates_ReturnsList) {
     ASSERT_TRUE(response.contains("materialized_aggregates"));
     EXPECT_TRUE(response["materialized_aggregates"].is_array());
     ASSERT_TRUE(response.contains("materialized_count"));
+    EXPECT_EQ(response["source"].get<std::string>(), "builtin");
+    EXPECT_TRUE(response["degraded_mode"].get<bool>());
 }
 
 // Test: Get retention policies
@@ -393,6 +395,8 @@ TEST_F(HttpTimeSeriesTest, GetRetention_ReturnsPolicies) {
     EXPECT_TRUE(response["policies"].is_array());
     ASSERT_TRUE(response.contains("policy_count"));
     EXPECT_EQ(response["policy_count"].get<size_t>(), response["policies"].size());
+    EXPECT_EQ(response["source"].get<std::string>(), "storage_config");
+    EXPECT_TRUE(response["degraded_mode"].get<bool>());
 }
 
 // Test: Multiple metrics with label filtering
