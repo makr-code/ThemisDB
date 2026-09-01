@@ -169,6 +169,18 @@ TEST_F(HSMProviderTest, GenerateKeyPairNotImplemented) {
     EXPECT_FALSE(hsm.generateKeyPair("test-key", 2048, false));
 }
 
+TEST_F(HSMProviderTest, HSMPKIClientGetCertSerialDerivesDeterministicFallbackValue) {
+    HSMConfig config = createTestConfig();
+    HSMPKIClient client(config);
+
+    auto serial = client.getCertSerial();
+    ASSERT_TRUE(serial.has_value());
+    EXPECT_NE(serial->find("stub-"), std::string::npos);
+
+    auto serial_again = client.getCertSerial();
+    EXPECT_EQ(*serial_again, *serial);
+}
+
 TEST_F(HSMProviderTest, HSMPKIClientIntegrationBasic) {
     HSMConfig config = createTestConfig();
     HSMPKIClient client(config);

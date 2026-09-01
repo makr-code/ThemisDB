@@ -588,9 +588,158 @@ BackupManager::BackupManager(std::shared_ptr<RocksDBWrapper> db_wrapper, Config 
                     raid_config_.raid_group,
                     raid_config_.shards.size());
     }
+
+    scheduler_running_ = true;
+    scheduler_thread_ = std::thread([this]() { runScheduledBackupLoop(); });
 }
 
-BackupManager::~BackupManager() = default;
+BackupManager::~BackupManager() {
+    scheduler_running_ = false;
+    if (scheduler_thread_.joinable()) {
+        scheduler_thread_.join();
+    }
+}
+
+namespace {
+
+bool matchesCronField(const std::string& field, int value) {
+    if (field.empty()) {
+        return false;
+    }
+
+    if (field == "*") {
+        return true;
+    }
+
+    std::stringstream stream(field);
+    std::string token;
+    while (std::getline(stream, token, ',')) {
+        if (token.empty()) {
+            continue;
+        }
+
+        const auto dash = token.find('-');
+        if (dash == std::string::npos) {
+            try {
+                if (std::stoi(token) == value) {
+                    return true;
+                }
+            } catch (const std::exception&) {
+                return false;
+            }
+            continue;
+        }
+
+        try {
+            const int start = std::stoi(token.substr(0, dash));
+            const int end = std::stoi(token.substr(dash + 1));
+            if (start <= end && start <= value && value <= end) {
+                return true;
+            }
+        } catch (const std::exception&) {
+            return false;
+        }
+    }
+
+    return false;
+}
+
+} // anonymous namespace
+
+void BackupManager::runScheduledBackupLoop() {
+    while (scheduler_running_) {
+        processScheduledBackups();
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+}
+
+void BackupManager::processScheduledBackups() {
+    std::vector<std::pair<std::string, ScheduledBackupEntry>> due_entries;
+    std::time_t now_epoch = 0;
+    std::tm current_time{};
+
+    {
+        const auto now = std::chrono::system_clock::now();
+        now_epoch = std::chrono::system_clock::to_time_t(now);
+#if defined(_WIN32)
+        localtime_s(&current_time, &now_epoch);
+#else
+        localtime_r(&now_epoch, &current_time);
+#endif
+
+        std::lock_guard<std::mutex> lock(scheduler_mutex_);
+        const std::time_t minute_key = now_epoch / 60;
+        for (const auto& [schedule_id, entry] : scheduled_backups_) {
+            if (entry.last_triggered_minute == minute_key) {
+                continue;
+            }
+            if (!shouldRunScheduledBackup(entry, current_time)) {
+                continue;
+            }
+            due_entries.emplace_back(schedule_id, entry);
+        }
+    }
+
+    for (const auto& [schedule_id, entry] : due_entries) {
+        std::string backup_dir = entry.options.storage_path;
+        if (backup_dir.empty()) {
+            backup_dir = config_.backup_base_dir.empty() ? "./data/scheduled_backups"
+                                                       : config_.backup_base_dir;
+        }
+
+        std::error_code ec;
+        std::filesystem::create_directories(backup_dir, ec);
+
+        Result<std::string> backup_result;
+        if (entry.backup_type == "incremental") {
+            backup_result = createIncrementalBackup(backup_dir);
+        } else if (entry.backup_type == "differential") {
+            backup_result = createDifferentialBackup(backup_dir);
+        } else {
+            backup_result = createFullBackup(backup_dir);
+        }
+
+        if (!backup_result.has_value()) {
+            THEMIS_ERROR("Scheduled backup failed for {}: {}", entry.schedule_id,
+                         backup_result.error().message());
+        }
+
+        {
+            std::lock_guard<std::mutex> lock(scheduler_mutex_);
+            auto it = scheduled_backups_.find(schedule_id);
+            if (it != scheduled_backups_.end()) {
+                it->second.last_triggered_minute = now_epoch / 60;
+            }
+        }
+    }
+}
+
+bool BackupManager::shouldRunScheduledBackup(const ScheduledBackupEntry& entry,
+                                             const std::tm& current_time) const {
+    std::stringstream stream(entry.cron_expression);
+    std::string field;
+    std::array<std::string, 5> fields{};
+    std::size_t index = 0;
+
+    while (std::getline(stream, field, ' ') && index < fields.size()) {
+        fields[index++] = field;
+    }
+    if (index != fields.size()) {
+        return false;
+    }
+
+    const int minute = current_time.tm_min;
+    const int hour = current_time.tm_hour;
+    const int day_of_month = current_time.tm_mday;
+    const int month = current_time.tm_mon + 1;
+    const int day_of_week = current_time.tm_wday;
+
+    return matchesCronField(fields[0], minute)
+        && matchesCronField(fields[1], hour)
+        && matchesCronField(fields[2], day_of_month)
+        && matchesCronField(fields[3], month)
+        && matchesCronField(fields[4], day_of_week);
+}
 
 // Static helper to parse RAID mode from string
 RAIDMode BackupManager::parseRAIDMode(const std::string& mode_str) {

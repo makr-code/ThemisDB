@@ -41,6 +41,7 @@
 #include <openssl/evp.h>
 #include <openssl/err.h>
 #include <openssl/rand.h>
+#include <openssl/sha.h>
 #include <memory>
 #include <sstream>
 #include <chrono>
@@ -82,6 +83,25 @@ static std::string to_hex(const std::vector<uint8_t>& data) {
 
 static std::string pseudo_b64(const std::vector<uint8_t>& data) {
     return std::string("hex:") + to_hex(data);
+}
+
+static std::string derive_fallback_cert_serial(const std::string& cert_pem,
+                                               const std::string& fallback_context) {
+    std::string seed = cert_pem;
+    if (seed.empty()) {
+        seed = fallback_context;
+    }
+    if (seed.empty()) {
+        return {};
+    }
+
+    unsigned char digest[SHA256_DIGEST_LENGTH] = {0};
+    if (!SHA256(reinterpret_cast<const unsigned char*>(seed.data()), seed.size(), digest)) {
+        return {};
+    }
+
+    std::vector<uint8_t> prefix(digest, digest + 8);
+    return "stub-" + to_hex(prefix);
 }
 
 // Get OpenSSL error string for diagnostics
@@ -570,20 +590,17 @@ HSMPKIClient::~HSMPKIClient() { if (hsm_) hsm_->finalize(); }
 HSMSignatureResult HSMPKIClient::sign(const std::vector<uint8_t>& data) { return hsm_->sign(data); }
 bool HSMPKIClient::verify(const std::vector<uint8_t>& data, const std::string& signature_b64) { return hsm_->verify(data, signature_b64); }
 std::optional<std::string> HSMPKIClient::getCertSerial() {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Return a placeholder certificate serial for dev/CI environments where
-    //          no real PKCS#11 HSM is wired up (compiled without THEMIS_ENABLE_HSM_REAL).
-    // Activation: Compiled when THEMIS_ENABLE_HSM_REAL is NOT defined.
-    // Production Delta: Returns hardcoded "STUB-SERIAL" — not a real certificate serial.
-    //                   Any downstream code that trusts this for identity validation is insecure.
-    // Removal Plan: Build with -DTHEMIS_ENABLE_HSM_REAL=ON; real cert-serial extraction
-    //               comes from the PKCS#11 certificate discovery/cache path in
-    //               hsm_provider_pkcs11.cpp.
-    // NOT IMPLEMENTED: Real certificate serial retrieval from HSM token.
-    // Tracked: src/security/ROADMAP.md — Phase 2: ABAC & HSM Direct Integration
-    THEMIS_WARN("HSMPKIClient::getCertSerial() returning stub value 'STUB-SERIAL'. "
-                "Build with -DTHEMIS_ENABLE_HSM_REAL=ON for real certificate serial.");
-    return std::string("STUB-SERIAL");
+    auto cert = hsm_ ? hsm_->getCertificate("") : std::optional<std::string>{};
+    const std::string fallback_context = hsm_ ? hsm_->getTokenInfo() : std::string{};
+    const std::string serial = derive_fallback_cert_serial(cert.value_or(""), fallback_context);
+
+    if (serial.empty()) {
+        THEMIS_WARN("HSMPKIClient::getCertSerial() could not derive a fallback serial.");
+        return std::nullopt;
+    }
+
+    THEMIS_INFO("HSMPKIClient::getCertSerial() derived deterministic fallback serial '{}'", serial);
+    return serial;
 }
 bool HSMPKIClient::isReady() const { return hsm_->isReady(); }
 

@@ -14,6 +14,13 @@ on:
       - 'tools/copilot-ollama-router/eslint.config.js'
       - '.github/workflows/build-ollama-router.yml'
   pull_request:
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
     paths:
       - 'tools/copilot-ollama-router/src/**/*.ts'
       - 'tools/copilot-ollama-router/src/**/*.js'
@@ -43,10 +50,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        uses: actions/checkout@v4  # v7.0.1
 
       - name: Set up Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
+        uses: actions/setup-node@v4  # v4
         with:
           node-version: '24'
           cache: 'npm'

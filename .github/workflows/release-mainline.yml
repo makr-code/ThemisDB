@@ -79,7 +79,7 @@ jobs:
     steps:
       - name: Bootstrap build tracker issue (schedule gate)
         if: github.event_name == 'schedule'
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        uses: actions/github-script@v7  # v9.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -110,7 +110,7 @@ jobs:
             }
       - name: Checkout (sparse — action only)
         if: github.event_name == 'schedule'
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        uses: actions/checkout@v4  # v4.2.2
         with:
           sparse-checkout: .github/actions/check-build-status
           sparse-checkout-cone-mode: false
@@ -147,6 +147,11 @@ jobs:
             if ! echo "${REF_NAME}" | grep -Eq "${CANONICAL_BRANCHES}"; then
               echo "::error::workflow_dispatch must run on canonical branch lanes only."
               exit 1
+            fi
+
+            if [ -n "${TAG_INPUT}" ] && echo "${TAG_INPUT}" | grep -Eq "^${SEMVER_CORE}${SEMVER_SUFFIX}$"; then
+              TARGET="v${TAG_INPUT}"
+              echo "Normalized dispatch tag to canonical format: ${TARGET}"
             fi
           fi
 
@@ -206,19 +211,19 @@ jobs:
       ) && needs.build-matrix.result == 'success'
 
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - uses: actions/checkout@v4  # v7.0.1
         with:
           fetch-depth: 0
 
       - name: Download all CPack packages
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4
+        uses: actions/download-artifact@v4  # v4
         with:
           pattern: packages-*-${{ github.run_number }}
           merge-multiple: true
           path: release/
 
       - name: Download Linux community binaries (fallback)
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4
+        uses: actions/download-artifact@v4  # v4
         with:
           pattern: build-community-release-${{ github.run_number }}
           merge-multiple: true
@@ -229,6 +234,9 @@ jobs:
         shell: bash
         run: |
           TAG="${{ inputs.tag_name || github.ref_name }}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && echo "${TAG}" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$'; then
+            TAG="v${TAG}"
+          fi
           if   echo "${TAG}" | grep -qE '^enterprise-v'; then
             EDITION=enterprise; VERSION="${TAG#enterprise-}"
           elif echo "${TAG}" | grep -qE '^hyperscaler-v'; then
@@ -293,7 +301,7 @@ jobs:
           echo "--- Release manifest ---"
           cat RELEASE_MANIFEST.txt
 
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+      - uses: actions/upload-artifact@v4  # v7.0.1
         with:
           name: release-packages-${{ github.run_number }}
           path: release/
@@ -305,7 +313,7 @@ jobs:
     needs: package
     steps:
       - name: Download release packages
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4
+        uses: actions/download-artifact@v4  # v4
         with:
           pattern: release-packages-*
           merge-multiple: true
@@ -398,10 +406,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TARGET_REF: ${{ github.ref_name }}
-          TARGET_TAG: ${{ inputs.tag_name || github.ref_name }}
+          RAW_TARGET_TAG: ${{ inputs.tag_name || github.ref_name }}
         shell: bash
         run: |
           set +e
+          TARGET_TAG="${RAW_TARGET_TAG}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && echo "${TARGET_TAG}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$'; then
+            TARGET_TAG="v${TARGET_TAG}"
+          fi
           gh workflow run .github/workflows/release-docker-image.yml \
             --ref "${TARGET_REF}" \
             -f push_to_registry=true \
@@ -432,10 +444,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TARGET_REF: ${{ github.ref_name }}
-          TARGET_TAG: ${{ inputs.tag_name || github.ref_name }}
+          RAW_TARGET_TAG: ${{ inputs.tag_name || github.ref_name }}
         shell: bash
         run: |
           set +e
+          TARGET_TAG="${RAW_TARGET_TAG}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && echo "${TARGET_TAG}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$'; then
+            TARGET_TAG="v${TARGET_TAG}"
+          fi
           gh workflow run .github/workflows/build-widget.yml \
             --ref "${TARGET_REF}" \
             -f dry_run=true \
@@ -476,17 +492,17 @@ jobs:
       actions: read
 
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - uses: actions/checkout@v4  # v7.0.1
 
       - name: Download release packages
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4
+        uses: actions/download-artifact@v4  # v4
         with:
           pattern: release-packages-*
           merge-multiple: true
           path: release/
 
       - name: Publish to GitHub Releases (community)
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        uses: actions/github-script@v7  # v9.0.0
         with:
           script: |
             const fs = require('fs');
@@ -494,6 +510,10 @@ jobs:
             const tag = context.ref.startsWith('refs/tags/')
               ? context.ref.replace('refs/tags/', '')
               : ('${{ inputs.tag_name }}' || '');
+            if (/^\d+\.\d+\.\d+(?:-[0-9A-Za-z][0-9A-Za-z.-]*)?$/.test(tag)) {
+              tag = `v${tag}`;
+              console.log(`Normalized dispatch tag to canonical format: ${tag}`);
+            }
             if (!tag) {
               console.log('No tag — skipping GitHub Release upload.');
               return;
@@ -579,10 +599,10 @@ jobs:
       actions: read
 
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - uses: actions/checkout@v4  # v7.0.1
 
       - name: Download release packages
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4
+        uses: actions/download-artifact@v4  # v4
         with:
           pattern: release-packages-*
           merge-multiple: true
@@ -681,7 +701,7 @@ jobs:
       )
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        uses: actions/checkout@v4  # v7.0.1
         with:
           fetch-depth: 1
 
@@ -759,7 +779,7 @@ jobs:
 
       - name: Upload gate results
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        uses: actions/upload-artifact@v4  # v7.0.1
         with:
           name: llm-gate-results-${{ github.run_number }}
           path: |

@@ -140,22 +140,12 @@ if(NOT THEMIS_ROOT_DIR)
 endif()
 
 # VERSION ist Single-Source-of-Truth: zwingend aus Datei lesen
-if(NOT EXISTS "${THEMIS_ROOT_DIR}/VERSION")
-    message(FATAL_ERROR "VERSION file not found at project root. Please create and set semantic version (e.g., 1.2.3).")
-endif()
-file(READ "${THEMIS_ROOT_DIR}/VERSION" _ver)
-string(STRIP "${_ver}" _ver)
-# Accept semantic versions with optional pre-release/build suffixes, but sanitize for CMake's project(VERSION)
-if(NOT _ver MATCHES "^[0-9]+\\.[0-9]+\\.[0-9]+(.*)?$")
-    message(FATAL_ERROR "Invalid VERSION content: '${_ver}'. Expected semantic version like 1.2.3")
-endif()
-# Extract numeric MAJOR.MINOR.PATCH for CMake's version field
-string(REGEX MATCH "^[0-9]+\\.[0-9]+\\.[0-9]+" _ver_numeric "${_ver}")
-if(NOT _ver_numeric)
-    message(FATAL_ERROR "Failed to parse numeric version from '${_ver}'")
+include("${CMAKE_CURRENT_SOURCE_DIR}/Versions.cmake")
+if(NOT DEFINED THEMIS_VERSION_NUMERIC OR "${THEMIS_VERSION_NUMERIC}" STREQUAL "")
+    message(FATAL_ERROR "Version metadata could not be resolved from ${THEMIS_ROOT_DIR}/VERSION")
 endif()
 
-project(Themis VERSION ${_ver_numeric} LANGUAGES CXX)
+project(Themis VERSION ${THEMIS_VERSION_NUMERIC} LANGUAGES CXX)
 
 # Treat uncomponentized install() rules as runtime payload by default.
 # This keeps third-party DLLs in the runtime component instead of a parallel
@@ -164,7 +154,11 @@ set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME runtime)
 
 # Make project version available to all translation units
 if(NOT THEMIS_VERSION_COMPILE_DEF_DEFINED)
-    add_compile_definitions(THEMIS_VERSION_STRING="${_ver}")
+    add_compile_definitions(
+        THEMIS_VERSION_STRING="${THEMIS_VERSION_STRING}"
+        THEMIS_VERSION="${THEMIS_VERSION}"
+        THEMIS_VERSION_TYPE="${THEMIS_VERSION_TYPE}"
+    )
     set(THEMIS_VERSION_COMPILE_DEF_DEFINED ON)
 endif()
 

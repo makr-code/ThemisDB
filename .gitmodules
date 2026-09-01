@@ -55,8 +55,20 @@
 	branch = develop
 	commit = 03eb17c844a0da96eb66155e20075a90cf467c36
 
+[submodule "plugins/themisdb_importer"]
+	path = plugins/themisdb_importer
+	url = https://github.com/makr-code/themisdb_importer.git
+	branch = develop
+	commit = 317add1f724d5f6b979883b85b3c530f6191804d
+
 [submodule "plugins/themisdb_ethic_ai"]
 	path = plugins/themisdb_ethic_ai
 	url = https://github.com/makr-code/themisdb_ethic_ai.git
 	branch = develop
 	commit = ce401ad9d604012a2c02655e79f5c17f57a9f82d
+
+[submodule "plugins/themisdb_plugin_signer"]
+	path = plugins/themisdb_plugin_signer
+	url = https://github.com/makr-code/themisdb_plugin_signer.git
+	branch = develop
+	commit = d333b666bdebb01940b19f76ea986abbb0f42968

@@ -105,31 +105,31 @@ jobs:
       SCCACHE_GHA_ENABLED: "false"
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        uses: actions/checkout@v4
 
       - name: Setup C++ build dependencies
         uses: ./.github/actions/setup-cpp-build
         with:
           cc: gcc-12
           cxx: g++-12
-          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libbenchmark-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
 
       - name: Configure (community-release)
         run: |
           set -euo pipefail
-          cmake --preset community-release -DTHEMIS_BUILD_TESTS=ON
+          cmake --preset community-release -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON
 
       - name: Build focused validation targets once
         run: |
           set -euo pipefail
           cmake --build build-community-release \
-            --target module_distributed_knowledge_test_contract_hardening_focused \
-            --target module_distributed_knowledge_test_adapter_capability_focused \
+            --target module_distributed_knowledge_test_dk_contract_hardening_focused \
+            --target module_distributed_knowledge_test_adapter_capability_announcement_focused \
             --target bench_dk_release_gates \
             --parallel "$(nproc)"
 
       - name: Upload build tree for consumer jobs
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@v4
         with:
           name: dk-build-tree-${{ github.run_number }}
           path: build-community-release/
@@ -147,10 +147,10 @@ jobs:
         with:
           cc: gcc-12
           cxx: g++-12
-          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libbenchmark-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
 
       - name: Download build tree
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@v4
         with:
           name: dk-build-tree-${{ github.run_number }}
           path: .
@@ -175,10 +175,10 @@ jobs:
         with:
           cc: gcc-12
           cxx: g++-12
-          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libbenchmark-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
 
       - name: Download build tree
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@v4
         with:
           name: dk-build-tree-${{ github.run_number }}
           path: .
@@ -200,7 +200,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        uses: actions/checkout@v4
 
       - name: Run gap scanner
         run: |

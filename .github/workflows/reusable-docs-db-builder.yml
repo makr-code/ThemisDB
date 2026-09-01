@@ -74,6 +74,9 @@ on:
         required: false
         default: false
 
+permissions:
+  contents: read
+
 jobs:
   build-db:
     name: "Build: ${{ inputs.output_name }} (${{ inputs.input_dir }})"
@@ -84,7 +87,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@v4 # v4.2.2
 
       # ── Layer 2: Content hash check ─────────────────────────────────────
       # Computes a stable SHA-256 fingerprint of the entire input folder tree.
@@ -108,7 +111,7 @@ jobs:
 
       - name: Restore hash-based build cache
         id: cache
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        uses: actions/cache@v4 # v4.2.3
         with:
           path: |
             .db-cache/${{ inputs.output_name }}.sha
@@ -134,7 +137,7 @@ jobs:
 
       - name: Set up Python
         if: steps.check.outputs.skip != 'true'
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        uses: actions/setup-python@v5 # v5.6.0
         with:
           python-version: '3.12'
 
@@ -230,7 +233,7 @@ jobs:
 
       - name: Upload RocksDB database artifact
         if: always() && (steps.check.outputs.skip != 'true' || steps.cache.outputs.cache-hit == 'true')
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@v4 # v4.6.2
         with:
           name: ${{ inputs.output_name }}
           path: output-db/${{ inputs.output_name }}.db
@@ -238,7 +241,7 @@ jobs:
 
       - name: Upload JSON artifact (for incremental rebuilds / debugging)
         if: steps.check.outputs.skip != 'true'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@v4 # v4.6.2
         with:
           name: ${{ inputs.output_name }}-json
           path: output-db/docs_artifact.json

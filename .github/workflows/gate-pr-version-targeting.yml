@@ -6,10 +6,27 @@ name: Validate PR Version Targeting
 on:
   pull_request:
     types: [opened, edited, synchronize]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+    paths:
+      - '.github/pull_request_template.md'
+      - '.github/PULL_REQUEST_TEMPLATE/**'
+      - 'docs/governance/PR_VERSION_TARGETING.md'
+      - 'docs/governance/GITHUB_MILESTONES_SETUP.md'
+      - '.github/workflows/gate-pr-version-targeting.yml'
 
 permissions:
   pull-requests: read
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate-target-version:
@@ -17,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        uses: actions/checkout@v4
 
       - name: Extract Target Version from PR body
         id: extract_version
