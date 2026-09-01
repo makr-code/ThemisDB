@@ -26,6 +26,10 @@
 !ports/**
 !plugins/
 !plugins/**
+!tests/
+!tests/**
+!artifacts/
+!artifacts/**
 !scripts/
 !scripts/**
 !tools/

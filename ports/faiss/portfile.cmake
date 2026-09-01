@@ -23,6 +23,9 @@ if ("gpu" IN_LIST FEATURES)
     )
 endif()
 
+set(FAISS_BLAS_LIBS "${CURRENT_INSTALLED_DIR}/lib/openblas.lib")
+set(FAISS_LAPACK_LIBS "${CURRENT_INSTALLED_DIR}/lib/lapack.lib\\;${CURRENT_INSTALLED_DIR}/lib/libf2c.lib")
+
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
     OPTIONS
@@ -31,8 +34,8 @@ vcpkg_cmake_configure(
         -DFAISS_ENABLE_PYTHON=OFF
         -DBUILD_TESTING=OFF
         -DBLA_VENDOR=OpenBLAS
-        -DBLAS_LIBRARIES=${CURRENT_INSTALLED_DIR}/lib/openblas.lib
-        -DLAPACK_LIBRARIES=${CURRENT_INSTALLED_DIR}/lib/lapack.dll.a
+        -DBLAS_LIBRARIES=${FAISS_BLAS_LIBS}
+        -DLAPACK_LIBRARIES=${FAISS_LAPACK_LIBS}
 )
 
 vcpkg_cmake_install()

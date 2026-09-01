@@ -15,6 +15,9 @@
 
 name: "Security: Fortify AST Scan [Scheduled]"
 
+permissions:
+  contents: read
+
 # Rechenaufwand-Score: R=5 (K=4, L=4, N=4) | last-calibrated: 2026-08-25
 # Trigger policy: scheduled vendor SAST with manual dispatch only; no PR triggering.
 

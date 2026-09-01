@@ -2672,9 +2672,14 @@ function(themis_build_modular)
             endif()
         endif()
         
-        # Add cloud SDK integration source if any provider is enabled
+        # Add cloud SDK integration source if any provider is enabled.
+        # When no real SDK is linked, provide the stub implementation so the
+        # sharding module still resolves initializeS3Provider/initializeAzureProvider/
+        # initializeGCSProvider in minimal CI/offline builds.
         if(THEMIS_WITH_S3_SDK OR THEMIS_WITH_AZURE_SDK OR THEMIS_WITH_GCS_SDK)
             target_sources(themis_sharding PRIVATE ../src/sharding/cloud_sdk_integration.cpp)
+        else()
+            target_sources(themis_sharding PRIVATE ../src/sharding/cloud_sdk_integration_stubs.cpp)
         endif()
     endif()
     
@@ -2690,6 +2695,9 @@ function(themis_build_modular)
     
     if(THEMIS_MODULE_LLM)
         # Small API module providing DocsAssistant/EmbeddedLLM/ThemisHelpLoRA
+        # and factory registrations for runtime components that must resolve even
+        # when the heavier LLM implementation is split or not linked in the final
+        # target graph.
         themis_add_module(llm_api
             STATIC_MODULE
             DISABLE_AUTO_EXPORT
@@ -2987,6 +2995,9 @@ function(themis_build_modular)
         themis_network
         PARENT_SCOPE
     )
+    if(THEMIS_MODULE_LLM)
+        list(APPEND THEMIS_ALL_MODULES themis_llm_api)
+    endif()
 
     # Ensure sharding links query then the lightweight llm api (link order matters)
     if(TARGET themis_sharding)
@@ -3024,6 +3035,7 @@ function(themis_build_modular)
     endif()
     
     if(THEMIS_MODULE_LLM)
+        list(APPEND THEMIS_ALL_MODULES themis_llm_api)
         list(APPEND THEMIS_ALL_MODULES themis_llm)
         if(THEMIS_MODULE_LLM_SPLIT)
             list(APPEND THEMIS_ALL_MODULES themis_llm_ext)

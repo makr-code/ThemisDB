@@ -1,5 +1,8 @@
 name: "Maintenance: Docs-to-ThemisDB Database Build"
 
+permissions:
+  contents: read
+
 # Rechenaufwand-Score: R=3 (K=2, L=3, N=3) | last-calibrated: 2026-08-31
 # Trigger policy: push on docs/** changes merged to develop/community.
 #

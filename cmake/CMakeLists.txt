@@ -3806,6 +3806,7 @@ if(THEMIS_BUILD_MODULAR)
         themis_network
         themis_sharding
         themis_timeseries
+        themis_llm_api
         themis_llm
         themis_geo
         themis_graph

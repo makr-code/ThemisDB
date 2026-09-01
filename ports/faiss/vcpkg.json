@@ -7,7 +7,7 @@
   "supports": "!x86 & !uwp",
   "dependencies": [
     "blas",
-    "lapack",
+    "clapack",
     {
       "name": "vcpkg-cmake",
       "host": true

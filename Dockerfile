@@ -29,7 +29,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         zip unzip tar wget flex bison python3 perl nasm autoconf automake libtool \
-        aria2 libssl-dev zlib1g-dev libkrb5-dev libvulkan-dev && \
+        aria2 sccache libssl-dev zlib1g-dev libkrb5-dev libvulkan-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     if [ ! -d "${VCPKG_ROOT}/.git" ]; then \
         rm -rf "${VCPKG_ROOT}" && \
@@ -137,6 +137,7 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
         -DVCPKG_TARGET_TRIPLET=${TRIPLET} \
         -DVCPKG_INSTALLED_DIR=/build/vcpkg_installed \
         -DVCPKG_MANIFEST_MODE=OFF \
+        -DTHEMIS_COMPILER_CACHE_PROGRAM=/usr/bin/sccache \
         -DTHEMIS_EDITION=${EDITION_UPPER} \
         -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} \
         -DTHEMIS_ENABLE_GPU=${ENABLE_GPU} \
