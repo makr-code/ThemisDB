@@ -27,14 +27,14 @@ function safeReadJson(filePath) {
   } catch {
     return null;
   }
+}
 
-  function enforceMarkdownSizeLimit(markdown) {
-    if (markdown.length <= MAX_MARKDOWN_CHARS) return markdown;
+function enforceMarkdownSizeLimit(markdown) {
+  if (markdown.length <= MAX_MARKDOWN_CHARS) return markdown;
 
-    const summaryNote = `\n\n---\n\nReport truncated to ${MAX_MARKDOWN_CHARS} characters to fit GitHub issue/comment limits. Full data remains in the JSON artifact.\n`;
-    const budget = Math.max(0, MAX_MARKDOWN_CHARS - summaryNote.length);
-    return `${markdown.slice(0, budget)}${summaryNote}`;
-  }
+  const summaryNote = `\n\n---\n\nReport truncated to ${MAX_MARKDOWN_CHARS} characters to fit GitHub issue/comment limits. Full data remains in the JSON artifact.\n`;
+  const budget = Math.max(0, MAX_MARKDOWN_CHARS - summaryNote.length);
+  return `${markdown.slice(0, budget)}${summaryNote}`;
 }
 
 function walkFiles(dir) {
