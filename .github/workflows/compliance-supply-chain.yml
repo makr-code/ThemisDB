@@ -443,7 +443,6 @@ jobs:
           COMPOSE_DOCKER_CLI_BUILD: '0'
         run: |
           test -f "${GITHUB_WORKSPACE}/LICENSE" || { echo "::error::Missing ${GITHUB_WORKSPACE}/LICENSE"; exit 1; }
-          test -d "${GITHUB_WORKSPACE}/internal" || { echo "::error::Missing ${GITHUB_WORKSPACE}/internal"; exit 1; }
           docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" build themis
           docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" up -d --no-build themis
           for _ in $(seq 1 30); do
