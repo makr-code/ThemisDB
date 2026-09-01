@@ -439,8 +439,8 @@ jobs:
 
       - name: Start ThemisDB container
         env:
-          DOCKER_BUILDKIT: '0'
-          COMPOSE_DOCKER_CLI_BUILD: '0'
+          DOCKER_BUILDKIT: '1'
+          COMPOSE_DOCKER_CLI_BUILD: '1'
         run: |
           test -f "${GITHUB_WORKSPACE}/LICENSE" || { echo "::error::Missing ${GITHUB_WORKSPACE}/LICENSE"; exit 1; }
           docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" build themis
