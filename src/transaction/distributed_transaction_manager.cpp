@@ -198,6 +198,8 @@ bool deliverPhase2WithRetry(
 // Constructor / Destructor
 // ─────────────────────────────────────────────────────────────────────────────
 
+namespace themis::transaction {
+
 DistributedTransactionManager::DistributedTransactionManager(
     std::string                 coordinator_id,
     DistributedTxnManagerConfig config
