@@ -74,9 +74,6 @@ on:
         required: false
         default: false
 
-permissions:
-  contents: read
-
 jobs:
   build-db:
     name: "Build: ${{ inputs.output_name }} (${{ inputs.input_dir }})"

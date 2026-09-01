@@ -51,7 +51,9 @@
       },
       "cacheVariables": {
         "VCPKG_TARGET_TRIPLET": "x64-windows",
-        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_GPU_AUTO_DETECT": "OFF",
+        "THEMIS_ENABLE_VULKAN": "OFF",
         "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_ENABLE_HTTP_SERVER": "ON",
         "THREADS_PREFER_PTHREAD_FLAG": "OFF",
@@ -72,7 +74,9 @@
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_CXX_COMPILER": "g++",
         "VCPKG_TARGET_TRIPLET": "x64-linux",
-        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_GPU_AUTO_DETECT": "OFF",
+        "THEMIS_ENABLE_VULKAN": "OFF",
         "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_ENABLE_HTTP_SERVER": "ON"
       },

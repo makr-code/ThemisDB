@@ -495,8 +495,8 @@ Result<void> writeBinaryFileBytes(const fs::path& file_path, const std::vector<u
 
 std::shared_ptr<storage::IBlobStorageBackend> createRemoteBlobBackend(
     StorageBackend backend,
-    const RemoteBackupLocation& location,
-    const std::map<std::string, std::string>& config) {
+    [[maybe_unused]] const RemoteBackupLocation& location,
+    [[maybe_unused]] const std::map<std::string, std::string>& config) {
     switch (backend) {
     case StorageBackend::S3:
 #if defined(THEMIS_HAS_AWS_SDK) && THEMIS_HAS_AWS_SDK
@@ -690,14 +690,15 @@ void BackupManager::processScheduledBackups() {
         std::error_code ec;
         std::filesystem::create_directories(backup_dir, ec);
 
-        Result<std::string> backup_result;
-        if (entry.backup_type == "incremental") {
-            backup_result = createIncrementalBackup(backup_dir);
-        } else if (entry.backup_type == "differential") {
-            backup_result = createDifferentialBackup(backup_dir);
-        } else {
-            backup_result = createFullBackup(backup_dir);
-        }
+        const Result<std::string> backup_result = [&]() -> Result<std::string> {
+            if (entry.backup_type == "incremental") {
+                return createIncrementalBackup(backup_dir);
+            }
+            if (entry.backup_type == "differential") {
+                return createDifferentialBackup(backup_dir);
+            }
+            return createFullBackup(backup_dir);
+        }();
 
         if (!backup_result.has_value()) {
             THEMIS_ERROR("Scheduled backup failed for {}: {}", entry.schedule_id,
@@ -1238,6 +1239,41 @@ bool BackupManager::createDifferentialBackup(const std::string& dest_dir, std::e
         ec = std::make_error_code(std::errc::io_error);
         THEMIS_ERROR("Exception creating differential backup: {}", e.what());
         return false;
+    }
+}
+
+Result<std::string> BackupManager::createDifferentialBackup(const std::string& dest_dir) {
+    try {
+        const auto before = listBackups(dest_dir);
+        std::unordered_set<std::string> before_set(before.begin(), before.end());
+
+        std::error_code ec;
+        BackupOptions options;
+        if (!createDifferentialBackup(dest_dir, ec, options)) {
+            const std::string message = ec ? ec.message() : "Failed to create differential backup";
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_CREATION_FAILED, message);
+        }
+
+        const auto after = listBackups(dest_dir);
+        for (auto it = after.rbegin(); it != after.rend(); ++it) {
+            if (it->starts_with("diff_") && before_set.find(*it) == before_set.end()) {
+                return Ok((std::filesystem::path(dest_dir) / *it).string());
+            }
+        }
+
+        for (auto it = after.rbegin(); it != after.rend(); ++it) {
+            if (it->starts_with("diff_")) {
+                return Ok((std::filesystem::path(dest_dir) / *it).string());
+            }
+        }
+
+        return Err<std::string>(
+            errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
+            "Differential backup completed but no differential backup directory was found");
+    } catch (const std::exception& e) {
+        return Err<std::string>(
+            errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
+            "Exception creating differential backup: " + std::string(e.what()));
     }
 }
 

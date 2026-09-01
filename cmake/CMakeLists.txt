@@ -178,22 +178,22 @@ if(NOT DEFINED THEMIS_ENABLE_HIP)
     set(THEMIS_ENABLE_HIP OFF CACHE BOOL "Enable AMD HIP acceleration" FORCE)
 endif()
 if(NOT DEFINED THEMIS_ENABLE_VULKAN)
-    set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration")
+    set(THEMIS_ENABLE_VULKAN OFF CACHE BOOL "Enable Vulkan Compute acceleration (opt-in)" FORCE)
 endif()
 
 if(THEMIS_ENABLE_GPU AND THEMIS_GPU_AUTO_DETECT)
     message(STATUS "GPU backend auto-detect: probing CUDA/HIP/Vulkan")
     set(_themis_detected_gpu_backends)
 
-    # Vulkan is required for the active GPU build contract. Keep it enabled even on
-    # Windows/MSVC so the backend is available instead of silently falling back to CPU.
+    # Keep Vulkan opt-in for default builds. Explicit GPU enablement is required
+    # before probing and enabling a backend; CPU remains the safe baseline.
     find_package(Vulkan QUIET)
     if(Vulkan_FOUND)
         set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
         list(APPEND _themis_detected_gpu_backends "Vulkan")
     else()
-        message(WARNING "Vulkan SDK not detected, but Vulkan remains enabled by build contract; CPU fallback still applies at runtime.")
-        set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
+        message(WARNING "Vulkan SDK not detected; leaving Vulkan disabled for the default CPU-safe build.")
+        set(THEMIS_ENABLE_VULKAN OFF CACHE BOOL "Vulkan disabled: no SDK detected" FORCE)
     endif()
 
     # HIP (AMD ROCm)
@@ -267,6 +267,11 @@ if(THEMIS_ENABLE_GPU AND THEMIS_GPU_AUTO_DETECT)
     else()
         message(WARNING "GPU backend auto-detect: no CUDA/HIP/Vulkan toolchain found; runtime will use CPU fallback")
     endif()
+else()
+    # Keep default builds CPU-safe even if cache values were previously enabled.
+    set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "Enable NVIDIA CUDA acceleration" FORCE)
+    set(THEMIS_ENABLE_HIP OFF CACHE BOOL "Enable AMD HIP acceleration" FORCE)
+    set(THEMIS_ENABLE_VULKAN OFF CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
 endif()
 
 # Build provenance: channel, Git SHA, timestamp, Ed25519 signature
@@ -738,7 +743,7 @@ endif()
 option(THEMIS_ENABLE_ZLUDA "Enable AMD ZLUDA (CUDA compatibility on AMD)" OFF)
 option(THEMIS_ENABLE_ROCM "Enable AMD ROCm acceleration" OFF)
 option(THEMIS_ENABLE_DIRECTX "Enable DirectX 12 Compute Shaders (Windows)" OFF)
-option(THEMIS_ENABLE_VULKAN "Enable Vulkan Compute acceleration" ON)
+option(THEMIS_ENABLE_VULKAN "Enable Vulkan Compute acceleration (default OFF for CPU-safe builds)" OFF)
 option(THEMIS_ENABLE_OPENGL "Enable OpenGL Compute Shaders" OFF)
 option(THEMIS_ENABLE_METAL "Enable Apple Metal acceleration" OFF)
 option(THEMIS_ENABLE_ONEAPI "Enable Intel OneAPI/SYCL acceleration" OFF)

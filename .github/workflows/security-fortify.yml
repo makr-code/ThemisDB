@@ -15,8 +15,10 @@
 
 name: "Security: Fortify AST Scan [Scheduled]"
 
-permissions:
+permissions: 
+  actions: read
   contents: read
+  security-events: write
 
 # Rechenaufwand-Score: R=5 (K=4, L=4, N=4) | last-calibrated: 2026-08-25
 # Trigger policy: scheduled vendor SAST with manual dispatch only; no PR triggering.
@@ -27,11 +29,6 @@ on:
   schedule:
     - cron: '16 20 * * 1'
   workflow_dispatch:
-
-permissions:
-  actions: read
-  contents: read
-  security-events: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
