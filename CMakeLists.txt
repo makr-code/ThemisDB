@@ -33,27 +33,18 @@ if(WIN32)
 endif()
 
 # Read VERSION first (before project())
-if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION")
-    message(FATAL_ERROR "VERSION file not found at ${CMAKE_CURRENT_SOURCE_DIR}/VERSION")
+include(cmake/Versions.cmake)
+if(NOT DEFINED THEMIS_VERSION_NUMERIC OR "${THEMIS_VERSION_NUMERIC}" STREQUAL "")
+    message(FATAL_ERROR "Version metadata could not be resolved from ${CMAKE_CURRENT_SOURCE_DIR}/VERSION")
 endif()
 
 # Canonical dependency contract: strict in normal dev/release builds,
 # diagnostic-only fallback in bootstrap troubleshooting.
 include(cmake/DependencyContract.cmake)
 
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" _ver_raw)
-string(STRIP "${_ver_raw}" _ver_raw)
-
-# Parse semantic version
-if(NOT _ver_raw MATCHES "^([0-9]+)\\.([0-9]+)\\.([0-9]+)")
-    message(FATAL_ERROR "Invalid VERSION format: '${_ver_raw}'. Expected: 1.2.3 or 1.2.3-alpha")
-endif()
-
-string(REGEX MATCH "^([0-9]+)\\.([0-9]+)\\.([0-9]+)" _ver_numeric "${_ver_raw}")
-
 # Define project with numeric version (CMake requirement)
 project(Themis 
-    VERSION ${_ver_numeric}
+    VERSION ${THEMIS_VERSION_NUMERIC}
     DESCRIPTION "ThemisDB - Enterprise Distributed Database"
     LANGUAGES CXX
 )
@@ -176,9 +167,6 @@ if(DEFINED CMAKE_TOOLCHAIN_FILE AND NOT "${CMAKE_TOOLCHAIN_FILE}" STREQUAL "" AN
             "  2) Set CMAKE_TOOLCHAIN_FILE to a valid vcpkg toolchain path")
     endif()
 endif()
-
-# Store full semantic version
-set(THEMIS_VERSION_STRING "${_ver_raw}")
 
 # Default parallelism used by build wrappers and as a hint for developers.
 # This cache entry can be inspected by tools and users; wrappers default to this
