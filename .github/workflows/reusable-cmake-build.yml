@@ -92,7 +92,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        uses: actions/checkout@v4
         with:
           fetch-depth: ${{ inputs.fetch_depth }}
           submodules: ${{ inputs.submodules }}
@@ -164,7 +164,7 @@ jobs:
 
       - name: Upload artifacts
         if: inputs.artifact_name != '' && inputs.artifact_paths != ''
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.artifact_name }}
           path: ${{ inputs.artifact_paths }}
@@ -173,7 +173,7 @@ jobs:
 
       - name: Upload secondary artifacts
         if: inputs.artifact_name_secondary != '' && inputs.artifact_paths_secondary != ''
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.artifact_name_secondary }}
           path: ${{ inputs.artifact_paths_secondary }}
