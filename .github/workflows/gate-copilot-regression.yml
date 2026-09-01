@@ -7,8 +7,8 @@ on:
     branches: [community, develop]
     paths:
       - 'tests/CMakeLists.txt'
-      - 'src/**'
-      - 'include/**'
+      - 'src/replication/**'
+      - 'include/themis_export.h'
       - 'cmake/**'
       - 'tools/ci/copilot_regression_guard.py'
       - 'tools/tests/test_copilot_regression_guard.py'

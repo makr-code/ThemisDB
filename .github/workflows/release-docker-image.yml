@@ -55,9 +55,9 @@ permissions:
   contents: read
 
 concurrency:
-  # Prevent duplicate workflow_run or dispatch builds for the same ref.
+  # Deduplicate by lane/ref instead of run-id to avoid duplicate long-running builds.
   # cancel-in-progress: false — Docker build interruption can corrupt layer cache.
-  group: ${{ github.workflow }}-${{ github.run_id }}
+  group: docker-image-${{ github.workflow }}-${{ github.ref_type || 'ref' }}-${{ github.ref_name || github.sha }}-${{ inputs.registry || github.event.inputs.registry || 'ghcr.io' }}-${{ inputs.push_to_registry || github.event.inputs.push_to_registry || 'false' }}
   cancel-in-progress: false
 
 jobs:

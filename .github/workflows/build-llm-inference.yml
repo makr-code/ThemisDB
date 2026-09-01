@@ -87,10 +87,10 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.MODEL_DIR }}
-          # Key includes week number so cache refreshes weekly on schedule
-          key: tinyllama-gguf-q4km-${{ hashFiles('scripts/ci-download-tinyllama.sh') }}-week${{ github.run_number }}
+          # Stable key by OS + download script hash for high cache reuse across runs.
+          key: tinyllama-gguf-q4km-${{ runner.os }}-${{ hashFiles('scripts/ci-download-tinyllama.sh') }}
           restore-keys: |
-            tinyllama-gguf-q4km-
+            tinyllama-gguf-q4km-${{ runner.os }}-
 
       - name: Download TinyLlama GGUF (HuggingFace → Ollama fallback)
         if: steps.cache-model.outputs.cache-hit != 'true' || inputs.force_model_download == true
