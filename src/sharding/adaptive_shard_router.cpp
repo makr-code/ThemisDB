@@ -485,6 +485,13 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
 
 std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
     const std::string& query,
+    const std::vector<std::string>& shard_ids
+) {
+    return ShardRouter::executeOnShards(query, shard_ids);
+}
+
+std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
+    const std::string& query,
     const std::vector<std::string>& shard_ids,
     [[maybe_unused]] uint32_t timeout_ms
 ) {
@@ -492,7 +499,7 @@ std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
     // timeout_ms is advisory; per-request timeouts are governed by the mTLS client
     // configuration in RemoteExecutor. Per-iteration timeout enforcement is deferred
     // until RemoteExecutor exposes a per-call timeout override API.
-    return ShardRouter::executeOnShards(query, shard_ids);
+    return executeOnShards(query, shard_ids);
 }
 
 bool AdaptiveShardRouter::shouldStop(

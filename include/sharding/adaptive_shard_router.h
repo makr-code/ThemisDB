@@ -47,6 +47,8 @@ namespace themis::sharding {
  */
 class AdaptiveShardRouter : public ShardRouter {
 public:
+    using ShardRouter::executeOnShards;
+
     /**
      * Configuration for adaptive routing
      */
@@ -355,6 +357,11 @@ private:
         const std::vector<std::string>& shard_ids,
         uint32_t timeout_ms
     );
+
+    std::vector<ShardResult> executeOnShards(
+        const std::string& query,
+        const std::vector<std::string>& shard_ids
+    ) override;
     
     /**
      * Check if stop criteria are met

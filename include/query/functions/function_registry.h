@@ -159,7 +159,7 @@ struct FunctionSignature {
     std::vector<std::string> examples;
     
     // Query optimizer integration
-    FunctionCost cost;              ///< Cost estimation for query planning
+    FunctionCost cost = FunctionCost{}; ///< Cost estimation for query planning
 };
 
 // ============================================================================
