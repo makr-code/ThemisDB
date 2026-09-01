@@ -199,7 +199,7 @@ jobs:
           bash scripts/verify-sbom.sh sbom-source.cyclonedx.json
 
       - name: Run Trivy vulnerability scan (SBOM output)
-        uses: aquasecurity/trivy-action@v0  # v0.36.0
+        uses: aquasecurity/trivy-action@v0.36.0  # v0.36.0
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -371,7 +371,7 @@ jobs:
       - name: Scan for package advisories via Trivy
         # Trivy checks SBOMs and manifests against OSV/GitHub Advisory DB.
         # Non-fatal: produces a SARIF report but does not block the build.
-        uses: aquasecurity/trivy-action@v0  # v0.36.0
+        uses: aquasecurity/trivy-action@v0.36.0  # v0.36.0
         with:
           scan-type: 'fs'
           scan-ref: 'vcpkg.json'
