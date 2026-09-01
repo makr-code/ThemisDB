@@ -1181,7 +1181,7 @@ else()
     # dpkg-shlibdeps (SHLIBDEPS ON below) will auto-resolve most shared-library deps;
     # these explicit entries act as a conservative fallback for static/mixed builds.
     set(CPACK_DEBIAN_PACKAGE_DEPENDS
-        "librocksdb8.9 | librocksdb-dev, libgrpc++1.51 | libgrpc++-dev, libssl3, libboost-filesystem1.83.0 | libboost-filesystem-dev")
+        "librocksdb8.9 | librocksdb-dev, libgrpc++1.51 | libgrpc++-dev, libssl3, libboost-dev | libboost-system-dev | libboost-filesystem-dev")
     # SHLIBDEPS resolves shared-library deps automatically when dpkg-shlibdeps is available.
     # Falls back gracefully when the tool is absent (local builds without full dpkg stack).
     set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS   ON)

@@ -151,7 +151,7 @@ jobs:
             build-essential ninja-build \
             librocksdb-dev libgtest-dev libssl-dev zlib1g-dev \
             libfmt-dev libspdlog-dev libtbb-dev nlohmann-json3-dev \
-            libboost-system-dev libbenchmark-dev pkg-config
+            libboost-dev libboost-system-dev libbenchmark-dev pkg-config
 
       - name: Configure with THEMIS_ENABLE_VOICE_ASSISTANT=ON
         id: cmake_configure
@@ -353,7 +353,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y ninja-build libbenchmark-dev libfmt-dev libspdlog-dev \
             nlohmann-json3-dev librocksdb-dev libssl-dev zlib1g-dev \
-            libboost-system-dev libboost-filesystem-dev libpugixml-dev
+            libboost-dev libboost-system-dev libboost-dev libboost-filesystem-dev libpugixml-dev
 
       - name: Configure CPU-only (verify disabled-stub path compiles)
         run: |
@@ -490,7 +490,7 @@ jobs:
             build-essential ninja-build \
             librocksdb-dev libgtest-dev libssl-dev zlib1g-dev \
             libfmt-dev libspdlog-dev libtbb-dev nlohmann-json3-dev \
-            libboost-system-dev libbenchmark-dev pkg-config
+            libboost-dev libboost-system-dev libbenchmark-dev pkg-config
 
       - name: Configure Wave D observability build
         run: |
@@ -604,7 +604,7 @@ jobs:
             build-essential ninja-build \
             librocksdb-dev libgtest-dev libssl-dev zlib1g-dev \
             libfmt-dev libspdlog-dev libtbb-dev nlohmann-json3-dev \
-            libboost-system-dev libbenchmark-dev pkg-config
+            libboost-dev libboost-system-dev libbenchmark-dev pkg-config
 
       - name: Configure build
         run: |
@@ -723,7 +723,7 @@ jobs:
             build-essential ninja-build \
             librocksdb-dev libgtest-dev libssl-dev zlib1g-dev \
             libfmt-dev libspdlog-dev libtbb-dev nlohmann-json3-dev \
-            libboost-system-dev libbenchmark-dev pkg-config
+            libboost-dev libboost-system-dev libbenchmark-dev pkg-config
 
       - name: Configure soak test build
         run: |
