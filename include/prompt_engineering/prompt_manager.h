@@ -17,7 +17,7 @@
 #include <vector>
 #include <optional>
 #include <mutex>
-#include <tbb/concurrent_hash_map.h> // v1.1.0: TBB Concurrent Hash Map
+#include "utils/tbb_compat.h" // Fallback for environments without Intel TBB
 #include <nlohmann/json.hpp>
 // Forward declaration
 namespace rocksdb { class ColumnFamilyHandle; }
