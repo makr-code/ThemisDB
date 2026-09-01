@@ -12,6 +12,7 @@ RELEASE_DIR="${REPO_ROOT}/release"
 
 # Configuration
 TAG="${1:-$(cat "$REPO_ROOT/VERSION" 2>/dev/null || echo "")}"
+MULTIARCH_OCI_PATH="${RELEASE_DIR}/themisdb-${TAG}-multiarch.oci.tar"
 PLATFORMS="${PLATFORMS:-linux/amd64,linux/arm64}"
 DOCKERFILE="${DOCKERFILE:-Dockerfile.unified}"
 PUSH="${PUSH:-false}"
@@ -83,6 +84,17 @@ echo -e "${YELLOW}════════ Building Docker image ═════
 IMAGE_TAG="themisdb/themisdb:$TAG"
 IMAGE_TAG_LATEST="themisdb/themisdb:latest"
 
+COMMON_BUILD_ARGS=(
+    "--build-arg" "VERSION=$TAG"
+)
+
+for var in HTTP_PROXY HTTPS_PROXY ALL_PROXY NO_PROXY VCPKG_ENABLE_ONLINE INCLUDE_TINYLLAMA TINYLLAMA_FORCE_DOWNLOAD TINYLLAMA_HF_URL; do
+    val="${!var:-}"
+    if [ -n "$val" ]; then
+        COMMON_BUILD_ARGS+=("--build-arg" "${var}=${val}")
+    fi
+done
+
 # For multi-arch builds, use buildx
 if [[ "$PLATFORMS" == *","* ]]; then
     echo -e "${CYAN}Building multi-architecture image...${NC}"
@@ -93,25 +105,28 @@ if [[ "$PLATFORMS" == *","* ]]; then
     
     BUILD_ARGS=(
         "buildx" "build"
+        "--builder" "themis-builder"
         "-f" "${REPO_ROOT}/docker/$DOCKERFILE"
         "-t" "$IMAGE_TAG"
         "-t" "$IMAGE_TAG_LATEST"
         "--platform" "$PLATFORMS"
-        "--build-arg" "VERSION=$TAG"
     )
-    
-    if [ "$NO_CACHE" != "true" ]; then
-        BUILD_ARGS+=("--cache-from=type=gha")
+    BUILD_ARGS+=("${COMMON_BUILD_ARGS[@]}")
+    if [ "$NO_CACHE" = "true" ]; then
+        BUILD_ARGS+=("--no-cache")
     fi
     
     if [ "$PUSH" = "true" ]; then
         BUILD_ARGS+=("--push")
         echo -e "${GREEN}  [Push enabled - image will be pushed after build]${NC}"
     else
-        BUILD_ARGS+=("--load")
+        mkdir -p "${RELEASE_DIR}"
+        rm -f "${MULTIARCH_OCI_PATH}"
+        BUILD_ARGS+=("--output=type=oci,dest=${MULTIARCH_OCI_PATH}")
+        echo -e "${YELLOW}  [Push disabled - exporting multi-arch OCI archive to ${MULTIARCH_OCI_PATH}]${NC}"
     fi
     
-    docker "${BUILD_ARGS[@]}" "${REPO_ROOT}/docker"
+    docker "${BUILD_ARGS[@]}" "${REPO_ROOT}"
 else
     # Single-arch build with standard docker build
     BUILD_ARGS=(
@@ -119,14 +134,14 @@ else
         "-f" "${REPO_ROOT}/docker/$DOCKERFILE"
         "-t" "$IMAGE_TAG"
         "-t" "$IMAGE_TAG_LATEST"
-        "--build-arg" "VERSION=$TAG"
     )
+    BUILD_ARGS+=("${COMMON_BUILD_ARGS[@]}")
     
     if [ "$NO_CACHE" = "true" ]; then
         BUILD_ARGS+=("--no-cache")
     fi
     
-    docker "${BUILD_ARGS[@]}" "${REPO_ROOT}/docker"
+    docker "${BUILD_ARGS[@]}" "${REPO_ROOT}"
     
     echo -e "${GREEN}Image built successfully: $IMAGE_TAG${NC}"
     

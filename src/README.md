@@ -18,6 +18,16 @@ Out of scope:
 - per-module implementation contracts owned by src/<module>/ docs
 - public include contracts owned by include/
 
+## Module Status Snapshot
+
+Use [`MODULE_INDEX.md`](MODULE_INDEX.md) for the canonical per-module matrix. This file only gives the quick read:
+
+| Status | Module groups | Interpretation |
+|---|---|---|
+| Production-ready / minor gaps | `server`, `storage`, `network`, `auth`, `security`, `cache`, `failover`, `maintenance`, `updates`, `process`, `execution`, `analytics` | Source and audit evidence are largely closed; remaining work is mostly hardening, diagnostics, or benchmark refresh. |
+| Hardening in progress | `themis`, `transaction`, `query`, `index`, `sharding`, `replication`, `graph`, `cdc`, `llm`, `rag`, `gpu`, `acceleration`, `geo`, `voice`, `access_model`, `ethics_ai` | Code exists and is production-shaped, but the module still carries real source gaps or evidence debt. |
+| Planned / externalization | `chimera`, `user_storage`, selected plugin-externalization paths | The feature surface is documented and tracked, but the implementation boundary is still being finalized. |
+
 ## Structure
 
 - top-level source modules: 62 module directories represented in the developer docs inventory core matrix

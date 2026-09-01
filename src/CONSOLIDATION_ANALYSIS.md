@@ -20,6 +20,16 @@ Scan of 50+ modules and 1000+ files identified **5 major consolidation opportuni
 | **MEDIUM** | Ingestion Plumbing | `RetryConfig` repeated setup | 8 connectors | Medium | Medium (DRY principle, API clarity) |
 | **LOW** | Distance Functions | Haversine wrappers | 3+ files | Low | Low (already centralized; thin adapters ok) |
 
+### Module Status Coverage
+
+The consolidation work is easiest to interpret against the current module posture in [`MODULE_INDEX.md`](MODULE_INDEX.md):
+
+| Status | Module groups | What it means for consolidation |
+|---|---|---|
+| Production-ready / minor gaps | `server`, `storage`, `network`, `auth`, `security`, `cache`, `analytics`, `failover`, `maintenance`, `updates`, `process`, `execution` | Consolidation here should be low-risk cleanup only; avoid destabilizing working paths. |
+| Hardening in progress | `themis`, `transaction`, `query`, `index`, `sharding`, `replication`, `graph`, `cdc`, `llm`, `rag`, `gpu`, `acceleration`, `geo`, `voice`, `access_model`, `ethics_ai` | These modules are where duplication reduction and gap closure can still move the implementation needle. |
+| Planned / externalized | `chimera`, `user_storage`, selected plugin-externalization paths | Prefer documentation and boundary clarification before consolidation changes. |
+
 ### Recommendations
 - **Immediate (v1.9.x):** Implement consolidated `string_utils.h` for `trim()` family; migrate 2 highest-effort retry loops.
 - **Near-term (v1.5–1.6):** Unify ingestion connector `RetryConfig` plumbing via mixin/base; audit Markdown fence stripping.

@@ -28363,7 +28363,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_tensor_fingerprint_graph.cpp" 
         ${CMAKE_CURRENT_SOURCE_DIR}/graph/test_tensor_fingerprint_graph.cpp
             ${THEMIS_ROOT_DIR}/src/graph/tensor_fingerprint_graph.cpp
             ${THEMIS_ROOT_DIR}/src/graph/tensor_deduplication_manager.cpp
-            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_tensor_fingerprint_graph_focused PRIVATE

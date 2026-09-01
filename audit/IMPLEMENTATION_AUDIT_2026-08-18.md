@@ -19,7 +19,7 @@ Der Implementierungsstand ist **technisch sehr stabil und deutlich verbesserter 
 | Bereich | Status | Einordnung |
 |---------|--------|-----------|
 | **GA-Ready (technisch)** | ✅ BESTÄTIGT | Alle 6 Wave-7-Performance-Gates PASS; Sanitizer/Pentest PASS; 51 HIGH/CRITICAL Gaps aus Batch 1 geschlossen |
-| **Production-Reife gesamt** | 🟢 **~78–82 %** | +6–10 % gegenüber 72 % (Baseline 2026-08-12) durch Batch 1 CRITICAL + Wave A Query Closure |
+| **Production-Reife gesamt** | 🟢 **~80 %** | +8–10 % gegenüber 72 % (Baseline 2026-08-12) durch Batch 1 CRITICAL + Wave A Query Closure |
 | **GA-Governance-Blocker** | ⏳ 1 verbleibend | Nur noch menschliche Freigabe in `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9 |
 | **Transaction A-6** | ✅ COMPLETE | 22 CRITICAL Gaps: Iterator invalidation (3), Timeout params (4), SAGA lifecycle (5), RAII cleanup (3), Resource leaks (2), Null safety (5) — 4 Commits, 15+ Tests |
 | **Voice A-8** | ✅ COMPLETE | 13 CRITICAL Gaps: Stream validation (11), Session lifecycle (6), Teardown safety (3), Audit logging (3) — 4 Commits, 6+ Tests, std::atomic<SessionState> |

@@ -27,6 +27,16 @@ on:
         required: false
         default: ""
         type: string
+      include_tinyllama:
+        description: "Include TinyLlama model in image (downloaded during Docker build)"
+        required: false
+        default: "true"
+        type: string
+      tinyllama_force_download:
+        description: "Force TinyLlama re-download during Docker build"
+        required: false
+        default: "false"
+        type: string
   workflow_dispatch:
     inputs:
       push_to_registry:
@@ -49,6 +59,22 @@ on:
         description: "Optional release tag (e.g. v2.4.0-alpha)"
         required: false
         type: string
+      include_tinyllama:
+        description: "Include TinyLlama model in image"
+        required: false
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+      tinyllama_force_download:
+        description: "Force TinyLlama re-download during Docker build"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
 
 # Explicit minimal default permissions — each job overrides as needed.
 permissions:
@@ -258,6 +284,8 @@ jobs:
           THEMIS_EDITION=COMMUNITY
           VERSION=${{ steps.version.outputs.version }}
           VCPKG_MANIFEST_HASH=${{ hashFiles('docker/vcpkg-*.json', 'vcpkg-configuration.json', 'ports/**') }}
+          INCLUDE_TINYLLAMA=${{ (inputs.include_tinyllama || github.event.inputs.include_tinyllama || 'true') == 'true' && 'ON' || 'OFF' }}
+          TINYLLAMA_FORCE_DOWNLOAD=${{ (inputs.tinyllama_force_download || github.event.inputs.tinyllama_force_download || 'false') == 'true' && '1' || '0' }}
         # GitHub Actions cache backend: no external registry required.
         cache-from: type=gha
         cache-to: type=gha,mode=max

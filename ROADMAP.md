@@ -51,7 +51,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ## Current Status
 
-> **Q3/Q4 2026 Milestone Targets:** ~78% completion by end of Q3 2026; ~83% completion by end of Q4 2026 (from ~75% current baseline). See `## Q3 2026 Milestone (~78%)` and `## Q4 2026 Milestone (~83%)` sections below for the full implementation plan.
+> **Q3/Q4 2026 Milestone Targets:** ~83% completion by end of Q3 2026; ~86% completion by end of Q4 2026 (from ~80% current source-backed baseline). See `## Q3 2026 Milestone (~83%)` and `## Q4 2026 Milestone (~86%)` sections below for the full implementation plan.
 >
 > **Risk Table (Q3/Q4 2026):**
 >
@@ -497,7 +497,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 ---
 
-## 🎯 Q3 2026 Milestone — ~78 % (Hybrid-Retrieval + CUDA-Kernels + Transaction-Härtung)
+## 🎯 Q3 2026 Milestone — ~83 % (Hybrid-Retrieval + CUDA-Kernels + Transaction-Härtung)
 
 **Target:** End of September 2026  
 **Current baseline:** ~75 % (Phase 1-6 technical gates PASS, GA human sign-off pending)  
@@ -594,7 +594,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 ---
 
-## 🎯 Q4 2026 Milestone — ~83 % (EU AI Act + RAG + Evaluation)
+## 🎯 Q4 2026 Milestone — ~86 % (EU AI Act + RAG + Evaluation)
 
 **Target:** End of December 2026  
 **Delta deliverables driving +5 pp:** EU AI Act Art. 13/22 compliance in ethics_ai, WikiIndexStore Phase B, LLM-Judge production integration, Evaluation framework Recall@k/MRR, Graph 3.3 completion, Sharding 3.2.
@@ -660,7 +660,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 - [ ] Transaction Phase 4 Benchmarks: execute all 13 benchmarks in `bench_transaction_phase4.cpp`; collect baseline; gates THP-01 (≥10K txns/s local), THP-02 (≥5K distributed), LAT-01 (p99 < 50ms), REC-01 (recovery <5s) GREEN. (Target: Q4 2026)
 - [ ] Plugin manifest hardening (Phase 3+4): fail-closed for unsupported editions, missing `license_feature`, invalid `sha256` hash, incompatible `compatible_core_abi` range; negative tests for each failure mode. (Target: Q4 2026)
 - [ ] liboqs SPHINCS+: production implementation conditioned on `liboqs ≥ 0.10.0` in vcpkg; replaces current stub with real sign/verify; test: `SPHINCS-01..04` round-trip + side-channel timing check. (Target: Q4 2026)
-- [ ] ROADMAP percentage update: adjust `## Current Status` from ~75% to ~78% after Q3 delivery evidence; to ~83% after Q4 delivery evidence; sync to `CHANGELOG.md` and `VERSIONING.md`. (Target: Q4 2026)
+- [ ] ROADMAP percentage update: adjust `## Current Status` from ~80% to ~83% after Q3 delivery evidence; to ~86% after Q4 delivery evidence; sync to `CHANGELOG.md` and `VERSIONING.md`. (Target: Q4 2026)
 
 ### Risk Register (Q3/Q4)
 

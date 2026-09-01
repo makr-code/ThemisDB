@@ -73,9 +73,23 @@ std::string GPUFeatureFlags::editionName() {
 bool GPUFeatureFlags::editionDefaultFor(Feature f) {
     const auto ed = edition::GetEditionType();
 
-    // MINIMAL: no GPU execution (VRAM cap = 0), all GPU features disabled.
-    if (ed == edition::EditionType::MINIMAL) {
-        return false;
+    switch (ed) {
+        case edition::EditionType::MINIMAL:
+            // MINIMAL: no GPU execution (VRAM cap = 0), all GPU features disabled.
+            return false;
+
+        case edition::EditionType::ENTERPRISE:
+        case edition::EditionType::MILITARY:
+        case edition::EditionType::HYPERSCALER:
+            // Enterprise-class editions enable the full GPU surface, with
+            // feature-specific exceptions handled below.
+            break;
+
+        case edition::EditionType::COMMUNITY:
+            break;
+
+        case edition::EditionType::UNKNOWN:
+            return false;
     }
 
     // Multi-GPU features require Enterprise or above (incl. Military).
@@ -107,8 +121,7 @@ bool GPUFeatureFlags::editionDefaultFor(Feature f) {
 
     // Vulkan backend is available in Community and above (cross-vendor, no CUDA/HIP needed).
     if (f == Feature::VULKAN_BACKEND) {
-        return ed != edition::EditionType::UNKNOWN &&
-               ed != edition::EditionType::MINIMAL;
+        return true;
     }
 
     // Peer-to-peer GPU transfers require Enterprise or above (incl. Military).
@@ -118,9 +131,8 @@ bool GPUFeatureFlags::editionDefaultFor(Feature f) {
                ed == edition::EditionType::HYPERSCALER;
     }
 
-    // All other features are available in Community and above (any known edition except MINIMAL).
-    return ed != edition::EditionType::UNKNOWN &&
-           ed != edition::EditionType::MINIMAL;
+    // All other features are available in Community and above.
+    return true;
 }
 
 void GPUFeatureFlags::initDefaults() {

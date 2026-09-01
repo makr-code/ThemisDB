@@ -11,6 +11,16 @@
 > It is sorted by **Priority → Target Version → Module** and is the canonical input for
 > creating GitHub Issues with full implementation context.
 
+## Module Status Snapshot
+
+For the per-module current state, use [`MODULE_INDEX.md`](MODULE_INDEX.md) as the canonical overview.
+
+| Status | Module groups | Notes |
+|---|---|---|
+| Production-ready / mostly closed | `server`, `storage`, `network`, `auth`, `security`, `cache`, `analytics`, `failover`, `maintenance`, `updates`, `process`, `execution` | These modules are largely in the documentation/readiness phase rather than core implementation phase. |
+| Active hardening | `themis`, `transaction`, `query`, `index`, `sharding`, `replication`, `graph`, `cdc`, `llm`, `rag`, `gpu`, `acceleration`, `geo`, `voice`, `access_model`, `ethics_ai` | These modules still carry real code or evidence gaps and remain the main source of roadmap work. |
+| Planned / externalization | `chimera`, `user_storage`, plugin externalization tracks | Planning exists, but the implementation boundary is still being finalized. |
+
 ---
 
 ## Table of Contents

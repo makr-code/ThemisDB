@@ -1,25 +1,7 @@
-// Lightweight shims to provide minimal LLM factory symbols for the query
-// module in modular builds where the full LLM API module may not be
-// linked into the final shared library. These return nullptr and are
-// accepted by callers which handle missing LLM functionality gracefully.
+// Lightweight shim to provide an LLM reranker factory symbol for query/search
+// paths when no concrete reranker backend is linked.
 
-#include "themis/llm/llm_factory.h"
-#include "themis/llm/lora_orchestrator_interface.h"
 #include "themis/search/llm_reranker_factory.h"
-
-namespace themis {
-namespace llm {
-
-std::shared_ptr<ILLMPluginManager> createLLMPluginManager() {
-    return nullptr;
-}
-
-std::shared_ptr<lora::ILoRAOrchestrator> createLoRAOrchestrator() {
-    return nullptr;
-}
-
-} // namespace llm
-} // namespace themis
 
 namespace themis {
 namespace search {

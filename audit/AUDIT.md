@@ -55,7 +55,7 @@ This document is the **root-level security and compliance audit record** for The
 
 **Legend:** ✅ = 90–100% (Production-Ready), 🟢 = 75–89% (Production-Ready, Minor Gaps), 🟡 = 50–74% (Substantial, Hardening Pending), 🔴 = 25–49% (Partial), ⬛ = 0–24% (Scaffold)
 
-**Summary:** 72% overall LOC-weighted maturity. Core modules (A.1–A.4) at 85%+ avg. AI/ML modules (B.3) at 72% avg (LLM Phase 2, RAG production-ready). Optional modules (C.1–C.7) at 68% avg. Private plugins (D.1–D.4) at deployment-ready.
+**Summary:** ~80% overall LOC-weighted maturity. Core modules (A.1–A.4) at 85%+ avg. AI/ML modules (B.3) at 72% avg (LLM Phase 2, RAG production-ready). Optional modules (C.1–C.7) at 68% avg. Private plugins (D.1–D.4) at deployment-ready.
 
 ### Core Modules (A.1–A.4)
 

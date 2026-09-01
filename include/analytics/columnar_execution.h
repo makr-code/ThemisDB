@@ -47,7 +47,7 @@
 #include <vector>
 
 // Arena allocator used by AggregateOperator for GROUP BY scratch memory.
-#include "analytics/detail/memory_pool.h"
+#include "detail/memory_pool.h"
 
 namespace themisdb {
 namespace analytics {

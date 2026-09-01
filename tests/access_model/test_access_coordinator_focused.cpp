@@ -15,7 +15,6 @@
  * Test labels: access_model, coordinator, focused, phase2
  */
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include <atomic>
@@ -32,31 +31,57 @@ namespace themis {
 namespace access_model {
 
 // ============================================================================
-// § 1  Mocks & Fixtures
+// § 1  Test doubles & fixtures
 // ============================================================================
 
-class MockAccessTier : public AccessTier {
+class TestAccessTier : public AccessTier {
  public:
-    MOCK_METHOD(TierGetResult, get, (std::string_view, const TierAccessOptions&),
-                (override));
-    MOCK_METHOD(TierPutResult, put,
-                (std::string_view, std::string_view, const TierAccessOptions&),
-                (override));
-    MOCK_METHOD(bool, invalidate, (std::string_view), (override));
-    MOCK_METHOD(TierLevel, getTierLevel, (), (const, override));
-    MOCK_METHOD(std::string, getTierName, (), (const, override));
-    MOCK_METHOD(bool, hasKey, (std::string_view), (const, override));
-    MOCK_METHOD(std::size_t, getCurrentSizeBytes, (), (const, override));
-    MOCK_METHOD(std::size_t, getMaxCapacityBytes, (), (const, override));
-    MOCK_METHOD(std::size_t, getEntryCount, (), (const, override));
-    MOCK_METHOD(double, getHitRate, (), (const, override));
-    MOCK_METHOD(std::chrono::microseconds, getAverageGetLatency, (), (const, override));
-    MOCK_METHOD(std::chrono::microseconds, getAveragePutLatency, (), (const, override));
-    MOCK_METHOD(uint64_t, getAccessCount, (std::string_view), (const, override));
-    MOCK_METHOD(std::chrono::seconds, getKeyAge, (std::string_view), (const, override));
-    MOCK_METHOD(bool, initialize, (), (override));
-    MOCK_METHOD(void, shutdown, (), (override));
-    MOCK_METHOD(bool, isHealthy, (), (const, override));
+    explicit TestAccessTier(TierLevel level, std::string name)
+        : level_(level), name_(std::move(name)) {}
+
+    TierGetResult get(std::string_view, const TierAccessOptions&) override {
+        TierGetResult result;
+        result.success = false;
+        result.current_tier = level_;
+        result.latency_us = std::chrono::microseconds(0);
+        result.age_secs = std::chrono::seconds(0);
+        return result;
+    }
+
+    TierPutResult put(std::string_view, std::string_view,
+                      const TierAccessOptions&) override {
+        TierPutResult result;
+        result.success = true;
+        result.placed_in_tier = level_;
+        result.latency_us = std::chrono::microseconds(0);
+        return result;
+    }
+
+    bool invalidate(std::string_view) override { return true; }
+    TierLevel getTierLevel() const override { return level_; }
+    std::string getTierName() const override { return name_; }
+    bool hasKey(std::string_view) const override { return false; }
+    std::size_t getCurrentSizeBytes() const override { return 0; }
+    std::size_t getMaxCapacityBytes() const override { return kMaxTierCapacity; }
+    std::size_t getEntryCount() const override { return 0; }
+    double getHitRate() const override { return 0.0; }
+    std::chrono::microseconds getAverageGetLatency() const override {
+        return std::chrono::microseconds(0);
+    }
+    std::chrono::microseconds getAveragePutLatency() const override {
+        return std::chrono::microseconds(0);
+    }
+    uint64_t getAccessCount(std::string_view) const override { return 0; }
+    std::chrono::seconds getKeyAge(std::string_view) const override {
+        return std::chrono::seconds(0);
+    }
+    bool initialize() override { return true; }
+    void shutdown() override {}
+    bool isHealthy() const override { return true; }
+
+ private:
+    TierLevel level_;
+    std::string name_;
 };
 
 class AccessCoordinatorFocusedTest : public ::testing::Test {
@@ -64,18 +89,12 @@ class AccessCoordinatorFocusedTest : public ::testing::Test {
     void SetUp() override {
         coordinator_ = createAccessCoordinator(4);
         
-        // Create mock tiers
-        l1_ = std::make_shared<MockAccessTier>();
-        l2_ = std::make_shared<MockAccessTier>();
-        l3_ = std::make_shared<MockAccessTier>();
-        warm_storage_ = std::make_shared<MockAccessTier>();
-        cold_storage_ = std::make_shared<MockAccessTier>();
-        
-        ON_CALL(*l1_, getTierLevel).WillByDefault(testing::Return(TierLevel::L1_WORKING));
-        ON_CALL(*l2_, getTierLevel).WillByDefault(testing::Return(TierLevel::L2_EPISODIC));
-        ON_CALL(*l3_, getTierLevel).WillByDefault(testing::Return(TierLevel::L3_SEMANTIC));
-        ON_CALL(*warm_storage_, getTierLevel).WillByDefault(testing::Return(TierLevel::STORAGE_WARM));
-        ON_CALL(*cold_storage_, getTierLevel).WillByDefault(testing::Return(TierLevel::STORAGE_COLD));
+        // Create deterministic test tiers
+        l1_ = std::make_shared<TestAccessTier>(TierLevel::L1_WORKING, "L1_WORKING");
+        l2_ = std::make_shared<TestAccessTier>(TierLevel::L2_EPISODIC, "L2_EPISODIC");
+        l3_ = std::make_shared<TestAccessTier>(TierLevel::L3_SEMANTIC, "L3_SEMANTIC");
+        warm_storage_ = std::make_shared<TestAccessTier>(TierLevel::STORAGE_WARM, "STORAGE_WARM");
+        cold_storage_ = std::make_shared<TestAccessTier>(TierLevel::STORAGE_COLD, "STORAGE_COLD");
         
         tiers_map_[TierLevel::L1_WORKING] = l1_;
         tiers_map_[TierLevel::L2_EPISODIC] = l2_;
@@ -93,11 +112,11 @@ class AccessCoordinatorFocusedTest : public ::testing::Test {
     }
 
     std::shared_ptr<AccessCoordinator> coordinator_;
-    std::shared_ptr<MockAccessTier> l1_;
-    std::shared_ptr<MockAccessTier> l2_;
-    std::shared_ptr<MockAccessTier> l3_;
-    std::shared_ptr<MockAccessTier> warm_storage_;
-    std::shared_ptr<MockAccessTier> cold_storage_;
+    std::shared_ptr<TestAccessTier> l1_;
+    std::shared_ptr<TestAccessTier> l2_;
+    std::shared_ptr<TestAccessTier> l3_;
+    std::shared_ptr<TestAccessTier> warm_storage_;
+    std::shared_ptr<TestAccessTier> cold_storage_;
     std::map<TierLevel, std::shared_ptr<AccessTier>> tiers_map_;
 };
 

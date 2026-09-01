@@ -11,20 +11,32 @@
 FROM ubuntu:24.04 AS base
 
 ARG EXTRA_CA_CERT_B64=""
+ARG TARGETARCH
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV VCPKG_ROOT=/opt/vcpkg
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 ENV VCPKG_DISABLE_METRICS=1
 ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+ARG HTTP_PROXY=""
+ARG HTTPS_PROXY=""
+ARG ALL_PROXY=""
+ARG NO_PROXY=""
+ARG VCPKG_ENABLE_ONLINE=ON
+ENV HTTP_PROXY=${HTTP_PROXY}
+ENV HTTPS_PROXY=${HTTPS_PROXY}
+ENV ALL_PROXY=${ALL_PROXY}
+ENV NO_PROXY=${NO_PROXY}
+ENV VCPKG_ENABLE_ONLINE=${VCPKG_ENABLE_ONLINE}
+ENV VCPKG_KEEP_ENV_VARS=HTTP_PROXY,HTTPS_PROXY,ALL_PROXY,NO_PROXY,VCPKG_ENABLE_ONLINE
 
 # Fetch pinned vcpkg source archive at Docker build time to avoid
 # in-container git TLS/proxy trust-chain issues.
 ADD https://github.com/microsoft/vcpkg/archive/10b7a178346f3f0abef60cecd5130e295afd8da4.tar.gz /tmp/vcpkg.tar.gz
 
 # Install build essentials (combined layer for efficiency)
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+RUN --mount=type=cache,id=apt-cache-base-${TARGETARCH},target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,id=apt-lib-base-${TARGETARCH},target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         zip unzip tar wget flex bison aria2 ccache python3 perl nasm autoconf \
@@ -126,11 +138,29 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
 FROM base AS llama
 
 ARG ENABLE_LLM=ON
+ARG INCLUDE_TINYLLAMA=OFF
+ARG TINYLLAMA_FORCE_DOWNLOAD=0
+ARG TINYLLAMA_HF_URL=""
 
 WORKDIR /opt
 
+RUN mkdir -p /opt/themis-models
+
+COPY scripts/download-tinyllama-hf.sh /usr/local/bin/download-tinyllama-hf.sh
+RUN chmod +x /usr/local/bin/download-tinyllama-hf.sh
+
+# Optional local model fallback input:
+# - models/**/*tinyllama*.gguf
+# - llama.cpp/models/**/*tinyllama*.gguf
+# (controlled via .dockerignore to keep context small)
+RUN mkdir -p /opt/local-models/models /opt/local-models/llama-cpp-models
+COPY models/ /opt/local-models/models/
+
 # Copy llama.cpp source (excluding build/, models/, etc. via .dockerignore)
 COPY llama.cpp ./llama.cpp
+
+# Copy only whitelisted local TinyLlama candidates from llama.cpp/models.
+COPY llama.cpp/models/ /opt/local-models/llama-cpp-models/
 
 # Build if LLM is enabled
 RUN if [ "$ENABLE_LLM" = "ON" ]; then \
@@ -147,6 +177,18 @@ RUN if [ "$ENABLE_LLM" = "ON" ]; then \
     else \
         echo "LLM disabled"; \
         mkdir -p /opt/llama.cpp/build/lib; \
+    fi
+
+# Optional TinyLlama provisioning with local-first fallback:
+# 1) Use local TinyLlama GGUF from models/ or llama.cpp/models/ when present.
+# 2) Fallback to Hugging Face download when no local candidate exists.
+RUN set -eux; \
+    if [ "${INCLUDE_TINYLLAMA}" = "ON" ] || [ "${INCLUDE_TINYLLAMA}" = "on" ] || [ "${INCLUDE_TINYLLAMA}" = "true" ] || [ "${INCLUDE_TINYLLAMA}" = "TRUE" ]; then \
+        if [ ! -f /opt/themis-models/default.gguf ] || [ "${TINYLLAMA_FORCE_DOWNLOAD}" = "1" ]; then \
+            MODEL_DIR=/opt/themis-models OUTPUT_NAME=default.gguf FORCE=${TINYLLAMA_FORCE_DOWNLOAD} HF_URL="${TINYLLAMA_HF_URL}" LOCAL_SEARCH_DIRS="/opt/local-models/models:/opt/local-models/llama-cpp-models" /usr/local/bin/download-tinyllama-hf.sh; \
+        fi; \
+    else \
+        echo "INCLUDE_TINYLLAMA is OFF; skipping model download"; \
     fi
 
 # ============================================================================
@@ -183,8 +225,8 @@ COPY --from=deps /build/vcpkg_installed /src/vcpkg_installed
 COPY --from=llama /opt/llama.cpp /opt/llama.cpp
 
 # Ensure system RocksDB dev headers/libs for build
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+RUN --mount=type=cache,id=apt-cache-build-${TARGETARCH},target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,id=apt-lib-build-${TARGETARCH},target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
         librocksdb-dev && \
     rm -rf /var/lib/apt/lists/*
@@ -247,15 +289,17 @@ RUN set -eux; \
 FROM ubuntu:24.04 AS runtime
 
 ARG THEMIS_EDITION=COMMUNITY
+ARG TARGETARCH
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV THEMIS_EDITION=${THEMIS_EDITION}
+ENV THEMIS_DEFAULT_GGUF_PATH=/models/default.gguf
 
 WORKDIR /app
 
 # Install runtime dependencies
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+RUN --mount=type=cache,id=apt-cache-runtime-${TARGETARCH},target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,id=apt-lib-runtime-${TARGETARCH},target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
         ca-certificates librocksdb-dev libgrpc++1 libprotobuf32 curl && \
     rm -rf /var/lib/apt/lists/*
@@ -265,6 +309,9 @@ COPY --from=build /src/build-gcc-linux-release/bin/themis_server /app/themis_ser
 
 # Copy llama.cpp libraries
 COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/
+
+# Optional TinyLlama model (present only when provided or downloaded in llama stage)
+COPY --from=llama /opt/themis-models/ /models/
 
 RUN ldconfig
 
@@ -280,15 +327,17 @@ ENTRYPOINT ["/app/themis_server"]
 FROM ubuntu:24.04 AS debug
 
 ARG THEMIS_EDITION=COMMUNITY
+ARG TARGETARCH
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV THEMIS_EDITION=${THEMIS_EDITION}
+ENV THEMIS_DEFAULT_GGUF_PATH=/models/default.gguf
 
 WORKDIR /app
 
 # Install debug tools
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+RUN --mount=type=cache,id=apt-cache-debug-${TARGETARCH},target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,id=apt-lib-debug-${TARGETARCH},target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
         ca-certificates librocksdb-dev libgrpc++1 libprotobuf32 curl \
         gdb strace htop less nano git telnet netcat-openbsd && \
@@ -300,6 +349,9 @@ COPY --from=build /src/build-gcc-linux-release/bin/themis_server /app/themis_ser
 
 # Copy llama.cpp libraries
 COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/
+
+# Optional TinyLlama model (present only when provided or downloaded in llama stage)
+COPY --from=llama /opt/themis-models/ /models/
 
 RUN ldconfig
 

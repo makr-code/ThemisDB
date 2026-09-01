@@ -16,7 +16,7 @@
 > - `src/evaluation/AUDIT.md`, `tests/epic2_evaluation/` und `benchmarks/epic2_evaluation/` belegen produktive Source-, Test- und Benchmark-Surfaces; offen bleibt dort primär die aktuelle ausführbare Evidenz im vorhandenen Build-Setup.
 > - Source-Check 2026-08-12: `include/search/` trägt weiterhin 40 `STUB`/`TODO`/`MOCK`-Marker-Treffer in 20 Headern, diese sitzen jedoch in auto-generierten Gap-Summary-Kommentaren; die reale Search-Restarbeit wird über Wave-A/B-Härtung geführt.
 > - Source-Check 2026-08-12: `include/security/ai_snapshot_cleanup.h` zeigt den korrigierten Konstruktor-Split (`AiSnapshotCleanupJob();` plus `explicit AiSnapshotCleanupJob(Config cfg);`); der Source-Befund ist geschlossen.
-> - `ROADMAP.md` führt den Gesamtstatus inzwischen bei **~78–82 %** (Wave-A-Critical-Closure + Folge-Updates), bei weiter **1 Governance-Blocker** (Section 9 Human Sign-Off).
+> - `ROADMAP.md` führt den Gesamtstatus inzwischen bei **~80 %** (Wave-A-Critical-Closure + Folge-Updates), bei weiter **1 Governance-Blocker** (Section 9 Human Sign-Off).
 
 ---
 
@@ -24,7 +24,7 @@
 
 | Metrik | Wert | Trend | Anmerkung |
 |--------|------|-------|----------|
-| **Produktionsreife gesamt** | **~78–82 %** | ⬆︎ verbessert | Re-Sync gegen Roadmap/Audit-Stand 2026-08-26 |
+| **Produktionsreife gesamt** | **~80 %** | ⬆︎ verbessert | Re-Sync gegen Roadmap/Audit-Stand 2026-08-26 |
 | **Core-Module (A.1–A.4)** | **~82 %** | ⬆︎ verbessert | Server, Auth, Network, Process prodgrade |
 | **Optionale Module** | **~68–72 %** | ⬆︎ verbessert | LLM, GPU, Tensor mit fortgeschrittener Härtung |
 | **Private Plugins Wave-1** | **~55 %** | ⟶ stabil | Wave-1-Submodule commit-gepinnt; Governance-/CI-Gates bleiben offen |
@@ -535,9 +535,9 @@ Fokus-Cluster für Q3/Q4 2026:
 
 | Zeitraum | Maßnahmen | Ziel-Reife |
 |----------|-----------|-----------|
-| **GA-Tag (heute)** | Technische Gates alle PASS, Governance-Sign-off offen | ~78–82 % |
-| **Q3 2026** | Hybrid-Retrieval, CUDA-Kernels, transaction-Härtung, distributed_tensor Phase 3–4 | ~78 % |
-| **Q4 2026** | Evaluation, EU AI Act, RAG-Härtung, ethics_ai-Tests | ~83 % |
+| **GA-Tag (heute)** | Technische Gates alle PASS, Governance-Sign-off offen | ~80 % |
+| **Q3 2026** | Hybrid-Retrieval, CUDA-Kernels, transaction-Härtung, distributed_tensor Phase 3–4 | ~83 % |
+| **Q4 2026** | Evaluation, EU AI Act, RAG-Härtung, ethics_ai-Tests | ~86 % |
 | **v2.5.0 Target** | Alle P1/P2 Maßnahmen abgeschlossen | **≥ 85 %** |
 
 ---

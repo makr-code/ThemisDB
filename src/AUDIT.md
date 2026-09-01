@@ -9,6 +9,16 @@
 - Full source code analysis (not checklist): all major `.cpp` files in 10 modules read line-by-line
 - Focus: safety violations, deadlocks, use-after-free, auth bypass, injection, resource exhaustion
 
+## Module Status Snapshot
+
+The authoritative per-module matrix lives in [`MODULE_INDEX.md`](MODULE_INDEX.md). This audit keeps the high-level grouping visible:
+
+| Status | Module groups | Audit posture |
+|---|---|---|
+| Stable / production-ready | `server`, `storage`, `network`, `auth`, `security`, `cache`, `analytics`, `failover`, `maintenance`, `updates`, `process`, `execution` | Current audit stack treats these as the lower-risk baseline with residual hardening or documentation tasks. |
+| Real gaps still present | `themis`, `transaction`, `query`, `index`, `sharding`, `replication`, `graph`, `cdc`, `llm`, `rag`, `gpu`, `acceleration`, `geo`, `voice`, `access_model`, `ethics_ai` | These modules still require source-level follow-up, either because gaps remain or because evidence refresh is pending. |
+| Planned / partially externalized | `chimera`, `user_storage`, plugin externalization tracks | These are not yet fully owned by a closed implementation path and remain tracked as planned work. |
+
 ---
 
 ## ⚠️ Executive Summary

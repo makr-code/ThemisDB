@@ -19,6 +19,8 @@
 #include <string>
 #include <vector>
 
+#include "geo/geo_math.h"
+
 namespace themis {
 namespace geo {
 
@@ -138,14 +140,6 @@ std::vector<SpatialJoinPair> spatialJoin(
     const std::vector<std::pair<std::string, GeometryInfo>>& inner,
     double threshold_m,
     const SpatialJoinConfig& config = SpatialJoinConfig{});
-
-/**
- * @brief Compute the Haversine geodesic distance between two WGS84 points.
- *        See geo/geo_math.h for the canonical implementation.
- * @return Distance in metres.
- */
-double haversineDistanceM(double lon1, double lat1,
-                          double lon2, double lat2) noexcept;
 
 } // namespace geo
 } // namespace themis

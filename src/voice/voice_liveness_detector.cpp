@@ -293,8 +293,8 @@ std::string VoiceLivenessDetector::speechToText(const std::string& audio) {
 std::string VoiceLivenessDetector::generateRandomChallenge() {
     static std::random_device rd;
     static std::mt19937 gen(rd());
-    
-    std::uniform_int_distribution<> dis(0, CHALLENGE_PHRASES.size() - 1);
+
+    std::uniform_int_distribution<size_t> dis(0, CHALLENGE_PHRASES.size() - 1);
     return CHALLENGE_PHRASES[dis(gen)];
 }
 

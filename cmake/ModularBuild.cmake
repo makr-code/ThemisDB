@@ -171,6 +171,7 @@ function(themis_add_module MODULE_NAME)
     # mimalloc import definitions for all modules
     if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
         target_compile_definitions(themis_${MODULE_NAME} PRIVATE MI_SHARED_LIB=1 MI_SHARED_LIB_EXPORT=0)
+        target_link_libraries(themis_${MODULE_NAME} PUBLIC mimalloc)
     endif()
     
     # jemalloc compile definitions for all modules
@@ -319,7 +320,9 @@ set(THEMIS_BASE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_mt.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_tbb.cpp>
     ../src/acceleration/graphics_backends.cpp
-    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/gpu/gpu_memory_manager_edition.cpp>
+    # Always compile gpu_memory_manager_edition.cpp to provide the
+    # edition-aware GPUMemoryManager implementation even in CPU-only builds.
+    ../src/gpu/gpu_memory_manager_edition.cpp
     # GPU-specific backends
     $<$<AND:$<BOOL:${THEMIS_ENABLE_GPU}>,$<BOOL:${WIN32}>>:../src/acceleration/directx_backend_full.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HIP}>:../src/acceleration/hip_backend.cpp>
@@ -2567,6 +2570,11 @@ function(themis_build_modular)
                 themis_query
                 themis_transaction
         )
+        # Sharding calls ContinuousLearningOrchestrator for feedback/telemetry.
+        # Since sharding is SHARED, must explicitly link training module.
+        if(TARGET themis_training)
+            target_link_libraries(themis_sharding PUBLIC themis_training)
+        endif()
         # Link the lightweight LLM API module (if built) to provide
         # runtime-facing LLM symbols used by query/sharding without
         # pulling in the full LLM implementation that depends on sharding.
@@ -2717,9 +2725,8 @@ function(themis_build_modular)
                     themis_query
             )
         endif()
-        if(THEMIS_MODULE_GRAPH)
-            target_link_libraries(themis_llm PUBLIC themis_graph)
-        endif()
+        # Avoid direct llm -> graph edge here to prevent mixed STATIC/SHARED
+        # cycles in CMake's inter-target dependency graph.
         if(onnxruntime_FOUND)
             target_link_libraries(themis_llm PUBLIC onnxruntime::onnxruntime)
             if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
@@ -2774,6 +2781,12 @@ function(themis_build_modular)
                 target_link_libraries(themis_llm_ext PUBLIC ${THEMIS_ROCKSDB_TARGET})
             endif()
         endif()
+
+        # llm_api adapters instantiate EmbeddedLLM and therefore require
+        # symbols from the main llm implementation (e.g. ethical manager dtor).
+        if(TARGET themis_llm_api)
+            target_link_libraries(themis_llm_api PUBLIC themis_llm)
+        endif()
     endif()
 
     if(THEMIS_TRAINING_SOURCES)
@@ -2783,9 +2796,8 @@ function(themis_build_modular)
             themis_security
             themis_query
         )
-        if(THEMIS_MODULE_GRAPH)
-            list(APPEND _themis_training_deps themis_graph)
-        endif()
+        # Avoid direct training -> graph edge here to prevent mixed
+        # STATIC/SHARED cycles in modular configure/generate phase.
         if(THEMIS_MODULE_LLM)
             list(APPEND _themis_training_deps themis_llm)
             if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
@@ -2947,6 +2959,19 @@ function(themis_build_modular)
     if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
         target_link_libraries(themis_storage PUBLIC mimalloc)
     endif()
+
+    # Query compiles optional docs-assistant bridge objects that require
+    # lightweight LLM runtime symbols (EmbeddedLLM/DocsAssistant adapters).
+    if(TARGET themis_query AND TARGET themis_llm_api)
+        target_link_libraries(themis_query PUBLIC themis_llm_api)
+    endif()
+
+    # Network handlers can call continuous-learning orchestration paths
+    # implemented in training sources; link explicitly once target exists.
+    if(TARGET themis_network AND TARGET themis_training)
+        target_link_libraries(themis_network PUBLIC themis_training)
+    endif()
+
     if(THEMIS_ENABLE_JEMALLOC)
         if(TARGET jemalloc::jemalloc)
             target_link_libraries(themis_storage PUBLIC jemalloc::jemalloc)
@@ -3023,6 +3048,52 @@ function(themis_build_modular)
     endif()
 
     list(APPEND THEMIS_ALL_MODULES themis_ingestion)
+
+    # Re-append foundational providers at the tail to make ELF link order
+    # robust when consumer modules retain unresolved references until the
+    # final executable link step.
+    if(TARGET themis_storage)
+        list(APPEND THEMIS_ALL_MODULES themis_storage)
+    endif()
+    if(TARGET themis_base)
+        list(APPEND THEMIS_ALL_MODULES themis_base)
+    endif()
+
+    # Ensure mimalloc symbols are available to every module that may compile
+    # allocator wrappers with THEMIS_ENABLE_MIMALLOC enabled.
+    if(THEMIS_ENABLE_MIMALLOC)
+        set(_themis_mi_target "")
+        if(TARGET mimalloc)
+            set(_themis_mi_target mimalloc)
+        elseif(TARGET mimalloc-static)
+            set(_themis_mi_target mimalloc-static)
+        endif()
+
+        if(NOT "${_themis_mi_target}" STREQUAL "")
+            foreach(_themis_mod IN LISTS THEMIS_ALL_MODULES)
+                if(TARGET ${_themis_mod})
+                    target_link_libraries(${_themis_mod} PUBLIC ${_themis_mi_target})
+                endif()
+            endforeach()
+        endif()
+    endif()
+
+    # Ensure training module symbols (ContinuousLearningOrchestrator, etc.)
+    # are available to SHARED consumer modules (network, sharding) that may
+    # invoke feedback/telemetry paths at runtime. Link only the final executable
+    # consumers, not intermediate modules, to avoid circular deps.
+    if(TARGET themis_training AND TARGET themis_network)
+        target_link_libraries(themis_network PUBLIC themis_training)
+    endif()
+    if(TARGET themis_training AND TARGET themis_sharding)
+        target_link_libraries(themis_sharding PUBLIC themis_training)
+    endif()
+    
+    # Similarly, ensure lightweight LLM API module symbols (DocsAssistant,
+    # EmbeddedLLM) are available to query for optional docs-assistant bridge.
+    if(TARGET themis_llm_api AND TARGET themis_query)
+        target_link_libraries(themis_query PUBLIC themis_llm_api)
+    endif()
     
     set(THEMIS_ALL_MODULES ${THEMIS_ALL_MODULES} PARENT_SCOPE)
 endfunction()

@@ -23,6 +23,7 @@ $ErrorActionPreference = "Stop"
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $repoRoot = Split-Path -Parent $scriptDir
 $releaseDir = Join-Path $repoRoot "release"
+$multiArchOciPath = Join-Path $releaseDir "themisdb-$Tag-multiarch.oci.tar"
 
 # Validation
 if (-not $Tag) {
@@ -86,6 +87,15 @@ Write-Host "════════ Building Docker image ═══════
 $imageTag = "themisdb/themis:$Tag"
 $imageTagLatest = "themisdb/themis:latest"
 
+$proxyBuildArgs = @()
+foreach ($name in @("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "NO_PROXY", "VCPKG_ENABLE_ONLINE", "INCLUDE_TINYLLAMA", "TINYLLAMA_FORCE_DOWNLOAD", "TINYLLAMA_HF_URL")) {
+    $value = [Environment]::GetEnvironmentVariable($name)
+    if (-not [string]::IsNullOrWhiteSpace($value)) {
+        $proxyBuildArgs += "--build-arg"
+        $proxyBuildArgs += "$name=$value"
+    }
+}
+
 # For multi-arch builds, use buildx
 if ($Platforms -match ",") {
     Write-Host "Building multi-architecture image..." -ForegroundColor Cyan
@@ -100,21 +110,26 @@ if ($Platforms -match ",") {
     
     $buildxArgs = @(
         "buildx", "build",
+        "--builder", "themis-builder",
         "-f", (Join-Path $repoRoot "docker/$Dockerfile"),
         "-t", $imageTag,
         "-t", $imageTagLatest,
         "--platform", $Platforms,
         "--build-arg", "VERSION=$Tag"
     )
-    if (-not $NoCache) { $buildxArgs += "--cache-from=type=gha" }
+    if ($proxyBuildArgs.Count -gt 0) { $buildxArgs += $proxyBuildArgs }
+    if ($NoCache) { $buildxArgs += "--no-cache" }
     if ($Push) {
         $buildxArgs += "--push"
         Write-Host "  [Push enabled - image will be pushed after build]" -ForegroundColor Green
     } else {
-        $buildxArgs += "--load"
+        if (-not (Test-Path $releaseDir)) { New-Item -ItemType Directory -Path $releaseDir | Out-Null }
+        if (Test-Path $multiArchOciPath) { Remove-Item -Path $multiArchOciPath -Force }
+        $buildxArgs += "--output=type=oci,dest=$multiArchOciPath"
+        Write-Host "  [Push disabled - exporting multi-arch OCI archive to $multiArchOciPath]" -ForegroundColor Yellow
     }
     
-    & docker @buildxArgs (Join-Path $repoRoot "docker")
+    & docker @buildxArgs $repoRoot
     if ($LASTEXITCODE -ne 0) { throw "Multi-arch Docker build failed" }
 } else {
     # Single-arch build with standard docker build
@@ -125,9 +140,10 @@ if ($Platforms -match ",") {
         "-t", $imageTagLatest,
         "--build-arg", "VERSION=$Tag"
     )
+    if ($proxyBuildArgs.Count -gt 0) { $dockerArgs += $proxyBuildArgs }
     if ($NoCache) { $dockerArgs += "--no-cache" }
     
-    & docker @dockerArgs (Join-Path $repoRoot "docker")
+    & docker @dockerArgs $repoRoot
     if ($LASTEXITCODE -ne 0) { throw "Docker build failed" }
     
     Write-Host "Image built successfully: $imageTag" -ForegroundColor Green
