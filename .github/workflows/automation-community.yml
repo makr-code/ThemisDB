@@ -238,20 +238,30 @@ jobs:
           script: |
             const pr = context.payload.pull_request;
             if (!pr) return;
-            if (pr.user?.login === 'makr-code') {
+            const reviewer = 'makr-code';
+            const author = (pr.user?.login ?? '').toLowerCase();
+            if (author === reviewer) {
               console.log('PR author is makr-code; cannot request self-review — skipping.');
               return;
             }
             // Only request if no review has been requested yet for this PR
-            const existing = pr.requested_reviewers?.map(r => r.login) ?? [];
-            if (existing.includes('makr-code')) {
+            const existing = pr.requested_reviewers?.map(r => (r.login ?? '').toLowerCase()) ?? [];
+            if (existing.includes(reviewer)) {
               console.log('Review from makr-code already requested — skipping.');
               return;
             }
-            await github.rest.pulls.requestReviewers({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.number,
-              reviewers: ['makr-code'],
-            });
+            try {
+              await github.rest.pulls.requestReviewers({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                reviewers: [reviewer],
+              });
+            } catch (error) {
+              if (error.status === 422 && String(error.message).includes('pull request author')) {
+                console.log('GitHub rejected self-review request; skipping.');
+                return;
+              }
+              throw error;
+            }
             console.log(`Review from makr-code requested for PR #${pr.number}.`);
