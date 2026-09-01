@@ -14,6 +14,8 @@
 #include <filesystem>
 #include <fstream>
 #include <memory>
+#include <thread>
+#include <chrono>
 
 namespace fs = std::filesystem;
 
@@ -127,6 +129,25 @@ TEST_F(GAP008BackupAutomationTest, CancelScheduledBackupSucceeds) {
     // Cancelling again should fail (already removed)
     auto cancel2 = backup_manager_->cancelScheduledBackup(sched.value());
     EXPECT_FALSE(cancel2.has_value()) << "Second cancel should fail";
+}
+
+TEST_F(GAP008BackupAutomationTest, ScheduledBackupsTriggerBackupExecution) {
+    std::error_code ec;
+    std::string backup_dir = "./data/gap008_scheduler_backups";
+    std::filesystem::remove_all(backup_dir, ec);
+
+    BackupOptions options;
+    options.storage_path = backup_dir;
+    auto sched = backup_manager_->scheduleBackup("* * * * *", "full", options);
+    ASSERT_TRUE(sched.has_value()) << "scheduleBackup should succeed for a recurring minute schedule";
+
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+
+    auto backups = backup_manager_->listBackups(backup_dir);
+    EXPECT_FALSE(backups.empty()) << "Scheduled backup should create a backup payload";
+
+    EXPECT_TRUE(backup_manager_->cancelScheduledBackup(sched.value()).has_value());
+    std::filesystem::remove_all(backup_dir, ec);
 }
 
 TEST_F(GAP008BackupAutomationTest, CancelScheduledBackupRejectsEmptyId) {
