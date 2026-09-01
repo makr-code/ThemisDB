@@ -7,7 +7,7 @@ name: "Gate: PR Doxygen Governance"
 
 on:
   pull_request:
-    types: [opened, edited, synchronize, reopened, labeled, unlabeled]
+    types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - develop
       - community

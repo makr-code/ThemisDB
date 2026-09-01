@@ -5,10 +5,24 @@ name: "Build: Copilot Ollama Router"
 on:
   push:
     paths:
-      - 'tools/copilot-ollama-router/**'
+      - 'tools/copilot-ollama-router/src/**/*.ts'
+      - 'tools/copilot-ollama-router/src/**/*.js'
+      - 'tools/copilot-ollama-router/package.json'
+      - 'tools/copilot-ollama-router/package-lock.json'
+      - 'tools/copilot-ollama-router/tsconfig.json'
+      - 'tools/copilot-ollama-router/.mocharc.json'
+      - 'tools/copilot-ollama-router/eslint.config.js'
+      - '.github/workflows/build-ollama-router.yml'
   pull_request:
     paths:
-      - 'tools/copilot-ollama-router/**'
+      - 'tools/copilot-ollama-router/src/**/*.ts'
+      - 'tools/copilot-ollama-router/src/**/*.js'
+      - 'tools/copilot-ollama-router/package.json'
+      - 'tools/copilot-ollama-router/package-lock.json'
+      - 'tools/copilot-ollama-router/tsconfig.json'
+      - 'tools/copilot-ollama-router/.mocharc.json'
+      - 'tools/copilot-ollama-router/eslint.config.js'
+      - '.github/workflows/build-ollama-router.yml'
   workflow_dispatch:
 
 permissions:
