@@ -9,7 +9,7 @@ name: "Gate: PR Core [Edition & License]"
 on:
   workflow_call: {}
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - develop
       - community
@@ -18,17 +18,68 @@ on:
       - military
       - minimal
     paths:
-      - 'plugins/**'
-      - 'include/**'
-      - 'src/**'
+      - 'plugins/**/plugin.toml'
+      - 'plugins/**/plugin.json'
+      - 'plugins/**/CMakeLists.txt'
+      - 'plugins/**/*.cmake'
+      - 'plugins/**/*.in'
+      - 'plugins/**/*.txt'
+      - 'plugins/**/*.c'
+      - 'plugins/**/*.cc'
+      - 'plugins/**/*.cpp'
+      - 'plugins/**/*.cxx'
+      - 'plugins/**/*.h'
+      - 'plugins/**/*.hh'
+      - 'plugins/**/*.hpp'
+      - 'plugins/**/*.hxx'
+      - 'include/**/*.h'
+      - 'include/**/*.hh'
+      - 'include/**/*.hpp'
+      - 'include/**/*.hxx'
+      - 'include/**/*.ipp'
+      - 'include/**/*.tpp'
+      - 'src/**/*.c'
+      - 'src/**/*.cc'
+      - 'src/**/*.cpp'
+      - 'src/**/*.cxx'
+      - 'src/**/*.h'
+      - 'src/**/*.hh'
+      - 'src/**/*.hpp'
+      - 'src/**/*.hxx'
       - 'CMakeLists.txt'
       - '.github/workflows/gate-pr-edition-license.yml'
   push:
     branches: [develop]
     paths:
-      - 'plugins/**'
-      - 'include/**'
-      - 'src/**'
+      - 'plugins/**/plugin.toml'
+      - 'plugins/**/plugin.json'
+      - 'plugins/**/CMakeLists.txt'
+      - 'plugins/**/*.cmake'
+      - 'plugins/**/*.in'
+      - 'plugins/**/*.txt'
+      - 'plugins/**/*.c'
+      - 'plugins/**/*.cc'
+      - 'plugins/**/*.cpp'
+      - 'plugins/**/*.cxx'
+      - 'plugins/**/*.h'
+      - 'plugins/**/*.hh'
+      - 'plugins/**/*.hpp'
+      - 'plugins/**/*.hxx'
+      - 'include/**/*.h'
+      - 'include/**/*.hh'
+      - 'include/**/*.hpp'
+      - 'include/**/*.hxx'
+      - 'include/**/*.ipp'
+      - 'include/**/*.tpp'
+      - 'src/**/*.c'
+      - 'src/**/*.cc'
+      - 'src/**/*.cpp'
+      - 'src/**/*.cxx'
+      - 'src/**/*.h'
+      - 'src/**/*.hh'
+      - 'src/**/*.hpp'
+      - 'src/**/*.hxx'
+      - 'CMakeLists.txt'
   workflow_dispatch:
 
 concurrency:

@@ -9,21 +9,69 @@ name: "Gate: PR Core [Community Fail-Closed]"
 on:
   workflow_call: {}
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - community
       - minimal
     paths:
-      - 'src/**'
-      - 'plugins/**'
+      - 'src/**/*.c'
+      - 'src/**/*.cc'
+      - 'src/**/*.cpp'
+      - 'src/**/*.cxx'
+      - 'src/**/*.h'
+      - 'src/**/*.hh'
+      - 'src/**/*.hpp'
+      - 'src/**/*.hxx'
+      - 'plugins/**/plugin.toml'
+      - 'plugins/**/plugin.json'
+      - 'plugins/**/CMakeLists.txt'
+      - 'plugins/**/*.cmake'
+      - 'plugins/**/*.in'
+      - 'plugins/**/*.txt'
+      - 'plugins/**/*.c'
+      - 'plugins/**/*.cc'
+      - 'plugins/**/*.cpp'
+      - 'plugins/**/*.cxx'
+      - 'plugins/**/*.h'
+      - 'plugins/**/*.hh'
+      - 'plugins/**/*.hpp'
+      - 'plugins/**/*.hxx'
+      - 'include/themis/api.h'
       - 'CMakeLists.txt'
+      - 'cmake/**/*.cmake'
+      - 'cmake/**/*.txt'
+      - 'cmake/**/*.in'
       - '.github/workflows/gate-pr-community-failclosed.yml'
   push:
     branches: [community, minimal]
     paths:
-      - 'src/**'
-      - 'plugins/**'
+      - 'src/**/*.c'
+      - 'src/**/*.cc'
+      - 'src/**/*.cpp'
+      - 'src/**/*.cxx'
+      - 'src/**/*.h'
+      - 'src/**/*.hh'
+      - 'src/**/*.hpp'
+      - 'src/**/*.hxx'
+      - 'plugins/**/plugin.toml'
+      - 'plugins/**/plugin.json'
+      - 'plugins/**/CMakeLists.txt'
+      - 'plugins/**/*.cmake'
+      - 'plugins/**/*.in'
+      - 'plugins/**/*.txt'
+      - 'plugins/**/*.c'
+      - 'plugins/**/*.cc'
+      - 'plugins/**/*.cpp'
+      - 'plugins/**/*.cxx'
+      - 'plugins/**/*.h'
+      - 'plugins/**/*.hh'
+      - 'plugins/**/*.hpp'
+      - 'plugins/**/*.hxx'
+      - 'include/themis/api.h'
       - 'CMakeLists.txt'
+      - 'cmake/**/*.cmake'
+      - 'cmake/**/*.txt'
+      - 'cmake/**/*.in'
   workflow_dispatch:
 
 concurrency:

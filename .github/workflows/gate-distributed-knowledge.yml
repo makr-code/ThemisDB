@@ -10,119 +10,187 @@ on:
     branches:
       - copilot/implement-gaps-closing-again
     paths:
-      - 'src/distributed_knowledge/**'
-      - 'tests/*distributed_knowledge*'
-      - 'benchmarks/distributed_knowledge/**'
-      - 'include/distributed_knowledge/**'
+      - 'src/distributed_knowledge/**/*.c'
+      - 'src/distributed_knowledge/**/*.cc'
+      - 'src/distributed_knowledge/**/*.cpp'
+      - 'src/distributed_knowledge/**/*.cxx'
+      - 'src/distributed_knowledge/**/*.h'
+      - 'src/distributed_knowledge/**/*.hh'
+      - 'src/distributed_knowledge/**/*.hpp'
+      - 'src/distributed_knowledge/**/*.hxx'
+      - 'include/distributed_knowledge/**/*.h'
+      - 'include/distributed_knowledge/**/*.hh'
+      - 'include/distributed_knowledge/**/*.hpp'
+      - 'include/distributed_knowledge/**/*.hxx'
+      - 'tests/**/*distributed_knowledge*.c'
+      - 'tests/**/*distributed_knowledge*.cc'
+      - 'tests/**/*distributed_knowledge*.cpp'
+      - 'tests/**/*distributed_knowledge*.cxx'
+      - 'tests/**/*distributed_knowledge*.h'
+      - 'tests/**/*distributed_knowledge*.hh'
+      - 'tests/**/*distributed_knowledge*.hpp'
+      - 'tests/**/*distributed_knowledge*.hxx'
+      - 'benchmarks/distributed_knowledge/**/*.c'
+      - 'benchmarks/distributed_knowledge/**/*.cc'
+      - 'benchmarks/distributed_knowledge/**/*.cpp'
+      - 'benchmarks/distributed_knowledge/**/*.cxx'
+      - 'benchmarks/distributed_knowledge/**/*.h'
+      - 'benchmarks/distributed_knowledge/**/*.hh'
+      - 'benchmarks/distributed_knowledge/**/*.hpp'
+      - 'benchmarks/distributed_knowledge/**/*.hxx'
+      - 'CMakeLists.txt'
+      - 'CMakePresets.json'
+      - 'cmake/**/*.cmake'
+      - 'cmake/**/*.txt'
+      - 'cmake/**/*.in'
+      - '.github/workflows/gate-distributed-knowledge.yml'
 
   pull_request:
     branches:
       - develop
     paths:
-      - 'src/distributed_knowledge/**'
-      - 'tests/*distributed_knowledge*'
-      - 'benchmarks/distributed_knowledge/**'
-      - 'include/distributed_knowledge/**'
+      - 'src/distributed_knowledge/**/*.c'
+      - 'src/distributed_knowledge/**/*.cc'
+      - 'src/distributed_knowledge/**/*.cpp'
+      - 'src/distributed_knowledge/**/*.cxx'
+      - 'src/distributed_knowledge/**/*.h'
+      - 'src/distributed_knowledge/**/*.hh'
+      - 'src/distributed_knowledge/**/*.hpp'
+      - 'src/distributed_knowledge/**/*.hxx'
+      - 'include/distributed_knowledge/**/*.h'
+      - 'include/distributed_knowledge/**/*.hh'
+      - 'include/distributed_knowledge/**/*.hpp'
+      - 'include/distributed_knowledge/**/*.hxx'
+      - 'tests/**/*distributed_knowledge*.c'
+      - 'tests/**/*distributed_knowledge*.cc'
+      - 'tests/**/*distributed_knowledge*.cpp'
+      - 'tests/**/*distributed_knowledge*.cxx'
+      - 'tests/**/*distributed_knowledge*.h'
+      - 'tests/**/*distributed_knowledge*.hh'
+      - 'tests/**/*distributed_knowledge*.hpp'
+      - 'tests/**/*distributed_knowledge*.hxx'
+      - 'benchmarks/distributed_knowledge/**/*.c'
+      - 'benchmarks/distributed_knowledge/**/*.cc'
+      - 'benchmarks/distributed_knowledge/**/*.cpp'
+      - 'benchmarks/distributed_knowledge/**/*.cxx'
+      - 'benchmarks/distributed_knowledge/**/*.h'
+      - 'benchmarks/distributed_knowledge/**/*.hh'
+      - 'benchmarks/distributed_knowledge/**/*.hpp'
+      - 'benchmarks/distributed_knowledge/**/*.hxx'
+      - 'CMakeLists.txt'
+      - 'CMakePresets.json'
+      - 'cmake/**/*.cmake'
+      - 'cmake/**/*.txt'
+      - 'cmake/**/*.in'
+      - '.github/workflows/gate-distributed-knowledge.yml'
 
   workflow_dispatch:
 
 permissions:
   contents: read
 
-jobs:
-  validate-build:
-    name: Build Validation (distributed_knowledge)
-    uses: ./.github/workflows/reusable-cmake-build.yml
-    with:
-      runs_on: ubuntu-latest
-      shell: bash
-      setup_command: |
-        echo "Installing build dependencies..."
-        sudo apt-get update -qq
-        sudo apt-get install -y --quiet \
-          librocksdb-dev \
-          libfmt-dev \
-          ninja-build \
-          cmake \
-          build-essential \
-          pkg-config
+concurrency:
+  group: ci-gate-distributed-knowledge-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
-        echo "Verifying dependencies..."
-        echo "RocksDB:"
-        pkg-config --modversion rocksdb || echo "  (via library)"
-        echo "fmt:"
-        pkg-config --modversion fmt || echo "  (via library)"
-        echo "CMake:"
-        cmake --version | head -1
-        echo "Ninja:"
-        ninja --version
-        echo "Dependencies verified ✓"
-      configure_command: |
-        cmake --preset community-release
-      build_command: |
-        cmake --build --preset community-release \
-          --target module_distributed_knowledge_test_contract_hardening_focused \
-          --target module_distributed_knowledge_test_adapter_capability_focused \
-          --parallel 16 \
-          --verbose
-      summary_title: Build Validation (distributed_knowledge)
+jobs:
+  build-distributed-knowledge:
+    name: Build Producer (distributed_knowledge)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      actions: read
+    env:
+      SCCACHE_GHA_ENABLED: "false"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Setup C++ build dependencies
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc: gcc-12
+          cxx: g++-12
+          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+
+      - name: Configure (community-release)
+        run: |
+          set -euo pipefail
+          cmake --preset community-release -DTHEMIS_BUILD_TESTS=ON
+
+      - name: Build focused validation targets once
+        run: |
+          set -euo pipefail
+          cmake --build build-community-release \
+            --target module_distributed_knowledge_test_contract_hardening_focused \
+            --target module_distributed_knowledge_test_adapter_capability_focused \
+            --target bench_dk_release_gates \
+            --parallel "$(nproc)"
+
+      - name: Upload build tree for consumer jobs
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: dk-build-tree-${{ github.run_number }}
+          path: build-community-release/
+          retention-days: 7
+          if-no-files-found: error
 
   validate-unit-tests:
-    name: Unit Tests (58 tests)
-    needs: validate-build
-    uses: ./.github/workflows/reusable-cmake-build.yml
-    with:
-      runs_on: ubuntu-latest
-      shell: bash
-      setup_command: |
-        sudo apt-get update -qq
-        sudo apt-get install -y --quiet \
-          librocksdb-dev \
-          libfmt-dev \
-          ninja-build \
-          cmake \
-          build-essential
-      configure_command: |
-        cmake --preset community-release
-      build_command: |
-        cmake --build --preset community-release \
-          --parallel 16
-      validation_command: |
-        ctest --preset community-release \
-          -R module_distributed_knowledge_test \
-          --verbose \
-          --output-on-failure \
-          --timeout 300
-      summary_title: Unit Tests (58 tests)
+    name: Unit Tests Consumer
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: build-distributed-knowledge
+    steps:
+      - name: Setup C++ runtime dependencies
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc: gcc-12
+          cxx: g++-12
+          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+
+      - name: Download build tree
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: dk-build-tree-${{ github.run_number }}
+          path: .
+
+      - name: Run module unit tests from producer artifact
+        run: |
+          set -euo pipefail
+          ctest --test-dir build-community-release \
+            -R module_distributed_knowledge_test \
+            --verbose \
+            --output-on-failure \
+            --timeout 300
 
   validate-benchmarks:
-    name: Benchmark Validation (±5% gates)
-    needs: validate-build
-    uses: ./.github/workflows/reusable-cmake-build.yml
-    with:
-      runs_on: ubuntu-latest
-      shell: bash
-      setup_command: |
-        sudo apt-get update -qq
-        sudo apt-get install -y --quiet \
-          librocksdb-dev \
-          libfmt-dev \
-          ninja-build \
-          cmake \
-          build-essential
-      configure_command: |
-        cmake --preset community-release
-      build_command: |
-        cmake --build --preset community-release \
-          --target bench_dk_release_gates \
-          --parallel 16
-      validation_command: |
-        ctest --preset community-release \
-          -R bench_dk_release_gates \
-          --verbose \
-          --output-on-failure \
-          --timeout 600
-      summary_title: Benchmark Validation (±5% gates)
+    name: Benchmark Consumer
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: build-distributed-knowledge
+    steps:
+      - name: Setup C++ runtime dependencies
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc: gcc-12
+          cxx: g++-12
+          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+
+      - name: Download build tree
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: dk-build-tree-${{ github.run_number }}
+          path: .
+
+      - name: Run benchmark gate from producer artifact
+        run: |
+          set -euo pipefail
+          ctest --test-dir build-community-release \
+            -R bench_dk_release_gates \
+            --verbose \
+            --output-on-failure \
+            --timeout 600
 
   verify-gap-closure:
     name: Verify Gap Closure Pattern
@@ -184,95 +252,3 @@ jobs:
             echo "**Closure Rate:** ${CLOSURE_RATE}%"
             echo "**Pattern Closure:** ${PATTERN_CLOSURE}% < 20% ✅"
           } >> "$GITHUB_STEP_SUMMARY"
-
-  create-validation-summary:
-    name: Create Validation Summary
-    needs: [validate-unit-tests, validate-benchmarks, verify-gap-closure]
-    runs-on: ubuntu-latest
-    if: always()
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-
-      - name: Generate validation summary
-        run: |
-          cat > validation-summary.md << 'EOF'
-          # distributed_knowledge Module - Validation Summary
-          
-          ## Test Results ✅
-          - **Unit Tests:** All 58 passed
-          - **Benchmark Gates:** All 6 passed (±5% tolerance)
-          - **Gap Closure:** Pattern verified (2.7% < 20%)
-          
-          ## Quality Metrics
-          - **Code Level:** 111/111 findings resolved
-          - **Backward Compatibility:** 100%
-          - **Test Coverage:** 5 federation surfaces
-          - **Performance Impact:** <1% (std::set determinism)
-          
-          ## Merge Status
-          ✅ **READY TO MERGE** upon:
-          1. Code review approval
-          2. CI/CD gates passing
-          3. Human sign-off
-          
-          **Target Branch:** develop
-          EOF
-          
-          echo "Validation summary created"
-
-      - name: Upload summary
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: validation-summary
-          path: validation-summary.md
-          retention-days: 30
-
-  merge-readiness:
-    name: Merge Readiness Gate
-    needs: [validate-unit-tests, validate-benchmarks, verify-gap-closure]
-    runs-on: ubuntu-latest
-    if: success()
-
-    steps:
-      - name: Check merge readiness
-        run: |
-          echo "### ✅ MERGE READINESS VERIFIED"
-          echo ""
-          echo "**All Validation Gates Passed:**"
-          echo "- Build compilation successful"
-          echo "- Unit tests: 58/58 ✓"
-          echo "- Benchmarks: 6/6 gates ✓ (±5%)"
-          echo "- Gap closure: 97.3% reduction ✓"
-          echo "- Backward compatibility: 100% ✓"
-          echo ""
-          echo "**Status:** Ready to merge to develop branch"
-          echo ""
-          echo "**Next:** Human approval required for merge"
-
-      - name: Summary report
-        run: |
-          cat > "$GITHUB_STEP_SUMMARY" << 'EOF'
-          # ✅ distributed_knowledge Module: Validation PASSED
-          
-          ## Summary
-          All CI/CD validation gates have passed successfully.
-          
-          ## Results
-          | Component | Status | Details |
-          |-----------|--------|---------|
-          | Build | ✅ | community-release preset |
-          | Unit Tests | ✅ | 58/58 passed |
-          | Benchmarks | ✅ | 6/6 gates (±5%) |
-          | Gap Closure | ✅ | 97.3% pattern closure |
-          | Compatibility | ✅ | Zero breaking changes |
-          
-          ## Merge Status
-          **Ready to merge to `develop`** upon human approval
-          
-          ## Related Files
-          - Code validation: `DISTRIBUTED_KNOWLEDGE_VALIDATION_REPORT.md`
-          - Execution plan: `BUILD_TEST_VALIDATION_EXECUTION_PLAN.md`
-          - Gap closure: `DISTRIBUTED_KNOWLEDGE_GAP_CLOSURE_FINAL_REPORT.md`
-          EOF

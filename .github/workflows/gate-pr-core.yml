@@ -32,19 +32,18 @@ on:
       - cmake/**/*.cmake
       - cmake/**/*.txt
       - cmake/**/*.in
-      - .github/workflows/**
-      - .github/actions/**
-      - .github/scripts/**
+      - .github/workflows/**/*.yml
+      - .github/workflows/**/*.yaml
+      - .github/actions/**/action.yml
+      - .github/actions/**/*.sh
+      - .github/actions/**/*.py
+      - .github/scripts/**/*.py
+      - .github/scripts/**/*.sh
       - .github/WORKFLOW_GUIDELINES.md
       - .github/WORKFLOW_REGISTRY.md
-      - ROADMAP.md
-      - FUTURE_ENHANCEMENTS.md
-      - RELEASE_STRATEGY.md
-      - BRANCHING_STRATEGY.md
-      - VERSIONING.md
-      - CHANGELOG.md
-      - tools/ci/**
-      - tools/tests/**
+      - tools/ci/**/*.py
+      - tools/ci/**/*.sh
+      - tools/tests/**/*.py
   push:
     branches: [develop]
     paths:

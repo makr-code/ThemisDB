@@ -95,6 +95,19 @@ Kernliste der aktiven Workflows:
   mit dem Jobnamen `copilot-setup-steps` und einem expliziten Ubuntu
   `runs-on` deklariert werden.
 
+## Generalisierte Dateityp-Selektion (inkl. Ordner Include/Exclude)
+- Fuer PR-Workflows bevorzugt Dateityp-Muster statt Ordner-Glob:
+  - Gut: `.github/workflows/**/*.yml`, `tools/ci/**/*.py`, `cmake/**/*.cmake`
+  - Vermeiden: `.github/actions/**`, `tools/**`, `src/**` ohne weitere Eingrenzung
+- `paths:` fuer Include nutzen und nur bei Bedarf mit `paths-ignore:` kombinieren.
+- Build-/Security-/Performance-Workflows duerfen nicht auf reine Doku-Aenderungen reagieren.
+- Typische Excludes fuer nicht-fachliche Trigger:
+  - `docs/**`
+  - `ai_context/**`
+  - `ai_working/**`
+  - `**/*.md` (nur wenn der Workflow keine Doku-Governance prueft)
+- Wenn ein Workflow Doku oder Governance explizit validiert, gelten dessen SOT-Pfade als Ausnahme.
+
 ## Security Guidelines
 - Keine Secrets im YAML oder in Shell-Skripten hardcoden.
 - Publish-Workflows nur ueber Tag- oder Environment-Gates freigeben.
