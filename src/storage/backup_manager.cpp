@@ -690,14 +690,15 @@ void BackupManager::processScheduledBackups() {
         std::error_code ec;
         std::filesystem::create_directories(backup_dir, ec);
 
-        Result<std::string> backup_result;
-        if (entry.backup_type == "incremental") {
-            backup_result = createIncrementalBackup(backup_dir);
-        } else if (entry.backup_type == "differential") {
-            backup_result = createDifferentialBackup(backup_dir);
-        } else {
-            backup_result = createFullBackup(backup_dir);
-        }
+        const Result<std::string> backup_result = [&]() -> Result<std::string> {
+            if (entry.backup_type == "incremental") {
+                return createIncrementalBackup(backup_dir);
+            }
+            if (entry.backup_type == "differential") {
+                return createDifferentialBackup(backup_dir);
+            }
+            return createFullBackup(backup_dir);
+        }();
 
         if (!backup_result.has_value()) {
             THEMIS_ERROR("Scheduled backup failed for {}: {}", entry.schedule_id,
