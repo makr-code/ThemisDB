@@ -100,8 +100,11 @@ std::string TimestampUtils::format(std::chrono::system_clock::time_point tp, boo
 
     std::string result(buf);
     if (include_ms) {
-        char ms_buf[8];
-        std::snprintf(ms_buf, sizeof(ms_buf), ".%03d", ms_part);
+        char ms_buf[16];
+        const int written = std::snprintf(ms_buf, sizeof(ms_buf), ".%03d", ms_part);
+        if (written < 0 || written >= static_cast<int>(sizeof(ms_buf))) {
+            throw std::overflow_error("Timestamp millisecond formatting overflow");
+        }
         result += ms_buf;
     }
     result += 'Z';

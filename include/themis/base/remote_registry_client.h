@@ -85,8 +85,8 @@ struct RegistryConfig {
     ///
     /// Obtain the pin with:
     ///   openssl s_client -connect registry.example.com:443 | \
-    ///     openssl x509 -pubkey -noout | openssl pkey -pubin -outform DER | \
-    ///     openssl dgst -sha256 -binary | base64
+    ///   openssl x509 -pubkey -noout | openssl pkey -pubin -outform DER | \
+    ///   openssl dgst -sha256 -binary | base64
     ///
     /// Leave empty to rely solely on CA-based certificate verification.
     std::string pinned_public_key;
