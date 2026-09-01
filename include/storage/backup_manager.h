@@ -20,6 +20,8 @@
 #include <mutex>
 #include <atomic>
 #include <functional>
+#include <thread>
+#include <ctime>
 #include "utils/expected.h"
 
 namespace themis {
@@ -728,11 +730,19 @@ private:
         std::string backup_type;
         BackupOptions options;
         std::string created_at;
+        std::time_t last_triggered_minute = 0;
     };
 
     std::map<std::string, ScheduledBackupEntry> scheduled_backups_;
     mutable std::mutex scheduler_mutex_;
     std::atomic<uint64_t> schedule_counter_{0};
+    std::atomic<bool> scheduler_running_{false};
+    std::thread scheduler_thread_;
+
+    void runScheduledBackupLoop();
+    void processScheduledBackups();
+    bool shouldRunScheduledBackup(const ScheduledBackupEntry& entry,
+                                  const std::tm& current_time) const;
 
     std::shared_ptr<RocksDBWrapper> db_wrapper_;
     Config config_{};
