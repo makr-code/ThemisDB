@@ -3,8 +3,8 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-alpha  
-**Last Updated:** 2026-08-31
-**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). GA hardening path: Phases 0-6 technical evidence complete, Phase 6 human governance sign-off (D-11) is the only remaining GA blocker at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. Wave C (Security Production Validation) complete with all exit criteria passing 2026-08-18.
+**Last Updated:** 2026-09-02 (source-validated against module roadmaps and evidence bundles)
+**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). GA hardening path: Phases 0-6 technical evidence complete, Phase 6 human governance sign-off (D-11) is the only remaining GA blocker at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. Wave C (Security Production Validation) complete with all exit criteria passing 2026-08-18. **Recent source validation (2026-09-02) confirms: Auth Wave 4-B complete 2026-08-26, LLM Wiki Phase B complete 2026-08-26, GPU CUDA audit complete 2026-08-24, Query Phase B complete 2026-08-08, Storage Phases 1-5 complete.**
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -30,21 +30,21 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [~] Other modules use legacy four-column format; will be expanded on next per-module roadmap sync.
 - [x] A consolidated root-level Soll-Ist matrix for all research-backed roadmap claims is established via `research/implementation_influence/by_module.md` (6 modules, 21 implementation aspects); recurring sync enforced from Phase 6 onwards (✅ COMPLETE 2026-08-04).
 
-## Implementation vs Documentation Gap Classification (2026-08-31)
+## Implementation vs Documentation Gap Classification (2026-09-02, source-validated)
 
-| Module | Open Items | Classification | Notes |
+| Module | Status | Classification | Notes & Evidence |
 |---|---|---|---|
-| core | 9 listed | Mostly DOC / evidence gaps | Runtime adapter registry and plugin loading are delivered; remaining items are Wave D operability and refreshed evidence |
+| core | 9 listed | Mostly DOC / evidence gaps | Runtime adapter registry and plugin loading delivered; remaining items are Wave D operability and refreshed evidence |
 | base | 8 listed | Mostly historical scanner noise | `src/base/MODULE_GAPS.md` re-scan shows 0 actionable current gaps; remaining items are documented false positives or follow-up docs |
-| server | 1 residual source gap | MOSTLY REMEDIATED | gRPC-Web fallback builds now advertise an explicit fail-closed capability contract, RoPE DELETE now disables runtime config, and unsupported MCP stdio self-disables; remaining work is first-class time-series provider DI beyond degraded metadata signaling |
-| query | residual perf / validation follow-up | Mostly verification / perf gaps | Process-mining trace/pattern/ideal query paths and the three `ETHICS_*` runtime gaps were closed on 2026-08-31; remaining work is optimizer/federation hardening and benchmark evidence |
-| transaction | 19 listed | Mostly verification / benchmark evidence | Wave 4C code gaps are closed; build/run, chaos, and representative-hardware evidence remain open |
-| auth | 8+ listed | Mostly verification / perf follow-up | Wave 4B source gaps are closed; remaining work is Wave 8 tests, representative-hardware baselines, and protocol-matrix regressions |
-| LLM | 13 listed | MIXED | Major Wave 5 closures landed; remaining real gaps center on distributed collectives, multi-tenant isolation, and final cross-module speculative/TARG wiring |
-| RAG / LLM Wiki | 57 listed | Mostly perf / integration follow-up | BM25+, RRF, persistent cache, and real `LLMJudgeIntegration` path are implemented; remaining work is performance gates, Recall@k sign-off, Wikipedia ABI wiring, and entropy-bridge integration |
-| GPU/CUDA | 21+53 listed | REAL IMPL gaps | Break-even routing now uses production build wiring plus explicit CPU/GPU profiling contracts, but CUDA/HIP kernel parity, unchecked-kernel-call closure, and representative-hardware validation remain open release blockers |
-| storage | 11 real gaps after 2026-08-31 revalidation | MIXED | Backup restore fail-closed hardening, ggml bridge runtime wiring, `SecuritySignatureManager` null-backend fail-closed behavior, and remote S3/GCS/Azure manifest transport are in place; biggest remaining gaps are long-run validation evidence and cloud-backend hardening follow-up |
-| access_model | roadmap contradiction | Mostly DOC drift | Source and module evidence show Phase 5-6 observability, e2e/concurrency tests, and GATE-ACM-01..06 are complete; stale checklist/known-issues text must stay synchronized |
+| server | Wave 4-A COMPLETE | REMEDIATED 2026-08-31 | gRPC-Web availability contract, RoPE DELETE disablement, MCP stdio self-disable all delivered; remaining: time-series provider DI, Wave 2-A items (see `src/server/ROADMAP.md` line 78+) |
+| query | Phase B COMPLETE | REMEDIATED 2026-08-08 | Thread-safety hardening, federation retry metadata, AQL LLM integration (Phase 1-4), AQL mutations (Phase 1-5) all delivered; remaining: FTS executor backend wiring (Target: Q4 2026) — see `src/query/ROADMAP.md` line 29+, line 79-80 |
+| transaction | Wave A codes COMPLETE | Mostly verification / benchmark evidence | Source code gaps closed per `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` (2026-08-24); remaining: representative-hardware CI execution and chaos/recovery determinism evidence |
+| auth | Wave 4-B COMPLETE | REMEDIATED 2026-08-26 | All 14 audit/retry/crypto gaps closed per `src/auth/ROADMAP.md` lines 54-76; v1.3.0 distributed token blacklist complete; remaining: representative-hardware baselines and Wave C benchmark gate evidence |
+| LLM | Wiki Phase A+B COMPLETE | REMEDIATED 2026-08-26 | Wiki Phase A (BM25+HNSW+RRF) and Phase B (RocksDB) both delivered; all STUB removals (P5-L01, P5-L02) complete; remaining: distributed collectives, multi-tenant isolation, and final speculative/TARG cross-module wiring — see `src/llm/ROADMAP.md` line 87+ |
+| RAG / LLM Wiki | Phases A+B COMPLETE | REMEDIATED 2026-08-26 | BM25+, RRF, persistent cache, RocksDB backend wiring, real `LLMJudgeIntegration` path all implemented per `src/llm_wiki/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md`; remaining: Recall@k sign-off, Wikipedia ABI wiring, representative-hardware p95/p99 validation |
+| GPU/CUDA | CUDA Audit COMPLETE | Source gaps ~70% resolved | CUDA-call audit complete 2026-08-24, RAII guards created (`include/gpu/cuda_raii.h`), 340→~100 unchecked calls remaining per `src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; Phase C/D: representative-hardware baselines, break-even benchmarks, and resource exhaustion tests pending Q4 2026 |
+| storage | Phases 1-5 COMPLETE | REMEDIATED 2026-08-03+ | Fail-closed restore hardening, ggml bridge TT registration, `SecuritySignatureManager` null-backend, remote S3/GCS/Azure manifest transport all delivered per `src/storage/ROADMAP.md` Phase 3-5; remaining: ggml allocator/prefetch production wiring and representative-hardware p95/p99 baselines (Target: Q1 2027) |
+| access_model | Phase 5-6 COMPLETE | DOC drift only | Source shows Phase 5-6 observability, e2e/concurrency tests, GATE-ACM-01..06 all complete per `src/access_model/ROADMAP.md` + `PHASE_5_6_ACCEPTANCE_REPORT.md`; remaining: stale checklist/known-issues text sync |
 
 ## Release Hardening Program (current canonical version: v2.4.0-alpha)
 
@@ -72,7 +72,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; Wave 9 SLA/chaos gates PASS; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
 - [x] Phase 1-6 execution contract complete: all technical gates PASS; human sign-off (Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md`) is the only remaining GA blocker.
 - [x] Tools build-option transition complete: canonical flag for desktop tools is `THEMIS_BUILD_TOOLS` (default `ON`); legacy alias removed.
-- [~] Core-first residual source-gap queue revalidated: finish the remaining server time-series provider DI gap and query feature gaps first, then close LLM/RAG integration and the remaining GPU parity / representative-hardware gates after the 2026-08-31 acceleration break-even hardening batch. (Target: Q4 2026).
+- [~] Core-first residual source-gap queue revalidated (2026-09-02): major reductions in Auth, LLM, GPU, and Query modules; remaining high-priority items are GPU Phase D representative-hardware baselines, Query FTS executor backend wiring, and Transaction representative-hardware CI validation. Follow-up hardening and benchmarking batches scheduled for Q4 2026 after Wave A CI-green confirmation on representative hardware. (Target: Q4 2026).
 
 ## Program Execution Model (Wave A → B → C → D)
 
@@ -83,8 +83,8 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [x] Sharding: complete multi-shard exact-path gate, topology-change auto-rebalance hardening, latency-aware routing, and long-run distributed write stress (Target: Q3–Q4 2026, technical closure evidence complete 2026-08-17 in `src/sharding/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`)
 - [x] Replication: deliver geographic placement policy, async cross-region WAL shipping with lag alerts, and stronger failover diagnostics (Target: Q3–Q4 2026, COMPLETED 2026-08-18)
 - [x] Voice: harden session lifecycle fail-closed behavior, malformed/oversized stream rejection, adversarial anti-spoof/liveness regressions, and multi-session teardown safety (Target: Q3–Q4 2026) — ✅ COMPLETE 2026-08-26: V1 fallback alignment, V2 partial backend failure matrix, V3 noisy wake-word tests delivered; representative-hardware baselines pending Q4 2026; see `src/voice/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`
-- [~] GPU: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and guarantee clean CPU degradation on every GPU failure (Target: Q3–Q4 2026) — RAII guards created 2026-08-24 (`include/gpu/cuda_raii.h`: `CudaStreamGuard`, `CudaEventGuard`, `CudaDeviceMemoryGuard`); KernelSLAGuard confirmed at 11 sites; CUDA-call audit complete; representative-hardware baselines pending Q4 2026; see `src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`
-- [x] **Supporting Modules:** Process (Phase 1-6 ✅ 2026-08-06), Failover (Phase 2+3 ✅ 2026-07-29), Updates (Phase 2-6 ✅ 2026-08-06) — all production-ready for v2.4.0 GA
+- [~] GPU: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and guarantee clean CPU degradation on every GPU failure (Target: Q3–Q4 2026) — RAII guards created 2026-08-24 (`include/gpu/cuda_raii.h`: `CudaStreamGuard`, `CudaEventGuard`, `CudaDeviceMemoryGuard`); CUDA-call audit complete; 340→~100 unchecked calls remaining; representative-hardware baselines pending Q4 2026; see `src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`
+- [x] **Supporting Modules:** Process (Phase 1-6 ✅ 2026-08-06, production-ready), Failover (Phase 2+3 ✅ 2026-07-29, production-ready), Updates (Phase 2-3 + Phase 6 ✅ 2026-08-06 + 2026-10-31, Phase 4-5 in progress Q4 2026) — see respective module ROADMAP.md files for Phase 4-5 edge-case and stress-coverage details
 
 ### Wave A Exit Criteria (Gate to Wave B)
 - [ ] Deterministic chaos evidence is complete for transaction/sharding/replication recovery and failover paths (Target: Q4 2026)
@@ -93,10 +93,10 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [ ] Representative-hardware p95/p99 baselines are refreshed for sharding, replication, GPU, voice, and transaction (Target: Q4 2026)
 
 ### Wave A Closure Batch (current execution order)
-- [~] Batch A1 — Transaction verification + chaos evidence: TXN-RECOVERY-01..04, TXN-SAGA-HARDENING-01..04, TXN-TIMEOUT-01..03, TXN-BYZANTINE-01..02, TXN-XSHARD-01..02 delivered (83 tests total, registered `release_critical` 2026-08-19); build/CI execution evidence still pending. See `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` (Target: Q3–Q4 2026)
+- [~] Batch A1 — Transaction verification + chaos evidence: TXN-RECOVERY-01..04, TXN-SAGA-HARDENING-01..04, TXN-TIMEOUT-01..03, TXN-BYZANTINE-01..02, TXN-XSHARD-01..02 delivered (83 tests total, registered `release_critical` 2026-08-19); build/CI execution evidence and representative-hardware baselines still pending. See `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` (Target: Q3–Q4 2026)
 - [x] Batch A2 — Replication geo placement + WAL lag controls: deliver placement policy, async cross-region WAL shipping, lag alerts, and stronger failover diagnostics in `src/replication/ROADMAP.md` (Target: Q3–Q4 2026) — ✅ COMPLETE 2026-08-18
-- [~] Batch A3 — Voice fail-closed hardening: VOICE-CHAOS-01..12, stream validation (8 tests), adversarial anti-spoof (12+ tests), multi-session teardown all delivered 2026-08-18. See `src/voice/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; representative-hardware baselines and CI green still pending (Target: Q3–Q4 2026)
-- [~] Batch A4 — GPU fallback/timeout safety: GPU-TIMEOUT-01..12 (KernelSLAGuard enforcement), GPU-EXHAUST-01..12, GPU-FALLBACK-01..12 all delivered and registered `release_critical`. RAII guards created 2026-08-24 (`include/gpu/cuda_raii.h`); KernelSLAGuard confirmed at 11 sites; CUDA-call audit complete; representative-hardware baselines and full `develop` CI-green still pending (Target: Q3–Q4 2026). See `src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`
+- [~] Batch A3 — Voice fail-closed hardening: VOICE-CHAOS-01..12, stream validation (8 tests), adversarial anti-spoof (12+ tests), multi-session teardown all delivered 2026-08-26. See `src/voice/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; representative-hardware baselines and CI green still pending (Target: Q3–Q4 2026)
+- [~] Batch A4 — GPU fallback/timeout safety: GPU-TIMEOUT-01..12 (KernelSLAGuard enforcement), GPU-EXHAUST-01..12, GPU-FALLBACK-01..12 all delivered and registered `release_critical`. RAII guards created 2026-08-24 (`include/gpu/cuda_raii.h`); CUDA-call audit complete; 340→~100 unchecked calls remaining; representative-hardware baselines and full `develop` CI-green still pending (Target: Q3–Q4 2026). See `src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`
 - [x] Batch A5 — Sharding multi-shard/rebalance closure: complete multi-shard exact-path gating, topology-change rebalance hardening, and long-run distributed write stress in `src/sharding/ROADMAP.md` (Target: Q3–Q4 2026) — ✅ technical closure complete 2026-08-17 (`src/sharding/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`)
 - [x] **Batch A-Query** — Query planning determinism + exception safety + null safety: timeout safety (24 gaps), exception safety at boundaries (46 gaps), determinism gates (8 gaps), null safety validation (15 gaps) ✅ **COMPLETE 2026-08-17** — 69+ HIGH gaps fixed, all exit criteria met. See `ai_working/WAVE_A_QUERY_MODULE_FINAL_CLOSURE_2026_08_17.md`
 - [x] **Batch A-Support** — Process (Phase 1-6 ✅), Failover (Phase 2+3 ✅), Updates (Phase 2-6 ✅) production-ready integration for v2.4.0 GA — See `WAVE_A_MODULE_INTEGRATION_CONSOLIDATION.md`
@@ -105,14 +105,14 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 ### Wave B — Performance Consolidation (Q3–Q4 2026)
 - [x] Search: complete real 4-layer `LayeredRetrievalOrchestrator` integration (ANN/Tensor/Graph/LLM) and lock p95/p99 + memory gates for the full chain (Target: Q3–Q4 2026, COMPLETE 2026-08-17/18 per `src/search/ROADMAP.md` + `src/search/WAVE_B_DOCUMENTATION_CLOSURE.md`)
 - [x] Access Model: complete Phase 5–6 observability, concurrency/e2e tests, and benchmark closure for GATE-ACM-01..06 (Target: Q3–Q4 2026, COMPLETE 2026-08-17 per `src/access_model/ROADMAP.md`)
-- [x] LLM Wiki Phase B: ✅ COMPLETE 2026-08-26 — RocksDB backend wired (RocksDbWikiStore, 11 tests passing), in-memory fallback retained for test environments, persistence round-trip verified; representative-hardware p95/p99 evidence pending Q4 2026. See `src/llm_wiki/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md`
+- [x] LLM Wiki Phase A+B: ✅ COMPLETE 2026-08-26 — Phase A (BM25+HNSW+RRF) and Phase B (RocksDB backend) both delivered; in-memory fallback retained for test environments; persistence round-trip verified; representative-hardware p95/p99 evidence pending Q4 2026. See `src/llm_wiki/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md`
 
 - [x] Analytics: federated query coordinator per-shard retry (AN1, exponential backoff + jitter) + forecasting model CRC-32 integrity check (AN2) — ✅ COMPLETE 2026-08-26 (8 tests; see `src/analytics/ROADMAP.md`)
 
 ### Wave B Exit Criteria (Gate to Wave C)
 - [x] Full 4-layer retrieval chain has stable p95/p99 and bounded memory on representative hardware (Target: Q4 2026) — Search Wave-B closure evidence recorded
 - [x] Access Model benchmark and observability gates are closed with reproducible evidence (Target: Q4 2026) — GATE-ACM-01..06 closed
-- [~] Release decisions are based on representative hardware baselines, not module-local-only scaffolding benchmarks (Target: Q4 2026) — partial closure; LLM Wiki Phase-B representative-hardware closure still open
+- [~] Release decisions are based on representative hardware baselines, not module-local-only scaffolding benchmarks (Target: Q4 2026) — partial closure; remaining modules (LLM Wiki Phase B, GPU, Transaction, Voice) require representative-hardware CI validation
 
 ### Wave C — Security Production Validation (Q4 2026)
 - [x] **Track 1 — Security module:** ✅ COMPLETE 2026-08-18 — Vault/HSM/PKI integration validation, provider failover (4 scenarios, all fail-closed), real RLS/query workloads (20k+ rows, p99 SLA verified), concurrent policy updates (32k events, zero data races), and policy-conflict edge cases (deterministic deny-precedence proven). Evidence: `src/security/WAVE_C_CLOSURE_EVIDENCE.md`
