@@ -27,6 +27,10 @@ on:
         required: false
         default: "4"
 
+concurrency:
+  group: wave-b-transaction-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   checks: write
