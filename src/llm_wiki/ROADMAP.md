@@ -212,8 +212,8 @@ YAML policy should act as the control plane for timing, stage gates, and bounded
   - LWP-INT-03 (a-b): Concurrent query safety — 8 threads, concurrent ingest+query
   - LWP-INT-04 (a-c): Wikipedia dump edition gate — community PermissionDenied, enterprise allow, before-init NotInitialized
   - LWP-INT-05 (a-c): Guardrail regression — shell injection flagged, SQL injection flagged, benign not flagged
-- **Implementation:** In-memory mock (hash-based score proxy); no RocksDB or network required
-- **Note:** Real RocksDB Phase B activation pending private plugin phase 4+ delivery
+- **Implementation:** Deterministic hash embedding + real splitter/ingest/query pipeline; RocksDB-backed Phase B path is activatable when `rocksdb_dir` is configured and RocksDB feature macros are enabled.
+- **Note:** In-memory retrieval remains a controlled fallback path for test/non-RocksDB environments; production evidence must come from RocksDB-enabled GitHub CI/HW lanes.
 
 ### 4.6 Performance Tests (LWP-PERF-01) 🟡
 - **Target:** p95 query latency < 200ms at 5k chunks
@@ -296,12 +296,10 @@ YAML policy should act as the control plane for timing, stage gates, and bounded
 
 ## Known Issues & Limitations
 
-1. **Private plugin submodule status:** `plugins/themisdb_llm_wiki` submodule empty; implementation pending
-2. **Partial-failure semantics:** Not yet integrated into private plugin implementation
-3. **Workspace state persistence:** Manager class defined; implementation pending
-4. **Phase B activation:** RocksDB integration pending private plugin phase 4+
-5. **Edition gating:** Compile-time only; runtime license manager integration pending
-6. **Guardrail patterns:** Comprehensive but may require tuning for production false positive rates
+1. **Partial-failure semantics:** End-to-end chaos/retry-storm behavior still needs full production evidence on representative GitHub CI hardware lanes.
+2. **Phase B performance gates:** RocksDB-backed path is implemented/activatable, but p95/p99 and throughput hard gates are still open.
+3. **Edition gating:** Runtime license manager integration evidence across all editions still pending.
+4. **Guardrail patterns:** Comprehensive but may require tuning for production false positive rates.
 
 ---
 
@@ -334,7 +332,7 @@ See `research/implementation_influence/by_module.md` for detailed mappings.
 
 ---
 
-**Last Updated:** 2026-08-26 (Wave-Next LW1/LW2 gap closure: `RocksDbWikiStore` implemented — `include/llm_wiki/rocksdb_wiki_store.h`, `src/llm_wiki/rocksdb_wiki_store.cpp`, persistence tests LW-01..LW-07 in `tests/llm/test_wave_next_llm_wiki_rocksdb.cpp`)
+**Last Updated:** 2026-09-02 (Core `LLMWikiPluginImpl` aligned with production-grade plugin implementation; stub-like ingest/query/Wikipedia dump paths removed in `src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp`, Phase-B activation macro wiring aligned in `src/llm_wiki/CMakeLists.txt`)
 
 ## Program Execution Model — Wave Context
 

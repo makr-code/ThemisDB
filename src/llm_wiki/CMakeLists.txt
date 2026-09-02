@@ -31,10 +31,16 @@ target_link_libraries(themis_llm_wiki
 
 # Wire RocksDB when available — activates the real backend (Wave-Next LW1).
 if(TARGET rocksdb)
-    target_compile_definitions(themis_llm_wiki PUBLIC THEMIS_USE_ROCKSDB=1)
+    target_compile_definitions(themis_llm_wiki PUBLIC
+        THEMIS_USE_ROCKSDB=1
+        THEMISDB_WIKI_PHASE_B=1
+    )
     target_link_libraries(themis_llm_wiki PUBLIC rocksdb)
 elseif(RocksDB_FOUND OR rocksdb_FOUND)
-    target_compile_definitions(themis_llm_wiki PUBLIC THEMIS_USE_ROCKSDB=1)
+    target_compile_definitions(themis_llm_wiki PUBLIC
+        THEMIS_USE_ROCKSDB=1
+        THEMISDB_WIKI_PHASE_B=1
+    )
     target_link_libraries(themis_llm_wiki PUBLIC ${RocksDB_LIBRARIES})
     target_include_directories(themis_llm_wiki PRIVATE ${RocksDB_INCLUDE_DIRS})
 endif()
