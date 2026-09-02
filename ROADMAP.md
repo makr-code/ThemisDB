@@ -34,8 +34,8 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 | Module | Status | Classification | Notes & Evidence |
 |---|---|---|---|
-| core | 9 listed | Mostly DOC / evidence gaps | Runtime adapter registry and plugin loading delivered; remaining items are Wave D operability and refreshed evidence |
-| base | 8 listed | Mostly historical scanner noise | `src/base/MODULE_GAPS.md` re-scan shows 0 actionable current gaps; remaining items are documented false positives or follow-up docs |
+| core | DOC/Evidence Gaps | Mostly DOC / evidence gaps | Runtime adapter registry and plugin loading delivered; remaining items are Wave D operability and refreshed evidence |
+| base | Historical Scanner Noise | Mostly historical scanner noise | `src/base/MODULE_GAPS.md` re-scan shows 0 actionable current gaps; remaining items are documented false positives or follow-up docs |
 | server | Wave 4-A COMPLETE | REMEDIATED 2026-08-31 | gRPC-Web availability contract, RoPE DELETE disablement, MCP stdio self-disable all delivered; remaining: time-series provider DI, Wave 2-A items (see `src/server/ROADMAP.md` line 78+) |
 | query | Phase B COMPLETE | REMEDIATED 2026-08-08 | Thread-safety hardening, federation retry metadata, AQL LLM integration (Phase 1-4), AQL mutations (Phase 1-5) all delivered; remaining: FTS executor backend wiring (Target: Q4 2026) — see `src/query/ROADMAP.md` line 29+, line 79-80 |
 | transaction | Wave A codes COMPLETE | Mostly verification / benchmark evidence | Source code gaps closed per `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` (2026-08-24); remaining: representative-hardware CI execution and chaos/recovery determinism evidence |

@@ -25,6 +25,8 @@ jobs:
   hardware-detection:
     name: 'Hardware Detection'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     timeout-minutes: 15
     outputs:
       hardware_profile: ${{ steps.detect.outputs.hardware_profile }}
@@ -48,6 +50,8 @@ jobs:
   data-preparation:
     name: 'Data Preparation'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: hardware-detection
     timeout-minutes: 30
 
@@ -65,6 +69,8 @@ jobs:
   benchmark-execution:
     name: 'Benchmark (${{ matrix.scenario }})'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: data-preparation
     timeout-minutes: 120
     strategy:
