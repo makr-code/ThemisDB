@@ -64,7 +64,7 @@ jobs:
             libbz2-dev liblz4-dev libzstd-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**') }}-${{ runner.os }}
@@ -140,7 +140,7 @@ jobs:
             libbz2-dev liblz4-dev libzstd-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**') }}-${{ runner.os }}
@@ -231,7 +231,7 @@ jobs:
             libbz2-dev liblz4-dev libzstd-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**') }}-${{ runner.os }}
@@ -319,7 +319,7 @@ jobs:
             libbz2-dev liblz4-dev libzstd-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**') }}-${{ runner.os }}
