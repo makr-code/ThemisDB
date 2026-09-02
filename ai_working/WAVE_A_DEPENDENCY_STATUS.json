@@ -1,0 +1,107 @@
+{
+  "generated_at": "2026-09-02",
+  "modules": {
+    "distributed_knowledge": {
+      "status": "not-scheduled",
+      "can_start": false,
+      "hard_blockers": [
+        "transaction.AC-6",
+        "transaction.AC-9",
+        "transaction.AC-5"
+      ],
+      "soft_warnings": [
+        "Soft blocker: sharding.CONSENSUS not complete (status: blocked)"
+      ],
+      "schedule": "Not yet started (starts in 18 days)",
+      "target_start": "2026-09-20",
+      "target_end": "2026-10-05"
+    },
+    "gpu": {
+      "status": "ready",
+      "can_start": true,
+      "hard_blockers": [],
+      "soft_warnings": [],
+      "schedule": "On schedule (target: 2026-09-02)",
+      "target_start": "2026-09-02",
+      "target_end": "2026-09-15"
+    },
+    "index": {
+      "status": "not-scheduled",
+      "can_start": false,
+      "hard_blockers": [
+        "query.DESIGN",
+        "query.PHASE-1"
+      ],
+      "soft_warnings": [],
+      "schedule": "Not yet started (starts in 13 days)",
+      "target_start": "2026-09-15",
+      "target_end": "2026-09-28"
+    },
+    "llm": {
+      "status": "not-scheduled",
+      "can_start": true,
+      "hard_blockers": [],
+      "soft_warnings": [
+        "Soft blocker: gpu.AC-1-5 not complete (status: in-progress)",
+        "Soft blocker: gpu.AC-4 not complete (status: not-started)"
+      ],
+      "schedule": "Not yet started (starts in 13 days)",
+      "target_start": "2026-09-15",
+      "target_end": "2026-09-25"
+    },
+    "query": {
+      "status": "not-scheduled",
+      "can_start": true,
+      "hard_blockers": [],
+      "soft_warnings": [],
+      "schedule": "Not yet started (starts in 1 days)",
+      "target_start": "2026-09-03",
+      "target_end": "2026-09-22"
+    },
+    "server": {
+      "status": "not-scheduled",
+      "can_start": true,
+      "hard_blockers": [],
+      "soft_warnings": [],
+      "schedule": "Not yet started (starts in 5 days)",
+      "target_start": "2026-09-07",
+      "target_end": "2026-09-22"
+    },
+    "sharding": {
+      "status": "not-scheduled",
+      "can_start": false,
+      "hard_blockers": [
+        "transaction.AC-6",
+        "transaction.AC-9",
+        "transaction.AC-5"
+      ],
+      "soft_warnings": [
+        "Soft blocker: storage.COORDINATOR-WIRING not complete (status: blocked)"
+      ],
+      "schedule": "Not yet started (starts in 18 days)",
+      "target_start": "2026-09-20",
+      "target_end": "2026-09-30"
+    },
+    "storage": {
+      "status": "not-scheduled",
+      "can_start": false,
+      "hard_blockers": [
+        "query.DESIGN",
+        "query.PHASE-1"
+      ],
+      "soft_warnings": [],
+      "schedule": "Not yet started (starts in 5 days)",
+      "target_start": "2026-09-07",
+      "target_end": "2026-09-20"
+    },
+    "transaction": {
+      "status": "ready",
+      "can_start": true,
+      "hard_blockers": [],
+      "soft_warnings": [],
+      "schedule": "On schedule (target: 2026-09-02)",
+      "target_start": "2026-09-02",
+      "target_end": "2026-09-12"
+    }
+  }
+}
