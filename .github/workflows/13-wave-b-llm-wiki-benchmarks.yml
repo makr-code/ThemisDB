@@ -1,0 +1,87 @@
+name: '[WAVE-B] LLM Wiki Phase B Benchmark Validation'
+
+on:
+  workflow_dispatch:
+    inputs:
+      scenario:
+        description: 'Benchmark scenario'
+        required: true
+        default: 'small_10k'
+        type: choice
+        options:
+          - small_10k
+          - medium_1m
+          - large_10m
+          - all
+
+env:
+  WAVE_B_DATA_DIR: benchmarks/wave_b_data
+  WAVE_B_RESULTS_DIR: benchmarks/wave_b_results
+
+jobs:
+  hardware-detection:
+    name: 'Hardware Detection'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      hardware_profile: ${{ steps.detect.outputs.hardware_profile }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect Hardware
+        id: detect
+        shell: bash
+        run: |
+          if command -v nvidia-smi &> /dev/null; then
+            echo "GPU detected"
+            echo "hardware_profile=gpu" >> $GITHUB_OUTPUT
+          else
+            echo "CPU fallback"
+            echo "hardware_profile=cpu" >> $GITHUB_OUTPUT
+          fi
+
+  data-preparation:
+    name: 'Data Preparation'
+    runs-on: ubuntu-latest
+    needs: hardware-detection
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare Data
+        shell: bash
+        run: |
+          mkdir -p ${{ env.WAVE_B_DATA_DIR }}
+          mkdir -p ${{ env.WAVE_B_RESULTS_DIR }}
+          echo "Data preparation for ${{ inputs.scenario }}"
+
+  benchmark-execution:
+    name: 'Benchmark (${{ matrix.scenario }})'
+    runs-on: ubuntu-latest
+    needs: data-preparation
+    timeout-minutes: 120
+    strategy:
+      matrix:
+        scenario: ${{ fromJson(inputs.scenario == 'all' && '["small_10k", "medium_1m", "large_10m"]' || format('["{0}"]', inputs.scenario)) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Execute Benchmark
+        shell: bash
+        run: |
+          echo "Executing benchmark: ${{ matrix.scenario }}"
+          mkdir -p ${{ env.WAVE_B_RESULTS_DIR }}
+          echo '{"status": "phase_1_skeleton", "scenario": "${{ matrix.scenario }}"}' > ${{ env.WAVE_B_RESULTS_DIR }}/results_${{ matrix.scenario }}.json
+
+      - name: Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: wave-b-results-${{ matrix.scenario }}
+          path: ${{ env.WAVE_B_RESULTS_DIR }}/
+          retention-days: 30
