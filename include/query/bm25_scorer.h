@@ -38,33 +38,32 @@ class BM25Scorer {
     float b = 0.75f;     ///< Length normalization parameter (default: 0.75)
   };
   
-  /// Construction
+  /// @brief Construct a BM25 scorer with configurable tuning parameters.
   /// @param config: BM25 algorithm parameters (k1, b)
   explicit BM25Scorer(const Config& config = Config{});
   
-  /// Compute BM25 score for a document matching a query
+  /// @brief Compute the BM25 score for one document-query match.
   /// @param doc_id: document identifier
   /// @param query: SearchNode AST (already parsed by FtsParser)
   /// @param index_stats: index statistics (document count, term frequencies)
   /// @return BM25 score ≥ 0, or error
-  /// @thread-safe: yes (const method, no state mutation)
+  /// @note Thread safety: yes (const method, no state mutation).
   /// @note: score = 0 if term not in index or document not matched
   float compute(
       uint64_t doc_id,
       const SearchNode& query,
       const IndexStatistics& index_stats) const;
   
-  /// Compute IDF (Inverse Document Frequency) for a term
-  /// @param term: search term
+  /// @brief Compute inverse document frequency (IDF) for BM25.
   /// @param doc_freq: number of documents containing this term
   /// @param total_docs: total number of documents in index
   /// @return IDF score ≥ 0
-  /// @formula: log((N - df + 0.5) / (df + 0.5))
+  /// @note Formula: log((N - df + 0.5) / (df + 0.5))
   static float computeIDF(
       uint32_t doc_freq,
       uint32_t total_docs);
   
-  /// Compute TF component of BM25 score
+  /// @brief Compute the TF contribution used by BM25 scoring.
   /// @param term_freq: raw term frequency in document
   /// @param doc_length: document length in tokens
   /// @param avg_doc_length: average document length in corpus
@@ -79,4 +78,3 @@ class BM25Scorer {
 };
 
 }  // namespace themis::query::fts
-

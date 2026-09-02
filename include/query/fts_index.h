@@ -57,7 +57,7 @@ struct IndexStatistics {
 // ============================================================================
 class FtsIndex {
  public:
-  /// Open an existing FTS index
+  /// @brief Open an existing FTS index from disk.
   /// @param index_path: filesystem path to index directory
   /// @return FtsIndex instance or error
   static std::unique_ptr<FtsIndex> open(const std::string& index_path);
@@ -113,4 +113,3 @@ struct IndexUpdateBatch {
 };
 
 }  // namespace themis::query::fts
-

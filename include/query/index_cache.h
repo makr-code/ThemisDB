@@ -37,30 +37,30 @@ class IndexCache {
     float bloom_fpp = 0.01f;               ///< False-positive probability (default: 1%)
   };
   
-  /// Construction
+  /// @brief Construct the cache with size and bloom-filter settings.
   /// @param config: cache configuration (size, bloom filter params)
   explicit IndexCache(const Config& config = Config{});
   
-  /// Lookup a posting list in cache
+  /// @brief Look up a posting list in the in-memory cache.
   /// @param term: search term
   /// @return posting list if present in cache, empty optional if not cached
-  /// @thread-safe: acquires shared_lock (multiple concurrent readers)
+  /// @note Thread safety: acquires shared_lock (concurrent readers allowed).
   /// @note: bloom filter consulted first (fast negative lookup)
   std::optional<PostingList> lookup(const std::string& term) const;
   
-  /// Insert a posting list into cache
+  /// @brief Insert a posting list into the cache.
   /// @param term: search term
   /// @param list: posting list to cache
   /// @return true if inserted, false if cache full (LRU eviction needed)
-  /// @thread-safe: acquires unique_lock (exclusive access)
+  /// @note Thread safety: acquires unique_lock (exclusive access).
   /// @note: may evict LRU entries to fit new posting list
   bool insert(const std::string& term, PostingList&& list);
   
-  /// Clear all cached posting lists
-  /// @thread-safe: acquires unique_lock
+  /// @brief Remove all posting lists from the cache.
+  /// @note Thread safety: acquires unique_lock.
   void clear();
   
-  /// Get cache statistics
+  /// @brief Cache counters and memory-usage totals.
   struct Stats {
     uint64_t hits = 0;                     ///< Cache hit count
     uint64_t misses = 0;                   ///< Cache miss count
@@ -68,13 +68,16 @@ class IndexCache {
     size_t current_size_bytes = 0;         ///< Current cache size
     size_t max_size_bytes = 0;             ///< Maximum cache size
     
+    /// @brief Compute hit ratio over all cache lookups.
+    /// @return Hit ratio in range [0, 1].
     float hitRate() const {
       uint64_t total = hits + misses;
       return total > 0 ? static_cast<float>(hits) / total : 0.0f;
     }
   };
   
-  /// @thread-safe: acquires shared_lock
+  /// @brief Return cache statistics snapshot.
+  /// @note Thread safety: acquires shared_lock.
   Stats getStats() const;
   
  private:
@@ -86,4 +89,3 @@ class IndexCache {
 };
 
 }  // namespace themis::query::fts
-

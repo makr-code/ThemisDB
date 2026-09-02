@@ -84,12 +84,12 @@ using Result = absl::StatusOr<T>;
 // ============================================================================
 class FtsExecutor {
  public:
-  /// Construction
+  /// @brief Construct an executor bound to one on-disk FTS index.
   /// @param index_path: filesystem path to FTS index directory
   /// @throws std::invalid_argument if index_path invalid
   explicit FtsExecutor(const std::string& index_path);
   
-  /// Destruction
+  /// @brief Destroy the executor and release owned resources.
   /// @note flushes cache and releases index locks
   ~FtsExecutor();
   
@@ -97,22 +97,22 @@ class FtsExecutor {
   // Public Query Execution API (Thread-safe for concurrent reads)
   // ========================================================================
   
-  /// Execute a single FTS query
+  /// @brief Execute one parsed FTS query.
   /// @param query: SearchNode AST from FtsParser (already parsed)
   /// @param options: execution options (limit, timeout, snippets, etc.)
   /// @return vector of SearchResult sorted by score (descending)
-  /// @thread-safe: acquires shared_lock (multiple readers allowed)
-  /// @error: EXECUTION_TIMEOUT if query exceeds timeout_ms
-  /// @error: OUT_OF_MEMORY if cache eviction fails
+  /// @note Thread safety: acquires shared_lock (multiple readers allowed).
+  /// @note Returns EXECUTION_TIMEOUT if query exceeds timeout_ms.
+  /// @note Returns OUT_OF_MEMORY if cache eviction fails.
   Result<std::vector<SearchResult>> execute(
       const SearchNode& query,
       const ExecutionOptions& options = ExecutionOptions{});
   
-  /// Batch execute multiple queries (optimization for bulk processing)
+  /// @brief Execute multiple queries in one batch.
   /// @param queries: vector of SearchNode ASTs
   /// @param options: common execution options for all queries
   /// @return vector of result vectors (one per input query)
-  /// @thread-safe: acquires shared_lock once, amortizes lock overhead
+  /// @note Thread safety: acquires shared_lock once to amortize lock overhead.
   Result<std::vector<std::vector<SearchResult>>> executeBatch(
       const std::vector<SearchNode>& queries,
       const ExecutionOptions& options = ExecutionOptions{});
@@ -121,41 +121,43 @@ class FtsExecutor {
   // Index Update API (Exclusive lock required)
   // ========================================================================
   
-  /// Update FTS index with new documents
+  /// @brief Apply additions and deletions to the FTS index.
   /// @param updates: batch of document additions/deletions
   /// @return status (OK or FtsError)
-  /// @thread-safe: acquires unique_lock (exclusive access, blocks all readers)
-  /// @error: INDEX_LOCKED if timeout waiting for readers to finish
+  /// @note Thread safety: acquires unique_lock (exclusive access, blocks readers).
+  /// @note Returns INDEX_LOCKED if waiting for readers times out.
   Result<void> updateIndex(const IndexUpdateBatch& updates);
   
   // ========================================================================
   // Diagnostic API (Read-only, thread-safe)
   // ========================================================================
   
-  /// Get index statistics (diagnostic)
-  /// @thread-safe: acquires shared_lock
+  /// @brief Get read-only index statistics for diagnostics.
+  /// @note Thread safety: acquires shared_lock.
   /// @return index metadata (document count, term count, size, etc.)
   IndexStatistics getStatistics() const;
   
-  /// Check index health
-  /// @thread-safe: acquires shared_lock
+  /// @brief Check whether index integrity checks currently pass.
+  /// @note Thread safety: acquires shared_lock.
   /// @return true if index passes integrity checks, false otherwise
   bool isIndexHealthy() const;
   
-  /// Get cache hit/miss statistics
-  /// @thread-safe: reads atomic counters
+  /// @brief Cache hit/miss counters for executor diagnostics.
   struct CacheStats {
     uint64_t hits = 0;
     uint64_t misses = 0;
     uint64_t evictions = 0;
     
+    /// @brief Compute hit ratio over all cache lookups.
+    /// @return Hit ratio in range [0, 1].
     float hitRate() const {
       uint64_t total = hits + misses;
       return total > 0 ? static_cast<float>(hits) / total : 0.0f;
     }
   };
   
-  /// @thread-safe: no locking required (reads atomic counters)
+  /// @brief Return current cache hit/miss counters.
+  /// @note Thread safety: no locking required (reads atomic counters).
   CacheStats getCacheStats() const;
   
  private:
@@ -168,7 +170,7 @@ class FtsExecutor {
   mutable std::shared_mutex index_lock_;
   
   /// In-memory cache for hot posting lists
-  /// @thread-safe: IndexCache has internal locking
+  /// @note Thread safety: IndexCache provides internal synchronization.
   std::unique_ptr<IndexCache> cache_;
   
   /// FTS index abstraction
@@ -191,4 +193,3 @@ class FtsExecutor {
 };
 
 }  // namespace themis::query::fts
-
