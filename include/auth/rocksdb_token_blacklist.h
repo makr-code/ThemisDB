@@ -110,9 +110,7 @@ private:
     Config config_;
 
     // RocksDB state
-    // RocksDB newer distributions install Open()/OpenForReadOnly() overloads
-    // that accept a `std::unique_ptr<rocksdb::DB>*` for ownership. Use
-    // unique_ptr here to match those APIs and ensure RAII cleanup.
+    // DB ownership is managed with unique_ptr for RAII cleanup.
     std::unique_ptr<rocksdb::DB> db_{nullptr};
     rocksdb::ColumnFamilyHandle* cf_{nullptr};
 

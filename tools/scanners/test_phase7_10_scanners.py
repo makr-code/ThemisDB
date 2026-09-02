@@ -770,6 +770,34 @@ class TestThemisCppDoxygenPolicyRulesScan(unittest.TestCase):
         """)
         self.assertEqual(self.scanner.scan_files([source]), [])
 
+    def test_out_of_class_template_method_body_is_not_treated_as_public_declarations(self):
+        header = self._header('templated_cache.h', """\
+            template<typename KeyType, typename ValueType>
+            class TemplatedCache {
+            public:
+                /**
+                 * @brief Return cached value for key.
+                 * @param key Cache key.
+                 * @return Cached value if present.
+                 */
+                std::optional<ValueType> get(const KeyType& key);
+            private:
+                struct Entry {
+                    std::atomic<size_t> access_count{0};
+                };
+            };
+
+            template<typename KeyType, typename ValueType>
+            std::optional<ValueType> TemplatedCache<KeyType, ValueType>::get(const KeyType& key) {
+                Entry entry;
+                if (!key.empty()) {
+                    entry.access_count.fetch_add(1);
+                }
+                return std::nullopt;
+            }
+        """)
+        self.assertEqual(self.scanner.scan_files([header]), [])
+
 
 # ===========================================================================
 # Integration: scan_files() contract for all Phase 7-10 scanners

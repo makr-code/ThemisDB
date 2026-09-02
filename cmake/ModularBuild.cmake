@@ -2248,14 +2248,18 @@ function(themis_build_modular)
         OpenSSL::SSL
         OpenSSL::Crypto
     )
-        # Ensure pugixml is found before checking for its targets
-        # (this module may be included before find_package(pugixml) is called in CMakeLists.txt)
-        if(NOT TARGET pugixml::shared AND NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
-            find_package(pugixml CONFIG QUIET)
+    # Ensure pugixml is discovered even when the package is only available via
+    # pkg-config or a system library path. This keeps security builds resilient
+    # in CI/container environments that do not expose a CMake config package.
+    if(NOT TARGET pugixml::shared AND NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
+        find_package(PkgConfig QUIET)
+        if(PkgConfig_FOUND)
+            pkg_check_modules(PUGIXML QUIET pugixml)
         endif()
-        if(pugixml_FOUND AND NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
-            find_path(PUGIXML_INCLUDE_DIR NAMES pugixml.hpp PATH_SUFFIXES include)
-            find_library(PUGIXML_LIB NAMES pugixml libpugixml)
+
+        if(PUGIXML_FOUND AND NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
+            find_path(PUGIXML_INCLUDE_DIR NAMES pugixml.hpp HINTS ${PUGIXML_INCLUDE_DIRS} PATH_SUFFIXES include)
+            find_library(PUGIXML_LIB NAMES pugixml libpugixml HINTS ${PUGIXML_LIBRARY_DIRS})
             if(PUGIXML_INCLUDE_DIR AND PUGIXML_LIB)
                 add_library(pugixml UNKNOWN IMPORTED)
                 set_target_properties(pugixml PROPERTIES
@@ -2263,7 +2267,21 @@ function(themis_build_modular)
                     INTERFACE_INCLUDE_DIRECTORIES "${PUGIXML_INCLUDE_DIR}")
                 add_library(pugixml::pugixml ALIAS pugixml)
             endif()
+        elseif(NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
+            find_package(pugixml CONFIG QUIET)
+            if(pugixml_FOUND)
+                find_path(PUGIXML_INCLUDE_DIR NAMES pugixml.hpp PATH_SUFFIXES include)
+                find_library(PUGIXML_LIB NAMES pugixml libpugixml)
+                if(PUGIXML_INCLUDE_DIR AND PUGIXML_LIB)
+                    add_library(pugixml UNKNOWN IMPORTED)
+                    set_target_properties(pugixml PROPERTIES
+                        IMPORTED_LOCATION "${PUGIXML_LIB}"
+                        INTERFACE_INCLUDE_DIRECTORIES "${PUGIXML_INCLUDE_DIR}")
+                    add_library(pugixml::pugixml ALIAS pugixml)
+                endif()
+            endif()
         endif()
+    endif()
     if(TARGET TBB::tbb)
         list(APPEND _themis_security_deps TBB::tbb)
     endif()

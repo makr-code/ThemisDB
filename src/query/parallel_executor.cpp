@@ -29,14 +29,66 @@
 #include <vector>
 #include <chrono>
 #include <thread>
+#include <utility>
+#include <functional>
 
+#if defined(__has_include)
+#if __has_include(<tbb/task_arena.h>)
+#define THEMIS_HAS_TBB 1
 #include <tbb/task_arena.h>
 #include <tbb/task_group.h>
+#else
+#define THEMIS_HAS_TBB 0
+#endif
+#else
+#define THEMIS_HAS_TBB 0
+#endif
 
 #include "utils/error_registry.h"
 #include "utils/logger.h"
 
 namespace themis {
+
+#if !THEMIS_HAS_TBB
+namespace tbb {
+class task_group {
+public:
+    template <typename F>
+    void run(F&& f) {
+        if (!cancelled_) {
+            tasks_.emplace_back(std::forward<F>(f));
+        }
+    }
+
+    void wait() {
+        for (auto& task : tasks_) {
+            if (task) {
+                task();
+            }
+        }
+        tasks_.clear();
+    }
+
+    void cancel() noexcept {
+        cancelled_ = true;
+    }
+
+private:
+    bool cancelled_ = false;
+    std::vector<std::function<void()>> tasks_;
+};
+
+class task_arena {
+public:
+    explicit task_arena(int) {}
+
+    template <typename F>
+    void execute(F&& f) {
+        std::forward<F>(f)();
+    }
+};
+} // namespace tbb
+#endif
 
 // ============================================================================
 // Task Timeout Helper (Batch 1D null-safety gate)

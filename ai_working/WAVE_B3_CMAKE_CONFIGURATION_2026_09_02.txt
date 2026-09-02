@@ -1,0 +1,101 @@
+Preset CMake variables:
+
+  CMAKE_BUILD_TYPE="Release"
+  CMAKE_EXPORT_COMPILE_COMMANDS="ON"
+  CMAKE_SUPPRESS_DEVELOPER_WARNINGS="ON"
+  THEMIS_COMPILER_CACHE_PROGRAM="sccache"
+  THEMIS_EDITION="COMMUNITY"
+  THEMIS_ENABLE_COMPILER_CACHE="ON"
+  THEMIS_ENABLE_IPO="OFF"
+  THEMIS_MODELS_MODE="AUTO"
+  THEMIS_MODELS_SOURCE_DIR="/home/runner/work/ThemisDB/ThemisDB/models"
+  THEMIS_MODULES_ENABLE_UNITY="OFF"
+  THEMIS_PACKAGE_INCLUDE_GEMMA="OFF"
+  THEMIS_PACKAGE_INCLUDE_TINYLLAMA="ON"
+
+-- ThemisDB 2.4.0 (2.4.0-alpha) [type=alpha]
+-- ThemisDB dependency contract: STRICT mode enabled. Core dependencies must resolve without silent fallback.
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Auto-bootstrap: initializing submodules: vcpkg;ffmpeg;whisper.cpp;stable-diffusion.cpp
+Submodule path 'ffmpeg': checked out '7e3781e3ca8a9f5cc6ba14e05cc5fd12498bbaa9'
+Submodule path 'stable-diffusion.cpp': checked out '8afbeb6ba9702c15d41a38296f2ab1fe5c829fa0'
+Submodule path 'stable-diffusion.cpp/examples/server/frontend': checked out '1a34176cd6d39ad3a226b2b69047e71f6797f6bc'
+Submodule path 'stable-diffusion.cpp/ggml': checked out '404fcb9d7c96989569e68c9e7881ee3465a05c50'
+Submodule path 'stable-diffusion.cpp/thirdparty/libwebm': checked out '5bf12267eea773a32fcf4949de52b0add158a8d5'
+Submodule path 'stable-diffusion.cpp/thirdparty/libwebp': checked out '0c9546f7efc61eac7f79ae115c3f99c91c21c443'
+Submodule path 'vcpkg': checked out '30ef65cad98f08e7197c9a1656fbd871bcb72f2d'
+Submodule path 'whisper.cpp': checked out '95ea8f9bfb03a15db08a8989966fd1ae3361e20d'
+-- ThemisDB 2.4.0 (2.4.0-alpha) [type=alpha]
+--   Release: -O3 enabled (set THEMIS_DISABLE_O3=ON to use -O2)
+--   Release: -ffast-math enabled (set THEMIS_DISABLE_FAST_MATH=ON for strict IEEE 754)
+-- Performing Test THEMIS_CXX_FLAG_fstack_protector_strong
+-- Performing Test THEMIS_CXX_FLAG_fstack_protector_strong - Success
+-- Performing Test _THEMIS_HAVE_STACK_CLASH
+-- Performing Test _THEMIS_HAVE_STACK_CLASH - Success
+-- Performing Test THEMIS_LD_Wl__z_relro
+-- Performing Test THEMIS_LD_Wl__z_relro - Success
+-- Performing Test THEMIS_LD_Wl__z_now
+-- Performing Test THEMIS_LD_Wl__z_now - Success
+-- Performing Test THEMIS_LD_Wl__z_noexecstack
+-- Performing Test THEMIS_LD_Wl__z_noexecstack - Success
+--   Linker:  Full RELRO (-z relro -z now -z noexecstack)
+-- Security Hardening (GCC/Clang): -fstack-protector-strong -D_FORTIFY_SOURCE=3 -fPIE/-pie -fstack-clash-protection  [Release]
+-- IPO/LTO disabled by default (set THEMIS_ENABLE_IPO=ON to enable for Release)
+-- C++ Standard: C++20
+-- Build Type: Release
+-- Compiler: GNU 13.3.0
+-- Compiler cache: enabled (/home/runner/.local/bin/sccache) using /home/runner/work/ThemisDB/ThemisDB/.cache/sccache
+-- add_definitions() report written to: /home/runner/work/ThemisDB/ThemisDB/ai_working/wave-b3-transaction-build/logs/add_definitions_report.txt
+-- ==========================================
+-- Platform Detection:
+--   Target Architecture: x86_64
+--   Target Platform: linux
+--   Target Triplet: x64-linux
+--   System: Linux 6.17.0-1022-azure
+--   Processor: x86_64
+-- ==========================================
+-- Cross-compile validation: skipped (native build)
+-- Applying architecture optimizations for x86_64...
+--   x86_64 optimization: Baseline (AVX2 disabled)
+-- Preloaded zstd::zstd target from pkg-config for RocksDB compatibility
+-- ==========================================
+-- Edition: COMMUNITY
+-- ==========================================
+-- Configuring COMMUNITY edition...
+--   Hardware limits: Up to 16 GB GPU VRAM (1× Tesla T4), 5 nodes, 1 GB cache
+--   Features: Core + optional LLM/gRPC/GPU
+-- ==========================================
+-- Feature Configuration:
+-- ==========================================
+--   WikiIndexStore Phase B: Enabled
+--   LLM Judge backend calls: Enabled
+--   LLM: Enabled
+--     Content ingestion: Enabled
+--     Flash Attention v3: Enabled
+--       Paged KV-Cache: Enabled
+--   Network Protocols:
+--     gRPC: Enabled
+--     HTTP Server: Enabled
+--     WebSocket: Enabled
+--     MQTT: Enabled
+--     MCP: Enabled
+--     SSE: Enabled
+--     GraphQL: Enabled
+--     ONNX Runtime: headers not found — runtime probe will select CPUExecutionProvider
+--   GPU Acceleration: Enabled
+--     Vulkan: Enabled
+--     GPU Vector Search: Enabled
+-- ══ Geospatial (Geo) Module Features ══
+--   GPU Backend: CPU-only fallback (THEMIS_GEO_CUDA=OFF, THEMIS_GEO_HIP=OFF)
+--     - All geo operations will use CPU dispatch paths
+--   Performance Gates:
+--     - Haversine (GATE-A-06-01): p99 ≤ 10ms
+--     - Point-in-Polygon (GATE-A-06-02): p99 ≤ 2ms
+--     - GeoJSON Parse (GATE-A-06-03): p99 ≤ 500µs
+--   Circuit-breaker threshold: 5 GPU failures
+--   Diagnostics: DETAILED (on)

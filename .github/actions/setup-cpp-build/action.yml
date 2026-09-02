@@ -66,7 +66,7 @@ runs:
         # Base packages required by every C++ CI job. Vulkan/GLSL tooling is
         # required for ThemisDB's GPU backend checks in Linux CI and local
         # validation runs that configure the Vulkan-capable build presets.
-        BASE_PKGS="cmake ninja-build ${{ inputs.cc }} ${{ inputs.cxx }} libgtest-dev pkg-config git libfmt-dev libboost-dev libboost-filesystem-dev libvulkan-dev glslc"
+        BASE_PKGS="cmake ninja-build ${{ inputs.cc }} ${{ inputs.cxx }} libgtest-dev pkg-config git libfmt-dev libboost-dev libboost-filesystem-dev libvulkan-dev glslc libcpp-httplib-dev"
         # Append optional extra packages (guard against empty string)
         EXTRA="${{ inputs.extra-packages }}"
         # shellcheck disable=SC2086

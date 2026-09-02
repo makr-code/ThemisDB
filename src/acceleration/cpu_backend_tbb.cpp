@@ -17,12 +17,21 @@
 
 #include "acceleration/cpu_backend.h"
 #include "acceleration/batch_validator.h"
+#if defined(__has_include)
+#if __has_include(<tbb/parallel_for.h>)
+#define THEMIS_HAS_TBB 1
 #include <tbb/parallel_for.h>
 #include <tbb/blocked_range.h>
 #include <tbb/blocked_range2d.h>
 #include <tbb/parallel_reduce.h>
 #include <tbb/task_arena.h>
 #include <tbb/global_control.h>
+#else
+#define THEMIS_HAS_TBB 0
+#endif
+#else
+#define THEMIS_HAS_TBB 0
+#endif
 #include <cmath>
 #include <algorithm>
 #include <iostream>
@@ -39,6 +48,7 @@
 namespace themis {
 namespace acceleration {
 
+#if THEMIS_HAS_TBB
 // ============================================================================
 // TBB-Based CPUVectorBackend Implementation
 // ============================================================================
@@ -414,6 +424,99 @@ public:
         return results;
     }
 };
+
+#else
+// ============================================================================
+// TBB fallback: use the CPU base implementation when Intel TBB is unavailable
+// ============================================================================
+
+/** @brief TBB fallback implementation that preserves the backend API without TBB headers. */
+class CPUVectorBackendTBB : public CPUVectorBackend {
+private:
+    bool enableSIMD_;
+
+public:
+    CPUVectorBackendTBB() : enableSIMD_(true) {}
+
+    void setThreadCount(int threads) {
+        (void)threads;
+    }
+
+    void enableSIMD(bool enable) {
+        enableSIMD_ = enable;
+    }
+
+    const char* name() const noexcept override {
+        return "CPU Multi-Threaded (Intel TBB fallback)";
+    }
+
+    float computeL2Distance(const float* a, const float* b, size_t dim) const {
+        (void)enableSIMD_;
+        return CPUVectorBackend::computeL2Distance(a, b, dim);
+    }
+
+    float computeCosineDistance(const float* a, const float* b, size_t dim) const {
+        (void)enableSIMD_;
+        return CPUVectorBackend::computeCosineDistance(a, b, dim);
+    }
+
+    std::vector<float> computeDistances(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        bool useL2
+    ) override {
+        return CPUVectorBackend::computeDistances(queries, numQueries, dim, vectors, numVectors, useL2);
+    }
+
+    std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        size_t k,
+        bool useL2
+    ) override {
+        return CPUVectorBackend::batchKnnSearch(queries, numQueries, dim, vectors, numVectors, k, useL2);
+    }
+};
+
+/** @brief TBB fallback geo backend using the CPU fallback implementation. */
+class CPUGeoBackendTBB : public CPUGeoBackend {
+public:
+    const char* name() const noexcept override {
+        return "CPU Geo Multi-Threaded (Intel TBB fallback)";
+    }
+
+    std::vector<float> batchDistances(
+        const double* latitudes1,
+        const double* longitudes1,
+        const double* latitudes2,
+        const double* longitudes2,
+        size_t count,
+        bool useHaversine
+    ) override {
+        return CPUGeoBackend::batchDistances(
+            latitudes1, longitudes1, latitudes2, longitudes2, count, useHaversine
+        );
+    }
+
+    std::vector<bool> batchPointInPolygon(
+        const double* pointLats,
+        const double* pointLons,
+        size_t numPoints,
+        const double* polygonCoords,
+        size_t numPolygonVertices
+    ) override {
+        return CPUGeoBackend::batchPointInPolygon(
+            pointLats, pointLons, numPoints, polygonCoords, numPolygonVertices
+        );
+    }
+};
+#endif
 
 // Factory functions
 std::unique_ptr<CPUVectorBackend> createTBBCPUVectorBackend() {
