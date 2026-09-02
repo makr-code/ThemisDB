@@ -44,6 +44,7 @@ Header / Footer:
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import subprocess
 import sys
@@ -79,9 +80,98 @@ RELATIVE_LINK_RE = re.compile(r"\[([^\]]+)\]\((?!https?://)([^)]+\.md[^)]*)\)")
 # HTML comments (remove from source docs before wiki publication)
 HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
 
+# Term-linking patterns and configuration
+GLOSSARY_INDEX_PATH = Path("docs/glossary_index.json")
+GLOSSARY_TERM_LINK_PATTERN = re.compile(r"\b([A-Z][A-Z0-9]{2,})\b")  # CAPS-words
+CODE_BLOCK_RE = re.compile(r"```[\s\S]*?```|`[^`]+`")  # Code blocks and inline code
+
 # ---------------------------------------------------------------------------
-# Breadcrumb and category mapping system
+# Dynamic glossary term-linking system
 # ---------------------------------------------------------------------------
+
+def _load_glossary_index(glossary_path: Path | None = None) -> dict[str, dict] | None:
+    """Load glossary index for term-linking."""
+    if glossary_path is None:
+        glossary_path = GLOSSARY_INDEX_PATH
+    
+    if not glossary_path.exists():
+        return None
+    
+    try:
+        import json
+        with open(glossary_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("terms", {})
+    except Exception:
+        return None
+
+
+def _inject_term_links(
+    text: str,
+    glossary_terms: dict[str, dict],
+    min_priority: str = "high",
+) -> str:
+    """Inject wiki links to glossary terms in markdown text.
+    
+    Args:
+        text: Markdown content to process
+        glossary_terms: Glossary index (term_id → term data)
+        min_priority: Minimum term priority to link ('high', 'medium', 'low')
+    
+    Returns:
+        Markdown with injected glossary term links
+    """
+    priority_order = {"high": 2, "medium": 1, "low": 0}
+    min_priority_level = priority_order.get(min_priority, 0)
+    
+    # Filter glossary terms by priority
+    linkable_terms = {
+        term_name: term_data
+        for term_name, term_data in glossary_terms.items()
+        if priority_order.get(term_data.get("priority", "low"), 0) >= min_priority_level
+    }
+    
+    if not linkable_terms:
+        return text
+    
+    # Identify code blocks to preserve
+    code_blocks = []
+    def preserve_code(match):
+        idx = len(code_blocks)
+        code_blocks.append(match.group(0))
+        return f"__CODE_BLOCK_{idx}__"
+    
+    text = CODE_BLOCK_RE.sub(preserve_code, text)
+    
+    # Inject term links
+    def replace_term(match):
+        term_name = match.group(1)
+        
+        # Find matching term (case-insensitive)
+        for term_id, term_data in linkable_terms.items():
+            if term_data.get("name", "").lower() == term_name.lower():
+                # Check if already linked
+                full_match_start = match.start()
+                if full_match_start > 0 and text[full_match_start - 1] == "[":
+                    # Already inside a link
+                    return match.group(0)
+                
+                # Create wiki link
+                display_name = term_data.get("name", term_name)
+                # Wiki link format: [[Display Name|Wiki-Page-Name]] or [[Display Name]]
+                return f"[[{display_name}]]"
+        
+        return match.group(0)
+    
+    # Apply term linking
+    text = GLOSSARY_TERM_LINK_PATTERN.sub(replace_term, text)
+    
+    # Restore code blocks
+    for idx, code_block in enumerate(code_blocks):
+        text = text.replace(f"__CODE_BLOCK_{idx}__", code_block)
+    
+    return text
+
 
 # Map wiki page prefixes and patterns to their breadcrumb hierarchies
 # Format: (category_name, breadcrumb_path_items, page_prefix_pattern)
@@ -1724,6 +1814,17 @@ def main(argv: list[str] | None = None) -> int:
         default="currency",
         help="Sort documents by: currency (freshness+mtime), modification-date (mtime only), or none (default: currency).",
     )
+    parser.add_argument(
+        "--enable-term-linking",
+        action="store_true",
+        help="Enable automatic glossary term-linking in wiki pages (requires docs/glossary_index.json).",
+    )
+    parser.add_argument(
+        "--term-link-priority",
+        choices=["high", "medium", "low"],
+        default="high",
+        help="Minimum glossary term priority to auto-link (default: high).",
+    )
     args = parser.parse_args(argv)
 
     repo_root = Path(args.repo_root).resolve()
@@ -1731,6 +1832,16 @@ def main(argv: list[str] | None = None) -> int:
 
     if not args.dry_run:
         output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Load glossary index if term-linking is enabled
+    glossary_terms = None
+    if args.enable_term_linking:
+        glossary_path = repo_root / GLOSSARY_INDEX_PATH
+        glossary_terms = _load_glossary_index(glossary_path)
+        if glossary_terms:
+            print(f"📚 Loaded {len(glossary_terms)} glossary terms for term-linking", file=sys.stderr)
+        else:
+            print(f"⚠️ Term-linking enabled but glossary index not found at {glossary_path}", file=sys.stderr)
 
     entries = _collect_entries(repo_root)
     skipped: list[str] = []
@@ -1787,6 +1898,14 @@ def main(argv: list[str] | None = None) -> int:
             transformed = _transform(
                 text, source_path, repo_root, wiki_name, all_wiki_names,
                 enable_breadcrumbs=args.enable_breadcrumbs
+            )
+        
+        # Apply term-linking if enabled
+        if glossary_terms and args.enable_term_linking:
+            transformed = _inject_term_links(
+                transformed,
+                glossary_terms,
+                min_priority=args.term_link_priority,
             )
         
         # Inject breadcrumb navigation if enabled

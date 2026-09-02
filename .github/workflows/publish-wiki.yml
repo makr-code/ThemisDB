@@ -93,6 +93,42 @@ jobs:
           python-version: '3.12'
 
       # -----------------------------------------------------------------------
+      # Phase 2a0: Generate dynamic glossary from repository documentation
+      # -----------------------------------------------------------------------
+      - name: Scan glossary term candidates
+        id: glossary_scan
+        continue-on-error: true
+        run: |
+          python scripts/scan_glossary_terms.py \
+            --repo-root . \
+            --output docs/glossary_candidates.json \
+            --min-priority low
+          echo "candidates_found=true" >> "$GITHUB_OUTPUT"
+
+      - name: Build enriched glossary index
+        id: glossary_build
+        if: steps.glossary_scan.outputs.candidates_found == 'true'
+        continue-on-error: true
+        run: |
+          python scripts/build_glossary_with_copilot.py \
+            --input docs/glossary_candidates.json \
+            --output docs/glossary_index.json \
+            --repo-root . \
+            --enable-copilot false
+          echo "index_created=true" >> "$GITHUB_OUTPUT"
+
+      - name: Generate language-specific glossaries
+        id: glossary_gen
+        if: steps.glossary_build.outputs.index_created == 'true'
+        continue-on-error: true
+        run: |
+          python scripts/generate_glossaries.py \
+            --input docs/glossary_index.json \
+            --output docs/ \
+            --languages en,de,fr
+          echo "glossaries_generated=true" >> "$GITHUB_OUTPUT"
+
+      # -----------------------------------------------------------------------
       # Phase 2a: Build wiki staging directory
       # -----------------------------------------------------------------------
       - name: Build wiki staging
@@ -102,11 +138,16 @@ jobs:
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
             DRY_RUN_FLAG="--dry-run"
           fi
+          TERM_LINKING_FLAG=""
+          if [ "${{ steps.glossary_gen.outputs.glossaries_generated }}" = "true" ]; then
+            TERM_LINKING_FLAG="--enable-term-linking --term-link-priority high"
+          fi
           python scripts/build_wiki.py \
             --repo-root . \
             --output /tmp/wiki-staging \
             --enable-breadcrumbs \
             --sort-by currency \
+            $TERM_LINKING_FLAG \
             $DRY_RUN_FLAG
           echo "staging_dir=/tmp/wiki-staging" >> "$GITHUB_OUTPUT"
           echo "is_dry_run=${DRY_RUN_FLAG:+true}" >> "$GITHUB_OUTPUT"
