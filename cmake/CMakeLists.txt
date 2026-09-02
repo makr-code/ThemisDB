@@ -3815,6 +3815,44 @@ if(THEMIS_BUILD_MODULAR)
         endif()
     endforeach()
 
+    # Propagate the same external link dependencies to the modular interface library
+    # so targets that link against themis_core receive the full runtime/link surface.
+    target_link_libraries(themis_core INTERFACE
+        ${THEMIS_ROCKSDB_TARGET}
+        $<$<TARGET_EXISTS:simdjson::simdjson>:simdjson::simdjson>
+        $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb>
+        ${THEMIS_ARROW_TARGET}
+        ${THEMIS_PARQUET_TARGET}
+        fmt::fmt
+        spdlog::spdlog
+        $<$<TARGET_EXISTS:Boost::system>:Boost::system>
+        nlohmann_json::nlohmann_json
+        $<$<BOOL:${CURL_FOUND}>:CURL::libcurl>
+        ${THEMIS_YAML_TARGET}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        ZLIB::ZLIB
+        $<$<BOOL:${prometheus-cpp_FOUND}>:prometheus-cpp::core>
+    )
+
+    if(TARGET pugixml::pugixml)
+        target_link_libraries(themis_core INTERFACE pugixml::pugixml)
+    elseif(TARGET pugixml::static)
+        target_link_libraries(themis_core INTERFACE pugixml::static)
+    elseif(TARGET pugixml)
+        target_link_libraries(themis_core INTERFACE pugixml)
+    endif()
+
+    if(TARGET libzip::zip)
+        target_link_libraries(themis_core INTERFACE libzip::zip)
+    elseif(TARGET libzip::libzip)
+        target_link_libraries(themis_core INTERFACE libzip::libzip)
+    endif()
+
+    if(TARGET Threads::Threads)
+        target_link_libraries(themis_core INTERFACE Threads::Threads)
+    endif()
+
     # HTTP/3 / QUIC linkage for modular build.
     # QUIC code uses helpers from ngtcp2_crypto_ossl (e.g. ngtcp2_crypto_encrypt_cb)
     # that are not provided by ngtcp2::ngtcp2 alone.
