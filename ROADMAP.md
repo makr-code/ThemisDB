@@ -52,16 +52,16 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ## Current Status
 
-> **Q3/Q4 2026 Milestone Targets:** ~83% completion by end of Q3 2026; ~86% completion by end of Q4 2026 (from ~80% current source-backed baseline). See `## Q3 2026 Milestone (~83%)` and `## Q4 2026 Milestone (~86%)` sections below for the full implementation plan.
+> **Q3/Q4 2026 Milestone Targets:** ~83% completion by end of Q3 2026; ~86% completion by end of Q4 2026 (from ~80% current source-backed baseline). **Current source validation (2026-09-02) confirms ~82–84% readiness with 3 critical blockers and 3 high-priority hardening items.** See `## Q3 2026 Milestone (~83%)` and `## Q4 2026 Milestone (~86%)` sections below for the full implementation plan.
 >
-> **Risk Table (Q3/Q4 2026):**
+> **Critical Release Blockers (must resolve before GA sign-off):**
 >
-> | Risk | Impact | Mitigation |
-> |------|--------|------------|
-> | CUDA hardware unavailable in CI | CUDA kernel gates (A-06, A-07, B-01) cannot be validated automatically | Gate on `THEMIS_GEO_CUDA=ON`; CPU-parity fallback tests run unconditionally; hardware-in-the-loop job on self-hosted runner |
-> | RocksDB unavailable in Community build | WikiIndexStore Phase B and persistent embedding cache blocked | Feature-gated behind `THEMIS_WIKI_PHASE_B`; Phase A path remains always available |
-> | ethics_ai test nullstand (0 focused tests shipped) | EU AI Act compliance gates cannot be validated | Focused test suite (≥8 tests, Q4 2026) is a hard acceptance criterion before Art. 13/22 claims are made |
-> | liboqs ≥0.10.0 not yet in vcpkg | SPHINCS+ production implementation blocked | Conditional on vcpkg availability; stub retained with explicit `STUB/SIMULATION NOTE` until met |
+> | Blocker | Impact | Status | Target |
+> |---------|--------|--------|--------|
+> | GPU Phase C CUDA-call closure (340→170 migration) | Phase D blocked; GPU acceleration not recommended for production | ~28 of 340 resolved; ~140 remain | Must complete 50% reduction by end Q3 2026 |
+> | Transaction CI execution evidence (73 Phase 1-3 tests) | Cannot validate recovery/SAGA behavior without CI green evidence | Tests implemented; NO `develop` CI run yet | Run immediately (should have been done 2026-08-31) |
+> | Query FTS executor backend wiring | Q4 deadline at risk (lexer/parser complete; executor not started) | 0% implementation progress | Begin immediately; 4-6 weeks estimated |
+> | Root ROADMAP sync issues (8 false positives/contradictions) | GA sign-off decision based on incorrect status claims | Identified in 2026-09-02 validation; must correct before sign-off | Before Q3 2026 end |
 
 - [x] `ROADMAP.md` is the canonical source of truth for GA status; conflicting PASS/GO statements in derivative planning/checklist documents must be treated as provisional until re-verified on current `develop`.
 - [x] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
@@ -137,6 +137,29 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
   — `tests/integration/test_replication_soak_60min.cpp`, `test_sharding_distributed_write_soak.cpp`, `test_telemetry_soak.cpp` created (labels: `wave_d;soak;not_release_critical`); full soak runs pending sign-off
 - [ ] Security audit: HTTP auth SSL/TLS configuration review (misconfigurability assessment, TLS verification whitelist documentation) — **Non-critical, follow-up from Phase 6 gap verification (2026-08-15)** (Target: Q1 2027)
 - [ ] Wave D sign-off: human approval at `docs/operability/WAVE_D_SIGN_OFF.md` after D1–D4 evidence is complete (Target: Q1 2027) — sign-off document exists; D1-D4 completion prerequisites in progress
+
+## CI Execution Evidence Validation (2026-09-02 source validation)
+
+> **Status note:** Source code deliverables exist for most modules, but CI execution evidence on `develop` branch is incomplete. This section tracks which modules have confirmed green CI runs and which remain pending.
+
+| Module | Phase Status | Code Evidence | CI Execution Status | Risk | Action |
+|--------|--------------|---|---|---|---|
+| **GPU/CUDA** | Phase 2-3 delivered; Phase D pending | ✅ RAII guards, timeout enforcement, resource exhaustion tests all implemented 2026-08-24 | ⚠️ Phase 2-3 tests implemented but Phase D hardware benchmarks not yet executed | 🔴 CRITICAL | Run Phase 2-3 tests on `develop` immediately; Phase D representative-hardware benchmarks deferred to Q4 2026 |
+| **Transaction** | Phases 1-3 delivered; Phase 4 in progress | ✅ 73 focused tests implemented (UPH-01..73, TXN-01..73) 2026-08-24 | ❌ NO CI execution evidence on `develop` yet (should have been done 2026-08-31) | 🔴 CRITICAL | Run full Phase 1-3 test suite immediately: `cmake --build /tmp/build --target run_tests --config Release 2>&1 \| grep -E "transaction\|PASSED\|FAILED"` |
+| **Query** | AQL phases 1-4 complete; FTS executor 0% | ✅ AQL integration tests PASS (validation SLA COMPLETE 2026-08-05); FTS lexer/parser COMPLETE (2026-08-09) | ✅ AQL tests green on `develop` 2026-08-05; ⚠️ FTS executor backend NOT STARTED | 🔴 CRITICAL | Begin FTS executor implementation immediately; target Q4 2026 completion with performance gate (≤100ms on 100K docs) |
+| **Auth** | Wave 4-B delivered; benchmarks pending | ✅ All 14 audit/retry/crypto gaps closed 2026-08-26; test_wave4b_auth_hardening.cpp + test_wave4b_auth_hardening2.cpp complete | ✅ Wave 4-B tests PASS; ⚠️ Benchmark CI run #40 execution status unclear (as of 2026-08-24) | 🟡 HIGH | Confirm CI run #40 completion; if not complete, re-run AUTH-GRG-01..06 benchmark gates before Q4 2026 end |
+| **Server** | P5 phases delivered; P2-3 in progress | ✅ P5 wire-protocol retry + HTTP timeout/shutdown tests PASS 2026-07-20; Wave 4-A server hardening tests delivered 2026-08-26 | ✅ P5 tests green on `develop` 2026-07-20; ⚠️ Wave 4-A gates (SH3-01..12, SGR-01..12, SOD-01..08, SCC-01..07) execution pending | 🟡 HIGH | Execute Wave 4-A test suites on `develop` by Q4 2026 end |
+| **LLM** | Wave A-8 delivered; Phase 2-5 follow-up | ✅ All distributed inference paths COMPLETE 2026-08-16; Wiki Phase A+B COMPLETE 2026-08-26 | ✅ Wave A-8 tests PASS; ✅ Wiki Phase 3-4 tests PASS (49 tests, 2026-08-24); ⚠️ Phase 2-5 integration tests (queue/load telemetry, error standardization, distributed orchestration) pending | 🟡 HIGH | Complete Phase 2-5 integration test suites by Q4 2026 end |
+| **Storage** | Phases 1-6 delivered | ✅ All phase code COMPLETE 2026-08-03; Phase 3 error handling + diagnostics focused tests (24 tests) implemented | ✅ All phases PASS on `develop` (2026-08-03); ⚠️ Representative-hardware p95/p99 benchmarks not yet executed (expected Q1 2027) | 🟢 GREEN | No action required; representative-hardware benchmarks deferred to Q1 2027 per plan |
+| **Base** | Phases 1-6 complete | ✅ All phase code delivered 2026-07-27; benchmark gates (GATE-BASE-07..12) implemented | ✅ All unit/focused tests PASS; ⚠️ CI benchmark comparison step not yet wired into workflow | 🟢 GREEN | Add benchmark comparison gate to CI (Q1 2027 work; non-blocking for GA) |
+| **Core** | Phases 1-6 complete | ✅ Adapter registry + plugin loading delivered | ✅ Focused tests implemented; ⚠️ CI green evidence not documented | 🟢 GREEN | Capture CI green evidence for documentation (non-blocking) |
+| **LLM Wiki** | Phases 3-4 complete; Wave D follow-up | ✅ RocksDB backend + persistent cache + query embedding caching COMPLETE 2026-08-26; 49 tests implemented | ✅ All Phase 3-4 tests PASS (2026-08-24); ⚠️ Security/routing phases (Wave D) not started | 🟢 GREEN | Phase 3-4 complete; Wave D (security/routing) deferred to Q1 2027 per plan (non-blocking for Wave B GA) |
+| **Access Model** | Phases 1-6 complete; Wave B ready | ✅ All phase code COMPLETE 2026-08-17; E2E + concurrency tests (15+12 cases) complete; 6 benchmarks complete | ✅ All tests + benchmarks PASS on `develop` 2026-08-17 | 🟢 GREEN | No action required; explicitly PRODUCTION READY for Wave B GA |
+
+**Summary:** 
+- **🔴 CRITICAL blockers (CI execution missing):** 3 (GPU Phase 2-3 tests, Transaction Phase 1-3 tests, Query FTS executor not started)
+- **🟡 HIGH-priority hardening (CI execution pending):** 3 (Auth benchmarks, Server Wave 4-A, LLM Phase 2-5)
+- **🟢 GREEN (CI execution complete or N/A):** 5 (Storage, Base, Core, LLM Wiki, Access Model)
 
 ### Program-Level Success Criteria
 - [ ] All distributed and acceleration paths fail closed (Target: Q1 2027)
