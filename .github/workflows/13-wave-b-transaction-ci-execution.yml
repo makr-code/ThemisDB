@@ -112,7 +112,7 @@ jobs:
 
       - name: "Upload CMake configuration log"
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cmake-configuration-log
           path: cmake-config.log
@@ -206,7 +206,7 @@ jobs:
 
       - name: "Upload compilation log"
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: compile-${{ matrix.phase }}-log
           path: compile-${{ matrix.phase }}.log
@@ -285,7 +285,7 @@ jobs:
 
       - name: "Upload smoke test results"
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: smoke-test-results
           path: ${{ needs.configure.outputs.build-dir }}/smoke-test-results.txt
@@ -293,7 +293,7 @@ jobs:
 
       - name: "Publish smoke test summary"
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-summary
           path: ${{ needs.configure.outputs.build-dir }}/smoke-test-results.txt
@@ -386,7 +386,7 @@ jobs:
 
       - name: "Upload test results"
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: transaction-test-results
           path: |
@@ -414,7 +414,7 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
 
       - name: "Create artifact archive"
         run: |
@@ -430,7 +430,7 @@ jobs:
           echo "Archive created: $(du -sh transaction-ci-results.zip | cut -f1)"
 
       - name: "Upload artifacts archive"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: transaction-ci-results
           path: transaction-ci-results.zip
@@ -443,7 +443,7 @@ jobs:
     if: always()
     steps:
       - name: "Download all artifacts"
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: "Generate CI report"
         run: |
@@ -463,7 +463,7 @@ jobs:
           echo "- transaction-ci-results.zip" >> CI_REPORT.md
 
       - name: "Upload final report"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: CI-Report
           path: CI_REPORT.md
