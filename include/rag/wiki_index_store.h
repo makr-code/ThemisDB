@@ -121,8 +121,8 @@ public:
     // Non-copyable, movable.
     WikiIndexStore(const WikiIndexStore&)            = delete;
     WikiIndexStore& operator=(const WikiIndexStore&) = delete;
-    WikiIndexStore(WikiIndexStore&&)                 = default;
-    WikiIndexStore& operator=(WikiIndexStore&&)      = default;
+    WikiIndexStore(WikiIndexStore&&) noexcept;
+    WikiIndexStore& operator=(WikiIndexStore&&) noexcept;
 
     /**
      * @brief Index a document for BM25+ retrieval.

@@ -59,7 +59,7 @@ Status RocksDbWikiStore::open(const std::string& db_path) {
     options_.create_if_missing = true;
     options_.error_if_exists   = false;
 
-    rocksdb::DB* raw_db = nullptr;
+    std::unique_ptr<rocksdb::DB> raw_db;
     rocksdb::Status rdb_st = rocksdb::DB::Open(options_, db_path, &raw_db);
 
     if (!rdb_st.ok()) {
@@ -70,7 +70,7 @@ Status RocksDbWikiStore::open(const std::string& db_path) {
     }
 
     // Transfer ownership to the smart pointer.
-    db_.reset(raw_db);
+    db_ = std::move(raw_db);
     db_path_ = db_path;
     return Status::Ok();
 }

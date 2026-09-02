@@ -361,7 +361,7 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
 
     if (frontdoor) {
         try {
-            AnnFrontdoorResult ann_res = frontdoor->search(
+            index::AnnFrontdoorResult ann_res = frontdoor->search(
                 query.query_vector.data(),
                 query.query_vector.size(),
                 static_cast<int>(query.ann_k),

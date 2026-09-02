@@ -91,16 +91,20 @@ TEST(W910_HighFixes, ResultStream_materialized_raii_safe) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 TEST(W910_HighFixes, ParallelExecutor_null_guard_in_hash_join) {
-    // Verify that sequentialHashJoin handles the edge cases around which the
+    // Verify that parallelHashJoin handles the edge cases around which the
     // null_dereference guard was added.  Empty tables → empty output.
+    ParallelExecutor exec;
     ParallelExecutor::Table left  = {};
     ParallelExecutor::Table right = {};
     ParallelExecutor::JoinSpec spec;
     spec.left_key  = "id";
     spec.right_key = "id";
 
-    auto result = ParallelExecutor::sequentialHashJoin(left, right, spec);
-    EXPECT_TRUE(result.empty());
+    auto result_or_error = exec.parallelHashJoin(left, right, spec, 1);
+    EXPECT_TRUE(result_or_error.has_value());
+    if (result_or_error.has_value()) {
+        EXPECT_TRUE(result_or_error.value().empty());
+    }
     SUCCEED();
 }
 
@@ -112,7 +116,7 @@ TEST(W910_HighFixes, QueryCache_eviction_synchronous_no_hang) {
     QueryCache::Config cfg;
     cfg.max_entries      = 2;
     cfg.max_memory_bytes = 1024 * 1024;
-    cfg.ttl_seconds      = 60;
+    cfg.default_ttl      = std::chrono::seconds(60);
     cfg.eviction_policy  = QueryCache::EvictionPolicy::LRU;
 
     QueryCache cache(cfg);
@@ -140,14 +144,20 @@ TEST(W910_HighFixes, QueryCompiler_exception_marker_and_sentinel) {
     cfg.compilation_timeout_ms = 100;
 
     QueryCompiler compiler(cfg);
-    compiler.compile("q1",
-        [](const std::string&, const QueryParams&) -> Result<QueryResult> {
-            return QueryResult{};
-        });
+    
+    // Compile a query with an executor function.
+    auto executor = [](const std::string&, const QueryParams&) -> Result<themis::query::QueryResult> {
+        return themis::query::QueryResult{};
+    };
+    
+    auto compiled = compiler.compile("SELECT * FROM t WHERE id = ?", 
+                                     {"id"},
+                                     executor);
 
     // Warm up to reach hot threshold + compilation.
+    QueryParams params;
     for (int i = 0; i < 3; ++i) {
-        compiler.execute("q1", QueryParams{});
+        compiler.execute(compiled, params);
     }
 
     // Normal compilation succeeds; jit_state_corrupted_ should be false.

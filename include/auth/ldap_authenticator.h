@@ -43,6 +43,7 @@ constexpr int    DEFAULT_LDAP_TIMEOUT     = 10;    ///< Default connection/searc
 struct LDAPConfig {
     // Connection settings
     std::string server_url;          ///< e.g., "ldap://dc.example.com:389" or "ldaps://..."
+    std::string server_uri;          ///< Backward-compatible alias for older tests and configs.
     int         port{DEFAULT_LDAP_PORT}; ///< Override port (0 = derive from URL scheme)
     bool        use_tls{false};      ///< Upgrade plain connection with StartTLS
     int         connection_timeout_seconds{DEFAULT_LDAP_TIMEOUT};
@@ -53,6 +54,8 @@ struct LDAPConfig {
     ///   "CN={username},OU=Users,DC=example,DC=com"
     /// or for AD UPN-style bind: "{username}@EXAMPLE.COM"
     std::string bind_dn_template;
+    std::string bind_dn;             ///< Backward-compatible alias for legacy tests.
+    std::string bind_password;       ///< Legacy compatibility field; not stored on the live config.
 
     // Optional user-search (resolves group membership)
     bool        enable_group_search{false};
@@ -93,6 +96,9 @@ struct LDAPConfig {
     /// authenticate() returns a failure.
     int pool_checkout_timeout_ms{5000};
 };
+
+// Backward-compatible alias used by the auth hardening tests.
+using LDAPAuthenticatorConfig = LDAPConfig;
 
 /**
  * @brief Result of LDAP direct-bind authentication
@@ -169,6 +175,16 @@ public:
      * @brief Construct an uninitialised authenticator.
      */
     LDAPAuthenticator();
+
+    /**
+     * @brief Construct an authenticator and initialise it with a config.
+     *
+     * Backward-compatible with legacy callers that constructed the object
+     * directly from an LDAPConfig-like struct.
+     */
+    explicit LDAPAuthenticator(const LDAPConfig& config) : LDAPAuthenticator() {
+        initialize(config);
+    }
 
     /**
      * @brief Destructor — releases any open LDAP connections.
