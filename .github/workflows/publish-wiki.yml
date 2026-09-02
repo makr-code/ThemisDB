@@ -1,7 +1,8 @@
 name: "Publish: GitHub Wiki"
 
 # Rechenaufwand-Score: R=1 (K=1, L=1, N=1) | last-calibrated: 2026-08-31
-# Publishes repository documentation to the GitHub Wiki.
+# Publishes repository documentation to the GitHub Wiki with breadcrumb navigation
+# and automatic document sorting by currency.
 #
 # Pipeline phases:
 #   Phase 1 (maintenance-docs.yml): regenerates ai_context/developer_llm_wiki/*.md
@@ -12,10 +13,18 @@ name: "Publish: GitHub Wiki"
 #            - user-facing docs (tutorials, AQL/API ref, FAQ, quickstart, ...)
 #            - module/plugin docs, developer-wiki artifacts
 #            - audience-first _Sidebar.md, _Footer.md, Module-Index.md
+#            - breadcrumb navigation on all content pages (enabled by default)
+#            - document sorting by currency (freshness + modification date)
 #       3. Validate internal [[links]] (scripts/validate_wiki_links.py)
 #       4. [Optional] AI enrichment via GitHub Models API (workflow_dispatch opt-in)
 #       5. Wiki-init guard: check remote exists before cloning
 #       6. Clone wiki.git, sync staged pages, commit, push
+#
+# Wiki Features:
+#   - Breadcrumbs: Every page shows "Home > Category > ... > Page" navigation
+#   - Currency Sorting: Fresh documents (0-30 days) sorted first for visibility
+#   - Community Guardrails: Blocks private content paths before publishing
+#   - Link Validation: Ensures all [[wiki links]] point to valid pages
 #
 # Workflow interplay:
 #   - maintenance-docs.yml fires first (on push to develop when ai_context/** or
@@ -96,6 +105,8 @@ jobs:
           python scripts/build_wiki.py \
             --repo-root . \
             --output /tmp/wiki-staging \
+            --enable-breadcrumbs \
+            --sort-by currency \
             $DRY_RUN_FLAG
           echo "staging_dir=/tmp/wiki-staging" >> "$GITHUB_OUTPUT"
           echo "is_dry_run=${DRY_RUN_FLAG:+true}" >> "$GITHUB_OUTPUT"
@@ -230,6 +241,14 @@ jobs:
           {
             echo "## Wiki Publish Summary"
             echo "- Pages generated: **$PAGE_COUNT**"
+            echo "- Breadcrumbs: **Enabled** (navigation at top of each page)"
+            echo "- Document sorting: **By currency** (fresh docs prioritized)"
             echo "- Trigger: \`${{ github.event_name }}\`"
             echo "- Commit: \`${{ github.sha }}\`"
+            echo ""
+            echo "### Navigation Features"
+            echo "- ✅ Breadcrumb navigation added to all content pages"
+            echo "- ✅ Documents sorted by modification date and freshness"
+            echo "- ✅ Category indexes auto-generated (Module-Index, Wiki-Index, etc.)"
+            echo "- ✅ Community guardrails enforced (private content blocked)"
           } >> "$GITHUB_STEP_SUMMARY"
