@@ -1,5 +1,8 @@
 name: Copilot Regression Guard
 
+permissions:
+  contents: read
+
 # Rechenaufwand-Score: R=4 (K=4, L=4, N=4) | last-calibrated: 2026-08-25
 # Trigger policy: repo framework score calibration for workflow cost controls.
 on:
@@ -25,9 +28,6 @@ on:
       - 'tools/tests/test_copilot_regression_guard.py'
       - '.github/workflows/gate-copilot-regression.yml'
   workflow_dispatch:
-
-permissions:
-  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

@@ -44,10 +44,13 @@ Header / Footer:
 from __future__ import annotations
 
 import argparse
+import json
 import re
+import subprocess
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
+from time import time
 
 # ---------------------------------------------------------------------------
 # Version banner — updated by release automation; keep on one line.
@@ -76,6 +79,296 @@ RELATIVE_LINK_RE = re.compile(r"\[([^\]]+)\]\((?!https?://)([^)]+\.md[^)]*)\)")
 
 # HTML comments (remove from source docs before wiki publication)
 HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
+
+# Term-linking patterns and configuration
+GLOSSARY_INDEX_PATH = Path("docs/glossary_index.json")
+GLOSSARY_TERM_LINK_PATTERN = re.compile(r"\b([A-Z][A-Z0-9]{2,})\b")  # CAPS-words
+CODE_BLOCK_RE = re.compile(r"```[\s\S]*?```|`[^`]+`")  # Code blocks and inline code
+
+# ---------------------------------------------------------------------------
+# Dynamic glossary term-linking system
+# ---------------------------------------------------------------------------
+
+def _load_glossary_index(glossary_path: Path | None = None) -> dict[str, dict] | None:
+    """Load glossary index for term-linking."""
+    if glossary_path is None:
+        glossary_path = GLOSSARY_INDEX_PATH
+    
+    if not glossary_path.exists():
+        return None
+    
+    try:
+        import json
+        with open(glossary_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("terms", {})
+    except Exception:
+        return None
+
+
+def _inject_term_links(
+    text: str,
+    glossary_terms: dict[str, dict],
+    min_priority: str = "high",
+) -> str:
+    """Inject wiki links to glossary terms in markdown text.
+    
+    Args:
+        text: Markdown content to process
+        glossary_terms: Glossary index (term_id → term data)
+        min_priority: Minimum term priority to link ('high', 'medium', 'low')
+    
+    Returns:
+        Markdown with injected glossary term links
+    """
+    priority_order = {"high": 2, "medium": 1, "low": 0}
+    min_priority_level = priority_order.get(min_priority, 0)
+    
+    # Filter glossary terms by priority
+    linkable_terms = {
+        term_name: term_data
+        for term_name, term_data in glossary_terms.items()
+        if priority_order.get(term_data.get("priority", "low"), 0) >= min_priority_level
+    }
+    
+    if not linkable_terms:
+        return text
+    
+    # Identify code blocks to preserve
+    code_blocks = []
+    def preserve_code(match):
+        idx = len(code_blocks)
+        code_blocks.append(match.group(0))
+        return f"__CODE_BLOCK_{idx}__"
+    
+    text = CODE_BLOCK_RE.sub(preserve_code, text)
+    
+    # Inject term links
+    def replace_term(match):
+        term_name = match.group(1)
+        
+        # Find matching term (case-insensitive)
+        for term_id, term_data in linkable_terms.items():
+            if term_data.get("name", "").lower() == term_name.lower():
+                # Check if already linked
+                full_match_start = match.start()
+                if full_match_start > 0 and text[full_match_start - 1] == "[":
+                    # Already inside a link
+                    return match.group(0)
+                
+                # Create wiki link
+                display_name = term_data.get("name", term_name)
+                # Wiki link format: [[Display Name|Wiki-Page-Name]] or [[Display Name]]
+                return f"[[{display_name}]]"
+        
+        return match.group(0)
+    
+    # Apply term linking
+    text = GLOSSARY_TERM_LINK_PATTERN.sub(replace_term, text)
+    
+    # Restore code blocks
+    for idx, code_block in enumerate(code_blocks):
+        text = text.replace(f"__CODE_BLOCK_{idx}__", code_block)
+    
+    return text
+
+
+# Map wiki page prefixes and patterns to their breadcrumb hierarchies
+# Format: (category_name, breadcrumb_path_items, page_prefix_pattern)
+_BREADCRUMB_HIERARCHY: dict[str, tuple[str, list[str]]] = {
+    # Getting Started
+    "Home": ("Getting Started", ["Home"]),
+    "Quickstart": ("Getting Started", ["Home", "Getting Started"]),
+    "Setup": ("Getting Started", ["Home", "Getting Started"]),
+    "Repository-README": ("Getting Started", ["Home", "Getting Started"]),
+    "FAQ": ("Getting Started", ["Home", "Getting Started"]),
+    "Quick-Reference": ("Getting Started", ["Home", "Getting Started"]),
+    # Tutorials & Guides
+    "Tutorial-": ("Tutorials", ["Home", "Learning", "Tutorials"]),
+    "Guide-": ("Guides", ["Home", "Learning", "Guides"]),
+    # Operations & Deployment
+    "Ops-": ("Operations", ["Home", "Operations"]),
+    "Deploy-": ("Deployment", ["Home", "Operations", "Deployment"]),
+    "Docker-": ("Docker", ["Home", "Operations", "Docker"]),
+    "Helm-": ("Kubernetes", ["Home", "Operations", "Kubernetes"]),
+    "Packaging-": ("Packaging", ["Home", "Operations", "Packaging"]),
+    # Architecture & Design
+    "Architecture-": ("Architecture", ["Home", "Architecture"]),
+    "Root-Architecture": ("Architecture", ["Home", "Architecture"]),
+    "Module-": ("Modules", ["Home", "Modules"]),
+    "ADR-": ("Architecture", ["Home", "Architecture", "ADRs"]),
+    "Plugin-": ("Plugins", ["Home", "Plugins"]),
+    # Security & Operations
+    "Security-": ("Security", ["Home", "Security"]),
+    "Root-Security": ("Security", ["Home", "Security"]),
+    # API & Integration
+    "API-Reference": ("API Reference", ["Home", "API & Integration", "API Reference"]),
+    "AQL-": ("AQL", ["Home", "API & Integration", "AQL"]),
+    "Integration-Guide": ("API & Integration", ["Home", "API & Integration"]),
+    "Migration-Guide": ("API & Integration", ["Home", "API & Integration", "Migration"]),
+    # Governance & Contributing
+    "Governance-": ("Governance", ["Home", "Contributing", "Governance"]),
+    "Root-Governance": ("Governance", ["Home", "Contributing", "Governance"]),
+    "Contributing": ("Contributing", ["Home", "Contributing"]),
+    "Root-Contributing": ("Contributing", ["Home", "Contributing"]),
+    "Code-of-Conduct": ("Contributing", ["Home", "Contributing"]),
+    # Release & Versioning
+    "Root-Roadmap": ("Roadmap", ["Home", "Roadmap"]),
+    "Root-Changelog": ("Changelog", ["Home", "Changelog"]),
+    "Versioning": ("Release", ["Home", "Release", "Versioning"]),
+    "Release-Strategy": ("Release", ["Home", "Release", "Release Strategy"]),
+    "Branching-Strategy": ("Release", ["Home", "Release", "Branching"]),
+    # SDKs & Clients
+    "Client-": ("SDKs", ["Home", "SDKs", "Client"]),
+    "SDK-": ("SDKs", ["Home", "SDKs"]),
+    # Developer Resources
+    "Developer-": ("Developer Resources", ["Home", "Developer Resources"]),
+    "DevGuide-": ("Developer Resources", ["Home", "Developer Resources"]),
+    # Examples & Training
+    "Example-": ("Examples", ["Home", "Examples"]),
+    "Training-": ("Training", ["Home", "Training"]),
+    "Demo-": ("Demo", ["Home", "Demo"]),
+}
+
+
+def _get_breadcrumb_path(wiki_name: str) -> tuple[str, list[str]]:
+    """Determine breadcrumb path for a wiki page based on its name pattern."""
+    # Exact match first
+    if wiki_name in _BREADCRUMB_HIERARCHY:
+        return _BREADCRUMB_HIERARCHY[wiki_name]
+    # Prefix match
+    for prefix, breadcrumb_info in _BREADCRUMB_HIERARCHY.items():
+        if prefix.endswith("-") and wiki_name.startswith(prefix):
+            return breadcrumb_info
+    # Default
+    return ("Pages", ["Home", "Pages"])
+
+
+def _format_breadcrumb_nav(wiki_name: str, all_wiki_names: set[str]) -> str:
+    """Generate breadcrumb navigation markdown for a wiki page."""
+    category_label, breadcrumb_items = _get_breadcrumb_path(wiki_name)
+    
+    # Build breadcrumb with [[Wiki Links]] for valid pages
+    breadcrumb_parts = []
+    for item in breadcrumb_items:
+        if item == wiki_name:
+            # Current page (no link)
+            breadcrumb_parts.append(f"**{item}**")
+        elif item == "Home":
+            # Special case: always linkable
+            breadcrumb_parts.append("[[Home|Home]]")
+        elif f"{item}-Index" in all_wiki_names:
+            # Category index page exists
+            breadcrumb_parts.append(f"[[{item}|{item}-Index]]")
+        else:
+            # Fallback: plain text
+            breadcrumb_parts.append(item)
+    
+    breadcrumb_line = " > ".join(breadcrumb_parts)
+    return f"> **Navigation:** {breadcrumb_line}\n"
+
+
+# ---------------------------------------------------------------------------
+# Document currency and sorting system
+# ---------------------------------------------------------------------------
+
+_FRESHNESS_CUTOFF_DAYS = 30  # Documents modified within this period are "fresh"
+
+
+def _get_file_mtime_timestamp(path: Path) -> float:
+    """Get file modification time as Unix timestamp."""
+    try:
+        return path.stat().st_mtime
+    except OSError:
+        return 0.0
+
+
+def _extract_content_currency(text: str) -> tuple[bool, str]:
+    """Extract currency indicators from document content.
+    
+    Returns: (is_fresh, extracted_date_str)
+    """
+    # Look for markdown metadata patterns
+    patterns = [
+        r"[Ll]ast[\s-]?[Mm]odified:\s*(\d{4}-\d{2}-\d{2})",
+        r"[Uu]pdated[\s-]?at:\s*(\d{4}-\d{2}-\d{2})",
+        r"[Uu]pdated:\s*(\d{4}-\d{2}-\d{2})",
+        r"[Gg]enerated[\s-]?at:\s*(\d{4}-\d{2}-\d{2})",
+        r"date:\s*(\d{4}-\d{2}-\d{2})",
+    ]
+    
+    for pattern in patterns:
+        m = re.search(pattern, text)
+        if m:
+            date_str = m.group(1)
+            try:
+                from datetime import datetime as dt_module
+                doc_date = dt_module.strptime(date_str, "%Y-%m-%d")
+                now = dt_module.now()
+                age_days = (now - doc_date).days
+                is_fresh = age_days <= _FRESHNESS_CUTOFF_DAYS
+                return is_fresh, date_str
+            except (ValueError, AttributeError):
+                pass
+    
+    return False, ""
+
+
+def _compute_currency_score(source_path: Path, text: str) -> float:
+    """Compute a currency score for sorting documents.
+    
+    Higher scores = more recent/fresher documents.
+    Score range: [0.0, 100.0]
+    """
+    mtime = _get_file_mtime_timestamp(source_path)
+    now = time()
+    age_seconds = now - mtime
+    age_days = age_seconds / (24 * 3600)
+    
+    # Base score: older files get lower scores
+    # 0-7 days: 90-100
+    # 7-30 days: 70-90
+    # 30-90 days: 50-70
+    # 90+ days: 0-50
+    if age_days <= 7:
+        base_score = 90 + (7 - age_days) / 7 * 10
+    elif age_days <= 30:
+        base_score = 70 + (30 - age_days) / 23 * 20
+    elif age_days <= 90:
+        base_score = 50 + (90 - age_days) / 60 * 20
+    else:
+        base_score = max(0, 50 - (age_days - 90) / 365 * 50)
+    
+    # Bonus: check for content freshness markers
+    is_content_fresh, _ = _extract_content_currency(text)
+    if is_content_fresh:
+        base_score = min(100, base_score + 10)
+    
+    return min(100.0, base_score)
+
+
+def _sort_entries_by_currency(
+    entries: list[tuple[Path, str]],
+    repo_root: Path,
+) -> list[tuple[Path, str, float]]:
+    """Sort entries by document currency (modification date + content freshness).
+    
+    Returns list of (path, wiki_name, currency_score) tuples sorted by score descending.
+    """
+    entries_with_scores: list[tuple[Path, str, float]] = []
+    
+    for source_path, wiki_name in entries:
+        try:
+            text = source_path.read_text(encoding="utf-8")
+            score = _compute_currency_score(source_path, text)
+        except OSError:
+            score = 0.0
+        entries_with_scores.append((source_path, wiki_name, score))
+    
+    # Sort by score descending (fresher documents first)
+    entries_with_scores.sort(key=lambda x: (-x[2], x[1]))
+    return entries_with_scores
+
 
 
 def _slug(name: str) -> str:
@@ -163,8 +456,18 @@ def _transform(
     repo_root: Path,
     wiki_name: str,
     all_wiki_names: set[str],
+    enable_breadcrumbs: bool = True,
 ) -> str:
-    """Apply all transformations to markdown content for wiki publication."""
+    """Apply all transformations to markdown content for wiki publication.
+    
+    Transformations include:
+    - Remove existing HTML comments
+    - Strip Doxygen tags
+    - Remove CI badges
+    - Rewrite relative links to wiki links
+    - Collapse multiple blank lines
+    - Add breadcrumb navigation (if enabled)
+    """
     # Remove existing HTML comments (provenance will be re-added as header)
     text = HTML_COMMENT_RE.sub("", text)
 
@@ -1493,6 +1796,35 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Print what would be generated without writing files.",
     )
+    parser.add_argument(
+        "--enable-breadcrumbs",
+        action="store_true",
+        default=True,
+        help="Add breadcrumb navigation to each wiki page (default: enabled).",
+    )
+    parser.add_argument(
+        "--disable-breadcrumbs",
+        action="store_false",
+        dest="enable_breadcrumbs",
+        help="Disable breadcrumb navigation.",
+    )
+    parser.add_argument(
+        "--sort-by",
+        choices=["currency", "modification-date", "none"],
+        default="currency",
+        help="Sort documents by: currency (freshness+mtime), modification-date (mtime only), or none (default: currency).",
+    )
+    parser.add_argument(
+        "--enable-term-linking",
+        action="store_true",
+        help="Enable automatic glossary term-linking in wiki pages (requires docs/glossary_index.json).",
+    )
+    parser.add_argument(
+        "--term-link-priority",
+        choices=["high", "medium", "low"],
+        default="high",
+        help="Minimum glossary term priority to auto-link (default: high).",
+    )
     args = parser.parse_args(argv)
 
     repo_root = Path(args.repo_root).resolve()
@@ -1500,6 +1832,16 @@ def main(argv: list[str] | None = None) -> int:
 
     if not args.dry_run:
         output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Load glossary index if term-linking is enabled
+    glossary_terms = None
+    if args.enable_term_linking:
+        glossary_path = repo_root / GLOSSARY_INDEX_PATH
+        glossary_terms = _load_glossary_index(glossary_path)
+        if glossary_terms:
+            print(f"📚 Loaded {len(glossary_terms)} glossary terms for term-linking", file=sys.stderr)
+        else:
+            print(f"⚠️ Term-linking enabled but glossary index not found at {glossary_path}", file=sys.stderr)
 
     entries = _collect_entries(repo_root)
     skipped: list[str] = []
@@ -1516,6 +1858,13 @@ def main(argv: list[str] | None = None) -> int:
             all_wiki_names.add(wiki_name)
     # Also add generated pages
     all_wiki_names.update({"Module-Index", "Wiki-Index", "_Sidebar", "_Footer"})
+
+    # Sort entries if requested
+    if args.sort_by != "none":
+        entries_scored = _sort_entries_by_currency(entries, repo_root)
+        entries = [(p, w) for p, w, _ in entries_scored]
+        if not args.dry_run and args.sort_by == "currency":
+            print(f"📊 Documents sorted by {args.sort_by}", file=sys.stderr)
 
     # Second pass: transform and write
     for source_path, wiki_name in entries:
@@ -1546,7 +1895,24 @@ def main(argv: list[str] | None = None) -> int:
                 + "\n```\n"
             )
         else:
-            transformed = _transform(text, source_path, repo_root, wiki_name, all_wiki_names)
+            transformed = _transform(
+                text, source_path, repo_root, wiki_name, all_wiki_names,
+                enable_breadcrumbs=args.enable_breadcrumbs
+            )
+        
+        # Apply term-linking if enabled
+        if glossary_terms and args.enable_term_linking:
+            transformed = _inject_term_links(
+                transformed,
+                glossary_terms,
+                min_priority=args.term_link_priority,
+            )
+        
+        # Inject breadcrumb navigation if enabled
+        if args.enable_breadcrumbs and wiki_name not in {"Home", "Wiki-Index", "Module-Index"}:
+            breadcrumb = _format_breadcrumb_nav(wiki_name, all_wiki_names)
+            transformed = breadcrumb + "\n" + transformed
+        
         header = _page_header(source_rel, wiki_name)
         footer = _page_footer(wiki_name)
         final_content = header + transformed + footer

@@ -178,7 +178,7 @@ if(NOT DEFINED THEMIS_ENABLE_HIP)
     set(THEMIS_ENABLE_HIP OFF CACHE BOOL "Enable AMD HIP acceleration" FORCE)
 endif()
 if(NOT DEFINED THEMIS_ENABLE_VULKAN)
-    set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration")
+    set(THEMIS_ENABLE_VULKAN OFF CACHE BOOL "Enable Vulkan Compute acceleration (opt-in)" FORCE)
 endif()
 
 if(THEMIS_ENABLE_GPU AND THEMIS_GPU_AUTO_DETECT)
@@ -272,6 +272,11 @@ if(THEMIS_ENABLE_GPU AND THEMIS_GPU_AUTO_DETECT)
     else()
         message(WARNING "GPU backend auto-detect: no CUDA/HIP/Vulkan toolchain found; runtime will use CPU fallback")
     endif()
+else()
+    # Keep default builds CPU-safe even if cache values were previously enabled.
+    set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "Enable NVIDIA CUDA acceleration" FORCE)
+    set(THEMIS_ENABLE_HIP OFF CACHE BOOL "Enable AMD HIP acceleration" FORCE)
+    set(THEMIS_ENABLE_VULKAN OFF CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
 endif()
 
 # Build provenance: channel, Git SHA, timestamp, Ed25519 signature
@@ -743,7 +748,7 @@ endif()
 option(THEMIS_ENABLE_ZLUDA "Enable AMD ZLUDA (CUDA compatibility on AMD)" OFF)
 option(THEMIS_ENABLE_ROCM "Enable AMD ROCm acceleration" OFF)
 option(THEMIS_ENABLE_DIRECTX "Enable DirectX 12 Compute Shaders (Windows)" OFF)
-option(THEMIS_ENABLE_VULKAN "Enable Vulkan Compute acceleration" ON)
+option(THEMIS_ENABLE_VULKAN "Enable Vulkan Compute acceleration (default OFF for CPU-safe builds)" OFF)
 option(THEMIS_ENABLE_OPENGL "Enable OpenGL Compute Shaders" OFF)
 option(THEMIS_ENABLE_METAL "Enable Apple Metal acceleration" OFF)
 option(THEMIS_ENABLE_ONEAPI "Enable Intel OneAPI/SYCL acceleration" OFF)
@@ -3816,6 +3821,7 @@ if(THEMIS_BUILD_MODULAR)
         themis_network
         themis_sharding
         themis_timeseries
+        themis_llm_api
         themis_llm
         themis_geo
         themis_graph

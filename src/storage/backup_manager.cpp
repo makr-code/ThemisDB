@@ -495,8 +495,8 @@ Result<void> writeBinaryFileBytes(const fs::path& file_path, const std::vector<u
 
 std::shared_ptr<storage::IBlobStorageBackend> createRemoteBlobBackend(
     StorageBackend backend,
-    const RemoteBackupLocation& location,
-    const std::map<std::string, std::string>& config) {
+    [[maybe_unused]] const RemoteBackupLocation& location,
+    [[maybe_unused]] const std::map<std::string, std::string>& config) {
     switch (backend) {
     case StorageBackend::S3:
 #if defined(THEMIS_HAS_AWS_SDK) && THEMIS_HAS_AWS_SDK
@@ -1239,6 +1239,41 @@ bool BackupManager::createDifferentialBackup(const std::string& dest_dir, std::e
         ec = std::make_error_code(std::errc::io_error);
         THEMIS_ERROR("Exception creating differential backup: {}", e.what());
         return false;
+    }
+}
+
+Result<std::string> BackupManager::createDifferentialBackup(const std::string& dest_dir) {
+    try {
+        const auto before = listBackups(dest_dir);
+        std::unordered_set<std::string> before_set(before.begin(), before.end());
+
+        std::error_code ec;
+        BackupOptions options;
+        if (!createDifferentialBackup(dest_dir, ec, options)) {
+            const std::string message = ec ? ec.message() : "Failed to create differential backup";
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_CREATION_FAILED, message);
+        }
+
+        const auto after = listBackups(dest_dir);
+        for (auto it = after.rbegin(); it != after.rend(); ++it) {
+            if (it->starts_with("diff_") && before_set.find(*it) == before_set.end()) {
+                return Ok((std::filesystem::path(dest_dir) / *it).string());
+            }
+        }
+
+        for (auto it = after.rbegin(); it != after.rend(); ++it) {
+            if (it->starts_with("diff_")) {
+                return Ok((std::filesystem::path(dest_dir) / *it).string());
+            }
+        }
+
+        return Err<std::string>(
+            errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
+            "Differential backup completed but no differential backup directory was found");
+    } catch (const std::exception& e) {
+        return Err<std::string>(
+            errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
+            "Exception creating differential backup: " + std::string(e.what()));
     }
 }
 

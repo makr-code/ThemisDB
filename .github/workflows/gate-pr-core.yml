@@ -874,9 +874,9 @@ jobs:
               "github_token": (r"ghp_[A-Za-z0-9_]{36}", "CRITICAL"),
               "github_oauth": (r"gho_[A-Za-z0-9_]{36}", "CRITICAL"),
               "github_pat": (r"github_pat_[A-Za-z0-9_]{36}", "CRITICAL"),
-              "ssh_private_key": (r"-----BEGIN RSA PRIVATE KEY-----", "CRITICAL"),  # gitleaks:allow
-              "openssh_private_key": (r"-----BEGIN OPENSSH PRIVATE KEY-----", "CRITICAL"),  # gitleaks:allow
-              "pgp_private_key": (r"-----BEGIN PGP PRIVATE KEY BLOCK-----", "CRITICAL"),  # gitleaks:allow
+              "ssh_private_key": (r"-----BEGIN RSA " r"PRIVATE KEY-----", "CRITICAL"),  # gitleaks:allow
+              "openssh_private_key": (r"-----BEGIN OPENSSH " r"PRIVATE KEY-----", "CRITICAL"),  # gitleaks:allow
+              "pgp_private_key": (r"-----BEGIN PGP " r"PRIVATE KEY BLOCK-----", "CRITICAL"),  # gitleaks:allow
               "private_secret_env": (r"\$\{\{.*secrets\.[A-Z_]*PRIVATE[A-Z_]*\}\}", "CRITICAL"),
               "db_password": (r"db_password\s*[:=]\s*['\"]([^'\"]{8,})['\"]", "HIGH"),
           }

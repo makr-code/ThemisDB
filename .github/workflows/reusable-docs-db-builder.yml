@@ -1,5 +1,8 @@
 name: "Reusable: Docs-to-ThemisDB Database Builder"
 
+permissions:
+  contents: read
+
 # Rechenaufwand-Score: R=3 (K=2, L=3, N=3) | last-calibrated: 2026-08-31
 # Reusable workflow that runs the canonical Python documentation pipeline
 # (scripts/generate_docs_database.py → scripts/generate_docs_rocksdb.py)
@@ -70,9 +73,6 @@ on:
         type: boolean
         required: false
         default: false
-
-permissions:
-  contents: read
 
 jobs:
   build-db:

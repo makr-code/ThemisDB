@@ -19,8 +19,8 @@ services:
       args:
         THEMIS_EDITION: COMMUNITY
         ENABLE_LLM: "ON"
-        ENABLE_GPU: "OFF"
-        FORCE_CPU_ONLY: "ON"
+        ENABLE_GPU: "ON"
+        FORCE_CPU_ONLY: "OFF"
         BUILD_TESTS: "OFF"
         BUILD_BENCHMARKS: "OFF"
     image: themisdb:community
