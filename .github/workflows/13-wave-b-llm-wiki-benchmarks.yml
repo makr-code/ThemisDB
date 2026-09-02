@@ -1,5 +1,8 @@
 name: '[WAVE-B] LLM Wiki Phase B Benchmark Validation'
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:
