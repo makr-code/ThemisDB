@@ -312,6 +312,7 @@ class ThemisCppDoxygenPolicyRulesScan:
     def _collect_declarations(self, lines: List[str]) -> List[_Decl]:
         decls: List[_Decl] = []
         class_stack: List[Dict[str, object]] = []
+        function_body_depth = 0
 
         stmt_parts: List[str] = []
         stmt_start = 0
@@ -335,6 +336,17 @@ class ThemisCppDoxygenPolicyRulesScan:
             if stripped.startswith("//"):
                 continue
 
+            if function_body_depth > 0:
+                function_body_depth += line.count("{") - line.count("}")
+                brace_depth += line.count("{") - line.count("}")
+                while class_stack:
+                    expected = int(class_stack[-1]["depth"])
+                    if brace_depth < expected:
+                        class_stack.pop()
+                    else:
+                        break
+                continue
+
             access_match = self.ACCESS_RE.match(stripped)
             if access_match and class_stack:
                 class_stack[-1]["access"] = access_match.group(1)
@@ -344,7 +356,10 @@ class ThemisCppDoxygenPolicyRulesScan:
             if class_match:
                 kind = class_match.group(1)
                 name = class_match.group(2)
-                class_stack.append({"name": name, "access": "public" if kind == "struct" else "private", "depth": brace_depth + 1})
+                parent_access = class_stack[-1]["access"] if class_stack else "public"
+                default_access = "public" if kind == "struct" else "private"
+                effective_access = parent_access if class_stack and parent_access != "public" else default_access
+                class_stack.append({"name": name, "access": effective_access, "depth": brace_depth + 1})
                 stmt_parts = []
                 brace_depth += line.count("{") - line.count("}")
                 continue
@@ -374,6 +389,7 @@ class ThemisCppDoxygenPolicyRulesScan:
             candidate = " ".join(stmt_parts)
             is_function_like = self._looks_like_function_declaration(candidate)
             terminates_decl = ";" in stripped or ("{" in stripped and is_function_like)
+            has_body = "{" in candidate
 
             if terminates_decl and is_function_like:
                 joined = " ".join(stmt_parts)
@@ -386,9 +402,11 @@ class ThemisCppDoxygenPolicyRulesScan:
                         end_line=index,
                         class_name=current_class["name"] if current_class else None,
                         access=current_class["access"] if current_class else "public",
-                        has_body="{" in stripped or "{" in joined,
+                        has_body=has_body,
                     )
                 )
+                if has_body:
+                    function_body_depth = candidate.count("{") - candidate.count("}")
                 stmt_parts = []
             elif ";" in stripped and not is_function_like:
                 stmt_parts = []
@@ -408,6 +426,11 @@ class ThemisCppDoxygenPolicyRulesScan:
         if not (normalized.endswith(";") or normalized.endswith("{") or normalized.endswith("}")):
             return False
         if "(" not in normalized or ")" not in normalized:
+            return False
+        if re.match(r"^(if|for|while|switch|catch)\s*\(", normalized):
+            return False
+        prefix = normalized.split("(", 1)[0]
+        if "." in prefix or "->" in prefix:
             return False
 
         rejects = (
@@ -492,6 +515,7 @@ class ThemisCppDoxygenPolicyRulesScan:
         is_static = " static " in f" {signature} "
         is_override = " override" in f" {signature} "
         is_defaulted_or_deleted = "= default" in signature or "= delete" in signature
+        is_out_of_class_member_definition = class_name is None and "::" in prefix
 
         # Skip internal/trivial declarations to reduce false positives on non-public surfaces.
         owner_name = (class_name or "").lower()
@@ -507,6 +531,7 @@ class ThemisCppDoxygenPolicyRulesScan:
             or is_override
             or is_defaulted_or_deleted
             or ctor_or_dtor
+            or is_out_of_class_member_definition
             or is_internal_owner
             or is_internal_name
             or is_macro_like

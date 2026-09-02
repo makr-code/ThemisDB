@@ -955,10 +955,24 @@ jobs:
 
       - name: Install TruffleHog
         run: |
+          set -euo pipefail
           echo "  Installing TruffleHog from official install script..."
           T0=$(date +%s)
-          curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh \
-            | sh -s -- -b /usr/local/bin
+          INSTALL_OK=0
+          for TAG in v3.97.2 v3.97.1; do
+            echo "  Attempting TruffleHog install for ${TAG}..."
+            if curl -sSfL --retry 3 --retry-all-errors --retry-delay 2 \
+              https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh \
+              | sh -s -- -b /usr/local/bin "${TAG}"; then
+              INSTALL_OK=1
+              break
+            fi
+            echo "::warning::TruffleHog install failed for ${TAG}; trying fallback version."
+          done
+          if [ "${INSTALL_OK}" -ne 1 ]; then
+            echo "::error::Unable to install TruffleHog from pinned versions."
+            exit 1
+          fi
           echo "  ✅ TruffleHog installed in $(( $(date +%s) - T0 ))s"
           echo "  Version: $(trufflehog --version 2>&1 || echo 'N/A')"
 

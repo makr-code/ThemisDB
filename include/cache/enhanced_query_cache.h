@@ -19,7 +19,7 @@
 #include <functional>
 #include <optional>
 #include <algorithm>
-#include <tbb/concurrent_hash_map.h>
+#include "utils/tbb_compat.h"
 
 namespace themis {
 namespace cache {

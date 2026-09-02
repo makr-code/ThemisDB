@@ -17,7 +17,7 @@
 #include <vector>
 #include <optional>
 #include <mutex>
-#include <tbb/concurrent_hash_map.h> // v1.1.0: TBB Concurrent Hash Map
+#include "utils/tbb_compat.h" // Fallback for environments without Intel TBB
 #include <nlohmann/json.hpp>
 // Forward declaration
 namespace rocksdb { class ColumnFamilyHandle; }
@@ -28,15 +28,26 @@ class SchemaManager;
 
 namespace prompt_engineering {
 
-/** @brief Prompt manager component. */
+/**
+ * @brief Manages prompt-engineering templates and validation utilities.
+ */
+
 class PromptManager {
 public:
-    /// @brief Describes a single image attached to a multi-modal prompt.
+    /**
+     * @brief Describes an image attached to a multi-modal prompt.
+     */
+
     struct ImageDescription {
         std::string url;          ///< Optional URL or base64 data URI for the image
         std::string alt_text;     ///< Short descriptive text (required for multi-modal prompts)
         std::string description;  ///< Optional longer human-readable description (text fallback)
         std::string mime_type;    ///< MIME type, e.g. "image/jpeg" (defaults to "image/jpeg")
+
+        /**
+         * @brief Serializes the image description to JSON.
+         * @return JSON object representation of this image description.
+         */
 
         nlohmann::json toJson() const {
             nlohmann::json j;
@@ -46,6 +57,12 @@ public:
             j["mime_type"]   = mime_type.empty() ? "image/jpeg" : mime_type;
             return j;
         }
+
+        /**
+         * @brief Builds an image description from JSON data.
+         * @param j JSON payload containing image fields.
+         * @return Parsed image description object.
+         */
 
         static ImageDescription fromJson(const nlohmann::json& j) {
             ImageDescription img;
@@ -57,6 +74,10 @@ public:
         }
     };
 
+    /**
+     * @brief Persistent representation of a prompt template.
+     */
+
     struct PromptTemplate {
         std::string id;           // generated id
         std::string name;         // human readable name
@@ -66,6 +87,11 @@ public:
         nlohmann::json metadata;  // arbitrary metadata (experiment flags etc.)
         bool active = true;
         std::vector<ImageDescription> images; // optional multi-modal image descriptions
+
+        /**
+         * @brief Serializes this prompt template into JSON.
+         * @return JSON object containing all prompt template fields.
+         */
 
         nlohmann::json toJson() const {
             nlohmann::json j;
@@ -85,65 +111,121 @@ public:
         }
     };
 
-    // In-memory only manager
+    /**
+     * @brief Constructs an in-memory prompt manager.
+     */
     PromptManager();
 
-    // RocksDB-backed manager (does not take ownership of db or cf)
+    /**
+     * @brief Constructs a prompt manager backed by RocksDB handles.
+     * @param db Non-owning pointer to the RocksDB wrapper.
+     * @param cf Non-owning pointer to the column family used for prompt records.
+     */
     PromptManager(RocksDBWrapper* db, rocksdb::ColumnFamilyHandle* cf = nullptr);
+
+    /**
+     * @brief Destroys the prompt manager.
+     */
     ~PromptManager() = default;
 
-    // Create a template; if template.id empty one is generated
+    /**
+     * @brief Creates a prompt template entry.
+     * @param t Template to store; an id is generated when empty.
+     * @return Stored prompt template including generated fields.
+     */
     PromptTemplate createTemplate(PromptTemplate t);
 
-    // Retrieve template by id
+    /**
+     * @brief Retrieves a template by id.
+     * @param id Template id to look up.
+     * @return Found template or std::nullopt when no template exists for id.
+     */
     std::optional<PromptTemplate> getTemplate(const std::string& id) const;
 
-    // List all templates
+    /**
+     * @brief Lists all known templates.
+     * @return Snapshot vector of all stored templates.
+     */
     std::vector<PromptTemplate> listTemplates() const;
 
-    // Update metadata/active flag of template; returns false if not found
+    /**
+     * @brief Updates metadata and active flag for an existing template.
+     * @param id Template id to update.
+     * @param metadata Metadata payload to store.
+     * @param active New active flag value.
+     * @return true when the template exists and was updated, otherwise false.
+     */
     bool updateTemplate(const std::string& id, const nlohmann::json& metadata, bool active);
 
-    // Assign an experiment id to a template (stores in metadata["experiment_id"])
+    /**
+     * @brief Assigns an experiment id to a template.
+     * @param id Template id to update.
+     * @param experiment_id Experiment identifier to store in metadata.
+     * @return true when the template exists and was updated, otherwise false.
+     */
     bool assignExperiment(const std::string& id, const std::string& experiment_id);
 
-    // Validation result for a prompt template
+    /**
+     * @brief Validation result for a prompt template.
+     */
+
     struct ValidationResult {
         bool valid = true;
         std::vector<std::string> errors;   ///< List of validation errors
         std::vector<std::string> warnings; ///< Non-fatal warnings
     };
 
-    // Validate a template; returns ValidationResult with detailed error reporting
+    /**
+     * @brief Validates a prompt template.
+     * @param t Template to validate.
+     * @return Validation result including errors and warnings.
+     */
     static ValidationResult validateTemplate(const PromptTemplate& t);
 
-    // Load prompts from YAML configuration file
-    // Returns number of prompts loaded successfully
+    /**
+     * @brief Loads prompt templates from a YAML configuration file.
+     * @param yaml_path Path to the YAML file.
+     * @return Number of templates loaded successfully.
+     */
     size_t loadFromYAML(const std::string& yaml_path);
 
-    // Inject context variables into a prompt template
-    // Replaces {variable} with values from context map
-    // Example: "{version}" -> "1.5.0", "{table_count}" -> "5"
+    /**
+     * @brief Injects context variables into a template string.
+     * @param template_str Template source text containing {variable} placeholders.
+     * @param context Mapping from placeholder key to replacement value.
+     * @return Prompt text with placeholder substitutions applied.
+     */
     std::string injectContext(const std::string& template_str, 
                              const std::unordered_map<std::string, std::string>& context) const;
 
-    // Get a prompt with context injection
-    // Retrieves template by id and injects context variables
+    /**
+     * @brief Retrieves a template and returns context-injected prompt text.
+     * @param id Template id to render.
+     * @param context Mapping from placeholder key to replacement value.
+     * @return Rendered prompt text or std::nullopt when the template is absent.
+     */
     std::optional<std::string> getPromptWithContext(
         const std::string& id,
         const std::unordered_map<std::string, std::string>& context) const;
 
-    // Build context map from SchemaManager
-    // Creates standard context variables: {version}, {table_count}, {schema}, etc.
+    /**
+     * @brief Builds standard prompt context variables from schema metadata.
+     * @param schema_mgr Schema manager used to derive schema-dependent variables.
+     * @param edition Product edition label used in context fields.
+     * @param version Product version string used in context fields.
+     * @return Context map containing canonical keys such as version and schema data.
+     */
     static std::unordered_map<std::string, std::string> buildContextFromSchema(
         SchemaManager* schema_mgr,
         const std::string& edition = "Community",
         const std::string& version = "1.5.0");
 
-    // Build a multi-modal prompt string from a template.
-    // Injects context variables into the text content and appends a structured
-    // image-description block when the template contains ImageDescription entries.
-    // The returned string is suitable for dispatch to a multi-modal LLM.
+    /**
+     * @brief Builds a multi-modal prompt string from a template.
+     * @param t Prompt template to render.
+     * @param context Optional context values for placeholder substitution.
+     * @return Multi-modal prompt text suitable for LLM dispatch.
+     */
     static std::string buildMultiModalPrompt(
         const PromptTemplate& t,
         const std::unordered_map<std::string, std::string>& context = {});
