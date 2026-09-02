@@ -2137,6 +2137,7 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/saga_plugin_bridge.cpp
     ../src/transaction/snapshot_manager.cpp
     ../src/transaction/merge_engine.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/transaction/grpc_rpc_adapter.cpp>
     ../src/transaction/branch_manager.cpp
     ../src/transaction/lock_manager.cpp
     ../src/transaction/crash_recovery_manager.cpp
@@ -4953,6 +4954,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/llama_wrapper.cpp
         ../src/llm/embedded_llm.cpp          # Embedded LLM facade for system-wide use
         ../src/llm/llm_plugin_manager.cpp
+        ../src/llm/llm_factory_stub.cpp      # Factory shims for create* entry points used by demos and query functions
         ../src/llm/model_loader.cpp          # Ollama-style lazy loading
         ../src/llm/model_quantization_pipeline.cpp  # GGUF/AWQ/GPTQ quantization pipeline (Phase 3)
         ../src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
