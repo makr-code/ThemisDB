@@ -1,0 +1,156 @@
+{
+  "audit_date": "2026-09-02",
+  "baseline": true,
+  "statistics": {
+    "total_unchecked_calls": 290,
+    "total_wrapped_calls": 0,
+    "total_audit_comments": 0,
+    "files_scanned": 57,
+    "total_lines": 16216
+  },
+  "target_phase_c": "340 \u2192 170 (50% reduction)",
+  "target_phase_d": "340 \u2192 51 (85% reduction)",
+  "unchecked_calls_sample": [
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 54,
+      "code": "if (hipGetDeviceCount(&count) != hipSuccess) {",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 79,
+      "code": "CHECKED_HIP(hipSetDevice(device_index));",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 82,
+      "code": "logger->error(\"ROCmBackend::createBackendFn: hipSetDevice({}) failed: {}\",",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 97,
+      "code": "// hipDeviceSynchronize() blocks the calling thread, so a plain",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 104,
+      "code": "return hipDeviceSynchronize();",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 130,
+      "code": "logger->warn(\"ROCmBackend::createBackendFn: hipDeviceSynchronize() on device {} ",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 168,
+      "code": "CHECKED_HIP(hipSetDevice(device_index));",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 173,
+      "code": "logger->warn(\"ROCmBackend::createStream: hipSetDevice({}) failed: {}\",",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 184,
+      "code": "CHECKED_HIP(hipStreamCreate(&stream));",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 189,
+      "code": "logger->warn(\"ROCmBackend::createStream: hipStreamCreate() on device {} failed: ",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 216,
+      "code": "CHECKED_HIP(hipStreamDestroy(stream));",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 220,
+      "code": "logger->warn(\"ROCmBackend::destroyStream: hipStreamDestroy() for stream '{}' fai",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 247,
+      "code": "CHECKED_HIP(hipStreamSynchronize(stream));",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 258,
+      "code": "logger->error(\"ROCmBackend::synchronizeStream: hipStreamSynchronize() for stream",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 311,
+      "code": "CHECKED_HIP(hipMalloc(&ptr, size_bytes));",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 315,
+      "code": "logger->error(\"ROCmBackend::allocate: hipMalloc({} bytes, tag='{}') failed: {}\",",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 350,
+      "code": "CHECKED_HIP(hipFree(ptr));",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 354,
+      "code": "logger->error(\"ROCmBackend::deallocate: hipFree(tag='{}') failed: {}\",",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 394,
+      "code": "CHECKED_HIP(hipMemset(ptr, 0, size_bytes));",
+      "wrapped": false,
+      "audit_comment": false
+    },
+    {
+      "file": "src/gpu/rocm_backend.cpp",
+      "line": 398,
+      "code": "logger->error(\"ROCmBackend::zeroMemory: hipMemset({} bytes at ptr={}) failed: {}",
+      "wrapped": false,
+      "audit_comment": false
+    }
+  ],
+  "summary": "Found 290 unchecked calls. Target Phase C: \u2264170 | Target Phase D: \u226451"
+}
