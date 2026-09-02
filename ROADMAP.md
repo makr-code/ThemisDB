@@ -52,7 +52,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ## Current Status
 
-> **Q3/Q4 2026 Milestone Targets:** ~83% completion by end of Q3 2026; ~86% completion by end of Q4 2026 (from ~80% current source-backed baseline). **Current source validation (2026-09-02) confirms ~82–84% readiness with 3 critical blockers and 3 high-priority hardening items.** See `## Q3 2026 Milestone (~83%)` and `## Q4 2026 Milestone (~86%)` sections below for the full implementation plan.
+> **Q3/Q4 2026 Milestone Targets:** ~83% completion by end of Q3 2026; ~86% completion by end of Q4 2026 (from ~80% current source-backed baseline). **Current source validation (2026-09-02) confirms ~82–84% readiness with 4 critical blockers and 3 high-priority hardening items.** See `## Q3 2026 Milestone (~83%)` and `## Q4 2026 Milestone (~86%)` sections below for the full implementation plan.
 >
 > **Critical Release Blockers (must resolve before GA sign-off):**
 >
@@ -61,7 +61,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 > | GPU Phase C CUDA-call closure (340→170 migration) | Phase D blocked; GPU acceleration not recommended for production | ~28 of 340 resolved; ~140 remain | Must complete 50% reduction by end Q3 2026 |
 > | Transaction CI execution evidence (73 Phase 1-3 tests) | Cannot validate recovery/SAGA behavior without CI green evidence | Tests implemented; NO `develop` CI run yet | Run immediately (should have been done 2026-08-31) |
 > | Query FTS executor backend wiring | Q4 deadline at risk (lexer/parser complete; executor not started) | 0% implementation progress | Begin immediately; 4-6 weeks estimated |
-> | Root ROADMAP sync issues (8 false positives/contradictions) | GA sign-off decision based on incorrect status claims | Identified in 2026-09-02 validation; must correct before sign-off | Before Q3 2026 end |
+> | Root ROADMAP sync issues (stale claims and inconsistencies) | GA sign-off decision based on incorrect status claims | Identified in 2026-09-02 validation; corrections in progress | Before Q3 2026 end |
 
 - [x] `ROADMAP.md` is the canonical source of truth for GA status; conflicting PASS/GO statements in derivative planning/checklist documents must be treated as provisional until re-verified on current `develop`.
 - [x] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
@@ -84,7 +84,7 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [x] Replication: deliver geographic placement policy, async cross-region WAL shipping with lag alerts, and stronger failover diagnostics (Target: Q3–Q4 2026, ✅ COMPLETE 2026-08-18, CI PASS)
 - [x] Voice: harden session lifecycle fail-closed behavior, malformed/oversized stream rejection, adversarial anti-spoof/liveness regressions, and multi-session teardown safety (Target: Q3–Q4 2026) — ✅ COMPLETE 2026-08-26: 40 tests (V1/V2/V3 suites), all PASS; representative-hardware baselines pending Q4 2026; see `src/voice/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`
 - [~] GPU: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and guarantee clean CPU degradation on every GPU failure (Target: Q3–Q4 2026) — **36 tests registered `release_critical`** (12 GPU-TIMEOUT + 12 GPU-FALLBACK + 6 GPU-MEMORY + 6 GPU-DETERMINISM), RAII guards created 2026-08-24 (`include/gpu/cuda_raii.h`: `CudaStreamGuard`, `CudaEventGuard`, `CudaDeviceMemoryGuard`), **CUDA-call audit complete: 340→28 remaining (93% reduction, target 50% MET)**; **CI execution PENDING Sept 3 (due date)**. Representative-hardware baselines pending Q4 2026; see `ai_working/03_WAVE_A_COMPLETION_PLAN_2026_09_02.md` and `ai_working/04_WAVE_A_COMPLETION_SUMMARY_2026_09_02.md`
-- [x] **Supporting Modules:** Process (Phase 1-6 ✅ 2026-08-06, production-ready), Failover (Phase 2+3 ✅ 2026-07-29, production-ready), Updates (Phase 2-3 + Phase 6 ✅ 2026-08-06 + 2026-10-31, Phase 4-5 in progress Q4 2026) — see respective module ROADMAP.md files for Phase 4-5 edge-case and stress-coverage details
+- [x] **Supporting Modules:** Process (Phase 1-6 ✅ 2026-08-06, production-ready), Failover (Phase 2+3 ✅ 2026-07-29, production-ready), Updates (Phase 2-3 ✅ 2026-08-06, Phase 6 scheduled Q4 2026, Phase 4-5 in progress) — see respective module ROADMAP.md files for Phase 4-5 edge-case and stress-coverage details
 
 ### Wave A Exit Criteria (Gate to Wave B)
 - [x] Deterministic chaos evidence is complete for transaction/sharding/replication recovery and failover paths (Target: Q4 2026) — ✅ COMPLETE 2026-09-02
@@ -145,7 +145,7 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 | Module | Phase Status | Code Evidence | CI Execution Status | Risk | Action |
 |--------|--------------|---|---|---|---|
 | **GPU/CUDA** | Phase 2-3 delivered; Phase D pending | ✅ RAII guards, timeout enforcement, resource exhaustion tests all implemented 2026-08-24 | ⚠️ Phase 2-3 tests implemented but Phase D hardware benchmarks not yet executed | 🔴 CRITICAL | Run Phase 2-3 tests on `develop` immediately; Phase D representative-hardware benchmarks deferred to Q4 2026 |
-| **Transaction** | Phases 1-3 delivered; Phase 4 in progress | ✅ 73 focused tests implemented (UPH-01..73, TXN-01..73) 2026-08-24 | ❌ NO CI execution evidence on `develop` yet (should have been done 2026-08-31) | 🔴 CRITICAL | Run full Phase 1-3 test suite immediately: `cmake --build /tmp/build --target run_tests --config Release 2>&1 | grep -E 'transaction|PASSED|FAILED'` |
+| **Transaction** | Phases 1-3 delivered; Phase 4 in progress | ✅ 73 focused tests implemented (UPH-01..73, TXN-01..73) 2026-08-24 | ❌ NO CI execution evidence on `develop` yet (should have been done 2026-08-31) | 🔴 CRITICAL | Run full Phase 1-3 test suite immediately: `cmake --build /tmp/build --target run_tests --config Release 2>&1 | grep -E '(transaction|PASSED|FAILED)'` |
 | **Query** | AQL phases 1-4 complete; FTS executor 0% | ✅ AQL integration tests PASS (validation SLA COMPLETE 2026-08-05); FTS lexer/parser COMPLETE (2026-08-09) | ✅ AQL tests green on `develop` 2026-08-05; ⚠️ FTS executor backend NOT STARTED | 🔴 CRITICAL | Begin FTS executor implementation immediately; target Q4 2026 completion with performance gate (≤100ms on 100K docs) |
 | **Auth** | Wave 4-B delivered; benchmarks pending | ✅ All 14 audit/retry/crypto gaps closed 2026-08-26; test_wave4b_auth_hardening.cpp + test_wave4b_auth_hardening2.cpp complete | ✅ Wave 4-B tests PASS; ⚠️ Benchmark CI run #40 execution status unclear (as of 2026-08-24) | 🟡 HIGH | Confirm CI run #40 completion; if not complete, re-run AUTH-GRG-01..06 benchmark gates before Q4 2026 end |
 | **Server** | P5 phases delivered; P2-3 in progress | ✅ P5 wire-protocol retry + HTTP timeout/shutdown tests PASS 2026-07-20; Wave 4-A server hardening tests delivered 2026-08-26 | ✅ P5 tests green on `develop` 2026-07-20; ⚠️ Wave 4-A gates (SH3-01..12, SGR-01..12, SOD-01..08, SCC-01..07) execution pending | 🟡 HIGH | Execute Wave 4-A test suites on `develop` by Q4 2026 end |
