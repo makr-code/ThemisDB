@@ -23,6 +23,9 @@ namespace themis {
  *
  * Provides a simple concurrent cache implementation when TBB containers are
  * unavailable in the build environment.
+ *
+ * @tparam Key Key type used for map lookup.
+ * @tparam Value Value type stored in the cache.
  */
 template <typename Key, typename Value>
 class ConcurrentCache {
@@ -40,13 +43,21 @@ public:
     ConcurrentCache(ConcurrentCache&&) noexcept = default;
     ConcurrentCache& operator=(ConcurrentCache&&) noexcept = default;
 
-    /// Insert or overwrite value
+    /**
+     * @brief Inserts or overwrites a value for a key.
+     * @param key Key to insert or update.
+     * @param value Value to store.
+     */
     void insert(const Key& key, const Value& value) {
         std::lock_guard<std::mutex> lock(mutex_);
         map_[key] = value;
     }
 
-    /// Get value if exists
+    /**
+     * @brief Gets a copy of the value for a key.
+     * @param key Key to look up.
+     * @return Stored value when present, otherwise std::nullopt.
+     */
     std::optional<Value> get(const Key& key) const {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = map_.find(key);
@@ -56,7 +67,12 @@ public:
         return std::nullopt;
     }
 
-    /// Update or insert with accessor
+    /**
+     * @brief Updates an existing value for a key.
+     * @param key Key to update.
+     * @param value Replacement value.
+     * @return true when key exists and was updated; false when key is missing.
+     */
     bool try_update(const Key& key, const Value& value) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = map_.find(key);
@@ -67,31 +83,49 @@ public:
         return true;
     }
 
-    /// Erase key
+    /**
+     * @brief Removes a key from the cache.
+     * @param key Key to erase.
+     * @return true when an entry was removed, otherwise false.
+     */
     bool erase(const Key& key) {
         std::lock_guard<std::mutex> lock(mutex_);
         return map_.erase(key) > 0;
     }
 
-    /// Check if key exists
+    /**
+     * @brief Checks whether a key exists.
+     * @param key Key to probe.
+     * @return true when the key exists, otherwise false.
+     */
     bool contains(const Key& key) const {
         std::lock_guard<std::mutex> lock(mutex_);
         return map_.find(key) != map_.end();
     }
 
-    /// Get size
+    /**
+     * @brief Returns the number of entries in the cache.
+     * @return Entry count.
+     */
     size_t size() const {
         std::lock_guard<std::mutex> lock(mutex_);
         return map_.size();
     }
 
-    /// Clear all entries
+    /**
+     * @brief Removes all entries from the cache.
+     */
     void clear() {
         std::lock_guard<std::mutex> lock(mutex_);
         map_.clear();
     }
 
-    /// Execute function for each entry (snapshot iteration)
+    /**
+     * @brief Executes a callback for each entry in the current snapshot.
+     * @tparam Func Callable type accepting `(const Key&, const Value&)`.
+     * @param fn Callback invoked for each cache entry.
+     * @return No value.
+     */
     template <typename Func>
     void for_each(Func fn) const {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -100,8 +134,16 @@ public:
         }
     }
 
-    /// Direct access to underlying map for advanced operations
+    /**
+     * @brief Returns mutable access to the underlying map.
+     * @return Mutable reference to the backing map.
+     */
     MapType& map() { return map_; }
+
+    /**
+     * @brief Returns read-only access to the underlying map.
+     * @return Const reference to the backing map.
+     */
     const MapType& map() const { return map_; }
 
 private:
