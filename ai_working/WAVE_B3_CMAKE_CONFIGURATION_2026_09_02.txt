@@ -1,0 +1,85 @@
+Preset CMake variables:
+
+  CMAKE_BUILD_TYPE="Release"
+  CMAKE_EXPORT_COMPILE_COMMANDS="ON"
+  CMAKE_SUPPRESS_DEVELOPER_WARNINGS="ON"
+  THEMIS_COMPILER_CACHE_PROGRAM="sccache"
+  THEMIS_EDITION="COMMUNITY"
+  THEMIS_ENABLE_COMPILER_CACHE="ON"
+  THEMIS_ENABLE_IPO="OFF"
+  THEMIS_MODELS_MODE="AUTO"
+  THEMIS_MODELS_SOURCE_DIR="/home/runner/work/ThemisDB/ThemisDB/models"
+  THEMIS_MODULES_ENABLE_UNITY="OFF"
+  THEMIS_PACKAGE_INCLUDE_GEMMA="OFF"
+  THEMIS_PACKAGE_INCLUDE_TINYLLAMA="ON"
+
+-- ThemisDB 2.4.0 (2.4.0-alpha) [type=alpha]
+-- ThemisDB dependency contract: STRICT mode enabled. Core dependencies must resolve without silent fallback.
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- ThemisDB 2.4.0 (2.4.0-alpha) [type=alpha]
+--   Release: -O3 enabled (set THEMIS_DISABLE_O3=ON to use -O2)
+--   Release: -ffast-math enabled (set THEMIS_DISABLE_FAST_MATH=ON for strict IEEE 754)
+-- Performing Test THEMIS_CXX_FLAG_fstack_protector_strong
+-- Performing Test THEMIS_CXX_FLAG_fstack_protector_strong - Success
+-- Performing Test _THEMIS_HAVE_STACK_CLASH
+-- Performing Test _THEMIS_HAVE_STACK_CLASH - Success
+-- Performing Test THEMIS_LD_Wl__z_relro
+-- Performing Test THEMIS_LD_Wl__z_relro - Success
+-- Performing Test THEMIS_LD_Wl__z_now
+-- Performing Test THEMIS_LD_Wl__z_now - Success
+-- Performing Test THEMIS_LD_Wl__z_noexecstack
+-- Performing Test THEMIS_LD_Wl__z_noexecstack - Success
+--   Linker:  Full RELRO (-z relro -z now -z noexecstack)
+-- Security Hardening (GCC/Clang): -fstack-protector-strong -D_FORTIFY_SOURCE=3 -fPIE/-pie -fstack-clash-protection  [Release]
+-- IPO/LTO disabled by default (set THEMIS_ENABLE_IPO=ON to enable for Release)
+-- C++ Standard: C++20
+-- Build Type: Release
+-- Compiler: GNU 13.3.0
+CMake Error at cmake/CompilerCache.cmake:54 (message):
+  ThemisDB requires sccache for all builds, but no compiler cache launcher
+  was found.  Tried: sccache;sccache;ccache.  Install sccache or set
+  THEMIS_COMPILER_CACHE_PROGRAM to a valid path.
+Call Stack (most recent call first):
+  CMakeLists.txt:240 (include)
+
+
+-- Configuring incomplete, errors occurred!
+Preset CMake variables:
+
+  CMAKE_BUILD_TYPE="Release"
+  CMAKE_EXPORT_COMPILE_COMMANDS="ON"
+  CMAKE_SUPPRESS_DEVELOPER_WARNINGS="ON"
+  THEMIS_COMPILER_CACHE_PROGRAM="sccache"
+  THEMIS_EDITION="COMMUNITY"
+  THEMIS_ENABLE_IPO="OFF"
+  THEMIS_MODELS_MODE="AUTO"
+  THEMIS_MODELS_SOURCE_DIR="/home/runner/work/ThemisDB/ThemisDB/models"
+  THEMIS_MODULES_ENABLE_UNITY="OFF"
+  THEMIS_PACKAGE_INCLUDE_GEMMA="OFF"
+  THEMIS_PACKAGE_INCLUDE_TINYLLAMA="ON"
+
+-- ThemisDB 2.4.0 (2.4.0-alpha) [type=alpha]
+-- ThemisDB dependency contract: STRICT mode enabled. Core dependencies must resolve without silent fallback.
+-- ThemisDB 2.4.0 (2.4.0-alpha) [type=alpha]
+--   Release: -O3 enabled (set THEMIS_DISABLE_O3=ON to use -O2)
+--   Release: -ffast-math enabled (set THEMIS_DISABLE_FAST_MATH=ON for strict IEEE 754)
+--   Linker:  Full RELRO (-z relro -z now -z noexecstack)
+-- Security Hardening (GCC/Clang): -fstack-protector-strong -D_FORTIFY_SOURCE=3 -fPIE/-pie -fstack-clash-protection  [Release]
+-- IPO/LTO disabled by default (set THEMIS_ENABLE_IPO=ON to enable for Release)
+-- C++ Standard: C++20
+-- Build Type: Release
+-- Compiler: GNU 13.3.0
+CMake Error at cmake/CompilerCache.cmake:12 (message):
+  ThemisDB requires sccache for all builds.  Remove
+  -DTHEMIS_ENABLE_COMPILER_CACHE=OFF and ensure sccache is installed and on
+  PATH.
+Call Stack (most recent call first):
+  CMakeLists.txt:240 (include)
+
+
+-- Configuring incomplete, errors occurred!
