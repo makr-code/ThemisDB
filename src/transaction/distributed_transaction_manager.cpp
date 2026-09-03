@@ -334,6 +334,20 @@ DistributedTransactionManager::beginDistributed(
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
+        const size_t active_txn_count = static_cast<size_t>(std::count_if(
+            transactions_.begin(),
+            transactions_.end(),
+            [](const auto& kv) {
+                const DistributedTxnState st = kv.second.state;
+                return st != DistributedTxnState::COMMITTED &&
+                       st != DistributedTxnState::ABORTED;
+            }));
+        if (active_txn_count >= config_.max_active_transactions) {
+            throw std::runtime_error(
+                "DistributedTransactionManager::beginDistributed: max_active_transactions limit reached (" +
+                std::to_string(config_.max_active_transactions) + ")");
+        }
+
         // Sprint 8 Phase 1 (GAP A-1): Transaction ID (txn_id) is captured BEFORE move.
         // This ensures all subsequent operations use the copied txn_id, not the moved object.
         // Pattern: Move object, access by ID; never access moved object.

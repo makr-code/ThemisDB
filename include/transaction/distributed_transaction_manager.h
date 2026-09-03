@@ -437,6 +437,7 @@ public:
      * @param participants  Non-empty list of participating shards.
      * @return              Globally unique transaction ID.
      * @throws std::invalid_argument if participants is empty.
+     * @throws std::runtime_error if max_active_transactions limit is reached.
      */
     TransactionId beginDistributed(const std::vector<Participant>& participants);
 

@@ -105,6 +105,17 @@ private:
     std::map<std::string, std::set<std::string>> prepared_keys_;
 };
 
+class AbortThrowingParticipant : public IDistributedParticipantCallback {
+public:
+    bool onPrepare(const std::string&, const std::set<std::string>&) override {
+        return true;
+    }
+    void onCommit(const std::string&) override {}
+    void onAbort(const std::string&) override {
+        throw std::runtime_error("abort delivery failed");
+    }
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
@@ -595,6 +606,34 @@ TEST_F(DistributedTxnManagerTest, BeginWithNoParticipantsThrows) {
     EXPECT_THROW(mgr->beginDistributed({}), std::invalid_argument);
 }
 
+TEST_F(DistributedTxnManagerTest, BeginDistributedEnforcesMaxActiveTransactions) {
+    DistributedTxnManagerConfig cfg;
+    cfg.max_active_transactions = 1;
+    auto limited_mgr = std::make_unique<DistributedTransactionManager>("max-active-limit", cfg);
+
+    const auto tid = limited_mgr->beginDistributed({makeParticipant("n1", p1.get())});
+    EXPECT_FALSE(tid.empty());
+
+    EXPECT_THROW(
+        limited_mgr->beginDistributed({makeParticipant("n2", p2.get())}),
+        std::runtime_error);
+}
+
+TEST_F(DistributedTxnManagerTest, BeginDistributedAllowsNewTxnAfterCommitReleasesCapacity) {
+    DistributedTxnManagerConfig cfg;
+    cfg.max_active_transactions = 1;
+    auto limited_mgr = std::make_unique<DistributedTransactionManager>("max-active-reuse", cfg);
+
+    const auto tid1 = limited_mgr->beginDistributed({makeParticipant("n1", p1.get())});
+    ASSERT_TRUE(limited_mgr->prepareDistributed(tid1).ok);
+    ASSERT_TRUE(limited_mgr->commitDistributed(tid1).ok);
+
+    EXPECT_NO_THROW({
+        const auto tid2 = limited_mgr->beginDistributed({makeParticipant("n2", p2.get())});
+        EXPECT_FALSE(tid2.empty());
+    });
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AC-20: Idempotent abort — abortDistributed on already-aborted txn is safe
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1045,17 +1084,6 @@ static Participant makeRemoteParticipant(
     p.callback      = nullptr;  // remote — no in-process callback
     return p;
 }
-
-class AbortThrowingParticipant : public IDistributedParticipantCallback {
-public:
-    bool onPrepare(const std::string&, const std::set<std::string>&) override {
-        return true;
-    }
-    void onCommit(const std::string&) override {}
-    void onAbort(const std::string&) override {
-        throw std::runtime_error("abort delivery failed");
-    }
-};
 
 // DTM-1: A remote participant without a registered callback must vote ABORT,
 // not COMMIT.  prepareDistributed() with a remote-only participant must fail.
