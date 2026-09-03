@@ -265,9 +265,29 @@ AccessDecision AccessControlManager::authorize(
         THEMIS_ERROR("Authorization error: {}", e.what());
         metrics_.authorization_failure++;
 
-        AccessDecision decision = config_.fail_closed
-            ? AccessDecision::Deny("Authorization error: " + std::string(e.what()))
-            : AccessDecision::Allow("Authorization bypassed due to error (fail-open mode)");
+        const bool explicit_fail_open =
+            (config_.failure_mode == AuthorizationFailureMode::AllowOnErrorExplicit &&
+             !config_.fail_open_reason.empty()) ||
+            (!config_.fail_closed && !config_.fail_open_reason.empty());
+
+        AccessDecision decision;
+        if (explicit_fail_open) {
+            const std::string reason = config_.fail_open_reason.empty()
+                ? "legacy fail-open compatibility override"
+                : config_.fail_open_reason;
+            THEMIS_WARN("[SECURITY] Authorization error bypassed under explicit fail-open override: {}", reason);
+            decision = AccessDecision::Allow(
+                "Authorization bypassed due to explicit fail-open policy: " + reason
+            );
+        } else if (config_.failure_mode == AuthorizationFailureMode::AllowOnErrorExplicit &&
+                   config_.fail_open_reason.empty()) {
+            decision = AccessDecision::Deny(
+                "Authorization error: " + std::string(e.what()) +
+                " (fail-open override requires a documented reason)"
+            );
+        } else {
+            decision = AccessDecision::Deny("Authorization error: " + std::string(e.what()));
+        }
         auditAccessDecision(context, resource, action, decision);
         return decision;
     }
