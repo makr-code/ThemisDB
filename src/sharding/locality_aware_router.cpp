@@ -558,23 +558,20 @@ std::string LocalityAwareRouter::selectLowestRTTReplica(const std::string& shard
     std::set<std::string> candidate_ids;
     candidate_ids.insert(shard_id);
 
-    if (!local_shard_id_.empty() && local_shard_id_ != shard_id &&
+    if (shard_info.has_value()) {
+        for (const auto& endpoint : shard_info->replica_endpoints) {
+            if (!endpoint.empty()) {
+                candidate_ids.insert(endpoint);
+            }
+        }
+    }
+
+    if (!local_shard_id_.empty() &&
+        candidate_ids.find(local_shard_id_) != candidate_ids.end() &&
         !isLatencyStale(local_shard_id_, requesting_datacenter_id, timeout_ms * 2)) {
         const auto local_rtt = getReplicaLatency(local_shard_id_, requesting_datacenter_id);
         if (local_rtt != UINT64_MAX && local_rtt <= timeout_ms) {
             candidate_ids.insert(local_shard_id_);
-        }
-    }
-
-    if (shard_info.has_value()) {
-        for (const auto& endpoint : shard_info->replica_endpoints) {
-            if (!endpoint.empty() &&
-                !isLatencyStale(endpoint, requesting_datacenter_id, timeout_ms * 2)) {
-                const auto endpoint_rtt = getReplicaLatency(endpoint, requesting_datacenter_id);
-                if (endpoint_rtt != UINT64_MAX && endpoint_rtt <= timeout_ms) {
-                    candidate_ids.insert(endpoint);
-                }
-            }
         }
     }
 

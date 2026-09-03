@@ -60,9 +60,10 @@ void GlobalSecondaryIndexManager::erase(const std::string& index_name, const std
     }
     for (auto value_it = it->second.begin(); value_it != it->second.end();) {
         auto& items = value_it->second;
-        items.erase(std::remove_if(items.begin(), items.end(), [&](const IndexEntry& entry) {
+        const auto new_end = std::remove_if(items.begin(), items.end(), [&](const IndexEntry& entry) {
             return entry.shard_id == shard_id && entry.primary_key == primary_key;
-        }), items.end());
+        });
+        items.erase(new_end, items.end());
         if (items.empty()) {
             value_it = it->second.erase(value_it);
         } else {

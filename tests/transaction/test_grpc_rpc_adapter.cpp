@@ -582,7 +582,7 @@ TEST(GrpcRpcAdapterMtls, ConstructWithExplicitInsecureOverride) {
     });
 
     auto fn2 = GrpcRpcPhase2Adapter::make(node_addresses, std::chrono::milliseconds{2000}, cfg);
-    EXPECT_NO_THROW({
+    EXPECT_THROW({
         fn2("node-a", "txn-mtls-03", true);
-    });
+    }, std::runtime_error);
 }

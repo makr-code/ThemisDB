@@ -256,13 +256,12 @@ std::vector<RebalanceOperationConfig> RebalanceOperation::generateTopologyChange
         return plan;
     }
 
-    if (new_topology.empty()) {
+    if (old_topology.empty() || new_topology.empty()) {
         return plan;
     }
 
     const uint64_t range_start = config_.token_range_start;
     const uint64_t range_end = std::max<uint64_t>(range_start + 1, config_.token_range_end);
-    const uint64_t span = (range_end > range_start) ? (range_end - range_start) : 1ULL;
 
     bool is_join = new_topology.size() > old_topology.size();
     if (is_join) {
