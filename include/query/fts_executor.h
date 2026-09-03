@@ -24,16 +24,17 @@
 #pragma once
 
 #include <chrono>
+#include <atomic>
 #include <memory>
 #include <shared_mutex>
 #include <string>
 #include <vector>
 #include <optional>
 
-#include "absl/status/statusor.h"  // Result type alias
 #include "query/fts_parser.h"      // SearchNode AST from parser
 #include "query/index_cache.h"     // LRU + Bloom filter cache
 #include "query/bm25_scorer.h"     // BM25 scoring
+#include "utils/expected.h"
 
 namespace themis::query::fts {
 
@@ -66,18 +67,9 @@ struct ExecutionOptions {
   bool parallel_merge = true;                            ///< Use N threads for large result sets
 };
 
-// Index statistics (diagnostic API)
-struct IndexStatistics {
-  uint32_t document_count = 0;               ///< Total documents in index
-  uint32_t term_count = 0;                   ///< Unique terms in vocabulary
-  uint64_t index_size_bytes = 0;             ///< On-disk index size
-  float average_doc_length = 0.0f;           ///< Average document length in tokens
-  std::string index_language = "en";         ///< Language of indexed content
-};
-
 // Type alias for Result (using Abseil or std::expected)
 template <typename T>
-using Result = absl::StatusOr<T>;
+using Result = tl::expected<T, FtsError>;
 
 // ============================================================================
 // FtsExecutor — Main Query Execution Engine

@@ -337,6 +337,26 @@ TEST_F(DistributedTxnManagerTest, CheckTimeoutsAbortsExpiredTransactions) {
     EXPECT_EQ(rec->state, DistributedTxnState::ABORTED);
 }
 
+TEST_F(DistributedTxnManagerTest, CheckTimeoutsDoesNotCountIncompleteAbortDelivery) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 1ms;
+    auto short_mgr = std::make_unique<DistributedTransactionManager>("short-incomplete-abort", cfg);
+
+    AbortThrowingParticipant abort_thrower;
+    const auto tid = short_mgr->beginDistributed({makeParticipant("n1", &abort_thrower)});
+    std::this_thread::sleep_for(10ms);
+
+    const size_t timeout_aborts = short_mgr->checkTimeouts();
+    EXPECT_EQ(timeout_aborts, 0u)
+        << "Timeout counter must only include fully-delivered ABORT decisions";
+
+    const auto rec = short_mgr->getTransaction(tid);
+    ASSERT_TRUE(rec.has_value());
+    EXPECT_EQ(rec->state, DistributedTxnState::ABORTING);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AC-9: isParticipantAlive returns true (in-process default)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1026,6 +1046,17 @@ static Participant makeRemoteParticipant(
     return p;
 }
 
+class AbortThrowingParticipant : public IDistributedParticipantCallback {
+public:
+    bool onPrepare(const std::string&, const std::set<std::string>&) override {
+        return true;
+    }
+    void onCommit(const std::string&) override {}
+    void onAbort(const std::string&) override {
+        throw std::runtime_error("abort delivery failed");
+    }
+};
+
 // DTM-1: A remote participant without a registered callback must vote ABORT,
 // not COMMIT.  prepareDistributed() with a remote-only participant must fail.
 TEST_F(DistributedTxnManagerTest, DTM1_RemoteParticipantWithoutCallbackVotesAbort) {
@@ -1047,6 +1078,46 @@ TEST_F(DistributedTxnManagerTest, DTM1_MixedLocalAndRemoteVotesAbort) {
     EXPECT_GE(p1->prepareCount(), 1);
 }
 
+// DTM-1 hardening: a configured Phase-2 bridge must not be used as a
+// compatibility shortcut for missing Phase-1 PREPARE transport.
+TEST_F(DistributedTxnManagerTest, DTM1_Phase2BridgeDoesNotBypassMissingPhase1Vote) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout = 2000ms;
+    cfg.default_txn_timeout = 60s;
+    cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
+
+    std::atomic<int> phase2_abort_calls{0};
+    std::atomic<int> phase2_commit_calls{0};
+    cfg.remote_phase2_dispatch =
+        [&phase2_abort_calls, &phase2_commit_calls](
+            const std::string&,
+            const std::string&,
+            const std::string&,
+            bool do_commit) {
+            if (do_commit) {
+                ++phase2_commit_calls;
+            } else {
+                ++phase2_abort_calls;
+            }
+            return true;
+        };
+
+    DistributedTransactionManager mgr2("coord-no-phase1", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeParticipant("local-node", p1.get()),
+        makeRemoteParticipant("remote-node-no-phase1"),
+    });
+
+    const auto prepare_status = mgr2.prepareDistributed(tid);
+    EXPECT_FALSE(prepare_status.ok)
+        << "Missing Phase-1 bridge for a remote participant must fail prepare";
+    EXPECT_EQ(phase2_commit_calls.load(), 0)
+        << "Remote participant must never receive COMMIT without a PREPARE vote";
+    EXPECT_EQ(phase2_abort_calls.load(), 1)
+        << "Fail-closed path must send ABORT to remote participant";
+}
+
 // DTM-2: recoverInDoubtTransactions() must call onAbort on in-memory
 // participants, not just write to WAL and leave them locked.
 TEST_F(DistributedTxnManagerTest, DTM2_RecoveryBroadcastsAbortToInMemoryParticipants) {
@@ -1065,6 +1136,24 @@ TEST_F(DistributedTxnManagerTest, DTM2_RecoveryBroadcastsAbortToInMemoryParticip
     // Both in-memory participants must have received an ABORT notification.
     EXPECT_GE(p1->abortCount(), 1) << "Participant p1 must be notified of ABORT during recovery (DTM-2)";
     EXPECT_GE(p2->abortCount(), 1) << "Participant p2 must be notified of ABORT during recovery (DTM-2)";
+}
+
+TEST_F(DistributedTxnManagerTest, DTM2_RecoveryDoesNotMarkResolvedWhenAbortDeliveryFails) {
+    AbortThrowingParticipant abort_thrower;
+
+    const auto tid = mgr->beginDistributed({
+        makeParticipant("n1", &abort_thrower),
+    });
+    ASSERT_TRUE(mgr->prepareDistributed(tid).ok);
+
+    const size_t resolved = mgr->recoverInDoubtTransactions();
+    EXPECT_EQ(resolved, 0u)
+        << "Recovery must not claim success when ABORT delivery fails";
+
+    const auto rec = mgr->getTransaction(tid);
+    ASSERT_TRUE(rec.has_value());
+    EXPECT_EQ(rec->state, DistributedTxnState::ABORTING)
+        << "Failed recovery ABORT delivery must keep txn non-terminal";
 }
 
 // DTM-3: isParticipantAlive() must return true for in-process participants and

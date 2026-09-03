@@ -20,6 +20,8 @@
  */
 
 #include "wikipedia/llm_wiki_plugin_impl.h"
+// Edition/feature gate enforcement lives in src/llm_wiki for now.
+#include "edition_gate.h"
 
 #include "importers/wikipedia_pipeline.hpp"
 #include "importers/wikipedia_types.hpp"
@@ -219,6 +221,12 @@ void LLMWikiPluginImpl::shutdown() noexcept {
 
 Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
     try {
+        // Edition gate: plugin lifecycle is available only in enterprise+.
+        const auto gate_status = themis::llm_wiki::enforcePluginGate("initialize");
+        if (!gate_status.ok()) {
+            return gate_status;
+        }
+
         // Parse JSON config
         nlohmann::json j;
         if (config_json.empty()) {
@@ -241,7 +249,10 @@ Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
         json_index_path_         = j.value("json_index_path",         std::string{});
         retrieval_top_k_         = j.value("retrieval_top_k",         5);
         retrieval_min_score_     = j.value("retrieval_min_score",     0.0f);
-        fail_open_               = j.value("fail_open",               true);
+        // Fail-closed by default when a RocksDB path is explicitly configured.
+        // In-memory fallback is allowed only when explicitly enabled
+        // (test/degraded mode).
+        fail_open_               = j.value("fail_open",               false);
         lint_max_staleness_days_ = j.value("lint_max_staleness_days", 30);
         has_wikipedia_license_   = j.value("llm_wiki_wikipedia",      false);
 
@@ -284,20 +295,36 @@ Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
                 phase_b_active_ = true;
                 spdlog::info("[llm_wiki] Phase B activated (rocksdb={})", rocksdb_dir_);
             } catch (const std::exception& e) {
-                spdlog::warn("[llm_wiki] Phase B init failed, falling back to Phase A: {}",
-                             e.what());
                 wiki_store_.reset();
                 llm_b_.reset();
                 vim_.reset();
                 sim_.reset();
                 rocksdb_.reset();
                 phase_b_active_ = false;
+
+                if (!fail_open_) {
+                    return Status::Error(
+                        "RocksDB backend initialization failed while rocksdb_dir is configured; "
+                        "refusing implicit in-memory fallback. "
+                        "Set fail_open=true only for explicit test/degraded mode. Cause: " +
+                        std::string(e.what()));
+                }
+                spdlog::warn(
+                    "[llm_wiki] Phase B init failed; entering explicit degraded "
+                    "in-memory mode because fail_open=true: {}", e.what());
             }
         }
 #else
         if (!rocksdb_dir_.empty()) {
-            spdlog::warn("[llm_wiki] rocksdb_dir set but plugin not compiled with "
-                         "THEMISDB_WIKI_PHASE_B; using Phase A in-memory store");
+            if (!fail_open_) {
+                return Status::Error(
+                    "rocksdb_dir is configured but this build does not include "
+                    "THEMISDB_WIKI_PHASE_B; refusing implicit in-memory fallback. "
+                    "Set fail_open=true only for explicit test/degraded mode.");
+            }
+            spdlog::warn(
+                "[llm_wiki] rocksdb_dir set without THEMISDB_WIKI_PHASE_B; "
+                "entering explicit degraded in-memory mode because fail_open=true");
         }
 #endif
 
@@ -801,11 +828,23 @@ WikiIngestResult LLMWikiPluginImpl::ingestWikipediaDump(
         return result;
     }
 
-    // Edition gate: llm_wiki_wikipedia sub-feature
+    // Edition/feature gate: wikipedia sub-feature
+    const auto feature_gate =
+        themis::llm_wiki::enforceFeatureGate("llm_wiki_wikipedia");
+    if (!feature_gate.ok()) {
+        spdlog::warn("[llm_wiki] ingestWikipediaDump() denied by feature gate: {}",
+                     feature_gate.message);
+        result.errors++;
+        result.failed_files.push_back("permission_denied: " + feature_gate.message);
+        return result;
+    }
+
+    // Runtime license gate: llm_wiki_wikipedia sub-feature
     if (!has_wikipedia_license_) {
         spdlog::warn("[llm_wiki] ingestWikipediaDump() requires the "
                      "'llm_wiki_wikipedia' sub-feature license");
         result.errors++;
+        result.failed_files.push_back("permission_denied: missing llm_wiki_wikipedia license");
         return result;
     }
 

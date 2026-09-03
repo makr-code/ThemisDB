@@ -37,7 +37,9 @@ namespace gpu {
  * All real Vulkan calls are gated behind `THEMIS_ENABLE_VULKAN`.  When the
  * define is absent (e.g. CI without Vulkan SDK) the backend transparently falls
  * back to CPU execution so that `GPUStreamManager` and `GPULauncher` continue
- * to work correctly.
+ * to work correctly. Fallback and gate denials emit structured
+ * `GPUBackendDispatchDiagnostics` events (`BACKEND_NOT_ENABLED`,
+ * `BACKEND_NO_DEVICE_AVAILABLE`, `FALLBACK_CPU_DEGRADED`).
  *
  * Integration points
  * ------------------

@@ -15,6 +15,7 @@
 #include "acceleration/compute_backend.h"
 #include "acceleration/cuda_backend.h"
 #include "themis/gpu/memory_manager.h"
+#include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <atomic>
@@ -97,6 +98,9 @@ public:
     // to defer the (expensive) full partition rebuild until after all vectors
     // are loaded, avoiding O(n²) behaviour.
     std::atomic<bool> oversubBulkLoading_{false};
+    themis::gpu::GPUDispatchErrorCode lastBackendGateCode =
+        themis::gpu::GPUDispatchErrorCode::SUCCESS;
+    std::string lastBackendGateDetail;
 
     // Rebuild the oversubscription manager partitions from the current vectorData.
     // Called after every vector mutation when oversubscription is enabled.
@@ -205,6 +209,73 @@ public:
 
     Impl(const Config& cfg) : config(cfg) {}
 
+    static const char* backendName(Backend backend) {
+        switch (backend) {
+            case Backend::AUTO: return "AUTO";
+            case Backend::CPU: return "CPU";
+            case Backend::VULKAN: return "VULKAN";
+            case Backend::CUDA: return "CUDA";
+            case Backend::HIP: return "HIP";
+            default: return "UNKNOWN";
+        }
+    }
+
+    static bool isBackendCompiledIn(Backend backend) {
+        switch (backend) {
+            case Backend::CPU:
+            case Backend::AUTO:
+                return true;
+            case Backend::CUDA:
+                #ifdef THEMIS_ENABLE_CUDA
+                return true;
+                #else
+                return false;
+                #endif
+            case Backend::HIP:
+                #ifdef THEMIS_ENABLE_HIP
+                return true;
+                #else
+                return false;
+                #endif
+            case Backend::VULKAN:
+                #ifdef THEMIS_ENABLE_VULKAN
+                return true;
+                #else
+                return false;
+                #endif
+            default:
+                return false;
+        }
+    }
+
+    void noteBackendGateFailure(themis::gpu::GPUDispatchErrorCode code,
+                                const std::string& detail) {
+        lastBackendGateCode = code;
+        lastBackendGateDetail = detail;
+    }
+
+    bool canUseCPUFallback(const char* operation, Backend failingBackend) {
+        const std::string detail = std::string(operation) + ": backend=" +
+                                   backendName(failingBackend) +
+                                   ", allowCPUFallback=" +
+                                   (config.allowCPUFallback ? "true" : "false");
+        if (!config.allowCPUFallback) {
+            THEMIS_WARN("GPUVectorIndex: {} failed and CPU fallback is disabled", detail);
+            themis::gpu::GPUBackendDispatchDiagnostics::emitDiagnostic(
+                themis::gpu::GPUDispatchErrorCode::FALLBACK_UNAVAILABLE,
+                config.deviceId,
+                detail);
+            return false;
+        }
+
+        THEMIS_WARN("GPUVectorIndex: {} failed, falling back to CPU", detail);
+        themis::gpu::GPUBackendDispatchDiagnostics::emitDiagnostic(
+            themis::gpu::GPUDispatchErrorCode::FALLBACK_CPU_DEGRADED,
+            config.deviceId,
+            detail);
+        return true;
+    }
+
     static std::string prefetchStrategyToString(PrefetchStrategy s) {
         switch (s) {
         case PrefetchStrategy::LRU:        return "LRU";
@@ -221,6 +292,8 @@ public:
     bool initialize(int dim) {
         dimension = dim;
         stats.dimension = dim;
+        lastBackendGateCode = themis::gpu::GPUDispatchErrorCode::SUCCESS;
+        lastBackendGateDetail.clear();
         
         // Determine which backend to use
         Backend requestedBackend = config.backend;
@@ -241,15 +314,44 @@ public:
         
         // Fall back to CPU if requested backend failed or not available
         if (!backendInitialized) {
+            if (requestedBackend != Backend::CPU) {
+                const auto gateCode =
+                    (lastBackendGateCode == themis::gpu::GPUDispatchErrorCode::SUCCESS)
+                        ? (isBackendCompiledIn(requestedBackend)
+                               ? themis::gpu::GPUDispatchErrorCode::BACKEND_NO_DEVICE_AVAILABLE
+                               : themis::gpu::GPUDispatchErrorCode::BACKEND_NOT_ENABLED)
+                        : lastBackendGateCode;
+                const std::string gateDetail = lastBackendGateDetail.empty()
+                    ? ("backend=" + std::string(backendName(requestedBackend)) +
+                       ", reason=initialization_failed")
+                    : lastBackendGateDetail;
+                themis::gpu::GPUBackendDispatchDiagnostics::emitDiagnostic(
+                    gateCode,
+                    config.deviceId,
+                    gateDetail);
+            }
+
             if (requestedBackend != Backend::CPU && !config.allowCPUFallback) {
-                THEMIS_WARN("GPUVectorIndex: Requested backend not available and CPU fallback disabled");
+                THEMIS_WARN("GPUVectorIndex: Requested backend {} not available and CPU fallback disabled",
+                            backendName(requestedBackend));
+                themis::gpu::GPUBackendDispatchDiagnostics::emitDiagnostic(
+                    themis::gpu::GPUDispatchErrorCode::FALLBACK_UNAVAILABLE,
+                    config.deviceId,
+                    std::string("initialize: backend=") + backendName(requestedBackend) +
+                        ", allowCPUFallback=false");
                 return false;
             }
-            
+
             activeBackend = Backend::CPU;
             stats.isGPUActive = false;
             if (requestedBackend != Backend::CPU) {
-                THEMIS_WARN("GPUVectorIndex: Falling back to CPU backend");
+                THEMIS_WARN("GPUVectorIndex: Falling back to CPU backend from {}",
+                            backendName(requestedBackend));
+                themis::gpu::GPUBackendDispatchDiagnostics::emitDiagnostic(
+                    themis::gpu::GPUDispatchErrorCode::FALLBACK_CPU_DEGRADED,
+                    config.deviceId,
+                    std::string("initialize: backend=") + backendName(requestedBackend) +
+                        ", reason=gate_or_init_failure");
             } else {
                 THEMIS_INFO("GPUVectorIndex: Using CPU backend");
             }
@@ -356,6 +458,14 @@ public:
     }
 
     bool tryInitializeBackend(Backend backend, int dim) {
+        if (!isBackendCompiledIn(backend)) {
+            noteBackendGateFailure(
+                themis::gpu::GPUDispatchErrorCode::BACKEND_NOT_ENABLED,
+                std::string("backend=") + backendName(backend) +
+                    ", reason=backend_not_enabled_in_build");
+            return false;
+        }
+
         #ifdef THEMIS_ENABLE_CUDA
         if (backend == Backend::CUDA) {
             auto candidate = std::make_unique<themis::acceleration::CUDAVectorBackend>();
@@ -367,6 +477,12 @@ public:
                 THEMIS_INFO("GPUVectorIndex: Using CUDA backend");
                 return true;
             }
+            noteBackendGateFailure(
+                candidate->isAvailable()
+                    ? themis::gpu::GPUDispatchErrorCode::BACKEND_DEGRADED
+                    : themis::gpu::GPUDispatchErrorCode::BACKEND_NO_DEVICE_AVAILABLE,
+                std::string("backend=CUDA, reason=") +
+                    (candidate->isAvailable() ? "initialize_failed" : "runtime_unavailable"));
             return false;
         }
         #endif
@@ -382,6 +498,12 @@ public:
                 THEMIS_INFO("GPUVectorIndex: Using HIP backend");
                 return true;
             }
+            noteBackendGateFailure(
+                candidate->isAvailable()
+                    ? themis::gpu::GPUDispatchErrorCode::BACKEND_DEGRADED
+                    : themis::gpu::GPUDispatchErrorCode::BACKEND_NO_DEVICE_AVAILABLE,
+                std::string("backend=HIP, reason=") +
+                    (candidate->isAvailable() ? "initialize_failed" : "runtime_unavailable"));
             return false;
         }
         #endif
@@ -394,6 +516,12 @@ public:
                 THEMIS_INFO("GPUVectorIndex: Using Vulkan backend");
                 return true;
             }
+            noteBackendGateFailure(
+                isVulkanAvailable()
+                    ? themis::gpu::GPUDispatchErrorCode::BACKEND_DEGRADED
+                    : themis::gpu::GPUDispatchErrorCode::BACKEND_NO_DEVICE_AVAILABLE,
+                std::string("backend=VULKAN, reason=") +
+                    (isVulkanAvailable() ? "initialize_failed" : "runtime_unavailable"));
             return false;
         }
         #endif
@@ -625,8 +753,10 @@ public:
                 }
                 return results;
             }
-            // Fall through to CPU if GPU search fails
-            THEMIS_WARN("GPUVectorIndex: Vulkan search failed, falling back to CPU");
+            if (!canUseCPUFallback("search", Backend::VULKAN)) {
+                return {};
+            }
+            return searchCPU(query, k);
         }
         #endif
 
@@ -636,7 +766,10 @@ public:
             if (!result.empty()) {
                 return result;
             }
-            THEMIS_WARN("GPUVectorIndex: CUDA search failed, falling back to CPU");
+            if (!canUseCPUFallback("search", Backend::CUDA)) {
+                return {};
+            }
+            return searchCPU(query, k);
         }
         #endif
 
@@ -646,7 +779,10 @@ public:
             if (!result.empty()) {
                 return result;
             }
-            THEMIS_WARN("GPUVectorIndex: HIP search failed, falling back to CPU");
+            if (!canUseCPUFallback("search", Backend::HIP)) {
+                return {};
+            }
+            return searchCPU(query, k);
         }
         #endif
         
@@ -701,7 +837,12 @@ public:
         // CUDA backend only supports L2 and COSINE metrics
         // Fall back to CPU for INNER_PRODUCT
         if (config.metric == DistanceMetric::INNER_PRODUCT) {
-            return searchCPU(query, k);
+            THEMIS_WARN("GPUVectorIndex::searchGPU: INNER_PRODUCT unsupported by CUDA backend");
+            themis::gpu::GPUBackendDispatchDiagnostics::emitDiagnostic(
+                themis::gpu::GPUDispatchErrorCode::DISPATCH_QUERY_TYPE_UNSUPPORTED,
+                config.deviceId,
+                "searchGPU: backend=CUDA, metric=INNER_PRODUCT");
+            return {};
         }
         
         auto startTime = std::chrono::steady_clock::now();
@@ -758,13 +899,12 @@ public:
         
         // Check if any query uses INNER_PRODUCT (not supported by CUDA)
         if (config.metric == DistanceMetric::INNER_PRODUCT) {
-            // Fall back to CPU for all queries
-            std::vector<std::vector<SearchResult>> results;
-            results.reserve(queries.size());
-            for (const auto& query : queries) {
-                results.push_back(searchCPU(query, k));
-            }
-            return results;
+            THEMIS_WARN("GPUVectorIndex::searchBatchGPU: INNER_PRODUCT unsupported by CUDA backend");
+            themis::gpu::GPUBackendDispatchDiagnostics::emitDiagnostic(
+                themis::gpu::GPUDispatchErrorCode::DISPATCH_QUERY_TYPE_UNSUPPORTED,
+                config.deviceId,
+                "searchBatchGPU: backend=CUDA, metric=INNER_PRODUCT");
+            return {};
         }
         
         auto startTime = std::chrono::steady_clock::now();
@@ -784,13 +924,12 @@ public:
         flatQueries.reserve(queries.size() * dimension);
         for (const auto& query : queries) {
             if (query.size() != static_cast<size_t>(dimension)) {
-                // Skip invalid queries or fall back to CPU for all
-                std::vector<std::vector<SearchResult>> results;
-                results.reserve(queries.size());
-                for (const auto& q : queries) {
-                    results.push_back(searchCPU(q, k));
-                }
-                return results;
+                THEMIS_WARN("GPUVectorIndex::searchBatchGPU: query dimension mismatch");
+                themis::gpu::GPUBackendDispatchDiagnostics::emitDiagnostic(
+                    themis::gpu::GPUDispatchErrorCode::DISPATCH_QUERY_TYPE_UNSUPPORTED,
+                    config.deviceId,
+                    "searchBatchGPU: backend=CUDA, reason=query_dimension_mismatch");
+                return {};
             }
             flatQueries.insert(flatQueries.end(), query.begin(), query.end());
         }
@@ -918,12 +1057,12 @@ public:
         flatQueries.reserve(queries.size() * dimension);
         for (const auto& query : queries) {
             if (query.size() != static_cast<size_t>(dimension)) {
-                std::vector<std::vector<SearchResult>> results;
-                results.reserve(queries.size());
-                for (const auto& q : queries) {
-                    results.push_back(searchCPU(q, k));
-                }
-                return results;
+                THEMIS_WARN("GPUVectorIndex::searchBatchHIP: query dimension mismatch");
+                themis::gpu::GPUBackendDispatchDiagnostics::emitDiagnostic(
+                    themis::gpu::GPUDispatchErrorCode::DISPATCH_QUERY_TYPE_UNSUPPORTED,
+                    config.deviceId,
+                    "searchBatchHIP: backend=HIP, reason=query_dimension_mismatch");
+                return {};
             }
             flatQueries.insert(flatQueries.end(), query.begin(), query.end());
         }
@@ -1241,7 +1380,15 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
             
             return results;
         }
-        THEMIS_WARN("GPUVectorIndex: Vulkan batch search failed, falling back to CPU");
+        if (!pImpl->canUseCPUFallback("searchBatch", Backend::VULKAN)) {
+            return {};
+        }
+        std::vector<std::vector<SearchResult>> results;
+        results.reserve(queries.size());
+        for (const auto& query : queries) {
+            results.push_back(pImpl->searchCPU(query, k));
+        }
+        return results;
     }
     #endif
     
@@ -1254,7 +1401,9 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
                 if (!results.empty()) {
                     return results;
                 }
-                THEMIS_WARN("GPUVectorIndex: HIP batch search failed, falling back to CPU");
+                if (!pImpl->canUseCPUFallback("searchBatch", Backend::HIP)) {
+                    return {};
+                }
             }
             #endif
             if (pImpl->config.allowCPUFallback) {
@@ -1275,7 +1424,9 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
                 if (!results.empty()) {
                     return results;
                 }
-                THEMIS_WARN("GPUVectorIndex: CUDA batch search failed, falling back to CPU");
+                if (!pImpl->canUseCPUFallback("searchBatch", Backend::CUDA)) {
+                    return {};
+                }
             }
             #endif
             if (pImpl->config.allowCPUFallback) {
@@ -1658,4 +1809,3 @@ std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() cons
 
 } // namespace index
 } // namespace themis
-

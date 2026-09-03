@@ -345,9 +345,8 @@ struct DistributedTxnManagerConfig {
      *
      * Any exception thrown by the function is caught by the coordinator and
      * treated as an ABORT vote.  When not set, the coordinator falls back to
-     * `remote_phase1_dispatch`, then the static `RpcPhase1Fn`, and finally
-     * (for backwards compatibility) skips the Phase-1 vote when a Phase-2
-     * bridge is configured.
+     * `remote_phase1_dispatch`, then the static `RpcPhase1Fn`; if no Phase-1
+     * bridge is available, the coordinator votes ABORT (fail-closed).
      */
     using Phase1RpcFn = std::function<bool(
         const std::string&            endpoint,
@@ -681,7 +680,7 @@ public:
     static void setRpcPhase2Fn(RpcPhase2Fn fn);
 
     /**
-     * @brief Remove the RPC phase-2 bridge (reverts to skip-if-no-callback).
+     * @brief Remove the RPC phase-2 bridge.
      */
     static void clearRpcPhase2Fn();
 

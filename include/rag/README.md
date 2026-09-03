@@ -1217,8 +1217,8 @@ The following headers are present in `include/rag/` and supplement the component
 | `judge_config.h` | Configuration structures shared across all judge implementations <!-- TODO: verify --> |
 | `knowledge_graph_retriever.h` | Retrieves context by traversing a knowledge graph starting from query entities <!-- TODO: verify --> |
 | `learning_metrics.h` | Metrics for continuous learning: drift detection, accuracy deltas, feedback rates <!-- TODO: verify --> |
-| `llm_judge_client.h` | HTTP/gRPC client for delegating judge evaluation to a remote LLM judge service <!-- TODO: verify --> |
-| `llm_judge_integration.h` | Integration layer connecting `RAGJudge` to `LLMIntegration` inference backend <!-- TODO: verify --> |
+| `llm_judge_client.h` | HTTP/gRPC client for delegating judge evaluation to a remote LLM judge service |
+| `llm_judge_integration.h` | Integration layer connecting `RAGJudge` to injected LLM inference backends (fail-closed when unavailable) |
 | `multi_hop_reasoner.h` | Multi-hop reasoning engine: decomposes complex queries into retrievable sub-questions <!-- TODO: verify --> |
 | `multi_step_rag.h` | Multi-step RAG pipeline with iterative retrieval and refinement <!-- TODO: verify --> |
 | `multimodal_rag.h` | RAG pipeline extended to image, audio, and video modalities <!-- TODO: verify --> |

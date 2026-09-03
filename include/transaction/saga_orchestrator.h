@@ -366,6 +366,7 @@ private:
     mutable std::mutex circuit_breaker_mutex_;
     std::unordered_map<std::string, uint32_t> consecutive_failures_;  ///< step_name → failure count
     std::unordered_map<std::string, std::chrono::system_clock::time_point> last_failure_time_;
+    std::unordered_map<std::string, bool> half_open_probe_in_flight_;
 
     /// Check if circuit breaker is open for a specific step.
     bool isCircuitBreakerOpen(const std::string& step_name) const;
@@ -375,6 +376,10 @@ private:
 
     /// Record a success (resets failure counter).
     void recordCircuitBreakerSuccess(const std::string& step_name);
+
+    /// Acquire execution permission for a step under circuit-breaker control.
+    /// Returns false when the circuit is OPEN and not eligible for a probe.
+    bool tryAcquireCircuitBreakerExecution(const std::string& step_name);
 
     // ── Internal helpers ──────────────────────────────────────────────────────
 

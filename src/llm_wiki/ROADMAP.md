@@ -212,7 +212,7 @@ YAML policy should act as the control plane for timing, stage gates, and bounded
   - LWP-INT-03 (a-b): Concurrent query safety — 8 threads, concurrent ingest+query
   - LWP-INT-04 (a-c): Wikipedia dump edition gate — community PermissionDenied, enterprise allow, before-init NotInitialized
   - LWP-INT-05 (a-c): Guardrail regression — shell injection flagged, SQL injection flagged, benign not flagged
-- **Implementation:** Deterministic hash embedding + real splitter/ingest/query pipeline; RocksDB-backed Phase B path is activatable when `rocksdb_dir` is configured and RocksDB feature macros are enabled.
+- **Implementation:** Deterministic hash embedding + real splitter/ingest/query pipeline; RocksDB-backed Phase B path is activatable when `rocksdb_dir` is configured and RocksDB feature macros are enabled. If `rocksdb_dir` is configured and RocksDB init fails, initialization now fails closed by default (`fail_open=false`), with explicit degraded fallback only when `fail_open=true`.
 - **Note:** In-memory retrieval remains a controlled fallback path for test/non-RocksDB environments; production evidence must come from RocksDB-enabled GitHub CI/HW lanes.
 
 ### 4.6 Performance Tests (LWP-PERF-01) 🟡
@@ -342,7 +342,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 
 ### Wave B Scope for `llm_wiki`
 - [x] Llm Wiki: Phase B integration test suite delivered (LWP-INT-01..05, 16 tests, 2026-08-19); **RocksDB backend implemented (LW1/LW2 gap closure, 2026-08-26)** — `RocksDbWikiStore` wired into plugin via `#ifdef THEMIS_USE_ROCKSDB`; persistence tests LW-01..LW-07 delivered (`tests/llm/test_wave_next_llm_wiki_rocksdb.cpp`)
-- **STUB NOTE (AI Delivery Contract):** Phase B integration tests use an in-memory mock (hash-based score proxy); no network required. **RocksDB backend now implemented** via `RocksDbWikiStore` (Wave-Next LW1, 2026-08-26); activated when `THEMIS_USE_ROCKSDB` is defined and `rocksdb_dir` config is set. In-memory fallback retained for test environments; production must use RocksDB path. Explicitly disclosed per AI delivery contract — see `WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md` §Stub/Mock Disclosure.
+- **STUB NOTE (AI Delivery Contract):** Phase B integration tests use an in-memory mock (hash-based score proxy); no network required. **RocksDB backend now implemented** via `RocksDbWikiStore` (Wave-Next LW1, 2026-08-26); activated when `THEMIS_USE_ROCKSDB` is defined and `rocksdb_dir` config is set. In-memory fallback is explicit test/degraded mode only (`fail_open=true`); production path fails closed when RocksDB is configured but unavailable.
 - **Closure Evidence:** See [`WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md`](WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md) for full Wave B partial-closure evidence, regression audits, and hardware-gated pending items.
 
 ### Wave B Entry Gate (prerequisite from Wave A)

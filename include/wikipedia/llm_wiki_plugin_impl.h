@@ -17,7 +17,8 @@
  * - `RocksDBWrapper` + `SecondaryIndexManager` + `VectorIndexManager`
  * - `WikiIndexStore` (BM25 + HNSW + RRF fusion)
  * - `EmbeddedLLM` with injected hash `EmbedFn`
- * - Falls back to Phase A with a logged warning if RocksDB unavailable
+ * - Fail-closed by default if RocksDB init fails while `rocksdb_dir` is set
+ * - Explicit in-memory fallback only when `fail_open=true` (test/degraded mode)
  *
  * ## Thread safety
  * - `std::shared_mutex mutex_` guards all state
@@ -140,7 +141,7 @@ public:
      *   "json_index_path":         "",
      *   "retrieval_top_k":         5,
      *   "retrieval_min_score":     0.0,
-     *   "fail_open":               true,
+     *   "fail_open":               false,
      *   "lint_max_staleness_days": 30,
      *   "llm_wiki_wikipedia":      false,
      *   "splitter_max_tokens":     220,
@@ -280,7 +281,7 @@ private:
     std::string json_index_path_;
     int         retrieval_top_k_{5};
     float       retrieval_min_score_{0.0f};
-    bool        fail_open_{true};
+    bool        fail_open_{false};
     int         lint_max_staleness_days_{30};
     bool        has_wikipedia_license_{false};
 

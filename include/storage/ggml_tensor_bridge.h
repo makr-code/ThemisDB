@@ -198,6 +198,9 @@ public:
      *
      * Can be called speculatively while the previous FLARE generation step
      * is still running, to overlap DB I/O with compute.
+     *
+     * In production mode this method fail-closes (throws) when neither an
+     * injected `PrefetchFn` nor the built-in io_uring path is available.
      */
     void prefetch(const TensorFieldKey& key, uint64_t version = 0);
 
@@ -303,6 +306,8 @@ private:
  * No-op if GGML_TYPE_TT is already registered.
  *
  * @return ggml type ID assigned to TT-type tensors.
+ * @throws std::runtime_error in production mode when neither ggml custom type
+ *         registration nor an injected `TypeRegistrationFn` is available.
  *
  * STUB/SIMULATION NOTE:
  * Purpose: Placeholder until ggml custom-type API stabilises.

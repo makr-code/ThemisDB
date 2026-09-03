@@ -90,7 +90,10 @@ public:
         size_t oversubscription_partition_vectors = 65536; // Vectors per partition chunk
         
         // Fallback
-        bool allowCPUFallback = true;  // Fall back to CPU if GPU unavailable
+        // Production contract:
+        // - true: explicit failover to CPU is allowed on backend gate or runtime failure
+        // - false: fail closed (initialize/search return failure/empty result)
+        bool allowCPUFallback = true;
     };
     
     struct SearchResult {

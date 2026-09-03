@@ -76,7 +76,7 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
     - [x] FtsPredType enum, FtsPredicateNode, SearchClauseNode structs added to aql_parser.h (2026-08-09)
     - [x] parseSearchClause() implemented; wired into parseQuery() (2026-08-09)
     - [x] search_clause field added to Query struct (2026-08-09)
-    - [ ] Executor backend wiring (FTS index lookup, scoring) (Target: Q4 2026)
+    - [x] Executor backend wiring (FTS index lookup, scoring) (Target: Q4 2026) — delivered 2026-09-03 (Block 2)
     - [ ] Performance gate: ≤100ms on 100K documents (Target: Q4 2026)
   - [ ] Cross-feature integration tests (1000+ tests, zero v1.x regressions) (Target: Q4 2026)
 

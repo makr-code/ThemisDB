@@ -33,6 +33,8 @@
  */
 
 #include "themis/gpu/vulkan_backend.h"
+#include "themis/gpu/feature_flags.h"
+#include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
 
 #ifdef THEMIS_ENABLE_VULKAN
 #include <vulkan/vulkan.h>
@@ -160,6 +162,18 @@ GPULauncher::BackendFn VulkanComputeBackend::createBackendFn([[maybe_unused]] in
     // avoid re-entrancy issues with std::mutex (which is not recursive).
     return [this](const GPULauncher::WorkItem & /*item*/) -> bool {
         std::lock_guard<std::mutex> lock(mutex_);
+        if (!GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::VULKAN_BACKEND)) {
+            ++stats_.cpu_fallbacks;
+            GPUBackendDispatchDiagnostics::emitDiagnostic(
+                GPUDispatchErrorCode::BACKEND_NOT_ENABLED,
+                -1,
+                "VulkanComputeBackend::createBackendFn: feature_gate=VULKAN_BACKEND disabled");
+            GPUBackendDispatchDiagnostics::emitDiagnostic(
+                GPUDispatchErrorCode::FALLBACK_CPU_DEGRADED,
+                -1,
+                "VulkanComputeBackend::createBackendFn: CPU fallback due to disabled VULKAN_BACKEND");
+            return true;
+        }
         probeDevices();
 #ifdef THEMIS_ENABLE_VULKAN
         if (cached_device_count_ > 0) {
@@ -172,6 +186,14 @@ GPULauncher::BackendFn VulkanComputeBackend::createBackendFn([[maybe_unused]] in
 #endif
         // CPU fallback path (no Vulkan, or Vulkan present but no compute device).
         ++stats_.cpu_fallbacks;
+        GPUBackendDispatchDiagnostics::emitDiagnostic(
+            GPUDispatchErrorCode::BACKEND_NO_DEVICE_AVAILABLE,
+            -1,
+            "VulkanComputeBackend::createBackendFn: no compute-capable Vulkan device");
+        GPUBackendDispatchDiagnostics::emitDiagnostic(
+            GPUDispatchErrorCode::FALLBACK_CPU_DEGRADED,
+            -1,
+            "VulkanComputeBackend::createBackendFn: CPU fallback due to unavailable Vulkan device");
         return true;
     };
 }

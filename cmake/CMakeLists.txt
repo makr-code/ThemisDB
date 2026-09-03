@@ -2218,6 +2218,9 @@ set(THEMIS_CORE_SOURCES
     ../src/query/plan_cache.cpp
     ../src/query/query_executor.cpp
     ../src/query/query_compiler.cpp
+    ../src/query/fts_executor.cpp
+    ../src/query/bm25_scorer.cpp
+    ../src/query/index_cache.cpp
     ../src/query/functions/function_registry.cpp
     ../src/api/graphql.cpp
     ../src/query/functions/ethics_functions.cpp

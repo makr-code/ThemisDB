@@ -242,7 +242,8 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     if(_stem STREQUAL "test_llm_wiki_phase4_roundtrip" OR 
        _stem STREQUAL "test_llm_wiki_edition_gates" OR
        _stem STREQUAL "test_llm_wiki_performance" OR
-       _stem STREQUAL "test_llm_wiki_provenance_focused")
+       _stem STREQUAL "test_llm_wiki_provenance_focused" OR
+       _stem STREQUAL "test_llm_wiki_block4_backend_gate")
         # These tests require workspace state manager and edition gate
         if(TARGET themis_llm_wiki)
             target_link_libraries(${_target} PRIVATE themis_llm_wiki)
