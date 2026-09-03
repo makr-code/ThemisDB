@@ -26,8 +26,8 @@
 #include <chrono>
 #include <vector>
 
-#include "include/observability/distributed_trace_span.h"
-#include "include/observability/distributed_tracing_sdk.h"
+#include "observability/distributed_trace_span.h"
+#include "observability/distributed_tracing_sdk.h"
 
 namespace themis {
 namespace observability {
