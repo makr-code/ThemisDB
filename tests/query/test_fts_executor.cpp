@@ -51,5 +51,23 @@ TEST(FtsExecutorTest, RespectsTimeoutFailClosed) {
   EXPECT_EQ(result.error(), FtsError::EXECUTION_TIMEOUT);
 }
 
+TEST(FtsExecutorTest, ReturnsOutOfMemoryWhenPostingListCannotBeCached) {
+  const auto path = makeTempIndexPath();
+  IndexCache::Config cache_config;
+  cache_config.max_size_mb = 0;
+  cache_config.bloom_filter_size_bits = 256;
+  FtsExecutor executor(path.string(), cache_config);
+
+  IndexUpdateBatch batch;
+  batch.additions.push_back({1U, "alpha beta"});
+  batch.additions.push_back({2U, "alpha gamma"});
+  ASSERT_TRUE(executor.updateIndex(batch).has_value());
+
+  SearchNode query = SearchNode::makeTerm("alpha");
+  auto result = executor.execute(query);
+  ASSERT_FALSE(result.has_value());
+  EXPECT_EQ(result.error(), FtsError::OUT_OF_MEMORY);
+}
+
 }  // namespace
 }  // namespace themis::query::fts

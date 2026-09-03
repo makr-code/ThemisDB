@@ -393,7 +393,11 @@ std::unique_ptr<FtsIndex> FtsIndex::open(const std::string& index_path) {
 }
 
 FtsExecutor::FtsExecutor(const std::string& index_path)
-    : cache_(std::make_unique<IndexCache>()),
+    : FtsExecutor(index_path, IndexCache::Config{}) {}
+
+FtsExecutor::FtsExecutor(
+    const std::string& index_path, const IndexCache::Config& cache_config)
+    : cache_(std::make_unique<IndexCache>(cache_config)),
       index_(FtsIndex::open(index_path)),
       scorer_(std::make_unique<BM25Scorer>()) {}
 
@@ -527,7 +531,9 @@ Result<std::vector<SearchResult>> FtsExecutor::traverseAndScore(
     }
     auto posting_list = index_->lookupTerm(term);
     dfs[term] = static_cast<uint32_t>(posting_list.size());
-    cache_->insert(term, PostingList(posting_list));
+    if (!cache_->insert(term, PostingList(posting_list)) && !posting_list.empty()) {
+      return tl::unexpected(FtsError::OUT_OF_MEMORY);
+    }
     postings[term] = std::move(posting_list);
   }
 

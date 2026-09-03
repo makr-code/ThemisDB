@@ -81,6 +81,12 @@ class FtsExecutor {
   /// @throws std::invalid_argument if index_path invalid
   explicit FtsExecutor(const std::string& index_path);
   
+  /// @brief Construct an executor with explicit cache configuration.
+  /// @param index_path: filesystem path to FTS index directory
+  /// @param cache_config: cache budget and bloom-filter configuration
+  /// @throws std::invalid_argument if index_path invalid
+  FtsExecutor(const std::string& index_path, const IndexCache::Config& cache_config);
+  
   /// @brief Destroy the executor and release owned resources.
   /// @note flushes cache and releases index locks
   ~FtsExecutor();
