@@ -61,6 +61,7 @@ public:
         std::chrono::seconds keepalive_time{30};      ///< Keepalive time
         std::chrono::seconds keepalive_timeout{10};   ///< Keepalive timeout
         int max_concurrent_streams = 100;             ///< Max concurrent streams per channel
+        bool allow_insecure = false;                  ///< Explicit local/test-only fallback; false by default
     };
     
     GrpcChannelPool();
@@ -86,7 +87,8 @@ public:
      * - Caller should implement retry logic or fallback strategy
      * 
      * @param target Target address (e.g., "localhost:50051")
-     * @param credentials Channel credentials (optional, uses insecure if nullptr)
+     * @param credentials Channel credentials. A null pointer is rejected by default;
+     *                   set Config::allow_insecure=true for an explicit local/test override.
      * @return Shared pointer to gRPC channel, or nullptr if acquisition failed
      * 
      * @error_contract
