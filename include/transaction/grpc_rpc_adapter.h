@@ -56,10 +56,9 @@ namespace themis::transaction {
 /**
  * @brief Mutual-TLS credential bundle for gRPC channel creation.
  *
- * When all three PEM fields are non-empty the adapters will create a channel
- * backed by `grpc::SslCredentials`; if any field is empty (or the struct is
- * absent) the adapters fall back to `InsecureChannelCredentials()` and emit a
- * `spdlog::warn` so the fallback is always visible in logs.
+ * This path is fail-closed: the adapter will only create a secure gRPC channel
+ * when all three PEM fields are present and valid. Missing material is rejected
+ * unless `allow_insecure` is explicitly set for a local test-only override.
  *
  * @note For production deployments populate from files or a secret manager —
  *       never hard-code PEM material in source code.
@@ -79,6 +78,13 @@ struct MtlsConfig {
      * match the dial address (e.g. `"localhost"` vs `"127.0.0.1"`).
      */
     std::string target_name_override;
+    /**
+     * @brief Allow the explicit development/test-only insecure fallback.
+     *
+     * This must remain false in production. The distributed transaction path
+     * treats any other usage as a hard error to avoid silent trust degradation.
+     */
+    bool allow_insecure = false;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -109,9 +115,9 @@ public:
      * @param timeout         gRPC deadline applied to every PREPARE call.
      * @param mtls            Optional mTLS credential bundle.  When present and
      *                        all three PEM fields are non-empty, the channel is
-     *                        created with `grpc::SslCredentials`.  Otherwise
-     *                        `InsecureChannelCredentials()` is used and a
-     *                        warning is logged.
+     *                        created with `grpc::SslCredentials`.  Missing PEM
+     *                        material is rejected unless `allow_insecure` is
+     *                        explicitly set for a local test override.
      * @return                Callable compatible with
      *                        `DistributedTransactionManager::RpcPhase1Fn`.
      */

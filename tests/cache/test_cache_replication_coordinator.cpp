@@ -176,7 +176,23 @@ TEST(IRemoteCachePeerTest, InvalidateTenantRecordsTenant) {
     EXPECT_EQ(peer.last_tenant, "my_tenant");
 }
 
-#ifndef THEMIS_ENABLE_GRPC
+#ifdef THEMIS_ENABLE_GRPC
+TEST(GrpcRemoteCachePeerTest, DefaultConfigFailsClosed) {
+    GrpcRemoteCachePeer::Config cfg("node1:8771");
+    EXPECT_FALSE(cfg.tls_enabled);
+    EXPECT_FALSE(cfg.allow_insecure);
+    EXPECT_THROW(GrpcRemoteCachePeer(cfg), std::runtime_error);
+}
+
+TEST(GrpcRemoteCachePeerTest, ExplicitInsecureOverrideAllowed) {
+    GrpcRemoteCachePeer::Config cfg("node2:8771");
+    cfg.allow_insecure = true;
+    EXPECT_NO_THROW({
+        GrpcRemoteCachePeer peer(cfg);
+        EXPECT_EQ(peer.address(), "node2:8771");
+    });
+}
+#else
 TEST(GrpcRemoteCachePeerStubTest, BackendInvokeBridgeHandlesInvalidateCalls) {
     std::string seen_address;
     std::string seen_type;
