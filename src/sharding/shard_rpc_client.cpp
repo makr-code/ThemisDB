@@ -143,10 +143,17 @@ struct ShardRPCClient::Impl {
     }
     
     /**
-     * @brief Check if endpoint explicitly requests in-process test routing
+     * @brief Check if endpoint explicitly requests in-process test routing.
+     *
+     * Production endpoints must never silently fall back to local-only transport.
+     * Only explicit test-only schemes are allowed to reach the in-process path.
      */
     bool isExplicitInProcessEndpoint(const std::string& endpoint) {
         return endpoint.rfind("inproc://", 0) == 0 || endpoint.rfind("loopback://", 0) == 0;
+    }
+
+    [[nodiscard]] bool isProductionSafeEndpoint() const {
+        return use_grpc || isExplicitInProcessEndpoint(config.endpoint);
     }
     
 #if THEMIS_HAS_SHARD_GRPC
@@ -516,14 +523,19 @@ nlohmann::json ShardRPCClient::sendRequest(
     const nlohmann::json& params
 ) {
 #if THEMIS_HAS_SHARD_GRPC
-    // Use gRPC for multi-node deployments
-    if (impl_->use_grpc) {
-        return sendRequestGrpc(method, params);
-    }
+if (impl_->use_grpc) {
+    return sendRequestGrpc(method, params);
+}
 #endif
-    
-    // Fall back to in-process simulation for single-node deployments
+
+if (impl_->isExplicitInProcessEndpoint(impl_->config.endpoint)) {
     return sendRequestInProcess(method, params);
+}
+
+throw std::runtime_error(
+    "ShardRPCClient fail-closed: no real shard transport available for endpoint '" +
+    impl_->config.endpoint + "'. Only explicit test-only inproc:// or loopback:// endpoints may use the in-process path."
+);
 }
 
 #if THEMIS_HAS_SHARD_GRPC
@@ -913,24 +925,15 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
     const nlohmann::json& params
 ) {
     (void)params;
-    // NON-PRODUCTION PATH (Simulation/Stub/Mockup)
-    // Purpose: Provide a local in-process fallback for sendRequest() that
-    //   returns plausible hardcoded JSON responses for all shard RPC methods
-    //   (prepare, commit, abort, compensate, snapshot_read, write_entity, ping).
-    //   Enables single-node operation and unit testing without a live gRPC shard
-    //   peer.  Simulates a configurable 10 ms network delay per attempt.
-    // Activation: THEMIS_HAS_SHARD_GRPC == 0, OR the target endpoint is a
-    //   loopback address (127.x.x.x, ::1, localhost) and use_grpc is false.
-    // Production Delta: RPC never leaves the process; all shard peers appear
-    //   to respond successfully regardless of actual remote state.  2PC
-    //   prepare/commit/abort outcomes are always "commit"/"committed"/"aborted"
-    //   — real network failures, partial failures, and NACK responses from
-    //   remote shards are never exercised.  Latency is 10 ms (constant),
-    //   not real network latency.
-    // Removal Plan: Enable THEMIS_HAS_SHARD_GRPC and deploy real shard peers.
-    //   The sendRequestInProcess() method is retained as a single-node fallback
-    //   — it will only be called when use_grpc is false (loopback endpoints).
-    // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md §"WAL gRPC Replication"
+    // Test-only path: explicitly allowed only for inproc:// or loopback:// endpoints.
+    // Production endpoints must never silently fall back to this mode; callers
+    // must use the fail-closed error path in sendRequest().
+    if (!impl_->isExplicitInProcessEndpoint(impl_->config.endpoint)) {
+        throw std::runtime_error(
+            "In-process simulation is forbidden for production endpoint '" +
+            impl_->config.endpoint + "'. Use an explicit test-only inproc:// or loopback:// endpoint."
+        );
+    }
 
     // Snapshot the injected handler (if any) so the lock is not held during the
     // (possibly sleeping) retry loop.

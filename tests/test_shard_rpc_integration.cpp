@@ -149,24 +149,38 @@ TEST(PrometheusMetricsRpcCallTest, RecordRpcCallNoThrow) {
 }
 
 // ShardRPCClient wired with metrics must record a call for the in-process path.
-TEST(ShardRpcClientMetricsIntegrationTest, InProcessPathRecordsMetric) {
+TEST(ShardRpcClientMetricsIntegrationTest, ProductionEndpointFailsClosedWithoutExplicitTestEndpoint) {
     OperationalMetrics ops;
     ops.registerShard("shard-x");
 
     ShardRPCClient::Config cfg;
-    cfg.endpoint            = "localhost:50051"; // loopback → in-process path
+    cfg.endpoint            = "localhost:50051";
     cfg.shard_id            = "shard-x";
     cfg.max_retries         = 1;
     cfg.operational_metrics = &ops;
 
     ShardRPCClient client(cfg);
 
-    // ping() exercises the in-process sendRequest path.
+    EXPECT_FALSE(client.ping());
+    EXPECT_EQ(ops.getShardMetrics("shard-x"), nullptr);
+}
+
+TEST(ShardRpcClientMetricsIntegrationTest, ExplicitInProcessEndpointRecordsMetric) {
+    OperationalMetrics ops;
+    ops.registerShard("shard-x");
+
+    ShardRPCClient::Config cfg;
+    cfg.endpoint            = "inproc://shard-x";
+    cfg.shard_id            = "shard-x";
+    cfg.max_retries         = 1;
+    cfg.operational_metrics = &ops;
+
+    ShardRPCClient client(cfg);
+
     EXPECT_NO_THROW(client.ping());
 
     const auto* m = ops.getShardMetrics("shard-x");
     ASSERT_NE(m, nullptr);
-    // At least one request should have been recorded.
     EXPECT_GE(m->total_requests.load(), 1u);
 }
 
