@@ -2845,6 +2845,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/distributed_coordinator.cpp
     ../src/sharding/shard_resource_manager.cpp
     ../src/sharding/locality_aware_router.cpp
+    ../src/sharding/global_secondary_index.cpp
     ../src/sharding/raft_configuration.cpp
     ../src/sharding/raft_log.cpp
     ../src/sharding/raft_state.cpp

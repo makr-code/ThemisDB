@@ -537,38 +537,63 @@ bool LocalityAwareRouter::isLatencyStale(const std::string& replica_id,
 std::string LocalityAwareRouter::selectLowestRTTReplica(const std::string& shard_id,
                                                         const std::string& requesting_datacenter_id,
                                                         uint64_t timeout_ms) {
-    // Get topology information for this shard
     if (!topology_) {
-        return shard_id; // Fallback to shard ID if no topology
+        return shard_id;
     }
-    
-    // For now, return the shard ID itself
-    // In a full implementation, this would:
-    // 1. Get replica set for the shard
-    // 2. Check latency records for each replica
-    // 3. Select the one with lowest RTT
-    // 4. Fall back to nearest on timeout
-    
-    uint64_t min_latency = UINT64_MAX;
+
+    std::optional<ShardInfo> shard_info = topology_->getShard(shard_id);
+    std::optional<ShardInfo> local_info = topology_->getShard(local_shard_id_);
+
+    auto candidate = [&](const std::string& replica_id) -> bool {
+        if (replica_id.empty()) {
+            return false;
+        }
+        if (isLatencyStale(replica_id, requesting_datacenter_id, timeout_ms * 2)) {
+            return false;
+        }
+        const auto rtt = getReplicaLatency(replica_id, requesting_datacenter_id);
+        return rtt != UINT64_MAX && rtt <= timeout_ms;
+    };
+
     std::string best_replica = shard_id;
-    
-    // Query latency records for all potential replicas
+    uint64_t min_latency = UINT64_MAX;
+
     {
         std::shared_lock<std::shared_mutex> lock(latency_mutex_);
-        
         for (const auto& [replica_id, dc_map] : latency_records_) {
             auto it = dc_map.find(requesting_datacenter_id);
-            if (it != dc_map.end()) {
-                uint64_t rtt = it->second.rtt_ms;
-                if (rtt < min_latency && rtt <= timeout_ms) {
-                    min_latency = rtt;
-                    best_replica = replica_id;
-                }
+            if (it == dc_map.end()) {
+                continue;
+            }
+            if (it->second.rtt_ms > timeout_ms) {
+                continue;
+            }
+            if (it->second.rtt_ms < min_latency) {
+                min_latency = it->second.rtt_ms;
+                best_replica = replica_id;
             }
         }
     }
-    
-    return best_replica;
+
+    if (best_replica != shard_id && candidate(best_replica)) {
+        return best_replica;
+    }
+
+    if (shard_info.has_value()) {
+        if (local_info.has_value() && local_info->datacenter == shard_info->datacenter) {
+            return local_shard_id_;
+        }
+        if (!shard_info->replica_endpoints.empty()) {
+            return shard_info->replica_endpoints.front();
+        }
+    }
+
+    auto healthy = topology_->getHealthyShards();
+    if (!healthy.empty()) {
+        return healthy.front().shard_id;
+    }
+
+    return shard_id;
 }
 
 /**
@@ -585,37 +610,62 @@ std::string LocalityAwareRouter::selectLowestRTTReplica(const std::string& shard
 std::vector<std::string> LocalityAwareRouter::computeMultiShardExactConsistency(
     const std::vector<std::string>& shard_ids,
     const std::string& consistency_level) {
-    
     if (shard_ids.empty()) {
         return {};
     }
-    
-    // For strong consistency, we need quorum (majority of shards to respond)
-    if (consistency_level == "strong") {
-        size_t quorum_size = (shard_ids.size() / 2) + 1;
-        
-        // Sort shards by expected health/availability
-        std::vector<std::string> sorted_shards = shard_ids;
-        std::sort(sorted_shards.begin(), sorted_shards.end(),
-                  [this](const std::string& a, const std::string& b) {
-                      // Prioritize local shard
-                      if (a == local_shard_id_) return true;
-                      if (b == local_shard_id_) return false;
-                      
-                      // Then prioritize by load score
-                      float score_a = calculateLoadScore(a);
-                      float score_b = calculateLoadScore(b);
-                      return score_a < score_b; // Lower load is better
-                  });
-        
-        // Return quorum-size ordered shards for exact consistency
-        std::vector<std::string> result(sorted_shards.begin(),
-                                        sorted_shards.begin() + quorum_size);
-        return result;
+
+    std::vector<std::string> candidates = shard_ids;
+    if (topology_) {
+        auto healthy = topology_->getHealthyShards();
+        std::set<std::string> healthy_ids;
+        for (const auto& shard : healthy) {
+            healthy_ids.insert(shard.shard_id);
+        }
+        candidates.clear();
+        for (const auto& shard_id : shard_ids) {
+            if (healthy_ids.empty() || healthy_ids.find(shard_id) != healthy_ids.end()) {
+                candidates.push_back(shard_id);
+            }
+        }
+        if (candidates.empty()) {
+            candidates = shard_ids;
+        }
     }
-    
-    // For eventual consistency, return all shards
-    return shard_ids;
+
+    auto by_priority = [this](const std::string& a, const std::string& b) {
+        if (a == local_shard_id_ && b != local_shard_id_) return true;
+        if (b == local_shard_id_ && a != local_shard_id_) return false;
+
+        auto a_info = topology_ ? topology_->getShard(a) : std::optional<ShardInfo>{};
+        auto b_info = topology_ ? topology_->getShard(b) : std::optional<ShardInfo>{};
+        auto local_info = topology_ ? topology_->getShard(local_shard_id_) : std::optional<ShardInfo>{};
+
+        if (a_info && b_info && local_info) {
+            float a_net = a_info->datacenter == local_info->datacenter ? 1.0f : 0.1f;
+            float b_net = b_info->datacenter == local_info->datacenter ? 1.0f : 0.1f;
+            if (a_net != b_net) {
+                return a_net > b_net;
+            }
+        }
+
+        float a_load = calculateLoadScore(a);
+        float b_load = calculateLoadScore(b);
+        if (a_load != b_load) {
+            return a_load < b_load;
+        }
+        return a < b;
+    };
+
+    std::vector<std::string> sorted = candidates;
+    std::sort(sorted.begin(), sorted.end(), by_priority);
+
+    if (consistency_level == "strong") {
+        size_t quorum_size = std::max<size_t>(1u, (sorted.size() / 2u) + 1u);
+        quorum_size = std::min(quorum_size, sorted.size());
+        return std::vector<std::string>(sorted.begin(), sorted.begin() + static_cast<std::ptrdiff_t>(quorum_size));
+    }
+
+    return sorted;
 }
 
 } // namespace themis::sharding
