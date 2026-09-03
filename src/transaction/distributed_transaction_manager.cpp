@@ -156,7 +156,8 @@ bool deliverPhase2WithRetry(
     const std::string& coordinator_id,
     bool               do_commit)
 {
-    constexpr size_t kMaxDeliveryAttempts = 2;
+    constexpr size_t kMaxDeliveryAttempts = 3;
+    constexpr auto kInitialBackoff = std::chrono::milliseconds(100);
 
     for (size_t attempt = 1; attempt <= kMaxDeliveryAttempts; ++attempt) {
         try {
@@ -165,10 +166,12 @@ bool deliverPhase2WithRetry(
             }
 
             if (attempt < kMaxDeliveryAttempts) {
+                const auto backoff = kInitialBackoff * (1ULL << (attempt - 1));
                 THEMIS_WARN("2PC {} {} returned failure for node={} txn={} coordinator={} on "
-                            "attempt {}/{} — retrying",
+                            "attempt {}/{} — retrying in {}ms",
                             bridge_name, do_commit ? "COMMIT" : "ABORT", node_id, txn_id,
-                            coordinator_id, attempt, kMaxDeliveryAttempts);
+                            coordinator_id, attempt, kMaxDeliveryAttempts, backoff.count());
+                std::this_thread::sleep_for(backoff);
             } else {
                 THEMIS_ERROR("2PC {} {} returned failure for node={} txn={} coordinator={} on "
                              "final attempt {}/{}",
@@ -177,10 +180,13 @@ bool deliverPhase2WithRetry(
             }
         } catch (const std::exception& ex) {
             if (attempt < kMaxDeliveryAttempts) {
+                const auto backoff = kInitialBackoff * (1ULL << (attempt - 1));
                 THEMIS_WARN("2PC {} {} threw for node={} txn={} coordinator={} on attempt {}/{}: "
-                            "{} — retrying",
+                            "{} — retrying in {}ms",
                             bridge_name, do_commit ? "COMMIT" : "ABORT", node_id, txn_id,
-                            coordinator_id, attempt, kMaxDeliveryAttempts, ex.what());
+                            coordinator_id, attempt, kMaxDeliveryAttempts, ex.what(),
+                            backoff.count());
+                std::this_thread::sleep_for(backoff);
             } else {
                 THEMIS_ERROR("2PC {} {} threw for node={} txn={} coordinator={} on final attempt "
                              "{}/{}: {}",

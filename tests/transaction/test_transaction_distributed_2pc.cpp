@@ -1510,6 +1510,36 @@ TEST_F(DistributedTxnManagerTest, Stub279_StaticPhase1FnCommit) {
     DistributedTransactionManager::clearRpcPhase1Fn();
 }
 
+// Phase-2 delivery must use 3-attempt retry with backoff before failing.
+TEST_F(DistributedTxnManagerTest, Stub279_RemotePhase2DispatchRetriesThreeTimesOnPersistentFailure) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout  = 2000ms;
+    cfg.default_txn_timeout = 60s;
+    cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
+    cfg.phase1_rpc_fn = [](const std::string&, const std::string&,
+                           const std::set<std::string>&) { return true; };
+
+    std::atomic<int> phase2_calls{0};
+    cfg.remote_phase2_dispatch = [&phase2_calls](
+            const std::string&, const std::string&, const std::string&, bool) {
+        ++phase2_calls;
+        return false;
+    };
+
+    DistributedTransactionManager mgr2("coord-phase2-retry-3x", cfg);
+    const auto tid = mgr2.beginDistributed({makeRemoteParticipant("remote-retry-node")});
+
+    const auto prepare_result = mgr2.prepareDistributed(tid);
+    ASSERT_TRUE(prepare_result.ok) << prepare_result.message;
+
+    const auto commit_result = mgr2.commitDistributed(tid);
+    EXPECT_FALSE(commit_result.ok)
+        << "Persistent Phase-2 delivery failure must fail commit after retries";
+    EXPECT_EQ(phase2_calls.load(), 3)
+        << "Phase-2 dispatch must be attempted exactly three times";
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // DTM-3 liveness bridge tests
 // ─────────────────────────────────────────────────────────────────────────────
