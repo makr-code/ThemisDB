@@ -147,6 +147,28 @@ static DistributedTransactionManager::StaticLivenessCheckFn getLivenessCheckFn()
     return s_liveness_check_fn;
 }
 
+std::chrono::milliseconds computeDeterministicRetryBackoff(
+    const std::string& txn_id,
+    const std::string& node_id,
+    size_t attempt)
+{
+    constexpr std::uint64_t kBaseBackoffMs = 100;
+    constexpr std::uint64_t kJitterPercent = 20;
+    constexpr std::uint64_t kJitterBuckets = (kJitterPercent * 2) + 1; // [-20, +20]
+
+    const std::uint64_t attempt_factor = 1ULL << (attempt - 1);
+    const std::uint64_t base_backoff_ms = kBaseBackoffMs * attempt_factor;
+
+    const auto txn_hash = static_cast<std::uint64_t>(std::hash<std::string>{}(txn_id));
+    const auto node_hash = static_cast<std::uint64_t>(std::hash<std::string>{}(node_id));
+    const std::uint64_t mixed = txn_hash ^ (node_hash << 1U) ^ (attempt * 0x9e3779b97f4a7c15ULL);
+    const int jitter = static_cast<int>(mixed % kJitterBuckets) - static_cast<int>(kJitterPercent);
+
+    const std::uint64_t jittered =
+        (base_backoff_ms * static_cast<std::uint64_t>(100 + jitter)) / 100ULL;
+    return std::chrono::milliseconds(std::max<std::uint64_t>(1ULL, jittered));
+}
+
 template <typename Fn>
 bool deliverPhase2WithRetry(
     Fn&&               deliver_fn,
@@ -156,7 +178,7 @@ bool deliverPhase2WithRetry(
     const std::string& coordinator_id,
     bool               do_commit)
 {
-    constexpr size_t kMaxDeliveryAttempts = 2;
+    constexpr size_t kMaxDeliveryAttempts = 3;
 
     for (size_t attempt = 1; attempt <= kMaxDeliveryAttempts; ++attempt) {
         try {
@@ -165,10 +187,12 @@ bool deliverPhase2WithRetry(
             }
 
             if (attempt < kMaxDeliveryAttempts) {
+                const auto backoff = computeDeterministicRetryBackoff(txn_id, node_id, attempt);
                 THEMIS_WARN("2PC {} {} returned failure for node={} txn={} coordinator={} on "
-                            "attempt {}/{} — retrying",
+                            "attempt {}/{} — retrying in {}ms",
                             bridge_name, do_commit ? "COMMIT" : "ABORT", node_id, txn_id,
-                            coordinator_id, attempt, kMaxDeliveryAttempts);
+                            coordinator_id, attempt, kMaxDeliveryAttempts, backoff.count());
+                std::this_thread::sleep_for(backoff);
             } else {
                 THEMIS_ERROR("2PC {} {} returned failure for node={} txn={} coordinator={} on "
                              "final attempt {}/{}",
@@ -177,10 +201,13 @@ bool deliverPhase2WithRetry(
             }
         } catch (const std::exception& ex) {
             if (attempt < kMaxDeliveryAttempts) {
+                const auto backoff = computeDeterministicRetryBackoff(txn_id, node_id, attempt);
                 THEMIS_WARN("2PC {} {} threw for node={} txn={} coordinator={} on attempt {}/{}: "
-                            "{} — retrying",
+                            "{} — retrying in {}ms",
                             bridge_name, do_commit ? "COMMIT" : "ABORT", node_id, txn_id,
-                            coordinator_id, attempt, kMaxDeliveryAttempts, ex.what());
+                            coordinator_id, attempt, kMaxDeliveryAttempts, ex.what(),
+                            backoff.count());
+                std::this_thread::sleep_for(backoff);
             } else {
                 THEMIS_ERROR("2PC {} {} threw for node={} txn={} coordinator={} on final attempt "
                              "{}/{}: {}",
@@ -328,6 +355,20 @@ DistributedTransactionManager::beginDistributed(
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
+        const size_t active_txn_count = static_cast<size_t>(std::count_if(
+            transactions_.begin(),
+            transactions_.end(),
+            [](const auto& kv) {
+                const DistributedTxnState st = kv.second.state;
+                return st != DistributedTxnState::COMMITTED &&
+                       st != DistributedTxnState::ABORTED;
+            }));
+        if (active_txn_count >= config_.max_active_transactions) {
+            throw std::runtime_error(
+                "DistributedTransactionManager::beginDistributed: max_active_transactions limit reached (" +
+                std::to_string(config_.max_active_transactions) + ")");
+        }
+
         // Sprint 8 Phase 1 (GAP A-1): Transaction ID (txn_id) is captured BEFORE move.
         // This ensures all subsequent operations use the copied txn_id, not the moved object.
         // Pattern: Move object, access by ID; never access moved object.
@@ -618,35 +659,74 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
                      "recovering in-memory in-doubt transactions only",
                      coordinator_id_);
 
-        struct PendingAbort {
+        struct PendingDecision {
             TransactionId txn_id;
             std::vector<Participant> participants;
+            bool do_commit = false;
         };
 
-        std::vector<PendingAbort> pending;
+        std::vector<PendingDecision> pending;
         {
             std::lock_guard<std::mutex> lock(mutex_);
             for (auto& [tid, txn] : transactions_) {
-                if (txn.state != DistributedTxnState::PREPARING &&
-                    txn.state != DistributedTxnState::PREPARED) {
+                if (txn.state == DistributedTxnState::PREPARING ||
+                    txn.state == DistributedTxnState::PREPARED) {
+                    txn.state = DistributedTxnState::ABORTING;
+                    pending.push_back(PendingDecision{tid, txn.participants, /*do_commit=*/false});
                     continue;
                 }
-                txn.state = DistributedTxnState::ABORTING;
-                pending.push_back(PendingAbort{tid, txn.participants});
+                if (txn.state == DistributedTxnState::COMMITTING) {
+                    pending.push_back(PendingDecision{tid, txn.participants, /*do_commit=*/true});
+                    continue;
+                }
+                if (txn.state != DistributedTxnState::ABORTING) {
+                    continue;
+                }
+                pending.push_back(PendingDecision{tid, txn.participants, /*do_commit=*/false});
             }
         }
 
         for (const auto& item : pending) {
-            runPhase2Unlocked(item.txn_id, item.participants, /*do_commit=*/false);
+            const bool phase2_ok =
+                runPhase2Unlocked(item.txn_id, item.participants, item.do_commit);
             std::lock_guard<std::mutex> lock(mutex_);
             if (auto* txn = findTransaction(item.txn_id)) {
-                txn->state = DistributedTxnState::ABORTED;
+                if (phase2_ok) {
+                    txn->state = item.do_commit
+                        ? DistributedTxnState::COMMITTED
+                        : DistributedTxnState::ABORTED;
+                    ++stat_recovered_;
+                    if (item.do_commit) {
+                        ++stat_committed_;
+                    } else {
+                        ++stat_aborted_;
+                    }
+                } else {
+                    txn->state = item.do_commit
+                        ? DistributedTxnState::COMMITTING
+                        : DistributedTxnState::ABORTING;
+                    if (txn->error_detail.empty() || item.do_commit) {
+                        txn->error_detail = item.do_commit
+                            ? "Recovery COMMIT delivery incomplete; transaction remains COMMITTING"
+                            : "Recovery ABORT delivery incomplete; transaction remains ABORTING";
+                    }
+                }
             }
-            ++stat_recovered_;
-            ++stat_aborted_;
         }
 
-        return pending.size();
+        size_t resolved = 0;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            for (const auto& item : pending) {
+                const auto* txn = findTransaction(item.txn_id);
+                if (txn &&
+                    (txn->state == DistributedTxnState::ABORTED ||
+                     txn->state == DistributedTxnState::COMMITTED)) {
+                    ++resolved;
+                }
+            }
+        }
+        return resolved;
     }
 
     THEMIS_INFO("DistributedTransactionManager [{}] starting in-doubt recovery", coordinator_id_);
@@ -656,7 +736,6 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
 
     // Build a map of txn_id → last WAL decision.
     std::map<std::string, themis::sharding::WALEntryType> last_decision;
-    std::map<std::string, size_t>                         participant_counts;
 
     for (const auto& entry : entries) {
         const std::string& tid = entry.transaction_id;
@@ -685,43 +764,90 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
     // cannot contact participants to determine their individual states).
     size_t resolved = 0;
     for (const auto& [tid, type] : last_decision) {
-        if (type != themis::sharding::WALEntryType::PREPARE_TX) continue;
+        if (type != themis::sharding::WALEntryType::PREPARE_TX &&
+            type != themis::sharding::WALEntryType::COMMIT_TX) {
+            continue;
+        }
 
-        THEMIS_WARN("DistributedTransactionManager [{}] recovery: in-doubt txn={} → ABORT",
-                    coordinator_id_, tid);
+        const bool do_commit = (type == themis::sharding::WALEntryType::COMMIT_TX);
 
-        // DTM-2 fix: Log ABORT decision first, then broadcast ABORT to any
-        // in-memory participants so they can release their locks.  Without this
-        // broadcast, participants remained PREPARED indefinitely while holding
-        // row-level locks.
-        logToWAL(themis::sharding::WALEntryType::ABORT_TX, tid, "recovery=true");
+        THEMIS_WARN("DistributedTransactionManager [{}] recovery: in-doubt txn={} → {}",
+                    coordinator_id_, tid, do_commit ? "COMMIT" : "ABORT");
+
+        // For PREPARE_TX (no final decision) we choose conservative ABORT and record
+        // the decision before broadcasting. COMMIT_TX is already durable and only needs
+        // delivery replay to in-memory participants.
+        if (!do_commit) {
+            // DTM-2 fix: Log ABORT decision first, then broadcast ABORT to any
+            // in-memory participants so they can release their locks.  Without this
+            // broadcast, participants remained PREPARED indefinitely while holding
+            // row-level locks.
+            logToWAL(themis::sharding::WALEntryType::ABORT_TX, tid, "recovery=true");
+        }
 
         // Collect in-memory participant list (if the transaction is still live
         // in this coordinator process; may be empty after a restart).
         std::vector<Participant> parts;
+        bool has_live_txn = false;
         {
             std::lock_guard<std::mutex> lock(mutex_);
             auto* txn = findTransaction(tid);
             if (txn) {
-                txn->state = DistributedTxnState::ABORTING;
+                has_live_txn = true;
+                txn->state = do_commit
+                    ? DistributedTxnState::COMMITTING
+                    : DistributedTxnState::ABORTING;
                 parts      = txn->participants;
             }
         }
 
+        // Idempotence hardening: COMMIT_TX is already a durable final decision.
+        // If a restarted coordinator no longer has in-memory participants for this
+        // txn, there is nothing to re-deliver locally, so do not count it as
+        // newly "resolved" on every recovery pass.
+        if (do_commit && !has_live_txn) {
+            THEMIS_DEBUG("DistributedTransactionManager [{}] recovery: COMMIT_TX for txn={} has "
+                         "no in-memory participants after restart; skipping replay",
+                         coordinator_id_, tid);
+            continue;
+        }
+
         if (!parts.empty()) {
-            THEMIS_INFO("DistributedTransactionManager [{}] recovery: broadcasting ABORT for "
+            THEMIS_INFO("DistributedTransactionManager [{}] recovery: broadcasting {} for "
                         "in-doubt txn={} to {} in-memory participants",
-                        coordinator_id_, tid, parts.size());
-            runPhase2Unlocked(tid, parts, /*do_commit=*/false);
+                        coordinator_id_, do_commit ? "COMMIT" : "ABORT", tid, parts.size());
+            const bool phase2_ok = runPhase2Unlocked(tid, parts, do_commit);
 
             std::lock_guard<std::mutex> lock(mutex_);
             auto* txn = findTransaction(tid);
-            if (txn) txn->state = DistributedTxnState::ABORTED;
+            if (txn) {
+                if (phase2_ok) {
+                    txn->state = do_commit
+                        ? DistributedTxnState::COMMITTED
+                        : DistributedTxnState::ABORTED;
+                } else {
+                    txn->state = do_commit
+                        ? DistributedTxnState::COMMITTING
+                        : DistributedTxnState::ABORTING;
+                    if (txn->error_detail.empty()) {
+                        txn->error_detail = do_commit
+                            ? "Recovery COMMIT delivery incomplete; transaction remains COMMITTING"
+                            : "Recovery ABORT delivery incomplete; transaction remains ABORTING";
+                    }
+                }
+            }
+            if (!phase2_ok) {
+                continue;
+            }
         }
 
         ++resolved;
         ++stat_recovered_;
-        ++stat_aborted_;
+        if (do_commit) {
+            ++stat_committed_;
+        } else {
+            ++stat_aborted_;
+        }
     }
 
     THEMIS_INFO("DistributedTransactionManager [{}] recovery complete: {} in-doubt txns resolved",
@@ -819,6 +945,7 @@ size_t DistributedTransactionManager::checkTimeouts() {
         }
     }
 
+    size_t fully_aborted = 0;
     for (const auto& tid : timed_out) {
         THEMIS_WARN("DistributedTransactionManager [{}] txn={} timed out — aborting",
                     coordinator_id_, tid);
@@ -831,10 +958,23 @@ size_t DistributedTransactionManager::checkTimeouts() {
             }
         }
         abortDistributed(tid);
-        ++stat_timeout_aborts_;
+        bool is_fully_aborted = false;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            const auto* txn = findTransaction(tid);
+            is_fully_aborted = (txn && txn->state == DistributedTxnState::ABORTED);
+        }
+        if (is_fully_aborted) {
+            ++stat_timeout_aborts_;
+            ++fully_aborted;
+        } else {
+            THEMIS_WARN("DistributedTransactionManager [{}] txn={} timeout ABORT delivery "
+                        "incomplete; transaction remains in non-terminal state",
+                        coordinator_id_, tid);
+        }
     }
 
-    return timed_out.size();
+    return fully_aborted;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1145,32 +1285,9 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
                 continue;
             }
 
-            const bool has_remote_phase2_bridge =
-                static_cast<bool>(config_.phase2_rpc_fn) ||
-                static_cast<bool>(config_.remote_phase2_dispatch) ||
-                static_cast<bool>(getRpcPhase2Fn());
-
-            if (has_remote_phase2_bridge) {
-                // Backwards-compatibility path: a Phase-2 bridge is configured but
-                // no Phase-1 bridge is available.  Skip the Phase-1 vote and assume
-                // can_commit=true so Phase-2 can still deliver COMMIT/ABORT.
-                // WARNING: this violates strict 2PC correctness — remote participants
-                // are sent COMMIT without having been asked to PREPARE.  Configure a
-                // phase1_rpc_fn / remote_phase1_dispatch / setRpcPhase1Fn to send
-                // actual PREPARE requests to remote nodes.
-                THEMIS_WARN("DistributedTransactionManager [{}] txn={} participant {} has no Phase-1 "
-                            "RPC bridge — skipping PREPARE vote (Phase-2 bridge is configured). "
-                            "Configure phase1_rpc_fn to eliminate this 2PC correctness gap.",
-                            coordinator_id_, txn_id, part.node_id);
-                futures.push_back(submitTask([nid]() -> VoteResult {
-                    return {nid, /*voted=*/false, /*can_commit=*/true};
-                }));
-                continue;
-            }
-
-            // No Phase-1 or Phase-2 bridge: fail-closed with ABORT vote.
+            // No Phase-1 bridge: fail-closed with ABORT vote.
             THEMIS_WARN("DistributedTransactionManager [{}] txn={} participant {} has no callback "
-                        "(remote) — voting ABORT (no RPC bridge configured)",
+                        "(remote) — voting ABORT (no Phase-1 RPC bridge configured)",
                         coordinator_id_, txn_id, part.node_id);
             futures.push_back(submitTask([nid]() -> VoteResult {
                 return {nid, true, /*can_commit=*/false};
@@ -1311,10 +1428,10 @@ bool DistributedTransactionManager::runPhase2Unlocked(
             }
 
             if (auto legacy_rpc_fn = getRpcPhase2Fn()) {
-                futures.push_back(submitTask([legacy_rpc_fn, ep, nid, tid, cid, dc]() {
+                futures.push_back(submitTask([legacy_rpc_fn, nid, tid, cid, dc]() {
                     return deliverPhase2WithRetry(
                         [&]() {
-                            legacy_rpc_fn(ep, tid, dc);
+                            legacy_rpc_fn(nid, tid, dc);
                             return true;
                         },
                         "legacy Phase-2 RPC", nid, tid, cid, dc);

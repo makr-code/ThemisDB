@@ -11,7 +11,9 @@
 
 #pragma once
 
+#include "index/ann_frontdoor.h"
 #include "query/query_plan_visualizer.h"
+#include "themis/rag/kg/knowledge_graph_interface.h"
 
 #include <functional>
 #include <memory>
@@ -266,9 +268,6 @@ private:
 // W9-12: ANN+Graph Hybrid Planner declarations
 // ============================================================================
 
-#include "index/ann_frontdoor.h"
-#include "themis/rag/kg/knowledge_graph_interface.h"
-
 #include <chrono>
 #include <optional>
 
@@ -293,7 +292,7 @@ struct HybridAnnGraphQuery {
     double             graph_min_edge_weight = 0.0;
     std::size_t        top_k             = 20;  ///< Final result count after fusion
     double             rrf_k             = 60.0; ///< RRF constant
-    AnnQueryContext    ann_context;              ///< Routing hints for AnnFrontdoor
+    index::AnnQueryContext ann_context;         ///< Routing hints for AnnFrontdoor
     std::chrono::milliseconds timeout_ms{500};  ///< Hard wall-clock timeout
 };
 

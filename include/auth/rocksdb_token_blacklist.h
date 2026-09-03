@@ -110,8 +110,7 @@ private:
     Config config_;
 
     // RocksDB state
-    // The RocksDB C++ API expects a raw DB* out-parameter for Open()/OpenForReadOnly()
-    // and owns the DB lifetime through a unique_ptr after the handle is created.
+    // DB ownership is managed with unique_ptr for RAII cleanup.
     std::unique_ptr<rocksdb::DB> db_{nullptr};
     rocksdb::ColumnFamilyHandle* cf_{nullptr};
 

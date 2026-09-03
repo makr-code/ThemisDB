@@ -15,6 +15,8 @@
 #define _USE_MATH_DEFINES
 #include <iostream>
 #include <stdexcept>
+#include <utility>
+#include <vector>
 #include "query/query_engine.h"
 #include "query/query_optimizer.h"
 #include "query/query_plan_visualizer.h"
@@ -43,9 +45,19 @@
 #include <limits>
 #include <exception>
 
+#if defined(__has_include)
+#if __has_include(<tbb/parallel_invoke.h>)
+#define THEMIS_HAS_TBB 1
 #include <tbb/parallel_invoke.h>
 #include <tbb/task_group.h>
 #include <tbb/parallel_sort.h> // v1.1.0: TBB Parallel Sort
+#else
+#define THEMIS_HAS_TBB 0
+#endif
+#else
+#define THEMIS_HAS_TBB 0
+#endif
+
 #include "query/parallel_scan.h"
 #include <algorithm>
 #include <array>
@@ -61,6 +73,57 @@
 #include "utils/audit_logger.h"
 
 namespace geo = themis::geo;
+
+#if !THEMIS_HAS_TBB
+namespace tbb {
+class task_group {
+public:
+    template <typename F>
+    void run(F&& f) {
+        if (!cancelled_) {
+            tasks_.emplace_back(std::forward<F>(f));
+        }
+    }
+
+    void wait() {
+        for (auto& task : tasks_) {
+            if (task) {
+                task();
+            }
+        }
+        tasks_.clear();
+    }
+
+    void cancel() noexcept {
+        cancelled_ = true;
+    }
+
+private:
+    bool cancelled_ = false;
+    std::vector<std::function<void()>> tasks_;
+};
+
+template <typename Iter>
+void parallel_sort(Iter first, Iter last) {
+    std::sort(first, last);
+}
+
+template <typename Iter, typename Compare>
+void parallel_sort(Iter first, Iter last, Compare comp) {
+    std::sort(first, last, comp);
+}
+
+template <typename F1, typename F2>
+void parallel_invoke(F1&& f1, F2&& f2) {
+    if (f1) {
+        std::forward<F1>(f1)();
+    }
+    if (f2) {
+        std::forward<F2>(f2)();
+    }
+}
+} // namespace tbb
+#endif
 
 namespace themis {
 namespace query {

@@ -80,6 +80,16 @@ on:
         required: false
       THEMIS_BUILD_SIG:
         required: false
+    outputs:
+      configure-outcome:
+        description: Outcome of Configure step (success|failure|skipped)
+        value: ${{ jobs.build.outputs.configure-outcome }}
+      build-outcome:
+        description: Outcome of Build step (success|failure|skipped)
+        value: ${{ jobs.build.outputs.build-outcome }}
+      validation-outcome:
+        description: Outcome of Validation step (success|failure|skipped)
+        value: ${{ jobs.build.outputs.validation-outcome }}
 
 permissions:
   contents: read
@@ -89,6 +99,10 @@ jobs:
     name: ${{ inputs.summary_title }}
     runs-on: ${{ inputs.runs_on }}
     timeout-minutes: 120
+    outputs:
+      configure-outcome: ${{ steps.configure.outcome }}
+      build-outcome: ${{ steps.build.outcome }}
+      validation-outcome: ${{ steps.validation.outcome || 'skipped' }}
 
     steps:
       - name: Checkout repository

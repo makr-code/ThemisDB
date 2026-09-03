@@ -212,9 +212,12 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 
 ### ingestWikipediaDump() ABI Wiring
 
-- [ ] Wire `ingestWikipediaDump()` through `ILLMWikiPlugin` ABI with sub-feature check `"llm_wiki_wikipedia"` (Target: Q4 2026)
-- [ ] Return `Status::PermissionDenied` with structured error message in Community and Minimal editions; log single-line warning at startup (Target: Q4 2026)
-- [ ] Covered by `LWP-WIKI-01` (basic ingest+query round-trip) and `LWP-WIKI-02` (edition-gate enforcement) (Target: Q4 2026)
+- [x] Wire `ingestWikipediaDump()` through `ILLMWikiPlugin` ABI with sub-feature check `"llm_wiki_wikipedia"` (Target: Q4 2026)
+  - **Evidence**: `src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp::ingestWikipediaDump` now enforces `enforceFeatureGate("llm_wiki_wikipedia")` plus runtime `llm_wiki_wikipedia` license flag.
+- [x] Community/Minimal deny-path emits structured permission diagnostics (Target: Q4 2026)
+  - **Evidence**: denied calls increment `WikiIngestResult.errors` and append `failed_files[]` entry prefixed with `permission_denied:`; startup/init deny path enforced by `enforcePluginGate("initialize")`.
+- [x] Covered by focused gates (Target: Q4 2026)
+  - **Evidence**: `tests/llm/test_llm_wiki_edition_gates.cpp` + `tests/llm/test_llm_wiki_block4_backend_gate.cpp`.
 
 ### FTS Enhancement
 

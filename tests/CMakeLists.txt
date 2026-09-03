@@ -440,7 +440,17 @@ if(NOT THEMIS_ENABLE_LLM)
 endif()
 
 if(NOT THEMIS_ENABLE_GPU)
+    # Exclude ALL GPU/CUDA-related tests when THEMIS_ENABLE_GPU=OFF
+    # This includes tests that require:
+    # - CUDA (cuda.h, cudaXXX() runtime calls)
+    # - ROCm/HIP (hip.h, hipXXX() runtime calls)
+    # - GPU device discovery or memory management
+    # - GPU-accelerated algorithms or kernels
+    # When GPU is disabled, the CPU fallback strategy activates (device_discovery.cpp)
+    # and tests should use focused mode with proper CPU-only targets instead.
     list(APPEND TEST_EXCLUDE_PATTERNS
+        # Broad GPU test patterns
+        ".*gpu/.*\\.cpp$"                               # ALL files in gpu/ subdirectory
         ".*test_collective_backends\\.cpp$"
         ".*test_gpu_vector_index\\.cpp$"
         ".*test_multi_gpu_vector_index\\.cpp$"
@@ -449,9 +459,12 @@ if(NOT THEMIS_ENABLE_GPU)
         ".*test_vram_allocator_null_checks\\.cpp$"
         ".*test_gpu_lora_layers\\.cpp$"
         ".*test_cpu_gpu_parity\\.cpp$"
-        ".*test_cuda_ann_search\\.cpp$"
+        # CUDA-specific tests (require CUDA runtime/headers)
+        ".*test_cuda.*\\.cpp$"
         ".*test_acceleration_coverage\\.cpp$"
+        # GPU backend tests for CUDA, HIP, Vulkan, OpenCL
         ".*test_cuda_hnsw_large_k\\.cpp$"
+        ".*test_break_even_validation\\.cpp$"
     )
 endif()
 
@@ -793,6 +806,9 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     # the full themis_tests link graph.
     ".*test_device_manager\\.cpp$"
     ".*test_backend_registry_startup\\.cpp$"
+    # Placeholder test for unimplemented AC-5 (Timeout Determinism)
+    # References TimeoutCoordinator which has not been implemented yet
+    ".*test_transaction_timeout_determinism\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")

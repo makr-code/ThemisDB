@@ -16,6 +16,7 @@
 #include <memory>
 #include <vector>
 #include <fstream>
+#include <filesystem>
 #include <mutex>
 #include <optional>
 #include <nlohmann/json.hpp>
@@ -217,6 +218,15 @@ struct AuditLoggerConfig {
 class AuditLogger {
 public:
     AuditLogger() = default;
+    explicit AuditLogger(const std::string& log_path, bool enabled = true)
+        : cfg_({}) {
+        cfg_.log_path = log_path;
+        cfg_.enabled = enabled;
+    }
+    explicit AuditLogger(std::filesystem::path log_path, bool enabled = true)
+        : AuditLogger(log_path.string(), enabled) {}
+    explicit AuditLogger(const char* log_path, bool enabled = true)
+        : AuditLogger(log_path ? std::string(log_path) : std::string(), enabled) {}
     virtual ~AuditLogger() = default;
 
     // Resource limits (Phase 2.6 cross-cutting hardening)
@@ -228,6 +238,10 @@ public:
     AuditLogger(std::shared_ptr<themis::FieldEncryption> enc,
                 std::shared_ptr<VCCPKIClient> pki,
                 AuditLoggerConfig cfg);
+
+    void enable(bool enabled = true) noexcept { cfg_.enabled = enabled; }
+    void disable() noexcept { cfg_.enabled = false; }
+    bool enabled() const noexcept { return cfg_.enabled; }
 
     // Log a generic data access/audit event; if encrypt_then_sign is enabled,
     // encrypts the canonical JSON with FieldEncryption, computes SHA-256 over

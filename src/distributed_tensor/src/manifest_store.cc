@@ -146,7 +146,7 @@ ManifestStoreStatus ManifestStore::open(const std::string& db_path) {
   options.target_file_size_base = 64 * 1024 * 1024;  // 64 MB
   
   // Open RocksDB instance
-  rocksdb::DB* db = nullptr;
+  std::unique_ptr<rocksdb::DB> db;
   rocksdb::Status status = rocksdb::DB::Open(options, db_path, &db);
   
   if (!status.ok()) {
@@ -155,7 +155,7 @@ ManifestStoreStatus ManifestStore::open(const std::string& db_path) {
     return mapRocksDBStatusToManifestStatus(status);
   }
   
-  g_manifest_db.reset(db);
+  g_manifest_db = std::move(db);
   g_db_initialized = true;
   db_path_ = db_path;
   is_open_ = true;

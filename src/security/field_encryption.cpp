@@ -28,8 +28,17 @@
 #include <memory>
 #include "utils/hkdf_cache.h"
 #include "utils/logger.h"
+#if defined(__has_include)
+#if __has_include(<tbb/parallel_for.h>)
+#define THEMIS_HAS_TBB 1
 #include <tbb/parallel_for.h>
 #include <tbb/blocked_range.h>
+#else
+#define THEMIS_HAS_TBB 0
+#endif
+#else
+#define THEMIS_HAS_TBB 0
+#endif
 #include <fstream>
 #include <filesystem>
 #include <chrono>
@@ -247,48 +256,44 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
         }
     };
 
+    const auto process_item = [&](size_t i) {
+        const auto& ent = items[i];
+        try {
+            out[i] = encryptWithKey(ent.second, key_id, metadata.version, base_key);
+            // best-effort debug write (opt-in via env)
+            try {
+                write_debug_dump("encrypt", out[i], true);
+            } catch (const std::exception& ex) {
+                logDebugDumpFailure(i, do_parallel, &ex);
+            }
+        } catch (const std::exception& ex) {
+            // [E-2] Partial encryption is unsafe — propagate failures so callers
+            // cannot silently store default-constructed (empty) EncryptedBlobs.
+            THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
+                        "({} item {}): {}",
+                        do_parallel ? "parallel" : "sequential", i, ex.what());
+            throw;
+        }
+    };
+
+#if THEMIS_HAS_TBB
     if (do_parallel) {
         tbb::parallel_for(tbb::blocked_range<size_t>(0, items.size()), [&](const tbb::blocked_range<size_t>& r) {
             for (size_t i = r.begin(); i != r.end(); ++i) {
-                const auto& ent = items[i];
-                try {
-                    out[i] = encryptWithKey(ent.second, key_id, metadata.version, base_key);
-                    // best-effort debug write (opt-in via env)
-                    try {
-                        write_debug_dump("encrypt", out[i], true);
-                    } catch (const std::exception& ex) {
-                        logDebugDumpFailure(i, true, &ex);
-                    }
-                } catch (const std::exception& ex) {
-                    // [E-2] Partial encryption is unsafe — propagate failures so callers
-                    // cannot silently store default-constructed (empty) EncryptedBlobs.
-                    THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
-                                "(parallel item {}): {}", i, ex.what());
-                    throw;
-                }
+                process_item(i);
             }
         });
     } else {
         // Use sequential loop to avoid potential threading issues with OpenSSL in tests.
         for (size_t i = 0; i < items.size(); ++i) {
-            const auto& ent = items[i];
-            try {
-                out[i] = encryptWithKey(ent.second, key_id, metadata.version, base_key);
-                // best-effort debug write (opt-in via env)
-                try {
-                    write_debug_dump("encrypt", out[i], true);
-                } catch (const std::exception& ex) {
-                    logDebugDumpFailure(i, false, &ex);
-                }
-            } catch (const std::exception& ex) {
-                // [E-2] Partial encryption is unsafe — propagate failures so callers
-                // cannot silently store default-constructed (empty) EncryptedBlobs.
-                THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
-                            "(item {}): {}", i, ex.what());
-                throw;
-            }
+            process_item(i);
         }
     }
+#else
+    for (size_t i = 0; i < items.size(); ++i) {
+        process_item(i);
+    }
+#endif
 
     return out;
 }

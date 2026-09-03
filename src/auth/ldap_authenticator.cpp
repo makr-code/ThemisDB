@@ -243,20 +243,28 @@ LDAPAuthenticator::~LDAPAuthenticator() = default;
 
 bool LDAPAuthenticator::initialize(const LDAPConfig& config)
 {
-    if (config.server_url.empty()) {
+    LDAPConfig normalized = config;
+    if (normalized.server_url.empty()) {
+        normalized.server_url = normalized.server_uri;
+    }
+    if (normalized.bind_dn_template.empty()) {
+        normalized.bind_dn_template = normalized.bind_dn;
+    }
+
+    if (normalized.server_url.empty()) {
         spdlog::error("LDAPAuthenticator: server_url must not be empty");
         return false;
     }
-    if (config.bind_dn_template.empty()) {
+    if (normalized.bind_dn_template.empty()) {
         spdlog::error("LDAPAuthenticator: bind_dn_template must not be empty");
         return false;
     }
-    if (config.enable_group_search && config.base_dn.empty()) {
+    if (normalized.enable_group_search && normalized.base_dn.empty()) {
         spdlog::error("LDAPAuthenticator: base_dn is required when enable_group_search=true");
         return false;
     }
 
-    config_      = config;
+    config_      = normalized;
     initialized_ = true;
 
     // Create the connection pool if it is enabled.

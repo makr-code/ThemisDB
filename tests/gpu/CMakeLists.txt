@@ -1,5 +1,11 @@
 # gpu module tests
 
+# Only build GPU tests if GPU support is enabled
+if(NOT THEMIS_ENABLE_GPU)
+    message(STATUS "GPU tests disabled (THEMIS_ENABLE_GPU=OFF) - skipping tests/gpu/CMakeLists.txt")
+    return()
+endif()
+
 file(GLOB GPU_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )

@@ -19,9 +19,11 @@
 #pragma once
 
 #include <memory>
+#include <list>
 #include <optional>
 #include <shared_mutex>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "query/fts_index.h"  // PostingList type
@@ -39,7 +41,8 @@ class IndexCache {
   
   /// @brief Construct the cache with size and bloom-filter settings.
   /// @param config: cache configuration (size, bloom filter params)
-  explicit IndexCache(const Config& config = Config{});
+  IndexCache();
+  explicit IndexCache(const Config& config);
   
   /// @brief Look up a posting list in the in-memory cache.
   /// @param term: search term
@@ -81,11 +84,19 @@ class IndexCache {
   Stats getStats() const;
   
  private:
+  struct Entry {
+    PostingList posting_list;
+    size_t size_bytes = 0;
+    std::list<std::string>::iterator lru_it;
+  };
+
   mutable std::shared_mutex lock_;
   Config config_;
-  
-  // LRU cache implementation (intrusive linked-list + hash map)
-  // This is an implementation detail, hidden from public interface
+  mutable std::unordered_map<std::string, Entry> entries_;
+  mutable std::list<std::string> lru_;
+  mutable std::vector<uint64_t> bloom_bits_;
+  mutable size_t current_size_bytes_ = 0;
+  mutable Stats stats_;
 };
 
 }  // namespace themis::query::fts

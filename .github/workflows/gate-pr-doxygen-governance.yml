@@ -158,9 +158,10 @@ jobs:
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          operation: set_status
+          operation: replace_status_group
           issue-number: ${{ github.event.pull_request.number }}
-          labels-to-add: 'governance/doxygen-waiver'
+          labels-to-add: 'governance/doxygen-waiver,status/needs-approval'
+          status-group: 'governance/doxygen-waiver,status/needs-attention,status/needs-approval,status/resolved'
 
       - name: Clear stale Doxygen waiver label
         if: always() && github.event_name == 'pull_request' && steps.waiver_state.outputs.doxygen_coverage_active != 'true'
@@ -169,52 +170,37 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: clear_status
           issue-number: ${{ github.event.pull_request.number }}
-          labels-to-remove: 'governance/doxygen-waiver'
+          labels-to-remove: 'governance/doxygen-waiver,status/needs-approval'
 
-      - name: Mark Doxygen failure labels
+      - name: Apply Doxygen failed state labels
         if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'FAIL'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          operation: clear_status
+          operation: replace_status_group
           issue-number: ${{ github.event.pull_request.number }}
-          labels-to-remove: 'quality/doxygen-warning'
+          labels-to-add: 'quality/doxygen-failed,status/needs-approval'
+          status-group: 'quality/doxygen-failed,quality/doxygen-warning,status/needs-attention,status/needs-approval,status/resolved'
 
-      - name: Apply Doxygen failed label
-        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'FAIL'
-        uses: ./.github/actions/status-flags-and-issues
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          operation: set_status
-          issue-number: ${{ github.event.pull_request.number }}
-          labels-to-add: 'quality/doxygen-failed'
-
-      - name: Mark Doxygen warning labels
+      - name: Apply Doxygen warning state labels
         if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'WARN'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          operation: clear_status
+          operation: replace_status_group
           issue-number: ${{ github.event.pull_request.number }}
-          labels-to-remove: 'quality/doxygen-failed'
-
-      - name: Apply Doxygen warning label
-        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'WARN'
-        uses: ./.github/actions/status-flags-and-issues
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          operation: set_status
-          issue-number: ${{ github.event.pull_request.number }}
-          labels-to-add: 'quality/doxygen-warning'
+          labels-to-add: 'quality/doxygen-warning,status/needs-attention'
+          status-group: 'quality/doxygen-failed,quality/doxygen-warning,status/needs-attention,status/needs-approval,status/resolved'
 
       - name: Clear Doxygen result labels on pass
         if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'PASS'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          operation: clear_status
+          operation: replace_status_group
           issue-number: ${{ github.event.pull_request.number }}
-          labels-to-remove: 'quality/doxygen-failed,quality/doxygen-warning'
+          labels-to-add: 'status/resolved'
+          status-group: 'quality/doxygen-failed,quality/doxygen-warning,status/needs-attention,status/needs-approval,status/resolved'
 
       - name: Comment gate result on PR
         if: always() && github.event_name == 'pull_request'

@@ -10,8 +10,11 @@
 #include <gtest/gtest.h>
 #include "themis/gpu/vulkan_backend.h"
 #include "themis/gpu/feature_flags.h"
+#include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
 #include "themis/gpu/stream_manager.h"
 #include "themis/gpu/launcher.h"
+#include <algorithm>
+#include <vector>
 
 using namespace themis::gpu;
 
@@ -27,6 +30,7 @@ protected:
             VulkanComputeBackend::GetInstance().destroyStream(n);
         }
         VulkanComputeBackend::GetInstance().resetStats();
+        GPUBackendDispatchDiagnostics::setEventCallback(nullptr);
     }
 
     void TearDown() override {
@@ -34,6 +38,8 @@ protected:
             VulkanComputeBackend::GetInstance().destroyStream(n);
         }
         VulkanComputeBackend::GetInstance().resetStats();
+        GPUBackendDispatchDiagnostics::setEventCallback(nullptr);
+        GPUFeatureFlags::GetInstance().resetToDefaults();
     }
 
     VulkanComputeBackend& backend() {
@@ -109,6 +115,62 @@ TEST_F(VulkanComputeBackendTest, BackendFn_DispatchUpdatesStats) {
     const auto s = backend().getStats();
     // Either dispatched or cpu_fallbacks should be incremented.
     EXPECT_EQ(s.dispatched + s.cpu_fallbacks, 1u);
+}
+
+TEST_F(VulkanComputeBackendTest,
+       BackendFn_VulkanFeatureDisabled_EmitsBackendNotEnabledAndFallbackDiagnostics) {
+    using F = GPUFeatureFlags::Feature;
+    GPUFeatureFlags::GetInstance().disable(F::VULKAN_BACKEND);
+
+    std::vector<GPUDispatchErrorCode> observed_codes;
+    GPUBackendDispatchDiagnostics::setEventCallback(
+        [&](GPUDispatchEventType, GPUDispatchErrorCode code, int, const std::string&) {
+            observed_codes.push_back(code);
+        });
+
+    auto fn = backend().createBackendFn(0);
+    GPULauncher::WorkItem item;
+    item.kernel_id = "vulkan_feature_disabled";
+    EXPECT_TRUE(fn(item));
+
+    const auto stats = backend().getStats();
+    EXPECT_EQ(stats.cpu_fallbacks, 1u);
+    EXPECT_NE(std::find(observed_codes.begin(), observed_codes.end(),
+                        GPUDispatchErrorCode::BACKEND_NOT_ENABLED),
+              observed_codes.end());
+    EXPECT_NE(std::find(observed_codes.begin(), observed_codes.end(),
+                        GPUDispatchErrorCode::FALLBACK_CPU_DEGRADED),
+              observed_codes.end());
+}
+
+TEST_F(VulkanComputeBackendTest,
+       BackendFn_NoDeviceFallback_EmitsBackendNoDeviceAndFallbackDiagnostics) {
+    using F = GPUFeatureFlags::Feature;
+    GPUFeatureFlags::GetInstance().enable(F::VULKAN_BACKEND);
+
+    std::vector<GPUDispatchErrorCode> observed_codes;
+    GPUBackendDispatchDiagnostics::setEventCallback(
+        [&](GPUDispatchEventType, GPUDispatchErrorCode code, int, const std::string&) {
+            observed_codes.push_back(code);
+        });
+
+    auto fn = backend().createBackendFn(0);
+    GPULauncher::WorkItem item;
+    item.kernel_id = "vulkan_no_device";
+    EXPECT_TRUE(fn(item));
+
+    if (backend().deviceCount() > 0) {
+        GTEST_SKIP() << "Vulkan compute device available; no-device fallback not exercised";
+    }
+
+    const auto stats = backend().getStats();
+    EXPECT_EQ(stats.cpu_fallbacks, 1u);
+    EXPECT_NE(std::find(observed_codes.begin(), observed_codes.end(),
+                        GPUDispatchErrorCode::BACKEND_NO_DEVICE_AVAILABLE),
+              observed_codes.end());
+    EXPECT_NE(std::find(observed_codes.begin(), observed_codes.end(),
+                        GPUDispatchErrorCode::FALLBACK_CPU_DEGRADED),
+              observed_codes.end());
 }
 
 // ---------------------------------------------------------------------------

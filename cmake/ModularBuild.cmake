@@ -994,6 +994,9 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/transaction/transaction_auditor.cpp
     ../src/analytics/diff_engine.cpp
     
+    # RPC adapters for distributed transaction coordination
+    ../src/transaction/grpc_rpc_adapter.cpp
+    
     # Temporal conflict resolution and production-readiness modules
     ../src/temporal/temporal_conflict_resolver.cpp
     ../src/temporal/system_versioned_table.cpp
@@ -1090,6 +1093,7 @@ set(THEMIS_SHARDING_SOURCES
     
     # Distributed transactions
     ../src/sharding/distributed_transaction.cpp
+    ../src/transaction/distributed_transaction_manager.cpp    # Two-Phase Commit coordinator (moved from transaction module to resolve WALManager dependency)
     ../src/sharding/two_phase_commit_participant.cpp
     ../src/sharding/two_phase_commit_coordinator.cpp
     ../src/sharding/consensus_factory.cpp
@@ -1376,6 +1380,9 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/hybrid_retriever.cpp
     ../src/rag/lora_enhanced_retriever.cpp
     ../src/rag/citation_highlighter.cpp
+    ../src/llm/wiki_chunk_splitter.cpp  # Wiki document chunk splitting
+    ../src/llm/wiki_rag_source.cpp      # Wiki RAG source integration
+    ../src/rag/wiki_index_store.cpp    # BM25+HNSW+RocksDB wiki retrieval index
     # Phase 5: Distributed evaluation and security
     ../src/rag/distributed_rag_evaluator.cpp
     ../src/rag/prompt_injection_detector.cpp
@@ -1535,6 +1542,17 @@ if(THEMIS_ENABLE_VULKAN)
 endif()
 
 # Optional split for very large LLM builds (notably MSVC toolchains).
+# In modular build, use stub implementation instead of full llama.cpp integration
+# to avoid circular dependencies with sharding module.
+# Remove real implementations BEFORE splitting so they don't end up in core/ext
+if(THEMIS_BUILD_MODULAR AND THEMIS_MODULE_LLM)
+    list(REMOVE_ITEM THEMIS_LLM_SOURCES
+        ../src/llm/embedded_llm.cpp
+        ../src/llm/docs_assistant.cpp
+        ../src/llm/themis_help_lora.cpp
+    )
+endif()
+
 if(THEMIS_BUILD_MODULAR AND THEMIS_MODULE_LLM AND THEMIS_MODULE_LLM_SPLIT)
     list(LENGTH THEMIS_LLM_SOURCES _themis_llm_source_count)
     if(_themis_llm_source_count GREATER 1)
@@ -1551,24 +1569,14 @@ else()
     set(THEMIS_LLM_EXT_SOURCES)
 endif()
 
-# Create a small LLM API module that contains a minimal set of
-# runtime-facing implementations (DocsAssistant, EmbeddedLLM, ThemisHelpLoRA)
-# These are required by query components at link time but should not
-# drag in the full LLM implementation which depends on sharding.
+# Create a small LLM API module that contains stub implementations
+# These work without llama.cpp integration and prevent circular module dependencies
+# The stub provides deterministic fallbacks for EmbeddedLLM, EmbeddedLLMManager, etc.
 set(THEMIS_LLM_API_SOURCES
     ../src/llm/llm_factory_stub.cpp
+    ../src/llm/embedded_llm_stub.cpp
     ../src/llm/api/docs_assistant_adapter.cpp
     ../src/llm/api/themis_help_lora_adapter.cpp
-    ../src/llm/api/embedded_llm_adapter.cpp
-)
-
-# Ensure the heavyweight implementations remain in the core LLM
-# sources so the full `themis_llm` library continues to provide
-# real functionality when linked at final link time.
-list(APPEND THEMIS_LLM_CORE_SOURCES
-    ../src/llm/docs_assistant.cpp
-    ../src/llm/embedded_llm.cpp
-    ../src/llm/applications/themis_help_lora.cpp
 )
 
 # Remove API files from the core sources if they are present
@@ -2240,14 +2248,18 @@ function(themis_build_modular)
         OpenSSL::SSL
         OpenSSL::Crypto
     )
-        # Ensure pugixml is found before checking for its targets
-        # (this module may be included before find_package(pugixml) is called in CMakeLists.txt)
-        if(NOT TARGET pugixml::shared AND NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
-            find_package(pugixml CONFIG QUIET)
+    # Ensure pugixml is discovered even when the package is only available via
+    # pkg-config or a system library path. This keeps security builds resilient
+    # in CI/container environments that do not expose a CMake config package.
+    if(NOT TARGET pugixml::shared AND NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
+        find_package(PkgConfig QUIET)
+        if(PkgConfig_FOUND)
+            pkg_check_modules(PUGIXML QUIET pugixml)
         endif()
-        if(pugixml_FOUND AND NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
-            find_path(PUGIXML_INCLUDE_DIR NAMES pugixml.hpp PATH_SUFFIXES include)
-            find_library(PUGIXML_LIB NAMES pugixml libpugixml)
+
+        if(PUGIXML_FOUND AND NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
+            find_path(PUGIXML_INCLUDE_DIR NAMES pugixml.hpp HINTS ${PUGIXML_INCLUDE_DIRS} PATH_SUFFIXES include)
+            find_library(PUGIXML_LIB NAMES pugixml libpugixml HINTS ${PUGIXML_LIBRARY_DIRS})
             if(PUGIXML_INCLUDE_DIR AND PUGIXML_LIB)
                 add_library(pugixml UNKNOWN IMPORTED)
                 set_target_properties(pugixml PROPERTIES
@@ -2255,7 +2267,21 @@ function(themis_build_modular)
                     INTERFACE_INCLUDE_DIRECTORIES "${PUGIXML_INCLUDE_DIR}")
                 add_library(pugixml::pugixml ALIAS pugixml)
             endif()
+        elseif(NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
+            find_package(pugixml CONFIG QUIET)
+            if(pugixml_FOUND)
+                find_path(PUGIXML_INCLUDE_DIR NAMES pugixml.hpp PATH_SUFFIXES include)
+                find_library(PUGIXML_LIB NAMES pugixml libpugixml)
+                if(PUGIXML_INCLUDE_DIR AND PUGIXML_LIB)
+                    add_library(pugixml UNKNOWN IMPORTED)
+                    set_target_properties(pugixml PROPERTIES
+                        IMPORTED_LOCATION "${PUGIXML_LIB}"
+                        INTERFACE_INCLUDE_DIRECTORIES "${PUGIXML_INCLUDE_DIR}")
+                    add_library(pugixml::pugixml ALIAS pugixml)
+                endif()
+            endif()
         endif()
+    endif()
     if(TARGET TBB::tbb)
         list(APPEND _themis_security_deps TBB::tbb)
     endif()
@@ -2920,9 +2946,11 @@ function(themis_build_modular)
             list(APPEND _themis_content_deps themis_graph)
         endif()
         if(THEMIS_MODULE_LLM)
+            # Link against main LLM module for EmbeddedLLM implementations
             list(APPEND _themis_content_deps themis_llm)
-            if(THEMIS_MODULE_LLM_SPLIT)
-                list(APPEND _themis_content_deps themis_llm_ext)
+            # Also link API module for additional adapters
+            if(TARGET themis_llm_api)
+                list(APPEND _themis_content_deps themis_llm_api)
             endif()
         endif()
         if(TARGET themis_query)

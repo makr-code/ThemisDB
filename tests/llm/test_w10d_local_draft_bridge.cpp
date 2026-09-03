@@ -190,7 +190,7 @@ TEST(W10DLocalDraftBridgeTest, SD_LOCAL_02_ByteModuloFallbackWhenNoFnSet) {
     constexpr size_t K     = 3;
     constexpr size_t VOCAB = 100;
 
-    ILLMPlugin::InferenceRequest req;
+    InferenceRequest req;
     req.prompt     = "speculative fallback test";
     req.max_tokens = static_cast<int>(K);
 

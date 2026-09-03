@@ -387,6 +387,31 @@ TEST(AnnFrontdoorSearch, DistributedPartialFailureReturnsDegradedWhenAllowed) {
     EXPECT_FALSE(result.candidates.empty());
 }
 
+TEST(AnnFrontdoorSearch, DistributedPartialFailureFailsClosedWhenPartialDisabled) {
+    AnnFrontdoor::Config cfg;
+    cfg.distributed_retry_attempts = 0;
+    cfg.distributed_allow_partial_results = false;
+    cfg.distributed_include_global_backend = false;
+    AnnFrontdoor fd(cfg);
+
+    auto always_fail = std::make_shared<FlakyAnnIndex>(
+        100, std::vector<StubAnnIndex::Entry>{{99, 0.5f}});
+    fd.registerBackend("fail", always_fail, AnnScopeKind::ShardSummary);
+    fd.registerBackend("ok", makeStub(2, 0.05f), AnnScopeKind::ShardSummary);
+
+    AnnQueryContext ctx;
+    ctx.shard_aware = true;
+
+    auto result = fd.search(kQuery, kDim, 3, ctx);
+    EXPECT_TRUE(result.candidates.empty());
+    EXPECT_FALSE(result.partial_results);
+    EXPECT_EQ(result.fallback_mode, "fail_closed");
+    EXPECT_EQ(result.fallback_reason_code,
+              std::string(themis::observability::reason_codes::ann::kFallbackDistributedPartialFailure));
+    EXPECT_EQ(result.shards_failed, 1u);
+    EXPECT_EQ(result.shards_succeeded, 1u);
+}
+
 TEST(AnnFrontdoorSearch, DistributedAllShardFailuresFailClosedWhenPartialDisabled) {
     AnnFrontdoor::Config cfg;
     cfg.distributed_retry_attempts = 0;

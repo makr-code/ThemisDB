@@ -395,6 +395,10 @@ WikiIndexStore::WikiIndexStore(Config cfg)
 
 WikiIndexStore::~WikiIndexStore() = default;
 
+WikiIndexStore::WikiIndexStore(WikiIndexStore&&) noexcept = default;
+
+WikiIndexStore& WikiIndexStore::operator=(WikiIndexStore&&) noexcept = default;
+
 void WikiIndexStore::addDocument(const std::string& doc_id,
                                  const std::string& text) {
     if (doc_id.empty()) {

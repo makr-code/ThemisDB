@@ -50,6 +50,9 @@ struct LDAPPoolConfig {
      */
     int checkout_timeout_ms{5000};
 
+    // Backward-compatible fields used by the auth tests.
+    std::string host;
+
     /// Connection / TLS setup parameters duplicated from LDAPConfig so the
     /// pool can create new connections independently.
     std::string server_url;
