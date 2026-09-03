@@ -148,7 +148,7 @@ struct ShardRPCClient::Impl {
      * Production endpoints must never silently fall back to local-only transport.
      * Only explicit test-only schemes are allowed to reach the in-process path.
      */
-    bool isExplicitInProcessEndpoint(const std::string& endpoint) {
+    bool isExplicitInProcessEndpoint(const std::string& endpoint) const {
         return endpoint.rfind("inproc://", 0) == 0 || endpoint.rfind("loopback://", 0) == 0;
     }
 
