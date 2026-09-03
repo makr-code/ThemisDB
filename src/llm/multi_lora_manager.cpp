@@ -79,14 +79,28 @@ namespace {
 }
 
 MultiLoRAManager::MultiLoRAManager(const Config& config)
-    : config_(config), 
+    : config_(config),
+      loras_(),
+      adapter_state_lock_(),
+      adapter_cache_lock_(),
+      mutex_(),
+      metrics_lock_(),
+      eviction_cv_(),
       total_vram_bytes_(0),
-      next_round_robin_gpu_(0),
-      eviction_thread_(nullptr),
       cache_hits_(0),
       cache_misses_(0),
       evictions_(0),
-      switches_(0) {
+      switches_(0),
+      gpu_vram_usage_(),
+      next_round_robin_gpu_(0),
+      lora_tenants_(),
+      audit_log_(),
+      gpu_health_status_(),
+      gpu_last_health_check_(),
+      fusion_cache_(),
+      eviction_thread_(nullptr),
+      eviction_thread_running_(false),
+      eviction_thread_done_(false) {
     
     spdlog::info("MultiLoRAManager initialized (vLLM-style):");
     spdlog::info("  Max LoRA VRAM: {} MB", config_.max_lora_vram_mb);

@@ -196,7 +196,9 @@ void cpu_fused_lora_forward_parallel(
     std::vector<float> intermediate(batch_size * rank);
     
     // Step 1: Compute h = input @ B^T (parallelized over batch)
+    #ifdef _OPENMP
     #pragma omp parallel for if(batch_size > 4)
+    #endif
     for (size_t b = 0; b < batch_size; ++b) {
         for (size_t r = 0; r < rank; ++r) {
             float sum = 0.0f;
@@ -208,7 +210,9 @@ void cpu_fused_lora_forward_parallel(
     }
     
     // Step 2: Compute output = h @ A^T * scaling (parallelized over batch)
+    #ifdef _OPENMP
     #pragma omp parallel for if(batch_size > 4)
+    #endif
     for (size_t b = 0; b < batch_size; ++b) {
         for (size_t o = 0; o < out_dim; ++o) {
             float sum = 0.0f;

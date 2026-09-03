@@ -51,7 +51,7 @@ std::vector<std::string> tokenizeNormalized(const std::string& text) {
     return tokens;
 }
 
-double lexicalOverlapScore(const std::string& query, const std::string& content) {
+double [[maybe_unused]] lexicalOverlapScore(const std::string& query, const std::string& content) {
     const auto q_tokens = tokenizeNormalized(query);
     if (q_tokens.empty()) return 0.0;
 
@@ -270,6 +270,7 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
             const auto cb_end = std::chrono::steady_clock::now();
             if (std::getenv("THEMIS_RAG_CRITIC_TRACE")) {
                 critic_cb_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(cb_end - cb_start).count();
+                std::fprintf(stderr, "  DEBUG critic: callback_time_ns=%ld\n", critic_cb_ns);
             }
         } else {
             const double retrieval_signal = clamp01(doc.score);

@@ -35,7 +35,9 @@ ContinuousBatchScheduler::ContinuousBatchScheduler(
     PagedKVCache* kv_cache
 ) : config_(config),
     kv_cache_(kv_cache),
-    effective_prefill_chunk_size_(ensureMinimumPrefillChunkSize(config.prefill_chunk_size)),
+    metrics_collector_(nullptr),
+    quota_manager_(nullptr),
+    shard_load_cb_(),
     waiting_queue_(
         [](const std::shared_ptr<ScheduledRequest>& a,
            const std::shared_ptr<ScheduledRequest>& b) {
@@ -45,7 +47,17 @@ ContinuousBatchScheduler::ContinuousBatchScheduler(
             }
             return a->submitted_at > b->submitted_at;  // Earlier first
         }
-    ) {
+    ),
+    active_requests_(),
+    preempted_requests_(),
+    completed_requests_(),
+    all_requests_(),
+    mutex_(),
+    cv_(),
+    running_(false),
+    stats_(),
+    last_schedule_time_(),
+    effective_prefill_chunk_size_(ensureMinimumPrefillChunkSize(config.prefill_chunk_size)) {
     
     spdlog::info("Continuous Batch Scheduler initialized (vLLM-style):");
     spdlog::info("  Max batch size: {}", config_.max_batch_size);

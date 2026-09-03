@@ -130,7 +130,11 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
                     .used_mode = RetrievalMode::GLOBAL,
                     .llm_context = ctx.str(),
                     .community_ids_used = std::move(used_ids),
-                    .instance_id_used = std::string(instance_id)
+                    .instance_id_used = std::string(instance_id),
+                    .retrieval_time_ms = 0,
+                    .context_size_bytes = 0,
+                    .degraded = false,
+                    .resource_exhaustion_reason = std::nullopt
                 };
             }
         }
@@ -149,7 +153,11 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
         .used_mode = RetrievalMode::LOCAL,
         .llm_context = ctx.llm_prompt,
         .community_ids_used = {},
-        .instance_id_used = std::string(instance_id)
+        .instance_id_used = std::string(instance_id),
+        .retrieval_time_ms = 0,
+        .context_size_bytes = 0,
+        .degraded = false,
+        .resource_exhaustion_reason = std::nullopt
     };
 }
 
