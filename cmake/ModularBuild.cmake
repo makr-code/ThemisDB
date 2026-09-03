@@ -1542,6 +1542,17 @@ if(THEMIS_ENABLE_VULKAN)
 endif()
 
 # Optional split for very large LLM builds (notably MSVC toolchains).
+# In modular build, use stub implementation instead of full llama.cpp integration
+# to avoid circular dependencies with sharding module.
+# Remove real implementations BEFORE splitting so they don't end up in core/ext
+if(THEMIS_BUILD_MODULAR AND THEMIS_MODULE_LLM)
+    list(REMOVE_ITEM THEMIS_LLM_SOURCES
+        ../src/llm/embedded_llm.cpp
+        ../src/llm/docs_assistant.cpp
+        ../src/llm/themis_help_lora.cpp
+    )
+endif()
+
 if(THEMIS_BUILD_MODULAR AND THEMIS_MODULE_LLM AND THEMIS_MODULE_LLM_SPLIT)
     list(LENGTH THEMIS_LLM_SOURCES _themis_llm_source_count)
     if(_themis_llm_source_count GREATER 1)
@@ -1558,26 +1569,15 @@ else()
     set(THEMIS_LLM_EXT_SOURCES)
 endif()
 
-# Keep real implementations in core; adapters will be in API module and link against core
-# No need to remove implementations - they belong in the core module
-
-# Create a small LLM API module that contains a minimal set of
-# runtime-facing implementations (DocsAssistant, EmbeddedLLM, ThemisHelpLoRA)
-# These are required by query components at link time but should not
-# drag in the full LLM implementation which depends on sharding.
+# Create a small LLM API module that contains stub implementations
+# These work without llama.cpp integration and prevent circular module dependencies
+# The stub provides deterministic fallbacks for EmbeddedLLM, EmbeddedLLMManager, etc.
 set(THEMIS_LLM_API_SOURCES
     ../src/llm/llm_factory_stub.cpp
+    ../src/llm/embedded_llm_stub.cpp
+    ../src/llm/api/docs_assistant_adapter.cpp
+    ../src/llm/api/themis_help_lora_adapter.cpp
 )
-
-# In modular build, always use adapters instead of real implementations
-# Adapters delegate to factory methods and prevent circular module dependencies
-if(THEMIS_BUILD_MODULAR AND THEMIS_MODULE_LLM)
-    list(APPEND THEMIS_LLM_API_SOURCES
-        ../src/llm/api/docs_assistant_adapter.cpp
-        ../src/llm/api/themis_help_lora_adapter.cpp
-        ../src/llm/api/embedded_llm_adapter.cpp
-    )
-endif()
 
 # Remove API files from the core sources if they are present
 list(REMOVE_ITEM THEMIS_LLM_CORE_SOURCES ${THEMIS_LLM_API_SOURCES})
@@ -2946,9 +2946,11 @@ function(themis_build_modular)
             list(APPEND _themis_content_deps themis_graph)
         endif()
         if(THEMIS_MODULE_LLM)
+            # Link against main LLM module for EmbeddedLLM implementations
             list(APPEND _themis_content_deps themis_llm)
-            if(THEMIS_MODULE_LLM_SPLIT)
-                list(APPEND _themis_content_deps themis_llm_ext)
+            # Also link API module for additional adapters
+            if(TARGET themis_llm_api)
+                list(APPEND _themis_content_deps themis_llm_api)
             endif()
         endif()
         if(TARGET themis_query)
