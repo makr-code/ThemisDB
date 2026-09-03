@@ -336,6 +336,82 @@ jobs:
             echo "grouped_json_file=/tmp/aggregated-errors-by-module-file.json" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Classify chronic build error labels
+        if: steps.aggregate.outputs.chronic_errors > 0
+        id: classify
+        shell: bash
+        env:
+          ERROR_ARTIFACTS_DIR: /tmp/error-artifacts
+          CHRONIC_ERRORS: ${{ steps.aggregate.outputs.chronic_errors }}
+        run: |
+          python3 - <<'PY'
+          import glob
+          import json
+          import os
+          from collections import Counter
+
+          artifacts_dir = os.environ.get("ERROR_ARTIFACTS_DIR", "/tmp/error-artifacts")
+          chronic_errors = int(os.environ.get("CHRONIC_ERRORS", "0") or "0")
+          counts = Counter()
+          critical = 0
+
+          for path in glob.glob(os.path.join(artifacts_dir, "**", "*.json"), recursive=True):
+              name = os.path.basename(path)
+              if name.startswith("_metadata") or name in {"changed-src-files.json"}:
+                  continue
+              try:
+                  data = json.loads(open(path, encoding="utf-8").read())
+              except Exception:
+                  continue
+              summary = data.get("summary") if isinstance(data, dict) else None
+              if isinstance(summary, dict):
+                  by_type = summary.get("by_type")
+                  if isinstance(by_type, dict):
+                      for key, val in by_type.items():
+                          try:
+                              counts[str(key)] += int(val)
+                          except Exception:
+                              continue
+                  by_sev = summary.get("by_severity")
+                  if isinstance(by_sev, dict):
+                      critical += int(by_sev.get("critical", 0) or 0)
+
+          labels = ["ci/failure", "ci/build-error", "maintenance"]
+          if counts.get("compiler_error", 0) > 0 or counts.get("linker_error", 0) > 0:
+              labels.append("ci/compiler-linker-failed")
+          if counts.get("dependency_error", 0) > 0:
+              labels.append("ci/dependency-stale")
+          if counts.get("sanitizer_error", 0) > 0:
+              labels.append("ci/sanitizer-failed")
+          if counts.get("test_failure", 0) > 0:
+              labels.append("ci/test-failed")
+
+          if critical > 0 or chronic_errors >= 5:
+              labels.extend(["severity:high", "status/needs-approval"])
+          else:
+              labels.extend(["severity:medium", "status/needs-attention"])
+
+          status_group = ",".join([
+              "ci/failure",
+              "ci/build-error",
+              "ci/compiler-linker-failed",
+              "ci/dependency-stale",
+              "ci/sanitizer-failed",
+              "ci/test-failed",
+              "severity:high",
+              "severity:medium",
+              "status/needs-approval",
+              "status/needs-attention",
+              "status/resolved",
+          ])
+
+          label_csv = ",".join(dict.fromkeys(labels))
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write(f"labels={label_csv}\n")
+              fh.write(f"status_group={status_group}\n")
+              fh.write(f"critical={critical}\n")
+          PY
+
       - name: Ensure single chronic build failure issue
         if: steps.aggregate.outputs.chronic_errors > 0
         id: chronic-issue
@@ -361,11 +437,24 @@ jobs:
             
             ---
             
-            **Labels**: `ci/failure,ci/build-error`  
-            **Severity**: High (blocking builds)  
+            **Labels**: `${{ steps.classify.outputs.labels }}`  
+            **Critical findings**: `${{ steps.classify.outputs.critical }}`  
             **Priority**: Address chronic errors immediately  
             _Neue Build-Fehler werden als Kommentare an dieses Issue angehängt._
-          labels-to-add: 'ci/failure,ci/build-error,maintenance'
+          labels-to-add: ${{ steps.classify.outputs.labels }}
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Normalize chronic build issue labels
+        if: steps.aggregate.outputs.chronic_errors > 0
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-number: ${{ steps.chronic-issue.outputs.issue-number }}
+          labels-to-add: ${{ steps.classify.outputs.labels }}
+          status-group: ${{ steps.classify.outputs.status_group }}
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
