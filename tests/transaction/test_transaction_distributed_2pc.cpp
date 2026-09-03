@@ -1561,11 +1561,18 @@ TEST_F(DistributedTxnManagerTest, Stub279_RemotePhase2DispatchRetriesThreeTimesO
     const auto prepare_result = mgr2.prepareDistributed(tid);
     ASSERT_TRUE(prepare_result.ok) << prepare_result.message;
 
+    const auto started_at = std::chrono::steady_clock::now();
     const auto commit_result = mgr2.commitDistributed(tid);
+    const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - started_at).count();
     EXPECT_FALSE(commit_result.ok)
         << "Persistent Phase-2 delivery failure must fail commit after retries";
     EXPECT_EQ(phase2_calls.load(), 3)
         << "Phase-2 dispatch must be attempted exactly three times";
+    EXPECT_GE(elapsed_ms, 230)
+        << "Retry backoff must wait at least ~240ms total (80ms + 160ms with jitter margin)";
+    EXPECT_LE(elapsed_ms, 1200)
+        << "Retry backoff must remain bounded and not silently extend deadlines";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

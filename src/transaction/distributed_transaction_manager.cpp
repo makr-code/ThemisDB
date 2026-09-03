@@ -147,6 +147,28 @@ static DistributedTransactionManager::StaticLivenessCheckFn getLivenessCheckFn()
     return s_liveness_check_fn;
 }
 
+std::chrono::milliseconds computeDeterministicRetryBackoff(
+    const std::string& txn_id,
+    const std::string& node_id,
+    size_t attempt)
+{
+    constexpr std::uint64_t kBaseBackoffMs = 100;
+    constexpr std::uint64_t kJitterPercent = 20;
+    constexpr std::uint64_t kJitterBuckets = (kJitterPercent * 2) + 1; // [-20, +20]
+
+    const std::uint64_t attempt_factor = 1ULL << (attempt - 1);
+    const std::uint64_t base_backoff_ms = kBaseBackoffMs * attempt_factor;
+
+    const auto txn_hash = static_cast<std::uint64_t>(std::hash<std::string>{}(txn_id));
+    const auto node_hash = static_cast<std::uint64_t>(std::hash<std::string>{}(node_id));
+    const std::uint64_t mixed = txn_hash ^ (node_hash << 1U) ^ (attempt * 0x9e3779b97f4a7c15ULL);
+    const int jitter = static_cast<int>(mixed % kJitterBuckets) - static_cast<int>(kJitterPercent);
+
+    const std::uint64_t jittered =
+        (base_backoff_ms * static_cast<std::uint64_t>(100 + jitter)) / 100ULL;
+    return std::chrono::milliseconds(std::max<std::uint64_t>(1ULL, jittered));
+}
+
 template <typename Fn>
 bool deliverPhase2WithRetry(
     Fn&&               deliver_fn,
@@ -157,7 +179,6 @@ bool deliverPhase2WithRetry(
     bool               do_commit)
 {
     constexpr size_t kMaxDeliveryAttempts = 3;
-    constexpr auto kInitialBackoff = std::chrono::milliseconds(100);
 
     for (size_t attempt = 1; attempt <= kMaxDeliveryAttempts; ++attempt) {
         try {
@@ -166,7 +187,7 @@ bool deliverPhase2WithRetry(
             }
 
             if (attempt < kMaxDeliveryAttempts) {
-                const auto backoff = kInitialBackoff * (1ULL << (attempt - 1));
+                const auto backoff = computeDeterministicRetryBackoff(txn_id, node_id, attempt);
                 THEMIS_WARN("2PC {} {} returned failure for node={} txn={} coordinator={} on "
                             "attempt {}/{} — retrying in {}ms",
                             bridge_name, do_commit ? "COMMIT" : "ABORT", node_id, txn_id,
@@ -180,7 +201,7 @@ bool deliverPhase2WithRetry(
             }
         } catch (const std::exception& ex) {
             if (attempt < kMaxDeliveryAttempts) {
-                const auto backoff = kInitialBackoff * (1ULL << (attempt - 1));
+                const auto backoff = computeDeterministicRetryBackoff(txn_id, node_id, attempt);
                 THEMIS_WARN("2PC {} {} threw for node={} txn={} coordinator={} on attempt {}/{}: "
                             "{} — retrying in {}ms",
                             bridge_name, do_commit ? "COMMIT" : "ABORT", node_id, txn_id,
