@@ -39,7 +39,7 @@ bool isLLMWikiEnabled() noexcept {
 }
 
 bool isLLMWikiFeatureEnabled(const char* feature_name) noexcept {
-    if (!isLLMWikiEnabled()) {
+    if (!isLLMWikiEnabled() || feature_name == nullptr) {
         return false;
     }
     

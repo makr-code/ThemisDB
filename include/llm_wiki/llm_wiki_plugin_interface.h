@@ -273,6 +273,8 @@ public:
      *  - `"table_name"` (`string`, default `"wiki_chunks"`)
      *  - `"workspace_root"` (`string`, optional)
      *  - `"rocksdb_dir"` (`string`, optional — activates Phase B if set)
+     *  - `"fail_open"` (`bool`, default `false`; when `rocksdb_dir` is set,
+     *    allows explicit test/degraded in-memory fallback on RocksDB init failure)
      *
      * @param config_json  JSON object with plugin configuration.
      * @return             `Status::Ok()` on success; error status otherwise.

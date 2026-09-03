@@ -6,7 +6,7 @@
 
 ## Current Status
 
-Production-capable storage runtime exists for durable persistence, MVCC/WAL lifecycle behavior, backup/PITR flows, blob/tiering behavior, and storage audit/integrity surfaces. Source revalidation on 2026-08-31 found two degraded restore paths in `backup_manager.cpp`: when compression or OpenSSL dependencies are absent, restore currently copies bytes verbatim instead of performing real decompression/decryption. Follow-up hardening now fail-closes those restore paths, `ggml_tensor_bridge.cpp` now honors the runtime `ggml_context*` so real ggml allocation/copy can occur without an injected allocator when ggml is linked, EmbeddedLLM startup now registers `GGML_TYPE_TT` once so TT-backed ggml mappings do not rely on an uninitialized type-registration path, `SecuritySignatureManager` no longer enables an implicit in-memory store when RocksDB is absent unless the caller explicitly opts into that test-only fallback, and remote S3/GCS/Azure backup transport now uploads a manifest plus payload blobs instead of failing closed with local-mirror-only behavior.
+Production-capable storage runtime exists for durable persistence, MVCC/WAL lifecycle behavior, backup/PITR flows, blob/tiering behavior, and storage audit/integrity surfaces. Source revalidation on 2026-09-03 confirms fail-closed guards are now active for missing storage dependency prerequisites in production (`StorageEngine` default encryption/key-provider/index-manager and null index-manager), and `ggml_tensor_bridge.cpp` now fail-closes in production when allocator, prefetch, or TT type-registration backends are unavailable while preserving explicit test-only fallbacks under `THEMIS_UNIT_TEST`.
 
 ## In Progress
 
@@ -14,6 +14,7 @@ Production-capable storage runtime exists for durable persistence, MVCC/WAL life
 - [~] improving diagnostics consistency across storage, replay, and recovery stages (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for storage hot paths (Target: Q3 2026)
 - [x] remove implicit `SecuritySignatureManager(nullptr)` memory-store fallback from production paths; null-backend construction now fails closed unless the caller explicitly enables the test-only fallback option (Target: Q3 2026)
+- [x] enforce `StorageEngine` production fail-closed dependency prerequisites: default/no-op encryption, key-provider, index-manager, and null index-manager construction are rejected in production mode (Target: Q4 2026)
 - [x] BLOCK 3: Storage Module Integration with AccessCoordinator (Target: Q4 2026) ✅ COMPLETE
   - [x] Added PromotionListener support to TieredStorageManager
   - [x] Added `setPromotionListener()` method in header and implementation
@@ -36,7 +37,8 @@ Production-capable storage runtime exists for durable persistence, MVCC/WAL life
 - [~] wire the remaining `ggml_tensor_bridge.cpp` production injection seams (`GgmlAllocFn`, `PrefetchFn`, `TypeRegistrationFn`) at server initialization (Target: Q4 2026)
   - [x] `map(ctx, ...)` now forwards the live `ggml_context*` into `GgmlAllocFn` and still uses that context for real ggml allocation/copy when `THEMIS_HAS_GGML` is enabled, reducing reliance on the allocator stub path
   - [x] EmbeddedLLM startup now calls `registerGgmlTypeTT()` once under `THEMIS_ENABLE_GGML_BRIDGE`, closing the uninitialized TT-type registration path for ggml-backed inference startup
-  - [ ] tracked allocator/prefetch hooks remain open for full server-side production wiring
+  - [x] fail-closed production guards added: `map()` invalidates when no allocator path exists, `prefetch()` throws when no prefetch backend is available, and `registerGgmlTypeTT()` throws when no registration backend exists
+  - [ ] startup wiring of concrete allocator/prefetch/type-registration providers in server bootstrap remains open
 - [ ] tighten deterministic behavior under heavy WAL replay and compaction pressure (Target: Q4 2026)
 - [ ] expand stress coverage for blob/tiering and PITR edge scenarios (Target: Q4 2026)
 - [ ] improve operator-facing diagnostics for recovery and maintenance incidents (Target: Q4 2026)

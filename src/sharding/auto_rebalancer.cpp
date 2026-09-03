@@ -21,6 +21,7 @@
 #include "utils/thread_join_utils.h"
 #include <sstream>
 #include <iomanip>
+#include <set>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/sha.h>
@@ -895,59 +896,118 @@ void AutoRebalancer::setSignOperationFn(SignOperationFn fn) {
  */
 void AutoRebalancer::handleTopologyChange() {
     if (!topology_) {
-        return; // No topology to monitor
+        return;
     }
-    
-    // Get current shard IDs from topology
+
     auto all_shards = topology_->getAllShards();
     std::vector<std::string> current_topology;
     for (const auto& shard : all_shards) {
         current_topology.push_back(shard.shard_id);
     }
-    
-    // Check if topology has changed since last check
-    if (current_topology == last_known_topology_) {
-        return; // No topology change
+
+    if (last_known_topology_.empty()) {
+        last_known_topology_ = current_topology;
+        return;
     }
-    
-    // Topology has changed - detect join or leave
-    bool is_join = current_topology.size() > last_known_topology_.size();
-    bool is_leave = current_topology.size() < last_known_topology_.size();
-    
+
+    const std::set<std::string> previous_set(last_known_topology_.begin(), last_known_topology_.end());
+    const std::set<std::string> current_set(current_topology.begin(), current_topology.end());
+    if (previous_set == current_set) {
+        return;
+    }
+
+    bool is_join = false;
+    bool is_leave = false;
+    for (const auto& shard_id : current_set) {
+        if (previous_set.find(shard_id) == previous_set.end()) {
+            is_join = true;
+            break;
+        }
+    }
+    for (const auto& shard_id : previous_set) {
+        if (current_set.find(shard_id) == current_set.end()) {
+            is_leave = true;
+            break;
+        }
+    }
+
     THEMIS_WARN("Topology change detected: {} (was {}, now {} nodes)",
-               is_join ? "JOIN" : (is_leave ? "LEAVE" : "UNKNOWN"),
+               is_join && is_leave ? "REPLACEMENT" : (is_join ? "JOIN" : (is_leave ? "LEAVE" : "UNKNOWN")),
                last_known_topology_.size(), current_topology.size());
-    
+
     if (!config_.auto_trigger_enabled) {
         last_known_topology_ = current_topology;
-        return; // Auto-trigger disabled, skip rebalancing
+        return;
     }
-    
-    // Check if we can trigger rebalance
+
     if (!canTriggerRebalance()) {
         THEMIS_DEBUG("Cannot trigger topology rebalance (safety limits or cooldown)");
         return;
     }
-    
-    // Create rebalance operations to redistribute shards for new topology
-    // For each node that joined/left, create operations to rebalance the shards
-    
-    // In a full implementation, this would:
-    // 1. Call RebalanceOperation::generateTopologyChangeRebalancePlan()
-    // 2. Execute each operation in the plan
-    // 3. Monitor for >=80% throughput completion
-    // 4. Verify no data loss occurred
-    
-    // For now, create a simple rebalance recommendation based on topology change
-    THEMIS_INFO("Generated topology rebalance plan for {} nodes",
-               current_topology.size());
-    
+
+    std::vector<std::string> old_topology = last_known_topology_;
+    std::vector<std::string> target_topology = current_topology;
+    std::vector<LoadImbalanceResult::RebalanceRecommendation> recommendations;
+
+    if (is_join) {
+        std::string source = old_topology.empty() ? target_topology.front() : old_topology.front();
+        std::string target = target_topology.empty() ? source : target_topology.back();
+        if (!source.empty() && !target.empty() && source != target) {
+            LoadImbalanceResult::RebalanceRecommendation rec;
+            rec.source_shard = source;
+            rec.target_shard = target;
+            rec.token_range_start = 0;
+            rec.token_range_end = UINT64_MAX;
+            rec.justification = "Topology change: node join";
+            recommendations.push_back(rec);
+        }
+    }
+    if (is_leave) {
+        for (const auto& leaving : old_topology) {
+            if (std::find(target_topology.begin(), target_topology.end(), leaving) == target_topology.end()) {
+                std::string target = target_topology.empty() ? leaving : target_topology.front();
+                if (!target.empty()) {
+                    LoadImbalanceResult::RebalanceRecommendation rec;
+                    rec.source_shard = leaving;
+                    rec.target_shard = target;
+                    rec.token_range_start = 0;
+                    rec.token_range_end = UINT64_MAX;
+                    rec.justification = "Topology change: node leave";
+                    recommendations.push_back(rec);
+                }
+            }
+        }
+    }
+
+    if (recommendations.empty()) {
+        if (!old_topology.empty() && !target_topology.empty()) {
+            LoadImbalanceResult::RebalanceRecommendation rec;
+            rec.source_shard = old_topology.front();
+            rec.target_shard = target_topology.front();
+            rec.token_range_start = 0;
+            rec.token_range_end = UINT64_MAX;
+            rec.justification = "Topology change rebalancing";
+            recommendations.push_back(rec);
+        }
+    }
+
+    for (const auto& rec : recommendations) {
+        executeRebalance(rec);
+    }
+
+    if (!recommendations.empty()) {
+        load_detector_->recordRebalanceTriggered();
+    }
+
     topology_change_count_++;
     last_known_topology_ = current_topology;
-    
+
+    THEMIS_INFO("Generated topology rebalance plan for {} nodes with {} recommendation(s)",
+               current_topology.size(), recommendations.size());
+
     if (metrics_) {
         metrics_->incrementCounter("themis_topology_changes_total");
-        metrics_->setGauge("themis_cluster_nodes", 
+        metrics_->setGauge("themis_cluster_nodes",
                            static_cast<double>(current_topology.size()));
     }
 }
