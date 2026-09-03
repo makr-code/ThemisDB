@@ -127,6 +127,11 @@ jobs:
           THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
         run: |
           cd "$WORKING_DIRECTORY"
+          # Clean stale CMake cache entries before reconfiguring so a previous
+          # toolchain/bootstrap state cannot poison a later runner build.
+          find . -maxdepth 2 \( -name CMakeCache.txt -o -name CMakeFiles \) -print
+          find . -maxdepth 2 -name CMakeCache.txt -delete
+          find . -maxdepth 2 -type d -name CMakeFiles -prune -exec rm -rf {} +
           script_path="$RUNNER_TEMP/cmake-build-configure.sh"
           printf '%s\n' "$CONFIGURE_COMMAND" > "$script_path"
           bash "$script_path"
