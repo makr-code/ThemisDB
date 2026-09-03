@@ -90,13 +90,13 @@ jobs:
           "$@"
           SCRIPT
           chmod +x ~/.local/bin/sccache
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: "Configure CMake (community-release)"
         id: configure
         run: |
           BUILD_DIR="build-wave-b3-transaction-ci"
-          echo "build-dir=$BUILD_DIR" >> $GITHUB_OUTPUT
+          echo "build-dir=$BUILD_DIR" >> "$GITHUB_OUTPUT"
           
           cmake --preset community-release \
             -B "$BUILD_DIR" \
@@ -107,9 +107,9 @@ jobs:
             2>&1 | tee cmake-config.log
           
           if [ -f "$BUILD_DIR/CMakeCache.txt" ]; then
-            echo "status=success" >> $GITHUB_OUTPUT
+            echo "status=success" >> "$GITHUB_OUTPUT"
           else
-            echo "status=failed" >> $GITHUB_OUTPUT
+            echo "status=failed" >> "$GITHUB_OUTPUT"
             cat cmake-config.log
             exit 1
           fi
@@ -166,7 +166,7 @@ jobs:
           "$@"
           SCRIPT
           chmod +x ~/.local/bin/sccache
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: "Configure CMake"
         run: |
@@ -180,21 +180,6 @@ jobs:
         run: |
           BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
           
-          case "${{ matrix.phase }}" in
-            phase1)
-              TARGET_PATTERN="test_transaction_lifecycle_phase1|test_transaction_isolation_contention_phase1|test_transaction_error_path_determinism_phase1"
-              ;;
-            phase2)
-              TARGET_PATTERN="test_transaction_distributed_phase2|test_transaction_saga_compensation_phase2"
-              ;;
-            phase3)
-              TARGET_PATTERN="test_transaction_fault_injection_phase3"
-              ;;
-            wave-a)
-              TARGET_PATTERN="test_transaction_wave_a_closure"
-              ;;
-          esac
-          
           cmake --build "$BUILD_DIR" \
             --target test_transaction_lifecycle_phase1 \
             test_transaction_isolation_contention_phase1 \
@@ -206,7 +191,7 @@ jobs:
             -j ${{ github.event.inputs.parallel_jobs || 4 }} \
             2>&1 | tee compile-${{ matrix.phase }}.log
           
-          echo "compile_status=success" >> $GITHUB_OUTPUT
+          echo "compile_status=success" >> "$GITHUB_OUTPUT"
 
       - name: "Upload compilation log"
         if: always()
@@ -257,7 +242,7 @@ jobs:
           "$@"
           SCRIPT
           chmod +x ~/.local/bin/sccache
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: "Configure CMake"
         run: |
@@ -279,10 +264,10 @@ jobs:
           
           TEST_RESULT=$?
           if [ $TEST_RESULT -eq 0 ]; then
-            echo "smoke_status=success" >> $GITHUB_OUTPUT
+            echo "smoke_status=success" >> "$GITHUB_OUTPUT"
             echo "✅ All 3 smoke tests PASSED"
           else
-            echo "smoke_status=failed" >> $GITHUB_OUTPUT
+            echo "smoke_status=failed" >> "$GITHUB_OUTPUT"
             echo "❌ Smoke tests FAILED"
             exit 1
           fi
@@ -345,7 +330,7 @@ jobs:
           "$@"
           SCRIPT
           chmod +x ~/.local/bin/sccache
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: "Configure CMake"
         run: |
@@ -368,10 +353,10 @@ jobs:
           
           TEST_RESULT=$?
           if [ $TEST_RESULT -eq 0 ]; then
-            echo "full_tests_status=success" >> $GITHUB_OUTPUT
+            echo "full_tests_status=success" >> "$GITHUB_OUTPUT"
             echo "✅ All transaction tests PASSED"
           else
-            echo "full_tests_status=failed" >> $GITHUB_OUTPUT
+            echo "full_tests_status=failed" >> "$GITHUB_OUTPUT"
             echo "⚠️  Some tests FAILED - see logs"
           fi
           
@@ -381,12 +366,14 @@ jobs:
         if: always()
         run: |
           BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
-          echo "## Transaction Test Results" > test-report.md
-          echo "" >> test-report.md
-          echo "**Status:** ${{ steps.full-tests.outputs.full_tests_status }}" >> test-report.md
-          echo "**Date:** $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> test-report.md
-          echo "" >> test-report.md
-          tail -50 "$BUILD_DIR/full-test-results.xml" >> test-report.md
+          {
+            echo "## Transaction Test Results"
+            echo ""
+            echo "**Status:** ${{ steps.full-tests.outputs.full_tests_status }}"
+            echo "**Date:** $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo ""
+            tail -50 "$BUILD_DIR/full-test-results.xml"
+          } > test-report.md
 
       - name: "Upload test results"
         if: always()
@@ -400,7 +387,7 @@ jobs:
 
       - name: "Post test summary to PR"
         if: always() && github.event_name == 'pull_request'
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
@@ -451,20 +438,22 @@ jobs:
 
       - name: "Generate CI report"
         run: |
-          echo "# Wave B Transaction CI Execution Report" > CI_REPORT.md
-          echo "" >> CI_REPORT.md
-          echo "**Timestamp:** $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> CI_REPORT.md
-          echo "**Build:** ${{ github.run_id }}" >> CI_REPORT.md
-          echo "**Status:** ${{ job.status }}" >> CI_REPORT.md
-          echo "" >> CI_REPORT.md
-          echo "## Results Summary" >> CI_REPORT.md
-          echo "- CMake Configuration: ${{ needs.configure.outputs.config-status }}" >> CI_REPORT.md
-          echo "- Test Compilation: ✅ 86/86 tests compiled" >> CI_REPORT.md
-          echo "- Smoke Tests: ✅ 3/3 tests passed" >> CI_REPORT.md
-          echo "- Full Suite: ✅ All tests passed" >> CI_REPORT.md
-          echo "" >> CI_REPORT.md
-          echo "## Artifacts" >> CI_REPORT.md
-          echo "- transaction-ci-results.zip" >> CI_REPORT.md
+          {
+            echo "# Wave B Transaction CI Execution Report"
+            echo ""
+            echo "**Timestamp:** $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "**Build:** ${{ github.run_id }}"
+            echo "**Status:** ${{ job.status }}"
+            echo ""
+            echo "## Results Summary"
+            echo "- CMake Configuration: ${{ needs.configure.outputs.config-status }}"
+            echo "- Test Compilation: ✅ 86/86 tests compiled"
+            echo "- Smoke Tests: ✅ 3/3 tests passed"
+            echo "- Full Suite: ✅ All tests passed"
+            echo ""
+            echo "## Artifacts"
+            echo "- transaction-ci-results.zip"
+          } > CI_REPORT.md
 
       - name: "Upload final report"
         uses: actions/upload-artifact@v4
