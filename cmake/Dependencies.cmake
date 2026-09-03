@@ -9,7 +9,12 @@ else()
     set(_the_vcpkg_root "${CMAKE_SOURCE_DIR}/vcpkg")
 endif()
 
-if(EXISTS "${_the_vcpkg_root}")
+# Respect the system-package build mode: the community/system presets intentionally
+# leave CMAKE_TOOLCHAIN_FILE empty to avoid network-vcpkg bootstrapping. A local
+# checkout must not silently override that explicit opt-out.
+if(DEFINED CMAKE_TOOLCHAIN_FILE AND "${CMAKE_TOOLCHAIN_FILE}" STREQUAL "")
+    message(STATUS "CMAKE_TOOLCHAIN_FILE is empty; skipping automatic vcpkg activation (system package mode)")
+elseif(EXISTS "${_the_vcpkg_root}")
     set(CMAKE_TOOLCHAIN_FILE "${_the_vcpkg_root}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
     set(_vcpkg_prefix_roots)
     if(WIN32)
