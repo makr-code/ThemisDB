@@ -98,7 +98,7 @@ jobs:
                   'Current status: **✅ bootstrapped (no prior build recorded)**',
                   '',
                   '_This issue was auto-created by benchmark preflight because no tracker issue existed._',
-                  '_Labels: `ci/build-ok` = passing, `ci/build-failed` = failing, `status/build-pending` = in progress._',
+                  '_Labels: `ci/build-failed` + `ci/compiler-linker-failed` = compiler/linker blocker; `ci/test-failed` = non-build blocker; `status/build-pending` = in progress._',
                 ].join('\n'),
                 labels: ['ci/build-ok'],
               });

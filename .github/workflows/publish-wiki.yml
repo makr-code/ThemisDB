@@ -134,23 +134,23 @@ jobs:
       - name: Build wiki staging
         id: build
         run: |
-          DRY_RUN_FLAG=""
+          build_args=(
+            --repo-root .
+            --output /tmp/wiki-staging
+            --enable-breadcrumbs
+            --sort-by currency
+          )
+          DRY_RUN_FLAG="false"
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
-            DRY_RUN_FLAG="--dry-run"
+            build_args+=(--dry-run)
+            DRY_RUN_FLAG="true"
           fi
-          TERM_LINKING_FLAG=""
           if [ "${{ steps.glossary_gen.outputs.glossaries_generated }}" = "true" ]; then
-            TERM_LINKING_FLAG="--enable-term-linking --term-link-priority high"
+            build_args+=(--enable-term-linking --term-link-priority high)
           fi
-          python scripts/build_wiki.py \
-            --repo-root . \
-            --output /tmp/wiki-staging \
-            --enable-breadcrumbs \
-            --sort-by currency \
-            $TERM_LINKING_FLAG \
-            $DRY_RUN_FLAG
+          python scripts/build_wiki.py "${build_args[@]}"
           echo "staging_dir=/tmp/wiki-staging" >> "$GITHUB_OUTPUT"
-          echo "is_dry_run=${DRY_RUN_FLAG:+true}" >> "$GITHUB_OUTPUT"
+          echo "is_dry_run=${DRY_RUN_FLAG}" >> "$GITHUB_OUTPUT"
 
       # -----------------------------------------------------------------------
       # Phase 2b: Validate internal [[wiki links]] before publishing
@@ -159,14 +159,14 @@ jobs:
         if: steps.build.outputs.is_dry_run != 'true'
         id: linkcheck
         run: |
-          FAIL_FLAG=""
+          validate_args=(
+            --wiki-dir /tmp/wiki-staging
+            --report /tmp/wiki-link-report.txt
+          )
           if [ "${{ github.event.inputs.fail_on_broken_links }}" = "true" ]; then
-            FAIL_FLAG="--fail-on-broken"
+            validate_args+=(--fail-on-broken)
           fi
-          python scripts/validate_wiki_links.py \
-            --wiki-dir /tmp/wiki-staging \
-            --report /tmp/wiki-link-report.txt \
-            $FAIL_FLAG
+          python scripts/validate_wiki_links.py "${validate_args[@]}"
 
       - name: Upload link validation report
         if: always() && steps.build.outputs.is_dry_run != 'true'

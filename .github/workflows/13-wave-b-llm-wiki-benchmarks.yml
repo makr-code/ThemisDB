@@ -39,12 +39,12 @@ jobs:
         id: detect
         shell: bash
         run: |
-          if command -v nvidia-smi &> /dev/null; then
+          if command -v nvidia-smi >/dev/null 2>&1; then
             echo "GPU detected"
-            echo "hardware_profile=gpu" >> $GITHUB_OUTPUT
+            echo "hardware_profile=gpu" >> "$GITHUB_OUTPUT"
           else
             echo "CPU fallback"
-            echo "hardware_profile=cpu" >> $GITHUB_OUTPUT
+            echo "hardware_profile=cpu" >> "$GITHUB_OUTPUT"
           fi
 
   data-preparation:
@@ -62,8 +62,8 @@ jobs:
       - name: Prepare Data
         shell: bash
         run: |
-          mkdir -p ${{ env.WAVE_B_DATA_DIR }}
-          mkdir -p ${{ env.WAVE_B_RESULTS_DIR }}
+          mkdir -p "${{ env.WAVE_B_DATA_DIR }}"
+          mkdir -p "${{ env.WAVE_B_RESULTS_DIR }}"
           echo "Data preparation for ${{ inputs.scenario }}"
 
   benchmark-execution:

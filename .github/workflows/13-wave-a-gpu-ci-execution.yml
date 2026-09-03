@@ -49,7 +49,7 @@ jobs:
             libbz2-dev liblz4-dev libzstd-dev libboost-all-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-gpu-${{ hashFiles('src/gpu/**') }}-${{ runner.os }}
@@ -62,7 +62,7 @@ jobs:
         id: configure
         run: |
           BUILD_DIR="build-wave-a-gpu-ci"
-          echo "build-dir=$BUILD_DIR" >> $GITHUB_OUTPUT
+          echo "build-dir=$BUILD_DIR" >> "$GITHUB_OUTPUT"
           
           cmake --preset community-release \
             -B "$BUILD_DIR" \
@@ -73,16 +73,16 @@ jobs:
             2>&1 | tee cmake-config.log
           
           if [ -f "$BUILD_DIR/CMakeCache.txt" ]; then
-            echo "status=success" >> $GITHUB_OUTPUT
+            echo "status=success" >> "$GITHUB_OUTPUT"
           else
-            echo "status=failed" >> $GITHUB_OUTPUT
+            echo "status=failed" >> "$GITHUB_OUTPUT"
             cat cmake-config.log
             exit 1
           fi
 
       - name: "Upload CMake configuration log"
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: gpu-cmake-configuration-log
           path: cmake-config.log
@@ -110,7 +110,7 @@ jobs:
             libbz2-dev liblz4-dev libzstd-dev libboost-all-dev sccache
 
       - name: "Cache sccache"
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-gpu-${{ hashFiles('src/gpu/**') }}-${{ runner.os }}
@@ -132,29 +132,29 @@ jobs:
           
           case "${{ matrix.phase }}" in
             baseline)
-              TARGETS="test_gpu_timeout_kernelslaguard test_gpu_timeout_sla_violation"
+              TARGETS=(test_gpu_timeout_kernelslaguard test_gpu_timeout_sla_violation)
               ;;
             fallback)
-              TARGETS="test_gpu_fallback_memory_exhaustion test_gpu_fallback_kernel_failure"
+              TARGETS=(test_gpu_fallback_memory_exhaustion test_gpu_fallback_kernel_failure)
               ;;
             memory)
-              TARGETS="test_gpu_memory_cudastreamguard test_gpu_memory_cudaeventguard test_gpu_memory_cudadevicememoryguard"
+              TARGETS=(test_gpu_memory_cudastreamguard test_gpu_memory_cudaeventguard test_gpu_memory_cudadevicememoryguard)
               ;;
             determinism)
-              TARGETS="test_gpu_determinism_p95_latency test_gpu_determinism_p99_latency test_gpu_determinism_degradation"
+              TARGETS=(test_gpu_determinism_p95_latency test_gpu_determinism_p99_latency test_gpu_determinism_degradation)
               ;;
           esac
           
           cmake --build "$BUILD_DIR" \
-            $TARGETS \
+            "${TARGETS[@]}" \
             -j ${{ github.event.inputs.parallel_jobs || 4 }} \
             2>&1 | tee compile-gpu-${{ matrix.phase }}.log
           
-          echo "compile_status=success" >> $GITHUB_OUTPUT
+          echo "compile_status=success" >> "$GITHUB_OUTPUT"
 
       - name: "Upload compilation log"
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: compile-gpu-${{ matrix.phase }}-log
           path: compile-gpu-${{ matrix.phase }}.log
@@ -179,7 +179,7 @@ jobs:
             libbz2-dev liblz4-dev libzstd-dev libboost-all-dev sccache
 
       - name: "Cache sccache"
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-gpu-${{ hashFiles('src/gpu/**') }}-${{ runner.os }}
@@ -208,10 +208,10 @@ jobs:
           
           TEST_RESULT=$?
           if [ $TEST_RESULT -eq 0 ]; then
-            echo "full_tests_status=success" >> $GITHUB_OUTPUT
+            echo "full_tests_status=success" >> "$GITHUB_OUTPUT"
             echo "✅ All GPU tests PASSED"
           else
-            echo "full_tests_status=failed" >> $GITHUB_OUTPUT
+            echo "full_tests_status=failed" >> "$GITHUB_OUTPUT"
             echo "⚠️  Some GPU tests FAILED - see logs"
           fi
           
@@ -221,16 +221,18 @@ jobs:
         if: always()
         run: |
           BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
-          echo "## GPU Test Results" > gpu-test-report.md
-          echo "" >> gpu-test-report.md
-          echo "**Status:** ${{ steps.full-tests.outputs.full_tests_status }}" >> gpu-test-report.md
-          echo "**Date:** $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> gpu-test-report.md
-          echo "" >> gpu-test-report.md
-          tail -50 "$BUILD_DIR/full-gpu-test-results.xml" >> gpu-test-report.md
+          {
+            echo "## GPU Test Results"
+            echo ""
+            echo "**Status:** ${{ steps.full-tests.outputs.full_tests_status }}"
+            echo "**Date:** $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo ""
+            tail -50 "$BUILD_DIR/full-gpu-test-results.xml"
+          } > gpu-test-report.md
 
       - name: "Upload GPU test results"
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: gpu-test-results
           path: |
@@ -247,16 +249,19 @@ jobs:
 
       - name: "Run CUDA-call audit"
         run: |
-          echo "## CUDA-Call Audit Results" > cuda-audit-report.md
-          echo "" >> cuda-audit-report.md
-          echo "**Target:** src/gpu/ module" >> cuda-audit-report.md
-          echo "**Expected:** ≤50 unchecked calls (93% reduction from 340→28)" >> cuda-audit-report.md
-          echo "" >> cuda-audit-report.md
+          {
+            echo "## CUDA-Call Audit Results"
+            echo ""
+            echo "**Target:** src/gpu/ module"
+            echo "**Expected:** ≤50 unchecked calls (93% reduction from 340→28)"
+            echo ""
+          } > cuda-audit-report.md
           
           UNCHECKED=0
           for file in src/gpu/*.cpp; do
-            UNCHECKED=$((UNCHECKED + $(grep -n "cudaMalloc\|cudaFree\|cudaStreamCreate\|cudaStreamDestroy\|cudaEventCreate\|cudaEventDestroy" "$file" 2>/dev/null \
-              | grep -v "CUDA_CHECK\|CHECKED_CUDA\|CudaStreamGuard\|CudaEventGuard\|CudaDeviceMemoryGuard" | wc -l)))
+            unguarded_count=$(grep -En "cudaMalloc|cudaFree|cudaStreamCreate|cudaStreamDestroy|cudaEventCreate|cudaEventDestroy" "$file" 2>/dev/null \
+              | grep -Evc "CUDA_CHECK|CHECKED_CUDA|CudaStreamGuard|CudaEventGuard|CudaDeviceMemoryGuard" || true)
+            UNCHECKED=$((UNCHECKED + unguarded_count))
           done
           
           echo "**Remaining Unchecked Calls:** $UNCHECKED" >> cuda-audit-report.md
@@ -270,7 +275,7 @@ jobs:
 
       - name: "Upload CUDA audit report"
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cuda-audit-report
           path: cuda-audit-report.md
@@ -282,7 +287,7 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
 
       - name: "Create artifact archive"
         run: |
@@ -297,7 +302,7 @@ jobs:
           echo "Archive created: $(du -sh gpu-ci-results.zip | cut -f1)"
 
       - name: "Upload artifacts archive"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: gpu-ci-results
           path: gpu-ci-results.zip
@@ -310,27 +315,29 @@ jobs:
     if: always()
     steps:
       - name: "Download all artifacts"
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: "Generate GPU CI report"
         run: |
-          echo "# Wave A GPU CI Execution Report" > GPU_CI_REPORT.md
-          echo "" >> GPU_CI_REPORT.md
-          echo "**Timestamp:** $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> GPU_CI_REPORT.md
-          echo "**Build:** ${{ github.run_id }}" >> GPU_CI_REPORT.md
-          echo "**Status:** ${{ job.status }}" >> GPU_CI_REPORT.md
-          echo "" >> GPU_CI_REPORT.md
-          echo "## Results Summary" >> GPU_CI_REPORT.md
-          echo "- CMake Configuration: ${{ needs.configure.outputs.config-status }}" >> GPU_CI_REPORT.md
-          echo "- Test Compilation: ✅ 36/36 GPU tests compiled" >> GPU_CI_REPORT.md
-          echo "- Full Suite: All tests executed (see artifacts)" >> GPU_CI_REPORT.md
-          echo "- CUDA-Call Audit: ✅ 93% reduction achieved (340→28 calls)" >> GPU_CI_REPORT.md
-          echo "" >> GPU_CI_REPORT.md
-          echo "## Artifacts" >> GPU_CI_REPORT.md
-          echo "- gpu-ci-results.zip" >> GPU_CI_REPORT.md
+          {
+            echo "# Wave A GPU CI Execution Report"
+            echo ""
+            echo "**Timestamp:** $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "**Build:** ${{ github.run_id }}"
+            echo "**Status:** ${{ job.status }}"
+            echo ""
+            echo "## Results Summary"
+            echo "- CMake Configuration: ${{ needs.configure.outputs.config-status }}"
+            echo "- Test Compilation: ✅ 36/36 GPU tests compiled"
+            echo "- Full Suite: All tests executed (see artifacts)"
+            echo "- CUDA-Call Audit: ✅ 93% reduction achieved (340→28 calls)"
+            echo ""
+            echo "## Artifacts"
+            echo "- gpu-ci-results.zip"
+          } > GPU_CI_REPORT.md
 
       - name: "Upload final GPU report"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: GPU-CI-Report
           path: GPU_CI_REPORT.md

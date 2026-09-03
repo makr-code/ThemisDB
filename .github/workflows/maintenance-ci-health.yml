@@ -169,6 +169,10 @@ jobs:
 
             // Identify chronic failures
             const chronic = rows.filter(r => parseFloat(r.failRate) > 30 && r.failure >= 3);
+            const maxFailRate = rows.length > 0
+              ? Math.max(...rows.map(r => parseFloat(r.failRate)))
+              : 0;
+            const healthBand = chronic.length > 0 ? 'high' : (maxFailRate >= 10 ? 'medium' : 'recovered');
             console.log(`  Chronic failures (>30%, ≥3 fails) : ${chronic.length}`);
             if (chronic.length > 0) {
               chronic.forEach(r => console.log(`    → ${r.name}: ${r.failRate}% fail rate`));
@@ -178,6 +182,8 @@ jobs:
             core.setOutput('chronic_workflows', chronic.map(r => r.name).join(', '));
             core.setOutput('overall_health', overallHealth);
             core.setOutput('total_runs', String(totalRuns));
+            core.setOutput('max_fail_rate', String(maxFailRate.toFixed(1)));
+            core.setOutput('health_band', healthBand);
 
       - name: Print health summary to log
         run: |
@@ -187,6 +193,8 @@ jobs:
           echo "  Overall health : ${{ steps.stats.outputs.overall_health }}%"
           echo "  Total runs     : ${{ steps.stats.outputs.total_runs }}"
           echo "  Chronic count  : ${{ steps.stats.outputs.chronic_count }}"
+          echo "  Max fail rate  : ${{ steps.stats.outputs.max_fail_rate }}%"
+          echo "  Health band    : ${{ steps.stats.outputs.health_band }}"
           if [ "${{ steps.stats.outputs.chronic_count }}" != "0" ]; then
             echo "  Chronic wf     : ${{ steps.stats.outputs.chronic_workflows }}"
             echo "  ACTION: chronic failure issue will be created/updated."
@@ -252,7 +260,7 @@ jobs:
           issue-title: '[CI] Chronic workflow failures detected'
           issue-marker: '<!-- ci-health:ref:${{ github.ref }} -->'
           issue-body: ${{ steps.chronic-body.outputs.body }}
-          labels-to-add: 'ci/chronic-failure,ci/failure,status/needs-approval'
+          labels-to-add: 'ci/chronic-failure,ci/failure,ci/failure-rate-high,status/needs-approval'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
@@ -264,8 +272,8 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: replace_status_group
           issue-number: ${{ steps.chronic-issue.outputs.issue-number }}
-          labels-to-add: 'ci/chronic-failure,ci/failure,status/needs-approval'
-          status-group: 'ci/chronic-failure,ci/failure,status/needs-approval'
+          labels-to-add: 'ci/chronic-failure,ci/failure,ci/failure-rate-high,status/needs-approval'
+          status-group: 'ci/chronic-failure,ci/failure,ci/failure-rate-high,ci/failure-rate-medium,status/needs-triage,status/in-progress,status/needs-approval,status/resolved,status/recovered'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
@@ -287,7 +295,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-      - name: Keep only chronic label before close
+      - name: Normalize recovery state labels
         if: steps.stats.outputs.chronic_count == '0'
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -296,8 +304,8 @@ jobs:
           issue-title: '[CI] Chronic workflow failures detected'
           issue-marker: '<!-- ci-health:ref:${{ github.ref }} -->'
           allow-missing: true
-          labels-to-add: 'ci/chronic-failure'
-          status-group: 'ci/chronic-failure,ci/failure,status/needs-approval'
+          labels-to-add: ${{ steps.stats.outputs.health_band == 'medium' && 'ci/failure-rate-medium,status/needs-attention' || 'status/recovered,status/resolved' }}
+          status-group: 'ci/chronic-failure,ci/failure,ci/failure-rate-high,ci/failure-rate-medium,status/needs-triage,status/in-progress,status/needs-attention,status/needs-approval,status/resolved,status/recovered'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
