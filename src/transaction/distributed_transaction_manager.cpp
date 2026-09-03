@@ -788,15 +788,28 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
         // Collect in-memory participant list (if the transaction is still live
         // in this coordinator process; may be empty after a restart).
         std::vector<Participant> parts;
+        bool has_live_txn = false;
         {
             std::lock_guard<std::mutex> lock(mutex_);
             auto* txn = findTransaction(tid);
             if (txn) {
+                has_live_txn = true;
                 txn->state = do_commit
                     ? DistributedTxnState::COMMITTING
                     : DistributedTxnState::ABORTING;
                 parts      = txn->participants;
             }
+        }
+
+        // Idempotence hardening: COMMIT_TX is already a durable final decision.
+        // If a restarted coordinator no longer has in-memory participants for this
+        // txn, there is nothing to re-deliver locally, so do not count it as
+        // newly "resolved" on every recovery pass.
+        if (do_commit && !has_live_txn) {
+            THEMIS_DEBUG("DistributedTransactionManager [{}] recovery: COMMIT_TX for txn={} has "
+                         "no in-memory participants after restart; skipping replay",
+                         coordinator_id_, tid);
+            continue;
         }
 
         if (!parts.empty()) {

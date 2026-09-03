@@ -1305,6 +1305,99 @@ TEST_F(DistributedTxnManagerTest, RecoveryWithWALKeepsPreparedTxnAbortingOnAbort
     std::filesystem::remove_all(wal_dir);
 }
 
+TEST_F(DistributedTxnManagerTest, RecoveryWithWALIsIdempotentAcrossRestartForPreparedTxn) {
+    const std::string wal_dir = makeTempWalDir("restart_prepare_idempotent");
+
+    {
+        DistributedTxnManagerConfig cfg;
+        cfg.prepare_timeout     = 2000ms;
+        cfg.commit_timeout      = 2000ms;
+        cfg.default_txn_timeout = 60s;
+        cfg.wal_directory       = wal_dir;
+        cfg.sync_wal_writes     = true;
+        cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
+
+        DistributedTransactionManager mgr2("coord-restart-prepare-stage", cfg);
+        const auto tid = mgr2.beginDistributed({makeParticipant("n1", p1.get())});
+        ASSERT_TRUE(mgr2.prepareDistributed(tid).ok);
+    }
+
+    DistributedTxnManagerConfig recover_cfg;
+    recover_cfg.prepare_timeout     = 2000ms;
+    recover_cfg.commit_timeout      = 2000ms;
+    recover_cfg.default_txn_timeout = 60s;
+    recover_cfg.wal_directory       = wal_dir;
+    recover_cfg.sync_wal_writes     = true;
+    recover_cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
+
+    DistributedTransactionManager mgr3("coord-restart-prepare-recover-1", recover_cfg);
+    const size_t first_resolved = mgr3.recoverInDoubtTransactions();
+    EXPECT_GE(first_resolved, 1u);
+
+    DistributedTransactionManager mgr4("coord-restart-prepare-recover-2", recover_cfg);
+    const size_t second_resolved = mgr4.recoverInDoubtTransactions();
+    EXPECT_EQ(second_resolved, 0u)
+        << "After PREPARE→ABORT decision logging, restart recovery must be idempotent";
+
+    std::filesystem::remove_all(wal_dir);
+}
+
+TEST_F(DistributedTxnManagerTest, RecoveryWithWALDoesNotRecountCommitDecisionAcrossRestartWithoutLiveTxn) {
+    const std::string wal_dir = makeTempWalDir("restart_commit_idempotent");
+
+    {
+        DistributedTxnManagerConfig cfg;
+        cfg.prepare_timeout     = 2000ms;
+        cfg.commit_timeout      = 2000ms;
+        cfg.default_txn_timeout = 60s;
+        cfg.wal_directory       = wal_dir;
+        cfg.sync_wal_writes     = true;
+        cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
+        cfg.phase1_rpc_fn = [](const std::string&, const std::string&,
+                               const std::set<std::string>&) { return true; };
+        cfg.remote_phase2_dispatch = [](
+                const std::string&, const std::string&, const std::string&, bool) {
+            return false;
+        };
+
+        DistributedTransactionManager mgr2("coord-restart-commit-stage", cfg);
+        const auto tid = mgr2.beginDistributed({makeRemoteParticipant("remote-commit-restart-node")});
+        ASSERT_TRUE(mgr2.prepareDistributed(tid).ok);
+        EXPECT_FALSE(mgr2.commitDistributed(tid).ok);
+    }
+
+    std::atomic<int> recovery_phase2_calls{0};
+    DistributedTxnManagerConfig recover_cfg;
+    recover_cfg.prepare_timeout     = 2000ms;
+    recover_cfg.commit_timeout      = 2000ms;
+    recover_cfg.default_txn_timeout = 60s;
+    recover_cfg.wal_directory       = wal_dir;
+    recover_cfg.sync_wal_writes     = true;
+    recover_cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
+    recover_cfg.phase1_rpc_fn = [](const std::string&, const std::string&,
+                                   const std::set<std::string>&) { return true; };
+    recover_cfg.remote_phase2_dispatch = [&recovery_phase2_calls](
+            const std::string&, const std::string&, const std::string&, bool) {
+        ++recovery_phase2_calls;
+        return true;
+    };
+
+    DistributedTransactionManager mgr3("coord-restart-commit-recover-1", recover_cfg);
+    const size_t first_resolved = mgr3.recoverInDoubtTransactions();
+    EXPECT_EQ(first_resolved, 0u)
+        << "COMMIT decisions without live in-memory txns must not be recounted as resolved";
+    EXPECT_EQ(recovery_phase2_calls.load(), 0)
+        << "Recovery restart without live txn must not attempt Phase-2 delivery";
+
+    DistributedTransactionManager mgr4("coord-restart-commit-recover-2", recover_cfg);
+    const size_t second_resolved = mgr4.recoverInDoubtTransactions();
+    EXPECT_EQ(second_resolved, 0u)
+        << "Repeated restart recovery must remain idempotent for COMMIT decisions";
+    EXPECT_EQ(recovery_phase2_calls.load(), 0);
+
+    std::filesystem::remove_all(wal_dir);
+}
+
 // DTM-3: isParticipantAlive() must return true for in-process participants and
 // false for remote participants (no callback).
 TEST_F(DistributedTxnManagerTest, DTM3_IsParticipantAliveDistinguishesLocalAndRemote) {
