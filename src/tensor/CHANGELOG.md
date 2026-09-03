@@ -13,6 +13,7 @@ The format is based on Keep a Changelog.
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified benchmark symbols from tensor fingerprint graph, tensor fingerprint, and tensor dedup benchmark suites.
+- Hardened `TensorCoreStorageBridge` fail-closed behavior: backend `put()` exceptions are now converted to `ERR_STORAGE_TRANSACTION_FAILED` results, and `getRaw()` now returns `nullopt` when backend `get()` throws.
 
 ## [2.1.x] - 2026
 

@@ -88,6 +88,33 @@ See `src/storage/WAVE_3A_CLOSURE_EVIDENCE.md` for the full false-positive confir
 
 ---
 
+## Block 3 fail-closed/wiring hardening (2026-09-03)
+
+### Gaps Closed
+
+| # | Severity | File | Fix Applied |
+|---|----------|------|-------------|
+| 1 | CRITICAL | `src/storage/storage_engine.cpp` | Default no-op `IIndexManager` creation now fail-closes in production; constructor now rejects `index_manager == nullptr` in production mode. |
+| 2 | HIGH | `src/storage/ggml_tensor_bridge.cpp` | Production `map()` now fails closed (`valid=false`) when no allocator path is available (no injected `GgmlAllocFn` and no usable ggml allocation path). |
+| 3 | HIGH | `src/storage/ggml_tensor_bridge.cpp` | Production `prefetch()` now throws when no production prefetch backend exists (`THEMIS_HAS_IO_URING` absent and no injected `PrefetchFn`). |
+| 4 | HIGH | `src/storage/ggml_tensor_bridge.cpp` | `registerGgmlTypeTT()` now throws in production when no production registration backend exists (`THEMIS_HAS_GGML` absent and no injected `TypeRegistrationFn`). |
+
+### Focused Tests Added/Updated
+
+- `tests/storage/test_storage_engine_di.cpp`
+  - `IndexManagerFailsInProduction`
+  - `NullIndexManagerRejectedInProduction`
+- `tests/storage/test_storage_block3_ggml_wiring_focused.cpp`
+  - `MapFailsClosedWhenAllocatorPathUnavailable`
+  - `PrefetchFailsClosedWithoutProductionBackend` (when `THEMIS_HAS_IO_URING` is absent)
+  - `TypeRegistrationFailsClosedWithoutProductionBackend` (when `THEMIS_HAS_GGML` is absent)
+
+### Residual Items
+
+- Concrete server-bootstrap wiring for `GgmlAllocFn`, `PrefetchFn`, and `TypeRegistrationFn` remains open (guards are now fail-closed, but provider injection still needs integration completion).
+
+---
+
 ## Summary
 
 - **Total Gaps**: 4717

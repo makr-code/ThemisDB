@@ -2,9 +2,45 @@
 #include <gmock/gmock.h>
 #include "storage/storage_engine.h"
 #include "utils/error_registry.h"
+#include <cstdlib>
 #include <memory>
+#include <vector>
 
 using namespace themis;
+
+namespace {
+
+class PassthroughFieldEncryption final : public IFieldEncryption {
+public:
+    std::vector<uint8_t> encrypt_field(
+        [[maybe_unused]] const std::string& field_name,
+        const std::vector<uint8_t>& plaintext) override {
+        return plaintext;
+    }
+
+    std::vector<uint8_t> decrypt_field(
+        [[maybe_unused]] const std::string& field_name,
+        const std::vector<uint8_t>& ciphertext) override {
+        return ciphertext;
+    }
+
+    bool should_encrypt([[maybe_unused]] const std::string& field_name) const override {
+        return false;
+    }
+};
+
+class StaticKeyProvider final : public IKeyProvider {
+public:
+    std::vector<uint8_t> get_key([[maybe_unused]] const std::string& key_id) override {
+        return std::vector<uint8_t>(32, 0xAB);
+    }
+
+    std::vector<uint8_t> rotate_key([[maybe_unused]] const std::string& key_id) override {
+        return std::vector<uint8_t>(32, 0xCD);
+    }
+};
+
+} // namespace
 
 // Test fixture for StorageEngine error handling
 class StorageEngineErrorHandlingTest : public ::testing::Test {
@@ -248,7 +284,7 @@ TEST_F(StorageEngineProductionGuardTest, DefaultEvaluatorAllowedInProduction) {
     EXPECT_THROW(evaluator->evaluate("test", nullptr), std::logic_error);
 }
 
-TEST_F(StorageEngineProductionGuardTest, IndexManagerAllowedInProduction) {
+TEST_F(StorageEngineProductionGuardTest, IndexManagerFailsInProduction) {
     // Set production mode
     #ifdef _WIN32
     _putenv_s("THEMIS_PRODUCTION_MODE", "production");
@@ -256,13 +292,20 @@ TEST_F(StorageEngineProductionGuardTest, IndexManagerAllowedInProduction) {
     setenv("THEMIS_PRODUCTION_MODE", "production", 1);
     #endif
     
-    // Index manager warns but doesn't fail
-    auto manager = StorageEngine::createDefaultIndexManager();
-    ASSERT_NE(manager, nullptr);
-    
-    // Operations should work (no-ops)
-    auto result = manager->createSecondaryIndex("test_idx", "field");
-    ASSERT_TRUE(result);
-    EXPECT_EQ(*result, nullptr);
+    // Attempting to create default index manager should throw (fail-closed)
+    EXPECT_THROW(StorageEngine::createDefaultIndexManager(), std::runtime_error);
 }
 
+TEST_F(StorageEngineProductionGuardTest, NullIndexManagerRejectedInProduction) {
+    #ifdef _WIN32
+    _putenv_s("THEMIS_PRODUCTION_MODE", "1");
+    #else
+    setenv("THEMIS_PRODUCTION_MODE", "1", 1);
+    #endif
+
+    auto evaluator = StorageEngine::createDefaultEvaluator();
+    EXPECT_THROW(
+        StorageEngine(evaluator, std::make_shared<PassthroughFieldEncryption>(),
+                      std::make_shared<StaticKeyProvider>(), nullptr),
+        std::invalid_argument);
+}

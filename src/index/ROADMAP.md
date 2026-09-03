@@ -160,6 +160,15 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 | [x] W9-14 | FAISS optional-feature wiring: `THEMIS_HAS_FAISS` in CMake, stub block verified | ✅ Done |
 | [x] W9-15 | GPU Vulkan RAII hardening Phase B entry: `VkBufferRaii` added, stubs documented | ✅ Done |
 
+### Wave 9 Block 5 — Backend Gate + Explicit Fallback Boundaries (2026-09-03)
+
+| Task | Description | Status |
+|------|-------------|--------|
+| [x] W9-16 | `GPUVectorIndex` failover contract tightened: CPU fallback now explicit (`allowCPUFallback`) on runtime backend failure paths (Vulkan/CUDA/HIP), fail-closed when disabled | ✅ Done |
+| [x] W9-17 | Backend gate diagnostics parity wired: `BACKEND_NOT_ENABLED` / `BACKEND_NO_DEVICE_AVAILABLE` / `FALLBACK_*` emission added for index init and Vulkan module backend dispatch | ✅ Done |
+| [x] W9-18 | Focused tests added for fallback boundary and backend gate semantics (`tests/index/test_gpu_vector_index_llm_paths_focused.cpp`, `tests/gpu/test_gpu_vulkan_backend.cpp`, `tests/gpu/test_gpu_vector_index.cpp`) | ✅ Done |
+| [~] W9-19 | Hardware-only parity gate remains: CUDA-active no-fallback boundary and representative-device Vulkan/CUDA/HIP parity runs require GPU CI hardware | 🟡 Pending hardware evidence |
+
 ### Wave D Contribution for `index`
 - [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
 - [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)

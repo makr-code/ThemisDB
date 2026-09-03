@@ -694,6 +694,83 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_aql_fts_parser_focused.cpp")
     message(STATUS "  FTS Parser: SEARCH clause tokens, AST nodes, modifiers (FTS-P-01..16)")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_fts_index_cache.cpp")
+    add_executable(test_fts_index_cache
+        test_fts_index_cache.cpp
+        ${THEMIS_ROOT_DIR}/src/query/index_cache.cpp
+    )
+    target_include_directories(test_fts_index_cache PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_fts_index_cache PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_fts_index_cache PRIVATE THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(
+        MODULE query
+        NAME FtsIndexCacheTests
+        TARGET test_fts_index_cache
+        TIER unit
+        TIMEOUT 120
+        LABELS fts cache
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_fts_bm25_scorer.cpp")
+    add_executable(test_fts_bm25_scorer
+        test_fts_bm25_scorer.cpp
+        ${THEMIS_ROOT_DIR}/src/query/bm25_scorer.cpp
+    )
+    target_include_directories(test_fts_bm25_scorer PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_fts_bm25_scorer PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_fts_bm25_scorer PRIVATE THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(
+        MODULE query
+        NAME FtsBm25ScorerTests
+        TARGET test_fts_bm25_scorer
+        TIER unit
+        TIMEOUT 120
+        LABELS fts scorer
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_fts_executor.cpp")
+    add_executable(test_fts_executor
+        test_fts_executor.cpp
+        ${THEMIS_ROOT_DIR}/src/query/fts_executor.cpp
+        ${THEMIS_ROOT_DIR}/src/query/bm25_scorer.cpp
+        ${THEMIS_ROOT_DIR}/src/query/index_cache.cpp
+    )
+    target_include_directories(test_fts_executor PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_fts_executor PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_fts_executor PRIVATE THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(
+        MODULE query
+        NAME FtsExecutorTests
+        TARGET test_fts_executor
+        TIER unit
+        TIMEOUT 120
+        LABELS fts executor
+    )
+endif()
+
 file(GLOB QUERY_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_query_*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/test_wave*.cpp"

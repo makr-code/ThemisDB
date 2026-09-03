@@ -613,6 +613,32 @@ TEST_F(GPUVectorIndexTest, CUDAInnerProductSearch) {
     index.shutdown();
 }
 
+TEST_F(GPUVectorIndexTest, CUDAInnerProductNoFallback_FailsClosedWhenCUDAActive) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CUDA;
+    config.metric = GPUVectorIndex::DistanceMetric::INNER_PRODUCT;
+    config.allowCPUFallback = false;
+
+    GPUVectorIndex index(config);
+    if (!index.initialize(dimension)) {
+        GTEST_SKIP() << "CUDA unavailable and fallback disabled; initialization fail-closed as expected";
+    }
+
+    if (index.getActiveBackend() != GPUVectorIndex::Backend::CUDA) {
+        GTEST_SKIP() << "CUDA backend not active in this environment";
+    }
+
+    ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+    const auto single = index.search(queryVector, 5);
+    EXPECT_TRUE(single.empty());
+
+    std::vector<std::vector<float>> queries = {queryVector, testVectors[0]};
+    const auto batch = index.searchBatch(queries, 5);
+    EXPECT_TRUE(batch.empty());
+
+    index.shutdown();
+}
+
 TEST_F(GPUVectorIndexTest, CUDACosineCPUComparison) {
     // Compare CUDA and CPU results for COSINE metric
     GPUVectorIndex::Config cpuConfig;
