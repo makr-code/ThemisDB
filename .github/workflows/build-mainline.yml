@@ -95,8 +95,12 @@ jobs:
     timeout-minutes: 5
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     permissions:
+      contents: read
       issues: write
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Set build tracker pending label
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -156,6 +160,7 @@ jobs:
     needs: build
     if: always() && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     permissions:
+      contents: read
       issues: write
     steps:
       - name: Checkout repository
