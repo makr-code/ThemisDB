@@ -658,7 +658,7 @@ std::vector<uint8_t> SimpleDictionaryCodec::decompress(const std::vector<uint8_t
     // Read dictionary size
     uint8_t dict_size = data[0];
     
-    if (data.size() < 1 + dict_size) {
+    if (data.size() < static_cast<size_t>(1 + dict_size)) {
         THEMIS_WARN("SimpleDictionaryCodec::decompress: invalid format (data.size={} dict_size={})", data.size(), dict_size);
         return {};  // Invalid format
     }

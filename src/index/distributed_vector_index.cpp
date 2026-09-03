@@ -62,9 +62,9 @@ uint64_t hashString(const std::string& s) noexcept {
 DistributedVectorIndex::DistributedVectorIndex(const DistributedVectorIndexConfig& cfg)
     : config_(cfg)
     , shards_()
-    , next_id_(cfg.num_shards, 0)
     , local_to_global_id_(cfg.num_shards)
     , local_to_global_version_(cfg.num_shards)
+    , next_id_(cfg.num_shards, 0)
     , alive_ids_(cfg.num_shards)
 {
     if (cfg.num_shards == 0) {
@@ -81,9 +81,9 @@ DistributedVectorIndex::DistributedVectorIndex(const DistributedVectorIndexConfi
                                                std::vector<std::unique_ptr<IAnnIndex>> shards)
     : config_(cfg)
     , shards_(std::move(shards))
-    , next_id_(cfg.num_shards, 0)
     , local_to_global_id_(cfg.num_shards)
     , local_to_global_version_(cfg.num_shards)
+    , next_id_(cfg.num_shards, 0)
     , alive_ids_(cfg.num_shards)
 {
     if (config_.num_shards == 0) {

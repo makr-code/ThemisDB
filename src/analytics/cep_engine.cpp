@@ -2299,7 +2299,14 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
             auto param_end   = std::sregex_iterator();
             for (auto pit = param_begin; pit != param_end; ++pit) {
                 std::smatch pm  = *pit;
-                std::string val = pm[1].matched ? pm[1].str() : pm[2].matched ? pm[2].str() : pm[3].str();
+                std::string val;
+                if (pm.size() > 1 && pm[1].matched) {
+                    val = pm[1].str();
+                } else if (pm.size() > 2 && pm[2].matched) {
+                    val = pm[2].str();
+                } else if (pm.size() > 3) {
+                    val = pm[3].str();
+                }
                 if (!val.empty()) {
                     params.push_back(val);
                 }
