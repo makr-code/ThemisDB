@@ -314,12 +314,11 @@ Damit werden fehlende Milestones nicht mehr nur protokolliert, sondern optional 
 | Label | Gesetzt von | Gelöscht von |
 |---|---|---|
 | `ci/build-failed` | `build-mainline.yml` (push → develop, Build-Stage Failure Marker) | `build-mainline.yml` bei nächstem Erfolg |
-| `ci/compiler-linker-failed` | `build-mainline.yml` (push → develop, Compiler/Linker-Fehler) | `build-mainline.yml` bei nächstem Erfolg |
 | `ci/test-failed` | `build-mainline.yml` (push → develop, Test-Failure; non-blocking fuer Build-Preflight) | `build-mainline.yml` bei nächstem Erfolg |
 | `ci/failure` | `maintenance-build-issues.yml`, `maintenance-ci-health.yml` | manuell / nach Behebung |
 | `ci/chronic-failure` | `maintenance-ci-health.yml` (>30% Fehlerrate) | `maintenance-ci-health.yml` bei Erholung |
 | `ci/build-error` | `maintenance-build-issues.yml` | manuell |
-| `ci/compiler-linker-failed` | `build-mainline.yml`, `maintenance-build-issues.yml` | `build-mainline.yml`/Maintenance bei Erholung |
+| `ci/compiler-linker-failed` | `build-mainline.yml`, `maintenance-build-issues.yml` | `build-mainline.yml` bei nächstem Erfolg oder Maintenance bei Erholung |
 | `ci/failure-rate-high` | `maintenance-ci-health.yml` | `maintenance-ci-health.yml` bei Erholung |
 | `governance/drift` | `compliance-governance-gates.yml` | `compliance-governance-gates.yml` nach Korrektur |
 | `governance/wave-gate-fail` | `compliance-governance-gates.yml` | `compliance-governance-gates.yml` nach Gate-Erfüllung |
