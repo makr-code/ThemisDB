@@ -555,12 +555,38 @@ std::string LocalityAwareRouter::selectLowestRTTReplica(const std::string& shard
         return rtt != UINT64_MAX && rtt <= timeout_ms;
     };
 
+    std::set<std::string> candidate_ids;
+    candidate_ids.insert(shard_id);
+
+    if (!local_shard_id_.empty() && local_shard_id_ != shard_id &&
+        !isLatencyStale(local_shard_id_, requesting_datacenter_id, timeout_ms * 2)) {
+        const auto local_rtt = getReplicaLatency(local_shard_id_, requesting_datacenter_id);
+        if (local_rtt != UINT64_MAX && local_rtt <= timeout_ms) {
+            candidate_ids.insert(local_shard_id_);
+        }
+    }
+
+    if (shard_info.has_value()) {
+        for (const auto& endpoint : shard_info->replica_endpoints) {
+            if (!endpoint.empty() &&
+                !isLatencyStale(endpoint, requesting_datacenter_id, timeout_ms * 2)) {
+                const auto endpoint_rtt = getReplicaLatency(endpoint, requesting_datacenter_id);
+                if (endpoint_rtt != UINT64_MAX && endpoint_rtt <= timeout_ms) {
+                    candidate_ids.insert(endpoint);
+                }
+            }
+        }
+    }
+
     std::string best_replica = shard_id;
     uint64_t min_latency = UINT64_MAX;
 
     {
         std::shared_lock<std::shared_mutex> lock(latency_mutex_);
         for (const auto& [replica_id, dc_map] : latency_records_) {
+            if (candidate_ids.find(replica_id) == candidate_ids.end()) {
+                continue;
+            }
             auto it = dc_map.find(requesting_datacenter_id);
             if (it == dc_map.end()) {
                 continue;
@@ -575,7 +601,7 @@ std::string LocalityAwareRouter::selectLowestRTTReplica(const std::string& shard
         }
     }
 
-    if (best_replica != shard_id && candidate(best_replica)) {
+    if (candidate(best_replica)) {
         return best_replica;
     }
 

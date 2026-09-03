@@ -48,13 +48,15 @@ void GlobalSecondaryIndexManager::erase(const std::string& index_name, const std
     if (it == entries_.end()) {
         return;
     }
-    for (auto value_it = it->second.begin(); value_it != it->second.end(); ++value_it) {
+    for (auto value_it = it->second.begin(); value_it != it->second.end();) {
         auto& items = value_it->second;
         items.erase(std::remove_if(items.begin(), items.end(), [&](const IndexEntry& entry) {
             return entry.shard_id == shard_id && entry.primary_key == primary_key;
         }), items.end());
         if (items.empty()) {
-            it->second.erase(value_it);
+            value_it = it->second.erase(value_it);
+        } else {
+            ++value_it;
         }
     }
 }
@@ -64,14 +66,16 @@ void GlobalSecondaryIndexManager::eraseShard(const std::string& index_name, cons
     if (it == entries_.end()) {
         return;
     }
-    for (auto value_it = it->second.begin(); value_it != it->second.end(); ) {
+    for (auto value_it = it->second.begin(); value_it != it->second.end();) {
         auto& items = value_it->second;
-        auto before = items.size();
+        const size_t before = items.size();
         items.erase(std::remove_if(items.begin(), items.end(), [&](const IndexEntry& entry) {
             return entry.shard_id == shard_id;
         }), items.end());
-        if (items.empty() || items.size() == before) {
+        if (items.empty()) {
             value_it = it->second.erase(value_it);
+        } else if (items.size() == before) {
+            ++value_it;
         } else {
             ++value_it;
         }
@@ -100,8 +104,15 @@ std::vector<GlobalSecondaryIndexManager::IndexEntry> GlobalSecondaryIndexManager
     if (index_it == entries_.end()) {
         return result;
     }
+
+    std::string lower = lower_bound;
+    std::string upper = upper_bound;
+    if (lower > upper) {
+        std::swap(lower, upper);
+    }
+
     for (const auto& [value, items] : index_it->second) {
-        if (value >= lower_bound && value <= upper_bound) {
+        if (value >= lower && value <= upper) {
             result.insert(result.end(), items.begin(), items.end());
         }
     }

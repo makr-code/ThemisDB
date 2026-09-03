@@ -13,6 +13,7 @@
 #include "sharding/rebalance_operation.h"
 #include <stdexcept>
 #include <sstream>
+#include <set>
 
 namespace themis {
 namespace sharding {
@@ -227,15 +228,13 @@ bool RebalanceOperation::executeWithThroughputGuarantee(
 bool RebalanceOperation::isTopologyChangeRebalancingNeeded(
     const std::vector<std::string>& old_topology,
     const std::vector<std::string>& new_topology) {
-    
-    // Detect node join: new_topology.size() > old_topology.size()
-    // Detect node leave: new_topology.size() < old_topology.size()
-    if (new_topology.size() == old_topology.size()) {
-        return false; // No topology change
+    if (old_topology == new_topology) {
+        return false;
     }
-    
-    // Any join/leave changes shard ownership and requires a rebalance plan.
-    return true;
+
+    const std::set<std::string> old_set(old_topology.begin(), old_topology.end());
+    const std::set<std::string> new_set(new_topology.begin(), new_topology.end());
+    return old_set != new_set;
 }
 
 /**

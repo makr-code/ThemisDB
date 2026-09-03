@@ -21,6 +21,7 @@
 #include "utils/thread_join_utils.h"
 #include <sstream>
 #include <iomanip>
+#include <set>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/sha.h>
@@ -904,15 +905,34 @@ void AutoRebalancer::handleTopologyChange() {
         current_topology.push_back(shard.shard_id);
     }
 
-    if (current_topology == last_known_topology_) {
+    if (last_known_topology_.empty()) {
+        last_known_topology_ = current_topology;
         return;
     }
 
-    bool is_join = current_topology.size() > last_known_topology_.size();
-    bool is_leave = current_topology.size() < last_known_topology_.size();
+    const std::set<std::string> previous_set(last_known_topology_.begin(), last_known_topology_.end());
+    const std::set<std::string> current_set(current_topology.begin(), current_topology.end());
+    if (previous_set == current_set) {
+        return;
+    }
+
+    bool is_join = false;
+    bool is_leave = false;
+    for (const auto& shard_id : current_set) {
+        if (previous_set.find(shard_id) == previous_set.end()) {
+            is_join = true;
+            break;
+        }
+    }
+    for (const auto& shard_id : previous_set) {
+        if (current_set.find(shard_id) == current_set.end()) {
+            is_leave = true;
+            break;
+        }
+    }
 
     THEMIS_WARN("Topology change detected: {} (was {}, now {} nodes)",
-               is_join ? "JOIN" : (is_leave ? "LEAVE" : "UNKNOWN"),
+               is_join && is_leave ? "REPLACEMENT" : (is_join ? "JOIN" : (is_leave ? "LEAVE" : "UNKNOWN")),
                last_known_topology_.size(), current_topology.size());
 
     if (!config_.auto_trigger_enabled) {
@@ -941,7 +961,8 @@ void AutoRebalancer::handleTopologyChange() {
             rec.justification = "Topology change: node join";
             recommendations.push_back(rec);
         }
-    } else if (is_leave) {
+    }
+    if (is_leave) {
         for (const auto& leaving : old_topology) {
             if (std::find(target_topology.begin(), target_topology.end(), leaving) == target_topology.end()) {
                 std::string target = target_topology.empty() ? leaving : target_topology.front();
