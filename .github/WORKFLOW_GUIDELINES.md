@@ -319,6 +319,8 @@ Damit werden fehlende Milestones nicht mehr nur protokolliert, sondern optional 
 | `ci/failure` | `maintenance-build-issues.yml`, `maintenance-ci-health.yml` | manuell / nach Behebung |
 | `ci/chronic-failure` | `maintenance-ci-health.yml` (>30% Fehlerrate) | `maintenance-ci-health.yml` bei Erholung |
 | `ci/build-error` | `maintenance-build-issues.yml` | manuell |
+| `ci/compiler-linker-failed` | `build-mainline.yml`, `maintenance-build-issues.yml` | `build-mainline.yml`/Maintenance bei Erholung |
+| `ci/failure-rate-high` | `maintenance-ci-health.yml` | `maintenance-ci-health.yml` bei Erholung |
 | `governance/drift` | `compliance-governance-gates.yml` | `compliance-governance-gates.yml` nach Korrektur |
 | `governance/wave-gate-fail` | `compliance-governance-gates.yml` | `compliance-governance-gates.yml` nach Gate-Erfüllung |
 | `security` | `maintenance-issues.yml` | nach Schließung des Issues |
@@ -327,6 +329,28 @@ Damit werden fehlende Milestones nicht mehr nur protokolliert, sondern optional 
 | `status/blocked` | manuell, `maintenance-build-issues.yml` | manuell |
 | `breaking-change` | `automation-community.yml` (AI-Analyse) | manuell |
 | `release_critical` | `actions/labeler` (path-basiert) | manuell |
+
+### Kanonische CI Label State Machine
+
+Automatisierte CI-Issues und Status-Tracker nutzen folgende Prozesszustände:
+
+- `status/needs-triage` → finding erkannt, Ersttriage ausstehend
+- `status/in-progress` → Bearbeitung laeuft
+- `status/needs-attention` → follow-up erforderlich, aber kein harter Gate-Blocker
+- `status/needs-approval` → maintainer approval erforderlich (blockierend)
+- `status/resolved` → finding behoben/verifiziert
+- `status/recovered` → zuvor fehlerhafter Lauf ist wieder stabil
+
+Domänenregeln:
+
+- **Build-Preflight:** Nur `ci/build-failed` + `ci/compiler-linker-failed` blockieren.
+- **Tests/Gaps/Warnungen:** markieren via eigene Labels (`ci/test-failed`, `scanner/*`, `quality/*`), blockieren Preflight nicht automatisch.
+- **Governance Waiver:** `governance/waiver-requested` → `governance/doxygen-waiver` (approved) oder `governance/needs-attention` (rejected/expiring).
+- **Security/GS3:** Findings-Labels (`security*`, `scanner/*`) und Prozess-Labels (`status/*`) werden getrennt geführt.
+
+Implementierungshinweis:
+
+- Pro Domäne muss ein fester `status-group` mit `replace_status_group` verwendet werden, damit alte Zustandslabels atomar entfernt werden (kein Label-Drift).
 
 ### Trigger-Policy für Workflows
 - **Schwere Build-Workflows** (C++ compile, test, scan, > 15 min) triggern **nur auf `push` zu kanonischen Branches**, nicht auf `pull_request`.

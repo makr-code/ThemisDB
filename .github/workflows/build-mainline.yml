@@ -89,7 +89,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  mark-build-pending:
+    name: Mark build pending state
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: github.event_name == 'push'
+    permissions:
+      issues: write
+    steps:
+      - name: Set build tracker pending label
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[CI] Build status tracker — develop'
+          issue-marker: '<!-- ci-build:type:build-status -->'
+          issue-body: |
+            <!-- ci-build:type:build-status -->
+            ## CI Build Status — `develop`
+
+            Current status: **⏳ pending**
+
+            Last run: [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) at `${{ github.sha }}`
+
+            _This issue tracks post-merge build health on develop._
+            _Labels: `status/build-pending` = build running; final state is applied after workflow completion._
+          labels-to-add: 'status/build-pending'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
   build:
+    needs: mark-build-pending
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: ubuntu-latest

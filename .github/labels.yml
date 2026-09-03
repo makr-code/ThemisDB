@@ -55,6 +55,36 @@
   description: "Stale or outdated dependencies detected"
   type: warning
 
+- name: "ci/sanitizer-failed"
+  color: "B60205"
+  description: "Sanitizer-detected runtime error in CI artifacts"
+  type: blocker
+
+- name: "ci/llm-inference-failed"
+  color: "B60205"
+  description: "LLM inference suite failed"
+  type: blocker
+
+- name: "ci/llm-rag-failed"
+  color: "B60205"
+  description: "LLM RAG suite failed"
+  type: blocker
+
+- name: "ci/llm-adalora-failed"
+  color: "B60205"
+  description: "AdaLoRA training suite failed"
+  type: blocker
+
+- name: "ci/failure-rate-high"
+  color: "B60205"
+  description: "Workflow failure rate is in high-risk range"
+  type: blocker
+
+- name: "ci/failure-rate-medium"
+  color: "D93F0B"
+  description: "Workflow failure rate is elevated and needs monitoring"
+  type: warning
+
 # ── status/ — Process status (set by workflows and maintainers) ──
 
 - name: "status/needs-approval"
@@ -66,6 +96,26 @@
   color: "FBCA04"
   description: "Needs attention; not a hard merge blocker"
   type: warning
+
+- name: "status/needs-triage"
+  color: "FBCA04"
+  description: "New automated finding needs initial triage"
+  type: warning
+
+- name: "status/in-progress"
+  color: "0075CA"
+  description: "Mitigation work is in progress"
+  type: info
+
+- name: "status/resolved"
+  color: "0E8A16"
+  description: "Finding resolved and verified by automation"
+  type: info
+
+- name: "status/recovered"
+  color: "0E8A16"
+  description: "Previously failing lane recovered in latest run"
+  type: info
 
 - name: "status/build-pending"
   color: "0075CA"
@@ -107,6 +157,11 @@
 - name: "governance/doxygen-waiver"
   color: "FBCA04"
   description: "Approved temporary waiver for Tier-1 Doxygen coverage escalation"
+  type: warning
+
+- name: "governance/waiver-requested"
+  color: "FBCA04"
+  description: "Waiver request submitted and awaiting maintainer decision"
   type: warning
 
 # ── security/ — Security findings (set by maintenance-issues.yml) ──
