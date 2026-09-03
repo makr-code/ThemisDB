@@ -419,9 +419,15 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
         result.candidates = std::move(merged);
 
         if (result.shards_failed > 0 && result.shards_succeeded > 0) {
-            result.partial_results = true;
             if (config_.distributed_allow_partial_results) {
+                result.partial_results = true;
                 result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kDegradedContinue);
+                result.fallback_reason_code = std::string(observability::reason_codes::ann::kFallbackDistributedPartialFailure);
+            } else {
+                // Fail closed when partial distributed results are not allowed.
+                result.partial_results = false;
+                result.candidates.clear();
+                result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kFailClosed);
                 result.fallback_reason_code = std::string(observability::reason_codes::ann::kFallbackDistributedPartialFailure);
             }
         }
