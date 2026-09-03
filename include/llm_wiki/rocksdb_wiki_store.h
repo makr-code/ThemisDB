@@ -160,7 +160,7 @@ class RocksDbWikiStore {
                                  std::string_view value)> cb) const;
 
  private:
-    std::unique_ptr<rocksdb::DB> db_;
+    rocksdb::DB*                 db_ = nullptr;
     rocksdb::Options             options_;
     std::string                  db_path_;
 };

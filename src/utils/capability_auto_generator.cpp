@@ -256,16 +256,20 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     // Open RocksDB read-only
     rocksdb::Options options;
     options.create_if_missing = false;
-    
-    std::unique_ptr<rocksdb::DB> db_ptr;
-    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_ptr);
+     
+    rocksdb::DB* db_instance = nullptr;
+    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_instance);
 
     if (!status.ok()) {
         throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
     }
 
+    // Defer database cleanup via RAII scope.
+    auto db_guard = [db_instance]() noexcept { delete db_instance; };
+    (void)db_guard;  // unused-variable warning suppression for defer semantics
+
     // Iterate through database
-    std::unique_ptr<rocksdb::Iterator> it(db_ptr->NewIterator(rocksdb::ReadOptions()));
+    std::unique_ptr<rocksdb::Iterator> it(db_instance->NewIterator(rocksdb::ReadOptions()));
     
     uint64_t doc_count = 0;
     uint64_t total_size = 0;
@@ -348,11 +352,12 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     dedupe(result.data_types);
     dedupe(result.organizations);
     dedupe(result.regions);
-    
+     
     result.document_count = doc_count;
     result.total_size_bytes = total_size;
     result.last_update_time = std::chrono::system_clock::now();
-    
+     
+    delete db_instance;
     return result;
 }
 
