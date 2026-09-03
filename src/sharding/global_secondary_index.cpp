@@ -4,11 +4,21 @@
 
 namespace themis::sharding {
 
+namespace {
+bool isFreshEntry(const GlobalSecondaryIndexManager::Config& config,
+                 const std::chrono::system_clock::time_point& updated_at) {
+    return (std::chrono::system_clock::now() - updated_at) <= config.staleness_budget;
+}
+}  // namespace
+
 GlobalSecondaryIndexManager::GlobalSecondaryIndexManager() : config_({}) {}
 
 GlobalSecondaryIndexManager::GlobalSecondaryIndexManager(const Config& config) : config_(config) {}
 
 void GlobalSecondaryIndexManager::createIndex(const std::string& index_name, const std::string& field_name) {
+    if (index_name.empty() || field_name.empty()) {
+        return;
+    }
     indexes_[index_name] = IndexDefinition{index_name, field_name};
 }
 
@@ -93,7 +103,11 @@ std::vector<GlobalSecondaryIndexManager::IndexEntry> GlobalSecondaryIndexManager
     if (value_it == it->second.end()) {
         return result;
     }
-    result = value_it->second;
+    for (const auto& entry : value_it->second) {
+        if (isFreshEntry(config_, entry.updated_at)) {
+            result.push_back(entry);
+        }
+    }
     return result;
 }
 
@@ -113,7 +127,11 @@ std::vector<GlobalSecondaryIndexManager::IndexEntry> GlobalSecondaryIndexManager
 
     for (const auto& [value, items] : index_it->second) {
         if (value >= lower && value <= upper) {
-            result.insert(result.end(), items.begin(), items.end());
+            for (const auto& entry : items) {
+                if (isFreshEntry(config_, entry.updated_at)) {
+                    result.push_back(entry);
+                }
+            }
         }
     }
     return result;
@@ -123,7 +141,11 @@ size_t GlobalSecondaryIndexManager::size() const {
     size_t count = 0;
     for (const auto& [_, by_value] : entries_) {
         for (const auto& [_, items] : by_value) {
-            count += items.size();
+            for (const auto& entry : items) {
+                if (isFreshEntry(config_, entry.updated_at)) {
+                    ++count;
+                }
+            }
         }
     }
     return count;

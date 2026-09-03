@@ -537,7 +537,7 @@ bool LocalityAwareRouter::isLatencyStale(const std::string& replica_id,
 std::string LocalityAwareRouter::selectLowestRTTReplica(const std::string& shard_id,
                                                         const std::string& requesting_datacenter_id,
                                                         uint64_t timeout_ms) {
-    if (!topology_) {
+    if (timeout_ms == 0 || !topology_) {
         return shard_id;
     }
 
@@ -605,20 +605,15 @@ std::string LocalityAwareRouter::selectLowestRTTReplica(const std::string& shard
         return best_replica;
     }
 
-    if (shard_info.has_value()) {
-        if (local_info.has_value() && local_info->datacenter == shard_info->datacenter) {
-            return local_shard_id_;
-        }
-        if (!shard_info->replica_endpoints.empty()) {
-            return shard_info->replica_endpoints.front();
-        }
+    if (shard_info.has_value() && local_info.has_value() &&
+        local_info->datacenter == shard_info->datacenter &&
+        !local_shard_id_.empty()) {
+        return local_shard_id_;
     }
 
-    auto healthy = topology_->getHealthyShards();
-    if (!healthy.empty()) {
-        return healthy.front().shard_id;
-    }
-
+    // Fail closed: do not silently route to an arbitrary healthy shard when no
+    // measured RTT is valid under the current timeout. The original shard remains
+    // the safe default unless the query specifically targets a local replica.
     return shard_id;
 }
 

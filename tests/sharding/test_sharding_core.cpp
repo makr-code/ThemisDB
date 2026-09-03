@@ -5,6 +5,7 @@
 #include "sharding/urn_resolver.h"
 #include "sharding/rebalance_operation.h"
 #include <memory>
+#include <thread>
 
 using namespace themis::sharding;
 
@@ -167,6 +168,30 @@ TEST(ShardingProductionLogic, GlobalSecondaryIndexRangeQueryHonorsBoundsAndErasu
     ASSERT_EQ(range.size(), 2u);
     EXPECT_TRUE((range[0].value == "us-east" || range[1].value == "us-east"));
     EXPECT_TRUE((range[0].value == "us-west" || range[1].value == "us-west"));
+}
+
+TEST(ShardingProductionLogic, GlobalSecondaryIndexDropsStaleEntriesAfterBudgetExpiration) {
+    GlobalSecondaryIndexManager::Config config;
+    config.staleness_budget = std::chrono::milliseconds(10);
+    GlobalSecondaryIndexManager gsi(config);
+    gsi.createIndex("customer_region", "region");
+    gsi.upsert("customer_region", "region", "shard_1", "customer:1", "us-east");
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(25));
+    EXPECT_TRUE(gsi.queryEquals("customer_region", "us-east").empty());
+}
+
+TEST(ShardingProductionLogic, LatencyAwareRoutingFailsClosedWhenNoReplicaMeasurementIsValid) {
+    auto topology = std::make_shared<ShardTopology>();
+    ShardInfo shard_a{"shard_a", "10.0.0.1:9000", {}, "dc1", "us-east", "us-east-1a", "rack1", 0, 100, true, "", {}, DomainCapability{}, "LEADER", 1, 10, "shard_a", true};
+    ShardInfo shard_b{"shard_b", "10.0.0.2:9000", {}, "dc2", "us-west", "us-west-1a", "rack2", 101, 200, true, "", {}, DomainCapability{}, "FOLLOWER", 1, 9, "shard_a", true};
+    topology->addShard(shard_a);
+    topology->addShard(shard_b);
+
+    auto resource_mgr = std::make_shared<ShardResourceManager>("shard_a", std::make_shared<GossipConfigManager>(GossipConfigManagerConfig{}, topology));
+    LocalityAwareRouter router("shard_a", topology, resource_mgr);
+
+    EXPECT_EQ(router.selectLowestRTTReplica("shard_b", "dc3", 25), "shard_b");
 }
 
 TEST(ShardingProductionLogic, LatencyAwareRoutingIgnoresOutOfShardReplicaRTTs) {
