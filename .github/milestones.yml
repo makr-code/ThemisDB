@@ -75,7 +75,7 @@ assignment_rules:
     milestone: SECURITY-REMEDIATION
 
   - name: LLM triage lane
-    labels_any: [llm-ci-failure, needs-triage]
+    labels_any: [llm-ci-failure, status/needs-triage, status/in-progress, status/needs-approval]
     milestone: LLM-TRIAGE
 
   - name: Long-term planning
