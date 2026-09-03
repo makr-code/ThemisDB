@@ -29,6 +29,7 @@
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
+#include <filesystem>
 #include <map>
 #include <mutex>
 #include <set>
@@ -139,6 +140,16 @@ static std::string beginDistributedWithExplicitTestConsistency(
 ) {
     // Tests are single-process and deterministic; this helper documents explicit local consistency intent.
     return mgr.beginDistributed(participants);
+}
+
+static std::string makeTempWalDir(const std::string& suffix) {
+    const auto base = std::filesystem::temp_directory_path();
+    const auto unique = base / ("themis_dtm_wal_" + suffix + "_" +
+                                std::to_string(std::chrono::steady_clock::now()
+                                                   .time_since_epoch()
+                                                   .count()));
+    std::filesystem::create_directories(unique);
+    return unique.string();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1219,6 +1230,79 @@ TEST_F(DistributedTxnManagerTest, RecoveryReplaysCommitForInMemoryCommittingTran
     const auto post_recovery = mgr2.getTransaction(tid);
     ASSERT_TRUE(post_recovery.has_value());
     EXPECT_EQ(post_recovery->state, DistributedTxnState::COMMITTED);
+}
+
+TEST_F(DistributedTxnManagerTest, RecoveryWithWALReplaysCommitForInMemoryCommittingTransaction) {
+    const std::string wal_dir = makeTempWalDir("commit_replay");
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+    cfg.wal_directory       = wal_dir;
+    cfg.sync_wal_writes     = true;
+    cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
+    cfg.phase1_rpc_fn = [](const std::string&, const std::string&,
+                           const std::set<std::string>&) { return true; };
+
+    std::atomic<int> phase2_calls{0};
+    cfg.remote_phase2_dispatch = [&phase2_calls](
+            const std::string&, const std::string&, const std::string&, bool) {
+        const int call_no = ++phase2_calls;
+        return call_no > 3;
+    };
+
+    DistributedTransactionManager mgr2("coord-recovery-wal-commit", cfg);
+    const auto tid = mgr2.beginDistributed({makeRemoteParticipant("remote-wal-commit-node")});
+    ASSERT_TRUE(mgr2.prepareDistributed(tid).ok);
+
+    const auto commit_status = mgr2.commitDistributed(tid);
+    EXPECT_FALSE(commit_status.ok);
+
+    const auto before_recovery = mgr2.getTransaction(tid);
+    ASSERT_TRUE(before_recovery.has_value());
+    EXPECT_EQ(before_recovery->state, DistributedTxnState::COMMITTING);
+
+    const size_t resolved = mgr2.recoverInDoubtTransactions();
+    EXPECT_GE(resolved, 1u);
+    EXPECT_EQ(phase2_calls.load(), 4)
+        << "WAL recovery should replay one additional COMMIT delivery";
+
+    const auto after_recovery = mgr2.getTransaction(tid);
+    ASSERT_TRUE(after_recovery.has_value());
+    EXPECT_EQ(after_recovery->state, DistributedTxnState::COMMITTED);
+
+    std::filesystem::remove_all(wal_dir);
+}
+
+TEST_F(DistributedTxnManagerTest, RecoveryWithWALKeepsPreparedTxnAbortingOnAbortDeliveryFailure) {
+    const std::string wal_dir = makeTempWalDir("abort_recovery_failure");
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+    cfg.wal_directory       = wal_dir;
+    cfg.sync_wal_writes     = true;
+    cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
+    cfg.phase1_rpc_fn = [](const std::string&, const std::string&,
+                           const std::set<std::string>&) { return true; };
+    cfg.remote_phase2_dispatch = [](
+            const std::string&, const std::string&, const std::string&, bool) {
+        return false;
+    };
+
+    DistributedTransactionManager mgr2("coord-recovery-wal-abort-fail", cfg);
+    const auto tid = mgr2.beginDistributed({makeRemoteParticipant("remote-wal-abort-node")});
+    ASSERT_TRUE(mgr2.prepareDistributed(tid).ok);
+
+    const size_t resolved = mgr2.recoverInDoubtTransactions();
+    EXPECT_EQ(resolved, 0u)
+        << "WAL recovery must not report resolution when ABORT delivery keeps failing";
+
+    const auto rec = mgr2.getTransaction(tid);
+    ASSERT_TRUE(rec.has_value());
+    EXPECT_EQ(rec->state, DistributedTxnState::ABORTING);
+
+    std::filesystem::remove_all(wal_dir);
 }
 
 // DTM-3: isParticipantAlive() must return true for in-process participants and
