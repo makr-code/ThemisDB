@@ -62,12 +62,22 @@ struct AccessDecision {
     }
 };
 
+/// Authorization exception policy. The secure default is fail-closed; explicit
+/// fail-open requires a clear justification and is intended only for documented
+/// maintenance / local override scenarios.
+enum class AuthorizationFailureMode {
+    DenyOnError,             // Default secure behavior: deny access on auth failures.
+    AllowOnErrorExplicit     // Explicit fail-open override: requires an override reason.
+};
+
 /// Access control policy configuration
 struct AccessControlConfig {
     std::string rbac_config_path;                 // Path to RBAC configuration
     std::string user_role_store_path;             // Path to user-role mappings
     bool enable_audit_logging = true;             // Enable access control audit logs
-    bool fail_closed = true;                      // Deny access on errors (fail-safe)
+    bool fail_closed = true;                      // Legacy compatibility flag; prefer failure_mode.
+    AuthorizationFailureMode failure_mode = AuthorizationFailureMode::DenyOnError;
+    std::string fail_open_reason;                 // Required when failure_mode is AllowOnErrorExplicit.
     bool enable_resource_wildcards = true;        // Allow wildcards in resources
     
     // ABAC configuration

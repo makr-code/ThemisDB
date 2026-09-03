@@ -6,10 +6,10 @@
 
 ## Scope
 
-- hardening and refinement of sharding runtime behavior
-- deterministic reliability improvements for routing/transaction/repair paths
-- stronger benchmark-backed guardrails for sharding hot paths
-- stub/simulation path clarification and improved diagnostics
+- complete the GA hardening pass for routing, topology rebalancing, and GSI behavior already present in source
+- verify production semantics under quorum loss, migration churn, and multi-DC latency variability
+- convert current runtime logic into formal release-gate evidence on representative hardware
+- keep non-production paths fail-closed and explicitly documented
 
 ## Design Constraints
 
@@ -17,7 +17,8 @@
 - routing/transaction outcomes remain explicit and deterministic.
 - degraded quorum and operations paths remain observable and non-silent.
 - migration/repair behavior remains bounded and diagnosable.
-- all stub/simulation paths must be explicitly marked and documented.
+- all non-production paths must be explicitly marked and documented.
+- no fallback may silently route to an arbitrary shard when valid latency evidence is absent.
 
 ## Required Interfaces
 
@@ -34,7 +35,8 @@
 - standardize incident taxonomy for transaction and repair/rebalance classes.
 - expand resilience tests for prolonged migration and write contention traffic.
 - broaden benchmark depth for multi-DC and topology-failure scenarios.
-- stub/simulation paths have been clarified with NON-PRODUCTION PATH markers and enhanced logging.
+- keep the latency fallback semantics fail-closed when no measured RTT is valid under the timeout budget.
+- GSI stale-entry invalidation must remain deterministic after shard migration or shard removal.
 
 ## Test Strategy
 
@@ -42,11 +44,13 @@
 - regressions for quorum loss, migration faults, and repair edge failures.
 - deterministic stress runs for sustained distributed write and rebalance workloads.
 - release-profile benchmark runs for mapped sharding targets.
+- GA proof: 3-DC latency-routing test, topology churn rebalancing test, and GSI stale-entry test must all pass in `tests/sharding/test_sharding_core.cpp`.
 
 ## Performance Targets
 
-- sharding hot paths remain inside regression budgets.
-- routing/commit/migration-sensitive operations remain stable at p95/p99 envelopes.
+- routing p95/p99 should remain stable within the release budget under degraded quorum and migration pressure.
+- rebalancing under topology churn must preserve ≥80% steady-state throughput and finish within configured bounds.
+- GSI equality and range queries must remain deterministic and bounded under shard churn.
 - mapped benchmark manifests reach no-missing-case status for release gating.
 
 ## Security / Reliability
@@ -55,6 +59,7 @@
 - preserve explicit failure signaling for transaction and operational faults.
 - enforce predictable degradation under shard and quorum failure conditions.
 - keep diagnostics actionable for production sharding incidents.
+- any route decision made without valid RTT evidence must remain fail-closed rather than silently redirecting to an arbitrary shard.
 
 ---
 

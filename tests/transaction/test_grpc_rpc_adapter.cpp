@@ -544,28 +544,45 @@ TEST(GrpcRpcAdapterMtls, ConstructWithMtlsConfig) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// MTLS-02  mTLS nullopt: adapters construct and operate successfully when mtls
-//          is std::nullopt (insecure fallback path).
+// MTLS-02  mTLS nullopt: adapters fail closed when credentials are missing.
 // ─────────────────────────────────────────────────────────────────────────────
-TEST(GrpcRpcAdapterMtls, ConstructWithNulloptFallback) {
-    // Pass std::nullopt explicitly — adapters must fall back to insecure
-    // credentials without throwing.
+TEST(GrpcRpcAdapterMtls, ConstructWithNulloptFailsClosed) {
+    const std::map<std::string, std::string> node_addresses = {
+        {"node-a", "127.0.0.1:50051"}
+    };
+
+    auto fn1 = GrpcRpcPhase1Adapter::make(node_addresses, std::chrono::milliseconds{500},
+                                          std::nullopt);
+    EXPECT_THROW({
+        bool vote = fn1("node-a", "txn-mtls-02", {});
+        (void)vote;
+    }, std::runtime_error);
+
+    auto fn2 = GrpcRpcPhase2Adapter::make(node_addresses, std::chrono::milliseconds{2000},
+                                          std::nullopt);
+    EXPECT_THROW({
+        fn2("node-a", "txn-mtls-02", true);
+    }, std::runtime_error);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MTLS-03  explicit dev/test override can opt into insecure credentials.
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(GrpcRpcAdapterMtls, ConstructWithExplicitInsecureOverride) {
+    themis::transaction::MtlsConfig cfg;
+    cfg.allow_insecure = true;
+    const std::map<std::string, std::string> node_addresses = {
+        {"node-a", "127.0.0.1:50051"}
+    };
+
+    auto fn1 = GrpcRpcPhase1Adapter::make(node_addresses, std::chrono::milliseconds{500}, cfg);
     EXPECT_NO_THROW({
-        auto fn1 = GrpcRpcPhase1Adapter::make({}, std::chrono::milliseconds{500},
-                                               std::nullopt);
-        EXPECT_TRUE(static_cast<bool>(fn1));
+        bool vote = fn1("node-a", "txn-mtls-03", {});
+        EXPECT_FALSE(vote) << "The test-only insecure override should still vote ABORT when no server is reachable.";
     });
 
-    EXPECT_NO_THROW({
-        auto fn2 = GrpcRpcPhase2Adapter::make({}, std::chrono::milliseconds{2000},
-                                               std::nullopt);
-        EXPECT_TRUE(static_cast<bool>(fn2));
-    });
-
-    // Verify the insecure fallback still votes ABORT for unknown nodes
-    // (fail-closed contract preserved).
-    auto fn1 = GrpcRpcPhase1Adapter::make({}, std::chrono::milliseconds{500},
-                                           std::nullopt);
-    bool vote = fn1("unknown-node", "txn-mtls-02", {});
-    EXPECT_FALSE(vote) << "Insecure-fallback Phase-1 fn should vote ABORT for unknown node";
+    auto fn2 = GrpcRpcPhase2Adapter::make(node_addresses, std::chrono::milliseconds{2000}, cfg);
+    EXPECT_THROW({
+        fn2("node-a", "txn-mtls-03", true);
+    }, std::runtime_error);
 }
