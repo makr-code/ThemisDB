@@ -1184,6 +1184,43 @@ TEST_F(DistributedTxnManagerTest, DTM2_RecoveryDoesNotMarkResolvedWhenAbortDeliv
         << "Failed recovery ABORT delivery must keep txn non-terminal";
 }
 
+TEST_F(DistributedTxnManagerTest, RecoveryReplaysCommitForInMemoryCommittingTransaction) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+    cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
+    cfg.phase1_rpc_fn = [](const std::string&, const std::string&,
+                           const std::set<std::string>&) { return true; };
+
+    std::atomic<int> phase2_calls{0};
+    cfg.remote_phase2_dispatch = [&phase2_calls](
+            const std::string&, const std::string&, const std::string&, bool) {
+        const int call_no = ++phase2_calls;
+        return call_no > 3;
+    };
+
+    DistributedTransactionManager mgr2("coord-recovery-commit-replay", cfg);
+    const auto tid = mgr2.beginDistributed({makeRemoteParticipant("remote-replay-node")});
+    ASSERT_TRUE(mgr2.prepareDistributed(tid).ok);
+
+    const auto commit_status = mgr2.commitDistributed(tid);
+    EXPECT_FALSE(commit_status.ok);
+
+    const auto pre_recovery = mgr2.getTransaction(tid);
+    ASSERT_TRUE(pre_recovery.has_value());
+    EXPECT_EQ(pre_recovery->state, DistributedTxnState::COMMITTING);
+
+    const size_t resolved = mgr2.recoverInDoubtTransactions();
+    EXPECT_GE(resolved, 1u);
+    EXPECT_EQ(phase2_calls.load(), 4)
+        << "Recovery should replay one additional COMMIT delivery after the initial 3 retries";
+
+    const auto post_recovery = mgr2.getTransaction(tid);
+    ASSERT_TRUE(post_recovery.has_value());
+    EXPECT_EQ(post_recovery->state, DistributedTxnState::COMMITTED);
+}
+
 // DTM-3: isParticipantAlive() must return true for in-process participants and
 // false for remote participants (no callback).
 TEST_F(DistributedTxnManagerTest, DTM3_IsParticipantAliveDistinguishesLocalAndRemote) {

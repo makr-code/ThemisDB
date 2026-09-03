@@ -659,38 +659,56 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
                      "recovering in-memory in-doubt transactions only",
                      coordinator_id_);
 
-        struct PendingAbort {
+        struct PendingDecision {
             TransactionId txn_id;
             std::vector<Participant> participants;
+            bool do_commit = false;
         };
 
-        std::vector<PendingAbort> pending;
+        std::vector<PendingDecision> pending;
         {
             std::lock_guard<std::mutex> lock(mutex_);
             for (auto& [tid, txn] : transactions_) {
-                if (txn.state != DistributedTxnState::PREPARING &&
-                    txn.state != DistributedTxnState::PREPARED) {
+                if (txn.state == DistributedTxnState::PREPARING ||
+                    txn.state == DistributedTxnState::PREPARED) {
+                    txn.state = DistributedTxnState::ABORTING;
+                    pending.push_back(PendingDecision{tid, txn.participants, /*do_commit=*/false});
                     continue;
                 }
-                txn.state = DistributedTxnState::ABORTING;
-                pending.push_back(PendingAbort{tid, txn.participants});
+                if (txn.state == DistributedTxnState::COMMITTING) {
+                    pending.push_back(PendingDecision{tid, txn.participants, /*do_commit=*/true});
+                    continue;
+                }
+                if (txn.state != DistributedTxnState::ABORTING) {
+                    continue;
+                }
+                pending.push_back(PendingDecision{tid, txn.participants, /*do_commit=*/false});
             }
         }
 
         for (const auto& item : pending) {
             const bool phase2_ok =
-                runPhase2Unlocked(item.txn_id, item.participants, /*do_commit=*/false);
+                runPhase2Unlocked(item.txn_id, item.participants, item.do_commit);
             std::lock_guard<std::mutex> lock(mutex_);
             if (auto* txn = findTransaction(item.txn_id)) {
                 if (phase2_ok) {
-                    txn->state = DistributedTxnState::ABORTED;
+                    txn->state = item.do_commit
+                        ? DistributedTxnState::COMMITTED
+                        : DistributedTxnState::ABORTED;
                     ++stat_recovered_;
-                    ++stat_aborted_;
+                    if (item.do_commit) {
+                        ++stat_committed_;
+                    } else {
+                        ++stat_aborted_;
+                    }
                 } else {
-                    txn->state = DistributedTxnState::ABORTING;
-                    if (txn->error_detail.empty()) {
-                        txn->error_detail =
-                            "Recovery ABORT delivery incomplete; transaction remains ABORTING";
+                    txn->state = item.do_commit
+                        ? DistributedTxnState::COMMITTING
+                        : DistributedTxnState::ABORTING;
+                    if (txn->error_detail.empty() || item.do_commit) {
+                        txn->error_detail = item.do_commit
+                            ? "Recovery COMMIT delivery incomplete; transaction remains COMMITTING"
+                            : "Recovery ABORT delivery incomplete; transaction remains ABORTING";
                     }
                 }
             }
@@ -701,7 +719,9 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
             std::lock_guard<std::mutex> lock(mutex_);
             for (const auto& item : pending) {
                 const auto* txn = findTransaction(item.txn_id);
-                if (txn && txn->state == DistributedTxnState::ABORTED) {
+                if (txn &&
+                    (txn->state == DistributedTxnState::ABORTED ||
+                     txn->state == DistributedTxnState::COMMITTED)) {
                     ++resolved;
                 }
             }
@@ -716,7 +736,6 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
 
     // Build a map of txn_id → last WAL decision.
     std::map<std::string, themis::sharding::WALEntryType> last_decision;
-    std::map<std::string, size_t>                         participant_counts;
 
     for (const auto& entry : entries) {
         const std::string& tid = entry.transaction_id;
@@ -745,16 +764,26 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
     // cannot contact participants to determine their individual states).
     size_t resolved = 0;
     for (const auto& [tid, type] : last_decision) {
-        if (type != themis::sharding::WALEntryType::PREPARE_TX) continue;
+        if (type != themis::sharding::WALEntryType::PREPARE_TX &&
+            type != themis::sharding::WALEntryType::COMMIT_TX) {
+            continue;
+        }
 
-        THEMIS_WARN("DistributedTransactionManager [{}] recovery: in-doubt txn={} → ABORT",
-                    coordinator_id_, tid);
+        const bool do_commit = (type == themis::sharding::WALEntryType::COMMIT_TX);
 
-        // DTM-2 fix: Log ABORT decision first, then broadcast ABORT to any
-        // in-memory participants so they can release their locks.  Without this
-        // broadcast, participants remained PREPARED indefinitely while holding
-        // row-level locks.
-        logToWAL(themis::sharding::WALEntryType::ABORT_TX, tid, "recovery=true");
+        THEMIS_WARN("DistributedTransactionManager [{}] recovery: in-doubt txn={} → {}",
+                    coordinator_id_, tid, do_commit ? "COMMIT" : "ABORT");
+
+        // For PREPARE_TX (no final decision) we choose conservative ABORT and record
+        // the decision before broadcasting. COMMIT_TX is already durable and only needs
+        // delivery replay to in-memory participants.
+        if (!do_commit) {
+            // DTM-2 fix: Log ABORT decision first, then broadcast ABORT to any
+            // in-memory participants so they can release their locks.  Without this
+            // broadcast, participants remained PREPARED indefinitely while holding
+            // row-level locks.
+            logToWAL(themis::sharding::WALEntryType::ABORT_TX, tid, "recovery=true");
+        }
 
         // Collect in-memory participant list (if the transaction is still live
         // in this coordinator process; may be empty after a restart).
@@ -763,27 +792,34 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
             std::lock_guard<std::mutex> lock(mutex_);
             auto* txn = findTransaction(tid);
             if (txn) {
-                txn->state = DistributedTxnState::ABORTING;
+                txn->state = do_commit
+                    ? DistributedTxnState::COMMITTING
+                    : DistributedTxnState::ABORTING;
                 parts      = txn->participants;
             }
         }
 
         if (!parts.empty()) {
-            THEMIS_INFO("DistributedTransactionManager [{}] recovery: broadcasting ABORT for "
+            THEMIS_INFO("DistributedTransactionManager [{}] recovery: broadcasting {} for "
                         "in-doubt txn={} to {} in-memory participants",
-                        coordinator_id_, tid, parts.size());
-            const bool phase2_ok = runPhase2Unlocked(tid, parts, /*do_commit=*/false);
+                        coordinator_id_, do_commit ? "COMMIT" : "ABORT", tid, parts.size());
+            const bool phase2_ok = runPhase2Unlocked(tid, parts, do_commit);
 
             std::lock_guard<std::mutex> lock(mutex_);
             auto* txn = findTransaction(tid);
             if (txn) {
                 if (phase2_ok) {
-                    txn->state = DistributedTxnState::ABORTED;
+                    txn->state = do_commit
+                        ? DistributedTxnState::COMMITTED
+                        : DistributedTxnState::ABORTED;
                 } else {
-                    txn->state = DistributedTxnState::ABORTING;
+                    txn->state = do_commit
+                        ? DistributedTxnState::COMMITTING
+                        : DistributedTxnState::ABORTING;
                     if (txn->error_detail.empty()) {
-                        txn->error_detail =
-                            "Recovery ABORT delivery incomplete; transaction remains ABORTING";
+                        txn->error_detail = do_commit
+                            ? "Recovery COMMIT delivery incomplete; transaction remains COMMITTING"
+                            : "Recovery ABORT delivery incomplete; transaction remains ABORTING";
                     }
                 }
             }
@@ -794,7 +830,11 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
 
         ++resolved;
         ++stat_recovered_;
-        ++stat_aborted_;
+        if (do_commit) {
+            ++stat_committed_;
+        } else {
+            ++stat_aborted_;
+        }
     }
 
     THEMIS_INFO("DistributedTransactionManager [{}] recovery complete: {} in-doubt txns resolved",
