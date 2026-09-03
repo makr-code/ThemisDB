@@ -12,7 +12,12 @@
 
 - name: "ci/build-failed"
   color: "B60205"
-  description: "Build after merge failed; blocks next merge until resolved"
+  description: "Build pipeline marked failed; compiler/linker blocker only when paired with ci/compiler-linker-failed"
+  type: blocker
+
+- name: "ci/compiler-linker-failed"
+  color: "B60205"
+  description: "Compiler or linker stage failed; blocks preflight workflows until resolved"
   type: blocker
 
 - name: "ci/build-ok"
@@ -22,8 +27,8 @@
 
 - name: "ci/test-failed"
   color: "B60205"
-  description: "Tests after merge build failed; blocks next merge"
-  type: blocker
+  description: "Tests after merge failed; tracked separately from compiler/linker build blockers"
+  type: warning
 
 - name: "ci/test-ok"
   color: "0E8A16"

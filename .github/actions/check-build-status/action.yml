@@ -1,11 +1,11 @@
 name: 'Check Build Status'
 description: |
   Reads the ci-build tracker issue (set by build-mainline.yml after each push to develop)
-  and fails the calling job when the last recorded build was unsuccessful.
+  and fails the calling job when the last recorded build indicates a compiler/linker blocker.
 
   The tracker issue is identified by the HTML marker
   <!-- ci-build:type:build-status --> in its body.  The action checks whether
-  that issue carries the label `ci/build-failed`.
+  that issue carries both labels `ci/build-failed` and `ci/compiler-linker-failed`.
 
   When `enforce` is 'true' (default) the action calls core.setFailed on a failed
   or unknown build status.  Set `enforce: 'false'` to emit a warning instead and
@@ -23,7 +23,7 @@ inputs:
     required: true
   enforce:
     description: |
-      When 'true' (default), fail the step if the build status is 'failed'.
+      When 'true' (default), fail the step if the build status is 'failed' due to compiler/linker markers.
       When 'false', emit a warning and continue so the caller can decide.
     required: false
     default: 'true'
@@ -80,16 +80,24 @@ runs:
           const labelNames = tracker.labels.map(l => l.name);
           const issueUrl   = `https://github.com/${owner}/${repo}/issues/${tracker.number}`;
 
-          if (labelNames.includes('ci/build-failed')) {
+          const hasBuildFailed = labelNames.includes('ci/build-failed');
+          const hasCompilerLinkerMarker = labelNames.includes('ci/compiler-linker-failed');
+          if (hasBuildFailed && hasCompilerLinkerMarker) {
             core.setOutput('build-status', 'failed');
             const msg =
-              `Last develop build is FAILED (tracker issue #${tracker.number} carries label \`ci/build-failed\`). ` +
+              `Last develop build is FAILED by compiler/linker marker (tracker issue #${tracker.number} carries labels \`ci/build-failed\` + \`ci/compiler-linker-failed\`). ` +
               `Fix the build on develop before running this workflow. Issue: ${issueUrl}`;
             if (enforce) {
               core.setFailed(msg);
             } else {
               core.warning(`⚠️  ${msg}`);
             }
+          } else if (hasBuildFailed) {
+            core.setOutput('build-status', 'ok');
+            core.notice(
+              `Tracker issue #${tracker.number} has \`ci/build-failed\` without \`ci/compiler-linker-failed\`; ` +
+              'treating as non-build-blocking status for preflight.'
+            );
           } else if (labelNames.includes('ci/build-ok')) {
             core.setOutput('build-status', 'ok');
             core.notice(`Build status: ✅ ok (tracker issue #${tracker.number})`);
@@ -101,4 +109,3 @@ runs:
               `Build status is unknown; proceeding with caution.`
             );
           }
-

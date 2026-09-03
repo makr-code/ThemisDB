@@ -313,8 +313,9 @@ Damit werden fehlende Milestones nicht mehr nur protokolliert, sondern optional 
 ### Blocker-Labels (blockieren Merge via Branch Protection Rules)
 | Label | Gesetzt von | Gelöscht von |
 |---|---|---|
-| `ci/build-failed` | `build-mainline.yml` (push → develop, Failure) | `build-mainline.yml` bei nächstem Erfolg |
-| `ci/test-failed` | `build-mainline.yml` (push → develop, Test-Failure) | `build-mainline.yml` bei nächstem Erfolg |
+| `ci/build-failed` | `build-mainline.yml` (push → develop, Build-Stage Failure Marker) | `build-mainline.yml` bei nächstem Erfolg |
+| `ci/compiler-linker-failed` | `build-mainline.yml` (push → develop, Compiler/Linker-Fehler) | `build-mainline.yml` bei nächstem Erfolg |
+| `ci/test-failed` | `build-mainline.yml` (push → develop, Test-Failure; non-blocking fuer Build-Preflight) | `build-mainline.yml` bei nächstem Erfolg |
 | `ci/failure` | `maintenance-build-issues.yml`, `maintenance-ci-health.yml` | manuell / nach Behebung |
 | `ci/chronic-failure` | `maintenance-ci-health.yml` (>30% Fehlerrate) | `maintenance-ci-health.yml` bei Erholung |
 | `ci/build-error` | `maintenance-build-issues.yml` | manuell |
