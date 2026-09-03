@@ -16,7 +16,7 @@ namespace themis::storage {
 
 namespace {
 
-class ProductionModeGuard final : public ::testing::Test {
+class ProductionModeGuard : public ::testing::Test {
 protected:
     void SetUp() override {
         const char* mode_env = std::getenv("THEMIS_PRODUCTION_MODE");

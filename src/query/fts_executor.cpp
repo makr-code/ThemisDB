@@ -492,7 +492,12 @@ Result<std::vector<SearchResult>> FtsExecutor::traverseAndScore(
     return tl::unexpected(FtsError::INVALID_INDEX_FORMAT);
   }
 
-  const auto deadline = Clock::now() + std::max(options.timeout, std::chrono::milliseconds(1));
+  if (options.timeout <= std::chrono::milliseconds(0)) {
+    metrics_.total_timeout_queries.fetch_add(1, std::memory_order_relaxed);
+    return tl::unexpected(FtsError::EXECUTION_TIMEOUT);
+  }
+
+  const auto deadline = Clock::now() + options.timeout;
   auto timed_out = [&deadline]() { return Clock::now() >= deadline; };
 
   std::unordered_set<std::string> unique_terms;
