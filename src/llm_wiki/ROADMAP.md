@@ -95,12 +95,19 @@ YAML policy should act as the control plane for timing, stage gates, and bounded
 
 - [x] Define baseline YAML process policy artifact (`src/llm_wiki/process/llm_wiki_process_policy.yaml`) (Target: Q4 2026)
 - [x] Define process policy schema (`src/llm_wiki/schema/llm_wiki_process_policy.schema.json`) (Target: Q4 2026)
-- [ ] Wire policy loader with startup validation + hot-reload safeguards (Target: Q4 2026)
+- [~] Wire policy loader with startup validation + hot-reload safeguards (Target: Q4 2026)
 - [ ] Implement schedule classes (interactive, near-real-time, batch) from policy (Target: Q4 2026)
-- [ ] Enforce non-tunable safety invariants (`second_planner_allowed=false`, fail-closed validation, entitlement/guardrail gates) (Target: Q4 2026)
+- [~] Enforce non-tunable safety invariants (`second_planner_allowed=false`, fail-closed validation, entitlement/guardrail gates) (Target: Q4 2026)
 - [ ] Implement ML knob optimizer with hard-bounds enforcement and canary promotion (Target: Q1 2027)
 - [ ] Persist adaptation decisions and rollback reasons as governance evidence (Target: Q1 2027)
-- [ ] Add deterministic tests for policy validation, knob-bound checks, and rollback triggers (Target: Q1 2027)
+- [~] Add deterministic tests for policy validation, knob-bound checks, and rollback triggers (Target: Q1 2027)
+  - [x] Startup policy load is now wired into `LLMWikiPluginImpl::initialize()` with fail-closed behavior on invalid/missing policy.
+  - [x] Deterministic deny-path tests now cover missing explicit policy path and non-shadow `fail_open=true` rejection.
+  - [x] Runtime stage gates (`ingest`/`extract`/`validate`/`synthesize`) are now actively enforced in plugin request paths via policy `stages.*.enabled`.
+  - [x] Deny reason codes are now persisted as governance evidence (`wiki/governance_evidence.jsonl`) on stage-gate denials.
+  - [x] Immediate runtime calls now enforce schedule class policy (batch-scheduled stages are denied with deterministic reason codes in immediate mode).
+  - [x] Policy hot-reload now validates candidate policies before swap and rejects invalid updates fail-closed while keeping the last-known-good policy active.
+  - [ ] Rollback-trigger tests and rollout/canary promotion wiring remain open.
 
 ---
 

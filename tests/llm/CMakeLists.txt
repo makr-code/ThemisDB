@@ -126,6 +126,13 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/rag/rag_context_assembler.cpp
         )
     endif()
+    if(_stem STREQUAL "test_llm_federated_failure_envelopes")
+        # Keep focused fan-out envelope tests link-stable in modular builds by
+        # wiring direct providers for symbols referenced by InferenceEngineEnhanced.
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/rag/targ_retrieval.cpp
+        )
+    endif()
     if(_stem STREQUAL "test_llm_query_rewriter")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/search/llm_query_rewriter.cpp
@@ -296,6 +303,27 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_llm_federated_failure_envelopes")
+        if(TARGET themis_llm_api)
+            target_link_libraries(${_target} PRIVATE themis_llm_api)
+        endif()
+        if(TARGET themis_sharding)
+            target_link_libraries(${_target} PRIVATE themis_sharding)
+        endif()
+        if(TARGET themis_geo)
+            target_link_libraries(${_target} PRIVATE themis_geo)
+        endif()
+        if(TARGET CURL::libcurl)
+            target_link_libraries(${_target} PRIVATE CURL::libcurl)
+        endif()
+        if(TARGET pugixml::pugixml)
+            target_link_libraries(${_target} PRIVATE pugixml::pugixml)
+        elseif(TARGET pugixml::static)
+            target_link_libraries(${_target} PRIVATE pugixml::static)
+        elseif(TARGET pugixml)
+            target_link_libraries(${_target} PRIVATE pugixml)
+        endif()
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     # Phase-specific label overrides
