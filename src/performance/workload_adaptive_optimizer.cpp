@@ -33,7 +33,7 @@ void WorkloadAdaptiveOptimizer::record_query(bool is_write, double complexity,
                                               const std::string& table_name,
                                               uint64_t latency_us) {
     std::unique_lock<std::shared_mutex> lk(obs_mutex_);
-    if (static_cast<int>(observations_.size()) > = kWindowSize) {
+    if (static_cast<int>(observations_.size()) >= kWindowSize) {
       observations_.erase(observations_.begin());
     }
     observations_.push_back({is_write, complexity, result_rows, latency_us, table_name});

@@ -508,7 +508,7 @@ class JITAggregationCompiler::Impl {
 
     void compileSpecialisation(const std::string &key, const std::vector<AggregateSpec> &specs) {
         // Enforce cache capacity limit (evict LRU – here simplest: drop oldest).
-        if (static_cast<int>(cache_.size()) > = config_.max_cache_entries) {
+        if (static_cast<int>(cache_.size()) >= config_.max_cache_entries) {
             auto oldest = cache_.begin();
             call_counts_.erase(oldest->first);
             cache_.erase(oldest);

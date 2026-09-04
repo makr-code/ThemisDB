@@ -137,7 +137,7 @@ std::vector<int> MLAnomalyDetector::dbscanLabels(
             }
             labels[nidx] = label;
             auto nn = regionQuery(nidx);
-            if (static_cast<int>(nn.size()) > = cfg_.dbscan_min_samples) {
+            if (static_cast<int>(nn.size()) >= cfg_.dbscan_min_samples) {
                 queue.insert(queue.end(), nn.begin(), nn.end());
             }
         }

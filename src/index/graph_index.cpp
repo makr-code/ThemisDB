@@ -437,7 +437,7 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 	});
 	
 	// Phase 1: Audit log for bulk node access (threshold: 100+ neighbors)
-	if (static_cast<int>(result.size()) > = 100) {
+	if (static_cast<int>(result.size()) >= 100) {
 		logAuditEvent_("BULK_NODE_ACCESS", std::string(fromPk), "outNeighbors",static_cast<int>(result.size()), 0);
 	}
 	

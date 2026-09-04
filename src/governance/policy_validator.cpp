@@ -311,7 +311,7 @@ std::vector<PolicyConflict> PolicyValidator::detectCircularDependencies() const 
             }
         }
 
-        if (static_cast<int>(component.size()) > = 3) {
+        if (static_cast<int>(component.size()) >= 3) {
             PolicyConflict conflict;
             conflict.conflict_type  = "circular";
             conflict.severity       = "high";

@@ -256,7 +256,7 @@ public:
 
         {
             std::lock_guard<std::mutex> lk(async_mu_);
-            if (static_cast<int>(async_queue_.size()) > = config_.async_queue_max_size) {
+            if (static_cast<int>(async_queue_.size()) >= config_.async_queue_max_size) {
                 ++async_overflows_;
                 p->set_value(); // drop the task
                 return f;

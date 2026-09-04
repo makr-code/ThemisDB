@@ -183,7 +183,7 @@ void checkMissingFor(const std::string &upper_query, ValidationResult &result) {
 
 // Check that common filter operators use == not = for equality
 void checkAssignmentInFilter(const std::string &query, ValidationResult &result) {
-    // Match FILTER <identifier chain> = (single equals, not ==, !=, <=, >=)
+    // Match FILTER <identifier chain>= (single equals, not ==, !=, <=, >=)
     // e.g. "FILTER u.name = " but not "FILTER u.name == "
     std::regex eq_re(R"(FILTER\s+\w+(?:\.\w+)*\s*=(?![=]))", std::regex::icase);
     if (std::regex_search(query, eq_re)) {

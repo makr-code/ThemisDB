@@ -378,7 +378,7 @@ PolicyValidator::detectCircularDependencies(const PolicyManager &policy_mgr) con
             }
         }
 
-        if (static_cast<int>(component.size()) > = 3) {
+        if (static_cast<int>(component.size()) >= 3) {
             ConflictResult conflict;
             conflict.conflict_id          = "circular_" + component[0];
             conflict.conflict_type        = "circular";

@@ -1114,7 +1114,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(const std::string &saml_respon
         }
 
         // Enforce maximum cache size (after eviction). If still full, fail closed.
-        if (static_cast<int>(seen_assertion_ids_.size()) > = config_.max_replay_cache_size) {
+        if (static_cast<int>(seen_assertion_ids_.size()) >= config_.max_replay_cache_size) {
             THEMIS_WARN("SAML: Replay cache is full ({} entries). "
                         "Rejecting assertion to prevent cache bypass. "
                         "Consider using a distributed TTL cache for high-volume deployments.",

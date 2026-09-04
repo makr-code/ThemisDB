@@ -678,7 +678,7 @@ bool LoRASecurityValidator::parseLoRAMetadata(const std::vector<uint8_t>& data,
     // Magic bytes: SafeTensors starts with an 8-byte little-endian uint64
     // that encodes the JSON header length.  The JSON header must contain at
     // least one key and fit within the file.
-    if (static_cast<int>(data.size()) > = 8) {
+    if (static_cast<int>(data.size()) >= 8) {
         uint64_t header_size = 0;
         for (int i = 0; i < 8; ++i) {
             header_size |= (static_cast<uint64_t>(data[i]) << (i * 8));

@@ -154,7 +154,7 @@ std::string AuditBatchWriter::submitEntry(const ImmutableAuditEntry& entry) {
     {
         std::lock_guard<std::mutex> lock(buffer_mutex_);
         
-        if (static_cast<int>(pending_entries_.size()) > = config_.buffer_size) {
+        if (static_cast<int>(pending_entries_.size()) >= config_.buffer_size) {
             // Always enforce the hard buffer cap to prevent unbounded memory growth,
             // regardless of the backpressure setting.
             return "BUFFER_FULL";
@@ -485,7 +485,7 @@ void AuditBatchWriter::recordMetrics(int64_t submission_latency_us) {
     if (static_cast<int>(latency_samples_us_.size()) > kLatencyWindowSize) {
         latency_samples_us_.erase(latency_samples_us_.begin());
     }
-    if (static_cast<int>(latency_samples_us_.size()) > = 2) {
+    if (static_cast<int>(latency_samples_us_.size()) >= 2) {
         std::vector<double> sorted = latency_samples_us_;
         std::sort(sorted.begin(), sorted.end());
         auto p_idx = [&]([[maybe_unused]] double pct) -> double {

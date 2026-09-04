@@ -193,7 +193,7 @@ bool FfmpegAudioChunkReader::canRead(const std::string& path) const {
         return s;
     }();
     for (const char* ext : {".mp3", ".ogg", ".flac", ".m4a", ".aac", ".opus", ".wma", ".webm"}) {
-        if (static_cast<int>(lower.size()) > = std::strlen(ext) &&
+        if (static_cast<int>(lower.size()) >= std::strlen(ext) &&
             lower.substr(static_cast<int>(lower.size()) - std::strlen(ext)) == ext) {
             return true;
         }

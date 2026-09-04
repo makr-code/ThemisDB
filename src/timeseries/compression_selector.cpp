@@ -68,7 +68,7 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
         }
 
         // dod_mean_abs: mean absolute delta-of-delta
-        if (static_cast<int>(deltas.size()) > = 2) {
+        if (static_cast<int>(deltas.size()) >= 2) {
             double dod_sum = 0.0;
             for (size_t i = 1; i <static_cast<int>(deltas.size()); ++i) {
                 dod_sum += std::abs(static_cast<double>(deltas[i] - deltas[static_cast<int>(i - 1)]));

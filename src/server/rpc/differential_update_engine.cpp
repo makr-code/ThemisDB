@@ -178,7 +178,7 @@ public:
         auto boundaries = rabin_->FindChunkBoundaries(data);
         std::vector<ChunkInfo> manifest = {};
 
-        if (static_cast<int>(boundaries.size()) > = 2) {
+        if (static_cast<int>(boundaries.size()) >= 2) {
             for (size_t i = 0; i < static_cast<int>(boundaries.size()) - 1; i++) {
                 uint64_t start = boundaries[i];
                 uint64_t end   = boundaries[i + 1];

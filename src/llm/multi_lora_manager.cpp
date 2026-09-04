@@ -351,7 +351,7 @@ bool MultiLoRAManager::loadLoRA(
             spdlog::warn("LoRA cache entry {} is empty (null slot), reloading", lora_id);
             loras_.erase(it);
             cache_misses_++;
-            if (static_cast<int>(loras_.size()) > = config_.max_lora_slots) {
+            if (static_cast<int>(loras_.size()) >= config_.max_lora_slots) {
                 spdlog::info("LoRA cache full, evicting LRU");
                 evictLRU();
             }
@@ -370,7 +370,7 @@ bool MultiLoRAManager::loadLoRA(
     cache_misses_++;
     
     // Check if we need to evict
-    if (static_cast<int>(loras_.size()) > = config_.max_lora_slots) {
+    if (static_cast<int>(loras_.size()) >= config_.max_lora_slots) {
         spdlog::info("LoRA cache full, evicting LRU");
         evictLRU();
     }
@@ -1926,7 +1926,7 @@ bool MultiLoRAManager::loadLoRA(
             spdlog::warn("LoRA cache entry {} is empty (null slot), reloading", lora_id);
             loras_.erase(it);
             cache_misses_++;
-            if (static_cast<int>(loras_.size()) > = config_.max_lora_slots) {
+            if (static_cast<int>(loras_.size()) >= config_.max_lora_slots) {
                 spdlog::info("LoRA cache full, evicting LRU");
                 evictLRU();
             }
@@ -1943,7 +1943,7 @@ bool MultiLoRAManager::loadLoRA(
     cache_misses_++;
     
     // Check if we need to evict
-    if (static_cast<int>(loras_.size()) > = config_.max_lora_slots) {
+    if (static_cast<int>(loras_.size()) >= config_.max_lora_slots) {
         spdlog::info("LoRA cache full, evicting LRU");
         evictLRU();
     }

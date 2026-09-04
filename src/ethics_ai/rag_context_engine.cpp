@@ -126,13 +126,13 @@ RAGContextEngine::getBestPractices(const std::string &category, double min_satis
     std::vector<std::string> results = {};
 
     for (const auto &school : kSchools) {
-        if (static_cast<int>(results.size()) > = limit) {
+        if (static_cast<int>(results.size()) >= limit) {
             break;
         }
         auto res = store_->getArgumentsByPhilosophy(school, {}, 50);
         if (auto *args = std::get_if<std::vector<EthicalArgument>>(&res)) {
             for (const auto &arg : *args) {
-                if (static_cast<int>(results.size()) > = limit) {
+                if (static_cast<int>(results.size()) >= limit) {
                     break;
                 }
                 double strength_score = 0.5;

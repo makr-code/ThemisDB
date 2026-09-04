@@ -201,7 +201,7 @@ Result<std::vector<uint8_t>> DictionaryCodec::encodeStrings(const std::vector<st
         auto it = dictionary.find(str);
         if (it == dictionary.end()) {
             // Validate dictionary size to prevent overflow
-            if (static_cast<int>(dict_values.size()) > = static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+            if (static_cast<int>(dict_values.size()) >= static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
                 return tl::unexpected(Error(
                     errors::ErrorCode::ERR_COMPRESSION_FAILED,
                     "Dictionary encode: dictionary size exceeds uint32_t limit"

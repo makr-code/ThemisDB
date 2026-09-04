@@ -162,7 +162,7 @@ std::vector<std::string> MultiStepRAGOrchestrator::parseOpenAspects(
             continue;
         }
         aspects.push_back(trimmed.substr(0, kMaxAspectChars));
-        if (static_cast<int>(aspects.size()) > = kMaxAspectsPerIteration) {
+        if (static_cast<int>(aspects.size()) >= kMaxAspectsPerIteration) {
             break;
         }
     }
@@ -247,7 +247,7 @@ MultiStepRAGOrchestrator::partitionIntoBatches(
             batches.push_back(std::move(current_batch));
             current_tokens = 0;
 
-            if (static_cast<int>(batches.size()) > = config_.max_map_steps) {
+            if (static_cast<int>(batches.size()) >= config_.max_map_steps) {
               break;
             }
         }

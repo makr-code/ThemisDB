@@ -807,7 +807,7 @@ Result<std::vector<Document>> ThemisDBAdapter::find_documents(
     }
 
     for (const auto& [_id, doc] : col_it->second) {
-        if (static_cast<int>(matched.size()) > = limit) {
+        if (static_cast<int>(matched.size()) >= limit) {
           break;
         }
 

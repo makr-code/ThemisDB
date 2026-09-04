@@ -3684,10 +3684,10 @@ namespace {
         // PKI endpoints
         if (path_only.rfind("/api/pki/", 0) == 0 && method == http::verb::post) {
             // Expect: /api/pki/:key_id/sign or /api/pki/:key_id/verify
-            if (static_cast<int>(path_only.size()) > = 5 && path_only.compare(static_cast<int>(path_only.size()) - 5, 5, "/sign") == 0) {
+            if (static_cast<int>(path_only.size()) >= 5 && path_only.compare(static_cast<int>(path_only.size()) - 5, 5, "/sign") == 0) {
               return Route::PkiSignPost;
             }
-            if (static_cast<int>(path_only.size()) > = 7 && path_only.compare(static_cast<int>(path_only.size()) - 7, 7, "/verify") == 0) {
+            if (static_cast<int>(path_only.size()) >= 7 && path_only.compare(static_cast<int>(path_only.size()) - 7, 7, "/verify") == 0) {
               return Route::PkiVerifyPost;
             }
         }
@@ -10435,7 +10435,7 @@ namespace {
             else if (tz_lead == '+' || tz_lead == '-') {
                 tz_sign = (tz_lead == '+') ? +1 : -1;
                 // format ±HH:MM
-                if (static_cast<int>(tzpart.size()) > = 6 && tzpart[3] == ':') {
+                if (static_cast<int>(tzpart.size()) >= 6 && tzpart[3] == ':') {
                     try {
                         tz_h = std::stoi(tzpart.substr(1,2));
                         tz_m = std::stoi(tzpart.substr(4,2));

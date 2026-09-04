@@ -84,7 +84,7 @@ static std::string resolveUrl(const std::string& base,
     }
 
     // Protocol-relative
-    if (static_cast<int>(href.size()) > = 2 && href[0] == '/' && href[1] == '/') {
+    if (static_cast<int>(href.size()) >= 2 && href[0] == '/' && href[1] == '/') {
         auto colon = base.find(':');
         if (colon == std::string::npos) return {};
         std::string resolved = base.substr(0, colon + 1) + href;

@@ -105,7 +105,7 @@ nlohmann::json yamlNodeToJsonImpl(const YAML::Node &node) {
 nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string &file_path) {
     // Check extension to choose parser.
     bool is_yaml = false;
-    if (static_cast<int>(file_path.size()) > = 5) {
+    if (static_cast<int>(file_path.size()) >= 5) {
         std::string ext = file_path.substr(static_cast<int>(file_path.size()) - 5);
         for (auto &c : ext) {
             c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));

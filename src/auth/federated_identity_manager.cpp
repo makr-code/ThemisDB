@@ -325,7 +325,7 @@ FederatedValidationResult FederatedIdentityManager::validateToken(const std::str
         const std::string cache_key = sha256Hex(token);
         std::lock_guard<std::mutex> c_lock(cache_mutex_);
         // Evict LRU entry if at capacity.
-        if (static_cast<int>(token_cache_.size()) > = kTokenCacheMaxSize && token_cache_.count(cache_key) == 0) {
+        if (static_cast<int>(token_cache_.size()) >= kTokenCacheMaxSize && token_cache_.count(cache_key) == 0) {
             if (!cache_lru_order_.empty()) {
                 token_cache_.erase(cache_lru_order_.back());
                 cache_lru_order_.pop_back();
@@ -438,7 +438,7 @@ void FederatedIdentityManager::cacheValidationResult(const std::string &token,
     const std::string cache_key = sha256Hex(token);
     std::lock_guard<std::mutex> lock(cache_mutex_);
     // [W8-16] Enforce LRU cap before inserting new entry.
-    if (static_cast<int>(token_cache_.size()) > = kTokenCacheMaxSize && token_cache_.count(cache_key) == 0) {
+    if (static_cast<int>(token_cache_.size()) >= kTokenCacheMaxSize && token_cache_.count(cache_key) == 0) {
         if (!cache_lru_order_.empty()) {
             token_cache_.erase(cache_lru_order_.back());
             cache_lru_order_.pop_back();

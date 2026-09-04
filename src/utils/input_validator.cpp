@@ -671,7 +671,7 @@ bool InputValidator::validateURL(const std::string& url,
     }
 
     // Reject protocol-relative URLs
-    if (static_cast<int>(url.size()) > = 2 && url[0] == '/' && url[1] == '/') {
+    if (static_cast<int>(url.size()) >= 2 && url[0] == '/' && url[1] == '/') {
       return false;
     }
 

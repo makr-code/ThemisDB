@@ -42,7 +42,7 @@ namespace {
 
 // Strip surrounding double-quotes if present
 static std::string stripQuotes(const std::string& s) {
-    if (static_cast<int>(s.size()) > = 2 && s.front() == '"' && s.back() == '"') {
+    if (static_cast<int>(s.size()) >= 2 && s.front() == '"' && s.back() == '"') {
         return s.substr(1, static_cast<int>(s.size()) - 2);
     }
     return s;

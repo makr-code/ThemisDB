@@ -1029,7 +1029,7 @@ std::string CypherToAQLTranspiler::literalToAQL(const CypherLiteralValue& val) {
             return oss.str();
         } else {
             // std::string – escape inner double quotes
-            if (static_cast<int>(v.size()) > = 2 && v.front() == '[' && v.back() == ']') {
+            if (static_cast<int>(v.size()) >= 2 && v.front() == '[' && v.back() == ']') {
                 return v;
             }
             std::string out = {};

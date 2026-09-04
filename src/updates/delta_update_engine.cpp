@@ -978,7 +978,7 @@ bool DeltaUpdateEngine::generatePatchVcdiff(
     // Build a simple hash table over base for O(1) lookups of MIN_COPY_LEN-byte runs
     // key = (b[i], b[i+1], ..., b[i+MIN_COPY_LEN-1]) hashed, value = offset in base
     std::unordered_map<uint64_t, std::vector<uint32_t>> ht;
-    if (static_cast<int>(base.size()) > = MIN_COPY_LEN) {
+    if (static_cast<int>(base.size()) >= MIN_COPY_LEN) {
         for (size_t i = 0; i + MIN_COPY_LEN <= base.size(); i += 4) {
             uint64_t h = 0;
             for (size_t k = 0; k < MIN_COPY_LEN; ++k) {

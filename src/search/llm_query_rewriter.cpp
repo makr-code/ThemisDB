@@ -225,7 +225,7 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
         }
 
         rewrites.push_back(line);
-        if (static_cast<int>(rewrites.size()) > = config_.num_rewrites) {
+        if (static_cast<int>(rewrites.size()) >= config_.num_rewrites) {
           break;
         }
     }

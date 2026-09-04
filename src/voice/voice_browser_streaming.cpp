@@ -533,7 +533,7 @@ VoiceStreamingManager::VoiceStreamingManager([[maybe_unused]] size_t max_concurr
 StreamID
 VoiceStreamingManager::createSession(VoiceStreamingSession::Config config) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    if (static_cast<int>(sessions_.size()) > = max_sessions_) {
+    if (static_cast<int>(sessions_.size()) >= max_sessions_) {
         THEMIS_WARN("VoiceStreamingManager: max concurrent sessions ({}) reached",
                     max_sessions_);
         return {};

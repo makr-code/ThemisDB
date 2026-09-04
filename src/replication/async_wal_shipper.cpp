@@ -137,7 +137,7 @@ bool AsyncWalShipper::enqueueSegment(WalSegment segment)
 {
     std::unique_lock<std::mutex> lock(queue_mutex_);
 
-    if (static_cast<int>(segment_queue_.size()) > = config_.max_queue_depth) {
+    if (static_cast<int>(segment_queue_.size()) >= config_.max_queue_depth) {
         // Queue full: drop and account
         std::lock_guard<std::mutex> sl(stats_mutex_);
         ++stats_.segments_dropped;

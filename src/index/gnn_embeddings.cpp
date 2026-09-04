@@ -800,7 +800,7 @@ GNNEmbeddingManager::findSimilarNodes(
         
         similar.push_back(simRes);
         
-        if (static_cast<int>(similar.size()) > = static_cast<size_t>(k)) {
+        if (static_cast<int>(similar.size()) >= static_cast<size_t>(k)) {
           break;
         }
     }
@@ -850,7 +850,7 @@ GNNEmbeddingManager::findSimilarEdges(
         simRes.graph_id = parts->graph_id;
         
         similar.push_back(simRes);
-        if (static_cast<int>(similar.size()) > = static_cast<size_t>(k)) {
+        if (static_cast<int>(similar.size()) >= static_cast<size_t>(k)) {
           break;
         }
     }
@@ -976,7 +976,7 @@ GNNEmbeddingManager::getStats() const {
             parts.push_back(part);
         }
         
-        if (static_cast<int>(parts.size()) > = 4) {
+        if (static_cast<int>(parts.size()) >= 4) {
             std::string entity_type = parts[1];
             std::string graph_id = parts[2];
             std::string model_name = parts[3];

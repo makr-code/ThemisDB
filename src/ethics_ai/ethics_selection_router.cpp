@@ -46,13 +46,13 @@ std::vector<std::string> tokenise(const std::string& text) {
         if (std::isalnum(ch) || ch > 127) { // keep umlauts
             cur += static_cast<char>(std::tolower(ch));
         } else if (!cur.empty()) {
-            if (static_cast<int>(cur.size()) > = 3) {
+            if (static_cast<int>(cur.size()) >= 3) {
               tokens.push_back(cur);
             }
             cur.clear();
         }
     }
-    if (static_cast<int>(cur.size()) > = 3) {
+    if (static_cast<int>(cur.size()) >= 3) {
       tokens.push_back(cur);
     }
     return tokens;

@@ -59,7 +59,7 @@ std::vector<HybridSearch::Result> ConversationalSearch::search(
     }
 
     // Append turn to history, evicting oldest entry when limit is reached
-    if (static_cast<int>(history_.size()) > = config_.max_history) {
+    if (static_cast<int>(history_.size()) >= config_.max_history) {
         history_.pop_front();
     }
     Turn turn;

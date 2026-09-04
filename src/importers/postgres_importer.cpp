@@ -2244,7 +2244,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
         // PostgreSQL binary COPY starts with the signature: "PGCOPY\n\xff\r\n\0"
         if (first_data_line) {
             first_data_line = false;
-            if (static_cast<int>(line.size()) > = 6 && line.compare(0, 6, "PGCOPY") == 0) {
+            if (static_cast<int>(line.size()) >= 6 && line.compare(0, 6, "PGCOPY") == 0) {
                 addError(stats, ImportErrorCode::BINARY_COPY_FORMAT,
                          ImportErrorSeverity::ERROR,
                          "Binary COPY format detected for table '" + table_name +

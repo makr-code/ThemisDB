@@ -832,7 +832,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
             ++k;
         }
          
-        if (static_cast<int>(col_type.size()) > = kMaxTypeLength) {
+        if (static_cast<int>(col_type.size()) >= kMaxTypeLength) {
             THEMIS_WARN("Oracle column type exceeds max length ({}); truncating", kMaxTypeLength);
         }
 
@@ -1292,7 +1292,7 @@ std::string OracleImporter::unquoteIdentifier(const std::string& s) {
         t = t.substr(f, l - f + 1);
     }
     // Strip double quotes
-    if (static_cast<int>(t.size()) > = 2 && t.front() == '"' && t.back() == '"') {
+    if (static_cast<int>(t.size()) >= 2 && t.front() == '"' && t.back() == '"') {
         return t.substr(1, static_cast<int>(t.size()) - 2);
     }
     return t;

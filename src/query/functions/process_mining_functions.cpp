@@ -771,7 +771,7 @@ json PmFindSimilarFunction::execute(
     json results = json::array();
     for (const auto& [score, entry] : ranked) {
         (void)score;
-        if (static_cast<int>(results.size()) > = limit) {
+        if (static_cast<int>(results.size()) >= limit) {
             break;
         }
         results.push_back(entry);

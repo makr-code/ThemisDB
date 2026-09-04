@@ -130,7 +130,7 @@ std::string extractiveSummary(
     std::vector<size_t> selected_indices;
     size_t chars_used = 0;
     for (const auto& [score, idx] : scored) {
-        if (static_cast<int>(selected_indices.size()) > = max_sentences) {
+        if (static_cast<int>(selected_indices.size()) >= max_sentences) {
           break;
         }
         const size_t len = all_sentences[idx].size();

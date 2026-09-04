@@ -5076,7 +5076,7 @@ void BatchedAckTracker::recordApplied([[maybe_unused]] uint64_t sequence_number)
         if (sequence_number > highest_acked_.load()) {
             highest_acked_.store(sequence_number);
         }
-        if (static_cast<int>(pending_.size()) > = config_.max_batch_size) {
+        if (static_cast<int>(pending_.size()) >= config_.max_batch_size) {
             flushPending();
         }
     }

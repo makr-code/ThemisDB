@@ -215,7 +215,7 @@ TransactionBatcher::submitAsync(std::function<Status()> commit_fn,
         std::lock_guard<std::mutex> lk(queue_mutex_);
         queue_.push_back(std::move(entry));
 
-        if (static_cast<int>(queue_.size()) > = effective_max_batch_size) {
+        if (static_cast<int>(queue_.size()) >= effective_max_batch_size) {
             need_immediate_flush = true;
             flush_requested_     = true;
         }

@@ -150,7 +150,7 @@ TemporalSpatialQuery::entitiesWithinDistanceAtTime(
     // (build + query) would outweigh the benefit over a linear scan.
     static constexpr std::size_t kIndexThreshold = 512;
 
-    if (static_cast<int>(rows.size()) > = kIndexThreshold) {
+    if (static_cast<int>(rows.size()) >= kIndexThreshold) {
         // Build (key → row index) map and a (key → centroid) list for bulk load.
         std::unordered_map<std::string, std::size_t> key_idx = {};
 

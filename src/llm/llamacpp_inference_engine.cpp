@@ -356,7 +356,7 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
                 tokens.push_back(std::move(tok));
             }
         }
-        if (static_cast<int>(tokens.size()) > = 4) {
+        if (static_cast<int>(tokens.size()) >= 4) {
             std::unordered_map<std::string, int> bigram_count;
             int repeated = 0;
             for (size_t i = 0; i + 1 <static_cast<int>(tokens.size()); ++i) {

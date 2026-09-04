@@ -2283,7 +2283,7 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const st
                 continue;
             }
 
-            if (static_cast<int>(line.size()) > = 7 && line.substr(0, 7) == "SCORE: ") {
+            if (static_cast<int>(line.size()) >= 7 && line.substr(0, 7) == "SCORE: ") {
                 try {
                     result.score = std::stof(line.substr(7));
                     // Clamp to [0, 1]
@@ -2292,10 +2292,10 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const st
                     result.score = -1.0f;
                 }
                 in_suggestions = false;
-            } else if (static_cast<int>(line.size()) > = 13 && line.substr(0, 13) == "EXPLANATION: ") {
+            } else if (static_cast<int>(line.size()) >= 13 && line.substr(0, 13) == "EXPLANATION: ") {
                 result.explanation = line.substr(13);
                 in_suggestions     = false;
-            } else if (static_cast<int>(line.size()) > = 12 && line.substr(0, 12) == "SUGGESTION: ") {
+            } else if (static_cast<int>(line.size()) >= 12 && line.substr(0, 12) == "SUGGESTION: ") {
                 in_suggestions         = true;
                 std::string suggestion = line.substr(12);
                 if (suggestion != "None" && !suggestion.empty()) {

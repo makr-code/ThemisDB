@@ -264,7 +264,7 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
 
             results.push_back(arg);
 
-            if (static_cast<int>(results.size()) > = limit) {
+            if (static_cast<int>(results.size()) >= limit) {
                 break;
             }
         }
@@ -320,7 +320,7 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
                     }
                 }
                 out.push_back(EthicsBaseEntityAdapter::fromBaseEntity(entity));
-                if (static_cast<int>(out.size()) > = limit) {
+                if (static_cast<int>(out.size()) >= limit) {
                     break;
                 }
             }
@@ -337,7 +337,7 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
 
     // Scan RocksDB with prefix
     storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
-        if (static_cast<int>(results.size()) > = limit) {
+        if (static_cast<int>(results.size()) >= limit) {
             return false; // Stop iteration
         }
 

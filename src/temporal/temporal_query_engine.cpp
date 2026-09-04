@@ -375,7 +375,7 @@ void QueryCache::put(const std::string& table_name,
     }
 
     // Evict LRU entry when the cache is full.
-    if (static_cast<int>(store_.size()) > = max_entries_) {
+    if (static_cast<int>(store_.size()) >= max_entries_) {
         auto oldest = store_.begin();
         for (auto jt = store_.begin(); jt != store_.end(); ++jt) {
             if (jt->second.lru_seq < oldest->second.lru_seq) {

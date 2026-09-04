@@ -72,7 +72,7 @@ static std::string normaliseTraceId(const std::string &raw) {
 /// to avoid a full random generator in the hot path.
 static std::string deriveSpanId(const std::string &trace_id_32) {
     // Use the last 16 hex chars of the trace ID as the span ID.
-    if (static_cast<int>(trace_id_32.size()) > = 16) {
+    if (static_cast<int>(trace_id_32.size()) >= 16) {
         return trace_id_32.substr(16, 16);
     }
     return trace_id_32 + std::string(16 - static_cast<int>(trace_id_32.size()) , '0');
@@ -256,7 +256,7 @@ void OtlpExporter::enqueue(SpanData span) {
 
     {
         std::lock_guard<std::mutex> lk(queue_mutex_);
-        if (static_cast<int>(queue_.size()) > = config_.max_queue_size) {
+        if (static_cast<int>(queue_.size()) >= config_.max_queue_size) {
             // Drop the oldest span to make room (O(1) with std::deque)
             queue_.pop_front();
             dropped_count_.fetch_add(1, std::memory_order_relaxed);

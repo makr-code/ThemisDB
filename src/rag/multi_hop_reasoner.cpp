@@ -157,7 +157,7 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
 
     for (const auto& s : sentences) {
         parts.push_back(s);
-        if (static_cast<int>(parts.size()) > = config_.max_hops) {
+        if (static_cast<int>(parts.size()) >= config_.max_hops) {
           break;
         }
     }

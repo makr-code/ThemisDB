@@ -145,12 +145,12 @@ private:
             if (pos + 1 <static_cast<int>(text.size()) &&
                 (text[pos] == '.' || text[pos] == '!' || text[pos] == '?') &&
                 text[pos + 1] == ' ') {
-                if (static_cast<int>(current.size()) > = max_size / 2) {
+                if (static_cast<int>(current.size()) >= max_size / 2) {
                     emit();
                     current_start = pos + 2;
                 }
             }
-            if (static_cast<int>(current.size()) > = max_size) {
+            if (static_cast<int>(current.size()) >= max_size) {
                 emit();
                 current_start = pos + 1;
             }

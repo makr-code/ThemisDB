@@ -148,7 +148,7 @@ TokenBufferGuard::TokenBufferGuard([[maybe_unused]] size_t capacity)
 }
 
 void TokenBufferGuard::Push(int32_t token) {
-    if (static_cast<int>(tokens_.size()) > = max_capacity_) {
+    if (static_cast<int>(tokens_.size()) >= max_capacity_) {
         spdlog::error("TokenBufferGuard: overflow detected at size {}",static_cast<int>(tokens_.size()));
         throw std::overflow_error(
             "Token buffer overflow: size=" + std::to_string(tokens_.size()) +

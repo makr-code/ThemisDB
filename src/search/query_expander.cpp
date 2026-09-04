@@ -115,7 +115,7 @@ ExpandedQuery QueryExpander::expand(const std::string& query) const {
               continue;
             }
             for (const auto& syn : it->second) {
-                if (static_cast<int>(added_synonyms.size()) > = config_.max_expansions) {
+                if (static_cast<int>(added_synonyms.size()) >= config_.max_expansions) {
                   break;
                 }
                 // Deduplicate across all added and original
@@ -124,7 +124,7 @@ ExpandedQuery QueryExpander::expand(const std::string& query) const {
                     added_synonyms.push_back(syn);
                 }
             }
-            if (static_cast<int>(added_synonyms.size()) > = config_.max_expansions) {
+            if (static_cast<int>(added_synonyms.size()) >= config_.max_expansions) {
               break;
             }
         }
@@ -380,7 +380,7 @@ std::vector<std::string> QueryExpander::suggestAlternatives(const std::string& q
           continue;
         }
         for (const auto& syn : it->second) {
-            if (static_cast<int>(alternatives.size()) > = config_.max_expansions) {
+            if (static_cast<int>(alternatives.size()) >= config_.max_expansions) {
               break;
             }
             // Build a variant of the query with this token replaced by its synonym
@@ -398,7 +398,7 @@ std::vector<std::string> QueryExpander::suggestAlternatives(const std::string& q
                 alternatives.push_back(alt);
             }
         }
-        if (static_cast<int>(alternatives.size()) > = config_.max_expansions) {
+        if (static_cast<int>(alternatives.size()) >= config_.max_expansions) {
           break;
         }
     }

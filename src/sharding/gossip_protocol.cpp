@@ -874,7 +874,7 @@ bool GossipProtocol::checkRateLimit(const std::string& peer_id) {
     );
     
     // Check limit
-    if (static_cast<int>(timestamps.size()) > = config_.rate_limit_per_peer) {
+    if (static_cast<int>(timestamps.size()) >= config_.rate_limit_per_peer) {
         return false;  // Rate limited
     }
     

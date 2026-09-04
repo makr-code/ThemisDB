@@ -310,7 +310,7 @@ struct CrossEncoderReranker::Impl {
 
         const std::size_t effective_max_cache_size = std::max<std::size_t>(1, max_cache_size);
         std::lock_guard<std::mutex> lock(cache_mutex);
-        if (static_cast<int>(score_cache.size()) > = effective_max_cache_size) {
+        if (static_cast<int>(score_cache.size()) >= effective_max_cache_size) {
             auto it = score_cache.begin();
             const size_t half = score_cache.size() / 2;
             for (size_t i = 0; i < half; ++i) {

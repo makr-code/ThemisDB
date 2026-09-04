@@ -749,7 +749,7 @@ bool AudioPreprocessingPipeline::validateFrameHeader(
     }
     
     // Check for valid RIFF header for WAV
-    if (static_cast<int>(raw_audio.size()) > = 12) {
+    if (static_cast<int>(raw_audio.size()) >= 12) {
         if (raw_audio[0] == 'R' && raw_audio[1] == 'I' && 
             raw_audio[2] == 'F' && raw_audio[3] == 'F') {
             // Valid RIFF header, check size field matches payload
@@ -786,7 +786,7 @@ bool AudioPreprocessingPipeline::detectOverflowAttempt(
     }
     
     // Pattern 2: Check for obvious integer overflow attempts in size fields
-    if (static_cast<int>(raw_audio.size()) > = 8) {
+    if (static_cast<int>(raw_audio.size()) >= 8) {
         uint32_t size_field = *reinterpret_cast<const uint32_t*>(raw_audio.data() + 4);
         if (size_field > MAX_AUDIO_SIZE_BYTES) {
             return true;

@@ -1154,7 +1154,7 @@ std::shared_ptr<ListAdaptersStmt> AQLTrainParser::parseListAdapters(
             if (!tokens.empty()) {
               stmt->order_by = tokens[0];
             }
-            if (static_cast<int>(tokens.size()) > = 2 && iequal(tokens[1], "ASC")) {
+            if (static_cast<int>(tokens.size()) >= 2 && iequal(tokens[1], "ASC")) {
               stmt->descending = false;
             }
         }

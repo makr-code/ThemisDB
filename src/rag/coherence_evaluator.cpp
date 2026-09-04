@@ -385,7 +385,7 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
                                     std::inserter(common, common.begin()));
                 
                 // If they share significant terms, might be contradiction
-                if (static_cast<int>(common.size()) > = 2) {
+                if (static_cast<int>(common.size()) >= 2) {
                     contradictions.push_back(sentences[i] + " <-> " + sentences[j]);
                 }
             }

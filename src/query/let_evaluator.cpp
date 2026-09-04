@@ -1230,7 +1230,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             
             wkt << "POINT(";
             wkt << coords[0].get<double>() << " " << coords[1].get<double>();
-            if (static_cast<int>(coords.size()) > = 3) {
+            if (static_cast<int>(coords.size()) >= 3) {
                 wkt << " " << coords[2].get<double>();
             }
             wkt << ")";
@@ -1248,7 +1248,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                 const auto& pt = coords[i];
                 if (pt.is_array() && static_cast<int>(pt.size()) >= 2) {
                     wkt << pt[0].get<double>() << " " << pt[1].get<double>();
-                    if (static_cast<int>(pt.size()) > = 3) {
+                    if (static_cast<int>(pt.size()) >= 3) {
                         wkt << " " << pt[2].get<double>();
                     }
                 }
@@ -1275,7 +1275,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                         const auto& pt = ring[i];
                         if (pt.is_array() && static_cast<int>(pt.size()) >= 2) {
                             wkt << pt[0].get<double>() << " " << pt[1].get<double>();
-                            if (static_cast<int>(pt.size()) > = 3) {
+                            if (static_cast<int>(pt.size()) >= 3) {
                                 wkt << " " << pt[2].get<double>();
                             }
                         }
@@ -1307,7 +1307,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             if (geojson.is_object() && geojson.contains("type") && geojson["type"] == "Point") {
                 if (geojson.contains("coordinates") && geojson["coordinates"].is_array()) {
                     const auto& coords = geojson["coordinates"];
-                    if (static_cast<int>(coords.size()) > = 2) {
+                    if (static_cast<int>(coords.size()) >= 2) {
                         double x = coords[0].get<double>();
                         double y = coords[1].get<double>();
                         double z = static_cast<int>(coords.size()) >= 3 ? coords[2].get<double>() : 0.0;

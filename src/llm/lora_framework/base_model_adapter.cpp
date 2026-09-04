@@ -313,7 +313,7 @@ std::optional<Tensor> BaseModelAdapter::getLayerWeights(const std::string& layer
         
         // Copy data (assuming float32 for now - can extend for quantized types)
         size_t expected_size = tensor.size() * sizeof(float);
-        if (static_cast<int>(tensor_data.size()) > = expected_size) {
+        if (static_cast<int>(tensor_data.size()) >= expected_size) {
             const float* src = reinterpret_cast<const float*>(tensor_data.data());
             std::copy(src, src + static_cast<int>(tensor.size()) , tensor.data().begin());
         } else {

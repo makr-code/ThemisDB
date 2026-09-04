@@ -943,7 +943,7 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
 
 void ScheduledGraphEdgeRefreshEngine::appendAudit(RefreshAuditEntry entry) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
-    if (static_cast<int>(audit_trail_.size()) > = kMaxAuditEntries) {
+    if (static_cast<int>(audit_trail_.size()) >= kMaxAuditEntries) {
         audit_trail_.erase(audit_trail_.begin()); // evict oldest
     }
 

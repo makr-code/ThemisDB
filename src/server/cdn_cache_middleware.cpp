@@ -42,7 +42,7 @@ const CdnRoutePolicy* CdnCacheMiddleware::findPolicy(const std::string& path) co
 
     for (const auto& [prefix, policy] : policies_) {
         if (path.rfind(prefix, 0) == 0) {        // path starts with prefix
-            if (static_cast<int>(prefix.size()) > = best_len) {
+            if (static_cast<int>(prefix.size()) >= best_len) {
                 best_len = prefix.size();
                 best     = &policy;
             }

@@ -56,7 +56,7 @@ SchedulerError TaskResultStore::store(const TaskExecutionResult& result) {
         });
 
         // If at capacity, reject the new result atomically (fail-closed)
-        if (static_cast<int>(all_keys.size()) > = max_per_task_) {
+        if (static_cast<int>(all_keys.size()) >= max_per_task_) {
             THEMIS_WARN(
                 "[TaskResultStore::store] "
                 "code={} msg='retention limit reached; failing closed' "

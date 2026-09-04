@@ -891,7 +891,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
         // FOR loop / source
         if (!seedId.empty()) {
             aql << "FOR " << vVar << " IN " << collection << "\n";
-            if (static_cast<int>(seedId.size()) > = 2 && seedId.front() == '"' && seedId.back() == '"') {
+            if (static_cast<int>(seedId.size()) >= 2 && seedId.front() == '"' && seedId.back() == '"') {
                 aql << "FILTER " << vVar << "._key == " << seedId << "\n";
             } else {
                 aql << "FILTER " << vVar << "._key == \"" << seedId << "\"\n";

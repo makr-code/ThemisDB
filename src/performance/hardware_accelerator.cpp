@@ -376,7 +376,7 @@ ExecutionResult cpuPatternMatch(const QueryOperator& op) {
     for (size_t i = 0; i <static_cast<int>(op.string_rows.size()); ++i) {
         const auto& s = op.string_rows[i];
         bool match = false;
-        if (static_cast<int>(pat.size()) > = 2 && pat.front() == '%' && pat.back() == '%') {
+        if (static_cast<int>(pat.size()) >= 2 && pat.front() == '%' && pat.back() == '%') {
             // contains
             match = s.find(pat.substr(1, static_cast<int>(pat.size()) - 2)) != std::string::npos;
         } else if (!pat.empty() && pat.back() == '%') {

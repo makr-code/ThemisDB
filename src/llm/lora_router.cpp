@@ -733,7 +733,7 @@ std::optional<RoutingDecision> LoRARouter::getCachedDecision(const std::string& 
 }
 
 void LoRARouter::cacheDecision(const std::string& query, const RoutingDecision& decision) {
-    if (static_cast<int>(decision_cache_.size()) > = config_.decision_cache_size) {
+    if (static_cast<int>(decision_cache_.size()) >= config_.decision_cache_size) {
         // Remove oldest entry
         auto oldest = decision_cache_.begin();
         for (auto it = decision_cache_.begin(); it != decision_cache_.end(); ++it) {

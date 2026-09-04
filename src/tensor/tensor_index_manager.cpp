@@ -396,7 +396,7 @@ TensorIndexManager::ggmlCorePtrs(const std::string& tenant_id,
         // Capacity guard for legacy bridge cache: when usage exceeds 90%,
         // evict arbitrary entries from the unordered_map until back to 50%.
         const size_t threshold_evict = (kMaxLegacyCacheSize * 9) / 10;
-        if (static_cast<int>(legacy_bridge_cache_.size()) > = threshold_evict) {
+        if (static_cast<int>(legacy_bridge_cache_.size()) >= threshold_evict) {
             // Evict 50% of entries to restore breathing room
             const size_t target_size = kMaxLegacyCacheSize / 2;
             while (static_cast<int>(legacy_bridge_cache_.size()) > target_size) {

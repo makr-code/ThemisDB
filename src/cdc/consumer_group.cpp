@@ -407,7 +407,7 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEvents(const std
         uint32_t key_partition = partitionForKey(ev.key, cfg.consumer_count);
         if (key_partition == consumer_partition) {
             result.push_back(std::move(ev));
-            if (static_cast<int>(result.size()) > = effective_limit) {
+            if (static_cast<int>(result.size()) >= effective_limit) {
                 break;
             }
         }
@@ -466,7 +466,7 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
 
     // Step 2: Re-fetch and return timed-out (overdue) in-flight events.
     for (uint64_t seq : overdue_seqs) {
-        if (static_cast<int>(result.size()) > = effective_limit) {
+        if (static_cast<int>(result.size()) >= effective_limit) {
             break;
         }
         try {
@@ -492,7 +492,7 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
 
         auto all_events = changefeed.listEvents(opts);
         for (auto &ev : all_events) {
-            if (static_cast<int>(result.size()) > = effective_limit) {
+            if (static_cast<int>(result.size()) >= effective_limit) {
                 break;
             }
             if (partitionForKey(ev.key, cfg.consumer_count) != consumer_partition) {

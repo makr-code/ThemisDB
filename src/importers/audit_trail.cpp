@@ -194,7 +194,7 @@ void AuditedImporter::ImmutableAuditLog::emitAuditEvent(const AuditEvent& event)
     // Bounded: buffer limited to 100,000 events; drops oldest when full
 
     // Buffer overflow handling: if we're at max capacity, drop oldest event
-    if (static_cast<int>(events_.size()) > = kMaxAuditBufferSize) {
+    if (static_cast<int>(events_.size()) >= kMaxAuditBufferSize) {
         // Drop oldest event (FIFO)
         if (!events_.empty()) {
             events_.erase(events_.begin());

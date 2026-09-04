@@ -341,7 +341,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
                 {
                     std::unique_lock<std::shared_mutex> lk(l1_mutex_);
                     if (l1_cache_.count(cache_key) == 0) {
-                        if (static_cast<int>(l1_cache_.size()) > = config_.l1_max_entries) {
+                        if (static_cast<int>(l1_cache_.size()) >= config_.l1_max_entries) {
                             evictLRU(CacheLevel::HOT);
                         }
                         l1_cache_[cache_key] = std::move(entry);
@@ -367,7 +367,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
                     {
                         std::unique_lock<std::shared_mutex> lk(l1_mutex_);
                         if (l1_cache_.count(cache_key) == 0) {
-                            if (static_cast<int>(l1_cache_.size()) > = config_.l1_max_entries) {
+                            if (static_cast<int>(l1_cache_.size()) >= config_.l1_max_entries) {
                                 evictLRU(CacheLevel::HOT);
                             }
                             l1_cache_[cache_key] = std::move(entry);
@@ -389,7 +389,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
                     {
                         std::lock_guard<std::mutex> lk(l2_mutex_);
                         if (l2_cache_.count(cache_key) == 0) {
-                            if (static_cast<int>(l2_cache_.size()) > = config_.l2_max_entries) {
+                            if (static_cast<int>(l2_cache_.size()) >= config_.l2_max_entries) {
                                 evictLRU(CacheLevel::WARM);
                             }
                             l2_cache_[cache_key] = std::move(entry);

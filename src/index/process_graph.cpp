@@ -3149,7 +3149,7 @@ ProcessGraphManager::validateLocationConstraint(
     // 1. WKT polygon constraint.
     if (locationConstraint && !locationConstraint->empty()) {
         const auto ring = parseWktPolygon(*locationConstraint);
-        if (static_cast<int>(ring.size()) > = 3) {
+        if (static_cast<int>(ring.size()) >= 3) {
             const bool inside = pointInPolygon(execution_lon, execution_lat, ring);
             if (!inside) {
                 return {Status::Error("Execution location is outside the required geofence"), false};
@@ -3207,7 +3207,7 @@ ProcessGraphManager::getRegionalParameters(
         for (auto& [key, params] : regParams.items()) {
             if (key.substr(0, 7) == "POLYGON") {
                 const auto ring = parseWktPolygon(key);
-                if (static_cast<int>(ring.size()) > = 3 && pointInPolygon(lon, lat, ring)) {
+                if (static_cast<int>(ring.size()) >= 3 && pointInPolygon(lon, lat, ring)) {
                     if (params.is_object()) {
                         for (auto& [pk, pv] : params.items()) {
                           merged[pk] = pv;

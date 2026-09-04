@@ -585,7 +585,7 @@ void CanaryDeployment::reportError() {
 void CanaryDeployment::reportLatency(std::chrono::microseconds latency) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (static_cast<int>(latency_samples_us_.size()) > = kMaxLatencySamples) {
+        if (static_cast<int>(latency_samples_us_.size()) >= kMaxLatencySamples) {
             latency_samples_us_.pop_front();  // O(1) for deque
         }
         latency_samples_us_.push_back(latency.count());

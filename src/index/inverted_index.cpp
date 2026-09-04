@@ -531,7 +531,7 @@ InvertedIndex::searchPhrase(std::string_view table, std::string_view column,
         } catch (...) {
             // skip unreadable documents
         }
-        if (static_cast<int>(results.size()) > = limit) {
+        if (static_cast<int>(results.size()) >= limit) {
           break;
         }
     }

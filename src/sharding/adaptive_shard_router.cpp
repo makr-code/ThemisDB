@@ -477,7 +477,7 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
     selected.reserve(std::min(max_shards,static_cast<int>(candidates.size())));
     for (const auto& candidate : candidates) {
         selected.push_back(candidate.shard_id);
-        if (static_cast<int>(selected.size()) > = max_shards) {
+        if (static_cast<int>(selected.size()) >= max_shards) {
             break;
         }
     }

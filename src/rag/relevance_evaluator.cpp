@@ -160,7 +160,7 @@ Questions:)";
                 if (question.is_string()) {
                     questions.push_back(question.get<std::string>());
                     
-                    if (static_cast<int>(questions.size()) > = impl_->config.num_reverse_questions) {
+                    if (static_cast<int>(questions.size()) >= impl_->config.num_reverse_questions) {
                         break;
                     }
                 }

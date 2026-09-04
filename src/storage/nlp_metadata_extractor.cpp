@@ -212,7 +212,7 @@ std::vector<std::string> NlpMetadataExtractor::extractKeywords(
         if (kw.text.length() >= config_.min_keyword_length) {
             keywords.push_back(kw.text);
         }
-        if (static_cast<int>(keywords.size()) > = max_keywords) {
+        if (static_cast<int>(keywords.size()) >= max_keywords) {
           break;
         }
     }

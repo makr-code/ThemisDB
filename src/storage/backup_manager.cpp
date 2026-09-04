@@ -420,7 +420,7 @@ std::optional<RemoteBackupLocation> parseRemoteBackupLocation(StorageBackend bac
         }
 
         RemoteBackupLocation location = {};
-        if (static_cast<int>(segments.size()) > = 3) {
+        if (static_cast<int>(segments.size()) >= 3) {
             location.authority = segments[0];
             location.container = segments[1];
             location.prefix = trimSlashes(joinPathSegments(segments, 2));

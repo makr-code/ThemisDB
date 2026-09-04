@@ -351,7 +351,7 @@ struct WikiIndexStore::Impl {
         }
         cache_db = raw_db_instance;
         // cf_handles[0] = default CF (not used); cf_handles[1] = embedding_cache.
-        if (static_cast<int>(cf_handles.size()) > = 2) {
+        if (static_cast<int>(cf_handles.size()) >= 2) {
             cache_cf = cf_handles[1];
             // Default CF handle: close immediately (we don't need it).
             delete cf_handles[0];

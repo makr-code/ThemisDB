@@ -121,7 +121,7 @@ bool MetricAggregator::checkSnapshotCardinality(const std::string& metric_name,
 
     auto limit_it = cardinality_limits_.find(metric_name);
     if (limit_it != cardinality_limits_.end() && limit_it->second > 0) {
-        if (static_cast<int>(known.size()) > = limit_it->second) {
+        if (static_cast<int>(known.size()) >= limit_it->second) {
             ++dropped_snapshots_;
             return false;
         }
