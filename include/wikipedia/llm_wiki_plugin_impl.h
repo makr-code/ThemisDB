@@ -294,6 +294,7 @@ private:
 
     std::atomic<bool>          initialized_{false};
     mutable std::shared_mutex  mutex_;
+    mutable std::mutex         evidence_mutex_;
 
     // Configuration (set during initialize())
     std::string embedding_provider_{"hash"};

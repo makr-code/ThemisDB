@@ -31,6 +31,7 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <cstdlib>
 #include <ctime>
 #include <filesystem>
 #include <fstream>
@@ -151,16 +152,34 @@ std::string resolveProcessPolicyPath(const std::string& configured_path) {
         return configured_path;
     }
 
-    const auto source_tree_default =
-        (std::filesystem::path(__FILE__).parent_path() / ".." / "process" /
-         "llm_wiki_process_policy.yaml")
-            .lexically_normal()
-            .string();
-    if (auto resolved =
-            themis::config::ConfigPathResolver::tryResolve(source_tree_default)) {
-        return *resolved;
+    std::vector<std::filesystem::path> candidate_roots;
+    const char* pwd = std::getenv("PWD");
+    if (pwd && *pwd != '\0') {
+        candidate_roots.emplace_back(std::filesystem::path(pwd));
     }
-    return source_tree_default;
+    candidate_roots.emplace_back(std::filesystem::current_path());
+
+    const auto this_source_root =
+        std::filesystem::path(__FILE__).parent_path().parent_path().parent_path();
+    candidate_roots.emplace_back(this_source_root);
+
+    for (const auto& root : candidate_roots) {
+        const auto candidate =
+            (root / "src" / "llm_wiki" / "process" / "llm_wiki_process_policy.yaml")
+                .lexically_normal();
+        std::error_code ec;
+        if (std::filesystem::exists(candidate, ec) && !ec) {
+            if (auto resolved = themis::config::ConfigPathResolver::tryResolve(candidate.string())) {
+                return *resolved;
+            }
+            return candidate.string();
+        }
+        if (auto resolved = themis::config::ConfigPathResolver::tryResolve(candidate.string())) {
+            return *resolved;
+        }
+    }
+
+    return {};
 }
 
 std::string currentIsoUtcTimestamp() {
@@ -676,23 +695,32 @@ void LLMWikiPluginImpl::persistDenyEvidence(
     const char* stage_name,
     const std::string& reason_code,
     const std::string& message) const {
-    if (workspace_root_.empty()) {
-        return;
+    std::string workspace_root;
+    std::string policy_id;
+    {
+        std::unique_lock<std::shared_mutex> state_lock(mutex_);
+        if (workspace_root_.empty()) {
+            return;
+        }
+        workspace_root = workspace_root_;
+        policy_id = process_policy_.has_value() ? process_policy_->policy_id : "";
     }
 
-    const auto evidence_path = std::filesystem::path(workspace_root_) / "wiki" /
+    const auto evidence_path = std::filesystem::path(workspace_root) / "wiki" /
                                "governance_evidence.jsonl";
-    std::error_code ec;
-    std::filesystem::create_directories(evidence_path.parent_path(), ec);
-
     nlohmann::json event = {
         {"timestamp", currentIsoUtcTimestamp()},
         {"event", "stage_gate_denied"},
         {"stage", stage_name},
         {"reason_code", reason_code},
         {"message", message},
-        {"policy_id", process_policy_.has_value() ? process_policy_->policy_id : ""},
+        {"policy_id", policy_id},
     };
+
+    std::lock_guard<std::mutex> evidence_lock(evidence_mutex_);
+    std::error_code ec;
+    std::filesystem::create_directories(evidence_path.parent_path(), ec);
+
     std::ofstream ofs(evidence_path, std::ios::app);
     if (!ofs.is_open()) {
         spdlog::warn("[llm_wiki] Failed to persist governance evidence to {}",

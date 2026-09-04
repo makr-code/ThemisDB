@@ -16,10 +16,13 @@ using themis::plugins::llm_wiki::LLMWikiPluginImpl;
 using themis::plugins::llm_wiki::Status;
 
 std::filesystem::path makeTempPolicyFile(const std::string& yaml) {
+    const auto unique_suffix =
+        std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) +
+        "_" +
+        std::to_string(std::hash<std::thread::id>{}(std::this_thread::get_id()));
     const auto dir = std::filesystem::temp_directory_path() /
-                     "themisdb_llm_wiki_block4_policy";
+                     ("themisdb_llm_wiki_block4_policy_" + unique_suffix);
     std::error_code ec;
-    std::filesystem::remove_all(dir, ec);
     std::filesystem::create_directories(dir, ec);
     const auto path = dir / "policy.yaml";
     std::ofstream out(path);
@@ -99,10 +102,13 @@ std::string policyWithStageSchedule(const std::string& stage_name,
 }
 
 std::filesystem::path makeTempWorkspaceRoot() {
+    const auto unique_suffix =
+        std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) +
+        "_" +
+        std::to_string(std::hash<std::thread::id>{}(std::this_thread::get_id()));
     const auto dir = std::filesystem::temp_directory_path() /
-                     "themisdb_llm_wiki_block4_workspace";
+                     ("themisdb_llm_wiki_block4_workspace_" + unique_suffix);
     std::error_code ec;
-    std::filesystem::remove_all(dir, ec);
     std::filesystem::create_directories(dir, ec);
     return dir;
 }
