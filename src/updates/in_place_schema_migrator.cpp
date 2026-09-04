@@ -246,7 +246,9 @@ InPlaceMigrationResult InPlaceSchemaMigrator::apply(
     // Use stringstream for efficient string concatenation (Error Code: 7452)
     std::ostringstream cols_stream;
     for (size_t i = 0; i < result.added_columns.size(); ++i) {
-        if (i) cols_stream << ", ";
+        if (i) {
+          cols_stream << ", ";
+        }
         cols_stream << result.added_columns[i];
     }
     LOG_INFO(

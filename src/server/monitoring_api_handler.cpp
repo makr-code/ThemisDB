@@ -357,13 +357,19 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
             std::sort(supported.begin(), supported.end(), [](const json& a, const json& b) {
                 const int major_a = a.value("major", 0);
                 const int major_b = b.value("major", 0);
-                if (major_a != major_b) return major_a < major_b;
+                if (major_a != major_b) {
+                  return major_a < major_b;
+                }
                 const int minor_a = a.value("minor", 0);
                 const int minor_b = b.value("minor", 0);
-                if (minor_a != minor_b) return minor_a < minor_b;
+                if (minor_a != minor_b) {
+                  return minor_a < minor_b;
+                }
                 const int patch_a = a.value("patch", 0);
                 const int patch_b = b.value("patch", 0);
-                if (patch_a != patch_b) return patch_a < patch_b;
+                if (patch_a != patch_b) {
+                  return patch_a < patch_b;
+                }
                 return a.dump() < b.dump();
             });
             response["supported_api_versions"] = supported;
@@ -622,8 +628,12 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         json r = rdb.contains("rocksdb") ? rdb["rocksdb"] : json::object();
 
         auto get_u64 = [&]([[maybe_unused]] const char* k) -> uint64_t {
-            if (r.contains(k) && r[k].is_number_unsigned()) return r[k].get<uint64_t>();
-            if (r.contains(k) && r[k].is_number_integer()) return static_cast<uint64_t>(r[k].get<int64_t>());
+            if (r.contains(k) && r[k].is_number_unsigned()) {
+              return r[k].get<uint64_t>();
+            }
+            if (r.contains(k) && r[k].is_number_integer()) {
+              return static_cast<uint64_t>(r[k].get<int64_t>());
+            }
             return 0ull;
         };
         uint64_t block_cache_usage = get_u64("block_cache_usage_bytes");
@@ -784,7 +794,9 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             std::vector<std::pair<std::string, uint64_t>> level_rows;
             for (auto it = r["files_per_level"].begin(); it != r["files_per_level"].end(); ++it) {
                 uint64_t val = 0;
-                if (it.value().is_number_integer()) val = static_cast<uint64_t>(it.value().get<int64_t>());
+                if (it.value().is_number_integer()) {
+                  val = static_cast<uint64_t>(it.value().get<int64_t>());
+                }
                 else if (it.value().is_number_unsigned()) val = it.value().get<uint64_t>();
                 level_rows.emplace_back(it.key(), val);
             }
@@ -1155,9 +1167,15 @@ namespace {
     out.reserve(input.size());
 
     auto hexValue = [](char c) -> int {
-        if (c >= '0' && c <= '9') return c - '0';
-        if (c >= 'a' && c <= 'f') return 10 + (c - 'a');
-        if (c >= 'A' && c <= 'F') return 10 + (c - 'A');
+        if (c >= '0' && c <= '9') {
+          return c - '0';
+        }
+        if (c >= 'a' && c <= 'f') {
+          return 10 + (c - 'a');
+        }
+        if (c >= 'A' && c <= 'F') {
+          return 10 + (c - 'A');
+        }
         return -1;
     };
 
@@ -1630,7 +1648,9 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         std::string line;
         while (std::getline(iss, line)) {
             auto sp = line.rfind(' ');
-            if (sp == std::string::npos) continue;
+            if (sp == std::string::npos) {
+              continue;
+            }
             rows.emplace_back(line.substr(0, sp), line.substr(sp + 1));
         }
         std::sort(rows.begin(), rows.end(), [](const auto& a, const auto& b) {
@@ -1697,28 +1717,40 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
             auto extract_str = [&](const std::string& src, const std::string& key) -> std::string {
                 const std::string needle = "\"" + key + "\":\"";
                 auto pos = src.find(needle);
-                if (pos == std::string::npos) return "";
+                if (pos == std::string::npos) {
+                  return "";
+                }
                 pos += needle.size();
                 auto end = src.find('"', pos);
-                if (end == std::string::npos) return "";
+                if (end == std::string::npos) {
+                  return "";
+                }
                 return src.substr(pos, end - pos);
             };
             auto extract_num = [&](const std::string& src, const std::string& key) -> std::string {
                 const std::string needle = "\"" + key + "\":";
                 auto pos = src.find(needle);
-                if (pos == std::string::npos) return "";
+                if (pos == std::string::npos) {
+                  return "";
+                }
                 pos += needle.size();
                 auto end = src.find_first_of(",}", pos);
-                if (end == std::string::npos) return "";
+                if (end == std::string::npos) {
+                  return "";
+                }
                 return src.substr(pos, end - pos);
             };
             auto extract_bool = [&](const std::string& src, const std::string& key) -> std::string {
                 const std::string needle = "\"" + key + "\":";
                 auto pos = src.find(needle);
-                if (pos == std::string::npos) return "";
+                if (pos == std::string::npos) {
+                  return "";
+                }
                 pos += needle.size();
                 auto end = src.find_first_of(",}", pos);
-                if (end == std::string::npos) return "";
+                if (end == std::string::npos) {
+                  return "";
+                }
                 return src.substr(pos, end - pos);
             };
 

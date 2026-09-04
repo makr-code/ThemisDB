@@ -51,16 +51,22 @@ bool LLMGrpcService::validateBearerToken(grpc::ServerContext* context) {
     auto decode_b64url = [](const std::string& in) -> std::string {
         std::string s = in;
         for (char& c : s) {
-            if (c == '-') c = '+';
+            if (c == '-') {
+              c = '+';
+            }
             else if (c == '_') c = '/';
         }
-        while (s.size() % 4) s += '=';
+        while (s.size() % 4) {
+          s += '=';
+        }
         // Simple base64 decode using OpenSSL EVP
         std::vector<unsigned char> buf(s.size());
         int len = EVP_DecodeBlock(buf.data(),
             reinterpret_cast<const unsigned char*>(s.data()),
             static_cast<int>(s.size()));
-        if (len < 0) return "";
+        if (len < 0) {
+          return "";
+        }
         return std::string(buf.begin(), buf.begin() + len);
     };
 

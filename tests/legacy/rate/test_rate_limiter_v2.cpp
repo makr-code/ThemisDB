@@ -75,7 +75,9 @@ TEST_F(TokenBucketLocalTest, PriorityHighBucketLarger) {
 TEST_F(TokenBucketLocalTest, PriorityLaneIsolation) {
     TokenBucketRateLimiter limiter(makeCfg(5));
     // Exhaust NORMAL lane
-    for (int i = 0; i < 5; ++i) EXPECT_TRUE(limiter.tryAcquire(1, Priority::NORMAL));
+    for (int i = 0; i < 5; ++i) {
+      EXPECT_TRUE(limiter.tryAcquire(1, Priority::NORMAL));
+    }
     EXPECT_FALSE(limiter.tryAcquire(1, Priority::NORMAL));
     // HIGH lane unaffected
     EXPECT_TRUE(limiter.tryAcquire(1, Priority::HIGH));
@@ -86,7 +88,9 @@ TEST_F(TokenBucketLocalTest, DisabledPriorityLanesSingleBucket) {
     cfg.enable_priority_lanes = false;
     TokenBucketRateLimiter limiter(cfg);
 
-    for (int i = 0; i < 10; ++i) EXPECT_TRUE(limiter.tryAcquire(1, Priority::HIGH));
+    for (int i = 0; i < 10; ++i) {
+      EXPECT_TRUE(limiter.tryAcquire(1, Priority::HIGH));
+    }
     EXPECT_FALSE(limiter.tryAcquire(1, Priority::HIGH));
 }
 
@@ -122,14 +126,20 @@ TEST_F(TokenBucketLocalTest, ConcurrentAccessNeverExceedsCapacity) {
 
     auto worker = [&]() {
         for (int i = 0; i < 50; ++i) {
-            if (limiter.tryAcquire(1)) ++allowed;
+            if (limiter.tryAcquire(1)) {
+              ++allowed;
+            }
             else                       ++rejected;
         }
     };
 
     std::vector<std::thread> threads;
-    for (int i = 0; i < 10; ++i) threads.emplace_back(worker);
-    for (auto& t : threads) t.join();
+    for (int i = 0; i < 10; ++i) {
+      threads.emplace_back(worker);
+    }
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(allowed.load(), static_cast<int>(capacity));
     EXPECT_EQ(rejected.load(), 500 - static_cast<int>(capacity));

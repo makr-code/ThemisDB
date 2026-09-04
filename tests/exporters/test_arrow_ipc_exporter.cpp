@@ -20,21 +20,31 @@ using namespace themis;
 static bool hasArrowMagic(const std::string& path, std::streamoff offset) {
     static const uint8_t kMagic[8] = {0x41,0x52,0x52,0x4f,0x57,0x31,0x00,0x00};
     std::ifstream f(path, std::ios::binary);
-    if (!f.is_open()) return false;
+    if (!f.is_open()) {
+      return false;
+    }
     f.seekg(offset);
-    if (!f.good()) return false;
+    if (!f.good()) {
+      return false;
+    }
     uint8_t buf[8] = {};
     f.read(reinterpret_cast<char*>(buf), 8);
-    if (f.gcount() < 8) return false;
+    if (f.gcount() < 8) {
+      return false;
+    }
     return std::memcmp(buf, kMagic, 8) == 0;
 }
 
 /// Read the trailing 8 bytes and verify they are the Arrow magic.
 static bool hasTrailingArrowMagic(const std::string& path) {
     std::ifstream f(path, std::ios::binary | std::ios::ate);
-    if (!f.is_open()) return false;
+    if (!f.is_open()) {
+      return false;
+    }
     auto sz = f.tellg();
-    if (sz < 8) return false;
+    if (sz < 8) {
+      return false;
+    }
     f.seekg(-8, std::ios::end);
     uint8_t buf[8] = {};
     f.read(reinterpret_cast<char*>(buf), 8);
@@ -46,11 +56,15 @@ static bool hasTrailingArrowMagic(const std::string& path) {
 /// the continuation marker (0xFFFFFFFF = -1 as LE int32).
 static bool hasSchemaMarker(const std::string& path, bool is_file_format) {
     std::ifstream f(path, std::ios::binary);
-    if (!f.is_open()) return false;
+    if (!f.is_open()) {
+      return false;
+    }
     if (is_file_format) f.seekg(8);  // skip 8-byte file magic
     char buf[4] = {};
     f.read(buf, 4);
-    if (f.gcount() < 4) return false;
+    if (f.gcount() < 4) {
+      return false;
+    }
     // Continuation marker is -1 (LE int32) = FF FF FF FF
     return (static_cast<uint8_t>(buf[0]) == 0xFF &&
             static_cast<uint8_t>(buf[1]) == 0xFF &&

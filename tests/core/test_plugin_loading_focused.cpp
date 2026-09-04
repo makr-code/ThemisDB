@@ -147,7 +147,9 @@ TEST(PluginLoadingTest, PL_08_ConcurrentLoadFromPluginBadPathNoCrash) {
             (void)reg.loadFromPlugin(bogus, "alpha");
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // Registry must be in a valid state after concurrent failures
     EXPECT_EQ(reg.count(), 0u);

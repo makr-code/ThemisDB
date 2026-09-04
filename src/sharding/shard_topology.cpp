@@ -81,9 +81,13 @@ static std::string base64Decode(const std::string& input) {
     std::string output;
     int val = 0, valb = -8;
     for (unsigned char c : input) {
-        if (c == '=') break;
+        if (c == '=') {
+          break;
+        }
         int d = B64_DECODE_TABLE[c];
-        if (d == -1) continue;
+        if (d == -1) {
+          continue;
+        }
         val = (val << 6) + d;
         valb += 6;
         if (valb >= 0) {
@@ -265,7 +269,9 @@ void ShardTopology::loadFromMetadataStore() {
         shards_.clear();
         
         for (const auto& kv : response.body["kvs"]) {
-            if (!kv.contains("value")) continue;
+            if (!kv.contains("value")) {
+              continue;
+            }
             
             // Decode base64 value using shared helper function
             std::string encoded_value = kv["value"].get<std::string>();

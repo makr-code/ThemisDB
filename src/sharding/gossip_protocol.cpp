@@ -31,19 +31,25 @@
 namespace {
 struct EVP_MD_CTX_Deleter {
     void operator()(EVP_MD_CTX* ptr) const {
-        if (ptr) EVP_MD_CTX_free(ptr);
+        if (ptr) {
+          EVP_MD_CTX_free(ptr);
+        }
     }
 };
 
 struct EVP_PKEY_Deleter {
     void operator()(EVP_PKEY* ptr) const {
-        if (ptr) EVP_PKEY_free(ptr);
+        if (ptr) {
+          EVP_PKEY_free(ptr);
+        }
     }
 };
 
 struct FILE_Deleter {
     void operator()(FILE* ptr) const {
-        if (ptr) fclose(ptr);
+        if (ptr) {
+          fclose(ptr);
+        }
     }
 };
 
@@ -438,7 +444,9 @@ void GossipProtocol::performGossipRound() {
 }
 
 void GossipProtocol::sendHeartbeat(const PeerInfo& peer) {
-    if (!client_) return;
+    if (!client_) {
+      return;
+    }
     
     auto message = createHeartbeatMessage();
     message.signature = signMessage(message);
@@ -479,7 +487,9 @@ void GossipProtocol::sendHeartbeat(const PeerInfo& peer) {
 }
 
 void GossipProtocol::sendPeerList(const PeerInfo& peer) {
-    if (!client_) return;
+    if (!client_) {
+      return;
+    }
     
     auto message = createPeerListMessage();
     message.signature = signMessage(message);
@@ -511,7 +521,9 @@ void GossipProtocol::sendPeerList(const PeerInfo& peer) {
 }
 
 void GossipProtocol::sendLeaveMessage() {
-    if (!client_) return;
+    if (!client_) {
+      return;
+    }
     
     auto message = createLeaveMessage();
     message.signature = signMessage(message);
@@ -630,7 +642,9 @@ void GossipProtocol::updatePeerHealth() {
 }
 
 void GossipProtocol::syncWithTopology() {
-    if (!topology_) return;
+    if (!topology_) {
+      return;
+    }
     
     // Convert discovered peers to ShardInfo and add to topology.
     // Acquire the lock so this public variant is safe to call from outside.
@@ -640,10 +654,14 @@ void GossipProtocol::syncWithTopology() {
 
 // Called only when peers_mutex_ is already held by the current thread.
 void GossipProtocol::syncWithTopologyLocked() {
-    if (!topology_) return;
+    if (!topology_) {
+      return;
+    }
 
     for (const auto& [id, peer] : peers_) {
-        if (!peer.is_healthy) continue;
+        if (!peer.is_healthy) {
+          continue;
+        }
 
         // Check if already in topology
         if (!topology_->hasShard(peer.peer_id)) {

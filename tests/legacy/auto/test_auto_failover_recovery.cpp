@@ -360,7 +360,9 @@ TEST(AutoFailoverRecoveryTest, CascadingFailureHandling) {
         // Check if we still have majority
         int healthy = 0;
         for (const auto& node : cluster) {
-            if (node.isHealthy()) healthy++;
+            if (node.isHealthy()) {
+              healthy++;
+            }
         }
         
         // After each failure, verify cluster state

@@ -124,7 +124,9 @@ nlohmann::json ApiKeyMgmtHandler::createKey([[maybe_unused]] const nlohmann::jso
         std::vector<std::string> permissions;
         if (body.contains("permissions") && body["permissions"].is_array()) {
             for (const auto& p : body["permissions"]) {
-                if (p.is_string()) permissions.push_back(p.get<std::string>());
+                if (p.is_string()) {
+                  permissions.push_back(p.get<std::string>());
+                }
             }
         }
 
@@ -217,12 +219,16 @@ nlohmann::json ApiKeyMgmtHandler::updateKey(const std::string& key_id, const nlo
         // Apply updates
         if (body.contains("name") && body["name"].is_string()) {
             std::string new_name = body["name"].get<std::string>();
-            if (!new_name.empty()) rec.name = new_name;
+            if (!new_name.empty()) {
+              rec.name = new_name;
+            }
         }
         if (body.contains("permissions") && body["permissions"].is_array()) {
             rec.permissions.clear();
             for (const auto& p : body["permissions"]) {
-                if (p.is_string()) rec.permissions.push_back(p.get<std::string>());
+                if (p.is_string()) {
+                  rec.permissions.push_back(p.get<std::string>());
+                }
             }
             // Re-register token with updated permissions
             if (auth_) {

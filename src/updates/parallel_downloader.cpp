@@ -69,7 +69,9 @@ public:
     FileRaii(FileRaii&& other) noexcept : fp_(other.release()) {}
     FileRaii& operator=(FileRaii&& other) noexcept {
         if (this != &other) {
-            if (fp_) fclose(fp_);
+            if (fp_) {
+              fclose(fp_);
+            }
             fp_ = other.release();
         }
         return *this;
@@ -108,7 +110,9 @@ public:
     CurlRaii(CurlRaii&& other) noexcept : curl_(other.release()) {}
     CurlRaii& operator=(CurlRaii&& other) noexcept {
         if (this != &other) {
-            if (curl_) curl_easy_cleanup(curl_);
+            if (curl_) {
+              curl_easy_cleanup(curl_);
+            }
             curl_ = other.release();
         }
         return *this;
@@ -201,7 +205,9 @@ DownloadBatchStats ParallelDownloader::lastBatchStats() const noexcept {
 // ============================================================================
 
 void ParallelDownloader::refillTokens([[maybe_unused]] uint64_t /*bytes_needed*/) const {
-    if (bandwidth_limit_bps_ == 0) return;
+    if (bandwidth_limit_bps_ == 0) {
+      return;
+    }
 
     const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                             std::chrono::steady_clock::now().time_since_epoch())
@@ -234,7 +240,9 @@ void ParallelDownloader::refillTokens([[maybe_unused]] uint64_t /*bytes_needed*/
 }
 
 void ParallelDownloader::consumeBandwidth([[maybe_unused]] uint64_t bytes) const {
-    if (bandwidth_limit_bps_ == 0) return;
+    if (bandwidth_limit_bps_ == 0) {
+      return;
+    }
 
     while (true) {
         refillTokens(bytes);
@@ -268,7 +276,9 @@ void ParallelDownloader::consumeBandwidth([[maybe_unused]] uint64_t bytes) const
 uint64_t ParallelDownloader::resumeOffset(const std::string& dest) const {
     std::error_code ec;
     const auto sz = fs::file_size(dest, ec);
-    if (ec || sz == static_cast<std::uintmax_t>(-1)) return 0;
+    if (ec || sz == static_cast<std::uintmax_t>(-1)) {
+      return 0;
+    }
     return static_cast<uint64_t>(sz);
 }
 
@@ -298,7 +308,9 @@ public:
     EvpMdCtxRaii(EvpMdCtxRaii&& other) noexcept : ctx_(other.release()) {}
     EvpMdCtxRaii& operator=(EvpMdCtxRaii&& other) noexcept {
         if (this != &other) {
-            if (ctx_) EVP_MD_CTX_free(ctx_);
+            if (ctx_) {
+              EVP_MD_CTX_free(ctx_);
+            }
             ctx_ = other.release();
         }
         return *this;
@@ -385,8 +397,12 @@ bool ParallelDownloader::defaultFetch(
     static_cast<void>(out_total);
     static_cast<void>(out_error);
 
-    if (out_bytes)  *out_bytes  = 0;
-    if (out_total)  *out_total  = 0;
+    if (out_bytes) {
+      *out_bytes  = 0;
+    }
+    if (out_total) {
+      *out_total  = 0;
+    }
 
 #ifdef THEMIS_ENABLE_CURL
     // ── libcurl-backed HTTP/HTTPS fetch with optional byte-range resume ────
@@ -405,13 +421,17 @@ bool ParallelDownloader::defaultFetch(
     const char* open_mode = (resume_offset > 0) ? "ab" : "wb";
     FileRaii fp(fopen(dest.c_str(), open_mode));
     if (!fp.get()) {
-        if (out_error) *out_error = "Failed to open destination file: " + dest;
+        if (out_error) {
+          *out_error = "Failed to open destination file: " + dest;
+        }
         return false;
     }
 
     CurlRaii curl(curl_easy_init());
     if (!curl.get()) {
-        if (out_error) *out_error = "curl_easy_init() failed";
+        if (out_error) {
+          *out_error = "curl_easy_init() failed";
+        }
         return false;
     }
 
@@ -437,12 +457,16 @@ bool ParallelDownloader::defaultFetch(
     // Resources automatically cleaned up by RAII destructors
     
     if (res != CURLE_OK) {
-        if (out_error) *out_error = std::string("curl error: ") + curl_easy_strerror(res);
+        if (out_error) {
+          *out_error = std::string("curl error: ") + curl_easy_strerror(res);
+        }
         fs::remove(dest);
         return false;
     }
 
-    if (out_bytes) *out_bytes = ctx.written;
+    if (out_bytes) {
+      *out_bytes = ctx.written;
+    }
     if (out_total) *out_total = (cl >= 0) ? static_cast<uint64_t>(cl) + resume_offset
                                            : ctx.written + resume_offset;
     return true;
@@ -515,7 +539,9 @@ DownloadResult ParallelDownloader::executeTask(
     for (int attempt = 0; attempt <= task.max_retries; ++attempt) {
         if (attempt > 0) {
             LOG_DEBUG("ParallelDownloader: retry {}/{} for {}", attempt, task.max_retries, task.url);
-            if (!backoff.wait()) break;
+            if (!backoff.wait()) {
+              break;
+            }
         }
 
         uint64_t    bytes_this_call = 0;
@@ -648,11 +674,15 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
                     LOG_DEBUG("ParallelDownloader: worker timeout waiting for task");
                     continue;  // Timeout but more work might arrive
                 }
-                if (pq.empty()) break;
+                if (pq.empty()) {
+                  break;
+                }
                 idx = pq.top().second;
                 pq.pop();
             }
-            if (idx == SIZE_MAX) break;
+            if (idx == SIZE_MAX) {
+              break;
+            }
 
             results[idx] = executeTask(idx, tasks[idx]);
         }
@@ -693,7 +723,9 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
         } else {
             ++stats.failed;
         }
-        if (r.was_resumed) ++stats.resumed;
+        if (r.was_resumed) {
+          ++stats.resumed;
+        }
     }
     last_stats_ = stats;
 

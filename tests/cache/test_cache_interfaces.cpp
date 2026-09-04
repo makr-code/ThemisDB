@@ -58,7 +58,9 @@ public:
     }
 
     std::string evict() override {
-        if (key_order.empty()) return "";
+        if (key_order.empty()) {
+          return "";
+        }
         std::string k = key_order.front();
         key_order.erase(key_order.begin());
         return k;
@@ -124,7 +126,9 @@ public:
         auto t0 = std::chrono::steady_clock::now();
         while (true) {
             auto batch = source.nextBatch();
-            if (batch.empty()) break;
+            if (batch.empty()) {
+              break;
+            }
             for (auto& e : batch) {
                 inserted.push_back(e);
                 ++s.entries_inserted;
@@ -179,8 +183,12 @@ public:
                 base * cfg_.aggressiveness * pattern.access_frequency);
         }
         auto result = std::chrono::milliseconds(base);
-        if (result < cfg_.minTTL) result = cfg_.minTTL;
-        if (result > cfg_.maxTTL) result = cfg_.maxTTL;
+        if (result < cfg_.minTTL) {
+          result = cfg_.minTTL;
+        }
+        if (result > cfg_.maxTTL) {
+          result = cfg_.maxTTL;
+        }
         return result;
     }
 

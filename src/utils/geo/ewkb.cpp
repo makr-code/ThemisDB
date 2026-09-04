@@ -125,8 +125,12 @@ MBR GeometryInfo::computeMBR() const {
             result.miny = std::min(result.miny, sub.miny);
             result.maxy = std::max(result.maxy, sub.maxy);
             if (sub.z_min) {
-                if (!result.z_min || *sub.z_min < *result.z_min) result.z_min = sub.z_min;
-                if (!result.z_max || *sub.z_max > *result.z_max) result.z_max = sub.z_max;
+                if (!result.z_min || *sub.z_min < *result.z_min) {
+                  result.z_min = sub.z_min;
+                }
+                if (!result.z_max || *sub.z_max > *result.z_max) {
+                  result.z_max = sub.z_max;
+                }
             }
         }
         return result;
@@ -145,8 +149,12 @@ MBR GeometryInfo::computeMBR() const {
         mbr.maxy = std::max(mbr.maxy, c.y);
         
         if (c.hasZ()) {
-            if (!z_min || c.getZ() < *z_min) z_min = c.getZ();
-            if (!z_max || c.getZ() > *z_max) z_max = c.getZ();
+            if (!z_min || c.getZ() < *z_min) {
+              z_min = c.getZ();
+            }
+            if (!z_max || c.getZ() > *z_max) {
+              z_max = c.getZ();
+            }
         }
     };
     
@@ -168,8 +176,12 @@ MBR GeometryInfo::computeMBR() const {
         mbr.miny = std::min(mbr.miny, sub_mbr.miny);
         mbr.maxy = std::max(mbr.maxy, sub_mbr.maxy);
         if (sub_mbr.z_min) {
-            if (!z_min || *sub_mbr.z_min < *z_min) z_min = sub_mbr.z_min;
-            if (!z_max || *sub_mbr.z_max > *z_max) z_max = sub_mbr.z_max;
+            if (!z_min || *sub_mbr.z_min < *z_min) {
+              z_min = sub_mbr.z_min;
+            }
+            if (!z_max || *sub_mbr.z_max > *z_max) {
+              z_max = sub_mbr.z_max;
+            }
         }
     }
     
@@ -458,7 +470,9 @@ void EWKBParser::serializeGeometryInto(std::vector<uint8_t>& buf, const Geometry
     
     // Geometry type
     uint32_t type_code = static_cast<uint32_t>(geom.type);
-    if (geom.has_z) type_code |= 0x80000000;
+    if (geom.has_z) {
+      type_code |= 0x80000000;
+    }
     writeUInt32(buf, type_code, is_little_endian);
     
     uint32_t base_type = static_cast<uint32_t>(geom.type) & 0x000000FFu;
@@ -467,13 +481,17 @@ void EWKBParser::serializeGeometryInto(std::vector<uint8_t>& buf, const Geometry
         const auto& c = geom.coords[0];
         writeDouble(buf, c.x, is_little_endian);
         writeDouble(buf, c.y, is_little_endian);
-        if (geom.has_z) writeDouble(buf, c.getZ(), is_little_endian);
+        if (geom.has_z) {
+          writeDouble(buf, c.getZ(), is_little_endian);
+        }
     } else if (geom.isLineString()) {
         writeUInt32(buf, static_cast<uint32_t>(geom.coords.size()), is_little_endian);
         for (const auto& c : geom.coords) {
             writeDouble(buf, c.x, is_little_endian);
             writeDouble(buf, c.y, is_little_endian);
-            if (geom.has_z) writeDouble(buf, c.getZ(), is_little_endian);
+            if (geom.has_z) {
+              writeDouble(buf, c.getZ(), is_little_endian);
+            }
         }
     } else if (geom.isPolygon()) {
         writeUInt32(buf, static_cast<uint32_t>(geom.rings.size()), is_little_endian);
@@ -482,7 +500,9 @@ void EWKBParser::serializeGeometryInto(std::vector<uint8_t>& buf, const Geometry
             for (const auto& c : ring) {
                 writeDouble(buf, c.x, is_little_endian);
                 writeDouble(buf, c.y, is_little_endian);
-                if (geom.has_z) writeDouble(buf, c.getZ(), is_little_endian);
+                if (geom.has_z) {
+                  writeDouble(buf, c.getZ(), is_little_endian);
+                }
             }
         }
     } else if (base_type >= 4 && base_type <= 7) {
@@ -727,7 +747,9 @@ GeometryInfo EWKBParser::parseWKT(const std::string& wkt_raw) {
             merged += part;
             for (char c : part) {
                 if (c == '(') depth++;
-                if (c == ')') depth--;
+                if (c == ') {
+                  ') depth--;
+                }
             }
             if (depth == 0 && !merged.empty()) {
                 ring_groups.push_back(trimCopy(merged));

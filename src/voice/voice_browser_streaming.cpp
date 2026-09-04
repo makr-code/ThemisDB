@@ -209,7 +209,9 @@ VoiceStreamingSession::create(Config config) {
 
 StreamID VoiceStreamingSession::start() {
     // TASK 2.5: Stream state machine enforcement
-    if (impl_->active) return impl_->stream_id;
+    if (impl_->active) {
+      return impl_->stream_id;
+    }
     
     impl_->stream_id    = generateStreamId();
     impl_->started_at_ms= streamingNowMs();
@@ -233,7 +235,9 @@ StreamID VoiceStreamingSession::start() {
 
 void VoiceStreamingSession::end() {
     // TASK 2.5: Stream teardown and cleanup
-    if (!impl_->active) return;
+    if (!impl_->active) {
+      return;
+    }
     
     // TASK 2.5: Transition to CLOSING state
     impl_->stream_state = StreamState::CLOSING;
@@ -264,13 +268,17 @@ PartialTranscript
 VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     // TASK 2.5: Streaming chunk handling with bounded buffer
     PartialTranscript empty;
-    if (!impl_ || !impl_->active) return empty;
+    if (!impl_ || !impl_->active) {
+      return empty;
+    }
 
     // CRITICAL GAP 7: Reject empty chunks fail-closed
     if (audio_chunk.empty()) {
         std::string msg = "VoiceStreamingSession: empty audio chunk rejected (error 6920)";
         THEMIS_WARN("{}", msg);
-        if (impl_->on_error) impl_->on_error(msg);
+        if (impl_->on_error) {
+          impl_->on_error(msg);
+        }
         return empty;
     }
 
@@ -280,7 +288,9 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
         impl_->stream_state == StreamState::CLOSED) {
         std::string msg = "VoiceStreamingSession: stream is closing/closed (error 6901)";
         THEMIS_WARN("{}", msg);
-        if (impl_->on_error) impl_->on_error(msg);
+        if (impl_->on_error) {
+          impl_->on_error(msg);
+        }
         return empty;
     }
     
@@ -289,7 +299,9 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
         std::string msg = "VoiceStreamingSession: malformed or frame-misaligned audio chunk (error 6904), size=" +
                           std::to_string(audio_chunk.size());
         THEMIS_WARN("{}", msg);
-        if (impl_->on_error) impl_->on_error(msg);
+        if (impl_->on_error) {
+          impl_->on_error(msg);
+        }
         return empty;
     }
 
@@ -300,7 +312,9 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
                           std::to_string(audio_chunk.size()) + " > " +
                           std::to_string(impl_->config.max_frame_bytes) + " bytes) - error 6900";
         THEMIS_ERROR("{}", msg);
-        if (impl_->on_error) impl_->on_error(msg);
+        if (impl_->on_error) {
+          impl_->on_error(msg);
+        }
         return empty;
     }
 
@@ -322,7 +336,9 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
                           std::to_string(new_total) + " > " +
                           std::to_string(kMaxBufferSizeBytes) + " bytes) - error 6900";
         THEMIS_ERROR("{}", msg);
-        if (impl_->on_error) impl_->on_error(msg);
+        if (impl_->on_error) {
+          impl_->on_error(msg);
+        }
         // Fail-closed: reject chunk when buffer full
         return empty;
     }
@@ -335,7 +351,9 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
         std::string msg = "VoiceStreamingSession: pending chunk queue exhausted (" +
                           std::to_string(impl_->pending_chunk_sequences.size()) + ") - error 6902";
         THEMIS_ERROR("{}", msg);
-        if (impl_->on_error) impl_->on_error(msg);
+        if (impl_->on_error) {
+          impl_->on_error(msg);
+        }
         return empty;
     }
     impl_->pending_chunk_sequences.push_back(impl_->last_chunk_seq);
@@ -352,7 +370,9 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
         impl_->stream_state = StreamState::STREAMING;
     }
 
-    if (!impl_->config.partial_results) return empty;
+    if (!impl_->config.partial_results) {
+      return empty;
+    }
 
     // Run incremental STT — use injected backend when available
     ++impl_->partial_seq;
@@ -362,7 +382,9 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
                                    /*is_final=*/false,
                                    impl_->partial_seq);
         pt.stream_id = impl_->stream_id;
-        if (pt.timestamp_ms == 0) pt.timestamp_ms = streamingNowMs();
+        if (pt.timestamp_ms == 0) {
+          pt.timestamp_ms = streamingNowMs();
+        }
     } else {
         pt = runPartialStt(impl_->config.session_id,
                            impl_->stream_id,
@@ -370,12 +392,16 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
                            /*is_final=*/false,
                            impl_->partial_seq);
     }
-    if (impl_->on_partial) impl_->on_partial(pt);
+    if (impl_->on_partial) {
+      impl_->on_partial(pt);
+    }
     return pt;
 }
 
 void VoiceStreamingSession::endOfUtterance() {
-    if (!impl_ || !impl_->active || impl_->audio_buffer.empty()) return;
+    if (!impl_ || !impl_->active || impl_->audio_buffer.empty()) {
+      return;
+    }
 
     // Final STT
     auto ft = makeFinalTranscript(impl_->config.session_id,
@@ -384,7 +410,9 @@ void VoiceStreamingSession::endOfUtterance() {
                                    impl_->started_at_ms);
     impl_->audio_buffer.clear();
     impl_->buffer_size_bytes = 0;
-    if (impl_->on_final) impl_->on_final(ft);
+    if (impl_->on_final) {
+      impl_->on_final(ft);
+    }
 
     // Optional TTS synthesis (placeholder: echo transcript back as bytes)
     if (impl_->config.enable_tts && impl_->on_tts) {
@@ -487,7 +515,9 @@ size_t VoiceStreamingSession::bytesReceived() const noexcept {
 }
 
 bool VoiceStreamingSession::checkOrigin(const std::string& origin) const {
-    if (!impl_) return false;
+    if (!impl_) {
+      return false;
+    }
     const auto& allowlist = impl_->config.origin_allowlist;
     if (allowlist.empty()) return true; // no restriction
     return std::find(allowlist.begin(), allowlist.end(), origin) != allowlist.end();
@@ -531,7 +561,9 @@ VoiceStreamingManager::routeAudio(const StreamID&             stream_id,
 void VoiceStreamingManager::closeSession(const StreamID& stream_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     auto it = sessions_.find(stream_id);
-    if (it == sessions_.end()) return;
+    if (it == sessions_.end()) {
+      return;
+    }
     it->second->end();
     sessions_.erase(it);
     THEMIS_INFO("VoiceStreamingManager: closed session {} (active={})",

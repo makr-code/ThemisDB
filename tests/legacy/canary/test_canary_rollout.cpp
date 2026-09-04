@@ -284,8 +284,12 @@ TEST_F(CanaryStageAdvanceTest, AdvanceResetsErrorCounters) {
     CanaryRollout rollout(engine_, cfg);
 
     // Report some events in stage 0
-    for (int i = 0; i < 5; ++i) rollout.reportSuccess();
-    for (int i = 0; i < 5; ++i) rollout.reportError();
+    for (int i = 0; i < 5; ++i) {
+      rollout.reportSuccess();
+    }
+    for (int i = 0; i < 5; ++i) {
+      rollout.reportError();
+    }
     EXPECT_GT(rollout.status().sample_count, 0u);
 
     rollout.advanceStage();
@@ -451,14 +455,18 @@ TEST_F(CanaryHealthTest, InitialErrorRate_IsZero) {
 TEST_F(CanaryHealthTest, AllSuccess_ErrorRateIsZero) {
     auto cfg = makeConfig();
     CanaryRollout rollout(engine_, cfg);
-    for (int i = 0; i < 10; ++i) rollout.reportSuccess();
+    for (int i = 0; i < 10; ++i) {
+      rollout.reportSuccess();
+    }
     EXPECT_DOUBLE_EQ(rollout.errorRate(), 0.0);
 }
 
 TEST_F(CanaryHealthTest, AllErrors_ErrorRateIsOne) {
     auto cfg = makeConfig();
     CanaryRollout rollout(engine_, cfg);
-    for (int i = 0; i < 10; ++i) rollout.reportError();
+    for (int i = 0; i < 10; ++i) {
+      rollout.reportError();
+    }
     // Auto-rollback triggers after min_sample_count, but errorRate is still 1
     EXPECT_NEAR(rollout.errorRate(), 1.0, 0.001);
 }
@@ -467,8 +475,12 @@ TEST_F(CanaryHealthTest, MixedEvents_ErrorRateIsCorrect) {
     auto cfg = makeConfig();
     cfg.min_sample_count = 100;  // Prevent auto-rollback during this test
     CanaryRollout rollout(engine_, cfg);
-    for (int i = 0; i < 90; ++i) rollout.reportSuccess();
-    for (int i = 0; i < 10; ++i) rollout.reportError();
+    for (int i = 0; i < 90; ++i) {
+      rollout.reportSuccess();
+    }
+    for (int i = 0; i < 10; ++i) {
+      rollout.reportError();
+    }
     EXPECT_NEAR(rollout.errorRate(), 0.1, 0.001);
 }
 
@@ -478,7 +490,9 @@ TEST_F(CanaryHealthTest, BelowMinSampleCount_ShouldRollbackIsFalse) {
     cfg.error_rate_threshold = 0.05;
     CanaryRollout rollout(engine_, cfg);
     // 10 errors out of 10 = 100% error rate but sample < min
-    for (int i = 0; i < 10; ++i) rollout.reportError();
+    for (int i = 0; i < 10; ++i) {
+      rollout.reportError();
+    }
     EXPECT_FALSE(rollout.shouldRollback());
 }
 
@@ -488,7 +502,9 @@ TEST_F(CanaryHealthTest, AboveThreshold_ShouldRollbackIsTrue) {
     cfg.error_rate_threshold = 0.05;
     CanaryRollout rollout(engine_, cfg);
     // 10 successes + 1 error = ~9.09% error rate
-    for (int i = 0; i < 10; ++i) rollout.reportSuccess();
+    for (int i = 0; i < 10; ++i) {
+      rollout.reportSuccess();
+    }
     rollout.reportError();
     EXPECT_TRUE(rollout.shouldRollback());
 }
@@ -506,7 +522,9 @@ TEST_F(CanaryHealthTest, AutoRollback_TriggeredWhenThresholdExceeded) {
     rollout.setRollbackCallback(
         [&](const std::string&) { rollback_fired = true; });
 
-    for (int i = 0; i < 10; ++i) rollout.reportSuccess();
+    for (int i = 0; i < 10; ++i) {
+      rollout.reportSuccess();
+    }
     for (int i = 0; i < 2; ++i) rollout.reportError();  // 16% > 5%
 
     EXPECT_TRUE(rollback_fired);
@@ -527,8 +545,12 @@ TEST_F(CanaryHealthTest, AutoRollback_NotTriggeredBelowThreshold) {
         [&](const std::string&) { rollback_fired = true; });
 
     // 95 successes + 5 errors = 5% error rate (< 10% threshold)
-    for (int i = 0; i < 95; ++i) rollout.reportSuccess();
-    for (int i = 0; i < 5; ++i) rollout.reportError();
+    for (int i = 0; i < 95; ++i) {
+      rollout.reportSuccess();
+    }
+    for (int i = 0; i < 5; ++i) {
+      rollout.reportError();
+    }
 
     EXPECT_FALSE(rollback_fired);
     EXPECT_FALSE(rollout.status().is_rolled_back);
@@ -953,8 +975,12 @@ TEST_F(CanaryDeploymentRollbackTest, ErrorRateThreshold_TriggersAutoRollback) {
     // Trigger rollback via underlying CanaryRollout.
     // Send 20 successes + 3 errors (~13% error rate > 5% threshold).
     // min_sample_count defaults to 20, so 23 events satisfies the minimum.
-    for (int i = 0; i < 20; ++i) d.reportSuccess();
-    for (int i = 0; i < 3; ++i)  d.reportError();
+    for (int i = 0; i < 20; ++i) {
+      d.reportSuccess();
+    }
+    for (int i = 0; i < 3; ++i) {
+      d.reportError();
+    }
 
     EXPECT_TRUE(rb_fired);
     EXPECT_TRUE(d.status().is_rolled_back);
@@ -1215,8 +1241,12 @@ TEST(CanaryDeploymentSnapshotTest, ErrorCountAndSuccessCount_PopulatedFromRollou
     d.deploy();
 
     // 18 successes + 2 errors = 10% error rate
-    for (int i = 0; i < 18; ++i) d.reportSuccess();
-    for (int i = 0; i < 2;  ++i) d.reportError();
+    for (int i = 0; i < 18; ++i) {
+      d.reportSuccess();
+    }
+    for (int i = 0; i < 2;  ++i) {
+      d.reportError();
+    }
 
     auto snap = d.getMetricsSnapshot();
     EXPECT_GT(snap.error_rate, 0.0) << "error_rate must be non-zero";

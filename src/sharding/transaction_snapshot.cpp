@@ -41,17 +41,39 @@ std::string transactionStateToString(TransactionState state) {
 
 /** @brief Parse transaction state enum from persisted string token. */
 TransactionState transactionStateFromString(const std::string& str) {
-    if (str == "INITIATED") return TransactionState::INITIATED;
-    if (str == "PREPARING") return TransactionState::PREPARING;
-    if (str == "PREPARED") return TransactionState::PREPARED;
-    if (str == "PRE_COMMITTING") return TransactionState::PRE_COMMITTING;
-    if (str == "PRE_COMMITTED") return TransactionState::PRE_COMMITTED;
-    if (str == "COMMITTING") return TransactionState::COMMITTING;
-    if (str == "COMMITTED") return TransactionState::COMMITTED;
-    if (str == "ABORTING") return TransactionState::ABORTING;
-    if (str == "ABORTED") return TransactionState::ABORTED;
-    if (str == "COMPENSATING") return TransactionState::COMPENSATING;
-    if (str == "COMPENSATED") return TransactionState::COMPENSATED;
+    if (str == "INITIATED") {
+      return TransactionState::INITIATED;
+    }
+    if (str == "PREPARING") {
+      return TransactionState::PREPARING;
+    }
+    if (str == "PREPARED") {
+      return TransactionState::PREPARED;
+    }
+    if (str == "PRE_COMMITTING") {
+      return TransactionState::PRE_COMMITTING;
+    }
+    if (str == "PRE_COMMITTED") {
+      return TransactionState::PRE_COMMITTED;
+    }
+    if (str == "COMMITTING") {
+      return TransactionState::COMMITTING;
+    }
+    if (str == "COMMITTED") {
+      return TransactionState::COMMITTED;
+    }
+    if (str == "ABORTING") {
+      return TransactionState::ABORTING;
+    }
+    if (str == "ABORTED") {
+      return TransactionState::ABORTED;
+    }
+    if (str == "COMPENSATING") {
+      return TransactionState::COMPENSATING;
+    }
+    if (str == "COMPENSATED") {
+      return TransactionState::COMPENSATED;
+    }
     return TransactionState::INITIATED;
 }
 
@@ -69,11 +91,21 @@ std::string transactionProtocolToString(TransactionProtocol protocol) {
 
 /** @brief Parse transaction protocol enum from persisted string token. */
 TransactionProtocol transactionProtocolFromString(const std::string& str) {
-    if (str == "TWO_PHASE_COMMIT") return TransactionProtocol::TWO_PHASE_COMMIT;
-    if (str == "THREE_PHASE_COMMIT") return TransactionProtocol::THREE_PHASE_COMMIT;
-    if (str == "SAGA") return TransactionProtocol::SAGA;
-    if (str == "PERCOLATOR") return TransactionProtocol::PERCOLATOR;
-    if (str == "CALVIN") return TransactionProtocol::CALVIN;
+    if (str == "TWO_PHASE_COMMIT") {
+      return TransactionProtocol::TWO_PHASE_COMMIT;
+    }
+    if (str == "THREE_PHASE_COMMIT") {
+      return TransactionProtocol::THREE_PHASE_COMMIT;
+    }
+    if (str == "SAGA") {
+      return TransactionProtocol::SAGA;
+    }
+    if (str == "PERCOLATOR") {
+      return TransactionProtocol::PERCOLATOR;
+    }
+    if (str == "CALVIN") {
+      return TransactionProtocol::CALVIN;
+    }
     return TransactionProtocol::TWO_PHASE_COMMIT;
 }
 

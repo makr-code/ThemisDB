@@ -55,7 +55,9 @@ static bool sanitizeTrainingText(
 
 // Approximate token count: split on whitespace
 static size_t approximateTokenCount(const std::string& text) {
-    if (text.empty()) return 0;
+    if (text.empty()) {
+      return 0;
+    }
     size_t count = 0;
     bool in_word = false;
     for (char c : text) {
@@ -81,7 +83,9 @@ static std::string detectLanguage(const std::string& text) {
     for (const auto& tok : de_tokens) {
         std::string ltok = tok;
         std::transform(ltok.begin(), ltok.end(), ltok.begin(), ::tolower);
-        if (lower.find(ltok) != std::string::npos) ++hits;
+        if (lower.find(ltok) != std::string::npos) {
+          ++hits;
+        }
     }
     return (hits >= 3) ? "de" : "other";
 }
@@ -118,7 +122,9 @@ static bool containsPII(const std::string& text) {
     std::string lower = text;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
     for (const auto& p : pii_patterns) {
-        if (lower.find(p) != std::string::npos) return true;
+        if (lower.find(p) != std::string::npos) {
+          return true;
+        }
     }
     return false;
 }
@@ -139,7 +145,9 @@ static std::vector<uint32_t> buildMinHash(const std::string& text, size_t num_pe
     std::vector<std::string> words;
     std::istringstream iss(text);
     std::string w;
-    while (iss >> w) words.push_back(w);
+    while (iss >> w) {
+      words.push_back(w);
+    }
 
     // std::set provides deterministic, sorted iteration order required for
     // reproducible MinHash computation across runs (issue #5414 Phase 1).
@@ -149,7 +157,9 @@ static std::vector<uint32_t> buildMinHash(const std::string& text, size_t num_pe
     }
     if (shingles.empty()) {
         // Degenerate case: use word unigrams
-        for (const auto& ww : words) shingles.insert(ww);
+        for (const auto& ww : words) {
+          shingles.insert(ww);
+        }
     }
 
     // Simulate permutations via (a*hash + b) % p  (universal hashing)
@@ -162,7 +172,9 @@ static std::vector<uint32_t> buildMinHash(const std::string& text, size_t num_pe
             uint32_t a = static_cast<uint32_t>(perm * 2654435761u + 1);
             uint32_t b = static_cast<uint32_t>(perm * 40503u + 7);
             uint32_t val = static_cast<uint32_t>((static_cast<uint64_t>(a) * h0 + b) % large_prime);
-            if (val < signature[perm]) signature[perm] = val;
+            if (val < signature[perm]) {
+              signature[perm] = val;
+            }
         }
     }
     return signature;
@@ -171,10 +183,14 @@ static std::vector<uint32_t> buildMinHash(const std::string& text, size_t num_pe
 // Estimate Jaccard similarity from two MinHash signatures
 static double jaccardEstimate(const std::vector<uint32_t>& a,
                                const std::vector<uint32_t>& b) {
-    if (a.size() != b.size() || a.empty()) return 0.0;
+    if (a.size() != b.size() || a.empty()) {
+      return 0.0;
+    }
     size_t matches = 0;
     for (size_t i = 0; i < a.size(); ++i) {
-        if (a[i] == b[i]) ++matches;
+        if (a[i] == b[i]) {
+          ++matches;
+        }
     }
     return static_cast<double>(matches) / static_cast<double>(a.size());
 }
@@ -190,7 +206,9 @@ static double computeTTR(const std::string& text) {
         types.insert(w);
         ++tokens;
     }
-    if (tokens == 0) return 0.0;
+    if (tokens == 0) {
+      return 0.0;
+    }
     return static_cast<double>(types.size()) / static_cast<double>(tokens);
 }
 
@@ -231,7 +249,9 @@ static double computeDomainRelevance(const std::string& text,
         auto it = domain_keywords.find(domain_hint);
         if (it != domain_keywords.end()) {
             scoreDomain(it->second);
-            if (total_keywords == 0) return 0.5;
+            if (total_keywords == 0) {
+              return 0.5;
+            }
             return std::min(1.0, total_score / static_cast<double>(total_keywords));
         }
         // Domain hint not found – fall through to aggregate scoring below
@@ -240,18 +260,24 @@ static double computeDomainRelevance(const std::string& text,
     for (const auto& [domain, keywords] : domain_keywords) {
         scoreDomain(keywords);
     }
-    if (total_keywords == 0) return 0.5;
+    if (total_keywords == 0) {
+      return 0.5;
+    }
     return std::min(1.0, total_score / static_cast<double>(total_keywords));
 }
 
 // Pseudo-perplexity estimate from token count and character entropy
 static double computePerplexityScore(const std::string& text) {
-    if (text.empty()) return 1.0;
+    if (text.empty()) {
+      return 1.0;
+    }
 
     // std::map provides deterministic, sorted iteration — required for
     // reproducible entropy computation across runs (issue #5414 Phase 1).
     std::map<char, int> freq;
-    for (char c : text) freq[c]++;
+    for (char c : text) {
+      freq[c]++;
+    }
 
     double entropy = 0.0;
     double n = static_cast<double>(text.size());
@@ -284,7 +310,9 @@ static std::string hashConfig(const LoRADataSelectionConfig& cfg) {
  */
 static void appendAuditJSONL(const std::string& path,
                               const std::string& jsonl_line) {
-    if (path.empty()) return;
+    if (path.empty()) {
+      return;
+    }
 
     // Create parent directories (best-effort, portable via <filesystem>)
     auto slash = path.rfind('/');
@@ -351,7 +379,9 @@ public:
             }
 
             if (!config_.required_language.empty()) {
-                if (s.language.empty()) s.language = detail::detectLanguage(s.text);
+                if (s.language.empty()) {
+                  s.language = detail::detectLanguage(s.text);
+                }
                 if (s.language != config_.required_language) {
                     THEMIS_DEBUG("DataSelectionPipeline: sample '{}' rejected in quality filter: language '{}' != required '{}'",
                                  s.id, s.language, config_.required_language);
@@ -389,18 +419,26 @@ public:
         // Greedy deduplication: keep first; skip near-duplicates
         std::vector<bool> is_dup(samples.size(), false);
         for (size_t i = 0; i < samples.size(); ++i) {
-            if (is_dup[i]) continue;
+            if (is_dup[i]) {
+              continue;
+            }
             for (size_t j = i + 1; j < samples.size(); ++j) {
-                if (is_dup[j]) continue;
+                if (is_dup[j]) {
+                  continue;
+                }
                 double sim = detail::jaccardEstimate(sigs[i], sigs[j]);
-                if (sim >= config_.minhash_threshold) is_dup[j] = true;
+                if (sim >= config_.minhash_threshold) {
+                  is_dup[j] = true;
+                }
             }
         }
 
         std::vector<DataSample> out;
         out.reserve(samples.size());
         for (size_t i = 0; i < samples.size(); ++i) {
-            if (!is_dup[i]) out.push_back(samples[i]);
+            if (!is_dup[i]) {
+              out.push_back(samples[i]);
+            }
         }
         return out;
     }
@@ -422,20 +460,30 @@ public:
         // diversity-oriented selection behaviour.
         auto embed = [](const std::string& text) -> std::vector<double> {
             std::vector<double> v(8, 0.0);
-            if (text.empty()) return v;
+            if (text.empty()) {
+              return v;
+            }
             for (size_t i = 0; i < text.size(); ++i) {
                 v[i % 8] += static_cast<double>(static_cast<unsigned char>(text[i]));
             }
             double norm = 0.0;
-            for (double x : v) norm += x * x;
+            for (double x : v) {
+              norm += x * x;
+            }
             norm = std::sqrt(norm);
-            if (norm > 0.0) for (double& x : v) x /= norm;
+            if (norm > 0.0) {
+              for (double& x : v) {
+                x /= norm;
+              }
+            }
             return v;
         };
 
         std::vector<std::vector<double>> embeddings;
         embeddings.reserve(samples.size());
-        for (const auto& s : samples) embeddings.push_back(embed(s.text));
+        for (const auto& s : samples) {
+          embeddings.push_back(embed(s.text));
+        }
 
         // K-means: initialise centroids by sampling every (n/k)-th sample
         size_t n = samples.size();
@@ -476,11 +524,15 @@ public:
             for (size_t i = 0; i < n; ++i) {
                 size_t c = assignments[i];
                 counts[c]++;
-                for (size_t d = 0; d < 8; ++d) new_centroids[c][d] += embeddings[i][d];
+                for (size_t d = 0; d < 8; ++d) {
+                  new_centroids[c][d] += embeddings[i][d];
+                }
             }
             for (size_t c = 0; c < centroids.size(); ++c) {
                 if (counts[c] > 0) {
-                    for (double& x : new_centroids[c]) x /= static_cast<double>(counts[c]);
+                    for (double& x : new_centroids[c]) {
+                      x /= static_cast<double>(counts[c]);
+                    }
                     centroids[c] = new_centroids[c];
                 }
             }
@@ -520,7 +572,9 @@ public:
             double w_sum = config_.perplexity_weight +
                            config_.diversity_weight  +
                            config_.domain_relevance_weight;
-            if (w_sum <= 0.0) w_sum = 1.0;
+            if (w_sum <= 0.0) {
+              w_sum = 1.0;
+            }
 
             s.quality_score = (config_.perplexity_weight   * perplexity_score +
                                 config_.diversity_weight    * ttr_score        +
@@ -537,7 +591,9 @@ public:
             const std::vector<DataSample>& scored,
             size_t target) const {
         if (scored.empty()) return {};
-        if (target == 0) target = config_.target_samples;
+        if (target == 0) {
+          target = config_.target_samples;
+        }
 
         // Sort by difficulty score
         std::vector<DataSample> sorted = scored;
@@ -566,7 +622,9 @@ public:
         double medium_r = std::max(0.0, config_.medium_ratio);
         double hard_r   = std::max(0.0, config_.hard_ratio);
         double total_r  = easy_r + medium_r + hard_r;
-        if (total_r <= 0.0) total_r = 1.0;
+        if (total_r <= 0.0) {
+          total_r = 1.0;
+        }
         easy_r   /= total_r;
         medium_r /= total_r;
         hard_r   /= total_r;
@@ -599,23 +657,33 @@ public:
         try {
             // Stage 1: Quality Filtering
             auto s1 = filterByQuality(input);
-            if (cb) cb("quality_filter", s1.size(), "Stage 1: quality filtering done");
+            if (cb) {
+              cb("quality_filter", s1.size(), "Stage 1: quality filtering done");
+            }
 
             // Stage 2: Deduplication
             auto s2 = deduplicate(s1);
-            if (cb) cb("deduplication", s2.size(), "Stage 2: deduplication done");
+            if (cb) {
+              cb("deduplication", s2.size(), "Stage 2: deduplication done");
+            }
 
             // Stage 3: Cluster-based sampling
             auto s3 = clusterAndSample(s2, 0);
-            if (cb) cb("clustering", s3.size(), "Stage 3: cluster sampling done");
+            if (cb) {
+              cb("clustering", s3.size(), "Stage 3: cluster sampling done");
+            }
 
             // Stage 4: Scoring (in-place)
             scoreQualityAndDifficulty(s3);
-            if (cb) cb("scoring", s3.size(), "Stage 4: quality/difficulty scoring done");
+            if (cb) {
+              cb("scoring", s3.size(), "Stage 4: quality/difficulty scoring done");
+            }
 
             // Stage 5: Curriculum stratified sampling
             auto s5 = stratifiedSample(s3, 0);
-            if (cb) cb("curriculum_sampling", s5.size(), "Stage 5: curriculum sampling done");
+            if (cb) {
+              cb("curriculum_sampling", s5.size(), "Stage 5: curriculum sampling done");
+            }
 
             result.selected_samples = std::move(s5);
             result.success          = true;
@@ -785,7 +853,9 @@ static std::string trimRight(std::string s) {
 
 static std::string trimLeft(const std::string& s) {
     size_t i = 0;
-    while (i < s.size() && (s[i] == ' ' || s[i] == '\t')) ++i;
+    while (i < s.size() && (s[i] == ' ' || s[i] == '\t')) {
+      ++i;
+    }
     return s.substr(i);
 }
 
@@ -801,7 +871,9 @@ static std::string removeComment(const std::string& s) {
     bool in_single = false, in_double = false;
     for (size_t i = 0; i < s.size(); ++i) {
         char c = s[i];
-        if      (c == '\'' && !in_double) in_single = !in_single;
+        if      (c == '\'' && !in_double) {
+          in_single = !in_single;
+        }
         else if (c == '"'  && !in_single) in_double = !in_double;
         else if (c == '#'  && !in_single && !in_double)
             return s.substr(0, i);
@@ -814,9 +886,13 @@ static void applyScalar(LoRADataSelectionConfig& cfg,
                          const std::string& key,
                          const std::string& raw_val) {
     std::string val = stripQuotes(trimLeft(raw_val));
-    if (val.empty()) return;
+    if (val.empty()) {
+      return;
+    }
     try {
-        if (key == "min_length_tokens")        cfg.min_length_tokens        = std::stoull(val);
+        if (key == "min_length_tokens") {
+          cfg.min_length_tokens        = std::stoull(val);
+        }
         else if (key == "max_length_tokens")   cfg.max_length_tokens        = std::stoull(val);
         else if (key == "required_language")   cfg.required_language        = val;
         else if (key == "max_toxicity_score")  cfg.max_toxicity_score       = std::stod(val);
@@ -865,10 +941,14 @@ static LoRADataSelectionConfig parseYAMLText(const std::string& text,
 
     while (std::getline(iss, line)) {
         line = trimRight(removeComment(line));
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
 
         size_t indent = 0;
-        while (indent < line.size() && line[indent] == ' ') ++indent;
+        while (indent < line.size() && line[indent] == ' ') {
+          ++indent;
+        }
         const std::string content = line.substr(indent);
 
         // Top-level line
@@ -878,7 +958,9 @@ static LoRADataSelectionConfig parseYAMLText(const std::string& text,
             continue;
         }
 
-        if (state == State::OUTSIDE) continue;
+        if (state == State::OUTSIDE) {
+          continue;
+        }
 
         if (indent == 2) {
             // Return from any nested state
@@ -886,7 +968,9 @@ static LoRADataSelectionConfig parseYAMLText(const std::string& text,
             current_domain.clear();
 
             auto colon = content.find(':');
-            if (colon == std::string::npos) continue;
+            if (colon == std::string::npos) {
+              continue;
+            }
             const std::string key = content.substr(0, colon);
             const std::string val = content.substr(colon + 1);
 
@@ -964,7 +1048,9 @@ static std::string jsonEscape(const std::string& s) {
     // (Scanner flag "string_concat_loop" is a false positive here.)
     out.reserve(s.size() + 4);
     for (unsigned char c : s) {
-        if      (c == '"')  out += "\\\"";
+        if      (c == '"') {
+          out += "\\\"";
+        }
         else if (c == '\\') out += "\\\\";
         else if (c == '\n') out += "\\n";
         else if (c == '\r') out += "\\r";
@@ -985,7 +1071,9 @@ std::string SelectionAuditEntry::toJSONL() const {
     // Build selected_ids JSON array inline
     std::string ids_arr = "[";
     for (size_t i = 0; i < selected_ids.size(); ++i) {
-        if (i > 0) ids_arr += ',';
+        if (i > 0) {
+          ids_arr += ',';
+        }
         ids_arr += '"';
         ids_arr += jsonEscape(selected_ids[i]);
         ids_arr += '"';
@@ -996,7 +1084,9 @@ std::string SelectionAuditEntry::toJSONL() const {
     std::string domain_obj = "{";
     bool first_domain = true;
     for (const auto& [dom, cnt] : domain_distribution) {
-        if (!first_domain) domain_obj += ',';
+        if (!first_domain) {
+          domain_obj += ',';
+        }
         first_domain = false;
         domain_obj += '"';
         domain_obj += jsonEscape(dom);
@@ -1046,10 +1136,14 @@ static SelfImprovementConfig parseSelfImprovementYAML(
 
     while (std::getline(iss, line)) {
         line = trimRight(removeComment(line));
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
 
         size_t indent = 0;
-        while (indent < line.size() && line[indent] == ' ') ++indent;
+        while (indent < line.size() && line[indent] == ' ') {
+          ++indent;
+        }
         const std::string content = line.substr(indent);
 
         if (indent == 0) {
@@ -1060,7 +1154,9 @@ static SelfImprovementConfig parseSelfImprovementYAML(
             continue;
         }
 
-        if (state == State::OUTSIDE) continue;
+        if (state == State::OUTSIDE) {
+          continue;
+        }
 
         if (indent == 2) {
             if (state == State::IN_ADAPTIVE_RULES ||
@@ -1068,7 +1164,9 @@ static SelfImprovementConfig parseSelfImprovementYAML(
             state = State::IN_SECTION;
 
             auto colon = content.find(':');
-            if (colon == std::string::npos) continue;
+            if (colon == std::string::npos) {
+              continue;
+            }
             const std::string key = content.substr(0, colon);
             const std::string val = stripQuotes(trimLeft(content.substr(colon + 1)));
 
@@ -1076,7 +1174,9 @@ static SelfImprovementConfig parseSelfImprovementYAML(
                 state = State::IN_ADAPTIVE_RULES;
             } else if (!val.empty()) {
                 try {
-                    if      (key == "enabled")                    cfg.enabled                       = (val == "true");
+                    if      (key == "enabled") {
+                      cfg.enabled                       = (val == "true");
+                    }
                     else if (key == "period_seconds")             cfg.period_seconds                = std::stoull(val);
                     else if (key == "threshold_auto_adjust")      cfg.threshold_auto_adjust         = (val == "true");
                     else if (key == "latency_target_ms")          cfg.latency_target_ms             = std::stod(val);
@@ -1114,7 +1214,9 @@ static SelfImprovementConfig parseSelfImprovementYAML(
                 if (colon != std::string::npos) {
                     const std::string key = rest.substr(0, colon);
                     const std::string val = stripQuotes(trimLeft(rest.substr(colon + 1)));
-                    if      (key == "metric")    current_rule.metric    = val;
+                    if      (key == "metric") {
+                      current_rule.metric    = val;
+                    }
                     else if (key == "condition") current_rule.condition = val;
                     else if (key == "action")    current_rule.action    = val;
                     else if (key == "delta") {
@@ -1131,7 +1233,9 @@ static SelfImprovementConfig parseSelfImprovementYAML(
                 if (colon != std::string::npos) {
                     const std::string key = content.substr(0, colon);
                     const std::string val = stripQuotes(trimLeft(content.substr(colon + 1)));
-                    if      (key == "metric")    current_rule.metric    = val;
+                    if      (key == "metric") {
+                      current_rule.metric    = val;
+                    }
                     else if (key == "condition") current_rule.condition = val;
                     else if (key == "action")    current_rule.action    = val;
                     else if (key == "delta") {
@@ -1147,7 +1251,9 @@ static SelfImprovementConfig parseSelfImprovementYAML(
         }
     }
     // Commit the last in-flight rule
-    if (!current_rule.metric.empty()) cfg.adaptive_rules.push_back(current_rule);
+    if (!current_rule.metric.empty()) {
+      cfg.adaptive_rules.push_back(current_rule);
+    }
 
     return cfg;
 }
@@ -1192,37 +1298,67 @@ public:
         // Extract operator part (before first digit or minus sign)
         std::string op;
         size_t j = 0;
-        while (j < condition.size() && condition[j] == ' ') ++j;
+        while (j < condition.size() && condition[j] == ' ') {
+          ++j;
+        }
         while (j < condition.size() &&
                (condition[j] == '<' || condition[j] == '>' ||
                 condition[j] == '=' || condition[j] == '!')) {
             op += condition[j++];
         }
-        while (j < condition.size() && condition[j] == ' ') ++j;
+        while (j < condition.size() && condition[j] == ' ') {
+          ++j;
+        }
         double threshold = 0.0;
         if (j >= condition.size()) return false; // malformed condition: no threshold
         try { threshold = std::stod(condition.substr(j)); }
         catch (...) { return false; } // malformed threshold: treat as not triggered
 
-        if (op == "<")  return metric_value <  threshold;
-        if (op == ">")  return metric_value >  threshold;
-        if (op == "<=") return metric_value <= threshold;
-        if (op == ">=") return metric_value >= threshold;
-        if (op == "==" || op == "=") return std::abs(metric_value - threshold) < 1e-9;
+        if (op == "<") {
+          return metric_value <  threshold;
+        }
+        if (op == ">") {
+          return metric_value >  threshold;
+        }
+        if (op == "<=") {
+          return metric_value <= threshold;
+        }
+        if (op == ">=") {
+          return metric_value >= threshold;
+        }
+        if (op == "==" || op == "=") {
+          return std::abs(metric_value - threshold) < 1e-9;
+        }
         return false;
     }
 
     // Retrieve the monitored metric value by name
     static double getMetric(const DataSelectionMetrics& m,
                              const std::string& name) {
-        if (name == "avg_quality_score")     return m.avg_quality_score;
-        if (name == "avg_difficulty_score")  return m.avg_difficulty_score;
-        if (name == "diversity_score")       return m.diversity_score;
-        if (name == "filter_rejection_rate") return m.filter_rejection_rate;
-        if (name == "dedup_removal_rate")    return m.dedup_removal_rate;
-        if (name == "duplicate_ratio")       return m.duplicate_ratio;
-        if (name == "training_accuracy")     return m.training_accuracy;
-        if (name == "inference_latency_ms")  return m.inference_latency_ms;
+        if (name == "avg_quality_score") {
+          return m.avg_quality_score;
+        }
+        if (name == "avg_difficulty_score") {
+          return m.avg_difficulty_score;
+        }
+        if (name == "diversity_score") {
+          return m.diversity_score;
+        }
+        if (name == "filter_rejection_rate") {
+          return m.filter_rejection_rate;
+        }
+        if (name == "dedup_removal_rate") {
+          return m.dedup_removal_rate;
+        }
+        if (name == "duplicate_ratio") {
+          return m.duplicate_ratio;
+        }
+        if (name == "training_accuracy") {
+          return m.training_accuracy;
+        }
+        if (name == "inference_latency_ms") {
+          return m.inference_latency_ms;
+        }
         return 0.0;
     }
 
@@ -1271,16 +1407,22 @@ public:
     }
 
     bool needsRollback(const DataSelectionMetrics& metrics) const {
-        if (!cfg_.enabled) return false;
+        if (!cfg_.enabled) {
+          return false;
+        }
 
         // Accuracy drop beyond rollback threshold
         if (cfg_.accuracy_monitoring) {
             double drop = 1.0 - metrics.training_accuracy;
-            if (drop > cfg_.accuracy_rollback_threshold) return true;
+            if (drop > cfg_.accuracy_rollback_threshold) {
+              return true;
+            }
         }
 
         // Average quality below minimum
-        if (metrics.avg_quality_score < cfg_.min_avg_quality_score) return true;
+        if (metrics.avg_quality_score < cfg_.min_avg_quality_score) {
+          return true;
+        }
 
         // Diversity below minimum
         if (cfg_.diversity_monitoring &&
@@ -1291,7 +1433,9 @@ public:
 
     bool needsReselection(
             std::chrono::system_clock::time_point last_selection_time) const {
-        if (!cfg_.enabled) return false;
+        if (!cfg_.enabled) {
+          return false;
+        }
         auto elapsed = std::chrono::system_clock::now() - last_selection_time;
         return elapsed >= std::chrono::seconds(cfg_.period_seconds);
     }

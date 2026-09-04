@@ -480,7 +480,9 @@ void LeaseManager::loadFromWal() {
     std::unordered_map<LeaseKey, LeaseRecord> latest;
 
     while (std::getline(wal, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         std::istringstream ss(line);
         LeaseRecord rec;
         std::string state_str, acquired_str, expires_str, gen_str, epoch_str;
@@ -493,7 +495,9 @@ void LeaseManager::loadFromWal() {
         std::getline(ss, acquired_str, '|');
         std::getline(ss, expires_str, '|');
 
-        if (rec.key.empty() || rec.holder.empty()) continue;
+        if (rec.key.empty() || rec.holder.empty()) {
+          continue;
+        }
 
         try {
             rec.epoch      = static_cast<EpochNumber>(std::stoull(epoch_str));

@@ -393,7 +393,9 @@ void RetentionManager::startBackgroundJob(
             // Wait for the interval or until stopped
             std::unique_lock<std::mutex> lk(bg_mutex_);
             bool stopped = bg_cv_.wait_for(lk, interval, [this]{ return bg_stop_; });
-            if (stopped) break;
+            if (stopped) {
+              break;
+            }
             lk.unlock();
 
             try {

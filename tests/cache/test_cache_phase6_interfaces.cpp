@@ -108,7 +108,9 @@ public:
     // Helper: fire an inbound event to all registered listeners.
     void fireInbound(const DistributedEvictionEvent& ev) {
         std::lock_guard<std::mutex> lock(mu);
-        for (auto& [id, cb] : listeners) cb(ev);
+        for (auto& [id, cb] : listeners) {
+          cb(ev);
+        }
     }
 };
 
@@ -151,7 +153,9 @@ public:
         std::lock_guard<std::mutex> lock(mu);
         std::vector<std::string> result;
         for (auto& [tid, pid] : assignments)
-            if (pid == partition_id) result.push_back(tid);
+            if (pid == partition_id) {
+              result.push_back(tid);
+            }
         std::sort(result.begin(), result.end());
         return result;
     }
@@ -159,7 +163,9 @@ public:
     std::vector<std::string> listPartitions() const override {
         std::lock_guard<std::mutex> lock(mu);
         std::vector<std::string> result;
-        for (auto& [pid, _] : capacities) result.push_back(pid);
+        for (auto& [pid, _] : capacities) {
+          result.push_back(pid);
+        }
         std::sort(result.begin(), result.end());
         return result;
     }
@@ -178,7 +184,9 @@ public:
         const std::string& partition_id) const override {
         std::lock_guard<std::mutex> lock(mu);
         auto it = capacities.find(partition_id);
-        if (it == capacities.end()) return std::nullopt;
+        if (it == capacities.end()) {
+          return std::nullopt;
+        }
         PartitionStats s;
         s.partition_id = partition_id;
         s.capacity = it->second;
@@ -254,12 +262,16 @@ public:
         for (ptrdiff_t idx = static_cast<ptrdiff_t>(h.size()) - 1; idx > 0; --idx) {
             const size_t i = static_cast<size_t>(idx);
             double interval = static_cast<double>(h[i].timestamp_ms - h[i-1].timestamp_ms);
-            if (interval < 0.0) interval = 0.0;
+            if (interval < 0.0) {
+              interval = 0.0;
+            }
             ewma_ms    += interval * weight;
             total_weight += weight;
             weight *= config_.decay_factor;
         }
-        if (total_weight > 0.0) ewma_ms /= total_weight;
+        if (total_weight > 0.0) {
+          ewma_ms /= total_weight;
+        }
 
         // Suggested TTL = aggressiveness × mean interval, clamped.
         auto raw_ms = static_cast<int64_t>(ewma_ms * config_.aggressiveness);

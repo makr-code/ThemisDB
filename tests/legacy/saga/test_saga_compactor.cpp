@@ -70,7 +70,9 @@ TEST_F(SAGACompactorTest, CompactArchivesCompletedEntries) {
     std::string line;
     size_t remaining = 0;
     while (std::getline(ifs, line)) {
-        if (!line.empty()) ++remaining;
+        if (!line.empty()) {
+          ++remaining;
+        }
     }
     EXPECT_EQ(remaining, 1u);
 }

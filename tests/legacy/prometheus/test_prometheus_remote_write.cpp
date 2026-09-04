@@ -342,7 +342,9 @@ TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyDecompressionBombRejected) {
         while (pos < compressed.size()) {
             uint8_t b = static_cast<uint8_t>(compressed[pos++]);
             orig_varint_bytes++;
-            if ((b & 0x80) == 0) break;
+            if ((b & 0x80) == 0) {
+              break;
+            }
         }
     }
     tampered.append(compressed.substr(orig_varint_bytes));

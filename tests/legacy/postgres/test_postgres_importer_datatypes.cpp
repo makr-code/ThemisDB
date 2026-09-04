@@ -63,7 +63,9 @@ private:
         size_t pos = 0;
         while (pos < content.size()) {
             size_t comma = content.find(',', pos);
-            if (comma == std::string::npos) comma = content.size();
+            if (comma == std::string::npos) {
+              comma = content.size();
+            }
             
             std::string num_str = content.substr(pos, comma - pos);
             if (!num_str.empty()) {
@@ -246,7 +248,9 @@ TEST(PostgreSQLImporterTest, LargeObjectHandling) {
     // Large array (1000 elements)
     std::string large_array = "{";
     for (int i = 0; i < 1000; ++i) {
-        if (i > 0) large_array += ",";
+        if (i > 0) {
+          large_array += ",";
+        }
         large_array += std::to_string(i);
     }
     large_array += "}";

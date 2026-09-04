@@ -67,7 +67,9 @@ http::response<http::string_body> PolicyApiHandler::handleImportRanger(
             {"imported", internal.size()},
             {"saved", saved}
         };
-        if (!saved) resp["save_error"] = save_err;
+        if (!saved) {
+          resp["save_error"] = save_err;
+        }
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);

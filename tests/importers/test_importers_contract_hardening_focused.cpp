@@ -134,14 +134,20 @@ static SchemaChangeKind classifySchemaChange(
     for (auto& ec : existing.columns) {
         auto it = std::find_if(incoming.columns.begin(), incoming.columns.end(),
                                [&](const MockColumn& ic){ return ic.name == ec.name; });
-        if (it == incoming.columns.end() && ec.required) return SchemaChangeKind::Breaking;
-        if (it != incoming.columns.end() && it->type != ec.type) return SchemaChangeKind::Breaking;
+        if (it == incoming.columns.end() && ec.required) {
+          return SchemaChangeKind::Breaking;
+        }
+        if (it != incoming.columns.end() && it->type != ec.type) {
+          return SchemaChangeKind::Breaking;
+        }
     }
     // Check for new nullable columns (additive)
     for (auto& ic : incoming.columns) {
         auto it = std::find_if(existing.columns.begin(), existing.columns.end(),
                                [&](const MockColumn& ec){ return ec.name == ic.name; });
-        if (it == existing.columns.end() && !ic.required) return SchemaChangeKind::Additive;
+        if (it == existing.columns.end() && !ic.required) {
+          return SchemaChangeKind::Additive;
+        }
     }
     return SchemaChangeKind::NoChange;
 }

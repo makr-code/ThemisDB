@@ -421,8 +421,12 @@ TEST_F(GPUMemoryManagerTest, Tenant_GetAllTenantStats_IncludesAllRegistered) {
     // Both tenant_ids must appear in the results.
     bool found_t1 = false, found_t2 = false;
     for (const auto& ts : all) {
-        if (ts.tenant_id == "t1") found_t1 = true;
-        if (ts.tenant_id == "t2") found_t2 = true;
+        if (ts.tenant_id == "t1") {
+          found_t1 = true;
+        }
+        if (ts.tenant_id == "t2") {
+          found_t2 = true;
+        }
     }
     EXPECT_TRUE(found_t1);
     EXPECT_TRUE(found_t2);
@@ -532,7 +536,9 @@ TEST_F(GPUMemoryManagerTest, Concurrent_AllocDealloc_NoCounterDrift) {
     for (int t = 0; t < THREADS; ++t) {
         threads.emplace_back(worker);
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // After all threads finish, allocated bytes must be exactly 0.
     EXPECT_EQ(mgr.GetGPUMemoryUsed(), 0u) << "Counter drift detected";
@@ -568,7 +574,9 @@ TEST_F(GPUMemoryManagerTest, Concurrent_Stats_NeverNegative) {
     for (int t = 0; t < THREADS; ++t) {
         threads.emplace_back(worker);
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_FALSE(saw_negative.load()) << "Underflow/overflow detected in concurrent stats";
     EXPECT_EQ(mgr.GetGPUMemoryUsed(), 0u);
@@ -611,7 +619,9 @@ TEST_F(GPUMemoryManagerTest, Concurrent_TenantIsolation_NoLeakage) {
     for (int t = 0; t < N_TENANTS; ++t) {
         threads.emplace_back(tenant_worker, t);
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(quota_violations.load(), 0)
         << "Tenant quota exceeded during concurrent access";
@@ -642,9 +652,13 @@ TEST_F(GPUMemoryManagerTest, Fuzz_ArbitrarySizes_NeverCrash) {
         // Must not crash or throw — only return true/false.
         bool result = mgr.TryAllocateGPU(sz, "fuzz");
         // Cleanup any successful allocation.
-        if (result) mgr.DeallocateGPU(sz);
+        if (result) {
+          mgr.DeallocateGPU(sz);
+        }
         // UINT64_MAX should never be allocated.
-        if (sz == UINT64_MAX) EXPECT_FALSE(result);
+        if (sz == UINT64_MAX) {
+          EXPECT_FALSE(result);
+        }
     }
 }
 

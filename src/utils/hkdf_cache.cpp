@@ -72,7 +72,9 @@ struct Shard {
 
     /// Evict all entries whose TTL has expired.
     void evict_expired(std::chrono::seconds ttl) {
-        if (ttl.count() == 0) return;
+        if (ttl.count() == 0) {
+          return;
+        }
         auto now = std::chrono::steady_clock::now();
         for (auto it = map.begin(); it != map.end(); ) {
             auto age = std::chrono::duration_cast<std::chrono::seconds>(
@@ -92,7 +94,9 @@ struct Shard {
         while (map.size() > capacity && !lru.empty()) {
             auto tail = lru.back();
             auto it = map.find(tail);
-            if (it != map.end()) erase_entry(it);
+            if (it != map.end()) {
+              erase_entry(it);
+            }
             else { lru.pop_back(); } // defensive
         }
     }
@@ -107,7 +111,9 @@ struct HKDFCache::Impl {
 
     explicit Impl(HKDFCache::Config c) : cfg(std::move(c)) {
         size_t per_shard = std::max<size_t>(1, cfg.max_entries / kShards);
-        for (auto& s : shards) s.capacity = per_shard;
+        for (auto& s : shards) {
+          s.capacity = per_shard;
+        }
     }
 
     // Build the binary cache key: ikm | 0x00 | salt | 0x00 | info | 0x00 | len
@@ -139,7 +145,9 @@ struct HKDFCache::Impl {
         SHA256(data, len, digest);
         std::ostringstream oss;
         oss << std::hex << std::setfill('0');
-        for (unsigned char b : digest) oss << std::setw(2) << static_cast<int>(b);
+        for (unsigned char b : digest) {
+          oss << std::setw(2) << static_cast<int>(b);
+        }
         return oss.str();
     }
 };
@@ -232,7 +240,9 @@ void HKDFCache::purge_by_ikm_hash(const std::string& ikm_hash) {
             const std::string& raw_key = it->first;
             // IKM ends at the first 0x00 separator.
             size_t ikm_end = raw_key.find('\x00');
-            if (ikm_end == std::string::npos) ikm_end = raw_key.size();
+            if (ikm_end == std::string::npos) {
+              ikm_end = raw_key.size();
+            }
 
             std::string candidate_hash = Impl::sha256_hex(
                 reinterpret_cast<const uint8_t*>(raw_key.data()), ikm_end);

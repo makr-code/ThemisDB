@@ -72,7 +72,9 @@ static std::string serializeCsvRow(const MockCsvRow& row,
                                    const char* line_sep = kCsvDefaultLineSep) {
     std::ostringstream ss;
     for (std::size_t i = 0; i < row.cells.size(); ++i) {
-        if (i > 0) ss << delimiter;
+        if (i > 0) {
+          ss << delimiter;
+        }
         if (!row.cells[i].has_value()) {
             // null → empty cell
         } else {
@@ -83,7 +85,9 @@ static std::string serializeCsvRow(const MockCsvRow& row,
             if (needs_quote) {
                 ss << kCsvQuoteChar;
                 for (char c : v) {
-                    if (c == kCsvQuoteChar) ss << kCsvQuoteChar;
+                    if (c == kCsvQuoteChar) {
+                      ss << kCsvQuoteChar;
+                    }
                     ss << c;
                 }
                 ss << kCsvQuoteChar;
@@ -167,7 +171,9 @@ struct MockStreamingExporter {
 
     bool isSequential() const {
         for (std::size_t i = 1; i < chunks.size(); ++i)
-            if (chunks[i].seq != chunks[i-1].seq + 1) return false;
+            if (chunks[i].seq != chunks[i-1].seq + 1) {
+              return false;
+            }
         return true;
     }
 };

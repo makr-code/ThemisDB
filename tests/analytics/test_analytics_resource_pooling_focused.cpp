@@ -99,7 +99,9 @@ public:
 
     MockConnection& operator=(MockConnection&& other) noexcept {
         if (this != &other) {
-            if (is_open) close();
+            if (is_open) {
+              close();
+            }
             connection_id = other.connection_id;
             is_open = other.is_open;
             other.is_open = false;
@@ -246,7 +248,9 @@ TEST_F(ResourcePoolingTest, RP_02_ExceptionSafeRelease) {
 
     // Note: In real code, would use RAII wrapper. Manually release here:
     auto [err, conn] = pool.acquire();
-    if (conn) pool.release(std::move(conn));
+    if (conn) {
+      pool.release(std::move(conn));
+    }
 
     // Verify: Pool state remains consistent
     EXPECT_GE(pool.getTotalCreated(), 1);

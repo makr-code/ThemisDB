@@ -42,7 +42,9 @@ protected:
     }
 
     void TearDown() override {
-        if (engine_) engine_->close();
+        if (engine_) {
+          engine_->close();
+        }
         fs::remove_all(db_path_);
     }
 
@@ -188,7 +190,9 @@ TEST_F(IOMetricsTest, Concurrent_PutOpsAccumulate) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(engine_->ioMetrics().put_ops, static_cast<uint64_t>(kThreads * kOps));
 }

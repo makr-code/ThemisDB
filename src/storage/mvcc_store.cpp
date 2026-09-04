@@ -149,7 +149,9 @@ std::optional<std::vector<uint8_t>> MVCCStore::getLatest(std::string_view key) {
             auto val = db_->get(vkey);
             if (val) {
                 // Empty value signals a tombstone (deleted key).
-                if (val->empty()) return std::nullopt;
+                if (val->empty()) {
+                  return std::nullopt;
+                }
                 return val;
             }
             // Key not found in RocksDB (e.g. compacted away) — fall through

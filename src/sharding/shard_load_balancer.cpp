@@ -184,7 +184,9 @@ ShardLoadBalancer::statistics() const {
     out.reserve(shard_order_.size());
     for (const auto& id : shard_order_) {
         auto it = shards_.find(id);
-        if (it == shards_.end()) continue;
+        if (it == shards_.end()) {
+          continue;
+        }
         ShardStatistics ss;
         ss.shard_id      = id;
         ss.metrics       = it->second.metrics;
@@ -199,7 +201,9 @@ std::size_t ShardLoadBalancer::availableShardCount() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
     std::size_t cnt = 0;
     for (const auto& [id, st] : shards_) {
-        if (st.metrics.available) ++cnt;
+        if (st.metrics.available) {
+          ++cnt;
+        }
     }
     return cnt;
 }

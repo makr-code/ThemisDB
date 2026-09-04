@@ -96,7 +96,9 @@ InMemoryTensorBackend::get(const std::string& key) const {
     // iterator_invalidation scanner alert: store_ is locked above; no
     // modification can occur while the lock is held — false positive.
     auto it = store_.find(key);
-    if (it == store_.end()) return std::nullopt;
+    if (it == store_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -255,7 +257,9 @@ bool TensorNetworkStorageEngine::persistQuantizedTrain(
     // then each core separately for efficient partial reads
     auto header = qtrain.serialize();  // stores everything; we use it for meta
     const std::string meta_key = makeMetaKey(key, version);
-    if (!backend_->put(meta_key, header)) return false;
+    if (!backend_->put(meta_key, header)) {
+      return false;
+    }
 
     // lock_in_loop scanner alerts (lines 239, 320): persistQuantizedTrain and the
     // remove loop iterate over cores while the engine write lock (wlk/rw_mutex_)
@@ -284,7 +288,9 @@ std::optional<QuantizedTrain>
 TensorNetworkStorageEngine::loadQuantizedTrain(const TensorFieldKey& key,
                                                 std::size_t version) const {
     auto meta = backend_->get(makeMetaKey(key, version));
-    if (!meta) return std::nullopt;
+    if (!meta) {
+      return std::nullopt;
+    }
     // model_integrity_gap scanner alert: blob integrity is enforced at the
     // storage backend layer (InMemoryTensorBackend or RocksDB with checksums);
     // QuantizedTrain::deserialize validates header size and returns nullopt on
@@ -300,7 +306,9 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
                                       const std::vector<float>&        data,
                                       const std::vector<std::size_t>&  mode_sizes) {
     std::size_t expected = 1;
-    for (auto n : mode_sizes) expected *= n;
+    for (auto n : mode_sizes) {
+      expected *= n;
+    }
     if (data.size() != expected)
         throw std::invalid_argument("TensorNetworkStorageEngine::put: size mismatch");
 
@@ -325,7 +333,9 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
     std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
     const std::size_t ver = currentVersion(key) + 1;
 
-    if (!persistQuantizedTrain(key, qtrain, ver)) return false;
+    if (!persistQuantizedTrain(key, qtrain, ver)) {
+      return false;
+    }
     setVersion(key, ver);
 
     // Purge old versions if retention configured
@@ -372,10 +382,14 @@ std::optional<std::vector<float>>
 TensorNetworkStorageEngine::get(const TensorFieldKey& key) const {
     std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
-    if (ver == 0) return std::nullopt;
+    if (ver == 0) {
+      return std::nullopt;
+    }
 
     auto oqt = loadQuantizedTrain(key, ver);
-    if (!oqt) return std::nullopt;
+    if (!oqt) {
+      return std::nullopt;
+    }
 
     TTTrain train = quantizer_.dequantize(*oqt);
     return train.reconstruct();
@@ -386,7 +400,9 @@ TensorNetworkStorageEngine::getVersion(const TensorFieldKey& key,
                                         std::size_t version) const {
     std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
     auto oqt = loadQuantizedTrain(key, version);
-    if (!oqt) return std::nullopt;
+    if (!oqt) {
+      return std::nullopt;
+    }
 
     TTTrain train = quantizer_.dequantize(*oqt);
     return train.reconstruct();
@@ -396,7 +412,9 @@ std::optional<QuantizedTrain>
 TensorNetworkStorageEngine::getCompressed(const TensorFieldKey& key) const {
     std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
-    if (ver == 0) return std::nullopt;
+    if (ver == 0) {
+      return std::nullopt;
+    }
     return loadQuantizedTrain(key, ver);
 }
 
@@ -407,7 +425,9 @@ TensorNetworkStorageEngine::getCompressed(const TensorFieldKey& key) const {
 bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
     std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
-    if (ver == 0) return false;
+    if (ver == 0) {
+      return false;
+    }
 
     auto oqt = loadQuantizedTrain(key, ver);
     backend_->del(makeMetaKey(key, ver));
@@ -435,7 +455,9 @@ bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
 void TensorNetworkStorageEngine::compact(const TensorFieldKey& key) {
     std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
-    if (ver == 0 || cfg_.version_retention == 0) return;
+    if (ver == 0 || cfg_.version_retention == 0) {
+      return;
+    }
 
     auto keys = backend_->listKeys(makePrefix(key));
     for (const auto& k : keys) {
@@ -453,10 +475,14 @@ std::optional<TensorStorageStats>
 TensorNetworkStorageEngine::stats(const TensorFieldKey& key) const {
     std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
-    if (ver == 0) return std::nullopt;
+    if (ver == 0) {
+      return std::nullopt;
+    }
 
     auto oqt = loadQuantizedTrain(key, ver);
-    if (!oqt) return std::nullopt;
+    if (!oqt) {
+      return std::nullopt;
+    }
 
     TensorStorageStats s;
     s.current_version   = ver;
@@ -467,7 +493,9 @@ TensorNetworkStorageEngine::stats(const TensorFieldKey& key) const {
     for (const auto& c : oqt->cores)
         s.tt_max_rank = std::max(s.tt_max_rank, c.r_right);
     s.dense_elements = 1;
-    for (auto n : oqt->mode_sizes) s.dense_elements *= n;
+    for (auto n : oqt->mode_sizes) {
+      s.dense_elements *= n;
+    }
 
     return s;
 }

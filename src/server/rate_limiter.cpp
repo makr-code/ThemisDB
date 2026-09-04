@@ -134,14 +134,20 @@ bool RateLimiter::isBlacklisted(const std::string& ip) const {
 bool RateLimiter::isAdaptivelyThrottled(const std::string& ip) const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = adaptive_state_.find(ip);
-    if (it == adaptive_state_.end()) return false;
-    if (!it->second.under_penalty) return false;
+    if (it == adaptive_state_.end()) {
+      return false;
+    }
+    if (!it->second.under_penalty) {
+      return false;
+    }
     return std::chrono::steady_clock::now() < it->second.penalty_until;
 }
 
 void RateLimiter::recordRejectionForAdaptive(const std::string& ip) {
     // Called with mutex_ held
-    if (!config_.adaptive_throttling_enabled) return;
+    if (!config_.adaptive_throttling_enabled) {
+      return;
+    }
     auto now = std::chrono::steady_clock::now();
     auto& entry = adaptive_state_[ip];
 
@@ -331,7 +337,9 @@ RateLimiter::Statistics RateLimiter::getStatistics() const {
     auto now = std::chrono::steady_clock::now();
     size_t penalised = 0;
     for (const auto& [ip, entry] : adaptive_state_) {
-        if (entry.under_penalty && now < entry.penalty_until) penalised++;
+        if (entry.under_penalty && now < entry.penalty_until) {
+          penalised++;
+        }
     }
     stats.adaptive_throttle_penalties = penalised;
     

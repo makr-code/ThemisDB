@@ -308,7 +308,9 @@ void EncryptedChunkStore::auditKeyAccess(const std::string& operation,
         accessor = accessor_identity_;
     }
 
-    if (!logger) return;
+    if (!logger) {
+      return;
+    }
 
     logger->logSecurityEvent(
         utils::SecurityEventType::KEY_ACCESS,

@@ -229,7 +229,9 @@ GorillaSIMDDecoder::GorillaSIMDDecoder(std::vector<uint8_t> data)
     : data_(std::move(data)) {}
 
 size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& out) {
-    if (data_.empty()) return 0;
+    if (data_.empty()) {
+      return 0;
+    }
 
 #if defined(__AVX2__)
     // Runtime guard for binaries compiled with AVX2 but executed on non-AVX2 CPUs.
@@ -270,7 +272,9 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
         payload_size -= 3;
     }
 
-    if (payload_size == 0) return 0;
+    if (payload_size == 0) {
+      return 0;
+    }
 
     // Pass raw pointer+size directly — avoids an unnecessary heap allocation
     // that would otherwise be needed just to strip the 3-byte header.
@@ -278,7 +282,9 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
 
     // ── First point ───────────────────────────────────────────────────────
     br.alignToByte();
-    if (br.eof()) return 0;
+    if (br.eof()) {
+      return 0;
+    }
 
     int64_t  first_ts    = br.readZigZag64();
     if (br.eof()) { error_ = true; return 0; }
@@ -310,7 +316,9 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
 
         for (int b = 0; b < kBatchSize && !parse_error; ++b) {
             br.alignToByte();
-            if (br.eof()) break;
+            if (br.eof()) {
+              break;
+            }
 
             int64_t dod = br.readZigZag64();
 
@@ -325,7 +333,9 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
                 int leading    = static_cast<int>(br.readBits(6));
                 if (br.eof()) { parse_error = true; break; }
                 int significant = static_cast<int>(br.readBits(6));
-                if (significant == 0) significant = 64;
+                if (significant == 0) {
+                  significant = 64;
+                }
                 if (leading + significant > 64) { parse_error = true; break; }
                 if (br.eof() && significant > 0) { parse_error = true; break; }
                 uint64_t payload_bits = br.readBits(significant);
@@ -339,8 +349,12 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
         }
 
         if (batch_size == 0 && !parse_error) break;  // clean end-of-stream
-        if (parse_error) error_ = true;
-        if (batch_size == 0) break;
+        if (parse_error) {
+          error_ = true;
+        }
+        if (batch_size == 0) {
+          break;
+        }
 
         // ── Phase 2a: reconstruct dt[] and ts[] via two prefix-sum passes ──
         //
@@ -368,7 +382,9 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
         carry_ts    = new_carry_ts;
         carry_xor   = new_carry_xor;
 
-        if (parse_error || batch_size < kBatchSize) break;
+        if (parse_error || batch_size < kBatchSize) {
+          break;
+        }
     }
 
     decoded_count_ += total;

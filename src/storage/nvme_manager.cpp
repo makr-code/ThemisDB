@@ -670,14 +670,18 @@ uint32_t NVMeManager::readHwQueueCount() const {
     if (!config_.device_path.empty()) {
         std::string dev_name = config_.device_path;
         auto pos = dev_name.rfind('/');
-        if (pos != std::string::npos) dev_name = dev_name.substr(pos + 1);
+        if (pos != std::string::npos) {
+          dev_name = dev_name.substr(pos + 1);
+        }
 
         std::string sysfs_path = "/sys/block/" + dev_name + "/queue/nr_hw_queues";
         std::ifstream f(sysfs_path);
         if (f.is_open()) {
             uint32_t count = 1;
             f >> count;
-            if (count > 0) return count;
+            if (count > 0) {
+              return count;
+            }
         }
     }
     // Fallback: use nproc as a conservative estimate

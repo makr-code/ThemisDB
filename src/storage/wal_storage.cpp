@@ -343,7 +343,9 @@ Result<void> WALStorage::openOrCreate([[maybe_unused]] RecoveryCallback& on_reco
     // Collect existing segments sorted by ID.
     segments_.clear();
     for (const auto& entry : fs::directory_iterator(config_.dir)) {
-        if (!entry.is_regular_file()) continue;
+        if (!entry.is_regular_file()) {
+          continue;
+        }
         uint64_t sid = parseSegmentId(entry.path().filename().string());
         if (sid > 0) {
             segments_.push_back(sid);
@@ -365,7 +367,9 @@ Result<void> WALStorage::openOrCreate([[maybe_unused]] RecoveryCallback& on_reco
         for (uint64_t sid : segments_) {
             auto path = config_.dir + "/" + segmentName(sid);
             RecoveryCallback noop = [this]([[maybe_unused]] const Entry& e) {
-                if (e.sequence >= next_seq_) next_seq_ = e.sequence + 1;
+                if (e.sequence >= next_seq_) {
+                  next_seq_ = e.sequence + 1;
+                }
                 return true;
             };
             (void)replaySegment(path, noop);
@@ -424,19 +428,25 @@ Result<void> WALStorage::replaySegment(const std::string& path,
         std::string key(klen, '\0');
         if (klen > 0) {
             f.read(key.data(), klen);
-            if (static_cast<uint32_t>(f.gcount()) < klen) break;
+            if (static_cast<uint32_t>(f.gcount()) < klen) {
+              break;
+            }
         }
 
         std::string value(vlen, '\0');
         if (vlen > 0) {
             f.read(value.data(), vlen);
-            if (static_cast<uint32_t>(f.gcount()) < vlen) break;
+            if (static_cast<uint32_t>(f.gcount()) < vlen) {
+              break;
+            }
         }
 
         // Read and verify CRC32.
         uint8_t crc_buf[4];
         f.read(reinterpret_cast<char*>(crc_buf), 4);
-        if (f.gcount() < 4) break;
+        if (f.gcount() < 4) {
+          break;
+        }
 
         uint32_t stored_crc = decode_u32(crc_buf);
         uint32_t computed   = crc32_update(0, hdr, HEADER_SIZE);
@@ -446,7 +456,9 @@ Result<void> WALStorage::replaySegment(const std::string& path,
         if (computed != stored_crc) break; // checksum mismatch → truncate here
 
         // Track highest sequence.
-        if (seq >= next_seq_) next_seq_ = seq + 1;
+        if (seq >= next_seq_) {
+          next_seq_ = seq + 1;
+        }
 
         Entry e{seq, type, std::move(key), std::move(value)};
         if (!cb(e)) break; // caller requested early stop
@@ -551,10 +563,14 @@ Result<uint64_t> WALStorage::appendEntry(EntryType type,
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Rotate first so we never start a new segment half-way through an entry.
-    if (auto r = rotateIfNeeded(); !r) return Err<uint64_t>(r.error().code(), r.error().context());
+    if (auto r = rotateIfNeeded(); !r) {
+      return Err<uint64_t>(r.error().code(), r.error().context());
+    }
 
     auto res = appendEntryLocked(type, key, value);
-    if (!res) return res;
+    if (!res) {
+      return res;
+    }
 
     if (auto sync = syncIfRequired(); !sync) {
         return Err<uint64_t>(sync.error().code(), sync.error().context());
@@ -667,7 +683,9 @@ Result<uint64_t> WALStorage::appendBatch(std::vector<BatchEntry> entries) {
         }
 
         auto res = appendEntryLocked(e.type, e.key, e.value);
-        if (!res) return res;
+        if (!res) {
+          return res;
+        }
         last_seq = *res;
     }
 
@@ -691,7 +709,9 @@ Result<uint64_t> WALStorage::checkpoint([[maybe_unused]] bool delete_old_segment
         return Err<uint64_t>(r.error().code(), r.error().context());
 
     auto res = appendEntryLocked(EntryType::CHECKPOINT, {}, {});
-    if (!res) return res;
+    if (!res) {
+      return res;
+    }
 
     if (auto sync = syncIfRequired(); !sync) {
         return Err<uint64_t>(sync.error().code(), sync.error().context());

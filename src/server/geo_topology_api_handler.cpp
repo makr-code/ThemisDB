@@ -184,7 +184,9 @@ http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
             const auto all    = shard_topology_->getShardsInRegion(region);
             const auto health = shard_topology_->getHealthyShardsInRegion(region);
 
-            if (all.empty()) continue;
+            if (all.empty()) {
+              continue;
+            }
 
             const double ratio = static_cast<double>(health.size()) /
                                  static_cast<double>(all.size());
@@ -550,9 +552,13 @@ std::string GeoTopologyApiHandler::extractTrailingSegment(
     auto qpos = path.find('?');
     const std::string clean = (qpos != std::string::npos) ? path.substr(0, qpos) : path;
 
-    if (clean.rfind(prefix, 0) != 0) return "";
+    if (clean.rfind(prefix, 0) != 0) {
+      return "";
+    }
     const std::string trailing = clean.substr(prefix.size());
-    if (trailing.empty()) return "";
+    if (trailing.empty()) {
+      return "";
+    }
     return trailing;
 }
 

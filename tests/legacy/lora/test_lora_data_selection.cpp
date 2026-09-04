@@ -37,7 +37,9 @@ static std::string germanLegalText(size_t token_count = 60) {
         "nach Maßgabe des Verwaltungsakts und der Verpflichtung zur "
         "Auskunftserteilung die mit dem eIDAS Rahmen vereinbar ist ";
     std::string result;
-    while (result.size() < token_count * 6) result += base;
+    while (result.size() < token_count * 6) {
+      result += base;
+    }
     return result;
 }
 
@@ -130,7 +132,9 @@ TEST_F(DataSelectionPipelineTest, QualityFilter_RejectsToxicSamples) {
     };
     auto out = pipeline.filterByQuality(input);
     bool found_toxic = false;
-    for (const auto& s : out) if (s.id == "toxic") found_toxic = true;
+    for (const auto& s : out) {
+      if (s.id == "toxic") found_toxic = true;
+    }
     EXPECT_FALSE(found_toxic);
 }
 
@@ -143,7 +147,9 @@ TEST_F(DataSelectionPipelineTest, QualityFilter_RejectsPIISamples) {
     };
     auto out = pipeline.filterByQuality(input);
     bool found_pii = false;
-    for (const auto& s : out) if (s.id == "has_pii") found_pii = true;
+    for (const auto& s : out) {
+      if (s.id == "has_pii") found_pii = true;
+    }
     EXPECT_FALSE(found_pii);
 }
 
@@ -151,14 +157,18 @@ TEST_F(DataSelectionPipelineTest, QualityFilter_RejectsWrongLanguage) {
     DataSelectionPipeline pipeline(cfg_);
     std::string english_text(320, 'a'); // non-German
     // pad with spaces to exceed token minimum
-    for (size_t i = 4; i < english_text.size(); i += 5) english_text[i] = ' ';
+    for (size_t i = 4; i < english_text.size(); i += 5) {
+      english_text[i] = ' ';
+    }
     auto input = std::vector<DataSample>{
         makeSample("german",  germanLegalText(60)),
         makeSample("english", english_text)
     };
     auto out = pipeline.filterByQuality(input);
     bool found_english = false;
-    for (const auto& s : out) if (s.id == "english") found_english = true;
+    for (const auto& s : out) {
+      if (s.id == "english") found_english = true;
+    }
     EXPECT_FALSE(found_english);
 }
 
@@ -223,7 +233,9 @@ TEST_F(DataSelectionPipelineTest, Deduplication_KeepsDissimilarSamples) {
     std::string text_a = germanLegalText(60);
     // Create a clearly different text
     std::string text_b(400, 'x');
-    for (size_t i = 4; i < text_b.size(); i += 5) text_b[i] = ' ';
+    for (size_t i = 4; i < text_b.size(); i += 5) {
+      text_b[i] = ' ';
+    }
     text_b += " und also jedoch daher somit weiterhin ferner";
     auto input = std::vector<DataSample>{
         makeSample("a", text_a),
@@ -413,7 +425,9 @@ TEST_F(DataSelectionPipelineTest, FullPipeline_AuditSelectedIdsMatchOutputIds) {
 
     // audit selected_ids should equal output sample ids
     std::vector<std::string> output_ids;
-    for (const auto& s : result.selected_samples) output_ids.push_back(s.id);
+    for (const auto& s : result.selected_samples) {
+      output_ids.push_back(s.id);
+    }
     std::sort(output_ids.begin(), output_ids.end());
 
     std::vector<std::string> audit_ids = result.audit_entry.selected_ids;
@@ -680,7 +694,9 @@ TEST(AuditEntryTest, FullPipeline_AuditEntryIsJSONL) {
         DataSample s("d" + std::to_string(i),
                      std::string(320, 'a'));
         // Add spaces to create token count ≥ 50
-        for (size_t j = 4; j < s.text.size(); j += 5) s.text[j] = ' ';
+        for (size_t j = 4; j < s.text.size(); j += 5) {
+          s.text[j] = ' ';
+        }
         input.push_back(s);
     }
 
@@ -1043,7 +1059,9 @@ protected:
 
     std::string readFile(const std::string& path) {
         std::ifstream f(path);
-        if (!f.is_open()) return "";
+        if (!f.is_open()) {
+          return "";
+        }
         std::ostringstream buf;
         buf << f.rdbuf();
         return buf.str();
@@ -1092,7 +1110,9 @@ TEST_F(AuditPersistenceTest, MultipleRunsAppendMultipleLines) {
     std::istringstream iss(content);
     std::string line;
     while (std::getline(iss, line)) {
-        if (!line.empty()) ++lines;
+        if (!line.empty()) {
+          ++lines;
+        }
     }
     EXPECT_EQ(lines, 3);
 }
@@ -1418,8 +1438,12 @@ TEST(DomainFieldTest, DomainAwareBM25_HigherScoreWithMatchingDomain) {
     // Find scored versions in the result
     double legal_quality = 0.0, medical_quality = 0.0;
     for (const auto& s : result.selected_samples) {
-        if (s.id == "legal_1")   legal_quality   = s.quality_score;
-        if (s.id == "medical_1") medical_quality = s.quality_score;
+        if (s.id == "legal_1") {
+          legal_quality   = s.quality_score;
+        }
+        if (s.id == "medical_1") {
+          medical_quality = s.quality_score;
+        }
     }
     // The legal-tagged sample must score higher than the mismatched one
     EXPECT_GT(legal_quality, medical_quality)

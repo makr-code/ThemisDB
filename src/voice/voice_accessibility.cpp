@@ -261,7 +261,9 @@ std::string VoiceAccessibility::formatAsJSONString(
     }
 
     json result;
-    if (!opts.title.empty()) result["title"] = opts.title;
+    if (!opts.title.empty()) {
+      result["title"] = opts.title;
+    }
     result["language"] = opts.language;
     result["cues"] = arr;
     return result.dump(2);
@@ -317,7 +319,9 @@ std::vector<CaptionCue> VoiceAccessibility::splitLongCues(const std::vector<Capt
         std::istringstream iss(cue.text);
         std::vector<std::string> words;
         std::string word;
-        while (iss >> word) words.push_back(word);
+        while (iss >> word) {
+          words.push_back(word);
+        }
 
         if (words.empty()) {
             result.push_back(cue);
@@ -339,7 +343,9 @@ std::vector<CaptionCue> VoiceAccessibility::splitLongCues(const std::vector<Capt
             size_t to   = std::min(from + words_per_part, words.size());
             std::ostringstream txt;
             for (size_t w = from; w < to; ++w) {
-                if (w > from) txt << " ";
+                if (w > from) {
+                  txt << " ";
+                }
                 txt << words[w];
             }
             sub.text = txt.str();
@@ -351,7 +357,9 @@ std::vector<CaptionCue> VoiceAccessibility::splitLongCues(const std::vector<Capt
 }
 
 std::vector<CaptionCue> VoiceAccessibility::mergeSilentGaps(const std::vector<CaptionCue>& cues) const {
-    if (cues.empty()) return cues;
+    if (cues.empty()) {
+      return cues;
+    }
 
     auto sorted = mergeSortCues(cues);
     std::vector<CaptionCue> result;
@@ -377,7 +385,9 @@ std::vector<CaptionCue> VoiceAccessibility::mergeSilentGaps(const std::vector<Ca
 }
 
 std::string VoiceAccessibility::wrapText(const std::string& text, int max_chars) const {
-    if (static_cast<int>(text.size()) <= max_chars) return text;
+    if (static_cast<int>(text.size()) <= max_chars) {
+      return text;
+    }
 
     std::ostringstream wrapped;
     size_t start = 0;

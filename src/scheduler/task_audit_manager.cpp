@@ -304,7 +304,9 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
         
         std::string line;
         while (std::getline(ifs, line) && results.size() < read_limit) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             try {
                 auto j = nlohmann::json::parse(line);
                 
@@ -465,7 +467,9 @@ std::vector<TaskSecurityEvent> TaskAuditManager::loadSecurityEventsFromFile(
         
         std::string line;
         while (std::getline(ifs, line) && results.size() < read_limit) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             try {
                 auto j = nlohmann::json::parse(line);
                 
@@ -775,7 +779,9 @@ size_t TaskAuditManager::enforceRetentionPolicy() {
             
             std::string line;
             while (std::getline(ifs, line)) {
-                if (line.empty()) continue;
+                if (line.empty()) {
+                  continue;
+                }
                 
                 try {
                     auto j = nlohmann::json::parse(line);
@@ -850,7 +856,9 @@ size_t TaskAuditManager::detectAndRecoverCorruption() {
         while (std::getline(ifs, line)) {
             line_num++;
             
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             
             try {
                 auto j = nlohmann::json::parse(line);

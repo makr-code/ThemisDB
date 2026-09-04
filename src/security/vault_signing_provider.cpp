@@ -43,19 +43,27 @@ static std::string vaultBase64Encode(const std::vector<uint8_t>& data) {
             valb -= 6;
         }
     }
-    if (valb > -6) ret.push_back(b64_chars[((val << 8) >> (valb + 8)) & 0x3F]);
-    while (ret.size() % 4) ret.push_back('=');
+    if (valb > -6) {
+      ret.push_back(b64_chars[((val << 8) >> (valb + 8)) & 0x3F]);
+    }
+    while (ret.size() % 4) {
+      ret.push_back('=');
+    }
     return ret;
 }
 
 static std::vector<uint8_t> vaultBase64Decode(const std::string& encoded) {
     std::vector<int> T(256, -1);
-    for (int i = 0; i < 64; i++) T[(unsigned char)b64_chars[i]] = i;
+    for (int i = 0; i < 64; i++) {
+      T[(unsigned char)b64_chars[i]] = i;
+    }
 
     std::vector<uint8_t> out;
     int val = 0, valb = -8;
     for (unsigned char c : encoded) {
-        if (T[c] == -1) break;
+        if (T[c] == -1) {
+          break;
+        }
         val = (val << 6) + T[c];
         valb += 6;
         if (valb >= 0) {
@@ -98,7 +106,9 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
 
     // Build URL: /v1/<transit_mount>/sign/<key_id>
     std::string url = vault_addr;
-    if (url.back() == '/') url.pop_back();
+    if (url.back() == '/') {
+      url.pop_back();
+    }
     url += "/v1/" + transit_mount + "/sign/" + key_id;
 
     // Prepare JSON payload: { "input": base64(data) }
@@ -107,7 +117,9 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
 
     // Setup CURL
     CURL* curl = curl_easy_init();
-    if (!curl) throw std::runtime_error("Failed to init CURL for VaultSigningProvider");
+    if (!curl) {
+      throw std::runtime_error("Failed to init CURL for VaultSigningProvider");
+    }
 
     std::string response;
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -119,7 +131,9 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
 
     struct curl_slist* headers = nullptr;
     headers = curl_slist_append(headers, "Content-Type: application/json");
-    if (!vault_token.empty()) headers = curl_slist_append(headers, (std::string("X-Vault-Token: ") + vault_token).c_str());
+    if (!vault_token.empty()) {
+      headers = curl_slist_append(headers, (std::string("X-Vault-Token: ") + vault_token).c_str());
+    }
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
     CURLcode rc = curl_easy_perform(curl);

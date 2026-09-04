@@ -123,7 +123,9 @@ std::vector<TransactionManager::DeadlockInfo> TransactionManager::getDeadlocks(s
 }
 
 void TransactionManager::trackLockAcquired(TransactionId txn_id, const std::string& key) {
-    if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) return;
+    if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) {
+      return;
+    }
     
     std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
     held_locks_[key] = LockInfo{txn_id, std::chrono::system_clock::now()};
@@ -139,7 +141,9 @@ void TransactionManager::trackLockAcquired(TransactionId txn_id, const std::stri
 }
 
 void TransactionManager::trackLockReleased(TransactionId txn_id, const std::string& key) {
-    if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) return;
+    if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) {
+      return;
+    }
     
     std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
     auto it = held_locks_.find(key);
@@ -149,14 +153,18 @@ void TransactionManager::trackLockReleased(TransactionId txn_id, const std::stri
 }
 
 void TransactionManager::trackLockWaiting(TransactionId txn_id, const std::string& key) {
-    if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) return;
+    if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) {
+      return;
+    }
     
     std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
     waiting_for_[txn_id].insert(key);
 }
 
 void TransactionManager::clearWaiting(TransactionId txn_id) {
-    if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) return;
+    if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) {
+      return;
+    }
     
     std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
     waiting_for_.erase(txn_id);
@@ -173,12 +181,16 @@ void TransactionManager::deadlockDetectorLoop() {
             });
         }
         
-        if (!deadlock_detector_running_.load(std::memory_order_relaxed)) break;
+        if (!deadlock_detector_running_.load(std::memory_order_relaxed)) {
+          break;
+        }
 
         // Check for timed-out transactions (independent of deadlock detection flag)
         abortTimedOutTransactions();
 
-        if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) continue;
+        if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) {
+          continue;
+        }
         
         // Check for deadlocks
         std::vector<TransactionId> cycle;
@@ -193,7 +205,9 @@ void TransactionManager::deadlockDetectorLoop() {
 bool TransactionManager::detectDeadlockCycle(std::vector<TransactionId>& cycle) {
     std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
     
-    if (waiting_for_.empty()) return false;
+    if (waiting_for_.empty()) {
+      return false;
+    }
     
     // Build wait-for graph: txn -> transactions it's waiting for
     std::unordered_map<TransactionId, std::unordered_set<TransactionId>> wait_graph;
@@ -230,7 +244,9 @@ bool TransactionManager::detectDeadlockCycle(std::vector<TransactionId>& cycle) 
                     return true;
                 }
                 if (!visited.count(neighbor)) {
-                    if (dfs(neighbor)) return true;
+                    if (dfs(neighbor)) {
+                      return true;
+                    }
                 }
             }
         }
@@ -252,7 +268,9 @@ bool TransactionManager::detectDeadlockCycle(std::vector<TransactionId>& cycle) 
 }
 
 void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle) {
-    if (cycle.empty()) return;
+    if (cycle.empty()) {
+      return;
+    }
 
     auto policy = static_cast<DeadlockVictimPolicy>(
         victim_policy_.load(std::memory_order_relaxed));
@@ -275,7 +293,9 @@ void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle
                 for (TransactionId txn : cycle) {
                     size_t cnt = 0;
                     for (const auto& [key, info] : held_locks_) {
-                        if (info.holder == txn) ++cnt;
+                        if (info.holder == txn) {
+                          ++cnt;
+                        }
                     }
                     if (cnt < min_locks) {
                         min_locks = cnt;
@@ -413,7 +433,9 @@ TransactionManager::TransactionId TransactionManager::beginTransaction(
     std::string_view tenant_id, IsolationLevel isolation)
 {
     // Delegate to the no-tenant overload when tenant_id is empty.
-    if (tenant_id.empty()) return beginTransaction(isolation);
+    if (tenant_id.empty()) {
+      return beginTransaction(isolation);
+    }
 
     auto txn_id = generateTransactionId();
     auto txn = std::make_shared<Transaction>(txn_id, db_, secIdx_, graphIdx_, vecIdx_,
@@ -479,7 +501,9 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
         }
         THEMIS_INFO("Transaction {} committed (duration: {} ms)", id, txn->getDurationMs());
         // Phase 8: WAL – log commit
-        if (crash_recovery_mgr_) crash_recovery_mgr_->logCommit(id);
+        if (crash_recovery_mgr_) {
+          crash_recovery_mgr_->logCommit(id);
+        }
     } else {
         // SOLUTION 2B: Update statistics with sequence lock
         updateStatsWithSeqLock([this]() {
@@ -492,7 +516,9 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
         }
         THEMIS_WARN("Transaction {} commit failed: {}", id, status.message);
         // Phase 8: WAL – log abort (commit failed → transaction is rolled back)
-        if (crash_recovery_mgr_) crash_recovery_mgr_->logAbort(id);
+        if (crash_recovery_mgr_) {
+          crash_recovery_mgr_->logAbort(id);
+        }
     }
     
     moveToCompleted(id);
@@ -504,7 +530,9 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
         {
             std::lock_guard<std::mutex> lk(lock_tracking_mutex_);
             for (const auto& [key, info] : held_locks_) {
-                if (info.holder == id) keys.push_back(key);
+                if (info.holder == id) {
+                  keys.push_back(key);
+                }
             }
         }
         auto duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
@@ -538,7 +566,9 @@ bool TransactionManager::rollbackTransaction(TransactionId id) {
     }
     THEMIS_INFO("Transaction {} rolled back (duration: {} ms)", id, txn->getDurationMs());
     // Phase 8: WAL – log abort
-    if (crash_recovery_mgr_) crash_recovery_mgr_->logAbort(id);
+    if (crash_recovery_mgr_) {
+      crash_recovery_mgr_->logAbort(id);
+    }
     
     moveToCompleted(id);
 
@@ -548,7 +578,9 @@ bool TransactionManager::rollbackTransaction(TransactionId id) {
         {
             std::lock_guard<std::mutex> lk(lock_tracking_mutex_);
             for (const auto& [key, info] : held_locks_) {
-                if (info.holder == id) keys.push_back(key);
+                if (info.holder == id) {
+                  keys.push_back(key);
+                }
             }
         }
         auto duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
@@ -901,7 +933,9 @@ TransactionManager::Transaction::~Transaction() {
         mvcc_txn_->rollback();
         saga_->compensate();
         // Release any predicate locks held by this transaction
-        if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
+        if (lock_manager_) {
+          lock_manager_->releasePredicateLocks(id_);
+        }
     }
 }
 
@@ -957,7 +991,9 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
         if (!finished_.load(std::memory_order_acquire) && mvcc_txn_ && mvcc_txn_->isActive()) {
             mvcc_txn_->rollback();
             saga_->compensate();
-            if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
+            if (lock_manager_) {
+              lock_manager_->releasePredicateLocks(id_);
+            }
         }
         // Anmerkung: db_, secIdx_, graphIdx_ sind Referenzen und können nicht erneut gebunden werden.
         // Diese werden in Konstruktor initialisiert und bleiben über Lebensdauer konstant.
@@ -998,9 +1034,15 @@ TransactionManager::Status TransactionManager::Transaction::setReadOnly([[maybe_
 }
 
 TransactionManager::Status TransactionManager::Transaction::putEntity(std::string_view table, const BaseEntity& entity) {
-    if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("putEntity: keine aktive Transaktion");
-    if (isTimedOut()) return Status::Error("putEntity: transaction timed out");
-    if (read_only_) return Status::Error("putEntity: transaction is read-only");
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+      return Status::Error("putEntity: keine aktive Transaktion");
+    }
+    if (isTimedOut()) {
+      return Status::Error("putEntity: transaction timed out");
+    }
+    if (read_only_) {
+      return Status::Error("putEntity: transaction is read-only");
+    }
     
     // Serialize entity
     auto serialized = entity.serialize();
@@ -1008,7 +1050,9 @@ TransactionManager::Status TransactionManager::Transaction::putEntity(std::strin
 
     // SSI: check for predicate conflict before writing
     auto conflict_msg = checkSerializableWriteConflict(key);
-    if (!conflict_msg.empty()) return Status::Error(conflict_msg);
+    if (!conflict_msg.empty()) {
+      return Status::Error(conflict_msg);
+    }
 
     // Capture pre-write (base) value for potential conflict record.
     // Capture only on first write to this key so base reflects the snapshot value.
@@ -1043,15 +1087,23 @@ TransactionManager::Status TransactionManager::Transaction::putEntity(std::strin
 }
 
 TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::string_view table, std::string_view pk) {
-    if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("eraseEntity: keine aktive Transaktion");
-    if (isTimedOut()) return Status::Error("eraseEntity: transaction timed out");
-    if (read_only_) return Status::Error("eraseEntity: transaction is read-only");
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+      return Status::Error("eraseEntity: keine aktive Transaktion");
+    }
+    if (isTimedOut()) {
+      return Status::Error("eraseEntity: transaction timed out");
+    }
+    if (read_only_) {
+      return Status::Error("eraseEntity: transaction is read-only");
+    }
     
     std::string key = makeNamespacedKey(std::string("entity:") + std::string(table) + ":" + std::string(pk));
 
     // SSI: check for predicate conflict before writing
     auto conflict_msg = checkSerializableWriteConflict(key);
-    if (!conflict_msg.empty()) return Status::Error(conflict_msg);
+    if (!conflict_msg.empty()) {
+      return Status::Error(conflict_msg);
+    }
 
     // Capture pre-delete (base) value for potential conflict record.
     // Capture only on first write to this key so base reflects the snapshot value.
@@ -1106,16 +1158,24 @@ std::optional<std::string> TransactionManager::Transaction::readEntityJson(
 }
 
 TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEntity& edgeEntity) {
-    if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("addEdge: keine aktive Transaktion");
-    if (isTimedOut()) return Status::Error("addEdge: transaction timed out");
-    if (read_only_) return Status::Error("addEdge: transaction is read-only");
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+      return Status::Error("addEdge: keine aktive Transaktion");
+    }
+    if (isTimedOut()) {
+      return Status::Error("addEdge: transaction timed out");
+    }
+    if (read_only_) {
+      return Status::Error("addEdge: transaction is read-only");
+    }
     
     // Graph edges stored with MVCC
     std::string edge_key = makeNamespacedKey("graph:edge:" + edgeEntity.getPrimaryKey());
 
     // SSI: check for predicate conflict before writing
     auto conflict_msg = checkSerializableWriteConflict(edge_key);
-    if (!conflict_msg.empty()) return Status::Error(conflict_msg);
+    if (!conflict_msg.empty()) {
+      return Status::Error(conflict_msg);
+    }
 
     auto serialized = edgeEntity.serialize();
     
@@ -1134,15 +1194,23 @@ TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEn
 }
 
 TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::string_view edgeId) {
-    if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("deleteEdge: keine aktive Transaktion");
-    if (isTimedOut()) return Status::Error("deleteEdge: transaction timed out");
-    if (read_only_) return Status::Error("deleteEdge: transaction is read-only");
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+      return Status::Error("deleteEdge: keine aktive Transaktion");
+    }
+    if (isTimedOut()) {
+      return Status::Error("deleteEdge: transaction timed out");
+    }
+    if (read_only_) {
+      return Status::Error("deleteEdge: transaction is read-only");
+    }
     
     std::string edge_key = makeNamespacedKey("graph:edge:" + std::string(edgeId));
 
     // SSI: check for predicate conflict before writing
     auto conflict_msg = checkSerializableWriteConflict(edge_key);
-    if (!conflict_msg.empty()) return Status::Error(conflict_msg);
+    if (!conflict_msg.empty()) {
+      return Status::Error(conflict_msg);
+    }
     
     if (!mvcc_txn_->del(edge_key)) {
         return Status::Error("deleteEdge: MVCC conflict detected");
@@ -1159,9 +1227,15 @@ TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::stri
 }
 
 TransactionManager::Status TransactionManager::Transaction::addVector(const BaseEntity& entity, std::string_view vectorField) {
-    if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("addVector: keine aktive Transaktion");
-    if (isTimedOut()) return Status::Error("addVector: transaction timed out");
-    if (read_only_) return Status::Error("addVector: transaction is read-only");
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+      return Status::Error("addVector: keine aktive Transaktion");
+    }
+    if (isTimedOut()) {
+      return Status::Error("addVector: transaction timed out");
+    }
+    if (read_only_) {
+      return Status::Error("addVector: transaction is read-only");
+    }
     
     std::string pk = entity.getPrimaryKey();
 
@@ -1170,7 +1244,9 @@ TransactionManager::Status TransactionManager::Transaction::addVector(const Base
 
     // SSI: check for predicate conflict before writing
     auto conflict_msg = checkSerializableWriteConflict(vector_key);
-    if (!conflict_msg.empty()) return Status::Error(conflict_msg);
+    if (!conflict_msg.empty()) {
+      return Status::Error(conflict_msg);
+    }
 
     auto serialized = entity.serialize();
     if (!mvcc_txn_->put(vector_key, serialized)) {
@@ -1198,9 +1274,15 @@ TransactionManager::Status TransactionManager::Transaction::addVector(const Base
 }
 
 TransactionManager::Status TransactionManager::Transaction::updateVector(const BaseEntity& entity, std::string_view vectorField) {
-    if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("updateVector: keine aktive Transaktion");
-    if (isTimedOut()) return Status::Error("updateVector: transaction timed out");
-    if (read_only_) return Status::Error("updateVector: transaction is read-only");
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+      return Status::Error("updateVector: keine aktive Transaktion");
+    }
+    if (isTimedOut()) {
+      return Status::Error("updateVector: transaction timed out");
+    }
+    if (read_only_) {
+      return Status::Error("updateVector: transaction is read-only");
+    }
     
     // Capture old vector BEFORE the write.  If we read after the put(), the MVCC
     // read-your-own-writes buffer would return the new value instead of the original.
@@ -1209,7 +1291,9 @@ TransactionManager::Status TransactionManager::Transaction::updateVector(const B
 
     // SSI: check for predicate conflict before writing
     auto conflict_msg = checkSerializableWriteConflict(vector_key);
-    if (!conflict_msg.empty()) return Status::Error(conflict_msg);
+    if (!conflict_msg.empty()) {
+      return Status::Error(conflict_msg);
+    }
 
     auto old_data = mvcc_txn_->get(vector_key);
 
@@ -1251,9 +1335,15 @@ TransactionManager::Status TransactionManager::Transaction::updateVector(const B
 }
 
 TransactionManager::Status TransactionManager::Transaction::removeVector(std::string_view pk) {
-    if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("removeVector: keine aktive Transaktion");
-    if (isTimedOut()) return Status::Error("removeVector: transaction timed out");
-    if (read_only_) return Status::Error("removeVector: transaction is read-only");
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+      return Status::Error("removeVector: keine aktive Transaktion");
+    }
+    if (isTimedOut()) {
+      return Status::Error("removeVector: transaction timed out");
+    }
+    if (read_only_) {
+      return Status::Error("removeVector: transaction is read-only");
+    }
     
     // Capture old vector BEFORE the delete.  If we read after del(), the MVCC
     // read-your-own-writes buffer would return nothing instead of the original value.
@@ -1262,7 +1352,9 @@ TransactionManager::Status TransactionManager::Transaction::removeVector(std::st
 
     // SSI: check for predicate conflict before writing
     auto conflict_msg = checkSerializableWriteConflict(vector_key);
-    if (!conflict_msg.empty()) return Status::Error(conflict_msg);
+    if (!conflict_msg.empty()) {
+      return Status::Error(conflict_msg);
+    }
 
     auto old_data = mvcc_txn_->get(vector_key);
 
@@ -1318,7 +1410,9 @@ static std::vector<uint8_t> encodeVersion([[maybe_unused]] uint64_t v) {
 
 /// Decode an 8-byte little-endian blob to uint64_t; returns 0 on wrong size.
 static uint64_t decodeVersion(const std::vector<uint8_t>& buf) {
-    if (buf.size() != 8) return 0;
+    if (buf.size() != 8) {
+      return 0;
+    }
     uint64_t v = 0;
     for (int i = 0; i < 8; ++i) {
         v |= static_cast<uint64_t>(buf[i]) << (8 * i);
@@ -1344,7 +1438,9 @@ static std::string versionKey(std::string_view table, std::string_view pk) {
 std::optional<uint64_t> TransactionManager::Transaction::getEntityVersion(
     std::string_view table, std::string_view pk)
 {
-    if (!mvcc_txn_ || !mvcc_txn_->isActive()) return std::nullopt;
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+      return std::nullopt;
+    }
     auto raw = mvcc_txn_->get(makeNamespacedKey(versionKey(table, pk)));
     if (!raw) return 0; // entity does not exist → version 0
     return decodeVersion(*raw);
@@ -1384,7 +1480,9 @@ TransactionManager::Status TransactionManager::Transaction::optimisticPut(
     // SSI: check for predicate conflict
     const std::string entKey = makeNamespacedKey(std::string("entity:") + std::string(table) + ":" + pk);
     auto conflict = checkSerializableWriteConflict(entKey);
-    if (!conflict.empty()) return Status::Error(conflict);
+    if (!conflict.empty()) {
+      return Status::Error(conflict);
+    }
 
     // Write new version
     uint64_t new_version = expected_version + 1;
@@ -1400,7 +1498,9 @@ TransactionManager::Status TransactionManager::Transaction::optimisticPut(
 
     // Update secondary indexes
     auto st = secIdx_.put(makeNamespacedTable(table), entity, *mvcc_txn_);
-    if (!st.ok) return Status::Error(st.message);
+    if (!st.ok) {
+      return Status::Error(st.message);
+    }
 
     THEMIS_DEBUG("OCC optimisticPut: table={} pk={} version {} → {}",
                  table, pk, expected_version, new_version);
@@ -1440,7 +1540,9 @@ TransactionManager::Status TransactionManager::Transaction::optimisticErase(
     const std::string entKey = makeNamespacedKey(
         std::string("entity:") + std::string(table) + ":" + std::string(pk));
     auto conflict = checkSerializableWriteConflict(entKey);
-    if (!conflict.empty()) return Status::Error(conflict);
+    if (!conflict.empty()) {
+      return Status::Error(conflict);
+    }
 
     // Delete version key
     if (!mvcc_txn_->del(verKey)) {
@@ -1454,7 +1556,9 @@ TransactionManager::Status TransactionManager::Transaction::optimisticErase(
 
     // Update secondary indexes
     auto st = secIdx_.erase(makeNamespacedTable(table), pk, *mvcc_txn_);
-    if (!st.ok) return Status::Error(st.message);
+    if (!st.ok) {
+      return Status::Error(st.message);
+    }
 
     THEMIS_DEBUG("OCC optimisticErase: table={} pk={} version={}", table, pk, expected_version);
     return Status::OK();
@@ -1604,7 +1708,9 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
         THEMIS_WARN("Transaction {} timed out ({} ms), aborting commit", id_, getDurationMs());
         mvcc_txn_->rollback();
         saga_->compensate();
-        if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
+        if (lock_manager_) {
+          lock_manager_->releasePredicateLocks(id_);
+        }
         return Status::Error("commit: transaction timed out");
     }
 
@@ -1613,7 +1719,9 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
         THEMIS_DEBUG("Transaction {} is read-only — skipping WAL write on commit (duration: {} ms)",
                      id_, getDurationMs());
         mvcc_txn_->rollback(); // releases the RocksDB snapshot; no data is written
-        if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
+        if (lock_manager_) {
+          lock_manager_->releasePredicateLocks(id_);
+        }
         return Status::OK();
     }
     
@@ -1669,7 +1777,9 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
         }
 
         saga_->compensate();
-        if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
+        if (lock_manager_) {
+          lock_manager_->releasePredicateLocks(id_);
+        }
 
         if (!conflict_set_id.empty()) {
             return Status::Conflict(
@@ -1683,7 +1793,9 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
     
     // Success - clear SAGA (no compensation needed)
     saga_->clear();
-    if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
+    if (lock_manager_) {
+      lock_manager_->releasePredicateLocks(id_);
+    }
     THEMIS_INFO("Transaction {} committed successfully (MVCC)", id_);
     return Status::OK();
 }
@@ -1707,7 +1819,9 @@ void TransactionManager::Transaction::rollback() {
     
     // Execute SAGA compensation
     saga_->compensate();
-    if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
+    if (lock_manager_) {
+      lock_manager_->releasePredicateLocks(id_);
+    }
     
     THEMIS_INFO("Transaction {} rolled back, {} steps compensated", id_, saga_->compensatedCount());
 }
@@ -1905,7 +2019,9 @@ void TransactionManager::enableCrashRecovery(const std::string& wal_path,
 }
 
 bool TransactionManager::needsCrashRecovery() const {
-    if (!crash_recovery_mgr_) return false;
+    if (!crash_recovery_mgr_) {
+      return false;
+    }
     return crash_recovery_mgr_->needsRecovery();
 }
 
@@ -2002,11 +2118,15 @@ TransactionManager::readEntityAtTimestamp(
     std::string_view pk,
     HLCTimestamp ts) const
 {
-    if (!history_mgr_) return std::nullopt;
+    if (!history_mgr_) {
+      return std::nullopt;
+    }
     const std::string live_key =
         std::string("entity:") + std::string(table) + ":" + std::string(pk);
     auto rec = history_mgr_->getAtTimestamp(live_key, ts);
-    if (!rec) return std::nullopt;
+    if (!rec) {
+      return std::nullopt;
+    }
     return toTimeTravelRecord(*rec);
 }
 
@@ -2016,7 +2136,9 @@ TransactionManager::readEntityAtUnixMs(
     std::string_view pk,
     int64_t unix_ms) const
 {
-    if (unix_ms < 0) return std::nullopt;
+    if (unix_ms < 0) {
+      return std::nullopt;
+    }
     // Build an HLC upper-bound: physical = unix_ms, logical = MAX_LOGICAL.
     // Using MAX_LOGICAL ensures this timestamp is strictly greater than any
     // real HLC timestamp recorded at the same wall-clock millisecond (real
@@ -2033,9 +2155,13 @@ TransactionManager::readEntityAtSnapshot(
     std::string_view pk,
     const std::string& tag_name) const
 {
-    if (!snapshot_mgr_) return std::nullopt;
+    if (!snapshot_mgr_) {
+      return std::nullopt;
+    }
     auto ts_opt = snapshot_mgr_->getTimestampForTag(tag_name);
-    if (!ts_opt) return std::nullopt;
+    if (!ts_opt) {
+      return std::nullopt;
+    }
     return readEntityAtUnixMs(table, pk, *ts_opt);
 }
 

@@ -30,7 +30,9 @@ static std::vector<std::vector<float>> make_random_vectors(
     std::uniform_real_distribution<float> dist(-1.f, 1.f);
     std::vector<std::vector<float>> vecs(n, std::vector<float>(dim));
     for (auto& v : vecs)
-        for (auto& x : v) x = dist(rng);
+        for (auto& x : v) {
+          x = dist(rng);
+        }
     return vecs;
 }
 
@@ -65,7 +67,9 @@ static float recall_at_k(const std::vector<int64_t>& expected,
     std::set<int64_t> expected_set(expected.begin(), expected.end());
     size_t hits = 0;
     for (auto& r : got)
-        if (expected_set.count(r.id)) ++hits;
+        if (expected_set.count(r.id)) {
+          ++hits;
+        }
     return static_cast<float>(hits) / static_cast<float>(expected.size());
 }
 

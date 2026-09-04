@@ -54,7 +54,9 @@ protected:
     /// Read the first 4 bytes of a file and verify it starts with PAR1
     bool isValidParquetMagic(const std::string& path) {
         std::ifstream f(path, std::ios::binary);
-        if (!f.is_open()) return false;
+        if (!f.is_open()) {
+          return false;
+        }
         char magic[4] = {};
         f.read(magic, 4);
         return f.gcount() == 4 &&
@@ -65,9 +67,13 @@ protected:
     /// Read the trailing 4 bytes (before final magic) and verify PAR1 footer
     bool hasValidParquetFooter(const std::string& path) {
         std::ifstream f(path, std::ios::binary | std::ios::ate);
-        if (!f.is_open()) return false;
+        if (!f.is_open()) {
+          return false;
+        }
         auto sz = f.tellg();
-        if (sz < 8) return false;
+        if (sz < 8) {
+          return false;
+        }
         f.seekg(-4, std::ios::end);
         char magic[4] = {};
         f.read(magic, 4);

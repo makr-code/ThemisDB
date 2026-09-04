@@ -35,7 +35,9 @@ std::vector<float> kaimingUniform(size_t rows, size_t cols, uint32_t seed = 0) {
     std::mt19937 gen(seed);
     std::uniform_real_distribution<float> dist(-bound, bound);
     std::vector<float> w(rows * cols);
-    for (auto& v : w) v = dist(gen);
+    for (auto& v : w) {
+      v = dist(gen);
+    }
     return w;
 }
 
@@ -106,7 +108,9 @@ public:
 
     bool removeLayer(const std::string& name) {
         auto it = layers_.find(name);
-        if (it == layers_.end()) return false;
+        if (it == layers_.end()) {
+          return false;
+        }
         layers_.erase(it);
         insertion_order_.erase(
             std::remove(insertion_order_.begin(), insertion_order_.end(), name),
@@ -189,7 +193,9 @@ public:
             for (auto& [name, lay] : layers_) {
                 size_t new_rank = std::min(per_layer, lay.max_rank);
                 new_rank        = std::max<size_t>(1, new_rank);
-                if (new_rank < lay.active_rank) ++result.layers_pruned;
+                if (new_rank < lay.active_rank) {
+                  ++result.layers_pruned;
+                }
                 else if (new_rank > lay.active_rank) ++result.layers_expanded;
                 lay.active_rank = new_rank;
                 result.total_active_rank += new_rank;
@@ -239,7 +245,9 @@ public:
         for (size_t i = 0; i < order.size(); ++i) {
             Layer& lay      = layers_.at(order[i]);
             size_t new_rank = allocs[i];
-            if (new_rank < lay.active_rank) ++result.layers_pruned;
+            if (new_rank < lay.active_rank) {
+              ++result.layers_pruned;
+            }
             else if (new_rank > lay.active_rank) ++result.layers_expanded;
             lay.active_rank = new_rank;
             result.total_active_rank += new_rank;
@@ -487,7 +495,9 @@ template <typename T>
 T readLE(std::istream& is) {
     T val{};
     is.read(reinterpret_cast<char*>(&val), sizeof(T));
-    if (!is) throw std::runtime_error("AdaLoRAAdapter::loadFromFile: unexpected EOF");
+    if (!is) {
+      throw std::runtime_error("AdaLoRAAdapter::loadFromFile: unexpected EOF");
+    }
     return val;
 }
 
@@ -502,7 +512,9 @@ std::vector<float> readFloats(std::istream& is, size_t count) {
     if (count > 0) {
         is.read(reinterpret_cast<char*>(v.data()),
                 static_cast<std::streamsize>(count * sizeof(float)));
-        if (!is) throw std::runtime_error("AdaLoRAAdapter::loadFromFile: truncated weight data");
+        if (!is) {
+          throw std::runtime_error("AdaLoRAAdapter::loadFromFile: truncated weight data");
+        }
     }
     return v;
 }
@@ -608,7 +620,9 @@ std::string AdaLoRAAdapter::loadFromFile(const std::string& path) {
     std::string fingerprint(fp_buf); // stops at first NUL
 
     // Clear existing layers
-    for (const auto& n : impl_->layerNames()) impl_->removeLayer(n);
+    for (const auto& n : impl_->layerNames()) {
+      impl_->removeLayer(n);
+    }
 
     // Layer count
     const uint32_t layer_count = readLE<uint32_t>(ifs);
@@ -648,7 +662,9 @@ std::string AdaLoRAAdapter::loadFromFile(const std::string& path) {
     }
 
     // Update budget to match the stored total
-    if (total_max_rank > 0) impl_->setRankBudget(total_max_rank);
+    if (total_max_rank > 0) {
+      impl_->setRankBudget(total_max_rank);
+    }
 
     return fingerprint;
 }
@@ -658,25 +674,35 @@ std::string AdaLoRAAdapter::loadFromFile(const std::string& path) {
 bool AdaLoRAAdapter::isCacheValid(const std::string& checkpoint_path,
                                   const std::string& current_fingerprint) {
     std::ifstream ifs(checkpoint_path, std::ios::binary);
-    if (!ifs) return false;
+    if (!ifs) {
+      return false;
+    }
 
     // Magic
     char magic_buf[8] = {};
     ifs.read(magic_buf, 8);
-    if (!ifs || std::memcmp(magic_buf, kMagic.data(), 8) != 0) return false;
+    if (!ifs || std::memcmp(magic_buf, kMagic.data(), 8) != 0) {
+      return false;
+    }
 
     // Version
     uint32_t version = 0;
     ifs.read(reinterpret_cast<char*>(&version), sizeof(version));
-    if (!ifs || version != kFormatVersion) return false;
+    if (!ifs || version != kFormatVersion) {
+      return false;
+    }
 
     // Fingerprint
     char fp_buf[kFingerprintBytes + 1] = {};
     ifs.read(fp_buf, static_cast<std::streamsize>(kFingerprintBytes));
-    if (!ifs) return false;
+    if (!ifs) {
+      return false;
+    }
 
     const std::string stored_fp(fp_buf);
-    if (stored_fp.empty() || current_fingerprint.empty()) return false;
+    if (stored_fp.empty() || current_fingerprint.empty()) {
+      return false;
+    }
 
     return stored_fp == current_fingerprint;
 }

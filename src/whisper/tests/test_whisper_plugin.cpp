@@ -88,7 +88,9 @@ public:
                           bool throws = false)
         : samples_(std::move(s)), sr_(sr), throws_(throws) {}
     std::vector<float> readFile(const std::string&, float& out_sr) override {
-        if (throws_) throw std::runtime_error("reader error");
+        if (throws_) {
+          throw std::runtime_error("reader error");
+        }
         out_sr = sr_;
         return samples_;
     }
@@ -808,7 +810,9 @@ TEST(WhisperPluginFocusedTests, P3_VadMixedYieldsSpeechSegments) {
 
     // 160 silence + 160 speech + 160 silence @ 16 kHz
     std::vector<float> mixed(480, 0.0f);
-    for (std::size_t i = 160; i < 320; ++i) mixed[i] = 0.5f;
+    for (std::size_t i = 160; i < 320; ++i) {
+      mixed[i] = 0.5f;
+    }
 
     const auto segs = vad.detect(mixed, 16000.f, cfg);
     ASSERT_FALSE(segs.empty());
@@ -927,7 +931,9 @@ TEST(WhisperPluginFocusedTests, R1_ConcurrentVadSetAndTranscribeStream) {
         for (int i = 0; i < 50; ++i) {
             try {
                 auto res = p.transcribeStream(speech, 16000.f, nullptr);
-                if (res.ingestion_source_type != "WHISPER") ++errors;
+                if (res.ingestion_source_type != "WHISPER") {
+                  ++errors;
+                }
             } catch (...) {
                 ++errors;
             }

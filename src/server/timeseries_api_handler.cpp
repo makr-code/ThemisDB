@@ -704,14 +704,18 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePrometheusRemoteWr
             nlohmann::json tags = nlohmann::json::object();
             std::string entity;
             for (const auto& label : ts.labels) {
-                if (label.name == "__name__") continue;
+                if (label.name == "__name__") {
+                  continue;
+                }
                 if (label.name == "instance") {
                     entity = label.value;
                 }
                 tags[label.name] = label.value;
             }
             // Fall back to "default" entity when no 'instance' label present
-            if (entity.empty()) entity = "default";
+            if (entity.empty()) {
+              entity = "default";
+            }
 
             for (const auto& sample : ts.samples) {
                 TSStore::DataPoint dp;

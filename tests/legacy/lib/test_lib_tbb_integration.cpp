@@ -175,7 +175,9 @@ TEST_F(TBBLibIntegrationTest, GlobalControlThreadLimit) {
     tbb::parallel_for(0, 100, [&max_concurrent, &current](int) {
         int cur = ++current;
         int expected = max_concurrent.load();
-        while (cur > expected && !max_concurrent.compare_exchange_weak(expected, cur));
+        while (cur > expected && !max_concurrent.compare_exchange_weak(expected, cur)) {
+          ;
+        }
         
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
         --current;

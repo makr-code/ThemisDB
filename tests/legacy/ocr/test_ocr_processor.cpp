@@ -421,7 +421,9 @@ TEST(OcrProcessorTest, GenerateEmbeddingNonEmptyForText) {
     EXPECT_EQ(static_cast<int>(emb.size()), 768);
     // L2-normalised result must have a non-zero norm
     float norm = 0.0f;
-    for (float v : emb) norm += v * v;
+    for (float v : emb) {
+      norm += v * v;
+    }
     EXPECT_GT(norm, 0.0f);
 }
 

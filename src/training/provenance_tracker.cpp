@@ -196,7 +196,9 @@ public:
                               const std::string& category,
                               float confidence,
                               float threshold_used) {
-        if (!config_.emit_audit_events) return;
+        if (!config_.emit_audit_events) {
+          return;
+        }
 
         // In production: call utils::AuditLogger::log() with structured event.
         // Build a simple JSON-like audit string for in-process traceability:
@@ -236,7 +238,9 @@ public:
                 // tree (model → samples → documents) from the returned nodes.
                 auto parseNodes = [&]([[maybe_unused]] const nlohmann::json& arr) {
                     for (const auto& item : arr) {
-                        if (!item.is_object()) continue;
+                        if (!item.is_object()) {
+                          continue;
+                        }
                         LineageNode node;
                         if (item.contains("node_id") && item["node_id"].is_string())
                             node.node_id = item["node_id"].get<std::string>();
@@ -244,7 +248,9 @@ public:
                             node.node_type = item["node_type"].get<std::string>();
                         if (item.contains("label") && item["label"].is_string())
                             node.label = item["label"].get<std::string>();
-                        if (node.node_id.empty()) continue;
+                        if (node.node_id.empty()) {
+                          continue;
+                        }
                         root.parents.push_back(std::move(node));
                     }
                 };

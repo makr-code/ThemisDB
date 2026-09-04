@@ -137,7 +137,9 @@ TEST_F(BinaryDeltaPatchesTest, GeneratePatch_ZstdDict_ProducesFile) {
 TEST_F(BinaryDeltaPatchesTest, GeneratePatch_ZstdDict_RoundTrip) {
     auto base   = makeBinaryBlob(8192, 0x22);
     auto target = base;
-    for (size_t i = 100; i < 110; ++i) target[i] ^= 0xFF;
+    for (size_t i = 100; i < 110; ++i) {
+      target[i] ^= 0xFF;
+    }
 
     std::string bp = tmp_dir_ + "/rt_base.bin";
     std::string tp = tmp_dir_ + "/rt_target.bin";
@@ -513,7 +515,9 @@ TEST_F(BinaryDeltaPatchesTest, CiCdPatchGeneration_MultipleFiles_AllSucceed) {
         auto base   = makeBinaryBlob(2048 + i * 512, static_cast<uint8_t>(i + 1));
         auto target = base;
         // Simulate ~5% change
-        for (size_t j = 0; j < base.size(); j += 20) target[j] ^= 0x55;
+        for (size_t j = 0; j < base.size(); j += 20) {
+          target[j] ^= 0x55;
+        }
 
         std::string base_path   = tmp_dir_ + "/" + artifacts[i].first;
         std::string target_path = tmp_dir_ + "/" + artifacts[i].second;
@@ -591,7 +595,9 @@ TEST_F(BinaryDeltaPatchesTest, Compression_SmallDiff_PatchSmallerThanTarget_Zstd
     auto base = makeBinaryBlob(65536, 0x11);
     auto target = base;
     // Change only 16 bytes (~0.02%)
-    for (int i = 0; i < 16; ++i) target[i * 100] ^= 0xAA;
+    for (int i = 0; i < 16; ++i) {
+      target[i * 100] ^= 0xAA;
+    }
 
     std::string bp = tmp_dir_ + "/comp_base.bin";
     std::string tp = tmp_dir_ + "/comp_target.bin";
@@ -615,7 +621,9 @@ TEST_F(BinaryDeltaPatchesTest, Compression_SmallDiff_PatchSmallerThanTarget_Zstd
 TEST_F(BinaryDeltaPatchesTest, Compression_SmallDiff_PatchSmallerThanTarget_Vcdiff) {
     auto base = makeBinaryBlob(32768, 0x22);
     auto target = base;
-    for (int i = 0; i < 8; ++i) target[i * 512] ^= 0xBB;
+    for (int i = 0; i < 8; ++i) {
+      target[i * 512] ^= 0xBB;
+    }
 
     std::string bp = tmp_dir_ + "/vcdcomp_base.bin";
     std::string tp = tmp_dir_ + "/vcdcomp_target.bin";

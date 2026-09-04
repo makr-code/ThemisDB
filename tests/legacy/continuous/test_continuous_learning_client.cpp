@@ -225,9 +225,15 @@ TEST_F(ContinuousLearningClientTest, QCResultToMetrics) {
     bool has_overall = false;
     
     for (const auto& metric : metrics) {
-        if (metric.type == MetricType::FAITHFULNESS) has_faithfulness = true;
-        if (metric.type == MetricType::RELEVANCE) has_relevance = true;
-        if (metric.type == MetricType::OVERALL_QUALITY) has_overall = true;
+        if (metric.type == MetricType::FAITHFULNESS) {
+          has_faithfulness = true;
+        }
+        if (metric.type == MetricType::RELEVANCE) {
+          has_relevance = true;
+        }
+        if (metric.type == MetricType::OVERALL_QUALITY) {
+          has_overall = true;
+        }
     }
     
     EXPECT_TRUE(has_faithfulness);

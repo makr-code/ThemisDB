@@ -404,7 +404,9 @@ TEST(DK_C_FederatedRAGMerger, DK_C_03_DedupEliminatesDuplicateDocIds) {
 
     size_t count = 0;
     for (auto& d : ctx.documents) {
-        if (d.doc_id == "shared-doc") ++count;
+        if (d.doc_id == "shared-doc") {
+          ++count;
+        }
     }
     EXPECT_EQ(count, 1u);
 }
@@ -502,7 +504,9 @@ TEST(DK_C_FederatedRAGMerger, DK_C_10_DedupDisabledAllowsDuplicates) {
 
     size_t count = 0;
     for (auto& d : ctx.documents) {
-        if (d.doc_id == "dup-doc") ++count;
+        if (d.doc_id == "dup-doc") {
+          ++count;
+        }
     }
     EXPECT_EQ(count, 2u);
 }

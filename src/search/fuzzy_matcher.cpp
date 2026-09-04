@@ -128,10 +128,16 @@ FuzzyMatcher::search(const std::string& query,
 
 int FuzzyMatcher::levenshtein(const std::string& a, const std::string& b) {
     const size_t la = a.size(), lb = b.size();
-    if (la == 0) return static_cast<int>(lb);
-    if (lb == 0) return static_cast<int>(la);
+    if (la == 0) {
+      return static_cast<int>(lb);
+    }
+    if (lb == 0) {
+      return static_cast<int>(la);
+    }
     std::vector<int> prev(lb + 1), curr(lb + 1);
-    for (size_t j = 0; j <= lb; ++j) prev[j] = static_cast<int>(j);
+    for (size_t j = 0; j <= lb; ++j) {
+      prev[j] = static_cast<int>(j);
+    }
     for (size_t i = 1; i <= la; ++i) {
         curr[0] = static_cast<int>(i);
         for (size_t j = 1; j <= lb; ++j) {
@@ -144,7 +150,9 @@ int FuzzyMatcher::levenshtein(const std::string& a, const std::string& b) {
 }
 
 std::string FuzzyMatcher::soundex(const std::string& word) {
-    if (word.empty()) return "0000";
+    if (word.empty()) {
+      return "0000";
+    }
 
     // American Soundex table
     static const char table[26] = {
@@ -159,19 +167,25 @@ std::string FuzzyMatcher::soundex(const std::string& word) {
     char prev_code = (first >= 'A' && first <= 'Z') ? table[first - 'A'] : '0';
     for (size_t i = 1; i < word.size() && result.size() < 4; ++i) {
         char c = static_cast<char>(std::toupper(static_cast<unsigned char>(word[i])));
-        if (c < 'A' || c > 'Z') continue;
+        if (c < 'A' || c > 'Z') {
+          continue;
+        }
         char code = table[c - 'A'];
         if (code != '0' && code != prev_code) {
             result += static_cast<char>('0' + code);
         }
         prev_code = code;
     }
-    while (result.size() < 4) result += '0';
+    while (result.size() < 4) {
+      result += '0';
+    }
     return result;
 }
 
 std::string FuzzyMatcher::metaphone(const std::string& word) {
-    if (word.empty()) return "";
+    if (word.empty()) {
+      return "";
+    }
 
     // Simplified single Metaphone
     std::string upper;
@@ -199,7 +213,9 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
         switch (c) {
             case 'B': if (prev != 'M') result += 'B'; break;
             case 'C':
-                if (next == 'I' || next == 'E' || next == 'Y') result += 'S';
+                if (next == 'I' || next == 'E' || next == 'Y') {
+                  result += 'S';
+                }
                 else result += 'K';
                 break;
             case 'D':
@@ -214,7 +230,9 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
                     result += 'K';
                 break;
             case 'H':
-                if (!isVowel(prev) && isVowel(next)) result += 'H';
+                if (!isVowel(prev) && isVowel(next)) {
+                  result += 'H';
+                }
                 break;
             case 'J': result += 'J'; break;
             case 'K': if (prev != 'C') result += 'K'; break;
@@ -249,9 +267,15 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
 }
 
 double FuzzyMatcher::ngramSimilarity(const std::string& a, const std::string& b, size_t n) {
-    if (a.empty() && b.empty()) return 1.0;
-    if (a.empty() || b.empty()) return 0.0;
-    if (n == 0) return 0.0;
+    if (a.empty() && b.empty()) {
+      return 1.0;
+    }
+    if (a.empty() || b.empty()) {
+      return 0.0;
+    }
+    if (n == 0) {
+      return 0.0;
+    }
 
     auto ngrams = [n](const std::string& s) -> std::multiset<std::string> {
         std::multiset<std::string> result;
@@ -283,12 +307,16 @@ double FuzzyMatcher::ngramSimilarity(const std::string& a, const std::string& b,
     }
 
     double denom = static_cast<double>(sa.size() + sb.size());
-    if (denom == 0.0) return 1.0;
+    if (denom == 0.0) {
+      return 1.0;
+    }
     return 2.0 * static_cast<double>(intersection) / denom;
 }
 
 double FuzzyMatcher::distanceToScore(int distance, size_t query_len) {
-    if (query_len == 0) return distance == 0 ? 1.0 : 0.0;
+    if (query_len == 0) {
+      return distance == 0 ? 1.0 : 0.0;
+    }
     double normalized = static_cast<double>(distance) / static_cast<double>(query_len);
     return std::max(0.0, 1.0 - normalized);
 }

@@ -24,7 +24,9 @@ namespace themis {
 
 AggShardResult mergeShardResults(const std::vector<AggShardResult>& shards) {
     AggShardResult merged;
-    if (shards.empty()) return merged;
+    if (shards.empty()) {
+      return merged;
+    }
 
     merged.min   = std::numeric_limits<double>::max();
     merged.max   = std::numeric_limits<double>::lowest();
@@ -32,7 +34,9 @@ AggShardResult mergeShardResults(const std::vector<AggShardResult>& shards) {
 
     bool fields_initialized = false;
     for (const auto& s : shards) {
-        if (!s.valid) continue;
+        if (!s.valid) {
+          continue;
+        }
         if (!fields_initialized) {
             // Initialize metadata fields from first valid shard
             merged.metric  = s.metric;
@@ -44,10 +48,18 @@ AggShardResult mergeShardResults(const std::vector<AggShardResult>& shards) {
         merged.valid  = true;
         merged.sum   += s.sum;
         merged.count += s.count;
-        if (s.min < merged.min) merged.min = s.min;
-        if (s.max > merged.max) merged.max = s.max;
-        if (s.from_ms < merged.from_ms) merged.from_ms = s.from_ms;
-        if (s.to_ms   > merged.to_ms)   merged.to_ms   = s.to_ms;
+        if (s.min < merged.min) {
+          merged.min = s.min;
+        }
+        if (s.max > merged.max) {
+          merged.max = s.max;
+        }
+        if (s.from_ms < merged.from_ms) {
+          merged.from_ms = s.from_ms;
+        }
+        if (s.to_ms   > merged.to_ms) {
+          merged.to_ms   = s.to_ms;
+        }
     }
     if (!merged.valid) {
         merged.min = 0.0;
@@ -101,8 +113,12 @@ AggShardResult DistributedAggregateCoordinator::refreshAggregate(
                 for (const auto& p : pts.value()) {
                     result.sum   += p.value;
                     result.count += 1;
-                    if (p.value < result.min) result.min = p.value;
-                    if (p.value > result.max) result.max = p.value;
+                    if (p.value < result.min) {
+                      result.min = p.value;
+                    }
+                    if (p.value > result.max) {
+                      result.max = p.value;
+                    }
                 }
             }
         }
@@ -123,7 +139,9 @@ AggShardResult DistributedAggregateCoordinator::refreshAggregate(
 // ============================================================
 
 int64_t ContinuousAggWatermarkStore::getWatermark(const std::string& agg_id) const {
-    if (!store_) return 0;
+    if (!store_) {
+      return 0;
+    }
     std::string key = std::string(WM_KEY_PREFIX) + agg_id;
     auto result = store_->getSystemMeta(key);
     if (!result || !result.value().has_value()) {
@@ -137,13 +155,17 @@ int64_t ContinuousAggWatermarkStore::getWatermark(const std::string& agg_id) con
 }
 
 void ContinuousAggWatermarkStore::setWatermark(const std::string& agg_id, int64_t watermark_ms) {
-    if (!store_) return;
+    if (!store_) {
+      return;
+    }
     std::string key = std::string(WM_KEY_PREFIX) + agg_id;
     [[maybe_unused]] const auto write_ok = store_->putSystemMeta(key, std::to_string(watermark_ms));
 }
 
 void ContinuousAggWatermarkStore::deleteWatermark(const std::string& agg_id) {
-    if (!store_) return;
+    if (!store_) {
+      return;
+    }
     std::string key = std::string(WM_KEY_PREFIX) + agg_id;
     [[maybe_unused]] const auto delete_ok = store_->deleteSystemMeta(key);
 }
@@ -159,12 +181,16 @@ std::string ContinuousAggregateManager::derivedMetricName(const std::string& bas
 }
 
 void ContinuousAggregateManager::refresh(const AggConfig& cfg, int64_t from_ms, int64_t to_ms) {
-    if (!store_) return;
+    if (!store_) {
+      return;
+    }
     const auto win_ms = cfg.window.size.count();
     const std::string out_metric = derivedMetricName(cfg.metric, cfg.window.size);
 
     // For MVP: if entity is provided, aggregate for that entity; otherwise, do nothing
-    if (!cfg.entity.has_value()) return;
+    if (!cfg.entity.has_value()) {
+      return;
+    }
     const std::string entity = *cfg.entity;
 
     // Iterate windows
@@ -189,8 +215,12 @@ void ContinuousAggregateManager::refresh(const AggConfig& cfg, int64_t from_ms, 
         double maxv = points[0].value;
         double sum = 0.0;
         for (const auto& p : points) {
-            if (p.value < minv) minv = p.value;
-            if (p.value > maxv) maxv = p.value;
+            if (p.value < minv) {
+              minv = p.value;
+            }
+            if (p.value > maxv) {
+              maxv = p.value;
+            }
             sum += p.value;
         }
         size_t count = points.size();
@@ -214,7 +244,9 @@ size_t ContinuousAggregateManager::refreshIncremental(const AggConfig& cfg,
                                                         const std::string& agg_id,
                                                         int64_t to_ms,
                                                         ContinuousAggWatermarkStore& wm_store) {
-    if (!store_) return 0;
+    if (!store_) {
+      return 0;
+    }
 
     // Read the current watermark; initial bootstrap picks the first available
     // data point to avoid creating misaligned pre-history windows from epoch 0.
@@ -240,7 +272,9 @@ size_t ContinuousAggregateManager::refreshIncremental(const AggConfig& cfg,
     }
 
     // Nothing to do if already up-to-date
-    if (from_ms >= to_ms) return 0;
+    if (from_ms >= to_ms) {
+      return 0;
+    }
 
     // Perform the incremental refresh over [from_ms, to_ms)
     size_t windows_before = 0;
@@ -278,7 +312,9 @@ RollupHierarchy RollupHierarchy::defaultHierarchy(const std::string& metric,
 
 void ContinuousAggregateManager::refreshHierarchy(const RollupHierarchy& hierarchy,
                                                     int64_t from_ms, int64_t to_ms) {
-    if (!store_ || hierarchy.levels.empty()) return;
+    if (!store_ || hierarchy.levels.empty()) {
+      return;
+    }
 
     // Process each level in order (smallest → largest)
     // First level reads from raw metric; subsequent levels read from previous level's output
@@ -336,7 +372,9 @@ bool ContinuousAggMaterializationEngine::dropAggregate(const std::string& name) 
 std::optional<ContinuousAggDefinition>
 ContinuousAggMaterializationEngine::getAggregate(const std::string& name) const {
     auto it = defs_.find(name);
-    if (it == defs_.end()) return std::nullopt;
+    if (it == defs_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -348,10 +386,14 @@ size_t ContinuousAggMaterializationEngine::refreshAggregate(
     const std::string& name, int64_t to_ms) {
 
     auto it = defs_.find(name);
-    if (it == defs_.end()) return 0;
+    if (it == defs_.end()) {
+      return 0;
+    }
 
     ContinuousAggDefinition& def = it->second;
-    if (def.status == ContinuousAggStatus::INACTIVE) return 0;
+    if (def.status == ContinuousAggStatus::INACTIVE) {
+      return 0;
+    }
 
     return mgr_.refreshIncremental(def.config, def.agg_id, to_ms, wm_store_);
 }
@@ -360,9 +402,15 @@ size_t ContinuousAggMaterializationEngine::refreshAll(int64_t to_ms) {
     size_t total = 0;
     for (const auto& name : def_order_) {
         auto it = defs_.find(name);
-        if (it == defs_.end()) continue;
-        if (!it->second.auto_refresh) continue;
-        if (it->second.status == ContinuousAggStatus::INACTIVE) continue;
+        if (it == defs_.end()) {
+          continue;
+        }
+        if (!it->second.auto_refresh) {
+          continue;
+        }
+        if (it->second.status == ContinuousAggStatus::INACTIVE) {
+          continue;
+        }
         total += mgr_.refreshIncremental(it->second.config, it->second.agg_id,
                                          to_ms, wm_store_);
     }
@@ -395,7 +443,9 @@ ContinuousAggMaterializationEngine::queryMaterialized(
 std::optional<ContinuousAggMaterializationStatus>
 ContinuousAggMaterializationEngine::getAggregateStatus(const std::string& name) const {
     auto it = defs_.find(name);
-    if (it == defs_.end()) return std::nullopt;
+    if (it == defs_.end()) {
+      return std::nullopt;
+    }
 
     const ContinuousAggDefinition& def = it->second;
     ContinuousAggMaterializationStatus s;
@@ -414,7 +464,9 @@ ContinuousAggMaterializationEngine::getAllStatus() const {
     result.reserve(def_order_.size());
     for (const auto& name : def_order_) {
         auto s = getAggregateStatus(name);
-        if (s.has_value()) result.push_back(std::move(*s));
+        if (s.has_value()) {
+          result.push_back(std::move(*s));
+        }
     }
     return result;
 }

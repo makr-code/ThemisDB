@@ -202,7 +202,9 @@ TEST(AdaptiveCacheLockTest, ConcurrentPutNoDeadlock) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_GT(successes.load(), 0);
 }
@@ -237,7 +239,9 @@ TEST(AdaptiveCacheLockTest, ConcurrentGetPutNoDeadlock) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     SUCCEED(); // No deadlock => test passes
 }
 
@@ -260,7 +264,9 @@ TEST(AdaptiveCacheLockTest, ConcurrentInvalidateNoDeadlock) {
         const std::string fp = cache.generateFingerprint("query_3", {});
         cache.put(fp, {}, smallResult());
     });
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     SUCCEED();
 }
 
@@ -318,7 +324,9 @@ TEST(ReplicationCoordinatorC2Test, ConcurrentPublishInvalidationNoDataRace) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     SUCCEED(); // No crash / data race
 }
 
@@ -336,7 +344,9 @@ TEST(ReplicationCoordinatorC2Test, GetStatsThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 }
 
 // =============================================================================
@@ -432,8 +442,12 @@ TEST(SloMonitorC3Test, EvaluateReturnsWarningOnLowHitRate) {
 
     CacheMetrics m;
     // Simulate 50% hit rate: 5 hits, 5 misses.
-    for (int i = 0; i < 5; ++i) m.l1_hits++;
-    for (int i = 0; i < 5; ++i) m.misses++;
+    for (int i = 0; i < 5; ++i) {
+      m.l1_hits++;
+    }
+    for (int i = 0; i < 5; ++i) {
+      m.misses++;
+    }
 
     auto res = monitor.evaluate(m);
     EXPECT_EQ(res.level, CacheHitRateSloMonitor::ViolationLevel::WARNING);
@@ -448,8 +462,12 @@ TEST(SloMonitorC3Test, EvaluateReturnsCriticalOnVeryLowHitRate) {
     CacheHitRateSloMonitor monitor(cfg, nullptr);
 
     CacheMetrics m;
-    for (int i = 0; i < 3; ++i) m.l1_hits++;
-    for (int i = 0; i < 7; ++i) m.misses++;
+    for (int i = 0; i < 3; ++i) {
+      m.l1_hits++;
+    }
+    for (int i = 0; i < 7; ++i) {
+      m.misses++;
+    }
 
     auto res = monitor.evaluate(m);
     EXPECT_EQ(res.level, CacheHitRateSloMonitor::ViolationLevel::CRITICAL);
@@ -480,8 +498,12 @@ TEST(SloMonitorC3Test, IsSloViolatedAfterLowHitRate) {
     CacheHitRateSloMonitor monitor(cfg, nullptr);
 
     CacheMetrics m;
-    for (int i = 0; i < 2; ++i) m.l1_hits++;
-    for (int i = 0; i < 3; ++i) m.misses++;
+    for (int i = 0; i < 2; ++i) {
+      m.l1_hits++;
+    }
+    for (int i = 0; i < 3; ++i) {
+      m.misses++;
+    }
 
     monitor.evaluate(m);
     EXPECT_TRUE(monitor.isSloViolated());
@@ -510,8 +532,12 @@ TEST(SloMonitorC3Test, LatencyRecordAndEvaluate) {
     }
 
     CacheMetrics m;
-    for (int i = 0; i < 6; ++i) m.l1_hits++;
-    for (int i = 0; i < 4; ++i) m.misses++;
+    for (int i = 0; i < 6; ++i) {
+      m.l1_hits++;
+    }
+    for (int i = 0; i < 4; ++i) {
+      m.misses++;
+    }
 
     auto res = monitor.evaluate(m);
     // Hit rate is 60% — should be at or near WARNING for latency.

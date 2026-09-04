@@ -112,9 +112,15 @@ std::string HttpScraperApiClient::buildBody(
         return applyTemplate(cfg.body_template, query, page, cursor);
     // Default: JSON body with query
     json body;
-    if (!query.empty())     body["query"] = query;
-    if (page > 1)           body["page"]  = page;
-    if (!cursor.empty())    body["cursor"] = cursor;
+    if (!query.empty()) {
+      body["query"] = query;
+    }
+    if (page > 1) {
+      body["page"]  = page;
+    }
+    if (!cursor.empty()) {
+      body["cursor"] = cursor;
+    }
     return body.dump();
 }
 
@@ -152,7 +158,9 @@ std::string HttpScraperApiClient::buildBody(
         else if (root.is_array())
             arr = &root;
 
-        if (!arr || !arr->is_array()) return out;
+        if (!arr || !arr->is_array()) {
+          return out;
+        }
         for (const auto& item : *arr) {
             ApiResult r;
             r.url        = source_url;
@@ -177,7 +185,9 @@ std::string HttpScraperApiClient::buildBody(
             // Collect all string fields
             if (item.is_object()) {
                 for (const auto& [k, v] : item.items()) {
-                    if (v.is_string()) r.fields[k] = v.get<std::string>();
+                    if (v.is_string()) {
+                      r.fields[k] = v.get<std::string>();
+                    }
                 }
             }
             out.push_back(std::move(r));
@@ -215,10 +225,14 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
             // Network error: stop pagination
             break;
         }
-        if (response.empty()) break;
+        if (response.empty()) {
+          break;
+        }
 
         auto batch = parseResultsArray(response, cfg.results_field, url);
-        if (batch.empty()) break;
+        if (batch.empty()) {
+          break;
+        }
         all.insert(all.end(), batch.begin(), batch.end());
 
         // Advance pagination
@@ -235,7 +249,9 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
                 } else if (!cfg.next_url_field.empty() && root.contains(cfg.next_url_field)) {
                     const auto& nv = root[cfg.next_url_field];
                     const std::string next = nv.is_string() ? nv.get<std::string>() : std::string{};
-                    if (next.empty()) break;
+                    if (next.empty()) {
+                      break;
+                    }
                     // Replace the URL for next iteration
                     // (use const_cast-friendly approach via local copy)
                     ApiEndpointConfig next_cfg = cfg;
@@ -247,7 +263,9 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
                     break; // no cursor returned
                 }
             } catch (...) { break; }
-            if (cursor.empty()) break;
+            if (cursor.empty()) {
+              break;
+            }
         } else {
             break; // "none"
         }
@@ -257,7 +275,9 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
             const json root = json::parse(response);
             if (!cfg.total_field.empty() && root.contains(cfg.total_field)) {
                 const int total = root[cfg.total_field].get<int>();
-                if (static_cast<int>(all.size()) >= total) break;
+                if (static_cast<int>(all.size()) >= total) {
+                  break;
+                }
             }
         } catch (...) {}
     }
@@ -290,7 +310,9 @@ struct CurlWriteBuffer {
         const std::string& body) {
 #ifdef THEMIS_ENABLE_CURL
     CURL* curl = curl_easy_init();
-    if (!curl) throw std::runtime_error("curl_easy_init failed");
+    if (!curl) {
+      throw std::runtime_error("curl_easy_init failed");
+    }
 
     CurlWriteBuffer buf;
     curl_easy_setopt(curl, CURLOPT_URL,            url.c_str());
@@ -304,7 +326,9 @@ struct CurlWriteBuffer {
     curl_slist* hlist = nullptr;
     for (const auto& kv : headers)
         hlist = curl_slist_append(hlist, (kv.first + ": " + kv.second).c_str());
-    if (hlist) curl_easy_setopt(curl, CURLOPT_HTTPHEADER, hlist);
+    if (hlist) {
+      curl_easy_setopt(curl, CURLOPT_HTTPHEADER, hlist);
+    }
 
     if (method == "POST") {
         curl_easy_setopt(curl, CURLOPT_POST,       1L);
@@ -314,7 +338,9 @@ struct CurlWriteBuffer {
     }
 
     const CURLcode rc = curl_easy_perform(curl);
-    if (hlist) curl_slist_free_all(hlist);
+    if (hlist) {
+      curl_slist_free_all(hlist);
+    }
     curl_easy_cleanup(curl);
 
     if (rc != CURLE_OK)

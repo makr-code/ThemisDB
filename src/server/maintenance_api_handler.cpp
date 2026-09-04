@@ -118,27 +118,39 @@ json MaintenanceApiHandler::listSchedules([[maybe_unused]] const std::string& te
     }
     span.setStatus(true);
     json arr = json::array();
-    for (auto& e : schedules) arr.push_back(scheduleToResponse(e));
+    for (auto& e : schedules) {
+      arr.push_back(scheduleToResponse(e));
+    }
     return {{"schedules", arr}, {"count", static_cast<int>(schedules.size())}};
 }
 
 json MaintenanceApiHandler::getSchedule([[maybe_unused]] const std::string& id) {
-    if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    if (!orchestrator_) {
+      return errorResponse("Orchestrator not initialized");
+    }
     auto& orchestrator = *orchestrator_;
-    if (id.empty())     return errorResponse("Schedule id must not be empty");
+    if (id.empty()) {
+      return errorResponse("Schedule id must not be empty");
+    }
     if (!isValidMaintenanceIdentifier(id)) {
         return errorResponse("Invalid schedule id");
     }
 
     auto result = orchestrator.getSchedule(id);
-    if (!result) return errorResponse(result.error().message());
+    if (!result) {
+      return errorResponse(result.error().message());
+    }
     return scheduleToResponse(*result);
 }
 
 json MaintenanceApiHandler::updateSchedule(const std::string& id, const json& body) {
-    if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    if (!orchestrator_) {
+      return errorResponse("Orchestrator not initialized");
+    }
     auto& orchestrator = *orchestrator_;
-    if (id.empty())     return errorResponse("Schedule id must not be empty");
+    if (id.empty()) {
+      return errorResponse("Schedule id must not be empty");
+    }
     if (!isValidMaintenanceIdentifier(id)) {
         return errorResponse("Invalid schedule id");
     }
@@ -151,33 +163,47 @@ json MaintenanceApiHandler::updateSchedule(const std::string& id, const json& bo
     }
 
     auto result = orchestrator.updateSchedule(id, std::move(entry));
-    if (!result) return errorResponse(result.error().message());
+    if (!result) {
+      return errorResponse(result.error().message());
+    }
     return scheduleToResponse(*result);
 }
 
 json MaintenanceApiHandler::patchSchedule(const std::string& id, const json& patch) {
-    if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    if (!orchestrator_) {
+      return errorResponse("Orchestrator not initialized");
+    }
     auto& orchestrator = *orchestrator_;
-    if (id.empty())     return errorResponse("Schedule id must not be empty");
+    if (id.empty()) {
+      return errorResponse("Schedule id must not be empty");
+    }
     if (!isValidMaintenanceIdentifier(id)) {
         return errorResponse("Invalid schedule id");
     }
 
     auto result = orchestrator.patchSchedule(id, patch);
-    if (!result) return errorResponse(result.error().message());
+    if (!result) {
+      return errorResponse(result.error().message());
+    }
     return scheduleToResponse(*result);
 }
 
 json MaintenanceApiHandler::deleteSchedule([[maybe_unused]] const std::string& id) {
-    if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    if (!orchestrator_) {
+      return errorResponse("Orchestrator not initialized");
+    }
     auto& orchestrator = *orchestrator_;
-    if (id.empty())     return errorResponse("Schedule id must not be empty");
+    if (id.empty()) {
+      return errorResponse("Schedule id must not be empty");
+    }
     if (!isValidMaintenanceIdentifier(id)) {
         return errorResponse("Invalid schedule id");
     }
 
     auto result = orchestrator.deleteSchedule(id);
-    if (!result) return errorResponse(result.error().message());
+    if (!result) {
+      return errorResponse(result.error().message());
+    }
     return {{"status", "deleted"}, {"id", id}};
 }
 
@@ -186,50 +212,72 @@ json MaintenanceApiHandler::deleteSchedule([[maybe_unused]] const std::string& i
 // ---------------------------------------------------------------------------
 
 json MaintenanceApiHandler::listJobs([[maybe_unused]] bool active_only) {
-    if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    if (!orchestrator_) {
+      return errorResponse("Orchestrator not initialized");
+    }
     auto& orchestrator = *orchestrator_;
     auto jobs = orchestrator.listJobs(active_only);
     json arr = json::array();
-    for (auto& j : jobs) arr.push_back(jobToResponse(j));
+    for (auto& j : jobs) {
+      arr.push_back(jobToResponse(j));
+    }
     return {{"jobs", arr}, {"count", static_cast<int>(jobs.size())}};
 }
 
 json MaintenanceApiHandler::getJob([[maybe_unused]] const std::string& id) {
-    if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    if (!orchestrator_) {
+      return errorResponse("Orchestrator not initialized");
+    }
     auto& orchestrator = *orchestrator_;
-    if (id.empty())     return errorResponse("Job id must not be empty");
+    if (id.empty()) {
+      return errorResponse("Job id must not be empty");
+    }
     if (!isValidMaintenanceIdentifier(id)) {
         return errorResponse("Invalid job id");
     }
 
     auto result = orchestrator.getJob(id);
-    if (!result) return errorResponse(result.error().message());
+    if (!result) {
+      return errorResponse(result.error().message());
+    }
     return jobToResponse(*result);
 }
 
 json MaintenanceApiHandler::cancelJob([[maybe_unused]] const std::string& id) {
-    if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    if (!orchestrator_) {
+      return errorResponse("Orchestrator not initialized");
+    }
     auto& orchestrator = *orchestrator_;
-    if (id.empty())     return errorResponse("Job id must not be empty");
+    if (id.empty()) {
+      return errorResponse("Job id must not be empty");
+    }
     if (!isValidMaintenanceIdentifier(id)) {
         return errorResponse("Invalid job id");
     }
 
     auto result = orchestrator.cancelJob(id);
-    if (!result) return errorResponse(result.error().message());
+    if (!result) {
+      return errorResponse(result.error().message());
+    }
     return {{"status", "cancelled"}, {"id", id}};
 }
 
 json MaintenanceApiHandler::triggerNow(const std::string& schedule_id, bool force) {
-    if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    if (!orchestrator_) {
+      return errorResponse("Orchestrator not initialized");
+    }
     auto& orchestrator = *orchestrator_;
-    if (schedule_id.empty()) return errorResponse("Schedule id must not be empty");
+    if (schedule_id.empty()) {
+      return errorResponse("Schedule id must not be empty");
+    }
     if (!isValidMaintenanceIdentifier(schedule_id)) {
         return errorResponse("Invalid schedule id");
     }
 
     auto result = orchestrator.triggerNow(schedule_id, force);
-    if (!result) return errorResponse(result.error().message());
+    if (!result) {
+      return errorResponse(result.error().message());
+    }
     json resp = jobToResponse(*result);
     resp["status"] = "triggered";
     return resp;
@@ -240,19 +288,25 @@ json MaintenanceApiHandler::triggerNow(const std::string& schedule_id, bool forc
 // ---------------------------------------------------------------------------
 
 json MaintenanceApiHandler::getStatus() {
-    if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    if (!orchestrator_) {
+      return errorResponse("Orchestrator not initialized");
+    }
     auto& orchestrator = *orchestrator_;
     return orchestrator.getStatus();
 }
 
 json MaintenanceApiHandler::getHealth() {
-    if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    if (!orchestrator_) {
+      return errorResponse("Orchestrator not initialized");
+    }
     auto& orchestrator = *orchestrator_;
     return orchestrator.getHealthReport().toJson();
 }
 
 json MaintenanceApiHandler::listTaskHandlers() {
-    if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    if (!orchestrator_) {
+      return errorResponse("Orchestrator not initialized");
+    }
     auto& orchestrator = *orchestrator_;
     auto handlers = orchestrator.listTaskHandlers();
     json arr = json::array();

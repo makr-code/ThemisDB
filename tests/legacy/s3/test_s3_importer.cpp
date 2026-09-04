@@ -231,12 +231,18 @@ static MockS3ImportResult mockImportFromContent(
     // Detect format from extension.
     std::string ext;
     auto dot = filename.rfind('.');
-    if (dot != std::string::npos) ext = filename.substr(dot + 1);
-    for (auto& c : ext) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    if (dot != std::string::npos) {
+      ext = filename.substr(dot + 1);
+    }
+    for (auto& c : ext) {
+      c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    }
 
     bool is_jsonl = (ext == "jsonl" || ext == "ndjson");
     bool is_tsv   = (ext == "tsv");
-    if (is_tsv) delim = '\t';
+    if (is_tsv) {
+      delim = '\t';
+    }
 
     // Determine logical table name from filename stem.
     std::string table_name = filename.substr(0, dot);
@@ -263,25 +269,37 @@ static MockS3ImportResult mockImportFromContent(
 
         if (has_header && std::getline(in, line)) {
             ++line_no;
-            if (!line.empty() && line.back() == '\r') line.pop_back();
+            if (!line.empty() && line.back() == '\r') {
+              line.pop_back();
+            }
             columns = parseCsvRow(line, delim, '"');
             for (auto& col : columns) {
                 auto it = options.column_mappings.find(col);
-                if (it != options.column_mappings.end()) col = it->second;
+                if (it != options.column_mappings.end()) {
+                  col = it->second;
+                }
             }
         }
         stats.tables_processed++;
 
         while (std::getline(in, line)) {
             ++line_no;
-            if (!line.empty() && line.back() == '\r') line.pop_back();
-            if (line.empty()) continue;
+            if (!line.empty() && line.back() == '\r') {
+              line.pop_back();
+            }
+            if (line.empty()) {
+              continue;
+            }
 
             stats.total_records++;
 
             auto fields = parseCsvRow(line, delim, '"');
-            while (fields.size() < columns.size()) fields.emplace_back();
-            if (fields.size() > columns.size()) fields.resize(columns.size());
+            while (fields.size() < columns.size()) {
+              fields.emplace_back();
+            }
+            if (fields.size() > columns.size()) {
+              fields.resize(columns.size());
+            }
 
             json entity = json::object();
             for (size_t i = 0; i < columns.size(); ++i)
@@ -308,8 +326,12 @@ static MockS3ImportResult mockImportFromContent(
 
         while (std::getline(in, line)) {
             ++line_no;
-            if (!line.empty() && line.back() == '\r') line.pop_back();
-            if (line.empty()) continue;
+            if (!line.empty() && line.back() == '\r') {
+              line.pop_back();
+            }
+            if (line.empty()) {
+              continue;
+            }
 
             stats.total_records++;
 
@@ -318,13 +340,17 @@ static MockS3ImportResult mockImportFromContent(
                 entity = json::parse(line);
             } catch (...) {
                 stats.failed_records++;
-                if (!options.continue_on_error) return result;
+                if (!options.continue_on_error) {
+                  return result;
+                }
                 continue;
             }
 
             if (!entity.is_object()) {
                 stats.failed_records++;
-                if (!options.continue_on_error) return result;
+                if (!options.continue_on_error) {
+                  return result;
+                }
                 continue;
             }
 

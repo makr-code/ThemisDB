@@ -1075,7 +1075,9 @@ VoiceAssistant::AudioConvertFn VoiceAssistant::makeFFmpegAudioConvertFn()
         for (unsigned i = 0; i < in_ctx->nb_streams; ++i) {
             AVStream* in_stream  = in_ctx->streams[i];
             AVStream* out_stream = avformat_new_stream(out_ctx, nullptr);
-            if (!out_stream) continue;
+            if (!out_stream) {
+              continue;
+            }
             avcodec_parameters_copy(out_stream->codecpar, in_stream->codecpar);
             out_stream->codecpar->codec_tag = 0;
         }

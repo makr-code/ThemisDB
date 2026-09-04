@@ -263,9 +263,13 @@ TEST(EventRingBufferTest, MpmcConcurrentPushPop) {
         });
     }
 
-    for (auto& t : producers) t.join();
+    for (auto& t : producers) {
+      t.join();
+    }
     producers_done.store(true);
-    for (auto& t : consumers) t.join();
+    for (auto& t : consumers) {
+      t.join();
+    }
 
     EXPECT_EQ(consumed_count.load(), kItems);
     // Sum of 1..kItems = kItems*(kItems+1)/2

@@ -389,7 +389,9 @@ double StreamFileProgress::getThroughputBytesPerSecond() const {
         last_activity - start_time
     ).count();
     
-    if (elapsed <= 0) return 0.0;
+    if (elapsed <= 0) {
+      return 0.0;
+    }
     return (bytes_transferred * 1000.0) / elapsed;
 }
 
@@ -1286,7 +1288,9 @@ void StreamTransferTask::transferLoop() {
             });
         }
         
-        if (!running_.load(std::memory_order_acquire)) break;
+        if (!running_.load(std::memory_order_acquire)) {
+          break;
+        }
 
         for (;;) {
             uint32_t chunk_index = 0;

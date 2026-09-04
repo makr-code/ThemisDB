@@ -63,7 +63,9 @@ TEST(PrometheusMetricsTest, ConcurrentNewKeyInsertion_NoDataRace) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // If we reach here without ASAN/TSAN triggering, the mutex fix is working.
     auto output = metrics.getMetrics();
@@ -86,7 +88,9 @@ TEST(PrometheusMetricsTest, ConcurrentSharedKeyIncrement_CountIsConsistent) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // The counter value is embedded in the Prometheus text output; verify the
     // metric is present (exact value format differs by implementation).

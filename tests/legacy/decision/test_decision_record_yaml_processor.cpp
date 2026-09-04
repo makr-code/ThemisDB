@@ -74,7 +74,9 @@ protected:
     size_t countYamlFiles() const {
         size_t n = 0;
         for (const auto& e : fs::recursive_directory_iterator(log_dir_)) {
-            if (e.is_regular_file() && e.path().extension() == ".yaml") ++n;
+            if (e.is_regular_file() && e.path().extension() == ".yaml") {
+              ++n;
+            }
         }
         return n;
     }
@@ -251,7 +253,9 @@ TEST_F(DecisionRecordYamlProcessorTest, ConcurrentSubmitNoUB) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     proc.flush();
 

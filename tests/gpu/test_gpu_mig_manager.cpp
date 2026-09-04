@@ -576,7 +576,9 @@ TEST_F(MIGManagerTest, ConcurrentCreate_NoDataRace) {
     for (int i = 0; i < THREADS; ++i) {
         threads.emplace_back(worker);
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(ok_count.load(), THREADS);
     EXPECT_EQ(mgr.getStats().active_instances,

@@ -28,7 +28,9 @@ namespace themis {
 // S   Y   N   Y   N
 // X   N   N   N   N
 bool LockManager::compatible(LockType held, LockType requested) noexcept {
-    if (held == LockType::EXCLUSIVE) return false;
+    if (held == LockType::EXCLUSIVE) {
+      return false;
+    }
 
     if (held == LockType::SHARED) {
         return requested == LockType::SHARED ||
@@ -145,10 +147,14 @@ bool LockManager::releaseLock(TransactionId txn_id, const std::string& key) {
     std::lock_guard<std::mutex> lk(mutex_);
 
     auto txn_it = held_by_txn_.find(txn_id);
-    if (txn_it == held_by_txn_.end()) return false;
+    if (txn_it == held_by_txn_.end()) {
+      return false;
+    }
 
     auto key_it = txn_it->second.find(key);
-    if (key_it == txn_it->second.end()) return false;
+    if (key_it == txn_it->second.end()) {
+      return false;
+    }
 
     // Remove from per-transaction map
     txn_it->second.erase(key_it);
@@ -319,14 +325,20 @@ bool LockManager::holdsLock(
     std::lock_guard<std::mutex> lk(mutex_);
 
     auto txn_it = held_by_txn_.find(txn_id);
-    if (txn_it == held_by_txn_.end()) return false;
+    if (txn_it == held_by_txn_.end()) {
+      return false;
+    }
 
     auto key_it = txn_it->second.find(key);
-    if (key_it == txn_it->second.end()) return false;
+    if (key_it == txn_it->second.end()) {
+      return false;
+    }
 
     LockType held = key_it->second;
     // EXCLUSIVE implies SHARED/IS/IX
-    if (held == LockType::EXCLUSIVE) return true;
+    if (held == LockType::EXCLUSIVE) {
+      return true;
+    }
     return held == type;
 }
 
@@ -339,7 +351,9 @@ LockManager::getLocksHeld(TransactionId txn_id) const {
 
     std::vector<std::pair<std::string, LockType>> result;
     auto it = held_by_txn_.find(txn_id);
-    if (it == held_by_txn_.end()) return result;
+    if (it == held_by_txn_.end()) {
+      return result;
+    }
 
     result.reserve(it->second.size());
     for (const auto& [k, lt] : it->second) {
@@ -404,7 +418,9 @@ LockManager::getWaiters(const std::string& key) const {
 
     std::vector<TransactionId> result;
     auto it = lock_table_.find(key);
-    if (it == lock_table_.end()) return result;
+    if (it == lock_table_.end()) {
+      return result;
+    }
 
     for (const auto& req : it->second.waiters) {
         result.push_back(req->txn_id);
@@ -451,17 +467,23 @@ bool LockManager::tryGrantLock(
 void LockManager::processWaiters(const std::string& key) {
     // mutex_ must be held
     auto lt_it = lock_table_.find(key);
-    if (lt_it == lock_table_.end()) return;
+    if (lt_it == lock_table_.end()) {
+      return;
+    }
 
     auto& entry = lt_it->second;
 
     for (auto& req : entry.waiters) {
-        if (req->granted) continue;
+        if (req->granted) {
+          continue;
+        }
 
         // Check compatibility with all current holders
         bool ok = true;
         for (const auto& holder : entry.holders) {
-            if (holder.holder == req->txn_id) continue;
+            if (holder.holder == req->txn_id) {
+              continue;
+            }
             if (!compatible(holder.type, req->type)) {
                 ok = false;
                 break;
@@ -488,7 +510,9 @@ void LockManager::checkEscalation(TransactionId txn_id, const std::string& key) 
     // format (colon-separated). The table prefix is "table_name:". Keys that do not
     // contain a colon are not eligible for escalation.
     auto txn_it = held_by_txn_.find(txn_id);
-    if (txn_it == held_by_txn_.end()) return;
+    if (txn_it == held_by_txn_.end()) {
+      return;
+    }
 
     // Cache threshold to avoid repeated atomic loads
     const size_t threshold = escalation_threshold_.load(std::memory_order_relaxed);
@@ -498,7 +522,9 @@ void LockManager::checkEscalation(TransactionId txn_id, const std::string& key) 
 
     // Extract table prefix (e.g. "table:pk" → "table:")
     auto colon_pos = key.find(':');
-    if (colon_pos == std::string::npos) return;
+    if (colon_pos == std::string::npos) {
+      return;
+    }
 
     std::string table_prefix = key.substr(0, colon_pos + 1);
 
@@ -609,7 +635,9 @@ LockManager::TransactionId LockManager::checkPredicateConflict(
     }
     std::lock_guard<std::mutex> lk(mutex_);
     for (const auto& pl : predicate_locks_) {
-        if (pl.txn_id == writing_txn_id) continue;
+        if (pl.txn_id == writing_txn_id) {
+          continue;
+        }
         if (key >= pl.start_key && key <= pl.end_key) {
             return pl.txn_id;
         }

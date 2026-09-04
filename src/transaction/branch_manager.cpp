@@ -812,19 +812,25 @@ BranchManager::getBranchHistory(const std::string& branch_name,
     std::string prefix = std::string(BRANCH_HIST_PREFIX) + branch_name + ":";
 
     auto it_result = db_.newSafeIterator();
-    if (!it_result) return result;
+    if (!it_result) {
+      return result;
+    }
 
     auto& it = it_result.value();
     for (it.Seek(prefix); it.Valid(); it.Next()) {
         std::string key(it.key());
-        if (key.find(prefix) != 0) break;
+        if (key.find(prefix) != 0) {
+          break;
+        }
 
         std::string vs(it.value());
         std::vector<uint8_t> data(vs.begin(), vs.end());
         auto entry = deserializeHistory(data);
         if (entry.has_value()) {
             result.push_back(*entry);
-            if (limit > 0 && result.size() >= limit) break;
+            if (limit > 0 && result.size() >= limit) {
+              break;
+            }
         }
     }
     return result;
@@ -847,23 +853,31 @@ size_t BranchManager::pruneMergedBranches() {
     std::vector<Branch> candidates;
 
     auto it_result = db_.newSafeIterator();
-    if (!it_result) return 0;
+    if (!it_result) {
+      return 0;
+    }
 
     auto& it = it_result.value();
     for (it.Seek(BRANCH_PREFIX); it.Valid(); it.Next()) {
         std::string key(it.key());
-        if (key.find(BRANCH_PREFIX) != 0 || key == ACTIVE_BRANCH_KEY) continue;
+        if (key.find(BRANCH_PREFIX) != 0 || key == ACTIVE_BRANCH_KEY) {
+          continue;
+        }
 
         std::string vs(it.value());
         std::vector<uint8_t> data(vs.begin(), vs.end());
         auto branch = deserialize(data);
-        if (!branch.has_value()) continue;
+        if (!branch.has_value()) {
+          continue;
+        }
 
         // Skip protected names
         if (gc_policy_.protect_default &&
             branch->branch_name == std::string(DEFAULT_BRANCH)) continue;
         // Skip the currently active branch
-        if (branch->branch_name == active_branch_) continue;
+        if (branch->branch_name == active_branch_) {
+          continue;
+        }
 
         bool age_ok = (gc_policy_.max_age_ms <= 0) ||
                       (now_ms > branch->creation_timestamp_ms &&

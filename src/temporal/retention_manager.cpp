@@ -256,8 +256,12 @@ static uint64_t estimateVersionSize(const VersionedDocument& v) {
 ///   3. Neither set           → table name alone.
 static std::string resolveArchiveTag(const RetentionPolicy& policy,
                                      const std::string& table_name) {
-    if (!policy.archive_tag.empty())    return policy.archive_tag;
-    if (!policy.compliance_tag.empty()) return table_name + ":" + policy.compliance_tag;
+    if (!policy.archive_tag.empty()) {
+      return policy.archive_tag;
+    }
+    if (!policy.compliance_tag.empty()) {
+      return table_name + ":" + policy.compliance_tag;
+    }
     return table_name;
 }
 
@@ -319,7 +323,9 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
             auto history = table.getHistory(key);
             stats.versions_examined += history.size();
             for (const auto& v : history) {
-                if (v.isCurrent()) continue;
+                if (v.isCurrent()) {
+                  continue;
+                }
                 uint64_t sz = estimateVersionSize(v);
                 total_size += sz;
                 all_historical.push_back({key, v.sys_time.start, v.sys_time.end, sz});
@@ -342,8 +348,12 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
         size_t batch_remaining = batchLimit(policy);
 
         for (const auto& meta : all_historical) {
-            if (total_size <= policy.max_storage_bytes) break;
-            if (batch_remaining == 0) break;
+            if (total_size <= policy.max_storage_bytes) {
+              break;
+            }
+            if (batch_remaining == 0) {
+              break;
+            }
 
             // Compliance minimum: skip versions that are too young to delete.
             // We use sys_start as the version birth time for the guard.
@@ -383,7 +393,9 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
             size_t deleted = table.purgeHistoricalVersions(
                 meta.key,
                 [del_start, del_end, &remaining_to_delete](const VersionedDocument& v) -> bool {
-                    if (remaining_to_delete == 0) return false;
+                    if (remaining_to_delete == 0) {
+                      return false;
+                    }
                     if (v.sys_time.start == del_start && v.sys_time.end == del_end) {
                         --remaining_to_delete;
                         return true;
@@ -410,7 +422,9 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
         size_t batch_remaining = batchLimit(policy);
 
         for (const auto& key : keys) {
-            if (batch_remaining == 0) break;
+            if (batch_remaining == 0) {
+              break;
+            }
 
             auto history = table.getHistory(key);
             stats.versions_examined += history.size();
@@ -420,7 +434,9 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
             std::vector<VersionedDocument> eligible;
             size_t protected_count = 0;
             for (const auto& v : history) {
-                if (v.isCurrent()) continue;
+                if (v.isCurrent()) {
+                  continue;
+                }
                 if (isProtected(v)) {
                     ++protected_count;
                 } else {
@@ -434,7 +450,9 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
             size_t keep_from_eligible = (policy.max_versions_per_key > protected_count)
                                             ? policy.max_versions_per_key - protected_count
                                             : 0;
-            if (eligible.size() <= keep_from_eligible) continue;
+            if (eligible.size() <= keep_from_eligible) {
+              continue;
+            }
 
             // Sort eligible oldest-first so that the oldest are removed first.
             std::sort(eligible.begin(), eligible.end(),
@@ -466,8 +484,12 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
             // Using a countdown avoids timestamp-collision over-deletion.
             size_t purge_count = 0;
             table.purgeHistoricalVersions(key, [&]([[maybe_unused]] const VersionedDocument& v) -> bool {
-                if (purge_count >= count_to_delete) return false;
-                if (isProtected(v)) return false;
+                if (purge_count >= count_to_delete) {
+                  return false;
+                }
+                if (isProtected(v)) {
+                  return false;
+                }
                 ++purge_count;
                 return true;
             });
@@ -483,7 +505,9 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
     size_t batch_remaining = batchLimit(policy);
 
     for (const auto& key : keys) {
-        if (batch_remaining == 0) break;
+        if (batch_remaining == 0) {
+          break;
+        }
 
         auto history = table.getHistory(key);
         stats.versions_examined += history.size();
@@ -491,8 +515,12 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
         // Collect eligible-to-delete versions (honours compliance guard and policy).
         std::vector<VersionedDocument> eligible;
         for (const auto& v : history) {
-            if (v.isCurrent()) continue;
-            if (isProtected(v)) continue;
+            if (v.isCurrent()) {
+              continue;
+            }
+            if (isProtected(v)) {
+              continue;
+            }
             bool should_del = false;
             switch (policy.type) {
                 case RetentionType::TIME_BASED:
@@ -512,7 +540,9 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
 
         // Respect incremental batch limit.
         size_t count_to_delete = std::min(eligible.size(), batch_remaining);
-        if (count_to_delete == 0) continue;
+        if (count_to_delete == 0) {
+          continue;
+        }
         batch_remaining -= count_to_delete;
 
         // Archive the first count_to_delete eligible versions.
@@ -535,8 +565,12 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
         // share the same timestamp (e.g. rapid updates within one millisecond).
         size_t purge_count = 0;
         table.purgeHistoricalVersions(key, [&]([[maybe_unused]] const VersionedDocument& v) -> bool {
-            if (purge_count >= count_to_delete) return false;
-            if (isProtected(v)) return false;
+            if (purge_count >= count_to_delete) {
+              return false;
+            }
+            if (isProtected(v)) {
+              return false;
+            }
             bool should_del = false;
             switch (policy.type) {
                 case RetentionType::TIME_BASED:

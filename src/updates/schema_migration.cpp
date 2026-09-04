@@ -164,7 +164,9 @@ public:
         std::string key()   const override { return valid() ? keys_[pos_] : ""; }
         std::string value() const override
         {
-            if (!valid()) return "";
+            if (!valid()) {
+              return "";
+            }
             std::string v;
             const bool found = store_->get(keys_[pos_], v);
             if (!found) {
@@ -174,7 +176,9 @@ public:
         }
         void next() override
         {
-            if (valid()) ++pos_;
+            if (valid()) {
+              ++pos_;
+            }
             advance_to_valid();
         }
 
@@ -679,7 +683,9 @@ struct SchemaMigration::Impl {
                               version_, op.index.name, i);
                     return false;
                 }
-                if (i) cols += ",";
+                if (i) {
+                  cols += ",";
+                }
                 cols += op.index.columns[i];
             }
             

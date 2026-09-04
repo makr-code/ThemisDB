@@ -33,7 +33,9 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
     // ----- value variance -----------------------------------------------
     {
         double sum = 0.0;
-        for (const auto& dp : points) sum += dp.value;
+        for (const auto& dp : points) {
+          sum += dp.value;
+        }
         double mean = sum / static_cast<double>(points.size());
 
         double var = 0.0;
@@ -78,7 +80,9 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
     {
         size_t runs = 0;
         for (size_t i = 1; i < points.size(); ++i) {
-            if (points[i].value == points[i - 1].value) ++runs;
+            if (points[i].value == points[i - 1].value) {
+              ++runs;
+            }
         }
         p.run_length_ratio =
             static_cast<double>(runs) / static_cast<double>(points.size() - 1);
@@ -155,13 +159,17 @@ CompressionStrategy PerSeriesCompressionRegistry::strategyFor(
     // 1. Pinned entries take absolute priority
     {
         auto it = pinned_.find(key);
-        if (it != pinned_.end()) return it->second;
+        if (it != pinned_.end()) {
+          return it->second;
+        }
     }
 
     // 2. Cached entries
     {
         auto it = cached_.find(key);
-        if (it != cached_.end()) return it->second;
+        if (it != cached_.end()) {
+          return it->second;
+        }
     }
 
     // 3. Fresh selection

@@ -190,7 +190,9 @@ TEST_F(AnalyticsPhase2A2Test, QueryExecutionReleaseConnection) {
     // Simulate query execution pattern with guard
     auto execute = [&pool_ptr]() -> QueryResult {
         int conn_id = pool_ptr->acquire();
-        if (conn_id < 0) throw std::runtime_error("No connection");
+        if (conn_id < 0) {
+          throw std::runtime_error("No connection");
+        }
         
         auto release_fn = [pool_ptr, conn_id]() { pool_ptr->release(conn_id); };
         ConnectionGuard guard(conn_id, release_fn);
@@ -215,7 +217,9 @@ TEST_F(AnalyticsPhase2A2Test, FailedQueryExecutionReleaseConnection) {
     auto execute = [&pool_ptr]() -> QueryResult {
         try {
             int conn_id = pool_ptr->acquire();
-            if (conn_id < 0) throw std::runtime_error("No connection");
+            if (conn_id < 0) {
+              throw std::runtime_error("No connection");
+            }
             
             auto release_fn = [pool_ptr, conn_id]() { pool_ptr->release(conn_id); };
             ConnectionGuard guard(conn_id, release_fn);
@@ -291,7 +295,9 @@ TEST_F(AnalyticsPhase2A2Test, TransactionSafeWrite) {
     
     try {
         int conn_id = pool_ptr->acquire();
-        if (conn_id < 0) throw std::runtime_error("No connection");
+        if (conn_id < 0) {
+          throw std::runtime_error("No connection");
+        }
         
         auto release_fn = [pool_ptr, conn_id]() { pool_ptr->release(conn_id); };
         ConnectionGuard guard(conn_id, release_fn);
@@ -321,7 +327,9 @@ TEST_F(AnalyticsPhase2A2Test, TransactionRollbackOnException) {
     
     try {
         int conn_id = pool_ptr->acquire();
-        if (conn_id < 0) throw std::runtime_error("No connection");
+        if (conn_id < 0) {
+          throw std::runtime_error("No connection");
+        }
         
         auto release_fn = [pool_ptr, conn_id]() { pool_ptr->release(conn_id); };
         ConnectionGuard guard(conn_id, release_fn);
@@ -408,7 +416,9 @@ TEST_F(AnalyticsPhase2A2Test, ConnectionHealthCheck) {
     std::vector<int> conns;
     for (int i = 0; i < 10; ++i) {
         int conn = pool_->acquire();
-        if (conn > 0) conns.push_back(conn);
+        if (conn > 0) {
+          conns.push_back(conn);
+        }
     }
     
     // Pool should still be considered healthy if designed correctly
@@ -530,7 +540,9 @@ TEST(Phase2A2MissingDtorTest, ExplicitDefaultDtorReleasesVector) {
     {
         TrivialWithVector obj;
         obj.data.reserve(1024);  // Force heap allocation
-        for (int i = 0; i < 512; ++i) obj.data.push_back(i);
+        for (int i = 0; i < 512; ++i) {
+          obj.data.push_back(i);
+        }
         obj.value = 42;
         EXPECT_EQ(512, static_cast<int>(obj.data.size()));
         EXPECT_EQ(42, obj.value);
@@ -674,7 +686,9 @@ TEST(Phase2A2ExceptionInDtorTest, CallbackExceptionDoesNotEscapeFlush) {
             // CORRECT: wrap the potentially-throwing flush in try/catch
             // to prevent std::terminate() during stack unwinding.
             try {
-                if (on_flush) on_flush();
+                if (on_flush) {
+                  on_flush();
+                }
             } catch (...) {
                 // Suppressed — no-throw guarantee in destructor
             }

@@ -184,8 +184,12 @@ http::response<http::string_body> LoRAApiHandler::handleRegisterModel(
             {"message", "Model registered successfully"}
         };
         
-        if (!architecture.empty()) response_data["architecture"] = architecture;
-        if (!description.empty()) response_data["description"] = description;
+        if (!architecture.empty()) {
+          response_data["architecture"] = architecture;
+        }
+        if (!description.empty()) {
+          response_data["description"] = description;
+        }
         
         return createJsonResponse(response_data, http::status::created);
         

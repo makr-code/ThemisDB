@@ -271,7 +271,9 @@ http::response<http::string_body> ProfilingApiHandler::handle_set_config(
             auto config = query_profiler_->get_config();
             auto qp = body["query_profiler"];
             
-            if (qp.contains("enabled")) config.enabled = qp["enabled"];
+            if (qp.contains("enabled")) {
+              config.enabled = qp["enabled"];
+            }
             if (qp.contains("profile_all_queries")) 
                 config.profile_all_queries = qp["profile_all_queries"];
             if (qp.contains("slow_query_threshold_ms")) {
@@ -291,7 +293,9 @@ http::response<http::string_body> ProfilingApiHandler::handle_set_config(
             auto config = storage_profiler_->get_config();
             auto sp = body["storage_profiler"];
             
-            if (sp.contains("enabled")) config.enabled = sp["enabled"];
+            if (sp.contains("enabled")) {
+              config.enabled = sp["enabled"];
+            }
             if (sp.contains("slow_op_threshold_ms")) {
                 const auto threshold_ms = sp["slow_op_threshold_ms"].get<int>();
                 if (threshold_ms < 0) {

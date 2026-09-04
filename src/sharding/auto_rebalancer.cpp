@@ -77,7 +77,9 @@ std::vector<HotShardSplitPolicy::SplitProposal> HotShardSplitPolicy::evaluate() 
                 proposal.reason = "CPU " + std::to_string(static_cast<int>(load.cpu_usage_percent)) + "%";
             }
             if (storage_hot) {
-                if (!proposal.reason.empty()) proposal.reason += ", ";
+                if (!proposal.reason.empty()) {
+                  proposal.reason += ", ";
+                }
                 proposal.reason += "storage " + std::to_string(static_cast<int>(load.storage_usage_percent)) + "%";
             }
             proposal.reason = "Reactive split: " + proposal.reason +

@@ -347,7 +347,9 @@ public:
     CurlSlistRaii(CurlSlistRaii&& other) noexcept : slist_(other.release()) {}
     CurlSlistRaii& operator=(CurlSlistRaii&& other) noexcept {
         if (this != &other) {
-            if (slist_) curl_slist_free_all(slist_);
+            if (slist_) {
+              curl_slist_free_all(slist_);
+            }
             slist_ = other.release();
         }
         return *this;

@@ -36,7 +36,9 @@ void TransactionAuditor::enableAuditing([[maybe_unused]] bool enabled)
 
 void TransactionAuditor::record(AuditRecord record)
 {
-    if (!enabled_.load(std::memory_order_acquire)) return;
+    if (!enabled_.load(std::memory_order_acquire)) {
+      return;
+    }
 
     std::lock_guard<std::mutex> lk(log_mutex_);
     // Sprint 8 Phase 1 (GAP A-2): Record is moved to log vector.
@@ -65,12 +67,20 @@ TransactionAuditor::queryAuditLog(
     for (auto it = log_.rbegin(); it != log_.rend(); ++it) {
         const auto& rec = *it;
 
-        if (user_id    && rec.user_id   != *user_id)    continue;
-        if (start_time && rec.timestamp <  *start_time) continue;
-        if (end_time   && rec.timestamp >  *end_time)   continue;
+        if (user_id    && rec.user_id   != *user_id) {
+          continue;
+        }
+        if (start_time && rec.timestamp <  *start_time) {
+          continue;
+        }
+        if (end_time   && rec.timestamp >  *end_time) {
+          continue;
+        }
 
         result.push_back(rec);
-        if (limit != 0 && result.size() >= limit) break;
+        if (limit != 0 && result.size() >= limit) {
+          break;
+        }
     }
 
     return result;
@@ -128,8 +138,12 @@ nlohmann::json recordToJson(const TransactionAuditor::AuditRecord& rec) {
         }
         j["table"] = op.table;
         j["key"]   = op.key;
-        if (op.old_value) j["old_value"] = *op.old_value;
-        if (op.new_value) j["new_value"] = *op.new_value;
+        if (op.old_value) {
+          j["old_value"] = *op.old_value;
+        }
+        if (op.new_value) {
+          j["new_value"] = *op.new_value;
+        }
         ops.push_back(std::move(j));
     }
 
@@ -163,7 +177,9 @@ std::string buildS3Key(const std::string& prefix) {
     std::ostringstream ss;
     ss << std::put_time(std::gmtime(&t), "%Y%m%dT%H%M%SZ");
     std::string key = prefix;
-    if (!key.empty() && key.back() != '/') key += '/';
+    if (!key.empty() && key.back() != '/') {
+      key += '/';
+    }
     key += "audit_" + ss.str() + ".ndjson";
     return key;
 }

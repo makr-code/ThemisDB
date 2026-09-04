@@ -38,7 +38,9 @@ static std::string fixturePath(const std::string& name) {
     const fs::path source_based = fs::path(__FILE__).parent_path() / ".." / "fixtures" / "importers" / name;
     {
         std::ifstream f(source_based.string());
-        if (f) return source_based.string();
+        if (f) {
+          return source_based.string();
+        }
     }
 
     static const std::vector<std::string> bases = {
@@ -48,14 +50,18 @@ static std::string fixturePath(const std::string& name) {
     };
     for (const auto& b : bases) {
         std::ifstream f(b + name);
-        if (f) return b + name;
+        if (f) {
+          return b + name;
+        }
     }
     return "tests/fixtures/importers/" + name;
 }
 
 static std::string readFile(const std::string& path) {
     std::ifstream f(path);
-    if (!f) return "";
+    if (!f) {
+      return "";
+    }
     return std::string((std::istreambuf_iterator<char>(f)),
                         std::istreambuf_iterator<char>());
 }
@@ -434,7 +440,9 @@ protected:
 
     void SetUp() override {
         fixture_path_ = fixturePath("sample_pg_fk.sql");
-        if (readFile(fixture_path_).empty()) return;
+        if (readFile(fixture_path_).empty()) {
+          return;
+        }
 
         auto schema = schemaTables(importer_.getSourceSchema(fixture_path_));
         for (const auto& tbl : schema) {

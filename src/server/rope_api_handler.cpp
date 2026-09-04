@@ -63,8 +63,12 @@ http::response<http::string_body> RopeApiHandler::handleConfigPost(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "vector:write", "rope.config", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "vector:write", "rope.config", path_only)) {
+          return *resp;
+        }
     }
     
     auto span = Tracer::startSpan([[maybe_unused]] "handleRopeConfigPost");
@@ -166,8 +170,12 @@ http::response<http::string_body> RopeApiHandler::handleConfigGet(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "vector:read", "rope.config", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "vector:read", "rope.config", path_only)) {
+          return *resp;
+        }
     }
     
     auto span = Tracer::startSpan([[maybe_unused]] "handleRopeConfigGet");
@@ -230,8 +238,12 @@ http::response<http::string_body> RopeApiHandler::handleConfigDelete(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "vector:write", "rope.config", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "vector:write", "rope.config", path_only)) {
+          return *resp;
+        }
     }
     
     auto span = Tracer::startSpan([[maybe_unused]] "handleRopeConfigDelete");
@@ -285,8 +297,12 @@ http::response<http::string_body> RopeApiHandler::handleAddPost(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "rope.add", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:write", "rope.add", path_only)) {
+          return *resp;
+        }
     }
     
     auto span = Tracer::startSpan([[maybe_unused]] "handleRopeAddPost");
@@ -410,8 +426,12 @@ http::response<http::string_body> RopeApiHandler::handleAddRelationalPost(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "rope.add_relational", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:write", "rope.add_relational", path_only)) {
+          return *resp;
+        }
     }
     
     auto span = Tracer::startSpan([[maybe_unused]] "handleRopeAddRelationalPost");
@@ -534,8 +554,12 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:read", "rope.search", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:read", "rope.search", path_only)) {
+          return *resp;
+        }
     }
     
     auto span = Tracer::startSpan([[maybe_unused]] "handleRopeSearchPost");
@@ -648,8 +672,12 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "rope.batch_add", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:write", "rope.batch_add", path_only)) {
+          return *resp;
+        }
     }
     
     auto span = Tracer::startSpan([[maybe_unused]] "handleRopeBatchAddPost");
@@ -717,7 +745,9 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
                     const std::string& key = it.key();
                     const auto& val = it.value();
                     
-                    if (key == "id") continue;
+                    if (key == "id") {
+                      continue;
+                    }
                     
                     if (val.is_string()) {
                         entity.setField(key, val.get<std::string>());
@@ -787,8 +817,12 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "vector:read", "rope.stats", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "vector:read", "rope.stats", path_only)) {
+          return *resp;
+        }
     }
     
     auto span = Tracer::startSpan([[maybe_unused]] "handleRopeStatsGet");

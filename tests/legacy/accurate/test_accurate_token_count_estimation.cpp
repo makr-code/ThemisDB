@@ -35,7 +35,9 @@ using namespace themis::aql;
 namespace {
 
 std::size_t referenceTokenCount(const std::string& text) {
-    if (text.empty()) return 0;
+    if (text.empty()) {
+      return 0;
+    }
     std::istringstream iss(text);
     std::string word;
     std::size_t count = 0;
@@ -47,7 +49,9 @@ std::size_t referenceTokenCount(const std::string& text) {
 
 // Compute the absolute relative error: |estimated - reference| / reference.
 double relativeError(std::size_t estimated, std::size_t reference) {
-    if (reference == 0) return 0.0;
+    if (reference == 0) {
+      return 0.0;
+    }
     double diff = static_cast<double>(estimated) > static_cast<double>(reference)
                     ? static_cast<double>(estimated) - static_cast<double>(reference)
                     : static_cast<double>(reference) - static_cast<double>(estimated);
@@ -133,7 +137,9 @@ TEST_F(TiktokenEstimatorTest, CustomFunction_IsInvoked) {
         std::istringstream iss(t);
         std::string w;
         std::size_t n = 0;
-        while (iss >> w) ++n;
+        while (iss >> w) {
+          ++n;
+        }
         return n > 0 ? n : 1;
     });
 
@@ -302,7 +308,9 @@ TEST_F(TokenCountBenchmarkTest, CharDivisionEstimator_RecordsErrorStatsAgainstWo
     errors.reserve(corpus.size());
 
     for (const auto& text : corpus) {
-        if (text.empty()) continue;
+        if (text.empty()) {
+          continue;
+        }
         std::size_t ref  = referenceTokenCount(text);
         std::size_t pred = est.estimate(text);
         errors.push_back(relativeError(pred, ref));
@@ -354,7 +362,9 @@ TEST_F(TokenCountBenchmarkTest, TiktokenEstimatorWithWordSplit_ZeroErrorOnRefere
 
     std::size_t mismatches = 0;
     for (const auto& text : corpus) {
-        if (text.empty()) continue;
+        if (text.empty()) {
+          continue;
+        }
         std::size_t ref  = referenceTokenCount(text);
         std::size_t pred = est.estimate(text);
         if (pred != ref) {
@@ -414,7 +424,9 @@ TEST_F(TokenCountBenchmarkTest, TiktokenEstimator_ModelBacked_AccuracyTarget) {
 TEST_F(TokenCountBenchmarkTest, AllCorpusTextsHaveNonZeroReferenceCount) {
     const auto corpus = buildFewShotCorpus();
     for (const auto& text : corpus) {
-        if (text.empty()) continue;
+        if (text.empty()) {
+          continue;
+        }
         EXPECT_GE(referenceTokenCount(text), 1u)
             << "Unexpected zero token count for: " << text;
     }

@@ -265,7 +265,9 @@ bool SampledLoggerSamplerAdapter::shouldSample(const LogEntry& entry) noexcept {
         // Counter-based approximate sampling: accept every ceil(1/rate)-th call.
         uint64_t c = callCounter_.fetch_add(1, std::memory_order_relaxed);
         uint64_t period = static_cast<uint64_t>(1.0 / rate + 0.5);
-        if (period == 0) period = 1;
+        if (period == 0) {
+          period = 1;
+        }
         accepted = (c % period == 0);
     }
 
@@ -393,7 +395,9 @@ std::future<PipelineResult> SequentialUtilsPipeline::run() {
     std::vector<IUtilsStage*> snapshot;
     {
         std::lock_guard<std::mutex> lock(mu_);
-        for (auto& s : stages_) snapshot.push_back(s.get());
+        for (auto& s : stages_) {
+          snapshot.push_back(s.get());
+        }
     }
 
     return std::async(std::launch::async, [snapshot]() {
@@ -413,7 +417,9 @@ std::future<PipelineResult> SequentialUtilsPipeline::run() {
 
 void SequentialUtilsPipeline::shutdown() noexcept {
     std::lock_guard<std::mutex> lock(mu_);
-    if (shutdownCalled_) return;
+    if (shutdownCalled_) {
+      return;
+    }
     shutdownCalled_ = true;
     // Tear down in reverse registration order.
     for (auto it = stages_.rbegin(); it != stages_.rend(); ++it) {

@@ -422,7 +422,9 @@ public:
         bool any_error = false;
         try {
         for (const auto& entry : fs::recursive_directory_iterator(snapshot_dir_)) {
-            if (!entry.is_regular_file()) continue;
+            if (!entry.is_regular_file()) {
+              continue;
+            }
 
             fs::path rel    = fs::relative(entry.path(), snapshot_dir_);
             fs::path target = dest_dir / rel;

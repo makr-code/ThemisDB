@@ -80,7 +80,9 @@ public:
         static constexpr char kSep = '\x1F';
         std::string key;
         for (const auto& col : key_columns) {
-            if (!key.empty()) key += kSep;
+            if (!key.empty()) {
+              key += kSep;
+            }
             if (entity.contains(col)) {
                 const auto& v = entity[col];
                 key += v.is_string() ? v.get<std::string>() : v.dump();
@@ -125,7 +127,9 @@ public:
     static json mergeEntities(const json& existing, const json& incoming,
                                int depth,
                                const std::vector<std::string>& protected_fields) {
-        if (!existing.is_object() || !incoming.is_object()) return incoming;
+        if (!existing.is_object() || !incoming.is_object()) {
+          return incoming;
+        }
         json result = existing;
         for (auto it = incoming.begin(); it != incoming.end(); ++it) {
             const std::string& key = it.key();
@@ -172,7 +176,9 @@ static ImportResult runImport(const std::vector<json>& rows,
     auto emit_metric = [&](const std::string& m,
                            const std::map<std::string,std::string>& labels,
                            double /*v*/) {
-        if (opts.metrics_callback) opts.metrics_callback(m, labels, 0.0);
+        if (opts.metrics_callback) {
+          opts.metrics_callback(m, labels, 0.0);
+        }
         result.metrics.emplace_back(m, labels);
     };
 
@@ -221,7 +227,9 @@ static ImportResult runImport(const std::vector<json>& rows,
                     result.stats.failed_records++;
                     emit_metric("importers_conflicts_total",
                                 {{"table", table_name}, {"strategy", "error"}, {"outcome", "error"}}, 1.0);
-                    if (!opts.continue_on_error) return result;
+                    if (!opts.continue_on_error) {
+                      return result;
+                    }
                     continue;
                 }
             }

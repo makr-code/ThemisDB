@@ -134,8 +134,12 @@ TEST_F(ABTestManagerTest, StartTestAppearsInActiveList) {
     EXPECT_EQ(active.size(), 2u);
     bool found_t1 = false, found_t2 = false;
     for (const auto& id : active) {
-        if (id == "t1") found_t1 = true;
-        if (id == "t2") found_t2 = true;
+        if (id == "t1") {
+          found_t1 = true;
+        }
+        if (id == "t2") {
+          found_t2 = true;
+        }
     }
     EXPECT_TRUE(found_t1);
     EXPECT_TRUE(found_t2);
@@ -297,8 +301,12 @@ TEST_F(ABTestManagerTest, EvaluateSignificantForLargeDifference) {
 
 TEST_F(ABTestManagerTest, EvaluateSampleSizesMatchRecorded) {
     startTest("t1");
-    for (int i = 0; i < 40; ++i) mgr.recordOutcome("t1", false, true);
-    for (int i = 0; i < 60; ++i) mgr.recordOutcome("t1", true,  true);
+    for (int i = 0; i < 40; ++i) {
+      mgr.recordOutcome("t1", false, true);
+    }
+    for (int i = 0; i < 60; ++i) {
+      mgr.recordOutcome("t1", true,  true);
+    }
 
     auto r = mgr.evaluateTest("t1");
     EXPECT_EQ(r.sample_size_control,   40u);
@@ -455,7 +463,9 @@ TEST_F(ABTestManagerTest, ConcurrentStartAndCancel) {
             startTest("mod_" + std::to_string(i));
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     threads.clear();
 
     for (int i = 0; i < N; ++i) {
@@ -463,7 +473,9 @@ TEST_F(ABTestManagerTest, ConcurrentStartAndCancel) {
             mgr.cancelTest("mod_" + std::to_string(i));
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_TRUE(mgr.getActiveTests().empty());
 }
@@ -478,7 +490,9 @@ TEST_F(ABTestManagerTest, ConcurrentRecordOutcome) {
             mgr.recordOutcome("t1", (i % 2 == 0), true, 1.0);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     auto ctrl = mgr.getControlMetrics("t1");
     auto trt  = mgr.getTreatmentMetrics("t1");
@@ -496,7 +510,9 @@ TEST_F(ABTestManagerTest, ConcurrentRouting) {
             mgr.shouldUseTreatment("t1", "user_" + std::to_string(i));
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_TRUE(true); // No crash / deadlock.
 }
 
@@ -597,8 +613,12 @@ TEST_F(ABTestManagerTest, ExportMetricsSnapshotContainsControlAndTreatment) {
     bool has_ctrl = false, has_trt = false;
     for (const auto& r : rows) {
         EXPECT_EQ(r.test_id, "t1");
-        if (r.variant == "control")   has_ctrl = true;
-        if (r.variant == "treatment") has_trt  = true;
+        if (r.variant == "control") {
+          has_ctrl = true;
+        }
+        if (r.variant == "treatment") {
+          has_trt  = true;
+        }
     }
     EXPECT_TRUE(has_ctrl);
     EXPECT_TRUE(has_trt);
@@ -606,8 +626,12 @@ TEST_F(ABTestManagerTest, ExportMetricsSnapshotContainsControlAndTreatment) {
 
 TEST_F(ABTestManagerTest, ExportMetricsSnapshotReflectsAccumulatedMetrics) {
     startTest("t1");
-    for (int i = 0; i < 8; ++i) mgr.recordOutcome("t1", false, true,  10.0);
-    for (int i = 0; i < 2; ++i) mgr.recordOutcome("t1", false, false, 10.0);
+    for (int i = 0; i < 8; ++i) {
+      mgr.recordOutcome("t1", false, true,  10.0);
+    }
+    for (int i = 0; i < 2; ++i) {
+      mgr.recordOutcome("t1", false, false, 10.0);
+    }
 
     auto rows = mgr.exportMetricsSnapshot();
     for (const auto& r : rows) {
@@ -622,8 +646,12 @@ TEST_F(ABTestManagerTest, ExportMetricsSnapshotReflectsAccumulatedMetrics) {
 
 TEST_F(ABTestManagerTest, ExportMetricsSnapshotP99IsAtLeastMean) {
     startTest("t1");
-    for (int i = 0; i < 10; ++i) mgr.recordOutcome("t1", false, true, 5.0);
-    for (int i = 0; i < 10; ++i) mgr.recordOutcome("t1", false, true, 15.0);
+    for (int i = 0; i < 10; ++i) {
+      mgr.recordOutcome("t1", false, true, 5.0);
+    }
+    for (int i = 0; i < 10; ++i) {
+      mgr.recordOutcome("t1", false, true, 15.0);
+    }
 
     auto rows = mgr.exportMetricsSnapshot();
     for (const auto& r : rows) {
@@ -660,8 +688,12 @@ TEST_F(ABTestManagerTest, ThompsonSamplingNotTriggeredWhenBelowMinSamples) {
     cfg.thompson_stop_threshold = 0.95;
     mgr.startTest(cfg, loader);
 
-    for (int i = 0; i < 50; ++i) mgr.recordOutcome("t_thompson", false, true, 1.0);
-    for (int i = 0; i < 50; ++i) mgr.recordOutcome("t_thompson", true,  true, 1.0);
+    for (int i = 0; i < 50; ++i) {
+      mgr.recordOutcome("t_thompson", false, true, 1.0);
+    }
+    for (int i = 0; i < 50; ++i) {
+      mgr.recordOutcome("t_thompson", true,  true, 1.0);
+    }
 
     EXPECT_EQ(mgr.getTestStatus("t_thompson"), ABTestStatus::ACTIVE);
 }
@@ -673,8 +705,12 @@ TEST_F(ABTestManagerTest, ThompsonSamplingPromotesTreatmentWhenItClearlyWins) {
     mgr.startTest(cfg, loader);
 
     // Control: 20% success rate, Treatment: 90% success rate.
-    for (int i = 0; i < 100; ++i) mgr.recordOutcome("t_wins", false, (i < 20), 1.0);
-    for (int i = 0; i < 100; ++i) mgr.recordOutcome("t_wins", true,  (i < 90), 1.0);
+    for (int i = 0; i < 100; ++i) {
+      mgr.recordOutcome("t_wins", false, (i < 20), 1.0);
+    }
+    for (int i = 0; i < 100; ++i) {
+      mgr.recordOutcome("t_wins", true,  (i < 90), 1.0);
+    }
 
     EXPECT_EQ(mgr.getTestStatus("t_wins"), ABTestStatus::PROMOTED);
 }
@@ -686,8 +722,12 @@ TEST_F(ABTestManagerTest, ThompsonSamplingRollsBackWhenControlClearlyWins) {
     mgr.startTest(cfg, loader);
 
     // Control: 90% success rate, Treatment: 10% success rate.
-    for (int i = 0; i < 100; ++i) mgr.recordOutcome("t_ctrl_wins", false, (i < 90), 1.0);
-    for (int i = 0; i < 100; ++i) mgr.recordOutcome("t_ctrl_wins", true,  (i < 10), 1.0);
+    for (int i = 0; i < 100; ++i) {
+      mgr.recordOutcome("t_ctrl_wins", false, (i < 90), 1.0);
+    }
+    for (int i = 0; i < 100; ++i) {
+      mgr.recordOutcome("t_ctrl_wins", true,  (i < 10), 1.0);
+    }
 
     EXPECT_EQ(mgr.getTestStatus("t_ctrl_wins"), ABTestStatus::ROLLED_BACK);
 }
@@ -698,8 +738,12 @@ TEST_F(ABTestManagerTest, ThompsonSamplingDisabledWhenThresholdIsZero) {
     cfg.thompson_stop_threshold = 0.0;
     mgr.startTest(cfg, loader);
 
-    for (int i = 0; i < 100; ++i) mgr.recordOutcome("t_disabled", false, (i < 20), 1.0);
-    for (int i = 0; i < 100; ++i) mgr.recordOutcome("t_disabled", true,  (i < 90), 1.0);
+    for (int i = 0; i < 100; ++i) {
+      mgr.recordOutcome("t_disabled", false, (i < 20), 1.0);
+    }
+    for (int i = 0; i < 100; ++i) {
+      mgr.recordOutcome("t_disabled", true,  (i < 90), 1.0);
+    }
 
     EXPECT_EQ(mgr.getTestStatus("t_disabled"), ABTestStatus::ACTIVE);
 }
@@ -736,7 +780,9 @@ public:
             std::function<bool(std::string_view, std::string_view)> callback) override {
         for (const auto& [k, v] : store_) {
             if (k.rfind(std::string(prefix), 0) == 0) {
-                if (!callback(k, v)) break;
+                if (!callback(k, v)) {
+                  break;
+                }
             }
         }
         return OkVoid();
@@ -780,7 +826,9 @@ TEST_F(ABTestManagerPersistenceTest, StartLoadsPersistedEntries) {
         ABModuleTestConfig cfg = makePersistedConfig("p2");
         mgr1.startTest(cfg, loader);
         // Record 100 outcomes to trigger the periodic persist.
-        for (int i = 0; i < 100; ++i) mgr1.recordOutcome("p2", false, true, 3.0);
+        for (int i = 0; i < 100; ++i) {
+          mgr1.recordOutcome("p2", false, true, 3.0);
+        }
     }
 
     // Phase 2: new manager — restore from storage.
@@ -798,7 +846,9 @@ TEST_F(ABTestManagerPersistenceTest, StartTestReactivatesPersistedOnlyEntry) {
         ABTestManager mgr1;
         mgr1.setStorageEngine(&storage);
         mgr1.startTest(makePersistedConfig("p3"), loader);
-        for (int i = 0; i < 100; ++i) mgr1.recordOutcome("p3", false, true, 5.0);
+        for (int i = 0; i < 100; ++i) {
+          mgr1.recordOutcome("p3", false, true, 5.0);
+        }
     }
 
     ABTestManager mgr2;

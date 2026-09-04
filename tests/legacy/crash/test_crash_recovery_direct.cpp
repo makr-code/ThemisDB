@@ -33,7 +33,9 @@ protected:
     }
 
     void openDB() {
-        if (db_) return;
+        if (db_) {
+          return;
+        }
 
         rocksdb::TransactionDBOptions txn_db_opts;
         txn_db_opts.transaction_lock_timeout = 500;  // 500ms lock timeout
@@ -76,7 +78,9 @@ protected:
     // Retrieve JSON document
     nlohmann::json readDocument(const std::string& key) {
         EXPECT_TRUE(db_) << "DB not open";
-        if (!db_) return nlohmann::json();
+        if (!db_) {
+          return nlohmann::json();
+        }
 
         std::string value;
         rocksdb::Status s = db_->Get(rocksdb::ReadOptions(), key, &value);

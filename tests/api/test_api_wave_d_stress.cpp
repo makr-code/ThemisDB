@@ -217,7 +217,9 @@ TEST(WaveDStressTest, HighCardinalitySpanIngestion)
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back(worker, t);
     }
-    for (auto &th : threads) th.join();
+    for (auto &th : threads) {
+      th.join();
+    }
 
     const auto stats = sink.stats();
 
@@ -326,7 +328,9 @@ TEST(WaveDStressTest, ExporterAllRetriesExhausted)
     int delay_ms          = 50;
 
     for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
-        if (attempt > 0) delay_ms *= 2;
+        if (attempt > 0) {
+          delay_ms *= 2;
+        }
         const bool ok = transport.send();
         if (ok) {
             exported = kBatchSize;
@@ -445,8 +449,12 @@ TEST(WaveDSoakTest, SoakSimulation_ConcurrentMixedLoad_NoLeak)
 
     std::vector<std::thread> threads;
     threads.reserve(kThreads);
-    for (int t = 0; t < kThreads; ++t) threads.emplace_back(worker, t);
-    for (auto &th : threads) th.join();
+    for (int t = 0; t < kThreads; ++t) {
+      threads.emplace_back(worker, t);
+    }
+    for (auto &th : threads) {
+      th.join();
+    }
 
     const int total = kThreads * kRequestsPerThread;
     EXPECT_EQ(success.load() + auth_fail.load() + rate_fail.load(), total)

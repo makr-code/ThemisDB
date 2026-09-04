@@ -274,7 +274,9 @@ std::vector<RebalanceOperationConfig> RebalanceOperation::generateTopologyChange
             if (!found) {
                 // New node - pull shards from existing nodes that are overloaded
                 for (size_t i = 0; i < target_per_node; ++i) {
-                    if (old_topology.empty()) break;
+                    if (old_topology.empty()) {
+                      break;
+                    }
                     
                     RebalanceOperationConfig cfg = config_;
                     cfg.source_shard_id = old_topology[i % old_topology.size()];

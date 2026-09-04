@@ -183,7 +183,9 @@ protected:
 
     // Extract the double payload stored in a Row.
     static double extractValue(const themis::gpu::GPUQueryAccelerator::Row& r) {
-        if (r.data.size() < sizeof(double)) return 0.0;
+        if (r.data.size() < sizeof(double)) {
+          return 0.0;
+        }
         double v;
         std::memcpy(&v, r.data.data(), sizeof(double));
         return v;

@@ -41,27 +41,47 @@ std::string resolveUserAttr(const std::string& user_attr, const SecurityContext&
 /// Compare two JSON scalars (string / number / bool) with a given operator.
 /// Returns false if either operand cannot be compared.
 bool compareScalar(const nlohmann::json& lhs, const std::string& op, const nlohmann::json& rhs) {
-    if (op == "eq") return lhs == rhs;
-    if (op == "ne") return lhs != rhs;
+    if (op == "eq") {
+      return lhs == rhs;
+    }
+    if (op == "ne") {
+      return lhs != rhs;
+    }
 
     // Numeric comparisons require both sides to be numbers.
     if (lhs.is_number() && rhs.is_number()) {
         double l = lhs.get<double>();
         double r = rhs.get<double>();
-        if (op == "lt") return l < r;
-        if (op == "le") return l <= r;
-        if (op == "gt") return l > r;
-        if (op == "ge") return l >= r;
+        if (op == "lt") {
+          return l < r;
+        }
+        if (op == "le") {
+          return l <= r;
+        }
+        if (op == "gt") {
+          return l > r;
+        }
+        if (op == "ge") {
+          return l >= r;
+        }
     }
 
     // String comparisons.
     if (lhs.is_string() && rhs.is_string()) {
         const auto& l = lhs.get_ref<const std::string&>();
         const auto& r = rhs.get_ref<const std::string&>();
-        if (op == "lt") return l < r;
-        if (op == "le") return l <= r;
-        if (op == "gt") return l > r;
-        if (op == "ge") return l >= r;
+        if (op == "lt") {
+          return l < r;
+        }
+        if (op == "le") {
+          return l <= r;
+        }
+        if (op == "gt") {
+          return l > r;
+        }
+        if (op == "ge") {
+          return l >= r;
+        }
     }
 
     return false;

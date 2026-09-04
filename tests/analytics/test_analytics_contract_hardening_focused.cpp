@@ -84,7 +84,9 @@ static std::optional<AnalyticsErrorCode> mockSumRows(
 static std::int64_t mockSumNullable(const std::vector<std::optional<std::int64_t>>& rows) {
     std::int64_t acc = 0;
     for (const auto& v : rows) {
-        if (v.has_value()) acc += *v;
+        if (v.has_value()) {
+          acc += *v;
+        }
     }
     return acc;
 }
@@ -101,7 +103,9 @@ static CountResult mockCount(const std::vector<std::optional<int>>& rows) {
     std::size_t star = rows.size();
     std::size_t col  = 0;
     for (const auto& v : rows) {
-        if (v.has_value()) ++col;
+        if (v.has_value()) {
+          ++col;
+        }
     }
     return {star, col};
 }
@@ -113,7 +117,9 @@ static std::vector<int> mockTumblingWindow(const std::vector<int>& events, std::
     processed.reserve(events.size());
     std::size_t bucket = 0;
     for (std::size_t i = 0; i < events.size(); ++i) {
-        if (i > 0 && i % window_size == 0) ++bucket;
+        if (i > 0 && i % window_size == 0) {
+          ++bucket;
+        }
         processed.push_back(events[i]);
     }
     return processed;
@@ -141,7 +147,9 @@ static std::optional<AnalyticsErrorCode> mockCheckBackpressure(
 static bool mockCepMatch(const std::vector<char>& events) {
     int state = 0;
     for (char e : events) {
-        if (state == 0 && e == 'A') state = 1;
+        if (state == 0 && e == 'A') {
+          state = 1;
+        }
         else if (state == 1 && e == 'B') state = 2;
         else if (state == 2 && e == 'C') return true;
         else if (e == 'A') state = 1;
@@ -169,13 +177,17 @@ static std::optional<AnalyticsErrorCode> mockForecastValidate(
 
 /// Simulates model lookup.
 static std::optional<AnalyticsErrorCode> mockLoadModel(const std::string& name) {
-    if (name == "existing_model") return std::nullopt;
+    if (name == "existing_model") {
+      return std::nullopt;
+    }
     return AnalyticsErrorCode::FORECAST_MODEL_NOT_FOUND;
 }
 
 /// Simulates anomaly threshold validation.
 static std::optional<AnalyticsErrorCode> mockValidateThreshold(double threshold) {
-    if (threshold < 0.0) return AnalyticsErrorCode::ANOMALY_THRESHOLD_INVALID;
+    if (threshold < 0.0) {
+      return AnalyticsErrorCode::ANOMALY_THRESHOLD_INVALID;
+    }
     return std::nullopt;
 }
 
@@ -308,7 +320,9 @@ TEST(AnalyticsContractHardening, ANC11_NestedAggregateValid) {
     // SUM = 51.666...
     std::vector<double> group_avgs = {15.0, 30.0, 20.0 / 3.0};
     double nested_sum = 0.0;
-    for (double v : group_avgs) nested_sum += v;
+    for (double v : group_avgs) {
+      nested_sum += v;
+    }
     EXPECT_GT(nested_sum, 0.0);
     EXPECT_TRUE(std::isfinite(nested_sum));
 }

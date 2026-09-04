@@ -158,7 +158,9 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
     auto kRegexMatchTimeoutMs = std::chrono::milliseconds(pattern_timeout_ms_);
     
     for (const auto& pattern : patterns_) {
-        if (!pattern.enabled) continue;
+        if (!pattern.enabled) {
+          continue;
+        }
         
         // Check for overall timeout before processing next pattern
         auto elapsed = std::chrono::steady_clock::now() - start_time;
@@ -175,7 +177,9 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
         }
         
         PIIType type = PIITypeUtils::fromString(pattern.name);
-        if (type == PIIType::UNKNOWN) continue;
+        if (type == PIIType::UNKNOWN) {
+          continue;
+        }
         
         try {
             std::sregex_iterator it(text.begin(), text.end(), pattern.compiled_regex);
@@ -516,10 +520,14 @@ void RegexDetectionEngine::rebuildFieldHints() {
     }
     
     for (const auto& pattern : patterns_) {
-        if (!pattern.enabled) continue;
+        if (!pattern.enabled) {
+          continue;
+        }
         
         PIIType type = PIITypeUtils::fromString(pattern.name);
-        if (type == PIIType::UNKNOWN) continue;
+        if (type == PIIType::UNKNOWN) {
+          continue;
+        }
         
         for (const auto& hint : pattern.field_hints) {
             std::string lower_hint = hint;

@@ -367,7 +367,9 @@ std::string SpatialApiHandler::urlDecode([[maybe_unused]] const std::string& str
 std::unordered_map<std::string, std::string> SpatialApiHandler::parseQuery([[maybe_unused]] const std::string& target) {
     std::unordered_map<std::string, std::string> out;
     auto qpos = target.find('?');
-    if (qpos == std::string::npos) return out;
+    if (qpos == std::string::npos) {
+      return out;
+    }
     auto qs = target.substr(qpos + 1);
     std::istringstream iss(qs);
     std::string kv;

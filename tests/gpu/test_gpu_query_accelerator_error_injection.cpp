@@ -49,7 +49,9 @@ protected:
 
     /// Helper to extract the float payload as a double
     static double payloadVal(const Row& r) {
-        if (r.data.size() < sizeof(float)) return 0.0;
+        if (r.data.size() < sizeof(float)) {
+          return 0.0;
+        }
         float v;
         std::memcpy(&v, r.data.data(), sizeof(float));
         return static_cast<double>(v);

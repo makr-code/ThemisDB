@@ -127,7 +127,9 @@ TEST(ConnectionPoolTest, ConcurrentAcquireAndRelease) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(8, success_count.load());
     EXPECT_EQ(4u, pool.available());
 }
@@ -169,7 +171,9 @@ TEST(ThreadPoolTest, CompletedCountMatchesSubmitted) {
     for (int i = 0; i < N; ++i) {
         futs.push_back(pool.submit([] { /* no-op */ }));
     }
-    for (auto& f : futs) f.get();
+    for (auto& f : futs) {
+      f.get();
+    }
     EXPECT_EQ(static_cast<uint64_t>(N), pool.completedCount());
 }
 
@@ -178,7 +182,9 @@ TEST(ThreadPoolTest, QueuedCountMatchesSubmitted) {
     std::atomic<bool> gate{false};
     // Block the worker
     auto blocker = pool.submit([&] {
-        while (!gate.load()) std::this_thread::yield();
+        while (!gate.load()) {
+          std::this_thread::yield();
+        }
     });
     // Submit 5 more tasks
     for (int i = 0; i < 5; ++i) pool.submit([] {});
@@ -204,7 +210,9 @@ TEST(ThreadPoolTest, ConcurrentSubmission) {
             f.get();
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(8, counter.load());
 }
 
@@ -278,7 +286,9 @@ TEST(BufferPoolTest, BufferZeroedOnReturn) {
     {
         auto b = pool.acquire();
         // Write non-zero data
-        for (auto& byte : b.get()) byte = 0xFF;
+        for (auto& byte : b.get()) {
+          byte = 0xFF;
+        }
     }
     // Re-acquire: buffer should be zero-filled
     auto b2 = pool.acquire();
@@ -300,7 +310,9 @@ TEST(BufferPoolTest, ConcurrentAcquireAndRelease) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(8, success.load());
     EXPECT_EQ(4u, pool.available());
 }
@@ -352,7 +364,9 @@ TEST(ThreadPoolTest, SingleThreadHandlesManyTasks) {
     for (int i = 0; i < 20; ++i) {
         futs.push_back(pool.submit([&, i] { sum.fetch_add(i); }));
     }
-    for (auto& f : futs) f.get();
+    for (auto& f : futs) {
+      f.get();
+    }
     // Sum of 0..19 = 190
     EXPECT_EQ(190, sum.load());
 }

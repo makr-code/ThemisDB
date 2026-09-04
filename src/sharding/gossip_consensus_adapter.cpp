@@ -95,7 +95,9 @@ void GossipConsensusAdapter::stop() {
 bool GossipConsensusAdapter::isLeader() const {
     // Gossip is leaderless, so we'll return true if we're the "coordinator"
     // based on deterministic selection
-    if (cluster_nodes_.empty()) return false;
+    if (cluster_nodes_.empty()) {
+      return false;
+    }
     
     std::string expected_coordinator = *std::min_element(
         cluster_nodes_.begin(), cluster_nodes_.end()
@@ -105,7 +107,9 @@ bool GossipConsensusAdapter::isLeader() const {
 }
 
 std::string GossipConsensusAdapter::getLeaderId() const {
-    if (cluster_nodes_.empty()) return "";
+    if (cluster_nodes_.empty()) {
+      return "";
+    }
     
     // Return the deterministic "leader" (lowest node ID)
     return *std::min_element(cluster_nodes_.begin(), cluster_nodes_.end());
@@ -371,7 +375,9 @@ void GossipConsensusAdapter::gossipThread() {
             return !running_.load();
         });
         
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
         
         lock.unlock();
         

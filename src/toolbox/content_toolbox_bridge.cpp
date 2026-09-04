@@ -393,7 +393,9 @@ uint64_t ContentToolboxBridge::vectorWriteFailuresTotal() const noexcept {
 
 std::string ContentToolboxBridge::getMetricsText() const {
     const uint64_t ops = impl_->bridge_operations_total_.load();
-    if (ops == 0) return "";
+    if (ops == 0) {
+      return "";
+    }
 
     const uint64_t failures = impl_->bridge_failures_total_.load();
     const uint64_t graph_failures = impl_->graph_write_failures_total_.load();

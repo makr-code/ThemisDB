@@ -80,12 +80,20 @@ json RouteRegistry::buildOpenApiSpec(const std::string& api_version) const {
         }
 
         json operation = json::object();
-        if (!op.summary.empty())     operation["summary"]     = op.summary;
-        if (!op.description.empty()) operation["description"] = op.description;
-        if (!op.operationId.empty()) operation["operationId"] = op.operationId;
+        if (!op.summary.empty()) {
+          operation["summary"]     = op.summary;
+        }
+        if (!op.description.empty()) {
+          operation["description"] = op.description;
+        }
+        if (!op.operationId.empty()) {
+          operation["operationId"] = op.operationId;
+        }
         if (!op.tags.empty()) {
             json tags_arr = json::array();
-            for (const auto& t : op.tags) tags_arr.push_back(t);
+            for (const auto& t : op.tags) {
+              tags_arr.push_back(t);
+            }
             operation["tags"] = std::move(tags_arr);
         }
         if (!params.empty()) {
@@ -198,11 +206,21 @@ json RouteRegistry::buildOpenApiSpec(const std::string& api_version) const {
 
     // Well-known tag descriptions
     auto tag_description = [](const std::string& t) -> std::string {
-        if (t == "monitoring")    return "Health, metrics and observability endpoints";
-        if (t == "observability") return "Operator observability REST API – alerts, silences, health";
-        if (t == "entities")      return "Entity CRUD operations";
-        if (t == "query")         return "Query execution endpoints";
-        if (t == "license")       return "License management and status";
+        if (t == "monitoring") {
+          return "Health, metrics and observability endpoints";
+        }
+        if (t == "observability") {
+          return "Operator observability REST API – alerts, silences, health";
+        }
+        if (t == "entities") {
+          return "Entity CRUD operations";
+        }
+        if (t == "query") {
+          return "Query execution endpoints";
+        }
+        if (t == "license") {
+          return "License management and status";
+        }
         return "";
     };
 

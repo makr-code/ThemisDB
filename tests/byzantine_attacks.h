@@ -161,7 +161,9 @@ inline void backdoorAttack(
     std::vector<GradientTensor>& gradients,
     const BackdoorPattern& pattern
 ) {
-    if (gradients.empty()) return;
+    if (gradients.empty()) {
+      return;
+    }
     
     // Apply pattern to first tensor for simplicity
     auto& tensor = gradients[0];
@@ -181,8 +183,12 @@ inline void clippingAttack(
 ) {
     for (auto& tensor : gradients) {
         for (auto& val : tensor.data) {
-            if (val > clip_value) val = clip_value;
-            if (val < -clip_value) val = -clip_value;
+            if (val > clip_value) {
+              val = clip_value;
+            }
+            if (val < -clip_value) {
+              val = -clip_value;
+            }
         }
     }
 }
@@ -193,7 +199,9 @@ inline void minMaxAttack(
     const std::vector<std::vector<GradientTensor>>& all_shard_gradients,
     bool use_min = true
 ) {
-    if (all_shard_gradients.size() < 2 || gradients.empty()) return;
+    if (all_shard_gradients.size() < 2 || gradients.empty()) {
+      return;
+    }
     
     for (size_t layer_idx = 0; layer_idx < gradients.size(); ++layer_idx) {
         auto& tensor = gradients[layer_idx];

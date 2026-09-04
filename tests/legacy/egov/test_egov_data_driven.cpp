@@ -109,7 +109,9 @@ static json parseFrontMatter(const std::string& content, const std::string& path
 
     // Abschnitt zwischen erstem und zweitem "---" finden
     size_t first_end = content.find('\n', 0);          // Ende der Zeile "---"
-    if (first_end == std::string::npos) first_end = 3;
+    if (first_end == std::string::npos) {
+      first_end = 3;
+    }
     else first_end += 1;                               // hinter das \n
 
     size_t second_start = content.find("\n---", first_end);
@@ -122,7 +124,9 @@ static json parseFrontMatter(const std::string& content, const std::string& path
 
     // Prosatext nach dem zweiten "---"
     size_t prose_start = second_start + 4; // hinter "\n---"
-    if (prose_start < content.size() && content[prose_start] == '\n') prose_start++;
+    if (prose_start < content.size() && content[prose_start] == '\n') {
+      prose_start++;
+    }
     std::string prose = (prose_start < content.size()) ? content.substr(prose_start) : "";
 
     json j;
@@ -318,7 +322,9 @@ struct EGovFixtureContext {
 
     int logPos(const std::string& prefix) const {
         for (int i = 0; i < static_cast<int>(log.size()); ++i) {
-            if (log[i].rfind(prefix, 0) == 0) return i;
+            if (log[i].rfind(prefix, 0) == 0) {
+              return i;
+            }
         }
         return -1;
     }
@@ -501,7 +507,9 @@ private:
         const std::string record_id    = a.value("erwartet_record_id", ctx_.az);
 
         XOEVStandard standard = XOEVStandard::OTHER;
-        if (standard_str == "XBAU") standard = XOEVStandard::XBAU;
+        if (standard_str == "XBAU") {
+          standard = XOEVStandard::XBAU;
+        }
 
         const auto& vorlage = ctx_.antrag.at("xoev_xml_vorlage");
         std::string xml = buildXOEVXml(ctx_.az, vorlage.at("wurzelelement").get<std::string>(),
@@ -519,7 +527,9 @@ private:
         const std::string xml_prefix   = a.value("erwartet_xml_prefix", "<?xml");
 
         XOEVStandard standard = XOEVStandard::OTHER;
-        if (standard_str == "XBAU") standard = XOEVStandard::XBAU;
+        if (standard_str == "XBAU") {
+          standard = XOEVStandard::XBAU;
+        }
 
         const auto& vorlage = ctx_.antrag.at("xoev_xml_vorlage");
         std::string xml = buildXOEVXml(ctx_.az, vorlage.at("wurzelelement").get<std::string>(),
@@ -911,7 +921,9 @@ static void simulateBaugenehmigung(EGovFixtureContext& ctx) {
             ctx.getDMS(bid).storeDocument(stn);
         }));
     }
-    for (auto& f : futures) f.get();
+    for (auto& f : futures) {
+      f.get();
+    }
     ctx.logPhase("FACHLICHE_PRUEFUNG: Stellungnahmen erhalten");
 
     // Phase 5: Entscheidung
@@ -1010,7 +1022,9 @@ static void simulateBImSchG(EGovFixtureContext& ctx) {
                         "Stellungnahme " + bid, bid, bid, extra));
         }));
     }
-    for (auto& f : futures) f.get();
+    for (auto& f : futures) {
+      f.get();
+    }
     ctx.logPhase("FACHBEHOERDEN_PRUEFUNG: 7 Stellungnahmen");
 
     // Erörterungstermin
@@ -1195,7 +1209,9 @@ TEST_P(EGovDataDrivenTest, PflichtunterlagenVollstaendig) {
     const auto& unterlagen = ctx_->antrag.at("unterlagen");
     int pflicht_cnt = 0;
     for (const auto& u : unterlagen) {
-        if (u.value("pflicht", false)) pflicht_cnt++;
+        if (u.value("pflicht", false)) {
+          pflicht_cnt++;
+        }
     }
     EXPECT_GE(pflicht_cnt, 1) << "Antrag hat keine Pflichtunterlagen definiert";
 

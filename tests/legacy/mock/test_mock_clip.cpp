@@ -20,6 +20,8 @@ TEST(MockClipTest, Normalized) {
     MockClipProcessor p(64);
     auto emb = p.generateEmbedding("another-image");
     double sum = 0.0;
-    for (float v : emb) sum += static_cast<double>(v) * v;
+    for (float v : emb) {
+      sum += static_cast<double>(v) * v;
+    }
     EXPECT_NEAR(sum, 1.0, 1e-3);
 }

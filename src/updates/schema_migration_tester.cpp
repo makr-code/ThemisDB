@@ -37,7 +37,9 @@ namespace fs = std::filesystem;
 size_t MigrationTestResult::passedCount() const {
     size_t n = 0;
     for (const auto& r : test_results)
-        if (r.passed) ++n;
+        if (r.passed) {
+          ++n;
+        }
     return n;
 }
 

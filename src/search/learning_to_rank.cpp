@@ -97,7 +97,9 @@ void LearningToRank::recordClick(const ClickEvent& event) {
 }
 
 size_t LearningToRank::train() {
-    if (clicks_.empty()) return 0;
+    if (clicks_.empty()) {
+      return 0;
+    }
 
     const size_t n_events = clicks_.size();
 
@@ -167,7 +169,9 @@ std::string LearningToRank::selectVariant(const std::string& request_key) const 
     double cumulative = 0.0;
     for (const auto& [name, variant] : variants_) {
         cumulative += variant.traffic_fraction;
-        if (fraction < cumulative) return name;
+        if (fraction < cumulative) {
+          return name;
+        }
     }
     return {}; // default model
 }

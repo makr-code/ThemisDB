@@ -81,7 +81,9 @@ private:
             response->set_success(result.success);
             response->set_entries_applied(static_cast<uint32_t>(result.entries_applied));
             response->set_last_applied_lsn(result.last_applied_lsn.toString());
-            for (const auto& err : result.errors) response->add_errors(err);
+            for (const auto& err : result.errors) {
+              response->add_errors(err);
+            }
 
             if (!result.success) {
                 return grpc::Status(grpc::StatusCode::INTERNAL, "Apply failed");

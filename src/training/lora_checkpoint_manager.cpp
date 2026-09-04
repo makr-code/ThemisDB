@@ -61,7 +61,9 @@ parseManifest(const std::string& content) {
 
     // Returns true when 's' is exactly 64 lowercase hex characters.
     auto isValidSha256 = [](const std::string& s) -> bool {
-        if (s.size() != 64) return false;
+        if (s.size() != 64) {
+          return false;
+        }
         for (char c : s) {
             if (!std::isxdigit(static_cast<unsigned char>(c)) ||
                 (std::isupper(static_cast<unsigned char>(c)))) return false;
@@ -71,9 +73,13 @@ parseManifest(const std::string& content) {
 
     // Returns true when 'p' is non-empty and contains no path-traversal.
     auto isSafePath = [](const std::string& p) -> bool {
-        if (p.empty()) return false;
+        if (p.empty()) {
+          return false;
+        }
         // Reject entries with ".." components
-        if (p.find("..") != std::string::npos) return false;
+        if (p.find("..") != std::string::npos) {
+          return false;
+        }
         return true;
     };
 
@@ -97,11 +103,15 @@ parseManifest(const std::string& content) {
             continue;
         }
         auto eq = line.find('=');
-        if (eq == std::string::npos) continue;
+        if (eq == std::string::npos) {
+          continue;
+        }
         in_block = true;
         std::string key = line.substr(0, eq);
         std::string val = line.substr(eq + 1);
-        if      (key == "checkpoint_path") entry.checkpoint_path = val;
+        if      (key == "checkpoint_path") {
+          entry.checkpoint_path = val;
+        }
         else if (key == "sha256")          entry.sha256 = val;
         else if (key == "base_model_hash") entry.base_model_hash = val;
         else if (key == "adapter_version") entry.adapter_version = val;
@@ -118,9 +128,13 @@ parseManifest(const std::string& content) {
 // Copy a file via streams (portable, no POSIX rename across filesystems)
 bool copyFile(const std::string& src, const std::string& dst) {
     std::ifstream in(src, std::ios::binary);
-    if (!in.is_open()) return false;
+    if (!in.is_open()) {
+      return false;
+    }
     std::ofstream out(dst, std::ios::binary | std::ios::trunc);
-    if (!out.is_open()) return false;
+    if (!out.is_open()) {
+      return false;
+    }
     out << in.rdbuf();
     return out.good();
 }
@@ -165,7 +179,9 @@ public:
         }
 
         // Sanitize: replace spaces with underscores
-        for (char& c : filename) if (c == ' ') c = '_';
+        for (char& c : filename) {
+          if (c == ' ') c = '_';
+        }
 
         std::string tmp_path  = config_.checkpoint_dir + "/" + filename + ".tmp";
         std::string final_path = config_.checkpoint_dir + "/" + filename;
@@ -288,7 +304,9 @@ public:
     // -------------------------------------------------------------------------
     std::string loadCalibrationJson() const {
         std::ifstream f(calibrationManifestPath());
-        if (!f.is_open()) return "";
+        if (!f.is_open()) {
+          return "";
+        }
         std::ostringstream oss;
         oss << f.rdbuf();
         return oss.str();
@@ -335,7 +353,9 @@ public:
         for (size_t i = 0; i < entries_.size(); ++i) {
             const auto& entry = entries_[i];
             bool is_valid = validate(entry);
-            if (is_valid) valid_count++;
+            if (is_valid) {
+              valid_count++;
+            }
             
             diag << "  [" << (is_valid ? "OK" : "FAIL") << "] "
                  << entry.checkpoint_path << " (epoch=" << entry.epoch 
@@ -344,7 +364,9 @@ public:
         
         diag << "  Valid checkpoints: " << valid_count << "/" << entries_.size() << "\n";
         
-        if (diagnostics) *diagnostics = diag.str();
+        if (diagnostics) {
+          *diagnostics = diag.str();
+        }
         return valid_count;
     }
 
@@ -427,7 +449,9 @@ std::optional<CheckpointManifestEntry> LoRACheckpointManager::resumeWithDiagnost
     
     if (entries.empty()) {
         diag << "  Result: No checkpoints available\n";
-        if (diagnostics) *diagnostics = diag.str();
+        if (diagnostics) {
+          *diagnostics = diag.str();
+        }
         return std::nullopt;
     }
     
@@ -443,12 +467,16 @@ std::optional<CheckpointManifestEntry> LoRACheckpointManager::resumeWithDiagnost
         }
         
         diag << "    Status: VALID\n";
-        if (diagnostics) *diagnostics = diag.str();
+        if (diagnostics) {
+          *diagnostics = diag.str();
+        }
         return entry;
     }
     
     diag << "  Result: No valid checkpoint found\n";
-    if (diagnostics) *diagnostics = diag.str();
+    if (diagnostics) {
+      *diagnostics = diag.str();
+    }
     return std::nullopt;
 }
 

@@ -715,7 +715,9 @@ std::vector<uint64_t> RaftSnapshotManager::listSnapshots() const {
         }
         for (const auto& entry :
              std::filesystem::directory_iterator(config_.snapshot_directory)) {
-            if (!entry.is_regular_file()) continue;
+            if (!entry.is_regular_file()) {
+              continue;
+            }
             const std::string name = entry.path().filename().string();
             // Format: raft_snapshot_<index>.bin
             if (name.rfind("raft_snapshot_", 0) == 0 && name.ends_with(".bin")) {
@@ -822,7 +824,9 @@ void RaftSnapshotManager::cleanupOldSnapshots() {
         if (std::filesystem::exists(config_.snapshot_directory)) {
             for (const auto& entry :
                  std::filesystem::directory_iterator(config_.snapshot_directory)) {
-                if (!entry.is_regular_file()) continue;
+                if (!entry.is_regular_file()) {
+                  continue;
+                }
                 const std::string name = entry.path().filename().string();
                 if (name.rfind("raft_snapshot_", 0) == 0 && name.ends_with(".bin")) {
                     const std::string id_str = name.substr(14, name.size() - 18);

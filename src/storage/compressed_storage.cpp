@@ -27,14 +27,18 @@ static uint32_t cv_crc32(const void* data, size_t len) {
         std::array<uint32_t, 256> t{};
         for (uint32_t i = 0; i < 256; ++i) {
             uint32_t c = i;
-            for (int k = 0; k < 8; ++k) c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+            for (int k = 0; k < 8; ++k) {
+              c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+            }
             t[i] = c;
         }
         return t;
     }();
     uint32_t crc = 0xFFFFFFFFu;
     const auto* p = static_cast<const uint8_t*>(data);
-    for (size_t i = 0; i < len; ++i) crc = table[(crc ^ p[i]) & 0xFF] ^ (crc >> 8);
+    for (size_t i = 0; i < len; ++i) {
+      crc = table[(crc ^ p[i]) & 0xFF] ^ (crc >> 8);
+    }
     return ~crc;
 }
 
@@ -62,7 +66,9 @@ std::vector<uint8_t> CompressedValue::serialize() const {
 
     // CRC32 of all previous bytes (4 bytes, little-endian)
     uint32_t crc = cv_crc32(result.data(), result.size());
-    for (int i = 0; i < 4; ++i) result.push_back(static_cast<uint8_t>(crc >> (8 * i)));
+    for (int i = 0; i < 4; ++i) {
+      result.push_back(static_cast<uint8_t>(crc >> (8 * i)));
+    }
 
     return result;
 }
@@ -104,7 +110,9 @@ std::optional<CompressedValue> CompressedValue::deserialize(const std::vector<ui
     result.original_size = static_cast<size_t>(size);
 
     // Read compressed data (between fixed header and payload boundary)
-    if (payload_end < 9) return std::nullopt;
+    if (payload_end < 9) {
+      return std::nullopt;
+    }
     result.data.assign(bytes.begin() + 9, bytes.begin() + static_cast<std::ptrdiff_t>(payload_end));
 
     return result;
@@ -127,7 +135,9 @@ bool CompressedStorageWrapper::put(
     const std::vector<uint8_t>& value,
     std::optional<compression::DataType> hint
 ) {
-    if (!backend_) return false;
+    if (!backend_) {
+      return false;
+    }
     
     // Compress the value
     auto result = compressor_.compress(value, hint);
@@ -144,15 +154,21 @@ bool CompressedStorageWrapper::put(
 }
 
 std::optional<std::vector<uint8_t>> CompressedStorageWrapper::get(const std::string& key) {
-    if (!backend_) return std::nullopt;
+    if (!backend_) {
+      return std::nullopt;
+    }
     
     // Retrieve serialized data
     auto serialized = backend_->get(key);
-    if (!serialized) return std::nullopt;
+    if (!serialized) {
+      return std::nullopt;
+    }
     
     // Deserialize
     auto cv = CompressedValue::deserialize(*serialized);
-    if (!cv) return std::nullopt;
+    if (!cv) {
+      return std::nullopt;
+    }
     
     // Decompress
     if (cv->method == compression::CompressionMethod::NONE) {
@@ -192,7 +208,9 @@ bool ColumnCompressedStorage::put(
     const std::vector<uint8_t>& value,
     std::optional<compression::DataType> hint
 ) {
-    if (!backend_) return false;
+    if (!backend_) {
+      return false;
+    }
     
     // Get or create compressor for this column
     compression::CompressionStrategyManager* compressor = nullptr;
@@ -225,15 +243,21 @@ std::optional<std::vector<uint8_t>> ColumnCompressedStorage::get(
     const std::string& column,
     const std::string& key
 ) {
-    if (!backend_) return std::nullopt;
+    if (!backend_) {
+      return std::nullopt;
+    }
     
     // Retrieve serialized data
     auto serialized = backend_->get(make_full_key(column, key));
-    if (!serialized) return std::nullopt;
+    if (!serialized) {
+      return std::nullopt;
+    }
     
     // Deserialize
     auto cv = CompressedValue::deserialize(*serialized);
-    if (!cv) return std::nullopt;
+    if (!cv) {
+      return std::nullopt;
+    }
     
     // Decompress
     if (cv->method == compression::CompressionMethod::NONE) {
@@ -261,7 +285,9 @@ std::optional<std::vector<uint8_t>> ColumnCompressedStorage::get(
 }
 
 bool ColumnCompressedStorage::del(const std::string& column, const std::string& key) {
-    if (!backend_) return false;
+    if (!backend_) {
+      return false;
+    }
     return backend_->del(make_full_key(column, key));
 }
 

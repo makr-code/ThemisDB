@@ -39,11 +39,15 @@ SitemapCrawler::SitemapCrawler(FetchFn fetch_fn,
     std::size_t pos = 0;
     while (pos < xml_content.size()) {
         const std::size_t open_pos = xml_content.find(open_tag, pos);
-        if (open_pos == std::string::npos) break;
+        if (open_pos == std::string::npos) {
+          break;
+        }
 
         const std::size_t value_start = open_pos + open_len;
         const std::size_t close_pos   = xml_content.find(close_tag, value_start);
-        if (close_pos == std::string::npos) break;
+        if (close_pos == std::string::npos) {
+          break;
+        }
 
         std::string url = xml_content.substr(value_start, close_pos - value_start);
         // Trim whitespace around the URL
@@ -89,17 +93,23 @@ std::vector<std::string> SitemapCrawler::fetchUrls(
         // parseLocEntries extracts all <loc> values regardless of parent element.
         const auto child_urls = parseLocEntries(xml);
         for (const auto& child_url : child_urls) {
-            if (result.size() >= max_urls_) break;
+            if (result.size() >= max_urls_) {
+              break;
+            }
             std::string child_xml;
             try {
                 child_xml = fetch_fn_(child_url, user_agent_);
             } catch (...) {
                 continue;
             }
-            if (child_xml.empty()) continue;
+            if (child_xml.empty()) {
+              continue;
+            }
             const auto child_locs = parseLocEntries(child_xml);
             for (const auto& loc : child_locs) {
-                if (result.size() >= max_urls_) break;
+                if (result.size() >= max_urls_) {
+                  break;
+                }
                 result.push_back(loc);
             }
         }

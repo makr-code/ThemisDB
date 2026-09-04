@@ -60,7 +60,9 @@ size_t countLogLines(const std::filesystem::path &path) {
     size_t n = 0;
     std::string line;
     while (std::getline(f, line))
-        if (!line.empty()) ++n;
+        if (!line.empty()) {
+          ++n;
+        }
     return n;
 }
 
@@ -401,7 +403,9 @@ std::string buildCborCoseKey(int64_t kty, int64_t alg, int64_t crv,
     };
     auto encBytes = [](const std::vector<uint8_t> &b) -> std::string {
         std::string r;
-        if (b.size() <= 23)       r += static_cast<char>(0x40 | b.size());
+        if (b.size() <= 23) {
+          r += static_cast<char>(0x40 | b.size());
+        }
         else if (b.size() <= 255) { r += '\x58'; r += static_cast<char>(b.size()); }
         r.append(reinterpret_cast<const char *>(b.data()), b.size());
         return r;

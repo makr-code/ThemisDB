@@ -49,7 +49,9 @@ std::string repeat(char c, size_t n) { return std::string(n, c); }
 // Build a string with all printable ASCII characters
 std::string allPrintableAscii() {
     std::string s;
-    for (int i = 32; i < 127; ++i) s += static_cast<char>(i);
+    for (int i = 32; i < 127; ++i) {
+      s += static_cast<char>(i);
+    }
     return s;
 }
 

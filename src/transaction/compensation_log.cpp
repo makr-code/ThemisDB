@@ -56,10 +56,14 @@ bool CompensationLog::hasSucceeded(const std::string& step_name) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(step_name);
-    if (it == entries_.end()) return false;
+    if (it == entries_.end()) {
+      return false;
+    }
 
     for (const auto& entry : it->second) {
-        if (entry.succeeded) return true;
+        if (entry.succeeded) {
+          return true;
+        }
     }
     return false;
 }

@@ -74,8 +74,12 @@ static const std::string kStatsTimestampPrefix = "__ia_stats_ts__:";
 constexpr uint32_t kFallbackStatsAgeHours = 72;
 
 storage::StorageTierLevel tierFromString(const std::string& s) {
-    if (s == "warm") return storage::StorageTierLevel::WARM;
-    if (s == "cold") return storage::StorageTierLevel::COLD;
+    if (s == "warm") {
+      return storage::StorageTierLevel::WARM;
+    }
+    if (s == "cold") {
+      return storage::StorageTierLevel::COLD;
+    }
     return storage::StorageTierLevel::HOT;
 }
 
@@ -91,11 +95,21 @@ std::string tierToString(storage::StorageTierLevel tier) {
 TierThresholds loadTierThresholds(const YAML::Node& node,
                                    const TierThresholds& defaults) {
     TierThresholds t = defaults;
-    if (!node || !node.IsMap()) return t;
-    if (node["reorganize_pct"])       t.reorganize_pct       = node["reorganize_pct"].as<double>(t.reorganize_pct);
-    if (node["partial_rebuild_pct"])  t.partial_rebuild_pct  = node["partial_rebuild_pct"].as<double>(t.partial_rebuild_pct);
-    if (node["full_rebuild_pct"])     t.full_rebuild_pct     = node["full_rebuild_pct"].as<double>(t.full_rebuild_pct);
-    if (node["stats_stale_hours"])    t.stats_stale_hours    = node["stats_stale_hours"].as<uint32_t>(t.stats_stale_hours);
+    if (!node || !node.IsMap()) {
+      return t;
+    }
+    if (node["reorganize_pct"]) {
+      t.reorganize_pct       = node["reorganize_pct"].as<double>(t.reorganize_pct);
+    }
+    if (node["partial_rebuild_pct"]) {
+      t.partial_rebuild_pct  = node["partial_rebuild_pct"].as<double>(t.partial_rebuild_pct);
+    }
+    if (node["full_rebuild_pct"]) {
+      t.full_rebuild_pct     = node["full_rebuild_pct"].as<double>(t.full_rebuild_pct);
+    }
+    if (node["stats_stale_hours"]) {
+      t.stats_stale_hours    = node["stats_stale_hours"].as<uint32_t>(t.stats_stale_hours);
+    }
     return t;
 }
 
@@ -117,8 +131,12 @@ Result<IndexAnalyzeConfig> IndexAnalyzeConfig::fromYamlFile(const std::string& y
             return cfg;
         }
 
-        if (node["enabled"])         cfg.enabled         = node["enabled"].as<bool>(true);
-        if (node["cron_expression"]) cfg.cron_expression = node["cron_expression"].as<std::string>("0 2 * * *");
+        if (node["enabled"]) {
+          cfg.enabled         = node["enabled"].as<bool>(true);
+        }
+        if (node["cron_expression"]) {
+          cfg.cron_expression = node["cron_expression"].as<std::string>("0 2 * * *");
+        }
 
         if (node["thresholds"]) {
             const auto& thr = node["thresholds"];
@@ -137,7 +155,9 @@ Result<IndexAnalyzeConfig> IndexAnalyzeConfig::fromYamlFile(const std::string& y
             for (const auto& entry : node["indices"]) {
                 IndexEntry ie;
                 ie.name    = entry["name"].as<std::string>("");
-                if (ie.name.empty()) continue;
+                if (ie.name.empty()) {
+                  continue;
+                }
                 ie.tier    = tierFromString(entry["tier"].as<std::string>("hot"));
                 ie.enabled = entry["enabled"].as<bool>(true);
 
@@ -260,7 +280,9 @@ std::vector<IndexAnalysisReport> IndexAnalyzer::analyzeAll() {
     reports.reserve(snapshot.size());
 
     for (const auto& entry : snapshot) {
-        if (!entry.enabled) continue;
+        if (!entry.enabled) {
+          continue;
+        }
 
         // lock_in_loop scanner alert (line 251): the index-entry snapshot is
         // captured before the loop; thresholds are intentionally re-read per
@@ -415,7 +437,9 @@ void IndexAnalyzer::schedulerLoop() {
                            [this] { return !running_.load(std::memory_order_relaxed); });
         }
 
-        if (!running_.load(std::memory_order_relaxed)) break;
+        if (!running_.load(std::memory_order_relaxed)) {
+          break;
+        }
 
         // Check that it is actually time to run (cv_ may have been spuriously notified
         // due to a config change; re-validate)
@@ -567,7 +591,9 @@ void IndexAnalyzer::applyAdvisor(IndexAnalysisReport& report) {
         ai_enabled = config_.ai_advisor_enabled;
     }
 
-    if (!ai_enabled || !advisor) return;
+    if (!ai_enabled || !advisor) {
+      return;
+    }
 
     try {
         auto override_result = advisor->advise(report);
@@ -592,10 +618,18 @@ void IndexAnalyzer::applyAdvisor(IndexAnalysisReport& report) {
 IndexRecommendation IndexAnalyzer::classify(double frag_pct,
                                              bool stats_stale,
                                              const TierThresholds& t) {
-    if (frag_pct >= t.full_rebuild_pct)    return IndexRecommendation::FULL_REBUILD;
-    if (frag_pct >= t.partial_rebuild_pct) return IndexRecommendation::PARTIAL_REBUILD;
-    if (frag_pct >= t.reorganize_pct)      return IndexRecommendation::REORGANIZE;
-    if (stats_stale)                        return IndexRecommendation::UPDATE_STATS;
+    if (frag_pct >= t.full_rebuild_pct) {
+      return IndexRecommendation::FULL_REBUILD;
+    }
+    if (frag_pct >= t.partial_rebuild_pct) {
+      return IndexRecommendation::PARTIAL_REBUILD;
+    }
+    if (frag_pct >= t.reorganize_pct) {
+      return IndexRecommendation::REORGANIZE;
+    }
+    if (stats_stale) {
+      return IndexRecommendation::UPDATE_STATS;
+    }
     return IndexRecommendation::NONE;
 }
 

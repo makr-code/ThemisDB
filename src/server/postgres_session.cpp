@@ -277,8 +277,12 @@ void PostgresSession::handleStartupMessage(int32_t protocolVersion,
     auto dbIt = params.find("database");
     auto userIt = params.find("user");
     
-    if (dbIt != params.end()) databaseName_ = dbIt->second;
-    if (userIt != params.end()) userName_ = userIt->second;
+    if (dbIt != params.end()) {
+      databaseName_ = dbIt->second;
+    }
+    if (userIt != params.end()) {
+      userName_ = userIt->second;
+    }
     
     // Validate that user and database are provided
     if (userName_.empty()) {
@@ -996,11 +1000,15 @@ void PostgresSession::handleCopyDone() {
                             }
                         }
                         // Skip optional comma after closing quote
-                        if (pos < len && row[pos] == ',') ++pos;
+                        if (pos < len && row[pos] == ',') {
+                          ++pos;
+                        }
                     } else {
                         // Unquoted field — read until comma or end
                         size_t start = pos;
-                        while (pos < len && row[pos] != ',') ++pos;
+                        while (pos < len && row[pos] != ',') {
+                          ++pos;
+                        }
                         field = row.substr(start, pos - start);
                         // Trim surrounding whitespace
                         auto ltrim = field.find_first_not_of(" \t");
@@ -1015,7 +1023,9 @@ void PostgresSession::handleCopyDone() {
                     fields.push_back(field);
                 }
             }
-            if (fields.empty()) continue;
+            if (fields.empty()) {
+              continue;
+            }
 
             // Build JSON document: {col0: "v0", col1: "v1", ...}
             nlohmann::json doc;
@@ -1399,7 +1409,9 @@ void PostgresSession::doRead() {
                 while (offset < static_cast<size_t>(length) && buffer_[offset] != 0) {
                     std::string key(buffer_.data() + offset);
                     offset += key.size() + 1;
-                    if (offset >= static_cast<size_t>(length)) break;
+                    if (offset >= static_cast<size_t>(length)) {
+                      break;
+                    }
                     std::string value(buffer_.data() + offset);
                     offset += value.size() + 1;
                     params[key] = value;
@@ -1903,7 +1915,9 @@ PostgresSession::QueryInfo PostgresSession::parseSelectQuery(const std::string& 
     size_t joinPos = upperQuery.find("JOIN", fromPos);
     
     size_t tableEnd = std::string::npos;
-    if (wherePos != std::string::npos) tableEnd = wherePos;
+    if (wherePos != std::string::npos) {
+      tableEnd = wherePos;
+    }
     else if (joinPos != std::string::npos) tableEnd = joinPos;
     else if (groupPos != std::string::npos) tableEnd = groupPos;
     else if (orderPos != std::string::npos) tableEnd = orderPos;
@@ -1918,7 +1932,9 @@ PostgresSession::QueryInfo PostgresSession::parseSelectQuery(const std::string& 
     // Extract WHERE clause
     if (wherePos != std::string::npos) {
         size_t whereEnd = std::string::npos;
-        if (groupPos != std::string::npos && groupPos > wherePos) whereEnd = groupPos;
+        if (groupPos != std::string::npos && groupPos > wherePos) {
+          whereEnd = groupPos;
+        }
         else if (orderPos != std::string::npos && orderPos > wherePos) whereEnd = orderPos;
         else if (limitPos != std::string::npos && limitPos > wherePos) whereEnd = limitPos;
         else whereEnd = query.size();
@@ -1939,7 +1955,9 @@ PostgresSession::QueryInfo PostgresSession::parseSelectQuery(const std::string& 
     // Extract GROUP BY
     if (groupPos != std::string::npos) {
         size_t groupEnd = std::string::npos;
-        if (orderPos != std::string::npos && orderPos > groupPos) groupEnd = orderPos;
+        if (orderPos != std::string::npos && orderPos > groupPos) {
+          groupEnd = orderPos;
+        }
         else if (limitPos != std::string::npos && limitPos > groupPos) groupEnd = limitPos;
         else groupEnd = query.size();
         
@@ -2003,7 +2021,9 @@ std::string PostgresSession::buildCypherFromSelect(const QueryInfo& info) {
     if (!info.aggregates.empty()) {
         // Handle aggregates
         for (size_t i = 0; i < info.aggregates.size(); ++i) {
-            if (i > 0) return_clause_oss << ", ";
+            if (i > 0) {
+              return_clause_oss << ", ";
+            }
             
             std::string agg = info.aggregates[i];
             // Convert SQL aggregate to Cypher (e.g., COUNT(*) -> count(n))
@@ -2042,7 +2062,9 @@ std::string PostgresSession::buildCypherFromSelect(const QueryInfo& info) {
     } else {
         // Regular columns
         for (size_t i = 0; i < info.selectColumns.size(); ++i) {
-            if (i > 0) return_clause_oss << ", ";
+            if (i > 0) {
+              return_clause_oss << ", ";
+            }
             std::string_view col = info.selectColumns[i];
             if (col == "*") {
                 return_clause_oss << "n";
@@ -2086,7 +2108,9 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     
     // Extract table name
     size_t tableStart = intoPos + 4;
-    while (tableStart < query.size() && std::isspace(query[tableStart])) tableStart++;
+    while (tableStart < query.size() && std::isspace(query[tableStart])) {
+      tableStart++;
+    }
     
     size_t tableEnd = tableStart;
     while (tableEnd < query.size() && !std::isspace(query[tableEnd]) && query[tableEnd] != '(') tableEnd++;
@@ -2105,7 +2129,9 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     size_t pos = 0;
     while (pos < colsList.size()) {
         size_t commaPos = colsList.find(',', pos);
-        if (commaPos == std::string::npos) commaPos = colsList.size();
+        if (commaPos == std::string::npos) {
+          commaPos = colsList.size();
+        }
         
         std::string col = colsList.substr(pos, commaPos - pos);
         col.erase(0, col.find_first_not_of(" \t"));
@@ -2163,7 +2189,9 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     // Build Cypher CREATE statement
     std::string cypher = "CREATE (n:" + tableName + " {";
     for (size_t i = 0; i < columns.size() && i < values.size(); ++i) {
-        if (i > 0) cypher += ", ";
+        if (i > 0) {
+          cypher += ", ";
+        }
         cypher += columns[i] + ": " + values[i];
     }
     cypher += "})";
@@ -2267,7 +2295,9 @@ std::string PostgresSession::parseUpdateQuery(const std::string& query) {
             assignment = lhs + rhs;
         }
         
-        if (i > 0) cypherSetClause += ", ";
+        if (i > 0) {
+          cypherSetClause += ", ";
+        }
         cypherSetClause += assignment;
     }
     
@@ -2292,7 +2322,9 @@ std::string PostgresSession::parseDeleteQuery(const std::string& query) {
     
     // Extract table name
     size_t tableStart = fromPos + 4;
-    while (tableStart < query.size() && std::isspace(query[tableStart])) tableStart++;
+    while (tableStart < query.size() && std::isspace(query[tableStart])) {
+      tableStart++;
+    }
     
     size_t tableEnd = (wherePos != std::string::npos) ? wherePos : query.size();
     std::string tableName = query.substr(tableStart, tableEnd - tableStart);

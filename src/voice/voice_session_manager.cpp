@@ -104,7 +104,9 @@ bool InMemorySessionBackend::save(const VoiceSessionData& session) {
 std::optional<VoiceSessionData> InMemorySessionBackend::load(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = store_.find(session_id);
-    if (it == store_.end()) return std::nullopt;
+    if (it == store_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -155,14 +157,20 @@ int64_t VoiceSessionManager::nowMs() const {
 }
 
 bool VoiceSessionManager::isExpired(const VoiceSessionData& session) const {
-    if (!timeout_config_.auto_expire) return false;
+    if (!timeout_config_.auto_expire) {
+      return false;
+    }
     int64_t now = nowMs();
 
     // Check max session duration
-    if (now - session.created_at_ms > timeout_config_.max_session_duration_ms) return true;
+    if (now - session.created_at_ms > timeout_config_.max_session_duration_ms) {
+      return true;
+    }
 
     // Check idle timeout
-    if (now - session.last_activity_ms > timeout_config_.idle_timeout_ms) return true;
+    if (now - session.last_activity_ms > timeout_config_.idle_timeout_ms) {
+      return true;
+    }
 
     return false;
 }
@@ -296,7 +304,9 @@ bool VoiceSessionManager::updateSession(
 {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
-    if (it == active_cache_.end()) return false;
+    if (it == active_cache_.end()) {
+      return false;
+    }
     if (isExpired(it->second)) {
         it->second.state = SessionState::EXPIRED;
         finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
@@ -403,7 +413,9 @@ bool VoiceSessionManager::addConversationTurn(
 bool VoiceSessionManager::touchSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
-    if (it == active_cache_.end()) return false;
+    if (it == active_cache_.end()) {
+      return false;
+    }
     if (isExpired(it->second)) {
         it->second.state = SessionState::EXPIRED;
         finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
@@ -429,7 +441,9 @@ bool VoiceSessionManager::updatePreferredLanguage(
 {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
-    if (it == active_cache_.end()) return false;
+    if (it == active_cache_.end()) {
+      return false;
+    }
     if (isExpired(it->second)) {
         it->second.state = SessionState::EXPIRED;
         finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
@@ -590,7 +604,9 @@ bool VoiceSessionManager::isSessionActive(const std::string& session_id) {
 SessionState VoiceSessionManager::getSessionState(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
-    if (it == active_cache_.end()) return SessionState::TERMINATED;
+    if (it == active_cache_.end()) {
+      return SessionState::TERMINATED;
+    }
     return it->second.state;
 }
 
@@ -603,7 +619,9 @@ bool VoiceSessionManager::validateStateTransition(
 {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
-    if (it == active_cache_.end()) return false;
+    if (it == active_cache_.end()) {
+      return false;
+    }
     
     const SessionState current = it->second.state;
     
@@ -652,11 +670,15 @@ bool VoiceSessionManager::isUseAfterFreeAttempt(const std::string& session_id) {
 }
 
 bool VoiceSessionManager::sessionIdExists(const std::string& session_id) {
-    if (session_id.empty()) return false;
+    if (session_id.empty()) {
+      return false;
+    }
     
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
-    if (it != active_cache_.end()) return true;
+    if (it != active_cache_.end()) {
+      return true;
+    }
     
     // Check backend
     auto loaded = backend_->load(session_id);

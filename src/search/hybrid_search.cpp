@@ -289,7 +289,9 @@ std::vector<HybridSearch::Result> HybridSearch::search(
             
             for (const auto& r : vector_results) {
                 auto& doc = doc_map[r.document_id];
-                if (doc.document_id.empty()) doc = r;
+                if (doc.document_id.empty()) {
+                  doc = r;
+                }
                 doc.vector_score = r.vector_score;
                 doc.vector_rank = r.vector_rank;
                 doc.hybrid_score += config_.vector_weight * r.vector_score;
@@ -382,7 +384,9 @@ std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
         doc.document_id = r.document_id;
         doc.vector_score = r.vector_score;
         doc.vector_rank = static_cast<int>(i + 1);
-        if (doc.content.empty()) doc.content = r.content;
+        if (doc.content.empty()) {
+          doc.content = r.content;
+        }
         
         // RRF contribution from vector search
         double rrf_score = 1.0 / (config_.rrf_k + (i + 1));
@@ -412,7 +416,9 @@ std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
 }
 
 void HybridSearch::normalizeScores(std::vector<Result>& results, bool is_bm25) {
-    if (results.empty()) return;
+    if (results.empty()) {
+      return;
+    }
     
     // Find min/max scores
     double min_score = std::numeric_limits<double>::max();

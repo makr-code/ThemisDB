@@ -54,12 +54,16 @@ std::vector<Suggestion> AutocompleteEngine::suggest(const std::string& prefix,
 
     if (config_.include_popular && analytics_) {
         auto popular = suggestPopular(prefix, config_.max_suggestions);
-        for (auto& s : popular) combined.push_back(std::move(s));
+        for (auto& s : popular) {
+          combined.push_back(std::move(s));
+        }
     }
 
     if (config_.include_prefix && index_ && !table.empty() && !column.empty()) {
         auto prefix_sug = suggestByPrefix(prefix, table, column, config_.max_suggestions);
-        for (auto& s : prefix_sug) combined.push_back(std::move(s));
+        for (auto& s : prefix_sug) {
+          combined.push_back(std::move(s));
+        }
     }
 
     // Deduplicate by text (keep highest-scoring entry for each text)
@@ -144,7 +148,9 @@ std::vector<Suggestion> AutocompleteEngine::suggestByPrefix(const std::string& p
             s.score = 1.0;
             suggestions.push_back(std::move(s));
         }
-        if (suggestions.size() >= limit) break;
+        if (suggestions.size() >= limit) {
+          break;
+        }
     }
 
     return suggestions;

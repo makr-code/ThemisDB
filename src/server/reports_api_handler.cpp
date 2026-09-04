@@ -50,7 +50,9 @@ nlohmann::json ReportsApiHandler::generateComplianceReport([[maybe_unused]] cons
         if (in.good()) {
             std::string line;
             while (std::getline(in, line)) {
-                if (line.empty()) continue;
+                if (line.empty()) {
+                  continue;
+                }
                 total_events++;
                 try {
                     auto j = nlohmann::json::parse(line);
@@ -61,21 +63,31 @@ nlohmann::json ReportsApiHandler::generateComplianceReport([[maybe_unused]] cons
                         if (!lvl.empty()) {
                             std::string l = lvl;
                             std::transform(l.begin(), l.end(), l.begin(), ::tolower);
-                            if (l == "error" || l == "err" || l == "fatal") error_events++;
+                            if (l == "error" || l == "err" || l == "fatal") {
+                              error_events++;
+                            }
                         }
                     }
 
-                    if (j.contains("signature") || j.contains("signature_id")) signed_events++;
-                    if (j.contains("ciphertext") || j.contains("encrypted") || j.contains("enc")) encrypted_events++;
+                    if (j.contains("signature") || j.contains("signature_id")) {
+                      signed_events++;
+                    }
+                    if (j.contains("ciphertext") || j.contains("encrypted") || j.contains("enc")) {
+                      encrypted_events++;
+                    }
 
                     // Timestamps: support ts or timestamp
                     if (j.contains("ts") && j["ts"].is_string()) {
                         const auto ts = j["ts"].get<std::string>();
-                        if (first_ts.empty()) first_ts = ts;
+                        if (first_ts.empty()) {
+                          first_ts = ts;
+                        }
                         last_ts = ts;
                     } else if (j.contains("timestamp") && j["timestamp"].is_string()) {
                         const auto ts = j["timestamp"].get<std::string>();
-                        if (first_ts.empty()) first_ts = ts;
+                        if (first_ts.empty()) {
+                          first_ts = ts;
+                        }
                         last_ts = ts;
                     }
                 } catch (...) {
@@ -101,8 +113,12 @@ nlohmann::json ReportsApiHandler::generateComplianceReport([[maybe_unused]] cons
             {"encrypted_events", encrypted_events}
         };
 
-        if (!first_ts.empty()) metrics["period_start"] = first_ts;
-        if (!last_ts.empty()) metrics["period_end"] = last_ts;
+        if (!first_ts.empty()) {
+          metrics["period_start"] = first_ts;
+        }
+        if (!last_ts.empty()) {
+          metrics["period_end"] = last_ts;
+        }
 
         THEMIS_INFO("Reports API: Generated '{}' compliance report: total={}, errors={}", report_type, total_events, error_events);
 

@@ -249,7 +249,9 @@ TEST(DelegateEvaluatorTest, DE11_RealisticDegradation) {
     // 10 round-trips = 20 individual calls → 20 characters removed total.
     const std::string seed(100, 'x'); // 100 'x' characters
     auto degradeFn = [](const std::string& doc, const std::string& /*instr*/) {
-        if (doc.empty()) return doc;
+        if (doc.empty()) {
+          return doc;
+        }
         return doc.substr(0, doc.size() - 1); // remove one char per interaction
     };
 
@@ -351,9 +353,13 @@ TEST(DelegateEvaluatorTest, DE16_StoreBackedSnapshots) {
     const std::string seed = makeJsonDoc();
     // EditFn: forward appends "X", backward removes last "X"
     auto fn = [](const std::string& doc, const std::string& instr) {
-        if (instr == "fwd") return doc + "X";
+        if (instr == "fwd") {
+          return doc + "X";
+        }
         // backward: remove trailing X if present
-        if (!doc.empty() && doc.back() == 'X') return doc.substr(0, doc.size() - 1);
+        if (!doc.empty() && doc.back() == 'X') {
+          return doc.substr(0, doc.size() - 1);
+        }
         return doc;
     };
 

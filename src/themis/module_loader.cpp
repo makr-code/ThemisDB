@@ -85,7 +85,9 @@ void* ModuleLoader::loadLibrary(const std::string& path) {
 }
 
 void ModuleLoader::unloadLibrary(void* handle) {
-    if (!handle) return;
+    if (!handle) {
+      return;
+    }
 #ifdef _WIN32
     FreeLibrary(static_cast<HMODULE>(handle));
 #else
@@ -751,12 +753,24 @@ ModuleLoader::extractModuleMetadata(const std::string& modulePath) {
     auto getPatch =
         reinterpret_cast<GetVersionIntFunc>(getSymbol(tempHandle, "themis_api_version_patch"));
 
-    if (getVersionStr) metadata.version    = getVersionStr();
-    if (getAbiVersion) metadata.abiVersion = getAbiVersion();
-    if (getBuildId)    metadata.buildId    = getBuildId();
-    if (getMajor)      metadata.themisMajor = getMajor();
-    if (getMinor)      metadata.themisMinor = getMinor();
-    if (getPatch)      metadata.themisPatch = getPatch();
+    if (getVersionStr) {
+      metadata.version    = getVersionStr();
+    }
+    if (getAbiVersion) {
+      metadata.abiVersion = getAbiVersion();
+    }
+    if (getBuildId) {
+      metadata.buildId    = getBuildId();
+    }
+    if (getMajor) {
+      metadata.themisMajor = getMajor();
+    }
+    if (getMinor) {
+      metadata.themisMinor = getMinor();
+    }
+    if (getPatch) {
+      metadata.themisPatch = getPatch();
+    }
 
     unloadLibrary(tempHandle);
 
@@ -794,12 +808,24 @@ ModuleMetadata ModuleLoader::extractMetadataFromHandle(void* handle) {
     auto getPatch =
         reinterpret_cast<GetVersionIntFunc>(getSymbol(handle, "themis_api_version_patch"));
 
-    if (getVersionStr) metadata.version     = getVersionStr();
-    if (getAbiVersion) metadata.abiVersion  = getAbiVersion();
-    if (getBuildId)    metadata.buildId     = getBuildId();
-    if (getMajor)      metadata.themisMajor = getMajor();
-    if (getMinor)      metadata.themisMinor = getMinor();
-    if (getPatch)      metadata.themisPatch = getPatch();
+    if (getVersionStr) {
+      metadata.version     = getVersionStr();
+    }
+    if (getAbiVersion) {
+      metadata.abiVersion  = getAbiVersion();
+    }
+    if (getBuildId) {
+      metadata.buildId     = getBuildId();
+    }
+    if (getMajor) {
+      metadata.themisMajor = getMajor();
+    }
+    if (getMinor) {
+      metadata.themisMinor = getMinor();
+    }
+    if (getPatch) {
+      metadata.themisPatch = getPatch();
+    }
 
     return metadata;
 }
@@ -1505,9 +1531,13 @@ bool isSafeEntryPath(const std::filesystem::path& tempDir,
     auto tempStr     = tempDir.string();
     auto resolvedStr = resolvedPath.string();
     // Require the resolved path to be strictly longer (at least one component).
-    if (resolvedStr.size() <= tempStr.size()) return false;
+    if (resolvedStr.size() <= tempStr.size()) {
+      return false;
+    }
     // Require the temp dir to be a proper prefix followed by a separator.
-    if (resolvedStr.substr(0, tempStr.size()) != tempStr) return false;
+    if (resolvedStr.substr(0, tempStr.size()) != tempStr) {
+      return false;
+    }
     // At this point resolvedStr.size() > tempStr.size() ensures safe access.
     char sep = resolvedStr[tempStr.size()];
     return sep == '/' || sep == '\\';
@@ -1735,7 +1765,9 @@ std::string PluginBundleLoader::extractToTempDir([[maybe_unused]] const std::str
     for (zip_int64_t i = 0; i < entryCount; ++i) {
         const char* entryName = zip_get_name(archive, i, 0);
         // Skip null or empty entries without error.
-        if (!entryName || !*entryName) continue;
+        if (!entryName || !*entryName) {
+          continue;
+        }
 
         std::string nameStr(entryName);
 

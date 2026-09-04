@@ -79,7 +79,9 @@ void Saga::clear() {
 }
 
 void Saga::trimToSize([[maybe_unused]] size_t n) {
-    if (n >= steps_.size()) return;
+    if (n >= steps_.size()) {
+      return;
+    }
     THEMIS_DEBUG("SAGA: Trimming from {} to {} steps (discarding {} steps)",
                  steps_.size(), n, steps_.size() - n);
     steps_.erase(steps_.begin() + static_cast<ptrdiff_t>(n), steps_.end());
@@ -105,7 +107,9 @@ std::vector<std::string> Saga::getStepHistory() const {
 }
 
 int64_t Saga::getDurationMs() const {
-    if (steps_.empty()) return 0;
+    if (steps_.empty()) {
+      return 0;
+    }
     auto now = std::chrono::system_clock::now();
     auto first_step_time = steps_[0].executed_at;
     return std::chrono::duration_cast<std::chrono::milliseconds>(now - first_step_time).count();
@@ -127,7 +131,9 @@ void Saga::compensateWithRetry(int max_retries,
                 steps_.size(), max_retries, backoff_ms.count());
 
     for (auto it = steps_.rbegin(); it != steps_.rend(); ++it) {
-        if (it->compensated) continue;
+        if (it->compensated) {
+          continue;
+        }
 
         bool success = false;
         std::chrono::milliseconds current_backoff = backoff_ms;

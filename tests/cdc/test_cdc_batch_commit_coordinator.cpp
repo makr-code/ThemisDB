@@ -269,7 +269,9 @@ TEST(InMemoryBatchCommitCoordinatorTest, ConcurrentAddEventThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // No assertion on exact count (batch may be full), but no crash
     EXPECT_GE(added.load(), 1);

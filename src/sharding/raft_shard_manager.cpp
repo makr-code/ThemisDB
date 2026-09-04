@@ -215,7 +215,9 @@ std::map<std::string, ShardRaftInfo> RaftShardManager::getAllShardRaftInfo() con
     std::map<std::string, ShardRaftInfo> all_info;
     
     for (const auto& [shard_id, raft] : raft_instances_) {
-        if (!raft) continue;
+        if (!raft) {
+          continue;
+        }
         
         const auto& raft_state = raft->getRaftState();
         const auto& raft_log = raft_state.getLog();

@@ -38,7 +38,9 @@ static inline bool isPowerOfTwo([[maybe_unused]] size_t n) {
 
 // Helper function to get next power of 2
 static inline size_t nextPowerOfTwo([[maybe_unused]] size_t n) {
-    if (n == 0) return 1;
+    if (n == 0) {
+      return 1;
+    }
     n--;
     n |= n >> 1;
     n |= n >> 2;
@@ -135,7 +137,9 @@ struct BuddyAllocator::Impl {
             
             uintptr_t block_addr = free_list_heads[i];
             auto it = blocks.find(block_addr);
-            if (it == blocks.end()) return nullptr;
+            if (it == blocks.end()) {
+              return nullptr;
+            }
             
             Block& block = it->second;
             free_list_heads[i] = block.next;  // Update head to next block
@@ -325,7 +329,9 @@ double BuddyAllocator::getFragmentation() const {
         uintptr_t block_addr = impl_->free_list_heads[i];
         while (block_addr != 0) {
             auto it = impl_->blocks.find(block_addr);
-            if (it == impl_->blocks.end()) break;
+            if (it == impl_->blocks.end()) {
+              break;
+            }
             free_blocks++;
             total_free_space += it->second.size;
             block_addr = it->second.next;

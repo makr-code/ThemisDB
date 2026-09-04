@@ -352,7 +352,9 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
 
 bool DictionaryCodec::shouldUseDictionary(const std::vector<std::string>& data,
                                          [[maybe_unused]] double min_compression_ratio) {
-    if (data.empty()) return false;
+    if (data.empty()) {
+      return false;
+    }
 
     // Calculate unique strings
     std::unordered_set<std::string> unique_strings(data.begin(), data.end());
@@ -394,7 +396,9 @@ uint8_t BitPackingCodec::calculateBitsRequired(int64_t min_val, int64_t max_val)
         range = min_abs + static_cast<uint64_t>(max_val);
     }
     
-    if (range == 0) return 1;
+    if (range == 0) {
+      return 1;
+    }
 
     uint8_t bits = 0;
     while (range > 0) {
@@ -1279,13 +1283,17 @@ Result<void> ColumnSegment::decode() {
         case CompressionCodec::RLE: {
             if (metadata_.type == ColumnType::INT32) {
                 auto decode_result = RLECodec::decodeInt32(encoded_data_);
-                if (!decode_result) return tl::unexpected(decode_result.error());
+                if (!decode_result) {
+                  return tl::unexpected(decode_result.error());
+                }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int32_t));
                 std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
             } else if (metadata_.type == ColumnType::INT64) {
                 auto decode_result = RLECodec::decodeInt64(encoded_data_);
-                if (!decode_result) return tl::unexpected(decode_result.error());
+                if (!decode_result) {
+                  return tl::unexpected(decode_result.error());
+                }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int64_t));
                 std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
@@ -1302,13 +1310,17 @@ Result<void> ColumnSegment::decode() {
         case CompressionCodec::BIT_PACKING: {
             if (metadata_.type == ColumnType::INT32) {
                 auto decode_result = BitPackingCodec::decodeInt32(encoded_data_);
-                if (!decode_result) return tl::unexpected(decode_result.error());
+                if (!decode_result) {
+                  return tl::unexpected(decode_result.error());
+                }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int32_t));
                 std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
             } else if (metadata_.type == ColumnType::INT64) {
                 auto decode_result = BitPackingCodec::decodeInt64(encoded_data_);
-                if (!decode_result) return tl::unexpected(decode_result.error());
+                if (!decode_result) {
+                  return tl::unexpected(decode_result.error());
+                }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int64_t));
                 std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
@@ -1325,13 +1337,17 @@ Result<void> ColumnSegment::decode() {
         case CompressionCodec::FRAME_OF_REF: {
             if (metadata_.type == ColumnType::INT32) {
                 auto decode_result = FrameOfReferenceCodec::decodeInt32(encoded_data_);
-                if (!decode_result) return tl::unexpected(decode_result.error());
+                if (!decode_result) {
+                  return tl::unexpected(decode_result.error());
+                }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int32_t));
                 std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
             } else if (metadata_.type == ColumnType::INT64) {
                 auto decode_result = FrameOfReferenceCodec::decodeInt64(encoded_data_);
-                if (!decode_result) return tl::unexpected(decode_result.error());
+                if (!decode_result) {
+                  return tl::unexpected(decode_result.error());
+                }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int64_t));
                 std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
@@ -1347,7 +1363,9 @@ Result<void> ColumnSegment::decode() {
 
         case CompressionCodec::LZ4: {
             auto decode_result = GenericCompressionCodec::decompressLZ4(encoded_data_);
-            if (!decode_result) return tl::unexpected(decode_result.error());
+            if (!decode_result) {
+              return tl::unexpected(decode_result.error());
+            }
             raw_data_ = std::move(*decode_result);
             is_encoded_ = false;
             return {};
@@ -1355,7 +1373,9 @@ Result<void> ColumnSegment::decode() {
 
         case CompressionCodec::SNAPPY: {
             auto decode_result = GenericCompressionCodec::decompressSnappy(encoded_data_);
-            if (!decode_result) return tl::unexpected(decode_result.error());
+            if (!decode_result) {
+              return tl::unexpected(decode_result.error());
+            }
             raw_data_ = std::move(*decode_result);
             is_encoded_ = false;
             return {};
@@ -1492,7 +1512,9 @@ Result<ColumnSegment> ColumnSegment::deserialize(const std::vector<uint8_t>& dat
 }
 
 bool ColumnSegment::canSkipSegment(const void* filter_value) const {
-    if (!filter_value) return false;
+    if (!filter_value) {
+      return false;
+    }
 
     switch (metadata_.type) {
         case ColumnType::INT32:

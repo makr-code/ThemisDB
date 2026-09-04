@@ -606,7 +606,9 @@ json ThemisRPCService::handleDeleteInternal(
             std::string parent_key  = p_collection + ":" + p_model + ":" + p_uuid;
 
             auto iter_result = storage->newSafeIterator();
-            if (!iter_result) return children;
+            if (!iter_result) {
+              return children;
+            }
 
             auto& iter = iter_result.value();
             iter.Seek(scan_prefix);
@@ -618,7 +620,9 @@ json ThemisRPCService::handleDeleteInternal(
                     break;
                 }
                 std::string iter_key(iter.key());
-                if (iter_key.substr(0, scan_prefix.length()) != scan_prefix) break;
+                if (iter_key.substr(0, scan_prefix.length()) != scan_prefix) {
+                  break;
+                }
                 if (iter_key != parent_key) {
                     std::string iter_value(iter.value());
                     try {
@@ -1666,7 +1670,9 @@ json ThemisRPCService::handleTimeSeriesQueryInternal(
         // Append aggregation result if requested and data was found
         if (!aggregation.empty() && agg_count > 0) {
             double agg_result_val = 0.0;
-            if (aggregation == "sum")        agg_result_val = agg_sum;
+            if (aggregation == "sum") {
+              agg_result_val = agg_sum;
+            }
             else if (aggregation == "avg")   agg_result_val = agg_sum / agg_count;
             else if (aggregation == "min")   agg_result_val = agg_min;
             else if (aggregation == "max")   agg_result_val = agg_max;

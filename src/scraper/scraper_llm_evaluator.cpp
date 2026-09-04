@@ -53,7 +53,9 @@ bool ScraperLLMEvaluator::isLlmAvailable() const {
 
     std::ostringstream keywords_str;
     for (std::size_t i = 0; i < gap.keywords.size(); ++i) {
-        if (i > 0) keywords_str << ", ";
+        if (i > 0) {
+          keywords_str << ", ";
+        }
         keywords_str << gap.keywords[i];
     }
 
@@ -112,7 +114,9 @@ bool ScraperLLMEvaluator::isLlmAvailable() const {
             result.discard_reason = j["discard_reason"].get<std::string>();
         if (j.contains("key_entities") && j["key_entities"].is_array()) {
             for (const auto& e : j["key_entities"]) {
-                if (e.is_string()) result.key_entities.push_back(e.get<std::string>());
+                if (e.is_string()) {
+                  result.key_entities.push_back(e.get<std::string>());
+                }
             }
         }
     } catch (const json::parse_error& e) {

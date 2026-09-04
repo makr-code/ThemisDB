@@ -77,20 +77,26 @@ struct MockEntityStore {
     std::map<std::string, MockEntity> data;
 
     DKErrorCode create(MockEntity e) {
-        if (data.count(e.id)) return DKErrorCode::CONFLICT_UNRESOLVABLE;
+        if (data.count(e.id)) {
+          return DKErrorCode::CONFLICT_UNRESOLVABLE;
+        }
         data[e.id] = std::move(e);
         return DKErrorCode::OK;
     }
 
     std::optional<MockEntity> read(const std::string& id) const {
         auto it = data.find(id);
-        if (it == data.end() || it->second.tombstone) return std::nullopt;
+        if (it == data.end() || it->second.tombstone) {
+          return std::nullopt;
+        }
         return it->second;
     }
 
     DKErrorCode update(const std::string& id, const std::string& new_payload, std::int64_t ts) {
         auto it = data.find(id);
-        if (it == data.end()) return DKErrorCode::ENTITY_NOT_FOUND;
+        if (it == data.end()) {
+          return DKErrorCode::ENTITY_NOT_FOUND;
+        }
         MockEntity updated = it->second;
         updated.payload      = new_payload;
         updated.timestamp_us = ts;
@@ -101,7 +107,9 @@ struct MockEntityStore {
 
     DKErrorCode remove(const std::string& id) {
         auto it = data.find(id);
-        if (it == data.end()) return DKErrorCode::ENTITY_NOT_FOUND;
+        if (it == data.end()) {
+          return DKErrorCode::ENTITY_NOT_FOUND;
+        }
         it->second.tombstone = true;
         return DKErrorCode::OK;
     }
@@ -134,7 +142,9 @@ struct MockGraph {
         while (!frontier.empty()) {
             auto [node, depth] = frontier.back();
             frontier.pop_back();
-            if (visited.count(node) || depth > max_depth) continue;
+            if (visited.count(node) || depth > max_depth) {
+              continue;
+            }
             visited.insert(node);
             if (depth > 0) result.push_back({node, depth});
             if (depth < max_depth) {
@@ -226,8 +236,12 @@ TEST(DKContractHardeningDKC05, FederationResultIsUnionNoDuplicates) {
     std::vector<std::string> node_b = {"e2", "e3", "e4"};
 
     std::set<std::string> federated;
-    for (auto& id : node_a) federated.insert(id);
-    for (auto& id : node_b) federated.insert(id);
+    for (auto& id : node_a) {
+      federated.insert(id);
+    }
+    for (auto& id : node_b) {
+      federated.insert(id);
+    }
 
     // Union has 4 distinct entities
     EXPECT_EQ(federated.size(), 4u);

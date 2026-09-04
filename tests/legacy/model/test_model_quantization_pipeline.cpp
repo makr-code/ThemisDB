@@ -29,8 +29,12 @@ uint16_t fp32_to_fp16(float v)
     const uint16_t sign = (bits >> 16) & 0x8000;
     const int exp  = static_cast<int>((bits >> 23) & 0xFF) - 127 + 15;
     const uint32_t mant = (bits >> 13) & 0x3FF;
-    if (exp <= 0)  return sign;
-    if (exp >= 31) return static_cast<uint16_t>(sign | 0x7C00);
+    if (exp <= 0) {
+      return sign;
+    }
+    if (exp >= 31) {
+      return static_cast<uint16_t>(sign | 0x7C00);
+    }
     return static_cast<uint16_t>(sign | (static_cast<uint16_t>(exp) << 10) | mant);
 }
 
@@ -61,10 +65,14 @@ std::vector<uint8_t> make_safetensors(
         data.insert(data.end(), raw.begin(), raw.end());
         offset = end;
 
-        if (ti > 0) hdr_json += ",";
+        if (ti > 0) {
+          hdr_json += ",";
+        }
         hdr_json += "\"" + name + "\":{\"dtype\":\"" + dtype + "\",\"shape\":[";
         for (size_t si = 0; si < shape.size(); ++si) {
-            if (si) hdr_json += ",";
+            if (si) {
+              hdr_json += ",";
+            }
             hdr_json += std::to_string(shape[si]);
         }
         hdr_json += "],\"data_offsets\":[" +
@@ -178,7 +186,9 @@ TEST_F(ModelQuantizationPipelineTest, LoadGPTQ_SyntheticLayer)
     // Col 0: weights [2,2,2,2,2,2,2,2], Col 1: [3,...], Col 2: [1,...], Col 3: [4,...]
     auto make_qw_col = [&](int val) -> uint32_t {
         uint32_t w = 0;
-        for (int b = 0; b < vpw; ++b) w |= (static_cast<uint32_t>(val & 0xF) << (b * 4));
+        for (int b = 0; b < vpw; ++b) {
+          w |= (static_cast<uint32_t>(val & 0xF) << (b * 4));
+        }
         return w;
     };
     std::vector<uint32_t> qweight_raw = {

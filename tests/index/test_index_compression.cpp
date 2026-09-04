@@ -62,7 +62,9 @@ TEST_F(IndexCompressionFocusedTests, DeltaEncoder_EncodeDecodeRoundtrip) {
 
     EXPECT_EQ(block.base, 100);
     ASSERT_EQ(block.deltas.size(), 4u);
-    for (auto d : block.deltas) EXPECT_EQ(d, 1);
+    for (auto d : block.deltas) {
+      EXPECT_EQ(d, 1);
+    }
 
     auto decoded = DeltaEncoder::decode(block);
     EXPECT_EQ(decoded, values);
@@ -99,7 +101,9 @@ TEST_F(IndexCompressionFocusedTests, DeltaEncoder_LargeSequence) {
     auto block = DeltaEncoder::encode(values);
 
     EXPECT_EQ(block.base, 10'000);
-    for (auto d : block.deltas) EXPECT_EQ(d, 1);
+    for (auto d : block.deltas) {
+      EXPECT_EQ(d, 1);
+    }
 
     auto decoded = DeltaEncoder::decode(block);
     EXPECT_EQ(decoded, values);
@@ -133,7 +137,9 @@ TEST_F(IndexCompressionFocusedTests, PrefixCompressor_ByteSavings) {
     auto blocks = PrefixCompressor::compress(keys, 4);
 
     size_t saved = 0;
-    for (const auto& b : blocks) saved += b.savedBytes();
+    for (const auto& b : blocks) {
+      saved += b.savedBytes();
+    }
     // "idx:users:country:USA:" is 23 chars, saved for 2 extra keys => 46 bytes
     EXPECT_GT(saved, 0u);
 }
@@ -200,7 +206,9 @@ TEST_F(IndexCompressionFocusedTests, BloomFilter_AbsentKeyReturnsFalse) {
     size_t total = 200;
     for (size_t i = 0; i < total; ++i) {
         std::string absent = "absent_key_xyzzy_" + std::to_string(i * 997 + 13);
-        if (bf.mightContain(absent)) ++true_count;
+        if (bf.mightContain(absent)) {
+          ++true_count;
+        }
     }
     // At 1% FP rate, expected false positives ≤ 10%.  Allow 15% for variance.
     double fp_rate = static_cast<double>(true_count) / static_cast<double>(total);

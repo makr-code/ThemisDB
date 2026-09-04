@@ -39,7 +39,9 @@ TEST(AQLTokenStreamTest, PushAndDrainSingleToken) {
 TEST(AQLTokenStreamTest, PushMultipleTokensPreservesOrder) {
     AQLTokenStream stream;
     std::vector<std::string> tokens = {"tok1", "tok2", "tok3", "tok4"};
-    for (const auto& t : tokens) stream.push(t);
+    for (const auto& t : tokens) {
+      stream.push(t);
+    }
     stream.close();
 
     for (const auto& expected : tokens) {
@@ -167,7 +169,9 @@ TEST(AQLTokenStreamTest, CancelMidStreamStopsIteration) {
 
     std::thread producer([&] {
         for (int i = 0; i < 1000; ++i) {
-            if (stream->isCancelled()) break;
+            if (stream->isCancelled()) {
+              break;
+            }
             stream->push("t");
             std::this_thread::sleep_for(std::chrono::microseconds(100));
         }

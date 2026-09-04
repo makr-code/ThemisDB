@@ -19,7 +19,9 @@ namespace utils {
 static std::unordered_set<std::string> make_set(std::initializer_list<const char*> list) {
     std::unordered_set<std::string> s;
     s.reserve(list.size() * 2);
-    for (auto* w : list) s.emplace(w);
+    for (auto* w : list) {
+      s.emplace(w);
+    }
     return s;
 }
 

@@ -696,7 +696,9 @@ void WebSocketManager::pollCDCEvents() {
             // /v2/cdc/stream sessions: delegate to CdcWebSocketHandler which
             // tracks named subscriptions and implements at-least-once delivery.
             if ([[maybe_unused]] auto* handler = session->getCdcStreamHandler()) {
-                if (!handler->hasSubscriptions()) continue;
+                if (!handler->hasSubscriptions()) {
+                  continue;
+                }
                 try {
                     auto frames = handler->pollEvents([[maybe_unused]] *changefeed_);
                     for (const auto& frame : frames) {

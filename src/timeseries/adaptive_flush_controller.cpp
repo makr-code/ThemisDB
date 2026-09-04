@@ -117,8 +117,12 @@ void AdaptiveFlushController::stop() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const char* AdaptiveFlushController::validatePoint(const TSStore::DataPoint& p) noexcept {
-    if (p.metric.empty())  return "metric name cannot be empty";
-    if (p.entity.empty())  return "entity ID cannot be empty";
+    if (p.metric.empty()) {
+      return "metric name cannot be empty";
+    }
+    if (p.entity.empty()) {
+      return "entity ID cannot be empty";
+    }
     return nullptr;
 }
 
@@ -260,7 +264,9 @@ size_t AdaptiveFlushController::flushInternal() {
         {
             std::lock_guard<std::mutex> lock(buffer_mutex_);
             size_t take = std::min(config_.flush_batch_size, buffer_.size());
-            if (take == 0) break;
+            if (take == 0) {
+              break;
+            }
 
             for (size_t i = 0; i < take; ++i) {
                 batch.push_back(std::move(buffer_.front()));
@@ -275,7 +281,9 @@ size_t AdaptiveFlushController::flushInternal() {
             }
         }
 
-        if (batch.empty()) break;
+        if (batch.empty()) {
+          break;
+        }
 
         size_t batch_written = 0;
         for (auto& p : batch) {
@@ -377,7 +385,9 @@ bool AdaptiveFlushController::watermarkReached() const noexcept {
 
 bool AdaptiveFlushController::isOverdue() const {
     std::lock_guard<std::mutex> lock(buffer_mutex_);
-    if (!has_oldest_point_) return false;
+    if (!has_oldest_point_) {
+      return false;
+    }
 
     auto overdue_threshold = config_.flush_interval *
                              static_cast<int64_t>(config_.overdue_flush_multiplier);

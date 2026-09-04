@@ -138,11 +138,15 @@ bool computeFileSha256(const std::string& path, std::string& out_hex) {
 
     block[buffered++] = 0x80U;
     if (buffered > 56) {
-        while (buffered < 64) block[buffered++] = 0;
+        while (buffered < 64) {
+          block[buffered++] = 0;
+        }
         sha256Transform(state, block.data());
         buffered = 0;
     }
-    while (buffered < 56) block[buffered++] = 0;
+    while (buffered < 56) {
+      block[buffered++] = 0;
+    }
     const uint64_t total_bits = total_bytes * 8U;
     for (int i = 7; i >= 0; --i) {
         block[buffered++] = static_cast<uint8_t>((total_bits >> (i * 8U)) & 0xFFU);
@@ -169,7 +173,9 @@ WhisperCppTranscriber::WhisperCppTranscriber() = default;
 WhisperCppTranscriber::~WhisperCppTranscriber() = default;
 
 bool WhisperCppTranscriber::initialize(const WhisperConfig& cfg) {
-    if (initialized_) return true;
+    if (initialized_) {
+      return true;
+    }
     cfg_ = cfg;
     last_error_.clear();
 
@@ -250,7 +256,9 @@ audio::TranscriptionResult WhisperCppTranscriber::transcribe(
 audio::LanguageDetectionResult WhisperCppTranscriber::detectLanguage(
         const std::vector<float>& pcm, float /*sample_rate*/) {
     audio::LanguageDetectionResult res;
-    if (!initialized_ || !ctx_ || pcm.empty()) return res;
+    if (!initialized_ || !ctx_ || pcm.empty()) {
+      return res;
+    }
 
     float lang_probs[WHISPER_N_LANGS];
     auto* ctx = static_cast<whisper_context*>(ctx_.get());

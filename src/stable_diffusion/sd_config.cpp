@@ -17,19 +17,45 @@ namespace imggen {
 
 SDConfig SDConfig::fromJson(const json& j) {
     SDConfig cfg;
-    if (j.contains("model_path"))            cfg.model_path            = j["model_path"].get<std::string>();
-    if (j.contains("width"))                 cfg.width                 = j["width"].get<int>();
-    if (j.contains("height"))                cfg.height                = j["height"].get<int>();
-    if (j.contains("steps"))                 cfg.steps                 = j["steps"].get<int>();
-    if (j.contains("cfg_scale"))             cfg.cfg_scale             = j["cfg_scale"].get<float>();
-    if (j.contains("sampler"))               cfg.sampler               = j["sampler"].get<std::string>();
-    if (j.contains("seed"))                  cfg.seed                  = j["seed"].get<int64_t>();
-    if (j.contains("blocked_keywords_file")) cfg.blocked_keywords_file = j["blocked_keywords_file"].get<std::string>();
-    if (j.contains("negative_prompt"))       cfg.negative_prompt       = j["negative_prompt"].get<std::string>();
-    if (j.contains("model_sha256"))          cfg.model_sha256          = j["model_sha256"].get<std::string>();
-    if (cfg.width  < 1) cfg.width  = 512;
-    if (cfg.height < 1) cfg.height = 512;
-    if (cfg.steps  < 1) cfg.steps  = 1;
+    if (j.contains("model_path")) {
+      cfg.model_path            = j["model_path"].get<std::string>();
+    }
+    if (j.contains("width")) {
+      cfg.width                 = j["width"].get<int>();
+    }
+    if (j.contains("height")) {
+      cfg.height                = j["height"].get<int>();
+    }
+    if (j.contains("steps")) {
+      cfg.steps                 = j["steps"].get<int>();
+    }
+    if (j.contains("cfg_scale")) {
+      cfg.cfg_scale             = j["cfg_scale"].get<float>();
+    }
+    if (j.contains("sampler")) {
+      cfg.sampler               = j["sampler"].get<std::string>();
+    }
+    if (j.contains("seed")) {
+      cfg.seed                  = j["seed"].get<int64_t>();
+    }
+    if (j.contains("blocked_keywords_file")) {
+      cfg.blocked_keywords_file = j["blocked_keywords_file"].get<std::string>();
+    }
+    if (j.contains("negative_prompt")) {
+      cfg.negative_prompt       = j["negative_prompt"].get<std::string>();
+    }
+    if (j.contains("model_sha256")) {
+      cfg.model_sha256          = j["model_sha256"].get<std::string>();
+    }
+    if (cfg.width  < 1) {
+      cfg.width  = 512;
+    }
+    if (cfg.height < 1) {
+      cfg.height = 512;
+    }
+    if (cfg.steps  < 1) {
+      cfg.steps  = 1;
+    }
     return cfg;
 }
 

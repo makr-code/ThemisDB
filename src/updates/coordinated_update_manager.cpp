@@ -123,31 +123,41 @@ CoordinatedUpdateManager::CoordinatedUpdateManager(
 
 NodeUpdateStatus* CoordinatedUpdateManager::localStatus() {
     for (auto& s : node_statuses_) {
-        if (s.is_local) return &s;
+        if (s.is_local) {
+          return &s;
+        }
     }
     return nullptr; // unreachable after construction
 }
 
 const NodeUpdateStatus* CoordinatedUpdateManager::localStatus() const {
     for (const auto& s : node_statuses_) {
-        if (s.is_local) return &s;
+        if (s.is_local) {
+          return &s;
+        }
     }
     return nullptr;
 }
 
 const NodeDescriptor* CoordinatedUpdateManager::localDescriptor() const {
     for (const auto& n : sorted_nodes_) {
-        if (n.node_id == config_.local_node_id) return &n;
+        if (n.node_id == config_.local_node_id) {
+          return &n;
+        }
     }
     return nullptr;
 }
 
 const NodeDescriptor* CoordinatedUpdateManager::predecessorDescriptor() const {
     const NodeDescriptor* local = localDescriptor();
-    if (!local || local->sequence_number == 0) return nullptr;
+    if (!local || local->sequence_number == 0) {
+      return nullptr;
+    }
 
     for (const auto& n : sorted_nodes_) {
-        if (n.sequence_number == local->sequence_number - 1) return &n;
+        if (n.sequence_number == local->sequence_number - 1) {
+          return &n;
+        }
     }
     return nullptr;
 }

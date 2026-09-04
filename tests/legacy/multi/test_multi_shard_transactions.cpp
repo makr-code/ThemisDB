@@ -255,8 +255,12 @@ TEST(MultiShardTransactionTest, ConcurrentTransactions) {
                 successful_tx.fetch_add(1);
             } else {
                 // Rollback
-                if (prep1) shards[shard1].abort(tx_id);
-                if (prep2) shards[shard2].abort(tx_id);
+                if (prep1) {
+                  shards[shard1].abort(tx_id);
+                }
+                if (prep2) {
+                  shards[shard2].abort(tx_id);
+                }
                 failed_tx.fetch_add(1);
             }
             

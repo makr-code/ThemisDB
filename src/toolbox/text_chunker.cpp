@@ -96,7 +96,9 @@ std::vector<std::string> chunkText(
 
 std::string getTextChunkerMetrics() {
     const uint64_t errors = g_text_chunker_errors_total.load(std::memory_order_relaxed);
-    if (errors == 0) return "";
+    if (errors == 0) {
+      return "";
+    }
     
     std::ostringstream out;
     out << "# HELP toolbox_text_chunker_errors_total Text chunker helper errors.\n";

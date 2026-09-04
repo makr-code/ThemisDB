@@ -24,7 +24,9 @@ namespace server {
 
 // Helper: Case-insensitive string contains
 static bool containsCaseInsensitive(const std::string& haystack, const std::string& needle) {
-    if (needle.empty()) return true;
+    if (needle.empty()) {
+      return true;
+    }
     auto it = std::search(
         haystack.begin(), haystack.end(),
         needle.begin(), needle.end(),
@@ -152,7 +154,9 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs([[maybe_unused]] const
     while (std::getline(ifs, line)) {
         line_id++;
         
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         
         try {
             auto j = nlohmann::json::parse(line);
@@ -242,7 +246,9 @@ std::string AuditApiHandler::exportAuditLogsCsv([[maybe_unused]] const AuditQuer
             if (s.find(',') != std::string::npos || s.find('"') != std::string::npos || s.find('\n') != std::string::npos) {
                 std::string escaped = "\"";
                 for (char c : s) {
-                    if (c == '"') escaped += "\"\"";
+                    if (c == '"') {
+                      escaped += "\"\"";
+                    }
                     else escaped += c;
                 }
                 escaped += "\"";

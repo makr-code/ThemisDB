@@ -326,7 +326,9 @@ std::string GossipConfigManager::publishConfigUpdate(
     // Immediately propagate to peers
     auto peers = selectRandomPeers(config_.fanout);
     for (const auto& peer : peers) {
-        if (!topology_) continue;
+        if (!topology_) {
+          continue;
+        }
         auto shard_info = topology_->getShard(peer);
         if (shard_info) {
             sendGossipMessage(shard_info->primary_endpoint, 
@@ -378,7 +380,9 @@ void GossipConfigManager::publishResourceSnapshot(const ResourceSnapshot& snapsh
     // Propagate to peers
     auto peers = selectRandomPeers(config_.fanout);
     for (const auto& peer : peers) {
-        if (!topology_) continue;
+        if (!topology_) {
+          continue;
+        }
         auto shard_info = topology_->getShard(peer);
         if (shard_info) {
             sendGossipMessage(shard_info->primary_endpoint,
@@ -600,7 +604,9 @@ void GossipConfigManager::performGossipRound() {
     
     // Send heartbeat to each peer
     for (const auto& peer : peers) {
-        if (!topology_) continue;
+        if (!topology_) {
+          continue;
+        }
         
         auto shard_info = topology_->getShard(peer);
         if (shard_info && shard_info->is_healthy) {
@@ -621,7 +627,9 @@ void GossipConfigManager::performAntiEntropyScan() {
     auto peers = selectRandomPeers(config_.fanout);
     
     for (const auto& peer : peers) {
-        if (!topology_) continue;
+        if (!topology_) {
+          continue;
+        }
         
         auto shard_info = topology_->getShard(peer);
         if (shard_info && shard_info->is_healthy) {
@@ -676,7 +684,9 @@ void GossipConfigManager::sendGossipMessage(
         gossip_send_fn = gossip_send_fn_;
     }
 
-    if (!client_ && !gossip_send_fn) return;
+    if (!client_ && !gossip_send_fn) {
+      return;
+    }
 
     try {
         auto t0 = std::chrono::steady_clock::now();

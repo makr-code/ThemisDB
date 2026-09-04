@@ -318,7 +318,9 @@ std::string AsyncJobApiHandler::extractJobId([[maybe_unused]] const std::string&
     // Strip query string
     std::string path = target;
     auto qpos = path.find('?');
-    if (qpos != std::string::npos) path = path.substr(0, qpos);
+    if (qpos != std::string::npos) {
+      path = path.substr(0, qpos);
+    }
 
     static constexpr std::string_view kPrefix{"/v2/jobs/"};
     if (path.size() <= kPrefix.size()) return {};

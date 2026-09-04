@@ -110,7 +110,9 @@ TEST(GdprSubjectRightsManager, PartialFailureReportedCorrectly) {
     EXPECT_EQ(report.store_results.size(), 2u);
     int ok = 0, fail = 0;
     for (const auto& r : report.store_results) {
-        if (r.success) ++ok; else ++fail;
+        if (r.success) {
+          ++ok; else ++fail;
+        }
     }
     EXPECT_EQ(ok, 1);
     EXPECT_EQ(fail, 1);
@@ -175,7 +177,9 @@ TEST(GdprSubjectRightsManager, ConcurrentErasureForSameSubjectSerialized) {
             completed.fetch_add(1);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(completed.load(), kThreads);
     EXPECT_EQ(target->erase_calls_.load(), kThreads);
 }

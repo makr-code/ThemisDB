@@ -94,7 +94,9 @@ std::string GCSBlobBackend::objectName(const std::string& blob_id) const {
     }
     // Ensure exactly one '/' between prefix and blob_id
     std::string pfx = impl_->prefix;
-    if (pfx.back() == '/') pfx.pop_back();
+    if (pfx.back() == '/') {
+      pfx.pop_back();
+    }
     return pfx + "/" + blob_id + ".blob";
 }
 

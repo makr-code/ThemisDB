@@ -472,7 +472,9 @@ TEST(DistributedGraphSharedMutexStressTest, ConcurrentReadsAndOneWriter) {
 
     writer.join();
     stop.store(true, std::memory_order_relaxed);
-    for (auto& r : readers) r.join();
+    for (auto& r : readers) {
+      r.join();
+    }
 
     // At least some read operations were completed.
     EXPECT_GT(read_ops.load(), 0);

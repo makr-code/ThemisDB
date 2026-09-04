@@ -35,7 +35,9 @@ PIIStreamScanner::PIIStreamScanner(std::shared_ptr<IPIIDetectionEngine> engine,
     , cfg_(cfg)
     , global_offset_(0)
 {
-    if (!engine_) throw std::invalid_argument("PIIStreamScanner: engine must not be null");
+    if (!engine_) {
+      throw std::invalid_argument("PIIStreamScanner: engine must not be null");
+    }
     // Auto-derive lookahead_bytes from the engine's maxPatternLength() when the
     // caller uses the default config (lookahead_bytes == kDefaultLookaheadBytes).
     // This makes the cross-chunk sliding-window overlap exactly equal to the
@@ -96,9 +98,13 @@ std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, boo
     result.reserve(raw_findings.size());
 
     for (auto& f : raw_findings) {
-        if (f.confidence < cfg_.min_confidence) continue;
+        if (f.confidence < cfg_.min_confidence) {
+          continue;
+        }
         // Only include findings that are entirely within the finalized window.
-        if (f.end_offset > process_len) continue;
+        if (f.end_offset > process_len) {
+          continue;
+        }
 
         f.start_offset += global_offset_;
         f.end_offset   += global_offset_;
@@ -161,7 +167,9 @@ PIIStreamPseudonymizer::PIIStreamPseudonymizer(
     , lek_mgr_(std::move(lek_mgr))
     , cfg_(std::move(cfg))
 {
-    if (!lek_mgr_) throw std::invalid_argument("PIIStreamPseudonymizer: lek_mgr must not be null");
+    if (!lek_mgr_) {
+      throw std::invalid_argument("PIIStreamPseudonymizer: lek_mgr must not be null");
+    }
 }
 
 std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool is_last) {
@@ -192,7 +200,9 @@ std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool i
         size_t rel_start = f.start_offset - base_offset;
         size_t rel_end   = f.end_offset   - base_offset;
 
-        if (rel_start > finalized_chunk.size()) break;
+        if (rel_start > finalized_chunk.size()) {
+          break;
+        }
         rel_end = std::min(rel_end, finalized_chunk.size());
 
         // Copy gap before this finding.

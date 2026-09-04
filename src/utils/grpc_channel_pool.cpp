@@ -298,7 +298,9 @@ GrpcChannelPool::CircuitState GrpcChannelPool::getCircuitState(
     const std::string& target) const {
     std::lock_guard<std::mutex> lk(cb_mutex_);
     auto it = circuit_breakers_.find(target);
-    if (it == circuit_breakers_.end()) return CircuitState::CLOSED;
+    if (it == circuit_breakers_.end()) {
+      return CircuitState::CLOSED;
+    }
 
     auto& cb = it->second;
     // Auto-transition OPEN → HALF_OPEN after the open timeout
@@ -375,7 +377,9 @@ bool GrpcChannelPool::healthCheck(const std::string& target,
             lock.lock();
         }
 
-        if (!ch) return false;
+        if (!ch) {
+          return false;
+        }
 
         // Trigger a connection attempt and wait up to `timeout`.
         // IDLE is not considered healthy here because it does not prove that a

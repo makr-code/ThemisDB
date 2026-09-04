@@ -66,28 +66,46 @@ std::string TemporalCompressor::base64Encode(const std::string& input) {
 }
 
 static int base64CharValue(char c) {
-    if (c >= 'A' && c <= 'Z') return c - 'A';
-    if (c >= 'a' && c <= 'z') return c - 'a' + 26;
-    if (c >= '0' && c <= '9') return c - '0' + 52;
-    if (c == '+') return 62;
-    if (c == '/') return 63;
+    if (c >= 'A' && c <= 'Z') {
+      return c - 'A';
+    }
+    if (c >= 'a' && c <= 'z') {
+      return c - 'a' + 26;
+    }
+    if (c >= '0' && c <= '9') {
+      return c - '0' + 52;
+    }
+    if (c == '+') {
+      return 62;
+    }
+    if (c == '/') {
+      return 63;
+    }
     return -1;
 }
 
 std::string TemporalCompressor::base64Decode(const std::string& input) {
     std::string out;
-    if (input.empty() || input.size() % 4 != 0) return out;
+    if (input.empty() || input.size() % 4 != 0) {
+      return out;
+    }
     out.reserve((input.size() / 4) * 3);
     for (size_t i = 0; i < input.size(); i += 4) {
         int a = base64CharValue(input[i]);
         int b = base64CharValue(input[i+1]);
         int c = input[i+2] == '=' ? 0 : base64CharValue(input[i+2]);
         int d = input[i+3] == '=' ? 0 : base64CharValue(input[i+3]);
-        if (a < 0 || b < 0) break;
+        if (a < 0 || b < 0) {
+          break;
+        }
         uint32_t v = (uint32_t(a) << 18) | (uint32_t(b) << 12) | (uint32_t(c) << 6) | uint32_t(d);
         out += char((v >> 16) & 0xFF);
-        if (input[i+2] != '=') out += char((v >>  8) & 0xFF);
-        if (input[i+3] != '=') out += char((v      ) & 0xFF);
+        if (input[i+2] != '=') {
+          out += char((v >>  8) & 0xFF);
+        }
+        if (input[i+3] != '=') {
+          out += char((v      ) & 0xFF);
+        }
     }
     return out;
 }
@@ -139,7 +157,9 @@ std::string TemporalCompressor::rlDecode(const std::string& input) {
         if (byte == kRlRepeatMarker && i + 2 < input.size()) {
             unsigned char count = static_cast<unsigned char>(input[i+1]);
             char ch = input[i+2];
-            for (unsigned char k = 0; k < count; ++k) out += ch;
+            for (unsigned char k = 0; k < count; ++k) {
+              out += ch;
+            }
             i += 3;
         } else {
             out += static_cast<char>(byte);
@@ -225,7 +245,9 @@ nlohmann::json TemporalCompressor::applyGorilla(
     const std::string& field_name,
     const std::vector<std::pair<Timestamp, double>>& series) {
 
-    if (series.empty()) return nlohmann::json::object();
+    if (series.empty()) {
+      return nlohmann::json::object();
+    }
 
     // Delta-encode timestamps
     nlohmann::json ts_arr = nlohmann::json::array();
@@ -435,7 +457,9 @@ CompressionStats TemporalCompressor::compressHistory(
         // and versions newer than the grace window.
         std::vector<const VersionedDocument*> candidates;
         for (const auto& v : versions) {
-            if (v.isCurrent()) continue;
+            if (v.isCurrent()) {
+              continue;
+            }
             ++stats.versions_processed;
             if (!config.compress_immediately && v.sys_time.start >= cutoff_start) {
                 ++stats.versions_skipped;
@@ -444,11 +468,15 @@ CompressionStats TemporalCompressor::compressHistory(
             candidates.push_back(&v);
         }
 
-        if (candidates.empty()) continue;
+        if (candidates.empty()) {
+          continue;
+        }
 
         // Sort candidates by sys_time.start ascending for DELTA/GORILLA
         std::vector<VersionedDocument> sorted_versions;
-        for (const auto* vp : candidates) sorted_versions.push_back(*vp);
+        for (const auto* vp : candidates) {
+          sorted_versions.push_back(*vp);
+        }
         std::sort(sorted_versions.begin(), sorted_versions.end(),
                   [](const VersionedDocument& a, const VersionedDocument& b) {
                       return a.sys_time.start < b.sys_time.start;
@@ -516,12 +544,16 @@ CompressionStats TemporalCompressor::compressHistory(
 
         // ── GORILLA ────────────────────────────────────────────────────────
         case CompressionAlgorithm::GORILLA: {
-            if (sorted_versions.empty()) break;
+            if (sorted_versions.empty()) {
+              break;
+            }
 
             // Collect all numeric field names from first version
             std::vector<std::string> numeric_fields;
             for (auto& [f, val] : sorted_versions[0].data.items()) {
-                if (val.is_number()) numeric_fields.push_back(f);
+                if (val.is_number()) {
+                  numeric_fields.push_back(f);
+                }
             }
 
             // Build per-field time series

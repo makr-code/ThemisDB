@@ -43,7 +43,9 @@ uint8_t VoiceLivenessChecker::detect_spoof_indicators(
     uint32_t zero_count = 0;
     uint32_t max_byte = 0;
     for (size_t i = 0; i < std::min(audio_size, size_t(4096)); ++i) {
-        if (audio_data[i] == 0) zero_count++;
+        if (audio_data[i] == 0) {
+          zero_count++;
+        }
         max_byte = std::max(max_byte, static_cast<uint32_t>(audio_data[i]));
     }
     
@@ -79,7 +81,9 @@ uint8_t VoiceLivenessChecker::estimate_liveness_confidence(
     // If not empty/silence, increase confidence.
     uint32_t nonzero_count = 0;
     for (size_t i = 0; i < std::min(audio_size, size_t(4096)); ++i) {
-        if (audio_data[i] != 0) nonzero_count++;
+        if (audio_data[i] != 0) {
+          nonzero_count++;
+        }
     }
     if (nonzero_count > audio_size / 4) {
         confidence += 20;

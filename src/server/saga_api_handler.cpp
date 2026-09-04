@@ -129,7 +129,9 @@ SAGABatchInfo SAGAApiHandler::parseBatchInfo([[maybe_unused]] const std::string&
     
     std::string line;
     while (std::getline(ifs, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         
         try {
             auto j = nlohmann::json::parse(line);
@@ -221,7 +223,9 @@ nlohmann::json SAGAApiHandler::getBatchDetail([[maybe_unused]] const std::string
         if (ifs.is_open()) {
             std::string line;
             while (std::getline(ifs, line)) {
-                if (line.empty()) continue;
+                if (line.empty()) {
+                  continue;
+                }
                 try {
                     auto j = nlohmann::json::parse(line);
                     if (j.value("batch_id", "") == batch_id) {

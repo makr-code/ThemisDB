@@ -56,10 +56,14 @@ public:
         // Fallback: retrieve raw private key bytes and perform local CMS signing
         auto key_bytes = kp_->getKey(key_id);
         BIO_ptr bio(BIO_new_mem_buf(key_bytes.data(), static_cast<int>(key_bytes.size())));
-        if (!bio) throw std::runtime_error("BIO_new_mem_buf failed");
+        if (!bio) {
+          throw std::runtime_error("BIO_new_mem_buf failed");
+        }
 
         EVP_PKEY_ptr pkey(PEM_read_bio_PrivateKey(bio.get(), nullptr, nullptr, nullptr));
-        if (!pkey) throw std::runtime_error("Failed to parse private key from KeyProvider");
+        if (!pkey) {
+          throw std::runtime_error("Failed to parse private key from KeyProvider");
+        }
 
         // Optionally load cert (transfer ownership to CMSSigningService)
         X509* cert_ptr = nullptr;

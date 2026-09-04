@@ -176,7 +176,9 @@ TEST(FaultInjectorTest, CallbackFiredOnInject) {
     FaultInjector fi;
     std::atomic<int> inject_count{0};
     fi.registerEventCallback([&](const FaultSpec&, bool injected) {
-        if (injected) inject_count.fetch_add(1, std::memory_order_relaxed);
+        if (injected) {
+          inject_count.fetch_add(1, std::memory_order_relaxed);
+        }
     });
     fi.injectFault(FaultSpec{FaultType::NODE_FAILURE, "n1"});
     fi.injectFault(FaultSpec{FaultType::DISK_FAILURE, "n2"});
@@ -187,7 +189,9 @@ TEST(FaultInjectorTest, CallbackFiredOnRecover) {
     FaultInjector fi;
     std::atomic<int> recover_count{0};
     fi.registerEventCallback([&](const FaultSpec&, bool injected) {
-        if (!injected) recover_count.fetch_add(1, std::memory_order_relaxed);
+        if (!injected) {
+          recover_count.fetch_add(1, std::memory_order_relaxed);
+        }
     });
     fi.injectFault(FaultSpec{FaultType::NODE_FAILURE, "n1"});
     fi.recoverFault("n1");

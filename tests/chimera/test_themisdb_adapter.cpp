@@ -1132,8 +1132,12 @@ TEST_F(ThemisDBIntegrationTest, TraverseWithEdgeLabelFilterApplied) {
     const auto& nodes = res.value.value();
     bool found_T = false, found_U = false;
     for (const auto& n : nodes) {
-        if (n.id == "T") found_T = true;
-        if (n.id == "U") found_U = true;
+        if (n.id == "T") {
+          found_T = true;
+        }
+        if (n.id == "U") {
+          found_U = true;
+        }
     }
     EXPECT_TRUE(found_T);
     EXPECT_FALSE(found_U);
@@ -1293,9 +1297,15 @@ TEST_F(ThemisDBIntegrationTest, TraverseMultiLabelReachesNodesOfEitherType) {
 
     bool found_A = false, found_B = false, found_C = false;
     for (const auto& n : nodes) {
-        if (n.id == "A") found_A = true;
-        if (n.id == "B") found_B = true;
-        if (n.id == "C") found_C = true;
+        if (n.id == "A") {
+          found_A = true;
+        }
+        if (n.id == "B") {
+          found_B = true;
+        }
+        if (n.id == "C") {
+          found_C = true;
+        }
     }
     EXPECT_TRUE(found_A) << "Node A (via KNOWS) must be reachable";
     EXPECT_TRUE(found_B) << "Node B (via LIKES) must be reachable";
@@ -1320,7 +1330,9 @@ TEST_F(ThemisDBIntegrationTest, TraverseMultiLabelDeduplicatesSharedNodes) {
 
     int w_count = 0;
     for (const auto& n : nodes) {
-        if (n.id == "W") w_count++;
+        if (n.id == "W") {
+          w_count++;
+        }
     }
     EXPECT_EQ(w_count, 1) << "W reachable via both labels must appear exactly once";
 }
@@ -1345,9 +1357,15 @@ TEST_F(ThemisDBIntegrationTest, TraverseThreeLabelsAllReachable) {
 
     bool found_X = false, found_Y = false, found_Z = false;
     for (const auto& n : nodes) {
-        if (n.id == "X") found_X = true;
-        if (n.id == "Y") found_Y = true;
-        if (n.id == "Z") found_Z = true;
+        if (n.id == "X") {
+          found_X = true;
+        }
+        if (n.id == "Y") {
+          found_Y = true;
+        }
+        if (n.id == "Z") {
+          found_Z = true;
+        }
     }
     EXPECT_TRUE(found_X) << "X via T1 must be reachable";
     EXPECT_TRUE(found_Y) << "Y via T2 must be reachable";

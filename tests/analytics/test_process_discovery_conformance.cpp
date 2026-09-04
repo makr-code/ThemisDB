@@ -122,7 +122,9 @@ static EventLog makeLoopLog(int n = 6) {
     int64_t base = 1000;
     for (int i = 0; i < n; ++i) {
         std::vector<std::string> seq = {"A"};
-        for (int r = 0; r < (i % 3); ++r) seq.push_back("B");
+        for (int r = 0; r < (i % 3); ++r) {
+          seq.push_back("B");
+        }
         seq.push_back("C");
 
         ProcessTrace trace;
@@ -274,8 +276,12 @@ TEST_F(InductiveMinerTest, ParallelLogBothOrdersPresent) {
     bool hasBC = false, hasCB = false;
     for (const auto& trace : log.traces) {
         ASSERT_GE(trace.events.size(), 3u);
-        if (trace.events[1].activity == "B") hasBC = true;
-        if (trace.events[1].activity == "C") hasCB = true;
+        if (trace.events[1].activity == "B") {
+          hasBC = true;
+        }
+        if (trace.events[1].activity == "C") {
+          hasCB = true;
+        }
     }
     EXPECT_TRUE(hasBC);
     EXPECT_TRUE(hasCB);
@@ -344,12 +350,18 @@ protected:
                         const std::vector<std::string>& modelSeq) {
         const int N = static_cast<int>(trace.size());
         const int M = static_cast<int>(modelSeq.size());
-        if (N == 0 && M == 0) return 1.0;
+        if (N == 0 && M == 0) {
+          return 1.0;
+        }
 
         std::vector<std::vector<double>> dp(N + 1, std::vector<double>(M + 1, 1e18));
         dp[0][0] = 0.0;
-        for (int j = 1; j <= M; ++j) dp[0][j] = dp[0][j-1] + 1.0;
-        for (int i = 1; i <= N; ++i) dp[i][0] = dp[i-1][0] + 1.0;
+        for (int j = 1; j <= M; ++j) {
+          dp[0][j] = dp[0][j-1] + 1.0;
+        }
+        for (int i = 1; i <= N; ++i) {
+          dp[i][0] = dp[i-1][0] + 1.0;
+        }
 
         for (int i = 1; i <= N; ++i) {
             for (int j = 1; j <= M; ++j) {

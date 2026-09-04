@@ -249,7 +249,9 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK([[maybe_unused]] uint32_t v
             
             // Decrypt manually with KEK
             PKI_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
-            if (!ctx) throw std::runtime_error("Failed to create cipher context");
+            if (!ctx) {
+              throw std::runtime_error("Failed to create cipher context");
+            }
             
             if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, kek_.data(), blob.iv.data()) != 1) {
                 throw std::runtime_error("DecryptInit failed");
@@ -296,7 +298,9 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK([[maybe_unused]] uint32_t v
         }
          
         PKI_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
-        if (!ctx) throw std::runtime_error("Failed to create cipher context");
+        if (!ctx) {
+          throw std::runtime_error("Failed to create cipher context");
+        }
          
         if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, kek_.data(), iv.data()) != 1) {
             throw std::runtime_error("EncryptInit failed");
@@ -517,7 +521,9 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
          
         // Decrypt
         PKI_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
-        if (!ctx) throw std::runtime_error("EVP_CIPHER_CTX_new failed");
+        if (!ctx) {
+          throw std::runtime_error("EVP_CIPHER_CTX_new failed");
+        }
          
         if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, kek_.data(), nonce.data()) != 1) {
             throw std::runtime_error("EVP_DecryptInit_ex failed");
@@ -557,7 +563,9 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
         std::vector<uint8_t> tag(16);
          
         PKI_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
-        if (!ctx) throw std::runtime_error("EVP_CIPHER_CTX_new failed");
+        if (!ctx) {
+          throw std::runtime_error("EVP_CIPHER_CTX_new failed");
+        }
          
         if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, kek_.data(), nonce.data()) != 1) {
             throw std::runtime_error("EVP_EncryptInit_ex failed");

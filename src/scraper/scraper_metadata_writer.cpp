@@ -154,7 +154,9 @@ std::string iso8601Now() {
 
     // Entity nodes from LLM
     for (const auto& entity : eval.key_entities) {
-        if (entity.empty()) continue;
+        if (entity.empty()) {
+          continue;
+        }
         ScraperGraphEdge e;
         e.from_id = rel.doc_id;
         e.to_id   = "ENTITY:" + entity;

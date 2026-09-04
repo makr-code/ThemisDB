@@ -227,11 +227,15 @@ TEST(GPULoadBalancerTest, Concurrent_Select_NoDataRace) {
     for (int t = 0; t < THREADS; ++t) {
         threads.emplace_back([&lb, &non_null]() {
             for (int i = 0; i < OPS_PER_THREAD; ++i) {
-                if (lb.selectDevice() != nullptr) non_null.fetch_add(1);
+                if (lb.selectDevice() != nullptr) {
+                  non_null.fetch_add(1);
+                }
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_GT(non_null.load(), 0);
 }

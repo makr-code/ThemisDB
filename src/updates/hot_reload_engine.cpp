@@ -65,7 +65,9 @@ public:
     EvpMdCtxRaii(EvpMdCtxRaii&& other) noexcept : ctx_(other.release()) {}
     EvpMdCtxRaii& operator=(EvpMdCtxRaii&& other) noexcept {
         if (this != &other) {
-            if (ctx_) EVP_MD_CTX_free(ctx_);
+            if (ctx_) {
+              EVP_MD_CTX_free(ctx_);
+            }
             ctx_ = other.release();
         }
         return *this;
@@ -210,7 +212,9 @@ ReloadResult HotReloadEngine::applyHotReload(
     auto recordHistory = [this, &current_version, &version](bool success,
                               const std::string& error_msg,
                               const std::string& event_type) {
-        if (!history_logger_) return;
+        if (!history_logger_) {
+          return;
+        }
         UpdateHistoryEntry entry;
         entry.who           = config_.history_actor;
         entry.timestamp_ms  = std::chrono::duration_cast<std::chrono::milliseconds>(

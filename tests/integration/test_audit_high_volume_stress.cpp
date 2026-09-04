@@ -264,7 +264,9 @@ TEST_F(AuditBatchWriterStressTest, ConcurrentIdempotentSubmissions) {
     int duplicate_count = 0;
     
     for (const auto& result : results) {
-        if (result == "OK") success_count++;
+        if (result == "OK") {
+          success_count++;
+        }
         else if (result == "DUPLICATE") duplicate_count++;
     }
     

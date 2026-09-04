@@ -35,13 +35,17 @@ struct MockStorageContext : MutationExecutor::StorageContext {
     bool                                             key_exists     = false; ///< for UPSERT exists()
 
     bool put(std::string_view /*col*/, std::string_view key, std::string_view val) override {
-        if (fail_on_put) return false;
+        if (fail_on_put) {
+          return false;
+        }
         puts.emplace_back(std::string(key), std::string(val));
         return true;
     }
 
     bool remove(std::string_view /*col*/, std::string_view key) override {
-        if (fail_on_remove) return false;
+        if (fail_on_remove) {
+          return false;
+        }
         deletes.emplace_back(std::string(key));
         return true;
     }
@@ -55,7 +59,9 @@ struct MockStorageContext : MutationExecutor::StorageContext {
     }
 
     bool writeWAL(std::string_view /*col*/, const nlohmann::json& entry) override {
-        if (fail_on_wal) return false;
+        if (fail_on_wal) {
+          return false;
+        }
         wal_entries.push_back(entry);
         return true;
     }

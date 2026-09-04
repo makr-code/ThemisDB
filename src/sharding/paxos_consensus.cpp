@@ -433,7 +433,9 @@ void PaxosConsensus::runProposer() {
             return !pending_proposals_.empty() || !running_.load();
         });
         
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
         
         // Process pending proposals with retry logic
         std::vector<uint64_t> failed_slots;
@@ -462,7 +464,9 @@ void PaxosConsensus::runProposer() {
                                  node_id_, slot, e.what());
                     success = false;
                 }
-                if (success) break;
+                if (success) {
+                  break;
+                }
             }
             
             if (!lock.try_lock_for(config_.paxos_prepare_timeout)) {
@@ -573,7 +577,9 @@ void PaxosConsensus::leaderElectionThread() {
             nodes_snapshot = cluster_nodes_;
         }
 
-        if (nodes_snapshot.empty()) continue;
+        if (nodes_snapshot.empty()) {
+          continue;
+        }
 
         const bool is_leader = (state_.load() == ConsensusState::LEADER);
 
@@ -600,10 +606,14 @@ void PaxosConsensus::leaderElectionThread() {
             // Use slot 0 (reserved for leader election) to solicit promises.
             constexpr uint64_t kLeaderElectionSlot = 0;
             for (const auto& peer : nodes_snapshot) {
-                if (peer == node_id_) continue;
+                if (peer == node_id_) {
+                  continue;
+                }
                 if (cb(peer, kLeaderElectionSlot, ballot, node_id_)) {
                     ++promises;
-                    if (promises >= quorum) break;
+                    if (promises >= quorum) {
+                      break;
+                    }
                 }
             }
         } else if (nodes_snapshot.size() == 1) {
@@ -676,7 +686,9 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
         auto start_time = std::chrono::steady_clock::now();
 
         for (const auto& node : cluster_nodes_) {
-            if (node == node_id_) continue;
+            if (node == node_id_) {
+              continue;
+            }
 
             auto elapsed = std::chrono::steady_clock::now() - start_time;
             if (elapsed > config_.paxos_prepare_timeout) {
@@ -828,7 +840,9 @@ bool PaxosConsensus::executeAcceptPhase(
         auto& instance = instances_[slot];
 
         for (const auto& node : cluster_nodes_) {
-            if (node == node_id_) continue;
+            if (node == node_id_) {
+              continue;
+            }
 
             auto elapsed = std::chrono::steady_clock::now() - start_time;
             if (elapsed > config_.paxos_accept_timeout) {

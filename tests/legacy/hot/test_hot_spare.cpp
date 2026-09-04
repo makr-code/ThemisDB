@@ -30,14 +30,18 @@ public:
     
     bool write(const std::string& shard_id, const std::string& doc_id, 
                const std::vector<uint8_t>& data) {
-        if (!shard_healthy[shard_id]) return false;
+        if (!shard_healthy[shard_id]) {
+          return false;
+        }
         shard_data[shard_id][doc_id] = data;
         return true;
     }
     
     std::optional<std::vector<uint8_t>> read(const std::string& shard_id, 
                                               const std::string& doc_id) {
-        if (!shard_healthy[shard_id]) return std::nullopt;
+        if (!shard_healthy[shard_id]) {
+          return std::nullopt;
+        }
         if (shard_data.count(shard_id) && shard_data[shard_id].count(doc_id)) {
             return shard_data[shard_id][doc_id];
         }

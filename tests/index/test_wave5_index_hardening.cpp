@@ -208,7 +208,9 @@ TEST(WaveB_I3_IteratorSafety, PreCollectKeysBeforeModification) {
     // Pre-collect keys (mirrors Wave-B I3 recommendation).
     std::vector<std::string> keys;
     keys.reserve(counters.size());
-    for (const auto& [k, _] : counters) keys.push_back(k);
+    for (const auto& [k, _] : counters) {
+      keys.push_back(k);
+    }
 
     // Modify the map using the pre-collected keys — no iterator held.
     for (const auto& k : keys) {

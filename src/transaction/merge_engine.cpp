@@ -47,7 +47,9 @@ MergeEngine::Conflict MergeEngine::Conflict::fromJson(const json& j) {
     Conflict c{};  // Explicit value-initialization: all members default-initialized
     
     std::string type_str = j["type"];
-    if (type_str == "modify_modify") c.type = ConflictType::MODIFY_MODIFY;
+    if (type_str == "modify_modify") {
+      c.type = ConflictType::MODIFY_MODIFY;
+    }
     else if (type_str == "delete_modify") c.type = ConflictType::DELETE_MODIFY;
     else if (type_str == "modify_delete") c.type = ConflictType::MODIFY_DELETE;
     else c.type = ConflictType::DELETE_DELETE;
@@ -111,7 +113,9 @@ MergeEngine::MergeOptions MergeEngine::MergeOptions::fromJson(const json& j) {
     MergeOptions opts{};  // Explicit value-initialization: all members default-initialized
     
     std::string strategy_str = j["strategy"];
-    if (strategy_str == "ours") opts.strategy = MergeStrategy::OURS;
+    if (strategy_str == "ours") {
+      opts.strategy = MergeStrategy::OURS;
+    }
     else if (strategy_str == "theirs") opts.strategy = MergeStrategy::THEIRS;
     else if (strategy_str == "fast_forward") opts.strategy = MergeStrategy::FAST_FORWARD;
     else opts.strategy = MergeStrategy::MANUAL;

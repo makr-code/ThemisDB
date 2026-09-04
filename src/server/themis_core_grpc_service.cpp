@@ -281,7 +281,9 @@ private:
             }
             int created = 0;
             for (const auto& doc : req->documents()) {
-                if (doc.collection().empty() || doc.key().empty()) continue;
+                if (doc.collection().empty() || doc.key().empty()) {
+                  continue;
+                }
                 const std::string skey = storageKey(doc.collection().empty()
                     ? req->collection() : doc.collection(), doc.key());
                 const std::string data(doc.data().begin(), doc.data().end());
@@ -327,11 +329,15 @@ private:
             }
             int updated = 0;
             for (const auto& doc : req->documents()) {
-                if (doc.key().empty()) continue;
+                if (doc.key().empty()) {
+                  continue;
+                }
                 const std::string col = doc.collection().empty() ? req->collection() : doc.collection();
                 const std::string skey = storageKey(col, doc.key());
                 const std::string data(doc.data().begin(), doc.data().end());
-                if (db_->put(skey, data)) ++updated;
+                if (db_->put(skey, data)) {
+                  ++updated;
+                }
             }
             resp->set_success(updated > 0 || req->documents().empty());
             resp->set_updated_count(updated);
@@ -349,7 +355,9 @@ private:
             int deleted = 0;
             for (const auto& key : req->keys()) {
                 const std::string skey = storageKey(req->collection(), key);
-                if (db_->del(skey)) ++deleted;
+                if (db_->del(skey)) {
+                  ++deleted;
+                }
             }
             resp->set_success(deleted > 0 || req->keys().empty());
             resp->set_deleted_count(deleted);

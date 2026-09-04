@@ -396,7 +396,9 @@ void SseConnectionManager::backgroundPollTask() {
             std::shared_lock<std::shared_mutex> lock(connections_mutex_);
             active_conns.reserve(connections_.size());
             for (auto& [id, conn] : connections_) {
-                if (!conn || !conn->active.load(std::memory_order_relaxed)) continue;
+                if (!conn || !conn->active.load(std::memory_order_relaxed)) {
+                  continue;
+                }
                 // Backpressure: skip non-drop-oldest connections whose buffer is
                 // already full.  This read is safe here because we hold the
                 // connections_mutex_ shared lock; the write side (pollEventsWithSequences,
@@ -432,12 +434,16 @@ void SseConnectionManager::backgroundPollTask() {
             
             auto events = changefeed_->listEvents(options);
             
-            if (events.empty()) continue;
+            if (events.empty()) {
+              continue;
+            }
 
             // Re-acquire write lock briefly to append events to the connection buffer.
             std::unique_lock<std::shared_mutex> lock(connections_mutex_);
             // Re-check active flag: the connection may have been unregistered while we polled.
-            if (!target.conn || !target.conn->active.load(std::memory_order_relaxed)) continue;
+            if (!target.conn || !target.conn->active.load(std::memory_order_relaxed)) {
+              continue;
+            }
             auto& c = *target.conn;
 
             for (const auto& event : events) {

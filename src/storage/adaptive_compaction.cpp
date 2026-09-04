@@ -99,7 +99,9 @@ void AdaptiveCompactionScheduler::samplingLoop() {
                             [this] { return sample_stop_.load(std::memory_order_relaxed); });
         lock.unlock();
 
-        if (sample_stop_.load(std::memory_order_relaxed)) break;
+        if (sample_stop_.load(std::memory_order_relaxed)) {
+          break;
+        }
 
         collectSample();
     }

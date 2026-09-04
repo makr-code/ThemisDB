@@ -155,8 +155,12 @@ TEST_F(AQLBm25Test, BM25ScoresDecreaseWithRelevance) {
     // Get scores for doc1 and doc2
     double score_doc1 = 0.0, score_doc2 = 0.0;
     for (const auto& key : result.keys) {
-        if (key == "doc1") score_doc1 = (*result.bm25_scores)[key];
-        if (key == "doc2") score_doc2 = (*result.bm25_scores)[key];
+        if (key == "doc1") {
+          score_doc1 = (*result.bm25_scores)[key];
+        }
+        if (key == "doc2") {
+          score_doc2 = (*result.bm25_scores)[key];
+        }
     }
     
     // Both should have positive scores

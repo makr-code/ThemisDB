@@ -122,8 +122,12 @@ class DoxygenHeadersValidation : public ::testing::Test {
     }
 
     std::string ClassifyMaturity(int score) {
-        if (score >= 85) return "PRODUCTION-READY";
-        if (score >= 70) return "BETA";
+        if (score >= 85) {
+          return "PRODUCTION-READY";
+        }
+        if (score >= 70) {
+          return "BETA";
+        }
         return "ALPHA";
     }
 };
@@ -196,7 +200,9 @@ TEST_F(DoxygenHeadersValidation, CMT_FIN_03_MaturityClassificationVerified) {
         
         HeaderFields fields = ParseHeader(content);
         
-        if (fields.score < 0) continue;
+        if (fields.score < 0) {
+          continue;
+        }
         
         std::string expected = ClassifyMaturity(fields.score);
         bool matches = false;
@@ -286,7 +292,9 @@ TEST_F(DoxygenHeadersValidation, CMT_FIN_06_MaturityDistribution) {
         
         HeaderFields fields = ParseHeader(content);
         
-        if (fields.score >= 85) production_ready++;
+        if (fields.score >= 85) {
+          production_ready++;
+        }
         else if (fields.score >= 70) beta++;
         else alpha++;
     }

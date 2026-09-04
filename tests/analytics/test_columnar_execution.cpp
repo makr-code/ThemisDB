@@ -69,13 +69,17 @@ TEST(SelectionVectorTest, ResetProducesDenseVector) {
     SelectionVector sv;
     sv.reset(5);
     ASSERT_EQ(5u, sv.size());
-    for (uint32_t i = 0; i < 5; ++i) EXPECT_EQ(i, sv[i]);
+    for (uint32_t i = 0; i < 5; ++i) {
+      EXPECT_EQ(i, sv[i]);
+    }
 }
 
 TEST(SelectionVectorTest, AllFactory) {
     auto sv = SelectionVector::all(4);
     ASSERT_EQ(4u, sv.size());
-    for (uint32_t i = 0; i < 4; ++i) EXPECT_EQ(i, sv[i]);
+    for (uint32_t i = 0; i < 4; ++i) {
+      EXPECT_EQ(i, sv[i]);
+    }
 }
 
 TEST(SelectionVectorTest, PushBack) {
@@ -152,7 +156,9 @@ TEST(ColumnTest, ClearResetsData) {
 
 TEST(ColumnTest, FilterBySelectionVector) {
     Column col("v", ColumnType::Int64);
-    for (int64_t i = 0; i < 5; ++i) col.appendInt64(i * 10);
+    for (int64_t i = 0; i < 5; ++i) {
+      col.appendInt64(i * 10);
+    }
 
     SelectionVector sel;
     sel.push_back(1);
@@ -198,7 +204,9 @@ TEST(ColumnBatchTest, AddAndGetColumn) {
 TEST(ColumnBatchTest, RowCountFromFirstColumn) {
     ColumnBatch batch;
     auto col = std::make_shared<Column>("a", ColumnType::Int64);
-    for (int i = 0; i < 7; ++i) col->appendInt64(i);
+    for (int i = 0; i < 7; ++i) {
+      col->appendInt64(i);
+    }
     batch.addColumn(col);
     EXPECT_EQ(7u, batch.rowCount());
 }
@@ -868,7 +876,9 @@ TEST(EndToEndTest, LargeBatchFilterAggregateSort) {
         cat_col->appendString(c);
         price_col->appendDouble(price);
         if (price > 512.0) {   // filter threshold
-            if (i % 2 == 0) expected_a += price;
+            if (i % 2 == 0) {
+              expected_a += price;
+            }
             else             expected_b += price;
         }
     }
@@ -914,7 +924,9 @@ static ColumnBatch makeLargeDoubleColumn(const std::vector<double>& values) {
     ColumnBatch batch(values.size());
     auto col = std::make_shared<Column>("v", ColumnType::Double);
     col->reserve(values.size());
-    for (double v : values) col->appendDouble(v);
+    for (double v : values) {
+      col->appendDouble(v);
+    }
     batch.addColumn(col);
     return batch;
 }
@@ -929,8 +941,12 @@ static ScalarAgg scalarAgg(const std::vector<double>& data) {
     ScalarAgg r;
     for (double v : data) {
         r.sum += v;
-        if (v < r.min_val) r.min_val = v;
-        if (v > r.max_val) r.max_val = v;
+        if (v < r.min_val) {
+          r.min_val = v;
+        }
+        if (v > r.max_val) {
+          r.max_val = v;
+        }
     }
     return r;
 }
@@ -1053,7 +1069,9 @@ TEST(SIMDParityTest, Sum_WithNulls_FallbackToScalar) {
     for (int i = 0; i < 10; ++i) {
         bool is_null = (i % 3 == 0);
         col->appendDouble(static_cast<double>(i + 1), is_null);
-        if (!is_null) expected += static_cast<double>(i + 1);
+        if (!is_null) {
+          expected += static_cast<double>(i + 1);
+        }
     }
     batch.addColumn(col);
 
@@ -1109,7 +1127,9 @@ TEST(SIMDThroughputTest, Sum_10M_Doubles_Throughput) {
 
     constexpr int kReps = 10;
     auto t0 = std::chrono::high_resolution_clock::now();
-    for (int r = 0; r < kReps; ++r) agg.execute(batch);
+    for (int r = 0; r < kReps; ++r) {
+      agg.execute(batch);
+    }
     auto t1 = std::chrono::high_resolution_clock::now();
 
     double elapsed_s = std::chrono::duration<double>(t1 - t0).count() / kReps;

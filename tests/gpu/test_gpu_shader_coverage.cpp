@@ -265,8 +265,12 @@ TEST(KernelRegistryValidateTest, IncompleteANN_ReportsMissingSlots) {
 
     bool foundCosine = false, foundTopK = false;
     for (const auto& s : missing) {
-        if (s.find("launchCosine") != std::string::npos) foundCosine = true;
-        if (s.find("launchTopK")   != std::string::npos) foundTopK   = true;
+        if (s.find("launchCosine") != std::string::npos) {
+          foundCosine = true;
+        }
+        if (s.find("launchTopK")   != std::string::npos) {
+          foundTopK   = true;
+        }
     }
     EXPECT_TRUE(foundCosine) << "Expected 'launchCosine' in missing slots";
     EXPECT_TRUE(foundTopK)   << "Expected 'launchTopK' in missing slots";

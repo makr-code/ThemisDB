@@ -65,9 +65,13 @@ TEST(QuerySchedulerTest, FIFOWithinSamePriority) {
         sched.submit("q" + std::to_string(i),
                      GraphQueryScheduler::Priority::NORMAL,
                      [i, &ids] { ids.push_back(i); });
-    while (sched.pending() > 0) sched.executeNext();
+    while (sched.pending() > 0) {
+      sched.executeNext();
+    }
     // FIFO ordering expected within NORMAL
-    for (int i = 0; i < 5; ++i) EXPECT_EQ(i, ids[i]);
+    for (int i = 0; i < 5; ++i) {
+      EXPECT_EQ(i, ids[i]);
+    }
 }
 
 TEST(QuerySchedulerTest, CompletedCountAfterExecute) {
@@ -156,7 +160,9 @@ TEST(ShardBalancerTest, RemoveNonexistentShardReturnsFalse) {
 TEST(ShardBalancerTest, RoundRobinCyclesThroughAllShards) {
     GraphShardBalancer b(GraphShardBalancer::Strategy::ROUND_ROBIN, {"s1", "s2", "s3"});
     std::vector<std::string> selected;
-    for (int i = 0; i < 6; ++i) selected.push_back(b.selectShard());
+    for (int i = 0; i < 6; ++i) {
+      selected.push_back(b.selectShard());
+    }
     // Every shard must appear exactly twice in 6 round-robin selections
     for (const auto& s : {"s1", "s2", "s3"}) {
         size_t count = std::count(selected.begin(), selected.end(), s);

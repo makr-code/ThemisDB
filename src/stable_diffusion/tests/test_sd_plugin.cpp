@@ -662,7 +662,9 @@ namespace {
 // Returns true when buf contains a PNG chunk with the given 4-byte type.
 // Scans the entire buffer (post-signature) to find any matching chunk.
 bool png_has_chunk(const std::vector<uint8_t>& buf, const char type[4]) {
-    if (buf.size() < 8u) return false;
+    if (buf.size() < 8u) {
+      return false;
+    }
     size_t pos = 8u;  // skip PNG signature
     while (pos + 12u <= buf.size()) {
         const uint32_t len =
@@ -670,7 +672,9 @@ bool png_has_chunk(const std::vector<uint8_t>& buf, const char type[4]) {
             (static_cast<uint32_t>(buf[pos + 1]) << 16) |
             (static_cast<uint32_t>(buf[pos + 2]) <<  8) |
              static_cast<uint32_t>(buf[pos + 3]);
-        if (buf.size() < pos + 12u + len) break;
+        if (buf.size() < pos + 12u + len) {
+          break;
+        }
         if (buf[pos + 4] == static_cast<uint8_t>(type[0]) &&
             buf[pos + 5] == static_cast<uint8_t>(type[1]) &&
             buf[pos + 6] == static_cast<uint8_t>(type[2]) &&
@@ -693,7 +697,9 @@ std::vector<uint8_t> png_idat_data(const std::vector<uint8_t>& buf) {
             (static_cast<uint32_t>(buf[pos + 1]) << 16) |
             (static_cast<uint32_t>(buf[pos + 2]) <<  8) |
              static_cast<uint32_t>(buf[pos + 3]);
-        if (buf.size() < pos + 12u + len) break;
+        if (buf.size() < pos + 12u + len) {
+          break;
+        }
         if (buf[pos + 4] == 'I' && buf[pos + 5] == 'D' &&
             buf[pos + 6] == 'A' && buf[pos + 7] == 'T') {
             return std::vector<uint8_t>(buf.begin() + pos + 8,

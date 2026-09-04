@@ -106,7 +106,9 @@ TEST_F(JSONLibIntegrationTest, SimdjsonLargeJSON) {
     // Generate large JSON array
     std::string json_str = "[";
     for (int i = 0; i < 1000; ++i) {
-        if (i > 0) json_str += ",";
+        if (i > 0) {
+          json_str += ",";
+        }
         json_str += R"({"id":)" + std::to_string(i) + R"(,"value":"data_)" + std::to_string(i) + R"("})";
     }
     json_str += "]";
@@ -342,7 +344,9 @@ TEST_F(JSONLibIntegrationTest, NlohmannJsonCustomTypes) {
 TEST_F(JSONLibIntegrationTest, PerformanceComparison) {
     std::string json_str = R"({"values": [)";
     for (int i = 0; i < 100; ++i) {
-        if (i > 0) json_str += ",";
+        if (i > 0) {
+          json_str += ",";
+        }
         json_str += std::to_string(i);
     }
     json_str += "]}";

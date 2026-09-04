@@ -37,7 +37,9 @@ static GeometryInfo makeClosedPolygon(
 /// formula (absolute value of the signed result).
 static double ringArea(const GeometryInfo& g) {
     const auto& rings = g.rings;
-    if (rings.empty()) return 0.0;
+    if (rings.empty()) {
+      return 0.0;
+    }
     const auto& ring = rings[0];
     double area = 0.0;
     const std::size_t n = ring.size();

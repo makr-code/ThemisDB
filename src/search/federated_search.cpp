@@ -91,7 +91,9 @@ std::vector<FederatedSearch::Result> FederatedSearch::search(
         const double weight = getTenantWeight(tid);
         if (weight == 0.0) {
             stats.skipped = true;
-            if (tenant_stats) tenant_stats->push_back(stats);
+            if (tenant_stats) {
+              tenant_stats->push_back(stats);
+            }
             continue;
         }
 
@@ -101,7 +103,9 @@ std::vector<FederatedSearch::Result> FederatedSearch::search(
                              tid);
             }
             stats.skipped = true;
-            if (tenant_stats) tenant_stats->push_back(stats);
+            if (tenant_stats) {
+              tenant_stats->push_back(stats);
+            }
             continue;
         }
 
@@ -119,7 +123,9 @@ std::vector<FederatedSearch::Result> FederatedSearch::search(
                          tid);
             stats.skipped = true;
         }
-        if (tenant_stats) tenant_stats->push_back(stats);
+        if (tenant_stats) {
+          tenant_stats->push_back(stats);
+        }
     }
 
     return mergeTenantResults(tenant_results);
@@ -150,7 +156,9 @@ std::vector<FederatedSearch::Result> FederatedSearch::mergeTenantResults(
         const double weight = getTenantWeight(tid);
         for (size_t rank = 0; rank < results.size(); ++rank) {
             const auto& r = results[rank];
-            if (r.document_id.empty()) continue;
+            if (r.document_id.empty()) {
+              continue;
+            }
 
             const std::string key = tid + '\n' + r.document_id;
             auto& acc = accum[key];

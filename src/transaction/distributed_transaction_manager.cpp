@@ -58,7 +58,9 @@ struct TransactionStateSnapshot {
         , error_detail(txn.error_detail)
     {
         participants.reserve(txn.participants.size());
-        for (const auto& p : txn.participants) participants.push_back(p.node_id);
+        for (const auto& p : txn.participants) {
+          participants.push_back(p.node_id);
+        }
     }
     
 };
@@ -531,7 +533,9 @@ void DistributedTransactionManager::abortDistributed(const TransactionId& txn_id
 
     lock.lock();
     txn = findTransaction(txn_id);
-    if (!txn) return;
+    if (!txn) {
+      return;
+    }
 
     if (!phase2_ok) {
         txn->state = DistributedTxnState::ABORTING;
@@ -660,7 +664,9 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
 
     for (const auto& entry : entries) {
         const std::string& tid = entry.transaction_id;
-        if (tid.empty()) continue;
+        if (tid.empty()) {
+          continue;
+        }
 
         switch (entry.type) {
         case themis::sharding::WALEntryType::BEGIN_TX:
@@ -685,7 +691,9 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
     // cannot contact participants to determine their individual states).
     size_t resolved = 0;
     for (const auto& [tid, type] : last_decision) {
-        if (type != themis::sharding::WALEntryType::PREPARE_TX) continue;
+        if (type != themis::sharding::WALEntryType::PREPARE_TX) {
+          continue;
+        }
 
         THEMIS_WARN("DistributedTransactionManager [{}] recovery: in-doubt txn={} → ABORT",
                     coordinator_id_, tid);
@@ -716,7 +724,9 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
 
             std::lock_guard<std::mutex> lock(mutex_);
             auto* txn = findTransaction(tid);
-            if (txn) txn->state = DistributedTxnState::ABORTED;
+            if (txn) {
+              txn->state = DistributedTxnState::ABORTED;
+            }
         }
 
         ++resolved;
@@ -859,9 +869,13 @@ bool DistributedTransactionManager::isParticipantAlive(const std::string& node_i
     {
         std::lock_guard<std::mutex> lock(mutex_);
         for (const auto& [tid, txn] : transactions_) {
-            if (found_remote) break;
+            if (found_remote) {
+              break;
+            }
             for (const auto& part : txn.participants) {
-                if (part.node_id != node_id) continue;
+                if (part.node_id != node_id) {
+                  continue;
+                }
                 if ([[maybe_unused]] part.callback != nullptr) {
                     return true;   // in-process — always alive
                 }
@@ -936,7 +950,9 @@ std::optional<DistributedTransaction>
 DistributedTransactionManager::getTransaction(const TransactionId& txn_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     const auto it = transactions_.find(txn_id);
-    if (it == transactions_.end()) return std::nullopt;
+    if (it == transactions_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -993,7 +1009,9 @@ void DistributedTransactionManager::logToWAL(
     const std::string&             txn_id,
     const std::string&             data
 ) {
-    if (!wal_) return;
+    if (!wal_) {
+      return;
+    }
 
     themis::sharding::WALEntry entry;
     entry.type           = type;
@@ -1042,7 +1060,9 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto* txn = findTransaction(txn_id);
-        if (!txn) return false;
+        if (!txn) {
+          return false;
+        }
         parts = txn->participants;
     }
 
@@ -1432,7 +1452,9 @@ void DistributedTransactionManager::startThreadPool() {
                         continue;
                     }
                      
-                    if (pool_stop_ && task_queue_.empty()) return;
+                    if (pool_stop_ && task_queue_.empty()) {
+                      return;
+                    }
                      
                     if (task_queue_.empty()) {
                         // Spurious wakeup or timeout with empty queue; loop again.
@@ -1458,7 +1480,9 @@ void DistributedTransactionManager::stopThreadPool() {
     }
     pool_cv_.notify_all();
     for (auto& t : worker_threads_) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     worker_threads_.clear();
 }
@@ -1476,11 +1500,15 @@ void DistributedTransactionManager::batchFlushLoop() {
             batch_cv_.wait_for(lock, config_.prepare_batch_window, [this] {
                 return !batch_queue_.empty() || batch_stop_.load(std::memory_order_relaxed);
             });
-            if (batch_stop_.load(std::memory_order_relaxed) && batch_queue_.empty()) break;
+            if (batch_stop_.load(std::memory_order_relaxed) && batch_queue_.empty()) {
+              break;
+            }
             batch.swap(batch_queue_);
         }
 
-        if (batch.empty()) continue;
+        if (batch.empty()) {
+          continue;
+        }
 
         THEMIS_DEBUG("DistributedTransactionManager [{}] batch-flush: {} transactions",
                      coordinator_id_, batch.size());

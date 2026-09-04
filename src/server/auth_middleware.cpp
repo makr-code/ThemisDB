@@ -203,18 +203,24 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
         // inputs (which would require zero-padding and may confuse static
         // analysers), and does not expose any additional timing information
         // beyond the publicly-known expected token length.
-        if (stored.size() != token_str.size()) continue;
+        if (stored.size() != token_str.size()) {
+          continue;
+        }
         // Constant-time byte comparison: CRYPTO_memcmp runs in O(len) time
         // regardless of the first differing byte, preventing content-based
         // timing attacks.
-        if (CRYPTO_memcmp(stored.data(), token_str.data(), stored.size()) != 0) continue;
+        if (CRYPTO_memcmp(stored.data(), token_str.data(), stored.size()) != 0) {
+          continue;
+        }
 
         const auto& config = kv.second;
         // Build scopes string for diagnostics
         std::ostringstream scopes_oss;
         bool first_scope = true;
         for (const auto& s : config.scopes) {
-            if (!first_scope) scopes_oss << ",";
+            if (!first_scope) {
+              scopes_oss << ",";
+            }
             scopes_oss << s;
             first_scope = false;
         }
@@ -350,9 +356,13 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaJWT(std::string_view toke
 
         // Add values from the configured scope_claim
         if (jwt_config_.scope_claim == "roles") {
-            for (const auto& r : claims.roles)  granted_scopes.insert(r);
+            for (const auto& r : claims.roles) {
+              granted_scopes.insert(r);
+            }
         } else if (jwt_config_.scope_claim == "groups") {
-            for (const auto& g : claims.groups) granted_scopes.insert(g);
+            for (const auto& g : claims.groups) {
+              granted_scopes.insert(g);
+            }
         }
         // If scope_claim is "scope" or "scp" the data is already in claims.scopes above.
 
@@ -533,7 +543,9 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
         // Build roles string manually (fmt::join not available in fmt 11.0.2)
         std::ostringstream roles_oss;
         for (size_t i = 0; i < result.roles.size(); ++i) {
-            if (i > 0) roles_oss << ", ";
+            if (i > 0) {
+              roles_oss << ", ";
+            }
             roles_oss << result.roles[i];
         }
         std::string roles_str = roles_oss.str();

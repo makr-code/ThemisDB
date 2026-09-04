@@ -69,7 +69,9 @@ std::vector<MultiModalResult> MultiModalSearch::search(
                 case Modality::AUDIO:  mod_label = "audio";  break;
                 case Modality::CUSTOM: mod_label = "custom"; break;
             }
-            if (!q.embedding_namespace.empty()) mod_label += ":" + q.embedding_namespace;
+            if (!q.embedding_namespace.empty()) {
+              mod_label += ":" + q.embedding_namespace;
+            }
             modality_names.push_back(std::move(mod_label));
         }
     }
@@ -115,7 +117,9 @@ std::vector<MultiModalResult> MultiModalSearch::searchTextAndImage(
             all_lists.push_back(std::move(results));
             weights.push_back(image_weight);
             std::string label = "image";
-            if (!image_namespace.empty()) label += ":" + image_namespace;
+            if (!image_namespace.empty()) {
+              label += ":" + image_namespace;
+            }
             modality_names.push_back(std::move(label));
         }
     }

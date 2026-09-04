@@ -33,10 +33,18 @@ std::string intentToString(IntentCategory cat) {
 }
 
 IntentCategory stringToIntent(const std::string& s) {
-    if (s == "QUERY")        return IntentCategory::QUERY;
-    if (s == "COMMAND")      return IntentCategory::COMMAND;
-    if (s == "QUESTION")     return IntentCategory::QUESTION;
-    if (s == "CONVERSATION") return IntentCategory::CONVERSATION;
+    if (s == "QUERY") {
+      return IntentCategory::QUERY;
+    }
+    if (s == "COMMAND") {
+      return IntentCategory::COMMAND;
+    }
+    if (s == "QUESTION") {
+      return IntentCategory::QUESTION;
+    }
+    if (s == "CONVERSATION") {
+      return IntentCategory::CONVERSATION;
+    }
     return IntentCategory::UNKNOWN;
 }
 
@@ -58,7 +66,9 @@ void ConversationContext::setEntity(const std::string& key, const std::string& v
 
 std::optional<std::string> ConversationContext::getEntity(const std::string& key) const {
     auto it = entities_.find(key);
-    if (it != entities_.end()) return it->second;
+    if (it != entities_.end()) {
+      return it->second;
+    }
     return std::nullopt;
 }
 
@@ -110,7 +120,9 @@ std::string intentToLower(const std::string& s) {
 bool containsAny(const std::string& text, const std::vector<std::string>& keywords) {
     std::string lower = intentToLower(text);
     for (const auto& kw : keywords) {
-        if (lower.find(kw) != std::string::npos) return true;
+        if (lower.find(kw) != std::string::npos) {
+          return true;
+        }
     }
     return false;
 }
@@ -123,10 +135,18 @@ IntentCategory VoiceIntentDetector::classifyIntent(const std::string& text) {
     static const std::vector<std::string> question_kw= {"help","how to","what does","explain","why","describe","define"};
     static const std::vector<std::string> conv_kw    = {"hello","hi ","hi!","thanks","bye","yes","no","ok","sure","alright"};
 
-    if (containsAny(text, conv_kw))    return IntentCategory::CONVERSATION;
-    if (containsAny(text, command_kw)) return IntentCategory::COMMAND;
-    if (containsAny(text, query_kw))   return IntentCategory::QUERY;
-    if (containsAny(text, question_kw))return IntentCategory::QUESTION;
+    if (containsAny(text, conv_kw)) {
+      return IntentCategory::CONVERSATION;
+    }
+    if (containsAny(text, command_kw)) {
+      return IntentCategory::COMMAND;
+    }
+    if (containsAny(text, query_kw)) {
+      return IntentCategory::QUERY;
+    }
+    if (containsAny(text, question_kw)) {
+      return IntentCategory::QUESTION;
+    }
     return IntentCategory::UNKNOWN;
 }
 
@@ -143,12 +163,18 @@ float VoiceIntentDetector::computeIntentConfidence(const std::string& text, Inte
     };
 
     for (const auto& ks : sets) {
-        if (ks.cat != cat) continue;
+        if (ks.cat != cat) {
+          continue;
+        }
         int hits = 0;
         for (const auto& kw : ks.kws) {
-            if (lower.find(kw) != std::string::npos) ++hits;
+            if (lower.find(kw) != std::string::npos) {
+              ++hits;
+            }
         }
-        if (hits == 0) return 0.3f;
+        if (hits == 0) {
+          return 0.3f;
+        }
         return std::min(0.5f + hits * 0.15f, 0.95f);
     }
     return 0.3f;

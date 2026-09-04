@@ -355,7 +355,9 @@ CompressionResult FallbackCompressionStrategy::trySequentially(
 
     for (const auto& strategy_name : strategies) {
         auto strategy = CompressionFactory::create(strategy_name);
-        if (!strategy) continue;
+        if (!strategy) {
+          continue;
+        }
 
         try {
             auto result = strategy->compress(data, dim, mode_sizes, config);

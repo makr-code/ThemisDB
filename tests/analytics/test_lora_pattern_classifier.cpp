@@ -216,7 +216,9 @@ TEST(LoRAPatternClassifierTest, LPC15_ConcurrentBatchClassifyFrom4ThreadsIsSafe)
             EXPECT_EQ(results.size(), events.size());
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     // No crashes and all calls accounted for.
     EXPECT_GE(call_count.load(), 1);
 }

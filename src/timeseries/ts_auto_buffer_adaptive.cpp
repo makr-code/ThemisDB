@@ -109,7 +109,9 @@ bool FlushController::checkBackpressure(size_t                    buffered_point
     std::unique_lock<std::mutex> lock(mutex_);
     current_buffered_ = buffered_points;
 
-    if (!backpressure_) return true;
+    if (!backpressure_) {
+      return true;
+    }
 
     // Block until queue drains below low-water mark or timeout
     bool ok = cv_.wait_for(lock, timeout, [this]() {

@@ -94,22 +94,34 @@ namespace {
         int b = octets[1];
         
         // Loopback: 127.0.0.0/8
-        if (a == 127) return true;
+        if (a == 127) {
+          return true;
+        }
         
         // Private: 10.0.0.0/8
-        if (a == 10) return true;
+        if (a == 10) {
+          return true;
+        }
         
         // Private: 172.16.0.0/12
-        if (a == 172 && b >= 16 && b <= 31) return true;
+        if (a == 172 && b >= 16 && b <= 31) {
+          return true;
+        }
         
         // Private: 192.168.0.0/16
-        if (a == 192 && b == 168) return true;
+        if (a == 192 && b == 168) {
+          return true;
+        }
         
         // Link-local: 169.254.0.0/16
-        if (a == 169 && b == 254) return true;
+        if (a == 169 && b == 254) {
+          return true;
+        }
         
         // 0.0.0.0/8
-        if (a == 0) return true;
+        if (a == 0) {
+          return true;
+        }
         
         return false;
     }
@@ -1221,7 +1233,9 @@ std::optional<std::string> validateMacroStepJson(const json& step_json) {
 voice::MacroStep parseStep(const json& j) {
     voice::MacroStep step;
     std::string type_str = j.value("type", "QUERY");
-    if (type_str == "COMMAND")   step.type = voice::StepType::COMMAND;
+    if (type_str == "COMMAND") {
+      step.type = voice::StepType::COMMAND;
+    }
     else if (type_str == "CONDITION") step.type = voice::StepType::CONDITION;
     else if (type_str == "LOOP")  step.type = voice::StepType::LOOP;
     else if (type_str == "WAIT")  step.type = voice::StepType::WAIT;
@@ -1427,7 +1441,9 @@ http::response<http::string_body> VoiceApiHandler::handleListMacros(
         std::istringstream ss(tags_value);
         std::string token;
         while (std::getline(ss, token, ',')) {
-            if (!token.empty()) tag_filter.push_back(token);
+            if (!token.empty()) {
+              tag_filter.push_back(token);
+            }
         }
     }
 
@@ -1682,7 +1698,9 @@ http::response<http::string_body> VoiceApiHandler::handleGetRecording(
     if (fmt == "audio" && audio.has_value()) {
         std::string mime = "application/octet-stream";
         const auto& codec = rec->format.codec;
-        if (codec == "wav")  mime = "audio/wav";
+        if (codec == "wav") {
+          mime = "audio/wav";
+        }
         else if (codec == "mp3")  mime = "audio/mpeg";
         else if (codec == "ogg")  mime = "audio/ogg";
         else if (codec == "opus") mime = "audio/ogg; codecs=opus";
@@ -1939,9 +1957,13 @@ std::vector<uint8_t> VoiceApiHandler::decodeBase64([[maybe_unused]] const std::s
     out.reserve((encoded.size() * 3) / 4);
     int val = 0, valb = -8;
     for (unsigned char c : encoded) {
-        if (c == '=') break;
+        if (c == '=') {
+          break;
+        }
         int d = T[c];
-        if (d == -1) continue;
+        if (d == -1) {
+          continue;
+        }
         val = (val << 6) + d;
         valb += 6;
         if (valb >= 0) {
@@ -2096,7 +2118,9 @@ std::string VoiceApiHandler::parseQueryParam(
             return (amp != std::string::npos) ? value.substr(0, amp) : value;
         }
         auto next = query.find('&', pos);
-        if (next == std::string::npos) break;
+        if (next == std::string::npos) {
+          break;
+        }
         pos = next + 1;
     }
     return {};

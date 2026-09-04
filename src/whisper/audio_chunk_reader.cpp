@@ -106,7 +106,9 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
     while (pos + 8 <= data.size()) {
         const uint32_t chunk_size = readU32LE(&data[pos + 4]);
         if (data[pos] == 'f' && data[pos+1] == 'm' && data[pos+2] == 't' && data[pos+3] == ' ') {
-            if (pos + 8 + 16 > data.size()) break;
+            if (pos + 8 + 16 > data.size()) {
+              break;
+            }
             audio_format   = readU16LE(&data[pos + 8]);
             num_channels   = readU16LE(&data[pos + 10]);
             sample_rate    = readU32LE(&data[pos + 12]);
@@ -114,7 +116,9 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
             found_fmt = true;
         }
         if (data[pos] == 'd' && data[pos+1] == 'a' && data[pos+2] == 't' && data[pos+3] == 'a') {
-            if (!found_fmt) throw std::runtime_error("WavAudioChunkReader: 'data' chunk before 'fmt '");
+            if (!found_fmt) {
+              throw std::runtime_error("WavAudioChunkReader: 'data' chunk before 'fmt '");
+            }
 
             // Guard against invalid fmt data that would cause division-by-zero or
             // out-of-bounds array access in the per-sample loops below.
@@ -278,7 +282,9 @@ std::vector<float> FfmpegAudioChunkReader::readFile(const std::string& path,
     std::array<char, 65536> buf;
     while (!std::feof(pipe.get())) {
         const size_t n = std::fread(buf.data(), 1, buf.size(), pipe.get());
-        if (n == 0) break;
+        if (n == 0) {
+          break;
+        }
         total_bytes += n;
         if (total_bytes > kMaxOutputBytes) {
             throw std::runtime_error(
@@ -310,7 +316,9 @@ void CompositeAudioChunkReader::addReader(std::unique_ptr<IAudioChunkReader> rea
 
 bool CompositeAudioChunkReader::canRead(const std::string& path) const {
     for (const auto& r : readers_) {
-        if (r->canRead(path)) return true;
+        if (r->canRead(path)) {
+          return true;
+        }
     }
     return false;
 }

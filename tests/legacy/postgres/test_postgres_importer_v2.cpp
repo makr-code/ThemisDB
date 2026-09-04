@@ -38,7 +38,9 @@ static std::vector<std::string> splitTopLevelCommas(const std::string& s) {
         if (in_string) {
             current += c;
             if (c == '\'') {
-                if (i + 1 < s.size() && s[i + 1] == '\'') current += s[++i];
+                if (i + 1 < s.size() && s[i + 1] == '\'') {
+                  current += s[++i];
+                }
                 else in_string = false;
             }
         } else if (c == '\'') { in_string = true; current += c; }
@@ -47,7 +49,9 @@ static std::vector<std::string> splitTopLevelCommas(const std::string& s) {
         else if (c == ',' && depth == 0) { result.push_back(current); current.clear(); }
         else current += c;
     }
-    if (!current.empty()) result.push_back(current);
+    if (!current.empty()) {
+      result.push_back(current);
+    }
     return result;
 }
 
@@ -120,7 +124,9 @@ static size_t findMatchingParen(const std::string& sql, size_t open_pos) {
     for (size_t k = open_pos; k < sql.size(); ++k) {
         char c = sql[k];
         if (in_string) {
-            if (c == '\'' && k+1 < sql.size() && sql[k+1] == '\'') ++k;
+            if (c == '\'' && k+1 < sql.size() && sql[k+1] == '\'') {
+              ++k;
+            }
             else if (c == '\'') in_string = false;
         } else if (c == '\'') in_string = true;
         else if (c == '(') ++depth;
@@ -130,7 +136,9 @@ static size_t findMatchingParen(const std::string& sql, size_t open_pos) {
 }
 
 static std::string toUpper(std::string s) {
-    for (auto& c : s) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    for (auto& c : s) {
+      c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    }
     return s;
 }
 
@@ -149,7 +157,9 @@ static bool parseForeignKeyConstraint(const std::string& constraint_def,
         R"((?:CONSTRAINT\s+(\w+)\s+)?FOREIGN\s+KEY\s*\(([^)]+)\)\s+REFERENCES\s+(?:\w+\.)?(\w+)\s*(?:\(([^)]*)\))?)",
         std::regex_constants::icase);
     std::smatch m;
-    if (!std::regex_search(constraint_def, m, fk_re)) return false;
+    if (!std::regex_search(constraint_def, m, fk_re)) {
+      return false;
+    }
     fk.name          = m[1].matched ? m[1].str() : "";
     fk.target_table  = m[3].str();
     fk.target_column = m[4].matched ? trimStr(m[4].str()) : "";
@@ -160,8 +170,12 @@ static bool parseForeignKeyConstraint(const std::string& constraint_def,
         std::string c;
         while (std::getline(ss, c, ',')) {
             c = trimStr(c);
-            if (!c.empty() && c.front() == '"') c = c.substr(1, c.size()-2);
-            if (!result.empty()) result += ",";
+            if (!c.empty() && c.front() == '"') {
+              c = c.substr(1, c.size()-2);
+            }
+            if (!result.empty()) {
+              result += ",";
+            }
             result += c;
         }
         return result;
@@ -172,13 +186,25 @@ static bool parseForeignKeyConstraint(const std::string& constraint_def,
     std::string upper = toUpper(constraint_def);
     auto extractAction = [&upper](const std::string& keyword) -> std::string {
         size_t pos = upper.find(keyword);
-        if (pos == std::string::npos) return "";
+        if (pos == std::string::npos) {
+          return "";
+        }
         std::string rest = trimStr(upper.substr(pos + keyword.size()));
-        if (rest.substr(0,7) == "CASCADE") return "CASCADE";
-        if (rest.substr(0,8) == "SET NULL") return "SET NULL";
-        if (rest.substr(0,11) == "SET DEFAULT") return "SET DEFAULT";
-        if (rest.substr(0,8) == "RESTRICT") return "RESTRICT";
-        if (rest.substr(0,9) == "NO ACTION") return "NO ACTION";
+        if (rest.substr(0,7) == "CASCADE") {
+          return "CASCADE";
+        }
+        if (rest.substr(0,8) == "SET NULL") {
+          return "SET NULL";
+        }
+        if (rest.substr(0,11) == "SET DEFAULT") {
+          return "SET DEFAULT";
+        }
+        if (rest.substr(0,8) == "RESTRICT") {
+          return "RESTRICT";
+        }
+        if (rest.substr(0,9) == "NO ACTION") {
+          return "NO ACTION";
+        }
         return "";
     };
     fk.on_delete_action = extractAction("ON DELETE ");
@@ -195,11 +221,15 @@ static bool parseCreateIndex(const std::string& sql, IndexMetadata& index) {
         R"(CREATE\s+(UNIQUE\s+)?INDEX\s+(?:CONCURRENTLY\s+)?(?:IF\s+NOT\s+EXISTS\s+)?(\w+)\s+ON\s+(?:\w+\.)?(\w+)\s*(?:USING\s+(\w+))?\s*\(([^)]+)\)(?:\s+WHERE\s+(.+?))?(?:\s*;)?$)",
         std::regex_constants::icase);
     std::smatch m;
-    if (!std::regex_search(sql, m, idx_re)) return false;
+    if (!std::regex_search(sql, m, idx_re)) {
+      return false;
+    }
     index.unique = m[1].matched && !m[1].str().empty();
     index.name   = m[2].str();
     std::string tp = m[4].matched ? m[4].str() : "btree";
-    for (auto& c : tp) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    for (auto& c : tp) {
+      c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    }
     index.type = tp;
     std::string cols = m[5].str();
     std::istringstream css(cols);
@@ -209,15 +239,23 @@ static bool parseCreateIndex(const std::string& sql, IndexMetadata& index) {
         col = trimStr(col);
         // Then strip expression parts like ASC/DESC, NULLS FIRST
         size_t sp = col.find_first_of(" \t(");
-        if (sp != std::string::npos) col = col.substr(0, sp);
-        if (!col.empty() && col.front() == '"') col = col.substr(1, col.size()-2);
-        if (!col.empty()) index.columns.push_back(col);
+        if (sp != std::string::npos) {
+          col = col.substr(0, sp);
+        }
+        if (!col.empty() && col.front() == '"') {
+          col = col.substr(1, col.size()-2);
+        }
+        if (!col.empty()) {
+          index.columns.push_back(col);
+        }
     }
     if (m[6].matched && !m[6].str().empty()) {
         index.partial = true;
         index.where_clause = trimStr(m[6].str());
         size_t r = index.where_clause.find_last_not_of(" \t\r\n;");
-        if (r != std::string::npos) index.where_clause = index.where_clause.substr(0, r+1);
+        if (r != std::string::npos) {
+          index.where_clause = index.where_clause.substr(0, r+1);
+        }
     }
     return !index.name.empty() && !index.columns.empty();
 }
@@ -229,14 +267,22 @@ static bool parseCreateIndex(const std::string& sql, IndexMetadata& index) {
 static bool parseCheckConstraint(const std::string& constraint_def, CheckConstraint& ck) {
     std::regex cname_re(R"(CONSTRAINT\s+(\w+))", std::regex_constants::icase);
     std::smatch cm;
-    if (std::regex_search(constraint_def, cm, cname_re)) ck.name = cm[1].str();
+    if (std::regex_search(constraint_def, cm, cname_re)) {
+      ck.name = cm[1].str();
+    }
     std::string upper = toUpper(constraint_def);
     size_t ck_pos = upper.find("CHECK");
-    if (ck_pos == std::string::npos) return false;
+    if (ck_pos == std::string::npos) {
+      return false;
+    }
     size_t paren = constraint_def.find('(', ck_pos);
-    if (paren == std::string::npos) return false;
+    if (paren == std::string::npos) {
+      return false;
+    }
     size_t paren_end = findMatchingParen(constraint_def, paren);
-    if (paren_end == std::string::npos) return false;
+    if (paren_end == std::string::npos) {
+      return false;
+    }
     ck.expression = trimStr(constraint_def.substr(paren + 1, paren_end - paren - 1));
     return !ck.expression.empty();
 }
@@ -244,13 +290,19 @@ static bool parseCheckConstraint(const std::string& constraint_def, CheckConstra
 static bool parseExcludeConstraint(const std::string& constraint_def, ExcludeConstraint& excl) {
     std::regex cname_re(R"(CONSTRAINT\s+(\w+))", std::regex_constants::icase);
     std::smatch cm;
-    if (std::regex_search(constraint_def, cm, cname_re)) excl.name = cm[1].str();
+    if (std::regex_search(constraint_def, cm, cname_re)) {
+      excl.name = cm[1].str();
+    }
     std::string upper = toUpper(constraint_def);
     size_t ex_pos = upper.find("EXCLUDE");
-    if (ex_pos == std::string::npos) return false;
+    if (ex_pos == std::string::npos) {
+      return false;
+    }
     excl.definition = trimStr(constraint_def.substr(ex_pos));
     size_t r = excl.definition.find_last_not_of(" \t\r\n;");
-    if (r != std::string::npos) excl.definition = excl.definition.substr(0, r + 1);
+    if (r != std::string::npos) {
+      excl.definition = excl.definition.substr(0, r + 1);
+    }
     return !excl.definition.empty();
 }
 
@@ -258,24 +310,36 @@ static bool parseGeneratedColumn(const std::string& col_def, const std::string& 
                                   GeneratedColumnInfo& gen) {
     std::string upper = toUpper(col_def);
     size_t gen_pos = upper.find(" GENERATED ");
-    if (gen_pos == std::string::npos) return false;
+    if (gen_pos == std::string::npos) {
+      return false;
+    }
     gen.column = col_name;
     std::string rest = upper.substr(gen_pos + 11);
     if (rest.substr(0, 6) == "ALWAYS") { gen.generation = "ALWAYS"; rest = rest.substr(6); }
     else if (rest.substr(0, 10) == "BY DEFAULT") { gen.generation = "BY_DEFAULT"; rest = rest.substr(10); }
     else return false;
     size_t ws = rest.find_first_not_of(" \t\r\n");
-    if (ws == std::string::npos) return false;
+    if (ws == std::string::npos) {
+      return false;
+    }
     rest = rest.substr(ws);
-    if (rest.substr(0, 2) == "AS") rest = rest.substr(2);
+    if (rest.substr(0, 2) == "AS") {
+      rest = rest.substr(2);
+    }
     ws = rest.find_first_not_of(" \t\r\n");
-    if (ws != std::string::npos) rest = rest.substr(ws);
+    if (ws != std::string::npos) {
+      rest = rest.substr(ws);
+    }
     if (rest.substr(0, 8) == "IDENTITY") { gen.is_identity = true; gen.stored = false; return true; }
     if (!rest.empty() && rest[0] == '(') {
         size_t orig_paren = col_def.find('(', gen_pos);
-        if (orig_paren == std::string::npos) return false;
+        if (orig_paren == std::string::npos) {
+          return false;
+        }
         size_t orig_end = findMatchingParen(col_def, orig_paren);
-        if (orig_end == std::string::npos) return false;
+        if (orig_end == std::string::npos) {
+          return false;
+        }
         gen.expression = trimStr(col_def.substr(orig_paren + 1, orig_end - orig_paren - 1));
         gen.stored = (upper.find("STORED", orig_end) != std::string::npos);
         gen.is_identity = false;
@@ -307,7 +371,9 @@ static std::string detectCardinality(const TableSchema& source, const ForeignKey
         bool is_pk = true;
         for (const auto& sc : src_cols)
             if (std::find(pks.begin(), pks.end(), sc) == pks.end()) { is_pk = false; break; }
-        if (is_pk) return "ONE_TO_ONE";
+        if (is_pk) {
+          return "ONE_TO_ONE";
+        }
     }
     auto it = schemas.find(fk.target_table);
     if (it != schemas.end()) {
@@ -319,7 +385,9 @@ static std::string detectCardinality(const TableSchema& source, const ForeignKey
             for (const auto& tc : tgt_cols)
                 if (std::find(tpks.begin(), tpks.end(), tc) == tpks.end()) { tgt_is_pk = false; break; }
         }
-        if (!tgt_is_pk) return "MANY_TO_MANY";
+        if (!tgt_is_pk) {
+          return "MANY_TO_MANY";
+        }
     }
     return "MANY_TO_ONE";
 }
@@ -343,10 +411,14 @@ public:
             const std::map<std::string, TableSchema>& schemas,
             const std::string& mode = "auto") {
         std::vector<RelationshipMapping> result;
-        if (mode != "auto") return result;
+        if (mode != "auto") {
+          return result;
+        }
         for (const auto& [tname, tschema] : schemas) {
             for (const auto& fk : tschema.foreign_keys) {
-                if (fk.target_table.empty()) continue;
+                if (fk.target_table.empty()) {
+                  continue;
+                }
                 RelationshipMapping m;
                 m.source_table       = tname;
                 m.source_column      = fk.source_column;
@@ -382,8 +454,12 @@ public:
             const std::vector<RelationshipMapping>& mappings) {
         std::vector<RelationshipMapping> inverse;
         for (const auto& m : mappings) {
-            if (m.cardinality != "MANY_TO_ONE") continue;
-            if (m.is_self_referential) continue;
+            if (m.cardinality != "MANY_TO_ONE") {
+              continue;
+            }
+            if (m.is_self_referential) {
+              continue;
+            }
             RelationshipMapping inv;
             inv.source_table      = m.target_table;
             inv.source_column     = m.target_column;
@@ -420,7 +496,9 @@ public:
                         found = true;
                         std::string chain; bool in = false;
                         for (const auto& n : path) {
-                            if (n == nb) in = true;
+                            if (n == nb) {
+                              in = true;
+                            }
                             if (in) { if (!chain.empty()) chain += " -> "; chain += n; }
                         }
                         chain += " -> " + nb;
@@ -431,7 +509,9 @@ public:
             path.pop_back(); in_stack.erase(node);
         };
         for (const auto& [tname, _] : schemas)
-            if (!visited.count(tname)) dfs(tname);
+            if (!visited.count(tname)) {
+              dfs(tname);
+            }
         return found;
     }
 };
@@ -718,7 +798,9 @@ TEST(PostgresImporterV2, NoCircularReferences) {
         return found;
     };
     bool cycle = false;
-    for (auto& [n, _] : adj) if (!visited.count(n)) if (dfs(n)) cycle = true;
+    for (auto& [n, _] : adj) {
+      if (!visited.count(n)) if (dfs(n)) cycle = true;
+    }
     EXPECT_FALSE(cycle);
     EXPECT_TRUE(cycles.empty());
 }
@@ -741,7 +823,9 @@ TEST(PostgresImporterV2, DetectsCircularReferences) {
         return found;
     };
     bool cycle = false;
-    for (auto& [n, _] : adj) if (!visited.count(n)) if (dfs(n)) cycle = true;
+    for (auto& [n, _] : adj) {
+      if (!visited.count(n)) if (dfs(n)) cycle = true;
+    }
     EXPECT_TRUE(cycle);
     EXPECT_FALSE(cycles.empty());
 }
@@ -763,7 +847,9 @@ TEST(PostgresImporterV2, FKTargetTableExists) {
     bool all_valid = true;
     for (auto& [tname, tschema] : schemas) {
         for (auto& fk_ref : tschema.foreign_keys) {
-            if (!schemas.count(fk_ref.target_table)) all_valid = false;
+            if (!schemas.count(fk_ref.target_table)) {
+              all_valid = false;
+            }
         }
     }
     EXPECT_TRUE(all_valid);
@@ -779,7 +865,9 @@ TEST(PostgresImporterV2, FKTargetTableMissing) {
     bool all_valid = true;
     for (auto& [tname, tschema] : schemas) {
         for (auto& fk_ref : tschema.foreign_keys) {
-            if (!schemas.count(fk_ref.target_table)) all_valid = false;
+            if (!schemas.count(fk_ref.target_table)) {
+              all_valid = false;
+            }
         }
     }
     EXPECT_FALSE(all_valid);
@@ -1182,7 +1270,9 @@ static InferenceTableSchema makeSchema(
     s.columns     = columns;
     s.primary_keys = pks;
     s.foreign_keys = fks;
-    for (const auto& col : columns) s.column_types[col] = "text";
+    for (const auto& col : columns) {
+      s.column_types[col] = "text";
+    }
     return s;
 }
 
@@ -1449,7 +1539,9 @@ TEST(PostgreSQLCDC, CancelStopsSubscription) {
     });
 
     // Wait for sentinel event, then cancel
-    while (!started) std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    while (!started) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
     dec->cancel();
     t.join();
 

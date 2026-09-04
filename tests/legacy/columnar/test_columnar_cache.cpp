@@ -217,6 +217,8 @@ TEST(ColumnarCacheTest, CC12_ConcurrentAccess) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(errors.load(), 0);
 }

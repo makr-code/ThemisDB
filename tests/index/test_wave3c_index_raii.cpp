@@ -144,7 +144,9 @@ TEST(Wave3cIndexRaii, IndexBasedIterationWithPushBackIsCorrect) {
         if (l != std::string::npos && r != std::string::npos) {
             result.push_back(part.substr(l, r - l + 1));  // safe: index-based
         }
-        if (pos == std::string::npos) break;
+        if (pos == std::string::npos) {
+          break;
+        }
         start = pos + 1;
     }
 

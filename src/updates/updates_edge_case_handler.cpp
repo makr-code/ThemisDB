@@ -262,8 +262,12 @@ EdgeCaseResult UpdatesEdgeCaseHandler::makeResult(DiagnosticErrorCode code,
     {
         std::lock_guard<std::mutex> lock(stats_mutex_);
         ++stats_.total_detected;
-        if (fatal)            ++stats_.total_fatal;
-        if (requires_rollback) ++stats_.total_rollback_triggered;
+        if (fatal) {
+          ++stats_.total_fatal;
+        }
+        if (requires_rollback) {
+          ++stats_.total_rollback_triggered;
+        }
     }
 
     EdgeCaseResult result;

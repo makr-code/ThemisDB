@@ -165,7 +165,9 @@ public:
     std::vector<int> queryBbox(const Bbox& bbox) const {
         std::vector<int> results;
         for (const auto& e : entries_) {
-            if (bbox.contains(e.point)) results.push_back(e.id);
+            if (bbox.contains(e.point)) {
+              results.push_back(e.id);
+            }
         }
         return results;
     }
@@ -192,10 +194,14 @@ GeoErrorCode spatialJoin(const std::vector<MockGeomWithBbox>& A,
                          JoinPredicate                         pred,
                          std::vector<JoinPair>&                results) {
     for (const auto& a : A) {
-        if (a.isInvalid) return GeoErrorCode::JOIN_INVALID_INPUT;
+        if (a.isInvalid) {
+          return GeoErrorCode::JOIN_INVALID_INPUT;
+        }
     }
     for (const auto& b : B) {
-        if (b.isInvalid) return GeoErrorCode::JOIN_INVALID_INPUT;
+        if (b.isInvalid) {
+          return GeoErrorCode::JOIN_INVALID_INPUT;
+        }
     }
 
     results.clear();

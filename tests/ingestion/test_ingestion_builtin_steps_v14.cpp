@@ -59,7 +59,9 @@ TEST(DecompressStepTest, ING02_SupportedMimeTypes) {
     // ZIP must be in the list
     bool has_zip = false;
     for (const auto& m : mimes) {
-        if (m == "application/zip") has_zip = true;
+        if (m == "application/zip") {
+          has_zip = true;
+        }
     }
     EXPECT_TRUE(has_zip) << "application/zip not in supportedMimeTypes()";
 }
@@ -89,7 +91,9 @@ TEST(DecompressStepTest, ING04_UnknownMimeTypeProducesWarning) {
     // Warning should mention unrecognised archive type
     bool found = false;
     for (const auto& w : ctx.warnings) {
-        if (w.find("unrecognised archive type") != std::string::npos) found = true;
+        if (w.find("unrecognised archive type") != std::string::npos) {
+          found = true;
+        }
     }
     EXPECT_TRUE(found) << "Expected 'unrecognised archive type' in warnings";
     EXPECT_EQ(ctx.extracted_file_paths.size(), 0u);

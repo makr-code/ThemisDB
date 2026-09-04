@@ -65,12 +65,20 @@ void TransactionBatcher::setBatchConfig(const BatchConfig& config)
     BatchConfig clamped = config;
 
     // Clamp window to [1 ms, 100 ms]
-    if (clamped.window < kMinWindow) clamped.window = kMinWindow;
-    if (clamped.window > kMaxWindow) clamped.window = kMaxWindow;
+    if (clamped.window < kMinWindow) {
+      clamped.window = kMinWindow;
+    }
+    if (clamped.window > kMaxWindow) {
+      clamped.window = kMaxWindow;
+    }
 
     // Clamp sizes to >= 1
-    if (clamped.max_batch_size < 1) clamped.max_batch_size = 1;
-    if (clamped.min_batch_size < 1) clamped.min_batch_size = 1;
+    if (clamped.max_batch_size < 1) {
+      clamped.max_batch_size = 1;
+    }
+    if (clamped.min_batch_size < 1) {
+      clamped.min_batch_size = 1;
+    }
     if (clamped.min_batch_size > clamped.max_batch_size)
         clamped.min_batch_size = clamped.max_batch_size;
 
@@ -97,7 +105,9 @@ TransactionBatcher::getTablePolicy(const std::string& table) const
 {
     std::lock_guard<std::mutex> lk(config_mutex_);
     auto it = table_policies_.find(table);
-    if (it != table_policies_.end()) return it->second;
+    if (it != table_policies_.end()) {
+      return it->second;
+    }
     return {};
 }
 
@@ -121,18 +131,30 @@ TransactionBatcher::effectivePolicyFor(const std::string& table) const
             const BatchPolicy& pol = it->second;
             if (pol.window.count() > 0) {
                 auto w = pol.window;
-                if (w < kMinWindow) w = kMinWindow;
-                if (w > kMaxWindow) w = kMaxWindow;
+                if (w < kMinWindow) {
+                  w = kMinWindow;
+                }
+                if (w > kMaxWindow) {
+                  w = kMaxWindow;
+                }
                 ep.window = w;
             }
-            if (pol.max_batch_size > 0) ep.max_batch_size = pol.max_batch_size;
-            if (pol.min_batch_size > 0) ep.min_batch_size = pol.min_batch_size;
+            if (pol.max_batch_size > 0) {
+              ep.max_batch_size = pol.max_batch_size;
+            }
+            if (pol.min_batch_size > 0) {
+              ep.min_batch_size = pol.min_batch_size;
+            }
         }
     }
 
     // Clamp size invariants after applying per-table overrides.
-    if (ep.max_batch_size < 1) ep.max_batch_size = 1;
-    if (ep.min_batch_size < 1) ep.min_batch_size = 1;
+    if (ep.max_batch_size < 1) {
+      ep.max_batch_size = 1;
+    }
+    if (ep.min_batch_size < 1) {
+      ep.min_batch_size = 1;
+    }
     if (ep.min_batch_size > ep.max_batch_size)
         ep.min_batch_size = ep.max_batch_size;
 
@@ -266,7 +288,9 @@ void TransactionBatcher::flushLoop()
             auto compute_wake = [&]() -> std::chrono::steady_clock::time_point {
                 auto w = std::chrono::steady_clock::now() + idle_window;
                 for (const auto& e : queue_) {
-                    if (e.deadline < w) w = e.deadline;
+                    if (e.deadline < w) {
+                      w = e.deadline;
+                    }
                 }
                 return w;
             };
@@ -277,10 +301,14 @@ void TransactionBatcher::flushLoop()
             while (!flush_requested_ &&
                    !stopping_.load(std::memory_order_acquire)) {
                 auto status = queue_cv_.wait_until(lk, wake_at);
-                if (status == std::cv_status::timeout) break;
+                if (status == std::cv_status::timeout) {
+                  break;
+                }
                 // Notified: recompute in case new items have earlier deadlines.
                 wake_at = compute_wake();
-                if (std::chrono::steady_clock::now() >= wake_at) break;
+                if (std::chrono::steady_clock::now() >= wake_at) {
+                  break;
+                }
             }
             flush_requested_ = false;
         }
@@ -342,7 +370,9 @@ void TransactionBatcher::flushLoop()
 
 void TransactionBatcher::executeBatch(std::vector<PendingEntry>& batch)
 {
-    if (batch.empty()) return;
+    if (batch.empty()) {
+      return;
+    }
 
     auto batch_start = std::chrono::steady_clock::now();
     size_t committed = 0;
@@ -361,7 +391,9 @@ void TransactionBatcher::executeBatch(std::vector<PendingEntry>& batch)
                                std::string(ex ? ex : "<null>"));
         }
 
-        if (st.ok) ++committed; else ++failed;
+        if (st.ok) {
+          ++committed; else ++failed;
+        }
 
         // Resolve the per-item latency (submission → resolution).
         auto now = std::chrono::steady_clock::now();
@@ -450,8 +482,12 @@ void TransactionBatcher::adaptWindow(size_t batch_size,
     }
 
     // Clamp to configured global bounds.
-    if (new_window < kMinWindow) new_window = kMinWindow;
-    if (new_window > kMaxWindow) new_window = kMaxWindow;
+    if (new_window < kMinWindow) {
+      new_window = kMinWindow;
+    }
+    if (new_window > kMaxWindow) {
+      new_window = kMaxWindow;
+    }
 
     if (new_window != adaptive_window_) {
         adaptive_window_ = new_window;

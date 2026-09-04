@@ -92,7 +92,9 @@ RateLimitingMiddleware::findOverrideIndex(const std::string& path) const {
 
     for (std::size_t i = 0; i < config_.endpoint_overrides.size(); ++i) {
         const auto& ep = config_.endpoint_overrides[i];
-        if (ep.path_prefix.empty()) continue;
+        if (ep.path_prefix.empty()) {
+          continue;
+        }
 
         if (path.size() >= ep.path_prefix.size() &&
             path.compare(0, ep.path_prefix.size(), ep.path_prefix) == 0) {
@@ -225,7 +227,9 @@ RateLimitingMiddleware::Stats RateLimitingMiddleware::getStats() const {
     // Sum active clients across default + override limiters
     s.active_clients = default_limiter_ ? default_limiter_->getActiveClients() : 0;
     for (const auto& lim : override_limiters_) {
-        if (lim) s.active_clients += lim->getActiveClients();
+        if (lim) {
+          s.active_clients += lim->getActiveClients();
+        }
     }
     return s;
 }

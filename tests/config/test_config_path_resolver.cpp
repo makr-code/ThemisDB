@@ -1428,7 +1428,9 @@ TEST_F(ConfigAuditLogTest, ConcurrentRecordAndSnapshot_ThreadSafety) {
         }
     });
 
-    for (auto& w : writers) w.join();
+    for (auto& w : writers) {
+      w.join();
+    }
     stop_reader.store(true, std::memory_order_relaxed);
     reader.join();
 

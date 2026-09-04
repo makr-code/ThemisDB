@@ -224,15 +224,21 @@ Result<void> StorageAuditLogger::writeEntry(Event event,
                                              std::string_view extra) {
     // Rotate before writing if needed
     auto rot = rotateIfNeeded();
-    if (!rot.has_value()) return rot;
+    if (!rot.has_value()) {
+      return rot;
+    }
 
     // Build line:  <ts> <seq> <event> <key> [<extra>]\n
     std::ostringstream oss;
     oss << currentTimestamp() << ' '
         << std::setw(12) << std::setfill('0') << next_seq_ << ' '
         << eventName(event);
-    if (!key.empty())   oss << ' ' << key;
-    if (!extra.empty()) oss << ' ' << extra;
+    if (!key.empty()) {
+      oss << ' ' << key;
+    }
+    if (!extra.empty()) {
+      oss << ' ' << extra;
+    }
     oss << '\n';
 
     std::string line = oss.str();
@@ -262,7 +268,9 @@ Result<void> StorageAuditLogger::writeEntry(Event event,
 }
 
 Result<void> StorageAuditLogger::rotateIfNeeded() {
-    if (segment_bytes_ < config_.max_file_bytes) return OkVoid();
+    if (segment_bytes_ < config_.max_file_bytes) {
+      return OkVoid();
+    }
 
     if (fd_ >= 0) {
         themis_fsync_fd(fd_);

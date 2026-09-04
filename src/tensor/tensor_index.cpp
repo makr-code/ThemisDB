@@ -62,7 +62,9 @@ public:
                            const storage::TTTrain& train) override {
         std::unique_lock lock(rw_mutex_);
         if (store_.count(id)) return false;   // duplicate
-        if (train.cores.empty()) return false;
+        if (train.cores.empty()) {
+          return false;
+        }
         store_.emplace(id, train);
         // update dimension from first core shape
         if (dim_ == 0 && !train.cores.empty()) {
@@ -76,7 +78,9 @@ public:
     [[nodiscard]] bool addFlat(int64_t id,
                                const float* vector,
                                size_t dim) override {
-        if (!vector || dim == 0) return false;
+        if (!vector || dim == 0) {
+          return false;
+        }
 
         storage::TensorTrainDecomposer decomposer;
         storage::TensorTrainConfig cfg;
@@ -97,7 +101,9 @@ public:
     bool remove(int64_t id) override {
         std::unique_lock lock(rw_mutex_);
         auto it = store_.find(id);
-        if (it == store_.end()) return false;
+        if (it == store_.end()) {
+          return false;
+        }
         stats_.storage_bytes -= estimateBytes(it->second);
         store_.erase(it);
         stats_.num_vectors--;
@@ -169,14 +175,18 @@ public:
         std::shared_lock lock(rw_mutex_);
         auto it_a = store_.find(id_a);
         auto it_b = store_.find(id_b);
-        if (it_a == store_.end() || it_b == store_.end()) return std::nullopt;
+        if (it_a == store_.end() || it_b == store_.end()) {
+          return std::nullopt;
+        }
         return ttInnerProduct(it_a->second, it_b->second);
     }
 
     std::optional<float> norm(int64_t id) const override {
         std::shared_lock lock(rw_mutex_);
         auto it = store_.find(id);
-        if (it == store_.end()) return std::nullopt;
+        if (it == store_.end()) {
+          return std::nullopt;
+        }
         return ttNorm(it->second);
     }
 
@@ -215,7 +225,9 @@ public:
     bool save(const std::string& path) const override {
         std::shared_lock lock(rw_mutex_);
         std::ofstream out(path, std::ios::binary | std::ios::trunc);
-        if (!out) return false;
+        if (!out) {
+          return false;
+        }
 
         out.write(kMagic, 11);
         out.write(reinterpret_cast<const char*>(&kVersion), 1);
@@ -257,19 +269,27 @@ public:
 
     bool load(const std::string& path) override {
         std::ifstream in(path, std::ios::binary);
-        if (!in) return false;
+        if (!in) {
+          return false;
+        }
 
         char magic[11];
         in.read(magic, 11);
-        if (in.fail() || std::memcmp(magic, kMagic, 10) != 0) return false;
+        if (in.fail() || std::memcmp(magic, kMagic, 10) != 0) {
+          return false;
+        }
 
         uint8_t version;
         in.read(reinterpret_cast<char*>(&version), 1);
-        if (in.fail() || version != kVersion) return false;
+        if (in.fail() || version != kVersion) {
+          return false;
+        }
 
         uint64_t n;
         in.read(reinterpret_cast<char*>(&n), sizeof(n));
-        if (in.fail()) return false;
+        if (in.fail()) {
+          return false;
+        }
 
         // Build into a local map; only replace store_ on complete success.
         std::unordered_map<int64_t, storage::TTTrain> new_store;
@@ -281,7 +301,9 @@ public:
 
             uint32_t nm;
             in.read(reinterpret_cast<char*>(&nm), sizeof(nm));
-            if (in.fail()) return false;
+            if (in.fail()) {
+              return false;
+            }
 
             storage::TTTrain train;
             train.mode_sizes.resize(nm);
@@ -296,7 +318,9 @@ public:
 
             uint32_t nc;
             in.read(reinterpret_cast<char*>(&nc), sizeof(nc));
-            if (in.fail()) return false;
+            if (in.fail()) {
+              return false;
+            }
 
             train.cores.resize(nc);
             for (uint32_t k = 0; k < nc; ++k) {
@@ -305,7 +329,9 @@ public:
                 in.read(reinterpret_cast<char*>(&nn), sizeof(nn));
                 in.read(reinterpret_cast<char*>(&rr), sizeof(rr));
                 in.read(reinterpret_cast<char*>(&nf), sizeof(nf));
-                if (in.fail()) return false;
+                if (in.fail()) {
+                  return false;
+                }
 
                 auto& core = train.cores[k];
                 core.r_left  = static_cast<std::size_t>(rl);
@@ -314,7 +340,9 @@ public:
                 core.data.resize(static_cast<std::size_t>(nf));
                 in.read(reinterpret_cast<char*>(core.data.data()),
                         static_cast<std::streamsize>(nf * sizeof(float)));
-                if (in.fail()) return false;
+                if (in.fail()) {
+                  return false;
+                }
             }
             new_store.emplace(id, std::move(train));
         }
@@ -381,7 +409,9 @@ private:
     static float ttInnerProduct(const storage::TTTrain& A,
                                  const storage::TTTrain& B) {
         const size_t d = A.cores.size();
-        if (d == 0 || d != B.cores.size()) return 0.0f;
+        if (d == 0 || d != B.cores.size()) {
+          return 0.0f;
+        }
 
         // Transfer vector T starts as scalar 1
         // At each step T (r_A × r_B) is updated via mode-k contraction.
@@ -409,7 +439,9 @@ private:
                         for (size_t s = 0; s < rAl; ++s) {
                             for (size_t t = 0; t < rBl; ++t) {
                                 size_t tIdx = s * rBl + t; // T is (rAl × rBl)
-                                if (tIdx >= T.size()) continue;
+                                if (tIdx >= T.size()) {
+                                  continue;
+                                }
                                 acc += T[tIdx]
                                      * gA.data[s * n * rAr + i * rAr + a]
                                      * gB.data[t * n * rBr + i * rBr + b];

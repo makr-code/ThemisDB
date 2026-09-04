@@ -75,7 +75,9 @@ public:
         const bool got = cv_.wait_for(lk, timeout, [this] {
             return cancelled_ || !queue_.empty() || closed_;
         });
-        if (!got || cancelled_ || queue_.empty()) return std::nullopt;
+        if (!got || cancelled_ || queue_.empty()) {
+          return std::nullopt;
+        }
         auto item = std::move(queue_.front());
         queue_.pop_front();
         return item;
@@ -177,7 +179,9 @@ public:
         std::lock_guard<std::mutex> lk(mu_);
         std::vector<ContinuousQueryInfo> out;
         out.reserve(infos_.size());
-        for (const auto& [k, v] : infos_) out.push_back(v);
+        for (const auto& [k, v] : infos_) {
+          out.push_back(v);
+        }
         return out;
     }
 
@@ -196,7 +200,9 @@ public:
                     infos_[name].last_tick_at = std::chrono::system_clock::now();
                 }
                 CQResult res{tuple, false};
-                for (auto& sub : fanout_[name]) sub->push(res);
+                for (auto& sub : fanout_[name]) {
+                  sub->push(res);
+                }
             }
         }
     }
@@ -206,7 +212,9 @@ public:
     /** Close all streams for a query, simulating a tick ending. */
     void closeStreams(const std::string& name) {
         std::lock_guard<std::mutex> lk(mu_);
-        for (auto& sub : fanout_[name]) sub->close();
+        for (auto& sub : fanout_[name]) {
+          sub->close();
+        }
     }
 
     /** How many fan-out subscribers does a query currently have? */

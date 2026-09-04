@@ -44,7 +44,9 @@ static std::vector<std::string> readLines(const std::string& path) {
     std::ifstream f(path);
     std::string line;
     while (std::getline(f, line)) {
-        if (!line.empty()) lines.push_back(line);
+        if (!line.empty()) {
+          lines.push_back(line);
+        }
     }
     return lines;
 }
@@ -78,7 +80,9 @@ protected:
     }
 
     void TearDown() override {
-        if (fs::exists(test_dir_)) fs::remove_all(test_dir_);
+        if (fs::exists(test_dir_)) {
+          fs::remove_all(test_dir_);
+        }
     }
 
     std::string outPath(const std::string& name) const {

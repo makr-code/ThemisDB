@@ -132,10 +132,14 @@ TSStore::parseKeyInternal(const std::string& key) const {
     
     size_t pos1 = strlen(KEY_PREFIX);
     size_t pos2 = key.find(':', pos1);
-    if (pos2 == std::string::npos) return std::nullopt;
+    if (pos2 == std::string::npos) {
+      return std::nullopt;
+    }
     
     size_t pos3 = key.find(':', pos2 + 1);
-    if (pos3 == std::string::npos) return std::nullopt;
+    if (pos3 == std::string::npos) {
+      return std::nullopt;
+    }
     
     KeyComponents comp;
     comp.metric = key.substr(pos1, pos2 - pos1);
@@ -220,7 +224,9 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
         int result = checkAndUpdateWatermarkLocked(wm_key, point.timestamp_ms);
         if (result < 0) {
             ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
-            if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/true);
+            if (metrics_) {
+              metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/true);
+            }
             span.recordError("Data point outside late-arrival window");
             return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
                 fmt::format("Data point timestamp {} is outside the late-arrival window "
@@ -229,7 +235,9 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
         }
         if (result > 0) {
             ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
-            if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/false);
+            if (metrics_) {
+              metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/false);
+            }
             THEMIS_DEBUG("Out-of-order write accepted: metric={}, ts={}",
                          point.metric, point.timestamp_ms);
         }
@@ -331,7 +339,9 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                     int r = checkAndUpdateWatermarkLocked(group_key, p.timestamp_ms);
                     if (r < 0) {
                         ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
-                        if (metrics_) metrics_->recordOutOfOrderWrite(p.metric, /*rejected=*/true);
+                        if (metrics_) {
+                          metrics_->recordOutOfOrderWrite(p.metric, /*rejected=*/true);
+                        }
                         span.recordError("Data point outside late-arrival window");
                         return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
                             fmt::format("Data point timestamp {} is outside the late-arrival window "
@@ -340,7 +350,9 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                     }
                     if (r > 0) {
                         ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
-                        if (metrics_) metrics_->recordOutOfOrderWrite(p.metric, /*rejected=*/false);
+                        if (metrics_) {
+                          metrics_->recordOutOfOrderWrite(p.metric, /*rejected=*/false);
+                        }
                     }
                 }
             }
@@ -459,7 +471,9 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
             int r = checkAndUpdateWatermarkLocked(wm_key, point.timestamp_ms);
             if (r < 0) {
                 ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
-                if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/true);
+                if (metrics_) {
+                  metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/true);
+                }
                 return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
                     fmt::format("Data point timestamp {} is outside the late-arrival window "
                                 "(window={}ms)",
@@ -467,7 +481,9 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
             }
             if (r > 0) {
                 ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
-                if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/false);
+                if (metrics_) {
+                  metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/false);
+                }
             }
         }
         
@@ -528,7 +544,9 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                 int r = checkAndUpdateWatermarkLocked(wm_key, row.timestamp_ms);
                 if (r < 0) {
                     ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
-                    if (metrics_) metrics_->recordOutOfOrderWrite(std::string(row.metric), true);
+                    if (metrics_) {
+                      metrics_->recordOutOfOrderWrite(std::string(row.metric), true);
+                    }
                     result.row_errors.emplace_back(i,
                         "timestamp outside late-arrival window");
                     ++result.failed_count;
@@ -536,7 +554,9 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                 }
                 if (r > 0) {
                     ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
-                    if (metrics_) metrics_->recordOutOfOrderWrite(std::string(row.metric), false);
+                    if (metrics_) {
+                      metrics_->recordOutOfOrderWrite(std::string(row.metric), false);
+                    }
                 }
             }
             std::string gk; gk.reserve(row.metric.size() + 1 + row.entity.size()); gk.append(row.metric).append(":").append(row.entity);
@@ -657,14 +677,18 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
             int r = checkAndUpdateWatermarkLocked(wm_key, row.timestamp_ms);
             if (r < 0) {
                 ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
-                if (metrics_) metrics_->recordOutOfOrderWrite(std::string(row.metric), true);
+                if (metrics_) {
+                  metrics_->recordOutOfOrderWrite(std::string(row.metric), true);
+                }
                 result.row_errors.emplace_back(i, "timestamp outside late-arrival window");
                 ++result.failed_count;
                 continue;
             }
             if (r > 0) {
                 ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
-                if (metrics_) metrics_->recordOutOfOrderWrite(std::string(row.metric), false);
+                if (metrics_) {
+                  metrics_->recordOutOfOrderWrite(std::string(row.metric), false);
+                }
             }
         }
 
@@ -748,7 +772,9 @@ TSStore::query(const QueryOptions& options) const {
         while (it->Valid() && count < options.limit) {
             std::string key = it->key().ToString();
             
-            if (key > end_key) break;
+            if (key > end_key) {
+              break;
+            }
             
             if (!options.entity.has_value()) {
                 std::string expected_prefix = KEY_PREFIX + options.metric + ":";
@@ -792,7 +818,9 @@ TSStore::query(const QueryOptions& options) const {
         while (it->Valid() && count < options.limit) {
             std::string key = it->key().ToString();
             
-            if (key > end_key) break;
+            if (key > end_key) {
+              break;
+            }
             
             try {
                 nlohmann::json chunk_meta = nlohmann::json::parse(it->value().ToString());
@@ -886,7 +914,9 @@ TSStore::query(const QueryOptions& options) const {
                     if (matchesTagFilter(dp, options.tag_filter)) {
                         results.push_back(dp);
                         count++;
-                        if (count >= options.limit) break;
+                        if (count >= options.limit) {
+                          break;
+                        }
                     }
                 }
                 
@@ -1169,12 +1199,16 @@ size_t TSStore::deleteOldData(int64_t before_timestamp_ms) {
 }
 
 size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before_timestamp_ms) {
-    if (metric.empty()) return 0;
+    if (metric.empty()) {
+      return 0;
+    }
     auto start_time = std::chrono::steady_clock::now();
     size_t deleted_count = 0;
     rocksdb::ReadOptions read_opts;
     std::unique_ptr<rocksdb::Iterator> it;
-    if (cf_) it.reset(db_->NewIterator(read_opts, cf_)); else it.reset(db_->NewIterator(read_opts));
+    if (cf_) {
+      it.reset(db_->NewIterator(read_opts, cf_)); else it.reset(db_->NewIterator(read_opts));
+    }
 
     std::string prefix = KEY_PREFIX + metric + ":";
     std::string end_key;
@@ -1187,10 +1221,14 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
     it->Seek(prefix);
     while (it->Valid()) {
         std::string key = it->key().ToString();
-        if (key.compare(0, prefix.size(), prefix) != 0) break;
+        if (key.compare(0, prefix.size(), prefix) != 0) {
+          break;
+        }
         auto comp = parseKeyInternal(key);
         if (comp.has_value() && comp->metric == metric && comp->timestamp_ms < before_timestamp_ms) {
-            if (cf_) batch.Delete(cf_, key); else batch.Delete(key);
+            if (cf_) {
+              batch.Delete(cf_, key); else batch.Delete(key);
+            }
             deleted_count++;
         }
         it->Next();

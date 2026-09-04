@@ -838,7 +838,9 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
         if (!max_tokens_str.empty()) {
             try {
                 int n = std::stoi(max_tokens_str);
-                if (n > 0 && n <= kMaxTokensLimit) max_tokens = n;
+                if (n > 0 && n <= kMaxTokensLimit) {
+                  max_tokens = n;
+                }
             } catch (const std::exception& e) {
                 THEMIS_DEBUG("LLMApiHandler: ignoring invalid max_tokens query parameter: {}", e.what());
             }

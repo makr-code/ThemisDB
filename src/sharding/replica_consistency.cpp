@@ -145,19 +145,27 @@ std::string VersionedEntry::serialize() const {
 /** @brief Deserialize versioned entry from delimiter-separated payload. */
 std::optional<VersionedEntry> VersionedEntry::deserialize(const std::string& data) {
     size_t pos1 = data.find('|');
-    if (pos1 == std::string::npos) return std::nullopt;
+    if (pos1 == std::string::npos) {
+      return std::nullopt;
+    }
     
     size_t pos2 = data.find('|', pos1 + 1);
-    if (pos2 == std::string::npos) return std::nullopt;
+    if (pos2 == std::string::npos) {
+      return std::nullopt;
+    }
     
     size_t pos3 = data.find('|', pos2 + 1);
-    if (pos3 == std::string::npos) return std::nullopt;
+    if (pos3 == std::string::npos) {
+      return std::nullopt;
+    }
     
     VersionedEntry entry;
     entry.node_id = data.substr(0, pos1);
     
     auto clock_opt = VectorClock::deserialize(data.substr(pos1 + 1, pos2 - pos1 - 1));
-    if (!clock_opt) return std::nullopt;
+    if (!clock_opt) {
+      return std::nullopt;
+    }
     entry.version = *clock_opt;
     
     auto timestamp_count = std::stoull(data.substr(pos2 + 1, pos3 - pos2 - 1));

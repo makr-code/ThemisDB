@@ -219,7 +219,9 @@ EmotionAnalyzer::AcousticFeatures EmotionAnalyzer::extractFeatures(
     for (float s : samples) {
         rms_sq += s * s;
         float a = std::abs(s);
-        if (a > peak) peak = a;
+        if (a > peak) {
+          peak = a;
+        }
     }
     f.global_rms  = std::sqrt(rms_sq / static_cast<float>(n));
     f.crest_factor = (f.global_rms > 1e-9f) ? std::min(1.0f, peak / (f.global_rms * 20.0f)) : 0.0f;
@@ -251,7 +253,9 @@ EmotionAnalyzer::AcousticFeatures EmotionAnalyzer::extractFeatures(
         rms = std::sqrt(rms / static_cast<float>(end - start));
         f.band_rms[static_cast<size_t>(b)] = rms;
         total_energy += rms * rms;
-        if (rms > max_band_rms) max_band_rms = rms;
+        if (rms > max_band_rms) {
+          max_band_rms = rms;
+        }
         if (b >= kBands - 2) {
             hf_energy += rms * rms;
         }
@@ -373,7 +377,9 @@ std::map<Emotion, float> EmotionAnalyzer::scoreEmotions(
     // Find max for numerical stability.
     float max_val = -std::numeric_limits<float>::infinity();
     for (const auto& kv : raw) {
-        if (kv.second > max_val) max_val = kv.second;
+        if (kv.second > max_val) {
+          max_val = kv.second;
+        }
     }
 
     std::map<Emotion, float> out;

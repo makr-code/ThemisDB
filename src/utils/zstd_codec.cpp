@@ -374,13 +374,17 @@ struct ZstdStreamCompressor::Impl {
 
     explicit Impl([[maybe_unused]] int lvl) : level(lvl) {
         cstream = ZSTD_createCStream();
-        if (cstream) ZSTD_initCStream(cstream, level);
+        if (cstream) {
+          ZSTD_initCStream(cstream, level);
+        }
     }
     ~Impl() { if (cstream) ZSTD_freeCStream(cstream); }
 
     void reinit([[maybe_unused]] int new_level) {
         level = (new_level > 0) ? new_level : level;
-        if (cstream) ZSTD_initCStream(cstream, level);
+        if (cstream) {
+          ZSTD_initCStream(cstream, level);
+        }
     }
 #else
     explicit Impl(int) {}
@@ -398,7 +402,9 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::compress_chunk(const uint8_t*
         return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
                                           "ZSTD stream not initialised");
     }
-    if (!data || size == 0) return Ok(std::vector<uint8_t>());
+    if (!data || size == 0) {
+      return Ok(std::vector<uint8_t>());
+    }
 
     const size_t out_buf_size = ZSTD_CStreamOutSize();
     std::vector<uint8_t> output;
@@ -456,7 +462,9 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::flush() {
 
 void ZstdStreamCompressor::reset([[maybe_unused]] int level) {
 #ifdef THEMIS_HAS_ZSTD
-    if (impl_->cstream) impl_->reinit(level);
+    if (impl_->cstream) {
+      impl_->reinit(level);
+    }
 #else
     (void)level;
 #endif
@@ -473,13 +481,17 @@ struct ZstdStreamDecompressor::Impl {
 
     Impl() {
         dstream = ZSTD_createDStream();
-        if (dstream) ZSTD_initDStream(dstream);
+        if (dstream) {
+          ZSTD_initDStream(dstream);
+        }
     }
     ~Impl() { if (dstream) ZSTD_freeDStream(dstream); }
 
     void reinit() {
         done = false;
-        if (dstream) ZSTD_initDStream(dstream);
+        if (dstream) {
+          ZSTD_initDStream(dstream);
+        }
     }
 #else
     bool done = false;
@@ -498,7 +510,9 @@ Result<std::vector<uint8_t>> ZstdStreamDecompressor::decompress_chunk(const uint
         return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
                                           "ZSTD decompression stream not initialised");
     }
-    if (!data || size == 0) return Ok(std::vector<uint8_t>());
+    if (!data || size == 0) {
+      return Ok(std::vector<uint8_t>());
+    }
 
     const size_t out_buf_size = ZSTD_DStreamOutSize();
     std::vector<uint8_t> output;
@@ -534,7 +548,9 @@ bool ZstdStreamDecompressor::is_done() const {
 
 void ZstdStreamDecompressor::reset() {
 #ifdef THEMIS_HAS_ZSTD
-    if (impl_->dstream) impl_->reinit();
+    if (impl_->dstream) {
+      impl_->reinit();
+    }
 #endif
 }
 

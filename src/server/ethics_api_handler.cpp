@@ -406,7 +406,9 @@ http::response<http::string_body> EthicsApiHandler::handleGetMetrics(
         // Extract query parameter for format
         std::string target = std::string(req.target());
         std::string format = extractQueryParam(target, "format");
-        if (format.empty()) format = "json";
+        if (format.empty()) {
+          format = "json";
+        }
         
         // Execute AQL function via QueryEngine
         std::string aql = "RETURN ETHICS_METRICS()";

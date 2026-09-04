@@ -92,7 +92,9 @@ AccessControl::AccessControl(const Config& config)
         std::istringstream ss(env_roles);
         std::string token;
         while (std::getline(ss, token, ',')) {
-            if (!token.empty()) roles.push_back(token);
+            if (!token.empty()) {
+              roles.push_back(token);
+            }
         }
         if (!roles.empty()) {
             config_.session_config.mfa_required_roles = std::move(roles);
@@ -204,7 +206,9 @@ AccessControl::AuthenticationResult AccessControl::authenticate(const Credential
                         break;
                     }
                 }
-                if (role_requires_mfa) break;
+                if (role_requires_mfa) {
+                  break;
+                }
             }
         }
 

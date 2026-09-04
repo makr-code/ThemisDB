@@ -331,7 +331,9 @@ TEST_F(AsyncJobApiHandlerTest, GetStatusEventuallyCompleted) {
         auto res  = handler.handleGetStatus(make_status_req(job_id));
         auto body = json::parse(res.body());
         status_str = body["status"].get<std::string>();
-        if (status_str == "completed" || status_str == "failed") break;
+        if (status_str == "completed" || status_str == "failed") {
+          break;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
@@ -361,7 +363,9 @@ TEST_F(AsyncJobApiHandlerTest, GetStatusFailed) {
         auto res  = handler.handleGetStatus(make_status_req(job_id));
         auto body = json::parse(res.body());
         status_str = body["status"].get<std::string>();
-        if (status_str == "completed" || status_str == "failed") break;
+        if (status_str == "completed" || status_str == "failed") {
+          break;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
@@ -478,7 +482,9 @@ TEST_F(AsyncJobApiHandlerTest, MultipleConcurrentJobs) {
             auto res  = handler.handleGetStatus(make_status_req(jid));
             auto body = json::parse(res.body());
             auto st   = body["status"].get<std::string>();
-            if (st == "completed" || st == "failed" || st == "cancelled") break;
+            if (st == "completed" || st == "failed" || st == "cancelled") {
+              break;
+            }
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
         auto res  = handler.handleGetStatus(make_status_req(jid));

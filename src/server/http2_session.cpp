@@ -249,7 +249,9 @@ void Http2Session::onWrite(boost::system::error_code ec, std::size_t bytes_trans
 
 void Http2Session::armReadTimer() {
     const uint32_t timeout_ms = server_->hot_request_timeout_ms_.load(std::memory_order_acquire);
-    if (timeout_ms == 0) return;
+    if (timeout_ms == 0) {
+      return;
+    }
     read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
     const std::weak_ptr<Http2Session> weak_self = weak_from_this();
     read_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
@@ -279,7 +281,9 @@ void Http2Session::cancelReadTimer() {
 
 void Http2Session::armWriteTimer() {
     const uint32_t timeout_ms = server_->hot_request_timeout_ms_.load(std::memory_order_acquire);
-    if (timeout_ms == 0) return;
+    if (timeout_ms == 0) {
+      return;
+    }
     write_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
     const std::weak_ptr<Http2Session> weak_self = weak_from_this();
     write_timer_.async_wait([weak_self](const boost::system::error_code& ec) {

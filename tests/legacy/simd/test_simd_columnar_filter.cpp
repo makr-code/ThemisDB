@@ -62,7 +62,9 @@ static std::vector<uint32_t> scalarRef(const std::vector<T>& data,
             case FilterOp::GT: pass = data[i] >  thr; break;
             case FilterOp::GE: pass = data[i] >= thr; break;
         }
-        if (pass) out.push_back(i);
+        if (pass) {
+          out.push_back(i);
+        }
     }
     return out;
 }
@@ -110,7 +112,9 @@ TEST_F(SimdFilterInt32Test, SF4_LT) {
     simd_filter_int32(data.data(), data.size(), FilterOp::LT, 5, out);
     // values 0..4
     ASSERT_EQ(5u, out.size());
-    for (uint32_t i = 0; i < 5; ++i) EXPECT_EQ(i, out[i]);
+    for (uint32_t i = 0; i < 5; ++i) {
+      EXPECT_EQ(i, out[i]);
+    }
 }
 
 TEST_F(SimdFilterInt32Test, SF5_LE) {
@@ -118,7 +122,9 @@ TEST_F(SimdFilterInt32Test, SF5_LE) {
     simd_filter_int32(data.data(), data.size(), FilterOp::LE, 5, out);
     // values 0..5
     ASSERT_EQ(6u, out.size());
-    for (uint32_t i = 0; i <= 5; ++i) EXPECT_EQ(i, out[i]);
+    for (uint32_t i = 0; i <= 5; ++i) {
+      EXPECT_EQ(i, out[i]);
+    }
 }
 
 TEST_F(SimdFilterInt32Test, SF6_GT) {
@@ -126,7 +132,9 @@ TEST_F(SimdFilterInt32Test, SF6_GT) {
     simd_filter_int32(data.data(), data.size(), FilterOp::GT, 15, out);
     // values 16..19 → indices 16..19
     ASSERT_EQ(4u, out.size());
-    for (uint32_t i = 0; i < 4; ++i) EXPECT_EQ(16u + i, out[i]);
+    for (uint32_t i = 0; i < 4; ++i) {
+      EXPECT_EQ(16u + i, out[i]);
+    }
 }
 
 TEST_F(SimdFilterInt32Test, SF7_GE) {
@@ -159,7 +167,9 @@ TEST(SIMDFilterFocusedTests, SF10_MatchesAll) {
     std::vector<uint32_t> out;
     simd_filter_int32(data.data(), data.size(), FilterOp::EQ, 5, out);
     ASSERT_EQ(5u, out.size());
-    for (uint32_t i = 0; i < 5; ++i) EXPECT_EQ(i, out[i]);
+    for (uint32_t i = 0; i < 5; ++i) {
+      EXPECT_EQ(i, out[i]);
+    }
 }
 
 // ============================================================================
@@ -400,7 +410,9 @@ TEST(SIMDFilterFocusedTests, SF24_Int64_NonAlignedTail) {
     // Values 5,6,7 → indices 4,5,6
     auto ref = scalarRef(data, FilterOp::GE, int64_t(5));
     ASSERT_EQ(ref.size(), out.size());
-    for (size_t i = 0; i < ref.size(); ++i) EXPECT_EQ(ref[i], out[i]);
+    for (size_t i = 0; i < ref.size(); ++i) {
+      EXPECT_EQ(ref[i], out[i]);
+    }
 }
 
 // ============================================================================
@@ -423,7 +435,9 @@ TEST(SIMDFilterFocusedTests, SF25_Throughput_SLO_8192_Int32) {
         dummy.clear();
         auto* p = data.data();
         for (size_t i = 0; i < N; ++i) {
-            if (p[i] < thr) dummy.push_back(static_cast<uint32_t>(i));
+            if (p[i] < thr) {
+              dummy.push_back(static_cast<uint32_t>(i));
+            }
         }
     }
 
@@ -432,7 +446,9 @@ TEST(SIMDFilterFocusedTests, SF25_Throughput_SLO_8192_Int32) {
     std::vector<uint32_t> scalar_out;
     auto* p = data.data();
     for (size_t i = 0; i < N; ++i) {
-        if (p[i] < thr) scalar_out.push_back(static_cast<uint32_t>(i));
+        if (p[i] < thr) {
+          scalar_out.push_back(static_cast<uint32_t>(i));
+        }
     }
     auto t1 = std::chrono::steady_clock::now();
     double scalar_us =

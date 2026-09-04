@@ -318,7 +318,9 @@ TEST_F(ColumnLineageTrackerTest, DiamondDAGUpstreamDeduplicates) {
     // Verify 'a' is present exactly once
     size_t count_a = 0;
     for (const auto& ref : up) {
-        if (ref.column_name == "a") ++count_a;
+        if (ref.column_name == "a") {
+          ++count_a;
+        }
     }
     EXPECT_EQ(count_a, 1u);
 }
@@ -335,7 +337,9 @@ TEST_F(ColumnLineageTrackerTest, DiamondDAGDownstreamDeduplicates) {
     EXPECT_EQ(down.size(), 3u);
     size_t count_d = 0;
     for (const auto& ref : down) {
-        if (ref.column_name == "d") ++count_d;
+        if (ref.column_name == "d") {
+          ++count_d;
+        }
     }
     EXPECT_EQ(count_d, 1u);
 }

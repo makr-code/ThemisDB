@@ -134,7 +134,9 @@ TEST_F(GPUResourceExhaustionTest, EXHAUST_04_ConcurrentThreads_AllGetFallbackCPU
       }
     });
   }
-  for (auto& t : threads) t.join();
+  for (auto& t : threads) {
+    t.join();
+  }
 
   EXPECT_EQ(correct_policy.load(), kThreadCount)
       << "GPU-EXHAUST-04: all threads must get kFallbackCPU";
@@ -296,7 +298,9 @@ TEST_F(GPUResourceExhaustionTest, EXHAUST_11_ConcurrentRecordError_ThreadSafe) {
       }
     });
   }
-  for (auto& t : threads) t.join();
+  for (auto& t : threads) {
+    t.join();
+  }
 
   // Handler must still respond correctly after the storm.
   EXPECT_EQ(handler->defaultPolicy(GPUErrorClass::kQuotaExceeded),

@@ -92,8 +92,12 @@ public:
 
         shared_B_.assign(in_dim * shared_rank, 0.0f);
         shared_A_.assign(shared_rank * in_dim, 0.0f);
-        for (auto& v : shared_B_) v = init(rng);
-        for (auto& v : shared_A_) v = init(rng);
+        for (auto& v : shared_B_) {
+          v = init(rng);
+        }
+        for (auto& v : shared_A_) {
+          v = init(rng);
+        }
 
         // Initialise per-task projection heads (shared_rank × in_dim proxy).
         task_heads_.resize(n_tasks);
@@ -144,7 +148,9 @@ public:
             }
             if (task_sample_counts_[ti] > 0) {
                 float inv = 1.0f / static_cast<float>(task_sample_counts_[ti]);
-                for (auto& v : proto) v *= inv;
+                for (auto& v : proto) {
+                  v *= inv;
+                }
             }
         }
 

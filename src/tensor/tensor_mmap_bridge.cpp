@@ -72,7 +72,9 @@ void* allocRegion(std::size_t bytes) noexcept {
                        PROT_READ | PROT_WRITE,
                        MAP_ANONYMOUS | MAP_PRIVATE,
                        -1, 0);
-    if (ptr == MAP_FAILED) return nullptr;
+    if (ptr == MAP_FAILED) {
+      return nullptr;
+    }
     return ptr;
 #elif defined(THEMIS_HAS_WIN_VIRTUAL)
     return ::VirtualAlloc(nullptr, bytes,
@@ -170,7 +172,9 @@ TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
         bool   sst_mapped = false;
         if (sst_fn) {
             ptr = sst_fn(bytes, ci);
-            if (ptr) sst_mapped = true;
+            if (ptr) {
+              sst_mapped = true;
+            }
         }
 
         if (!ptr) {
@@ -196,7 +200,9 @@ TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
                         "({} bytes) — data may be swapped", ci, bytes);
         }
 
-        if (locked) ++bridge->locked_count_;
+        if (locked) {
+          ++bridge->locked_count_;
+        }
 
         bridge->total_bytes_ += bytes;
         bridge->regions_.push_back({ptr, bytes, locked, sst_mapped});
@@ -268,7 +274,9 @@ TensorMmapBridge::buildFromFd(const storage::TTTrain& train, int fd,
                 }
                 std::memcpy(fallback, core.data.data(), bytes);
                 const bool locked = lockRegion(fallback, bytes);
-                if (locked) ++bridge->locked_count_;
+                if (locked) {
+                  ++bridge->locked_count_;
+                }
                 bridge->total_bytes_ += bytes;
                 bridge->regions_.push_back({fallback, bytes, locked, /*externally_owned=*/false});
                 bridge->slices_.push_back({static_cast<const float*>(fallback), bytes, ci, n_elems});
@@ -283,7 +291,9 @@ TensorMmapBridge::buildFromFd(const storage::TTTrain& train, int fd,
             ::madvise(raw, map_bytes, MADV_SEQUENTIAL);
 
             const bool locked = lockRegion(raw, map_bytes);
-            if (locked) ++bridge->locked_count_;
+            if (locked) {
+              ++bridge->locked_count_;
+            }
 
             bridge->total_bytes_ += bytes;
             // Mark as externally_owned so release() calls munmap(raw, map_bytes)
@@ -308,8 +318,12 @@ TensorMmapBridge::buildFromFd(const storage::TTTrain& train, int fd,
 
 void TensorMmapBridge::release() noexcept {
     for (auto& r : regions_) {
-        if (!r.ptr) continue;
-        if (r.locked) unlockRegion(r.ptr, r.bytes);
+        if (!r.ptr) {
+          continue;
+        }
+        if (r.locked) {
+          unlockRegion(r.ptr, r.bytes);
+        }
         if (r.externally_owned) {
             // MAP_SHARED region created by buildFromFd() — munmap to unmap.
             // SstMapFn-provided regions (externally_owned from setSstMapFn) are

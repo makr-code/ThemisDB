@@ -68,26 +68,34 @@ size_t countLogLines(const std::filesystem::path &path) {
     size_t n = 0;
     std::string line;
     while (std::getline(f, line))
-        if (!line.empty()) ++n;
+        if (!line.empty()) {
+          ++n;
+        }
     return n;
 }
 
 // Minimal CBOR helpers (mirrors buildCborCoseKey in the first hardening test)
 static std::string encUint(uint64_t v) {
-    if (v <= 23) return std::string(1, static_cast<char>(v));
+    if (v <= 23) {
+      return std::string(1, static_cast<char>(v));
+    }
     if (v <= 0xFF) return std::string({'\x18', static_cast<char>(v)});
     return std::string({'\x19', static_cast<char>(v >> 8), static_cast<char>(v & 0xFF)});
 }
 static std::string encNegInt(int64_t v) {
     uint64_t u = static_cast<uint64_t>(-1 - v);
-    if (u <= 23) return std::string(1, static_cast<char>(0x20 | u));
+    if (u <= 23) {
+      return std::string(1, static_cast<char>(0x20 | u));
+    }
     if (u <= 0xFF) return std::string({'\x38', static_cast<char>(u)});
     return std::string({'\x39', static_cast<char>(u >> 8), static_cast<char>(u & 0xFF)});
 }
 static std::string encBytes(const std::string &b) {
     std::string h;
     size_t len = b.size();
-    if (len <= 23) h = std::string(1, static_cast<char>(0x40 | len));
+    if (len <= 23) {
+      h = std::string(1, static_cast<char>(0x40 | len));
+    }
     else if (len <= 0xFF) h = std::string({'\x58', static_cast<char>(len)});
     else h = std::string({'\x59', static_cast<char>(len >> 8), static_cast<char>(len & 0xFF)});
     return h + b;

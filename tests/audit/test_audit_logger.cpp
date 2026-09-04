@@ -422,7 +422,9 @@ TEST_F(AuditLoggerTest, SecondaryLogPathMirror) {
         std::ifstream ifs(path);
         int n = 0;
         std::string line;
-        while (std::getline(ifs, line)) if (!line.empty()) ++n;
+        while (std::getline(ifs, line)) {
+          if (!line.empty()) ++n;
+        }
         return n;
     };
 
@@ -434,7 +436,9 @@ TEST_F(AuditLoggerTest, SecondaryLogPathMirror) {
         std::vector<std::string> lines;
         std::ifstream ifs(path);
         std::string line;
-        while (std::getline(ifs, line)) if (!line.empty()) lines.push_back(line);
+        while (std::getline(ifs, line)) {
+          if (!line.empty()) lines.push_back(line);
+        }
         return lines;
     };
 

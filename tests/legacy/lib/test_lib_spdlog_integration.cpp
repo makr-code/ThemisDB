@@ -45,7 +45,9 @@ protected:
     // Helper to read log file content
     std::string readLogFile(const std::string& path) {
         std::ifstream ifs(path);
-        if (!ifs) return "";
+        if (!ifs) {
+          return "";
+        }
         return std::string((std::istreambuf_iterator<char>(ifs)),
                           std::istreambuf_iterator<char>());
     }

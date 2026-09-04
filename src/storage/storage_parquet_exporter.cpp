@@ -416,7 +416,9 @@ Result<std::vector<uint8_t>> StorageParquetExporter::buildParquet(
         bool first_page = true;
         for (const auto& seg : column_segments[c]) {
             size_t n = seg.metadata().row_count;
-            if (n == 0) continue;
+            if (n == 0) {
+              continue;
+            }
 
             std::pair<std::vector<uint8_t>, std::vector<uint8_t>> page;
             switch (ct) {
@@ -491,7 +493,9 @@ Result<std::vector<uint8_t>> StorageParquetExporter::exportToBuffer(
 #endif
 
     auto result = buildParquet(column_segments, config);
-    if (!result) return result;
+    if (!result) {
+      return result;
+    }
 
     auto t1 = std::chrono::steady_clock::now();
     stats_.bytes_written = (*result).size();

@@ -107,13 +107,19 @@ TensorCompactionFilter::TensorCompactionFilter(
 // ============================================================================
 
 bool TensorCompactionFilter::isTTCoreKey(const rocksdb::Slice& key) noexcept {
-    if (key.size() < kTTCorePrefixLen) return false;
+    if (key.size() < kTTCorePrefixLen) {
+      return false;
+    }
     return std::memcmp(key.data(), kTTCorePrefix, kTTCorePrefixLen) == 0;
 }
 
 bool TensorCompactionFilter::isTTNMetaKey(const rocksdb::Slice& key) noexcept {
-    if (key.size() < kTTNPrefixLen + kMetaInfixLen) return false;
-    if (std::memcmp(key.data(), kTTNPrefix, kTTNPrefixLen) != 0) return false;
+    if (key.size() < kTTNPrefixLen + kMetaInfixLen) {
+      return false;
+    }
+    if (std::memcmp(key.data(), kTTNPrefix, kTTNPrefixLen) != 0) {
+      return false;
+    }
     // Search for ":meta:" anywhere after the prefix
     const char* data = key.data() + kTTNPrefixLen;
     std::size_t remaining = key.size() - kTTNPrefixLen;
@@ -155,7 +161,9 @@ bool TensorCompactionFilter::filterTTCore(const rocksdb::Slice& value,
     TTTrain compressed = fn_copy ? fn_copy(orig, cfg) : decomposer_.recompress(orig, cfg);
 
     // Only replace if the compressed form is strictly smaller
-    if (compressed.totalParams() >= orig.totalParams()) return false;
+    if (compressed.totalParams() >= orig.totalParams()) {
+      return false;
+    }
 
     auto new_serial = compressed.serialize();
     new_bytes->assign(reinterpret_cast<const char*>(new_serial.data()),
@@ -175,7 +183,9 @@ bool TensorCompactionFilter::filterTTNMeta(const rocksdb::Slice& value,
 
     // model_integrity_gap scanner alert (cont.): see above.
     auto opt = QuantizedTrain::deserialize(bytes);
-    if (!opt) return false;
+    if (!opt) {
+      return false;
+    }
 
     const QuantizedTrain& orig_qt = *opt;
 
@@ -198,7 +208,9 @@ bool TensorCompactionFilter::filterTTNMeta(const rocksdb::Slice& value,
     TTTrain compressed = fn_copy ? fn_copy(train, cfg) : decomposer_.recompress(train, cfg);
 
     // Only replace if the compressed form has fewer parameters
-    if (compressed.totalParams() >= train.totalParams()) return false;
+    if (compressed.totalParams() >= train.totalParams()) {
+      return false;
+    }
 
     QuantizedTrain new_qt;
     try {

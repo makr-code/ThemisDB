@@ -272,7 +272,9 @@ std::chrono::milliseconds computeRetryDelay(const ScheduledTask::RetryPolicy& po
             double jitter_range = delay_ms * policy.jitter_factor;
             std::uniform_real_distribution<double> dist(-jitter_range, jitter_range);
             delay_ms += dist(rng);
-            if (delay_ms < 0.0) delay_ms = 0.0;
+            if (delay_ms < 0.0) {
+              delay_ms = 0.0;
+            }
             break;
         }
 
@@ -296,7 +298,9 @@ std::chrono::milliseconds computeRetryDelay(const ScheduledTask::RetryPolicy& po
 
     // Clamp to max_delay
     double max_ms = static_cast<double>(policy.max_delay.count());
-    if (delay_ms > max_ms) delay_ms = max_ms;
+    if (delay_ms > max_ms) {
+      delay_ms = max_ms;
+    }
 
     return std::chrono::milliseconds(static_cast<int64_t>(delay_ms));
 }
@@ -1566,7 +1570,9 @@ std::string TaskScheduler::exportMetrics() const {
             // Sanitize label values (replace " and \ which are illegal in labels)
             std::string safe_name = t.name;
             for (char& c : safe_name) {
-                if (c == '"' || c == '\\' || c == '\n') c = '_';
+                if (c == '"' || c == '\\' || c == '\n') {
+                  c = '_';
+                }
             }
             std::string labels = "task_id=\"" + t.id + "\",task_name=\"" + safe_name + "\"";
             out << "themis_scheduler_task_executions_total{"
@@ -1584,7 +1590,9 @@ std::string TaskScheduler::exportMetrics() const {
         for (const auto& t : task_snapshot) {
             std::string safe_name = t.name;
             for (char& c : safe_name) {
-                if (c == '"' || c == '\\' || c == '\n') c = '_';
+                if (c == '"' || c == '\\' || c == '\n') {
+                  c = '_';
+                }
             }
             out << "themis_scheduler_task_execution_duration_ms"
                 << "{task_id=\"" << t.id << "\",task_name=\"" << safe_name << "\"} "
@@ -1598,7 +1606,9 @@ std::string TaskScheduler::exportMetrics() const {
         for (const auto& t : task_snapshot) {
             std::string safe_name = t.name;
             for (char& c : safe_name) {
-                if (c == '"' || c == '\\' || c == '\n') c = '_';
+                if (c == '"' || c == '\\' || c == '\n') {
+                  c = '_';
+                }
             }
             double last_run_sec = 0.0;
             if (t.last_run_ms > 0) {
@@ -1616,7 +1626,9 @@ std::string TaskScheduler::exportMetrics() const {
         for (const auto& t : task_snapshot) {
             std::string safe_name = t.name;
             for (char& c : safe_name) {
-                if (c == '"' || c == '\\' || c == '\n') c = '_';
+                if (c == '"' || c == '\\' || c == '\n') {
+                  c = '_';
+                }
             }
             out << "themis_scheduler_task_enabled"
                 << "{task_id=\"" << t.id << "\",task_name=\"" << safe_name << "\"} "
@@ -1891,7 +1903,9 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
                 std::this_thread::sleep_for(
                     std::chrono::milliseconds(static_cast<int64_t>(delay_ms)));
             }
-            if (!running_.load()) break;
+            if (!running_.load()) {
+              break;
+            }
         }
 
         ++attempts_made;
@@ -3042,7 +3056,9 @@ size_t TaskScheduler::getDynamicConcurrencyLimit() const noexcept {
 }
 
 void TaskScheduler::adjustConcurrencyLimit([[maybe_unused]] size_t pending_count) noexcept {
-    if (!config_.enable_dynamic_scaling) return;
+    if (!config_.enable_dynamic_scaling) {
+      return;
+    }
 
     queue_depth_.store(pending_count);
 

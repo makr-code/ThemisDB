@@ -38,7 +38,9 @@ std::string normalise(const std::string& s) {
     }
     // strip leading/trailing spaces
     size_t start = out.find_first_not_of(' ');
-    if (start == std::string::npos) return "";
+    if (start == std::string::npos) {
+      return "";
+    }
     size_t end = out.find_last_not_of(' ');
     return out.substr(start, end - start + 1);
 }
@@ -291,7 +293,9 @@ MacroID VoiceMacroManager::createMacro(
 std::optional<MacroInfo> VoiceMacroManager::getMacro(const MacroID& macro_id) const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     auto it = impl_->macros.find(macro_id);
-    if (it == impl_->macros.end()) return std::nullopt;
+    if (it == impl_->macros.end()) {
+      return std::nullopt;
+    }
     return it->second;   // return a copy while the lock is held
 }
 
@@ -317,7 +321,9 @@ std::vector<MacroInfo> VoiceMacroManager::listMacros(
                 break;
             }
         }
-        if (matched) result.push_back(kv.second);
+        if (matched) {
+          result.push_back(kv.second);
+        }
     }
     return result;
 }
@@ -331,7 +337,9 @@ bool VoiceMacroManager::setMacroMeta(
 {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     auto it = impl_->macros.find(macro_id);
-    if (it == impl_->macros.end()) return false;
+    if (it == impl_->macros.end()) {
+      return false;
+    }
     it->second.name        = name;
     it->second.description = description;
     it->second.tags        = tags;
@@ -346,7 +354,9 @@ bool VoiceMacroManager::updateMacro(
 {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     auto it = impl_->macros.find(macro_id);
-    if (it == impl_->macros.end()) return false;
+    if (it == impl_->macros.end()) {
+      return false;
+    }
     it->second.steps   = steps;
     it->second.options = options;
     return true;
@@ -388,7 +398,9 @@ MacroResult VoiceMacroManager::executeMacro(
 
     for (int i = 0; i < static_cast<int>(info.steps.size()); ++i) {
         auto sr = executeStep(i, info.steps[static_cast<size_t>(i)], parameters);
-        if (!combined_output.empty()) combined_output += '\n';
+        if (!combined_output.empty()) {
+          combined_output += '\n';
+        }
         combined_output += sr.output;
         if (!sr.success) {
             all_ok = false;
@@ -424,7 +436,9 @@ MacroID VoiceMacroManager::matchTrigger(const std::string& utterance) const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     for (const auto& kv : impl_->macros) {
         const MacroInfo& m = kv.second;
-        if (!m.enabled) continue;
+        if (!m.enabled) {
+          continue;
+        }
         if (norm_utt.find(m.trigger_phrase) != std::string::npos) {
             return m.macro_id;   // return a copy of the ID while the lock is held
         }
@@ -467,13 +481,17 @@ std::vector<MacroID> VoiceMacroManager::importMacros(const std::string& json_str
         return imported_ids;
     }
 
-    if (!arr.is_array()) return imported_ids;
+    if (!arr.is_array()) {
+      return imported_ids;
+    }
 
     std::lock_guard<std::mutex> lock(impl_->mutex);
     for (const auto& item : arr) {
         try {
             MacroInfo m = macroInfoFromJson(item);
-            if (m.trigger_phrase.empty()) continue;
+            if (m.trigger_phrase.empty()) {
+              continue;
+            }
             if (m.macro_id.empty()) {
                 m.macro_id = generateID();
             }
@@ -501,7 +519,9 @@ json VoiceMacroManager::getStatistics() const {
     stats["total_executions"] = impl_->total_executions;
     size_t enabled_count = 0;
     for (const auto& kv : impl_->macros) {
-        if (kv.second.enabled) ++enabled_count;
+        if (kv.second.enabled) {
+          ++enabled_count;
+        }
     }
     stats["enabled_macros"] = enabled_count;
     return stats;

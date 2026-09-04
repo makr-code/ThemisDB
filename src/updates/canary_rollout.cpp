@@ -564,7 +564,9 @@ void CanaryDeployment::reportSuccess() {
         std::lock_guard<std::mutex> lock(mutex_);
         r = rollout_.get();
     }
-    if (r) r->reportSuccess();
+    if (r) {
+      r->reportSuccess();
+    }
 }
 
 void CanaryDeployment::reportError() {
@@ -575,7 +577,9 @@ void CanaryDeployment::reportError() {
         std::lock_guard<std::mutex> lock(mutex_);
         r = rollout_.get();
     }
-    if (r) r->reportError();
+    if (r) {
+      r->reportError();
+    }
 }
 
 void CanaryDeployment::reportLatency(std::chrono::microseconds latency) {
@@ -722,7 +726,9 @@ bool CanaryDeployment::advanceStage() {
         std::lock_guard<std::mutex> lock(mutex_);
         r = rollout_.get();
     }
-    if (!r) return false;
+    if (!r) {
+      return false;
+    }
     return r->advanceStage();
 }
 
@@ -732,7 +738,9 @@ bool CanaryDeployment::rollback(const std::string& reason) {
         std::lock_guard<std::mutex> lock(mutex_);
         r = rollout_.get();
     }
-    if (!r) return false;
+    if (!r) {
+      return false;
+    }
     return r->rollback(reason);
 }
 

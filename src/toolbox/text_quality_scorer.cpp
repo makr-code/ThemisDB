@@ -126,7 +126,9 @@ TextQualityScore scoreText(std::string_view text) {
 
 std::string getTextQualityScorerMetrics() {
     const uint64_t errors = g_text_quality_scorer_errors_total.load(std::memory_order_relaxed);
-    if (errors == 0) return "";
+    if (errors == 0) {
+      return "";
+    }
     
     std::ostringstream out;
     out << "# HELP toolbox_text_quality_scorer_errors_total Text quality scorer helper errors.\n";

@@ -221,8 +221,12 @@ TEST_F(GraphQueryRewriterTest, CSE_DetectsIdenticalTraversals) {
     std::function<void(const json&)> count = [&](const json& n) {
         if (n.is_object()) {
             auto it = n.find("type");
-            if (it != n.end() && it->get<std::string>() == "ref") ++ref_count;
-            for (const auto& [k, v] : n.items()) count(v);
+            if (it != n.end() && it->get<std::string>() == "ref") {
+              ++ref_count;
+            }
+            for (const auto& [k, v] : n.items()) {
+              count(v);
+            }
         }
     };
     count(rewritten);
@@ -241,8 +245,12 @@ TEST_F(GraphQueryRewriterTest, CSE_DistinctTraversalsNotAffected) {
     std::function<void(const json&)> count = [&](const json& n) {
         if (n.is_object()) {
             auto it = n.find("type");
-            if (it != n.end() && it->get<std::string>() == "ref") ++ref_count;
-            for (const auto& [k, v] : n.items()) count(v);
+            if (it != n.end() && it->get<std::string>() == "ref") {
+              ++ref_count;
+            }
+            for (const auto& [k, v] : n.items()) {
+              count(v);
+            }
         }
     };
     count(rewritten);
@@ -265,8 +273,12 @@ TEST_F(GraphQueryRewriterTest, CSE_WrapsInLetScope) {
                     has_cse_marker = true;
                 }
             }
-            if (n.contains("cse_alias")) has_cse_marker = true;
-            for (const auto& [k, v] : n.items()) search(v);
+            if (n.contains("cse_alias")) {
+              has_cse_marker = true;
+            }
+            for (const auto& [k, v] : n.items()) {
+              search(v);
+            }
         }
     };
     search(rewritten);

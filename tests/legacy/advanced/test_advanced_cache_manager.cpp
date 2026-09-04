@@ -244,7 +244,9 @@ TEST_F(ACMTest, ConcurrentPutGetThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 }
 
 } // namespace

@@ -142,7 +142,9 @@ public:
         const std::vector<uint8_t>& plaintext) override {
         // XOR each byte with 0xFF as a trivial mock cipher
         std::vector<uint8_t> out(plaintext);
-        for (auto& b : out) b ^= 0xFF;
+        for (auto& b : out) {
+          b ^= 0xFF;
+        }
         return out;
     }
 
@@ -183,10 +185,14 @@ public:
     bool remove(std::string_view indexed_value,
                 std::string_view primary_key) override {
         auto it = index_.find(std::string(indexed_value));
-        if (it == index_.end()) return false;
+        if (it == index_.end()) {
+          return false;
+        }
         auto& vec = it->second;
         auto pos = std::find(vec.begin(), vec.end(), std::string(primary_key));
-        if (pos == vec.end()) return false;
+        if (pos == vec.end()) {
+          return false;
+        }
         vec.erase(pos);
         return true;
     }
@@ -237,7 +243,9 @@ public:
         const IExpressionEvaluator* /*filter*/ = nullptr) const override {
         std::vector<VectorSearchResult> results;
         for (const auto& [pk, _] : vectors_) {
-            if (results.size() >= static_cast<size_t>(k)) break;
+            if (results.size() >= static_cast<size_t>(k)) {
+              break;
+            }
             results.emplace_back(pk, 0.0f);
         }
         return results;

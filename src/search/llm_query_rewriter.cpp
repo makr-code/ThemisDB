@@ -165,13 +165,17 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
     while (std::getline(iss, line)) {
         // Strip leading/trailing whitespace
         size_t start = line.find_first_not_of(" \t\r\n");
-        if (start == std::string::npos) continue;
+        if (start == std::string::npos) {
+          continue;
+        }
         line = line.substr(start);
         size_t end = line.find_last_not_of(" \t\r\n");
         if (end != std::string::npos) {
             line = line.substr(0, end + 1);
         }
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
 
         // Strip leading number and period/dot, e.g. "1. " or "1) "
         size_t i = 0;
@@ -185,7 +189,9 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
             line = line.substr(i);
         }
 
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
 
         // Enforce length limit
         if (line.size() > config_.max_rewrite_length) {
@@ -202,7 +208,9 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
         };
         const std::string line_lower = lower(line);
         const std::string orig_lower = lower(original);
-        if (line_lower == orig_lower) continue;
+        if (line_lower == orig_lower) {
+          continue;
+        }
 
         bool duplicate = false;
         for (const auto& existing : rewrites) {
@@ -211,10 +219,14 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
                 break;
             }
         }
-        if (duplicate) continue;
+        if (duplicate) {
+          continue;
+        }
 
         rewrites.push_back(line);
-        if (rewrites.size() >= config_.num_rewrites) break;
+        if (rewrites.size() >= config_.num_rewrites) {
+          break;
+        }
     }
 
     // Fallback: if the LLM produced nothing usable, return the original
@@ -252,12 +264,18 @@ float LlmQueryRewriter::jaccardTokenOverlap(const std::string& a,
     const auto ta = tokenise(a);
     const auto tb = tokenise(b);
 
-    if (ta.empty() && tb.empty()) return 1.0f;
-    if (ta.empty() || tb.empty()) return 0.0f;
+    if (ta.empty() && tb.empty()) {
+      return 1.0f;
+    }
+    if (ta.empty() || tb.empty()) {
+      return 0.0f;
+    }
 
     size_t intersection = 0;
     for (const auto& tok : ta) {
-        if (tb.count(tok)) ++intersection;
+        if (tb.count(tok)) {
+          ++intersection;
+        }
     }
     // |A ∪ B| = |A| + |B| - |A ∩ B|
     const size_t union_size = ta.size() + tb.size() - intersection;

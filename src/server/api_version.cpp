@@ -74,8 +74,12 @@ bool APIVersion::operator!=(const APIVersion& other) const {
 }
 
 bool APIVersion::operator<(const APIVersion& other) const {
-    if (major != other.major) return major < other.major;
-    if (minor != other.minor) return minor < other.minor;
+    if (major != other.major) {
+      return major < other.major;
+    }
+    if (minor != other.minor) {
+      return minor < other.minor;
+    }
     return patch < other.patch;
 }
 
@@ -168,7 +172,9 @@ APIVersion APIVersionManager::resolveVersion(const std::string& version_header) 
                 }
             }
         }
-        if (found) return best;
+        if (found) {
+          return best;
+        }
         spdlog::warn("No supported version found for major {}, using current version", req_major);
         return current_version_;
     }
@@ -187,7 +193,9 @@ APIVersion APIVersionManager::resolveVersion(const std::string& version_header) 
                 }
             }
         }
-        if (found) return best;
+        if (found) {
+          return best;
+        }
         spdlog::warn("No supported version found for {}.{}, using current version",
                      req_major, req_minor);
         return current_version_;

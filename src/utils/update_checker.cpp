@@ -74,14 +74,24 @@ std::string Version::toString() const {
 
 bool Version::operator<(const Version& other) const {
     // Compare major.minor.patch first
-    if (major != other.major) return major < other.major;
-    if (minor != other.minor) return minor < other.minor;
-    if (patch != other.patch) return patch < other.patch;
+    if (major != other.major) {
+      return major < other.major;
+    }
+    if (minor != other.minor) {
+      return minor < other.minor;
+    }
+    if (patch != other.patch) {
+      return patch < other.patch;
+    }
     
     // Prerelease versions have lower precedence than normal versions
     // 1.0.0-alpha < 1.0.0
-    if (prerelease.empty() && !other.prerelease.empty()) return false;
-    if (!prerelease.empty() && other.prerelease.empty()) return true;
+    if (prerelease.empty() && !other.prerelease.empty()) {
+      return false;
+    }
+    if (!prerelease.empty() && other.prerelease.empty()) {
+      return true;
+    }
     
     // Compare prerelease strings lexicographically
     return prerelease < other.prerelease;

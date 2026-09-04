@@ -279,7 +279,9 @@ TEST_F(RetentionFixture, AuditCallbackReceivesHardDeleteEntry) {
     RetentionManager mgr(store.get(), policy);
     std::string last_action;
     mgr.setAuditCallback([&](const RetentionAuditEntry& e) {
-        if (!e.action.empty()) last_action = e.action;
+        if (!e.action.empty()) {
+          last_action = e.action;
+        }
     });
     mgr.apply();
     // "hard_delete" and/or "apply" should appear

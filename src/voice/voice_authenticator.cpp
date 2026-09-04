@@ -294,7 +294,9 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
     for (float s : samples) {
         float a = std::abs(s);
         rms  += s * s;
-        if (a > peak) peak = a;
+        if (a > peak) {
+          peak = a;
+        }
     }
     rms = std::sqrt(rms / static_cast<float>(samples.size()));
 
@@ -633,7 +635,9 @@ std::vector<float> VoiceBiometricAuthenticator::extractFeatures(
     for (float s : samples) {
         global_rms += s * s;
         float a = std::abs(s);
-        if (a > peak) peak = a;
+        if (a > peak) {
+          peak = a;
+        }
     }
     global_rms = std::sqrt(global_rms / static_cast<float>(n));
 
@@ -671,8 +675,12 @@ std::vector<float> VoiceBiometricAuthenticator::extractFeatures(
         band_rms[b] = rms;
         band_zcr[b] = static_cast<float>(zc) / static_cast<float>(len);
 
-        if (rms > max_band_rms) max_band_rms = rms;
-        if (band_zcr[b] > max_zcr) max_zcr = band_zcr[b];
+        if (rms > max_band_rms) {
+          max_band_rms = rms;
+        }
+        if (band_zcr[b] > max_zcr) {
+          max_zcr = band_zcr[b];
+        }
     }
 
     // Normalise sub-band features (avoid division by zero).
@@ -814,7 +822,9 @@ float VoiceBiometricAuthenticator::computeAudioQuality(
     float peak = 0.0f;
     for (float s : samples) {
         float a = std::abs(s);
-        if (a > peak) peak = a;
+        if (a > peak) {
+          peak = a;
+        }
     }
     float clip_score = (peak < 0.98f) ? 1.0f : 0.5f;
 

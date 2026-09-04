@@ -32,7 +32,9 @@ static inline double bits_to_dbl([[maybe_unused]] uint64_t b) {
 }
 
 static inline int clz64([[maybe_unused]] uint64_t x) {
-    if (x == 0) return 64;
+    if (x == 0) {
+      return 64;
+    }
 #if defined(_MSC_VER)
     unsigned long idx;
     _BitScanReverse64(&idx, x);
@@ -43,7 +45,9 @@ static inline int clz64([[maybe_unused]] uint64_t x) {
 }
 
 static inline int ctz64([[maybe_unused]] uint64_t x) {
-    if (x == 0) return 64;
+    if (x == 0) {
+      return 64;
+    }
 #if defined(_MSC_VER)
     unsigned long idx;
     _BitScanForward64(&idx, x);
@@ -190,13 +194,19 @@ GorillaDecoder::GorillaDecoder(const std::vector<uint8_t>& data)
 }
 
 std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
-    if (error_) return std::nullopt;
+    if (error_) {
+      return std::nullopt;
+    }
 
     if (first_) {
-        if (br_.eof()) return std::nullopt;
+        if (br_.eof()) {
+          return std::nullopt;
+        }
         // First timestamp varint is at byte boundary
         br_.alignToByte();
-        if (br_.eof()) return std::nullopt;
+        if (br_.eof()) {
+          return std::nullopt;
+        }
         int64_t ts = br_.readZigZag64();
         if (br_.eof()) { error_ = true; return std::nullopt; }
         uint64_t vbits = br_.readBits(64);
@@ -212,7 +222,9 @@ std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
 
     // Subsequent varints are byte-aligned; align and check EOF before reading
     br_.alignToByte();
-    if (br_.eof()) return std::nullopt;
+    if (br_.eof()) {
+      return std::nullopt;
+    }
     
     int64_t dod = br_.readZigZag64();
     int64_t dt = prev_dt_ + dod;

@@ -325,7 +325,9 @@ void WhisperPlugin::setVoiceActivityDetector(std::unique_ptr<IVoiceActivityDetec
 std::vector<float> WhisperPlugin::applyVad(const std::vector<float>& pcm,
                                             float sample_rate) const {
     std::lock_guard<std::mutex> lk(vad_mutex_);
-    if (!vad_ || pcm.empty()) return pcm;
+    if (!vad_ || pcm.empty()) {
+      return pcm;
+    }
     const auto segments = vad_->detect(pcm, sample_rate, vad_cfg_);
     if (segments.empty()) return {};
 

@@ -203,7 +203,9 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         {"coordinator_id", coordinator_id_},
         {"shards",         [&]() {
             std::vector<std::string> v;
-            for (auto& [s, _] : ops_per_shard) v.push_back(s);
+            for (auto& [s, _] : ops_per_shard) {
+              v.push_back(s);
+            }
             return v;
         }()}
     });
@@ -300,7 +302,9 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
  * @return Number of transactions resolved during recovery pass.
  */
 size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
-    if (!wal_) return 0;
+    if (!wal_) {
+      return 0;
+    }
 
     THEMIS_INFO("2PC coordinator [{}] recovering from WAL…", coordinator_id_);
 
@@ -473,7 +477,9 @@ std::optional<CoordinatorTxnState>
 TwoPhaseCommitCoordinator::getTransactionState(const std::string& transaction_id) const {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     auto it = transactions_.find(transaction_id);
-    if (it == transactions_.end()) return std::nullopt;
+    if (it == transactions_.end()) {
+      return std::nullopt;
+    }
     return it->second.state;
 }
 
@@ -484,7 +490,9 @@ nlohmann::json TwoPhaseCommitCoordinator::getStatistics() const {
     size_t active    = 0;
     size_t completed = 0;
     for (const auto& [id, rec] : transactions_) {
-        if (rec.state == CoordinatorTxnState::COMPLETED) ++completed;
+        if (rec.state == CoordinatorTxnState::COMPLETED) {
+          ++completed;
+        }
         else                                              ++active;
     }
 

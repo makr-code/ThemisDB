@@ -481,13 +481,17 @@ CloudAgentResult CloudAgent::executeScatterGather(
                     // Prioritize local datacenter
                     bool a_local = (shard_a->datacenter == config_.datacenter);
                     bool b_local = (shard_b->datacenter == config_.datacenter);
-                    if (a_local != b_local) return a_local;
+                    if (a_local != b_local) {
+                      return a_local;
+                    }
                     // Then prioritize same region (if both are non-local)
                     if (!config_.region.empty()) {
                         // Check if datacenter contains region identifier
                         bool a_same_region = (shard_a->datacenter.find(config_.region) != std::string::npos);
                         bool b_same_region = (shard_b->datacenter.find(config_.region) != std::string::npos);
-                        if (a_same_region != b_same_region) return a_same_region;
+                        if (a_same_region != b_same_region) {
+                          return a_same_region;
+                        }
                     }
                 }
                 return a < b;  // Fallback: alphabetical order

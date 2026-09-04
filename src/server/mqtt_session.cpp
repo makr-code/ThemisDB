@@ -834,7 +834,9 @@ MqttMetrics MqttBroker::getAggregatedMetrics() {
     for (auto& [topic, session_vec] : subscriptions_) {
         for (auto& weak_session : session_vec) {
             auto session = weak_session.lock();
-            if (!session) continue;
+            if (!session) {
+              continue;
+            }
             if (!seen.insert(session.get()).second) continue;  // already counted
 
             const auto& m = session->getMetrics();

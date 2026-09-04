@@ -53,12 +53,24 @@ http::response<http::string_body> GraphQLApiHandler::makeErrorResponse(
 json GraphQLApiHandler::serializeValue(
     const std::shared_ptr<graphql::Value>& val) const
 {
-    if (!val || val->isNull())  return json(nullptr);
-    if (val->isBool())          return json(val->asBool());
-    if (val->isInt())           return json(val->asInt());
-    if (val->isFloat())         return json(val->asFloat());
-    if (val->isString())        return json(val->asString());
-    if (val->isEnum())          return json(val->asString());
+    if (!val || val->isNull()) {
+      return json(nullptr);
+    }
+    if (val->isBool()) {
+      return json(val->asBool());
+    }
+    if (val->isInt()) {
+      return json(val->asInt());
+    }
+    if (val->isFloat()) {
+      return json(val->asFloat());
+    }
+    if (val->isString()) {
+      return json(val->asString());
+    }
+    if (val->isEnum()) {
+      return json(val->asString());
+    }
     if (val->isList()) {
         json arr = json::array();
         for (const auto& item : val->asList())

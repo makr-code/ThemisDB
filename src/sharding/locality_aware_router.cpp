@@ -599,8 +599,12 @@ std::vector<std::string> LocalityAwareRouter::computeMultiShardExactConsistency(
         std::sort(sorted_shards.begin(), sorted_shards.end(),
                   [this](const std::string& a, const std::string& b) {
                       // Prioritize local shard
-                      if (a == local_shard_id_) return true;
-                      if (b == local_shard_id_) return false;
+                      if (a == local_shard_id_) {
+                        return true;
+                      }
+                      if (b == local_shard_id_) {
+                        return false;
+                      }
                       
                       // Then prioritize by load score
                       float score_a = calculateLoadScore(a);

@@ -286,7 +286,9 @@ std::optional<TSQueryOptimizer::IndexHint> TSQueryOptimizer::getIndexHint(
     const std::string& metric) const {
     std::lock_guard<std::mutex> lock(index_mutex_);
     auto it = index_hints_.find(metric);
-    if (it == index_hints_.end()) return std::nullopt;
+    if (it == index_hints_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 

@@ -270,8 +270,12 @@ TemporalSnapshotManager::diff(const SnapshotHandle& base,
 
     // Collect all table names that appear in either snapshot.
     std::set<std::string> all_tables;
-    for (const auto& [t, _] : base_tables)  all_tables.insert(t);
-    for (const auto& [t, _] : other_tables) all_tables.insert(t);
+    for (const auto& [t, _] : base_tables) {
+      all_tables.insert(t);
+    }
+    for (const auto& [t, _] : other_tables) {
+      all_tables.insert(t);
+    }
 
     SnapshotDiff result;
 

@@ -346,7 +346,9 @@ public:
                                                     [[maybe_unused]] size_t max_results) {
         std::vector<std::string> provisions;
 
-        if (document_id.empty()) return provisions;
+        if (document_id.empty()) {
+          return provisions;
+        }
 
         // Phase 6: AQL graph traversal (graph_aql::RELATED_PROVISIONS)
         // Production:
@@ -368,7 +370,9 @@ public:
                                                  [[maybe_unused]] size_t max_results) {
         std::vector<std::string> case_law;
 
-        if (document_id.empty()) return case_law;
+        if (document_id.empty()) {
+          return case_law;
+        }
 
         // Phase 6: AQL traversal for case law (graph_aql::RELATED_CASE_LAW)
         // (max_results bound as @max_results in production AQL query)
@@ -382,7 +386,9 @@ public:
                                                   size_t max_results) {
         std::vector<std::string> guidance;
 
-        if (document_id.empty() || max_results == 0) return guidance;
+        if (document_id.empty() || max_results == 0) {
+          return guidance;
+        }
 
         // Phase 6: AQL traversal for internal guidance (graph_aql::RELATED_GUIDANCE)
         // (max_results bound as @max_results in production AQL query)
@@ -398,7 +404,9 @@ public:
 
         std::vector<std::pair<std::string, float>> similar;
 
-        if (document_id.empty() || max_results == 0) return similar;
+        if (document_id.empty() || max_results == 0) {
+          return similar;
+        }
 
         // Check custom query override (AQL path – used when a query executor
         // is connected rather than a VectorIndexManager)
@@ -440,7 +448,9 @@ public:
         for (const auto& r : results) {
             if (r.pk == document_id) continue; // exclude self
             similar.emplace_back(r.pk, distanceToSimilarityScore(r.distance));
-            if (similar.size() >= max_results) break;
+            if (similar.size() >= max_results) {
+              break;
+            }
         }
         return similar;
     }
@@ -460,12 +470,24 @@ public:
             return it->second;
         }
         // Return built-in templates
-        if (query_name == "find_provisions")  return graph_aql::RELATED_PROVISIONS;
-        if (query_name == "find_case_law")    return graph_aql::RELATED_CASE_LAW;
-        if (query_name == "find_guidance")    return graph_aql::RELATED_GUIDANCE;
-        if (query_name == "find_similar")     return graph_aql::SIMILAR_DOCUMENTS;
-        if (query_name == "update_context")   return graph_aql::UPDATE_SAMPLE_CONTEXT;
-        if (query_name == "fetch_all")        return graph_aql::FETCH_ALL_SAMPLES;
+        if (query_name == "find_provisions") {
+          return graph_aql::RELATED_PROVISIONS;
+        }
+        if (query_name == "find_case_law") {
+          return graph_aql::RELATED_CASE_LAW;
+        }
+        if (query_name == "find_guidance") {
+          return graph_aql::RELATED_GUIDANCE;
+        }
+        if (query_name == "find_similar") {
+          return graph_aql::SIMILAR_DOCUMENTS;
+        }
+        if (query_name == "update_context") {
+          return graph_aql::UPDATE_SAMPLE_CONTEXT;
+        }
+        if (query_name == "fetch_all") {
+          return graph_aql::FETCH_ALL_SAMPLES;
+        }
         return "";
     }
 
@@ -546,7 +568,9 @@ private:
 
     // Phase 6: Persist enriched context to the database
     void persistContext(const std::string& sample_id, const GraphContext& context) const {
-        if (db_connection_.empty() || sample_id.empty()) return;
+        if (db_connection_.empty() || sample_id.empty()) {
+          return;
+        }
 
         // Phase 6: AQL update (graph_aql::UPDATE_SAMPLE_CONTEXT)
         // Compute a quality score based on how much context was found
@@ -558,10 +582,18 @@ private:
     // Phase 6: Compute context quality score [0..1]
     static double computeContextQuality(const GraphContext& context) {
         double score = 0.0;
-        if (!context.related_provisions.empty()) score += 0.35;
-        if (!context.case_law.empty())           score += 0.35;
-        if (!context.similar_documents.empty())  score += 0.20;
-        if (!context.internal_guidance.empty())  score += 0.10;
+        if (!context.related_provisions.empty()) {
+          score += 0.35;
+        }
+        if (!context.case_law.empty()) {
+          score += 0.35;
+        }
+        if (!context.similar_documents.empty()) {
+          score += 0.20;
+        }
+        if (!context.internal_guidance.empty()) {
+          score += 0.10;
+        }
         return std::min(1.0, score);
     }
 

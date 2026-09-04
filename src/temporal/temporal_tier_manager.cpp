@@ -59,7 +59,9 @@ uint64_t BloomFilter::h3([[maybe_unused]] uint64_t x) noexcept {
 
 BloomFilter::BloomFilter(size_t expected_elements, size_t bits_per_elem) {
     num_bits_ = expected_elements * bits_per_elem;
-    if (num_bits_ == 0) num_bits_ = 64;
+    if (num_bits_ == 0) {
+      num_bits_ = 64;
+    }
     bits_.assign((num_bits_ + 63) / 64, 0ULL);
 }
 
@@ -213,12 +215,16 @@ TemporalTierManager::getAsOf(const std::string& table_name,
                 const auto& blocks = kit->second;
                 for (auto bit = blocks.rbegin(); bit != blocks.rend(); ++bit) {
                     // Range prune: as_of must be within [min_start, max_end)
-                    if (as_of < bit->min_start) continue;
+                    if (as_of < bit->min_start) {
+                      continue;
+                    }
                     if (as_of >= bit->max_end && bit->max_end != kMaxTimestamp)
                         continue;
 
                     auto result = searchBlock(*bit, as_of);
-                    if (result) return result;
+                    if (result) {
+                      return result;
+                    }
                 }
             }
         }
@@ -297,8 +303,12 @@ TemporalTierManager::getHistoryInRange(const std::string& table_name,
             auto kit = tit->second.find(doc_key);
             if (kit != tit->second.end()) {
                 for (const auto& block : kit->second) {
-                    if (block.min_start >= range.end) break;
-                    if (block.max_end <= range.start) continue;
+                    if (block.min_start >= range.end) {
+                      break;
+                    }
+                    if (block.max_end <= range.start) {
+                      continue;
+                    }
                     auto bv = rangeFromBlock(block, range);
                     result.insert(result.end(),
                                   std::make_move_iterator(bv.begin()),
@@ -315,8 +325,12 @@ TemporalTierManager::getHistoryInRange(const std::string& table_name,
             auto kit = tit->second.find(doc_key);
             if (kit != tit->second.end()) {
                 for (const auto& [ts, doc] : kit->second) {
-                    if (ts >= range.end) break;
-                    if (doc.sys_time.overlaps(range)) result.push_back(doc);
+                    if (ts >= range.end) {
+                      break;
+                    }
+                    if (doc.sys_time.overlaps(range)) {
+                      result.push_back(doc);
+                    }
                 }
             }
         }
@@ -355,7 +369,9 @@ size_t TemporalTierManager::compactTable(const std::string& table_name) {
     // Collect all keys in the table
     std::vector<std::string> keys;
     if (auto tit = hot_.find(table_name); tit != hot_.end())
-        for (const auto& [k, _] : tit->second) keys.push_back(k);
+        for (const auto& [k, _] : tit->second) {
+          keys.push_back(k);
+        }
     if (auto tit = warm_.find(table_name); tit != warm_.end())
         for (const auto& [k, _] : tit->second) {
             if (std::find(keys.begin(), keys.end(), k) == keys.end())
@@ -403,7 +419,9 @@ void TemporalTierManager::startCompactionWorker() {
 void TemporalTierManager::stopCompactionWorker() {
     compact_stop_ = true;
     compact_cv_.notify_all();
-    if (compact_thread_.joinable()) compact_thread_.join();
+    if (compact_thread_.joinable()) {
+      compact_thread_.join();
+    }
 }
 
 void TemporalTierManager::compactionLoop() {
@@ -413,20 +431,26 @@ void TemporalTierManager::compactionLoop() {
             compact_cv_.wait_for(lk, policy_.compact_interval,
                                  [this] { return compact_stop_.load(); });
         }
-        if (compact_stop_) break;
+        if (compact_stop_) {
+          break;
+        }
 
         // Compact all known tables
         std::vector<std::string> tables;
         {
             std::shared_lock lk(mutex_);
-            for (const auto& [t, _] : hot_)  tables.push_back(t);
+            for (const auto& [t, _] : hot_) {
+              tables.push_back(t);
+            }
             for (const auto& [t, _] : warm_) {
                 if (std::find(tables.begin(), tables.end(), t) == tables.end())
                     tables.push_back(t);
             }
         }
         for (const auto& t : tables) {
-            if (!compact_stop_) compactTable(t);
+            if (!compact_stop_) {
+              compactTable(t);
+            }
         }
     }
 }
@@ -541,11 +565,15 @@ size_t TemporalTierManager::flushHotToWarmLocked(
     HotMap&            hot_map,
     WarmBlocks&        warm_blocks) {
 
-    if (hot_map.empty()) return 0;
+    if (hot_map.empty()) {
+      return 0;
+    }
 
     // How many versions to move: everything beyond hot_max
     const size_t keep = policy_.hot_max_versions_per_key;
-    if (hot_map.size() <= keep) return 0;
+    if (hot_map.size() <= keep) {
+      return 0;
+    }
 
     const size_t to_move = hot_map.size() - keep;
 
@@ -580,7 +608,9 @@ size_t TemporalTierManager::flushWarmToColdLocked(
     [[maybe_unused]] const std::string& doc_key,
     WarmBlocks&        warm_blocks) {
 
-    if (warm_blocks.empty()) return 0;
+    if (warm_blocks.empty()) {
+      return 0;
+    }
 
     // Flush oldest block (front of vector — ascending min_start order)
     VersionBlock& oldest = warm_blocks.front();
@@ -595,7 +625,9 @@ size_t TemporalTierManager::flushWarmToColdLocked(
             doc.sys_time    = TimeRange::fromJson(j.at("sys_time"));
             doc.valid_time  = TimeRange::fromJson(j.at("valid_time"));
             doc.modified_by = j.value("modified_by", std::string{});
-            if (cold_->store(table_name, doc)) ++moved;
+            if (cold_->store(table_name, doc)) {
+              ++moved;
+            }
         } catch (const nlohmann::json::exception&) {}
     }
 
@@ -700,7 +732,9 @@ TemporalTierManager::rangeFromBlock(const VersionBlock& block,
         try {
             auto j = nlohmann::json::parse(entry_str);
             TimeRange sys_time = TimeRange::fromJson(j.at("sys_time"));
-            if (sys_time.start >= range.end) break;
+            if (sys_time.start >= range.end) {
+              break;
+            }
             if (sys_time.overlaps(range)) {
                 VersionedDocument doc;
                 doc.key         = j.at("key").get<std::string>();

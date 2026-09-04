@@ -355,7 +355,9 @@ std::string PrometheusMetrics::getMetrics() const {
 
     // Export histograms (simplified - just quantiles)
     for (const auto& [key, values] : histograms_) {
-        if (values.empty()) continue;
+        if (values.empty()) {
+          continue;
+        }
         
         auto sorted = values;
         std::sort(sorted.begin(), sorted.end());
@@ -412,7 +414,9 @@ std::string PrometheusMetrics::getMetricsWithAnnotations() const {
 
     // Export histograms
     for (const auto& [key, values] : histograms_) {
-        if (values.empty()) continue;
+        if (values.empty()) {
+          continue;
+        }
         
         auto sorted = values;
         std::sort(sorted.begin(), sorted.end());
@@ -515,7 +519,9 @@ void PrometheusMetrics::setRaftReadOnlyMode(const std::string& shard_id, bool is
 
 void PrometheusMetrics::setPaxosRole(const std::string& shard_id, const std::string& role) {
     double role_value = 0.0;
-    if (role == "LEADER") role_value = 3.0;
+    if (role == "LEADER") {
+      role_value = 3.0;
+    }
     else if (role == "PROPOSER") role_value = 2.0;
     else if (role == "ACCEPTOR") role_value = 1.0;
     else if (role == "LEARNER") role_value = 0.5;
@@ -801,13 +807,17 @@ void PrometheusMetrics::observeHistogram(const std::string& name, double value,
 }
 
 std::string PrometheusMetrics::formatLabels(const std::map<std::string, std::string>& labels) const {
-    if (labels.empty()) return "";
+    if (labels.empty()) {
+      return "";
+    }
     
     std::ostringstream oss;
     oss << "{";
     bool first = true;
     for (const auto& [key, value] : labels) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         oss << key << "=\"" << value << "\"";
         first = false;
     }

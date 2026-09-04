@@ -182,7 +182,9 @@ void CapabilityMatcher::buildIDF(const std::vector<ShardInfo>& shards) {
     idf_cache_.clear();
     total_shards_ = shards.size();
     
-    if (total_shards_ == 0) return;
+    if (total_shards_ == 0) {
+      return;
+    }
     
     // Count document frequency for each term
     std::map<std::string, size_t> doc_frequency;

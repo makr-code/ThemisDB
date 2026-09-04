@@ -26,7 +26,9 @@ protected:
     }
 
     void openDB() {
-        if (db_) return;
+        if (db_) {
+          return;
+        }
 
         rocksdb::TransactionDBOptions txn_db_opts;
         rocksdb::Options options;

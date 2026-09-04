@@ -402,7 +402,9 @@ size_t neon_filter_i32(const int32_t* data, size_t n, FilterOp op, int32_t thr,
         }
     }
     for (; i < n; ++i) {
-        if (scalar_cmp(data[i], op, thr)) out.push_back(static_cast<uint32_t>(i));
+        if (scalar_cmp(data[i], op, thr)) {
+          out.push_back(static_cast<uint32_t>(i));
+        }
     }
     return out.size() - before;
 }
@@ -435,7 +437,9 @@ size_t neon_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
         }
     }
     for (; i < n; ++i) {
-        if (scalar_cmp(data[i], op, thr)) out.push_back(static_cast<uint32_t>(i));
+        if (scalar_cmp(data[i], op, thr)) {
+          out.push_back(static_cast<uint32_t>(i));
+        }
     }
     return out.size() - before;
 }
@@ -468,7 +472,9 @@ size_t neon_filter_f32(const float* data, size_t n, FilterOp op, float thr,
         }
     }
     for (; i < n; ++i) {
-        if (scalar_cmp(data[i], op, thr)) out.push_back(static_cast<uint32_t>(i));
+        if (scalar_cmp(data[i], op, thr)) {
+          out.push_back(static_cast<uint32_t>(i));
+        }
     }
     return out.size() - before;
 }
@@ -501,7 +507,9 @@ size_t neon_filter_f64(const double* data, size_t n, FilterOp op, double thr,
         }
     }
     for (; i < n; ++i) {
-        if (scalar_cmp(data[i], op, thr)) out.push_back(static_cast<uint32_t>(i));
+        if (scalar_cmp(data[i], op, thr)) {
+          out.push_back(static_cast<uint32_t>(i));
+        }
     }
     return out.size() - before;
 }
@@ -516,7 +524,9 @@ size_t neon_filter_f64(const double* data, size_t n, FilterOp op, double thr,
 
 size_t simd_filter_int32(const int32_t* data, size_t n, FilterOp op,
                          int32_t threshold, std::vector<uint32_t>& out) {
-    if (!data || n == 0) return 0;
+    if (!data || n == 0) {
+      return 0;
+    }
 #if defined(THEMIS_SIMD_FILTER_AVX2) || defined(THEMIS_SIMD_FILTER_AVX512)
     if (detectSIMDLevel() >= SIMDLevel::AVX2) {
         return avx2_filter_i32(data, n, op, threshold, out);
@@ -532,7 +542,9 @@ size_t simd_filter_int32(const int32_t* data, size_t n, FilterOp op,
 
 size_t simd_filter_int64(const int64_t* data, size_t n, FilterOp op,
                          int64_t threshold, std::vector<uint32_t>& out) {
-    if (!data || n == 0) return 0;
+    if (!data || n == 0) {
+      return 0;
+    }
 #if defined(THEMIS_SIMD_FILTER_AVX2) || defined(THEMIS_SIMD_FILTER_AVX512)
     if (detectSIMDLevel() >= SIMDLevel::AVX2) {
         return avx2_filter_i64(data, n, op, threshold, out);
@@ -548,7 +560,9 @@ size_t simd_filter_int64(const int64_t* data, size_t n, FilterOp op,
 
 size_t simd_filter_float(const float* data, size_t n, FilterOp op,
                          float threshold, std::vector<uint32_t>& out) {
-    if (!data || n == 0) return 0;
+    if (!data || n == 0) {
+      return 0;
+    }
 #if defined(THEMIS_SIMD_FILTER_AVX2) || defined(THEMIS_SIMD_FILTER_AVX512)
     if (detectSIMDLevel() >= SIMDLevel::AVX2) {
         return avx2_filter_f32(data, n, op, threshold, out);
@@ -564,7 +578,9 @@ size_t simd_filter_float(const float* data, size_t n, FilterOp op,
 
 size_t simd_filter_double(const double* data, size_t n, FilterOp op,
                           double threshold, std::vector<uint32_t>& out) {
-    if (!data || n == 0) return 0;
+    if (!data || n == 0) {
+      return 0;
+    }
 #if defined(THEMIS_SIMD_FILTER_AVX2) || defined(THEMIS_SIMD_FILTER_AVX512)
     if (detectSIMDLevel() >= SIMDLevel::AVX2) {
         return avx2_filter_f64(data, n, op, threshold, out);
@@ -588,7 +604,9 @@ namespace {
 bool canSkipSegmentForPred(const ColumnSegment& seg,
                            const ColumnPredicate& pred) noexcept {
     const ZoneMap& zm = seg.metadata().zone_map;
-    if (zm.row_count == 0) return true;
+    if (zm.row_count == 0) {
+      return true;
+    }
 
     switch (pred.column_type) {
         case ColumnType::INT32:

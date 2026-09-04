@@ -170,9 +170,13 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
             bool applied = false;
             for (const auto& mode : modes_node) {
                 const auto& id_node = mode["id"];
-                if (!id_node || id_node.as<std::string>() != "agentic") continue;
+                if (!id_node || id_node.as<std::string>() != "agentic") {
+                  continue;
+                }
                 const auto& safety = mode["safety"];
-                if (!safety || !safety.IsMap()) break;
+                if (!safety || !safety.IsMap()) {
+                  break;
+                }
 
                 if (safety["enabled"]) {
                     mode_cfg.enabled = safety["enabled"].as<bool>(mode_cfg.enabled);
@@ -2201,7 +2205,9 @@ std::string McpServer::generateErrorAnswer(const std::string& question) {
                 // Manual join for documentation links (fmt::join may not be available in all versions)
                 std::string docs_str;
                 for (size_t i = 0; i < metadata.related_docs.size(); ++i) {
-                    if (i > 0) docs_str += ", ";
+                    if (i > 0) {
+                      docs_str += ", ";
+                    }
                     docs_str += metadata.related_docs[i];
                 }
                 
@@ -2934,7 +2940,9 @@ StdioTransport::~StdioTransport() {
 
 void StdioTransport::start() {
     bool expected = false;
-    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
+      return;
+    }
     
 #if defined(_WIN32) || defined(__unix__) || defined(__APPLE__)
     // Start async stdin reading
@@ -2971,12 +2979,16 @@ void StdioTransport::start() {
 }
 
 void StdioTransport::stop() {
-    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) {
+      return;
+    }
     spdlog::info("MCP stdio transport stopped");
 }
 
 void StdioTransport::send(const json& message) {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     writeStdout(message.dump() + "\n");
 }
 
@@ -2986,7 +2998,9 @@ void StdioTransport::readStdin() {
     std::weak_ptr<StdioTransport> weak_self = weak_from_this();
     asio::post(io_context_, [weak_self]() {
         auto self = weak_self.lock();
-        if (!self) return;
+        if (!self) {
+          return;
+        }
 
         HANDLE h_stdin = GetStdHandle(STD_INPUT_HANDLE);
         if (h_stdin == INVALID_HANDLE_VALUE) {
@@ -3085,7 +3099,9 @@ void StdioTransport::readStdin() {
     std::weak_ptr<StdioTransport> weak_self = weak_from_this();
     asio::post(io_context_, [weak_self]() {
         auto self = weak_self.lock();
-        if (!self) return;
+        if (!self) {
+          return;
+        }
 
         while (self->is_running_.load(std::memory_order_acquire)) {
             // Use select to check if stdin has data with timeout
@@ -3152,7 +3168,9 @@ SseTransport::~SseTransport() {
 
 void SseTransport::start() {
     bool expected = false;
-    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
+      return;
+    }
     spdlog::info("MCP SSE transport started with {}ms keepalive interval", keepalive_ms_);
     
     // Start keepalive timer
@@ -3160,7 +3178,9 @@ void SseTransport::start() {
 }
 
 void SseTransport::stop() {
-    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) {
+      return;
+    }
     keepalive_timer_.cancel();
     
     // Clear all clients
@@ -3173,7 +3193,9 @@ void SseTransport::stop() {
 }
 
 void SseTransport::send(const json& message) {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     // Format as SSE event
     std::string event_data = "data: " + message.dump() + "\n\n";
@@ -3211,7 +3233,9 @@ std::string SseTransport::getClientData(const std::string& client_id) {
 }
 
 void SseTransport::sendKeepalive() {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     // Send SSE comment as keepalive
     std::string keepalive = ": keepalive\n\n";
@@ -3225,13 +3249,17 @@ void SseTransport::sendKeepalive() {
 }
 
 void SseTransport::scheduleKeepalive() {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     keepalive_timer_.expires_after(std::chrono::milliseconds(keepalive_ms_));
     std::weak_ptr<SseTransport> weak_self = weak_from_this();
     keepalive_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
         auto self = weak_self.lock();
-        if (!self) return;
+        if (!self) {
+          return;
+        }
 
         if (!ec && self->is_running_.load(std::memory_order_acquire)) {
             self->sendKeepalive();
@@ -3255,7 +3283,9 @@ WebSocketTransport::~WebSocketTransport() {
 
 void WebSocketTransport::start() {
     bool expected = false;
-    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
+      return;
+    }
     spdlog::info("MCP WebSocket transport started with {}ms ping interval", ping_interval_ms_);
     
     // Start ping timer
@@ -3263,7 +3293,9 @@ void WebSocketTransport::start() {
 }
 
 void WebSocketTransport::stop() {
-    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) {
+      return;
+    }
     ping_timer_.cancel();
     
     // Clear all sessions
@@ -3276,7 +3308,9 @@ void WebSocketTransport::stop() {
 }
 
 void WebSocketTransport::send(const json& message) {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     std::string msg_str = message.dump();
     
@@ -3291,7 +3325,9 @@ void WebSocketTransport::send(const json& message) {
 }
 
 void WebSocketTransport::sendToSession(const std::string& session_id, const json& message) {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     std::string msg_str = message.dump();
     
@@ -3330,7 +3366,9 @@ std::vector<std::string> WebSocketTransport::getPendingMessages(const std::strin
 }
 
 void WebSocketTransport::handleMessage(const std::string& session_id, const std::string& message) {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     try {
         json request = json::parse(message);
@@ -3356,7 +3394,9 @@ void WebSocketTransport::handleMessage(const std::string& session_id, const std:
 }
 
 void WebSocketTransport::sendPing() {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     // Send ping to all active sessions
     json ping_message = {
@@ -3377,13 +3417,17 @@ void WebSocketTransport::sendPing() {
 }
 
 void WebSocketTransport::schedulePing() {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     ping_timer_.expires_after(std::chrono::milliseconds(ping_interval_ms_));
     std::weak_ptr<WebSocketTransport> weak_self = weak_from_this();
     ping_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
         auto self = weak_self.lock();
-        if (!self) return;
+        if (!self) {
+          return;
+        }
 
         if (!ec && self->is_running_.load(std::memory_order_acquire)) {
             self->sendPing();
@@ -3667,7 +3711,9 @@ json McpServer::toolHybridSearch(const json& args) {
 
         // 1. Vector leg
         json vec_args = {{"query", query_text}, {"top_k", top_k * 2}};
-        if (!collection.empty()) vec_args["collection"] = collection;
+        if (!collection.empty()) {
+          vec_args["collection"] = collection;
+        }
         json vec_result = toolSemanticSearch(vec_args);
 
         // 2. BM25 leg via full-text AQL
@@ -3694,7 +3740,9 @@ json McpServer::toolHybridSearch(const json& args) {
                 std::string id = r.value("id", "");
                 if (id.empty()) { ++rank; continue; }
                 rrf_scores[id] += vector_w / (rank + 60.0);
-                if (!doc_cache.count(id)) doc_cache[id] = r;
+                if (!doc_cache.count(id)) {
+                  doc_cache[id] = r;
+                }
                 doc_cache[id]["vector_score"] = r.value("score", 0.0);
                 ++rank;
             }
@@ -3704,7 +3752,9 @@ json McpServer::toolHybridSearch(const json& args) {
             std::string id = r.value("id", "");
             if (id.empty()) { ++rank; continue; }
             rrf_scores[id] += bm25_w / (rank + 60.0);
-            if (!doc_cache.count(id)) doc_cache[id] = r;
+            if (!doc_cache.count(id)) {
+              doc_cache[id] = r;
+            }
             doc_cache[id]["bm25_score"] = r.value("bm25_score", 0.5);
             ++rank;
         }
@@ -3720,8 +3770,12 @@ json McpServer::toolHybridSearch(const json& args) {
             json entry  = (it != doc_cache.end()) ? it->second : json::object();
             entry["id"]           = id;
             entry["score"]        = score;
-            if (!entry.contains("vector_score")) entry["vector_score"] = 0.0;
-            if (!entry.contains("bm25_score"))   entry["bm25_score"]   = 0.0;
+            if (!entry.contains("vector_score")) {
+              entry["vector_score"] = 0.0;
+            }
+            if (!entry.contains("bm25_score")) {
+              entry["bm25_score"]   = 0.0;
+            }
             merged.push_back(entry);
         }
 
@@ -3753,7 +3807,9 @@ json McpServer::toolRagRetrieve(const json& args) {
 
         // Step 1: semantic search
         json sem_args = {{"query", query_text}, {"top_k", top_k * 2}};
-        if (!collection.empty()) sem_args["collection"] = collection;
+        if (!collection.empty()) {
+          sem_args["collection"] = collection;
+        }
         json sem_result = toolSemanticSearch(sem_args);
 
         json raw_results = sem_result.value("results", json::array());
@@ -3770,7 +3826,9 @@ json McpServer::toolRagRetrieve(const json& args) {
         int  total_tokens = 0;
         int  rank = 1;
         for (auto& r : raw_results) {
-            if (rank > top_k) break;
+            if (rank > top_k) {
+              break;
+            }
             std::string content = r.value("content", "");
             // Naive token estimate: 1 token ≈ 4 chars
             int token_est = static_cast<int>(content.size() / 4) + 1;
@@ -3820,8 +3878,12 @@ json McpServer::toolVectorIndexList(const json& args) {
         if (idx_result.value("status", "") == "success" && idx_result.contains("indexes")) {
             for (auto& idx : idx_result["indexes"]) {
                 std::string idx_type = idx.value("type", "");
-                if (idx_type != "vector" && idx_type != "hnsw" && idx_type != "flat" && idx_type != "ivf") continue;
-                if (!filter_collection.empty() && idx.value("table", "") != filter_collection) continue;
+                if (idx_type != "vector" && idx_type != "hnsw" && idx_type != "flat" && idx_type != "ivf") {
+                  continue;
+                }
+                if (!filter_collection.empty() && idx.value("table", "") != filter_collection) {
+                  continue;
+                }
                 vector_indexes.push_back({
                     {"name",         idx.value("column", "")},
                     {"collection",   idx.value("table", "")},

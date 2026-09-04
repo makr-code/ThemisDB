@@ -577,7 +577,9 @@ TEST_F(ContinuousLearningOrchestratorTest, OptimizedParamsThreadSafe) {
     }
 
     writer.join();
-    for (auto& r : readers) r.join();
+    for (auto& r : readers) {
+      r.join();
+    }
 
     SUCCEED();
 }

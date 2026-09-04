@@ -66,7 +66,9 @@ std::vector<SearchEvent> SearchAnalytics::getZeroResultQueries([[maybe_unused]] 
     for (auto it = events_.rbegin(); it != events_.rend(); ++it) {
         if (it->is_zero_result) {
             result.push_back(*it);
-            if (result.size() >= limit) break;
+            if (result.size() >= limit) {
+              break;
+            }
         }
     }
     return result; // most-recent first
@@ -86,7 +88,9 @@ std::vector<SearchEvent> SearchAnalytics::getRecentEvents([[maybe_unused]] size_
 SearchMetrics SearchAnalytics::computeMetrics() const {
     std::lock_guard<std::mutex> lock(mu_);
     SearchMetrics m;
-    if (events_.empty()) return m;
+    if (events_.empty()) {
+      return m;
+    }
 
     m.total_queries = events_.size();
     std::map<std::string, size_t> query_freq;
@@ -94,7 +98,9 @@ SearchMetrics SearchAnalytics::computeMetrics() const {
     latencies.reserve(events_.size());
 
     for (const auto& ev : events_) {
-        if (ev.is_zero_result) ++m.zero_result_queries;
+        if (ev.is_zero_result) {
+          ++m.zero_result_queries;
+        }
         latencies.push_back(ev.latency_ms);
         query_freq[ev.query]++;
     }

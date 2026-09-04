@@ -48,7 +48,9 @@ public:
         // Compute a simple symmetric scale from the max absolute value
         float max_abs = 0.0f;
         for (float v : tensor) {
-            if (std::abs(v) > max_abs) max_abs = std::abs(v);
+            if (std::abs(v) > max_abs) {
+              max_abs = std::abs(v);
+            }
         }
         const float scale = (max_abs > 0.0f) ? max_abs / 127.0f : 1.0f;
         qt.scales.push_back(scale);

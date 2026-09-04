@@ -53,11 +53,19 @@ static bool validateTxnTableName(std::string_view table) {
 static IsolationLevel parseIsolationLevel(const json& body, bool* valid,
                                            std::string* error_msg) {
     *valid = true;
-    if (!body.contains("isolation")) return IsolationLevel::ReadCommitted;
+    if (!body.contains("isolation")) {
+      return IsolationLevel::ReadCommitted;
+    }
     const std::string iso_str = body["isolation"].get<std::string>();
-    if (iso_str == "read_committed")  return IsolationLevel::ReadCommitted;
-    if (iso_str == "snapshot")        return IsolationLevel::Snapshot;
-    if (iso_str == "serializable")    return IsolationLevel::SERIALIZABLE;
+    if (iso_str == "read_committed") {
+      return IsolationLevel::ReadCommitted;
+    }
+    if (iso_str == "snapshot") {
+      return IsolationLevel::Snapshot;
+    }
+    if (iso_str == "serializable") {
+      return IsolationLevel::SERIALIZABLE;
+    }
     *valid = false;
     *error_msg = INVALID_ISOLATION_MSG;
     return IsolationLevel::ReadCommitted;

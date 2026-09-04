@@ -613,7 +613,9 @@ void SelfAwareness::loadSnapshots() {
         for (const auto& path : files) {
             try {
                 std::ifstream ifs(path);
-                if (!ifs) continue;
+                if (!ifs) {
+                  continue;
+                }
                 std::string content((std::istreambuf_iterator<char>(ifs)),
                                      std::istreambuf_iterator<char>());
                 auto j = nlohmann::json::parse(content);

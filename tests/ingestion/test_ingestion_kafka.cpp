@@ -114,7 +114,9 @@ TEST(KafkaConnectorTest, IngestJsonMessages) {
     };
     size_t call_count = 0;
     conn.setMessageFetchForTesting([&]() -> std::vector<std::string> {
-        if (call_count++ == 0) return messages;
+        if (call_count++ == 0) {
+          return messages;
+        }
         return {};
     });
 
@@ -537,7 +539,9 @@ TEST(KafkaConnectorTest, ThroughputAtLeast100kMessagesPerSec) {
     std::vector<std::string> batch(kMessageCount, payload);
 
     conn.setMessageFetchForTesting([&, call = 0]() mutable -> std::vector<std::string> {
-        if (call++ == 0) return batch;
+        if (call++ == 0) {
+          return batch;
+        }
         return {};
     });
 

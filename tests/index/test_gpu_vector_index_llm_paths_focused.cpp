@@ -114,7 +114,9 @@ TEST(GpuVectorIndexLlmPathsFocused, GV8_GetAvailableBackends_IncludesCPU) {
     auto backends = idx.getAvailableBackends();
     bool has_cpu = false;
     for (auto b : backends) {
-        if (b == GPUVectorIndex::Backend::CPU) has_cpu = true;
+        if (b == GPUVectorIndex::Backend::CPU) {
+          has_cpu = true;
+        }
     }
     EXPECT_TRUE(has_cpu);
 }

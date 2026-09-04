@@ -75,7 +75,9 @@ void whtTransform(float* data, std::size_t n) {
     }
     // Normalise so that WHT is orthogonal (H*H^T = I).
     const float inv_sqrt_n = 1.0f / std::sqrt(static_cast<float>(n));
-    for (std::size_t i = 0; i < n; ++i) data[i] *= inv_sqrt_n;
+    for (std::size_t i = 0; i < n; ++i) {
+      data[i] *= inv_sqrt_n;
+    }
 }
 
 } // anonymous namespace
@@ -131,7 +133,9 @@ void radonFiberTransform(float* data, std::size_t n) {
         for (std::size_t j = 0; j < n; ++j) {
             // Simpson's weight: 1 at endpoints, 4 at odd j, 2 at even interior j.
             float w;
-            if (j == 0 || j == n - 1)      w = 1.0f;
+            if (j == 0 || j == n - 1) {
+              w = 1.0f;
+            }
             else if (j % 2 == 1)            w = 4.0f;
             else                            w = 2.0f;
             const float angle = pi_over_n * static_cast<float>(i) * static_cast<float>(j);
@@ -139,7 +143,9 @@ void radonFiberTransform(float* data, std::size_t n) {
         }
         result[i] = integral * scale;
     }
-    for (std::size_t i = 0; i < n; ++i) data[i] = result[i];
+    for (std::size_t i = 0; i < n; ++i) {
+      data[i] = result[i];
+    }
 }
 
 /// @brief Trapezoidal-rule Green's function convolution of a 1-D fiber.
@@ -152,7 +158,9 @@ void radonFiberTransform(float* data, std::size_t n) {
 /// @param data  In/out array of length n (must be ≥ 2).
 /// @param n     Length of the fiber.
 void greensFiberTransform(float* data, std::size_t n) {
-    if (n < 2) return;
+    if (n < 2) {
+      return;
+    }
     const float h = 1.0f / static_cast<float>(n - 1);
 
     // Precompute kernel row (length n) — same for every output row.
@@ -180,9 +188,13 @@ void greensFiberTransform(float* data, std::size_t n) {
             result[i] += kernel[r] * data[j];
         }
         // Normalise so DC response is 1.
-        if (dc_gain > 0.0f) result[i] /= dc_gain;
+        if (dc_gain > 0.0f) {
+          result[i] /= dc_gain;
+        }
     }
-    for (std::size_t i = 0; i < n; ++i) data[i] = result[i];
+    for (std::size_t i = 0; i < n; ++i) {
+      data[i] = result[i];
+    }
 }
 
 } // anonymous native namespace
@@ -558,7 +570,9 @@ std::string TensorButterflyOperator::describe() const {
     }
     oss << ", shape=[";
     for (std::size_t i = 0; i < cfg_.grid_shape.size(); ++i) {
-        if (i) oss << ',';
+        if (i) {
+          oss << ',';
+        }
         oss << cfg_.grid_shape[i];
     }
     oss << "], precision=" << cfg_.precision << '}';

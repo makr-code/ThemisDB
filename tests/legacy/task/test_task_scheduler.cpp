@@ -486,7 +486,9 @@ TEST_F(TaskSchedulerTest, RetryPolicyNoneIsEquivalentToZeroRetries) {
 TEST_F(TaskSchedulerTest, RetryPolicyFixedDelay) {
     std::atomic<int> call_count{0};
     scheduler_->registerFunction("fixed_delay_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        if (++call_count < 3) throw std::runtime_error("not yet");
+        if (++call_count < 3) {
+          throw std::runtime_error("not yet");
+        }
         return nlohmann::json{{"ok", true}};
     });
 
@@ -518,7 +520,9 @@ TEST_F(TaskSchedulerTest, RetryPolicyFixedDelay) {
 TEST_F(TaskSchedulerTest, RetryPolicyLinearBackoff) {
     std::atomic<int> call_count{0};
     scheduler_->registerFunction("linear_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        if (++call_count < 2) throw std::runtime_error("first fail");
+        if (++call_count < 2) {
+          throw std::runtime_error("first fail");
+        }
         return nlohmann::json{{"ok", true}};
     });
 
@@ -545,7 +549,9 @@ TEST_F(TaskSchedulerTest, RetryPolicyLinearBackoff) {
 TEST_F(TaskSchedulerTest, RetryPolicyJitterBackoff) {
     std::atomic<int> call_count{0};
     scheduler_->registerFunction("jitter_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        if (++call_count < 2) throw std::runtime_error("first fail");
+        if (++call_count < 2) {
+          throw std::runtime_error("first fail");
+        }
         return nlohmann::json{{"ok", true}};
     });
 
@@ -606,7 +612,9 @@ TEST_F(TaskSchedulerTest, RetryPolicyConditionalShouldRetry) {
 TEST_F(TaskSchedulerTest, RetryPolicyLegacyMaxRetriesStillWorks) {
     std::atomic<int> call_count{0};
     scheduler_->registerFunction("legacy_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        if (++call_count < 2) throw std::runtime_error("first fail");
+        if (++call_count < 2) {
+          throw std::runtime_error("first fail");
+        }
         return nlohmann::json{{"ok", true}};
     });
 
@@ -627,7 +635,9 @@ TEST_F(TaskSchedulerTest, RetryPolicyLegacyMaxRetriesStillWorks) {
 TEST_F(TaskSchedulerTest, RetryPolicyExponentialBackoff) {
     std::atomic<int> call_count{0};
     scheduler_->registerFunction("exp_backoff_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        if (++call_count < 3) throw std::runtime_error("transient error");
+        if (++call_count < 3) {
+          throw std::runtime_error("transient error");
+        }
         return nlohmann::json{{"ok", true}};
     });
 
@@ -707,7 +717,9 @@ TEST_F(TaskSchedulerTest, RetryPolicyPersistedAndRestoredFromDisk) {
 TEST_F(TaskSchedulerTest, RetryPolicyFibonacciBackoff) {
     std::atomic<int> call_count{0};
     scheduler_->registerFunction("fib_backoff_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        if (++call_count < 4) throw std::runtime_error("transient error");
+        if (++call_count < 4) {
+          throw std::runtime_error("transient error");
+        }
         return nlohmann::json{{"ok", true}};
     });
 
@@ -1024,7 +1036,9 @@ TEST_F(TaskSchedulerTest, ErrorCategoryResetToNoneOnSubsequentSuccess) {
     int call = 0;
     scheduler_->registerFunction("flaky_fn",
         [&call](const nlohmann::json&) -> nlohmann::json {
-            if (call++ == 0) throw std::runtime_error("temporary blip");
+            if (call++ == 0) {
+              throw std::runtime_error("temporary blip");
+            }
             return {};
         });
     ScheduledTask task;

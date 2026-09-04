@@ -327,7 +327,9 @@ TEST(Phase3LoadBalancing, PriorityConcurrentEnqueueDequeue) {
     std::thread producer([&sched, &enqueued] {
         for (int i = 0; i < kItems; ++i) {
             const auto id = sched.enqueue([] {}, SLAPriority::MEDIUM, 1000);
-            if (id != 0) enqueued.fetch_add(1);
+            if (id != 0) {
+              enqueued.fetch_add(1);
+            }
         }
     });
 
@@ -536,7 +538,9 @@ TEST(Phase3LoadBalancing, BenchmarkSkewedLoad) {
     constexpr int kQueries = 100;
     int hot_count = 0;
     for (int i = 0; i < kQueries; ++i) {
-        if (lb.selectShard() == "hot") ++hot_count;
+        if (lb.selectShard() == "hot") {
+          ++hot_count;
+        }
     }
     // Hot shard should receive minimal traffic.
     EXPECT_LT(hot_count, kQueries / 4);
@@ -618,7 +622,9 @@ TEST(Phase3LoadBalancing, BenchmarkSLAComplianceUnderMixedLoad) {
                         : (pri == SLAPriority::MEDIUM) ? 10000
                                                         : 50000;
         const auto id = sched.enqueue([] {}, pri, sla);
-        if (id != 0) ids.push_back(id);
+        if (id != 0) {
+          ids.push_back(id);
+        }
     }
 
     // Drain and report immediate completions.

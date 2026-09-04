@@ -68,7 +68,9 @@ public:
         for (auto& [k, v] : store_) {
             if (k.size() >= prefix.size() &&
                 k.compare(0, prefix.size(), prefix.data(), prefix.size()) == 0) {
-                if (!callback(k, v)) break;
+                if (!callback(k, v)) {
+                  break;
+                }
             }
         }
         return OkVoid();
@@ -2185,7 +2187,9 @@ TEST_F(MaintenanceOrchestratorTest, TenantQuota_ZeroMeansUnlimited) {
                             j1->state != MaintenanceJobState::PENDING;
         bool j2_done = j2 && j2->state != MaintenanceJobState::RUNNING &&
                             j2->state != MaintenanceJobState::PENDING;
-        if (j1_done && j2_done) break;
+        if (j1_done && j2_done) {
+          break;
+        }
     }
 
     auto final1 = orchestrator_->getJob(job1->id);
@@ -2284,7 +2288,9 @@ TEST_F(MaintenanceOrchestratorTest, ConcurrentListSchedules_NoDataRace) {
     go.store(true, std::memory_order_release);
 
     writer.join();
-    for (auto& r : readers) r.join();
+    for (auto& r : readers) {
+      r.join();
+    }
 
     // Assert writer never failed – checked on main thread where gtest works.
     EXPECT_EQ(writer_failures.load(), 0)

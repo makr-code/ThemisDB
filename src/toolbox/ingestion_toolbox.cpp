@@ -253,7 +253,9 @@ void IngestionToolbox::recordExtraction(std::size_t entity_count,
 
 std::string IngestionToolbox::getMetricsText() const {
     const uint64_t calls = impl_->extract_calls_total_.load();
-    if (calls == 0) return "";
+    if (calls == 0) {
+      return "";
+    }
 
     const uint64_t errors         = impl_->extract_errors_total_.load();
     const uint64_t empty_results  = impl_->extract_empty_results_.load();

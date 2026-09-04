@@ -85,9 +85,15 @@ TEST(CAISafetyModule, CAI02_DefaultPrinciplesIncludeKeyIDs) {
     bool has_do_no_harm  = false;
 
     for (const auto& p : principles) {
-        if (p.id == "human_autonomy")   has_autonomy    = true;
-        if (p.id == "transparency")     has_transparency = true;
-        if (p.id == "do_no_harm")       has_do_no_harm  = true;
+        if (p.id == "human_autonomy") {
+          has_autonomy    = true;
+        }
+        if (p.id == "transparency") {
+          has_transparency = true;
+        }
+        if (p.id == "do_no_harm") {
+          has_do_no_harm  = true;
+        }
     }
 
     EXPECT_TRUE(has_autonomy)     << "CAI-02: missing principle 'human_autonomy'";

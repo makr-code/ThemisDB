@@ -101,7 +101,9 @@ ReplicationCoordinator::ReplicationResult ReplicationCoordinator::waitForReplica
             concern.timeout,
             [this, &lsn_key, required, total_replicas]() {
                 auto it = pending_writes_.find(lsn_key);
-                if (it == pending_writes_.end()) return false;
+                if (it == pending_writes_.end()) {
+                  return false;
+                }
                 return hasMetConcern(it->second, total_replicas);
             }
         );
@@ -164,7 +166,9 @@ void ReplicationCoordinator::recordAcknowledgment(const std::string& replica_id,
         return;
     }
 
-    if (!enabled_) return;
+    if (!enabled_) {
+      return;
+    }
 
     std::string lsn_key = lsn.toString();
     bool notify = false;
@@ -187,7 +191,9 @@ void ReplicationCoordinator::recordAcknowledgment(const std::string& replica_id,
 
 /** @brief Return current replica count from WAL shipper. */
 size_t ReplicationCoordinator::getReplicaCount() const {
-    if (!shipper_) return 0;
+    if (!shipper_) {
+      return 0;
+    }
     return shipper_->getReplicaInfo().size();
 }
 

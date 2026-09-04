@@ -354,7 +354,9 @@ TEST_F(DataAugmentationTest, QuestionReformulationMultipleVariantsDiffer) {
     std::set<std::string> questions;
     for (const auto& ent : result) {
         auto q = ent.getFieldAsString("question");
-        if (q) questions.insert(*q);
+        if (q) {
+          questions.insert(*q);
+        }
     }
     EXPECT_GT(questions.size(), 1u) << "All question reformulations are identical";
 }

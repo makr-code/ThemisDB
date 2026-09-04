@@ -46,7 +46,9 @@ GovernanceResult applyGovernanceLogic(
     const std::string& path = "/changefeed/events")
 {
     auto to_lower = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(::tolower(static_cast<unsigned char>(c)));
+        }
         return s;
     };
 
@@ -62,7 +64,9 @@ GovernanceResult applyGovernanceLogic(
         }
     }
 
-    if (mode != "observe" && mode != "enforce") mode = "observe";
+    if (mode != "observe" && mode != "enforce") {
+      mode = "observe";
+    }
 
     GovernanceResult r;
     r.classification = classification;

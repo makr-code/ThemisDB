@@ -109,7 +109,9 @@ ThreatScore BehavioralAnomalyDetector::checkBurstRate(
     auto window_start = event.timestamp - config_.burst_window;
     size_t count = 0;
     for (const auto& e : state.events) {
-        if (e.timestamp >= window_start) ++count;
+        if (e.timestamp >= window_start) {
+          ++count;
+        }
     }
 
     double window_s = static_cast<double>(config_.burst_window.count());
@@ -220,8 +222,12 @@ ThreatScore BehavioralAnomalyDetector::checkUnusualResource(
 
 ThreatScore BehavioralAnomalyDetector::maxScore(const ThreatScore& a,
                                                   const ThreatScore& b) {
-    if (static_cast<int>(b.level) > static_cast<int>(a.level)) return b;
-    if (static_cast<int>(b.level) == static_cast<int>(a.level) && b.score > a.score) return b;
+    if (static_cast<int>(b.level) > static_cast<int>(a.level)) {
+      return b;
+    }
+    if (static_cast<int>(b.level) == static_cast<int>(a.level) && b.score > a.score) {
+      return b;
+    }
     return a;
 }
 

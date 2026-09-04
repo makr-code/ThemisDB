@@ -423,7 +423,9 @@ TEST(ConcurrencyRaceTest, LockFreeStackOperations) {
             int local_pops = 0;
             while (true) {
                 Node* old_head = head.load(std::memory_order_acquire);
-                if (!old_head) break;
+                if (!old_head) {
+                  break;
+                }
                 
                 Node* new_head = old_head->next.load(std::memory_order_relaxed);
                 if (head.compare_exchange_weak(old_head, new_head,

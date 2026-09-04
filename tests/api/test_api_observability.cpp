@@ -289,7 +289,9 @@ TEST(BoundedResourceTest, QueueSizeLimit)
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_GT(rejected, 0) << "At least one request must be rejected when queue is full";
     EXPECT_GT(accepted, 0) << "Some requests must succeed";
@@ -366,7 +368,9 @@ TEST(BoundedResourceTest, SessionLimitEnforcement)
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_GT(rejected, 0) << "At least one request must be rejected when session limit is reached";
     EXPECT_GT(accepted, 0) << "Some requests must succeed";

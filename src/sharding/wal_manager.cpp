@@ -287,7 +287,9 @@ std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn,
         size_t pos = 0;
         while (pos < buffer.size()) {
             // Find entry size (need to peek at header)
-            if (pos + 29 > buffer.size()) break;
+            if (pos + 29 > buffer.size()) {
+              break;
+            }
             
             std::vector<uint8_t> entry_bytes(buffer.begin() + pos, buffer.end());
             

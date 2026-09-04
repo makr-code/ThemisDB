@@ -97,9 +97,13 @@ std::string CacheAdminApiHandler::base64Decode([[maybe_unused]] const std::strin
 
     int val = 0, valb = -8;
     for (unsigned char c : input) {
-        if (c == '=') break;
+        if (c == '=') {
+          break;
+        }
         int tv = T[c];
-        if (tv == -1) break;
+        if (tv == -1) {
+          break;
+        }
         val = (val << 6) + tv;
         valb += 6;
         if (valb >= 0) {

@@ -748,7 +748,9 @@ TEST_F(ExportEncryptionTest, JSONLLLMExporterEncryptsOutput) {
     std::string line;
     int line_count = 0;
     while (std::getline(dec_f, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         EXPECT_NO_THROW({
             auto parsed = json::parse(line);
             static_cast<void>(parsed);
@@ -789,7 +791,9 @@ TEST_F(ExportEncryptionTest, StreamingExporterEncryptsOutput) {
     std::string line;
     int line_count = 0;
     while (std::getline(dec_f, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         EXPECT_NO_THROW({
             auto parsed = json::parse(line);
             static_cast<void>(parsed);

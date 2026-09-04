@@ -317,7 +317,9 @@ void HealthMonitor::performHealthChecks() {
     auto all_shards = topology_->getAllShards();
     for (const auto& shard_id : all_shards) {
         auto replica_set = topology_->getReplicaSet(shard_id);
-        if (!replica_set) continue;
+        if (!replica_set) {
+          continue;
+        }
         
         for (const auto& replica_id : replica_set->replicas) {
             // In production: check replica health via HTTP

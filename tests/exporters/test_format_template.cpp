@@ -358,7 +358,9 @@ protected:
         std::ifstream f(path);
         std::string line;
         while (std::getline(f, line)) {
-            if (!line.empty()) lines.push_back(line);
+            if (!line.empty()) {
+              lines.push_back(line);
+            }
         }
         return lines;
     }
@@ -535,8 +537,12 @@ protected:
                                  bool with_output = true) const {
         BaseEntity e;
         e.setPrimaryKey(pk);
-        if (with_instruction) e.setField("question", "Q");
-        if (with_output)      e.setField("answer",   "A");
+        if (with_instruction) {
+          e.setField("question", "Q");
+        }
+        if (with_output) {
+          e.setField("answer",   "A");
+        }
         return e;
     }
 
@@ -545,8 +551,12 @@ protected:
                                bool with_assistant = true) const {
         BaseEntity e;
         e.setPrimaryKey(pk);
-        if (with_user)      e.setField("user_message",       "Hello");
-        if (with_assistant) e.setField("assistant_response", "Hi");
+        if (with_user) {
+          e.setField("user_message",       "Hello");
+        }
+        if (with_assistant) {
+          e.setField("assistant_response", "Hi");
+        }
         return e;
     }
 };

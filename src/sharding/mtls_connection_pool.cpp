@@ -215,7 +215,9 @@ std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::getConne
  * @param connection SSL connection to return.  Silently ignores `nullptr`.
  */
 void EndpointConnectionPool::releaseConnection(std::unique_ptr<SSL, SSLDeleter> connection) {
-    if (!connection) return;
+    if (!connection) {
+      return;
+    }
     
     std::unique_lock<std::shared_mutex> lock(pool_mutex_);
     
@@ -251,7 +253,9 @@ void EndpointConnectionPool::releaseConnection(std::unique_ptr<SSL, SSLDeleter> 
  * @param connection Raw SSL pointer to invalidate.  Silently ignores `nullptr`.
  */
 void EndpointConnectionPool::invalidateConnection(SSL* connection) {
-    if (!connection) return;
+    if (!connection) {
+      return;
+    }
     
     std::unique_lock<std::shared_mutex> lock(pool_mutex_);
     active_connections_.erase(connection);
@@ -404,7 +408,9 @@ std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::createNe
  * @return `true` if @p conn appears valid; `false` if `nullptr`.
  */
 bool EndpointConnectionPool::validateConnection(SSL* conn) {
-    if (!conn) return false;
+    if (!conn) {
+      return false;
+    }
     
     // Note: In production, this would:
     // 1. Check if socket is still connected
@@ -493,7 +499,9 @@ void EndpointConnectionPool::cleanupLoop() {
     while (running_) {
         std::this_thread::sleep_for(config_.health_check_interval);
         
-        if (!running_) break;
+        if (!running_) {
+          break;
+        }
         
         std::unique_lock<std::shared_mutex> lock(pool_mutex_);
         cleanupExpiredConnections();
@@ -630,7 +638,9 @@ void MTLSConnectionPoolManager::releaseConnection(
     const std::string& endpoint, 
     std::unique_ptr<SSL, SSLDeleter> conn
 ) {
-    if (!conn) return;
+    if (!conn) {
+      return;
+    }
     
     std::shared_lock<std::shared_mutex> lock(pools_mutex_);
     

@@ -59,7 +59,9 @@ public:
 class CosineDistanceKernel {
 public:
     static float distance(const std::vector<float>& a, const std::vector<float>& b) {
-        if (a.size() != b.size()) return -1.0F;
+        if (a.size() != b.size()) {
+          return -1.0F;
+        }
         
         float dot = 0.0F, norm_a = 0.0F, norm_b = 0.0F;
         for (size_t i = 0; i < a.size(); ++i) {
@@ -97,7 +99,9 @@ public:
         vectors_.clear();
         dim_ = dim;
         
-        if (!data || !ids || count == 0) return;
+        if (!data || !ids || count == 0) {
+          return;
+        }
         
         ids_.reserve(count);
         vectors_.reserve(count * dim);

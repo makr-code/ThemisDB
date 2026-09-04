@@ -163,8 +163,12 @@ public:
         }
         for (const auto& eid : it->second) {
             auto rit = receipts_.find(eid);
-            if (rit == receipts_.end()) continue;
-            if (status.has_value() && rit->second.status != *status) continue;
+            if (rit == receipts_.end()) {
+              continue;
+            }
+            if (status.has_value() && rit->second.status != *status) {
+              continue;
+            }
             result.push_back(rit->second);
         }
         return result;
@@ -257,7 +261,9 @@ public:
         const std::vector<LoRAPackageRef>& artifacts,
         const std::string& adapter_id,
         const std::string& version) const override {
-        if (artifacts.empty()) return std::nullopt;
+        if (artifacts.empty()) {
+          return std::nullopt;
+        }
         auto sorted = sortedArtifacts(artifacts);
 
         // Find leaf index by composite key (adapter_id, version)
@@ -318,10 +324,14 @@ public:
     }
 
     [[nodiscard]] bool verifyProof(const ArtifactMerkleProof& proof) const override {
-        if (!proof.isValid()) return false;
+        if (!proof.isValid()) {
+          return false;
+        }
         std::string current = proof.leaf_hash;
         for (const auto& step : proof.proof_path) {
-            if (!step.contains("hash") || !step.contains("position")) return false;
+            if (!step.contains("hash") || !step.contains("position")) {
+              return false;
+            }
             const std::string sibling  = step["hash"].get<std::string>();
             const std::string position = step["position"].get<std::string>();
             if (position == "right") {
@@ -354,7 +364,9 @@ private:
         auto sorted = artifacts;
         std::sort(sorted.begin(), sorted.end(),
             [](const LoRAPackageRef& a, const LoRAPackageRef& b) {
-                if (a.adapter_id != b.adapter_id) return a.adapter_id < b.adapter_id;
+                if (a.adapter_id != b.adapter_id) {
+                  return a.adapter_id < b.adapter_id;
+                }
                 return a.version < b.version;
             });
         return sorted;
@@ -464,7 +476,9 @@ public:
         const DistributionEventId& event_id,
         const std::string& target_signature) override {
         auto receipt = store_->getReceipt(event_id);
-        if (!receipt.has_value()) return false;
+        if (!receipt.has_value()) {
+          return false;
+        }
         // Only Pending or InTransit receipts may be confirmed.
         if (receipt->status != ArtifactDistributionStatus::Pending
             && receipt->status != ArtifactDistributionStatus::InTransit) {
@@ -487,7 +501,9 @@ public:
         const DistributionEventId& event_id,
         const std::string& error_message) override {
         auto receipt = store_->getReceipt(event_id);
-        if (!receipt.has_value()) return false;
+        if (!receipt.has_value()) {
+          return false;
+        }
         return store_->updateReceiptStatus(
             event_id,
             ArtifactDistributionStatus::Failed,
@@ -498,8 +514,12 @@ public:
     [[nodiscard]] std::optional<DistributionEventId> recoverDistribution(
         const DistributionEventId& failed_event_id) override {
         auto failed = store_->getReceipt(failed_event_id);
-        if (!failed.has_value()) return std::nullopt;
-        if (failed->status != ArtifactDistributionStatus::Failed) return std::nullopt;
+        if (!failed.has_value()) {
+          return std::nullopt;
+        }
+        if (failed->status != ArtifactDistributionStatus::Failed) {
+          return std::nullopt;
+        }
 
         // Create a new distribution event linked via receipt chain
         const std::string recovery_event_id = generateEventId();
@@ -555,14 +575,18 @@ public:
             auto receipts = store_->listReceiptsForShard(
                 shard_id, ArtifactDistributionStatus::Confirmed);
             for (const auto& r : receipts) {
-                if (r.batch_merkle_root != batch_merkle_root) continue;
+                if (r.batch_merkle_root != batch_merkle_root) {
+                  continue;
+                }
                 const std::string key = r.artifact_ref.adapter_id + "@" + r.artifact_ref.version;
                 if (seen.insert(key).second) {
                     batch_artifacts.push_back(r.artifact_ref);
                 }
             }
         }
-        if (batch_artifacts.empty()) return std::nullopt;
+        if (batch_artifacts.empty()) {
+          return std::nullopt;
+        }
         return proof_engine_->generateProof(batch_artifacts, adapter_id, version);
     }
 
@@ -590,7 +614,9 @@ public:
         if (!receipt_hashes.empty()) {
             std::vector<std::string> layer = receipt_hashes;
             while (layer.size() > 1) {
-                if (layer.size() % 2 != 0) layer.push_back(layer.back());
+                if (layer.size() % 2 != 0) {
+                  layer.push_back(layer.back());
+                }
                 std::vector<std::string> next;
                 next.reserve(layer.size() / 2);
                 for (size_t i = 0; i < layer.size(); i += 2) {

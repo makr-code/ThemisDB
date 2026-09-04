@@ -94,7 +94,9 @@ double StorageLayoutAdvisor::estimateCompressionRatio(
             }
         }
         const auto total = static_cast<long>(schema.field_types.size());
-        if (total == 0) return 2.0;
+        if (total == 0) {
+          return 2.0;
+        }
 
         const double float_ratio =
             static_cast<double>(float_fields) / static_cast<double>(total);
@@ -183,7 +185,9 @@ std::string StorageLayoutAdvisor::buildRationale(
 void StorageLayoutAdvisor::emitDecisionRecord(
     const LayoutRecommendation& rec) const
 {
-    if (!dr_processor_) return;
+    if (!dr_processor_) {
+      return;
+    }
 
     themis::llm::DecisionRecord dr;
     dr.decision_type = "LAYOUT_RECOMMENDATION";

@@ -117,7 +117,9 @@ std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query(
     const RangeQuery& query) const {
     
     std::vector<DataPoint> results;
-    if (!db_) return results;
+    if (!db_) {
+      return results;
+    }
 
     auto* column_family = resolveColumnFamily();
     if (!column_family) {
@@ -141,7 +143,9 @@ std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query(
         }
         
         while (it->Valid() && it->key().starts_with(prefix) && results.size() < query.limit) {
-            if (it->key().ToString() < from_key) break;
+            if (it->key().ToString() < from_key) {
+              break;
+            }
             
             try {
                 nlohmann::json j = nlohmann::json::parse(it->value().ToString());
@@ -157,7 +161,9 @@ std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query(
         it->Seek(from_key);
         
         while (it->Valid() && it->key().starts_with(prefix) && results.size() < query.limit) {
-            if (it->key().ToString() > to_key) break;
+            if (it->key().ToString() > to_key) {
+              break;
+            }
             
             try {
                 nlohmann::json j = nlohmann::json::parse(it->value().ToString());
@@ -187,7 +193,9 @@ TimeSeriesStore::Aggregation TimeSeriesStore::aggregate(
     Aggregation agg;
     auto points = this->query(metric, entity, query);
     
-    if (points.empty()) return agg;
+    if (points.empty()) {
+      return agg;
+    }
     
     agg.min = points[0].value;
     agg.max = points[0].value;
@@ -214,7 +222,9 @@ TimeSeriesStore::Aggregation TimeSeriesStore::aggregate(
 size_t TimeSeriesStore::deleteOldPoints(std::string_view metric,
                                        std::string_view entity,
                                        int64_t before_ms) {
-    if (!db_) return 0;
+    if (!db_) {
+      return 0;
+    }
 
     auto* column_family = resolveColumnFamily();
     if (!column_family) {
@@ -233,7 +243,9 @@ size_t TimeSeriesStore::deleteOldPoints(std::string_view metric,
     it->Seek(prefix);
     
     while (it->Valid() && it->key().starts_with(prefix)) {
-        if (it->key().ToString() >= end_key) break;
+        if (it->key().ToString() >= end_key) {
+          break;
+        }
         
         rocksdb::Status s = db_->Delete(write_opts, column_family, it->key());
         if (s.ok()) {
@@ -250,7 +262,9 @@ std::optional<TimeSeriesStore::DataPoint> TimeSeriesStore::getLatest(
     std::string_view metric,
     std::string_view entity) const {
     
-    if (!db_) return std::nullopt;
+    if (!db_) {
+      return std::nullopt;
+    }
 
     auto* column_family = resolveColumnFamily();
     if (!column_family) {

@@ -144,7 +144,9 @@ void WALShipper::shippingLoop() {
         
         // Ship to each replica
         for (const auto& replica_id : replica_ids) {
-            if (!running_) break;
+            if (!running_) {
+              break;
+            }
             
             std::lock_guard<std::mutex> lock(replicas_mutex_);
             auto it = replicas_.find(replica_id);

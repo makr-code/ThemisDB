@@ -186,7 +186,9 @@ TEST(StreamingIngestionTest, ChunkedReadFromStream_ReproducesOriginal) {
     while (stream.good()) {
         stream.read(read_buf.data(), static_cast<std::streamsize>(read_buf.size()));
         size_t n = static_cast<size_t>(stream.gcount());
-        if (n == 0) break;
+        if (n == 0) {
+          break;
+        }
 
         std::vector<uint8_t> block(read_buf.data(), read_buf.data() + n);
         auto chunks = chunker.chunk(block);
@@ -233,7 +235,9 @@ TEST(StreamingIngestionTest, TextSegmentSplitting_ProducesCorrectSegments) {
     EXPECT_GT(segments.size(), 0u);
     // Concatenated segments reproduce original text
     std::string reconstructed;
-    for (const auto& s : segments) reconstructed += s;
+    for (const auto& s : segments) {
+      reconstructed += s;
+    }
     EXPECT_EQ(reconstructed, text);
 }
 
@@ -267,7 +271,9 @@ TEST(StreamingIngestionTest, BufferOverflow_DetectedBeforeExceedingLimit) {
     while (stream.good()) {
         stream.read(read_buf.data(), static_cast<std::streamsize>(chunk_size));
         size_t n = static_cast<size_t>(stream.gcount());
-        if (n == 0) break;
+        if (n == 0) {
+          break;
+        }
 
         if (buffer.size() + n > max_buffered) {
             overflow_detected = true;
@@ -294,7 +300,9 @@ TEST(StreamingIngestionTest, BufferOverflow_NotTriggeredWhenWithinLimit) {
     while (stream.good()) {
         stream.read(read_buf.data(), static_cast<std::streamsize>(chunk_size));
         size_t n = static_cast<size_t>(stream.gcount());
-        if (n == 0) break;
+        if (n == 0) {
+          break;
+        }
 
         if (buffer.size() + n > max_buffered) {
             overflow_detected = true;

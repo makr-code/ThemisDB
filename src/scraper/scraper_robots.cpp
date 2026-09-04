@@ -46,29 +46,41 @@ std::string trim(const std::string& s) {
 /*static*/ std::string RobotsTxtCache::extractDomain(const std::string& url) {
     // Find scheme separator "://"
     const auto sep = url.find("://");
-    if (sep == std::string::npos) return url;
+    if (sep == std::string::npos) {
+      return url;
+    }
     const auto after_scheme = sep + 3;
     // Find end of authority (first '/', '?', '#', or end-of-string)
     auto end = url.find_first_of("/?#", after_scheme);
-    if (end == std::string::npos) end = url.size();
+    if (end == std::string::npos) {
+      end = url.size();
+    }
     return url.substr(after_scheme, end - after_scheme);
 }
 
 /*static*/ std::string RobotsTxtCache::extractPath(const std::string& url) {
     const auto sep = url.find("://");
-    if (sep == std::string::npos) return "/";
+    if (sep == std::string::npos) {
+      return "/";
+    }
     const auto after_scheme = sep + 3;
     const auto path_start = url.find('/', after_scheme);
-    if (path_start == std::string::npos) return "/";
+    if (path_start == std::string::npos) {
+      return "/";
+    }
     // Strip query/fragment
     const auto q = url.find_first_of("?#", path_start);
-    if (q == std::string::npos) return url.substr(path_start);
+    if (q == std::string::npos) {
+      return url.substr(path_start);
+    }
     return url.substr(path_start, q - path_start);
 }
 
 /*static*/ std::string extractScheme(const std::string& url) {
     const auto sep = url.find("://");
-    if (sep == std::string::npos) return "https";
+    if (sep == std::string::npos) {
+      return "https";
+    }
     return url.substr(0, sep);
 }
 
@@ -85,7 +97,9 @@ std::string trim(const std::string& s) {
 
     while (std::getline(ss, line)) {
         // Strip carriage-return in CRLF files
-        if (!line.empty() && line.back() == '\r') line.pop_back();
+        if (!line.empty() && line.back() == '\r') {
+          line.pop_back();
+        }
 
         line = trim(line);
 
@@ -95,11 +109,15 @@ std::string trim(const std::string& s) {
             continue;
         }
         // Comment line
-        if (line[0] == '#') continue;
+        if (line[0] == '#') {
+          continue;
+        }
 
         // Find colon separator
         const auto colon = line.find(':');
-        if (colon == std::string::npos) continue;
+        if (colon == std::string::npos) {
+          continue;
+        }
 
         const std::string key   = toLower(trim(line.substr(0, colon)));
         const std::string value = trim(line.substr(colon + 1));

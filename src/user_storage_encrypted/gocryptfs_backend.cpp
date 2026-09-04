@@ -187,15 +187,25 @@ inline std::string generateCorrelationId() {
     
     std::stringstream ss;
     ss << std::hex;
-    for (int i = 0; i < 8; ++i) ss << dis(gen);
+    for (int i = 0; i < 8; ++i) {
+      ss << dis(gen);
+    }
     ss << "-";
-    for (int i = 0; i < 4; ++i) ss << dis(gen);
+    for (int i = 0; i < 4; ++i) {
+      ss << dis(gen);
+    }
     ss << "-";
-    for (int i = 0; i < 4; ++i) ss << dis(gen);
+    for (int i = 0; i < 4; ++i) {
+      ss << dis(gen);
+    }
     ss << "-";
-    for (int i = 0; i < 4; ++i) ss << dis(gen);
+    for (int i = 0; i < 4; ++i) {
+      ss << dis(gen);
+    }
     ss << "-";
-    for (int i = 0; i < 12; ++i) ss << dis(gen);
+    for (int i = 0; i < 12; ++i) {
+      ss << dis(gen);
+    }
     
     return ss.str();
 }
@@ -506,7 +516,9 @@ Result<void> GocryptfsBackend::deliverKeyViaStdin(
             return Result<void>::error("Failed to write key to stdin pipe");
         }
         if (n.value() < 0) {
-            if (errno == EINTR) continue;
+            if (errno == EINTR) {
+              continue;
+            }
             // Securely clear before returning error.
             secureZero(hex_key.data(), hex_key.size());
             return Result<void>::error("Failed to write key to stdin pipe");
@@ -777,7 +789,9 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
             return Result<std::string>::error("Failed to write to stdin pipe");
         }
         if (written.value() < 0) {
-            if (errno == EINTR) continue;
+            if (errno == EINTR) {
+              continue;
+            }
             stdin_pipe.closeWrite();
             stdout_pipe.closeRead();
             waitpid(pid, nullptr, 0);

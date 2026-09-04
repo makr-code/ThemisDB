@@ -275,7 +275,9 @@ TEST(GenerateHeatmap, Normalize_MaxIsOne) {
     auto h = generateHeatmap(pts, bbox, cfg);
     float max_val = 0.0f;
     for (float v : h.data) {
-        if (!std::isnan(v) && v > max_val) max_val = v;
+        if (!std::isnan(v) && v > max_val) {
+          max_val = v;
+        }
     }
     EXPECT_NEAR(max_val, 1.0f, 1e-5f);
 }

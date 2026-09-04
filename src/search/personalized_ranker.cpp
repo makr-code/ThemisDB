@@ -85,11 +85,15 @@ double PersonalizedRanker::computeScoreUnlocked(
     std::chrono::system_clock::time_point now) const {
 
     auto it = history_.find(user_id);
-    if (it == history_.end()) return 0.0;
+    if (it == history_.end()) {
+      return 0.0;
+    }
 
     double score = 0.0;
     for (const auto& interaction : it->second) {
-        if (interaction.document_id != document_id) continue;
+        if (interaction.document_id != document_id) {
+          continue;
+        }
 
         double age_seconds = std::chrono::duration<double>(
             now - interaction.timestamp).count();
@@ -112,7 +116,9 @@ void PersonalizedRanker::applyPersonalization(
     std::vector<RankedResult>& candidates,
     std::chrono::system_clock::time_point now) const {
 
-    if (candidates.empty() || user_id.empty()) return;
+    if (candidates.empty() || user_id.empty()) {
+      return;
+    }
 
     std::lock_guard<std::mutex> lock(mu_);
     for (auto& candidate : candidates) {

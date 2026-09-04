@@ -93,26 +93,40 @@ public:
     bool load(const std::string& path) {
 #if defined(_WIN32)
         lib_ = LoadLibraryA(path.c_str());
-        if(!lib_) return false;
+        if(!lib_) {
+          return false;
+        }
         auto getFn = (CK_C_GetFunctionList)GetProcAddress((HMODULE)lib_, "C_GetFunctionList");
-        if(!getFn) return false;
+        if(!getFn) {
+          return false;
+        }
         CK_RV rv = getFn(&funcs_);
         return rv == CKR_OK && funcs_ && funcs_->C_Initialize(nullptr) == CKR_OK;
 #else
         lib_ = dlopen(path.c_str(), RTLD_NOW);
-        if(!lib_) return false;
+        if(!lib_) {
+          return false;
+        }
         auto getFn = (CK_C_GetFunctionList)dlsym(lib_, "C_GetFunctionList");
-        if(!getFn) return false;
+        if(!getFn) {
+          return false;
+        }
         CK_RV rv = getFn(&funcs_);
         return rv == CKR_OK && funcs_ && funcs_->C_Initialize(nullptr) == CKR_OK;
 #endif
     }
     void unload() {
-        if(funcs_) funcs_->C_Finalize(nullptr);
+        if(funcs_) {
+          funcs_->C_Finalize(nullptr);
+        }
 #if defined(_WIN32)
-        if(lib_) FreeLibrary((HMODULE)lib_);
+        if(lib_) {
+          FreeLibrary((HMODULE)lib_);
+        }
 #else
-        if(lib_) dlclose(lib_);
+        if(lib_) {
+          dlclose(lib_);
+        }
 #endif
         lib_ = nullptr; funcs_ = nullptr;
     }
@@ -124,7 +138,9 @@ private:
 
 // Base64 encoding using OpenSSL
 static std::string toBase64(const std::vector<uint8_t>& data) {
-    if(data.empty()) return "";
+    if(data.empty()) {
+      return "";
+    }
     // EVP_EncodeBlock adds null terminator and pads with '='
     size_t outLen = ((data.size() + 2) / 3) * 4;
     std::vector<unsigned char> encoded(outLen + 1);
@@ -140,7 +156,9 @@ static std::vector<uint8_t> fromBase64(const std::string& b64) {
     int len = EVP_DecodeBlock(decoded.data(), (const unsigned char*)b64.data(), (int)b64.size());
     if(len < 0) return {}; // Decoding error
     // Remove padding bytes
-    while(len > 0 && b64[b64.size() - (outLen - len)] == '=') --len;
+    while(len > 0 && b64[b64.size() - (outLen - len)] == '=') {
+      --len;
+    }
     decoded.resize(len);
     return decoded;
 }
@@ -161,9 +179,13 @@ static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& 
         EVP_EncryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv.data()) == 1 &&
         EVP_EncryptUpdate(ctx.get(), ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
     ct_len = len;
-    if (ok) ok = EVP_EncryptFinal_ex(ctx.get(), ciphertext.data() + len, &len) == 1;
+    if (ok) {
+      ok = EVP_EncryptFinal_ex(ctx.get(), ciphertext.data() + len, &len) == 1;
+    }
     ct_len += len;
-    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
+    if (ok) {
+      ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
+    }
     if (!ok) return {};
     ciphertext.resize(ct_len);
     std::vector<uint8_t> result;
@@ -190,8 +212,12 @@ static std::vector<uint8_t> pkcs11_stub_aes_decrypt(const std::vector<uint8_t>& 
         EVP_DecryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv) == 1 &&
         EVP_DecryptUpdate(ctx.get(), plaintext.data(), &len, ct, (int)ct_len) == 1;
     pt_len = len;
-    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
-    if (ok) ok = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len) > 0;
+    if (ok) {
+      ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
+    }
+    if (ok) {
+      ok = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len) > 0;
+    }
     if (!ok) return {};
     plaintext.resize(pt_len);
     return plaintext;
@@ -282,7 +308,9 @@ static CK_SLOT_ID selectSlot(
     if (!token_label.empty() && api && api->C_GetTokenInfo) {
         for (CK_SLOT_ID slot : slots) {
             CK_TOKEN_INFO info{};
-            if (api->C_GetTokenInfo(slot, &info) != CKR_OK) continue;
+            if (api->C_GetTokenInfo(slot, &info) != CKR_OK) {
+              continue;
+            }
             // PKCS#11 labels are exactly 32 bytes, blank-padded, no null terminator.
             // Comparison is case-sensitive per PKCS#11 v2.20 §9.2 (labels are opaque
             // UTF-8 sequences). Ensure HSMConfig::token_label matches the exact
@@ -318,7 +346,9 @@ static CK_SLOT_ID selectSlot(
 
 bool HSMProvider::initialize(){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if(initialized_) return true;
+    if(initialized_) {
+      return true;
+    }
     // Attempt real PKCS#11
     if(!config_.library_path.empty() && impl_->loader.load(config_.library_path)){
         auto api = impl_->loader.api();
@@ -347,7 +377,9 @@ bool HSMProvider::initialize(){
                     std::string pin = config_.pin;
                     if(pin.empty()){
                         const char* envPin = std::getenv("THEMIS_HSM_PIN");
-                        if(envPin) pin = envPin;
+                        if(envPin) {
+                          pin = envPin;
+                        }
                     }
                     
                     uint32_t poolSize = config_.session_pool_size;
@@ -404,7 +436,9 @@ bool HSMProvider::initialize(){
                     if(!impl_->real_ready){
                         std::string err = "No private key found in any pool session – "
                                          "check key_label='" + config_.key_label + "'";
-                        if (last_error_.empty()) last_error_ = err;
+                        if (last_error_.empty()) {
+                          last_error_ = err;
+                        }
                         impl_->fallbackLogOnce(err);
                     }
                     if(pin.empty()){
@@ -465,7 +499,9 @@ bool HSMProvider::initialize(){
 
 void HSMProvider::finalize(){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if(!initialized_) return;
+    if(!initialized_) {
+      return;
+    }
     if(impl_->real_ready && impl_->loader.api()){
         auto api = impl_->loader.api();
         // Close all sessions in the pool
@@ -610,7 +646,9 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
 HSMProvider::SessionEntry* HSMProvider::acquireSession(){
     // Lock-free round-robin selection: find next ready session
     uint32_t poolSize = impl_->pool.size();
-    if(poolSize == 0) return nullptr;
+    if(poolSize == 0) {
+      return nullptr;
+    }
     
     // Try up to poolSize iterations to find ready session
     for(uint32_t attempt = 0; attempt < poolSize; ++attempt){
@@ -764,7 +802,9 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
         }
         if (bridge) {
             bool result = bridge(data, signature_b64, key_label.empty() ? config_.key_label : key_label);
-            if(result) impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+            if(result) {
+              impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+            }
             else impl_->verify_errors.fetch_add(1, std::memory_order_relaxed);
             auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
                 std::chrono::high_resolution_clock::now() - startTime).count();
@@ -774,7 +814,9 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
         // Fallback: verify by comparing Base64-encoded hash
         auto expected = toBase64(sha256(data));
         bool result = (expected == signature_b64);
-        if(result) impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+        if(result) {
+          impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+        }
         else impl_->verify_errors.fetch_add(1, std::memory_order_relaxed);
         auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - startTime).count();
@@ -807,7 +849,9 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
     }
     CK_RV rv = api->C_Verify(sess->handle, (CK_BYTE_PTR)input.data(), (uint32_t)input.size(), (CK_BYTE_PTR)sig.data(), (uint32_t)sig.size());
     bool result = (rv == CKR_OK);
-    if(result) impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+    if(result) {
+      impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+    }
     else impl_->verify_errors.fetch_add(1, std::memory_order_relaxed);
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::high_resolution_clock::now() - startTime).count();
@@ -835,7 +879,9 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
         }
         // Fallback: AES-256-GCM with stub KEK
         auto result = pkcs11_stub_aes_encrypt(impl_->stub_kek, data);
-        if (result.empty()) last_error_ = "Stub AES encrypt failed";
+        if (result.empty()) {
+          last_error_ = "Stub AES encrypt failed";
+        }
         return result;
     }
     auto api = impl_->loader.api();
@@ -885,7 +931,9 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
         }
         // Fallback: AES-256-GCM with stub KEK
         auto result = pkcs11_stub_aes_decrypt(impl_->stub_kek, encrypted);
-        if (result.empty()) last_error_ = "Stub AES decrypt failed (bad ciphertext or mismatched key)";
+        if (result.empty()) {
+          last_error_ = "Stub AES decrypt failed (bad ciphertext or mismatched key)";
+        }
         return result;
     }
     auto api = impl_->loader.api();
@@ -936,7 +984,9 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
     }
     
     auto api = impl_->loader.api();
-    if(!api) return false;
+    if(!api) {
+      return false;
+    }
     
     // Get first ready session
     auto sess = acquireSession();
@@ -1020,7 +1070,9 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     }
     
     auto api = impl_->loader.api();
-    if(!api) return false;
+    if(!api) {
+      return false;
+    }
     
     // Get first ready session
     auto sess = acquireSession();
@@ -1154,10 +1206,16 @@ std::optional<std::string> HSMProvider::getCertificate(const std::string& key_la
     CK_ATTRIBUTE valAttr; valAttr.type = CKA_VALUE; valAttr.pValue = nullptr; valAttr.ulValueLen = 0;
     // Zertifikat aus erster Session mit certObj
     HSMProvider::SessionEntry* sess = nullptr; for(auto& s: impl_->pool){ if(s.certObj){ sess=&s; break; } }
-    if(!sess) return std::nullopt;
-    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK || valAttr.ulValueLen==0) return std::nullopt;
+    if(!sess) {
+      return std::nullopt;
+    }
+    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK || valAttr.ulValueLen==0) {
+      return std::nullopt;
+    }
     std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue = der.data();
-    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK) return std::nullopt;
+    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK) {
+      return std::nullopt;
+    }
     const unsigned char* p = der.data(); X509* x = d2i_X509(nullptr, &p, der.size()); if(!x) return std::nullopt;
     BIO* mem = BIO_new(BIO_s_mem());
     PEM_write_bio_X509(mem, x);
@@ -1171,7 +1229,9 @@ std::optional<std::string> HSMProvider::getCertificate(const std::string& key_la
 bool HSMProvider::isReady() const { return impl_->real_ready || initialized_; }
 
 std::string HSMProvider::getTokenInfo() const {
-    if (!impl_->real_ready) return "PKCS11 fallback stub";
+    if (!impl_->real_ready) {
+      return "PKCS11 fallback stub";
+    }
     std::ostringstream oss;
     oss << "PKCS11 real session active (slot=" << config_.slot_id;
     if (!config_.token_label.empty()) {
@@ -1214,7 +1274,9 @@ bool HSMProvider::isStubProvider() const {
 void HSMProvider::periodicSecurityCheck() {
     std::lock_guard<std::mutex> lock(impl_->mtx);
     
-    if (!initialized_) return;
+    if (!initialized_) {
+      return;
+    }
     
     // If using stub fallback (no real HSM), log security warning
     if (!impl_->real_ready) {

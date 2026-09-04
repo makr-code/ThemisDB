@@ -180,7 +180,9 @@ CompressionMethod CompressionStrategyManager::select_method(
 }
 
 DataType CompressionStrategyManager::detect_data_type(const uint8_t* data, size_t size) {
-    if (size == 0) return DataType::GENERIC;
+    if (size == 0) {
+      return DataType::GENERIC;
+    }
     
     // Check if mostly text
     if (is_mostly_text(data, size)) {
@@ -219,7 +221,9 @@ bool CompressionStrategyManager::is_sparse_data(const uint8_t* data, size_t size
     size_t sample_size = std::min(size, size_t(1024));
     
     for (size_t i = 0; i < sample_size; ++i) {
-        if (data[i] == 0) ++zeros;
+        if (data[i] == 0) {
+          ++zeros;
+        }
     }
     
     return (static_cast<float>(zeros) / sample_size) > config_.sparse_threshold;
@@ -489,7 +493,9 @@ uint32_t RLECodec::decode_varint(const uint8_t*& ptr) {
     while (true) {
         uint8_t byte = *ptr++;
         result |= static_cast<uint32_t>(byte & 0x7F) << shift;
-        if ((byte & 0x80) == 0) break;
+        if ((byte & 0x80) == 0) {
+          break;
+        }
         shift += 7;
     }
     
@@ -546,7 +552,9 @@ std::vector<uint8_t> RLECodec::decompress(const std::vector<uint8_t>& data) {
         if (ptr + 1 >= end) break;  // Need at least count + value
         
         uint32_t count = decode_varint(ptr);
-        if (ptr >= end) break;
+        if (ptr >= end) {
+          break;
+        }
         
         uint8_t value = *ptr++;
         

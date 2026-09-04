@@ -213,8 +213,12 @@ TEST(ModelServingEngine, ListModelsReturnsMeta) {
     bool found_churn   = false;
     bool found_revenue = false;
     for (const auto& mi : list) {
-        if (mi.name == "churn"   && mi.version == "v1") found_churn   = true;
-        if (mi.name == "revenue" && mi.version == "v1") found_revenue = true;
+        if (mi.name == "churn"   && mi.version == "v1") {
+          found_churn   = true;
+        }
+        if (mi.name == "revenue" && mi.version == "v1") {
+          found_revenue = true;
+        }
     }
     EXPECT_TRUE(found_churn);
     EXPECT_TRUE(found_revenue);
@@ -326,7 +330,9 @@ TEST(ModelServingEngine, PredictProbaClassificationShape) {
     for (const auto& pm : proba) {
         EXPECT_FALSE(pm.empty());
         double total = 0.0;
-        for (const auto& [lbl, p] : pm) total += p;
+        for (const auto& [lbl, p] : pm) {
+          total += p;
+        }
         EXPECT_NEAR(total, 1.0, 0.01);
     }
 }
@@ -407,7 +413,9 @@ TEST(ModelServingEngine, HealthMetricsLatencyTracked) {
     DataPoint dp;
     dp.set("x1", 0.1);
     dp.set("x2", 0.2);
-    for (int i = 0; i < 5; ++i) engine.predict("cls", "v1", dp);
+    for (int i = 0; i < 5; ++i) {
+      engine.predict("cls", "v1", dp);
+    }
 
     auto h = engine.healthMetrics("cls", "v1");
     ASSERT_TRUE(h.has_value());
@@ -535,7 +543,9 @@ TEST(ModelServingEngine, ConcurrentReadsAreThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     auto h = engine.healthMetrics("cls", "v1");
     ASSERT_TRUE(h.has_value());
@@ -580,7 +590,9 @@ TEST(ModelServingEngine, PredictReleasesRegistryLockBeforeInference) {
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
     engine.unregisterModel("cls", "v1");
 
-    for (auto& th : readers) th.join();
+    for (auto& th : readers) {
+      th.join();
+    }
     // Engine must still be usable after the concurrent unregister.
     EXPECT_FALSE(engine.isRegistered("cls", "v1"));
 }
@@ -630,7 +642,9 @@ TEST(ModelServingEngine, ConcurrentPredictThroughputBenchmark) {
             total_preds.fetch_add(local, std::memory_order_relaxed);
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     double elapsed_s = std::chrono::duration<double>(
         std::chrono::steady_clock::now() - wall_start).count();

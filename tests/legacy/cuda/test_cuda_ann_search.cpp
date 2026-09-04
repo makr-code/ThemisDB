@@ -247,7 +247,9 @@ static themis::HnswLayerGraph makeTestFullGraph(uint32_t num_nodes) {
     g.offsets[0] = 0;
     for (uint32_t i = 0; i < num_nodes; ++i) {
         for (uint32_t j = 0; j < num_nodes; ++j) {
-            if (j != i) g.neighbours.push_back(static_cast<int32_t>(j));
+            if (j != i) {
+              g.neighbours.push_back(static_cast<int32_t>(j));
+            }
         }
         g.offsets[i + 1] = static_cast<int32_t>(g.neighbours.size());
     }

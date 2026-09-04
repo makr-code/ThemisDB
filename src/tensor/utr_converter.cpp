@@ -181,10 +181,14 @@ static std::vector<std::string> splitParagraphs(const std::string& text) {
         const auto pos = text.find("\n\n", start);
         const auto end = (pos == std::string::npos) ? text.size() : pos;
         const auto seg = text.substr(start, end - start);
-        if (!seg.empty()) segments.push_back(seg);
+        if (!seg.empty()) {
+          segments.push_back(seg);
+        }
         start = (pos == std::string::npos) ? text.size() : (pos + 2U);
     }
-    if (segments.empty()) segments.push_back(text);
+    if (segments.empty()) {
+      segments.push_back(text);
+    }
     return segments;
 }
 
@@ -197,16 +201,24 @@ static std::vector<std::string> splitSentences(const std::string& text) {
             (i + 1 >= text.size() || text[i + 1] == ' ' || text[i + 1] == '\n'))
         {
             const auto seg = text.substr(start, i + 1 - start);
-            if (!seg.empty()) segments.push_back(seg);
+            if (!seg.empty()) {
+              segments.push_back(seg);
+            }
             start = i + 1;
-            while (start < text.size() && text[start] == ' ') ++start;
+            while (start < text.size() && text[start] == ' ') {
+              ++start;
+            }
         }
     }
     if (start < text.size()) {
         const auto seg = text.substr(start);
-        if (!seg.empty()) segments.push_back(seg);
+        if (!seg.empty()) {
+          segments.push_back(seg);
+        }
     }
-    if (segments.empty()) segments.push_back(text);
+    if (segments.empty()) {
+      segments.push_back(text);
+    }
     return segments;
 }
 
@@ -318,7 +330,9 @@ static std::vector<float> lexicalEmbed(const std::string& segment,
         std::string raw;
         while (iss >> raw) {
             auto tok = normalizeToken(std::move(raw));
-            if (!tok.empty()) tokens.push_back(std::move(tok));
+            if (!tok.empty()) {
+              tokens.push_back(std::move(tok));
+            }
         }
     }
 
@@ -345,10 +359,14 @@ static std::vector<float> lexicalEmbed(const std::string& segment,
 
     // L2 normalisation to unit length
     float norm_sq = 0.0f;
-    for (const auto v : vec) norm_sq += v * v;
+    for (const auto v : vec) {
+      norm_sq += v * v;
+    }
     if (norm_sq > 0.0f) {
         const float inv_norm = 1.0f / std::sqrt(norm_sq);
-        for (auto& v : vec) v *= inv_norm;
+        for (auto& v : vec) {
+          v *= inv_norm;
+        }
     }
     return vec;
 }

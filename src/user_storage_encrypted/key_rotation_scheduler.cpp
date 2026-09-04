@@ -252,10 +252,14 @@ int64_t KeyRotationScheduler::getCurrentTimeMs() const {
 // ---------------------------------------------------------------------------
 
 void KeyRotationScheduler::persistRotationState(SecurityLevel level) {
-    if (!impl_->store) return;
+    if (!impl_->store) {
+      return;
+    }
 
     auto it = impl_->schedules.find(level);
-    if (it == impl_->schedules.end()) return;
+    if (it == impl_->schedules.end()) {
+      return;
+    }
 
     const auto& sched = it->second;
     nlohmann::json j;
@@ -268,15 +272,21 @@ void KeyRotationScheduler::persistRotationState(SecurityLevel level) {
 }
 
 void KeyRotationScheduler::loadRotationState(SecurityLevel level) {
-    if (!impl_->store) return;
+    if (!impl_->store) {
+      return;
+    }
 
     auto it = impl_->schedules.find(level);
-    if (it == impl_->schedules.end()) return;
+    if (it == impl_->schedules.end()) {
+      return;
+    }
 
     const std::string key =
         "user_storage:rotation_state:" + securityLevelToString(level);
     std::string json_value;
-    if (!impl_->store->get(key, json_value)) return;
+    if (!impl_->store->get(key, json_value)) {
+      return;
+    }
 
     try {
         auto j = nlohmann::json::parse(json_value);

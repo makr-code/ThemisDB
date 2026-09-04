@@ -155,7 +155,9 @@ TEST_F(OptimizerPhase3Test, Metrics_ErrorRateIsZeroOnSuccess) {
 TEST_F(OptimizerPhase3Test, Metrics_LatencyHistogramRecordsData) {
     GraphQueryOptimizer::QueryConstraints c;
     c.max_depth = 3;
-    for (int i = 0; i < 5; ++i) opt_->executeBFS("A", 3, c);
+    for (int i = 0; i < 5; ++i) {
+      opt_->executeBFS("A", 3, c);
+    }
     const auto& m   = opt_->getQueryMetrics();
     const double p50 = m.latency_histogram.percentileMs(0.50);
     EXPECT_GE(p50, 0.0);
@@ -213,7 +215,9 @@ TEST_F(OptimizerPhase3Test, Calibration_ReportFromEmptyHistory) {
 TEST_F(OptimizerPhase3Test, Calibration_ReportPopulatedAfterExecution) {
     GraphQueryOptimizer::QueryConstraints c;
     c.max_depth = 3;
-    for (int i = 0; i < 4; ++i) opt_->executeBFS("A", 3, c);
+    for (int i = 0; i < 4; ++i) {
+      opt_->executeBFS("A", 3, c);
+    }
     const auto report = opt_->calibrateFromHistory();
     EXPECT_GE(report.total_samples, 1u);
 }
@@ -313,13 +317,17 @@ TEST(GraphAdvancedCostModelTest, FirstObservationSetsEMA) {
 
 TEST(GraphAdvancedCostModelTest, EMAConvergesOverTime) {
     GraphAdvancedCostModel m;
-    for (int i = 0; i < 50; ++i) m.observe(10.0);
+    for (int i = 0; i < 50; ++i) {
+      m.observe(10.0);
+    }
     EXPECT_NEAR(10.0, m.emaCostMs(), 0.5);
 }
 
 TEST(GraphAdvancedCostModelTest, ConfidenceGrowsToOne) {
     GraphAdvancedCostModel m;
-    for (int i = 0; i < 100; ++i) m.observe(1.0);
+    for (int i = 0; i < 100; ++i) {
+      m.observe(1.0);
+    }
     EXPECT_NEAR(1.0, m.confidence(), 1e-6);
 }
 
@@ -331,20 +339,26 @@ TEST(GraphAdvancedCostModelTest, BlendedEstimateUsesTheoryWhenNoData) {
 
 TEST(GraphAdvancedCostModelTest, BlendedEstimateUsesEMAWhenConfident) {
     GraphAdvancedCostModel m;
-    for (int i = 0; i < 100; ++i) m.observe(10.0);
+    for (int i = 0; i < 100; ++i) {
+      m.observe(10.0);
+    }
     // confidence ≈ 1 → blended ≈ ema = 10
     EXPECT_NEAR(10.0, m.blendedEstimate(999.0), 0.1);
 }
 
 TEST(GraphAdvancedCostModelTest, P99LessThanOrEqualP50PlusSlack) {
     GraphAdvancedCostModel m;
-    for (int i = 0; i < 100; ++i) m.observe(5.0);
+    for (int i = 0; i < 100; ++i) {
+      m.observe(5.0);
+    }
     EXPECT_LE(m.p50Ms(), m.p99Ms() + 1.0);
 }
 
 TEST(GraphAdvancedCostModelTest, ResetClearsAllState) {
     GraphAdvancedCostModel m;
-    for (int i = 0; i < 10; ++i) m.observe(100.0);
+    for (int i = 0; i < 10; ++i) {
+      m.observe(100.0);
+    }
     m.reset();
     EXPECT_EQ(0.0, m.emaCostMs());
     EXPECT_EQ(0u,  m.execCount());

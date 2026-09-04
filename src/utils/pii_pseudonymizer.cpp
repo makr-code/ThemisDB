@@ -69,7 +69,9 @@ std::string PIIPseudonymizer::generateUUID() const {
     oss << std::hex << std::setfill('0');
     
     for (int i = 0; i < 16; ++i) {
-        if (i == 4 || i == 6 || i == 8 || i == 10) oss << '-';
+        if (i == 4 || i == 6 || i == 8 || i == 10) {
+          oss << '-';
+        }
         oss << std::setw(2) << static_cast<int>(bytes[i]);
     }
     
@@ -197,7 +199,9 @@ bool PIIPseudonymizer::erasePII(const std::string& pii_uuid) {
     // Use short-lived transaction for read-check + delete to avoid conflicts
     for (int attempt = 0; attempt < 3; ++attempt) {
         auto txn = db_->beginTransaction();
-        if (!txn) return false;
+        if (!txn) {
+          return false;
+        }
         auto mapping_opt = txn->get(dbKey(pii_uuid));
         if (!mapping_opt) {
             txn->rollback();
@@ -244,7 +248,9 @@ bool PIIPseudonymizer::softDeletePII(const std::string& pii_uuid, const std::str
     // Use transactional read-modify-write with small retry loop
     for (int attempt = 0; attempt < 3; ++attempt) {
         auto txn = db_->beginTransaction();
-        if (!txn) return false;
+        if (!txn) {
+          return false;
+        }
         auto mapping_opt = txn->get(dbKey(pii_uuid));
         if (!mapping_opt) {
             txn->rollback();

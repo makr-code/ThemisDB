@@ -70,9 +70,13 @@ protected:
         f << "name: \"" << id << " school\"\n";
         f << "taxonomy_class: " << tax_class << "\n";
         f << "tags:\n";
-        for (const auto& t : tags) f << "  - " << t << "\n";
+        for (const auto& t : tags) {
+          f << "  - " << t << "\n";
+        }
         f << "applicable_domains:\n";
-        for (const auto& d : domains) f << "  - " << d << "\n";
+        for (const auto& d : domains) {
+          f << "  - " << d << "\n";
+        }
         f << "description: |\n  A test profile for " << id << ".\n";
         f << "main_theses: []\n";
         f << "secondary_theses: []\n";

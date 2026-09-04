@@ -53,7 +53,9 @@ size_t countMatching(const std::string& path, const std::string& substr) {
     size_t count = 0;
     std::string line;
     while (std::getline(f, line)) {
-        if (!line.empty() && line.find(substr) != std::string::npos) ++count;
+        if (!line.empty() && line.find(substr) != std::string::npos) {
+          ++count;
+        }
     }
     return count;
 }

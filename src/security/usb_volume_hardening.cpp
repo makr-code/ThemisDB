@@ -164,15 +164,23 @@ bool USBVolumeHardening::isMountedReadOnly(const std::string& mount_path) {
     while (std::getline(mounts, line)) {
         std::istringstream iss(line);
         std::string dev, mp, fstype, options;
-        if (!(iss >> dev >> mp >> fstype >> options)) continue;
-        if (mp != mount_path) continue;
+        if (!(iss >> dev >> mp >> fstype >> options)) {
+          continue;
+        }
+        if (mp != mount_path) {
+          continue;
+        }
 
         // Options are comma-separated; "ro" means read-only, "rw" means read-write.
         std::istringstream opts(options);
         std::string opt;
         while (std::getline(opts, opt, ',')) {
-            if (opt == "ro") return true;
-            if (opt == "rw") return false;
+            if (opt == "ro") {
+              return true;
+            }
+            if (opt == "rw") {
+              return false;
+            }
         }
         // If neither "ro" nor "rw" found, treat as read-write (safe default).
         return false;
@@ -218,7 +226,9 @@ std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path
     while (std::getline(mounts, line)) {
         std::istringstream iss(line);
         std::string dev, mp;
-        if (!(iss >> dev >> mp)) continue;
+        if (!(iss >> dev >> mp)) {
+          continue;
+        }
         if (mp == mount_path) {
             device = dev;
             break;

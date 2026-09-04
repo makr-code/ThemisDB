@@ -139,22 +139,30 @@ std::vector<std::pair<std::string, std::string>> ScraperPlugin::collectSeeds() c
     } else {
         if (gs.bund_enabled) {
             for (const auto* s : gov_catalog_.byType(GovSourceType::BUND))
-                if (s->enabled) gov_sources.push_back(s);
+                if (s->enabled) {
+                  gov_sources.push_back(s);
+                }
         }
         if (gs.bundeslaender_enabled) {
             for (const auto* s : gov_catalog_.byType(GovSourceType::BUNDESLAND))
-                if (s->enabled) gov_sources.push_back(s);
+                if (s->enabled) {
+                  gov_sources.push_back(s);
+                }
         }
         if (gs.eu_enabled) {
             for (const auto* s : gov_catalog_.byType(GovSourceType::EU))
-                if (s->enabled) gov_sources.push_back(s);
+                if (s->enabled) {
+                  gov_sources.push_back(s);
+                }
         }
     }
 
     for (const auto* src : gov_sources) {
         const std::string& url = src->search_url.empty()
                                ? src->base_url : src->search_url;
-        if (!url.empty()) seeds.emplace_back(url, src->id);
+        if (!url.empty()) {
+          seeds.emplace_back(url, src->id);
+        }
     }
 
     return seeds;
@@ -221,7 +229,9 @@ std::string ScraperPlugin::fetchPage(const std::string& url) const {
             } else {
                 // Skip script/style content
                 const std::string name = child.name();
-                if (name != "script" && name != "style") walk(child);
+                if (name != "script" && name != "style") {
+                  walk(child);
+                }
             }
         }
     };
@@ -248,7 +258,9 @@ std::string ScraperPlugin::fetchPage(const std::string& url) const {
             continue;
         }
         if (html[i] == '>') { in_tag = false; out += ' '; continue; }
-        if (!in_tag && !in_script) out += html[i];
+        if (!in_tag && !in_script) {
+          out += html[i];
+        }
     }
     return out;
 #endif
@@ -271,7 +283,9 @@ std::string ScraperPlugin::fetchPage(const std::string& url) const {
     cfg.page_size    = src.results_per_page;
     if (!src.api_key_env.empty()) {
         const char* key = std::getenv(src.api_key_env.c_str());
-        if (key) cfg.headers["Authorization"] = std::string("Bearer ") + key;
+        if (key) {
+          cfg.headers["Authorization"] = std::string("Bearer ") + key;
+        }
     }
     for (const auto& kv : src.extra_params)
         cfg.headers[kv.first] = kv.second;
@@ -357,11 +371,17 @@ void ScraperPlugin::runSearchLoop(
         const std::string& page_html,
         const std::string& source_name,
         const std::string& gov_source_id) {
-    if (!config_.search_options.enabled) return;
-    if (!search_engine_) return;
+    if (!config_.search_options.enabled) {
+      return;
+    }
+    if (!search_engine_) {
+      return;
+    }
 
     const auto forms = search_engine_->discoverForms(page_html, seed_url);
-    if (forms.empty()) return;
+    if (forms.empty()) {
+      return;
+    }
 
     const auto& form = forms.front(); // use first discovered form
     const auto queries = config_.effectiveSearchQueries();
@@ -371,7 +391,9 @@ void ScraperPlugin::runSearchLoop(
     for (const auto& query : queries) {
         for (int pg = 1; pg <= max_pages; ++pg) {
             const std::string search_url = search_engine_->buildSearchUrl(form, query, pg);
-            if (!policy.isAllowed(search_url)) break;
+            if (!policy.isAllowed(search_url)) {
+              break;
+            }
 
             // Polite delay
             if (pg > 1 && config_.crawl_options.request_delay_ms > 0) {
@@ -394,7 +416,9 @@ void ScraperPlugin::runSearchLoop(
                 result_html = fetchPage(search_url);
             }
 
-            if (result_html.empty()) break;
+            if (result_html.empty()) {
+              break;
+            }
             ++stats_.result_pages_parsed;
 
             const SearchResultPage result_page =
@@ -404,7 +428,9 @@ void ScraperPlugin::runSearchLoop(
 
             // Process each result item
             for (const auto& item : result_page.items) {
-                if (item.url.empty() || !policy.isAllowed(item.url)) continue;
+                if (item.url.empty() || !policy.isAllowed(item.url)) {
+                  continue;
+                }
                 if (config_.crawl_options.request_delay_ms > 0) {
                     std::this_thread::sleep_for(
                         std::chrono::milliseconds(config_.crawl_options.request_delay_ms));
@@ -417,7 +443,9 @@ void ScraperPlugin::runSearchLoop(
                     jreq.url        = item.url;
                     jreq.timeout_ms = config_.crawl_options.js_timeout_ms;
                     const auto jres = js_renderer_->render(jreq);
-                    if (jres.success) doc_html = jres.html;
+                    if (jres.success) {
+                      doc_html = jres.html;
+                    }
                 } else {
                     doc_html = fetchPage(item.url);
                 }
@@ -430,7 +458,9 @@ void ScraperPlugin::runSearchLoop(
             }
 
             ++stats_.forms_submitted;
-            if (!result_page.has_more || result_page.next_page_url.empty()) break;
+            if (!result_page.has_more || result_page.next_page_url.empty()) {
+              break;
+            }
         }
     }
 }
@@ -443,7 +473,9 @@ void ScraperPlugin::runApiLoop(
         const std::string& endpoint_url,
         const std::string& source_name,
         const std::string& gov_source_id) {
-    if (!api_client_) return;
+    if (!api_client_) {
+      return;
+    }
 
     ApiEndpointConfig cfg;
     cfg.url = endpoint_url;
@@ -461,7 +493,9 @@ void ScraperPlugin::runApiLoop(
         const auto results = api_client_->fetchAll(cfg, query);
         stats_.api_pages_fetched += static_cast<int>(results.size());
         for (const auto& r : results) {
-            if (!policy.isAllowed(r.url) && r.url != endpoint_url) continue;
+            if (!policy.isAllowed(r.url) && r.url != endpoint_url) {
+              continue;
+            }
             ++stats_.docs_scraped;
             ++stats_.urls_visited;
             const EvaluationResult eval = evaluator_->evaluate(
@@ -491,7 +525,9 @@ void ScraperPlugin::runApiLoop(
                 const auto edges = ScraperRecordBuilder::buildEdges(rel, eval);
                 const auto vec   = ScraperRecordBuilder::buildVector(rel);
                 const WriteResult wr = writer_->write(rel, node, edges, vec);
-                if (wr.success) ++stats_.docs_written;
+                if (wr.success) {
+                  ++stats_.docs_written;
+                }
                 else            ++stats_.write_errors;
                 ++stats_.docs_accepted;
             } else {
@@ -514,7 +550,9 @@ void ScraperPlugin::runApiLoop(
 // ============================================================================
 
 ScraperRunStats ScraperPlugin::scrape() {
-    if (!initialized_) throw std::runtime_error("ScraperPlugin not initialized");
+    if (!initialized_) {
+      throw std::runtime_error("ScraperPlugin not initialized");
+    }
 
     std::lock_guard<std::mutex> lk(mutex_);
     const auto t0 = std::chrono::steady_clock::now();
@@ -538,7 +576,9 @@ ScraperRunStats ScraperPlugin::scrape() {
             : ([&]() {
                     // Extract hostname as source name
                     const std::size_t p = seed_url.find("://");
-                    if (p == std::string::npos) return seed_url;
+                    if (p == std::string::npos) {
+                      return seed_url;
+                    }
                     const std::size_t e = seed_url.find('/', p + 3);
                     return e != std::string::npos
                         ? seed_url.substr(p + 3, e - p - 3)
@@ -564,12 +604,16 @@ ScraperRunStats ScraperPlugin::scrape() {
             jreq.url        = seed_url;
             jreq.timeout_ms = config_.crawl_options.js_timeout_ms;
             const auto jres = js_renderer_->render(jreq);
-            if (jres.success) page_html = jres.html;
+            if (jres.success) {
+              page_html = jres.html;
+            }
         } else {
             page_html = fetchPage(seed_url);
         }
 
-        if (page_html.empty()) continue;
+        if (page_html.empty()) {
+          continue;
+        }
         ++stats_.urls_visited;
 
         // Search loop

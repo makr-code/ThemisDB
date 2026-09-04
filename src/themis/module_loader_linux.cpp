@@ -207,13 +207,17 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
         while (remaining >= sizeof(Elf64_Nhdr)) {
             Elf64_Nhdr nhdr = {};
             file.read(reinterpret_cast<char*>(&nhdr), sizeof(nhdr));
-            if (file.gcount() < static_cast<std::streamsize>(sizeof(nhdr))) break;
+            if (file.gcount() < static_cast<std::streamsize>(sizeof(nhdr))) {
+              break;
+            }
             remaining -= sizeof(nhdr);
 
             uint64_t nameSize = (nhdr.n_namesz + 3) & ~3u;
             uint64_t descSize = (nhdr.n_descsz + 3) & ~3u;
 
-            if (nameSize > remaining) break;
+            if (nameSize > remaining) {
+              break;
+            }
             uint32_t nameDataLen =
                 nhdr.n_namesz > 0 ? nhdr.n_namesz - 1 : 0;
             std::string name(nameDataLen, '\0');
@@ -223,7 +227,9 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                 static_cast<std::streamoff>(nameSize - nameDataLen));
             remaining -= nameSize;
 
-            if (descSize > remaining) break;
+            if (descSize > remaining) {
+              break;
+            }
             if (nhdr.n_type == NT_GNU_BUILD_ID && name == "GNU") {
                 std::string buildId(nhdr.n_descsz, '\0');
                 file.read(&buildId[0],
@@ -237,7 +243,9 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                     hexId += kHex[byte >> 4];
                     hexId += kHex[byte & 0xf];
                 }
-                if (!metadata.empty()) metadata += "; ";
+                if (!metadata.empty()) {
+                  metadata += "; ";
+                }
                 metadata += "BuildID=" + hexId;
                 // Skip remaining alignment padding
                 uint64_t padded = (nhdr.n_descsz + 3) & ~3u;
@@ -270,7 +278,9 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
         uint16_t shNum     = ehdr.e_shnum;
         uint16_t shStrIdx  = ehdr.e_shstrndx;
 
-        if (shOffset == 0 || shNum == 0) return;
+        if (shOffset == 0 || shNum == 0) {
+          return;
+        }
 
         file.seekg(static_cast<std::streamoff>(
             shOffset + static_cast<uint64_t>(shStrIdx) * shEntSize));
@@ -301,13 +311,17 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                 file.read(&comment[0],
                           static_cast<std::streamsize>(shdr.sh_size));
                 for (char& c : comment) {
-                    if (c == '\0') c = ' ';
+                    if (c == '\0') {
+                      c = ' ';
+                    }
                 }
                 while (!comment.empty() && comment.back() == ' ') {
                     comment.pop_back();
                 }
                 if (!comment.empty()) {
-                    if (!metadata.empty()) metadata += "; ";
+                    if (!metadata.empty()) {
+                      metadata += "; ";
+                    }
                     metadata += "Comment=" + comment;
                 }
             }

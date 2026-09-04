@@ -575,14 +575,18 @@ TEST_F(CdcWsGroupIntegrationTest, PartitionFilterDeliverOnlyConsumerEvents) {
     for (const auto& f : frames) {
         const std::string key    = f.value("key", std::string{});
         const std::string sub_id = f.value("sub_id", std::string{});
-        if (key.empty() || sub_id.empty()) continue;
+        if (key.empty() || sub_id.empty()) {
+          continue;
+        }
 
         // Derive expected partition for this key.
         const uint32_t key_part = themis::cdc::ConsumerGroupManager::partitionForKey(key, 2);
 
         // Determine which consumer this event was sent to.
         std::string consumer_in_sub;
-        if (sub_id == "split-group:worker-0") consumer_in_sub = "worker-0";
+        if (sub_id == "split-group:worker-0") {
+          consumer_in_sub = "worker-0";
+        }
         else if (sub_id == "split-group:worker-1") consumer_in_sub = "worker-1";
         else continue;  // Unrecognized subscription (skip)
 

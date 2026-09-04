@@ -64,7 +64,9 @@ public:
 
     bool hasProfile(const std::string& school_id) const override {
         for (const auto& m : schools_) {
-            if (m.school_id == school_id) return true;
+            if (m.school_id == school_id) {
+              return true;
+            }
         }
         return false;
     }

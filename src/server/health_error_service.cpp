@@ -217,7 +217,9 @@ http::response<http::string_body> HealthErrorService::handleRequest(
     // Parse query parameters
     auto parse_query = [](const std::string& query) -> json {
         json params = json::object();
-        if (query.empty()) return params;
+        if (query.empty()) {
+          return params;
+        }
         
         std::istringstream ss(query);
         std::string param;

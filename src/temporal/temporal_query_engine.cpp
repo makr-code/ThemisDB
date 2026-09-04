@@ -411,7 +411,9 @@ size_t QueryCache::size() const {
 namespace {
 /// Remove logically-deleted rows from a result set when include_deleted==false.
 void applyDeletedFilter(std::vector<VersionedDocument>& rows, bool include_deleted) {
-    if (include_deleted) return;
+    if (include_deleted) {
+      return;
+    }
     rows.erase(
         std::remove_if(rows.begin(), rows.end(),
             [](const VersionedDocument& v) {
@@ -535,8 +537,12 @@ bool documentsEqual(const Document& a,
         auto ib = b.find(f);
         const bool a_missing = (ia == a.end());
         const bool b_missing = (ib == b.end());
-        if (a_missing != b_missing) return false;
-        if (!a_missing && (*ia != *ib)) return false;
+        if (a_missing != b_missing) {
+          return false;
+        }
+        if (!a_missing && (*ia != *ib)) {
+          return false;
+        }
     }
     return true;
 }
@@ -596,7 +602,9 @@ std::vector<VersionedDocument> TemporalQueryEngine::sequencedDistinct(
     // Sort the global result by key, then sys_start for deterministic output.
     std::sort(result.begin(), result.end(),
               [](const VersionedDocument& a, const VersionedDocument& b) {
-                  if (a.key != b.key) return a.key < b.key;
+                  if (a.key != b.key) {
+                    return a.key < b.key;
+                  }
                   return a.sys_time.start < b.sys_time.start;
               });
 

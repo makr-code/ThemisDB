@@ -74,10 +74,16 @@ SVD1Result dominantSVD1(const std::vector<float>& M,
         }
         // normalise v
         float norm_v = 0.0f;
-        for (float x : res.v) norm_v += x * x;
+        for (float x : res.v) {
+          norm_v += x * x;
+        }
         norm_v = std::sqrt(norm_v);
-        if (norm_v < 1e-12f) break;
-        for (float& x : res.v) x /= norm_v;
+        if (norm_v < 1e-12f) {
+          break;
+        }
+        for (float& x : res.v) {
+          x /= norm_v;
+        }
 
         // u = M v
         for (size_t i = 0; i < rows; ++i) {
@@ -88,11 +94,17 @@ SVD1Result dominantSVD1(const std::vector<float>& M,
         }
         // normalise u
         float norm_u = 0.0f;
-        for (float x : res.u) norm_u += x * x;
+        for (float x : res.u) {
+          norm_u += x * x;
+        }
         norm_u = std::sqrt(norm_u);
-        if (norm_u < 1e-12f) break;
+        if (norm_u < 1e-12f) {
+          break;
+        }
         res.sigma = norm_u;
-        for (float& x : res.u) x /= norm_u;
+        for (float& x : res.u) {
+          x /= norm_u;
+        }
     }
     return res;
 }
@@ -113,7 +125,9 @@ void factoriseDeltaW(const std::vector<float>& dW,
 
     for (size_t r = 0; r < rank; ++r) {
         SVD1Result sv = dominantSVD1(residual, in_dim, out_dim);
-        if (sv.sigma < 1e-12f) break;
+        if (sv.sigma < 1e-12f) {
+          break;
+        }
 
         float sq_sigma = std::sqrt(sv.sigma * inv_scaling);
         // B[:, r] = u * sq_sigma
@@ -168,7 +182,9 @@ MergeLayerResult LoRAAdapterMerger::mergeLinear(
         }
         const LoRAWeightEntry& we = desc.adapter->getWeights(desc.layer_name);
         const size_t r_i    = we.rank;
-        if (r_i == 0) continue;
+        if (r_i == 0) {
+          continue;
+        }
 
         float sc_i = we.alpha / static_cast<float>(we.rank);
         auto dW_i = computeDeltaW(we.B, we.A, in_dim, out_dim, we.rank, sc_i);
@@ -223,7 +239,9 @@ MergeResult LoRAAdapterMerger::mergeLinearAll(
             descs.push_back({adapters[i], lname, weights[i]});
 
         auto lr = mergeLinear(descs, lname, in_dim, out_dim, output_rank, alpha);
-        if (lr.success) ++result.layers_merged;
+        if (lr.success) {
+          ++result.layers_merged;
+        }
         else ++result.layers_failed;
         result.layers.push_back(std::move(lr));
     }
@@ -280,10 +298,14 @@ MergeLayerResult LoRAAdapterMerger::mergeTIES(
 
         // Step 1: Trim – zero out values below threshold
         float max_abs = 0.0f;
-        for (float v : dW) max_abs = std::max(max_abs, std::abs(v));
+        for (float v : dW) {
+          max_abs = std::max(max_abs, std::abs(v));
+        }
         float thresh = trim_threshold * max_abs;
         for (float& v : dW)
-            if (std::abs(v) < thresh) v = 0.0f;
+            if (std::abs(v) < thresh) {
+              v = 0.0f;
+            }
 
         trimmed[ai] = std::move(dW);
     }
@@ -294,10 +316,14 @@ MergeLayerResult LoRAAdapterMerger::mergeTIES(
         int pos = 0, neg = 0;
         for (size_t ai = 0; ai < adapters.size(); ++ai) {
             float v = trimmed[ai][k];
-            if (v > 0.0f) ++pos;
+            if (v > 0.0f) {
+              ++pos;
+            }
             else if (v < 0.0f) ++neg;
         }
-        if (pos > neg)       resolved_sign[k] =  1.0f;
+        if (pos > neg) {
+          resolved_sign[k] =  1.0f;
+        }
         else if (neg > pos)  resolved_sign[k] = -1.0f;
         else                 resolved_sign[k] =  1.0f; // tie → positive
     }
@@ -309,7 +335,9 @@ MergeLayerResult LoRAAdapterMerger::mergeTIES(
     for (size_t ai = 0; ai < adapters.size(); ++ai) {
         for (size_t k = 0; k < N; ++k) {
             float v = trimmed[ai][k];
-            if (v == 0.0f) continue;
+            if (v == 0.0f) {
+              continue;
+            }
             // Keep only if same sign as resolved
             if ((resolved_sign[k] > 0.0f && v > 0.0f) ||
                 (resolved_sign[k] < 0.0f && v < 0.0f)) {
@@ -328,11 +356,15 @@ MergeLayerResult LoRAAdapterMerger::mergeTIES(
     // The standard TIES paper uses equal weights; here we respect them.
     // Compute weighted sum and renormalise.
     float total_w = 0.0f;
-    for (const auto& d : adapters) total_w += d.weight;
+    for (const auto& d : adapters) {
+      total_w += d.weight;
+    }
     if (total_w > 0.0f) {
         // Already averaged above; scale by mean weight to preserve magnitude
         float mean_w = total_w / static_cast<float>(adapters.size());
-        for (float& v : merged_dW) v *= mean_w;
+        for (float& v : merged_dW) {
+          v *= mean_w;
+        }
     }
 
     factoriseDeltaW(merged_dW, in_dim, out_dim, rank, scaling,
@@ -378,7 +410,9 @@ MergeResult LoRAAdapterMerger::mergeTIESAll(
 
         auto lr = mergeTIES(descs, lname, in_dim, out_dim, output_rank,
                             alpha, trim_threshold);
-        if (lr.success) ++result.layers_merged;
+        if (lr.success) {
+          ++result.layers_merged;
+        }
         else ++result.layers_failed;
         result.layers.push_back(std::move(lr));
     }
@@ -433,7 +467,9 @@ bool LoRAAdapterMerger::validateMergeResult(const MergeResult& result) const {
     
     // Check: each layer result that claims success should have valid matrices
     for (const auto& layer : result.layers) {
-        if (!layer.success) continue;
+        if (!layer.success) {
+          continue;
+        }
         
         // Basic sanity: matrices should not be empty
         if (layer.A.empty() || layer.B.empty()) {
@@ -442,10 +478,14 @@ bool LoRAAdapterMerger::validateMergeResult(const MergeResult& result) const {
         
         // Check for NaN/Inf values
         for (float val : layer.A) {
-            if (!std::isfinite(val)) return false;
+            if (!std::isfinite(val)) {
+              return false;
+            }
         }
         for (float val : layer.B) {
-            if (!std::isfinite(val)) return false;
+            if (!std::isfinite(val)) {
+              return false;
+            }
         }
     }
     

@@ -42,12 +42,24 @@ std::string TemporalMigrator::statusName(MigrationStatus s) {
 }
 
 std::string TemporalMigrator::inferType(const nlohmann::json& value) {
-    if (value.is_null())    return "null";
-    if (value.is_boolean()) return "boolean";
-    if (value.is_number())  return "number";
-    if (value.is_string())  return "string";
-    if (value.is_array())   return "array";
-    if (value.is_object())  return "object";
+    if (value.is_null()) {
+      return "null";
+    }
+    if (value.is_boolean()) {
+      return "boolean";
+    }
+    if (value.is_number()) {
+      return "number";
+    }
+    if (value.is_string()) {
+      return "string";
+    }
+    if (value.is_array()) {
+      return "array";
+    }
+    if (value.is_object()) {
+      return "object";
+    }
     return "unknown";
 }
 
@@ -62,7 +74,9 @@ std::vector<ColumnInfo> TemporalMigrator::inferColumns(
     std::unordered_map<std::string, FieldStats> field_map;
 
     for (const auto& [key, doc] : docs) {
-        if (!doc.is_object()) continue;
+        if (!doc.is_object()) {
+          continue;
+        }
         for (const auto& [field, val] : doc.items()) {
             auto& fs = field_map[field];
             fs.present_count++;
@@ -371,9 +385,13 @@ MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& ta
                     break;
                 }
             }
-            if (!r.passed) break;
+            if (!r.passed) {
+              break;
+            }
         }
-        if (r.passed) r.detail = "all versions in ascending sys_start order";
+        if (r.passed) {
+          r.detail = "all versions in ascending sys_start order";
+        }
         report.checks.push_back(r);
     }
 
@@ -394,9 +412,13 @@ MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& ta
                     break;
                 }
             }
-            if (!r.passed) break;
+            if (!r.passed) {
+              break;
+            }
         }
-        if (r.passed) r.detail = "no overlapping version periods detected";
+        if (r.passed) {
+          r.detail = "no overlapping version periods detected";
+        }
         report.checks.push_back(r);
     }
 
@@ -415,7 +437,9 @@ MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& ta
                 break;
             }
         }
-        if (r.passed) r.detail = "all current versions have open sys_time.end";
+        if (r.passed) {
+          r.detail = "all current versions have open sys_time.end";
+        }
         report.checks.push_back(r);
     }
 

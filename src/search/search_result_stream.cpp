@@ -127,7 +127,9 @@ void SearchResultStream::close() {
 // ============================================================================
 
 void SearchResultStream::forEachResult([[maybe_unused]] ResultCallback callback) {
-    if (!callback) return;
+    if (!callback) {
+      return;
+    }
     while (cursor_ < results_.size()) {
         try {
             if ([[maybe_unused]] !callback(results_[cursor_])) {

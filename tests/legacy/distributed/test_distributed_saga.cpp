@@ -170,7 +170,9 @@ TEST_F(DistributedSagaTest, SequentialAllStepsExecuted) {
     EXPECT_EQ(report.state, SagaExecutionState::COMPLETED);
     EXPECT_EQ(order.size(), 5u);
     // steps must be ordered 0,1,2,3,4
-    for (int i = 0; i < 5; ++i) EXPECT_EQ(order[i], i);
+    for (int i = 0; i < 5; ++i) {
+      EXPECT_EQ(order[i], i);
+    }
 }
 
 TEST_F(DistributedSagaTest, SingleStepSuccess) {
@@ -381,7 +383,9 @@ TEST_F(DistributedSagaTest, RetryTransientFailureSucceeds) {
     step.node_id  = "node-0";
     step.forward  = [&attempt_count]() -> DistributedSagaStatus {
         int c = ++attempt_count;
-        if (c < 3) return DistributedSagaStatus::Error("transient");
+        if (c < 3) {
+          return DistributedSagaStatus::Error("transient");
+        }
         return DistributedSagaStatus::OK();
     };
     step.max_retries     = 4;
@@ -611,11 +615,15 @@ TEST_F(DistributedSagaTest, ConcurrentSagasAllSucceed) {
                 }
             ));
             auto report = coord.execute(def);
-            if (report.succeeded()) ++success_count;
+            if (report.succeeded()) {
+              ++success_count;
+            }
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(success_count.load(), N);
 }
@@ -810,7 +818,9 @@ TEST(DistributedSagaDistributedTest, ExecuteDistributedCompensationOnRemoteFailu
     cfg.remote_executor = [&](const std::string& /*ep*/,
                                const std::string& op,
                                const nlohmann::json& /*params*/) -> DistributedSagaStatus {
-        if (op == "/fail") return DistributedSagaStatus::Error("remote failure");
+        if (op == "/fail") {
+          return DistributedSagaStatus::Error("remote failure");
+        }
         if (op == "/compensate") {
             std::lock_guard lk(mtx);
             comp_calls.push_back(op);

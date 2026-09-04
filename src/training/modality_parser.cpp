@@ -50,7 +50,9 @@ static bool sanitizeTrainingPromptSurface(
 static size_t countChar(const std::string& s, char c) noexcept {
     size_t n = 0;
     for (char ch : s) {
-        if (ch == c) ++n;
+        if (ch == c) {
+          ++n;
+        }
     }
     return n;
 }
@@ -72,16 +74,22 @@ static std::vector<std::string> splitLines(const std::string& text) {
 // Return true if the line looks like part of a pipe-delimited table row
 static bool isPipeTableRow(const std::string& line) {
     std::string t = themis::utils::trim(line);
-    if (t.empty()) return false;
+    if (t.empty()) {
+      return false;
+    }
     return (t.front() == '|' || t.back() == '|') && countChar(t, '|') >= 2;
 }
 
 // Return true if the line consists primarily of dashes (table separator)
 static bool isTableSeparator(const std::string& line) {
     std::string t = themis::utils::trim(line);
-    if (t.empty()) return false;
+    if (t.empty()) {
+      return false;
+    }
     for (char c : t) {
-        if (c != '-' && c != '|' && c != ' ' && c != '+') return false;
+        if (c != '-' && c != '|' && c != ' ' && c != '+') {
+          return false;
+        }
     }
     return countChar(t, '-') >= 3;
 }
@@ -90,7 +98,9 @@ static bool isTableSeparator(const std::string& line) {
 // multiple consecutive-space runs of ≥3 characters separating words
 static bool isAlignedTableRow(const std::string& line) {
     const std::string& t = line;
-    if (t.size() < 10) return false;
+    if (t.size() < 10) {
+      return false;
+    }
     size_t space_runs = 0;
     bool in_spaces = false;
     size_t run_len = 0;
@@ -99,7 +109,9 @@ static bool isAlignedTableRow(const std::string& line) {
             if (!in_spaces) { in_spaces = true; run_len = 0; }
             ++run_len;
         } else {
-            if (in_spaces && run_len >= 3) ++space_runs;
+            if (in_spaces && run_len >= 3) {
+              ++space_runs;
+            }
             in_spaces = false;
         }
     }
@@ -142,7 +154,9 @@ static const std::regex RE_EU_CITATION(
 // Avoids splitting on abbreviations ("Abs.", "Nr.", "Art.", numbers).
 static std::vector<std::string> splitSentences(const std::string& text) {
     std::vector<std::string> sentences;
-    if (text.empty()) return sentences;
+    if (text.empty()) {
+      return sentences;
+    }
 
     // Known abbreviations that should NOT terminate a sentence
     static const std::regex RE_ABBREV(
@@ -178,12 +192,16 @@ static std::vector<std::string> splitSentences(const std::string& text) {
 
         if (is_boundary) {
             std::string s = themis::utils::trim(current);
-            if (!s.empty()) sentences.push_back(std::move(s));
+            if (!s.empty()) {
+              sentences.push_back(std::move(s));
+            }
             current.clear();
         }
     }
     std::string tail = themis::utils::trim(current);
-    if (!tail.empty()) sentences.push_back(std::move(tail));
+    if (!tail.empty()) {
+      sentences.push_back(std::move(tail));
+    }
     return sentences;
 }
 
@@ -239,7 +257,9 @@ TextClauseExtractor::extract(const std::string& text,
                              const std::string& document_id) const
 {
     std::vector<TrainingSample> samples;
-    if (text.empty()) return samples;
+    if (text.empty()) {
+      return samples;
+    }
 
     auto lines = detail::splitLines(text);
 
@@ -264,7 +284,9 @@ TextClauseExtractor::extract(const std::string& text,
     auto sentences = detail::splitSentences(clean_text);
 
     for (const auto& sentence : sentences) {
-        if (sentence.size() < config_.text_clause_min_length) continue;
+        if (sentence.size() < config_.text_clause_min_length) {
+          continue;
+        }
 
         std::string sanitized_input;
         std::string blocked_rule;
@@ -302,14 +324,18 @@ TableExtractor::extract(const std::string& text,
                         const std::string& document_id) const
 {
     std::vector<TrainingSample> samples;
-    if (text.empty()) return samples;
+    if (text.empty()) {
+      return samples;
+    }
 
     auto lines       = detail::splitLines(text);
     auto table_blocks = detail::detectTableBlocks(lines);
 
     size_t count = 0;
     for (const auto& blk : table_blocks) {
-        if (count >= config_.max_table_rows) break;
+        if (count >= config_.max_table_rows) {
+          break;
+        }
 
         std::string sanitized_input;
         std::string blocked_rule;
@@ -357,12 +383,18 @@ CitationExtractor::extract(const std::string& text,
                            const std::string& document_id) const
 {
     std::vector<TrainingSample> samples;
-    if (text.empty()) return samples;
+    if (text.empty()) {
+      return samples;
+    }
 
     auto addMatch = [&](const std::string& matched, const std::string& type) {
-        if (samples.size() >= config_.max_citations_per_document) return;
+        if (samples.size() >= config_.max_citations_per_document) {
+          return;
+        }
         std::string m = themis::utils::trim(matched);
-        if (m.empty()) return;
+        if (m.empty()) {
+          return;
+        }
 
         std::string sanitized_input;
         std::string blocked_rule;
@@ -446,7 +478,9 @@ OCRExtractor::extract([[maybe_unused]] const std::string& image_path,
     std::vector<TrainingSample> samples;
 
 #ifdef THEMIS_ENABLE_OCR
-    if (!available_ || image_path.empty()) return samples;
+    if (!available_ || image_path.empty()) {
+      return samples;
+    }
 
     // Production: integrate Tesseract TessBaseAPI here.
     //   TessBaseAPI api;
@@ -511,7 +545,9 @@ public:
             return ContentModality::OCR_IMAGE;
         }
 
-        if (content.empty()) return ContentModality::UNKNOWN;
+        if (content.empty()) {
+          return ContentModality::UNKNOWN;
+        }
 
         // 2. Table density heuristic
         auto lines = detail::splitLines(content);
@@ -522,7 +558,9 @@ public:
         }
         double table_ratio = lines.empty() ? 0.0
                            : static_cast<double>(table_lines) / lines.size();
-        if (table_ratio >= 0.30) return ContentModality::TABLE;
+        if (table_ratio >= 0.30) {
+          return ContentModality::TABLE;
+        }
 
         // 3. Citation density heuristic
         auto stat_begin = std::sregex_iterator(content.begin(), content.end(),
@@ -536,7 +574,9 @@ public:
         double citation_density = content.size() > 0
                                 ? static_cast<double>(citation_count) / (content.size() / 500.0)
                                 : 0.0;
-        if (citation_density >= 1.0) return ContentModality::CITATION;
+        if (citation_density >= 1.0) {
+          return ContentModality::CITATION;
+        }
 
         // 4. Default: plain text clause
         return ContentModality::TEXT_CLAUSE;
@@ -560,23 +600,31 @@ public:
                 if (ocr_extractor_.isAvailable()) {
                     auto ocr = ocr_extractor_.extract(content, document_id);
                     result.stats.ocr_pages_processed += ocr.size();
-                    for (auto& s : ocr) result.samples.push_back(std::move(s));
+                    for (auto& s : ocr) {
+                      result.samples.push_back(std::move(s));
+                    }
                 }
             } else {
                 // Text-clause extraction
                 auto clauses = text_extractor_.extract(content, document_id);
                 result.stats.text_clauses_extracted += clauses.size();
-                for (auto& s : clauses) result.samples.push_back(std::move(s));
+                for (auto& s : clauses) {
+                  result.samples.push_back(std::move(s));
+                }
 
                 // Table extraction
                 auto tables = table_extractor_.extract(content, document_id);
                 result.stats.tables_extracted += tables.size();
-                for (auto& s : tables) result.samples.push_back(std::move(s));
+                for (auto& s : tables) {
+                  result.samples.push_back(std::move(s));
+                }
 
                 // Citation extraction
                 auto citations = citation_extractor_.extract(content, document_id);
                 result.stats.citations_extracted += citations.size();
-                for (auto& s : citations) result.samples.push_back(std::move(s));
+                for (auto& s : citations) {
+                  result.samples.push_back(std::move(s));
+                }
             }
 
             result.stats.documents_processed = 1;
@@ -610,7 +658,9 @@ public:
             total.citations_extracted     += res.stats.citations_extracted;
             total.ocr_pages_processed     += res.stats.ocr_pages_processed;
             total.samples_total           += res.stats.samples_total;
-            for (auto& s : res.samples) out_samples.push_back(std::move(s));
+            for (auto& s : res.samples) {
+              out_samples.push_back(std::move(s));
+            }
         }
 
         auto t1 = std::chrono::steady_clock::now();

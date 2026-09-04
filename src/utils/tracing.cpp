@@ -94,7 +94,9 @@ bool SamplingStrategy::shouldSample([[maybe_unused]] bool parent_sampled) const 
             return dist(rng) < probability_;
         }
         case Type::PARENT_BASED:
-            if (parent_sampled) return true;
+            if (parent_sampled) {
+              return true;
+            }
             {
                 thread_local std::mt19937_64 rng{std::random_device{}()};
                 thread_local std::uniform_real_distribution<double> dist(0.0, 1.0);
@@ -130,7 +132,9 @@ bool SamplingStrategy::shouldSample([[maybe_unused]] bool parent_sampled) const 
             adaptive_state_->window_count++;
 
             double rate = adaptive_state_->effective_rate;
-            if (rate >= 1.0) return true;
+            if (rate >= 1.0) {
+              return true;
+            }
 
             thread_local std::mt19937_64 rng{std::random_device{}()};
             thread_local std::uniform_real_distribution<double> dist(0.0, 1.0);
@@ -171,7 +175,9 @@ Baggage::BaggageMap Baggage::getAll() {
 std::string Baggage::serialize() {
     std::string out;
     for (const auto& [k, v] : thread_baggage_) {
-        if (!out.empty()) out += ',';
+        if (!out.empty()) {
+          out += ',';
+        }
         out += k + '=' + v;
     }
     return out;
@@ -192,20 +198,26 @@ void Baggage::extract(const std::map<std::string, std::string>& headers) {
                        [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
         if (lower_k == "baggage") { value = v; break; }
     }
-    if (value.empty()) return;
+    if (value.empty()) {
+      return;
+    }
 
     std::istringstream ss(value);
     std::string token;
     while (std::getline(ss, token, ',')) {
         auto eq = token.find('=');
-        if (eq == std::string::npos) continue;
+        if (eq == std::string::npos) {
+          continue;
+        }
         auto key = token.substr(0, eq);
         auto val = token.substr(eq + 1);
         key.erase(0, key.find_first_not_of(" \t"));
         key.erase(key.find_last_not_of(" \t") + 1);
         val.erase(0, val.find_first_not_of(" \t"));
         val.erase(val.find_last_not_of(" \t") + 1);
-        if (!key.empty()) thread_baggage_[key] = val;
+        if (!key.empty()) {
+          thread_baggage_[key] = val;
+        }
     }
 }
 
@@ -511,7 +523,9 @@ namespace {
 std::string headerValue(const std::map<std::string, std::string>& headers,
                         const std::string& name) {
     auto it = headers.find(name);
-    if (it != headers.end()) return it->second;
+    if (it != headers.end()) {
+      return it->second;
+    }
     for (const auto& [k, v] : headers) {
         if (k.size() == name.size() &&
             std::equal(k.begin(), k.end(), name.begin(),
@@ -529,45 +543,69 @@ bool parseTraceparent(const std::string& value,
                       otel::trace::TraceId& trace_id_out,
                       otel::trace::SpanId& parent_id_out,
                       otel::trace::TraceFlags& flags_out) {
-    if (value.size() != 55) return false;
-    if (value[2] != '-' || value[35] != '-' || value[52] != '-') return false;
+    if (value.size() != 55) {
+      return false;
+    }
+    if (value[2] != '-' || value[35] != '-' || value[52] != '-') {
+      return false;
+    }
 
     auto hexByte = [](char hi, char lo, uint8_t& out) -> bool {
         auto fromHex = [](char c) -> int {
-            if (c >= '0' && c <= '9') return c - '0';
-            if (c >= 'a' && c <= 'f') return c - 'a' + 10;
-            if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+            if (c >= '0' && c <= '9') {
+              return c - '0';
+            }
+            if (c >= 'a' && c <= 'f') {
+              return c - 'a' + 10;
+            }
+            if (c >= 'A' && c <= 'F') {
+              return c - 'A' + 10;
+            }
             return -1;
         };
         int h = fromHex(hi), l = fromHex(lo);
-        if (h < 0 || l < 0) return false;
+        if (h < 0 || l < 0) {
+          return false;
+        }
         out = static_cast<uint8_t>((h << 4) | l);
         return true;
     };
 
     uint8_t ver{};
-    if (!hexByte(value[0], value[1], ver) || ver != 0) return false;
+    if (!hexByte(value[0], value[1], ver) || ver != 0) {
+      return false;
+    }
 
     std::array<uint8_t, 16> tid{};
     for (int i = 0; i < 16; ++i) {
-        if (!hexByte(value[3 + i * 2], value[3 + i * 2 + 1], tid[i])) return false;
+        if (!hexByte(value[3 + i * 2], value[3 + i * 2 + 1], tid[i])) {
+          return false;
+        }
     }
 
     bool all_zeros = true;
     for (auto b : tid) { if (b != 0) { all_zeros = false; break; } }
-    if (all_zeros) return false;
+    if (all_zeros) {
+      return false;
+    }
 
     std::array<uint8_t, 8> pid{};
     for (int i = 0; i < 8; ++i) {
-        if (!hexByte(value[36 + i * 2], value[36 + i * 2 + 1], pid[i])) return false;
+        if (!hexByte(value[36 + i * 2], value[36 + i * 2 + 1], pid[i])) {
+          return false;
+        }
     }
 
     all_zeros = true;
     for (auto b : pid) { if (b != 0) { all_zeros = false; break; } }
-    if (all_zeros) return false;
+    if (all_zeros) {
+      return false;
+    }
 
     uint8_t flg{};
-    if (!hexByte(value[53], value[54], flg)) return false;
+    if (!hexByte(value[53], value[54], flg)) {
+      return false;
+    }
 
     trace_id_out = otel::trace::TraceId(
         otel::nostd::span<const uint8_t, otel::trace::TraceId::kSize>(tid.data(), tid.size()));
@@ -754,7 +792,9 @@ void Tracer::Span::end() {
 
 double Tracer::Span::durationMs() const {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
-    if (!valid_) return 0.0;
+    if (!valid_) {
+      return 0.0;
+    }
     auto now = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(now - start_time_);
     return duration.count() / 1000.0;

@@ -723,7 +723,9 @@ TEST_F(BehoerdenGenehmigungsverfahrenE2ETest, Phase5_BauamtAggregatiertUndLLMEnt
     int zustimmungen = 0;
     for (const auto& doc : alle_docs) {
         auto it = doc.metadata.find("ergebnis");
-        if (it == doc.metadata.end()) continue;
+        if (it == doc.metadata.end()) {
+          continue;
+        }
         if (it->second == "KEINE_EINWAENDE" || it->second == "ZUSTIMMUNG" ||
             it->second == "ZUSTIMMUNG_MIT_AUFLAGEN") {
             ++zustimmungen;
@@ -990,7 +992,9 @@ TEST_F(BehoerdenGenehmigungsverfahrenE2ETest, GesamtprozessProzessschrittReihenf
     // Phase1 kommt vor Phase2 kommt vor Phase3 usw.
     auto find_idx = [this](const std::string& substr) -> int {
         for (int i = 0; i < static_cast<int>(prozess_log_.size()); ++i) {
-            if (prozess_log_[i].find(substr) != std::string::npos) return i;
+            if (prozess_log_[i].find(substr) != std::string::npos) {
+              return i;
+            }
         }
         return -1;
     };

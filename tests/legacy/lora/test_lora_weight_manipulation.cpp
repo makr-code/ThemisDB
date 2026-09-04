@@ -120,7 +120,9 @@ TEST(LoRAWeightManipulation, LoRALayer_Forward_InitialOutputAllZero) {
     for (size_t i = 0; i < output.size(); ++i) {
         EXPECT_NEAR(output[i], 0.0f, 1e-5f)
             << "Initial output should be zero (A is zero-initialized)";
-        if (std::abs(output[i]) > 1e-5f) break;
+        if (std::abs(output[i]) > 1e-5f) {
+          break;
+        }
     }
 }
 
@@ -203,14 +205,18 @@ TEST(LoRAWeightManipulation, GradientNorm_NonZeroAfterBackward) {
     auto params = layer.parameters();
     bool any_nonzero_grad = false;
     for (auto* p : params) {
-        if (!p || !p->grad) continue;
+        if (!p || !p->grad) {
+          continue;
+        }
         for (size_t i = 0; i < p->grad->size(); ++i) {
             if (std::abs((*p->grad)[i]) > 1e-9f) {
                 any_nonzero_grad = true;
                 break;
             }
         }
-        if (any_nonzero_grad) break;
+        if (any_nonzero_grad) {
+          break;
+        }
     }
     EXPECT_TRUE(any_nonzero_grad) << "At least one parameter should have a non-zero gradient";
 }

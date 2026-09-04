@@ -168,7 +168,9 @@ bool cpuid_detect_tdx()
 #if defined(THEMIS_HAS_CPUID)
     // First, confirm leaf 0x21 is present (max leaf must be >= 0x21).
     auto max_leaf = cpuid(0);
-    if (max_leaf[0] < 0x21) return false;
+    if (max_leaf[0] < 0x21) {
+      return false;
+    }
 
     auto r = cpuid(0x21, 0);
     // EBX = "Inte", EDX = "lTDX", ECX = "    " (four spaces)
@@ -255,7 +257,9 @@ void aes256gcm_encrypt(
         throw std::runtime_error("ConfidentialComputing: RAND_bytes failed for IV");
 
     CC_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
-    if (!ctx) throw std::runtime_error("ConfidentialComputing: EVP_CIPHER_CTX_new failed");
+    if (!ctx) {
+      throw std::runtime_error("ConfidentialComputing: EVP_CIPHER_CTX_new failed");
+    }
 
     if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1)
         throw std::runtime_error("ConfidentialComputing: EVP_EncryptInit_ex failed");
@@ -288,11 +292,17 @@ std::vector<uint8_t> aes256gcm_decrypt(
     const std::vector<uint8_t>& ciphertext,
     const std::vector<uint8_t>& tag)
 {
-    if (iv.size() != 12)  throw std::runtime_error("ConfidentialComputing: invalid IV length");
-    if (tag.size() != 16) throw std::runtime_error("ConfidentialComputing: invalid tag length");
+    if (iv.size() != 12) {
+      throw std::runtime_error("ConfidentialComputing: invalid IV length");
+    }
+    if (tag.size() != 16) {
+      throw std::runtime_error("ConfidentialComputing: invalid tag length");
+    }
 
     CC_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
-    if (!ctx) throw std::runtime_error("ConfidentialComputing: EVP_CIPHER_CTX_new failed");
+    if (!ctx) {
+      throw std::runtime_error("ConfidentialComputing: EVP_CIPHER_CTX_new failed");
+    }
 
     std::vector<uint8_t> plaintext;
     if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1)

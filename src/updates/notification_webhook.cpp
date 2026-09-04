@@ -199,7 +199,9 @@ std::string NotificationWebhook::buildSlackPayload(
         std::ostringstream files_stream;
         bool first = true;
         for (const auto& f : payload.files_updated) {
-            if (!first) files_stream << "\n";
+            if (!first) {
+              files_stream << "\n";
+            }
             files_stream << f;
             first = false;
         }

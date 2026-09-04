@@ -72,7 +72,9 @@ public:
     EvpMdCtxRaii(EvpMdCtxRaii&& other) noexcept : ctx_(other.release()) {}
     EvpMdCtxRaii& operator=(EvpMdCtxRaii&& other) noexcept {
         if (this != &other) {
-            if (ctx_) EVP_MD_CTX_free(ctx_);
+            if (ctx_) {
+              EVP_MD_CTX_free(ctx_);
+            }
             ctx_ = other.release();
         }
         return *this;
@@ -110,15 +112,23 @@ private:
  * @return true if safe; false if the path should be rejected
  */
 static bool isSafePath(const std::string& rel_path, const std::string& base_dir) {
-    if (rel_path.empty()) return false;
+    if (rel_path.empty()) {
+      return false;
+    }
     // Reject absolute paths and null bytes
-    if (rel_path[0] == '/' || rel_path[0] == '\\' || rel_path.find('\0') != std::string::npos) return false;
+    if (rel_path[0] == '/' || rel_path[0] == '\\' || rel_path.find('\0') != std::string::npos) {
+      return false;
+    }
 
     // Reject absolute/drive-rooted paths and any ".." component.
     fs::path p(rel_path);
-    if (p.is_absolute() || p.has_root_name() || p.has_root_directory()) return false;
+    if (p.is_absolute() || p.has_root_name() || p.has_root_directory()) {
+      return false;
+    }
     for (const auto& component : p) {
-        if (component == "..") return false;
+        if (component == "..") {
+          return false;
+        }
     }
 
     // Final check: the resolved path must be inside base_dir.
@@ -129,9 +139,13 @@ static bool isSafePath(const std::string& rel_path, const std::string& base_dir)
         // Use lexical relation instead of raw string prefix checks so Windows
         // path separators and drive handling are evaluated correctly.
         const auto rel = full.lexically_relative(base);
-        if (rel.empty() || rel.is_absolute()) return false;
+        if (rel.empty() || rel.is_absolute()) {
+          return false;
+        }
         for (const auto& component : rel) {
-            if (component == "..") return false;
+            if (component == "..") {
+              return false;
+            }
         }
     } catch (...) {
         return false;
@@ -172,7 +186,9 @@ static constexpr uint8_t INSTR_COPY = 0x02;
 std::string DeltaUpdateEngine::calculateHash(const std::vector<uint8_t>& data) {
     // Use RAII wrapper for EVP_MD_CTX (Error Code: 7465)
     EvpMdCtxRaii ctx(EVP_MD_CTX_new());
-    if (!ctx.get()) return "";
+    if (!ctx.get()) {
+      return "";
+    }
 
     if (EVP_DigestInit_ex(ctx.get(), EVP_sha256(), nullptr) != 1) {
         return "";
@@ -203,7 +219,9 @@ std::vector<uint8_t> DeltaUpdateEngine::readFile(const std::string& path) {
 bool DeltaUpdateEngine::writeFile(const std::string& path,
                                   const std::vector<uint8_t>& data) {
     std::ofstream f(path, std::ios::binary | std::ios::trunc);
-    if (!f) return false;
+    if (!f) {
+      return false;
+    }
     f.write(reinterpret_cast<const char*>(data.data()),
             static_cast<std::streamsize>(data.size()));
     return f.good();
@@ -212,7 +230,9 @@ bool DeltaUpdateEngine::writeFile(const std::string& path,
 bool DeltaUpdateEngine::atomicWriteFile(const std::string& path,
                                         const std::vector<uint8_t>& data) {
     std::string tmp = path + ".tmp";
-    if (!writeFile(tmp, data)) return false;
+    if (!writeFile(tmp, data)) {
+      return false;
+    }
     try {
         fs::rename(tmp, path);
         return true;
@@ -238,10 +258,18 @@ std::string patchAlgorithmToString(PatchAlgorithm algo) {
 }
 
 std::optional<PatchAlgorithm> patchAlgorithmFromString(const std::string& s) {
-    if (s == "bsdiff")    return PatchAlgorithm::BSDIFF;
-    if (s == "xdelta3")   return PatchAlgorithm::XDELTA3;
-    if (s == "vcdiff")    return PatchAlgorithm::VCDIFF;
-    if (s == "zstd_dict") return PatchAlgorithm::ZSTD_DICT;
+    if (s == "bsdiff") {
+      return PatchAlgorithm::BSDIFF;
+    }
+    if (s == "xdelta3") {
+      return PatchAlgorithm::XDELTA3;
+    }
+    if (s == "vcdiff") {
+      return PatchAlgorithm::VCDIFF;
+    }
+    if (s == "zstd_dict") {
+      return PatchAlgorithm::ZSTD_DICT;
+    }
     return std::nullopt;
 }
 
@@ -302,13 +330,17 @@ std::optional<FileDelta> FileDelta::fromJson(const json& j) {
 
 uint64_t DeltaManifest::totalPatchSize() const {
     uint64_t total = 0;
-    for (const auto& d : deltas) total += d.patch_size;
+    for (const auto& d : deltas) {
+      total += d.patch_size;
+    }
     return total;
 }
 
 uint64_t DeltaManifest::totalTargetSize() const {
     uint64_t total = 0;
-    for (const auto& d : deltas) total += d.target_size;
+    for (const auto& d : deltas) {
+      total += d.target_size;
+    }
     return total;
 }
 
@@ -341,7 +373,9 @@ std::optional<DeltaManifest> DeltaManifest::fromJson(const json& j) {
         if (j.contains("deltas") && j["deltas"].is_array()) {
             for (const auto& dj : j["deltas"]) {
                 auto fd = FileDelta::fromJson(dj);
-                if (fd) dm.deltas.push_back(*fd);
+                if (fd) {
+                  dm.deltas.push_back(*fd);
+                }
             }
         }
         
@@ -372,7 +406,9 @@ DeltaUpdateEngine::~DeltaUpdateEngine() = default;
 
 void DeltaUpdateEngine::reportProgress(int pct, const std::string& msg) {
     LOG_DEBUG("DeltaUpdateEngine: {}% - {}", pct, msg);
-    if (progress_cb_) progress_cb_(pct, msg);
+    if (progress_cb_) {
+      progress_cb_(pct, msg);
+    }
 }
 
 // ============================================================================
@@ -824,7 +860,9 @@ bool DeltaUpdateEngine::generatePatchZstdDict(
     // This path should never be hit in production builds.
     LOG_WARN("ZSTD not available – storing uncompressed target as patch");
     std::ofstream pf(patch_path, std::ios::binary | std::ios::trunc);
-    if (!pf) return false;
+    if (!pf) {
+      return false;
+    }
     pf.write(reinterpret_cast<const char*>(MAGIC_ZSTD), 8);
     uint64_t orig_size = static_cast<uint64_t>(target.size());
     pf.write(reinterpret_cast<const char*>(&orig_size), sizeof(orig_size));
@@ -1016,7 +1054,9 @@ bool DeltaUpdateEngine::generatePatchVcdiff(
 
     // Write patch file
     std::ofstream pf(patch_path, std::ios::binary | std::ios::trunc);
-    if (!pf) return false;
+    if (!pf) {
+      return false;
+    }
 
     pf.write(reinterpret_cast<const char*>(MAGIC_VCD), 8);
     uint64_t orig_size = static_cast<uint64_t>(target.size());
@@ -1032,7 +1072,9 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
     const std::string& target_path) {
 
     std::ifstream pf(patch_path, std::ios::binary);
-    if (!pf) return false;
+    if (!pf) {
+      return false;
+    }
 
     pf.seekg(8); // skip magic
     uint64_t orig_size = 0;

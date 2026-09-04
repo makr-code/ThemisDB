@@ -591,7 +591,9 @@ llm::lora::FeedbackFilter FeedbackAPIHandler::parseFilterFromQuery([[maybe_unuse
     
     auto parse_param = [&query](const std::string& key) -> std::optional<std::string> {
         size_t pos = query.find(key + "=");
-        if (pos == std::string::npos) return std::nullopt;
+        if (pos == std::string::npos) {
+          return std::nullopt;
+        }
         
         size_t start = pos + key.length() + 1;
         size_t end = query.find('&', start);

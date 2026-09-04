@@ -208,7 +208,9 @@ TEST(MqttClientStatsFocusedTests, AtomicIncrementIsThreadSafe) {
     threads.reserve(N);
     for (int i = 0; i < N; ++i)
         threads.emplace_back([&s] { ++s.messages_published; });
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(s.messages_published.load(), static_cast<uint64_t>(N));
 }
 

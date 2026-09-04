@@ -89,7 +89,9 @@ struct PredictiveFailureDetector::ModelImpl {
             float v = features[i];
             // recovery_success_rate (index 17) is a positive health signal — invert
             // its contribution so a high success rate lowers the risk score.
-            if (i == 17) [[unlikely]] v = 1.0f - v;
+            if (i == 17) {
+              [[unlikely]] v = 1.0f - v;
+            }
             score += v * kWeights[i];
         }
 
@@ -360,14 +362,18 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
     
     // Helper: compute mean
     auto compute_mean = [](const std::vector<double>& values) -> float {
-        if (values.empty()) return 0.0f;
+        if (values.empty()) {
+          return 0.0f;
+        }
         double sum = std::accumulate(values.begin(), values.end(), 0.0);
         return static_cast<float>(sum / values.size());
     };
     
     // Helper: compute stddev
     auto compute_stddev = [&compute_mean](const std::vector<double>& values) -> float {
-        if (values.empty()) return 0.0f;
+        if (values.empty()) {
+          return 0.0f;
+        }
         float mean = compute_mean(values);
         double sq_sum = 0.0;
         for (double v : values) {
@@ -378,7 +384,9 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
     
     // Helper: compute trend (linear regression slope)
     auto compute_trend = [](const std::vector<double>& values) -> float {
-        if (values.size() < 2) return 0.0f;
+        if (values.size() < 2) {
+          return 0.0f;
+        }
         
         double sum_x = 0.0, sum_y = 0.0, sum_xy = 0.0, sum_xx = 0.0;
         for (size_t i = 0; i < values.size(); ++i) {

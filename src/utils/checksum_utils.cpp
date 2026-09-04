@@ -29,7 +29,9 @@ static std::string computeFileHash(const std::string& file_path, const EVP_MD* m
     }
 
     EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) return "";
+    if (!ctx) {
+      return "";
+    }
 
     if (EVP_DigestInit_ex(ctx, md, nullptr) != 1) {
         EVP_MD_CTX_free(ctx);

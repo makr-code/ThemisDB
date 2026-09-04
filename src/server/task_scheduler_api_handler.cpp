@@ -382,9 +382,13 @@ json TaskSchedulerApiHandler::getExecutionHistory(
 
     // Pagination - handle both string values (from URL query params) and integer values
     auto getSize = [&](const char* key, size_t def) -> size_t {
-        if (!query_params.contains(key)) return def;
+        if (!query_params.contains(key)) {
+          return def;
+        }
         const auto& v = query_params[key];
-        if (v.is_number_unsigned()) return v.get<size_t>();
+        if (v.is_number_unsigned()) {
+          return v.get<size_t>();
+        }
         if (v.is_number_integer()) {
             auto iv = v.get<int64_t>();
             return iv > 0 ? static_cast<size_t>(iv) : def;
@@ -405,7 +409,9 @@ json TaskSchedulerApiHandler::getExecutionHistory(
             params.success = sv.get<bool>();
         } else if (sv.is_string()) {
             const auto s = sv.get<std::string>();
-            if (s == "true" || s == "1")  params.success = true;
+            if (s == "true" || s == "1") {
+              params.success = true;
+            }
             else if (s == "false" || s == "0") params.success = false;
         }
     }
@@ -422,16 +428,24 @@ json TaskSchedulerApiHandler::getExecutionHistory(
     if (query_params.contains("start_time_ms") && !query_params["start_time_ms"].is_null()) {
         int64_t ms = 0;
         const auto& v = query_params["start_time_ms"];
-        if (v.is_number_integer()) ms = v.get<int64_t>();
+        if (v.is_number_integer()) {
+          ms = v.get<int64_t>();
+        }
         else if (v.is_string()) { try { ms = std::stoll(v.get<std::string>()); } catch (...) {} }
-        if (ms > 0) params.start_time = std::chrono::system_clock::time_point(std::chrono::milliseconds(ms));
+        if (ms > 0) {
+          params.start_time = std::chrono::system_clock::time_point(std::chrono::milliseconds(ms));
+        }
     }
     if (query_params.contains("end_time_ms") && !query_params["end_time_ms"].is_null()) {
         int64_t ms = 0;
         const auto& v = query_params["end_time_ms"];
-        if (v.is_number_integer()) ms = v.get<int64_t>();
+        if (v.is_number_integer()) {
+          ms = v.get<int64_t>();
+        }
         else if (v.is_string()) { try { ms = std::stoll(v.get<std::string>()); } catch (...) {} }
-        if (ms > 0) params.end_time = std::chrono::system_clock::time_point(std::chrono::milliseconds(ms));
+        if (ms > 0) {
+          params.end_time = std::chrono::system_clock::time_point(std::chrono::milliseconds(ms));
+        }
     }
 
     params.sort_by = scheduler::AuditQueryParams::SortBy::TIMESTAMP_DESC;

@@ -141,7 +141,9 @@ TEST(IngestionResilienceTest, BinaryNoise) {
     std::vector<unsigned char> noise(512);
     std::mt19937 rng(42);
     std::uniform_int_distribution<unsigned> dist(0, 255);
-    for (auto& b : noise) b = static_cast<unsigned char>(dist(rng));
+    for (auto& b : noise) {
+      b = static_cast<unsigned char>(dist(rng));
+    }
 
     auto p = makeTmpBinaryFile("resilience_binary.bin", noise);
 
@@ -246,7 +248,9 @@ TEST(IngestionResilienceConcurrencyTest, ConcurrentRegisterAndList) {
     }
 
     std::vector<SourceConfig> result;
-    for (auto& t : writers) t.join();
+    for (auto& t : writers) {
+      t.join();
+    }
     EXPECT_NO_THROW(result = mgr.getRegisteredSources());
     EXPECT_EQ(result.size(), 10u);  // all 10 sources with unique IDs must be registered
 }
@@ -263,7 +267,9 @@ TEST(IngestionResilienceConcurrencyTest, ConcurrentQuarantineAccess) {
             EXPECT_NO_THROW(mgr.dismissQuarantineItem("nonexistent"));
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 }
 
 // ============================================================================

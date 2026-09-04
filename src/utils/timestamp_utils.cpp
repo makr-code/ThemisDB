@@ -143,8 +143,12 @@ std::chrono::system_clock::time_point TimestampUtils::parse(const std::string& s
             ++digits;
         }
         // Skip remaining sub-millisecond digits
-        while (pos < s.size() && s[pos] >= '0' && s[pos] <= '9') ++pos;
-        for (; digits < 3; ++digits) ms *= 10;
+        while (pos < s.size() && s[pos] >= '0' && s[pos] <= '9') {
+          ++pos;
+        }
+        for (; digits < 3; ++digits) {
+          ms *= 10;
+        }
     }
 
     // Timezone
@@ -210,7 +214,9 @@ std::string TimestampUtils::formatDuration(std::chrono::nanoseconds ns) {
     using namespace std::chrono;
 
     bool negative = ns.count() < 0;
-    if (negative) ns = -ns;
+    if (negative) {
+      ns = -ns;
+    }
 
     auto total_ms  = duration_cast<milliseconds>(ns);
     auto total_sec = duration_cast<seconds>(total_ms);
@@ -220,16 +226,22 @@ std::string TimestampUtils::formatDuration(std::chrono::nanoseconds ns) {
     auto ms_part   = total_ms - duration_cast<milliseconds>(total_sec);
 
     std::ostringstream oss;
-    if (negative) oss << '-';
+    if (negative) {
+      oss << '-';
+    }
 
     bool any = false;
     if (h.count() > 0) { oss << h.count() << 'h'; any = true; }
     if (m.count() > 0 || any) {
-        if (any) oss << ' ';
+        if (any) {
+          oss << ' ';
+        }
         oss << m.count() << 'm';
         any = true;
     }
-    if (any) oss << ' ';
+    if (any) {
+      oss << ' ';
+    }
 
     // Seconds with millisecond fraction
     oss << s.count();

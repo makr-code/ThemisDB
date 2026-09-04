@@ -145,7 +145,9 @@ TEST(InvertedIndexTokenize, WithStemming) {
     // Stemmed form of "running" should not be "running" (at minimum truncated)
     bool found_running = false;
     for (const auto& t : tokens)
-        if (t == "running") found_running = true;
+        if (t == "running") {
+          found_running = true;
+        }
     EXPECT_FALSE(found_running) << "Stemming should shorten 'running'";
 }
 
@@ -218,7 +220,9 @@ TEST_F(InvertedIndexTest, IndexAndSearchBasic) {
 
     // Both pk1 and pk2 mention "learning"
     std::vector<std::string> pks;
-    for (const auto& r : results) pks.push_back(r.pk);
+    for (const auto& r : results) {
+      pks.push_back(r.pk);
+    }
     EXPECT_NE(std::find(pks.begin(), pks.end(), "pk1"), pks.end());
     EXPECT_NE(std::find(pks.begin(), pks.end(), "pk2"), pks.end());
 }
@@ -292,7 +296,9 @@ TEST_F(InvertedIndexTest, ReindexUpdatesPostings) {
     // Old token "learning" should no longer return pk1
     auto [st1, r1] = idx_->search("articles", "content", "learning", 10);
     ASSERT_TRUE(st1.ok);
-    for (const auto& r : r1) EXPECT_NE(r.pk, "pk1");
+    for (const auto& r : r1) {
+      EXPECT_NE(r.pk, "pk1");
+    }
 
     // New token "database" should return pk1
     auto [st2, r2] = idx_->search("articles", "content", "database", 10);
@@ -341,7 +347,9 @@ TEST_F(InvertedIndexTest, PhraseSearchFindsExactPhrase) {
     ASSERT_TRUE(st.ok) << st.message;
     ASSERT_GE(results.size(), 2u);
     std::vector<std::string> pks;
-    for (const auto& r : results) pks.push_back(r.pk);
+    for (const auto& r : results) {
+      pks.push_back(r.pk);
+    }
     EXPECT_NE(std::find(pks.begin(), pks.end(), "pk1"), pks.end());
     EXPECT_NE(std::find(pks.begin(), pks.end(), "pk2"), pks.end());
     // pk3 does NOT contain "machine learning"
@@ -380,7 +388,9 @@ TEST_F(InvertedIndexTest, FuzzySearchFindsTypos) {
     ASSERT_TRUE(st.ok) << st.message;
 
     std::vector<std::string> pks;
-    for (const auto& r : results) pks.push_back(r.pk);
+    for (const auto& r : results) {
+      pks.push_back(r.pk);
+    }
     EXPECT_NE(std::find(pks.begin(), pks.end(), "pk1"), pks.end());
 }
 

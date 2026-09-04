@@ -69,7 +69,9 @@ std::optional<std::string> Cursor::base64Decode(const std::string& input) {
     int valb = -8;
     
     for (unsigned char c : input) {
-        if (T[c] == -1) break;
+        if (T[c] == -1) {
+          break;
+        }
         val = (val << 6) + T[c];
         valb += 6;
         if (valb >= 0) {

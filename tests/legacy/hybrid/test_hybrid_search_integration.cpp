@@ -134,7 +134,9 @@ TEST_F(HybridSearchIntegrationTest, RRF_BM25Only_ReturnsTextMatches) {
     // doc1 and doc3 contain "database"; doc2 does not
     ASSERT_FALSE(results.empty());
     std::vector<std::string> ids;
-    for (const auto& r : results) ids.push_back(r.document_id);
+    for (const auto& r : results) {
+      ids.push_back(r.document_id);
+    }
     EXPECT_TRUE(std::find(ids.begin(), ids.end(), "doc1") != ids.end());
     EXPECT_TRUE(std::find(ids.begin(), ids.end(), "doc3") != ids.end());
     // All returned results should have a positive hybrid_score

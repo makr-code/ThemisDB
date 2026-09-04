@@ -272,13 +272,19 @@ void AuditLogger::appendJsonLine(const nlohmann::json& j) {
 
 void AuditLogger::rotateLogIfNeeded() {
     // Caller must hold file_mu_.
-    if (cfg_.max_file_size_bytes == 0) return;
+    if (cfg_.max_file_size_bytes == 0) {
+      return;
+    }
 
     std::error_code ec;
-    if (!std::filesystem::exists(cfg_.log_path, ec)) return;
+    if (!std::filesystem::exists(cfg_.log_path, ec)) {
+      return;
+    }
 
     const auto file_size = std::filesystem::file_size(cfg_.log_path, ec);
-    if (ec || file_size < cfg_.max_file_size_bytes) return;
+    if (ec || file_size < cfg_.max_file_size_bytes) {
+      return;
+    }
 
     const auto& base = cfg_.log_path;
 
@@ -309,7 +315,9 @@ void AuditLogger::rotateLogIfNeeded() {
 }
 
 void AuditLogger::logEvent(const nlohmann::json& event) {
-    if (!cfg_.enabled) return;
+    if (!cfg_.enabled) {
+      return;
+    }
 
     try {
         // ─────────────────────────────────────────────────────────────────────
@@ -761,7 +769,9 @@ bool AuditLogger::verifyChainIntegrity() {
         uint64_t line_num = 0;
         
         while (std::getline(ifs, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             
             line_num++;
             nlohmann::json entry = nlohmann::json::parse(line);
@@ -996,7 +1006,9 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::enumerateEntries() const {
         uint64_t entry_num = 0;
         
         while (std::getline(ifs, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             
             try {
                 nlohmann::json record = nlohmann::json::parse(line);
@@ -1048,7 +1060,9 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
         std::vector<std::string> archived_entries;
         
         while (std::getline(ifs, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             
             try {
                 nlohmann::json record = nlohmann::json::parse(line);
@@ -1146,7 +1160,9 @@ size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_
         size_t purged_count = 0;
         
         while (std::getline(ifs, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             
             try {
                 nlohmann::json record = nlohmann::json::parse(line);
@@ -1405,7 +1421,9 @@ std::string AuditLogger::formatAsCef(const nlohmann::json& event, SecurityEventT
     // Severity (0-10 scale)
     std::string severity_str = event.value("severity", "LOW");
     int severity = 0;
-    if (severity_str == "HIGH") severity = 8;
+    if (severity_str == "HIGH") {
+      severity = 8;
+    }
     else if (severity_str == "MEDIUM") severity = 5;
     else severity = 2;
     cef << severity << "|";
@@ -1441,7 +1459,9 @@ std::string AuditLogger::formatAsCef(const nlohmann::json& event, SecurityEventT
     
     // Join extensions
     for (size_t i = 0; i < extensions.size(); ++i) {
-        if (i > 0) cef << " ";
+        if (i > 0) {
+          cef << " ";
+        }
         cef << extensions[i];
     }
     
@@ -1522,7 +1542,9 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::searchEntries(
     uint64_t entry_num = 0;
 
     while (std::getline(ifs, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         try {
             auto record = nlohmann::json::parse(line);
             ++entry_num;
@@ -1534,8 +1556,12 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::searchEntries(
                 ts = std::chrono::system_clock::time_point(
                     std::chrono::milliseconds(ms));
             }
-            if (query.from && ts < *query.from) continue;
-            if (query.to   && ts >= *query.to)  continue;
+            if (query.from && ts < *query.from) {
+              continue;
+            }
+            if (query.to   && ts >= *query.to) {
+              continue;
+            }
 
             // Extract payload for field-based filters (only plaintext entries)
             nlohmann::json payload;
@@ -1554,14 +1580,18 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::searchEntries(
             // User filter
             if (!query.user_id.empty()) {
                 std::string uid = payload.value("user", payload.value("user_id", std::string{}));
-                if (uid != query.user_id) continue;
+                if (uid != query.user_id) {
+                  continue;
+                }
             }
 
             // Action filter
             if (!query.action.empty()) {
                 std::string action = payload.value("action",
                     payload.value("event_type", std::string{}));
-                if (action.find(query.action) == std::string::npos) continue;
+                if (action.find(query.action) == std::string::npos) {
+                  continue;
+                }
             }
 
             // Resource prefix filter
@@ -1578,7 +1608,9 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::searchEntries(
             entry.record       = std::move(record);
             results.push_back(std::move(entry));
 
-            if (query.max_results > 0 && results.size() >= query.max_results) break;
+            if (query.max_results > 0 && results.size() >= query.max_results) {
+              break;
+            }
 
         } catch (const nlohmann::json::exception &) {
             // Skip malformed lines
@@ -1614,7 +1646,9 @@ AuditLogger::ComplianceReport AuditLogger::generateComplianceReport(
     std::string line;
 
     while (std::getline(ifs, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         try {
             auto record = nlohmann::json::parse(line);
 
@@ -1624,7 +1658,9 @@ AuditLogger::ComplianceReport AuditLogger::generateComplianceReport(
                 ts = std::chrono::system_clock::time_point(
                     std::chrono::milliseconds(ms));
             }
-            if (ts < from || ts >= to) continue;
+            if (ts < from || ts >= to) {
+              continue;
+            }
 
             ++report.total_events;
 
@@ -1705,7 +1741,9 @@ std::vector<uint8_t> HashChainAuditWriter::sha256(const std::vector<uint8_t>& da
 std::string HashChainAuditWriter::bytesToHex(const std::vector<uint8_t>& data) {
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
-    for (auto b : data) oss << std::setw(2) << static_cast<int>(b);
+    for (auto b : data) {
+      oss << std::setw(2) << static_cast<int>(b);
+    }
     return oss.str();
 }
 
@@ -1889,7 +1927,9 @@ std::string AuditLogVerifier::computeEntryHash(const std::string& prev_hash,
 
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
-    for (auto b : digest) oss << std::setw(2) << static_cast<int>(b);
+    for (auto b : digest) {
+      oss << std::setw(2) << static_cast<int>(b);
+    }
     return oss.str();
 }
 
@@ -1914,7 +1954,9 @@ AuditVerifyResult AuditLogVerifier::verify_chain(const std::string& log_path,
 
     std::string line;
     while (std::getline(ifs, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         ++result.entries_total;
 
         nlohmann::json entry = nlohmann::json::parse(line, nullptr, /*allow_exceptions=*/false);

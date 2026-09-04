@@ -343,7 +343,9 @@ private:
         for (;;) {
             size_t end = s.find(delim, start);
             parts.push_back(s.substr(start, end == std::string::npos ? end : end - start));
-            if (end == std::string::npos) break;
+            if (end == std::string::npos) {
+              break;
+            }
             start = end + 1;
         }
         return parts;
@@ -437,7 +439,9 @@ private:
                 // splitBy('$') produces: ["","argon2id","v=19","m=...,t=...,p=...","<salt>","<hash>"]
                 auto parts = splitBy(stored_hash, '$');
                 // Expect exactly 6 parts (parts[0] is empty due to leading '$')
-                if (parts.size() != 6) return false;
+                if (parts.size() != 6) {
+                  return false;
+                }
 
                 std::string params_str = parts[3]; // "m=19456,t=2,p=1"
                 std::string salt_b64   = parts[4];
@@ -449,7 +453,9 @@ private:
 
                 auto salt_bytes = base64Decode(salt_b64);
                 auto stored_dk  = base64Decode(hash_b64);
-                if (salt_bytes.empty() || stored_dk.empty()) return false;
+                if (salt_bytes.empty() || stored_dk.empty()) {
+                  return false;
+                }
 
                 uint32_t version = 19;
                 // threads is set to match lanes so Argon2 runs single-threaded
@@ -457,10 +463,14 @@ private:
                 uint32_t threads_val = p;
 
                 EVP_KDF* kdf = EVP_KDF_fetch(nullptr, "ARGON2ID", nullptr);
-                if (!kdf) return false;
+                if (!kdf) {
+                  return false;
+                }
                 EVP_KDF_CTX* ctx = EVP_KDF_CTX_new(kdf);
                 EVP_KDF_free(kdf);
-                if (!ctx) return false;
+                if (!ctx) {
+                  return false;
+                }
 
                 OSSL_PARAM ossl_params[] = {
                     OSSL_PARAM_construct_octet_string("pass",
@@ -481,7 +491,9 @@ private:
                 int rc = EVP_KDF_derive(ctx, computed_dk.data(),
                                         computed_dk.size(), ossl_params);
                 EVP_KDF_CTX_free(ctx);
-                if (rc != 1) return false;
+                if (rc != 1) {
+                  return false;
+                }
 
                 return CRYPTO_memcmp(computed_dk.data(), stored_dk.data(),
                                      stored_dk.size()) == 0;

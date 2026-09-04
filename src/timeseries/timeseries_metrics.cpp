@@ -166,14 +166,18 @@ void TimeSeriesMetrics::recordAggRefreshLag(const std::string& agg_id, double la
 double TimeSeriesMetrics::getAggRefreshLatency(const std::string& agg_id) const {
     std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
     auto it = agg_refresh_stats_.find(agg_id);
-    if (it == agg_refresh_stats_.end() || it->second.latency_count == 0) return -1.0;
+    if (it == agg_refresh_stats_.end() || it->second.latency_count == 0) {
+      return -1.0;
+    }
     return it->second.total_latency_ms / static_cast<double>(it->second.latency_count);
 }
 
 double TimeSeriesMetrics::getAggRefreshLag(const std::string& agg_id) const {
     std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
     auto it = agg_refresh_stats_.find(agg_id);
-    if (it == agg_refresh_stats_.end()) return -1.0;
+    if (it == agg_refresh_stats_.end()) {
+      return -1.0;
+    }
     return it->second.last_lag_ms;
 }
 

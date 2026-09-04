@@ -128,8 +128,12 @@ TEST(DeviceManagerTest, GetBestDevice_FromDeviceList_SelectsHighestFreeVRAM) {
     std::vector<DeviceCapabilityInfo> devices = {a, b};
     const DeviceCapabilityInfo* best = nullptr;
     for (const auto& d : devices) {
-        if (!d.is_healthy || d.backend_type == BackendType::CPU) continue;
-        if (!best || d.free_vram_bytes > best->free_vram_bytes) best = &d;
+        if (!d.is_healthy || d.backend_type == BackendType::CPU) {
+          continue;
+        }
+        if (!best || d.free_vram_bytes > best->free_vram_bytes) {
+          best = &d;
+        }
     }
 
     ASSERT_NE(best, nullptr);
@@ -155,8 +159,12 @@ TEST(DeviceManagerTest, GetBestDevice_SkipsUnhealthyDevices) {
     std::vector<DeviceCapabilityInfo> devices = {bad, good};
     const DeviceCapabilityInfo* best = nullptr;
     for (const auto& d : devices) {
-        if (!d.is_healthy || d.backend_type == BackendType::CPU) continue;
-        if (!best || d.free_vram_bytes > best->free_vram_bytes) best = &d;
+        if (!d.is_healthy || d.backend_type == BackendType::CPU) {
+          continue;
+        }
+        if (!best || d.free_vram_bytes > best->free_vram_bytes) {
+          best = &d;
+        }
     }
 
     ASSERT_NE(best, nullptr);

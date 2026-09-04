@@ -164,11 +164,15 @@ struct HfTokenGuard {
 
     explicit HfTokenGuard(const char* value) {
         original_ = getEnvValue("HF_TOKEN", had_original_);
-        if (value) setEnvValue("HF_TOKEN", value);
+        if (value) {
+          setEnvValue("HF_TOKEN", value);
+        }
         else       unsetEnvValue("HF_TOKEN");
     }
     ~HfTokenGuard() {
-        if (had_original_) setEnvValue("HF_TOKEN", original_.c_str());
+        if (had_original_) {
+          setEnvValue("HF_TOKEN", original_.c_str());
+        }
         else               unsetEnvValue("HF_TOKEN");
     }
 };

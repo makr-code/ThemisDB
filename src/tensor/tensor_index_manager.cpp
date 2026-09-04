@@ -122,7 +122,9 @@ ITensorIndex* TensorIndexManager::createIndex(const std::string& tenant_id,
     {
         std::shared_lock rlock(registry_mutex_);
         auto it = indexes_.find(h.key());
-        if (it != indexes_.end()) return it->second.get();
+        if (it != indexes_.end()) {
+          return it->second.get();
+        }
     }
 
     auto idx = std::make_unique<FlatTensorIndex>();
@@ -171,7 +173,9 @@ bool TensorIndexManager::dropIndex(const std::string& tenant_id,
         std::unique_lock lock(registry_mutex_);
         bool found = indexes_.erase(probe.key()) > 0;
         handles_.erase(probe.key());
-        if (!found) return false;
+        if (!found) {
+          return false;
+        }
     }
 
     // Remove the persisted index file when a data directory is configured.
@@ -255,7 +259,9 @@ std::vector<IndexHandle> TensorIndexManager::listIndexes() const {
     std::shared_lock lock(registry_mutex_);
     std::vector<IndexHandle> out;
     out.reserve(handles_.size());
-    for (const auto& [k, h] : handles_) out.push_back(h);
+    for (const auto& [k, h] : handles_) {
+      out.push_back(h);
+    }
     return out;
 }
 
@@ -265,7 +271,9 @@ TensorIndexManager::listIndexes(const std::string& tenant_id) const {
     const std::string prefix = "__ttmgr__:" + tenant_id + ":";
     std::vector<IndexHandle> out;
     for (const auto& [k, h] : handles_) {
-        if (k.substr(0, prefix.size()) == prefix) out.push_back(h);
+        if (k.substr(0, prefix.size()) == prefix) {
+          out.push_back(h);
+        }
     }
     return out;
 }
@@ -273,7 +281,9 @@ TensorIndexManager::listIndexes(const std::string& tenant_id) const {
 TensorIndexStats TensorIndexManager::aggregateStats() const {
     std::shared_lock lock(registry_mutex_);
     TensorIndexStats agg;
-    if (indexes_.empty()) return agg;
+    if (indexes_.empty()) {
+      return agg;
+    }
 
     for (const auto& [k, idx] : indexes_) {
         auto s = idx->stats();
@@ -340,10 +350,14 @@ TensorIndexManager::mapCores(const std::string& tenant_id,
                               const std::string& field,
                               int64_t id) const {
     auto* idx = getIndex(tenant_id, collection, field);
-    if (!idx) return nullptr;
+    if (!idx) {
+      return nullptr;
+    }
 
     const storage::TTTrain* train = idx->get(id);
-    if (!train) return nullptr;
+    if (!train) {
+      return nullptr;
+    }
 
     return TensorMmapBridge::buildFromTrain(*train);
 }

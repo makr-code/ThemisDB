@@ -88,9 +88,13 @@ protected:
         f << "name: \"" << id << " school\"\n";
         f << "taxonomy_class: " << tax_class << "\n";
         f << "tags:\n";
-        for (const auto& t : tags) f << "  - " << t << "\n";
+        for (const auto& t : tags) {
+          f << "  - " << t << "\n";
+        }
         f << "applicable_domains:\n";
-        for (const auto& t : tags) f << "  - " << t << "\n";
+        for (const auto& t : tags) {
+          f << "  - " << t << "\n";
+        }
         f << "description: |\n  School " << id << " focuses on " << tax_class << ".\n";
         f << "main_theses: []\nsecondary_theses: []\ndecision_framework: {}\nstrengths: []\nweaknesses: []\n";
     }
@@ -272,7 +276,9 @@ TEST_F(EthicsSelectionRouterTest, ESR10_ConcurrentRouteCalls) {
             counts[i] = local_count;
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // All threads must have produced non-zero results (registry has profiles)
     for (int i = 0; i < kThreads; ++i) {

@@ -45,12 +45,24 @@ static std::string stateToString(UpdateState s) {
 }
 
 static UpdateState stateFromString(const std::string& s) {
-    if (s == "idle")         return UpdateState::IDLE;
-    if (s == "downloading")  return UpdateState::DOWNLOADING;
-    if (s == "verifying")    return UpdateState::VERIFYING;
-    if (s == "applying")     return UpdateState::APPLYING;
-    if (s == "rolling_back") return UpdateState::ROLLING_BACK;
-    if (s == "failed")       return UpdateState::FAILED;
+    if (s == "idle") {
+      return UpdateState::IDLE;
+    }
+    if (s == "downloading") {
+      return UpdateState::DOWNLOADING;
+    }
+    if (s == "verifying") {
+      return UpdateState::VERIFYING;
+    }
+    if (s == "applying") {
+      return UpdateState::APPLYING;
+    }
+    if (s == "rolling_back") {
+      return UpdateState::ROLLING_BACK;
+    }
+    if (s == "failed") {
+      return UpdateState::FAILED;
+    }
     return UpdateState::IDLE;
 }
 
@@ -355,7 +367,9 @@ void UpdateStateMachine::loadPersistedState() {
 
         std::string line;
         while (std::getline(f, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             try {
                 auto j = json::parse(line);
                 auto entry = UpdateTransactionEntry::fromJson(j);
@@ -425,7 +439,9 @@ void UpdateStateMachine::loadCheckpoints() {
         uint64_t max_id = 0;
         
         while (std::getline(f, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             try {
                 auto j = json::parse(line);
                 auto cp = Checkpoint::fromJson(j);

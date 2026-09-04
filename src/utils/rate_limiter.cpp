@@ -25,8 +25,12 @@ RateLimiter::RateLimiter(double rate_per_second, double burst_size)
     , tokens_(burst_size)
     , last_refill_(Clock::now())
 {
-    if (rate_per_second <= 0.0) throw std::invalid_argument("RateLimiter: rate must be positive");
-    if (burst_size <= 0.0)      throw std::invalid_argument("RateLimiter: burst_size must be positive");
+    if (rate_per_second <= 0.0) {
+      throw std::invalid_argument("RateLimiter: rate must be positive");
+    }
+    if (burst_size <= 0.0) {
+      throw std::invalid_argument("RateLimiter: burst_size must be positive");
+    }
 }
 
 void RateLimiter::refill_locked() {
@@ -38,12 +42,16 @@ void RateLimiter::refill_locked() {
 
 std::chrono::duration<double> RateLimiter::wait_for_locked(double tokens) const {
     double deficit = tokens - tokens_;
-    if (deficit <= 0.0) return std::chrono::duration<double>::zero();
+    if (deficit <= 0.0) {
+      return std::chrono::duration<double>::zero();
+    }
     return std::chrono::duration<double>(deficit / rate_);
 }
 
 bool RateLimiter::try_acquire([[maybe_unused]] double tokens) {
-    if (tokens <= 0.0) return true;
+    if (tokens <= 0.0) {
+      return true;
+    }
     std::lock_guard<std::mutex> lk(mutex_);
     refill_locked();
     if (tokens_ >= tokens) {
@@ -65,7 +73,9 @@ bool RateLimiter::try_acquire([[maybe_unused]] double tokens) {
 }
 
 bool RateLimiter::acquire_with_timeout(double tokens, std::chrono::milliseconds timeout) {
-    if (tokens <= 0.0) return true;
+    if (tokens <= 0.0) {
+      return true;
+    }
     std::unique_lock<std::mutex> lk(mutex_);
     const auto deadline = std::chrono::steady_clock::now() + timeout;
     while (true) {
@@ -101,14 +111,18 @@ double RateLimiter::available() const {
 }
 
 void RateLimiter::set_rate([[maybe_unused]] double rate_per_second) {
-    if (rate_per_second <= 0.0) throw std::invalid_argument("RateLimiter: rate must be positive");
+    if (rate_per_second <= 0.0) {
+      throw std::invalid_argument("RateLimiter: rate must be positive");
+    }
     std::lock_guard<std::mutex> lk(mutex_);
     refill_locked(); // absorb tokens at old rate before switching
     rate_ = rate_per_second;
 }
 
 bool RateLimiter::try_acquire_for(double tokens, std::chrono::milliseconds timeout) noexcept {
-    if (tokens <= 0.0) return true;
+    if (tokens <= 0.0) {
+      return true;
+    }
     std::unique_lock<std::mutex> lk(mutex_);
     const auto deadline = std::chrono::steady_clock::now() + timeout;
     while (true) {
@@ -118,13 +132,17 @@ bool RateLimiter::try_acquire_for(double tokens, std::chrono::milliseconds timeo
             return true;
         }
         auto now = std::chrono::steady_clock::now();
-        if (now >= deadline) return false;
+        if (now >= deadline) {
+          return false;
+        }
         auto remaining = std::chrono::duration_cast<std::chrono::duration<double>>(deadline - now);
         auto wait = wait_for_locked(tokens);
         constexpr std::chrono::duration<double> max_sleep{0.05};
         auto sleep_dur = std::min({wait, max_sleep, remaining});
         cv_.wait_for(lk, sleep_dur);
-        if (std::chrono::steady_clock::now() >= deadline) return false;
+        if (std::chrono::steady_clock::now() >= deadline) {
+          return false;
+        }
     }
 }
 

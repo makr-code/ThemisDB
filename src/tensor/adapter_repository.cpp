@@ -174,13 +174,17 @@ bool AdapterRepository::remove(const std::string& domain,
                                 const std::string& base_model_id) {
     const std::string key = makeKey(domain, base_model_id);
     const bool existed = backend_->get(key).has_value();
-    if (!existed) return false;
+    if (!existed) {
+      return false;
+    }
 
     const bool ok = backend_->del(key);
     if (ok) {
         {
             std::unique_lock lock(stats_mutex_);
-            if (stats_.total_adapters > 0) --stats_.total_adapters;
+            if (stats_.total_adapters > 0) {
+              --stats_.total_adapters;
+            }
         }
 
         // Deregister fingerprint from the graph (if wired).
@@ -223,13 +227,23 @@ AdapterRepository::loadAdapter(const std::string& domain,
         try {
             auto mapped = mmap_fn_copy(
                 tenant_id_, domain, base_model_id, desc.adapter_key, backend_);
-            if (mapped.tenant_id.empty()) mapped.tenant_id = tenant_id_;
-            if (mapped.domain.empty()) mapped.domain = domain;
-            if (mapped.base_model_id.empty()) mapped.base_model_id = base_model_id;
-            if (mapped.adapter_key.empty()) mapped.adapter_key = desc.adapter_key;
+            if (mapped.tenant_id.empty()) {
+              mapped.tenant_id = tenant_id_;
+            }
+            if (mapped.domain.empty()) {
+              mapped.domain = domain;
+            }
+            if (mapped.base_model_id.empty()) {
+              mapped.base_model_id = base_model_id;
+            }
+            if (mapped.adapter_key.empty()) {
+              mapped.adapter_key = desc.adapter_key;
+            }
             {
                 std::unique_lock lock(stats_mutex_);
-                if (mapped.valid) ++stats_.load_hits;
+                if (mapped.valid) {
+                  ++stats_.load_hits;
+                }
                 else ++stats_.load_misses;
             }
             return mapped;
@@ -293,10 +307,14 @@ std::vector<std::string> AdapterRepository::listDomains() const {
     for (const auto& key : keys) {
         // Key format: __adapters__:<tenant>:<domain>:<base_model_id>
         // Strip the prefix and extract the domain part.
-        if (key.size() <= prefix.size()) continue;
+        if (key.size() <= prefix.size()) {
+          continue;
+        }
         const std::string rest = key.substr(prefix.size());
         const auto sep = rest.find(':');
-        if (sep == std::string::npos) continue;
+        if (sep == std::string::npos) {
+          continue;
+        }
         domains.push_back(rest.substr(0, sep));
     }
 
@@ -319,10 +337,14 @@ AdapterRepository::listAdapters() const {
     result.reserve(keys.size());
 
     for (const auto& key : keys) {
-        if (key.size() <= prefix.size()) continue;
+        if (key.size() <= prefix.size()) {
+          continue;
+        }
         const std::string rest = key.substr(prefix.size());
         const auto sep = rest.find(':');
-        if (sep == std::string::npos || sep + 1 >= rest.size()) continue;
+        if (sep == std::string::npos || sep + 1 >= rest.size()) {
+          continue;
+        }
         result.emplace_back(rest.substr(0, sep), rest.substr(sep + 1));
     }
 

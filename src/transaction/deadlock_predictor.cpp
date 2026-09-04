@@ -147,7 +147,9 @@ void DeadlockPredictor::recordDeadlock(const std::vector<std::string>& keys) {
                 if (evicted_val >= max_conflict_score_) {
                     max_conflict_score_ = 0.0;
                     for (const auto& [_, v] : pair_conflicts_) {
-                        if (v > max_conflict_score_) max_conflict_score_ = v;
+                        if (v > max_conflict_score_) {
+                          max_conflict_score_ = v;
+                        }
                     }
                 }
             }
@@ -221,13 +223,19 @@ std::vector<std::string> DeadlockPredictor::recommendLockOrder(
     for (const auto& [pair_key, weight] : pair_conflicts_) {
         // pair_key is encoded as "a\x00b" (NUL-byte separator) – split on '\x00'.
         auto sep = pair_key.find('\x00');
-        if (sep == std::string::npos) continue;
+        if (sep == std::string::npos) {
+          continue;
+        }
 
         std::string a = pair_key.substr(0, sep);
         std::string b = pair_key.substr(sep + 1);
 
-        if (danger.count(a)) danger[a] += weight;
-        if (danger.count(b)) danger[b] += weight;
+        if (danger.count(a)) {
+          danger[a] += weight;
+        }
+        if (danger.count(b)) {
+          danger[b] += weight;
+        }
     }
 
     // Sort: lower danger → acquire earlier; break ties lexicographically.
@@ -236,7 +244,9 @@ std::vector<std::string> DeadlockPredictor::recommendLockOrder(
               [&](const std::string& x, const std::string& y) {
                   double dx = danger.count(x) ? danger.at(x) : 0.0;
                   double dy = danger.count(y) ? danger.at(y) : 0.0;
-                  if (dx != dy) return dx < dy;
+                  if (dx != dy) {
+                    return dx < dy;
+                  }
                   return x < y;
               });
     return result;

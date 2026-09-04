@@ -519,8 +519,12 @@ TEST_F(ConsumerGroupTest, AtLeastOnce_RedeliveryOnTimeout) {
 
     // Redelivered sequences must match the originals
     std::vector<uint64_t> first_seqs, second_seqs;
-    for (const auto& ev : first)  first_seqs.push_back(ev.sequence);
-    for (const auto& ev : second) second_seqs.push_back(ev.sequence);
+    for (const auto& ev : first) {
+      first_seqs.push_back(ev.sequence);
+    }
+    for (const auto& ev : second) {
+      second_seqs.push_back(ev.sequence);
+    }
     std::sort(first_seqs.begin(),  first_seqs.end());
     std::sort(second_seqs.begin(), second_seqs.end());
     EXPECT_EQ(first_seqs, second_seqs);

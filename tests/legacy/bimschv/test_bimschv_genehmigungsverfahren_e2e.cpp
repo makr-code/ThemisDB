@@ -1038,7 +1038,9 @@ TEST_F(BImSchVGenehmigungsverfahrenE2ETest, ProzessschrittReihenfolgePruefung) {
 
     auto find_pos = [&](const std::string& prefix) -> int {
         for (int i = 0; i < static_cast<int>(log_.size()); ++i) {
-            if (log_[i].rfind(prefix, 0) == 0) return i;
+            if (log_[i].rfind(prefix, 0) == 0) {
+              return i;
+            }
         }
         return -1;
     };

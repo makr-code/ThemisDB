@@ -180,7 +180,9 @@ public:
             std::vector<uint8_t> buffer(4096);
             while (true) {
                 size_t bytes_read = body->Read(buffer.data(), buffer.size());
-                if (bytes_read == 0) break;
+                if (bytes_read == 0) {
+                  break;
+                }
                 data.insert(data.end(), buffer.begin(), buffer.begin() + bytes_read);
             }
             

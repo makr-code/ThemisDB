@@ -44,8 +44,12 @@ TEST(AQLTranslatorTest, MultipleEqualityPredicates) {
     // Order may vary due to AST traversal
     bool hasAge = false, hasCity = false;
     for (const auto& pred : translateResult.query.predicates) {
-        if (pred.column == "age" && pred.value == "25") hasAge = true;
-        if (pred.column == "city" && pred.value == "Berlin") hasCity = true;
+        if (pred.column == "age" && pred.value == "25") {
+          hasAge = true;
+        }
+        if (pred.column == "city" && pred.value == "Berlin") {
+          hasCity = true;
+        }
     }
     EXPECT_TRUE(hasAge);
     EXPECT_TRUE(hasCity);

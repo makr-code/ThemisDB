@@ -131,7 +131,9 @@ struct Node {
                                    [](const KVEntry& e, std::string_view k) {
                                        return e.key < k;
                                    });
-        if (it != data.end() && it->key == key) return it;
+        if (it != data.end() && it->key == key) {
+          return it;
+        }
         return data.end();
     }
 
@@ -140,7 +142,9 @@ struct Node {
                                    [](const KVEntry& e, std::string_view k) {
                                        return e.key < k;
                                    });
-        if (it != data.end() && it->key == key) return it;
+        if (it != data.end() && it->key == key) {
+          return it;
+        }
         return data.end();
     }
 
@@ -304,7 +308,9 @@ struct WomTree::Impl {
     // Recursively flush node's buffer one level downward.
     // depth == depth of 'node' in the tree (root = 1).
     void flushNode(Node& node, uint32_t depth) {
-        if (node.is_leaf || node.buffer.empty()) return;
+        if (node.is_leaf || node.buffer.empty()) {
+          return;
+        }
 
         // Snapshot the child count BEFORE we flush: child_ops is sized to
         // match the original children, and ops are routed to them.  Leaf
@@ -332,7 +338,9 @@ struct WomTree::Impl {
         // true current index: ci = orig_idx + splits_so_far.
         size_t splits_so_far = 0;
         for (size_t orig_idx = 0; orig_idx < num_original_children; ++orig_idx) {
-            if (child_ops[orig_idx].empty()) continue;
+            if (child_ops[orig_idx].empty()) {
+              continue;
+            }
 
             size_t ci    = orig_idx + splits_so_far;
             Node& child  = *node.children[ci];
@@ -376,7 +384,9 @@ struct WomTree::Impl {
 
     // Flush all buffers in the subtree rooted at 'node' to leaves.
     void flushAll(Node& node, uint32_t depth) {
-        if (node.is_leaf) return;
+        if (node.is_leaf) {
+          return;
+        }
         flushNode(node, depth);
         for (auto& child : node.children) {
             flushAll(*child, depth + 1);
@@ -388,8 +398,12 @@ struct WomTree::Impl {
     // If the single-leaf root is over capacity, promote it to an internal
     // node with two leaf children.
     void maybeSplitRootLeaf() {
-        if (!root->is_leaf) return;
-        if (root->data.size() <= config.leaf_capacity) return;
+        if (!root->is_leaf) {
+          return;
+        }
+        if (root->data.size() <= config.leaf_capacity) {
+          return;
+        }
 
         std::string pivot;
         auto right_leaf = splitLeaf(*root, pivot);
@@ -407,8 +421,12 @@ struct WomTree::Impl {
     // and insert the new pivot into 'parent'.
     void maybeSplitChild(Node& parent, size_t ci) {
         Node& child = *parent.children[ci];
-        if (!child.is_leaf) return;
-        if (child.data.size() <= config.leaf_capacity) return;
+        if (!child.is_leaf) {
+          return;
+        }
+        if (child.data.size() <= config.leaf_capacity) {
+          return;
+        }
 
         std::string pivot;
         auto right = splitLeaf(child, pivot);
@@ -427,7 +445,9 @@ struct WomTree::Impl {
     // Perform one internal-node split, depth-first.  Returns true if any
     // split was performed (the caller should then call again until stable).
     bool doOneInternalSplit(NodePtr& node_ref, Node* parent, size_t idx_in_parent) {
-        if (node_ref->is_leaf) return false;
+        if (node_ref->is_leaf) {
+          return false;
+        }
 
         // Recurse into children first (bottom-up ordering).
         for (size_t i = 0; i < node_ref->children.size(); ++i) {
@@ -493,7 +513,9 @@ struct WomTree::Impl {
     // child subtree that contains 'key'.  This prevents a previously-buffered
     // PUT from reappearing after the next flush when lazy_deletes=false.
     void clearBufferedOpsForKey(const std::string& key, Node& node) {
-        if (node.is_leaf) return;
+        if (node.is_leaf) {
+          return;
+        }
 
         auto& buf = node.buffer;
         size_t freed = 0;
@@ -630,7 +652,9 @@ struct WomTree::Impl {
     // ── Utilities ────────────────────────────────────────────────────────
 
     size_t countBufferedEntries(const Node& node) const {
-        if (node.is_leaf) return 0;
+        if (node.is_leaf) {
+          return 0;
+        }
         size_t total = node.buffer.size();
         for (const auto& child : node.children) {
             total += countBufferedEntries(*child);
@@ -639,21 +663,31 @@ struct WomTree::Impl {
     }
 
     size_t countLeaves(const Node& node) const {
-        if (node.is_leaf) return 1;
+        if (node.is_leaf) {
+          return 1;
+        }
         size_t total = 0;
-        for (const auto& child : node.children) total += countLeaves(*child);
+        for (const auto& child : node.children) {
+          total += countLeaves(*child);
+        }
         return total;
     }
 
     size_t countInternals(const Node& node) const {
-        if (node.is_leaf) return 0;
+        if (node.is_leaf) {
+          return 0;
+        }
         size_t total = 1;
-        for (const auto& child : node.children) total += countInternals(*child);
+        for (const auto& child : node.children) {
+          total += countInternals(*child);
+        }
         return total;
     }
 
     uint32_t treeHeight(const Node& node) const {
-        if (node.is_leaf) return 1;
+        if (node.is_leaf) {
+          return 1;
+        }
         return 1 + treeHeight(*node.children.front());
     }
 };
@@ -769,7 +803,9 @@ Result<std::string> WomTree::get(std::string_view key) const {
 // ── contains ─────────────────────────────────────────────────────────────────
 
 bool WomTree::contains(std::string_view key) const {
-    if (key.empty()) return false;
+    if (key.empty()) {
+      return false;
+    }
     std::shared_lock<std::shared_mutex> lk(impl_->mu);
     return impl_->doGet(key).has_value();
 }
@@ -788,7 +824,9 @@ void WomTree::scan(
         impl_->collectAllEntries(materialized);
     }
     for (const auto& [k, v] : materialized) {
-        if (!callback(k, v)) break;
+        if (!callback(k, v)) {
+          break;
+        }
     }
 }
 
@@ -810,7 +848,9 @@ void WomTree::scanRange(
                         : materialized.lower_bound(std::string(end_key));
 
     for (auto it = it_begin; it != it_end; ++it) {
-        if (!callback(it->first, it->second)) break;
+        if (!callback(it->first, it->second)) {
+          break;
+        }
     }
 }
 

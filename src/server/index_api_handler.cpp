@@ -92,7 +92,9 @@ http::response<http::string_body> IndexApiHandler::handleCreate(
                     config.stopwords_enabled = configObj.value("stopwords_enabled", false);
                     if (configObj.contains("stopwords") && configObj["stopwords"].is_array()) {
                         for (const auto& s : configObj["stopwords"]) {
-                            if (s.is_string()) config.stopwords.push_back(s.get<std::string>());
+                            if (s.is_string()) {
+                              config.stopwords.push_back(s.get<std::string>());
+                            }
                         }
                     }
                     config.normalize_umlauts = configObj.value("normalize_umlauts", false);
@@ -228,14 +230,20 @@ http::response<http::string_body> IndexApiHandler::handleStats(
                 size_t pos = 0;
                 while (pos < query.size()) {
                     size_t eq = query.find('=', pos);
-                    if (eq == std::string::npos) break;
+                    if (eq == std::string::npos) {
+                      break;
+                    }
                     size_t amp = query.find('&', eq);
-                    if (amp == std::string::npos) amp = query.size();
+                    if (amp == std::string::npos) {
+                      amp = query.size();
+                    }
                     
                     std::string key = query.substr(pos, eq - pos);
                     std::string value = query.substr(eq + 1, amp - eq - 1);
                     
-                    if (key == "table") table = value;
+                    if (key == "table") {
+                      table = value;
+                    }
                     else if (key == "column") column = value;
                     
                     pos = amp + 1;

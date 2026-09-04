@@ -53,22 +53,32 @@ std::string schemeHost(const std::string& url) {
     const std::size_t pos = url.find("://");
     if (pos == std::string::npos) return {};
     const std::size_t slash = url.find('/', pos + 3);
-    if (slash == std::string::npos) return url;
+    if (slash == std::string::npos) {
+      return url;
+    }
     return url.substr(0, slash);
 }
 
 /// Resolve href relative to base_url.
 std::string resolveUrl(const std::string& href, const std::string& base_url) {
-    if (href.empty()) return base_url;
-    if (href.compare(0, 4, "http") == 0) return href;
+    if (href.empty()) {
+      return base_url;
+    }
+    if (href.compare(0, 4, "http") == 0) {
+      return href;
+    }
     if (href.compare(0, 2, "//") == 0) {
         const std::size_t colon = base_url.find(':');
         return (colon != std::string::npos ? base_url.substr(0, colon + 1) : "https:") + href;
     }
-    if (href.front() == '/') return schemeHost(base_url) + href;
+    if (href.front() == '/') {
+      return schemeHost(base_url) + href;
+    }
     // Relative path
     const std::size_t slash = base_url.rfind('/');
-    if (slash == std::string::npos) return base_url + "/" + href;
+    if (slash == std::string::npos) {
+      return base_url + "/" + href;
+    }
     return base_url.substr(0, slash + 1) + href;
 }
 
@@ -93,8 +103,12 @@ std::string buildQueryString(
         first = false;
     };
     append(search_key, search_val);
-    if (page > 1 && !page_key.empty()) append(page_key, std::to_string(page));
-    for (const auto& kv : fixed) append(kv.first, kv.second);
+    if (page > 1 && !page_key.empty()) {
+      append(page_key, std::to_string(page));
+    }
+    for (const auto& kv : fixed) {
+      append(kv.first, kv.second);
+    }
     return qs.str();
 }
 
@@ -118,8 +132,12 @@ std::string buildQueryString(
                                                   const std::string& id,
                                                   const std::string& placeholder) {
     const std::string tl = toLower(type);
-    if (tl == "search") return true;
-    if (tl != "text" && tl != "") return false;
+    if (tl == "search") {
+      return true;
+    }
+    if (tl != "text" && tl != "") {
+      return false;
+    }
 
     // name/id heuristics — English, German, French, Spanish, Italian, Dutch,
     // Polish, Portuguese, Swedish, and common URL/API parameter names.
@@ -158,12 +176,16 @@ std::string buildQueryString(
             "suchfeld",  // German (search field)
         }};
         for (const auto& kw : kKeywords) {
-            if (l.find(kw) != std::string::npos) return true;
+            if (l.find(kw) != std::string::npos) {
+              return true;
+            }
         }
         return false;
     };
 
-    if (looksLikeSearch(name) || looksLikeSearch(id)) return true;
+    if (looksLikeSearch(name) || looksLikeSearch(id)) {
+      return true;
+    }
 
     // Placeholder heuristics — look for search-intent words in many languages.
     const std::string pl = toLower(placeholder);
@@ -188,7 +210,9 @@ std::string buildQueryString(
         "ara",        // Turkish
     }};
     for (const auto& kw : kPlaceholderKeywords) {
-        if (pl.find(kw) != std::string::npos) return true;
+        if (pl.find(kw) != std::string::npos) {
+          return true;
+        }
     }
     return false;
 }
@@ -219,7 +243,9 @@ std::string buildQueryString(
     for (char c : fragment) {
         if (c == '<')      { in_tag = true; continue; }
         if (c == '>')      { in_tag = false; out += ' '; continue; }
-        if (!in_tag)       out += c;
+        if (!in_tag) {
+          out += c;
+        }
     }
     return out;
 #endif
@@ -242,7 +268,9 @@ std::vector<SearchForm> HtmlSearchEngine::discoverForms(
         const pugi::xml_node& fn = form_node.node();
         SearchForm sf;
         sf.action_url = resolveUrl(fn.attribute("action").as_string(), base_url);
-        if (sf.action_url.empty()) sf.action_url = base_url;
+        if (sf.action_url.empty()) {
+          sf.action_url = base_url;
+        }
         sf.method  = toLower(fn.attribute("method").as_string("get"));
         sf.enctype = fn.attribute("enctype").as_string(
                          "application/x-www-form-urlencoded");
@@ -261,7 +289,9 @@ std::vector<SearchForm> HtmlSearchEngine::discoverForms(
             const std::string tl    = toLower(type);
 
             if (tl == "hidden") {
-                if (!name.empty()) sf.hidden_fields[name] = val;
+                if (!name.empty()) {
+                  sf.hidden_fields[name] = val;
+                }
             } else if (isSearchInput(type, name, id, ph) && sf.input_name.empty()) {
                 sf.input_name = name;
             }
@@ -282,7 +312,9 @@ std::vector<SearchForm> HtmlSearchEngine::discoverForms(
     std::size_t pos = 0;
     while ((pos = html.find("<form", pos)) != std::string::npos) {
         const std::size_t form_end = html.find("</form>", pos);
-        if (form_end == std::string::npos) break;
+        if (form_end == std::string::npos) {
+          break;
+        }
         const std::string form_html = html.substr(pos, form_end - pos);
 
         SearchForm sf;
@@ -294,7 +326,9 @@ std::vector<SearchForm> HtmlSearchEngine::discoverForms(
             if (ve != std::string::npos)
                 sf.action_url = resolveUrl(form_html.substr(vs, ve - vs), base_url);
         }
-        if (sf.action_url.empty()) sf.action_url = base_url;
+        if (sf.action_url.empty()) {
+          sf.action_url = base_url;
+        }
         sf.method = "GET";
         // Detect search input
         std::size_t ip = 0;
@@ -315,13 +349,17 @@ std::vector<SearchForm> HtmlSearchEngine::discoverForms(
             const std::string id   = attr("id");
             const std::string ph   = attr("placeholder");
             if (toLower(type) == "hidden") {
-                if (!name.empty()) sf.hidden_fields[name] = attr("value");
+                if (!name.empty()) {
+                  sf.hidden_fields[name] = attr("value");
+                }
             } else if (isSearchInput(type, name, id, ph) && sf.input_name.empty()) {
                 sf.input_name = name;
             }
             ip = (ie != std::string::npos) ? ie : pos + 1;
         }
-        if (!sf.input_name.empty()) result.push_back(sf);
+        if (!sf.input_name.empty()) {
+          result.push_back(sf);
+        }
         pos = form_end + 1;
     }
 #endif
@@ -371,7 +409,9 @@ SearchResultPage HtmlSearchEngine::parseResults(
     for (const auto& xp : candidates) {
         try {
             items = doc.select_nodes(xp.c_str());
-            if (!items.empty()) break;
+            if (!items.empty()) {
+              break;
+            }
         } catch (...) {}
     }
 
@@ -393,28 +433,40 @@ SearchResultPage HtmlSearchEngine::parseResults(
         if (item.title.empty()) {
             for (const auto& h : li.select_nodes(".//*[self::h2 or self::h3 or self::h4]")) {
                 item.title = extractText(h.node().first_child().value());
-                if (!item.title.empty()) break;
+                if (!item.title.empty()) {
+                  break;
+                }
             }
         }
 
         // Snippet: all remaining text
         item.snippet = extractText(li.first_child().value());
-        if (item.snippet.size() > 300) item.snippet = item.snippet.substr(0, 300) + "…";
+        if (item.snippet.size() > 300) {
+          item.snippet = item.snippet.substr(0, 300) + "…";
+        }
 
         // Date: look for <time> or elements with "date"/"datum" class
         for (const auto& t : li.select_nodes(".//*[self::time or contains(@class,'date') or contains(@class,'datum')]")) {
             item.date = toLower(t.node().attribute("datetime").as_string());
-            if (item.date.empty()) item.date = extractText(t.node().first_child().value());
-            if (!item.date.empty()) break;
+            if (item.date.empty()) {
+              item.date = extractText(t.node().first_child().value());
+            }
+            if (!item.date.empty()) {
+              break;
+            }
         }
 
         // Source label: look for court/publisher annotation
         for (const auto& t : li.select_nodes(".//*[contains(@class,'court') or contains(@class,'gericht') or contains(@class,'source')]")) {
             item.source_label = extractText(t.node().first_child().value());
-            if (!item.source_label.empty()) break;
+            if (!item.source_label.empty()) {
+              break;
+            }
         }
 
-        if (!item.url.empty()) page.items.push_back(std::move(item));
+        if (!item.url.empty()) {
+          page.items.push_back(std::move(item));
+        }
     }
 
     // Next-page URL
@@ -449,10 +501,14 @@ SearchResultPage HtmlSearchEngine::parseResults(
             // Extract first number
             std::string num;
             for (char c : txt) {
-                if (std::isdigit(c)) num += c;
+                if (std::isdigit(c)) {
+                  num += c;
+                }
                 else if (!num.empty()) break;
             }
-            if (!num.empty()) page.total_results = std::stoi(num);
+            if (!num.empty()) {
+              page.total_results = std::stoi(num);
+            }
         }
     } catch (...) {}
 
@@ -462,7 +518,9 @@ SearchResultPage HtmlSearchEngine::parseResults(
     int rank = 1;
     while ((pos = html.find("<a ", pos)) != std::string::npos) {
         const std::size_t ae = html.find('>', pos);
-        if (ae == std::string::npos) break;
+        if (ae == std::string::npos) {
+          break;
+        }
         const std::string tag = html.substr(pos, ae - pos);
         const std::size_t hi = tag.find("href=\"");
         if (hi != std::string::npos) {
@@ -497,7 +555,9 @@ std::string HtmlSearchEngine::buildSearchUrl(
         const SearchForm& form,
         const std::string& query,
         int page) const {
-    if (form.method == "POST") return form.action_url;
+    if (form.method == "POST") {
+      return form.action_url;
+    }
     const std::string qs = buildQueryString(
         form.hidden_fields, form.input_name, query, "p", page);
     const bool has_q = form.action_url.find('?') != std::string::npos;

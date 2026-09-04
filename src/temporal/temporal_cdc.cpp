@@ -51,10 +51,18 @@ std::string TemporalCDC::changeTypeName(ChangeType ct) {
 }
 
 ChangeType TemporalCDC::changeTypeFromString(const std::string& s) {
-    if (s == "INSERT")          return ChangeType::INSERT;
-    if (s == "UPDATE")          return ChangeType::UPDATE;
-    if (s == "DELETE")          return ChangeType::DELETE;
-    if (s == "VERSION_CREATED") return ChangeType::VERSION_CREATED;
+    if (s == "INSERT") {
+      return ChangeType::INSERT;
+    }
+    if (s == "UPDATE") {
+      return ChangeType::UPDATE;
+    }
+    if (s == "DELETE") {
+      return ChangeType::DELETE;
+    }
+    if (s == "VERSION_CREATED") {
+      return ChangeType::VERSION_CREATED;
+    }
     throw std::invalid_argument("Unknown ChangeType: " + s);
 }
 
@@ -289,10 +297,18 @@ bool validateSegmentHeaderFile(std::FILE* fd) {
     uint64_t seq = 0;
     uint64_t created = 0;
 
-    if (std::fread(&magic, 4, 1, fd) != 1) return false;
-    if (std::fread(&version, 2, 1, fd) != 1) return false;
-    if (std::fread(&seq, 8, 1, fd) != 1) return false;
-    if (std::fread(&created, 8, 1, fd) != 1) return false;
+    if (std::fread(&magic, 4, 1, fd) != 1) {
+      return false;
+    }
+    if (std::fread(&version, 2, 1, fd) != 1) {
+      return false;
+    }
+    if (std::fread(&seq, 8, 1, fd) != 1) {
+      return false;
+    }
+    if (std::fread(&created, 8, 1, fd) != 1) {
+      return false;
+    }
 
     return magic == kCDCMagic && (version >> 8) == kCDCMajorVersion;
 }
@@ -365,11 +381,17 @@ void CDCPersistentLog::open() {
         for (;;) {
             uint32_t payload_len = 0;
             uint32_t stored_crc  = 0;
-            if (std::fread(&payload_len, 4, 1, fd) != 1) break;
-            if (std::fread(&stored_crc,  4, 1, fd) != 1) break;
+            if (std::fread(&payload_len, 4, 1, fd) != 1) {
+              break;
+            }
+            if (std::fread(&stored_crc,  4, 1, fd) != 1) {
+              break;
+            }
 
             std::string payload(payload_len, '\0');
-            if (std::fread(payload.data(), 1, payload_len, fd) != payload_len) break;
+            if (std::fread(payload.data(), 1, payload_len, fd) != payload_len) {
+              break;
+            }
 
             uint32_t computed_crc = computeCRC32(payload.data(), payload_len);
             if (computed_crc != stored_crc) break;  // truncated / corrupt tail
@@ -459,7 +481,9 @@ static std::vector<ChangeEvent> replayFile([[maybe_unused]] const std::string& p
     std::vector<ChangeEvent> events;
 
     std::FILE* fd = std::fopen(path.c_str(), "rb");
-    if (!fd) return events;
+    if (!fd) {
+      return events;
+    }
 
     if (!validateSegmentHeaderFile(fd)) {
         std::fclose(fd);
@@ -469,11 +493,17 @@ static std::vector<ChangeEvent> replayFile([[maybe_unused]] const std::string& p
     for (;;) {
         uint32_t payload_len = 0;
         uint32_t stored_crc  = 0;
-        if (std::fread(&payload_len, 4, 1, fd) != 1) break;
-        if (std::fread(&stored_crc,  4, 1, fd) != 1) break;
+        if (std::fread(&payload_len, 4, 1, fd) != 1) {
+          break;
+        }
+        if (std::fread(&stored_crc,  4, 1, fd) != 1) {
+          break;
+        }
 
         std::string payload(payload_len, '\0');
-        if (std::fread(payload.data(), 1, payload_len, fd) != payload_len) break;
+        if (std::fread(payload.data(), 1, payload_len, fd) != payload_len) {
+          break;
+        }
 
         uint32_t computed_crc = computeCRC32(payload.data(), payload_len);
         if (computed_crc != stored_crc) break;  // truncated tail — stop here
@@ -556,7 +586,9 @@ std::vector<uint64_t> CDCPersistentLog::listSegmentSeqs() const {
     std::error_code ec;
     for (const auto& entry :
          std::filesystem::directory_iterator(segment_dir_, ec)) {
-        if (ec) break;
+        if (ec) {
+          break;
+        }
         const std::string fname = entry.path().filename().string();
         const std::string prefix_part = log_prefix_ + "_";
         if (fname.size() > prefix_part.size() + 4 &&
@@ -595,10 +627,18 @@ std::vector<uint64_t> CDCPersistentLog::listSegmentSeqs() const {
     uint64_t seq     = 0;
     uint64_t created = 0;
 
-    if (std::fread(&magic,   4, 1, fd) != 1) return false;
-    if (std::fread(&version, 2, 1, fd) != 1) return false;
-    if (std::fread(&seq,     8, 1, fd) != 1) return false;
-    if (std::fread(&created, 8, 1, fd) != 1) return false;
+    if (std::fread(&magic,   4, 1, fd) != 1) {
+      return false;
+    }
+    if (std::fread(&version, 2, 1, fd) != 1) {
+      return false;
+    }
+    if (std::fread(&seq,     8, 1, fd) != 1) {
+      return false;
+    }
+    if (std::fread(&created, 8, 1, fd) != 1) {
+      return false;
+    }
 
     return magic == kMagic && (version >> 8) == 0x01;  // major == 1
 }

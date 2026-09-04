@@ -74,7 +74,9 @@ TEST_F(ErrorRegistryTest, SearchErrors) {
                 break;
             }
         }
-        if (found_gpu) break;
+        if (found_gpu) {
+          break;
+        }
     }
     EXPECT_TRUE(found_gpu);
 }
@@ -328,10 +330,18 @@ TEST_F(ErrorRegistryTest, NewErrorCodesInJSON) {
     
     for (const auto& error : errors) {
         int code = error["code"].get<int>();
-        if (code == static_cast<int>(ErrorCode::ERR_LLM_INVALID_HANDLE)) found_invalid_handle = true;
-        if (code == static_cast<int>(ErrorCode::ERR_LLM_VISION_INFERENCE_FAILED)) found_vision_failed = true;
-        if (code == static_cast<int>(ErrorCode::ERR_LORA_MODEL_MISMATCH)) found_lora_mismatch = true;
-        if (code == static_cast<int>(ErrorCode::ERR_MCP_STDIO_INIT_FAILED)) found_stdio_failed = true;
+        if (code == static_cast<int>(ErrorCode::ERR_LLM_INVALID_HANDLE)) {
+          found_invalid_handle = true;
+        }
+        if (code == static_cast<int>(ErrorCode::ERR_LLM_VISION_INFERENCE_FAILED)) {
+          found_vision_failed = true;
+        }
+        if (code == static_cast<int>(ErrorCode::ERR_LORA_MODEL_MISMATCH)) {
+          found_lora_mismatch = true;
+        }
+        if (code == static_cast<int>(ErrorCode::ERR_MCP_STDIO_INIT_FAILED)) {
+          found_stdio_failed = true;
+        }
     }
     
     EXPECT_TRUE(found_invalid_handle) << "ERR_LLM_INVALID_HANDLE not found in JSON";

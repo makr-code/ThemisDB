@@ -113,14 +113,30 @@ std::string KeySchema::makeGraphIndexKey(std::string_view pk_target, std::string
 
 KeySchema::KeyType KeySchema::parseKeyType(std::string_view key) {
     // Check for specific prefixed key types
-    if (key.starts_with("idx:")) return KeyType::SECONDARY_INDEX;
-    if (key.starts_with("graph:out:")) return KeyType::GRAPH_OUTDEX;
-    if (key.starts_with("graph:in:")) return KeyType::GRAPH_INDEX;
-    if (key.starts_with("node:")) return KeyType::GRAPH_NODE;
-    if (key.starts_with("edge:")) return KeyType::GRAPH_EDGE;
-    if (key.starts_with("rel:")) return KeyType::RELATIONAL;
-    if (key.starts_with("doc:")) return KeyType::DOCUMENT;
-    if (key.starts_with("vec:")) return KeyType::VECTOR;
+    if (key.starts_with("idx:")) {
+      return KeyType::SECONDARY_INDEX;
+    }
+    if (key.starts_with("graph:out:")) {
+      return KeyType::GRAPH_OUTDEX;
+    }
+    if (key.starts_with("graph:in:")) {
+      return KeyType::GRAPH_INDEX;
+    }
+    if (key.starts_with("node:")) {
+      return KeyType::GRAPH_NODE;
+    }
+    if (key.starts_with("edge:")) {
+      return KeyType::GRAPH_EDGE;
+    }
+    if (key.starts_with("rel:")) {
+      return KeyType::RELATIONAL;
+    }
+    if (key.starts_with("doc:")) {
+      return KeyType::DOCUMENT;
+    }
+    if (key.starts_with("vec:")) {
+      return KeyType::VECTOR;
+    }
     
     // legacy_duplication scanner alert: the following fallback is an intentional
     // backward-compatibility path for pre-prefix keys written by older versions;

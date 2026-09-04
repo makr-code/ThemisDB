@@ -173,8 +173,12 @@ TEST(KnowledgeGraphReasonerTest, KGR07_ExplainReturnsPremises) {
 
     bool has_ab = false, has_bc = false;
     for (const auto& p : proof->premises) {
-        if (p.subject == "alice" && p.predicate == "reports_to" && p.object == "bob")   has_ab = true;
-        if (p.subject == "bob"   && p.predicate == "reports_to" && p.object == "carol") has_bc = true;
+        if (p.subject == "alice" && p.predicate == "reports_to" && p.object == "bob") {
+          has_ab = true;
+        }
+        if (p.subject == "bob"   && p.predicate == "reports_to" && p.object == "carol") {
+          has_bc = true;
+        }
     }
     EXPECT_TRUE(has_ab);
     EXPECT_TRUE(has_bc);

@@ -194,13 +194,19 @@ TEST_F(KernelValidatorTest, Concurrent_RegisterAndValidate_NoDataRace) {
         const auto blob = makeBlob("blob_" + std::to_string(id));
         kv.registerKernel(kid, blob);
         for (int i = 0; i < OPS_PER_THREAD; ++i) {
-            if (kv.isValid(kid, blob)) ok_count.fetch_add(1);
+            if (kv.isValid(kid, blob)) {
+              ok_count.fetch_add(1);
+            }
         }
     };
 
     std::vector<std::thread> threads;
-    for (int t = 0; t < THREADS; ++t) threads.emplace_back(worker, t);
-    for (auto& th : threads) th.join();
+    for (int t = 0; t < THREADS; ++t) {
+      threads.emplace_back(worker, t);
+    }
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_GT(ok_count.load(), 0);
 }

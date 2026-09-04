@@ -965,7 +965,9 @@ http::response<http::string_body> SchemaApiHandler::handleGetDiff(
         auto parse_param = [&]([[maybe_unused]] const std::string& name) -> uint64_t {
             std::string key = name + "=";
             auto pos = query.find(key);
-            if (pos == std::string::npos) return 0;
+            if (pos == std::string::npos) {
+              return 0;
+            }
             pos += key.size();
             auto end = query.find('&', pos);
             std::string val = (end == std::string::npos)
@@ -1046,7 +1048,9 @@ http::response<http::string_body> SchemaApiHandler::handleGetIndexRecommendation
             std::string table_name = target.substr(prefix.size());
             // Strip query string
             auto qpos = table_name.find('?');
-            if (qpos != std::string::npos) table_name = table_name.substr(0, qpos);
+            if (qpos != std::string::npos) {
+              table_name = table_name.substr(0, qpos);
+            }
 
             if (table_name.empty()) {
                 return makeError(req, http::status::bad_request,
@@ -1105,7 +1109,9 @@ http::response<http::string_body> SchemaApiHandler::handleGetAuditLog(
         } else if (target.find(prefix) == 0) {
             std::string table_name = target.substr(prefix.size());
             auto qpos = table_name.find('?');
-            if (qpos != std::string::npos) table_name = table_name.substr(0, qpos);
+            if (qpos != std::string::npos) {
+              table_name = table_name.substr(0, qpos);
+            }
             if (table_name.empty()) {
                 return makeError(req, http::status::bad_request, "Table name required");
             }
@@ -1263,7 +1269,9 @@ http::response<http::string_body> SchemaApiHandler::handleBatchConstraintValidat
                 valid_rows.push_back({{"index", row_index}, {"row", row_json}});
             } else {
                 json viol_arr = json::array();
-                for (const auto& v : violations) viol_arr.push_back(v.toJSON());
+                for (const auto& v : violations) {
+                  viol_arr.push_back(v.toJSON());
+                }
                 invalid_rows.push_back({{"index", row_index}, {"row", row_json},
                                         {"violations", viol_arr}});
             }
@@ -1315,7 +1323,9 @@ http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
         std::string       target  = std::string(req.target());
         // Strip query string
         auto qpos = target.find('?');
-        if (qpos != std::string::npos) target = target.substr(0, qpos);
+        if (qpos != std::string::npos) {
+          target = target.substr(0, qpos);
+        }
 
         if (target.rfind(base, 0) != 0) {
             return makeError(req, http::status::bad_request, "Invalid lineage path");

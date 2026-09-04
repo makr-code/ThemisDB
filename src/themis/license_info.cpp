@@ -446,15 +446,23 @@ static std::string computeFingerprintHash(const std::string& raw) {
 static std::string getPrimaryMacAddress() {
 #if defined(__linux__)
     struct ifaddrs* ifa_list = nullptr;
-    if (getifaddrs(&ifa_list) != 0) return "00:00:00:00:00:00";
+    if (getifaddrs(&ifa_list) != 0) {
+      return "00:00:00:00:00:00";
+    }
 
     std::string result;
     for (struct ifaddrs* ifa = ifa_list; ifa; ifa = ifa->ifa_next) {
-        if (!ifa->ifa_name) continue;
-        if (std::string(ifa->ifa_name) == "lo") continue;
+        if (!ifa->ifa_name) {
+          continue;
+        }
+        if (std::string(ifa->ifa_name) == "lo") {
+          continue;
+        }
 
         int sock = socket(AF_INET, SOCK_DGRAM, 0);
-        if (sock < 0) continue;
+        if (sock < 0) {
+          continue;
+        }
 
         struct ifreq ifr{};
         std::strncpy(ifr.ifr_name, ifa->ifa_name, IFNAMSIZ - 1);
@@ -468,7 +476,9 @@ static std::string getPrimaryMacAddress() {
             result = buf;
         }
         close(sock);
-        if (!result.empty()) break;
+        if (!result.empty()) {
+          break;
+        }
     }
     freeifaddrs(ifa_list);
     return result.empty() ? "00:00:00:00:00:00" : result;

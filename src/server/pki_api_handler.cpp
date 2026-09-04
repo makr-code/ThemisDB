@@ -62,19 +62,27 @@ static std::string base64_encode(const std::vector<uint8_t>& data) {
             valb -= 6;
         }
     }
-    if (valb>-6) out.push_back(chars[((val<<8)>>(valb+8))&0x3F]);
-    while (out.size()%4) out.push_back('=');
+    if (valb>-6) {
+      out.push_back(chars[((val<<8)>>(valb+8))&0x3F]);
+    }
+    while (out.size()%4) {
+      out.push_back('=');
+    }
     return out;
 }
 
 static std::vector<uint8_t> base64_decode(const std::string& encoded) {
     std::vector<int> T(256, -1);
     const std::string b64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    for (int i=0;i<64;i++) T[(unsigned char)b64_chars[i]] = i;
+    for (int i=0;i<64;i++) {
+      T[(unsigned char)b64_chars[i]] = i;
+    }
     std::vector<uint8_t> out;
     int val=0, valb=-8;
     for (unsigned char c : encoded) {
-        if (T[c]==-1) break;
+        if (T[c]==-1) {
+          break;
+        }
         val = (val<<6) + T[c];
         valb += 6;
         if (valb>=0) {

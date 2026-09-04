@@ -341,7 +341,9 @@ bool GlobalTransactionManager::abort(const std::string& txn_id) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 size_t GlobalTransactionManager::recoverInDoubtTransactions() {
-    if (!wal_) return 0;
+    if (!wal_) {
+      return 0;
+    }
 
     THEMIS_INFO("GlobalTransactionManager [{}] recovering from WAL…", coordinator_id_);
 
@@ -355,7 +357,9 @@ size_t GlobalTransactionManager::recoverInDoubtTransactions() {
 
         for (const auto& entry : entries) {
             const std::string& tid = entry.transaction_id;
-            if (tid.empty()) continue;
+            if (tid.empty()) {
+              continue;
+            }
 
             if (entry.type == themis::sharding::WALEntryType::BEGIN_TX) {
                 GlobalTxnRecord& r  = recovered[tid];
@@ -532,7 +536,9 @@ std::optional<GlobalTxnState>
 GlobalTransactionManager::getTransactionState(const std::string& txn_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     const auto it = transactions_.find(txn_id);
-    if (it == transactions_.end()) return std::nullopt;
+    if (it == transactions_.end()) {
+      return std::nullopt;
+    }
     return it->second.state;
 }
 
@@ -542,7 +548,9 @@ nlohmann::json GlobalTransactionManager::getStatistics() const {
     size_t active    = 0;
     size_t completed = 0;
     for (const auto& [tid, rec] : transactions_) {
-        if (rec.state == GlobalTxnState::COMPLETED) ++completed;
+        if (rec.state == GlobalTxnState::COMPLETED) {
+          ++completed;
+        }
         else                                         ++active;
     }
 
@@ -635,7 +643,9 @@ void GlobalTransactionManager::logToWAL(
     const std::string&             txn_id,
     const nlohmann::json&          data
 ) {
-    if (!wal_) return;
+    if (!wal_) {
+      return;
+    }
 
     try {
         themis::sharding::WALEntry entry;

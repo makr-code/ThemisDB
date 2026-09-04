@@ -213,7 +213,9 @@ AudioQualityMetrics VoiceBatchProcessor::computeQualityMetrics(
     // Clipping ratio: fraction of samples at or near full scale (±1.0)
     size_t clipped = 0;
     for (float s : samples) {
-        if (std::fabs(s) >= 0.999f) ++clipped;
+        if (std::fabs(s) >= 0.999f) {
+          ++clipped;
+        }
     }
     metrics.clipping_ratio = static_cast<float>(clipped) / static_cast<float>(samples.size());
 
@@ -224,7 +226,9 @@ AudioQualityMetrics VoiceBatchProcessor::computeQualityMetrics(
     metrics.pesq_mos = estimatePESQ(metrics.snr_db);
 
     // Quality label
-    if (metrics.pesq_mos < 2.0f)      metrics.quality_label = "poor";
+    if (metrics.pesq_mos < 2.0f) {
+      metrics.quality_label = "poor";
+    }
     else if (metrics.pesq_mos < 3.0f) metrics.quality_label = "fair";
     else if (metrics.pesq_mos < 4.0f) metrics.quality_label = "good";
     else                               metrics.quality_label = "excellent";
@@ -239,15 +243,21 @@ float VoiceBatchProcessor::computeWER(
     auto ref_tokens = tokenize(reference);
     auto hyp_tokens = tokenize(hypothesis);
 
-    if (ref_tokens.empty()) return 0.0f;
+    if (ref_tokens.empty()) {
+      return 0.0f;
+    }
 
     size_t R = ref_tokens.size();
     size_t H = hyp_tokens.size();
 
     // Levenshtein distance via DP
     std::vector<std::vector<size_t>> dp(R + 1, std::vector<size_t>(H + 1, 0));
-    for (size_t i = 0; i <= R; ++i) dp[i][0] = i;
-    for (size_t j = 0; j <= H; ++j) dp[0][j] = j;
+    for (size_t i = 0; i <= R; ++i) {
+      dp[i][0] = i;
+    }
+    for (size_t j = 0; j <= H; ++j) {
+      dp[0][j] = j;
+    }
 
     for (size_t i = 1; i <= R; ++i) {
         for (size_t j = 1; j <= H; ++j) {
@@ -266,8 +276,12 @@ float VoiceBatchProcessor::estimatePESQ([[maybe_unused]] float snr_db) const {
     // Linear approximation: clamp(1.0 + snr_db * 0.07, 1.0, 5.0)
     // SNR 0dB→1.0, SNR 28.57dB→3.0, SNR 57.14dB→5.0
     float pesq = 1.0f + snr_db * 0.07f;
-    if (pesq < 1.0f) pesq = 1.0f;
-    if (pesq > 5.0f) pesq = 5.0f;
+    if (pesq < 1.0f) {
+      pesq = 1.0f;
+    }
+    if (pesq > 5.0f) {
+      pesq = 5.0f;
+    }
     return pesq;
 }
 
@@ -275,15 +289,21 @@ float VoiceBatchProcessor::estimateSNR(
     const std::vector<uint8_t>& audio_data,
     int /*sample_rate*/) const
 {
-    if (audio_data.empty()) return 0.0f;
+    if (audio_data.empty()) {
+      return 0.0f;
+    }
 
     auto samples = rawToFloat(audio_data);
-    if (samples.empty()) return 0.0f;
+    if (samples.empty()) {
+      return 0.0f;
+    }
 
     float signal_rms = computeRMS(samples);
     float noise_floor = computeNoiseFloor(samples);
 
-    if (noise_floor <= 0.0f || signal_rms <= 0.0f) return 0.0f;
+    if (noise_floor <= 0.0f || signal_rms <= 0.0f) {
+      return 0.0f;
+    }
 
     return 20.0f * std::log10(signal_rms / noise_floor);
 }
@@ -354,15 +374,21 @@ std::vector<std::string> VoiceBatchProcessor::tokenize(const std::string& text) 
         while (!word.empty() && std::ispunct(static_cast<unsigned char>(word.back()))) {
             word.pop_back();
         }
-        if (!word.empty()) tokens.push_back(word);
+        if (!word.empty()) {
+          tokens.push_back(word);
+        }
     }
     return tokens;
 }
 
 float VoiceBatchProcessor::computeRMS(const std::vector<float>& samples) const {
-    if (samples.empty()) return 0.0f;
+    if (samples.empty()) {
+      return 0.0f;
+    }
     float sum = 0.0f;
-    for (float s : samples) sum += s * s;
+    for (float s : samples) {
+      sum += s * s;
+    }
     return std::sqrt(sum / static_cast<float>(samples.size()));
 }
 
@@ -370,8 +396,12 @@ float VoiceBatchProcessor::computeNoiseFloor(
     const std::vector<float>& samples,
     size_t window_size) const
 {
-    if (samples.empty()) return 0.0f;
-    if (window_size == 0) window_size = 800;
+    if (samples.empty()) {
+      return 0.0f;
+    }
+    if (window_size == 0) {
+      window_size = 800;
+    }
 
     // Compute RMS energy per window frame
     std::vector<float> frame_rms;
@@ -382,13 +412,17 @@ float VoiceBatchProcessor::computeNoiseFloor(
         }
         frame_rms.push_back(std::sqrt(sum / static_cast<float>(window_size)));
     }
-    if (frame_rms.empty()) return 0.0f;
+    if (frame_rms.empty()) {
+      return 0.0f;
+    }
 
     // Take the quietest 10% of frames as noise floor estimate
     std::sort(frame_rms.begin(), frame_rms.end());
     size_t n = std::max<size_t>(1, frame_rms.size() / 10);
     float sum = 0.0f;
-    for (size_t i = 0; i < n; ++i) sum += frame_rms[i];
+    for (size_t i = 0; i < n; ++i) {
+      sum += frame_rms[i];
+    }
     float floor = sum / static_cast<float>(n);
     static constexpr float MIN_NOISE_FLOOR = 1e-7f; // Minimum value to avoid divide-by-zero in SNR
     return (floor > 0.0f) ? floor : MIN_NOISE_FLOOR;

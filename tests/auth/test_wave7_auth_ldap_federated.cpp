@@ -89,14 +89,18 @@ std::string makeFakeJWT(const std::string &issuer,
             while (bits >= 6) {
                 bits -= 6;
                 char ch = tbl[(acc >> bits) & 0x3F];
-                if (ch == '+') ch = '-';
+                if (ch == '+') {
+                  ch = '-';
+                }
                 else if (ch == '/') ch = '_';
                 out += ch;
             }
         }
         if (bits > 0) {
             char ch = tbl[(acc << (6 - bits)) & 0x3F];
-            if (ch == '+') ch = '-';
+            if (ch == '+') {
+              ch = '-';
+            }
             else if (ch == '/') ch = '_';
             out += ch;
         }

@@ -70,7 +70,9 @@ protected:
             
             // Categories: tech (60%), science (30%), art (10%)
             std::string category;
-            if (i < 60) category = "tech";
+            if (i < 60) {
+              category = "tech";
+            }
             else if (i < 90) category = "science";
             else category = "art";
             e.setField("category", category);

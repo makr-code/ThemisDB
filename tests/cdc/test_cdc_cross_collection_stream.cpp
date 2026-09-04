@@ -84,7 +84,9 @@ protected:
         for (const auto& p : {"./data/themis_cdc_xcs_orders",
                                "./data/themis_cdc_xcs_inventory",
                                "./data/themis_cdc_xcs_users"}) {
-            if (std::filesystem::exists(p)) std::filesystem::remove_all(p);
+            if (std::filesystem::exists(p)) {
+              std::filesystem::remove_all(p);
+            }
         }
     }
 
@@ -262,7 +264,9 @@ TEST_F(CrossCollectionStreamTest, FilterByCollectionSubset) {
     ASSERT_EQ(events.size(), 2u);
 
     std::unordered_set<std::string> col_set;
-    for (const auto& e : events) col_set.insert(e.collection);
+    for (const auto& e : events) {
+      col_set.insert(e.collection);
+    }
     EXPECT_TRUE(col_set.count("orders"));
     EXPECT_TRUE(col_set.count("users"));
     EXPECT_FALSE(col_set.count("inventory"));

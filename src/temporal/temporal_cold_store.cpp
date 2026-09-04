@@ -58,7 +58,9 @@ InMemoryBackend::listKeysWithPrefix(const std::string& prefix) const {
     std::shared_lock lk(mutex_);
     std::vector<std::string> result;
     for (auto it = data_.lower_bound(prefix); it != data_.end(); ++it) {
-        if (it->first.substr(0, prefix.size()) != prefix) break;
+        if (it->first.substr(0, prefix.size()) != prefix) {
+          break;
+        }
         result.push_back(it->first);
     }
     return result;
@@ -110,9 +112,15 @@ std::string FileSystemBackend::percentDecode(const std::string& s) {
     for (size_t i = 0; i < s.size(); ) {
         if (s[i] == '%' && i + 2 < s.size()) {
             auto hexVal = [](char c) -> int {
-                if (c >= '0' && c <= '9') return c - '0';
-                if (c >= 'a' && c <= 'f') return c - 'a' + 10;
-                if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+                if (c >= '0' && c <= '9') {
+                  return c - '0';
+                }
+                if (c >= 'a' && c <= 'f') {
+                  return c - 'a' + 10;
+                }
+                if (c >= 'A' && c <= 'F') {
+                  return c - 'A' + 10;
+                }
                 return -1;
             };
             int hi = hexVal(s[i+1]);
@@ -152,11 +160,17 @@ FileSystemBackend::pathToKey(const fs::path& full_path) const {
     // Reconstruct: base_dir / pct(table) / pct(doc_key) / ts_hex.json
     const fs::path rel = fs::relative(full_path, base_dir_);
     auto it = rel.begin();
-    if (it == rel.end()) throw std::runtime_error("empty relative path");
+    if (it == rel.end()) {
+      throw std::runtime_error("empty relative path");
+    }
     const std::string table = percentDecode(it->string()); ++it;
-    if (it == rel.end()) throw std::runtime_error("missing doc_key in path");
+    if (it == rel.end()) {
+      throw std::runtime_error("missing doc_key in path");
+    }
     const std::string doc_key = percentDecode(it->string()); ++it;
-    if (it == rel.end()) throw std::runtime_error("missing ts file in path");
+    if (it == rel.end()) {
+      throw std::runtime_error("missing ts file in path");
+    }
     std::string ts_hex = it->stem().string(); // strip .json
 
     return table + '\x01' + doc_key + '\x01' + ts_hex;
@@ -181,7 +195,9 @@ bool FileSystemBackend::put(const std::string& key, const std::string& value) {
         const fs::path tmp = fs::path(target.string() + ".tmp");
         {
             std::ofstream ofs(tmp, std::ios::out | std::ios::trunc);
-            if (!ofs) return false;
+            if (!ofs) {
+              return false;
+            }
             ofs << value;
             if (!ofs) {
                 fs::remove(tmp);
@@ -228,9 +244,13 @@ FileSystemBackend::listKeysWithPrefix(const std::string& prefix) const {
     std::vector<std::string> result;
     try {
         for (auto& entry : fs::recursive_directory_iterator(base_dir_)) {
-            if (!entry.is_regular_file()) continue;
+            if (!entry.is_regular_file()) {
+              continue;
+            }
             const std::string ext = entry.path().extension().string();
-            if (ext != ".json") continue;
+            if (ext != ".json") {
+              continue;
+            }
             const std::string ck = pathToKey(entry.path());
             if (ck.substr(0, prefix.size()) == prefix)
                 result.push_back(ck);
@@ -249,14 +269,20 @@ size_t FileSystemBackend::deletePrefix(const std::string& prefix) {
     try {
         std::vector<fs::path> to_delete;
         for (auto& entry : fs::recursive_directory_iterator(base_dir_)) {
-            if (!entry.is_regular_file()) continue;
-            if (entry.path().extension() != ".json") continue;
+            if (!entry.is_regular_file()) {
+              continue;
+            }
+            if (entry.path().extension() != ".json") {
+              continue;
+            }
             const std::string ck = pathToKey(entry.path());
             if (ck.substr(0, prefix.size()) == prefix)
                 to_delete.push_back(entry.path());
         }
         for (const auto& p : to_delete) {
-            if (fs::remove(p)) ++count;
+            if (fs::remove(p)) {
+              ++count;
+            }
         }
     } catch (const fs::filesystem_error&) {}
     return count;
@@ -321,7 +347,9 @@ std::string TemporalColdStore::tablePrefix(const std::string& table_name) {
 // static
 std::optional<VersionedDocument>
 TemporalColdStore::parseDocument(const std::string& json_str) {
-    if (json_str.empty()) return std::nullopt;
+    if (json_str.empty()) {
+      return std::nullopt;
+    }
     try {
         auto j = nlohmann::json::parse(json_str);
         VersionedDocument doc;
@@ -365,12 +393,16 @@ void TemporalColdStore::rebuildIndexFromBackend() {
 
 bool TemporalColdStore::store(const std::string& table_name,
                                const VersionedDocument& doc) {
-    if (doc.isCurrent()) return false;
+    if (doc.isCurrent()) {
+      return false;
+    }
 
     const std::string ck    = encodeKey(table_name, doc.key, doc.sys_time.start);
     const std::string value = doc.toJson().dump();
 
-    if (!backend_->put(ck, value)) return false;
+    if (!backend_->put(ck, value)) {
+      return false;
+    }
 
     std::unique_lock lk(mutex_);
     const bool is_new = key_index_.insert(ck).second;
@@ -451,7 +483,9 @@ TemporalColdStore::getAsOf(const std::string& table_name,
     auto it = key_index_.upper_bound(search_key);
     while (it != key_index_.begin()) {
         --it;
-        if (it->substr(0, prefix.size()) != prefix) break;
+        if (it->substr(0, prefix.size()) != prefix) {
+          break;
+        }
 
         ++stats_.backend_reads;
         const std::string json_str = backend_->get(*it);
@@ -480,7 +514,9 @@ TemporalColdStore::getAll(const std::string& table_name,
          ++it) {
         ++stats_.backend_reads;
         auto doc = parseDocument(backend_->get(*it));
-        if (doc) result.push_back(std::move(*doc));
+        if (doc) {
+          result.push_back(std::move(*doc));
+        }
     }
     stats_.total_getAll_results += result.size();
     return result;
@@ -499,10 +535,16 @@ TemporalColdStore::getRange(const std::string& table_name,
          ++it) {
         ++stats_.backend_reads;
         auto doc = parseDocument(backend_->get(*it));
-        if (!doc) continue;
+        if (!doc) {
+          continue;
+        }
         // Prune: if sys_start >= range.end, no later entry can overlap.
-        if (doc->sys_time.start >= range.end) break;
-        if (doc->sys_time.overlaps(range)) result.push_back(std::move(*doc));
+        if (doc->sys_time.start >= range.end) {
+          break;
+        }
+        if (doc->sys_time.overlaps(range)) {
+          result.push_back(std::move(*doc));
+        }
     }
     return result;
 }

@@ -163,7 +163,9 @@ bool AdminAPI::authorizeRequest(const std::string& operator_cert) {
     // Parse the PEM certificate from the caller-supplied string.
     BIO* bio = BIO_new_mem_buf(operator_cert.data(),
                                static_cast<int>(operator_cert.size()));
-    if (!bio) return false;
+    if (!bio) {
+      return false;
+    }
 
     X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
     BIO_free(bio);
@@ -246,7 +248,9 @@ bool AdminAPI::authorizeRequest(const std::string& operator_cert) {
 }
 
 void AdminAPI::auditLog(const std::string& method, const std::string& path, const std::string& operator_cert) {
-    if (!config_.enable_audit_log) return;
+    if (!config_.enable_audit_log) {
+      return;
+    }
 
     auto now = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);

@@ -412,7 +412,9 @@ void WireProtocolSession::close(const std::string& /*reason*/) {
     std::function<void(const std::string&)> disconnect_callback;
     {
         std::lock_guard<std::mutex> lock(session_mutex_);
-        if (disconnect_notified_) return;
+        if (disconnect_notified_) {
+          return;
+        }
         disconnect_notified_ = true;
         disconnect_callback = disconnect_callback_;
     }
@@ -1019,7 +1021,9 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
                 cursors_[cid] = std::move(entry);
             }
         } else {
-            for (const auto& r : results) qr.add_results(r);
+            for (const auto& r : results) {
+              qr.add_results(r);
+            }
             qr.set_has_more(false);
             qr.set_total_count(static_cast<uint64_t>(results.size()));
         }
@@ -1574,7 +1578,9 @@ void WireProtocolServer::start() {
 
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
-        if (running_) return;
+        if (running_) {
+          return;
+        }
         running_ = true;
     }
     async_accept();
@@ -1584,7 +1590,9 @@ void WireProtocolServer::stop() {
     std::vector<std::shared_ptr<WireProtocolSession>> sessions_to_close;
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
-        if (!running_) return;
+        if (!running_) {
+          return;
+        }
         running_ = false;
         for (const auto& kv : sessions_)
             sessions_to_close.push_back(kv.second);
@@ -1698,7 +1706,9 @@ void WireProtocolServer::handle_accept(
         std::lock_guard<std::mutex> lock(state_mutex_);
         should_continue = running_;
     }
-    if (should_continue) async_accept();
+    if (should_continue) {
+      async_accept();
+    }
 }
 
 } // namespace wire

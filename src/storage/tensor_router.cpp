@@ -141,7 +141,9 @@ struct TensorRouter::Impl {
             std::mt19937 rng(42);
             std::uniform_int_distribution<uint64_t> dist(0, total - 1);
             sample.resize(sample_n);
-            for (auto& v : sample) v = data[static_cast<std::size_t>(dist(rng))];
+            for (auto& v : sample) {
+              v = data[static_cast<std::size_t>(dist(rng))];
+            }
         }
 
         // Pilot as a 1D tensor (can only estimate compressibility, not shape)
@@ -155,8 +157,12 @@ struct TensorRouter::Impl {
         if (mode_sizes.size() >= 2) {
             std::size_t m = std::min(mode_sizes[0], (std::size_t)64);
             std::size_t n = sample_n / m;
-            if (n < 1) n = 1;
-            if (m * n > sample_n) m = sample_n / n;
+            if (n < 1) {
+              n = 1;
+            }
+            if (m * n > sample_n) {
+              m = sample_n / n;
+            }
             pilot_shape = {m, n};
             sample.resize(m * n);
             n_pilot = m;
@@ -255,7 +261,9 @@ struct TensorRouter::Impl {
         // 4. κ + compression-ratio heuristic
         // Category override has highest priority
         auto override = categoryOverride(hint);
-        if (override.has_value()) return *override;
+        if (override.has_value()) {
+          return *override;
+        }
 
         if (!hint.domain_tag.empty() && template_catalog) {
             const auto tmpl = template_catalog->lookup(hint.domain_tag);

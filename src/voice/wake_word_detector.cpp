@@ -272,7 +272,9 @@ json WakeWordDetector::getStatistics() const {
 // ---------------------------------------------------------------------------
 
 float WakeWordDetector::computeRMS(const std::vector<float>& samples) const {
-    if (samples.empty()) return 0.0f;
+    if (samples.empty()) {
+      return 0.0f;
+    }
     float sum_sq = 0.0f;
     for (float s : samples) {
         sum_sq += s * s;
@@ -299,10 +301,14 @@ float WakeWordDetector::scorePhrase(
     const std::string&          phrase,
     const std::vector<float>&   samples) const
 {
-    if (samples.empty() || phrase.empty()) return 0.0f;
+    if (samples.empty() || phrase.empty()) {
+      return 0.0f;
+    }
 
     const float rms = computeRMS(samples);
-    if (rms <= 0.0f) return 0.0f;
+    if (rms <= 0.0f) {
+      return 0.0f;
+    }
 
     // --- Feature 1: phrase-length density score ----------------------------
     // Longer phrases require more audio energy sustained over time.  We model
@@ -341,7 +347,9 @@ float WakeWordDetector::scorePhrase(
     float peak = 0.0f;
     for (float s : samples) {
         float a = std::abs(s);
-        if (a > peak) peak = a;
+        if (a > peak) {
+          peak = a;
+        }
     }
     // Crest factor = peak / RMS.  Voiced speech: 4–8 (= 12–18 dB).
     float crest = (rms > 0.0f) ? (peak / rms) : 0.0f;

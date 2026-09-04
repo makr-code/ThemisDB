@@ -174,7 +174,9 @@ bool ShardLoadDetector::detectStorageImbalance(
         shard_ids.push_back(shard_id);
     }
     
-    if (storage_values.empty()) return false;
+    if (storage_values.empty()) {
+      return false;
+    }
     
     double max_storage = *std::max_element(storage_values.begin(), storage_values.end());
     double min_storage = *std::min_element(storage_values.begin(), storage_values.end());
@@ -185,7 +187,9 @@ bool ShardLoadDetector::detectStorageImbalance(
     result.min_shard_load = min_storage;
     result.cluster_load_variance = calculateVariance(storage_values);
     
-    if (avg_storage == 0.0) return false;
+    if (avg_storage == 0.0) {
+      return false;
+    }
     
     double imbalance_ratio = (max_storage - min_storage) / avg_storage;
     
@@ -227,13 +231,17 @@ bool ShardLoadDetector::detectRequestImbalance(
         shard_ids.push_back(shard_id);
     }
     
-    if (request_rates.empty()) return false;
+    if (request_rates.empty()) {
+      return false;
+    }
     
     double max_rate = *std::max_element(request_rates.begin(), request_rates.end());
     double min_rate = *std::min_element(request_rates.begin(), request_rates.end());
     double avg_rate = std::accumulate(request_rates.begin(), request_rates.end(), 0.0) / request_rates.size();
     
-    if (avg_rate == 0.0) return false;
+    if (avg_rate == 0.0) {
+      return false;
+    }
     
     double imbalance_ratio = (max_rate - min_rate) / avg_rate;
     
@@ -275,11 +283,15 @@ bool ShardLoadDetector::detectLatencyDegradation(
         shard_ids.push_back(shard_id);
     }
     
-    if (latencies.empty()) return false;
+    if (latencies.empty()) {
+      return false;
+    }
     
     double avg_latency = std::accumulate(latencies.begin(), latencies.end(), 0.0) / latencies.size();
     
-    if (avg_latency == 0.0) return false;
+    if (avg_latency == 0.0) {
+      return false;
+    }
     
     bool degradation_found = false;
     
@@ -403,7 +415,9 @@ double ShardLoadDetector::calculateLoad(const ShardLoadMetrics& metrics) const {
 
 /** @brief Compute standard deviation across numeric vector. */
 double ShardLoadDetector::calculateVariance(const std::vector<double>& values) const {
-    if (values.empty()) return 0.0;
+    if (values.empty()) {
+      return 0.0;
+    }
     
     double mean = std::accumulate(values.begin(), values.end(), 0.0) / values.size();
     

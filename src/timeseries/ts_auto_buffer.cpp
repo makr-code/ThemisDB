@@ -379,7 +379,9 @@ void TSAutoBuffer::flushThread() {
                     config_.flush_interval * static_cast<int>(config_.overdue_flush_multiplier);
                 std::lock_guard<std::mutex> buf_lock(buffers_mutex_);
                 for (const auto& [key, buf] : buffers_) {
-                    if (buf.points.empty()) continue;
+                    if (buf.points.empty()) {
+                      continue;
+                    }
                     auto age = now - buf.first_point_time;
                     if (age >= overdue_threshold) {
                         double age_ms = std::chrono::duration<double, std::milli>(age).count();
@@ -501,7 +503,9 @@ std::ptrdiff_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
     std::vector<TSStore::DataPoint> restored;
     std::string line;
     while (std::getline(ifs, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         try {
             auto j = nlohmann::json::parse(line);
             TSStore::DataPoint pt;
@@ -509,8 +513,12 @@ std::ptrdiff_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
             pt.entity       = j.at("entity").get<std::string>();
             pt.timestamp_ms = j.at("timestamp_ms").get<int64_t>();
             pt.value        = j.at("value").get<double>();
-            if (j.contains("tags"))     pt.tags     = j["tags"];
-            if (j.contains("metadata")) pt.metadata = j["metadata"];
+            if (j.contains("tags")) {
+              pt.tags     = j["tags"];
+            }
+            if (j.contains("metadata")) {
+              pt.metadata = j["metadata"];
+            }
             restored.push_back(std::move(pt));
         } catch (const std::exception& e) {
             THEMIS_WARN("TSAutoBuffer::restoreFromWAL: skipping malformed line: {}", e.what());
@@ -535,9 +543,13 @@ std::ptrdiff_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
 }
 
 bool TSAutoBuffer::removeWAL(const std::string& wal_path) {
-    if (wal_path.empty()) return true;
+    if (wal_path.empty()) {
+      return true;
+    }
     // Return true if file doesn't exist (already gone = success)
-    if (!std::filesystem::exists(wal_path)) return true;
+    if (!std::filesystem::exists(wal_path)) {
+      return true;
+    }
     return std::filesystem::remove(wal_path);
 }
 

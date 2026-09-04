@@ -41,7 +41,9 @@ Timestamp IntervalTreeIndex::nodeMaxEnd(const Node* n) noexcept {
 }
 
 void IntervalTreeIndex::updateSubtreeMax(Node* n) noexcept {
-    if (!n) return;
+    if (!n) {
+      return;
+    }
     n->subtree_max_end = n->entry.range.end;
     if (n->left  && n->left->subtree_max_end  > n->subtree_max_end)
         n->subtree_max_end = n->left->subtree_max_end;
@@ -54,12 +56,16 @@ int IntervalTreeIndex::nodeHeight(const Node* n) noexcept {
 }
 
 int IntervalTreeIndex::balanceFactor(const Node* n) noexcept {
-    if (!n) return 0;
+    if (!n) {
+      return 0;
+    }
     return nodeHeight(n->left.get()) - nodeHeight(n->right.get());
 }
 
 void IntervalTreeIndex::updateHeight(Node* n) noexcept {
-    if (!n) return;
+    if (!n) {
+      return;
+    }
     n->height = 1 + std::max(nodeHeight(n->left.get()),
                               nodeHeight(n->right.get()));
 }
@@ -95,7 +101,9 @@ IntervalTreeIndex::rotateLeft(std::unique_ptr<Node> x) {
 // Rebalance a node after insert/remove, updating both height and max-end.
 std::unique_ptr<IntervalTreeIndex::Node>
 IntervalTreeIndex::balance(std::unique_ptr<Node> n) {
-    if (!n) return nullptr;
+    if (!n) {
+      return nullptr;
+    }
     updateSubtreeMax(n.get());
     updateHeight(n.get());
 
@@ -158,7 +166,9 @@ IntervalTreeIndex::insertNode(std::unique_ptr<Node> root,
 
 IntervalTreeIndex::Node*
 IntervalTreeIndex::findMin(Node* n) noexcept {
-    while (n && n->left) n = n->left.get();
+    while (n && n->left) {
+      n = n->left.get();
+    }
     return n;
 }
 
@@ -180,7 +190,9 @@ IntervalTreeIndex::removeNode(std::unique_ptr<Node> root,
                                const std::string& key,
                                const TimeRange& range,
                                size_t& removed_count) {
-    if (!root) return nullptr;
+    if (!root) {
+      return nullptr;
+    }
 
     const Timestamp pivot = root->entry.range.start;
 
@@ -220,15 +232,21 @@ std::unique_ptr<IntervalTreeIndex::Node>
 IntervalTreeIndex::removeKeyNode(std::unique_ptr<Node> root,
                                   const std::string& key,
                                   size_t& removed_count) {
-    if (!root) return nullptr;
+    if (!root) {
+      return nullptr;
+    }
 
     root->left  = removeKeyNode(std::move(root->left),  key, removed_count);
     root->right = removeKeyNode(std::move(root->right), key, removed_count);
 
     if (root->entry.key == key) {
         ++removed_count;
-        if (!root->right) return std::move(root->left);
-        if (!root->left)  return std::move(root->right);
+        if (!root->right) {
+          return std::move(root->left);
+        }
+        if (!root->left) {
+          return std::move(root->right);
+        }
         std::unique_ptr<Node> successor;
         root->right = detachMin(std::move(root->right), successor);
         successor->left  = std::move(root->left);
@@ -279,7 +297,9 @@ size_t IntervalTreeIndex::remove(const std::string& key, const TimeRange& range)
                                e.range.end   == range.end;
                     }),
                 bucket.end());
-            if (bucket.empty()) key_index_.erase(it);
+            if (bucket.empty()) {
+              key_index_.erase(it);
+            }
         }
     }
     return removed;
@@ -315,18 +335,24 @@ void IntervalTreeIndex::clear() {
 void IntervalTreeIndex::collectOverlap(const Node* n,
                                         Timestamp from, Timestamp to,
                                         std::vector<IntervalEntry>& out) const {
-    if (!n) return;
+    if (!n) {
+      return;
+    }
 
     // Pruning: if subtree's max_end <= from, no interval in this subtree
     // can overlap [from, to) because all intervals end at or before from.
-    if (nodeMaxEnd(n) <= from) return;
+    if (nodeMaxEnd(n) <= from) {
+      return;
+    }
 
     // Check left subtree first (may contain smaller starts that still overlap)
     collectOverlap(n->left.get(), from, to, out);
 
     // If this node's start >= to, no node in the right subtree can overlap
     // (right subtree starts are even larger) — prune right entirely.
-    if (n->entry.range.start >= to) return;
+    if (n->entry.range.start >= to) {
+      return;
+    }
 
     // Check this node
     if (n->entry.range.overlaps({from, to})) {
@@ -341,7 +367,9 @@ void IntervalTreeIndex::collectKey(const Node* n,
                                     const std::string& key,
                                     std::optional<TimeRange> range,
                                     std::vector<IntervalEntry>& out) const {
-    if (!n) return;
+    if (!n) {
+      return;
+    }
     collectKey(n->left.get(),  key, range, out);
     if (n->entry.key == key) {
         if (!range.has_value() || n->entry.range.overlaps(*range)) {

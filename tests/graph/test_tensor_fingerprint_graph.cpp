@@ -95,7 +95,9 @@ static std::vector<float> randVec(std::size_t n, unsigned seed = 42) {
     std::mt19937 rng(seed);
     std::normal_distribution<float> d(0.0f, 1.0f);
     std::vector<float> v(n);
-    for (auto& x : v) x = d(rng);
+    for (auto& x : v) {
+      x = d(rng);
+    }
     return v;
 }
 
@@ -356,7 +358,9 @@ TEST_F(TensorFingerprintGraphTest, TFG19_LargeGraphFindSimilarBounded) {
 TEST_F(TensorFingerprintGraphTest, TFG21_UsesExactTTCosineForEdges) {
     auto data_a = randVec(8, 123);
     auto data_b = data_a;
-    for (auto& x : data_b) x += 0.05f;
+    for (auto& x : data_b) {
+      x += 0.05f;
+    }
 
     auto t1 = makeTT(data_a, {8, 1});
     auto t2 = makeTT(data_b, {8, 1});
@@ -424,13 +428,17 @@ TEST(TensorFingerprintGraphResolverTest, TFG24_ExternalTrainLoaderUsedWhenCacheD
                              const std::string&,
                              const std::string&) -> std::optional<TTTrain> {
         auto it = train_store.find(tensor_id);
-        if (it == train_store.end()) return std::nullopt;
+        if (it == train_store.end()) {
+          return std::nullopt;
+        }
         return it->second;
     });
 
     auto data_a = randVec(8, 610);
     auto data_b = data_a;
-    for (auto& x : data_b) x += 0.01f;
+    for (auto& x : data_b) {
+      x += 0.01f;
+    }
 
     auto t1 = makeTT(data_a, {8, 1});
     auto t2 = makeTT(data_b, {8, 1});
@@ -480,7 +488,9 @@ TEST(TensorFingerprintGraphResolverTest, TFG26_ImportPersistedNodesRebuildsBucke
                       const std::string&,
                       const std::string&) -> std::optional<TTTrain> {
         auto it = train_store.find(tensor_id);
-        if (it == train_store.end()) return std::nullopt;
+        if (it == train_store.end()) {
+          return std::nullopt;
+        }
         return it->second;
     };
     original.setTrainLoadFn(loader);
@@ -768,7 +778,9 @@ TEST_F(TensorDeduplicationManagerTest, TDM05_SimilarTensorStoreTracksRecords) {
     EXPECT_TRUE(rec1.is_canonical);
 
     auto data2 = data;
-    for (auto& x : data2) x += 0.001f;
+    for (auto& x : data2) {
+      x += 0.001f;
+    }
     auto rec2 = mgr_->store("copy", data2, {8, 1}, "t", "c", "fcopy");
 
     EXPECT_EQ(rec2.tensor_id, "copy");
@@ -942,7 +954,9 @@ TEST(TensorDeduplicationManagerSnapshotTest,
         auto d = randVec(16, 999);
         mgr_a.store("node_x", d, {16, 1}, "t", "c", "fx");
         auto d2 = d;
-        for (auto& v : d2) v += 0.001f;
+        for (auto& v : d2) {
+          v += 0.001f;
+        }
         mgr_a.store("node_y", d2, {16, 1}, "t", "c", "fy");
 
         ASSERT_TRUE(mgr_a.snapshotGraph("snap13"));

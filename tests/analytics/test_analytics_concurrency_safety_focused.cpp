@@ -164,7 +164,9 @@ TEST_F(ConcurrencySafetyTest, CS_02_TwoThreadsConsistentOrdering) {
 
     auto acquire_locks = [&](int first_id, int second_id, std::atomic<bool>& done_flag) {
         // Ensure lock acquisition order: always lock 1 before lock 2
-        if (first_id > second_id) std::swap(first_id, second_id);
+        if (first_id > second_id) {
+          std::swap(first_id, second_id);
+        }
         
         OrderedLock* first_lock = (first_id == 1) ? &lock1 : &lock2;
         OrderedLock* second_lock = (second_id == 1) ? &lock1 : &lock2;
@@ -316,7 +318,9 @@ TEST_F(ConcurrencySafetyTest, CS_05_ReaderWriterLockPattern) {
     auto release_read = [&]() {
         std::unique_lock<std::mutex> ul(rw_lock);
         --active_readers;
-        if (active_readers == 0) cv.notify_all();
+        if (active_readers == 0) {
+          cv.notify_all();
+        }
     };
 
     auto acquire_write = [&]() {

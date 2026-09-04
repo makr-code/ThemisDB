@@ -56,7 +56,9 @@ namespace {
 constexpr double kEps = 1e-9;
 
 bool pointInRing(double px, double py, const std::vector<Coordinate>& ring) {
-    if (ring.size() < 3) return false;
+    if (ring.size() < 3) {
+      return false;
+    }
     bool inside = false;
     size_t n = ring.size();
     for (size_t i = 0, j = n - 1; i < n; j = i++) {
@@ -75,7 +77,9 @@ double cross2d(double ox, double oy, double ax, double ay,
 }
 
 bool on1D(double a, double b, double d) {
-    if (a > b) std::swap(a, b);
+    if (a > b) {
+      std::swap(a, b);
+    }
     return d >= a - kEps && d <= b + kEps;
 }
 
@@ -338,7 +342,9 @@ TEST_F(GpuGeoBackendTest, Backend_BatchIntersects_MaskSizeMatchesCount) {
     auto result = backend->batchIntersects(in);
     EXPECT_EQ(result.mask.size(), 5u);
     // No geometry data supplied — all entries must be 0
-    for (auto v : result.mask) EXPECT_EQ(v, 0u);
+    for (auto v : result.mask) {
+      EXPECT_EQ(v, 0u);
+    }
 }
 
 TEST_F(GpuGeoBackendTest, Backend_BatchIntersects_PointPoint_SamePoint_Hit) {
@@ -554,7 +560,9 @@ TEST_F(GpuGeoBackendTest, Backend_BatchIntersects_CountLargerThanVectors_Process
     EXPECT_EQ(result.mask[0], 1u);
     EXPECT_EQ(result.mask[1], 0u);
     // Remaining 8 stay 0 (no geometry provided)
-    for (std::size_t i = 2; i < 10; ++i) EXPECT_EQ(result.mask[i], 0u);
+    for (std::size_t i = 2; i < 10; ++i) {
+      EXPECT_EQ(result.mask[i], 0u);
+    }
 }
 
 TEST_F(GpuGeoBackendTest, Backend_BatchIntersects_VectorsLargerThanCount_RespectsCount) {
@@ -647,7 +655,9 @@ TEST_F(GpuGeoBackendTest, Backend_Concurrent_NoCrash) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     SUCCEED();
 }
 
@@ -674,7 +684,9 @@ TEST_F(GpuGeoBackendTest, Backend_LatencyTracking_NonZeroAfterBatch) {
     }
     auto result = backend->batchIntersects(in);
     EXPECT_EQ(result.mask.size(), 10u);
-    for (auto v : result.mask) EXPECT_EQ(v, 1u);
+    for (auto v : result.mask) {
+      EXPECT_EQ(v, 1u);
+    }
     // If we reach here the latency-tracking code did not introduce UB or crash.
     SUCCEED();
 }

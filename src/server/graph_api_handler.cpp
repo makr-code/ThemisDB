@@ -224,8 +224,12 @@ http::response<http::string_body> GraphApiHandler::handleEdgeDelete(
         if (optimizer_) {
             auto from_opt = graph_index_->getEdgeField(edge_id, "_from");
             auto to_opt   = graph_index_->getEdgeField(edge_id, "_to");
-            if (from_opt) edge_from = std::move(*from_opt);
-            if (to_opt)   edge_to   = std::move(*to_opt);
+            if (from_opt) {
+              edge_from = std::move(*from_opt);
+            }
+            if (to_opt) {
+              edge_to   = std::move(*to_opt);
+            }
         }
 
         // Delete edge from graph index
@@ -426,8 +430,12 @@ std::string GraphApiHandler::extractPathParam(
     const std::string& prefix
 ) {
     // Extract parameter from path after prefix
-    if (target.size() <= prefix.size()) return "";
-    if (target.substr(0, prefix.size()) != prefix) return "";
+    if (target.size() <= prefix.size()) {
+      return "";
+    }
+    if (target.substr(0, prefix.size()) != prefix) {
+      return "";
+    }
     
     std::string param = target.substr(prefix.size());
     
@@ -448,10 +456,14 @@ themis::graph::GraphQueryOptimizer::GraphChangeSet
 GraphApiHandler::parseChangeSet([[maybe_unused]] const json& changes_array) {
     using CS = themis::graph::GraphQueryOptimizer::GraphChangeSet;
     CS cs;
-    if (!changes_array.is_array()) return cs;
+    if (!changes_array.is_array()) {
+      return cs;
+    }
 
     for (const auto& item : changes_array) {
-        if (!item.contains("type") || !item.contains("id")) continue;
+        if (!item.contains("type") || !item.contains("id")) {
+          continue;
+        }
         const std::string type = item["type"].get<std::string>();
         const std::string id   = item["id"].get<std::string>();
         const std::string from = item.value("from", std::string{});
@@ -527,7 +539,9 @@ http::response<http::string_body> GraphApiHandler::handleIncrementalQueryRegiste
         themis::graph::GraphQueryOptimizer::ExecutionStats init_stats;
         auto init_bfs = optimizer_->executeBFS(start_vertex, max_depth, constraints, &init_stats);
         std::vector<std::string> initial;
-        if (init_bfs) initial = init_bfs.value();
+        if (init_bfs) {
+          initial = init_bfs.value();
+        }
 
         themis::graph::GraphQueryOptimizer::IncrementalQueryResult seed;
         seed.reexecuted = false;
@@ -816,17 +830,23 @@ parseQueryConstraints(const json& body, const std::string& key = "constraints") 
     }
     if (c.contains("forbidden_vertices") && c["forbidden_vertices"].is_array()) {
         for (const auto& v : c["forbidden_vertices"]) {
-            if (v.is_string()) qc.forbidden_vertices.push_back(v.get<std::string>());
+            if (v.is_string()) {
+              qc.forbidden_vertices.push_back(v.get<std::string>());
+            }
         }
     }
     if (c.contains("required_vertices") && c["required_vertices"].is_array()) {
         for (const auto& v : c["required_vertices"]) {
-            if (v.is_string()) qc.required_vertices.push_back(v.get<std::string>());
+            if (v.is_string()) {
+              qc.required_vertices.push_back(v.get<std::string>());
+            }
         }
     }
     if (c.contains("node_labels") && c["node_labels"].is_array()) {
         for (const auto& v : c["node_labels"]) {
-            if (v.is_string()) qc.node_labels.push_back(v.get<std::string>());
+            if (v.is_string()) {
+              qc.node_labels.push_back(v.get<std::string>());
+            }
         }
     }
     return qc;
@@ -988,7 +1008,9 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
             }
             std::vector<std::string> pverts;
             for (const auto& pv : body_json["pattern_vertices"]) {
-                if (pv.is_string()) pverts.push_back(pv.get<std::string>());
+                if (pv.is_string()) {
+                  pverts.push_back(pv.get<std::string>());
+                }
             }
             std::vector<std::pair<std::string, std::string>> pedges;
             if (body_json.contains("pattern_edges") && body_json["pattern_edges"].is_array()) {
@@ -1042,12 +1064,16 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
                 }
                 if (pco.contains("forbidden_vertices") && pco["forbidden_vertices"].is_array()) {
                     for (const auto& fv : pco["forbidden_vertices"]) {
-                        if (fv.is_string()) pc.addForbiddenNode(fv.get<std::string>());
+                        if (fv.is_string()) {
+                          pc.addForbiddenNode(fv.get<std::string>());
+                        }
                     }
                 }
                 if (pco.contains("required_vertices") && pco["required_vertices"].is_array()) {
                     for (const auto& rv : pco["required_vertices"]) {
-                        if (rv.is_string()) pc.addRequiredNode(rv.get<std::string>());
+                        if (rv.is_string()) {
+                          pc.addRequiredNode(rv.get<std::string>());
+                        }
                     }
                 }
                 if (pco.contains("unique_nodes") && pco["unique_nodes"].is_boolean() &&

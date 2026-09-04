@@ -35,7 +35,9 @@ static std::string extractStringField(const std::string& json, const std::string
     pos = json.find(':', pos + key.size() + 2);
     if (pos == std::string::npos) return {};
     // Skip whitespace
-    while (pos < json.size() && (json[pos] == ':' || json[pos] == ' ')) ++pos;
+    while (pos < json.size() && (json[pos] == ':' || json[pos] == ' ')) {
+      ++pos;
+    }
     if (pos >= json.size() || json[pos] != '"') return {};
     ++pos; // skip opening quote
     auto end = json.find('"', pos);
@@ -47,11 +49,19 @@ static std::string extractStringField(const std::string& json, const std::string
 /// Returns NaN if not found.
 static double extractDoubleField(const std::string& json, const std::string& key) {
     auto pos = json.find('"' + key + '"');
-    if (pos == std::string::npos) return std::numeric_limits<double>::quiet_NaN();
+    if (pos == std::string::npos) {
+      return std::numeric_limits<double>::quiet_NaN();
+    }
     pos = json.find(':', pos + key.size() + 2);
-    if (pos == std::string::npos) return std::numeric_limits<double>::quiet_NaN();
-    while (pos < json.size() && (json[pos] == ':' || json[pos] == ' ')) ++pos;
-    if (pos >= json.size()) return std::numeric_limits<double>::quiet_NaN();
+    if (pos == std::string::npos) {
+      return std::numeric_limits<double>::quiet_NaN();
+    }
+    while (pos < json.size() && (json[pos] == ':' || json[pos] == ' ')) {
+      ++pos;
+    }
+    if (pos >= json.size()) {
+      return std::numeric_limits<double>::quiet_NaN();
+    }
     try {
         size_t consumed = 0;
         double val = std::stod(json.substr(pos), &consumed);
@@ -149,16 +159,24 @@ std::vector<LabeledDbSample> DatabaseDomainAutoLabeler::labelFromLogFile(
         const double      delta_p99_ms = extractDoubleField(line, "delta_p99_ms");
 
         // Skip unparseable or incomplete lines
-        if (query.empty()) continue;
-        if (std::isnan(delta_p99_ms)) continue;
+        if (query.empty()) {
+          continue;
+        }
+        if (std::isnan(delta_p99_ms)) {
+          continue;
+        }
 
         auto sample = buildSample(query, plan, delta_p99_ms, "bao_log");
 
-        if (sample.confidence < min_confidence) continue;
+        if (sample.confidence < min_confidence) {
+          continue;
+        }
 
         result.push_back(std::move(sample));
 
-        if (max_samples > 0 && result.size() >= max_samples) break;
+        if (max_samples > 0 && result.size() >= max_samples) {
+          break;
+        }
     }
 
     return result;

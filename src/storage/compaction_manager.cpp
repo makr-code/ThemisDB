@@ -153,7 +153,9 @@ void CompactionManager::backgroundLoop() {
                         [this] { return bg_stop_.load(std::memory_order_relaxed); });
         lock.unlock();
 
-        if (bg_stop_.load(std::memory_order_relaxed)) break;
+        if (bg_stop_.load(std::memory_order_relaxed)) {
+          break;
+        }
 
         // Run GC (non-forced: honours tombstone threshold).
         (void)runGC(false);
@@ -235,7 +237,9 @@ CompactionManager::Stats CompactionManager::stats() const {
                 if (line.find("Compaction Stats") != std::string::npos) {
                     in_compaction_section = true;
                 }
-                if (!in_compaction_section) continue;
+                if (!in_compaction_section) {
+                  continue;
+                }
 
                 std::smatch m;
                 if (std::regex_search(line, m, level_line_re)) {

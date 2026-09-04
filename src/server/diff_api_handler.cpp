@@ -210,7 +210,9 @@ int64_t DiffApiHandler::parseTimestamp([[maybe_unused]] const std::string& str) 
 }
 
 bool DiffApiHandler::isSequenceNumber([[maybe_unused]] const std::string& str) const {
-    if (str.empty()) return false;
+    if (str.empty()) {
+      return false;
+    }
     
     // Check if all characters are digits
     for (char c : str) {

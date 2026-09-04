@@ -109,7 +109,9 @@ void AssertLatencyPercentile(Func operation,
     std::sort(latencies.begin(), latencies.end());
     
     size_t index = static_cast<size_t>((percentile / 100.0) * latencies.size());
-    if (index >= latencies.size()) index = latencies.size() - 1;
+    if (index >= latencies.size()) {
+      index = latencies.size() - 1;
+    }
     
     long percentile_latency = latencies[index];
     

@@ -537,7 +537,9 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                 try {
                     int v = std::stoi(hb_str);
                     if (v < 100) v = 100; // minimum 100ms
-                    if (v > 60000) v = 60000;
+                    if (v > 60000) {
+                      v = 60000;
+                    }
                     heartbeat_ms_override = v;
                 } catch (...) {
                     THEMIS_DEBUG("changefeed: ignoring invalid heartbeat_ms query param");
@@ -628,7 +630,9 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             if (beast::iequals(name, "Last-Event-ID")) {
                 try {
                     uint64_t last_id = std::stoull(std::string(h.value()));
-                    if (from_seq == 0) from_seq = last_id;
+                    if (from_seq == 0) {
+                      from_seq = last_id;
+                    }
                 } catch (...) {
                     THEMIS_DEBUG([[maybe_unused]] "changefeed: ignoring invalid Last-Event-ID header value");
                     break;
@@ -1432,13 +1436,17 @@ void ChangefeedApiHandler::applyGovernanceHeaders(
     // This ensures compliance and audit requirements are met
     
     auto to_lower = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(::tolower(static_cast<unsigned char>(c)));
+        }
         return s;
     };
     
     std::string path_only = std::string(req.target());
     auto qpos = path_only.find('?');
-    if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+    if (qpos != std::string::npos) {
+      path_only = path_only.substr(0, qpos);
+    }
     
     // Read incoming governance hints from request headers
     std::string classification = ""; // offen | geheim | streng-geheim | vs-nfd
@@ -1473,7 +1481,9 @@ void ChangefeedApiHandler::applyGovernanceHeaders(
         // Unknown classification -> keep text but apply restrictive defaults
         // (no-op: classification value is preserved as-is)
     }
-    if (mode != "observe" && mode != "enforce") mode = "observe";
+    if (mode != "observe" && mode != "enforce") {
+      mode = "observe";
+    }
     
     // Derive header values from classification level
     std::string content_enc = "optional";

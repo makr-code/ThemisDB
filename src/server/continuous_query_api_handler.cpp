@@ -193,7 +193,9 @@ http::response<http::string_body> ContinuousQueryApiHandler::handleRegister(
 
     if (body.contains("result_mode") && body["result_mode"].is_string()) {
         const std::string rm = body["result_mode"].get<std::string>();
-        if (rm == "SNAPSHOT")     spec.result_mode = ResultMode::SNAPSHOT;
+        if (rm == "SNAPSHOT") {
+          spec.result_mode = ResultMode::SNAPSHOT;
+        }
         else if (rm == "CHANGES") spec.result_mode = ResultMode::CHANGES;
         else                       spec.result_mode = ResultMode::DELTA;
     }

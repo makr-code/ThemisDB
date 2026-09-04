@@ -63,7 +63,9 @@ void WriteGuard::release() noexcept {
 
 namespace {
 size_t resolveMaxSlots([[maybe_unused]] size_t requested) {
-    if (requested > 0) return requested;
+    if (requested > 0) {
+      return requested;
+    }
     const size_t hw = std::thread::hardware_concurrency();
     return std::max<size_t>(1, hw / 2);
 }
@@ -89,7 +91,9 @@ void ConcurrentWriteController::shutdown() noexcept {
     std::deque<std::shared_ptr<Waiter>> to_notify;
     {
         std::lock_guard<std::mutex> lk(mutex_);
-        if (shutdown_) return;
+        if (shutdown_) {
+          return;
+        }
         shutdown_ = true;
         std::swap(to_notify, waiters_);
     }
@@ -97,7 +101,9 @@ void ConcurrentWriteController::shutdown() noexcept {
     while (!to_notify.empty()) {
         auto waiter = std::move(to_notify.front());
         to_notify.pop_front();
-        if (!waiter) continue;
+        if (!waiter) {
+          continue;
+        }
         // Setting an already-set promise is a no-op (future already broken).
         try { waiter->promise.set_exception(
                   std::make_exception_ptr(
@@ -281,7 +287,9 @@ void ConcurrentWriteController::recordWait(int64_t wait_us) noexcept {
         std::lock_guard<std::mutex> lk(window_mutex_);
         wait_window_[window_pos_ % kWindowSize] = wait_us;
         ++window_pos_;
-        if (window_count_ < kWindowSize) ++window_count_;
+        if (window_count_ < kWindowSize) {
+          ++window_count_;
+        }
     }
 }
 

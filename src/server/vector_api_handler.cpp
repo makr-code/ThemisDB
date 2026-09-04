@@ -77,8 +77,12 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:read", "vector.search", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:read", "vector.search", path_only)) {
+          return *resp;
+        }
     }
     auto span = Tracer::startSpan("handleVectorSearch");
     span.setAttribute("http.method", "POST");
@@ -97,7 +101,9 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
         std::string mode = "observe";
         for (const auto& h : req) {
             auto name = h.name_string();
-            if (beast::iequals(name, "X-Classification")) classification = to_lower(std::string(h.value()));
+            if (beast::iequals(name, "X-Classification")) {
+              classification = to_lower(std::string(h.value()));
+            }
             else if (beast::iequals(name, "X-Governance-Mode")) mode = to_lower(std::string(h.value()));
         }
         if (mode == "enforce") {
@@ -201,7 +207,9 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
                 {"batch_size", end - start},
                 {"has_more", has_more}
             };
-            if (has_more) response["next_cursor"] = std::to_string(end);
+            if (has_more) {
+              response["next_cursor"] = std::to_string(end);
+            }
             span.setAttribute("vector.results_count", static_cast<int64_t>(end - start));
             span.setStatus(true);
             return makeResponse(http::status::ok, response.dump(), req);
@@ -234,8 +242,12 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "vector.write", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:write", "vector.write", path_only)) {
+          return *resp;
+        }
     }
     auto span = Tracer::startSpan("handleVectorBatchInsert");
     span.setAttribute("http.method", "POST");
@@ -308,7 +320,9 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                             auto ecfg = coll["encryption"];
                             vector_enc_enabled = ecfg.value("enabled", false);
                             if (ecfg.contains("fields") && ecfg["fields"].is_array()) {
-                                for (const auto& f : ecfg["fields"]) if (f.is_string()) vector_enc_fields.push_back(f.get<std::string>());
+                                for (const auto& f : ecfg["fields"]) {
+                                  if (f.is_string()) vector_enc_fields.push_back(f.get<std::string>());
+                                }
                             }
                         }
                         // Backward-compatible schema: { collections: { name: { fields: { fld: { encrypt: true } } } } }
@@ -361,7 +375,9 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                     for (auto fit = it["fields"].begin(); fit != it["fields"].end(); ++fit) {
                         const auto& val = fit.value();
                         const std::string key = fit.key();
-                        if (val.is_string()) e.setField(key, val.get<std::string>());
+                        if (val.is_string()) {
+                          e.setField(key, val.get<std::string>());
+                        }
                         else if (val.is_number_integer()) e.setField(key, static_cast<int64_t>(val.get<int64_t>()));
                         else if (val.is_number_float()) e.setField(key, val.get<double>());
                         else if (val.is_boolean()) e.setField(key, val.get<bool>());
@@ -372,13 +388,19 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                 if (vector_enc_enabled && !vector_enc_fields.empty() && field_encryption_ && key_provider_) {
                     for (const auto& mf : vector_enc_fields) {
                         if (mf == vector_field) continue; // never encrypt embedding itself
-                        if (!e.hasField(mf)) continue;
+                        if (!e.hasField(mf)) {
+                          continue;
+                        }
                         auto valOpt = e.getField(mf);
-                        if (!valOpt.has_value()) continue;
+                        if (!valOpt.has_value()) {
+                          continue;
+                        }
                         // Serialize value to string (reuse logic similar to handlePutEntity for primitives)
                         std::string plain_str;
                         const auto& v = *valOpt;
-                        if (std::holds_alternative<std::string>(v)) plain_str = std::get<std::string>(v);
+                        if (std::holds_alternative<std::string>(v)) {
+                          plain_str = std::get<std::string>(v);
+                        }
                         else if (std::holds_alternative<int64_t>(v)) plain_str = std::to_string(std::get<int64_t>(v));
                         else if (std::holds_alternative<double>(v)) plain_str = std::to_string(std::get<double>(v));
                         else if (std::holds_alternative<bool>(v)) plain_str = std::get<bool>(v) ? "true" : "false";
@@ -390,7 +412,9 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                             // Derive field key: HKDF(DEK, user_id, "field:"+mf)
                             auto dek = key_provider_->getKey("dek");
                             std::vector<uint8_t> salt;
-                            if (!enc_user_ctx.empty()) salt.assign(enc_user_ctx.begin(), enc_user_ctx.end());
+                            if (!enc_user_ctx.empty()) {
+                              salt.assign(enc_user_ctx.begin(), enc_user_ctx.end());
+                            }
                             std::string info = std::string("field:") + mf;
                             auto raw_key = utils::HKDFHelper::derive(dek, salt, info, 32);
                             auto blob = field_encryption_->encryptWithKey(plain_str, "vector_meta:" + mf, 1, raw_key);
@@ -444,8 +468,12 @@ http::response<http::string_body> VectorApiHandler::handleDeleteByFilter(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "vector.write", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:write", "vector.write", path_only)) {
+          return *resp;
+        }
     }
     auto span = Tracer::startSpan("handleVectorDeleteByFilter");
     span.setAttribute("http.method", "DELETE");
@@ -464,11 +492,17 @@ http::response<http::string_body> VectorApiHandler::handleDeleteByFilter(
         size_t deleted = 0;
         if (body.contains("pks") && body["pks"].is_array()) {
             for (const auto& v : body["pks"]) {
-                if (!v.is_string()) continue;
+                if (!v.is_string()) {
+                  continue;
+                }
                 const std::string pk = v.get<std::string>();
-                if (!isValidVectorPk(pk)) continue;
+                if (!isValidVectorPk(pk)) {
+                  continue;
+                }
                 auto st = vector_index_->removeByPk(pk);
-                if (st.ok) ++deleted;
+                if (st.ok) {
+                  ++deleted;
+                }
             }
             json resp = {{"deleted", deleted}, {"method", "pks"}};
             span.setAttribute("deleted", static_cast<int64_t>(deleted));
@@ -488,7 +522,9 @@ http::response<http::string_body> VectorApiHandler::handleDeleteByFilter(
                 try {
                     std::string pk = KeySchema::extractPrimaryKey(key);
                     auto st = vector_index_->removeByPk(pk);
-                    if (st.ok) ++deleted;
+                    if (st.ok) {
+                      ++deleted;
+                    }
                 } catch (...) {}
                 return true; // continue
             });
@@ -678,7 +714,9 @@ http::response<http::string_body> VectorApiHandler::handleIncrementalReindex(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
         if (auto resp = requireAccess(req, "index:write", "vector.incremental-reindex", path_only))
             return *resp;
     }

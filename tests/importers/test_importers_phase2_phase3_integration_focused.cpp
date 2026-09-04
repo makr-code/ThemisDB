@@ -223,7 +223,9 @@ struct SchemaEvolutionTracker {
 
     bool removeColumn(const std::string& col_name) {
         auto it = schema_.find(col_name);
-        if (it == schema_.end()) return false;
+        if (it == schema_.end()) {
+          return false;
+        }
         schema_.erase(it);
         return true;
     }
@@ -518,7 +520,9 @@ TEST(ImportersPhase23IntegrationIMPI08, ConcurrentConflictResolution) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Final value is deterministic (last write wins)
     EXPECT_FALSE(coord.data_.empty());

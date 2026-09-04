@@ -143,7 +143,9 @@ void MultiLevelEncryptedStorage::reconcileStaleMounts(const std::string& base_pa
         std::istringstream iss(line);
         std::string device, mount_point;
         iss >> device >> mount_point;
-        if (mount_point.empty()) continue;
+        if (mount_point.empty()) {
+          continue;
+        }
 
         const std::string prefix = base_path + "/";
         if (mount_point.size() > prefix.size() &&

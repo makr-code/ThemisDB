@@ -106,7 +106,9 @@ public:
 
     bool allowRequest() {
         std::lock_guard<std::mutex> lk(mu_);
-        if (state_ == State::OPEN) return false;
+        if (state_ == State::OPEN) {
+          return false;
+        }
         if (state_ == State::HALF_OPEN) {
             return half_open_used_.fetch_add(1) < half_open_permits_;
         }
@@ -181,7 +183,9 @@ TEST(ConversationConcurrency, ParallelContextAccessIsSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Token count must never exceed limit
     EXPECT_LE(ctx.currentTokens(), ctx.maxTokens());
@@ -206,7 +210,9 @@ TEST(ConversationConcurrency, ConcurrentCircuitBreakerTransitions) {
             for (int i = 0; i < 10; ++i) {
                 if (cb.allowRequest()) {
                     allowed.fetch_add(1);
-                    if (t % 2 == 0) cb.recordFailure();
+                    if (t % 2 == 0) {
+                      cb.recordFailure();
+                    }
                     else             cb.recordSuccess();
                 } else {
                     blocked.fetch_add(1);
@@ -214,7 +220,9 @@ TEST(ConversationConcurrency, ConcurrentCircuitBreakerTransitions) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // State must be one of the valid enum values
     auto state = cb.getState();
@@ -243,11 +251,15 @@ TEST(ConversationConcurrency, TokenBudgetExhaustionRaceCondition) {
         threads.emplace_back([&ctx, &successes]() {
             for (int i = 0; i < 50; ++i) {
                 auto r = ctx.addTurn("q", "FOR x IN c RETURN x");
-                if (r.success) successes.fetch_add(1);
+                if (r.success) {
+                  successes.fetch_add(1);
+                }
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_LE(ctx.currentTokens(), ctx.maxTokens());
     EXPECT_GT(successes.load(), 0);
@@ -282,7 +294,9 @@ TEST(ConversationConcurrency, ConcurrentContextEviction) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_LE(ctx.currentTokens(), ctx.maxTokens());
 }
@@ -321,9 +335,13 @@ TEST(ConversationConcurrency, HistoryConsistencyUnderInterleavedAccess) {
         });
     }
 
-    for (auto& w : writers) w.join();
+    for (auto& w : writers) {
+      w.join();
+    }
     stop.store(true);
-    for (auto& r : readers) r.join();
+    for (auto& r : readers) {
+      r.join();
+    }
 
     // After all writes, tokens must still be within limit
     EXPECT_LE(ctx.currentTokens(), ctx.maxTokens());
@@ -408,7 +426,9 @@ TEST(ConversationConcurrency, ConcurrentValidationPipelineCalls) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(errors_seen.load(), 0);
 }
 
@@ -443,13 +463,17 @@ TEST(ConversationConcurrency, StressTestConcurrentTurns) {
                     std::string(nl_len,  'n'),
                     std::string(aql_len, 'a')
                 );
-                if (r.success) total_successes.fetch_add(1);
+                if (r.success) {
+                  total_successes.fetch_add(1);
+                }
                 else           total_failures.fetch_add(1);
             }
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Fundamental invariant must hold at all times
     EXPECT_LE(ctx.currentTokens(), kMaxTokens);

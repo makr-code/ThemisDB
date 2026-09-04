@@ -46,7 +46,9 @@ bool BlobMetadata::isHealthy() const {
 uint32_t BlobMetadata::healthyLocationCount() const {
     uint32_t count = 0;
     for (const auto& loc : locations) {
-        if (loc.is_healthy) count++;
+        if (loc.is_healthy) {
+          count++;
+        }
     }
     return count;
 }
@@ -283,21 +285,35 @@ std::optional<CollectionRedundancyConfig> CollectionRedundancyConfig::loadFromYa
 ) {
     try {
         YAML::Node root = YAML::LoadFile(path);
-        if (!root || !root.IsMap()) return std::nullopt;
+        if (!root || !root.IsMap()) {
+          return std::nullopt;
+        }
 
         CollectionRedundancyConfig cfg;
-        if (root["collection"]) cfg.collection   = root["collection"].as<std::string>();
-        if (root["description"]) cfg.description = root["description"].as<std::string>();
+        if (root["collection"]) {
+          cfg.collection   = root["collection"].as<std::string>();
+        }
+        if (root["description"]) {
+          cfg.description = root["description"].as<std::string>();
+        }
 
         // Parse default BlobRedundancyConfig
         if (const YAML::Node& def = root["defaults"]) {
             auto& d = cfg.defaults;
-            if (def["replication_factor"]) d.replication_factor = def["replication_factor"].as<uint32_t>(d.replication_factor);
-            if (def["sync_write"])         d.sync_write          = def["sync_write"].as<bool>(d.sync_write);
-            if (def["compression"])        d.compression         = def["compression"].as<std::string>(d.compression);
+            if (def["replication_factor"]) {
+              d.replication_factor = def["replication_factor"].as<uint32_t>(d.replication_factor);
+            }
+            if (def["sync_write"]) {
+              d.sync_write          = def["sync_write"].as<bool>(d.sync_write);
+            }
+            if (def["compression"]) {
+              d.compression         = def["compression"].as<std::string>(d.compression);
+            }
             if (def["mode"]) {
                 const std::string m = def["mode"].as<std::string>("");
-                if      (m == "NONE")         d.mode = RedundancyMode::NONE;
+                if      (m == "NONE") {
+                  d.mode = RedundancyMode::NONE;
+                }
                 else if (m == "MIRROR")        d.mode = RedundancyMode::MIRROR;
                 else if (m == "PARITY")        d.mode = RedundancyMode::PARITY;
                 else if (m == "STRIPE")        d.mode = RedundancyMode::STRIPE;
@@ -454,38 +470,66 @@ bool BlobRedundancyManager::loadConfig(const std::string& path) {
     // existing config as default for any field not present in the YAML node.
     auto parseBlobConfig = [](const YAML::Node& node,
                                BlobRedundancyConfig base = {}) -> BlobRedundancyConfig {
-        if (!node || !node.IsMap()) return base;
+        if (!node || !node.IsMap()) {
+          return base;
+        }
 
         if (node["mode"]) {
             const std::string mode_str = node["mode"].as<std::string>("");
-            if      (mode_str == "NONE")         base.mode = RedundancyMode::NONE;
+            if      (mode_str == "NONE") {
+              base.mode = RedundancyMode::NONE;
+            }
             else if (mode_str == "MIRROR")        base.mode = RedundancyMode::MIRROR;
             else if (mode_str == "STRIPE")        base.mode = RedundancyMode::STRIPE;
             else if (mode_str == "STRIPE_MIRROR") base.mode = RedundancyMode::STRIPE_MIRROR;
             else if (mode_str == "PARITY")        base.mode = RedundancyMode::PARITY;
             else if (mode_str == "GEO_MIRROR")    base.mode = RedundancyMode::GEO_MIRROR;
         }
-        if (node["replication_factor"]) base.replication_factor = node["replication_factor"].as<uint32_t>(base.replication_factor);
-        if (node["sync_write"])         base.sync_write         = node["sync_write"].as<bool>(base.sync_write);
-        if (node["geo_replicate"])      base.geo_replicate      = node["geo_replicate"].as<bool>(base.geo_replicate);
-        if (node["auto_tier_down"])     base.auto_tier_down     = node["auto_tier_down"].as<bool>(base.auto_tier_down);
-        if (node["tier_down_after_days"]) base.tier_down_after_days = node["tier_down_after_days"].as<uint32_t>(base.tier_down_after_days);
-        if (node["retention_days"])     base.retention_days     = node["retention_days"].as<uint32_t>(base.retention_days);
-        if (node["version_history"])    base.version_history    = node["version_history"].as<uint32_t>(base.version_history);
-        if (node["compression"])        base.compression        = node["compression"].as<std::string>(base.compression);
-        if (node["compression_level"])  base.compression_level  = node["compression_level"].as<int32_t>(base.compression_level);
+        if (node["replication_factor"]) {
+          base.replication_factor = node["replication_factor"].as<uint32_t>(base.replication_factor);
+        }
+        if (node["sync_write"]) {
+          base.sync_write         = node["sync_write"].as<bool>(base.sync_write);
+        }
+        if (node["geo_replicate"]) {
+          base.geo_replicate      = node["geo_replicate"].as<bool>(base.geo_replicate);
+        }
+        if (node["auto_tier_down"]) {
+          base.auto_tier_down     = node["auto_tier_down"].as<bool>(base.auto_tier_down);
+        }
+        if (node["tier_down_after_days"]) {
+          base.tier_down_after_days = node["tier_down_after_days"].as<uint32_t>(base.tier_down_after_days);
+        }
+        if (node["retention_days"]) {
+          base.retention_days     = node["retention_days"].as<uint32_t>(base.retention_days);
+        }
+        if (node["version_history"]) {
+          base.version_history    = node["version_history"].as<uint32_t>(base.version_history);
+        }
+        if (node["compression"]) {
+          base.compression        = node["compression"].as<std::string>(base.compression);
+        }
+        if (node["compression_level"]) {
+          base.compression_level  = node["compression_level"].as<int32_t>(base.compression_level);
+        }
 
         if (node["tier"]) {
             const std::string tier_str = node["tier"].as<std::string>("");
-            if      (tier_str == "HOT")     base.tier = StorageTier::HOT;
+            if      (tier_str == "HOT") {
+              base.tier = StorageTier::HOT;
+            }
             else if (tier_str == "WARM")    base.tier = StorageTier::WARM;
             else if (tier_str == "COLD")    base.tier = StorageTier::COLD;
             else if (tier_str == "ARCHIVE") base.tier = StorageTier::ARCHIVE;
         }
 
         if (const YAML::Node& ec = node["erasure_coding"]) {
-            if (ec["data_shards"])   base.erasure_coding.data_shards   = ec["data_shards"].as<uint32_t>(base.erasure_coding.data_shards);
-            if (ec["parity_shards"]) base.erasure_coding.parity_shards = ec["parity_shards"].as<uint32_t>(base.erasure_coding.parity_shards);
+            if (ec["data_shards"]) {
+              base.erasure_coding.data_shards   = ec["data_shards"].as<uint32_t>(base.erasure_coding.data_shards);
+            }
+            if (ec["parity_shards"]) {
+              base.erasure_coding.parity_shards = ec["parity_shards"].as<uint32_t>(base.erasure_coding.parity_shards);
+            }
         }
         return base;
     };
@@ -538,7 +582,9 @@ bool BlobRedundancyManager::loadConfig(const std::string& path) {
                 // Merge with existing config (or global default for first-time keys)
                 BlobRedundancyConfig base = global_default;
                 auto existing = blob_type_configs_.find(it->second);
-                if (existing != blob_type_configs_.end()) base = existing->second;
+                if (existing != blob_type_configs_.end()) {
+                  base = existing->second;
+                }
                 blob_type_configs_[it->second] = parseBlobConfig(kv.second, base);
             }
         }
@@ -549,7 +595,9 @@ bool BlobRedundancyManager::loadConfig(const std::string& path) {
                 const std::string col = kv.first.as<std::string>();
                 BlobRedundancyConfig base = global_default;
                 auto existing = collection_overrides_.find(col);
-                if (existing != collection_overrides_.end()) base = existing->second;
+                if (existing != collection_overrides_.end()) {
+                  base = existing->second;
+                }
                 collection_overrides_[col] = parseBlobConfig(kv.second, base);
             }
         }
@@ -785,7 +833,9 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
                      [&]() {
                          std::ostringstream ss;
                          for (size_t i = 0; i < missing.size(); ++i) {
-                             if (i) ss << ", ";
+                             if (i) {
+                               ss << ", ";
+                             }
                              ss << missing[i];
                          }
                          return ss.str();
@@ -807,7 +857,9 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
         std::unordered_set<std::string> healthy_dcs;
         healthy_dcs.reserve(metadata.locations.size());
         for (const auto& loc : metadata.locations) {
-            if (!loc.is_healthy || loc.datacenter.empty()) continue;
+            if (!loc.is_healthy || loc.datacenter.empty()) {
+              continue;
+            }
             healthy_dcs.insert(loc.datacenter);
         }
 
@@ -1067,7 +1119,9 @@ std::vector<std::string> BlobRedundancyManager::getBlobsForTierDown() const {
     auto now = std::chrono::system_clock::now();
     
     for (const auto& [blob_id, metadata] : blobs_) {
-        if (!metadata.config.auto_tier_down) continue;
+        if (!metadata.config.auto_tier_down) {
+          continue;
+        }
         
         auto age_days = std::chrono::duration_cast<std::chrono::hours>(
             now - metadata.last_accessed).count() / 24;
@@ -1229,7 +1283,9 @@ void BlobRedundancyManager::runScrub([[maybe_unused]] bool full) {
                 std::unordered_set<std::string> healthy_dcs;
                 healthy_dcs.reserve(metadata.locations.size());
                 for (const auto& loc : metadata.locations) {
-                    if (!loc.is_healthy || loc.datacenter.empty()) continue;
+                    if (!loc.is_healthy || loc.datacenter.empty()) {
+                      continue;
+                    }
                     healthy_dcs.insert(loc.datacenter);
                 }
 
@@ -1417,7 +1473,9 @@ void BlobRedundancyManager::repairLoop() {
             return !repair_queue_.empty() || !running_.load();
         });
         
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
         
         lock.unlock();
         
@@ -1441,7 +1499,9 @@ void BlobRedundancyManager::configReloadLoop() {
             std::chrono::seconds(config_.hot_reload_check_seconds),
             [this] { return !running_.load(); });
         
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
         
         try {
             // Check if config file has changed

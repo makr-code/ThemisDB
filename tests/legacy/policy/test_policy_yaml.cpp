@@ -99,10 +99,16 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
-        if (storage_) storage_->close();
+        if (server_) {
+          server_->stop();
+        }
+        if (storage_) {
+          storage_->close();
+        }
         const std::string db_path = "data/themis_policy_yaml_test";
-        if (std::filesystem::exists(db_path)) std::filesystem::remove_all(db_path);
+        if (std::filesystem::exists(db_path)) {
+          std::filesystem::remove_all(db_path);
+        }
         // Do not remove policies.yaml to allow investigation on failure
     }
 
@@ -121,7 +127,9 @@ protected:
             http::request<http::string_body> req{http::verb::get, target, 11};
             req.set(http::field::host, "127.0.0.1");
 
-            for (const auto& [k, v] : headers) req.set(k, v);
+            for (const auto& [k, v] : headers) {
+              req.set(k, v);
+            }
 
             http::write(stream, req);
 

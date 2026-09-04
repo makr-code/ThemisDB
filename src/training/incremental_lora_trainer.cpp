@@ -157,34 +157,48 @@ namespace checkpoint {
         std::string line;
         while (std::getline(iss, line)) {
             auto eq = line.find('=');
-            if (eq == std::string::npos) continue;
+            if (eq == std::string::npos) {
+              continue;
+            }
             std::string key = line.substr(0, eq);
             std::string val = line.substr(eq + 1);
-            if (key == "version") version = val;
+            if (key == "version") {
+              version = val;
+            }
             else if (key == "epoch") {
                 if (!parseSizeTStrict(val, epoch)) {
-                    if (error_reason) *error_reason = "invalid epoch";
+                    if (error_reason) {
+                      *error_reason = "invalid epoch";
+                    }
                     return false;
                 }
             } else if (key == "step") {
                 if (!parseSizeTStrict(val, step)) {
-                    if (error_reason) *error_reason = "invalid step";
+                    if (error_reason) {
+                      *error_reason = "invalid step";
+                    }
                     return false;
                 }
             } else if (key == "loss") {
                 if (!parseDoubleStrict(val, loss)) {
-                    if (error_reason) *error_reason = "invalid loss";
+                    if (error_reason) {
+                      *error_reason = "invalid loss";
+                    }
                     return false;
                 }
             } else if (key == "accuracy") {
                 if (!parseDoubleStrict(val, accuracy)) {
-                    if (error_reason) *error_reason = "invalid accuracy";
+                    if (error_reason) {
+                      *error_reason = "invalid accuracy";
+                    }
                     return false;
                 }
             }
         }
         if (version.empty()) {
-            if (error_reason) *error_reason = "missing version";
+            if (error_reason) {
+              *error_reason = "missing version";
+            }
             return false;
         }
         return true;
@@ -506,8 +520,12 @@ public:
     // Phase 4: Deployment and version management
     // -------------------------------------------------------------------------
     bool deployVersion(const std::string& adapter_version, float traffic_split) {
-        if (adapter_version.empty()) return false;
-        if (traffic_split < 0.0f || traffic_split > 1.0f) return false;
+        if (adapter_version.empty()) {
+          return false;
+        }
+        if (traffic_split < 0.0f || traffic_split > 1.0f) {
+          return false;
+        }
         std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
 
         // Phase 4: Traffic-split deployment
@@ -548,7 +566,9 @@ public:
     }
 
     bool rollbackVersion(const std::string& target_version) {
-        if (target_version.empty()) return false;
+        if (target_version.empty()) {
+          return false;
+        }
         std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
 
         // Phase 4: Rollback – set target to 100% traffic
@@ -603,7 +623,9 @@ public:
                 }
             }
         }
-        if (active.empty() || total <= 0.0f) return "";
+        if (active.empty() || total <= 0.0f) {
+          return "";
+        }
 
         // Weighted random draw in [0, total).
         static thread_local std::mt19937 rng{std::random_device{}()};
@@ -613,7 +635,9 @@ public:
         float cumulative = 0.0f;
         for (const auto& [ver, weight] : active) {
             cumulative += weight;
-            if (roll < cumulative) return ver;
+            if (roll < cumulative) {
+              return ver;
+            }
         }
         // Fallback: return the last active version (handles floating-point edge cases).
         return active.back().first;
@@ -623,9 +647,15 @@ public:
     // Phase 3: Hyperparameter API
     // -------------------------------------------------------------------------
     void setHyperparameters(int rank, float alpha, float learning_rate) {
-        if (rank <= 0) throw std::invalid_argument("LoRA rank must be positive");
-        if (alpha <= 0.0f) throw std::invalid_argument("LoRA alpha must be positive");
-        if (learning_rate <= 0.0f) throw std::invalid_argument("Learning rate must be positive");
+        if (rank <= 0) {
+          throw std::invalid_argument("LoRA rank must be positive");
+        }
+        if (alpha <= 0.0f) {
+          throw std::invalid_argument("LoRA alpha must be positive");
+        }
+        if (learning_rate <= 0.0f) {
+          throw std::invalid_argument("Learning rate must be positive");
+        }
 
         config_.rank          = rank;
         config_.alpha         = alpha;
@@ -1002,7 +1032,9 @@ public:
         // No LLM module: real weight ops unavailable; simulation fallback active.
         return;
 #else
-        if (lora_initialized_) return;
+        if (lora_initialized_) {
+          return;
+        }
 
         const size_t feature_dim = static_cast<size_t>(config_.max_seq_length);
         const size_t rank        = static_cast<size_t>(std::max(1, config_.rank));
@@ -1159,7 +1191,9 @@ public:
     // Encode a text sample as a float feature vector via stable character hashing.
     std::vector<float> encodeSample(const std::string& text, size_t feature_dim) const {
         std::vector<float> vec(feature_dim, 0.0f);
-        if (text.empty()) return vec;
+        if (text.empty()) {
+          return vec;
+        }
 
         std::string safe_text;
         if (!sanitizeTrainingPromptLikeText(text, safe_text, nullptr, nullptr)) {
@@ -1174,7 +1208,9 @@ public:
         uint32_t seed = static_cast<uint32_t>(h64 ^ (h64 >> 32));
         std::mt19937 gen(seed);
         std::normal_distribution<float> dist(0.0f, 0.1f);
-        for (auto& v : vec) v = dist(gen);
+        for (auto& v : vec) {
+          v = dist(gen);
+        }
         return vec;
     }
 
@@ -1209,8 +1245,12 @@ public:
                 std::normal_distribution<float> d(0.0f, 0.1f);
                 input_vec.resize(feature_dim);
                 target_vec.resize(feature_dim);
-                for (auto& v : input_vec)  v = d(gen_in);
-                for (auto& v : target_vec) v = d(gen_tg);
+                for (auto& v : input_vec) {
+                  v = d(gen_in);
+                }
+                for (auto& v : target_vec) {
+                  v = d(gen_tg);
+                }
             }
             for (size_t d = 0; d < feature_dim; ++d) {
                 input [b * feature_dim + d] = input_vec[d];
@@ -1292,8 +1332,12 @@ public:
                 std::normal_distribution<float> d(0.0f, 0.1f);
                 input_vec.resize(feature_dim);
                 target_vec.resize(feature_dim);
-                for (auto& v : input_vec)  v = d(gen_in);
-                for (auto& v : target_vec) v = d(gen_tg);
+                for (auto& v : input_vec) {
+                  v = d(gen_in);
+                }
+                for (auto& v : target_vec) {
+                  v = d(gen_tg);
+                }
             }
             for (size_t fd = 0; fd < feature_dim; ++fd) {
                 input_data [b * feature_dim + fd] = input_vec[fd];
@@ -1338,8 +1382,12 @@ public:
                 std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
                 std::normal_distribution<float> d(0.0f, 0.1f);
                 in_vec.resize(feature_dim); tg_vec.resize(feature_dim);
-                for (auto& v : in_vec)  v = d(gen_in);
-                for (auto& v : tg_vec)  v = d(gen_tg);
+                for (auto& v : in_vec) {
+                  v = d(gen_in);
+                }
+                for (auto& v : tg_vec) {
+                  v = d(gen_tg);
+                }
             }
             for (size_t fd = 0; fd < feature_dim; ++fd) {
                 full_input [b * feature_dim + fd] = in_vec[fd];
@@ -1414,7 +1462,9 @@ public:
         }
 
         auto writeMatrix = [&]([[maybe_unused]] const llm::lora::Tensor& t) {
-            if (t.shape().size() < 2) return;
+            if (t.shape().size() < 2) {
+              return;
+            }
             const size_t rows = t.shape()[0];
             const size_t cols = t.shape()[1];
             // Validate dimensions fit in uint32 range before writing

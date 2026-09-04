@@ -81,7 +81,9 @@ float TTDecompositionStrategy::estimateRatio(
     (void)data;
     (void)dim;
     (void)config;
-    if (!data || dim == 0) return 1.0f;
+    if (!data || dim == 0) {
+      return 1.0f;
+    }
     
     // Estimate based on dimension and epsilon
     float base_ratio = std::max(1.5f, std::log(static_cast<float>(dim)));
@@ -150,7 +152,9 @@ float QuantizationStrategy::estimateRatio(
     (void)data;
     (void)dim;
     (void)config;
-    if (bits_ == 0) return 1.0f;
+    if (bits_ == 0) {
+      return 1.0f;
+    }
     return (sizeof(float) * 8.0f) / bits_;
 }
 
@@ -216,7 +220,9 @@ float SamplingStrategy::estimateRatio(
     (void)data;
     (void)dim;
     (void)config;
-    if (ratio_ <= 0.0f) return 1.0f;
+    if (ratio_ <= 0.0f) {
+      return 1.0f;
+    }
     return 1.0f / ratio_;
 }
 
@@ -281,7 +287,9 @@ float HashingStrategy::estimateRatio(
     (void)data;
     (void)dim;
     (void)config;
-    if (bits_ == 0) return 1.0f;
+    if (bits_ == 0) {
+      return 1.0f;
+    }
     return (dim * sizeof(float) * 8.0f) / bits_;
 }
 
@@ -296,7 +304,9 @@ std::unique_ptr<ICompressionStrategy> CompressionFactory::create(
         return std::make_unique<TTDecompositionStrategy>();
     } else if (strategy_name.find("QUANTIZE") == 0) {
         uint8_t bits = 8;  // Default
-        if (strategy_name.find("INT16") != std::string::npos) bits = 16;
+        if (strategy_name.find("INT16") != std::string::npos) {
+          bits = 16;
+        }
         else if (strategy_name.find("INT32") != std::string::npos) bits = 32;
         return std::make_unique<QuantizationStrategy>(bits);
     } else if (strategy_name == "SAMPLING") {

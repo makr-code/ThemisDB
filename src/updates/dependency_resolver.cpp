@@ -97,7 +97,9 @@ struct ConstraintPart {
 /// Returns false when the token is malformed or does not start with a
 /// recognised operator.
 static bool parseConstraintToken(const std::string& token, ConstraintPart& out) {
-    if (token.size() < 2) return false;
+    if (token.size() < 2) {
+      return false;
+    }
     size_t pos = 0;
     if (token[0] == '>' && token[1] == '=') {
         out.op = ConstraintOp::GTE; pos = 2;
@@ -151,7 +153,9 @@ static bool evalConstraint(const std::tuple<int, int, int>& ver,
     const auto tokens = splitOn(constraint, ',');
 
     for (const auto& token : tokens) {
-        if (token.empty()) continue;
+        if (token.empty()) {
+          continue;
+        }
         ConstraintPart part;
         if (!parseConstraintToken(token, part)) {
             // Malformed token – fail closed
@@ -167,13 +171,19 @@ static bool evalConstraint(const std::tuple<int, int, int>& ver,
 /*static*/ std::string DependencyResolver::minVersionFromConstraint(
     const std::string& constraint)
 {
-    if (constraint.empty()) return "";
+    if (constraint.empty()) {
+      return "";
+    }
 
     const auto tokens = splitOn(constraint, ',');
     for (const auto& token : tokens) {
-        if (token.empty()) continue;
+        if (token.empty()) {
+          continue;
+        }
         ConstraintPart part;
-        if (!parseConstraintToken(token, part)) continue;
+        if (!parseConstraintToken(token, part)) {
+          continue;
+        }
 
         if (part.op == ConstraintOp::GTE || part.op == ConstraintOp::EQ) {
             return part.version;
@@ -238,10 +248,14 @@ ResolutionResult DependencyResolver::resolve(
         bfs_queue.pop();
 
         auto it_pkg = deps_.find(pkg);
-        if (it_pkg == deps_.end()) continue;
+        if (it_pkg == deps_.end()) {
+          continue;
+        }
 
         auto it_ver = it_pkg->second.find(ver);
-        if (it_ver == it_pkg->second.end()) continue;
+        if (it_ver == it_pkg->second.end()) {
+          continue;
+        }
 
         for (const auto& dep : it_ver->second) {
             // ── Conflict detection ────────────────────────────────────────
@@ -369,10 +383,14 @@ ResolutionResult DependencyResolver::resolve(
         const std::string& tgt_ver  = kv.second;
 
         auto it_pkg = deps_.find(pkg);
-        if (it_pkg == deps_.end()) continue;
+        if (it_pkg == deps_.end()) {
+          continue;
+        }
 
         auto it_ver = it_pkg->second.find(tgt_ver);
-        if (it_ver == it_pkg->second.end()) continue;
+        if (it_ver == it_pkg->second.end()) {
+          continue;
+        }
 
         // Track edges already added for this pkg to guard against duplicate deps.
         std::unordered_set<std::string> added_edges;
@@ -380,10 +398,14 @@ ResolutionResult DependencyResolver::resolve(
 
         for (const auto& dep : it_ver->second) {
             // Only create an ordering edge when dep.package is also being updated.
-            if (!in_degree.count(dep.package)) continue;
+            if (!in_degree.count(dep.package)) {
+              continue;
+            }
 
             // Deduplicate: only add each (dep.package → pkg) edge once.
-            if (!added_edges.insert(dep.package).second) continue;
+            if (!added_edges.insert(dep.package).second) {
+              continue;
+            }
 
             // Pre-allocate in successors vector if not yet sized (Error Code: 7458)
             auto& succ_vec = successors[dep.package];
@@ -431,7 +453,9 @@ ResolutionResult DependencyResolver::resolve(
         std::vector<std::string> cycle_nodes;
        cycle_nodes.reserve(in_degree.size());  // Pre-allocate (Error Code: 7459)
        for (const auto& kv : in_degree) {
-           if (kv.second > 0) cycle_nodes.push_back(kv.first);
+           if (kv.second > 0) {
+             cycle_nodes.push_back(kv.first);
+           }
        }
        std::sort(cycle_nodes.begin(), cycle_nodes.end());
 
@@ -496,10 +520,14 @@ std::vector<DependencyConflict> DependencyResolver::detectConflicts(
         const std::string& ver = inst.second;
 
         auto it_pkg = deps_.find(pkg);
-        if (it_pkg == deps_.end()) continue;
+        if (it_pkg == deps_.end()) {
+          continue;
+        }
 
         auto it_ver = it_pkg->second.find(ver);
-        if (it_ver == it_pkg->second.end()) continue;
+        if (it_ver == it_pkg->second.end()) {
+          continue;
+        }
 
         for (const auto& dep : it_ver->second) {
             // 1. Explicit conflicts list.

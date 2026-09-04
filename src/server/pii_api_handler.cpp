@@ -75,10 +75,14 @@ std::string PIIApiHandler::nowIso8601() {
 }
 
 bool PIIApiHandler::addMapping([[maybe_unused]] const PiiMapping& mappingIn) {
-    if (!db_) return false;
+    if (!db_) {
+      return false;
+    }
     auto& db = *db_;
     PiiMapping mapping = mappingIn;
-    if (mapping.created_at.empty()) mapping.created_at = nowIso8601();
+    if (mapping.created_at.empty()) {
+      mapping.created_at = nowIso8601();
+    }
     mapping.updated_at = mapping.created_at;
 
     std::string key = makeKey(mapping.original_uuid);
@@ -98,13 +102,17 @@ bool PIIApiHandler::addMapping([[maybe_unused]] const PiiMapping& mappingIn) {
 }
 
 std::optional<PiiMapping> PIIApiHandler::getMapping([[maybe_unused]] const std::string& original_uuid) const {
-    if (!db_) return std::nullopt;
+    if (!db_) {
+      return std::nullopt;
+    }
     auto& db = *db_;
     std::string key = makeKey(original_uuid);
     std::string value;
     rocksdb::ReadOptions ro;
     rocksdb::Status s = cf_ ? db.Get(ro, cf_, key, &value) : db.Get(ro, key, &value);
-    if (!s.ok()) return std::nullopt;
+    if (!s.ok()) {
+      return std::nullopt;
+    }
     try {
     auto span = Tracer::startSpan("getMapping");
         json j = json::parse(value);
@@ -116,7 +124,9 @@ std::optional<PiiMapping> PIIApiHandler::getMapping([[maybe_unused]] const std::
 }
 
 bool PIIApiHandler::deleteMapping([[maybe_unused]] const std::string& original_uuid) {
-    if (!db_) return false;
+    if (!db_) {
+      return false;
+    }
     auto& db = *db_;
     std::string key = makeKey(original_uuid);
     rocksdb::WriteOptions wo;
@@ -148,14 +158,20 @@ json PIIApiHandler::listMappings([[maybe_unused]] const PiiQueryFilter& filter) 
         try {
             json j = json::parse(v.ToString());
             // Apply filters
-            if (filter.active_only && j.value("active", false) == false) continue;
+            if (filter.active_only && j.value("active", false) == false) {
+              continue;
+            }
             if (!filter.original_uuid.empty()) {
                 auto val = j.value("original_uuid", std::string());
-                if (val.find(filter.original_uuid) == std::string::npos) continue;
+                if (val.find(filter.original_uuid) == std::string::npos) {
+                  continue;
+                }
             }
             if (!filter.pseudonym.empty()) {
                 auto val = j.value("pseudonym", std::string());
-                if (val.find(filter.pseudonym) == std::string::npos) continue;
+                if (val.find(filter.pseudonym) == std::string::npos) {
+                  continue;
+                }
             }
             // Count and paginate
             if (index >= start && index < end) {

@@ -123,7 +123,9 @@ TEST(DistributedKnowledgeLlmFocused, DK7_TimedOutShard_GracefulDegradation) {
     auto merged = merger.merge({timed_shard, ok_shard});
     bool found = false;
     for (const auto& doc : merged.documents) {
-        if (doc.doc_id == "doc-ok") found = true;
+        if (doc.doc_id == "doc-ok") {
+          found = true;
+        }
     }
     EXPECT_TRUE(found);
 }

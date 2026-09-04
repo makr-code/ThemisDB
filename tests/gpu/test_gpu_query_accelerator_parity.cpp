@@ -72,7 +72,9 @@ static std::vector<Row> makeKeyRows(const std::vector<uint64_t>& ids) {
 
 /// Extract the float payload of a Row as double.
 static double payloadVal(const Row& r) {
-    if (r.data.size() < sizeof(float)) return 0.0;
+    if (r.data.size() < sizeof(float)) {
+      return 0.0;
+    }
     float v;
     std::memcpy(&v, r.data.data(), sizeof(float));
     return static_cast<double>(v);
@@ -84,7 +86,9 @@ static std::vector<float> makeFloats(size_t n, float lo = -1.0f, float hi = 1.0f
     std::mt19937 rng(seed);
     std::uniform_real_distribution<float> dist(lo, hi);
     std::vector<float> v(n);
-    for (auto& x : v) x = dist(rng);
+    for (auto& x : v) {
+      x = dist(rng);
+    }
     return v;
 }
 
@@ -125,8 +129,12 @@ INSTANTIATE_TEST_SUITE_P(
     QueryAcceleratorParityTest,
     ::testing::ValuesIn(parityInputSizes()),
     [](const ::testing::TestParamInfo<size_t>& info) {
-        if (info.param >= 1'000'000) return std::string("10M");
-        if (info.param >= 100'000)   return std::string("100K");
+        if (info.param >= 1'000'000) {
+          return std::string("10M");
+        }
+        if (info.param >= 100'000) {
+          return std::string("100K");
+        }
         return std::string("1K");
     });
 
@@ -293,8 +301,12 @@ TEST_P(QueryAcceleratorParityTest, HashJoin_Parity) {
 
     // Build two key sets with ~50 % overlap.
     std::vector<uint64_t> left_ids(n), right_ids(n);
-    for (size_t i = 0; i < n; ++i) left_ids[i]  = static_cast<uint64_t>(i);
-    for (size_t i = 0; i < n; ++i) right_ids[i] = static_cast<uint64_t>(i / 2);
+    for (size_t i = 0; i < n; ++i) {
+      left_ids[i]  = static_cast<uint64_t>(i);
+    }
+    for (size_t i = 0; i < n; ++i) {
+      right_ids[i] = static_cast<uint64_t>(i / 2);
+    }
 
     auto left_rows  = makeKeyRows(left_ids);
     auto right_rows = makeKeyRows(right_ids);
@@ -315,7 +327,9 @@ TEST_P(QueryAcceleratorParityTest, HashJoin_Parity) {
     auto toIdPairs = [](const std::vector<std::pair<Row, Row>>& pairs) {
         std::vector<IdPair> v;
         v.reserve(pairs.size());
-        for (const auto& p : pairs) v.emplace_back(p.first.id, p.second.id);
+        for (const auto& p : pairs) {
+          v.emplace_back(p.first.id, p.second.id);
+        }
         std::sort(v.begin(), v.end());
         return v;
     };
@@ -327,8 +341,12 @@ TEST_P(QueryAcceleratorParityTest, HashJoin_NoMatch_Parity) {
     const size_t n = GetParam();
 
     std::vector<uint64_t> left_ids(n), right_ids(n);
-    for (size_t i = 0; i < n; ++i) left_ids[i]  = static_cast<uint64_t>(i);
-    for (size_t i = 0; i < n; ++i) right_ids[i] = static_cast<uint64_t>(n + i);
+    for (size_t i = 0; i < n; ++i) {
+      left_ids[i]  = static_cast<uint64_t>(i);
+    }
+    for (size_t i = 0; i < n; ++i) {
+      right_ids[i] = static_cast<uint64_t>(n + i);
+    }
 
     auto left_rows  = makeKeyRows(left_ids);
     auto right_rows = makeKeyRows(right_ids);

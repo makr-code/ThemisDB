@@ -322,7 +322,9 @@ TEST(ExpertSystemEngineTest, ES18_ConcurrentAssertFactFrom8ThreadsIsSafe) {
                                "obj_" + std::to_string(i));
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_LE(ese.factCount(), static_cast<std::size_t>(kThreads * kPerThread));
 }
 
@@ -337,7 +339,9 @@ TEST(ExpertSystemEngineTest, ES19_ConcurrentForwardChainIsSafe) {
     threads.reserve(kThreads);
     for (int t = 0; t < kThreads; ++t)
         threads.emplace_back([&ese]() { (void)ese.forwardChain(10); });
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     // No crash and some facts derived
     EXPECT_GE(ese.knowledgeBase().getFacts("classified").size(), 1u);
 }
@@ -461,7 +465,9 @@ TEST(ExpertSystemEngineTest, ES21_ConcurrentReadersDoNotBlockEachOther) {
             ++successes;
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(successes.load(), kThreads);
 }
 

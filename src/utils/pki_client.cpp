@@ -160,14 +160,18 @@ static std::vector<uint8_t> base64_decode(const std::string& s) {
     std::vector<uint8_t> out; out.reserve((s.size()*3)/4);
     int val = 0, valb = -8;
     for (unsigned char c : s) {
-        if (c=='=') break;
+        if (c=='=') {
+          break;
+        }
         int d;
         if (c < 128) {
             d = T[c];
         } else {
             d = -1;
         }
-        if (d == -1) continue;
+        if (d == -1) {
+          continue;
+        }
         val = (val << 6) + d;
         valb += 6;
         if (valb >= 0) {
@@ -198,7 +202,9 @@ static int nid_for_algorithm(const std::string& alg, size_t& expected_len) {
 }
 
 static int password_cb(char* buf, int size, int /*rwflag*/, void* u) {
-    if (!buf || !u || size <= 0) return 0;
+    if (!buf || !u || size <= 0) {
+      return 0;
+    }
     auto* pass = static_cast<std::string*>(u);
     // Reserve one byte for the NUL terminator required by OpenSSL.
     int len = std::min<int>(static_cast<int>(pass->size()), size - 1);
@@ -238,12 +244,18 @@ static Result<EVP_PKEY*> load_private_key(const PKIConfig& cfg) {
 }
 
 static std::string to_hex_serial(ASN1_INTEGER* s) {
-    if (!s) return std::string();
+    if (!s) {
+      return std::string();
+    }
     auto bn = BIGNUMPtr(ASN1_INTEGER_to_BN(s, nullptr));
-    if (!bn) return std::string();
+    if (!bn) {
+      return std::string();
+    }
     char* hex = BN_bn2hex(bn.get());
     std::string out = hex ? std::string(hex) : std::string();
-    if (hex) OPENSSL_free(hex);
+    if (hex) {
+      OPENSSL_free(hex);
+    }
     return out;
 }
 
@@ -343,7 +355,9 @@ static std::string request_cert_from_ca(const PKIConfig& cfg, const std::string&
     if (cfg.ca_url.empty() || csr_pem.empty()) return {};
 
     std::string url = cfg.ca_url;
-    if (url.back() == '/') url.pop_back();
+    if (url.back() == '/') {
+      url.pop_back();
+    }
     url += "/sign-csr";
 
     nlohmann::json body_json;
@@ -388,7 +402,9 @@ static std::string request_cert_from_ca(const PKIConfig& cfg, const std::string&
     try {
         auto j = nlohmann::json::parse(resp_body);
         std::string cert_pem = j.value("certificate_pem", std::string{});
-        if (!cert_pem.empty()) return cert_pem;
+        if (!cert_pem.empty()) {
+          return cert_pem;
+        }
     } catch (const nlohmann::json::exception &) {
     } catch (const std::exception &) {
     } catch (const std::string &) {
@@ -487,9 +503,13 @@ VCCPKIClient::VCCPKIClient(PKIConfig cfg) : cfg_(std::move(cfg)) {}
 std::optional<std::string> VCCPKIClient::getCertSerial() const {
     std::string serial;
     auto pub_result = load_public_key_and_serial(cfg_, serial);
-    if (!pub_result) return std::nullopt;
+    if (!pub_result) {
+      return std::nullopt;
+    }
     EVP_PKEY_free(*pub_result);
-    if (serial.empty()) return std::nullopt;
+    if (serial.empty()) {
+      return std::nullopt;
+    }
     return serial;
 }
 
@@ -514,7 +534,9 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
             req["algorithm"] = res.algorithm;
 
             std::string url = cfg_.endpoint;
-            if (url.back() == '/') url.pop_back();
+            if (url.back() == '/') {
+              url.pop_back();
+            }
             url += "/sign";
 
             // CURL POST
@@ -635,7 +657,9 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                 }
             }
             EVP_PKEY_free(pkey);
-            if (res.ok) return res;
+            if (res.ok) {
+              return res;
+            }
         }
     }
 
@@ -686,7 +710,9 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                     }
                 }
                 EVP_PKEY_free(pkey);
-                if (res.ok) return res;
+                if (res.ok) {
+                  return res;
+                }
             }
         }
     }
@@ -726,7 +752,9 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
 }
 
 bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const SignatureResult& sig) const {
-    if (!sig.ok) return false;
+    if (!sig.ok) {
+      return false;
+    }
 
     [[maybe_unused]] size_t expected_len = 0;
     [[maybe_unused]] int nid = nid_for_algorithm(sig.algorithm, expected_len);
@@ -739,7 +767,9 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
             req["signature_b64"] = sig.signature_b64;
 
             std::string url = cfg_.endpoint;
-            if (url.back() == '/') url.pop_back();
+            if (url.back() == '/') {
+              url.pop_back();
+            }
             url += "/verify";
 
             CURL* curl = curl_easy_init();

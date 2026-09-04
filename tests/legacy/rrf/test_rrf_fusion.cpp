@@ -270,7 +270,9 @@ TEST_F(RRFFusionTest, AllOverlap_SameOrder_ScoreDoubled) {
     auto bm25 = makeList(3, true);
     std::vector<HybridSearch::Result> vec = makeList(3, false);
     // Same document IDs in same order
-    for (size_t i = 0; i < vec.size(); ++i) vec[i].document_id = bm25[i].document_id;
+    for (size_t i = 0; i < vec.size(); ++i) {
+      vec[i].document_id = bm25[i].document_id;
+    }
 
     auto results = hs.reciprocalRankFusion(bm25, vec);
     ASSERT_EQ(results.size(), 3u);

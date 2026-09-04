@@ -435,7 +435,9 @@ TEST_F(SagaConcurrentExecutionTest, CompensateWithRetryRetriesOnException) {
 
     saga.addStep("flaky_step", [&attempts]() {
         int a = ++attempts;
-        if (a < 3) throw std::runtime_error("transient error");
+        if (a < 3) {
+          throw std::runtime_error("transient error");
+        }
         // succeeds on 3rd attempt
     });
 
@@ -469,7 +471,9 @@ TEST_F(SagaConcurrentExecutionTest, GetMetricsReportsRetriedCount) {
 
     // Two steps: one needs a retry, one succeeds immediately
     saga.addStep("flaky", [&calls]() {
-        if (++calls == 1) throw std::runtime_error("first attempt fails");
+        if (++calls == 1) {
+          throw std::runtime_error("first attempt fails");
+        }
     });
     saga.addStep("ok", []() {});
 

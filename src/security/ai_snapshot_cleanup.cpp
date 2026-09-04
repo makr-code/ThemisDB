@@ -51,8 +51,12 @@ std::vector<AiSnapshotInfo> AiSnapshotCleanupJob::listSnapshots() const {
     }
 
     for (const auto& entry : fs::directory_iterator(config_.snapshot_dir, ec)) {
-        if (ec) break;
-        if (!entry.is_directory(ec) || ec) continue;
+        if (ec) {
+          break;
+        }
+        if (!entry.is_directory(ec) || ec) {
+          continue;
+        }
 
         const std::string name = entry.path().filename().string();
 
@@ -60,7 +64,9 @@ std::vector<AiSnapshotInfo> AiSnapshotCleanupJob::listSnapshots() const {
         const bool is_snapshot =
             name.find("_pre_op") != std::string::npos ||
             name.rfind("op-", 0) == 0;
-        if (!is_snapshot) continue;
+        if (!is_snapshot) {
+          continue;
+        }
 
         // Recursively compute size.
         std::uint64_t size = 0;
@@ -68,7 +74,9 @@ std::vector<AiSnapshotInfo> AiSnapshotCleanupJob::listSnapshots() const {
             if (ec) { ec.clear(); continue; }
             if (sub.is_regular_file(ec) && !ec) {
                 size += static_cast<std::uint64_t>(sub.file_size(ec));
-                if (ec) ec.clear();
+                if (ec) {
+                  ec.clear();
+                }
             }
         }
 
@@ -154,7 +162,9 @@ std::uint64_t AiSnapshotCleanupJob::totalSizeBytes(
 
 bool AiSnapshotCleanupJob::removeDirectory(const std::string& path) noexcept {
     std::error_code ec;
-    if (!fs::exists(path, ec) || ec) return false;
+    if (!fs::exists(path, ec) || ec) {
+      return false;
+    }
     fs::remove_all(path, ec);
     if (ec) {
         spdlog::warn("AI Safety ASL-11: failed to remove '{}': {}", path, ec.message());
@@ -166,7 +176,9 @@ bool AiSnapshotCleanupJob::removeDirectory(const std::string& path) noexcept {
 bool AiSnapshotCleanupJob::isExpired(const AiSnapshotInfo& snap,
                                      int retention_days) noexcept
 {
-    if (retention_days <= 0) return false;
+    if (retention_days <= 0) {
+      return false;
+    }
     const auto now = std::time(nullptr);
     const auto threshold = static_cast<std::time_t>(retention_days) * 86400;
     return (now - snap.created_at) > threshold;

@@ -93,7 +93,9 @@ void SmartRouter::recordLatency(const std::string& backend_id,
 {
     std::unique_lock lock(mutex_);
     auto it = backends_.find(backend_id);
-    if (it == backends_.end()) return;
+    if (it == backends_.end()) {
+      return;
+    }
 
     auto& state = it->second;
     state.latency_window.push_back(latency_ms);
@@ -117,7 +119,9 @@ void SmartRouter::recordCacheHit(const std::string& backend_id,
 {
     std::unique_lock lock(mutex_);
     auto it = backends_.find(backend_id);
-    if (it == backends_.end()) return;
+    if (it == backends_.end()) {
+      return;
+    }
 
     auto& state = it->second;
     state.cache_hits++;
@@ -133,7 +137,9 @@ void SmartRouter::recordCacheMiss(const std::string& backend_id,
 {
     std::unique_lock lock(mutex_);
     auto it = backends_.find(backend_id);
-    if (it == backends_.end()) return;
+    if (it == backends_.end()) {
+      return;
+    }
 
     // key not tracked for misses (only hits drive prediction)
     it->second.cache_misses++;
@@ -182,7 +188,9 @@ std::optional<BackendEndpoint> SmartRouter::route(
     const std::string& resource_key) const
 {
     std::shared_lock lock(mutex_);
-    if (backends_.empty()) return std::nullopt;
+    if (backends_.empty()) {
+      return std::nullopt;
+    }
 
     // Phase 1: Cache-hit prediction
     if (config_.enable_cache_prediction) {
@@ -232,7 +240,9 @@ std::optional<BackendEndpoint> SmartRouter::route(
     }
     // If all backends are high-tail, keep all of them (no choice).
 
-    if (candidates.empty()) return std::nullopt;
+    if (candidates.empty()) {
+      return std::nullopt;
+    }
 
     // Phase 3: Least-loaded among candidates (tie-break by avg latency).
     const BackendState* chosen = nullptr;
@@ -266,7 +276,9 @@ std::optional<BackendEndpoint> SmartRouter::route(
  */
 std::optional<BackendEndpoint> SmartRouter::routeLeastLoaded() const {
     std::shared_lock lock(mutex_);
-    if (backends_.empty()) return std::nullopt;
+    if (backends_.empty()) {
+      return std::nullopt;
+    }
 
     // Check if any backends have acceptable latency.
     bool has_acceptable = std::any_of(
@@ -307,7 +319,9 @@ std::optional<BackendEndpoint> SmartRouter::predictCachedBackend(
     const std::string& resource_key) const
 {
     std::shared_lock lock(mutex_);
-    if (backends_.empty()) return std::nullopt;
+    if (backends_.empty()) {
+      return std::nullopt;
+    }
 
     uint32_t best_hits = 0;
     const BackendState* best = nullptr;
@@ -388,7 +402,9 @@ SmartRouter::BackendStats SmartRouter::getBackendStats(
 /* static */
 /** @brief Compute arithmetic mean of latency window. */
 double SmartRouter::computeAvg(const std::deque<double>& window) noexcept {
-    if (window.empty()) return 0.0;
+    if (window.empty()) {
+      return 0.0;
+    }
     double sum = std::accumulate(window.begin(), window.end(), 0.0);
     return sum / static_cast<double>(window.size());
 }
@@ -396,13 +412,17 @@ double SmartRouter::computeAvg(const std::deque<double>& window) noexcept {
 /* static */
 /** @brief Compute p99 latency via nearest-rank method. */
 double SmartRouter::computeP99(const std::deque<double>& window) {
-    if (window.empty()) return 0.0;
+    if (window.empty()) {
+      return 0.0;
+    }
     std::vector<double> sorted(window.begin(), window.end());
     std::sort(sorted.begin(), sorted.end());
     // Nearest-rank: ceil(p * n / 100) – 1
     std::size_t idx = static_cast<std::size_t>(
         std::ceil(99.0 * static_cast<double>(sorted.size()) / 100.0));
-    if (idx > 0) --idx;
+    if (idx > 0) {
+      --idx;
+    }
     idx = std::min(idx, sorted.size() - 1);
     return sorted[idx];
 }
@@ -423,7 +443,9 @@ void SmartRouter::refreshStats(BackendState& state) noexcept {
 bool SmartRouter::isHighTail(const BackendState& state,
                              bool has_other_candidates) const noexcept
 {
-    if (state.latency_window.empty()) return false;
+    if (state.latency_window.empty()) {
+      return false;
+    }
     return has_other_candidates &&
            state.cached_p99_latency > config_.tail_latency_threshold_ms;
 }

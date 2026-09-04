@@ -139,7 +139,9 @@ public:
                          [this] { return !queue_.empty(); })) {
             return false;  // timeout
         }
-        if (queue_.empty()) return false;
+        if (queue_.empty()) {
+          return false;
+        }
         
         cmd = queue_.front();
         queue_.pop();
@@ -261,7 +263,9 @@ protected:
     }
 
     void printMetricsSummary() {
-        if (metrics_history_.empty()) return;
+        if (metrics_history_.empty()) {
+          return;
+        }
 
         std::printf("\n=== Endurance Test Summary ===\n");
         
@@ -286,7 +290,9 @@ protected:
 
     // Verify metrics are stable (no unbounded growth)
     bool verifyStability() {
-        if (metrics_history_.size() < 2) return true;
+        if (metrics_history_.size() < 2) {
+          return true;
+        }
 
         // Check for unbounded memory growth
         int64_t max_memory = 0;

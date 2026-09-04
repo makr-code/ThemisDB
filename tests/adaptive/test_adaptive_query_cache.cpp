@@ -380,7 +380,9 @@ TEST_F(AdaptiveQueryCacheTest, ARCPolicyEvictsCorrectly) {
     // Exactly 3 entries should remain
     int present = 0;
     for (const auto& fp : {"fp1", "fp2", "fp3", "fp4"}) {
-        if (cache.get(fp, "").has_value()) ++present;
+        if (cache.get(fp, "").has_value()) {
+          ++present;
+        }
     }
     EXPECT_EQ(present, 3);
 }

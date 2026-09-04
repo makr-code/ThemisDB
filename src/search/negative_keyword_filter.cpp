@@ -83,7 +83,9 @@ NegativeKeywordFilter::parseQuery(const std::string& raw_query) {
         }
 
         // Regular positive token
-        if (!positive_buf.empty()) positive_buf += ' ';
+        if (!positive_buf.empty()) {
+          positive_buf += ' ';
+        }
         positive_buf += token;
         next_is_negative = false;
     }
@@ -123,7 +125,9 @@ NegativeKeywordFilter::filter(
     SecondaryIndexManager::Status last_error = SecondaryIndexManager::Status::OK();
 
     for (const auto& term : negative_terms) {
-        if (term.empty()) continue;
+        if (term.empty()) {
+          continue;
+        }
 
         try {
             auto [status, neg_results] = index_->scanFulltext(

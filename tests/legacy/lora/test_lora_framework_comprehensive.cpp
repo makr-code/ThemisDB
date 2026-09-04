@@ -701,13 +701,19 @@ TEST_F(LoRAFrameworkComprehensiveTest, ErrorHandling_InvalidVersion_Format) {
     for (const auto& version : invalid_versions) {
         // Robust version validation: v<major>.<minor> or v<major>.<minor>.<patch>
         auto validate_version = [](const std::string& v) -> bool {
-            if (v.empty() || v[0] != 'v') return false;
+            if (v.empty() || v[0] != 'v') {
+              return false;
+            }
             std::string num_part = v.substr(1);
-            if (num_part.empty()) return false;
+            if (num_part.empty()) {
+              return false;
+            }
             
             // Check format: digits.digits or digits.digits.digits
             int dot_count = std::count(num_part.begin(), num_part.end(), '.');
-            if (dot_count < 1 || dot_count > 2) return false;
+            if (dot_count < 1 || dot_count > 2) {
+              return false;
+            }
             
             // Verify all parts are numeric
             std::istringstream ss(num_part);

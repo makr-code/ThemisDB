@@ -339,7 +339,9 @@ public:
         size_t pos = 0;
         while ((pos = response_body.find("<D:response>", pos)) != std::string::npos) {
             size_t end = response_body.find("</D:response>", pos);
-            if (end == std::string::npos) break;
+            if (end == std::string::npos) {
+              break;
+            }
             std::string entry = response_body.substr(pos, end - pos);
             pos = end + 1;
 
@@ -347,17 +349,23 @@ public:
             static constexpr size_t kHrefOpenLen  = sizeof("<D:href>") - 1;
             size_t href_start = entry.find("<D:href>");
             size_t href_end   = entry.find("</D:href>");
-            if (href_start == std::string::npos || href_end == std::string::npos) continue;
+            if (href_start == std::string::npos || href_end == std::string::npos) {
+              continue;
+            }
             href_start += kHrefOpenLen;
             std::string href = entry.substr(href_start, href_end - href_start);
 
             // Strip the base path and any trailing slash to get the user id.
-            if (href == base_href || href == base_href + "/") continue;
+            if (href == base_href || href == base_href + "/") {
+              continue;
+            }
             size_t slash = href.rfind('/');
             std::string user_id = (slash != std::string::npos)
                                   ? href.substr(slash + 1)
                                   : href;
-            if (user_id.empty()) continue;
+            if (user_id.empty()) {
+              continue;
+            }
 
             // Extract displayname if present.
             static constexpr size_t kDisplayNameOpenLen = sizeof("<D:displayname>") - 1;
@@ -667,19 +675,29 @@ private:
             };
 
             auto dn = extract("<D:displayname>", "</D:displayname>");
-            if (!dn.empty()) properties["displayName"] = dn;
+            if (!dn.empty()) {
+              properties["displayName"] = dn;
+            }
 
             auto given = extract("<C:givenname>", "</C:givenname>");
-            if (!given.empty()) properties["givenName"] = given;
+            if (!given.empty()) {
+              properties["givenName"] = given;
+            }
 
             auto sn = extract("<C:sn>", "</C:sn>");
-            if (!sn.empty()) properties["sn"] = sn;
+            if (!sn.empty()) {
+              properties["sn"] = sn;
+            }
 
             auto mail = extract("<M:to>", "</M:to>");
-            if (!mail.empty()) properties["mail"] = mail;
+            if (!mail.empty()) {
+              properties["mail"] = mail;
+            }
 
             auto member_of = extract("<C:memberOf>", "</C:memberOf>");
-            if (!member_of.empty()) properties["memberOf"] = member_of;
+            if (!member_of.empty()) {
+              properties["memberOf"] = member_of;
+            }
         } else {
             THEMIS_WARN("WebDAV AD PROPFIND for user '{}' returned HTTP {}", user_id, http_code);
         }

@@ -227,8 +227,12 @@ protected:
         catalog_.reset();
         schema_mgr_.reset();
         index_mgr_.reset();
-        if (db_) db_->close();
-        for (auto& shard : shards_) shard->stop();
+        if (db_) {
+          db_->close();
+        }
+        for (auto& shard : shards_) {
+          shard->stop();
+        }
     }
 
     std::unique_ptr<RocksDBWrapper>               db_;

@@ -747,11 +747,21 @@ RAIDMode BackupManager::parseRAIDMode(const std::string& mode_str) {
     std::string mode_lower = mode_str;
     std::transform(mode_lower.begin(), mode_lower.end(), mode_lower.begin(), ::tolower);
     
-    if (mode_lower == "raid0") return RAIDMode::RAID0;
-    if (mode_lower == "raid1") return RAIDMode::RAID1;
-    if (mode_lower == "raid5") return RAIDMode::RAID5;
-    if (mode_lower == "raid6") return RAIDMode::RAID6;
-    if (mode_lower == "raid10") return RAIDMode::RAID10;
+    if (mode_lower == "raid0") {
+      return RAIDMode::RAID0;
+    }
+    if (mode_lower == "raid1") {
+      return RAIDMode::RAID1;
+    }
+    if (mode_lower == "raid5") {
+      return RAIDMode::RAID5;
+    }
+    if (mode_lower == "raid6") {
+      return RAIDMode::RAID6;
+    }
+    if (mode_lower == "raid10") {
+      return RAIDMode::RAID10;
+    }
     
     return RAIDMode::NONE;
 }
@@ -1893,7 +1903,9 @@ bool BackupManager::compressPath([[maybe_unused]] const std::string& src_path,
                 if (ec) { all_ok = false; break; }
                 continue;
             }
-            if (!entry.is_regular_file()) continue;
+            if (!entry.is_regular_file()) {
+              continue;
+            }
 
             // Read source file
             std::ifstream fin(src_entry, std::ios::binary);
@@ -2006,7 +2018,9 @@ bool BackupManager::decompressPath([[maybe_unused]] const std::string& src_path,
                 if (ec) { all_ok = false; break; }
                 continue;
             }
-            if (!entry.is_regular_file()) continue;
+            if (!entry.is_regular_file()) {
+              continue;
+            }
 
             const std::string ext = src_entry.extension().string();
 
@@ -2168,7 +2182,9 @@ bool BackupManager::encryptFile([[maybe_unused]] const std::string& src_path,
     while (ok && in) {
         in.read(reinterpret_cast<char*>(plain.data()), BUF);
         int rd = static_cast<int>(in.gcount());
-        if (rd <= 0) break;
+        if (rd <= 0) {
+          break;
+        }
         int outl = 0;
         if (EVP_EncryptUpdate(ctx, cipher.data(), &outl, plain.data(), rd) != 1) {
             ok = false; break;
@@ -2729,8 +2745,12 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
         for (const auto& backup_name : backups) {
             // Only consider full backups (incremental replay not yet implemented).
             static constexpr std::string_view kPrefix = "full_";
-            if (backup_name.size() < kPrefix.size() + 15u) continue;
-            if (backup_name.compare(0, kPrefix.size(), kPrefix) != 0) continue;
+            if (backup_name.size() < kPrefix.size() + 15u) {
+              continue;
+            }
+            if (backup_name.compare(0, kPrefix.size(), kPrefix) != 0) {
+              continue;
+            }
 
             // Parse the timestamp portion: "YYYYMMDD_HHMMSS"
             const std::string ts_str = backup_name.substr(kPrefix.size());
@@ -2743,7 +2763,9 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
             }
             tm.tm_isdst = -1;
             const std::time_t backup_time = std::mktime(&tm);
-            if (backup_time == static_cast<std::time_t>(-1)) continue;
+            if (backup_time == static_cast<std::time_t>(-1)) {
+              continue;
+            }
 
             // Keep the latest snapshot whose boundary is at or before target_time.
             if (backup_time <= target_tt && backup_time > best_time) {
@@ -2958,9 +2980,13 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
         // Build the set of CFs to restore.
         std::unordered_set<std::string> target_cfs;
         if (collections.empty()) {
-            for (const auto& cf : checkpoint_cfs) target_cfs.insert(cf);
+            for (const auto& cf : checkpoint_cfs) {
+              target_cfs.insert(cf);
+            }
         } else {
-            for (const auto& coll : collections) target_cfs.insert(coll);
+            for (const auto& coll : collections) {
+              target_cfs.insert(coll);
+            }
         }
 
          // Build target CF descriptors for per-CF restore
@@ -3067,7 +3093,9 @@ uint32_t BackupManager::applyRetentionPolicy(const std::string& backup_dir,
             
             // Get backup creation time
             auto ftime = fs::last_write_time(backup_path, ec);
-            if (ec) continue;
+            if (ec) {
+              continue;
+            }
             
             // Convert to system_clock time_point (simplified)
             auto sctp = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
@@ -3115,7 +3143,9 @@ std::map<std::string, uint64_t> BackupManager::getBackupMetrics(const std::strin
             }
             
             // Count types
-            if (backup.starts_with("full_")) full_backups++;
+            if (backup.starts_with("full_")) {
+              full_backups++;
+            }
             else if (backup.starts_with("incr_")) incr_backups++;
         }
         
@@ -3528,7 +3558,9 @@ Result<void> BackupManager::restoreFromSnapshot(
 
     // First verify the snapshot is intact.
     auto verify = verifySnapshot(snapshot_id);
-    if (!verify) return verify;
+    if (!verify) {
+      return verify;
+    }
 
     if (!db_wrapper_) {
         return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
@@ -3678,7 +3710,9 @@ Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_d
         if (!corrupted.empty()) {
             std::string corrupt_list;
             for (size_t i = 0; i < corrupted.size() && i < 5; ++i) {
-                if (i > 0) corrupt_list += ", ";
+                if (i > 0) {
+                  corrupt_list += ", ";
+                }
                 corrupt_list += corrupted[i];
             }
             if (corrupted.size() > 5) {
@@ -3752,7 +3786,9 @@ Result<uint32_t> BackupManager::repairDecompressedBackup(const std::string& back
                 fs::path dest = fs::path(backup_dir) / rel;
                 try {
                     fs::copy_file(entry.path(), dest, fs::copy_options::overwrite_existing, ec);
-                    if (!ec) repaired_count++;
+                    if (!ec) {
+                      repaired_count++;
+                    }
                 } catch (...) {
                     // Continue with other files
                 }
@@ -3782,8 +3818,12 @@ Result<void> BackupManager::buildIntegrityManifest(const std::string& backup_dir
         integrity_map.clear();
         
         for (const auto& entry : fs::recursive_directory_iterator(backup_dir)) {
-            if (!entry.is_regular_file()) continue;
-            if (entry.path().filename() == "INTEGRITY_MANIFEST.json") continue;
+            if (!entry.is_regular_file()) {
+              continue;
+            }
+            if (entry.path().filename() == "INTEGRITY_MANIFEST.json") {
+              continue;
+            }
             
             FileIntegrityInfo info;
             info.relative_path = fs::relative(entry.path(), backup_dir).string();

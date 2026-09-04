@@ -174,8 +174,12 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
     if (auth_ && auth_->isEnabled()) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:read", "query", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:read", "query", path_only)) {
+          return *resp;
+        }
     }
     auto span = Tracer::startSpan("POST /query");
     if (!storage_ || !secondary_index_) {
@@ -265,11 +269,19 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                 }
                 themis::PredicateRange pr;
                 pr.column = r["column"].get<std::string>();
-                if (r.contains("gte")) pr.lower = r["gte"].get<std::string>();
-                if (r.contains("lte")) pr.upper = r["lte"].get<std::string>();
+                if (r.contains("gte")) {
+                  pr.lower = r["gte"].get<std::string>();
+                }
+                if (r.contains("lte")) {
+                  pr.upper = r["lte"].get<std::string>();
+                }
                 pr.includeLower = true; pr.includeUpper = true;
-                if (r.contains("includeLower")) pr.includeLower = r["includeLower"].get<bool>();
-                if (r.contains("includeUpper")) pr.includeUpper = r["includeUpper"].get<bool>();
+                if (r.contains("includeLower")) {
+                  pr.includeLower = r["includeLower"].get<bool>();
+                }
+                if (r.contains("includeUpper")) {
+                  pr.includeUpper = r["includeUpper"].get<bool>();
+                }
                 rpreds.push_back(std::move(pr));
             }
         }
@@ -278,7 +290,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         std::optional<themis::OrderBy> orderBy;
         if (body.contains("order_by")) {
             const auto& ob = body["order_by"];
-            if (!ob.contains("column")) return makeErrorResponse(http::status::bad_request, "order_by requires 'column'", req);
+            if (!ob.contains("column")) {
+              return makeErrorResponse(http::status::bad_request, "order_by requires 'column'", req);
+            }
             themis::OrderBy o; o.column = ob["column"].get<std::string>();
             o.desc = ob.contains("desc") ? ob["desc"].get<bool>() : false;
             o.limit = ob.contains("limit") ? ob["limit"].get<size_t>() : 1000;
@@ -311,7 +325,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
 
         themis::query::QueryEngine engine(*storage_, *secondary_index_);
         auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
-        if (stats_collector) engine.setStatisticsCollector(stats_collector);
+        if (stats_collector) {
+          engine.setStatisticsCollector(stats_collector);
+        }
 
         // Optional plan/explain info
         std::string exec_mode;
@@ -381,7 +397,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             span.setStatus(true);
 
             json j = {{"table", table}, {"count", res.second}};
-            if (explain && !plan_json.is_null()) j["plan"] = plan_json;
+            if (explain && !plan_json.is_null()) {
+              j["plan"] = plan_json;
+            }
             return makeResponse(http::status::ok, j.dump(), req);
         } else if (ret == "keys") {
             std::pair<QueryExecStatus, std::vector<std::string>> res;
@@ -447,7 +465,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             span.setStatus(true);
             
             json j = {{"table", table}, {"count", res.second.size()}, {"keys", res.second}};
-            if (explain && !plan_json.is_null()) j["plan"] = plan_json;
+            if (explain && !plan_json.is_null()) {
+              j["plan"] = plan_json;
+            }
             if (stream && ChunkedResponseWriter::shouldUseChunkedTransfer(req, res.second.size())) {
                 std::vector<nlohmann::json> key_items;
                 key_items.reserve(res.second.size());
@@ -552,7 +572,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                     if (enabled && coll["encryption"].contains("fields")) {
                         const auto& fields_array = coll["encryption"]["fields"];
                         fields.reserve(fields_array.size());
-                        for (auto& f : fields_array) if (f.is_string()) fields.push_back(f.get<std::string>());
+                        for (auto& f : fields_array) {
+                          if (f.is_string()) fields.push_back(f.get<std::string>());
+                        }
                         context_type = coll["encryption"].value("context_type", "user");
                     }
                 }
@@ -571,9 +593,13 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                             if (isTimedOut()) {
                                 return timeoutResponse();
                             }
-                            if (!obj.contains(f + "_enc") || !obj.contains(f + "_encrypted")) continue;
+                            if (!obj.contains(f + "_enc") || !obj.contains(f + "_encrypted")) {
+                              continue;
+                            }
                             bool encFlag = false; try { encFlag = obj[f + "_enc"].get<bool>(); } catch (...) { encFlag = false; }
-                            if (!encFlag) continue;
+                            if (!encFlag) {
+                              continue;
+                            }
                             try {
                                 auto enc_meta_str = obj[f + "_encrypted"].get<std::string>();
                                 auto enc_meta = nlohmann::json::parse(enc_meta_str);
@@ -624,7 +650,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                 }
             }
             json j = {{"table", table}, {"count", res.second.size()}, {"entities", applyMasking(entities, req)}, {"decrypted", decrypt}};
-            if (explain && !plan_json.is_null()) j["plan"] = plan_json;
+            if (explain && !plan_json.is_null()) {
+              j["plan"] = plan_json;
+            }
             if (stream && ChunkedResponseWriter::shouldUseChunkedTransfer(req, entities.size())) {
                 std::vector<nlohmann::json> entity_items;
                 entity_items.reserve(entities.size());
@@ -774,7 +802,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             // change [&] to [] (no outer-scope locals needed; non-recursive).
             std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
                 auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
-                if (!fa) return std::string();
+                if (!fa) {
+                  return std::string();
+                }
                 std::vector<std::string> parts;
                 parts.reserve(8);  // Typical nesting depth is 4-8 levels
                 parts.push_back(fa->field);
@@ -784,7 +814,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 rootVar = root->name;
                 std::ostringstream col_oss;
                 for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
-                    if (it != parts.rbegin()) col_oss << ".";
+                    if (it != parts.rbegin()) {
+                      col_oss << ".";
+                    }
                     col_oss << *it;
                 }
                 return col_oss.str();
@@ -803,8 +835,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::optional<std::pair<std::string,std::string>> joinCols; std::vector<PredicateEq> eq1, eq2; std::vector<PredicateRange> r1, r2;
             std::function<void(const std::shared_ptr<Expression>&)> collectPreds;
             collectPreds = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e){
-                if (!e) return;
-                if (e->getType() != ASTNodeType::BinaryOp) return;
+                if (!e) {
+                  return;
+                }
+                if (e->getType() != ASTNodeType::BinaryOp) {
+                  return;
+                }
                 auto bin = std::static_pointer_cast<BinaryOpExpr>(e);
                 if (bin->op == BinaryOperator::And) {
                     collectPreds(bin->left);
@@ -822,7 +858,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     if (bin->left->getType() == ASTNodeType::Literal) { std::string rv; std::string col = fieldFromFA(bin->right, rv); if (!col.empty()) { auto lit = std::static_pointer_cast<LiteralExpr>(bin->left); if (rv == var1) eq1.push_back({col, literalToString(lit->value)}); else if (rv == var2) eq2.push_back({col, literalToString(lit->value)}); } return; }
                 }
             };
-            for (const auto& f : (*parse_result)->filters) collectPreds(f->condition);
+            for (const auto& f : (*parse_result)->filters) {
+              collectPreds(f->condition);
+            }
             if (!joinCols.has_value()) {
                 joinSpan.setStatus(false, "join_predicate_missing"); span.setStatus(false, "JOIN requires equality predicate between variables");
                 return makeErrorResponse(http::status::bad_request, "JOIN requires equality predicate between variables", req);
@@ -831,7 +869,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             themis::ConjunctiveQuery q2; q2.table = table2; q2.predicates = eq2; q2.rangePredicates = r2;
             themis::query::QueryEngine engine(*storage_, *secondary_index_);
             auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
-            if (stats_collector) engine.setStatisticsCollector(stats_collector);
+            if (stats_collector) {
+              engine.setStatisticsCollector(stats_collector);
+            }
             
             auto result1 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q1, optimize) : engine.executeAndEntities(q1);
             std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res1;
@@ -882,13 +922,17 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         if (!(*parse_result)->filters.empty() && !(*parse_result)->let_nodes.empty()) {
             // Map der LET-Bindings: var -> expr
             std::unordered_map<std::string, std::shared_ptr<themis::query::Expression>> letMap;
-            for (const auto& ln : (*parse_result)->let_nodes) letMap[ln.variable] = ln.expression;
+            for (const auto& ln : (*parse_result)->let_nodes) {
+              letMap[ln.variable] = ln.expression;
+            }
 
             using namespace themis::query;
             // Helfer: löse Ausdruck zu einer Feldspalte der Loop-Variable auf, ggf. via LET-Variable
             std::function<std::optional<std::string>(const std::shared_ptr<Expression>&)> resolveToLoopField;
             resolveToLoopField = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e)->std::optional<std::string> {
-                if (!e) return std::nullopt;
+                if (!e) {
+                  return std::nullopt;
+                }
                 if (auto* fa = dynamic_cast<FieldAccessExpr*>(e.get())) {
                     // Sammle Feldpfad und prüfe Root-Variable
                     std::vector<std::string> parts;
@@ -897,10 +941,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     auto* cur = fa->object.get();
                     while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) { parts.push_back(fa2->field); cur = fa2->object.get(); }
                     auto* root = dynamic_cast<VariableExpr*>(cur);
-                    if (!root || root->name != loopVar) return std::nullopt;
+                    if (!root || root->name != loopVar) {
+                      return std::nullopt;
+                    }
                     std::ostringstream col_oss;
                     for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
-                        if (it != parts.rbegin()) col_oss << ".";
+                        if (it != parts.rbegin()) {
+                          col_oss << ".";
+                        }
                         col_oss << *it;
                     }
                     std::string col = col_oss.str();
@@ -908,7 +956,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
                 if (auto* v = dynamic_cast<VariableExpr*>(e.get())) {
                     auto it = letMap.find(v->name);
-                    if (it == letMap.end()) return std::nullopt;
+                    if (it == letMap.end()) {
+                      return std::nullopt;
+                    }
                     return resolveToLoopField(it->second);
                 }
                 return std::nullopt;
@@ -931,7 +981,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             };
             std::function<void(const std::shared_ptr<Expression>&)> visit;
             visit = [&]([[maybe_unused]] const std::shared_ptr<Expression>& ex){
-                if (!ex || unsupported) return;
+                if (!ex || unsupported) {
+                  return;
+                }
                 if (auto* be = dynamic_cast<BinaryOpExpr*>(ex.get())) {
                     if (be->op == BinaryOperator::And) { visit(be->left); visit(be->right); return; }
                     if (be->op == BinaryOperator::Eq) {
@@ -953,7 +1005,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     return;
                 }
             };
-            for (const auto& f : (*parse_result)->filters) visit(f->condition);
+            for (const auto& f : (*parse_result)->filters) {
+              visit(f->condition);
+            }
 
             // Wenn wir etwas extrahieren konnten, nutzen wir dafür einen direkten ConjunctiveQuery
             if (!eqPreds.empty()) {
@@ -1045,7 +1099,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 using namespace themis::query;
                 auto* var = dynamic_cast<VariableExpr*>((*parse_result)->return_node->expression.get());
                 if (var) {
-                    if (var->name == "e") retMode = RetMode::Edge;
+                    if (var->name == "e") {
+                      retMode = RetMode::Edge;
+                    }
                     else if (var->name == "p") retMode = RetMode::Path;
                 }
             }
@@ -1066,11 +1122,15 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     out = l->toJSON()["value"]; return true;
                 }
                 auto* fc = dynamic_cast<FunctionCallExpr*>(expr.get());
-                if (!fc) return false;
+                if (!fc) {
+                  return false;
+                }
                 // Funktionsnamen case-insensitiv vergleichen
                 std::string name = fc->name; std::transform(name.begin(), name.end(), name.begin(), ::tolower);
                 auto getArgLit = [&](size_t idx, nlohmann::json& argOut)->bool{
-                    if (idx >= fc->arguments.size()) return false;
+                    if (idx >= fc->arguments.size()) {
+                      return false;
+                    }
                     return evalExprToLiteral(fc->arguments[idx], argOut);
                 };
                 if (name == "abs") {
@@ -1131,7 +1191,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 if (name == "date_trunc") {
                     // DATE_TRUNC(unit, dateStr)
                     nlohmann::json unitJ, dateJ; if (!getArgLit(0, unitJ) || !getArgLit(1, dateJ)) return false;
-                    if (!unitJ.is_string() || !dateJ.is_string()) return false;
+                    if (!unitJ.is_string() || !dateJ.is_string()) {
+                      return false;
+                    }
                     std::string unit = unitJ.get<std::string>(); std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
                     std::tm tm{}; if (!parseIso(dateJ.get<std::string>(), tm)) return false;
                     if (unit == "day") { /* already normalized by tmToDateStr */ }
@@ -1143,7 +1205,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 if (name == "date_add" || name == "date_sub") {
                     // DATE_ADD(dateStr, amount, unit) � unterst�tzt 'day','month','year'
                     nlohmann::json dateJ, amountJ, unitJ; if (!getArgLit(0, dateJ) || !getArgLit(1, amountJ) || !getArgLit(2, unitJ)) return false;
-                    if (!dateJ.is_string() || !amountJ.is_number_integer() || !unitJ.is_string()) return false;
+                    if (!dateJ.is_string() || !amountJ.is_number_integer() || !unitJ.is_string()) {
+                      return false;
+                    }
                     std::string unit = unitJ.get<std::string>(); std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
                     std::tm tm{}; if (!parseIso(dateJ.get<std::string>(), tm)) return false;
                     long long amt = amountJ.get<long long>(); if (name == "date_sub") amt = -amt;
@@ -1180,7 +1244,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 using namespace themis::query;
                 for (const auto& f : (*parse_result)->filters) {
                     auto* be = dynamic_cast<BinaryOpExpr*>(f->condition.get());
-                    if (!be) continue;
+                    if (!be) {
+                      continue;
+                    }
 
                     // Falls es ein XOR ist, versuchen wir links und rechts je als SimplePred zu parsen
                     if (be->op == BinaryOperator::Xor) {
@@ -1197,20 +1263,32 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         };
                         auto parseSide = [&](std::shared_ptr<Expression> e, char& var, std::string& field) -> bool {
                             auto* fa = dynamic_cast<FieldAccessExpr*>(e.get());
-                            if (!fa) return false;
+                            if (!fa) {
+                              return false;
+                            }
                             auto* v = dynamic_cast<VariableExpr*>(fa->object.get());
-                            if (!v) return false;
-                            if (v->name != "v" && v->name != "e") return false;
-                            if (v->name.empty()) return false;
+                            if (!v) {
+                              return false;
+                            }
+                            if (v->name != "v" && v->name != "e") {
+                              return false;
+                            }
+                            if (v->name.empty()) {
+                              return false;
+                            }
                             var = v->name.front();
                             field = fa->field;
                             return true;
                         };
                         auto parseSimpleFromExpr = [&](std::shared_ptr<Expression> expr, SimplePred& out)->bool {
                             auto* be2 = dynamic_cast<BinaryOpExpr*>(expr.get());
-                            if (!be2) return false;
+                            if (!be2) {
+                              return false;
+                            }
                             auto op_m2 = mapOpInner(be2->op);
-                            if (!op_m2.has_value()) return false;
+                            if (!op_m2.has_value()) {
+                              return false;
+                            }
                             char var=0; std::string field; nlohmann::json lit;
                             if (parseSide(be2->left, var, field)) {
                                 if (evalExprToLiteral(be2->right, lit)) { out = {var, field, lit, *op_m2}; return true; }
@@ -1259,11 +1337,19 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     auto parseSide = [&](std::shared_ptr<Expression> e, char& var, std::string& field) -> bool {
                         // Erwartet FieldAccess(Variable('v'|'e'), field)
                         auto* fa = dynamic_cast<FieldAccessExpr*>(e.get());
-                        if (!fa) return false;
+                        if (!fa) {
+                          return false;
+                        }
                         auto* v = dynamic_cast<VariableExpr*>(fa->object.get());
-                        if (!v) return false;
-                        if (v->name != "v" && v->name != "e") return false;
-                        if (v->name.empty()) return false;
+                        if (!v) {
+                          return false;
+                        }
+                        if (v->name != "v" && v->name != "e") {
+                          return false;
+                        }
+                        if (v->name.empty()) {
+                          return false;
+                        }
                         var = v->name.front();
                         field = fa->field;
                         return true;
@@ -1340,7 +1426,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     }
                 } else if (b.is_boolean()) {
                     bool lit = b.get<bool>(); bool av;
-                    if (!toBool(a, av)) return false;
+                    if (!toBool(a, av)) {
+                      return false;
+                    }
                     switch (op) {
                         case SimplePred::Op::Eq:  return av == lit;
                         case SimplePred::Op::Neq: return av != lit;
@@ -1376,18 +1464,26 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
             // Allgemeine Filterauswertung (AND/OR/NOT/XOR) auf AST-Basis
             auto getVFieldString = [&](const std::string& pk, const std::string& field)->std::optional<std::string>{
-                if (field == "_key") return pk;
+                if (field == "_key") {
+                  return pk;
+                }
                 auto blob = storage_->get(pk);
-                if (!blob) return std::nullopt;
+                if (!blob) {
+                  return std::nullopt;
+                }
                 try {
                     auto ent = themis::BaseEntity::deserialize(pk, *blob);
                     return ent.getFieldAsString(field);
                 } catch (...) { return std::nullopt; }
             };
             auto getEFieldString = [&](const std::string& edgeId, const std::string& field)->std::optional<std::string>{
-                if (field == "id") return edgeId;
+                if (field == "id") {
+                  return edgeId;
+                }
                 auto eblob = storage_->get(themis::KeySchema::makeGraphEdgeKey(edgeId));
-                if (!eblob) return std::nullopt;
+                if (!eblob) {
+                  return std::nullopt;
+                }
                 try {
                     auto ent = themis::BaseEntity::deserialize(edgeId, *eblob);
                     return ent.getFieldAsString(field);
@@ -1402,16 +1498,22 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
             std::function<bool(const Expression*, const std::string&, const std::optional<std::string>&)> evalBoolExpr;
             evalBoolExpr = [&](const Expression* e, const std::string& vpk, const std::optional<std::string>& eid)->bool{
-                if (!e) return true;
+                if (!e) {
+                  return true;
+                }
                 // Special handling: PATH.ALL / PATH.ANY / PATH.NONE
                 if (auto* fe = dynamic_cast<const FunctionCallExpr*>(e)) {
                     std::string fname = fe->name; std::transform(fname.begin(), fname.end(), fname.begin(), ::tolower);
                     if (fname == "path.all" || fname == "path.any" || fname == "path.none") {
                         // Expect two arguments: variable name (v or e) and a predicate expression
-                        if (fe->arguments.size() != 2) return false;
+                        if (fe->arguments.size() != 2) {
+                          return false;
+                        }
                         const auto& path_args = fe->arguments;
                         auto* varExpr = dynamic_cast<const VariableExpr*>(path_args.front().get());
-                        if (!varExpr) return false;
+                        if (!varExpr) {
+                          return false;
+                        }
                         std::string varName = varExpr->name; // 'v' or 'e'
                         const Expression* inner = path_args.back().get();
                         // Reconstruct path from startVertex to vpk using parent map
@@ -1421,7 +1523,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         // If vpk empty, nothing to evaluate
                         if (cur.empty()) {
                             // Empty path: PATH.ALL & PATH.NONE -> true, PATH.ANY -> false
-                            if (fname == "path.any") return false; else return true;
+                            if (fname == "path.any") {
+                              return false; else return true;
+                            }
                         }
                         // Walk back using parent map if available.
                         // Guard: track visited nodes to prevent infinite loop if
@@ -1470,13 +1574,19 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             return false; // unknown var
                         }
 
-                        if (fname == "path.all") return all;
-                        if (fname == "path.none") return !any;
+                        if (fname == "path.all") {
+                          return all;
+                        }
+                        if (fname == "path.none") {
+                          return !any;
+                        }
                         return any; // path.any
                     }
                 }
                 if (auto* ue = dynamic_cast<const UnaryOpExpr*>(e)) {
-                    if (ue->op == UnaryOperator::Not) return !evalBoolExpr(ue->operand.get(), vpk, eid);
+                    if (ue->op == UnaryOperator::Not) {
+                      return !evalBoolExpr(ue->operand.get(), vpk, eid);
+                    }
                     return false;
                 }
                 if (auto* be = dynamic_cast<const BinaryOpExpr*>(e)) {
@@ -1484,12 +1594,20 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         // Unterst�tze: FieldAccess(v|e).field <op> (Literal|Funktion) und umgekehrt
                         auto parseFA = [&](const Expression* ex, char& var, std::string& field)->bool{
                             auto* fa = dynamic_cast<const FieldAccessExpr*>(ex);
-                            if (!fa) return false;
+                            if (!fa) {
+                              return false;
+                            }
                             if (!fa->object) return false;  // Null-safety: Check shared_ptr is valid
                             auto* v = dynamic_cast<const VariableExpr*>(fa->object.get());
-                            if (!v) return false;
-                            if (v->name != "v" && v->name != "e") return false;
-                            if (v->name.empty()) return false;
+                            if (!v) {
+                              return false;
+                            }
+                            if (v->name != "v" && v->name != "e") {
+                              return false;
+                            }
+                            if (v->name.empty()) {
+                              return false;
+                            }
                             var = v->name.front(); field = fa->field; return true;
                         };
                         auto mapOp = [&]([[maybe_unused]] BinaryOperator bop)->std::optional<SimplePred::Op>{
@@ -1510,9 +1628,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             // rechts Literal/Funktion
                             if (!evalExprToLiteral(std::shared_ptr<Expression>(const_cast<Expression*>(right), [](Expression*){}), lit)) return false;
                             std::optional<std::string> val;
-                            if (var=='v') val = getVFieldString(vpk, field);
+                            if (var=='v') {
+                              val = getVFieldString(vpk, field);
+                            }
                             else { if (!eid) return false; val = getEFieldString(*eid, field); }
-                            if (!val) return false;
+                            if (!val) {
+                              return false;
+                            }
                             return cmp(*val, lit, *op_m);
                         }
                         if (parseFA(right, var, field)) {
@@ -1530,9 +1652,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             };
                             auto op2 = invert(*op_m);
                             std::optional<std::string> val;
-                            if (var=='v') val = getVFieldString(vpk, field);
+                            if (var=='v') {
+                              val = getVFieldString(vpk, field);
+                            }
                             else { if (!eid) return false; val = getEFieldString(*eid, field); }
-                            if (!val) return false;
+                            if (!val) {
+                              return false;
+                            }
                             return cmp(*val, lit, op2);
                         }
                         return false; // nicht unterst�tztes Muster
@@ -1577,7 +1703,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             // capture declaration (race-free: single-threaded dispatch only).
             std::function<bool(const Expression*)> usesVE;
             usesVE = [&usesVE](const Expression* e)->bool{
-                if (!e) return false;
+                if (!e) {
+                  return false;
+                }
                 if (auto* le = dynamic_cast<const LiteralExpr*>(e)) {
                     return false;
                 }
@@ -1587,7 +1715,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 if (auto* fa = dynamic_cast<const FieldAccessExpr*>(e)) {
                     // Pr�fe, ob das Objekt eine Variable v/e ist
                     if (auto* objVar = dynamic_cast<VariableExpr*>(fa->object.get())) {
-                        if (objVar->name == "v" || objVar->name == "e") return true;
+                        if (objVar->name == "v" || objVar->name == "e") {
+                          return true;
+                        }
                     }
                     // Auch verschachtelte Zugriffe k�nnen v/e enthalten
                     return usesVE(fa->object.get());
@@ -1600,7 +1730,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
                 if (auto* fe = dynamic_cast<const FunctionCallExpr*>(e)) {
                     for (const auto& a : fe->arguments) {
-                        if (usesVE(a.get())) return true;
+                        if (usesVE(a.get())) {
+                          return true;
+                        }
                     }
                     return false;
                 }
@@ -1671,7 +1803,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
                             // Liefert Feldpfad ("a.b") und setzt rootVar auf Variablennamen
                             auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
-                            if (!fa) return std::string();
+                            if (!fa) {
+                              return std::string();
+                            }
                             std::vector<std::string> parts;
                             parts.reserve(8);  // Typical nesting depth is 4-8 levels
                             parts.push_back(fa->field);
@@ -1681,11 +1815,15 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 cur = fa2->object.get();
                             }
                             auto* root = dynamic_cast<VariableExpr*>(cur);
-                            if (!root) return std::string();
+                            if (!root) {
+                              return std::string();
+                            }
                             rootVar = root->name;
                             std::ostringstream col_oss;
                             for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
-                                if (it != parts.rbegin()) col_oss << ".";
+                                if (it != parts.rbegin()) {
+                                  col_oss << ".";
+                                }
                                 col_oss << *it;
                             }
                             return col_oss.str();
@@ -1707,7 +1845,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         std::vector<PredicateEq> eq1, eq2; std::vector<PredicateRange> r1, r2;
                         std::function<void(const std::shared_ptr<Expression>&)> collectPreds;
                         collectPreds = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e){
-                            if (!e) return;
+                            if (!e) {
+                              return;
+                            }
                             if (e->getType() == ASTNodeType::BinaryOp) {
                                 auto bin = std::static_pointer_cast<BinaryOpExpr>(e);
                                 if (bin->op == BinaryOperator::And) {
@@ -1726,14 +1866,18 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                                 span.setStatus(false, "Only single equality-join supported");
                                                 return; // ignore further
                                             }
-                                            if (rvL == var1) joinCols = std::make_pair(colL, colR); else joinCols = std::make_pair(colR, colL);
+                                            if (rvL == var1) {
+                                              joinCols = std::make_pair(colL, colR); else joinCols = std::make_pair(colR, colL);
+                                            }
                                             return;
                                         }
                                     }
                                     // Seiten-Literal Prädikat
                                     if (!colL.empty() && rvL == var1 && bin->right->getType() == ASTNodeType::Literal) {
                                         auto lit = std::static_pointer_cast<LiteralExpr>(bin->right);
-                                        if (!lit) return;
+                                        if (!lit) {
+                                          return;
+                                        }
                                         switch (bin->op) {
                                             case BinaryOperator::Eq: eq1.push_back({colL, literalToString(lit->value)}); break;
                                             case BinaryOperator::Lt: r1.push_back({colL, std::nullopt, literalToString(lit->value), true, false}); break;
@@ -1784,7 +1928,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         themis::ConjunctiveQuery q2; q2.table = table2; q2.predicates = eq2; q2.rangePredicates = r2;
                         themis::query::QueryEngine engine(*storage_, *secondary_index_);
                         auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
-                        if (stats_collector) engine.setStatisticsCollector(stats_collector);
+                        if (stats_collector) {
+                          engine.setStatisticsCollector(stats_collector);
+                        }
                         
                         auto result1 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q1, optimize) : engine.executeAndEntities(q1);
                         std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res1;
@@ -1847,7 +1993,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 auto range = hash.equal_range(*k);
                                 for (auto it = range.first; it != range.second; ++it) {
                                     const themis::BaseEntity& l = it->second;
-                                    if (retVar == var1) out.push_back(l); else out.push_back(e);
+                                    if (retVar == var1) {
+                                      out.push_back(l); else out.push_back(e);
+                                    }
                                 }
                             }
                         } else {
@@ -1856,7 +2004,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 auto range = hash.equal_range(*k);
                                 for (auto it = range.first; it != range.second; ++it) {
                                     const themis::BaseEntity& r = it->second;
-                                    if (retVar == var1) out.push_back(e); else out.push_back(r);
+                                    if (retVar == var1) {
+                                      out.push_back(e); else out.push_back(r);
+                                    }
                                 }
                             }
                         }
@@ -1879,7 +2029,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
                         // Serialize
                         nlohmann::json entities = nlohmann::json::array();
-                        for (const auto& e : out) entities.push_back(e.toJson());
+                        for (const auto& e : out) {
+                          entities.push_back(e.toJson());
+                        }
                         nlohmann::json response_body = {
                             {"table_left", table1}, {"table_right", table2}, {"count", out.size()}, {"entities", applyMasking(entities, req)}
                         };
@@ -1901,19 +2053,29 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             [[maybe_unused]]
             auto evalV = [&]([[maybe_unused]] const std::string& pk)->bool{
                 for (const auto& p : preds) {
-                    if (p.var != 'v') continue;
+                    if (p.var != 'v') {
+                      continue;
+                    }
                     if (p.field == "_key") { // direkte PK-Vergleiche
-                        if (!cmp(pk, p.literal, p.op)) return false;
+                        if (!cmp(pk, p.literal, p.op)) {
+                          return false;
+                        }
                     } else {
                         // Lade Entity und vergleiche typbewusst
                         auto blob = storage_->get(pk);
-                        if (!blob) return false;
+                        if (!blob) {
+                          return false;
+                        }
                         try {
                             auto ent = themis::BaseEntity::deserialize(pk, *blob);
                             // bevorzugt String, f�r Zahlen k�nnte man auch getFieldAsDouble versuchen
                             auto valOpt = ent.getFieldAsString(p.field);
-                            if (!valOpt) return false;
-                            if (!cmp(*valOpt, p.literal, p.op)) return false;
+                            if (!valOpt) {
+                              return false;
+                            }
+                            if (!cmp(*valOpt, p.literal, p.op)) {
+                              return false;
+                            }
                         } catch (...) { return false; }
                     }
                 }
@@ -1926,11 +2088,15 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     return cmp(pk, p.literal, p.op);
                 } else {
                     auto blob = storage_->get(pk);
-                    if (!blob) return false;
+                    if (!blob) {
+                      return false;
+                    }
                     try {
                         auto ent = themis::BaseEntity::deserialize(pk, *blob);
                         auto valOpt = ent.getFieldAsString(p.field);
-                        if (!valOpt) return false;
+                        if (!valOpt) {
+                          return false;
+                        }
                         return cmp(*valOpt, p.literal, p.op);
                     } catch (...) { return false; }
                 }
@@ -1939,23 +2105,37 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             [[maybe_unused]] auto evalE = [&](const std::string& edgeId)->bool{
                 bool needLoad = false;
                 for (const auto& p : preds) {
-                    if (p.var != 'e') continue;
+                    if (p.var != 'e') {
+                      continue;
+                    }
                     if (p.field == "id") {
-                        if (!cmp(edgeId, p.literal, p.op)) return false;
+                        if (!cmp(edgeId, p.literal, p.op)) {
+                          return false;
+                        }
                     } else {
                         needLoad = true; // _from/_to oder andere Felder
                     }
                 }
-                if (!needLoad) return true;
+                if (!needLoad) {
+                  return true;
+                }
                 auto blob = storage_->get(themis::KeySchema::makeGraphEdgeKey(edgeId));
-                if (!blob) return false;
+                if (!blob) {
+                  return false;
+                }
                 try {
                     auto ent = themis::BaseEntity::deserialize(edgeId, *blob);
                     for (const auto& p : preds) {
-                        if (p.var != 'e' || p.field == "id") continue;
+                        if (p.var != 'e' || p.field == "id") {
+                          continue;
+                        }
                         auto valOpt = ent.getFieldAsString(p.field);
-                        if (!valOpt) return false;
-                        if (!cmp(*valOpt, p.literal, p.op)) return false;
+                        if (!valOpt) {
+                          return false;
+                        }
+                        if (!cmp(*valOpt, p.literal, p.op)) {
+                          return false;
+                        }
                     }
                 } catch (...) { return false; }
                 return true;
@@ -1967,11 +2147,15 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     return cmp(edgeId, p.literal, p.op);
                 }
                 auto blob = storage_->get(themis::KeySchema::makeGraphEdgeKey(edgeId));
-                if (!blob) return false;
+                if (!blob) {
+                  return false;
+                }
                 try {
                     auto ent = themis::BaseEntity::deserialize(edgeId, *blob);
                     auto valOpt = ent.getFieldAsString(p.field);
-                    if (!valOpt) return false;
+                    if (!valOpt) {
+                      return false;
+                    }
                     return cmp(*valOpt, p.literal, p.op);
                 } catch (...) { return false; }
             };
@@ -2035,7 +2219,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             std::optional<std::string> edgeIdOpt;
                             if (depth > 0) {
                                 auto itp = parent.find(node);
-                                if (itp != parent.end()) edgeIdOpt = itp->second.edgeId;
+                                if (itp != parent.end()) {
+                                  edgeIdOpt = itp->second.edgeId;
+                                }
                             }
                             for (const auto& f : (*parse_result)->filters) {
                                 if (!evalBoolExpr(f->condition.get(), node, edgeIdOpt)) { pass = false; break; }
@@ -2070,7 +2256,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         }
                     }
                 }
-                if (depth == t.maxDepth) continue;
+                if (depth == t.maxDepth) {
+                  continue;
+                }
 
                 auto enqueueOut = [&]([[maybe_unused]] const std::vector<themis::GraphIndexManager::AdjacencyInfo>& adj){
                     for (const auto& a : adj) {
@@ -2257,9 +2445,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 metrics["frontier_limit_hits"] = themis::utils::conversion::safe_size_to_int(frontierLimitHits);
                 metrics["result_limit_reached"] = resultLimitReached;
                 nlohmann::json fp = nlohmann::json::object();
-                for (const auto& kv : frontierProcessedPerDepth) fp[std::to_string(kv.first)] = kv.second;
+                for (const auto& kv : frontierProcessedPerDepth) {
+                  fp[std::to_string(kv.first)] = kv.second;
+                }
                 nlohmann::json eq = nlohmann::json::object();
-                for (const auto& kv : enqueuedPerDepth) eq[std::to_string(kv.first)] = kv.second;
+                for (const auto& kv : enqueuedPerDepth) {
+                  eq[std::to_string(kv.first)] = kv.second;
+                }
                 metrics["frontier_processed_per_depth"] = std::move(fp);
                 metrics["enqueued_per_depth"] = std::move(eq);
                 res["metrics"] = std::move(metrics);
@@ -2284,7 +2476,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             
             themis::query::QueryEngine engine(*storage_, *secondary_index_);
             auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
-            if (stats_collector) engine.setStatisticsCollector(stats_collector);
+            if (stats_collector) {
+              engine.setStatisticsCollector(stats_collector);
+            }
             // Nutze Fallback-Variante, damit OR-Queries auch ohne passende Indizes funktionieren
             auto result = engine.executeOrKeysWithFallback(dq, optimize);
             std::pair<QueryExecStatus, std::vector<std::string>> statusKeys;
@@ -2379,7 +2573,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                     if (rootVar->name == first_for_node.variable) {
                                         std::ostringstream col_oss;
                                         for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
-                                            if (it != parts.rbegin()) col_oss << ".";
+                                            if (it != parts.rbegin()) {
+                                              col_oss << ".";
+                                            }
                                             col_oss << *it;
                                         }
                                         std::string col = col_oss.str();
@@ -2418,7 +2614,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 
                 themis::query::QueryEngine engine(*storage_, *secondary_index_);
                 auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
-                if (stats_collector) engine.setStatisticsCollector(stats_collector);
+                if (stats_collector) {
+                  engine.setStatisticsCollector(stats_collector);
+                }
                 auto res = engine.executeJoin(
                     jq.for_nodes,
                     jq.filters,
@@ -2467,7 +2665,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 std::function<nlohmann::json(const std::shared_ptr<themis::query::Expression>&)> evalExpr;
                                 evalExpr = [&]([[maybe_unused]] const std::shared_ptr<themis::query::Expression>& e) -> nlohmann::json {
                                     using namespace themis::query;
-                                    if (!e) return nullptr;
+                                    if (!e) {
+                                      return nullptr;
+                                    }
                                     switch (e->getType()) {
                                         case ASTNodeType::Literal: {
                                             auto lit = std::static_pointer_cast<LiteralExpr>(e);
@@ -2475,28 +2675,40 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                         }
                                         case ASTNodeType::Variable: {
                                             auto v = std::static_pointer_cast<VariableExpr>(e);
-                                            if (v->name == forNode.variable) return doc;
+                                            if (v->name == forNode.variable) {
+                                              return doc;
+                                            }
                                             auto it = letValues.find(v->name);
-                                            if (it != letValues.end()) return it->second;
+                                            if (it != letValues.end()) {
+                                              return it->second;
+                                            }
                                             return nullptr;
                                         }
                                         case ASTNodeType::FieldAccess: {
                                             auto fa = std::static_pointer_cast<FieldAccessExpr>(e);
                                             auto base = evalExpr(fa->object);
-                                            if (!base.is_object()) return nullptr;
-                                            if (base.contains(fa->field)) return base[fa->field];
+                                            if (!base.is_object()) {
+                                              return nullptr;
+                                            }
+                                            if (base.contains(fa->field)) {
+                                              return base[fa->field];
+                                            }
                                             return nullptr;
                                         }
                                         case ASTNodeType::ObjectConstruct: {
                                             auto obj = std::static_pointer_cast<ObjectConstructExpr>(e);
                                             nlohmann::json out = nlohmann::json::object();
-                                            for (const auto& [k, ce] : obj->fields) out[k] = evalExpr(ce);
+                                            for (const auto& [k, ce] : obj->fields) {
+                                              out[k] = evalExpr(ce);
+                                            }
                                             return out;
                                         }
                                         case ASTNodeType::ArrayLiteral: {
                                             auto arr = std::static_pointer_cast<ArrayLiteralExpr>(e);
                                             nlohmann::json a = nlohmann::json::array();
-                                            for (const auto& ce : arr->elements) a.push_back(evalExpr(ce));
+                                            for (const auto& ce : arr->elements) {
+                                              a.push_back(evalExpr(ce));
+                                            }
                                             return a;
                                         }
                                         default: return nullptr;
@@ -2557,14 +2769,20 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             // Helper: recursively check if expression contains a specific function name
             std::function<bool(const std::shared_ptr<themis::query::Expression>&, const std::string&)> exprContainsFn;
             exprContainsFn = [&](const std::shared_ptr<themis::query::Expression>& expr, const std::string& name)->bool{
-                if (!expr) return false;
+                if (!expr) {
+                  return false;
+                }
                 using namespace themis::query;
                 switch (expr->getType()) {
                     case ASTNodeType::FunctionCall: {
                         auto* fc = static_cast<FunctionCallExpr*>(expr.get());
                         std::string n = fc->name; std::transform(n.begin(), n.end(), n.begin(), ::tolower);
-                        if (n == name) return true;
-                        for (const auto& a : fc->arguments) if (exprContainsFn(a, name)) return true;
+                        if (n == name) {
+                          return true;
+                        }
+                        for (const auto& a : fc->arguments) {
+                          if (exprContainsFn(a, name)) return true;
+                        }
                         return false;
                     }
                     case ASTNodeType::BinaryOp: {
@@ -2577,12 +2795,16 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     }
                     case ASTNodeType::ArrayLiteral: {
                         auto* ar = static_cast<ArrayLiteralExpr*>(expr.get());
-                        for (const auto& el : ar->elements) if (exprContainsFn(el, name)) return true;
+                        for (const auto& el : ar->elements) {
+                          if (exprContainsFn(el, name)) return true;
+                        }
                         return false;
                     }
                     case ASTNodeType::ObjectConstruct: {
                         auto* oc = static_cast<ObjectConstructExpr*>(expr.get());
-                        for (const auto& kv : oc->fields) if (exprContainsFn(kv.second, name)) return true;
+                        for (const auto& kv : oc->fields) {
+                          if (exprContainsFn(kv.second, name)) return true;
+                        }
                         return false;
                     }
                     default:
@@ -2685,7 +2907,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         // Execute query
         themis::query::QueryEngine engine(*storage_, *secondary_index_);
         auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
-        if (stats_collector) engine.setStatisticsCollector(stats_collector);
+        if (stats_collector) {
+          engine.setStatisticsCollector(stats_collector);
+        }
         
         std::string exec_mode;
         nlohmann::json plan_json;
@@ -2806,7 +3030,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             }
             fulltextScoreByPk.clear();
             fulltextScoreByPk.reserve(results.size());
-            for (const auto& r : results) fulltextScoreByPk.emplace(r.pk, r.score);
+            for (const auto& r : results) {
+              fulltextScoreByPk.emplace(r.pk, r.score);
+            }
             scoreSpan.setAttribute("count", static_cast<int64_t>(results.size()));
             scoreSpan.setStatus(true);
 
@@ -2814,7 +3040,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 double sa = 0.0, sb = 0.0;
                 auto ita = fulltextScoreByPk.find(a.getPrimaryKey()); if (ita != fulltextScoreByPk.end()) sa = ita->second;
                 auto itb = fulltextScoreByPk.find(b.getPrimaryKey()); if (itb != fulltextScoreByPk.end()) sb = itb->second;
-                if (sortAsc) return sa < sb; else return sa > sb;
+                if (sortAsc) {
+                  return sa < sb; else return sa > sb;
+                }
             });
         }
 
@@ -2845,8 +3073,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
         // Enrich plan (for explain) with execution mode and cursor metadata
         if (explain) {
-            if (plan_json.is_null()) plan_json = nlohmann::json::object();
-            if (!exec_mode.empty()) plan_json["mode"] = exec_mode;
+            if (plan_json.is_null()) {
+              plan_json = nlohmann::json::object();
+            }
+            if (!exec_mode.empty()) {
+              plan_json["mode"] = exec_mode;
+            }
             if (use_cursor) {
                 nlohmann::json cursor_meta = nlohmann::json::object();
                 cursor_meta["used"] = true;
@@ -2874,7 +3106,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             // Extrahiere aus einem FieldAccess-Ausdruck die Feld-Pfad-Notation (z.B. doc.city -> "city", doc.addr.city -> "addr.city")
             auto extractColumn = [&]([[maybe_unused]] const std::shared_ptr<themis::query::Expression>& expr)->std::string {
                 auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
-                if (!fa) return std::string();
+                if (!fa) {
+                  return std::string();
+                }
                 std::vector<std::string> parts;
                 parts.reserve(8);  // Typical nesting depth is 4-8 levels
                 parts.push_back(fa->field);
@@ -2886,7 +3120,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 // Root erwartet Variable; deren Name wird ignoriert
                 std::ostringstream col_oss;
                 for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
-                    if (it != parts.rbegin()) col_oss << ".";
+                    if (it != parts.rbegin()) {
+                      col_oss << ".";
+                    }
                     col_oss << *it;
                 }
                 return col_oss.str();
@@ -2909,7 +3145,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             for (const auto& a : collect.aggregations) {
                 std::string func = a.funcName; std::transform(func.begin(), func.end(), func.begin(), ::tolower);
                 std::string col;
-                if (a.argument) col = extractColumn(a.argument);
+                if (a.argument) {
+                  col = extractColumn(a.argument);
+                }
                 aggs.push_back({a.varName, func, col});
             }
 
@@ -2917,7 +3155,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::unordered_map<std::string, std::unordered_map<std::string, AggState>> acc;
 
             auto toGroupKey = [&]([[maybe_unused]] const themis::BaseEntity& e)->std::string{
-                if (groupColumn.empty()) return std::string("__all__");
+                if (groupColumn.empty()) {
+                  return std::string("__all__");
+                }
                 auto v = e.getFieldAsString(groupColumn);
                 return v.value_or(std::string(""));
             };
@@ -2948,8 +3188,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             if (toNumber(e, a.col, num) && num.has_value()) {
                                 st.cnt += 1;
                                 st.sum += *num;
-                                if (*num < st.min) st.min = *num;
-                                if (*num > st.max) st.max = *num;
+                                if (*num < st.min) {
+                                  st.min = *num;
+                                }
+                                if (*num > st.max) {
+                                  st.max = *num;
+                                }
                             }
                         }
                     }
@@ -2960,7 +3204,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             nlohmann::json groups = nlohmann::json::array();
             for (const auto& [k, mp] : acc) {
                 nlohmann::json row = nlohmann::json::object();
-                if (!groupVarName.empty()) row[groupVarName] = k;
+                if (!groupVarName.empty()) {
+                  row[groupVarName] = k;
+                }
                 if (aggs.empty()) {
                     auto it = mp.find("count");
                     uint64_t c = (it != mp.end()) ? it->second.cnt : 0;
@@ -2968,9 +3214,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 } else {
                     for (const auto& a : aggs) {
                         const auto it = mp.find(a.var);
-                        if (it == mp.end()) continue;
+                        if (it == mp.end()) {
+                          continue;
+                        }
                         const auto& st = it->second;
-                        if (a.func == "count") row[a.var] = static_cast<uint64_t>(st.cnt);
+                        if (a.func == "count") {
+                          row[a.var] = static_cast<uint64_t>(st.cnt);
+                        }
                         else if (a.func == "sum") row[a.var] = st.sum;
                         else if (a.func == "avg") row[a.var] = (st.cnt ? (st.sum / static_cast<double>(st.cnt)) : 0.0);
                         else if (a.func == "min") row[a.var] = (st.cnt ? st.min : 0.0);
@@ -2988,7 +3238,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             if (explain) {
                 response_body["query"] = aql_query;
                 response_body["ast"] = (*parse_result)->toJSON();
-                if (!plan_json.is_null()) response_body["plan"] = plan_json;
+                if (!plan_json.is_null()) {
+                  response_body["plan"] = plan_json;
+                }
             }
             
             collectSpan.setAttribute("collect.group_count", static_cast<int64_t>(groups.size()));
@@ -3018,7 +3270,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             else { rootedAtLoop = false; }
             std::ostringstream col_oss;
             for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
-                if (it != parts.rbegin()) col_oss << ".";
+                if (it != parts.rbegin()) {
+                  col_oss << ".";
+                }
                 col_oss << *it;
             }
             return col_oss.str();
@@ -3027,13 +3281,19 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         // Detect if RETURN/LET expressions reference FULLTEXT_SCORE()
         std::function<bool(const std::shared_ptr<Expression>&, const std::string&)> containsFunction;
         containsFunction = [&](const std::shared_ptr<Expression>& expr, const std::string& name)->bool{
-            if (!expr) return false;
+            if (!expr) {
+              return false;
+            }
             switch (expr->getType()) {
                 case ASTNodeType::FunctionCall: {
                     auto* fc = static_cast<FunctionCallExpr*>(expr.get());
                     std::string n = fc->name; std::transform(n.begin(), n.end(), n.begin(), ::tolower);
-                    if (n == name) return true;
-                    for (const auto& a : fc->arguments) if (containsFunction(a, name)) return true;
+                    if (n == name) {
+                      return true;
+                    }
+                    for (const auto& a : fc->arguments) {
+                      if (containsFunction(a, name)) return true;
+                    }
                     return false;
                 }
                 case ASTNodeType::BinaryOp: {
@@ -3046,12 +3306,16 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
                 case ASTNodeType::ArrayLiteral: {
                     auto* ar = static_cast<ArrayLiteralExpr*>(expr.get());
-                    for (const auto& el : ar->elements) if (containsFunction(el, name)) return true;
+                    for (const auto& el : ar->elements) {
+                      if (containsFunction(el, name)) return true;
+                    }
                     return false;
                 }
                 case ASTNodeType::ObjectConstruct: {
                     auto* oc = static_cast<ObjectConstructExpr*>(expr.get());
-                    for (const auto& kv : oc->fields) if (containsFunction(kv.second, name)) return true;
+                    for (const auto& kv : oc->fields) {
+                      if (containsFunction(kv.second, name)) return true;
+                    }
                     return false;
                 }
                 default:
@@ -3101,7 +3365,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 scoreSpan.setStatus(false, st.message);
                 return makeErrorResponse(http::status::internal_server_error, std::string("Failed to fetch fulltext scores: ") + st.message, req);
             }
-            for (const auto& r : results) fulltextScoreByPk.emplace(r.pk, r.score);
+            for (const auto& r : results) {
+              fulltextScoreByPk.emplace(r.pk, r.score);
+            }
             scoreSpan.setAttribute("count", static_cast<int64_t>(results.size()));
             scoreSpan.setStatus(true);
         }
@@ -3113,14 +3379,18 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         evalExpr = [&](const std::shared_ptr<Expression>& expr,
                        const themis::BaseEntity& ent,
                        const std::unordered_map<std::string, nlohmann::json>& env)->nlohmann::json {
-            if (!expr) return nlohmann::json();
+            if (!expr) {
+              return nlohmann::json();
+            }
             switch (expr->getType()) {
                 case ASTNodeType::Literal: {
                     // reuse toJSON Value
                     return static_cast<LiteralExpr*>(expr.get())->toJSON()["value"]; }
                 case ASTNodeType::Variable: {
                     auto* v = static_cast<VariableExpr*>(expr.get());
-                    if (v->name == loopVar) return ent.toJson();
+                    if (v->name == loopVar) {
+                      return ent.toJson();
+                    }
                     auto it = env.find(v->name); if (it != env.end()) return it->second; return nullptr; }
                 case ASTNodeType::FieldAccess: {
                     bool rooted = false; auto colOpt = extractColFromFA(expr, rooted);
@@ -3194,11 +3464,15 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     switch (u->op) {
                         [[fallthrough]];\n                        case UnaryOperator::Not:   return val.is_boolean() ? nlohmann::json(!val.get<bool>()) : nlohmann::json(false);
                         case UnaryOperator::Minus: {
-                            if (val.is_number()) return -val.get<double>();
+                            if (val.is_number()) {
+                              return -val.get<double>();
+                            }
                             if (val.is_string()) { char* end=nullptr; std::string s=val.get<std::string>(); double d=strtod(s.c_str(), &end); if (end && *end=='\0') return -d; }
                             return nullptr; }
                         case UnaryOperator::Plus:  {
-                            if (val.is_number()) return val.get<double>();
+                            if (val.is_number()) {
+                              return val.get<double>();
+                            }
                             if (val.is_string()) { char* end=nullptr; std::string s=val.get<std::string>(); double d=strtod(s.c_str(), &end); if (end && *end=='\0') return d; }
                             return nullptr; }
                         default: return nullptr;
@@ -3209,15 +3483,21 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     std::string name = fc->name; std::transform(name.begin(), name.end(), name.begin(), ::tolower);
                     if (name == "bm25") {
                         // One-arg function: BM25(doc). Returns score for provided document object by _key/_pk
-                        if (fc->arguments.size() != 1) return 0.0;
+                        if (fc->arguments.size() != 1) {
+                          return 0.0;
+                        }
                         auto arg = evalExpr(fc->arguments.front(), ent, env);
                         if (arg.is_object()) {
                             std::string pk;
-                            if (arg.contains("_key") && arg["_key"].is_string()) pk = arg["_key"].get<std::string>();
+                            if (arg.contains("_key") && arg["_key"].is_string()) {
+                              pk = arg["_key"].get<std::string>();
+                            }
                             else if (arg.contains("_pk") && arg["_pk"].is_string()) pk = arg["_pk"].get<std::string>();
                             if (!pk.empty()) {
                                 auto it = fulltextScoreByPk.find(pk);
-                                if (it != fulltextScoreByPk.end()) return it->second; else return 0.0;
+                                if (it != fulltextScoreByPk.end()) {
+                                  return it->second; else return 0.0;
+                                }
                             }
                         }
                         return 0.0;
@@ -3232,7 +3512,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         std::string out;
                         for (const auto& arg : fc->arguments) {
                             auto a = evalExpr(arg, ent, env);
-                            if (a.is_string()) out += a.get<std::string>();
+                            if (a.is_string()) {
+                              out += a.get<std::string>();
+                            }
                             else if (a.is_number()) out += std::to_string(a.get<double>());
                             else if (a.is_boolean()) out += (a.get<bool>()?"true":"false");
                         }
@@ -3242,7 +3524,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         auto s = evalArg(0);
                         auto off = evalArg(1);
                         auto len = evalArg(2);
-                        if (!s.is_string()) return nullptr;
+                        if (!s.is_string()) {
+                          return nullptr;
+                        }
                         std::string str = s.get<std::string>();
                         int start = off.is_number_integer() ? themis::utils::conversion::safe_int64_to_int32(off.get<int64_t>()) : 0;
                         int count = len.is_number_integer() ? 
@@ -3264,9 +3548,15 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     }
                     if (name == "length") {
                         auto s = evalArg(0);
-                        if (s.is_string()) return static_cast<int64_t>(s.get<std::string>().size());
-                        if (s.is_array()) return static_cast<int64_t>(s.size());
-                        if (s.is_object()) return static_cast<int64_t>(s.size());
+                        if (s.is_string()) {
+                          return static_cast<int64_t>(s.get<std::string>().size());
+                        }
+                        if (s.is_array()) {
+                          return static_cast<int64_t>(s.size());
+                        }
+                        if (s.is_object()) {
+                          return static_cast<int64_t>(s.size());
+                        }
                         return 0;
                     }
                     if (name == "lower") {
@@ -3286,10 +3576,18 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     }
                     if (name == "abs" || name == "ceil" || name == "floor" || name == "round") {
                         auto v = evalArg(0); if (!v.is_number()) return nullptr; double d = v.get<double>();
-                        if (name == "abs") return std::abs(d);
-                        if (name == "ceil") return std::ceil(d);
-                        if (name == "floor") return std::floor(d);
-                        if (name == "round") return std::llround(d);
+                        if (name == "abs") {
+                          return std::abs(d);
+                        }
+                        if (name == "ceil") {
+                          return std::ceil(d);
+                        }
+                        if (name == "floor") {
+                          return std::floor(d);
+                        }
+                        if (name == "round") {
+                          return std::llround(d);
+                        }
                         return nullptr;
                     }
                     if (name == "coalesce") {
@@ -3302,12 +3600,16 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 case ASTNodeType::ObjectConstruct: {
                     auto* oc = static_cast<ObjectConstructExpr*>(expr.get());
                     nlohmann::json obj = nlohmann::json::object();
-                    for (const auto& kv : oc->fields) obj[kv.first] = evalExpr(kv.second, ent, env);
+                    for (const auto& kv : oc->fields) {
+                      obj[kv.first] = evalExpr(kv.second, ent, env);
+                    }
                     return obj; }
                 case ASTNodeType::ArrayLiteral: {
                     auto* ar = static_cast<ArrayLiteralExpr*>(expr.get());
                     nlohmann::json arr = nlohmann::json::array();
-                    for (const auto& el : ar->elements) arr.push_back(evalExpr(el, ent, env));
+                    for (const auto& el : ar->elements) {
+                      arr.push_back(evalExpr(el, ent, env));
+                    }
                     return arr; }
                 default:
                     return nullptr;
@@ -3324,7 +3626,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
         json entities = json::array();
         if (simpleReturnLoopVar) {
-            for (const auto& e : sliced) entities.push_back(e.toJson());
+            for (const auto& e : sliced) {
+              entities.push_back(e.toJson());
+            }
         } else {
             for (const auto& e : sliced) {
                 // Build LET environment per row
@@ -3370,7 +3674,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
             // Serialize final page
             json page_items = json::array();
-            for (const auto& e : sliced) page_items.push_back(e.toJson());
+            for (const auto& e : sliced) {
+              page_items.push_back(e.toJson());
+            }
 
             paged.items = applyMasking(page_items, req);
             paged.batch_size = sliced.size();
@@ -3686,8 +3992,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
     if (auth_ && auth_->isEnabled()) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:read", "query", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:read", "query", path_only)) {
+          return *resp;
+        }
     }
 
     auto span = Tracer::startSpan("GET /v2/query/stream");
@@ -3733,11 +4043,17 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
 
         auto extractInt = [&](const std::string& key, int def, int lo, int hi) -> int {
             std::string v = extract(key);
-            if (v.empty()) return def;
+            if (v.empty()) {
+              return def;
+            }
             try {
                 int n = std::stoi(v);
-                if (n < lo) n = lo;
-                if (n > hi) n = hi;
+                if (n < lo) {
+                  n = lo;
+                }
+                if (n > hi) {
+                  n = hi;
+                }
                 return n;
             } catch (...) { return def; }
         };

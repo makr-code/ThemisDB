@@ -190,13 +190,17 @@ TEST(AdapterRegistryTest, AR_10_ConcurrentResolveNoCrash) {
             int local = 0;
             for (int i = 0; i < kCalls; ++i) {
                 auto p = reg.resolve<IFakeAlpha>();
-                if (p) local += p->value();
+                if (p) {
+                  local += p->value();
+                }
             }
             total_sum.fetch_add(local, std::memory_order_relaxed);
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // 16 threads × 500 calls × value 7
     EXPECT_EQ(total_sum.load(), kThreads * kCalls * 7);

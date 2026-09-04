@@ -90,7 +90,9 @@ static std::map<std::string, TableSchema> parseSchemas(const std::string& conten
     std::istringstream ss(content);
     std::string line, sql;
     while (std::getline(ss, line)) {
-        if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) continue;
+        if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) {
+          continue;
+        }
         sql += line + " ";
         if (line.find(';') != std::string::npos) {
             // Very minimal CREATE TABLE extractor
@@ -104,7 +106,9 @@ static std::map<std::string, TableSchema> parseSchemas(const std::string& conten
                 std::string tname = sql.substr(ns, ne - ns);
                 // remove schema prefix if present
                 auto dot = tname.rfind('.');
-                if (dot != std::string::npos) tname = tname.substr(dot + 1);
+                if (dot != std::string::npos) {
+                  tname = tname.substr(dot + 1);
+                }
                 // extract column names from first paren block
                 auto op = sql.find('(', ne);
                 auto cp = sql.rfind(')');
@@ -121,18 +125,24 @@ static std::map<std::string, TableSchema> parseSchemas(const std::string& conten
                             cols.push_back(cur); cur.clear();
                         } else { cur += c; }
                     }
-                    if (!cur.empty()) cols.push_back(cur);
+                    if (!cur.empty()) {
+                      cols.push_back(cur);
+                    }
                     TableSchema ts;
                     ts.name = tname;
                     for (auto& col : cols) {
                         // first word is column name
                         size_t s = col.find_first_not_of(" \t\n\r");
-                        if (s == std::string::npos) continue;
+                        if (s == std::string::npos) {
+                          continue;
+                        }
                         size_t e = col.find_first_of(" \t\n\r", s);
                         std::string cname = (e == std::string::npos)
                                             ? col.substr(s)
                                             : col.substr(s, e - s);
-                        if (!cname.empty()) ts.columns.push_back(cname);
+                        if (!cname.empty()) {
+                          ts.columns.push_back(cname);
+                        }
                     }
                     schemas[tname] = ts;
                 }
@@ -152,7 +162,9 @@ static json parseCopyRow(const std::string& line,
     for (size_t i = 0; i <= line.size(); ++i) {
         if (i == line.size() || line[i] == '\t') {
             std::string v = line.substr(start, i - start);
-            if (v == "\\N") v = "";
+            if (v == "\\N") {
+              v = "";
+            }
             vals.push_back(v);
             start = i + 1;
         }
@@ -169,8 +181,12 @@ static std::vector<std::string> parseInsertValues(const std::string& vals) {
     std::vector<std::string> result;
     size_t i = 0, n = vals.size();
     while (i < n) {
-        while (i < n && (vals[i] == ' ' || vals[i] == '\t')) ++i;
-        if (i >= n) break;
+        while (i < n && (vals[i] == ' ' || vals[i] == '\t')) {
+          ++i;
+        }
+        if (i >= n) {
+          break;
+        }
         if (vals[i] == '\'') {
             ++i;
             std::string v;
@@ -182,12 +198,16 @@ static std::vector<std::string> parseInsertValues(const std::string& vals) {
             result.push_back(v);
         } else {
             size_t s = i;
-            while (i < n && vals[i] != ',' && vals[i] != ')') ++i;
+            while (i < n && vals[i] != ',' && vals[i] != ') {
+              ') ++i;
+            }
             std::string tok = vals.substr(s, i - s);
             tok.erase(tok.find_last_not_of(" \t") + 1);
             result.push_back(tok);
         }
-        while (i < n && (vals[i] == ' ' || vals[i] == '\t' || vals[i] == ',')) ++i;
+        while (i < n && (vals[i] == ' ' || vals[i] == '\t' || vals[i] == ',')) {
+          ++i;
+        }
     }
     return result;
 }
@@ -215,7 +235,9 @@ static ImportStats streamingImportContent(const std::string& content,
     while (std::getline(file, line) && !cancelled) {
         // Skip pure comment / empty lines outside SQL
         if (!in_copy) {
-            if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) continue;
+            if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) {
+              continue;
+            }
         }
 
         if (in_copy) {
@@ -269,11 +291,15 @@ static ImportStats streamingImportContent(const std::string& content,
             if (upper.find("COPY ") != std::string::npos && upper.find("FROM STDIN") != std::string::npos) {
                 // Extract table name
                 size_t cs = upper.find("COPY ") + 5;
-                while (cs < upper.size() && upper[cs] == ' ') ++cs;
+                while (cs < upper.size() && upper[cs] == ' ') {
+                  ++cs;
+                }
                 size_t ce = upper.find_first_of(" \t(", cs);
                 std::string tname = sql.substr(cs, ce - cs);
                 auto dot = tname.rfind('.');
-                if (dot != std::string::npos) tname = tname.substr(dot + 1);
+                if (dot != std::string::npos) {
+                  tname = tname.substr(dot + 1);
+                }
                 // Extract column list
                 std::vector<std::string> cols;
                 auto op = sql.find('(', ce);
@@ -284,7 +310,9 @@ static ImportStats streamingImportContent(const std::string& content,
                     while (std::getline(cs2, col, ',')) {
                         col.erase(0, col.find_first_not_of(" \t"));
                         col.erase(col.find_last_not_of(" \t") + 1);
-                        if (!col.empty()) cols.push_back(col);
+                        if (!col.empty()) {
+                          cols.push_back(col);
+                        }
                     }
                 } else if (schemas.count(tname)) {
                     cols = schemas[tname].columns;
@@ -300,11 +328,15 @@ static ImportStats streamingImportContent(const std::string& content,
             if (upper.find("INSERT INTO") != std::string::npos) {
                 // Extract table name
                 size_t is = upper.find("INSERT INTO") + 11;
-                while (is < upper.size() && upper[is] == ' ') ++is;
+                while (is < upper.size() && upper[is] == ' ') {
+                  ++is;
+                }
                 size_t ie = upper.find_first_of(" \t(", is);
                 std::string tname = sql.substr(is, ie - is);
                 auto dot = tname.rfind('.');
-                if (dot != std::string::npos) tname = tname.substr(dot + 1);
+                if (dot != std::string::npos) {
+                  tname = tname.substr(dot + 1);
+                }
 
                 bool excluded = false;
                 if (!options.include_tables.empty())
@@ -330,7 +362,9 @@ static ImportStats streamingImportContent(const std::string& content,
                         while (std::getline(cs3, col, ',')) {
                             col.erase(0, col.find_first_not_of(" \t"));
                             col.erase(col.find_last_not_of(" \t") + 1);
-                            if (!col.empty()) cols.push_back(col);
+                            if (!col.empty()) {
+                              cols.push_back(col);
+                            }
                         }
                     }
                 } else if (schemas.count(tname)) {
@@ -366,7 +400,9 @@ static ImportStats streamingImportContent(const std::string& content,
         }
 
         // Non-DML statement; just discard the accumulated sql if it ended with ';'
-        if (line.find(';') != std::string::npos) sql.clear();
+        if (line.find(';') != std::string::npos) {
+          sql.clear();
+        }
     }
 
     return stats;
@@ -454,7 +490,9 @@ TEST(StreamingCopyTest, CallbackInvokedForEachCopyRow) {
     auto stats = streamingImportContent(kCopyDump, opts);
 
     EXPECT_EQ(tables.size(), 3u);
-    for (auto& t : tables) EXPECT_EQ(t, "users");
+    for (auto& t : tables) {
+      EXPECT_EQ(t, "users");
+    }
     EXPECT_EQ(stats.imported_records, 3u);
 }
 
@@ -739,7 +777,9 @@ TEST(ImportDataStreamingApiTest, MultipleCallbackInvocationsAreOrdered) {
     ImportOptions opts;
     std::vector<std::string> names;
     opts.streaming_row_callback = [&](const std::string&, const json& e) -> bool {
-        if (e.contains("name")) names.push_back(e["name"].get<std::string>());
+        if (e.contains("name")) {
+          names.push_back(e["name"].get<std::string>());
+        }
         return true;
     };
 

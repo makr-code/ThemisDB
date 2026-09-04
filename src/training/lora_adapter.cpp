@@ -42,11 +42,15 @@ namespace detail {
  */
 static std::vector<float> kaimingUniform(size_t size, size_t fan_in, uint32_t seed) {
     std::vector<float> w(size);
-    if (size == 0) return w;
+    if (size == 0) {
+      return w;
+    }
     std::mt19937 gen(seed);
     const float limit = std::sqrt(6.0f / static_cast<float>(std::max<size_t>(1, fan_in)));
     std::uniform_real_distribution<float> dist(-limit, limit);
-    for (auto& v : w) v = dist(gen);
+    for (auto& v : w) {
+      v = dist(gen);
+    }
     return w;
 }
 
@@ -159,7 +163,9 @@ public:
     std::vector<std::string> layerNames() const {
         std::vector<std::string> names;
         names.reserve(layers_.size());
-        for (const auto& kv : layers_) names.push_back(kv.first);
+        for (const auto& kv : layers_) {
+          names.push_back(kv.first);
+        }
         return names;
     }
 
@@ -239,9 +245,13 @@ public:
         }
 
         // B_new = B + delta_B
-        for (size_t i = 0; i < e.B.size(); ++i) e.B[i] += delta_B[i];
+        for (size_t i = 0; i < e.B.size(); ++i) {
+          e.B[i] += delta_B[i];
+        }
         // A_new = A + delta_A
-        for (size_t i = 0; i < e.A.size(); ++i) e.A[i] += delta_A[i];
+        for (size_t i = 0; i < e.A.size(); ++i) {
+          e.A[i] += delta_A[i];
+        }
 
         WeightUpdateResult result;
         result.success        = true;
@@ -281,8 +291,12 @@ public:
                 continue;
             }
 
-            for (size_t j = 0; j < e.B.size(); ++j) e.B[j] += batch.delta_B[i][j];
-            for (size_t j = 0; j < e.A.size(); ++j) e.A[j] += batch.delta_A[i][j];
+            for (size_t j = 0; j < e.B.size(); ++j) {
+              e.B[j] += batch.delta_B[i][j];
+            }
+            for (size_t j = 0; j < e.A.size(); ++j) {
+              e.A[j] += batch.delta_A[i][j];
+            }
             ++result.layers_updated;
         }
 
@@ -323,7 +337,9 @@ public:
 
         // Step 3: scale by alpha / rank
         const float scaling = e.alpha / static_cast<float>(e.rank);
-        for (auto& v : output) v *= scaling;
+        for (auto& v : output) {
+          v *= scaling;
+        }
 
         return output;
     }
@@ -335,7 +351,9 @@ public:
     std::vector<LoRAWeightEntry> exportWeights() const {
         std::vector<LoRAWeightEntry> entries;
         entries.reserve(layers_.size());
-        for (const auto& kv : layers_) entries.push_back(kv.second);
+        for (const auto& kv : layers_) {
+          entries.push_back(kv.second);
+        }
         return entries;
     }
 

@@ -64,7 +64,9 @@ FacetedSearch::computeFacet(const std::string& table,
 
         // Fetch the entity by its primary key to read the column value
         auto [es, entities] = index_->scanEntitiesEqual(table, "id", pk);
-        if (!es.ok || entities.empty()) continue;
+        if (!es.ok || entities.empty()) {
+          continue;
+        }
 
         const auto& entity = entities[0];
         std::string field_value;
@@ -82,7 +84,9 @@ FacetedSearch::computeFacet(const std::string& table,
 
         result.value_counts[field_value]++;
         result.total_docs++;
-        if (max_values > 0 && result.value_counts.size() >= max_values) break;
+        if (max_values > 0 && result.value_counts.size() >= max_values) {
+          break;
+        }
     }
 
     THEMIS_DEBUG("FacetedSearch::computeFacet({}.{}): {} distinct values, {} docs",
@@ -118,7 +122,9 @@ FacetedSearch::computeRangeFacet(const std::string& table,
 
     FacetResult result;
     result.field = column;
-    for (const auto& b : buckets) result.value_counts[b.label] = 0;
+    for (const auto& b : buckets) {
+      result.value_counts[b.label] = 0;
+    }
 
     const std::unordered_set<std::string> pk_filter(candidate_pks.begin(), candidate_pks.end());
     const bool has_filter = !candidate_pks.empty();
@@ -129,10 +135,14 @@ FacetedSearch::computeRangeFacet(const std::string& table,
 
         auto [st, pks] = index_->scanKeysRange(
             table, column, low_str, high_str, true, false, 10'000);
-        if (!st.ok) continue;
+        if (!st.ok) {
+          continue;
+        }
 
         for (const auto& pk : pks) {
-            if (has_filter && !pk_filter.count(pk)) continue;
+            if (has_filter && !pk_filter.count(pk)) {
+              continue;
+            }
             result.value_counts[bucket.label]++;
             result.total_docs++;
         }
@@ -163,10 +173,14 @@ FacetedSearch::applyFacetFilters(const std::string& table,
         const std::unordered_set<std::string> matching_set(matching_pks.begin(), matching_pks.end());
         std::unordered_set<std::string> intersected;
         for (const auto& pk : remaining) {
-            if (matching_set.count(pk)) intersected.insert(pk);
+            if (matching_set.count(pk)) {
+              intersected.insert(pk);
+            }
         }
         remaining = std::move(intersected);
-        if (remaining.empty()) break;
+        if (remaining.empty()) {
+          break;
+        }
     }
 
     return {SecondaryIndexManager::Status::OK(),

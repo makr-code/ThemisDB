@@ -44,7 +44,9 @@ MultiFieldBoostedSearch::MultiFieldBoostedSearch(SecondaryIndexManager* index,
 
 void MultiFieldBoostedSearch::normalizeScores(
     std::vector<std::pair<std::string, double>>& scored) {
-    if (scored.empty()) return;
+    if (scored.empty()) {
+      return;
+    }
 
     double min_score = std::numeric_limits<double>::max();
     double max_score = std::numeric_limits<double>::lowest();

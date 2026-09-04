@@ -86,7 +86,9 @@ namespace {
         }
         
         BIO* bmem = BIO_new(BIO_s_mem());
-        if (!bmem) return "";
+        if (!bmem) {
+          return "";
+        }
         BIO* b64 = BIO_new(BIO_f_base64());
         if (!b64) { BIO_free(bmem); return ""; }
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
@@ -121,7 +123,9 @@ namespace {
     // Base64 decode helper
     std::optional<std::vector<unsigned char>> base64DecodeBytes(const std::string& encoded) {
         BIO* bmem = BIO_new_mem_buf(encoded.c_str(), static_cast<int>(encoded.size()));
-        if (!bmem) return std::nullopt;
+        if (!bmem) {
+          return std::nullopt;
+        }
         BIO* b64 = BIO_new(BIO_f_base64());
         if (!b64) { BIO_free(bmem); return std::nullopt; }
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
@@ -574,9 +578,13 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
 
     // Step 2: Parse the certificate and extract the public key.
     auto bio = utils::make_bio_mem_buf(cert_pem.c_str(), static_cast<int>(cert_pem.size()));
-    if (!bio) return false;
+    if (!bio) {
+      return false;
+    }
     auto cert = utils::read_x509_from_bio(bio.get());
-    if (!cert) return false;
+    if (!cert) {
+      return false;
+    }
 
     // Step 3: Verify the certificate against the CA (if ca_cert_path is configured).
     // Note: if ca_cert_path is empty, chain validation is skipped.  Production
@@ -607,12 +615,16 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
 
     // Step 5: Extract public key from the parsed certificate.
     auto pubkey = utils::EVPKeyPtr(X509_get_pubkey(cert.get()));
-    if (!pubkey) return false;
+    if (!pubkey) {
+      return false;
+    }
 
     // Step 6: Verify RSA/ECDSA-SHA-256 signature against the canonical request string.
     const std::string canonical = request.getCanonicalString();
     auto md_ctx = utils::make_evp_md_ctx();
-    if (!md_ctx) return false;
+    if (!md_ctx) {
+      return false;
+    }
     const int pubkey_type = EVP_PKEY_base_id(pubkey.get());
     if (pubkey_type == EVP_PKEY_ED25519) {
         if (EVP_DigestVerifyInit(md_ctx.get(), nullptr, nullptr, nullptr, pubkey.get()) != 1) {

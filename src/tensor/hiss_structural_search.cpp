@@ -50,7 +50,9 @@ HissReshaper::QuanticsFn HissReshaper::getQuanticsFn() {
 namespace {
 
 double coreEntropy(const storage::TTCore& core) {
-    if (core.data.empty()) return 0.0;
+    if (core.data.empty()) {
+      return 0.0;
+    }
     constexpr std::size_t kBins = 16;
     std::array<double, kBins> bins{};
     double total = 0.0;
@@ -59,7 +61,9 @@ double coreEntropy(const storage::TTCore& core) {
         const auto av = std::abs(static_cast<double>(v));
         maxv = std::max(maxv, av);
     }
-    if (maxv <= std::numeric_limits<double>::epsilon()) return 0.0;
+    if (maxv <= std::numeric_limits<double>::epsilon()) {
+      return 0.0;
+    }
 
     for (const auto v : core.data) {
         const auto av = std::abs(static_cast<double>(v));
@@ -70,7 +74,9 @@ double coreEntropy(const storage::TTCore& core) {
     }
     double h = 0.0;
     for (const auto c : bins) {
-        if (c <= 0.0) continue;
+        if (c <= 0.0) {
+          continue;
+        }
         const auto p = c / total;
         h -= p * std::log2(p);
     }
@@ -85,7 +91,9 @@ std::uint64_t xorshift64(std::uint64_t& x) {
 }
 
 static std::size_t denseElementCount(const std::vector<std::size_t>& shape) {
-    if (shape.empty()) return 0;
+    if (shape.empty()) {
+      return 0;
+    }
     std::size_t product = 1;
     for (const auto dim : shape) {
         if (dim == 0) {
@@ -188,7 +196,9 @@ std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const 
 
     // Compute total physical element count and validate input.
     std::size_t total_physical = 1;
-    for (const auto n : grid_sizes) total_physical *= n;
+    for (const auto n : grid_sizes) {
+      total_physical *= n;
+    }
     if (physical_idx >= total_physical) {
         throw std::out_of_range(
             "physical_idx " + std::to_string(physical_idx) +
@@ -209,7 +219,9 @@ std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const 
 
     // Total number of QTT bits B = sum(bit_depths).
     std::size_t B = 0;
-    for (const auto b : bit_depths) B += b;
+    for (const auto b : bit_depths) {
+      B += b;
+    }
 
     // Encode each per-dimension index into bit_depths[d] bits (MSB first)
     // and accumulate into the QTT flat index.
@@ -237,7 +249,9 @@ std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_i
 
     // Validate input against total padded element count.
     std::size_t total_padded = 1;
-    for (const auto p : padded_grid_sizes) total_padded *= p;
+    for (const auto p : padded_grid_sizes) {
+      total_padded *= p;
+    }
     if (qtt_idx >= total_padded) {
         throw std::out_of_range(
             "qtt_idx " + std::to_string(qtt_idx) +
@@ -246,7 +260,9 @@ std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_i
 
     // Total number of QTT bits B = sum(bit_depths).
     std::size_t B = 0;
-    for (const auto b : bit_depths) B += b;
+    for (const auto b : bit_depths) {
+      B += b;
+    }
 
     // Decode per-dimension indices from the packed QTT bit sequence (MSB first).
     std::vector<std::size_t> multi_idx(ndims);
@@ -291,7 +307,9 @@ bool TensorNetworkGraph::addEdge(TensorGraphEdge edge) {
     }
     const auto exists = std::any_of(edges_.begin(), edges_.end(),
                                     [&]([[maybe_unused]] const auto& e) { return e.from == edge.from && e.to == edge.to; });
-    if (exists) return false;
+    if (exists) {
+      return false;
+    }
     edges_.push_back(std::move(edge));
     return true;
 }
@@ -309,8 +327,12 @@ bool TensorNetworkGraph::rerouteEdge(std::size_t from, std::size_t to, const std
 std::vector<std::size_t> TensorNetworkGraph::neighbors(std::size_t node_index) const {
     std::vector<std::size_t> out;
     for (const auto& e : edges_) {
-        if (e.from == node_index) out.push_back(e.to);
-        if (e.to == node_index) out.push_back(e.from);
+        if (e.from == node_index) {
+          out.push_back(e.to);
+        }
+        if (e.to == node_index) {
+          out.push_back(e.from);
+        }
     }
     std::sort(out.begin(), out.end());
     out.erase(std::unique(out.begin(), out.end()), out.end());
@@ -320,7 +342,9 @@ std::vector<std::size_t> TensorNetworkGraph::neighbors(std::size_t node_index) c
 TensorNetworkGraph
 HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConfig& cfg) const {
     TensorNetworkGraph graph;
-    if (train.cores.empty()) return graph;
+    if (train.cores.empty()) {
+      return graph;
+    }
 
     std::vector<double> entropy(train.cores.size(), 0.0);
     for (std::size_t i = 0; i < train.cores.size(); ++i) {
@@ -369,9 +393,13 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
         const auto i = static_cast<std::size_t>(xorshift64(rng) % train.cores.size());
         const auto d = 2 + static_cast<std::size_t>(xorshift64(rng) % max_depth);
         const auto j = i + d;
-        if (j >= train.cores.size()) continue;
+        if (j >= train.cores.size()) {
+          continue;
+        }
 
-        if (entropy[i] < cfg.entropy_threshold && entropy[j] < cfg.entropy_threshold) continue;
+        if (entropy[i] < cfg.entropy_threshold && entropy[j] < cfg.entropy_threshold) {
+          continue;
+        }
 
         const auto avg_entropy = 0.5 * (entropy[i] + entropy[j]);
         const auto span_bonus = 1.0 / static_cast<double>(1 + (j - i));
@@ -406,18 +434,26 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
 
     std::vector<TensorGraphEdge> unique_candidates;
     unique_candidates.reserve(best_by_edge.size());
-    for (const auto& kv : best_by_edge) unique_candidates.push_back(kv.second);
+    for (const auto& kv : best_by_edge) {
+      unique_candidates.push_back(kv.second);
+    }
     std::sort(unique_candidates.begin(), unique_candidates.end(),
               [](const auto& a, const auto& b) { return a.weight > b.weight; });
 
     std::size_t added = 0;
     for (const auto& e : unique_candidates) {
-        if (added >= cfg.diversity_budget) break;
-        if (graph.addEdge(e)) ++added;
+        if (added >= cfg.diversity_budget) {
+          break;
+        }
+        if (graph.addEdge(e)) {
+          ++added;
+        }
     }
 
     for (const auto& e : graph.edges()) {
-        if (e.topology != "reshaped") continue;
+        if (e.topology != "reshaped") {
+          continue;
+        }
         const auto avg_entropy = 0.5 * (entropy[e.from] + entropy[e.to]);
         if (avg_entropy >= (cfg.entropy_threshold * 1.5)) {
             const auto rerouted = graph.rerouteEdge(e.from, e.to, "clustered");
@@ -535,7 +571,9 @@ void TemplateCatalog::registerTemplate(const std::string& domain_tag, TensorNetw
 std::optional<TensorNetworkGraph> TemplateCatalog::lookup(const std::string& domain_tag) const {
     std::lock_guard<std::mutex> lk(mutex_);
     const auto it = templates_.find(domain_tag);
-    if (it == templates_.end()) return std::nullopt;
+    if (it == templates_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 

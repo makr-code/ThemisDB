@@ -70,12 +70,16 @@ public:
 
     bool deallocate(const MemoryBlock& block) override {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (!initialized_) return false;
+        if (!initialized_) {
+          return false;
+        }
         
         auto it = std::find_if(allocations_.begin(), allocations_.end(),
             [&](const MemoryBlock& b) { return b.ptr == block.ptr; });
         
-        if (it == allocations_.end()) return false;
+        if (it == allocations_.end()) {
+          return false;
+        }
         
         allocated_memory_ -= it->size;
         allocations_.erase(it);
@@ -398,7 +402,9 @@ TEST_F(GPUBackendTest, NoAvailableBackends_HandledGracefully) {
     // Make all backends unavailable
     for (auto& backend : backends_) {
         auto* stub = dynamic_cast<GPUBackendStub*>(backend.get());
-        if (stub) stub->setAvailable(false);
+        if (stub) {
+          stub->setAvailable(false);
+        }
     }
     
     GPUBackend* selected = nullptr;

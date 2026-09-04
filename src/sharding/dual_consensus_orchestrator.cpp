@@ -885,7 +885,9 @@ nlohmann::json DualConsensusOrchestrator::getMetrics() const {
     {
         std::lock_guard<std::mutex> state_lock(state_mutex_);
         for (const auto& [k, s] : consistency_states_) {
-            if (s != CrossLayerConsistencyState::CONSISTENT) ++inconsistent_count;
+            if (s != CrossLayerConsistencyState::CONSISTENT) {
+              ++inconsistent_count;
+            }
         }
     }
     
@@ -959,7 +961,9 @@ void DualConsensusOrchestrator::backgroundSyncThread() {
                          inconsistent_keys.size());
             
             for (const auto& key : inconsistent_keys) {
-                if (!running_) break;
+                if (!running_) {
+                  break;
+                }
                 
                 auto state = checkConsistency(key);
                 
@@ -967,14 +971,18 @@ void DualConsensusOrchestrator::backgroundSyncThread() {
                 if (state == CrossLayerConsistencyState::STORAGE_AHEAD) {
                     // Retry on transient failure (up to 2 attempts)
                     for (int attempt = 0; attempt < 2 && running_; ++attempt) {
-                        if (syncCacheFromStorage(key)) break;
+                        if (syncCacheFromStorage(key)) {
+                          break;
+                        }
                         spdlog::warn("DualConsensusOrchestrator: Retry {} for STORAGE_AHEAD sync "
                                      "key={}", attempt + 1, key);
                     }
                 } else if (state == CrossLayerConsistencyState::CACHE_AHEAD && isDegraded()) {
                     // Only sync storage from cache if we're in degraded mode
                     for (int attempt = 0; attempt < 2 && running_; ++attempt) {
-                        if (syncStorageFromCache(key)) break;
+                        if (syncStorageFromCache(key)) {
+                          break;
+                        }
                         spdlog::warn("DualConsensusOrchestrator: Retry {} for CACHE_AHEAD sync "
                                      "key={}", attempt + 1, key);
                     }

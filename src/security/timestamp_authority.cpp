@@ -58,15 +58,21 @@ static bool isProductionMode() {
     }
     if (environment) {
         const std::string s(environment);
-        if (s == "production" || s == "prod") return true;
+        if (s == "production" || s == "prod") {
+          return true;
+        }
     }
     if (env_type) {
         const std::string s(env_type);
-        if (s == "production" || s == "prod") return true;
+        if (s == "production" || s == "prod") {
+          return true;
+        }
     }
     if (node_env) {
         const std::string s(node_env);
-        if (s == "production") return true;
+        if (s == "production") {
+          return true;
+        }
     }
     return false;
 }
@@ -118,7 +124,9 @@ static std::string hex(const std::vector<uint8_t>& data) {
 // Very weak deterministic hash (not cryptographic!)
 static std::vector<uint8_t> pseudo_hash(const std::vector<uint8_t>& data) {
     std::vector<uint8_t> h; h.reserve(data.size());
-    for (size_t i=0;i<data.size();++i) h.push_back(static_cast<uint8_t>(data[i] ^ (i & 0xFF)));
+    for (size_t i=0;i<data.size();++i) {
+      h.push_back(static_cast<uint8_t>(data[i] ^ (i & 0xFF)));
+    }
     return h;
 }
 

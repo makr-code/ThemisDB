@@ -246,7 +246,9 @@ MigrationResult SchemaMigrator::migrate()
         if (!schema_opt.has_value()) {
             std::string msg = "table '" + table + "' not found in SchemaManager";
             result.errors.push_back(msg);
-            if (result.error_message.empty()) result.error_message = msg;
+            if (result.error_message.empty()) {
+              result.error_message = msg;
+            }
             LOG_ERROR("SchemaMigrator: {}", msg);
             if (config_.abort_on_first_error) {
                 phase_.store(OnlineDDLPhase::FAILED, std::memory_order_relaxed);
@@ -259,7 +261,9 @@ MigrationResult SchemaMigrator::migrate()
 
         // Apply operations for this table in staging order
         for (const auto& op : ops_) {
-            if (op.table_name != table) continue;
+            if (op.table_name != table) {
+              continue;
+            }
 
             MigrationResult op_result;
             switch (op.type) {
@@ -305,7 +309,9 @@ MigrationResult SchemaMigrator::migrate()
         if (!schema_mgr_.setTableSchema(table, schema)) {
             std::string msg = "failed to persist updated schema for table '" + table + "'";
             result.errors.push_back(msg);
-            if (result.error_message.empty()) result.error_message = msg;
+            if (result.error_message.empty()) {
+              result.error_message = msg;
+            }
             LOG_ERROR("SchemaMigrator: {}", msg);
             if (config_.abort_on_first_error) {
                 phase_.store(OnlineDDLPhase::FAILED, std::memory_order_relaxed);
@@ -474,9 +480,13 @@ MigrationResult SchemaMigrator::applyRenameColumn(
 
     // Update any index that references the old column name
     for (auto& idx : schema.indexes) {
-        if (idx.name == op.column_name) idx.name = op.new_name;
+        if (idx.name == op.column_name) {
+          idx.name = op.new_name;
+        }
         for (auto& col : idx.columns) {
-            if (col == op.column_name) col = op.new_name;
+            if (col == op.column_name) {
+              col = op.new_name;
+            }
         }
     }
 

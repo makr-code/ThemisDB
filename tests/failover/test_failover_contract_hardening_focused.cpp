@@ -87,7 +87,9 @@ static std::size_t runElection(std::vector<MockNode>& nodes, std::uint64_t new_e
     bool leader_assigned = false;
     std::size_t winner = nodes.size();
     for (std::size_t i = 0; i < nodes.size(); ++i) {
-        if (!nodes[i].alive) continue;
+        if (!nodes[i].alive) {
+          continue;
+        }
         if (!leader_assigned) {
             nodes[i].role  = NodeRole::Leader;
             nodes[i].epoch = new_epoch;
@@ -217,7 +219,9 @@ TEST(FailoverContractHardeningFCH04, NoSplitBrainSameEpoch) {
 
 TEST(FailoverContractHardeningFCH05, InFlightCompletedBeforeYield) {
     MockInFlightBuffer buf;
-    for (int i = 0; i < 10; ++i) buf.add(i);
+    for (int i = 0; i < 10; ++i) {
+      buf.add(i);
+    }
 
     // Leader drains buffer before yielding
     int drained = buf.drain();
@@ -233,11 +237,15 @@ TEST(FailoverContractHardeningFCH05, InFlightCompletedBeforeYield) {
 
 TEST(FailoverContractHardeningFCH06, InFlightRetriedByNewLeader) {
     MockInFlightBuffer buf;
-    for (int i = 0; i < 5; ++i) buf.add(i);
+    for (int i = 0; i < 5; ++i) {
+      buf.add(i);
+    }
 
     // Outgoing leader does NOT drain (simulates abrupt failure)
     // New leader picks up the buffer and retries
-    for (auto& r : buf.requests) r.retried = true;
+    for (auto& r : buf.requests) {
+      r.retried = true;
+    }
 
     EXPECT_FALSE(buf.anyDropped())
         << "All requests must be retried when outgoing leader fails to complete them";
@@ -252,10 +260,14 @@ TEST(FailoverContractHardeningFCH07, NoSilentDropOnHandover) {
     std::uniform_int_distribution<int> coin(0, 1);
 
     MockInFlightBuffer buf;
-    for (int i = 0; i < 20; ++i) buf.add(i);
+    for (int i = 0; i < 20; ++i) {
+      buf.add(i);
+    }
 
     for (auto& r : buf.requests) {
-        if (coin(rng)) r.completed = true;
+        if (coin(rng)) {
+          r.completed = true;
+        }
         else           r.retried   = true;
     }
 
@@ -277,7 +289,9 @@ TEST(FailoverContractHardeningFCH08, HandoverDrainBudgetRespected) {
     // Simulate: drain completes well within the budget
     auto start = std::chrono::steady_clock::now();
     MockInFlightBuffer buf;
-    for (int i = 0; i < 100; ++i) buf.add(i);
+    for (int i = 0; i < 100; ++i) {
+      buf.add(i);
+    }
     buf.drain();
     auto elapsed = std::chrono::steady_clock::now() - start;
 
@@ -336,7 +350,9 @@ TEST(FailoverContractHardeningFCH11, StateSyncBeforeActiveFollower) {
 
     // Sync completes
     sync_complete = true;
-    if (sync_complete) n.role = NodeRole::Follower;
+    if (sync_complete) {
+      n.role = NodeRole::Follower;
+    }
 
     EXPECT_EQ(n.role, NodeRole::Follower);
     EXPECT_TRUE(isVoteEligible(n.role));
@@ -409,11 +425,15 @@ TEST(FailoverContractHardeningFCH14, SplitBrainDetectedSurfaced) {
 
 TEST(FailoverContractHardeningFCH15, HandoverIncompleteWhenDrainExceeded) {
     MockInFlightBuffer buf;
-    for (int i = 0; i < 50; ++i) buf.add(i);
+    for (int i = 0; i < 50; ++i) {
+      buf.add(i);
+    }
 
     // Simulate: drain deadline exceeded — buffer NOT fully drained
     // Half drained, half not
-    for (int i = 0; i < 25; ++i) buf.requests[i].completed = true;
+    for (int i = 0; i < 25; ++i) {
+      buf.requests[i].completed = true;
+    }
 
     bool drain_timed_out = true; // mock: deadline exceeded
     FailoverErrorCode code = drain_timed_out

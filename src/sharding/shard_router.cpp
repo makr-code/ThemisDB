@@ -791,7 +791,9 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
             const std::string with_kw = " WITH ";  // uppercase per convention
             const std::string WITH_KW = " with ";  // case-insensitive fallback
             auto pos = query.find(with_kw);
-            if (pos == std::string::npos) pos = query.find(WITH_KW);
+            if (pos == std::string::npos) {
+              pos = query.find(WITH_KW);
+            }
             if (pos != std::string::npos) {
                 pos += with_kw.size();
                 // Collection name ends at whitespace, ';', or end-of-string.
@@ -819,15 +821,21 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
             for (const auto& shard_result : right_results) {
                 observed_version = std::max(observed_version, resolveShardResultVersion(shard_result));
                 merge_version = makeStrictMergeVersionToken(observed_version);
-                if (!shard_result.success || !shard_result.data.is_array()) continue;
+                if (!shard_result.success || !shard_result.data.is_array()) {
+                  continue;
+                }
                 for (const auto& right_row : shard_result.data) {
                     total_right_rows++;
-                    if (!right_row.contains(join_field)) continue;
+                    if (!right_row.contains(join_field)) {
+                      continue;
+                    }
                     std::string key = right_row[join_field].is_string()
                         ? right_row[join_field].get<std::string>()
                         : right_row[join_field].dump();
                     auto it = hash_table.find(key);
-                    if (it == hash_table.end()) continue;
+                    if (it == hash_table.end()) {
+                      continue;
+                    }
                     // Emit one merged row per matching left-side entry.
                     for (const auto& left_row : it->second) {
                         nlohmann::json merged = nlohmann::json::object();
@@ -836,7 +844,9 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
                         }
                         for (const auto& [k, v] : right_row.items()) {
                             const std::string rk = "right_" + k;
-                            if (!merged.contains(rk)) merged[rk] = v;
+                            if (!merged.contains(rk)) {
+                              merged[rk] = v;
+                            }
                         }
                         const uint64_t row_merge_version = std::max(
                             merge_version,

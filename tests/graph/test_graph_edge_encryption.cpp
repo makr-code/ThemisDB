@@ -80,11 +80,21 @@ protected:
         BaseEntity::FieldMap fields;
         
         // Copy all standard fields
-        if (auto id = edge.getFieldAsString("id")) fields["id"] = *id;
-        if (auto from = edge.getFieldAsString("_from")) fields["_from"] = *from;
-        if (auto to = edge.getFieldAsString("_to")) fields["_to"] = *to;
-        if (auto label = edge.getFieldAsString("label")) fields["label"] = *label;
-        if (auto ts = edge.getFieldAsInt("created_at")) fields["created_at"] = *ts;
+        if (auto id = edge.getFieldAsString("id")) {
+          fields["id"] = *id;
+        }
+        if (auto from = edge.getFieldAsString("_from")) {
+          fields["_from"] = *from;
+        }
+        if (auto to = edge.getFieldAsString("_to")) {
+          fields["_to"] = *to;
+        }
+        if (auto label = edge.getFieldAsString("label")) {
+          fields["label"] = *label;
+        }
+        if (auto ts = edge.getFieldAsInt("created_at")) {
+          fields["created_at"] = *ts;
+        }
         
         // Handle weight field
         if (auto weight = edge.getFieldAsDouble("weight")) {

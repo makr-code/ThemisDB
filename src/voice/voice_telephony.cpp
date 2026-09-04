@@ -219,7 +219,9 @@ struct SipCallSession::Impl {
 
     void setState(CallState s) {
         state = s;
-        if (on_state) on_state(s);
+        if (on_state) {
+          on_state(s);
+        }
     }
 };
 
@@ -256,7 +258,9 @@ std::unique_ptr<SipCallSession> SipCallSession::create(Config config) {
 }
 
 CallID SipCallSession::start() {
-    if (impl_->state == CallState::ACTIVE) return impl_->call_id;
+    if (impl_->state == CallState::ACTIVE) {
+      return impl_->call_id;
+    }
     impl_->call_id      = impl_->config.call_id.empty()
                               ? generateCallId()
                               : impl_->config.call_id;
@@ -277,7 +281,9 @@ void SipCallSession::end() {
     if (!impl_->pcm_buffer.empty()) {
         auto ct = runCallStt(impl_->call_id, impl_->pcm_buffer, /*is_final=*/true);
         impl_->pcm_buffer.clear();
-        if (impl_->on_transcript) impl_->on_transcript(ct);
+        if (impl_->on_transcript) {
+          impl_->on_transcript(ct);
+        }
     }
 
     impl_->setState(CallState::TERMINATING);
@@ -308,12 +314,16 @@ CallState SipCallSession::state() const noexcept {
 CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_packet) {
     // TASK 2.6: Telephony input validation and injection detection
     CallTranscript empty;
-    if (!impl_ || impl_->state != CallState::ACTIVE) return empty;
+    if (!impl_ || impl_->state != CallState::ACTIVE) {
+      return empty;
+    }
 
     // CRITICAL GAP 11: Reject empty RTP packets fail-closed
     if (rtp_packet.empty()) {
         THEMIS_WARN("SipCallSession: empty RTP packet rejected (error 6910)");
-        if (impl_->on_error) impl_->on_error("Empty RTP packet");
+        if (impl_->on_error) {
+          impl_->on_error("Empty RTP packet");
+        }
         return empty;
     }
 
@@ -366,7 +376,9 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     if (impl_->pcm_buffer.size() + payload.size() > kMaxSessionRtpBufferBytes) {
         THEMIS_ERROR("SipCallSession: audio buffer would exceed limit ({} + {} > {} bytes), rejecting packet (error 6904)",
                      impl_->pcm_buffer.size(), payload.size(), kMaxSessionRtpBufferBytes);
-        if (impl_->on_error) impl_->on_error("Session buffer overflow");
+        if (impl_->on_error) {
+          impl_->on_error("Session buffer overflow");
+        }
         return empty;  // Fail-closed
     }
 
@@ -378,10 +390,14 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     pcm.reserve(payload.size());
     switch (impl_->config.codec) {
     case AudioCodec::PCMU:
-        for (uint8_t b : payload) pcm.push_back(ulawToPcm(b));
+        for (uint8_t b : payload) {
+          pcm.push_back(ulawToPcm(b));
+        }
         break;
     case AudioCodec::PCMA:
-        for (uint8_t b : payload) pcm.push_back(alawToPcm(b));
+        for (uint8_t b : payload) {
+          pcm.push_back(alawToPcm(b));
+        }
         break;
     case AudioCodec::G722:
     [[fallthrough]];\n    case AudioCodec::OPUS:
@@ -398,7 +414,9 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
 
 CallTranscript SipCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm_samples) {
     CallTranscript empty;
-    if (!impl_ || impl_->state != CallState::ACTIVE) return empty;
+    if (!impl_ || impl_->state != CallState::ACTIVE) {
+      return empty;
+    }
     if (pcm_samples.empty()) {
         THEMIS_WARN("SipCallSession: empty PCM frame rejected (error 6910)");
         return empty;
@@ -413,25 +431,33 @@ CallTranscript SipCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm
     ++impl_->partial_seq;
 
     auto ct = runCallStt(impl_->call_id, impl_->pcm_buffer, /*is_final=*/false);
-    if (impl_->on_transcript) impl_->on_transcript(ct);
+    if (impl_->on_transcript) {
+      impl_->on_transcript(ct);
+    }
     return ct;
 }
 
 void SipCallSession::injectDtmf([[maybe_unused]] const DtmfEvent& event) {
-    if (!impl_) return;
+    if (!impl_) {
+      return;
+    }
     if ([[maybe_unused]] !isValidDtmfDigit(event.digit) || event.duration_ms <= 0) {
         THEMIS_WARN([[maybe_unused]] "SipCallSession: invalid DTMF event rejected (error 6910)");
         return;
     }
     THEMIS_INFO("SipCallSession: DTMF digit='{}' dur={}ms call_id={}",
                 event.digit, event.duration_ms, impl_->call_id);
-    if ([[maybe_unused]] impl_->on_dtmf) impl_->on_dtmf(event);
+    if ([[maybe_unused]] impl_->on_dtmf) {
+      impl_->on_dtmf(event);
+    }
 }
 
 std::vector<std::vector<uint8_t>>
 SipCallSession::synthesizeTts(const std::string& text) {
     std::vector<std::vector<uint8_t>> packets;
-    if (text.empty()) return packets;
+    if (text.empty()) {
+      return packets;
+    }
 
     if (impl_->tts_backend) {
         // Delegate to the injected backend; wrap each returned audio payload
@@ -472,7 +498,9 @@ SipCallSession::synthesizeTts(const std::string& text) {
     pkt[1] = static_cast<uint8_t>(
         impl_->config.codec == AudioCodec::PCMU ? 0 :
         impl_->config.codec == AudioCodec::PCMA ? 8 : 0);
-    for (char c : text) pkt.push_back(static_cast<uint8_t>(c));
+    for (char c : text) {
+      pkt.push_back(static_cast<uint8_t>(c));
+    }
     packets.push_back(std::move(pkt));
     return packets;
 }
@@ -523,7 +551,9 @@ struct WebRtcCallSession::Impl {
 
     void setState(CallState s) {
         state = s;
-        if (on_state) on_state(s);
+        if (on_state) {
+          on_state(s);
+        }
     }
 };
 
@@ -584,8 +614,12 @@ void WebRtcCallSession::addIceCandidate([[maybe_unused]] const std::string& cand
 }
 
 CallID WebRtcCallSession::start() {
-    if (impl_->state == CallState::ACTIVE) return impl_->call_id;
-    if (impl_->call_id.empty()) impl_->call_id = generateCallId();
+    if (impl_->state == CallState::ACTIVE) {
+      return impl_->call_id;
+    }
+    if (impl_->call_id.empty()) {
+      impl_->call_id = generateCallId();
+    }
     impl_->started_at_ms = telephonyNowMs();
     impl_->setState(CallState::ACTIVE);
     THEMIS_INFO("WebRtcCallSession: started call_id={} user={}",
@@ -600,7 +634,9 @@ void WebRtcCallSession::end() {
     if (!impl_->pcm_buffer.empty()) {
         auto ct = runCallStt(impl_->call_id, impl_->pcm_buffer, true);
         impl_->pcm_buffer.clear();
-        if (impl_->on_transcript) impl_->on_transcript(ct);
+        if (impl_->on_transcript) {
+          impl_->on_transcript(ct);
+        }
     }
 
     impl_->setState(CallState::TERMINATING);
@@ -620,7 +656,9 @@ CallState WebRtcCallSession::state() const noexcept {
 
 CallTranscript WebRtcCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm_samples) {
     CallTranscript empty;
-    if (!impl_ || impl_->state != CallState::ACTIVE) return empty;
+    if (!impl_ || impl_->state != CallState::ACTIVE) {
+      return empty;
+    }
 
     // Enforce max duration
     int64_t elapsed_s = (telephonyNowMs() - impl_->started_at_ms) / 1000;
@@ -637,21 +675,29 @@ CallTranscript WebRtcCallSession::receiveAudioFrame(const std::vector<int16_t>& 
     ++impl_->partial_seq;
 
     auto ct = runCallStt(impl_->call_id, impl_->pcm_buffer, false);
-    if (impl_->on_transcript) impl_->on_transcript(ct);
+    if (impl_->on_transcript) {
+      impl_->on_transcript(ct);
+    }
     return ct;
 }
 
 void WebRtcCallSession::injectDtmf([[maybe_unused]] const DtmfEvent& event) {
-    if (!impl_) return;
+    if (!impl_) {
+      return;
+    }
     THEMIS_INFO("WebRtcCallSession: DTMF digit='{}' dur={}ms call_id={}",
                 event.digit, event.duration_ms, impl_->call_id);
-    if ([[maybe_unused]] impl_->on_dtmf) impl_->on_dtmf(event);
+    if ([[maybe_unused]] impl_->on_dtmf) {
+      impl_->on_dtmf(event);
+    }
 }
 
 std::vector<std::vector<uint8_t>>
 WebRtcCallSession::synthesizeTts(const std::string& text) {
     std::vector<std::vector<uint8_t>> packets;
-    if (text.empty()) return packets;
+    if (text.empty()) {
+      return packets;
+    }
 
     if (impl_->tts_backend) {
         // Delegate to the injected backend; wrap each returned audio payload
@@ -687,7 +733,9 @@ WebRtcCallSession::synthesizeTts(const std::string& text) {
     pkt.resize(12, 0);
     pkt[0] = 0x80;
     pkt[1] = 111; // dynamic Opus payload type
-    for (char c : text) pkt.push_back(static_cast<uint8_t>(c));
+    for (char c : text) {
+      pkt.push_back(static_cast<uint8_t>(c));
+    }
     packets.push_back(std::move(pkt));
     return packets;
 }
@@ -765,7 +813,9 @@ std::string IvrEngine::currentNodeId() const {
 
 bool IvrEngine::isTerminal() const {
     auto it = nodes_.find(current_node_id_);
-    if (it == nodes_.end()) return false;
+    if (it == nodes_.end()) {
+      return false;
+    }
     return it->second.is_terminal;
 }
 
@@ -835,7 +885,9 @@ CallTranscript TelephonyBridge::routeSipRtp(const CallID&                call_id
 void TelephonyBridge::terminateSipCall(const CallID& call_id) {
     std::lock_guard<std::mutex> lock(sip_mutex_);
     auto it = sip_calls_.find(call_id);
-    if (it == sip_calls_.end()) return;
+    if (it == sip_calls_.end()) {
+      return;
+    }
     it->second->end();
     sip_calls_.erase(it);
     THEMIS_INFO("TelephonyBridge: terminated SIP call {} (active={})",
@@ -899,7 +951,9 @@ CallTranscript TelephonyBridge::routeWebRtcAudio(const CallID&               cal
 void TelephonyBridge::terminateWebRtcCall(const CallID& call_id) {
     std::lock_guard<std::mutex> lock(webrtc_mutex_);
     auto it = webrtc_calls_.find(call_id);
-    if (it == webrtc_calls_.end()) return;
+    if (it == webrtc_calls_.end()) {
+      return;
+    }
     it->second->end();
     webrtc_calls_.erase(it);
     THEMIS_INFO("TelephonyBridge: terminated WebRTC call {} (active={})",
@@ -931,12 +985,16 @@ CallState TelephonyBridge::callState(const CallID& call_id) const {
     {
         std::lock_guard<std::mutex> lock(sip_mutex_);
         auto it = sip_calls_.find(call_id);
-        if (it != sip_calls_.end()) return it->second->state();
+        if (it != sip_calls_.end()) {
+          return it->second->state();
+        }
     }
     {
         std::lock_guard<std::mutex> lock(webrtc_mutex_);
         auto it = webrtc_calls_.find(call_id);
-        if (it != webrtc_calls_.end()) return it->second->state();
+        if (it != webrtc_calls_.end()) {
+          return it->second->state();
+        }
     }
     return CallState::IDLE;
 }

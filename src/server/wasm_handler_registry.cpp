@@ -146,7 +146,9 @@ std::vector<uint8_t> WasmHandlerRegistry::base64Decode([[maybe_unused]] const st
     }
 
     if (i > 0) {
-        for (int j = i; j < 4; ++j) char4[j] = 0;
+        for (int j = i; j < 4; ++j) {
+          char4[j] = 0;
+        }
         for (int j = 0; j < 4; ++j) {
             const char* pos = std::find(kBase64Chars,
                                         kBase64Chars + 64,
@@ -207,7 +209,9 @@ bool WasmHandlerRegistry::registerHandler(
     // Validate binary first (no lock needed – read-only).
     auto info = themis::modules::WasmModuleValidator::validate(wasm_bytes);
     if (!info.valid) {
-        if (error) *error = "Invalid .wasm binary: magic bytes or version mismatch";
+        if (error) {
+          *error = "Invalid .wasm binary: magic bytes or version mismatch";
+        }
         return false;
     }
 
@@ -498,7 +502,9 @@ http::response<http::string_body> WasmHandlerRegistry::handleList(
         if (kpos != std::string::npos) {
             tenant_filter = query.substr(kpos + key.size());
             const auto amp = tenant_filter.find('&');
-            if (amp != std::string::npos) tenant_filter = tenant_filter.substr(0, amp);
+            if (amp != std::string::npos) {
+              tenant_filter = tenant_filter.substr(0, amp);
+            }
         }
     }
 

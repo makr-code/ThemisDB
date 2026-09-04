@@ -112,8 +112,12 @@ TEST_F(CpuANNDispatchTest, L2Distance_IdenticalVectors) {
 TEST_F(CpuANNDispatchTest, L2Distance_MatchesScalarReference) {
     const int dim = 8, nVec = 4, nQry = 2;
     std::vector<float> q(nQry * dim), v(nVec * dim);
-    for (int i = 0; i < nQry * dim; ++i) q[i] = static_cast<float>(i % 5) - 2.f;
-    for (int i = 0; i < nVec * dim; ++i) v[i] = static_cast<float>(i % 7) - 3.f;
+    for (int i = 0; i < nQry * dim; ++i) {
+      q[i] = static_cast<float>(i % 5) - 2.f;
+    }
+    for (int i = 0; i < nVec * dim; ++i) {
+      v[i] = static_cast<float>(i % 7) - 3.f;
+    }
 
     std::vector<float> out(nQry * nVec);
     ASSERT_EQ(disp_.launchL2Distance(q.data(), v.data(), out.data(),

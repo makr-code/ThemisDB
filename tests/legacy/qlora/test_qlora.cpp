@@ -256,8 +256,12 @@ TEST_F(QLoRATest, QLoRALayer_SimpleTraining) {
         }
         loss /= diff.size();
         
-        if (step == 0) initial_loss = loss;
-        if (step == 9) final_loss = loss;
+        if (step == 0) {
+          initial_loss = loss;
+        }
+        if (step == 9) {
+          final_loss = loss;
+        }
         
         // Backward
         Tensor grad = diff * (2.0f / diff.size());

@@ -136,8 +136,12 @@ struct MockQuotaChecker {
     std::uint64_t used = 0;
 
     IngestionErrorCode checkAndConsume(std::uint64_t rows) {
-        if (limit == 0u) return IngestionErrorCode::OK;
-        if (used + rows > limit) return IngestionErrorCode::INGESTION_QUOTA_EXCEEDED;
+        if (limit == 0u) {
+          return IngestionErrorCode::OK;
+        }
+        if (used + rows > limit) {
+          return IngestionErrorCode::INGESTION_QUOTA_EXCEEDED;
+        }
         used += rows;
         return IngestionErrorCode::OK;
     }

@@ -295,7 +295,9 @@ TEST(Soc2ControlSet, NonCompliantRuleDetectsAllGaps) {
     // At least CC6.1, CC7.2, CC8.1, A1.1, C1.1, PI1.2 should all fail
     int failed = 0;
     for (const auto& r : results) {
-        if (!r.compliant) failed++;
+        if (!r.compliant) {
+          failed++;
+        }
     }
     EXPECT_GE(failed, 5) << "Expected at least 5 control failures for fully non-compliant rule";
 }

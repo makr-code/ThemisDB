@@ -114,9 +114,13 @@ ValidationResult InputValidator::validateJsonPayload(std::string_view payload) {
   for (char c : payload) {
     if (c == '{' || c == '[') {
       depth++;
-      if (depth > max_depth) max_depth = depth;
+      if (depth > max_depth) {
+        max_depth = depth;
+      }
     } else if (c == '}' || c == ']') {
-      if (depth > 0) depth--;
+      if (depth > 0) {
+        depth--;
+      }
     }
   }
   

@@ -69,7 +69,9 @@ namespace {
 /// Collect and return the latest OpenSSL error string.
 static std::string ossl_error() {
     unsigned long code = ERR_peek_last_error();
-    if (code == 0) return "unknown OpenSSL error";
+    if (code == 0) {
+      return "unknown OpenSSL error";
+    }
     char buf[256];
     ERR_error_string_n(code, buf, sizeof(buf));
     ERR_clear_error();
@@ -100,10 +102,14 @@ static std::vector<uint8_t> hkdf_sha256(
     size_t out_len)
 {
     EVP_KDF_ptr kdf(EVP_KDF_fetch(nullptr, "HKDF", nullptr), &EVP_KDF_free);
-    if (!kdf.get()) throw std::runtime_error("HKDF: fetch failed: " + ossl_error());
+    if (!kdf.get()) {
+      throw std::runtime_error("HKDF: fetch failed: " + ossl_error());
+    }
 
     EVP_KDF_CTX_ptr ctx(EVP_KDF_CTX_new(kdf.get()), &EVP_KDF_CTX_free);
-    if (!ctx.get()) throw std::runtime_error("HKDF: ctx alloc failed: " + ossl_error());
+    if (!ctx.get()) {
+      throw std::runtime_error("HKDF: ctx alloc failed: " + ossl_error());
+    }
 
     std::vector<uint8_t> out(out_len);
 
@@ -130,7 +136,9 @@ static std::vector<uint8_t> hkdf_sha256(
     params[idx] = OSSL_PARAM_END;
 
     int rc = EVP_KDF_derive(ctx.get(), out.data(), out_len, params);
-    if (rc != 1) throw std::runtime_error("HKDF: derive failed: " + ossl_error());
+    if (rc != 1) {
+      throw std::runtime_error("HKDF: derive failed: " + ossl_error());
+    }
     return out;
     // RAII wrappers (ctx, kdf) automatically clean up on scope exit
 }
@@ -163,7 +171,9 @@ static std::vector<uint8_t> aes256gcm_encrypt(
     assert(key.size() == 32);
 
     EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new(), &EVP_CIPHER_CTX_free);
-    if (!ctx) throw std::runtime_error("aes256gcm_encrypt: ctx alloc: " + ossl_error());
+    if (!ctx) {
+      throw std::runtime_error("aes256gcm_encrypt: ctx alloc: " + ossl_error());
+    }
 
     std::vector<uint8_t> ct(plaintext.size() + 32);
     int len = 0, ct_len = 0;
@@ -172,16 +182,26 @@ static std::vector<uint8_t> aes256gcm_encrypt(
         throw std::runtime_error(std::string("aes256gcm_encrypt: ") + where + ": " + ossl_error());
     };
 
-    if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) fail("init");
-    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) fail("ivlen");
-    if (EVP_EncryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv.data()) != 1) fail("key/iv");
+    if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {
+      fail("init");
+    }
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) {
+      fail("ivlen");
+    }
+    if (EVP_EncryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv.data()) != 1) {
+      fail("key/iv");
+    }
     if (EVP_EncryptUpdate(ctx.get(), ct.data(), &len,
                           plaintext.data(), static_cast<int>(plaintext.size())) != 1) fail("update");
     ct_len = len;
-    if (EVP_EncryptFinal_ex(ctx.get(), ct.data() + len, &len) != 1) fail("final");
+    if (EVP_EncryptFinal_ex(ctx.get(), ct.data() + len, &len) != 1) {
+      fail("final");
+    }
     ct_len += len;
     ct.resize(ct_len);
-    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, tag.data()) != 1) fail("get_tag");
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, tag.data()) != 1) {
+      fail("get_tag");
+    }
     return ct;
 }
 
@@ -204,7 +224,9 @@ static std::vector<uint8_t> aes256gcm_decrypt(
     assert(key.size() == 32);
 
     EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new(), &EVP_CIPHER_CTX_free);
-    if (!ctx) throw std::runtime_error("aes256gcm_decrypt: ctx alloc: " + ossl_error());
+    if (!ctx) {
+      throw std::runtime_error("aes256gcm_decrypt: ctx alloc: " + ossl_error());
+    }
 
     std::vector<uint8_t> pt(ciphertext.size() + 32);
     int len = 0, pt_len = 0;
@@ -213,9 +235,15 @@ static std::vector<uint8_t> aes256gcm_decrypt(
         throw std::runtime_error(std::string("aes256gcm_decrypt: ") + where + ": " + ossl_error());
     };
 
-    if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) fail("init");
-    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) fail("ivlen");
-    if (EVP_DecryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv.data()) != 1) fail("key/iv");
+    if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {
+      fail("init");
+    }
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) {
+      fail("ivlen");
+    }
+    if (EVP_DecryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv.data()) != 1) {
+      fail("key/iv");
+    }
     if (EVP_DecryptUpdate(ctx.get(), pt.data(), &len,
                           ciphertext.data(), static_cast<int>(ciphertext.size())) != 1) fail("update");
     pt_len = len;
@@ -267,7 +295,9 @@ struct OqsKemRAII {
  */
 static std::pair<std::vector<uint8_t>, std::vector<uint8_t>> x25519_keygen() {
     EVP_PKEY_CTX_ptr kctx(EVP_PKEY_CTX_new_id(EVP_PKEY_X25519, nullptr), &EVP_PKEY_CTX_free);
-    if (!kctx) throw std::runtime_error("x25519_keygen: ctx: " + ossl_error());
+    if (!kctx) {
+      throw std::runtime_error("x25519_keygen: ctx: " + ossl_error());
+    }
     if (EVP_PKEY_keygen_init(kctx.get()) <= 0)
         throw std::runtime_error("x25519_keygen: keygen_init: " + ossl_error());
     EVP_PKEY* raw_pkey = nullptr;
@@ -298,16 +328,22 @@ static std::vector<uint8_t> x25519_ecdh(
         EVP_PKEY_new_raw_private_key(EVP_PKEY_X25519, nullptr,
             our_private_key_bytes.data(), our_private_key_bytes.size()),
         &EVP_PKEY_free);
-    if (!priv_key) throw std::runtime_error("x25519_ecdh: priv key: " + ossl_error());
+    if (!priv_key) {
+      throw std::runtime_error("x25519_ecdh: priv key: " + ossl_error());
+    }
 
     EVP_PKEY_ptr pub_key(
         EVP_PKEY_new_raw_public_key(EVP_PKEY_X25519, nullptr,
             peer_public_key_bytes.data(), peer_public_key_bytes.size()),
         &EVP_PKEY_free);
-    if (!pub_key) throw std::runtime_error("x25519_ecdh: pub key: " + ossl_error());
+    if (!pub_key) {
+      throw std::runtime_error("x25519_ecdh: pub key: " + ossl_error());
+    }
 
     EVP_PKEY_CTX_ptr ctx(EVP_PKEY_CTX_new(priv_key.get(), nullptr), &EVP_PKEY_CTX_free);
-    if (!ctx) throw std::runtime_error("x25519_ecdh: ctx: " + ossl_error());
+    if (!ctx) {
+      throw std::runtime_error("x25519_ecdh: ctx: " + ossl_error());
+    }
     if (EVP_PKEY_derive_init(ctx.get()) <= 0)
         throw std::runtime_error("x25519_ecdh: derive_init: " + ossl_error());
     if (EVP_PKEY_derive_set_peer(ctx.get(), pub_key.get()) <= 0)
@@ -327,7 +363,9 @@ static std::vector<uint8_t> x25519_ecdh(
  */
 static std::pair<std::vector<uint8_t>, std::vector<uint8_t>> ed25519_keygen() {
     EVP_PKEY_CTX_ptr kctx(EVP_PKEY_CTX_new_id(EVP_PKEY_ED25519, nullptr), &EVP_PKEY_CTX_free);
-    if (!kctx) throw std::runtime_error("ed25519_keygen: ctx: " + ossl_error());
+    if (!kctx) {
+      throw std::runtime_error("ed25519_keygen: ctx: " + ossl_error());
+    }
     if (EVP_PKEY_keygen_init(kctx.get()) <= 0)
         throw std::runtime_error("ed25519_keygen: init: " + ossl_error());
     EVP_PKEY* raw_pkey = nullptr;
@@ -353,10 +391,14 @@ static std::vector<uint8_t> ed25519_sign(
     EVP_PKEY_ptr pkey(
         EVP_PKEY_new_raw_private_key(EVP_PKEY_ED25519, nullptr, secret_key.data(), secret_key.size()),
         &EVP_PKEY_free);
-    if (!pkey) throw std::runtime_error("ed25519_sign: load key: " + ossl_error());
+    if (!pkey) {
+      throw std::runtime_error("ed25519_sign: load key: " + ossl_error());
+    }
 
     EVP_MD_CTX_ptr mctx(EVP_MD_CTX_new(), &EVP_MD_CTX_free);
-    if (!mctx) throw std::runtime_error("ed25519_sign: md_ctx: " + ossl_error());
+    if (!mctx) {
+      throw std::runtime_error("ed25519_sign: md_ctx: " + ossl_error());
+    }
 
     if (EVP_DigestSignInit(mctx.get(), nullptr, nullptr, nullptr, pkey.get()) <= 0)
         throw std::runtime_error("ed25519_sign: DigestSignInit: " + ossl_error());
@@ -383,7 +425,9 @@ static bool ed25519_verify(
     if (!pkey) return false;  // invalid key
 
     EVP_MD_CTX_ptr mctx(EVP_MD_CTX_new(), &EVP_MD_CTX_free);
-    if (!mctx) return false;
+    if (!mctx) {
+      return false;
+    }
 
     if (EVP_DigestVerifyInit(mctx.get(), nullptr, nullptr, nullptr, pkey.get()) <= 0)
         return false;
@@ -468,7 +512,9 @@ size_t KyberKEM::ciphertextSize() const noexcept {
 KyberKEM::KeyPair KyberKEM::generateKeyPair() {
 #ifdef THEMIS_HAS_OQS
     OqsKemRAII k(kyberAlgName(level_));
-    if (!k.kem) throw std::runtime_error("KyberKEM::generateKeyPair: OQS_KEM_new failed");
+    if (!k.kem) {
+      throw std::runtime_error("KyberKEM::generateKeyPair: OQS_KEM_new failed");
+    }
     KeyPair kp;
     kp.public_key.resize(k.kem->length_public_key);
     kp.secret_key.resize(k.kem->length_secret_key);
@@ -505,7 +551,9 @@ KyberKEM::encapsulate(const std::vector<uint8_t>& public_key) {
 
 #ifdef THEMIS_HAS_OQS
     OqsKemRAII k(kyberAlgName(level_));
-    if (!k.kem) throw std::runtime_error("KyberKEM::encapsulate: OQS_KEM_new failed");
+    if (!k.kem) {
+      throw std::runtime_error("KyberKEM::encapsulate: OQS_KEM_new failed");
+    }
     EncapsulationResult res;
     res.ciphertext.resize(k.kem->length_ciphertext);
     res.shared_secret.resize(k.kem->length_shared_secret);
@@ -561,7 +609,9 @@ KyberKEM::decapsulate(const std::vector<uint8_t>& ciphertext,
 
 #ifdef THEMIS_HAS_OQS
     OqsKemRAII k(kyberAlgName(level_));
-    if (!k.kem) throw std::runtime_error("KyberKEM::decapsulate: OQS_KEM_new failed");
+    if (!k.kem) {
+      throw std::runtime_error("KyberKEM::decapsulate: OQS_KEM_new failed");
+    }
     std::vector<uint8_t> shared_secret(k.kem->length_shared_secret);
     if (OQS_KEM_decaps(k.kem, shared_secret.data(), ciphertext.data(), secret_key.data())
             != OQS_SUCCESS)
@@ -641,7 +691,9 @@ DilithiumSigner& DilithiumSigner::operator=(DilithiumSigner&&) noexcept = defaul
 DilithiumSigner::KeyPair DilithiumSigner::generateKeyPair() {
 #ifdef THEMIS_HAS_OQS
     OqsSigRAII s(dilithiumAlgName(level_));
-    if (!s.sig) throw std::runtime_error("DilithiumSigner::generateKeyPair: OQS_SIG_new failed");
+    if (!s.sig) {
+      throw std::runtime_error("DilithiumSigner::generateKeyPair: OQS_SIG_new failed");
+    }
     KeyPair kp;
     kp.public_key.resize(s.sig->length_public_key);
     kp.secret_key.resize(s.sig->length_secret_key);
@@ -673,7 +725,9 @@ DilithiumSigner::sign(const std::vector<uint8_t>& message,
                        const std::vector<uint8_t>& secret_key) {
 #ifdef THEMIS_HAS_OQS
     OqsSigRAII s(dilithiumAlgName(level_));
-    if (!s.sig) throw std::runtime_error("DilithiumSigner::sign: OQS_SIG_new failed");
+    if (!s.sig) {
+      throw std::runtime_error("DilithiumSigner::sign: OQS_SIG_new failed");
+    }
     if (secret_key.size() != s.sig->length_secret_key)
         throw std::invalid_argument(
             "DilithiumSigner::sign: unexpected secret key size " +
@@ -713,7 +767,9 @@ bool DilithiumSigner::verify(const std::vector<uint8_t>& message,
                                const std::vector<uint8_t>& public_key) {
 #ifdef THEMIS_HAS_OQS
     OqsSigRAII s(dilithiumAlgName(level_));
-    if (!s.sig || public_key.size() != s.sig->length_public_key) return false;
+    if (!s.sig || public_key.size() != s.sig->length_public_key) {
+      return false;
+    }
     bool ok = (OQS_SIG_verify(s.sig, message.data(), message.size(),
                                signature.data(), signature.size(),
                                public_key.data()) == OQS_SUCCESS);
@@ -721,7 +777,9 @@ bool DilithiumSigner::verify(const std::vector<uint8_t>& message,
     return ok;
 #else
     // PERMANENT FALLBACK: Ed25519 simulation
-    if (public_key.size() != 32) return false;
+    if (public_key.size() != 32) {
+      return false;
+    }
     bool ok = ed25519_verify(message, signature, public_key);
     THEMIS_DEBUG("DilithiumSigner::verify: ok={}", ok);
     return ok;
@@ -988,17 +1046,23 @@ static std::vector<uint8_t> b64_dec(const std::string& s) {
             ca3[0] = (ca4[0] << 2) | ((ca4[1] & 0x30) >> 4);
             ca3[1] = ((ca4[1] & 0x0f) << 4) | ((ca4[2] & 0x3c) >> 2);
             ca3[2] = ((ca4[2] & 0x03) << 6) | ca4[3];
-            for (int k = 0; k < 3; ++k) ret.push_back(ca3[k]);
+            for (int k = 0; k < 3; ++k) {
+              ret.push_back(ca3[k]);
+            }
             i = 0;
         }
     }
     if (i) {
-        for (int k = i; k < 4; ++k) ca4[k] = 0;
+        for (int k = i; k < 4; ++k) {
+          ca4[k] = 0;
+        }
         for (int k = 0; k < 4; ++k)
             ca4[k] = B64_DEC_TABLE[ca4[k]];
         ca3[0] = (ca4[0] << 2) | ((ca4[1] & 0x30) >> 4);
         ca3[1] = ((ca4[1] & 0x0f) << 4) | ((ca4[2] & 0x3c) >> 2);
-        for (int k = 0; k < i - 1; ++k) ret.push_back(ca3[k]);
+        for (int k = 0; k < i - 1; ++k) {
+          ret.push_back(ca3[k]);
+        }
     }
     return ret;
 }
@@ -1253,7 +1317,9 @@ themis::security::SphincsPlus::KeyPair themis::security::SphincsPlus::generateKe
 
 #ifdef THEMIS_HAS_OQS
     OqsSigRAII s(sphincsAlgName(variant_));
-    if (!s.sig) throw std::runtime_error("SphincsPlus::generateKeyPair: OQS_SIG_new failed");
+    if (!s.sig) {
+      throw std::runtime_error("SphincsPlus::generateKeyPair: OQS_SIG_new failed");
+    }
     KeyPair kp;
     kp.public_key.resize(s.sig->length_public_key);
     kp.secret_key.resize(s.sig->length_secret_key);
@@ -1265,7 +1331,9 @@ themis::security::SphincsPlus::KeyPair themis::security::SphincsPlus::generateKe
 #else
     // PERMANENT FALLBACK: Ed25519 simulation
     EVP_PKEY_CTX_ptr pctx(EVP_PKEY_CTX_new_id(EVP_PKEY_ED25519, nullptr), &EVP_PKEY_CTX_free);
-    if (!pctx) throw std::runtime_error("SphincsPlus::generateKeyPair: EVP_PKEY_CTX_new_id failed");
+    if (!pctx) {
+      throw std::runtime_error("SphincsPlus::generateKeyPair: EVP_PKEY_CTX_new_id failed");
+    }
     if (EVP_PKEY_keygen_init(pctx.get()) <= 0)
         throw std::runtime_error("SphincsPlus::generateKeyPair: keygen_init failed");
     EVP_PKEY* raw_pkey = nullptr;
@@ -1319,7 +1387,9 @@ std::vector<uint8_t> themis::security::SphincsPlus::sign(const std::vector<uint8
 
 #ifdef THEMIS_HAS_OQS
     OqsSigRAII s(sphincsAlgName(variant_));
-    if (!s.sig) throw std::runtime_error("SphincsPlus::sign: OQS_SIG_new failed");
+    if (!s.sig) {
+      throw std::runtime_error("SphincsPlus::sign: OQS_SIG_new failed");
+    }
     std::vector<uint8_t> sig_buf(s.sig->length_signature);
     size_t sig_len = 0;
     if (OQS_SIG_sign(s.sig, sig_buf.data(), &sig_len,
@@ -1333,10 +1403,14 @@ std::vector<uint8_t> themis::security::SphincsPlus::sign(const std::vector<uint8
     EVP_PKEY_ptr pkey(EVP_PKEY_new_raw_private_key(
         EVP_PKEY_ED25519, nullptr, secret_key.data(), secret_key.size()),
         &EVP_PKEY_free);
-    if (!pkey.get()) throw std::runtime_error("SphincsPlus::sign: key import failed");
+    if (!pkey.get()) {
+      throw std::runtime_error("SphincsPlus::sign: key import failed");
+    }
 
     EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new(), &EVP_MD_CTX_free);
-    if (!ctx.get()) throw std::runtime_error("SphincsPlus::sign: MD_CTX alloc");
+    if (!ctx.get()) {
+      throw std::runtime_error("SphincsPlus::sign: MD_CTX alloc");
+    }
 
     if (EVP_DigestSignInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) != 1) {
         throw std::runtime_error("SphincsPlus::sign: DigestSignInit failed");
@@ -1381,11 +1455,15 @@ bool themis::security::SphincsPlus::verify(const std::vector<uint8_t>& message,
         }
     }
 
-    if (public_key.size() != publicKeySize()) return false;
+    if (public_key.size() != publicKeySize()) {
+      return false;
+    }
 
 #ifdef THEMIS_HAS_OQS
     OqsSigRAII s(sphincsAlgName(variant_));
-    if (!s.sig) return false;
+    if (!s.sig) {
+      return false;
+    }
     bool ok = (OQS_SIG_verify(s.sig, message.data(), message.size(),
                                signature.data(), signature.size(),
                                public_key.data()) == OQS_SUCCESS);
@@ -1396,10 +1474,14 @@ bool themis::security::SphincsPlus::verify(const std::vector<uint8_t>& message,
     EVP_PKEY_ptr pkey(
         EVP_PKEY_new_raw_public_key(EVP_PKEY_ED25519, nullptr, public_key.data(), public_key.size()),
         &EVP_PKEY_free);
-    if (!pkey.get()) return false;
+    if (!pkey.get()) {
+      return false;
+    }
 
     EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new(), &EVP_MD_CTX_free);
-    if (!ctx.get()) return false;
+    if (!ctx.get()) {
+      return false;
+    }
 
     bool ok = false;
     if (EVP_DigestVerifyInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) == 1) {

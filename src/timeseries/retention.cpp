@@ -38,7 +38,9 @@ void RetentionManager::logAudit(const RetentionAuditEntry& entry) {
 }
 
 size_t RetentionManager::apply() {
-    if (!store_) return 0;
+    if (!store_) {
+      return 0;
+    }
 
     auto now_ms = nowMs();
     size_t total_deleted = 0;
@@ -101,7 +103,9 @@ void RetentionManager::asyncLoop() {
         async_cv_.wait_for(lock, async_interval_, [this] {
             return !async_running_.load();
         });
-        if (!async_running_.load()) break;
+        if (!async_running_.load()) {
+          break;
+        }
         apply();
         stats_.async_cycle_count.fetch_add(1);
     }

@@ -690,7 +690,9 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
     }
 
     for (const auto& [category, cat_samples] : by_category) {
-        if (cat_samples.empty()) continue;
+        if (cat_samples.empty()) {
+          continue;
+        }
 
         // Sort samples by ascending confidence
         std::vector<Sample> sorted = cat_samples;
@@ -749,7 +751,9 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
             for (size_t i = 0; i < sorted.size(); ++i) {
                 bool predicted_positive = sorted[i].confidence >= thr;
                 bool actually_positive  = sorted[i].correct;
-                if (predicted_positive && actually_positive)  ++tp;
+                if (predicted_positive && actually_positive) {
+                  ++tp;
+                }
                 else if (predicted_positive && !actually_positive) ++fp;
                 else if (!predicted_positive && actually_positive) ++fn;
             }
@@ -771,7 +775,9 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
             size_t tp = 0, fp = 0, fn = 0;
             for (const auto& s : sorted) {
                 bool pred = s.confidence >= static_thr;
-                if (pred && s.correct)   ++tp;
+                if (pred && s.correct) {
+                  ++tp;
+                }
                 else if (pred)           ++fp;
                 else if (s.correct)      ++fn;
             }

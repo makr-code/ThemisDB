@@ -151,7 +151,9 @@ static void write_le64(uint8_t* dst, uint64_t val) {
 /// Read a little-endian uint64_t from @p src.
 static uint64_t read_le64(const uint8_t* src) {
     uint64_t val = 0;
-    for (int i = 0; i < 8; ++i) val |= static_cast<uint64_t>(src[i]) << (8 * i);
+    for (int i = 0; i < 8; ++i) {
+      val |= static_cast<uint64_t>(src[i]) << (8 * i);
+    }
     return val;
 }
 
@@ -171,18 +173,26 @@ static bool parse_gpu_container(
 {
     // prompt_injection scanner alert: `compressed` is a binary transport buffer
     // (GPU container bytes), never interpreted as prompt/template text.
-    if (!has_gpu_magic(compressed)) return false;
+    if (!has_gpu_magic(compressed)) {
+      return false;
+    }
     const uint8_t* p   = compressed.data() + kGpuMagicSize;
     const uint8_t* end = compressed.data() + compressed.size();
 
-    if (p + 16 > end) return false;
+    if (p + 16 > end) {
+      return false;
+    }
     out_n_chunks  = read_le64(p); p += 8;
     out_orig_size = read_le64(p); p += 8;
 
     // Sanity cap: 64 M chunks would be > 512 MB of header alone
     static constexpr uint64_t kMaxChunks = 64u * 1024 * 1024;
-    if (out_n_chunks == 0 || out_n_chunks > kMaxChunks) return false;
-    if (p + out_n_chunks * 8 > end) return false;
+    if (out_n_chunks == 0 || out_n_chunks > kMaxChunks) {
+      return false;
+    }
+    if (p + out_n_chunks * 8 > end) {
+      return false;
+    }
 
     out_chunk_sizes.resize(static_cast<size_t>(out_n_chunks));
     for (uint64_t i = 0; i < out_n_chunks; ++i) {
@@ -377,7 +387,9 @@ public:
             results[i].algorithm     = algorithm;
             results[i].original_size = h_sizes[i];
         }
-        if (n == 0) return results;
+        if (n == 0) {
+          return results;
+        }
 
         // Tracking all device pointers for cleanup
         std::vector<void*> to_free;
@@ -396,7 +408,9 @@ public:
             // unchecked_cuda_call scanner alert: free_all() only iterates over
             // pointers recorded after successful cuda_alloc() calls, so this
             // cleanup loop is bounded and validated — false positive.
-            for (void* p : to_free) cudaFree(p);
+            for (void* p : to_free) {
+              cudaFree(p);
+            }
             to_free.clear();
         };
 
@@ -617,7 +631,9 @@ private:
             // unchecked_cuda_call scanner alert: free_all() only frees pointers
             // previously recorded after successful cudaMalloc via cuda_alloc() —
             // false positive.
-            for (void* p : to_free) cudaFree(p);
+            for (void* p : to_free) {
+              cudaFree(p);
+            }
             to_free.clear();
         };
 
@@ -727,7 +743,9 @@ private:
 
             if (ok) {
                 size_t total_out = 0;
-                for (size_t s : h_out_sizes) total_out += s;
+                for (size_t s : h_out_sizes) {
+                  total_out += s;
+                }
 
                 // Assemble: [MAGIC][n_chunks:u64][orig_size:u64][chunk_sizes...][data...]
                 std::vector<uint64_t> chunk_sizes_u64(n_chunks);
@@ -800,7 +818,9 @@ private:
             // unchecked_cuda_call scanner alert: every pointer in to_free was
             // captured only after a successful checked allocation, so this
             // cleanup loop is safe and intentionally centralized — false positive.
-            for (void* p : to_free) cudaFree(p);
+            for (void* p : to_free) {
+              cudaFree(p);
+            }
             to_free.clear();
         };
 
@@ -1021,8 +1041,12 @@ bool GpuCompressionManager::init_gpu()
 
 bool GpuCompressionManager::should_use_gpu([[maybe_unused]] size_t data_size) const
 {
-    if (force_cpu_) return false;
-    if (!impl_ || !impl_->is_available()) return false;
+    if (force_cpu_) {
+      return false;
+    }
+    if (!impl_ || !impl_->is_available()) {
+      return false;
+    }
     if (data_size == 0) return false;         // empty input always uses CPU
     std::lock_guard<std::mutex> lk(mu_);
     if (config_.chunk_size == 0) return false; // misconfigured chunk size

@@ -388,7 +388,9 @@ HealthStatus HealthCheckSystem::aggregateHealth(const std::vector<ShardHealthInf
 
 /** @brief Return true when healthy shards form strict majority quorum. */
 bool HealthCheckSystem::hasQuorum(int healthy_shards, int total_shards) {
-    if (total_shards == 0) return false;
+    if (total_shards == 0) {
+      return false;
+    }
     return healthy_shards > total_shards / 2;
 }
 

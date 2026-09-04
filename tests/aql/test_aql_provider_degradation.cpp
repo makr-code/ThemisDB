@@ -45,7 +45,9 @@ public:
     bool allowRequest() const { return state_ == State::CLOSED; }
 
     void recordFailure() {
-        if (++failures_ >= threshold_) state_ = State::OPEN;
+        if (++failures_ >= threshold_) {
+          state_ = State::OPEN;
+        }
     }
     void recordSuccess() { failures_ = 0; state_ = State::CLOSED; }
     void reset()         { failures_ = 0; state_ = State::CLOSED; }

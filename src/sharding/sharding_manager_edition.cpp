@@ -69,7 +69,9 @@ int ShardingManager::GetHealthyNodeCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
     int count = 0;
     for (const auto& node : shard_nodes_) {
-        if (node.is_healthy) count++;
+        if (node.is_healthy) {
+          count++;
+        }
     }
     return count;
 }
@@ -150,8 +152,12 @@ std::vector<std::string> ShardingManager::GetShardsForKeyRange(
     // Find indices of start and end in the all_shards list.
     int start_idx = -1, end_idx = -1;
     for (int i = 0; i < static_cast<int>(all_shards.size()); ++i) {
-        if (all_shards[i] == start_shard) start_idx = i;
-        if (all_shards[i] == end_shard)   end_idx   = i;
+        if (all_shards[i] == start_shard) {
+          start_idx = i;
+        }
+        if (all_shards[i] == end_shard) {
+          end_idx   = i;
+        }
     }
 
     if (start_idx < 0 || end_idx < 0) {
@@ -166,7 +172,9 @@ std::vector<std::string> ShardingManager::GetShardsForKeyRange(
     int idx = start_idx;
     for (int steps = 0; steps < n; ++steps) {
         result.push_back(all_shards[idx]);
-        if (idx == end_idx) break;
+        if (idx == end_idx) {
+          break;
+        }
         idx = (idx + 1) % n;
     }
 

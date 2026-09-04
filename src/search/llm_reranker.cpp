@@ -232,7 +232,9 @@ std::vector<double> LlmReranker::parseScores(
     while (std::getline(iss, line) && scores.size() < count) {
         // Strip whitespace
         size_t start = line.find_first_not_of(" \t\r\n");
-        if (start == std::string::npos) continue;
+        if (start == std::string::npos) {
+          continue;
+        }
         line = line.substr(start);
 
         // Skip lines that don't start with a digit (e.g. "Scores:" header echo)

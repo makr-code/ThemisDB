@@ -272,7 +272,9 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults(
 
     size_t successful_shards = 0;
     for (const auto& sr : shard_results) {
-        if (sr.success) ++successful_shards;
+        if (sr.success) {
+          ++successful_shards;
+        }
         
         if (!sr.success && config_.skip_failed_shards) {
             continue;
@@ -280,7 +282,9 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults(
 
         for (size_t rank = 0; rank < sr.results.size(); ++rank) {
             const auto& r = sr.results[rank];
-            if (r.document_id.empty()) continue;
+            if (r.document_id.empty()) {
+              continue;
+            }
 
             auto& acc = doc_map[r.document_id];
             acc.appearance_count++;
@@ -446,7 +450,9 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::parseShardResponse(
 
     results.reserve(arr->size());
     for (const auto& item : *arr) {
-        if (!item.is_object()) continue;
+        if (!item.is_object()) {
+          continue;
+        }
 
         HybridSearch::Result r;
         if (item.contains("document_id") && item["document_id"].is_string()) {

@@ -926,7 +926,9 @@ Result<MaintenanceJobStatus> IndexMaintenanceManager::vectorIncrementalReindex(
         << " updated="   << stats.updated
         << " unchanged=" << stats.unchanged
         << " scanned="   << stats.total_scanned;
-    if (stats.full_rebuild_triggered) msg << " [full rebuild triggered]";
+    if (stats.full_rebuild_triggered) {
+      msg << " [full rebuild triggered]";
+    }
     status.result_summary = msg.str();
 
     THEMIS_INFO("vectorIncrementalReindex: job {} completed – {}", status.job_id, status.result_summary);

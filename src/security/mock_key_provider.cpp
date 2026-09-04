@@ -246,7 +246,9 @@ uint32_t MockKeyProvider::createKeyFromBytes(
     if (it != keys_.end() && !it->second.empty()) {
         uint32_t max_version = 0;
         for (const auto& [v, _] : it->second) {
-            if (v > max_version) max_version = v;
+            if (v > max_version) {
+              max_version = v;
+            }
         }
         new_version = max_version + 1;
     }

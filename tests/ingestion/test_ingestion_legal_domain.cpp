@@ -243,7 +243,9 @@ TEST(LegalDomainTests, LD01_GesetzParserExtractsParagraphs) {
     // Gather all paragraph nodes
     int para_count = 0;
     hier.root.traverse([&](const GesetzNode& n, int) {
-        if (n.type == GesetzNodeType::PARAGRAPH) ++para_count;
+        if (n.type == GesetzNodeType::PARAGRAPH) {
+          ++para_count;
+        }
     });
     EXPECT_GE(para_count, 3); // §1, §2, §3a
 }
@@ -330,7 +332,9 @@ TEST(LegalDomainTests, LD09_AddMappingAndFallback) {
 
     // With fallback
     mapper.setFallback([](const std::string& norm) -> std::string {
-        if (norm == "UNKNOWN-NORM-999") return "FallbackBehörde";
+        if (norm == "UNKNOWN-NORM-999") {
+          return "FallbackBehörde";
+        }
         return "";
     });
     auto fb = mapper.lookupAuthority("UNKNOWN-NORM-999");
@@ -414,7 +418,9 @@ TEST(LegalDomainTests, LD13_LinkDocumentBatchAggregates) {
     // Should find at least the tgt1 CITES match
     bool found = false;
     for (const auto& e : edges) {
-        if (e.from_id == "law:a:§1" && e.to_id == "law:a:§1") found = true;
+        if (e.from_id == "law:a:§1" && e.to_id == "law:a:§1") {
+          found = true;
+        }
     }
     EXPECT_TRUE(found);
 }

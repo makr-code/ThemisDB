@@ -27,7 +27,9 @@ DiagnosticEmitter::DiagnosticEmitter() {
 }
 
 void DiagnosticEmitter::addListener([[maybe_unused]] std::shared_ptr<DiagnosticListener> listener) {
-    if (!listener) return;
+    if (!listener) {
+      return;
+    }
     
     std::lock_guard<std::mutex> lock([[maybe_unused]] listeners_mutex_);
     listeners_.push_back([[maybe_unused]] std::move(listener));
