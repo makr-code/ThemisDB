@@ -73,7 +73,7 @@ using namespace themis::acceleration;
 namespace {
 
 struct Candidate {
-    uint32_t index;
+    uint32_t index = 0;
     float    distance;
 };
 

@@ -404,7 +404,7 @@ private:
      * Tracks which links/attachments were modified during a multi-step operation.
      */
     struct ConflictRecord {
-        uint64_t operation_id;
+        uint64_t operation_id = 0;
         std::string affected_key;
         int64_t timestamp_ms;
         uint64_t version;

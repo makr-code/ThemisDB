@@ -217,7 +217,7 @@ struct DebateInitialization {
  * Contains evaluation metrics across 5 key dimensions.
  */
 struct EthicsEvaluationResult {
-    double overall_score;               ///< Overall score (0.0-1.0)
+    double overall_score = 0;               ///< Overall score (0.0-1.0)
     double decision_quality_score;      ///< Decision quality dimension
     double consistency_score;           ///< Consistency dimension
     double fairness_score;              ///< Fairness dimension
@@ -239,7 +239,7 @@ struct EthicsEvaluationResult {
  * @brief Status/Error type for operations
  */
 struct Status {
-    bool ok;
+    bool ok = 0;
     std::string message;
     int code;
     

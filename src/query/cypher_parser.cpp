@@ -652,7 +652,7 @@ struct CypherParser::Parser {
             static constexpr int kMaxHops = 1000;
             // min
             if (check(TokenType::INT_LIT)) {
-                int hops;
+                int hops = 0;
                 try {
                     hops = std::stoi(current().value);
                 } catch (...) {
@@ -672,7 +672,7 @@ struct CypherParser::Parser {
             if (check(TokenType::DOT) && peek().type == TokenType::DOT) {
                 cursor += 2;  // consume both dots
                 if (check(TokenType::INT_LIT)) {
-                    int hops;
+                    int hops = 0;
                     try {
                         hops = std::stoi(current().value);
                     } catch (...) {
@@ -885,7 +885,7 @@ struct CypherParser::Parser {
             return std::make_shared<CypherLiteralExpr>(v);
         }
         if (check(TokenType::FLOAT_LIT)) {
-            double v;
+            double v = 0;
             try {
                 v = std::stod(current().value);
             } catch (...) {

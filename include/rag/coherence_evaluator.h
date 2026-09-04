@@ -21,7 +21,7 @@ namespace themis::rag::judge {
  * @brief Coherence evaluation result
  */
 struct CoherenceResult {
-    double coherence_score;         ///< Overall score 0-1
+    double coherence_score = 0;         ///< Overall score 0-1
     double logical_flow_score;      ///< Argument structure and transitions (30%)
     double structural_score;        ///< Organization and structure (20%)
     double linguistic_score;        ///< Grammar, clarity, readability (20%)

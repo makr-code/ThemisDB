@@ -35,7 +35,7 @@ std::vector<uint8_t> QuantizedCore::serialize() const {
         }
     };
     auto writeF32 = [&]([[maybe_unused]] float v) {
-        uint32_t u; std::memcpy(&u, &v, 4);
+        uint32_t u = 0; std::memcpy(&u, &v, 4);
         for (int i = 0; i < 4; ++i) {
           out.push_back((u >> (i*8)) & 0xFF);
         }
@@ -126,7 +126,7 @@ std::vector<uint8_t> QuantizedTrain::serialize() const {
         }
     };
     auto writeF64 = [&]([[maybe_unused]] double v) {
-        uint64_t u; std::memcpy(&u, &v, 8);
+        uint64_t u = 0; std::memcpy(&u, &v, 8);
         for (int i = 0; i < 8; ++i) {
           out.push_back((u >> (i*8)) & 0xFF);
         }
@@ -382,7 +382,7 @@ QuantizedTrain TTQuantizer::quantize(const TTTrain& train,
                 qc.mean    = 0.0f;
                 qc.data.resize(core.numElements() * 4);
                 for (std::size_t i = 0; i < core.numElements(); ++i) {
-                    uint32_t u; std::memcpy(&u, &core.data[i], 4);
+                    uint32_t u = 0; std::memcpy(&u, &core.data[i], 4);
                     for (int j = 0; j < 4; ++j)
                         qc.data[i*4+j] = static_cast<uint8_t>((u >> (j*8)) & 0xFF);
                 }

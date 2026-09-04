@@ -101,7 +101,7 @@ inline const Ellipsoid BESSEL_ELLIPSOID("Bessel 1841", 6377397.155, 299.1528128)
  * @brief UTM Zone parameters
  */
 struct UTMZone {
-    int zone;          // 1-60
+    int zone = 0;          // 1-60
     bool isNorth;      // Northern or Southern hemisphere
     double lon0;       // Central meridian in degrees
     double k0;         // Scale factor (0.9996 for UTM)

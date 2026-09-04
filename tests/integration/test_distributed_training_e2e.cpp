@@ -39,7 +39,7 @@ public:
         : shard_id_(shard_id), should_fail_(should_fail) {}
     
     struct TrainingResult {
-        double loss;
+        double loss = 0;
         int64_t timestamp_ns;
         int shard_id;
         bool success;
@@ -86,7 +86,7 @@ private:
 class MockTrainingCoordinator {
 public:
     struct AggregatedResult {
-        double global_loss;
+        double global_loss = 0;
         int successful_shards;
         int failed_shards;
         std::vector<int> failed_shard_ids;

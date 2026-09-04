@@ -116,7 +116,7 @@ public:
      * @brief Cache statistics
      */
     struct Statistics {
-        size_t current_size;
+        size_t current_size = 0;
         size_t hits;
         size_t misses;
         

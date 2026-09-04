@@ -411,7 +411,7 @@ private:
 class PerClientRateLimiter {
 public:
     struct Config {
-        size_t capacity_per_client;
+        size_t capacity_per_client = 0;
         size_t refill_rate_per_client;
         size_t max_clients;
         std::chrono::minutes cleanup_interval;

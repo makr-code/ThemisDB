@@ -604,7 +604,7 @@ GraphAnalytics::kShortestPaths(
         
         // Priority queue: (distance, current_node, path_vertices, path_edges)
         struct DijkstraState {
-            double dist;
+            double dist = 0;
             std::string node;
             std::vector<std::string> path_vertices;
             std::vector<std::pair<std::string, std::string>> path_edges;

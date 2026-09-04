@@ -28,7 +28,7 @@ namespace query {
  */
 struct ColumnHistogram {
     struct Bucket {
-        double rangeStart;
+        double rangeStart = 0;
         double rangeEnd;
         size_t frequency;
         size_t distinctValues;

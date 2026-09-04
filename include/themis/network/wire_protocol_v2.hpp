@@ -87,7 +87,7 @@ enum class V2FrameFlags : uint16_t {
 
 #pragma pack(push, 1)
 struct V2FrameHeader {
-    uint32_t magic;          ///< Must equal WIRE_V2_MAGIC
+    uint32_t magic = 0;          ///< Must equal WIRE_V2_MAGIC
     uint8_t  version;        ///< Must equal WIRE_VERSION_2
     uint8_t  frame_type;     ///< V2FrameType cast to uint8_t
     uint16_t flags;          ///< Bitfield of V2FrameFlags

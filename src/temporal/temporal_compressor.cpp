@@ -259,7 +259,7 @@ nlohmann::json TemporalCompressor::applyGorilla(
     nlohmann::json val_arr = nlohmann::json::array();
     uint64_t prev_bits = 0;
     for (size_t i = 0; i < series.size(); ++i) {
-        uint64_t bits;
+        uint64_t bits = 0;
         static_assert(sizeof(double) == sizeof(uint64_t), "");
         std::memcpy(&bits, &series[i].second, sizeof(bits));
         val_arr.push_back(bits ^ prev_bits);

@@ -422,7 +422,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
         
         // Set root constants (op=0 for add)
         struct RootConstants {
-            uint32_t size;
+            uint32_t size = 0;
             uint32_t op;      // 0=add
             uint32_t rows;
             uint32_t cols;
@@ -497,7 +497,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
         g_directx_state.context->reset_command_list();
         
         struct RootConstants {
-            uint32_t size;
+            uint32_t size = 0;
             uint32_t op;      // 2=multiply
             uint32_t rows;
             uint32_t cols;
@@ -585,7 +585,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
         g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
 
         struct RootConstants {
-            uint32_t size;
+            uint32_t size = 0;
             uint32_t op;      // 4=scalar multiply
             uint32_t rows;
             uint32_t cols;
@@ -655,7 +655,7 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
         g_directx_state.context->reset_command_list();
         
         struct RootConstants {
-            uint32_t size;
+            uint32_t size = 0;
             uint32_t op;      // 5=transpose
             uint32_t rows;
             uint32_t cols;
@@ -756,7 +756,7 @@ void launch_lora_grad_A_shader(
         
         // Set root constants
         struct RootConstants {
-            uint32_t batch_size;
+            uint32_t batch_size = 0;
             uint32_t in_dim;
             uint32_t rank;
             uint32_t out_dim;
@@ -873,7 +873,7 @@ void launch_lora_grad_B_shader(
         
         // Set root constants
         struct RootConstants {
-            uint32_t batch_size;
+            uint32_t batch_size = 0;
             uint32_t in_dim;
             uint32_t rank;
             uint32_t out_dim;
@@ -958,7 +958,7 @@ void launch_embedding_lookup_shader(
         
         // Set root constants
         struct Constants {
-            uint32_t batch_size;
+            uint32_t batch_size = 0;
             uint32_t seq_len;
             uint32_t hidden_dim;
             uint32_t vocab_size;
@@ -1046,7 +1046,7 @@ void launch_sequence_mean_shader(
         
         // Set root constants
         struct Constants {
-            uint32_t batch_size;
+            uint32_t batch_size = 0;
             uint32_t seq_len;
             uint32_t hidden_dim;
             uint32_t reserved;

@@ -291,7 +291,7 @@ TEST(FederatedPrivacyTraining, FEDERATEDBENCH01_TenNodeConvergenceVsCentralized)
     FederatedImportCoordinator::FederatedAggregator aggregator;
 
     struct Sample {
-        double x;
+        double x = 0;
         double y;
     };
 

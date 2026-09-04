@@ -131,7 +131,7 @@ private:
 class HybridLogicalClock {
 public:
     struct Timestamp {
-        uint64_t physical;  // Physical time (milliseconds since epoch)
+        uint64_t physical = 0;  // Physical time (milliseconds since epoch)
         uint32_t logical;   // Logical counter
         std::string node_id;
 
@@ -402,7 +402,7 @@ public:
     
     // Read Operations
     struct ReadResult {
-        bool success;
+        bool success = 0;
         std::string data;
         VectorClock version;
         std::string source_node;
@@ -435,7 +435,7 @@ public:
     
     // Statistics
     struct Stats {
-        uint64_t writes_total;
+        uint64_t writes_total = 0;
         uint64_t writes_replicated;
         uint64_t writes_pending;
         uint64_t conflicts_detected;

@@ -91,7 +91,7 @@ TEST(NetworkProtocolChaosTest, LatencySimulation) {
     constexpr int NUM_REQUESTS = 50;
     
     struct Request {
-        int id;
+        int id = 0;
         std::chrono::steady_clock::time_point sent_time;
         std::chrono::steady_clock::time_point received_time;
     };
@@ -182,7 +182,7 @@ TEST(NetworkProtocolChaosTest, ConnectionTimeoutHandling) {
     constexpr int TIMEOUT_MS = 100;
     
     struct Connection {
-        int id;
+        int id = 0;
         bool established;
         std::chrono::steady_clock::time_point start_time;
         std::chrono::milliseconds elapsed;
@@ -231,7 +231,7 @@ TEST(NetworkProtocolChaosTest, DataCorruptionDetection) {
     constexpr double CORRUPTION_RATE = 0.15; // 15% corruption
     
     struct Message {
-        uint32_t checksum;
+        uint32_t checksum = 0;
         std::vector<uint8_t> payload;
     };
     
@@ -381,7 +381,7 @@ TEST(NetworkProtocolChaosTest, OutOfOrderMessages) {
     constexpr int NUM_MESSAGES = 50;
     
     struct Message {
-        int sequence_number;
+        int sequence_number = 0;
         int payload;
     };
     

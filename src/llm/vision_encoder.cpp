@@ -27,12 +27,12 @@ extern "C" {
     // These would normally be in clip.h from llama.cpp
     struct clip_ctx;
     struct clip_image_u8 {
-        int nx;
+        int nx = 0;
         int ny;
         uint8_t* data;
     };
     struct clip_image_f32 {
-        int nx;
+        int nx = 0;
         int ny;
         float* data;
     };

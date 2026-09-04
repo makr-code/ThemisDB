@@ -108,7 +108,7 @@ static std::string serializeCsvRow(const CsvRow& row) {
 // ---------------------------------------------------------------------------
 
 struct ParquetCell {
-    bool     is_null;
+    bool     is_null = 0;
     int64_t  int_val;
     char     str_val[16];
 };

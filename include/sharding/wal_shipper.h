@@ -106,7 +106,7 @@ struct WALShipperStats {
  * chunks, tolerating network interruption and partial retries.
  */
 struct SnapshotChunk {
-    uint64_t snapshot_index;    ///< Identifies the snapshot this chunk belongs to
+    uint64_t snapshot_index = 0;    ///< Identifies the snapshot this chunk belongs to
     uint64_t snapshot_term;     ///< Raft term of the last entry covered by the snapshot
     uint64_t chunk_index;       ///< 0-based index of this chunk within the snapshot
     uint64_t total_chunks;      ///< Total number of chunks for this snapshot

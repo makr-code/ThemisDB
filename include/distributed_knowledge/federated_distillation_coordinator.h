@@ -66,7 +66,7 @@ struct SoftLabel {
 // ─────────────────────────────────────────────────────────────────────────────
 
 struct DistillationRound {
-    uint64_t                 round;          ///< Monotonic round counter
+    uint64_t                 round = 0;          ///< Monotonic round counter
     std::string              teacher_id;     ///< Teacher model identifier
     std::vector<SoftLabel>   labels;         ///< DP-protected soft labels
     double                   epsilon_spent;  ///< DP budget spent this round

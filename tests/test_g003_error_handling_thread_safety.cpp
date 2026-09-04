@@ -705,7 +705,7 @@ TEST(G003_ReturnValueChecks, RVC02_BooleanReturnCodeChecked) {
  */
 TEST(G003_ReturnValueChecks, RVC03_NullPointerGuardBeforeDereference) {
     struct Node {
-        int value;
+        int value = 0;
         std::shared_ptr<Node> next;
     };
 

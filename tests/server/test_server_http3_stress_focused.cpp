@@ -117,12 +117,12 @@ public:
 
 /// Stub retransmit simulator: injects packet loss and measures completion time
 struct RetransmitSimulator {
-    double   loss_rate;          ///< 0.0–1.0 fraction of packets dropped
+    double   loss_rate = 0;          ///< 0.0–1.0 fraction of packets dropped
     uint32_t base_rtt_ms;        ///< base round-trip time (ms)
     uint32_t max_retransmits;    ///< maximum retransmit attempts before giving up
 
     struct Result {
-        bool     completed;
+        bool     completed = 0;
         uint64_t observed_latency_ms;
     };
 

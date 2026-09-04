@@ -250,7 +250,7 @@ TEST_P(QueryAcceleratorParityTest, SortDescending_Parity) {
 // ============================================================================
 
 struct AggParityParam {
-    size_t   n;
+    size_t   n = 0;
     AggFunc  func;
 };
 
@@ -365,7 +365,7 @@ TEST_P(QueryAcceleratorParityTest, HashJoin_NoMatch_Parity) {
 // ============================================================================
 
 struct DotParityParam {
-    size_t        n;
+    size_t        n = 0;
     PrecisionMode prec;
 };
 

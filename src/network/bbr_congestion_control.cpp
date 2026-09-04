@@ -30,7 +30,7 @@
 // BBR congestion-control info structure (kernel 4.9+).
 // Not exposed by glibc; defined locally using standard integer types.
 struct tcp_bbr_info {
-    uint32_t bbr_bw_lo;       ///< Bandwidth estimate lower 32 bits (bytes/s)
+    uint32_t bbr_bw_lo = 0;       ///< Bandwidth estimate lower 32 bits (bytes/s)
     uint32_t bbr_bw_hi;       ///< Bandwidth estimate upper 32 bits (bytes/s)
     uint32_t bbr_min_rtt;     ///< Min-RTT estimate (microseconds)
     uint32_t bbr_pacing_gain; ///< Pacing gain (scaled by 2^8)

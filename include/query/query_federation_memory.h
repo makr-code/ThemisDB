@@ -86,7 +86,7 @@ public:
      * @brief Result batch with metadata
      */
     struct ResultBatch {
-        size_t batch_number;
+        size_t batch_number = 0;
         uint64_t size_bytes;
         std::string shard_id;
         std::chrono::steady_clock::time_point timestamp;

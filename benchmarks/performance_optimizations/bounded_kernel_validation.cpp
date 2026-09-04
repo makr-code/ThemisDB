@@ -221,7 +221,7 @@ TEST_F(BoundedKernelValidationTest, GeoDistanceInputValidationGate) {
     // ✅ Error code returned for invalid input
 
     struct LatLon {
-        float latitude;
+        float latitude = 0;
         float longitude;
     };
 
@@ -333,7 +333,7 @@ TEST_F(BoundedKernelValidationTest, ACLEnforcementAlwaysCPU) {
     // ✅ Security boundary maintained
 
     struct Node {
-        uint64_t id;
+        uint64_t id = 0;
     };
 
     // CPU-only ACL check
@@ -364,7 +364,7 @@ TEST_F(BoundedKernelValidationTest, ProvenanceChainDeterminism) {
     // ✅ No GPU parallelization that would lose order
 
     struct Edge {
-        uint64_t from;
+        uint64_t from = 0;
         uint64_t to;
         int timestamp;
     };
@@ -473,7 +473,7 @@ TEST_F(BoundedKernelValidationTest, PolicyACLBypassPrevention) {
     // ✅ Unauthorized data never appears in results
 
     struct Node {
-        uint64_t id;
+        uint64_t id = 0;
     };
 
     std::vector<Node> acl_denied = {Node{1}, Node{3}, Node{5}};

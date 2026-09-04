@@ -93,7 +93,7 @@ constexpr size_t MAX_PENDING_PREDICTIONS = 4096;
 class IntelligentPrefetcher::Impl {
 public:
     struct AccessEntry {
-        uint64_t address;
+        uint64_t address = 0;
         uint64_t timestamp;
     };
 

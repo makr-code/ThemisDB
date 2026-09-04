@@ -28,13 +28,13 @@
 namespace {
 
 struct CpuSample {
-    double elapsed_s;
+    double elapsed_s = 0;
     double ops_per_s;
     std::uint64_t ops;
 };
 
 struct CpuFeatures {
-    bool sse42;
+    bool sse42 = 0;
     bool avx;
     bool avx2;
     bool avx512f;
@@ -46,7 +46,7 @@ struct CpuFeatures {
 };
 
 struct StreamSample {
-    double copy_gb_s;
+    double copy_gb_s = 0;
     double scale_gb_s;
     double add_gb_s;
     double triad_gb_s;
@@ -105,7 +105,7 @@ double sampleMemoryCopyMBs(std::size_t sizeMB, int iterations) {
 }
 
 struct DiskSample {
-    double write_mb_s;
+    double write_mb_s = 0;
     double read_mb_s;
     double random_read_iops;
     double random_write_iops;
@@ -133,7 +133,7 @@ struct CapabilityTier {
 };
 
 struct TransferSample {
-    bool available;
+    bool available = 0;
     double host_to_vram_gb_s;
     double vram_to_host_gb_s;
     double cpu_to_gpu_dispatch_us;

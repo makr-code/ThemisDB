@@ -40,7 +40,7 @@ using json = nlohmann::json;
 
 /// Histogram bucket for value distribution analysis
 struct HistogramBucket {
-    double lower_bound;     ///< Lower bound (inclusive)
+    double lower_bound = 0;     ///< Lower bound (inclusive)
     double upper_bound;     ///< Upper bound (exclusive)
     size_t frequency;       ///< Number of values in this bucket
 

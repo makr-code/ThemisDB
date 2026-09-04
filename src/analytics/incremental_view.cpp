@@ -374,7 +374,7 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
     // passesBaseFilters() only reads def_ (immutable after construction) and
     // the caller-supplied const rows — no synchronisation required.
     struct PreFiltered {
-        size_t index;
+        size_t index = 0;
         bool before_passes;
         bool after_passes;
     };

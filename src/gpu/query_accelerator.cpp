@@ -93,7 +93,7 @@ constexpr auto kGpuDispatchTimeout = std::chrono::seconds(5);
 
 /// Encode a float32 to IEEE 754 FP16 bits ([[maybe_unused]] uint16_t).
 static uint16_t fp32_to_fp16([[maybe_unused]] float f) noexcept {
-    uint32_t bits;
+    uint32_t bits = 0;
     std::memcpy(&bits, &f, 4);
     const uint32_t sign   = (bits >> 31) & 0x1u;
     const int32_t exp32   = static_cast<int32_t>((bits >> 23) & 0xFFu) - 127;
@@ -173,7 +173,7 @@ static float quantise_fp16([[maybe_unused]] float f) noexcept {
 
 /// Encode a float32 to BF16 bits ([[maybe_unused]] uint16_t) — top 16 bits of FP32 with RNE.
 static uint16_t fp32_to_bf16([[maybe_unused]] float f) noexcept {
-    uint32_t bits;
+    uint32_t bits = 0;
     std::memcpy(&bits, &f, 4);
     // Round to nearest even
     bits += 0x7FFFu + ((bits >> 16) & 1u);

@@ -235,7 +235,7 @@ TEST_F(DistributedSearchEdgeCasesTest, DIS_12_ShardStateTransitionConsistency) {
 
 TEST_F(DistributedSearchEdgeCasesTest, DIS_13_ConcurrentShardQueryIsolation) {
   struct QueryContext {
-    int query_id;
+    int query_id = 0;
     int shard_id;
   };
 

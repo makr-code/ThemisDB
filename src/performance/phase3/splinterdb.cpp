@@ -23,7 +23,7 @@ namespace phase3 {
 
 // Task queue for compaction work
 struct CompactionTask {
-    int level;
+    int level = 0;
     std::function<void()> fn;
 };
 

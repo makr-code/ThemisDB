@@ -379,7 +379,7 @@ public:
      * @brief Structure representing an audit log entry with metadata
      */
     struct AuditLogEntry {
-        uint64_t entry_number;                              // Sequential entry number
+        uint64_t entry_number = 0;                              // Sequential entry number
         std::chrono::system_clock::time_point timestamp;    // Entry timestamp
         nlohmann::json record;                              // Full JSON record
     };

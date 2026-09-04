@@ -68,7 +68,7 @@ std::unordered_map<std::string, std::string> splitClauses(const std::string &nor
     // Build a single pattern that matches any clause keyword at a word boundary.
     // We need to find the offsets of each keyword to extract text slices.
     struct Match {
-        size_t pos;
+        size_t pos = 0;
         std::string keyword;
     };
     std::vector<Match> matches;

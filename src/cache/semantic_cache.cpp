@@ -290,7 +290,7 @@ uint64_t SemanticCache::clearExpired() {
         // clamp an underflow.  Relaxed ordering is safe: entry_count_ is used
         // for statistics only, not for memory ordering between other variables.
         uint64_t expected = entry_count_.load(std::memory_order_relaxed);
-        uint64_t desired;
+        uint64_t desired = 0;
         do {
             desired = (expected >= removed) ? expected - removed : 0u;
         } while (!entry_count_.compare_exchange_weak(expected, desired, std::memory_order_relaxed,

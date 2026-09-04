@@ -38,7 +38,7 @@ struct QueryPlan {
 
 /// Query execution result
 struct QueryResult {
-    double execution_time_ms;
+    double execution_time_ms = 0;
     size_t rows_returned;
     bool success;
 };
@@ -60,7 +60,7 @@ public:
     
     // Get optimizer statistics
     struct Stats {
-        size_t queries_optimized;
+        size_t queries_optimized = 0;
         double avg_speedup;
         size_t model_updates;
     };

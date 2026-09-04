@@ -249,7 +249,7 @@ void UDPServer::handleDatagram(udp::endpoint sender, std::vector<uint8_t> data) 
 
         // Send RATE_LIMITED ACK if we can read a seq_num
         if (data.size() >= kUdpServerHeaderSize) {
-            uint32_t seq_be;
+            uint32_t seq_be = 0;
             std::memcpy(&seq_be, data.data() + 4, 4);
             sendAck(sender, ntohl(seq_be), UdpServerStatus::RATE_LIMITED);
         }

@@ -53,7 +53,7 @@ struct GroundTruthAnnotation {
  * @brief Calibration metrics
  */
 struct CalibrationMetrics {
-    double expected_calibration_error;  ///< ECE
+    double expected_calibration_error = 0;  ///< ECE
     double brier_score;                 ///< Brier score
     double correlation;                 ///< Correlation with ground truth
     double mae;                         ///< Mean absolute error

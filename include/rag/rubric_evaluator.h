@@ -22,7 +22,7 @@ namespace themis::rag::judge {
  * @brief Score level in a rubric
  */
 struct RubricLevel {
-    int score;                    ///< Numeric score (1-5)
+    int score = 0;                    ///< Numeric score (1-5)
     std::string description;      ///< Level description
     std::vector<std::string> examples;  ///< Example indicators
     std::vector<std::string> criteria;  ///< Specific criteria
@@ -56,7 +56,7 @@ struct EvaluationRubric {
  * @brief Rubric-based evaluation result
  */
 struct RubricEvaluationResult {
-    double overall_score;  ///< 0-1 normalized from 1-5 scale
+    double overall_score = 0;  ///< 0-1 normalized from 1-5 scale
     std::unordered_map<std::string, double> dimension_scores;
     std::unordered_map<std::string, int> dimension_levels;  ///< 1-5 level per dimension
     std::unordered_map<std::string, std::string> dimension_reasoning;

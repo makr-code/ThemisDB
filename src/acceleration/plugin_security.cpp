@@ -72,7 +72,7 @@ using json = nlohmann::json;
 namespace {
 
 struct RevocationCacheEntry {
-    bool is_revoked;
+    bool is_revoked = 0;
     std::chrono::system_clock::time_point expires_at;
 };
 

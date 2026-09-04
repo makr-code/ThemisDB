@@ -333,7 +333,7 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
     decoded.reserve(num_indices);
 
     for (size_t i = 0; i < num_indices; ++i) {
-        uint32_t idx;
+        uint32_t idx = 0;
         std::memcpy(&idx, &encoded[pos], sizeof(uint32_t));
         pos += sizeof(uint32_t);
 
@@ -648,7 +648,7 @@ Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint
         }
     } else if (bits_required <= 32) {
         for (uint32_t i = 0; i < count && pos + sizeof(uint32_t) <= encoded.size(); ++i) {
-            uint32_t normalized;
+            uint32_t normalized = 0;
             std::memcpy(&normalized, &encoded[pos], sizeof(uint32_t));
             pos += sizeof(uint32_t);
             decoded.push_back(static_cast<int64_t>(normalized) + min_val);

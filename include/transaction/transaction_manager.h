@@ -744,7 +744,7 @@ public:
     
     // Statistics
     struct Stats {
-        uint64_t total_begun;
+        uint64_t total_begun = 0;
         uint64_t total_committed;
         uint64_t total_aborted;
         uint64_t total_timed_out;  ///< Transactions rolled back due to timeout

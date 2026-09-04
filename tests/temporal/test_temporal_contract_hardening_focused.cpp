@@ -61,7 +61,7 @@ static constexpr uint64_t kTemporalContractSeed = 42;
 // ============================================================================
 
 struct BiTemporalRow {
-    int         id;
+    int         id = 0;
     std::int64_t valid_start;
     std::int64_t valid_end;   // kTemporalOpenEnd for open interval
     std::int64_t tx_time;

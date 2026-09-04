@@ -523,7 +523,7 @@ public:
             
             // Set push constants
             struct PushConstants {
-                uint32_t numQueries;
+                uint32_t numQueries = 0;
                 uint32_t numVectors;
                 uint32_t dimension;
             } pushConstants = {
@@ -699,7 +699,7 @@ public:
                 lastBoundDistanceBuffer_);
 
             struct PushConstants {
-                uint32_t numQueries;
+                uint32_t numQueries = 0;
                 uint32_t numVectors;
                 uint32_t dimension;
             } pushConstants = {

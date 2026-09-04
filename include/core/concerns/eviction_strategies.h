@@ -151,7 +151,7 @@ public:
 
 private:
     struct FrequencyData {
-        uint64_t count;
+        uint64_t count = 0;
         uint64_t last_access_ms;
     };
 

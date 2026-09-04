@@ -320,7 +320,7 @@ public:
     void clearAnomalies();
 
     struct WindowStats {
-        size_t window_size;     ///< current window size (may be < config window_size during warm-up)
+        size_t window_size = 0;     ///< current window size (may be < config window_size during warm-up)
         size_t anomaly_count;
         double anomaly_rate;
         bool   trained;

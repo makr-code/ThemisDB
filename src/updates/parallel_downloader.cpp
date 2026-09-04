@@ -230,7 +230,7 @@ void ParallelDownloader::refillTokens([[maybe_unused]] uint64_t /*bytes_needed*/
         // Cap at 2× the per-100ms slice to avoid burst accumulation
         const uint64_t max_tokens = bandwidth_limit_bps_ / 5;
         uint64_t current = token_bucket_.load(std::memory_order_relaxed);
-        uint64_t refilled;
+        uint64_t refilled = 0;
         do {
             refilled = std::min(current + new_tokens, max_tokens);
         } while (!token_bucket_.compare_exchange_weak(

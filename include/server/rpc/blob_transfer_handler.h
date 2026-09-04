@@ -60,7 +60,7 @@ struct BlobConfig {
 
 // Progress information for blob transfer
 struct BlobProgress {
-    uint64_t total_bytes;
+    uint64_t total_bytes = 0;
     uint64_t transferred_bytes;
     uint32_t total_chunks;
     uint32_t transferred_chunks;

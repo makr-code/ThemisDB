@@ -773,7 +773,7 @@ public:
         bool has_z2 = args[1]["coordinates"].size() >= 3;
         bool use_3d = has_z1 && has_z2;
         
-        double distance;
+        double distance = 0;
         if (!use_3d && geo_helpers::looksLikeDegrees(x1, y1) && geo_helpers::looksLikeDegrees(x2, y2)) {
             distance = geo_helpers::haversineDistance(x1, y1, x2, y2);
         } else if (use_3d) {

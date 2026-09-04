@@ -101,7 +101,7 @@ using NodePtr = std::unique_ptr<Node>;
 
 /** Tree node (internal or leaf). */
 struct Node {
-    bool is_leaf;
+    bool is_leaf = 0;
 
     // ── Internal-node fields ──────────────────────────────────────────
     // pivot_keys[i] is the smallest key in child[i+1].

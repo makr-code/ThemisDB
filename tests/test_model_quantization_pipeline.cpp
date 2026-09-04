@@ -24,7 +24,7 @@ namespace {
 // Convert float → FP16 (uint16_t)
 uint16_t fp32_to_fp16(float v)
 {
-    uint32_t bits;
+    uint32_t bits = 0;
     std::memcpy(&bits, &v, 4);
     const uint16_t sign = (bits >> 16) & 0x8000;
     const int exp  = static_cast<int>((bits >> 23) & 0xFF) - 127 + 15;

@@ -42,7 +42,7 @@ enum class GeometryType : uint32_t {
 
 // 2D/3D Coordinate
 struct Coordinate {
-    double x;
+    double x = 0;
     double y;
     std::optional<double> z;  // For 3D geometries
     

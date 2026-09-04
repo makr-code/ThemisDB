@@ -49,7 +49,7 @@ public:
     };
 
     struct AddResult {
-        bool     success;
+        bool     success = 0;
         bool     budget_truncated;     ///< True if turns were evicted to fit
         bool     turns_truncated;      ///< True if max_turns limit was hit
         uint32_t evicted_turns;

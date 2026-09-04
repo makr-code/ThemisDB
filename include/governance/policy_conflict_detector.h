@@ -106,7 +106,7 @@ struct PrecedenceEvaluation {
  * @brief Result of atomic update validation
  */
 struct AtomicUpdateResult {
-    bool success;                             ///< Whether update succeeded
+    bool success = 0;                             ///< Whether update succeeded
     std::string transaction_id;               ///< Transaction identifier
     std::vector<PolicyConflict> conflicts_detected; ///< Any conflicts found
     std::string error_message;                ///< Error details if failed

@@ -61,7 +61,7 @@ static constexpr uint64_t kIngestionContractSeed = 42;
 // Mock row
 // ---------------------------------------------------------------------------
 struct MockRow {
-    int         index;
+    int         index = 0;
     std::string value;
     bool        schema_valid = true;
 };

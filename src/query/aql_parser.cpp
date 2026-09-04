@@ -1579,7 +1579,7 @@ private:
             return std::make_shared<LiteralExpr>(value);
         }
         if (match(TokenType::FLOAT)) {
-            double value;
+            double value = 0;
             try { value = std::stod(current().value); }
             catch (...) {
                 THEMIS_WARN("aql_parser: unhandled exception caught");

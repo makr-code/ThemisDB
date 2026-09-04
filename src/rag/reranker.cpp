@@ -410,7 +410,7 @@ RerankResult CrossEncoderReranker::rerank(
 
     // ── Score all candidates ─────────────────────────────────────────────────
     struct ScoredCandidate {
-        double relevance;
+        double relevance = 0;
         size_t original_idx;
     };
     std::vector<ScoredCandidate> scored;

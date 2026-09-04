@@ -275,17 +275,17 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
         const uint8_t v_major = d[pos] >> 5;
 
         auto readInt = [&]() -> int64_t {
-            uint64_t v;
+            uint64_t v = 0;
             pos = cborReadArg(d, pos, v);
             return static_cast<int64_t>(v);
         };
         auto readNegInt = [&]() -> int64_t {
-            uint64_t v;
+            uint64_t v = 0;
             pos = cborReadArg(d, pos, v);
             return -1 - static_cast<int64_t>(v);
         };
         auto readBytes = [&]() -> std::vector<uint8_t> {
-            uint64_t vlen;
+            uint64_t vlen = 0;
             pos = cborReadArg(d, pos, vlen);
             if (pos + vlen > d.size()) {
                 throw std::runtime_error("CBOR: byte value out of bounds");

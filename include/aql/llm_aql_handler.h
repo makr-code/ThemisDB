@@ -585,7 +585,7 @@ public:
      * score = -1.0 indicating that scoring is unavailable.
      */
     struct QueryConfidenceScore {
-        float                    score;       ///< 0.0 (worst) to 1.0 (best); -1.0 = unavailable
+        float                    score = 0;       ///< 0.0 (worst) to 1.0 (best); -1.0 = unavailable
         std::string              explanation; ///< Why this score was assigned
         std::vector<std::string> suggestions; ///< Concrete improvement suggestions
     };

@@ -250,9 +250,9 @@ static void passkeyCborParseCoseKey(const std::vector<uint8_t>& d, size_t pos, P
         const uint8_t k_major   = k_initial >> 5;
         int64_t k{0};
         if (k_major == 0) {
-            uint64_t v; pos = passkeyCborReadArg(d, pos, v); k = static_cast<int64_t>(v);
+            uint64_t v = 0; pos = passkeyCborReadArg(d, pos, v); k = static_cast<int64_t>(v);
         } else if (k_major == 1) {
-            uint64_t v; pos = passkeyCborReadArg(d, pos, v); k = -1 - static_cast<int64_t>(v);
+            uint64_t v = 0; pos = passkeyCborReadArg(d, pos, v); k = -1 - static_cast<int64_t>(v);
         } else {
             pos = passkeyCborSkip(d, pos); pos = passkeyCborSkip(d, pos); continue;
         }
@@ -263,13 +263,13 @@ static void passkeyCborParseCoseKey(const std::vector<uint8_t>& d, size_t pos, P
         const uint8_t v_major = d[pos] >> 5;
 
         auto readInt = [&]() -> int64_t {
-            uint64_t v; pos = passkeyCborReadArg(d, pos, v); return static_cast<int64_t>(v);
+            uint64_t v = 0; pos = passkeyCborReadArg(d, pos, v); return static_cast<int64_t>(v);
         };
         auto readNegInt = [&]() -> int64_t {
-            uint64_t v; pos = passkeyCborReadArg(d, pos, v); return -1 - static_cast<int64_t>(v);
+            uint64_t v = 0; pos = passkeyCborReadArg(d, pos, v); return -1 - static_cast<int64_t>(v);
         };
         auto readBytes = [&]() -> std::vector<uint8_t> {
-            uint64_t vlen; pos = passkeyCborReadArg(d, pos, vlen);
+            uint64_t vlen = 0; pos = passkeyCborReadArg(d, pos, vlen);
             if (pos + vlen > d.size()) {
               throw std::runtime_error("CBOR: byte value OOB");
             }

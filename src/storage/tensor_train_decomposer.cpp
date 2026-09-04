@@ -128,12 +128,12 @@ std::vector<uint8_t> TTTrain::serialize() const {
             out.push_back(static_cast<uint8_t>((v >> (i*8)) & 0xFF));
     };
     auto writeF32 = [&]([[maybe_unused]] float v) {
-        uint32_t u; std::memcpy(&u, &v, 4);
+        uint32_t u = 0; std::memcpy(&u, &v, 4);
         for (int i = 0; i < 4; ++i)
             out.push_back(static_cast<uint8_t>((u >> (i*8)) & 0xFF));
     };
     auto writeF64 = [&]([[maybe_unused]] double v) {
-        uint64_t u; std::memcpy(&u, &v, 8);
+        uint64_t u = 0; std::memcpy(&u, &v, 8);
         writeU64(u);
     };
 

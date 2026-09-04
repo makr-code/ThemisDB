@@ -120,7 +120,7 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
 
     // Also hash core norms
     for (std::size_t k = 0; k < fp.core_norms.size(); ++k) {
-        uint32_t quantised_norm;
+        uint32_t quantised_norm = 0;
         float scaled   = fp.core_norms[k] / (fp.total_norm > 1e-6f ? fp.total_norm : 1.0f);
         scaled         = std::max(0.0f, std::min(1.0f, scaled));
         quantised_norm = static_cast<uint32_t>(scaled * 65535.0f);

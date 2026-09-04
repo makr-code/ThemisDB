@@ -60,7 +60,7 @@ class RouteVersionRouter {
 public:
     /// Result of path normalization: API major version (1, 2, …) and canonical path.
     struct NormalizedPath {
-        int     version;        ///< Extracted major version, or 0 if unversioned.
+        int     version = 0;        ///< Extracted major version, or 0 if unversioned.
         std::string path;       ///< Canonical path (prefix stripped; never empty).
     };
 

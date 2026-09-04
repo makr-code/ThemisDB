@@ -187,7 +187,7 @@ public:
 
 private:
     struct Entry {
-        uint64_t    seq;
+        uint64_t    seq = 0;
         std::string payload;
     };
 

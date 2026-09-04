@@ -47,7 +47,7 @@ struct MockCollectionSchema {
 class MockSchemaValidator {
 public:
     struct ValidationResult {
-        bool success;
+        bool success = 0;
         std::string error_category;   // One of: MalformedAQL, SchemaMismatch, TypeMismatch, ...
         std::string error_message;
         std::string schema_field;     // Field involved (if applicable)

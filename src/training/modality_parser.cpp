@@ -210,7 +210,7 @@ static std::vector<std::string> splitSentences(const std::string& text) {
 // ============================================================================
 
 struct TableBlock {
-    size_t first_line;   ///< First line index (inclusive)
+    size_t first_line = 0;   ///< First line index (inclusive)
     size_t last_line;    ///< Last line index (inclusive)
     std::string content; ///< Raw table text
 };

@@ -382,7 +382,7 @@ TEST(ConcurrencyRaceTest, LockFreeStackOperations) {
     constexpr int PUSH_OPS = 200;
     
     struct Node {
-        int value;
+        int value = 0;
         std::atomic<Node*> next;
         Node(int v) : value(v), next(nullptr) {}
     };

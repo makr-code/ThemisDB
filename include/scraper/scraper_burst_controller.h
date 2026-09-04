@@ -158,7 +158,7 @@ private:
         // CAS loop: add tokens without clobbering concurrent decrements from
         // tryAcquire().  Saturates at max_tokens_ to prevent over-filling.
         uint32_t current = current_tokens_.load(std::memory_order_acquire);
-        uint32_t updated;
+        uint32_t updated = 0;
         do {
             updated = (added >= max_tokens_ - current) ? max_tokens_
                                                        : current + added;

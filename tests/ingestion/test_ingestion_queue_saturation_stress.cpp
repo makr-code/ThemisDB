@@ -44,7 +44,7 @@ using namespace std::chrono_literals;
 namespace themis::ingestion {
 
 struct TestItem {
-    int id;
+    int id = 0;
     std::string data;
     std::vector<char> payload;
 

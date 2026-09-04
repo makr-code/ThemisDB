@@ -193,7 +193,7 @@ public:
     // -----------------------------------------------------------------
 
     struct Stats {
-        size_t total_queries;
+        size_t total_queries = 0;
         double avg_execution_time_ms;
         double avg_cost_ratio;           ///< estimated/actual; 1.0 = perfect
         double p50_execution_time_ms;

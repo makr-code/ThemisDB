@@ -147,7 +147,7 @@ THEMIS_STATIC_ASSERT_SIZE(Vec16f, 64);
  * accessed by multiple threads. Cache-line alignment prevents false sharing.
  */
 struct alignas(64) BatchMetadata {
-    uint64_t batch_id;           // 8 bytes
+    uint64_t batch_id = 0;           // 8 bytes
     uint32_t num_items;          // 4 bytes
     uint32_t processed_items;    // 4 bytes
     std::atomic<uint64_t> timestamp;  // 8 bytes
@@ -171,7 +171,7 @@ THEMIS_STATIC_ASSERT_SIZE(BatchMetadata, 64);
  * @return Safely parsed header
  */
 struct PacketHeader {
-    uint32_t magic;
+    uint32_t magic = 0;
     uint32_t length;
     uint64_t timestamp;
 };
@@ -292,7 +292,7 @@ inline bool process_vectors(void* data, size_t count) {
  * Static assertions catch layout changes during development
  */
 struct FileHeader {
-    uint32_t magic;        // 4 bytes
+    uint32_t magic = 0;        // 4 bytes
     uint32_t version;      // 4 bytes
     uint64_t file_size;    // 8 bytes
     uint64_t timestamp;    // 8 bytes

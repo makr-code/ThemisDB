@@ -92,7 +92,7 @@ public:
     };
     
     struct Bucket {
-        double tokens;
+        double tokens = 0;
         std::chrono::steady_clock::time_point last_refill;
         size_t capacity;
         size_t refill_rate;

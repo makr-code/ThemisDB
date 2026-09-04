@@ -106,7 +106,7 @@ WASMKernelSandbox::execute(const std::string&          kernel_id,
     // Read the limit under the lock, then release before calling recordResult()
     // (which also acquires the mutex) to avoid self-deadlock.
     {
-        uint64_t limit;
+        uint64_t limit = 0;
         {
             std::lock_guard<std::mutex> lock(mutex_);
             limit = config_.memory_limit_bytes;

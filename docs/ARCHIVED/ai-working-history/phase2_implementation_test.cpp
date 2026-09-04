@@ -62,7 +62,7 @@ public:
 // ─────────────────────────────────────────────────────────────────────────────
 
 struct TransactionContext {
-    uint64_t txn_id;
+    uint64_t txn_id = 0;
     std::string model_id;
     int64_t start_time_ms;
     int revision_at_start;

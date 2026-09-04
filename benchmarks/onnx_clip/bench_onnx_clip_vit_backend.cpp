@@ -212,13 +212,13 @@ public:
         
         // Phase 1: Cold
         for (int i = 0; i < kWarmupIterationsCold; ++i) {
-            double _;
+            double _ = 0;
             model_->encodeBatch(MockOnnxClipBackendModel::Backend::kCPU, batch_size, _);
         }
         
         // Phase 2: Warm
         for (int i = 0; i < kWarmupIterationsWarm; ++i) {
-            double _;
+            double _ = 0;
             model_->encodeBatch(MockOnnxClipBackendModel::Backend::kCPU, batch_size, _);
         }
         
@@ -353,7 +353,7 @@ BENCHMARK_F(OnnxClipBackendThroughputFixture, BM_Throughput_ViTB32_CUDA_Batch64)
     const int batch_size = 64;
     
     for (auto _ : state) {
-        double elapsed_sec;
+        double elapsed_sec = 0;
         int throughput = model_->encodeBatch(
             MockOnnxClipBackendModel::Backend::kCUDA,
             batch_size,
@@ -379,7 +379,7 @@ BENCHMARK_F(OnnxClipBackendThroughputFixture, BM_Throughput_ViTB32_CPU_Batch16)
     const int batch_size = 16;
     
     for (auto _ : state) {
-        double elapsed_sec;
+        double elapsed_sec = 0;
         int throughput = model_->encodeBatch(
             MockOnnxClipBackendModel::Backend::kCPU,
             batch_size,
@@ -488,7 +488,7 @@ BENCHMARK_REGISTER_F(OnnxClipBatchSplittingFixture, BM_BatchSplitting_Performanc
 BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch1)
     (benchmark::State& state) {
     for (auto _ : state) {
-        double elapsed_sec;
+        double elapsed_sec = 0;
         int throughput = model_->encodeBatch(
             MockOnnxClipBackendModel::Backend::kCPU,
             1,
@@ -513,7 +513,7 @@ BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_
 BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch8)
     (benchmark::State& state) {
     for (auto _ : state) {
-        double elapsed_sec;
+        double elapsed_sec = 0;
         int throughput = model_->encodeBatch(
             MockOnnxClipBackendModel::Backend::kCPU,
             8,
@@ -538,7 +538,7 @@ BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_
 BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch16)
     (benchmark::State& state) {
     for (auto _ : state) {
-        double elapsed_sec;
+        double elapsed_sec = 0;
         int throughput = model_->encodeBatch(
             MockOnnxClipBackendModel::Backend::kCPU,
             16,
@@ -563,7 +563,7 @@ BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_
 BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch32)
     (benchmark::State& state) {
     for (auto _ : state) {
-        double elapsed_sec;
+        double elapsed_sec = 0;
         int throughput = model_->encodeBatch(
             MockOnnxClipBackendModel::Backend::kCPU,
             32,
@@ -588,7 +588,7 @@ BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_
 BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch64)
     (benchmark::State& state) {
     for (auto _ : state) {
-        double elapsed_sec;
+        double elapsed_sec = 0;
         int throughput = model_->encodeBatch(
             MockOnnxClipBackendModel::Backend::kCPU,
             64,
@@ -613,7 +613,7 @@ BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_
 BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch1)
     (benchmark::State& state) {
     for (auto _ : state) {
-        double elapsed_sec;
+        double elapsed_sec = 0;
         int throughput = model_->encodeBatch(
             MockOnnxClipBackendModel::Backend::kCUDA,
             1,
@@ -638,7 +638,7 @@ BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA
 BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch8)
     (benchmark::State& state) {
     for (auto _ : state) {
-        double elapsed_sec;
+        double elapsed_sec = 0;
         int throughput = model_->encodeBatch(
             MockOnnxClipBackendModel::Backend::kCUDA,
             8,
@@ -663,7 +663,7 @@ BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA
 BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch16)
     (benchmark::State& state) {
     for (auto _ : state) {
-        double elapsed_sec;
+        double elapsed_sec = 0;
         int throughput = model_->encodeBatch(
             MockOnnxClipBackendModel::Backend::kCUDA,
             16,
@@ -688,7 +688,7 @@ BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA
 BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch32)
     (benchmark::State& state) {
     for (auto _ : state) {
-        double elapsed_sec;
+        double elapsed_sec = 0;
         int throughput = model_->encodeBatch(
             MockOnnxClipBackendModel::Backend::kCUDA,
             32,
@@ -713,7 +713,7 @@ BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA
 BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch64)
     (benchmark::State& state) {
     for (auto _ : state) {
-        double elapsed_sec;
+        double elapsed_sec = 0;
         int throughput = model_->encodeBatch(
             MockOnnxClipBackendModel::Backend::kCUDA,
             64,

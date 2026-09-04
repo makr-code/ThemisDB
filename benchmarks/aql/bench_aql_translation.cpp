@@ -128,7 +128,7 @@ private:
 class MockAQLValidator {
 public:
     struct ValidationResult {
-        bool   valid;
+        bool   valid = 0;
         std::string error_msg;
     };
 

@@ -748,7 +748,7 @@ public:
 private:
     // Per-connection state
     struct ConnectionState {
-        uint64_t connection_id;
+        uint64_t connection_id = 0;
         std::atomic<uint8_t> priority{static_cast<uint8_t>(Priority::MEDIUM)};
 
         mutable std::mutex token_bucket_mutex;  // protects token_bucket

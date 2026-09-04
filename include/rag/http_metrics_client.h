@@ -37,7 +37,7 @@ enum class HTTPMethod {
  * @brief HTTP response
  */
 struct HTTPResponse {
-    int status_code;                  ///< HTTP status code
+    int status_code = 0;                  ///< HTTP status code
     std::string body;                 ///< Response body
     std::unordered_map<std::string, std::string> headers;  ///< Response headers
     bool success;                     ///< Whether request succeeded

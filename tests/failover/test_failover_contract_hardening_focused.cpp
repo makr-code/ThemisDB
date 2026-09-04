@@ -115,7 +115,7 @@ static int countLeaders(const std::vector<MockNode>& nodes) {
 // ---------------------------------------------------------------------------
 
 struct MockRequest {
-    int   id;
+    int   id = 0;
     bool  completed = false;
     bool  retried   = false;
 };

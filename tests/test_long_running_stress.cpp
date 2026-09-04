@@ -272,7 +272,7 @@ TEST(LongRunningStressTest, ResourceCleanupUnderErrors) {
     constexpr int ITERATIONS = 50;
     
     struct Resource {
-        int id;
+        int id = 0;
         std::atomic<bool> is_open{true};
         
         explicit Resource(int i) : id(i) {}
@@ -389,7 +389,7 @@ TEST(LongRunningStressTest, PerformanceDegradationUnderLoad) {
     constexpr int OPERATIONS_PER_LEVEL = 50;
     
     struct LoadLevel {
-        int thread_count;
+        int thread_count = 0;
         double avg_latency_ms;
     };
     

@@ -62,7 +62,7 @@ static constexpr uint64_t kImportersContractSeed = 42;
 // Mock row
 // ---------------------------------------------------------------------------
 struct MockRow {
-    int                                    index;
+    int                                    index = 0;
     std::map<std::string, std::string>     fields;
     bool                                   valid = true;
 };

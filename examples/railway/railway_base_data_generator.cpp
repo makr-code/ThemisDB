@@ -47,7 +47,7 @@ using json = nlohmann::json;
 // ============================================================================
 
 struct GeoPoint {
-    double lat;
+    double lat = 0;
     double lon;
     double altitude;
 };

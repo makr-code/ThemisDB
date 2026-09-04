@@ -2706,7 +2706,7 @@ namespace {
         result.reserve(str.size());
         for (auto it = str.begin(); it != str.end();) {
             if (*it == '%' && std::distance(it, str.end()) >= 3) {
-                int value;
+                int value = 0;
                 std::istringstream is(std::string(it + 1, it + 3));
                 if (is >> std::hex >> value) {
                     result += static_cast<char>(value);

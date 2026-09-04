@@ -149,7 +149,7 @@ double computePercentile(const std::vector<double>& values, double percentile) {
  * @brief Struct to hold latency statistics for a benchmark path.
  */
 struct LatencyStats {
-    double avg_ns;
+    double avg_ns = 0;
     double p50_ns;
     double p95_ns;
     double p99_ns;

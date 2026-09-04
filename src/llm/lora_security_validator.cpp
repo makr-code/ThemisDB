@@ -845,7 +845,7 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
                     size_t byte_offset = start_offset + i * sizeof(float);
                     // Double-check bounds before memcpy
                     if (byte_offset + sizeof(float) <= data.size()) {
-                        float value;
+                        float value = 0;
                         // NOTE: SafeTensors format uses little-endian byte order
                         // This memcpy assumes the host system is also little-endian (x86/x64)
                         // For big-endian systems, byte swapping would be required

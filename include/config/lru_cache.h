@@ -162,7 +162,7 @@ public:
      * Get cache statistics.
      */
     struct Stats {
-        uint64_t hits;
+        uint64_t hits = 0;
         uint64_t misses;
         uint64_t evictions;
         uint64_t expirations;

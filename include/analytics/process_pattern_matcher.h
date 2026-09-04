@@ -122,7 +122,7 @@ struct SimilarityResult {
     
     // Breakdown by method
     struct MetricBreakdown {
-        double graph_similarity;            ///< Structural similarity
+        double graph_similarity = 0;            ///< Structural similarity
         double vector_similarity;           ///< Semantic similarity
         double behavioral_similarity;       ///< Behavioral similarity
         

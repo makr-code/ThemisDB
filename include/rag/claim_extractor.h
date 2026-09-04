@@ -97,7 +97,7 @@ public:
      * @brief Result of self-consistency evaluation
      */
     struct ConsistencyResult {
-        double consistency_score;  // 0-1, higher is more consistent
+        double consistency_score = 0;  // 0-1, higher is more consistent
         std::vector<std::string> agreements;  // Points of agreement
         std::vector<std::string> disagreements;  // Points of disagreement
         std::string consensus_answer;  // Most consistent answer

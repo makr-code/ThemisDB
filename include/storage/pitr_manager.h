@@ -78,7 +78,7 @@ public:
      * @brief Restore preview (dry-run result)
      */
     struct RestorePreview {
-        uint64_t target_sequence;                      // Target sequence to restore to
+        uint64_t target_sequence = 0;                      // Target sequence to restore to
         uint64_t current_sequence;                     // Current sequence before restore
         uint64_t events_to_replay;                     // Number of events to replay backward
         std::vector<std::string> affected_tables;      // Tables that will be affected

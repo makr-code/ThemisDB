@@ -430,7 +430,7 @@ LearnedIndex<KeyT>::rangePositions(const KeyT& lo, const KeyT& hi,
     };
 
     // Lower bound of range
-    size_t range_lo;
+    size_t range_lo = 0;
     if (!trained_) {
         auto it = std::lower_bound(keys.begin(), keys.end(), lo);
         range_lo = static_cast<size_t>(it - keys.begin());
@@ -445,7 +445,7 @@ LearnedIndex<KeyT>::rangePositions(const KeyT& lo, const KeyT& hi,
     }
 
     // Upper bound of range
-    size_t range_hi;
+    size_t range_hi = 0;
     if (!trained_) {
         auto it = std::upper_bound(keys.begin(), keys.end(), hi);
         range_hi = static_cast<size_t>(it - keys.begin());

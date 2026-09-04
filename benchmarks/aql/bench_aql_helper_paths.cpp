@@ -47,7 +47,7 @@ static constexpr uint64_t kW7CanonicalSeed = 42;
 class MockConfidenceScorer {
 public:
     struct ScoreResult {
-        float   confidence;      // [0.0, 1.0]
+        float   confidence = 0;      // [0.0, 1.0]
         int     matching_tokens;
         int     total_nl_tokens;
     };
@@ -193,7 +193,7 @@ private:
 class MockAQLHighlighter {
 public:
     struct Annotation {
-        int         line;
+        int         line = 0;
         int         col;
         std::string message;
     };

@@ -67,7 +67,7 @@ namespace themis {
 class ProductQuantizer {
 public:
     struct Config {
-        int num_subquantizers;      // Number of subquantizers (divides dimension)
+        int num_subquantizers = 0;      // Number of subquantizers (divides dimension)
         int num_centroids;        // Number of centroids per subquantizer (8-bit = 256)
         int max_iterations;        // K-means max iterations
         float convergence_threshold;  // K-means convergence threshold

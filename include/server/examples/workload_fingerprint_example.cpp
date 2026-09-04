@@ -43,7 +43,7 @@ namespace {
 
 // Represents a single metric sample in the rolling window
 struct QueryMetric {
-    uint64_t    qps;
+    uint64_t    qps = 0;
     double      read_fraction;   // 0.0–1.0
     double      vector_fraction; // fraction of queries that are KNN/vector search
     bool        is_write;        // true = write operation

@@ -112,7 +112,7 @@ struct VulkanBuffer {
 // ============================================================================
 
 static bool checkValidationLayerSupport(const std::vector<const char*>& layers) {
-    uint32_t layerCount;
+    uint32_t layerCount = 0;
     vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
     
     std::vector<VkLayerProperties> availableLayers(layerCount);

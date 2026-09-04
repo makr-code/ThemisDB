@@ -285,7 +285,7 @@ PairwiseComparisonResult PairwiseComparator::compare(
             std::uniform_int_distribution<> dist(0, 1);
              
             for (int i = 0; i < num_samples; ++i) {
-                bool a_first;
+                bool a_first = 0;
                 {
                     std::lock_guard<std::mutex> lock(impl_->scores_mutex);
                     a_first = dist(impl_->rng) == 0;

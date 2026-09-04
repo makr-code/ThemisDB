@@ -62,7 +62,7 @@ static constexpr uint64_t kConcurrencySeed = 42;
 
 /// Represents a lock with ID for ordering verification
 struct OrderedLock {
-    int lock_id;
+    int lock_id = 0;
     mutable std::timed_mutex mtx;
     int acquisition_order = 0;
 
@@ -76,7 +76,7 @@ static std::atomic<int> g_acquisition_counter(0);
 class LockAcquisitionTracker {
 public:
     struct AcquisitionRecord {
-        int lock_id;
+        int lock_id = 0;
         int order;
         std::thread::id thread_id;
     };

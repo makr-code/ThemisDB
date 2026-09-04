@@ -245,7 +245,7 @@ struct GremlinParser::Parser {
             return GremlinValue(n);
         }
         if (t.type == GremlinTokenType::FLOAT_LIT) {
-            double d;
+            double d = 0;
             try { d = std::stod(t.value); }
             catch (...) {
                 THEMIS_WARN("gremlin_parser::parseValue: unhandled exception caught");

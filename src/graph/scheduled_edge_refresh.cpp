@@ -223,7 +223,7 @@ float ScheduledGraphEdgeRefreshEngine::computeSimilarity(const std::vector<float
 }
 
 float ScheduledGraphEdgeRefreshEngine::computeTemporalDecay(const BaseEntity &edge_entity) const {
-    double half_life;
+    double half_life = 0;
     {
         std::lock_guard<std::mutex> lock(policy_mutex_);
         half_life = policy_.decay_half_life_seconds;

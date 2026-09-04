@@ -173,7 +173,7 @@ static void BM_MixedWorkload(benchmark::State& state) {
         int key = key_dist(gen);
         
         if (op < read_percentage) {
-            int value;
+            int value = 0;
             table.lookup(key, value);
             benchmark::DoNotOptimize(value);
             reads++;

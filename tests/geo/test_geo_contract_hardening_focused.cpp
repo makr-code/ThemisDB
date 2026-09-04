@@ -149,7 +149,7 @@ private:
 // Mock spatial index (in-memory R-tree stub)
 // ---------------------------------------------------------------------------
 struct IndexEntry {
-    int     id;
+    int     id = 0;
     Point2D point;
 };
 
@@ -184,7 +184,7 @@ struct JoinPair { int idA, idB; };
 enum class JoinPredicate { INTERSECTS, CONTAINS };
 
 struct MockGeomWithBbox {
-    int  id;
+    int  id = 0;
     Bbox bbox;
     bool isInvalid{false};
 };

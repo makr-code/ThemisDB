@@ -66,7 +66,7 @@ double computePercentile(const std::vector<double>& values, double percentile) {
 
 /// @brief Struct to hold latency statistics for an error scenario.
 struct ErrorPathStats {
-    double avg_ns;      ///< Average latency (nanoseconds)
+    double avg_ns = 0;      ///< Average latency (nanoseconds)
     double p50_ns;      ///< p50 latency percentile
     double p95_ns;      ///< p95 latency percentile
     double p99_ns;      ///< p99 latency percentile

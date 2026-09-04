@@ -308,7 +308,7 @@ public:
             storage::TTTrain train;
             train.mode_sizes.resize(nm);
             for (uint32_t j = 0; j < nm; ++j) {
-                uint64_t v;
+                uint64_t v = 0;
                 in.read(reinterpret_cast<char*>(&v), sizeof(v));
                 train.mode_sizes[j] = static_cast<std::size_t>(v);
             }

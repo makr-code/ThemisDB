@@ -74,7 +74,7 @@ static constexpr int kRepetitions = 5;
 // ---------------------------------------------------------------------------
 
 struct BiTemporalEntry {
-    int          id;
+    int          id = 0;
     std::int64_t valid_start;
     std::int64_t valid_end;
     std::int64_t tx_time;

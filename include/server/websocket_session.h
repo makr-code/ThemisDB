@@ -158,7 +158,7 @@ public:
      * @brief Get CDC subscription details
      */
     struct CDCSubscription {
-        uint64_t from_sequence;
+        uint64_t from_sequence = 0;
         std::string key_prefix;
         uint64_t last_sent_sequence;
         std::set<Changefeed::ChangeEventType> event_types;

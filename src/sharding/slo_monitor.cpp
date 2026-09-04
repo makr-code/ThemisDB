@@ -258,7 +258,7 @@ void SLOMonitor::recordReplicationLag(const std::string& shard_id, double lag_ms
 
 /** @brief Record leader-election duration and emit violation alert when exceeded. */
 void SLOMonitor::recordLeaderElection([[maybe_unused]] const std::string& shard_id, double duration_s) {
-    double max_leader_election_time_s;
+    double max_leader_election_time_s = 0;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         max_leader_election_time_s = config_.targets.max_leader_election_time_s;
@@ -402,7 +402,7 @@ double SLOMonitor::getGlobalErrorBudget() const {
 
 /** @brief Return true when shard's remaining budget crosses exhaustion threshold. */
 bool SLOMonitor::isErrorBudgetExhausted(const std::string& shard_id) const {
-    double alert_threshold;
+    double alert_threshold = 0;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         alert_threshold = config_.alert_threshold;

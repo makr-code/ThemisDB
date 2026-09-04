@@ -172,7 +172,7 @@ void ProtobufSerializer::writeTag(uint32_t field_number, uint32_t wire_type) {
 }
 
 void ProtobufSerializer::writeDouble([[maybe_unused]] double value) {
-    uint64_t bits;
+    uint64_t bits = 0;
     std::memcpy(&bits, &value, sizeof(double));
     writeFixed64(bits);
 }

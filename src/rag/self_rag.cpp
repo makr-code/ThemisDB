@@ -268,7 +268,7 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
     }
 
     for (const auto& doc : documents) {
-        double critic_score;
+        double critic_score = 0;
         // Detailed tracing samples (env-gated) to diagnose rare spikes.
         std::int64_t doc_start_ns = 0;
         std::int64_t doc_end_ns = 0;

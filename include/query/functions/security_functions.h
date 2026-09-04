@@ -862,7 +862,7 @@ public:
         std::string str = args[0].get<std::string>();
         std::string algorithm = args.size() > 1 && args[1].is_string() ? args[1].get<std::string>() : "fnv1a";
         
-        uint64_t hash;
+        uint64_t hash = 0;
         if (algorithm == "djb2") {
             hash = djb2Hash(str);
         } else {

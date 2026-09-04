@@ -111,7 +111,7 @@ enum class ReadPreference {
  * Write-Ahead Log Entry
  */
 struct WALEntry {
-    uint64_t sequence_number;       // Monotonic sequence
+    uint64_t sequence_number = 0;       // Monotonic sequence
     uint64_t term;                  // Leader term (Raft-like)
     std::chrono::system_clock::time_point timestamp;
     std::string operation;          // INSERT, UPDATE, DELETE
@@ -1088,7 +1088,7 @@ public:
     };
 
     struct Stats {
-        uint64_t entries_applied;
+        uint64_t entries_applied = 0;
         uint64_t dependencies_detected;
         uint64_t average_latency_us;  // Average submit-to-apply latency in microseconds
         uint64_t parallel_batches;
@@ -1163,7 +1163,7 @@ public:
     };
 
     struct QuorumReadResult {
-        bool        success;
+        bool        success = 0;
         std::string data;
         uint64_t    version;
         bool        had_conflicts;
@@ -1227,7 +1227,7 @@ private:
 
     // Per-replica read response
     struct ReplicaResponse {
-        bool        ok;
+        bool        ok = 0;
         std::string data;
         uint64_t    version;
         std::string endpoint;
@@ -1408,7 +1408,7 @@ public:
     uint64_t getHighestAcked() const { return highest_acked_.load(); }
 
     struct Stats {
-        uint64_t total_acks_sent;
+        uint64_t total_acks_sent = 0;
         uint64_t total_batches_sent;
         double   avg_batch_size;
     };
@@ -1535,7 +1535,7 @@ public:
     };
 
     struct BenchmarkResult {
-        uint32_t  total_entries;
+        uint32_t  total_entries = 0;
         double    duration_seconds;
         double    writes_per_second;
         int64_t   latency_p50_us;
@@ -1611,7 +1611,7 @@ public:
 
 private:
     struct Subscription {
-        uint64_t    id;
+        uint64_t    id = 0;
         std::string collection;   // empty = match everything
         CDCCallback callback;
     };
@@ -1701,7 +1701,7 @@ public:
 
 private:
     struct RemoteSubscriber {
-        uint64_t id;
+        uint64_t id = 0;
         RemoteSubscriberCallback callback;
     };
 

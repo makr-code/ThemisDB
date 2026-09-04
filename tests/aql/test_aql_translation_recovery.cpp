@@ -42,7 +42,7 @@ public:
         : failure_mode_(mode), call_count_(0) {}
 
     struct InferenceResult {
-        bool success;
+        bool success = 0;
         std::string error_message;
         std::string generated_aql;
     };

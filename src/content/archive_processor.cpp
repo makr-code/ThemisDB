@@ -128,7 +128,7 @@ ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std:
 
     // Check magic bytes first
     if (blob.size() >= 4) {
-        uint32_t magic32;
+        uint32_t magic32 = 0;
         std::memcpy(&magic32, blob.data(), 4);
         if (magic32 == ZIP_MAGIC) {
             return ArchiveFormat::ZIP;

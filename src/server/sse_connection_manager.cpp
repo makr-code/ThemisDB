@@ -379,7 +379,7 @@ void SseConnectionManager::backgroundPollTask() {
     
     try {
         struct PollTarget {
-            uint64_t id;
+            uint64_t id = 0;
             std::shared_ptr<Connection> conn;
             uint64_t from_sequence;
             std::string key_prefix;

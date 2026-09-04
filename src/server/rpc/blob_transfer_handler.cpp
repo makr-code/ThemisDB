@@ -103,7 +103,7 @@ inline uint32_t crc32c_hw(const uint8_t* buf, size_t len) noexcept {
     uint32_t crc = 0xFFFFFFFFu;
     size_t i = 0;
     for (; i + 8 <= len; i += 8) {
-        uint64_t word;
+        uint64_t word = 0;
         __builtin_memcpy(&word, buf + i, 8);
         crc = static_cast<uint32_t>(_mm_crc32_u64(crc, word));
     }

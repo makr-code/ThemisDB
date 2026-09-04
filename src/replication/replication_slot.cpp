@@ -229,7 +229,7 @@ ReplicationSlot::SlotState ReplicationSlot::state() const
 //   Thread B: can acquire state_mutex_ (not held) → no circular wait
 uint64_t ReplicationSlot::lag() const
 {
-    uint64_t confirmed_lsn_copy;
+    uint64_t confirmed_lsn_copy = 0;
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
         confirmed_lsn_copy = state_.confirmed_lsn;

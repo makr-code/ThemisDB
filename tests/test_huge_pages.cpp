@@ -779,7 +779,7 @@ TEST(HugePagesTest, HugePagesWithRocksDBCache) {
     
     // Simulate cache operations
     struct CacheBlock {
-        uint64_t key;
+        uint64_t key = 0;
         char data[4096];
     };
     

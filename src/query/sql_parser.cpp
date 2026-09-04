@@ -907,7 +907,7 @@ private:
         }
         // Float literal
         if (check(SQLTokenType::FLOAT_LIT)) {
-            double val;
+            double val = 0;
             try { val = std::stod(current().value); }
             catch (...) {
                 THEMIS_WARN("sql_parser::parsePrimary: unhandled exception caught");
@@ -963,7 +963,7 @@ private:
             return Ok(SQLValue{v});
         }
         if (check(SQLTokenType::FLOAT_LIT)) {
-            double v;
+            double v = 0;
             try { v = std::stod(current().value); } catch (...) {
                 THEMIS_WARN("sql_parser::parseLiteralValue: unhandled exception caught");
                 throw std::runtime_error("Float literal '" + current().value + "' is out of range");

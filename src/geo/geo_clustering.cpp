@@ -308,7 +308,7 @@ GeoClusterResult kmeansCluster(const std::vector<GeometryInfo> &points, const KM
     // -----------------------------------------------------------------
 
     struct Centroid {
-        double lon;
+        double lon = 0;
         double lat;
     };
     std::vector<Centroid> centroids(config.k);

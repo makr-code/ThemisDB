@@ -150,7 +150,7 @@ public:
 
 private:
     struct IndexMetadata {
-        uint32_t id;
+        uint32_t id = 0;
         std::string name;
         uint32_t dimension;
         std::shared_ptr<VectorIndexData> data;

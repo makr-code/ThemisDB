@@ -907,7 +907,7 @@ public:
 
 private:
     struct TxnEntry {
-        uint32_t                     seq;
+        uint32_t                     seq = 0;
         std::string                  txn_id;
         std::vector<SimParticipant*> participants;
         bool                         done;

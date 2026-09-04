@@ -125,7 +125,7 @@ std::vector<std::pair<double, double>> CalibrationManager::buildIsotonicModel(
 
     // PAV: merge adjacent blocks that violate monotonicity
     struct Block {
-        double sum_gt;
+        double sum_gt = 0;
         double sum_pred;
         size_t count;
         double avg_pred() const { return sum_pred / static_cast<double>(count); }

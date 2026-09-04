@@ -57,7 +57,7 @@ static constexpr uint32_t kGatewayResilienceSeed = 1337U;
 /// Cluster quorum state.  Models the minimum quorum logic of DistributedGateway.
 /// majority = floor(cluster_size / 2) + 1
 struct FakeClusterQuorum {
-    int cluster_size;
+    int cluster_size = 0;
     std::atomic<int> live_nodes;
 
     explicit FakeClusterQuorum(int size) : cluster_size(size), live_nodes(size) {}

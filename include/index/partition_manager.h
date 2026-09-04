@@ -155,7 +155,7 @@ public:
 
 private:
     struct PartitionMetadata {
-        uint32_t id;
+        uint32_t id = 0;
         std::string name;
         std::shared_ptr<PartitionData> data;
         uint64_t epoch;

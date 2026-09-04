@@ -68,7 +68,7 @@ namespace server {
 using json = nlohmann::json;
 
 struct QueryExecStatus {
-    bool ok;
+    bool ok = 0;
     std::string message;
 
     static QueryExecStatus OK() {
@@ -312,7 +312,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
     q.fulltextPredicate = {};
     q.spatialPredicate = {};
     struct QueryExecStatus {
-        bool ok;
+        bool ok = 0;
         std::string message;
     };
 

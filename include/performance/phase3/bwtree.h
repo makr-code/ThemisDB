@@ -107,7 +107,7 @@ public:
     
     // Statistics
     struct Stats {
-        size_t num_pages;
+        size_t num_pages = 0;
         size_t num_deltas;
         size_t consolidations;
     };

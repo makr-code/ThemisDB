@@ -652,7 +652,7 @@ bool GGUFLoader::parseTensorInfo() {
         }
         tensor.shape.resize(n_dims);
         for (uint32_t j = 0; j < n_dims; ++j) {
-            uint64_t dim;
+            uint64_t dim = 0;
             std::memcpy(&dim, data + offset, 8);
             offset += 8;
             tensor.shape[j] = static_cast<int64_t>(dim);

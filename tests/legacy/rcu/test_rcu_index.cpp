@@ -125,7 +125,7 @@ TEST(RCUHashTableTest, MultipleKeys) {
     
     // Verify all keys
     for (int i = 0; i < 100; ++i) {
-        int value;
+        int value = 0;
         EXPECT_TRUE(table.lookup("key" + std::to_string(i), value));
         EXPECT_EQ(value, i);
     }
@@ -230,7 +230,7 @@ TEST(RCUHashTableTest, StressTest) {
                 if (i % 3 == 0) {
                     table.insert(key, key * 2);
                 } else {
-                    int value;
+                    int value = 0;
                     table.lookup(key, value);
                 }
                 operations.fetch_add(1);
@@ -259,7 +259,7 @@ TEST(RCUHashTableTest, PerformanceBenchmark) {
     auto start = std::chrono::high_resolution_clock::now();
     
     for (int i = 0; i < 100000; ++i) {
-        int value;
+        int value = 0;
         table.lookup(i % 10000, value);
     }
     

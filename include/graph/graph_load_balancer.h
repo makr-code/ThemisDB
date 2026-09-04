@@ -64,7 +64,7 @@ public:
      * @brief A scheduled query task.
      */
     struct QueryTask {
-        uint64_t  id;       ///< Unique task identifier
+        uint64_t  id = 0;       ///< Unique task identifier
         Priority  priority; ///< Scheduling priority
         std::string label;  ///< Human-readable query label
         std::function<void()> work; ///< The actual work to execute

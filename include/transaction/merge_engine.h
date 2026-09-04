@@ -127,7 +127,7 @@ public:
      * @brief Result of a merge operation
      */
     struct MergeResult {
-        bool success;
+        bool success = 0;
         std::string message;
         MergeStats stats;
         std::vector<Conflict> conflicts;         // Unresolved conflicts

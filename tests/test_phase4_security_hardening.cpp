@@ -45,7 +45,7 @@ namespace themis { namespace security { namespace test {
 class InputValidator {
  public:
   struct ValidationResult {
-    bool valid;
+    bool valid = 0;
     std::string error_message;
     std::string sanitized_value;
   };

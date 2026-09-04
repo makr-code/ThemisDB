@@ -888,7 +888,7 @@ void PromptEngineeringMetrics::recordReflectionQualityDelta(
     }
     // Atomic double accumulation via CAS loop (same pattern as existing code).
     double current = reflection_quality_delta_sum_.load(std::memory_order_relaxed);
-    double desired;
+    double desired = 0;
     do {
         desired = current + delta;
     } while (!reflection_quality_delta_sum_.compare_exchange_weak(

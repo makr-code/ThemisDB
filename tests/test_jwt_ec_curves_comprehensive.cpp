@@ -77,7 +77,7 @@ static std::string b64url(const std::vector<uint8_t>& in) {
 // ============================================================================
 
 struct ECCurveFixture {
-    int          nid;         ///< e.g. NID_secp384r1
+    int          nid = 0;         ///< e.g. NID_secp384r1
     size_t       coord_size;  ///< bytes per coordinate (48 for P-384, 66 for P-521)
     std::string  crv;         ///< JWK "crv" string ("P-384" / "P-521")
     std::string  alg;         ///< JWT "alg" string ("ES384" / "ES512")

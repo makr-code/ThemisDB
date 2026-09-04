@@ -2109,7 +2109,7 @@ size_t LoRATrainingService::estimateMemoryUsage(
                 char magic[4];
                 model_file.read(magic, 4);
                 if (std::string(magic, 4) == "GGUF") {
-                    uint32_t version;
+                    uint32_t version = 0;
                     model_file.read(reinterpret_cast<char*>(&version), 4);
                     
                     uint64_t tensor_count;
@@ -2163,7 +2163,7 @@ size_t LoRATrainingService::estimateMemoryUsage(
                                     case 0: model_file.seekg(1, std::ios::cur); break;
                                     case 3: model_file.seekg(4, std::ios::cur); break;
                                     case 4: {
-                                        uint64_t str_len;
+                                        uint64_t str_len = 0;
                                         model_file.read(reinterpret_cast<char*>(&str_len), 8);
                                         model_file.seekg(str_len, std::ios::cur);
                                     } break;
@@ -2177,7 +2177,7 @@ size_t LoRATrainingService::estimateMemoryUsage(
                                 case 2: model_file.seekg(8, std::ios::cur); break;
                                 case 3: model_file.seekg(4, std::ios::cur); break;
                                 case 4: {
-                                    uint64_t str_len;
+                                    uint64_t str_len = 0;
                                     model_file.read(reinterpret_cast<char*>(&str_len), 8);
                                     model_file.seekg(str_len, std::ios::cur);
                                 } break;

@@ -345,7 +345,7 @@ private:
     // Header stored before each allocation so sandboxFree can subtract
     // the correct byte count without a separate lookup table.
     struct alignas(std::max_align_t) AllocHeader {
-        size_t total_bytes;  ///< sizeof(AllocHeader) + user-requested bytes
+        size_t total_bytes = 0;  ///< sizeof(AllocHeader) + user-requested bytes
     };
 
     static void* sandboxAlloc(size_t bytes, void* user_data) {

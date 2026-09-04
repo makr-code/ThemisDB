@@ -243,7 +243,7 @@ struct StreamFileInfo {
  * Data chunk for transfer
  */
 struct StreamChunk {
-    uint64_t file_offset;
+    uint64_t file_offset = 0;
     uint32_t chunk_index;
     uint32_t uncompressed_size;
     uint32_t compressed_size;

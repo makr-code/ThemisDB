@@ -245,14 +245,14 @@ struct FusedBackwardBufferCache {
 };
 
 struct MatmulPushConstants {
-    uint32_t M;
+    uint32_t M = 0;
     uint32_t N;
     uint32_t K;
     uint32_t alpha_bits;
 };
 
 struct ElementwisePushConstants {
-    uint32_t size;
+    uint32_t size = 0;
     uint32_t op;
     uint32_t rows;
     uint32_t cols;
@@ -534,7 +534,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     
     // Push constants for elementwise operation
     struct PushConstants {
-        uint32_t size;
+        uint32_t size = 0;
         uint32_t op;      // 0 = add
         uint32_t rows;    // unused for add
         uint32_t cols;    // unused for add
@@ -583,7 +583,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
     }
     
     struct PushConstants {
-        uint32_t size;
+        uint32_t size = 0;
         uint32_t op;      // 2 = multiply
         uint32_t rows;
         uint32_t cols;
@@ -634,7 +634,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     }
     
     struct PushConstants {
-        uint32_t size;
+        uint32_t size = 0;
         uint32_t op;      // 4 = scalar multiply
         uint32_t rows;
         uint32_t cols;
@@ -681,7 +681,7 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
     }
     
     struct PushConstants {
-        uint32_t size;
+        uint32_t size = 0;
         uint32_t op;      // 5 = transpose
         uint32_t rows;
         uint32_t cols;
@@ -735,7 +735,7 @@ void launch_lora_grad_A_shader(
     
     // Push constants for gradient computation
     struct PushConstants {
-        uint32_t batch_size;
+        uint32_t batch_size = 0;
         uint32_t in_dim;
         uint32_t rank;
         uint32_t out_dim;
@@ -797,7 +797,7 @@ void launch_lora_grad_B_shader(
     }
     
     struct PushConstants {
-        uint32_t batch_size;
+        uint32_t batch_size = 0;
         uint32_t in_dim;
         uint32_t rank;
         uint32_t out_dim;
@@ -864,7 +864,7 @@ void launch_embedding_lookup_shader(
     }
 
     struct PushConstants {
-        uint32_t batch_size;
+        uint32_t batch_size = 0;
         uint32_t seq_len;
         uint32_t hidden_dim;
         uint32_t vocab_size;
@@ -917,7 +917,7 @@ void launch_sequence_mean_shader(
     }
 
     struct PushConstants {
-        uint32_t batch_size;
+        uint32_t batch_size = 0;
         uint32_t seq_len;
         uint32_t hidden_dim;
         uint32_t reserved;

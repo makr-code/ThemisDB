@@ -61,7 +61,7 @@ static inline size_t alignSize(size_t size, size_t alignment) {
 // ============================================================================
 
 struct BuddyAllocator::Block {
-    size_t size;
+    size_t size = 0;
     bool is_free;
     uintptr_t next;  // Address of next free block (0 if none)
 };
@@ -422,7 +422,7 @@ struct SlabAllocator::Slab {
 };
 
 struct SlabAllocator::Impl {
-    size_t object_size;
+    size_t object_size = 0;
     size_t objects_per_slab;
     size_t max_slabs;
     

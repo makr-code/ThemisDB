@@ -116,7 +116,7 @@ public:
     };
 
     struct Stats {
-        uint64_t total_events;
+        uint64_t total_events = 0;
         uint64_t latest_sequence;
         size_t total_size_bytes;
         Watermarks watermarks;  // Watermark information

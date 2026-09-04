@@ -73,7 +73,7 @@ namespace themis::sharding {
 
 /** @brief Log sequence position identifying one byte-offset in WAL history. */
 struct LSN {
-    uint64_t segment;  // WAL segment number
+    uint64_t segment = 0;  // WAL segment number
     uint64_t offset;   // Offset within segment
     
     LSN() : segment(0), offset(0) {}

@@ -711,7 +711,7 @@ void LLMSemanticValidator::estimateCardinality(
  * Uses -1 for variadic (any number of parameters)
  */
 struct FunctionSignature {
-    size_t min_params;
+    size_t min_params = 0;
     size_t max_params;  // -1 = variadic
     std::string return_type;
     std::vector<std::string> param_types;  // Empty = any type

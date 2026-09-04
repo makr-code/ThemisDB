@@ -10,7 +10,7 @@
 
 namespace {
 struct Dataset {
-    int dim;
+    int dim = 0;
     int n;
     std::vector<float> data; // row-major, size n*dim
     explicit Dataset(int n_, int dim_, uint32_t seed=123) : dim(dim_), n(n_), data(n_*dim_) {

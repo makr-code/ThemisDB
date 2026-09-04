@@ -458,7 +458,7 @@ private:
  * For label-based searches use findObjectByLabel().
  */
 struct AttributeFilter {
-    uint32_t type;   ///< Attribute type (e.g. CKA_CLASS)
+    uint32_t type = 0;   ///< Attribute type (e.g. CKA_CLASS)
     uint32_t value;  ///< Attribute value as a 32-bit unsigned integer
 };
 

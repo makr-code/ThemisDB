@@ -87,7 +87,7 @@ public:
 
     /// Get memory usage statistics
     struct MemStats {
-        size_t memory_matrix_bytes;
+        size_t memory_matrix_bytes = 0;
         size_t temp_buffer_bytes;
         size_t total_bytes;
     };

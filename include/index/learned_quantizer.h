@@ -54,7 +54,7 @@ class [[deprecated("LearnedQuantizer is a research-only implementation not used 
                    "See @deprecated tag in class Doxygen comment for details.")]] LearnedQuantizer {
 public:
     struct Config {
-        int bits_per_dimension;       // Number of bits per dimension (2-8)
+        int bits_per_dimension = 0;       // Number of bits per dimension (2-8)
         bool per_dimension;           // Per-dim thresholds vs per-block
         int block_size;               // Block size for per-block mode
         int training_iterations;      // Lloyd's algorithm iterations

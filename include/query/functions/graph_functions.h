@@ -643,7 +643,7 @@ public:
         std::string direction = args.size() > 2 ? args[2].get<std::string>() : "any";
         std::transform(direction.begin(), direction.end(), direction.begin(), ::tolower);
         
-        size_t degree;
+        size_t degree = 0;
         if (direction == "outbound" || direction == "out") {
             degree = graph.outDegree(vertexId);
         } else if (direction == "inbound" || direction == "in") {

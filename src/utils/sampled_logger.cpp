@@ -23,7 +23,7 @@ namespace utils {
 // ---------------------------------------------------------------------------
 
 struct SampledLogger::Bucket {
-    double tokens;
+    double tokens = 0;
     std::chrono::steady_clock::time_point last_refill;
 
     explicit Bucket([[maybe_unused]] double initial) : tokens(initial), last_refill(std::chrono::steady_clock::now()) {}

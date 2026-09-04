@@ -36,7 +36,7 @@ namespace sharding {
  * - timestamp_ns: TrueTime timestamp in nanoseconds since epoch
  */
 struct LogEntry {
-    uint64_t term;
+    uint64_t term = 0;
     uint64_t index;
     std::string command;  // Serialized WAL entry or other command
     uint64_t timestamp_ns;  // TrueTime timestamp for ordering and snapshot isolation
@@ -52,7 +52,7 @@ struct LogEntry {
  * Used for both heartbeats (empty entries) and log replication.
  */
 struct AppendEntriesRequest {
-    uint64_t term;              // Leader's term
+    uint64_t term = 0;              // Leader's term
     std::string leader_id;      // So follower can redirect clients
     uint64_t prev_log_index;    // Index of log entry immediately preceding new ones
     uint64_t prev_log_term;     // Term of prevLogIndex entry
@@ -67,7 +67,7 @@ struct AppendEntriesRequest {
  * @brief AppendEntries RPC response structure
  */
 struct AppendEntriesResponse {
-    uint64_t term;          // Current term, for leader to update itself
+    uint64_t term = 0;          // Current term, for leader to update itself
     bool success;           // True if follower contained entry matching prevLogIndex and prevLogTerm
     uint64_t match_index;   // Highest log index known to match (for leader tracking)
     
@@ -246,7 +246,7 @@ private:
  * and term so that the log can be safely truncated up to that point.
  */
 struct RaftSnapshot {
-    uint64_t snapshot_index;          ///< Last Raft log index covered by this snapshot
+    uint64_t snapshot_index = 0;          ///< Last Raft log index covered by this snapshot
     uint64_t snapshot_term;           ///< Term of the entry at snapshot_index
     std::vector<uint8_t> data;        ///< ZSTD-compressed state-machine data
     std::string checksum;             ///< SHA-256 of the *uncompressed* state data
@@ -262,7 +262,7 @@ struct RaftSnapshot {
  * corruption or a truncated transfer without waiting for the final chunk.
  */
 struct RaftSnapshotChunk {
-    uint64_t snapshot_index;   ///< Identifies which snapshot this chunk belongs to
+    uint64_t snapshot_index = 0;   ///< Identifies which snapshot this chunk belongs to
     uint64_t chunk_index;      ///< 0-based index of this chunk
     uint64_t total_chunks;     ///< Total number of chunks in the snapshot
     std::vector<uint8_t> data; ///< Chunk payload (compressed snapshot bytes)

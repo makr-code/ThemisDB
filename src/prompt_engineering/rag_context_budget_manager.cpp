@@ -48,7 +48,7 @@ void RagContextBudgetManager::doRelease([[maybe_unused]] size_t tokens) noexcept
     }
     // Clamp to prevent underflow if release is called after reset().
     size_t prev = allocated_.load(std::memory_order_relaxed);
-    size_t desired;
+    size_t desired = 0;
     do {
         desired = (prev >= tokens) ? (prev - tokens) : 0;
     } while (!allocated_.compare_exchange_weak(prev, desired,

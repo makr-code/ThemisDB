@@ -589,7 +589,7 @@ private:
     
     // NFA state machine
     struct NFAState {
-        uint32_t state_id;
+        uint32_t state_id = 0;
         std::string expected_event_type;
         bool is_accepting = false;
         std::vector<uint32_t> transitions;
@@ -598,7 +598,7 @@ private:
     
     // Active partial matches (grouped by partition key)
     struct PartialMatch {
-        uint32_t current_state;
+        uint32_t current_state = 0;
         std::vector<Event> matched_events;
         std::chrono::steady_clock::time_point start_time;
         std::map<std::string, CepFieldValue> bindings;

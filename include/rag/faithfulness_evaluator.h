@@ -53,7 +53,7 @@ struct Citation {
  * @brief Faithfulness evaluation result
  */
 struct FaithfulnessResult {
-    double faithfulness_score;  ///< Overall score 0-1
+    double faithfulness_score = 0;  ///< Overall score 0-1
     std::vector<Claim> claims;
     std::vector<Citation> citations;
     size_t supported_claims_count;

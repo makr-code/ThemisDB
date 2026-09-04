@@ -298,7 +298,7 @@ public:
     // ===== Statistics =====
 
     struct EmbeddingStats {
-        size_t total_node_embeddings;
+        size_t total_node_embeddings = 0;
         size_t total_edge_embeddings;
         std::unordered_map<std::string, size_t> embeddings_per_model;
         std::unordered_map<std::string, size_t> embeddings_per_graph;

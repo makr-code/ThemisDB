@@ -69,7 +69,7 @@ static int themis_io_uring_enter(int fd, unsigned to_submit, unsigned min_comple
 #    define BLKREPORTZONE _IOWR(0x12, 130, struct blk_zone_report)
 struct blk_zone_range { uint64_t sector; uint64_t nr_sectors; };
 struct blk_zone {
-    uint64_t start; uint64_t len; uint64_t wp;
+    uint64_t start = 0; uint64_t len; uint64_t wp;
     uint8_t  type;  uint8_t  cond; uint8_t  non_seq; uint8_t reserved[36];
 };
 #pragma GCC diagnostic push

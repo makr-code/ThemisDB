@@ -147,7 +147,7 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
                 for (size_t i = 0; i < total_frames; ++i) {
                     float sum = 0.0f;
                     for (uint16_t ch = 0; ch < num_channels; ++ch) {
-                        float s;
+                        float s = 0;
                         std::memcpy(&s, &data[data_start + (i * num_channels + ch) * 4], 4);
                         sum += s;
                     }

@@ -420,7 +420,7 @@ TEST_F(ResourceManagementTest, DestructorOrder) {
     destruction_order.clear();
 
     struct Tracker {
-        int id;
+        int id = 0;
         explicit Tracker(int id_) : id(id_) {}
         ~Tracker() { destruction_order.push_back(id); }
     };

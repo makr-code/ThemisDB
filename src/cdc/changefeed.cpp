@@ -1034,7 +1034,7 @@ size_t Changefeed::applyRetentionPolicy() {
 }
 
 void Changefeed::updateRetentionPolicy(const RetentionPolicy &policy) {
-    bool was_enabled;
+    bool was_enabled = 0;
     {
         std::lock_guard<std::mutex> lock(retention_mutex_);
         was_enabled       = retention_policy_.enabled;

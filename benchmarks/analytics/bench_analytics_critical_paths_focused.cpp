@@ -68,7 +68,7 @@ constexpr int64_t kNumOperations = 1'000'000;
 
 /// Mock connection for pool benchmarking
 struct MockConnection {
-    int id;
+    int id = 0;
     bool is_open;
     
     MockConnection(int id_val = 0) : id(id_val), is_open(true) {}
