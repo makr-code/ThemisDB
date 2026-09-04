@@ -106,8 +106,8 @@ public:
     // Phase 7: Full pipeline execution
     // -------------------------------------------------------------------------
     PipelineStats run([[maybe_unused]] PipelineCallback callback) {
-        PipelineStats stats;
-        PipelineMetrics metrics;
+        PipelineStats stats = PipelineStats();
+        PipelineMetrics metrics = PipelineMetrics();
         auto pipeline_start = std::chrono::steady_clock::now();
 
         // QW-40: Fail-closed guards against prompt injection
@@ -159,7 +159,7 @@ public:
                 std::vector<ProvenanceRecord> prov_records;
                 prov_records.reserve(ls.samples_created);
                 for (size_t i = 0; i < ls.samples_created; ++i) {
-                    ProvenanceRecord rec;
+                    ProvenanceRecord rec = ProvenanceRecord();
                     rec.sample_id            = config_.labeler_config.target_collection
                                                + "_" + std::to_string(i);
                     rec.source_doc_urn       = "urn:collection:"
@@ -364,7 +364,7 @@ public:
     // Phase 7: Data-quality checks
     // -------------------------------------------------------------------------
     DataQualityReport checkDataQuality([[maybe_unused]] float min_confidence) {
-        DataQualityReport report;
+        DataQualityReport report = DataQualityReport();
 
         // In production: AQL query to fetch all samples and validate fields
         // FOR sample IN legal_training_samples
@@ -392,7 +392,7 @@ public:
     // Phase 7: Label-drift detection
     // -------------------------------------------------------------------------
     DriftReport detectLabelDrift([[maybe_unused]] const std::vector<std::string>& reference_samples) {
-        DriftReport report;
+        DriftReport report = DriftReport();
 
         // In production: compare category distribution of reference samples
         // with current training collection using statistical tests
@@ -508,7 +508,7 @@ public:
             trial_cfg.learning_rate    = trial.lr;
             trial_cfg.validation_split = cfg.validation_split;
 
-            HyperparamTrialResult trial_result;
+            HyperparamTrialResult trial_result = HyperparamTrialResult();
             trial_result.rank = trial.rank;
             trial_result.lr   = trial.lr;
 
@@ -788,7 +788,7 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
             static_f1 = (p + r) > 0 ? 2.0 * p * r / (p + r) : 0.0;
         }
 
-        CalibratedThreshold entry;
+        CalibratedThreshold entry = CalibratedThreshold();
         entry.category       = category;
         entry.threshold      = best_threshold;
         entry.sample_count   = cat_samples.size();
