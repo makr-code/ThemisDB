@@ -676,7 +676,7 @@ void WireProtocolConnectionPool::adaptPoolSize() {
         {
             std::lock_guard<std::mutex> pool_lock(pool->mutex);
             active_count    = pool->active_count;
-            available_count = pool-> static_cast<int>(available.size());
+            available_count = pool->available.size();
             current_count   = active_count + available_count;
 
             if (!pool->available.empty()) {
@@ -796,7 +796,7 @@ WireProtocolConnectionPool::Stats WireProtocolConnectionPool::getStats() const {
     
     for (const auto& [target, pool] : target_pools_) {
         std::lock_guard<std::mutex> pool_lock(pool->mutex);
-        available += pool-> static_cast<int>(available.size());
+        available += pool->available.size();
         in_use += pool->active_count;
     }
     

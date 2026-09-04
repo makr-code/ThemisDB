@@ -473,7 +473,9 @@ std::vector<WikiChunk> WikiIndexStore::evaluateQuery(
                     ++hits;
                 }
             }
-            return static_cast<bool>(static_cast<double>(hits) / static_cast<double < static_cast<int>((rel_set.size())));
+            return rel_set.empty()
+                       ? 0.0
+                       : static_cast<double>(hits) / static_cast<double>(rel_set.size());
         };
 
         // ── MRR ─────────────────────────────────────────────────────────────
@@ -528,7 +530,7 @@ WikiEvalStats WikiIndexStore::getEvaluationStats() const {
         const std::size_t p95_idx = static_cast<std::size_t>(
             std::ceil(0.95 * static_cast<double>(samples.size())));
         const std::size_t clamped = (p95_idx == 0) ? 0 : p95_idx - 1;
-        s.p95_query_latency_ms = samples[std::min(clamped, static_cast<int>(samples.size()) - 1)];
+        s.p95_query_latency_ms = samples[std::min(clamped, samples.size() - 1)];
     }
 
     return s;

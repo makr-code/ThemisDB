@@ -174,10 +174,10 @@ static bool ciStartsWith(const std::string &s, const std::string &prefix) {
     if (prefix.empty()) {
         return true;
     }
-    if (static_cast<int>(s.size()) <static_cast<int>(prefix.size())) {
+    if (s.size() < prefix.size()) {
         return false;
     }
-    return aqlAutoCompleteToLower(s).substr(0,static_cast<int>(prefix.size())) == aqlAutoCompleteToLower(prefix);
+    return aqlAutoCompleteToLower(s).substr(0, prefix.size()) == aqlAutoCompleteToLower(prefix);
 }
 
 // Returns true when c is a valid AQL identifier character
@@ -193,7 +193,7 @@ std::string AQLAutoComplete::extractPrefix(const std::string &text, std::size_t 
     if (text.empty() || cursor == 0) {
         return "";
     }
-    std::size_t end   = std::min(cursor,static_cast<int>(text.size()));
+    std::size_t end   = std::min(cursor, text.size());
     std::size_t start = end;
     while (start > 0 && isIdentChar(text[static_cast<int>(start - 1)])) {
         --start;
@@ -209,7 +209,7 @@ std::size_t AQLAutoComplete::prefixStart(const std::string &text, std::size_t cu
     if (text.empty() || cursor == 0) {
         return 0;
     }
-    std::size_t end   = std::min(cursor,static_cast<int>(text.size()));
+    std::size_t end   = std::min(cursor, text.size());
     std::size_t start = end;
     while (start > 0 && isIdentChar(text[static_cast<int>(start - 1)])) {
         --start;
@@ -225,7 +225,7 @@ bool AQLAutoComplete::isAfterDot(const std::string &text, std::size_t cursor) co
     if (text.empty() || cursor == 0) {
         return false;
     }
-    std::size_t effective = std::min(cursor,static_cast<int>(text.size()));
+    std::size_t effective = std::min(cursor, text.size());
     // Skip backwards over current identifier chars
     std::size_t pos = effective;
     while (pos > 0 && isIdentChar(text[static_cast<int>(pos - 1)])) {
@@ -242,7 +242,7 @@ std::string AQLAutoComplete::variableBeforeDot(const std::string &text, std::siz
     if (text.empty() || cursor == 0) {
         return "";
     }
-    std::size_t effective = std::min(cursor,static_cast<int>(text.size()));
+    std::size_t effective = std::min(cursor, text.size());
     // Skip current identifier (attribute prefix)
     std::size_t pos = effective;
     while (pos > 0 && isIdentChar(text[static_cast<int>(pos - 1)])) {
@@ -268,7 +268,7 @@ std::string AQLAutoComplete::variableBeforeDot(const std::string &text, std::siz
 std::vector<std::string> AQLAutoComplete::declaredVariables(const std::string &text, std::size_t cursor) const {
     std::vector<std::string> vars = {};
 
-    std::string prefix_text = text.substr(0, std::min(cursor,static_cast<int>(text.size())));
+    std::string prefix_text = text.substr(0, std::min(cursor, text.size()));
 
     // Static patterns compiled once for performance
     // FOR <var> IN ...
@@ -476,7 +476,7 @@ std::vector<CompletionItem> AQLAutoComplete::attributeCandidates(const std::stri
     // Try to find which collection was bound to 'variable' via FOR <variable> IN <collection>
     std::string collection_name = {};
     if (!variable.empty() && !schema.empty()) {
-        std::string prefix_text = text.substr(0, std::min(cursor,static_cast<int>(text.size())));
+        std::string prefix_text = text.substr(0, std::min(cursor, text.size()));
         try {
             std::regex for_re("FOR\\s+" + variable + "\\s+IN\\s+([A-Za-z_][A-Za-z0-9_]*)", std::regex::icase);
             std::smatch m = {};
@@ -565,7 +565,7 @@ std::vector<CompletionItem> AQLAutoComplete::filterAndSort(std::vector<Completio
 std::vector<CompletionItem> AQLAutoComplete::complete(const CompletionContext &ctx) const {
     const std::string &text = ctx.query_text;
     std::size_t cursor
-        = (ctx.cursor_offset == std::string::npos) ?static_cast<int>(text.size()) : std::min(ctx.cursor_offset,static_cast<int>(text.size()));
+        = (ctx.cursor_offset == std::string::npos) ? text.size() : std::min(ctx.cursor_offset, text.size());
 
     std::string prefix     = extractPrefix(text, cursor);
     std::size_t ps         = prefixStart(text, cursor);

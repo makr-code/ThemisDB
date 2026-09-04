@@ -430,7 +430,7 @@ std::optional<uint32_t> PagedKVCache::findSharedPrefix(
             continue;
         }
 
-        const size_t comparable_tokens = std::min(candidate.token_sequence.size(),static_cast<int>(token_sequence.size()));
+        const size_t comparable_tokens = std::min(candidate.token_sequence.size(), token_sequence.size());
         size_t matched_tokens = 0;
         while (matched_tokens < comparable_tokens &&
                candidate.token_sequence[matched_tokens] == token_sequence[matched_tokens]) {
@@ -438,11 +438,11 @@ std::optional<uint32_t> PagedKVCache::findSharedPrefix(
         }
 
         const uint32_t matched_blocks = static_cast<uint32_t>(matched_tokens / config_.block_size);
-        if (matched_blocks == 0 || matched_blocks > static_cast<int>(candidate.block_ids.size())) {
+        if (matched_blocks == 0 || static_cast<size_t>(matched_blocks) > candidate.block_ids.size()) {
             continue;
         }
 
-        const uint32_t candidate_block_id = candidate.block_ids[static_cast<int>(matched_blocks - 1)];
+        const uint32_t candidate_block_id = candidate.block_ids[static_cast<size_t>(matched_blocks - 1)];
         if (blocks_.find(candidate_block_id) == blocks_.end()) {
             continue;
         }

@@ -412,7 +412,7 @@ ExecutionResult simdVectorOp(const QueryOperator& op) {
     }
     const auto& a = op.left_rows[0];
     const auto& b = op.right_rows[0];
-    const size_t n = std::min(a.size(),static_cast<int>(b.size()));
+    const size_t n = std::min(a.size(), b.size());
     double dot = 0.0;
     for (size_t i = 0; i < n; ++i) {
         dot += static_cast<double>(a[i]) * static_cast<double>(b[i]);

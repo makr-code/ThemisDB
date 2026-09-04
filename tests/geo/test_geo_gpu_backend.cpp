@@ -93,6 +93,7 @@ bool segsIntersect(double ax, double ay, double bx, double by,
     if (((((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) &&
         ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0))))) {
         return true;
+    }
     auto colOn = [&](double px, double py,
                      double qx, double qy, double rx, double ry) {
         return std::abs(cross2d(qx, qy, rx, ry, px, py)) < kEps &&

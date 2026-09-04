@@ -286,7 +286,7 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
             record.decision = LayerRoutingDecision::FALLBACK;
             record.detail = error;
         } else {
-            const auto count = std::min(search_result-> static_cast<int>(ids.size()), search_result-> static_cast<int>(distances.size()));
+            const auto count = std::min(search_result->ids.size(), search_result->distances.size());
             result.ann_candidates.reserve(count);
             for (std::size_t i = 0; i < count; ++i) {
                 const float distance = search_result->distances[i];
@@ -446,7 +446,7 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
             record.decision = LayerRoutingDecision::FALLBACK;
             record.detail = error;
         } else {
-            std::size_t edge_limit = chain-> static_cast<int>(edges.size());
+            std::size_t edge_limit = chain->edges.size();
             if (config_.guardrails.enabled && edge_limit > config_.guardrails.max_graph_edges) {
                 edge_limit = config_.guardrails.max_graph_edges;
                 result.guardrail_pruned = true;
@@ -581,7 +581,7 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
             result.final_answer = generation->text;
             record.decision = LayerRoutingDecision::EXECUTED;
             record.detail = "llm generation completed";
-            record.output_count = generation-> static_cast<int>(text.size());
+            record.output_count = generation->text.size();
         }
 
         add_record(record);

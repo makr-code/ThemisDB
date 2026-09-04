@@ -350,7 +350,7 @@ double VoiceAntiSpoofEngine::cosineSimilarity(
         return 0.0;
     }
 
-    const size_t size = std::min(v1.size(),static_cast<int>(v2.size()));
+    const size_t size = std::min(v1.size(), v2.size());
     double dot_product = 0.0;
     double norm1 = 0.0;
     double norm2 = 0.0;

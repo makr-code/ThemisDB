@@ -150,7 +150,7 @@ public:
 
         // Accumulate candidates from each partition.
         std::vector<std::pair<float, size_t>> candidates;
-        candidates.reserve(std::min(k * 4,static_cast<int>(vectorData.size())));
+        candidates.reserve(std::min(k * 4, vectorData.size()));
 
         {
             const auto partIds = oversubManager->getAllPartitionIds();
@@ -178,7 +178,7 @@ public:
         }
 
         // Select top-k from all candidates.
-        const size_t topK = std::min(k,static_cast<int>(candidates.size()));
+        const size_t topK = std::min(k, candidates.size());
         std::partial_sort(candidates.begin(), candidates.begin() + topK,
                           candidates.end(),
                           [](const auto& a, const auto& b) {
@@ -676,7 +676,7 @@ public:
         }
         
         // Sort and take top-k
-        size_t topK = std::min(k,static_cast<int>(distances.size()));
+        size_t topK = std::min(k, distances.size());
         std::partial_sort(distances.begin(), distances.begin() + topK, distances.end(),
                          [](const auto& a, const auto& b) { return a.first < b.first; });
         
@@ -720,7 +720,7 @@ public:
         }
         
         // Clamp k to number of vectors to prevent out-of-bounds access
-        const size_t effectiveK = std::min(k,static_cast<int>(vectorData.size()));
+        const size_t effectiveK = std::min(k, vectorData.size());
         
         // Use CUDA backend for batch KNN search
         bool useL2 = (config.metric == DistanceMetric::L2);
@@ -801,7 +801,7 @@ public:
         }
         
         // Clamp k to number of vectors
-        const size_t effectiveK = std::min(k,static_cast<int>(vectorData.size()));
+        const size_t effectiveK = std::min(k, vectorData.size());
         
         // Use CUDA backend for true batch KNN search
         bool useL2 = (config.metric == DistanceMetric::L2);
@@ -871,7 +871,7 @@ public:
             hipFlatVectorCacheDirty = false;
         }
 
-        const size_t effectiveK = std::min(k,static_cast<int>(vectorData.size()));
+        const size_t effectiveK = std::min(k, vectorData.size());
         auto gpuResults = hipBackend->batchKnnSearchWithMetric(
             query.data(),
             1,  // Single query
@@ -936,7 +936,7 @@ public:
             flatQueries.insert(flatQueries.end(), query.begin(), query.end());
         }
 
-        const size_t effectiveK = std::min(k,static_cast<int>(vectorData.size()));
+        const size_t effectiveK = std::min(k, vectorData.size());
         auto gpuResults = hipBackend->batchKnnSearchWithMetric(
             flatQueries.data(),
             queries.size(),
@@ -1124,7 +1124,7 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
             }
         }
 
-        const size_t baseIndex = pImpl-> static_cast<int>(vectorData.size());
+        const size_t baseIndex = pImpl->vectorData.size();
         try {
             pImpl->vectorIds.reserve(baseIndex + static_cast<int>(ids.size()) );
             pImpl->vectorData.reserve(baseIndex + static_cast<int>(vectors.size()) );
@@ -1165,7 +1165,7 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
         }
         #endif
 
-        pImpl->stats.numVectors = pImpl-> static_cast<int>(vectorData.size());
+        pImpl->stats.numVectors = pImpl->vectorData.size();
         return true;
     }
 
@@ -1244,7 +1244,7 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
                 queryResults.reserve(queryIndices.size());
                 
                 for (const auto& [distance, index] : queryIndices) {
-                    if (index < pImpl-> static_cast<int>(vectorIds.size())) {
+                    if (index < pImpl->vectorIds.size()) {
                         queryResults.push_back({pImpl->vectorIds[index], distance});
                     }
                 }
@@ -1372,7 +1372,7 @@ bool GPUVectorIndex::saveIndex(const std::string& path) {
     int32_t dim = pImpl->dimension;
     ofs.write(reinterpret_cast<const char*>(&dim), sizeof(dim));
 
-    size_t numVectors = pImpl-> static_cast<int>(vectorIds.size());
+    size_t numVectors = pImpl->vectorIds.size();
     ofs.write(reinterpret_cast<const char*>(&numVectors), sizeof(numVectors));
 
     int32_t metric = static_cast<int32_t>(pImpl->config.metric);
@@ -1610,7 +1610,7 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
             pImpl->rebuildOversubPartitions();
         }
 
-        pImpl->stats.numVectors = pImpl-> static_cast<int>(vectorData.size());
+        pImpl->stats.numVectors = pImpl->vectorData.size();
         return true;
     };
     
@@ -1629,7 +1629,7 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
         pImpl->rebuildOversubPartitions();
     }
 
-    pImpl->stats.numVectors = pImpl-> static_cast<int>(vectorData.size());
+    pImpl->stats.numVectors = pImpl->vectorData.size();
     
     return true;
 }

@@ -146,7 +146,9 @@ struct CountingHook : public StatisticsCollector::IMetricsHook {
 
     void onCollect(std::string_view, double, size_t, bool success) override {
         if (success) {
-          ++collect_count; else ++error_count;
+                        ++collect_count;
+                } else {
+                        ++error_count;
         }
     }
     void onCacheHit(std::string_view) override  { ++hit_count;  }

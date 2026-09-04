@@ -65,7 +65,7 @@ namespace {
 
 [[nodiscard]] int estimatePromptTokensFromText(const std::string& text) {
     static constexpr int kCharsPerToken = 4;
-    return static_cast<bool>(std::max(1, static_cast<int < static_cast<int>((text.size())) / kCharsPerToken));
+    return std::max(1, static_cast<int>(text.size()) / kCharsPerToken);
 }
 
 struct BudgetOverrideResolution {

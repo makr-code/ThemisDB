@@ -65,7 +65,9 @@ protected:
     {
         const char* v = std::getenv("THEMIS_TOKEN_ADMIN");
         if (v) {
-          std::cerr << "[TEST-DEBUG] THEMIS_TOKEN_ADMIN='" << v << "'\n"; else std::cerr << "[TEST-DEBUG] THEMIS_TOKEN_ADMIN=<null>\n";
+                        std::cerr << "[TEST-DEBUG] THEMIS_TOKEN_ADMIN='" << v << "'\n";
+                } else {
+                        std::cerr << "[TEST-DEBUG] THEMIS_TOKEN_ADMIN=<null>\n";
         }
     }
         // Use an explicit test policies file via env to avoid touching repo config

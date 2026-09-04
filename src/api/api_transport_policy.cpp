@@ -127,7 +127,7 @@ TransportFailureClass TransportPolicyMiddleware::applyPolicy(
         auto it_ct  = req.headers.find("Content-Type");
         auto it_ctL = req.headers.find("content-type");
         const bool has_ct = (it_ct  != req.headers.end() && !it_ct->second.empty())
-                         || (it_ctL != (req.headers.end() && !it_ctL->second.empty()));
+                         || (it_ctL != req.headers.end() && !it_ctL->second.empty());
         if (!has_ct) {
             return TransportFailureClass::ContentTypeMissing; // non-retryable: request property
         }

@@ -193,7 +193,7 @@ static double jaccardEstimate(const std::vector<uint32_t>& a,
           ++matches;
         }
     }
-    return static_cast<bool>(static_cast<double>(matches) / static_cast<double < static_cast<int>((a.size())));
+        return static_cast<double>(matches) / static_cast<double>(a.size());
 }
 
 // Compute type-token ratio (TTR) as diversity score

@@ -715,7 +715,7 @@ TEST_F(MaintenanceOrchestratorTest, WindowEnforcement_SkipsJobOutsideWindow) {
         auto j = orchestrator_->getJob(job_id);
         if ((j && (j->state == MaintenanceJobState::SKIPPED ||
                   j->state == MaintenanceJobState::SUCCEEDED ||
-                  j->state == MaintenanceJobState::FAILED)) {
+                  j->state == MaintenanceJobState::FAILED))) {
             break;
         }
     }

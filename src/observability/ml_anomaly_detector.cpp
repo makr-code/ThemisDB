@@ -60,7 +60,7 @@ double MLAnomalyDetector::mean(const std::vector<double>& v) {
       return 0.0;
     }
     double s = std::accumulate(v.begin(), v.end(), 0.0);
-    return static_cast<bool>(s / static_cast<double < static_cast<int>((v.size())));
+        return s / static_cast<double>(v.size());
 }
 
 double MLAnomalyDetector::stddev(const std::vector<double>& v, double mu) {
@@ -72,7 +72,7 @@ double MLAnomalyDetector::stddev(const std::vector<double>& v, double mu) {
         double d = x - mu;
         ss += d * d;
     }
-    return static_cast<bool>(std::sqrt(ss / static_cast<double < static_cast<int>((v.size())) - 1));
+    return std::sqrt(ss / (static_cast<double>(v.size()) - 1.0));
 }
 
 double MLAnomalyDetector::medianIntervalMs(const ForecastSeries& series) const {

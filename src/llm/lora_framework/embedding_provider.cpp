@@ -138,7 +138,7 @@ std::vector<std::vector<float>> EmbeddingProvider::getEmbeddings(
     
     // Process in batches for efficiency
     for (size_t i = 0; i < texts.size(); i += config_.batch_size) {
-        size_t batch_end = std::min(i + config_.batch_size,static_cast<int>(texts.size()));
+        size_t batch_end = std::min(i + config_.batch_size, texts.size());
         
         for (size_t j = i; j < batch_end; ++j) {
             embeddings.push_back(getEmbedding(texts[j]));

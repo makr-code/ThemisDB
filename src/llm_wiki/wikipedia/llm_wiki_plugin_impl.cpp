@@ -250,11 +250,6 @@ Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
         if (j.contains("embedding_dim")) {
           embedding_dim_ = j["embedding_dim"].get<int>();
         }
-        if (j.contains("splitter_max_tokens")) {
-          splitter_max_tokens_ = j["splitter_max_tokens"].get<int>();
-        }
-
-        std::unique_lock<std::shared_mutex> lock(mutex_);
 
         // Extract configuration fields
         embedding_provider_      = j.value("embedding_provider",      std::string{"hash"});
@@ -377,8 +372,9 @@ Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
         if (j.contains("fail_open")) {
           fail_open_ = j["fail_open"].get<bool>();
         }
+#endif // THEMISDB_WIKI_PHASE_B
         if (j.contains("llm_wiki_wikipedia")) {
-          llm_wiki_wikipedia_ = j["llm_wiki_wikipedia"].get<bool>();
+                    has_wikipedia_license_ = j["llm_wiki_wikipedia"].get<bool>();
         }
         if (j.contains("json_index_path")) {
           json_index_path_ = j["json_index_path"].get<std::string>();
@@ -786,6 +782,18 @@ WikiQueryResult LLMWikiPluginImpl::query(
         return result;
     }
 
+    std::vector<themis::llm::WikiChunk> raw_candidates;
+#ifdef THEMISDB_WIKI_PHASE_B
+    if (phase_b_active_ && wiki_store_) {
+        raw_candidates = wiki_store_->query(query_text, opts.top_k, opts.min_score);
+    } else
+#endif
+    if (json_reader_ && json_reader_->isReady()) {
+        raw_candidates = json_reader_->query(query_text, opts.top_k, opts.min_score);
+    } else {
+        raw_candidates = inMemoryBm25(query_text, opts.top_k, opts.min_score);
+    }
+
     // Guardrail: filter unsafe chunks
     if (const auto gate = evaluateStageGate("validate", /*immediate_execution=*/true);
         !gate.allowed) {
@@ -800,7 +808,7 @@ WikiQueryResult LLMWikiPluginImpl::query(
             spdlog::debug("[llm_wiki] Filtered unsafe chunk: {} ({})",
                           chunk.chunk_id, chunk.source_path);
         } else {
-            result.filtered_unsafe_chunks++;
+            result.candidates.push_back(chunk);
         }
     }
     if (const auto gate = evaluateStageGate("synthesize", /*immediate_execution=*/true);

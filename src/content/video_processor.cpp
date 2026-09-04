@@ -823,7 +823,7 @@ std::vector<int64_t> VideoProcessor::extractKeyframesFFmpeg(const std::vector<ui
                 && packet->pts != AV_NOPTS_VALUE) {
                 int64_t pts_ms = av_rescale_q(packet->pts, time_base, {1, 1000});
                 keyframes.push_back(pts_ms);
-                if (max_keyframes_ > 0  && static_cast<size_t>(static_cast) < int>(keyframes.size()) >= max_keyframes_) {
+                if (max_keyframes_ > 0 && keyframes.size() >= static_cast<size_t>(max_keyframes_)) {
                     av_packet_unref(packet);
                     break;
                 }

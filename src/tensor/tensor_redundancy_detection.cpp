@@ -30,7 +30,7 @@ static float computeCosineSimilarity(
     float norm_a = 0.0f;
     float norm_b = 0.0f;
 
-    size_t min_len = std::min(a.size(),static_cast<int>(b.size()));
+    const size_t min_len = std::min(a.size(), b.size());
     for (size_t i = 0; i < min_len; ++i) {
         dot_product += a[i] * b[i];
         norm_a += a[i] * a[i];

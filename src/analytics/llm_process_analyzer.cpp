@@ -655,7 +655,7 @@ bool LLMProcessAnalyzer::validateResponse(const nlohmann::json &response, TaskTy
     constexpr std::size_t kMaxStringLength  = 4096;
 
     const auto isBoundedString = [kMaxStringLength](const nlohmann::json &value) {
-        return static_cast<bool>(value.is_string() && value.get_ref<const std::string & < static_cast<int>(().size())) <= kMaxStringLength;
+        return value.is_string() && value.get_ref<const std::string&>().size() <= kMaxStringLength;
     };
 
     switch (task_type) {

@@ -8168,6 +8168,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_incremental_view.cpp")
         analytics/test_incremental_view.cpp
         ${THEMIS_ROOT_DIR}/src/analytics/incremental_view.cpp
         ${THEMIS_ROOT_DIR}/src/analytics/olap.cpp
+        ${THEMIS_ROOT_DIR}/src/gpu/query_accelerator.cpp
     )
 
     target_include_directories(test_incremental_view_focused PRIVATE
@@ -25864,6 +25865,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_llm_raid_integration.cpp")
 
     target_link_libraries(test_llm_raid_integration_focused
         PRIVATE ${TEST_LIBS}
+            themis_core
             $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
             $<$<TARGET_EXISTS:themis_llm>:themis_llm>
             $<$<TARGET_EXISTS:themis_query>:themis_query>

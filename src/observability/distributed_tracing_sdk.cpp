@@ -302,7 +302,7 @@ std::shared_ptr<DistributedTraceContext> DistributedTraceContext::withBaggage(
     ctx->created_at_ = created_at_;
 
     // Add new baggage item
-    if (ctx-> static_cast<int>(baggage_.size()) >= kMaxBaggageItems) {
+    if (ctx->baggage_.size() >= static_cast<std::size_t>(kMaxBaggageItems)) {
         // Remove oldest inherited baggage item to make room
         auto it = std::find_if(ctx->baggage_.begin(), ctx->baggage_.end(),
                               [](const BaggageItem& b) { return b.inherited; });

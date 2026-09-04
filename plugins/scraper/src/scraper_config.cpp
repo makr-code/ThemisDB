@@ -240,7 +240,7 @@ UrlPolicy::UrlPolicy(const std::vector<std::string> &whitelist, const std::vecto
     if (pattern.front() == '*') {
         const std::string suffix = pattern.substr(1);
         if (url.size() >= suffix.size() && url.compare(url.size() - suffix.size(), suffix.size(), suffix) == 0)
-            return true = {};
+            return true;
         return false;
     }
     // Glob prefix: "https://example.com/*" treated as prefix match without '*'
