@@ -271,7 +271,7 @@ void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
 
 std::vector<uint8_t> ScaNN::PQCodebook::encode(const float* vec, [[maybe_unused]] size_t d) const {
     const size_t expected_dim = num_subspaces * sub_dim;
-    if (vec == nullptr || num_subspaces == 0 || sub_dim == 0 || d < expected_dim || centroids.size() < num_subspaces) {
+    if (vec == nullptr || num_subspaces == 0 || sub_dim == 0  || static_cast<size_t>(d) < expected_dim || centroids.size() < num_subspaces) {
         THEMIS_WARN("ScaNN::PQCodebook::encode: invalid input or uninitialized codebook (num_subspaces={} sub_dim={} d={} expected_dim={})",
                     num_subspaces, sub_dim, d, expected_dim);
         return {};

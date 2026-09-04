@@ -3132,7 +3132,7 @@ json MultiLoRAManager::getGPUTransferAuditLog([[maybe_unused]] size_t limit) con
     json log = json::array();
     
     size_t start = (limit > 0 && audit_log_.size() > limit) ? 
-                   (audit_log_.size() - limit) : 0;
+                   (static_cast<int>(audit_log_.size()) - limit) : 0;
     
     for (size_t i = start; i < audit_log_.size(); ++i) {
         const auto& event = audit_log_[i];
@@ -3178,7 +3178,7 @@ void MultiLoRAManager::logGPUTransferEvent(const std::string& event_type,
     // Trim log if it exceeds max size
     if (static_cast<int>(audit_log_.size()) > max_audit_log_size_) {
         audit_log_.erase(audit_log_.begin(), 
-                        audit_log_.begin() + (audit_log_.size() - max_audit_log_size_));
+                        audit_log_.begin() + (static_cast<int>(audit_log_.size()) - max_audit_log_size_));
     }
     
     // Log to spdlog for external audit systems

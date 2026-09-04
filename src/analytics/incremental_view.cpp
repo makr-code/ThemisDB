@@ -499,7 +499,7 @@ ViewQueryResult IncrementalView::query(const std::vector<ViewFilter> &filters, i
             ++row_idx;
             continue;
         }
-        if (limit > 0 && static_cast<int64_t>(result.rows.size()) >= limit) {
+        if (limit > 0  && static_cast<size_t>(static_cast) < int64_t>(result.rows.size()) >= limit) {
             continue;
         }
 

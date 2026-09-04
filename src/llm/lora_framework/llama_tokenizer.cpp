@@ -100,7 +100,7 @@ std::vector<int> LlamaTokenizer::encode(const std::string& text,
     const llama_vocab* vocab = llama_model_get_vocab(model_);
     
     // Allocate buffer for tokens (estimate size + extra for special tokens)
-    std::vector<llama_token> tokens_buffer(text.size() + 16);
+    std::vector<llama_token> tokens_buffer(static_cast<int>(text.size()) + 16);
     
     // Tokenize using llama.cpp (matches existing pattern in llama_wrapper.cpp)
     int32_t n_tokens = llama_tokenize(

@@ -435,7 +435,7 @@ float ExplanationGenerator::calculateSimilarity(
     }
     
     // Jaccard similarity
-    size_t total_unique = set1.size() + set2.size() - common;
+    size_t total_unique = static_cast<int>(set1.size()) + static_cast<int>(set2.size()) - common;
     if (total_unique == 0) {
         return 0.0f;
     }

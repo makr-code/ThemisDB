@@ -32,7 +32,7 @@ static std::string extractStringField(const std::string& json, const std::string
     // Look for "key":"value" or "key": "value"
     auto pos = json.find('"' + key + '"');
     if (pos == std::string::npos) return {};
-    pos = json.find(':', pos + key.size() + 2);
+    pos = json.find(':', pos + static_cast<int>(key.size()) + 2);
     if (pos == std::string::npos) return {};
     // Skip whitespace
     while (pos < json.size() && (json[pos] == ':' || json[pos] == ' ')) {
@@ -52,7 +52,7 @@ static double extractDoubleField(const std::string& json, const std::string& key
     if (pos == std::string::npos) {
       return std::numeric_limits<double>::quiet_NaN();
     }
-    pos = json.find(':', pos + key.size() + 2);
+    pos = json.find(':', pos + static_cast<int>(key.size()) + 2);
     if (pos == std::string::npos) {
       return std::numeric_limits<double>::quiet_NaN();
     }
@@ -194,7 +194,7 @@ std::string DatabaseDomainAutoLabeler::exportToJsonl(
 
     auto escape = [](const std::string& s) -> std::string {
         std::string out = {};
-        out.reserve(s.size() + 4);
+        out.reserve(static_cast<int>(s.size()) + 4);
         for (char c : s) {
             switch (c) {
                 case '"':  out += "\\\""; break;

@@ -576,7 +576,7 @@ size_t TemporalTierManager::flushHotToWarmLocked(
       return 0;
     }
 
-    const size_t to_move = hot_map.size() - keep;
+    const size_t to_move = static_cast<int>(hot_map.size()) - keep;
 
     // Collect oldest `to_move` versions (the front of the sorted map)
     std::vector<VersionedDocument> batch;
@@ -653,7 +653,7 @@ VersionBlock TemporalTierManager::makeBlock(
     VersionBlock blk;
     blk.doc_key       = doc_key;
     blk.version_count = versions.size();
-    blk.bloom         = BloomFilter(versions.size() + 1);
+    blk.bloom         = BloomFilter(static_cast<int>(versions.size()) + 1);
     blk.entries.reserve(versions.size());
 
     uint64_t total_bytes = 0;

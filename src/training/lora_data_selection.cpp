@@ -699,9 +699,9 @@ public:
                 result.audit_entry.config_hash       = detail::hashConfig(config_);
                 result.audit_entry.input_sample_count  = input.size();
                 result.audit_entry.output_sample_count = result.selected_samples.size();
-                result.audit_entry.filtered_by_quality = input.size() - s1.size();
-                result.audit_entry.filtered_by_dedup   = s1.size() - s2.size();
-                result.audit_entry.filtered_by_cluster = s2.size() - s3.size();
+                result.audit_entry.filtered_by_quality = static_cast<int>(input.size()) - s1.size();
+                result.audit_entry.filtered_by_dedup   = static_cast<int>(s1.size()) - s2.size();
+                result.audit_entry.filtered_by_cluster = static_cast<int>(s2.size()) - s3.size();
                 for (const auto& s : result.selected_samples) {
                     result.audit_entry.selected_ids.push_back(s.id);
                     if (!s.domain.empty()) {
@@ -867,7 +867,7 @@ static std::string stripQuotes(const std::string& s) {
     if (s.size() >= 2 &&
         ((s.front() == '"' && s.back() == '"') ||
          (s.front() == '\'' && s.back() == '\'')))
-        return s.substr(1, s.size() - 2);
+        return s.substr(1, static_cast<int>(s.size()) - 2);
     return s;
 }
 
@@ -1050,7 +1050,7 @@ static std::string jsonEscape(const std::string& s) {
     // reserve(size+4) pre-allocates worst-case capacity for the common path;
     // the += character loop below is O(n) — no quadratic reallocation.
     // (Scanner flag "string_concat_loop" is a false positive here.)
-    out.reserve(s.size() + 4);
+    out.reserve(static_cast<int>(s.size()) + 4);
     for (unsigned char c : s) {
         if      (c == '"') {
           out += "\\\"";

@@ -79,8 +79,8 @@ std::string PromptTemplate::format(
     // Build complete prompt
     // F-018: replace ostringstream with reserve+append to avoid heap overhead.
     std::string prompt = {};
-    prompt.reserve(system_prompt.size() + few_shot_examples.size() +
-                   result.size() + output_format_instruction.size() + 8);
+    prompt.reserve(static_cast<int>(system_prompt.size()) + static_cast<int>(few_shot_examples.size()) +
+                   static_cast<int>(result.size()) + static_cast<int>(output_format_instruction.size()) + 8);
     if (!system_prompt.empty()) {
         prompt += system_prompt;
         prompt += "\n\n";
@@ -189,7 +189,7 @@ std::string LLMIntegration::generate(
             while (iss >> tok) {
                 TokenProbability tp;
                 tp.token = tok;
-                if (!response.logprobs.empty() && pos < response.logprobs.size()) {
+                if (!response.logprobs.empty()  && static_cast<size_t>(pos) < response.logprobs.size()) {
                     // logprobs are natural-log probabilities; convert to probability
                     tp.probability = static_cast<double>(
                         std::exp(response.logprobs[pos]));
@@ -363,7 +363,7 @@ double LLMIntegration::calculateSemanticSimilarity(
     }
     
     // Calculate union size
-    size_t union_size = set1.size() + set2.size() - intersection;
+    size_t union_size = static_cast<int>(set1.size()) + static_cast<int>(set2.size()) - intersection;
     
     if (union_size == 0) {
         return 0.0;

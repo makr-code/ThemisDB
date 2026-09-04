@@ -150,7 +150,7 @@ std::pair<TimeSeries, TimeSeries> TimeSeries::trainTestSplit([[maybe_unused]] do
         throw std::invalid_argument("train_ratio must be in (0, 1)");
     }
     size_t split = static_cast<size_t>(std::round(ratio * static_cast<double>(points_.size())));
-    split        = std::max(size_t{1}, std::min(split, points_.size() - 1));
+    split        = std::max(size_t{1}, std::min(split, static_cast<int>(points_.size()) - 1));
     TimeSeries train, test;
     train.points_.assign(points_.begin(), points_.begin() + static_cast<ptrdiff_t>(split));
     test.points_.assign(points_.begin() + static_cast<ptrdiff_t>(split), points_.end());
@@ -437,7 +437,7 @@ int64_t medianInterval(const std::vector<int64_t> &timestamps) {
     }
     std::vector<double> diffs = {};
 
-    diffs.reserve(timestamps.size() - 1);
+    diffs.reserve(static_cast<int>(timestamps.size()) - 1);
     for (size_t i = 1; i < timestamps.size(); ++i) {
         diffs.push_back(static_cast<double>(timestamps[i] - timestamps[static_cast<int>(i - 1)]));
     }
@@ -714,7 +714,7 @@ ArimaParams fitARIMA(const std::vector<double> &y, int p, int d, int q) {
     // Differencing
     std::vector<double> yd = y;
     if (d == 1 && y.size() > 1) {
-        std::vector<double> diff(y.size() - 1);
+        std::vector<double> diff(static_cast<int>(y.size()) - 1);
         for (size_t i = 1; i < y.size(); ++i) {
             diff[static_cast<int>(i - 1)] = y[i] - y[static_cast<int>(i - 1)];
         }
@@ -840,7 +840,7 @@ static std::vector<double> seasonalDiff(const std::vector<double> &y, int D, int
         if (static_cast<int>(yd.size()) <= m) {
             break;
         }
-        std::vector<double> tmp(yd.size() - static_cast<size_t>(m));
+        std::vector<double> tmp(static_cast<int>(yd.size()) - static_cast<size_t>(m));
         for (size_t i = static_cast<size_t>(m); i < yd.size(); ++i) {
             tmp[i - static_cast<size_t>(m)] = yd[i] - yd[i - static_cast<size_t>(m)];
         }
@@ -856,7 +856,7 @@ static std::vector<double> regularDiff(const std::vector<double> &y, int d) {
         if (yd.size() < 2) {
             break;
         }
-        std::vector<double> tmp(yd.size() - 1);
+        std::vector<double> tmp(static_cast<int>(yd.size()) - 1);
         for (size_t i = 1; i < yd.size(); ++i) {
             tmp[static_cast<int>(i - 1)] = yd[i] - yd[static_cast<int>(i - 1)];
         }
@@ -1094,12 +1094,12 @@ std::vector<double> predictSARIMA(const SARIMAParams &p, int steps) {
     for (int k = 0; k < steps; ++k) {
         // AR(ar_coeffs) on doubly-differenced series
         double ar_contrib = 0.0;
-        for (size_t j = 0; j < ap && j < window.size(); ++j) {
+        for (size_t j = 0; j < ap  && static_cast<size_t>(j) < window.size(); ++j) {
             ar_contrib += p.ar_coeffs[j] * window[window.size() - 1 - j];
         }
         // MA(ma_coeffs) — future residuals are 0
         double ma_contrib = 0.0;
-        for (size_t j = 0; j < mq && j < resid.size(); ++j) {
+        for (size_t j = 0; j < mq  && static_cast<size_t>(j) < resid.size(); ++j) {
             ma_contrib += p.ma_coeffs[j] * resid[resid.size() - 1 - j];
         }
 
@@ -1126,7 +1126,7 @@ std::vector<double> predictSARIMA(const SARIMAParams &p, int steps) {
         // Update window for next step (use rotation instead of erase)
         double new_val = pred_diff - p.mean_diff;
         if (static_cast<int>(window.size()) > ap + 10) {
-            for (size_t i = 0; i < window.size() - 1; ++i) {
+            for (size_t i = 0; i < static_cast<int>(window.size()) - 1; ++i) {
                 window[i] = window[i + 1];
             }
             window.back() = new_val;
@@ -1135,7 +1135,7 @@ std::vector<double> predictSARIMA(const SARIMAParams &p, int steps) {
         }
         
         if (static_cast<int>(resid.size()) > mq + 10) {
-            for (size_t i = 0; i < resid.size() - 1; ++i) {
+            for (size_t i = 0; i < static_cast<int>(resid.size()) - 1; ++i) {
                 resid[i] = resid[i + 1];
             }
             resid.back() = 0.0;
@@ -1644,12 +1644,12 @@ struct ForecastModel::Impl {
         for (int k = 0; k < steps; ++k) {
             // AR contribution (demeaned)
             double ar_contrib = 0.0;
-            for (size_t j = 0; j < ap && j < window.size(); ++j) {
+            for (size_t j = 0; j < ap  && static_cast<size_t>(j) < window.size(); ++j) {
                 ar_contrib += arima_p.ar_coeffs[j] * window[window.size() - 1 - j];
             }
             // MA contribution (residuals set to 0 for future steps)
             double ma_contrib = 0.0;
-            for (size_t j = 0; j < mq && j < resid.size(); ++j) {
+            for (size_t j = 0; j < mq  && static_cast<size_t>(j) < resid.size(); ++j) {
                 ma_contrib += arima_p.ma_coeffs[j] * resid[resid.size() - 1 - j];
             }
             // Future residuals are 0
@@ -1669,7 +1669,7 @@ struct ForecastModel::Impl {
             double new_val = pred_diff - arima_p.mean_diff;
             if (static_cast<int>(window.size()) > ap + 10) {
                 // Rotate: shift left and append right
-                for (size_t i = 0; i < window.size() - 1; ++i) {
+                for (size_t i = 0; i < static_cast<int>(window.size()) - 1; ++i) {
                     window[i] = window[i + 1];
                 }
                 window.back() = new_val;
@@ -1680,7 +1680,7 @@ struct ForecastModel::Impl {
             double new_resid = 0.0;
             if (static_cast<int>(resid.size()) > mq + 10) {
                 // Rotate: shift left and append right
-                for (size_t i = 0; i < resid.size() - 1; ++i) {
+                for (size_t i = 0; i < static_cast<int>(resid.size()) - 1; ++i) {
                     resid[i] = resid[i + 1];
                 }
                 resid.back() = new_resid;
@@ -2070,7 +2070,7 @@ void ForecastModel::update([[maybe_unused]] double new_value) {
     {
         auto &ap = impl_->arima_p;
         // Compute differenced value (d==1): need at least 2 points (the previous
-        // training value is at train_y.size()-2 since we just pushed the new value).
+        // training value is at static_cast<int>(train_y.size()) -2 since we just pushed the new value).
         double y_diff = (ap.d == 1 && impl_->train_y.size() >= 2) ? (y - impl_->train_y[impl_->train_y.size() - 2]) : y;
         // Update last window - use erase+push_back pattern safely
         if (!ap.last_window.empty() && ap.last_window.size() > 0) {
@@ -2610,7 +2610,7 @@ int seasonalityDuration(
         for (size_t i = static_cast<size_t>(lag); i < detrended.size(); ++i) {
             autocorr += detrended[i] * detrended[i - lag];
         }
-        autocorr /= static_cast<double>(detrended.size() - lag);
+        autocorr /= static_cast<double>(static_cast<int>(detrended.size()) - lag);
         autocorr /= variance;  // Normalize
         
         // Looking for local maxima with high autocorrelation
@@ -2724,7 +2724,7 @@ std::pair<bool, std::string> exponentialSmoothing(
         double error = timeseries[t] - predicted;
         rmse += error * error;
     }
-    rmse = std::sqrt(rmse / static_cast<double>(timeseries.size() - 1));
+    rmse = std::sqrt(rmse / static_cast<double>(static_cast<int>(timeseries.size()) - 1));
     model.impl_->in_sample_rmse = rmse;
     
     return {true, ""};

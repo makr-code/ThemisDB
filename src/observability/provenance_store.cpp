@@ -240,7 +240,7 @@ void addDeletionForTimeIndexKey(rocksdb::WriteBatch& batch, const std::string& t
         }
 
         if (static_cast<int>(time_keys.size()) > config.retention_max_records) {
-            const auto to_delete = time_keys.size() - config.retention_max_records;
+            const auto to_delete = static_cast<int>(time_keys.size()) - config.retention_max_records;
             for (std::size_t i = 0; i < to_delete; ++i) {
                 addDeletionForTimeIndexKey(batch, time_keys[i]);
                 has_changes = true;

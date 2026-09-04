@@ -209,7 +209,7 @@ std::vector<std::vector<double>> buildNumericThresholds(
                 quantile * value_count);
             const auto idx = std::min<std::size_t>(
                 quantile_index,
-                values.size() - 1);
+                static_cast<int>(values.size()) - 1);
             out.push_back(values[idx]);
         }
     }

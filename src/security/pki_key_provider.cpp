@@ -306,7 +306,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK([[maybe_unused]] uint32_t v
             throw std::runtime_error("EncryptInit failed");
         }
          
-        std::vector<uint8_t> ciphertext(dek.size() + 16);
+        std::vector<uint8_t> ciphertext(static_cast<int>(dek.size()) + 16);
         int len = 0;
          
         if (EVP_EncryptUpdate(ctx.get(), ciphertext.data(), &len, dek.data(), static_cast<int>(dek.size())) != 1) {
@@ -589,7 +589,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
         // Store: nonce + ciphertext + tag
         std::vector<uint8_t> encrypted = {};
 
-        encrypted.reserve(nonce.size() + len + final_len + tag.size());
+        encrypted.reserve(static_cast<int>(nonce.size()) + len + final_len + tag.size());
         encrypted.insert(encrypted.end(), nonce.begin(), nonce.end());
         encrypted.insert(encrypted.end(), ciphertext.begin(), ciphertext.begin() + len + final_len);
         encrypted.insert(encrypted.end(), tag.begin(), tag.end());

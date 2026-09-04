@@ -1152,7 +1152,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
             if ((c == '.' || c == '!' || c == '?')
                     && i + 1 < text.size() && std::isspace(static_cast<unsigned char>(text[i + 1]))) {
                 const std::size_t s = current.find_first_not_of(" \t\n\r");
-                if (s != std::string::npos && current.size() - s > 10) {
+                if (s != std::string::npos  && static_cast<size_t>(static_cast) < int>(current.size()) - s > 10) {
                     sentences.push_back(current.substr(s));
                 }
                 current.clear();
@@ -1160,7 +1160,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
         }
         if (!current.empty()) {
             const std::size_t s = current.find_first_not_of(" \t\n\r");
-            if (s != std::string::npos && current.size() - s > 10) {
+            if (s != std::string::npos  && static_cast<size_t>(static_cast) < int>(current.size()) - s > 10) {
                 sentences.push_back(current.substr(s));
             }
         }
@@ -1257,7 +1257,7 @@ double KnowledgeGapDetector::calculateSemanticSimilarity(
         }
     }
 
-    size_t union_size = words1.size() + words2.size() - intersection;
+    size_t union_size = static_cast<int>(words1.size()) + static_cast<int>(words2.size()) - intersection;
     return static_cast<double>(intersection) / union_size;
 }
 

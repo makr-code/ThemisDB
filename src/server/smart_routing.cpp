@@ -426,7 +426,7 @@ double SmartRouter::computeP99(const std::deque<double>& window) {
     if (idx > 0) {
       --idx;
     }
-    idx = std::min(idx, sorted.size() - 1);
+    idx = std::min(idx, static_cast<int>(sorted.size()) - 1);
     return sorted[idx];
 }
 

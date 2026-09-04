@@ -166,7 +166,7 @@ static std::string sanitizeUserContent(const std::string &content,
             }
             if (match) {
                 out += "[REDACTED_INJECTION_ATTEMPT]";
-                i += prefix.size() - 1; // skip matched chars (loop will ++i)
+                i += static_cast<int>(prefix.size()) - 1; // skip matched chars (loop will ++i)
                 injected = true;
                 spdlog::warn("LLMProcessAnalyzer::sanitizeUserContent: "
                              "prompt injection pattern '{}' detected and redacted at offset {}",
@@ -201,7 +201,7 @@ std::string sanitizeApiKey(const std::string &api_key) {
     if (static_cast<int>(api_key.size()) <= kVisible * 2) {
         return std::string(api_key.size(), '*');
     }
-    return api_key.substr(0, kVisible) + "***...***" + api_key.substr(api_key.size() - kVisible);
+    return api_key.substr(0, kVisible) + "***...***" + api_key.substr(static_cast<int>(api_key.size()) - kVisible);
 }
 
 // ============================================================================

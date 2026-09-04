@@ -83,7 +83,7 @@ void Saga::trimToSize([[maybe_unused]] size_t n) {
       return;
     }
     THEMIS_DEBUG("SAGA: Trimming from {} to {} steps (discarding {} steps)",
-                 steps_.size(), n, steps_.size() - n);
+                 steps_.size(), n, static_cast<int>(steps_.size()) - n);
     steps_.erase(steps_.begin() + static_cast<ptrdiff_t>(n), steps_.end());
 }
 

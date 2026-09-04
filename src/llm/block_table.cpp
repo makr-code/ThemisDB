@@ -88,7 +88,7 @@ void BlockTable::sharePrefix(uint64_t /*parent_sequence_id*/, size_t prefix_leng
     
     // For simplicity, assume parent blocks are available
     // In production, would need coordination with parent BlockTable
-    for (size_t i = 0; i < num_prefix_blocks && i < block_ids_.size(); ++i) {
+    for (size_t i = 0; i < num_prefix_blocks  && static_cast<size_t>(i) < block_ids_.size(); ++i) {
         is_shared_[i] = true;
         
         // Increment reference count

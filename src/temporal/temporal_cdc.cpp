@@ -593,13 +593,13 @@ std::vector<uint64_t> CDCPersistentLog::listSegmentSeqs() const {
         }
         const std::string fname = entry.path().filename().string();
         const std::string prefix_part = log_prefix_ + "_";
-        if (static_cast<int>(fname.size()) > prefix_part.size() + 4 &&
+        if (static_cast<int>(fname.size()) > static_cast<int>(prefix_part.size()) + 4 &&
             fname.substr(0, prefix_part.size()) == prefix_part &&
-            fname.substr(fname.size() - 4) == ".wal") {
+            fname.substr(static_cast<int>(fname.size()) - 4) == ".wal") {
             try {
                 uint64_t seq = std::stoull(
                     fname.substr(prefix_part.size(),
-                                 fname.size() - prefix_part.size() - 4));
+                                 static_cast<int>(fname.size()) - static_cast<int>(prefix_part.size()) - 4));
                 seqs.push_back(seq);
             } catch (...) {}
         }

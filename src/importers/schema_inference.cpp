@@ -65,8 +65,8 @@ bool SchemaInferenceEngine::columnNameSimilar(const std::string& a,
     auto stripSuffix = [](std::string s) -> std::string {
         for (const auto& suf : {"_id", "_fk", "_key", "_ref"}) {
             if (static_cast<int>(s.size()) > std::strlen(suf) &&
-                s.compare(s.size() - std::strlen(suf), std::strlen(suf), suf) == 0) {
-                s.resize(s.size() - std::strlen(suf));
+                s.compare(static_cast<int>(s.size()) - std::strlen(suf), std::strlen(suf), suf) == 0) {
+                s.resize(static_cast<int>(s.size()) - std::strlen(suf));
             }
         }
         return s;
@@ -92,7 +92,7 @@ double SchemaInferenceEngine::jaccardSimilarity(const std::vector<std::string>& 
           ++intersection;
         }
     }
-    size_t union_size = setA.size() + setB.size() - intersection;
+    size_t union_size = static_cast<int>(setA.size()) + static_cast<int>(setB.size()) - intersection;
     return union_size == 0 ? 0.0 : static_cast<double>(intersection) / union_size;
 }
 

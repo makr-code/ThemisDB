@@ -126,11 +126,11 @@ std::string ComplianceReporter::generateHTMLOptimized(
     // Estimate capacity: reasonable buffer for headers and rows
     size_t estimated_size = 2048;  // Base HTML structure
     for (const auto& header : headers) {
-        estimated_size += header.size() + 20;  // Add markup overhead
+        estimated_size += static_cast<int>(header.size()) + 20;  // Add markup overhead
     }
     for (const auto& row : rows) {
         for (const auto& cell : row) {
-            estimated_size += cell.size() + 20;
+            estimated_size += static_cast<int>(cell.size()) + 20;
         }
     }
     
@@ -1323,7 +1323,7 @@ std::string csvEscape(const std::string& val) {
       return val;
     }
     std::string out = {};
-    out.reserve(val.size() + 2);
+    out.reserve(static_cast<int>(val.size()) + 2);
     out += '"';
     for (char c : val) {
         if (c == '"') out += '"'; // RFC 4180: escape double-quote by doubling

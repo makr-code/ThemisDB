@@ -106,7 +106,7 @@ std::string ArrowRecordBatch::toJSON() const {
         oss << "      \"nullable\": " << (col.schema.nullable ? "true" : "false") << "\n";
         oss << "    }";
         
-        if (i < columns_.size() - 1) {
+        if (i < static_cast<int>(columns_.size()) - 1) {
             oss << ",";
         }
         oss << "\n";
@@ -140,7 +140,7 @@ std::string ArrowRecordBatch::toJSON() const {
                 }
             }
             
-            if (col < columns_.size() - 1) {
+            if (col < static_cast<int>(columns_.size()) - 1) {
                 oss << ", ";
             }
         }

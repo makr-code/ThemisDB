@@ -642,7 +642,7 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string &blob, Ar
                 result.error_message = "TAR.GZ: inflate error";
                 return result;
             }
-            const std::size_t written = out_buf.size() - zs.avail_out;
+            const std::size_t written = static_cast<int>(out_buf.size()) - zs.avail_out;
             raw_tar.insert(raw_tar.end(), out_buf.begin(), out_buf.begin() + written);
         } while (ret != Z_STREAM_END);
         inflateEnd(&zs);

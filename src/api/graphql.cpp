@@ -193,7 +193,7 @@ themis::Result<Operation> Parser::parseOperation() {
 
     // Optional variable definitions
     if (match('(')) {
-        while (!peek(')') && pos_ < source_.size()) {
+        while (!peek(')')  && static_cast<size_t>(pos_) < source_.size()) {
             skipWhitespace();
             auto varDefResult = parseVariableDefinition();
             if (!varDefResult) {
@@ -216,7 +216,7 @@ themis::Result<Operation> Parser::parseOperation() {
         return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected '{'");
     }
 
-    while (!peek('}') && pos_ < source_.size()) {
+    while (!peek('}')  && static_cast<size_t>(pos_) < source_.size()) {
         skipWhitespace();
         auto fieldResult = parseField(1); // Start at depth 1
         if (!fieldResult) {
@@ -290,7 +290,7 @@ themis::Result<Field> Parser::parseField([[maybe_unused]] size_t depth) {
 
     // Arguments
     if (match('(')) {
-        while (!peek(')') && pos_ < source_.size()) {
+        while (!peek(')')  && static_cast<size_t>(pos_) < source_.size()) {
             skipWhitespace();
             auto argNameResult = parseName();
             if (!argNameResult) {
@@ -325,7 +325,7 @@ themis::Result<Field> Parser::parseField([[maybe_unused]] size_t depth) {
     }
 
     if (match('{')) {
-        while (!peek('}') && pos_ < source_.size()) {
+        while (!peek('}')  && static_cast<size_t>(pos_) < source_.size()) {
             skipWhitespace();
             auto nestedFieldResult = parseField(depth + 1); // Increment depth for nested fields
             if (!nestedFieldResult) {
@@ -417,7 +417,7 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
     // List
     if (match('[')) {
         ValueList list;
-        while (!peek(']') && pos_ < source_.size()) {
+        while (!peek(']')  && static_cast<size_t>(pos_) < source_.size()) {
             skipWhitespace();
             auto valResult = parseValue();
             if (!valResult) {
@@ -437,7 +437,7 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
     // Object
     if (match('{')) {
         ValueMap obj;
-        while (!peek('}') && pos_ < source_.size()) {
+        while (!peek('}')  && static_cast<size_t>(pos_) < source_.size()) {
             skipWhitespace();
             auto keyResult = parseName();
             if (!keyResult) {

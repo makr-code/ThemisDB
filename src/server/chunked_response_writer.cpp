@@ -44,7 +44,7 @@ std::string ChunkedResponseWriter::encodeChunkedBody(
     std::string body = {};
     // Pre-allocate: rough estimate (hex digits + CRLF overhead per chunk)
     for (const auto& frag : fragments) {
-        body.reserve(body.size() + frag.size() + 16);
+        body.reserve(static_cast<int>(body.size()) + static_cast<int>(frag.size()) + 16);
         if (!frag.empty()) {
             appendChunk(body, frag);
         }
@@ -193,8 +193,8 @@ std::string ChunkedResponseWriter::decodeChunkedBody(const std::string& encoded)
         if (pos + chunk_size > encoded.size()) {
             // Truncated – take what we have
             THEMIS_WARN("decodeChunkedBody: truncated chunk (expected {} bytes, {} available); returning partial data",
-                        chunk_size, encoded.size() - pos);
-            result.append(encoded, pos, encoded.size() - pos);
+                        chunk_size, static_cast<int>(encoded.size()) - pos);
+            result.append(encoded, pos, static_cast<int>(encoded.size()) - pos);
             break;
         }
         result.append(encoded, pos, chunk_size);

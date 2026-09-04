@@ -153,13 +153,13 @@ void MqttSession::handlePublish(const std::string& topic, const std::string& pay
     }
     
     // Rate limiting
-    if (!checkRateLimit(topic.size() + payload.size() + 16)) {
+    if (!checkRateLimit(static_cast<int>(topic.size()) + static_cast<int>(payload.size()) + 16)) {
         return; // Drop message if rate limit exceeded
     }
     
     // Update metrics
     metrics_.messagesReceived++;
-    metrics_.bytesReceived += topic.size() + payload.size();
+    metrics_.bytesReceived += static_cast<int>(topic.size()) + payload.size();
     metrics_.publishCount++;
     
     switch (qos) {
@@ -230,7 +230,7 @@ void MqttSession::handleSubscribe(const std::string& topic, uint8_t qos, uint16_
         return;
     }
     
-    if (!checkRateLimit(topic.size() + 8)) {
+    if (!checkRateLimit(static_cast<int>(topic.size()) + 8)) {
         return;
     }
     
@@ -345,7 +345,7 @@ void MqttSession::sendPublish(const std::string& topic, const std::string& paylo
     
     // OPTIMIZATION: Pre-allocate packet size
     // Estimate: 1 (type) + 4 (var-length) + 2 (topic len) + topic + [2 (packet id)] + payload
-    size_t estimated_size = 1 + 4 + 2 + topic.size() + payload.size() + (qos > 0 ? 2 : 0);
+    size_t estimated_size = 1 + 4 + 2 + static_cast<int>(topic.size()) + static_cast<int>(payload.size()) + (qos > 0 ? 2 : 0);
     packet.reserve(estimated_size);
     
     packet.push_back(static_cast<uint8_t>(0x30u | flags)); // PUBLISH with QoS and retain
@@ -767,7 +767,7 @@ bool MqttBroker::topicMatches(const std::string& filter, const std::string& topi
     
     size_t filterPos = 0, topicPos = 0;
     
-    while (filterPos < filter.size() && topicPos < topic.size()) {
+    while (filterPos < filter.size()  && static_cast<size_t>(topicPos) < topic.size()) {
         if (filter[filterPos] == '+') {
             // Single-level wildcard: match until next '/' or end
             while (topicPos < topic.size() && topic[topicPos] != '/') {
@@ -776,7 +776,7 @@ bool MqttBroker::topicMatches(const std::string& filter, const std::string& topi
             filterPos++;
         } else if (filter[filterPos] == '#') {
             // Multi-level wildcard: matches rest of topic
-            return filterPos == filter.size() - 1; // # must be last char
+            return filterPos == static_cast<int>(filter.size()) - 1; // # must be last char
         } else if (filter[filterPos] == topic[topicPos]) {
             filterPos++;
             topicPos++;

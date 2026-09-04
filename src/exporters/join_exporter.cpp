@@ -406,7 +406,7 @@ size_t JoinExporter::estimateEntityBytes(const BaseEntity& entity) {
     // Use serialised JSON length as a conservative proxy for heap usage.
     const std::string serialised = entity.toJson();
     // Add primary key + per-entry overhead.
-    return serialised.size() + entity.getPrimaryKey().size() + 64;
+    return static_cast<int>(serialised.size()) + entity.getPrimaryKey().size() + 64;
 }
 
 } // namespace themis::exporters

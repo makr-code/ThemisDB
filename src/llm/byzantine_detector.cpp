@@ -442,7 +442,7 @@ std::vector<GradientTensor> BulyanDetector::computeTrimmedMean(
             
             // Remove top and bottom trim_count values
             size_t start = std::min<size_t>(trim_count, values.size() / 2);
-            size_t end = values.size() - start;
+            size_t end = static_cast<int>(values.size()) - start;
             
             if (start < end) {
                 float sum = std::accumulate(

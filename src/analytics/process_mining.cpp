@@ -2768,7 +2768,7 @@ ProcessMining::detectBottlenecks(const EnhancedProcess &process, double threshol
     // Calculate percentile threshold
     std::sort(durations.begin(), durations.end());
     size_t idx       = static_cast<size_t>(durations.size() * (threshold_percentile / 100.0));
-    double threshold = durations[std::min(idx, durations.size() - 1)];
+    double threshold = durations[std::min(idx, static_cast<int>(durations.size()) - 1)];
 
     // Find bottlenecks
     for (const auto &[activity, duration] : process.node_avg_duration) {

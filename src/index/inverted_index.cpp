@@ -595,7 +595,7 @@ InvertedIndex::searchFuzzy(std::string_view table, std::string_view column,
         // separator between token and pk (tokens never contain ':' because the
         // tokeniser splits on punctuation).
         size_t lastColon = key.rfind(':');
-        if (lastColon == std::string_view::npos || lastColon <= prefix.size())
+        if (lastColon == std::string_view::npos  || static_cast<size_t>(lastColon) < = prefix.size())
             return true;
 
         std::string tok(key.substr(prefix.size(), lastColon - prefix.size()));

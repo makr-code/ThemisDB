@@ -2870,7 +2870,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
             if (n == 0) {
               break;
             }
-            if (buffer.size() + n > max_buffered_bytes) {
+            if (static_cast<int>(buffer.size()) + n > max_buffered_bytes) {
                 result.error_message =
                     "File exceeds max_buffered_bytes (" + std::to_string(max_buffered_bytes) +
                     ") for non-streaming content type '" + detected_mime + "'";
@@ -3031,7 +3031,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
     auto flushCarry = [&]([[maybe_unused]] bool force) {
         size_t pos = 0;
         while (static_cast<size_t>(pos) < carry.size()) {
-            size_t remaining = carry.size() - pos;
+            size_t remaining = static_cast<int>(carry.size()) - pos;
             if (!force && remaining < static_cast<size_t>(text_chunk_chars))
                 break;  // wait for more data
             size_t end = pos + std::min(static_cast<size_t>(text_chunk_chars), remaining);

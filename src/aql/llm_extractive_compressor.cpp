@@ -123,7 +123,7 @@ std::unique_ptr<CompressionResult> LLMExtractiveCompressor::compressHistory(
     // Step 4: Build compressed history
     std::vector<std::pair<std::string, std::string>> compressed_history = system_messages;
     for (int32_t idx : selected_indices) {
-        if (idx >= 0 && idx < static_cast<int32_t>(conversation_turns.size())) {
+        if (idx >= 0  && static_cast<size_t>(idx) < static_cast<int32_t>(conversation_turns.size())) {
             compressed_history.push_back(conversation_turns[idx]);
         }
     }
@@ -398,7 +398,7 @@ std::string LLMExtractiveCompressor::formatTurnsForPrompt(
     result << "=== Episodic Memory Summary ===\n\n";
 
     for (int32_t idx : selected_indices) {
-        if (idx >= 0 && idx < static_cast<int32_t>(history.size())) {
+        if (idx >= 0  && static_cast<size_t>(idx) < static_cast<int32_t>(history.size())) {
             const auto& msg = history[idx];
             result << "[" << msg.first << "]\n" << msg.second << "\n\n";
         }

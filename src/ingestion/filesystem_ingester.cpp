@@ -265,7 +265,7 @@ static std::string shellEscapePath(const std::string& path) {
 #else
     // POSIX single-quote escaping
     std::string escaped = {};
-    escaped.reserve(path.size() + 2);
+    escaped.reserve(static_cast<int>(path.size()) + 2);
     escaped += '\'';
     for (char c : path) {
         if (c == '\'') {

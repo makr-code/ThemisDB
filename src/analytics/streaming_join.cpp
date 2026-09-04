@@ -252,7 +252,7 @@ ColumnBatch HashJoin::probe(const ColumnBatch &probe_batch) {
 
     // Create output columns.
     std::vector<std::shared_ptr<Column>> out_cols;
-    out_cols.reserve(probe_cols.size() + build_non_key_names.size());
+    out_cols.reserve(static_cast<int>(probe_cols.size()) + build_non_key_names.size());
     for (const auto &c : probe_cols) {
         out_cols.push_back(std::make_shared<Column>(c->name(), c->type()));
     }
@@ -477,7 +477,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
     // Create output columns (probe first, then non-key build columns).
     // We need the types for build columns — infer from first build row if available.
     std::vector<std::shared_ptr<Column>> out_cols;
-    out_cols.reserve(probe_cols.size() + build_output_names.size());
+    out_cols.reserve(static_cast<int>(probe_cols.size()) + build_output_names.size());
     for (const auto &c : probe_cols) {
         out_cols.push_back(std::make_shared<Column>(c->name(), c->type()));
     }

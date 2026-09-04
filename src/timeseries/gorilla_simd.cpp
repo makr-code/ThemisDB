@@ -245,12 +245,12 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
         // Same conservative estimate used by the SIMD path below:
         // Gorilla points are at least ~1 byte encoded, so payload_size/2 + 1
         // avoids repeated reallocations without changing decode semantics.
-        out.reserve(out.size() + data_.size() / 2 + 1);
+        out.reserve(static_cast<int>(out.size()) + data_.size() / 2 + 1);
         while (auto p = fallback.next()) {
             out.push_back(*p);
         }
         error_ = fallback.hasError();
-        const size_t appended = out.size() - out_begin;
+        const size_t appended = static_cast<int>(out.size()) - out_begin;
         decoded_count_ += appended;
         return appended;
     }
@@ -292,7 +292,7 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
 
     // Reserve output with a conservative estimate (each compressed point is at
     // minimum ~1 byte, so payload_size / 2 + 1 is a safe upper bound).
-    out.reserve(out.size() + payload_size / 2 + 1);
+    out.reserve(static_cast<int>(out.size()) + payload_size / 2 + 1);
     out.emplace_back(first_ts, bits_to_dbl_simd(first_vbits));
 
     // Carry state: dt and ts of the last emitted point.

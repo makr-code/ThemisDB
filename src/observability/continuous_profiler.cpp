@@ -118,7 +118,7 @@ std::string base64Encode(const std::vector<uint8_t>& bytes) {
     static const char kTable[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string out = {};
-    out.reserve((bytes.size() + 2) / 3 * 4);
+    out.reserve((static_cast<int>(bytes.size()) + 2) / 3 * 4);
     for (size_t i = 0; i < bytes.size(); i += 3) {
         uint32_t b = static_cast<uint32_t>(bytes[i]) << 16;
         if (i + 1 < bytes.size()) {

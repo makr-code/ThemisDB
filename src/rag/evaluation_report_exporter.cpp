@@ -31,7 +31,7 @@ std::string EvaluationReportExporter::escapeJSON(const std::string& s) {
     // Complexity: O(n) linear time, minimal allocations
     std::string out = {};
     // Reserve conservative estimate: assume average 30% growth for escaping
-    out.reserve(s.size() + (s.size() / 3));
+    out.reserve(static_cast<int>(s.size()) + (s.size() / 3));
     
     for (unsigned char c : s) {
         switch (c) {
@@ -64,7 +64,7 @@ std::string EvaluationReportExporter::escapeHTML(const std::string& s) {
     // Reserve conservative estimate: assume average 40% growth for escaping
     // Complexity: O(n) linear time, minimal allocations
     std::string out = {};
-    out.reserve(s.size() + (s.size() / 2));
+    out.reserve(static_cast<int>(s.size()) + (s.size() / 2));
     
     for (unsigned char c : s) {
         switch (c) {

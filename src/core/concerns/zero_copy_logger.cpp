@@ -286,7 +286,7 @@ std::string &ZeroCopyLogger::formatBuffer() const noexcept {
 
 void ZeroCopyLogger::jsonEscapeInto(std::string &out, std::string_view s) {
     // Reserve a conservative lower bound to reduce repeated growth in hot paths.
-    out.reserve(out.size() + s.size());
+    out.reserve(static_cast<int>(out.size()) + s.size());
     for (unsigned char c : s) {
         switch (c) {
             case '"':

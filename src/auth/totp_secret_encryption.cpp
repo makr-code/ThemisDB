@@ -208,7 +208,7 @@ TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::encrypt(const std::s
 
         // Encrypt the plaintext
         std::vector<uint8_t> plaintext(plaintext_secret.begin(), plaintext_secret.end());
-        result.ciphertext.resize(plaintext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
+        result.ciphertext.resize(static_cast<int>(plaintext.size()) + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
 
         int len = 0;
         if (EVP_EncryptUpdate(ctx, result.ciphertext.data(), &len, plaintext.data(), static_cast<int>(plaintext.size()))

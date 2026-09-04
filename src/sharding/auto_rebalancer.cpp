@@ -505,7 +505,7 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
     
     // Encode signature as Base64 using OpenSSL
     // Calculate required buffer size: ((input_len + 2) / 3) * 4 + 1 for null terminator
-    size_t b64_len = ((signature.size() + 2) / 3) * 4 + 1;
+    size_t b64_len = ((static_cast<int>(signature.size()) + 2) / 3) * 4 + 1;
     std::vector<unsigned char> b64_buf(b64_len);
     
     int encoded_len = EVP_EncodeBlock(b64_buf.data(), signature.data(), 

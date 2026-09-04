@@ -122,7 +122,7 @@ std::string extractOverlapTail(const std::string& text,
     if (overlap_chars >= static_cast<int>(text.size())) {
       return text;
     }
-    return text.substr(text.size() - overlap_chars);
+    return text.substr(static_cast<int>(text.size()) - overlap_chars);
 }
 
 } // anonymous namespace

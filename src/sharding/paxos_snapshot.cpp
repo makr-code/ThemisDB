@@ -400,7 +400,7 @@ std::vector<uint64_t> PaxosSnapshotManager::listSnapshots() const {
                 
                 // Parse snapshot ID from filename (format: paxos_snapshot_<id>.json)
                 if (filename.find("paxos_snapshot_") == 0 && filename.ends_with(".json")) {
-                    std::string id_str = filename.substr(15, filename.size() - 20);
+                    std::string id_str = filename.substr(15, static_cast<int>(filename.size()) - 20);
                     try {
                         uint64_t snapshot_id = std::stoull(id_str);
                         snapshots.push_back(snapshot_id);

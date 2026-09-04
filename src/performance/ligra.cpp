@@ -70,7 +70,7 @@ void LigraProcessor::process_sparse(const Frontier& frontier, const VertexFunc& 
     // Simple parallel processing (would use thread pool in production)
     std::vector<std::thread> threads = {};
 
-    size_t chunk_size = (active.size() + num_threads_ - 1) / num_threads_;
+    size_t chunk_size = (static_cast<int>(active.size()) + num_threads_ - 1) / num_threads_;
     
     auto it = active.begin();
     for (size_t t = 0; t < num_threads_ && it != active.end(); t++) {
@@ -165,7 +165,7 @@ Frontier LigraProcessor::process_edges(
         const auto& active = frontier.get_sparse();
         std::vector<std::thread> threads = {};
 
-        size_t chunk_size = (active.size() + num_threads_ - 1) / num_threads_;
+        size_t chunk_size = (static_cast<int>(active.size()) + num_threads_ - 1) / num_threads_;
         
         auto it = active.begin();
         for (size_t t = 0; t < num_threads_ && it != active.end(); t++) {

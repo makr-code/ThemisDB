@@ -608,7 +608,7 @@ void SelfAwareness::loadSnapshots() {
         if (static_cast<int>(files.size()) > config_.max_snapshots_retained) {
             files.erase(files.begin(),
                         files.begin() + static_cast<std::ptrdiff_t>(
-                            files.size() - config_.max_snapshots_retained));
+                            static_cast<int>(files.size()) - config_.max_snapshots_retained));
         }
 
         for (const auto& path : files) {

@@ -721,7 +721,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
 
     const uint8_t *iv         = encrypted_data_bytes.data();
     const uint8_t *ciphertext = encrypted_data_bytes.data() + iv_len;
-    const int ct_len          = static_cast<int>(encrypted_data_bytes.size() - iv_len);
+    const int ct_len          = static_cast<int>(static_cast<int>(encrypted_data_bytes.size()) - iv_len);
 
     EVP_CIPHER_CTX *aes_ctx = EVP_CIPHER_CTX_new();
     if (!aes_ctx) {

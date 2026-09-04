@@ -123,7 +123,7 @@ struct HKDFCache::Impl {
                                  size_t outlen)
     {
         std::string k = {};
-        k.reserve(ikm.size() + 1 + salt.size() + 1 + info.size() + 1 + 8);
+        k.reserve(static_cast<int>(ikm.size()) + 1 + static_cast<int>(salt.size()) + 1 + static_cast<int>(info.size()) + 1 + 8);
         k.append(reinterpret_cast<const char*>(ikm.data()), ikm.size());
         k.push_back('\x00');
         k.append(reinterpret_cast<const char*>(salt.data()), salt.size());

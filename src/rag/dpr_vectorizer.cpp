@@ -126,7 +126,7 @@ public:
         const std::vector<int>& tokens,
         bool use_cosine_phase) const {
         std::vector<float> embedding(config.embedding_dimension, 0.0f);
-        for (size_t i = 0; i < tokens.size() && i < embedding.size(); ++i) {
+        for (size_t i = 0; i < tokens.size()  && static_cast<size_t>(i) < embedding.size(); ++i) {
             const float phase = static_cast<float>(tokens[i]) * 0.1f + static_cast<float>(i) * 0.01f;
             embedding[i] = use_cosine_phase ? std::cos(phase) : std::sin(phase);
         }
@@ -570,7 +570,7 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
         }
         
         THEMIS_INFO("Batch encoded {} passages in {} batches", 
-                    passages.size(), (passages.size() + config_.batch_size - 1) / config_.batch_size);
+                    passages.size(), (static_cast<int>(passages.size()) + config_.batch_size - 1) / config_.batch_size);
         return results;
         
     } catch (const std::exception& e) {

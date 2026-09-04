@@ -182,7 +182,7 @@ bool PolicyRule::appliesTo(const std::string &resource, const std::string &actio
         }
         // Simple wildcard matching: "data/*" matches "data/anything"
         if (pattern.back() == '*' && pattern.size() > 1) {
-            std::string prefix = pattern.substr(0, pattern.size() - 1);
+            std::string prefix = pattern.substr(0, static_cast<int>(pattern.size()) - 1);
             if (resource.find(prefix) == 0) {
                 resource_match = true;
                 break;
@@ -583,7 +583,7 @@ bool PolicyManager::matchPattern(const std::string &pattern, const std::string &
     }
     // Simple wildcard matching
     if (pattern.back() == '*' && pattern.size() > 1) {
-        std::string prefix = pattern.substr(0, pattern.size() - 1);
+        std::string prefix = pattern.substr(0, static_cast<int>(pattern.size()) - 1);
         return value.find(prefix) == 0;
     }
     return false;

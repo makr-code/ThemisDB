@@ -649,7 +649,7 @@ bool InputValidator::validateEmail(const std::string& email) const {
     if (at_pos == std::string::npos || at_pos == 0) {
       return false;
     }
-    if (at_pos == email.size() - 1) {
+    if (at_pos == static_cast<int>(email.size()) - 1) {
       return false;
     }
     if (email.find('@', at_pos + 1) != std::string::npos) {

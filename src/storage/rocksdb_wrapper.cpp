@@ -740,7 +740,7 @@ bool RocksDBWrapper::open() {
                     "This is a destructive operation. Ensure this is intentional and authorized. "
                     "All non-default column family data will be inaccessible until re-created.");
         THEMIS_WARN("[AUDIT] Sharding mode detected: opening only default column family to prevent MVCC deadlock. "
-                    "Non-default CFs dropped: count={}", cf_descriptors.size() - 1);
+                    "Non-default CFs dropped: count={}", static_cast<int>(cf_descriptors.size()) - 1);
         // Keep only the default CF
         cf_descriptors.erase(
             std::remove_if(cf_descriptors.begin(), cf_descriptors.end(),
@@ -791,7 +791,7 @@ bool RocksDBWrapper::open() {
     // RACE CONDITION FIX #1: Protect cf_handles_ during initialization
     {
         std::lock_guard<std::mutex> lock(cf_handles_mutex_);
-        cf_handles_.reserve(cf_handles_.size() + cf_handles.size());
+        cf_handles_.reserve(static_cast<int>(cf_handles_.size()) + cf_handles.size());
         // Store column family handles
         // When sharding mode filtered CFs, cf_handles.size() == cf_descriptors.size()
         for (size_t i = 0; i < cf_handles.size(); ++i) {
@@ -805,7 +805,7 @@ bool RocksDBWrapper::open() {
                 config_.db_path, cf_descriptors.size());
     if (sharding_mode && cf_descriptors.size() < cf_names.size()) {
         THEMIS_INFO("  (Sharding mode: {} additional CFs deferred for cluster initialization)", 
-                    cf_names.size() - cf_descriptors.size());
+                    static_cast<int>(cf_names.size()) - cf_descriptors.size());
     }
     return true;
 }
@@ -1057,7 +1057,7 @@ inline std::string blobChunkKey(std::string_view key, uint32_t idx) {
     }
 
     std::string ck = {};
-    ck.reserve(10 + key.size() + 7);
+    ck.reserve(10 + static_cast<int>(key.size()) + 7);
     ck.append("__tmbs_c__:");
     ck.append(key.data(), key.size());
     ck.push_back(':');

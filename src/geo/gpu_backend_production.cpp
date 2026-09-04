@@ -169,7 +169,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
         }
 
         bool inside = false;
-        size_t j    = ring.size() - 1;
+        size_t j    = static_cast<int>(ring.size()) - 1;
 
         for (size_t i = 0; i < ring.size(); j = i++) {
             if (((ring[i].y > point.y) != (ring[j].y > point.y))
@@ -204,8 +204,8 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
     }
 
     bool checkEdgeIntersections(const std::vector<Coordinate> &ring1, const std::vector<Coordinate> &ring2) const {
-        for (size_t i = 0, j = ring1.size() - 1; i < ring1.size(); j = i++) {
-            for (size_t k = 0, l = ring2.size() - 1; k < ring2.size(); l = k++) {
+        for (size_t i = 0, j = static_cast<int>(ring1.size()) - 1; i < ring1.size(); j = i++) {
+            for (size_t k = 0, l = static_cast<int>(ring2.size()) - 1; k < ring2.size(); l = k++) {
                 if (segmentsIntersect(ring1[j], ring1[i], ring2[l], ring2[k])) {
                     return true;
                 }

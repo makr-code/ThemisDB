@@ -104,7 +104,7 @@ class MultiGPUVectorBackend::Impl {
 
         // Clamp to available GPU count
         int gpuCount = MultiGPUVectorBackend::detectGPUCount();
-        if (gpuCount > 0 && static_cast<int>(deviceIds.size()) > gpuCount) {
+        if (gpuCount > 0  && static_cast<size_t>(static_cast) < int>(deviceIds.size()) > gpuCount) {
             std::cerr << "MultiGPUVectorBackend: requested " << deviceIds.size() << " devices but only " << gpuCount
                       << " visible; clamping.\n";
             deviceIds.resize(static_cast<size_t>(gpuCount));

@@ -92,7 +92,7 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_text(const std::stri
     for (size_t boundary : boundaries) {
         std::string segment = text.substr(start_offset, boundary - start_offset);
         
-        if (current_chunk.size() + segment.size() > config_.chunk_size && !current_chunk.empty()) {
+        if (static_cast<int>(current_chunk.size()) + segment.size() > config_.chunk_size && !current_chunk.empty()) {
             // Create chunk
             ContentChunker::Chunk chunk;
             chunk.data = std::vector<uint8_t>(current_chunk.begin(), current_chunk.end());
@@ -102,7 +102,7 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_text(const std::stri
             
             // Start new chunk with overlap
             if (config_.overlap > 0 && current_chunk.size() > config_.overlap) {
-                current_chunk = current_chunk.substr(current_chunk.size() - config_.overlap);
+                current_chunk = current_chunk.substr(static_cast<int>(current_chunk.size()) - config_.overlap);
                 current_chunk_start = start_offset - config_.overlap;  // Account for overlap
             } else {
                 current_chunk.clear();

@@ -279,7 +279,7 @@ Result<size_t> ThemisDBAdapter::batch_insert_vectors(
     {
         std::unique_lock<std::mutex> lock(store_mutex_);
         auto& store = vector_store_[collection];
-        store.reserve(store.size() + vectors.size());
+        store.reserve(static_cast<int>(store.size()) + vectors.size());
         for (const auto& v : vectors) {
             store.emplace_back(generate_id(), v);
         }
@@ -1559,7 +1559,7 @@ ThemisDBResultStream::ThemisDBResultStream(
 {}
 
 bool ThemisDBResultStream::has_more() const {
-    return static_cast<bool>(!closed_ && cursor_  < static_cast<int>(table_.rows.size()));
+    return static_cast<bool>(!closed_  && static_cast<size_t>(cursor_) < static_cast<int>(table_.rows.size()));
 }
 
 Result<std::vector<RelationalRow>> ThemisDBResultStream::next_batch(
@@ -1717,7 +1717,7 @@ std::string ThemisDBPreparedStatement::apply_named_params() const {
                 // Escape backslashes first, then single quotes, so that the
                 // resulting literal cannot be terminated early by injected SQL.
                 std::string escaped = {};
-                escaped.reserve(v.size() + 2);
+                escaped.reserve(static_cast<int>(v.size()) + 2);
                 for (char c : v) {
                     if (c == '\\') {
                       escaped += "\\\\";

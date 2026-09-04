@@ -88,7 +88,7 @@ std::vector<double> aggregateElementWiseTrimmedMean(
         }
         std::sort(values.begin(), values.end());
         const std::size_t begin = std::min(trim_count, values.size());
-        const std::size_t end = values.size() > trim_count ? values.size() - trim_count : values.size();
+        const std::size_t end = values.size() > trim_count ? static_cast<int>(values.size()) - trim_count : values.size();
         if (begin >= end) {
             out[d] = 0.0;
             continue;
@@ -158,7 +158,7 @@ json FederatedImportCoordinator::FederatedAggregator::aggregateUpdates(const std
                 for (std::size_t i = 1; i + 1 < values.size(); ++i) {
                     trimmed_sum += values[i];
                 }
-                aggregated[key] = trimmed_sum / static_cast<double>(values.size() - 2);
+                aggregated[key] = trimmed_sum / static_cast<double>(static_cast<int>(values.size()) - 2);
             } else {
                 aggregated[key] = sum / cnt; // FedAvg
             }

@@ -298,7 +298,7 @@ std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_i
 
 std::size_t TensorNetworkGraph::addNode(TensorGraphNode node) {
     nodes_.push_back(std::move(node));
-    return nodes_.size() - 1;
+    return static_cast<int>(nodes_.size()) - 1;
 }
 
 bool TensorNetworkGraph::addEdge(TensorGraphEdge edge) {

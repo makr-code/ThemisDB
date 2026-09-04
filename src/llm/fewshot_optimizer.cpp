@@ -88,7 +88,7 @@ void FewShotOptimizer::cacheExamples(const std::vector<FewShotExample>& examples
     
     // Enforce cache size limit
     if (static_cast<int>(cache_.size()) > config_.cache_size) {
-        size_t to_remove = cache_.size() - config_.cache_size;
+        size_t to_remove = static_cast<int>(cache_.size()) - config_.cache_size;
         cache_.erase(cache_.begin(), cache_.begin() + to_remove);
     }
     
@@ -168,7 +168,7 @@ double FewShotOptimizer::computeRelevance(
         }
     }
     
-    size_t union_size = query_set.size() + example_set.size() - intersection;
+    size_t union_size = static_cast<int>(query_set.size()) + static_cast<int>(example_set.size()) - intersection;
     
     return (union_size > 0) ? static_cast<double>(intersection) / union_size : 0.0;
 }
@@ -320,7 +320,7 @@ double FewShotOptimizer::computeSimilarity(
             intersection_in++;
         }
     }
-    size_t union_in = tokens1_in.size() + tokens2_in.size() - intersection_in;
+    size_t union_in = static_cast<int>(tokens1_in.size()) + static_cast<int>(tokens2_in.size()) - intersection_in;
     double sim_in = (union_in > 0) ? static_cast<double>(intersection_in) / union_in : 0.0;
     
     // Jaccard similarity for outputs
@@ -330,7 +330,7 @@ double FewShotOptimizer::computeSimilarity(
             intersection_out++;
         }
     }
-    size_t union_out = tokens1_out.size() + tokens2_out.size() - intersection_out;
+    size_t union_out = static_cast<int>(tokens1_out.size()) + static_cast<int>(tokens2_out.size()) - intersection_out;
     double sim_out = (union_out > 0) ? static_cast<double>(intersection_out) / union_out : 0.0;
     
     // Average of input and output similarity

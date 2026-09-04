@@ -395,7 +395,7 @@ void quantize_block_params(const std::vector<QuantizationBlock>& blocks,
     }
     
     spdlog::debug("Double quantization: {} blocks -> {} bytes",
-                  blocks.size(), quantized_scales.size() + quantized_zeros.size());
+                  blocks.size(), static_cast<int>(quantized_scales.size()) + quantized_zeros.size());
 }
 
 void dequantize_block_params(const std::vector<uint8_t>& quantized_scales,

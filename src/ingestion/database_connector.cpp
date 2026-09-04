@@ -210,7 +210,7 @@ static std::string buildOdbcConnectionString(
     std::size_t pos = static_cast<std::size_t>(it - cs.begin()) + target.size();
     auto end = result.find(';', pos);
     if (end == std::string::npos) {
-        result.replace(pos, result.size() - pos, "***");
+        result.replace(pos, static_cast<int>(result.size()) - pos, "***");
     } else {
         result.replace(pos, end - pos, "***");
     }
@@ -230,7 +230,7 @@ static std::string rowToJson(const DatabaseConnector::DbRow& row) {
         // Simple JSON string escaping
         auto escape = [](const std::string& s) -> std::string {
             std::string out = {};
-            out.reserve(s.size() + 4);
+            out.reserve(static_cast<int>(s.size()) + 4);
             for (unsigned char c : s) {
                 if (c == '"')  { out += "\\\""; }
                 else if (c == '\\') { out += "\\\\"; }

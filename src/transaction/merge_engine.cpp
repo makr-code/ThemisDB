@@ -352,7 +352,7 @@ MergeEngine::MergeResult MergeEngine::merge(
     );
     
     result.stats.changes_applied = result.changes_applied.size();
-    result.stats.conflicts_manual = conflicts.size() - result.stats.conflicts_auto_resolved;
+    result.stats.conflicts_manual = static_cast<int>(conflicts.size()) - result.stats.conflicts_auto_resolved;
     
     // Apply changes if not dry-run
     if (!options.dry_run) {

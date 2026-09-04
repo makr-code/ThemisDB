@@ -106,7 +106,7 @@ nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string &file_path) {
     // Check extension to choose parser.
     bool is_yaml = false;
     if (static_cast<int>(file_path.size()) > = 5) {
-        std::string ext = file_path.substr(file_path.size() - 5);
+        std::string ext = file_path.substr(static_cast<int>(file_path.size()) - 5);
         for (auto &c : ext) {
             c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         }
@@ -115,7 +115,7 @@ nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string &file_path) {
         }
     }
     if (!is_yaml && file_path.size() >= 4) {
-        std::string ext = file_path.substr(file_path.size() - 4);
+        std::string ext = file_path.substr(static_cast<int>(file_path.size()) - 4);
         for (auto &c : ext) {
             c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         }
@@ -276,7 +276,7 @@ const nlohmann::json *ConfigSchemaValidator::resolveRef(const std::string &ref, 
     while (pos <= path.size()) {
         const std::size_t slash     = path.find('/', pos);
         const std::string raw_token = (slash == std::string::npos) ? path.substr(pos) : path.substr(pos, slash - pos);
-        pos                         = (slash == std::string::npos) ? path.size() + 1 : slash + 1;
+        pos                         = (slash == std::string::npos) ? static_cast<int>(path.size()) + 1 : slash + 1;
 
         // RFC 6901: unescape '~1' → '/' and '~0' → '~' (in that order).
         std::string key = {};

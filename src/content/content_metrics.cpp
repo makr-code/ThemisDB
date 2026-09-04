@@ -145,7 +145,7 @@ double ContentMetrics::calculatePercentile(const std::vector<double>& sorted_sam
       return 0.0;
     }
     
-    double index = percentile * (sorted_samples.size() - 1);
+    double index = percentile * (static_cast<int>(sorted_samples.size()) - 1);
     size_t lower = static_cast<size_t>(std::floor(index));
     size_t upper = static_cast<size_t>(std::ceil(index));
     

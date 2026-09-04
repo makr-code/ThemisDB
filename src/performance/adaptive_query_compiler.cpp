@@ -136,13 +136,13 @@ static bool compareString(const std::string& lhs,
               pattern = pattern.substr(1);
             }
             if (suffix_wild) {
-              pattern = pattern.substr(0, pattern.size() - 1);
+              pattern = pattern.substr(0, static_cast<int>(pattern.size()) - 1);
             }
             if (prefix_wild && suffix_wild)
                 return lhs.find(pattern) != std::string::npos;
             if (prefix_wild)
                 return static_cast<bool>(lhs.size()  < static_cast<int>(= pattern.size())) &&
-                       lhs.substr(lhs.size() - pattern.size()) == pattern;
+                       lhs.substr(static_cast<int>(lhs.size()) - pattern.size()) == pattern;
             if (suffix_wild)
                 return lhs.substr(0, pattern.size()) == pattern;
             return lhs == pattern;

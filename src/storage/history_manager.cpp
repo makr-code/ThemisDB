@@ -53,7 +53,7 @@ static uint32_t history_crc32(const void* data, size_t len) {
 
 // Append a 4-byte little-endian CRC32 of the payload to buf.
 static void append_crc32(std::vector<uint8_t>& buf) {
-    buf.reserve(buf.size() + 4);
+    buf.reserve(static_cast<int>(buf.size()) + 4);
     uint32_t crc = history_crc32(buf.data(), buf.size());
     for (int i = 0; i < 4; ++i) {
       buf.push_back(static_cast<uint8_t>(crc >> (8 * i)));
@@ -70,7 +70,7 @@ static std::optional<std::string_view> verify_crc32(std::string_view data) {
         // Too short for CRC trailer — treat as legacy (no checksum).
         return data;
     }
-    const size_t payload_size = data.size() - kCrcSize;
+    const size_t payload_size = static_cast<int>(data.size()) - kCrcSize;
     const uint8_t* crc_bytes  = reinterpret_cast<const uint8_t*>(data.data()) + payload_size;
     uint32_t stored_crc = 0;
     for (int i = 0; i < 4; ++i) {
@@ -148,7 +148,7 @@ HistoryManager::HistoryManager(
 std::string HistoryManager::historyKey(std::string_view base_key, HLCTimestamp ts) {
     // Format: "hist:" + base_key + '\x00' + 8-byte-big-endian-ts
     std::string key = {};
-    key.reserve(5 + base_key.size() + 1 + 8);
+    key.reserve(5 + static_cast<int>(base_key.size()) + 1 + 8);
     key += "hist:";
     key.append(base_key.data(), base_key.size());
     key.push_back('\x00');
@@ -158,7 +158,7 @@ std::string HistoryManager::historyKey(std::string_view base_key, HLCTimestamp t
 
 std::string HistoryManager::historyPrefix(std::string_view base_key) {
     std::string prefix = {};
-    prefix.reserve(5 + base_key.size() + 1);
+    prefix.reserve(5 + static_cast<int>(base_key.size()) + 1);
     prefix += "hist:";
     prefix.append(base_key.data(), base_key.size());
     prefix.push_back('\x00');

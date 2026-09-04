@@ -583,7 +583,7 @@ bool KafkaImporter::parseKafkaUrl(const std::string& url,
         // Format: kafka://broker:9092/topic  or kafka://b1,b2/topic
         std::string rest = url.substr(prefix.size());
         auto slash_pos = rest.rfind('/');
-        if (slash_pos == std::string::npos || slash_pos == rest.size() - 1) {
+        if (slash_pos == std::string::npos || slash_pos == static_cast<int>(rest.size()) - 1) {
             // No topic after the slash, or slash is last char.
             return false;
         }

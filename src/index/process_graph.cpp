@@ -342,7 +342,7 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
     nlohmann::json rightVal;
     if (right.front() == '\'' || right.front() == '"') {
         // String literal
-        rightVal = right.substr(1, right.size() - 2);
+        rightVal = right.substr(1, static_cast<int>(right.size()) - 2);
     } else if (variables.contains(right)) {
         // Variable reference
         rightVal = variables[right];
@@ -701,7 +701,7 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
     // Validation checks
     
     // Pre-allocate result vectors based on worst-case sizes to avoid repeated reallocations
-    result.errors.reserve(nodes.size() + edges.size());
+    result.errors.reserve(static_cast<int>(nodes.size()) + edges.size());
     result.warnings.reserve(nodes.size());
 
     // 1. Check for start node
@@ -1827,7 +1827,7 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     
     std::vector<StackEntry> stack = {};
 
-    stack.reserve(nodeDurations.size() + 1);
+    stack.reserve(static_cast<int>(nodeDurations.size()) + 1);
     stack.push_back({startNode, 0.0, std::vector<std::string>(), std::unordered_set<std::string>()});
     
     while (!stack.empty()) {

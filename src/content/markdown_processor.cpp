@@ -113,7 +113,7 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
 
         // Inline YAML list: key: [a, b, c]
         if (!value.empty() && value.front() == '[' && value.back() == ']') {
-            std::string inner = value.substr(1, value.size() - 2);
+            std::string inner = value.substr(1, static_cast<int>(value.size()) - 2);
             json arr = json::array();
             std::istringstream list_ss(inner);
             std::string item = {};
@@ -122,7 +122,7 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
                 if (ti.size() >= 2 &&
                     ((ti.front() == '"' && ti.back() == '"') ||
                      (ti.front() == '\'' && ti.back() == '\''))) {
-                    ti = ti.substr(1, ti.size() - 2);
+                    ti = ti.substr(1, static_cast<int>(ti.size()) - 2);
                 }
                 arr.push_back(ti);
             }
@@ -132,7 +132,7 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
             if (value.size() >= 2 &&
                 ((value.front() == '"' && value.back() == '"') ||
                  (value.front() == '\'' && value.back() == '\''))) {
-                value = value.substr(1, value.size() - 2);
+                value = value.substr(1, static_cast<int>(value.size()) - 2);
             }
             fm[key] = value;
         }
@@ -313,7 +313,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
             while (j < line.size() && std::isdigit(static_cast<unsigned char>(line[j]))) {
               ++j;
             }
-            if (j > i && j < line.size() && line[j] == '.' &&
+            if (j > i  && static_cast<size_t>(j) < line.size() && line[j] == '.' &&
                 j + 1 < line.size() && line[j + 1] == ' ') {
                 line = line.substr(j + 2);
             }

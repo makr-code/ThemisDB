@@ -241,7 +241,7 @@ std::vector<GPUMetrics::Sample> GPUMetrics::snapshot() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<Sample> result = {};
 
-    result.reserve(counters_.size() + gauges_.size());
+    result.reserve(static_cast<int>(counters_.size()) + gauges_.size());
 
     for (const auto &kv : counters_) {
         Sample s;

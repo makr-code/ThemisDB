@@ -114,7 +114,7 @@ SanitisedChunk PIIStreamDetectorAdapter::pseudonymise(
         size_t len   = f.end_offset - f.start_offset;
         if (start < text.size() && start + len <= text.size()) {
             text.replace(start, len, placeholder);
-            offset_shift += placeholder.size() - len;
+            offset_shift += static_cast<int>(placeholder.size()) - len;
         }
     }
 

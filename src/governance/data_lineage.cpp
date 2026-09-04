@@ -472,7 +472,7 @@ LineageRecordResult DataLineageTracker::pruneOldEvents(const std::string& datase
     }
     
     // Remove oldest events, keeping only keep_count most recent
-    size_t to_remove = events.size() - keep_count;
+    size_t to_remove = static_cast<int>(events.size()) - keep_count;
     for (size_t i = 0; i < to_remove; ++i) {
         const auto& removed = events[0];
         event_index_.erase(removed.event_id);

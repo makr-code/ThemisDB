@@ -259,7 +259,7 @@ std::string GeoMultiPolygon::toGeoJSON() const {
         // Find "coordinates":[...] and extract the [...] part
         const auto pos = polyJson.find("\"coordinates\":");
         if (pos != std::string::npos) {
-            os << polyJson.substr(pos + 14, polyJson.size() - pos - 15);
+            os << polyJson.substr(pos + 14, static_cast<int>(polyJson.size()) - pos - 15);
         }
     }
     os << "]}";

@@ -168,11 +168,11 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::getAverageMetrics([[maybe_
     // Take last N samples
     size_t start_idx = 0;
     if (static_cast<int>(metrics_history_.size()) > num_samples) {
-        start_idx = metrics_history_.size() - num_samples;
+        start_idx = static_cast<int>(metrics_history_.size()) - num_samples;
     }
     
     Metrics avg;
-    size_t count = metrics_history_.size() - start_idx;
+    size_t count = static_cast<int>(metrics_history_.size()) - start_idx;
     
     for (size_t i = start_idx; i < metrics_history_.size(); ++i) {
         const auto& m = metrics_history_[i];

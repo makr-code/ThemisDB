@@ -329,7 +329,7 @@ ValidationResult InputValidator::validateConfigPath(
 
 std::string InputValidator::sanitizeForHtml(std::string_view input) {
   std::string output = {};
-  output.reserve(input.size() + (input.size() / 5));  // Typical overhead ~20%
+  output.reserve(static_cast<int>(input.size()) + (input.size() / 5));  // Typical overhead ~20%
   
   for (char c : input) {
     switch (c) {
@@ -379,7 +379,7 @@ std::string InputValidator::sanitizeForShell(std::string_view input) {
 
 std::string InputValidator::sanitizeForJson(std::string_view input) {
   std::string output = {};
-  output.reserve(input.size() + (input.size() / 5));
+  output.reserve(static_cast<int>(input.size()) + (input.size() / 5));
   
   for (unsigned char c : input) {
     switch (c) {

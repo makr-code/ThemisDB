@@ -75,7 +75,7 @@ bool TOTPReplayCache::checkAndMarkUsed(const std::string& user_id, const std::st
                      return a.used_at < b.used_at;
                  });
         user_cache.erase(user_cache.begin(),
-                        user_cache.begin() + (user_cache.size() - config_.max_entries_per_user));
+                        user_cache.begin() + (static_cast<int>(user_cache.size()) - config_.max_entries_per_user));
     }
     
     stats_.total_codes = 0;

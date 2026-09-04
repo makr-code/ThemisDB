@@ -927,7 +927,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
                 std::string error_vertex = {};
             };
 
-            const size_t chunk_size = (current_frontier.size() + effective_threads - 1) / effective_threads;
+            const size_t chunk_size = (static_cast<int>(current_frontier.size()) + effective_threads - 1) / effective_threads;
             std::vector<std::future<ChunkResult>> futures;
             std::atomic<bool> any_error{false};
 
@@ -1343,7 +1343,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
 
                 // Chunk S into at most nthreads groups.
                 const size_t chunk_size =
-                    std::max<size_t>(1u, (S.size() + nthreads - 1) / nthreads);
+                    std::max<size_t>(1u, (static_cast<int>(S.size()) + nthreads - 1) / nthreads);
                 std::vector<std::future<TaskOutput>> futures;
 
                 for (size_t cs = 0; cs < S.size(); cs += chunk_size) {

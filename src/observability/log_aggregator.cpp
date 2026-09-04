@@ -39,7 +39,7 @@ namespace {
 /// Escape a string for JSON embedding (minimal: only required characters).
 std::string jsonEscape(const std::string& s) {
     std::string out = {};
-    out.reserve(s.size() + 4);
+    out.reserve(static_cast<int>(s.size()) + 4);
     for (unsigned char c : s) {
         switch (c) {
             case '"':  out += "\\\""; break;

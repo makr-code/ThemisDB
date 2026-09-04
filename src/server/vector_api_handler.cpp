@@ -157,7 +157,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
         
         // Validate dimension
         int expectedDim = vector_index_->getDimension();
-        if (expectedDim > 0 && static_cast<int>(queryVector.size()) != expectedDim) {
+        if (expectedDim > 0  && static_cast<size_t>(static_cast) < int>(queryVector.size()) != expectedDim) {
             span.setStatus(false, "Dimension mismatch");
             return makeErrorResponse(http::status::bad_request,
                 "Vector dimension mismatch: expected " + std::to_string(expectedDim) +
@@ -368,7 +368,7 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                     if (!v.is_number()) { vec.clear(); break; }
                     vec.push_back(v.get<float>());
                 }
-                if (vec.empty() || static_cast<int>(vec.size()) != configured_dim) { ++errors; continue; }
+                if (vec.empty()  || static_cast<size_t>(static_cast) < int>(vec.size()) != configured_dim) { ++errors; continue; }
 
                 // Build entity
                 BaseEntity e(pk);

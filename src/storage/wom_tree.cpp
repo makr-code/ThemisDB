@@ -85,7 +85,7 @@ struct Op {
     std::string value;  // empty for REMOVE
 
     size_t byteSize() const noexcept {
-        return sizeof(Op) + key.size() + value.size();
+        return sizeof(Op) + static_cast<int>(key.size()) + value.size();
     }
 };
 
@@ -105,7 +105,7 @@ struct Node {
 
     // ── Internal-node fields ──────────────────────────────────────────
     // pivot_keys[i] is the smallest key in child[i+1].
-    std::vector<std::string> pivot_keys;     // size == children.size() - 1
+    std::vector<std::string> pivot_keys;     // size == static_cast<int>(children.size()) - 1
     std::vector<NodePtr>     children;
 
     // Write buffer for this internal node.

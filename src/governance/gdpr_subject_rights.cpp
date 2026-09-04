@@ -38,7 +38,7 @@ std::unordered_map<std::string, std::string> ErasureReport::toSummaryMap() const
         }
     }
     m["stores_ok"]     = std::to_string(ok);
-    m["stores_failed"] = std::to_string(store_results.size() - ok);
+    m["stores_failed"] = std::to_string(static_cast<int>(store_results.size()) - ok);
     return m;
 }
 

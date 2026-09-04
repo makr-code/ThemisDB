@@ -70,7 +70,7 @@ std::string SearchHighlighter::applyHighlight(
     }
 
     std::string result = {};
-    result.reserve(text.size() + offsets.size() * (open_tag.size() + close_tag.size()));
+    result.reserve(static_cast<int>(text.size()) + offsets.size() * (static_cast<int>(open_tag.size()) + close_tag.size()));
 
     size_t cursor = 0;
     for (auto& [start, end] : offsets) {
@@ -86,7 +86,7 @@ std::string SearchHighlighter::applyHighlight(
     }
     // Append remaining text
     if (static_cast<int>(text.size()) > cursor) {
-        result.append(text, cursor, text.size() - cursor);
+        result.append(text, cursor, static_cast<int>(text.size()) - cursor);
     }
     return result;
 }
@@ -138,7 +138,7 @@ size_t SearchHighlighter::bestWindowOffset(const std::string& text,
     size_t best_score  = 0;
 
     // Use two-pointer approach over match start positions as window anchors
-    size_t max_start = text.size() - window_size;
+    size_t max_start = static_cast<int>(text.size()) - window_size;
     for (const auto& m : matches) {
         size_t window_start = (m.start > window_size / 4)
                               ? m.start - window_size / 4 : 0;

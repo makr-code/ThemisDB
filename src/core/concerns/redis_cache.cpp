@@ -348,12 +348,12 @@ bool RedisCache::sendAll(SocketFd fd, const std::string &buf) noexcept {
     size_t total = 0;
     while (static_cast<size_t>(total) < buf.size()) {
 #if defined(_WIN32)
-        int sent = ::send(static_cast<SOCKET>(fd), buf.data() + total, static_cast<int>(buf.size() - total), 0);
+        int sent = ::send(static_cast<SOCKET>(fd), buf.data() + total, static_cast<int>(static_cast<int>(buf.size()) - total), 0);
         if (sent == SOCKET_ERROR) {
             return false;
         }
 #else
-        ssize_t sent = ::send(fd, buf.data() + total, buf.size() - total, MSG_NOSIGNAL);
+        ssize_t sent = ::send(fd, buf.data() + total, static_cast<int>(buf.size()) - total, MSG_NOSIGNAL);
         if (sent <= 0)
             return false;
 #endif

@@ -197,7 +197,7 @@ struct GremlinParser::Parser {
 
     const Token& consume() {
         const Token& t = tokens[pos];
-        if (pos < tokens.size() - 1) {
+        if (pos < static_cast<int>(tokens.size()) - 1) {
           ++pos;
         }
         return t;

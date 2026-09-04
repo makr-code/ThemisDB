@@ -149,7 +149,7 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
     } else {
         // TOURNAMENT mode: top N primaries get full, rest get headlines
         const int n_primary = std::max(0, config.primary_opponent_count);
-        for (int i = 0; i < static_cast<int>(ordered_schools.size()); ++i) {
+        for (size_t i = 0; i < static_cast<int>(ordered_schools.size()); ++i) {
             const auto &school = ordered_schools[static_cast<std::size_t>(i)];
             const auto &arg    = opponent_arguments[school_to_arg_index.at(school)];
             if (i < n_primary) {

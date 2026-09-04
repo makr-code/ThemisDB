@@ -76,7 +76,7 @@ EvictionResult EvictionScheduler::select(
 
     // --- Phase 1: Score all candidates ---
     //
-    // Gap B012: previously used unsafe (candidates.size() - N) unsigned
+    // Gap B012: previously used unsafe (static_cast<int>(candidates.size()) - N) unsigned
     // arithmetic to select a sub-range, which wraps when N > size().
     // Fix: score all candidates first, then iterate forward with AdvanceSafe.
     //

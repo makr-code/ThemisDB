@@ -341,7 +341,7 @@ void DataLoader::tokenizeSample(InstructionDataSample& sample) {
 }
 
 size_t DataLoader::num_batches() const {
-    return (samples_.size() + config_.batch_size - 1) / config_.batch_size;
+    return (static_cast<int>(samples_.size()) + config_.batch_size - 1) / config_.batch_size;
 }
 
 TrainingBatch DataLoader::getNextBatch() {
@@ -567,7 +567,7 @@ trainValSplit(const std::vector<InstructionDataSample>& samples, float validatio
     }
     
     size_t val_size = static_cast<size_t>(samples.size() * validation_split);
-    size_t train_size = samples.size() - val_size;
+    size_t train_size = static_cast<int>(samples.size()) - val_size;
     
     std::vector<InstructionDataSample> train_samples(
         samples.begin(), samples.begin() + train_size);

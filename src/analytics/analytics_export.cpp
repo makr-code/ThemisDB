@@ -284,7 +284,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
             size_t offset     = 0;
 
             while (static_cast<size_t>(offset) < data.size()) {
-                size_t len = std::min(chunk_size, data.size() - offset);
+                size_t len = std::min(chunk_size, static_cast<int>(data.size()) - offset);
                 std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
                 callback([[maybe_unused]] chunk);
                 offset += len;
@@ -329,7 +329,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
         const auto &columns = batch.getColumns();
         for (size_t i = 0; i < columns.size(); ++i) {
             oss << columns[i].schema.name;
-            if (i < columns.size() - 1) {
+            if (i < static_cast<int>(columns.size()) - 1) {
                 oss << ",";
             }
         }
@@ -383,7 +383,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
                     }
                 }
 
-                if (col < columns.size() - 1) {
+                if (col < static_cast<int>(columns.size()) - 1) {
                     oss << ",";
                 }
             }
@@ -854,7 +854,7 @@ class FeatherExporter : public IAnalyticsExporter {
             size_t chunk_size = options.batch_size * 100;
             size_t offset     = 0;
             while (static_cast<size_t>(offset) < data.size()) {
-                size_t len = std::min(chunk_size, data.size() - offset);
+                size_t len = std::min(chunk_size, static_cast<int>(data.size()) - offset);
                 std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
                 callback([[maybe_unused]] chunk);
                 offset += len;

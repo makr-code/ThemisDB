@@ -391,7 +391,7 @@ std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
     uint32_t parity_shards
 ) {
     // Calculate chunk size (pad last chunk with zeros if needed)
-    size_t chunk_size = (data.size() + data_shards - 1) / data_shards;
+    size_t chunk_size = (static_cast<int>(data.size()) + data_shards - 1) / data_shards;
 
     // Split data into k chunks (data shards)
     std::vector<std::vector<uint8_t>> chunks;
@@ -400,7 +400,7 @@ std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
         size_t offset = i * chunk_size;
         std::vector<uint8_t> chunk(chunk_size, 0);
         if (static_cast<int>(data.size()) > offset) {
-            size_t sz = std::min(chunk_size, data.size() - offset);
+            size_t sz = std::min(chunk_size, static_cast<int>(data.size()) - offset);
             std::memcpy(chunk.data(), data.data() + offset, sz);
         }
         chunks.push_back(std::move(chunk));
@@ -574,7 +574,7 @@ void ReedSolomonCoder::gf_matrix_mul(
     result.assign(rows, 0);
     for (size_t i = 0; i < rows; i++) {
         uint8_t sum = 0;
-        for (size_t j = 0; j < matrix[i].size() && j < vec.size(); j++) {
+        for (size_t j = 0; j < matrix[i].size()  && static_cast<size_t>(j) < vec.size(); j++) {
             sum ^= gf_mul(matrix[i][j], vec[j]);
         }
         result[i] = sum;
@@ -683,7 +683,7 @@ void CauchyReedSolomonCoder::gf_matrix_mul(
     
     for (size_t i = 0; i < rows; i++) {
         uint8_t sum = 0;
-        for (size_t j = 0; j < cols && j < vec.size(); j++) {
+        for (size_t j = 0; j < cols  && static_cast<size_t>(j) < vec.size(); j++) {
             sum ^= gf_mul(matrix[i][j], vec[j]);
         }
         result[i] = sum;
@@ -762,12 +762,12 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
     std::vector<std::vector<uint8_t>> chunks;
     
     // Calculate chunk size
-    size_t chunk_size = (data.size() + data_shards - 1) / data_shards;
+    size_t chunk_size = (static_cast<int>(data.size()) + data_shards - 1) / data_shards;
     
     // Split data into chunks
     for (uint32_t i = 0; i < data_shards; ++i) {
         size_t offset = i * chunk_size;
-        size_t size = std::min(chunk_size, data.size() - offset);
+        size_t size = std::min(chunk_size, static_cast<int>(data.size()) - offset);
         
         std::vector<uint8_t> chunk(chunk_size, 0);  // Pad with zeros
         if (static_cast<int>(data.size()) > offset) {
@@ -1035,7 +1035,7 @@ std::vector<std::vector<uint8_t>> LocallyRepairableCoder::encode(
         throw std::invalid_argument("LRC encode: data must not be empty");
 
     const uint32_t shard_size = static_cast<uint32_t>(
-        (data.size() + data_shards - 1) / data_shards);
+        (static_cast<int>(data.size()) + data_shards - 1) / data_shards);
     const uint32_t n_local = localGroupCount(data_shards, parity_shards);
     const uint32_t n_global = parity_shards - n_local;
 
@@ -1259,7 +1259,7 @@ std::vector<std::vector<uint8_t>> HammingCoder::encode(
         throw std::invalid_argument("HammingCoder::encode: data must not be empty");
 
     const uint32_t shard_size = static_cast<uint32_t>(
-        (data.size() + data_shards - 1) / data_shards);
+        (static_cast<int>(data.size()) + data_shards - 1) / data_shards);
 
     // Initialise all shards to zero (data shards will be filled below)
     const uint32_t total_shards = data_shards + parity_shards;
@@ -1904,7 +1904,7 @@ bool RedundancyStrategy::proposeRaftWrite(const std::string& shard_id,
     
     // Build command with explicit field lengths to prevent injection attacks
     std::string command = {};
-    command.reserve(20 + document_id.size() + data.size());
+    command.reserve(20 + static_cast<int>(document_id.size()) + data.size());
     
     // Field 0: command type
     command.append("WRITE|");
@@ -1967,7 +1967,7 @@ WriteResult RedundancyStrategy::writeStripe(
     std::vector<std::string> target_shards;
     target_shards.push_back(*primary_shard);
     
-    auto replicas = ring.getReplicaNodes(document_id, chunks.size() - 1);
+    auto replicas = ring.getReplicaNodes(document_id, static_cast<int>(chunks.size()) - 1);
     target_shards.insert(target_shards.end(), replicas.begin(), replicas.end());
     
     // W2-S06: Consensus validation — determine required acknowledgments based on write concern
@@ -2014,7 +2014,7 @@ WriteResult RedundancyStrategy::writeStripe(
     written_shards.reserve(target_shards.size());
     failed_shards.reserve(target_shards.size());
     
-    for (size_t i = 0; i < chunks.size() && i < target_shards.size(); ++i) {
+    for (size_t i = 0; i < chunks.size()  && static_cast<size_t>(i) < target_shards.size(); ++i) {
         const auto& chunk = chunks[i];
         const auto& shard_id = target_shards[i];
         
@@ -2135,7 +2135,7 @@ WriteResult RedundancyStrategy::writeParity(
     std::vector<std::string> target_shards;
     target_shards.push_back(*primary_shard);
     
-    auto replicas = ring.getReplicaNodes(document_id, chunks.size() - 1);
+    auto replicas = ring.getReplicaNodes(document_id, static_cast<int>(chunks.size()) - 1);
     target_shards.insert(target_shards.end(), replicas.begin(), replicas.end());
     
     // W2-S06: RAID/Erasure consensus — write all chunks (data + parity) with quorum
@@ -2143,7 +2143,7 @@ WriteResult RedundancyStrategy::writeParity(
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
     
-    for (size_t i = 0; i < chunks.size() && i < target_shards.size(); ++i) {
+    for (size_t i = 0; i < chunks.size()  && static_cast<size_t>(i) < target_shards.size(); ++i) {
         const auto& chunk = chunks[i];
         const auto& shard_id = target_shards[i];
         bool is_parity = i >= data_shards;
@@ -2836,7 +2836,7 @@ std::vector<std::vector<uint8_t>> RedundancyStrategy::splitIntoChunks(
     std::vector<std::vector<uint8_t>> chunks;
     
     for (size_t offset = 0; offset < data.size(); offset += chunk_size) {
-        size_t size = std::min(chunk_size, data.size() - offset);
+        size_t size = std::min(chunk_size, static_cast<int>(data.size()) - offset);
         std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + size);
         chunks.push_back(chunk);
     }
@@ -3500,7 +3500,7 @@ bool RedundancyStrategy::recoverDocument(
         }
 
         uint32_t restored = 0;
-        for (size_t i = 0; i < shards.size() && i < all_chunks.size(); ++i) {
+        for (size_t i = 0; i < shards.size()  && static_cast<size_t>(i) < all_chunks.size(); ++i) {
             if (chunk_opts[i]) continue;  // chunk was already present
 
             bool is_parity = (i >= k);

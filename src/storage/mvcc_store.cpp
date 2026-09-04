@@ -44,7 +44,7 @@ MVCCStore::MVCCStore(
 
 std::string MVCCStore::encodeVersionedKey(std::string_view base_key, HLCTimestamp ts) {
     std::string key = {};
-    key.reserve(base_key.size() + 1 + 8);
+    key.reserve(static_cast<int>(base_key.size()) + 1 + 8);
     key.append(base_key.data(), base_key.size());
     key.push_back('\x00');
     key.append(ts.encodeToString());
@@ -53,7 +53,7 @@ std::string MVCCStore::encodeVersionedKey(std::string_view base_key, HLCTimestam
 
 std::string MVCCStore::encodeVersionPrefix(std::string_view base_key) {
     std::string prefix = {};
-    prefix.reserve(base_key.size() + 1);
+    prefix.reserve(static_cast<int>(base_key.size()) + 1);
     prefix.append(base_key.data(), base_key.size());
     prefix.push_back('\x00');
     return prefix;
@@ -68,7 +68,7 @@ HLCTimestamp MVCCStore::decodeTimestamp(std::string_view versioned_key) {
         return HLCTimestamp{};  // not a valid versioned key
     }
     const auto* ts_bytes = reinterpret_cast<const uint8_t*>(
-        versioned_key.data() + versioned_key.size() - 8
+        versioned_key.data() + static_cast<int>(versioned_key.size()) - 8
     );
     return HLCTimestamp::decodeFromBytes(ts_bytes);
 }
@@ -330,7 +330,7 @@ void MVCCStore::scanBaseKeys([[maybe_unused]] std::function<bool(std::string_vie
     db_->scanAll([&](std::string_view vkey, std::string_view) -> bool {
         if (vkey.size() >= 9 &&
             static_cast<unsigned char>(vkey[vkey.size() - 9]) == '\x00') {
-            base_keys.emplace_back(vkey.data(), vkey.size() - 9);
+            base_keys.emplace_back(vkey.data(), static_cast<int>(vkey.size()) - 9);
         }
         return true;
     });

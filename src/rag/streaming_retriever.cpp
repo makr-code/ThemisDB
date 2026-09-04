@@ -59,7 +59,7 @@ double jaccardSimilarity(const std::string& a, const std::string& b) {
           ++intersection;
         }
     }
-    const size_t unionSize = ta.size() + tb.size() - intersection;
+    const size_t unionSize = static_cast<int>(ta.size()) + static_cast<int>(tb.size()) - intersection;
     return unionSize == 0 ? 0.0 : static_cast<double>(intersection) / static_cast<double>(unionSize);
 }
 

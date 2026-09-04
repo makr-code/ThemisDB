@@ -72,7 +72,7 @@ static const char* THEMISDB_VERSION = THEMIS_VERSION_STRING;
 static std::string base64_encode_local(const std::vector<uint8_t>& data) {
     static const char b64_table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string out = {};
-    out.reserve(((data.size() + 2) / 3) * 4);
+    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= data.size()) {
         uint32_t n = (data[i] << 16) | (data[i + 1] << 8) | (data[i + 2]);

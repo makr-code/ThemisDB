@@ -74,7 +74,7 @@ std::vector<float> EmbeddingProvider::getEmbedding(const std::string& text) {
         return std::vector<float>();
     }
     
-    std::vector<llama_token> tokens_buffer(text.size() + 16);
+    std::vector<llama_token> tokens_buffer(static_cast<int>(text.size()) + 16);
     if (static_cast<int>(tokens_buffer.size()) > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
         spdlog::error("Token buffer too large for llama_tokenize");
         return std::vector<float>();
@@ -427,7 +427,7 @@ void EmbeddingProvider::evictCacheIfNeeded() {
     
     // Remove oldest 20%
     size_t to_remove = config_.max_cache_entries / 5;
-    for (size_t i = 0; i < to_remove && i < entries.size(); ++i) {
+    for (size_t i = 0; i < to_remove  && static_cast<size_t>(i) < entries.size(); ++i) {
         cache_.erase(entries[i].first);
     }
     

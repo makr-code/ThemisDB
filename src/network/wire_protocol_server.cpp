@@ -660,7 +660,7 @@ void WireProtocolServer::wait() {
 size_t WireProtocolServer::getActiveConnections() const {
     std::lock_guard<std::mutex> lock(connections_mutex_);
 #ifdef THEMIS_ENABLE_WEBSOCKET
-    return active_sessions_.size() + active_ws_sessions_.size();
+    return static_cast<int>(active_sessions_.size()) + active_ws_sessions_.size();
 #else
     return active_sessions_.size();
 #endif
@@ -1285,7 +1285,7 @@ void WireProtocolServer::Session::dispatchToWorkerPool(std::function<void()> han
 
 void WireProtocolServer::Session::handleMessage() {
     requests_processed_.fetch_add(1, std::memory_order_relaxed);
-    bytes_received_.fetch_add(header_buffer_.size() + payload_buffer_.size(), std::memory_order_relaxed);
+    bytes_received_.fetch_add(static_cast<int>(header_buffer_.size()) + payload_buffer_.size(), std::memory_order_relaxed);
     
     // Validate header size (must be at least 12 bytes)
     if (header_buffer_.size() < 12) {

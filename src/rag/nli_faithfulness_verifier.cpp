@@ -166,7 +166,7 @@ struct NLIFaithfulnessVerifier::Impl {
                     ids.push_back(0); // [CLS]
                     std::istringstream iss(text);
                     std::string tok = {};
-                    while (iss >> tok && static_cast<int>(ids.size()) < max_len - 1) {
+                    while (iss >> tok  && static_cast<size_t>(static_cast) < int>(ids.size()) < max_len - 1) {
                         ids.push_back(static_cast<int64_t>(
                             std::hash<std::string>{}(tok) % 30000 + 1));
                     }

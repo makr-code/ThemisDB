@@ -407,7 +407,7 @@ std::vector<AuditTrailEntry> ProcessAuditLoggerImpl::QueryByModelId(
   }
 
   for (uint64_t entry_id : it->second) {
-    if (entry_id > 0 && entry_id <= entries_.size()) {
+    if (entry_id > 0  && static_cast<size_t>(entry_id) < = entries_.size()) {
       const auto& entry = entries_[static_cast<int>(entry_id - 1)];
       AuditTrailEntry result;
       result.entry_id = entry.entry_id;
@@ -455,7 +455,7 @@ std::string ProcessAuditLoggerImpl::GetModelStateAt(
 
   // Replay entries up to timestamp
   for (uint64_t entry_id : it->second) {
-    if (entry_id > 0 && entry_id <= entries_.size()) {
+    if (entry_id > 0  && static_cast<size_t>(entry_id) < = entries_.size()) {
       const auto& entry = entries_[static_cast<int>(entry_id - 1)];
       if (entry.timestamp_ms <= timestamp_ms) {
         state = DeltaPatchCodec::Decode(state, entry.delta_patch);

@@ -302,7 +302,7 @@ public:
         if (it != vectorToGPU.end()) {
             // Update existing vector on its current GPU
             int gpuIdx = it->second;
-            if (gpuIdx >= 0 && gpuIdx < static_cast<int>(gpuIndices.size())) {
+            if (gpuIdx >= 0  && static_cast<size_t>(gpuIdx) < static_cast<int>(gpuIndices.size())) {
                 bool ok = gpuIndices[gpuIdx]->updateVector(id, vector);
                 if (!ok) THEMIS_WARN("MultiGPUVectorIndex::addVector: updateVector failed on gpu {} for id {}", gpuIdx, id);
                 return ok;
@@ -335,7 +335,7 @@ public:
         }
         
         int gpuIdx = it->second;
-        if (gpuIdx >= 0 && gpuIdx < static_cast<int>(gpuIndices.size())) {
+        if (gpuIdx >= 0  && static_cast<size_t>(gpuIdx) < static_cast<int>(gpuIndices.size())) {
             bool success = gpuIndices[gpuIdx]->removeVector(id);
             if (success) {
                 vectorToGPU.erase(it);
@@ -540,7 +540,7 @@ public:
 
             // Utilisation: fraction of wall-clock time this GPU was actively
             // processing search requests, expressed as a percentage (0–100).
-            if (elapsedUs > 0.0 && i < perGpuQueryTimeUs.size()) {
+            if (elapsedUs > 0.0  && static_cast<size_t>(i) < perGpuQueryTimeUs.size()) {
                 double activeUs = static_cast<double>(perGpuQueryTimeUs[i]);
                 perGPUStat.utilizationPercent =
                     std::min(100.0, (activeUs / elapsedUs) * 100.0);

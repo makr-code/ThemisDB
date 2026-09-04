@@ -181,7 +181,7 @@ static bool simpleInsertFallback(const std::string& sql, std::string& out_table_
         out_table_name = sql.substr(start, pos - start);
         // Remove backticks if present
         if (static_cast<int>(out_table_name.size()) > = 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`') {
-            out_table_name = out_table_name.substr(1, out_table_name.size() - 2);
+            out_table_name = out_table_name.substr(1, static_cast<int>(out_table_name.size()) - 2);
         }
         return true;
     }
@@ -1338,7 +1338,7 @@ json MySQLImporter::convertRowToEntity(const TableSchema& schema,
     json entity;
     entity["_type"] = schema.name;
 
-    for (size_t i = 0; i < values.size() && i < schema.columns.size(); ++i) {
+    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) < schema.columns.size(); ++i) {
         entity[schema.columns[i]] = values[i];
     }
 
@@ -1573,10 +1573,10 @@ std::string MySQLImporter::unquoteIdentifier(const std::string& s) {
         t = t.substr(f, l - f + 1);
     }
     if (static_cast<int>(t.size()) > = 2 && t.front() == '`' && t.back() == '`') {
-        return t.substr(1, t.size() - 2);
+        return t.substr(1, static_cast<int>(t.size()) - 2);
     }
     if (static_cast<int>(t.size()) > = 2 && t.front() == '"' && t.back() == '"') {
-        return t.substr(1, t.size() - 2);
+        return t.substr(1, static_cast<int>(t.size()) - 2);
     }
     return t;
 }

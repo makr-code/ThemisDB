@@ -184,7 +184,7 @@ RangerClient::convertFromRanger(const json& rangerJson) {
         if (items.is_array()) {
             for (const auto& it : items) {
                 themis::PolicyEngine::Policy p;
-                p.id = "ranger-" + std::to_string(out.size()+1);
+                p.id = "ranger-" + std::to_string(static_cast<int>(out.size()) +1);
                 p.name = it.value("itemName", std::string("ranger-policy-item"));
                 p.effect_allow = effect_allow;
                 // subjects: users (groups not supported yet)

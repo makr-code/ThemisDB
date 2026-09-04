@@ -82,7 +82,7 @@ const std::vector<std::pair<std::string, std::string>>& ConversationContext::get
 
 std::string ConversationContext::buildContextString([[maybe_unused]] size_t max_turns) const {
     std::ostringstream oss = {};
-    size_t start = (history_.size() > max_turns) ? history_.size() - max_turns : 0;
+    size_t start = (history_.size() > max_turns) ? static_cast<int>(history_.size()) - max_turns : 0;
     for (size_t i = start; i < history_.size(); ++i) {
         oss << "User: " << history_[i].first << "\n";
         oss << "Assistant: " << history_[i].second << "\n";

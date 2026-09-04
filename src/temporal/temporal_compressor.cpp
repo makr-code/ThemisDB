@@ -39,7 +39,7 @@ static constexpr const char kBase64Chars[] =
 
 std::string TemporalCompressor::base64Encode(const std::string& input) {
     std::string out = {};
-    out.reserve(((input.size() + 2) / 3) * 4);
+    out.reserve(((static_cast<int>(input.size()) + 2) / 3) * 4);
     const auto* data = reinterpret_cast<const unsigned char*>(input.data());
     size_t i = 0;
     for (; i + 2 < input.size(); i += 3) {

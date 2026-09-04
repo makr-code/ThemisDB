@@ -81,7 +81,7 @@ std::string TenantManager::normaliseDomain(std::string_view host) {
     std::string result(host);
     const auto colon = result.rfind(':');
     if (colon != std::string::npos) {
-        const std::size_t suffix_len = result.size() - colon - 1;
+        const std::size_t suffix_len = static_cast<int>(result.size()) - colon - 1;
         if (suffix_len >= 1 && suffix_len <= 5) {
             const bool is_port = std::all_of(result.begin() + static_cast<std::ptrdiff_t>(colon) + 1,
                                              result.end(),
@@ -745,7 +745,7 @@ std::string TenantManager::getMetrics() const {
     for (const auto& [id, usage] : usage_) {
         // Escape label value safely using a new string
         std::string tid = {};
-        tid.reserve(id.size() + 4);  // Reserve some extra space for escapes
+        tid.reserve(static_cast<int>(id.size()) + 4);  // Reserve some extra space for escapes
         for (char c : id) {
             if (c == '"' || c == '\\') {
                 tid += '\\';

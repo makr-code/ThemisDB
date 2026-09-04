@@ -70,7 +70,7 @@ namespace {
             if (!is_base64_char) {
                 return false;
             }
-            if (ch == '=' && i < input.size() - padding) {
+            if (ch == '='  && static_cast<size_t>(i) < static_cast<int>(input.size()) - padding) {
                 return false;
             }
         }

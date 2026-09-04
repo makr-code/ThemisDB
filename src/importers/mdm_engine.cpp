@@ -163,7 +163,7 @@ MDMEngine::executeLinkingPhase(
     std::vector<EntityLink> created;
     const std::string now = nowRfc3339();
 
-    for (size_t i = 0; i < incoming_entities.size() && i < match_results.size(); ++i) {
+    for (size_t i = 0; i < incoming_entities.size()  && static_cast<size_t>(i) < match_results.size(); ++i) {
         const auto& incoming = incoming_entities[i];
         const auto& matches  = match_results[i];
 

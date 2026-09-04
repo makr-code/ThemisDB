@@ -210,7 +210,7 @@ AttentionMemoryStats KVCacheManager::getStats() const {
     
     AttentionMemoryStats stats;
     
-    stats.blocks_used = blocks_.size() - free_blocks_.size();
+    stats.blocks_used = static_cast<int>(blocks_.size()) - free_blocks_.size();
     stats.blocks_free = free_blocks_.size();
     
     size_t block_size = calculateBlockSize();

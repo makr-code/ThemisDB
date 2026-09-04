@@ -303,7 +303,7 @@ MultiGPUMemoryCoordinator::balanceInferenceLoad(
         );
         
         // Ensure at least 1 if total_batch_size > 0
-        if (i == gpu_ids.size() - 1) {
+        if (i == static_cast<int>(gpu_ids.size()) - 1) {
             batch_for_gpu = total_batch_size - assigned;  // Give remainder to last GPU
         }
         

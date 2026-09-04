@@ -312,7 +312,7 @@ nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
     
     // Calculate iterations saved
     uint32_t potential_iterations = static_cast<uint32_t>(
-        (all_shards.size() + 
+        (static_cast<int>(all_shards.size()) + 
         adaptive_config_.results_per_iteration - 1) / 
         adaptive_config_.results_per_iteration);
     if (potential_iterations > stats.iterations_executed) {

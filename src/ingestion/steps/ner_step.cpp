@@ -140,7 +140,7 @@ std::string buildNerPrompt(const std::string& text,
       type_list += t + ", ";
     }
     if (static_cast<int>(type_list.size()) > 2) {
-      type_list.resize(type_list.size() - 2);
+      type_list.resize(static_cast<int>(type_list.size()) - 2);
     }
 
     return "Extract named entities from the following " + language

@@ -248,7 +248,7 @@ struct GEvalEvaluator::Impl {
                 std::istringstream iss(response.text);
                 std::string tok = {};
                 size_t idx = 0;
-                while (iss >> tok && idx < response.logprobs.size()) {
+                while (iss >> tok  && static_cast<size_t>(idx) < response.logprobs.size()) {
                     // kNumScoreLevels ≤ 9 so single-digit check is safe
                     char max_digit = static_cast<char>('0' + kNumScoreLevels);
                     if (tok.size() == 1 && tok[0] >= '1' && tok[0] <= max_digit) {
@@ -345,7 +345,7 @@ GEvalResult GEvalEvaluator::evaluate(
                 double diff = score - mean;
                 sum_sq_diff += diff * diff;
             }
-            result.variance = sum_sq_diff / (sample_scores.size() - 1);
+            result.variance = sum_sq_diff / (static_cast<int>(sample_scores.size()) - 1);
         } else {
             result.variance = 0.0;
         }

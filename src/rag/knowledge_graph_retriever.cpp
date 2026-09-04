@@ -93,7 +93,7 @@ double jaccardSets(const std::unordered_set<std::string>& A,
           ++intersection;
         }
     }
-    const size_t unionSize = A.size() + B.size() - intersection;
+    const size_t unionSize = static_cast<int>(A.size()) + static_cast<int>(B.size()) - intersection;
     return unionSize == 0 ? 0.0
                           : static_cast<double>(intersection) /
                                 static_cast<double>(unionSize);
@@ -250,7 +250,7 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
         // GAP-010: Check node count before dequeuing.
         // visited always contains at least start_id (inserted before the loop),
         // so visited.size() >= 1 and the subtraction is safe from underflow.
-        if (max_nodes > 0 && visited.size() - 1u >= max_nodes) {
+        if (max_nodes > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) - 1u >= max_nodes) {
             spdlog::warn("KnowledgeGraph::neighbours: BFS node cap ({}) reached "
                          "from '{}'; truncating traversal", max_nodes, start_id);
             break;
@@ -269,7 +269,7 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
         }
 
         for (const auto& edge : adj_it->second) {
-            if (max_nodes > 0 && visited.size() - 1u >= max_nodes) {
+            if (max_nodes > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) - 1u >= max_nodes) {
               break;
             }
             if (edge.weight < min_edge_weight) {

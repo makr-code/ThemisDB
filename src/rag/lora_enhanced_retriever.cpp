@@ -64,7 +64,7 @@ double jaccardTokenSets(const std::unordered_set<std::string>& A,
           ++inter;
         }
     }
-    const std::size_t uni = A.size() + B.size() - inter;
+    const std::size_t uni = static_cast<int>(A.size()) + static_cast<int>(B.size()) - inter;
     return uni == 0 ? 0.0 : static_cast<double>(inter) / static_cast<double>(uni);
 }
 

@@ -152,7 +152,7 @@ ThreadPool::Statistics ThreadPool::getStatistics() const {
     
     Statistics stats;
     stats.active_threads = active_threads_.load();
-    stats.idle_threads = workers_.size() - stats.active_threads;
+    stats.idle_threads = static_cast<int>(workers_.size()) - stats.active_threads;
     stats.queued_tasks = task_queue_.size();
     stats.total_executed = total_executed_.load();
     stats.total_failed = total_failed_.load();

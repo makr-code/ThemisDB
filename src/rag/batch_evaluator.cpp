@@ -485,7 +485,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     // One shared detector instance for inline scanning of un-screened documents.
     security::PromptInjectionDetector inline_detector;
 
-    for (size_t i = 0; i < results.size() && i < inputs.size(); ++i) {
+    for (size_t i = 0; i < results.size()  && static_cast<size_t>(i) < inputs.size(); ++i) {
         const auto& input = inputs[i];
         const auto& result = results[i];
 
@@ -584,7 +584,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
                   static_cast<double>(prompt_injection_cases);
     out.bias_fairness_drift_rate = static_cast<double>(bias_drift_cases) / n;
     out.traceable_decisions = traceable_decisions;
-    out.untraceable_decisions = results.size() - traceable_decisions;
+    out.untraceable_decisions = static_cast<int>(results.size()) - traceable_decisions;
     if (total_quality > std::numeric_limits<double>::epsilon()) {
         out.cost_to_quality_efficiency = total_cost / total_quality;
     } else if (total_cost > 0.0) {
@@ -600,7 +600,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     if (!latencies_ms.empty()) {
         std::sort(latencies_ms.begin(), latencies_ms.end());
         const size_t idx = static_cast<size_t>(
-            std::floor(0.95 * static_cast<double>(latencies_ms.size() - 1)));
+            std::floor(0.95 * static_cast<double>(static_cast<int>(latencies_ms.size()) - 1)));
         out.p95_latency_ms = latencies_ms[idx];
     }
 

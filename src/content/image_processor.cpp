@@ -306,7 +306,7 @@ static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::s
     // JPEG: SOI + APP0 or SOF0
     if (blob[0] == 0xFF && blob[1] == 0xD8) {
         // Find SOF0/SOF2 marker
-        for (size_t i = 2; i < blob.size() - 9; ++i) {
+        for (size_t i = 2; i < static_cast<int>(blob.size()) - 9; ++i) {
             if (blob[i] == 0xFF && (blob[i + 1] == 0xC0 || blob[i + 1] == 0xC2)) {
                 height = (blob[i + 5] << 8) | blob[i + 6];
                 width = (blob[i + 7] << 8) | blob[i + 8];
@@ -482,7 +482,7 @@ std::array<double, 1024> extractGrayscaleSamples(const std::vector<uint8_t>& blo
     // Fallback: sample raw bytes uniformly, skipping the first 20 bytes of
     // header data so we focus on pixel-representative content.
     size_t start     = std::min(static_cast<size_t>(20), blob.size());
-    size_t data_size = blob.size() - start;
+    size_t data_size = static_cast<int>(blob.size()) - start;
     for (int i = 0; i < 1024; ++i) {
         if (data_size == 0) {
           break;

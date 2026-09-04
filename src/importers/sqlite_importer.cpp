@@ -135,7 +135,7 @@ static bool simpleInsertFallbackSQLite(const std::string& sql, std::string& out_
         // Remove quotes if present (both double and backtick for SQLite)
         if ((out_table_name.size() >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
             (out_table_name.size() >= 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`')) {
-            out_table_name = out_table_name.substr(1, out_table_name.size() - 2);
+            out_table_name = out_table_name.substr(1, static_cast<int>(out_table_name.size()) - 2);
         }
         return true;
     }
@@ -388,7 +388,7 @@ json SQLiteImporter::getSourceSchema(const std::string& source_path) {
             continue;
 
         // Bounds check on accumulated SQL
-        if (current_sql.size() + line.size() + 1 > kMaxSqlLength) {
+        if (static_cast<int>(current_sql.size()) + static_cast<int>(line.size()) + 1 > kMaxSqlLength) {
             THEMIS_WARN("SQLite SQL statement exceeds max length ({}); truncating", kMaxSqlLength);
             current_sql.clear();
             continue;
@@ -1088,7 +1088,7 @@ json SQLiteImporter::convertRowToEntity(const TableSchema& schema,
                                         const std::vector<std::string>& values) {
     json entity;
     entity["_type"] = schema.name;
-    for (size_t i = 0; i < values.size() && i < schema.columns.size(); ++i) {
+    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) < schema.columns.size(); ++i) {
         entity[schema.columns[i]] = values[i];
     }
     return entity;

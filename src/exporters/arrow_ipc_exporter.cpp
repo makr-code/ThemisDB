@@ -171,7 +171,7 @@ class FBuf {
     // Format: uint32 length | data bytes | '\0' | padding-to-4
     // Returns C_obj = cursor AFTER the length field (= object reference).
     uint32_t preString(const std::string &s) {
-        size_t data_len  = s.size() + 1; // data + null terminator
+        size_t data_len  = static_cast<int>(s.size()) + 1; // data + null terminator
         size_t padded    = ((data_len + 3) / 4) * 4;
         size_t pad_count = padded - data_len;
 
@@ -655,7 +655,7 @@ static BatchBody buildBatchBody(const std::vector<BaseEntity> &entities, const s
         int32_t offset_cursor = 0;
         std::vector<uint8_t> offsets_buf = {};
 
-        offsets_buf.reserve((vals.size() + 1) * 4);
+        offsets_buf.reserve((static_cast<int>(vals.size()) + 1) * 4);
         auto append_i32 = [&]([[maybe_unused]] int32_t v) {
             uint32_t u = static_cast<uint32_t>(v);
             offsets_buf.push_back(static_cast<uint8_t>(u & 0xFF));

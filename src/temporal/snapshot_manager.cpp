@@ -185,7 +185,7 @@ size_t TemporalSnapshotManager::garbageCollectByCount([[maybe_unused]] size_t ma
     }
     std::sort(ordered.begin(), ordered.end());
 
-    const size_t to_remove_count = snapshots_.size() - max_snapshots;
+    const size_t to_remove_count = static_cast<int>(snapshots_.size()) - max_snapshots;
     for (size_t i = 0; i < to_remove_count; ++i) {
         snapshots_.erase(ordered[i].second);
         ++total_released_;

@@ -205,7 +205,7 @@ struct CypherParser::Lexer {
                 std::string s = {};
                 while (pos < src.size() && peek() != delim) {
                     char c = advance();
-                    if (c == '\\' && pos < src.size()) {
+                    if (c == '\\'  && static_cast<size_t>(pos) < src.size()) {
                         char esc = advance();
                         switch (esc) {
                             case 'n':  s += '\n'; break;
@@ -1033,7 +1033,7 @@ std::string CypherToAQLTranspiler::literalToAQL(const CypherLiteralValue& val) {
                 return v;
             }
             std::string out = {};
-            out.reserve(v.size() + 2);
+            out.reserve(static_cast<int>(v.size()) + 2);
             out += '"';
             for (char c : v) {
                 if (c == '"' || c == '\\') {

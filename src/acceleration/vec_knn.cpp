@@ -503,7 +503,7 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
     };
 
     std::vector<std::future<void>> futures;
-    futures.reserve((entities.size() + batchSize - 1) / batchSize);
+    futures.reserve((static_cast<int>(entities.size()) + batchSize - 1) / batchSize);
 
     for (std::size_t begin = 0; begin < entities.size(); begin += batchSize) {
         const std::size_t end = std::min(begin + batchSize, entities.size());

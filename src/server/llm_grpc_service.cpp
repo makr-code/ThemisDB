@@ -634,7 +634,7 @@ grpc::Status LLMGrpcService::ExportLoRA(
             llm::LoRAChunk chunk;
             chunk.set_lora_id(request->lora_id());
             
-            size_t current_chunk_size = std::min(chunk_size, lora_data.size() - offset);
+            size_t current_chunk_size = std::min(chunk_size, static_cast<int>(lora_data.size()) - offset);
             chunk.set_data(lora_data.data() + offset, current_chunk_size);
             chunk.set_offset(offset);
             chunk.set_total_size(lora_data.size());

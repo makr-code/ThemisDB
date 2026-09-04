@@ -23,7 +23,7 @@ MaintenanceScheduleStore::MaintenanceScheduleStore(IStorageEngine* engine)
 
 std::string MaintenanceScheduleStore::makeKey(const std::string& id) {
     std::string key = {};
-    key.reserve(kKeyPrefix.size() + id.size());
+    key.reserve(static_cast<int>(kKeyPrefix.size()) + id.size());
     key.append(kKeyPrefix);
     key.append(id);
     return key;

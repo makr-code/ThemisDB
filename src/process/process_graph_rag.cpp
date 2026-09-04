@@ -76,7 +76,7 @@ float jaccardSimilarity(const std::set<std::string>& a,
           ++intersection;
         }
     }
-    const size_t union_size = a.size() + b.size() - intersection;
+    const size_t union_size = static_cast<int>(a.size()) + static_cast<int>(b.size()) - intersection;
     if (union_size == 0) {
       return 0.f;
     }
@@ -1540,7 +1540,7 @@ std::vector<ProcessGraphRag::NodeDwellStats> ProcessGraphRag::analyzeBottlenecks
                 std::vector<double> sorted_samples = samples;
                 std::sort(sorted_samples.begin(), sorted_samples.end());
                 size_t idx = static_cast<size_t>(
-                    static_cast<double>(sorted_samples.size() - 1) * 0.95);
+                    static_cast<double>(static_cast<int>(sorted_samples.size()) - 1) * 0.95);
                 p95 = sorted_samples[idx];
             }
 

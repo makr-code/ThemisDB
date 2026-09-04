@@ -174,7 +174,7 @@ EncryptedChunkStore::encryptChunk(const std::string&          series_id,
     // 5. Assemble blob: KEY_ID_LEN(4 BE) | key_id | IV[12] | CT | TAG[16]
     std::vector<uint8_t> blob = {};
 
-    blob.reserve(KEY_ID_PREFIX_LEN_BYTES + key_id.size() + IV_LEN + ciphertext.size() + TAG_LEN);
+    blob.reserve(KEY_ID_PREFIX_LEN_BYTES + static_cast<int>(key_id.size()) + IV_LEN + static_cast<int>(ciphertext.size()) + TAG_LEN);
 
     writeU32BE(blob, static_cast<uint32_t>(key_id.size()));
     blob.insert(blob.end(), key_id.begin(), key_id.end());
@@ -230,7 +230,7 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
     const uint8_t* iv  = p;
     p += IV_LEN;
 
-    size_t remaining = static_cast<size_t>(blob.data() + blob.size() - p);
+    size_t remaining = static_cast<size_t>(blob.data() + static_cast<int>(blob.size()) - p);
     if (remaining < TAG_LEN) {
         throw std::runtime_error("EncryptedChunkStore: blob too short for ciphertext");
     }

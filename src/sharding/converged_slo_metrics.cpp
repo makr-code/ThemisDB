@@ -69,7 +69,7 @@ double ConvergedSLOMetrics::getLatencyP99(const std::string& op_type) const {
     
     size_t index = static_cast<size_t>(sorted.size() * 0.99);
     if (index >= static_cast<int>(sorted.size())) {
-        index = sorted.size() - 1;
+        index = static_cast<int>(sorted.size()) - 1;
     }
     return sorted[index];
 }

@@ -137,7 +137,7 @@ void GradientTensor::compress(GradientCompressionType type) {
             // Store scale and min as metadata (first 8 bytes)
             std::vector<uint8_t> compressed = {};
 
-            compressed.reserve(data.size() + 8);
+            compressed.reserve(static_cast<int>(data.size()) + 8);
             
             // Store scale and min
             uint32_t scale_bits, min_bits;
@@ -175,7 +175,7 @@ void GradientTensor::compress(GradientCompressionType type) {
             
             std::vector<uint8_t> compressed = {};
 
-            compressed.reserve((data.size() + 1) / 2 + 8);
+            compressed.reserve((static_cast<int>(data.size()) + 1) / 2 + 8);
             
             // Store metadata
             uint32_t scale_bits, min_bits;
@@ -282,7 +282,7 @@ void GradientTensor::decompress() {
             
             // Dequantize
             data.clear();
-            data.reserve(compressed.size() - 8);
+            data.reserve(static_cast<int>(compressed.size()) - 8);
             for (size_t i = 8; i < compressed.size(); ++i) {
                 data.push_back(compressed[i] * scale + min_val);
             }
@@ -305,7 +305,7 @@ void GradientTensor::decompress() {
             
             // Dequantize
             data.clear();
-            data.reserve((compressed.size() - 8) * 2);
+            data.reserve((static_cast<int>(compressed.size()) - 8) * 2);
             for (size_t i = 8; i < compressed.size(); ++i) {
                 uint8_t packed = compressed[i];
                 uint8_t val1 = (packed >> 4) & 0x0F;

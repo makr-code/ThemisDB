@@ -189,7 +189,7 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
         point_lats.reserve(num_test_points);
         point_lons.reserve(num_test_points);
         
-        for (size_t i = 0; i < num_test_points && i < test_points.size(); ++i) {
+        for (size_t i = 0; i < num_test_points  && static_cast<size_t>(i) < test_points.size(); ++i) {
             point_lats.push_back(test_points[i].lat_deg);
             point_lons.push_back(test_points[i].lon_deg);
         }
@@ -231,7 +231,7 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
     
     // CPU fallback: Compute containment on host
     if (result.cpu_fallback) {
-        for (size_t i = 0; i < num_test_points && i < test_points.size(); ++i) {
+        for (size_t i = 0; i < num_test_points  && static_cast<size_t>(i) < test_points.size(); ++i) {
             result.containment_mask[i] = 
                 pointInPolygon(test_points[i], polygons[0]) ? 1u : 0u;
         }

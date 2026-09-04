@@ -161,7 +161,7 @@ double LearningMetrics::computeStdDev(
         double diff = v - mean;
         variance += diff * diff;
     }
-    variance /= static_cast<double>(data.size() - 1);
+    variance /= static_cast<double>(static_cast<int>(data.size()) - 1);
     return std::sqrt(variance);
 }
 

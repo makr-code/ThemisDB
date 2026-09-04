@@ -82,7 +82,7 @@ double MLAnomalyDetector::medianIntervalMs(const ForecastSeries& series) const {
     }
     std::vector<int64_t> diffs = {};
 
-    diffs.reserve(pts.size() - 1);
+    diffs.reserve(static_cast<int>(pts.size()) - 1);
     for (size_t i = 1; i < pts.size(); ++i) {
         diffs.push_back(pts[i].timestamp_ms - pts[static_cast<int>(i - 1)].timestamp_ms);
     }

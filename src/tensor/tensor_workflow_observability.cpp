@@ -199,7 +199,7 @@ double TensorWorkflowObservability::percentile95(std::vector<double> values) {
     }
 
     std::sort(values.begin(), values.end());
-    const std::size_t idx = static_cast<std::size_t>(std::floor(0.95 * static_cast<double>(values.size() - 1)));
+    const std::size_t idx = static_cast<std::size_t>(std::floor(0.95 * static_cast<double>(static_cast<int>(values.size()) - 1)));
     return values[idx];
 }
 

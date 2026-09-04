@@ -1259,7 +1259,7 @@ nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results
     }
     
     merged["success_count"] = success_count;
-    merged["error_count"] = results.size() - success_count;
+    merged["error_count"] = static_cast<int>(results.size()) - success_count;
     merged["mergeVersion"] = merge_version;
     merged["version_token"] = merge_version;
     

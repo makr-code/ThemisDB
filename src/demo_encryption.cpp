@@ -251,7 +251,7 @@ private:
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
         
         std::cout << "\n⏱️  Write performance: " << duration << "μs total\n";
-        std::cout << "   Average: " << duration / (users_.size() + customers_.size()) << "μs per record\n\n";
+        std::cout << "   Average: " << duration / (static_cast<int>(users_.size()) + customers_.size()) << "μs per record\n\n";
     }
     
     void demoRetrieval() {

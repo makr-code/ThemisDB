@@ -173,7 +173,7 @@ std::vector<QueryModelType> AQLModelRouter::classify(const std::string &aql_quer
 
     std::vector<QueryModelType> result = {};
 
-    result.reserve(scores.size() + 1);
+    result.reserve(static_cast<int>(scores.size()) + 1);
     for (const auto &s : scores) {
         result.push_back(s.type);
     }

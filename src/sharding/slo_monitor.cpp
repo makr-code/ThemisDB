@@ -197,7 +197,7 @@ double SLOWindow::calculatePercentile(const std::vector<double>& samples, double
     std::vector<double> sorted = samples;
     std::sort(sorted.begin(), sorted.end());
     
-    size_t index = static_cast<size_t>(percentile * (sorted.size() - 1));
+    size_t index = static_cast<size_t>(percentile * (static_cast<int>(sorted.size()) - 1));
     return sorted[index];
 }
 

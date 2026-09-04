@@ -773,7 +773,7 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
     }
     
     // Validate header size
-    if (header_size > data.size() - 8 || header_size > 100*1024*1024) {
+    if (header_size > static_cast<int>(data.size()) - 8 || header_size > 100*1024*1024) {
         spdlog::warn("Invalid header size in LoRa binary format: {} bytes", header_size);
         return weights;
     }

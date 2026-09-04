@@ -99,7 +99,7 @@ SchedulerError TaskResultStore::store(const TaskExecutionResult& result) {
         // Keys are lexicographically ordered (oldest first due to zero-padded ts).
         // Delete excess entries to restore to max_per_task_ count
         if (static_cast<int>(all_keys.size()) > max_per_task_) {
-            size_t to_delete = all_keys.size() - max_per_task_;
+            size_t to_delete = static_cast<int>(all_keys.size()) - max_per_task_;
             for (size_t i = 0; i < to_delete; ++i) {
                 if (!storage_.del(all_keys[i])) {
                     THEMIS_WARN("TaskResultStore: failed to prune result at '{}'",
@@ -134,7 +134,7 @@ std::vector<TaskExecutionResult> TaskResultStore::getResults(
     std::vector<TaskExecutionResult> results = {};
 
     results.reserve(std::min(limit, entries.size()));
-    size_t start = entries.size() > limit ? entries.size() - limit : 0;
+    size_t start = entries.size() > limit ? static_cast<int>(entries.size()) - limit : 0;
     for (size_t i = entries.size(); i-- > start;) {
         try {
             auto j = nlohmann::json::parse(entries[i].second);

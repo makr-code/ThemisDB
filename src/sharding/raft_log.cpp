@@ -721,7 +721,7 @@ std::vector<uint64_t> RaftSnapshotManager::listSnapshots() const {
             const std::string name = entry.path().filename().string();
             // Format: raft_snapshot_<index>.bin
             if (name.rfind("raft_snapshot_", 0) == 0 && name.ends_with(".bin")) {
-                const std::string id_str = name.substr(14, name.size() - 18);
+                const std::string id_str = name.substr(14, static_cast<int>(name.size()) - 18);
                 try {
                     ids.push_back(std::stoull(id_str));
                 } catch (const std::invalid_argument&) {
@@ -830,7 +830,7 @@ void RaftSnapshotManager::cleanupOldSnapshots() {
                 }
                 const std::string name = entry.path().filename().string();
                 if (name.rfind("raft_snapshot_", 0) == 0 && name.ends_with(".bin")) {
-                    const std::string id_str = name.substr(14, name.size() - 18);
+                    const std::string id_str = name.substr(14, static_cast<int>(name.size()) - 18);
                     try {
                         ids.push_back(std::stoull(id_str));
                     } catch (const std::invalid_argument&) {

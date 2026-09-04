@@ -248,12 +248,12 @@ std::string AsyncIngestionWorker::submitStream(std::istream &stream, const std::
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
         // Count a back-pressure event if the queue is already at capacity
-        if ((job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
+        if ((static_cast<int>(job_queue_.size()) + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
             total_backpressure_events_.fetch_add(1, std::memory_order_relaxed);
         }
         // Block until queue depth is below the back-pressure threshold
         backpressure_cv_.wait(lock, [this] {
-            return (job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
+            return (static_cast<int>(job_queue_.size()) + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
                    || !running_.load() || shutdown_requested_.load();
         });
         if (!running_.load() || shutdown_requested_.load()) {
@@ -309,12 +309,12 @@ std::future<std::string> AsyncIngestionWorker::ingestStream(std::istream &stream
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
         // Count a back-pressure event if the queue is already at capacity
-        if ((job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
+        if ((static_cast<int>(job_queue_.size()) + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
             total_backpressure_events_.fetch_add(1, std::memory_order_relaxed);
         }
         // Block until queue depth is below the back-pressure threshold
         backpressure_cv_.wait(lock, [this] {
-            return (job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
+            return (static_cast<int>(job_queue_.size()) + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
                    || !running_.load() || shutdown_requested_.load();
         });
         if (!running_.load() || shutdown_requested_.load()) {

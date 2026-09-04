@@ -1134,7 +1134,7 @@ PolicyOptimizer::recommendMerges(const PolicyManager &policy_mgr) const {
                 rec.recommendation_id = "merge_" + rule_id;
                 rec.rule_id           = rule_id;
                 rec.optimization_type = "merge";
-                rec.description = "Rule can be merged with " + std::to_string(rule_ids.size() - 1) + " similar rule(s)";
+                rec.description = "Rule can be merged with " + std::to_string(static_cast<int>(rule_ids.size()) - 1) + " similar rule(s)";
                 rec.rationale   = "Multiple rules with identical resource/action patterns";
                 rec.expected_benefit = "Reduced complexity and improved maintainability";
                 rec.priority         = 6;

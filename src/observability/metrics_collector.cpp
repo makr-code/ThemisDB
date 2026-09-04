@@ -526,7 +526,7 @@ void MetricsCollector::Histogram::observe([[maybe_unused]] double value) {
     
     // Keep only recent samples
     if (static_cast<int>(values.size()) > max_samples) {
-        values.erase(values.begin(), values.begin() + (values.size() - max_samples));
+        values.erase(values.begin(), values.begin() + (static_cast<int>(values.size()) - max_samples));
     }
 }
 
@@ -544,7 +544,7 @@ double MetricsCollector::Histogram::percentile([[maybe_unused]] double p) const 
     std::vector<double> sorted = values;
     std::sort(sorted.begin(), sorted.end());
     
-    size_t index = static_cast<size_t>(p * (sorted.size() - 1));
+    size_t index = static_cast<size_t>(p * (static_cast<int>(sorted.size()) - 1));
     return sorted[index];
 }
 

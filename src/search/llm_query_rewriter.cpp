@@ -183,7 +183,7 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
         while (i < line.size() && std::isdigit(static_cast<unsigned char>(line[i]))) {
             ++i;
         }
-        if (i > 0 && i < line.size() &&
+        if (i > 0  && static_cast<size_t>(i) < line.size() &&
             (line[i] == '.' || line[i] == ')' || line[i] == ':')) {
             ++i; // skip separator
             while (i < line.size() && line[i] == ' ') ++i; // skip space(s)
@@ -279,7 +279,7 @@ float LlmQueryRewriter::jaccardTokenOverlap(const std::string& a,
         }
     }
     // |A ∪ B| = |A| + |B| - |A ∩ B|
-    const size_t union_size = ta.size() + tb.size() - intersection;
+    const size_t union_size = static_cast<int>(ta.size()) + static_cast<int>(tb.size()) - intersection;
     return static_cast<float>(intersection) / static_cast<float>(union_size);
 }
 

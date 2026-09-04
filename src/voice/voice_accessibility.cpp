@@ -331,7 +331,7 @@ std::vector<CaptionCue> VoiceAccessibility::splitLongCues(const std::vector<Capt
         }
 
         int parts = static_cast<int>((duration + style_.max_duration_ms - 1) / style_.max_duration_ms);
-        size_t words_per_part = (words.size() + static_cast<size_t>(parts) - 1) / static_cast<size_t>(parts);
+        size_t words_per_part = (static_cast<int>(words.size()) + static_cast<size_t>(parts) - 1) / static_cast<size_t>(parts);
         int64_t ms_per_part = duration / parts;
 
         for (int p = 0; p < parts; ++p) {
@@ -351,7 +351,7 @@ std::vector<CaptionCue> VoiceAccessibility::splitLongCues(const std::vector<Capt
                 txt << words[w];
             }
             sub.text = txt.str();
-            sub.sequence = static_cast<int>(result.size() + 1);
+            sub.sequence = static_cast<int>(static_cast<int>(result.size()) + 1);
             result.push_back(sub);
         }
     }

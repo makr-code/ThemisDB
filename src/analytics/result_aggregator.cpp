@@ -260,7 +260,7 @@ WriteResult ResultAggregator::FlushBuffer() {
             // ============================================================
             result.success = false;
             result.records_written = flushed;
-            result.records_failed = buffer_.size() - flushed;
+            result.records_failed = static_cast<int>(buffer_.size()) - flushed;
             result.error_message = e.what();
             
             spdlog::error("FlushBuffer failed after writing {} records: {}", 

@@ -310,7 +310,7 @@ std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsW
             current_body += line;
         }
 
-        line_offset += line.size() + 1;
+        line_offset += static_cast<int>(line.size()) + 1;
     }
 
     finalizeParagraph(current_offset, current_number, current_heading, current_body);
@@ -558,7 +558,7 @@ void BehoerdenMapper::setFallback(
 }
 
 std::size_t BehoerdenMapper::mappingCount() const {
-    return builtin_.size() + custom_.size();
+    return static_cast<int>(builtin_.size()) + custom_.size();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -786,7 +786,7 @@ std::string LegalEntityExport::escapeIriComponent(const std::string& s) {
 
 std::string LegalEntityExport::escapeTurtleLiteral(const std::string& s) {
     std::string out = {};
-    out.reserve(s.size() + 16);
+    out.reserve(static_cast<int>(s.size()) + 16);
     for (char c : s) {
         switch (c) {
         case '"':  out += "\\\""; break;

@@ -1544,7 +1544,7 @@ ModuleLoader::getExtendedAttributes(const std::string& modulePath) const {
     size_t pos = 0;
     while (pos < static_cast<size_t>(listSize)) {
         std::string name = &namesBuf[pos];
-        pos += name.size() + 1;
+        pos += static_cast<int>(name.size()) + 1;
 
         ssize_t valueSize = getxattr(modulePath.c_str(), name.c_str(), nullptr, 0);
         if (valueSize < 0) {

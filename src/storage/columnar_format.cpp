@@ -273,7 +273,7 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
     }
 
     // Ensure there is at least enough data for the length prefixes
-    if ([[maybe_unused]] dict_size > 0 && (encoded.size() - pos) < dict_size * sizeof(uint32_t)) {
+    if ([[maybe_unused]] dict_size > 0 && (static_cast<int>(encoded.size()) - pos) < dict_size * sizeof(uint32_t)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Dictionary decode: insufficient data for dictionary entries"
@@ -320,7 +320,7 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
     }
 
     // Calculate number of indices
-    size_t remaining = encoded.size() - pos;
+    size_t remaining = static_cast<int>(encoded.size()) - pos;
     if ([[maybe_unused]] remaining % sizeof(uint32_t) != 0) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
@@ -544,7 +544,7 @@ Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint
     pos += sizeof(uint32_t);
 
     // Validate count against remaining encoded size to avoid excessive allocation
-    size_t remaining = encoded.size() - pos;
+    size_t remaining = static_cast<int>(encoded.size()) - pos;
     size_t bytes_per_value = 0;
     if (bits_required <= 8) {
         bytes_per_value = sizeof([[maybe_unused]] uint8_t);
@@ -567,7 +567,7 @@ Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint
 
     if (bits_required <= 8) {
         // Stored as uint8_t
-        for (uint32_t i = 0; i < count && pos < encoded.size(); ++i) {
+        for (uint32_t i = 0; i < count  && static_cast<size_t>(pos) < encoded.size(); ++i) {
             uint8_t normalized = encoded[pos++];
             decoded.push_back(static_cast<int32_t>(normalized) + min_val);
         }
@@ -613,7 +613,7 @@ Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint
     pos += sizeof(uint32_t);
 
     // Validate count against remaining encoded size to avoid excessive allocation
-    size_t remaining = encoded.size() - pos;
+    size_t remaining = static_cast<int>(encoded.size()) - pos;
     size_t bytes_per_value = 0;
     if (bits_required <= 8) {
         bytes_per_value = sizeof([[maybe_unused]] uint8_t);
@@ -637,7 +637,7 @@ Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint
     decoded.reserve(count);
 
     if (bits_required <= 8) {
-        for (uint32_t i = 0; i < count && pos < encoded.size(); ++i) {
+        for (uint32_t i = 0; i < count  && static_cast<size_t>(pos) < encoded.size(); ++i) {
             uint8_t normalized = encoded[pos++];
             decoded.push_back(static_cast<int64_t>(normalized) + min_val);
         }
@@ -888,7 +888,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::v
     }
 
     // Decompress (skip 8-byte header)
-    size_t compressed_data_size = compressed.size() - 8;
+    size_t compressed_data_size = static_cast<int>(compressed.size()) - 8;
     if (compressed_data_size > static_cast<size_t>(INT_MAX)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
@@ -1480,7 +1480,7 @@ Result<ColumnSegment> ColumnSegment::deserialize(const std::vector<uint8_t>& dat
         ));
     }
 
-    if (encoded_size > data.size() - pos) {
+    if (encoded_size > static_cast<int>(data.size()) - pos) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Segment deserialize: truncated data"
@@ -1490,11 +1490,11 @@ Result<ColumnSegment> ColumnSegment::deserialize(const std::vector<uint8_t>& dat
     segment.encoded_data_.assign(data.begin() + pos, data.begin() + pos + encoded_size);
     pos += encoded_size;
 
-    const size_t trailing_size = data.size() - pos;
+    const size_t trailing_size = static_cast<int>(data.size()) - pos;
     if ([[maybe_unused]] trailing_size == sizeof(uint64_t)) {
         uint64_t expected_checksum = 0;
         std::memcpy(&expected_checksum, &data[pos], sizeof(uint64_t));
-        const uint64_t actual_checksum = calculateSegmentChecksum([[maybe_unused]] data.data(), data.size() - sizeof(uint64_t));
+        const uint64_t actual_checksum = calculateSegmentChecksum([[maybe_unused]] data.data(), static_cast<int>(data.size()) - sizeof(uint64_t));
         if (actual_checksum != expected_checksum) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,

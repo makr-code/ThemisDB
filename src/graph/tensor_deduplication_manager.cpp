@@ -643,7 +643,7 @@ static std::vector<uint8_t> serializeDedupSnapshot(const themis::graph::Persiste
 
     std::vector<uint8_t> buf = {};
 
-    buf.reserve(graph_bytes.size() + records.size() * 256 + 64);
+    buf.reserve(static_cast<int>(graph_bytes.size()) + records.size() * 256 + 64);
     writeLE<uint64_t>(buf, kDedupSnapshotMagic);
     writeLE<uint32_t>(buf, kDedupSnapshotVersion);
     writeLE<uint64_t>(buf, static_cast<uint64_t>(graph_bytes.size()));
@@ -1003,7 +1003,7 @@ static void compactMutationJournalEntries(std::vector<MutationJournalEntry> &ent
 
 [[nodiscard]] static std::string legacyMutationJournalKeyForSnapshot(const std::string &snapshot_key) {
     std::string key = {};
-    key.reserve(snapshot_key.size() + 5);
+    key.reserve(static_cast<int>(snapshot_key.size()) + 5);
     key.append(snapshot_key);
     key.append("::wal");
     return key;

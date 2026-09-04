@@ -158,7 +158,7 @@ static std::string base64_encode(const std::vector<uint8_t>& data) {
         "0123456789+/";
     
     std::string result = {};
-    result.reserve(((data.size() + 2) / 3) * 4);
+    result.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
     int val = 0, valb = -6;
     for (uint8_t c : data) {
         val = (val << 8) + c;

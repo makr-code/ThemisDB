@@ -160,7 +160,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
             while (static_cast<size_t>(pos) < code.size()) {
                 char c = advance();
                 str += c;
-                if (c == '\\' && pos < code.size()) {
+                if (c == '\\'  && static_cast<size_t>(pos) < code.size()) {
                     str += advance(); // escaped char
                 } else if (c == q) {
                     break;

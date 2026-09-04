@@ -730,14 +730,14 @@ GraphAnalytics::kShortestPaths(
             for (const auto& path : A) {
                 if (path.vertices.size() > spur_idx + 1) {
                     bool same_root = true;
-                    for (size_t i = 0; i <= spur_idx && i < path.vertices.size(); ++i) {
+                    for (size_t i = 0; i <= spur_idx  && static_cast<size_t>(i) < path.vertices.size(); ++i) {
                         if (path.vertices[i] != root_vertices[i]) {
                             same_root = false;
                             break;
                         }
                     }
                     
-                    if (same_root && spur_idx < path.edges.size()) {
+                    if (same_root  && static_cast<size_t>(spur_idx) < path.edges.size()) {
                         excluded_edges.insert(path.edges[spur_idx]);
                     }
                 }

@@ -281,7 +281,7 @@ std::string PluginDependencyGraph::toString(GraphExportFormat format) const
 {
     // Wrap in double quotes and escape internal double quotes and backslashes.
     std::string out = {};
-    out.reserve(s.size() + 2);
+    out.reserve(static_cast<int>(s.size()) + 2);
     out += '"';
     for (char c : s) {
         if (c == '"' || c == '\\') {

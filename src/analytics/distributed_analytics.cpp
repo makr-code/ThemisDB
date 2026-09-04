@@ -1004,7 +1004,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     // Failure-rate gate: abort if too many shards failed
     // ------------------------------------------------------------------
     if (!active.empty() && config_.allow_partial_results) {
-        const size_t failed_shards = active.size() - result.successful_shards;
+        const size_t failed_shards = static_cast<int>(active.size()) - result.successful_shards;
         const double failure_rate  = static_cast<double>(failed_shards) / static_cast<double>(active.size());
         if (failure_rate > config_.max_failure_rate) {
             spdlog::error("DistributedAnalyticsSharding: failure rate {:.1f}% exceeds "

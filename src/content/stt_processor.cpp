@@ -542,7 +542,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
         uint32_t chunk_size = readUInt32LE(offset + 4);
 
         // Check for integer overflow before adding
-        if (chunk_size > wav_data.size() - offset - 8) {
+        if (chunk_size > static_cast<int>(wav_data.size()) - offset - 8) {
             throw std::runtime_error("Chunk size extends beyond file boundary");
         }
 
@@ -603,7 +603,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
         uint32_t chunk_size = readUInt32LE(offset + 4);
 
         // Check for integer overflow before adding
-        if (chunk_size > wav_data.size() - offset - 8) {
+        if (chunk_size > static_cast<int>(wav_data.size()) - offset - 8) {
             throw std::runtime_error("Chunk size extends beyond file boundary");
         }
 

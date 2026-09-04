@@ -1580,7 +1580,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				// Estimate layers traversed (HNSW formula: log2(N))
 				// Note: This is an approximation based on the probabilistic layer model.
 				// For more accurate layer information, consider using actual layer data from the HNSW index.
-				int estimated_layers = static_cast<int>(std::log2(idToPk_.size() + 1));
+				int estimated_layers = static_cast<int>(std::log2(static_cast<int>(idToPk_.size()) + 1));
 				hnsw_optimizer_->recordQueryStats(estimated_layers, ef_to_use, estimated_layers, k, query_time_ms);
 			}
 			
@@ -3008,7 +3008,7 @@ VectorIndexManager::getStatistics() const {
 	}
 
 	// Sample random pairs
-	for (size_t i = 0; i < sample_count && i < pks.size(); ++i) {
+	for (size_t i = 0; i < sample_count  && static_cast<size_t>(i) < pks.size(); ++i) {
 		for (size_t j = i + 1; j < std::min(i + 10, pks.size()); ++j) {
 			float dist = distance(cache_.at(pks[i]), cache_.at(pks[j]));
 			distances.push_back(dist);

@@ -443,7 +443,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
             }
             // Any segment crosses a polygon edge?
             for (std::size_t i = 1; i < ls.size(); ++i) {
-                for (std::size_t k = 0, l = ring.size() - 1; k < ring.size(); l = k++) {
+                for (std::size_t k = 0, l = static_cast<int>(ring.size()) - 1; k < ring.size(); l = k++) {
                     if (segmentsIntersect(ls[static_cast<int>(i - 1)].x, ls[static_cast<int>(i - 1)].y, ls[i].x, ls[i].y, ring[l].x, ring[l].y, ring[k].x,
                                           ring[k].y)) {
                         return true;
@@ -684,7 +684,7 @@ std::string getGpuSpatialBackendStatsJson() {
     auto boolStr = []([[maybe_unused]] bool v) -> const char * { return v ? "true" : "false"; };
     auto escStr  = [](const std::string &v) -> std::string {
         std::string out = {};
-        out.reserve(v.size() + 2);
+        out.reserve(static_cast<int>(v.size()) + 2);
         // Each append is a single-character O(1) operation; the loop is O(n)
         // overall. An std::ostringstream would add overhead without benefit here.
         // Wave D-Logging-1: scanner string_concat_loop findings on the two

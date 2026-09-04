@@ -1328,7 +1328,7 @@ nlohmann::json QueryFederation::applyGlobalOperations(
 
             const size_t start = static_cast<size_t>(
                 std::min<uint64_t>(requested_offset, static_cast<uint64_t>(result.size())));
-            const size_t remaining = result.size() - start;
+            const size_t remaining = static_cast<int>(result.size()) - start;
             const size_t page_size = static_cast<size_t>(
                 std::min<uint64_t>(requested_limit, static_cast<uint64_t>(remaining)));
             const size_t end = start + page_size;

@@ -279,7 +279,7 @@ std::vector<std::string> splitPathSegments(std::string_view value) {
     std::size_t start = 0;
     while (static_cast<size_t>(start) < value.size()) {
         const auto next = value.find('/', start);
-        const auto len = next == std::string_view::npos ? value.size() - start : next - start;
+        const auto len = next == std::string_view::npos ? static_cast<int>(value.size()) - start : next - start;
         if (len > 0) {
             segments.emplace_back(value.substr(start, len));
         }
@@ -551,7 +551,7 @@ std::shared_ptr<storage::IBlobStorageBackend> createRemoteBlobBackend(
 /// Backslash-escapes embedded double-quote characters.
 static std::string winQuoteForCreateProcess(const std::string& s) {
     std::string out = {};
-    out.reserve(s.size() + 2);
+    out.reserve(static_cast<int>(s.size()) + 2);
     out.push_back('"');
     for (char c : s) {
         if (c == '"') {
@@ -722,7 +722,7 @@ bool BackupManager::shouldRunScheduledBackup(const ScheduledBackupEntry& entry,
     std::array<std::string, 5> fields{};
     std::size_t index = 0;
 
-    while (std::getline(stream, field, ' ') && index < fields.size()) {
+    while (std::getline(stream, field, ' ')  && static_cast<size_t>(index) < fields.size()) {
         fields[index++] = field;
     }
     if (index != fields.size()) {
@@ -2747,7 +2747,7 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
         for (const auto& backup_name : backups) {
             // Only consider full backups (incremental replay not yet implemented).
             static constexpr std::string_view kPrefix = "full_";
-            if (backup_name.size() < kPrefix.size() + 15u) {
+            if (backup_name.size() < static_cast<int>(kPrefix.size()) + 15u) {
               continue;
             }
             if (backup_name.compare(0, kPrefix.size(), kPrefix) != 0) {
@@ -2942,7 +2942,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
                 coll_list_capacity += collection.size();
             }
             if (static_cast<int>(collections.size()) > 1) {
-                coll_list_capacity += (collections.size() - 1) * 2; // ", "
+                coll_list_capacity += (static_cast<int>(collections.size()) - 1) * 2; // ", "
             }
 
             std::string coll_list = {};
@@ -3721,7 +3721,7 @@ Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_d
                 corrupt_list += corrupted[i];
             }
             if (static_cast<int>(corrupted.size()) > 5) {
-                corrupt_list += " ... and " + std::to_string(corrupted.size() - 5) + " more";
+                corrupt_list += " ... and " + std::to_string(static_cast<int>(corrupted.size()) - 5) + " more";
             }
             THEMIS_ERROR("Phase 1: Data corruption detected in {} files after decompression: {}",
                         corrupted.size(), corrupt_list);

@@ -1013,7 +1013,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 		}
 	} else {
 		// Parallel für große Mengen: Batch-Processing mit TBB
-		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
+		std::vector<std::vector<BaseEntity>> batches((static_cast<int>(keys.size()) + BATCH_SIZE - 1) / BATCH_SIZE);
 		std::vector<std::string> failed_deserialize_pks = {};
 
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
@@ -1118,7 +1118,7 @@ QueryEngine::unionSortedLists_(std::vector<std::vector<std::string>> lists) {
 		const auto& next = lists[i];
 		std::vector<std::string> tmp = {};
 
-		tmp.reserve(result.size() + next.size()); // Reserve max possible size
+		tmp.reserve(static_cast<int>(result.size()) + next.size()); // Reserve max possible size
 		std::set_union(result.begin(), result.end(), next.begin(), next.end(), std::back_inserter(tmp));
 		result.swap(tmp);
 	}
@@ -1313,7 +1313,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 			catch (...) { THEMIS_WARN("executeOrEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
 		}
 	} else {
-		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
+		std::vector<std::vector<BaseEntity>> batches((static_cast<int>(keys.size()) + BATCH_SIZE - 1) / BATCH_SIZE);
 		std::vector<std::string> failed_deserialize_pks = {};
 
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
@@ -1401,7 +1401,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 			catch (...) { THEMIS_WARN("executeOrEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
 		}
 	} else {
-		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
+		std::vector<std::vector<BaseEntity>> batches((static_cast<int>(keys.size()) + BATCH_SIZE - 1) / BATCH_SIZE);
 		std::vector<std::string> failed_deserialize_pks = {};
 
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
@@ -1569,7 +1569,7 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 		}
 	} else {
 		// Parallel für große Mengen
-		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
+		std::vector<std::vector<BaseEntity>> batches((static_cast<int>(keys.size()) + BATCH_SIZE - 1) / BATCH_SIZE);
 		std::vector<std::string> failed_deserialize_pks = {};
 
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
@@ -3124,7 +3124,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 
 	// 1) Hole Listen für alle Gleichheitsprädikate
 	std::vector<std::vector<std::string>> lists;
-	lists.reserve(ordered_predicates.size() + q.rangePredicates.size());
+	lists.reserve(static_cast<int>(ordered_predicates.size()) + q.rangePredicates.size());
 
 	for (const auto& p : ordered_predicates) {
 		auto child = Tracer::startSpan("index.scanEqual");

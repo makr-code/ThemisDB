@@ -124,7 +124,7 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
             }
 
             chunk_text += sentence;
-            if (chunk_end_idx < sentence_list.size() - 1) {
+            if (chunk_end_idx < static_cast<int>(sentence_list.size()) - 1) {
                 chunk_text += " "; // Add space between sentences
             }
             chunk_tokens += sentence_tokens;
@@ -156,7 +156,7 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
         seq_num++;
 
         // Move to next chunk with overlap
-        if (overlap > 0 && chunk_end_idx < sentence_list.size()) {
+        if (overlap > 0  && static_cast<size_t>(chunk_end_idx) < sentence_list.size()) {
             // Calculate how many sentences to overlap
             int overlap_sentences      = 0;
             int overlap_tokens_counted = 0;
@@ -371,7 +371,7 @@ std::vector<std::string> TextProcessor::splitIntoSentences(const std::string &te
     if (words.size() < 3) {
         shingles = words;
     } else {
-        shingles.reserve(words.size() - 2);
+        shingles.reserve(static_cast<int>(words.size()) - 2);
         for (size_t i = 0; i + 3 <= words.size(); ++i) {
             shingles.push_back(words[i] + " " + words[i + 1] + " " + words[i + 2]);
         }

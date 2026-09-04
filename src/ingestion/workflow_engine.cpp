@@ -100,7 +100,7 @@ bool mimeMatches(const std::string& pattern, const std::string& mime) {
     }
     // Simple prefix wildcard: "application/vnd.openxmlformats*"
     if (!pattern.empty() && pattern.back() == '*') {
-        const auto prefix = pattern.substr(0, pattern.size() - 1);
+        const auto prefix = pattern.substr(0, static_cast<int>(pattern.size()) - 1);
         return mime.rfind(prefix, 0) == 0;
     }
     return false;
@@ -118,7 +118,7 @@ bool filenameMatchesGlob(const std::string& pattern, const std::string& name) {
       p = p.substr(1);
     }
     if (!p.empty() && p.back() == '*') {
-      p = p.substr(0, p.size() - 1);
+      p = p.substr(0, static_cast<int>(p.size()) - 1);
     }
     return n.find(p) != std::string::npos;
 #else

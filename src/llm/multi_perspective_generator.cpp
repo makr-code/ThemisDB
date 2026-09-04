@@ -316,7 +316,7 @@ std::string MultiPerspectiveGenerator::synthesizePerspectives(
             oss << "**Common themes**: ";
             for (size_t i = 0; i < common.size(); ++i) {
                 oss << common[i];
-                if (i < common.size() - 1) {
+                if (i < static_cast<int>(common.size()) - 1) {
                   oss << "; ";
                 }
             }
@@ -331,7 +331,7 @@ std::string MultiPerspectiveGenerator::synthesizePerspectives(
             oss << "**Areas of tension**: ";
             for (size_t i = 0; i < disagreements.size(); ++i) {
                 oss << disagreements[i];
-                if (i < disagreements.size() - 1) {
+                if (i < static_cast<int>(disagreements.size()) - 1) {
                   oss << "; ";
                 }
             }

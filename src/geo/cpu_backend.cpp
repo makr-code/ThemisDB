@@ -704,7 +704,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         }
         // Reserve capacity for intersection vertices before inserting them
         // to avoid repeated reallocations in the push_back loop.
-        A.reserve(A.size() + ips.size());
+        A.reserve(static_cast<int>(A.size()) + ips.size());
         for (const auto &ip : ips) {
             GHVert v;
             v.x        = ip.x;
@@ -714,7 +714,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
             A.push_back(v);
         }
         std::stable_sort(A.begin(), A.end(), [](const GHVert &a, const GHVert &b) { return a.alpha < b.alpha; });
-        B.reserve(B.size() + ips.size());
+        B.reserve(static_cast<int>(B.size()) + ips.size());
         for (const auto &ip : ips) {
             GHVert v;
             v.x        = ip.x;

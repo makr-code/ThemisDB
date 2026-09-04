@@ -249,7 +249,7 @@ void LDAPConnectionPool::returnConnection(LDAP *handle, bool stale) {
         std::lock_guard<std::mutex> lock(mutex_);
         --active_count_;
 
-        if (!closing_ && !stale && static_cast<int>(idle_.size()) < config_.max_size) {
+        if (!closing_ && !stale  && static_cast<size_t>(static_cast) < int>(idle_.size()) < config_.max_size) {
             idle_.push_back(handle);
             cv_.notify_one();
             return;

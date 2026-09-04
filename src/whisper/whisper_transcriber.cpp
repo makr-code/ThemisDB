@@ -121,7 +121,7 @@ bool computeFileSha256(const std::string& path, std::string& out_hex) {
         std::size_t pos = 0;
         while (pos < static_cast<std::size_t>(n)) {
             const std::size_t copy_n = std::min<std::size_t>(
-                static_cast<std::size_t>(n) - pos, block.size() - buffered);
+                static_cast<std::size_t>(n) - pos, static_cast<int>(block.size()) - buffered);
             std::memcpy(block.data() + buffered, bytes + pos, copy_n);
             buffered += copy_n;
             pos += copy_n;

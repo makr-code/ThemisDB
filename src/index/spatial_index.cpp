@@ -298,7 +298,7 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
     // Value format: JSON {"mbr":{"minx":...,"miny":...,"maxx":...,"maxy":...}}
     const std::string pk_prefix = getSpatialKeyPrefix(table) + "pk:";
     constexpr std::size_t kMortonChars = 16; // 64-bit Morton code: 16 hex characters
-    const std::size_t pk_strip = pk_prefix.size() + kMortonChars + 1; // +1 for ':'
+    const std::size_t pk_strip = static_cast<int>(pk_prefix.size()) + kMortonChars + 1; // +1 for ':'
 
     std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
     auto& cache = mbr_cache_[table_str];
@@ -1377,7 +1377,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchZRange(
     db_.scanRange(pk_prefix, pk_prefix + "~",
         [&](std::string_view k, std::string_view value) {
             constexpr std::size_t kMortonChars = 16;
-            const std::size_t pk_strip = pk_prefix.size() + kMortonChars + 1; // +1 for ':'
+            const std::size_t pk_strip = static_cast<int>(pk_prefix.size()) + kMortonChars + 1; // +1 for ':'
             // Validate key length and the expected ':' separator between morton code and PK.
             if (static_cast<int>(k.size()) <= pk_strip) {
               return true;

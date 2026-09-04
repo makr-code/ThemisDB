@@ -265,7 +265,7 @@ std::string buildJson(const std::map<std::string, std::string>& fields)
             } else {
                 // Slow path: escaping is needed, create escaped copy once
                 std::string escaped_key = {};
-                escaped_key.reserve(key.size() + 4);  // Reserve for typical escape overhead
+                escaped_key.reserve(static_cast<int>(key.size()) + 4);  // Reserve for typical escape overhead
                 for (char c : key) {
                     if (c == '"') {
                         escaped_key += "\\\"";

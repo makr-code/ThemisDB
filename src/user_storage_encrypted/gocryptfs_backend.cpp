@@ -576,7 +576,7 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
 
         std::vector<char*> c_args = {};
 
-        c_args.reserve(args.size() + 1);
+        c_args.reserve(static_cast<int>(args.size()) + 1);
         for (const auto& arg : args) {
             c_args.push_back(const_cast<char*>(arg.c_str()));
         }
@@ -757,7 +757,7 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
 
         std::vector<char*> c_args = {};
 
-        c_args.reserve(args.size() + 1);
+        c_args.reserve(static_cast<int>(args.size()) + 1);
         for (const auto& arg : args) {
             c_args.push_back(const_cast<char*>(arg.c_str()));
         }

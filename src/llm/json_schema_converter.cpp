@@ -44,7 +44,7 @@ static const std::unordered_set<std::string> kPrimitiveRuleNames =
 
 std::string JsonSchemaConverter::escapeGbnfString(const std::string& s) {
     std::string result = {};
-    result.reserve(s.size() + 4);
+    result.reserve(static_cast<int>(s.size()) + 4);
     for (unsigned char c : s) {
         switch (c) {
             case '"':  result += "\\\""; break;

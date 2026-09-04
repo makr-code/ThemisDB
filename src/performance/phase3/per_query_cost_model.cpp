@@ -101,7 +101,7 @@ PerQueryCostModel::getRecentRecords([[maybe_unused]] size_t limit) const {
 
     if (!has_rolled) {
         // Not yet wrapped: vector is in insertion order; return the tail.
-        size_t start = records_.size() > count ? records_.size() - count : 0;
+        size_t start = records_.size() > count ? static_cast<int>(records_.size()) - count : 0;
         return std::vector<QueryCostRecord>(
             records_.begin() + static_cast<std::ptrdiff_t>(start),
             records_.end());
@@ -329,7 +329,7 @@ PerQueryCostModel::Stats PerQueryCostModel::getStats() const {
         if (times_ms.empty()) {
           return 0.0;
         }
-        size_t idx = static_cast<size_t>(pct * static_cast<double>(times_ms.size() - 1));
+        size_t idx = static_cast<size_t>(pct * static_cast<double>(static_cast<int>(times_ms.size()) - 1));
         return times_ms[idx];
     };
     s.p50_execution_time_ms = percentile(0.50);

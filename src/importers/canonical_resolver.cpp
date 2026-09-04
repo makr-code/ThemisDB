@@ -274,7 +274,7 @@ CanonicalEntityResolver::createGoldenRecord(const std::vector<std::pair<std::str
             }
         }
     } else if (policy == ResolutionPolicy::INCOMING_PREFERRED) {
-        base_idx = linked_entities.size() - 1;
+        base_idx = static_cast<int>(linked_entities.size()) - 1;
     }
     // EXISTING_PREFERRED → base_idx = 0 (already set).
     // RICHEST_MERGE / CUSTOM_RULES → start from 0 and iterate all.

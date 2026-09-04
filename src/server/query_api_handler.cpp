@@ -1569,7 +1569,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             }
                         } else if (varName == "e") {
                             // Iterate over edges; align edge[i] with node[i+1] (to-vertex).
-                            // pathNodes.size() == pathEdges.size()+1 by construction, so the
+                            // pathNodes.size() == static_cast<int>(pathEdges.size()) +1 by construction, so the
                             // node iterator always has a valid next element for each edge.
                             auto nit = pathNodes.begin() + 1; // start at the first 'to' vertex
                             for (const auto& eid2 : pathEdges) {

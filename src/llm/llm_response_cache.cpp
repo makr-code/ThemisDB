@@ -330,7 +330,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
                 meaningful_overlap++;
             }
         }
-        size_t uni = query_words.size() + entry_words.size() - intersect;
+        size_t uni = static_cast<int>(query_words.size()) + static_cast<int>(entry_words.size()) - intersect;
         float jaccard = uni ? static_cast<float>(intersect) / static_cast<float>(uni) : 0.0f;
 
         if (dot > best_similarity || (std::abs(dot - best_similarity) < 1e-5 && jaccard > best_jaccard)) {

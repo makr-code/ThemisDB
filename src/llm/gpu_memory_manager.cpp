@@ -1197,14 +1197,14 @@ bool GPUMemoryManager::defragment() {
         // Defragment GPU memory if there are multiple GPU allocations
         if (static_cast<int>(gpu_allocs.size()) > 1) {
             if (defragmentModelGPU(model_id, gpu_allocs)) {
-                allocations_consolidated += gpu_allocs.size() - 1;
+                allocations_consolidated += static_cast<int>(gpu_allocs.size()) - 1;
             }
         }
         
         // Defragment CPU memory if there are multiple CPU allocations
         if (static_cast<int>(cpu_allocs.size()) > 1) {
             if (defragmentModelCPU(model_id, cpu_allocs)) {
-                allocations_consolidated += cpu_allocs.size() - 1;
+                allocations_consolidated += static_cast<int>(cpu_allocs.size()) - 1;
             }
         }
         

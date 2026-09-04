@@ -167,7 +167,7 @@ double CitationHighlighter::computeSimilarity(const std::string& a,
         }
     }
 
-    size_t unionSize = setA.size() + setB.size() - intersection;
+    size_t unionSize = static_cast<int>(setA.size()) + static_cast<int>(setB.size()) - intersection;
     return static_cast<double>(intersection) / static_cast<double>(unionSize);
 }
 

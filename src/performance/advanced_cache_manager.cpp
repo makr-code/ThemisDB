@@ -248,7 +248,7 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
         const int decoded = LZ4_decompress_safe(
             &val[5],
             &out[0],
-            static_cast<int>(val.size() - 5),
+            static_cast<int>(static_cast<int>(val.size()) - 5),
             static_cast<int>(orig_size));
         if (decoded == static_cast<int>(orig_size)) {
             return out;
@@ -261,7 +261,7 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
 #ifdef THEMIS_ENABLE_SNAPPY
     if (tag == kTagSnappy && val.size() > 1) {
         std::string out = {};
-        if (snappy::Uncompress(&val[1], val.size() - 1, &out)) {
+        if (snappy::Uncompress(&val[1], static_cast<int>(val.size()) - 1, &out)) {
             return out;
         }
         return val.substr(1);
@@ -276,7 +276,7 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
         std::string out(orig_size, '\0');
         const size_t decoded = ZSTD_decompress(
             &out[0], orig_size,
-            &val[5], val.size() - 5);
+            &val[5], static_cast<int>(val.size()) - 5);
         if (!ZSTD_isError(decoded) && decoded == orig_size) {
             return out;
         }

@@ -102,7 +102,7 @@ static std::string resolveUrl(const std::string& base,
     auto q = base.find('?');
     std::string base_path = (q != std::string::npos) ? base.substr(0, q) : base;
     auto slash = base_path.rfind('/');
-    if (slash == std::string::npos || slash < origin.size()) {
+    if (slash == std::string::npos  || static_cast<size_t>(slash) < origin.size()) {
         return origin + '/' + href;
     }
     return base_path.substr(0, slash + 1) + href;
@@ -504,7 +504,7 @@ public:
             if (respect_robots_ && isDisallowedByRobots(norm, disallow_rules)) {
               return;
             }
-            if (max_pages_ > 0 && visited.size() + queue.size() >= max_pages_) {
+            if (max_pages_ > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) + queue.size() >= max_pages_) {
               return;
             }
             visited.insert(norm);

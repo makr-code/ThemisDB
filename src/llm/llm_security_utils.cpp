@@ -25,7 +25,7 @@ std::string sanitizeApiKey(const std::string& api_key) {
     }
     return api_key.substr(0, kVisible) +
            "***...***" +
-           api_key.substr(api_key.size() - kVisible);
+           api_key.substr(static_cast<int>(api_key.size()) - kVisible);
 }
 
 } // namespace llm

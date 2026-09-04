@@ -33,7 +33,7 @@ namespace {
     // HIGH-GAP FIX: string_concat_loop — use push_back/append instead of += to avoid temp copies
     std::string escapeSQLString(const std::string& input) {
         std::string result = {};
-        result.reserve(input.size() + 10);
+        result.reserve(static_cast<int>(input.size()) + 10);
         
         for (char c : input) {
             if (c == '\'') {
@@ -1099,7 +1099,7 @@ void PostgresSession::sendAuthenticationOk() {
 void PostgresSession::sendParameterStatus(const std::string& name, const std::string& value) {
     std::vector<uint8_t> payload = {};
 
-    payload.reserve(name.size() + value.size() + 2);  // name + null + value + null
+    payload.reserve(static_cast<int>(name.size()) + static_cast<int>(value.size()) + 2);  // name + null + value + null
     payload.insert(payload.end(), name.begin(), name.end());
     payload.push_back(0);
     payload.insert(payload.end(), value.begin(), value.end());
@@ -1413,12 +1413,12 @@ void PostgresSession::doRead() {
                 offset = 8;
                 while (offset < static_cast<size_t>(length) && buffer_[offset] != 0) {
                     std::string key(buffer_.data() + offset);
-                    offset += key.size() + 1;
+                    offset += static_cast<int>(key.size()) + 1;
                     if (offset >= static_cast<size_t>(length)) {
                       break;
                     }
                     std::string value(buffer_.data() + offset);
-                    offset += value.size() + 1;
+                    offset += static_cast<int>(value.size()) + 1;
                     params[key] = value;
                 }
                 
@@ -1445,9 +1445,9 @@ void PostgresSession::doRead() {
                     }
                     case 'P': { // Parse
                         std::string stmtName(buffer_.data() + offset);
-                        offset += stmtName.size() + 1;
+                        offset += static_cast<int>(stmtName.size()) + 1;
                         std::string query(buffer_.data() + offset);
-                        offset += query.size() + 1;
+                        offset += static_cast<int>(query.size()) + 1;
                         
                         // Parse parameter types
                         std::vector<int32_t> paramTypes = {};
@@ -1472,9 +1472,9 @@ void PostgresSession::doRead() {
                     }
                     case 'B': { // Bind
                         std::string portalName(buffer_.data() + offset);
-                        offset += portalName.size() + 1;
+                        offset += static_cast<int>(portalName.size()) + 1;
                         std::string stmtName(buffer_.data() + offset);
-                        offset += stmtName.size() + 1;
+                        offset += static_cast<int>(stmtName.size()) + 1;
                         
                         // Parse parameter format codes
                         std::vector<int16_t> paramFormats = {};
@@ -1530,7 +1530,7 @@ void PostgresSession::doRead() {
                             break;
                         }
                         std::string portalName(buffer_.data() + offset);
-                        offset += portalName.size() + 1;
+                        offset += static_cast<int>(portalName.size()) + 1;
                         // Guard: need 4 bytes for the maxRows int32.
                         if (offset + 4 > bytes_transferred) {
                             sendErrorResponse("ERROR", "08P01", "Malformed Execute message: missing maxRows field");
@@ -1657,7 +1657,7 @@ void PostgresSession::writeMessage(char type, const std::vector<uint8_t>& payloa
     std::vector<uint8_t> message;
     message.push_back(type);
     
-    int32_t length = payload.size() + 4;
+    int32_t length = static_cast<int>(payload.size()) + 4;
     message.push_back((length >> 24) & 0xFF);
     message.push_back((length >> 16) & 0xFF);
     message.push_back((length >> 8) & 0xFF);
@@ -2196,7 +2196,7 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     
     // Build Cypher CREATE statement
     std::string cypher = "CREATE (n:" + tableName + " {";
-    for (size_t i = 0; i < columns.size() && i < values.size(); ++i) {
+    for (size_t i = 0; i < columns.size()  && static_cast<size_t>(i) < values.size(); ++i) {
         if (i > 0) {
           cypher += ", ";
         }

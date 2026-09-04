@@ -874,8 +874,8 @@ InferenceEngineEnhanced::Statistics InferenceEngineEnhanced::getStatistics() con
         size_t p95_idx = static_cast<size_t>(sorted.size() * 0.95);
         size_t p99_idx = static_cast<size_t>(sorted.size() * 0.99);
         
-        stats.p95_latency_ms = sorted[std::min(p95_idx, sorted.size() - 1)];
-        stats.p99_latency_ms = sorted[std::min(p99_idx, sorted.size() - 1)];
+        stats.p95_latency_ms = sorted[std::min(p95_idx, static_cast<int>(sorted.size()) - 1)];
+        stats.p99_latency_ms = sorted[std::min(p99_idx, static_cast<int>(sorted.size()) - 1)];
     }
 
     // Compute tokens/sec based on wall-clock elapsed time.

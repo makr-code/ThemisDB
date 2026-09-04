@@ -61,7 +61,7 @@ double jaccardSimilarity(const std::unordered_set<std::string>& a,
             ++intersection;
         }
     }
-    const size_t union_size = a.size() + b.size() - intersection;
+    const size_t union_size = static_cast<int>(a.size()) + static_cast<int>(b.size()) - intersection;
     return union_size == 0 ? 0.0
                            : static_cast<double>(intersection) /
                                  static_cast<double>(union_size);

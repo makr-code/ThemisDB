@@ -170,7 +170,7 @@ void WireProtocolMetrics::reset() {
     if (sorted.size() == 1)
         return sorted[0];
 
-    double rank = (p / 100.0) * static_cast<double>(sorted.size() - 1);
+    double rank = (p / 100.0) * static_cast<double>(static_cast<int>(sorted.size()) - 1);
     size_t lo   = static_cast<size_t>(rank);
     size_t hi   = lo + 1;
     if (hi >= static_cast<int>(sorted.size()))

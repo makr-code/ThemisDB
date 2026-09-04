@@ -270,7 +270,7 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
         const size_t src_off = y * row_bytes;
         const size_t dst_off = y * (1u + row_bytes) + 1u;
         const size_t avail = (src_off < rgb.size())
-                             ? std::min(row_bytes, rgb.size() - src_off) : 0u;
+                             ? std::min(row_bytes, static_cast<int>(rgb.size()) - src_off) : 0u;
         if (avail > 0)
             std::copy(rgb.begin() + static_cast<ptrdiff_t>(src_off),
                       rgb.begin() + static_cast<ptrdiff_t>(src_off + avail),
@@ -306,7 +306,7 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
     // ── Assemble PNG ──────────────────────────────────────────────────────────
     std::vector<uint8_t> png = {};
 
-    png.reserve(8u + 25u + 12u + idat_payload.size() + 12u);
+    png.reserve(8u + 25u + 12u + static_cast<int>(idat_payload.size()) + 12u);
 
     static const uint8_t kSig[] = {0x89u,'P','N','G','\r','\n',0x1Au,'\n'};
     png.insert(png.end(), kSig, kSig + 8u);

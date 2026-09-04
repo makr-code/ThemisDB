@@ -461,7 +461,7 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
                           return a.sys_time.start < b.sys_time.start;
                       });
 
-            size_t eligible_to_delete = eligible.size() - keep_from_eligible;
+            size_t eligible_to_delete = static_cast<int>(eligible.size()) - keep_from_eligible;
             size_t count_to_delete    = std::min(eligible_to_delete, batch_remaining);
             batch_remaining -= count_to_delete;
 

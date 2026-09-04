@@ -1271,7 +1271,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
                         while (std::getline(pkss, pkc, ',')) {
                             pkc = trim(pkc);
                             if (!pkc.empty() && pkc.front() == '"') {
-                              pkc = pkc.substr(1, pkc.size() - 2);
+                              pkc = pkc.substr(1, static_cast<int>(pkc.size()) - 2);
                             }
                             if (!pkc.empty()) {
                               schema.primary_keys.push_back(pkc);
@@ -1319,7 +1319,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
                         while (std::getline(ucss, uc, ',')) {
                             uc = trim(uc);
                             if (!uc.empty() && uc.front() == '"') {
-                              uc = uc.substr(1, uc.size() - 2);
+                              uc = uc.substr(1, static_cast<int>(uc.size()) - 2);
                             }
                             if (!uc.empty()) {
                               idx.columns.push_back(uc);
@@ -1340,7 +1340,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
         }
 
         if (!col_name.empty() && col_name.front() == '"' && col_name.size() >= 2 && col_name.back() == '"') {
-            col_name = col_name.substr(1, col_name.size() - 2);
+            col_name = col_name.substr(1, static_cast<int>(col_name.size()) - 2);
         }
 
         schema.columns.push_back(col_name);
@@ -1629,7 +1629,7 @@ bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint
         while (std::getline(ss, c, ',')) {
             c = trimStr(c);
             if (!c.empty() && c.front() == '"') {
-              c = c.substr(1, c.size() - 2);
+              c = c.substr(1, static_cast<int>(c.size()) - 2);
             }
             if (!result.empty()) {
               result += ",";
@@ -1732,7 +1732,7 @@ bool PostgreSQLImporter::parseCreateIndex(const std::string& sql,
           col = col.substr(0, r + 1);
         }
         if (!col.empty() && col.front() == '"') {
-          col = col.substr(1, col.size() - 2);
+          col = col.substr(1, static_cast<int>(col.size()) - 2);
         }
         if (!col.empty()) {
           index.columns.push_back(col);
@@ -2669,7 +2669,7 @@ json PostgreSQLImporter::convertRowToEntity(const TableSchema& schema, const std
     json entity;
     entity["_type"] = schema.name;
     
-    for (size_t i = 0; i < values.size() && i < schema.columns.size(); i++) {
+    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) < schema.columns.size(); i++) {
         entity[schema.columns[i]] = values[i];
     }
 

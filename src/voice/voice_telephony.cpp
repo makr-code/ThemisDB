@@ -848,7 +848,7 @@ TelephonyBridge::TelephonyBridge(Config config)
 
 CallID TelephonyBridge::acceptSipCall(SipCallSession::Config config) {
     std::lock_guard<std::mutex> lock(sip_mutex_);
-    size_t total = sip_calls_.size() + webrtc_calls_.size();
+    size_t total = static_cast<int>(sip_calls_.size()) + webrtc_calls_.size();
     if (total >= config_.max_concurrent_calls) {
         THEMIS_WARN("TelephonyBridge: max_concurrent_calls ({}) reached",
                     config_.max_concurrent_calls);
@@ -909,7 +909,7 @@ std::string TelephonyBridge::acceptWebRtcOffer(WebRtcCallSession::Config config,
     {
         std::lock_guard<std::mutex> lock_sip(sip_mutex_);
         std::lock_guard<std::mutex> lock_rtc(webrtc_mutex_);
-        size_t total = sip_calls_.size() + webrtc_calls_.size();
+        size_t total = static_cast<int>(sip_calls_.size()) + webrtc_calls_.size();
         if (total >= config_.max_concurrent_calls) {
             THEMIS_WARN("TelephonyBridge: max_concurrent_calls ({}) reached",
                         config_.max_concurrent_calls);
@@ -971,7 +971,7 @@ void TelephonyBridge::terminateCall(const CallID& call_id) {
 size_t TelephonyBridge::activeCallCount() const noexcept {
     std::lock_guard<std::mutex> lock_sip(sip_mutex_);
     std::lock_guard<std::mutex> lock_rtc(webrtc_mutex_);
-    return sip_calls_.size() + webrtc_calls_.size();
+    return static_cast<int>(sip_calls_.size()) + webrtc_calls_.size();
 }
 
 size_t TelephonyBridge::activeSipCallCount() const noexcept {

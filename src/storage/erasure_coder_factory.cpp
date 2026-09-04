@@ -103,7 +103,7 @@ std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
     // uncategorized(line 0) scanner alerts in this routine are phantom artifacts:
     // no concrete source location is identified, and the chunk copy is guarded by
     // offset/data.size checks with bounded std::min for memcpy length.
-    const size_t chunk_size = (data.size() + data_shards - 1) / data_shards;
+    const size_t chunk_size = (static_cast<int>(data.size()) + data_shards - 1) / data_shards;
     std::vector<std::vector<uint8_t>> chunks;
     chunks.reserve(data_shards + parity_shards);
 
@@ -111,7 +111,7 @@ std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
         const size_t offset = static_cast<size_t>(shard) * chunk_size;
         std::vector<uint8_t> chunk(chunk_size, 0);
         if (static_cast<int>(data.size()) > offset) {
-            const size_t size = std::min(chunk_size, data.size() - offset);
+            const size_t size = std::min(chunk_size, static_cast<int>(data.size()) - offset);
             std::memcpy(chunk.data(), data.data() + offset, size);
         }
         chunks.push_back(std::move(chunk));
@@ -275,7 +275,7 @@ void ReedSolomonCoder::gf_matrix_mul(
     result.assign(rows, 0);
     for (size_t row = 0; row < rows; ++row) {
         uint8_t sum = 0;
-        for (size_t col = 0; col < matrix[row].size() && col < vec.size(); ++col) {
+        for (size_t col = 0; col < matrix[row].size()  && static_cast<size_t>(col) < vec.size(); ++col) {
             sum ^= gf_mul(matrix[row][col], vec[col]);
         }
         result[row] = sum;
@@ -352,7 +352,7 @@ void CauchyReedSolomonCoder::gf_matrix_mul(
     result.assign(rows, 0);
     for (size_t row = 0; row < rows; ++row) {
         uint8_t sum = 0;
-        for (size_t col = 0; col < matrix[row].size() && col < vec.size(); ++col) {
+        for (size_t col = 0; col < matrix[row].size()  && static_cast<size_t>(col) < vec.size(); ++col) {
             sum ^= gf_mul(matrix[row][col], vec[col]);
         }
         result[row] = sum;
@@ -421,7 +421,7 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    const size_t chunk_size = (data.size() + data_shards - 1) / data_shards;
+    const size_t chunk_size = (static_cast<int>(data.size()) + data_shards - 1) / data_shards;
     std::vector<std::vector<uint8_t>> chunks;
     chunks.reserve(data_shards + parity_shards);
 
@@ -429,7 +429,7 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
         const size_t offset = static_cast<size_t>(shard) * chunk_size;
         std::vector<uint8_t> chunk(chunk_size, 0);
         if (static_cast<int>(data.size()) > offset) {
-            const size_t size = std::min(chunk_size, data.size() - offset);
+            const size_t size = std::min(chunk_size, static_cast<int>(data.size()) - offset);
             std::memcpy(chunk.data(), data.data() + offset, size);
         }
         chunks.push_back(std::move(chunk));

@@ -762,7 +762,7 @@ GeometryInfo EWKBParser::parseWKT(const std::string& wkt_raw) {
         geom.rings.reserve(ring_groups.size());
         for (auto ring : ring_groups) {
             if (!ring.empty() && ring.front() == '(' && ring.back() == ')') {
-                ring = ring.substr(1, ring.size() - 2);
+                ring = ring.substr(1, static_cast<int>(ring.size()) - 2);
             }
             auto coord_tokens = splitTopLevel(ring, ',');
             std::vector<Coordinate> coords = {};

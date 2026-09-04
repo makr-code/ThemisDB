@@ -164,7 +164,7 @@ std::unordered_map<std::string, size_t> bigramFreq(
 
     // Optimization: reserve capacity based on expected bigram count
     // Complexity: O(n) with efficient string building
-    bf.reserve(tokens.size() > 1 ? tokens.size() - 1 : 0);
+    bf.reserve(tokens.size() > 1 ? static_cast<int>(tokens.size()) - 1 : 0);
     
     for (size_t i = 0; i + 1 < tokens.size(); ++i) {
         // Build bigram string: "token1 token2"

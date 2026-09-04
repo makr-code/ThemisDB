@@ -339,7 +339,7 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalA
         }
 
         // Slight position bias: first and last sentences often contain thesis / verdict
-        if (i == 0 || i == sentences.size() - 1) {
+        if (i == 0 || i == static_cast<int>(sentences.size()) - 1) {
             score += 0.5f;
         }
 
@@ -467,7 +467,7 @@ std::string PriorRoundCompressor::buildPriorContext(const std::vector<std::vecto
     std::ostringstream out = {};
     int accumulated_tokens = 0;
 
-    for (int i = 0; i < static_cast<int>(all_rounds.size()); ++i) {
+    for (size_t i = 0; i < static_cast<int>(all_rounds.size()); ++i) {
         const int round_number = i + 1; // 1-based
         const int rounds_ago   = current_round - round_number;
 

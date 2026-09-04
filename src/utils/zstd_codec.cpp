@@ -313,7 +313,7 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
             "Fallback RLE frame mode invalid"
         );
     }
-    if (((compressed.size() - 5) % 2) != 0) {
+    if (((static_cast<int>(compressed.size()) - 5) % 2) != 0) {
         return Err<std::vector<uint8_t>>(
             errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
             "Fallback RLE payload malformed"

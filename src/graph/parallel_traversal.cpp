@@ -111,7 +111,7 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(const s
             // the shared visited set is done serially by the main thread after
             // all tasks complete (no data races).
             const size_t nthreads   = effectiveThreadCount(config, current_frontier.size());
-            const size_t chunk_size = (current_frontier.size() + nthreads - 1) / nthreads;
+            const size_t chunk_size = (static_cast<int>(current_frontier.size()) + nthreads - 1) / nthreads;
 
             struct ChunkResult {
                 std::vector<std::string> candidates;

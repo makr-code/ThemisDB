@@ -113,7 +113,7 @@ static std::string fieldBase64Encode(const std::vector<uint8_t>& data) {
         throw std::runtime_error("fieldBase64Encode: input too large");
     }
 
-    std::string encoded(4 * ((data.size() + 2) / 3), '\0');
+    std::string encoded(4 * ((static_cast<int>(data.size()) + 2) / 3), '\0');
     int encoded_len = EVP_EncodeBlock(
         reinterpret_cast<unsigned char*>(encoded.data()),
         data.data(),
@@ -562,7 +562,7 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
     }
     
     // Encrypt plaintext
-    blob.ciphertext.resize(plaintext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
+    blob.ciphertext.resize(static_cast<int>(plaintext.size()) + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
     int len = 0;
     if (EVP_EncryptUpdate(ctx.get(), blob.ciphertext.data(), &len, plaintext.data(), static_cast<int>(plaintext.size())) != 1) {
         throw EncryptionException("Encryption failed");

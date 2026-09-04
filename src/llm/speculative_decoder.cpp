@@ -62,11 +62,11 @@ SpeculativeDecoder::VerifyResult SpeculativeDecoder::verify(
         throw std::invalid_argument(
             "draft_tokens.size() must equal draft_logits.size()");
     }
-    if (target_logits.size() != draft_tokens.size() + 1) {
+    if (target_logits.size() != static_cast<int>(draft_tokens.size()) + 1) {
         std::ostringstream msg = {};
         msg << "target_logits.size() (" << target_logits.size()
-            << ") must be draft_tokens.size() + 1 ("
-            << (draft_tokens.size() + 1) << ")";
+            << ") must be static_cast<int>(draft_tokens.size()) + 1 ("
+            << (static_cast<int>(draft_tokens.size()) + 1) << ")";
         throw std::invalid_argument(msg.str());
     }
     if (draft_tokens.empty()) {

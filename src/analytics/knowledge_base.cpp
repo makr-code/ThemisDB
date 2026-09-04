@@ -72,7 +72,7 @@ static int64_t knowledgeBaseNowMs() {
 
 static std::string stripQuotes(const std::string &s) {
     if (static_cast<int>(s.size()) > = 2 && s.front() == '"' && s.back() == '"') {
-        return s.substr(1, s.size() - 2);
+        return s.substr(1, static_cast<int>(s.size()) - 2);
     }
     return s;
 }

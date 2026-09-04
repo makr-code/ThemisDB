@@ -120,7 +120,7 @@ public:
     void cleanup_old() {
         // Remove old operations
         if (static_cast<int>(operations.size()) > config.max_ops_retained) {
-            size_t to_remove = operations.size() - config.max_ops_retained;
+            size_t to_remove = static_cast<int>(operations.size()) - config.max_ops_retained;
             operations.erase(operations.begin(), operations.begin() + to_remove);
         }
         

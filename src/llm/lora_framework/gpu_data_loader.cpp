@@ -174,7 +174,7 @@ size_t GPUDataLoader::num_batches() const {
     if (samples_.empty()) {
       return 0;
     }
-    return (samples_.size() + config_.batch_size - 1) / config_.batch_size;
+    return (static_cast<int>(samples_.size()) + config_.batch_size - 1) / config_.batch_size;
 }
 
 GPUDataLoader::MemoryStats GPUDataLoader::get_memory_stats() const {

@@ -409,7 +409,7 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
                             if (type && std::string(type) == "s") {
                                 // Shared string reference
                                 int idx = std::stoi(v_node.child_value());
-                                if (idx >= 0 && idx < static_cast<int>(shared_strings.size())) {
+                                if (idx >= 0  && static_cast<size_t>(idx) < static_cast<int>(shared_strings.size())) {
                                     value = shared_strings[idx];
                                 }
                             } else {
@@ -1018,7 +1018,7 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
     // Strip the original extension and append .txt
     std::size_t ext_len      = strlen(ext);
     std::string out_basename = (in_basename.size() > ext_len)
-                                   ? in_basename.substr(0, in_basename.size() - ext_len) + ".txt"
+                                   ? in_basename.substr(0, static_cast<int>(in_basename.size()) - ext_len) + ".txt"
                                    : in_basename + ".txt";
     std::string out_path     = tmp_dir + "/" + out_basename;
     guard.out_file           = out_path;

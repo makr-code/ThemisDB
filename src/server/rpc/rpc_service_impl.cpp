@@ -134,7 +134,7 @@ namespace {
         }
 
         const char unit = timeout.back();
-        const auto value = parseStrictPositiveInteger(timeout.substr(0, timeout.size() - 1));
+        const auto value = parseStrictPositiveInteger(timeout.substr(0, static_cast<int>(timeout.size()) - 1));
         if (!value.has_value()) {
             return std::nullopt;
         }

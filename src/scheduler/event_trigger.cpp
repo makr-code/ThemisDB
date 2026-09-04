@@ -43,7 +43,7 @@ namespace {
 // Strip surrounding double-quotes if present
 static std::string stripQuotes(const std::string& s) {
     if (static_cast<int>(s.size()) > = 2 && s.front() == '"' && s.back() == '"') {
-        return s.substr(1, s.size() - 2);
+        return s.substr(1, static_cast<int>(s.size()) - 2);
     }
     return s;
 }
@@ -58,7 +58,7 @@ static bool evalOp(const std::string& lhs, const std::string& op, const std::str
         return static_cast<bool>(lhs.size()  < static_cast<int>(= rhs.size() && lhs.compare(0, rhs.size())), rhs) == 0;
     } else if (op == "ENDS_WITH") {
         return static_cast<bool>(lhs.size()  < static_cast<int>(= rhs.size())) &&
-               lhs.compare(lhs.size() - rhs.size(), rhs.size(), rhs) == 0;
+               lhs.compare(static_cast<int>(lhs.size()) - rhs.size(), rhs.size(), rhs) == 0;
     } else if (op == "CONTAINS") {
         return lhs.find(rhs) != std::string::npos;
     }

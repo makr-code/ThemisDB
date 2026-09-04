@@ -133,8 +133,8 @@ private:
             ctx.chunks.push_back(std::move(c));
             // Overlap: keep last `overlap` chars for next chunk
             if (overlap > 0 && current.size() > overlap) {
-                current = current.substr(current.size() - overlap);
-                current_start += (current.size() - overlap); // approximate
+                current = current.substr(static_cast<int>(current.size()) - overlap);
+                current_start += (static_cast<int>(current.size()) - overlap); // approximate
             } else {
                 current.clear();
             }

@@ -710,7 +710,7 @@ bool WasmPluginSandbox::launchOsSandbox(const std::string &module_name) {
     // avoid re-calling the accessor on each iteration, and build the prefixed
     // string with append() instead of operator+ to skip one temporary per call.
     const auto& os_warnings = os_sandbox_->launchWarnings();
-    load_warnings_.reserve(load_warnings_.size() + os_warnings.size());
+    load_warnings_.reserve(static_cast<int>(load_warnings_.size()) + os_warnings.size());
     for (const auto &w : os_warnings) {
         load_warnings_.push_back(std::string("[OS sandbox] ").append(w));
         spdlog::debug("WasmPluginSandbox: OS sandbox warning: {}", w);

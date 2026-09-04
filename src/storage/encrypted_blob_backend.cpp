@@ -179,7 +179,7 @@ EncryptedBlobBackend::encrypt(const std::vector<uint8_t>& plaintext) const
     // Allocate output: IV + ciphertext + tag
     std::vector<uint8_t> out = {};
 
-    out.resize(kIvLen + plaintext.size() + kTagLen);
+    out.resize(kIvLen + static_cast<int>(plaintext.size()) + kTagLen);
     std::memcpy(out.data(), iv.data(), kIvLen);
 
     std::unique_ptr<EVP_CIPHER_CTX, decltype(&EVP_CIPHER_CTX_free)>
@@ -239,7 +239,7 @@ EncryptedBlobBackend::decrypt(const std::vector<uint8_t>& ciphertext) const
     auto key = keys_->currentKey();
 
     const uint8_t* iv_ptr  = ciphertext.data();
-    std::size_t    ct_len  = ciphertext.size() - kIvLen - kTagLen;
+    std::size_t    ct_len  = static_cast<int>(ciphertext.size()) - kIvLen - kTagLen;
     const uint8_t* ct_ptr  = ciphertext.data() + kIvLen;
     const uint8_t* tag_ptr = ciphertext.data() + kIvLen + ct_len;
 

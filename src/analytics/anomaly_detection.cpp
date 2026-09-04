@@ -361,7 +361,7 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
 double iforestPathLength(const ITree &tree, const std::vector<double> &x) {
     int node  = 0;
     int depth = 0;
-    while (node >= 0 && node < static_cast<int>(tree.nodes.size())) {
+    while (node >= 0  && static_cast<size_t>(node) < static_cast<int>(tree.nodes.size())) {
         const IFNode &n = tree.nodes[static_cast<size_t>(node)];
         if (n.split_feature < 0) {
             // leaf: add adjustment for remaining points
@@ -487,7 +487,7 @@ struct AnomalyDetector::Impl {
     // ---- Per-feature anomaly scores ----
     std::vector<double> zscoreContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size() && i < means.size(); ++i) {
+        for (size_t i = 0; i < x.size()  && static_cast<size_t>(i) < means.size(); ++i) {
             double sd = (stddevs[i] > 1e-10) ? stddevs[i] : 1e-10;
             c[i]      = std::min(std::abs(x[i] - means[i]) / sd, 9.0);
         }
@@ -496,7 +496,7 @@ struct AnomalyDetector::Impl {
 
     std::vector<double> modZscoreContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size() && i < medians.size(); ++i) {
+        for (size_t i = 0; i < x.size()  && static_cast<size_t>(i) < medians.size(); ++i) {
             double mad = (mads[i] > 1e-10) ? mads[i] : 1e-10;
             c[i]       = std::min(0.6745 * std::abs(x[i] - medians[i]) / mad, 9.0);
         }
@@ -505,7 +505,7 @@ struct AnomalyDetector::Impl {
 
     std::vector<double> iqrContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size() && i < q1.size(); ++i) {
+        for (size_t i = 0; i < x.size()  && static_cast<size_t>(i) < q1.size(); ++i) {
             double fence_lo = q1[i] - 1.5 * iqr[i];
             double fence_hi = q3[i] + 1.5 * iqr[i];
             double range    = (iqr[i] > 1e-10) ? iqr[i] : 1.0;
@@ -664,7 +664,7 @@ struct AnomalyDetector::Impl {
             std::mt19937 rng(42);
             forest.clear();
             forest.reserve(static_cast<size_t>(cfg.n_estimators));
-            std::uniform_int_distribution<uint64_t> idx_dist(0, data.size() - 1);
+            std::uniform_int_distribution<uint64_t> idx_dist(0, static_cast<int>(data.size()) - 1);
 
             for (int t = 0; t < cfg.n_estimators; ++t) {
                 std::vector<size_t> sample(static_cast<size_t>(sub_size));
@@ -746,7 +746,7 @@ struct AnomalyDetector::Impl {
         for (const auto &tree : forest) {
             int node  = 0;
             int depth = 0;
-            while (node >= 0 && node < static_cast<int>(tree.nodes.size())) {
+            while (node >= 0  && static_cast<size_t>(node) < static_cast<int>(tree.nodes.size())) {
                 const IFNode &nd = tree.nodes[static_cast<size_t>(node)];
                 if (nd.split_feature < 0) {
                     break; // leaf
@@ -784,7 +784,7 @@ struct AnomalyDetector::Impl {
             return contrib;
         }
         for (const auto &[dist, idx] : neighbours) {
-            for (size_t f = 0; f < n_features && f < lof_train[idx].size(); ++f) {
+            for (size_t f = 0; f < n_features  && static_cast<size_t>(f) < lof_train[idx].size(); ++f) {
                 double d = x[f] - lof_train[idx][f];
                 contrib[f] += d * d;
             }
@@ -970,7 +970,7 @@ AnomalyExplanation AnomalyDetector::explain(const DataPoint &point) const {
                             sc = impl_->sub_detectors[i]->impl_->zscoreContributions(sub_x);
                             break;
                     }
-                    for (size_t f = 0; f < contrib.size() && f < sc.size(); ++f) {
+                    for (size_t f = 0; f < contrib.size()  && static_cast<size_t>(f) < sc.size(); ++f) {
                         contrib[f] += w * sc[f];
                     }
                     total_w += w;
@@ -988,7 +988,7 @@ AnomalyExplanation AnomalyDetector::explain(const DataPoint &point) const {
             break;
     }
 
-    for (size_t i = 0; i < contrib.size() && i < impl_->feature_names.size(); ++i) {
+    for (size_t i = 0; i < contrib.size()  && static_cast<size_t>(i) < impl_->feature_names.size(); ++i) {
         exp.feature_contributions.emplace_back(impl_->feature_names[i], contrib[i]);
     }
 

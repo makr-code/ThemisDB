@@ -16,7 +16,7 @@ namespace themis {
 
 std::string KeySchema::makeRelationalKey(std::string_view table, std::string_view pk) {
     std::string key = {};
-    key.reserve(4 + table.size() + pk.size());
+    key.reserve(4 + static_cast<int>(table.size()) + pk.size());
     key += "rel";
     key += SEPARATOR;
     key += table;
@@ -27,7 +27,7 @@ std::string KeySchema::makeRelationalKey(std::string_view table, std::string_vie
 
 std::string KeySchema::makeDocumentKey(std::string_view collection, std::string_view pk) {
     std::string key = {};
-    key.reserve(4 + collection.size() + pk.size());
+    key.reserve(4 + static_cast<int>(collection.size()) + pk.size());
     key += "doc";
     key += SEPARATOR;
     key += collection;
@@ -56,7 +56,7 @@ std::string KeySchema::makeGraphEdgeKey(std::string_view pk) {
 
 std::string KeySchema::makeVectorKey(std::string_view object_name, std::string_view pk) {
     std::string key = {};
-    key.reserve(4 + object_name.size() + pk.size());
+    key.reserve(4 + static_cast<int>(object_name.size()) + pk.size());
     key += "vec";
     key += SEPARATOR;
     key += object_name;
@@ -72,7 +72,7 @@ std::string KeySchema::makeSecondaryIndexKey(
     std::string_view pk
 ) {
     std::string key = {};
-    key.reserve(5 + table.size() + column.size() + value.size() + pk.size());
+    key.reserve(5 + static_cast<int>(table.size()) + static_cast<int>(column.size()) + static_cast<int>(value.size()) + pk.size());
     key += "idx";
     key += SEPARATOR;
     key += table;
@@ -87,7 +87,7 @@ std::string KeySchema::makeSecondaryIndexKey(
 
 std::string KeySchema::makeGraphOutdexKey(std::string_view pk_start, std::string_view pk_edge) {
     std::string key = {};
-    key.reserve(10 + pk_start.size() + pk_edge.size());
+    key.reserve(10 + static_cast<int>(pk_start.size()) + pk_edge.size());
     key += "graph";
     key += SEPARATOR;
     key += "out";
@@ -100,7 +100,7 @@ std::string KeySchema::makeGraphOutdexKey(std::string_view pk_start, std::string
 
 std::string KeySchema::makeGraphIndexKey(std::string_view pk_target, std::string_view pk_edge) {
     std::string key = {};
-    key.reserve(9 + pk_target.size() + pk_edge.size());
+    key.reserve(9 + static_cast<int>(pk_target.size()) + pk_edge.size());
     key += "graph";
     key += SEPARATOR;
     key += "in";

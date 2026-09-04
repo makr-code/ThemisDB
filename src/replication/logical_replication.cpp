@@ -555,7 +555,7 @@ bool LogicalReplicationManager::evaluateRowFilter(const std::string& expression,
     if (value.size() >= 2 &&
         ((value.front() == '"' && value.back() == '"') ||
          (value.front() == '\'' && value.back() == '\''))) {
-        value = value.substr(1, value.size() - 2);
+        value = value.substr(1, static_cast<int>(value.size()) - 2);
     }
 
     auto it = payload.find(field);

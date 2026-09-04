@@ -195,7 +195,7 @@ HybridFusionResult HybridRetriever::fuseRRF(
     };
     std::unordered_map<std::string, DocData> doc_map = {};
 
-    doc_map.reserve(bm25_candidates.size() + vector_candidates.size());
+    doc_map.reserve(static_cast<int>(bm25_candidates.size()) + vector_candidates.size());
 
     // Process BM25 list in the order provided (assumed sorted descending).
     for (size_t i = 0; i < bm25_candidates.size(); ++i) {
@@ -276,7 +276,7 @@ HybridFusionResult HybridRetriever::fuseLinear(
     };
     std::unordered_map<std::string, DocData> doc_map = {};
 
-    doc_map.reserve(bm25_candidates.size() + vector_candidates.size());
+    doc_map.reserve(static_cast<int>(bm25_candidates.size()) + vector_candidates.size());
 
     // Collect raw BM25 scores for optional normalisation.
     std::vector<double> bm25_raw = {};

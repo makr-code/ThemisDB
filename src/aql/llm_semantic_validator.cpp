@@ -882,7 +882,7 @@ void LLMSemanticValidator::validateFunctionSignatures(
             
             // Validate parameter types if specified
             if (!sig.param_types.empty()) {
-                for (size_t i = 0; i < param_count && i < sig.param_types.size(); ++i) {
+                for (size_t i = 0; i < param_count  && static_cast<size_t>(i) < sig.param_types.size(); ++i) {
                     if (sig.param_types[i].empty()) continue;  // Any type allowed
                     
                     auto param_type = inferTypeFromExpression(func_call->arguments[i]);

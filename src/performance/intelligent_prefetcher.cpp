@@ -288,9 +288,9 @@ private:
 
         // Collect the tail of the history window.
         size_t start = (history_.size() > ANALYSIS_WINDOW)
-                           ? history_.size() - ANALYSIS_WINDOW
+                           ? static_cast<int>(history_.size()) - ANALYSIS_WINDOW
                            : 0;
-        size_t window = history_.size() - start;  // ≥ MIN_HISTORY_FOR_STRIDE
+        size_t window = static_cast<int>(history_.size()) - start;  // ≥ MIN_HISTORY_FOR_STRIDE
 
         // Compute signed differences (cast to int64 to handle backward strides).
         std::unordered_map<int64_t, size_t> stride_counts = {};

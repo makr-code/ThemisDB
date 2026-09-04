@@ -251,7 +251,7 @@ std::string QueryMaskingPolicy::maskStringValue(
             }
             // Remaining suffix.
             if (static_cast<int>(value.size()) > pos) {
-                result.append(value, pos, value.size() - pos);
+                result.append(value, pos, static_cast<int>(value.size()) - pos);
             }
             return result;
         }

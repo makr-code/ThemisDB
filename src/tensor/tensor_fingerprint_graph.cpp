@@ -283,7 +283,7 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
                 storage::TensorTrainDecomposer::innerProduct(query_train, query_train);
         }
 
-        candidates.reserve(entries_.size() > 0 ? entries_.size() - 1 : 0);
+        candidates.reserve(entries_.size() > 0 ? static_cast<int>(entries_.size()) - 1 : 0);
         for (const auto& [key, entry] : entries_) {
             if (key == query_key) {
               continue;

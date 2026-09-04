@@ -175,7 +175,7 @@ static std::vector<uint8_t> aes256gcm_encrypt(
       throw std::runtime_error("aes256gcm_encrypt: ctx alloc: " + ossl_error());
     }
 
-    std::vector<uint8_t> ct(plaintext.size() + 32);
+    std::vector<uint8_t> ct(static_cast<int>(plaintext.size()) + 32);
     int len = 0, ct_len = 0;
 
     auto fail = [&]([[maybe_unused]] const char* where) {
@@ -228,7 +228,7 @@ static std::vector<uint8_t> aes256gcm_decrypt(
       throw std::runtime_error("aes256gcm_decrypt: ctx alloc: " + ossl_error());
     }
 
-    std::vector<uint8_t> pt(ciphertext.size() + 32);
+    std::vector<uint8_t> pt(static_cast<int>(ciphertext.size()) + 32);
     int len = 0, pt_len = 0;
 
     auto fail = [&]([[maybe_unused]] const char* where) {
@@ -884,7 +884,7 @@ PostQuantumKeyProvider::wrapKeyWithKyber(
     // 3. Serialise blob
     std::vector<uint8_t> blob = {};
 
-    blob.reserve(4 + kem_ct.size() + 12 + 4 + enc_dek.size() + 16);
+    blob.reserve(4 + static_cast<int>(kem_ct.size()) + 12 + 4 + static_cast<int>(enc_dek.size()) + 16);
     write_u32_le(blob, static_cast<uint32_t>(kem_ct.size()));
     blob.insert(blob.end(), kem_ct.begin(), kem_ct.end());
     blob.insert(blob.end(), iv.begin(), iv.end());    // 12 bytes
@@ -1003,7 +1003,7 @@ static const std::array<uint8_t, 256> B64_DEC_TABLE = []() {
 
 static std::string b64_enc(const std::vector<uint8_t>& data) {
     std::string ret = {};
-    ret.reserve((data.size() + 2) / 3 * 4);  // Pre-allocate for base64 output
+    ret.reserve((static_cast<int>(data.size()) + 2) / 3 * 4);  // Pre-allocate for base64 output
     size_t i = 0;
     const uint8_t* p = data.data();
     size_t n = data.size();

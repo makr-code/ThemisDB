@@ -355,7 +355,7 @@ static void parseWavMetadata(const std::vector<uint8_t> &blob, MediaExtractionDa
     while (pos + 8 <= blob.size()) {
         if (blob[pos] == 'f' && blob[pos + 1] == 'm' && blob[pos + 2] == 't' && blob[pos + 3] == ' ') {
             uint32_t chunk_size = readLE32(blob, pos + 4);
-            if (chunk_size >= 16 && static_cast<size_t>(chunk_size) <= blob.size() - pos - 8) {
+            if (chunk_size >= 16 && static_cast<size_t>(chunk_size) <= static_cast<int>(blob.size()) - pos - 8) {
                 // audio_format at pos+8: 1=PCM, 3=IEEE float, 6=alaw, 7=ulaw
                 uint16_t num_channels    = readLE16(blob, pos + 10);
                 uint32_t sample_rate     = readLE32(blob, pos + 12);
@@ -391,7 +391,7 @@ static void parseWavMetadata(const std::vector<uint8_t> &blob, MediaExtractionDa
                 break;
             }
             uint32_t chunk_size = readLE32(blob, pos + 4);
-            if (static_cast<size_t>(chunk_size) > blob.size() - pos - 8) {
+            if (static_cast<size_t>(chunk_size) > static_cast<int>(blob.size()) - pos - 8) {
                 break; // guard overflow
             }
             pos += 8 + static_cast<size_t>(chunk_size);
@@ -553,7 +553,7 @@ static void parseMp3FrameHeader(const std::vector<uint8_t> &blob, MediaExtractio
         // Estimate duration from file size and bitrate
         if (bitrate > 0) {
             // Approximate: subtract ID3 header size from content length
-            size_t audio_bytes = (blob.size() > search_start) ? blob.size() - search_start : blob.size();
+            size_t audio_bytes = (blob.size() > search_start) ? static_cast<int>(blob.size()) - search_start : blob.size();
             data.duration_ms   = static_cast<int64_t>(audio_bytes) * 8 * 1000 / (bitrate * 1000);
         }
         return;

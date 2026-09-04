@@ -34,7 +34,7 @@ size_t ColumnSegment::byteSize() const noexcept {
         case SegmentDType::String: {
             size_t total = n; // null bitmap
             for (const auto& s : string_data) {
-              total += s.size() + sizeof(std::string);
+              total += static_cast<int>(s.size()) + sizeof(std::string);
             }
             return total;
         }

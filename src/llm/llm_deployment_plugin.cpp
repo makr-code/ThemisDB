@@ -65,7 +65,7 @@ std::chrono::system_clock::time_point iso8601ToTime(const std::string& iso) {
     }
 
     // Strip the trailing 'Z' before parsing
-    std::string datetime_part = iso.substr(0, iso.size() - 1);
+    std::string datetime_part = iso.substr(0, static_cast<int>(iso.size()) - 1);
 
     std::tm tm_val = {};
     std::istringstream ss(datetime_part);
@@ -698,7 +698,7 @@ std::vector<AuditEntry> LLMDeploymentPlugin::getAuditLog([[maybe_unused]] size_t
     // Return most recent entries
     std::vector<AuditEntry> result = {};
 
-    size_t start = audit_log_.size() - limit;
+    size_t start = static_cast<int>(audit_log_.size()) - limit;
     result.insert(result.end(), audit_log_.begin() + start, audit_log_.end());
     
     return result;

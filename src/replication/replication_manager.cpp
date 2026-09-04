@@ -196,8 +196,8 @@ std::vector<uint8_t> WALEntry::serialize() const {
     std::vector<uint8_t> result = {};
 
     // Estimate capacity: fixed header (24 bytes) + lengths (4*4) + string contents
-    size_t estimated_size = 24 + 16 + operation.size() + collection.size() + 
-                           document_id.size() + data.size() + checksum.size();
+    size_t estimated_size = 24 + 16 + static_cast<int>(operation.size()) + static_cast<int>(collection.size()) + 
+                           static_cast<int>(document_id.size()) + static_cast<int>(data.size()) + checksum.size();
     result.reserve(estimated_size);
     
     // BATCH A ANNOTATION: Write Consensus and Replication Pipeline
@@ -222,7 +222,7 @@ std::vector<uint8_t> WALEntry::serialize() const {
     
     auto appendUint64 = [&result]([[maybe_unused]] uint64_t val) {
         // BATCH A OPTIMIZATION: Reserve space for 8 bytes once
-        result.reserve(result.size() + 8);
+        result.reserve(static_cast<int>(result.size()) + 8);
         for (int i = 7; i >= 0; --i) {
             result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));
         }
@@ -231,7 +231,7 @@ std::vector<uint8_t> WALEntry::serialize() const {
     auto appendString = [&result](const std::string& s) {
         // BATCH A OPTIMIZATION: Avoid insert() which can reallocate; use direct append
         uint32_t len = static_cast<uint32_t>(s.size());
-        result.reserve(result.size() + 4 + s.size());
+        result.reserve(static_cast<int>(result.size()) + 4 + s.size());
         result.push_back(static_cast<uint8_t>((len >> 24) & 0xFF));
         result.push_back(static_cast<uint8_t>((len >> 16) & 0xFF));
         result.push_back(static_cast<uint8_t>((len >> 8) & 0xFF));
@@ -3414,13 +3414,13 @@ std::optional<MMWriteEntry> MMWriteEntry::deserialize(const std::vector<uint8_t>
 
     auto readUint64 = [&]() -> uint64_t {
         uint64_t v = 0;
-        for (int i = 0; i < 8 && pos < raw.size(); ++i, ++pos)
+        for (size_t i = 0; i < 8  && static_cast<size_t>(pos) < raw.size(); ++i, ++pos)
             v = (v << 8) | raw[pos];
         return v;
     };
     auto readUint32 = [&]() -> uint32_t {
         uint32_t v = 0;
-        for (int i = 0; i < 4 && pos < raw.size(); ++i, ++pos)
+        for (size_t i = 0; i < 4  && static_cast<size_t>(pos) < raw.size(); ++i, ++pos)
             v = (v << 8) | raw[pos];
         return v;
     };
@@ -5168,8 +5168,8 @@ int64_t ReplicationAnalytics::percentile(const std::vector<int64_t>& sorted, dou
       return 0;
     }
     // Caller must pass a sorted vector; index is clamped to valid range.
-    size_t idx = static_cast<size_t>(p / 100.0 * static_cast<double>(sorted.size() - 1));
-    return sorted[std::min(idx, sorted.size() - 1)];
+    size_t idx = static_cast<size_t>(p / 100.0 * static_cast<double>(static_cast<int>(sorted.size()) - 1));
+    return sorted[std::min(idx, static_cast<int>(sorted.size()) - 1)];
 }
 
 ReplicationAnalytics::LagHistory ReplicationAnalytics::getLagHistory(
@@ -5539,8 +5539,8 @@ ReplicationBenchmark::BenchmarkResult ReplicationBenchmark::run() {
           return 0;
         }
         size_t idx = static_cast<size_t>(
-            p / 100.0 * static_cast<double>(latencies_us.size() - 1));
-        return latencies_us[std::min(idx, latencies_us.size() - 1)];
+            p / 100.0 * static_cast<double>(static_cast<int>(latencies_us.size()) - 1));
+        return latencies_us[std::min(idx, static_cast<int>(latencies_us.size()) - 1)];
     };
 
     BenchmarkResult r;
@@ -5917,7 +5917,7 @@ std::string WALArchivalManager::archivePath([[maybe_unused]] uint64_t segment_id
     const uint8_t* iv      = data.data();
     const uint8_t* tag_ptr = data.data() + 12;
     const uint8_t* ct      = data.data() + 28;
-    int ct_len = static_cast<int>(data.size() - 28);
+    int ct_len = static_cast<int>(static_cast<int>(data.size()) - 28);
 
     std::vector<uint8_t> plain(static_cast<size_t>(ct_len));
     int len = 0, plain_len = 0;
@@ -6344,7 +6344,7 @@ uint32_t WALArchivalManager::runArchivalCycle() {
       return 0;
     }
 
-    candidates.resize(candidates.size() - config_.local_retention_segments);
+    candidates.resize(static_cast<int>(candidates.size()) - config_.local_retention_segments);
     uint32_t archived = archiveSegments(candidates);
     purgeExpired();
     return archived;

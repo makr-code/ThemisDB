@@ -135,7 +135,7 @@ void LLMBatchTuner::maybeTune() noexcept {
     double mean_latency = 0.0;
     double total_tokens_window = 0.0;
 
-    for (size_t i = records_.size() - window; i < records_.size(); ++i) {
+    for (size_t i = static_cast<int>(records_.size()) - window; i < records_.size(); ++i) {
         mean_latency       += records_[i].latency_ms;
         total_tokens_window += static_cast<double>(records_[i].total_tokens);
     }
@@ -205,7 +205,7 @@ LLMBatchTuner::Stats LLMBatchTuner::getStats() const {
 
     std::sort(latencies.begin(), latencies.end());
     size_t p99_idx = static_cast<size_t>(
-        0.99 * static_cast<double>(latencies.size() - 1));
+        0.99 * static_cast<double>(static_cast<int>(latencies.size()) - 1));
     s.p99_latency_ms = latencies[p99_idx];
 
     return s;
@@ -224,7 +224,7 @@ LLMBatchTuner::getRecentRecords([[maybe_unused]] size_t limit) const {
     }
 
     size_t count = std::min(limit, records_.size());
-    size_t start = records_.size() - count;
+    size_t start = static_cast<int>(records_.size()) - count;
     return std::vector<BatchRecord>(records_.begin() + static_cast<std::ptrdiff_t>(start),
                                     records_.end());
 }

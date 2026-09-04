@@ -256,7 +256,7 @@ bool CrossTenantPolicyInheritance::wouldCreateCycle(const std::string &tenant_id
     // so we just walk.
     std::string current         = parent_id;
     std::size_t steps           = 0;
-    const std::size_t max_steps = tenants_.size() + 1; // upper bound on depth
+    const std::size_t max_steps = static_cast<int>(tenants_.size()) + 1; // upper bound on depth
 
     while (!current.empty() && steps <= max_steps) {
         if (current == tenant_id) {
@@ -282,7 +282,7 @@ std::vector<std::string> CrossTenantPolicyInheritance::getAncestorsLocked(const 
 
     std::string current         = it->second.parent_id;
     std::size_t steps           = 0;
-    const std::size_t max_steps = tenants_.size() + 1;
+    const std::size_t max_steps = static_cast<int>(tenants_.size()) + 1;
 
     while (!current.empty() && steps <= max_steps) {
         ancestors.push_back(current);

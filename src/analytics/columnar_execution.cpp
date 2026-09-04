@@ -445,7 +445,7 @@ namespace {
 SelectionVector mergeIntersect(const SelectionVector &a, const SelectionVector &b) {
     SelectionVector out(std::min(a.size(), b.size()));
     size_t i = 0, j = 0;
-    while (i < a.size() && j < b.size()) {
+    while (i < a.size()  && static_cast<size_t>(j) < b.size()) {
         if (a[i] == b[j]) {
             out.push_back(a[i]);
             ++i;

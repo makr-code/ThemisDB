@@ -546,7 +546,7 @@ void MqttClientService::processBuffer() {
         // Decode remaining length
         auto [rem_len, hdr_extra] = detail::decodeVarLen(
             packet_buf_.data() + 1,
-            packet_buf_.size() - 1);
+            static_cast<int>(packet_buf_.size()) - 1);
         if (hdr_extra == 0) break; // incomplete length
 
         size_t total = 1 + hdr_extra + rem_len;

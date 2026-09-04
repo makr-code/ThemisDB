@@ -342,7 +342,7 @@ size_t VectorAutoBuffer::flushBuffer(const std::string& buffer_key, NamespaceBuf
         }
     }
     
-    size_t total_ops = adds.size() + updates.size() + removes.size();
+    size_t total_ops = static_cast<int>(adds.size()) + static_cast<int>(updates.size()) + removes.size();
     
     // Execute batched operations
     VectorIndexManager::Status status = VectorIndexManager::Status::Error("No batched vector operation executed");

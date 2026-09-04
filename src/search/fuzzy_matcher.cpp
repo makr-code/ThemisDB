@@ -308,7 +308,7 @@ double FuzzyMatcher::ngramSimilarity(const std::string& a, const std::string& b,
         }
     }
 
-    double denom = static_cast<double>(sa.size() + sb.size());
+    double denom = static_cast<double>(static_cast<int>(sa.size()) + sb.size());
     if (denom == 0.0) {
       return 1.0;
     }

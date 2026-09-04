@@ -147,7 +147,7 @@ double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
         const size_t cb = mb.count(t);
         inter += std::min(ca, cb);
     }
-    const size_t union_sz = ta.size() + tb.size() - inter;
+    const size_t union_sz = static_cast<int>(ta.size()) + static_cast<int>(tb.size()) - inter;
     if (union_sz == 0) {
       return 0.0;
     }
@@ -181,7 +181,7 @@ size_t editDistance(const std::string& a, const std::string& b) {
             }
         }
         diffs += static_cast<size_t>(
-            a.size() > b.size() ? a.size() - b.size() : b.size() - a.size());
+            a.size() > b.size() ? static_cast<int>(a.size()) - b.size() : static_cast<int>(b.size()) - a.size());
         return diffs;
     }
 

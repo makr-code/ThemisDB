@@ -54,7 +54,7 @@ ResidualQuantizer::Status ResidualQuantizer::train(
     
     // Initialize residuals with original data
     auto residuals = training_vectors;
-    stage_quantizers_.reserve(stage_quantizers_.size() + static_cast<size_t>(config_.num_stages));
+    stage_quantizers_.reserve(static_cast<int>(stage_quantizers_.size()) + static_cast<size_t>(config_.num_stages));
     
     // Train each stage
     for (int stage = 0; stage < config_.num_stages; stage++) {

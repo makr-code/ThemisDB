@@ -1114,7 +1114,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
         case Measure::Function::Percentile: {
             std::vector<double> sorted = values;
             std::sort(sorted.begin(), sorted.end());
-            double rank  = percentile / 100.0 * (sorted.size() - 1);
+            double rank  = percentile / 100.0 * (static_cast<int>(sorted.size()) - 1);
             size_t lower = static_cast<size_t>(rank);
             size_t upper = lower + 1;
             if (upper >= static_cast<int>(sorted.size())) {
@@ -1919,7 +1919,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
                     }
                     case Filter::Operator::EndsWith: {
                         std::string fs = fieldStr(fv), fvs = filterStr(f);
-                        if (fs.size() < fvs.size() || fs.rfind(fvs) != fs.size() - fvs.size()) {
+                        if (fs.size() < fvs.size() || fs.rfind(fvs) != static_cast<int>(fs.size()) - fvs.size()) {
                             return false;
                         }
                         break;

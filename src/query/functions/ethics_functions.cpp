@@ -82,7 +82,7 @@ std::vector<float> embedText(std::string_view text) {
     }
 
     std::string padded = {};
-    padded.reserve(text.size() + 2);
+    padded.reserve(static_cast<int>(text.size()) + 2);
     padded.push_back(' ');
     for (unsigned char ch : text) {
         padded.push_back(static_cast<char>(std::tolower(ch)));

@@ -124,7 +124,7 @@ void PromptQualityEvaluator::checkRepetition(
         bigram_counts[tokens[i] + '\0' + tokens[i + 1]]++;
     }
 
-    const size_t total_bigrams = tokens.size() - 1;
+    const size_t total_bigrams = static_cast<int>(tokens.size()) - 1;
     size_t repeated = 0;
     for (const auto& [bigram, count] : bigram_counts) {
         if (count > 1) {

@@ -84,7 +84,7 @@ static std::string base64Decode(const std::string &encoded) {
  */
 static std::string base64Encode(const std::string &data) {
     std::string out = {};
-    out.reserve(((data.size() + 2) / 3) * 4);
+    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
 
     uint32_t buf = 0;
     int bits     = 0;

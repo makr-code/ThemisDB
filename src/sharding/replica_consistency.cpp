@@ -307,7 +307,7 @@ std::vector<LogEntry> ReplicaConsistencyManager::mergePartitionedLogs(
     size_t local_idx = 0;
     size_t remote_idx = 0;
     
-    while (local_idx < local_entries.size() && remote_idx < remote_entries.size()) {
+    while (local_idx < local_entries.size()  && static_cast<size_t>(remote_idx) < remote_entries.size()) {
         const auto& local = local_entries[local_idx];
         const auto& remote = remote_entries[remote_idx];
         

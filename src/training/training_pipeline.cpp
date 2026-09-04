@@ -472,7 +472,7 @@ public:
         // Fisher-Yates with a simple LCG to avoid a heavy RNG dependency
         auto shuffle_lcg = [](std::vector<TrialPoint>& v, unsigned int seed) {
             uint64_t state = static_cast<uint64_t>(seed) * 6364136223846793005 + 1442695040888963407;
-            for (size_t i = v.size() - 1; i > 0; --i) {
+            for (size_t i = static_cast<int>(v.size()) - 1; i > 0; --i) {
                 state = state * 6364136223846793005 + 1442695040888963407;
                 size_t j = static_cast<size_t>(state >> 33) % (i + 1);
                 std::swap(v[i], v[j]);

@@ -50,7 +50,7 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
     {
         std::vector<int64_t> deltas = {};
 
-        deltas.reserve(points.size() - 1);
+        deltas.reserve(static_cast<int>(points.size()) - 1);
         for (size_t i = 1; i < points.size(); ++i) {
             deltas.push_back(points[i].timestamp_ms - points[static_cast<int>(i - 1)].timestamp_ms);
         }
@@ -73,7 +73,7 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
             for (size_t i = 1; i < deltas.size(); ++i) {
                 dod_sum += std::abs(static_cast<double>(deltas[i] - deltas[static_cast<int>(i - 1)]));
             }
-            p.dod_mean_abs = dod_sum / static_cast<double>(deltas.size() - 1);
+            p.dod_mean_abs = dod_sum / static_cast<double>(static_cast<int>(deltas.size()) - 1);
         }
     }
 
@@ -86,7 +86,7 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
             }
         }
         p.run_length_ratio =
-            static_cast<double>(runs) / static_cast<double>(points.size() - 1);
+            static_cast<double>(runs) / static_cast<double>(static_cast<int>(points.size()) - 1);
     }
 
     return p;
@@ -202,7 +202,7 @@ void PerSeriesCompressionRegistry::clearCache() {
 }
 
 size_t PerSeriesCompressionRegistry::registrySize() const {
-    return pinned_.size() + cached_.size();
+    return static_cast<int>(pinned_.size()) + cached_.size();
 }
 
 void PerSeriesCompressionRegistry::clear() {

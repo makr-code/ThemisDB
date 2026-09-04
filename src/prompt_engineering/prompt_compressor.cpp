@@ -149,7 +149,7 @@ SimplePromptCompressor::SimplePromptCompressor() {
         }
 
         const bool truncated = (summary.size() >= kMaxSummaryChars ||
-                                 omitted_text.size() > summary.size() + 10);
+                                 omitted_text.size() > static_cast<int>(summary.size()) + 10);
         return "[summary: " + summary + (truncated ? "…" : "") + "]";
     };
 }
@@ -238,14 +238,14 @@ std::string SimplePromptCompressor::selectiveTrim(const std::string& prompt,
     const size_t sys_end   = preserve_system ? 1 : 0;
     const size_t tail_start =
         (static_cast<int>(paragraphs.size()) > preserve_turns)
-        ? paragraphs.size() - static_cast<size_t>(preserve_turns)
+        ? static_cast<int>(paragraphs.size()) - static_cast<size_t>(preserve_turns)
         : 0;
 
     // Build result by starting with system + tail; fill in middle paragraphs
     // from the end until we exceed budget.
     std::vector<size_t> kept_indices = {};
 
-    for (size_t i = 0; i < sys_end && i < paragraphs.size(); ++i)
+    for (size_t i = 0; i < sys_end  && static_cast<size_t>(i) < paragraphs.size(); ++i)
         kept_indices.push_back(i);
     for (size_t i = std::max(sys_end, tail_start);
          i < paragraphs.size(); ++i)
@@ -284,7 +284,7 @@ std::string SimplePromptCompressor::summarize(const std::string& prompt,
     const size_t sys_end    = preserve_system ? 1 : 0;
     const size_t tail_start =
         (static_cast<int>(paragraphs.size()) > preserve_turns)
-        ? paragraphs.size() - static_cast<size_t>(preserve_turns)
+        ? static_cast<int>(paragraphs.size()) - static_cast<size_t>(preserve_turns)
         : 0;
 
     // The "middle" is everything between sys_end and tail_start.
@@ -298,7 +298,7 @@ std::string SimplePromptCompressor::summarize(const std::string& prompt,
 
     // Build result: system + summary placeholder + tail
     std::string result = {};
-    for (size_t i = 0; i < sys_end && i < paragraphs.size(); ++i) {
+    for (size_t i = 0; i < sys_end  && static_cast<size_t>(i) < paragraphs.size(); ++i) {
         if (!result.empty()) {
           result += "\n\n";
         }

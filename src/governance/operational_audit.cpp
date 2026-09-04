@@ -376,7 +376,7 @@ void OperationalAuditLogger::logEvent(
     
     // Store event
     events_.push_back(event);
-    event_map_[event.event_id] = events_.size() - 1;
+    event_map_[event.event_id] = static_cast<int>(events_.size()) - 1;
     
     // Update actor index
     if (!actor_id.empty()) {
@@ -762,8 +762,8 @@ nlohmann::json OperationalAuditLogger::getEventStatistics() const {
         size_t p99_idx = (sorted_times.size() * 99) / 100;
         
         stats["logging_latency_p50_us"] = sorted_times[p50_idx];
-        stats["logging_latency_p95_us"] = sorted_times[std::min(p95_idx, sorted_times.size() - 1)];
-        stats["logging_latency_p99_us"] = sorted_times[std::min(p99_idx, sorted_times.size() - 1)];
+        stats["logging_latency_p95_us"] = sorted_times[std::min(p95_idx, static_cast<int>(sorted_times.size()) - 1)];
+        stats["logging_latency_p99_us"] = sorted_times[std::min(p99_idx, static_cast<int>(sorted_times.size()) - 1)];
     }
     
     return stats;
@@ -916,8 +916,8 @@ nlohmann::json EventCorrelationEngine::getCorrelationLatencyStats() const {
     stats["max_latency_ms"] = sorted_latencies.back();
     stats["avg_latency_ms"] = sum / sorted_latencies.size();
     stats["p50_latency_ms"] = sorted_latencies[p50_idx];
-    stats["p95_latency_ms"] = sorted_latencies[std::min(p95_idx, sorted_latencies.size() - 1)];
-    stats["p99_latency_ms"] = sorted_latencies[std::min(p99_idx, sorted_latencies.size() - 1)];
+    stats["p95_latency_ms"] = sorted_latencies[std::min(p95_idx, static_cast<int>(sorted_latencies.size()) - 1)];
+    stats["p99_latency_ms"] = sorted_latencies[std::min(p99_idx, static_cast<int>(sorted_latencies.size()) - 1)];
     stats["total_correlations"] = correlations_.size();
     
     return stats;
@@ -995,7 +995,7 @@ void ComplianceEvidenceCollector::recordEvidence(
     
     // Store evidence
     evidence_list_.push_back(evidence);
-    evidence_map_[evidence.evidence_id] = evidence_list_.size() - 1;
+    evidence_map_[evidence.evidence_id] = static_cast<int>(evidence_list_.size()) - 1;
     evidence_count_++;
     
     // Index by requirement

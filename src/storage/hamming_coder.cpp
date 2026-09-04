@@ -48,7 +48,7 @@ std::vector<std::vector<uint8_t>> HammingCoder::encode(
         throw std::invalid_argument("HammingCoder::encode: data must not be empty");
     }
 
-    const uint32_t shard_size = static_cast<uint32_t>((data.size() + data_shards - 1) / data_shards);
+    const uint32_t shard_size = static_cast<uint32_t>((static_cast<int>(data.size()) + data_shards - 1) / data_shards);
     const uint32_t total_shards = data_shards + parity_shards;
 
     std::vector<std::vector<uint8_t>> shards(total_shards, std::vector<uint8_t>(shard_size, 0));

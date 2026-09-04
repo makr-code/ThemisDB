@@ -178,8 +178,8 @@ double ProcessPatternMatcher::computeGraphSimilarity(const ProcessPattern &patte
     std::set<std::string> intersection_set;
     std::set_intersection(pat_set.begin(), pat_set.end(), trace_set.begin(), trace_set.end(),
                           std::inserter(intersection_set, intersection_set.begin()));
-    size_t sym_diff  = (pat_set.size() + trace_set.size()) - 2 * intersection_set.size();
-    double denom     = static_cast<double>(pat_set.size() + trace_set.size());
+    size_t sym_diff  = (static_cast<int>(pat_set.size()) + trace_set.size()) - 2 * intersection_set.size();
+    double denom     = static_cast<double>(static_cast<int>(pat_set.size()) + trace_set.size());
     double edit_norm = (denom > 0) ? 1.0 - static_cast<double>(sym_diff) / denom : 1.0;
 
     return 0.30 * node_jac + 0.30 * edge_jac + 0.25 * path_sim + 0.15 * edit_norm;
@@ -373,8 +373,8 @@ ProcessPatternMatcher::findSimilar(const ProcessPattern &pattern, const PatternM
         std::set<std::string> inter_set;
         std::set_intersection(pat_set.begin(), pat_set.end(), trace_set.begin(), trace_set.end(),
                               std::inserter(inter_set, inter_set.begin()));
-        size_t sym_diff       = (pat_set.size() + trace_set.size()) - 2 * inter_set.size();
-        double den            = static_cast<double>(pat_set.size() + trace_set.size());
+        size_t sym_diff       = (static_cast<int>(pat_set.size()) + trace_set.size()) - 2 * inter_set.size();
+        double den            = static_cast<double>(static_cast<int>(pat_set.size()) + trace_set.size());
         metrics.edit_distance = (den > 0) ? static_cast<double>(sym_diff) / den : 0.0;
 
         // Matched / missing / extra activities
@@ -419,7 +419,7 @@ ProcessPatternMatcher::findSimilar(const ProcessPattern &pattern, const PatternM
     });
 
     // Apply max_results
-    if (config.max_results > 0 && static_cast<int>(results.size()) > config.max_results) {
+    if (config.max_results > 0  && static_cast<size_t>(static_cast) < int>(results.size()) > config.max_results) {
         results.resize(static_cast<size_t>(config.max_results));
     }
 

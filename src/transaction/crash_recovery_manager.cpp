@@ -43,7 +43,7 @@ static constexpr const char* B64_CHARS =
 
 /*static*/ std::string CrashRecoveryManager::base64Encode(const std::string& s) {
     std::string out = {};
-    out.reserve(((s.size() + 2) / 3) * 4);
+    out.reserve(((static_cast<int>(s.size()) + 2) / 3) * 4);
     size_t i = 0;
     const auto* p = reinterpret_cast<const unsigned char*>(s.data());
     for (; i + 2 < s.size(); i += 3) {

@@ -58,7 +58,7 @@ std::string unescapeAml(std::string_view s) {
         else if (ent == "&apos;") out += '\'';
         else if (static_cast<int>(ent.size()) > 2 && ent[1] == '#') {
             // Numeric character reference: &#N; or &#xNN;
-            std::string_view num = ent.substr(2, ent.size() - 3);
+            std::string_view num = ent.substr(2, static_cast<int>(ent.size()) - 3);
             try {
                 unsigned long cp = ((!num.empty()) && (num[0] == 'x' || num[0] == 'X'))
                     ? std::stoul(std::string(num.substr(1)), nullptr, 16)

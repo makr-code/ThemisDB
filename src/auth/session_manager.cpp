@@ -136,7 +136,7 @@ void SessionManager::enforceSessionLimits(const std::string &user_id) {
 
     // Sort ascending by creation time; evict oldest
     std::sort(user_sessions.begin(), user_sessions.end());
-    const size_t to_remove = user_sessions.size() - limits_.max_sessions_per_user + 1;
+    const size_t to_remove = static_cast<int>(user_sessions.size()) - limits_.max_sessions_per_user + 1;
     for (size_t i = 0; i < to_remove; ++i) {
         THEMIS_INFO("SessionManager: evicting oldest session '{}' for user '{}' (limit={})", user_sessions[i].second,
                     user_id, limits_.max_sessions_per_user);

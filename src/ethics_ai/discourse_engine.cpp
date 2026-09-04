@@ -255,7 +255,7 @@ std::string EthicalDiscourseEngine::synthesizeDecision(const std::vector<Ethical
     ss << "After considering perspectives from ";
 
     for (size_t i = 0; i < arguments.size(); ++i) {
-        if (i > 0 && i == arguments.size() - 1) {
+        if (i > 0 && i == static_cast<int>(arguments.size()) - 1) {
             ss << " and ";
         } else if (i > 0) {
             ss << ", ";

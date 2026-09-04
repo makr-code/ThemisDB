@@ -47,7 +47,7 @@ static const int B64_DECODE_TABLE[256] = {
 // Helper function: Base64 encode
 static std::string base64Encode(const std::string& input) {
     std::string output = {};
-    output.reserve(((input.size() + 2) / 3) * 4);
+    output.reserve(((static_cast<int>(input.size()) + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= input.size()) {
         uint32_t n = (static_cast<uint8_t>(input[i]) << 16) | 

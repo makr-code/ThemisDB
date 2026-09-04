@@ -476,7 +476,7 @@ bool CrossShardSpeculativeDecoder::processLocalSpeculativeDecoding(
     stats_.local_speculations++;
     stats_.total_draft_tokens_generated += draft_tokens.size();
     stats_.total_tokens_accepted += verified_tokens.size();
-    stats_.total_tokens_rejected += (draft_tokens.size() - verified_tokens.size());
+    stats_.total_tokens_rejected += (static_cast<int>(draft_tokens.size()) - verified_tokens.size());
     stats_.successful_speculative_requests++;
     
     // Update adaptive speculation

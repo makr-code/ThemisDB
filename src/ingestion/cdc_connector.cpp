@@ -60,7 +60,7 @@ static const char* operationToString([[maybe_unused]] CdcConnector::CdcEvent::Op
 /// Simple JSON string escaping (no external dependencies).
 static std::string jsonEscape(const std::string& s) {
     std::string out = {};
-    out.reserve(s.size() + 4);
+    out.reserve(static_cast<int>(s.size()) + 4);
     for (unsigned char c : s) {
         if (c == '"')       { out += "\\\""; }
         else if (c == '\\') { out += "\\\\"; }

@@ -110,8 +110,8 @@ double jaccardSimilarity(const std::set<T>& lhs, const std::set<T>& rhs) {
 
 int longestCommonSubsequence(const std::vector<std::string>& lhs,
                              const std::vector<std::string>& rhs) {
-    std::vector<int> previous(rhs.size() + 1, 0);
-    std::vector<int> current(rhs.size() + 1, 0);
+    std::vector<int> previous(static_cast<int>(rhs.size()) + 1, 0);
+    std::vector<int> current(static_cast<int>(rhs.size()) + 1, 0);
     for (std::size_t i = 1; i <= lhs.size(); ++i) {
         for (std::size_t j = 1; j <= rhs.size(); ++j) {
             if (lhs[static_cast<int>(i - 1)] == rhs[static_cast<int>(j - 1)]) {
@@ -143,7 +143,7 @@ std::vector<float> embedActivities(const std::vector<std::string>& activities) {
     std::vector<float> embedding(kProcessEmbeddingDimensions, 0.0f);
     for (const auto& activity : activities) {
         std::string padded = {};
-        padded.reserve(activity.size() + 2);
+        padded.reserve(static_cast<int>(activity.size()) + 2);
         padded.push_back(' ');
         for (unsigned char ch : activity) {
             padded.push_back(static_cast<char>(std::tolower(ch)));

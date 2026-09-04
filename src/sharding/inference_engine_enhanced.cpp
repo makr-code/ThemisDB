@@ -483,7 +483,7 @@ double InferenceEngineEnhanced::verifyDraftTokens(
     
     // Update speculative decoding stats
     stats_.total_speculative_acceptances += accepted_count;
-    stats_.total_speculative_rejections += (draft_token_ids.size() - accepted_count);
+    stats_.total_speculative_rejections += (static_cast<int>(draft_token_ids.size()) - accepted_count);
     
     spdlog::debug("InferenceEngineEnhanced: Verified draft tokens for request {} (acceptance={:.2f}%)",
                  request_id, acceptance_rate * 100.0);

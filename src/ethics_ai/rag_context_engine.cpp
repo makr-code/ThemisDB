@@ -297,7 +297,7 @@ double RAGContextEngine::calculateTextSimilarity(const std::string &text1, const
             ++intersection_count;
         }
     }
-    size_t union_count = set1.size() + set2.size() - intersection_count;
+    size_t union_count = static_cast<int>(set1.size()) + static_cast<int>(set2.size()) - intersection_count;
     return union_count > 0 ? static_cast<double>(intersection_count) / union_count : 0.0;
 }
 

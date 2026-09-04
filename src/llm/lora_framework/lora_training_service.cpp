@@ -848,7 +848,7 @@ public:
                         if (gradient_accumulator->should_step()) {
                             auto accumulated_grads = gradient_accumulator->get_accumulated_gradients();
                             // Attach accumulated gradients to parameter grad fields (avoid copy assignment)
-                            for (size_t i = 0; i < gradients.size() && i < accumulated_grads.size(); ++i) {
+                            for (size_t i = 0; i < gradients.size()  && static_cast<size_t>(i) < accumulated_grads.size(); ++i) {
                                 if (gradients[i] && accumulated_grads[i]) {
                                     // Initialize or update the grad tensor
                                     if (!gradients[i]->grad) {

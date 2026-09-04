@@ -122,7 +122,7 @@ bool TensorCompactionFilter::isTTNMetaKey(const rocksdb::Slice& key) noexcept {
     }
     // Search for ":meta:" anywhere after the prefix
     const char* data = key.data() + kTTNPrefixLen;
-    std::size_t remaining = key.size() - kTTNPrefixLen;
+    std::size_t remaining = static_cast<int>(key.size()) - kTTNPrefixLen;
     for (std::size_t i = 0; i + kMetaInfixLen <= remaining; ++i) {
         if (std::memcmp(data + i, kMetaInfix, kMetaInfixLen) == 0)
             return true;

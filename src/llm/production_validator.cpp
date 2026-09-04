@@ -981,12 +981,12 @@ double ProductionValidator::calculatePercentile(
     std::vector<double> mutable_copy = data;
     
     size_t index = static_cast<size_t>(
-        (percentile / 100.0) * (mutable_copy.size() - 1)
+        (percentile / 100.0) * (static_cast<int>(mutable_copy.size()) - 1)
     );
     
     // Ensure index is valid
     if (index >= static_cast<int>(mutable_copy.size())) {
-        index = mutable_copy.size() - 1;
+        index = static_cast<int>(mutable_copy.size()) - 1;
     }
     
     // Partially sort to find the element at the percentile position

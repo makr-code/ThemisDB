@@ -541,7 +541,7 @@ public:
         size_t index = it->second;
         
         // Swap with last element and pop (to avoid shifting)
-        size_t lastIndex = vectorData.size() - 1;
+        size_t lastIndex = static_cast<int>(vectorData.size()) - 1;
         if (index != lastIndex) {
             vectorIds[index] = vectorIds[lastIndex];
             vectorData[index] = vectorData[lastIndex];

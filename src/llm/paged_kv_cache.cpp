@@ -311,7 +311,7 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
             
             std::vector<uint8_t> result = {};
 
-            result.reserve(kv_data.size() + 8);  // +8 for metadata (min_val, scale)
+            result.reserve(static_cast<int>(kv_data.size()) + 8);  // +8 for metadata (min_val, scale)
             
             // Store metadata: min_val (4 bytes) + scale (4 bytes)
             uint32_t min_bits = std::bit_cast<uint32_t>(min_val);
@@ -388,7 +388,7 @@ std::vector<float> PagedKVCache::dequantizeKVData(
             
             std::vector<float> result = {};
 
-            result.reserve(quantized_data.size() - 8);
+            result.reserve(static_cast<int>(quantized_data.size()) - 8);
             
             // Dequantize values
             for (size_t i = 8; i < quantized_data.size(); ++i) {

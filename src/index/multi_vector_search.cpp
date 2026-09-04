@@ -58,7 +58,7 @@ std::vector<float> normalizeScores(const std::vector<float>& scores) {
 float linearCombination(const std::vector<float>& scores,
                        const std::vector<float>& weights) {
     float sum = 0.0f;
-    for (size_t i = 0; i < scores.size() && i < weights.size(); ++i) {
+    for (size_t i = 0; i < scores.size()  && static_cast<size_t>(i) < weights.size(); ++i) {
         sum += scores[i] * weights[i];
     }
     return sum;

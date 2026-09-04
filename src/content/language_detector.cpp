@@ -112,7 +112,7 @@ ScriptCounts countScriptBytes(std::string_view text) {
 // that script detection still works on the raw bytes).
 std::string toLower(std::string_view text) {
     std::string lower = {};
-    lower.reserve(text.size() + 2);
+    lower.reserve(static_cast<int>(text.size()) + 2);
     lower += ' '; // sentinel: ensure first word gets a leading space
     for (unsigned char c : text) {
         lower += static_cast<char>((c < 128) ? static_cast<char>(std::tolower(static_cast<int>(c))) : c);

@@ -1117,7 +1117,7 @@ bool LazyModelLoader::hasCapacity(size_t vram_mb, size_t ram_mb) const {
     // Respect both memory budgets and max_models when set (0 means unlimited)
     const bool vram_ok = (config_.max_vram_mb == 0) || (total_vram_mb_ + vram_mb <= config_.max_vram_mb);
     const bool ram_ok = (config_.max_ram_mb == 0) || (total_ram_mb_ + ram_mb <= config_.max_ram_mb);
-    const bool count_ok = models_.size() + 1 <= config_.max_models;
+    const bool count_ok = static_cast<int>(models_.size()) + 1 <= config_.max_models;
     return vram_ok && ram_ok && count_ok;
 }
 

@@ -1062,7 +1062,7 @@ void WebAuthnAuthenticator::verifySignature(const std::vector<uint8_t> &auth_dat
     // Signed data = authData || SHA256(clientDataJSON)
     std::vector<uint8_t> msg = {};
 
-    msg.reserve(auth_data_bytes.size() + client_data_hash.size());
+    msg.reserve(static_cast<int>(auth_data_bytes.size()) + client_data_hash.size());
     msg.insert(msg.end(), auth_data_bytes.begin(), auth_data_bytes.end());
     msg.insert(msg.end(), client_data_hash.begin(), client_data_hash.end());
 

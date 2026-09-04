@@ -151,7 +151,7 @@ std::vector<std::string> ShardingManager::GetShardsForKeyRange(
 
     // Find indices of start and end in the all_shards list.
     int start_idx = -1, end_idx = -1;
-    for (int i = 0; i < static_cast<int>(all_shards.size()); ++i) {
+    for (size_t i = 0; i < static_cast<int>(all_shards.size()); ++i) {
         if (all_shards[i] == start_shard) {
           start_idx = i;
         }

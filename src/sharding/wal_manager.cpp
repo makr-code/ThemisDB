@@ -162,7 +162,7 @@ WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
 
 /** @brief Return serialized byte size of this WAL entry. */
 size_t WALEntry::size() const {
-    return 1 + 8 + 8 + 8 + 4 + transaction_id.size() + 4 + data.dump().size();
+    return 1 + 8 + 8 + 8 + 4 + static_cast<int>(transaction_id.size()) + 4 + data.dump().size();
 }
 
 // ============================================================================
@@ -520,7 +520,7 @@ void WALManager::cleanupOldSegments() {
     std::sort(segments.begin(), segments.end());
     
     // Remove oldest segments
-    size_t to_remove = segments.size() - config_.max_segments;
+    size_t to_remove = static_cast<int>(segments.size()) - config_.max_segments;
     for (size_t i = 0; i < to_remove; ++i) {
         fs::remove(segments[i].second);
     }

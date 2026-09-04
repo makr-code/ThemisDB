@@ -60,7 +60,7 @@ std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, boo
 
     if (!is_last && lookahead_buf_.size() > cfg_.lookahead_bytes) {
         holdback    = cfg_.lookahead_bytes;
-        process_len = lookahead_buf_.size() - holdback;
+        process_len = static_cast<int>(lookahead_buf_.size()) - holdback;
     }
 
     // Run detection on the portion we are ready to finalize.
@@ -219,7 +219,7 @@ std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool i
     }
     // Copy remaining text after last finding.
     if (static_cast<int>(finalized_chunk.size()) > cursor) {
-        result.append(finalized_chunk.data() + cursor, finalized_chunk.size() - cursor);
+        result.append(finalized_chunk.data() + cursor, static_cast<int>(finalized_chunk.size()) - cursor);
     }
 
     return result;

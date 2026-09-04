@@ -101,7 +101,7 @@ double GraphFingerprintDetector::jaccard(const std::vector<std::string> &a, cons
             ++intersection;
         }
     }
-    const size_t union_size = set_a.size() + b.size() - intersection;
+    const size_t union_size = static_cast<int>(set_a.size()) + static_cast<int>(b.size()) - intersection;
     return union_size == 0 ? 0.0 : static_cast<double>(intersection) / static_cast<double>(union_size);
 }
 

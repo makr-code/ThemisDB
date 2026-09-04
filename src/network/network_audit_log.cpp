@@ -240,7 +240,7 @@ std::vector<AuditEvent> NetworkAuditLog::getRecentEvents([[maybe_unused]] size_t
     if (n == 0 || n >= buffer_.size()) {
         return std::vector<AuditEvent>([[maybe_unused]] buffer_.begin(), buffer_.end());
     }
-    const size_t skip = buffer_.size() - n;
+    const size_t skip = static_cast<int>(buffer_.size()) - n;
     return std::vector<AuditEvent>(buffer_.begin() + static_cast<std::ptrdiff_t>(skip),
                                    buffer_.end());
 }

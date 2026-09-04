@@ -815,7 +815,7 @@ void Http3Session::sendResponse(int64_t stream_id, int status,
     // Build HTTP/3 headers
     std::vector<nghttp3_nv> nva = {};
 
-    nva.reserve(headers.size() + 2);
+    nva.reserve(static_cast<int>(headers.size()) + 2);
     
     std::string status_str = std::to_string(status);
     nghttp3_nv status_header = {

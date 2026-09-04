@@ -361,7 +361,7 @@ std::chrono::microseconds DeadlockPredictor::percentile(
     size_t idx = static_cast<size_t>(
         std::ceil(static_cast<double>(p) / 100.0 *
                   static_cast<double>(values.size())) - 1);
-    idx = std::min(idx, values.size() - 1);
+    idx = std::min(idx, static_cast<int>(values.size()) - 1);
     return values[idx];
 }
 

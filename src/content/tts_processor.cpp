@@ -403,11 +403,11 @@ std::vector<uint8_t> TTSProcessor::convertToFormat(const std::vector<uint8_t> &p
         // Add WAV header
         std::vector<uint8_t> wav_data = {};
 
-        wav_data.reserve(pcm_data.size() + 44);
+        wav_data.reserve(static_cast<int>(pcm_data.size()) + 44);
 
         // RIFF header
         wav_data.insert(wav_data.end(), {'R', 'I', 'F', 'F'});
-        uint32_t file_size = static_cast<uint32_t>(pcm_data.size() + 36);
+        uint32_t file_size = static_cast<uint32_t>(static_cast<int>(pcm_data.size()) + 36);
         wav_data.push_back(file_size & 0xFF);
         wav_data.push_back((file_size >> 8) & 0xFF);
         wav_data.push_back((file_size >> 16) & 0xFF);

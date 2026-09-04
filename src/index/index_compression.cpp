@@ -195,7 +195,7 @@ size_t PrefixBlock::savedBytes() const {
       return 0;
     }
     // Each suffix avoids storing the prefix separately
-    return prefix.size() * (suffixes.size() - 1);
+    return prefix.size() * (static_cast<int>(suffixes.size()) - 1);
 }
 
 // ============================================================================
@@ -286,7 +286,7 @@ DeltaBlock DeltaEncoder::encode(const std::vector<int64_t>& sorted_values) {
     }
 
     block.base = sorted_values[0];
-    block.deltas.reserve(sorted_values.size() - 1);
+    block.deltas.reserve(static_cast<int>(sorted_values.size()) - 1);
     for (size_t i = 1; i < sorted_values.size(); ++i) {
         block.deltas.push_back(sorted_values[i] - sorted_values[static_cast<int>(i - 1)]);
     }
@@ -361,7 +361,7 @@ double RunLengthEncoder::compressionRatio(const std::vector<std::string>& values
     }
 
     size_t decoded_size = 0;
-    for (const auto& v : values) decoded_size += v.size() + 1; // +1 separator
+    for (const auto& v : values) decoded_size += static_cast<int>(v.size()) + 1; // +1 separator
 
     auto block = encode(values);
     size_t encoded_size = 0;
@@ -501,7 +501,7 @@ RunLengthBlock IndexCompressionCodec::compressValues(
     // Track RLE savings
     if (static_cast<int>(values.size()) > block.runs.size()) {
         stats_.rle_runs_saved +=
-            static_cast<uint64_t>(values.size() - block.runs.size());
+            static_cast<uint64_t>(static_cast<int>(values.size()) - block.runs.size());
     }
     return block;
 }

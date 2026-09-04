@@ -357,7 +357,7 @@ std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& 
     }
     
     // Fail-closed if compressed_size doesn't match payload size
-    size_t payload_size = data.size() - pos;
+    size_t payload_size = static_cast<int>(data.size()) - pos;
     if (chunk.compressed_size != payload_size) {
         return std::nullopt;
     }

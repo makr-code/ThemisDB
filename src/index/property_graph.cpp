@@ -161,7 +161,7 @@ PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view p
             // Extract edgeId from key: graph:out:<graph_id>:<pk>:<edgeId>
             std::string keyStr(key);
             size_t lastColon = keyStr.rfind(':');
-            if (lastColon != std::string::npos && lastColon > outPrefix.size() - 1) {
+            if (lastColon != std::string::npos && lastColon > static_cast<int>(outPrefix.size()) - 1) {
                 std::string edgeId = keyStr.substr(lastColon + 1);
                 if (!edgeId.empty()) {
                     edgesToDelete.insert(edgeId);
@@ -181,7 +181,7 @@ PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view p
             // Extract edgeId from key: graph:in:<graph_id>:<pk>:<edgeId>
             std::string keyStr(key);
             size_t lastColon = keyStr.rfind(':');
-            if (lastColon != std::string::npos && lastColon > inPrefix.size() - 1) {
+            if (lastColon != std::string::npos && lastColon > static_cast<int>(inPrefix.size()) - 1) {
                 std::string edgeId = keyStr.substr(lastColon + 1);
                 if (!edgeId.empty()) {
                     edgesToDelete.insert(edgeId);
@@ -353,7 +353,7 @@ std::pair<PropertyGraphManager::Status, std::vector<std::string>> PropertyGraphM
         // Extract PK from key: label:<graph_id>:<label>:<pk>
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
-        if (lastColon != std::string::npos && lastColon >= prefix.size() - 1) {
+        if (lastColon != std::string::npos && lastColon >= static_cast<int>(prefix.size()) - 1) {
             std::string pk = keyStr.substr(lastColon + 1);
             if (!pk.empty()) {
                 nodes.push_back(pk);
@@ -497,7 +497,7 @@ PropertyGraphManager::getEdgesByType(std::string_view type, std::string_view gra
         // Extract edgeId from key: type:<graph_id>:<type>:<edgeId>
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
-        if (lastColon != std::string::npos && lastColon >= prefix.size() - 1) {
+        if (lastColon != std::string::npos && lastColon >= static_cast<int>(prefix.size()) - 1) {
             std::string edgeId = keyStr.substr(lastColon + 1);
             if (edgeId.empty()) {
               return true;

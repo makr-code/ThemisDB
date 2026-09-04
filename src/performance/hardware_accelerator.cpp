@@ -215,7 +215,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
     std::sort(right.begin(), right.end(), keyFn(op.right_key_col));
 
     size_t li = 0, ri = 0;
-    while (li < left.size() && ri < right.size()) {
+    while (li < left.size()  && static_cast<size_t>(ri) < right.size()) {
         const uint64_t lk = (op.left_key_col  < left[li].size())  ? left[li][op.left_key_col]   : UINT64_MAX;
         const uint64_t rk = (op.right_key_col < right[ri].size()) ? right[ri][op.right_key_col] : UINT64_MAX;
 
@@ -378,15 +378,15 @@ ExecutionResult cpuPatternMatch(const QueryOperator& op) {
         bool match = false;
         if (static_cast<int>(pat.size()) > = 2 && pat.front() == '%' && pat.back() == '%') {
             // contains
-            match = s.find(pat.substr(1, pat.size() - 2)) != std::string::npos;
+            match = s.find(pat.substr(1, static_cast<int>(pat.size()) - 2)) != std::string::npos;
         } else if (!pat.empty() && pat.back() == '%') {
             // prefix
-            match = s.rfind(pat.substr(0, pat.size() - 1), 0) == 0;
+            match = s.rfind(pat.substr(0, static_cast<int>(pat.size()) - 1), 0) == 0;
         } else if (!pat.empty() && pat.front() == '%') {
             // suffix
             const std::string suffix = pat.substr(1);
             match = s.size() >= suffix.size() &&
-                    s.compare(s.size() - suffix.size(), suffix.size(), suffix) == 0;
+                    s.compare(static_cast<int>(s.size()) - suffix.size(), suffix.size(), suffix) == 0;
         } else {
             match = s == pat;
         }

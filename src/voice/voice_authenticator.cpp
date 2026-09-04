@@ -214,7 +214,7 @@ IdentificationResult VoiceBiometricAuthenticator::identify_speaker(
               [](const SpeakerMatch& a, const SpeakerMatch& b) {
                   return a.match_score > b.match_score;
               });
-    for (int i = 0; i < static_cast<int>(result.matches.size()); ++i) {
+    for (size_t i = 0; i < static_cast<int>(result.matches.size()); ++i) {
         result.matches[static_cast<size_t>(i)].rank = i + 1;
     }
 
@@ -271,7 +271,7 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
         }
     }
     mean_abs /= static_cast<float>(samples.size());
-    mean_abs_delta /= static_cast<float>(std::max<size_t>(1, samples.size() - 1));
+    mean_abs_delta /= static_cast<float>(std::max<size_t>(1, static_cast<int>(samples.size()) - 1));
 
     const float clipping_ratio =
         static_cast<float>(clipping_count) / static_cast<float>(samples.size());

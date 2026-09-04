@@ -1757,7 +1757,7 @@ std::vector<std::vector<float>> LlamaWrapper::computeTargetLogitsForTokens(
     };
 
     std::vector<std::vector<float>> target_logits;
-    target_logits.reserve(draft_token_ids.size() + 1);
+    target_logits.reserve(static_cast<int>(draft_token_ids.size()) + 1);
     target_logits.push_back(copy_last_logits());
 
     for (const int token_id : draft_token_ids) {
@@ -2284,7 +2284,7 @@ std::vector<llama_token> LlamaWrapper::tokenizeInternal(
     }
     
     // Allocate buffer for tokens (estimate: text length + special tokens)
-    const std::size_t estimated_tokens = text.size() + (add_bos ? 1u : 0u) + 8u;
+    const std::size_t estimated_tokens = static_cast<int>(text.size()) + (add_bos ? 1u : 0u) + 8u;
     if (estimated_tokens > static_cast<std::size_t>(std::numeric_limits<int32_t>::max())) {
         throw std::runtime_error("Input too large for llama_tokenize");
     }

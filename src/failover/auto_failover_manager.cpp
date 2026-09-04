@@ -954,7 +954,7 @@ void AutoFailoverManager::updateAdaptiveInterval(std::chrono::milliseconds last_
     std::sort(sorted.begin(), sorted.end());
     const size_t p95_idx = std::min(
         static_cast<size_t>(sorted.size() * 95 / 100),
-        sorted.size() - 1u);
+        static_cast<int>(sorted.size()) - 1u);
     const auto p95 = sorted[p95_idx];
     auto new_interval = std::chrono::milliseconds(p95.count() * 2);
     new_interval = std::max(new_interval, config_.adaptive_check_interval_min);

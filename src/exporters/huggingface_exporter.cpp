@@ -197,7 +197,7 @@ std::string HuggingFaceExporter::generateDatasetInfoJson(const ExportStats &stat
 /// syntactically valid regardless of the input.
 static std::string yamlQuote(const std::string &s) {
     std::string out = {};
-    out.reserve(s.size() + 2);
+    out.reserve(static_cast<int>(s.size()) + 2);
     out += '"';
     for (unsigned char c : s) {
         if (c == '"') {

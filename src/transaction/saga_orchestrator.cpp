@@ -27,7 +27,7 @@ namespace {
 
 std::string jsonEscape(const std::string& input) {
     std::string out = {};
-    out.reserve(input.size() + 8);
+    out.reserve(static_cast<int>(input.size()) + 8);
     for (char c : input) {
         switch (c) {
             case '\\': out += "\\\\"; break;

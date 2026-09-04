@@ -44,7 +44,7 @@ std::string ERDiagramExporter::escapeDOT(const std::string& s) {
     // Inside a DOT record label the following characters must be escaped:
     //   <  >  |  {  }  \  "
     std::string out = {};
-    out.reserve(s.size() + 4);
+    out.reserve(static_cast<int>(s.size()) + 4);
     for (unsigned char c : s) {
         switch (c) {
             case '<':  out += "\\<"; break;

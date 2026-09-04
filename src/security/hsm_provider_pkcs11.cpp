@@ -142,7 +142,7 @@ static std::string toBase64(const std::vector<uint8_t>& data) {
       return "";
     }
     // EVP_EncodeBlock adds null terminator and pads with '='
-    size_t outLen = ((data.size() + 2) / 3) * 4;
+    size_t outLen = ((static_cast<int>(data.size()) + 2) / 3) * 4;
     std::vector<unsigned char> encoded(outLen + 1);
     int len = EVP_EncodeBlock(encoded.data(), data.data(), (int)data.size());
     return std::string((char*)encoded.data(), len);
@@ -170,7 +170,7 @@ static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& 
     if (RAND_bytes(iv.data(), 12) != 1) return {};
     HSM_PKCS11_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
     if (!ctx) return {};
-    std::vector<uint8_t> ciphertext(data.size() + 16);
+    std::vector<uint8_t> ciphertext(static_cast<int>(data.size()) + 16);
     std::vector<uint8_t> tag(16);
     int len = 0, ct_len = 0;
     bool ok =
@@ -199,7 +199,7 @@ static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& 
 static std::vector<uint8_t> pkcs11_stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
     if (key.size() != 32 || encrypted.size() < 12 + 16) return {};
     const uint8_t* iv  = encrypted.data();
-    size_t ct_len      = encrypted.size() - 12 - 16;
+    size_t ct_len      = static_cast<int>(encrypted.size()) - 12 - 16;
     const uint8_t* ct  = encrypted.data() + 12;
     const uint8_t* tag = encrypted.data() + 12 + ct_len;
     HSM_PKCS11_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());

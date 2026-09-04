@@ -197,7 +197,7 @@ std::vector<float> LearnedQuantizer::initializeThresholds(
         for (int t = 0; t < num_bins_ - 1; t++) {
             float percentile = static_cast<float>(t + 1) / num_bins_;
             size_t idx = static_cast<size_t>(percentile * sorted_values.size());
-            idx = std::min(idx, sorted_values.size() - 1);
+            idx = std::min(idx, static_cast<int>(sorted_values.size()) - 1);
             thresholds[t] = sorted_values[idx];
         }
     } else {

@@ -44,7 +44,7 @@ namespace {
 // Escape a string value for embedding in JSON.
 static std::string jsonEscape(const std::string& s) {
     std::string out = {};
-    out.reserve(s.size() + 4);
+    out.reserve(static_cast<int>(s.size()) + 4);
     for (unsigned char c : s) {
         switch (c) {
             case '"':  out += "\\\""; break;
@@ -406,7 +406,7 @@ EnvoyXdsClient::parseListeners(const std::string& resources_json)
       return result;
     }
 
-    const std::string body = resources_json.substr(1, resources_json.size() - 2);
+    const std::string body = resources_json.substr(1, static_cast<int>(resources_json.size()) - 2);
     for (const auto& item : splitJsonArray(body)) {
         ListenerInfo info;
         info.name     = extractString(item, "name");
@@ -446,7 +446,7 @@ EnvoyXdsClient::parseClusters(const std::string& resources_json)
       return result;
     }
 
-    const std::string body = resources_json.substr(1, resources_json.size() - 2);
+    const std::string body = resources_json.substr(1, static_cast<int>(resources_json.size()) - 2);
     for (const auto& item : splitJsonArray(body)) {
         ClusterInfo info;
         info.name      = extractString(item, "name");
@@ -461,13 +461,13 @@ EnvoyXdsClient::parseClusters(const std::string& resources_json)
         if (!la.empty()) {
             const std::string eps_arr = extractRawValue(la, "endpoints");
             if (!eps_arr.empty() && eps_arr.front() == '[') {
-                const std::string eps_body = eps_arr.substr(1, eps_arr.size() - 2);
+                const std::string eps_body = eps_arr.substr(1, static_cast<int>(eps_arr.size()) - 2);
                 for (const auto& locality_ep : splitJsonArray(eps_body)) {
                     const std::string lb_eps = extractRawValue(locality_ep, "lb_endpoints");
                     if (lb_eps.empty() || lb_eps.front() != '[') {
                       continue;
                     }
-                    const std::string lb_body = lb_eps.substr(1, lb_eps.size() - 2);
+                    const std::string lb_body = lb_eps.substr(1, static_cast<int>(lb_eps.size()) - 2);
                     for (const auto& lbep : splitJsonArray(lb_body)) {
                         ClusterEndpoint ep;
                         const std::string ep_addr = extractRawValue(lbep, "endpoint");
@@ -518,20 +518,20 @@ EnvoyXdsClient::parseEndpoints(const std::string& resources_json)
       return result;
     }
 
-    const std::string body = resources_json.substr(1, resources_json.size() - 2);
+    const std::string body = resources_json.substr(1, static_cast<int>(resources_json.size()) - 2);
     for (const auto& item : splitJsonArray(body)) {
         ClusterInfo info;
         info.name = extractString(item, "cluster_name");
 
         const std::string eps_arr = extractRawValue(item, "endpoints");
         if (!eps_arr.empty() && eps_arr.front() == '[') {
-            const std::string eps_body = eps_arr.substr(1, eps_arr.size() - 2);
+            const std::string eps_body = eps_arr.substr(1, static_cast<int>(eps_arr.size()) - 2);
             for (const auto& locality_ep : splitJsonArray(eps_body)) {
                 const std::string lb_eps = extractRawValue(locality_ep, "lb_endpoints");
                 if (lb_eps.empty() || lb_eps.front() != '[') {
                   continue;
                 }
-                const std::string lb_body = lb_eps.substr(1, lb_eps.size() - 2);
+                const std::string lb_body = lb_eps.substr(1, static_cast<int>(lb_eps.size()) - 2);
                 for (const auto& lbep : splitJsonArray(lb_body)) {
                     ClusterEndpoint ep;
                     const std::string ep_addr = extractRawValue(lbep, "endpoint");
@@ -581,7 +581,7 @@ EnvoyXdsClient::parseRoutes(const std::string& resources_json)
       return result;
     }
 
-    const std::string body = resources_json.substr(1, resources_json.size() - 2);
+    const std::string body = resources_json.substr(1, static_cast<int>(resources_json.size()) - 2);
     for (const auto& rc : splitJsonArray(body)) {
         // Each resource is a RouteConfiguration with a virtual_hosts array.
         const std::string vhosts_raw = extractRawValue(r[[maybe_unused]] c, "virtual_host[[maybe_unused]] s");
@@ -589,7 +589,7 @@ EnvoyXdsClient::parseRoutes(const std::string& resources_json)
           continue;
         }
 
-        const std::string vhosts_body = vhosts_raw.substr(1, vhosts_raw.size() - 2);
+        const std::string vhosts_body = vhosts_raw.substr(1, static_cast<int>(vhosts_raw.size()) - 2);
         for (const auto& vh : splitJsonArray(vhosts_body)) {
             VirtualHostInfo info;
             info.name = extractString(vh, "name");
@@ -597,7 +597,7 @@ EnvoyXdsClient::parseRoutes(const std::string& resources_json)
             // Parse domains array
             const std::string domains_raw = extractRawValue(vh, "domains");
             if (!domains_raw.empty() && domains_raw.front() == '[') {
-                const std::string dom_body = domains_raw.substr(1, domains_raw.size() - 2);
+                const std::string dom_body = domains_raw.substr(1, static_cast<int>(domains_raw.size()) - 2);
                 // Simple string-array split: find quoted strings
                 std::size_t pos = 0;
                 while (static_cast<size_t>(pos) < dom_body.size()) {
@@ -624,7 +624,7 @@ EnvoyXdsClient::parseRoutes(const std::string& resources_json)
             // Parse routes array
             const std::string routes_raw = extractRawValue(vh, "routes");
             if (!routes_raw.empty() && routes_raw.front() == '[') {
-                const std::string routes_body = routes_raw.substr(1, routes_raw.size() - 2);
+                const std::string routes_body = routes_raw.substr(1, static_cast<int>(routes_raw.size()) - 2);
                 for (const auto& rt : splitJsonArray(routes_body)) {
                     RouteInfo route;
 

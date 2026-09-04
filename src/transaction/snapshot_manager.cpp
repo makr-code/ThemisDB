@@ -364,7 +364,7 @@ size_t SnapshotManager::pruneOldSnapshots() {
     size_t pruned = 0;
 
     // Determine the index of the newest snapshot to protect
-    size_t newest_idx = snapshots.size() - 1;
+    size_t newest_idx = static_cast<int>(snapshots.size()) - 1;
 
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
@@ -378,7 +378,7 @@ size_t SnapshotManager::pruneOldSnapshots() {
                        (now_ms > snapshots[i].timestamp_ms) &&
                        ((now_ms - snapshots[i].timestamp_ms) > pol.max_age_ms);
         bool too_many = (pol.max_snapshots > 0) &&
-                        ((snapshots.size() - pruned) > pol.max_snapshots);
+                        ((static_cast<int>(snapshots.size()) - pruned) > pol.max_snapshots);
 
         if (too_old || too_many) {
             auto key = makeKey(snapshots[i].tag_name);

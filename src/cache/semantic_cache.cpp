@@ -138,7 +138,7 @@ bool SemanticCache::put(const std::string &prompt, const nlohmann::json &params,
     if (s.ok()) {
         // Update in-memory size counters so getStats() avoids a full RocksDB scan.
         entry_count_.fetch_add(1, std::memory_order_relaxed);
-        total_bytes_.fetch_add(key.size() + value.size(), std::memory_order_relaxed);
+        total_bytes_.fetch_add(static_cast<int>(key.size()) + value.size(), std::memory_order_relaxed);
     }
 
     return s.ok();

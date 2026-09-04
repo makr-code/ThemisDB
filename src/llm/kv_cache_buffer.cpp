@@ -272,7 +272,7 @@ KVCacheBufferPool::PoolStats KVCacheBufferPool::getPoolStats() const {
     return PoolStats{
         .total_buffers = buffers_.size(),
         .available_buffers = available,
-        .acquired_buffers = buffers_.size() - available
+        .acquired_buffers = static_cast<int>(buffers_.size()) - available
     };
 }
 

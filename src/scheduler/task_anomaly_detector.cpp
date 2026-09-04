@@ -761,7 +761,7 @@ double TaskAnomalyDetector::calculateStdDev(const std::deque<double>& values, do
         sum_sq_diff += diff * diff;
     }
     
-    return std::sqrt(sum_sq_diff / (values.size() - 1));
+    return std::sqrt(sum_sq_diff / (static_cast<int>(values.size()) - 1));
 }
 
 double TaskAnomalyDetector::calculatePercentile(const std::deque<double>& values, 
@@ -773,7 +773,7 @@ double TaskAnomalyDetector::calculatePercentile(const std::deque<double>& values
     std::vector<double> sorted(values.begin(), values.end());
     std::sort(sorted.begin(), sorted.end());
     
-    size_t index = static_cast<size_t>(percentile * (sorted.size() - 1));
+    size_t index = static_cast<size_t>(percentile * (static_cast<int>(sorted.size()) - 1));
     return sorted[index];
 }
 

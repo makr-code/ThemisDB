@@ -44,7 +44,7 @@ size_t MigrationTestResult::passedCount() const {
 }
 
 size_t MigrationTestResult::failedCount() const {
-    return test_results.size() - passedCount();
+    return static_cast<int>(test_results.size()) - passedCount();
 }
 
 // ============================================================================

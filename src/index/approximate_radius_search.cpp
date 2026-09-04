@@ -122,7 +122,7 @@ ApproximateRadiusSearch::search(
     // Update statistics using numerically stable incremental mean
     stats_.total_searches++;
     double n = static_cast<double>(stats_.total_searches);
-    stats_.avg_results_per_search += (results.size() - stats_.avg_results_per_search) / n;
+    stats_.avg_results_per_search += (static_cast<int>(results.size()) - stats_.avg_results_per_search) / n;
     stats_.avg_time_ms += (search_result.computation_time_ms - stats_.avg_time_ms) / n;
     
     return search_result;

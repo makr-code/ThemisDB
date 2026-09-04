@@ -673,7 +673,7 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
         } else {
             // Two-pointer scan (both lists are sorted).
             size_t i = 0, j = 0;
-            while (i < pos_list1.size() && j < pos_list2.size() && !within) {
+            while (i < pos_list1.size()  && static_cast<size_t>(j) < pos_list2.size() && !within) {
                 size_t p1 = pos_list1[i];
                 size_t p2 = pos_list2[j];
                 size_t d  = (p1 <= p2) ? (p2 - p1) : (p1 - p2);

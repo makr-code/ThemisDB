@@ -654,7 +654,7 @@ std::vector<uint8_t> SimpleDictionaryCodec::compress(const uint8_t* data, size_t
     // Format: [dict_size:1][dictionary...][indices...]
     std::vector<uint8_t> result = {};
 
-    result.reserve(1 + dictionary.size() + indices.size());
+    result.reserve(1 + static_cast<int>(dictionary.size()) + indices.size());
     
     result.push_back(static_cast<uint8_t>(dictionary.size()));
     result.insert(result.end(), dictionary.begin(), dictionary.end());
@@ -680,7 +680,7 @@ std::vector<uint8_t> SimpleDictionaryCodec::decompress(const std::vector<uint8_t
     // Decode indices
     std::vector<uint8_t> result = {};
 
-    result.reserve(data.size() - 1 - dict_size);
+    result.reserve(static_cast<int>(data.size()) - 1 - dict_size);
     for (size_t i = 1 + dict_size; i < data.size(); ++i) {
         uint8_t idx = data[i];
         if (idx >= dict_size) {

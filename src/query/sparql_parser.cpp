@@ -54,7 +54,7 @@ std::string sparqlLiteralToAQL(const SPARQLLiteralValue& val) {
         } else {
             // std::string – emit as a quoted AQL string literal
             std::string out = {};
-            out.reserve(v.size() + 2);
+            out.reserve(static_cast<int>(v.size()) + 2);
             out += '"';
             for (char c : v) {
                 if (c == '"') {

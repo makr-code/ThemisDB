@@ -319,7 +319,7 @@ void ScraperPlugin::processDocument(
         while (std::getline(ss, line)) {
             // Trim
             const auto begin = line.find_first_not_of(" \t\r\n");
-            if (begin != std::string::npos && (line.size() - begin) > 5) {
+            if (begin != std::string::npos && (static_cast<int>(line.size()) - begin) > 5) {
                 title = line.substr(begin, 120);
                 break;
             }

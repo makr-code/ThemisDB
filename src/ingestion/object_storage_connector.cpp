@@ -79,7 +79,7 @@ static bool isJsonKey(const std::string& key) {
     if (key.size() < 5) {
       return false;
     }
-    std::string suffix = key.substr(key.size() - 5);
+    std::string suffix = key.substr(static_cast<int>(key.size()) - 5);
     // case-insensitive compare ".json"
     std::transform(suffix.begin(), suffix.end(), suffix.begin(),
                    [](unsigned char c){ return static_cast<char>(std::tolower(c)); });

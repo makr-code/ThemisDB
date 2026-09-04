@@ -68,7 +68,7 @@ bool AppendMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
                                  std::string* new_value,
                                  [[maybe_unused]] rocksdb::Logger* logger) const {
     if (existing_value) {
-        new_value->reserve(existing_value->size() + delimiter_.size() + value.size());
+        new_value->reserve(existing_value->size() + static_cast<int>(delimiter_.size()) + value.size());
         new_value->assign(existing_value->data(), existing_value->size());
         new_value->append(delimiter_);
         new_value->append(value.data(), value.size());

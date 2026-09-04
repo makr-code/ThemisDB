@@ -130,7 +130,7 @@ static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, co
     if (!ctx) {
         throw std::runtime_error("AES-256-GCM encryption: EVP_CIPHER_CTX_new failed: " + ossl_error());
     }
-    std::vector<uint8_t> ciphertext(data.size() + 16);
+    std::vector<uint8_t> ciphertext(static_cast<int>(data.size()) + 16);
     std::vector<uint8_t> tag(16);
     int len = 0, ct_len = 0;
     bool ok =
@@ -169,7 +169,7 @@ static std::vector<uint8_t> stub_aes_decrypt(const std::vector<uint8_t>& key, co
                                 std::to_string(encrypted.size()) + ")");
     }
     const uint8_t* iv  = encrypted.data();
-    size_t ct_len      = encrypted.size() - 12 - 16;
+    size_t ct_len      = static_cast<int>(encrypted.size()) - 12 - 16;
     const uint8_t* ct  = encrypted.data() + 12;
     const uint8_t* tag = encrypted.data() + 12 + ct_len;
     EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());

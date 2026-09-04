@@ -646,7 +646,7 @@ GNNEmbeddingManager::generateGraphEmbedding(
     if (aggregation_method == "mean") {
         // Mean pooling
         for (const auto& emb : node_embeddings) {
-            for (size_t i = 0; i < emb.size() && i < graph_embedding.size(); ++i) {
+            for (size_t i = 0; i < emb.size()  && static_cast<size_t>(i) < graph_embedding.size(); ++i) {
                 graph_embedding[i] += emb[i];
             }
         }
@@ -657,7 +657,7 @@ GNNEmbeddingManager::generateGraphEmbedding(
     } else if (aggregation_method == "sum") {
         // Sum pooling
         for (const auto& emb : node_embeddings) {
-            for (size_t i = 0; i < emb.size() && i < graph_embedding.size(); ++i) {
+            for (size_t i = 0; i < emb.size()  && static_cast<size_t>(i) < graph_embedding.size(); ++i) {
                 graph_embedding[i] += emb[i];
             }
         }
@@ -665,7 +665,7 @@ GNNEmbeddingManager::generateGraphEmbedding(
         // Max pooling
         std::fill(graph_embedding.begin(), graph_embedding.end(), -std::numeric_limits<float>::infinity());
         for (const auto& emb : node_embeddings) {
-            for (size_t i = 0; i < emb.size() && i < graph_embedding.size(); ++i) {
+            for (size_t i = 0; i < emb.size()  && static_cast<size_t>(i) < graph_embedding.size(); ++i) {
                 graph_embedding[i] = std::max(graph_embedding[i], emb[i]);
             }
         }

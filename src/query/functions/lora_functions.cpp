@@ -412,7 +412,7 @@ nlohmann::json LoraSimilarFunction::execute(
                       ++inter;
                     }
                 }
-                size_t uni = ws1.size() + ws2.size() - inter;
+                size_t uni = static_cast<int>(ws1.size()) + static_cast<int>(ws2.size()) - inter;
                 double jaccard = uni > 0 ? static_cast<double>(inter) / uni : 0.0;
                 similarity += 0.10 * jaccard;
             }
@@ -797,7 +797,7 @@ nlohmann::json LoraLineageFunction::execute(
             
             // Add timestamp (placeholder)
             auto now = std::chrono::system_clock::now();
-            auto created = now - std::chrono::days(static_cast<int>(versions.size() - i));
+            auto created = now - std::chrono::days(static_cast<int>(static_cast<int>(versions.size()) - i));
             version["created"] = timePointToString(created);
             
             lineage.push_back(version);

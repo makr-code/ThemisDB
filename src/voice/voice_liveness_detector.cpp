@@ -294,7 +294,7 @@ std::string VoiceLivenessDetector::generateRandomChallenge() {
     static std::random_device rd;
     static std::mt19937 gen(rd());
 
-    std::uniform_int_distribution<uint64_t> dis(0, CHALLENGE_PHRASES.size() - 1);
+    std::uniform_int_distribution<uint64_t> dis(0, static_cast<int>(CHALLENGE_PHRASES.size()) - 1);
     return CHALLENGE_PHRASES[static_cast<size_t>(dis(gen))];
 }
 

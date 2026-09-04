@@ -53,7 +53,7 @@ Result<nlohmann::json> StatisticalAggregator::calculatePercentile(
     
     // Nearest Rank Method
     // Rank = (percentile / 100) * (N - 1)
-    double rank = (percentile / 100.0) * (values.size() - 1);
+    double rank = (percentile / 100.0) * (static_cast<int>(values.size()) - 1);
     size_t lowerIndex = static_cast<size_t>(std::floor(rank));
     size_t upperIndex = static_cast<size_t>(std::ceil(rank));
     
@@ -102,7 +102,7 @@ Result<nlohmann::json> StatisticalAggregator::calculateVariance(const std::vecto
         sumSquaredDiffs += diff * diff;
     }
     
-    return Ok(nlohmann::json(sumSquaredDiffs / (values.size() - 1)));
+    return Ok(nlohmann::json(sumSquaredDiffs / (static_cast<int>(values.size()) - 1)));
 }
 
 Result<nlohmann::json> StatisticalAggregator::calculateVariancePop(const std::vector<double>& values) {

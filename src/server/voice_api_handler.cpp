@@ -1984,7 +1984,7 @@ std::string VoiceApiHandler::encodeBase64([[maybe_unused]] const std::vector<uin
     static const char b64_table[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string out = {};
-    out.reserve(((data.size() + 2) / 3) * 4);
+    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= data.size()) {
         uint32_t n = (static_cast<uint32_t>(data[i]) << 16)

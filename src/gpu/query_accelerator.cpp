@@ -664,12 +664,12 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
         return result;
     }
 
-    bool use_gpu    = shouldUseGPU(left.size() + right.size());
+    bool use_gpu    = shouldUseGPU(static_cast<int>(left.size()) + right.size());
     result.used_gpu = use_gpu;
 
     // Graph cache check — key on total row count -----------------------------
     if (graph_cache_enabled_) {
-        size_t total     = left.size() + right.size();
+        size_t total     = static_cast<int>(left.size()) + right.size();
         QueryShape shape = makeShape(QueryShape::OpType::JOIN, total);
         if (graph_cache_.lookup(shape)) {
             std::lock_guard<std::mutex> lk(mutex_);
@@ -786,7 +786,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
                 bytes += r.data.size();
             std::lock_guard<std::mutex> lk(mutex_);
             ++stats_.total_joins;
-            recordOp(left.size() + right.size(), bytes, true);
+            recordOp(static_cast<int>(left.size()) + right.size(), bytes, true);
             return result;
         }
         result.used_gpu = false;
@@ -822,7 +822,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
     }
     std::lock_guard<std::mutex> lk(mutex_);
     ++stats_.total_joins;
-    recordOp(left.size() + right.size(), bytes, result.used_gpu);
+    recordOp(static_cast<int>(left.size()) + right.size(), bytes, result.used_gpu);
 
     return result;
 }

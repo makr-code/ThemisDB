@@ -332,7 +332,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
         // Format: <value><unit>  where unit ∈ {H,M,S,m,u,n}
         try {
             const char unit = timeout_hdr.back();
-            const int64_t value = std::stoll(timeout_hdr.substr(0, timeout_hdr.size() - 1));
+            const int64_t value = std::stoll(timeout_hdr.substr(0, static_cast<int>(timeout_hdr.size()) - 1));
             using namespace std::chrono;
             system_clock::time_point deadline = system_clock::now();
             switch (unit) {

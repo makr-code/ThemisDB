@@ -83,7 +83,7 @@ std::string HtmlProcessor::removeElement(
         size_t open_pos = ciFind(open_pattern);
         if (open_pos == std::string::npos) {
             // No more occurrences — append remainder
-            result.append(html, pos, html.size() - pos);
+            result.append(html, pos, static_cast<int>(html.size()) - pos);
             break;
         }
 
@@ -200,7 +200,7 @@ std::string HtmlProcessor::stripTags(const std::string& html,
             replaced += ' ';
             last_pos = static_cast<size_t>(m.position()) + static_cast<size_t>(m.length());
         }
-        replaced.append(text, last_pos, text.size() - last_pos);
+        replaced.append(text, last_pos, static_cast<int>(text.size()) - last_pos);
 
         // Replace closing heading tags with newline
         text = std::regex_replace(replaced, heading_close, "\n");

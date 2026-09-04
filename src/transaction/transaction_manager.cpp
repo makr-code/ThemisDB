@@ -1428,7 +1428,7 @@ static uint64_t decodeVersion(const std::vector<uint8_t>& buf) {
 /// Build the version key for an entity.
 static std::string versionKey(std::string_view table, std::string_view pk) {
     std::string k = {};
-    k.reserve(9 + table.size() + 1 + pk.size()); // "occ:ver:" + table + ":" + pk
+    k.reserve(9 + static_cast<int>(table.size()) + 1 + pk.size()); // "occ:ver:" + table + ":" + pk
     k += "occ:ver:";
     k += table;
     k += ':';
@@ -1888,7 +1888,7 @@ TransactionManager::Status TransactionManager::Transaction::createSavepoint(std:
     // throw std::bad_alloc.  If setSavePoint were called first and push_back threw,
     // the RocksDB savepoint stack would have an extra entry not tracked by savepoints_,
     // corrupting all subsequent savepoint operations.
-    savepoints_.reserve(savepoints_.size() + 1);
+    savepoints_.reserve(static_cast<int>(savepoints_.size()) + 1);
     mvcc_txn_->setSavePoint();
     savepoints_.push_back({std::move(sname), saga_->stepCount()});
     return Status::OK();

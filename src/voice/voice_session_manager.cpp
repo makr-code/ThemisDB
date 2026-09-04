@@ -383,7 +383,7 @@ bool VoiceSessionManager::addConversationTurn(
 
     // TASK 2.1: Bounded transcript size enforcement
     // Calculate approximate size before adding (each turn ~= user_msg + assistant_msg)
-    size_t turn_size = user_msg.size() + assistant_msg.size() + 20;  // +20 for markers
+    size_t turn_size = static_cast<int>(user_msg.size()) + static_cast<int>(assistant_msg.size()) + 20;  // +20 for markers
     size_t current_transcript_size = 0;
     for (const auto& line : it->second.conversation_history) {
         current_transcript_size += line.size();
@@ -527,7 +527,7 @@ size_t VoiceSessionManager::expireOldSessions() {
         const int64_t current_ms = nowMs();
         if (current_ms > teardown_deadline_ms) {
             THEMIS_WARN("VoiceSessionManager::expireOldSessions: teardown budget exceeded, force-closing remaining {} sessions",
-                       expired_ids.size() - std::distance(expired_ids.begin(), 
+                       static_cast<int>(expired_ids.size()) - std::distance(expired_ids.begin(), 
                        std::find(expired_ids.begin(), expired_ids.end(), session_id)));
             break;
         }

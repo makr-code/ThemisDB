@@ -116,7 +116,7 @@ bool ZstdDictionaryCompressor::train(
         if (offset > concat.size()) {
             return false;
         }
-        if (samples[i].size() > (concat.size() - offset)) {
+        if (samples[i].size() > (static_cast<int>(concat.size()) - offset)) {
             // Buffer overflow detected: sample would exceed destination
             return false;
         }
@@ -237,13 +237,13 @@ std::vector<uint8_t> ZstdDictionaryCompressor::decompress(
         result = ZSTD_decompress_usingDDict(
             dctx_,
             out.data(), out.size(),
-            data.data() + DICT_PREFIX_SIZE, data.size() - DICT_PREFIX_SIZE,
+            data.data() + DICT_PREFIX_SIZE, static_cast<int>(data.size()) - DICT_PREFIX_SIZE,
             ddict_);
     } else {
         // Fall back to plain Zstd (dict_id == 0 means no dictionary was used).
         result = ZSTD_decompress(
             out.data(), out.size(),
-            data.data() + DICT_PREFIX_SIZE, data.size() - DICT_PREFIX_SIZE);
+            data.data() + DICT_PREFIX_SIZE, static_cast<int>(data.size()) - DICT_PREFIX_SIZE);
     }
 
     if (ZSTD_isError(result) || result != static_cast<size_t>(orig_size))

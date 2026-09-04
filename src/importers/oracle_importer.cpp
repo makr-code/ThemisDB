@@ -195,7 +195,7 @@ static bool simpleInsertFallbackOracle(const std::string& sql, std::string& out_
         // Remove quotes if present (both double and single quotes for Oracle)
         if ((out_table_name.size() >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
             (out_table_name.size() >= 2 && out_table_name[0] == '\'' && out_table_name[out_table_name.size() - 1] == '\'')) {
-            out_table_name = out_table_name.substr(1, out_table_name.size() - 2);
+            out_table_name = out_table_name.substr(1, static_cast<int>(out_table_name.size()) - 2);
         }
         return true;
     }
@@ -440,7 +440,7 @@ json OracleImporter::getSourceSchema(const std::string& source_path) {
         }
 
         // Bounds check on accumulated SQL
-        if (current_sql.size() + stripped.size() + 1 > kMaxSqlLength) {
+        if (static_cast<int>(current_sql.size()) + static_cast<int>(stripped.size()) + 1 > kMaxSqlLength) {
             THEMIS_WARN("Oracle SQL statement exceeds max length ({}); truncating", kMaxSqlLength);
             current_sql.clear();
             continue;
@@ -1171,7 +1171,7 @@ json OracleImporter::convertRowToEntity(const TableSchema& schema,
     json entity;
     entity["_type"] = schema.name;
 
-    for (size_t i = 0; i < values.size() && i < schema.columns.size(); ++i) {
+    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) < schema.columns.size(); ++i) {
         entity[schema.columns[i]] = values[i];
     }
 
@@ -1293,7 +1293,7 @@ std::string OracleImporter::unquoteIdentifier(const std::string& s) {
     }
     // Strip double quotes
     if (static_cast<int>(t.size()) > = 2 && t.front() == '"' && t.back() == '"') {
-        return t.substr(1, t.size() - 2);
+        return t.substr(1, static_cast<int>(t.size()) - 2);
     }
     return t;
 }

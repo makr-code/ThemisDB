@@ -393,7 +393,7 @@ std::string PDFProcessor::assembleTextWithLayout(const std::vector<poppler::text
     });
 
     // Store (x, y) positions for each item
-    positions_out.reserve(positions_out.size() + items.size());
+    positions_out.reserve(static_cast<int>(positions_out.size()) + items.size());
     for (const auto &item : items) {
         positions_out.push_back({item.x, item.y});
     }

@@ -31,7 +31,7 @@ static bool isVariable(const std::string &s) {
 
 static std::string jsonEscape(const std::string &s) {
     std::string out = {};
-    out.reserve(s.size() + 4);
+    out.reserve(static_cast<int>(s.size()) + 4);
     for (char c : s) {
         if (c == '"') {
             out += "\\\"";

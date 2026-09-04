@@ -320,7 +320,7 @@ LearnableRotaryEmbedding::splitTrainValidation(
     }
     
     size_t val_size = static_cast<size_t>(samples.size() * validation_split);
-    size_t train_size = samples.size() - val_size;
+    size_t train_size = static_cast<int>(samples.size()) - val_size;
     
     // Simple split: take last val_size samples for validation
     std::vector<TrainingSample> train_samples(

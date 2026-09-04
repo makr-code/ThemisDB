@@ -121,7 +121,7 @@ ExportEncryption::buildAAD(const std::string &job_id, const std::string &kek_id,
                            const std::vector<uint8_t> &iv) {
   std::vector<uint8_t> aad = {};
 
-  aad.reserve(8 + job_id.size() + 4 + kek_id.size() + 4 + IV_LEN);
+  aad.reserve(8 + static_cast<int>(job_id.size()) + 4 + static_cast<int>(kek_id.size()) + 4 + IV_LEN);
   writeString(aad, job_id);
   writeString(aad, kek_id);
   writeU32(aad, key_version);
@@ -284,8 +284,8 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
   //   [magic][format_ver][job_id][kek_id][key_version][iv][ct_len][ct][tag]
   std::vector<uint8_t> container = {};
 
-  container.reserve(4 + 4 + 4 + job_id.size() + 4 + kek_id.size() + 4 + IV_LEN +
-                    8 + plaintext.size() + TAG_LEN);
+  container.reserve(4 + 4 + 4 + static_cast<int>(job_id.size()) + 4 + static_cast<int>(kek_id.size()) + 4 + IV_LEN +
+                    8 + static_cast<int>(plaintext.size()) + TAG_LEN);
 
   writeBytes(container, MAGIC, 4);
   writeU32(container, FORMAT_VER);

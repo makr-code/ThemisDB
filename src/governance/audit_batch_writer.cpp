@@ -445,7 +445,7 @@ AuditBatchCheckpoint AuditBatchWriter::createCheckpoint(
     cp.checkpoint_id = "cp_" + std::to_string(batch_sequence_counter_.load());
     cp.batch_sequence_number = batch_sequence_counter_.load();
     cp.first_entry_sequence = entry_sequence_counter_.load();
-    cp.last_entry_sequence = entry_sequence_counter_.load() + batch.size() - 1;
+    cp.last_entry_sequence = entry_sequence_counter_.load() + static_cast<int>(batch.size()) - 1;
     cp.entry_count = batch.size();
     cp.batch_hash = computeBatchHash(batch);
     cp.checkpoint_time_ms = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
@@ -491,7 +491,7 @@ void AuditBatchWriter::recordMetrics(int64_t submission_latency_us) {
         auto p_idx = [&]([[maybe_unused]] double pct) -> double {
             double pos = pct * (static_cast<double>(sorted.size()) - 1.0);
             size_t lo  = static_cast<size_t>(pos);
-            size_t hi  = std::min(lo + 1, sorted.size() - 1);
+            size_t hi  = std::min(lo + 1, static_cast<int>(sorted.size()) - 1);
             double frac = pos - static_cast<double>(lo);
             return sorted[lo] * (1.0 - frac) + sorted[hi] * frac;
         };

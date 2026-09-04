@@ -796,7 +796,7 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
 
                             const size_t take = std::min(static_cast<size_t>(k),
                                                          cands.size());
-                            if (take > 0 && take < cands.size()) {
+                            if (take > 0  && static_cast<size_t>(take) < cands.size()) {
                                 std::partial_sort(
                                     cands.begin(),
                                     cands.begin() + static_cast<ptrdiff_t>(take),

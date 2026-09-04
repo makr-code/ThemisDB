@@ -185,7 +185,7 @@ public:
                 // Forward: shared_hidden = B^T * input  (shared_rank output)
                 std::vector<float> hidden(shared_rank, 0.0f);
                 for (size_t k = 0; k < shared_rank; ++k) {
-                    for (size_t j = 0; j < in_dim && j < s.input.size(); ++j) {
+                    for (size_t j = 0; j < in_dim  && static_cast<size_t>(j) < s.input.size(); ++j) {
                         hidden[k] += shared_B_[j * shared_rank + k] * s.input[j];
                     }
                 }
@@ -343,7 +343,7 @@ public:
 
         std::vector<float> hidden(cfg_.shared_rank, 0.0f);
         for (size_t k = 0; k < cfg_.shared_rank; ++k) {
-            for (size_t j = 0; j < in_dim && j < input.size(); ++j) {
+            for (size_t j = 0; j < in_dim  && static_cast<size_t>(j) < input.size(); ++j) {
                 hidden[k] += shared_B_[j * shared_rank + k] * input[j];
             }
         }

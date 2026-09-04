@@ -255,7 +255,7 @@ std::string applyHighlight(const std::string& text,
                    [](unsigned char c){ return std::tolower(c); });
 
     std::string result = {};
-    result.reserve(text.size() + 64);
+    result.reserve(static_cast<int>(text.size()) + 64);
     size_t i = 0;
 
     while (static_cast<size_t>(i) < text.size()) {
@@ -334,7 +334,7 @@ size_t bestSnippetOffset(const std::string& lower,
         }
     }
     if (bestStart >= static_cast<int>(lower.size())) {
-        bestStart = lower.size() > windowSize ? (lower.size() - windowSize) : 0;
+        bestStart = lower.size() > windowSize ? (static_cast<int>(lower.size()) - windowSize) : 0;
     }
     return bestStart;
 }
@@ -766,7 +766,7 @@ public:
             }
         }
         
-        const size_t totalSz = ngrams1.size() + ngrams2.size();
+        const size_t totalSz = static_cast<int>(ngrams1.size()) + ngrams2.size();
         if (totalSz == 0) {
           return 0.0;
         }

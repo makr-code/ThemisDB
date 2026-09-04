@@ -272,7 +272,7 @@ std::string SignedPluginRepository::canonicalManifestJson(
     // are covered; auxiliary / display fields are excluded.
     auto escape = [](const std::string& s) -> std::string {
         std::string out = {};
-        out.reserve(s.size() + 2);
+        out.reserve(static_cast<int>(s.size()) + 2);
         out += '"';
         for (char c : s) {
             switch (c) {

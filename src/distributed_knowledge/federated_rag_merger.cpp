@@ -52,7 +52,7 @@ std::string MergedRAGContext::buildPromptContext(size_t max_docs, size_t max_cha
         }
 
         oss << snippet << "\n\n";
-        chars += snippet.size() + 2;
+        chars += static_cast<int>(snippet.size()) + 2;
         ++count;
     }
 

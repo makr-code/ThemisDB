@@ -219,7 +219,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
         // Retrieve entity blob (persisted JSON string)
         // Keys are stored as relational keys (entity:table:pk), not raw table:pk.
         auto pos = key.find(':');
-        if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
+        if (pos == std::string::npos || pos == 0 || pos == static_cast<int>(key.size()) -1) {
             span.setStatus(false, "Invalid key format");
             return makeErrorResponse(http::status::bad_request, "Key must be in format 'table:pk'", req);
         }
@@ -426,7 +426,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
 
         // Split key into table:pk
         auto pos = key.find(':');
-        if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
+        if (pos == std::string::npos || pos == 0 || pos == static_cast<int>(key.size()) -1) {
             span.setStatus(false, "Invalid key format");
             return makeErrorResponse(http::status::bad_request, "Key must be in format 'table:pk'", req);
         }
@@ -788,7 +788,7 @@ http::response<http::string_body> EntityApiHandler::handleDelete(
 
         // Split key into table:pk
         auto pos = key.find(':');
-        if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
+        if (pos == std::string::npos || pos == 0 || pos == static_cast<int>(key.size()) -1) {
             span.setStatus(false, "Invalid key format");
             return makeErrorResponse(http::status::bad_request, "Key must be in format 'table:pk'", req);
         }
@@ -957,7 +957,7 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
                 
                 // Parse key format (table:pk)
                 auto pos = key.find(':');
-                if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
+                if (pos == std::string::npos || pos == 0 || pos == static_cast<int>(key.size()) -1) {
                     errors.push_back({
                         {"index", i},
                         {"key", key},
@@ -1307,7 +1307,7 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
 
     json result = {
         {"inserted",    inserted},
-        {"total",       static_cast<int64_t>(documents.size() + errors.size())},
+        {"total",       static_cast<int64_t>(static_cast<int>(documents.size()) + errors.size())},
         {"error_count", static_cast<int64_t>(errors.size())}
     };
     if (!errors.empty()) {

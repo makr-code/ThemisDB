@@ -80,7 +80,7 @@ int GeoReplicaPlacementManager::dcPreferenceScore(
     const PlacementConstraints& c) const
 {
     const auto& pref = c.preferred_datacenters;
-    for (int i = 0; i < static_cast<int>(pref.size()); ++i) {
+    for (size_t i = 0; i < static_cast<int>(pref.size()); ++i) {
         if (pref[i] == datacenter) {
           return i;
         }

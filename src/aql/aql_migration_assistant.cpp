@@ -296,7 +296,7 @@ std::string AQLMigrationAssistant::rewriteDoubleAtBind(const std::string &query,
 std::string AQLMigrationAssistant::rewriteNear(const std::string &query, std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "NEAR";
     std::string result = {};
-    result.reserve(query.size() + 128);
+    result.reserve(static_cast<int>(query.size()) + 128);
     std::size_t cursor = 0;
     bool any_rewrite   = false;
 
@@ -375,7 +375,7 @@ std::string AQLMigrationAssistant::rewriteNear(const std::string &query, std::ve
 std::string AQLMigrationAssistant::rewriteWithin(const std::string &query, std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "WITHIN";
     std::string result = {};
-    result.reserve(query.size() + 128);
+    result.reserve(static_cast<int>(query.size()) + 128);
     std::size_t cursor = 0;
     bool any_rewrite   = false;
 
@@ -453,7 +453,7 @@ std::string AQLMigrationAssistant::rewriteFulltext(const std::string &query,
                                                    std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "FULLTEXT";
     std::string result = {};
-    result.reserve(query.size() + 128);
+    result.reserve(static_cast<int>(query.size()) + 128);
     std::size_t cursor = 0;
     bool any_rewrite   = false;
 
@@ -485,7 +485,7 @@ std::string AQLMigrationAssistant::rewriteFulltext(const std::string &query,
         std::string attr = attr_quoted;
         if (attr.size() >= 2
             && ((attr.front() == '"' && attr.back() == '"') || (attr.front() == '\'' && attr.back() == '\''))) {
-            attr = attr.substr(1, attr.size() - 2);
+            attr = attr.substr(1, static_cast<int>(attr.size()) - 2);
         }
 
         std::string replacement = "(FOR _ft_doc IN " + collection + " FILTER SIMILARITY(_ft_doc." + attr + ", "
@@ -535,7 +535,7 @@ std::string AQLMigrationAssistant::rewriteDocument(const std::string &query,
                                                    std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "DOCUMENT";
     std::string result = {};
-    result.reserve(query.size() + 128);
+    result.reserve(static_cast<int>(query.size()) + 128);
     std::size_t cursor = 0;
     bool any_rewrite   = false;
 

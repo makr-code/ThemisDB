@@ -165,7 +165,7 @@ std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::getConne
         
         // No idle connections or validation failed
         // Try to create new connection if under limit
-        size_t total_connections = active_connections_.size() + idle_pool_.size();
+        size_t total_connections = static_cast<int>(active_connections_.size()) + idle_pool_.size();
         if (total_connections < config_.max_connections) {
             auto new_conn = createNewConnection();
             if (new_conn) {
@@ -225,7 +225,7 @@ void EndpointConnectionPool::releaseConnection(std::unique_ptr<SSL, SSLDeleter> 
     active_connections_.erase(raw_ptr);
     
     // Check if we should keep this connection or discard it
-    size_t total_connections = active_connections_.size() + idle_pool_.size();
+    size_t total_connections = static_cast<int>(active_connections_.size()) + idle_pool_.size();
     if (total_connections >= config_.max_connections) {
         // Pool is full, discard this connection
         // Connection will be cleaned up when unique_ptr goes out of scope

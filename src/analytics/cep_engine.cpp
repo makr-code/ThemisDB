@@ -1644,7 +1644,7 @@ std::map<std::string, AggregationResult> Aggregator::getResults() const {
                     std::istringstream iss(gkey);
                     std::string token = {};
                     size_t fi = 0;
-                    while (std::getline(iss, token, '|') && fi < group_by_fields_.size()) {
+                    while (std::getline(iss, token, '|')  && static_cast<size_t>(fi) < group_by_fields_.size()) {
                         r.group_by_values[group_by_fields_[fi++]] = token;
                     }
                 }

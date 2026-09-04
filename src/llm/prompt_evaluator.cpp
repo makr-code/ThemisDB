@@ -149,7 +149,7 @@ double PromptEvaluator::computeSemanticSimilarity(
         }
     }
     
-    size_t union_size = set1.size() + set2.size() - intersection;
+    size_t union_size = static_cast<int>(set1.size()) + static_cast<int>(set2.size()) - intersection;
     
     if (union_size == 0) {
         return 1.0;

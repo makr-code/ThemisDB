@@ -269,7 +269,7 @@ std::vector<uint8_t> GPUTensorBuffer::serialize() const {
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<uint8_t> out = {};
 
-    out.reserve(16 + 4 * shape_.dims.size() + name_.size() + data_.size());
+    out.reserve(16 + 4 * shape_.dims.size() + static_cast<int>(name_.size()) + data_.size());
 
     write32(out, 0x54454E53u); // magic
     write32(out, static_cast<uint32_t>(dtype_));

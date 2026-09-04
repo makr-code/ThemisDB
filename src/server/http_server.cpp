@@ -3231,8 +3231,8 @@ namespace {
         static constexpr std::string_view kSilenceSuffix{"/silence"};
         if (method == http::verb::post &&
             path_only.rfind(kAlertsPrefix.data(), 0) == 0 &&
-            path_only.size() > kAlertsPrefix.size() + kSilenceSuffix.size() &&
-            path_only.substr(path_only.size() - kSilenceSuffix.size()) == kSilenceSuffix) {
+            path_only.size() > static_cast<int>(kAlertsPrefix.size()) + kSilenceSuffix.size() &&
+            path_only.substr(static_cast<int>(path_only.size()) - kSilenceSuffix.size()) == kSilenceSuffix) {
             return Route::ObservabilityAlertSilencePost;
         }
     }
@@ -3395,12 +3395,12 @@ namespace {
     // /v1/admin/cache/tenant/{id}/stats must be matched before the tenant evict DELETE
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 &&
         path_only.size() > 23 &&
-        path_only.rfind("/stats") == path_only.size() - 6 &&
+        path_only.rfind("/stats") == static_cast<int>(path_only.size()) - 6 &&
         method == http::verb::get) return Route::AdminCacheTenantStatsGet;
     // /v1/admin/cache/tenant/{id}/quota must be matched before the tenant evict DELETE
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 &&
         path_only.size() > 23 &&
-        path_only.rfind("/quota") == path_only.size() - 6 &&
+        path_only.rfind("/quota") == static_cast<int>(path_only.size()) - 6 &&
         method == http::verb::patch) return Route::AdminCacheTenantQuotaPatch;
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 && method == http::verb::delete_) {
       return Route::AdminCacheEvictTenantDelete;
@@ -3444,7 +3444,7 @@ namespace {
     }
     if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
         path_only.size() > 18 &&
-        path_only.rfind("/load") == path_only.size() - 5 &&
+        path_only.rfind("/load") == static_cast<int>(path_only.size()) - 5 &&
         method == http::verb::post) return Route::AdminModulesLoadPost;
     if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
         path_only.size() > 18 &&
@@ -3684,10 +3684,10 @@ namespace {
         // PKI endpoints
         if (path_only.rfind("/api/pki/", 0) == 0 && method == http::verb::post) {
             // Expect: /api/pki/:key_id/sign or /api/pki/:key_id/verify
-            if (static_cast<int>(path_only.size()) > = 5 && path_only.compare(path_only.size() - 5, 5, "/sign") == 0) {
+            if (static_cast<int>(path_only.size()) > = 5 && path_only.compare(static_cast<int>(path_only.size()) - 5, 5, "/sign") == 0) {
               return Route::PkiSignPost;
             }
-            if (static_cast<int>(path_only.size()) > = 7 && path_only.compare(path_only.size() - 7, 7, "/verify") == 0) {
+            if (static_cast<int>(path_only.size()) > = 7 && path_only.compare(static_cast<int>(path_only.size()) - 7, 7, "/verify") == 0) {
               return Route::PkiVerifyPost;
             }
         }
@@ -3775,7 +3775,7 @@ namespace {
       return Route::ExportJsonlLlmPost;
     }
     if (path_only.rfind("/api/v1/export/", 0) == 0 &&
-        path_only.rfind("/status") == path_only.size() - 7 &&
+        path_only.rfind("/status") == static_cast<int>(path_only.size()) - 7 &&
         method == http::verb::get) return Route::ExportStatusGet;
     // Update API endpoints
     if (path_only == "/api/updates" && method == http::verb::get) {
@@ -3835,11 +3835,11 @@ namespace {
         const std::string task_prefix = "/api/v1/bpmn/task/";
         const std::string complete_suffix = "/complete";
         if (path_only.rfind(task_prefix, 0) == 0 &&
-            path_only.size() > task_prefix.size() + complete_suffix.size() &&
-            path_only.compare(path_only.size() - complete_suffix.size(), complete_suffix.size(), complete_suffix) == 0) {
+            path_only.size() > static_cast<int>(task_prefix.size()) + complete_suffix.size() &&
+            path_only.compare(static_cast<int>(path_only.size()) - complete_suffix.size(), complete_suffix.size(), complete_suffix) == 0) {
             // Ensure there is a non-empty taskId segment between prefix and suffix
             const std::size_t task_id_start = task_prefix.size();
-            const std::size_t suffix_pos = path_only.size() - complete_suffix.size();
+            const std::size_t suffix_pos = static_cast<int>(path_only.size()) - complete_suffix.size();
             // Check that there's exactly the taskId between prefix and suffix (no additional slashes)
             std::string task_id_segment = path_only.substr(task_id_start, suffix_pos - task_id_start);
             if (!task_id_segment.empty() && task_id_segment.find('/') == std::string::npos) {
@@ -4086,7 +4086,7 @@ namespace {
     // Note: /versions suffix checked first to avoid matching it as a key named "versions"
     if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 &&
         path_only.size() > 18 &&
-        path_only.rfind("/versions") == path_only.size() - 9) {
+        path_only.rfind("/versions") == static_cast<int>(path_only.size()) - 9) {
         if (method == http::verb::get) {
           return Route::MvccKeyVersionsGet;
         }
@@ -4143,16 +4143,16 @@ namespace {
         static constexpr std::string_view kInvokeSuffix{"/invoke"};
         if (method == http::verb::post &&
             path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
-            path_only.size() > kFnInvokePrefix.size() + kInvokeSuffix.size() &&
-            path_only.substr(path_only.size() - kInvokeSuffix.size()) == kInvokeSuffix)
+            path_only.size() > static_cast<int>(kFnInvokePrefix.size()) + kInvokeSuffix.size() &&
+            path_only.substr(static_cast<int>(path_only.size()) - kInvokeSuffix.size()) == kInvokeSuffix)
             return Route::ServerlessFnInvokePost;
 
         // /api/v1/functions/{id}/versions  (GET)
         static constexpr std::string_view kVersionsSuffix{"/versions"};
         if (method == http::verb::get &&
             path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
-            path_only.size() > kFnInvokePrefix.size() + kVersionsSuffix.size() &&
-            path_only.substr(path_only.size() - kVersionsSuffix.size()) == kVersionsSuffix)
+            path_only.size() > static_cast<int>(kFnInvokePrefix.size()) + kVersionsSuffix.size() &&
+            path_only.substr(static_cast<int>(path_only.size()) - kVersionsSuffix.size()) == kVersionsSuffix)
             return Route::ServerlessFnVersionsGet;
 
         // /api/v1/functions/{id}  (GET / PUT / DELETE)
@@ -7838,16 +7838,16 @@ http::response<http::string_body> HttpServer::routeRequest(
             for (const auto* suffix : {"/invoke", "/versions"}) {
                 const std::string_view sv{suffix};
                 if (static_cast<int>(id.size()) > sv.size() &&
-                    id.substr(id.size() - sv.size()) == sv) {
-                    id = id.substr(0, id.size() - sv.size());
+                    id.substr(static_cast<int>(id.size()) - sv.size()) == sv) {
+                    id = id.substr(0, static_cast<int>(id.size()) - sv.size());
                     break;
                 }
             }
             const auto route_method = req.method();
             const bool has_invoke  = fn_path.size() > 7 &&
-                fn_path.substr(fn_path.size() - 7) == "/invoke";
+                fn_path.substr(static_cast<int>(fn_path.size()) - 7) == "/invoke";
             const bool has_versions = fn_path.size() > 9 &&
-                fn_path.substr(fn_path.size() - 9) == "/versions";
+                fn_path.substr(static_cast<int>(fn_path.size()) - 9) == "/versions";
             if (has_invoke)
                 response = serverless_fn_handler_->handleInvoke(req, id);
             else if (has_versions)
@@ -9175,8 +9175,8 @@ http::response<http::string_body> HttpServer::handlePkiSign(
         auto path = std::string(req.target());
         auto key_id = extractPathParam(path, "/api/pki/");
         // key_id currently contains "<key_id>/sign" -> trim suffix
-        if (static_cast<int>(key_id.size()) > 5 && key_id.compare(key_id.size() - 5, 5, "/sign") == 0) {
-            key_id = key_id.substr(0, key_id.size() - 5);
+        if (static_cast<int>(key_id.size()) > 5 && key_id.compare(static_cast<int>(key_id.size()) - 5, 5, "/sign") == 0) {
+            key_id = key_id.substr(0, static_cast<int>(key_id.size()) - 5);
         }
         if (key_id.empty()) {
           return makeErrorResponse(http::status::bad_request, "Missing key_id", req);
@@ -9224,8 +9224,8 @@ http::response<http::string_body> HttpServer::handlePkiVerify(
         // Extract key_id from path: /api/pki/:key_id/verify
         auto path = std::string(req.target());
         auto key_id = extractPathParam(path, "/api/pki/");
-        if (static_cast<int>(key_id.size()) > 7 && key_id.compare(key_id.size() - 7, 7, "/verify") == 0) {
-            key_id = key_id.substr(0, key_id.size() - 7);
+        if (static_cast<int>(key_id.size()) > 7 && key_id.compare(static_cast<int>(key_id.size()) - 7, 7, "/verify") == 0) {
+            key_id = key_id.substr(0, static_cast<int>(key_id.size()) - 7);
         }
         if (key_id.empty()) {
           return makeErrorResponse(http::status::bad_request, "Missing key_id", req);
@@ -11499,7 +11499,7 @@ http::response<http::string_body> HttpServer::handlePiiListMappings(
     auto getParam = [&]([[maybe_unused]] const std::string& key) -> std::string {
         auto pos = query.find(key + "=");
         if (pos == std::string::npos) return {};
-        auto val = query.substr(pos + key.size() + 1);
+        auto val = query.substr(pos + static_cast<int>(key.size()) + 1);
         auto amp = val.find('&');
         if (amp != std::string::npos) {
           val = val.substr(0, amp);
@@ -11599,7 +11599,7 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
     auto getParam = [&]([[maybe_unused]] const std::string& key) -> std::string {
         auto pos = query.find(key + "=");
         if (pos == std::string::npos) return {};
-        auto val = query.substr(pos + key.size() + 1);
+        auto val = query.substr(pos + static_cast<int>(key.size()) + 1);
         auto amp = val.find('&');
         if (amp != std::string::npos) {
           val = val.substr(0, amp);
@@ -12219,7 +12219,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             int kRrf = body.value("k_rrf", 60);
             std::unordered_map<std::string, double> scores = {};
 
-            scores.reserve(textResults.size() + vectorResults.size());
+            scores.reserve(static_cast<int>(textResults.size()) + vectorResults.size());
 
             // Text contributions
             for (size_t i = 0; i < textResults.size(); ++i) {
@@ -12259,7 +12259,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             
             std::unordered_map<std::string, double> scores = {};
 
-            scores.reserve(textResults.size() + vectorResults.size());
+            scores.reserve(static_cast<int>(textResults.size()) + vectorResults.size());
             
             // Text contributions
             for (const auto& res : textResults) {

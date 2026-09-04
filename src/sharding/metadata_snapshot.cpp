@@ -236,7 +236,7 @@ void MetadataSnapshotManager::cleanupOldSnapshots() {
             }
             
             spdlog::info("Cleaned up {} old metadata snapshots",
-                        snapshots.size() - max_snapshots_);
+                        static_cast<int>(snapshots.size()) - max_snapshots_);
         }
     } catch (const std::exception& e) {
         spdlog::error("Exception cleaning up metadata snapshots: {}", e.what());

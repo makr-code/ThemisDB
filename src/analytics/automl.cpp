@@ -256,7 +256,7 @@ struct Scaler {
 
     std::vector<double> transform(const std::vector<double> &x) const {
         std::vector<double> out(x.size());
-        for (size_t j = 0; j < x.size() && j < mean.size(); ++j) {
+        for (size_t j = 0; j < x.size()  && static_cast<size_t>(j) < mean.size(); ++j) {
             out[j] = (x[j] - mean[j]) / std_dev[j];
         }
         return out;
@@ -308,7 +308,7 @@ struct LabelEncoder {
     void fit(const std::vector<std::string> &labels) {
         std::set<std::string> s(labels.begin(), labels.end());
         classes.assign(s.begin(), s.end());
-        for (int i = 0; i < static_cast<int>(classes.size()); ++i) {
+        for (size_t i = 0; i < static_cast<int>(classes.size()); ++i) {
             index[classes[static_cast<size_t>(i)]] = i;
         }
     }
@@ -1063,7 +1063,7 @@ struct RFModel : ModelBase {
         std::vector<double> avg(static_cast<size_t>(n_classes), 0.0);
         for (const auto &t : trees) {
             auto p = t.predictProbaOne(x);
-            for (size_t c = 0; c < avg.size() && c < p.size(); ++c) {
+            for (size_t c = 0; c < avg.size()  && static_cast<size_t>(c) < p.size(); ++c) {
                 avg[c] += p[c];
             }
         }
@@ -1206,7 +1206,7 @@ struct EnsembleModel : ModelBase {
         std::vector<double> avg(static_cast<size_t>(n_classes), 0.0);
         for (const auto &m : members) {
             auto p = m->predictProbaOne(x);
-            for (size_t c = 0; c < avg.size() && c < p.size(); ++c) {
+            for (size_t c = 0; c < avg.size()  && static_cast<size_t>(c) < p.size(); ++c) {
                 avg[c] += p[c];
             }
         }
@@ -1533,8 +1533,8 @@ struct AutoMLModel::Impl {
             // Handle poly-expanded names like "x^2"
             std::string base = feat_names[j];
             bool is_sq       = false;
-            if (static_cast<int>(base.size()) > 2 && base.substr(base.size() - 2) == "^2") {
-                base  = base.substr(0, base.size() - 2);
+            if (static_cast<int>(base.size()) > 2 && base.substr(static_cast<int>(base.size()) - 2) == "^2") {
+                base  = base.substr(0, static_cast<int>(base.size()) - 2);
                 is_sq = true;
             }
             auto it = p.fields.find(base);
@@ -1948,7 +1948,7 @@ AutoMLModel AutoMLModel::deserialize(const std::string &data) {
         }
     }
     // Rebuild label encoder index
-    for (int i = 0; i < static_cast<int>(m.impl_->label_enc.classes.size()); ++i) {
+    for (size_t i = 0; i < static_cast<int>(m.impl_->label_enc.classes.size()); ++i) {
         m.impl_->label_enc.index[m.impl_->label_enc.classes[static_cast<size_t>(i)]] = i;
     }
     return m;

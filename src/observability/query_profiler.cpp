@@ -173,7 +173,7 @@ public:
             std::sort(times.begin(), times.end(),
                      [](const auto& a, const auto& b) { return a.second < b.second; });
             
-            size_t to_delete = profiles.size() - config.max_profiles_retained;
+            size_t to_delete = static_cast<int>(profiles.size()) - config.max_profiles_retained;
             for (size_t i = 0; i < to_delete; ++i) {
                 profiles.erase(times[i].first);
             }

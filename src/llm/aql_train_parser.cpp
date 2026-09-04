@@ -46,7 +46,7 @@ std::string stripQuotes(const std::string& s) {
     if (s.size() >= 2 &&
         ((s.front() == '\'' && s.back() == '\'') ||
          (s.front() == '"'  && s.back() == '"'))) {
-        return s.substr(1, s.size() - 2);
+        return s.substr(1, static_cast<int>(s.size()) - 2);
     }
     return s;
 }
@@ -731,7 +731,7 @@ TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with
         } catch (const nlohmann::json::parse_error&) {
             // JSON syntax error — fall through to key-value parsing
             if (content.front() == '{' && content.back() == '}') {
-                content = themis::utils::trim(content.substr(1, content.size() - 2));
+                content = themis::utils::trim(content.substr(1, static_cast<int>(content.size()) - 2));
             }
         }
     }

@@ -598,7 +598,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                     chunk_key.reserve(std::strlen(GORILLA_CHUNK_PREFIX) +
                                       first_row.metric.size() + 1 +
                                       first_row.entity.size() + 1 +
-                                      ts_front.size() + 1 + ts_back.size());
+                                      static_cast<int>(ts_front.size()) + 1 + ts_back.size());
                     chunk_key.append(GORILLA_CHUNK_PREFIX)
                              .append(first_row.metric).append(":")
                              .append(first_row.entity).append(":")
@@ -654,7 +654,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                 std::string("putBatch WriteBatch failed: ") + s.ToString());
         }
 
-        result.ok_count = rows.size() - result.failed_count;
+        result.ok_count = static_cast<int>(rows.size()) - result.failed_count;
         auto latency_ms = std::chrono::duration<double, std::milli>(
             std::chrono::steady_clock::now() - start_time).count();
         THEMIS_INFO("putBatch (Gorilla): {} ok / {} failed in {:.2f} ms",
@@ -717,7 +717,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
             std::string("putBatch WriteBatch failed: ") + s.ToString());
     }
 
-    result.ok_count = rows.size() - result.failed_count;
+    result.ok_count = static_cast<int>(rows.size()) - result.failed_count;
     auto latency_ms = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - start_time).count();
     THEMIS_INFO("putBatch (raw): {} ok / {} failed in {:.2f} ms",
@@ -1103,7 +1103,7 @@ TSStore::Stats TSStore::getStats() const {
             unique_metrics.insert(comp->metric);
             oldest_ts = std::min(oldest_ts, comp->timestamp_ms);
             newest_ts = std::max(newest_ts, comp->timestamp_ms);
-            total_size += key.size() + it->value().size();
+            total_size += static_cast<int>(key.size()) + it->value().size();
             stats.total_data_points++;
         }
         

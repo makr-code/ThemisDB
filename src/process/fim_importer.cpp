@@ -308,9 +308,9 @@ std::string extractBpmnPayload(std::string_view catalogue_xml, size_t start_pos)
         return std::string(catalogue_xml.substr(pos, end - pos));
     }
     if (end1 != std::string_view::npos)
-        return std::string(catalogue_xml.substr(pos, end1 + kClose1.size() - pos));
+        return std::string(catalogue_xml.substr(pos, end1 + static_cast<int>(kClose1.size()) - pos));
     if (end2 != std::string_view::npos)
-        return std::string(catalogue_xml.substr(pos, end2 + kClose2.size() - pos));
+        return std::string(catalogue_xml.substr(pos, end2 + static_cast<int>(kClose2.size()) - pos));
     return {};
 }
 

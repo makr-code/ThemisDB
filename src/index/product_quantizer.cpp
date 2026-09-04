@@ -51,7 +51,7 @@ bool checkedMultiply(size_t lhs, size_t rhs, size_t& out) {
 }
 
 bool isValidSlice(const std::vector<float>& values, size_t offset, size_t length) {
-    return static_cast<bool>(offset <= values.size() && length  < static_cast<int>(= values.size())) - offset;
+    return static_cast<bool>(offset <= values.size()  && static_cast<size_t>(length) < static_cast<int>(= values.size())) - offset;
 }
 
 } // namespace

@@ -367,7 +367,7 @@ double HallucinationDashboard::computeStdDev(const std::deque<double>& data,
         double d = v - mean;
         variance += d * d;
     }
-    variance /= static_cast<double>(data.size() - 1);
+    variance /= static_cast<double>(static_cast<int>(data.size()) - 1);
     return std::sqrt(variance);
 }
 

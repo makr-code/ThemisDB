@@ -973,7 +973,7 @@ bool PasskeyAuthenticator::verifyAuthentication(
         const auto client_data_hash = sha256Bytes(client_data_bytes);
         std::vector<uint8_t> signed_data = {};
 
-        signed_data.reserve(auth_data_bytes.size() + client_data_hash.size());
+        signed_data.reserve(static_cast<int>(auth_data_bytes.size()) + client_data_hash.size());
         signed_data.insert(signed_data.end(),
                            auth_data_bytes.begin(), auth_data_bytes.end());
         signed_data.insert(signed_data.end(),

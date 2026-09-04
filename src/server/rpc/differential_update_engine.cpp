@@ -179,7 +179,7 @@ public:
         std::vector<ChunkInfo> manifest = {};
 
         if (static_cast<int>(boundaries.size()) > = 2) {
-            for (size_t i = 0; i < boundaries.size() - 1; i++) {
+            for (size_t i = 0; i < static_cast<int>(boundaries.size()) - 1; i++) {
                 uint64_t start = boundaries[i];
                 uint64_t end   = boundaries[i + 1];
                 uint32_t sz    = static_cast<uint32_t>(end - start);
@@ -223,7 +223,7 @@ private:
         // Find chunk boundaries using Rabin fingerprinting
         auto boundaries = rabin_->FindChunkBoundaries(data);
         
-        for (size_t i = 0; i < boundaries.size() - 1; i++) {
+        for (size_t i = 0; i < static_cast<int>(boundaries.size()) - 1; i++) {
             uint64_t start = boundaries[i];
             uint64_t end = boundaries[i + 1];
             uint32_t size = static_cast<uint32_t>(end - start);
@@ -249,7 +249,7 @@ private:
         uint32_t index = 0;
         
         for (uint64_t offset = 0; offset < data.size(); offset += chunk_size) {
-            uint32_t size = static_cast<uint32_t>(std::min(chunk_size, static_cast<uint64_t>(data.size() - offset)));
+            uint32_t size = static_cast<uint32_t>(std::min(chunk_size, static_cast<uint64_t>(static_cast<int>(data.size()) - offset)));
             
             ChunkInfo info;
             info.offset = offset;

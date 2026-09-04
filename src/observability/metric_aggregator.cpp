@@ -97,7 +97,7 @@ double MetricAggregator::reduce(std::vector<double> vals, AggregationType type) 
                      : (type == AggregationType::P95) ? 0.95
                                                       : 0.99;
             // Nearest-rank method: clamp index to [0, size-1].
-            size_t idx = static_cast<size_t>(p * static_cast<double>(vals.size() - 1));
+            size_t idx = static_cast<size_t>(p * static_cast<double>(static_cast<int>(vals.size()) - 1));
             return vals[idx];
         }
 

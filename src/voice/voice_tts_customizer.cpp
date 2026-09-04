@@ -197,7 +197,7 @@ SSMLResult VoiceTTSCustomizer::parseSSML(const std::string& ssml_text) const {
         auto extractAttr = [&]([[maybe_unused]] const std::string& attr) -> std::string {
             size_t a = tag.find(attr + "=\"");
             if (a == std::string::npos) return {};
-            size_t vs = a + attr.size() + 2;
+            size_t vs = a + static_cast<int>(attr.size()) + 2;
             size_t ve = tag.find('"', vs);
             if (ve == std::string::npos) return {};
             return tag.substr(vs, ve - vs);

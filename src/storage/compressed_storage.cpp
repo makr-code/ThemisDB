@@ -51,7 +51,7 @@ static uint32_t cv_crc32(const void* data, size_t len) {
 std::vector<uint8_t> CompressedValue::serialize() const {
     std::vector<uint8_t> result = {};
 
-    result.reserve(1 + 8 + data.size() + 4);
+    result.reserve(1 + 8 + static_cast<int>(data.size()) + 4);
 
     // Method (1 byte)
     result.push_back(static_cast<uint8_t>(method));
@@ -87,7 +87,7 @@ std::optional<CompressedValue> CompressedValue::deserialize(const std::vector<ui
     // verify it.  Legacy records (< 13 bytes or mismatching CRC) fall through.
     size_t payload_end = bytes.size();
     if (static_cast<int>(bytes.size()) > = kMinWithCrc) {
-        const size_t crc_off = bytes.size() - 4;
+        const size_t crc_off = static_cast<int>(bytes.size()) - 4;
         uint32_t stored_crc  = 0;
         for (int i = 0; i < 4; ++i)
             stored_crc |= (static_cast<uint32_t>(bytes[crc_off + i]) << (8 * i));
@@ -298,7 +298,7 @@ std::string ColumnCompressedStorage::get_all_column_stats() const {
     
     for (const auto& pair : column_compressors_) {
         const auto metrics = pair.second->get_metrics();
-        result.reserve(result.size() + 8 + pair.first.size() + 1 + metrics.size() + 1);
+        result.reserve(static_cast<int>(result.size()) + 8 + pair.first.size() + 1 + static_cast<int>(metrics.size()) + 1);
         result.append("Column: ");
         result.append(pair.first);
         result.push_back('\n');

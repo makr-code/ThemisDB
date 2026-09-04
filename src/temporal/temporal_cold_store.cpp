@@ -316,7 +316,7 @@ std::string TemporalColdStore::encodeKey(const std::string& table_name,
     std::snprintf(buf, sizeof(buf), "%016llx",
                   static_cast<unsigned long long>(biasedTimestamp(sys_start)));
     std::string key = {};
-    key.reserve(table_name.size() + 1 + doc_key.size() + 1 + 16);
+    key.reserve(static_cast<int>(table_name.size()) + 1 + static_cast<int>(doc_key.size()) + 1 + 16);
     key += table_name;
     key += '\x01';
     key += doc_key;
@@ -329,7 +329,7 @@ std::string TemporalColdStore::encodeKey(const std::string& table_name,
 std::string TemporalColdStore::keyPrefix(const std::string& table_name,
                                           const std::string& doc_key) {
     std::string p = {};
-    p.reserve(table_name.size() + 1 + doc_key.size() + 1);
+    p.reserve(static_cast<int>(table_name.size()) + 1 + static_cast<int>(doc_key.size()) + 1);
     p += table_name;
     p += '\x01';
     p += doc_key;

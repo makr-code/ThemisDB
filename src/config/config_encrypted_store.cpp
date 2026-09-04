@@ -33,7 +33,7 @@ static const char kB64Chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstu
 
 std::string base64Encode(const std::vector<uint8_t> &data) {
     std::string out = {};
-    out.reserve(((data.size() + 2) / 3) * 4);
+    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
 
     const std::size_t len = data.size();
     for (std::size_t i = 0; i < len; i += 3) {

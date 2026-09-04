@@ -48,7 +48,7 @@ void ConsistentHashRing::addShard(const std::string& shard_id, size_t virtual_no
     // Resolve collisions with deterministic probing to preserve ring density.
     // Build the virtual-node key as "<shard_id>#<i>" without ostringstream.
     std::string vnode_key = {};
-    vnode_key.reserve(shard_id.size() + 1 + 20); // 20 digits covers uint64_t max
+    vnode_key.reserve(static_cast<int>(shard_id.size()) + 1 + 20); // 20 digits covers uint64_t max
     for (size_t i = 0; i < virtual_nodes; ++i) {
         vnode_key = shard_id;
         vnode_key += '#';

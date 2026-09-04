@@ -93,7 +93,7 @@ DatabaseConnectionManager::acquireConnection(
         }
         
         // Check if we can create new connection
-        size_t total = active_connections_.size() + idle_connections_.size();
+        size_t total = static_cast<int>(active_connections_.size()) + idle_connections_.size();
         if (total < config_.max_connections) {
             lock.unlock();  // Release lock while creating connection
             
@@ -256,7 +256,7 @@ DatabaseConnectionManager::getStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     ConnectionStats stats;
-    stats.total_connections = active_connections_.size() + idle_connections_.size();
+    stats.total_connections = static_cast<int>(active_connections_.size()) + idle_connections_.size();
     stats.active_connections = active_connections_.size();
     stats.idle_connections = idle_connections_.size();
     // db_connection_leak scanner alerts (lines 241-242 and related load() calls):

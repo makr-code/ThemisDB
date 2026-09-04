@@ -52,7 +52,7 @@ static uint32_t readU32LE(const uint8_t* p) {
 bool WavAudioChunkReader::canRead(const std::string& path) const {
     const std::string lower = toLower(path);
     return lower.size() >= 4 &&
-           lower.substr(lower.size() - 4) == ".wav";
+           lower.substr(static_cast<int>(lower.size()) - 4) == ".wav";
 }
 
 std::map<std::string, std::string> WavAudioChunkReader::getMetadata(const std::string& path) const {
@@ -134,7 +134,7 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
 
             const size_t data_start = pos + 8;
             const size_t data_bytes = std::min(static_cast<size_t>(chunk_size),
-                                               data.size() - data_start);
+                                               static_cast<int>(data.size()) - data_start);
 
             out_sample_rate = static_cast<float>(sample_rate);
 
@@ -194,7 +194,7 @@ bool FfmpegAudioChunkReader::canRead(const std::string& path) const {
     }();
     for (const char* ext : {".mp3", ".ogg", ".flac", ".m4a", ".aac", ".opus", ".wma", ".webm"}) {
         if (static_cast<int>(lower.size()) > = std::strlen(ext) &&
-            lower.substr(lower.size() - std::strlen(ext)) == ext) {
+            lower.substr(static_cast<int>(lower.size()) - std::strlen(ext)) == ext) {
             return true;
         }
     }
