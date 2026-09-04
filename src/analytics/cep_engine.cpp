@@ -182,7 +182,7 @@ double computePercentile(const std::vector<double> &vals, double p) {
 enum class TokType { IDENT, NUMBER, STRING, OP, LPAREN, RPAREN, AND, OR, NOT, EQ, NEQ, LT, GT, LEQ, GEQ, END };
 
 struct Token {
-    TokType type;
+    TokType type = TokType::IDENT;
     std::string text = {};
     double num = 0.0;
 };
@@ -453,7 +453,7 @@ std::optional<Event> Event::deserialize([[maybe_unused]] const std::vector<uint8
 
     std::string s(data.begin(), data.end());
     std::istringstream iss(s);
-    Event ev;
+    Event ev = Event{};
     std::string part = {};
     int idx = 0;
     while (std::getline(iss, part, '|')) {
@@ -774,7 +774,7 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
         for ([[maybe_unused]] const auto &et : config_.event_types) {
             if (matchesEventType(event, et) && evaluateCondition(event)) {
                 ++match_count_;
-                PatternMatch pm;
+                PatternMatch pm = PatternMatch{};
                 pm.pattern_id = config_.pattern_id;
                 pm.match_time = std::chrono::system_clock::now();
                 pm.matched_events.push_back([[maybe_unused]] event);
@@ -807,7 +807,7 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
                 auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - pm.start_time);
                 if (elapsed > config_.within) {
                     ++match_count_;
-                    PatternMatch result;
+                    PatternMatch result = PatternMatch{};
                     result.pattern_id     = config_.pattern_id;
                     result.match_time     = std::chrono::system_clock::now();
                     result.matched_events = pm.matched_events;
@@ -1438,7 +1438,7 @@ Aggregator::~Aggregator() = default;
 
 void Aggregator::addAggregation(const std::string &name, AggregationType type, const std::string &field) {
     std::lock_guard lk(mutex_);
-    AggregationState s;
+    AggregationState s = AggregationState{};
     s.name              = name;
     s.type              = type;
     s.field             = field;
@@ -1676,7 +1676,7 @@ bool RuleEngine::addRule(const RuleConfig &config) {
     if (rules_.find(config.rule_id) != rules_.end()) {
         spdlog::warn("CEP RuleEngine: rule '{}' already exists, replacing", config.rule_id);
     }
-    RuleState state;
+    RuleState state = RuleState{};
     state.config = config;
     if (config.pattern) {
         state.pattern_matcher = std::make_unique<PatternMatcher>(*config.pattern);
@@ -1926,7 +1926,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
     //   [GROUP BY <fields>]
     //   [HAVING <having>]
     //   [ACTION alert(...) | webhook(...) | db_write(...) | ON MATCH ALERT ...]
-    RuleConfig cfg;
+    RuleConfig cfg = RuleConfig{};
     cfg.rule_id    = generateId();
     cfg.created_at = std::chrono::system_clock::now();
     cfg.updated_at = cfg.created_at;
@@ -2611,7 +2611,7 @@ bool CEPEngine::submitEvent(const std::string &stream_id, Event event) {
 
 Event CEPEngine::createCDCEvent(EventType type, const std::string &collection, const std::string &document_id,
                                 const std::map<std::string, CepFieldValue> &fields) {
-    Event ev;
+    Event ev = Event{};
     ev.event_id        = generateId();
     ev.type            = type;
     ev.event_name      = eventTypeToString([[maybe_unused]] type);
@@ -2732,7 +2732,7 @@ void CEPEngine::addAlert(Alert alert) {
 }
 
 CEPEngine::Stats CEPEngine::getStats() const {
-    Stats s;
+    Stats s = Stats{};
     s.events_received     = events_received_.load();
     s.events_processed    = events_processed_.load();
     s.events_dropped      = events_dropped_.load();
