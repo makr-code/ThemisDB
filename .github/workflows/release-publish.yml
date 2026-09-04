@@ -22,11 +22,11 @@ name: "Release: Publish (Unified Orchestration)"
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+*'
-      - 'enterprise-v[0-9]+.[0-9]+.[0-9]+*'
-      - 'hyperscaler-v[0-9]+.[0-9]+.[0-9]+*'
-      - 'military-v[0-9]+.[0-9]+.[0-9]+*'
-      - 'minimal-v[0-9]+.[0-9]+.[0-9]+*'
+      - 'v*.*.*'
+      - 'enterprise-v*.*.*'
+      - 'hyperscaler-v*.*.*'
+      - 'military-v*.*.*'
+      - 'minimal-v*.*.*'
 
 permissions:
   contents: write

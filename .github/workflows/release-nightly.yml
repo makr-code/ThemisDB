@@ -104,12 +104,7 @@ jobs:
 
       - name: Update RELEASE_TYPE to nightly
         run: |
-          echo "nightly" > RELEASE_TYPE
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add RELEASE_TYPE
-          git commit -m "chore: set RELEASE_TYPE=nightly for build #${{ github.run_number }}" || true
-          git push origin HEAD:refs/heads/${{ github.ref_name }} || true
+          echo "::notice::Using workspace-only RELEASE_TYPE override for nightly run"
 
   build-matrix:
     name: Build Nightly (Matrix)
@@ -123,13 +118,17 @@ jobs:
     needs: build-matrix
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.metadata.outputs.version }}
+      version: ${{ steps.metadata.outputs.build-version }}
       release-type: ${{ steps.metadata.outputs.release-type }}
-      nightly-tag: ${{ steps.metadata.outputs.nightly-tag }}
+      nightly-tag: ${{ steps.version.outputs.nightly-tag }}
       docker-labels: ${{ steps.metadata.outputs.docker-labels }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Override RELEASE_TYPE for nightly metadata
+        run: |
+          echo "nightly" > RELEASE_TYPE
 
       - name: Generate build metadata
         id: metadata
@@ -160,7 +159,7 @@ jobs:
 
   publish-release:
     name: Publish GitHub Release
-    needs: [generate-metadata, build-matrix]
+    needs: [check-changes, generate-metadata, build-matrix]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

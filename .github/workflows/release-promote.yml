@@ -271,6 +271,9 @@ jobs:
     needs: [extract-release-context, bump-version]
     runs-on: ubuntu-latest
     if: needs.extract-release-context.outputs.should-run == 'true'
+    outputs:
+      pull_request_number: ${{ steps.pr.outputs.pull-request-number }}
+      pull_request_url: ${{ steps.pr.outputs.pull-request-url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -361,8 +364,8 @@ jobs:
       - name: Report PR creation
         run: |
           echo "✓ Release PR created"
-          echo "  PR: #${{ steps.pr.outputs.pull_request_number }}"
-          echo "  URL: ${{ steps.pr.outputs.pull_request_url }}"
+          echo "  PR: #${{ steps.pr.outputs.pull-request-number }}"
+          echo "  URL: ${{ steps.pr.outputs.pull-request-url }}"
           echo "  Branch: ${{ steps.release-branch.outputs.branch }}"
 
   notify:

@@ -66,6 +66,7 @@ jobs:
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             # Manual trigger
             VERSION="${{ github.event.inputs.version }}"
+            RELEASE_TYPE="stable"
             IS_STABLE="true"
             SHOULD_SUBMIT="true"
           
@@ -83,6 +84,7 @@ jobs:
             
             # Only submit stable (non-prerelease) releases for community WinGet
             if [[ "$IS_PRERELEASE" == "false" ]]; then
+              RELEASE_TYPE="stable"
               IS_STABLE="true"
               SHOULD_SUBMIT="true"
             else
@@ -91,6 +93,7 @@ jobs:
           fi
           
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "release-type=$RELEASE_TYPE" >> "$GITHUB_OUTPUT"
           echo "is-stable=$IS_STABLE" >> "$GITHUB_OUTPUT"
           echo "should-submit=$SHOULD_SUBMIT" >> "$GITHUB_OUTPUT"
           
@@ -107,18 +110,25 @@ jobs:
     outputs:
       artifact-dir: ${{ steps.download.outputs.artifact-dir }}
     steps:
-      - name: Download release artifacts
+      - name: Download release assets
         id: download
-        uses: actions/download-artifact@v4
-        with:
-          path: release-artifacts
-          merge-multiple: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="v${{ needs.detect-release.outputs.version }}"
+          mkdir -p release-artifacts
+          gh release download "$TAG" --repo "${{ github.repository }}" --dir release-artifacts --clobber
+          if [[ -z "$(find release-artifacts -type f -print -quit)" ]]; then
+            echo "::error::No release assets downloaded for tag $TAG"
+            exit 1
+          fi
+          echo "artifact-dir=release-artifacts" >> "$GITHUB_OUTPUT"
 
       - name: List downloaded artifacts
         run: |
           echo "Downloaded artifacts:"
           find release-artifacts -type f | head -20
-          echo "artifact-dir=release-artifacts" >> "$GITHUB_OUTPUT"
 
   generate-checksums:
     name: Generate Checksums for Windows Binaries

@@ -129,5 +129,5 @@ if ($IncludeSBOM) {
 Write-Host ""
 
 # Return checksums as output for downstream jobs
-Write-Host "checksums-file=$ChecksumFile" | Out-File -FilePath env:GITHUB_OUTPUT -Append -Encoding utf8
-Write-Host "checksums-json=$ChecksumJson" | Out-File -FilePath env:GITHUB_OUTPUT -Append -Encoding utf8
+Write-Host "checksums-file=$ChecksumFile" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+Write-Host "checksums-json=$ChecksumJson" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8

@@ -153,16 +153,16 @@ cmd_bump_version() {
     
     case "$bump_type" in
         major)
-            ((major++))
+            ((major+=1))
             minor=0
             patch=0
             ;;
         minor)
-            ((minor++))
+            ((minor+=1))
             patch=0
             ;;
         patch)
-            ((patch++))
+            ((patch+=1))
             ;;
         *)
             echo "ERROR: Invalid bump type: $bump_type (expected major, minor, or patch)" >&2
@@ -171,7 +171,6 @@ cmd_bump_version() {
     esac
     
     local new_version="${major}.${minor}.${patch}"
-    cmd_write_version "$new_version"
     echo "$new_version"
 }
 
