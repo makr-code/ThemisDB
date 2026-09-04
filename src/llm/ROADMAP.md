@@ -33,11 +33,11 @@ The module provides production-grade LLM runtime surfaces across async inference
 
 - [x] `wiki_index_store.cpp` — `WikiIndexStore` (BM25 + HNSW + RRF) + `JsonWikiIndexReader`
 - [x] `wiki_chunk_splitter.cpp` — `WikiChunkSplitter` (heading-aware, sliding-window)
-- [x] `wiki_rag_source.cpp` — `WikiRagSource` (RAGStageHandler, fail-open)
+- [x] `wiki_rag_source.cpp` — `WikiRagSource` (RAGStageHandler, fail-closed default with explicit fail-open compatibility mode)
 
 ### Test coverage
 
-- [x] `tests/llm/test_wiki_index_store.cpp` — WIS-01..16 unit tests
+- [x] `tests/llm/test_wiki_index_store.cpp` — WIS-01..17 unit tests
 - [x] `tests/llm/test_wiki_rag_quality.cpp` — WISQ-01..05 quality gate tests
   (Recall@5 ≥ 80 %, latency < 200 ms/10 queries on 100 chunks)
 - [x] `tests/llm/test_llm_doku_rag.cpp` — RAG-01..12 doku.db CI test suite (2026-08-24)

@@ -1,6 +1,6 @@
 /**
  * @file test_wiki_index_store.cpp
- * @brief Unit tests WIS-01..16 for WikiChunkSplitter, JsonWikiIndexReader,
+ * @brief Unit tests WIS-01..17 for WikiChunkSplitter, JsonWikiIndexReader,
  *        WikiIndexStore (JSON-path only), and WikiRagSource.
  *
  * Tests:
@@ -19,8 +19,9 @@
  *  WIS-12: JsonWikiIndexReader flush (no-op check for load/reload)
  *  WIS-13: WikiRagSource stage integration — Success status, candidates populated
  *  WIS-14: WikiRagSource provenance tags present
- *  WIS-15: WikiRagSource fail-open: unloaded reader → Skipped
- *  WIS-16: WikiRagSource empty wiki → Success with zero candidates
+ *  WIS-15: WikiRagSource default fail-closed: unloaded reader → Error
+ *  WIS-16: WikiRagSource fail-open compatibility: unloaded reader → Skipped
+ *  WIS-17: WikiRagSource empty wiki → Success with zero candidates
  */
 
 #include <gtest/gtest.h>
@@ -360,9 +361,24 @@ TEST(WikiRagSource, WIS14_ProvenanceTags) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// WIS-15: WikiRagSource fail-open: not-ready reader → Skipped
+// WIS-15: WikiRagSource default fail-closed: not-ready reader → Error
 // ─────────────────────────────────────────────────────────────────────────────
-TEST(WikiRagSource, WIS15_FailOpenNotReady) {
+TEST(WikiRagSource, WIS15_DefaultFailClosedNotReady) {
+    FixedWikiReader reader({}, /*ready=*/false);
+
+    WikiRagSource src(reader);
+    ModularRAGContext ctx;
+    ctx.query = "anything";
+    auto result = src.retrieveFromWiki(ctx);
+
+    EXPECT_EQ(result.status, StageStatus::Error);
+    EXPECT_FALSE(result.diagnostic.empty());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WIS-16: WikiRagSource fail-open compatibility: not-ready reader → Skipped
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(WikiRagSource, WIS16_FailOpenNotReadyCompatibility) {
     FixedWikiReader reader({}, /*ready=*/false);
 
     WikiRagSourceConfig cfg;
@@ -378,9 +394,9 @@ TEST(WikiRagSource, WIS15_FailOpenNotReady) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// WIS-16: WikiRagSource empty wiki → Success with zero candidates
+// WIS-17: WikiRagSource empty wiki → Success with zero candidates
 // ─────────────────────────────────────────────────────────────────────────────
-TEST(WikiRagSource, WIS16_EmptyWikiSuccess) {
+TEST(WikiRagSource, WIS17_EmptyWikiSuccess) {
     FixedWikiReader reader(/*chunks=*/{}, /*ready=*/true);
 
     WikiRagSource src(reader);
