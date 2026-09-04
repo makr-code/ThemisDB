@@ -1112,7 +1112,8 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
     bool cancelled = false;
 
     // Load delta hashes for incremental import
-    std::unordered_set<uint64_t> delta_hashes;
+    std::unordered_set<uint64_t> delta_hashes = {};
+
     if (!options.delta_hash_file.empty()) {
         delta_hashes = testLoadDeltaHashes(options.delta_hash_file);
     }
@@ -1171,7 +1172,8 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
                 }
 
                 // Resolve column list
-                std::vector<std::string> col_list;
+                std::vector<std::string> col_list = {};
+
                 if (m[4].matched && !m[4].str().empty()) {
                     std::istringstream css(m[4].str());
                     std::string col;
@@ -1194,7 +1196,8 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
 
                     // Delta / incremental import check (mirrors parseInsert logic)
                     if (!options.delta_hash_file.empty()) {
-                        std::vector<std::string> schema_cols;
+                        std::vector<std::string> schema_cols = {};
+
                         if (schemas.count(table_name))
                             schema_cols = schemas[table_name].columns;
                         if (!col_list.empty()) {

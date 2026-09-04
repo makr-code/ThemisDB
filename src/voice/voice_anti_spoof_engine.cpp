@@ -33,7 +33,8 @@ constexpr size_t MAX_SILENCE_DURATION_MS = 500;
         return {};
     }
 
-    std::vector<double> samples;
+    std::vector<double> samples = {};
+
     samples.reserve(audio_data.size() / 2);
     for (size_t i = 0; i < audio_data.size(); i += 2) {
         const auto lo = static_cast<unsigned char>(audio_data[i]);
@@ -64,7 +65,8 @@ constexpr size_t MAX_SILENCE_DURATION_MS = 500;
 }
 
 [[nodiscard]] std::vector<double> parseNumericVector(const std::string& baseline) {
-    std::vector<double> result;
+    std::vector<double> result = {};
+
     if (!looksLikeNumericVector(baseline)) {
         return result;
     }
@@ -328,7 +330,8 @@ std::vector<double> VoiceAntiSpoofEngine::extractNoiseProfile(const std::string&
     }
 
     constexpr size_t kFrameSamples = 320;
-    std::vector<double> profile;
+    std::vector<double> profile = {};
+
     for (size_t offset = 0; offset + kFrameSamples <= samples.size(); offset += kFrameSamples) {
         double energy = 0.0;
         for (size_t i = 0; i < kFrameSamples; ++i) {

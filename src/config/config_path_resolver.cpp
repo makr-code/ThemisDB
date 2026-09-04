@@ -59,7 +59,8 @@ public:
      */
     std::vector<ConfigPathResolver::DeprecationEntry> getReport() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::vector<ConfigPathResolver::DeprecationEntry> report;
+        std::vector<ConfigPathResolver::DeprecationEntry> report = {};
+
         report.reserve(usage_counts_.size());
 
         for (const auto& [path, count] : usage_counts_) {
@@ -1607,7 +1608,8 @@ std::vector<std::pair<std::string, uint64_t>> ConfigPathResolver::legacyFallback
 
 std::vector<std::string> ConfigPathResolver::legacyFallbackCategories() {
     initLegacyFallbackCategoryCounters();
-    std::vector<std::string> categories;
+    std::vector<std::string> categories = {};
+
     categories.reserve(legacy_fallbacks_by_category_.size());
     for (const auto& entry : legacy_fallbacks_by_category_) {
         categories.push_back(entry.first);

@@ -538,7 +538,8 @@ http::response<http::string_body> GraphApiHandler::handleIncrementalQueryRegiste
         // Seed the result cache with the initial result (empty delta, full current).
         themis::graph::GraphQueryOptimizer::ExecutionStats init_stats;
         auto init_bfs = optimizer_->executeBFS(start_vertex, max_depth, constraints, &init_stats);
-        std::vector<std::string> initial;
+        std::vector<std::string> initial = {};
+
         if (init_bfs) {
           initial = init_bfs.value();
         }
@@ -1006,7 +1007,8 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
                 return makeErrorResponse(http::status::bad_request,
                     "Field 'pattern_vertices' (array) is required for pattern_match", req);
             }
-            std::vector<std::string> pverts;
+            std::vector<std::string> pverts = {};
+
             for (const auto& pv : body_json["pattern_vertices"]) {
                 if (pv.is_string()) {
                   pverts.push_back(pv.get<std::string>());

@@ -421,7 +421,8 @@ TEST_F(AuthMiddlewareTest, SessionManagement) {
 TEST_F(AuthMiddlewareTest, ConcurrentSessions) {
     // Test thread-safe concurrent session validation
     // Create multiple tokens
-    std::vector<AuthMiddleware::TokenConfig> tokens;
+    std::vector<AuthMiddleware::TokenConfig> tokens = {};
+
     for (int i = 0; i < CONCURRENT_TEST_COUNT; i++) {
         tokens.push_back({
             .token = "concurrent-token-" + std::to_string(i),

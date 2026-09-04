@@ -463,7 +463,8 @@ TEST_F(EnduranceSoakTest, SOK_07_NoCascadingFailures) {
     std::atomic<bool> stop_flag{false};
 
     // Heavy concurrent load
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 16; ++t) {
         threads.emplace_back([this, &metrics, &stop_flag]() {
             db_->OpenConnection();

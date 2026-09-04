@@ -264,7 +264,8 @@ ParallelTraversal::MultiSourceResult ParallelTraversal::mergeResults(std::vector
     MultiSourceResult merged;
     merged.execution_time_ms = execution_time_ms;
 
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (auto &sr : per_source) {
         merged.total_nodes_explored += sr.nodes_explored;
         merged.total_edges_traversed += sr.edges_traversed;
@@ -303,7 +304,8 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(c
 
     const size_t max_concurrent = effectiveThreadCount(config, sources.size());
 
-    std::vector<SourceTraversalResult> per_source;
+    std::vector<SourceTraversalResult> per_source = {};
+
     per_source.reserve(sources.size());
 
     // Process sources in batches of max_concurrent to cap thread count.
@@ -351,7 +353,8 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceDFS(c
 
     const size_t max_concurrent = effectiveThreadCount(config, sources.size());
 
-    std::vector<SourceTraversalResult> per_source;
+    std::vector<SourceTraversalResult> per_source = {};
+
     per_source.reserve(sources.size());
 
     for (size_t batch_start = 0; batch_start < sources.size();) {

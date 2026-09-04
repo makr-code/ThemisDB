@@ -166,7 +166,8 @@ TEST(ContentPipelineTest, ContentChunker_ReassembleChunks) {
     ContentChunker chunker(config);
     
     // Create test data with pattern
-    std::vector<uint8_t> original_data;
+    std::vector<uint8_t> original_data = {};
+
     for (size_t i = 0; i < 250; ++i) {
         original_data.push_back(static_cast<uint8_t>(i % 256));
     }
@@ -235,7 +236,8 @@ TEST(ContentPipelineTest, BulkUploadInterface_BulkUpload) {
         {8, 9}
     };
     
-    std::vector<BulkUploadInterface::ContentMetadata> metadata_list;
+    std::vector<BulkUploadInterface::ContentMetadata> metadata_list = {};
+
     for (size_t i = 0; i < contents.size(); ++i) {
         BulkUploadInterface::ContentMetadata meta;
         meta.content_id = "bulk-" + std::to_string(i);

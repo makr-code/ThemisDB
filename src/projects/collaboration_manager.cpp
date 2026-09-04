@@ -228,7 +228,8 @@ std::vector<Change> CollaborationManager::getChanges(
     int64_t            since_timestamp) const
 {
     std::shared_lock lock(log_mutex_);
-    std::vector<Change> result;
+    std::vector<Change> result = {};
+
     for (const auto& c : change_log_) {
         if (c.project_id == project_id &&
             c.timestamp  >= since_timestamp)

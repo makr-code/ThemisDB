@@ -132,7 +132,8 @@ std::vector<ArtifactManifest>
 ManifestStore::list(const std::string& tensor_name) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<ArtifactManifest> result;
+    std::vector<ArtifactManifest> result = {};
+
     for (const auto& [k, v] : entries_) {
         if (k.tensor_name == tensor_name) {
             result.push_back(v);

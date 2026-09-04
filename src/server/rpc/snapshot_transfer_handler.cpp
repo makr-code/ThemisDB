@@ -140,7 +140,8 @@ public:
         }
         
         // Iterate through all files in snapshot directory
-        std::vector<fs::path> files;
+        std::vector<fs::path> files = {};
+
         for (const auto& entry : fs::recursive_directory_iterator(snapshot_dir_)) {
             if (entry.is_regular_file()) {
                 files.push_back(entry.path());
@@ -734,7 +735,8 @@ private:
         SHA256_CTX sha256;
         SHA256_Init(&sha256);
         
-        std::vector<fs::path> files;
+        std::vector<fs::path> files = {};
+
         for (const auto& entry : fs::recursive_directory_iterator(snapshot_dir_)) {
             if (entry.is_regular_file()) {
                 files.push_back(entry.path());

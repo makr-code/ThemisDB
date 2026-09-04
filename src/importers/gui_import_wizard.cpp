@@ -205,7 +205,8 @@ ImportWizard::connect(const std::string& session_id,
         auto importer = it->second();
         if (importer) {
             std::string cfg = connection_params.dump();
-            std::vector<std::string> errors;
+            std::vector<std::string> errors = {};
+
             if (!importer->initialize(cfg)) {
                 s.error_message = "Connection initialisation failed";
                 THEMIS_WARN("ImportWizard: session {} connect failed", session_id);
@@ -362,7 +363,8 @@ void ImportWizard::deleteSession(const std::string& session_id) {
 }
 
 std::vector<std::string> ImportWizard::activeSessions() const {
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(sessions_.size());
     for (const auto& [id, _] : sessions_) {
       ids.push_back(id);

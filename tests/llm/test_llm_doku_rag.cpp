@@ -672,7 +672,8 @@ TEST_F(GoldenDatasetRagTest, Rag10_GoldenSourceHintGate) {
     }
 
     // Only evaluate entries that have a non-empty expected_source_hint
-    std::vector<const GoldenEntry*> with_hint;
+    std::vector<const GoldenEntry*> with_hint = {};
+
     for (const auto& e : golden_entries_) {
         if (!e.expected_source_hint.empty()) {
             with_hint.push_back(&e);
@@ -721,7 +722,8 @@ TEST_F(GoldenDatasetRagTest, Rag11_GoldenLatencyMedianBelow500ms) {
         GTEST_SKIP() << "No golden entries loaded (RAG-12 covers this)";
     }
 
-    std::vector<double> latencies;
+    std::vector<double> latencies = {};
+
     latencies.reserve(golden_entries_.size());
 
     for (const auto& entry : golden_entries_) {

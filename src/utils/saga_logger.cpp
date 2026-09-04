@@ -340,7 +340,8 @@ void SAGALogger::signAndFlushBatch() {
     signed_batch.key_version = blob.key_version;
         
         // 3. Build ciphertext for hashing: iv || ciphertext || tag
-        std::vector<uint8_t> to_hash;
+        std::vector<uint8_t> to_hash = {};
+
         to_hash.reserve(blob.iv.size() + blob.ciphertext.size() + blob.tag.size());
         to_hash.insert(to_hash.end(), blob.iv.begin(), blob.iv.end());
         to_hash.insert(to_hash.end(), blob.ciphertext.begin(), blob.ciphertext.end());
@@ -429,7 +430,8 @@ bool SAGALogger::verifyBatch(const std::string& batch_id) {
     }
     
     // 3. Rebuild hash: iv || ciphertext || tag
-    std::vector<uint8_t> to_hash;
+    std::vector<uint8_t> to_hash = {};
+
     to_hash.reserve(batch_meta->iv.size() + ciphertext->size() + batch_meta->tag.size());
     to_hash.insert(to_hash.end(), batch_meta->iv.begin(), batch_meta->iv.end());
     to_hash.insert(to_hash.end(), ciphertext->begin(), ciphertext->end());
@@ -516,7 +518,8 @@ std::vector<SAGAStep> SAGALogger::loadBatch(const std::string& batch_id) {
         auto batch_array = nlohmann::json::parse(plaintext);
         
         // Parse steps
-        std::vector<SAGAStep> steps;
+        std::vector<SAGAStep> steps = {};
+
         for (const auto& entry : batch_array) {
             SAGAStep step;
             step.saga_id = entry["saga_id"].get<std::string>();

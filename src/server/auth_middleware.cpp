@@ -718,7 +718,8 @@ void AuthMiddleware::loadRoleScopeMapping()
         std::unordered_map<std::string, std::vector<std::string>> mapping;
         for (const auto& entry : root["roles"]) {
             std::string role_name = entry.first.as<std::string>();
-            std::vector<std::string> scopes;
+            std::vector<std::string> scopes = {};
+
             if (entry.second["scopes"]) {
                 for (const auto& s : entry.second["scopes"]) {
                     scopes.push_back(s.as<std::string>());

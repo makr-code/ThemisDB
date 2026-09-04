@@ -188,7 +188,8 @@ std::optional<nlohmann::json> AsyncJobRegistry::getJsonSnapshot(const std::strin
 
 std::vector<nlohmann::json> AsyncJobRegistry::allJsonSnapshots() const {
     auto jobs = all();
-    std::vector<nlohmann::json> out;
+    std::vector<nlohmann::json> out = {};
+
     out.reserve(jobs.size());
     for (const auto& job : jobs) {
         out.push_back(job->toJson());

@@ -639,7 +639,8 @@ ModelSwitchOutcome ModelSwitchWorkflow::evaluateRebuildPolicy(
     // Deduplicate triggers (preserve insertion order)
     {
         std::vector<RebuildTrigger> seen;
-        std::vector<RebuildTrigger> deduped;
+        std::vector<RebuildTrigger> deduped = {};
+
         for (const auto t : active_triggers) {
             if (std::find(seen.begin(), seen.end(), t) == seen.end()) {
                 seen.push_back(t);

@@ -246,7 +246,8 @@ public:
                 // Convert the first polygon of the result back to GeometryInfo.
                 const auto& out_poly = buffered[0];
                 GeometryInfo result(GeometryType::Polygon);
-                std::vector<Coordinate> ring;
+                std::vector<Coordinate> ring = {};
+
                 for (const auto& p : out_poly.outer()) {
                     ring.push_back({bg::get<0>(p), bg::get<1>(p)});
                 }
@@ -261,13 +262,15 @@ public:
                 if (buffered.empty()) return GeometryInfo{};
                 const auto& out_poly = buffered[0];
                 GeometryInfo result(GeometryType::Polygon);
-                std::vector<Coordinate> outer_ring;
+                std::vector<Coordinate> outer_ring = {};
+
                 for (const auto& p : out_poly.outer()) {
                     outer_ring.push_back({bg::get<0>(p), bg::get<1>(p)});
                 }
                 result.rings.push_back(std::move(outer_ring));
                 for (const auto& inner : out_poly.inners()) {
-                    std::vector<Coordinate> hole;
+                    std::vector<Coordinate> hole = {};
+
                     for (const auto& p : inner) {
                         hole.push_back({bg::get<0>(p), bg::get<1>(p)});
                     }
@@ -359,14 +362,16 @@ private:
     // Convert a Boost polygon back to GeometryInfo.
     static GeometryInfo boostPolyToGeomInfo(const Polygon& poly) {
         GeometryInfo result(GeometryType::Polygon);
-        std::vector<Coordinate> outer;
+        std::vector<Coordinate> outer = {};
+
         outer.reserve(poly.outer().size());
         for (const auto& p : poly.outer()) {
             outer.push_back({bg::get<0>(p), bg::get<1>(p)});
         }
         result.rings.push_back(std::move(outer));
         for (const auto& inner : poly.inners()) {
-            std::vector<Coordinate> hole;
+            std::vector<Coordinate> hole = {};
+
             hole.reserve(inner.size());
             for (const auto& p : inner) {
                 hole.push_back({bg::get<0>(p), bg::get<1>(p)});

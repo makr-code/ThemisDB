@@ -121,7 +121,8 @@ std::vector<std::string> SitemapCrawler::fetchUrls(
 
     // De-duplicate while preserving order
     std::vector<std::string> seen;
-    std::vector<std::string> unique;
+    std::vector<std::string> unique = {};
+
     unique.reserve(result.size());
     for (auto& u : result) {
         if (std::find(seen.begin(), seen.end(), u) == seen.end()) {

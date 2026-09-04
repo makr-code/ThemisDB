@@ -168,7 +168,8 @@ std::string SecondaryIndexManager::makeIndexKey(std::string_view table, std::str
 // static
 std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values, std::string_view pk) {
 	// Format: idx:table:col1+col2:val1:val2:PK
-	std::vector<std::string> encoded_values;
+	std::vector<std::string> encoded_values = {};
+
 	encoded_values.reserve(values.size());
 	size_t total = 4 + table.size() + 1 + pk.size();
 	for (size_t i = 0; i < columns.size(); ++i) {
@@ -204,7 +205,8 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 // static
 std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values) {
 	// Gleich wie makeCompositeIndexKey aber ohne PK am Ende
-	std::vector<std::string> encoded_values;
+	std::vector<std::string> encoded_values = {};
+
 	encoded_values.reserve(values.size());
 	size_t total = 4 + table.size() + 1;
 	for (size_t i = 0; i < columns.size(); ++i) {
@@ -258,7 +260,8 @@ std::string SecondaryIndexManager::makeCompositeUniqueSentinelKey_(
 		const std::vector<std::string>& columns,
 		const std::vector<std::string>& values) {
 	// Encode values once so we use them for both the reserve hint and the build.
-	std::vector<std::string> encodedVals;
+	std::vector<std::string> encodedVals = {};
+
 	encodedVals.reserve(values.size());
 	size_t total = 5 + table.size() + 1; // "uidx:" + table + ":"
 	for (size_t i = 0; i < columns.size(); ++i) {
@@ -1223,7 +1226,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table,
 
 	const std::string relKey = KeySchema::makeRelationalKey(table, pk);
 	std::optional<std::vector<uint8_t>> oldBlob = db_.get(relKey);
-	std::unique_ptr<BaseEntity> oldEntity;
+	std::unique_ptr<BaseEntity> oldEntity = {};
+
 	if (oldBlob) {
 		try { oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob)); }
 		catch (...) { THEMIS_WARN("put(tx): alte Entity für PK={} nicht deserialisierbar", pk); }
@@ -1263,7 +1267,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::erase(std::string_view tabl
 
 	const std::string relKey = KeySchema::makeRelationalKey(table, pk);
 	std::optional<std::vector<uint8_t>> oldBlob = db_.get(relKey);
-	std::unique_ptr<BaseEntity> oldEntity;
+	std::unique_ptr<BaseEntity> oldEntity = {};
+
 	if (oldBlob) {
 		try { oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(std::string(pk), *oldBlob)); }
 		catch (...) { THEMIS_WARN("erase(tx): alte Entity für PK={} nicht deserialisierbar", pk); }
@@ -1313,7 +1318,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::putBatch(std::string_view t
 
 			// Load old entity for index cleanup (if exists)
 			std::optional<std::vector<uint8_t>> oldBlob = db_.get(relKey);
-			std::unique_ptr<BaseEntity> oldEntity;
+			std::unique_ptr<BaseEntity> oldEntity = {};
+
 			if (oldBlob) {
 				try {
 					oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob));
@@ -1534,7 +1540,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			}
 			
 			// Extract values
-			std::vector<std::string> values;
+			std::vector<std::string> values = {};
+
 			values.reserve(columns.size());
 			bool allPresent = true;
 			for (const auto& c : columns) {
@@ -1606,7 +1613,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 	}
 
 	// Sparse-Indizes pflegen (v1.3.4: use cache)
-	std::vector<std::string> sparseCols;
+	std::vector<std::string> sparseCols = {};
+
 	if (hasCachedMetadata) {
 		sparseCols = sparseColsCache;
 	} else {
@@ -1652,7 +1660,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 	}
 
 	// Geo-Indizes pflegen (v1.3.4: use cache)
-	std::vector<std::string> geoCols;
+	std::vector<std::string> geoCols = {};
+
 	if (hasCachedMetadata) {
 		geoCols = geoColsCache;
 	} else {
@@ -1686,7 +1695,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 	}
 
 	// TTL-Indizes pflegen (use cache and reuse current timestamp)
-	std::vector<std::string> ttlCols;
+	std::vector<std::string> ttlCols = {};
+
 	if (hasCachedMetadata) {
 		ttlCols = ttlColsCache;
 	} else {
@@ -1723,7 +1733,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 	}
 
 	// Fulltext-Indizes pflegen (use cache)
-	std::vector<std::string> fulltextCols;
+	std::vector<std::string> fulltextCols = {};
+
 	if (hasCachedMetadata) {
 		fulltextCols = fulltextColsCache;
 	} else {
@@ -1753,7 +1764,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		}
 		auto tokens = tokenize(*maybeText, config);
 		
-		std::unordered_map<std::string, uint32_t> tf;
+		std::unordered_map<std::string, uint32_t> tf = {};
+
 		tf.reserve(tokens.size());
 		for (const auto& t : tokens) { if (!t.empty()) tf[t]++; }
 		const std::string dkey = makeFulltextDocLenKey(table, fcol, pk);
@@ -1774,7 +1786,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 
 	// Partial (filtered) indexes pflegen
 	{
-		std::unordered_map<std::string, std::string> partialCols;
+		std::unordered_map<std::string, std::string> partialCols = {};
+
 		if (hasCachedMetadata) {
 			for (const auto& col : partialColsOrderCache) {
 				auto it = partialPredicatesCache.find(col);
@@ -1843,7 +1856,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 	std::unordered_set<std::string> ttlColsCache;
 	std::unordered_set<std::string> fulltextColsCache;
 	std::unordered_map<std::string, std::string> partialColsCache;
-	std::unordered_map<std::string, SecondaryIndexMetadataCache::CachedFulltextConfig> fulltextConfigsCache;
+	std::unordered_map<std::string, SecondaryIndexMetadataCache::CachedFulltextConfig> fulltextConfigsCache = {};
+
 	if (hasCachedMetadata) {
 		const auto metadata = *cachedMetadata;
 		indexedColsCache = metadata.regular_indexes_set;
@@ -1954,7 +1968,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 				start = pos + 1;
 			}
 			
-			std::vector<std::string> values;
+			std::vector<std::string> values = {};
+
 			values.reserve(columns.size());
 			bool allPresent = true;
 			for (const auto& c : columns) {
@@ -2158,7 +2173,8 @@ SecondaryIndexManager::scanEntitiesEqual(std::string_view table,
 	auto [st, keys] = scanKeysEqual(table, column, value);
 	if (!st.ok) return {st, std::vector<BaseEntity>()};
 
-	std::vector<BaseEntity> out;
+	std::vector<BaseEntity> out = {};
+
 	out.reserve(keys.size());
 	for (const auto& pk : keys) {
 		const std::string relKey = KeySchema::makeRelationalKey(table, pk);
@@ -2240,7 +2256,8 @@ SecondaryIndexManager::scanEntitiesEqualComposite(std::string_view table,
 	auto [st, keys] = scanKeysEqualComposite(table, columns, values);
 	if (!st.ok) return {st, std::vector<BaseEntity>()};
 	
-	std::vector<BaseEntity> out;
+	std::vector<BaseEntity> out = {};
+
 	out.reserve(keys.size());
 	for (const auto& pk : keys) {
 		const std::string relKey = KeySchema::makeRelationalKey(table, pk);
@@ -2719,7 +2736,8 @@ SecondaryIndexManager::computeBM25Scores_(
 	// Get index config and parse phrases; tokenize query without quoted phrases
 	auto config = getFulltextConfig(table, column).value_or(FulltextConfig{});
 	auto parsePhrases = [](std::string_view q) {
-		std::vector<std::string> phrases;
+		std::vector<std::string> phrases = {};
+
 		phrases.reserve(std::max<size_t>(1, q.size() / 16));
 		std::string cleaned;
 		cleaned.reserve(q.size());
@@ -2793,7 +2811,8 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	std::unordered_set<std::string> intersectionSet = tokenResults.front();
 	for (size_t i = 1; i < tokenResults.size(); ++i) {
-		std::unordered_set<std::string> intersection;
+		std::unordered_set<std::string> intersection = {};
+
 		intersection.reserve(std::min(intersectionSet.size(), tokenResults[i].size()));
 		for (const auto& pk : intersectionSet) {
 			if (tokenResults[i].count(pk)) {
@@ -2810,7 +2829,8 @@ SecondaryIndexManager::computeBM25Scores_(
 	if (!phrases.empty()) {
 		// Pre-normalize phrases once outside the per-candidate loop to avoid
 		// redundant normalization on every outer iteration (O(n²) reduction).
-		std::vector<std::string> normalizedPhrases;
+		std::vector<std::string> normalizedPhrases = {};
+
 		normalizedPhrases.reserve(phrases.size());
 		for (auto ph : phrases) {
 			if (config.normalize_umlauts) {
@@ -2820,7 +2840,8 @@ SecondaryIndexManager::computeBM25Scores_(
 			normalizedPhrases.push_back(std::move(ph));
 		}
 
-		std::vector<std::string> toErase;
+		std::vector<std::string> toErase = {};
+
 		toErase.reserve(intersectionSet.size());
 		for (const auto& pk : intersectionSet) {
 			auto pkey = KeySchema::makeRelationalKey(table, pk);
@@ -2876,7 +2897,8 @@ SecondaryIndexManager::computeBM25Scores_(
 	const double N = static_cast<double>(std::max<size_t>(1, universe.size()));
 
 	// DocLength laden für Kandidaten (für avgdl)
-	std::unordered_map<std::string, double> docLen;
+	std::unordered_map<std::string, double> docLen = {};
+
 	docLen.reserve(universe.size());
 	double totalLen = 0.0;
 	for (const auto& pk : universe) {
@@ -2893,7 +2915,8 @@ SecondaryIndexManager::computeBM25Scores_(
 	const double avgdl = (universe.empty() ? 1.0 : std::max(1.0, totalLen / static_cast<double>(universe.size())));
 
 	// Vorbereiten: df je Token
-	std::vector<double> dfs;
+	std::vector<double> dfs = {};
+
 	dfs.reserve(tokens.size());
 	for (const auto& s : tokenResults) {
 	  dfs.emplace_back(static_cast<double>(s.size()));
@@ -2904,7 +2927,8 @@ SecondaryIndexManager::computeBM25Scores_(
 	const double b = 0.75;
 
 	// Score für jede PK in der Schnittmenge berechnen
-	std::vector<FulltextResult> scored;
+	std::vector<FulltextResult> scored = {};
+
 	scored.reserve(intersectionSet.size());
 	for (const auto& pk : intersectionSet) {
 		const auto itLen = docLen.find(pk);
@@ -2940,7 +2964,8 @@ SecondaryIndexManager::computeBM25Scores_(
 	});
 
 	// Top-k Ergebnisse extrahieren
-	std::vector<FulltextResult> finalResults;
+	std::vector<FulltextResult> finalResults = {};
+
 	const size_t topk = std::min(scored.size(), limit);
 	finalResults.reserve(topk);
 	finalResults.insert(
@@ -2965,7 +2990,8 @@ SecondaryIndexManager::scanFulltext(
 		return {status, std::vector<std::string>()};
 	}
 	
-	std::vector<std::string> pks;
+	std::vector<std::string> pks = {};
+
 	pks.reserve(results.size());
 	for (const auto& result : results) {
 		pks.emplace_back(result.pk);
@@ -3034,7 +3060,8 @@ SecondaryIndexManager::scanFulltextPhrase(
 	
 	std::unordered_set<std::string> candidates = tokenResults[0];
 	for (size_t i = 1; i < tokenResults.size(); ++i) {
-		std::unordered_set<std::string> intersection;
+		std::unordered_set<std::string> intersection = {};
+
 		for (const auto& pk : candidates) {
 			if (tokenResults[i].count(pk)) {
 				intersection.insert(pk);
@@ -3196,7 +3223,8 @@ SecondaryIndexManager::scanFulltextFuzzy(
 	});
 	
 	// Convert to results with scores
-	std::vector<FulltextResult> results;
+	std::vector<FulltextResult> results = {};
+
 	results.reserve(pkScores.size());
 	
 	for (const auto& [pk, score] : pkScores) {
@@ -3222,7 +3250,8 @@ bool SecondaryIndexManager::isNullOrEmpty_(const std::optional<std::string>& val
 
 // Tokenizer: Whitespace-based, converts to lowercase
 std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) {
-	std::vector<std::string> tokens;
+	std::vector<std::string> tokens = {};
+
 	tokens.reserve(std::max<size_t>(1, text.size() / 5));
 	std::string current;
 	current.reserve(std::min<size_t>(text.size(), 32));
@@ -3580,7 +3609,8 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 			BaseEntity::Blob blob(val.begin(), val.end());
 			BaseEntity entity = BaseEntity::deserialize(pk, blob);
 
-			std::vector<std::string> values;
+			std::vector<std::string> values = {};
+
 			values.reserve(columns.size());
 			for (const auto& col : columns) {
 				auto maybeVal = entity.extractField(col);
@@ -3875,7 +3905,8 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			}
 			std::string pk(key.substr(lc + 1));
 			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
-			std::vector<std::string> values;
+			std::vector<std::string> values = {};
+
 			values.reserve(cols.size());
 			for (const auto& col : cols) {
 				auto mv = entity.extractField(col);
@@ -4193,7 +4224,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(
 
 	// Alte Entity lesen (mit MVCC Snapshot)
 	std::optional<std::vector<uint8_t>> oldBlob = txn.get(relKey);
-	std::unique_ptr<BaseEntity> oldEntity;
+	std::unique_ptr<BaseEntity> oldEntity = {};
+
 	if (oldBlob) {
 		try { 
 			oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob)); 
@@ -4238,7 +4270,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::erase(
 	
 	// Alte Entity lesen (mit MVCC Snapshot)
 	std::optional<std::vector<uint8_t>> oldBlob = txn.get(relKey);
-	std::unique_ptr<BaseEntity> oldEntity;
+	std::unique_ptr<BaseEntity> oldEntity = {};
+
 	if (oldBlob) {
 		try { 
 			oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(std::string(pk), *oldBlob)); 
@@ -4454,7 +4487,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			}
 			
 			// Extract values
-			std::vector<std::string> values;
+			std::vector<std::string> values = {};
+
 			values.reserve(columns.size());
 			bool allPresent = true;
 			for (const auto& c : columns) {
@@ -4539,7 +4573,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 	}
 
 	// Sparse-Indizes pflegen (v1.3.4: use cache)
-	std::unordered_set<std::string> sparseCols;
+	std::unordered_set<std::string> sparseCols = {};
+
 	if (hasCachedMetadata) {
 		sparseCols = sparseColsCache;
 	} else {
@@ -4583,7 +4618,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 	}
 
 	// Geo-Indizes pflegen (v1.3.4: use cache)
-	std::unordered_set<std::string> geoCols;
+	std::unordered_set<std::string> geoCols = {};
+
 	if (hasCachedMetadata) {
 		geoCols = geoColsCache;
 	} else {
@@ -4615,7 +4651,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 	}
 
 	// TTL-Indizes pflegen (v1.3.4: use cache)
-	std::unordered_set<std::string> ttlCols;
+	std::unordered_set<std::string> ttlCols = {};
+
 	if (hasCachedMetadata) {
 		ttlCols = ttlColsCache;
 	} else {
@@ -4650,7 +4687,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 	}
 
 	// Fulltext-Indizes pflegen (v1.3.4: use cache)
-	std::unordered_set<std::string> fulltextCols;
+	std::unordered_set<std::string> fulltextCols = {};
+
 	if (hasCachedMetadata) {
 		fulltextCols = fulltextColsCache;
 	} else {
@@ -4679,7 +4717,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		}
 		auto tokens = tokenize(*maybeText, config);
 		
-		std::unordered_map<std::string, uint32_t> tf;
+		std::unordered_map<std::string, uint32_t> tf = {};
+
 		for (const auto& t : tokens) { if (!t.empty()) tf[t]++; }
 		const std::string dkey = makeFulltextDocLenKey(table, fcol, pk);
 		{
@@ -4699,7 +4738,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 
 	// Partial (filtered) indexes pflegen
 	{
-		std::unordered_map<std::string, std::string> partialCols;
+		std::unordered_map<std::string, std::string> partialCols = {};
+
 		if (hasCachedMetadata) {
 			for (const auto& col : partialColsOrderCache) {
 				auto it = partialPredicatesCache.find(col);
@@ -4770,7 +4810,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 	std::unordered_set<std::string> ttlColsCache;
 	std::unordered_set<std::string> fulltextColsCache;
 	std::unordered_map<std::string, std::string> partialColsCache;
-	std::unordered_map<std::string, SecondaryIndexMetadataCache::CachedFulltextConfig> fulltextConfigsCache;
+	std::unordered_map<std::string, SecondaryIndexMetadataCache::CachedFulltextConfig> fulltextConfigsCache = {};
+
 	if (hasCachedMetadata) {
 		const auto metadata = *cachedMetadata;
 		indexedColsCache = metadata.regular_indexes_set;
@@ -4881,7 +4922,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 				start = pos + 1;
 			}
 			
-			std::vector<std::string> values;
+			std::vector<std::string> values = {};
+
 			values.reserve(columns.size());
 			bool allPresent = true;
 			for (const auto& c : columns) {

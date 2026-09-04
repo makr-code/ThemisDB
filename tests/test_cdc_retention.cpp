@@ -84,7 +84,8 @@ TEST_F(CDCRetentionTest, WatermarksWithEvents) {
     changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr);
     
     // Record some events
-    std::vector<uint64_t> sequences;
+    std::vector<uint64_t> sequences = {};
+
     for (int i = 0; i < 10; i++) {
         Changefeed::ChangeEvent event;
         event.type = Changefeed::ChangeEventType::EVENT_PUT;
@@ -216,7 +217,8 @@ TEST_F(CDCRetentionTest, DeleteOldEventsBySequence) {
     changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr);
     
     // Record 10 events
-    std::vector<uint64_t> sequences;
+    std::vector<uint64_t> sequences = {};
+
     for (int i = 0; i < 10; i++) {
         Changefeed::ChangeEvent event;
         event.type = Changefeed::ChangeEventType::EVENT_PUT;
@@ -341,7 +343,8 @@ TEST_F(CDCRetentionTest, WatermarksAfterRetention) {
     changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr, policy);
     
     // Record 10 events
-    std::vector<uint64_t> sequences;
+    std::vector<uint64_t> sequences = {};
+
     for (int i = 0; i < 10; i++) {
         Changefeed::ChangeEvent event;
         event.type = Changefeed::ChangeEventType::EVENT_PUT;

@@ -154,7 +154,8 @@ public:
      */
     std::vector<std::string> getAllQueryIds() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         ids.reserve(queries_.size());
         for (const auto& [id, _] : queries_) {
             ids.push_back(id);

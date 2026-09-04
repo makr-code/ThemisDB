@@ -232,7 +232,8 @@ EncryptedBlob EncryptedBlob::fromJson(const nlohmann::json& j) {
 
 std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector<std::pair<std::string,std::string>>& items,
                                                                 const std::string& key_id) {
-    std::vector<EncryptedBlob> out;
+    std::vector<EncryptedBlob> out = {};
+
     out.resize(items.size());
 
     // Fetch base key once

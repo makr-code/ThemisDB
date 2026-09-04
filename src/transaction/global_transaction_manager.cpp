@@ -488,7 +488,8 @@ std::vector<RecoverableTwoPhaseTransaction>
 GlobalTransactionManager::getRecoverableTransactions() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<RecoverableTwoPhaseTransaction> result;
+    std::vector<RecoverableTwoPhaseTransaction> result = {};
+
     for (const auto& [txn_id, rec] : transactions_) {
         if (rec.state == GlobalTxnState::COMPLETED) {
             continue;

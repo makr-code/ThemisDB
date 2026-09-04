@@ -172,7 +172,8 @@ static std::vector<float> denseProject(const std::vector<float>& data,
                                         const std::vector<std::size_t>& shape,
                                         std::size_t mode) {
     // Result shape
-    std::vector<std::size_t> res_shape;
+    std::vector<std::size_t> res_shape = {};
+
     for (std::size_t k = 0; k < shape.size(); ++k)
         if (k != mode) {
           res_shape.push_back(shape[k]);
@@ -195,7 +196,8 @@ static std::vector<float> denseProject(const std::vector<float>& data,
             tmp /= shape[static_cast<std::size_t>(k)];
         }
         // Build result index (skip mode)
-        std::vector<std::size_t> ridx;
+        std::vector<std::size_t> ridx = {};
+
         for (std::size_t k = 0; k < shape.size(); ++k)
             if (k != mode) {
               ridx.push_back(idx[k]);
@@ -1689,7 +1691,8 @@ public:
 
     std::vector<themis::observability::ProvenanceStepRecord> getProvenanceChain(
         const std::string& query_id) override {
-        std::vector<themis::observability::ProvenanceStepRecord> out;
+        std::vector<themis::observability::ProvenanceStepRecord> out = {};
+
         for (const auto& rec : records) {
             if (rec.query_id == query_id) {
                 out.push_back(rec);
@@ -1701,7 +1704,8 @@ public:
     std::vector<themis::observability::ProvenanceStepRecord> getRecordsByTimeRange(
         int64_t start_ts_ms,
         int64_t end_ts_ms) override {
-        std::vector<themis::observability::ProvenanceStepRecord> out;
+        std::vector<themis::observability::ProvenanceStepRecord> out = {};
+
         for (const auto& rec : records) {
             if (rec.timestamp_ms >= start_ts_ms && rec.timestamp_ms <= end_ts_ms) {
                 out.push_back(rec);
@@ -1711,7 +1715,8 @@ public:
     }
 
     std::vector<std::string> listQueryIds() override {
-        std::vector<std::string> out;
+        std::vector<std::string> out = {};
+
         for (const auto& rec : records) {
             if (std::find(out.begin(), out.end(), rec.query_id) == out.end()) {
                 out.push_back(rec.query_id);

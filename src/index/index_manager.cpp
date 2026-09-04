@@ -156,7 +156,8 @@ public:
             THEMIS_WARN("VectorIndexAdapter::search: underlying evaluator-aware search failed: {}", status.message);
             return {};
         }
-        std::vector<VectorSearchResult> out;
+        std::vector<VectorSearchResult> out = {};
+
         out.reserve(results.size());
         for (const auto& r : results) {
             out.emplace_back(r.pk, r.distance);
@@ -175,7 +176,8 @@ public:
             THEMIS_WARN("VectorIndexAdapter::rangeSearch: underlying evaluator-aware radius search failed: {}", status.message);
             return {};
         }
-        std::vector<VectorSearchResult> out;
+        std::vector<VectorSearchResult> out = {};
+
         out.reserve(results.size());
         for (const auto& r : results) {
             out.emplace_back(r.pk, r.distance);
@@ -658,7 +660,8 @@ Result<void> IndexManager::dropIndex(std::string_view name) {
 std::vector<std::string> IndexManager::listIndexes() const {
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
-    std::vector<std::string> indices;
+    std::vector<std::string> indices = {};
+
     indices.reserve(index_types_.size());
     
     for (const auto& [name, type] : index_types_) {
@@ -880,7 +883,8 @@ std::vector<std::string> IndexManager::listIndexes(
     const std::string prefix = fmt::format("tenant:{}:", tenant_id);
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
 
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& [key, _] : index_types_) {
         if (key.starts_with(prefix)) {
             // Return the logical name without the "tenant:<id>:" prefix.

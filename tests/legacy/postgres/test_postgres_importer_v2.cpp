@@ -410,7 +410,8 @@ public:
     static std::vector<RelationshipMapping> mapFromForeignKeys(
             const std::map<std::string, TableSchema>& schemas,
             const std::string& mode = "auto") {
-        std::vector<RelationshipMapping> result;
+        std::vector<RelationshipMapping> result = {};
+
         if (mode != "auto") {
           return result;
         }
@@ -452,7 +453,8 @@ public:
 
     static std::vector<RelationshipMapping> generateInverseEdges(
             const std::vector<RelationshipMapping>& mappings) {
-        std::vector<RelationshipMapping> inverse;
+        std::vector<RelationshipMapping> inverse = {};
+
         for (const auto& m : mappings) {
             if (m.cardinality != "MANY_TO_ONE") {
               continue;
@@ -835,7 +837,8 @@ TEST(PostgresImporterV2, DetectsCircularReferences) {
 // ============================================================================
 
 TEST(PostgresImporterV2, FKTargetTableExists) {
-    std::map<std::string, TableSchema> schemas;
+    std::map<std::string, TableSchema> schemas = {};
+
     TableSchema users; users.name = "users"; users.columns = {"id"}; users.primary_keys = {"id"};
     TableSchema orders; orders.name = "orders"; orders.columns = {"id", "user_id"};
     ForeignKeyConstraint fk; fk.target_table = "users"; fk.target_column = "id";
@@ -874,7 +877,8 @@ TEST(PostgresImporterV2, FKTargetTableMissing) {
 }
 
 TEST(PostgresImporterV2, FKTargetColumnMissing) {
-    std::map<std::string, TableSchema> schemas;
+    std::map<std::string, TableSchema> schemas = {};
+
     TableSchema users; users.name = "users"; users.columns = {"id"};
     TableSchema orders; orders.name = "orders";
     ForeignKeyConstraint fk; fk.target_table = "users"; fk.target_column = "nonexistent_col";

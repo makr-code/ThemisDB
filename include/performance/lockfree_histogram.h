@@ -144,7 +144,8 @@ public:
         }
 
         // Snapshot bucket counts.
-        std::array<uint64_t, NumBuckets> snap;
+        std::array<uint64_t, NumBuckets> snap = {};
+
         for (std::size_t i = 0; i < NumBuckets; ++i) {
             snap[i] = buckets_[i].load(std::memory_order_relaxed);
         }

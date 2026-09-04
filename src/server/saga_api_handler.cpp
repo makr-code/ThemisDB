@@ -230,7 +230,8 @@ nlohmann::json SAGAApiHandler::getBatchDetail([[maybe_unused]] const std::string
                     auto j = nlohmann::json::parse(line);
                     if (j.value("batch_id", "") == batch_id) {
                         if (j.contains("ciphertext_hash") && j["ciphertext_hash"].is_array()) {
-                            std::vector<uint8_t> hash;
+                            std::vector<uint8_t> hash = {};
+
                             for (auto& byte : j["ciphertext_hash"]) {
                                 hash.push_back(byte.get<uint8_t>());
                             }

@@ -873,7 +873,8 @@ public:
     }
     
     std::vector<BackupInfo> listBackups() const {
-        std::vector<BackupInfo> backups;
+        std::vector<BackupInfo> backups = {};
+
         backups.reserve(backup_catalog_.size());
         
         for (const auto& entry : backup_catalog_) {

@@ -103,7 +103,8 @@ std::variant<std::vector<std::string>, Status> RAGContextEngine::findSimilarDile
 
     std::sort(scored.begin(), scored.end(), [](const auto &a, const auto &b) { return a.first > b.first; });
 
-    std::vector<std::string> results;
+    std::vector<std::string> results = {};
+
     results.reserve(std::min(scored.size(), limit));
     for (size_t i = 0; i < scored.size() && i < limit; ++i) {
         results.push_back(scored[i].second);
@@ -122,7 +123,8 @@ RAGContextEngine::getBestPractices(const std::string &category, double min_satis
     static const std::vector<std::string> kSchools
         = {"kant", "utilitarianism", "virtue_ethics", "rawls", "contractarianism", "care_ethics", "natural_law"};
 
-    std::vector<std::string> results;
+    std::vector<std::string> results = {};
+
     for (const auto &school : kSchools) {
         if (results.size() >= limit) {
             break;

@@ -265,7 +265,8 @@ Result<bool> PathConstraints::validatePath(const std::vector<std::string> &nodes
 
             case ConstraintType::NO_CYCLES:
             [[fallthrough]];\n            case ConstraintType::UNIQUE_NODES: {
-                std::unordered_set<std::string> seen;
+                std::unordered_set<std::string> seen = {};
+
                 for (const auto &node : nodes) {
                     if (seen.count(node) > 0) {
                         return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
@@ -277,7 +278,8 @@ Result<bool> PathConstraints::validatePath(const std::vector<std::string> &nodes
             }
 
             case ConstraintType::UNIQUE_EDGES: {
-                std::unordered_set<std::string> seen;
+                std::unordered_set<std::string> seen = {};
+
                 for (const auto &edge : edges) {
                     if (seen.count(edge) > 0) {
                         return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
@@ -692,7 +694,8 @@ void PathConstraints::addSemanticConstraint(const OntologyManager *ontology, Ont
 
 std::vector<PathConstraints::ConstraintViolation>
 PathConstraints::validateSemanticPath(const PathResult &result) const {
-    std::vector<ConstraintViolation> violations;
+    std::vector<ConstraintViolation> violations = {};
+
     if (!ontology_ || !graph_mgr_) {
         return violations;
     }

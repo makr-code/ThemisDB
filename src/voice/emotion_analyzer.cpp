@@ -136,7 +136,8 @@ EmotionTimeline EmotionAnalyzer::track(
                                ? config : config_;
 
     std::vector<float> stress_levels;
-    std::vector<float> engagement_scores;
+    std::vector<float> engagement_scores = {};
+
     stress_levels.reserve(segments.size());
     engagement_scores.reserve(segments.size());
 
@@ -477,7 +478,8 @@ VoiceQuality EmotionAnalyzer::buildVoiceQuality(
     }
 
     // Dominant emotion: most frequent.
-    std::map<Emotion, int> counts;
+    std::map<Emotion, int> counts = {};
+
     for (const auto& te : entries) {
         ++counts[te.emotion];
     }

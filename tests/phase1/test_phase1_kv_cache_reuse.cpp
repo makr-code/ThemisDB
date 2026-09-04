@@ -479,7 +479,8 @@ TEST_F(KVCacheReuseTest, ZipfianDistributionWorkload) {
     LLMPrefixCache cache("test_zipfian_cache", cache_config_);
     
     // Create 20 different prefixes
-    std::vector<std::string> prefixes;
+    std::vector<std::string> prefixes = {};
+
     for (int i = 0; i < 20; ++i) {
         prefixes.push_back("Prefix " + std::to_string(i) + " for Zipfian distribution test pattern");
     }

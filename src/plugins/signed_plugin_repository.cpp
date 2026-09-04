@@ -226,7 +226,8 @@ std::vector<RepositoryEntry> SignedPluginRepository::findByName(
     const std::string& name) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<RepositoryEntry> result;
+    std::vector<RepositoryEntry> result = {};
+
     for (const auto& e : entries_) {
         if (e.manifest.name == name) {
             result.push_back(e);

@@ -210,7 +210,8 @@ TEST_F(TSBatchFixture, TB08_GorillaRoundTrip) {
     gcfg.compression = TSStore::CompressionType::Gorilla;
     auto gstore = std::make_unique<TSStore>(db->getRawDB(), nullptr, gcfg);
 
-    std::vector<TSStore::TSRow> rows;
+    std::vector<TSStore::TSRow> rows = {};
+
     for (int i = 0; i < 10; ++i) {
         rows.push_back(makeRow("load", "box1",
                                BASE_MS + i * 1000,

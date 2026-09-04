@@ -219,7 +219,8 @@ bool ShardLoadDetector::detectRequestImbalance(
     LoadImbalanceResult& result
 ) const {
     std::vector<double> request_rates;
-    std::vector<std::string> shard_ids;
+    std::vector<std::string> shard_ids = {};
+
     request_rates.reserve(loads.size());
     shard_ids.reserve(loads.size());
 
@@ -271,7 +272,8 @@ bool ShardLoadDetector::detectLatencyDegradation(
     LoadImbalanceResult& result
 ) const {
     std::vector<double> latencies;
-    std::vector<std::string> shard_ids;
+    std::vector<std::string> shard_ids = {};
+
     latencies.reserve(loads.size());
     shard_ids.reserve(loads.size());
 

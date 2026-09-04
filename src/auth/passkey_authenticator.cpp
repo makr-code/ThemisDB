@@ -370,7 +370,8 @@ static std::vector<uint8_t> passkeyBase64UrlDecodeImpl(const std::string& input)
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
     };
 
-    std::vector<uint8_t> out;
+    std::vector<uint8_t> out = {};
+
     out.reserve(padded.size() / 4 * 3);
     for (std::size_t i = 0; i < padded.size(); i += 4) {
         const int8_t a = kDec[static_cast<uint8_t>(padded[i])];
@@ -811,7 +812,8 @@ std::vector<PasskeyCredential> PasskeyAuthenticator::listCredentials(
     const std::string& user_id) const
 {
     std::lock_guard<std::mutex> lock(cred_mutex_);
-    std::vector<PasskeyCredential> result;
+    std::vector<PasskeyCredential> result = {};
+
     for (const auto& [id, cred] : credentials_) {
         if (cred.user_id == user_id) {
             result.push_back(cred);
@@ -969,7 +971,8 @@ bool PasskeyAuthenticator::verifyAuthentication(
 
         // 7. Build signed data: authData || SHA-256(clientDataJSON)
         const auto client_data_hash = sha256Bytes(client_data_bytes);
-        std::vector<uint8_t> signed_data;
+        std::vector<uint8_t> signed_data = {};
+
         signed_data.reserve(auth_data_bytes.size() + client_data_hash.size());
         signed_data.insert(signed_data.end(),
                            auth_data_bytes.begin(), auth_data_bytes.end());

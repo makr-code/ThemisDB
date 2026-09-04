@@ -209,7 +209,8 @@ public:
 
     std::vector<std::string> getNodeIds() const {
         std::lock_guard<std::mutex> lk(mutex_);
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         ids.reserve(profiles_.size());
         for (const auto& [id, _] : profiles_) {
             ids.push_back(id);
@@ -236,7 +237,8 @@ private:
 
     [[nodiscard]] static std::vector<std::string> collectIds(
             const std::map<std::string, NodeProfile>& snapshot) {
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         ids.reserve(snapshot.size());
         for (const auto& [id, _] : snapshot) {
             ids.push_back(id);

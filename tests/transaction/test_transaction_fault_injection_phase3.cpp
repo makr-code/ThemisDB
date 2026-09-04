@@ -218,7 +218,8 @@ public:
 
     std::vector<InDoubtTxnDescriptor> getInDoubtTransactions() const override {
         std::lock_guard<std::mutex> lk(mu_);
-        std::vector<InDoubtTxnDescriptor> result;
+        std::vector<InDoubtTxnDescriptor> result = {};
+
         for (const auto& [id, state] : states_) {
             if (state == TxnLifecycleState::PREPARED || state == TxnLifecycleState::FAILED) {
                 result.push_back({id, /*prepare_logged=*/true,

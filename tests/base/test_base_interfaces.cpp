@@ -241,7 +241,8 @@ public:
     std::vector<VectorSearchResult> search(
         const std::vector<float>& /*query*/, uint32_t k,
         const IExpressionEvaluator* /*filter*/ = nullptr) const override {
-        std::vector<VectorSearchResult> results;
+        std::vector<VectorSearchResult> results = {};
+
         for (const auto& [pk, _] : vectors_) {
             if (results.size() >= static_cast<size_t>(k)) {
               break;
@@ -254,7 +255,8 @@ public:
     std::vector<VectorSearchResult> rangeSearch(
         const std::vector<float>& /*query*/, float /*max_distance*/,
         const IExpressionEvaluator* /*filter*/ = nullptr) const override {
-        std::vector<VectorSearchResult> results;
+        std::vector<VectorSearchResult> results = {};
+
         for (const auto& [pk, _] : vectors_) {
             results.emplace_back(pk, 0.0f);
         }
@@ -293,7 +295,8 @@ public:
 
     std::vector<GraphEdge> getOutgoingEdges(
         std::string_view node_id, std::string_view edge_type = "") const override {
-        std::vector<GraphEdge> result;
+        std::vector<GraphEdge> result = {};
+
         for (const auto& e : edges_) {
             if (e.from_node == std::string(node_id) &&
                 (edge_type.empty() || e.edge_type == std::string(edge_type))) {
@@ -305,7 +308,8 @@ public:
 
     std::vector<GraphEdge> getIncomingEdges(
         std::string_view node_id, std::string_view edge_type = "") const override {
-        std::vector<GraphEdge> result;
+        std::vector<GraphEdge> result = {};
+
         for (const auto& e : edges_) {
             if (e.to_node == std::string(node_id) &&
                 (edge_type.empty() || e.edge_type == std::string(edge_type))) {

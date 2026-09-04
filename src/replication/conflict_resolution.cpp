@@ -592,7 +592,8 @@ std::string FieldLevelMergeResolver::mergeFields(
         }
 
         // Build union of all keys
-        std::map<std::string, bool> all_keys;
+        std::map<std::string, bool> all_keys = {};
+
         for (const auto& fm : field_maps) {
             for (const auto& kv : fm) {
                 all_keys[kv.first] = true;
@@ -605,7 +606,8 @@ std::string FieldLevelMergeResolver::mergeFields(
             const std::string& key = key_entry.first;
 
             // Count how many writes contain this key
-            std::vector<size_t> present_indices;
+            std::vector<size_t> present_indices = {};
+
             present_indices.reserve(writes.size());
             for (size_t i = 0; i < field_maps.size(); ++i) {
                 if (field_maps[i].count(key)) {

@@ -1863,9 +1863,11 @@ void WireProtocolServer::Session::handleBatchGet() {
             return;
         }
 
-        std::vector<std::string> client_keys;
+        std::vector<std::string> client_keys = {};
+
         client_keys.reserve(keys_arr.size());
-        std::vector<std::string> storage_keys;
+        std::vector<std::string> storage_keys = {};
+
         storage_keys.reserve(keys_arr.size());
         for (const auto& key_val : keys_arr) {
             if (!key_val.is_string()) {
@@ -1987,7 +1989,8 @@ void WireProtocolServer::Session::handleBatchPut() {
             std::string value_str;
         };
 
-        std::vector<ValidatedItem> valid_items;
+        std::vector<ValidatedItem> valid_items = {};
+
         valid_items.reserve(items_arr.size());
 
         json results = json::array();
@@ -2752,7 +2755,8 @@ void WireProtocolServer::Session::handleVectorSearch() {
             return;
         }
 
-        std::vector<float> query_vector;
+        std::vector<float> query_vector = {};
+
         query_vector.reserve(vector_json.size());
         for (const auto& v : vector_json) {
             if (!v.is_number()) {

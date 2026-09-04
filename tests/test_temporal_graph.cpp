@@ -582,7 +582,8 @@ TEST_F(TemporalGraphTest, GetEdgesInTimeRange_ReturnsOverlappingEdges) {
     auto [status, edges] = graph_mgr_->getEdgesInTimeRange(t_2022_jan, t_2023_jan, false);
     ASSERT_TRUE(status.ok) << status.message;
 
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (const auto& e : edges) {
       ids.push_back(e.edgeId);
     }
@@ -604,7 +605,8 @@ TEST_F(TemporalGraphTest, GetEdgesInTimeRange_FullContainment) {
     auto [status, edges] = graph_mgr_->getEdgesInTimeRange(t_2021_jan, t_2023_jan, true);
     ASSERT_TRUE(status.ok) << status.message;
 
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (const auto& e : edges) {
       ids.push_back(e.edgeId);
     }
@@ -627,7 +629,8 @@ TEST_F(TemporalGraphTest, GetOutEdgesInTimeRange_FiltersFromNode) {
     auto [status, edges] = graph_mgr_->getOutEdgesInTimeRange("A", t_2021_jan, t_2023_jan, false);
     ASSERT_TRUE(status.ok) << status.message;
 
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (const auto& e : edges) {
       ids.push_back(e.edgeId);
     }

@@ -259,7 +259,8 @@ SchemaInferenceEngine::detectSemanticTypes(
     const std::vector<InferenceTableSchema>& schemas,
     const std::vector<SampleData>& samples)
 {
-    std::map<std::string, SemanticType> result;
+    std::map<std::string, SemanticType> result = {};
+
     if (!config_.enable_semantic_detection) {
       return result;
     }
@@ -351,7 +352,8 @@ SchemaInferenceEngine::validateSchemaStructure(
         }
 
         // Check column validity
-        std::unordered_set<std::string> seen_columns;
+        std::unordered_set<std::string> seen_columns = {};
+
         if (schema.columns.size() > kMaxColumnCount) {
             SchemaStructureError err;
             err.violation_type = SchemaStructureError::ViolationType::OVERSIZED_IDENTIFIER;

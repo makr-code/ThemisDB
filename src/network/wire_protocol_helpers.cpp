@@ -86,7 +86,8 @@ bool ProtobufParser::readLengthDelimited(std::vector<uint8_t>& value) {
 }
 
 bool ProtobufParser::readString(std::string& value) {
-    std::vector<uint8_t> bytes;
+    std::vector<uint8_t> bytes = {};
+
     if (!readLengthDelimited(bytes)) {
         return false;
     }

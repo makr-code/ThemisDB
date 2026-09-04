@@ -230,7 +230,8 @@ bool GGUFMetadata::has(const std::string& storage_key) const {
 
 std::vector<std::string> GGUFMetadata::keys() const {
     std::shared_lock lock(mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(store_.size());
     for (const auto& [k, _] : store_) {
         result.push_back(k);
@@ -333,7 +334,8 @@ bool GGUFMetadata::verify(const ProvenanceRecord& record,
 std::vector<uint8_t> GGUFMetadata::serialize() const {
     std::shared_lock lock(mutex_);
 
-    std::vector<uint8_t> buf;
+    std::vector<uint8_t> buf = {};
+
     // Number of records.
     writeU32(buf, static_cast<uint32_t>(store_.size()));
 

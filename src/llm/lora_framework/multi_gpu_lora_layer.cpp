@@ -123,7 +123,8 @@ std::vector<GPUTensor> MultiGPULoRALayer::forward(const std::vector<GPUTensor>& 
     
     auto start = std::chrono::high_resolution_clock::now();
     
-    std::vector<GPUTensor> outputs;
+    std::vector<GPUTensor> outputs = {};
+
     outputs.reserve(inputs.size());
     
     // Forward pass on each GPU independently
@@ -159,7 +160,8 @@ std::vector<GPUTensor> MultiGPULoRALayer::backward(
     
     auto start = std::chrono::high_resolution_clock::now();
     
-    std::vector<GPUTensor> grad_inputs;
+    std::vector<GPUTensor> grad_inputs = {};
+
     grad_inputs.reserve(grad_outputs.size());
     
     // Backward pass on each GPU independently
@@ -213,7 +215,8 @@ bool MultiGPULoRALayer::allreduce_gradients() {
     
     // All-reduce each parameter separately
     for (size_t param_idx = 0; param_idx < num_params; ++param_idx) {
-        std::vector<GPUTensor*> param_grads;
+        std::vector<GPUTensor*> param_grads = {};
+
         for (size_t gpu_idx = 0; gpu_idx < all_gradients.size(); ++gpu_idx) {
             param_grads.push_back(all_gradients[gpu_idx][param_idx]);
         }
@@ -285,7 +288,8 @@ GPULoRALayer& MultiGPULoRALayer::get_layer([[maybe_unused]] int rank) {
 }
 
 std::vector<GPULoRALayer*> MultiGPULoRALayer::get_layers() {
-    std::vector<GPULoRALayer*> result;
+    std::vector<GPULoRALayer*> result = {};
+
     result.reserve(layers_.size());
     for (auto& layer : layers_) {
         result.push_back(layer.get());

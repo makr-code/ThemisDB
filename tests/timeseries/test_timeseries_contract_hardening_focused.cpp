@@ -87,7 +87,8 @@ static std::vector<TimePoint> mockRangeQuery(
         std::int64_t end_ns,
         bool series_exists = true) {
     if (!series_exists) return {}; // caller checks SERIES_NOT_FOUND separately
-    std::vector<TimePoint> result;
+    std::vector<TimePoint> result = {};
+
     for (const auto& p : series) {
         if (p.ts_ns >= start_ns && p.ts_ns <= end_ns) {
             result.push_back(p);
@@ -280,7 +281,8 @@ TEST(TimeseriesContractHardening, TSCH12_NegInfPreservedGorilla) {
 
 /// TSCH-13: Output bucket count is deterministic for given resolution.
 TEST(TimeseriesContractHardening, TSCH13_DownsamplingCountDeterministic) {
-    std::vector<TimePoint> series;
+    std::vector<TimePoint> series = {};
+
     for (int i = 0; i < 1000; ++i) {
         series.push_back({static_cast<std::int64_t>(i) * 1'000'000LL, static_cast<double>(i)});
     }

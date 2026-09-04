@@ -322,7 +322,8 @@ std::vector<GesetzNode> GesetzParser::extractParagraphs(
     const std::string& text) const
 {
     auto positioned = extractParagraphsWithOffsets(text);
-    std::vector<GesetzNode> result;
+    std::vector<GesetzNode> result = {};
+
     result.reserve(positioned.size());
     for (auto& [offset, node] : positioned) {
         (void)offset;
@@ -694,7 +695,8 @@ std::vector<EntityRelation> CrossDocumentLinker::linkDocuments(
     const std::string src2 = ctx2.manifest.original_path;
 
     // Build ID set for ctx2 entities
-    std::unordered_map<std::string, const BaseEntity*> id_map;
+    std::unordered_map<std::string, const BaseEntity*> id_map = {};
+
     for (const auto& e : entities2) {
         id_map[normId(e.id)] = &e;
     }
@@ -749,7 +751,8 @@ std::vector<EntityRelation> CrossDocumentLinker::linkDocumentBatch(
     const ExtractionContext&              source,
     const std::vector<ExtractionContext>& targets) const
 {
-    std::vector<EntityRelation> all;
+    std::vector<EntityRelation> all = {};
+
     for (const auto& tgt : targets) {
         auto edges = linkDocuments(source, tgt);
         all.insert(all.end(),

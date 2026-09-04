@@ -226,14 +226,16 @@ MDMEngine::executeResolutionPhase(
     std::vector<GoldenRecord> records;
 
     // Build lookup maps.
-    std::map<std::string, const json*> incoming_map;
+    std::map<std::string, const json*> incoming_map = {};
+
     for (const auto& e : incoming_entities) {
         const std::string id = entityId(e);
         if (!id.empty()) {
           incoming_map[id] = &e;
         }
     }
-    std::map<std::string, const json*> existing_map;
+    std::map<std::string, const json*> existing_map = {};
+
     for (const auto& e : existing_entities) {
         const std::string id = entityId(e);
         if (!id.empty()) {

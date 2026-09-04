@@ -608,9 +608,11 @@ TrainingResult InlineTrainingEngine::trainLoop(
             const auto& primary_batch = batch_opt->samples;
 
             // Gradient accumulation loop
-            std::vector<float> accumulated_gradients;
+            std::vector<float> accumulated_gradients = {};
+
             for (int acc = 0; acc < cfg.gradient_accumulation_steps; ++acc) {
-                std::optional<TrainingDataIterator::TrainingBatch> sub_opt;
+                std::optional<TrainingDataIterator::TrainingBatch> sub_opt = {};
+
                 if (acc > 0 && impl_->data_iterator->hasNext()) {
                     sub_opt = impl_->data_iterator->getNextBatch();
                 }

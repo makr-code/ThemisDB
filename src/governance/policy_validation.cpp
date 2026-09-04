@@ -1085,7 +1085,8 @@ std::vector<PolicyOptimizer::OptimizationRecommendation> PolicyOptimizer::genera
     all_recommendations.insert(all_recommendations.end(), reorderings.begin(), reorderings.end());
 
     // Get removal recommendations (build hit counts from metrics)
-    std::unordered_map<std::string, int> hit_counts;
+    std::unordered_map<std::string, int> hit_counts = {};
+
     for (const auto &[rule_id, metric] : metrics) {
         hit_counts[rule_id] = metric.match_count;
     }
@@ -1208,7 +1209,8 @@ std::vector<PolicyOptimizer::OptimizationRecommendation> PolicyOptimizer::recomm
         int64_t avg_time_us;
     };
 
-    std::vector<RuleStats> rule_stats;
+    std::vector<RuleStats> rule_stats = {};
+
     for (const auto &rule : all_rules) {
         if (!rule.enabled) {
             continue;
@@ -1326,7 +1328,8 @@ PolicyOptimizer::OptimizationReport PolicyOptimizer::generateOptimizationReport(
     summary << report.high_priority_recommendations << " are high priority. ";
 
     // Count by type
-    std::unordered_map<std::string, int> type_counts;
+    std::unordered_map<std::string, int> type_counts = {};
+
     for (const auto &rec : report.recommendations) {
         type_counts[rec.optimization_type]++;
     }

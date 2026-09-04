@@ -263,7 +263,8 @@ public:
         }
 
         // Collect the union of all property names.
-        std::set<std::string> all_prop_names;
+        std::set<std::string> all_prop_names = {};
+
         for (const auto& kv : from_props) {
           all_prop_names.insert(kv.first);
         }
@@ -329,7 +330,8 @@ public:
           to_idxs[idx.name]   = &idx;
         }
 
-        std::set<std::string> all_idx_names;
+        std::set<std::string> all_idx_names = {};
+
         for (const auto& kv : from_idxs) {
           all_idx_names.insert(kv.first);
         }

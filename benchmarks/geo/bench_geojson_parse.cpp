@@ -39,10 +39,12 @@ GeoMultiPolygon parseGeoMultiPolygon(const std::string& payload) {
     const auto parsed = nlohmann::json::parse(payload);
     const auto& coords = parsed.at("coordinates");
 
-    std::vector<GeoPolygon> polygons;
+    std::vector<GeoPolygon> polygons = {};
+
     polygons.reserve(coords.size());
     for (const auto& polygon_json : coords) {
-        std::vector<GeoPolygon::Ring> rings;
+        std::vector<GeoPolygon::Ring> rings = {};
+
         rings.reserve(polygon_json.size());
         for (const auto& ring_json : polygon_json) {
             GeoPolygon::Ring ring;

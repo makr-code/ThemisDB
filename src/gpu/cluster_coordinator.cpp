@@ -407,7 +407,8 @@ std::vector<GPUClusterCoordinator::NodeInfo> GPUClusterCoordinator::getClusterNo
 
 std::vector<GPUClusterCoordinator::NodeInfo> GPUClusterCoordinator::getOnlineNodes() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<NodeInfo> result;
+    std::vector<NodeInfo> result = {};
+
     for (const auto &n : nodes_) {
         if (n.status == NodeStatus::ONLINE) {
             result.push_back(n);

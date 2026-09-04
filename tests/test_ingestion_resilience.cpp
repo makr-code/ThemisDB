@@ -236,7 +236,8 @@ TEST(IngestionResilienceConcurrencyTest, ConcurrentRegisterAndList) {
     IngestionManager mgr("test_db");
 
     // Spawn threads that register sources while another reads them
-    std::vector<std::thread> writers;
+    std::vector<std::thread> writers = {};
+
     for (int i = 0; i < 10; ++i) {
         writers.emplace_back([&mgr, i]() {
             SourceConfig cfg;
@@ -247,7 +248,8 @@ TEST(IngestionResilienceConcurrencyTest, ConcurrentRegisterAndList) {
         });
     }
 
-    std::vector<SourceConfig> result;
+    std::vector<SourceConfig> result = {};
+
     for (auto& t : writers) {
       t.join();
     }
@@ -259,7 +261,8 @@ TEST(IngestionResilienceConcurrencyTest, ConcurrentQuarantineAccess) {
     IngestionManager mgr("test_db");
 
     // Multiple threads calling quarantine APIs concurrently
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 5; ++i) {
         threads.emplace_back([&mgr]() {
             EXPECT_NO_THROW(mgr.getQuarantineItems());

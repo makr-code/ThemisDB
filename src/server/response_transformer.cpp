@@ -112,7 +112,8 @@ bool ResponseTransformer::hasVersion(const APIVersion& version) const {
 }
 
 std::vector<std::string> ResponseTransformer::registeredVersions() const {
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     keys.reserve(transforms_.size());
     for (const auto& [k, _] : transforms_) {
         keys.push_back(k);

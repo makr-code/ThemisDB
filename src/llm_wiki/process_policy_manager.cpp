@@ -137,7 +137,8 @@ void parseHardBounds(const nlohmann::json& bounds_node,
 }
 
 std::vector<std::string> parseStringList(const nlohmann::json& node) {
-    std::vector<std::string> values;
+    std::vector<std::string> values = {};
+
     if (!node.is_array()) {
         return values;
     }

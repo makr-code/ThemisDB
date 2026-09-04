@@ -65,7 +65,8 @@ std::vector<AQLQueryTemplate> AQLQueryTemplateLibrary::findByTag(
     const std::string& tag
 ) const {
     std::string lower_tag = toLower(tag);
-    std::vector<AQLQueryTemplate> result;
+    std::vector<AQLQueryTemplate> result = {};
+
     for (const auto& tmpl : templates_) {
         for (const auto& t : tmpl.tags) {
             if (toLower(t) == lower_tag) {
@@ -81,7 +82,8 @@ std::vector<AQLQueryTemplate> AQLQueryTemplateLibrary::search(
     const std::string& keyword
 ) const {
     std::string lower_kw = toLower(keyword);
-    std::vector<AQLQueryTemplate> result;
+    std::vector<AQLQueryTemplate> result = {};
+
     for (const auto& tmpl : templates_) {
         if (toLower(tmpl.name).find(lower_kw) != std::string::npos ||
             toLower(tmpl.description).find(lower_kw) != std::string::npos) {

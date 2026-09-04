@@ -89,7 +89,8 @@ std::vector<const WorkflowStep*> WorkflowDefinition::topologicalOrder() const {
         }
     }
 
-    std::vector<std::string> queue;
+    std::vector<std::string> queue = {};
+
     for (const auto& entry : in_degree) {
         const std::string& node_id = entry.first;
         const int degree = entry.second;
@@ -98,7 +99,8 @@ std::vector<const WorkflowStep*> WorkflowDefinition::topologicalOrder() const {
         }
     }
 
-    std::vector<const WorkflowStep*> result;
+    std::vector<const WorkflowStep*> result = {};
+
     while (!queue.empty()) {
         const std::string cur = queue.back();
         queue.pop_back();
@@ -583,7 +585,8 @@ WorkflowValidationResult WorkflowLoader::validate(const WorkflowDefinition& def)
       result.addError("", "workflow 'id' must not be empty");
     }
 
-    std::unordered_set<std::string> ids;
+    std::unordered_set<std::string> ids = {};
+
     for (const auto& step : def.steps) {
         if (step.id.empty()) {
             result.addError("", "a step has an empty 'id'");

@@ -287,7 +287,8 @@ TEST_F(DistributedMetadataCatalogTest, ThreadSafety) {
     const int num_threads = 8;
     const int ops_per_thread = 20;
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < num_threads; ++t) {
         threads.emplace_back([this, t, ops_per_thread]() {
             for (int i = 0; i < ops_per_thread; ++i) {

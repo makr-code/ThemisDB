@@ -323,7 +323,8 @@ double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
     }
     
     // Analyze inter-execution intervals
-    std::vector<double> intervals;
+    std::vector<double> intervals = {};
+
     for (size_t i = 1; i < stats.execution_times.size(); i++) {
         auto interval = stats.execution_times[i] - stats.execution_times[i-1];
         intervals.push_back(std::chrono::duration<double>(interval).count());
@@ -707,7 +708,8 @@ void TaskAnomalyDetector::importStatistics(const nlohmann::json& data) {
 
         // Restore raw deques
         auto jsonToDequeDouble = [](const nlohmann::json& arr) {
-            std::deque<double> d;
+            std::deque<double> d = {};
+
             for (const auto& v : arr) {
               d.push_back(v.get<double>());
             }

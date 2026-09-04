@@ -426,7 +426,8 @@ bool OntologyManager::isA(std::string_view conceptName, std::string_view superCo
 
 std::unordered_set<std::string> OntologyManager::allowedEdgeTypes(std::string_view sourceClass,
                                                                   std::string_view targetClass) const {
-    std::unordered_set<std::string> result;
+    std::unordered_set<std::string> result = {};
+
     for (const auto &axiom : axioms_) {
         if (isA(sourceClass, axiom.source_class) && isA(targetClass, axiom.target_class)) {
             result.insert(axiom.edge_type);

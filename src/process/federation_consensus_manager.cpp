@@ -587,7 +587,8 @@ bool FederationConsensusManager::AppendEntries(
     const std::string& leader_id, uint64_t leader_term,
     uint64_t prev_log_index, uint64_t prev_log_term,
     const std::vector<std::string>& entries, uint64_t leader_commit) {
-  std::vector<ConsensusLogEntry> log_entries;
+  std::vector<ConsensusLogEntry> log_entries = {};
+
   for (const auto& data : entries) {
     ConsensusLogEntry entry;
     entry.data = data;

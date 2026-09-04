@@ -243,7 +243,8 @@ TEST_F(HttpContentApiTest, HybridSearch_ExpandsOverEdges) {
     auto items = hresp["results"];
     ASSERT_GE(items.size(), 1);
     // Sammle PKs
-    std::vector<std::string> pks;
+    std::vector<std::string> pks = {};
+
     for (auto& it : items) { if (it.contains("pk")) pks.push_back(it["pk"].get<std::string>()); }
     // Erwartung: Basistreffer vorhanden
     EXPECT_NE(std::find(pks.begin(), pks.end(), std::string("chunks:ha")), pks.end());

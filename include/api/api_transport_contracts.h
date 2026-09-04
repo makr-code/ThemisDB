@@ -205,7 +205,8 @@ public:
      * @return Vector of accepted version strings (e.g., {"v1", "v2"}).
      */
     [[nodiscard]] virtual std::vector<std::string> supportedVersions() const {
-        std::vector<std::string> versions;
+        std::vector<std::string> versions = {};
+
         for (const auto& v : kSupportedApiVersions) {
             versions.emplace_back(v);
         }

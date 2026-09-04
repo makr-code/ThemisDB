@@ -60,7 +60,8 @@ std::vector<ConvergenceMarker> ConvergenceMarkerEngine::detectConvergences(
 
     // Build a lookup: school_id → verdict
     std::map<std::string, std::string> school_verdict;
-    std::map<std::string, std::string> school_thesis;
+    std::map<std::string, std::string> school_thesis = {};
+
     for (const auto& out : round_outputs) {
         school_verdict[out.school_id] = out.verdict;
         school_thesis[out.school_id] =

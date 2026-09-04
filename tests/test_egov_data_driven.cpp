@@ -300,7 +300,8 @@ struct EGovFixtureContext {
 
     /** Liefert alle Fachbehörden-IDs aus der Prozess-Fixture. */
     std::vector<std::string> fachbehoerdenIds() const {
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         for (const auto& fb : prozess.at("fachbehoerden")) {
             ids.push_back(fb.at("behoerde_id").get<std::string>());
         }
@@ -615,7 +616,8 @@ private:
         ensureBehoerde(bid, id);
 
         // Metadaten-Erwartungen (optional)
-        std::map<std::string,std::string> meta_exp;
+        std::map<std::string,std::string> meta_exp = {};
+
         if (a.contains("erwartet_metadata")) {
             for (auto& [k, v] : a.at("erwartet_metadata").items()) {
                 meta_exp[k] = v.get<std::string>();
@@ -997,7 +999,8 @@ static void simulateBImSchG(EGovFixtureContext& ctx) {
     for (const auto& fb : ctx.prozess.at("fachbehoerden")) {
         std::string bid = fb.at("behoerde_id").get<std::string>();
         int si = s_idx++;
-        std::map<std::string,std::string> extra;
+        std::map<std::string,std::string> extra = {};
+
         if (bid == "gesundheitsamt-duesseldorf") {
             extra["laerm_db"]   = "45 dB(A)";
             extra["geruch_gwk"] = "Irrelevanzgrenze";

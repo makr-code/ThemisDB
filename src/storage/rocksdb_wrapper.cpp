@@ -503,7 +503,8 @@ void RocksDBWrapper::configureOptions() {
 
     // Place SSTables across multiple paths if configured
     if (!config_.db_paths.empty()) {
-        std::vector<rocksdb::DbPath> paths;
+        std::vector<rocksdb::DbPath> paths = {};
+
         paths.reserve(config_.db_paths.size());
         for (const auto& p : config_.db_paths) {
             paths.emplace_back(p.path, static_cast<uint64_t>(p.target_size_bytes));
@@ -705,7 +706,8 @@ bool RocksDBWrapper::open() {
     }
     
     // Prepare column family descriptors
-    std::vector<rocksdb::ColumnFamilyDescriptor> cf_descriptors;
+    std::vector<rocksdb::ColumnFamilyDescriptor> cf_descriptors = {};
+
     cf_descriptors.reserve(cf_names.size());
 
     for (const auto& cf_name : cf_names) {
@@ -750,7 +752,8 @@ bool RocksDBWrapper::open() {
     }
     
     // Open with available column families
-    std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
+    std::vector<rocksdb::ColumnFamilyHandle*> cf_handles = {};
+
     cf_handles.reserve(cf_descriptors.size());
     rocksdb::TransactionDB* txn_db_ptr = nullptr;
     rocksdb::Status status = rocksdb::TransactionDB::Open(
@@ -1262,13 +1265,15 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
             return std::nullopt;
         }
 
-        std::vector<rocksdb::Slice> rock_keys;
+        std::vector<rocksdb::Slice> rock_keys = {};
+
         rock_keys.reserve(chunk_keys.size());
         for (const auto& ck : chunk_keys) {
             rock_keys.emplace_back(ck);
         }
 
-        std::vector<std::string> chunk_values;
+        std::vector<std::string> chunk_values = {};
+
         chunk_values.reserve(chunk_keys.size());
         std::vector<rocksdb::Status> statuses =
             base_db->MultiGet(*read_options_, rock_keys, &chunk_values);
@@ -1337,13 +1342,15 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
     }
 
     // Prepare keys for RocksDB MultiGet
-    std::vector<rocksdb::Slice> rock_keys;
+    std::vector<rocksdb::Slice> rock_keys = {};
+
     rock_keys.reserve(keys.size());
     for (const auto& key : keys) {
         rock_keys.emplace_back(key);
     }
 
-    std::vector<std::string> values;
+    std::vector<std::string> values = {};
+
     values.reserve(keys.size());
     std::vector<rocksdb::Status> statuses = base_db->MultiGet(*read_options_, rock_keys, &values);
 
@@ -2813,14 +2820,16 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsy
     }
     
     // Prepare keys for RocksDB MultiGet
-    std::vector<rocksdb::Slice> rock_keys;
+    std::vector<rocksdb::Slice> rock_keys = {};
+
     rock_keys.reserve(keys.size());
     for (const auto& key : keys) {
         rock_keys.emplace_back(key);
     }
     
     // Perform MultiGet
-    std::vector<std::string> values;
+    std::vector<std::string> values = {};
+
     values.reserve(keys.size());
     std::vector<rocksdb::Status> statuses = base_db->MultiGet(read_opts, rock_keys, &values);
     

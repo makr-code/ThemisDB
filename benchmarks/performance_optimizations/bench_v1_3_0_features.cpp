@@ -307,7 +307,8 @@ static void BM_DistributedTxn_2PC_Latency(benchmark::State& state) {
     sharding::DistributedTransactionCoordinator coordinator(truetime, ccfg);
     
     const int num_shards = state.range(0);
-    std::vector<std::string> shards;
+    std::vector<std::string> shards = {};
+
     for (int i = 0; i < num_shards; ++i) {
         shards.push_back("shard" + std::to_string(i));
     }
@@ -359,7 +360,8 @@ static void BM_DistributedTxn_SnapshotRead(benchmark::State& state) {
     sharding::DistributedTransactionCoordinator coordinator(truetime, ccfg);
     
     const int num_shards = state.range(0);
-    std::vector<std::string> shards;
+    std::vector<std::string> shards = {};
+
     for (int i = 0; i < num_shards; ++i) {
         shards.push_back("shard" + std::to_string(i));
     }

@@ -82,7 +82,8 @@ std::vector<uint8_t> make_safetensors(
     hdr_json += "}";
 
     // Assemble: [uint64 header_len][header bytes][data bytes]
-    std::vector<uint8_t> blob;
+    std::vector<uint8_t> blob = {};
+
     const uint64_t hlen = hdr_json.size();
     blob.resize(8 + hlen + data.size());
     std::memcpy(blob.data(), &hlen, 8);

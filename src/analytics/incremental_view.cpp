@@ -379,7 +379,8 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
         bool after_passes;
     };
 
-    std::vector<PreFiltered> filtered;
+    std::vector<PreFiltered> filtered = {};
+
     filtered.reserve(changes.size());
 
     for (size_t i = 0; i < changes.size(); ++i) {
@@ -591,7 +592,8 @@ std::shared_ptr<IncrementalView> IncrementalViewManager::getView(const std::stri
 
 std::vector<std::string> IncrementalViewManager::listViews() const {
     std::shared_lock lk(views_mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(views_.size());
     for (const auto &[n, _] : views_) {
         names.push_back(n);

@@ -193,7 +193,8 @@ std::vector<DiagnosticEvent> FieldDiagnosticsCollector::getEventsSince(
     const std::chrono::system_clock::time_point& since_timestamp) const {
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
 
-    std::vector<DiagnosticEvent> result;
+    std::vector<DiagnosticEvent> result = {};
+
     for ([[maybe_unused]] const auto& evt : event_buffer_) {
         if (evt.timestamp >= since_timestamp) {
             result.push_back(evt);
@@ -229,7 +230,8 @@ std::map<DiagnosticFailureCategory, size_t>
 FieldDiagnosticsCollector::getEventCountsByCategory() const {
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
 
-    std::map<DiagnosticFailureCategory, size_t> counts;
+    std::map<DiagnosticFailureCategory, size_t> counts = {};
+
     for ([[maybe_unused]] const auto& evt : event_buffer_) {
         counts[evt.failure_category]++;
     }

@@ -364,7 +364,8 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(const float* query,
         }
     }
 
-    std::vector<AnnSearchResult> merged;
+    std::vector<AnnSearchResult> merged = {};
+
     merged.reserve(best_by_global_id.size());
     for (const auto& [id, candidate] : best_by_global_id) {
         merged.push_back({id, candidate.distance});
@@ -405,7 +406,8 @@ size_t DistributedVectorIndex::numShards() const {
 
 std::vector<DistributedShardStats> DistributedVectorIndex::getShardStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<DistributedShardStats> stats;
+    std::vector<DistributedShardStats> stats = {};
+
     stats.reserve(shards_.size());
     for (size_t i = 0; i < shards_.size(); ++i) {
         stats.push_back({i, alive_ids_[i].size()});

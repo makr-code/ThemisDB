@@ -239,7 +239,8 @@ TEST_F(SequenceCounterTest, NoDuplicateSequencesUnder8Threads) {
     EXPECT_EQ(errors.load(), 0);
 
     // Merge all sequences and verify uniqueness.
-    std::set<uint64_t> all;
+    std::set<uint64_t> all = {};
+
     for (const auto& v : per_thread_seqs) {
         for (uint64_t seq : v) {
             EXPECT_TRUE(all.insert(seq).second)
@@ -259,7 +260,8 @@ TEST_F(SequenceCounterTest, ThroughputAtLeast50KPerSecUnder8Threads) {
 
     const auto t0 = std::chrono::steady_clock::now();
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&]() {
             for (int i = 0; i < kPerThread; ++i) {

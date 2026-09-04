@@ -434,7 +434,8 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
         if (flat_vectors_.empty() || flat_vectors_[0].empty()) { THEMIS_DEBUG("ScaNN::search: flat_vectors_ empty while not trained"); return {}; }
         // Const-cast safe because build() writes internal state in a delayed fashion
         ScaNN* self = const_cast<ScaNN*>(this);
-        std::vector<float> flat_data;
+        std::vector<float> flat_data = {};
+
         flat_data.reserve(flat_ids_.size() * flat_vectors_[0].size());
         for (auto& v : self->flat_vectors_)
             flat_data.insert(flat_data.end(), v.begin(), v.end());
@@ -493,7 +494,8 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
     }
 
     // ---- Step 3: Exact re-ranking ----
-    std::vector<AnnSearchResult> results;
+    std::vector<AnnSearchResult> results = {};
+
     results.reserve(candidates.size());
     for (auto& c : candidates) {
         float exact = std::sqrt(l2sq(query, c.leaf->vectors[c.idx].data(), dim_));

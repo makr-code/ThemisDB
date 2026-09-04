@@ -121,7 +121,8 @@ public:
 
     RetrievalResult retrieveTopK(const std::string& nl_query, int k) const {
         struct Candidate { std::size_t idx; float score; };
-        std::vector<Candidate> candidates;
+        std::vector<Candidate> candidates = {};
+
         candidates.reserve(examples_.size());
 
         for (std::size_t i = 0; i < examples_.size(); ++i) {
@@ -200,7 +201,8 @@ public:
 
     /// Annotate a simple AQL string — returns warnings for suspicious patterns
     static std::vector<Annotation> annotate(const std::string& aql) {
-        std::vector<Annotation> annotations;
+        std::vector<Annotation> annotations = {};
+
         // Check for missing FILTER on non-trivial queries
         if (aql.find("FOR") != std::string::npos &&
             aql.find("FILTER") == std::string::npos &&

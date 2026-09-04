@@ -155,7 +155,8 @@ RedundancyMetrics ContentHashDetector::detect(
     metrics.total_candidates = summaries.size();
     metrics.similarity_threshold = threshold;
 
-    std::unordered_map<std::string, int> hash_counts;
+    std::unordered_map<std::string, int> hash_counts = {};
+
     for (const auto* summary : summaries) {
         if (summary) {
             std::string hash = hashSummary(*summary);

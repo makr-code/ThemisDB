@@ -2518,7 +2518,8 @@ std::vector<ErrorMetadata> ErrorRegistry::searchErrors(
 
 std::vector<std::string> ErrorRegistry::getAllCategories() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
-    std::vector<std::string> categories;
+    std::vector<std::string> categories = {};
+
     for (const auto& [category, _] : category_index_) {
         categories.push_back(category);
     }

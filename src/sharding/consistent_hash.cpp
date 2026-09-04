@@ -182,7 +182,8 @@ std::pair<uint64_t, uint64_t> ConsistentHashRing::getShardRange(const std::strin
 std::vector<std::string> ConsistentHashRing::getAllShards() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> shards;
+    std::vector<std::string> shards = {};
+
     shards.reserve(shard_tokens_.size());
     
     for (const auto& [shard_id, _] : shard_tokens_) {

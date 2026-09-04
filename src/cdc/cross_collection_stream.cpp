@@ -66,7 +66,8 @@ size_t CrossCollectionStream::collectionCount() const {
 
 std::vector<std::string> CrossCollectionStream::listCollections() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(feeds_.size());
     for (const auto& kv : feeds_) {
         names.push_back(kv.first);

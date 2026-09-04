@@ -125,7 +125,8 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
         }
         
         // Parse query vector
-        std::vector<float> queryVector;
+        std::vector<float> queryVector = {};
+
         if (body_json["vector"].is_array()) {
             for (const auto& val : body_json["vector"]) {
                 if (val.is_number()) {
@@ -360,7 +361,8 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                 std::string pk = it["pk"].get<std::string>();
                 if (!isValidVectorPk(pk)) { ++errors; continue; }
 
-                std::vector<float> vec;
+                std::vector<float> vec = {};
+
                 vec.reserve(it["vector"].size());
                 for (const auto& v : it["vector"]) {
                     if (!v.is_number()) { vec.clear(); break; }
@@ -411,7 +413,8 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                         try {
                             // Derive field key: HKDF(DEK, user_id, "field:"+mf)
                             auto dek = key_provider_->getKey("dek");
-                            std::vector<uint8_t> salt;
+                            std::vector<uint8_t> salt = {};
+
                             if (!enc_user_ctx.empty()) {
                               salt.assign(enc_user_ctx.begin(), enc_user_ctx.end());
                             }

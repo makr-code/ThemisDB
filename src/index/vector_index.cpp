@@ -958,7 +958,8 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 	});
 
 	// --- Phase 2: remove vectors deleted from storage ---
-	std::vector<std::string> to_delete;
+	std::vector<std::string> to_delete = {};
+
 	for (const auto& [pk, cached_vec] : cache_) {
 		if (storage_vectors.find(pk) == storage_vectors.end())
 			to_delete.push_back(pk);
@@ -1226,7 +1227,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
 	}();
 	std::string key = makeObjectKey(pk);
-	std::vector<uint8_t> serialized;
+	std::vector<uint8_t> serialized = {};
+
 	if (shouldQuantize) {
 		float amax = 0.0f; for (float x : *v) amax = std::max(amax, std::fabs(x));
 		float scale = (amax > 0.f) ? (amax / 127.0f) : 1.0f;
@@ -1421,7 +1423,8 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 				std::vector<uint8_t> bytes(value.begin(), value.end());
 				try {
 					BaseEntity e = BaseEntity::deserialize(pk, bytes);
-					std::vector<float> v;
+					std::vector<float> v = {};
+
 					// Try encrypted embedding first
 					if (auto encFieldOpt = e.getField("embedding_encrypted")) {
 						const auto* enc_str = std::get_if<std::string>(&(*encFieldOpt));
@@ -1581,7 +1584,8 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				hnsw_optimizer_->recordQueryStats(estimated_layers, ef_to_use, estimated_layers, k, query_time_ms);
 			}
 			
-			std::vector<Result> out;
+			std::vector<Result> out = {};
+
 			out.reserve(topk.size());
 			while (!topk.empty()) {
 				auto p = topk.top();
@@ -1649,7 +1653,8 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 
 			for (size_t attempt = 0; attempt < static_cast<size_t>(maxAttempts) && filtered.size() < k; ++attempt) {
 				auto top = appr->searchKnn(q.data(), candidateCount);
-				std::vector<Result> tmp;
+				std::vector<Result> tmp = {};
+
 				tmp.reserve(top.size());
 				while (!top.empty()) {
 					auto p = top.top();
@@ -1709,7 +1714,8 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 		  normalizeL2(q);
 		}
 		auto raw = ann_backend->search(q.data(), expected_dim, static_cast<int>(k));
-		std::vector<Result> out;
+		std::vector<Result> out = {};
+
 		out.reserve(raw.size());
 		for (const auto& r : raw) {
 			size_t idx = static_cast<size_t>(r.id);
@@ -1757,7 +1763,8 @@ VectorIndexManager::searchKnnEvaluated(
 		return {status, std::vector<Result>();
 	}
 
-	std::vector<Result> filtered;
+	std::vector<Result> filtered = {};
+
 	filtered.reserve(std::min(k, candidates.size()));
 	for (const auto& candidate : candidates) {
 		auto entity_blob = db_.get(makeObjectKey(candidate.pk));
@@ -1812,7 +1819,8 @@ VectorIndexManager::searchKnnRadiusEvaluated(
 		return {status, std::vector<Result>();
 	}
 
-	std::vector<Result> filtered;
+	std::vector<Result> filtered = {};
+
 	filtered.reserve(candidates.size());
 	for (const auto& candidate : candidates) {
 		auto entity_blob = db_.get(makeObjectKey(candidate.pk));
@@ -1879,7 +1887,8 @@ VectorIndexManager::searchKnnFiltered(
 			}
 			
 			auto topk = appr->searchKnn(q.data(), candidateCount);
-			std::vector<Result> candidates;
+			std::vector<Result> candidates = {};
+
 			candidates.reserve(topk.size());
 			
 			while (!topk.empty()) {
@@ -1894,7 +1903,8 @@ VectorIndexManager::searchKnnFiltered(
 			std::reverse(candidates.begin(), candidates.end());
 			
 			// Post-filter: Load entities and check attributes
-			std::vector<Result> filtered;
+			std::vector<Result> filtered = {};
+
 			for (const auto& candidate : candidates) {
 				std::string objKey = makeObjectKey(candidate.pk);
 				auto entity_opt = db_.get(objKey);
@@ -2037,7 +2047,8 @@ VectorIndexManager::searchKnnPreFiltered(
 	if (!secondaryIdx) {
 		// No SecondaryIndexManager: fallback to post-filtering
 		THEMIS_WARN("searchKnnPreFiltered: SecondaryIndexManager nicht verf\u00fcgbar, Fallback auf Post-Filtering");
-		std::vector<AttributeFilter> legacyFilters;
+		std::vector<AttributeFilter> legacyFilters = {};
+
 		for (const auto& f : filters) {
 			if (f.op == AttributeFilterV2::Op::EQUALS) {
 				legacyFilters.push_back({f.field, f.value, AttributeFilter::Op::EQUALS});
@@ -2098,7 +2109,8 @@ VectorIndexManager::searchKnnPreFiltered(
 				break;
 			}
 			case AttributeFilterV2::Op::IN: {
-				std::unordered_set<std::string> inResults;
+				std::unordered_set<std::string> inResults = {};
+
 				for (const auto& val : filter.values) {
 					auto [st, pks] = secondaryIdx->scanKeysEqual(objectName_, filter.field, val);
 					if (st.ok) {
@@ -2158,7 +2170,8 @@ VectorIndexManager::searchKnnPreFiltered(
 			whitelistSet.insert(filterResults.begin(), filterResults.end());
 			isFirstFilter = false;
 		} else {
-			std::unordered_set<std::string> intersection;
+			std::unordered_set<std::string> intersection = {};
+
 			for (const auto& pk : filterResults) {
 				if (whitelistSet.count(pk)) {
 					intersection.insert(pk);
@@ -2185,7 +2198,8 @@ VectorIndexManager::searchKnnPreFiltered(
 		THEMIS_WARN("searchKnnPreFiltered: Whitelist size {} exceeds max {}, using post-filtering instead", 
 			whitelist.size(), maxFilterScanSize);
 		// Fallback to standard KNN with post-filtering
-		std::vector<AttributeFilter> legacyFilters;
+		std::vector<AttributeFilter> legacyFilters = {};
+
 		for (const auto& f : filters) {
 			if (f.op == AttributeFilterV2::Op::EQUALS) {
 				legacyFilters.push_back({f.field, f.value, AttributeFilter::Op::EQUALS});
@@ -2351,7 +2365,8 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 				break;
 			}
 			case AttributeFilterV2::Op::IN: {
-				std::unordered_set<std::string> inResults;
+				std::unordered_set<std::string> inResults = {};
+
 				for (const auto& val : filter.values) {
 					auto [st, pks] = secondaryIdx->scanKeysEqual(objectName_, filter.field, val);
 					if (st.ok) {
@@ -2394,7 +2409,8 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			whitelistSet.insert(filterResults.begin(), filterResults.end());
 			isFirstFilter = false;
 		} else {
-			std::unordered_set<std::string> intersection;
+			std::unordered_set<std::string> intersection = {};
+
 			for (const auto& pk : filterResults) {
 				if (whitelistSet.count(pk)) {
 				  intersection.insert(pk);
@@ -2714,7 +2730,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		}
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
 	}();
-	std::vector<uint8_t> serialized;
+	std::vector<uint8_t> serialized = {};
+
 	if (shouldQuantize) {
 		float amax = 0.0f; for (float x : *v) amax = std::max(amax, std::fabs(x));
 		float scale = (amax > 0.f) ? (amax / 127.0f) : 1.0f;
@@ -2799,7 +2816,8 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 	// Batch Write Optimization: Pre-compute quantization before WriteBatch
 	// This avoids inline computation during Put operations
 	std::vector<std::vector<uint8_t>> batch_serialized;
-	std::vector<std::string> batch_keys;
+	std::vector<std::string> batch_keys = {};
+
 	batch_serialized.reserve(entities.size());
 	batch_keys.reserve(entities.size());
 	
@@ -2836,7 +2854,8 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 			continue;
 		}
 		
-		std::vector<uint8_t> serialized;
+		std::vector<uint8_t> serialized = {};
+
 		if (shouldQuantize) {
 			float amax = 0.0f;
 			for (float x : *v) {
@@ -2981,7 +3000,8 @@ VectorIndexManager::getStatistics() const {
 	const size_t MAX_SAMPLES = 1000;
 	size_t sample_count = std::min(cache_.size(), MAX_SAMPLES);
 	
-	std::vector<std::string> pks;
+	std::vector<std::string> pks = {};
+
 	pks.reserve(cache_.size());
 	for (const auto& [pk, vec] : cache_) {
 		pks.push_back(pk);

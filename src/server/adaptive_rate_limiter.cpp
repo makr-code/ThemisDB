@@ -186,7 +186,8 @@ std::chrono::milliseconds AdaptiveRateLimiter::computeP99(
         return std::chrono::milliseconds{0};
     }
 
-    std::vector<int64_t> latencies;
+    std::vector<int64_t> latencies = {};
+
     latencies.reserve(samples.size());
     for (const auto& s : samples) {
         latencies.push_back(s.latency_ms.count());

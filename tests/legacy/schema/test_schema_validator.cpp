@@ -142,7 +142,8 @@ public:
         const std::vector<std::string>& values,
         const DetectedSchema& schema)
     {
-        std::vector<SchemaValidationError> errors;
+        std::vector<SchemaValidationError> errors = {};
+
         const size_t n = std::min(columns.size(), values.size());
         for (size_t i = 0; i < n; ++i) {
             const auto& col = columns[i];

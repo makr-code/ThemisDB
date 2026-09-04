@@ -47,7 +47,8 @@ std::vector<ProjectAuditEntry> InMemoryProjectAuditLog::applyFilters(
     const AuditQueryOptions& opts) const
 {
     // Caller must hold mutex_.
-    std::vector<ProjectAuditEntry> result;
+    std::vector<ProjectAuditEntry> result = {};
+
     result.reserve(entries_.size() / 4 + 1);
 
     const auto zero = std::chrono::system_clock::time_point{};

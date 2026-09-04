@@ -312,7 +312,8 @@ TEST(VoiceAdversarialAntiSpoof, test_malformed_audio_rejected) {
  */
 TEST(VoiceAdversarialAntiSpoof, test_silent_audio_rejected) {
     // Create nearly-silent audio (very low RMS energy)
-    std::vector<uint8_t> silent_audio;
+    std::vector<uint8_t> silent_audio = {};
+
     for (size_t i = 0; i < 16000; ++i) {
         int16_t tiny_sample = static_cast<int16_t>((std::rand() % 10) - 5);
         silent_audio.push_back(tiny_sample & 0xFF);
@@ -340,7 +341,8 @@ TEST(VoiceAdversarialAntiSpoof, test_silent_audio_rejected) {
  */
 TEST(VoiceAdversarialAntiSpoof, test_clipped_audio_detected) {
     // Create clipped audio (constant maximum values)
-    std::vector<uint8_t> clipped_audio;
+    std::vector<uint8_t> clipped_audio = {};
+
     for (size_t i = 0; i < 16000; ++i) {
         int16_t clipped_sample = 32767;  // Maximum value (saturation)
         clipped_audio.push_back(clipped_sample & 0xFF);

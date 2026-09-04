@@ -296,7 +296,8 @@ void KnowledgeGraphReasoner::clearFacts() {
 void KnowledgeGraphReasoner::forwardChain(std::vector<Triple> &working_set, std::vector<InferenceEdge> &derived_out,
                                           int max_depth) const {
     // Track which triples are already known to avoid cycles.
-    std::unordered_set<std::string> known;
+    std::unordered_set<std::string> known = {};
+
     known.reserve(working_set.size() * 2);
     for (const auto &t : working_set) {
         known.insert(tripleKey(t));
@@ -329,7 +330,8 @@ void KnowledgeGraphReasoner::forwardChain(std::vector<Triple> &working_set, std:
                 }
 
                 // Build premise list from bound conditions.
-                std::vector<Triple> premises;
+                std::vector<Triple> premises = {};
+
                 for (const auto &cond : rule.conditions) {
                     premises.push_back(ground(cond, binds));
                 }

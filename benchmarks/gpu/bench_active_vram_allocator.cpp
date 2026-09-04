@@ -175,7 +175,8 @@ static void BM_VRAM_Defragment(benchmark::State& state) {
     ActiveVRAMAllocator alloc(benchConfig());
 
     // Create some fragmentation first
-    std::vector<ActiveVRAMAllocator::AllocationHandle> handles;
+    std::vector<ActiveVRAMAllocator::AllocationHandle> handles = {};
+
     for (int i = 0; i < 32; ++i) {
         auto h = alloc.allocate(4096, "frag_" + std::to_string(i));
         if (h) {
@@ -231,7 +232,8 @@ static void BM_VRAM_GetStats(benchmark::State& state) {
     ActiveVRAMAllocator alloc(benchConfig());
 
     // Some live allocations to make stats non-trivial
-    std::vector<ActiveVRAMAllocator::AllocationHandle> handles;
+    std::vector<ActiveVRAMAllocator::AllocationHandle> handles = {};
+
     for (int i = 0; i < 8; ++i) {
         auto h = alloc.allocate(4096, "stats_" + std::to_string(i));
         if (h) {

@@ -331,7 +331,8 @@ TEST(WsChangesMessageFormat, FilterTypeIsParsedToPutEventType) {
     }
 
     // Simulate event_types extraction
-    std::set<std::string> event_types;
+    std::set<std::string> event_types = {};
+
     if (client_msg.contains("filter") && client_msg["filter"].is_object()) {
         const auto& flt = client_msg["filter"];
         if (flt.contains("type") && flt["type"].is_string()) {
@@ -349,7 +350,8 @@ TEST(WsChangesMessageFormat, FilterTypeDeleteIsParsed) {
         {"collection", "orders"},
         {"filter", {{"type", "DELETE"}}}
     };
-    std::set<std::string> event_types;
+    std::set<std::string> event_types = {};
+
     if (client_msg.contains("filter") && client_msg["filter"].is_object()) {
         const auto& flt = client_msg["filter"];
         if (flt.contains("type") && flt["type"].is_string()) {
@@ -362,7 +364,8 @@ TEST(WsChangesMessageFormat, FilterTypeDeleteIsParsed) {
 
 TEST(WsChangesMessageFormat, NoFilterMeansAllEventTypes) {
     json client_msg = {{"action", "subscribe"}, {"collection", "orders"}};
-    std::set<std::string> event_types;
+    std::set<std::string> event_types = {};
+
     if (client_msg.contains("filter") && client_msg["filter"].is_object()) {
         const auto& flt = client_msg["filter"];
         if (flt.contains("type") && flt["type"].is_string()) {

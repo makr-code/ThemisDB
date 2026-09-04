@@ -395,14 +395,16 @@ TEST_F(Phase3QuorumLossFixture, ErrorCodeNamingDeterminism) {
 TEST_F(Phase3QuorumLossFixture, DeterministicChaosReproducibility) {
     // First run: chaos with seed-42
     resetRng();
-    std::vector<bool> failures_run1;
+    std::vector<bool> failures_run1 = {};
+
     for (int i = 0; i < 5; ++i) {
         failures_run1.push_back(simulateNodeFailure(i));
     }
 
     // Second run: same seed should produce identical failures
     resetRng();
-    std::vector<bool> failures_run2;
+    std::vector<bool> failures_run2 = {};
+
     for (int i = 0; i < 5; ++i) {
         failures_run2.push_back(simulateNodeFailure(i));
     }
@@ -414,13 +416,15 @@ TEST_F(Phase3QuorumLossFixture, DeterministicChaosReproducibility) {
 TEST_F(Phase3QuorumLossFixture, DeterministicClusterRecoverySequence) {
     // Recovery actions must be deterministic under seed-42
     resetRng();
-    std::vector<int> recovery_actions_run1;
+    std::vector<int> recovery_actions_run1 = {};
+
     for (int i = 0; i < 3; ++i) {
         recovery_actions_run1.push_back(deterministicRand(5));
     }
 
     resetRng();
-    std::vector<int> recovery_actions_run2;
+    std::vector<int> recovery_actions_run2 = {};
+
     for (int i = 0; i < 3; ++i) {
         recovery_actions_run2.push_back(deterministicRand(5));
     }

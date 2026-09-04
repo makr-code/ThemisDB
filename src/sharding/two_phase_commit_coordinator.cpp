@@ -202,7 +202,8 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         {"transaction_id", transaction_id},
         {"coordinator_id", coordinator_id_},
         {"shards",         [&]() {
-            std::vector<std::string> v;
+            std::vector<std::string> v = {};
+
             for (auto& [s, _] : ops_per_shard) {
               v.push_back(s);
             }
@@ -315,7 +316,8 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
         const auto recovered_wal =
             themis::transaction::TwoPhaseCommitWALRecovery::reconstruct(entries);
 
-        std::map<std::string, CoordinatorTxnRecord> recovered;
+        std::map<std::string, CoordinatorTxnRecord> recovered = {};
+
         for (const auto& [txn_id, replay_txn] : recovered_wal) {
             CoordinatorTxnRecord rec;
             rec.transaction_id     = txn_id;
@@ -429,7 +431,8 @@ TwoPhaseCommitCoordinator::getRecoverableTransactions() const {
 
     std::lock_guard<std::timed_mutex> lock(mutex_);
 
-    std::vector<RecoverableTwoPhaseTransaction> result;
+    std::vector<RecoverableTwoPhaseTransaction> result = {};
+
     for (const auto& [txn_id, rec] : transactions_) {
         if (rec.state == CoordinatorTxnState::COMPLETED) {
             continue;
@@ -583,7 +586,8 @@ void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
     const auto shard_ids =
         rec.participant_shards.empty()
             ? [&rec]() {
-                  std::vector<std::string> ids;
+                  std::vector<std::string> ids = {};
+
                   ids.reserve(rec.shard_payloads.size());
                   for (const auto& [shard_id, _] : rec.shard_payloads) {
                       ids.push_back(shard_id);

@@ -618,7 +618,8 @@ public:
             auto indices = vulkanBackend->searchIndices(query, k);
             if (!indices.empty()) {
                 // Map indices to IDs
-                std::vector<SearchResult> results;
+                std::vector<SearchResult> results = {};
+
                 results.reserve(indices.size());
                 for (const auto& [distance, index] : indices) {
                     if (index < vectorIds.size()) {
@@ -733,7 +734,8 @@ public:
             useL2
         );
         
-        std::vector<SearchResult> results;
+        std::vector<SearchResult> results = {};
+
         if (!gpuResults.empty() && !gpuResults[0].empty()) {
             results.reserve(gpuResults[0].size());
             for (const auto& [idx, dist] : gpuResults[0]) {
@@ -782,7 +784,8 @@ public:
         }
         
         // Flatten query vectors for GPU transfer
-        std::vector<float> flatQueries;
+        std::vector<float> flatQueries = {};
+
         flatQueries.reserve(queries.size() * dimension);
         for (const auto& query : queries) {
             if (query.size() != static_cast<size_t>(dimension)) {
@@ -817,7 +820,8 @@ public:
         results.reserve(gpuResults.size());
         
         for (const auto& queryResults : gpuResults) {
-            std::vector<SearchResult> batch;
+            std::vector<SearchResult> batch = {};
+
             batch.reserve(queryResults.size());
             for (const auto& [idx, dist] : queryResults) {
                 if (idx < vectorIds.size()) {
@@ -878,7 +882,8 @@ public:
             toHIPMetric(config.metric)
         );
 
-        std::vector<SearchResult> results;
+        std::vector<SearchResult> results = {};
+
         if (!gpuResults.empty() && !gpuResults[0].empty()) {
             results.reserve(gpuResults[0].size());
             for (const auto& [idx, dist] : gpuResults[0]) {
@@ -916,7 +921,8 @@ public:
         }
 
         // Flatten query vectors for GPU transfer; fall back to CPU on bad input
-        std::vector<float> flatQueries;
+        std::vector<float> flatQueries = {};
+
         flatQueries.reserve(queries.size() * dimension);
         for (const auto& query : queries) {
             if (query.size() != static_cast<size_t>(dimension)) {
@@ -945,7 +951,8 @@ public:
         std::vector<std::vector<SearchResult>> results;
         results.reserve(gpuResults.size());
         for (const auto& queryResults : gpuResults) {
-            std::vector<SearchResult> batch;
+            std::vector<SearchResult> batch = {};
+
             batch.reserve(queryResults.size());
             for (const auto& [idx, dist] : queryResults) {
                 if (idx < vectorIds.size()) {
@@ -1232,7 +1239,8 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
             results.reserve(batchIndices.size());
             
             for (const auto& queryIndices : batchIndices) {
-                std::vector<SearchResult> queryResults;
+                std::vector<SearchResult> queryResults = {};
+
                 queryResults.reserve(queryIndices.size());
                 
                 for (const auto& [distance, index] : queryIndices) {

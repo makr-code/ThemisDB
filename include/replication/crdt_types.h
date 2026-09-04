@@ -217,7 +217,8 @@ public:
      * @brief Returns all concurrent values currently in the register.
      */
     std::vector<T> read() const {
-        std::vector<T> result;
+        std::vector<T> result = {};
+
         result.reserve(entries_.size());
         for (const auto& entry : entries_) { result.push_back(entry.first); }
         return result;
@@ -365,7 +366,8 @@ public:
     }
 
     std::set<T> elements() const {
-        std::set<T> result;
+        std::set<T> result = {};
+
         for (const auto& [elem, dots] : entries_) {
             for (const auto& dot : dots) {
                 if (!tombstones_.count(dot)) { result.insert(elem); break; }
@@ -552,7 +554,8 @@ public:
 
     /** @brief Returns all live (non-tombstoned) elements in order. */
     std::vector<T> read() const {
-        std::vector<T> result;
+        std::vector<T> result = {};
+
         for (const auto& e : elements_) {
             if (!e.tombstoned) {
               result.push_back(e.value);

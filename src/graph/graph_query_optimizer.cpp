@@ -724,7 +724,8 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
         }
 
         // Expand frontier using time-range-filtered edges
-        std::vector<std::string> next_frontier;
+        std::vector<std::string> next_frontier = {};
+
         for (const auto& node : current_frontier) {
             auto [status, edges] = graph_manager_.getOutEdgesInTimeRange(
                 node, range_start, range_end,
@@ -2034,7 +2035,8 @@ Result<GraphQueryOptimizer::GraphStatistics> GraphQueryOptimizer::collectStatist
         if (vertex_status.ok) {
             stats.vertex_count = vertices.size();
 
-            std::unordered_set<std::string> unique_edge_ids;
+            std::unordered_set<std::string> unique_edge_ids = {};
+
             for (const auto& v : vertices) {
                 auto [adj_status, adjs] = graph_manager_.outAdjacency(v);
                 if (!adj_status.ok) {
@@ -2871,7 +2873,8 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
     }
 
     // Collect all vertex IDs touched by the change set (edge endpoints + vertex IDs).
-    std::unordered_set<std::string> changed_vertices;
+    std::unordered_set<std::string> changed_vertices = {};
+
     for (const auto& change : changes.changes) {
         if (!change.from.empty()) {
           changed_vertices.insert(change.from);

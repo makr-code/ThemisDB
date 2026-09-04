@@ -64,7 +64,8 @@ FuzzyMatcher::search(const std::string& query,
     }
 
     // Convert and enrich results
-    std::vector<FuzzyMatch> matches;
+    std::vector<FuzzyMatch> matches = {};
+
     matches.reserve(ft_results.size());
 
     for (const auto& r : ft_results) {
@@ -278,7 +279,8 @@ double FuzzyMatcher::ngramSimilarity(const std::string& a, const std::string& b,
     }
 
     auto ngrams = [n](const std::string& s) -> std::multiset<std::string> {
-        std::multiset<std::string> result;
+        std::multiset<std::string> result = {};
+
         if (s.size() < n) {
             result.insert(s);
             return result;

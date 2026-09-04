@@ -72,7 +72,8 @@ TEST_F(UUIDv7Tests, UV7_04_MonotonicityWithinSameMs) {
 }
 
 TEST_F(UUIDv7Tests, UV7_05_Uniqueness) {
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (int i = 0; i < 1000; ++i) {
       seen.insert(generate_uuid_v7());
     }
@@ -102,7 +103,8 @@ TEST_F(UUIDv7Tests, UV7_07_ThreadSafety) {
     constexpr int per_thread = 250;
     std::vector<std::vector<std::string>> buckets(threads);
 
-    std::vector<std::thread> workers;
+    std::vector<std::thread> workers = {};
+
     for (int t = 0; t < threads; ++t) {
         workers.emplace_back([&, t]() {
             for (int i = 0; i < per_thread; ++i)
@@ -113,7 +115,8 @@ TEST_F(UUIDv7Tests, UV7_07_ThreadSafety) {
       w.join();
     }
 
-    std::set<std::string> all;
+    std::set<std::string> all = {};
+
     for (auto& b : buckets)
         for (auto& id : b) {
           all.insert(id);

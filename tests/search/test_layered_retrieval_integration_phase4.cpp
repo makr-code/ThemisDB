@@ -347,7 +347,8 @@ TEST_F(LayeredRetrievalIntegrationPhase4Test, ExecutesAllFourLayersAndEmitsPerLa
     }
 
     const auto spans = tracer->completed();
-    std::vector<std::string> span_names;
+    std::vector<std::string> span_names = {};
+
     span_names.reserve(spans.size());
     for (const auto& span : spans) {
         span_names.push_back(span.name);

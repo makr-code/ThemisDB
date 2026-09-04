@@ -522,7 +522,8 @@ bool VoiceBiometricAuthenticator::has_profile(
 
 std::vector<VoiceProfileID> VoiceBiometricAuthenticator::list_profiles() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<VoiceProfileID> ids;
+    std::vector<VoiceProfileID> ids = {};
+
     ids.reserve(profiles_.size());
     for (const auto& kv : profiles_) {
         ids.push_back(kv.first);

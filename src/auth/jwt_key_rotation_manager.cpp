@@ -223,7 +223,8 @@ std::string JWTKeyRotationManager::activeKeyId() const {
 
 std::vector<std::string> JWTKeyRotationManager::passiveKeyIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto &[kid, info] : keys_) {
         if (info.status == JWKKeyInfo::Status::PASSIVE) {
             result.push_back(kid);
@@ -234,7 +235,8 @@ std::vector<std::string> JWTKeyRotationManager::passiveKeyIds() const {
 
 std::vector<std::string> JWTKeyRotationManager::revokedKeyIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto &[kid, info] : keys_) {
         if (info.status == JWKKeyInfo::Status::REVOKED) {
             result.push_back(kid);

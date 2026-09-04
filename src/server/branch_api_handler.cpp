@@ -312,7 +312,8 @@ void BranchApiHandler::handleResolveMergeBranches(const httplib::Request& req, h
     }
 
     // Parse per-key conflict resolutions
-    std::vector<transaction::MergeEngine::ConflictResolution> resolutions;
+    std::vector<transaction::MergeEngine::ConflictResolution> resolutions = {};
+
     if (body.contains("resolutions") && body["resolutions"].is_array()) {
         for (const auto& r : body["resolutions"]) {
             transaction::MergeEngine::ConflictResolution res_item;

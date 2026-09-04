@@ -362,7 +362,8 @@ std::string PDFProcessor::assembleTextWithLayout(const std::vector<poppler::text
         bool has_space_after;
     };
 
-    std::vector<Item> items;
+    std::vector<Item> items = {};
+
     items.reserve(boxes.size());
 
     for (const auto &box : boxes) {

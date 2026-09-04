@@ -319,7 +319,8 @@ BackendPlugin *PluginLoader::getPlugin(const std::string &pluginName) const {
 }
 
 std::vector<BackendPlugin *> PluginLoader::getLoadedPlugins() const {
-    std::vector<BackendPlugin *> result;
+    std::vector<BackendPlugin *> result = {};
+
     result.reserve(plugins_.size());
 
     for (const auto &plugin : plugins_) {

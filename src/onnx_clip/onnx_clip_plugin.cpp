@@ -706,7 +706,8 @@ std::vector<EmbeddingResult> ONNXClipPlugin::generateEmbeddingBatch(
     RequestGuard req_guard(snap);
 
     std::lock_guard<std::mutex> lock(snap->mutex);
-    std::vector<EmbeddingResult> results;
+    std::vector<EmbeddingResult> results = {};
+
     results.reserve(images.size());
 
     if (!snap->ready) {

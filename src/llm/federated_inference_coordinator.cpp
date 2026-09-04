@@ -55,7 +55,8 @@ std::vector<FanOutInstanceResult> FederatedInferenceCoordinator::execute(
         std::string instance_id;
         std::optional<sharding::ShardInfo> shard;
     };
-    std::vector<DispatchItem> items;
+    std::vector<DispatchItem> items = {};
+
     items.reserve(instance_ids.size());
     for (const auto& id : instance_ids) {
         items.push_back({id, resolveShard(id)});
@@ -95,7 +96,8 @@ std::vector<FanOutInstanceResult> FederatedInferenceCoordinator::execute(
         std::chrono::steady_clock::now() +
         std::chrono::milliseconds(config_.per_instance_timeout_ms);
 
-    std::vector<FanOutInstanceResult> results;
+    std::vector<FanOutInstanceResult> results = {};
+
     results.reserve(futures.size());
 
     for (size_t i = 0; i < futures.size(); ++i) {

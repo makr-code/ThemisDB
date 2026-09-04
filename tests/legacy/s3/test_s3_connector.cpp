@@ -323,7 +323,8 @@ TEST(S3ConnectorTest, ConcurrentDownloadsProcessMultipleObjects) {
     cfg.options["max_concurrent_downloads"] = "4";
     conn.initialize(cfg);
 
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     for (int i = 0; i < 10; ++i) {
         keys.push_back("obj_" + std::to_string(i) + ".txt");
     }
@@ -665,7 +666,8 @@ TEST(S3ConnectorTest, LargeBatchProcessedConcurrently) {
     conn.initialize(cfg);
 
     // 20 objects → 5 batches of 4 each
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     for (int i = 0; i < 20; ++i) {
         keys.push_back("obj_" + std::to_string(i) + ".txt");
     }

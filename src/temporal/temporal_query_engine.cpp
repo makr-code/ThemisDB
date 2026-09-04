@@ -38,7 +38,8 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryAsOf(
         return rows;
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     result.reserve(rows.size());
     for (auto& row : rows) {
         if (matchesFilters(row, filters)) {
@@ -175,7 +176,8 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryWithSemantics(
     if (semantics == TemporalSemantics::NON_SEQUENCED) {
         // Return every version across all time (atemporal view).
         auto keys = table.getAllKeys();
-        std::vector<VersionedDocument> result;
+        std::vector<VersionedDocument> result = {};
+
         for (const auto& key : keys) {
             auto versions =
                 table.getHistoryInRange(key, {kMinTimestamp, kMaxTimestamp});
@@ -243,7 +245,8 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryApplicationTime(
         return rows;
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     result.reserve(rows.size());
     for (auto& row : rows) {
         if (matchesFilters(row, filters)) {
@@ -311,7 +314,8 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryAsOfWithIndex(
         return {};
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     result.reserve(candidates.size());
 
     // Build a narrow range [as_of, as_of+1) to limit the history scan per key.
@@ -645,7 +649,8 @@ std::vector<VersionedDocument> queryAsOfCached(
         return rows;
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     result.reserve(rows.size());
     for (auto& row : rows) {
         if (TemporalQueryEngine::matchesFilters(row, filters)) {

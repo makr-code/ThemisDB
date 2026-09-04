@@ -317,7 +317,8 @@ TEST(ColumnarAggregatePoolTest, GroupByCorrectnessWithPool) {
         ColumnBatch result = agg.execute(batch);
         ASSERT_EQ(result.rowCount(), 3u) << "pass=" << pass;
 
-        std::unordered_map<std::string, double> sums;
+        std::unordered_map<std::string, double> sums = {};
+
         for (size_t r = 0; r < result.rowCount(); ++r) {
             auto cat = result.getColumn("category");
             auto tot = result.getColumn("total");

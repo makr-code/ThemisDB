@@ -53,7 +53,8 @@ std::vector<CapabilityMatchResult> CapabilityMatcher::match(
 ) {
     total_matches_++;
     
-    std::vector<CapabilityMatchResult> results;
+    std::vector<CapabilityMatchResult> results = {};
+
     results.reserve(shards.size());
     
     // Build IDF if using TF-IDF and not already built
@@ -233,12 +234,14 @@ double CapabilityMatcher::calculateKeywordScore(
     
     if (!config_.use_tfidf) {
         // Simple Jaccard similarity
-        std::set<std::string> query_set;
+        std::set<std::string> query_set = {};
+
         for (const auto& kw : query_keywords) {
             query_set.insert(normalize(kw));
         }
         
-        std::set<std::string> normalized_shard_kw;
+        std::set<std::string> normalized_shard_kw = {};
+
         for (const auto& kw : shard_keywords) {
             normalized_shard_kw.insert(normalize(kw));
         }
@@ -252,7 +255,8 @@ double CapabilityMatcher::calculateKeywordScore(
     double shard_magnitude = 0.0;
     
     // Calculate TF-IDF vectors
-    std::map<std::string, double> query_tfidf;
+    std::map<std::string, double> query_tfidf = {};
+
     for (const auto& term : query_keywords) {
         std::string norm_term = normalize(term);
         double tf = calculateTF(norm_term, query_keywords);
@@ -332,12 +336,14 @@ double CapabilityMatcher::calculateDomainScore(
     const std::vector<std::string>& shard_domains,
     std::vector<std::string>& matched_domains
 ) {
-    std::set<std::string> query_set;
+    std::set<std::string> query_set = {};
+
     for (const auto& d : query_domains) {
         query_set.insert(normalize(d));
     }
     
-    std::set<std::string> shard_set;
+    std::set<std::string> shard_set = {};
+
     for (const auto& d : shard_domains) {
         shard_set.insert(normalize(d));
     }
@@ -357,12 +363,14 @@ double CapabilityMatcher::calculateOrganizationScore(
     const std::vector<std::string>& shard_orgs,
     std::vector<std::string>& matched_orgs
 ) {
-    std::set<std::string> query_set;
+    std::set<std::string> query_set = {};
+
     for (const auto& o : query_orgs) {
         query_set.insert(normalize(o));
     }
     
-    std::set<std::string> shard_set;
+    std::set<std::string> shard_set = {};
+
     for (const auto& o : shard_orgs) {
         shard_set.insert(normalize(o));
     }
@@ -382,12 +390,14 @@ double CapabilityMatcher::calculateRegionScore(
     const std::vector<std::string>& shard_regions,
     std::vector<std::string>& matched_regions
 ) {
-    std::set<std::string> query_set;
+    std::set<std::string> query_set = {};
+
     for (const auto& r : query_regions) {
         query_set.insert(normalize(r));
     }
     
-    std::set<std::string> shard_set;
+    std::set<std::string> shard_set = {};
+
     for (const auto& r : shard_regions) {
         shard_set.insert(normalize(r));
     }
@@ -407,12 +417,14 @@ double CapabilityMatcher::calculateDataTypeScore(
     const std::vector<std::string>& shard_types,
     std::vector<std::string>& matched_types
 ) {
-    std::set<std::string> query_set;
+    std::set<std::string> query_set = {};
+
     for (const auto& t : query_types) {
         query_set.insert(normalize(t));
     }
     
-    std::set<std::string> shard_set;
+    std::set<std::string> shard_set = {};
+
     for (const auto& t : shard_types) {
         shard_set.insert(normalize(t));
     }

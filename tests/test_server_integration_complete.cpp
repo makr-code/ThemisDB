@@ -651,7 +651,8 @@ TEST_F(RateLimitMiddlewareIntegrationTest, Reset_ClearsStats) {
 TEST_F(RateLimitMiddlewareIntegrationTest, ConcurrentClients_AllSafe) {
     RateLimitingMiddleware mw(defaultConfig(1000, 100.0));
     std::atomic<int> allowed{0};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 8; ++t) {
         threads.emplace_back([&, t]() {
             std::string ip = "11." + std::to_string(t) + ".0.1";

@@ -116,7 +116,8 @@ std::vector<DataPoint> TimeSeries::query_window(const TimeWindow& window) const
         return {};
     }
 
-    std::vector<DataPoint> result;
+    std::vector<DataPoint> result = {};
+
     result.reserve(sub.size());
 
     for (auto it = sub.begin(); it != sub.end(); ++it) {
@@ -155,7 +156,8 @@ std::vector<DataPoint> TimeSeries::page(std::size_t offset,
 
     RangeValidator<std::vector<DataPoint>::const_iterator> sub(it, it_end);
 
-    std::vector<DataPoint> result;
+    std::vector<DataPoint> result = {};
+
     result.reserve(sub.size());
     for (auto pos = sub.begin(); pos != sub.end(); ++pos) {
         BoundsChecker::check_dereference(pos, it, it_end);

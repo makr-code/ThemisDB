@@ -243,7 +243,8 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         
         span.setAttribute("query.table", table);
          
-        std::vector<themis::PredicateEq> preds;
+        std::vector<themis::PredicateEq> preds = {};
+
         if (body.contains("predicates")) {
             const auto& pred_array = body["predicates"];
             preds.reserve(pred_array.size());
@@ -259,7 +260,8 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         span.setAttribute("query.predicates_count", static_cast<int64_t>(preds.size()));
 
         // Range predicates (optional)
-        std::vector<themis::PredicateRange> rpreds;
+        std::vector<themis::PredicateRange> rpreds = {};
+
         if (body.contains("range")) {
             const auto& range_array = body["range"];
             rpreds.reserve(range_array.size());
@@ -287,7 +289,8 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         }
 
         // Optional ORDER BY
-        std::optional<themis::OrderBy> orderBy;
+        std::optional<themis::OrderBy> orderBy = {};
+
         if (body.contains("order_by")) {
             const auto& ob = body["order_by"];
             if (!ob.contains("column")) {
@@ -334,7 +337,8 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         nlohmann::json plan_json;
 
         if (ret == "count") {
-            std::pair<QueryExecStatus, size_t> res;
+            std::pair<QueryExecStatus, size_t> res = {};
+
             if (allow_full_scan) {
                 exec_mode = "full_scan_fallback";
                 auto result = engine.executeAndKeysWithFallback(q, optimize);
@@ -469,7 +473,8 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
               j["plan"] = plan_json;
             }
             if (stream && ChunkedResponseWriter::shouldUseChunkedTransfer(req, res.second.size())) {
-                std::vector<nlohmann::json> key_items;
+                std::vector<nlohmann::json> key_items = {};
+
                 key_items.reserve(res.second.size());
                 for (const auto& k : res.second) {
                     if (isTimedOut()) {
@@ -604,7 +609,8 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                                 auto enc_meta_str = obj[f + "_encrypted"].get<std::string>();
                                 auto enc_meta = nlohmann::json::parse(enc_meta_str);
                                 auto blob = themis::EncryptedBlob::fromJson(enc_meta);
-                                std::vector<uint8_t> raw_key;
+                                std::vector<uint8_t> raw_key = {};
+
                                 if (context_type == "group" && pki && obj.contains(f + "_group")) {
                                     std::string group_name; try { group_name = obj[f + "_group"].get<std::string>(); } catch (...) { group_name.clear(); }
                                     if (!group_name.empty()) {
@@ -654,7 +660,8 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
               j["plan"] = plan_json;
             }
             if (stream && ChunkedResponseWriter::shouldUseChunkedTransfer(req, entities.size())) {
-                std::vector<nlohmann::json> entity_items;
+                std::vector<nlohmann::json> entity_items = {};
+
                 entity_items.reserve(entities.size());
                 for (const auto& e : entities) {
                     entity_items.push_back(e);
@@ -897,7 +904,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             else { hash.reserve(rightVec.size()*2+1); for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (k.has_value()) hash.emplace(*k, e); } }
             std::string retVar; if ((*parse_result)->return_node && (*parse_result)->return_node->expression) { if (auto* v = dynamic_cast<VariableExpr*>((*parse_result)->return_node->expression.get())) { retVar = v->name; } }
             if (retVar != var1 && retVar != var2) { joinSpan.setStatus(false, "return_not_supported_for_join"); span.setStatus(false, "JOIN currently supports RETURN of one bound variable (left or right)"); return makeErrorResponse(http::status::bad_request, "JOIN currently supports RETURN of one bound variable (left or right)", req); }
-            std::vector<themis::BaseEntity> out;
+            std::vector<themis::BaseEntity> out = {};
+
             // Reserve based on expected join cardinality (smaller input set)
             out.reserve(std::min(leftVec.size(), rightVec.size()));
             if (buildLeft) { for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& l = it->second; if (retVar == var1) out.push_back(l); else out.push_back(e); } } }
@@ -1627,7 +1635,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         if (parseFA(left, var, field)) {
                             // rechts Literal/Funktion
                             if (!evalExprToLiteral(std::shared_ptr<Expression>(const_cast<Expression*>(right), [](Expression*){}), lit)) return false;
-                            std::optional<std::string> val;
+                            std::optional<std::string> val = {};
+
                             if (var=='v') {
                               val = getVFieldString(vpk, field);
                             }
@@ -1651,7 +1660,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 }
                             };
                             auto op2 = invert(*op_m);
-                            std::optional<std::string> val;
+                            std::optional<std::string> val = {};
+
                             if (var=='v') {
                               val = getVFieldString(vpk, field);
                             }
@@ -1962,7 +1972,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         const auto& leftVec = res1.second; const auto& rightVec = res2.second;
                         bool buildLeft = leftVec.size() <= rightVec.size();
                         const auto [colLeft, colRight] = *joinCols;
-                        std::unordered_multimap<std::string, themis::BaseEntity> hash;
+                        std::unordered_multimap<std::string, themis::BaseEntity> hash = {};
+
                         auto getFieldStr = [&](const themis::BaseEntity& e, const std::string& col)->std::optional<std::string> { auto v = e.getFieldAsString(col); if (v.has_value()) return v; auto d = e.getFieldAsDouble(col); if (d.has_value()) return std::to_string(*d); return std::nullopt; };
                         if (buildLeft) {
                             hash.reserve(leftVec.size()*2+1);
@@ -1986,7 +1997,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         }
 
                         // Probiere Join und sammle Ergebnisse
-                        std::vector<themis::BaseEntity> out;
+                        std::vector<themis::BaseEntity> out = {};
+
                         if (buildLeft) {
                             for (const auto& e : rightVec) {
                                 auto k = getFieldStr(e, colRight); if (!k.has_value()) continue;
@@ -2216,7 +2228,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         bool pass = true;
                         if (!(*parse_result)->filters.empty()) {
                             filterEvaluationsTotal++;
-                            std::optional<std::string> edgeIdOpt;
+                            std::optional<std::string> edgeIdOpt = {};
+
                             if (depth > 0) {
                                 auto itp = parent.find(node);
                                 if (itp != parent.end()) {
@@ -3007,7 +3020,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         forSpan.setStatus(true);
         
         // Apply LIMIT offset,count if provided in the AQL (post-fetch slicing)
-        std::vector<themis::BaseEntity> sliced;
+        std::vector<themis::BaseEntity> sliced = {};
+
         sliced.reserve(res.second.size());
         sliced = std::move(res.second);
 
@@ -3140,7 +3154,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             }
 
             struct AggSpec { std::string var; std::string func; std::string col; };
-            std::vector<AggSpec> aggs;
+            std::vector<AggSpec> aggs = {};
+
             aggs.reserve(collect.aggregations.size());
             for (const auto& a : collect.aggregations) {
                 std::string func = a.funcName; std::transform(func.begin(), func.end(), func.begin(), ::tolower);
@@ -3184,7 +3199,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         if (a.func == "count") {
                             st.cnt += 1;
                         } else if (a.func == "sum" || a.func == "avg" || a.func == "min" || a.func == "max") {
-                            std::optional<double> num;
+                            std::optional<double> num = {};
+
                             if (toNumber(e, a.col, num) && num.has_value()) {
                                 st.cnt += 1;
                                 st.sum += *num;
@@ -3632,7 +3648,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         } else {
             for (const auto& e : sliced) {
                 // Build LET environment per row
-                std::unordered_map<std::string, nlohmann::json> env;
+                std::unordered_map<std::string, nlohmann::json> env = {};
+
                 for (const auto& ln : (*parse_result)->let_nodes) {
                     // Only allow Literal, FieldAccess and Variable
                     auto val = evalExpr(ln.expression, e, env);

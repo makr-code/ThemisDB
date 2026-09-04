@@ -241,7 +241,8 @@ static void BM_ConflictDetection(benchmark::State& state) {
     size_t num_policies = state.range(0);
     PolicyEngine engine;
     
-    std::vector<PolicyEngine::Policy> policies;
+    std::vector<PolicyEngine::Policy> policies = {};
+
     for (size_t i = 0; i < num_policies; ++i) {
         policies.push_back(create_simple_rbac_policy());
     }

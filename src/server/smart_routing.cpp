@@ -71,7 +71,8 @@ void SmartRouter::removeBackend(const std::string& backend_id) {
 /** @brief Return snapshot list of all registered backends. */
 std::vector<BackendEndpoint> SmartRouter::listBackends() const {
     std::shared_lock lock(mutex_);
-    std::vector<BackendEndpoint> result;
+    std::vector<BackendEndpoint> result = {};
+
     result.reserve(backends_.size());
     for (const auto& [id, state] : backends_) {
         result.push_back(state.endpoint);
@@ -214,7 +215,8 @@ std::optional<BackendEndpoint> SmartRouter::route(
 
     // Phase 2: Build candidate list, filtering out high-tail backends when
     //          lower-latency alternatives are available.
-    std::vector<const BackendState*> candidates;
+    std::vector<const BackendState*> candidates = {};
+
     candidates.reserve(backends_.size());
     for (const auto& [id, state] : backends_) {
         candidates.push_back(&state);
@@ -347,7 +349,8 @@ std::optional<BackendEndpoint> SmartRouter::predictCachedBackend(
 /** @brief Return stats snapshots for all backends. */
 std::vector<SmartRouter::BackendStats> SmartRouter::getAllStats() const {
     std::shared_lock lock(mutex_);
-    std::vector<BackendStats> result;
+    std::vector<BackendStats> result = {};
+
     result.reserve(backends_.size());
 
     for (const auto& [id, state] : backends_) {

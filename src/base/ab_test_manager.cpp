@@ -549,7 +549,8 @@ ABTestStatus ABTestManager::getTestStatus(const std::string &test_id) const {
 
 std::vector<std::string> ABTestManager::getActiveTests() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> active;
+    std::vector<std::string> active = {};
+
     for (const auto &[id, entry] : tests_) {
         if (entry.status == ABTestStatus::ACTIVE) {
             active.push_back(id);
@@ -573,7 +574,8 @@ ABVariantMetrics ABTestManager::getTreatmentMetrics(const std::string &test_id) 
 std::vector<ABTestMetricRow> ABTestManager::exportMetricsSnapshot() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<ABTestMetricRow> rows;
+    std::vector<ABTestMetricRow> rows = {};
+
     rows.reserve(tests_.size() * 2);
 
     for (const auto &[id, entry] : tests_) {

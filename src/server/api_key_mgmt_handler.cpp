@@ -121,7 +121,8 @@ nlohmann::json ApiKeyMgmtHandler::createKey([[maybe_unused]] const nlohmann::jso
         }
 
         // Parse optional fields
-        std::vector<std::string> permissions;
+        std::vector<std::string> permissions = {};
+
         if (body.contains("permissions") && body["permissions"].is_array()) {
             for (const auto& p : body["permissions"]) {
                 if (p.is_string()) {

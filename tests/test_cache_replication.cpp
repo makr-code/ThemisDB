@@ -193,7 +193,8 @@ TEST_F(CacheReplicationCoordIntegrationTest, PutOnAReplicatesToB) {
     ASSERT_TRUE(stored);
 
     // Replication is asynchronous; allow a short propagation window.
-    std::optional<AdaptiveQueryCache::CacheEntry> entry;
+    std::optional<AdaptiveQueryCache::CacheEntry> entry = {};
+
     for (int i = 0; i < 20; ++i) {
         entry = cache_b->get(fp, "");
         if (entry.has_value()) {

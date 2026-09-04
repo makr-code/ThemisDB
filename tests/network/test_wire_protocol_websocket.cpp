@@ -234,7 +234,8 @@ static std::vector<uint8_t> makeFrame(uint8_t opcode,
                                        const std::vector<uint8_t>& payload = {},
                                        bool skip_checksum = true)
 {
-    std::vector<uint8_t> frame;
+    std::vector<uint8_t> frame = {};
+
     frame.reserve(12 + payload.size());
 
     // Magic
@@ -267,7 +268,8 @@ static std::vector<uint8_t> makeBinaryFrame(
     uint16_t flags,
     const std::vector<uint8_t>& payload)
 {
-    std::vector<uint8_t> frame;
+    std::vector<uint8_t> frame = {};
+
     frame.reserve(12 + payload.size());
     // Magic "TMDB"
     frame.push_back(0x54); frame.push_back(0x4D);

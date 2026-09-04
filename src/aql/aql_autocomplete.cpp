@@ -266,7 +266,8 @@ std::string AQLAutoComplete::variableBeforeDot(const std::string &text, std::siz
 // ============================================================================
 
 std::vector<std::string> AQLAutoComplete::declaredVariables(const std::string &text, std::size_t cursor) const {
-    std::vector<std::string> vars;
+    std::vector<std::string> vars = {};
+
     std::string prefix_text = text.substr(0, std::min(cursor, text.size()));
 
     // Static patterns compiled once for performance
@@ -298,7 +299,8 @@ std::vector<std::string> AQLAutoComplete::declaredVariables(const std::string &t
 
     // De-duplicate while preserving order
     std::unordered_set<std::string> seen;
-    std::vector<std::string> unique_vars;
+    std::vector<std::string> unique_vars = {};
+
     for (auto &v : vars) {
         if (seen.insert(v).second) {
             unique_vars.push_back(v);
@@ -312,7 +314,8 @@ std::vector<std::string> AQLAutoComplete::declaredVariables(const std::string &t
 // ============================================================================
 
 std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std::string &schema_context) const {
-    std::vector<SchemaInfo> result;
+    std::vector<SchemaInfo> result = {};
+
     if (schema_context.empty()) {
         return result;
     }
@@ -336,7 +339,8 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std:
     std::regex col_re(R"(([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\))", std::regex::icase);
     std::sregex_iterator it(text.begin(), text.end(), col_re);
     std::sregex_iterator end;
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (; it != end; ++it) {
         SchemaInfo info;
         info.collection_name = (*it)[1].str();
@@ -359,7 +363,8 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std:
         std::regex plain_re(R"([A-Za-z_][A-Za-z0-9_]*)");
         std::sregex_iterator pit(text.begin(), text.end(), plain_re);
         std::sregex_iterator pend;
-        std::unordered_set<std::string> plain_seen;
+        std::unordered_set<std::string> plain_seen = {};
+
         for (; pit != pend; ++pit) {
             std::string name = (*pit)[0].str();
             if (plain_seen.insert(aqlAutoCompleteToLower(name)).second) {
@@ -424,7 +429,8 @@ std::vector<CompletionItem> AQLAutoComplete::keywordCandidates([[maybe_unused]] 
 // ============================================================================
 
 std::vector<CompletionItem> AQLAutoComplete::functionCandidates() const {
-    std::vector<CompletionItem> items;
+    std::vector<CompletionItem> items = {};
+
     for (const auto &e : kFunctions) {
         CompletionItem item;
         item.label         = e.name;
@@ -503,7 +509,8 @@ std::vector<CompletionItem> AQLAutoComplete::attributeCandidates(const std::stri
     } else if (!schema.empty()) {
         // Variable-collection binding not found — return all known fields
         // from all collections (union, de-duplicated)
-        std::unordered_set<std::string> seen;
+        std::unordered_set<std::string> seen = {};
+
         for (const auto &info : schema) {
             for (const auto &field : info.fields) {
                 if (seen.insert(aqlAutoCompleteToLower(field)).second) {
@@ -530,7 +537,8 @@ std::vector<CompletionItem> AQLAutoComplete::filterAndSort(std::vector<Completio
                                                            const std::string &prefix,
                                                            std::size_t prefix_start_col) const {
     // Filter: keep items whose label starts with prefix (case-insensitive)
-    std::vector<CompletionItem> filtered;
+    std::vector<CompletionItem> filtered = {};
+
     filtered.reserve(candidates.size());
     for (auto &item : candidates) {
         if (ciStartsWith(item.label, prefix)) {
@@ -594,7 +602,8 @@ std::vector<CompletionItem> AQLAutoComplete::complete(const CompletionContext &c
 // ============================================================================
 
 std::vector<std::string> AQLAutoComplete::allKeywords() const {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto &e : kClauseKeywords) {
         result.push_back(e.keyword);
     }
@@ -608,7 +617,8 @@ std::vector<std::string> AQLAutoComplete::allKeywords() const {
 }
 
 std::vector<std::string> AQLAutoComplete::allFunctions() const {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto &e : kFunctions) {
         result.push_back(e.name);
     }

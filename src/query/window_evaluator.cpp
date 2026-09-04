@@ -300,7 +300,8 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateRank(
     const std::vector<SortSpec>& orderBy,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    std::vector<nlohmann::json> results;
+    std::vector<nlohmann::json> results = {};
+
     results.reserve(sortedIndices.size());
     
     if (sortedIndices.empty()) {
@@ -338,7 +339,8 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateDenseRank(
     const std::vector<SortSpec>& orderBy,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    std::vector<nlohmann::json> results;
+    std::vector<nlohmann::json> results = {};
+
     results.reserve(sortedIndices.size());
     
     if (sortedIndices.empty()) {
@@ -375,7 +377,8 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLag(
     const std::shared_ptr<Expression>& defaultValue,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    std::vector<nlohmann::json> results;
+    std::vector<nlohmann::json> results = {};
+
     results.reserve(sortedIndices.size());
     
     nlohmann::json defaultVal = nullptr;
@@ -416,7 +419,8 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLead(
     const std::shared_ptr<Expression>& defaultValue,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    std::vector<nlohmann::json> results;
+    std::vector<nlohmann::json> results = {};
+
     results.reserve(sortedIndices.size());
     
     nlohmann::json defaultVal = nullptr;
@@ -454,7 +458,8 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateFirstValue(
     const std::shared_ptr<Expression>& argument,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    std::vector<nlohmann::json> results;
+    std::vector<nlohmann::json> results = {};
+
     results.reserve(sortedIndices.size());
     
     if (sortedIndices.empty()) {
@@ -485,7 +490,8 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLastValue(
     const WindowFrame& frame,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    std::vector<nlohmann::json> results;
+    std::vector<nlohmann::json> results = {};
+
     results.reserve(sortedIndices.size());
     
     if (sortedIndices.empty()) {

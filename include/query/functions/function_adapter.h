@@ -130,7 +130,8 @@ public:
      */
     static std::vector<std::string> getAvailableFunctions() {
         initialize();
-        std::vector<std::string> names;
+        std::vector<std::string> names = {};
+
         for (const auto& sig : FunctionRegistry::instance().getAllSignatures()) {
             names.push_back(sig.name);
         }

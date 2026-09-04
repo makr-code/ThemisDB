@@ -145,7 +145,8 @@ struct MockInFlightBuffer {
 // ===========================================================================
 
 TEST(FailoverContractHardeningFCH01, SingleLeaderPerEpoch) {
-    std::vector<MockNode> nodes;
+    std::vector<MockNode> nodes = {};
+
     for (int i = 0; i < 5; ++i)
         nodes.push_back({"node-" + std::to_string(i)});
 
@@ -159,7 +160,8 @@ TEST(FailoverContractHardeningFCH01, SingleLeaderPerEpoch) {
 // ===========================================================================
 
 TEST(FailoverContractHardeningFCH02, EpochMonotonicallyIncreases) {
-    std::vector<MockNode> nodes;
+    std::vector<MockNode> nodes = {};
+
     for (int i = 0; i < 3; ++i)
         nodes.push_back({"n" + std::to_string(i)});
 
@@ -177,7 +179,8 @@ TEST(FailoverContractHardeningFCH02, EpochMonotonicallyIncreases) {
 // ===========================================================================
 
 TEST(FailoverContractHardeningFCH03, OldLeaderDeposedOnHigherEpoch) {
-    std::vector<MockNode> nodes;
+    std::vector<MockNode> nodes = {};
+
     for (int i = 0; i < 3; ++i)
         nodes.push_back({"n" + std::to_string(i)});
 
@@ -202,7 +205,8 @@ TEST(FailoverContractHardeningFCH03, OldLeaderDeposedOnHigherEpoch) {
 // ===========================================================================
 
 TEST(FailoverContractHardeningFCH04, NoSplitBrainSameEpoch) {
-    std::vector<MockNode> nodes;
+    std::vector<MockNode> nodes = {};
+
     for (int i = 0; i < 5; ++i)
         nodes.push_back({"n" + std::to_string(i)});
 

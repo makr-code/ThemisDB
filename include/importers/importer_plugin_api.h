@@ -501,7 +501,8 @@ public:
      */
     std::vector<std::string> listPlugins() const {
         std::lock_guard<std::mutex> lk(mutex_);
-        std::vector<std::string> names;
+        std::vector<std::string> names = {};
+
         names.reserve(factories_.size());
         for (const auto& kv : factories_) {
             names.push_back(kv.first);

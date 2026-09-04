@@ -163,7 +163,8 @@ public:
     }
 
     std::vector<int> queryBbox(const Bbox& bbox) const {
-        std::vector<int> results;
+        std::vector<int> results = {};
+
         for (const auto& e : entries_) {
             if (bbox.contains(e.point)) {
               results.push_back(e.id);

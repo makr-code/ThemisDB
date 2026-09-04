@@ -122,7 +122,8 @@ bool isWorldWritable(const std::filesystem::path& path, std::error_code& ec) {
 
 /// Tokenise @p text into lower-cased words, stripping punctuation.
 std::vector<std::string> tokenise(const std::string& text) {
-    std::vector<std::string> tokens;
+    std::vector<std::string> tokens = {};
+
     tokens.reserve(text.size() / 5);  // Estimate: average token ~5 chars
     std::string cur;
     cur.reserve(20);  // Reserve space for typical token length
@@ -147,7 +148,8 @@ std::vector<std::string> tokenise(const std::string& text) {
 std::unordered_map<std::string, size_t> termFreq(
     const std::vector<std::string>& tokens)
 {
-    std::unordered_map<std::string, size_t> tf;
+    std::unordered_map<std::string, size_t> tf = {};
+
     for (const auto& t : tokens) {
         ++tf[t];
     }
@@ -158,7 +160,8 @@ std::unordered_map<std::string, size_t> termFreq(
 std::unordered_map<std::string, size_t> bigramFreq(
     const std::vector<std::string>& tokens)
 {
-    std::unordered_map<std::string, size_t> bf;
+    std::unordered_map<std::string, size_t> bf = {};
+
     // Optimization: reserve capacity based on expected bigram count
     // Complexity: O(n) with efficient string building
     bf.reserve(tokens.size() > 1 ? tokens.size() - 1 : 0);
@@ -413,7 +416,8 @@ RerankResult CrossEncoderReranker::rerank(
         double relevance = 0;
         size_t original_idx;
     };
-    std::vector<ScoredCandidate> scored;
+    std::vector<ScoredCandidate> scored = {};
+
     scored.reserve(candidates.size());
 
     // Process in batches to match the configured batch_size
@@ -489,7 +493,8 @@ std::vector<double> CrossEncoderReranker::scoreBatch(
     const std::string& query,
     const std::vector<std::string>& documents) const
 {
-    std::vector<double> scores;
+    std::vector<double> scores = {};
+
     scores.reserve(documents.size());
     for (const auto& doc : documents) {
         scores.push_back(impl_->computeScore(query, doc));

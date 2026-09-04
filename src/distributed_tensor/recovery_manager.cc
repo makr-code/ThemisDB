@@ -196,7 +196,8 @@ bool DefaultRecoveryManager::cancel_recovery_job(
 
 std::vector<RecoveryJob> DefaultRecoveryManager::list_active_recovery_jobs()
     const noexcept {
-  std::vector<RecoveryJob> active_jobs;
+  std::vector<RecoveryJob> active_jobs = {};
+
   for (const auto& [job_id, job] : recovery_jobs_) {
     if (job.status == RecoveryJobStatus::QUEUED ||
         job.status == RecoveryJobStatus::RUNNING) {

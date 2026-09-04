@@ -111,7 +111,8 @@ TemporalSpatialQuery::entitiesInBBoxAtTime(
     const std::string& geo_field)
 {
     auto rows = table.scan(as_of);
-    std::vector<themisdb::temporal::VersionedDocument> result;
+    std::vector<themisdb::temporal::VersionedDocument> result = {};
+
     for (auto& row : rows) {
         auto geom = extractGeometry(row, geo_field);
         if (!geom.has_value()) {
@@ -151,7 +152,8 @@ TemporalSpatialQuery::entitiesWithinDistanceAtTime(
 
     if (rows.size() >= kIndexThreshold) {
         // Build (key → row index) map and a (key → centroid) list for bulk load.
-        std::unordered_map<std::string, std::size_t> key_idx;
+        std::unordered_map<std::string, std::size_t> key_idx = {};
+
         key_idx.reserve(rows.size());
         std::vector<std::pair<std::string, GeometryInfo>> geo_entries;
         geo_entries.reserve(rows.size());
@@ -202,7 +204,8 @@ TemporalSpatialQuery::entitiesWithinDistanceAtTime(
 
             const auto candidate_keys = snapshot_idx.intersects(search_box);
 
-            std::vector<themisdb::temporal::VersionedDocument> result;
+            std::vector<themisdb::temporal::VersionedDocument> result = {};
+
             for (const auto& key : candidate_keys) {
                 auto it = key_idx.find(key);
                 if (it == key_idx.end()) {
@@ -225,7 +228,8 @@ TemporalSpatialQuery::entitiesWithinDistanceAtTime(
 
     // Fallback: linear scan (used when row count < kIndexThreshold or
     // when all geometry fields are unparseable).
-    std::vector<themisdb::temporal::VersionedDocument> result;
+    std::vector<themisdb::temporal::VersionedDocument> result = {};
+
     for (auto& row : rows) {
         auto geom = extractGeometry(row, geo_field);
         if (!geom.has_value()) {

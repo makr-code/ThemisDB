@@ -89,7 +89,8 @@ TEST_F(BulkTransactionTest, BulkPutSingleEntity) {
 TEST_F(BulkTransactionTest, BulkPutMultipleEntitiesCommit) {
     sec_idx_->createIndex("users", "city");
 
-    std::vector<BaseEntity> batch;
+    std::vector<BaseEntity> batch = {};
+
     for (int i = 0; i < 5; ++i) {
         batch.push_back(makeEntity("u" + std::to_string(i), "User" + std::to_string(i), "Berlin"));
     }

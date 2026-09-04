@@ -424,7 +424,8 @@ class CudaBackend final : public ISpatialComputeBackend {
         // Eliminates false positives from the conservative MBR filter.
         // Build a sub-batch of only the candidates to leverage parallel threading.
         SpatialBatchInputs candidates;
-        std::vector<size_t> candidate_indices;
+        std::vector<size_t> candidate_indices = {};
+
         for (int i = 0; i < n; ++i) {
             if (out.mask[i]) {
                 candidate_indices.push_back(static_cast<size_t>(i));
@@ -815,7 +816,8 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         // Eliminates false positives from the conservative MBR filter.
         // Build a sub-batch of only the candidates to leverage parallel threading.
         SpatialBatchInputs candidates;
-        std::vector<size_t> candidate_indices;
+        std::vector<size_t> candidate_indices = {};
+
         for (int i = 0; i < n; ++i) {
             if (out.mask[i]) {
                 candidate_indices.push_back(static_cast<size_t>(i));

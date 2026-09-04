@@ -42,7 +42,8 @@ std::vector<GovernanceDiagnostic> DiagnosticAggregator::getDiagnosticsForCompone
     const std::string& component) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<GovernanceDiagnostic> result;
+    std::vector<GovernanceDiagnostic> result = {};
+
     for (const auto& d : diagnostics_) {
         if (d.component == component) {
             result.push_back(d);
@@ -55,7 +56,8 @@ std::vector<GovernanceDiagnostic> DiagnosticAggregator::getDiagnosticsForCode(
     GovDiagnosticCode code) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<GovernanceDiagnostic> result;
+    std::vector<GovernanceDiagnostic> result = {};
+
     for (const auto& d : diagnostics_) {
         if (d.code == code) {
             result.push_back(d);
@@ -68,7 +70,8 @@ std::vector<GovernanceDiagnostic> DiagnosticAggregator::getDiagnosticsInTimeRang
     int64_t start_ms, int64_t end_ms) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<GovernanceDiagnostic> result;
+    std::vector<GovernanceDiagnostic> result = {};
+
     for (const auto& d : diagnostics_) {
         bool in_range = true;
         if (start_ms > 0 && d.timestamp_ms < start_ms) {
@@ -95,7 +98,8 @@ std::unordered_map<std::string, GovernanceDiagnostic>
 DiagnosticAggregator::getLatestPerComponent() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::unordered_map<std::string, GovernanceDiagnostic> result;
+    std::unordered_map<std::string, GovernanceDiagnostic> result = {};
+
     for (const auto& d : diagnostics_) {
         auto it = result.find(d.component);
         if (it == result.end() || it->second.timestamp_ms < d.timestamp_ms) {

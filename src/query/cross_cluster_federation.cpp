@@ -134,7 +134,8 @@ void CrossClusterFederator::unregisterCluster(const std::string& cluster_id) {
 
 std::vector<ClusterEndpoint> CrossClusterFederator::listClusters() const {
     std::lock_guard<std::mutex> lock(registry_mutex_);
-    std::vector<ClusterEndpoint> result;
+    std::vector<ClusterEndpoint> result = {};
+
     result.reserve(clusters_.size());
     for (const auto& [id, ep] : clusters_) {
         result.push_back(ep);
@@ -150,7 +151,8 @@ std::vector<ClusterCostEstimate>
 CrossClusterFederator::estimateCosts(const std::string& /*query*/) const {
     std::lock_guard<std::mutex> lock(registry_mutex_);
 
-    std::vector<ClusterCostEstimate> estimates;
+    std::vector<ClusterCostEstimate> estimates = {};
+
     estimates.reserve(clusters_.size());
 
     for (const auto& [id, ep] : clusters_) {
@@ -254,7 +256,8 @@ nlohmann::json CrossClusterFederator::execute(const std::string& query) {
     const auto& selected = plan.selected_clusters;
 
     // Filter endpoints to only selected clusters
-    std::vector<ClusterEndpoint> active;
+    std::vector<ClusterEndpoint> active = {};
+
     active.reserve(selected.size());
     for (const auto& ep : endpoints) {
         if (std::find(selected.begin(), selected.end(), ep.cluster_id) !=

@@ -106,7 +106,8 @@ std::optional<VoiceProfile> VoiceTTSCustomizer::getProfile(const std::string& vo
 }
 
 std::vector<VoiceProfile> VoiceTTSCustomizer::listProfiles() const {
-    std::vector<VoiceProfile> result;
+    std::vector<VoiceProfile> result = {};
+
     result.reserve(profiles_.size());
     for (const auto& [id, p] : profiles_) {
         result.push_back(p);
@@ -115,7 +116,8 @@ std::vector<VoiceProfile> VoiceTTSCustomizer::listProfiles() const {
 }
 
 std::vector<VoiceProfile> VoiceTTSCustomizer::getProfilesForLanguage(const std::string& lang) const {
-    std::vector<VoiceProfile> result;
+    std::vector<VoiceProfile> result = {};
+
     for (const auto& [id, p] : profiles_) {
         if (p.language == lang ||
             (p.language.size() >= 2 && lang.size() >= 2 &&
@@ -522,7 +524,8 @@ float VoiceTTSCustomizer::computeSpeechRhythm(
       return 0.5f;
     }
 
-    std::vector<float> energies;
+    std::vector<float> energies = {};
+
     for (size_t off = 0; off + window <= n_samples; off += window) {
         double e = 0.0;
         for (size_t i = off; i < off + window; ++i) {
@@ -611,7 +614,8 @@ void VoiceTTSCustomizer::registerLanguageVoice(const LanguageVoice& lv) {
 }
 
 std::vector<LanguageVoice> VoiceTTSCustomizer::getSupportedLanguages() const {
-    std::vector<LanguageVoice> result;
+    std::vector<LanguageVoice> result = {};
+
     result.reserve(language_voices_.size());
     for (const auto& [code, lv] : language_voices_) {
         result.push_back(lv);

@@ -110,7 +110,8 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
         StreamWriter writer(writer_config);
 
         // AQL predicate filter (compiled once, reused per entity)
-        std::unique_ptr<AqlPredicateFilter> aql_filter;
+        std::unique_ptr<AqlPredicateFilter> aql_filter = {};
+
         if (!options.filter_expression.empty()) {
             aql_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);
         }

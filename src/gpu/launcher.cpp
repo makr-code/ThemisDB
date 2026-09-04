@@ -121,7 +121,8 @@ GPULauncher::submitBatch(std::vector<WorkItem> items) {
 
     return std::async(std::launch::async,
         [this, items = std::move(items)]() mutable {
-            std::vector<WorkResult> results;
+            std::vector<WorkResult> results = {};
+
             results.reserve(items.size());
             for (auto& item : items) {
                 results.push_back(executeOne(std::move(item)));

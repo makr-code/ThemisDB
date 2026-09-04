@@ -248,7 +248,8 @@ std::optional<std::vector<std::string>> BaseEntity::getFieldAsStringArray(std::s
         try {
             auto arr = nlohmann::json::parse(raw);
             if (arr.is_array()) {
-                std::vector<std::string> result;
+                std::vector<std::string> result = {};
+
                 result.reserve(arr.size());
                 for (const auto& el : arr) {
                     if (el.is_string()) {

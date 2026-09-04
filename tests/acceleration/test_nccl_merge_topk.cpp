@@ -93,7 +93,8 @@ std::vector<Candidate> simulateMerge(const std::vector<std::vector<Candidate>>& 
                                      size_t k) {
     // Flatten (simulates AllGather result)
     std::vector<uint32_t> h_indices;
-    std::vector<float>    h_distances;
+    std::vector<float>    h_distances = {};
+
     for (const auto& rank_data : perRankData) {
         for (const auto& c : rank_data) {
             h_indices.push_back(c.index);
@@ -121,7 +122,8 @@ std::vector<Candidate> simulateMerge(const std::vector<std::vector<Candidate>>& 
 // Brute-force reference: merge all candidates and sort fully, then take top-k.
 std::vector<Candidate> referenceMerge(const std::vector<std::vector<Candidate>>& perRankData,
                                       size_t k) {
-    std::vector<Candidate> all;
+    std::vector<Candidate> all = {};
+
     for (const auto& rank_data : perRankData)
         for (const auto& c : rank_data)
             all.push_back(c);

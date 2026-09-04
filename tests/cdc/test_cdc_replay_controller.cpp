@@ -105,7 +105,8 @@ private:
     std::vector<Changefeed::ChangeEvent> filter(
         const ReplayOptions& opts) const
     {
-        std::vector<Changefeed::ChangeEvent> out;
+        std::vector<Changefeed::ChangeEvent> out = {};
+
         for (const auto& ev : events_) {
             // from_sequence is an exclusive lower bound: keep events with seq > from_sequence
             if (opts.from_sequence > 0 && ev.sequence <= opts.from_sequence) {
@@ -144,7 +145,8 @@ private:
 std::vector<Changefeed::ChangeEvent> makeEventRange(
     uint64_t from, uint64_t to)
 {
-    std::vector<Changefeed::ChangeEvent> v;
+    std::vector<Changefeed::ChangeEvent> v = {};
+
     for (uint64_t i = from; i <= to; ++i) {
       v.push_back(makeEv(i));
     }
@@ -240,7 +242,8 @@ TEST(InMemoryReplayControllerTest, TimestampRangeFiltersCorrectly) {
 // ── AC-R7  key_prefix filter ──────────────────────────────────────────────────
 
 TEST(InMemoryReplayControllerTest, KeyPrefixFilterWorks) {
-    std::vector<Changefeed::ChangeEvent> events;
+    std::vector<Changefeed::ChangeEvent> events = {};
+
     for (uint64_t i = 1; i <= 4; ++i) {
         events.push_back(makeEv(i, "orders:k"));
     }
@@ -262,7 +265,8 @@ TEST(InMemoryReplayControllerTest, KeyPrefixFilterWorks) {
 // ── AC-R8  event_types filter ────────────────────────────────────────────────
 
 TEST(InMemoryReplayControllerTest, EventTypeFilterWorks) {
-    std::vector<Changefeed::ChangeEvent> events;
+    std::vector<Changefeed::ChangeEvent> events = {};
+
     for (uint64_t i = 1; i <= 4; ++i) {
         events.push_back(makeEv(i, "k:", 0,
             Changefeed::ChangeEventType::EVENT_PUT));

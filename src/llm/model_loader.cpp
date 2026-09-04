@@ -601,7 +601,8 @@ std::optional<ModelInfo> LazyModelLoader::getModelInfo(const std::string& model_
 std::vector<std::string> LazyModelLoader::listLoadedModels() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(models_.size());
     
     for (const auto& [id, _] : models_) {
@@ -856,7 +857,8 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     std::vector<int> attempted_gpu_layers;
 
     auto loadModelWithGpuFallback = [&]([[maybe_unused]] const char* stage) -> llama_model* {
-        std::vector<int> candidates;
+        std::vector<int> candidates = {};
+
         if (requested_gpu_layers > 0) {
             candidates.push_back(requested_gpu_layers);
             int probe = requested_gpu_layers;

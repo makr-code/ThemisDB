@@ -224,7 +224,8 @@ public:
 
     std::vector<std::uint64_t> sequences() const {
         std::lock_guard<std::mutex> lk(mtx_);
-        std::vector<std::uint64_t> out;
+        std::vector<std::uint64_t> out = {};
+
         out.reserve(entries_.size());
         for (const auto& e : entries_) {
           out.push_back(e.first);

@@ -171,7 +171,8 @@ std::vector<FederatedSearch::Result> FederatedSearch::mergeTenantResults(
     }
 
     // Build result list and sort by score descending
-    std::vector<Result> merged;
+    std::vector<Result> merged = {};
+
     merged.reserve(accum.size());
     for (const auto& [key, acc] : accum) {
         Result res;

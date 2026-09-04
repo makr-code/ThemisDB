@@ -58,7 +58,8 @@ int main() {
         constexpr int num_threads = 8;
         constexpr int items_per_thread = 1000;
         
-        std::vector<std::thread> threads;
+        std::vector<std::thread> threads = {};
+
         for (int t = 0; t < num_threads; ++t) {
             threads.emplace_back([&cache, t]() {
                 for (int i = 0; i < items_per_thread; ++i) {

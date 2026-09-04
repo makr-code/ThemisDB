@@ -155,7 +155,8 @@ NegativeKeywordFilter::filter(
     }
 
     // Remove excluded PKs from the candidate set while preserving order.
-    std::vector<std::string> filtered;
+    std::vector<std::string> filtered = {};
+
     filtered.reserve(candidate_pks.size());
     for (const auto& pk : candidate_pks) {
         if (excluded.find(pk) == excluded.end()) {

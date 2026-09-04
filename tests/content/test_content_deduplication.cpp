@@ -124,7 +124,8 @@ std::vector<uint8_t> makeGradientBmp(int width = 32, int height = 32) {
 // ============================================================================
 
 TEST(ComputePHash, EmptyBlobReturnsEmpty) {
-    std::vector<uint8_t> empty;
+    std::vector<uint8_t> empty = {};
+
     EXPECT_TRUE(ImageProcessor::computePHash(empty).empty());
 }
 

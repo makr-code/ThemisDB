@@ -105,7 +105,8 @@ TEST_F(PolicyEngineLimitTest, SetPoliciesIgnoresLimit) {
     cfg.max_policies = 2;
     PolicyEngine engine(cfg);
 
-    std::vector<PolicyEngine::Policy> many;
+    std::vector<PolicyEngine::Policy> many = {};
+
     for (int i = 0; i < 10; ++i) {
       many.push_back(makePolicy("p" + std::to_string(i)));
     }

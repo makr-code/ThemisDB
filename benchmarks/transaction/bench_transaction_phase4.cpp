@@ -146,7 +146,8 @@ protected:
     std::array<std::unique_ptr<BenchMockParticipant>, 3> participants_;
 
     std::vector<Participant> makeParticipants() {
-        std::vector<Participant> ps;
+        std::vector<Participant> ps = {};
+
         for (int i = 0; i < 3; ++i) {
             Participant p;
             p.node_id       = "bench-node-" + std::to_string(i);

@@ -361,7 +361,8 @@ static void BM_ANN_DiskANN_Simulation(benchmark::State& state) {
 
     for (auto _ : state) {
         // Simulate extra I/O by running the search IO_FACTOR times and merging.
-        std::vector<int> merged;
+        std::vector<int> merged = {};
+
         for (int pass = 0; pass < IO_FACTOR; ++pass) {
             auto c = syntheticHnswSearch(query, dataset, K);
             merged.insert(merged.end(), c.begin(), c.end());

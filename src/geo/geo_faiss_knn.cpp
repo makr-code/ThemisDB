@@ -158,7 +158,8 @@ struct GeoFaissKnn::Impl {
 
     std::vector<GeoKnnResult> knnSearch(const GeometryInfo& query,
                                         std::size_t k) const {
-        std::vector<GeoKnnResult> results;
+        std::vector<GeoKnnResult> results = {};
+
         if (!built || indexed_count == 0) {
           return results;
         }
@@ -248,7 +249,8 @@ struct GeoFaissKnn::Impl {
                                      ? indexed_count : max_results * 4;
         auto candidates = knnSearch(query, search_k);
 
-        std::vector<GeoKnnResult> results;
+        std::vector<GeoKnnResult> results = {};
+
         results.reserve(candidates.size());
         for (const auto& c : candidates) {
             if (c.dist_m > radius_m) break; // sorted ascending

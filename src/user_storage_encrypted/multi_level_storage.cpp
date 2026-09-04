@@ -77,7 +77,8 @@ bool MultiLevelEncryptedStorage::initialize(const char* config_json) {
         reconcileStaleMounts();
 
         // Reconcile stale mounts from a prior crash before bringing up new mounts.
-        std::set<std::string> base_paths;
+        std::set<std::string> base_paths = {};
+
         for (const auto& pair : impl_->level_configs) {
             const auto& cfg = pair.second;
             if (cfg.encrypted && !cfg.mount_point.empty()) {
@@ -123,7 +124,8 @@ void MultiLevelEncryptedStorage::reconcileStaleMounts(const std::string& base_pa
     }
 
     // Build set of mount points that belong to this instance so we can skip them.
-    std::set<std::string> configured_mounts;
+    std::set<std::string> configured_mounts = {};
+
     for (const auto& pair : impl_->level_configs) {
         if (pair.second.encrypted && !pair.second.mount_point.empty()) {
             configured_mounts.insert(pair.second.mount_point);
@@ -868,7 +870,8 @@ Result<std::vector<User>> MultiLevelEncryptedStorage::listUsers(SecurityLevel le
         return Result<std::vector<User>>(std::vector<User>{});
     }
 
-    std::vector<User> users;
+    std::vector<User> users = {};
+
     for (const auto& entry : std::filesystem::directory_iterator(users_dir, ec)) {
         if (ec) {
             break;
@@ -935,7 +938,8 @@ Result<std::vector<Group>> MultiLevelEncryptedStorage::listGroups(SecurityLevel 
         return Result<std::vector<Group>>(std::vector<Group>{});
     }
 
-    std::vector<Group> groups;
+    std::vector<Group> groups = {};
+
     for (const auto& entry : std::filesystem::directory_iterator(groups_dir, ec)) {
         if (ec) {
             break;
@@ -1021,7 +1025,8 @@ Result<HealthStatus> MultiLevelEncryptedStorage::checkLevelHealth(SecurityLevel 
 
 void MultiLevelEncryptedStorage::reconcileStaleMounts() {
     // Collect known mount points from configuration
-    std::vector<std::string> known_mount_points;
+    std::vector<std::string> known_mount_points = {};
+
     for (const auto& pair : impl_->level_configs) {
         const auto& cfg = pair.second;
         if (cfg.encrypted && !cfg.mount_point.empty()) {
@@ -1067,7 +1072,8 @@ void MultiLevelEncryptedStorage::reconcileStaleMounts() {
         {
             pid_t pid = fork();
             if (pid == 0) {
-                std::vector<char*> c_args;
+                std::vector<char*> c_args = {};
+
                 for (const auto& a : args_fuse) {
                     c_args.push_back(const_cast<char*>(a.c_str()));
                 }
@@ -1087,7 +1093,8 @@ void MultiLevelEncryptedStorage::reconcileStaleMounts() {
         {
             pid_t pid = fork();
             if (pid == 0) {
-                std::vector<char*> c_args;
+                std::vector<char*> c_args = {};
+
                 for (const auto& a : args_umount) {
                     c_args.push_back(const_cast<char*>(a.c_str()));
                 }

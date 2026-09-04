@@ -181,7 +181,8 @@ size_t TsEncryptedKeyRotation::runOnce()
                                     + "," + key.substr(pos4 + 1) + "]";
 
             // Decrypt with old key.
-            std::vector<uint8_t> encrypted_data;
+            std::vector<uint8_t> encrypted_data = {};
+
             if (chunk_meta.contains("data") && chunk_meta["data"].is_binary()) {
                 encrypted_data = chunk_meta["data"].get<std::vector<uint8_t>>();
             } else if (chunk_meta.contains("data") && chunk_meta["data"].is_array()) {

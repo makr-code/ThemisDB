@@ -116,7 +116,8 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
 
                 const int top_k = std::min(static_cast<int>(communities.size()), 3);
                 std::ostringstream ctx;
-                std::vector<std::string> used_ids;
+                std::vector<std::string> used_ids = {};
+
                 for (int i = 0; i < top_k; ++i) {
                     if (i > 0) {
                       ctx << "\n\n";

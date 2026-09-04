@@ -178,7 +178,8 @@ static json parseCopyRow(const std::string& line,
 
 // Parse a minimal VALUES clause into a vector of strings.
 static std::vector<std::string> parseInsertValues(const std::string& vals) {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     size_t i = 0, n = vals.size();
     while (i < n) {
         while (i < n && (vals[i] == ' ' || vals[i] == '\t')) {

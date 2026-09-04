@@ -153,7 +153,8 @@ struct DocumentSplitter::Impl {
 std::vector<DocumentChunk>
 DocumentSplitter::Impl::splitFixed(const std::string& text,
                                     const std::string& doc_id) const {
-    std::vector<DocumentChunk> chunks;
+    std::vector<DocumentChunk> chunks = {};
+
     if (text.empty()) {
       return chunks;
     }
@@ -208,7 +209,8 @@ DocumentSplitter::Impl::splitFixed(const std::string& text,
 std::vector<DocumentChunk>
 DocumentSplitter::Impl::splitSliding(const std::string& text,
                                       const std::string& doc_id) const {
-    std::vector<DocumentChunk> chunks;
+    std::vector<DocumentChunk> chunks = {};
+
     if (text.empty()) {
       return chunks;
     }
@@ -255,7 +257,8 @@ DocumentSplitter::Impl::splitSliding(const std::string& text,
 std::vector<DocumentChunk>
 DocumentSplitter::Impl::splitSentence(const std::string& text,
                                        const std::string& doc_id) const {
-    std::vector<DocumentChunk> chunks;
+    std::vector<DocumentChunk> chunks = {};
+
     if (text.empty()) {
       return chunks;
     }

@@ -292,7 +292,8 @@ TEST_F(DistributedBlacklistTest, ConcurrentAddsAndChecks)
     auto expiry = std::chrono::system_clock::now() + std::chrono::hours(1);
     
     // Writer threads
-    std::vector<std::thread> writers;
+    std::vector<std::thread> writers = {};
+
     for (int i = 0; i < 3; ++i) {
         writers.emplace_back([&, i]() {
             for (int j = 0; j < 50; ++j) {
@@ -303,7 +304,8 @@ TEST_F(DistributedBlacklistTest, ConcurrentAddsAndChecks)
     }
     
     // Reader threads
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int i = 0; i < 3; ++i) {
         readers.emplace_back([&, i]() {
             for (int j = 0; j < 50; ++j) {

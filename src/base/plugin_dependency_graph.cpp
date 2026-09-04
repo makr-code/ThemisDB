@@ -110,7 +110,8 @@ std::size_t PluginDependencyGraph::edgeCount() const
 
 std::vector<PluginDependencyGraph::Node> PluginDependencyGraph::nodes() const
 {
-    std::vector<Node> result;
+    std::vector<Node> result = {};
+
     result.reserve(nodes_.size());
     for (const auto& kv : nodes_) {
         Node n;
@@ -177,7 +178,8 @@ std::vector<std::vector<std::string>>
 PluginDependencyGraph::detectCycles() const
 {
     auto adj = buildAdjacency();
-    std::map<std::string, int> color;
+    std::map<std::string, int> color = {};
+
     for (const auto& kv : nodes_) {
         color[kv.first] = 0;
     }
@@ -198,7 +200,8 @@ std::vector<std::string> PluginDependencyGraph::topologicalOrder() const
     auto adj = buildAdjacency();
 
     // Compute in-degrees.
-    std::map<std::string, int> inDegree;
+    std::map<std::string, int> inDegree = {};
+
     for (const auto& kv : nodes_) {
         inDegree[kv.first] = 0;
     }
@@ -207,7 +210,8 @@ std::vector<std::string> PluginDependencyGraph::topologicalOrder() const
     }
 
     // Kahn's algorithm with deterministic (alphabetical) ordering.
-    std::vector<std::string> ready;
+    std::vector<std::string> ready = {};
+
     for (const auto& kv : inDegree) {
         if (kv.second == 0) {
             ready.push_back(kv.first);
@@ -215,7 +219,8 @@ std::vector<std::string> PluginDependencyGraph::topologicalOrder() const
     }
     std::sort(ready.begin(), ready.end());
 
-    std::vector<std::string> order;
+    std::vector<std::string> order = {};
+
     while (!ready.empty()) {
         std::string cur = ready.front();
         ready.erase(ready.begin());
@@ -457,7 +462,8 @@ void PluginDependencyGraph::renderAscii(std::ostream& out) const
 
     // Detect cycles for labelling.
     auto cycles = detectCycles();
-    std::set<std::string> inCycle;
+    std::set<std::string> inCycle = {};
+
     for (const auto& cycle : cycles) {
         for (const auto& n : cycle) {
             inCycle.insert(n);

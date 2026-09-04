@@ -133,7 +133,8 @@ TEST_F(TokenBucketLocalTest, ConcurrentAccessNeverExceedsCapacity) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 10; ++i) {
       threads.emplace_back(worker);
     }

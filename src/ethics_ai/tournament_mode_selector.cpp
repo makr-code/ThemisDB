@@ -78,7 +78,8 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
     // Collect unique opponent schools that appear in opponent_arguments
     // Each school may have multiple arguments; pick the first for headline/full text.
     // We use a map keyed by school_id → representative argument index.
-    std::map<std::string, std::size_t> school_to_arg_index;
+    std::map<std::string, std::size_t> school_to_arg_index = {};
+
     for (std::size_t i = 0; i < opponent_arguments.size(); ++i) {
         const auto &arg = opponent_arguments[i];
         if (arg.philosophy_school == own_school_id) {
@@ -91,7 +92,8 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
     }
 
     // Build a max-weight lookup per opponent school from tensions
-    std::map<std::string, float> school_weight;
+    std::map<std::string, float> school_weight = {};
+
     for (const auto &kv : school_to_arg_index) {
         school_weight[kv.first] = 0.0f;
     }
@@ -103,7 +105,8 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
     }
 
     // Sort opponent school IDs by weight descending (deterministic tie-break by name)
-    std::vector<std::string> ordered_schools;
+    std::vector<std::string> ordered_schools = {};
+
     ordered_schools.reserve(school_to_arg_index.size());
     for (const auto &kv : school_to_arg_index) {
         ordered_schools.push_back(kv.first);
@@ -175,15 +178,18 @@ std::map<std::string, TournamentSelectionResult> TournamentModeSelector::buildTo
     const std::map<std::string, std::vector<SchoolTension>> &tensions_per_school,
     const TournamentConfig &config) const {
     // Collect unique school IDs that appear in the argument list
-    std::set<std::string> school_set;
+    std::set<std::string> school_set = {};
+
     for (const auto &arg : all_round_arguments) {
         school_set.insert(arg.philosophy_school);
     }
 
-    std::map<std::string, TournamentSelectionResult> results;
+    std::map<std::string, TournamentSelectionResult> results = {};
+
     for (const auto &school_id : school_set) {
         // Build the list of opponent arguments (all schools except own)
-        std::vector<EthicalArgument> opponent_args;
+        std::vector<EthicalArgument> opponent_args = {};
+
         for (const auto &arg : all_round_arguments) {
             if (arg.philosophy_school != school_id) {
                 opponent_args.push_back(arg);

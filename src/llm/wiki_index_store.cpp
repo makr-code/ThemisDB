@@ -242,7 +242,8 @@ void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
     const int effective_batch_size = std::max(1, config_.batch_size);
 
     // Collect indices of chunks that still need embeddings
-    std::vector<std::size_t> need_embed;
+    std::vector<std::size_t> need_embed = {};
+
     for (std::size_t i = 0; i < chunks.size(); ++i) {
         if (chunks[i].embedding.empty()) {
             if (!tryResolveEmbeddingFromCaches(chunks[i], &chunks[i].embedding)) {
@@ -377,7 +378,8 @@ std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
     rag::HybridFusionResult fused = retriever_.fuse(bm25_docs, vec_docs);
 
     // ── Convert to WikiChunks ──────────────────────────────────────────────
-    std::vector<WikiChunk> out;
+    std::vector<WikiChunk> out = {};
+
     out.reserve(fused.documents.size());
 
     for (std::size_t i = 0; i < fused.documents.size(); ++i) {
@@ -877,7 +879,8 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
 
     // Score each chunk
     struct Scored { std::size_t idx; float score; };
-    std::vector<Scored> scored;
+    std::vector<Scored> scored = {};
+
     scored.reserve(chunks_.size());
 
     for (std::size_t ci = 0; ci < chunks_.size(); ++ci) {

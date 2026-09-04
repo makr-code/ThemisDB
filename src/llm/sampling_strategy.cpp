@@ -107,7 +107,8 @@ llama_token NucleusSampling::sample(
     indices.resize(k);
 
     // Compute softmax probabilities over top-k
-    std::vector<float> probs;
+    std::vector<float> probs = {};
+
     probs.reserve(indices.size());
     float max_logit = -std::numeric_limits<float>::infinity();
     for (int idx : indices) {
@@ -130,7 +131,8 @@ llama_token NucleusSampling::sample(
 
     // Keep smallest set with cumulative prob >= top_p_
     float cum = 0.0f;
-    std::vector<int> nucleus;
+    std::vector<int> nucleus = {};
+
     for (int oi : order) {
         nucleus.push_back(indices[oi]);
         cum += probs[oi];
@@ -143,7 +145,8 @@ llama_token NucleusSampling::sample(
     }
 
     // Renormalize probabilities over nucleus and sample
-    std::vector<float> nuc_probs;
+    std::vector<float> nuc_probs = {};
+
     nuc_probs.reserve(nucleus.size());
     float nuc_sum = 0.0f;
     for (int id : nucleus) {
@@ -207,7 +210,8 @@ llama_token MirostatSampling::sample(
     indices.resize(k);
 
     // Softmax on top-k
-    std::vector<float> probs;
+    std::vector<float> probs = {};
+
     probs.reserve(indices.size());
     float max_logit = -std::numeric_limits<float>::infinity();
     for (int idx : indices) {

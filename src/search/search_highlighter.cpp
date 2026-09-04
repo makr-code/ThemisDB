@@ -103,7 +103,8 @@ size_t SearchHighlighter::bestWindowOffset(const std::string& text,
 
     // Collect all match positions (start offset of each term occurrence)
     struct MatchPos { size_t start; size_t end; size_t term_idx; };
-    std::vector<MatchPos> matches;
+    std::vector<MatchPos> matches = {};
+
     matches.reserve(terms.size() * 4);
 
     std::string lower_text = text;
@@ -270,7 +271,8 @@ std::string SearchHighlighter::snippet(const std::string& text,
         }
 
         // Prepare lowercase terms for window scoring
-        std::vector<std::string> lower_terms;
+        std::vector<std::string> lower_terms = {};
+
         lower_terms.reserve(terms.size());
         for (const auto& t : terms) {
             std::string lt = t;

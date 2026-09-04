@@ -49,7 +49,8 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageA
         }
         auto& reporter = *reporter_;
         // Parse resources from request body if provided
-        std::vector<std::string> resources;
+        std::vector<std::string> resources = {};
+
         if (!req.body().empty()) {
             try {
                 nlohmann::json body = nlohmann::json::parse(req.body());
@@ -196,7 +197,8 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGenerateR
             std::string framework = body.value("framework", "");
 
             // Optional: caller may supply pre-parsed evaluation entries inline.
-            std::vector<themis::governance::RuleEvaluationEntry> entries;
+            std::vector<themis::governance::RuleEvaluationEntry> entries = {};
+
             if (body.contains("entries") && body["entries"].is_array()) {
                 try {
                     for (const auto& item : body["entries"]) {

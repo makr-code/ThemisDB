@@ -185,7 +185,8 @@ TEST_F(CompressionStrategyTest, RLECodecDirectTest) {
 }
 
 TEST_F(CompressionStrategyTest, RLEMixedData) {
-    std::vector<uint8_t> data;
+    std::vector<uint8_t> data = {};
+
     for (int i = 0; i < 10; ++i) {
         data.insert(data.end(), 100, static_cast<uint8_t>(i));
     }
@@ -254,7 +255,8 @@ TEST_F(CompressionStrategyTest, DictionaryCompression) {
     CompressionStrategyManager manager(config);
     
     // Create data with few unique values
-    std::vector<uint8_t> original;
+    std::vector<uint8_t> original = {};
+
     for (int i = 0; i < 1000; ++i) {
         original.push_back(static_cast<uint8_t>(i % 10));
     }
@@ -267,7 +269,8 @@ TEST_F(CompressionStrategyTest, DictionaryCompression) {
 }
 
 TEST_F(CompressionStrategyTest, DictionaryCodecDirectTest) {
-    std::vector<uint8_t> data;
+    std::vector<uint8_t> data = {};
+
     for (int i = 0; i < 500; ++i) {
         data.push_back(static_cast<uint8_t>(i % 8));
     }

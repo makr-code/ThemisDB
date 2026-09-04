@@ -53,7 +53,8 @@ bool FlatHTIndex::remove(const std::string& id) {
 std::vector<HTSearchResult>
 FlatHTIndex::search(const HTTrain& query, std::size_t k) const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<HTSearchResult> results;
+    std::vector<HTSearchResult> results = {};
+
     results.reserve(entries_.size());
 
     for (const auto& e : entries_) {
@@ -181,7 +182,8 @@ bool FlatHTIndex::deserialize(const std::vector<uint8_t>& bytes) {
         if (!r.u64(train_sz)) {
           return false;
         }
-        std::vector<uint8_t> train_bytes;
+        std::vector<uint8_t> train_bytes = {};
+
         if (!r.bytes(train_bytes, static_cast<std::size_t>(train_sz))) {
           return false;
         }

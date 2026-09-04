@@ -279,7 +279,8 @@ std::vector<float> FfmpegAudioChunkReader::readFile(const std::string& path,
 
     std::vector<float> samples;
     size_t total_bytes = 0;
-    std::array<char, 65536> buf;
+    std::array<char, 65536> buf = {};
+
     while (!std::feof(pipe.get())) {
         const size_t n = std::fread(buf.data(), 1, buf.size(), pipe.get());
         if (n == 0) {

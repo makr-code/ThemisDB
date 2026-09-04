@@ -80,7 +80,8 @@ static std::vector<size_t> bfKnnL2(
     std::partial_sort(scored.begin(),
                       scored.begin() + std::min((int)scored.size(), k),
                       scored.end());
-    std::vector<size_t> ids;
+    std::vector<size_t> ids = {};
+
     for (int i = 0; i < k && i < (int)scored.size(); ++i)
         ids.push_back(scored[i].second);
     return ids;
@@ -98,7 +99,8 @@ static std::vector<size_t> bfKnnIP(
     std::partial_sort(scored.begin(),
                       scored.begin() + std::min((int)scored.size(), k),
                       scored.end());
-    std::vector<size_t> ids;
+    std::vector<size_t> ids = {};
+
     for (int i = 0; i < k && i < (int)scored.size(); ++i)
         ids.push_back(scored[i].second);
     return ids;

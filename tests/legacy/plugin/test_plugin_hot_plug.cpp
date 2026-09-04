@@ -249,7 +249,8 @@ TEST_F(PluginHotPlugTest, ThreadSafety) {
     EXPECT_TRUE(enabled);
     
     // Create multiple plugins concurrently
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 5; i++) {
         threads.emplace_back([this, i]() {
             std::string plugin_name = "thread_plugin_" + std::to_string(i);

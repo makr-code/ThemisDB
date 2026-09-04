@@ -158,7 +158,8 @@ TEST(RagContextAssemblerFocusedTests, C2_AllSmallChunksFit) {
     cfg.min_response_tokens  = 512u;
     RAGContextAssembler asm_{cfg};
 
-    std::vector<RetrievedChunk> chunks;
+    std::vector<RetrievedChunk> chunks = {};
+
     for (int i = 0; i < 5; ++i) {
         chunks.push_back(makeChunk("short doc " + std::to_string(i), 1.0f));
     }
@@ -189,7 +190,8 @@ TEST(RagContextAssemblerFocusedTests, C4_TokensUsedIsNonDecreasing) {
     cfg.min_response_tokens  = 512u;
     RAGContextAssembler asm_{cfg};
 
-    std::vector<RetrievedChunk> chunks;
+    std::vector<RetrievedChunk> chunks = {};
+
     for (int i = 0; i < 3; ++i) {
         chunks.push_back(makeChunk(std::string(100, static_cast<char>('a' + i))));
     }
@@ -205,7 +207,8 @@ TEST(RagContextAssemblerFocusedTests, C5_BudgetExhaustedChunksNotAdded) {
     RAGContextAssembler asm_{cfg};
 
     // Each chunk ≈ 3 tokens (10 chars / 3.5)
-    std::vector<RetrievedChunk> chunks;
+    std::vector<RetrievedChunk> chunks = {};
+
     for (int i = 0; i < 20; ++i) {
         chunks.push_back(makeChunk("abcdefghij")); // 10 chars ≈ 3 tokens
     }

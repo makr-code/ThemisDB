@@ -498,7 +498,8 @@ public:
         double baseline_train_seconds = 0.0;
 
         for (const auto& task : tasks_) {
-            std::vector<MTLSample> task_samples;
+            std::vector<MTLSample> task_samples = {};
+
             task_samples.reserve(samples.size());
             for (const auto& sample : samples) {
                 if (sample.task_id == task.id) {

@@ -544,7 +544,8 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
     // Build per-PK RocksDB entries and collect in-memory data.
     // RocksDB writes and local cache/rtree construction happen outside the
     // mutex to avoid holding the write lock during I/O.
-    std::unordered_map<std::string, geo::MBR> local_cache;
+    std::unordered_map<std::string, geo::MBR> local_cache = {};
+
     local_cache.reserve(entries.size());
     std::vector<std::pair<std::string, geo::GeometryInfo>> rtree_entries;
     rtree_entries.reserve(entries.size());
@@ -1212,7 +1213,8 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
     }
 
     if (rtree_populated) {
-        std::vector<SpatialResult> results;
+        std::vector<SpatialResult> results = {};
+
         results.reserve(candidate_keys.size());
         for (const auto& pk : candidate_keys) {
             SpatialResult result;
@@ -1230,7 +1232,8 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
     geo::MBR point_bbox(x - 0.0001, y - 0.0001, x + 0.0001, y + 0.0001);
     auto candidates = searchIntersects(table, point_bbox);
 
-    std::vector<SpatialResult> results;
+    std::vector<SpatialResult> results = {};
+
     for (const auto& cand : candidates) {
         if (cand.mbr.contains(x, y)) {
             results.push_back(cand);
@@ -1436,7 +1439,8 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersectsWithZ(
     const geo::MBR bounds = config ? config->total_bounds
                                    : geo::MBR(-180.0, -90.0, 180.0, 90.0);
 
-    std::vector<SpatialResult> results;
+    std::vector<SpatialResult> results = {};
+
     results.reserve(candidates.size());
     for (auto& cand : candidates) {
         // If Z values were already populated (Morton-scan path), use them directly.

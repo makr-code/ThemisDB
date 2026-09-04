@@ -254,7 +254,8 @@ GPUTimeSliceScheduler::TenantStats GPUTimeSliceScheduler::getTenantStats(const s
 
 std::vector<GPUTimeSliceScheduler::TenantStats> GPUTimeSliceScheduler::getAllTenantStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<TenantStats> result;
+    std::vector<TenantStats> result = {};
+
     result.reserve(tenants_.size());
     for (const auto &tenant_id : round_robin_order_) {
         auto it = tenants_.find(tenant_id);

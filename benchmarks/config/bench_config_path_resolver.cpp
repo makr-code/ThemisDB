@@ -302,7 +302,8 @@ BENCHMARK_DEFINE_F(ConfigPathResolverBenchFixture, DeprecationReport_60Paths)(
     }
 
     // Measure pure deprecationReport() generation (map snapshot + sort).
-    std::vector<ConfigPathResolver::DeprecationEntry> last_report;
+    std::vector<ConfigPathResolver::DeprecationEntry> last_report = {};
+
     for (auto _ : state) {
         last_report = ConfigPathResolver::deprecationReport();
         benchmark::DoNotOptimize(last_report);

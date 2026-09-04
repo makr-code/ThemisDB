@@ -1082,7 +1082,8 @@ std::string BpmnSerializer::validateStructure(
     }
 
     // 3. Build set of node IDs for validation
-    std::set<std::string> node_ids;
+    std::set<std::string> node_ids = {};
+
     for (const auto& node : nodes) {
         if (node.node_id.empty()) {
             return "Node with empty id encountered";

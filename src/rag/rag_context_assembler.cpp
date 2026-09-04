@@ -114,7 +114,8 @@ AssembledContext RAGContextAssembler::assemble(
     //   4. Quaternary: content ascending (absolute determinism for edge cases)
     // This ensures that identical input always produces identical output,
     // enabling reliable reproducibility and testing.
-    std::vector<const RetrievedChunk*> ordered;
+    std::vector<const RetrievedChunk*> ordered = {};
+
     ordered.reserve(chunks.size());
     for (const auto& c : chunks) {
       ordered.push_back(&c);

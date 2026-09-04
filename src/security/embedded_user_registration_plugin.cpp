@@ -166,7 +166,8 @@ public:
     Result<std::vector<UserRegistrationData>> syncUsers() override {
         std::lock_guard<std::mutex> lock(mutex_);
         
-        std::vector<UserRegistrationData> result;
+        std::vector<UserRegistrationData> result = {};
+
         for (const auto& [user_id, user_data] : users_) {
             UserRegistrationData reg_data;
             reg_data.user_id = user_id;

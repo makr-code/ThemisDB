@@ -82,7 +82,8 @@ std::vector<DiscourseRoundOutput> MirrorSchoolHandler::runMirror(
     (void)domain;  // Domain is used by caller (MirrorSchoolPolicy::isActiveFor);
                    // forwarded for context but not consumed directly here.
 
-    std::vector<DiscourseRoundOutput> results;
+    std::vector<DiscourseRoundOutput> results = {};
+
     if (mirror_school_ids.empty()) {
       return results;
     }

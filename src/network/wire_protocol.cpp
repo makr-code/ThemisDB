@@ -112,7 +112,8 @@ std::vector<uint8_t> PacketParser::read_bytes(
 
     // Validate the sub-range before copying.
     RangeValidator<std::vector<uint8_t>::const_iterator> range(range_begin, it);
-    std::vector<uint8_t> result;
+    std::vector<uint8_t> result = {};
+
     result.reserve(range.size());
     for (auto pos = range.begin(); pos != range.end(); ++pos) {
         BoundsChecker::check_dereference(pos, range_begin, it);

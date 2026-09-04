@@ -157,7 +157,8 @@ size_t CcpaRuleSet::optOutCount() const {
 }
 
 std::vector<CcpaRuleEvalResult> CcpaRuleSet::evaluateRule(const PolicyRule &rule) const {
-    std::vector<CcpaRuleEvalResult> results;
+    std::vector<CcpaRuleEvalResult> results = {};
+
     results.reserve(rules_.size());
 
     for (const auto &ccpa_rule : rules_) {
@@ -228,7 +229,8 @@ void CcpaRuleSet::recordRequest(const DataSubjectRequest &request) {
 
 std::vector<DataSubjectRequest> CcpaRuleSet::getRequestsForSubject(const std::string &subject_id) const {
     std::lock_guard<std::mutex> lock(requests_mutex_);
-    std::vector<DataSubjectRequest> result;
+    std::vector<DataSubjectRequest> result = {};
+
     for (const auto &req : requests_) {
         if (req.subject_id == subject_id) {
             result.push_back(req);
@@ -240,7 +242,8 @@ std::vector<DataSubjectRequest> CcpaRuleSet::getRequestsForSubject(const std::st
 std::vector<DataSubjectRequest> CcpaRuleSet::getRequestsByType(const std::string &request_type, int64_t start_time,
                                                                int64_t end_time) const {
     std::lock_guard<std::mutex> lock(requests_mutex_);
-    std::vector<DataSubjectRequest> result;
+    std::vector<DataSubjectRequest> result = {};
+
     for (const auto &req : requests_) {
         if (req.request_type == request_type && req.timestamp >= start_time && req.timestamp <= end_time) {
             result.push_back(req);

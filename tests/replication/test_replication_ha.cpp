@@ -2490,7 +2490,8 @@ TEST(CompressedStreamTest, ZstdAchievesHighRatioOnJsonLikeData) {
     std::string json_template =
         R"({"id":"doc00000","collection":"users","op":"INSERT",)"
         R"("data":{"name":"Alice Smith","email":"alice@example.com","role":"admin","active":true}})";
-    std::vector<WALEntry> entries;
+    std::vector<WALEntry> entries = {};
+
     for (int i = 0; i < 20; ++i) {
         WALEntry e;
         e.sequence_number = static_cast<uint64_t>(i + 1);
@@ -2892,7 +2893,8 @@ TEST(ReplicationAnalyticsTest, ConcurrentRecordIsThreadSafe) {
     ReplicationAnalytics analytics;
     constexpr int kThreads = 4;
     constexpr int kSamples = 100;
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&analytics, t]() {
             for (int i = 0; i < kSamples; ++i) {

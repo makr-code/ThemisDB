@@ -145,7 +145,8 @@ std::vector<IndexRecommendation> IndexRecommender::recommend(
 
     // Optionally fetch table statistics for the cost-model benefit formula.
     const TableStats* tbl_stats_ptr = nullptr;
-    std::optional<TableStats> fetched_stats;
+    std::optional<TableStats> fetched_stats = {};
+
     if (stats_collector_) {
         auto result = stats_collector_->getStats(table_name);
         if (result.ok) {

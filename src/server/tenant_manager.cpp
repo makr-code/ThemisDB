@@ -296,7 +296,8 @@ std::optional<TenantConfig> TenantManager::getTenant(std::string_view tenant_id)
 std::vector<TenantConfig> TenantManager::listTenants() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<TenantConfig> result;
+    std::vector<TenantConfig> result = {};
+
     result.reserve(tenants_.size());
     for (const auto& [id, config] : tenants_) {
         result.push_back(config);

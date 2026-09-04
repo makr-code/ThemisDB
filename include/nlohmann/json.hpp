@@ -4327,7 +4327,8 @@ class exception : public std::exception
     static std::string diagnostics(const BasicJsonType* leaf_element)
     {
 #if JSON_DIAGNOSTICS
-        std::vector<std::string> tokens;
+        std::vector<std::string> tokens = {};
+
         for (const auto* current = leaf_element; current != nullptr && current->m_parent != nullptr; current = current->m_parent)
         {
             switch (current->m_parent->type())
@@ -11231,7 +11232,8 @@ class binary_reader
                 {
                     return sax->parse_error(chars_read, get_token_string(), parse_error::create(113, chars_read, exception_message(input_format, "ndarray dimentional vector is not allowed", "size"), nullptr));
                 }
-                std::vector<size_t> dim;
+                std::vector<size_t> dim = {};
+
                 if (JSON_HEDLEY_UNLIKELY(!get_ubjson_ndarray_size(dim)))
                 {
                     return false;
@@ -11557,7 +11559,8 @@ class binary_reader
     */
     bool get_ubjson_array()
     {
-        std::pair<std::size_t, char_int_type> size_and_type;
+        std::pair<std::size_t, char_int_type> size_and_type = {};
+
         if (JSON_HEDLEY_UNLIKELY(!get_ubjson_size_type(size_and_type)))
         {
             return false;
@@ -11665,7 +11668,8 @@ class binary_reader
     */
     bool get_ubjson_object()
     {
-        std::pair<std::size_t, char_int_type> size_and_type;
+        std::pair<std::size_t, char_int_type> size_and_type = {};
+
         if (JSON_HEDLEY_UNLIKELY(!get_ubjson_size_type(size_and_type)))
         {
             return false;
@@ -11758,7 +11762,8 @@ class binary_reader
         }
 
         // get number string
-        std::vector<char> number_vector;
+        std::vector<char> number_vector = {};
+
         for (std::size_t i = 0; i < size; ++i)
         {
             get();

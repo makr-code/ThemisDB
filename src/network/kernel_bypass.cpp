@@ -373,7 +373,8 @@ bool DPDKServer::isDpdkAvailable() noexcept {
 
 /*static*/
 std::vector<int> DPDKServer::coresFromMask([[maybe_unused]] uint64_t mask) noexcept {
-    std::vector<int> cores;
+    std::vector<int> cores = {};
+
     for (int i = 0; i < 64; ++i) {
         if (mask & (1ULL << static_cast<unsigned>(i))) {
             cores.push_back(i);
@@ -429,7 +430,8 @@ bool DPDKServer::start() {
     }
 
     // Convert to char* array.
-    std::vector<char *> eal_argv;
+    std::vector<char *> eal_argv = {};
+
     eal_argv.reserve(eal_arg_strs.size());
     for (auto &s : eal_arg_strs) {
         eal_argv.push_back(const_cast<char *>(s.c_str()));

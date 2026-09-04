@@ -103,7 +103,8 @@ public:
     }
 
     std::vector<AnnSearchResult> search(const float* query, size_t dim, int k) const override {
-        std::vector<AnnSearchResult> out;
+        std::vector<AnnSearchResult> out = {};
+
         out.reserve(data_.size());
         for (const auto& [id, vec] : data_) {
             float d = 0.f;
@@ -275,7 +276,8 @@ TEST(DistributedVectorIndexLifecycle, ReInsertDoesNotProduceDuplicateIds) {
     // Search should return at most 1 result for k1.
     auto results = idx.search(v, 10);
     // All returned IDs should be unique.
-    std::set<int64_t> seen_ids;
+    std::set<int64_t> seen_ids = {};
+
     for (const auto& r : results) {
         EXPECT_EQ(seen_ids.count(r.id), 0u) << "Duplicate ID in search results";
         seen_ids.insert(r.id);
@@ -555,7 +557,8 @@ TEST(DistributedVectorIndexEdge, MoveConstructPreservesGlobalIdState) {
     ASSERT_TRUE(idx2.insert("plain", std::vector<float>{1.f, 0.f, 0.f, 0.f}));
 
     auto results = idx2.search(std::vector<float>{0.f, 0.f, 0.f, 0.f}, 10);
-    std::set<int64_t> ids;
+    std::set<int64_t> ids = {};
+
     for (const auto& r : results) {
         ids.insert(r.id);
     }

@@ -163,14 +163,16 @@ TEST(VoiceSessionManagerHardening, TerminatedSessionsAreRemovedFailClosed) {
 
 TEST(VoiceSessionManagerHardening, MultiSessionTeardownLeavesNoActiveSessionsForUser) {
     VoiceSessionManager manager;
-    std::vector<std::string> session_ids;
+    std::vector<std::string> session_ids = {};
+
     for (int i = 0; i < 4; ++i) {
         auto session = manager.createSession("shared-user", "device-" + std::to_string(i));
         ASSERT_FALSE(session.session_id.empty());
         session_ids.push_back(session.session_id);
     }
 
-    std::vector<std::thread> workers;
+    std::vector<std::thread> workers = {};
+
     for (const auto& session_id : session_ids) {
         workers.emplace_back([&manager, session_id]() {
             EXPECT_TRUE(manager.terminateSession(session_id));

@@ -301,7 +301,8 @@ std::vector<std::string> AdapterRepository::listDomains() const {
     const std::string prefix = "__adapters__:" + tenant_id_ + ":";
     const auto keys = backend_->listKeys(prefix);
 
-    std::vector<std::string> domains;
+    std::vector<std::string> domains = {};
+
     domains.reserve(keys.size());
 
     for (const auto& key : keys) {

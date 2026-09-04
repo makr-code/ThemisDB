@@ -86,7 +86,8 @@ public:
         storage_->Write(id, doc.dump());
 
         const auto terms_it = doc.find("terms");
-        std::vector<std::string> terms;
+        std::vector<std::string> terms = {};
+
         if (terms_it != doc.end() && terms_it->is_array()) {
             terms = terms_it->get<std::vector<std::string>>();
         } else {

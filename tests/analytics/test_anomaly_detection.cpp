@@ -665,7 +665,8 @@ TEST_F(StreamingTest, ReturnsNulloptDuringWarmup) {
 TEST_F(StreamingTest, ReturnsResultAfterWarmup) {
     StreamingAnomalyDetector sad(cfg_);
     auto data = makeNormalData(60);
-    std::optional<AnomalyResult> last;
+    std::optional<AnomalyResult> last = {};
+
     for (auto& p : data) {
       last = sad.process(p);
     }
@@ -747,7 +748,8 @@ TEST_F(StreamingTest, ThreadSafety) {
       sad.process(p);
     }
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&, t] {
             auto data = makeNormalData(20, 2, 0.0 + t * 0.01);

@@ -326,7 +326,8 @@ static std::string computeOLAPCacheKey(const OLAPQuery &query) {
     ss << query.collection << '\0';
 
     // Sorted dimension names
-    std::vector<std::string> dims;
+    std::vector<std::string> dims = {};
+
     dims.reserve(query.dimensions.size());
     for (const auto &d : query.dimensions) {
         dims.push_back(d.name + ':' + d.expression + ':' + (d.include_in_grouping ? '1' : '0'));
@@ -337,7 +338,8 @@ static std::string computeOLAPCacheKey(const OLAPQuery &query) {
     }
 
     // Sorted measure descriptors
-    std::vector<std::string> meas;
+    std::vector<std::string> meas = {};
+
     meas.reserve(query.measures.size());
     for (const auto &m : query.measures) {
         meas.push_back(m.name + ':' + m.field + ':' + std::to_string(static_cast<int>(m.function)));
@@ -348,7 +350,8 @@ static std::string computeOLAPCacheKey(const OLAPQuery &query) {
     }
 
     // Canonical filter order: sort by serialised representation
-    std::vector<std::string> filter_strs;
+    std::vector<std::string> filter_strs = {};
+
     filter_strs.reserve(query.filters.size());
     for (const auto &f : query.filters) {
         std::string fstr = f.field + ':' + std::to_string(static_cast<int>(f.op)) + ':';
@@ -531,7 +534,8 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
 
     for (const auto &row : it->second) {
         // Build group key
-        std::vector<std::string> groupKey;
+        std::vector<std::string> groupKey = {};
+
         for (const auto &dim : query.dimensions) {
             auto fieldIt = row.find(dim.name);
             if (fieldIt != row.end()) {
@@ -576,7 +580,8 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
         // Compute measure aggregates
         size_t valueIdx = 0;
         for (const auto &measure : query.measures) {
-            std::vector<double> measureValues;
+            std::vector<double> measureValues = {};
+
             for (size_t i = valueIdx; i < values.size(); i += query.measures.size()) {
                 measureValues.push_back(values[i]);
             }
@@ -774,7 +779,8 @@ std::vector<CubeCell> OLAPEngine::executeCube(std::string_view collection, const
 
     auto result = execute(query);
 
-    std::vector<CubeCell> cells;
+    std::vector<CubeCell> cells = {};
+
     for (const auto &row : result.rows) {
         CubeCell cell;
         cell.grouping_id = row.grouping_id;
@@ -819,7 +825,8 @@ std::vector<RollupRow> OLAPEngine::executeRollup(std::string_view collection, co
 
     auto result = execute(query);
 
-    std::vector<RollupRow> rows;
+    std::vector<RollupRow> rows = {};
+
     for (const auto &row : result.rows) {
         RollupRow rollupRow;
 
@@ -887,7 +894,8 @@ OLAPEngine::evaluateWindowFunctions(const std::vector<std::unordered_map<std::st
             }
 
             // Collect window values
-            std::vector<double> windowValues;
+            std::vector<double> windowValues = {};
+
             for (size_t j = start; j < end; ++j) {
                 auto it = data[j].find(measure.field);
                 if (it != data[j].end()) {
@@ -1033,7 +1041,8 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
         }
 
         if (gpu_func) {
-            std::vector<Row> gpu_rows;
+            std::vector<Row> gpu_rows = {};
+
             gpu_rows.reserve(values.size());
             for (size_t i = 0; i < values.size(); ++i) {
                 Row row;
@@ -1411,7 +1420,8 @@ int64_t ColumnarStore::countDistinct(std::string_view column) const {
         return 0;
     }
 
-    std::unordered_set<std::string> unique;
+    std::unordered_set<std::string> unique = {};
+
     for (const auto &val : it->second.data) {
         if (auto *s = std::get_if<std::string>(&val)) {
             unique.insert(*s);

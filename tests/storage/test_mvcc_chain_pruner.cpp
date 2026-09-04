@@ -75,7 +75,8 @@ protected:
         const std::string& key,
         const std::vector<std::string>& values
     ) {
-        std::vector<HLCTimestamp> tss;
+        std::vector<HLCTimestamp> tss = {};
+
         for (const auto& v : values) {
             tss.push_back(mvcc_->put(key, {v.begin(), v.end()}));
         }

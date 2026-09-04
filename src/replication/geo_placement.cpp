@@ -163,7 +163,8 @@ std::optional<ReplicaInfo> GeoReplicaPlacementManager::selectFailoverCandidate(
     const std::string&              failed_node_id) const
 {
     // Build a filtered snapshot that excludes the failed node
-    std::vector<ReplicaInfo> candidates;
+    std::vector<ReplicaInfo> candidates = {};
+
     candidates.reserve(replicas.size());
     for (const auto& r : replicas) {
         if (r.node_id != failed_node_id) {
@@ -240,7 +241,8 @@ std::unordered_map<std::string, uint32_t>
 GeoReplicaPlacementManager::healthyCountPerDC(
     const std::vector<ReplicaInfo>& replicas) const
 {
-    std::unordered_map<std::string, uint32_t> counts;
+    std::unordered_map<std::string, uint32_t> counts = {};
+
     for (const auto& r : replicas) {
         if (r.health_status == HealthStatus::HEALTHY) {
             counts[r.datacenter]++;

@@ -205,7 +205,8 @@ TEST_F(LLMPhase2CriticalGapsTest, NULL02_NullModelInfoHandled) {
 /// LLM-P2-NULL-03: Empty plugin list iteration is safe (no crash).
 TEST_F(LLMPhase2CriticalGapsTest, NULL03_EmptyPluginMapIterationSafe) {
     std::unordered_map<std::string, std::unique_ptr<MockPlugin>> registry;
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     for (const auto& [k, v] : registry) {
         names.push_back(k);
     }
@@ -252,7 +253,8 @@ TEST_F(LLMPhase2CriticalGapsTest, NULL06_ListModelsSkipsNullPlugin) {
     entries.push_back({"p1", true,  std::make_unique<MockPlugin>(rt1)});
     entries.push_back({"p2", false, nullptr});
 
-    std::vector<std::string> models;
+    std::vector<std::string> models = {};
+
     for (const auto& e : entries) {
         if (!e.plugin) {
           continue;
@@ -552,7 +554,8 @@ TEST_F(LLMPhase2CriticalGapsTest, CONC01_ConcurrentTrackerThreadSafe) {
     constexpr int kThreads = 4;
     constexpr int kOps = 50;
     std::atomic<int> successes{0};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&] {
             for (int i = 0; i < kOps; ++i) {
@@ -592,7 +595,8 @@ TEST_F(LLMPhase2CriticalGapsTest, CONC02_NoexceptDtorUnderConcurrentLoad) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 3; ++i) {
       threads.emplace_back(worker);
     }

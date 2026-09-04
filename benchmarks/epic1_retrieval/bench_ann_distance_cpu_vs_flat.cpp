@@ -44,7 +44,8 @@ public:
         if (!query || dim == 0 || k <= 0) {
             return {};
         }
-        std::vector<AnnSearchResult> out;
+        std::vector<AnnSearchResult> out = {};
+
         out.reserve(entries_.size());
         for (const auto& e : entries_) {
             if (e.values.size() != dim) {

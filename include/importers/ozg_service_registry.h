@@ -280,7 +280,8 @@ public:
 
     std::vector<OZGServiceEntry> findByStatus(OZGServiceStatus status) const override {
         std::unique_lock<std::mutex> lk(mutex_);
-        std::vector<OZGServiceEntry> result;
+        std::vector<OZGServiceEntry> result = {};
+
         for (const auto& [id, e] : entries_) {
             if (e.status == status) {
               result.push_back(e);
@@ -315,7 +316,8 @@ public:
 
     std::vector<OZGServiceEntry> all() const override {
         std::unique_lock<std::mutex> lk(mutex_);
-        std::vector<OZGServiceEntry> result;
+        std::vector<OZGServiceEntry> result = {};
+
         result.reserve(entries_.size());
         for (const auto& [id, e] : entries_) {
           result.push_back(e);

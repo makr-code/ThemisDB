@@ -251,7 +251,8 @@ bool AdapterRegistry::deleteAdapter(const std::string& adapter_id) {
 
 std::vector<AdapterMetadata> AdapterRegistry::listAdapters() {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
-    std::vector<AdapterMetadata> result;
+    std::vector<AdapterMetadata> result = {};
+
     result.reserve(impl_->adapters.size());
     for (const auto& [id, meta] : impl_->adapters) {
         result.push_back(meta);
@@ -263,7 +264,8 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByBaseModel(
     const std::string& base_model
 ) {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
-    std::vector<AdapterMetadata> result;
+    std::vector<AdapterMetadata> result = {};
+
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.base_model_name == base_model) {
             result.push_back(meta);
@@ -276,7 +278,8 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByDomain(
     const std::string& domain
 ) {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
-    std::vector<AdapterMetadata> result;
+    std::vector<AdapterMetadata> result = {};
+
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.domain == domain) {
             result.push_back(meta);
@@ -287,7 +290,8 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByDomain(
 
 std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByRole(AdapterRole role) {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
-    std::vector<AdapterMetadata> result;
+    std::vector<AdapterMetadata> result = {};
+
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.role == role) {
             result.push_back(meta);
@@ -312,7 +316,8 @@ std::optional<AdapterMetadata> AdapterRegistry::findDraftAdapterForFamily(
 
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
 
-    std::optional<AdapterMetadata> best;
+    std::optional<AdapterMetadata> best = {};
+
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.role != AdapterRole::DRAFT) {
             continue;
@@ -559,7 +564,8 @@ std::vector<AdapterMetadata> AdapterRegistry::listVersions(
     // Same delimiter-aware prefix check used in getVersion().
     std::string prefix = adapter_base_id + ":";
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
-    std::vector<AdapterMetadata> versions;
+    std::vector<AdapterMetadata> versions = {};
+
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.adapter_id == adapter_base_id || meta.adapter_id.rfind(prefix, 0) == 0) {
             versions.push_back(meta);
@@ -615,7 +621,8 @@ AdapterRegistry::RegistryStats AdapterRegistry::getStats() const {
     stats.signed_adapters = impl_->signatures.size();
 
     std::unordered_map<std::string, size_t> by_model;
-    std::unordered_map<std::string, size_t> by_domain;
+    std::unordered_map<std::string, size_t> by_domain = {};
+
     for (const auto& [id, meta] : impl_->adapters) {
         by_model[meta.base_model_name]++;
         by_domain[meta.domain]++;

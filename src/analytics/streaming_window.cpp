@@ -180,7 +180,8 @@ double calcPercentile(const std::vector<double> &vals, double p) {
  */
 std::vector<AggregatedValue> computeAggregations(const std::vector<StreamRecord> &records,
                                                  const std::vector<WindowAggregateSpec> &specs) {
-    std::vector<AggregatedValue> results;
+    std::vector<AggregatedValue> results = {};
+
     results.reserve(specs.size());
 
     for (const auto &spec : specs) {
@@ -275,7 +276,8 @@ std::vector<AggregatedValue> computeAggregations(const std::vector<StreamRecord>
             case AggFunc::DISTINCT_COUNT: {
                 // Only count values where the field is actually present (not monostate).
                 // This avoids conflating a missing field with an empty-string value.
-                std::set<std::string> distinct;
+                std::set<std::string> distinct = {};
+
                 for (const auto &rec : records) {
                     if (!spec.field.empty()) {
                         auto it = rec.fields.find(spec.field);
@@ -405,7 +407,8 @@ void TumblingWindow::updateWatermark([[maybe_unused]] const std::chrono::system_
 std::vector<WindowResult> TumblingWindow::closeExpiredWindows(int64_t watermark_us) {
     // Called with mutex_ held. Returns results to emit; callers fire callbacks
     // outside the lock to prevent re-entrant deadlock.
-    std::vector<WindowResult> pending;
+    std::vector<WindowResult> pending = {};
+
     for (auto it = open_windows_.begin(); it != open_windows_.end();) {
         if (toMicros(it->second.end) <= watermark_us) {
             InternalWindow closed = std::move(it->second);
@@ -754,7 +757,8 @@ void SlidingWindow::ensureWindowsExist(const std::chrono::system_clock::time_poi
 std::vector<WindowResult> SlidingWindow::closeExpiredWindows(int64_t watermark_us) {
     // Called with mutex_ held. Returns results to emit; callers fire callbacks
     // outside the lock to prevent re-entrant deadlock.
-    std::vector<WindowResult> pending;
+    std::vector<WindowResult> pending = {};
+
     for (auto &w : windows_) {
         if (!w.closed && toMicros(w.end) <= watermark_us) {
             w.closed = true;
@@ -1172,7 +1176,8 @@ void SessionWindow::expiryLoop() {
         {
             auto now = std::chrono::system_clock::now();
             std::lock_guard lk(mutex_);
-            std::vector<std::string> to_close;
+            std::vector<std::string> to_close = {};
+
             for (const auto &[key, s] : sessions_) {
                 auto idle = std::chrono::duration_cast<std::chrono::milliseconds>([[maybe_unused]] now - s.last_event);
                 if (idle > config_.gap) {
@@ -1289,7 +1294,8 @@ void HoppingWindow::ensureWindowsExist([[maybe_unused]] const std::chrono::syste
 std::vector<WindowResult> HoppingWindow::closeExpiredWindows(int64_t watermark_us) {
     // Called with mutex_ held. Returns results to emit; callers fire callbacks
     // outside the lock to prevent re-entrant deadlock.
-    std::vector<WindowResult> pending;
+    std::vector<WindowResult> pending = {};
+
     for (auto &w : windows_) {
         if (!w.closed && toMicros(w.end) <= watermark_us) {
             w.closed = true;

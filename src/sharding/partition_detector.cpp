@@ -126,7 +126,8 @@ NetworkHealth PartitionDetector::getNetworkHealth() const {
 std::vector<NodeConnectivity> PartitionDetector::getNodeConnectivity() const {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     
-    std::vector<NodeConnectivity> result;
+    std::vector<NodeConnectivity> result = {};
+
     for (const auto& pair : nodes_) {
         result.push_back(pair.second);
     }

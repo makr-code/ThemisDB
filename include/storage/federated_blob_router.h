@@ -269,7 +269,8 @@ private:
 
     [[nodiscard]] static std::vector<std::string> readOrder(const FederatedBlobRoute& route,
                                                             const std::string& preferred_region) {
-        std::vector<std::string> order;
+        std::vector<std::string> order = {};
+
         if (!preferred_region.empty() && route.region_refs.contains(preferred_region)) {
             order.push_back(preferred_region);
         }

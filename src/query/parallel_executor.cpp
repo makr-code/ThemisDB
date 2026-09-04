@@ -252,7 +252,8 @@ ParallelExecutor::Table ParallelExecutor::sequentialScan(
 std::vector<ParallelExecutor::JoinTuple> ParallelExecutor::sequentialHashJoin(
     const Table& left, const Table& right, const JoinSpec& spec) {
     // Build phase: index right side by join key.
-    std::unordered_multimap<std::string, const BaseEntity*> ht;
+    std::unordered_multimap<std::string, const BaseEntity*> ht = {};
+
     ht.reserve(right.size());
     for (const auto& r : right) {
         auto key = r.getFieldAsString(spec.right_key);
@@ -261,7 +262,8 @@ std::vector<ParallelExecutor::JoinTuple> ParallelExecutor::sequentialHashJoin(
         }
     }
     // Probe phase.
-    std::vector<JoinTuple> out;
+    std::vector<JoinTuple> out = {};
+
     for (const auto& l : left) {
         auto lkey = l.getFieldAsString(spec.left_key);
         if (!lkey) {
@@ -490,7 +492,8 @@ Result<std::vector<ParallelExecutor::JoinTuple>> ParallelExecutor::parallelHashJ
     });
 
     // Merge partition results.
-    std::vector<JoinTuple> out;
+    std::vector<JoinTuple> out = {};
+
     for (auto& pr : part_results) {
         out.insert(out.end(),
                    std::make_move_iterator(pr.begin()),

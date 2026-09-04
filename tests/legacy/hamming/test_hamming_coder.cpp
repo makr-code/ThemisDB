@@ -211,7 +211,8 @@ TEST_F(HammingCoderTest, HC_07_AllParityMissingDataPresent) {
     auto data = makeData(400);
     auto chunks = coder_.encode(data, k, r);
 
-    std::vector<uint32_t> drop;
+    std::vector<uint32_t> drop = {};
+
     for (uint32_t i = k; i < k + r; ++i) {
       drop.push_back(i);
     }

@@ -113,7 +113,8 @@ bool FinalLayerOrchestrator::setPackageStatus(const std::string& package_id,
 }
 
 std::vector<FinalLayerPackage> FinalLayerOrchestrator::listPackages() const {
-    std::vector<FinalLayerPackage> packages;
+    std::vector<FinalLayerPackage> packages = {};
+
     packages.reserve(packages_.size());
     for (const auto& [_, package] : packages_) {
         packages.push_back(package);

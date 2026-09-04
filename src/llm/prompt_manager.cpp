@@ -119,7 +119,8 @@ std::vector<PromptManager::PromptTemplate> PromptManager::listTemplates() const 
     }
 
     // v1.1.0: Iterate over concurrent hash map (snapshot iteration)
-    std::vector<PromptTemplate> out;
+    std::vector<PromptTemplate> out = {};
+
     out.reserve(store_.size());
     for (const auto& kv : store_) {
         out.push_back(kv.second);

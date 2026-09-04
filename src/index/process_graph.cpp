@@ -724,7 +724,8 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
 
     // 2. Check for orphan nodes (no incoming or outgoing edges)
     std::unordered_set<std::string> hasIncoming;
-    std::unordered_set<std::string> hasOutgoing;
+    std::unordered_set<std::string> hasOutgoing = {};
+
     for (const auto& edge : edges) {
         hasOutgoing.insert(edge.from_node);
         hasIncoming.insert(edge.to_node);
@@ -966,7 +967,8 @@ ProcessGraphManager::getVisitTimestamp(
       return std::nullopt;
     }
 
-    std::optional<std::chrono::system_clock::time_point> result;
+    std::optional<std::chrono::system_clock::time_point> result = {};
+
     for (const auto& token : instance.tokens) {
         auto it = token.visit_timestamps.find(std::string(node_id));
         if (it != token.visit_timestamps.end()) {
@@ -1080,7 +1082,8 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
                 nlohmann::json summary;
                 summary["instance_id"] = std::string(instance_id);
                 summary["process_id"]  = instance.process_definition_id;
-                std::vector<std::string> visited_all;
+                std::vector<std::string> visited_all = {};
+
                 for (const auto& t : instance.tokens) {
                     for (const auto& n : t.visited_nodes) {
                         visited_all.push_back(n);
@@ -1746,7 +1749,8 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     
     // Build a graph of the process flow
     std::unordered_map<std::string, std::vector<std::string>> adjacency;
-    std::unordered_map<std::string, double> nodeDurations;
+    std::unordered_map<std::string, double> nodeDurations = {};
+
     nodeDurations.reserve(metrics.size());
     adjacency.reserve(metrics.size());
     
@@ -1807,7 +1811,8 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     
     // Use iterative DFS to find path with maximum cumulative duration
     // This avoids stack overflow for deep process graphs
-    std::vector<std::string> longestPath;
+    std::vector<std::string> longestPath = {};
+
     longestPath.reserve(nodeDurations.size());
     double maxDuration = 0.0;
     
@@ -1820,7 +1825,8 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
         ~StackEntry() = default;
     };
     
-    std::vector<StackEntry> stack;
+    std::vector<StackEntry> stack = {};
+
     stack.reserve(nodeDurations.size() + 1);
     stack.push_back({startNode, 0.0, std::vector<std::string>(), std::unordered_set<std::string>()});
     
@@ -2708,7 +2714,8 @@ ProcessGraphManager::detectAnomalies(
         double mean{0.0};
         double stddev{0.0};
     };
-    std::unordered_map<std::string, NodeBaseline> baselines;
+    std::unordered_map<std::string, NodeBaseline> baselines = {};
+
     for (auto& [node, stats] : nodeStats) {
         if (stats.durations_ms.empty()) {
           continue;
@@ -3030,7 +3037,8 @@ ProcessGraphManager::optimizeTaskRoute(
         double lat{0.0};
         bool has_geo{false};
     };
-    std::vector<Stop> stops;
+    std::vector<Stop> stops = {};
+
     stops.reserve(task_ids.size());
 
     for (const auto& tid : task_ids) {
@@ -3219,7 +3227,8 @@ ProcessGraphManager::executeMultiModelQuery(
     if (!db_.isOpen()) return {Status::Error("Database not open"), result};
 
     const std::string pid(process_id);
-    std::unordered_set<std::string> edgeTypeFilter;
+    std::unordered_set<std::string> edgeTypeFilter = {};
+
     if (!query.edge_types.empty()) {
         edgeTypeFilter.reserve(query.edge_types.size());
         edgeTypeFilter.insert(query.edge_types.begin(), query.edge_types.end());
@@ -3232,7 +3241,8 @@ ProcessGraphManager::executeMultiModelQuery(
     }
 
     // If a graph traversal constraint is set, collect the reachable node set.
-    std::unordered_set<std::string> allowedNodes;
+    std::unordered_set<std::string> allowedNodes = {};
+
     if (query.start_node) {
         const int maxDepth = query.max_depth.value_or(10);
         // BFS from start_node over allowed edge types.
@@ -3312,7 +3322,8 @@ ProcessGraphManager::executeMultiModelQuery(
                   return true;
                 }
             }
-            std::optional<double> distKm;
+            std::optional<double> distKm = {};
+
             if (query.from_location && hasGeo) {
                 const double d = processGraphHaversineKm(
                     query.from_location->first, query.from_location->second,
@@ -3324,7 +3335,8 @@ ProcessGraphManager::executeMultiModelQuery(
             }
 
             // 4. Vector filter.
-            std::optional<float> simScore;
+            std::optional<float> simScore = {};
+
             if (query.similarity_vector && !query.similarity_vector->empty()) {
                 const auto embStr = te.getFieldAsString("embedding");
                 if (!embStr) {
@@ -3415,7 +3427,8 @@ std::vector<std::string> ProcessGraphManager::evaluateGateway_(
     const std::vector<ProcessEdgeInfo>& outgoing_edges
 ) const {
     
-    std::vector<std::string> targets;
+    std::vector<std::string> targets = {};
+
     targets.reserve(outgoing_edges.size());
     for (const auto& edge : outgoing_edges) {
         targets.push_back(edge.to_node);

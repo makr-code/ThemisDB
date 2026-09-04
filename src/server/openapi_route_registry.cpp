@@ -293,7 +293,8 @@ inline std::size_t hashRouteOperation(const RouteEntry& e) {
 /// map of routeKey → operation hash.
 std::unordered_map<std::string, std::size_t>
 parseSnapshot(const std::string& snapshot) {
-    std::unordered_map<std::string, std::size_t> result;
+    std::unordered_map<std::string, std::size_t> result = {};
+
     if (snapshot.empty()) { return result; }
 
     std::istringstream ss(snapshot);
@@ -318,7 +319,8 @@ std::string RouteRegistry::captureSpecSnapshot() const {
     std::shared_lock<std::shared_mutex> lk(mutex_);
     // Build a line-per-route text: "METHOD /path\t<hash>\n"
     // Sorted for determinism regardless of insertion order.
-    std::vector<std::string> lines;
+    std::vector<std::string> lines = {};
+
     lines.reserve(entries_.size());
     for (const auto& e : entries_) {
         lines.push_back(routeKey(e) + "\t"

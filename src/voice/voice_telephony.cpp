@@ -386,7 +386,8 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     impl_->rtp_packets_received++;
 
     // TASK 2.6: Decode to PCM based on codec
-    std::vector<int16_t> pcm;
+    std::vector<int16_t> pcm = {};
+
     pcm.reserve(payload.size());
     switch (impl_->config.codec) {
     case AudioCodec::PCMU:
@@ -465,7 +466,8 @@ SipCallSession::synthesizeTts(const std::string& text) {
         auto frames = impl_->tts_backend->synthesize(text, impl_->config.codec);
         packets.reserve(frames.size());
         for (auto& frame : frames) {
-            std::vector<uint8_t> pkt;
+            std::vector<uint8_t> pkt = {};
+
             pkt.reserve(12 + frame.size());
             pkt.resize(12, 0);
             pkt[0] = 0x80; // V=2, P=0, X=0, CC=0
@@ -705,7 +707,8 @@ WebRtcCallSession::synthesizeTts(const std::string& text) {
         auto frames = impl_->tts_backend->synthesize(text, AudioCodec::OPUS);
         packets.reserve(frames.size());
         for (auto& frame : frames) {
-            std::vector<uint8_t> pkt;
+            std::vector<uint8_t> pkt = {};
+
             pkt.reserve(12 + frame.size());
             pkt.resize(12, 0);
             pkt[0] = 0x80; // V=2, P=0, X=0, CC=0

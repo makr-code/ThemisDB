@@ -367,7 +367,8 @@ std::optional<PolicyRule> PolicyManager::getRule(const std::string &rule_id) con
 
 std::vector<PolicyRule> PolicyManager::listRules() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<PolicyRule> result;
+    std::vector<PolicyRule> result = {};
+
     result.reserve(rules_.size());
     for (const auto &[id, rule] : rules_) {
         result.push_back(rule);
@@ -486,7 +487,8 @@ PolicyManager::ValidationResult PolicyManager::validateRules() const {
     result.valid = true;
 
     // Check for duplicate IDs
-    std::unordered_map<std::string, int> id_counts;
+    std::unordered_map<std::string, int> id_counts = {};
+
     for (const auto &[id, rule] : rules_) {
         id_counts[id]++;
     }
@@ -750,7 +752,8 @@ std::vector<PolicyRuleVersion> PolicyManager::getAuditTrailByUser(const std::str
         }
     }
 
-    std::vector<PolicyRuleVersion> result;
+    std::vector<PolicyRuleVersion> result = {};
+
     for (const auto &rule_id : rule_ids) {
         auto versions = version_history_.getVersions(rule_id);
         for (const auto &v : versions) {
@@ -813,7 +816,8 @@ bool PolicyManager::reloadPolicies(const std::string &path, std::string *err) {
     // Note: std::hash is not cryptographically secure; this hash is used
     // only as a stable version tag for logging and audit entries, not for
     // integrity verification.
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(new_set->rules.size());
     for (const auto &[id, rule] : new_set->rules) {
         ids.push_back(id);

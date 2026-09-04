@@ -63,7 +63,8 @@ double relativeError(std::size_t estimated, std::size_t reference) {
 std::vector<std::string> buildFewShotCorpus() {
     AQLFewShotExampleLibrary lib;
     const auto& examples = lib.all();
-    std::vector<std::string> corpus;
+    std::vector<std::string> corpus = {};
+
     corpus.reserve(examples.size() * 2);
     for (const auto& ex : examples) {
         corpus.push_back(ex.nl_query);
@@ -304,7 +305,8 @@ TEST_F(TokenCountBenchmarkTest, CharDivisionEstimator_RecordsErrorStatsAgainstWo
 
     CharDivisionEstimator est;  // default ratio = 4
 
-    std::vector<double> errors;
+    std::vector<double> errors = {};
+
     errors.reserve(corpus.size());
 
     for (const auto& text : corpus) {

@@ -132,7 +132,8 @@ ProcessRagContext ProcessAgenticRag::mergeDocuments(
 {
     // Build a set of existing attachment IDs for O(log n) lookup
     // instead of O(n) linear search per doc (avoiding O(n²) complexity)
-    std::unordered_set<std::string> existing_ids;
+    std::unordered_set<std::string> existing_ids = {};
+
     for (const auto& existing : ctx.attachments) {
         if (existing.contains("_id")) {
             try {
@@ -220,7 +221,8 @@ ProcessAgenticResult ProcessAgenticRag::runLoop(
         auto docs = encodeContext(ctx);
 
         // Filter out already-seen documents.
-        std::vector<rag::judge::RetrievedDocument> fresh;
+        std::vector<rag::judge::RetrievedDocument> fresh = {};
+
         for (auto& d : docs) {
             bool already_seen = false;
             for (const auto& sid : seen_ids) {

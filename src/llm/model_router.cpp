@@ -24,7 +24,8 @@ namespace llm {
 
 /*static*/
 std::vector<std::regex> ModelRouter::compilePatterns(const RoutingRule& rule) {
-    std::vector<std::regex> compiled;
+    std::vector<std::regex> compiled = {};
+
     compiled.reserve(rule.prompt_patterns.size());
     for (const auto& pattern : rule.prompt_patterns) {
         try {
@@ -173,7 +174,8 @@ bool ModelRouter::removeRule(const std::string& rule_id) {
 
 std::vector<RoutingRule> ModelRouter::getRules() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<RoutingRule> out;
+    std::vector<RoutingRule> out = {};
+
     out.reserve(rules_.size());
     for (const auto& cr : rules_) {
       out.push_back(cr.rule);
@@ -195,7 +197,8 @@ size_t ModelRouter::ruleCount() const {
 RoutingResult ModelRouter::route(const std::string& prompt,
                                   const nlohmann::json& metadata) const {
     // Extract tags from metadata["tags"] (array of strings)
-    std::vector<std::string> tags;
+    std::vector<std::string> tags = {};
+
     if (metadata.is_object() && metadata.contains("tags")) {
         const auto& jtags = metadata.at("tags");
         if (jtags.is_array()) {

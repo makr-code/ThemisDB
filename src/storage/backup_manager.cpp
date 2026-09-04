@@ -2381,7 +2381,8 @@ Result<void> BackupManager::uploadToCloud(const std::string& local_path,
 
         if (source_is_directory) {
             std::vector<fs::path> directories;
-            std::vector<fs::path> files;
+            std::vector<fs::path> files = {};
+
             for (const auto& entry : fs::recursive_directory_iterator(source_path)) {
                 const auto relative = fs::relative(entry.path(), source_path);
                 if (!isSafeRelativeBackupPath(relative)) {
@@ -2622,7 +2623,8 @@ std::string BackupManager::findLastFullBackup(const std::string& backup_dir) {
             return "";
         }
         
-        std::vector<std::string> full_backups;
+        std::vector<std::string> full_backups = {};
+
         for (const auto& entry : fs::directory_iterator(backup_dir)) {
             if (entry.is_directory()) {
                 auto name = entry.path().filename().string();
@@ -2978,7 +2980,8 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
         }
 
         // Build the set of CFs to restore.
-        std::unordered_set<std::string> target_cfs;
+        std::unordered_set<std::string> target_cfs = {};
+
         if (collections.empty()) {
             for (const auto& cf : checkpoint_cfs) {
               target_cfs.insert(cf);
@@ -2990,7 +2993,8 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
         }
 
          // Build target CF descriptors for per-CF restore
-        std::vector<rocksdb::ColumnFamilyDescriptor> cf_descriptors;
+        std::vector<rocksdb::ColumnFamilyDescriptor> cf_descriptors = {};
+
         for (const auto& cf_name : checkpoint_cfs) {
             if (target_cfs.count(cf_name)) {
                 cf_descriptors.emplace_back(cf_name, rocksdb::ColumnFamilyOptions{});
@@ -3641,7 +3645,8 @@ Result<std::vector<std::string>> BackupManager::listSnapshots() {
     const std::string& db_path = db_wrapper_->getConfig().db_path;
     fs::path snap_base = fs::path(db_path).parent_path() / "snapshots";
 
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     if (!fs::exists(snap_base)) return result; // no snapshots yet
 
     std::error_code ec;

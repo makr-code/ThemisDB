@@ -210,7 +210,8 @@ TEST_F(ConcurrentOperationsTest, ConcurrentReads_WithUpdates) {
     });
     
     // Reader threads
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int i = 0; i < 10; ++i) {
         readers.emplace_back([this, &stop_flag, &read_count]() {
             while (!stop_flag) {

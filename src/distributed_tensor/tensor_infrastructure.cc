@@ -79,7 +79,8 @@ std::optional<ClusterNode> DefaultTensorInfrastructureManager::get_node(
 
 std::vector<ClusterNode> DefaultTensorInfrastructureManager::list_nodes()
     const noexcept {
-  std::vector<ClusterNode> all_nodes;
+  std::vector<ClusterNode> all_nodes = {};
+
   for (const auto& [node_id, node] : nodes_) {
     all_nodes.push_back(node);
   }
@@ -88,7 +89,8 @@ std::vector<ClusterNode> DefaultTensorInfrastructureManager::list_nodes()
 
 std::vector<ClusterNode>
 DefaultTensorInfrastructureManager::get_healthy_nodes() const noexcept {
-  std::vector<ClusterNode> healthy_nodes;
+  std::vector<ClusterNode> healthy_nodes = {};
+
   for (const auto& [node_id, node] : nodes_) {
     if (node.status == NodeStatus::HEALTHY ||
         node.status == NodeStatus::DEGRADED) {

@@ -89,7 +89,8 @@ TEST_F(HttpAqlLetTest, LetAndReturnObjectProjection) {
     // Expect two results with object projection
     ASSERT_EQ(body["entities"].size(), 2) << "Response: " << body.dump(2);
     std::set<std::string> cities;
-    std::set<std::string> names;
+    std::set<std::string> names = {};
+
     for (const auto& e : body["entities"]) {
         json ej = e.is_string() ? json::parse(e.get<std::string>()) : e;
         ASSERT_TRUE(ej.contains("name"));

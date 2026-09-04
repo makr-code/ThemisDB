@@ -116,7 +116,8 @@ std::vector<float> hashEmbedQuery(const std::string& text, int dim) {
         return vec;
     }
 
-    std::unordered_map<std::string, int> freqs;
+    std::unordered_map<std::string, int> freqs = {};
+
     for (const auto& t : tokens) {
         freqs[t] += 1;
     }
@@ -234,7 +235,8 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
                 }
             }
 
-            std::unordered_map<std::string, std::string> doc_id_to_path;
+            std::unordered_map<std::string, std::string> doc_id_to_path = {};
+
             if (db_json.contains("artifact_documents") && db_json["artifact_documents"].is_array()) {
                 for (const auto& d : db_json["artifact_documents"]) {
                     if (d.contains("doc_id") && d.contains("file_path")) {
@@ -417,7 +419,8 @@ std::vector<DocumentEntry> DocsAssistant::searchDocs(const std::string& query, i
     const bool use_semantic = impl_->config.enable_semantic_search &&
                               impl_->semantic_embedding_compatible &&
                               impl_->embedding_dimension > 0;
-    std::vector<float> query_vec;
+    std::vector<float> query_vec = {};
+
     if (use_semantic) {
         query_vec = hashEmbedQuery(query, impl_->embedding_dimension);
     }

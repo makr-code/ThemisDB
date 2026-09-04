@@ -86,7 +86,8 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
     }
 
     // Generate arguments from each philosophy
-    std::vector<EthicalArgument> arguments;
+    std::vector<EthicalArgument> arguments = {};
+
     for (const auto &school : philosophy_schools) {
         auto profile_result = philosophy_loader_->getProfile(school);
         if (auto *profile = std::get_if<PhilosophyProfile>(&profile_result)) {
@@ -133,7 +134,8 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
     }
 
     if (!chain_visualizer_output_path_.empty()) {
-        std::vector<std::string> argument_ids;
+        std::vector<std::string> argument_ids = {};
+
         argument_ids.reserve(arguments.size());
         for (const auto& arg : arguments) {
             argument_ids.push_back(arg.id);

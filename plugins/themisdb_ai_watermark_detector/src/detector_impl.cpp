@@ -255,7 +255,8 @@ std::vector<uint32_t> WatermarkDetectorImpl::tokenize(const std::string& text) {
   //                   are not meaningful for watermark detection.
   // Removal Plan: Replace with actual tokenizer in Phase 2
   //               (see plugins/themisdb_ai_watermark_detector/ROADMAP.md Phase 2).
-  std::vector<uint32_t> tokens;
+  std::vector<uint32_t> tokens = {};
+
   int estimated_tokens = text.size() / 4;  // rough estimate: 4 chars per token
   if (estimated_tokens < 10) {
     estimated_tokens = 10;

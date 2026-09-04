@@ -506,7 +506,8 @@ static void BM_BatchFanOut_LatencyScaling(benchmark::State& state)
         for (const auto& p : prompts) {
             futures.push_back(std::async(std::launch::async, mock_infer, p));
         }
-        std::vector<std::string> results;
+        std::vector<std::string> results = {};
+
         results.reserve(prompts.size());
         for (auto& f : futures) {
             results.push_back(f.get());

@@ -237,7 +237,8 @@ std::vector<std::string> VoiceMeetingSupport::extractKeyPoints(
 std::map<std::string, size_t> VoiceMeetingSupport::computeSpeakerWordCounts(
     const std::vector<MeetingSegment>& segments) const
 {
-    std::map<std::string, size_t> counts;
+    std::map<std::string, size_t> counts = {};
+
     for (const auto& seg : segments) {
         if (seg.speaker.empty()) {
           continue;

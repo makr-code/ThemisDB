@@ -184,7 +184,8 @@ bool LlamaCppPlugin::unloadLoRA(const std::string& lora_id) {
 
 std::vector<llm::LoRAInfo> LlamaCppPlugin::listLoRAs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<llm::LoRAInfo> result;
+    std::vector<llm::LoRAInfo> result = {};
+
     result.reserve(loras_.size());
     for (const auto& e : loras_) {
         llm::LoRAInfo info;
@@ -427,7 +428,8 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
 
     // Build RetrievedChunk objects from the RAGContext documents.
     // request and rag_context are caller-owned; no shared state involved here.
-    std::vector<themis::rag::RetrievedChunk> chunks;
+    std::vector<themis::rag::RetrievedChunk> chunks = {};
+
     chunks.reserve(rag_context.documents.size());
     for (const auto& doc : rag_context.documents) {
         themis::rag::RetrievedChunk chunk;
@@ -921,7 +923,8 @@ llm::InferenceResponse LlamaCppPlugin::generateStream(
 
 std::vector<llm::InferenceResponse> LlamaCppPlugin::generateBatch(
         const std::vector<llm::InferenceRequest>& requests) {
-    std::vector<llm::InferenceResponse> results;
+    std::vector<llm::InferenceResponse> results = {};
+
     results.reserve(requests.size());
     for (const auto& req : requests) {
         results.push_back(generate(req));

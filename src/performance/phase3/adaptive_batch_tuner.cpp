@@ -193,7 +193,8 @@ LLMBatchTuner::Stats LLMBatchTuner::getStats() const {
     }
 
     // Compute mean and P99 latency from the current window
-    std::vector<double> latencies;
+    std::vector<double> latencies = {};
+
     latencies.reserve(records_.size());
     double sum_latency = 0.0;
     for (const auto& r : records_) {

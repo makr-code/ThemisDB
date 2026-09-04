@@ -68,7 +68,8 @@ void LigraProcessor::process_sparse(const Frontier& frontier, const VertexFunc& 
     const auto& active = frontier.get_sparse();
     
     // Simple parallel processing (would use thread pool in production)
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     size_t chunk_size = (active.size() + num_threads_ - 1) / num_threads_;
     
     auto it = active.begin();
@@ -162,7 +163,8 @@ Frontier LigraProcessor::process_edges(
         
         // Modified process to pass thread index to avoid hash collisions
         const auto& active = frontier.get_sparse();
-        std::vector<std::thread> threads;
+        std::vector<std::thread> threads = {};
+
         size_t chunk_size = (active.size() + num_threads_ - 1) / num_threads_;
         
         auto it = active.begin();

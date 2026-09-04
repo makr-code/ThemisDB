@@ -493,7 +493,8 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     }
 
     // Optional group search
-    std::vector<std::string> groups;
+    std::vector<std::string> groups = {};
+
     if (config_.enable_group_search && !config_.group_search_filter.empty()) {
         // Build group filter with placeholders substituted and RFC 4515-escaped.
         const std::string filter = buildGroupSearchFilter(dn, username);
@@ -664,7 +665,8 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     // Optional group search
     // -----------------------------------------------------------------------
 
-    std::vector<std::string> groups;
+    std::vector<std::string> groups = {};
+
     if (config_.enable_group_search && !config_.group_search_filter.empty()) {
         const std::string filter = buildGroupSearchFilter(dn, username);
 

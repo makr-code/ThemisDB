@@ -1556,7 +1556,8 @@ public:
         }
         
         // Build holiday set
-        std::set<int64_t> holidays;
+        std::set<int64_t> holidays = {};
+
         if (args.size() > 2 && args[2].is_array()) {
             for (const auto& h : args[2]) {
                 // Normalize to day start
@@ -1622,7 +1623,8 @@ public:
         int64_t workdays = args[1].get<int64_t>();
         
         // Build holiday set
-        std::set<int64_t> holidays;
+        std::set<int64_t> holidays = {};
+
         if (args.size() > 2 && args[2].is_array()) {
             for (const auto& h : args[2]) {
                 int64_t dayMs = (h.get<int64_t>() / (24 * 60 * 60 * 1000)) * (24 * 60 * 60 * 1000);

@@ -174,7 +174,8 @@ LoRASignatureResult LoRASecurityValidator::verifySignature(
     }
     
     // Load LoRa data
-    std::vector<uint8_t> lora_data;
+    std::vector<uint8_t> lora_data = {};
+
     if (!loadLoRAFile(lora_path, lora_data)) {
         result.is_valid = false;
         result.error_message = "Failed to load LoRa file";
@@ -182,7 +183,8 @@ LoRASignatureResult LoRASecurityValidator::verifySignature(
     }
     
     // Load signature
-    std::vector<uint8_t> signature_data;
+    std::vector<uint8_t> signature_data = {};
+
     if (!loadLoRAFile(signature_path, signature_data)) {
         result.is_valid = false;
         result.error_message = "Failed to load signature file";
@@ -213,7 +215,8 @@ LoRASignatureResult LoRASecurityValidator::verifySignature(
     }
     
     // Decode signature from base64
-    std::vector<uint8_t> signature;
+    std::vector<uint8_t> signature = {};
+
     if (!base64_decode(signature_b64, signature)) {
         result.is_valid = false;
         result.error_message = "Failed to decode base64 signature";
@@ -296,7 +299,8 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
     result.verified_at = std::chrono::system_clock::now();
     
     // Load LoRa file
-    std::vector<uint8_t> lora_data;
+    std::vector<uint8_t> lora_data = {};
+
     if (!loadLoRAFile(lora_path, lora_data)) {
         result.is_valid = false;
         result.error_message = "Failed to load LoRa file";
@@ -332,7 +336,8 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
     }
     
     // Decode signature from base64
-    std::vector<uint8_t> signature;
+    std::vector<uint8_t> signature = {};
+
     if (!base64_decode(signature_b64, signature)) {
         result.is_valid = false;
         result.error_message = "Failed to decode embedded base64 signature";
@@ -486,7 +491,8 @@ LoRAIntegrityResult LoRASecurityValidator::checkIntegrity(
 }
 
 bool LoRASecurityValidator::validateMetadata(const std::string& lora_path) {
-    std::vector<uint8_t> lora_data;
+    std::vector<uint8_t> lora_data = {};
+
     if (!loadLoRAFile(lora_path, lora_data)) {
         return false;
     }
@@ -578,7 +584,8 @@ std::string LoRASecurityValidator::calculateChecksum(
     const std::string& algorithm) {
     static_cast<void>(algorithm);
     
-    std::vector<uint8_t> data;
+    std::vector<uint8_t> data = {};
+
     if (!loadLoRAFile(lora_path, data)) {
         return "";
     }
@@ -727,7 +734,8 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
     std::vector<float> weights;
     
     // Load file data
-    std::vector<uint8_t> data;
+    std::vector<uint8_t> data = {};
+
     if (!loadLoRAFile(path, data)) {
         spdlog::error("Failed to load LoRa file for weight extraction: {}", path);
         return weights;

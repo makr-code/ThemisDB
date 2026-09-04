@@ -96,7 +96,8 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(con
         existing_cfs.push_back(config_.column_family);
     }
 
-    std::vector<rocksdb::ColumnFamilyDescriptor> cf_descs;
+    std::vector<rocksdb::ColumnFamilyDescriptor> cf_descs = {};
+
     cf_descs.reserve(existing_cfs.size());
     for (const auto &cf : existing_cfs) {
         cf_descs.emplace_back(cf, rocksdb::ColumnFamilyOptions{});

@@ -151,7 +151,8 @@ public:
     std::vector<std::string> listTenants(
         const std::string& partition_id) const override {
         std::lock_guard<std::mutex> lock(mu);
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         for (auto& [tid, pid] : assignments)
             if (pid == partition_id) {
               result.push_back(tid);
@@ -162,7 +163,8 @@ public:
 
     std::vector<std::string> listPartitions() const override {
         std::lock_guard<std::mutex> lock(mu);
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         for (auto& [pid, _] : capacities) {
           result.push_back(pid);
         }
@@ -195,7 +197,8 @@ public:
 
     std::vector<PartitionStats> getAllStats() const override {
         std::lock_guard<std::mutex> lock(mu);
-        std::vector<PartitionStats> result;
+        std::vector<PartitionStats> result = {};
+
         for (auto& [pid, cap] : capacities) {
             PartitionStats s;
             s.partition_id = pid;
@@ -457,7 +460,8 @@ TEST_F(DistributedEvictionTest, EventReasons_AllValuesDistinct) {
         DistributedEvictionReason::TENANT_EVICT,
         DistributedEvictionReason::FLUSH,
     };
-    std::vector<uint8_t> raw;
+    std::vector<uint8_t> raw = {};
+
     for (auto r : reasons)
         raw.push_back(static_cast<uint8_t>(r));
     std::sort(raw.begin(), raw.end());

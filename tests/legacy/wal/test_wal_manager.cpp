@@ -153,7 +153,8 @@ TEST_F(WALManagerTest, ReadEntry) {
 TEST_F(WALManagerTest, ReadRange) {
     WALManager wal(config_);
     
-    std::vector<LSN> lsns;
+    std::vector<LSN> lsns = {};
+
     for (int i = 0; i < 5; ++i) {
         WALEntry entry;
         entry.type = WALEntryType::INSERT;

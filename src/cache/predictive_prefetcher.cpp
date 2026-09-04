@@ -211,7 +211,8 @@ std::vector<std::string> PredictivePrefetcher::getPrefetchCandidates(const std::
     // Sort descending by score
     std::sort(candidates.begin(), candidates.end(), [](const auto &a, const auto &b) { return a.first > b.first; });
 
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     const size_t limit = std::min(candidates.size(), config_.max_predictions);
     result.reserve(limit);
     for (size_t i = 0; i < limit; ++i) {

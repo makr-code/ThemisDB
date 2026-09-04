@@ -249,7 +249,8 @@ TEST(TokenBlacklistConcurrencyTest, ConcurrentUnrevoke_ThreadSafe) {
         bl.revoke("jti-" + std::to_string(i), inFuture());
     }
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&bl, t]() {
             for (int i = t * 25; i < (t + 1) * 25; ++i) {

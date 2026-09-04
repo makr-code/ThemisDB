@@ -207,7 +207,8 @@ CitationHighlighter::highlight(const std::string&              answer,
 
         // Score every chunk
         struct ChunkScore { size_t idx; double score; };
-        std::vector<ChunkScore> scored;
+        std::vector<ChunkScore> scored = {};
+
         scored.reserve(chunks.size());
 
         for (size_t ci = 0; ci < chunks.size(); ++ci) {

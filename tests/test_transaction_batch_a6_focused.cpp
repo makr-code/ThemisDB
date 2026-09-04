@@ -117,7 +117,8 @@ TEST_F(TransactionBatchA6Test, IteratorSafetyWithReleaseAllLocks) {
     const int keys_per_txn = 10;
     
     // Acquire multiple locks per transaction
-    std::vector<uint64_t> txn_ids;
+    std::vector<uint64_t> txn_ids = {};
+
     for (int i = 0; i < num_txns; ++i) {
         uint64_t txn_id = 1000 + i;
         txn_ids.push_back(txn_id);

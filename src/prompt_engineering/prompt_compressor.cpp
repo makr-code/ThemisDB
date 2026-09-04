@@ -243,7 +243,8 @@ std::string SimplePromptCompressor::selectiveTrim(const std::string& prompt,
 
     // Build result by starting with system + tail; fill in middle paragraphs
     // from the end until we exceed budget.
-    std::vector<size_t> kept_indices;
+    std::vector<size_t> kept_indices = {};
+
     for (size_t i = 0; i < sys_end && i < paragraphs.size(); ++i)
         kept_indices.push_back(i);
     for (size_t i = std::max(sys_end, tail_start);

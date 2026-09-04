@@ -402,7 +402,8 @@ FaultInjector* FaultOrchestrator::getInjector(int id) {
 
 std::vector<int> FaultOrchestrator::getAllInjectorIds() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<int> ids;
+    std::vector<int> ids = {};
+
     for (const auto& [id, injector] : injectors_) {
         ids.push_back(id);
     }
@@ -416,7 +417,8 @@ void FaultOrchestrator::clear() {
 
 std::map<std::string, int> FaultOrchestrator::getStatistics() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::map<std::string, int> stats;
+    std::map<std::string, int> stats = {};
+
     stats["total_injectors"] = injectors_.size();
     
     int active_count = 0;

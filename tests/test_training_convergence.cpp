@@ -100,7 +100,8 @@ TEST(ConfidenceCalibratorConvergence, MultiCategoryProducesOneThresholdPerCatego
     EXPECT_TRUE(result.success);
     EXPECT_EQ(result.thresholds.size(), 3u);
 
-    std::vector<std::string> cats;
+    std::vector<std::string> cats = {};
+
     for (const auto& t : result.thresholds) {
       cats.push_back(t.category);
     }

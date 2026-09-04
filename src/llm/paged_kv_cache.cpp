@@ -277,7 +277,8 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
     switch (target_type) {
         case KVQuantizationType::FP16: {
             // FP16 quantization (2 bytes per float)
-            std::vector<uint8_t> result;
+            std::vector<uint8_t> result = {};
+
             result.reserve(kv_data.size() * 2);
             
             for (float value : kv_data) {
@@ -308,7 +309,8 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
               scale = 1.0f;
             }
             
-            std::vector<uint8_t> result;
+            std::vector<uint8_t> result = {};
+
             result.reserve(kv_data.size() + 8);  // +8 for metadata (min_val, scale)
             
             // Store metadata: min_val (4 bytes) + scale (4 bytes)
@@ -357,7 +359,8 @@ std::vector<float> PagedKVCache::dequantizeKVData(
     switch (source_type) {
         case KVQuantizationType::FP16: {
             // FP16 dequantization (2 bytes per float)
-            std::vector<float> result;
+            std::vector<float> result = {};
+
             result.reserve(quantized_data.size() / 2);
             
             for (size_t i = 0; i + 1 < quantized_data.size(); i += 2) {
@@ -383,7 +386,8 @@ std::vector<float> PagedKVCache::dequantizeKVData(
             float min_val = std::bit_cast<float>(min_bits);
             float scale = std::bit_cast<float>(scale_bits);
             
-            std::vector<float> result;
+            std::vector<float> result = {};
+
             result.reserve(quantized_data.size() - 8);
             
             // Dequantize values
@@ -517,7 +521,8 @@ std::vector<int8_t> PagedKVCache::quantizeToINT8(
     
     zero_point = static_cast<int8_t>(std::round(-min_val / scale));
     
-    std::vector<int8_t> result;
+    std::vector<int8_t> result = {};
+
     result.reserve(values.size());
     
     for (float v : values) {
@@ -534,7 +539,8 @@ std::vector<float> PagedKVCache::dequantizeFromINT8(
     float scale,
     int8_t zero_point) {
     
-    std::vector<float> result;
+    std::vector<float> result = {};
+
     result.reserve(quantized.size());
     
     for (int8_t q : quantized) {

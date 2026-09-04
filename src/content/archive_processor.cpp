@@ -631,7 +631,8 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string &blob, Ar
         zs.avail_in = static_cast<uInt>(blob.size());
 
         std::vector<uint8_t> out_buf(1 << 20); // 1 MiB chunks
-        int ret;
+        int ret = 0;
+
         do {
             zs.next_out  = out_buf.data();
             zs.avail_out = static_cast<uInt>(out_buf.size());

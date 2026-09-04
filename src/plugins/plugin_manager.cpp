@@ -1364,7 +1364,8 @@ std::vector<IThemisPlugin*> PluginManager::getPluginsByType(PluginType type) con
 std::vector<PluginManifest> PluginManager::listPlugins() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<PluginManifest> result;
+    std::vector<PluginManifest> result = {};
+
     for (const auto& pair : plugins_) {
         result.push_back(pair.second.manifest);
     }
@@ -1375,7 +1376,8 @@ std::vector<PluginManifest> PluginManager::listPlugins() const {
 std::vector<std::string> PluginManager::listLoadedPlugins() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& pair : plugins_) {
         if (pair.second.loaded) {
             result.push_back(pair.first);

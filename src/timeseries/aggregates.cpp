@@ -121,7 +121,8 @@ TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::rollingWindow(
         int64_t window_start = timestamps[i] - window_size_seconds;
         
         // Collect values in window
-        std::vector<double> window_values;
+        std::vector<double> window_values = {};
+
         for (size_t j = 0; j <= i; ++j) {
             if (timestamps[j] >= window_start && timestamps[j] <= timestamps[i]) {
                 window_values.push_back(values[j]);

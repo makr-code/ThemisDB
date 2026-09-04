@@ -188,7 +188,8 @@ std::vector<ChangeEvent> TemporalCDC::replayChanges(
 
     std::lock_guard<std::mutex> lk(mutex_);
 
-    std::vector<ChangeEvent> result;
+    std::vector<ChangeEvent> result = {};
+
     for (const auto& ev : log_) {
         if (!table_name.empty() && ev.table_name != table_name) {
             continue;
@@ -526,7 +527,8 @@ std::vector<ChangeEvent> CDCPersistentLog::replayAll() const {
         seqs = listSegmentSeqs();
     }
 
-    std::vector<ChangeEvent> all;
+    std::vector<ChangeEvent> all = {};
+
     for (uint64_t seq : seqs) {
         auto part = replayFile(segmentPath(seq));
         all.insert(all.end(), part.begin(), part.end());

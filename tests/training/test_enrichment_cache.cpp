@@ -386,7 +386,8 @@ TEST(EnrichmentCacheTest, ConcurrentPuts_Safe) {
     EnrichmentCache cache(1000, 3600);
     std::vector<float> data = {1.0f, 2.0f, 3.0f};
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 10; ++t) {
         threads.emplace_back([&cache, &data, t]() {
             for (int i = 0; i < 100; ++i) {

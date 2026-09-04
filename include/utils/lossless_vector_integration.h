@@ -126,7 +126,8 @@ public:
                 
                 case LosslessCompressionMethod::DELTA_VARINT: {
                     // Convert to integers with range validation
-                    std::vector<int32_t> int_vec;
+                    std::vector<int32_t> int_vec = {};
+
                     int_vec.reserve(vec.size());
                     for (float f : vec) {
                         // Validate range to prevent overflow
@@ -219,7 +220,8 @@ public:
                 auto& bytes = std::get<std::vector<uint8_t>>(it->second);
                 auto int_vec = VarIntCodec::decompress_delta(bytes);
                 
-                std::vector<float> result;
+                std::vector<float> result = {};
+
                 result.reserve(int_vec.size());
                 for (int32_t i : int_vec) {
                     result.push_back(static_cast<float>(i));

@@ -235,7 +235,8 @@ void SessionManager::terminateSession(const std::string &session_id) {
 int SessionManager::terminateAllOtherSessions(const std::string &user_id, const std::string &keep_session_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<std::string> to_erase;
+    std::vector<std::string> to_erase = {};
+
     for (const auto &[id, info] : sessions_) {
         // `id` is the SHA-256 hash of the original token; compare against
         // info.session_id (which holds the original token) so that the raw
@@ -300,7 +301,8 @@ size_t SessionManager::pruneExpired() {
 }
 
 size_t SessionManager::pruneExpiredLocked() {
-    std::vector<std::string> expired;
+    std::vector<std::string> expired = {};
+
     for (const auto &[id, info] : sessions_) {
         if (isExpired(info)) {
             expired.push_back(id);

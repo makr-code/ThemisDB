@@ -102,7 +102,8 @@ http::response<http::string_body> ContentApiHandler::handleImport(
         auto body = nlohmann::json::parse(req.body());
         
         // Extract optional blob (can be base64 or raw string)
-        std::optional<std::string> blob;
+        std::optional<std::string> blob = {};
+
         if (body.contains("blob")) {
             blob = body["blob"].get<std::string>();
         } else if (body.contains("blob_base64")) {
@@ -367,7 +368,8 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
                 return makeErrorResponse(http::status::bad_request, "vector_query must be array of floats", req);
             }
             
-            std::vector<float> vectorQuery;
+            std::vector<float> vectorQuery = {};
+
             for (const auto& val : body["vector_query"]) {
                 if (val.is_number()) {
                     vectorQuery.push_back(val.get<float>());

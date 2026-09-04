@@ -43,7 +43,8 @@ TEST_F(ConcurrencyChurnTest, C01_ConcurrentAtomicIncrement) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(work);
     }
@@ -82,7 +83,8 @@ TEST_F(ConcurrencyChurnTest, C02_ConcurrentLinkCreation) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(create_links, i);
     }
@@ -95,7 +97,8 @@ TEST_F(ConcurrencyChurnTest, C02_ConcurrentLinkCreation) {
     EXPECT_EQ(links_storage.size(), expected_size);
 
     // Verify all link IDs are unique
-    std::set<std::string> unique_ids;
+    std::set<std::string> unique_ids = {};
+
     for (const auto& link : links_storage) {
         EXPECT_EQ(unique_ids.count(link.link_id), 0) << "Duplicate link ID: " << link.link_id;
         unique_ids.insert(link.link_id);
@@ -129,7 +132,8 @@ TEST_F(ConcurrencyChurnTest, C03_ConcurrentAttachmentCreation) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(create_attachments, i);
     }
@@ -142,7 +146,8 @@ TEST_F(ConcurrencyChurnTest, C03_ConcurrentAttachmentCreation) {
     EXPECT_EQ(attachments.size(), expected_size);
 
     // Verify timestamps are monotonically increasing (at least for the same thread)
-    std::map<std::string, int64_t> last_timestamp;
+    std::map<std::string, int64_t> last_timestamp = {};
+
     for (const auto& attach : attachments) {
         // We can't guarantee global monotonicity due to thread scheduling,
         // but we can verify no timestamp goes backward (extreme check)
@@ -183,7 +188,8 @@ TEST_F(ConcurrencyChurnTest, C04_ReadHeavyConcurrentAccess) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(reader);
     }
@@ -280,7 +286,8 @@ TEST_F(ConcurrencyChurnTest, C06_ConcurrentErrorEnumAccess) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(check_errors);
     }
@@ -320,7 +327,8 @@ TEST_F(ConcurrencyChurnTest, C07_BarrierSynchronization) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(synchronized_work, i);
     }
@@ -387,7 +395,8 @@ TEST_F(ConcurrencyChurnTest, C08_HighContentionLinkOperations) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(mixed_operations, i);
     }
@@ -430,7 +439,8 @@ TEST_F(ConcurrencyChurnTest, C09_ConcurrentReadModifyWrite) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(increment_and_check);
     }
@@ -473,7 +483,8 @@ TEST_F(ConcurrencyChurnTest, C10_TryLockWithFallback) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(try_update_map, i);
     }
@@ -515,7 +526,8 @@ TEST_F(ConcurrencyChurnTest, C11_OrderedLockAcquisitionDeadlockPrevention) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(ordered_operation, i);
     }
@@ -552,7 +564,8 @@ TEST_F(ConcurrencyChurnTest, C12_HighContentionLockCycles) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(rapid_cycle, i);
     }

@@ -133,7 +133,8 @@ TEST_F(HybridSearchIntegrationTest, RRF_BM25Only_ReturnsTextMatches) {
     auto results = hs.search("database");
     // doc1 and doc3 contain "database"; doc2 does not
     ASSERT_FALSE(results.empty());
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (const auto& r : results) {
       ids.push_back(r.document_id);
     }

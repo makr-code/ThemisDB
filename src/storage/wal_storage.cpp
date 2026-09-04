@@ -719,7 +719,8 @@ Result<uint64_t> WALStorage::checkpoint([[maybe_unused]] bool delete_old_segment
 
     if (delete_old_segments) {
         // Remove all segments except the current one.
-        std::vector<uint64_t> to_remove;
+        std::vector<uint64_t> to_remove = {};
+
         for (uint64_t sid : segments_) {
             if (sid < current_segment_) {
                 to_remove.push_back(sid);

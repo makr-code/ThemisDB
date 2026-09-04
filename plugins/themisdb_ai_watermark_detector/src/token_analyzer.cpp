@@ -30,7 +30,8 @@ TokenStats TokenDistributionAnalyzer::analyze_tokens(
   stats.total_tokens = token_ids.size();
 
   // Compute frequency distribution
-  std::unordered_map<uint32_t, uint64_t> frequencies;
+  std::unordered_map<uint32_t, uint64_t> frequencies = {};
+
   for (uint32_t token : token_ids) {
     frequencies[token]++;
   }
@@ -42,7 +43,8 @@ TokenStats TokenDistributionAnalyzer::analyze_tokens(
   stats.normalized_entropy = (max_entropy > 0) ? (stats.entropy / max_entropy) : 0.0;
 
   // Compute frequency statistics
-  std::vector<uint64_t> freq_values;
+  std::vector<uint64_t> freq_values = {};
+
   for (const auto& [token, freq] : frequencies) {
     freq_values.push_back(freq);
   }
@@ -126,7 +128,8 @@ float TokenDistributionAnalyzer::compute_ngram_entrenchment(
   }
 
   // Entropy of n-gram distribution
-  std::unordered_map<uint32_t, uint64_t> dummy_freqs;
+  std::unordered_map<uint32_t, uint64_t> dummy_freqs = {};
+
   for (const auto& [hash, count] : ngram_counts) {
     dummy_freqs[hash] = count;
   }

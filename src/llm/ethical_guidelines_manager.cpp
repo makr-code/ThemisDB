@@ -718,7 +718,8 @@ size_t EthicalGuidelinesManager::mergePhilosophies(
 std::vector<std::string> EthicalGuidelinesManager::getRegisteredPhilosophies() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> schools;
+    std::vector<std::string> schools = {};
+
     schools.reserve(philosophy_profiles_.size());
     
     for (const auto& [school_id, profile] : philosophy_profiles_) {

@@ -276,7 +276,8 @@ static void BM_ORG03B_InvalidTelemetryReject(benchmark::State& state) {
     auto& collector = themis::observability::MetricsCollector::getInstance();
     collector.reset();
 
-    std::map<std::string, std::string> invalid_labels;
+    std::map<std::string, std::string> invalid_labels = {};
+
     for (std::size_t i = 0; i < kMaxMetricLabels + 1; ++i) {
         invalid_labels.emplace("label_" + std::to_string(i), "value");
     }

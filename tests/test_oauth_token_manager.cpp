@@ -117,7 +117,8 @@ TEST(OAuthTokenManager, ConcurrentGetAccessToken_OnlyOneRefresh) {
     // Launch multiple threads
     constexpr int kThreads = 8;
     std::vector<std::string> tokens(kThreads);
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < kThreads; ++i) {
         threads.emplace_back([&mgr, &tokens, i]() {
             try {

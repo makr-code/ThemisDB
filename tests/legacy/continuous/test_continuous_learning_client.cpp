@@ -102,7 +102,8 @@ TEST_F(ContinuousLearningClientTest, LogIndividualMetric) {
 TEST_F(ContinuousLearningClientTest, LogMetricsBatch) {
     ContinuousLearningClient client(config_);
     
-    std::vector<QualityMetric> metrics;
+    std::vector<QualityMetric> metrics = {};
+
     for (int i = 0; i < 3; i++) {
         QualityMetric metric;
         metric.type = MetricType::RELEVANCE;

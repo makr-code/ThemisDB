@@ -60,7 +60,8 @@ TEST(QuerySchedulerTest, UrgentPriorityDispatchedFirst) {
 
 TEST(QuerySchedulerTest, FIFOWithinSamePriority) {
     GraphQueryScheduler sched;
-    std::vector<int> ids;
+    std::vector<int> ids = {};
+
     for (int i = 0; i < 5; ++i)
         sched.submit("q" + std::to_string(i),
                      GraphQueryScheduler::Priority::NORMAL,
@@ -159,7 +160,8 @@ TEST(ShardBalancerTest, RemoveNonexistentShardReturnsFalse) {
 
 TEST(ShardBalancerTest, RoundRobinCyclesThroughAllShards) {
     GraphShardBalancer b(GraphShardBalancer::Strategy::ROUND_ROBIN, {"s1", "s2", "s3"});
-    std::vector<std::string> selected;
+    std::vector<std::string> selected = {};
+
     for (int i = 0; i < 6; ++i) {
       selected.push_back(b.selectShard());
     }

@@ -207,7 +207,8 @@ public:
      */
     std::vector<BlobStorageType> getRegisteredBackends() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::vector<BlobStorageType> types;
+        std::vector<BlobStorageType> types = {};
+
         for (const auto& pair : backends_) {
             types.push_back(pair.first);
         }

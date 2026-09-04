@@ -304,7 +304,8 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
     put_be32(idat_payload, adler32_of(filtered.data(), filtered.size()));
 
     // ── Assemble PNG ──────────────────────────────────────────────────────────
-    std::vector<uint8_t> png;
+    std::vector<uint8_t> png = {};
+
     png.reserve(8u + 25u + 12u + idat_payload.size() + 12u);
 
     static const uint8_t kSig[] = {0x89u,'P','N','G','\r','\n',0x1Au,'\n'};
@@ -464,7 +465,8 @@ std::vector<GeneratedImage> SDPlugin::generateBatch(
         const std::vector<std::string>& prompts,
         const SDGenerationConfig& cfg) {
     std::lock_guard<std::mutex> lock(generate_mutex_);
-    std::vector<GeneratedImage> results;
+    std::vector<GeneratedImage> results = {};
+
     results.reserve(prompts.size());
     for (const auto& p : prompts) {
         results.push_back(generateLocked(p, cfg));

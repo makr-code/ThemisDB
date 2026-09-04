@@ -129,7 +129,8 @@ std::optional<PromptMetrics> PromptPerformanceTracker::getMetrics(const std::str
 std::vector<PromptMetrics> PromptPerformanceTracker::getAllMetrics() const {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     
-    std::vector<PromptMetrics> result;
+    std::vector<PromptMetrics> result = {};
+
     result.reserve(metrics_.size());
     
     for (const auto& [id, metrics] : metrics_) {

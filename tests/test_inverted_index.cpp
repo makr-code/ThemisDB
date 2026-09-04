@@ -219,7 +219,8 @@ TEST_F(InvertedIndexTest, IndexAndSearchBasic) {
     ASSERT_EQ(results.size(), 2u);
 
     // Both pk1 and pk2 mention "learning"
-    std::vector<std::string> pks;
+    std::vector<std::string> pks = {};
+
     for (const auto& r : results) {
       pks.push_back(r.pk);
     }
@@ -346,7 +347,8 @@ TEST_F(InvertedIndexTest, PhraseSearchFindsExactPhrase) {
         idx_->searchPhrase("articles", "content", "machine learning", 10);
     ASSERT_TRUE(st.ok) << st.message;
     ASSERT_GE(results.size(), 2u);
-    std::vector<std::string> pks;
+    std::vector<std::string> pks = {};
+
     for (const auto& r : results) {
       pks.push_back(r.pk);
     }
@@ -387,7 +389,8 @@ TEST_F(InvertedIndexTest, FuzzySearchFindsTypos) {
         idx_->searchFuzzy("articles", "content", "lerning", 2, 10);
     ASSERT_TRUE(st.ok) << st.message;
 
-    std::vector<std::string> pks;
+    std::vector<std::string> pks = {};
+
     for (const auto& r : results) {
       pks.push_back(r.pk);
     }

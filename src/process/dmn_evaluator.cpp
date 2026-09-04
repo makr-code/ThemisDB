@@ -563,7 +563,8 @@ std::vector<std::string> DmnEvaluator::listDecisions() const {
     // Thread-safety: protect shared tables_ access
     std::lock_guard<std::mutex> lock(tables_mutex_);
     
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(tables_.size());
     for (const auto& [id, _] : tables_) {
       ids.push_back(id);

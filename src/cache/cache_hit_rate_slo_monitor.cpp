@@ -241,7 +241,8 @@ nlohmann::json CacheHitRateSloMonitor::getStatus() const {
 
 std::vector<std::string> CacheHitRateSloMonitor::getActiveAlertIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     if (!active_warning_alert_id_.empty()) {
         ids.push_back(active_warning_alert_id_);
     }

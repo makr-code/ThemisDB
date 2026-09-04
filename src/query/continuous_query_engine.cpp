@@ -268,7 +268,8 @@ ContinuousQueryEngineImpl::subscribe(const std::string& name,
 std::vector<ContinuousQueryInfo>
 ContinuousQueryEngineImpl::listQueries() const {
     std::lock_guard<std::mutex> lock(registry_mutex_);
-    std::vector<ContinuousQueryInfo> result;
+    std::vector<ContinuousQueryInfo> result = {};
+
     result.reserve(registry_.size());
     for (const auto& [name, entry] : registry_) {
         auto info = entry.info;

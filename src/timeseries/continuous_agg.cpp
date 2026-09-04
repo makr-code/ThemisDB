@@ -460,7 +460,8 @@ ContinuousAggMaterializationEngine::getAggregateStatus(const std::string& name) 
 
 std::vector<ContinuousAggMaterializationStatus>
 ContinuousAggMaterializationEngine::getAllStatus() const {
-    std::vector<ContinuousAggMaterializationStatus> result;
+    std::vector<ContinuousAggMaterializationStatus> result = {};
+
     result.reserve(def_order_.size());
     for (const auto& name : def_order_) {
         auto s = getAggregateStatus(name);

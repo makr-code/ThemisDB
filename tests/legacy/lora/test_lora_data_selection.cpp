@@ -174,7 +174,8 @@ TEST_F(DataSelectionPipelineTest, QualityFilter_RejectsWrongLanguage) {
 
 TEST_F(DataSelectionPipelineTest, QualityFilter_PassesValidSamples) {
     DataSelectionPipeline pipeline(cfg_);
-    std::vector<DataSample> input;
+    std::vector<DataSample> input = {};
+
     for (int i = 0; i < 5; ++i) {
         input.push_back(makeSample("s" + std::to_string(i), germanLegalText(60)));
     }
@@ -257,7 +258,8 @@ TEST_F(DataSelectionPipelineTest, Deduplication_EmptyInputReturnsEmpty) {
 
 TEST_F(DataSelectionPipelineTest, ClusterSample_ReducesToKSamples) {
     DataSelectionPipeline pipeline(cfg_);
-    std::vector<DataSample> input;
+    std::vector<DataSample> input = {};
+
     for (int i = 0; i < 20; ++i) {
         input.push_back(makeSample("s" + std::to_string(i), germanLegalText(60)));
     }
@@ -317,7 +319,8 @@ TEST_F(DataSelectionPipelineTest, Scoring_EmptyTextProducesZeroScores) {
 
 TEST_F(DataSelectionPipelineTest, StratifiedSample_RespectsTargetCount) {
     DataSelectionPipeline pipeline(cfg_);
-    std::vector<DataSample> samples;
+    std::vector<DataSample> samples = {};
+
     for (int i = 0; i < 50; ++i) {
         DataSample s("s" + std::to_string(i), germanLegalText(60));
         s.difficulty_score = static_cast<double>(i) / 50.0;
@@ -341,7 +344,8 @@ TEST_F(DataSelectionPipelineTest, StratifiedSample_InvalidRatiosSumNormalized) {
     bad_cfg.hard_ratio   = 0.0;
     pipeline.setConfig(bad_cfg);
 
-    std::vector<DataSample> samples;
+    std::vector<DataSample> samples = {};
+
     for (int i = 0; i < 20; ++i) {
         DataSample s("s" + std::to_string(i), germanLegalText(60));
         s.difficulty_score = static_cast<double>(i) / 20.0;
@@ -357,7 +361,8 @@ TEST_F(DataSelectionPipelineTest, StratifiedSample_InvalidRatiosSumNormalized) {
 
 TEST_F(DataSelectionPipelineTest, FullPipeline_SucceedsOnValidInput) {
     DataSelectionPipeline pipeline(cfg_);
-    std::vector<DataSample> input;
+    std::vector<DataSample> input = {};
+
     for (int i = 0; i < 30; ++i) {
         input.push_back(makeSample("doc" + std::to_string(i), germanLegalText(60)));
     }
@@ -375,7 +380,8 @@ TEST_F(DataSelectionPipelineTest, FullPipeline_EmptyInputSucceedsWithEmptyOutput
 
 TEST_F(DataSelectionPipelineTest, FullPipeline_AuditEntryPopulated) {
     DataSelectionPipeline pipeline(cfg_);
-    std::vector<DataSample> input;
+    std::vector<DataSample> input = {};
+
     for (int i = 0; i < 20; ++i) {
         input.push_back(makeSample("d" + std::to_string(i), germanLegalText(60)));
     }
@@ -387,7 +393,8 @@ TEST_F(DataSelectionPipelineTest, FullPipeline_AuditEntryPopulated) {
 
 TEST_F(DataSelectionPipelineTest, FullPipeline_ProgressCallbackInvoked) {
     DataSelectionPipeline pipeline(cfg_);
-    std::vector<DataSample> input;
+    std::vector<DataSample> input = {};
+
     for (int i = 0; i < 20; ++i) {
         input.push_back(makeSample("d" + std::to_string(i), germanLegalText(60)));
     }
@@ -405,7 +412,8 @@ TEST_F(DataSelectionPipelineTest, FullPipeline_ProgressCallbackInvoked) {
 
 TEST_F(DataSelectionPipelineTest, FullPipeline_SelectedSamplesSubsetOfInput) {
     DataSelectionPipeline pipeline(cfg_);
-    std::vector<DataSample> input;
+    std::vector<DataSample> input = {};
+
     for (int i = 0; i < 20; ++i) {
         input.push_back(makeSample("x" + std::to_string(i), germanLegalText(60)));
     }
@@ -416,7 +424,8 @@ TEST_F(DataSelectionPipelineTest, FullPipeline_SelectedSamplesSubsetOfInput) {
 
 TEST_F(DataSelectionPipelineTest, FullPipeline_AuditSelectedIdsMatchOutputIds) {
     DataSelectionPipeline pipeline(cfg_);
-    std::vector<DataSample> input;
+    std::vector<DataSample> input = {};
+
     for (int i = 0; i < 20; ++i) {
         input.push_back(makeSample("z" + std::to_string(i), germanLegalText(60)));
     }
@@ -424,7 +433,8 @@ TEST_F(DataSelectionPipelineTest, FullPipeline_AuditSelectedIdsMatchOutputIds) {
     EXPECT_TRUE(result.success);
 
     // audit selected_ids should equal output sample ids
-    std::vector<std::string> output_ids;
+    std::vector<std::string> output_ids = {};
+
     for (const auto& s : result.selected_samples) {
       output_ids.push_back(s.id);
     }
@@ -447,7 +457,8 @@ TEST_F(DataSelectionPipelineTest, LiveReload_NewConfigAppliedOnNextRun) {
     updated.target_samples = 3;
     pipeline.setConfig(updated);
 
-    std::vector<DataSample> input;
+    std::vector<DataSample> input = {};
+
     for (int i = 0; i < 20; ++i) {
         input.push_back(makeSample("r" + std::to_string(i), germanLegalText(60)));
     }
@@ -689,7 +700,8 @@ TEST(AuditEntryTest, FullPipeline_AuditEntryIsJSONL) {
     cfg.audit             = true;
 
     DataSelectionPipeline pipeline(cfg);
-    std::vector<DataSample> input;
+    std::vector<DataSample> input = {};
+
     for (int i = 0; i < 10; ++i) {
         DataSample s("d" + std::to_string(i),
                      std::string(320, 'a'));
@@ -1279,7 +1291,8 @@ TEST(ComputeMetricsTest, QualityScoreAveraged) {
 
 TEST(ComputeMetricsTest, FullPipeline_MetricsFromRun) {
     // Build 20 samples with distinct text so pipeline has something to work with
-    std::vector<DataSample> samples;
+    std::vector<DataSample> samples = {};
+
     for (int i = 0; i < 20; ++i) {
         DataSample s;
         s.id   = "s" + std::to_string(i);
@@ -1488,7 +1501,8 @@ TEST(AuditEntryTest, DomainDistribution_PopulatedFromSelectedSamples) {
 
     DataSelectionPipeline pipeline(cfg);
 
-    std::vector<DataSample> input;
+    std::vector<DataSample> input = {};
+
     for (int i = 0; i < 5; ++i) {
         DataSample s("leg_" + std::to_string(i),
                      "Vertrag Klausel Haftung Verwaltungsakt Verpflichtung "

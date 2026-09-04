@@ -117,7 +117,8 @@ TEST(ConnectionPoolTest, ConcurrentAcquireAndRelease) {
         return std::make_shared<MockConnection>(0);
     });
     std::atomic<int> success_count{0};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 8; ++i) {
         threads.emplace_back([&] {
             auto h = pool.acquire();
@@ -203,7 +204,8 @@ TEST(ThreadPoolTest, ShutdownPreventsNewSubmit) {
 TEST(ThreadPoolTest, ConcurrentSubmission) {
     GraphThreadPool pool(4);
     std::atomic<int> counter{0};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 8; ++i) {
         threads.emplace_back([&] {
             auto f = pool.submit([&] { ++counter; });
@@ -300,7 +302,8 @@ TEST(BufferPoolTest, BufferZeroedOnReturn) {
 TEST(BufferPoolTest, ConcurrentAcquireAndRelease) {
     GraphBufferPool pool(4, 256);
     std::atomic<int> success{0};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 8; ++i) {
         threads.emplace_back([&] {
             auto b = pool.acquire();

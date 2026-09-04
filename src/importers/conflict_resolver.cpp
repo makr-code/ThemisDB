@@ -147,7 +147,8 @@ ConflictReasonType ImportConflictResolver::determineConflictReason(
     affected_fields.clear();
 
     // Collect all keys from both entities
-    std::set<std::string> all_keys;
+    std::set<std::string> all_keys = {};
+
     if (existing.is_object()) {
         for (const auto& item : existing.items()) {
             all_keys.insert(item.key());

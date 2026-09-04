@@ -140,7 +140,8 @@ public:
     /// @brief Invalidate all plans whose hash starts with @p prefix.
     size_t invalidatePrefix(const std::string& prefix) {
         std::lock_guard<std::mutex> lk(mu_);
-        std::vector<std::string> to_remove;
+        std::vector<std::string> to_remove = {};
+
         for (auto& [k, _] : plans_)
             if (k.rfind(prefix, 0) == 0) {
               to_remove.push_back(k);
@@ -374,7 +375,8 @@ TEST_F(PlanCacheTest, QPC_10_InvalidationNoMatchLeavesIntact) {
 TEST_F(PlanCacheTest, QPC_11_ConcurrentReadsNoCorruption) {
     cache.put(makePlan("shared", "BFS", 7.0));
     std::atomic<int> success_count{0};
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int i = 0; i < 8; ++i) {
         readers.emplace_back([&] {
             for (int j = 0; j < 100; ++j) {
@@ -394,7 +396,8 @@ TEST_F(PlanCacheTest, QPC_11_ConcurrentReadsNoCorruption) {
 // QPC-12: concurrent writes serialize correctly — final size equals capacity
 TEST_F(PlanCacheTest, QPC_12_ConcurrentWritesSerialize) {
     qpc::QueryPlanCache big_cache{50};
-    std::vector<std::thread> writers;
+    std::vector<std::thread> writers = {};
+
     for (int t = 0; t < 4; ++t) {
         writers.emplace_back([&, t] {
             for (int i = 0; i < 20; ++i) {
@@ -559,7 +562,8 @@ TEST_F(PlanCacheTest, QPC_25_DifferentQueriesDoNotSharePlan) {
 TEST_F(PlanCacheTest, QPC_26_ConcurrentStressNoDeadlock) {
     qpc::QueryPlanCache stress_cache{16};
     std::atomic<bool> stop{false};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&, t] {
             std::mt19937 rng(kCanonicalSeed + static_cast<uint32_t>(t));
@@ -974,7 +978,8 @@ TEST_F(MultiTierTest, CEM_14_DemotionChainHotToWarmToCold) {
 
 // CEM-15: concurrent puts and gets do not corrupt tier counts
 TEST_F(MultiTierTest, CEM_15_ConcurrentOpsNoCorruption) {
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&, t] {
             for (int i = 0; i < 50; ++i) {
@@ -1137,7 +1142,8 @@ TEST_F(MultiTierTest, CEM_27_PromotionsDemotionsConsistent) {
 // CEM-28: cache is thread-safe under high concurrent read-write load
 TEST_F(MultiTierTest, CEM_28_ThreadSafeHighLoad) {
     std::atomic<bool> stop{false};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 8; ++t) {
         threads.emplace_back([&, t] {
             std::mt19937 rng(kCanonicalSeed + static_cast<uint32_t>(t));
@@ -1507,7 +1513,8 @@ TEST_F(ConnectionPoolTest, RES_04_ScaleUpBelowMax) {
 
 // RES-05: pool does not exceed max_size
 TEST_F(ConnectionPoolTest, RES_05_DoesNotExceedMaxSize) {
-    std::vector<int> ids;
+    std::vector<int> ids = {};
+
     for (size_t i = 0; i < 8; ++i) {
         const int id = pool.acquire();
         if (id >= 0) {
@@ -1535,7 +1542,8 @@ TEST_F(ConnectionPoolTest, RES_06_TimeoutWhenExhausted) {
 
 // RES-07: acquire/release pairs balance correctly (acquired == released)
 TEST_F(ConnectionPoolTest, RES_07_AcquireReleasePairsBalance) {
-    std::vector<int> ids;
+    std::vector<int> ids = {};
+
     for (int i = 0; i < 5; ++i) {
       ids.push_back(pool.acquire());
     }
@@ -1549,7 +1557,8 @@ TEST_F(ConnectionPoolTest, RES_07_AcquireReleasePairsBalance) {
 // RES-08: peak_size tracks high-water mark
 TEST_F(ConnectionPoolTest, RES_08_PeakSizeTracksHighWaterMark) {
     // Acquire enough to exceed min_size
-    std::vector<int> ids;
+    std::vector<int> ids = {};
+
     for (int i = 0; i < 6; ++i) {
       ids.push_back(pool.acquire());
     }
@@ -1566,7 +1575,8 @@ TEST_F(ConnectionPoolTest, RES_09_ConcurrentAcquiresAllValid) {
     std::atomic<int> valid_count{0};
     std::vector<std::thread> threads;
     std::mutex id_mu;
-    std::vector<int> acquired_ids;
+    std::vector<int> acquired_ids = {};
+
     for (int t = 0; t < 8; ++t) {
         threads.emplace_back([&] {
             const int id = big.acquire();
@@ -1665,7 +1675,8 @@ TEST(ThreadPoolTest, RES_16_ExceptionInTaskDoesNotCrashPool) {
 TEST(ThreadPoolTest, RES_17_ConcurrentSubmissionsNoLoss) {
     res::ThreadPool tp{4, 256};
     std::atomic<int> total{0};
-    std::vector<std::thread> producers;
+    std::vector<std::thread> producers = {};
+
     for (int p = 0; p < 4; ++p) {
         producers.emplace_back([&] {
             for (int i = 0; i < 20; ++i)
@@ -1761,7 +1772,8 @@ TEST(BufferPoolTest, RES_24_MetricsTrackAllocsAndFrees) {
 // RES-25: concurrent alloc/free from multiple threads is safe
 TEST(BufferPoolTest, RES_25_ConcurrentAllocFreeSafe) {
     res::BufferPool bp;
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&] {
             for (int i = 0; i < 50; ++i) {
@@ -1785,7 +1797,8 @@ TEST_F(ConnectionPoolTest, RES_26_SaturationStressBounds) {
     std::atomic<int> acquired_count{0};
     std::vector<std::thread> threads;
     std::mutex vec_mu;
-    std::vector<int> ids;
+    std::vector<int> ids = {};
+
     for (int t = 0; t < 10; ++t) {
         threads.emplace_back([&] {
             const int id = sat.acquire();
@@ -2071,7 +2084,8 @@ protected:
                                                double cpu = 10.0,
                                                int pending = 0,
                                                double rt = 20.0) {
-        std::vector<lbs::ShardMetrics> shards;
+        std::vector<lbs::ShardMetrics> shards = {};
+
         for (int i = 0; i < count; ++i)
             shards.push_back({"shard" + std::to_string(i), cpu, pending, rt});
         return shards;
@@ -2218,7 +2232,8 @@ TEST_F(LoadBalancerTest, LBS_14_HighVarianceSkewedLoad) {
 TEST_F(LoadBalancerTest, LBS_15_ConcurrentEnqueueNoLoss) {
     lbs::LoadAwareShardSelector sel(makeShards(4));
     lbs::QueryScheduler sched(&sel);
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&, t] {
             for (int i = 0; i < 25; ++i)

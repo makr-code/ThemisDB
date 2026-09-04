@@ -308,20 +308,23 @@ std::string EpkSerializer::exportText(
     }
 
     // Build id→node map
-    std::map<std::string, const ProcessNodeInfo*> node_map;
+    std::map<std::string, const ProcessNodeInfo*> node_map = {};
+
     for (const auto& n : nodes) {
         node_map[n.node_id] = &n;
     }
 
     // Find start nodes (no incoming edges)
-    std::unordered_set<std::string> has_incoming;
+    std::unordered_set<std::string> has_incoming = {};
+
     for (const auto& e : edges) {
         has_incoming.insert(e.to_node);
     }
 
     // Emit nodes in BFS order
     std::unordered_set<std::string> visited;
-    std::queue<std::string> q;
+    std::queue<std::string> q = {};
+
     for (const auto& n : nodes) {
         if (has_incoming.find(n.node_id) == has_incoming.end()) {
             q.push(n.node_id);

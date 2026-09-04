@@ -151,7 +151,8 @@ std::vector<SchemaValidationError> SchemaAutoDetector::validateRow(
     const std::vector<std::string>& values,
     const DetectedSchema& schema)
 {
-    std::vector<SchemaValidationError> errors;
+    std::vector<SchemaValidationError> errors = {};
+
     const size_t n = std::min(columns.size(), values.size());
     
     // PHASE-2-HARDENING: Default null policy (NULLABLE for backward compatibility)

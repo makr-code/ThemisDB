@@ -65,7 +65,8 @@ Result<std::vector<uint8_t>> RLECodec::encodeInt32(const std::vector<int32_t>& d
         return std::vector<uint8_t>();
     }
 
-    std::vector<uint8_t> encoded;
+    std::vector<uint8_t> encoded = {};
+
     encoded.reserve(data.size() * sizeof(int32_t) / 2); // Estimate
 
     size_t i = 0;
@@ -103,7 +104,8 @@ Result<std::vector<uint8_t>> RLECodec::encodeInt64(const std::vector<int64_t>& d
         return std::vector<uint8_t>();
     }
 
-    std::vector<uint8_t> encoded;
+    std::vector<uint8_t> encoded = {};
+
     encoded.reserve(data.size() * sizeof(int64_t) / 2);
 
     size_t i = 0;
@@ -1555,7 +1557,8 @@ Result<std::vector<ColumnSegment>> ColumnarFormatManager::createSegments(
         ));
     }
 
-    std::vector<ColumnSegment> segments;
+    std::vector<ColumnSegment> segments = {};
+
     segments.reserve(column_types.size());
 
     for (size_t i = 0; i < column_types.size(); ++i) {
@@ -1592,7 +1595,8 @@ Result<std::vector<ColumnSegment>> ColumnarFormatManager::projectColumns(
     const std::vector<ColumnSegment>& segments,
     const std::vector<size_t>& column_indices
 ) {
-    std::vector<ColumnSegment> projected;
+    std::vector<ColumnSegment> projected = {};
+
     projected.reserve(column_indices.size());
 
     for (size_t idx : column_indices) {

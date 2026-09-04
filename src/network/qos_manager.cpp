@@ -1020,7 +1020,8 @@ QoSManager::getAllConnectionStats() const {
         }
     }
 
-    std::vector<ConnectionStats> result;
+    std::vector<ConnectionStats> result = {};
+
     result.reserve(ids.size());
     for (uint64_t id : ids) {
         result.push_back(getConnectionStats(id));
@@ -1153,7 +1154,8 @@ QoSManager::getAllTenantStats() const {
         }
     }
 
-    std::vector<TenantQuotaStats> result;
+    std::vector<TenantQuotaStats> result = {};
+
     result.reserve(ids.size());
     for (const auto& id : ids) {
         result.push_back(getTenantStats(id));

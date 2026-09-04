@@ -78,7 +78,8 @@ std::vector<Row> ResultSet::page(std::size_t offset, std::size_t limit) const
     // Gap B008: previously iterated [it, it_end) without RangeValidator.
     RangeValidator<std::vector<Row>::const_iterator> sub_range(it, it_end);
 
-    std::vector<Row> result;
+    std::vector<Row> result = {};
+
     result.reserve(sub_range.size());
     for (auto pos = sub_range.begin(); pos != sub_range.end(); ++pos) {
         BoundsChecker::check_dereference(pos, it, it_end);

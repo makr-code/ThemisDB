@@ -129,7 +129,8 @@ FeatMatrix extractFeatures(const std::vector<DataPoint> &data, const std::string
     }
 
     // Build sorted feature name list (exclude target)
-    std::set<std::string> name_set;
+    std::set<std::string> name_set = {};
+
     for (const auto &p : data) {
         for (const auto &[k, v] : p.fields) {
             if (k == target) {
@@ -165,7 +166,8 @@ FeatMatrix extractFeatures(const std::vector<DataPoint> &data, const std::string
 
 /** Extract target values as strings (for classification label encoding). */
 std::vector<std::string> extractTargetStr(const std::vector<DataPoint> &data, const std::string &target) {
-    std::vector<std::string> out;
+    std::vector<std::string> out = {};
+
     out.reserve(data.size());
     for (const auto &p : data) {
         auto it = p.fields.find(target);
@@ -195,7 +197,8 @@ std::vector<std::string> extractTargetStr(const std::vector<DataPoint> &data, co
 
 /** Extract target values as doubles (for regression). */
 std::vector<double> extractTargetNum(const std::vector<DataPoint> &data, const std::string &target) {
-    std::vector<double> out;
+    std::vector<double> out = {};
+
     out.reserve(data.size());
     for (const auto &p : data) {
         auto it = p.fields.find(target);
@@ -311,7 +314,8 @@ struct LabelEncoder {
     }
 
     std::vector<int> encode(const std::vector<std::string> &labels) const {
-        std::vector<int> out;
+        std::vector<int> out = {};
+
         out.reserve(labels.size());
         for (const auto &l : labels) {
             auto it = index.find(l);
@@ -489,7 +493,8 @@ struct DecisionTree {
 
         for (int f : feats) {
             // Collect unique threshold candidates (midpoints)
-            std::vector<double> vals;
+            std::vector<double> vals = {};
+
             vals.reserve(idx.size());
             for (size_t i : idx) {
                 vals.push_back(X[i][static_cast<size_t>(f)]);
@@ -558,7 +563,8 @@ struct DecisionTree {
             return idx.empty() ? 0.0 : s / static_cast<double>(idx.size());
         }
         // Classification: return P(majority class)
-        std::map<int, int> cnt;
+        std::map<int, int> cnt = {};
+
         for (size_t i : idx) {
             cnt[y_cls[i]]++;
         }
@@ -646,7 +652,8 @@ struct DecisionTree {
         }
         // Gini impurity reduction
         auto gini = [&]([[maybe_unused]] const std::vector<size_t> &s) {
-            std::map<int, int> cnt;
+            std::map<int, int> cnt = {};
+
             for (size_t i : s) {
                 cnt[y_cls[i]]++;
             }
@@ -931,7 +938,8 @@ std::vector<std::pair<std::vector<size_t>, std::vector<size_t>>> makeFolds(size_
         size_t start = static_cast<size_t>(fi) * fold_size;
         size_t end   = (fi == k - 1) ? n : start + fold_size;
         std::vector<size_t> val(idx.begin() + static_cast<ptrdiff_t>(start), idx.begin() + static_cast<ptrdiff_t>(end));
-        std::vector<size_t> train;
+        std::vector<size_t> train = {};
+
         for (size_t i = 0; i < n; ++i) {
             if (i < start || i >= end) {
                 train.push_back(idx[i]);
@@ -1478,7 +1486,8 @@ HPGrid defaultHPGrid(ModelAlgorithm algo) {
 }
 
 std::map<std::string, double> sampleHP(const HPGrid &grid, std::mt19937 &rng) {
-    std::map<std::string, double> hp;
+    std::map<std::string, double> hp = {};
+
     for (const auto &[name, vals] : grid) {
         hp[name] = vals[rng() % vals.size()];
     }
@@ -1556,7 +1565,8 @@ AutoMLModel &AutoMLModel::operator=(AutoMLModel &&) noexcept = default;
 
 std::vector<std::string> AutoMLModel::predict(const std::vector<DataPoint> &data) const {
     std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
-    std::vector<std::string> out;
+    std::vector<std::string> out = {};
+
     out.reserve(data.size());
     for (const auto &p : data) {
         out.push_back(predictOne(p));
@@ -1581,7 +1591,8 @@ std::vector<std::map<std::string, double>> AutoMLModel::predictProba(const std::
     for (const auto &p : data) {
         auto row   = impl_->prepareRow(p);
         auto probs = impl_->model->predictProbaOne(row);
-        std::map<std::string, double> m;
+        std::map<std::string, double> m = {};
+
         for (size_t c = 0; c < probs.size(); ++c) {
             m[impl_->label_enc.decode(static_cast<int>(c))] = probs[c];
         }
@@ -1592,7 +1603,8 @@ std::vector<std::map<std::string, double>> AutoMLModel::predictProba(const std::
 
 std::vector<ModelExplanation> AutoMLModel::explain(const std::vector<DataPoint> &data) const {
     std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
-    std::vector<ModelExplanation> out;
+    std::vector<ModelExplanation> out = {};
+
     out.reserve(data.size());
     for (const auto &p : data) {
         out.push_back(explainOne(p));
@@ -1973,7 +1985,8 @@ fitAndEval(const std::vector<std::vector<double>> &X_train, const std::vector<in
                     sum_y += v;
                 }
                 double mean_y = y_reg_train.empty() ? 0.5 : sum_y / static_cast<double>(y_reg_train.size());
-                std::vector<int> y_bin;
+                std::vector<int> y_bin = {};
+
                 y_bin.reserve(y_reg_train.size());
                 for (double v : y_reg_train) {
                     y_bin.push_back(v >= mean_y ? 1 : 0);
@@ -2294,7 +2307,8 @@ AutoMLModel AutoML::trainClassifier(const std::vector<DataPoint> &data, const Au
 
     // Regression training must stay robust even when model-specific explanation
     // paths are unavailable; expose a stable uniform fallback importance map.
-    std::map<std::string, double> importance;
+    std::map<std::string, double> importance = {};
+
     for (const auto &fn : result.impl_->feat_names) {
         importance[fn] = 0.0;
     }
@@ -2330,7 +2344,8 @@ AutoMLModel AutoML::trainRegressor(const std::vector<DataPoint> &data, const Aut
 
     // Feature importance: permutation SHAP over a subsample
     size_t shap_samples = std::min(data.size(), size_t(200));
-    std::map<std::string, double> importance;
+    std::map<std::string, double> importance = {};
+
     for (const auto &fn : result.impl_->feat_names) {
         importance[fn] = 0.0;
     }

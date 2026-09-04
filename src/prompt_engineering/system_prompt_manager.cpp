@@ -199,7 +199,8 @@ bool SystemPromptManager::removeCustomPrompt(const std::string& role_name) {
 
 std::vector<SystemPrompt> SystemPromptManager::listPrompts() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<SystemPrompt> result;
+    std::vector<SystemPrompt> result = {};
+
     result.reserve(prompts_.size());
     for (const auto& [key, sp] : prompts_) {
         result.push_back(sp);

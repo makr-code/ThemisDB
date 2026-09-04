@@ -249,7 +249,8 @@ public:
             throw std::invalid_argument("buildRoot: artifacts must not be empty");
         }
         auto sorted = sortedArtifacts(artifacts);
-        std::vector<std::string> layer;
+        std::vector<std::string> layer = {};
+
         layer.reserve(sorted.size());
         for (const auto& a : sorted) {
             layer.push_back(leafHash(a));
@@ -279,7 +280,8 @@ public:
         }
 
         // Build all layers and collect proof path
-        std::vector<std::string> layer;
+        std::vector<std::string> layer = {};
+
         layer.reserve(sorted.size());
         for (const auto& a : sorted) {
             layer.push_back(leafHash(a));
@@ -293,7 +295,8 @@ public:
             if (layer.size() % 2 != 0) {
                 layer.push_back(layer.back()); // duplicate last leaf
             }
-            std::vector<std::string> next;
+            std::vector<std::string> next = {};
+
             next.reserve(layer.size() / 2);
             for (size_t i = 0; i < layer.size(); i += 2) {
                 next.push_back(combineHashes(layer[i], layer[i + 1]));
@@ -377,7 +380,8 @@ private:
             if (layer.size() % 2 != 0) {
                 layer.push_back(layer.back());
             }
-            std::vector<std::string> next;
+            std::vector<std::string> next = {};
+
             next.reserve(layer.size() / 2);
             for (size_t i = 0; i < layer.size(); i += 2) {
                 next.push_back(combineHashes(layer[i], layer[i + 1]));
@@ -465,7 +469,8 @@ public:
         // Use same batch Merkle root (single artifact → deterministic)
         const std::string batch_root = proof_engine_->buildRoot({artifact});
 
-        std::unordered_map<DistributionShardId, DistributionEventId> result;
+        std::unordered_map<DistributionShardId, DistributionEventId> result = {};
+
         for (const auto& target : target_shard_ids) {
             result[target] = distributeArtifact(artifact, source_shard_id, target, batch_root);
         }
@@ -603,7 +608,8 @@ public:
             });
 
         std::vector<DistributionEventId> event_ids;
-        std::vector<std::string> receipt_hashes;
+        std::vector<std::string> receipt_hashes = {};
+
         for (const auto& r : confirmed) {
             event_ids.push_back(r.event_id);
             receipt_hashes.push_back(r.receipt_hash);
@@ -617,7 +623,8 @@ public:
                 if (layer.size() % 2 != 0) {
                   layer.push_back(layer.back());
                 }
-                std::vector<std::string> next;
+                std::vector<std::string> next = {};
+
                 next.reserve(layer.size() / 2);
                 for (size_t i = 0; i < layer.size(); i += 2) {
                     next.push_back(combineHashes(layer[i], layer[i + 1]));

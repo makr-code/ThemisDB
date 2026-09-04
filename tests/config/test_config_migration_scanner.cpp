@@ -158,7 +158,8 @@ TEST_F(ConfigMigrationScannerTest, ScanFileMultipleLegacyPathsInOneFile) {
 
     auto matches = cms::scanFile(f);
 
-    std::set<std::string> found_paths;
+    std::set<std::string> found_paths = {};
+
     for (const auto& m : matches) {
         found_paths.insert(m.legacy_path);
     }
@@ -383,7 +384,8 @@ TEST_F(ConfigMigrationScannerTest, RecursiveScanFindsMatchesInSubdirectories) {
     writeFile(sub / "clean.yaml", "key: value\n");
 
     // Collect matches from all yaml files in test_dir_
-    std::vector<cms::ScanMatch> all_matches;
+    std::vector<cms::ScanMatch> all_matches = {};
+
     for (const auto& entry : fs::recursive_directory_iterator(test_dir_,
             fs::directory_options::skip_permission_denied)) {
         if (!entry.is_regular_file()) {
@@ -411,7 +413,8 @@ TEST_F(ConfigMigrationScannerTest, NonScanableFilesAreSkipped) {
     writeFile(test_dir_ / "source.cpp", "// config/lora_training_config.yaml\n");
     writeFile(test_dir_ / "readme.md", "config/lora_training_config.yaml\n");
 
-    std::vector<cms::ScanMatch> all_matches;
+    std::vector<cms::ScanMatch> all_matches = {};
+
     for (const auto& entry : fs::recursive_directory_iterator(test_dir_,
             fs::directory_options::skip_permission_denied)) {
         if (!entry.is_regular_file()) {

@@ -64,7 +64,8 @@ public:
         }
         
         // Collect results
-        std::vector<WriteResult> results;
+        std::vector<WriteResult> results = {};
+
         results.reserve(documents.size());
         
         for (auto& future : futures) {

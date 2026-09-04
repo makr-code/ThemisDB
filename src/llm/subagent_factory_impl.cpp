@@ -243,7 +243,8 @@ public:
     std::vector<SubagentInferenceResult> inferBatch(
         const std::vector<InferenceRequest>& requests,
         const std::optional<LLMCorrelationContext>& ctx) override {
-        std::vector<SubagentInferenceResult> results;
+        std::vector<SubagentInferenceResult> results = {};
+
         for (const auto& req : requests) {
             results.push_back(infer(req, ctx));
         }
@@ -418,7 +419,8 @@ public:
             worker_pool_
         );
 
-        std::shared_ptr<PromptPolicy> prompt_policy;
+        std::shared_ptr<PromptPolicy> prompt_policy = {};
+
         if (!config.policy.prompt_policy_id.empty()) {
             std::unique_lock<std::mutex> plock(policies_mutex_);
             auto it = policies_.find(config.policy.prompt_policy_id);

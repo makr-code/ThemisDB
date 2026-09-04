@@ -158,7 +158,8 @@ TEST_F(RedisCacheTest, ConsistentHashing_MultiNode_UsesMultipleNodes) {
     cfg.reconnect_interval_ms = 100000;
     auto c = RedisCache::create(cfg);
 
-    std::unordered_set<std::string> nodes_used;
+    std::unordered_set<std::string> nodes_used = {};
+
     for (int i = 0; i < 50; ++i) {
         nodes_used.insert(c->nodeForKey("diverse:key:" + std::to_string(i)));
     }

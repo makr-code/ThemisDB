@@ -293,7 +293,8 @@ private:
         size_t window = history_.size() - start;  // ≥ MIN_HISTORY_FOR_STRIDE
 
         // Compute signed differences (cast to int64 to handle backward strides).
-        std::unordered_map<int64_t, size_t> stride_counts;
+        std::unordered_map<int64_t, size_t> stride_counts = {};
+
         for (size_t i = start + 1; i < history_.size(); ++i) {
             int64_t diff = static_cast<int64_t>(history_[i].address) -
                            static_cast<int64_t>(history_[i - 1].address);

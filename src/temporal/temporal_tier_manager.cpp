@@ -367,7 +367,8 @@ size_t TemporalTierManager::compactTable(const std::string& table_name) {
     size_t total = 0;
 
     // Collect all keys in the table
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     if (auto tit = hot_.find(table_name); tit != hot_.end())
         for (const auto& [k, _] : tit->second) {
           keys.push_back(k);
@@ -683,7 +684,8 @@ TemporalTierManager::searchBlock(const VersionBlock& block, Timestamp as_of) {
     //
     // Simple O(k) scan for correctness; can be optimised with a separate
     // sys_start array if block sizes grow large.
-    std::optional<VersionedDocument> result;
+    std::optional<VersionedDocument> result = {};
+
     for (const auto& entry_str : block.entries) {
         try {
             auto j = nlohmann::json::parse(entry_str);
@@ -727,7 +729,8 @@ TemporalTierManager::allFromBlock(const VersionBlock& block) {
 std::vector<VersionedDocument>
 TemporalTierManager::rangeFromBlock(const VersionBlock& block,
                                      const TimeRange& range) {
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (const auto& entry_str : block.entries) {
         try {
             auto j = nlohmann::json::parse(entry_str);

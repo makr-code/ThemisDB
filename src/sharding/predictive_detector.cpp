@@ -229,7 +229,8 @@ void PredictiveFailureDetector::checkAllShards() {
 std::vector<FailurePrediction> PredictiveFailureDetector::getPredictions() {
     std::lock_guard<std::mutex> lock(predictions_mutex_);
     
-    std::vector<FailurePrediction> predictions;
+    std::vector<FailurePrediction> predictions = {};
+
     predictions.reserve(cached_predictions_.size());
     
     for (const auto& [shard_id, prediction] : cached_predictions_) {
@@ -314,7 +315,8 @@ std::vector<PredictiveShardMetrics> PredictiveFailureDetector::getMetricsHistory
     
     auto cutoff_time = std::chrono::system_clock::now() - lookback;
     
-    std::vector<PredictiveShardMetrics> result;
+    std::vector<PredictiveShardMetrics> result = {};
+
     for (const auto& metrics : it->second) {
         if (metrics.timestamp >= cutoff_time) {
             result.push_back(metrics);

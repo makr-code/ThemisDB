@@ -86,7 +86,8 @@ TEST_F(LoRASecurityTest, TrustedSignerManagement) {
 
 TEST_F(LoRASecurityTest, DetectWeightAnomalies_Normal) {
     // Normal distribution
-    std::vector<float> weights;
+    std::vector<float> weights = {};
+
     for (int i = 0; i < 1000; i++) {
         weights.push_back(static_cast<float>(i) / 1000.0f);
     }
@@ -96,7 +97,8 @@ TEST_F(LoRASecurityTest, DetectWeightAnomalies_Normal) {
 }
 
 TEST_F(LoRASecurityTest, DetectWeightAnomalies_Outliers) {
-    std::vector<float> weights;
+    std::vector<float> weights = {};
+
     for (int i = 0; i < 1000; i++) {
         weights.push_back(1.0f);
     }

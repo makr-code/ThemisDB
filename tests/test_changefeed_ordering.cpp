@@ -128,7 +128,8 @@ TEST_F(ChangefeedOrderingTest, PerKeyOrdering) {
     auto events = changefeed_->listEvents(options);
     
     // Filter events for our key
-    std::vector<Changefeed::ChangeEvent> key_events;
+    std::vector<Changefeed::ChangeEvent> key_events = {};
+
     for (const auto& evt : events) {
         if (evt.key == key) {
             key_events.push_back(evt);
@@ -171,7 +172,8 @@ TEST_F(ChangefeedOrderingTest, ConcurrentWritesHaveUniqueSequences) {
     }
     
     // Collect all sequences
-    std::set<uint64_t> all_sequences;
+    std::set<uint64_t> all_sequences = {};
+
     for (const auto& thread_seqs : thread_sequences) {
         for (uint64_t seq : thread_seqs) {
             all_sequences.insert(seq);

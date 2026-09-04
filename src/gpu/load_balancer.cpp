@@ -300,7 +300,8 @@ size_t GPULoadBalancer::healthyDevices() const {
 
 std::vector<GPULoadBalancer::DeviceLoad> GPULoadBalancer::getDeviceLoads() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<DeviceLoad> result;
+    std::vector<DeviceLoad> result = {};
+
     result.reserve(devices_.size());
     for (const auto &e : devices_) {
         DeviceLoad dl;

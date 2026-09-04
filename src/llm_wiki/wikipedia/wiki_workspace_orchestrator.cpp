@@ -378,7 +378,8 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
     }
 
     {
-        std::vector<std::string> seen_sections;
+        std::vector<std::string> seen_sections = {};
+
         for (const auto& chunk : chunks) {
             if (!chunk.section_title.empty()) {
                 std::string ss = slugify(chunk.section_title);
@@ -512,12 +513,14 @@ WikiLintResult WikiWorkspaceOrchestrator::lint(
     }
     WikiState state = loadState(workspace_root);
 
-    std::unordered_set<std::string> link_targets;
+    std::unordered_set<std::string> link_targets = {};
+
     for (const auto& lnk : state.links) {
         link_targets.insert(lnk.to);
     }
 
-    std::unordered_set<std::string> page_slugs;
+    std::unordered_set<std::string> page_slugs = {};
+
     for (const auto& [slug, meta] : state.pages) {
         page_slugs.insert(slug);
     }
@@ -528,7 +531,8 @@ WikiLintResult WikiWorkspaceOrchestrator::lint(
         }
     }
 
-    std::unordered_set<std::string> reported_missing;
+    std::unordered_set<std::string> reported_missing = {};
+
     for (const auto& lnk : state.links) {
         if (page_slugs.find(lnk.to) == page_slugs.end() && reported_missing.find(lnk.to) == reported_missing.end()) {
             result.missing_backlinks.push_back(lnk.to);
@@ -589,7 +593,8 @@ WikiWorkspaceStats WikiWorkspaceOrchestrator::stats(const std::string& workspace
         }
     }
 
-    std::unordered_set<std::string> link_targets;
+    std::unordered_set<std::string> link_targets = {};
+
     for (const auto& lnk : state.links) {
         link_targets.insert(lnk.to);
     }

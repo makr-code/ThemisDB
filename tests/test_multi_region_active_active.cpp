@@ -68,7 +68,8 @@ TEST(MultiRegionActiveActiveTest, GetAllRegionStalenessCoversLocalAndPeers) {
     auto all = mgr.getAllRegionStaleness();
     // Should have local + 2 peers = 3 entries
     EXPECT_EQ(all.size(), 3u);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (const auto& info : all) {
       ids.push_back(info.region_id);
     }

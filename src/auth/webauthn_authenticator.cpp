@@ -407,7 +407,8 @@ static std::vector<uint8_t> base64UrlDecodeImpl(const std::string &input) {
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
     };
 
-    std::vector<uint8_t> out;
+    std::vector<uint8_t> out = {};
+
     out.reserve(padded.size() / 4 * 3);
 
     for (std::size_t i = 0; i < padded.size(); i += 4) {
@@ -1059,7 +1060,8 @@ void WebAuthnAuthenticator::verifySignature(const std::vector<uint8_t> &auth_dat
     }
 
     // Signed data = authData || SHA256(clientDataJSON)
-    std::vector<uint8_t> msg;
+    std::vector<uint8_t> msg = {};
+
     msg.reserve(auth_data_bytes.size() + client_data_hash.size());
     msg.insert(msg.end(), auth_data_bytes.begin(), auth_data_bytes.end());
     msg.insert(msg.end(), client_data_hash.begin(), client_data_hash.end());

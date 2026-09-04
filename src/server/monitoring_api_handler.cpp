@@ -859,7 +859,8 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         try {
             auto& plugin_manager = themis::plugins::PluginManager::instance();
             auto all_stats = plugin_manager.getMetrics().getAllStats();
-            std::vector<std::string> sorted_plugin_names;
+            std::vector<std::string> sorted_plugin_names = {};
+
             sorted_plugin_names.reserve(all_stats.size());
             for (const auto& [plugin_name, _] : all_stats) {
                 sorted_plugin_names.push_back(plugin_name);
@@ -1018,7 +1019,8 @@ http::response<http::string_body> MonitoringApiHandler::handlePluginMetrics(
     try {
         auto& plugin_manager = themis::plugins::PluginManager::instance();
         auto all_stats = plugin_manager.getMetrics().getAllStats();
-        std::vector<std::string> sorted_plugin_names;
+        std::vector<std::string> sorted_plugin_names = {};
+
         sorted_plugin_names.reserve(all_stats.size());
         for (const auto& [plugin_name, _] : all_stats) {
             sorted_plugin_names.push_back(plugin_name);

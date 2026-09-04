@@ -55,7 +55,8 @@ ShardMetrics* OperationalMetrics::getShardMetrics(const std::string& shard_id) {
 std::vector<std::string> OperationalMetrics::getShardIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(shard_metrics_.size());
     
     for (const auto& [id, _] : shard_metrics_) {

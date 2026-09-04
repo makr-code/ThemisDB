@@ -606,7 +606,8 @@ std::string PromptEngineeringIntegration::enhancePrompt(
     const nlohmann::json& context
 ) {
     // Convert JSON context to string map for context injection
-    std::unordered_map<std::string, std::string> ctx_map;
+    std::unordered_map<std::string, std::string> ctx_map = {};
+
     for (auto it = context.begin(); it != context.end(); ++it) {
         if (it.value().is_string()) {
             ctx_map[it.key()] = it.value().get<std::string>();

@@ -293,7 +293,8 @@ AgenticRAGResult AgenticRAG::run(
         // ----------------------------------------------------------------
         // 3. Detect knowledge gaps.
         // ----------------------------------------------------------------
-        std::vector<knowledge_gap::RetrievedDocument> gap_docs;
+        std::vector<knowledge_gap::RetrievedDocument> gap_docs = {};
+
         gap_docs.reserve(eval_docs.size());
         for (const auto& d : eval_docs) {
             gap_docs.push_back(toGapDoc(d));
@@ -347,7 +348,8 @@ AgenticRAGResult AgenticRAG::run(
         // ----------------------------------------------------------------
         const std::string next_query = reformulateQuery(current_query, gap_result);
 
-        std::vector<judge::RetrievedDocument> new_docs;
+        std::vector<judge::RetrievedDocument> new_docs = {};
+
         if (retrieval_fn) {
             const auto seen_vec = toIdVector(seen_ids);
             new_docs = retrieval_fn(next_query, seen_vec);

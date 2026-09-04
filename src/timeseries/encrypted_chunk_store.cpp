@@ -172,7 +172,8 @@ EncryptedChunkStore::encryptChunk(const std::string&          series_id,
     EVP_CIPHER_CTX_free(ctx);
 
     // 5. Assemble blob: KEY_ID_LEN(4 BE) | key_id | IV[12] | CT | TAG[16]
-    std::vector<uint8_t> blob;
+    std::vector<uint8_t> blob = {};
+
     blob.reserve(KEY_ID_PREFIX_LEN_BYTES + key_id.size() + IV_LEN + ciphertext.size() + TAG_LEN);
 
     writeU32BE(blob, static_cast<uint32_t>(key_id.size()));

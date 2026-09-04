@@ -152,7 +152,8 @@ std::vector<MultiFieldBoostedSearch::Result> MultiFieldBoostedSearch::search(
     }
 
     // Build result list from accumulator
-    std::vector<Result> results;
+    std::vector<Result> results = {};
+
     results.reserve(accum.size());
     for (auto& [doc_id, entry] : accum) {
         Result r;

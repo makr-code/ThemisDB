@@ -152,7 +152,8 @@ TEST_F(FullQueryFlowE2ETest, AuthenticatedQueryWithAuditLog) {
  */
 TEST_F(FullQueryFlowE2ETest, VectorSearchWithLLMEmbeddings) {
     // Step 1: Insert documents with mock embeddings
-    std::vector<std::string> doc_ids;
+    std::vector<std::string> doc_ids = {};
+
     for (int i = 0; i < 5; ++i) {
         std::string doc_id = "vec_doc_" + std::to_string(i);
         doc_ids.push_back(doc_id);

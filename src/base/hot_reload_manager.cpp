@@ -177,7 +177,8 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
     // --- Launch sandbox for the new module (if configured) ---------------
     // Replacing slot.sandbox drops the old sandbox, calling ~ModuleSandbox()
     // which invokes shutdown() automatically.
-    std::unique_ptr<ModuleSandbox> new_sandbox;
+    std::unique_ptr<ModuleSandbox> new_sandbox = {};
+
     if (config_.sandboxConfig) {
         new_sandbox = std::make_unique<ModuleSandbox>(*config_.sandboxConfig);
         if (!new_sandbox->launch(module_name)) {
@@ -306,7 +307,8 @@ HotReloadResult HotReloadManager::rollback(const std::string &module_name) {
 
     // Launch sandbox for the restored module (if configured).
     // Created outside the lock (same pattern as reloadModule) for consistency.
-    std::unique_ptr<ModuleSandbox> rollback_sandbox;
+    std::unique_ptr<ModuleSandbox> rollback_sandbox = {};
+
     if (config_.sandboxConfig) {
         rollback_sandbox = std::make_unique<ModuleSandbox>(*config_.sandboxConfig);
         if (!rollback_sandbox->launch(module_name)) {
@@ -380,7 +382,8 @@ bool HotReloadManager::isRollbackAvailable(const std::string &module_name) const
 std::vector<std::string> HotReloadManager::registeredModules() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(slots_.size());
     for (const auto &[name, _] : slots_) {
         names.push_back(name);

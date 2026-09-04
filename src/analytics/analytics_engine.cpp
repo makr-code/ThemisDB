@@ -274,7 +274,8 @@ QueryResult AnalyticsEngine::RunAggregation(const AggregationBatch& batch) {
 std::vector<QueryResult> AnalyticsEngine::ProcessBatch(
     const std::vector<QueryConfig>& queries) {
     
-    std::vector<QueryResult> results;
+    std::vector<QueryResult> results = {};
+
     results.reserve(queries.size());
     
     for (const auto& query : queries) {

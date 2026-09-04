@@ -277,7 +277,8 @@ TEST_F(TimeoutDeterminismTest, TimeoutStateConsistency_MultipleQueries) {
   std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
   // When: Query timeout state multiple times
-  std::vector<std::string> queried_states;
+  std::vector<std::string> queried_states = {};
+
   for (int i = 0; i < 10; ++i) {
     auto status = tx_manager_->getTransactionStatus(tx_id);
     queried_states.push_back(status.state);

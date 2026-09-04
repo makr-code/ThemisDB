@@ -180,7 +180,8 @@ void WikipediaIngestionPipeline::cancel() {
 }
 
 std::vector<WikipediaRevisionRecord> WikipediaIngestionPipeline::revisionsForPage([[maybe_unused]] uint64_t page_id) const {
-    std::vector<WikipediaRevisionRecord> revisions;
+    std::vector<WikipediaRevisionRecord> revisions = {};
+
     for (const auto& [_, revision] : snapshot_.revisions) {
         if (revision.page_id == page_id) {
             revisions.push_back(revision);

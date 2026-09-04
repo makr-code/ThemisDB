@@ -237,7 +237,8 @@ std::vector<VersionedDocument> SystemVersionedTable::getHistoryInRange(
         return {};
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (const auto& v : it->second) {
         if (v.sys_time.overlaps(range)) {
             result.push_back(v);
@@ -250,7 +251,8 @@ std::vector<VersionedDocument> SystemVersionedTable::scan(
     Timestamp as_of) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (const auto& [key, versions] : rows_) {
         for (const auto& v : versions) {
             if (as_of == kMaxTimestamp) {
@@ -273,7 +275,8 @@ std::vector<VersionedDocument> SystemVersionedTable::scan(
 
 std::vector<std::string> SystemVersionedTable::getAllKeys() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     keys.reserve(rows_.size());
     for (const auto& [k, _] : rows_) {
         keys.push_back(k);
@@ -343,7 +346,8 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
     auto& versions = it->second;
 
     // Collect pointers to historical (closed) versions
-    std::vector<VersionedDocument*> historical;
+    std::vector<VersionedDocument*> historical = {};
+
     for (auto& v : versions) {
         if (!v.isCurrent()) {
             historical.push_back(&v);
@@ -361,7 +365,8 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
               });
 
     // Collect raw pointers of the entries to delete (the oldest ones)
-    std::vector<const VersionedDocument*> to_delete_ptrs;
+    std::vector<const VersionedDocument*> to_delete_ptrs = {};
+
     to_delete_ptrs.reserve(historical.size() - keep_latest_n);
     for (size_t i = keep_latest_n; i < historical.size(); ++i) {
         to_delete_ptrs.push_back(historical[i]);

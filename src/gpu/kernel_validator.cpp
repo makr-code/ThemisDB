@@ -70,7 +70,8 @@ bool GPUKernelValidator::isRegistered(const std::string& kernel_id) const {
 
 std::vector<std::string> GPUKernelValidator::registeredKernels() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(registry_.size());
     for (const auto& kv : registry_) {
         result.push_back(kv.first);

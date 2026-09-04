@@ -122,7 +122,8 @@ static std::vector<std::string> getNeighbours(const BenchGraph& g,
 
 static std::set<std::string> bfsDepth3(const BenchGraph& g,
                                         const std::string& start) {
-    std::set<std::string> visited;
+    std::set<std::string> visited = {};
+
     std::vector<std::pair<std::string, int>> q = {{start, 0}};
     for (std::size_t i = 0; i < q.size(); ++i) {
         auto [node, depth] = q[i];

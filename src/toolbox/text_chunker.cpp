@@ -61,7 +61,8 @@ std::vector<std::string> TextChunker::chunkTexts(
     const std::string& document_id) const
 {
     auto chunks = splitter_.split(text, document_id);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(chunks.size());
     for (auto& c : chunks) {
         result.push_back(std::move(c.text));

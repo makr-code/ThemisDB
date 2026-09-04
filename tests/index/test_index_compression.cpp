@@ -40,7 +40,8 @@ protected:
         std::string_view value,
         const std::vector<std::string>& pks)
     {
-        std::vector<std::string> keys;
+        std::vector<std::string> keys = {};
+
         keys.reserve(pks.size());
         for (const auto& pk : pks) {
             keys.push_back(
@@ -227,7 +228,8 @@ TEST_F(IndexCompressionFocusedTests, BloomFilter_ClearResetsState) {
 
 TEST_F(IndexCompressionFocusedTests, BloomFilter_BulkInsertNoFalseNegatives) {
     BloomFilter bf(500, 0.01);
-    std::vector<std::string> inserted;
+    std::vector<std::string> inserted = {};
+
     for (int i = 0; i < 500; ++i) {
         std::string key = "idx:tbl:col:val:" + std::to_string(i);
         bf.insert(key);

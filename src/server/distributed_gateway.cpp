@@ -163,7 +163,8 @@ std::optional<GatewayNode> ConsistentHashRing::getNode(
 
 std::size_t ConsistentHashRing::nodeCount() const {
     std::shared_lock lock(mutex_);
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& [h, node] : ring_) {
         seen.insert(node.node_id);
     }

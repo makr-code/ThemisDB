@@ -53,7 +53,8 @@ std::vector<SalesRecord> generateSalesData(size_t count) {
     std::uniform_int_distribution<int> region_dist(0, 9);
     std::uniform_int_distribution<int> category_dist(0, 4);
     
-    std::vector<std::string> products;
+    std::vector<std::string> products = {};
+
     for (int i = 0; i < 100; ++i) {
         products.push_back("product_" + std::to_string(i));
     }
@@ -465,7 +466,8 @@ static void BM_OLAP_Sum_Optimized(benchmark::State& state) {
     auto data = generateSalesData(row_count);
     
     // Extract amounts into contiguous array for better vectorization
-    std::vector<double> amounts;
+    std::vector<double> amounts = {};
+
     amounts.reserve(data.size());
     for (const auto& rec : data) {
         amounts.push_back(rec.amount);
@@ -507,7 +509,8 @@ static void BM_OLAP_GroupBy_Optimized(benchmark::State& state) {
     
     // Pre-build region index
     std::unordered_map<std::string, int> region_to_idx;
-    std::vector<std::string> unique_regions;
+    std::vector<std::string> unique_regions = {};
+
     for (const auto& rec : data) {
         if (region_to_idx.find(rec.region) == region_to_idx.end()) {
             region_to_idx[rec.region] = unique_regions.size();
@@ -561,7 +564,8 @@ static void BM_OLAP_ComplexQuery(benchmark::State& state) {
         }
         
         // Calculate averages
-        std::vector<double> averages;
+        std::vector<double> averages = {};
+
         for (const auto& group_entry : groups) {
             const auto& stats = group_entry.second;
             if (stats.second > 0) {

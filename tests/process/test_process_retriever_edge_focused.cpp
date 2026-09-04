@@ -219,7 +219,8 @@ TEST_F(RetrieverEdgeTest, R08_ConcurrentQueryIsolation) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumConcurrentQueries; ++i) {
         threads.emplace_back(run_query, i);
     }

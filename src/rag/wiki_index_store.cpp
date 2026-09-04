@@ -96,7 +96,8 @@ float bm25PlusScore(
     const auto doc_tokens = tokenise(doc_text);
     const float dl = static_cast<float>(doc_tokens.size());
 
-    std::unordered_map<std::string, float> tf_map;
+    std::unordered_map<std::string, float> tf_map = {};
+
     tf_map.reserve(doc_tokens.size());
     for (const auto& tok : doc_tokens) {
         tf_map[tok] += 1.0f;
@@ -152,7 +153,8 @@ std::vector<IndexResult> rrfFusion(
         }
     }
 
-    std::vector<IndexResult> results;
+    std::vector<IndexResult> results = {};
+
     results.reserve(rrf_scores.size());
     for (auto& [doc_id, score] : rrf_scores) {
         results.push_back(IndexResult{doc_id, score});
@@ -196,11 +198,13 @@ struct WikiIndexStore::Impl {
     /// Rebuild IDF from the current document set (call under idx_mutex held).
     void rebuildIDF() {
         // df_map: term → number of documents containing the term.
-        std::unordered_map<std::string, int> df_map;
+        std::unordered_map<std::string, int> df_map = {};
+
         for (const auto& [id, text] : docs) {
             auto tokens = tokenise(text);
             // Unique tokens per document for DF counting.
-            std::unordered_map<std::string, bool> seen;
+            std::unordered_map<std::string, bool> seen = {};
+
             for (const auto& tok : tokens) {
                 if (!seen[tok]) {
                     seen[tok] = true;
@@ -290,7 +294,8 @@ struct WikiIndexStore::Impl {
         if (norm < 1e-9f) {
           return v;
         }
-        std::vector<float> out;
+        std::vector<float> out = {};
+
         out.reserve(v.size());
         for (float x : v) {
           out.push_back(x / norm);
@@ -435,7 +440,8 @@ std::vector<IndexResult> WikiIndexStore::searchBM25(
     std::lock_guard<std::mutex> lk(impl_->idx_mutex); // Thread-safety: protected by idx_mutex (Wave 5)
 
     const float avg_len = impl_->computeAvgDocLen();
-    std::vector<IndexResult> results;
+    std::vector<IndexResult> results = {};
+
     results.reserve(impl_->docs.size());
 
     for (const auto& [doc_id, text] : impl_->docs) {
@@ -554,7 +560,8 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
     auto it_first = impl_->positional_index_.find(phrase_terms[0]);
     if (it_first == impl_->positional_index_.end()) return {};
 
-    std::vector<std::string> candidates;
+    std::vector<std::string> candidates = {};
+
     candidates.reserve(it_first->second.size());
     for (const auto& [doc_id, _] : it_first->second) {
         candidates.push_back(doc_id);
@@ -575,7 +582,8 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
 
     // Filter by consecutive-position constraint.
     const float avg_len = impl_->computeAvgDocLen();
-    std::vector<IndexResult> results;
+    std::vector<IndexResult> results = {};
+
     results.reserve(candidates.size());
 
     for (const auto& doc_id : candidates) {
@@ -942,7 +950,8 @@ std::vector<IndexResult> WikiIndexStore::searchHybrid(
     // BM25+ lexical list (always available).
     const auto bm25_results = searchBM25(query_terms, top_k * 2);
 
-    std::vector<std::string> bm25_ids;
+    std::vector<std::string> bm25_ids = {};
+
     bm25_ids.reserve(bm25_results.size());
     for (const auto& r : bm25_results) {
       bm25_ids.push_back(r.doc_id);
@@ -962,7 +971,8 @@ std::vector<IndexResult> WikiIndexStore::searchHybrid(
 
     const auto hnsw_results = searchHNSW(query_embedding, top_k * 2);
 
-    std::vector<std::string> hnsw_ids;
+    std::vector<std::string> hnsw_ids = {};
+
     hnsw_ids.reserve(hnsw_results.size());
     for (const auto& r : hnsw_results) {
       hnsw_ids.push_back(r.doc_id);

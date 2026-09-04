@@ -278,7 +278,8 @@ MultiGPUMemoryCoordinator::balanceInferenceLoad(
     plan.gpu_ids = gpu_ids;
     
     // Get GPU utilization and distribute load inversely
-    std::vector<float> utilizations;
+    std::vector<float> utilizations = {};
+
     for (int gpu_id : gpu_ids) {
         auto gpu = getGPUInfo(gpu_id);
         utilizations.push_back(gpu.utilization_percent);
@@ -286,7 +287,8 @@ MultiGPUMemoryCoordinator::balanceInferenceLoad(
     
     // Calculate inverse utilization for load balancing
     float sum_inverse = 0.0f;
-    std::vector<float> inverse_util;
+    std::vector<float> inverse_util = {};
+
     for (float util : utilizations) {
         float inv = 1.0f / (util + 1.0f);  // +1 to avoid division by zero
         inverse_util.push_back(inv);

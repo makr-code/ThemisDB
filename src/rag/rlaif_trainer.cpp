@@ -551,7 +551,8 @@ RLAIFTrainerStats RLAIFTrainer::getStats() const {
         stats = impl_->stats;
     }
     // Build per-principle violation summary from the dataset.
-    std::unordered_map<std::string, size_t> pv_map;
+    std::unordered_map<std::string, size_t> pv_map = {};
+
     for (const auto& pair : impl_->dataset) {
         for (const auto& pid : pair.applied_principles) {
             ++pv_map[pid];

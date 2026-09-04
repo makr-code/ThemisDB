@@ -1044,7 +1044,8 @@ int main(int argc, char* argv[]) {
             }
         };
 
-        std::optional<json> cfg;
+        std::optional<json> cfg = {};
+
         if (config_path) {
             cfg = load_config(*config_path);
             if (!cfg) {
@@ -1765,7 +1766,8 @@ int main(int argc, char* argv[]) {
         }
 
         // Create ReplicationCoordinator (wraps shipper for write concern enforcement)
-        std::shared_ptr<themis::sharding::ReplicationCoordinator> replication_coordinator;
+        std::shared_ptr<themis::sharding::ReplicationCoordinator> replication_coordinator = {};
+
         if (g_wal_shipper) {
             replication_coordinator = std::make_shared<themis::sharding::ReplicationCoordinator>(g_wal_shipper);
             THEMIS_INFO("ReplicationCoordinator created for write concern enforcement");

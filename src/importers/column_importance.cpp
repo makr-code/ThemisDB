@@ -109,7 +109,8 @@ ColumnImportanceAnalyzer::analyzeImportance(const std::vector<InferenceTableSche
                 size_t n           = std::min(values.size(), sample_size);
 
                 // Build frequency map
-                std::map<std::string, size_t> freq;
+                std::map<std::string, size_t> freq = {};
+
                 for (size_t i = 0; i < n; ++i) {
                     freq[values[i]]++;
                 }

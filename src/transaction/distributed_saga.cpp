@@ -46,7 +46,8 @@ DistributedSagaStatus DistributedSagaCoordinator::validate(
     }
 
     // Build name set and check for duplicates
-    std::unordered_set<std::string> names;
+    std::unordered_set<std::string> names = {};
+
     for (const auto& step : saga.steps) {
         if (step.name.empty()) {
             return DistributedSagaStatus::Error("step name must not be empty");
@@ -82,7 +83,8 @@ DistributedSagaStatus DistributedSagaCoordinator::validate(
 
     enum class Color { WHITE, GRAY, BLACK };
     // Initialize all color map entries explicitly to avoid uninitialized access
-    std::unordered_map<std::string, Color> color;
+    std::unordered_map<std::string, Color> color = {};
+
     for (const auto& name : names) {
         color[name] = Color::WHITE;
     }
@@ -177,7 +179,8 @@ DistributedSagaReport DistributedSagaCoordinator::execute(
     // -- Build step map and initialise records --------------------------
     std::map<std::string, DistributedSagaStep> step_map;
     // Build a name→record-pointer index for O(1) lookup throughout execution
-    std::unordered_map<std::string, StepRecord*> record_index;
+    std::unordered_map<std::string, StepRecord*> record_index = {};
+
     for (const auto& step : saga.steps) {
         step_map.emplace(step.name, step);
         StepRecord rec;
@@ -203,7 +206,8 @@ DistributedSagaReport DistributedSagaCoordinator::execute(
     // waves[i] contains steps that can run in parallel at wave i
     std::vector<std::string> topo = topologicalSort(saga);
     // topo is a flat order; group into waves by "level" (max dependency depth)
-    std::unordered_map<std::string, int> level;
+    std::unordered_map<std::string, int> level = {};
+
     for (const auto& name : topo) {
         int lvl = 0;
         for (const auto& dep : step_map.at(name).depends_on) {
@@ -336,14 +340,16 @@ std::vector<std::string> DistributedSagaCoordinator::topologicalSort(
     }
 
     // Use a sorted set as the ready queue for deterministic O(log n) extraction
-    std::set<std::string> ready;
+    std::set<std::string> ready = {};
+
     for (const auto& [name, deg] : in_degree) {
         if (deg == 0) {
           ready.insert(name);
         }
     }
 
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     while (!ready.empty()) {
         // Extract smallest name (deterministic ordering)
         auto it   = ready.begin();
@@ -1073,7 +1079,8 @@ SagaVisualization DistributedSagaCoordinator::visualize(
     std::optional<DistributedSagaReport> report_opt = getReport(saga.saga_id);
 
     // Build phase lookup
-    std::unordered_map<std::string, std::string> phase_label;
+    std::unordered_map<std::string, std::string> phase_label = {};
+
     if (report_opt) {
         for (const auto& rec : report_opt->step_records) {
             switch (rec.phase) {

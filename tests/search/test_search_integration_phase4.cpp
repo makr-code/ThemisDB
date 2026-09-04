@@ -203,7 +203,8 @@ TEST_F(SearchIntegrationPhase4Test, INT_04_FederatedSearchPartialFailure) {
     }
     
     void add_backend_success(const std::string& backend, int count) {
-      std::vector<HybridSearch::Result> res;
+      std::vector<HybridSearch::Result> res = {};
+
       for (int i = 0; i < count; ++i) {
         HybridSearch::Result r;
         r.document_id = backend + "_doc_" + std::to_string(i);

@@ -621,7 +621,8 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
                 if (upperQuery.find("SELECT") == 0) {
                     // Execute via AQLParser + QueryEngine
                     QueryInfo info = parseSelectQuery(query);
-                    std::vector<FieldDescription> fields;
+                    std::vector<FieldDescription> fields = {};
+
                     for (const auto& col : info.selectColumns) {
                         if (col == "*") {
                             fields.push_back({"?column?", 0, 0, 25, -1, -1, 0});
@@ -672,7 +673,8 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
                                         // Project columns from entity JSON
                                         nlohmann::json doc = nlohmann::json::parse(
                                             entity.toJson());
-                                        std::vector<std::string> row_vals;
+                                        std::vector<std::string> row_vals = {};
+
                                         for (const auto& f : fields) {
                                             if (doc.contains(f.name)) {
                                                 const auto& v = doc[f.name];
@@ -795,7 +797,8 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
                 QueryInfo info = parseSelectQuery(query);
                 
                 // Build field descriptions
-                std::vector<FieldDescription> fields;
+                std::vector<FieldDescription> fields = {};
+
                 for (const auto& col : info.selectColumns) {
                     if (col == "*") {
                         // Generic field for SELECT *
@@ -859,7 +862,8 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
             
             if (upperQuery.find("SELECT") == 0) {
                 QueryInfo info = parseSelectQuery(query);
-                std::vector<FieldDescription> fields;
+                std::vector<FieldDescription> fields = {};
+
                 for (const auto& col : info.selectColumns) {
                     if (col == "*") {
                         fields.push_back({"?column?", 0, 0, 25, -1, -1, 0});
@@ -1093,7 +1097,8 @@ void PostgresSession::sendAuthenticationOk() {
 }
 
 void PostgresSession::sendParameterStatus(const std::string& name, const std::string& value) {
-    std::vector<uint8_t> payload;
+    std::vector<uint8_t> payload = {};
+
     payload.reserve(name.size() + value.size() + 2);  // name + null + value + null
     payload.insert(payload.end(), name.begin(), name.end());
     payload.push_back(0);
@@ -1445,7 +1450,8 @@ void PostgresSession::doRead() {
                         offset += query.size() + 1;
                         
                         // Parse parameter types
-                        std::vector<int32_t> paramTypes;
+                        std::vector<int32_t> paramTypes = {};
+
                         if (offset + 2 <= bytes_transferred) {
                             uint16_t numParams = (static_cast<uint8_t>(buffer_[offset]) << 8) | 
                                                static_cast<uint8_t>(buffer_[offset + 1]);
@@ -1471,7 +1477,8 @@ void PostgresSession::doRead() {
                         offset += stmtName.size() + 1;
                         
                         // Parse parameter format codes
-                        std::vector<int16_t> paramFormats;
+                        std::vector<int16_t> paramFormats = {};
+
                         if (offset + 2 <= bytes_transferred) {
                             uint16_t numFormats = (static_cast<uint8_t>(buffer_[offset]) << 8) | 
                                                 static_cast<uint8_t>(buffer_[offset + 1]);
@@ -1486,7 +1493,8 @@ void PostgresSession::doRead() {
                         }
                         
                         // Parse parameter values
-                        std::vector<std::string> params;
+                        std::vector<std::string> params = {};
+
                         if (offset + 2 <= bytes_transferred) {
                             uint16_t numParams = (static_cast<uint8_t>(buffer_[offset]) << 8) | 
                                                static_cast<uint8_t>(buffer_[offset + 1]);

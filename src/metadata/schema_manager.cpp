@@ -155,7 +155,8 @@ std::vector<SchemaManager::TableSchema> SchemaManager::getAllTables() {
     }
     
     // Extract tables from cache
-    std::vector<TableSchema> tables;
+    std::vector<TableSchema> tables = {};
+
     tables.reserve(table_cache_.size());
     for (const auto& [name, schema] : table_cache_) {
         tables.push_back(schema);
@@ -206,7 +207,8 @@ std::vector<SchemaManager::RelationshipSchema> SchemaManager::getAllRelationship
             buildCache();
         }
         // Read under the write lock — no re-lock needed.
-        std::vector<RelationshipSchema> relationships;
+        std::vector<RelationshipSchema> relationships = {};
+
         relationships.reserve(rel_cache_.size());
         for (const auto& [name, schema] : rel_cache_) {
             relationships.push_back(schema);
@@ -215,7 +217,8 @@ std::vector<SchemaManager::RelationshipSchema> SchemaManager::getAllRelationship
         return relationships;
     }
     
-    std::vector<RelationshipSchema> relationships;
+    std::vector<RelationshipSchema> relationships = {};
+
     relationships.reserve(rel_cache_.size());
     for (const auto& [name, schema] : rel_cache_) {
         relationships.push_back(schema);
@@ -622,7 +625,8 @@ std::vector<SchemaManager::PropertyInfo> SchemaManager::discoverProperties(
     }
     
     // Convert to vector
-    std::vector<PropertyInfo> properties;
+    std::vector<PropertyInfo> properties = {};
+
     properties.reserve(property_map.size());
     for (const auto& [name, prop] : property_map) {
         properties.push_back(prop);
@@ -993,7 +997,8 @@ bool SchemaManager::patchTableSchema(std::string_view table_name, const json& up
     
     if (updates.contains("properties") && updates["properties"].is_array()) {
         // Merge or replace properties
-        std::map<std::string, PropertyInfo> prop_map;
+        std::map<std::string, PropertyInfo> prop_map = {};
+
         for (const auto& prop : schema.properties) {
             prop_map[prop.name] = prop;
         }
@@ -1029,7 +1034,8 @@ bool SchemaManager::patchTableSchema(std::string_view table_name, const json& up
     
     if (updates.contains("indexes") && updates["indexes"].is_array()) {
         // Similar merge logic for indexes
-        std::map<std::string, IndexInfo> idx_map;
+        std::map<std::string, IndexInfo> idx_map = {};
+
         for (const auto& idx : schema.indexes) {
             idx_map[idx.name] = idx;
         }
@@ -1131,7 +1137,8 @@ std::string SchemaManager::validateSchema(const TableSchema& schema) const {
     }
     
     // Validate properties
-    std::set<std::string> prop_names;
+    std::set<std::string> prop_names = {};
+
     for (const auto& prop : schema.properties) {
         if (prop.name.empty()) {
             return "Property name cannot be empty";
@@ -1163,7 +1170,8 @@ std::string SchemaManager::validateSchema(const TableSchema& schema) const {
     }
     
     // Validate indexes
-    std::set<std::string> idx_names;
+    std::set<std::string> idx_names = {};
+
     for (const auto& idx : schema.indexes) {
         if (idx.name.empty()) {
             return "Index name cannot be empty";

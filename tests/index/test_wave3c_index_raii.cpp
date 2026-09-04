@@ -62,7 +62,8 @@ TEST(Wave3cIndexRaii, UnorderedMapEraseByKeyCollectionIsCorrect) {
         {"alpha", 1}, {"beta", 2}, {"gamma", 3}, {"delta", 4}};
 
     // Collect keys to remove (simulates the pre-collection pass).
-    std::vector<std::string> to_remove;
+    std::vector<std::string> to_remove = {};
+
     for (const auto& [k, v] : m) {
         if (v % 2 == 0) {  // remove even values
             to_remove.push_back(k);

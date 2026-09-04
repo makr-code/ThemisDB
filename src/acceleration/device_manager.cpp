@@ -137,7 +137,8 @@ std::vector<DeviceCapabilityInfo> enumerateDevices() {
 
     const auto gpu_devices = themis::gpu::DeviceDiscovery::Enumerate();
 
-    std::vector<DeviceCapabilityInfo> result;
+    std::vector<DeviceCapabilityInfo> result = {};
+
     result.reserve(gpu_devices.size());
 
     for (const auto &d : gpu_devices) {

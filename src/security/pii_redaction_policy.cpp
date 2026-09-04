@@ -135,7 +135,8 @@ std::map<std::string, std::string> PIIRedactionPolicy::redactAttributes(
     const std::map<std::string, std::string>& attributes) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::map<std::string, std::string> result;
+    std::map<std::string, std::string> result = {};
+
     for (const auto& [key, value] : attributes) {
         // If the attribute key itself is a recognised PII field name, replace
         // the entire value with the appropriate mask rather than a substring

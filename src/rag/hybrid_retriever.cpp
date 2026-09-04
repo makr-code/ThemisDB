@@ -155,7 +155,8 @@ HybridFusionResult HybridRetriever::retrieveWithVectorizer(
     }
 
     const auto query_embedding = vectorizer_->encodeQuery(query);
-    std::vector<judge::RetrievedDocument> vector_candidates;
+    std::vector<judge::RetrievedDocument> vector_candidates = {};
+
     vector_candidates.reserve(bm25_candidates.size());
 
     for (const auto& doc : bm25_candidates) {
@@ -192,7 +193,8 @@ HybridFusionResult HybridRetriever::fuseRRF(
         judge::RetrievedDocument doc;
         HybridScore              score;
     };
-    std::unordered_map<std::string, DocData> doc_map;
+    std::unordered_map<std::string, DocData> doc_map = {};
+
     doc_map.reserve(bm25_candidates.size() + vector_candidates.size());
 
     // Process BM25 list in the order provided (assumed sorted descending).
@@ -226,7 +228,8 @@ HybridFusionResult HybridRetriever::fuseRRF(
     }
 
     // Collect and sort by descending hybrid score.
-    std::vector<DocData> entries;
+    std::vector<DocData> entries = {};
+
     entries.reserve(doc_map.size());
     for (auto& [_, data] : doc_map) {
         entries.push_back(std::move(data));
@@ -271,18 +274,21 @@ HybridFusionResult HybridRetriever::fuseLinear(
         judge::RetrievedDocument doc;
         HybridScore              score;
     };
-    std::unordered_map<std::string, DocData> doc_map;
+    std::unordered_map<std::string, DocData> doc_map = {};
+
     doc_map.reserve(bm25_candidates.size() + vector_candidates.size());
 
     // Collect raw BM25 scores for optional normalisation.
-    std::vector<double> bm25_raw;
+    std::vector<double> bm25_raw = {};
+
     bm25_raw.reserve(bm25_candidates.size());
     for (const auto& src : bm25_candidates) {
         bm25_raw.push_back(src.similarity_score);
     }
     if (config_.normalize_scores) { normaliseScores(bm25_raw); }
 
-    std::vector<double> vec_raw;
+    std::vector<double> vec_raw = {};
+
     vec_raw.reserve(vector_candidates.size());
     for (const auto& src : vector_candidates) {
         vec_raw.push_back(src.similarity_score);
@@ -309,7 +315,8 @@ HybridFusionResult HybridRetriever::fuseLinear(
         entry.score.hybrid_score += config_.vector_weight * vec_raw[i];
     }
 
-    std::vector<DocData> entries;
+    std::vector<DocData> entries = {};
+
     entries.reserve(doc_map.size());
     for (auto& [_, data] : doc_map) {
         entries.push_back(std::move(data));

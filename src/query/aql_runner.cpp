@@ -745,7 +745,8 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
     // Phase 4 path: execute ordered_statements atomically
     // Wrap the provided StorageContext in a transactional proxy so that
     // mutations can be rolled back if a later statement fails.
-    std::unique_ptr<query::MutationTransactionContext> txn_ctx;
+    std::unique_ptr<query::MutationTransactionContext> txn_ctx = {};
+
     if (storage) {
         txn_ctx = std::make_unique<query::MutationTransactionContext>(*storage);
     }

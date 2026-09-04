@@ -178,7 +178,8 @@ static std::string mapIndexType(const std::string& idx_type) {
 
 std::vector<ISTable> InformationSchema::getTables() const {
     auto tables = schema_mgr_.getAllTables();
-    std::vector<ISTable> result;
+    std::vector<ISTable> result = {};
+
     result.reserve(tables.size());
 
     for (const auto& t : tables) {

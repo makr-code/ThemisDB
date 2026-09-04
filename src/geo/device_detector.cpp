@@ -123,7 +123,8 @@ std::vector<GeoDeviceCapability> GeoDeviceDetector::Detect() {
     }
     const auto raw = fn ? fn() : themis::gpu::DeviceDiscovery::Enumerate();
 
-    std::vector<GeoDeviceCapability> result;
+    std::vector<GeoDeviceCapability> result = {};
+
     result.reserve(raw.size());
 
     for (const auto &d : raw) {

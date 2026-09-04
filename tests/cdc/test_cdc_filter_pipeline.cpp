@@ -199,7 +199,8 @@ TEST(InMemoryFilterPipelineTest, ApplyBatchReturnOnlyPassingEventsInOrder) {
             return ev.sequence % 2 == 0;
         }));
 
-    std::vector<Changefeed::ChangeEvent> batch;
+    std::vector<Changefeed::ChangeEvent> batch = {};
+
     for (uint64_t i = 1; i <= 6; ++i) {
       batch.push_back(makeEv(i));
     }

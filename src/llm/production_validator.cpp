@@ -1516,7 +1516,8 @@ bool IntegrationTestSuite::testPreemption() {
     InferenceRequest lo_req;
     lo_req.prompt = "low priority preemption test";
     lo_req.max_tokens = 16;
-    std::vector<std::string> lo_ids;
+    std::vector<std::string> lo_ids = {};
+
     for (int i = 0; i < 3; ++i) {
         std::string id = scheduler.submitRequest(
             lo_req, ContinuousBatchScheduler::RequestPriority::LOW);

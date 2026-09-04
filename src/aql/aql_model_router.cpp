@@ -171,7 +171,8 @@ std::vector<QueryModelType> AQLModelRouter::classify(const std::string &aql_quer
     // Sort by hit count descending.
     std::sort(scores.begin(), scores.end(), [](const Score &a, const Score &b) { return a.hits > b.hits; });
 
-    std::vector<QueryModelType> result;
+    std::vector<QueryModelType> result = {};
+
     result.reserve(scores.size() + 1);
     for (const auto &s : scores) {
         result.push_back(s.type);

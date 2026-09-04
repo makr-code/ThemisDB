@@ -402,7 +402,8 @@ bool PaxosStatePersistence::forceCompact() {
     try {
         // Build snapshot data from the in-memory cache
         std::map<uint64_t, PaxosInstance>        instances;
-        std::map<uint64_t, ConsensusLogEntry>     committed_log;
+        std::map<uint64_t, ConsensusLogEntry>     committed_log = {};
+
         for (const auto& [s, state] : slot_cache_) {
             if (state.is_committed) {
                 auto e = buildConsensusEntryFromAcceptedValue(state.accepted_value,

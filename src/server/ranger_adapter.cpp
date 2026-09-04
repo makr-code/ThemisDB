@@ -162,7 +162,8 @@ RangerClient::convertFromRanger(const json& rangerJson) {
     std::vector<themis::PolicyEngine::Policy> out;
     auto pushPolicies = [&](const json& items, const json& resources, bool effect_allow){
         // Derive resource prefixes (path resource typical)
-        std::vector<std::string> resource_prefixes;
+        std::vector<std::string> resource_prefixes = {};
+
         if (resources.contains("path")) {
             const auto& path = resources["path"];
             if (path.contains("value") && path["value"].is_string()) {

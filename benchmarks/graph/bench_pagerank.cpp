@@ -273,7 +273,8 @@ BENCHMARK_DEFINE_F(PageRankBenchmarkFixture, PersonalizedPageRank)(benchmark::St
     const int max_iterations = 20;
     
     // Select seed nodes (e.g., user's bookmarks)
-    std::vector<std::string> seed_nodes;
+    std::vector<std::string> seed_nodes = {};
+
     for (size_t i = 0; i < node_ids_.size() && i < 10; i++) {
         seed_nodes.push_back(node_ids_[i]);
     }

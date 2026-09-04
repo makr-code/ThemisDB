@@ -532,7 +532,8 @@ std::map<std::string, float> SemanticQueryCache::extractQueryFeatures_(std::stri
     auto tokens = tokenizeQuery_(query);
     
     // Count token frequencies
-    std::map<std::string, int> token_counts;
+    std::map<std::string, int> token_counts = {};
+
     for (const auto& token : tokens) {
         token_counts[token]++;
     }

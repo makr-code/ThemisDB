@@ -165,7 +165,8 @@ public:
 
         ::themis::query::DistributedQueryCostModel model;
 
-        std::vector<::themis::query::DistributedQueryCostModel::ShardInfo> shards;
+        std::vector<::themis::query::DistributedQueryCostModel::ShardInfo> shards = {};
+
         if (extra.contains("retrieval_shards") && extra["retrieval_shards"].is_array()) {
             for (const auto& s : extra["retrieval_shards"]) {
                 if (!s.is_object()) {
@@ -420,7 +421,8 @@ json ToolRegistry::invokeTool(const std::string& tool_name,
 
 std::vector<std::string> ToolRegistry::listTools() const {
     std::shared_lock lock(tools_mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(tools_.size());
     for (const auto& [name, _] : tools_) {
         names.push_back(name);

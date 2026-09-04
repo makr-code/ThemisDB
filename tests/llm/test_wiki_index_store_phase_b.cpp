@@ -284,7 +284,8 @@ TEST_F(WikiIndexStorePhaseB, WIS_B_04_PreEmbeddedChunkKNNQuery) {
 TEST_F(WikiIndexStorePhaseB, WIS_B_05_WriteBatchHybridQuery) {
     auto store = makeStore("wis_b_05");
 
-    std::vector<WikiChunk> batch;
+    std::vector<WikiChunk> batch = {};
+
     for (int i = 0; i < 5; ++i) {
         batch.push_back(makeChunk(
             "c-batch-" + std::to_string(i),
@@ -610,7 +611,8 @@ TEST_F(WikiIndexStorePhaseB, WIS_B_15_QueryEmbeddingCache) {
 TEST_F(WikiIndexStorePhaseB, WIS_B_16_MultipleDocIds) {
     auto store = makeStore("wis_b_16");
 
-    std::vector<WikiChunk> batch;
+    std::vector<WikiChunk> batch = {};
+
     for (int d = 0; d < 3; ++d) {
         for (int c = 0; c < 2; ++c) {
             batch.push_back(makeChunk(
@@ -628,7 +630,8 @@ TEST_F(WikiIndexStorePhaseB, WIS_B_16_MultipleDocIds) {
         << "Query must return results from multiple doc_ids";
 
     // Collect all returned chunk IDs.
-    std::vector<std::string> returned_ids;
+    std::vector<std::string> returned_ids = {};
+
     for (const auto& r : results) {
         returned_ids.push_back(r.chunk_id);
     }

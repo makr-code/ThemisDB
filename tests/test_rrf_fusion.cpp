@@ -38,7 +38,8 @@ protected:
 
     // Build a ranked list of n results with consecutive IDs "doc1" … "docN"
     std::vector<HybridSearch::Result> makeList(int n, bool bm25 = true) {
-        std::vector<HybridSearch::Result> list;
+        std::vector<HybridSearch::Result> list = {};
+
         for (int i = 1; i <= n; ++i) {
             HybridSearch::Result r;
             r.document_id = "doc" + std::to_string(i);

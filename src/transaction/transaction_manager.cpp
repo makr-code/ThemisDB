@@ -193,7 +193,8 @@ void TransactionManager::deadlockDetectorLoop() {
         }
         
         // Check for deadlocks
-        std::vector<TransactionId> cycle;
+        std::vector<TransactionId> cycle = {};
+
         if (detectDeadlockCycle(cycle)) {
             THEMIS_WARN("Deadlock detected involving {} transactions", cycle.size());
             resolveDeadlock(cycle);
@@ -341,7 +342,8 @@ void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle
 
         // Collect for predictor (deduplicate via temporary set).
         if (deadlock_predictor_.load(std::memory_order_acquire)) {
-            std::unordered_set<std::string> seen;
+            std::unordered_set<std::string> seen = {};
+
             for (const auto& txn_id : cycle) {
                 for (const auto& [key, linfo] : held_locks_) {
                     if (linfo.holder == txn_id && seen.insert(key).second) {
@@ -749,14 +751,16 @@ TransactionManager::getAllTenantTransactionStats() const {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
 
     // Count active transactions per tenant
-    std::unordered_map<std::string, uint64_t> active_counts;
+    std::unordered_map<std::string, uint64_t> active_counts = {};
+
     for (const auto& [txn_id, txn] : active_transactions_) {
         if (!txn->tenant_id_.empty()) {
             active_counts[txn->tenant_id_]++;
         }
     }
 
-    std::vector<TenantTransactionStats> result;
+    std::vector<TenantTransactionStats> result = {};
+
     result.reserve(tenant_stats_.size());
     for (const auto& [tid, entry] : tenant_stats_) {
         TenantTransactionStats s;
@@ -779,7 +783,8 @@ size_t TransactionManager::getActiveTenantTransactionCount(std::string_view tena
 std::vector<TransactionManager::TransactionId>
 TransactionManager::listTenantTransactionIds(std::string_view tenant_id) const {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    std::vector<TransactionId> ids;
+    std::vector<TransactionId> ids = {};
+
     for (const auto& [txn_id, txn] : active_transactions_) {
         if (txn->tenant_id_ == tenant_id) {
             ids.push_back(txn_id);
@@ -1947,7 +1952,8 @@ TransactionManager::Status TransactionManager::Transaction::releaseSavepoint(std
 }
 
 std::vector<std::string> TransactionManager::Transaction::getSavepoints() const {
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(savepoints_.size());
     for (const auto& e : savepoints_) {
         names.push_back(e.name);
@@ -2174,7 +2180,8 @@ TransactionManager::listEntityVersions(
     const std::string live_key =
         std::string("entity:") + std::string(table) + ":" + std::string(pk);
     auto records = history_mgr_->listVersions(live_key);
-    std::vector<TimeTravelRecord> result;
+    std::vector<TimeTravelRecord> result = {};
+
     result.reserve(records.size());
     for (const auto& rec : records) {
         result.push_back(toTimeTravelRecord(rec));

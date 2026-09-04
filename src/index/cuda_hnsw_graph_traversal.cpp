@@ -204,7 +204,8 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
     }
 
     // Collect results (sorted ascending by distance)
-    std::vector<HnswTraversalResult> out;
+    std::vector<HnswTraversalResult> out = {};
+
     out.reserve(results.size());
     while (!results.empty()) {
         auto [d, id] = results.top(); results.pop();

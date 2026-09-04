@@ -230,7 +230,8 @@ std::optional<ContentType> ContentTypeRegistry::detectFromBlob(const std::string
 }
 
 std::vector<const ContentType *> ContentTypeRegistry::getByCategory(ContentCategory category) const {
-    std::vector<const ContentType *> result;
+    std::vector<const ContentType *> result = {};
+
     for (const auto &type : types_) {
         if (type.category == category) {
             result.push_back(&type);
@@ -240,7 +241,8 @@ std::vector<const ContentType *> ContentTypeRegistry::getByCategory(ContentCateg
 }
 
 std::vector<const ContentType *> ContentTypeRegistry::getAllTypes() const {
-    std::vector<const ContentType *> result;
+    std::vector<const ContentType *> result = {};
+
     for (const auto &type : types_) {
         result.push_back(&type);
     }

@@ -198,7 +198,8 @@ uint64_t RaftConsensus::getCurrentTerm() const {
 /** @brief Return copy of tracked replica replication and health states. */
 std::vector<ReplicaState> RaftConsensus::getReplicaStates() const {
     std::lock_guard<std::mutex> lock(replica_mutex_);
-    std::vector<ReplicaState> states;
+    std::vector<ReplicaState> states = {};
+
     states.reserve(replica_states_.size());
     for (const auto& pair : replica_states_) {
         states.push_back(pair.second);

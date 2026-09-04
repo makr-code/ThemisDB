@@ -353,7 +353,8 @@ ElasticsearchImporter::initScroll(const std::string& index,
     try {
         const json resp = json::parse(response_str);
         const std::string scroll_id = resp.value("_scroll_id", std::string{});
-        std::vector<json> docs;
+        std::vector<json> docs = {};
+
         if (resp.contains("hits") && resp["hits"].contains("hits")) {
             for (const auto& hit : resp["hits"]["hits"]) {
                 json doc = hit.value("_source", json::object());
@@ -394,7 +395,8 @@ std::vector<json> ElasticsearchImporter::fetchScrollPage(
 
     try {
         const json resp = json::parse(response_str);
-        std::vector<json> docs;
+        std::vector<json> docs = {};
+
         if (resp.contains("hits") && resp["hits"].contains("hits")) {
             for (const auto& hit : resp["hits"]["hits"]) {
                 json doc = hit.value("_source", json::object());

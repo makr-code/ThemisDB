@@ -36,7 +36,8 @@ bool SynopsisStore::insert(SynopsisTuple tuple) {
 
 std::deque<SynopsisTuple> SynopsisStore::expire(int64_t window_start_us) {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::deque<SynopsisTuple> expired;
+    std::deque<SynopsisTuple> expired = {};
+
     while (!tuples_.empty() && tuples_.front().event_ts_us < window_start_us) {
         total_bytes_ -= tuples_.front().payload.size();
         expired.push_back(std::move(tuples_.front()));

@@ -1068,7 +1068,8 @@ std::vector<std::string> TaskScheduler::topologicalSort(
     const std::map<std::string, std::vector<std::string>>& adj) const
 {
     // Kahn's algorithm: compute in-degrees, then process nodes with zero in-degree.
-    std::map<std::string, int> in_degree;
+    std::map<std::string, int> in_degree = {};
+
     for (const auto& id : task_ids) {
         in_degree[id] = 0;
     }
@@ -1077,7 +1078,8 @@ std::vector<std::string> TaskScheduler::topologicalSort(
     }
 
     // Queue nodes with no dependencies
-    std::deque<std::string> ready;
+    std::deque<std::string> ready = {};
+
     for (const auto& [id, deg] : in_degree) {
         if (deg == 0) {
             ready.push_back(id);
@@ -1092,7 +1094,8 @@ std::vector<std::string> TaskScheduler::topologicalSort(
         }
     }
 
-    std::vector<std::string> order;
+    std::vector<std::string> order = {};
+
     order.reserve(task_ids.size());
 
     while (!ready.empty()) {
@@ -1183,7 +1186,8 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
 
     while (processed.size() < task_ids.size()) {
         // Collect tasks that are ready (all deps completed successfully)
-        std::vector<std::string> wave;
+        std::vector<std::string> wave = {};
+
         for (const auto& id : order) {
             if (processed.count(id)) {
                 continue;
@@ -1227,7 +1231,8 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                 auto& task = task_map[id];
                 if (task->branch_condition) {
                     // Build dep_results map from succeeded dependency results
-                    std::map<std::string, nlohmann::json> dep_results;
+                    std::map<std::string, nlohmann::json> dep_results = {};
+
                     for (const auto& dep : adj[id]) {
                         auto it = result.succeeded.find(dep);
                         if (it != result.succeeded.end()) {
@@ -1275,7 +1280,8 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
             std::string error_type;
         };
         std::vector<WaveResult> wave_results(wave.size());
-        std::vector<std::thread> threads;
+        std::vector<std::thread> threads = {};
+
         threads.reserve(wave.size());
 
         for (size_t i = 0; i < wave.size(); ++i) {
@@ -1654,7 +1660,8 @@ std::vector<ScheduledTask> TaskScheduler::listTasks() const {
 
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
-    std::vector<ScheduledTask> result;
+    std::vector<ScheduledTask> result = {};
+
     result.reserve(tasks_.size());
     
     for (const auto& [id, task] : tasks_) {

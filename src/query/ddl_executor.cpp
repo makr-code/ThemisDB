@@ -54,7 +54,8 @@ nlohmann::json SchemaRegistry::collectionOptions(const std::string& name) const 
 
 std::vector<std::string> SchemaRegistry::collections() const {
     std::lock_guard<std::mutex> lk(mu_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(collections_.size());
     for (const auto& kv : collections_) {
       result.push_back(kv.first);
@@ -64,7 +65,8 @@ std::vector<std::string> SchemaRegistry::collections() const {
 
 std::vector<std::string> SchemaRegistry::views() const {
     std::lock_guard<std::mutex> lk(mu_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(views_.size());
     for (const auto& kv : views_) {
       result.push_back(kv.first);

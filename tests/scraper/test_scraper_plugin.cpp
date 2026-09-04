@@ -756,7 +756,8 @@ TEST(ScraperPluginFocusedTests, J4_GovCatalogSourceHasLicense) {
 TEST(ScraperPluginFocusedTests, J5_GovCatalogSourceIdIsUnique) {
     GovSourceCatalog cat;
     const auto& all = cat.all();
-    std::map<std::string, int> id_count;
+    std::map<std::string, int> id_count = {};
+
     for (const auto& s : all) {
       ++id_count[s.id];
     }

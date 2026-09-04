@@ -487,7 +487,8 @@ TEST_F(GraphQueryRewriterTest, DEC_EachSubqueryHasUniqueStartVertex) {
     auto [rewritten, stats] = rewriter_.rewrite(plan);
 
     ASSERT_TRUE(rewritten.contains("subqueries"));
-    std::vector<std::string> starts;
+    std::vector<std::string> starts = {};
+
     for (const auto& sq : rewritten["subqueries"]) {
         if (sq.contains("start_vertex")) {
             starts.push_back(sq["start_vertex"].get<std::string>());

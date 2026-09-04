@@ -119,7 +119,8 @@ double EthicsEvaluator::evaluateFairness(const EthicalDecision &decision,
 
     // Factor 2: Argument diversity
     if (!arguments.empty()) {
-        std::set<std::string> unique_schools;
+        std::set<std::string> unique_schools = {};
+
         for (const auto &arg : arguments) {
             unique_schools.insert(arg.philosophy_school);
         }
@@ -213,7 +214,8 @@ double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arg
     }
 
     // Tally each school's net vote: PRO/SYNTHESIS = +1, CONTRA/REBUTTAL = -1.
-    std::map<std::string, int> school_votes;
+    std::map<std::string, int> school_votes = {};
+
     for (const auto &arg : arguments) {
         int vote = 0;
         switch (arg.argument_type) {

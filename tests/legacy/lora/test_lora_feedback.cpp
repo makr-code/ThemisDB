@@ -314,7 +314,8 @@ TEST_F(LoRAFeedbackTest, TrainingTriggerPlugin) {
     TrainingTriggerPlugin plugin(config);
     
     // Small batch - should not trigger
-    std::vector<Feedback> small_batch;
+    std::vector<Feedback> small_batch = {};
+
     for (int i = 0; i < 5; i++) {
         Feedback fb;
         fb.rating = 4;
@@ -323,7 +324,8 @@ TEST_F(LoRAFeedbackTest, TrainingTriggerPlugin) {
     EXPECT_FALSE(plugin.onTrainingTrigger(small_batch));
     
     // Medium batch - should trigger
-    std::vector<Feedback> medium_batch;
+    std::vector<Feedback> medium_batch = {};
+
     for (int i = 0; i < 15; i++) {
         Feedback fb;
         fb.rating = 4;
@@ -332,7 +334,8 @@ TEST_F(LoRAFeedbackTest, TrainingTriggerPlugin) {
     EXPECT_TRUE(plugin.onTrainingTrigger(medium_batch));
     
     // Large batch - should definitely trigger
-    std::vector<Feedback> large_batch;
+    std::vector<Feedback> large_batch = {};
+
     for (int i = 0; i < 25; i++) {
         Feedback fb;
         fb.rating = 4;

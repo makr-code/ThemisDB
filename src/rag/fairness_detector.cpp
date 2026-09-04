@@ -508,7 +508,8 @@ std::vector<judge::BiasScore> FairnessDetector::detectBiasBatch(
 
     THEMIS_DEBUG("Batch bias detection for {} documents", documents.size());
     
-    std::vector<judge::BiasScore> results;
+    std::vector<judge::BiasScore> results = {};
+
     results.reserve(documents.size());
     
     for (const auto& doc : documents) {

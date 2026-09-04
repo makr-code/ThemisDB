@@ -226,7 +226,8 @@ bool VLLMResourceManager::canUseGPU() {
             return std::nullopt;
         }));
 
-    std::optional<double> gpu_util;
+    std::optional<double> gpu_util = {};
+
     if (shared_future->wait_for(std::chrono::milliseconds(500)) == std::future_status::ready) {
         gpu_util = shared_future->get();
     } else {

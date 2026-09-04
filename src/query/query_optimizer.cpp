@@ -611,7 +611,8 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 	}
 	
 	// Build shard info for cost estimation
-	std::vector<DistributedQueryCostModel::ShardInfo> shard_infos;
+	std::vector<DistributedQueryCostModel::ShardInfo> shard_infos = {};
+
 	for (const auto& shard_id : available_shards) {
 		DistributedQueryCostModel::ShardInfo info;
 		info.shard_id = shard_id;
@@ -630,7 +631,8 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 	
 	// Partition pruning
 	if (enable_partition_pruning) {
-		std::vector<std::string> pruned_shards;
+		std::vector<std::string> pruned_shards = {};
+
 		for (const auto& info : shard_infos) {
 			// v1.5.x Production Integration: Calculate predicate-based selectivity
 			double selectivity = distributed_model_->calculatePredicateSelectivity(

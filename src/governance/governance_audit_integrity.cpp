@@ -968,7 +968,8 @@ nlohmann::json AuditIntegrityManager::exportAuditTrail([[maybe_unused]] bool com
     export_data["total_entries"] = entries_.size();
     export_data["compressed"] = compress;
     
-    std::vector<nlohmann::json> entry_list;
+    std::vector<nlohmann::json> entry_list = {};
+
     for (const auto& entry : entries_) {
         entry_list.push_back(entry.toJson());
     }

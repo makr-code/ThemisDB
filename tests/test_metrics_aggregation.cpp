@@ -610,7 +610,8 @@ TEST_F(MetricAggregatorTest, AggregateShardMetrics_GroupByLabel) {
     ASSERT_EQ(2u, snap.metrics.size());
 
     // Collect region label values from results.
-    std::vector<std::string> regions;
+    std::vector<std::string> regions = {};
+
     for (const auto& m : snap.metrics) {
         auto it = m.labels.find("region");
         ASSERT_NE(it, m.labels.end()) << "Expected 'region' label in result";

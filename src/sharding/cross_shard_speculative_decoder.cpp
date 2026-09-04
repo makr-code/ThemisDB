@@ -181,7 +181,8 @@ std::optional<ShardCapabilityInfo> CrossShardSpeculativeDecoder::getShardCapabil
 
 std::vector<ShardCapabilityInfo> CrossShardSpeculativeDecoder::getAllShards() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<ShardCapabilityInfo> result;
+    std::vector<ShardCapabilityInfo> result = {};
+
     for (const auto& [shard_id, info] : shards_) {
         result.push_back(info);
     }
@@ -322,7 +323,8 @@ void CrossShardSpeculativeDecoder::generateDraft(DraftGenerationRequest request)
         );
     }
     
-    std::vector<int> draft_tokens;
+    std::vector<int> draft_tokens = {};
+
     if (local_engine_->generateDraftTokens(
         request.request_id,
         request.input_token_ids,
@@ -448,7 +450,8 @@ bool CrossShardSpeculativeDecoder::processLocalSpeculativeDecoding(
     }
     
     // Generate draft tokens locally
-    std::vector<int> draft_tokens;
+    std::vector<int> draft_tokens = {};
+
     if (!local_engine_->generateDraftTokens(
         request_id,
         input_token_ids,

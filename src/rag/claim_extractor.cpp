@@ -167,7 +167,8 @@ std::vector<ClaimVerificationResult> ClaimExtractor::verifyAll(
     auto claims = extract(text);
     
     // Verify each claim
-    std::vector<ClaimVerificationResult> results;
+    std::vector<ClaimVerificationResult> results = {};
+
     results.reserve(claims.size());
     
     for (const auto& claim : claims) {

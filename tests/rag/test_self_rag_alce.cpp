@@ -53,7 +53,8 @@ SelfRAGController::RetrievalCallback makeFixedRetrieval(
 
     return [docs, instrument](const std::string& /*query*/, size_t top_k) {
         auto t0 = std::chrono::steady_clock::now();
-        std::vector<SelfRAGDocument> result;
+        std::vector<SelfRAGDocument> result = {};
+
         result.reserve(std::min(top_k, docs.size()));
         for (size_t i = 0; i < std::min(top_k, docs.size()); ++i)
             result.push_back(docs[i]);
@@ -156,7 +157,8 @@ static long long measureBestOfNLong(F f, int n, std::vector<long long>* out_samp
 
 /// Build a set of golden documents — high retrieval score = will be rated Relevant.
 std::vector<SelfRAGDocument> goldenDocs(size_t n = 5) {
-    std::vector<SelfRAGDocument> docs;
+    std::vector<SelfRAGDocument> docs = {};
+
     for (size_t i = 0; i < n; ++i) {
         SelfRAGDocument d;
         d.id      = "golden_" + std::to_string(i);
@@ -374,7 +376,8 @@ TEST(SelfRAGALCETest, ALCE_05_TerminatesOnExhaustion) {
 
     SelfRAGController ctrl(cfg);
     // All docs have score 0.1 → all [Irrelevant], target never met.
-    std::vector<SelfRAGDocument> all_noise;
+    std::vector<SelfRAGDocument> all_noise = {};
+
     for (size_t i = 0; i < 5; ++i) {
         SelfRAGDocument d;
         d.id      = "noise_" + std::to_string(i);

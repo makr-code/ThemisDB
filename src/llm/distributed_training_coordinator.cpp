@@ -135,7 +135,8 @@ void GradientTensor::compress(GradientCompressionType type) {
             float scale = (max_val - min_val) / 255.0f;
             
             // Store scale and min as metadata (first 8 bytes)
-            std::vector<uint8_t> compressed;
+            std::vector<uint8_t> compressed = {};
+
             compressed.reserve(data.size() + 8);
             
             // Store scale and min
@@ -172,7 +173,8 @@ void GradientTensor::compress(GradientCompressionType type) {
             float max_val = *std::max_element(data.begin(), data.end());
             float scale = (max_val - min_val) / 15.0f;
             
-            std::vector<uint8_t> compressed;
+            std::vector<uint8_t> compressed = {};
+
             compressed.reserve((data.size() + 1) / 2 + 8);
             
             // Store metadata
@@ -583,7 +585,8 @@ std::vector<GradientTensor> AllReduceAggregator::aggregate(
     
     // Use first shard's gradients as template
     const auto& template_grads = shard_gradients[0];
-    std::vector<GradientTensor> aggregated;
+    std::vector<GradientTensor> aggregated = {};
+
     aggregated.reserve(template_grads.size());
     
     // For each layer
@@ -645,7 +648,8 @@ std::vector<GradientTensor> ParameterServerAggregator::aggregate(
     }
     
     const auto& template_grads = shard_gradients[0];
-    std::vector<GradientTensor> aggregated;
+    std::vector<GradientTensor> aggregated = {};
+
     aggregated.reserve(template_grads.size());
     
     // Calculate total weight
@@ -951,7 +955,8 @@ DistributedTrainingCoordinator::collectGradients([[maybe_unused]] int step_numbe
             json response = shard_router_->executeQuery(rpc_query);
             
             // Parse response into gradient tensors
-            std::vector<GradientTensor> shard_grads;
+            std::vector<GradientTensor> shard_grads = {};
+
             if (response.contains("gradients") && response["gradients"].is_array()) {
                 for (const auto& grad_json : response["gradients"]) {
                     try {
@@ -1462,7 +1467,8 @@ void DistributedTrainingCoordinator::initializeAggregator() {
             
         case SyncStrategy::PARAMETER_SERVER: {
             // Create equal weights for all shards
-            std::map<std::string, float> weights;
+            std::map<std::string, float> weights = {};
+
             float weight = 1.0f / static_cast<float>(config_.participant_shards.size());
             for (const auto& shard : config_.participant_shards) {
                 weights[shard] = weight;
@@ -1571,7 +1577,8 @@ bool DistributedTrainingCoordinator::validateShardParticipation() {
     auto available_shards = shard_topology_->getHealthyShards();
     
     // Create set of available shard IDs for fast lookup
-    std::set<std::string> available_shard_ids;
+    std::set<std::string> available_shard_ids = {};
+
     for (const auto& shard_info : available_shards) {
         available_shard_ids.insert(shard_info.shard_id);
     }
@@ -1622,7 +1629,8 @@ void DistributedTrainingCoordinator::updateStatistics(const StepResult& /*result
 std::vector<GradientTensor> DistributedTrainingCoordinator::compressGradients(
     const std::vector<GradientTensor>& gradients
 ) {
-    std::vector<GradientTensor> compressed;
+    std::vector<GradientTensor> compressed = {};
+
     compressed.reserve(gradients.size());
     
     for (auto grad : gradients) {
@@ -1638,7 +1646,8 @@ std::vector<GradientTensor> DistributedTrainingCoordinator::compressGradients(
 std::vector<GradientTensor> DistributedTrainingCoordinator::decompressGradients(
     const std::vector<GradientTensor>& gradients
 ) {
-    std::vector<GradientTensor> decompressed;
+    std::vector<GradientTensor> decompressed = {};
+
     decompressed.reserve(gradients.size());
     
     for (auto grad : gradients) {

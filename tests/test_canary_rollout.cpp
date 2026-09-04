@@ -193,7 +193,8 @@ TEST_F(CanaryNodeMembershipTest, DifferentNodeIds_MayDifferAtLowPercentage) {
     // With 1% rollout, at least some nodes should be excluded and some included
     // across a large enough set.  We simply verify that different IDs can give
     // different answers (not all identical).
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (int i = 0; i < 200; ++i) {
         ids.push_back("node-" + std::to_string(i));
     }

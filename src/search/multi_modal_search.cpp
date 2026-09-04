@@ -231,7 +231,8 @@ std::vector<MultiModalResult> MultiModalSearch::fuseRRF(
     }
 
     // Build result list
-    std::vector<MultiModalResult> results;
+    std::vector<MultiModalResult> results = {};
+
     results.reserve(rrf_scores.size());
     for (const auto& [doc_id, score] : rrf_scores) {
         MultiModalResult r;

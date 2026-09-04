@@ -258,7 +258,8 @@ TEST_F(RetrieverResilienceTest, R07_ConcurrentCacheReadHeavyAccess) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(reader);
     }
@@ -296,7 +297,8 @@ TEST_F(RetrieverResilienceTest, R08_CacheCoherencyUnderConcurrentUpdates) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < 4; ++i) {
         threads.emplace_back(updater, i);
     }

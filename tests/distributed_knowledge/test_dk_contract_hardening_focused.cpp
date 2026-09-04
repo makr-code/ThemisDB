@@ -137,7 +137,8 @@ struct MockGraph {
     std::vector<std::pair<std::string, std::size_t>>
     pathQuery(const std::string& start, std::size_t max_depth) const {
         std::vector<std::pair<std::string, std::size_t>> result;
-        std::set<std::string> visited;
+        std::set<std::string> visited = {};
+
         std::vector<std::pair<std::string, std::size_t>> frontier = {{start, 0}};
         while (!frontier.empty()) {
             auto [node, depth] = frontier.back();
@@ -235,7 +236,8 @@ TEST(DKContractHardeningDKC05, FederationResultIsUnionNoDuplicates) {
     std::vector<std::string> node_a = {"e1", "e2", "e3"};
     std::vector<std::string> node_b = {"e2", "e3", "e4"};
 
-    std::set<std::string> federated;
+    std::set<std::string> federated = {};
+
     for (auto& id : node_a) {
       federated.insert(id);
     }

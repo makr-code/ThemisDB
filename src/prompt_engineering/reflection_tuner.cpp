@@ -391,7 +391,8 @@ bool ReflectionHallucinationGuard::shouldHalt(
         return true;
     }
 
-    std::vector<double> trajectory;
+    std::vector<double> trajectory = {};
+
     trajectory.reserve(steps.size());
     for (const auto& step : steps) {
         trajectory.push_back(step.quality_score);

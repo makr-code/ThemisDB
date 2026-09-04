@@ -34,7 +34,8 @@ using storage::TTTrain;
 // ============================================================================
 
 static std::vector<float> jsonToFloats(const json& arr) {
-    std::vector<float> out;
+    std::vector<float> out = {};
+
     out.reserve(arr.size());
     for (const auto& v : arr) {
       out.push_back(v.get<float>());
@@ -169,7 +170,8 @@ static TTTrain buildTrain(const json& arg, const FunctionContext& ctx) {
     auto shape_arr = tensor_arg.at("shape");
 
     std::vector<float> data = jsonToFloats(data_arr);
-    std::vector<std::size_t> shape;
+    std::vector<std::size_t> shape = {};
+
     for (const auto& s : shape_arr) {
       shape.push_back(s.get<std::size_t>());
     }
@@ -561,7 +563,8 @@ public:
                 "TENSOR_DECOMPOSE: requires at least 2 arguments (data, shape)");
 
         std::vector<float>       data;
-        std::vector<std::size_t> shape;
+        std::vector<std::size_t> shape = {};
+
         for (const auto& v : args[0]) {
           data.push_back(v.get<float>());
         }

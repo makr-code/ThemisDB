@@ -133,7 +133,8 @@ public:
         // Sort by distance (ascending)
         std::sort(candidates.begin(), candidates.end());
         
-        std::vector<AnnSearchResult> results;
+        std::vector<AnnSearchResult> results = {};
+
         results.reserve(std::min(static_cast<size_t>(k), candidates.size()));
         
         for (size_t i = 0; i < candidates.size() && i < static_cast<size_t>(k); ++i) {
@@ -178,7 +179,8 @@ public:
         // Sort by distance (ascending)
         std::sort(candidates.begin(), candidates.end());
         
-        std::vector<AnnSearchResult> results;
+        std::vector<AnnSearchResult> results = {};
+
         results.reserve(std::min(static_cast<size_t>(k), candidates.size()));
         
         for (size_t i = 0; i < candidates.size() && i < static_cast<size_t>(k); ++i) {

@@ -340,7 +340,8 @@ TEST(GeoReplicationConsistencyTest, ConcurrentWritesDoNotRace) {
 TEST(GeoReplicationConsistencyTest, ConcurrentReadsDoNotRace) {
     GeoReplicationManager mgr(makeGeoConfig());
     const int N = 100;
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < N; ++i) {
         threads.emplace_back([&mgr] {
             mgr.read("k", ConsistencyLevel::EVENTUAL);

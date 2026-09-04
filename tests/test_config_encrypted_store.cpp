@@ -331,7 +331,8 @@ TEST_F(ConfigEncryptedStoreTest, ConcurrentRotationIsThreadSafe) {
     }
 
     // Launch threads: some rotate, some read, some write.
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         if (t % 2 == 0) {
             threads.emplace_back([&]() {

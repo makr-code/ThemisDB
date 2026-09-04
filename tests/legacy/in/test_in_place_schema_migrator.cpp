@@ -399,7 +399,8 @@ TEST_F(InPlaceSchemaMigratorTest, Apply_SequentialMigrations_AllColumnsPresent) 
     ASSERT_TRUE(tbl.has_value());
     ASSERT_EQ(tbl->properties.size(), 4u);
 
-    std::set<std::string> col_names;
+    std::set<std::string> col_names = {};
+
     for (const auto& p : tbl->properties) {
       col_names.insert(p.name);
     }

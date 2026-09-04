@@ -246,7 +246,8 @@ static void BM_DataLoader_WithPrefetch(benchmark::State& state) {
     GPUDataLoader loader(tokenizer, config);
     
     // Create training samples
-    std::vector<InstructionDataSample> samples;
+    std::vector<InstructionDataSample> samples = {};
+
     for (size_t i = 0; i < 100; ++i) {
         InstructionDataSample sample;
         sample.instruction = "Sample instruction " + std::to_string(i);
@@ -324,7 +325,8 @@ static void BM_BatchLoading_Throughput(benchmark::State& state) {
     GPUDataLoader loader(tokenizer, config);
     
     // Create training samples
-    std::vector<InstructionDataSample> samples;
+    std::vector<InstructionDataSample> samples = {};
+
     for (size_t i = 0; i < 200; ++i) {
         InstructionDataSample sample;
         sample.instruction = "Instruction " + std::to_string(i);

@@ -315,7 +315,8 @@ struct LiveMiniImporter {
                 current.clear();
             }
         }
-        std::vector<LiveTableSchema> result;
+        std::vector<LiveTableSchema> result = {};
+
         for (auto& [n, s] : schemas) {
           result.push_back(s);
         }
@@ -473,7 +474,8 @@ TEST_F(PostgresLiveIntegrationTest, LiveSchemaContainsThreeTables) {
     LiveMiniImporter imp;
     auto schemas = imp.getSourceSchema(dump_path_);
     EXPECT_EQ(schemas.size(), 3u);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     for (auto& s : schemas) {
       names.push_back(s.name);
     }

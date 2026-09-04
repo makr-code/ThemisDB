@@ -120,7 +120,8 @@ public:
     virtual std::vector<GeneratedImage> generateBatch(
             const std::vector<std::string>& prompts,
             const SDGenerationConfig& cfg) {
-        std::vector<GeneratedImage> results;
+        std::vector<GeneratedImage> results = {};
+
         results.reserve(prompts.size());
         for (const auto& p : prompts) {
             results.push_back(generate(p, cfg));

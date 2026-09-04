@@ -484,7 +484,8 @@ TEST_F(AnalyticsEdgeCasesTest, ANL_14_AnalyticsSequenceNumberIntegrity) {
     std::string data;
   };
   
-  std::vector<SequencedEvent> events;
+  std::vector<SequencedEvent> events = {};
+
   for (int i = 0; i < 100; ++i) {
     SequencedEvent evt;
     evt.sequence_number = i;

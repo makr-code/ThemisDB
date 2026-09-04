@@ -151,7 +151,8 @@ PromptLibraryBundle PromptLibraryBundle::fromJson(const nlohmann::json& j) {
 std::string PromptLibraryIO::computeChecksum(
         const PromptLibraryBundle& bundle) {
     // Collect canonical JSON strings, sort by id for determinism.
-    std::vector<std::string> parts;
+    std::vector<std::string> parts = {};
+
     parts.reserve(bundle.templates.size());
     for (const auto& t : bundle.templates) {
         parts.push_back(t.toJson().dump());
@@ -331,7 +332,8 @@ ImportResult PromptLibraryIO::importFromFile(const std::string&   path,
             (std::istreambuf_iterator<char>(ifs)),
             std::istreambuf_iterator<char>());
 
-        std::optional<PromptLibraryBundle> opt;
+        std::optional<PromptLibraryBundle> opt = {};
+
         if (isYamlPath(path)) {
             opt = importFromYaml(content);
         } else {

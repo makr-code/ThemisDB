@@ -675,7 +675,8 @@ nlohmann::json ComplianceReporter::generateCcpaReport(const CcpaRuleSet &rule_se
 
     // Check whether any active policy rule covers CCPA-required resources
     const std::vector<std::string> ccpa_resources = {"personal_information", "data_subject", "consumer_data"};
-    std::vector<std::string> uncovered;
+    std::vector<std::string> uncovered = {};
+
     for (const auto &res : ccpa_resources) {
         bool covered = false;
         for (const auto &rule : rules) {

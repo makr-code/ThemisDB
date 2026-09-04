@@ -612,7 +612,8 @@ static void writePersistedFingerprintEdge(std::vector<uint8_t> &buf,
 static std::vector<uint8_t> serializeMutationJournal(const std::vector<MutationJournalEntry> &entries) {
     constexpr std::size_t kEstimatedBytesPerEntry = 256U;
     constexpr std::size_t kJournalHeaderBytes     = 64U;
-    std::vector<uint8_t> buf;
+    std::vector<uint8_t> buf = {};
+
     buf.reserve(entries.size() * kEstimatedBytesPerEntry + kJournalHeaderBytes);
     writeLE<uint64_t>(buf, kMutationJournalMagic);
     writeLE<uint32_t>(buf, kMutationJournalVersion);
@@ -640,7 +641,8 @@ static std::vector<uint8_t> serializeDedupSnapshot(const themis::graph::Persiste
                                                    std::size_t total_bytes_stored, std::size_t bytes_saved) {
     auto graph_bytes = serializeGraphSnapshot(snapshot);
 
-    std::vector<uint8_t> buf;
+    std::vector<uint8_t> buf = {};
+
     buf.reserve(graph_bytes.size() + records.size() * 256U + 64U);
     writeLE<uint64_t>(buf, kDedupSnapshotMagic);
     writeLE<uint32_t>(buf, kDedupSnapshotVersion);
@@ -969,13 +971,15 @@ static void compactMutationJournalEntries(std::vector<MutationJournalEntry> &ent
         return (entry.type == MutationJournalEntryType::Upsert) ? entry.record.tensor_id : entry.tensor_id;
     };
 
-    std::unordered_map<std::string, std::size_t> last_index_by_tensor_id;
+    std::unordered_map<std::string, std::size_t> last_index_by_tensor_id = {};
+
     last_index_by_tensor_id.reserve(entries.size());
     for (std::size_t i = 0; i < entries.size(); ++i) {
         last_index_by_tensor_id[extractTensorId(entries[i])] = i;
     }
 
-    std::vector<MutationJournalEntry> compacted;
+    std::vector<MutationJournalEntry> compacted = {};
+
     compacted.reserve(last_index_by_tensor_id.size());
     for (std::size_t i = 0; i < entries.size(); ++i) {
         auto &entry                  = entries[i];
@@ -1309,7 +1313,8 @@ bool TensorDeduplicationManager::replayMutationJournal(const std::string &snapsh
                 journal_entry_enumerate_fn_(
                     snapshot_key,
                     [&](std::string_view /*tensor_id*/, const std::vector<uint8_t>& payload) {
-                        std::vector<MutationJournalEntry> one;
+                        std::vector<MutationJournalEntry> one = {};
+
                         if (deserializeMutationJournal(payload, one) && !one.empty()) {
                             entries.push_back(std::move(one[0]));
                         }
@@ -1596,7 +1601,8 @@ inline std::optional<std::vector<uint8_t>> fromHex(std::string_view hex) {
     if ((hex.size() % 2U) != 0U) {
         return std::nullopt;
     }
-    std::vector<uint8_t> out;
+    std::vector<uint8_t> out = {};
+
     out.reserve(hex.size() / 2U);
     for (std::size_t i = 0; i < hex.size(); i += 2U) {
         const uint8_t hi = hexNibble(hex[i]);

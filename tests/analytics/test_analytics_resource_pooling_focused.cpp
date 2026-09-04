@@ -575,7 +575,8 @@ TEST_F(ResourcePoolingTest, RP_15_ConcurrentExhaustionNoCorruption) {
     std::atomic<int> failed(0);
 
     // Action: Multiple threads try to acquire concurrently
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 20; ++i) {
         threads.emplace_back([&]() {
             auto [err, conn] = pool.acquire();

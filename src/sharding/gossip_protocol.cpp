@@ -327,7 +327,8 @@ GossipMessage GossipProtocol::handleMessage(const GossipMessage& message) {
     } else if (message.message_type == "peer_list") {
         // Merge peer list
         if (message.payload.contains("peers") && message.payload["peers"].is_array()) {
-            std::vector<PeerInfo> peers;
+            std::vector<PeerInfo> peers = {};
+
             for (const auto& p : message.payload["peers"]) {
                 peers.push_back(PeerInfo::fromJson(p));
             }
@@ -580,7 +581,8 @@ std::vector<PeerInfo> GossipProtocol::selectRandomPeers([[maybe_unused]] size_t 
     }
     
     // Collect healthy peers
-    std::vector<PeerInfo> candidates;
+    std::vector<PeerInfo> candidates = {};
+
     for (const auto& [id, peer] : peers_) {
         if (peer.is_healthy) {
             candidates.push_back(peer);

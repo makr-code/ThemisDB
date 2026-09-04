@@ -154,7 +154,8 @@ BENCHMARK_DEFINE_F(ScatterGatherFixture, ScatterGatherLatency)(benchmark::State&
         }
         
         // Route each URN (simulates scatter)
-        std::vector<std::string> target_shards;
+        std::vector<std::string> target_shards = {};
+
         for (const auto& urn : query_urns) {
             auto result = resolver_->resolvePrimary(urn);
             if (result.has_value()) {
@@ -252,7 +253,8 @@ protected:
 BENCHMARK_DEFINE_F(CrossShardJoinFixture, BroadcastHashJoin)(benchmark::State& state) {
     for (auto _ : state) {
         // Build hash table from smaller (left) table
-        std::unordered_map<std::string, int> hash_table;
+        std::unordered_map<std::string, int> hash_table = {};
+
         hash_table.reserve(left_keys_.size());
         
         for (size_t i = 0; i < left_keys_.size(); i++) {
@@ -312,7 +314,8 @@ BENCHMARK_DEFINE_F(CrossShardJoinFixture, CoLocatedJoinSimulation)(benchmark::St
         std::vector<std::pair<int, int>> all_results;
         
         for (int s = 0; s < num_shards_; s++) {
-            std::unordered_map<std::string, int> local_hash;
+            std::unordered_map<std::string, int> local_hash = {};
+
             for (const auto& [key, val] : left_partitions[s]) {
                 local_hash[key] = val;
             }

@@ -315,7 +315,8 @@ std::string LLMJudgeClient::evaluate(const std::string& prompt) {
 std::vector<std::string> LLMJudgeClient::evaluateBatch(
     const std::vector<std::string>& prompts
 ) {
-    std::vector<std::string> results;
+    std::vector<std::string> results = {};
+
     results.reserve(prompts.size());
     
     if (!impl_->config.enable_batching || prompts.size() == 1) {
@@ -330,7 +331,8 @@ std::vector<std::string> LLMJudgeClient::evaluateBatch(
     
     try {
         // Submit all requests
-        std::vector<llm::InferenceHandle> handles;
+        std::vector<llm::InferenceHandle> handles = {};
+
         handles.reserve(prompts.size());
         
         for (const auto& prompt : prompts) {

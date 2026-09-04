@@ -442,7 +442,8 @@ TEST(NetworkCircuitBreakerTest, ConcurrentTripAndRecovery) {
     AdaptiveCircuitBreaker cb(makeConfig(5, 2, 1s));
 
     // Trip the circuit from multiple threads
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 10; ++t) {
         threads.emplace_back([&cb]() {
             for (int i = 0; i < 5; ++i) {

@@ -272,7 +272,8 @@ std::vector<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::listSched
     const std::string& tenant_id_filter) const
 {
     std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
-    std::vector<MaintenanceScheduleEntry> result;
+    std::vector<MaintenanceScheduleEntry> result = {};
+
     result.reserve(schedules_.size());
     for (auto& [id, entry] : schedules_) {
         if (!tenant_id_filter.empty() && entry.tenant_id != tenant_id_filter) {
@@ -568,7 +569,8 @@ std::vector<OrchestratorJob> DatabaseMaintenanceOrchestrator::listJobs(
     bool active_only) const
 {
     std::shared_lock<std::shared_mutex> lock(jobs_mutex_);
-    std::vector<OrchestratorJob> result;
+    std::vector<OrchestratorJob> result = {};
+
     for (auto& [id, job] : jobs_) {
         if (active_only && job.state != MaintenanceJobState::PENDING &&
                            job.state != MaintenanceJobState::RUNNING) {
@@ -726,7 +728,8 @@ std::map<std::string, std::string>
 DatabaseMaintenanceOrchestrator::listTaskHandlers() const
 {
     std::shared_lock<std::shared_mutex> lock([[maybe_unused]] handlers_mutex_);
-    std::map<std::string, std::string> result;
+    std::map<std::string, std::string> result = {};
+
     for (const auto& [key, handler] : task_handlers_) {
         const auto task_type_str = taskTypeToString(static_cast<MaintenanceTaskType>(key));
         if ([[maybe_unused]] handler) {
@@ -1491,7 +1494,8 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
 
     // Build a stable index map so that tasks with equal eligibility are
     // emitted in the same relative order as entry.tasks (Kahn's seeding).
-    std::unordered_map<int, std::size_t> taskIndex;
+    std::unordered_map<int, std::size_t> taskIndex = {};
+
     for (std::size_t i = 0; i < entry.tasks.size(); ++i) {
         taskIndex[static_cast<int>(entry.tasks[i])] = i;
     }
@@ -1549,7 +1553,8 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
     };
 
     // Initialize ready list with zero-in-degree tasks, in entry.tasks order.
-    std::deque<MaintenanceTaskType> ready;
+    std::deque<MaintenanceTaskType> ready = {};
+
     for (auto t : entry.tasks) {
         if (inDegree[static_cast<int>(t)] == 0) {
             ready.push_back(t);
@@ -1557,7 +1562,8 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
     }
     // ready is already in entry.tasks order because we iterated entry.tasks.
 
-    std::vector<MaintenanceTaskType> result;
+    std::vector<MaintenanceTaskType> result = {};
+
     result.reserve(entry.tasks.size());
 
     while (!ready.empty()) {

@@ -135,7 +135,8 @@ TEST(MultiShardTransactionTest, BasicTwoPhaseCommit) {
     std::string tx_id = "tx_001";
     
     // Phase 1: Prepare
-    std::vector<bool> prepare_results;
+    std::vector<bool> prepare_results = {};
+
     for (auto& shard : shards) {
         bool result = shard.prepare(tx_id);
         prepare_results.push_back(result);
@@ -147,7 +148,8 @@ TEST(MultiShardTransactionTest, BasicTwoPhaseCommit) {
     }
     
     // Phase 2: Commit
-    std::vector<bool> commit_results;
+    std::vector<bool> commit_results = {};
+
     for (auto& shard : shards) {
         bool result = shard.commit(tx_id);
         commit_results.push_back(result);
@@ -183,7 +185,8 @@ TEST(MultiShardTransactionTest, RollbackOnPrepareFailure) {
     shards[2].prepare("other_tx");
     
     // Phase 1: Prepare all shards
-    std::vector<bool> prepare_results;
+    std::vector<bool> prepare_results = {};
+
     for (auto& shard : shards) {
         bool result = shard.prepare(tx_id);
         prepare_results.push_back(result);
@@ -414,7 +417,8 @@ TEST(MultiShardTransactionTest, ParticipantTimeoutHandling) {
     }
     
     // Wait for results with timeout
-    std::vector<bool> results;
+    std::vector<bool> results = {};
+
     for (auto& future : prepare_futures) {
         auto status = future.wait_for(std::chrono::milliseconds(TIMEOUT_MS));
         

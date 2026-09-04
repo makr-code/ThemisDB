@@ -129,7 +129,8 @@ std::string GraphQLFederationSupport::GraphQLSchemaGenerator::generateFederatedS
 
         // Build a set of FK columns for annotation
         std::set<std::string> fk_cols;
-        std::map<std::string, std::string> fk_targets;
+        std::map<std::string, std::string> fk_targets = {};
+
         for (const auto &fk : schema.foreign_keys) {
             fk_cols.insert(fk.first);
             fk_targets[fk.first] = fk.second;

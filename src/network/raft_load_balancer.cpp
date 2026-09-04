@@ -174,7 +174,8 @@ void RaftLoadBalancer::updateWeight(const std::string &address, double weight) {
 
 std::vector<RaftLoadBalancer::Backend *> RaftLoadBalancer::getBackends() const {
     std::lock_guard<std::mutex> lk(backends_mutex_);
-    std::vector<Backend *> result;
+    std::vector<Backend *> result = {};
+
     result.reserve(backends_.size());
     for (const auto &b : backends_) {
         result.push_back(b.get());
@@ -324,7 +325,8 @@ RaftLoadBalancer::Backend *RaftLoadBalancer::findBackend(const std::string &addr
 }
 
 std::vector<RaftLoadBalancer::Backend *> RaftLoadBalancer::healthyBackends() const {
-    std::vector<Backend *> result;
+    std::vector<Backend *> result = {};
+
     // Prefer local datacenter if configured
     if (config_.prefer_local_datacenter && !config_.datacenter.empty()) {
         for (const auto &b : backends_) {

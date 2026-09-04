@@ -48,7 +48,8 @@ public:
     }
 
     std::vector<AnnSearchResult> search(const float*, size_t, int k) const override {
-        std::vector<AnnSearchResult> out;
+        std::vector<AnnSearchResult> out = {};
+
         int take = std::min<int>(k, static_cast<int>(data_.size()));
         out.reserve(static_cast<std::size_t>(take));
         for (int i = 0; i < take; ++i) {
@@ -86,7 +87,8 @@ public:
             throw std::runtime_error("simulated shard backend failure");
         }
 
-        std::vector<AnnSearchResult> out;
+        std::vector<AnnSearchResult> out = {};
+
         const int take = std::min<int>(k, static_cast<int>(data_.size()));
         out.reserve(static_cast<std::size_t>(take));
         for (int i = 0; i < take; ++i) {

@@ -290,7 +290,8 @@ BENCHMARK_F(HotPlugBenchmarkFixture, MonitorMemoryFootprint)(benchmark::State& s
         state.PauseTiming();
         
         // Create multiple watch directories
-        std::vector<std::string> watch_dirs;
+        std::vector<std::string> watch_dirs = {};
+
         for (int i = 0; i < num_watches; i++) {
             std::string dir = test_dir + "_watch_" + std::to_string(i);
             fs::create_directories(dir);

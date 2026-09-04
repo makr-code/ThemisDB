@@ -422,7 +422,8 @@ Result<void> AlertingEngine::dispatchToChannels(const Alert& alert) {
         snapshot = channels_;
     }
 
-    std::vector<std::string> failures;
+    std::vector<std::string> failures = {};
+
     for (const auto& ch : snapshot) {
         auto res = ch->send(alert);
         if (!res.has_value()) {

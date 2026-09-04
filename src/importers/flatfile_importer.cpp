@@ -435,7 +435,8 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
         if (!header_line.empty() && header_line.back() == '\r')
             header_line.pop_back();
 
-        std::vector<std::string> cols_vec;
+        std::vector<std::string> cols_vec = {};
+
         if (!has_header_) {
             // Generate synthetic column names: col_0, col_1, ...
             auto fields = parseCsvRow(header_line, delim, quote_char_);
@@ -511,7 +512,8 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
                 }
 
                 std::vector<std::string> cols;
-                std::vector<std::string> vals;
+                std::vector<std::string> vals = {};
+
                 cols.reserve(obj.size());
                 vals.reserve(obj.size());
                 for (auto& [key, val] : obj.items()) {
@@ -556,7 +558,8 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
         std::unique_ptr<parquet::arrow::FileReader> reader =
             std::move(reader_result).ValueOrDie();
 
-        std::shared_ptr<arrow::Schema> schema;
+        std::shared_ptr<arrow::Schema> schema = {};
+
         if (!reader->GetSchema(&schema).ok() || !schema) {
           return result;
         }

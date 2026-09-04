@@ -213,7 +213,8 @@ struct KafkaRecord {
  * @brief A batch of Kafka records returned by a single `poll()` call.
  */
 struct KafkaBatch {
-    std::vector<KafkaRecord> records;
+    std::vector<KafkaRecord> records = {};
+
     bool                     empty() const { return records.empty(); }
     size_t                   size()  const { return records.size();  }
 };

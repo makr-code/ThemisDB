@@ -104,7 +104,8 @@ bool WALShipper::isRunning() const {
 std::vector<ReplicaInfo> WALShipper::getReplicaInfo() const {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
     
-    std::vector<ReplicaInfo> result;
+    std::vector<ReplicaInfo> result = {};
+
     for (const auto& [id, info] : replicas_) {
         result.push_back(info);
     }

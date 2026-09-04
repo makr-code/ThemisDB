@@ -142,7 +142,8 @@ double EstimateValidation::computeP95Error() const {
       return 0.0;
     }
     
-    std::vector<double> errors;
+    std::vector<double> errors = {};
+
     for (const auto& sample : samples) {
         errors.push_back(sample.getError());
     }
@@ -160,7 +161,8 @@ bool EstimateValidation::hasSystematicUnderestimation() const {
       return false;
     }
 
-    std::vector<double> ratios;
+    std::vector<double> ratios = {};
+
     for (const auto& sample : samples) {
         if (sample.actualRows > 0) {
             ratios.push_back(static_cast<double>(sample.actualRows) /
@@ -181,7 +183,8 @@ bool EstimateValidation::hasSystematicOverestimation() const {
       return false;
     }
 
-    std::vector<double> ratios;
+    std::vector<double> ratios = {};
+
     for (const auto& sample : samples) {
         if (sample.actualRows > 0) {
             ratios.push_back(static_cast<double>(sample.actualRows) /
@@ -248,7 +251,8 @@ double CostModelEnhancements::estimateMultiColumnSelectivity(
     }
     
     // Create a map of column -> histogram for quick lookup
-    std::map<std::string, const ColumnHistogram*> histMap;
+    std::map<std::string, const ColumnHistogram*> histMap = {};
+
     for (const auto& hist : histograms) {
         histMap[hist.columnName] = &hist;
     }

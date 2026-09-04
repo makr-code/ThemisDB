@@ -459,7 +459,8 @@ public:
 
         // Build the Cartesian product of (rank, lr) trial pairs
         struct TrialPoint { int rank; float lr; };
-        std::vector<TrialPoint> trials;
+        std::vector<TrialPoint> trials = {};
+
         trials.reserve(cfg.rank_candidates.size() * cfg.lr_candidates.size());
         for (int r : cfg.rank_candidates) {
             for (float lr : cfg.lr_candidates) {
@@ -711,7 +712,8 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
 
         // PAV: build blocks of equal isotonic values
         struct Block { double value; size_t count; };
-        std::vector<Block> blocks;
+        std::vector<Block> blocks = {};
+
         for (double yi : y) {
             blocks.push_back({yi, 1});
             // Merge blocks while the top-of-stack violates monotonicity

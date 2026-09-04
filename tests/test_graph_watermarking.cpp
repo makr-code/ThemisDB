@@ -74,7 +74,8 @@ TEST_F(GraphWatermarkingTest, PartialGraph_DetectedWhen95PercentPresent) {
     auto original = buildGraph(50, "n");
     auto ws = embedder_.embed(original, "tenant_B", 7u);
 
-    std::vector<std::string> wm_nodes;
+    std::vector<std::string> wm_nodes = {};
+
     for (const auto& id : ws.data.node_ids) {
         if (id.rfind("wm_", 0) == 0) {
           wm_nodes.push_back(id);
@@ -207,7 +208,8 @@ TEST_F(GraphWatermarkingTest, EmptyFingerprintList_ReturnsNullopt) {
 // ---------------------------------------------------------------------------
 TEST_F(GraphWatermarkingTest, FullWatermarkPresence_ConfidenceIsOne) {
     auto ws = embedder_.embed(buildGraph(10), "conf_tenant", 99u);
-    std::vector<std::string> wm_nodes;
+    std::vector<std::string> wm_nodes = {};
+
     for (const auto& id : ws.data.node_ids) {
         if (id.rfind("wm_", 0) == 0) {
           wm_nodes.push_back(id);

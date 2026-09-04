@@ -190,7 +190,8 @@ TEST(UpdatesPerformanceBatch4, UP_PER_05_ColumnListBuilding) {
  * (it should be the same or faster for reasonable data sizes)
  */
 TEST(UpdatesPerformanceBatch4, UP_PER_06_NoRegression) {
-    std::vector<std::string> data;
+    std::vector<std::string> data = {};
+
     for (int i = 0; i < 500; ++i) {
         data.push_back("data_" + std::to_string(i));
     }
@@ -250,7 +251,8 @@ TEST(UpdatesPerformanceBatch4, UP_PER_08_UnorderedSetMembership) {
  * Test UP-PER-09: Property map performance for schema comparison
  */
 TEST(UpdatesPerformanceBatch4, UP_PER_09_SchemaPropMapPerf) {
-    std::unordered_map<std::string, const char*> from_props;
+    std::unordered_map<std::string, const char*> from_props = {};
+
     for (int i = 0; i < 100; ++i) {
         from_props["prop_" + std::to_string(i)] = "type";
     }
@@ -572,7 +574,8 @@ TEST(UpdatesPerformanceBatch4, UP_PER_25_IntegrationNoRegression) {
     auto start = std::chrono::high_resolution_clock::now();
     
     // Simulate typical updates module operation
-    std::unordered_map<std::string, std::string> props;
+    std::unordered_map<std::string, std::string> props = {};
+
     for (int i = 0; i < 100; ++i) {
         props["prop_" + std::to_string(i)] = "value_" + std::to_string(i);
     }
@@ -580,7 +583,8 @@ TEST(UpdatesPerformanceBatch4, UP_PER_25_IntegrationNoRegression) {
     std::ostringstream message;
     message << "Processing " << props.size() << " properties";
     
-    std::vector<std::string> results;
+    std::vector<std::string> results = {};
+
     for (const auto& [k, v] : props) {
         results.push_back(k);
     }

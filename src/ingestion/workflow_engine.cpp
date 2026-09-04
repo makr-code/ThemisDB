@@ -315,7 +315,8 @@ bool StepRegistry::hasStep(const std::string& plugin_name) const {
 
 std::vector<std::string> StepRegistry::listSteps() const {
     std::shared_lock<std::shared_mutex> lock(impl_->mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(impl_->steps_.size());
     for (const auto& [name, _] : impl_->steps_) {
       names.push_back(name);
@@ -748,7 +749,8 @@ const WorkflowProfile* WorkflowEngine::selectProfile(
 
 std::vector<std::string> WorkflowEngine::listProfiles() const {
     std::shared_lock<std::shared_mutex> lock(impl_->profiles_mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(impl_->profiles_.size());
     for (const auto& p : impl_->profiles_) {
       names.push_back(p.name);

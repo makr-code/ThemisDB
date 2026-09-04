@@ -504,7 +504,8 @@ TEST_F(LineageBackpressureTest, LB_10_VerifyNoMissingOrDuplicateEvents) {
     EXPECT_EQ(lineage.events.size(), static_cast<size_t>(kTotalEvents));
     
     // Verify no duplicates (all event_ids should be unique)
-    std::unordered_set<std::string> event_ids;
+    std::unordered_set<std::string> event_ids = {};
+
     for (const auto& e : lineage.events) {
         EXPECT_EQ(event_ids.count(e.event_id), 0) 
             << "Duplicate event_id: " << e.event_id;

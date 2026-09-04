@@ -222,7 +222,8 @@ TEST(ShardingChaosTest, RandomFailureInjection) {
     constexpr int NUM_ITERATIONS = 50;
     constexpr double FAILURE_PROBABILITY = 0.2;
     
-    std::vector<ChaosShard> shards;
+    std::vector<ChaosShard> shards = {};
+
     for (int i = 0; i < NUM_SHARDS; ++i) {
         shards.emplace_back(i);
     }
@@ -409,7 +410,8 @@ TEST(ShardingChaosTest, ByzantineFaultTolerance) {
         }
     };
     
-    std::vector<ByzantineShard> shards;
+    std::vector<ByzantineShard> shards = {};
+
     for (int i = 0; i < NUM_SHARDS; ++i) {
         shards.emplace_back(i);
     }
@@ -419,7 +421,8 @@ TEST(ShardingChaosTest, ByzantineFaultTolerance) {
     shards[5].is_byzantine = true;
     
     // Collect responses
-    std::vector<bool> responses;
+    std::vector<bool> responses = {};
+
     for (auto& shard : shards) {
         responses.push_back(shard.processRequestWithVerification("test"));
     }
@@ -452,7 +455,8 @@ TEST(ShardingChaosTest, PartialNetworkConnectivity) {
         explicit ConnectedShard(int id) : shard(id), can_reach(NUM_SHARDS, true) {}
     };
     
-    std::vector<ConnectedShard> shards;
+    std::vector<ConnectedShard> shards = {};
+
     for (int i = 0; i < NUM_SHARDS; ++i) {
         shards.emplace_back(i);
     }

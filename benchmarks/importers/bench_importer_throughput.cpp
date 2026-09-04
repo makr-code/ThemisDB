@@ -1072,7 +1072,8 @@ int main(int argc, char** argv) {
     std::printf("  AC-5 target: SKIP/OVERWRITE overhead <= 5 %% of baseline (10-field docs)\n");
     std::printf("  AC-6 target: MERGE overhead <= 15 %% vs OVERWRITE (same field count, <=100 fields)\n");
 
-    std::vector<BenchResult> conflict_results;
+    std::vector<BenchResult> conflict_results = {};
+
     for (const auto& cfg : conflict_scenarios) {
         BenchResult fastest{cfg.label, 0, 1e30, 0.0, 0.0, 0.0};
         for (size_t it = 0; it < iterations; ++it) {

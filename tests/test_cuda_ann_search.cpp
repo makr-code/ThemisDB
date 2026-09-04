@@ -306,7 +306,8 @@ TEST(CudaAnnHnswWiring, AnnBatchSearch_ReturnsKResultsAfterBuild) {
     themis::acceleration::CUDAVectorBackend backend;
 
     // Vectors: i-th vector = (i*0.1, i*0.1, i*0.1)
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i)
         for (uint32_t d = 0; d < DIM; ++d)
             vecs.push_back(static_cast<float>(i) * 0.1f);
@@ -327,7 +328,8 @@ TEST(CudaAnnHnswWiring, AnnBatchSearch_ResultsSortedAscendingByScore) {
     themis::acceleration::CUDAVectorBackend backend;
 
     // Vectors at distances 0, 1, 2, 3, 4, 5 from origin (along x-axis)
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i) {
         vecs.push_back(static_cast<float>(i));
         vecs.push_back(0.0f);
@@ -354,7 +356,8 @@ TEST(CudaAnnHnswWiring, AnnBatchSearch_NearestNeighbourIsOriginForOriginQuery) {
     themis::acceleration::CUDAVectorBackend backend;
 
     // Vector 0 = (0,0), vector 1 = (1,0), ...
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i) {
         vecs.push_back(static_cast<float>(i));
         vecs.push_back(0.0f);
@@ -380,7 +383,8 @@ TEST(CudaAnnHnswWiring, BatchKnnSearch_UsesHnswWhenIndexBuilt) {
     themis::acceleration::CUDAVectorBackend backend;
 
     // Vector 0 = (0,0), vector 1 = (1,0), ...
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i) {
         vecs.push_back(static_cast<float>(i));
         vecs.push_back(0.0f);

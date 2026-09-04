@@ -161,7 +161,8 @@ struct BioDeleter {
 
     // The verifier expects the signature to be over the raw hash bytes (not hex ASCII).
     // Decode the hex hash_text into raw bytes first.
-    std::vector<unsigned char> hash_bytes;
+    std::vector<unsigned char> hash_bytes = {};
+
     hash_bytes.reserve(hash_text.size() / 2);
     try {
         for (size_t i = 0; i < hash_text.size(); i += 2) {

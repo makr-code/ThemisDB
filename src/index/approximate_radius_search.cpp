@@ -154,7 +154,8 @@ ApproximateRadiusSearch::batchSearch(
                         "Query vectors cannot be empty");
     }
     
-    std::vector<SearchResult> batch_results;
+    std::vector<SearchResult> batch_results = {};
+
     batch_results.reserve(query_vectors.size());
     
     // Process each query

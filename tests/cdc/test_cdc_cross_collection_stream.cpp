@@ -263,7 +263,8 @@ TEST_F(CrossCollectionStreamTest, FilterByCollectionSubset) {
     auto events = stream_->listEventsFor({"orders", "users"});
     ASSERT_EQ(events.size(), 2u);
 
-    std::unordered_set<std::string> col_set;
+    std::unordered_set<std::string> col_set = {};
+
     for (const auto& e : events) {
       col_set.insert(e.collection);
     }

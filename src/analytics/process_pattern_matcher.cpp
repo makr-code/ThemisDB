@@ -67,7 +67,8 @@ namespace {
 
 /// Extract the activity sequence of a trace.
 std::vector<std::string> traceActivities(const ProcessTrace &trace) {
-    std::vector<std::string> acts;
+    std::vector<std::string> acts = {};
+
     acts.reserve(trace.events.size());
     for (const auto &e : trace.events) {
         acts.push_back(e.activity);
@@ -201,7 +202,8 @@ double ProcessPatternMatcher::computeVectorSimilarity(const ProcessPattern &patt
     }
 
     // If the pattern carries a pre-computed embedding use it directly
-    std::vector<float> pat_emb;
+    std::vector<float> pat_emb = {};
+
     if (pattern.pattern_embedding.has_value()) {
         pat_emb = *pattern.pattern_embedding;
     } else {
@@ -317,7 +319,8 @@ ProcessPatternMatcher::findSimilar(const ProcessPattern &pattern, const PatternM
         return {Status::Error("Cannot extract event log: " + lst.message), {}};
     }
 
-    std::vector<SimilarityResult> results;
+    std::vector<SimilarityResult> results = {};
+
     results.reserve(log.traces.size());
 
     for (const auto &trace : log.traces) {
@@ -572,7 +575,8 @@ ProcessPatternMatcher::findPatternsInBatch(const std::vector<std::string> &case_
     }
 
     // Build a map for O(1) trace lookup
-    std::unordered_map<std::string, const ProcessTrace *> trace_map;
+    std::unordered_map<std::string, const ProcessTrace *> trace_map = {};
+
     for (const auto &t : log.traces) {
         trace_map[t.case_id] = &t;
     }

@@ -90,7 +90,8 @@ public:
     
     std::vector<std::string> list() const {
         std::lock_guard<std::mutex> lock(mutex);
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         for (const auto& [id, _] : storage) {
             result.push_back(id);
         }
@@ -536,7 +537,8 @@ TEST_F(LoRAFrameworkComprehensiveTest, MultiLoRAManager_MultiGPU_RoundRobin) {
     config.strategy = MultiGPUStrategy::ROUND_ROBIN;
     
     // Simulate round-robin distribution
-    std::vector<int> assignments;
+    std::vector<int> assignments = {};
+
     for (int i = 0; i < 8; i++) {
         assignments.push_back(config.devices[i % config.devices.size()]);
     }
@@ -593,7 +595,8 @@ TEST_F(LoRAFrameworkComprehensiveTest, ThreadSafety_ConcurrentReads) {
     mock_storage_->save("concurrent_test", weights, metadata);
     
     // Concurrent reads
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; i++) {
         threads.emplace_back([&]() {
             for (int j = 0; j < reads_per_thread; j++) {
@@ -616,7 +619,8 @@ TEST_F(LoRAFrameworkComprehensiveTest, ThreadSafety_ConcurrentWrites) {
     const int num_threads = 10;
     std::atomic<int> successful_writes{0};
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; i++) {
         threads.emplace_back([&, i]() {
             auto weights = createTestWeights();
@@ -645,7 +649,8 @@ TEST_F(LoRAFrameworkComprehensiveTest, ThreadSafety_MixedOperations) {
         mock_storage_->save("mixed_" + std::to_string(i), weights, metadata);
     }
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; i++) {
         threads.emplace_back([&, i]() {
             if (i % 3 == 0) {

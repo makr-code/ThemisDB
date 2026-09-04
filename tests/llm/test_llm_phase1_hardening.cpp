@@ -319,7 +319,8 @@ TEST_F(LLMRAIITests, LLM_RAII_08_CacheLifecycleCleanup) {
     auto initial = g_sim_alloc_net.load();
     
     {
-        std::vector<SimAllocGuard> cache;
+        std::vector<SimAllocGuard> cache = {};
+
         for (int i = 0; i < 5; ++i) {
             cache.emplace_back(10);
         }
@@ -696,7 +697,8 @@ TEST_F(LLMDistributedInferenceTests, LLM_DI_03_CrossShardCommunication) {
         shard.store(false);
     }
     
-    std::vector<std::thread> shard_threads;
+    std::vector<std::thread> shard_threads = {};
+
     for (size_t i = 0; i < shards_ready.size(); ++i) {
         shard_threads.emplace_back([&, i]() {
             std::this_thread::sleep_for(5ms);

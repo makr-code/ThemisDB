@@ -142,7 +142,8 @@ BENCHMARK_F(DeonticExtractionFixture, BatchExtraction_Scaling)(benchmark::State&
     }
 
     for (auto _ : state) {
-        std::vector<DeonticExtraction> results;
+        std::vector<DeonticExtraction> results = {};
+
         results.reserve(sentences.size());
         for (const auto& s : sentences) {
             results.push_back(extractor->extract(s));

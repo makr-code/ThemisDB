@@ -90,7 +90,8 @@ protected:
 
     // Build a minimal set of test entities for exporter integration tests.
     std::vector<BaseEntity> makeEntities(int count = 5) {
-        std::vector<BaseEntity> entities;
+        std::vector<BaseEntity> entities = {};
+
         for (int i = 0; i < count; ++i) {
             BaseEntity e;
             e.setPrimaryKey("ent_" + std::to_string(i));
@@ -419,7 +420,8 @@ TEST_F(ExportEncryptionTest, MetricsEncryptionInToJson) {
 
 TEST_F(ExportEncryptionTest, StreamingExporterWithEncryption) {
     // Build a small set of entities.
-    std::vector<BaseEntity> entities;
+    std::vector<BaseEntity> entities = {};
+
     for (int i = 0; i < 5; ++i) {
         BaseEntity e;
         e.setPrimaryKey("ent_" + std::to_string(i));
@@ -1001,7 +1003,8 @@ protected:
     }
 
     std::vector<BaseEntity> makeEntities(int n = 3) {
-        std::vector<BaseEntity> entities;
+        std::vector<BaseEntity> entities = {};
+
         for (int i = 0; i < n; ++i) {
             BaseEntity e;
             e.setPrimaryKey("ent_" + std::to_string(i));

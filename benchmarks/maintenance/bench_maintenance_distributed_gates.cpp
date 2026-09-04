@@ -119,7 +119,8 @@ static void BM_MTN_DIST02_ScheduleListing(benchmark::State& state) {
     }
 
     for (auto _ : state) {
-        std::vector<maintenance::MaintenanceScheduleEntry> result;
+        std::vector<maintenance::MaintenanceScheduleEntry> result = {};
+
         result.reserve(schedules.size());
         for (const auto& [id, entry] : schedules) {
             result.push_back(entry);

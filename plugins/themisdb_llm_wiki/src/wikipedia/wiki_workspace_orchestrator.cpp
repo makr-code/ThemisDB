@@ -425,7 +425,8 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
 
     // Concept links: doc → each unique section slug (heading adjacency)
     {
-        std::vector<std::string> seen_sections;
+        std::vector<std::string> seen_sections = {};
+
         for (const auto& chunk : chunks) {
             if (!chunk.section_title.empty()) {
                 std::string ss = slugify(chunk.section_title);
@@ -582,13 +583,15 @@ WikiLintResult WikiWorkspaceOrchestrator::lint(
     WikiState state = loadState(workspace_root);
 
     // Build set of all inbound link targets
-    std::unordered_set<std::string> link_targets;
+    std::unordered_set<std::string> link_targets = {};
+
     for (const auto& lnk : state.links) {
         link_targets.insert(lnk.to);
     }
 
     // Build set of known page slugs
-    std::unordered_set<std::string> page_slugs;
+    std::unordered_set<std::string> page_slugs = {};
+
     for (const auto& [slug, meta] : state.pages) {
         page_slugs.insert(slug);
     }
@@ -601,7 +604,8 @@ WikiLintResult WikiWorkspaceOrchestrator::lint(
     }
 
     // ── 2. Missing backlink targets ───────────────────────────────────────────
-    std::unordered_set<std::string> reported_missing;
+    std::unordered_set<std::string> reported_missing = {};
+
     for (const auto& lnk : state.links) {
         if (page_slugs.find(lnk.to) == page_slugs.end() &&
             reported_missing.find(lnk.to) == reported_missing.end())
@@ -670,7 +674,8 @@ WikiWorkspaceStats WikiWorkspaceOrchestrator::stats(const std::string& workspace
     }
 
     // Orphan count (pages with no inbound links)
-    std::unordered_set<std::string> link_targets;
+    std::unordered_set<std::string> link_targets = {};
+
     for (const auto& lnk : state.links) {
         link_targets.insert(lnk.to);
     }

@@ -338,7 +338,8 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
         std::string shared_strings_xml = readZipEntry(blob, "xl/sharedStrings.xml");
 
         // Parse shared strings
-        std::vector<std::string> shared_strings;
+        std::vector<std::string> shared_strings = {};
+
         if (!shared_strings_xml.empty()) {
             auto ss_parse = themis::security::parseXmlSafe(shared_strings_xml, "XLSX sharedStrings.xml");
             if (ss_parse.success) {
@@ -362,7 +363,8 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
 
         // Read workbook.xml to get sheet names
         std::string workbook_xml = readZipEntry(blob, "xl/workbook.xml");
-        std::vector<std::string> sheet_names;
+        std::vector<std::string> sheet_names = {};
+
         if (!workbook_xml.empty()) {
             auto wb_parse = themis::security::parseXmlSafe(workbook_xml, "XLSX workbook.xml");
             if (wb_parse.success) {

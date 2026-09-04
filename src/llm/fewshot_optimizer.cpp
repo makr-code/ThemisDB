@@ -118,7 +118,8 @@ std::vector<FewShotExample> FewShotOptimizer::getCachedExamples(
               [](const auto& a, const auto& b) { return a.first > b.first; });
     
     // Return top results
-    std::vector<FewShotExample> results;
+    std::vector<FewShotExample> results = {};
+
     size_t count = std::min(max_results, scored_examples.size());
     
     for (size_t i = 0; i < count; ++i) {

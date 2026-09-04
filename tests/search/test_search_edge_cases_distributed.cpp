@@ -98,7 +98,8 @@ TEST_F(DistributedSearchEdgeCasesTest, DIS_05_ResponseReordering) {
 
   EXPECT_NE(shard_order, arrival_order);
 
-  std::vector<HybridSearch::Result> reassembled;
+  std::vector<HybridSearch::Result> reassembled = {};
+
   for (int idx : arrival_order) {
     HybridSearch::Result r;
     r.document_id = "doc_" + std::to_string(idx);

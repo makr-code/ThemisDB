@@ -48,7 +48,8 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
 
     // ----- timestamp deltas ---------------------------------------------
     {
-        std::vector<int64_t> deltas;
+        std::vector<int64_t> deltas = {};
+
         deltas.reserve(points.size() - 1);
         for (size_t i = 1; i < points.size(); ++i) {
             deltas.push_back(points[i].timestamp_ms - points[i - 1].timestamp_ms);

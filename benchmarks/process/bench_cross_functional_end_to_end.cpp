@@ -303,7 +303,8 @@ static void BM_PluginQueryWithMetrics(benchmark::State& state) {
         // Query by type
         for (int i = 0; i < 4; i++) {
             start = std::chrono::steady_clock::now();
-            std::vector<PluginManifest> typed;
+            std::vector<PluginManifest> typed = {};
+
             typed.reserve(all_plugins.size());
             for (const auto& plugin : all_plugins) {
                 if (plugin.type == static_cast<PluginType>(i)) {

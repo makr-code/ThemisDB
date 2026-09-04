@@ -180,7 +180,8 @@ void ShardLoadBalancer::reportCompletion(const std::string& shard_id,
 std::vector<ShardLoadBalancer::ShardStatistics>
 ShardLoadBalancer::statistics() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<ShardStatistics> out;
+    std::vector<ShardStatistics> out = {};
+
     out.reserve(shard_order_.size());
     for (const auto& id : shard_order_) {
         auto it = shards_.find(id);

@@ -531,7 +531,8 @@ void ConfigSchemaValidator::validateObject(const nlohmann::json &value, const nl
     // --- additionalProperties ---
     if (schema.contains("additionalProperties")) {
         const auto &ap = schema["additionalProperties"];
-        std::vector<std::string> known_keys;
+        std::vector<std::string> known_keys = {};
+
         if (schema.contains("properties") && schema["properties"].is_object()) {
             for (const auto &[k, _] : schema["properties"].items()) {
                 known_keys.push_back(k);

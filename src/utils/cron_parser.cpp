@@ -588,7 +588,8 @@ std::optional<std::set<int>> CronExpression::parseField(
 }
 
 std::optional<std::set<int>> CronExpression::parseWildcard(int min_value, int max_value) {
-    std::set<int> result;
+    std::set<int> result = {};
+
     for (int i = min_value; i <= max_value; ++i) {
         result.insert(i);
     }
@@ -616,7 +617,8 @@ std::optional<std::set<int>> CronExpression::parseRange(
       return std::nullopt;
     }
 
-    std::set<int> result;
+    std::set<int> result = {};
+
     for (int i = start; i <= end; ++i) {
         result.insert(i);
     }

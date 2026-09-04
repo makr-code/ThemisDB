@@ -151,7 +151,8 @@ static std::vector<uint32_t> buildMinHash(const std::string& text, size_t num_pe
 
     // std::set provides deterministic, sorted iteration order required for
     // reproducible MinHash computation across runs (issue #5414 Phase 1).
-    std::set<std::string> shingles;
+    std::set<std::string> shingles = {};
+
     for (size_t i = 0; i + 2 < words.size(); ++i) {
         shingles.insert(words[i] + " " + words[i+1] + " " + words[i+2]);
     }
@@ -274,7 +275,8 @@ static double computePerplexityScore(const std::string& text) {
 
     // std::map provides deterministic, sorted iteration — required for
     // reproducible entropy computation across runs (issue #5414 Phase 1).
-    std::map<char, int> freq;
+    std::map<char, int> freq = {};
+
     for (char c : text) {
       freq[c]++;
     }
@@ -349,7 +351,8 @@ public:
     // ---- Stage 1: Quality Filtering ----------------------------------------
     std::vector<DataSample> filterByQuality(
             const std::vector<DataSample>& samples) const {
-        std::vector<DataSample> out;
+        std::vector<DataSample> out = {};
+
         out.reserve(samples.size());
 
         for (auto s : samples) {
@@ -433,7 +436,8 @@ public:
             }
         }
 
-        std::vector<DataSample> out;
+        std::vector<DataSample> out = {};
+
         out.reserve(samples.size());
         for (size_t i = 0; i < samples.size(); ++i) {
             if (!is_dup[i]) {

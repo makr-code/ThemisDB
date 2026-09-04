@@ -637,13 +637,15 @@ bool WasmPluginSandbox::checkImportAllowlist() {
     // that the membership test inside the imports loop is O(1) on average
     // rather than O(n) via std::find on a vector, reducing overall complexity
     // from O(imports * host_fns) to O(imports + host_fns).
-    std::unordered_set<std::string> allowed_set;
+    std::unordered_set<std::string> allowed_set = {};
+
     allowed_set.reserve(host_fns_.size());
     for (const auto &hf : host_fns_) {
         allowed_set.insert(hf.module_name + "." + hf.function_name);
     }
 
-    std::vector<std::string> unknown;
+    std::vector<std::string> unknown = {};
+
     for (const auto &imp : module_info_.imports) {
         if (allowed_set.find(imp) == allowed_set.end()) {
             unknown.push_back(imp);

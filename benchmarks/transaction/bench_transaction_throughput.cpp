@@ -764,7 +764,8 @@ BENCHMARK_DEFINE_F(TwoPhaseCommitFixture, TwoPhaseCommitLatency)(benchmark::Stat
     shard_ops.push_back("SET bench_key bench_value");
 
     for (auto _ : state) {
-        std::map<std::string, nlohmann::json> ops_per_shard;
+        std::map<std::string, nlohmann::json> ops_per_shard = {};
+
         for (int i = 0; i < num_shards; ++i) {
             ops_per_shard["bench_shard_" + std::to_string(i)] = shard_ops;
         }

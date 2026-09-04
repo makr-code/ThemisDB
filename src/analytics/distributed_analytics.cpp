@@ -526,7 +526,8 @@ std::future<size_t> DistributedAnalyticsSharding::getHealthyShardCountAsync() co
 
 std::vector<std::string> DistributedAnalyticsSharding::getShardIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(shards_.size());
     for (const auto &e : shards_) {
         ids.push_back(e.shard_id);
@@ -598,13 +599,15 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResu
     }
 
     // Build a map from measure column name → Measure::Function
-    std::unordered_map<std::string, Measure::Function> measure_funcs;
+    std::unordered_map<std::string, Measure::Function> measure_funcs = {};
+
     for (const auto &m : query.measures) {
         measure_funcs[m.name] = m.function;
     }
 
     // Build a set of dimension column names for fast lookup
-    std::unordered_map<std::string, bool> dim_set;
+    std::unordered_map<std::string, bool> dim_set = {};
+
     for (const auto &d : query.dimensions) {
         dim_set[d.name] = true;
     }
@@ -686,7 +689,8 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResu
     // ------------------------------------------------------------------
     // Step 3: Merge grand_totals (SUM / COUNT / MIN / MAX)
     // ------------------------------------------------------------------
-    std::unordered_map<std::string, MeasureAccumulator> grand_accs;
+    std::unordered_map<std::string, MeasureAccumulator> grand_accs = {};
+
     grand_accs.reserve(query.measures.size());
     for (const auto &m : query.measures) {
         MeasureAccumulator ma;
@@ -820,7 +824,8 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     // ------------------------------------------------------------------
     // Gather: collect partial results (with per-shard timeout)
     // ------------------------------------------------------------------
-    std::vector<OLAPResult> partials;
+    std::vector<OLAPResult> partials = {};
+
     partials.reserve(active.size());
 
     const uint32_t effective_timeout_ms =

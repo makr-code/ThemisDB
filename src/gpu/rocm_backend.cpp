@@ -282,7 +282,8 @@ bool ROCmBackend::hasStream(const std::string& name) const {
 
 std::vector<std::string> ROCmBackend::streamNames() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(streams_.size());
     for (const auto& kv : streams_) {
         names.push_back(kv.first);

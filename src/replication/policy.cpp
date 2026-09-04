@@ -42,7 +42,8 @@ static int countHealthy(const std::vector<ReplicaInfo>& replicas) {
 static std::set<std::string> collectDatacenters(
     const std::vector<ReplicaInfo>& replicas)
 {
-    std::set<std::string> dcs;
+    std::set<std::string> dcs = {};
+
     for (const auto& r : replicas) {
         if (!r.datacenter.empty()) {
           dcs.insert(r.datacenter);
@@ -121,7 +122,8 @@ ReplicationPolicy::getPolicy(const std::string& collection) const
 std::vector<std::string> ReplicationPolicy::listPolicies() const
 {
     std::lock_guard<std::mutex> lock(policies_mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(policies_.size());
     for (const auto& kv : policies_) {
       names.push_back(kv.first);

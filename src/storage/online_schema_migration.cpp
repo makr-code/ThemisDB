@@ -228,7 +228,8 @@ MigrationResult SchemaMigrator::migrate()
     // per-table (online semantics: each table flip is done atomically).
 
     // Gather unique table names preserving order
-    std::vector<std::string> tables;
+    std::vector<std::string> tables = {};
+
     for (const auto& op : ops_) {
         // repeated_search scanner alert: this linear scan is over the tiny set of
         // tables touched by a single migration batch, so the cost is negligible

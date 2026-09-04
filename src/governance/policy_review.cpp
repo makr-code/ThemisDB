@@ -157,7 +157,8 @@ void ReviewScheduler::removeSchedule(const std::string &rule_id) {
 std::vector<ReviewScheduler::ReviewSchedule> ReviewScheduler::getAllSchedules() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<ReviewSchedule> result;
+    std::vector<ReviewSchedule> result = {};
+
     result.reserve(schedules_.size());
 
     for (const auto &pair : schedules_) {
@@ -314,7 +315,8 @@ std::optional<PolicyReview> ReviewWorkflow::getReview(const std::string &review_
 std::vector<PolicyReview> ReviewWorkflow::listReviews() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<PolicyReview> result;
+    std::vector<PolicyReview> result = {};
+
     result.reserve(reviews_.size());
 
     for (const auto &pair : reviews_) {
@@ -582,7 +584,8 @@ void PolicyExpiration::removeExpiration(const std::string &rule_id) {
 std::vector<PolicyExpiration::ExpirationConfig> PolicyExpiration::getAllExpirations() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<ExpirationConfig> result;
+    std::vector<ExpirationConfig> result = {};
+
     result.reserve(expirations_.size());
 
     for (const auto &pair : expirations_) {

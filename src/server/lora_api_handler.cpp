@@ -358,7 +358,8 @@ http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
         }
         
         // Extract hyperparameters
-        std::optional<llm::lora::LoRAHyperparameters> hyperparams;
+        std::optional<llm::lora::LoRAHyperparameters> hyperparams = {};
+
         if (body->contains("rank") || body->contains("alpha")) {
             llm::lora::LoRAHyperparameters params;
             params.rank = body->value("rank", 8);
@@ -620,7 +621,8 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
         );
         
         // Apply status filter if specified
-        std::vector<llm::lora::AdapterInfo> filtered_adapters;
+        std::vector<llm::lora::AdapterInfo> filtered_adapters = {};
+
         for (const auto& adapter : all_adapters) {
             if (status_filter.empty() ||
                 (status_filter == "ready" && adapter.is_loaded) ||
@@ -845,7 +847,8 @@ http::response<http::string_body> LoRAApiHandler::handleHotLoadStatus(
     try {
         // Find the most recent loading job for this adapter.
         auto jobs = orchestrator.listJobs();
-        std::optional<llm::lora::LoRAOrchestrator::JobInfo> latest;
+        std::optional<llm::lora::LoRAOrchestrator::JobInfo> latest = {};
+
         for (const auto& job : jobs) {
             if (job.adapter_id == adapter_id &&
                 job.type == llm::lora::LoRAOrchestrator::JobType::Loading) {
@@ -1219,7 +1222,8 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
         bool compressed = false;
         std::string compression = body->value("compression", "none");
         
-        std::vector<uint8_t> weights_data;
+        std::vector<uint8_t> weights_data = {};
+
         if (compression == "zstd") {
             // Decompress data
             auto decompressed = utils::zstd_decompress(

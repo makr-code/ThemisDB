@@ -60,7 +60,8 @@ float MultiGPULoRATrainer::train_step(
     
     // Compute loss on each GPU
     float total_loss = 0.0f;
-    std::vector<GPUTensor> grad_outputs;
+    std::vector<GPUTensor> grad_outputs = {};
+
     grad_outputs.reserve(outputs.size());
     
     for (size_t i = 0; i < outputs.size(); ++i) {

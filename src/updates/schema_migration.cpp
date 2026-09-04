@@ -815,7 +815,8 @@ struct SchemaMigration::Impl {
             }
             
             // Pre-populate the key snapshot so createIterator() yields real records.
-            std::vector<std::string> keys;
+            std::vector<std::string> keys = {};
+
             if (!storage.listKeys(keys)) {
                 LOG_WARN("SchemaMigration [{}]: listKeys() unsupported or failed; "
                          "custom migration callback will see an empty iterator",

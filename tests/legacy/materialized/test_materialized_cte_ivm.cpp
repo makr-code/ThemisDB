@@ -679,7 +679,8 @@ TEST(MaterializedCTEViewTest, ConcurrentReads_ThreadSafe) {
 
     // 8 concurrent readers
     std::atomic<int> success{0};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 8; ++t) {
         threads.emplace_back([&view, &success]() {
             for (int i = 0; i < 50; ++i) {
@@ -713,7 +714,8 @@ TEST(MaterializedCTERegistryTest, ConcurrentApplyAndQuery_ThreadSafe) {
 
     // Reader threads
     std::atomic<int> reads{0};
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int t = 0; t < 4; ++t) {
         readers.emplace_back([&]() {
             while (!stop.load()) {

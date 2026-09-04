@@ -535,7 +535,8 @@ void Http2Session::processStream(int32_t stream_id) {
         "transfer-encoding", "connection", "keep-alive", "upgrade",
         "proxy-connection", "te"
     };
-    std::unordered_map<std::string, std::string> response_headers;
+    std::unordered_map<std::string, std::string> response_headers = {};
+
     for (const auto& header : response) {
         bool skip = false;
         for (const auto& hop : kHopByHop) {

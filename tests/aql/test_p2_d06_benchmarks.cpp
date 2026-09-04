@@ -509,7 +509,8 @@ static void BenchmarkConcurrentCompressionStress(State& state) {
     GenerateTestHistory(history);
     
     for (auto _ : state) {
-        std::vector<std::thread> threads;
+        std::vector<std::thread> threads = {};
+
         for (int t = 0; t < kThreadCount; ++t) {
             threads.emplace_back([&compressor, &history]() {
                 auto result = compressor->compressHistory(history, 2048, 0.85f);

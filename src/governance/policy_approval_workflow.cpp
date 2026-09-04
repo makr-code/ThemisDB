@@ -413,7 +413,8 @@ std::vector<std::string> PolicyApprovalWorkflow::getRulesInState(
 ) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> rules;
+    std::vector<std::string> rules = {};
+
     for (const auto& [rule_id, status] : approvals_) {
         if (status.current_state == state) {
             rules.push_back(rule_id);
@@ -428,7 +429,8 @@ std::vector<std::string> PolicyApprovalWorkflow::getPendingApprovalsFor(
 ) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> pending;
+    std::vector<std::string> pending = {};
+
     for (const auto& [rule_id, status] : approvals_) {
         if (status.current_state == ApprovalState::REVIEW) {
             auto it = std::find(status.approvers.begin(), status.approvers.end(), approver);

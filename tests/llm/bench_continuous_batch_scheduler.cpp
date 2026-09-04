@@ -237,7 +237,8 @@ TEST_F(SchedulerBenchmark, RejectionLatency_QueueFull) {
     sched->start();
 
     // Fill the queue
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < 4; ++i) {
         auto id = sched->submitRequest(makeRequest(16, 8));
         if (!id.empty()) {
@@ -329,7 +330,8 @@ TEST_F(SchedulerBenchmark, QuotaRejectionThroughput) {
 
 TEST_F(SchedulerBenchmark, GetStats_CallCostUnderLoad) {
     constexpr size_t N_REQUESTS = 32;
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < N_REQUESTS; ++i) {
         auto id = scheduler->submitRequest(makeRequest(16, 8));
         if (!id.empty()) {

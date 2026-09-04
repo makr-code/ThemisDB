@@ -80,7 +80,8 @@ double MLAnomalyDetector::medianIntervalMs(const ForecastSeries& series) const {
     if (pts.size() < 2) {
       return 0.0;
     }
-    std::vector<int64_t> diffs;
+    std::vector<int64_t> diffs = {};
+
     diffs.reserve(pts.size() - 1);
     for (size_t i = 1; i < pts.size(); ++i) {
         diffs.push_back(pts[i].timestamp_ms - pts[i - 1].timestamp_ms);
@@ -104,7 +105,8 @@ std::vector<int> MLAnomalyDetector::dbscanLabels(
     std::vector<int> labels(values.size(), UNVISITED);
 
     auto regionQuery = [&]([[maybe_unused]] size_t idx) {
-        std::vector<size_t> neighbours;
+        std::vector<size_t> neighbours = {};
+
         for (size_t j = 0; j < values.size(); ++j) {
             if (std::fabs(values[j] - values[idx]) <= cfg_.dbscan_eps) {
                 neighbours.push_back(j);
@@ -261,7 +263,8 @@ MLAnomalyDetector::MLAnomalyDetector(const MLConfig& config)
 // ---------------------------------------------------------------------------
 
 void MLAnomalyDetector::train(const std::vector<ForecastSeries>& training_data) {
-    std::vector<themisdb::analytics::TimeSeriesPoint> merged;
+    std::vector<themisdb::analytics::TimeSeriesPoint> merged = {};
+
     for (const auto& ts : training_data) {
         const auto& pts = ts.points();
         merged.insert(merged.end(), pts.begin(), pts.end());
@@ -311,7 +314,8 @@ void MLAnomalyDetector::train(const std::vector<ForecastSeries>& training_data) 
     forecast_model_.fit(training_series_);
 
     // Train outlier detector on baseline values.
-    std::vector<DataPoint> dp;
+    std::vector<DataPoint> dp = {};
+
     dp.reserve(baseline_values_.size());
     auto ts_vec = training_series_.timestamps();
     for (size_t i = 0; i < baseline_values_.size(); ++i) {
@@ -376,7 +380,8 @@ MLAnomalyDetector::detectAnomalies(const ForecastSeries& current_data) const {
 
     // Forecast expected values for the same horizon.
     auto forecast_points = forecast_model_.predict(static_cast<int>(pts.size()));
-    std::vector<double> values;
+    std::vector<double> values = {};
+
     values.reserve(pts.size());
     for (const auto& p : pts) {
       values.push_back(p.value);

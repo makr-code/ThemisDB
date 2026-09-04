@@ -97,7 +97,8 @@ std::optional<std::string> TierSelector::selectTier(
 
     // Find the coarsest tier whose resolution <= requested_resolution.
     // Tiers are ordered finest→coarsest, so we iterate in reverse.
-    std::optional<const DownsamplingTier*> best;
+    std::optional<const DownsamplingTier*> best = {};
+
     for (auto& tier : tiers) {
         if (tier.resolution <= requested_resolution) {
             best = &tier;

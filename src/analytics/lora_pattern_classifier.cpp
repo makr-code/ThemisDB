@@ -173,7 +173,8 @@ PatternResult LoRAPatternClassifier::automlFallback(const std::vector<DataPoint>
 
     std::size_t total_fields   = 0;
     std::size_t numeric_fields = 0;
-    std::vector<double> numeric_values;
+    std::vector<double> numeric_values = {};
+
     numeric_values.reserve(events.size() * kExpectedFieldsPerEvent);
     int monotonic_steps = 0;
     int step_count      = 0;

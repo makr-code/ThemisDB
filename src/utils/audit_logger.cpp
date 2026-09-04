@@ -361,7 +361,8 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
                 auto blob = enc_->encrypt(plain, cfg_.key_id);
 
                 // Build bytes for hashing: iv || ciphertext || tag
-                std::vector<uint8_t> to_hash;
+                std::vector<uint8_t> to_hash = {};
+
                 to_hash.reserve(blob.iv.size() + blob.ciphertext.size() + blob.tag.size());
                 to_hash.insert(to_hash.end(), blob.iv.begin(), blob.iv.end());
                 to_hash.insert(to_hash.end(), blob.ciphertext.begin(), blob.ciphertext.end());
@@ -1531,7 +1532,8 @@ std::string AuditLogger::formatAsSyslog(const nlohmann::json& event, SecurityEve
 std::vector<AuditLogger::AuditLogEntry> AuditLogger::searchEntries(
     const SearchQuery& query) const {
 
-    std::vector<AuditLogEntry> results;
+    std::vector<AuditLogEntry> results = {};
+
     if (!std::filesystem::exists(cfg_.log_path)) {
         return results;
     }

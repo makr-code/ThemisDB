@@ -393,7 +393,8 @@ ResolutionResult DependencyResolver::resolve(
         }
 
         // Track edges already added for this pkg to guard against duplicate deps.
-        std::unordered_set<std::string> added_edges;
+        std::unordered_set<std::string> added_edges = {};
+
         added_edges.reserve(it_ver->second.size());
 
         for (const auto& dep : it_ver->second) {
@@ -421,14 +422,16 @@ ResolutionResult DependencyResolver::resolve(
     // Use std::set for ready queue to maintain deterministic sorted order
     // and enable efficient insertion/deletion (Error Code: 7456-7459)
 
-    std::set<std::string> ready_set;
+    std::set<std::string> ready_set = {};
+
     for (const auto& kv : in_degree) {
         if (kv.second == 0) {
             ready_set.insert(kv.first);
         }
     }
 
-    std::vector<std::string> sorted_pkgs;
+    std::vector<std::string> sorted_pkgs = {};
+
     sorted_pkgs.reserve(node_target.size());  // Pre-allocate for efficiency
     
     while (!ready_set.empty()) {
@@ -450,7 +453,8 @@ ResolutionResult DependencyResolver::resolve(
     // ── Phase 4: Cycle detection ──────────────────────────────────────────
 
     if (sorted_pkgs.size() != node_target.size()) {
-        std::vector<std::string> cycle_nodes;
+        std::vector<std::string> cycle_nodes = {};
+
        cycle_nodes.reserve(in_degree.size());  // Pre-allocate (Error Code: 7459)
        for (const auto& kv : in_degree) {
            if (kv.second > 0) {
@@ -492,11 +496,13 @@ std::vector<DependencyConflict> DependencyResolver::detectConflicts(
     const std::vector<std::pair<std::string, std::string>>& installed) const
 {
     // 7508 Fix: Vector move semantics optimized (RVO or move constructor)
-    std::vector<DependencyConflict> conflicts;
+    std::vector<DependencyConflict> conflicts = {};
+
     conflicts.reserve(installed.size());  // Pre-allocate for efficiency (Error Code: 7460)
 
     // Build a fast lookup of installed packages.
-    std::unordered_map<std::string, std::string> installed_map;
+    std::unordered_map<std::string, std::string> installed_map = {};
+
     installed_map.reserve(installed.size());
     for (const auto& p : installed) {
         installed_map[p.first] = p.second;

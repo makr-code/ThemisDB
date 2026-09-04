@@ -258,7 +258,8 @@ LoRACheckpointManager::listCheckpoints(const std::string& adapter_id) const {
 
     auto best_meta = readBestMeta(adapter_id);
 
-    std::vector<CheckpointRef> refs;
+    std::vector<CheckpointRef> refs = {};
+
     for (const auto& entry : fs::directory_iterator(dir)) {
         const std::string fname = entry.path().filename().string();
         if (fname.rfind("checkpoint-", 0) != 0) {

@@ -39,7 +39,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
     }
 
     // Phase 4.1: preprocess WITH clauses to determine CTE execution strategy
-    std::vector<TranslationResult::CTEExecution> cte_executions;
+    std::vector<TranslationResult::CTEExecution> cte_executions = {};
+
     if (ast->with_clause) {
         query::SubqueryOptimizer optimizer;
         cte_executions.reserve(ast->with_clause->ctes.size());
@@ -109,7 +110,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
 
                             std::string vectorField = extractColumnName(sim->arguments[0]);
                             auto arr = std::static_pointer_cast<ArrayLiteralExpr>(sim->arguments[1]);
-                            std::vector<float> queryVec;
+                            std::vector<float> queryVec = {};
+
                             queryVec.reserve(arr->elements.size());
                             for (const auto& el : arr->elements) {
                                 if (el->getType() != ASTNodeType::Literal) {
@@ -383,7 +385,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
 
                 std::string vectorField = extractColumnName(args[0]);
                 auto arr = std::static_pointer_cast<ArrayLiteralExpr>(args[1]);
-                std::vector<float> queryVec;
+                std::vector<float> queryVec = {};
+
                 queryVec.reserve(arr->elements.size());
                 for (const auto& el : arr->elements) {
                     if (el->getType() != ASTNodeType::Literal) {
@@ -600,7 +603,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         std::to_string(disjQuery.disjuncts.size() * disjuncts.size()) +
                         " disjuncts (limit: " + std::to_string(kMaxDNFDisjuncts) + ")");
                 }
-                std::vector<ConjunctiveQuery> merged;
+                std::vector<ConjunctiveQuery> merged = {};
+
                 merged.reserve(disjQuery.disjuncts.size() * disjuncts.size());
                 for (const auto& existing : disjQuery.disjuncts) {
                     for (const auto& incoming : disjuncts) {
@@ -845,7 +849,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 auto queryGeomExpr = funcCall->arguments[1];
                 
                 // Extract optional distance for ST_DWithin
-                std::optional<double> distance;
+                std::optional<double> distance = {};
+
                 if (operation == PredicateSpatial::Operation::DWithin) {
                     if (funcCall->arguments[2]->getType() != ASTNodeType::Literal) {
                         return TranslationResult::Error("ST_DWithin() distance must be numeric literal");
@@ -1123,7 +1128,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     auto queryGeomExpr = spatialFunc->arguments[1];
                     
                     // Extract optional distance for ST_DWithin
-                    std::optional<double> distance;
+                    std::optional<double> distance = {};
+
                     if (operation == PredicateSpatial::Operation::DWithin) {
                         if (spatialFunc->arguments[2]->getType() != ASTNodeType::Literal) {
                             return TranslationResult::Error("ST_DWithin() distance must be numeric literal");
@@ -1572,7 +1578,8 @@ std::vector<ConjunctiveQuery> AQLTranslator::convertToDNF(
             
             // Cartesian product: (A OR B) AND (C OR D) = (A AND C) OR (A AND D) OR (B AND C) OR (B AND D)
             // Q3: Pre-allocate to the exact cartesian-product size to avoid incremental reallocations.
-            std::vector<ConjunctiveQuery> result;
+            std::vector<ConjunctiveQuery> result = {};
+
             result.reserve(leftDNF.size() * rightDNF.size());
             for (const auto& leftConj : leftDNF) {
                 for (const auto& rightConj : rightDNF) {

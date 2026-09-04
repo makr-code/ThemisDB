@@ -152,7 +152,8 @@ bool KnowledgeBase::retractFact(const std::string &fact_id) {
 }
 
 std::vector<Fact> KnowledgeBase::getFacts(const std::string &predicate) const {
-    std::vector<Fact> result;
+    std::vector<Fact> result = {};
+
     if (predicate.empty()) {
         result.reserve(fact_by_id_.size());
         for (const auto &[id, f] : fact_by_id_) {
@@ -302,7 +303,8 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
             }
 
             auto parseTripleSeq = [](const YAML::Node& seq) {
-                std::vector<TriplePattern> triples;
+                std::vector<TriplePattern> triples = {};
+
                 if (!seq || !seq.IsSequence()) {
                   return triples;
                 }

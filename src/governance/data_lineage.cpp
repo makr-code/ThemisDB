@@ -149,7 +149,8 @@ std::vector<LineageEvent> DataLineageTracker::getDownstreamLineage(const std::st
     // BFS over the event index to collect all transitively derived events
     std::vector<std::string> frontier{event_id};
     while (!frontier.empty()) {
-        std::vector<std::string> next_frontier;
+        std::vector<std::string> next_frontier = {};
+
         for (const auto &[eid, ev] : event_index_) {
             if (ev.parent_event_id.empty()) {
                 continue;

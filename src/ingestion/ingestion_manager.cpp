@@ -218,7 +218,8 @@ static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) 
     }
 
     // Pre-compile per-field key patterns and value patterns
-    std::vector<CompiledFieldRule> compiled_fields;
+    std::vector<CompiledFieldRule> compiled_fields = {};
+
     compiled_fields.reserve(schema.fields.size());
     for (const auto& kv : schema.fields) {
         compiled_fields.emplace_back(kv.first, kv.second);
@@ -972,7 +973,8 @@ public:
         // spinning up threads for trivially-skipped disabled sources; disabled
         // sources are recorded synchronously after the parallel wave completes.
         std::vector<SourceConfig> enabled_sources;
-        std::vector<SourceConfig> disabled_sources;
+        std::vector<SourceConfig> disabled_sources = {};
+
         for (const auto& cfg : all_sources) {
             if (cfg.enabled) {
                 enabled_sources.push_back(cfg);
@@ -1040,7 +1042,8 @@ public:
     
     std::vector<SourceConfig> getRegisteredSources() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::vector<SourceConfig> result;
+        std::vector<SourceConfig> result = {};
+
         for (const auto& pair : sources_) {
             result.push_back(pair.second);
         }
@@ -1491,7 +1494,8 @@ std::unique_ptr<ISourceConnector> ConnectorPluginRegistry::create(
 
 std::vector<std::string> ConnectorPluginRegistry::listPlugins() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(factories_.size());
     for (const auto& kv : factories_) {
         names.push_back(kv.first);
@@ -1937,7 +1941,8 @@ std::string IngestionMetricsExporter::exportText(
            << "# TYPE " << ec_metric << " counter\n";
 
         // Count occurrences per error code
-        std::unordered_map<int, size_t> code_counts;
+        std::unordered_map<int, size_t> code_counts = {};
+
         for (const auto& err : stats.errors) {
             code_counts[static_cast<int>(err.code)]++;
         }
@@ -2212,7 +2217,8 @@ IngestionAdminApi::IngestionAdminApi(IngestionManager& manager)
     : mgr_(manager) {}
 
 std::vector<SourceStatus> IngestionAdminApi::listSources() const {
-    std::vector<SourceStatus> result;
+    std::vector<SourceStatus> result = {};
+
     for (const auto& cfg : mgr_.getRegisteredSources()) {
         SourceStatus s;
         s.source_id  = cfg.source_id;

@@ -51,7 +51,8 @@ json ObjectCentricTracer::buildOcelLog(std::string_view instance_id) const {
     const auto attachments = linker_.getAttachments(instance_id);
 
     // Collect distinct object types (collections)
-    std::set<std::string> object_types_set;
+    std::set<std::string> object_types_set = {};
+
     for (const auto& att : attachments) {
         object_types_set.insert(att.object_collection);
     }
@@ -127,7 +128,8 @@ json ObjectCentricTracer::computeDfmg(
     }
 
     // Collect node IDs
-    std::set<std::string> node_set;
+    std::set<std::string> node_set = {};
+
     for (const auto& n : normalized["nodes"]) {
         const std::string id = n.value("id", "");
         if (!id.empty()) {

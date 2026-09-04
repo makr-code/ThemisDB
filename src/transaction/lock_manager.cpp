@@ -197,7 +197,8 @@ void LockManager::releaseAllLocks(TransactionId txn_id) {
     }
 
     // Collect keys before modification
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     keys.reserve(txn_it->second.size());
     for (const auto& [k, _] : txn_it->second) {
         keys.push_back(k);
@@ -529,7 +530,8 @@ void LockManager::checkEscalation(TransactionId txn_id, const std::string& key) 
     std::string table_prefix = key.substr(0, colon_pos + 1);
 
     // Count row-level locks on this table
-    std::vector<std::string> row_keys;
+    std::vector<std::string> row_keys = {};
+
     for (const auto& [k, _] : txn_it->second) {
         if (k.find(table_prefix) == 0 && k.size() > table_prefix.size()) {
             row_keys.push_back(k);

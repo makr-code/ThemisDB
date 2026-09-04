@@ -29,7 +29,8 @@ using namespace themis::rag::judge;
 static std::vector<RetrievedDocument> makeDocuments(
     const std::vector<std::pair<std::string, std::string>>& id_content)
 {
-    std::vector<RetrievedDocument> docs;
+    std::vector<RetrievedDocument> docs = {};
+
     docs.reserve(id_content.size());
     for (size_t i = 0; i < id_content.size(); ++i) {
         RetrievedDocument d;

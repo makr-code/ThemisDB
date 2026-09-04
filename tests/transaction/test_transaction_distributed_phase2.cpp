@@ -252,7 +252,8 @@ TEST_F(TransactionDistributedPhase2Test, TimeoutDeterminism_ShortTimeoutAbortsTr
 TEST_F(TransactionDistributedPhase2Test, TimeoutDeterminism_RepeatedRetries_ConsistentErrors) {
     auto p_abort = std::make_unique<Phase2MockParticipant>(Phase2MockParticipant::Policy::ALWAYS_ABORT);
 
-    std::vector<bool> results;
+    std::vector<bool> results = {};
+
     for (int attempt = 0; attempt < 3; ++attempt) {
         auto tid = mgr->beginDistributed({
             makeParticipant("n1", p1.get()),

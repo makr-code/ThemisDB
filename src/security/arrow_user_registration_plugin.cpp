@@ -179,7 +179,8 @@ Result<size_t> ArrowUserRegistrationPlugin::bulkSyncFromArrow(
     auto password_col = std::static_pointer_cast<arrow::StringArray>(batch.column(password_idx));
 
     std::shared_ptr<arrow::StringArray> roles_col;
-    std::shared_ptr<arrow::StringArray> email_col;
+    std::shared_ptr<arrow::StringArray> email_col = {};
+
     if (roles_idx >= 0) {
         roles_col = std::static_pointer_cast<arrow::StringArray>(batch.column(roles_idx));
     }

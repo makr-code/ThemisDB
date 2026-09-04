@@ -231,7 +231,8 @@ bool GPUStreamManager::hasStream(const std::string &name) const {
 
 std::vector<std::string> GPUStreamManager::streamNames() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(streams_.size());
     for (const auto &kv : streams_) {
         names.push_back(kv.first);
@@ -317,7 +318,8 @@ GPUStreamManager::StreamStats GPUStreamManager::getStreamStats(const std::string
 
 std::vector<GPUStreamManager::StreamStats> GPUStreamManager::getAllStreamStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<StreamStats> result;
+    std::vector<StreamStats> result = {};
+
     result.reserve(streams_.size());
     for (const auto &kv : streams_) {
         result.push_back(kv.second.stats);

@@ -2336,7 +2336,8 @@ TEST(BatchProcessorPhase10, ProcessSingleItem) {
 
 TEST(BatchProcessorPhase10, ProcessBatchSync) {
     VoiceBatchProcessor bp;
-    std::vector<BatchAudioItem> items;
+    std::vector<BatchAudioItem> items = {};
+
     for (int i = 0; i < 5; ++i) {
         BatchAudioItem item;
         item.item_id = "item-" + std::to_string(i);
@@ -2384,7 +2385,8 @@ TEST(BatchProcessorPhase10, ComputeWERPartial) {
 TEST(BatchProcessorPhase10, ComputeQualityMetrics) {
     VoiceBatchProcessor bp;
     // Generate a simple sine-wave-like pattern as PCM int16
-    std::vector<uint8_t> audio;
+    std::vector<uint8_t> audio = {};
+
     for (int i = 0; i < 1600; ++i) {
         int16_t sample = static_cast<int16_t>(16000 * std::sin(2.0 * std::numbers::pi * i / 160.0));
         audio.push_back(static_cast<uint8_t>(sample & 0xFF));
@@ -2467,7 +2469,8 @@ TEST(BatchProcessorPhase10, EstimateSNR) {
     EXPECT_FLOAT_EQ(snr, 0.0f);
 
     // Signal with non-zero samples
-    std::vector<uint8_t> signal;
+    std::vector<uint8_t> signal = {};
+
     for (int i = 0; i < 3200; i += 2) {
         int16_t s = static_cast<int16_t>(8000);
         signal.push_back(s & 0xFF);
@@ -3029,7 +3032,8 @@ TEST(EmotionAnalyzer, StatisticsCounterIncremented) {
 
 TEST(EmotionAnalyzer, TrackMultipleSegments) {
     themis::voice::EmotionAnalyzer analyzer;
-    std::vector<themis::voice::AudioSegment> segs;
+    std::vector<themis::voice::AudioSegment> segs = {};
+
     for (int i = 0; i < 3; ++i) {
         themis::voice::AudioSegment seg;
         seg.audio_data = makeEmotionAudio(200.0f + static_cast<float>(i) * 50.0f);
@@ -3044,7 +3048,8 @@ TEST(EmotionAnalyzer, TrackMultipleSegments) {
 
 TEST(EmotionAnalyzer, TrackStatisticsDominantEmotionValid) {
     themis::voice::EmotionAnalyzer analyzer;
-    std::vector<themis::voice::AudioSegment> segs;
+    std::vector<themis::voice::AudioSegment> segs = {};
+
     for (int i = 0; i < 4; ++i) {
         themis::voice::AudioSegment seg;
         seg.audio_data = makeEmotionAudio(440.0f);

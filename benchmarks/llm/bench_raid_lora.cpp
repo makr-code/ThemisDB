@@ -439,7 +439,8 @@ static void BM_BlobHealthCheck(benchmark::State& state) {
     BlobRedundancyManager manager(config);
     
     // Register some blobs
-    std::vector<std::string> blob_ids;
+    std::vector<std::string> blob_ids = {};
+
     for (int i = 0; i < 100; ++i) {
         std::string path = "/path/to/blob" + std::to_string(i) + ".sst";
         auto id = manager.registerBlob(BlobType::SST_L1, path, 1024 * 1024, "", "");

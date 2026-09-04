@@ -229,7 +229,8 @@ public:
 
     std::vector<SchemaVersion> registeredVersions() const override {
         std::lock_guard<std::mutex> lk(mu_);
-        std::vector<SchemaVersion> vs;
+        std::vector<SchemaVersion> vs = {};
+
         vs.reserve(schemas_.size());
         for (const auto& [v, _] : schemas_) {
             vs.push_back(v);

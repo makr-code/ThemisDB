@@ -258,7 +258,8 @@ public:
         const bool enableValidation = true;
 #endif
         
-        std::vector<const char*> validationLayers;
+        std::vector<const char*> validationLayers = {};
+
         if (enableValidation) {
             validationLayers.push_back("VK_LAYER_KHRONOS_validation");
             if (!checkValidationLayerSupport(validationLayers)) {

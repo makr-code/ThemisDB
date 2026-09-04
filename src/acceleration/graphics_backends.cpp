@@ -4131,7 +4131,8 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
                 uint32_t sv = startVertices[p], ev = endVertices[p];
                 float dist_ev = bf.dist[p * numVertices + ev];
                 if (dist_ev >= 1e29f) continue;  // unreachable
-                std::vector<uint32_t> path;
+                std::vector<uint32_t> path = {};
+
                 for (int cur = static_cast<int>(ev); cur != -1;
                      cur = bf.pred[p * numVertices + static_cast<size_t>(cur)]) {
                     path.push_back(static_cast<uint32_t>(cur));
@@ -4178,7 +4179,8 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
             }
         }
         if (dist[ev] >= 1e29f) continue;  // unreachable
-        std::vector<uint32_t> path;
+        std::vector<uint32_t> path = {};
+
         for (int cur = static_cast<int>(ev); cur != -1; cur = pred[static_cast<size_t>(cur)]) {
             path.push_back(static_cast<uint32_t>(cur));
             if (static_cast<uint32_t>(cur) == sv) {
@@ -4274,7 +4276,8 @@ static int vulkan_ann_topk_dispatch(
     using Pair = std::pair<float, uint32_t>;
     for (int q = 0; q < numQueries; ++q) {
         const float* row = distances + q * numVectors;
-        std::priority_queue<Pair> heap;
+        std::priority_queue<Pair> heap = {};
+
         for (int v = 0; v < numVectors; ++v) {
             heap.emplace(row[v], static_cast<uint32_t>(v));
             if (static_cast<int>(heap.size()) > topK) {

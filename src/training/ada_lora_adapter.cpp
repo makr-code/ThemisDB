@@ -272,7 +272,8 @@ public:
     }
 
     std::vector<AdaLoRALayerStats> getLayerStats() const {
-        std::vector<AdaLoRALayerStats> stats;
+        std::vector<AdaLoRALayerStats> stats = {};
+
         stats.reserve(insertion_order_.size());
         for (const auto& name : insertion_order_) {
             const Layer& lay = layers_.at(name);

@@ -91,7 +91,8 @@ void GPUMetrics::recordAllocFailTenant([[maybe_unused]] uint64_t bytes, const st
 
 void GPUMetrics::recordDealloc(uint64_t bytes, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::unordered_map<std::string, std::string> labels;
+    std::unordered_map<std::string, std::string> labels = {};
+
     if (!tenant_id.empty()) {
         labels["tenant"] = tenant_id;
     }
@@ -111,7 +112,8 @@ void GPUMetrics::recordCircuitOpen() {
 
 void GPUMetrics::setVRAMAllocated(uint64_t bytes, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::unordered_map<std::string, std::string> labels;
+    std::unordered_map<std::string, std::string> labels = {};
+
     if (!tenant_id.empty()) {
         labels["tenant"] = tenant_id;
     }
@@ -237,7 +239,8 @@ std::string GPUMetrics::rocm_profiler_export() const {
 
 std::vector<GPUMetrics::Sample> GPUMetrics::snapshot() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<Sample> result;
+    std::vector<Sample> result = {};
+
     result.reserve(counters_.size() + gauges_.size());
 
     for (const auto &kv : counters_) {

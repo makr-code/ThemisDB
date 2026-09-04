@@ -93,7 +93,8 @@ LocalShardGraphExecutor::executeBFS(const std::string &start_vertex, int max_dep
     }
 
     // Qualify every returned vertex ID with this shard's tag.
-    std::vector<std::string> qualified;
+    std::vector<std::string> qualified = {};
+
     qualified.reserve(res.value().size());
     for (const auto &v : *res) {
         qualified.push_back(qualify(v));
@@ -137,7 +138,8 @@ void DistributedGraphManager::removeShard(const std::string &shard_id) {
 
 std::vector<std::string> DistributedGraphManager::shardIds() const {
     std::shared_lock<std::shared_mutex> lock(shards_mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(shards_.size());
     for (const auto &[id, _] : shards_) {
         ids.push_back(id);
@@ -190,7 +192,8 @@ std::string DistributedGraphManager::resolveShardForVertex(const std::string &lo
     }
 
     // Collect shard IDs in a stable order for deterministic hashing.
-    std::vector<std::string> ordered;
+    std::vector<std::string> ordered = {};
+
     ordered.reserve(shards_.size());
     for (const auto &[id, _] : shards_) {
         ordered.push_back(id);

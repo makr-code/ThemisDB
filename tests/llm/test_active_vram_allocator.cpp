@@ -575,7 +575,8 @@ TEST(ActiveVRAMAllocatorTest, AllocateOrRecoverIsThreadSafe) {
     ActiveVRAMAllocator alloc(makeTestConfig(/*mb=*/128));
 
     // Pre-populate so recovery has something to evict
-    std::vector<ActiveVRAMAllocator::AllocationHandle> seed;
+    std::vector<ActiveVRAMAllocator::AllocationHandle> seed = {};
+
     for (int i = 0; i < 4; ++i) {
         auto h = alloc.allocate(4096, "seed_" + std::to_string(i));
         if (h) {

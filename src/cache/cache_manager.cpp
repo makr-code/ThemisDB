@@ -105,7 +105,8 @@ bool CacheManager::unregister_cache(const std::string& cache_name) {
 }
 
 std::vector<std::string> CacheManager::get_cache_names() const {
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     for (const auto& pair : caches_) {
         names.push_back(pair.first);
     }

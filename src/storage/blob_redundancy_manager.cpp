@@ -89,7 +89,8 @@ bool BlobMetadata::canRecover() const {
 }
 
 std::vector<std::string> BlobMetadata::getMissingShards() const {
-    std::vector<std::string> missing;
+    std::vector<std::string> missing = {};
+
     missing.reserve(locations.size());
     for (const auto& loc : locations) {
         if (!loc.is_healthy) {
@@ -854,7 +855,8 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
             static_cast<uint32_t>(metadata.config.geo_targets.size());
 
         // Collect distinct datacenter identifiers from healthy locations.
-        std::unordered_set<std::string> healthy_dcs;
+        std::unordered_set<std::string> healthy_dcs = {};
+
         healthy_dcs.reserve(metadata.locations.size());
         for (const auto& loc : metadata.locations) {
             if (!loc.is_healthy || loc.datacenter.empty()) {
@@ -931,7 +933,8 @@ Result<void> BlobRedundancyManager::writeBlob(
             );
         }
 
-        std::vector<std::string> written_shards;
+        std::vector<std::string> written_shards = {};
+
         written_shards.reserve(shards.size());
         for (const auto& shard : shards) {
             const std::string shard_id   = ecShardId(metadata, shard.shard_index);
@@ -957,7 +960,8 @@ Result<void> BlobRedundancyManager::writeBlob(
     // --- Replication path (MIRROR / STRIPE / GEO_MIRROR) ---
     auto target_shards = selectTargetShards(metadata);
     
-    std::vector<std::string> written_shards;
+    std::vector<std::string> written_shards = {};
+
     written_shards.reserve(target_shards.size());
     for (const auto& shard_id : target_shards) {
         if (handler(shard_id, metadata.blob_id, data)) {
@@ -1078,7 +1082,8 @@ Result<void> BlobRedundancyManager::deleteBlob(
     
     const auto& metadata = it->second;
     
-    std::vector<std::string> deleted_shards;
+    std::vector<std::string> deleted_shards = {};
+
     deleted_shards.reserve(metadata.locations.size());
     for (const auto& location : metadata.locations) {
         if (handler(location.shard_id, location.path)) {
@@ -1280,7 +1285,8 @@ void BlobRedundancyManager::runScrub([[maybe_unused]] bool full) {
                 const auto target_dc_count =
                     static_cast<uint32_t>(metadata.config.geo_targets.size());
 
-                std::unordered_set<std::string> healthy_dcs;
+                std::unordered_set<std::string> healthy_dcs = {};
+
                 healthy_dcs.reserve(metadata.locations.size());
                 for (const auto& loc : metadata.locations) {
                     if (!loc.is_healthy || loc.datacenter.empty()) {
@@ -1588,7 +1594,8 @@ bool BlobRedundancyManager::deleteFromShard(
 }
 
 std::vector<std::string> BlobRedundancyManager::selectTargetShards(const BlobMetadata& blob) {
-    std::vector<std::string> shards;
+    std::vector<std::string> shards = {};
+
     shards.reserve(blob.locations.size());
     
     // Simplified: return locations from metadata

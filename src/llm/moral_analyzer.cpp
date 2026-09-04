@@ -1265,7 +1265,8 @@ std::vector<std::string> MoralAnalyzer::recommendPhilosophies(
     }
     
     // Remove duplicates while preserving order
-    std::vector<std::string> unique_recs;
+    std::vector<std::string> unique_recs = {};
+
     for (const auto& rec : recommendations) {
         if (std::find(unique_recs.begin(), unique_recs.end(), rec) == unique_recs.end()) {
             unique_recs.push_back(rec);
@@ -1329,7 +1330,8 @@ MoralAnalyzer::detectEthicalImplicationsViaLLM(
                 return {Status::Error("LLM response missing 'philosophies' field"), {}};
             }
             
-            std::vector<std::string> philosophies;
+            std::vector<std::string> philosophies = {};
+
             for (const auto& phil : response_json["philosophies"]) {
                 std::string phil_str = phil.get<std::string>();
                 

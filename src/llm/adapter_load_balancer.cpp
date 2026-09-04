@@ -287,7 +287,8 @@ bool AdapterLoadBalancer::rebalance() {
         auto& adapters = gpu_to_adapters_[overloaded_gpu];
         
         // Sort by priority (migrate lower priority first) and pinning status
-        std::vector<std::string> candidates;
+        std::vector<std::string> candidates = {};
+
         for (const auto& adapter_id : adapters) {
             auto it = placements_.find(adapter_id);
             if (it != placements_.end() && !it->second.is_pinned) {

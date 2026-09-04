@@ -346,7 +346,8 @@ bool PolicyVersionHistory::importHistory(const nlohmann::json &j) {
         // Import versions
         if (j.contains("versions") && j["versions"].is_object()) {
             for (auto &[rule_id, version_array] : j["versions"].items()) {
-                std::vector<PolicyRuleVersion> versions;
+                std::vector<PolicyRuleVersion> versions = {};
+
                 for (const auto &v_json : version_array) {
                     versions.push_back(PolicyRuleVersion::fromJson(v_json));
                 }

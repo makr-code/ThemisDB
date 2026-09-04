@@ -101,7 +101,8 @@ std::vector<std::string> ConsistentHashRing::getNodes(const std::string& key, si
       it = ring_.begin();
     }
 
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(std::min(n, nodes_.size()));
 
     // Walk the ring for at most ring_.size() steps to avoid infinite loop.

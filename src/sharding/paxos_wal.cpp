@@ -197,7 +197,8 @@ std::vector<PaxosWALEntry> PaxosWAL::readEntries(const LSN& start_lsn,
     }
     
     std::vector<WALEntry> wal_entries = wal_manager_->readRange(start_lsn, end_lsn);
-    std::vector<PaxosWALEntry> paxos_entries;
+    std::vector<PaxosWALEntry> paxos_entries = {};
+
     paxos_entries.reserve(wal_entries.size());
     
     for (const auto& wal_entry : wal_entries) {

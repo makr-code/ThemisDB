@@ -469,7 +469,8 @@ bool AsyncIngestionWorker::cancelJob(const std::string &job_id) {
 std::vector<IngestionJob> AsyncIngestionWorker::getAllJobs(std::optional<IngestionJobStatus> status) {
     std::lock_guard<std::mutex> lock(history_mutex_);
 
-    std::vector<IngestionJob> result;
+    std::vector<IngestionJob> result = {};
+
     for (const auto &[job_id, job] : job_history_) {
         if (!status.has_value() || job.status == status.value()) {
             result.push_back(job);
@@ -846,7 +847,8 @@ void AsyncIngestionWorker::unregisterPlugin(const std::string &plugin_name) {
 std::vector<std::string> AsyncIngestionWorker::listPlugins() const {
     std::lock_guard<std::mutex> lock(plugins_mutex_);
 
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(plugins_.size());
     for (const auto &[name, plugin] : plugins_) {
         names.push_back(name);

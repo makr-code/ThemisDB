@@ -429,7 +429,8 @@ TEST_F(AccessModelE2ETest, T13_RapidFireEvents_100EventsIn10ms_QueueBackpressure
     // Action: Emit 100 events in 10ms
     // Expected: Queue handles backpressure, no event loss
     
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     for (int i = 0; i < 100; ++i) {
         keys.push_back("rapid_key_" + std::to_string(i));
         coordinator_->onStorageAccess(keys.back(), TierLevel::STORAGE_COLD, 1,

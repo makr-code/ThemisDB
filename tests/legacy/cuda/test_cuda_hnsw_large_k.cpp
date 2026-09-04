@@ -215,7 +215,8 @@ TEST(CudaHnswLargeK, K257_MultipleQueriesAllReturnK) {
     constexpr uint32_t NQ  = 4u;
 
     CUDAVectorBackend backend;
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i) {
         vecs.push_back(static_cast<float>(i) * 0.01f);
         vecs.push_back(static_cast<float>(i) * 0.01f);

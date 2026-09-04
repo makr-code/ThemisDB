@@ -529,7 +529,8 @@ TEST_F(UpdatesRAIIIntegrationTest, UP_FIN_24_PerformanceBaselineMaintained) {
     auto start = std::chrono::steady_clock::now();
     
     // Simulate typical operation
-    std::vector<int> v;
+    std::vector<int> v = {};
+
     for (int i = 0; i < 10000; ++i) {
         v.push_back(i);
     }

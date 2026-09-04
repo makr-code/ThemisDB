@@ -290,7 +290,8 @@ public:
             
             // Phase 2: Initialize with real data processing
             // Convert TrainingDataSample to InstructionDataSample format
-            std::vector<InstructionDataSample> instruction_samples;
+            std::vector<InstructionDataSample> instruction_samples = {};
+
             for (const auto& sample : data.samples) {
                 InstructionDataSample inst_sample;
                 inst_sample.instruction = sample.input;
@@ -1462,7 +1463,8 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         spdlog::info("  Memory: {:.2f} MB", quantized_model->memory_bytes() / (1024.0 * 1024.0));
         
         // Load base model adapter for real embeddings
-        std::unique_ptr<BaseModelAdapter> base_model_adapter;
+        std::unique_ptr<BaseModelAdapter> base_model_adapter = {};
+
         if (service_config.use_base_model &&
             !service_config.base_model_path.empty()) {
             
@@ -1568,7 +1570,8 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         }
         
         // Convert training data to instruction samples
-        std::vector<InstructionDataSample> instruction_samples;
+        std::vector<InstructionDataSample> instruction_samples = {};
+
         instruction_samples.reserve(data.samples.size());
         for (const auto& sample : data.samples) {
             InstructionDataSample inst_sample;

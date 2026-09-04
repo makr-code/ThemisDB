@@ -254,7 +254,8 @@ static void BM_W4B_04_WriteThroughputUnderBackpressure(benchmark::State& state) 
 
     RandomGenerator rng(kW4CanonicalSeed);
 
-    std::unique_ptr<BackpressureSimulator> bp;
+    std::unique_ptr<BackpressureSimulator> bp = {};
+
     if (ops_per_sec_limit > 0) {
         bp = std::make_unique<BackpressureSimulator>(
             static_cast<double>(ops_per_sec_limit));

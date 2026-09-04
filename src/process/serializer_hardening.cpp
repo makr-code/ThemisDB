@@ -319,7 +319,8 @@ SerializerValidationResult BpmnValidator::validateBpmnConstraints(
     }
 
     // Check for duplicate IDs
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (const auto& id : element_ids) {
         if (id.empty()) {
             return SerializerValidationResult::failure(
@@ -391,7 +392,8 @@ SerializerValidationResult CmmnValidator::validateCmmnConstraints(
     }
 
     // Check for duplicate item IDs
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (const auto& id : item_ids) {
         if (id.empty()) {
             return SerializerValidationResult::failure(

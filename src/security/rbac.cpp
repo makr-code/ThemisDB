@@ -209,7 +209,8 @@ bool RBAC::loadFromJson(const nlohmann::json& j) {
     }
     
     // Clear existing custom roles (keep built-in)
-    std::unordered_map<std::string, Role> builtin_backup;
+    std::unordered_map<std::string, Role> builtin_backup = {};
+
     if (config_.use_builtin_roles) {
         for (const auto& br : getBuiltinRoles()) {
             builtin_backup[br.name] = br;
@@ -286,7 +287,8 @@ std::optional<Role> RBAC::getRole(const std::string& role_name) const {
 
 std::vector<std::string> RBAC::listRoles() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(roles_.size());
     for (const auto& [name, _] : roles_) {
         names.push_back(name);
@@ -553,7 +555,8 @@ std::vector<std::string> UserRoleStore::getUserRoles(const std::string& user_id)
 std::vector<std::string> UserRoleStore::getRoleUsers(const std::string& role) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> users;
+    std::vector<std::string> users = {};
+
     for (const auto& [user_id, user] : users_) {
         if (std::find(user.roles.begin(), user.roles.end(), role) != user.roles.end()) {
             users.push_back(user_id);

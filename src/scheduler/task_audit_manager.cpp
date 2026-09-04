@@ -286,7 +286,8 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
     std::vector<TaskAuditEvent> results;
     
     // Build a set of UUIDs already in the results to avoid duplicates with cache
-    std::unordered_set<std::string> seen_uuids;
+    std::unordered_set<std::string> seen_uuids = {};
+
     for ([[maybe_unused]] const auto& cached : recent_audit_events_) {
         seen_uuids.insert(cached.uuid);
     }
@@ -450,7 +451,8 @@ std::vector<TaskSecurityEvent> TaskAuditManager::loadSecurityEventsFromFile(
     std::vector<TaskSecurityEvent> results;
     
     // Build a set of UUIDs already in the cache to avoid duplicates
-    std::unordered_set<std::string> seen_uuids;
+    std::unordered_set<std::string> seen_uuids = {};
+
     for ([[maybe_unused]] const auto& cached : recent_security_events_) {
         seen_uuids.insert(cached.uuid);
     }

@@ -252,7 +252,8 @@ TEST_F(GPUQueryAcceleratorErrorInjectionTest, ForceCPU_HashJoin_NoMatches) {
     GPUQueryAccelerator acc(cpuOnlyConfig());
 
     // Create two sets with non-overlapping IDs
-    std::vector<Row> left;
+    std::vector<Row> left = {};
+
     for (size_t i = 0; i < 10; ++i) {
         Row r;
         r.id = i;
@@ -262,7 +263,8 @@ TEST_F(GPUQueryAcceleratorErrorInjectionTest, ForceCPU_HashJoin_NoMatches) {
         left.push_back(r);
     }
 
-    std::vector<Row> right;
+    std::vector<Row> right = {};
+
     for (size_t i = 10; i < 20; ++i) {
         Row r;
         r.id = i;

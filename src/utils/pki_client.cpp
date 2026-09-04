@@ -69,7 +69,8 @@ static std::optional<std::vector<uint8_t>> parse_hex_fingerprint(std::string_vie
         return std::nullopt;
     }
 
-    std::vector<uint8_t> out;
+    std::vector<uint8_t> out = {};
+
     out.reserve(normalized.size() / 2);
     for (size_t i = 0; i < normalized.size(); i += 2) {
         unsigned int byte = 0;
@@ -84,7 +85,8 @@ static std::optional<std::vector<uint8_t>> parse_hex_fingerprint(std::string_vie
 }
 
 static std::optional<std::string> build_pinned_public_key_value(const PKIConfig& cfg) {
-    std::vector<std::string> pins;
+    std::vector<std::string> pins = {};
+
     pins.reserve(cfg.pinned_cert_fingerprints.size());
 
     for (const auto& configured_pin : cfg.pinned_cert_fingerprints) {

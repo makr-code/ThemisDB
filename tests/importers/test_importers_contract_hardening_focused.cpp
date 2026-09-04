@@ -99,7 +99,8 @@ struct MockImportCoordinator {
         }
 
         // Process rows (pre-commit — not visible yet)
-        std::vector<MockRow> staging;
+        std::vector<MockRow> staging = {};
+
         for (auto& row : rows) {
             if (!row.valid) {
                 ++result.bad_row_count;
@@ -208,7 +209,8 @@ TEST(ImportersContractHardeningIMCH03, DifferentImportIdAccepted) {
 
 TEST(ImportersContractHardeningIMCH04, CommittedRowCountMatchesSource) {
     MockImportCoordinator coord;
-    std::vector<MockRow> rows;
+    std::vector<MockRow> rows = {};
+
     for (int i = 0; i < 10; ++i) rows.push_back({i, {{"i", std::to_string(i)}}, true});
 
     auto r = coord.run("id-04", rows, BadRowDisposition::Skip);
@@ -331,7 +333,8 @@ TEST(ImportersContractHardeningIMCH11, PartialImportNotVisiblePreCommit) {
 
 TEST(ImportersContractHardeningIMCH12, ErrorResponseIncludesBadRowCount) {
     MockImportCoordinator coord;
-    std::vector<MockRow> rows;
+    std::vector<MockRow> rows = {};
+
     for (int i = 0; i < 10; ++i)
         rows.push_back({i, {}, i % 3 == 0 ? false : true}); // rows 0,3,6,9 bad
 
@@ -346,7 +349,8 @@ TEST(ImportersContractHardeningIMCH12, ErrorResponseIncludesBadRowCount) {
 
 TEST(ImportersContractHardeningIMCH13, RowOrderingPreserved) {
     MockImportCoordinator coord;
-    std::vector<MockRow> rows;
+    std::vector<MockRow> rows = {};
+
     for (int i = 0; i < 20; ++i)
         rows.push_back({i, {{"seq", std::to_string(i)}}, true});
 
@@ -364,7 +368,8 @@ TEST(ImportersContractHardeningIMCH13, RowOrderingPreserved) {
 
 TEST(ImportersContractHardeningIMCH14, QuotaExceededSurfaced) {
     MockImportCoordinator coord;
-    std::vector<MockRow> rows;
+    std::vector<MockRow> rows = {};
+
     for (int i = 0; i < 10; ++i) rows.push_back({i, {{"k","v"}}, true});
 
     auto r = coord.run("id-14", rows, BadRowDisposition::Skip, /*row_quota=*/5u);
@@ -379,7 +384,8 @@ TEST(ImportersContractHardeningIMCH14, QuotaExceededSurfaced) {
 TEST(ImportersContractHardeningIMCH15, AtomicCommitAllOrNothing) {
     MockImportCoordinator coord;
     // All valid rows
-    std::vector<MockRow> valid_rows;
+    std::vector<MockRow> valid_rows = {};
+
     for (int i = 0; i < 5; ++i) valid_rows.push_back({i, {{"k","v"}}, true});
 
     auto r_ok = coord.run("id-15a", valid_rows, BadRowDisposition::Fail);

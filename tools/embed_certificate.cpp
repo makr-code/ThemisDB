@@ -145,7 +145,8 @@ int main(int argc, char* argv[]) {
         std::cout << "Read certificate: " << certPath << " (" << certData.size() << " bytes)\n";
         
         // Read signature file if provided
-        std::vector<uint8_t> signatureData;
+        std::vector<uint8_t> signatureData = {};
+
         if (!signaturePath.empty()) {
             signatureData = readBinaryFile(signaturePath);
             std::cout << "Read signature: " << signaturePath << " (" << signatureData.size() << " bytes)\n";

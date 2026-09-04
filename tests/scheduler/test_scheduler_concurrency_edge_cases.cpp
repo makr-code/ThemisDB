@@ -55,7 +55,8 @@ TEST_F(SchedulerConcurrencyTest, SCE01_ConcurrentRegistration) {
     std::atomic<int> registration_count{0};
     std::atomic<int> error_count{0};
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kNumThreads; ++t) {
         threads.emplace_back([&, t]() {
             for (int i = 0; i < kTasksPerThread; ++i) {
@@ -280,7 +281,8 @@ TEST_F(SchedulerConcurrencyTest, SCE06_TriggerEvaluationConcurrent) {
     std::atomic<int> trigger_evaluations{0};
     std::atomic<int> trigger_matches{0};
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kNumThreads; ++t) {
         threads.emplace_back([&]() {
             for (int i = 0; i < kTasksPerThread; ++i) {
@@ -317,7 +319,8 @@ TEST_F(SchedulerConcurrencyTest, SCE07_AnomalyDetectionConcurrent) {
     std::atomic<int> tasks_processed{0};
     std::atomic<int> anomalies_detected{0};
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kNumThreads; ++t) {
         threads.emplace_back([&, t]() {
             for (int i = 0; i < kTasksPerThread; ++i) {

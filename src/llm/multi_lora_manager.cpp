@@ -1030,7 +1030,8 @@ bool MultiLoRAManager::fuseLoRAs(
         return false;
     }
     
-    std::vector<float> normalized_weights;
+    std::vector<float> normalized_weights = {};
+
     for (float w : weights) {
         normalized_weights.push_back(w / weight_sum);
     }
@@ -1131,7 +1132,8 @@ bool MultiLoRAManager::isLoRALoaded(const std::string& lora_id) const {
 std::vector<LoRAInfo> MultiLoRAManager::listLoRAs() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<LoRAInfo> result;
+    std::vector<LoRAInfo> result = {};
+
     result.reserve(loras_.size());
     
     for (const auto& [id, slot] : loras_) {
@@ -1156,7 +1158,8 @@ std::vector<LoRAInfo> MultiLoRAManager::listLoRAs() const {
 
 std::vector<LoRAInfo> MultiLoRAManager::listLoRAs(const std::string& base_model_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<LoRAInfo> result;
+    std::vector<LoRAInfo> result = {};
+
     for (const auto& [id, slot] : loras_) {
         if (!slot) {
             continue;
@@ -2343,7 +2346,8 @@ std::vector<int> MultiLoRAManager::getAvailableGPUs() const {
         return {0};
     }
     
-    std::vector<int> available;
+    std::vector<int> available = {};
+
     for (int gpu_id : config_.multi_gpu.devices) {
         if (isGPUHealthy(gpu_id)) {
             available.push_back(gpu_id);
@@ -3010,7 +3014,8 @@ size_t MultiLoRAManager::checkGPUHealthAndMigrate() {
     }
     
     // Find unhealthy GPUs with LoRAs
-    std::vector<int> unhealthy_gpus;
+    std::vector<int> unhealthy_gpus = {};
+
     for (const auto& [gpu_id, is_healthy] : gpu_health_status_) {
         if (!is_healthy) {
             unhealthy_gpus.push_back(gpu_id);
@@ -3035,7 +3040,8 @@ size_t MultiLoRAManager::checkGPUHealthAndMigrate() {
         spdlog::warn("GPU {} is unhealthy, migrating adapters", unhealthy_gpu);
         
         // Find LoRAs on unhealthy GPU
-        std::vector<std::string> loras_to_migrate;
+        std::vector<std::string> loras_to_migrate = {};
+
         for (const auto& [id, lora] : loras_) {
             if (!lora) {
                 continue;
@@ -3310,7 +3316,8 @@ bool MultiLoRAManager::fuseLoRAsInternal(
     }
     
     // Validate all LoRAs are loaded
-    std::vector<LoRASlot*> source_loras;
+    std::vector<LoRASlot*> source_loras = {};
+
     for (const auto& lora_id : config.source_lora_ids) {
         auto it = loras_.find(lora_id);
         if (it == loras_.end()) {
@@ -3342,7 +3349,8 @@ bool MultiLoRAManager::fuseLoRAsInternal(
         return false;
     }
     
-    std::vector<float> normalized_weights;
+    std::vector<float> normalized_weights = {};
+
     for (float w : config.weights) {
         normalized_weights.push_back(w / weight_sum);
     }
@@ -3546,7 +3554,8 @@ std::vector<float> MultiLoRAManager::computeLinearSchedule(
         static_cast<float>(time_offset) / schedule.transition_duration.count()));
     
     // Determine target weights
-    std::vector<float> target_weights;
+    std::vector<float> target_weights = {};
+
     if (!schedule.target_weights.empty()) {
         target_weights = schedule.target_weights;
     } else if (schedule.static_weights.size() >= 2) {
@@ -3582,7 +3591,8 @@ std::vector<float> MultiLoRAManager::computeExponentialSchedule(
         static_cast<float>(time_offset) / schedule.transition_duration.count());
     
     // Determine target weights
-    std::vector<float> target_weights;
+    std::vector<float> target_weights = {};
+
     if (!schedule.target_weights.empty()) {
         target_weights = schedule.target_weights;
     } else if (schedule.static_weights.size() >= 2) {
@@ -3740,7 +3750,8 @@ FusionMetrics MultiLoRAManager::getFusionMetrics() const {
 std::vector<FusionCacheEntry> MultiLoRAManager::listFusionCache() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<FusionCacheEntry> entries;
+    std::vector<FusionCacheEntry> entries = {};
+
     entries.reserve(fusion_cache_.size());
     
     for (const auto& [_, entry] : fusion_cache_) {
@@ -3760,7 +3771,8 @@ bool MultiLoRAManager::checkFusionCompatibility(
         return false;
     }
     
-    std::vector<LoRASlot*> source_loras;
+    std::vector<LoRASlot*> source_loras = {};
+
     for (const auto& lora_id : lora_ids) {
         auto it = loras_.find(lora_id);
         if (it == loras_.end()) {

@@ -452,7 +452,8 @@ bool RegexDetectionEngine::loadPatternsFromConfig(const nlohmann::json& config) 
             pattern.enabled = pattern_node.value("enabled", true);
             
             // Parse regex flags
-            std::vector<std::string> flag_strings;
+            std::vector<std::string> flag_strings = {};
+
             if (pattern_node.contains("flags") && pattern_node["flags"].is_array()) {
                 for (const auto& flag : pattern_node["flags"]) {
                     flag_strings.push_back(flag.get<std::string>());

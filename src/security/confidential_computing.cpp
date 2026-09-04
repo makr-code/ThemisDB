@@ -304,7 +304,8 @@ std::vector<uint8_t> aes256gcm_decrypt(
       throw std::runtime_error("ConfidentialComputing: EVP_CIPHER_CTX_new failed");
     }
 
-    std::vector<uint8_t> plaintext;
+    std::vector<uint8_t> plaintext = {};
+
     if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1)
         throw std::runtime_error("ConfidentialComputing: EVP_DecryptInit_ex failed");
     if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1)

@@ -594,7 +594,8 @@ class V2SessionImpl : public V2Session {
     static constexpr size_t MAX_HEADER_FIELD_SIZE = 8 * 1024;
 
     static std::unordered_map<std::string, std::string> decodeHeaders(const std::vector<uint8_t> &payload) {
-        std::unordered_map<std::string, std::string> headers;
+        std::unordered_map<std::string, std::string> headers = {};
+
         std::string text(reinterpret_cast<const char *>(payload.data()), payload.size());
         std::istringstream ss(text);
         std::string line;

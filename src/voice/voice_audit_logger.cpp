@@ -131,7 +131,8 @@ std::vector<json> VoiceAuditLogger::getEventLog() const {
 std::vector<json> VoiceAuditLogger::getEventsForUser([[maybe_unused]] const std::string& user_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<json> user_events;
+    std::vector<json> user_events = {};
+
     for ([[maybe_unused]] const auto& event : event_log_) {
         if ([[maybe_unused]] event.contains("user_id") && event["user_id"].get<std::string>() == user_id) {
             user_events.push_back([[maybe_unused]] event);

@@ -437,7 +437,8 @@ std::string AQLQueryBuilder::getSchemaContext() const {
 std::vector<std::string> AQLQueryBuilder::getFieldsForCollection(const std::string &collection) const {
     for (const auto &col : impl_->schema) {
         if (col.name == collection) {
-            std::vector<std::string> fields;
+            std::vector<std::string> fields = {};
+
             fields.reserve(col.fields.size());
             for (const auto &f : col.fields) {
                 fields.push_back(f.name);

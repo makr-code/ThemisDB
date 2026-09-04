@@ -224,7 +224,8 @@ TEST_F(HybridRetrieverRRFTest, NoDuplicatesInResult) {
     auto vec  = makeDocs(5);
     auto res  = r.fuse(bm25, vec);
 
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (const auto& d : res.documents) { ids.push_back(d.id); }
     std::sort(ids.begin(), ids.end());
     EXPECT_EQ(std::unique(ids.begin(), ids.end()), ids.end())

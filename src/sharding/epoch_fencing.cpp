@@ -413,7 +413,8 @@ bool LeaseManager::isHolder(const LeaseKey& key, const NodeId& node_id) const {
 
 std::vector<LeaseKey> LeaseManager::listLeases() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<LeaseKey> keys;
+    std::vector<LeaseKey> keys = {};
+
     keys.reserve(leases_.size());
     for (const auto& [k, _] : leases_) {
         keys.push_back(k);

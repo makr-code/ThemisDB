@@ -161,7 +161,8 @@ TEST(DatabaseOptimizerLabeler, DBO06_DuplicateQueryFilteredByPipeline) {
     cfg.minhash_num_perm  = 64;
     DataSelectionPipeline pipeline(cfg);
 
-    std::vector<DataSample> samples;
+    std::vector<DataSample> samples = {};
+
     for (int i = 0; i < 5; ++i) {
         DataSample ds("id_" + std::to_string(i), same_query);
         ds.language = "en";

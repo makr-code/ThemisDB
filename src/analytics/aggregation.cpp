@@ -72,7 +72,8 @@ std::vector<AggregationOutputRow> AggregationResult::page(
     RangeValidator<std::vector<AggregationOutputRow>::const_iterator>
         sub(it, it_end);
 
-    std::vector<AggregationOutputRow> result;
+    std::vector<AggregationOutputRow> result = {};
+
     result.reserve(sub.size());
     for (auto pos = sub.begin(); pos != sub.end(); ++pos) {
         BoundsChecker::check_dereference(pos, it, it_end);

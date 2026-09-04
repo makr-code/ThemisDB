@@ -62,7 +62,8 @@ protected:
             QueryResult r;
             
             // Simulate query execution: return parameters as results
-            std::vector<nlohmann::json> rows;
+            std::vector<nlohmann::json> rows = {};
+
             for (const auto& [key, val] : p) {
                 rows.push_back(nlohmann::json{{"param", key}, {"value", val}});
             }
@@ -155,7 +156,8 @@ TEST_F(JITEquivalenceTest, MultipleDistinctQueries) {
         "SELECT DISTINCT name FROM t4"
     };
     
-    std::vector<QueryCompiler::CompiledQuery> compiled;
+    std::vector<QueryCompiler::CompiledQuery> compiled = {};
+
     for (const auto& q : queries) {
         compiled.push_back(compiler_.compile(q, {}, executor));
     }
@@ -541,7 +543,8 @@ TEST_F(JITEquivalenceTest, InvalidateClearsEntry) {
 TEST_F(JITEquivalenceTest, InvalidateAllClearsCache) {
     auto executor = makeDeterministicExecutor();
     
-    std::vector<QueryCompiler::CompiledQuery> queries;
+    std::vector<QueryCompiler::CompiledQuery> queries = {};
+
     for (int i = 0; i < 5; ++i) {
         queries.push_back(compiler_.compile("Query" + std::to_string(i), {}, executor));
     }

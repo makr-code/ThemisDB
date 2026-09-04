@@ -341,7 +341,8 @@ static ColumnBatch specialisedAggregateGroupBy(const ColumnBatch &input, const s
     ColumnBatch result(num_rows);
 
     // Group-key columns (representative first-row value per group).
-    std::unordered_map<std::string, size_t> first_row;
+    std::unordered_map<std::string, size_t> first_row = {};
+
     for (size_t row = 0; row < n; ++row) {
         std::string k = makeGroupKeyJit(input, group_cols, row);
         if (!first_row.count(k)) {

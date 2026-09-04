@@ -168,7 +168,8 @@ static void BM_SRG01_ConsistentHashRouting1K(benchmark::State& state) {
         benchmark::DoNotOptimize(ring.lookup("warm-key-" + std::to_string(i)));
     }
     std::mt19937_64 rng_engine(kShardCanonicalSeed);
-    std::uniform_int_distribution<uint64_t> dist;
+    std::uniform_int_distribution<uint64_t> dist = {};
+
     for (auto _ : state) {
         std::string key = "key-" + std::to_string(dist(rng_engine));
         benchmark::DoNotOptimize(ring.lookup(key));
@@ -306,7 +307,8 @@ static void BM_SRG06_RouteLookup64ShardWarm(benchmark::State& state) {
         benchmark::DoNotOptimize(ring.lookup("warm-" + std::to_string(i)));
     }
     std::mt19937_64 rng_engine(kShardCanonicalSeed);
-    std::uniform_int_distribution<uint64_t> dist;
+    std::uniform_int_distribution<uint64_t> dist = {};
+
     for (auto _ : state) {
         std::string key = "k-" + std::to_string(dist(rng_engine));
         benchmark::DoNotOptimize(ring.lookup(key));

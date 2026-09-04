@@ -594,7 +594,8 @@ void SelfAwareness::loadSnapshots() {
         }
 
         // Collect snapshot files sorted by name (which encodes timestamp)
-        std::vector<std::filesystem::path> files;
+        std::vector<std::filesystem::path> files = {};
+
         for (const auto& entry : std::filesystem::directory_iterator(config_.snapshot_directory)) {
             if (entry.is_regular_file() &&
                 entry.path().filename().string().rfind("snapshot_", 0) == 0) {

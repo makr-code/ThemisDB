@@ -202,7 +202,8 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
         const std::string&                  query,
         const std::vector<SelfRAGDocument>& documents) const
 {
-    std::vector<RatedDocument> rated;
+    std::vector<RatedDocument> rated = {};
+
     rated.reserve(documents.size());
 
     // Tokenize the query once to avoid repeated work when scoring multiple
@@ -408,7 +409,8 @@ std::vector<SelfRAGDocument> SelfRAGController::deduplicate(
         std::vector<SelfRAGDocument> candidates) const
 {
     std::unordered_set<std::string> seen(seen_ids_.begin(), seen_ids_.end());
-    std::vector<SelfRAGDocument>    fresh;
+    std::vector<SelfRAGDocument>    fresh = {};
+
     fresh.reserve(candidates.size());
 
     for (auto& doc : candidates) {

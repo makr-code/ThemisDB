@@ -78,7 +78,8 @@ std::vector<std::size_t> bucketiseRow(const TableRow&                  row,
     std::size_t cat_col = 0;
     std::size_t bool_col = 0;
 
-    std::vector<std::size_t> buckets;
+    std::vector<std::size_t> buckets = {};
+
     buckets.reserve(schema.size());
 
     for (const auto& col : schema) {
@@ -180,7 +181,8 @@ std::vector<std::vector<double>> buildNumericThresholds(
             continue;
         }
 
-        std::vector<double> values;
+        std::vector<double> values = {};
+
         values.reserve(rows.size());
         for (const auto& row : rows) {
             if (numeric_index < row.numeric_values.size()) {
@@ -250,7 +252,8 @@ std::vector<std::vector<std::string>> buildCategoryOrders(
             }
         }
 
-        std::unordered_map<std::string, std::size_t> frequencies;
+        std::unordered_map<std::string, std::size_t> frequencies = {};
+
         for (const auto& row : rows) {
             if (category_index < row.category_values.size()) {
                 ++frequencies[row.category_values[category_index]];
@@ -314,7 +317,8 @@ struct FkResolvedEdge {
     const std::vector<HyperIndexConfig::ForeignKeyEdge>& edges,
     std::size_t schema_size,
     const HyperIndexConfig::ForeignKeyGraphConfig& fk_cfg) {
-    std::vector<FkResolvedEdge> resolved;
+    std::vector<FkResolvedEdge> resolved = {};
+
     resolved.reserve(edges.size());
 
     for (const auto& edge : edges) {

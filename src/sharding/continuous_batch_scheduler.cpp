@@ -382,7 +382,8 @@ std::unordered_map<SchedulingPriority, uint32_t>
 ContinuousBatchScheduler::getRequestCountByPriority() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::unordered_map<SchedulingPriority, uint32_t> counts;
+    std::unordered_map<SchedulingPriority, uint32_t> counts = {};
+
     counts[SchedulingPriority::REALTIME] = static_cast<uint32_t>(priority_queues_[0].size());
     counts[SchedulingPriority::INTERACTIVE] = static_cast<uint32_t>(priority_queues_[1].size());
     counts[SchedulingPriority::BATCH] = static_cast<uint32_t>(priority_queues_[2].size());

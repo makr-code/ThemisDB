@@ -55,7 +55,8 @@ bool ExportFormatRegistry::hasFormat(const std::string &format_key) const {
 
 std::vector<std::string> ExportFormatRegistry::registeredFormats() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     keys.reserve(formats_.size());
     for (const auto &[k, _] : formats_) {
         keys.push_back(k);
@@ -144,7 +145,8 @@ void ExportFormatRegistry::loadTemplatesFromJson(const std::string &json_str) {
         FormatTemplateType ttype;
         FormatTemplateFieldMapping mapping;
     };
-    std::vector<ValidatedEntry> validated;
+    std::vector<ValidatedEntry> validated = {};
+
     validated.reserve(j["templates"].size());
 
     for (const auto &entry : j["templates"]) {

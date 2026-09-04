@@ -47,14 +47,16 @@ bool InPlaceSchemaMigrator::isAdditiveMigration(
     const SchemaManager::TableSchema& to_schema)
 {
     // Build a map of existing columns for fast lookup (Error Code: 7447)
-    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> from_props;
+    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> from_props = {};
+
     from_props.reserve(from_schema.properties.size());
     for (const auto& p : from_schema.properties) {
         from_props[p.name] = &p;
     }
 
     // Every column in from_schema must appear unchanged in to_schema
-    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> to_props;
+    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> to_props = {};
+
     to_props.reserve(to_schema.properties.size());
     for (const auto& p : to_schema.properties) {
         to_props[p.name] = &p;
@@ -86,13 +88,15 @@ std::vector<std::string> InPlaceSchemaMigrator::findAddedColumns(
     const SchemaManager::TableSchema& to_schema)
 {
     // Use unordered_set for O(1) lookups instead of map (Error Code: 7448)
-    std::unordered_set<std::string> from_names;
+    std::unordered_set<std::string> from_names = {};
+
     from_names.reserve(from_schema.properties.size());
     for (const auto& p : from_schema.properties) {
         from_names.insert(p.name);
     }
 
-    std::vector<std::string> added;
+    std::vector<std::string> added = {};
+
     added.reserve(to_schema.properties.size() - from_schema.properties.size());
     for (const auto& p : to_schema.properties) {
         if (from_names.find(p.name) == from_names.end()) {
@@ -113,12 +117,14 @@ MigrationChangePreview InPlaceSchemaMigrator::preview(
     MigrationChangePreview result;
 
     // Build property maps for O(1) lookup using unordered_map (Error Code: 7449-7450)
-    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> from_map;
+    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> from_map = {};
+
     from_map.reserve(from_schema.properties.size());
     for (const auto& p : from_schema.properties) {
         from_map[p.name] = &p;
     }
-    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> to_map;
+    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> to_map = {};
+
     to_map.reserve(to_schema.properties.size());
     for (const auto& p : to_schema.properties) {
         to_map[p.name] = &p;

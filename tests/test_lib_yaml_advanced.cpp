@@ -372,7 +372,8 @@ features:
     YAML::Node node = YAML::Load(yaml_str);
     YAML::Node features = node["features"];
     
-    std::map<std::string, std::string> feature_map;
+    std::map<std::string, std::string> feature_map = {};
+
     for (YAML::const_iterator it = features.begin(); it != features.end(); ++it) {
         std::string key = it->first.as<std::string>();
         std::string value = it->second.as<std::string>();

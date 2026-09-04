@@ -88,7 +88,8 @@ LoRATrainingConfig::getAdapterConfig(const std::string& adapter_id) const {
 
 std::vector<LoRATrainingConfig::AdapterConfig> 
 LoRATrainingConfig::getAllAdapterConfigs() const {
-    std::vector<AdapterConfig> configs;
+    std::vector<AdapterConfig> configs = {};
+
     for (const auto& [id, config] : adapters_) {
         if (config.enabled) {
             configs.push_back(config);

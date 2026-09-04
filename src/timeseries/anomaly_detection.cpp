@@ -62,13 +62,15 @@ std::vector<AnomalyPoint> ZScoreDetector::detect(
     if (scores.empty()) return {};
 
     // Build a timestamp → score lookup for fast access
-    std::unordered_map<int64_t, double> score_map;
+    std::unordered_map<int64_t, double> score_map = {};
+
     score_map.reserve(scores.size());
     for (const auto& [ts, z] : scores) {
       score_map[ts] = z;
     }
 
-    std::vector<AnomalyPoint> result;
+    std::vector<AnomalyPoint> result = {};
+
     for (const auto& p : points) {
         auto it = score_map.find(p.timestamp_ms);
         if (it == score_map.end()) {
@@ -98,7 +100,8 @@ std::vector<AnomalyPoint> IQRDetector::detect(
     if (points.size() < cfg.min_samples) return {};
 
     // Extract sorted values for percentile computation
-    std::vector<double> vals;
+    std::vector<double> vals = {};
+
     vals.reserve(points.size());
     for (const auto& p : points) {
       vals.push_back(p.value);
@@ -128,7 +131,8 @@ std::vector<AnomalyPoint> IQRDetector::detect(
     const double lower = q1 - cfg.iqr_multiplier * iqr;
     const double upper = q3 + cfg.iqr_multiplier * iqr;
 
-    std::vector<AnomalyPoint> result;
+    std::vector<AnomalyPoint> result = {};
+
     for (const auto& p : points) {
         if (p.value < lower || p.value > upper) {
             AnomalyPoint ap;
@@ -175,7 +179,8 @@ std::vector<AnomalyPoint> AnomalyDetector::detect(
     auto iqr_anom = iqr_det.detect(points, cfg);
 
     // Merge into a map keyed by timestamp_ms
-    std::unordered_map<int64_t, AnomalyPoint> merged;
+    std::unordered_map<int64_t, AnomalyPoint> merged = {};
+
     for (auto& ap : z_anom) {
       merged[ap.timestamp_ms] = ap;
     }
@@ -189,7 +194,8 @@ std::vector<AnomalyPoint> AnomalyDetector::detect(
     }
 
     // Collect and sort by timestamp
-    std::vector<AnomalyPoint> result;
+    std::vector<AnomalyPoint> result = {};
+
     result.reserve(merged.size());
     for (auto& [ts, ap] : merged) {
       result.push_back(ap);

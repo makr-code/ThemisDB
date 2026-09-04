@@ -401,7 +401,8 @@ public:
      */
     std::vector<ShardStats> allStats() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::vector<ShardStats> out;
+        std::vector<ShardStats> out = {};
+
         out.reserve(stats_.size());
         for (const auto& id : shard_order_) {
             auto it = stats_.find(id);

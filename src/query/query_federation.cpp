@@ -113,7 +113,8 @@ namespace {
     }
 
     static std::vector<nlohmann::json> sortedJsonArray(const nlohmann::json& data) {
-        std::vector<nlohmann::json> values;
+        std::vector<nlohmann::json> values = {};
+
         if (!data.is_array()) {
             return values;
         }
@@ -211,7 +212,8 @@ distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuer
     });
 
     // Convert ShardResult → ShardRetrievalResult with scope validation
-    std::vector<distributed_knowledge::ShardRetrievalResult> rag_results;
+    std::vector<distributed_knowledge::ShardRetrievalResult> rag_results = {};
+
     rag_results.reserve(raw_results.size());
     uint64_t accumulated_rag_input_bytes = 0;
 
@@ -351,7 +353,8 @@ nlohmann::json QueryFederation::execute(const std::string& query) {
 
                 // Optimize: Use unordered_set for O(n) deduplication instead of sort + unique (O(n log n))
                 std::unordered_set<std::string> unique_shards;
-                std::vector<std::string> deduped_targets;
+                std::vector<std::string> deduped_targets = {};
+
                 deduped_targets.reserve(plan.target_shards.size());
 
                 for (const auto& shard : plan.target_shards) {
@@ -1209,7 +1212,8 @@ std::vector<std::string> QueryFederation::determineRelevantShards(
 
     // No shard-key hint — return all healthy shard IDs (caller will broadcast).
     auto all_shards = shard_router_->getResolver().getHealthyShards();
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(all_shards.size());
     for (const auto& s : all_shards) {
         ids.push_back(s.shard_id);
@@ -1297,7 +1301,8 @@ nlohmann::json QueryFederation::applyGlobalOperations(
     // The current implementation does not yet evaluate the ORDER BY expression,
     // so we keep the output stable by sorting with the shared JSON comparator.
     if (result.is_array() && (metadata.order_by.has_value() || metadata.limit.has_value() || metadata.offset.has_value())) {
-        std::vector<nlohmann::json> ordered_rows;
+        std::vector<nlohmann::json> ordered_rows = {};
+
         ordered_rows.reserve(result.size());
         for (const auto& row : result) {
             ordered_rows.push_back(row);

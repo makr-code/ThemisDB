@@ -107,7 +107,8 @@ const std::string& UpdateHistoryLogger::logFilePath() const {
 // ============================================================================
 
 std::vector<UpdateHistoryEntry> UpdateHistoryLogger::loadEntries() const {
-    std::vector<UpdateHistoryEntry> entries;
+    std::vector<UpdateHistoryEntry> entries = {};
+
     if (!fs::exists(log_file_path_)) {
         return entries;
     }

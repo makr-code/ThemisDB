@@ -56,7 +56,8 @@ class ReActAgent::Impl {
     }
 
     std::vector<AgentTool> getTools() const {
-        std::vector<AgentTool> result;
+        std::vector<AgentTool> result = {};
+
         result.reserve(tools_.size());
         for (const auto &kv : tools_) {
             result.push_back(kv.second);

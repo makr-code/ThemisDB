@@ -403,7 +403,8 @@ TEST_F(PredictiveDetectorTest, ConcurrentPredictions) {
     }
     
     // Make concurrent predictions
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 5; ++i) {
         threads.emplace_back([&detector, i]() {
             auto prediction = detector.predictShard("shard_00" + std::to_string(i));

@@ -461,7 +461,8 @@ void WALManager::loadExistingSegments() {
     }
     
     // Find all WAL segments
-    std::vector<uint64_t> segments;
+    std::vector<uint64_t> segments = {};
+
     for (const auto& entry : fs::directory_iterator(config_.wal_directory)) {
         if (entry.path().extension() == ".wal") {
             std::string filename = entry.path().stem().string();

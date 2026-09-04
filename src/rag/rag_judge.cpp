@@ -377,7 +377,8 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
             if (!injection_cache_key.empty() && !injection_cache_hit) {
                 try {
                     std::lock_guard<std::mutex> injection_lock(impl_->injection_cache_mutex);
-                    std::vector<security::InjectionFinding> flat_findings;
+                    std::vector<security::InjectionFinding> flat_findings = {};
+
                     for (const auto& sr : scan_results) {
                         for (const auto& finding : sr.findings) {
                             flat_findings.push_back(finding);
@@ -816,7 +817,8 @@ std::vector<EvaluationResult> RAGJudge::batchEvaluate(
 ) {
     THEMIS_INFO("Batch evaluating {} test cases", test_cases.size());
     
-    std::vector<EvaluationResult> results;
+    std::vector<EvaluationResult> results = {};
+
     results.reserve(test_cases.size());
     
     for (const auto& test_case : test_cases) {
@@ -1313,7 +1315,8 @@ std::vector<std::string> RAGJudge::extractClaimsViaLLM(const std::string& answer
     try {
         auto json_resp = nlohmann::json::parse(response);
         if (json_resp.contains("claims") && json_resp["claims"].is_array()) {
-            std::vector<std::string> claims;
+            std::vector<std::string> claims = {};
+
             for (const auto& item : json_resp["claims"]) {
                 if (item.is_string()) {
                     std::string text = item.get<std::string>();
@@ -1551,7 +1554,8 @@ JudgeEnsemble::~JudgeEnsemble() = default;
 EvaluationResult JudgeEnsemble::evaluateWithEnsemble(const EvaluationInput& input) {
     THEMIS_INFO("Evaluating with ensemble of {} judges", impl_->judges.size());
     
-    std::vector<EvaluationResult> results;
+    std::vector<EvaluationResult> results = {};
+
     for (const auto& judge : impl_->judges) {
         results.push_back(judge->evaluate(input));
     }

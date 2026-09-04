@@ -436,7 +436,8 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
         double score = 0.0;
     };
 
-    std::vector<Candidate> candidates;
+    std::vector<Candidate> candidates = {};
+
     candidates.reserve(match_results.size());
 
     for (const auto& match : match_results) {
@@ -471,7 +472,8 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
         return lhs.shard_id < rhs.shard_id;
     });
 
-    std::vector<std::string> selected;
+    std::vector<std::string> selected = {};
+
     selected.reserve(std::min(max_shards, candidates.size()));
     for (const auto& candidate : candidates) {
         selected.push_back(candidate.shard_id);
@@ -578,7 +580,8 @@ AdaptiveShardRouter::IterationStats AdaptiveShardRouter::calculateIterationStats
     }
     
     // Calculate score statistics for queried shards
-    std::vector<double> scores;
+    std::vector<double> scores = {};
+
     for (const auto& shard_id : shard_ids) {
         for (const auto& match : match_results) {
             if (match.shard_id == shard_id) {

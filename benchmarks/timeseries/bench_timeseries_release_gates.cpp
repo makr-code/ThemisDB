@@ -121,7 +121,8 @@ static std::size_t downsample(const std::vector<TimePoint>& input,
       return 0;
     }
     std::map<std::int64_t, double> buckets;
-    std::map<std::int64_t, int>    counts;
+    std::map<std::int64_t, int>    counts = {};
+
     for (const auto& p : input) {
         std::int64_t bk = p.ts_ns / resolution_ns;
         buckets[bk] += p.value;
@@ -312,7 +313,8 @@ BENCHMARK(BM_TSRG05_RetentionCheck)
  * GATE-TSRG-06: p99 ≤ 50 µs.
  */
 static void BM_TSRG06_SeriesLookup(benchmark::State& state) {
-    std::unordered_map<std::string, std::int64_t> index;
+    std::unordered_map<std::string, std::int64_t> index = {};
+
     for (int i = 0; i < 1000; ++i) {
         index["series_" + std::to_string(i)] = static_cast<std::int64_t>(i);
     }

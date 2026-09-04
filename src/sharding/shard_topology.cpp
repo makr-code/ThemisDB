@@ -147,7 +147,8 @@ std::optional<ShardInfo> ShardTopology::getShard(const std::string& shard_id) co
 std::vector<ShardInfo> ShardTopology::getAllShards() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<ShardInfo> result;
+    std::vector<ShardInfo> result = {};
+
     result.reserve(shards_.size());
     
     for (const auto& [id, info] : shards_) {
@@ -405,7 +406,8 @@ void ShardTopology::updateRaftStatus(const std::string& shard_id,
 std::vector<std::string> ShardTopology::getRaftLeaders() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> leaders;
+    std::vector<std::string> leaders = {};
+
     for (const auto& [id, info] : shards_) {
         if (info.isRaftLeader()) {
             leaders.push_back(id);
@@ -418,7 +420,8 @@ std::vector<std::string> ShardTopology::getRaftLeaders() const {
 /** @brief Return all shards assigned to given region string. */
 std::vector<ShardInfo> ShardTopology::getShardsInRegion(const std::string& region) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<ShardInfo> result;
+    std::vector<ShardInfo> result = {};
+
     for (const auto& [id, info] : shards_) {
         if (info.region == region) {
             result.push_back(info);
@@ -430,7 +433,8 @@ std::vector<ShardInfo> ShardTopology::getShardsInRegion(const std::string& regio
 /** @brief Return healthy shards assigned to given region string. */
 std::vector<ShardInfo> ShardTopology::getHealthyShardsInRegion(const std::string& region) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<ShardInfo> result;
+    std::vector<ShardInfo> result = {};
+
     for (const auto& [id, info] : shards_) {
         if (info.region == region && info.is_healthy) {
             result.push_back(info);
@@ -442,7 +446,8 @@ std::vector<ShardInfo> ShardTopology::getHealthyShardsInRegion(const std::string
 /** @brief Return sorted list of distinct non-empty region names. */
 std::vector<std::string> ShardTopology::getRegions() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& [id, info] : shards_) {
         if (!info.region.empty()) {
             seen.insert(info.region);

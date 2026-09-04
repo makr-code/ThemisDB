@@ -67,7 +67,8 @@ json RetentionApiHandler::listPolicies([[maybe_unused]] const RetentionQueryFilt
     auto all_policies = retention_manager.getPolicies();
 
     // Apply filters
-    std::vector<vcc::RetentionManager::RetentionPolicy> filtered;
+    std::vector<vcc::RetentionManager::RetentionPolicy> filtered = {};
+
     filtered.reserve(all_policies.size());
     
     for (const auto& policy : all_policies) {

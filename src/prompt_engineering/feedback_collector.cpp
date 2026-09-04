@@ -368,7 +368,8 @@ std::vector<FailedQueryPattern> FeedbackCollector::analyzeFailurePatterns(
     }
     
     // Filter to failure entries
-    std::vector<FeedbackEntry> failures;
+    std::vector<FeedbackEntry> failures = {};
+
     for (const auto& entry : it->second) {
         if (entry.type != FeedbackType::USER_POSITIVE) {
             failures.push_back(entry);
@@ -416,7 +417,8 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedbackInTimeRange(
         return {};
     }
     
-    std::vector<FeedbackEntry> result;
+    std::vector<FeedbackEntry> result = {};
+
     for (const auto& entry : it->second) {
         if (entry.timestamp >= start && entry.timestamp <= end) {
             result.push_back(entry);
@@ -577,7 +579,8 @@ std::vector<FeedbackEntry> FeedbackCollector::detectOutliers(
         return {}; // All severities are identical – no outliers
     }
 
-    std::vector<FeedbackEntry> outliers;
+    std::vector<FeedbackEntry> outliers = {};
+
     for (const auto& e : entries) {
         double z = std::abs(e.severity - mean) / stddev;
         if (z > z_threshold) {
@@ -852,7 +855,8 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
         }
 
         // TF: raw count within this query
-        std::unordered_map<std::string, size_t> tf;
+        std::unordered_map<std::string, size_t> tf = {};
+
         for (const auto& t : tokens) {
           tf[t]++;
         }
@@ -872,7 +876,8 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
     };
 
     // --- Step 4: group entries by their best keyword (pattern) ---
-    std::unordered_map<std::string, FailedQueryPattern> patterns;
+    std::unordered_map<std::string, FailedQueryPattern> patterns = {};
+
     for (size_t i = 0; i < num_docs; ++i) {
         const auto& entry = entries[i];
         std::string key   = best_keyword(i);
@@ -896,7 +901,8 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
     }
 
     // --- Step 5: filter by min_occurrences and sort ---
-    std::vector<FailedQueryPattern> result;
+    std::vector<FailedQueryPattern> result = {};
+
     result.reserve(patterns.size());
     for (const auto& [key, pat] : patterns) {
         if (pat.occurrences >= min_occurrences) {

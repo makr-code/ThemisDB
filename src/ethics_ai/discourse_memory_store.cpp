@@ -129,7 +129,8 @@ std::string DiscourseMemoryStore::buildEpisodicContext(const std::string &school
 
 std::map<std::string, std::string>
 DiscourseMemoryStore::buildAllEpisodicContexts(const std::vector<std::string> &school_ids, int max_episodes) const {
-    std::map<std::string, std::string> result;
+    std::map<std::string, std::string> result = {};
+
     for (const auto &school_id : school_ids) {
         result[school_id] = buildEpisodicContext(school_id, max_episodes);
     }

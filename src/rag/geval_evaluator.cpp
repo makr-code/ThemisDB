@@ -466,7 +466,8 @@ double GEvalEvaluator::aggregateScores(
         case AggregationMethod::MODE: {
             // For continuous scores, mode is tricky
             // Use the most common score (with some tolerance)
-            std::unordered_map<int, int> counts;
+            std::unordered_map<int, int> counts = {};
+
             for (double score : samples) {
                 int bucket = static_cast<int>(score * 10);  // 0.1 resolution
                 counts[bucket]++;

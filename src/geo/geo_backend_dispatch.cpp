@@ -197,7 +197,8 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
         // Prepare polygon coordinates (interleaved [lat, lon] pairs)
         // Performance gate: GATE-A-06-02 ≤ 2ms for typical workload
         if (!polygons.empty() && !polygons[0].vertices.empty()) {
-            std::vector<double> poly_coords;
+            std::vector<double> poly_coords = {};
+
             poly_coords.reserve(polygons[0].vertices.size() * 2);
             
             for (const auto& vertex : polygons[0].vertices) {

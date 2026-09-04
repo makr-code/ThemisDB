@@ -193,7 +193,8 @@ std::vector<RoutingDecision> LoRARouter::routeQueryBatch(
     const std::vector<std::string>& queries,
     const std::string& base_model_id) {
     
-    std::vector<RoutingDecision> decisions;
+    std::vector<RoutingDecision> decisions = {};
+
     decisions.reserve(queries.size());
     
     for (const auto& query : queries) {

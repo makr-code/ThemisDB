@@ -301,7 +301,8 @@ bool RateLimiterPool::unregisterLimiter(const std::string& connector_name) {
 
 std::vector<std::string> RateLimiterPool::listLimiters() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     for (const auto& kv : limiters_) {
         names.push_back(kv.first);
     }

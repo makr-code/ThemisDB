@@ -432,7 +432,8 @@ Result<void> DefaultAlertmanager::testConnection() {
 
     ensureHttpPool();
     const std::string url = config_.endpoint_url + "/api/v2/status";
-    std::unordered_map<std::string, std::string> headers;
+    std::unordered_map<std::string, std::string> headers = {};
+
     if (!config_.auth_token.empty()) {
         headers["Authorization"] = "Bearer " + config_.auth_token;
     }
@@ -604,7 +605,8 @@ Result<void> AlertRuleManager::updateRule(const AlertRule& rule) {
 
 std::vector<AlertRule> AlertRuleManager::listRules() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<AlertRule> result;
+    std::vector<AlertRule> result = {};
+
     result.reserve(rules_.size());
     for (const auto& [id, rule] : rules_) {
         result.push_back(rule);

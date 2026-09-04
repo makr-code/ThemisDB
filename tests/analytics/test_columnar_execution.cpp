@@ -534,7 +534,8 @@ TEST(AggregateOperatorTest, GroupByCategory) {
     ASSERT_NE(nullptr, total_col);
 
     // Collect results into a map
-    std::unordered_map<std::string, double> totals;
+    std::unordered_map<std::string, double> totals = {};
+
     for (size_t i = 0; i < result.rowCount(); ++i) {
         std::string c = std::get<std::string>(cat_col->get(i));
         double      t = std::get<double>(total_col->get(i));
@@ -732,7 +733,8 @@ TEST(VectorizedPipelineTest, FilterGroupByAggregate) {
     auto cat_col   = result.getColumn("cat");
     auto total_col = result.getColumn("sum_price");
 
-    std::unordered_map<std::string, double> totals;
+    std::unordered_map<std::string, double> totals = {};
+
     for (size_t i = 0; i < result.rowCount(); ++i) {
         totals[std::get<std::string>(cat_col->get(i))] =
             std::get<double>(total_col->get(i));

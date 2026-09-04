@@ -46,7 +46,8 @@ std::vector<HybridSearch::Result> ConversationalSearch::search(
 
     const std::string enriched = reformulate(query);
 
-    std::vector<HybridSearch::Result> results;
+    std::vector<HybridSearch::Result> results = {};
+
     if (hybrid_search_) {
         try {
             results = hybrid_search_->search(enriched);

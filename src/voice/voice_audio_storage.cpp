@@ -210,7 +210,8 @@ std::vector<AudioStorageRecord> VoiceAudioStorage::listRecords(
     StorageTier tier_filter, size_t limit) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<AudioStorageRecord> result;
+    std::vector<AudioStorageRecord> result = {};
+
     for (const auto& [id, rec] : records_) {
         if (result.size() >= limit) {
           break;
@@ -226,7 +227,8 @@ std::vector<AudioStorageRecord> VoiceAudioStorage::searchTranscripts(
     const std::string& query, size_t limit) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<AudioStorageRecord> result;
+    std::vector<AudioStorageRecord> result = {};
+
     if (query.empty()) {
       return result;
     }

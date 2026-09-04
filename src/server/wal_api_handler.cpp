@@ -104,7 +104,8 @@ http::response<http::string_body> WALApiHandler::handleApply(
             "Missing 'entries' array (or entries_compressed)", req);
     }
 
-    std::vector<sharding::WALEntry> entries;
+    std::vector<sharding::WALEntry> entries = {};
+
     entries.reserve(entries_json.size());
 
     try {

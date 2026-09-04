@@ -232,7 +232,8 @@ TEST_F(RAGTTFTBenchmark, TTFT03_VariableContextSize) {
         { 4096, "4096 tok" },
     };
 
-    std::vector<double> p95_values;
+    std::vector<double> p95_values = {};
+
     for (const auto& c : cases) {
         const std::string ctx    = buildRetrievedContext(1, c.tokens);
         const std::string prompt = ctx + "\nSummarise.";

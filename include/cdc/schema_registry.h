@@ -674,7 +674,8 @@ message CdcEvent {
         const nlohmann::json payload = eventToPayload(event, coll);
         const SchemaFormat   fmt     = client_->config().default_format;
 
-        std::vector<uint8_t> payload_bytes;
+        std::vector<uint8_t> payload_bytes = {};
+
         if (fmt == SchemaFormat::AVRO && avro_encoder_fn_) {
             payload_bytes = avro_encoder_fn_(payload);
         } else if (fmt == SchemaFormat::PROTOBUF && protobuf_encoder_fn_) {
@@ -899,7 +900,8 @@ private:
         int32_t schema_id,
         const std::vector<uint8_t>& payload) {
 
-        std::vector<uint8_t> wire;
+        std::vector<uint8_t> wire = {};
+
         wire.reserve(SCHEMA_REGISTRY_HEADER_SIZE + payload.size());
 
         // Magic byte

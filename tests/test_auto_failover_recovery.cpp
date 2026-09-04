@@ -172,7 +172,8 @@ TEST(AutoFailoverRecoveryTest, HeartbeatFailureDetection) {
     constexpr int HEARTBEAT_INTERVAL_MS = 20;
     constexpr int FAILURE_TIMEOUT_MS = 100;
     
-    std::vector<MockReplicaNode> cluster;
+    std::vector<MockReplicaNode> cluster = {};
+
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
     }
@@ -281,7 +282,8 @@ TEST(AutoFailoverRecoveryTest, QuorumBasedOperations) {
     constexpr int NUM_NODES = 5;
     constexpr int QUORUM_SIZE = 3;
     
-    std::vector<MockReplicaNode> cluster;
+    std::vector<MockReplicaNode> cluster = {};
+
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
     }

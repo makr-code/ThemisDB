@@ -505,7 +505,8 @@ bool ProcessTelemetryIntegrationImpl::ExportSpans() {
   }
 
   // Serialize spans to OTLP JSON
-  std::vector<std::string> span_jsons;
+  std::vector<std::string> span_jsons = {};
+
   for (const auto& span : span_history_) {
     span_jsons.push_back(SerializeSpanOtlp(span));
   }

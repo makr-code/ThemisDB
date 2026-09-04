@@ -221,7 +221,8 @@ json ExplanationGenerator::identifyKeyFactors(
     auto response_keywords = extractKeywords(response);
     
     // Identify common keywords (these likely influenced the response)
-    std::vector<std::string> common_keywords;
+    std::vector<std::string> common_keywords = {};
+
     for (const auto& qk : query_keywords) {
         if (std::find(response_keywords.begin(), response_keywords.end(), qk) 
             != response_keywords.end()) {

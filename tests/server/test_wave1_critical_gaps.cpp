@@ -72,7 +72,8 @@ int timedJoinAll(std::vector<std::thread>& threads,
  */
 TEST(Wave1CriticalGaps, TimedJoin_QuickThreadsJoinClean)
 {
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 4; ++i)
         threads.emplace_back([]() { /* instant exit */ });
 
@@ -144,7 +145,8 @@ TEST(Wave1CriticalGaps, CallOnce_ResultConsistentAcrossThreads)
     bool ok = false;
 
     constexpr int kThreads = 4;
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < kThreads; ++i) {
         threads.emplace_back([&flag, &ok]() {
             std::call_once(flag, [&ok]() { ok = true; });

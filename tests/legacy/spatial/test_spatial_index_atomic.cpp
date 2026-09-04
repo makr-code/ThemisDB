@@ -110,7 +110,8 @@ TEST_F(SpatialIndexAtomicTest, InsertBatch_ConcurrentSameBucket) {
     EXPECT_EQ(results.size(), 2);
     
     // Check both PKs are present
-    std::set<std::string> found_pks;
+    std::set<std::string> found_pks = {};
+
     for (const auto& result : results) {
         found_pks.insert(result.primary_key);
     }

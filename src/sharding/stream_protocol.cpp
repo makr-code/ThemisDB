@@ -1668,7 +1668,8 @@ bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
     }
 
     // Decompress if needed
-    std::vector<uint8_t> write_data;
+    std::vector<uint8_t> write_data = {};
+
     if (chunk.compressed_size < chunk.uncompressed_size) {
         // Data is compressed, decompress it
         write_data = StreamCompressor::decompress(

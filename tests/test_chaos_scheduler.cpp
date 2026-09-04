@@ -236,7 +236,8 @@ TEST_F(ChaosSchedulerTest, AllTasksFailSimultaneously) {
             throw std::runtime_error("mass failure");
         });
 
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (int i = 0; i < 10; ++i) {
         ScheduledTask task;
         task.name          = "mass_fail_" + std::to_string(i);
@@ -514,7 +515,8 @@ TEST_F(ChaosSchedulerTest, ExportMetricsUnderConcurrentModificationDoesNotCrash)
         [](const nlohmann::json&) -> nlohmann::json { return {}; });
 
     // Register some tasks
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (int i = 0; i < 5; ++i) {
         ScheduledTask task;
         task.name          = "metrics_race_" + std::to_string(i);

@@ -364,7 +364,8 @@ struct DataPage {
 
 static DataPage encodePlainByteArrayPage(const std::vector<std::string> &vals) {
     // Serialise values first so we know the byte size
-    std::vector<uint8_t> value_buf;
+    std::vector<uint8_t> value_buf = {};
+
     for (const auto &v : vals) {
         // PLAIN BYTE_ARRAY: 4-byte little-endian length + bytes
         uint32_t len = static_cast<uint32_t>(v.size());
@@ -376,7 +377,8 @@ static DataPage encodePlainByteArrayPage(const std::vector<std::string> &vals) {
     }
 
     int32_t data_size = static_cast<int32_t>(value_buf.size());
-    std::vector<uint8_t> header_buf;
+    std::vector<uint8_t> header_buf = {};
+
     encodePageHeader(header_buf, data_size, data_size, static_cast<int32_t>(vals.size()));
 
     return {std::move(header_buf), std::move(value_buf)};
@@ -450,7 +452,8 @@ std::vector<std::string> ParquetExporter::resolveColumns(const std::vector<BaseE
 
     // Explicit include list
     if (!options.include_fields.empty()) {
-        std::vector<std::string> cols;
+        std::vector<std::string> cols = {};
+
         for (const auto &f : options.include_fields) {
             if (exclude_set.find(f) == exclude_set.end()) {
                 cols.push_back(f);
@@ -459,7 +462,8 @@ std::vector<std::string> ParquetExporter::resolveColumns(const std::vector<BaseE
         return cols;
     }
     if (!config_.include_columns.empty()) {
-        std::vector<std::string> cols;
+        std::vector<std::string> cols = {};
+
         for (const auto &f : config_.include_columns) {
             if (exclude_set.find(f) == exclude_set.end()) {
                 cols.push_back(f);
@@ -470,7 +474,8 @@ std::vector<std::string> ParquetExporter::resolveColumns(const std::vector<BaseE
 
     // Auto-detect: collect all field names across all entities
     if (config_.auto_detect_schema) {
-        std::set<std::string> seen;
+        std::set<std::string> seen = {};
+
         for (const auto &e : entities) {
             for (const auto &kv : e.getAllFields()) {
                 if (exclude_set.find(kv.first) == exclude_set.end()) {
@@ -482,7 +487,8 @@ std::vector<std::string> ParquetExporter::resolveColumns(const std::vector<BaseE
     }
 
     // Derive from column_hints
-    std::vector<std::string> cols;
+    std::vector<std::string> cols = {};
+
     for (const auto &hint : config_.column_hints) {
         if (exclude_set.find(hint.name) == exclude_set.end()) {
             cols.push_back(hint.name);
@@ -547,7 +553,8 @@ ExportStats ParquetExporter::exportWithArrow(const std::vector<BaseEntity> &enti
     ExportStats stats;
 
     // ── Set up PII detector if needed ──────────────────────────────────────
-    std::unique_ptr<PIIDetector> pii_detector;
+    std::unique_ptr<PIIDetector> pii_detector = {};
+
     if (config_.pii_config.enable_detection) {
         PIIDetector::Config pii_cfg;
         pii_cfg.detect_email       = config_.pii_config.detect_email;
@@ -664,7 +671,8 @@ ExportStats ParquetExporter::exportWithArrow(const std::vector<BaseEntity> &enti
     };
 
     // AQL predicate filter (compiled once, reused per entity)
-    std::unique_ptr<AqlPredicateFilter> aql_filter;
+    std::unique_ptr<AqlPredicateFilter> aql_filter = {};
+
     if (!options.filter_expression.empty()) {
         aql_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);
     }
@@ -755,7 +763,8 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
     ExportStats stats;
 
     // ── Set up PII detector if needed ──────────────────────────────────────
-    std::unique_ptr<PIIDetector> pii_detector;
+    std::unique_ptr<PIIDetector> pii_detector = {};
+
     if (config_.pii_config.enable_detection) {
         PIIDetector::Config pii_cfg;
         pii_cfg.detect_email       = config_.pii_config.detect_email;
@@ -780,7 +789,8 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
     size_t row_count = 0;
 
     // AQL predicate filter (compiled once, reused per entity)
-    std::unique_ptr<AqlPredicateFilter> aql_filter_fb;
+    std::unique_ptr<AqlPredicateFilter> aql_filter_fb = {};
+
     if (!options.filter_expression.empty()) {
         aql_filter_fb = std::make_unique<AqlPredicateFilter>(options.filter_expression);
     }

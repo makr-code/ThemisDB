@@ -203,7 +203,8 @@ TEST_F(ParallelDownloaderConcurrencyTest, MultipleTasksRunConcurrently) {
     dl.setConcurrency(4);
     dl.setFetchFunction(fn);
 
-    std::vector<DownloadTask> tasks;
+    std::vector<DownloadTask> tasks = {};
+
     for (int i = 0; i < 8; ++i) {
         DownloadTask task;
         task.url  = "https://example.com/f" + std::to_string(i);

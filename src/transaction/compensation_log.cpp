@@ -71,7 +71,8 @@ bool CompensationLog::hasSucceeded(const std::string& step_name) const {
 std::vector<CompensationLogEntry> CompensationLog::getEntries() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<CompensationLogEntry> result;
+    std::vector<CompensationLogEntry> result = {};
+
     for (const auto& [step_name, entries] : entries_) {
         for (const auto& entry : entries) {
             result.push_back(entry);

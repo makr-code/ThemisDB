@@ -327,7 +327,8 @@ TEST(RagErrorHandlingEdgeCasesFocusedTests, E1_LargeChunkCountNotExhaustingMemor
     RAGContextAssembler asm_{cfg};
 
     // Create 10K chunks (stress test for memory)
-    std::vector<RetrievedChunk> chunks;
+    std::vector<RetrievedChunk> chunks = {};
+
     for (int i = 0; i < 10'000; ++i) {
         chunks.push_back(makeChunk("chunk " + std::to_string(i), 0.5f));
     }

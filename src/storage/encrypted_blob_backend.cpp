@@ -177,7 +177,8 @@ EncryptedBlobBackend::encrypt(const std::vector<uint8_t>& plaintext) const
     }
 
     // Allocate output: IV + ciphertext + tag
-    std::vector<uint8_t> out;
+    std::vector<uint8_t> out = {};
+
     out.resize(kIvLen + plaintext.size() + kTagLen);
     std::memcpy(out.data(), iv.data(), kIvLen);
 

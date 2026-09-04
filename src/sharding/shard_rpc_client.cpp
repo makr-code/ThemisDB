@@ -459,7 +459,8 @@ bool ShardRPCClient::ping() {
 std::vector<ShardRPCClient::WaitForEdge> ShardRPCClient::collectWaitForEdges() {
     try {
         auto response = sendRequest("collect_wait_for_edges", nlohmann::json::object());
-        std::vector<WaitForEdge> edges;
+        std::vector<WaitForEdge> edges = {};
+
         if (!response.contains("edges") || !response["edges"].is_array()) {
             return edges;
         }

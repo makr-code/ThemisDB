@@ -257,7 +257,8 @@ inline GPUMemoryManager::GPUHealth buildUnavailableGpuHealth(int gpu_device_id,
 
 inline std::vector<int> sanitizeGpuDeviceList(const std::vector<int>& requested_gpus,
                                               std::optional<int> max_device_count = std::nullopt) {
-    std::vector<int> sanitized;
+    std::vector<int> sanitized = {};
+
     sanitized.reserve(requested_gpus.size());
     std::unordered_set<int> seen;
 
@@ -1349,7 +1350,8 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
         // Remove only the allocations that were identified as fragmented (device_allocs),
         // not all allocations for this device_id.
         auto& model_allocs = allocations_[model_id];
-        std::unordered_set<void*> ptrs_to_erase;
+        std::unordered_set<void*> ptrs_to_erase = {};
+
         for (const auto& alloc : device_allocs) {
             ptrs_to_erase.insert(alloc.gpu_ptr);
         }
@@ -1454,7 +1456,8 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
         }
 
         // Update allocations - removing old allocations will trigger cleanup via RAII.
-        std::unordered_set<void*> ptrs_to_erase;
+        std::unordered_set<void*> ptrs_to_erase = {};
+
         for (const auto& alloc : pinned_allocs) {
             ptrs_to_erase.insert(alloc.cpu_ptr);
         }
@@ -1520,7 +1523,8 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
         }
 
         // Update allocations - removing old allocations will trigger cleanup via RAII.
-        std::unordered_set<void*> ptrs_to_erase;
+        std::unordered_set<void*> ptrs_to_erase = {};
+
         for (const auto& alloc : regular_allocs) {
             ptrs_to_erase.insert(alloc.cpu_ptr);
         }
@@ -1580,7 +1584,8 @@ GPUMemoryManager::Stats GPUMemoryManager::getStats() const {
 std::vector<std::string> GPUMemoryManager::getLoadedModels() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> models;
+    std::vector<std::string> models = {};
+
     models.reserve(allocations_.size());
     
     for (const auto& [model_id, _] : allocations_) {
@@ -1891,7 +1896,8 @@ size_t GPUMemoryManager::getFreeGPUVRAM([[maybe_unused]] int gpu_device_id) cons
 
 std::vector<int> GPUMemoryManager::getAvailableGPUs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<int> runtime_available_gpus;
+    std::vector<int> runtime_available_gpus = {};
+
     runtime_available_gpus.reserve(available_gpus_.size());
     for (int gpu_id : available_gpus_) {
         if (isGPUAvailableNoLock(gpu_health_status_, gpu_id)) {
@@ -2102,7 +2108,8 @@ GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats([[maybe_unused]] int gp
 std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<GPUStats> all_stats;
+    std::vector<GPUStats> all_stats = {};
+
     for (int gpu_id : available_gpus_) {
         // Get stats inline to avoid deadlock (mutex already locked)
         GPUStats stats = {};
@@ -2204,7 +2211,8 @@ GPUMemoryManager::GPUHealth GPUMemoryManager::getGPUHealth([[maybe_unused]] int 
 std::vector<GPUMemoryManager::GPUHealth> GPUMemoryManager::getAllGPUHealth() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<GPUHealth> all_health;
+    std::vector<GPUHealth> all_health = {};
+
     for (int gpu_id : available_gpus_) {
         // Get health inline to avoid deadlock (mutex already locked)
         GPUHealth health = {};
@@ -2348,7 +2356,8 @@ int GPUMemoryManager::getLeastLoadedGPU() const {
 std::vector<int> GPUMemoryManager::getHealthyGPUs() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<int> healthy_gpus;
+    std::vector<int> healthy_gpus = {};
+
     for (int gpu_id : available_gpus_) {
         auto it = gpu_health_status_.find(gpu_id);
         if (it != gpu_health_status_.end() && it->second) {

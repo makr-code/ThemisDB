@@ -495,7 +495,8 @@ TEST_F(IntegrityVerificationTest, Integration_FullVerificationWorkflow) {
 
 TEST_F(IntegrityVerificationTest, Integration_MultipleFragmentVerification) {
     // Create multiple fragments
-    std::vector<std::string> fragments;
+    std::vector<std::string> fragments = {};
+
     for (int i = 0; i < 4; ++i) {
         fragments.push_back("fragment" + std::to_string(i));
     }

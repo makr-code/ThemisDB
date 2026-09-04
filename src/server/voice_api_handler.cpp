@@ -857,7 +857,8 @@ http::response<http::string_body> VoiceApiHandler::handleRecordCall(
     }
     
     // Extract audio data
-    std::vector<uint8_t> audio_data;
+    std::vector<uint8_t> audio_data = {};
+
     if (body->contains("audio_base64")) {
         if (!(*body)["audio_base64"].is_string()) {
             return createErrorResponse(
@@ -981,7 +982,8 @@ http::response<http::string_body> VoiceApiHandler::handleGenerateProtocol(
     }
     
     // Extract audio data
-    std::vector<uint8_t> audio_data;
+    std::vector<uint8_t> audio_data = {};
+
     if (body->contains("audio_base64")) {
         if (!(*body)["audio_base64"].is_string()) {
             return createErrorResponse(
@@ -1327,7 +1329,8 @@ http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
             http::status::bad_request, "Bad Request", "trigger_phrase must not be empty");
     }
 
-    std::vector<voice::MacroStep> steps;
+    std::vector<voice::MacroStep> steps = {};
+
     if (!(*body)["steps"].is_array()) {
         return createErrorResponse(
             http::status::bad_request, "Bad Request", "'steps' must be an array");
@@ -1409,7 +1412,8 @@ http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
     {
         std::string name = body->value("name", trigger);
         std::string description = body->value("description", std::string{});
-        std::vector<std::string> tags;
+        std::vector<std::string> tags = {};
+
         if (body->contains("tags") && (*body)["tags"].is_array()) {
             tags = (*body)["tags"].get<std::vector<std::string>>();
         }
@@ -1496,7 +1500,8 @@ http::response<http::string_body> VoiceApiHandler::handleUpdateMacro(
             http::status::bad_request, "Bad Request", "'steps' must be an array");
     }
 
-    std::vector<voice::MacroStep> steps;
+    std::vector<voice::MacroStep> steps = {};
+
     for (const auto& sj : (*body)["steps"]) {
         if (const auto error = validateMacroStepJson(sj); error.has_value()) {
             return createErrorResponse(
@@ -1953,7 +1958,8 @@ std::vector<uint8_t> VoiceApiHandler::decodeBase64([[maybe_unused]] const std::s
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
     };
-    std::vector<uint8_t> out;
+    std::vector<uint8_t> out = {};
+
     out.reserve((encoded.size() * 3) / 4);
     int val = 0, valb = -8;
     for (unsigned char c : encoded) {
@@ -2399,7 +2405,8 @@ http::response<http::string_body> VoiceApiHandler::handleAuthIdentify(
             http::status::bad_request, "Bad Request", "audio must not be empty");
     }
 
-    std::vector<voice::VoiceProfileID> candidates;
+    std::vector<voice::VoiceProfileID> candidates = {};
+
     candidates.reserve(cands_json.size());
     for (const auto& c : cands_json) {
         if (!c.is_string()) {

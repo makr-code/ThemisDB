@@ -96,7 +96,8 @@ struct MetadataSnapshot {
                 MetadataPartitionKey partition_key = 
                     static_cast<MetadataPartitionKey>(std::stoi(partition_name));
                 
-                std::map<std::string, nlohmann::json> entries;
+                std::map<std::string, nlohmann::json> entries = {};
+
                 for (auto& [key, value] : partition_entries.items()) {
                     entries[key] = value;
                 }

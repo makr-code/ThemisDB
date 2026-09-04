@@ -403,7 +403,8 @@ std::string FederationResilienceCoordinator::getResilienceStatistics() const {
 
 std::unordered_map<std::string, std::string>
 FederationResilienceCoordinator::getShardStatesSummary() const {
-    std::unordered_map<std::string, std::string> summary;
+    std::unordered_map<std::string, std::string> summary = {};
+
     for (const auto& [shard_id, cb] : circuit_breakers_) {
         std::string state_str;
         switch (cb.getState()) {

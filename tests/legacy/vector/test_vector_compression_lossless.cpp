@@ -350,7 +350,8 @@ TEST(VarIntTest, VarIntEncoding) {
 
 TEST(VarIntTest, DeltaCompressionMonotonic) {
     // Monotonic increasing sequence
-    std::vector<int32_t> original;
+    std::vector<int32_t> original = {};
+
     for (int32_t i = 0; i < 1000; ++i) {
         original.push_back(1000 + i);
     }
@@ -569,7 +570,8 @@ TEST(IntegrationTest, AdaptiveCompressionSelection) {
     
     // Test 2: Integer vector
     {
-        std::vector<float> int_vec;
+        std::vector<float> int_vec = {};
+
         for (int i = 0; i < 1000; ++i) {
             int_vec.push_back(static_cast<float>(100 + i));
         }

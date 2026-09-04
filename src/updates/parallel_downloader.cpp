@@ -646,7 +646,8 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
     // Build a priority queue of (priority, original_index)
     // Higher priority → processed first.
     using Entry = std::pair<int, size_t>;  // (priority, index)
-    std::priority_queue<Entry> pq;
+    std::priority_queue<Entry> pq = {};
+
     for (size_t i = 0; i < n; ++i) {
         pq.emplace(tasks[i].priority, i);
     }

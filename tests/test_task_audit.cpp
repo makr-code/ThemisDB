@@ -589,7 +589,8 @@ TEST(TaskAuditManager, NoDuplicatesFromCacheAndFile) {
     auto results = mgr->queryAuditEvents(params);
 
     // Collect UUIDs – there should be exactly 5 unique ones
-    std::set<std::string> uuids;
+    std::set<std::string> uuids = {};
+
     for (const auto& ev : results) {
         uuids.insert(ev.uuid);
     }
@@ -736,7 +737,8 @@ TEST(TaskAuditManager, NoDuplicateSecurityEvents) {
     params.limit = 100;
     auto results = mgr->querySecurityEvents(params);
 
-    std::set<std::string> uuids;
+    std::set<std::string> uuids = {};
+
     for (const auto& ev : results) {
         uuids.insert(ev.uuid);
     }

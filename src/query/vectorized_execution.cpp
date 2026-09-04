@@ -463,7 +463,8 @@ VectorizedPipeline VectorizedExecutionEngine::buildPipeline(
     for (const auto& stage : plan.stages()) {
         switch (stage.type) {
             case VectorizedQueryPlan::StageType::Filter: {
-                std::vector<Predicate> preds;
+                std::vector<Predicate> preds = {};
+
                 preds.reserve(stage.filter.predicates.size());
                 for (const auto& vp : stage.filter.predicates) {
                     preds.push_back(translatePredicate(vp));
@@ -476,7 +477,8 @@ VectorizedPipeline VectorizedExecutionEngine::buildPipeline(
                 break;
             }
             case VectorizedQueryPlan::StageType::Aggregate: {
-                std::vector<AggregateSpec> specs;
+                std::vector<AggregateSpec> specs = {};
+
                 specs.reserve(stage.aggregate.aggregations.size());
                 for (const auto& agg : stage.aggregate.aggregations) {
                     AggregateSpec spec;
@@ -505,7 +507,8 @@ VectorizedPipeline VectorizedExecutionEngine::buildPipeline(
                 break;
             }
             case VectorizedQueryPlan::StageType::Sort: {
-                std::vector<SortOperator::SortKey> keys;
+                std::vector<SortOperator::SortKey> keys = {};
+
                 keys.reserve(stage.sort.keys.size());
                 for (const auto& sk : stage.sort.keys) {
                     keys.push_back({sk.field, sk.ascending});

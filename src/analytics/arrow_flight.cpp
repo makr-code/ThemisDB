@@ -544,7 +544,8 @@ class InProcessArrowFlightServer final : public ArrowFlightServer {
         arrow::Status ListFlights(const arrow::flight::ServerCallContext &, const arrow::flight::Criteria *,
                                   std::unique_ptr<arrow::flight::FlightListing> *out) override {
             auto infos = InProcessRegistry::instance().listFlights(endpoint_);
-            std::vector<arrow::flight::FlightInfo> flight_infos;
+            std::vector<arrow::flight::FlightInfo> flight_infos = {};
+
             for (const auto &fi : infos) {
                 arrow::flight::FlightDescriptor fd = arrow::flight::FlightDescriptor::Path(fi.descriptor.path);
                 ARROW_ASSIGN_OR_RAISE(

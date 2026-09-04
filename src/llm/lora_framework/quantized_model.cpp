@@ -116,7 +116,8 @@ Tensor QuantizedModel::dequantize_layer(const std::string& layer_name) const {
 }
 
 std::vector<std::string> QuantizedModel::layer_names() const {
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(layers_.size());
     for (const auto& pair : layers_) {
         names.push_back(pair.first);
@@ -372,7 +373,8 @@ QuantizedModel load_from_gguf(
             if (tensor_info.type == llm::GGMLType::F16 || 
                 tensor_info.type == llm::GGMLType::F32) {
                 // Full precision - convert to FP32 and quantize via normal path
-                std::vector<float> fp32_data;
+                std::vector<float> fp32_data = {};
+
                 if (tensor_info.type == llm::GGMLType::F16) {
                     fp32_data = GGUFConverter::convertF16(tensor_data, tensor_info);
                 } else {
@@ -380,7 +382,8 @@ QuantizedModel load_from_gguf(
                 }
                 
                 // Create Tensor and add to model
-                std::vector<size_t> shape;
+                std::vector<size_t> shape = {};
+
                 for (auto dim : tensor_info.shape) {
                     shape.push_back(static_cast<size_t>(dim));
                 }

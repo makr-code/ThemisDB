@@ -81,7 +81,8 @@ std::string findDokuDbPath() {
 /// Read first N non-empty lines from a JSON index file as training "prompts".
 /// This is a simple extractor — it looks for "content" fields in the JSON.
 std::vector<std::string> loadDokuChunksAsPrompts(const std::string& json_path, int max_count) {
-    std::vector<std::string> prompts;
+    std::vector<std::string> prompts = {};
+
     if (json_path.empty() || !std::filesystem::exists(json_path)) {
       return prompts;
     }

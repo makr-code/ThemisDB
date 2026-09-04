@@ -331,7 +331,8 @@ std::vector<IngestionReport> WorkStealingPool::run([[maybe_unused]] ProgressCall
         return {};
     }
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     threads.reserve(nodes_.size());
     for (size_t i = 0; i < nodes_.size(); ++i) {
         threads.emplace_back(&WorkStealingPool::workerFn, this, i, cb);
@@ -457,7 +458,8 @@ std::vector<NodeInfo> IngestionCoordinator::getNodes() const {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     std::string leader_id = leader_election_->getCurrentLease().owner_node_id;
 
-    std::vector<NodeInfo> result;
+    std::vector<NodeInfo> result = {};
+
     result.reserve(nodes_.size());
     for (const auto& n : nodes_) {
         NodeInfo info;

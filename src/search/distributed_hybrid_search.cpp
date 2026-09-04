@@ -129,7 +129,8 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
             auto healthy_shards = resolver_->getHealthyShards();
 
             // Collect remote shards (exclude the local one)
-            std::vector<themis::sharding::ShardInfo> remote_shards;
+            std::vector<themis::sharding::ShardInfo> remote_shards = {};
+
             remote_shards.reserve(healthy_shards.size());
             for (const auto& shard : healthy_shards) {
                 if (shard.shard_id != config_.local_shard_id) {
@@ -267,7 +268,8 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults(
         size_t appearance_count = 0; ///< Track high-overlap variance
     };
 
-    std::unordered_map<std::string, Accum> doc_map;
+    std::unordered_map<std::string, Accum> doc_map = {};
+
     doc_map.reserve(config_.k * shard_results.size());
 
     size_t successful_shards = 0;
@@ -308,7 +310,8 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults(
     }
 
     // Build result vector
-    std::vector<HybridSearch::Result> merged;
+    std::vector<HybridSearch::Result> merged = {};
+
     merged.reserve(doc_map.size());
     
     // Track high-overlap variance: documents appearing in many shards

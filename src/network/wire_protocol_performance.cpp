@@ -122,7 +122,8 @@ WireProtocolMetrics::Snapshot WireProtocolMetrics::snapshot() const {
 
             // Build histogram with exponential buckets: 1,2,4,8,16,32,64,128,256,512,1024 ms
             std::array<uint64_t, 11> buckets_ms = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
-            std::map<uint64_t, uint64_t> hist;
+            std::map<uint64_t, uint64_t> hist = {};
+
             for (uint64_t b : buckets_ms)
                 hist[b] = 0;
 

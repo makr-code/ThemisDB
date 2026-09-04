@@ -198,7 +198,8 @@ public:
         }
 
         // Aggregate identical traces
-        std::map<std::string, int> variant_freq;
+        std::map<std::string, int> variant_freq = {};
+
         for (const auto& [case_id, activities] : traces) {
             std::string trace_str;
             for (const auto& activity : activities) {
@@ -237,7 +238,8 @@ public:
         // Simulate LLM processing overhead
         
         // Count most frequent activities
-        std::map<std::string, int> activity_freq;
+        std::map<std::string, int> activity_freq = {};
+
         for (const auto& event : log.events) {
             activity_freq[event.activity]++;
         }
@@ -345,7 +347,8 @@ static EventLog generateEventLog(int num_cases, int events_per_case) {
 static DirectlyFollowsGraph generateDfg(const EventLog& log) {
     DirectlyFollowsGraph dfg;
 
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (size_t i = 0; i + 1 < log.events.size(); ++i) {
         std::string from = log.events[i].activity;
         std::string to = log.events[i + 1].activity;

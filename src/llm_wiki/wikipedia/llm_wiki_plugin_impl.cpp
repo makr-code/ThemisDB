@@ -216,7 +216,8 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
         return result;
     }
 
-    std::vector<themis::llm::WikiChunk> chunks;
+    std::vector<themis::llm::WikiChunk> chunks = {};
+
     if (matchGlob(std::filesystem::path(source_path), opts.file_glob)) {
         themis::llm::WikiChunk chunk;
         chunk.source_path = source_path;
@@ -259,7 +260,8 @@ WikiQueryResult LLMWikiPluginImpl::query(
         return result;
     }
 
-    std::vector<themis::llm::WikiChunk> chunks;
+    std::vector<themis::llm::WikiChunk> chunks = {};
+
     for (const auto& chunk : chunks_) {
         if (!containsUnsafePattern(chunk.text)) {
             chunks.push_back(chunk);

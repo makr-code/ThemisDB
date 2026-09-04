@@ -30,7 +30,8 @@ static std::vector<float> generateRandomVector(size_t size) {
 }
 
 static std::vector<uint8_t> vectorToBytes(const std::vector<float>& vec) {
-    std::vector<uint8_t> bytes;
+    std::vector<uint8_t> bytes = {};
+
     bytes.reserve(vec.size() * sizeof(float));
     
     for (float v : vec) {

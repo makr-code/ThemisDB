@@ -1270,7 +1270,8 @@ TEST_F(InferenceEngineEnhancedTest, ModelQuotaZeroMeansUnlimited) {
     engine.start();
 
     const int num_requests = 5;
-    std::vector<InferenceHandle> handles;
+    std::vector<InferenceHandle> handles = {};
+
     for (int i = 0; i < num_requests; ++i) {
         InferenceEngineEnhanced::EnhancedInferenceRequest req;
         req.request_id = "unlimited_" + std::to_string(i);
@@ -1921,7 +1922,8 @@ struct MockFanOutBackend : public themis::llm::IFederatedInferenceBackend {
         dispatched_to.insert(dispatched_to.end(),
                              instance_ids.begin(), instance_ids.end());
 
-        std::vector<themis::llm::FanOutInstanceResult> results;
+        std::vector<themis::llm::FanOutInstanceResult> results = {};
+
         results.reserve(instance_ids.size());
         for (const auto& id : instance_ids) {
             themis::llm::FanOutInstanceResult r;

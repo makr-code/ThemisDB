@@ -356,7 +356,8 @@ std::vector<std::string> ProTeGiOptimizer::defaultErrorFn(
 {
     // Very lightweight heuristic: flag cases where the expected output is
     // longer than the prompt (proxy for "insufficient guidance").
-    std::vector<std::string> errors;
+    std::vector<std::string> errors = {};
+
     errors.reserve(mini_batch.size());
 
     for (const auto& tc : mini_batch) {

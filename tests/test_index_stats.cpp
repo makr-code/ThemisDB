@@ -222,7 +222,8 @@ TEST_F(IndexStatsTest, GetAllIndexStats) {
     EXPECT_EQ(allStats.size(), 3);
     
     // Typen pr�fen
-    std::set<std::string> types;
+    std::set<std::string> types = {};
+
     for (const auto& stats : allStats) {
         types.insert(stats.type);
         EXPECT_EQ(stats.table, "users");

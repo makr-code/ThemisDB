@@ -151,7 +151,8 @@ bool louvainPhase(
         int best_comm = current_comm;
 
         // Evaluate each neighbouring community
-        std::set<int> visited_comms;
+        std::set<int> visited_comms = {};
+
         for (const auto& [v, _] : g.adj[u]) {
             const int nc = assignment[v];
             if (!visited_comms.insert(nc).second) {
@@ -207,7 +208,8 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     if (n == 0) return {};
 
     // Build a lookup: node_id → node name/description for report generation
-    std::unordered_map<std::string, std::string> node_names;
+    std::unordered_map<std::string, std::string> node_names = {};
+
     node_names.reserve(normalized["nodes"].size());
     for (const auto& node_json : normalized["nodes"]) {
         const std::string id = node_json.value("id", "");
@@ -294,7 +296,8 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     // Compute global modularity Q for score computation
     const float two_m = g.total_weight * 2.f;
 
-    std::vector<ProcessCommunity> communities;
+    std::vector<ProcessCommunity> communities = {};
+
     communities.reserve(comm_map.size());
 
     int idx = 0;

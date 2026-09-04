@@ -76,7 +76,8 @@ ExportStats IncrementalExporter::exportEntities(
 
     try {
         StreamWriter writer(writer_config);
-        std::unique_ptr<AqlPredicateFilter> aql_filter;
+        std::unique_ptr<AqlPredicateFilter> aql_filter = {};
+
         if (!options.filter_expression.empty()) {
             try {
                 aql_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);

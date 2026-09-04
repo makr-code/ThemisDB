@@ -26,7 +26,8 @@ using namespace themis::rag;
 static std::vector<SourceChunk> makeChunks(
     const std::vector<std::pair<std::string, std::string>>& id_content)
 {
-    std::vector<SourceChunk> chunks;
+    std::vector<SourceChunk> chunks = {};
+
     chunks.reserve(id_content.size());
     for (size_t i = 0; i < id_content.size(); ++i) {
         SourceChunk c;

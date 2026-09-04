@@ -109,7 +109,8 @@ const LLMSemanticValidator::Config& LLMSemanticValidator::getConfig() const
 static std::unordered_map<std::string, std::string> extractVariableBindings(
     const query::ASTNode* ast)
 {
-    std::unordered_map<std::string, std::string> bindings;
+    std::unordered_map<std::string, std::string> bindings = {};
+
     if (!ast) {
       return bindings;
     }
@@ -502,7 +503,8 @@ void LLMSemanticValidator::validateJoins(
     // Step 2: Check for circular join dependencies (using dependency graph)
     // In AQL, circular joins typically involve self-referential or graph traversal
     // This is a simplified check: verify all collection names are distinct (or explicitly self-join)
-    std::unordered_set<std::string> collection_names;
+    std::unordered_set<std::string> collection_names = {};
+
     for (const auto& [var, collection] : for_bindings) {
         if (collection_names.count(collection) > 0) {
             // Duplicate collection (possible self-join)

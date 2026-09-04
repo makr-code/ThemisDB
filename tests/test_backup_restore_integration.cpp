@@ -142,7 +142,8 @@ protected:
 
     // Create test documents
     std::vector<std::string> createTestDocuments(int count) {
-        std::vector<std::string> docIds;
+        std::vector<std::string> docIds = {};
+
         for (int i = 0; i < count; ++i) {
             nlohmann::json doc = {
                 {"name", "Document_" + std::to_string(i)},

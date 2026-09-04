@@ -71,7 +71,8 @@ TEST(CudaHnswEngine, BuildIndexWithValidData) {
     CudaHnswTraversalEngine engine(cfg);
 
     // 5 vectors in R^4
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i)
         for (uint32_t d = 0; d < DIM; ++d)
             vecs.push_back(static_cast<float>(i));
@@ -105,7 +106,8 @@ TEST(CudaHnswEngine, SearchReturnsKResults) {
     cfg.ef_search = 8;
     CudaHnswTraversalEngine engine(cfg);
 
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i)
         for (uint32_t d = 0; d < DIM; ++d)
             vecs.push_back(static_cast<float>(i) * 0.1f);
@@ -128,7 +130,8 @@ TEST(CudaHnswEngine, SearchResultsSortedByScore) {
     CudaHnswTraversalEngine engine(cfg);
 
     // Vectors at distances 0, 1, 2, 3, 4, 5 from origin
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i) {
         vecs.push_back(static_cast<float>(i));
         vecs.push_back(0.0f);
@@ -157,7 +160,8 @@ TEST(CudaHnswEngine, NearestNeighbourIsOriginWhenQueryIsOrigin) {
     CudaHnswTraversalEngine engine(cfg);
 
     // Vector 0 = (0,0), vector 1 = (1,0), ...
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i) {
         vecs.push_back(static_cast<float>(i));
         vecs.push_back(0.0f);
@@ -252,7 +256,8 @@ TEST(CudaHnswEngine, ChunkedBatchSearchSmallPool) {
     CudaHnswTraversalEngine engine(cfg);
     engine.setMaxBatchSize(2);  // Force chunking
 
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i) {
         vecs.push_back(static_cast<float>(i));
         vecs.push_back(0.0f);
@@ -292,7 +297,8 @@ TEST(CudaHnswEngine, ChunkedBatchSearchResultsCorrect) {
     CudaHnswTraversalEngine engineB(cfg);
     engineB.setMaxBatchSize(1);
 
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i) {
       vecs.push_back(static_cast<float>(i));
     }

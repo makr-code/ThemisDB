@@ -231,7 +231,8 @@ bool FederatedIdentityManager::hasRealm(const std::string &issuer_url) const {
 
 std::vector<std::string> FederatedIdentityManager::realmIssuers() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> issuers;
+    std::vector<std::string> issuers = {};
+
     issuers.reserve(realms_.size());
     for (const auto &kv : realms_) {
         issuers.push_back(kv.first);

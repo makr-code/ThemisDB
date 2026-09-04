@@ -182,7 +182,8 @@ BENCHMARK(BM_HashComputation_10Artifacts)->Unit(benchmark::kMillisecond);
 
 /// Benchmark: Hash computation per artifact (50 artifacts)
 static void BM_HashComputation_50Artifacts(benchmark::State& state) {
-    std::vector<std::string> artifact_data;
+    std::vector<std::string> artifact_data = {};
+
     for (int i = 0; i < 50; i++) {
         artifact_data.push_back("dependency_" + std::to_string(i) + ":1.0.0:https://example.com/dep" + 
                                std::to_string(i) + ":hash" + std::to_string(i));
@@ -223,7 +224,8 @@ static void BM_FullSBOMVerification_100Dependencies(benchmark::State& state) {
         auto artifacts = SBOMParser::parse_sbom_json(sbom_json);
         
         // Hash each artifact
-        std::vector<std::string> artifact_hashes;
+        std::vector<std::string> artifact_hashes = {};
+
         for (const auto& art : artifacts) {
             std::string combined = art.name + ":" + art.version + ":" + art.source_url;
             auto hash = HashComputer::compute_sha256(combined);
@@ -268,7 +270,8 @@ static void BM_FullSBOMVerification_500Dependencies(benchmark::State& state) {
         auto artifacts = SBOMParser::parse_sbom_json(sbom_json);
         
         // Hash each artifact
-        std::vector<std::string> artifact_hashes;
+        std::vector<std::string> artifact_hashes = {};
+
         for (const auto& art : artifacts) {
             std::string combined = art.name + ":" + art.version + ":" + art.source_url;
             auto hash = HashComputer::compute_sha256(combined);

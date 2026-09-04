@@ -451,7 +451,8 @@ public:
         // Merge per-query results across GPUs and take top-k
         std::vector<std::vector<MultiGPUVectorIndex::SearchResult>> results(numQueries);
         for (size_t qi = 0; qi < numQueries; ++qi) {
-            std::vector<MultiGPUVectorIndex::SearchResult> allResults;
+            std::vector<MultiGPUVectorIndex::SearchResult> allResults = {};
+
             for (size_t gi = 0; gi < numGPUs; ++gi) {
                 if (qi < perGpuResults[gi].size()) {
                     for (const auto& r : perGpuResults[gi][qi]) {
@@ -609,7 +610,8 @@ public:
         THEMIS_INFO("MultiGPUVectorIndex: Rebalancing vectors across {} GPUs...", gpuIndices.size());
         
         // Get current load distribution
-        std::vector<size_t> vectorsPerGPU;
+        std::vector<size_t> vectorsPerGPU = {};
+
         for (size_t i = 0; i < gpuIndices.size(); ++i) {
             auto stats = gpuIndices[i]->getStatistics();
             vectorsPerGPU.push_back(stats.numVectors);

@@ -113,7 +113,8 @@ TEST(MaintenanceDiagnostics, MTN29_AllOutcomeTypesVisibleInHealthReport) {
     }
 
     // Each string must be distinct.
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     for (auto t : all_types) {
       names.push_back(dispatchOutcomeTypeToString(t));
     }

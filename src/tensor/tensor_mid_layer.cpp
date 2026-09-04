@@ -191,7 +191,8 @@ std::vector<SimilarityResult> TensorMidLayer::mergeSimilarityResults(
         }
     }
 
-    std::vector<SimilarityResult> out;
+    std::vector<SimilarityResult> out = {};
+
     out.reserve(merged.size());
     for (auto& [_, candidate] : merged) {
         out.push_back(std::move(candidate));

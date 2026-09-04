@@ -386,7 +386,8 @@ struct YOLOv8OnnxPlugin::Impl {
         }
 
         int orig_w = 0, orig_h = 0;
-        std::vector<float> input_tensor;
+        std::vector<float> input_tensor = {};
+
         if (!preprocess(image_data, input_tensor, orig_w, orig_h)) {
             result.success = false;
             result.error_message = "Image preprocessing failed";

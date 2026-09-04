@@ -188,7 +188,8 @@ static void BM_ScanTree_1K(benchmark::State& state) {
     fs::path root = buildFileTree(kFiles);
 
     for (auto _ : state) {
-        std::vector<cms::ScanMatch> all_matches;
+        std::vector<cms::ScanMatch> all_matches = {};
+
         for (const auto& entry : fs::recursive_directory_iterator(root)) {
             if (!entry.is_regular_file()) {
               continue;
@@ -218,7 +219,8 @@ static void BM_ScanTree_10K(benchmark::State& state) {
     fs::path root = buildFileTree(kFiles);
 
     for (auto _ : state) {
-        std::vector<cms::ScanMatch> all_matches;
+        std::vector<cms::ScanMatch> all_matches = {};
+
         for (const auto& entry : fs::recursive_directory_iterator(root)) {
             if (!entry.is_regular_file()) {
               continue;

@@ -146,7 +146,8 @@ bool LoRARopeAdapterRegistry::hasAdapter(const std::string& name) const {
 std::vector<std::string> LoRARopeAdapterRegistry::listAdapters() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(adapters_.size());
     
     for (const auto& [name, _] : adapters_) {

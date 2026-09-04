@@ -479,7 +479,8 @@ Tensor Sequential::backward(const Tensor& grad_output) {
 std::vector<Tensor*> Sequential::parameters() {
     spdlog::debug("Sequential: collecting parameters from {} layers", layers_.size());
     
-    std::vector<Tensor*> params;
+    std::vector<Tensor*> params = {};
+
     for (auto& layer : layers_) {
         auto layer_params = layer->parameters();
         params.insert(params.end(), layer_params.begin(), layer_params.end());

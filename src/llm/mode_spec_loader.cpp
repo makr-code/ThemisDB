@@ -165,7 +165,8 @@ ToolSpec parseToolSpec(const YAML::Node& node) {
 }
 
 std::vector<std::string> parseStringList(const YAML::Node& node) {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     if (!node || !node.IsSequence()) {
       return result;
     }
@@ -363,7 +364,8 @@ ValidationResult ModeSpecLoader::validate(const ModePack& pack) {
     }
 
     // Mode id uniqueness and field checks
-    std::unordered_map<std::string, int> seenIds;
+    std::unordered_map<std::string, int> seenIds = {};
+
     for (const auto& mode : pack.modes) {
         if (mode.id.empty()) {
             err("A mode entry is missing required field 'id'");
@@ -412,7 +414,8 @@ ValidationResult ModeSpecLoader::validate(const ModePack& pack) {
     }
 
     // Tool name uniqueness
-    std::unordered_map<std::string, int> seenTools;
+    std::unordered_map<std::string, int> seenTools = {};
+
     for (const auto& tool : pack.tools) {
         if (tool.name.empty()) {
             err("A tool entry is missing required field 'name'");

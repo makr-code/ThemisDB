@@ -197,7 +197,8 @@ TEST_F(LockManagerTest, ConcurrentExclusiveAccess) {
     std::atomic<int> inside{0};
     std::atomic<int> violations{0};
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([&, i]() {
             LockManager::TransactionId txn = static_cast<uint64_t>(i + 100);
@@ -228,7 +229,8 @@ TEST_F(LockManagerTest, ConcurrentSharedReadAccess) {
     std::atomic<bool> exceeded_single{false};
 
     // First ensure no exclusive lock holds
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_readers; ++i) {
         threads.emplace_back([&, i]() {
             auto res = lm.acquireLock(static_cast<uint64_t>(i + 200), "shared_data",

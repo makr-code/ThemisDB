@@ -176,7 +176,8 @@ LoRAEnhancedRetriever::rerank(
     }
 
     // Combine: re-ranked set first, then tail.
-    std::vector<judge::RetrievedDocument> result;
+    std::vector<judge::RetrievedDocument> result = {};
+
     result.reserve(candidates.size());
     result.insert(result.end(),
                   std::make_move_iterator(to_rerank.begin()),

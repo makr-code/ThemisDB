@@ -92,7 +92,8 @@ ImportStats PostgreSQLImporterWithMDM::importData(
         // them to the MDM engine.  When no per-row data is available (e.g. the
         // base importer does not populate stats.sample_entities) we work with
         // an empty existing set and let the engine handle new-entity detection.
-        std::vector<json> imported_entities;
+        std::vector<json> imported_entities = {};
+
         if (stats.sample_entities.is_array()) {
             for (const auto& e : stats.sample_entities) {
                 imported_entities.push_back(e);

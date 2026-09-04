@@ -399,7 +399,8 @@ uint32_t PKIKeyProvider::rotateKey(const std::string& key_id) {
 std::vector<KeyMetadata> PKIKeyProvider::listKeys() {
     std::scoped_lock lk(mu_);
     
-    std::vector<KeyMetadata> keys;
+    std::vector<KeyMetadata> keys = {};
+
     keys.reserve(1 + field_key_cache_.size());
     
     // Add DEK
@@ -586,7 +587,8 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
         }
         
         // Store: nonce + ciphertext + tag
-        std::vector<uint8_t> encrypted;
+        std::vector<uint8_t> encrypted = {};
+
         encrypted.reserve(nonce.size() + len + final_len + tag.size());
         encrypted.insert(encrypted.end(), nonce.begin(), nonce.end());
         encrypted.insert(encrypted.end(), ciphertext.begin(), ciphertext.begin() + len + final_len);
@@ -690,7 +692,8 @@ uint32_t PKIKeyProvider::getGroupDEKVersion(const std::string& group_name) const
 std::vector<std::string> PKIKeyProvider::listGroups() const {
     std::scoped_lock lk(mu_);
     
-    std::vector<std::string> groups;
+    std::vector<std::string> groups = {};
+
     groups.reserve(group_versions_.size());
     
     for (const auto& [group_name, version] : group_versions_) {

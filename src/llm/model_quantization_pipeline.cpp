@@ -262,7 +262,8 @@ ModelQuantizationPipeline::parse_safetensors(const std::string& file_path)
 std::vector<std::string> ModelQuantizationPipeline::find_safetensor_shards(
     const std::string& dir)
 {
-    std::vector<std::string> shards;
+    std::vector<std::string> shards = {};
+
     for (const auto& entry : fs::directory_iterator(dir)) {
         const std::string fname = entry.path().filename().string();
         if (fname.size() > 12 &&

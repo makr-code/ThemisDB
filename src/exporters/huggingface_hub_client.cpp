@@ -490,7 +490,8 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
     }
 
     // 2. Collect all files to upload
-    std::vector<std::string> files;
+    std::vector<std::string> files = {};
+
     for (const auto &entry : fs::recursive_directory_iterator(dataset_dir)) {
         if (entry.is_regular_file()) {
             files.push_back(entry.path().string());
@@ -539,7 +540,8 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
             const double frac_start = static_cast<double>(uploaded) / static_cast<double>(total_files);
             const double frac_range = 1.0 / static_cast<double>(total_files);
 
-            std::function<void(double)> file_progress;
+            std::function<void(double)> file_progress = {};
+
             if (progress_cb) {
                 file_progress
                     = [&progress_cb, frac_start, frac_range]([[maybe_unused]] double f) { progress_cb(frac_start + f * frac_range); };
@@ -738,7 +740,8 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
             const double frac_start = static_cast<double>(uploaded) / static_cast<double>(total_shards);
             const double frac_range = 1.0 / static_cast<double>(total_shards);
 
-            std::function<void(double)> shard_progress;
+            std::function<void(double)> shard_progress = {};
+
             if (progress_cb) {
                 shard_progress
                     = [&progress_cb, frac_start, frac_range]([[maybe_unused]] double f) { progress_cb(frac_start + f * frac_range); };

@@ -81,7 +81,8 @@ const std::unordered_map<std::string, std::string>& culturalRegionTable()
 DiscourseVerdict dominantVerdictAmong(
     const std::vector<DiscourseRoundOutput>& outputs)
 {
-    std::unordered_map<int, int> counts;
+    std::unordered_map<int, int> counts = {};
+
     for (const auto& o : outputs) {
         if (!o.timed_out && o.ldm_verdict != DiscourseVerdict::ABSTAIN) {
             counts[static_cast<int>(o.ldm_verdict)]++;
@@ -162,7 +163,8 @@ MetaVerdict MetaVerdictBuilder::buildMetaVerdict(
     }
 
     // --- Count non-ABSTAIN schools (N_active) ---
-    std::vector<const DiscourseRoundOutput*> active;
+    std::vector<const DiscourseRoundOutput*> active = {};
+
     active.reserve(ebene1_results.size());
     for (const auto& o : ebene1_results) {
         if (!o.timed_out && o.ldm_verdict != DiscourseVerdict::ABSTAIN) {
@@ -206,7 +208,8 @@ MetaVerdict MetaVerdictBuilder::buildMetaVerdict(
     // --- Cross-cultural flag ---
     // True when ≥ 2 schools from DISTINCT cultural regions share the dominant verdict.
     {
-        std::set<std::string> regions_for_dominant;
+        std::set<std::string> regions_for_dominant = {};
+
         for (const auto* o : active) {
             if (o->ldm_verdict == mv.dominant_verdict) {
                 regions_for_dominant.insert(culturalRegion(o->school_id));

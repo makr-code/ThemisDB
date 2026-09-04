@@ -188,7 +188,8 @@ void HotSpareManager::removeSpare(const std::string& shard_id) {
 std::vector<std::string> HotSpareManager::getAvailableSpares() const {
     std::shared_lock<std::shared_mutex> lock(spares_mutex_);
     
-    std::vector<std::string> available;
+    std::vector<std::string> available = {};
+
     for (const auto& [shard_id, spare] : spares_) {
         if (spare.state == SpareState::AVAILABLE) {
             available.push_back(shard_id);
@@ -201,7 +202,8 @@ std::vector<std::string> HotSpareManager::getAvailableSpares() const {
 std::vector<SpareShardInfo> HotSpareManager::getAllSpares() const {
     std::shared_lock<std::shared_mutex> lock(spares_mutex_);
     
-    std::vector<SpareShardInfo> spares;
+    std::vector<SpareShardInfo> spares = {};
+
     for (const auto& [_, spare] : spares_) {
         spares.push_back(spare);
     }
@@ -475,7 +477,8 @@ std::vector<HotSpareFailoverEvent> HotSpareManager::getFailoverHistory(
     
     size_t count = std::min(max_count, failover_history_.size());
     
-    std::vector<HotSpareFailoverEvent> history;
+    std::vector<HotSpareFailoverEvent> history = {};
+
     if (count > 0) {
         auto start_it = failover_history_.end() - count;
         history.insert(history.end(), start_it, failover_history_.end());

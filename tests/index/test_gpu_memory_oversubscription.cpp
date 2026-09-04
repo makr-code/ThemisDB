@@ -554,7 +554,8 @@ TEST_F(GPUMemoryOversubscriptionFocusedTests,
     auto mgr = makeManager(PrefetchStrategy::NONE, 0);
     const size_t N = 4;
 
-    std::vector<size_t> pids;
+    std::vector<size_t> pids = {};
+
     for (size_t i = 0; i < 5; ++i) {
         pids.push_back(mgr.addPartition(make_flat(N, kDim), N, kDim));
     }
@@ -681,7 +682,8 @@ TEST_F(GPUMemoryOversubscriptionFocusedTests,
 TEST_F(GPUMemoryOversubscriptionFocusedTests,
        EdgeCase_GetAllPartitionIds_OrderMatches) {
     auto mgr = makeManager(PrefetchStrategy::NONE, 0);
-    std::vector<size_t> added;
+    std::vector<size_t> added = {};
+
     for (size_t i = 0; i < 4; ++i) {
         added.push_back(mgr.addPartition(make_flat(2, kDim), 2, kDim));
     }

@@ -256,7 +256,8 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
     auto wall_start = std::chrono::steady_clock::now();
 
     // Build forbidden-vertex set using integer IDs for O(1) lookup.
-    std::unordered_set<uint32_t> forbidden_ids;
+    std::unordered_set<uint32_t> forbidden_ids = {};
+
     for (const auto &fv : config.forbidden_vertices) {
         auto opt = findVertexId(fv);
         if (opt) {
@@ -282,7 +283,8 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
                     : (gpu_available_ ? "graph_below_threshold" : "gpu_unavailable");
 
     if (can_use_gpu) {
-        std::vector<int> gpu_dist;
+        std::vector<int> gpu_dist = {};
+
         if (runBFSCudaIfAvailable(row_offsets_, column_indices_, start_id, forbidden_mask, config, result, gpu_dist)) {
             result.used_cpu_fallback = false;
             recordTraversalRoute("bfs", "gpu", "hardware_accelerated");
@@ -350,7 +352,8 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
         }
 
         // Expand frontier (GPU-style: all vertices in parallel, here sequential)
-        std::vector<uint32_t> next_frontier;
+        std::vector<uint32_t> next_frontier = {};
+
         for (uint32_t v : current_frontier) {
             const uint32_t begin = row_offsets_[v];
             const uint32_t end   = row_offsets_[v + 1];
@@ -383,7 +386,8 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
 GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(uint32_t start_id, const Config &config) {
     auto wall_start = std::chrono::steady_clock::now();
 
-    std::unordered_set<uint32_t> forbidden_ids;
+    std::unordered_set<uint32_t> forbidden_ids = {};
+
     for (const auto &fv : config.forbidden_vertices) {
         auto opt = findVertexId(fv);
         if (opt) {
@@ -408,7 +412,8 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(uint32_t start_id, 
     result.used_cpu_fallback = true;
 
     if (can_use_gpu) {
-        std::vector<int> gpu_order;
+        std::vector<int> gpu_order = {};
+
         if (runDFSCudaIfAvailable(row_offsets_, column_indices_, start_id, forbidden_mask, config, result, gpu_order)) {
             result.used_cpu_fallback = false;
             recordTraversalRoute("dfs", "gpu", "hardware_accelerated");

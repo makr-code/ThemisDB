@@ -232,7 +232,8 @@ TEST_F(PriorityQueueTest, AllFourPrioritiesInOrder) {
     qos_->enqueueSend(kHigh,   3);
     qos_->enqueueSend(kCrit,   4);
 
-    std::vector<Priority> order;
+    std::vector<Priority> order = {};
+
     for (int i = 0; i < 4; ++i) {
         auto item = qos_->dequeueForSend();
         ASSERT_TRUE(item.has_value());

@@ -131,7 +131,8 @@ std::vector<TaskExecutionResult> TaskResultStore::getResults(
     });
 
     // Entries are oldest-first; reverse so newest come first, then cap.
-    std::vector<TaskExecutionResult> results;
+    std::vector<TaskExecutionResult> results = {};
+
     results.reserve(std::min(limit, entries.size()));
     size_t start = entries.size() > limit ? entries.size() - limit : 0;
     for (size_t i = entries.size(); i-- > start;) {

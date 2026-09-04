@@ -127,7 +127,8 @@ static std::vector<uint8_t> base64_decode(const std::string& encoded) {
         "abcdefghijklmnopqrstuvwxyz"
         "0123456789+/";
     
-    std::vector<uint8_t> result;
+    std::vector<uint8_t> result = {};
+
     result.reserve(encoded.size() * 3 / 4);
     std::vector<int> T(256, -1);
     for (int i = 0; i < 64; i++) {
@@ -447,7 +448,8 @@ std::vector<std::string> VaultKeyProvider::listSecrets() {
     try {
         json j = json::parse(response);
 
-        std::vector<std::string> keys;
+        std::vector<std::string> keys = {};
+
         if (j.contains("data") && j["data"].contains("keys")) {
             keys.reserve(j["data"]["keys"].size());
             for (const auto& key : j["data"]["keys"]) {
@@ -620,7 +622,8 @@ uint32_t VaultKeyProvider::rotateKey(const std::string& key_id) {
 
 std::vector<KeyMetadata> VaultKeyProvider::listKeys() {
     std::vector<std::string> key_ids = listSecrets();
-    std::vector<KeyMetadata> result;
+    std::vector<KeyMetadata> result = {};
+
     result.reserve(key_ids.size());
     
     for (const auto& key_id : key_ids) {

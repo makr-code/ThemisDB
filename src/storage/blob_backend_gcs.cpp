@@ -179,7 +179,8 @@ Result<std::vector<uint8_t>> GCSBlobBackend::get([[maybe_unused]] const BlobRef&
             "GCS download failed: " + status.message());
     }
 
-    std::vector<uint8_t> data;
+    std::vector<uint8_t> data = {};
+
     if (ref.size_bytes > 0) {
         data.reserve(static_cast<std::size_t>(ref.size_bytes));
     }

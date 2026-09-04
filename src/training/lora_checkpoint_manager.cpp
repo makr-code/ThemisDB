@@ -317,7 +317,8 @@ public:
         size_t removed = 0;
         
         // Build a set of known checkpoint paths from manifest
-        std::unordered_set<std::string> manifest_paths;
+        std::unordered_set<std::string> manifest_paths = {};
+
         for (const auto& e : entries_) {
             manifest_paths.insert(e.checkpoint_path);
         }

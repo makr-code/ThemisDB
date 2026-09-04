@@ -696,7 +696,8 @@ std::vector<AuditEntry> LLMDeploymentPlugin::getAuditLog([[maybe_unused]] size_t
     }
     
     // Return most recent entries
-    std::vector<AuditEntry> result;
+    std::vector<AuditEntry> result = {};
+
     size_t start = audit_log_.size() - limit;
     result.insert(result.end(), audit_log_.begin() + start, audit_log_.end());
     

@@ -216,7 +216,8 @@ TEST_F(ProvenanceAqlRoundTripTest, Write_LargeBatch_AllRecordsWritten) {
     cfg.batch_write_size = 5;
     ProvenanceTracker tracker(cfg, "", engine_.get());
 
-    std::vector<ProvenanceRecord> records;
+    std::vector<ProvenanceRecord> records = {};
+
     for (int i = 0; i < 13; ++i) {
         records.push_back(makeRecord("batch_" + std::to_string(i)));
     }

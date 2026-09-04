@@ -183,7 +183,8 @@ public:
     
     // Interpolate coordinates between two points
     std::vector<GeoPoint> interpolateRoute(const GeoPoint& from, const GeoPoint& to, int segments) {
-        std::vector<GeoPoint> points;
+        std::vector<GeoPoint> points = {};
+
         for (int i = 0; i <= segments; ++i) {
             double t = static_cast<double>(i) / segments;
             GeoPoint p;

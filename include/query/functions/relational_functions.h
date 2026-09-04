@@ -84,7 +84,8 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        std::unordered_set<std::string> unique;
+        std::unordered_set<std::string> unique = {};
+
         for (const auto& val : args[0]) {
             unique.insert(val.dump());
         }
@@ -204,7 +205,8 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        std::vector<double> values;
+        std::vector<double> values = {};
+
         for (const auto& v : args[0]) {
             if (v.is_number()) {
               values.push_back(v.get<double>());
@@ -248,7 +250,8 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        std::vector<double> values;
+        std::vector<double> values = {};
+
         for (const auto& v : args[0]) {
             if (v.is_number()) {
               values.push_back(v.get<double>());
@@ -292,7 +295,8 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        std::vector<double> values;
+        std::vector<double> values = {};
+
         for (const auto& v : args[0]) {
             if (v.is_number()) {
               values.push_back(v.get<double>());
@@ -336,7 +340,8 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        std::vector<double> values;
+        std::vector<double> values = {};
+
         for (const auto& v : args[0]) {
             if (v.is_number()) {
               values.push_back(v.get<double>());
@@ -382,7 +387,8 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        std::vector<double> values;
+        std::vector<double> values = {};
+
         for (const auto& v : args[0]) {
             if (v.is_number()) {
               values.push_back(v.get<double>());

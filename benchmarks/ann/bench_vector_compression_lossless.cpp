@@ -676,7 +676,8 @@ static void BM_DeltaVarInt_Encode(benchmark::State& state) {
     size_t dimension = state.range(1);
     
     auto vec_float = VectorGenerator::generate(vector_type, dimension);
-    std::vector<int32_t> vec;
+    std::vector<int32_t> vec = {};
+
     for (float f : vec_float) {
         vec.push_back(static_cast<int32_t>(std::round(f)));
     }
@@ -701,7 +702,8 @@ static void BM_DeltaVarInt_Decode(benchmark::State& state) {
     size_t dimension = state.range(1);
     
     auto vec_float = VectorGenerator::generate(vector_type, dimension);
-    std::vector<int32_t> vec;
+    std::vector<int32_t> vec = {};
+
     for (float f : vec_float) {
         vec.push_back(static_cast<int32_t>(std::round(f)));
     }

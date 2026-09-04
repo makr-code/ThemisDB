@@ -402,7 +402,8 @@ SecurityCheckResult ContentSecurityManager::checkPii(const std::string &text, co
         // Collect unique PII types — use unordered_set for O(1) dedup instead
         // of std::find on the growing pii_types vector (avoids O(n²) behaviour
         // when many findings share the same PII type).
-        std::unordered_set<std::string> seen_types;
+        std::unordered_set<std::string> seen_types = {};
+
         for (const auto& finding : findings) {
             std::string type_str = utils::PIITypeUtils::toString(finding.type);
             if (seen_types.insert(type_str).second) {

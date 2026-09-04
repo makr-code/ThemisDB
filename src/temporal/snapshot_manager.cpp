@@ -83,7 +83,8 @@ std::vector<VersionedDocument> TemporalSnapshotManager::querySnapshot(
         return tbl_it->second;
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (const auto& row : tbl_it->second) {
         bool match = true;
         for (const auto& [field, value] : filters) {
@@ -269,7 +270,8 @@ TemporalSnapshotManager::diff(const SnapshotHandle& base,
     const auto& other_tables = it_other->second.tables;
 
     // Collect all table names that appear in either snapshot.
-    std::set<std::string> all_tables;
+    std::set<std::string> all_tables = {};
+
     for (const auto& [t, _] : base_tables) {
       all_tables.insert(t);
     }
@@ -310,7 +312,8 @@ TemporalSnapshotManager::diff(const SnapshotHandle& base,
         auto build_key_map = [](const std::vector<VersionedDocument>& rows)
             -> std::unordered_map<std::string, const VersionedDocument*>
         {
-            std::unordered_map<std::string, const VersionedDocument*> m;
+            std::unordered_map<std::string, const VersionedDocument*> m = {};
+
             for (const auto& row : rows) {
                 auto it = m.find(row.key);
                 if (it == m.end() || row.sys_time.start > it->second->sys_time.start) {

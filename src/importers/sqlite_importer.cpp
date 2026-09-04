@@ -871,7 +871,8 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
     }
 
     // Resolve column list
-    std::vector<std::string> col_list;
+    std::vector<std::string> col_list = {};
+
     if (match[4].matched && !match[4].str().empty()) {
         std::istringstream css(match[4].str());
         std::string col;

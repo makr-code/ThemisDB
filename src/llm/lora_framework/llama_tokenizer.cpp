@@ -85,7 +85,8 @@ std::vector<int> LlamaTokenizer::encode(const std::string& text,
     }
     
     if (text.empty()) {
-        std::vector<int> tokens;
+        std::vector<int> tokens = {};
+
         if (add_bos) {
           tokens.push_back(bos_token_id());
         }

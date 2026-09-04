@@ -138,7 +138,8 @@ std::optional<WikipediaRedirectRecord> WikipediaTransform::extractRedirect(
 std::vector<WikipediaProcessEvent> WikipediaTransform::buildProcessEvents(
     const WikipediaPageRecord& page,
     const std::vector<WikipediaRevisionRecord>& revisions) {
-    std::vector<WikipediaProcessEvent> events;
+    std::vector<WikipediaProcessEvent> events = {};
+
     if (!revisions.empty()) {
         events.push_back({
             page.page_id,
@@ -169,7 +170,8 @@ std::vector<WikipediaProcessEvent> WikipediaTransform::buildProcessEvents(
 std::vector<WikipediaTimeSeriesMetric> WikipediaTransform::buildTimeSeriesMetrics(
     const WikipediaPageRecord& page,
     const std::vector<WikipediaRevisionRecord>& revisions) {
-    std::vector<WikipediaTimeSeriesMetric> metrics;
+    std::vector<WikipediaTimeSeriesMetric> metrics = {};
+
     metrics.reserve(revisions.size());
     for (const auto& revision : revisions) {
         const std::string bucket = revision.timestamp.size() >= 10

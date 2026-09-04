@@ -379,7 +379,8 @@ TEST_F(TwoPhaseCommitParticipantTest, ConcurrentTransactionsAreSafe) {
     std::atomic<int> commits{0};
     std::atomic<int> aborts{0};
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < N; ++i) {
         threads.emplace_back([this, i, &commits, &aborts]() {
             const std::string txn = "concurrent-" + std::to_string(i);
@@ -661,7 +662,8 @@ TEST_F(TwoPhaseCommitCoordinatorTest, ConcurrentCoordinatorTransactionsAreSafe) 
         coord_->registerParticipant("shard-cc-" + std::to_string(i), parts[i].get());
     }
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < N; ++i) {
         threads.emplace_back([this, i, &commits, &aborts]() {
             const std::string txn     = "cc-txn-" + std::to_string(i);

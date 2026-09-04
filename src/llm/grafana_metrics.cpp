@@ -123,7 +123,8 @@ std::string PrometheusExporter::exportMetrics() const {
     std::ostringstream oss;
     
     // Group metrics by base name for HELP and TYPE annotations
-    std::map<std::string, MetricType> metric_types;
+    std::map<std::string, MetricType> metric_types = {};
+
     for (const auto& [key, value] : metrics_) {
         // Extract base metric name (before any labels)
         size_t brace_pos = key.find('{');

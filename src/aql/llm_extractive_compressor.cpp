@@ -285,7 +285,8 @@ std::vector<int32_t> LLMExtractiveCompressor::selectTopTurns(
 /// @return Mapping from word to occurrence count.
 static std::unordered_map<std::string, float> buildTermFrequency(
     const std::vector<std::pair<std::string, std::string>>& msgs) {
-    std::unordered_map<std::string, float> tf;
+    std::unordered_map<std::string, float> tf = {};
+
     for (const auto& [role, content] : msgs) {
         (void)role; // role is not used for term frequency
         std::string token;

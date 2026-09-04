@@ -233,7 +233,8 @@ std::optional<RLSPolicy> RLSManager::getPolicy(const std::string& policy_id) con
 
 std::vector<std::string> RLSManager::listPolicies() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(policies_.size());
     for (const auto& [id, _] : policies_) {
         ids.push_back(id);
@@ -297,7 +298,8 @@ std::vector<const RLSPolicy*> RLSManager::matchingPolicies(
     const SecurityContext& ctx
 ) const {
     // Called with mutex_ held.
-    std::vector<const RLSPolicy*> matches;
+    std::vector<const RLSPolicy*> matches = {};
+
     for (const auto& [_, policy] : policies_) {
         if (!policy.enabled) {
             continue;
@@ -356,7 +358,8 @@ nlohmann::json RLSManager::filterRows(
 
     // Partition into permissive and restrictive.
     std::vector<const RLSPolicy*> permissive_policies;
-    std::vector<const RLSPolicy*> restrictive_policies;
+    std::vector<const RLSPolicy*> restrictive_policies = {};
+
     for (const auto* p : applicable) {
         if (p->type == RLSPolicyType::PERMISSIVE) {
             permissive_policies.push_back(p);

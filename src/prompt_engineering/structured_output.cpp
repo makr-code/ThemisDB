@@ -255,7 +255,8 @@ std::vector<std::string> StructuredOutputEnforcer::extractPropertyNames(
 std::vector<std::string> StructuredOutputEnforcer::extractTopLevelKeys(
     const std::string& json) {
 
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     if (json.empty() || json.front() != '{') return keys;
 
     bool in_string = false;

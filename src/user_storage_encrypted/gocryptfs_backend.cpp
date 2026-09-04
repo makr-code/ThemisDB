@@ -574,7 +574,8 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
         stdin_pipe.closeRead();
         stdout_pipe.closeWrite();
 
-        std::vector<char*> c_args;
+        std::vector<char*> c_args = {};
+
         c_args.reserve(args.size() + 1);
         for (const auto& arg : args) {
             c_args.push_back(const_cast<char*>(arg.c_str()));
@@ -754,7 +755,8 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
         stdin_pipe.closeRead();
         stdout_pipe.closeWrite();
 
-        std::vector<char*> c_args;
+        std::vector<char*> c_args = {};
+
         c_args.reserve(args.size() + 1);
         for (const auto& arg : args) {
             c_args.push_back(const_cast<char*>(arg.c_str()));
@@ -887,7 +889,8 @@ Result<std::string> GocryptfsBackend::executeCommandSafe(
         pipe.closeWrite();
         
         // Prepare arguments for execvp
-        std::vector<char*> c_args;
+        std::vector<char*> c_args = {};
+
         for (const auto& arg : args) {
             c_args.push_back(const_cast<char*>(arg.c_str()));
         }

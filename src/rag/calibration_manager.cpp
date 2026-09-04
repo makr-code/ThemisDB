@@ -132,7 +132,8 @@ std::vector<std::pair<double, double>> CalibrationManager::buildIsotonicModel(
         double avg_gt()   const { return sum_gt   / static_cast<double>(count); }
     };
 
-    std::vector<Block> blocks;
+    std::vector<Block> blocks = {};
+
     for (size_t i : idx) {
         Block b{ground_truth[i], predictions[i], 1};
         while (blocks.size() >= 2) {
@@ -176,7 +177,8 @@ std::pair<CalibrationMetrics, CalibrationMetrics> CalibrationManager::train(
     }
 
     // Collect predictions
-    std::vector<EvaluationResult> predictions;
+    std::vector<EvaluationResult> predictions = {};
+
     predictions.reserve(ground_truth_.size());
     for (const auto& ann : ground_truth_) {
         EvaluationInput input;
@@ -199,7 +201,8 @@ std::pair<CalibrationMetrics, CalibrationMetrics> CalibrationManager::train(
         double best_temp = 1.0;
         double best_ece  = std::numeric_limits<double>::max();
         for (double t = 0.1; t <= 5.0; t += 0.1) {
-            std::vector<double> scaled;
+            std::vector<double> scaled = {};
+
             scaled.reserve(preds.size());
             for (double p : preds) {
               scaled.push_back(applyTemperatureScaling(p, t));

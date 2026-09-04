@@ -76,7 +76,8 @@ static float recall_at_k(const std::vector<int64_t>& expected,
 // Flatten a vector-of-vectors into a contiguous float array
 static std::vector<float> flatten(const std::vector<std::vector<float>>& vecs) {
     if (vecs.empty()) return {};
-    std::vector<float> out;
+    std::vector<float> out = {};
+
     out.reserve(vecs.size() * vecs[0].size());
     for (const auto& v : vecs)
         out.insert(out.end(), v.begin(), v.end());

@@ -213,7 +213,8 @@ QueryDiffResult AQLQueryDiffExplainer::explain(const std::string &query_a, const
     const auto clauses_b = splitClauses(norm_b);
 
     // Gather all clause keywords present in either query.
-    std::unordered_set<std::string> all_keys;
+    std::unordered_set<std::string> all_keys = {};
+
     for (const auto &[k, _] : clauses_a) {
         all_keys.insert(k);
     }

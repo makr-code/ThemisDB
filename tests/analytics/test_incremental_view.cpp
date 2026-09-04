@@ -779,7 +779,8 @@ TEST(IncrementalViewPerfTest, ReaderP99DuringBatchApply) {
 
     // Seed some initial rows so query() has real groups to iterate over.
     {
-        std::vector<ChangeRecord> seed;
+        std::vector<ChangeRecord> seed = {};
+
         for (int i = 0; i < 500; ++i) {
             ChangeRecord r;
             r.type = ChangeType::INSERT;

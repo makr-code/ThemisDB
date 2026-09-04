@@ -85,7 +85,8 @@ std::vector<ColumnInfo> TemporalMigrator::inferColumns(
     }
 
     const size_t total = docs.size();
-    std::vector<ColumnInfo> columns;
+    std::vector<ColumnInfo> columns = {};
+
     columns.reserve(field_map.size());
 
     for (auto& [name, fs] : field_map) {

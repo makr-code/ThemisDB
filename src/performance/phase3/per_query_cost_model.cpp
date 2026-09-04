@@ -285,7 +285,8 @@ PerQueryCostModel::Stats PerQueryCostModel::getStats() const {
         return s;
     }
 
-    std::vector<double> times_ms;
+    std::vector<double> times_ms = {};
+
     times_ms.reserve(records_.size());
 
     std::unordered_map<std::string, double> type_time_sum;

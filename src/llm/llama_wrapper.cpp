@@ -1811,7 +1811,8 @@ std::vector<int> LlamaWrapper::tokenizeForBridge(
     }
 
     const auto llama_tokens = tokenizeInternal(lmodel, text, add_bos);
-    std::vector<int> result;
+    std::vector<int> result = {};
+
     result.reserve(llama_tokens.size());
     for (const llama_token token : llama_tokens) {
         result.push_back(static_cast<int>(token));
@@ -2857,7 +2858,8 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         
         while (generated_tokens.size() < static_cast<size_t>(max_tokens)) {
             // 3a. Draft model generates N candidate tokens
-            std::vector<llama_token> draft_tokens;
+            std::vector<llama_token> draft_tokens = {};
+
             for (int i = 0; i < config_.speculative_tokens; ++i) {
                 float* draft_logits = llama_get_logits_ith(draft_context_, -1);
                 if (!draft_logits) {
@@ -3595,7 +3597,8 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
     
     try {
         // Collect image paths
-        std::vector<std::string> image_paths;
+        std::vector<std::string> image_paths = {};
+
         if (!vision_request.image_path.empty()) {
             image_paths.push_back(vision_request.image_path);
         } else if (!vision_request.image_paths.empty()) {

@@ -137,7 +137,8 @@ std::vector<OptimizationResult> SelfImprovementOrchestrator::runAutoOptimization
     }
 
     // Run each optimization without holding the mutex.
-    std::vector<OptimizationResult> results;
+    std::vector<OptimizationResult> results = {};
+
     results.reserve(candidates.size());
     for (auto& [prompt_id, test_cases] : candidates) {
         results.push_back(optimizePrompt(prompt_id, test_cases));
@@ -219,7 +220,8 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
             // mislead the optimizer into thinking the prompt is worthless.
             if (evaluator_ && !cases.empty()) {
                 std::vector<std::string> prompt_with_inputs;
-                std::vector<std::string> expected;
+                std::vector<std::string> expected = {};
+
                 prompt_with_inputs.reserve(cases.size());
                 expected.reserve(cases.size());
                 for (const auto& tc : cases) {
@@ -472,7 +474,8 @@ std::vector<OptimizationResult> SelfImprovementOrchestrator::getOptimizationHist
 std::vector<ABTest> SelfImprovementOrchestrator::getActiveABTests() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<ABTest> tests;
+    std::vector<ABTest> tests = {};
+
     tests.reserve(active_ab_tests_.size());
     
     for (const auto& [id, test] : active_ab_tests_) {
@@ -634,7 +637,8 @@ std::vector<TestCase> SelfImprovementOrchestrator::buildTestCasesFromFeedback(
         FeedbackType::USER_POSITIVE
     );
 
-    std::vector<TestCase> test_cases;
+    std::vector<TestCase> test_cases = {};
+
     test_cases.reserve(positive.size());
 
     for (const auto& entry : positive) {

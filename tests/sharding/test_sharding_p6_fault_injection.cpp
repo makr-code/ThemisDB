@@ -89,7 +89,8 @@ public:
 
     std::vector<WalEntry> entriesFor(const std::string& txn_id) const {
         std::lock_guard<std::mutex> lk(mu_);
-        std::vector<WalEntry> out;
+        std::vector<WalEntry> out = {};
+
         for (const auto& e : entries_)
             if (e.txn_id == txn_id) {
               out.push_back(e);
@@ -132,14 +133,16 @@ public:
     std::vector<std::string> inDoubtTxns() const {
         std::lock_guard<std::mutex> lk(mu_);
         std::unordered_map<std::string, bool> has_prepare;
-        std::unordered_map<std::string, bool> has_decision;
+        std::unordered_map<std::string, bool> has_decision = {};
+
         for (const auto& e : entries_) {
             if (e.operation == "PREPARE")
                 has_prepare[e.txn_id] = true;
             if (e.operation == "COMMIT" || e.operation == "ABORT")
                 has_decision[e.txn_id] = true;
         }
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         for (const auto& [tid, _] : has_prepare)
             if (!has_decision.count(tid)) {
               result.push_back(tid);
@@ -1532,7 +1535,8 @@ TEST_F(CoordinatorFailureTest, FI20_CoordinatorFailsEachTxnIndependentlyRecovera
     const int kTxns = 5;
     auto ps = makeParticipants(2);
 
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (int i = 0; i < kTxns; ++i) {
         const std::string tid = txnId("20-" + std::to_string(i));
         ids.push_back(tid);
@@ -2037,7 +2041,8 @@ TEST_F(CascadeMultiFailureTest, FI38_ThunderingHerdRecovery10InDoubtConcurrent) 
     constexpr int kN = 10;
     auto ps = makeParticipants(2);
 
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (int i = 0; i < kN; ++i) {
         const std::string tid = txnId("38-" + std::to_string(i));
         ids.push_back(tid);

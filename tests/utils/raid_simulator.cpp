@@ -153,7 +153,8 @@ std::optional<std::vector<uint8_t>> RAIDSimulator::reconstructRAID5(
 
     // If no missing chunks, just reconstruct
     if (missing_count == 0) {
-        std::vector<uint8_t> result;
+        std::vector<uint8_t> result = {};
+
         for (size_t i = 0; i < chunks.size() - 1; ++i) {  // Exclude parity
             if (chunks[i]) {
                 result.insert(result.end(), chunks[i]->begin(), chunks[i]->end());
@@ -185,7 +186,8 @@ std::optional<std::vector<uint8_t>> RAIDSimulator::reconstructRAID5(
     }
 
     // Build complete data
-    std::vector<uint8_t> result;
+    std::vector<uint8_t> result = {};
+
     for (size_t i = 0; i < chunks.size() - 1; ++i) {  // Exclude parity
         if (i == static_cast<size_t>(missing_idx)) {
             result.insert(result.end(), reconstructed.begin(), reconstructed.end());

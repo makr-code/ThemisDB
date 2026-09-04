@@ -615,7 +615,8 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
     std::vector<float> segment_matrix;
     segment_matrix.reserve(num_segs * embed_dim);
     for (const auto& seg : segments) {
-        std::vector<float> emb;
+        std::vector<float> emb = {};
+
         if (use_text_encoder) {
             // Priority 1: registered ITextEncoder
             emb = text_encoder->encode(seg, embed_dim);

@@ -329,7 +329,8 @@ TEST_F(SchedulerIntegrationTest, ConcurrentTasksExecuteInParallel) {
     });
 
     // Register 3 tasks, each triggered manually back-to-back
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (int i = 0; i < 3; ++i) {
         ScheduledTask t;
         t.name          = "slow_task_" + std::to_string(i);

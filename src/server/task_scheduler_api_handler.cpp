@@ -1108,7 +1108,8 @@ json TaskSchedulerApiHandler::exportToAirflowDag([[maybe_unused]] const json& re
             return json{{"status", "error"},
                         {"error", "Request must contain a 'task_ids' array"}};
         }
-        std::vector<ScheduledTask> tasks;
+        std::vector<ScheduledTask> tasks = {};
+
         tasks.reserve(request["task_ids"].size());
         for (const auto& id_json : request["task_ids"]) {
             const std::string id = id_json.get<std::string>();

@@ -359,7 +359,8 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
             
             // Extract timestamps and values
             std::vector<int64_t> timestamps;
-            std::vector<double> values;
+            std::vector<double> values = {};
+
             timestamps.reserve(group_points.size());
             values.reserve(group_points.size());
             
@@ -573,7 +574,8 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                 });
 
             std::vector<int64_t> timestamps;
-            std::vector<double>  values;
+            std::vector<double>  values = {};
+
             timestamps.reserve(indices.size());
             values.reserve(indices.size());
             for (size_t idx : indices) {
@@ -854,7 +856,8 @@ TSStore::query(const QueryOptions& options) const {
                         " cannot be decrypted: no EncryptedChunkStore attached");
                 }
 
-                std::vector<uint8_t> raw_data;
+                std::vector<uint8_t> raw_data = {};
+
                 if (chunk_meta.contains("data") && chunk_meta["data"].is_binary()) {
                     raw_data = chunk_meta["data"].get<std::vector<uint8_t>>();
                 } else if (chunk_meta.contains("data") && chunk_meta["data"].is_array()) {
@@ -1205,7 +1208,8 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
     auto start_time = std::chrono::steady_clock::now();
     size_t deleted_count = 0;
     rocksdb::ReadOptions read_opts;
-    std::unique_ptr<rocksdb::Iterator> it;
+    std::unique_ptr<rocksdb::Iterator> it = {};
+
     if (cf_) {
       it.reset(db_->NewIterator(read_opts, cf_)); else it.reset(db_->NewIterator(read_opts));
     }

@@ -109,7 +109,8 @@ ReplicationEventStream::getEvents(
     std::optional<EventType> filter) const
 {
     std::lock_guard<std::mutex> lock(buffer_mutex_);
-    std::vector<Event> result;
+    std::vector<Event> result = {};
+
     for (const auto& ev : buffer_) {
         if (ev.timestamp < start) {
           continue;

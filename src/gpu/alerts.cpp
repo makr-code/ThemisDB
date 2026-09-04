@@ -132,7 +132,8 @@ size_t GPUAlerts::evaluate() {
 
 std::vector<GPUAlerts::AlertStatus> GPUAlerts::currentStatuses() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<AlertStatus> result;
+    std::vector<AlertStatus> result = {};
+
     result.reserve(statuses_.size());
     for (const auto &kv : statuses_) {
         result.push_back(kv.second);

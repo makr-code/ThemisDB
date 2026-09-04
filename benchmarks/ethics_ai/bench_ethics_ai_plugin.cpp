@@ -279,7 +279,8 @@ static void BM_ArgumentStore_GetArgument(benchmark::State& state) {
     }
     
     // Pre-populate with arguments
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (int i = 0; i < 100; i++) {
         std::string id = "arg_prepop_" + std::to_string(i);
         auto arg = createBenchmarkArgument(id, "kant");
@@ -673,7 +674,8 @@ static void BM_EthicsEvaluator_EvaluateDecision(benchmark::State& state) {
     EthicsEvaluator evaluator;
     auto decision = createBenchmarkDecision();
     
-    std::vector<EthicalArgument> arguments;
+    std::vector<EthicalArgument> arguments = {};
+
     for (int i = 0; i < 5; i++) {
         arguments.push_back(createBenchmarkArgument(generateRandomId(i), "kant"));
     }
@@ -703,7 +705,8 @@ static void BM_EthicsEvaluator_EvaluateDecisionManyArgs(benchmark::State& state)
     EthicsEvaluator evaluator;
     auto decision = createBenchmarkDecision();
     
-    std::vector<EthicalArgument> arguments;
+    std::vector<EthicalArgument> arguments = {};
+
     for (int i = 0; i < state.range(0); i++) {
         arguments.push_back(createBenchmarkArgument(generateRandomId(i), "kant"));
     }

@@ -132,7 +132,8 @@ http::response<http::string_body> IndexApiHandler::handleCreate(
             if (!body["columns"].is_array() || body["columns"].empty()) {
                 return makeErrorResponse(http::status::bad_request, "'columns' must be a non-empty array of strings", req);
             }
-            std::vector<std::string> columns;
+            std::vector<std::string> columns = {};
+
             for (const auto& c : body["columns"]) {
                 columns.push_back(c.get<std::string>());
             }

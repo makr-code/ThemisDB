@@ -401,7 +401,8 @@ TEST_F(ConcurrencySafetyTest, CS_06_StreamingWindowInsertFlush) {
     };
 
     // Action: Concurrent inserts and flush
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 10; ++i) {
         threads.emplace_back([&, i]() { insert_record(i); });
     }
@@ -438,7 +439,8 @@ TEST_F(ConcurrencySafetyTest, CS_07_MultipleWindowsSeparateLocks) {
     };
 
     // Action: Each thread processes different window without contention
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 25; ++i) {
         threads.emplace_back([&, i]() { process_window(i % 5); });
     }
@@ -495,7 +497,8 @@ TEST_F(ConcurrencySafetyTest, CS_08_WindowEvictionLockContention) {
     };
 
     // Action: Concurrent access and eviction
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 10; ++i) {
         threads.emplace_back([&, i]() { access_window(i % 3); });
     }
@@ -545,7 +548,8 @@ TEST_F(ConcurrencySafetyTest, CS_09_BackpressureSignaling) {
     };
 
     // Action: Events processed, then backpressure signal
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 50; ++i) {
         threads.emplace_back([&]() { process_event(); });
     }
@@ -591,7 +595,8 @@ TEST_F(ConcurrencySafetyTest, CS_10_WatermarkAdvancementNonBlocking) {
     };
 
     // Action: Concurrent inserts and watermark advancement
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 100; ++i) {
         threads.emplace_back([&]() { insert_record(); });
     }
@@ -669,7 +674,8 @@ TEST_F(ConcurrencySafetyTest, CS_12_CodeGenerationThreadSafe) {
     };
 
     // Action: Multiple threads generate code
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 10; ++i) {
         threads.emplace_back([&, i]() { generate_code(i); });
     }
@@ -745,7 +751,8 @@ TEST_F(ConcurrencySafetyTest, CS_14_ConcurrentAggregationConsistency) {
     };
 
     // Action: Multiple threads update aggregation
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 100; ++i) {
         threads.emplace_back([&, i]() { update_aggregation(i); });
     }
@@ -800,7 +807,8 @@ TEST_F(ConcurrencySafetyTest, CS_15_AggregationResourceReleaseUnderLock) {
     // Action: Allocate, concurrent access, then release
     allocate();
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 20; ++i) {
         threads.emplace_back([&]() { access(); });
     }

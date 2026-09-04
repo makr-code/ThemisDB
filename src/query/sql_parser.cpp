@@ -196,7 +196,8 @@ public:
     explicit SQLLexer(const std::string& input) : input_(input), pos_(0) {}
 
     std::vector<SQLToken> tokenize() {
-        std::vector<SQLToken> tokens;
+        std::vector<SQLToken> tokens = {};
+
         while (pos_ < input_.size()) {
             skipWhitespace();
             if (pos_ >= input_.size()) {

@@ -207,7 +207,8 @@ void EntityNormalizer::normalize(ExtractionContext& ctx) const {
     // 3. Deduplicate by canonical ID
     if (cfg_.dedup_strategy == "canonical_id") {
         std::unordered_map<std::string, std::size_t> id_to_idx;
-        std::vector<BaseEntity> deduped;
+        std::vector<BaseEntity> deduped = {};
+
         deduped.reserve(ctx.entities.size());
 
         for (auto& ent : ctx.entities) {
@@ -315,7 +316,8 @@ void RelationBuilder::buildPartOfRelations(ExtractionContext& ctx) const {
     }
 
     // Build a quick id→index map
-    std::unordered_map<std::string, std::size_t> id_map;
+    std::unordered_map<std::string, std::size_t> id_map = {};
+
     for (std::size_t i = 0; i < ctx.entities.size(); ++i)
         id_map[ctx.entities[i].id] = i;
 
@@ -379,7 +381,8 @@ void RelationBuilder::buildIssuedByRelations(ExtractionContext& ctx) const {
     }
 
     // Build authority id map
-    std::unordered_map<std::string, std::string> authority_by_text;
+    std::unordered_map<std::string, std::string> authority_by_text = {};
+
     for (const auto& ent : ctx.entities) {
         if (ent.entity_type == EntityType::LEGAL_AUTHORITY)
             authority_by_text[ent.text] = ent.id;

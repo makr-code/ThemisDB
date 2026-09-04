@@ -389,7 +389,8 @@ std::optional<std::string> HealthMonitor::selectStandbyForPromotion() const {
     auto all_primaries = primary_coordinator_->getActivePrimaries();
     
     // Filter for STANDBY nodes with healthy status
-    std::vector<std::string> candidates;
+    std::vector<std::string> candidates = {};
+
     for (const auto& primary : all_primaries) {
         auto info = primary_coordinator_->getPrimaryInfo(primary.node_id);
         if (info && info->state == PrimaryState::STANDBY) {

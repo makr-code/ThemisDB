@@ -651,7 +651,8 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
             "process_definitions", "text", query,
             limit > 0 ? limit : 1000u);
 
-        std::vector<ProcessModelRecord> results;
+        std::vector<ProcessModelRecord> results = {};
+
         results.reserve(hits.size());
         for (const auto& hit : hits) {
             auto rec = load(hit.pk);
@@ -990,7 +991,8 @@ ProcessModelResult ProcessModelManager::validateModelConsistency(
 
     // 4. Validate nodes
     size_t node_count = 0;
-    std::set<std::string> node_ids;
+    std::set<std::string> node_ids = {};
+
     if (record.normalized.contains("nodes") && record.normalized["nodes"].is_array()) {
         const auto& nodes = record.normalized["nodes"];
         node_count = nodes.size();

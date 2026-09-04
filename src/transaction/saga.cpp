@@ -97,7 +97,8 @@ bool Saga::isFullyCompensated() const {
 }
 
 std::vector<std::string> Saga::getStepHistory() const {
-    std::vector<std::string> history;
+    std::vector<std::string> history = {};
+
     history.reserve(steps_.size());
     for (const auto& step : steps_) {
         std::string status = step.compensated ? "[COMPENSATED]" : "[ACTIVE]";

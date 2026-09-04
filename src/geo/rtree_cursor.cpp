@@ -161,7 +161,8 @@ void GeoRTreeIndex::clear() {
 std::unique_ptr<IRTreeCursor> GeoRTreeIndex::openRangeCursor(const MBR &bbox) {
     // Materialise matching entries
     const auto &all = impl_->entries;
-    std::vector<GeoIndexEntry> hits;
+    std::vector<GeoIndexEntry> hits = {};
+
     hits.reserve(all.size() / 4 + 1); // optimistic reserve
 
     for (const auto &[key, geom] : all) {
@@ -178,7 +179,8 @@ std::unique_ptr<IRTreeCursor> GeoRTreeIndex::openKNNCursor(const Coordinate &que
     const auto &all = impl_->entries;
 
     // Build (distance, entry) list
-    std::vector<GeoIndexEntry> candidates;
+    std::vector<GeoIndexEntry> candidates = {};
+
     candidates.reserve(all.size());
     for (const auto &[key, geom] : all) {
         const auto centroid = mbrCentroid(geom);

@@ -233,7 +233,8 @@ SecretManager::listVersions(const std::string& name) const {
     auto it = secrets_.find(name);
     if (it == secrets_.end()) return {};
 
-    std::vector<VersionInfo> result;
+    std::vector<VersionInfo> result = {};
+
     result.reserve(it->second.versions.size());
     for (const auto& v : it->second.versions) {
         VersionInfo info;
@@ -254,7 +255,8 @@ SecretManager::listVersions(const std::string& name) const {
 std::vector<std::string> SecretManager::listSecrets() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(secrets_.size());
     for (const auto& kv : secrets_) {
         names.push_back(kv.first);

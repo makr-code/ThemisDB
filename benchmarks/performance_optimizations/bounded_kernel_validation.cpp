@@ -131,7 +131,8 @@ TEST_F(BoundedKernelValidationTest, TopKSelectionGPUvsCPUParity) {
     // ✅ Ordering is deterministic
 
     // Create a simple distance array for testing
-    std::vector<float> distances;
+    std::vector<float> distances = {};
+
     for (size_t i = 0; i < 100; ++i) {
         distances.push_back(static_cast<float>(i) / 100.0f);
     }
@@ -480,7 +481,8 @@ TEST_F(BoundedKernelValidationTest, PolicyACLBypassPrevention) {
     std::vector<Node> gpu_candidates = {Node{0}, Node{1}, Node{2}, Node{3}};
 
     // GPU results must be filtered through ACL
-    std::vector<Node> final_result;
+    std::vector<Node> final_result = {};
+
     for (const auto& candidate : gpu_candidates) {
         // CPU ACL check
         bool is_denied =

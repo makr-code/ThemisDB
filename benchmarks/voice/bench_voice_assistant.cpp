@@ -100,7 +100,8 @@ static void BM_MultipleSessionsParallel(benchmark::State& state) {
     VoiceAssistant assistant(config);
     
     const int num_sessions = state.range(0);
-    std::vector<std::string> session_ids;
+    std::vector<std::string> session_ids = {};
+
     for (int i = 0; i < num_sessions; i++) {
         session_ids.push_back("session-" + std::to_string(i));
     }
@@ -384,7 +385,8 @@ static void BM_ConcurrentTextCommands(benchmark::State& state) {
     VoiceAssistant assistant(config);
     
     const int num_threads = state.range(0);
-    std::vector<std::string> commands;
+    std::vector<std::string> commands = {};
+
     for (int i = 0; i < num_threads; i++) {
         commands.push_back("Command from thread " + std::to_string(i));
     }
@@ -420,7 +422,8 @@ static void BM_MemoryUsagePerSession(benchmark::State& state) {
     
     for (auto _ : state) {
         state.PauseTiming();
-        std::vector<std::string> session_ids;
+        std::vector<std::string> session_ids = {};
+
         for (int i = 0; i < num_sessions; i++) {
             session_ids.push_back("mem-session-" + std::to_string(i));
         }

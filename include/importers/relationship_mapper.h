@@ -111,7 +111,8 @@ public:
     static std::vector<RelationshipMapping> generateInverseEdges(
             const std::vector<RelationshipMapping>& mappings) {
 
-        std::vector<RelationshipMapping> inverse;
+        std::vector<RelationshipMapping> inverse = {};
+
         for (const auto& m : mappings) {
             if (m.cardinality != "MANY_TO_ONE") {
               continue;
@@ -151,7 +152,8 @@ public:
             const TableSchemaMap& schemas,
             const std::string& mode = "auto") {
 
-        std::vector<RelationshipMapping> result;
+        std::vector<RelationshipMapping> result = {};
+
         if (mode != "auto") {
           return result;
         }

@@ -217,7 +217,8 @@ bool initializeS3Provider(const std::string &region, const std::string &bucket, 
         // Register S3 list callback
         setS3ListFn([bucket](const std::string &callback_bucket, const std::string &prefix)
                     -> std::vector<std::string> {
-            std::vector<std::string> results;
+            std::vector<std::string> results = {};
+
             if (!validateFixedProviderArgument("S3", "bucket", bucket, callback_bucket)) {
                 return results;
             }
@@ -492,7 +493,8 @@ bool initializeAzureProvider(const std::string &account_name, const std::string 
         setAzureListFn([account_name, container](const std::string &callback_account,
                                                  const std::string &callback_container,
                                                  const std::string &prefix) -> std::vector<std::string> {
-            std::vector<std::string> results;
+            std::vector<std::string> results = {};
+
             if (!validateFixedProviderArgument("Azure", "account", account_name, callback_account) ||
                 !validateFixedProviderArgument("Azure", "container", container, callback_container)) {
                 return results;
@@ -756,7 +758,8 @@ bool initializeGCSProvider(const std::string &project_id, const std::string &buc
         // Register GCS list callback
         setGCSListFn([bucket](const std::string &callback_bucket, const std::string &prefix)
                      -> std::vector<std::string> {
-            std::vector<std::string> results;
+            std::vector<std::string> results = {};
+
             if (!validateFixedProviderArgument("GCS", "bucket", bucket, callback_bucket)) {
                 return results;
             }

@@ -343,7 +343,8 @@ BENCHMARK_DEFINE_F(GraphQueryOptimizerBenchmarkFixture, MultiSourceDFS)(benchmar
 BENCHMARK_DEFINE_F(GraphQueryOptimizerBenchmarkFixture, MultiSourceBFS_ThreadScaling)(benchmark::State& state) {
     const int num_threads = static_cast<int>(state.range(1));
     const int kSources = 4;
-    std::vector<std::string> sources;
+    std::vector<std::string> sources = {};
+
     for (int i = 0; i < kSources && i < graph_size_; ++i) {
         sources.push_back("node_" + std::to_string(i));
     }

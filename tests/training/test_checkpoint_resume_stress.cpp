@@ -464,7 +464,8 @@ TEST_F(CheckpointResumeStressTest, RollbackSimulation) {
     adapter.addLayer("rollback", IN_DIM, OUT_DIM);
 
     // Create checkpoints at different points
-    std::vector<size_t> checkpoint_steps;
+    std::vector<size_t> checkpoint_steps = {};
+
     for (int cp = 0; cp < 5; ++cp) {
         trainAdapter(adapter, 20, "rollback");
         mgr.saveCheckpoint(adapter, cp + 1, (cp + 1) * 20, 2.0 - cp * 0.1);

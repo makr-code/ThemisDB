@@ -119,7 +119,8 @@ bool ModelIntegrityVerifier::loadManifest(const std::string& manifest_path) {
         return false;
     }
 
-    std::unordered_map<std::string, std::string> new_hashes;
+    std::unordered_map<std::string, std::string> new_hashes = {};
+
     for (const auto& [model_id, model_info] : j["models"].items()) {
         if (!model_info.contains("sha256") || !model_info["sha256"].is_string()) {
             THEMIS_WARN("ModelIntegrityVerifier: model '{}' has no valid sha256 field", model_id);

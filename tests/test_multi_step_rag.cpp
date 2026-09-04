@@ -77,7 +77,8 @@ TEST(MultiStepRAGFocusedTests, A4_MultipleMapBatchesProduceOverflowFlag) {
     MultiStepRAGOrchestrator orch(cfg);
 
     // Large documents that won't fit in a 20-token window.
-    std::vector<RetrievedChunk> docs;
+    std::vector<RetrievedChunk> docs = {};
+
     for (int i = 0; i < 4; ++i) {
         docs.push_back(makeChunk(std::string(200, static_cast<char>('a' + i))));
     }
@@ -150,7 +151,8 @@ TEST(MultiStepRAGFocusedTests, B2_MaxIterationsCaps) {
     int retrieve_count = 0;
     RetrievalFn retrieve = [&](const std::string&, size_t k) -> std::vector<RetrievedChunk> {
         ++retrieve_count;
-        std::vector<RetrievedChunk> docs;
+        std::vector<RetrievedChunk> docs = {};
+
         for (size_t i = 0; i < k; ++i) {
             docs.push_back(makeChunk("new_doc_" + std::to_string(retrieve_count),
                                       1.0f,
@@ -319,7 +321,8 @@ TEST(MultiStepRAGFocusedTests, C7_MapReduceUsesBudgetCappedMaxTokensAcrossPhases
 
     MultiStepRAGOrchestrator orch(cfg);
 
-    std::vector<RetrievedChunk> docs;
+    std::vector<RetrievedChunk> docs = {};
+
     for (int i = 0; i < 4; ++i) {
         docs.push_back(makeChunk(std::string(180, static_cast<char>('a' + i)), 1.0f, "src"));
     }

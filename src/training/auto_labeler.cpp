@@ -116,7 +116,8 @@ public:
 
         // Fetch document IDs from the source collection via AQL when a query
         // engine is wired in; fall back to an empty list in offline/test mode.
-        std::vector<std::string> document_ids;
+        std::vector<std::string> document_ids = {};
+
         if (query_engine_) {
             auto query = buildQuery(aql_templates::FETCH_ALL_DOCUMENTS,
                                     {{"@source_collection", config_.source_collection}});
@@ -319,7 +320,8 @@ public:
         // Execute the provided AQL query to get document IDs.
         // When a query engine is available, run the query against the DB;
         // otherwise fall back to an empty list (offline/test mode).
-        std::vector<std::string> document_ids;
+        std::vector<std::string> document_ids = {};
+
         if (query_engine_) {
             document_ids = executeAqlQuery(aql_query);
         }
@@ -454,7 +456,8 @@ private:
     }
 
     std::vector<std::string> tryDirectKeyQueryFallback(const std::string& aql) const {
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         if (!query_engine_) {
             return ids;
         }
@@ -494,7 +497,8 @@ private:
     // from the "results" array of the JSON response envelope.
     // Returns an empty vector when no engine is available or the query fails.
     std::vector<std::string> executeAqlQuery(const std::string& aql) const {
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         if (!query_engine_ || !isReadOnlyAqlQuery(aql)) {
             return ids;
         }
@@ -601,7 +605,8 @@ private:
     }
 
     std::vector<analytics::LegalModality> extractFallbackModalities(const std::string& text) const {
-        std::vector<analytics::LegalModality> modalities;
+        std::vector<analytics::LegalModality> modalities = {};
+
         if (text.empty()) {
             return modalities;
         }

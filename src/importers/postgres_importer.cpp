@@ -817,7 +817,8 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     }
 
     // --- Delta hash loading ---
-    std::unordered_set<uint64_t> delta_hashes;
+    std::unordered_set<uint64_t> delta_hashes = {};
+
     if (!options.delta_hash_file.empty()) {
         delta_hashes = loadDeltaHashes(options.delta_hash_file);
         THEMIS_INFO("Delta import: loaded {} known hashes from {}", delta_hashes.size(),
@@ -1115,7 +1116,8 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                 std::smatch match;
                 if (std::regex_search(current_sql, match, kCopyRe)) {
                     std::string table_name = match[1].str();
-                    std::vector<std::string> col_list;
+                    std::vector<std::string> col_list = {};
+
                     if (match[2].matched && !match[2].str().empty()) {
                         std::istringstream css(match[2].str());
                         std::string col;
@@ -2078,7 +2080,8 @@ bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions
     }
 
     // Resolve effective column list
-    std::vector<std::string> col_list;
+    std::vector<std::string> col_list = {};
+
     if (match[2].matched && !match[2].str().empty()) {
         std::istringstream css(match[2].str());
         std::string col;
@@ -2907,7 +2910,8 @@ uint64_t PostgreSQLImporter::computeRowHash(const std::string& raw_row,
     }
     // Hash only the key column values, separated by a non-printable sentinel
     static constexpr char kDeltaHashFieldSep = '\x01';
-    std::unordered_map<std::string, size_t> schema_column_index;
+    std::unordered_map<std::string, size_t> schema_column_index = {};
+
     schema_column_index.reserve(schema_columns.size());
     for (size_t i = 0; i < schema_columns.size(); ++i) {
         schema_column_index.emplace(schema_columns[i], i);

@@ -219,7 +219,8 @@ DeliveryTracker::getStats(const std::string& consumer_id) const {
 std::vector<ConsumerDeliveryStats> DeliveryTracker::getAllStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<ConsumerDeliveryStats> result;
+    std::vector<ConsumerDeliveryStats> result = {};
+
     result.reserve(consumers_.size());
     for (const auto& [consumer_id, state] : consumers_) {
         ConsumerDeliveryStats stats;

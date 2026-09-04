@@ -385,7 +385,8 @@ constexpr uint8_t kOpcodeDeleteResponse = 0x92u;
 std::vector<uint8_t> WireProtocolWebSocketSession::buildBinaryResponseFrame(
     uint8_t resp_opcode, const std::vector<uint8_t>& payload)
 {
-    std::vector<uint8_t> frame;
+    std::vector<uint8_t> frame = {};
+
     frame.reserve(kWireHeaderSize + payload.size());
     frame.insert(frame.end(), std::begin(kWireMagic), std::end(kWireMagic));
     frame.push_back(0x01u);

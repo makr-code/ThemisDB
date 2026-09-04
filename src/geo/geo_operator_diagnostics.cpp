@@ -75,7 +75,8 @@ std::vector<GeoIncident> GeoOperatorDiagnostics::recentIncidents(
 std::vector<GeoIncident> GeoOperatorDiagnostics::incidentsBySeverity(
         GeoIncidentSeverity min_severity) const noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<GeoIncident> result;
+    std::vector<GeoIncident> result = {};
+
     for (auto it = incidents_.rbegin(); it != incidents_.rend(); ++it) {
         if (static_cast<uint8_t>(it->severity) >= static_cast<uint8_t>(min_severity)) {
             result.push_back(*it);

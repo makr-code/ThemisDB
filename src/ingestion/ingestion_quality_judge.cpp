@@ -552,7 +552,8 @@ std::vector<std::string> IngestionQualityJudge::computeRecommendedSteps(
     }
 
     // Deduplicate, preserving insertion order.
-    std::vector<std::string> unique_steps;
+    std::vector<std::string> unique_steps = {};
+
     for (const auto& s : steps) {
         if (std::find(unique_steps.begin(), unique_steps.end(), s)
             == unique_steps.end())

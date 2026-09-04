@@ -364,7 +364,8 @@ TEST_F(AQLConversationContextTest, ConcurrentTurnCountReadIsConsistent) {
     std::atomic<bool> stop{false};
     std::atomic<std::size_t> max_observed_turns{0};
 
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int i = 0; i < 4; ++i) {
         readers.emplace_back([&tctx, &stop, &max_observed_turns]() {
             while (!stop.load(std::memory_order_relaxed)) {

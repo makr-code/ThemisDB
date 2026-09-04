@@ -352,7 +352,8 @@ TEST_F(XOEVImporterTest, PolymorphicUsageViaInterface) {
 
 TEST_F(XOEVImporterTest, RoundTripExportThenImportPreservesRecordCount) {
     // Build initial records.
-    std::vector<XOEVRecord> original;
+    std::vector<XOEVRecord> original = {};
+
     for (int i = 0; i < 5; ++i) {
         XOEVRecord r;
         r.id       = "RT" + std::to_string(i);

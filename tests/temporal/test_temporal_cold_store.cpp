@@ -290,7 +290,8 @@ TEST(ColdStoreConcurrencyTest, ConcurrentReads_NoDeadlock) {
 
     constexpr int NUM_THREADS = 8;
     std::atomic<int> hits{0};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < NUM_THREADS; ++t) {
         threads.emplace_back([&, t]() {
             for (int q = 0; q < 50; ++q) {

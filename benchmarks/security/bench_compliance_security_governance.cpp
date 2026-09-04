@@ -183,7 +183,8 @@ static void BM_PolicyEvaluation_DifferentClassifications(benchmark::State& state
     
     int idx = 0;
     for (auto _ : state) {
-        std::unordered_map<std::string, std::string> headers;
+        std::unordered_map<std::string, std::string> headers = {};
+
         headers["classification"] = classifications[idx % classifications.size()];
         
         PolicyDecision decision = engine.evaluate(headers, "/api/query");

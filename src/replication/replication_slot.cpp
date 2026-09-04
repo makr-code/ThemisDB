@@ -401,7 +401,8 @@ std::vector<ReplicationSlot::SlotState>
 ReplicationSlotManager::listSlots() const
 {
     std::lock_guard<std::mutex> lock(slots_mutex_);
-    std::vector<ReplicationSlot::SlotState> states;
+    std::vector<ReplicationSlot::SlotState> states = {};
+
     states.reserve(slots_.size());
     for (const auto& kv : slots_) {
         states.push_back(kv.second->state());

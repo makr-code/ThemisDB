@@ -814,7 +814,8 @@ TEST_F(CloudStorageBackupTest, CompressionPerformance) {
  */
 TEST_F(CloudStorageBackupTest, ConcurrentUploads) {
     // Create multiple local backups
-    std::vector<std::string> backups;
+    std::vector<std::string> backups = {};
+
     for (int i = 0; i < 3; ++i) {
         // Insert unique data for each backup
         for (int j = 0; j < 10; ++j) {

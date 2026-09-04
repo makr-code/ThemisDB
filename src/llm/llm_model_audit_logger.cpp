@@ -299,7 +299,8 @@ std::vector<json> LLMModelAuditLogger::queryLogs(
     std::optional<std::chrono::system_clock::time_point> end_time) {
 
     std::lock_guard<std::mutex> lk(impl_->mu);
-    std::vector<json> result;
+    std::vector<json> result = {};
+
     for (const auto& r : impl_->records) {
         if (!model_id.empty() && r.model_id != model_id) {
           continue;

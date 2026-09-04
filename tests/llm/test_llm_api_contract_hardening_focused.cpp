@@ -83,7 +83,8 @@ public:
         if (prompts.size() > kMaxBatchSize) {
             return {{LlmErrorCode::BATCH_SIZE_EXCEEDED, ""}};
         }
-        std::vector<Result> results;
+        std::vector<Result> results = {};
+
         results.reserve(prompts.size());
         for (const auto& p : prompts) {
             results.push_back({LlmErrorCode::OK, "batch:" + p});

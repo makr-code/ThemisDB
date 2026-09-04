@@ -116,7 +116,8 @@ void TimeSeries::push(const TimeSeriesPoint &p) {
 }
 
 std::vector<double> TimeSeries::values() const {
-    std::vector<double> v;
+    std::vector<double> v = {};
+
     v.reserve(points_.size());
     for (const auto &p : points_) {
         v.push_back(p.value);
@@ -125,7 +126,8 @@ std::vector<double> TimeSeries::values() const {
 }
 
 std::vector<int64_t> TimeSeries::timestamps() const {
-    std::vector<int64_t> t;
+    std::vector<int64_t> t = {};
+
     t.reserve(points_.size());
     for (const auto &p : points_) {
         t.push_back(p.timestamp_ms);
@@ -433,7 +435,8 @@ int64_t medianInterval(const std::vector<int64_t> &timestamps) {
     if (timestamps.size() < 2) {
         return 1;
     }
-    std::vector<double> diffs;
+    std::vector<double> diffs = {};
+
     diffs.reserve(timestamps.size() - 1);
     for (size_t i = 1; i < timestamps.size(); ++i) {
         diffs.push_back(static_cast<double>(timestamps[i] - timestamps[i - 1]));
@@ -893,7 +896,8 @@ SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P,
     }
 
     // --- build AR lag set: lags 1..p  plus seasonal lags m, 2m..P*m --------
-    std::vector<int> ar_lags;
+    std::vector<int> ar_lags = {};
+
     for (int i = 1; i <= p; ++i) {
         ar_lags.push_back(i);
     }
@@ -999,7 +1003,8 @@ SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P,
     }
 
     // --- MA lags: lags 1..q plus seasonal lags m..Q*m ----------------------
-    std::vector<int> ma_lags;
+    std::vector<int> ma_lags = {};
+
     for (int i = 1; i <= q; ++i) {
         ma_lags.push_back(i);
     }

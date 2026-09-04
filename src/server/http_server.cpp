@@ -1605,7 +1605,8 @@ HttpServer::HttpServer(
     policy_engine_ = std::make_unique<themis::PolicyEngine>();
     try {
         // Allow overriding the policies path via env `THEMIS_POLICIES_PATH` (useful for tests)
-        std::vector<std::filesystem::path> candidates;
+        std::vector<std::filesystem::path> candidates = {};
+
         if (const char* envp = std::getenv("THEMIS_POLICIES_PATH")) {
             std::filesystem::path p(envp);
             candidates.push_back(p);
@@ -4490,7 +4491,8 @@ http::response<http::string_body> HttpServer::routeRequest(
     // Create root span for this HTTP request.
     // If the caller supplied a W3C traceparent header, the new span becomes
     // a child of that upstream trace context (distributed tracing propagation).
-    std::map<std::string, std::string> req_headers;
+    std::map<std::string, std::string> req_headers = {};
+
     for (auto const& field : req) {
         req_headers.emplace(std::string(field.name_string()),
                             std::string(field.value()));
@@ -4705,7 +4707,8 @@ http::response<http::string_body> HttpServer::routeRequest(
             tenant_id_opt = std::string(tenant_header_it->value());
         } else {
             // Fallback: check path prefix (only if header not present)
-            std::unordered_map<std::string, std::string> headers;
+            std::unordered_map<std::string, std::string> headers = {};
+
             for (auto const& field : req) {
                 headers[std::string(field.name_string())] = std::string(field.value());
             }
@@ -11086,7 +11089,8 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
         }
 
         // Extract client IP from headers (X-Forwarded-For or X-Real-IP)
-        std::optional<std::string> client_ip;
+        std::optional<std::string> client_ip = {};
+
         for (const auto& h : req) {
             auto name = h.name_string();
             if (beast::iequals(name, "x-forwarded-for")) {
@@ -11260,7 +11264,8 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
     // Policy check (if configured)
     if (policy_engine_) {
         // Extract client IP (X-Forwarded-For or X-Real-IP)
-        std::optional<std::string> client_ip;
+        std::optional<std::string> client_ip = {};
+
         for (const auto& h : req) {
             auto name = h.name_string();
             if (beast::iequals(name, "x-forwarded-for")) {
@@ -11408,7 +11413,8 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
 
     // Policy check
     if (policy_engine_) {
-        std::optional<std::string> client_ip;
+        std::optional<std::string> client_ip = {};
+
         for (const auto& h : req) {
             auto name = h.name_string();
             if (beast::iequals(name, "x-forwarded-for")) {
@@ -12179,7 +12185,8 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
                 return makeErrorResponse(http::status::bad_request, "vector_query must be array of floats", req);
             }
             
-            std::vector<float> vectorQuery;
+            std::vector<float> vectorQuery = {};
+
             vectorQuery.reserve(body["vector_query"].size());
             for (const auto& val : body["vector_query"]) {
                 if (val.is_number()) {
@@ -12210,7 +12217,8 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         if (fusionMode == "rrf") {
             // Reciprocal Rank Fusion: score = sum(1 / (k + rank))
             int kRrf = body.value("k_rrf", 60);
-            std::unordered_map<std::string, double> scores;
+            std::unordered_map<std::string, double> scores = {};
+
             scores.reserve(textResults.size() + vectorResults.size());
 
             // Text contributions
@@ -12249,7 +12257,8 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             double vecMax = vectorResults.empty() ? 1.0 : vectorResults.back().distance;
             double vecRange = (vecMax - vecMin) > 1e-9 ? (vecMax - vecMin) : 1.0;
             
-            std::unordered_map<std::string, double> scores;
+            std::unordered_map<std::string, double> scores = {};
+
             scores.reserve(textResults.size() + vectorResults.size());
             
             // Text contributions
@@ -12802,7 +12811,8 @@ http::response<http::string_body> HttpServer::handleCreateIndex(
             if (!body["columns"].is_array() || body["columns"].empty()) {
                 return makeErrorResponse(http::status::bad_request, "'columns' must be a non-empty array of strings", req);
             }
-            std::vector<std::string> columns;
+            std::vector<std::string> columns = {};
+
             columns.reserve(body["columns"].size());
             for (const auto& c : body["columns"]) {
                 columns.push_back(c.get<std::string>());

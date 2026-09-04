@@ -389,7 +389,8 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
 
     if (status.ok()) {
         // Deserialise ByteBuffer to string
-        std::vector<grpc::Slice> slices;
+        std::vector<grpc::Slice> slices = {};
+
         if (response_buf.Dump(&slices).ok()) {
             for (const auto& slice : slices) {
                 response_proto.append(

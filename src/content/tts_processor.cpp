@@ -401,7 +401,8 @@ std::vector<uint8_t> TTSProcessor::convertToFormat(const std::vector<uint8_t> &p
                                                    int sample_rate) {
     if (format == "wav") {
         // Add WAV header
-        std::vector<uint8_t> wav_data;
+        std::vector<uint8_t> wav_data = {};
+
         wav_data.reserve(pcm_data.size() + 44);
 
         // RIFF header

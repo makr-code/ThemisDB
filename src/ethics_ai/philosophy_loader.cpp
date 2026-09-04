@@ -326,7 +326,8 @@ bool PhilosophyLoader::hasProfile(const std::string &school_id) const {
 
 std::vector<std::string> PhilosophyLoader::getSchoolIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(profiles_.size());
 
     for (const auto &kv : profiles_) {

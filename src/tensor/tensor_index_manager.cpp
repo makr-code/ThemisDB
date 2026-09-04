@@ -226,7 +226,8 @@ void TensorIndexManager::dropTenantIndexes(const std::string& tenant_id) {
     if (db_) {
         const std::string idx_prefix = "__ttidx__:" + tenant_id + ":";
 
-        std::vector<std::string> to_del;
+        std::vector<std::string> to_del = {};
+
         for (const auto& pfx : {prefix, idx_prefix}) {
             db_->scanPrefix(pfx, [&](std::string_view k, std::string_view) -> bool {
                 to_del.emplace_back(k);
@@ -257,7 +258,8 @@ void TensorIndexManager::dropTenantIndexes(const std::string& tenant_id) {
 
 std::vector<IndexHandle> TensorIndexManager::listIndexes() const {
     std::shared_lock lock(registry_mutex_);
-    std::vector<IndexHandle> out;
+    std::vector<IndexHandle> out = {};
+
     out.reserve(handles_.size());
     for (const auto& [k, h] : handles_) {
       out.push_back(h);
@@ -269,7 +271,8 @@ std::vector<IndexHandle>
 TensorIndexManager::listIndexes(const std::string& tenant_id) const {
     std::shared_lock lock(registry_mutex_);
     const std::string prefix = "__ttmgr__:" + tenant_id + ":";
-    std::vector<IndexHandle> out;
+    std::vector<IndexHandle> out = {};
+
     for (const auto& [k, h] : handles_) {
         if (k.substr(0, prefix.size()) == prefix) {
           out.push_back(h);

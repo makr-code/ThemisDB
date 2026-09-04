@@ -38,7 +38,8 @@ FacetedSearch::computeFacet(const std::string& table,
 
     const bool has_filter = !candidate_pks.empty();
 
-    std::vector<std::string> all_pks;
+    std::vector<std::string> all_pks = {};
+
     if (!has_filter) {
         // No filter — enumerate all PKs from the range index.
         constexpr size_t kScanLimit = 10'000;
@@ -98,7 +99,8 @@ std::pair<SecondaryIndexManager::Status, std::vector<FacetResult>>
 FacetedSearch::computeFacets(const std::string& table,
                                const std::vector<std::string>& columns,
                                const std::vector<std::string>& candidate_pks) const {
-    std::vector<FacetResult> facets;
+    std::vector<FacetResult> facets = {};
+
     for (const auto& col : columns) {
         auto [st, facet] = computeFacet(table, col, candidate_pks);
         if (!st.ok) return {st, {}};
@@ -171,7 +173,8 @@ FacetedSearch::applyFacetFilters(const std::string& table,
             continue;
         }
         const std::unordered_set<std::string> matching_set(matching_pks.begin(), matching_pks.end());
-        std::unordered_set<std::string> intersected;
+        std::unordered_set<std::string> intersected = {};
+
         for (const auto& pk : remaining) {
             if (matching_set.count(pk)) {
               intersected.insert(pk);
@@ -198,7 +201,8 @@ FacetedSearch::discoverFacetableColumns(const std::string& table) const {
     }
 
     auto all_stats = index_->getAllIndexStats(table);
-    std::vector<std::string> columns;
+    std::vector<std::string> columns = {};
+
     columns.reserve(all_stats.size());
     for (const auto& stats : all_stats) {
         // Only regular, range, and sparse indexes produce meaningful categorical
@@ -220,7 +224,8 @@ FacetedSearch::computeDynamicFacets(const std::string& table,
     auto [st, columns] = discoverFacetableColumns(table);
     if (!st.ok) return {st, {}};
 
-    std::vector<FacetResult> facets;
+    std::vector<FacetResult> facets = {};
+
     facets.reserve(columns.size());
     for (const auto& col : columns) {
         auto [fst, facet] = computeFacet(table, col, candidate_pks, max_values);

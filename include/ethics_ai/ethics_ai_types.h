@@ -845,7 +845,8 @@ struct ClusterAssignment {
 
     /// Return all school IDs assigned to `cluster_index`.
     [[nodiscard]] std::vector<std::string> schoolsInCluster(std::size_t cluster_index) const {
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         for (const auto& [school, idx] : school_to_cluster) {
             if (idx == cluster_index) { result.push_back(school); }
         }

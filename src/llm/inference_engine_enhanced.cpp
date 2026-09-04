@@ -127,7 +127,8 @@ InferenceEngineEnhanced::TokenizerFn makeTokenizerBridgeForPlugin(
             return tokens;
         }
 
-        std::vector<int> clamped;
+        std::vector<int> clamped = {};
+
         clamped.reserve(tokens.size());
         const int max_token = static_cast<int>(
             std::min(vocab_size - 1,
@@ -411,7 +412,8 @@ void InferenceEngineEnhanced::unregisterModel(const std::string& model_id) {
 std::vector<std::string> InferenceEngineEnhanced::getAvailableModels() const {
     std::lock_guard<std::mutex> lock(models_mutex_);
     
-    std::vector<std::string> available;
+    std::vector<std::string> available = {};
+
     for (const auto& [id, info] : models_) {
         if (info.is_available) {
             available.push_back(id);
@@ -543,7 +545,8 @@ bool InferenceEngineEnhanced::unloadLoRAAdapter(
 
 std::vector<LoRAInfo> InferenceEngineEnhanced::getLoadedLoRAAdapters() const {
     std::lock_guard<std::mutex> lock(lora_adapters_mutex_);
-    std::vector<LoRAInfo> result;
+    std::vector<LoRAInfo> result = {};
+
     result.reserve(lora_adapters_.size());
     for (const auto& [id, entry] : lora_adapters_) {
         LoRAInfo info;
@@ -1235,7 +1238,8 @@ void InferenceEngineEnhanced::processBatch(
             auto req_start = std::chrono::steady_clock::now();
             
             // Check cache first
-            std::optional<InferenceResponse> cached_response;
+            std::optional<InferenceResponse> cached_response = {};
+
             if (config_.enable_context_caching && req.allow_caching) {
                 cached_response = checkCache(req.base_request);
                 
@@ -1540,7 +1544,8 @@ void InferenceEngineEnhanced::processBatch(
                 const std::string draft_model_id = resolveDraftModelId(model_id);
 
                 // Retrieve the draft model plugin.
-                std::shared_ptr<ILLMPlugin> draft_plugin;
+                std::shared_ptr<ILLMPlugin> draft_plugin = {};
+
                 if (!draft_model_id.empty()) {
                     std::lock_guard<std::mutex> lock(models_mutex_);
                     auto it = models_.find(draft_model_id);
@@ -1917,7 +1922,8 @@ std::string InferenceEngineEnhanced::selectModel(const EnhancedInferenceRequest&
     }
     
     // Get available models (is_available and within concurrency quota)
-    std::vector<std::string> available;
+    std::vector<std::string> available = {};
+
     for (const auto& [id, info] : models_) {
         if (!info.is_available) {
           continue;

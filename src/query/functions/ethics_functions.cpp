@@ -117,7 +117,8 @@ std::vector<float> parseEmbedding(const json& value) {
         return {};
     }
 
-    std::vector<float> embedding;
+    std::vector<float> embedding = {};
+
     embedding.reserve(value.size());
     for (const auto& item : value) {
         if (!item.is_number()) {
@@ -270,7 +271,8 @@ json EthicsGetArgumentsFunction::execute(
     const auto limit = static_cast<std::size_t>(
         std::max(0, args.size() > 2 && args[2].is_number_integer() ? args[2].get<int>() : 20));
 
-    std::unordered_set<std::string> type_filter;
+    std::unordered_set<std::string> type_filter = {};
+
     if (types.is_array()) {
         for (const auto& entry : types) {
             if (entry.is_string()) {
@@ -371,7 +373,8 @@ json EthicsTraverseChainFunction::execute(
         0, args.size() > 1 && args[1].is_number_integer() ? args[1].get<int>() : 5);
 
     const auto vertices = ctx.scanCollection("ethics_arguments", [](const json&) { return true; });
-    std::unordered_map<std::string, json> vertex_by_id;
+    std::unordered_map<std::string, json> vertex_by_id = {};
+
     vertex_by_id.reserve(vertices.size());
     for (const auto& vertex : vertices) {
         if (const auto id = documentIdForResult(vertex); !id.empty()) {
@@ -380,7 +383,8 @@ json EthicsTraverseChainFunction::execute(
     }
 
     const auto edges = ctx.scanCollection("ethics_arguments_graph", [](const json&) { return true; });
-    std::unordered_multimap<std::string, json> outgoing_edges;
+    std::unordered_multimap<std::string, json> outgoing_edges = {};
+
     for (const auto& edge : edges) {
         const auto from = normalizeArgumentId(
             edge.value("_from", edge.value("from", std::string{})));

@@ -79,7 +79,8 @@ bool PagedKVCache::initialize() {
 void PagedKVCache::shutdown() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<uint32_t> block_ids;
+    std::vector<uint32_t> block_ids = {};
+
     block_ids.reserve(blocks_.size());
     for (const auto& [block_id, _] : blocks_) {
         block_ids.push_back(block_id);
@@ -249,7 +250,8 @@ void PagedKVCache::freeRequest(int64_t request_id) {
 void PagedKVCache::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<uint32_t> block_ids;
+    std::vector<uint32_t> block_ids = {};
+
     block_ids.reserve(blocks_.size());
     for (const auto& [block_id, _] : blocks_) {
         block_ids.push_back(block_id);

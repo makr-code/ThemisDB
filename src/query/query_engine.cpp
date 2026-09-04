@@ -475,7 +475,8 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		}
 		
 		// Extract PKs from results
-		std::vector<std::string> phraseKeys;
+		std::vector<std::string> phraseKeys = {};
+
 		phraseKeys.reserve(results.size());
 		for (const auto& res : results) {
 			phraseKeys.emplace_back(res.pk);
@@ -504,7 +505,8 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			tbb::parallel_sort(phraseKeys.begin(), phraseKeys.end());
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
 			
-			std::vector<std::string> intersection;
+			std::vector<std::string> intersection = {};
+
 			intersection.reserve(std::min(phraseKeys.size(), structKeys.size()));
 			std::set_intersection(
 				phraseKeys.begin(), phraseKeys.end(),
@@ -538,7 +540,8 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		}
 		
 		// Extract PKs from results
-		std::vector<std::string> fuzzyKeys;
+		std::vector<std::string> fuzzyKeys = {};
+
 		fuzzyKeys.reserve(results.size());
 		for (const auto& res : results) {
 			fuzzyKeys.emplace_back(res.pk);
@@ -567,7 +570,8 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			tbb::parallel_sort(fuzzyKeys.begin(), fuzzyKeys.end());
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
 			
-			std::vector<std::string> intersection;
+			std::vector<std::string> intersection = {};
+
 			intersection.reserve(std::min(fuzzyKeys.size(), structKeys.size()));
 			std::set_intersection(
 				fuzzyKeys.begin(), fuzzyKeys.end(),
@@ -600,7 +604,8 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		}
 		
 		// Extract PKs from results
-		std::vector<std::string> fulltextKeys;
+		std::vector<std::string> fulltextKeys = {};
+
 		fulltextKeys.reserve(results.size());
 		for (const auto& res : results) {
 			fulltextKeys.emplace_back(res.pk);
@@ -636,7 +641,8 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			tbb::parallel_sort(fulltextKeys.begin(), fulltextKeys.end());
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
 			
-			std::vector<std::string> intersection;
+			std::vector<std::string> intersection = {};
+
 			intersection.reserve(std::min(fulltextKeys.size(), structKeys.size()));
 			std::set_intersection(
 				fulltextKeys.begin(), fulltextKeys.end(),
@@ -724,7 +730,8 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			tbb::parallel_sort(spatialKeys.begin(), spatialKeys.end());
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
 			
-			std::vector<std::string> intersection;
+			std::vector<std::string> intersection = {};
+
 			intersection.reserve(std::min(spatialKeys.size(), structKeys.size()));
 			std::set_intersection(
 				spatialKeys.begin(), spatialKeys.end(),
@@ -758,7 +765,8 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	// Parallele Scans pro Prädikat
 	std::vector<std::vector<std::string>> all_lists(q.predicates.size());
 	std::mutex errors_mutex;
-	std::vector<std::string> errors;
+	std::vector<std::string> errors = {};
+
 	errors.reserve(q.predicates.size());
 	tbb::task_group tg;
 
@@ -855,7 +863,8 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	
 	// Build score map and key list
 	auto scoreMap = std::make_shared<std::unordered_map<std::string, double>>();
-	std::vector<std::string> fulltextKeys;
+	std::vector<std::string> fulltextKeys = {};
+
 	fulltextKeys.reserve(results.size());
 	scoreMap->reserve(results.size());
 	
@@ -893,7 +902,8 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 		tbb::parallel_sort(fulltextKeys.begin(), fulltextKeys.end());
 		tbb::parallel_sort(structKeys.begin(), structKeys.end());
 		
-		std::vector<std::string> intersection;
+		std::vector<std::string> intersection = {};
+
 		intersection.reserve(std::min(fulltextKeys.size(), structKeys.size()));
 		std::set_intersection(
 			fulltextKeys.begin(), fulltextKeys.end(),
@@ -987,7 +997,8 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 		keys.resize(kMaxResultSetSize);
 	}
 
-	std::vector<BaseEntity> out;
+	std::vector<BaseEntity> out = {};
+
 	out.reserve(keys.size());
 
 	if (keys.size() < PARALLEL_THRESHOLD) {
@@ -1003,7 +1014,8 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	} else {
 		// Parallel für große Mengen: Batch-Processing mit TBB
 		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
-		std::vector<std::string> failed_deserialize_pks;
+		std::vector<std::string> failed_deserialize_pks = {};
+
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
 		std::mutex failed_deserialize_mutex;
 		tbb::task_group tg;
@@ -1080,7 +1092,8 @@ QueryEngine::intersectSortedLists_(std::vector<std::vector<std::string>> lists) 
 	
 	for (size_t i = 1; i < lists.size(); ++i) {
 		const auto& next = lists[i];
-		std::vector<std::string> tmp;
+		std::vector<std::string> tmp = {};
+
 		tmp.reserve(std::min(result.size(), next.size()));
 		std::set_intersection(result.begin(), result.end(), next.begin(), next.end(), std::back_inserter(tmp));
 		result.swap(tmp);
@@ -1103,7 +1116,8 @@ QueryEngine::unionSortedLists_(std::vector<std::vector<std::string>> lists) {
 	
 	for (size_t i = 1; i < lists.size(); ++i) {
 		const auto& next = lists[i];
-		std::vector<std::string> tmp;
+		std::vector<std::string> tmp = {};
+
 		tmp.reserve(result.size() + next.size()); // Reserve max possible size
 		std::set_union(result.begin(), result.end(), next.begin(), next.end(), std::back_inserter(tmp));
 		result.swap(tmp);
@@ -1139,7 +1153,8 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 	// Execute each disjunct (AND-block) and collect results
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
 	std::mutex errors_mutex;
-	std::vector<std::string> errors;
+	std::vector<std::string> errors = {};
+
 	errors.reserve(q.disjuncts.size());
 	tbb::task_group tg;
 
@@ -1220,7 +1235,8 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 	}
 
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
-	std::vector<std::string> errors;
+	std::vector<std::string> errors = {};
+
 	errors.reserve(q.disjuncts.size());
 	std::mutex error_mutex;
 	tbb::task_group tg;
@@ -1283,7 +1299,8 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 		keys.resize(kMaxResultSetSize);
 	}
 
-	std::vector<BaseEntity> out;
+	std::vector<BaseEntity> out = {};
+
 	out.reserve(keys.size());
 
 	if (keys.size() < PARALLEL_THRESHOLD) {
@@ -1297,7 +1314,8 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 		}
 	} else {
 		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
-		std::vector<std::string> failed_deserialize_pks;
+		std::vector<std::string> failed_deserialize_pks = {};
+
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
 		std::mutex failed_deserialize_mutex;
 		tbb::task_group tg;
@@ -1369,7 +1387,8 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 	constexpr size_t PARALLEL_THRESHOLD = 100;
 	constexpr size_t BATCH_SIZE = 50;
 
-	std::vector<BaseEntity> out;
+	std::vector<BaseEntity> out = {};
+
 	out.reserve(keys.size());
 
 	if (keys.size() < PARALLEL_THRESHOLD) {
@@ -1383,7 +1402,8 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 		}
 	} else {
 		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
-		std::vector<std::string> failed_deserialize_pks;
+		std::vector<std::string> failed_deserialize_pks = {};
+
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
 		std::mutex failed_deserialize_mutex;
 		tbb::task_group tg;
@@ -1499,7 +1519,8 @@ QueryEngine::executeAndKeysSequential(const std::string& table,
 			}
 			if (keys.empty()) { child2.setStatus(true); span.setStatus(true); return Ok(std::vector<std::string>{}); }
 			tbb::parallel_sort(keys.begin(), keys.end());
-			std::vector<std::string> tmp;
+			std::vector<std::string> tmp = {};
+
 			tmp.reserve(std::min(current.size(), keys.size()));
 			std::set_intersection(current.begin(), current.end(), keys.begin(), keys.end(), std::back_inserter(tmp));
 			current.swap(tmp);
@@ -1532,7 +1553,8 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 	constexpr size_t PARALLEL_THRESHOLD = 100;
 	constexpr size_t BATCH_SIZE = 50;
 
-	std::vector<BaseEntity> out;
+	std::vector<BaseEntity> out = {};
+
 	out.reserve(keys.size());
 
 	if (keys.size() < PARALLEL_THRESHOLD) {
@@ -1548,7 +1570,8 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 	} else {
 		// Parallel für große Mengen
 		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
-		std::vector<std::string> failed_deserialize_pks;
+		std::vector<std::string> failed_deserialize_pks = {};
+
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
 		std::mutex failed_deserialize_mutex;
 		tbb::task_group tg;
@@ -2783,7 +2806,8 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.eq_count", static_cast<int64_t>(q.predicates.size()));
 	span.setAttribute("query.range_count", static_cast<int64_t>(q.rangePredicates.size()));
-	std::vector<std::string> out;
+	std::vector<std::string> out = {};
+
 	if (q.table.empty()) {
 	  return out;
 	}
@@ -3139,7 +3163,8 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 	}
 
 	// Wenn keine Prädikate aber nur ORDER BY: initial candidates leer => special case
-	std::vector<std::string> candidates;
+	std::vector<std::string> candidates = {};
+
 	if (lists.empty()) {
 		candidates.clear();
 	} else {
@@ -3159,7 +3184,8 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 			if (r.column == ob.column) { lb = r.lower; ub = r.upper; il = r.includeLower; iu = r.includeUpper; break; }
 		}
 		// Erzeuge Kandidaten-Set für schnelles Membership-Checking (falls es Prädikate gab)
-		std::unordered_set<std::string> candSet;
+		std::unordered_set<std::string> candSet = {};
+
 		if (!candidates.empty()) {
 			candSet.reserve(candidates.size());
 			candSet.insert(std::make_move_iterator(candidates.begin()), std::make_move_iterator(candidates.end()));
@@ -3901,9 +3927,11 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 	});
 	
 	// Compute aggregations
-	std::vector<nlohmann::json> results;
+	std::vector<nlohmann::json> results = {};
+
 	results.reserve(groups.size());
-	std::vector<std::string> sorted_group_keys;
+	std::vector<std::string> sorted_group_keys = {};
+
 	sorted_group_keys.reserve(groups.size());
 	for (const auto& [group_key, _] : groups) {
 		sorted_group_keys.push_back(group_key);
@@ -3912,7 +3940,8 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 	
 	for (const auto& key_str : sorted_group_keys) {
 		const auto& docs = groups.at(key_str);
-		std::vector<const nlohmann::json*> ordered_docs;
+		std::vector<const nlohmann::json*> ordered_docs = {};
+
 		ordered_docs.reserve(docs.size());
 		for (const auto& doc : docs) {
 			ordered_docs.push_back(&doc);
@@ -4034,7 +4063,8 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	{
 		std::unordered_set<std::string> frontier{q.start_node};
 		for (size_t depth=0; depth<2 && !frontier.empty(); ++depth) {
-			std::unordered_set<std::string> next;
+			std::unordered_set<std::string> next = {};
+
 			for (const auto &v : frontier) {
 				auto [st, adj] = graphIdx_->outAdjacency(v);
 				if (!st.ok) {
@@ -4091,7 +4121,8 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			return std::nullopt;
 		}
 	};
-	std::optional<int64_t> timestamp_ms;
+	std::optional<int64_t> timestamp_ms = {};
+
 	if (q.valid_from.has_value() && q.valid_to.has_value()) {
 		auto from = parseTimestampMs(*q.valid_from);
 		auto to   = parseTimestampMs(*q.valid_to);
@@ -4154,7 +4185,8 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			bool pathValid = true;
 			
 			// Batch load all vertices in path
-			std::vector<std::string> vertexKeys;
+			std::vector<std::string> vertexKeys = {};
+
 			vertexKeys.reserve(pathResult.path.size());
 			for (const auto& vertexPk : pathResult.path) {
 				// Extract table from PK format "collection/id" -> DB key is "collection:collection/id"
@@ -4247,7 +4279,8 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			std::vector<std::string> filteredNodes;
 			
 			// Batch load all reachable vertices - need to add table prefix
-			std::vector<std::string> vertexKeys;
+			std::vector<std::string> vertexKeys = {};
+
 			vertexKeys.reserve(reachableNodes.size());
 			for (const auto& vertexPk : reachableNodes) {
 				// Extract table from PK format "collection/id" -> DB key is "collection:collection/id"
@@ -4722,7 +4755,8 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		struct RangeAcc { std::optional<std::string> lower; bool includeLower=true; std::optional<std::string> upper; bool includeUpper=true; };
 		std::unordered_map<std::string, RangeAcc> rangeMap;
 		// Gleichheits-Map für Composite Index Auswertung
-		std::unordered_map<std::string, std::string> equalityMap;
+		std::unordered_map<std::string, std::string> equalityMap = {};
+
 		// Sammle einfache Gleichheiten + Ranges
 		for (auto &ef : q.extra_filters) {
 			if (!ef) {
@@ -4815,7 +4849,8 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		}
 		// Wende Range-Prädikate an (intersect) in stabiler Reihenfolge an,
 		// damit Tracing/Debugging nicht von unordered_map-Iteration abhängt.
-		std::vector<std::string> sortedRangeColumns;
+		std::vector<std::string> sortedRangeColumns = {};
+
 		sortedRangeColumns.reserve(rangeMap.size());
 		for (const auto& kv : rangeMap) {
 			sortedRangeColumns.push_back(kv.first);
@@ -4979,7 +5014,8 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			child0.setStatus(false, st.message);
 		} else {
 			// Load entities in batch
-			std::vector<std::string> keys;
+			std::vector<std::string> keys = {};
+
 			keys.reserve(vr.size());
 			for (const auto& r : vr) {
 			  keys.emplace_back(q.table + ":" + r.pk);
@@ -4987,7 +5023,8 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			auto blobs = db_->multiGet(keys);
 
 			// Evaluate spatial filter in parallel
-			std::vector<VectorGeoResult> local;
+			std::vector<VectorGeoResult> local = {};
+
 			local.reserve(vr.size());
 			const size_t n = vr.size();
 			const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency());
@@ -5298,7 +5335,8 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		);
 	}
 
-	std::vector<ContentGeoResult> results;
+	std::vector<ContentGeoResult> results = {};
+
 	if (!q.spatial_filter) {
 		return Err<std::vector<ContentGeoResult>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "Content+Geo query requires spatial_filter");
 	}
@@ -5351,7 +5389,8 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		// Spatial-first Plan: verwende SpatialIndex zur Kandidatenmenge, dann naive Fulltext-Evaluation
 		auto childS = Tracer::startSpan("phase1.spatial_first_candidates");
 		std::vector<std::string> spatialCandidates;
-		std::unordered_map<std::string,nlohmann::json> cache;
+		std::unordered_map<std::string,nlohmann::json> cache = {};
+
 		if (spatialIdx_) {
 			auto bbox = extractBBoxFromFilter(q.spatial_filter);
 			if (bbox) {

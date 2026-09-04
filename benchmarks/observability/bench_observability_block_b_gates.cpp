@@ -57,7 +57,8 @@ static void BM_OBB02_MetricsAggregatorLatency(benchmark::State& state) {
     auto window_end = window_start + std::chrono::seconds(1);
 
     // Prepare 1000 samples
-    std::vector<MetricSample> samples;
+    std::vector<MetricSample> samples = {};
+
     for (int i = 0; i < 1000; ++i) {
         samples.push_back({
             .metric_name = "bench_metric",

@@ -463,7 +463,8 @@ RefreshStats ScheduledGraphEdgeRefreshEngine::runRefreshCycle() {
         policy = policy_;
     }
 
-    std::vector<std::string> to_remove;
+    std::vector<std::string> to_remove = {};
+
     for (const auto &s : scores) {
         if (s.is_removal_candidate) {
             to_remove.push_back(s.edge_id);
@@ -640,7 +641,8 @@ std::vector<BaseEntity> ScheduledGraphEdgeRefreshEngine::collectEdges() const {
 }
 
 std::vector<EdgeScore> ScheduledGraphEdgeRefreshEngine::scoreAllEdges(const std::vector<BaseEntity> &edges) const {
-    std::vector<EdgeScore> scores;
+    std::vector<EdgeScore> scores = {};
+
     scores.reserve(edges.size());
 
     for (const auto &edge : edges) {
@@ -663,7 +665,8 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
     }
 
     // Build a set of (from, to) pairs that already exist.
-    std::unordered_set<std::string> existing_pairs;
+    std::unordered_set<std::string> existing_pairs = {};
+
     existing_pairs.reserve(existing_edges.size());
     for (const auto &e : existing_edges) {
         auto from = e.getFieldAsString("_from");
@@ -676,7 +679,8 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
     // Collect all vertices with available embeddings.
     auto vertices = graph_mgr_.getAllVertices();
     if (vertices.empty()) {
-        std::unordered_set<std::string> dedup;
+        std::unordered_set<std::string> dedup = {};
+
         dedup.reserve(existing_edges.size() * 2);
         for (const auto &e : existing_edges) {
             auto from = e.getFieldAsString("_from");
@@ -847,7 +851,8 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
         std::string id, from, to;
         float sim;
     };
-    std::vector<AddedEdgeRecord> added_records;
+    std::vector<AddedEdgeRecord> added_records = {};
+
     added_records.reserve(edges_to_add.size());
 
     for (size_t i = 0; i < edges_to_add.size(); ++i) {

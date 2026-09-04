@@ -324,7 +324,8 @@ std::optional<PromptExperiment> PromptABExperimentFramework::getExperiment(
 
 std::vector<PromptExperiment> PromptABExperimentFramework::listExperiments() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<PromptExperiment> out;
+    std::vector<PromptExperiment> out = {};
+
     out.reserve(experiments_.size());
     for (const auto& [id, exp] : experiments_) {
         out.push_back(exp);

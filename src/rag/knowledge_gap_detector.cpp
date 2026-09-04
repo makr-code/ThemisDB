@@ -1060,7 +1060,8 @@ std::vector<double> KnowledgeGapDetector::removeOutlierTokens(
     }
 
     // Filter outliers
-    std::vector<double> filtered;
+    std::vector<double> filtered = {};
+
     for (double prob : token_probs) {
         double z_score = std::abs((prob - mean) / std_dev);
         if (z_score <= zscore_threshold) {

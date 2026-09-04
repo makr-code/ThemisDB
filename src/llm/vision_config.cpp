@@ -733,7 +733,8 @@ bool VisionConfig::validateModelUsage(const std::string& model_id, bool is_comme
 // Model Registry Getters
 std::vector<std::string> VisionConfig::getAvailableModels() const {
     std::shared_lock<std::shared_mutex> lock(config_mutex_);
-    std::vector<std::string> model_ids;
+    std::vector<std::string> model_ids = {};
+
     for (const auto& pair : models_) {
         model_ids.push_back(pair.first);
     }

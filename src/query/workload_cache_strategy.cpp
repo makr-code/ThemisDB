@@ -441,7 +441,8 @@ std::vector<std::string> WorkloadCacheStrategy::getHotQueries([[maybe_unused]] s
     );
     
     // Extract fingerprints
-    std::vector<std::string> hot_queries;
+    std::vector<std::string> hot_queries = {};
+
     hot_queries.reserve(std::min(limit, query_frequencies.size()));
     
     for (size_t i = 0; i < std::min(limit, query_frequencies.size()); ++i) {

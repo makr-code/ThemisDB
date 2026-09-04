@@ -207,7 +207,8 @@ void TensorFingerprintGraph::removeFromBuckets(const std::string &id, const Tens
 }
 
 std::unordered_set<std::string> TensorFingerprintGraph::lshCandidates(const TensorFingerprint &fp) const {
-    std::unordered_set<std::string> candidates;
+    std::unordered_set<std::string> candidates = {};
+
     if (cfg_.max_candidates == 0) {
         return candidates;
     }
@@ -427,7 +428,8 @@ std::vector<SimilarTensorResult> TensorFingerprintGraph::findSimilar(const TTTra
     std::unique_lock<std::mutex> lk(mutex_);
     auto candidates = lshCandidates(fp);
 
-    std::vector<SimilarTensorResult> results;
+    std::vector<SimilarTensorResult> results = {};
+
     results.reserve(candidates.size());
 
     for (const auto &cid : candidates) {
@@ -488,7 +490,8 @@ std::vector<SimilarTensorResult> TensorFingerprintGraph::neighbours(const std::s
 
 std::vector<PersistedFingerprintNode> TensorFingerprintGraph::exportPersistedNodes() const {
     std::unique_lock<std::mutex> lk(mutex_);
-    std::vector<PersistedFingerprintNode> out;
+    std::vector<PersistedFingerprintNode> out = {};
+
     out.reserve(nodes_.size());
     for (const auto &[tensor_id, node] : nodes_) {
         PersistedFingerprintNode persisted;
@@ -547,7 +550,8 @@ void TensorFingerprintGraph::importPersistedEdges(const std::vector<PersistedFin
     }
     edge_count_.store(0, std::memory_order_relaxed);
 
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     seen.reserve(edges.size());
 
     // ASCII Unit Separator avoids collisions with user-provided IDs in joined keys.
@@ -663,7 +667,8 @@ void TensorFingerprintGraph::importPersistedGraph(const PersistedFingerprintGrap
         insertIntoBuckets(persisted.tensor_id, persisted.fingerprint);
     }
 
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     seen.reserve(snapshot.edges.size());
 
     // ASCII Unit Separator avoids collisions with user-provided IDs in joined keys.
@@ -724,7 +729,8 @@ void TensorFingerprintGraph::upsertPersistedNode(const PersistedFingerprintNode 
     adj_.try_emplace(node.tensor_id);
     insertIntoBuckets(node.tensor_id, node.fingerprint);
 
-    std::unordered_set<std::string> seen_targets;
+    std::unordered_set<std::string> seen_targets = {};
+
     seen_targets.reserve(edges.size());
     for (const auto &edge : edges) {
         if (edge.from != node.tensor_id || edge.to == node.tensor_id) {

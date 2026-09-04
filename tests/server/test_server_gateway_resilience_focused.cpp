@@ -345,7 +345,8 @@ TEST(ServerGatewayResilience, SGR11_LeaderChurnRoutingTableConsistent) {
     StubGateway gw(3);
 
     // Simulate 3 rapid successive leader elections
-    std::vector<std::string> elected_leaders;
+    std::vector<std::string> elected_leaders = {};
+
     for (uint32_t round = 0; round < 3; ++round) {
         std::string leader = gw.simulateLeaderElection(round);
         EXPECT_FALSE(leader.empty())

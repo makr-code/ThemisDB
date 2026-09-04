@@ -208,7 +208,8 @@ std::vector<double> ReplugRetriever::computeKLGradients(
 std::vector<double> ReplugRetriever::computeLLMScores(
     const std::string&                           query,
     const std::vector<judge::RetrievedDocument>& candidates) const {
-    std::vector<double> raw;
+    std::vector<double> raw = {};
+
     raw.reserve(candidates.size());
     for (const auto& doc : candidates) {
         raw.push_back(scorer_->score(query, doc.content));
@@ -228,7 +229,8 @@ ReplugFusionResult ReplugRetriever::fuse(
     }
 
     // ── Step 1: filter by min_retrieval_score ──────────────────────────────
-    std::vector<judge::RetrievedDocument> filtered;
+    std::vector<judge::RetrievedDocument> filtered = {};
+
     filtered.reserve(candidates.size());
     for (const auto& doc : candidates) {
         if (doc.similarity_score >= config_.min_retrieval_score) {
@@ -240,7 +242,8 @@ ReplugFusionResult ReplugRetriever::fuse(
     }
 
     // ── Step 2: collect and normalise retrieval scores ─────────────────────
-    std::vector<double> ret_scores;
+    std::vector<double> ret_scores = {};
+
     ret_scores.reserve(filtered.size());
     for (const auto& doc : filtered) {
         // Apply per-document learned weight (REPLUG-LSR).
@@ -277,7 +280,8 @@ ReplugFusionResult ReplugRetriever::fuse(
 
     // ── Step 6: interpolate ────────────────────────────────────────────────
     const double lam = config_.llm_weight;
-    std::vector<double> fused;
+    std::vector<double> fused = {};
+
     fused.reserve(filtered.size());
     for (size_t i = 0; i < filtered.size(); ++i) {
         fused.push_back((1.0 - lam) * ret_scores[i] + lam * llm_probs[i]);

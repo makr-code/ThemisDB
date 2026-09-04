@@ -166,7 +166,8 @@ TEST(GPUPolicyTest, Concurrent_GrantRevoke_NoDataRace) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < THREADS; ++t) {
       threads.emplace_back(worker, t);
     }

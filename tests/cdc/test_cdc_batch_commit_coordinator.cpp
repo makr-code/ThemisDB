@@ -229,7 +229,8 @@ TEST(InMemoryBatchCommitCoordinatorTest, CommitHistoryFifoEviction) {
     cfg.commit_history_size = 3; // keep only 3 committed batches
     InMemoryBatchCommitCoordinator coord(cfg);
 
-    std::vector<BatchId> ids;
+    std::vector<BatchId> ids = {};
+
     for (int i = 0; i < 5; ++i) {
         BatchId id = coord.beginBatch();
         ids.push_back(id);

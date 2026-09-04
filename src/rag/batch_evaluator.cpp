@@ -391,7 +391,8 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     }
     // ── end batch input validation ──────────────────────────────────────────
     
-    std::vector<EvaluationInput> inputs;
+    std::vector<EvaluationInput> inputs = {};
+
     inputs.reserve(test_cases.size());
     for (const auto& tc : test_cases) {
         EvaluationInput in;
@@ -418,7 +419,8 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     
     const auto start_time = std::chrono::steady_clock::now();
 
-    std::vector<EvaluationResult> results;
+    std::vector<EvaluationResult> results = {};
+
     results.reserve(inputs.size());
 
     size_t completed = 0;
@@ -476,7 +478,8 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     size_t traceable_decisions = 0;
     double total_cost = 0.0;
     double total_quality = 0.0;
-    std::vector<double> latencies_ms;
+    std::vector<double> latencies_ms = {};
+
     latencies_ms.reserve(results.size());
 
     // One shared detector instance for inline scanning of un-screened documents.

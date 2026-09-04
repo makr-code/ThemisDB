@@ -215,7 +215,8 @@ TEST_F(GPUQueryAcceleratorTest, AggregateUpdatesStats) {
 // Build rows with ID as join key
 static std::vector<Row> makeJoinRows(
     std::initializer_list<uint64_t> ids) {
-    std::vector<Row> rows;
+    std::vector<Row> rows = {};
+
     for (uint64_t id : ids) {
         Row r;
         r.id = id;

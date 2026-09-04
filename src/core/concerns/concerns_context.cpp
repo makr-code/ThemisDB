@@ -68,7 +68,8 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     auto logLevel = ILogger::levelFromString(config.logLevel);
     utils::Logger::init(config.logFile, static_cast<utils::Logger::Level>(
         static_cast<int>(logLevel)));
-    std::unique_ptr<ILogger> logger;
+    std::unique_ptr<ILogger> logger = {};
+
     if (config.loggerAdapter == "noop") {
         logger = std::make_unique<NoOpLogger>();
     } else {
@@ -88,7 +89,8 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     }
 
     // Initialize tracer
-    std::unique_ptr<ITracer> tracer;
+    std::unique_ptr<ITracer> tracer = {};
+
     if (effective_tracer == "otel") {
         auto otelTracer = std::make_unique<OpenTelemetryTracerAdapter>();
         otelTracer->initialize(config.tracingServiceName, config.tracingEndpoint);
@@ -122,7 +124,8 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     }
 
     // Initialize metrics
-    std::unique_ptr<IMetrics> metrics;
+    std::unique_ptr<IMetrics> metrics = {};
+
     if (effective_metrics == "prometheus") {
         if (config.maxMetricCardinality > 0) {
             observability::MetricsCollector::getInstance().setCardinalityLimit(config.maxMetricCardinality);
@@ -140,7 +143,8 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     }
 
     // Initialize cache
-    std::unique_ptr<ICache> cache;
+    std::unique_ptr<ICache> cache = {};
+
     if (config.cacheAdapter == "noop") {
         cache = std::make_unique<NoOpCache>();
     } else if (config.cacheAdapter == "redis" && !config.cacheRedisUrl.empty()) {
@@ -154,7 +158,8 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     }
 
     // Initialize circuit breaker
-    std::unique_ptr<ICircuitBreaker> circuit_breaker;
+    std::unique_ptr<ICircuitBreaker> circuit_breaker = {};
+
     if (config.circuitBreakerAdapter == "noop") {
         circuit_breaker = std::make_unique<NoOpCircuitBreaker>();
     } else {
@@ -168,7 +173,8 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     }
 
     // Initialize feature flags
-    std::unique_ptr<IFeatureFlags> featureFlags;
+    std::unique_ptr<IFeatureFlags> featureFlags = {};
+
     if (config.featureFlagsAdapter == "noop") {
         featureFlags = std::make_unique<NoOpFeatureFlags>();
     } else {
@@ -177,7 +183,8 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     }
 
     // Initialize audit log
-    std::unique_ptr<IAuditLog> auditLog;
+    std::unique_ptr<IAuditLog> auditLog = {};
+
     if (config.auditAdapter == "inmemory") {
         auditLog = std::make_unique<InMemoryAuditLog>();
     } else {
@@ -186,7 +193,8 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     }
 
     // Initialize secrets provider
-    std::unique_ptr<ISecrets> secrets;
+    std::unique_ptr<ISecrets> secrets = {};
+
     if (config.secretsAdapter == "inmemory") {
         secrets = std::make_unique<InMemorySecrets>(config.initialSecrets);
     } else if (config.secretsAdapter == "env") {

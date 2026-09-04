@@ -106,7 +106,8 @@ std::vector<EncodedShard> ErasureCodingBackend::encode(
             std::to_string(raw_chunks.size()) + " for blob '" + blob_id + "'");
     }
 
-    std::vector<EncodedShard> shards;
+    std::vector<EncodedShard> shards = {};
+
     shards.reserve(raw_chunks.size());
 
     // pointer_arithmetic scanner alerts on raw_chunks[i] here are false
@@ -167,7 +168,8 @@ std::vector<uint8_t> ErasureCodingBackend::decode(
     }
 
     // Determine which shard indices are missing
-    std::vector<uint32_t> missing;
+    std::vector<uint32_t> missing = {};
+
     for (uint32_t i = 0; i < k + m; ++i) {
         // o_n_squared scanner alert: chunk_map is a std::map, so find(i) is
         // O(log n); the full loop is O((k+m) log(k+m)), not O(n²) — false
@@ -241,7 +243,8 @@ std::optional<std::vector<uint8_t>> ErasureCodingBackend::get(
     }
 
     // Build EncodedShard map for decode()
-    std::map<uint32_t, EncodedShard> shard_map;
+    std::map<uint32_t, EncodedShard> shard_map = {};
+
     for (const auto& [idx, chunk] : entry.chunks) {
         EncodedShard s;
         s.shard_index   = idx;

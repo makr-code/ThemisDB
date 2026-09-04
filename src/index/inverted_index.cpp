@@ -283,7 +283,8 @@ InvertedIndex::Status InvertedIndex::index(std::string_view table,
     auto tokens = tokenize(text, config);
 
     // Build TF map
-    std::unordered_map<std::string, uint32_t> tf;
+    std::unordered_map<std::string, uint32_t> tf = {};
+
     for (const auto& t : tokens) {
       if (!t.empty()) tf[t]++;
     }
@@ -364,7 +365,8 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
     // AND intersection
     std::unordered_set<std::string> intersection = postings[0];
     for (size_t i = 1; i < postings.size(); ++i) {
-        std::unordered_set<std::string> tmp;
+        std::unordered_set<std::string> tmp = {};
+
         for (const auto& pk : intersection)
             if (postings[i].count(pk)) {
               tmp.insert(pk);
@@ -374,7 +376,8 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
     if (intersection.empty()) return {Status::OK(), {}};
 
     // Build universe for N and avgdl
-    std::unordered_set<std::string> universe;
+    std::unordered_set<std::string> universe = {};
+
     for (const auto& ps : postings)
         for (const auto& pk : ps) {
           universe.insert(pk);
@@ -398,7 +401,8 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
         universe.empty() ? 1.0 : std::max(1.0, totalLen / N);
 
     // df per token
-    std::vector<double> dfs;
+    std::vector<double> dfs = {};
+
     dfs.reserve(postings.size());
     for (const auto& ps : postings)
         dfs.push_back(static_cast<double>(ps.size()));
@@ -407,7 +411,8 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
     constexpr double k1 = 1.2;
     constexpr double b  = 0.75;
 
-    std::vector<SearchResult> scored;
+    std::vector<SearchResult> scored = {};
+
     scored.reserve(intersection.size());
 
     for (const auto& pk : intersection) {
@@ -485,7 +490,8 @@ InvertedIndex::searchPhrase(std::string_view table, std::string_view column,
 
     std::unordered_set<std::string> candidates = postings[0];
     for (size_t i = 1; i < postings.size(); ++i) {
-        std::unordered_set<std::string> tmp;
+        std::unordered_set<std::string> tmp = {};
+
         for (const auto& pk : candidates)
             if (postings[i].count(pk)) {
               tmp.insert(pk);
@@ -501,7 +507,8 @@ InvertedIndex::searchPhrase(std::string_view table, std::string_view column,
     std::transform(phraseNorm.begin(), phraseNorm.end(), phraseNorm.begin(),
                    [](unsigned char c) { return std::tolower(c); });
 
-    std::vector<SearchResult> results;
+    std::vector<SearchResult> results = {};
+
     for (const auto& pk : candidates) {
         auto blob = db_.get(KeySchema::makeRelationalKey(table, pk));
         if (!blob || blob->empty()) {
@@ -611,7 +618,8 @@ InvertedIndex::searchFuzzy(std::string_view table, std::string_view column,
         return true;
     });
 
-    std::vector<SearchResult> results;
+    std::vector<SearchResult> results = {};
+
     results.reserve(pkScores.size());
     for (auto& [pk, score] : pkScores)
         results.push_back({pk, score});

@@ -39,7 +39,8 @@ std::vector<CaptionCue> VoiceAccessibility::generateCaptions(
     const std::vector<std::pair<int64_t, std::string>>& timed_segments,
     const std::string& speaker)
 {
-    std::vector<CaptionCue> cues;
+    std::vector<CaptionCue> cues = {};
+
     cues.reserve(timed_segments.size());
 
     for (size_t i = 0; i < timed_segments.size(); ++i) {
@@ -307,7 +308,8 @@ std::string VoiceAccessibility::formatTimestamp(int64_t ms, bool vtt_style) cons
 }
 
 std::vector<CaptionCue> VoiceAccessibility::splitLongCues(const std::vector<CaptionCue>& cues) const {
-    std::vector<CaptionCue> result;
+    std::vector<CaptionCue> result = {};
+
     for (const auto& cue : cues) {
         int64_t duration = cue.end_ms - cue.start_ms;
         if (duration <= style_.max_duration_ms) {

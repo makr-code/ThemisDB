@@ -73,7 +73,8 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
         if (!config_.fallback_to_original) {
             return {};
         }
-        std::vector<LlmRerankResult> out;
+        std::vector<LlmRerankResult> out = {};
+
         out.reserve(candidates.size());
         for (const auto& c : candidates) {
             LlmRerankResult r;
@@ -93,7 +94,8 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
     }
 
     // LLM path: process candidates in batches
-    std::vector<LlmRerankResult> results;
+    std::vector<LlmRerankResult> results = {};
+
     results.reserve(candidates.size());
 
     const size_t n = candidates.size();
@@ -172,7 +174,8 @@ std::vector<ClickEvent> LlmReranker::toClickEvents(
     const std::vector<LlmRerankResult>& results,
     double relevance_threshold
 ) {
-    std::vector<ClickEvent> events;
+    std::vector<ClickEvent> events = {};
+
     for (size_t rank = 0; rank < results.size(); ++rank) {
         const auto& r = results[rank];
         if (r.llm_score >= relevance_threshold) {

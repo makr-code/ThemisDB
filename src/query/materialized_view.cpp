@@ -405,7 +405,8 @@ std::vector<nlohmann::json> MaterializedView::queryRows(
         return rows_;
     }
 
-    std::vector<nlohmann::json> result;
+    std::vector<nlohmann::json> result = {};
+
     for (const auto& row : rows_) {
         if (!row.is_object()) {
           continue;
@@ -574,7 +575,8 @@ bool MaterializedViewRegistry::removeView(const std::string& name) {
 
 std::vector<std::string> MaterializedViewRegistry::listViews() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(views_.size());
     for (const auto& [n, _] : views_) {
       names.push_back(n);

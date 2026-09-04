@@ -272,7 +272,8 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     
     // Fuse results – wrapped in a safety-net catch to guarantee search() never throws
     try {
-        std::vector<Result> fused;
+        std::vector<Result> fused = {};
+
         if (config_.use_rrf) {
             fused = reciprocalRankFusion(bm25_results, vector_results);
             THEMIS_INFO("Hybrid search: {} BM25 + {} vector -> {} fused results",
@@ -317,7 +318,8 @@ std::vector<HybridSearch::Result> HybridSearch::search(
 
         // LLM re-ranking: optional Phase-3 post-processing step
         if (reranker_ && !fused.empty() && !text_query.empty()) {
-            std::vector<LlmRerankCandidate> candidates;
+            std::vector<LlmRerankCandidate> candidates = {};
+
             candidates.reserve(fused.size());
             for (const auto& r : fused) {
                 LlmRerankCandidate c;
@@ -330,10 +332,12 @@ std::vector<HybridSearch::Result> HybridSearch::search(
             auto reranked = reranker_->rerank(text_query, candidates);
 
             // Rebuild Result list in LLM-determined order, updating hybrid_score
-            std::vector<Result> reranked_results;
+            std::vector<Result> reranked_results = {};
+
             reranked_results.reserve(reranked.size());
             // Build a lookup map for O(1) access
-            std::unordered_map<std::string, const Result*> result_map;
+            std::unordered_map<std::string, const Result*> result_map = {};
+
             for (const auto& r : fused) {
                 result_map[r.document_id] = &r;
             }
@@ -394,7 +398,8 @@ std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
     }
     
     // Convert map to vector and sort by hybrid score
-    std::vector<Result> fused_results;
+    std::vector<Result> fused_results = {};
+
     for (const auto& [_, result] : doc_map) {
         fused_results.push_back(result);
     }

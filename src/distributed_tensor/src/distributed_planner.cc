@@ -85,7 +85,8 @@ std::vector<RoutingSummary> DistributedTensorPlanner::planSummaryFirstRouting(
     const std::string& correlation_id,
     uint32_t freshness_ttl_s) noexcept {
     
-    std::vector<RoutingSummary> routing_results;
+    std::vector<RoutingSummary> routing_results = {};
+
     routing_results.reserve(summaries.size());
 
     for (const auto& summary : summaries) {
@@ -198,7 +199,8 @@ std::vector<FragmentLoadResult> DistributedTensorPlanner::executeFragmentLoads(
     const std::string& correlation_id) noexcept {
     
     if (!fragment_fetcher_) {
-        std::vector<FragmentLoadResult> results;
+        std::vector<FragmentLoadResult> results = {};
+
         for (const auto& req : requests) {
             FragmentLoadResult result;
             result.shard_id = req.shard_id;

@@ -104,7 +104,8 @@ std::vector<BatchItemResult> VoiceBatchProcessor::processBatchSync(
     BatchProgressCallback progress_cb)
 {
     std::string job_id = "sync";
-    std::vector<BatchItemResult> results;
+    std::vector<BatchItemResult> results = {};
+
     results.reserve(items.size());
 
     size_t batch_size = config_.default_batch_size > 0 ? config_.default_batch_size : 1;
@@ -404,7 +405,8 @@ float VoiceBatchProcessor::computeNoiseFloor(
     }
 
     // Compute RMS energy per window frame
-    std::vector<float> frame_rms;
+    std::vector<float> frame_rms = {};
+
     for (size_t i = 0; i + window_size <= samples.size(); i += window_size) {
         float sum = 0.0f;
         for (size_t j = i; j < i + window_size; ++j) {
@@ -432,7 +434,8 @@ std::vector<float> VoiceBatchProcessor::rawToFloat(const std::vector<uint8_t>& d
     // Treat pairs of bytes as little-endian int16, convert to [-1, 1] float
     if (data.size() < 2) {
         // Fallback: treat each byte as unsigned 8-bit sample
-        std::vector<float> samples;
+        std::vector<float> samples = {};
+
         samples.reserve(data.size());
         for (uint8_t b : data) {
             samples.push_back((static_cast<float>(b) - 128.0f) / 128.0f);
@@ -440,7 +443,8 @@ std::vector<float> VoiceBatchProcessor::rawToFloat(const std::vector<uint8_t>& d
         return samples;
     }
 
-    std::vector<float> samples;
+    std::vector<float> samples = {};
+
     samples.reserve(data.size() / 2);
     for (size_t i = 0; i + 1 < data.size(); i += 2) {
         int16_t s = static_cast<int16_t>(

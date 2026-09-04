@@ -55,7 +55,8 @@ VectorClock::Ordering VectorClock::compare(const VectorClock& other) const {
     bool other_greater = false;
     
     // Collect all shard IDs from both clocks
-    std::set<std::string> all_shards;
+    std::set<std::string> all_shards = {};
+
     for (const auto& [shard_id, _] : clocks_) {
         all_shards.insert(shard_id);
     }
@@ -648,7 +649,8 @@ std::vector<std::string> GossipConfigManager::selectRandomPeers([[maybe_unused]]
     auto all_shards = topology_->getAllShards();
     
     // Filter out ourselves and unhealthy shards
-    std::vector<std::string> candidates;
+    std::vector<std::string> candidates = {};
+
     for (const auto& shard : all_shards) {
         if (shard.shard_id != config_.local_shard_id && shard.is_healthy) {
             candidates.push_back(shard.shard_id);

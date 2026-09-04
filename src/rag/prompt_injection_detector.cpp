@@ -319,7 +319,8 @@ InjectionScanResult PromptInjectionDetector::scan(const std::string& text) const
 std::vector<InjectionScanResult>
 PromptInjectionDetector::scanDocuments(const judge::EvaluationInput& input) const
 {
-    std::vector<InjectionScanResult> results;
+    std::vector<InjectionScanResult> results = {};
+
     results.reserve(input.documents.size());
     for (const auto& doc : input.documents) {
         results.push_back(scan(doc.content));
@@ -381,7 +382,8 @@ std::string PromptInjectionSanitizer::sanitize(
 
     // ── Replace matched fragments at or above threshold ───────────────────
     // Sort findings by offset descending so replacements don't shift positions.
-    std::vector<const InjectionFinding*> to_replace;
+    std::vector<const InjectionFinding*> to_replace = {};
+
     to_replace.reserve(scan.findings.size());  // Upper bound: all findings may qualify
     for (const auto& f : scan.findings) {
         if (f.severity >= cfg.removal_threshold &&

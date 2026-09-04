@@ -171,7 +171,8 @@ std::vector<VersionedDocument> BiTemporalTable::queryBiTemporal(
         return {};
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (const auto& v : it->second) {
         if (v.sys_time.contains(sys_as_of) &&
             v.valid_time.contains(valid_at)) {
@@ -190,7 +191,8 @@ std::vector<VersionedDocument> BiTemporalTable::queryCurrentByValidTime(
         return {};
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (const auto& v : it->second) {
         if (v.isCurrent() && v.valid_time.contains(valid_at)) {
             result.push_back(v);
@@ -212,7 +214,8 @@ BiTemporalTable::findOverlaps(const std::string& key) const {
     const auto& versions = it->second;
 
     // Only inspect current rows
-    std::vector<const VersionedDocument*> current;
+    std::vector<const VersionedDocument*> current = {};
+
     for (const auto& v : versions) {
         if (v.isCurrent()) {
             current.push_back(&v);
@@ -332,7 +335,8 @@ std::vector<VersionedDocument> BiTemporalTable::scanBiTemporal(
     Timestamp sys_as_of, Timestamp valid_at) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (const auto& [key, versions] : rows_) {
         for (const auto& v : versions) {
             if (v.sys_time.contains(sys_as_of) &&
@@ -347,7 +351,8 @@ std::vector<VersionedDocument> BiTemporalTable::scanBiTemporal(
 std::vector<std::string> BiTemporalTable::getAllKeys() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     keys.reserve(rows_.size());
     for (const auto& [key, _] : rows_) {
         keys.push_back(key);

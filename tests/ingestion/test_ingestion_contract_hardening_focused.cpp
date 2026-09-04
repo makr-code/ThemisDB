@@ -229,7 +229,8 @@ TEST(IngestionContractHardeningINCH05, PartialBatchNotVisiblePreCommit) {
 
 TEST(IngestionContractHardeningINCH06, BatchCommitPreservesOrdering) {
     MockBatchWriter writer;
-    std::vector<MockRow> rows;
+    std::vector<MockRow> rows = {};
+
     for (int i = 0; i < 10; ++i) rows.push_back({i, "v" + std::to_string(i)});
 
     auto r = writer.write(rows);
@@ -265,7 +266,8 @@ TEST(IngestionContractHardeningINCH08, BatchSizeLimitEnforced) {
     MockBatchWriter writer;
     writer.max_batch_size = 5;
 
-    std::vector<MockRow> big_batch;
+    std::vector<MockRow> big_batch = {};
+
     for (int i = 0; i < 6; ++i) big_batch.push_back({i, "v"});
 
     auto r = writer.write(big_batch);

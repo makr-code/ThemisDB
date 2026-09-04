@@ -117,7 +117,8 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
     }
 
     // P1: Initialize PII detector if enabled
-    std::unique_ptr<PIIDetector> pii_detector;
+    std::unique_ptr<PIIDetector> pii_detector = {};
+
     if (config_.pii_config.enable_detection) {
         PIIDetector::Config pii_config;
         pii_config.detect_email       = config_.pii_config.detect_email;
@@ -156,7 +157,8 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
         StreamWriter writer(writer_config);
 
         // AQL predicate filter (compiled once, reused per entity)
-        std::unique_ptr<AqlPredicateFilter> aql_filter;
+        std::unique_ptr<AqlPredicateFilter> aql_filter = {};
+
         if (!options.filter_expression.empty()) {
             aql_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);
         }

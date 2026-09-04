@@ -113,7 +113,8 @@ int main(int argc, char* argv[]) {
     }
 
     // Scan
-    std::vector<ScanMatch> all_matches;
+    std::vector<ScanMatch> all_matches = {};
+
     for (const auto& entry : fs::recursive_directory_iterator(root,
             fs::directory_options::skip_permission_denied)) {
         if (!entry.is_regular_file()) {
@@ -131,7 +132,8 @@ int main(int argc, char* argv[]) {
     // Apply --fix if requested
     if (do_fix || dry_run) {
         // Collect affected files
-        std::set<fs::path> files_to_fix;
+        std::set<fs::path> files_to_fix = {};
+
         for (const auto& m : all_matches) {
           files_to_fix.insert(m.file);
         }

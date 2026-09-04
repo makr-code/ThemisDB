@@ -60,7 +60,8 @@ namespace analytics {
 // ============================================================================
 
 std::vector<double> DataPoint::numericFeatures() const {
-    std::vector<double> out;
+    std::vector<double> out = {};
+
     for (const auto &[name, val] : fields) { // map: deterministic order
         if (auto *d = std::get_if<double>(&val)) {
             out.push_back(*d);
@@ -74,7 +75,8 @@ std::vector<double> DataPoint::numericFeatures() const {
 }
 
 std::vector<std::string> DataPoint::numericFieldNames() const {
-    std::vector<std::string> out;
+    std::vector<std::string> out = {};
+
     for (const auto &[name, val] : fields) {
         if (std::holds_alternative<double>(val) || std::holds_alternative<int64_t>(val)
             || std::holds_alternative<bool>(val)) {
@@ -195,7 +197,8 @@ FeatureMatrix buildMatrix(const std::vector<DataPoint> &data) {
 // Per-feature column accessor
 // --------------------------------------------------------------------------
 std::vector<double> column(const FeatureMatrix &fm, size_t col) {
-    std::vector<double> out;
+    std::vector<double> out = {};
+
     out.reserve(fm.rows.size());
     for (const auto &row : fm.rows) {
         if (col < row.size()) {
@@ -326,7 +329,8 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
         const double split_val = val_dist(rng);
 
         std::vector<size_t> left_idx;
-        std::vector<size_t> right_idx;
+        std::vector<size_t> right_idx = {};
+
         left_idx.reserve(idx.size());
         right_idx.reserve(idx.size());
         for (size_t i : idx) {
@@ -452,7 +456,8 @@ struct AnomalyDetector::Impl {
     // ---- helpers ----
     std::vector<double> extractFeatures(const DataPoint &p) const {
         if (!feature_names.empty()) {
-            std::vector<double> out;
+            std::vector<double> out = {};
+
             out.reserve(feature_names.size());
             for (const auto &name : feature_names) {
                 auto it = p.fields.find(name);
@@ -895,7 +900,8 @@ AnomalyResult AnomalyDetector::predict(const DataPoint &point) const {
 }
 
 std::vector<AnomalyResult> AnomalyDetector::predictBatch(const std::vector<DataPoint> &data) const {
-    std::vector<AnomalyResult> results;
+    std::vector<AnomalyResult> results = {};
+
     results.reserve(data.size());
     for (const auto &p : data) {
         results.push_back(predict(p));
@@ -1077,7 +1083,8 @@ AnomalyDetector AnomalyDetector::deserialize(const std::string &data) {
     };
 
     auto toDoubleVec = [&]([[maybe_unused]] const std::string &s) -> std::vector<double> {
-        std::vector<double> v;
+        std::vector<double> v = {};
+
         for (const auto& t : splitComma(s)) {
             try { v.push_back(std::stod(t)); } catch (...) {}
         }

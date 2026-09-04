@@ -85,7 +85,8 @@ static std::vector<BiTemporalRow> mockSnapshotAt(
         const std::vector<BiTemporalRow>& store,
         std::int64_t t,
         std::int64_t snapshot_tx) {
-    std::vector<BiTemporalRow> result;
+    std::vector<BiTemporalRow> result = {};
+
     for (const auto& row : store) {
         if (row.soft_deleted) {
           continue;

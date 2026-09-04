@@ -202,7 +202,8 @@ std::vector<ThesisInjection> ContextWindowBudgetManager::selectThesesForRound(
         });
 
     // ── Step 3: greedy selection up to available_tokens ──────────────────────
-    std::vector<ThesisInjection> result;
+    std::vector<ThesisInjection> result = {};
+
     result.reserve(profile.typed_theses.size());
 
     int remaining = available_tokens;

@@ -337,7 +337,8 @@ TEST_F(TSStoreFixture, GetStatsReflectsInsertedPoints) {
 // ─── putDataPoints batch (no compression) ────────────────────────────────────
 
 TEST_F(TSStoreFixture, PutDataPointsBatchAllWritten) {
-    std::vector<TSStore::DataPoint> pts;
+    std::vector<TSStore::DataPoint> pts = {};
+
     for (int i = 0; i < 5; ++i) {
         pts.push_back(makePoint("batch", "h", base + i * 1000, static_cast<double>(i)));
     }

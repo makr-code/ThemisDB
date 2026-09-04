@@ -59,7 +59,8 @@ double DataQualityFramework::QualityAssessor::computeUniqueness(const std::vecto
     if (rows.empty()) {
         return 1.0;
     }
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (const auto &row : rows) {
         if (row.contains(column)) {
             seen.insert(row.at(column).dump());
@@ -115,7 +116,8 @@ DataQualityFramework::QualityAssessor::assessTable(const std::string & /*table_n
     }
 
     // Collect all column names from sample
-    std::set<std::string> columns;
+    std::set<std::string> columns = {};
+
     for (const auto &row : sample_data) {
         if (row.is_object()) {
             for (auto it = row.begin(); it != row.end(); ++it) {
@@ -207,7 +209,8 @@ DataQualityFramework::QualityAssessor::generateQualityReport(const std::vector<I
 
     // Filter stats per table
     for (const auto &schema : schemas) {
-        std::map<std::string, ColumnStatistics> table_stats;
+        std::map<std::string, ColumnStatistics> table_stats = {};
+
         for (const auto &[key, st] : stats) {
             if (st.table_name == schema.name) {
                 table_stats[key] = st;

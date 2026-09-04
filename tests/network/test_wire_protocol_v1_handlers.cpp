@@ -997,7 +997,8 @@ TEST(WireProtocolV1EdgeCases, PutValueObjectIsDumped) {
 }
 
 TEST(WireProtocolV1EdgeCases, VectorSearchEmptyVectorRejected) {
-    std::vector<float> query_vector;
+    std::vector<float> query_vector = {};
+
     bool would_reject = query_vector.empty();
     EXPECT_TRUE(would_reject);
 }

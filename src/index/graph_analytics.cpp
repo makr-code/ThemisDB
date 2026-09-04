@@ -212,7 +212,8 @@ GraphAnalytics::betweennessCentrality(const std::vector<std::string>& node_pks) 
     }
     
     // Initialize betweenness scores
-    std::map<std::string, double> betweenness;
+    std::map<std::string, double> betweenness = {};
+
     for (const auto& pk : node_pks) {
         betweenness[pk] = 0.0;
     }
@@ -397,7 +398,8 @@ GraphAnalytics::louvainCommunities(
     if (m == 0.0) m = 1.0;  // Avoid division by zero
 
     // Compute node degrees (total degree)
-    std::map<std::string, double> node_degree;
+    std::map<std::string, double> node_degree = {};
+
     for (const auto& pk : node_pks) {
         double deg = 0.0;
         if (topo.outgoing.count(pk)) {

@@ -110,7 +110,8 @@ TEST_F(MergeOperatorsIntegrationTest, ConcurrentMergeOperations) {
     const int num_threads = 4;
     const int increments_per_thread = 25;
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([db, increments_per_thread]() {
             for (int j = 0; j < increments_per_thread; ++j) {

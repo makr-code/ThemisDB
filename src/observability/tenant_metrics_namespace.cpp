@@ -57,7 +57,8 @@ bool TenantMetricsNamespace::hasTenant(const std::string& tenant_id) const {
 
 std::vector<std::string> TenantMetricsNamespace::tenants() const {
     std::shared_lock lock(mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(stores_.size());
     for (const auto& kv : stores_) {
         ids.push_back(kv.first);
@@ -316,7 +317,8 @@ TenantMetricsStats TenantMetricsNamespace::stats(const std::string& tenant_id) c
 
 std::vector<TenantMetricsStats> TenantMetricsNamespace::allStats() const {
     std::shared_lock lock(mutex_);
-    std::vector<TenantMetricsStats> result;
+    std::vector<TenantMetricsStats> result = {};
+
     result.reserve(stores_.size());
     for (const auto& kv : stores_) {
         const auto& store = *kv.second;

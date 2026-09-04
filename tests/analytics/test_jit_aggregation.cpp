@@ -143,7 +143,8 @@ TEST(JITAggregationTest, MakeSpecKeyGroupByDiffers) {
 }
 
 TEST(JITAggregationTest, MakeSpecKeyEmptySpecs) {
-    std::vector<AggregateSpec> empty;
+    std::vector<AggregateSpec> empty = {};
+
     EXPECT_FALSE(JITAggregationCompiler::makeSpecKey(empty).empty());
 }
 
@@ -325,7 +326,8 @@ TEST(JITAggregationTest, GroupByCorrectnessHotPath) {
     ASSERT_NE(cat_col, nullptr);
     ASSERT_NE(total_col, nullptr);
 
-    std::unordered_map<std::string, double> sums;
+    std::unordered_map<std::string, double> sums = {};
+
     for (size_t i = 0; i < result.rowCount(); ++i) {
         sums[cat_col->stringData()[i]] = total_col->doubleData()[i];
     }

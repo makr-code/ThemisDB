@@ -105,7 +105,8 @@ SloStatus SloReporter::getStatus(const std::string& slo_name) const {
 std::vector<SloStatus> SloReporter::getAllStatuses() const {
     std::lock_guard<std::mutex> lk(mutex_);
     auto now = std::chrono::system_clock::now();
-    std::vector<SloStatus> result;
+    std::vector<SloStatus> result = {};
+
     result.reserve(slos_.size());
     for (const auto& [name, state] : slos_) {
         SloState state_copy = state;

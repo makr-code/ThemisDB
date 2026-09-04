@@ -72,7 +72,8 @@ void requireProbability(double v, std::string_view name) {
 [[nodiscard]] std::unordered_set<std::string> toSetChecked(
     const std::vector<std::string>& v, std::string_view ctx)
 {
-    std::unordered_set<std::string> s;
+    std::unordered_set<std::string> s = {};
+
     s.reserve(v.size());
     for (const auto& id : v) {
         if (!s.insert(id).second) {
@@ -116,7 +117,8 @@ RetrievalQualityMetrics computeRetrievalQuality(
 
     // Check for duplicate ids in ranked list.
     {
-        std::unordered_set<std::string> seen;
+        std::unordered_set<std::string> seen = {};
+
         seen.reserve(ranked.size());
         for (const auto& r : ranked) {
             if (!seen.insert(r.id).second) {
@@ -288,12 +290,14 @@ ProvenanceQualityMetrics computeProvenanceQuality(
         : static_cast<double>(matched) / static_cast<double>(returned.size());
 
     // Source attribution completeness: fraction of GT claims covered.
-    std::unordered_set<std::string> gt_claims;
+    std::unordered_set<std::string> gt_claims = {};
+
     for (const auto& a : ground_truth) {
       gt_claims.insert(a.claim_id);
     }
 
-    std::unordered_set<std::string> covered_claims;
+    std::unordered_set<std::string> covered_claims = {};
+
     for (const auto& a : returned) {
         if (gt_claims.count(a.claim_id)) {
           covered_claims.insert(a.claim_id);

@@ -243,7 +243,8 @@ TEST_F(QueryOptimizerRegressionTests, CM3_SortMergeJoinCost) {
 
 /// Test 14: Filter cost with predicates
 TEST_F(QueryOptimizerRegressionTests, CM4_FilterCost) {
-    std::map<std::string, OptimizerCostModel::ColumnStatistics> colStats;
+    std::map<std::string, OptimizerCostModel::ColumnStatistics> colStats = {};
+
     std::vector<std::string> predicates = {"status", "priority"};
     
     auto cost = cost_model_->estimateFilter(1000, predicates, colStats);

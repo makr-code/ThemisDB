@@ -1026,7 +1026,8 @@ private:
 
         // Optional: ", e" und ", p" vor IN
         std::optional<std::string> varEdge;
-        std::optional<std::string> varPath;
+        std::optional<std::string> varPath = {};
+
         if (match(TokenType::COMMA)) {
             advance();
             if (!match(TokenType::IDENTIFIER)) {
@@ -1335,7 +1336,8 @@ private:
                 std::string funcName = current().value;
                 advance();
                 expect(TokenType::LPAREN, "Expected '(' after aggregation function");
-                std::shared_ptr<Expression> arg;
+                std::shared_ptr<Expression> arg = {};
+
                 if (!match(TokenType::RPAREN)) {
                     arg = parseExpression();
                 }
@@ -1728,7 +1730,8 @@ public:
                 }
             }
 
-            std::shared_ptr<MutationNode> node;
+            std::shared_ptr<MutationNode> node = {};
+
             if (match(TokenType::INSERT)) {
                 node = parseInsertStatement();
             } else if (match(TokenType::UPDATE)) {

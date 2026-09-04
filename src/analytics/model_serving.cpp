@@ -376,7 +376,8 @@ std::vector<std::map<std::string, double>> ModelServingEngine::predictProba(cons
 
 std::vector<ModelInfo> ModelServingEngine::listModels() const {
     std::shared_lock lock(impl_->mu);
-    std::vector<ModelInfo> out;
+    std::vector<ModelInfo> out = {};
+
     out.reserve(impl_->registry.size());
     for (const auto &[k, e] : impl_->registry) {
         out.push_back(e->info);

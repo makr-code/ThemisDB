@@ -512,7 +512,8 @@ GPUMemoryManager::TenantStats GPUMemoryManager::GetTenantStats(const std::string
 
 std::vector<GPUMemoryManager::TenantStats> GPUMemoryManager::GetAllTenantStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<TenantStats> result;
+    std::vector<TenantStats> result = {};
+
     result.reserve(tenant_states_.size());
     for (const auto &kv : tenant_states_) {
         TenantStats ts;

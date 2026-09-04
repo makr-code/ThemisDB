@@ -229,7 +229,8 @@ uint64_t Changefeed::scanMaxSequence() const {
     uint64_t max_seq = 0;
 
     rocksdb::ReadOptions read_opts;
-    std::unique_ptr<rocksdb::Iterator> it;
+    std::unique_ptr<rocksdb::Iterator> it = {};
+
     if (cf_) {
         it.reset(db_->NewIterator(read_opts, cf_));
     } else {
@@ -646,7 +647,8 @@ Changefeed::CompactionResult Changefeed::compactByKey() {
     std::unordered_map<std::string, uint64_t> latest_seq_per_doc_key;
 
     {
-        std::unique_ptr<rocksdb::Iterator> it;
+        std::unique_ptr<rocksdb::Iterator> it = {};
+
         if (cf_) {
             it.reset(db_->NewIterator(read_opts, cf_));
         } else {
@@ -676,7 +678,8 @@ Changefeed::CompactionResult Changefeed::compactByKey() {
     // Phase 2: Re-scan and delete any event that is NOT the latest for its key,
     // unless it is a DELETE event (tombstone must be preserved for consumers).
     {
-        std::unique_ptr<rocksdb::Iterator> it;
+        std::unique_ptr<rocksdb::Iterator> it = {};
+
         if (cf_) {
             it.reset(db_->NewIterator(read_opts, cf_));
         } else {

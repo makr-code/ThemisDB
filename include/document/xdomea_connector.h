@@ -445,7 +445,8 @@ public:
 
     std::vector<XDOMEADocument> listByType(XDOMEAObjectType type) const override {
         std::unique_lock<std::mutex> lk(mutex_);
-        std::vector<XDOMEADocument> result;
+        std::vector<XDOMEADocument> result = {};
+
         for (const auto& [id, d] : store_) {
             if (d.object_type == type) {
               result.push_back(d);
@@ -457,7 +458,8 @@ public:
     std::vector<XDOMEADocument>
     listByRetention(XDOMEARetentionCategory retention) const override {
         std::unique_lock<std::mutex> lk(mutex_);
-        std::vector<XDOMEADocument> result;
+        std::vector<XDOMEADocument> result = {};
+
         for (const auto& [id, d] : store_) {
             if (d.retention == retention) {
               result.push_back(d);

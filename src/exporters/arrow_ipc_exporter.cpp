@@ -342,7 +342,8 @@ static uint32_t buildField(FBuf &fb, [[maybe_unused]] const std::string &name, u
 // Returns C_obj = cursor after soffset_t.
 static uint32_t buildSchema(FBuf &fb, const std::vector<std::string> &col_names) {
     // 1. Build child objects for each field (in forward order)
-    std::vector<uint32_t> field_refs;
+    std::vector<uint32_t> field_refs = {};
+
     for (const auto &name : col_names) {
         uint32_t C_name     = fb.preString(name);
         uint32_t C_utf8     = buildEmptyTable(fb); // Utf8 type table
@@ -624,7 +625,8 @@ static BatchBody buildBatchBody(const std::vector<BaseEntity> &entities, const s
 
     for (const auto &col : columns) {
         // Collect all string values for this column
-        std::vector<std::string> vals;
+        std::vector<std::string> vals = {};
+
         vals.reserve(entities.size());
         for (const auto &e : entities) {
             vals.push_back(fieldToString(e, col));
@@ -651,7 +653,8 @@ static BatchBody buildBatchBody(const std::vector<BaseEntity> &entities, const s
         }
 
         int32_t offset_cursor = 0;
-        std::vector<uint8_t> offsets_buf;
+        std::vector<uint8_t> offsets_buf = {};
+
         offsets_buf.reserve((vals.size() + 1) * 4);
         auto append_i32 = [&]([[maybe_unused]] int32_t v) {
             uint32_t u = static_cast<uint32_t>(v);
@@ -809,7 +812,8 @@ std::vector<std::string> ArrowIPCExporter::resolveColumns(const std::vector<Base
     exclude_set.insert(options.exclude_fields.begin(), options.exclude_fields.end());
 
     if (!options.include_fields.empty()) {
-        std::vector<std::string> cols;
+        std::vector<std::string> cols = {};
+
         for (const auto &f : options.include_fields) {
             if (!exclude_set.count(f)) {
                 cols.push_back(f);
@@ -818,7 +822,8 @@ std::vector<std::string> ArrowIPCExporter::resolveColumns(const std::vector<Base
         return cols;
     }
     if (!config_.include_columns.empty()) {
-        std::vector<std::string> cols;
+        std::vector<std::string> cols = {};
+
         for (const auto &f : config_.include_columns) {
             if (!exclude_set.count(f)) {
                 cols.push_back(f);
@@ -828,7 +833,8 @@ std::vector<std::string> ArrowIPCExporter::resolveColumns(const std::vector<Base
     }
 
     // Auto-detect: collect all field names across all entities
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (const auto &e : entities) {
         for (const auto &kv : e.getAllFields()) {
             if (!exclude_set.count(kv.first)) {
@@ -907,7 +913,8 @@ ExportStats ArrowIPCExporter::exportFallback(const std::vector<BaseEntity> &enti
     // ── Record-batch message ──────────────────────────────────────────────────
     // Build body for a single record batch containing all entities
     BatchBody batch_body;
-    std::vector<uint8_t> rb_msg_bytes;
+    std::vector<uint8_t> rb_msg_bytes = {};
+
     if (!entities.empty()) {
         batch_body   = buildBatchBody(entities, columns);
         rb_msg_bytes = buildRecordBatchMessage(entities, columns, batch_body);
@@ -930,7 +937,8 @@ ExportStats ArrowIPCExporter::exportFallback(const std::vector<BaseEntity> &enti
     file_pos += schema_frame_size;
 
     // Record-batch message frame (if any rows)
-    std::vector<BlockInfo> rb_blocks;
+    std::vector<BlockInfo> rb_blocks = {};
+
     if (!entities.empty()) {
         int64_t rb_frame_start = file_pos;
         int64_t rb_body_size   = static_cast<int64_t>(batch_body.bytes.size());
@@ -1007,7 +1015,8 @@ ExportStats ArrowIPCExporter::exportWithArrow(const std::vector<BaseEntity> &ent
         arrow_fields.push_back(arrow::field(col, arrow::utf8()));
     }
     // Attach custom schema metadata if provided
-    std::shared_ptr<arrow::KeyValueMetadata> kv_meta;
+    std::shared_ptr<arrow::KeyValueMetadata> kv_meta = {};
+
     if (!config_.schema_metadata.empty()) {
         std::vector<std::string> keys, values;
         for (const auto &kv : config_.schema_metadata) {
@@ -1027,7 +1036,8 @@ ExportStats ArrowIPCExporter::exportWithArrow(const std::vector<BaseEntity> &ent
 
     // Create IPC writer
     arrow::ipc::IpcWriteOptions ipc_opts = arrow::ipc::IpcWriteOptions::Defaults();
-    std::shared_ptr<arrow::ipc::RecordBatchWriter> writer;
+    std::shared_ptr<arrow::ipc::RecordBatchWriter> writer = {};
+
     if (config_.format == ArrowIPCFormat::STREAM) {
         auto maybe_writer = arrow::ipc::MakeStreamWriter(file, schema, ipc_opts);
         if (!maybe_writer.ok()) {

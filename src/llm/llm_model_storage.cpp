@@ -181,7 +181,8 @@ public:
             auto serialized = entity.serialize();
             
             // Encrypt if needed
-            std::vector<uint8_t> data_to_store;
+            std::vector<uint8_t> data_to_store = {};
+
             if (config_.enable_encryption && encryption_) {
                 auto encrypted = encryption_->encrypt(serialized, config_.encryption_key_id);
                 std::string encrypted_str = encrypted.toBase64();
@@ -225,7 +226,8 @@ public:
             }
             
             // Decrypt if needed
-            std::vector<uint8_t> decrypted_data;
+            std::vector<uint8_t> decrypted_data = {};
+
             if (config_.enable_encryption && encryption_) {
                 try {
                     std::string data_str(data->begin(), data->end());
@@ -375,7 +377,8 @@ public:
             }
             
             // Decrypt if needed
-            std::vector<uint8_t> decrypted_data;
+            std::vector<uint8_t> decrypted_data = {};
+
             if (config_.enable_encryption && encryption_) {
                 try {
                     std::string data_str(data->begin(), data->end());
@@ -495,7 +498,8 @@ public:
             if (data && config_.blob_manager) {
                 try {
                     // Decrypt if needed
-                    std::vector<uint8_t> decrypted_data;
+                    std::vector<uint8_t> decrypted_data = {};
+
                     if (config_.enable_encryption && encryption_) {
                         std::string data_str(data->begin(), data->end());
                         auto encrypted_blob = EncryptedBlob::fromBase64(data_str);
@@ -602,7 +606,8 @@ public:
             }
             
             // Decrypt if needed
-            std::vector<uint8_t> decrypted_data;
+            std::vector<uint8_t> decrypted_data = {};
+
             if (config_.enable_encryption && encryption_) {
                 try {
                     std::string data_str(data->begin(), data->end());
@@ -681,7 +686,8 @@ public:
         
         try {
             // Decrypt if needed
-            std::vector<uint8_t> decrypted_data;
+            std::vector<uint8_t> decrypted_data = {};
+
             if (config_.enable_encryption && encryption_) {
                 std::string data_str(data->begin(), data->end());
                 auto encrypted_blob = EncryptedBlob::fromBase64(data_str);

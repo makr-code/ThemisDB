@@ -359,7 +359,8 @@ TEST_F(ReleaseSignoffTest, RCS_05_QueryCorrectnessUnderLoad) {
     }
 
     // Perform heavy concurrent writing
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([this, doc_count, t]() {
             for (int i = 0; i < 100; ++i) {
@@ -395,7 +396,8 @@ TEST_F(ReleaseSignoffTest, RCS_06_IndexConsistencyUnderConcurrentWrites) {
     }
 
     // Concurrent updates
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 8; ++t) {
         threads.emplace_back([this, doc_count, t]() {
             for (int i = 0; i < 100; ++i) {
@@ -458,7 +460,8 @@ TEST_F(ReleaseSignoffTest, RCS_07_TransactionIsolationValidation) {
     };
 
     std::thread w(writer);
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int i = 0; i < 4; ++i) {
         readers.emplace_back(reader);
     }

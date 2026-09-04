@@ -203,7 +203,8 @@ TemporalSnapshot TemporalConflictResolver::resolveCRDT(
 
 std::vector<ConflictRecord> TemporalConflictResolver::getUnresolvedConflicts() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<ConflictRecord> result;
+    std::vector<ConflictRecord> result = {};
+
     result.reserve(unresolved_conflicts_.size());
     for (const auto& [id, record] : unresolved_conflicts_) {
         result.push_back(record);
@@ -381,7 +382,8 @@ bool TemporalConflictDetector::queueForManualResolution(const std::string& table
 
 std::vector<Conflict> TemporalConflictDetector::getQueuedConflicts() const {
     std::lock_guard<std::mutex> lock(queue_mutex_);
-    std::vector<Conflict> result;
+    std::vector<Conflict> result = {};
+
     result.reserve(manual_queue_.size());
     for (const auto& [k, v] : manual_queue_) {
         result.push_back(v);
@@ -446,7 +448,8 @@ std::optional<Conflict> TemporalConflictDetector::detectConcurrentUpdate(
     }
 
     // Collect differing data keys as affected columns.
-    std::vector<std::string> affected;
+    std::vector<std::string> affected = {};
+
     if (local.data.is_object() && remote.data.is_object()) {
         for (auto& [key, val] : local.data.items()) {
             if (remote.data.contains(key) && remote.data[key] != val) {
@@ -563,7 +566,8 @@ std::optional<Conflict> TemporalConflictDetector::detectUniquenessViolation(
     // Collect affected columns as the symmetric difference of diverging keys:
     // - Keys present in both but with different values
     // - Keys present in only one snapshot
-    std::vector<std::string> affected;
+    std::vector<std::string> affected = {};
+
     if (local.data.is_object() && remote.data.is_object()) {
         // Keys in local: diverging or missing in remote
         for (auto& [key, val] : local.data.items()) {

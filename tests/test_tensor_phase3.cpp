@@ -184,7 +184,8 @@ static std::vector<float> denseProject(const std::vector<float>& data,
                                         const std::vector<std::size_t>& shape,
                                         std::size_t mode) {
     // Result shape
-    std::vector<std::size_t> res_shape;
+    std::vector<std::size_t> res_shape = {};
+
     for (std::size_t k = 0; k < shape.size(); ++k)
         if (k != mode) {
           res_shape.push_back(shape[k]);
@@ -207,7 +208,8 @@ static std::vector<float> denseProject(const std::vector<float>& data,
             tmp /= shape[static_cast<std::size_t>(k)];
         }
         // Build result index (skip mode)
-        std::vector<std::size_t> ridx;
+        std::vector<std::size_t> ridx = {};
+
         for (std::size_t k = 0; k < shape.size(); ++k)
             if (k != mode) {
               ridx.push_back(idx[k]);

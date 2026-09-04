@@ -225,7 +225,8 @@ DeviceInfo DeviceDiscovery::GetBestDevice() {
 }
 
 std::vector<DeviceInfo> DeviceDiscovery::GetHealthyDevices(const std::vector<DeviceInfo> &devices) {
-    std::vector<DeviceInfo> result;
+    std::vector<DeviceInfo> result = {};
+
     for (const auto &d : devices) {
         if (d.is_healthy) {
             result.push_back(d);

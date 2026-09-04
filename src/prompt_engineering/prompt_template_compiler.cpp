@@ -511,7 +511,8 @@ CompiledPromptTemplate PromptTemplateCompiler::compile(
     const std::vector<SlotDefinition>& declared_slots) const
 {
     // Build slot index from declarations
-    std::unordered_map<std::string, SlotDefinition> slot_index;
+    std::unordered_map<std::string, SlotDefinition> slot_index = {};
+
     for (const auto& sd : declared_slots) {
         slot_index[sd.name] = sd;
     }

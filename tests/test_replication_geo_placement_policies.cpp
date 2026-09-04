@@ -384,7 +384,8 @@ TEST_F(GeoPlacementPoliciesTest, GEO_016_DeterministicElectionWithConstraints) {
     constraints.require_voter = true;
     
     // Run multiple elections and verify deterministic result
-    std::optional<ReplicaInfo> first_candidate;
+    std::optional<ReplicaInfo> first_candidate = {};
+
     for (int i = 0; i < 5; ++i) {
         auto candidate = placement_mgr_.selectLeaderCandidate(replicas_, constraints);
         ASSERT_TRUE(candidate.has_value());

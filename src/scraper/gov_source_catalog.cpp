@@ -51,7 +51,8 @@ const GovDataSource* GovSourceCatalog::findById(const std::string& id) const {
 }
 
 std::vector<const GovDataSource*> GovSourceCatalog::byType(GovSourceType type) const {
-    std::vector<const GovDataSource*> result;
+    std::vector<const GovDataSource*> result = {};
+
     for (const auto& s : sources_) {
         if (s.type == type) {
           result.push_back(&s);
@@ -62,7 +63,8 @@ std::vector<const GovDataSource*> GovSourceCatalog::byType(GovSourceType type) c
 
 std::vector<const GovDataSource*> GovSourceCatalog::byBundesland(
         const std::string& iso) const {
-    std::vector<const GovDataSource*> result;
+    std::vector<const GovDataSource*> result = {};
+
     for (const auto& s : sources_) {
         if (s.bundesland == iso) {
           result.push_back(&s);
@@ -72,7 +74,8 @@ std::vector<const GovDataSource*> GovSourceCatalog::byBundesland(
 }
 
 std::vector<const GovDataSource*> GovSourceCatalog::enabled() const {
-    std::vector<const GovDataSource*> result;
+    std::vector<const GovDataSource*> result = {};
+
     for (const auto& s : sources_) {
         if (s.enabled) {
           result.push_back(&s);
@@ -83,7 +86,8 @@ std::vector<const GovDataSource*> GovSourceCatalog::enabled() const {
 
 std::vector<const GovDataSource*> GovSourceCatalog::byIds(
         const std::vector<std::string>& ids) const {
-    std::vector<const GovDataSource*> result;
+    std::vector<const GovDataSource*> result = {};
+
     for (const auto& id : ids) {
         if (const auto* s = findById(id)) {
           result.push_back(s);

@@ -137,7 +137,8 @@ double SchemaDeadWeightDetector::computeSeasonalityScore(
     }
 
     // Extract the access counts as a real-valued signal
-    std::vector<double> signal;
+    std::vector<double> signal = {};
+
     signal.reserve(access_series.size());  // pre-allocated; missing_vector_reserve/copy_overhead scanner findings are stale
     for (const auto& [tp, count] : access_series) {
         signal.push_back(static_cast<double>(count));

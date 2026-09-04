@@ -265,7 +265,8 @@ nlohmann::json UdfFunction::evalExpr(
         }
         const std::string fname = expr["function"].get<std::string>();
 
-        std::vector<nlohmann::json> callArgs;
+        std::vector<nlohmann::json> callArgs = {};
+
         if (expr.contains("args") && expr["args"].is_array()) {
             for (const auto& a : expr["args"]) {
                 callArgs.push_back(evalExpr(a, args, context, depth + 1));
@@ -479,7 +480,8 @@ bool UdfRegistry::hasUdf(const std::string& name) const {
 
 std::vector<UdfDefinition> UdfRegistry::listUdfs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<UdfDefinition> result;
+    std::vector<UdfDefinition> result = {};
+
     result.reserve(udfs_.size());
     for (const auto& kv : udfs_) {
         result.push_back(kv.second);

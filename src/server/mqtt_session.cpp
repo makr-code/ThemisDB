@@ -452,7 +452,8 @@ void MqttSession::sendSubAck(uint16_t packetId, const std::vector<uint8_t>& retu
     // Build MQTT SUBACK packet
     // Format: [Type(0x90), RemainingLength, PacketId(2), ReturnCodes...]
     std::vector<uint8_t> packet;
-    std::vector<uint8_t> packet;
+    std::vector<uint8_t> packet = {};
+
     packet.reserve(4 + returnCodes.size());
     
     packet.push_back(0x90); // SUBACK packet type
@@ -830,7 +831,8 @@ MqttMetrics MqttBroker::getAggregatedMetrics() {
     // their per-session counters.  The same MqttSession object may appear in
     // multiple subscription lists (one entry per topic), so we deduplicate by
     // raw pointer before summing.
-    std::unordered_set<MqttSession*> seen;
+    std::unordered_set<MqttSession*> seen = {};
+
     for (auto& [topic, session_vec] : subscriptions_) {
         for (auto& weak_session : session_vec) {
             auto session = weak_session.lock();

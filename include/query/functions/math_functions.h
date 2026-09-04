@@ -653,7 +653,8 @@ public:
           throw std::runtime_error("MIN requires at least 1 argument");
         }
         
-        std::vector<double> values;
+        std::vector<double> values = {};
+
         for (const auto& arg : args) {
             if (arg.is_array()) {
                 for (const auto& elem : arg) {
@@ -699,7 +700,8 @@ public:
           throw std::runtime_error("MAX requires at least 1 argument");
         }
         
-        std::vector<double> values;
+        std::vector<double> values = {};
+
         for (const auto& arg : args) {
             if (arg.is_array()) {
                 for (const auto& elem : arg) {

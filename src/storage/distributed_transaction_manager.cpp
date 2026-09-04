@@ -327,7 +327,8 @@ void DistributedTransaction::rollback() {
 // ── Introspection ─────────────────────────────────────────────────────────────
 
 std::vector<std::string> DistributedTransaction::participatingShards() const {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(pending_ops_.size());
     for (const auto& [shard_id, _] : pending_ops_) {
         result.push_back(shard_id);

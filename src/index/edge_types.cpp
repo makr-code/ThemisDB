@@ -418,7 +418,8 @@ std::optional<std::string> EdgeTypeRegistry::getInverseType(std::string_view typ
 
 std::vector<std::string> EdgeTypeRegistry::listAllTypes() const {
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(types_.size());
     for (const auto& [name, _] : types_) {
         result.push_back(name);

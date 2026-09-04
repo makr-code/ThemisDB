@@ -206,7 +206,8 @@ OntologyRetrievalResult OntologyAwareRetriever::retrieve(
                   continue;
                 }
                 // Get all outgoing edges from this node and check axioms.
-                std::vector<kg::KGEdge> out_edges;
+                std::vector<kg::KGEdge> out_edges = {};
+
                 if (graph_iface_) {
                     out_edges = graph_iface_->outEdges(doc_link.node_id);
                 } else if (raw_graph_) {

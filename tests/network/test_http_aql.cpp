@@ -212,7 +212,8 @@ TEST_F(HttpAqlApiTest, AqlEquality_FilterCityBerlin_ReturnsAlice) {
     ASSERT_TRUE(body["entities"].is_array());
     ASSERT_EQ(body["entities"].size(), 2);
     // Entities are JSON strings
-    std::set<std::string> names;
+    std::set<std::string> names = {};
+
     for (const auto& s : body["entities"]) {
         auto ent = json::parse(s.get<std::string>());
         names.insert(ent["name"].get<std::string>());
@@ -233,7 +234,8 @@ TEST_F(HttpAqlApiTest, AqlRange_FilterAgeGreater18_ReturnsMultiple) {
     // Should return all users except Bob (17), so 14 users
     ASSERT_EQ(body["count"], 14);
     ASSERT_TRUE(body["entities"].is_array());
-    std::set<std::string> names;
+    std::set<std::string> names = {};
+
     for (const auto& s : body["entities"]) {
         auto ent = json::parse(s.get<std::string>());
         names.insert(ent["name"].get<std::string>());

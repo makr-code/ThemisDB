@@ -756,7 +756,8 @@ MLServingResponse MLServingClient::inferFromDataPoint(const std::string &model_n
     auto field_names = point.numericFieldNames();
     std::sort(field_names.begin(), field_names.end());
 
-    std::vector<float> values;
+    std::vector<float> values = {};
+
     values.reserve(field_names.size());
     for (const auto &fname : field_names) {
         // Try double first, then int64

@@ -109,7 +109,8 @@ std::string mapPrincipleToEthicsDomain(const std::string& principle_id) {
 /// @return Vector of unique principle IDs (may be empty if no principles were triggered).
 std::vector<std::string> collectFormalizedPrinciples(
     const llm::ConstitutionalReasoningResult& cai_result) {
-    std::vector<std::string> principles;
+    std::vector<std::string> principles = {};
+
     principles.reserve(cai_result.violated_principles.size() + cai_result.applied_principles.size());
 
     for (const auto& principle_id : cai_result.violated_principles) {
@@ -130,7 +131,8 @@ std::vector<std::string> collectFormalizedPrinciples(
 /// @param principle_ids  Vector of principle identifiers (from collectFormalizedPrinciples).
 /// @return Vector of unique domain names (e.g., "autonomy", "fairness", "safety", …).
 std::vector<std::string> collectFormalizedDomains(const std::vector<std::string>& principle_ids) {
-    std::vector<std::string> domains;
+    std::vector<std::string> domains = {};
+
     domains.reserve(principle_ids.size());
 
     for (const auto& principle_id : principle_ids) {
@@ -148,7 +150,8 @@ std::vector<std::string> collectFormalizedDomains(const std::vector<std::string>
 /// @param domains  Vector of domain names (from collectFormalizedDomains).
 /// @return Vector of chain identifiers (e.g., "constitutional_chain:autonomy", …).
 std::vector<std::string> makeArgumentChainIds(const std::vector<std::string>& domains) {
-    std::vector<std::string> chain_ids;
+    std::vector<std::string> chain_ids = {};
+
     chain_ids.reserve(domains.size());
 
     for (const auto& domain : domains) {
@@ -415,7 +418,8 @@ plugins::ethics::EthicalDecision CAIEthicsIntegration::buildDecision(
 std::vector<plugins::ethics::EthicalArgument> CAIEthicsIntegration::buildArguments(
     const llm::ConstitutionalReasoningResult& cai_result) const
 {
-    std::vector<plugins::ethics::EthicalArgument> args;
+    std::vector<plugins::ethics::EthicalArgument> args = {};
+
     args.reserve(cai_result.applied_principles.size() +
                  cai_result.violated_principles.size());
 

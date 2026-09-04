@@ -166,7 +166,8 @@ std::vector<ConsistencyIssue> SchemaConsistencyChecker::checkOrphanKeys_() const
 }
 
 std::vector<ConsistencyIssue> SchemaConsistencyChecker::checkStaleStats_() const {
-    std::vector<ConsistencyIssue> issues;
+    std::vector<ConsistencyIssue> issues = {};
+
     if (!stats_) {
       return issues;
     }
@@ -203,7 +204,8 @@ std::vector<ConsistencyIssue> SchemaConsistencyChecker::checkStaleStats_() const
 }
 
 std::vector<ConsistencyIssue> SchemaConsistencyChecker::checkMissingConstraints_() const {
-    std::vector<ConsistencyIssue> issues;
+    std::vector<ConsistencyIssue> issues = {};
+
     if (!constraints_) {
       return issues;
     }

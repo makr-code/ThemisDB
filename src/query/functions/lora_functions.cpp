@@ -582,7 +582,8 @@ nlohmann::json LoraStatsFunction::execute(
         
         // Check which metrics were requested
         bool all_metrics = metrics_array.empty();
-        std::set<std::string> requested_metrics;
+        std::set<std::string> requested_metrics = {};
+
         if (!all_metrics) {
             for (const auto& m : metrics_array) {
                 requested_metrics.insert(m.get<std::string>());

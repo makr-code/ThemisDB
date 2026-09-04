@@ -839,7 +839,8 @@ void GraphIndexManager::removeEdgeFromTopologyUnlocked_(const std::string& edgeI
 size_t GraphIndexManager::getTopologyNodeCount() const {
  // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
-	std::unordered_set<std::string> nodes;
+	std::unordered_set<std::string> nodes = {};
+
 	for (const auto& [node, _] : outEdges_) {
 	  nodes.insert(node);
 	}
@@ -856,7 +857,8 @@ GraphIndexManager::allVertices() const {
 		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
 			// Fast path: in-memory topology is populated.
-			std::unordered_set<std::string> seen;
+			std::unordered_set<std::string> seen = {};
+
 			for (const auto& [v, _] : outEdges_) {
 			  seen.insert(v);
 			}
@@ -933,7 +935,8 @@ size_t GraphIndexManager::getTopologyEdgeCount() const {
 std::vector<std::string> GraphIndexManager::getAllVertices() const {
  // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
-	std::unordered_set<std::string> nodes;
+	std::unordered_set<std::string> nodes = {};
+
 	for (const auto& [node, _] : outEdges_) {
 	  nodes.insert(node);
 	}
@@ -1240,7 +1243,8 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 		}
 
 		// Nachbarn holen (In-Memory falls verfügbar)
-		std::vector<std::string> neighbors;
+		std::vector<std::string> neighbors = {};
+
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
    // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
@@ -2412,7 +2416,8 @@ GraphIndexManager::bfsWithConstraints(
 
 	// Check min_edge_count constraint
 	if (constraints.min_edge_count > 0) {
-		std::vector<std::string> filtered;
+		std::vector<std::string> filtered = {};
+
 		for (const auto& vertex : order) {
 			// In BFS, we need to track the depth/edge count for each vertex
 			// This is a simplified check - for exact min_edge_count we'd need path tracking
@@ -2526,7 +2531,8 @@ GraphIndexManager::dijkstraWithConstraints(
 		}
 
 		// Get neighbors
-		std::vector<AdjacencyInfo> neighbors;
+		std::vector<AdjacencyInfo> neighbors = {};
+
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
    // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);

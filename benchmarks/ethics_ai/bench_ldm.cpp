@@ -235,7 +235,8 @@ static void BM_LDM_MetaVerdictAssembly(benchmark::State& state) {
     EthicsSelectionRouter router(reg.get(), cfg);
     const auto plan = router.planDiscourse();
 
-    std::vector<DiscourseRoundOutput> results;
+    std::vector<DiscourseRoundOutput> results = {};
+
     const std::vector<DiscourseVerdict> verdicts = {
         DiscourseVerdict::PROHIBIT, DiscourseVerdict::PERMIT, DiscourseVerdict::CONDITIONAL
     };

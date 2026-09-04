@@ -113,7 +113,8 @@ static CountResult mockCount(const std::vector<std::optional<int>>& rows) {
 /// Simulates window event delivery — returns event IDs processed.
 static std::vector<int> mockTumblingWindow(const std::vector<int>& events, std::size_t window_size) {
     // Each event processed once, in order
-    std::vector<int> processed;
+    std::vector<int> processed = {};
+
     processed.reserve(events.size());
     std::size_t bucket = 0;
     for (std::size_t i = 0; i < events.size(); ++i) {

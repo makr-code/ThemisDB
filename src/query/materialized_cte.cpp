@@ -225,7 +225,8 @@ bool MaterializedCTEView::applyChange(const CTEDataChange& change) {
 }
 
 int MaterializedCTEView::applyChanges(const std::vector<CTEDataChange>& changes) {
-    std::vector<themisdb::analytics::ChangeRecord> recs;
+    std::vector<themisdb::analytics::ChangeRecord> recs = {};
+
     recs.reserve(changes.size());
     for (const auto& c : changes) {
         recs.push_back(toChangeRecord(c));
@@ -302,7 +303,8 @@ bool MaterializedCTERegistry::hasCTE(const std::string& name) const {
 
 std::vector<std::string> MaterializedCTERegistry::listCTEs() const {
     std::shared_lock lk(registry_mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(views_.size());
     for (const auto& [n, _] : views_) {
       names.push_back(n);

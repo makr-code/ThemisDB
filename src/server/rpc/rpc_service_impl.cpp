@@ -662,9 +662,11 @@ json ThemisRPCService::handleDeleteInternal(
         }
 
         // Collect all descendants via BFS for cascade delete
-        std::vector<std::string> keys_to_delete;
+        std::vector<std::string> keys_to_delete = {};
+
         if (cascade) {
-            std::queue<std::string> bfs_queue;
+            std::queue<std::string> bfs_queue = {};
+
             for (const auto& child_key : direct_children) {
                 bfs_queue.push(child_key);
                 keys_to_delete.push_back(child_key);

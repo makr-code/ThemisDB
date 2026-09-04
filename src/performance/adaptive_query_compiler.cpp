@@ -751,7 +751,8 @@ private:
         constexpr size_t kRows = 5;
 
         // Build hash table from right side
-        std::unordered_map<std::string, QueryRow> hash_table;
+        std::unordered_map<std::string, QueryRow> hash_table = {};
+
         for (size_t i = 0; i < kRows; ++i) {
             QueryRow rrow = makeRow(query.join_table, rtschema, i, params);
             const QueryValue* key = rrow.get(query.join_key_right);
@@ -910,7 +911,8 @@ private:
                     std::string  param_name;
                     ColumnType   col_type;
                 };
-                std::vector<PredInfo> preds;
+                std::vector<PredInfo> preds = {};
+
                 preds.reserve(query.predicates.size());
                 const TableSchema* tschema = schema.getTable(query.table);
                 for (const auto& p : query.predicates) {
@@ -1041,7 +1043,8 @@ private:
 
                     // GROUP BY aggregate
                     std::unordered_map<std::string, AggAccum> groups;
-                    std::vector<std::string> order;
+                    std::vector<std::string> order = {};
+
                     for (const auto& row : base.rows) {
                         const QueryValue* gv = row.get(grp_col);
                         std::string gk = gv && std::holds_alternative<std::string>(*gv)

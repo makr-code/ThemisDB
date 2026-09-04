@@ -165,7 +165,8 @@ std::vector<std::string> ShardingManager::GetShardsForKeyRange(
         return {start_shard, end_shard};
     }
 
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     const int n = static_cast<int>(all_shards.size());
 
     // Walk clockwise from start_idx to end_idx (inclusive), wrapping around.

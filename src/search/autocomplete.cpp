@@ -127,7 +127,8 @@ std::vector<Suggestion> AutocompleteEngine::suggestByPrefix(const std::string& p
 
     // Each PK from the range scan is a document PK whose field value starts
     // with the prefix.  We use the entity's field value as the suggestion text.
-    std::vector<Suggestion> suggestions;
+    std::vector<Suggestion> suggestions = {};
+
     suggestions.reserve(pks.size());
 
     for (const auto& pk : pks) {
@@ -177,7 +178,8 @@ std::vector<Suggestion> AutocompleteEngine::suggestPopular(const std::string& pr
     std::sort(matches.begin(), matches.end(),
               [](const auto& a, const auto& b) { return a.second > b.second; });
 
-    std::vector<Suggestion> suggestions;
+    std::vector<Suggestion> suggestions = {};
+
     for (size_t i = 0; i < std::min(limit, matches.size()); ++i) {
         Suggestion s;
         s.text = matches[i].first;

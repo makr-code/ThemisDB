@@ -565,7 +565,8 @@ Result<GraphPath> ThemisDBAdapter::shortest_path(
 
     // Reconstruct path from target back to source.
     std::vector<std::string> node_seq;
-    std::vector<std::string> edge_seq;
+    std::vector<std::string> edge_seq = {};
+
     for (std::string cur = target_id; !cur.empty(); cur = parent.at(cur)) {
         node_seq.push_back(cur);
         auto eit = via_edge.find(cur);
@@ -1536,7 +1537,8 @@ Result<bool> ThemisDBAdapter::unprepare(const std::string& statement_id) {
 
 Result<std::vector<std::string>> ThemisDBAdapter::list_prepared() {
     std::lock_guard<std::mutex> lk(prepared_mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(prepared_queries_.size());
     for (const auto& kv : prepared_queries_) {
         ids.push_back(kv.first);

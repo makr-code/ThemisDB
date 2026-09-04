@@ -153,7 +153,8 @@ double PasswordPolicy::computeEntropy(const std::string &password) {
         return 0.0;
     }
 
-    std::unordered_map<char, int> freq;
+    std::unordered_map<char, int> freq = {};
+
     for (char c : password) {
         ++freq[c];
     }

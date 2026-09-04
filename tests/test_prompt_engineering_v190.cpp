@@ -142,7 +142,8 @@ TEST(RagContextBudgetManagerTest, RCB07_ExplicitReleaseIdempotent) {
 // RCB-08: multiple allocations tracked correctly; move semantics work.
 TEST(RagContextBudgetManagerTest, RCB08_MultipleAllocations) {
     RagContextBudgetManager mgr{1000};
-    std::vector<BudgetHandle> handles;
+    std::vector<BudgetHandle> handles = {};
+
     for (int i = 0; i < 5; ++i) {
         handles.push_back(mgr.allocate(100));
     }

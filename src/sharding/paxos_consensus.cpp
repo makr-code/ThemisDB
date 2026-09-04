@@ -770,7 +770,8 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
     // when an earlier accepted value must override our own proposal (Paxos
     // Phase-1b safety): this avoids an unconditional copy of `value` on the
     // common fast path where no prior value was accepted.
-    std::optional<ConsensusLogEntry> proposed_value_override;
+    std::optional<ConsensusLogEntry> proposed_value_override = {};
+
     if (highest_accepted_value.has_value()) {
         proposed_value_override = std::move(*highest_accepted_value);
         spdlog::debug("Node {} overriding proposed value with highest accepted value "

@@ -139,7 +139,8 @@ std::vector<std::string> LagAlertManager::replicasInAlert() const
 {
     std::lock_guard<std::mutex> lock(state_mutex_);
 
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& [replica_id, state] : replicas_) {
         if (state.in_alert && !state.in_critical) {
             result.push_back(replica_id);
@@ -152,7 +153,8 @@ std::vector<std::string> LagAlertManager::replicasInCritical() const
 {
     std::lock_guard<std::mutex> lock(state_mutex_);
 
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& [replica_id, state] : replicas_) {
         if (state.in_critical) {
             result.push_back(replica_id);
@@ -193,7 +195,8 @@ std::map<std::string, int64_t> LagAlertManager::allReplicaLags() const
 {
     std::lock_guard<std::mutex> lock(state_mutex_);
 
-    std::map<std::string, int64_t> result;
+    std::map<std::string, int64_t> result = {};
+
     for (const auto& [replica_id, state] : replicas_) {
         result[replica_id] = state.lag.lag_ms;
     }

@@ -204,7 +204,8 @@ int EditionManager::getMaxVRAMGB() const noexcept {
 // ============================================================================
 
 std::vector<std::string> EditionManager::getAvailableFeatures() const {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (std::string_view feat : kGatedFeatureNames) {
         if (isFeatureAvailable(feat)) {
             result.emplace_back(feat);
@@ -214,7 +215,8 @@ std::vector<std::string> EditionManager::getAvailableFeatures() const {
 }
 
 std::vector<std::string> EditionManager::getUnavailableFeatures() const {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (std::string_view feat : kGatedFeatureNames) {
         if (!isFeatureAvailable(feat)) {
             result.emplace_back(feat);

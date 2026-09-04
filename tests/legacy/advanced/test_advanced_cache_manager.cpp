@@ -234,7 +234,8 @@ TEST_F(ACMTest, CacheObliviousScanAllElements) {
 
 TEST_F(ACMTest, ConcurrentPutGetThreadSafe) {
     constexpr int kThreads = 4;
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([this, t](){
             for (int i = 0; i < 50; ++i) {

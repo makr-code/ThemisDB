@@ -99,7 +99,8 @@ PolyglotPersistenceMapper::recommendDataModels(
     const std::vector<InferenceTableSchema>& schemas,
     const std::vector<QueryPattern>& observed_queries)
 {
-    std::vector<DataModelMapping> result;
+    std::vector<DataModelMapping> result = {};
+
     result.reserve(schemas.size());
 
     for (const auto& schema : schemas) {
@@ -159,7 +160,8 @@ PolyglotPersistenceMapper::ModelTransformer::tableToGraph(
     std::vector<GraphEdge> edges;
 
     // Determine which columns are FK columns
-    std::set<std::string> fk_cols;
+    std::set<std::string> fk_cols = {};
+
     for (const auto& fk : schema.foreign_keys) {
       fk_cols.insert(fk.first);
     }

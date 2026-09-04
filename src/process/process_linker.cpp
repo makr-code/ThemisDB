@@ -316,7 +316,8 @@ std::vector<ProcessAttachment> ProcessLinker::getNodeAttachments(
     std::string_view node_id) const
 {
     auto all = getAttachments(instance_id);
-    std::vector<ProcessAttachment> result;
+    std::vector<ProcessAttachment> result = {};
+
     for (auto& att : all) {
         if (att.node_id.has_value() && *att.node_id == node_id) {
             result.push_back(std::move(att));
@@ -518,7 +519,8 @@ std::vector<std::string> ProcessLinker::getMissingDocuments(
 
     // Collect already-attached doc types for this instance+node
     auto node_atts = getNodeAttachments(instance_id, node_id);
-    std::unordered_set<std::string> present_types;
+    std::unordered_set<std::string> present_types = {};
+
     present_types.reserve(node_atts.size());
     for (const auto& att : node_atts) {
         // The attached_by convention: metadata["doc_type"] carries the type
@@ -528,7 +530,8 @@ std::vector<std::string> ProcessLinker::getMissingDocuments(
     }
 
     // Cross-reference
-    std::vector<std::string> missing;
+    std::vector<std::string> missing = {};
+
     missing.reserve(required.size());
     for (const auto& req : required) {
         if (!req.value("mandatory", false)) {

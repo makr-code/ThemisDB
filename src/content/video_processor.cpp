@@ -427,7 +427,8 @@ std::vector<int64_t> VideoProcessor::extractKeyframes([[maybe_unused]] const std
     // Without FFmpeg, synthesise evenly-distributed keyframe timestamps based
     // on the simulated video duration (120 s at 30 fps, I-frame every 2 s).
     const int64_t duration_ms = 120000;
-    std::vector<int64_t> keyframes;
+    std::vector<int64_t> keyframes = {};
+
     if (max_keyframes_ <= 0) {
         return keyframes;
     }

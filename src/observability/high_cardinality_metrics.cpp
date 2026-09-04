@@ -268,7 +268,8 @@ public:
             }
         }
 
-        std::map<std::string, CardinalityStats> result;
+        std::map<std::string, CardinalityStats> result = {};
+
         for (const auto& metric_name : names) {
             result[metric_name] = getCardinalityStats(metric_name);
         }

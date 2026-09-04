@@ -509,7 +509,8 @@ TEST(HugePagesTest, MemoryTracking) {
         size_t size;
     };
     
-    std::vector<Allocation> allocations;
+    std::vector<Allocation> allocations = {};
+
     std::vector<size_t> sizes = {
         2 * 1024 * 1024,   // 2MB
         4 * 1024 * 1024,   // 4MB

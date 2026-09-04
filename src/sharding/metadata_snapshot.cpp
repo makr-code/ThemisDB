@@ -80,7 +80,8 @@ std::optional<uint64_t> MetadataSnapshotManager::createSnapshot(
         
         // Copy metadata storage
         for (const auto& [partition_key, entries] : storage) {
-            std::map<std::string, nlohmann::json> partition_data;
+            std::map<std::string, nlohmann::json> partition_data = {};
+
             for (const auto& [key, metadata_entry] : entries) {
                 partition_data[key] = metadata_entry.toJson();
                 snapshot.total_entries++;

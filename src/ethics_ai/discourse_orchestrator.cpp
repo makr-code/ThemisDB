@@ -91,7 +91,8 @@ DiscourseVerdict clusterMajorityVerdict(
     const std::vector<DiscourseRoundOutput>& outputs,
     const std::vector<std::string>&          school_ids)
 {
-    std::unordered_map<int, int> counts;
+    std::unordered_map<int, int> counts = {};
+
     for (const auto& sid : school_ids) {
         auto it = std::find_if(outputs.begin(), outputs.end(),
                                [&sid](const DiscourseRoundOutput& o) {
@@ -265,7 +266,8 @@ DiscourseOrchestrator::runEbene2(
     // --- Intra-cluster consolidation ---
     for (const auto& [cluster_name, school_ids] : plan.cluster_map) {
         // Identify active (non-ABSTAIN) schools in this cluster.
-        std::vector<std::string> active_ids;
+        std::vector<std::string> active_ids = {};
+
         for (const auto& sid : school_ids) {
             auto it = std::find_if(ebene1_results.begin(), ebene1_results.end(),
                                    [&sid](const DiscourseRoundOutput& o) {
@@ -293,7 +295,8 @@ DiscourseOrchestrator::runEbene2(
                           static_cast<double>(school_ids.size());
 
         // Collect thesis_ids from active schools (up to 3 per school, deduplicated).
-        std::vector<std::string> all_thesis;
+        std::vector<std::string> all_thesis = {};
+
         for (const auto& sid : active_ids) {
             auto it = std::find_if(ebene1_results.begin(), ebene1_results.end(),
                                    [&sid](const DiscourseRoundOutput& o) {

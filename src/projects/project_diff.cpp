@@ -139,7 +139,8 @@ DeltaSet ProjectDiff::diff(
 
     // Build lookup maps: doc_id → doc_json
     auto buildMap = [](const json& docs) {
-        std::unordered_map<std::string, json> m;
+        std::unordered_map<std::string, json> m = {};
+
         if (!docs.is_array()) {
           return m;
         }
@@ -200,7 +201,8 @@ MergeResult ProjectMerge::merge(
     const DeltaSet theirs_delta = diff_.diff(ancestor_snap, theirs_snap);
 
     // Build index of our changes by field path for fast conflict detection
-    std::unordered_map<std::string, const DeltaEntry*> ours_index;
+    std::unordered_map<std::string, const DeltaEntry*> ours_index = {};
+
     for (const auto& e : ours_delta.entries)
         ours_index[e.field_path] = &e;
 

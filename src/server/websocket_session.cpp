@@ -243,7 +243,8 @@ void WebSocketSession::processMessage(const std::string& message) {
                 std::string key_prefix = msg.value("key_prefix", "");
 
                 // Parse optional filter.type field (e.g. {"filter":{"type":"PUT"}})
-                std::set<Changefeed::ChangeEventType> event_types;
+                std::set<Changefeed::ChangeEventType> event_types = {};
+
                 if (msg.contains("filter") && msg["filter"].is_object()) {
                     const auto& flt = msg["filter"];
                     if (flt.contains("type") && flt["type"].is_string()) {

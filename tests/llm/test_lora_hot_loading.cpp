@@ -77,7 +77,8 @@ public:
     }
     std::vector<LoRAInfo> listLoRAs() const override {
         std::lock_guard<std::mutex> lk(mu_);
-        std::vector<LoRAInfo> result;
+        std::vector<LoRAInfo> result = {};
+
         for (const auto& id : loaded_loras_) {
             LoRAInfo info;
             info.id = id;

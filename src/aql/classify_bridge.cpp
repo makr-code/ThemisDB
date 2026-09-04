@@ -100,7 +100,8 @@ const std::vector<CategorySpec> &categorySpecs() {
 /// Compute a raw score for each category against a lower-cased query.
 std::unordered_map<std::string, double> scoreCategories(const std::string &query_lower,
                                                         const std::vector<std::string> &categories) {
-    std::unordered_map<std::string, double> scores;
+    std::unordered_map<std::string, double> scores = {};
+
     for (const auto &cat : categories) {
         scores[cat] = 0.0;
     }
@@ -138,7 +139,8 @@ std::unordered_map<std::string, double> softmax(const std::unordered_map<std::st
         total += e;
     }
 
-    std::unordered_map<std::string, double> result;
+    std::unordered_map<std::string, double> result = {};
+
     for (auto &[k, e] : exp_vals) {
         result[k] = e / total;
     }

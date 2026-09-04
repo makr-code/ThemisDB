@@ -122,7 +122,8 @@ PciDssRuleSet::PciDssRuleSet() {
 }
 
 std::vector<PciDssRuleEvalResult> PciDssRuleSet::evaluateRule(const PolicyRule& rule) const {
-    std::vector<PciDssRuleEvalResult> results;
+    std::vector<PciDssRuleEvalResult> results = {};
+
     results.reserve(rules_.size());
 
     for (const auto& pci_rule : rules_) {

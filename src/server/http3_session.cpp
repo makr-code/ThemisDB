@@ -795,7 +795,8 @@ void Http3Session::processStream(int64_t stream_id) {
     }
 
     // Convert response headers to HTTP/3 format
-    std::unordered_map<std::string, std::string> response_headers;
+    std::unordered_map<std::string, std::string> response_headers = {};
+
     for (const auto& header : response) {
         response_headers[std::string(header.name_string())] = std::string(header.value());
     }
@@ -812,7 +813,8 @@ void Http3Session::sendResponse(int64_t stream_id, int status,
     }
     
     // Build HTTP/3 headers
-    std::vector<nghttp3_nv> nva;
+    std::vector<nghttp3_nv> nva = {};
+
     nva.reserve(headers.size() + 2);
     
     std::string status_str = std::to_string(status);

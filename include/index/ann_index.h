@@ -229,7 +229,8 @@ public:
         if (!impl_) return {};
         std::vector<float> q(query, query + dim);
         auto raw = impl_->search(q, k);
-        std::vector<AnnSearchResult> out;
+        std::vector<AnnSearchResult> out = {};
+
         out.reserve(raw.size());
         for (auto& r : raw)
             out.push_back({static_cast<int64_t>(r.id), r.distance});

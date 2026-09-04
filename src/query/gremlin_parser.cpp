@@ -106,7 +106,8 @@ struct GremlinParser::Lexer {
     }
 
     std::vector<Token> tokenize() {
-        std::vector<Token> tokens;
+        std::vector<Token> tokens = {};
+
         tokens.reserve(src.size());
         while (true) {
             skipWhitespace();
@@ -289,7 +290,8 @@ struct GremlinParser::Parser {
                 throw std::runtime_error("Unknown predicate: " + opName);
 
             expect(GremlinTokenType::LPAREN, "'('");
-            std::vector<GremlinValue> vals;
+            std::vector<GremlinValue> vals = {};
+
             if (!check(GremlinTokenType::RPAREN))
                 vals.push_back(parseValue());
             while (check(GremlinTokenType::COMMA)) {
@@ -315,7 +317,8 @@ struct GremlinParser::Parser {
             if (it != opMap.end()) {
                 consume();  // opName
                 expect(GremlinTokenType::LPAREN, "'('");
-                std::vector<GremlinValue> vals;
+                std::vector<GremlinValue> vals = {};
+
                 if (!check(GremlinTokenType::RPAREN))
                     vals.push_back(parseValue());
                 expect(GremlinTokenType::RPAREN, "')'");

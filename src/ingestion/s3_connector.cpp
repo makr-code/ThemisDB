@@ -518,7 +518,8 @@ private:
                 }
 
                 // Safety check on keys before we build the batch.
-                std::vector<std::string> safe_keys;
+                std::vector<std::string> safe_keys = {};
+
                 safe_keys.reserve(keys.size());
                 for (const auto& k : keys) {
                     if (!isS3KeySafe(k)) {
@@ -640,7 +641,8 @@ private:
                 }
 
                 const auto& result = list_outcome.GetResult();
-                std::vector<std::string> keys;
+                std::vector<std::string> keys = {};
+
                 keys.reserve(result.GetContents().size());
                 for (const auto& obj : result.GetContents()) {
                     keys.push_back(obj.GetKey());

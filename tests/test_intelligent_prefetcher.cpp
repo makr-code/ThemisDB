@@ -241,7 +241,8 @@ TEST_F(IntelligentPrefetchingFocusedTests, PrefetchWithHardwarePrefetchEnabled) 
     feed_stride(p, base, 4, 20);
     auto preds = p.predict_next_accesses(base + 20 * 4, 4);
     // Only prefetch addresses within the dummy array.
-    std::vector<uint64_t> safe_preds;
+    std::vector<uint64_t> safe_preds = {};
+
     for (uint64_t a : preds) {
         if (a >= base && a < base + sizeof(dummy)) {
           safe_preds.push_back(a);
@@ -395,7 +396,8 @@ TEST_F(IntelligentPrefetchingFocusedTests, ConcurrentAccessIsSafe) {
     // Minimal thread-safety smoke test.
     IntelligentPrefetcher p(make_test_config());
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&p, t]() {
             for (int i = 0; i < 50; ++i) {

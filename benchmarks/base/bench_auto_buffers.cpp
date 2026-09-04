@@ -93,7 +93,8 @@ BENCHMARK(BM_MapOperations_Insert)
     ->Range(100, 10000);
 
 static void BM_MapOperations_Lookup(benchmark::State& state) {
-    std::map<std::string, double> data;
+    std::map<std::string, double> data = {};
+
     for (int i = 0; i < 1000; ++i) {
         data["key_" + std::to_string(i)] = i * 1.5;
     }

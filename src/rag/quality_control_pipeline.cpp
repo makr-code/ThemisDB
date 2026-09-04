@@ -396,7 +396,8 @@ QualityCheckResult QualityControlPipeline::runThoroughStage(
     
     // Citation coverage check (map answer sentences to source chunks)
     if (impl_->config.enable_citation_check && !documents.empty()) {
-        std::vector<SourceChunk> source_chunks;
+        std::vector<SourceChunk> source_chunks = {};
+
         source_chunks.reserve(documents.size());
         size_t chunk_idx = 0;
         for (const auto& doc : documents) {

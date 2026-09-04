@@ -604,7 +604,8 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
     // When delta_hash_file is set, rows whose FNV-1a hash has already been seen
     // are skipped.  Setting delta_key_columns = {"updated_at"} implements the
     // recommended high-watermark pattern for MySQL sources.
-    std::unordered_set<uint64_t> delta_hashes;
+    std::unordered_set<uint64_t> delta_hashes = {};
+
     if (!options.delta_hash_file.empty()) {
         delta_hashes = loadDeltaHashes(options.delta_hash_file);
         THEMIS_INFO("MySQL incremental import: loaded {} known hashes from '{}'",
@@ -1006,7 +1007,8 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
     }
 
     // Resolve column list
-    std::vector<std::string> col_list;
+    std::vector<std::string> col_list = {};
+
     if (match[4].matched && !match[4].str().empty()) {
         std::istringstream css(match[4].str());
         std::string col;
@@ -1677,7 +1679,8 @@ uint64_t MySQLImporter::computeRowHash(const std::string& tuple_str,
     // Setting key_columns = {"updated_at"} is the recommended high-watermark
     // configuration: only rows with a new updated_at value will be imported.
     static constexpr char kFieldSep = '\x01';
-    std::unordered_map<std::string, size_t> schema_column_index;
+    std::unordered_map<std::string, size_t> schema_column_index = {};
+
     schema_column_index.reserve(schema_columns.size());
     for (size_t i = 0; i < schema_columns.size(); ++i) {
         schema_column_index.emplace(schema_columns[i], i);

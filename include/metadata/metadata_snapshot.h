@@ -253,7 +253,8 @@ public:
      */
     std::vector<std::string> listSnapshotIds() override {
         std::unique_lock<std::mutex> lk(mutex_);
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         ids.reserve(snapshots_.size());
         for (const auto& kv : snapshots_) {
             ids.push_back(kv.first);

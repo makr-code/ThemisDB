@@ -49,7 +49,8 @@ static uint32_t cv_crc32(const void* data, size_t len) {
 // ============================================================================
 
 std::vector<uint8_t> CompressedValue::serialize() const {
-    std::vector<uint8_t> result;
+    std::vector<uint8_t> result = {};
+
     result.reserve(1 + 8 + data.size() + 4);
 
     // Method (1 byte)

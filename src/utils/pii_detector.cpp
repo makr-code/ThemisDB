@@ -214,7 +214,8 @@ std::string PIIDetector::maskValue(PIIType type, const std::string& value) const
 std::vector<std::string> PIIDetector::getEnabledEngines() const {
     std::scoped_lock lock(mutex_);
     
-    std::vector<std::string> enabled;
+    std::vector<std::string> enabled = {};
+
     for (const auto& engine : engines_) {
         if (engine->isEnabled()) {
             enabled.push_back(engine->getName());

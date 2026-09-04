@@ -153,7 +153,8 @@ static const std::regex RE_EU_CITATION(
 // Split text into sentences using common German legal sentence boundaries.
 // Avoids splitting on abbreviations ("Abs.", "Nr.", "Art.", numbers).
 static std::vector<std::string> splitSentences(const std::string& text) {
-    std::vector<std::string> sentences;
+    std::vector<std::string> sentences = {};
+
     if (text.empty()) {
       return sentences;
     }
@@ -256,7 +257,8 @@ std::vector<TrainingSample>
 TextClauseExtractor::extract(const std::string& text,
                              const std::string& document_id) const
 {
-    std::vector<TrainingSample> samples;
+    std::vector<TrainingSample> samples = {};
+
     if (text.empty()) {
       return samples;
     }
@@ -266,7 +268,8 @@ TextClauseExtractor::extract(const std::string& text,
     // Build a non-table, non-image copy of the text for clause extraction.
     // Skip lines that belong to a detected table block.
     auto table_blocks = detail::detectTableBlocks(lines);
-    std::set<size_t> table_lines;
+    std::set<size_t> table_lines = {};
+
     for (const auto& blk : table_blocks) {
         for (size_t l = blk.first_line; l <= blk.last_line; ++l)
             table_lines.insert(l);
@@ -323,7 +326,8 @@ std::vector<TrainingSample>
 TableExtractor::extract(const std::string& text,
                         const std::string& document_id) const
 {
-    std::vector<TrainingSample> samples;
+    std::vector<TrainingSample> samples = {};
+
     if (text.empty()) {
       return samples;
     }
@@ -382,7 +386,8 @@ std::vector<TrainingSample>
 CitationExtractor::extract(const std::string& text,
                            const std::string& document_id) const
 {
-    std::vector<TrainingSample> samples;
+    std::vector<TrainingSample> samples = {};
+
     if (text.empty()) {
       return samples;
     }

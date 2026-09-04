@@ -102,7 +102,8 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleOptimize(
         }
 
         // Trigger optimization
-        std::vector<prompt_engineering::TestCase> test_cases;
+        std::vector<prompt_engineering::TestCase> test_cases = {};
+
         if (body.contains("test_cases")) {
             for (const auto& tc : body["test_cases"]) {
                 prompt_engineering::TestCase test;

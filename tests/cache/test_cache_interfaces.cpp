@@ -88,7 +88,8 @@ public:
             filter.ttl_max_seconds == 0) {
             return all_keys;  // no filter → return all
         }
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         for (const auto& k : all_keys) {
             if (filter.prefix.has_value() &&
                 k.rfind(*filter.prefix, 0) == 0) {

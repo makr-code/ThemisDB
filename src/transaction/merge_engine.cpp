@@ -311,7 +311,8 @@ MergeEngine::MergeResult MergeEngine::merge(
     }
     
     // Resolve conflicts
-    std::vector<analytics::DiffEngine::Change> resolved_changes;
+    std::vector<analytics::DiffEngine::Change> resolved_changes = {};
+
     if (!conflicts.empty()) {
         resolved_changes = resolveConflicts(conflicts, options);
         
@@ -325,7 +326,8 @@ MergeEngine::MergeResult MergeEngine::merge(
     }
     
     // Collect non-conflicting changes from source
-    std::unordered_set<std::string> conflict_keys;
+    std::unordered_set<std::string> conflict_keys = {};
+
     for (const auto& conflict : conflicts) {
         conflict_keys.insert(conflict.key);
     }
@@ -525,7 +527,8 @@ std::vector<analytics::DiffEngine::Change> MergeEngine::resolveConflicts(
     std::vector<analytics::DiffEngine::Change> resolved_changes;
     
     // Build manual resolution map
-    std::unordered_map<std::string, const ConflictResolution*> resolution_map;
+    std::unordered_map<std::string, const ConflictResolution*> resolution_map = {};
+
     for (const auto& res : options.manual_resolutions) {
         resolution_map[res.key] = &res;
     }
@@ -629,7 +632,8 @@ std::optional<std::string> MergeEngine::getValueAtSequence(
     
     auto events = changefeed_.listEvents(opts);
     
-    std::optional<std::string> value;
+    std::optional<std::string> value = {};
+
     for (const auto& event : events) {
         if (event.sequence > sequence) {
             break;

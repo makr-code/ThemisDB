@@ -170,7 +170,8 @@ TEST(ChunkedResponseWriterTest, FromJsonVectorChunkBatching) {
     auto req = makeRequest();
 
     // 10 items with chunk_size = 3 → 4 chunks (3+3+3+1)
-    std::vector<json> items;
+    std::vector<json> items = {};
+
     for (int i = 0; i < 10; ++i) {
         items.push_back({{"i", i}});
     }
@@ -196,7 +197,8 @@ TEST(ChunkedResponseWriterTest, FromJsonVectorChunkBatching) {
 TEST(ChunkedResponseWriterTest, FromJsonVectorMaxItemsLimit) {
     auto req = makeRequest();
 
-    std::vector<json> items;
+    std::vector<json> items = {};
+
     for (int i = 0; i < 20; ++i) {
         items.push_back({{"i", i}});
     }
@@ -227,7 +229,8 @@ TEST(ChunkedResponseWriterTest, FromStreamBasic) {
     auto req = makeRequest();
 
     // Build a materialized ResultStream<json>
-    std::vector<json> data;
+    std::vector<json> data = {};
+
     for (int i = 0; i < 5; ++i) {
         data.push_back({{"n", i}});
     }
@@ -264,7 +267,8 @@ TEST(ChunkedResponseWriterTest, FromStreamEmpty) {
 TEST(ChunkedResponseWriterTest, FromStreamMaxItems) {
     auto req = makeRequest();
 
-    std::vector<json> data;
+    std::vector<json> data = {};
+
     for (int i = 0; i < 100; ++i) {
         data.push_back({{"x", i}});
     }
@@ -349,7 +353,8 @@ TEST(ChunkedResponseWriterTest, EncodeDecodeRoundTrip) {
 TEST(ChunkedResponseWriterTest, DecodePreservesContent) {
     // Build via fromJsonVector, then decode – validates the full pipeline
     auto req = makeRequest();
-    std::vector<json> items;
+    std::vector<json> items = {};
+
     for (int i = 0; i < 5; ++i) {
         items.push_back({{"v", i}});
     }

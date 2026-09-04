@@ -181,7 +181,8 @@ AggregateScheduler::Stats AggregateScheduler::getStats() const {
 std::vector<AggregateScheduler::ScheduledAggregate> AggregateScheduler::listAggregates() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<ScheduledAggregate> result;
+    std::vector<ScheduledAggregate> result = {};
+
     result.reserve(aggregates_.size());
     
     for (const auto& [id, agg] : aggregates_) {

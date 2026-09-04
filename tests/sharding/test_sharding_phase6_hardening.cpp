@@ -93,7 +93,8 @@ public:
      */
     std::vector<WalEntry> entriesFor(const std::string& txn_id) const {
         std::lock_guard<std::mutex> lk(mu_);
-        std::vector<WalEntry> out;
+        std::vector<WalEntry> out = {};
+
         for (const auto& e : entries_)
             if (e.txn_id == txn_id) {
               out.push_back(e);
@@ -1442,7 +1443,8 @@ TEST_F(FailoverRecoveryTest, FLR09_SAGAFiveStepsThreeRolledBackCorrectState) {
     int applied = 0;
     int compensated = 0;
 
-    std::vector<SagaStep> steps;
+    std::vector<SagaStep> steps = {};
+
     for (int i = 0; i < 5; ++i) {
         steps.push_back({
             "step-" + std::to_string(i),
@@ -1672,7 +1674,8 @@ TEST_F(FailoverRecoveryTest, FLR19_ErrorTaxonomyEachFailureClassUnique) {
         ShardingErrorCode::SAGA_COMPENSATION,
     };
 
-    std::set<uint32_t> seen;
+    std::set<uint32_t> seen = {};
+
     for (auto c : codes) {
         const auto val = static_cast<uint32_t>(c);
         EXPECT_TRUE(seen.insert(val).second)
@@ -1707,7 +1710,8 @@ TEST_F(FailoverRecoveryTest, FLR20_GateSelfCheck_AllFLR_InvariantsPass) {
     // Invariant 3: SAGA compensation runs in reverse order
     auto inv3 = [&]() -> bool {
         SimWAL w; SagaExecutor saga(&w);
-        std::vector<std::string> comp_order;
+        std::vector<std::string> comp_order = {};
+
         std::vector<SagaStep> steps = {
             {"X", []{ return true; }, [&]{ comp_order.push_back("X"); }},
             {"Y", []{ return true; }, [&]{ comp_order.push_back("Y"); }},

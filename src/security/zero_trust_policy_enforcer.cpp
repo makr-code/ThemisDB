@@ -60,7 +60,8 @@ bool ZeroTrustPolicyEnforcer::removeNetworkPolicy(const std::string& policy_id) 
 
 std::vector<NetworkPolicy> ZeroTrustPolicyEnforcer::getNetworkPolicies() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<NetworkPolicy> result;
+    std::vector<NetworkPolicy> result = {};
+
     result.reserve(policies_.size());
     for (const auto& kv : policies_) {
         result.push_back(kv.second);

@@ -135,7 +135,8 @@ static NumaTopology detect_linux() noexcept {
     }
 
     struct dirent* entry;
-    std::vector<int> node_ids;
+    std::vector<int> node_ids = {};
+
     while ((entry = readdir(dir)) != nullptr) {
         std::string name(entry->d_name);
         if (name.rfind("node", 0) == 0 && name.size() > 4) {
@@ -382,7 +383,8 @@ std::vector<int> ThreadPinner::current_affinity() noexcept {
     cpu_set_t cs;
     CPU_ZERO(&cs);
     if (pthread_getaffinity_np(pthread_self(), sizeof(cpu_set_t), &cs) != 0) return {};
-    std::vector<int> cpus;
+    std::vector<int> cpus = {};
+
     for (int i = 0; i < CPU_SETSIZE; ++i) {
         if (CPU_ISSET(static_cast<unsigned int>(i), &cs)) {
           cpus.push_back(i);
@@ -489,7 +491,8 @@ std::vector<int> ThreadPinner::current_affinity() noexcept {
     if (nproc == 0) {
       nproc = 1;
     }
-    std::vector<int> cpus;
+    std::vector<int> cpus = {};
+
     for (unsigned int i = 0; i < nproc; ++i) {
       cpus.push_back(static_cast<int>(i));
     }

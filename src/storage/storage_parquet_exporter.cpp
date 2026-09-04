@@ -262,7 +262,8 @@ buildInt32Page(const ColumnSegment& seg) {
     // on big-endian hosts byte-swapping would be required here.
     std::vector<uint8_t> values(raw.data(),
                                 raw.data() + n * sizeof(int32_t));
-    std::vector<uint8_t> hdr;
+    std::vector<uint8_t> hdr = {};
+
     encodePageHdr(hdr, static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(n));
@@ -275,7 +276,8 @@ buildInt64Page(const ColumnSegment& seg) {
     size_t n = seg.metadata().row_count;
     std::vector<uint8_t> values(raw.data(),
                                 raw.data() + n * sizeof(int64_t));
-    std::vector<uint8_t> hdr;
+    std::vector<uint8_t> hdr = {};
+
     encodePageHdr(hdr, static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(n));
@@ -288,7 +290,8 @@ buildFloatPage(const ColumnSegment& seg) {
     size_t n = seg.metadata().row_count;
     std::vector<uint8_t> values(raw.data(),
                                 raw.data() + n * sizeof(float));
-    std::vector<uint8_t> hdr;
+    std::vector<uint8_t> hdr = {};
+
     encodePageHdr(hdr, static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(n));
@@ -301,7 +304,8 @@ buildDoublePage(const ColumnSegment& seg) {
     size_t n = seg.metadata().row_count;
     std::vector<uint8_t> values(raw.data(),
                                 raw.data() + n * sizeof(double));
-    std::vector<uint8_t> hdr;
+    std::vector<uint8_t> hdr = {};
+
     encodePageHdr(hdr, static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(n));
@@ -323,7 +327,8 @@ buildBoolPage(const ColumnSegment& seg) {
             values[i / 8] |= static_cast<uint8_t>(1u << (i % 8));
         }
     }
-    std::vector<uint8_t> hdr;
+    std::vector<uint8_t> hdr = {};
+
     encodePageHdr(hdr, static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(n));
@@ -339,7 +344,8 @@ buildStringPage(const ColumnSegment& seg) {
 
     // rawData() layout for STRING: packed as-is (same as BYTE_ARRAY PLAIN)
     std::vector<uint8_t> values(raw.begin(), raw.end());
-    std::vector<uint8_t> hdr;
+    std::vector<uint8_t> hdr = {};
+
     encodePageHdr(hdr, static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(n));
@@ -396,7 +402,8 @@ Result<std::vector<uint8_t>> StorageParquetExporter::buildParquet(
     //   4 bytes  metadata_length (LE)
     //   4 bytes  "PAR1" magic
 
-    std::vector<uint8_t> file;
+    std::vector<uint8_t> file = {};
+
     static const uint8_t MAGIC[4] = {'P', 'A', 'R', '1'};
     file.insert(file.end(), MAGIC, MAGIC + 4);
 

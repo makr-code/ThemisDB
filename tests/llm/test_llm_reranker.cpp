@@ -371,7 +371,8 @@ TEST(LlmRerankerFeedback, EmptyResultsYieldsNoClickEvents) {
 }
 
 TEST(LlmRerankerFeedback, RankPositionPreservedInClickEvents) {
-    std::vector<LlmRerankResult> results;
+    std::vector<LlmRerankResult> results = {};
+
     for (size_t i = 0; i < 3; ++i) {
         LlmRerankResult r;
         r.document_id = "doc" + std::to_string(i);

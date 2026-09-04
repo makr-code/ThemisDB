@@ -520,7 +520,8 @@ protected:
     }
 
     std::vector<TSStore::DataPoint> makePoints(int n) {
-        std::vector<TSStore::DataPoint> pts;
+        std::vector<TSStore::DataPoint> pts = {};
+
         for (int i = 0; i < n; ++i) {
             TSStore::DataPoint p;
             p.metric       = "cpu";

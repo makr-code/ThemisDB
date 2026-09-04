@@ -39,7 +39,8 @@ static std::vector<T> makeSorted(size_t n, T start = T{0}, T step = T{1}) {
 static std::vector<int64_t> randomSortedI64(size_t n, unsigned seed = 42) {
     std::mt19937_64 rng(seed);
     std::uniform_int_distribution<int64_t> dist(0, static_cast<int64_t>(n) * 10);
-    std::set<int64_t> s;
+    std::set<int64_t> s = {};
+
     while (s.size() < n) {
       s.insert(dist(rng));
     }

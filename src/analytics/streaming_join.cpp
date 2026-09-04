@@ -160,7 +160,8 @@ bool HashJoin::addBuildBatch(const ColumnBatch &batch) {
     }
 
     // Resolve key indices in src_cols.
-    std::vector<size_t> key_indices;
+    std::vector<size_t> key_indices = {};
+
     key_indices.reserve(cfg_.join_keys.size());
     for (const auto &kn : cfg_.join_keys) {
         bool found = false;
@@ -194,7 +195,8 @@ bool HashJoin::addBuildBatch(const ColumnBatch &batch) {
 ColumnBatch HashJoin::probe(const ColumnBatch &probe_batch) {
     // Determine probe columns to project.
     std::vector<std::shared_ptr<Column>> probe_cols;
-    std::vector<std::string> probe_col_names;
+    std::vector<std::string> probe_col_names = {};
+
     if (cfg_.probe_select.empty()) {
         probe_cols.reserve(probe_batch.columnCount());
         for (size_t i = 0; i < probe_batch.columnCount(); ++i) {
@@ -214,7 +216,8 @@ ColumnBatch HashJoin::probe(const ColumnBatch &probe_batch) {
     }
 
     // Resolve probe key indices.
-    std::vector<size_t> probe_key_indices;
+    std::vector<size_t> probe_key_indices = {};
+
     probe_key_indices.reserve(cfg_.join_keys.size());
     for (const auto &kn : cfg_.join_keys) {
         bool found = false;
@@ -231,7 +234,8 @@ ColumnBatch HashJoin::probe(const ColumnBatch &probe_batch) {
     }
 
     // Build output schema: probe columns + build columns (excluding dup keys).
-    std::vector<std::string> build_non_key_names;
+    std::vector<std::string> build_non_key_names = {};
+
     for (size_t ci = 0; ci < build_column_names_.size(); ++ci) {
         const auto &n = build_column_names_[ci];
         bool is_key   = false;
@@ -353,7 +357,8 @@ void IntervalJoin::addBuildBatch(const ColumnBatch &batch) {
 
     for (size_t r = 0; r < batch.rowCount(); ++r) {
         int64_t ts = time_col.int64Data()[r];
-        std::vector<ColumnValue> vals;
+        std::vector<ColumnValue> vals = {};
+
         vals.reserve(build_col_names_.size());
         for (const auto &n : build_col_names_) {
             auto c = batch.getColumn(n);
@@ -402,7 +407,8 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
 
     // Determine probe columns.
     std::vector<std::shared_ptr<Column>> probe_cols;
-    std::vector<std::string> probe_col_names;
+    std::vector<std::string> probe_col_names = {};
+
     if (cfg_.probe_select.empty()) {
         for (size_t i = 0; i < probe_batch.columnCount(); ++i) {
             probe_cols.push_back(probe_batch.getColumnAt(i));
@@ -451,7 +457,8 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
 
     // Determine which build columns to output (excluding key duplicates).
     std::vector<size_t> build_output_indices;
-    std::vector<std::string> build_output_names;
+    std::vector<std::string> build_output_names = {};
+
     for (size_t i = 0; i < build_col_names_.size(); ++i) {
         const auto &n = build_col_names_[i];
         bool is_key   = false;

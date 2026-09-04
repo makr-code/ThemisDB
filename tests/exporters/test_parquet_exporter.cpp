@@ -601,7 +601,8 @@ TEST_F(ParquetExporterTest, LargeBatchExport) {
     config.row_group_size = 8;
     ParquetExporter exporter(config);
 
-    std::vector<BaseEntity> large_batch;
+    std::vector<BaseEntity> large_batch = {};
+
     for (int i = 0; i < 40; ++i) {
         BaseEntity e;
         e.setPrimaryKey("large_" + std::to_string(i));

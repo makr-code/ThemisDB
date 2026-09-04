@@ -161,7 +161,8 @@ public:
     }
 
     std::vector<std::string> layerNames() const {
-        std::vector<std::string> names;
+        std::vector<std::string> names = {};
+
         names.reserve(layers_.size());
         for (const auto& kv : layers_) {
           names.push_back(kv.first);
@@ -349,7 +350,8 @@ public:
     // -------------------------------------------------------------------------
 
     std::vector<LoRAWeightEntry> exportWeights() const {
-        std::vector<LoRAWeightEntry> entries;
+        std::vector<LoRAWeightEntry> entries = {};
+
         entries.reserve(layers_.size());
         for (const auto& kv : layers_) {
           entries.push_back(kv.second);

@@ -211,7 +211,8 @@ bool InferenceEngineEnhanced::generate(
     
     // For batch mode, generate all tokens at once
     if (mode == InferenceMode::BATCH) {
-        std::vector<int> output_tokens;
+        std::vector<int> output_tokens = {};
+
         if (generateTokens(request_id, input_token_ids, max_tokens, true, output_tokens)) {
             // Call token callback
             if ([[maybe_unused]] token_callback) {
@@ -309,7 +310,8 @@ int InferenceEngineEnhanced::generateSingleToken(
     const std::vector<int>& input_token_ids,
     bool is_prefill
 ) {
-    std::vector<int> output_token_ids;
+    std::vector<int> output_token_ids = {};
+
     if (generateTokens(request_id, input_token_ids, 1, is_prefill, output_token_ids)) {
         if (!output_token_ids.empty()) {
             return output_token_ids[0];
@@ -568,7 +570,8 @@ std::optional<LoRAConfig> InferenceEngineEnhanced::getAdapterConfig(
 
 std::vector<LoRAConfig> InferenceEngineEnhanced::getAllAdapterConfigs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<LoRAConfig> configs;
+    std::vector<LoRAConfig> configs = {};
+
     for (const auto& [adapter_id, config] : loaded_adapters_) {
         configs.push_back(config);
     }

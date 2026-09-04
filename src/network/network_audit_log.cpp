@@ -247,7 +247,8 @@ std::vector<AuditEvent> NetworkAuditLog::getRecentEvents([[maybe_unused]] size_t
 
 std::vector<AuditEvent> NetworkAuditLog::getEventsByType([[maybe_unused]] AuditEventType type) const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<AuditEvent> result;
+    std::vector<AuditEvent> result = {};
+
     for (const auto& ev : buffer_) {
         if (ev.type == type) {
           result.push_back(ev);

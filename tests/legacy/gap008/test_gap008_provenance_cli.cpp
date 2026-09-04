@@ -18,7 +18,8 @@ namespace {
 /// Parse a query string into key-value pairs.
 /// For example: "limit=1000&query_id=abc" → {{"limit", "1000"}, {"query_id", "abc"}}
 std::unordered_map<std::string, std::string> parseQueryString(const std::string& qs) {
-    std::unordered_map<std::string, std::string> params;
+    std::unordered_map<std::string, std::string> params = {};
+
     if (qs.empty()) {
       return params;
     }

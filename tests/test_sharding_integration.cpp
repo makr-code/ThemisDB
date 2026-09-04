@@ -111,7 +111,8 @@ TEST_F(ShardingIntegrationTest, ResolverConsistentMapping) {
     ASSERT_TRUE(urn.has_value());
     
     // Resolve same URN multiple times
-    std::vector<std::string> resolved_shards;
+    std::vector<std::string> resolved_shards = {};
+
     for (int i = 0; i < 100; ++i) {
         auto shard = resolver.resolvePrimary(*urn);
         ASSERT_TRUE(shard.has_value());
@@ -166,7 +167,8 @@ TEST_F(ShardingIntegrationTest, ResolverReplicaDiscovery) {
     EXPECT_LE(shards.size(), 3u);
     
     // All should be unique
-    std::set<std::string> unique_shards;
+    std::set<std::string> unique_shards = {};
+
     for (const auto& shard : shards) {
         EXPECT_TRUE(unique_shards.insert(shard.shard_id).second) 
             << "Duplicate shard in replicas: " << shard.shard_id;
@@ -314,7 +316,8 @@ TEST_F(ShardingIntegrationTest, ConcurrentURNResolution) {
     };
     
     // Run concurrent resolution
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back(resolve_task, t);
     }

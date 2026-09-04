@@ -73,7 +73,8 @@ namespace {
 constexpr std::size_t kProcessEmbeddingDimensions = 256;
 
 std::vector<std::string> traceActivities(const ProcessTrace& trace) {
-    std::vector<std::string> activities;
+    std::vector<std::string> activities = {};
+
     activities.reserve(trace.events.size());
     for (const auto& event : trace.events) {
         activities.push_back(event.activity);
@@ -291,7 +292,8 @@ EventLog buildEventLogFromScanner(const FunctionContext& ctx,
         return true;
     });
 
-    std::map<std::string, int> activity_to_id;
+    std::map<std::string, int> activity_to_id = {};
+
     for (const auto& doc : docs) {
         ProcessEvent event;
         event.case_id = doc.at(config.case_id_field).get<std::string>();

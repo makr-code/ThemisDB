@@ -275,7 +275,8 @@ static void BM_ParameterSubstitution(benchmark::State& state) {
         query += "field" + std::to_string(i) + " = $" + std::to_string(i + 1);
     }
     
-    std::vector<std::string> params;
+    std::vector<std::string> params = {};
+
     for (int i = 0; i < num_params; ++i) {
         params.push_back("value" + std::to_string(i));
     }

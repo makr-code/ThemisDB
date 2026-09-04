@@ -331,7 +331,8 @@ private:
 
         // Post-filter by timestamp and event_types (not natively supported by
         // ListOptions for the combination we need).
-        std::vector<Changefeed::ChangeEvent> out;
+        std::vector<Changefeed::ChangeEvent> out = {};
+
         out.reserve(raw.size());
         for (auto& ev : raw) {
             if (opts.from_timestamp_ms > 0 &&

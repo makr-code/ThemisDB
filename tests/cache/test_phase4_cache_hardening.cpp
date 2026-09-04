@@ -335,7 +335,8 @@ TEST(ReplicationCoordinatorC2Test, GetStatsThreadSafe) {
     auto bus  = std::make_shared<InProcessCacheCoordinator::Bus>();
     CacheReplicationCoordinator coord(nullptr, bus, nullptr);
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 4; ++i) {
         threads.emplace_back([&]() {
             for (int j = 0; j < 20; ++j) {

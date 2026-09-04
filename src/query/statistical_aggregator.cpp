@@ -211,7 +211,8 @@ Result<nlohmann::json> StatisticalAggregator::calculateMAD(const std::vector<dou
 std::vector<double> StatisticalAggregator::extractNumericValues(
     const std::vector<nlohmann::json>& jsonValues
 ) {
-    std::vector<double> result;
+    std::vector<double> result = {};
+
     result.reserve(jsonValues.size());
     
     for (const auto& val : jsonValues) {

@@ -119,7 +119,8 @@ TEST(ConsumerGroupStaticTest, PartitionDistribution) {
     // With enough distinct keys and partition_count=4, each partition
     // should receive at least some keys (basic distribution check).
     const uint32_t count = 4;
-    std::unordered_set<uint32_t> seen;
+    std::unordered_set<uint32_t> seen = {};
+
     for (int i = 0; i < 100; i++) {
         seen.insert(ConsumerGroupManager::partitionForKey(
             "key:" + std::to_string(i), count));
@@ -379,7 +380,8 @@ TEST_F(ConsumerGroupTest, FetchEventsAllConsumersReceiveAllEvents) {
 
     // Consumer IDs must map to distinct partitions so all 30 events are
     // covered with no gaps.  Verified: node-0→1, node-1→0, node-2→2.
-    std::unordered_set<uint64_t> all_seen;
+    std::unordered_set<uint64_t> all_seen = {};
+
     for (const auto& cid : {"node-0", "node-1", "node-2"}) {
         auto evs = manager_->fetchEvents("coverage-test", cid, *changefeed_, 200);
         for (const auto& ev : evs) {

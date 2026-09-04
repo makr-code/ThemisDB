@@ -121,7 +121,8 @@ public:
     explicit SPARQLLexer(const std::string& input) : input_(input), pos_(0) {}
 
     std::vector<SPARQLToken> tokenize() {
-        std::vector<SPARQLToken> tokens;
+        std::vector<SPARQLToken> tokens = {};
+
         while (pos_ < input_.size()) {
             skipWhitespace();
             if (pos_ >= input_.size()) {

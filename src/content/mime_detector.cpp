@@ -304,7 +304,8 @@ std::string MimeDetector::computeDeterministicHash() const {
     std::string buffer;
     
     // Extensions
-    std::vector<std::string> ext_lines;
+    std::vector<std::string> ext_lines = {};
+
     ext_lines.reserve(ext_to_mime_.size());
     for (const auto& kv : ext_to_mime_) {
         ext_lines.push_back(kv.first + "=" + kv.second);
@@ -316,7 +317,8 @@ std::string MimeDetector::computeDeterministicHash() const {
     }
     
     // Magic signatures
-    std::vector<std::string> magic_lines;
+    std::vector<std::string> magic_lines = {};
+
     magic_lines.reserve(magic_signatures_.size());
     for (const auto& sig : magic_signatures_) {
         std::string hex;
@@ -347,7 +349,8 @@ std::string MimeDetector::computeDeterministicHash() const {
     }
     
     // Categories
-    std::vector<std::string> category_lines;
+    std::vector<std::string> category_lines = {};
+
     category_lines.reserve(categories_.size());
     for (const auto& cat : categories_) {
         std::vector<std::string> mimes(cat.second.begin(), cat.second.end());

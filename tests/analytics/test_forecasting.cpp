@@ -850,7 +850,8 @@ TEST(SIMDParityTest, ARIMA_FlatSeries_NoNaN) {
 
 TEST(ForecastingBatchStreamingTests, PredictBatch_ReturnsCorrectShape) {
     // 3 series, 20 steps each
-    std::vector<TimeSeries> batch;
+    std::vector<TimeSeries> batch = {};
+
     for (int s = 0; s < 3; ++s) {
         batch.push_back(makeLinearSeries(30, /*slope=*/static_cast<double>(s + 1)));
     }
@@ -903,7 +904,8 @@ TEST(ForecastingBatchStreamingTests, PredictBatch_EmptyBatch_ReturnsEmpty) {
 }
 
 TEST(ForecastingBatchStreamingTests, PredictBatch_AllMethods) {
-    std::vector<TimeSeries> batch;
+    std::vector<TimeSeries> batch = {};
+
     for (int i = 0; i < 3; ++i)
         batch.push_back(makeSeasonalSeries(40, 4, 0.5));
 

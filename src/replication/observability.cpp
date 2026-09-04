@@ -76,7 +76,8 @@ ReplicationObserver::getTopology() const
     nodes.reserve(replicas.size());  // Pre-allocate to avoid reallocations
     
     // Build a map: node_id → role for downstream lookup
-    std::map<std::string, ReplicationRole> role_map;
+    std::map<std::string, ReplicationRole> role_map = {};
+
     for (const auto& r : replicas) {
         role_map[r.node_id] = r.role;
     }

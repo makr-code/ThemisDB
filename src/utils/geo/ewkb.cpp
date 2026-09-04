@@ -623,7 +623,8 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
         geom.has_z = has_z;
         geom.rings.reserve(rings_arr.size());
         for (const auto& ring : rings_arr) {
-            std::vector<Coordinate> ring_coords;
+            std::vector<Coordinate> ring_coords = {};
+
             ring_coords.reserve(ring.size());
             for (const auto& coord : ring) {
                 double x = coord.at(0).get<double>();
@@ -651,7 +652,8 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
             pg.has_z = has_z;
             pg.rings.reserve(poly.size());
             for (const auto& ring : poly) {
-                std::vector<Coordinate> ring_coords;
+                std::vector<Coordinate> ring_coords = {};
+
                 ring_coords.reserve(ring.size());
                 for (const auto& coord : ring) {
                     double x = coord.at(0).get<double>();
@@ -763,7 +765,8 @@ GeometryInfo EWKBParser::parseWKT(const std::string& wkt_raw) {
                 ring = ring.substr(1, ring.size() - 2);
             }
             auto coord_tokens = splitTopLevel(ring, ',');
-            std::vector<Coordinate> coords;
+            std::vector<Coordinate> coords = {};
+
             coords.reserve(coord_tokens.size());
             for (const auto& token : coord_tokens) {
                 coords.push_back(parseCoordinateToken(token));

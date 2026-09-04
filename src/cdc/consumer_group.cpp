@@ -259,7 +259,8 @@ std::vector<std::string> ConsumerGroupManager::listGroups() const {
     std::vector<std::string> groups;
     rocksdb::ReadOptions opts;
 
-    std::unique_ptr<rocksdb::Iterator> it;
+    std::unique_ptr<rocksdb::Iterator> it = {};
+
     if (cf_) {
         it.reset(db_->NewIterator(opts, cf_));
     } else {

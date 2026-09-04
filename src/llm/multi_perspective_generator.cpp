@@ -686,7 +686,8 @@ std::vector<std::string> MultiPerspectiveGenerator::findDisagreements(
     };
     
     // Check which disagreements are relevant based on perspectives present
-    std::unordered_set<std::string> traditions;
+    std::unordered_set<std::string> traditions = {};
+
     for (const auto& p : perspectives) {
         traditions.insert(p.perspective.tradition);
     }

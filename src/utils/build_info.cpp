@@ -852,7 +852,8 @@ bool isModuleCompiledIn(const std::string& module_name) {
 
 std::vector<std::string> getCompiledModules() {
     const auto config = getBuildConfiguration();
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& mod : config.modules) {
         if (mod.compiled_in) {
             result.push_back(mod.name);
@@ -863,7 +864,8 @@ std::vector<std::string> getCompiledModules() {
 
 std::vector<std::string> getDisabledModules() {
     const auto config = getBuildConfiguration();
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& mod : config.modules) {
         if (!mod.compiled_in) {
             result.push_back(mod.name);

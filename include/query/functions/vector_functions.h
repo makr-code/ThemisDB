@@ -77,7 +77,8 @@ inline void validateSameDimension(const nlohmann::json& v1, const nlohmann::json
 
 // Convert JSON array to std::vector<double>
 inline std::vector<double> toVector(const nlohmann::json& vec) {
-    std::vector<double> result;
+    std::vector<double> result = {};
+
     result.reserve(vec.size());
     for (const auto& elem : vec) {
         result.push_back(elem.get<double>());

@@ -154,7 +154,8 @@ static void BenchP_MRG_04_RLSFilterLatency(benchmark::State& state) {
         std::string data;
     };
     
-    std::vector<MockRow> rows;
+    std::vector<MockRow> rows = {};
+
     for (int i = 0; i < 1000; ++i) {
         // 10% match target user
         std::string user = (i % 10 == 0) ? "target_user" : ("user_" + std::to_string(i));
@@ -189,7 +190,8 @@ static void BenchP_MRG_05_QueryMaskingOverhead(benchmark::State& state) {
         std::string data;
     };
     
-    std::vector<ResultRow> results;
+    std::vector<ResultRow> results = {};
+
     for (int i = 0; i < 1000; ++i) {
         results.push_back({
             "user_" + std::to_string(i),

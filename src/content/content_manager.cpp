@@ -890,7 +890,8 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 return true;
             };
 
-            std::vector<uint8_t> to_store;
+            std::vector<uint8_t> to_store = {};
+
             size_t original_size = bb.size();
             [[maybe_unused]] size_t compressed_size = original_size;
             [[maybe_unused]] float compression_ratio = 1.0f;
@@ -1144,7 +1145,8 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         // Optionale Verschlüsselung von Metadaten-Feldern (vector metadata encryption)
         try {
             bool meta_encrypt_enabled = false;
-            std::vector<std::string> meta_fields;
+            std::vector<std::string> meta_fields = {};
+
             if (auto mev = storage_->get("config:vector_metadata_encryption")) {
                 std::string ms(mev->begin(), mev->end());
                 auto mcfg = json::parse(ms);
@@ -1171,7 +1173,8 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     // the previous raw-new / manual-delete pattern (CWE-401 / RAII).
                     std::unique_ptr<nlohmann::json> tags_json_owner;
                     nlohmann::json* target = nullptr;
-                    std::optional<nlohmann::json> tags_json_holder;
+                    std::optional<nlohmann::json> tags_json_holder = {};
+
                     if (f == "extracted_metadata") {
                       target = &meta.extracted_metadata;
                     }
@@ -1808,7 +1811,8 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
 
     // 2) Graph-Expansion (BFS bis expansion_hops)
     if (graph_index_ && expansion_hops > 0) {
-        std::unordered_set<std::string> seen;
+        std::unordered_set<std::string> seen = {};
+
         while (!q.empty()) {
             QItem qi = q.front(); q.pop();
             if (qi.hop >= expansion_hops) {
@@ -2432,7 +2436,8 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     if (dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
         metrics_.dedup_checks_total.fetch_add(1);
 
-        std::optional<DuplicateOf> dup;
+        std::optional<DuplicateOf> dup = {};
+
         if (dedup_is_image) {
             cached_phash = computeImageDedupHash(blob);
             if (!cached_phash.empty()) {

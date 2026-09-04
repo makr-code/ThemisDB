@@ -454,7 +454,8 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     if (registry.hasFunction(funcName)) {
         try {
             // Evaluate all arguments to JSON values
-            std::vector<nlohmann::json> evaluatedArgs;
+            std::vector<nlohmann::json> evaluatedArgs = {};
+
             evaluatedArgs.reserve(args.size());
             for (const auto& arg : args) {
                 evaluatedArgs.push_back(evaluateExpression(arg, currentDoc));

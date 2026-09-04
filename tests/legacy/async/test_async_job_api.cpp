@@ -467,7 +467,8 @@ TEST_F(AsyncJobApiHandlerTest, MultipleConcurrentJobs) {
     AsyncJobApiHandler handler{instant_ok_executor()};
 
     constexpr int kJobs = 5;
-    std::vector<std::string> job_ids;
+    std::vector<std::string> job_ids = {};
+
     for (int i = 0; i < kJobs; ++i) {
         auto sub = handler.handleSubmit(
             make_submit_req({{"query", "FOR x IN c RETURN x"}}));

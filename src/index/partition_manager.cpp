@@ -133,7 +133,8 @@ void PartitionManager::CompactPartitions() {
     
     try {
         // Collect partition IDs to compact
-        std::vector<uint32_t> partition_ids;
+        std::vector<uint32_t> partition_ids = {};
+
         for (const auto& [id, metadata] : partitions_) {
             // Bounds check: verify ID is within valid range
             if (id > 0 && id < next_id_) {
@@ -214,7 +215,8 @@ std::shared_ptr<PartitionData> PartitionManager::GetPartitionByHandle(const Part
 std::vector<uint32_t> PartitionManager::GetPartitionIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<uint32_t> ids;
+    std::vector<uint32_t> ids = {};
+
     for (const auto& [id, metadata] : partitions_) {
         ids.push_back(id);
     }

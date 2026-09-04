@@ -53,7 +53,8 @@ std::vector<std::string> tokenize(const std::string& text) {
 
 // Generate n-grams from a string
 std::vector<std::string> generateNgrams(const std::string& s, int n) {
-    std::vector<std::string> ngrams;
+    std::vector<std::string> ngrams = {};
+
     if (s.length() < static_cast<size_t>(n)) {
         ngrams.push_back(s);
         return ngrams;
@@ -216,7 +217,8 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
 
 /// Collect the unique lower-case tokens from a query string or JSON array.
 std::unordered_set<std::string> queryTermSet(const json& queryArg) {
-    std::unordered_set<std::string> terms;
+    std::unordered_set<std::string> terms = {};
+
     if (queryArg.is_array()) {
         for (const auto& item : queryArg)
             if (item.is_string()) {

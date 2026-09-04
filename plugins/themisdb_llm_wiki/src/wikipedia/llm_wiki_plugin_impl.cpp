@@ -440,7 +440,8 @@ std::vector<themis::llm::WikiChunk> LLMWikiPluginImpl::inMemoryBm25(
     std::sort(scored.begin(), scored.end(),
               [](const auto& a, const auto& b){ return a.first > b.first; });
 
-    std::vector<themis::llm::WikiChunk> results;
+    std::vector<themis::llm::WikiChunk> results = {};
+
     results.reserve(std::min<std::size_t>(scored.size(),
                                           static_cast<std::size_t>(top_k > 0 ? top_k : scored.size())));
     for (const auto& [score, idx] : scored) {
@@ -509,7 +510,8 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
     }
 
     // ── Build skip-existing set ────────────────────────────────────────────────
-    std::unordered_set<std::string> existing_sources;
+    std::unordered_set<std::string> existing_sources = {};
+
     if (opts.skip_existing) {
         std::shared_lock<std::shared_mutex> lock(mutex_);
         for (const auto& c : chunks_) {
@@ -901,7 +903,8 @@ WikiWorkspaceStats LLMWikiPluginImpl::stats(const std::string& workspace_root) {
     {
         std::shared_lock<std::shared_mutex> lock(mutex_);
         s.total_chunks = static_cast<int>(chunks_.size());
-        std::unordered_set<std::string> paths;
+        std::unordered_set<std::string> paths = {};
+
         for (const auto& c : chunks_) {
           paths.insert(c.source_path);
         }

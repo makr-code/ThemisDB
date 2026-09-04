@@ -110,7 +110,8 @@ bool InMemoryTensorBackend::del(const std::string& key) {
 std::vector<std::string>
 InMemoryTensorBackend::listKeys(const std::string& prefix) const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& kv : store_) {
         if (kv.first.substr(0, prefix.size()) == prefix)
             result.push_back(kv.first);
@@ -528,7 +529,8 @@ std::vector<std::string>
 TensorNetworkStorageEngine::listRawMetadataKeys(const std::string& prefix) const {
     const auto raw_prefix = rawMetaKey(prefix);
     auto raw_keys = backend_->listKeys(raw_prefix);
-    std::vector<std::string> logical_keys;
+    std::vector<std::string> logical_keys = {};
+
     logical_keys.reserve(raw_keys.size());
 
     for (const auto& raw_key : raw_keys) {

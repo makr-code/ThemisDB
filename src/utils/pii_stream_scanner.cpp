@@ -94,7 +94,8 @@ std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, boo
     }
 
     // Filter by confidence and adjust offsets to be absolute in the document.
-    std::vector<PIIFinding> result;
+    std::vector<PIIFinding> result = {};
+
     result.reserve(raw_findings.size());
 
     for (auto& f : raw_findings) {

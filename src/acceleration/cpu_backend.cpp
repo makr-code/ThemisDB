@@ -247,7 +247,8 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
         }
 
         // Reconstruct path from destination back to source via parent chain.
-        std::vector<uint32_t> path;
+        std::vector<uint32_t> path = {};
+
         for (int64_t v = static_cast<int64_t>(dst); v != -1; v = parent[v]) {
             path.push_back(static_cast<uint32_t>(v));
         }
@@ -408,7 +409,8 @@ static int cpu_ann_topk(const float *distances, uint32_t *topk_indices, float *t
     for (int q = 0; q < numQueries; ++q) {
         const float *row = distances + q * numVectors;
         // Max-heap of size topK: keeps the topK smallest distances
-        std::priority_queue<Pair> heap;
+        std::priority_queue<Pair> heap = {};
+
         for (int v = 0; v < numVectors; ++v) {
             heap.emplace(row[v], static_cast<uint32_t>(v));
             if (static_cast<int>(heap.size()) > topK) {

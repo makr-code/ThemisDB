@@ -415,7 +415,8 @@ public:
 
             // Max-heap of size k: (distance, index)
             using Pair = std::pair<float, uint32_t>;
-            std::priority_queue<Pair> heap;
+            std::priority_queue<Pair> heap = {};
+
             for (size_t v = 0; v < numVectors; ++v) {
                 heap.push({ row[v], static_cast<uint32_t>(v) });
                 if (heap.size() > actualK) {

@@ -152,7 +152,8 @@ bool FaultInjector::isFaultActive(const std::string &target_node_id, FaultType t
 std::vector<ActiveFault> FaultInjector::getActiveFaults() {
     pruneExpired();
     std::lock_guard<std::mutex> lock(fault_mutex_);
-    std::vector<ActiveFault> result;
+    std::vector<ActiveFault> result = {};
+
     result.reserve(active_faults_.size());
     for (const auto &[_, af] : active_faults_) {
         result.push_back(af);

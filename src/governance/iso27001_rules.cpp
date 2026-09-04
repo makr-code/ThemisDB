@@ -436,7 +436,8 @@ Iso27001ControlSet::Iso27001ControlSet() {
 }
 
 std::vector<Iso27001ControlResult> Iso27001ControlSet::evaluateRule(const PolicyRule &rule) const {
-    std::vector<Iso27001ControlResult> results;
+    std::vector<Iso27001ControlResult> results = {};
+
     results.reserve(controls_.size());
     for (const auto &ctrl : controls_) {
         results.push_back(ctrl->evaluate(rule));

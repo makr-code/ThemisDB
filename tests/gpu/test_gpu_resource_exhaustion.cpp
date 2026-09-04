@@ -331,7 +331,8 @@ TEST_F(GPUResourceExhaustionTest, EXHAUST_12_ErrorClassString_RoundTrip_Consiste
   };
 
   // Capture reference names.
-  std::vector<std::string> ref_names;
+  std::vector<std::string> ref_names = {};
+
   ref_names.reserve(all_classes.size());
   for (auto cls : all_classes) {
     ref_names.push_back(handler->errorClassName(cls));

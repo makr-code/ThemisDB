@@ -101,7 +101,8 @@ static std::string bytesToHex(const std::vector<uint8_t>& v) {
 }
 
 static std::vector<uint8_t> hexToBytes(const std::string& hex) {
-    std::vector<uint8_t> out;
+    std::vector<uint8_t> out = {};
+
     if (hex.size() % 2 != 0) {
       return out;
     }

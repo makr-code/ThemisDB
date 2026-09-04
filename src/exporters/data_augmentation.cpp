@@ -230,7 +230,8 @@ std::vector<std::string> DataAugmentationPipeline::selectFields(const BaseEntity
         return config_.augment_fields;
     }
     // Default: all string-valued fields.
-    std::vector<std::string> fields;
+    std::vector<std::string> fields = {};
+
     for (const auto &kv : entity.getAllFields()) {
         if (entity.getFieldAsString(kv.first)) {
             fields.push_back(kv.first);

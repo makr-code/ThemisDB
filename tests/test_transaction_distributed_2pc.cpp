@@ -948,7 +948,8 @@ TEST(Distributed2PCPerfTests, P99LatencyFiveShards) {
     latencies_us.reserve(ITERATIONS);
 
     for (int i = 0; i < ITERATIONS; ++i) {
-        std::vector<Participant> parts;
+        std::vector<Participant> parts = {};
+
         for (int s = 0; s < SHARDS; ++s) {
             parts.push_back(makeParticipant(
                 "shard_" + std::to_string(s),
@@ -1020,7 +1021,8 @@ TEST(Distributed2PCPerfTests, ThroughputAtLeast10kOpsPerSec) {
         }
     };
 
-    std::vector<std::thread> workers;
+    std::vector<std::thread> workers = {};
+
     for (int i = 0; i < WORKER_THREADS; ++i) {
         workers.emplace_back(worker, i);
     }

@@ -30,7 +30,8 @@ WikipediaProjectionSummary WikipediaIngestionPipeline::projectGraphDirtyPages() 
             }),
         snapshot_.graph_edges.end());
 
-    std::map<std::string, uint64_t> title_index;
+    std::map<std::string, uint64_t> title_index = {};
+
     for (const auto& [page_id, page] : snapshot_.pages) {
         title_index[WikipediaTransform::normalizeTitle(page.title)] = page_id;
     }

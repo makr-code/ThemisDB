@@ -161,7 +161,8 @@ void GorillaEncoder::add(int64_t timestamp_ms, double value) {
 
 std::vector<uint8_t> GorillaEncoder::finish() {
     auto payload = bw_.finish();
-    std::vector<uint8_t> result;
+    std::vector<uint8_t> result = {};
+
     result.reserve(3 + payload.size());
     result.push_back(kGorillaMagic0);
     result.push_back(kGorillaMagic1);

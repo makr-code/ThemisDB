@@ -103,7 +103,8 @@ struct CompressedBatch {
      */
     std::vector<uint8_t> serialize() const {
         constexpr size_t kHeaderSize = 4 + 1 + 1 + 4 + 4; // 14 bytes
-        std::vector<uint8_t> out;
+        std::vector<uint8_t> out = {};
+
         out.reserve(kHeaderSize + payload.size());
 
         // magic

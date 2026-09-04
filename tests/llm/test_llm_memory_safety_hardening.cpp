@@ -416,7 +416,8 @@ TEST(MemorySafetyHardening, MEM_10_CacheEvictionLockContention) {
 TEST(MemorySafetyHardening, MEM_11_ConcurrentAllocationDeallocation) {
   GPUMemoryPool pool;
   
-  std::vector<std::thread> threads;
+  std::vector<std::thread> threads = {};
+
   for (int i = 0; i < 5; ++i) {
     threads.emplace_back([&pool]() {
       auto alloc = pool.allocate(512);

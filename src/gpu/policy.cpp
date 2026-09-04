@@ -113,7 +113,8 @@ bool GPUPolicy::isAllowed(const std::string &caller_id, Capability cap) const {
 
 std::vector<std::string> GPUPolicy::grantedCallers() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(grants_.size());
     for (const auto &kv : grants_) {
         result.push_back(kv.first);

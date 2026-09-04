@@ -266,7 +266,8 @@ BENCHMARK(BM_TRG04_RetentionCheck)
  * GATE-TRG-05: p99 ≤ 5 ms.
  */
 static void BM_TRG05_PitrRestore(benchmark::State& state) {
-    std::vector<BiTemporalEntry> history;
+    std::vector<BiTemporalEntry> history = {};
+
     for (int i = 1; i <= 10; ++i) {
         history.push_back({i, 1000LL * i, temporal::kTemporalOpenEnd,
                            static_cast<std::int64_t>(i) * 100LL});

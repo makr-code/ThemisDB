@@ -42,7 +42,8 @@ public:
     }
 
     std::vector<ProvenanceStepRecord> getProvenanceChain(const std::string& query_id) override {
-        std::vector<ProvenanceStepRecord> out;
+        std::vector<ProvenanceStepRecord> out = {};
+
         for (const auto& rec : records) {
             if (rec.query_id == query_id) {
                 out.push_back(rec);
@@ -53,7 +54,8 @@ public:
 
     std::vector<ProvenanceStepRecord> getRecordsByTimeRange(int64_t start_ts_ms,
                                                             int64_t end_ts_ms) override {
-        std::vector<ProvenanceStepRecord> out;
+        std::vector<ProvenanceStepRecord> out = {};
+
         for (const auto& rec : records) {
             if (rec.timestamp_ms >= start_ts_ms && rec.timestamp_ms <= end_ts_ms) {
                 out.push_back(rec);
@@ -63,7 +65,8 @@ public:
     }
 
     std::vector<std::string> listQueryIds() override {
-        std::vector<std::string> out;
+        std::vector<std::string> out = {};
+
         for (const auto& rec : records) {
             if (std::find(out.begin(), out.end(), rec.query_id) == out.end()) {
                 out.push_back(rec.query_id);

@@ -33,7 +33,8 @@ public:
     }
 
     std::vector<NodeId> routeAll(std::span<const ShardKey> keys) const override {
-        std::vector<NodeId> result;
+        std::vector<NodeId> result = {};
+
         result.reserve(keys.size());
         for (const auto& k : keys) {
             result.push_back(route(k));
@@ -252,7 +253,8 @@ public:
     ) const override {
         if (nodes_.empty()) return {};
         size_t start = std::hash<std::string>{}(key) % nodes_.size();
-        std::vector<NodeId> result;
+        std::vector<NodeId> result = {};
+
         for (size_t i = 0; i < std::min(replication_factor, nodes_.size()); ++i) {
             result.push_back(nodes_[(start + i) % nodes_.size()]);
         }
@@ -285,7 +287,8 @@ public:
         : shards_(std::move(shards)) {}
 
     std::vector<ShardQueryPlan> fanOut(const QueryPlan& plan) const override {
-        std::vector<ShardQueryPlan> out;
+        std::vector<ShardQueryPlan> out = {};
+
         for (const auto& s : shards_) {
             ShardQueryPlan sp;
             sp.shard_id = s;
@@ -376,7 +379,8 @@ TEST(IShardRouterTest, RouteAllConcurrent) {
 
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&, t]() {
-            std::vector<ShardKey> keys;
+            std::vector<ShardKey> keys = {};
+
             for (int k = 0; k < kKeysPerThread; ++k) {
                 keys.push_back("key_" + std::to_string(t * kKeysPerThread + k));
             }
@@ -680,7 +684,8 @@ TEST(ICrossShardQueryRouterTest, FanOutProducesOneEntryPerShard) {
     plan.query_text = "SELECT * FROM documents";
     auto plans = router.fanOut(plan);
     EXPECT_EQ(plans.size(), 3u);
-    std::vector<ShardId> found;
+    std::vector<ShardId> found = {};
+
     for (const auto& sp : plans) {
         found.push_back(sp.shard_id);
     }

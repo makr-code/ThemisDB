@@ -292,7 +292,8 @@ static int runImport(const Config& cfg) {
     }
 
     // Load delta hashes
-    std::unordered_set<uint64_t> delta_hashes;
+    std::unordered_set<uint64_t> delta_hashes = {};
+
     if (!cfg.delta_hash_file.empty())
         delta_hashes = loadDeltaHashes(cfg.delta_hash_file);
 

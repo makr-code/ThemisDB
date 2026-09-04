@@ -417,7 +417,8 @@ void DeltaUpdateEngine::reportProgress(int pct, const std::string& msg) {
 
 bool DeltaUpdateEngine::validateDependencies(const DeltaManifest& manifest) {
     // Build a set of all available patch paths
-    std::unordered_set<std::string> available_paths;
+    std::unordered_set<std::string> available_paths = {};
+
     for (const auto& fd : manifest.deltas) {
         available_paths.insert(fd.path);
     }
@@ -468,7 +469,8 @@ bool DeltaUpdateEngine::hasCircularDependency(const std::vector<FileDelta>& delt
     }
     
     // Kahn's algorithm: if we can't process all nodes, there's a cycle
-    std::queue<std::string> queue;
+    std::queue<std::string> queue = {};
+
     for (const auto& [path, degree] : in_degree) {
         if (degree == 0) {
             queue.push(path);

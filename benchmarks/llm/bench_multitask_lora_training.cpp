@@ -248,7 +248,8 @@ static void GATE_MTL_06_TrainingOverheadComparison(benchmark::State& state) {
         TaskConfig task{"task_a", 1.0f, 4, 1e-3f};
         trainer.addTask(task);
         
-        std::vector<MTLSample> single_samples;
+        std::vector<MTLSample> single_samples = {};
+
         for (const auto& s : mtl_samples) {
             if (s.task_id == "task_a") {
               single_samples.push_back(s);
@@ -411,7 +412,8 @@ static void GATE_MTL_Scaling_TaskCount(benchmark::State& state) {
     for (auto _ : state) {
         MultiTaskLoRATrainer trainer(cfg);
         
-        std::vector<std::string> task_ids;
+        std::vector<std::string> task_ids = {};
+
         for (int i = 0; i < task_count; ++i) {
             std::string task_id = "task_" + std::to_string(i);
             TaskConfig task{task_id, 1.0f, 4, 1e-3f};

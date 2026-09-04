@@ -281,7 +281,8 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
 
         auto result = query_engine_->executeAndEntities(q);
         if (result.has_value()) {
-            std::vector<EthicalArgument> out;
+            std::vector<EthicalArgument> out = {};
+
             for (const auto &entity : result.value()) {
                 // CRITICAL FIX: Verify integrity via out-of-band hash for every entity
                 // returned by the query engine.  Re-fetch the raw blob from storage so

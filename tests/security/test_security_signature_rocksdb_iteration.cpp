@@ -217,7 +217,8 @@ TEST_F(SecuritySignatureRocksDBIterationTests, ListAllSignatures_ReturnsAllStore
     EXPECT_EQ(sigs.size(), 2u);
 
     // Verify resource_ids are present (order is undefined)
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (const auto& s : sigs) {
       ids.push_back(s.resource_id);
     }

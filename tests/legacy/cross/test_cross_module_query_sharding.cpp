@@ -103,7 +103,8 @@ public:
     }
 
     std::vector<ShardResult> scatterGather(const std::string& /*query*/) override {
-        std::vector<ShardResult> results;
+        std::vector<ShardResult> results = {};
+
         for (const auto& id : shard_ids_) {
             ShardResult r;
             r.shard_id = id;
@@ -122,7 +123,8 @@ private:
 
 /// Count distinct "shard" values in a merged results array.
 static std::vector<std::string> extractShards(const json& result) {
-    std::vector<std::string> shards;
+    std::vector<std::string> shards = {};
+
     if (!result.is_array()) {
       return shards;
     }
@@ -251,7 +253,8 @@ TEST_F(QueryShardingTest, A5_FullScan_DeterminesAllShards) {
     // may return an empty list and execution falls back to router scatter/gather.
     if (shards.empty()) {
         auto result = federation_->execute(query);
-        std::vector<std::string> result_shards;
+        std::vector<std::string> result_shards = {};
+
         if (result.is_array()) {
             for (const auto& item : result) {
                 if (item.contains("shard") && item["shard"].is_string()) {

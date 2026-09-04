@@ -521,7 +521,8 @@ std::variant<json, std::string> UpdateChecker::httpGet(const std::string& url) {
     res = curl_easy_perform(curl);
     
     // Check for errors
-    std::variant<json, std::string> result;
+    std::variant<json, std::string> result = {};
+
     if (res != CURLE_OK) {
         result = std::string("CURL error: ") + curl_easy_strerror(res);
     } else {

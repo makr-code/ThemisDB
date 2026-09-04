@@ -192,7 +192,8 @@ bool CloudAgent::cancelOperation(const std::string& operation_id) {
 std::vector<std::string> CloudAgent::getPendingOperations() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> pending;
+    std::vector<std::string> pending = {};
+
     pending.reserve(pending_operations_.size());
     
     for (const auto& [op_id, op] : pending_operations_) {

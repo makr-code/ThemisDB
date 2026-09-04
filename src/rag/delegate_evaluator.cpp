@@ -136,7 +136,8 @@ double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
 
     // Intersection size = sum of min counts for each token
     size_t inter = 0;
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (auto& t : ma) {
         if (seen.count(t)) {
           continue;
@@ -265,7 +266,8 @@ double multisetOverlap(const std::unordered_multiset<std::string>& a,
       return 0.0;
     }
     size_t inter = 0;
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& v : a) {
         if (seen.count(v)) {
           continue;

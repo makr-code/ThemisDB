@@ -160,7 +160,8 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     }
 
     if (all_data_available) {
-        std::vector<uint8_t> recovered;
+        std::vector<uint8_t> recovered = {};
+
         for (uint32_t shard = 0; shard < data_shards; ++shard) {
             const auto& chunk = available_chunks.at(shard);
             recovered.insert(recovered.end(), chunk.begin(), chunk.end());
@@ -475,7 +476,8 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     }
 
     if (all_data_available) {
-        std::vector<uint8_t> recovered;
+        std::vector<uint8_t> recovered = {};
+
         for (uint32_t shard = 0; shard < data_shards; ++shard) {
             const auto& chunk = available_chunks.at(shard);
             recovered.insert(recovered.end(), chunk.begin(), chunk.end());

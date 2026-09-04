@@ -177,7 +177,8 @@ public:
 
     [[nodiscard]] std::vector<ContinuousQueryInfo> listQueries() const override {
         std::lock_guard<std::mutex> lk(mu_);
-        std::vector<ContinuousQueryInfo> out;
+        std::vector<ContinuousQueryInfo> out = {};
+
         out.reserve(infos_.size());
         for (const auto& [k, v] : infos_) {
           out.push_back(v);

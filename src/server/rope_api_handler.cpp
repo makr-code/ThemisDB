@@ -377,7 +377,8 @@ http::response<http::string_body> RopeApiHandler::handleAddPost(
                 entity.setField(key, val.get<bool>());
             } else if (val.is_array() && !val.empty() && val[0].is_number()) {
                 // Assume numeric array is the embedding vector
-                std::vector<float> vec;
+                std::vector<float> vec = {};
+
                 for (const auto& v : val) {
                     if (!v.is_number()) {
                         span.setStatus(false, "Invalid vector element");
@@ -505,7 +506,8 @@ http::response<http::string_body> RopeApiHandler::handleAddRelationalPost(
             } else if (val.is_boolean()) {
                 entity.setField(key, val.get<bool>());
             } else if (val.is_array() && !val.empty() && val[0].is_number()) {
-                std::vector<float> vec;
+                std::vector<float> vec = {};
+
                 for (const auto& v : val) {
                     if (!v.is_number()) {
                         span.setStatus(false, "Invalid vector element");
@@ -600,7 +602,8 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
         }
         
         // Parse query vector
-        std::vector<float> query_vector;
+        std::vector<float> query_vector = {};
+
         for (const auto& val : body_json["query"]) {
             if (!val.is_number()) {
                 span.setStatus(false, "Invalid query element");
@@ -758,7 +761,8 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
                     } else if (val.is_boolean()) {
                         entity.setField(key, val.get<bool>());
                     } else if (val.is_array() && !val.empty() && val[0].is_number()) {
-                        std::vector<float> vec;
+                        std::vector<float> vec = {};
+
                         for (const auto& v : val) {
                             if (!v.is_number()) {
                                 vec.clear();

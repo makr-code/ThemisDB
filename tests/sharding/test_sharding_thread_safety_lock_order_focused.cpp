@@ -223,7 +223,8 @@ TEST(ThreadSafetyTests, TSO02_ConcurrentWritesDifferentKeys) {
     StubReplicaConsistency mgr;
     constexpr int kThreads = 6;
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&mgr, t]() {
             const std::string key = "key-" + std::to_string(t);
@@ -248,7 +249,8 @@ TEST(ThreadSafetyTests, TSO03_ConcurrentReadsDontRace) {
     mgr.recordWrite("k", "initial", "n0");
 
     std::atomic<int> read_count{0};
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int i = 0; i < 10; ++i) {
         readers.emplace_back([&]() {
             auto h = mgr.getHistory("k");
@@ -275,7 +277,8 @@ TEST(ThreadSafetyTests, TSO04_ConcurrentReadWriteMixed) {
     });
 
     // Reader threads
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int r = 0; r < 4; ++r) {
         readers.emplace_back([&]() {
             while (!stop.load()) {
@@ -332,7 +335,8 @@ TEST(ThreadSafetyTests, TSO06_AtomicCounterIncrements) {
     constexpr int kThreads = 8;
     constexpr int kOps     = 100;
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&state, t]() {
             for (int i = 0; i < kOps; ++i) {
@@ -352,7 +356,8 @@ TEST(ThreadSafetyTests, TSO07_ConcurrentAuditLogAppend) {
     constexpr int kThreads = 6;
     constexpr int kLogs    = 20;
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&state, t]() {
             for (int i = 0; i < kLogs; ++i) {
@@ -371,7 +376,8 @@ TEST(ThreadSafetyTests, TSO08_ConcurrentStateAndAuditViaScoped) {
     StubOrchestratorState state;
     constexpr int kThreads = 4;
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&state, t]() {
             for (int i = 0; i < 30; ++i) {
@@ -611,7 +617,8 @@ TEST(ConsensusCoordinationTests, CCR06_RetryOnTransientFailure) {
     StubConsensus consensus;
     consensus.setFailPropose(true);  // first attempt will fail
 
-    std::optional<uint64_t> idx;
+    std::optional<uint64_t> idx = {};
+
     for (int attempt = 0; attempt < 3; ++attempt) {
         if (attempt == 1) {
             // Simulate recovery: clear the transient fault

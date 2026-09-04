@@ -231,7 +231,8 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
 {
     std::lock_guard<std::mutex> lk(impl_->mtx);
 
-    std::unordered_set<std::string> visited;
+    std::unordered_set<std::string> visited = {};
+
     if (!impl_->nodes.count(start_id)) {
       return visited;
     }
@@ -414,7 +415,8 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
 
 std::vector<EntityLinkingMatch> EntityLinker::link(const std::string& text) const {
     std::vector<Entity> candidates = extract(text);
-    std::vector<EntityLinkingMatch> matches;
+    std::vector<EntityLinkingMatch> matches = {};
+
     matches.reserve(candidates.size());
 
     for (auto& entity : candidates) {
@@ -423,7 +425,8 @@ std::vector<EntityLinkingMatch> EntityLinker::link(const std::string& text) cons
 
         // Search through all nodes for the best match. Support both concrete
         // KnowledgeGraph and interface-backed graphs.
-        std::optional<KGNode> candidate_node_opt;
+        std::optional<KGNode> candidate_node_opt = {};
+
         if (raw_graph_) {
             const KGNode* p = raw_graph_->findNodeByName(entity.text);
             if (p) {
@@ -520,7 +523,8 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
     const KGRetrieverConfig& cfg = impl_->config;
 
     // ── Step 1: Extract and link entities from the query ─────────────────────
-    std::unique_ptr<EntityLinker> linker_ptr;
+    std::unique_ptr<EntityLinker> linker_ptr = {};
+
     if (impl_->graph) {
         linker_ptr = std::make_unique<EntityLinker>(*impl_->graph, cfg.linker_config);
     } else {
@@ -638,7 +642,8 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
         }
 
         // Build set of node IDs from this document's linked entities
-        std::unordered_set<std::string> doc_node_ids;
+        std::unordered_set<std::string> doc_node_ids = {};
+
         for (const auto& match : aug_doc.entity_links) {
             if (!match.is_linked) {
               continue;
@@ -646,7 +651,8 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
             doc_node_ids.insert(match.node_id);
 
             // Also add 1-hop neighbours of document entities
-            std::unordered_set<std::string> nbrs_set;
+            std::unordered_set<std::string> nbrs_set = {};
+
             if (impl_->graph) {
                 auto nbrs = impl_->graph->neighbours(match.node_id, 1,
                                                      cfg.min_edge_weight);

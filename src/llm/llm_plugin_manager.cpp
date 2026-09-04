@@ -157,7 +157,8 @@ void LLMPluginManager::setDefaultPlugin(const std::string& name) {
 std::vector<std::string> LLMPluginManager::listPlugins() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(plugins_.size());
     
     for (const auto& [name, _] : plugins_) {
@@ -177,7 +178,8 @@ json LLMPluginManager::getAggregatedCapabilities() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Collect sorted plugin names for deterministic output (plugins_ is unordered_map)
-    std::vector<std::string> sorted_names;
+    std::vector<std::string> sorted_names = {};
+
     sorted_names.reserve(plugins_.size());
     for (const auto& [name, _] : plugins_) {
       sorted_names.push_back(name);

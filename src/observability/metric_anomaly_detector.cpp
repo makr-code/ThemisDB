@@ -153,7 +153,8 @@ MetricAnomalyDetector::getAnomalies(const std::string& metric_name) const {
 
 std::vector<MetricAnomaly> MetricAnomalyDetector::getAllAnomalies() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<MetricAnomaly> result;
+    std::vector<MetricAnomaly> result = {};
+
     for (const auto& [name, state] : streams_) {
         result.insert(result.end(),
                       state->anomalies.begin(),
@@ -307,7 +308,8 @@ size_t MetricAnomalyDetector::monitoredCount() const {
 
 std::vector<std::string> MetricAnomalyDetector::monitoredNames() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(streams_.size());
     for (const auto& [name, _] : streams_) {
         names.push_back(name);

@@ -166,7 +166,8 @@ TEST_F(AdaptiveIndexTest, PatternTracker_GetTopPatterns_SortsByFrequency) {
 TEST_F(AdaptiveIndexTest, PatternTracker_ThreadSafe_ConcurrentRecords) {
     auto* tracker = manager_->getPatternTracker();
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 10; t++) {
         threads.emplace_back([tracker]() {
             for (int i = 0; i < 100; i++) {
@@ -620,7 +621,8 @@ TEST_F(AdaptiveIndexTest, SuggestionEngine_RegisterIndex_IsolatedPerCollection) 
 TEST_F(AdaptiveIndexTest, SuggestionEngine_RegisterIndex_ThreadSafe) {
     auto* engine = manager_->getSuggestionEngine();
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 8; t++) {
         threads.emplace_back([engine, t]() {
             for (int i = 0; i < 50; i++) {

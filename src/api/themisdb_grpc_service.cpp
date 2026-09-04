@@ -1430,7 +1430,8 @@ private:
                 std::string collection_;
             };
 
-            std::unique_ptr<themis::IExpressionEvaluator> vector_filter_evaluator;
+            std::unique_ptr<themis::IExpressionEvaluator> vector_filter_evaluator = {};
+
             if (!key_filters.empty()) {
                 vector_filter_evaluator =
                     std::make_unique<JsonClauseFilterEvaluator>(key_filters, req->collection());

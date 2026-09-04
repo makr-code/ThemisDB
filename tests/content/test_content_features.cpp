@@ -310,7 +310,8 @@ TEST_F(ContentFeaturesTest, ChunkNavigation_NextPrevious) {
 
 TEST_F(ContentFeaturesTest, GetChunkRange_Pagination) {
     // Import 10 chunks
-    std::vector<std::string> chunks;
+    std::vector<std::string> chunks = {};
+
     for (int i = 1; i <= 10; ++i) {
         chunks.push_back("Chunk " + std::to_string(i) + " data");
     }

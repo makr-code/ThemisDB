@@ -178,7 +178,8 @@ TEST(RCUHashTableTest, ConcurrentReadWrite) {
     std::atomic<size_t> write_count{0};
     
     // Reader threads
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 3; ++t) {
         threads.emplace_back([&]() {
             while (!stop.load()) {

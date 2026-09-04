@@ -658,7 +658,8 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
         return false;
     }
 
-    std::shared_ptr<cache::ICacheCoordinator> repl_coord;
+    std::shared_ptr<cache::ICacheCoordinator> repl_coord = {};
+
     if (config_.enable_replication) {
         std::lock_guard<std::mutex> lk(coordinator_mutex_);
         repl_coord = coordinator_;

@@ -553,7 +553,8 @@ public:
     
     /// Get all function signatures (for documentation)
     std::vector<FunctionSignature> getAllSignatures() const {
-        std::vector<FunctionSignature> sigs;
+        std::vector<FunctionSignature> sigs = {};
+
         for (const auto& [name, func] : functions_) {
             sigs.push_back(func->signature());
         }
@@ -562,7 +563,8 @@ public:
     
     /// Get functions by category
     std::vector<FunctionSignature> getByCategory(const std::string& category) const {
-        std::vector<FunctionSignature> sigs;
+        std::vector<FunctionSignature> sigs = {};
+
         for (const auto& [name, func] : functions_) {
             auto sig = func->signature();
             if (sig.category == category) {
@@ -574,11 +576,13 @@ public:
     
     /// List all categories
     std::vector<std::string> getCategories() const {
-        std::unordered_map<std::string, bool> cats;
+        std::unordered_map<std::string, bool> cats = {};
+
         for (const auto& [name, func] : functions_) {
             cats[func->signature().category] = true;
         }
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         for (const auto& [cat, _] : cats) {
             result.push_back(cat);
         }

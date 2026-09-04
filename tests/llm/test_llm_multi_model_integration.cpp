@@ -403,7 +403,8 @@ TEST_F(MultiModelIntegrationTest, PerModelResourceQuota) {
 
     // Submit a few requests — engine should still serve them regardless of quota
     // (quota is informational; the engine doesn't hard-block).
-    std::vector<InferenceHandle> handles;
+    std::vector<InferenceHandle> handles = {};
+
     for (int i = 0; i < 4; ++i) {
         handles.push_back(
             engine.submit(makeRequest("quota_" + std::to_string(i),

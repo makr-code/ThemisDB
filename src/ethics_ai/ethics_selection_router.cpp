@@ -62,7 +62,8 @@ std::vector<std::string> tokenise(const std::string& text) {
 std::map<std::string, double> termFreq(
     const std::vector<std::string>& tokens)
 {
-    std::map<std::string, double> freq;
+    std::map<std::string, double> freq = {};
+
     for (const auto& t : tokens) {
       freq[t] += 1.0;
     }
@@ -290,7 +291,8 @@ std::set<std::string> EthicsSelectionRouter::Impl::stage1(
     }
 
     // Remove school_ids not actually registered
-    std::set<std::string> valid;
+    std::set<std::string> valid = {};
+
     for (const auto& sid : candidates) {
         if (registry->hasProfile(sid)) {
           valid.insert(sid);
@@ -343,7 +345,8 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
             }
         }
 
-        std::vector<RouterCandidate> result;
+        std::vector<RouterCandidate> result = {};
+
         result.reserve(candidates.size());
 
         // O(n log m) loop with O(log m) map lookup per iteration = O(n log m) total (already optimized)
@@ -399,7 +402,8 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
         }
     }
 
-    std::vector<RouterCandidate> result;
+    std::vector<RouterCandidate> result = {};
+
     result.reserve(candidates.size());
 
     // O(n log m) loop with O(log m) map lookup per iteration

@@ -998,7 +998,8 @@ TEST_F(SchedulePersistenceIntegrationTest, RestartRetainsAllThreeSchedules) {
         ASSERT_EQ(reloaded_vec.size(), 3u);
 
         // Build a map by id for easier lookup.
-        std::map<std::string, MaintenanceScheduleEntry> reloaded;
+        std::map<std::string, MaintenanceScheduleEntry> reloaded = {};
+
         for (const auto& entry : reloaded_vec) {
             reloaded.emplace(entry.id, entry);
         }
@@ -1788,7 +1789,8 @@ TEST_F(MaintenanceApiHandlerTest, ListTaskHandlers_ReturnsRegisteredHandlers) {
     ASSERT_EQ(arr.size(), 2u);
 
     // Verify both entries are present (order may vary)
-    std::map<std::string, std::string> by_type;
+    std::map<std::string, std::string> by_type = {};
+
     for (auto& item : arr) {
         by_type[item.value("task_type", "")] = item.value("handler", "");
     }

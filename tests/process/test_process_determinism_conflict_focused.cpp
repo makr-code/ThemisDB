@@ -44,14 +44,16 @@ protected:
 TEST_F(DeterminismConflictTest, D01_IdenticalRngSequences) {
     // First sequence
     std::mt19937 rng1(kCanonicalRngSeed);
-    std::vector<uint32_t> seq1;
+    std::vector<uint32_t> seq1 = {};
+
     for (int32_t i = 0; i < 1000; ++i) {
         seq1.push_back(rng1());
     }
 
     // Second sequence with same seed
     std::mt19937 rng2(kCanonicalRngSeed);
-    std::vector<uint32_t> seq2;
+    std::vector<uint32_t> seq2 = {};
+
     for (int32_t i = 0; i < 1000; ++i) {
         seq2.push_back(rng2());
     }
@@ -134,7 +136,8 @@ TEST_F(DeterminismConflictTest, D04_ConflictResolutionDeterministic) {
             }
         }
 
-        std::vector<std::string> results;
+        std::vector<std::string> results = {};
+
         for (const auto& [k, v] : state) {
             results.push_back(k + "=" + v);
         }
@@ -253,7 +256,8 @@ TEST_F(DeterminismConflictTest, D07_PartialStateRecoveryDeterministic) {
         }
 
         // Simulate partial recovery: keep only valid snapshots
-        std::vector<ModelSnapshot> valid;
+        std::vector<ModelSnapshot> valid = {};
+
         for (const auto& snap : snapshots) {
             if (snap.version % 2 == 0) {  // Even versions only
                 valid.push_back(snap);
@@ -283,7 +287,8 @@ TEST_F(DeterminismConflictTest, D08_HashBasedSelectionDeterministic) {
         std::mt19937 local_rng(seed);
         std::hash<int32_t> hasher;
 
-        std::vector<int32_t> candidates;
+        std::vector<int32_t> candidates = {};
+
         for (int32_t i = 0; i < 1000; ++i) {
             candidates.push_back(i);
         }
@@ -486,7 +491,8 @@ TEST_F(DeterminismConflictTest, D12_DeterministicConflictWinnerSelection) {
        }
 
        // Extract winners in deterministic order
-       std::vector<std::string> results;
+       std::vector<std::string> results = {};
+
        for (const auto& [key, conflict] : final_state) {
            results.push_back(key + ":w" + std::to_string(conflict.writer_id) + 
                            ":t" + std::to_string(conflict.timestamp));

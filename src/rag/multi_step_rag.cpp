@@ -135,7 +135,8 @@ std::string MultiStepRAGOrchestrator::substitute(
 std::vector<std::string> MultiStepRAGOrchestrator::parseOpenAspects(
     const std::string& llm_response)
 {
-    std::vector<std::string> aspects;
+    std::vector<std::string> aspects = {};
+
     if (llm_response.empty()) {
       return aspects;
     }

@@ -74,7 +74,8 @@ struct BioDeleter {
         return -1;
     };
 
-    std::vector<unsigned char> result;
+    std::vector<unsigned char> result = {};
+
     if ((hex.size() % 2) != 0) {
         return result;
     }

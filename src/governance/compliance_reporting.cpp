@@ -1659,7 +1659,8 @@ std::string ComplianceReporter::exportReport(
             if (report.contains("report_type") && report["report_type"].is_string()) {
                 title += " - " + report["report_type"].get<std::string>();
             }
-            std::vector<std::string> lines;
+            std::vector<std::string> lines = {};
+
             if (report.contains("generated_at") && report["generated_at"].is_number()) {
                 std::time_t ts = static_cast<std::time_t>(
                     report["generated_at"].get<int64_t>());

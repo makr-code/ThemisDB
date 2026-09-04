@@ -120,7 +120,8 @@ ToolboxBuilder& ToolboxBuilder::withFormatExtractorFactory(
     }
 
     // Collect one extractor per MIME type, de-duplicating by pointer identity
-    std::set<ingestion::IFormatExtractor*> seen;
+    std::set<ingestion::IFormatExtractor*> seen = {};
+
     for (const auto& mime : factory->registeredMimeTypes()) {
         auto ext = factory->extractorFor(mime);
         if (ext && seen.find(ext.get()) == seen.end()) {

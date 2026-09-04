@@ -330,7 +330,8 @@ TEST_F(LoRATrainerProductionTest, SelectAdapter_TwoVersions_BothPossible) {
     trainer.deployVersion("legal_v1.1", 0.5f);
 
     // With 50/50 split, repeated calls should return both versions across N trials.
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (int i = 0; i < 200; ++i) {
         seen.insert(trainer.selectAdapterForRequest());
     }

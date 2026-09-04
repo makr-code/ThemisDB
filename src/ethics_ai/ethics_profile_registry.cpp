@@ -34,7 +34,8 @@ namespace {
 #ifdef HAVE_YAML_CPP
 /// Helper: read a sequence of strings from a YAML node (scalar or sequence).
 std::vector<std::string> yamlStringSeq(const YAML::Node& node) {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     if (!node) {
       return result;
     }
@@ -67,7 +68,8 @@ std::vector<EthicsProfileMeta> EthicsProfileRegistry::queryIndex(
 {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<EthicsProfileMeta> results;
+    std::vector<EthicsProfileMeta> results = {};
+
     results.reserve(index_.size());
 
     for (const auto& [id, meta] : index_) {

@@ -785,7 +785,8 @@ public:
             return result;
         } else {
             // Detailed format: array of {node_id, rank, in_degree, out_degree}
-            std::vector<nlohmann::json> results;
+            std::vector<nlohmann::json> results = {};
+
             for (const auto& v : vertices) {
                 nlohmann::json node = {
                     {"node_id", v},
@@ -906,7 +907,8 @@ public:
         auto graph = graph_helpers::buildGraph(args[1]);
         
         // Get all neighbors (undirected)
-        std::unordered_set<std::string> neighbors;
+        std::unordered_set<std::string> neighbors = {};
+
         for (const auto& [n, w] : graph.outNeighbors(vertexId)) {
             neighbors.insert(n);
         }

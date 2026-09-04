@@ -85,7 +85,8 @@ std::vector<TSStore::DataPoint> ForwardFillGapFiller::fill(
     const std::vector<int64_t>&            timestamps_to_fill,
     const GapFillConfig&                   cfg) const {
 
-    std::vector<TSStore::DataPoint> result;
+    std::vector<TSStore::DataPoint> result = {};
+
     result.reserve(timestamps_to_fill.size());
 
     for (int64_t target_ts : timestamps_to_fill) {
@@ -137,7 +138,8 @@ std::vector<TSStore::DataPoint> LinearInterpolationGapFiller::fill(
     const std::vector<int64_t>&            timestamps_to_fill,
     const GapFillConfig&                   cfg) const {
 
-    std::vector<TSStore::DataPoint> result;
+    std::vector<TSStore::DataPoint> result = {};
+
     result.reserve(timestamps_to_fill.size());
 
     for (int64_t target_ts : timestamps_to_fill) {
@@ -211,7 +213,8 @@ std::vector<TSStore::DataPoint> BackwardFillGapFiller::fill(
     const std::vector<int64_t>&            timestamps_to_fill,
     const GapFillConfig&                   cfg) const {
 
-    std::vector<TSStore::DataPoint> result;
+    std::vector<TSStore::DataPoint> result = {};
+
     result.reserve(timestamps_to_fill.size());
 
     for (int64_t target_ts : timestamps_to_fill) {

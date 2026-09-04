@@ -116,7 +116,8 @@ std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query(
     std::string_view entity,
     const RangeQuery& query) const {
     
-    std::vector<DataPoint> results;
+    std::vector<DataPoint> results = {};
+
     if (!db_) {
       return results;
     }

@@ -503,7 +503,8 @@ TEST(IngestionManagerAdapterTest, DISABLED_ProcessPluginJob_MultipleJobs) {
     worker.registerPlugin(plugin);
     worker.start();
     
-    std::vector<std::string> job_ids;
+    std::vector<std::string> job_ids = {};
+
     for (int i = 0; i < 5; ++i) {
         IngestionSource source;
         source.source_id = "batch_" + std::to_string(i);

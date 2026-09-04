@@ -222,7 +222,8 @@ class AQLConversationContext::Impl {
                             auto result = compressor_->compressHistory(history_pairs, max_tokens, min_similarity);
                             if (result && result->semantic_similarity >= min_similarity) {
                                 // Compression succeeded; replace history with compressed summary + system message
-                                std::vector<llm::ChatMessage> compressed_history;
+                                std::vector<llm::ChatMessage> compressed_history = {};
+
                                 if (!history_.empty() && history_.front().role == "system") {
                                     compressed_history.emplace_back("system", history_.front().content);
                                 }

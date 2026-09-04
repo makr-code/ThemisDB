@@ -307,7 +307,8 @@ void DistributedTaskCoordinator::disableTask(const std::string& task_id) {
 
 std::vector<ScheduledTask> DistributedTaskCoordinator::listTasks() const {
     std::lock_guard<std::mutex> lock(registry_mutex_);
-    std::vector<ScheduledTask> result;
+    std::vector<ScheduledTask> result = {};
+
     result.reserve(task_registry_.size());
     for (const auto& [id, task] : task_registry_) {
         result.push_back(task);

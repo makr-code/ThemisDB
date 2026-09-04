@@ -162,7 +162,8 @@ public:
     }
 
     std::vector<std::string> registeredMimeTypes() const override {
-        std::vector<std::string> v;
+        std::vector<std::string> v = {};
+
         for (const auto& [m, _] : registry_) {
           v.push_back(m);
         }

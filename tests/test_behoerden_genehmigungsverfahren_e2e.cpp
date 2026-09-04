@@ -1023,7 +1023,8 @@ TEST_F(BehoerdenGenehmigungsverfahrenE2ETest, ParalleleStellungnahmenThreadSiche
         std::string behoerde;
     };
 
-    std::vector<WriteJob> jobs;
+    std::vector<WriteJob> jobs = {};
+
     for (int i = 0; i < 3; ++i) {
         jobs.push_back({&dms_denkmalschutz_, "TSAFE-DSB-" + std::to_string(i), "Denkmalschutz"});
         jobs.push_back({&dms_umweltamt_,     "TSAFE-UWA-" + std::to_string(i), "Umweltamt"});

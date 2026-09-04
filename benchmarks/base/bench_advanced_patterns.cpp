@@ -2968,7 +2968,8 @@ BENCHMARK_F(BestPracticeBench, BestPractice_Batch_1000Items)(benchmark::State& s
     sim->createIndex("batch", "id");
     
     for (auto _ : state) {
-        std::vector<BaseEntity> batch;
+        std::vector<BaseEntity> batch = {};
+
         for (int i = 0; i < 1000; ++i) {
             batch.emplace_back("entity_" + std::to_string(i), BaseEntity::FieldMap{
                 {"data", RandomGenerator::instance().randStr(100)},
@@ -3077,7 +3078,8 @@ BENCHMARK_F(GapAnalysisBench, Gap_ConcurrencyScaling_8Threads) (benchmark::State
     std::atomic<int> counter(0);
     
     for (auto _ : state) {
-        std::vector<std::thread> threads;
+        std::vector<std::thread> threads = {};
+
         for (int t = 0; t < 8; ++t) {
             threads.emplace_back([this, &counter, t]() {
                 auto sim = std::make_unique<SecondaryIndexManager>(fixture_->getDb());

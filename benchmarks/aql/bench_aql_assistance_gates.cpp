@@ -378,7 +378,8 @@ static void BM_AllGates_Sequential(benchmark::State& state) {
     MockTokenEstimator estimator(kW7CanonicalSeed);
 
     // Build test data
-    std::vector<std::string> batch;
+    std::vector<std::string> batch = {};
+
     for (int i = 0; i < 32; ++i) {
         batch.push_back(translator.translateSimple("query_" + std::to_string(i)));
     }

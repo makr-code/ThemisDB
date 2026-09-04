@@ -321,7 +321,8 @@ SearchResultPage HtmlSearchEngine::parseResults(const std::string &html, const s
 
     // Determine XPath from selector hint or try common patterns in order
     const std::vector<std::string> candidates = [&] {
-        std::vector<std::string> v;
+        std::vector<std::string> v = {};
+
         if (!selector.empty()) {
             // Convert simple CSS class selector to XPath
             if (selector.front() == '.') {

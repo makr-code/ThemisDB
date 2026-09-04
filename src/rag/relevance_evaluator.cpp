@@ -53,7 +53,8 @@ struct RelevanceEvaluator::Impl {
         const std::vector<std::string>& vocab
     ) {
         // Build frequency map in O(token_count), then populate in O(vocab_size)
-        std::unordered_map<std::string, double> freq;
+        std::unordered_map<std::string, double> freq = {};
+
         for (const auto& t : tokens) {
             freq[t] += 1.0;
         }

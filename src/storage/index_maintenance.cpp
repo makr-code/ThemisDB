@@ -370,7 +370,8 @@ std::vector<MaintenanceJobStatus> IndexMaintenanceManager::listActiveJobs() cons
     // positive.
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<MaintenanceJobStatus> jobs;
+    std::vector<MaintenanceJobStatus> jobs = {};
+
     for (const auto& [job_id, status] : active_jobs_) {
         if (status.is_running) {
             jobs.push_back(status);

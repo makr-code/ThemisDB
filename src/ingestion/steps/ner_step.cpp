@@ -201,7 +201,8 @@ public:
         const json& config_json = cfg.config.is_object() ? cfg.config : json::object();
 
         // Config
-        std::vector<std::string> requested_types;
+        std::vector<std::string> requested_types = {};
+
         if (config_json.contains("entity_types") && config_json["entity_types"].is_array()) {
             for (const auto& t : config_json["entity_types"])
                 requested_types.push_back(t.get<std::string>());

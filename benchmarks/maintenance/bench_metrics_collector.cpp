@@ -28,7 +28,8 @@ static void ResetCollector(benchmark::State& state) {
 }
 
 std::vector<std::string> generateMetricNames(int count) {
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     for (int i = 0; i < count; i++) {
         names.push_back("metric_" + std::to_string(i));
     }
@@ -294,7 +295,8 @@ static void BM_TSStoreMetricsBatch(benchmark::State& state) {
     ResetCollector(state);
     
     const int batch_size = state.range(0);
-    std::vector<std::string> metrics;
+    std::vector<std::string> metrics = {};
+
     for (int i = 0; i < 10; i++) {
         metrics.push_back("sensor_" + std::to_string(i));
     }
@@ -317,7 +319,8 @@ static void BM_ShardingMetricsBatch(benchmark::State& state) {
     ResetCollector(state);
     
     const int num_shards = state.range(0);
-    std::vector<std::string> shard_ids;
+    std::vector<std::string> shard_ids = {};
+
     for (int i = 0; i < num_shards; i++) {
         shard_ids.push_back("shard-" + std::to_string(i));
     }

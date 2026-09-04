@@ -257,7 +257,8 @@ json PerformanceAnalyzer::generate_recommendations(
     const std::vector<PerformanceIssue>& issues) {
     json recommendations = json::array();
     
-    std::unordered_map<IssueCategory, size_t> category_counts;
+    std::unordered_map<IssueCategory, size_t> category_counts = {};
+
     for (const auto& issue : issues) {
         category_counts[issue.category]++;
     }

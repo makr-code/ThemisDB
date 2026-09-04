@@ -455,7 +455,8 @@ CompressionStats TemporalCompressor::compressHistory(
 
         // Filter to closed (historical) versions only; skip current versions
         // and versions newer than the grace window.
-        std::vector<const VersionedDocument*> candidates;
+        std::vector<const VersionedDocument*> candidates = {};
+
         for (const auto& v : versions) {
             if (v.isCurrent()) {
               continue;
@@ -473,7 +474,8 @@ CompressionStats TemporalCompressor::compressHistory(
         }
 
         // Sort candidates by sys_time.start ascending for DELTA/GORILLA
-        std::vector<VersionedDocument> sorted_versions;
+        std::vector<VersionedDocument> sorted_versions = {};
+
         for (const auto* vp : candidates) {
           sorted_versions.push_back(*vp);
         }
@@ -549,7 +551,8 @@ CompressionStats TemporalCompressor::compressHistory(
             }
 
             // Collect all numeric field names from first version
-            std::vector<std::string> numeric_fields;
+            std::vector<std::string> numeric_fields = {};
+
             for (auto& [f, val] : sorted_versions[0].data.items()) {
                 if (val.is_number()) {
                   numeric_fields.push_back(f);

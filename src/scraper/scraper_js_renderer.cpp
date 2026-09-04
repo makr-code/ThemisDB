@@ -142,7 +142,8 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest& req) {
     }
 
     // Build null-terminated argv for execv
-    std::vector<char*> argv;
+    std::vector<char*> argv = {};
+
     argv.reserve(tokens.size() + 1);
     for (auto& t : tokens) {
       argv.push_back(const_cast<char*>(t.c_str()));

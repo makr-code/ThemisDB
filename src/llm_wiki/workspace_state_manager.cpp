@@ -133,7 +133,8 @@ static WorkspaceStatus deserializeJsonToState(
             auto links_j = j.at("links");
             if (links_j.is_object()) {
                 for (const auto& [page, refs] : links_j.items()) {
-                    std::vector<std::string> ref_vec;
+                    std::vector<std::string> ref_vec = {};
+
                     if (refs.is_array()) {
                         ref_vec = refs.get<std::vector<std::string>>();
                     }
@@ -148,7 +149,8 @@ static WorkspaceStatus deserializeJsonToState(
             if (tasks_j.is_object()) {
                 for (const auto& [task_id, task_data] : tasks_j.items()) {
                     if (task_data.is_object()) {
-                        std::unordered_map<std::string, std::string> task_map;
+                        std::unordered_map<std::string, std::string> task_map = {};
+
                         for (const auto& [k, v] : task_data.items()) {
                             task_map[k] = v.dump();
                         }

@@ -145,7 +145,8 @@ std::vector<ArchivedRecord> RetentionManager::getArchivedRecords() const {
 std::vector<ArchivedRecord> RetentionManager::getArchivedRecords(
     const std::string& table_name) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<ArchivedRecord> result;
+    std::vector<ArchivedRecord> result = {};
+
     for (const auto& r : archive_) {
         if (r.document.modified_by == table_name ||
             r.archive_tag.find(table_name) != std::string::npos) {
@@ -513,7 +514,8 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
         stats.versions_examined += history.size();
 
         // Collect eligible-to-delete versions (honours compliance guard and policy).
-        std::vector<VersionedDocument> eligible;
+        std::vector<VersionedDocument> eligible = {};
+
         for (const auto& v : history) {
             if (v.isCurrent()) {
               continue;

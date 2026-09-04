@@ -65,7 +65,8 @@ SagaOrchestratorStatus SAGAOrchestrator::validate(const SAGADefinition& saga) co
         return SagaOrchestratorStatus::Error("saga must contain at least one step");
     }
 
-    std::set<std::string> names;
+    std::set<std::string> names = {};
+
     for (const auto& step : saga.steps) {
         if (step.name.empty()) {
             return SagaOrchestratorStatus::Error("saga contains step with empty name");
@@ -185,14 +186,16 @@ std::vector<std::string> SAGAOrchestrator::topologicalSort(const SAGADefinition&
         }
     }
 
-    std::queue<std::string> q;
+    std::queue<std::string> q = {};
+
     for (const auto& kv : indegree) {
         if (kv.second == 0) {
             q.push(kv.first);
         }
     }
 
-    std::vector<std::string> order;
+    std::vector<std::string> order = {};
+
     order.reserve(saga.steps.size());
 
     while (!q.empty()) {
@@ -444,7 +447,8 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
     }
 
     const bool allow_parallel = config_.enable_parallel && saga_exec.enable_parallel;
-    std::vector<std::string> ready;
+    std::vector<std::string> ready = {};
+
     ready.reserve(saga.steps.size());
     for (const auto& name : order) {
         if (remaining_dependencies[name] == 0) {
@@ -511,7 +515,8 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
             }
         }
 
-        std::vector<std::string> succeeded_in_wave;
+        std::vector<std::string> succeeded_in_wave = {};
+
         succeeded_in_wave.reserve(results.size());
         for (const auto& [name, state] : results) {
             status_rec.step_states[name] = state;

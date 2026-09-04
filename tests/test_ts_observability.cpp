@@ -224,7 +224,8 @@ TEST_F(TimeSeriesObservabilityTest, ResetClearsAllCounters) {
 TEST_F(TimeSeriesObservabilityTest, ConcurrentWritesThreadSafe) {
     constexpr int threads = 4;
     constexpr int per_thread = 100;
-    std::vector<std::thread> ts;
+    std::vector<std::thread> ts = {};
+
     for (int i = 0; i < threads; ++i) {
         ts.emplace_back([this]() {
             for (int j = 0; j < per_thread; ++j) {

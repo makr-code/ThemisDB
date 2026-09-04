@@ -484,7 +484,8 @@ std::string MTLSAuthenticator::computeFingerprint(void *x509_ptr) {
 
 std::vector<std::string> MTLSAuthenticator::extractSANs(void *x509_ptr, int san_type) {
     X509 *cert = static_cast<X509 *>(x509_ptr);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     if (!cert) {
         return result;
     }

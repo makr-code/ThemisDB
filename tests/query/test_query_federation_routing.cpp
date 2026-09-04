@@ -76,7 +76,8 @@ public:
 
     std::vector<ShardResult> scatterGather(const std::string& /*query*/) override {
         scatter_gather_calls_++;
-        std::vector<ShardResult> results;
+        std::vector<ShardResult> results = {};
+
         for (const auto& id : shard_ids_) {
             ShardResult r;
             r.shard_id = id;
@@ -93,7 +94,8 @@ public:
         last_target_shards_ = shard_ids;
         std::unordered_set<std::string> targets(shard_ids.begin(), shard_ids.end());
 
-        std::vector<ShardResult> results;
+        std::vector<ShardResult> results = {};
+
         for (const auto& id : shard_ids_) {
             if (!targets.count(id)) {
                 continue;
@@ -170,7 +172,8 @@ protected:
 // Helper: count distinct "shard" values in merged results
 // ============================================================================
 static std::vector<std::string> extractShards(const json& result) {
-    std::vector<std::string> shards;
+    std::vector<std::string> shards = {};
+
     if (!result.is_array()) {
       return shards;
     }

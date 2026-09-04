@@ -455,7 +455,8 @@ void BackendRegistry::autoDetect() {
 
 std::vector<BackendType> BackendRegistry::getAvailableBackends() const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    std::vector<BackendType> types;
+    std::vector<BackendType> types = {};
+
     types.reserve(backends_.size());
 
     for (const auto &backend : backends_) {

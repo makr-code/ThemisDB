@@ -256,7 +256,8 @@ TEST_F(LogSearchEngineTest, MultipleFieldFilters_ANDSemantics) {
 // ================================================================
 
 TEST_F(LogSearchEngineTest, Limit_RestrictsResults) {
-    std::vector<LogEntry> entries;
+    std::vector<LogEntry> entries = {};
+
     for (int i = 0; i < 10; ++i)
         entries.push_back(makeEntry(Level::INFO, "m" + std::to_string(i)));
     LogSearchQuery q;
@@ -267,7 +268,8 @@ TEST_F(LogSearchEngineTest, Limit_RestrictsResults) {
 }
 
 TEST_F(LogSearchEngineTest, Offset_SkipsEntries) {
-    std::vector<LogEntry> entries;
+    std::vector<LogEntry> entries = {};
+
     for (int i = 0; i < 10; ++i)
         entries.push_back(makeEntry(Level::INFO, "m" + std::to_string(i)));
     LogSearchQuery q;
@@ -289,7 +291,8 @@ TEST_F(LogSearchEngineTest, OffsetBeyondTotal_ReturnsEmpty) {
 }
 
 TEST_F(LogSearchEngineTest, LimitZero_MeansNoLimit) {
-    std::vector<LogEntry> entries;
+    std::vector<LogEntry> entries = {};
+
     for (int i = 0; i < 20; ++i)
         entries.push_back(makeEntry(Level::INFO, "m"));
     LogSearchQuery q;
@@ -394,7 +397,8 @@ TEST_F(LogSearchEngineTest, CombinedFilters_AllMustMatch) {
 // ================================================================
 
 TEST_F(LogSearchEngineTest, ResultMetadata_OffsetAndLimitPreserved) {
-    std::vector<LogEntry> entries;
+    std::vector<LogEntry> entries = {};
+
     for (int i = 0; i < 20; ++i)
         entries.push_back(makeEntry(Level::INFO, "m"));
     LogSearchQuery q;

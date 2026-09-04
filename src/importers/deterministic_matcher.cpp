@@ -121,7 +121,8 @@ DeterministicMatcher::MatchResult DeterministicMatcher::findByCustomIdentifier(c
     }
 
     // Build a lookup key from source-field → target-field mappings.
-    std::vector<std::string> source_fields;
+    std::vector<std::string> source_fields = {};
+
     for (auto it = identifier_mapping.begin(); it != identifier_mapping.end(); ++it) {
         source_fields.push_back(it.key());
     }
@@ -516,7 +517,8 @@ EntityMatchScore SemanticMatcher::scoreEntityMatch(const json &incoming_entity, 
 std::vector<EntityMatchScore> SemanticMatcher::findSimilarEntities(const json &incoming_entity,
                                                                    const std::vector<json> &candidates,
                                                                    const SemanticMatchConfig &config) const {
-    std::vector<EntityMatchScore> results;
+    std::vector<EntityMatchScore> results = {};
+
     results.reserve(candidates.size());
 
     for (const auto &candidate : candidates) {
@@ -568,7 +570,8 @@ HybridEntityMatcher::findMatchingEntities(const json &incoming_entity, const std
     }
 
     // Keep only matches that refer to an actual existing entity in the provided list.
-    std::vector<DeterministicMatcher::MatchResult> det_results;
+    std::vector<DeterministicMatcher::MatchResult> det_results = {};
+
     for (const auto &d : raw_det) {
         if (d.existing_entity_id.empty()) {
             continue;
@@ -589,7 +592,8 @@ HybridEntityMatcher::findMatchingEntities(const json &incoming_entity, const std
     // -----------------------------------------------------------------------
     // Semantic pass
     // -----------------------------------------------------------------------
-    std::vector<EntityMatchScore> sem_results;
+    std::vector<EntityMatchScore> sem_results = {};
+
     if (strategy != MatchStrategy::DETERMINISTIC_FIRST || det_results.empty()) {
         sem_results = sem_matcher_.findSimilarEntities(incoming_entity, existing_entities, sem_config);
     }
@@ -644,7 +648,8 @@ HybridEntityMatcher::findMatchingEntities(const json &incoming_entity, const std
         constexpr double SEM_WEIGHT = 0.4;
 
         // Index semantic results by entity_id.
-        std::map<std::string, double> sem_map;
+        std::map<std::string, double> sem_map = {};
+
         for (const auto &s : sem_results) {
             sem_map[s.entity_id] = s.overall_confidence;
         }

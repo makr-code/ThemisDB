@@ -35,7 +35,8 @@ static GeometryInfo makeLineString(std::initializer_list<std::pair<double,double
 // Closed ring polygon (caller responsible for closing the ring).
 static GeometryInfo makePolygon(std::initializer_list<std::pair<double,double>> pts) {
     GeometryInfo g(GeometryType::Polygon);
-    std::vector<Coordinate> ring;
+    std::vector<Coordinate> ring = {};
+
     for (auto& p : pts) ring.push_back({p.first, p.second});
     g.rings.push_back(ring);
     return g;

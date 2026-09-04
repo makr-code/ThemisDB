@@ -349,7 +349,8 @@ public:
     std::vector<Changefeed::ChangeEvent> applyBatch(
         const std::vector<Changefeed::ChangeEvent>& events) const override
     {
-        std::vector<Changefeed::ChangeEvent> out;
+        std::vector<Changefeed::ChangeEvent> out = {};
+
         out.reserve(events.size());
         for (const auto& ev : events) {
             if (apply(ev) == FilterResult::Pass) {
@@ -361,7 +362,8 @@ public:
 
     std::vector<std::string> filterNames() const override {
         std::unique_lock<std::mutex> lk(mutex_);
-        std::vector<std::string> names;
+        std::vector<std::string> names = {};
+
         names.reserve(stages_.size());
         for (const auto& s : stages_) {
           names.push_back(s->name());

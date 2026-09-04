@@ -41,7 +41,8 @@ protected:
 TEST_F(VectorStatsTest, AddBatch_MultipleEntities) {
     vector_mgr_->init("documents", 3, themis::VectorIndexManager::Metric::COSINE);
     
-    std::vector<themis::BaseEntity> entities;
+    std::vector<themis::BaseEntity> entities = {};
+
     for (int i = 0; i < 10; ++i) {
         std::string pk = "doc" + std::to_string(i);
         themis::BaseEntity entity(pk);
@@ -63,7 +64,8 @@ TEST_F(VectorStatsTest, UpdateBatch_ModifiesMultipleVectors) {
     vector_mgr_->init("documents", 3, themis::VectorIndexManager::Metric::L2);
     
     // Add initial entities
-    std::vector<themis::BaseEntity> entities;
+    std::vector<themis::BaseEntity> entities = {};
+
     for (int i = 0; i < 5; ++i) {
         std::string pk = "doc" + std::to_string(i);
         themis::BaseEntity entity(pk);
@@ -92,7 +94,8 @@ TEST_F(VectorStatsTest, RemoveBatch_DeletesMultipleVectors) {
     vector_mgr_->init("documents", 3, themis::VectorIndexManager::Metric::COSINE);
     
     // Add entities
-    std::vector<themis::BaseEntity> entities;
+    std::vector<themis::BaseEntity> entities = {};
+
     for (int i = 0; i < 10; ++i) {
         std::string pk = "doc" + std::to_string(i);
         themis::BaseEntity entity(pk);
@@ -118,7 +121,8 @@ TEST_F(VectorStatsTest, GetStatistics_ReturnsBasicInfo) {
     vector_mgr_->init("documents", 3, themis::VectorIndexManager::Metric::COSINE);
     
     // Add some vectors
-    std::vector<themis::BaseEntity> entities;
+    std::vector<themis::BaseEntity> entities = {};
+
     for (int i = 0; i < 5; ++i) {
         std::string pk = "doc" + std::to_string(i);
         themis::BaseEntity entity(pk);

@@ -399,7 +399,8 @@ TEST_F(DegradationFaultRecoveryTest, DFR_06_QueryTimeoutPropagation) {
 /// @brief DFR-07: Data consistency after fault recovery.
 TEST_F(DegradationFaultRecoveryTest, DFR_07_DataConsistencyAfterRecovery) {
     // Record baseline data
-    std::unordered_map<std::string, std::string> baseline;
+    std::unordered_map<std::string, std::string> baseline = {};
+
     for (int i = 0; i < 100; ++i) {
         std::string key = "doc_" + std::to_string(i);
         auto result = cluster_->ReadDocument(key);

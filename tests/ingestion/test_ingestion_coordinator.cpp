@@ -256,7 +256,8 @@ TEST(ConsistentHashRingTest, DistributionAcrossMultipleNodes) {
     ring.addNode("n2");
     ring.addNode("n3");
 
-    std::unordered_map<std::string, size_t> counts;
+    std::unordered_map<std::string, size_t> counts = {};
+
     for (int i = 0; i < 500; ++i) {
         std::string key = "src-" + std::to_string(i);
         counts[ring.getNode(key)]++;
@@ -418,7 +419,8 @@ TEST(IngestionCoordinatorPartitionTest, AllSourcesAssigned) {
     IngestionCoordinator coordinator(cfg);
     coordinator.start();
 
-    std::vector<SourceConfig> sources;
+    std::vector<SourceConfig> sources = {};
+
     for (int i = 0; i < 30; ++i) {
         sources.push_back(makeSource("src-" + std::to_string(i)));
     }
@@ -442,7 +444,8 @@ TEST(IngestionCoordinatorPartitionTest, PartitioningIsDeterministic) {
     IngestionCoordinator coordinator(cfg);
     coordinator.start();
 
-    std::vector<SourceConfig> sources;
+    std::vector<SourceConfig> sources = {};
+
     for (int i = 0; i < 20; ++i) {
         sources.push_back(makeSource("deterministic-" + std::to_string(i)));
     }
@@ -493,7 +496,8 @@ TEST(IngestionCoordinatorIngestTest, IngestAllWithMockNodes) {
     coordinator.registerNode(mock1);
     coordinator.start();
 
-    std::vector<SourceConfig> sources;
+    std::vector<SourceConfig> sources = {};
+
     for (int i = 0; i < 10; ++i) {
         sources.push_back(makeSource("src-" + std::to_string(i)));
     }
@@ -623,7 +627,8 @@ TEST(IngestionCoordinatorAggregateTest, PartialReportsAggregated) {
     coordinator.registerNode(mock1);
     coordinator.start();
 
-    std::vector<SourceConfig> sources;
+    std::vector<SourceConfig> sources = {};
+
     for (int i = 0; i < 4; ++i) {
         sources.push_back(makeSource("agg-src-" + std::to_string(i)));
     }
@@ -866,7 +871,8 @@ TEST(IngestionCoordinatorWorkStealingTest, UnbalancedLoadIsProcessedCorrectly) {
     coordinator.start();
 
     // Use enough sources so that hash ring distributes them across nodes.
-    std::vector<SourceConfig> sources;
+    std::vector<SourceConfig> sources = {};
+
     for (int i = 0; i < 12; ++i) {
         sources.push_back(makeSource("unbal-src-" + std::to_string(i)));
     }

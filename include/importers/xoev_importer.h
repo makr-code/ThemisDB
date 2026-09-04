@@ -347,7 +347,8 @@ public:
 
     std::vector<XOEVRecord> storedRecords() const override {
         std::unique_lock<std::mutex> lk(mutex_);
-        std::vector<XOEVRecord> result;
+        std::vector<XOEVRecord> result = {};
+
         result.reserve(store_.size());
         for (const auto& [id, r] : store_) {
           result.push_back(r);

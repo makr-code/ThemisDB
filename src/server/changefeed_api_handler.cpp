@@ -57,7 +57,8 @@ static constexpr size_t EVENT_TYPES_MAX_LEN = 256;
 static constexpr size_t EVENT_TYPES_PARAM_LEN = sizeof("event_types=") - 1;
 
 static std::set<Changefeed::ChangeEventType> parseEventTypes([[maybe_unused]] const std::string& types_str) {
-    std::set<Changefeed::ChangeEventType> result;
+    std::set<Changefeed::ChangeEventType> result = {};
+
     if ([[maybe_unused]] types_str.size() > EVENT_TYPES_MAX_LEN) {
         THEMIS_WARN("parseEventTypes: input too long ({} bytes, max {} allowed), ignoring",
                     types_str.size(), EVENT_TYPES_MAX_LEN);
@@ -783,7 +784,8 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             }
 
             // --- At-least-once: prepend any pending redelivery events ---
-            std::vector<Changefeed::ChangeEvent> redelivery_events;
+            std::vector<Changefeed::ChangeEvent> redelivery_events = {};
+
             if (!consumer_id.empty()) {
                 redelivery_events = delivery_tracker_.getPendingRedelivery(consumer_id, ack_timeout_override);
                 for ([[maybe_unused]] const auto& ev : redelivery_events) {
@@ -1269,7 +1271,8 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
         auto& tm = TenantManager::instance();
         
         // Build headers map
-        std::unordered_map<std::string, std::string> headers_map;
+        std::unordered_map<std::string, std::string> headers_map = {};
+
         for (const auto& h : req) {
             headers_map[std::string(h.name_string())] = std::string(h.value());
         }
@@ -1354,7 +1357,8 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
     std::string tenant_id_from_auth = auth_result.tenant_id;
     
     // Build headers map
-    std::unordered_map<std::string, std::string> headers_map;
+    std::unordered_map<std::string, std::string> headers_map = {};
+
     for (const auto& h : req) {
         headers_map[std::string(h.name_string())] = std::string(h.value());
     }

@@ -68,7 +68,8 @@ public:
     std::vector<themis::VectorSearchResult> search(
         const std::vector<float>& /*qv*/, uint32_t k,
         const themis::IExpressionEvaluator* /*filter*/ = nullptr) const override {
-        std::vector<themis::VectorSearchResult> hits;
+        std::vector<themis::VectorSearchResult> hits = {};
+
         for (uint32_t i = 0; i < k && i < 3; ++i) {
             hits.emplace_back("key_" + std::to_string(i), static_cast<float>(i) * 0.1f);
         }

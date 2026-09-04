@@ -371,7 +371,8 @@ TEST_F(RAGContextEngineFocusedTests, TraverseArgumentChainCycleSafe) {
     ASSERT_TRUE(std::holds_alternative<std::vector<std::string>>(result));
     const auto& chain = std::get<std::vector<std::string>>(result);
 
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& id : chain) {
         EXPECT_TRUE(seen.insert(id).second)
             << "Cycle-safe BFS produced duplicate node: " << id;

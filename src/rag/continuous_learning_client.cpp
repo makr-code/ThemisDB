@@ -134,7 +134,8 @@ struct ContinuousLearningClient::Impl {
     std::vector<double> getRecentMetrics(MetricType type) {
         std::lock_guard<std::mutex> lock(history_mutex);
         
-        std::vector<double> values;
+        std::vector<double> values = {};
+
         for (const auto& metric : metric_history) {
             if (metric.type == type) {
                 values.push_back(metric.value);

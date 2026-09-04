@@ -256,7 +256,8 @@ TEST(ConsistentHashRingTest, DistributionAcrossNodes) {
         ring.addNode(n);
     }
 
-    std::unordered_map<std::string, int> counts;
+    std::unordered_map<std::string, int> counts = {};
+
     for (int i = 0; i < 300; ++i) {
         auto result = ring.getNode("session-" + std::to_string(i));
         ASSERT_TRUE(result.has_value());
@@ -280,7 +281,8 @@ TEST(ConsistentHashRingTest, RemoveNodeReroutesGracefully) {
     ring.addNode(n3);
 
     // Record original routing for 100 keys
-    std::unordered_map<std::string, std::string> before;
+    std::unordered_map<std::string, std::string> before = {};
+
     for (int i = 0; i < 100; ++i) {
         std::string key = "key-" + std::to_string(i);
         auto result = ring.getNode(key);

@@ -105,7 +105,8 @@ TEST_F(DataAugmentationTest, SyntheticEntitiesHaveUniqueKeys) {
     auto entities = sampleEntities();
     auto result   = pipeline.augment(entities);
 
-    std::vector<std::string> pks;
+    std::vector<std::string> pks = {};
+
     for (const auto& e : result) {
         pks.push_back(e.getPrimaryKey());
     }
@@ -351,7 +352,8 @@ TEST_F(DataAugmentationTest, QuestionReformulationMultipleVariantsDiffer) {
     ASSERT_EQ(result.size(), 4u);
 
     // At least two of the four variants should be distinct.
-    std::set<std::string> questions;
+    std::set<std::string> questions = {};
+
     for (const auto& ent : result) {
         auto q = ent.getFieldAsString("question");
         if (q) {

@@ -196,7 +196,8 @@ TEST_F(TraceOverheadTest, ThreadSaftyBaggageInsertion) {
   auto span = std::make_shared<DistributedTraceSpan>("operation", nullptr);
   
   // Multiple threads adding baggage
-  std::vector<std::thread> threads;
+  std::vector<std::thread> threads = {};
+
   for (int i = 0; i < 10; ++i) {
     threads.emplace_back([span, i]() {
       for (int j = 0; j < 5; ++j) {

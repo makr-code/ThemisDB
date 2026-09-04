@@ -155,7 +155,8 @@ std::vector<std::string> GNNEmbeddingManager::getNeighbors_(
     
     // BFS for multi-hop neighbors
     for (int hop = 0; hop < hop_count; ++hop) {
-        std::vector<std::string> next_level;
+        std::vector<std::string> next_level = {};
+
         next_level.reserve(current_level.size() * 2);
         
         for (const auto& node : current_level) {
@@ -303,7 +304,8 @@ GNNEmbeddingManager::computeEmbedding_(
                     float weight_sum = 0.0f;
                     
                     // First pass: compute raw similarities and track maximum for numerical stability
-                    std::vector<float> raw_similarities;
+                    std::vector<float> raw_similarities = {};
+
                     raw_similarities.reserve(neighbor_features_list.size());
                     float max_similarity = -std::numeric_limits<float>::infinity();
                     
@@ -514,7 +516,8 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::generateEdgeEmbeddings(
     }
     
     // Extract edge IDs
-    std::vector<std::string> edge_ids;
+    std::vector<std::string> edge_ids = {};
+
     edge_ids.reserve(edges.size());
     for (const auto& edge : edges) {
         edge_ids.push_back(edge.edgeId);
@@ -769,7 +772,8 @@ GNNEmbeddingManager::findSimilarNodes(
     }
     
     // Convert results
-    std::vector<SimilarityResult> similar;
+    std::vector<SimilarityResult> similar = {};
+
     similar.reserve(std::min(results.size(), static_cast<size_t>(std::max(0, k))));
     for (const auto& res : results) {
         // Parse embedding key to get entity info
@@ -824,7 +828,8 @@ GNNEmbeddingManager::findSimilarEdges(
     }
     
     // Convert results (similar to findSimilarNodes)
-    std::vector<SimilarityResult> similar;
+    std::vector<SimilarityResult> similar = {};
+
     similar.reserve(std::min(results.size(), static_cast<size_t>(std::max(0, k))));
     for (const auto& res : results) {
         auto parts = parseEmbeddingKey_(res.pk);
@@ -875,7 +880,8 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::registerModel(
 
 std::pair<GNNEmbeddingManager::Status, std::vector<std::string>>
 GNNEmbeddingManager::listModels() const {
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(models_.size());
     for (const auto& [name, _] : models_) {
         names.push_back(name);

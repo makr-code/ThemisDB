@@ -350,7 +350,8 @@ TrainingBatch DataLoader::getNextBatch() {
     }
     
     // Collect indices for this batch
-    std::vector<size_t> batch_indices;
+    std::vector<size_t> batch_indices = {};
+
     size_t end_index = std::min(current_index_ + config_.batch_size, indices_.size());
     
     for (size_t i = current_index_; i < end_index; ++i) {

@@ -175,7 +175,8 @@ static ImportStats importContent(const std::string& content,
     }
 
     // Delta hashes
-    std::unordered_set<uint64_t> delta_hashes;
+    std::unordered_set<uint64_t> delta_hashes = {};
+
     if (!options.delta_hash_file.empty())
         delta_hashes = loadDeltaHashes(options.delta_hash_file);
 

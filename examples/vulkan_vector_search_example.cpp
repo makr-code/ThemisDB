@@ -106,7 +106,8 @@ int main() {
         std::cout << "3. Adding vectors to index...\n";
         auto startAdd = std::chrono::high_resolution_clock::now();
         
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         for (size_t i = 0; i < NUM_VECTORS; ++i) {
             ids.push_back("vec_" + std::to_string(i));
         }

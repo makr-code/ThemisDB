@@ -232,7 +232,8 @@ RepairJob ShardRepairEngine::getJobStatus(const std::string& job_id) const {
 /** @brief Return currently active (not completed) repair jobs. */
 std::vector<RepairJob> ShardRepairEngine::getActiveJobs() const {
     std::lock_guard<std::timed_mutex> lock(jobs_mutex_);
-    std::vector<RepairJob> active;
+    std::vector<RepairJob> active = {};
+
     for (const auto& [id, job] : jobs_) {
         if (!job.completed) {
             active.push_back(job);
@@ -244,7 +245,8 @@ std::vector<RepairJob> ShardRepairEngine::getActiveJobs() const {
 /** @brief Return latest per-shard health reports cache snapshot. */
 std::vector<ShardHealthReport> ShardRepairEngine::getShardHealthReports() const {
     std::lock_guard<std::mutex> lock(health_mutex_);
-    std::vector<ShardHealthReport> reports;
+    std::vector<ShardHealthReport> reports = {};
+
     reports.reserve(shard_health_.size());
     for (const auto& [id, report] : shard_health_) {
         reports.push_back(report);
@@ -565,7 +567,8 @@ void ShardRepairEngine::scanShardBand(const std::vector<ShardInfo>& band,
         report.last_scan = std::chrono::system_clock::now();
 
         // Obtain document list for this shard (if provider is set)
-        std::vector<std::string> doc_ids;
+        std::vector<std::string> doc_ids = {};
+
         if (doc_list_provider_) {
             try {
                 doc_ids = doc_list_provider_(shard_id);
@@ -706,7 +709,8 @@ void ShardRepairEngine::executeRepairJob(RepairJob& job) {
           break;
         }
 
-        std::vector<std::string> doc_ids;
+        std::vector<std::string> doc_ids = {};
+
         if (doc_list_provider_) {
             try {
                 doc_ids = doc_list_provider_(shard_info.shard_id);

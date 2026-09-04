@@ -108,7 +108,8 @@ public:
         GpuCompressionAlgorithm algorithm,
         const GpuCompressionConfig& cfg)
     {
-        std::vector<GpuCompressionResult> results;
+        std::vector<GpuCompressionResult> results = {};
+
         results.reserve(ptrs.size());
         for (size_t i = 0; i < ptrs.size(); ++i) {
             results.push_back(compress(ptrs[i], sizes[i], algorithm, cfg));
@@ -1277,7 +1278,8 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
     // ----------------------------------------------------------------
     if (impl_ && impl_->is_available() && !force_cpu_) {
         // Collect indices of buffers large enough for the GPU threshold
-        std::vector<size_t> gpu_indices;
+        std::vector<size_t> gpu_indices = {};
+
         for (size_t i = 0; i < buffers.size(); ++i) {
             if (should_use_gpu(buffers[i].size()))
                 gpu_indices.push_back(i);
@@ -1285,7 +1287,8 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
 
         if (!gpu_indices.empty()) {
             std::vector<const uint8_t*> ptrs;
-            std::vector<size_t> sizes;
+            std::vector<size_t> sizes = {};
+
             ptrs.reserve(gpu_indices.size());
             sizes.reserve(gpu_indices.size());
             for (size_t idx : gpu_indices) {
@@ -1334,7 +1337,8 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
     // ----------------------------------------------------------------
     // CPU-only fallback (sequential)
     // ----------------------------------------------------------------
-    std::vector<GpuCompressionResult> results;
+    std::vector<GpuCompressionResult> results = {};
+
     results.reserve(buffers.size());
     for (const auto& buf : buffers) {
         results.push_back(compress(buf, algorithm));

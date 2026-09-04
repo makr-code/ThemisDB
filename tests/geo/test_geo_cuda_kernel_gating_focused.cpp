@@ -157,7 +157,8 @@ TEST_F(GeoBackendDispatchTest, ALWAYS_CPU_PointInPolygon_PointOutside) {
 }
 
 TEST_F(GeoBackendDispatchTest, ALWAYS_CPU_PointInPolygon_EmptyBatch) {
-    std::vector<GeoBackendDispatcher::Point> test_points;
+    std::vector<GeoBackendDispatcher::Point> test_points = {};
+
     std::vector<GeoBackendDispatcher::Polygon> polygons = {california_box_};
     
     auto result = dispatcher_->computePointInPolygonBatch(
@@ -173,7 +174,8 @@ TEST_F(GeoBackendDispatchTest, GPU_OPTIONAL_PointInPolygon_LargeBatch) {
     }
     
     // Create large batch of points (half inside, half outside)
-    std::vector<GeoBackendDispatcher::Point> test_points;
+    std::vector<GeoBackendDispatcher::Point> test_points = {};
+
     for (size_t i = 0; i < 2500; ++i) {
         test_points.push_back(sf_point_);      // Inside
         test_points.push_back({0.0, 0.0});     // Outside

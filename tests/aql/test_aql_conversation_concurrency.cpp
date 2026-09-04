@@ -204,7 +204,8 @@ TEST(ConversationConcurrency, ConcurrentCircuitBreakerTransitions) {
     constexpr int kThreads = 6;
     std::atomic<int> allowed{0}, blocked{0};
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&cb, &allowed, &blocked, t]() {
             for (int i = 0; i < 10; ++i) {
@@ -246,7 +247,8 @@ TEST(ConversationConcurrency, TokenBudgetExhaustionRaceCondition) {
     constexpr int kThreads = 2;
     std::atomic<int> successes{0};
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&ctx, &successes]() {
             for (int i = 0; i < 50; ++i) {
@@ -283,7 +285,8 @@ TEST(ConversationConcurrency, ConcurrentContextEviction) {
     const auto initial_tokens = ctx.currentTokens();
     EXPECT_LE(initial_tokens, ctx.maxTokens());
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&ctx, &total_evicted, t]() {
             // Use large AQL strings to force evictions
@@ -314,7 +317,8 @@ TEST(ConversationConcurrency, HistoryConsistencyUnderInterleavedAccess) {
     std::atomic<bool> stop{false};
     std::atomic<std::size_t> max_observed_size{0};
 
-    std::vector<std::thread> writers;
+    std::vector<std::thread> writers = {};
+
     for (int t = 0; t < kWriters; ++t) {
         writers.emplace_back([&ctx, t]() {
             for (int i = 0; i < 30; ++i) {
@@ -323,7 +327,8 @@ TEST(ConversationConcurrency, HistoryConsistencyUnderInterleavedAccess) {
         });
     }
 
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int t = 0; t < kReaders; ++t) {
         readers.emplace_back([&ctx, &stop, &max_observed_size]() {
             while (!stop.load(std::memory_order_relaxed)) {
@@ -393,7 +398,8 @@ TEST(ConversationConcurrency, ConcurrentValidationPipelineCalls) {
     constexpr int kThreads = 8;
     std::atomic<int> errors_seen{0};
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([t, &errors_seen]() {
             // Each thread independently creates and inspects error context objects

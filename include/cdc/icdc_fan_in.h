@@ -223,7 +223,8 @@ public:
             snapshot = sources_;
         }
 
-        std::vector<FanInEvent> merged;
+        std::vector<FanInEvent> merged = {};
+
         for (const auto& [id, feed] : snapshot) {
             if (!feed) {
               continue;
@@ -271,7 +272,8 @@ public:
 
     std::vector<CollectionId> sourceIds() const override {
         std::unique_lock<std::mutex> lk(mutex_);
-        std::vector<CollectionId> ids;
+        std::vector<CollectionId> ids = {};
+
         ids.reserve(sources_.size());
         for (const auto& [id, _] : sources_) {
           ids.push_back(id);

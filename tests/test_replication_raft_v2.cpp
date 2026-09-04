@@ -41,7 +41,8 @@ using namespace themisdb::replication;
 static std::set<std::string> makeMembers(
     std::initializer_list<const char*> ids)
 {
-    std::set<std::string> s;
+    std::set<std::string> s = {};
+
     for (const auto* id : ids) {
       s.insert(id);
     }

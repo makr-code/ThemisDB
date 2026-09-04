@@ -252,7 +252,8 @@ BENCHMARK(BM_RRG04_WalApply)
  * GATE-RRG-05: p99 ≤ 100 µs.
  */
 static void BM_RRG05_PartitionOffsetLookup(benchmark::State& state) {
-    std::unordered_map<int, std::int64_t> offsets;
+    std::unordered_map<int, std::int64_t> offsets = {};
+
     for (int i = 0; i < 64; ++i) {
       offsets[i] = static_cast<std::int64_t>(i) * 1000LL;
     }

@@ -57,7 +57,8 @@ std::vector<RetrievedChunk> RAGPromptBuilder::selectChunks(
     size_t max_total_length) const {
 
     // Optionally sort by relevance descending
-    std::vector<const RetrievedChunk*> ordered;
+    std::vector<const RetrievedChunk*> ordered = {};
+
     ordered.reserve(candidates.size());
     for (const auto& c : candidates) {
         ordered.push_back(&c);

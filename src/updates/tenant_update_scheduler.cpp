@@ -527,7 +527,8 @@ TenantUpdateScheduler::getAllTenantStatuses() const
 {
     std::lock_guard<std::mutex> lock(mutex_);
     const auto now = clock_fn_();
-    std::vector<TenantUpdateStatus> result;
+    std::vector<TenantUpdateStatus> result = {};
+
     result.reserve(tenants_.size());
     for (const auto& [tid, state] : tenants_) {
         TenantUpdateStatus s;

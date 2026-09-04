@@ -289,7 +289,8 @@ TEST(HttpTimeoutLogic, ConcurrentRequestsTimeoutIndependently) {
     std::atomic<int> timed_out{0};
     std::atomic<int> completed{0};
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < kRequests; ++i) {
         threads.emplace_back([&, i]() {
             // Even-indexed requests exceed the timeout; odd ones do not.

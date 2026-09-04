@@ -149,7 +149,8 @@ std::string PostgreSQLImporter::unescapeCopyValue(const std::string& val) const 
  */
 std::vector<std::string> PostgreSQLImporter::parseCopyRow(
         const std::string& line) const {
-    std::vector<std::string> fields;
+    std::vector<std::string> fields = {};
+
     if (line == "\\." || line.empty()) {
       return fields;
     }

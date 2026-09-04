@@ -902,7 +902,8 @@ void AutoRebalancer::handleTopologyChange() {
     
     // Get current shard IDs from topology
     auto all_shards = topology_->getAllShards();
-    std::vector<std::string> current_topology;
+    std::vector<std::string> current_topology = {};
+
     for (const auto& shard : all_shards) {
         current_topology.push_back(shard.shard_id);
     }

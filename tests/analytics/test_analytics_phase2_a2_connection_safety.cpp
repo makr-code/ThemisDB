@@ -266,7 +266,8 @@ TEST_F(AnalyticsPhase2A2Test, PoolRecoveryAfterExhaustion) {
     
     auto small_pool = std::make_shared<ConnectionPool>(2);
     
-    std::vector<int> conns;
+    std::vector<int> conns = {};
+
     for (int i = 0; i < 2; ++i) {
         int conn = small_pool->acquire();
         EXPECT_GT(conn, 0);
@@ -413,7 +414,8 @@ TEST_F(AnalyticsPhase2A2Test, ConnectionHealthCheck) {
     EXPECT_TRUE(healthy);
     
     // Acquire all connections
-    std::vector<int> conns;
+    std::vector<int> conns = {};
+
     for (int i = 0; i < 10; ++i) {
         int conn = pool_->acquire();
         if (conn > 0) {
@@ -439,7 +441,8 @@ TEST_F(AnalyticsPhase2A2Test, PoolStatistics) {
     EXPECT_EQ(0, pool_->getTotalAcquired());
     
     // Acquire some connections
-    std::vector<int> conns;
+    std::vector<int> conns = {};
+
     for (int i = 0; i < 5; ++i) {
         int conn = pool_->acquire();
         conns.push_back(conn);
@@ -557,7 +560,8 @@ TEST(Phase2A2MissingDtorTest, ExplicitDefaultDtorInCollection) {
     // Fix-C2 (ITree): objects with explicit ~T() = default can be stored in
     // std::vector and destroyed safely via element destruction.
 
-    std::vector<TrivialWithVector> collection;
+    std::vector<TrivialWithVector> collection = {};
+
     for (int i = 0; i < 100; ++i) {
         TrivialWithVector item;
         item.data.resize(static_cast<size_t>(i + 1), i);
@@ -639,13 +643,15 @@ TEST(Phase2A2IteratorSafetyTest, EraseWhileIteratingCollectThenErase) {
     // Models the collect-then-erase pattern for safe container modification.
     // This is the iterator_invalidation fix pattern for std::map/vector loops.
 
-    std::map<int, std::string> items;
+    std::map<int, std::string> items = {};
+
     for (int i = 0; i < 20; ++i) {
         items[i] = (i % 2 == 0) ? "even" : "odd";
     }
 
     // CORRECT pattern: collect keys to erase, then erase in a separate pass
-    std::vector<int> to_erase;
+    std::vector<int> to_erase = {};
+
     for (const auto &[k, v] : items) {
         if (v == "odd") {
             to_erase.push_back(k);

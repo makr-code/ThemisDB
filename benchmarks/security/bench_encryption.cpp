@@ -307,7 +307,8 @@ static void BM_SchemaEncrypt_MultiField_Entity(benchmark::State& state) {
     };
     
     for (auto _ : state) {
-        std::vector<EncryptedBlob> blobs;
+        std::vector<EncryptedBlob> blobs = {};
+
         blobs.reserve(fields.size());
         
         for (size_t i = 0; i < fields.size(); ++i) {

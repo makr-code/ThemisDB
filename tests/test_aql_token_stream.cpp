@@ -130,7 +130,8 @@ TEST(AQLTokenStreamTest, ProducerThreadPushesConsumerReceivesAll) {
         stream->close();
     });
 
-    std::vector<std::string> received;
+    std::vector<std::string> received = {};
+
     while (auto t = stream->nextToken()) {
         received.push_back(*t);
     }
@@ -152,7 +153,8 @@ TEST(AQLTokenStreamTest, RangeBasedForLoopDrainsStream) {
         stream->close();
     });
 
-    std::vector<std::string> collected;
+    std::vector<std::string> collected = {};
+
     for (const auto& token : *stream) {
         collected.push_back(token);
     }

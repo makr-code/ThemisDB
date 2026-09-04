@@ -137,7 +137,8 @@ float MedianDetector::computeMAD(const std::vector<float>& values, float median)
       return 0.0f;
     }
     
-    std::vector<float> deviations;
+    std::vector<float> deviations = {};
+
     deviations.reserve(values.size());
     
     for (float val : values) {
@@ -278,7 +279,8 @@ std::vector<std::string> KrumDetector::selectKrumGradients(
 ) const {
     if (shard_gradients.size() <= static_cast<size_t>(num_to_select)) {
         // Select all shards
-        std::vector<std::string> all_shards;
+        std::vector<std::string> all_shards = {};
+
         for (const auto& [shard_id, _] : shard_gradients) {
             all_shards.push_back(shard_id);
         }
@@ -286,7 +288,8 @@ std::vector<std::string> KrumDetector::selectKrumGradients(
     }
     
     // Compute pairwise distances
-    std::vector<std::string> shard_ids;
+    std::vector<std::string> shard_ids = {};
+
     for (const auto& [shard_id, _] : shard_gradients) {
         shard_ids.push_back(shard_id);
     }
@@ -331,7 +334,8 @@ std::vector<std::string> KrumDetector::selectKrumGradients(
         [](const auto& a, const auto& b) { return a.first < b.first; }
     );
     
-    std::vector<std::string> selected;
+    std::vector<std::string> selected = {};
+
     for (int i = 0; i < num_to_select; ++i) {
         selected.push_back(scores[i].second);
     }
@@ -427,7 +431,8 @@ std::vector<GradientTensor> BulyanDetector::computeTrimmedMean(
         
         // For each coordinate, compute trimmed mean
         for (size_t coord = 0; coord < data_size; ++coord) {
-            std::vector<float> values;
+            std::vector<float> values = {};
+
             for (const auto& shard_grads : selected_gradients) {
                 values.push_back(shard_grads[layer_idx].data[coord]);
             }
@@ -544,7 +549,8 @@ DetectionResult EnsembleDetector::combineResults(
     combined.anomaly_scores = all_scores;
     
     // A shard is suspected if detected by either method
-    std::set<std::string> suspected_set;
+    std::set<std::string> suspected_set = {};
+
     for (const auto& shard_id : median_result.suspected_shards) {
         suspected_set.insert(shard_id);
     }

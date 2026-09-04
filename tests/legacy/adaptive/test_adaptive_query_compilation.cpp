@@ -913,7 +913,8 @@ TEST(AdaptiveQueryCompilationFocusedTests, ConcurrentExecuteDoesNotCrash) {
 
     auto schema = makeUserSchema();
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&compiler, &schema, t]() {
             auto q = makeFilterQuery("fp_concurrent_" + std::to_string(t % 2),

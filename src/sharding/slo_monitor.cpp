@@ -609,7 +609,8 @@ SLOMonitor::RepairProgress SLOMonitor::getRepairProgress(const std::string& job_
 /** @brief List all repair jobs currently not marked completed. */
 std::vector<SLOMonitor::RepairProgress> SLOMonitor::getActiveRepairJobs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<RepairProgress> active;
+    std::vector<RepairProgress> active = {};
+
     for (const auto& [id, prog] : repair_progress_) {
         if (!prog.completed) {
             active.push_back(prog);

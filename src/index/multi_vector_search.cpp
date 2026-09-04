@@ -45,7 +45,8 @@ std::vector<float> normalizeScores(const std::vector<float>& scores) {
         return std::vector<float>(scores.size(), 1.0f);
     }
     
-    std::vector<float> normalized;
+    std::vector<float> normalized = {};
+
     normalized.reserve(scores.size());
     for (float score : scores) {
         normalized.push_back((score - min_score) / range);
@@ -189,7 +190,8 @@ MultiVectorSearch::search(
     }
     
     // 3. Collect all unique document IDs
-    std::unordered_set<std::string> all_docs;
+    std::unordered_set<std::string> all_docs = {};
+
     for (const auto& results : individual_results) {
         for (const auto& result : results) {
             all_docs.insert(result.pk);
@@ -197,7 +199,8 @@ MultiVectorSearch::search(
     }
     
     // 4. For each document, calculate fused score
-    std::vector<SearchResult> fused_results;
+    std::vector<SearchResult> fused_results = {};
+
     fused_results.reserve(all_docs.size());
     
     for (const auto& doc_id : all_docs) {
@@ -209,7 +212,8 @@ MultiVectorSearch::search(
         // Collect scores and ranks from each query
         // A-2.3: Safe read-only iteration over maps (no mutations during loop)
         std::vector<float> scores;
-        std::vector<int> ranks;
+        std::vector<int> ranks = {};
+
         scores.reserve(individual_results.size());
         ranks.reserve(individual_results.size());
         
@@ -389,7 +393,8 @@ MultiVectorSearch::hybridSearch(
     }
     
     // 3. Build result sets for fusion
-    std::vector<SearchResult> fused_results;
+    std::vector<SearchResult> fused_results = {};
+
     fused_results.reserve(all_docs.size());
     
     for (const auto& doc_id : all_docs) {
@@ -523,7 +528,8 @@ MultiVectorSearch::batchSearch(
                         "MultiVectorSearch::batchSearch - queries cannot be empty");
     }
     
-    std::vector<MultiSearchResult> results;
+    std::vector<MultiSearchResult> results = {};
+
     results.reserve(queries.size());
     
     for (const auto& query : queries) {

@@ -318,7 +318,8 @@ void HuggingFaceExporter::inferFeatures(const std::vector<BaseEntity> &entities)
     }
 
     // Collect all field names across all entities
-    std::map<std::string, std::string> field_dtypes;
+    std::map<std::string, std::string> field_dtypes = {};
+
     for (const auto &entity : entities) {
         const auto fields = entity.getAllFields();
         for (const auto &[field_name, value] : fields) {

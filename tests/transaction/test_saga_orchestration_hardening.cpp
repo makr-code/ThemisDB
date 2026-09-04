@@ -208,7 +208,8 @@ TEST_F(CompensationIdempotencyTest, CompensationIdempotency_10ConcurrentRetries)
     compensation_results.push_back(result);
   };
   
-  std::vector<std::thread> compensation_threads;
+  std::vector<std::thread> compensation_threads = {};
+
   for (int i = 0; i < n_retries; ++i) {
     compensation_threads.emplace_back(run_compensation, i);
   }
@@ -338,7 +339,8 @@ TEST_F(CompensationIdempotencyTest, ErrorPropagation_ConsistentAcrossRetries) {
   uint64_t saga_id = 2006;
   
   // When: Retry same compensation 5 times
-  std::vector<std::string> error_codes;
+  std::vector<std::string> error_codes = {};
+
   for (int i = 0; i < 5; ++i) {
     auto result = saga_orchestrator_->compensateStep(saga_id, "failing_step", 100);
     error_codes.push_back(result.error_code);
@@ -487,7 +489,8 @@ TEST_F(RetryStormTest, ExponentialBackoff_BaseAndFactor) {
   // Given: Retry mechanism with exponential backoff (base=100ms, factor=2)
   
   // When: Measure retry delays
-  std::vector<int> retry_delays_ms;
+  std::vector<int> retry_delays_ms = {};
+
   for (int retry = 0; retry < 4; ++retry) {
     auto delay_ms = saga_orchestrator_->calculateRetryBackoffMs(retry, 100, 2.0);
     retry_delays_ms.push_back(delay_ms);
@@ -511,7 +514,8 @@ TEST_F(RetryStormTest, JitterBounds_PlusMinus20Percent) {
   const double jitter_factor = 0.2;  // ±20%
   
   // When: Apply jitter to delays multiple times
-  std::vector<int> jittered_delays;
+  std::vector<int> jittered_delays = {};
+
   for (int i = 0; i < 100; ++i) {
     auto delay = saga_orchestrator_->applyJitterToBackoff(base_delay_ms, jitter_factor);
     jittered_delays.push_back(delay);

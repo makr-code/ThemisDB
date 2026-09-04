@@ -338,7 +338,8 @@ protected:
     }
 
     std::vector<BaseEntity> makeSampleEntities(int count = 5) const {
-        std::vector<BaseEntity> entities;
+        std::vector<BaseEntity> entities = {};
+
         for (int i = 0; i < count; ++i) {
             entities.push_back(makeFullEntity(
                 "ent_" + std::to_string(i),
@@ -376,7 +377,8 @@ TEST_F(FormatTemplateExporterTest, AlpacaViaExporter) {
     cfg.template_field_mapping.output_field      = "answer";
     cfg.quality.min_text_length = 0;  // Allow short test answers
 
-    std::vector<BaseEntity> entities;
+    std::vector<BaseEntity> entities = {};
+
     for (int i = 0; i < 3; ++i) {
         BaseEntity e;
         e.setPrimaryKey("a" + std::to_string(i));

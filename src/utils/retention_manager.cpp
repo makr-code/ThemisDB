@@ -68,7 +68,8 @@ bool RetentionManager::removePolicy(const std::string& policy_name) {
 }
 
 std::vector<RetentionManager::RetentionPolicy> RetentionManager::getPolicies() const {
-    std::vector<RetentionPolicy> result;
+    std::vector<RetentionPolicy> result = {};
+
     result.reserve(policies_.size());
     
     for (const auto& [name, policy] : policies_) {

@@ -352,7 +352,8 @@ TTTrain TensorContractionEngine::contractModes(
         }
 
     // Result shape: [free dims of a] + [free dims of b]
-    std::vector<std::size_t> result_shape;
+    std::vector<std::size_t> result_shape = {};
+
     result_shape.reserve(free_a.size() + free_b.size());
     for (auto k : free_a) {
       result_shape.push_back(sha[k]);
@@ -429,7 +430,8 @@ TTTrain TensorContractionEngine::contractModes(
             float vb = dense_b[toFlat(idx_b, shb)];
 
             // Build result index: free_a indices first, then free_b indices.
-            std::vector<std::size_t> ridx;
+            std::vector<std::size_t> ridx = {};
+
             ridx.reserve(free_a.size() + free_b.size());
             for (auto k : free_a) {
               ridx.push_back(idx_a[k]);

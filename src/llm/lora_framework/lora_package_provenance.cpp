@@ -95,7 +95,8 @@ static std::string computeMerkleRoot(std::vector<std::string> leaves) {
         leaves.push_back(leaves.back());
     }
     while (leaves.size() > 1) {
-        std::vector<std::string> next;
+        std::vector<std::string> next = {};
+
         next.reserve(leaves.size() / 2);
         for (std::size_t i = 0; i + 1 < leaves.size(); i += 2) {
             next.push_back(hashPair(leaves[i], leaves[i + 1]));
@@ -308,7 +309,8 @@ json ReceiptManifest::toJSON() const {
 }
 
 std::string ReceiptManifest::computeMerkleRoot() const {
-    std::vector<std::string> leaves;
+    std::vector<std::string> leaves = {};
+
     leaves.reserve(receipts.size());
     for (const auto& r : receipts) {
         leaves.push_back(r.receipt_hash.empty() ? r.computeContentHash()
@@ -694,7 +696,8 @@ ReceiptManifest ProvenanceHashLedger::createManifest(
     // Append each receipt to the artifact's chain so they are durably linked.
     // We do this without the outer mutex held to avoid re-entrancy; appendReceipt
     // takes the lock internally.  We accumulate the populated receipts.
-    std::vector<DistributionReceipt> populated;
+    std::vector<DistributionReceipt> populated = {};
+
     populated.reserve(receipts.size());
     for (auto& r : receipts) {
         if (r.artifact_id.empty()) {

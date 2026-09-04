@@ -174,7 +174,8 @@ struct Phase23ImportCoordinator {
         ImportResult result;
 
         // In production, this would revert changes; here we clear for simplicity
-        std::vector<std::string> to_remove;
+        std::vector<std::string> to_remove = {};
+
         for (const auto& [key, source] : data_source_) {
             if (source == import_id) {
                 to_remove.push_back(key);

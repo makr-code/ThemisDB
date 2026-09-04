@@ -149,7 +149,8 @@ class IMPI2CDeterministicMatcherTest : public ::testing::Test {
 protected:
     // Helper to create match results
     std::vector<ti::HybridMatchResult> createMatches(int count, int weak_threshold) {
-        std::vector<ti::HybridMatchResult> matches;
+        std::vector<ti::HybridMatchResult> matches = {};
+
         for (int i = 0; i < count; ++i) {
             ti::HybridMatchResult match;
             match.entity_id = "entity_" + std::to_string(i);
@@ -179,7 +180,8 @@ TEST_F(IMPI2CDeterministicMatcherTest, MultipleMatchesContainerSafety) {
         
         // Simulate filtering (which could be implemented as erase during iteration)
         // Collect high-confidence matches
-        std::vector<ti::HybridMatchResult> filtered;
+        std::vector<ti::HybridMatchResult> filtered = {};
+
         for (const auto& match : matches) {
             if (match.hybrid_score >= 0.75) {
                 filtered.push_back(match);
@@ -207,7 +209,8 @@ TEST_F(IMPI2CDeterministicMatcherTest, LargeScaleMatchPruning) {
         
         // Two-pass filtering pattern (safe for iterator handling):
         // 1. Collect candidates to remove
-        std::vector<int> to_remove;
+        std::vector<int> to_remove = {};
+
         for (int i = 0; i < static_cast<int>(matches.size()); ++i) {
             if (matches[i].hybrid_score < 0.70) {
                 to_remove.push_back(i);
@@ -243,7 +246,8 @@ TEST_F(IMPI2CDataQualityTest, QualityAssessmentContainerSafety) {
     // Phase 2C: Test container operations in quality assessment
     
     // Create 150 sample rows for testing
-    std::vector<ti::json> sample_data;
+    std::vector<ti::json> sample_data = {};
+
     for (int i = 0; i < 150; ++i) {
         sample_data.push_back(ti::json{
             {"id", i},
@@ -275,7 +279,8 @@ TEST_F(IMPI2CDataQualityTest, QualityAssessmentContainerSafety) {
  */
 TEST_F(IMPI2CDataQualityTest, QualityReportGenerationIteratorSafety) {
     // Create schema objects
-    std::vector<ti::InferenceTableSchema> schemas;
+    std::vector<ti::InferenceTableSchema> schemas = {};
+
     for (int t = 0; t < 5; ++t) {
         ti::InferenceTableSchema schema;
         schema.name = "table_" + std::to_string(t);
@@ -290,7 +295,8 @@ TEST_F(IMPI2CDataQualityTest, QualityReportGenerationIteratorSafety) {
     }
     
     // Create sample data
-    std::vector<ti::SampleData> samples;
+    std::vector<ti::SampleData> samples = {};
+
     for (int i = 0; i < 100; ++i) {
         ti::SampleData sample;
         sample.table_name = "table_" + std::to_string(i % 5);
@@ -315,7 +321,8 @@ TEST_F(IMPI2CDataQualityTest, QualityReportGenerationIteratorSafety) {
  */
 TEST_F(IMPI2CDataQualityTest, ScoreWithAuditIteratorSafety) {
     // Create large sample dataset
-    std::vector<ti::json> sample_data;
+    std::vector<ti::json> sample_data = {};
+
     for (int i = 0; i < 120; ++i) {
         ti::json row = ti::json::object();
         for (int j = 0; j < 8; ++j) {

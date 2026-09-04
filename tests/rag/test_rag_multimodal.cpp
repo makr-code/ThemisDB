@@ -379,7 +379,8 @@ TEST(MultiModalRAGFusionTest, MaxSourcesRespected) {
     cfg.max_sources = 3;
     MultiModalRAG mm(cfg);
 
-    std::vector<RetrievedDocument> many_text;
+    std::vector<RetrievedDocument> many_text = {};
+
     for (int i = 0; i < 10; ++i) {
         many_text.push_back(makeTextDoc("t" + std::to_string(i),
                                         "Content " + std::to_string(i),
@@ -552,14 +553,16 @@ TEST(MultiModalQueryTest, DefaultModalitiesIsText) {
 TEST(MultiModalRAGPerformanceTest, CompletesInReasonableTime) {
     MultiModalRAG mm;
 
-    std::vector<RetrievedDocument> text_docs;
+    std::vector<RetrievedDocument> text_docs = {};
+
     for (int i = 0; i < 50; ++i) {
         text_docs.push_back(makeTextDoc(
             "t" + std::to_string(i),
             "Content for document " + std::to_string(i) + " about various topics.",
             1.0 - i * 0.01));
     }
-    std::vector<ImageDocument> image_docs;
+    std::vector<ImageDocument> image_docs = {};
+
     for (int i = 0; i < 50; ++i) {
         image_docs.push_back(makeImageDoc(
             "i" + std::to_string(i),

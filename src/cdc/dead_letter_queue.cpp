@@ -216,7 +216,8 @@ size_t DeadLetterQueue::drain() {
     rocksdb::ReadOptions  read_opts;
     rocksdb::WriteOptions write_opts;
 
-    std::unique_ptr<rocksdb::Iterator> it;
+    std::unique_ptr<rocksdb::Iterator> it = {};
+
     if (cf_) {
         it.reset(db_->NewIterator(read_opts, cf_));
     } else {

@@ -74,7 +74,8 @@ std::vector<TsIncident> TsOperatorDiagnostics::recentIncidents(
 std::vector<TsIncident> TsOperatorDiagnostics::incidentsBySeverity(
         TsIncidentSeverity min_severity) const noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<TsIncident> result;
+    std::vector<TsIncident> result = {};
+
     for (auto it = incidents_.rbegin(); it != incidents_.rend(); ++it) {
         if (static_cast<uint8_t>(it->severity) >= static_cast<uint8_t>(min_severity)) {
             result.push_back(*it);

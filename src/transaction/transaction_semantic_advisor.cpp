@@ -47,7 +47,8 @@ std::vector<TransactionSemanticAdvisor::BatchAffinityHint>
 TransactionSemanticAdvisor::analyzeBatch(
     const std::vector<TransactionContext>& pending_txs) const
 {
-    std::vector<BatchAffinityHint> hints;
+    std::vector<BatchAffinityHint> hints = {};
+
     if (pending_txs.empty()) {
         emitDecisionRecord(0, 0);
         return hints;

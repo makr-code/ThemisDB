@@ -243,7 +243,8 @@ TEST_F(AdaptiveCacheFuzzTest, FuzzCompressionWithBinaryData) {
     AdaptiveQueryCache cache(config_);
     
     // Create entry with binary-like data that goes to L2
-    std::vector<uint8_t> binary_data;
+    std::vector<uint8_t> binary_data = {};
+
     for (int i = 0; i < 300; i++) {
         binary_data.push_back(static_cast<uint8_t>(i % 256));
     }

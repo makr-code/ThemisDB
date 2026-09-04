@@ -97,7 +97,8 @@ GraphTruthValidationResult GraphTruthValidator::validate(
 std::vector<judge::RetrievedDocument> GraphTruthValidator::makeCandidateDocuments(
     const tensor::TensorLayerSummary& tensor_summary,
     std::size_t max_candidates) {
-    std::vector<judge::RetrievedDocument> documents;
+    std::vector<judge::RetrievedDocument> documents = {};
+
     const auto take = std::min<std::size_t>(tensor_summary.similar_adapters.size(), max_candidates);
     documents.reserve(take);
 
@@ -121,7 +122,8 @@ GraphTruthValidationResult GraphTruthValidator::buildFromOntologyResult(
     result.used_ontology_validation = true;
     result.routing_reason = "graph truth validation via OntologyAwareRetriever";
 
-    std::unordered_map<std::string, double> tensor_scores;
+    std::unordered_map<std::string, double> tensor_scores = {};
+
     for (const auto& candidate : tensor_summary.similar_adapters) {
         tensor_scores.emplace(candidate.adapter_key, candidate.score);
     }
@@ -159,7 +161,8 @@ GraphTruthValidationResult GraphTruthValidator::buildFromKgResult(
     result.used_ontology_validation = false;
     result.routing_reason = "graph truth validation via KnowledgeGraphRetriever";
 
-    std::unordered_map<std::string, double> tensor_scores;
+    std::unordered_map<std::string, double> tensor_scores = {};
+
     for (const auto& candidate : tensor_summary.similar_adapters) {
         tensor_scores.emplace(candidate.adapter_key, candidate.score);
     }

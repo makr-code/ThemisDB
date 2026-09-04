@@ -649,7 +649,8 @@ bool MetadataShard::recoverFromWAL() {
             storage_.clear();
             
             for (const auto& [partition_key, entries] : snapshot->partitions) {
-                std::map<std::string, MetadataEntry> partition_entries;
+                std::map<std::string, MetadataEntry> partition_entries = {};
+
                 for (const auto& [key, value_json] : entries) {
                     MetadataEntry entry = MetadataEntry::fromJson(value_json);
                     partition_entries[key] = entry;

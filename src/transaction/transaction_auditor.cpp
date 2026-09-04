@@ -60,7 +60,8 @@ TransactionAuditor::queryAuditLog(
 {
     std::lock_guard<std::mutex> lk(log_mutex_);
 
-    std::vector<AuditRecord> result;
+    std::vector<AuditRecord> result = {};
+
     result.reserve(limit == 0 ? log_.size() : std::min(log_.size(), limit));
 
     // Iterate in reverse (most-recent-first).

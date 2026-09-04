@@ -2282,7 +2282,8 @@ static int cmdDocsHelp(const std::vector<std::string>& args) {
         "  lora = docs.db-backed LoRA-style help";
 
     DocsHelpOptions opts;
-    std::vector<std::string> question_parts;
+    std::vector<std::string> question_parts = {};
+
     if (!parseDocsHelpOptions(args, opts, question_parts, usage)) {
         return 2;
     }
@@ -2301,7 +2302,8 @@ static int cmdChat(const std::vector<std::string>& args) {
         "[--model <id>] [--max-tokens <n>] [--temperature <t>] [--interactive] <prompt>";
 
     LlmRequestOptions opts;
-    std::vector<std::string> prompt_parts;
+    std::vector<std::string> prompt_parts = {};
+
     if (!parseLlmCommonOptions(args, 0, opts, prompt_parts, usage)) {
         return 2;
     }
@@ -2349,7 +2351,8 @@ static int cmdAgent(const std::vector<std::string>& args) {
 
     LlmRequestOptions opts;
     opts.use_rag = true; // Agent mode defaults to RAG.
-    std::vector<std::string> task_parts;
+    std::vector<std::string> task_parts = {};
+
     if (!parseLlmCommonOptions(args, 0, opts, task_parts, usage)) {
         return 2;
     }

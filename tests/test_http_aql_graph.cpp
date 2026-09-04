@@ -172,7 +172,8 @@ TEST_F(HttpAqlGraphApiTest, Traversal_ReturnEdges) {
     EXPECT_EQ(body["count"], 2);
     ASSERT_TRUE(body.contains("entities"));
     ASSERT_TRUE(body["entities"].is_array());
-    std::set<std::string> ids;
+    std::set<std::string> ids = {};
+
     for (const auto& e : body["entities"]) {
         json ej;
         if (e.is_string()) {

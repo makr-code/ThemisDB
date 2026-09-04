@@ -405,7 +405,8 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
-        std::vector<nlohmann::json> vec;
+        std::vector<nlohmann::json> vec = {};
+
         for (const auto& elem : args[0]) {
             vec.push_back(elem);
         }
@@ -544,14 +545,16 @@ public:
         }
         
         // Start with first array
-        std::set<std::string> current;
+        std::set<std::string> current = {};
+
         for (const auto& elem : args[0]) {
             current.insert(elem.dump());
         }
         
         // Intersect with remaining arrays
         for (size_t i = 1; i < args.size(); i++) {
-            std::set<std::string> next;
+            std::set<std::string> next = {};
+
             for (const auto& elem : args[i]) {
                 std::string key = elem.dump();
                 if (current.find(key) != current.end()) {
@@ -563,7 +566,8 @@ public:
         
         // Build result preserving original elements
         nlohmann::json result = nlohmann::json::array();
-        std::set<std::string> added;
+        std::set<std::string> added = {};
+
         for (const auto& elem : args[0]) {
             std::string key = elem.dump();
             if (current.find(key) != current.end() && added.find(key) == added.end()) {
@@ -598,13 +602,15 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
-        std::set<std::string> exclude;
+        std::set<std::string> exclude = {};
+
         for (const auto& elem : args[1]) {
             exclude.insert(elem.dump());
         }
         
         nlohmann::json result = nlohmann::json::array();
-        std::set<std::string> added;
+        std::set<std::string> added = {};
+
         for (const auto& elem : args[0]) {
             std::string key = elem.dump();
             if (exclude.find(key) == exclude.end() && added.find(key) == added.end()) {

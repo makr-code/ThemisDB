@@ -155,7 +155,8 @@ BENCHMARK_REGISTER_F(ChimeraAdapterFixture, CHM03_Disconnect)
 BENCHMARK_DEFINE_F(ChimeraAdapterFixture, CHM04_ExecuteBatch)
 (benchmark::State& state) {
     auto conn = adapter_->connect();
-    std::vector<std::string> queries;
+    std::vector<std::string> queries = {};
+
     for (int i = 0; i < 100; ++i) {
         queries.push_back("INSERT INTO test_table VALUES (" + std::to_string(i) + ")");
     }

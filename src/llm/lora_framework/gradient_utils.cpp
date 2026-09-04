@@ -283,7 +283,8 @@ std::vector<Tensor*> GradientAccumulator::get_accumulated_gradients() {
     }
     
     // Return pointers to accumulated gradients
-    std::vector<Tensor*> result;
+    std::vector<Tensor*> result = {};
+
     result.reserve(accumulated_gradients_.size());
     for (auto& grad : accumulated_gradients_) {
         result.push_back(&grad);

@@ -301,7 +301,8 @@ DatabaseConnectionManager::getConnectionHealth() const {
     // — no lock acquired per iteration — false positive.
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<ConnectionHealth> health_list;
+    std::vector<ConnectionHealth> health_list = {};
+
     health_list.reserve(connection_health_.size());
     
     for (const auto& [ptr, health] : connection_health_) {

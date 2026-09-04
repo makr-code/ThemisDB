@@ -190,7 +190,8 @@ TEST_F(ThemisDBVectorTest, InsertVectorReturnsId) {
 }
 
 TEST_F(ThemisDBVectorTest, BatchInsertVectorsReturnsCorrectCount) {
-    std::vector<Vector> vecs;
+    std::vector<Vector> vecs = {};
+
     for (size_t i = 0; i < 10; ++i) {
         vecs.push_back(make_vector(kDim, static_cast<float>(i) / 10.0f));
     }
@@ -307,7 +308,8 @@ TEST_F(ThemisDBDocumentTest, InsertDocumentWithEmptyIdGeneratesId) {
 }
 
 TEST_F(ThemisDBDocumentTest, BatchInsertDocumentsReturnsCorrectCount) {
-    std::vector<Document> docs;
+    std::vector<Document> docs = {};
+
     for (size_t i = 0; i < 8; ++i) {
         docs.push_back(make_doc("d_" + std::to_string(i), "item", int64_t(i)));
     }

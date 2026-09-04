@@ -303,7 +303,8 @@ ExecutionResult DirectExecutor::executeJoin(const ExecutionPlan& plan, const Res
     if (!right.is_array()) { right = nlohmann::json::array(); }
 
     // Build hash map on right side keyed by join_key
-    std::unordered_map<std::string, nlohmann::json> right_map;
+    std::unordered_map<std::string, nlohmann::json> right_map = {};
+
     for (const auto& row : right) {
         if (row.contains(join_key)) {
             right_map[row[join_key].dump()] = row;
@@ -689,7 +690,8 @@ bool MockDatabase::del(const std::string& datasource, const nlohmann::json& key)
 
 std::vector<nlohmann::json> MockDatabase::multiGet(const std::string& datasource, 
                                                       const std::vector<nlohmann::json>& keys) {
-    std::vector<nlohmann::json> out;
+    std::vector<nlohmann::json> out = {};
+
     out.reserve(keys.size());
     for (const auto& key : keys) {
         auto row = get(datasource, key);

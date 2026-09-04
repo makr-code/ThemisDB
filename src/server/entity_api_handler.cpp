@@ -293,7 +293,8 @@ http::response<http::string_body> EntityApiHandler::handleGet(
                     auto coll = schema["collections"][table];
                     if (coll.contains("encryption") && coll["encryption"].value("enabled", false)) {
                         std::string context_type = coll["encryption"].value("context_type", "user");
-                        std::vector<std::string> fields;
+                        std::vector<std::string> fields = {};
+
                         if (coll["encryption"].contains("fields")) {
                             fields.reserve(coll["encryption"]["fields"].size());  // OPTIMIZATION: Pre-allocate to avoid reallocations
                             for (auto& f : coll["encryption"]["fields"]) {
@@ -320,7 +321,8 @@ http::response<http::string_body> EntityApiHandler::handleGet(
                                 auto enc_meta_str = entity_json[f + "_encrypted"].get<std::string>();
                                 auto enc_meta = nlohmann::json::parse(enc_meta_str);
                                 auto blob = themis::EncryptedBlob::fromJson(enc_meta);
-                                std::vector<uint8_t> raw_key;
+                                std::vector<uint8_t> raw_key = {};
+
                                 if (context_type == "group" && pki && entity_json.contains(f + "_group")) {
                                     // Group context (MVP: first group / single string)
                                     std::string group_name;
@@ -458,7 +460,8 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                         } else {
                             // Context type (user|group)
                             std::string context_type = coll["encryption"].value("context_type", "user");
-                            std::vector<std::string> fields;
+                            std::vector<std::string> fields = {};
+
                             if (coll["encryption"].contains("fields")) {
                                 fields.reserve(coll["encryption"]["fields"].size());  // OPTIMIZATION: Pre-allocate to avoid reallocations
                                 for (auto& f : coll["encryption"]["fields"]) {
@@ -533,7 +536,8 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                                     std::string user_ctx = user_id.empty() ? "anonymous" : user_id;
                                     auto dek = key_provider_->getKey("dek");
                                     // salt = user_id (can be empty) - if empty, fallback to static salt to keep HKDF function stable
-                                    std::vector<uint8_t> salt;
+                                    std::vector<uint8_t> salt = {};
+
                                     if (!user_ctx.empty()) {
                                       salt.assign(user_ctx.begin(), user_ctx.end());
                                     }
@@ -563,7 +567,8 @@ http::response<http::string_body> EntityApiHandler::handlePut(
         }
 
         // Capture before snapshot for CDC enrichment (read prior to the write)
-        std::optional<std::string> cdc_before_snapshot;
+        std::optional<std::string> cdc_before_snapshot = {};
+
         if (changefeed_ && config_.feature_cdc) {
             auto old_bytes = storage_->get(KeySchema::makeRelationalKey(table, pk));
             if (old_bytes.has_value()) {
@@ -809,7 +814,8 @@ http::response<http::string_body> EntityApiHandler::handleDelete(
         }
 
         // Capture before snapshot for CDC enrichment (read prior to the delete)
-        std::optional<std::string> cdc_before_snapshot;
+        std::optional<std::string> cdc_before_snapshot = {};
+
         if (changefeed_ && config_.feature_cdc) {
             auto old_bytes = storage_->get(KeySchema::makeRelationalKey(table, pk));
             if (old_bytes.has_value()) {

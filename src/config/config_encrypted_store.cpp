@@ -73,7 +73,8 @@ std::vector<uint8_t> base64Decode(const std::string &encoded) {
         return -1; // padding ('=') or invalid
     };
 
-    std::vector<uint8_t> out;
+    std::vector<uint8_t> out = {};
+
     out.reserve((encoded.size() / 4) * 3);
 
     const std::size_t len = encoded.size();
@@ -189,7 +190,8 @@ bool ConfigEncryptedStore::contains(const std::string &config_key) const {
 
 std::vector<std::string> ConfigEncryptedStore::keys() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(store_.size());
     for (const auto &kv : store_) {
         result.push_back(kv.first);
@@ -222,7 +224,8 @@ uint32_t ConfigEncryptedStore::rotateKey() {
     // Re-encrypt all stored values with the new key.
     // We perform the full re-encrypt before swapping to preserve atomicity:
     // if any decryption/encryption fails, we throw and leave the store intact.
-    std::unordered_map<std::string, ConfigEncryptedBlob> new_store;
+    std::unordered_map<std::string, ConfigEncryptedBlob> new_store = {};
+
     new_store.reserve(store_.size());
 
     for (const auto &kv : store_) {

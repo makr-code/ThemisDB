@@ -1409,7 +1409,8 @@ void LLMAQLHandler::executeLoRAUnload([[maybe_unused]] const std::string &lora_i
 std::vector<std::string> LLMAQLHandler::executeLoRAList() {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         for (const auto &lora : plugin_mgr.listLoRAs()) {
             ids.push_back(lora.lora_id.empty() ? lora.id : lora.lora_id);
         }
@@ -1974,7 +1975,8 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query
 std::vector<LLMAQLHandler::BatchNLToAQLResult>
 LLMAQLHandler::translateBatchNLToAQL(const std::vector<BatchNLToAQLRequest> &requests,
                                      [[maybe_unused]] std::size_t max_concurrent_requests) {
-    std::vector<BatchNLToAQLResult> results;
+    std::vector<BatchNLToAQLResult> results = {};
+
     results.reserve(requests.size());
 
     for (const auto& req : requests) {
@@ -2131,7 +2133,8 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(const std::string &nl_qu
         try {
             // On first attempt inject few-shot examples; on retries focus on error feedback.
             std::size_t injected_count = 0;
-            std::vector<AQLFewShotExample> examples;
+            std::vector<AQLFewShotExample> examples = {};
+
             if (attempt == 0 && max_examples > 0) {
                 examples       = library.findRelevant(nl_query, max_examples);
                 injected_count = examples.size();

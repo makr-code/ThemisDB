@@ -264,7 +264,8 @@ bool StripeGroup::isComplete() const {
 
 /** @brief Return indices of data chunks currently missing shard assignment. */
 std::vector<uint32_t> StripeGroup::getMissingChunks() const {
-    std::vector<uint32_t> missing;
+    std::vector<uint32_t> missing = {};
+
     for (size_t i = 0; i < data_chunks.size(); ++i) {
         if (data_chunks[i].shard_id.empty()) {
             missing.push_back(static_cast<uint32_t>(i));
@@ -450,7 +451,8 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
         }
     }
     if (all_data_available) {
-        std::vector<uint8_t> recovered;
+        std::vector<uint8_t> recovered = {};
+
         for (uint32_t i = 0; i < data_shards; ++i) {
             const auto& chunk = available_chunks.at(i);
             recovered.insert(recovered.end(), chunk.begin(), chunk.end());
@@ -831,7 +833,8 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     }
     
     if (all_data_available) {
-        std::vector<uint8_t> recovered;
+        std::vector<uint8_t> recovered = {};
+
         for (uint32_t i = 0; i < data_shards; ++i) {
             const auto& chunk = available_chunks.at(i);
             recovered.insert(recovered.end(), chunk.begin(), chunk.end());
@@ -903,7 +906,8 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     }
     
     // Concatenate recovered data chunks
-    std::vector<uint8_t> result;
+    std::vector<uint8_t> result = {};
+
     for (const auto& chunk : recovered_data) {
         result.insert(result.end(), chunk.begin(), chunk.end());
     }
@@ -1084,7 +1088,8 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
 {
     if (missing_indices.empty()) {
         // All data shards present — just concatenate
-        std::vector<uint8_t> result;
+        std::vector<uint8_t> result = {};
+
         for (uint32_t s = 0; s < data_shards; ++s) {
             // W2-S06: Iterator safety — use at() for bounds checking instead of find()+access
             try {
@@ -1157,7 +1162,8 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
     }
 
     // If still missing, fall back to global RS recovery
-    std::vector<uint32_t> still_missing;
+    std::vector<uint32_t> still_missing = {};
+
     for (uint32_t s = 0; s < data_shards; ++s)
         if (!recovered[s]) {
           still_missing.push_back(s);
@@ -1168,7 +1174,8 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
         const uint32_t global_start  = data_shards + n_local;
 
         // Collect available rows (data + global parity)
-        std::vector<uint32_t> avail_rows;
+        std::vector<uint32_t> avail_rows = {};
+
         for (uint32_t s = 0; s < data_shards; ++s)
             if (recovered[s]) {
               avail_rows.push_back(s);
@@ -1759,7 +1766,8 @@ WriteResult RedundancyStrategy::writeMirror(
     // W2-S06: Distributed write with replication consensus — send to all replicas in parallel
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
-    std::vector<std::string> failed_shards;
+    std::vector<std::string> failed_shards = {};
+
     futures.reserve(target_shards.size());
     written_shards.reserve(target_shards.size());
     failed_shards.reserve(target_shards.size());
@@ -2000,7 +2008,8 @@ WriteResult RedundancyStrategy::writeStripe(
     // Write chunks to different shards with timeout
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
-    std::vector<std::string> failed_shards;
+    std::vector<std::string> failed_shards = {};
+
     futures.reserve(target_shards.size());
     written_shards.reserve(target_shards.size());
     failed_shards.reserve(target_shards.size());
@@ -2278,7 +2287,8 @@ WriteResult RedundancyStrategy::writeGeoMirror(
     }
 
     if (!geo.region_write_quorums.empty()) {
-        std::map<std::string, uint32_t> region_targets;
+        std::map<std::string, uint32_t> region_targets = {};
+
         for (const auto& shard_id : target_shards) {
             auto info = topology.getShard(shard_id);
             const std::string region = info ? info->region : "";
@@ -2458,12 +2468,14 @@ ReadResult RedundancyStrategy::readGeoMirror(
     // -------------------------------------------------------------------
     if (!geo.region_read_quorums.empty()) {
         // Build O(1) lookup set for failed regions (avoids repeated linear scan)
-        std::unordered_set<std::string> failed_set;
+        std::unordered_set<std::string> failed_set = {};
+
         failed_set.reserve(geo.failed_regions.size());
         failed_set.insert(geo.failed_regions.begin(), geo.failed_regions.end());
 
         // Ensure quorum requirements are satisfiable with available candidates.
-        std::map<std::string, uint32_t> region_candidates;
+        std::map<std::string, uint32_t> region_candidates = {};
+
         for (const auto& shard_id : candidates) {
             auto info = topology.getShard(shard_id);
             const std::string region = info ? info->region : "";
@@ -2885,7 +2897,8 @@ std::vector<uint8_t> RedundancyStrategy::mergeChunksWithConsistency(
     if (all_consistent) {
         // All chunks are consistent - simple merge
         result_version = first_version;
-        std::vector<uint8_t> merged;
+        std::vector<uint8_t> merged = {};
+
         for (const auto& vc : versioned_chunks) {
             merged.insert(merged.end(), vc.data.begin(), vc.data.end());
         }
@@ -3460,7 +3473,8 @@ bool RedundancyStrategy::recoverDocument(
 
         // Build the map and missing-indices vector required by decode()
         std::map<uint32_t, std::vector<uint8_t>> available_map;
-        std::vector<uint32_t> missing_idx_vec;
+        std::vector<uint32_t> missing_idx_vec = {};
+
         for (uint32_t i = 0; i < total; ++i) {
             if (chunk_opts[i]) {
                 available_map[i] = *chunk_opts[i];
@@ -3842,7 +3856,8 @@ std::shared_ptr<RedundancyStrategy> CollectionRedundancyManager::getStrategy(
 std::vector<std::string> CollectionRedundancyManager::listCollections() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
-    std::vector<std::string> collections;
+    std::vector<std::string> collections = {};
+
     for (const auto& [name, _] : collection_configs_) {
         collections.push_back(name);
     }

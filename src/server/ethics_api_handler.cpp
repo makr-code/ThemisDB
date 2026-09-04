@@ -232,7 +232,8 @@ http::response<http::string_body> EthicsApiHandler::handleGetArguments(
         }
         
         // Parse types (comma-separated)
-        std::vector<std::string> types;
+        std::vector<std::string> types = {};
+
         if (!types_str.empty()) {
             std::stringstream ss(types_str);
             std::string type;

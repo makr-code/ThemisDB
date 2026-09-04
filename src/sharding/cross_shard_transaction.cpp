@@ -116,7 +116,8 @@ std::vector<std::unordered_set<std::string>> collectCycles(
             return;
         }
 
-        std::vector<std::string> component;
+        std::vector<std::string> component = {};
+
         while (!stack.empty()) {
             const auto current = stack.back();
             stack.pop_back();
@@ -156,7 +157,8 @@ std::vector<std::unordered_set<std::string>> collectCycles(
 std::unordered_set<std::string> collectCycleNodes(
     const std::map<std::string, std::vector<std::string>>& graph
 ) {
-    std::unordered_set<std::string> cycle_nodes;
+    std::unordered_set<std::string> cycle_nodes = {};
+
     for (auto& cycle : collectCycles(graph)) {
         cycle_nodes.insert(cycle.begin(), cycle.end());
     }
@@ -1467,7 +1469,8 @@ bool CrossShardTransactionCoordinator::isDeadlocked(
 std::vector<CrossShardTransaction> CrossShardTransactionCoordinator::getActiveTransactions() const {
     std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
     
-    std::vector<CrossShardTransaction> active;
+    std::vector<CrossShardTransaction> active = {};
+
     for (const auto& [id, txn] : transactions_) {
         if (txn.state == TransactionState::ACTIVE ||
             txn.state == TransactionState::PREPARING ||
@@ -1745,7 +1748,8 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
 
     if (!all_precommitted) {
         // Check if we have deferred PreCommit callback for non-blocking behavior
-        std::vector<std::string> failed_shards;
+        std::vector<std::string> failed_shards = {};
+
         for (const auto& [shard_id, participant] : txn.participants) {
             if (!participant.precommitted) {
                 failed_shards.push_back(shard_id);
@@ -2007,7 +2011,8 @@ bool CrossShardTransactionCoordinator::executeCalvin(CrossShardTransaction& txn)
     // Sorting by shard_id removes any possibility of circular wait, making
     // deadlocks structurally impossible during the Calvin execution phase.
     // -------------------------------------------------------------------------
-    std::vector<std::string> shard_order;
+    std::vector<std::string> shard_order = {};
+
     shard_order.reserve(txn.participants.size());
     for (const auto& [shard_id, _] : txn.participants) {
         shard_order.push_back(shard_id);
@@ -2379,7 +2384,8 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
         if (!config_.shard_endpoints.empty()) {
             for (const auto& [shard_id, endpoint] : config_.shard_endpoints) {
                 try {
-                    std::vector<CrossShardTransactionConfig::PolledWaitForEdge> remote_edges;
+                    std::vector<CrossShardTransactionConfig::PolledWaitForEdge> remote_edges = {};
+
                     if (config_.polled_wait_for_edge_collector) {
                         remote_edges = config_.polled_wait_for_edge_collector(shard_id, endpoint);
                     } else {
@@ -3192,7 +3198,8 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
             return ::sharding::TransactionState::INITIATED;
         };
 
-        std::vector<::sharding::TransactionSnapshotEntry> active_txns;
+        std::vector<::sharding::TransactionSnapshotEntry> active_txns = {};
+
         for (const auto& [txn_id, txn] : transactions_) {
             // Only snapshot non-final transactions
             if (txn.state != TransactionState::COMMITTED && 
@@ -3637,7 +3644,8 @@ void CrossShardTransactionCoordinator::preCommitRetryThread() {
                 spdlog::warn("Partial PreCommit recovery for transaction {}, "
                            "rescheduling remaining shards", txn_id);
                 
-                std::vector<std::string> still_failed;
+                std::vector<std::string> still_failed = {};
+
                 for (const auto& shard_id : failed_shards) {
                     auto txn_snapshot = getTransaction(txn_id);
                     if (txn_snapshot) {

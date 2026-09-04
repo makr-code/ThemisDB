@@ -137,7 +137,8 @@ HipaaRuleSet::HipaaRuleSet() {
 }
 
 std::vector<HipaaRuleEvalResult> HipaaRuleSet::evaluateRule(const PolicyRule& rule) const {
-    std::vector<HipaaRuleEvalResult> results;
+    std::vector<HipaaRuleEvalResult> results = {};
+
     results.reserve(rules_.size());
 
     for (const auto& hipaa_rule : rules_) {

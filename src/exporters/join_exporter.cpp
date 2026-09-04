@@ -110,7 +110,8 @@ ExportStats JoinExporter::exportEntities(
 
     // Build the optional AQL predicate filter (compiled once, reused per row).
     std::unique_ptr<AqlPredicateFilter> aql_filter;
-    std::unique_ptr<AqlPredicateFilter> options_filter;
+    std::unique_ptr<AqlPredicateFilter> options_filter = {};
+
     if (!config_.join_predicate.empty()) {
         try {
             aql_filter = std::make_unique<AqlPredicateFilter>(config_.join_predicate);
@@ -292,7 +293,8 @@ BaseEntity JoinExporter::mergeEntities(
     const auto right_fields = right.getAllFields();
 
     // Build a set of field names present in both (for ambiguity detection).
-    std::set<std::string> common_names;
+    std::set<std::string> common_names = {};
+
     for (const auto& [name, _] : left_fields) {
         if (right_fields.count(name)) {
             common_names.insert(name);

@@ -161,7 +161,8 @@ TEST(MultiTaskLoRATrainerTest, MTL_07_TrainResultCounts) {
     EXPECT_EQ(result.per_task.size(), 3u);
 
     // Each registered task should appear in per_task.
-    std::vector<std::string> seen_ids;
+    std::vector<std::string> seen_ids = {};
+
     for (const auto& m : result.per_task) {
       seen_ids.push_back(m.task_id);
     }

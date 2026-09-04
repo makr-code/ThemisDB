@@ -519,7 +519,8 @@ ModuleLoader::getModuleInfo(const std::string& moduleName) const {
 
 std::vector<LoadedModule> ModuleLoader::getAllLoadedModules() const {
     std::shared_lock<std::shared_mutex> lk(modulesMutex_);
-    std::vector<LoadedModule> result;
+    std::vector<LoadedModule> result = {};
+
     result.reserve(loadedModules_.size());
     for (const auto& [name, module] : loadedModules_) {
         result.push_back(module);
@@ -964,7 +965,8 @@ ModuleLoader::getFailureHistory(const std::string& modulePath) const {
 }
 
 std::vector<std::string> ModuleLoader::getQuarantinedModules() const {
-    std::vector<std::string> quarantined;
+    std::vector<std::string> quarantined = {};
+
     for (const auto& [path, history] : failureHistory_) {
         if (history.isQuarantined()) {
             quarantined.push_back(path);

@@ -59,7 +59,8 @@ void FormatExtractorFactory::registerExtractor(std::shared_ptr<ingestion::IForma
 
 std::vector<std::string> FormatExtractorFactory::registeredMimeTypes() const {
     std::lock_guard<std::mutex> lk(impl_->mutex);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(impl_->registry.size());
     for (const auto &[mime, _] : impl_->registry) {
         result.push_back(mime);

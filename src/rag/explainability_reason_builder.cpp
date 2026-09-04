@@ -349,7 +349,8 @@ void FederatedAIDecisionAuditor::addShard(
 std::vector<AIDecisionRecord>
 FederatedAIDecisionAuditor::mergeTimeline() const
 {
-    std::vector<AIDecisionRecord> merged;
+    std::vector<AIDecisionRecord> merged = {};
+
     for (const auto& [shard_id, records] : shard_records_) {
         for (auto rec : records) {
             rec.shard_id = shard_id; // ensure shard_id is stamped

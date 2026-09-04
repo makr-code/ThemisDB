@@ -68,7 +68,8 @@ public:
 
     /// Return ALL entries — ignores k on purpose to test cardinality guard.
     std::vector<AnnSearchResult> search(const float*, size_t, int /*k*/) const override {
-        std::vector<AnnSearchResult> out;
+        std::vector<AnnSearchResult> out = {};
+
         out.reserve(data_.size());
         for (const auto& e : data_) {
             out.push_back({e.id, e.distance});

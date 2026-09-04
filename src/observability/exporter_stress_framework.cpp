@@ -332,7 +332,8 @@ public:
     std::vector<ExporterStressTestResult> runMultipleTests(
         const std::vector<ExporterStressTestConfig>& configs) override {
 
-        std::vector<ExporterStressTestResult> results;
+        std::vector<ExporterStressTestResult> results = {};
+
         for (const auto& config : configs) {
             if (cancel_test_) {
                 break;

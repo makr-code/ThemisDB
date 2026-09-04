@@ -439,7 +439,8 @@ TEST_F(ParserEdgeTest, P13_ConflictingElementDefinitions) {
         ConflictCheckResult result;
 
         // Check for duplicate IDs
-        std::map<std::string, int32_t> id_counts;
+        std::map<std::string, int32_t> id_counts = {};
+
         for (const auto& [id, _] : elements) {
             id_counts[id]++;
         }

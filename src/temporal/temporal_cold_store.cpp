@@ -56,7 +56,8 @@ bool InMemoryBackend::del(const std::string& key) {
 std::vector<std::string>
 InMemoryBackend::listKeysWithPrefix(const std::string& prefix) const {
     std::shared_lock lk(mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (auto it = data_.lower_bound(prefix); it != data_.end(); ++it) {
         if (it->first.substr(0, prefix.size()) != prefix) {
           break;
@@ -267,7 +268,8 @@ size_t FileSystemBackend::deletePrefix(const std::string& prefix) {
     std::unique_lock lk(mutex_);
     size_t count = 0;
     try {
-        std::vector<fs::path> to_delete;
+        std::vector<fs::path> to_delete = {};
+
         for (auto& entry : fs::recursive_directory_iterator(base_dir_)) {
             if (!entry.is_regular_file()) {
               continue;
@@ -508,7 +510,8 @@ TemporalColdStore::getAll(const std::string& table_name,
     const std::string prefix = keyPrefix(table_name, doc_key);
     std::shared_lock lk(mutex_);
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (auto it = key_index_.lower_bound(prefix);
          it != key_index_.end() && it->substr(0, prefix.size()) == prefix;
          ++it) {
@@ -529,7 +532,8 @@ TemporalColdStore::getRange(const std::string& table_name,
     const std::string prefix = keyPrefix(table_name, doc_key);
     std::shared_lock lk(mutex_);
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (auto it = key_index_.lower_bound(prefix);
          it != key_index_.end() && it->substr(0, prefix.size()) == prefix;
          ++it) {

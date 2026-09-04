@@ -381,7 +381,8 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
     }
 
     // Build ordered node index
-    std::vector<std::string> node_ids;
+    std::vector<std::string> node_ids = {};
+
     for (const auto& n : normalized_graph["nodes"]) {
         std::string nid = n.value("id", "");
         if (!nid.empty()) {
@@ -597,7 +598,8 @@ ProcessRagContext ProcessGraphRag::retrieve(std::string_view        instance_id,
             auto ranked = computePpr(model_opt->normalized, ctx.active_nodes, ppr_cfg);
 
             // Build subgraph from top-k nodes
-            std::set<std::string> top_set;
+            std::set<std::string> top_set = {};
+
             for (const auto& [nid, score] : ranked) {
                 top_set.insert(nid);
                 ctx.node_scores[nid] = score;
@@ -752,7 +754,8 @@ json ProcessGraphRag::summarizeVerwaltungsvorgang(std::string_view instance_id) 
     summary["current_tasks"] = current_tasks;
 
     // Progress: count of unique visited nodes relative to model total
-    std::set<std::string> all_visited;
+    std::set<std::string> all_visited = {};
+
     for (const auto& tok : inst.tokens) {
         for (const auto& vn : tok.visited_nodes) {
           all_visited.insert(vn);
@@ -761,7 +764,8 @@ json ProcessGraphRag::summarizeVerwaltungsvorgang(std::string_view instance_id) 
 
     auto model_opt = models_.load(inst.process_definition_id);
     size_t total_nodes = 1;
-    std::vector<std::string> compliance_tags;
+    std::vector<std::string> compliance_tags = {};
+
     if (model_opt.has_value()) {
         const json& norm = model_opt->normalized;
         if (norm.contains("nodes") && norm["nodes"].is_array()) {
@@ -981,7 +985,8 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
     // Try to load reference embedding
     std::string ref_emb_key = "proc:inst_emb:" + std::string(instance_id);
     std::string ref_emb_val;
-    std::vector<float> ref_embedding;
+    std::vector<float> ref_embedding = {};
+
     if (db_.get(ref_emb_key, ref_emb_val)) {
         try {
             auto emb_json = json::parse(ref_emb_val);
@@ -997,7 +1002,8 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
     }
 
     // Build reference variable key set for Jaccard fallback
-    std::set<std::string> ref_var_keys;
+    std::set<std::string> ref_var_keys = {};
+
     if (ref_inst.variables.is_object()) {
         for (auto& [var_key, v] : ref_inst.variables.items()) {
             ref_var_keys.insert(var_key);
@@ -1018,7 +1024,8 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
             try {
                 auto emb_json = json::parse(value);
                 if (emb_json.is_array()) {
-                    std::vector<float> other_emb;
+                    std::vector<float> other_emb = {};
+
                     other_emb.reserve(emb_json.size());
                     for (const auto& v : emb_json) {
                       other_emb.push_back(v.get<float>());
@@ -1072,7 +1079,8 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
                     return true;
                 }
 
-                std::set<std::string> other_var_keys;
+                std::set<std::string> other_var_keys = {};
+
                 if (doc.contains("variables") && doc["variables"].is_object()) {
                     for (auto& [vk, vv] : doc["variables"].items()) {
                         other_var_keys.insert(vk);

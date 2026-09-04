@@ -43,7 +43,8 @@ const std::vector<AQLFewShotExample> &AQLFewShotExampleLibrary::all() const {
 }
 
 std::vector<AQLFewShotExample> AQLFewShotExampleLibrary::findByDomain(AQLExampleDomain domain) const {
-    std::vector<AQLFewShotExample> result;
+    std::vector<AQLFewShotExample> result = {};
+
     for (const auto &ex : examples_) {
         if (ex.domain == domain) {
             result.push_back(ex);
@@ -56,7 +57,8 @@ std::vector<AQLFewShotExample> AQLFewShotExampleLibrary::findByTag(const std::st
     std::string tag_lower = tag;
     std::transform(tag_lower.begin(), tag_lower.end(), tag_lower.begin(), ::tolower);
 
-    std::vector<AQLFewShotExample> result;
+    std::vector<AQLFewShotExample> result = {};
+
     for (const auto &ex : examples_) {
         for (const auto &t : ex.tags) {
             std::string t_lower = t;
@@ -81,7 +83,8 @@ const AQLFewShotExample *AQLFewShotExampleLibrary::findById(const std::string &i
 std::vector<AQLFewShotExample> AQLFewShotExampleLibrary::findRelevant(const std::string &nl_query, std::size_t n,
                                                                       std::optional<AQLExampleDomain> domain) const {
     // Build candidate list (optionally filtered by domain)
-    std::vector<const AQLFewShotExample *> candidates;
+    std::vector<const AQLFewShotExample *> candidates = {};
+
     for (const auto &ex : examples_) {
         if (!domain.has_value() || ex.domain == domain.value()) {
             candidates.push_back(&ex);

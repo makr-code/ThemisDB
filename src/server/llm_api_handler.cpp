@@ -2160,7 +2160,8 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
         if (policy_engine_) {
             // Collect headers from the Boost.Beast request into the flat map
             // expected by PolicyEngine::checkInferencePermission().
-            std::unordered_map<std::string, std::string> header_map;
+            std::unordered_map<std::string, std::string> header_map = {};
+
             for (const auto& field : req) {
                 header_map[std::string(field.name_string())] =
                     std::string(field.value());

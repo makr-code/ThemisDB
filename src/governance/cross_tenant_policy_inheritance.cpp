@@ -130,7 +130,8 @@ std::vector<std::string> CrossTenantPolicyInheritance::getAncestors(const std::s
 
 std::vector<std::string> CrossTenantPolicyInheritance::listTenants() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(tenants_.size());
     for (const auto &[tid, _] : tenants_) {
         result.push_back(tid);
@@ -227,7 +228,8 @@ std::vector<PolicyRule> CrossTenantPolicyInheritance::resolveEffectiveRules(cons
         }
     }
 
-    std::vector<PolicyRule> all_rules;
+    std::vector<PolicyRule> all_rules = {};
+
     for (std::size_t i = 0; i < managers.size(); ++i) {
         if (!managers[i]) {
             continue;

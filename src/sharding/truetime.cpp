@@ -201,7 +201,8 @@ bool TrueTime::performSync() {
         return true;
     }
     
-    std::vector<int64_t> offsets;
+    std::vector<int64_t> offsets = {};
+
     offsets.reserve(config_.ntp_servers.size());
     
     // Query all NTP servers

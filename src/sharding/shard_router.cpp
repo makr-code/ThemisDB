@@ -582,14 +582,16 @@ std::vector<ShardResult> ShardRouter::executeOnShards(
 
     // Build a fast lookup: shard_id → ShardInfo for the requested shards only.
     auto all_shards = resolver_->getHealthyShards();
-    std::unordered_map<std::string, ShardInfo> shard_map;
+    std::unordered_map<std::string, ShardInfo> shard_map = {};
+
     shard_map.reserve(all_shards.size());
     for (const auto& s : all_shards) {
         shard_map[s.shard_id] = s;
     }
 
     // Collect the ShardInfo for each requested ID, skipping unknown ones.
-    std::vector<ShardInfo> target_shards;
+    std::vector<ShardInfo> target_shards = {};
+
     target_shards.reserve(shard_ids.size());
     for (const auto& id : shard_ids) {
         // W2-S07: Use safe map access with at() instead of find() + iterator

@@ -434,7 +434,8 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
 
     // --- Uniqueness check for required_capabilities ---
     // Safe access pattern: reserve() pre-allocates; insert() is safe on reserved set
-    std::unordered_set<std::string> unique_capabilities;
+    std::unordered_set<std::string> unique_capabilities = {};
+
     unique_capabilities.reserve(prompt.required_capabilities.size());
     for (const auto& capability : prompt.required_capabilities) {
         if (capability.size() > kMaxCapabilityTokenLen || !isValidPromptListToken(capability)) {
@@ -451,7 +452,8 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
     }
 
     // --- Uniqueness check for dependencies ---
-    std::unordered_set<std::string> unique_dependencies;
+    std::unordered_set<std::string> unique_dependencies = {};
+
     unique_dependencies.reserve(prompt.dependencies.size());
     for (const auto& dependency : prompt.dependencies) {
         if (dependency.size() > kMaxDependencyTokenLen || !isValidPromptListToken(dependency)) {
@@ -728,7 +730,8 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
                   "AIPluginGenerator: endpoint response missing non-empty implementation_code"));
     }
 
-    std::optional<double> c1_safety_score;
+    std::optional<double> c1_safety_score = {};
+
     if (config_.enable_c1_cai_safety_gate) {
         if (!config_.c1_cai_eval_fn) {
             ++stat_safety_rejections_;

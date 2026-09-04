@@ -41,7 +41,8 @@ struct DsgvoViolation {
 static std::vector<DsgvoViolation> checkDsgvoNodes(
     const std::vector<ProcessNodeInfo>& nodes)
 {
-    std::vector<DsgvoViolation> violations;
+    std::vector<DsgvoViolation> violations = {};
+
     for (const auto& node : nodes) {
         if (!node.dsgvo_annotation.has_value()) {
           continue;

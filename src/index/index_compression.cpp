@@ -123,7 +123,8 @@ DictionaryCodec::DictionaryCodec(const Config& cfg) : cfg_(cfg) {}
 
 void DictionaryCodec::train(const std::vector<std::string>& corpus) {
     // Count frequencies
-    std::unordered_map<std::string, size_t> freq;
+    std::unordered_map<std::string, size_t> freq = {};
+
     freq.reserve(corpus.size());
     for (const auto& s : corpus) {
         ++freq[s];
@@ -180,7 +181,8 @@ std::string DictionaryCodec::decode([[maybe_unused]] uint32_t code) const {
 // ============================================================================
 
 std::vector<std::string> PrefixBlock::decompress() const {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(suffixes.size());
     for (const auto& sfx : suffixes) {
         result.push_back(prefix + sfx);
@@ -204,7 +206,8 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
     const std::vector<std::string>& sorted_keys,
     size_t min_prefix_len)
 {
-    std::vector<PrefixBlock> blocks;
+    std::vector<PrefixBlock> blocks = {};
+
     if (sorted_keys.empty()) {
         THEMIS_DEBUG("PrefixCompressor::compress called with empty input");
         return blocks;
@@ -263,7 +266,8 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
 std::vector<std::string> PrefixCompressor::decompress(
     const std::vector<PrefixBlock>& blocks)
 {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& block : blocks) {
         auto keys = block.decompress();
         result.insert(result.end(), keys.begin(), keys.end());
@@ -299,7 +303,8 @@ std::vector<int64_t> DeltaEncoder::decode(const DeltaBlock& block) {
         THEMIS_DEBUG("DeltaEncoder::decode: empty block -> returning empty sequence");
         return {};
     }
-    std::vector<int64_t> result;
+    std::vector<int64_t> result = {};
+
     result.reserve(block.deltas.size() + 1);
     result.push_back(block.base);
     int64_t prev = block.base;
@@ -336,7 +341,8 @@ RunLengthBlock RunLengthEncoder::encode(const std::vector<std::string>& values) 
 }
 
 std::vector<std::string> RunLengthEncoder::decode(const RunLengthBlock& block) {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& run : block.runs) {
         for (uint32_t i = 0; i < run.count; ++i) {
             result.push_back(run.value);
@@ -451,7 +457,8 @@ std::vector<PrefixBlock> IndexCompressionCodec::compressKeys(
 
     if (!cfg_.enable_prefix_compression) {
         // Return trivial blocks (no compression)
-        std::vector<PrefixBlock> trivial;
+        std::vector<PrefixBlock> trivial = {};
+
         trivial.reserve(sorted_keys.size());
         for (const auto& k : sorted_keys) {
             PrefixBlock b;

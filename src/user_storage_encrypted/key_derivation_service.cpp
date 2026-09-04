@@ -277,7 +277,8 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
 
     // Build password: master_key || user_id bytes || container_id bytes.
     // This ensures domain separation between containers and users.
-    std::vector<uint8_t> password;
+    std::vector<uint8_t> password = {};
+
     password.reserve(master_key.size() + user_id.size() + container_id.size());
     password.insert(password.end(), master_key.begin(), master_key.end());
     password.insert(password.end(),

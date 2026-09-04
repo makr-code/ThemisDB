@@ -165,7 +165,8 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, MultipleMetrics)(benchmark::State
     const int num_entities = state.range(0);
     
     std::vector<std::string> metrics = {"cpu", "memory", "disk_io", "network_in", "network_out"};
-    std::vector<std::string> entities;
+    std::vector<std::string> entities = {};
+
     for (int i = 0; i < num_entities; i++) {
         entities.push_back("server_" + std::to_string(i));
     }

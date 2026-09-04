@@ -300,7 +300,8 @@ public:
     std::vector<AdapterSyncStatus> getAllSyncStatus() const {
         std::lock_guard<std::mutex> lock(mutex_);
         
-        std::vector<AdapterSyncStatus> result;
+        std::vector<AdapterSyncStatus> result = {};
+
         result.reserve(sync_status_.size());
         
         for (const auto& [adapter_id, status] : sync_status_) {
@@ -338,7 +339,8 @@ public:
         // Get all healthy shards from topology
         auto shards = topology_->getHealthyShards();
         
-        std::vector<std::string> peer_ids;
+        std::vector<std::string> peer_ids = {};
+
         peer_ids.reserve(shards.size());
         
         for (const auto& shard : shards) {

@@ -610,7 +610,8 @@ json VoiceAssistant::recordPhoneCall(
     result["summary"] = summary;
     
     // Convert audio format if needed
-    std::vector<uint8_t> converted_audio;
+    std::vector<uint8_t> converted_audio = {};
+
     if (config_.compress_audio) {
         converted_audio = convertAudioFormat(audio_data, config_.audio_format);
     } else {
@@ -666,7 +667,8 @@ json VoiceAssistant::generateMeetingProtocol(
     }
     
     // Convert audio format if needed
-    std::vector<uint8_t> converted_audio;
+    std::vector<uint8_t> converted_audio = {};
+
     if (config_.compress_audio) {
         converted_audio = convertAudioFormat(audio_data, config_.audio_format);
     } else {

@@ -176,7 +176,8 @@ std::shared_ptr<VectorIndexData> VectorIndexManagerSafety::GetIndexById([[maybe_
 std::vector<uint32_t> VectorIndexManagerSafety::GetIndexIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<uint32_t> ids;
+    std::vector<uint32_t> ids = {};
+
     for (const auto& [id, metadata] : indices_) {
         ids.push_back(id);
     }

@@ -167,7 +167,8 @@ struct HnswTTBridge::HnswLayer {
                 const size_t k = std::min(ef, active_count_);
                 // hnswlib returns a max-heap keyed by distance (top = worst).
                 auto pq = appr_->searchKnn(query.data(), k, nullptr);
-                std::vector<int64_t> ids;
+                std::vector<int64_t> ids = {};
+
                 ids.reserve(pq.size());
                 while (!pq.empty()) {
                     const auto label = static_cast<size_t>(pq.top().second);
@@ -322,7 +323,8 @@ HnswTTBridge::search(const storage::TTTrain& query, int k) const {
 
     // Step 2: TT re-rank
     float q_norm = ttNormFromTrain(query);
-    std::vector<TensorSearchResult> results;
+    std::vector<TensorSearchResult> results = {};
+
     results.reserve(candidates.size());
 
     for (int64_t cid : candidates) {

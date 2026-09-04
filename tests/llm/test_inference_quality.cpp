@@ -206,7 +206,8 @@ TEST_F(InferenceQualityTest, Deterministic_ConsistentOutput) {
     }
 
     const std::string prompt = "The capital of France is";
-    std::vector<std::string> outputs;
+    std::vector<std::string> outputs = {};
+
     for (int i = 0; i < 3; ++i) {
         auto resp = runRealGenerate(prompt, 8, 0.0f);
         ASSERT_TRUE(resp.success) << "Run " << i << " failed: " << resp.error_message;
@@ -269,7 +270,8 @@ TEST_F(InferenceQualityTest, Stochastic_VariedOutput) {
     }
 
     // With temperature > 0 outputs may differ; at minimum we verify success.
-    std::set<std::string> outputs;
+    std::set<std::string> outputs = {};
+
     for (int i = 0; i < 3; ++i) {
         auto resp = runRealGenerate("The weather today is", 16, 1.0f);
         ASSERT_TRUE(resp.success) << "Run " << i << " failed: " << resp.error_message;
@@ -299,7 +301,8 @@ TEST_F(InferenceQualityTest, Stochastic_TemperatureEffect) {
 
     const std::vector<float> temperatures = {0.0f, 0.5f, 1.0f};
     for (float temp : temperatures) {
-        std::set<std::string> outputs;
+        std::set<std::string> outputs = {};
+
         for (int i = 0; i < 2; ++i) {
             auto resp = runRealGenerate("The weather today is", 12, temp);
             ASSERT_TRUE(resp.success)

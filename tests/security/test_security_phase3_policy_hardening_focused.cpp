@@ -158,7 +158,8 @@ TEST_F(Phase3PolicyHardeningTest, P_RLS_01_SingleConstraint) {
     };
     
     // Apply RLS filter
-    std::vector<MockRow> filtered_rows;
+    std::vector<MockRow> filtered_rows = {};
+
     for (const auto& row : all_rows) {
         if (row.user_id == constraints[0].value) {
             filtered_rows.push_back(row);
@@ -202,7 +203,8 @@ TEST_F(Phase3PolicyHardeningTest, P_RLS_02_CascadingConstraints) {
     };
     
     // Apply cascading filter
-    std::vector<MockRow> filtered;
+    std::vector<MockRow> filtered = {};
+
     for (const auto& row : all_rows) {
         bool matches_all = (row.tenant_id == constraints[0].value &&
                            row.org_id == constraints[1].value &&
@@ -246,7 +248,8 @@ TEST_F(Phase3PolicyHardeningTest, P_RLS_03_MixedStaticDynamic) {
         {"US-EAST", "engineering", "denied_wrong_region"},
     };
     
-    std::vector<MockRow> filtered;
+    std::vector<MockRow> filtered = {};
+
     for (const auto& row : rows) {
         if (row.region == constraints[0].value &&
             row.department == constraints[1].value) {
@@ -281,7 +284,8 @@ TEST_F(Phase3PolicyHardeningTest, P_RLS_04_NullHandling) {
         {"user_alice", "denied"},
     };
     
-    std::vector<MockRow> filtered;
+    std::vector<MockRow> filtered = {};
+
     for (const auto& row : rows) {
         // Default: NULL (empty) → deny (fail-closed)
         if (!row.owner_id.empty() && row.owner_id == principal) {

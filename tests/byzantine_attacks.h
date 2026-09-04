@@ -207,7 +207,8 @@ inline void minMaxAttack(
         auto& tensor = gradients[layer_idx];
         
         for (size_t coord = 0; coord < tensor.data.size(); ++coord) {
-            std::vector<float> values;
+            std::vector<float> values = {};
+
             for (const auto& shard_grads : all_shard_gradients) {
                 if (layer_idx < shard_grads.size() && 
                     coord < shard_grads[layer_idx].data.size()) {

@@ -60,7 +60,8 @@ TranscriptionSegment makeSegment(const std::string& text,
 // Concatenate two PCM float buffers.
 std::vector<float> concat(const std::vector<float>& a, const std::vector<float>& b)
 {
-    std::vector<float> out;
+    std::vector<float> out = {};
+
     out.reserve(a.size() + b.size());
     out.insert(out.end(), a.begin(), a.end());
     out.insert(out.end(), b.begin(), b.end());
@@ -173,7 +174,8 @@ TEST(SpeakerDiarization, SpeakerIdsInValidRange) {
 TEST(SpeakerDiarization, SegmentCountEqualsKAssignsUniqueIds) {
     const int k = 4;
     std::vector<float> pcm;
-    std::vector<TranscriptionSegment> segs;
+    std::vector<TranscriptionSegment> segs = {};
+
     float freqs[] = {150.0f, 600.0f, 1200.0f, 2400.0f};
     int64_t t = 0;
     for (int i = 0; i < k; ++i) {
@@ -186,7 +188,8 @@ TEST(SpeakerDiarization, SegmentCountEqualsKAssignsUniqueIds) {
     auto result = STTProcessor::diarizeSegments(segs, pcm, k);
     ASSERT_EQ(result.size(), static_cast<size_t>(k));
 
-    std::set<int> ids;
+    std::set<int> ids = {};
+
     for (const auto& seg : result) {
         EXPECT_GE(seg.speaker_id, 0);
         EXPECT_LT(seg.speaker_id, k);
@@ -258,7 +261,8 @@ TEST(SpeakerDiarization, ZeroLengthSegmentWindowDoesNotCrash) {
 TEST(SpeakerDiarization, FourSegmentsTwoAlternatingSpeakers) {
     // Alternate between 200 Hz (speaker A) and 1800 Hz (speaker B).
     std::vector<float> pcm;
-    std::vector<TranscriptionSegment> segs;
+    std::vector<TranscriptionSegment> segs = {};
+
     float freqs[] = {200.0f, 1800.0f, 200.0f, 1800.0f};
     int64_t t = 0;
     for (int i = 0; i < 4; ++i) {

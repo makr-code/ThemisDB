@@ -535,7 +535,8 @@ uint32_t EventStream::getPartitionId([[maybe_unused]] const Event &event) const 
     if ([[maybe_unused]] config_.partition_key_field.empty() || event.partition_key.empty()) {
         return event.partition_id % static_cast<uint32_t>([[maybe_unused]] partitions_.size());
     }
-    std::hash<std::string> h;
+    std::hash<std::string> h = {};
+
     return static_cast<uint32_t>([[maybe_unused]] h(event.partition_key) % partitions_.size());
 }
 
@@ -800,7 +801,8 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
         // Emit completed matches where within-time has elapsed without second event
         auto now = std::chrono::steady_clock::now();
         if (config_.within.count() > 0) {
-            std::vector<PartialMatch> remaining;
+            std::vector<PartialMatch> remaining = {};
+
             for (auto &pm : active) {
                 auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - pm.start_time);
                 if (elapsed > config_.within) {
@@ -851,11 +853,13 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
         }
 
         // Check if any candidate has collected all required event types.
-        std::vector<PartialMatch> remaining;
+        std::vector<PartialMatch> remaining = {};
+
         for (auto &pm : active) {
             // Collect all unique event types matched by events in this partial match.
             // Pre-allocate set with expected size to avoid reallocations.
-            std::unordered_set<std::string> seen;
+            std::unordered_set<std::string> seen = {};
+
             seen.reserve([[maybe_unused]] config_.event_types.size());
 
             // For each event, find all matching event types (optimized single pass)
@@ -898,7 +902,8 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
 
     // SEQUENCE (and REPETITION / KLEENE_*): advance NFA states
     // Try to extend existing partial matches
-    std::vector<PartialMatch> next_active;
+    std::vector<PartialMatch> next_active = {};
+
     for (auto &pm : active) {
         if (pm.current_state >= nfa_states_.size()) {
             continue;
@@ -1322,7 +1327,8 @@ std::vector<Event> WindowManager::getWindowEvents() const {
 std::vector<Event> WindowManager::getEvents(std::chrono::system_clock::time_point start,
                                             std::chrono::system_clock::time_point end) const {
     std::lock_guard lk(windows_mutex_);
-    std::vector<Event> result;
+    std::vector<Event> result = {};
+
     for (const auto &w : windows_) {
         for ([[maybe_unused]] const auto &ev : w.events) {
             if (ev.timestamp >= start && ev.timestamp < end) {
@@ -1555,7 +1561,8 @@ CepFieldValue Aggregator::computeResult(const AggregationState &s) const {
         case AggregationType::PERCENTILE:
             return computePercentile(s.values, 50.0); // default p50
         case AggregationType::COLLECT: {
-            std::vector<std::string> strs;
+            std::vector<std::string> strs = {};
+
             strs.reserve(s.values.size());
             for (double v : s.values) {
                 strs.push_back(std::to_string(v));
@@ -1568,7 +1575,8 @@ CepFieldValue Aggregator::computeResult(const AggregationState &s) const {
             if (sorted.size() > 10) {
                 sorted.resize(10);
             }
-            std::vector<std::string> strs;
+            std::vector<std::string> strs = {};
+
             strs.reserve(std::min(sorted.size(), size_t(10)));
             for (double v : sorted) {
                 strs.push_back(std::to_string(v));
@@ -1712,7 +1720,8 @@ std::optional<RuleConfig> RuleEngine::getRule(const std::string &rule_id) const 
 
 std::vector<RuleConfig> RuleEngine::getRules() const {
     std::shared_lock lk(rules_mutex_);
-    std::vector<RuleConfig> result;
+    std::vector<RuleConfig> result = {};
+
     result.reserve(rules_.size());
     for (const auto &[id, s] : rules_) {
         result.push_back(s.config);
@@ -1741,7 +1750,8 @@ bool RuleEngine::evaluateHaving(const std::map<std::string, AggregationResult> &
     if (having.empty()) {
         return true;
     }
-    std::map<std::string, std::string> ctx;
+    std::map<std::string, std::string> ctx = {};
+
     for (const auto &[name, res] : results) {
         ctx[name]            = fieldValueToString(res.result);
         ctx["count_" + name] = std::to_string(res.count);
@@ -1841,7 +1851,8 @@ std::vector<Alert> RuleEngine::processEvent([[maybe_unused]] const Event &event)
         }
 
         // Pattern matching
-        std::vector<PatternMatch> matches;
+        std::vector<PatternMatch> matches = {};
+
         if (state.pattern_matcher) {
             matches = state.pattern_matcher->processEvent([[maybe_unused]] event);
         } else {
@@ -2671,7 +2682,8 @@ bool CEPEngine::loadRulesFromFile(const std::string &path) {
 
 std::vector<Alert> CEPEngine::getAlerts(size_t limit, bool unacknowledged_only) const {
     std::lock_guard lk(alerts_mutex_);
-    std::vector<Alert> result;
+    std::vector<Alert> result = {};
+
     result.reserve(std::min(limit, alerts_.size()));
     for (auto it = alerts_.rbegin(); it != alerts_.rend() && result.size() < limit; ++it) {
         if (unacknowledged_only && it->acknowledged) {

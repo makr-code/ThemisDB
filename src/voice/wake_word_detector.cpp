@@ -110,7 +110,8 @@ bool WakeWordDetector::removeWakeWord(const WakeWordID& id) {
 
 std::vector<WakeWordID> WakeWordDetector::listWakeWords() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<WakeWordID> ids;
+    std::vector<WakeWordID> ids = {};
+
     ids.reserve(wake_words_.size());
     for (const auto& ww : wake_words_) {
         ids.push_back(ww.id);

@@ -431,7 +431,8 @@ TEST_F(VecKnnInsertFocusedTests, InsertBatchVectorFieldOverride) {
     // vim_ is already initialised in SetUp() with "embedding" as the field.
     // Use 5 entities with the default "embedding" field and pass the field
     // name explicitly as a vectorField override.
-    std::vector<BaseEntity> entities;
+    std::vector<BaseEntity> entities = {};
+
     for (int i = 0; i < 5; ++i) {
         entities.emplace_back("fld_" + std::to_string(i), BaseEntity::FieldMap{
             {"embedding", randVec(i)}

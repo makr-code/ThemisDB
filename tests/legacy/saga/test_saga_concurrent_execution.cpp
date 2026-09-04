@@ -42,7 +42,8 @@ TEST_F(SagaConcurrentExecutionTest, MultipleSagasConcurrentCompensation) {
     }
     
     // Compensate all SAGAs concurrently
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (auto& saga : sagas) {
         threads.emplace_back([&saga]() {
             saga->compensate();
@@ -118,7 +119,8 @@ TEST_F(SagaConcurrentExecutionTest, IdempotentCompensation) {
     }
     
     // Multiple threads try to compensate the same saga
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < num_threads; t++) {
         threads.emplace_back([&saga]() {
             saga.compensate();
@@ -214,7 +216,8 @@ TEST_F(SagaConcurrentExecutionTest, ExceptionHandlingInConcurrentCompensation) {
     }
     
     // Compensate concurrently
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (auto& saga : sagas) {
         threads.emplace_back([&saga]() {
             saga->compensate();
@@ -263,7 +266,8 @@ TEST_F(SagaConcurrentExecutionTest, SharedResourceCompensation) {
     EXPECT_EQ(shared_counter, num_sagas * ops_per_saga);
     
     // Compensate all SAGAs concurrently
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (auto& saga : sagas) {
         threads.emplace_back([&saga]() {
             saga->compensate();
@@ -348,7 +352,8 @@ TEST_F(SagaConcurrentExecutionTest, CompensationTimingConsistency) {
     }
     
     // Compensate and measure time
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (auto& saga : sagas) {
         threads.emplace_back([&saga, &compensation_times, &times_mutex]() {
             auto start = std::chrono::high_resolution_clock::now();

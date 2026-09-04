@@ -63,7 +63,8 @@ public:
     }
 
     std::vector<float> dequantize(const QuantizedTensor& qtensor) override {
-        std::vector<float> out;
+        std::vector<float> out = {};
+
         const float scale = qtensor.scales.empty() ? 1.0f : qtensor.scales[0];
         out.reserve(qtensor.data.size());
         for (int8_t v : qtensor.data) {

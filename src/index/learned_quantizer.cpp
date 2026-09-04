@@ -70,7 +70,8 @@ LearnedQuantizer::Status LearnedQuantizer::train(
         // Learn per-dimension thresholds
         for (int d = 0; d < dimension_; d++) {
             // Extract values for this dimension
-            std::vector<float> dim_values;
+            std::vector<float> dim_values = {};
+
             dim_values.reserve(training_vectors.size());
             
             for (const auto& vec : training_vectors) {
@@ -91,7 +92,8 @@ LearnedQuantizer::Status LearnedQuantizer::train(
         }
     } else {
         // Learn global thresholds (for per-block mode)
-        std::vector<float> all_values;
+        std::vector<float> all_values = {};
+
         all_values.reserve(training_vectors.size() * dimension_);
         
         for (const auto& vec : training_vectors) {

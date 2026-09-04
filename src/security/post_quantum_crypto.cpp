@@ -882,7 +882,8 @@ PostQuantumKeyProvider::wrapKeyWithKyber(
     auto enc_dek = aes256gcm_encrypt(kem_ss, iv, dek, tag);
 
     // 3. Serialise blob
-    std::vector<uint8_t> blob;
+    std::vector<uint8_t> blob = {};
+
     blob.reserve(4 + kem_ct.size() + 12 + 4 + enc_dek.size() + 16);
     write_u32_le(blob, static_cast<uint32_t>(kem_ct.size()));
     blob.insert(blob.end(), kem_ct.begin(), kem_ct.end());
@@ -1031,7 +1032,8 @@ static bool is_b64([[maybe_unused]] uint8_t c) {
 }
 
 static std::vector<uint8_t> b64_dec(const std::string& s) {
-    std::vector<uint8_t> ret;
+    std::vector<uint8_t> ret = {};
+
     // Pre-allocate approximate size: each 4 base64 chars = 3 bytes
     ret.reserve((s.size() / 4 + 1) * 3);
     

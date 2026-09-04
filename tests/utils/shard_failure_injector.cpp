@@ -180,7 +180,8 @@ void ShardFailureInjector::update() {
 }
 
 std::map<std::string, int> ShardFailureInjector::getStatistics() const {
-    std::map<std::string, int> stats;
+    std::map<std::string, int> stats = {};
+
     stats["total_scenarios"] = static_cast<int>(scenarios_.size());
     stats["active_scenarios"] = 0;
     stats["transient_failures"] = 0;

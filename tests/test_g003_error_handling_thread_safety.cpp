@@ -467,7 +467,8 @@ TEST(G003_ThreadSafety, TSF04_SharedMutexReaderWriterPattern) {
         }
     };
 
-    std::vector<std::thread> all;
+    std::vector<std::thread> all = {};
+
     for (int i = 0; i < N_WRITERS; ++i) {
       all.emplace_back(writer_fn);
     }
@@ -612,7 +613,8 @@ TEST(G003_ThreadSafety, TSF08_ExceptionSafeLockedScope) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < N_THREADS; ++i) {
         threads.emplace_back([&, id = i]() { safe_op(id % 2 == 0); });
     }

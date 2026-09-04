@@ -362,7 +362,8 @@ private:
                 client_cfg.endpointOverride = endpoint_url_;
             }
 
-            std::unique_ptr<Aws::S3::S3Client> s3;
+            std::unique_ptr<Aws::S3::S3Client> s3 = {};
+
             if (!access_key_.empty() && !secret_key_.empty()) {
                 Aws::Auth::AWSCredentials creds(access_key_, secret_key_);
                 s3 = std::make_unique<Aws::S3::S3Client>(creds, client_cfg);
@@ -392,7 +393,8 @@ private:
             client_cfg.endpointOverride = endpoint_url_;
         }
 
-        std::unique_ptr<Aws::S3::S3Client> s3;
+        std::unique_ptr<Aws::S3::S3Client> s3 = {};
+
         if (!access_key_.empty() && !secret_key_.empty()) {
             Aws::Auth::AWSCredentials creds(access_key_, secret_key_);
             s3 = std::make_unique<Aws::S3::S3Client>(creds, client_cfg);

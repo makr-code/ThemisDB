@@ -302,7 +302,8 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
 
     const auto exact_similarity_fn = getExactSimilarityFn();
 
-    std::vector<SimilarityResult> results;
+    std::vector<SimilarityResult> results = {};
+
     results.reserve(candidates.size());
     std::size_t comparisons = 0;
     if (exact_similarity_fn) {
@@ -431,7 +432,8 @@ std::size_t TensorFingerprintGraph::size() const noexcept {
 
 std::vector<std::string> TensorFingerprintGraph::adapterKeys() const {
     std::shared_lock lock(mutex_);
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     keys.reserve(entries_.size());
     for (const auto& [k, _] : entries_) {
       keys.push_back(k);

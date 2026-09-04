@@ -489,7 +489,8 @@ TEST(GPUErrorHandling, ExtremeFragmentation_Handled) {
     manager.initialize(0);
     
     // Allocate many small blocks to fragment memory
-    std::vector<GPUMemoryManager::MemoryBlock> blocks;
+    std::vector<GPUMemoryManager::MemoryBlock> blocks = {};
+
     for (int i = 0; i < 1000; ++i) {
         auto block = manager.allocate(1024); // 1KB each
         if (block.ptr != nullptr) {

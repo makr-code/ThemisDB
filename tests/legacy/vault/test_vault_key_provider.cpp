@@ -401,7 +401,8 @@ TEST_F(EncryptedEntitiesTest, Performance_BulkUserCreation) {
     const int NUM_USERS = 1000;
     auto start = std::chrono::high_resolution_clock::now();
     
-    std::vector<User> users;
+    std::vector<User> users = {};
+
     for (int i = 0; i < NUM_USERS; i++) {
         User user;
         user.id = "user-" + std::to_string(i);

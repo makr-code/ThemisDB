@@ -437,7 +437,8 @@ TEST_F(ArrowIPCExporterTest, MetricsResetWorks) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(ArrowIPCExporterTest, LargeEntitySet) {
-    std::vector<BaseEntity> large;
+    std::vector<BaseEntity> large = {};
+
     for (int i = 0; i < 1000; ++i) {
         BaseEntity e;
         e.setPrimaryKey("e_" + std::to_string(i));

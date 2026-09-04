@@ -91,7 +91,8 @@ static void SRCP_2_DistributedMergeThroughput(benchmark::State& state) {
   
   for (auto _ : state) {
     // Simulate merge operation: collect and sort results
-    std::vector<SearchResult> merged;
+    std::vector<SearchResult> merged = {};
+
     for (const auto& shard : shard_results) {
       merged.insert(merged.end(), shard.begin(), shard.end());
     }
@@ -237,7 +238,8 @@ static void SRCP_ADV_1_MultimodalSearch(benchmark::State& state) {
   
   for (auto _ : state) {
     // Combine text and image results with specialized fusion
-    std::vector<SearchResult> combined;
+    std::vector<SearchResult> combined = {};
+
     combined.reserve(text_results.size() + image_results.size());
     
     // Merge maintaining separate tracks

@@ -78,7 +78,8 @@ json SystemSnapshot::toJSON() const {
 
 std::vector<std::string> CausalGraph::rootNodes() const {
     // Collect all destination nodes (nodes that have at least one incoming edge)
-    std::unordered_map<std::string, int> in_degree;
+    std::unordered_map<std::string, int> in_degree = {};
+
     for (const auto& n : nodes) {
         in_degree[n] = 0;
     }
@@ -86,7 +87,8 @@ std::vector<std::string> CausalGraph::rootNodes() const {
         in_degree[e.to_metric]++;
     }
 
-    std::vector<std::string> roots;
+    std::vector<std::string> roots = {};
+
     for (const auto& kv : in_degree) {
         if (kv.second == 0) {
             roots.push_back(kv.first);
@@ -206,7 +208,8 @@ double pearsonCorrelation(const std::vector<double>& x,
 
 /// Extract the raw double values from a TimeSeries.
 std::vector<double> extractValues(const TimeSeries& ts) {
-    std::vector<double> v;
+    std::vector<double> v = {};
+
     v.reserve(ts.points.size());
     for (const auto& p : ts.points) {
         v.push_back(p.value);
@@ -443,7 +446,8 @@ std::vector<CorrelatedMetric> RootCauseAnalyzer::findCorrelations(
 
     std::vector<double> target_vals = extractValues(target_it->second);
 
-    std::vector<CorrelatedMetric> results;
+    std::vector<CorrelatedMetric> results = {};
+
     for (const auto& kv : impl_->series_registry) {
         if (kv.first == metric_name) {
             continue;

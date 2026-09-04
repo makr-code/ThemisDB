@@ -55,7 +55,8 @@ BlockchainIntegrityVerifier::MerkleTreeBuilder::buildMerkleTree(const std::vecto
     }
 
     // Leaf hashes: deterministic JSON serialisation (sorted keys)
-    std::vector<std::string> layer;
+    std::vector<std::string> layer = {};
+
     layer.reserve(records.size());
     for (const auto &rec : records) {
         layer.push_back(sha256Hex(rec.dump()));
@@ -67,7 +68,8 @@ BlockchainIntegrityVerifier::MerkleTreeBuilder::buildMerkleTree(const std::vecto
             layer.push_back(layer.back());
         }
 
-        std::vector<std::string> next;
+        std::vector<std::string> next = {};
+
         next.reserve(layer.size() / 2);
         for (size_t i = 0; i < layer.size(); i += 2) {
             next.push_back(combineHashes(layer[i], layer[i + 1]));

@@ -114,7 +114,8 @@ TEST_F(ResourceManagementTest, SingletonThreadSafe) {
         ptrs.push_back(&ref);
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < N; ++i) {
         threads.emplace_back(worker);
     }
@@ -355,7 +356,8 @@ TEST_F(ResourceManagementTest, NoCircularLockOrdering) {
         ++successful_acquisitions;
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 5; ++i) {
         threads.emplace_back(worker);
     }
@@ -390,7 +392,8 @@ TEST_F(ResourceManagementTest, LockContentionNoLeak) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 4; ++i) {
         threads.emplace_back(worker);
     }

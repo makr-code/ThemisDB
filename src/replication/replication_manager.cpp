@@ -193,7 +193,8 @@ static void timedJoin(std::thread& t, int timeout_ms = 5000) noexcept {
 // ============================================================================
 
 std::vector<uint8_t> WALEntry::serialize() const {
-    std::vector<uint8_t> result;
+    std::vector<uint8_t> result = {};
+
     // Estimate capacity: fixed header (24 bytes) + lengths (4*4) + string contents
     size_t estimated_size = 24 + 16 + operation.size() + collection.size() + 
                            document_id.size() + data.size() + checksum.size();
@@ -2920,7 +2921,8 @@ static std::string extractSubObject(const std::string& doc, const std::string& k
 // BATCH C FIX: Add bounds checking and container stability guards to prevent
 // iterator invalidation and out-of-bounds access during iteration.
 static std::set<std::string> extractJsonArrayStrings(const std::string& arr) {
-    std::set<std::string> result;
+    std::set<std::string> result = {};
+
     if (arr.empty()) {
         return result;  // Guard: Handle empty array early
     }
@@ -2979,7 +2981,8 @@ static std::string extractSubArray(const std::string& doc, const std::string& ke
 
 std::string CRDTMergeResolver::mergeGCounter(const std::vector<MMWriteEntry>& writes) {
     // Grow-only counter: for each node-keyed counter take the maximum value
-    std::map<std::string, int64_t> merged;
+    std::map<std::string, int64_t> merged = {};
+
     for (const auto& w : writes) {
         auto fields = extractJsonInts(w.data);
         for (const auto& [k, v] : fields) {
@@ -3039,7 +3042,8 @@ std::string CRDTMergeResolver::mergePNCounter(const std::vector<MMWriteEntry>& w
 
 std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes) {
     // Grow-only set: union of all quoted string tokens across all payloads
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (const auto& w : writes) {
         size_t p = 0;
         while (p < w.data.size()) {
@@ -3119,7 +3123,8 @@ std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& write
     for (const auto& [elem, tag] : allAdds)
         elemTags[elem].push_back(tag);
 
-    std::set<std::string> liveElements;
+    std::set<std::string> liveElements = {};
+
     for (const auto& [elem, tags] : elemTags)
         for (const auto& t : tags)
             if (tombstones.find(t) == tombstones.end()) { liveElements.insert(elem); break; }
@@ -3724,7 +3729,8 @@ void MultiMasterReplicationManager::removePeer(const std::string& node_id) {
 
 std::vector<MMPeerInfo> MultiMasterReplicationManager::getPeers() const {
     std::shared_lock<std::shared_mutex> lock(peers_mutex_);
-    std::vector<MMPeerInfo> result;
+    std::vector<MMPeerInfo> result = {};
+
     result.reserve(peers_.size());
     for (const auto& [id, info] : peers_) {
         result.push_back(info);
@@ -3763,7 +3769,8 @@ void MultiMasterReplicationManager::setConflictResolver(
 
 std::vector<ConflictRecord> MultiMasterReplicationManager::getUnresolvedConflicts() const {
     std::lock_guard<std::mutex> lock(conflicts_mutex_);
-    std::vector<ConflictRecord> result;
+    std::vector<ConflictRecord> result = {};
+
     for (const auto& rec : conflicts_) {
         if (!rec.resolved) {
             result.push_back(rec);
@@ -4249,7 +4256,8 @@ std::vector<MMWriteEntry> MultiMasterReplicationManager::getMissingWrites(
     // potentially missing from the peer and must be resent.
     std::lock_guard<std::mutex> log_lock(committed_log_mutex_);
 
-    std::vector<MMWriteEntry> missing;
+    std::vector<MMWriteEntry> missing = {};
+
     missing.reserve(committed_writes_log_.size());
     for (const auto& entry : committed_writes_log_) {
         if (!entry.vector_clock.happensBefore(peer_clock)) {
@@ -4506,7 +4514,8 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
     auto deadline = std::chrono::steady_clock::now() +
                     std::chrono::milliseconds(config_.read_timeout_ms);
 
-    std::vector<ReplicaResponse> responses;
+    std::vector<ReplicaResponse> responses = {};
+
     for (auto& fut : futures) {
         auto remaining = deadline - std::chrono::steady_clock::now();
         if (remaining.count() <= 0) {
@@ -4534,7 +4543,8 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
 
     // Session consistency: only responses that satisfy the minimum version
     // count toward the quorum.  Collect qualifying responses separately.
-    std::vector<const ReplicaResponse*> qualifying;
+    std::vector<const ReplicaResponse*> qualifying = {};
+
     qualifying.reserve(responses.size());
     for (const auto& r : responses) {
         if (r.version >= required_version) {
@@ -4552,7 +4562,8 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
 
     // Use all responses for reconciliation (or only qualifying ones when a
     // session token was supplied so that stale replicas are not considered).
-    std::vector<ReplicaResponse> reconcile_set;
+    std::vector<ReplicaResponse> reconcile_set = {};
+
     if (session_token.empty()) {
         reconcile_set = responses;
     } else {
@@ -5174,7 +5185,8 @@ ReplicationAnalytics::LagHistory ReplicationAnalytics::getLagHistory(
     }
 
     auto cutoff = std::chrono::system_clock::now() - duration;
-    std::vector<int64_t> values;
+    std::vector<int64_t> values = {};
+
     for (const auto& dp : it->second) {
         if (dp.timestamp >= cutoff) {
             result.data_points.push_back(dp);
@@ -5221,7 +5233,8 @@ std::vector<ReplicationAnalytics::Insight> ReplicationAnalytics::getInsights() c
         }
 
         // Check rolling average for slow replica
-        std::vector<int64_t> values;
+        std::vector<int64_t> values = {};
+
         values.reserve(history.size());
         for (const auto& dp : history) {
           values.push_back(dp.lag_ms);
@@ -5257,7 +5270,8 @@ std::vector<ReplicationAnalytics::Bottleneck> ReplicationAnalytics::detectBottle
         //  High variance + high avg → NETWORK jitter
         //  High avg + low variance   → DISK_IO
         //  Very high avg              → CPU
-        std::vector<int64_t> values;
+        std::vector<int64_t> values = {};
+
         values.reserve(history.size());
         for (const auto& dp : history) {
           values.push_back(dp.lag_ms);
@@ -5840,7 +5854,8 @@ std::string WALArchivalManager::archivePath([[maybe_unused]] uint64_t segment_id
             return {};  // Production behavior: return empty on invalid character
         }
     }
-    std::vector<uint8_t> bytes;
+    std::vector<uint8_t> bytes = {};
+
     bytes.reserve(hex.size() / 2);
     for (size_t i = 0; i < hex.size(); i += 2) {
         unsigned int val = 0;
@@ -6139,7 +6154,8 @@ std::optional<std::vector<uint8_t>> WALArchivalManager::retrieveSegment(
         return std::nullopt;
     }
 
-    std::vector<uint8_t> raw;
+    std::vector<uint8_t> raw = {};
+
     if (backend_) {
         auto fetched = backend_->getObject(it->archive_path);
         if (!fetched) {
@@ -6604,7 +6620,8 @@ std::vector<RegionStalenessInfo>
 MultiRegionActiveActiveManager::getAllRegionStaleness() const
 {
     std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
-    std::vector<RegionStalenessInfo> result;
+    std::vector<RegionStalenessInfo> result = {};
+
     result.reserve(region_staleness_.size());
     for (const auto& kv : region_staleness_) {
         result.push_back(kv.second);
@@ -6942,7 +6959,8 @@ BidirectionalReplicationManager::getConflictHistory() const {
 std::vector<BidirectionalReplicationManager::BidiConflictRecord>
 BidirectionalReplicationManager::getPendingConflicts() const {
     std::lock_guard<std::mutex> lk(conflicts_mutex_);
-    std::vector<BidiConflictRecord> result;
+    std::vector<BidiConflictRecord> result = {};
+
     for (const auto& rec : conflict_history_) {
         if (rec.strategy_used == ConflictResolution::CUSTOM
             && rec.resolved_write.data.empty()) {

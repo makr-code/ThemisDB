@@ -65,7 +65,8 @@ public:
         const std::vector<FragmentLoadRequest>& requests,
         const std::string& correlation_id = {}) const noexcept override {
         
-        std::vector<FragmentLoadResult> results;
+        std::vector<FragmentLoadResult> results = {};
+
         for (const auto& req : requests) {
             results.push_back(fetchFragment(req, correlation_id));
         }
@@ -287,7 +288,8 @@ TEST_F(DistributedPlannerTest, RejectSummaryOnlyResults) {
  */
 TEST_F(DistributedPlannerTest, ReduceFanOutWhileMaintainingCorrectness) {
     // Create 10 summaries: 5 fresh, 5 stale
-    std::vector<tensor::ShardSummary> summaries;
+    std::vector<tensor::ShardSummary> summaries = {};
+
     for (int i = 0; i < 5; ++i) {
         summaries.push_back(createFreshSummary("fresh_" + std::to_string(i), 0.7f));
     }

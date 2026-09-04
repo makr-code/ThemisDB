@@ -579,7 +579,8 @@ public:
         auto indices = searchIndices(query, k);
         
         // Convert to SearchResult format (IDs will be filled by main implementation)
-        std::vector<GPUVectorIndex::SearchResult> results;
+        std::vector<GPUVectorIndex::SearchResult> results = {};
+
         results.reserve(indices.size());
         for (const auto& [distance, index] : indices) {
             results.push_back({"", distance});
@@ -596,7 +597,8 @@ public:
         results.reserve(indexedResults.size());
 
         for (const auto& queryResults : indexedResults) {
-            std::vector<GPUVectorIndex::SearchResult> converted;
+            std::vector<GPUVectorIndex::SearchResult> converted = {};
+
             converted.reserve(queryResults.size());
             for (const auto& [distance, index] : queryResults) {
                 (void)index;

@@ -548,7 +548,8 @@ public:
         std::vector<std::string> node_list(vertices.begin(), vertices.end());
 
         // Initialize betweenness scores
-        std::unordered_map<std::string, double> betweenness;
+        std::unordered_map<std::string, double> betweenness = {};
+
         for (const auto& v : node_list) {
             betweenness[v] = 0.0;
         }

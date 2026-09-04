@@ -198,7 +198,8 @@ bool PersistentTensorFingerprintGraph::recoverJournal() {
 
         JournalOp op = JournalOp::Put;
         std::string target_key;
-        std::vector<uint8_t> target_payload;
+        std::vector<uint8_t> target_payload = {};
+
         if (!deserializeJournalRecord(*payload, op, target_key, target_payload)) {
             return false;
         }

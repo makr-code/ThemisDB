@@ -237,7 +237,8 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
         detector = tensor_node_detector_fn_;
     }
 
-    std::optional<std::string> detected_fn;
+    std::optional<std::string> detected_fn = {};
+
     if (detector) {
         try {
             detected_fn = detector(node);
@@ -432,7 +433,8 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
     // ── Step 3: RRF fusion ────────────────────────────────────────────────
     // RRF score(d) = Σ 1 / (rrf_k + rank_i(d))
     // Collect all unique node IDs and compute RRF score from both lists.
-    std::unordered_map<std::string, HybridAnnGraphResult> fused;
+    std::unordered_map<std::string, HybridAnnGraphResult> fused = {};
+
     fused.reserve(ann_list.size() + graph_list.size());
 
     // Seed from ANN list
@@ -456,7 +458,8 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
     }
 
     // ── Step 4: Sort + truncate ───────────────────────────────────────────
-    std::vector<HybridAnnGraphResult> results;
+    std::vector<HybridAnnGraphResult> results = {};
+
     results.reserve(fused.size());
     for (auto& [id, entry] : fused) {
         results.push_back(std::move(entry));

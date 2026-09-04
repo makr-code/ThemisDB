@@ -44,7 +44,8 @@ std::vector<double> aggregateElementWiseMedian(
     const std::vector<FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient>& updates,
     std::size_t dims) {
     std::vector<double> out(dims, 0.0);
-    std::vector<double> values;
+    std::vector<double> values = {};
+
     values.reserve(updates.size());
     for (std::size_t d = 0; d < dims; ++d) {
         values.clear();
@@ -75,7 +76,8 @@ std::vector<double> aggregateElementWiseTrimmedMean(
     }
 
     std::vector<double> out(dims, 0.0);
-    std::vector<double> values;
+    std::vector<double> values = {};
+
     values.reserve(updates.size());
     const std::size_t trim_count = static_cast<std::size_t>(std::floor(trim_ratio * updates.size()));
 
@@ -235,7 +237,8 @@ std::vector<double> FederatedImportCoordinator::SecureAggregationManager::maskGr
     const std::string& participant_id,
     const std::string& round_id) const {
     const auto mask = buildDeterministicMask(participant_id, round_id, gradient.size());
-    std::vector<double> out;
+    std::vector<double> out = {};
+
     out.reserve(gradient.size());
     for (std::size_t i = 0; i < gradient.size(); ++i) {
         out.push_back(gradient[i] + mask[i]);

@@ -1270,7 +1270,8 @@ TEST_F(MEMHardeningTest, MEM07_KVCacheRelease_OnSessionEnd) {
 TEST_F(MEMHardeningTest, MEM08_BatchSchedulerQueue_ClearedOnShutdown) {
     {
         // Simulate scheduler request queue entries
-        std::vector<SimAllocGuard> request_queue;
+        std::vector<SimAllocGuard> request_queue = {};
+
         for (int i = 0; i < 5; ++i) {
             request_queue.emplace_back(64);
         }
@@ -1626,7 +1627,8 @@ TEST_F(MEMHardeningTest, MEM21_SharedModelRefCount_ReachesZeroOnLastRelease) {
  */
 TEST_F(MEMHardeningTest, MEM22_ClientPool_FreesConnectionsOnDestroy) {
     {
-        std::vector<SimAllocGuard> connection_pool;
+        std::vector<SimAllocGuard> connection_pool = {};
+
         for (int i = 0; i < 4; ++i) {
             connection_pool.emplace_back(128);  // 128 units per connection
         }
@@ -1667,7 +1669,8 @@ TEST_F(MEMHardeningTest, MEM23_EmbeddingCacheEviction_TriggersValueDeleter) {
     };
 
     {
-        std::vector<CacheEntry> emb_cache;
+        std::vector<CacheEntry> emb_cache = {};
+
         for (int i = 0; i < 3; ++i) {
             emb_cache.emplace_back(256, value_deleter);
         }
@@ -1704,7 +1707,8 @@ TEST_F(MEMHardeningTest, MEM24_MemoryGate_ScoreIs1_0) {
     {
         const auto snap = g_sim_alloc_net.load();
         {
-            std::vector<SimAllocGuard> v;
+            std::vector<SimAllocGuard> v = {};
+
             for (int i = 0; i < 4; ++i) {
               v.emplace_back(10);
             }

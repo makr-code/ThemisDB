@@ -398,7 +398,8 @@ TEST_F(SpoofingAdversarialFixture, SpeedUpAudio) {
     auto audio = createLiveAudio();
     
     // Speed up (shorter duration, same content)
-    std::vector<uint8_t> sped_up;
+    std::vector<uint8_t> sped_up = {};
+
     for (size_t i = 0; i < audio.size(); i += 2) {
         sped_up.push_back(audio[i]);
     }

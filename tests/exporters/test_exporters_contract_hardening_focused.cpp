@@ -126,7 +126,8 @@ struct MockParquetOutput {
 
     void addRow(const MockParquetRow& row) {
         rows.push_back(row);
-        std::vector<bool> row_nulls;
+        std::vector<bool> row_nulls = {};
+
         for (auto& v : row.values)
             row_nulls.push_back(!v.has_value());
         null_bitmap.push_back(std::move(row_nulls));

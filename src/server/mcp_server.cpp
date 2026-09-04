@@ -1837,7 +1837,8 @@ json McpServer::toolLLMChat(const json& args) {
         auto messages_json = args.at("messages");
         
         // Convert JSON messages to ChatMessage objects
-        std::vector<llm::ChatMessage> messages;
+        std::vector<llm::ChatMessage> messages = {};
+
         for (const auto& msg : messages_json) {
             messages.push_back({
                 msg.at("role").get<std::string>(),
@@ -3355,7 +3356,8 @@ std::vector<std::string> WebSocketTransport::getPendingMessages(const std::strin
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     auto it = sessions_.find(session_id);
     if (it != sessions_.end()) {
-        std::vector<std::string> messages;
+        std::vector<std::string> messages = {};
+
         while (!it->second.pending_messages.empty()) {
             messages.push_back(std::move(it->second.pending_messages.front()));
             it->second.pending_messages.pop();

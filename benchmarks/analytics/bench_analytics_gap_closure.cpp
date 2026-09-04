@@ -131,7 +131,8 @@ static void BM_PM02_DiscoverInductiveProcess(benchmark::State& state) {
     }
     
     auto computeFrequency = [](const std::vector<int>& log) {
-        std::unordered_map<int, int> freq;
+        std::unordered_map<int, int> freq = {};
+
         for (int task : log) {
           freq[task]++;
         }
@@ -164,7 +165,8 @@ static void BM_PM03_ConformanceCheck(benchmark::State& state) {
     // Build 100 traces
     std::vector<std::vector<int>> traces;
     for (std::size_t t = 0; t < 100; ++t) {
-        std::vector<int> trace;
+        std::vector<int> trace = {};
+
         for (std::size_t e = 0; e < 50; ++e) {
             trace.push_back(task_dist(rng));
         }
@@ -258,7 +260,8 @@ static void BM_AM02_Prediction(benchmark::State& state) {
     // 100 samples x 50 features
     std::vector<std::vector<double>> X;
     for (std::size_t i = 0; i < 100; ++i) {
-        std::vector<double> sample;
+        std::vector<double> sample = {};
+
         for (std::size_t j = 0; j < 50; ++j) {
             sample.push_back(dist(rng));
         }
@@ -266,7 +269,8 @@ static void BM_AM02_Prediction(benchmark::State& state) {
     }
     
     auto predict = [](const std::vector<std::vector<double>>& features) {
-        std::vector<double> predictions;
+        std::vector<double> predictions = {};
+
         for (const auto& sample : features) {
             double pred = 0.0;
             for (double f : sample) {
@@ -352,7 +356,8 @@ static void BM_FC02_BatchPredictSIMD(benchmark::State& state) {
     std::uniform_real_distribution<double> dist(0.0, 1.0);
     
     // Simulate batch of 100 forecast points
-    std::vector<double> batch;
+    std::vector<double> batch = {};
+
     for (std::size_t i = 0; i < 100; ++i) {
         batch.push_back(dist(rng));
     }
@@ -618,7 +623,8 @@ static void BM_UT02_DistributedMerge(benchmark::State& state) {
     std::sort(seq2.begin(), seq2.end());
     
     auto merge = [](const std::vector<int>& a, const std::vector<int>& b) {
-        std::vector<int> result;
+        std::vector<int> result = {};
+
         result.reserve(a.size() + b.size());
         std::merge(a.begin(), a.end(), b.begin(), b.end(), 
                    std::back_inserter(result));

@@ -571,7 +571,8 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
         }
 
         // Step 4: encode → decode each entity.
-        std::vector<BaseEntity> result;
+        std::vector<BaseEntity> result = {};
+
         result.reserve(entities.size());
 
         for (const auto& entity : entities) {
@@ -598,7 +599,8 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
     const float max_quant_value = use_int8 ? 127.0f : 32767.0f;
     const std::string vec_field  = config_.vector_field;
 
-    std::vector<BaseEntity> result;
+    std::vector<BaseEntity> result = {};
+
     result.reserve(entities.size());
 
     for (const auto& entity : entities) {

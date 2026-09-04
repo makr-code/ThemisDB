@@ -608,7 +608,8 @@ bool LoRAManifestStore::deletePackage(const std::string& package_id) {
 
 std::vector<std::string> LoRAManifestStore::listPackageIds() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(packages_.size());
     for (const auto& kv : packages_) {
       ids.push_back(kv.first);
@@ -619,7 +620,8 @@ std::vector<std::string> LoRAManifestStore::listPackageIds() const {
 std::vector<LoRAPackage> LoRAManifestStore::listPackagesByStatus(
     LoRAPackageStatus status) const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<LoRAPackage> out;
+    std::vector<LoRAPackage> out = {};
+
     for (const auto& kv : packages_) {
         if (kv.second.status == status) {
           out.push_back(kv.second);
@@ -656,7 +658,8 @@ bool LoRAManifestStore::deleteProduct(const std::string& product_id) {
 
 std::vector<std::string> LoRAManifestStore::listProductIds() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(products_.size());
     for (const auto& kv : products_) {
       ids.push_back(kv.first);
@@ -667,7 +670,8 @@ std::vector<std::string> LoRAManifestStore::listProductIds() const {
 std::vector<PortableAdapterProduct> LoRAManifestStore::listProductsByPackage(
     const std::string& package_id) const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<PortableAdapterProduct> out;
+    std::vector<PortableAdapterProduct> out = {};
+
     for (const auto& kv : products_) {
         if (kv.second.source_package_id == package_id) {
           out.push_back(kv.second);
@@ -679,7 +683,8 @@ std::vector<PortableAdapterProduct> LoRAManifestStore::listProductsByPackage(
 std::vector<PortableAdapterProduct> LoRAManifestStore::listProductsByStatus(
     AdapterProductStatus status) const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<PortableAdapterProduct> out;
+    std::vector<PortableAdapterProduct> out = {};
+
     for (const auto& kv : products_) {
         if (kv.second.status == status) {
           out.push_back(kv.second);
@@ -775,7 +780,8 @@ bool LoRAManifestStore::verifyProductIntegrity(
 json LoRAManifestStore::exportPackages() const {
     std::lock_guard<std::mutex> lk(mutex_);
     // Collect keys and sort for stable, deterministic output order.
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     keys.reserve(packages_.size());
     for (const auto& kv : packages_) {
       keys.push_back(kv.first);
@@ -809,7 +815,8 @@ size_t LoRAManifestStore::importPackages(const json& j) {
 json LoRAManifestStore::exportProducts() const {
     std::lock_guard<std::mutex> lk(mutex_);
     // Collect keys and sort for stable, deterministic output order.
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     keys.reserve(products_.size());
     for (const auto& kv : products_) {
       keys.push_back(kv.first);

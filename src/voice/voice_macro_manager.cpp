@@ -304,7 +304,8 @@ std::vector<MacroInfo> VoiceMacroManager::listMacros(
     const std::vector<std::string>& tags) const
 {
     std::lock_guard<std::mutex> lock(impl_->mutex);
-    std::vector<MacroInfo> result;
+    std::vector<MacroInfo> result = {};
+
     result.reserve(impl_->macros.size());
 
     for (const auto& kv : impl_->macros) {

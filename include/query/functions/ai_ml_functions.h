@@ -213,7 +213,8 @@ public:
         // Placeholder: return first category with 0.5 confidence
         // In production, this uses a zero-shot classification model
         
-        std::map<std::string, JsonValue> scores;
+        std::map<std::string, JsonValue> scores = {};
+
         double scorePerCategory = 1.0 / categories.size();
         for (const auto& cat : categories) {
             scores[cat.as_string()] = JsonValue(scorePerCategory);
@@ -254,7 +255,8 @@ public:
         std::string text = args[0].as_string();
         
         // Optional: filter by entity types
-        std::vector<std::string> types;
+        std::vector<std::string> types = {};
+
         if (args.size() > 1 && args[1].is_array()) {
             for (const auto& t : args[1].as_array()) {
                 types.push_back(t.as_string());

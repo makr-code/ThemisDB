@@ -400,7 +400,8 @@ AdaLoraTTBridge::findSimilarAdapters(const AdaLoraTTExport& query_exp,
         }
     }
 
-    std::vector<SimilarAdapter> out;
+    std::vector<SimilarAdapter> out = {};
+
     out.reserve(best_by_adapter.size());
     for (const auto& kv : best_by_adapter) {
         out.push_back(kv.second);

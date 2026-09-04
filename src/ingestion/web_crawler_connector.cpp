@@ -477,7 +477,8 @@ public:
         std::string origin = urlOrigin(seed_url_);
 
         // ----- Step 1: load robots.txt -----
-        std::vector<std::string> disallow_rules;
+        std::vector<std::string> disallow_rules = {};
+
         if (respect_robots_ && !origin.empty()) {
             auto [rcode, rbody] = fetchUrl(origin + "/robots.txt");
             if (rcode == 200) {

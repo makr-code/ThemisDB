@@ -69,7 +69,8 @@ public:
 private:
     static void dedupById(ExtractionContext& ctx) {
         std::unordered_map<std::string, std::size_t> id_to_idx;
-        std::vector<BaseEntity> deduped;
+        std::vector<BaseEntity> deduped = {};
+
         deduped.reserve(ctx.entities.size());
 
         for (auto& ent : ctx.entities) {

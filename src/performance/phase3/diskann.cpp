@@ -67,7 +67,8 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
     const int R = 64;  // Max degree (from DiskANN paper)
     
     // Create nodes with initial empty neighbor lists
-    std::vector<DiskANNNode> nodes;
+    std::vector<DiskANNNode> nodes = {};
+
     nodes.reserve(vectors.size());
     
     for (const auto& [id, vec] : vectors) {
@@ -186,7 +187,8 @@ std::vector<DiskANNIndex::SearchResult> DiskANNIndex::search(
     auto candidates = greedy_search_internal(query, entry_point, beam_width, k * 2);
     
     // Compute distances and sort
-    std::vector<SearchResult> results;
+    std::vector<SearchResult> results = {};
+
     for (VectorID id : candidates) {
         DiskANNNode node = load_node(id);
         float dist = compute_distance(query, node.vector);
@@ -410,7 +412,8 @@ std::vector<VectorID> DiskANNIndex::greedy_search_internal(
     }
     
     // Extract IDs from best candidates
-    std::vector<VectorID> result_ids;
+    std::vector<VectorID> result_ids = {};
+
     for (const auto& [dist, id] : best_candidates) {
         result_ids.push_back(id);
     }
@@ -479,7 +482,8 @@ std::unique_ptr<VantagePointTree::Node> VantagePointTree::build_tree(
     }
     
     // Compute distances from vantage point
-    std::vector<float> distances;
+    std::vector<float> distances = {};
+
     for (size_t i = start + 1; i < end; i++) {
         distances.push_back(compute_distance(node->vector, vectors[i].second));
     }

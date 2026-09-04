@@ -437,7 +437,8 @@ VersionResult<bool> SchemaVersionManager::validateMigration(
     }
 
     // 3. Column names must be unique within the new schema
-    std::set<std::string> seen_columns;
+    std::set<std::string> seen_columns = {};
+
     for (const auto& col : new_schema.properties) {
         if (col.name.empty()) {
             return VersionResult<bool>::failure(

@@ -161,7 +161,8 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
         }
 
         // Collect required set
-        std::unordered_set<std::string> required_set;
+        std::unordered_set<std::string> required_set = {};
+
         if (schema.contains("required") && schema["required"].is_array()) {
             for (const auto& r : schema["required"]) {
                 if (r.is_string()) {
@@ -172,7 +173,8 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
 
         // Build ordered list: required fields first (in "required" order),
         // then remaining optional fields (in "properties" insertion order).
-        std::vector<std::string> ordered_props;
+        std::vector<std::string> ordered_props = {};
+
         if (schema.contains("required") && schema["required"].is_array()) {
             for (const auto& r : schema["required"]) {
                 if (r.is_string() && schema["properties"].contains(r.get<std::string>())) {

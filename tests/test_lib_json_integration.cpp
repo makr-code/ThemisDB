@@ -70,7 +70,8 @@ TEST_F(JSONLibIntegrationTest, SimdjsonArrayIteration) {
     simdjson::ondemand::document doc = parser.iterate(padded);
     simdjson::ondemand::array arr = doc.get_array();
     
-    std::vector<int64_t> numbers;
+    std::vector<int64_t> numbers = {};
+
     for (auto element : arr) {
         int64_t num;
         EXPECT_EQ(element.get(num), simdjson::SUCCESS);

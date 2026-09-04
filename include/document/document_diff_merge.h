@@ -301,7 +301,8 @@ private:
         nlohmann::json merged = base; // start from common ancestor
 
         // Collect all keys
-        std::vector<std::string> all_keys;
+        std::vector<std::string> all_keys = {};
+
         for (const auto& [k, _] : base.items()) {
           all_keys.push_back(k);
         }

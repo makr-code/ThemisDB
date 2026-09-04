@@ -145,7 +145,8 @@ ExponentialHistogramResult AdvancedMetrics::getExponentialHistogram(
 
     // Compute the bucket index for each positive value using the stored scale.
     const double log_scale = std::log(data.scale);
-    std::map<int, uint64_t> bucket_counts;
+    std::map<int, uint64_t> bucket_counts = {};
+
     for (double v : data.values) {
         int idx = static_cast<int>(std::floor(std::log(v) / log_scale));
         bucket_counts[idx]++;

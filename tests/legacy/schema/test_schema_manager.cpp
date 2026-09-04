@@ -151,7 +151,8 @@ TEST_F(SchemaManagerTest, DiscoverMultipleTables) {
     ASSERT_EQ(tables.size(), 2) << "Should discover 2 tables";
     
     // Check table names
-    std::vector<std::string> table_names;
+    std::vector<std::string> table_names = {};
+
     for (const auto& table : tables) {
         table_names.push_back(table.name);
     }

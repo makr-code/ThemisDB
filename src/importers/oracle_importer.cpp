@@ -880,7 +880,8 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
     }
 
     // Resolve column list from the explicit column clause
-    std::vector<std::string> col_list;
+    std::vector<std::string> col_list = {};
+
     if (match[5].matched && !match[5].str().empty()) {
         std::istringstream css(match[5].str());
         std::string col;

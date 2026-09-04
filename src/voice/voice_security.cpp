@@ -213,7 +213,8 @@ std::vector<VoiceAuditEntry> VoiceSecurityManager::getAuditLog(
     const std::string& user_id, size_t limit) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<VoiceAuditEntry> result;
+    std::vector<VoiceAuditEntry> result = {};
+
     for (auto it = audit_log_.rbegin(); it != audit_log_.rend(); ++it) {
         if (!user_id.empty() && it->user_id != user_id) {
           continue;

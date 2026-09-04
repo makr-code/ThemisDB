@@ -59,7 +59,8 @@ std::vector<DiscourseRoundOutput> makeResults(
     DiscourseVerdict verdict,
     bool timed_out = false)
 {
-    std::vector<DiscourseRoundOutput> results;
+    std::vector<DiscourseRoundOutput> results = {};
+
     results.reserve(ids.size());
     for (const auto& sid : ids) {
         DiscourseRoundOutput out;
@@ -330,7 +331,8 @@ TEST(EthicsAiEuAiCompliance, EUA_LDM_01_LdmContractInvariant_Holds_100Rounds) {
 
     for (int round = 0; round < 100; ++round) {
         // Alternate: even rounds all PROHIBIT; odd rounds 6 PROHIBIT + 2 ABSTAIN
-        std::vector<DiscourseRoundOutput> results;
+        std::vector<DiscourseRoundOutput> results = {};
+
         for (std::size_t i = 0; i < N; ++i) {
             DiscourseRoundOutput out;
             out.school_id      = ids[i];

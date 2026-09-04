@@ -640,7 +640,8 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         if (poly_ring.size() < 3) {
             return GpuKernelDispatcher::ContainmentResult{};
         }
-        std::vector<double> poly_coords;
+        std::vector<double> poly_coords = {};
+
         poly_coords.reserve(poly_ring.size() * 2);
         for (const auto &v : poly_ring) {
             poly_coords.push_back(v.x);

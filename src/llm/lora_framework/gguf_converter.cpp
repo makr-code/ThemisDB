@@ -166,7 +166,8 @@ QuantizedTensor GGUFConverter::convertQ4KM_direct(
     size_t num_elements = calculateElements(tensor_info.shape);
     
     // Convert shape to size_t vector
-    std::vector<size_t> shape;
+    std::vector<size_t> shape = {};
+
     for (auto dim : tensor_info.shape) {
         shape.push_back(static_cast<size_t>(dim));
     }
@@ -270,7 +271,8 @@ QuantizedTensor GGUFConverter::convertQ8_0_direct(
     size_t num_elements = calculateElements(tensor_info.shape);
     
     // Convert shape to size_t vector
-    std::vector<size_t> shape;
+    std::vector<size_t> shape = {};
+
     for (auto dim : tensor_info.shape) {
         shape.push_back(static_cast<size_t>(dim));
     }

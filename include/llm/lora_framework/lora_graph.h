@@ -199,7 +199,8 @@ struct LoRAGraphPath {
      * @brief Get all nodes in path
      */
     std::vector<std::string> getNodes() const {
-        std::vector<std::string> nodes;
+        std::vector<std::string> nodes = {};
+
         if (!edges.empty()) {
             nodes.push_back(edges[0].from_id);
             for (const auto& edge : edges) {

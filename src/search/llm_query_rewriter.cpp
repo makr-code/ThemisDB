@@ -151,7 +151,8 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
     const std::string& llm_output,
     const std::string& original) const {
 
-    std::vector<std::string> rewrites;
+    std::vector<std::string> rewrites = {};
+
     if (llm_output.empty()) {
         if (config_.fallback_to_original) {
             rewrites.push_back(original);
@@ -285,7 +286,8 @@ float LlmQueryRewriter::jaccardTokenOverlap(const std::string& a,
 bool LlmQueryRewriter::applyOverlapFilter(std::vector<std::string>& rewrites,
                                            const std::string& original) const
 {
-    std::vector<std::string> kept;
+    std::vector<std::string> kept = {};
+
     kept.reserve(rewrites.size());
     for (auto& r : rewrites) {
         const float overlap = jaccardTokenOverlap(r, original);

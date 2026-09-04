@@ -347,7 +347,8 @@ void AdvancedCacheManager::create_partitions(const CacheConfig& config) {
 }
 
 std::vector<std::string> AdvancedCacheManager::partition_names() const {
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     for (const auto& p : partitions_) {
       names.push_back(p->cfg.name);
     }

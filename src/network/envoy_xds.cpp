@@ -400,7 +400,8 @@ bool EnvoyXdsClient::parseDiscoveryResponse(const std::string& json_body,
 std::vector<EnvoyXdsClient::ListenerInfo>
 EnvoyXdsClient::parseListeners(const std::string& resources_json)
 {
-    std::vector<ListenerInfo> result;
+    std::vector<ListenerInfo> result = {};
+
     if (resources_json.empty() || resources_json.front() != '[') {
       return result;
     }
@@ -439,7 +440,8 @@ EnvoyXdsClient::parseListeners(const std::string& resources_json)
 std::vector<EnvoyXdsClient::ClusterInfo>
 EnvoyXdsClient::parseClusters(const std::string& resources_json)
 {
-    std::vector<ClusterInfo> result;
+    std::vector<ClusterInfo> result = {};
+
     if (resources_json.empty() || resources_json.front() != '[') {
       return result;
     }
@@ -510,7 +512,8 @@ EnvoyXdsClient::parseClusters(const std::string& resources_json)
 std::vector<EnvoyXdsClient::ClusterInfo>
 EnvoyXdsClient::parseEndpoints(const std::string& resources_json)
 {
-    std::vector<ClusterInfo> result;
+    std::vector<ClusterInfo> result = {};
+
     if (resources_json.empty() || resources_json.front() != '[') {
       return result;
     }
@@ -572,7 +575,8 @@ EnvoyXdsClient::parseEndpoints(const std::string& resources_json)
 std::vector<EnvoyXdsClient::VirtualHostInfo>
 EnvoyXdsClient::parseRoutes(const std::string& resources_json)
 {
-    std::vector<VirtualHostInfo> result;
+    std::vector<VirtualHostInfo> result = {};
+
     if (resources_json.empty() || resources_json.front() != '[') {
       return result;
     }

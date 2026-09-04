@@ -270,7 +270,8 @@ public:
     std::vector<AuditLogEntry> searchByUser(const std::string& user_id) const {
         std::lock_guard<std::mutex> lock(mutex_);
         
-        std::vector<AuditLogEntry> results;
+        std::vector<AuditLogEntry> results = {};
+
         for (const auto& entry : buffer_) {
             if (entry.user_id == user_id) {
                 results.push_back(entry);
@@ -285,7 +286,8 @@ public:
     std::vector<AuditLogEntry> searchByEventType(AuditLogEntry::EventType type) const {
         std::lock_guard<std::mutex> lock(mutex_);
         
-        std::vector<AuditLogEntry> results;
+        std::vector<AuditLogEntry> results = {};
+
         for (const auto& entry : buffer_) {
             if (entry.event_type == type) {
                 results.push_back(entry);

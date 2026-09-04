@@ -216,7 +216,8 @@ std::vector<std::string> DeadlockPredictor::recommendLockOrder(
 
     // Build a "danger score" per key based on how often it has appeared in
     // conflict pairs.  Keys with lower danger scores are safer to acquire first.
-    std::unordered_map<std::string, double> danger;
+    std::unordered_map<std::string, double> danger = {};
+
     for (const auto& key : keys) {
         danger[key] = 0.0;
     }
@@ -262,7 +263,8 @@ std::chrono::milliseconds DeadlockPredictor::recommendTimeout(
     }
 
     // Collect all observed hold times for the requested keys.
-    std::vector<std::chrono::microseconds> samples;
+    std::vector<std::chrono::microseconds> samples = {};
+
     for (const auto& key : keys) {
         auto it = hold_times_.find(key);
         if (it != hold_times_.end()) {

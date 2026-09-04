@@ -223,7 +223,8 @@ std::vector<RaBitQIndex::SearchResult> RaBitQIndex::linear_scan(const std::vecto
     }
     
     // Extract results and sort by distance
-    std::vector<SearchResult> results;
+    std::vector<SearchResult> results = {};
+
     results.reserve(heap.size());
     while (!heap.empty()) {
         results.push_back(heap.top());

@@ -275,7 +275,8 @@ TEST_F(ExplainAqlTest, GraphTraversal_AttributesIncludeStartDepthDirectionAlgori
     const auto& attrs = plan["attributes"];
 
     // Collect all attribute strings for easy searching
-    std::vector<std::string> attr_list;
+    std::vector<std::string> attr_list = {};
+
     for (const auto& a : attrs) {
       attr_list.push_back(a.get<std::string>());
     }

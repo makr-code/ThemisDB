@@ -83,7 +83,8 @@ DistributedTxnApiHandler::handleBegin([[maybe_unused]] const http::request<http:
                          "Missing or invalid 'shards' array", req);
         }
 
-        std::vector<std::string> shard_ids;
+        std::vector<std::string> shard_ids = {};
+
         shard_ids.reserve(body["shards"].size());
         for (const auto& s : body["shards"]) {
             if (!s.is_string()) {
@@ -270,7 +271,8 @@ DistributedTxnApiHandler::handleReadOnly([[maybe_unused]] const http::request<ht
                          "Missing or invalid 'shards' array", req);
         }
 
-        std::vector<std::string> shard_ids;
+        std::vector<std::string> shard_ids = {};
+
         for (const auto& s : body["shards"]) {
             if (!s.is_string()) {
                 return error(http::status::bad_request,

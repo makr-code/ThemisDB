@@ -163,7 +163,8 @@ TEST(DbscanCluster, NonPointGeometry_TreatedAsNoise) {
 // ---------------------------------------------------------------------------
 
 TEST(DbscanCluster, LabelCount_MatchesNumClusters) {
-    std::vector<GeometryInfo> pts;
+    std::vector<GeometryInfo> pts = {};
+
     for (int i = 0; i < 5; ++i)
         pts.push_back(makePoint(static_cast<double>(i) * 0.001, 0.0)); // tight group
     for (int i = 0; i < 3; ++i)
@@ -258,7 +259,8 @@ TEST(KMeansCluster, TwoWellSeparatedGroups_K2) {
 }
 
 TEST(KMeansCluster, AllLabelsInValidRange) {
-    std::vector<GeometryInfo> pts;
+    std::vector<GeometryInfo> pts = {};
+
     for (int i = 0; i < 20; ++i)
         pts.push_back(makePoint(static_cast<double>(i) * 0.5, 0.0));
 
@@ -301,7 +303,8 @@ TEST(KMeansCluster, KEqualsN_EachPointOwnCluster) {
 // ---------------------------------------------------------------------------
 
 TEST(KMeansCluster, KMeansPlusPlusSeed_ProducesValidResult) {
-    std::vector<GeometryInfo> pts;
+    std::vector<GeometryInfo> pts = {};
+
     for (int i = 0; i < 10; ++i)
         pts.push_back(makePoint(static_cast<double>(i), 0.0));
 
@@ -344,7 +347,8 @@ TEST(KMeansCluster, NonPointGeometry_GetsMinusOne) {
 // ---------------------------------------------------------------------------
 
 TEST(KMeansCluster, DeterministicResult_SameSeed) {
-    std::vector<GeometryInfo> pts;
+    std::vector<GeometryInfo> pts = {};
+
     for (int i = 0; i < 12; ++i)
         pts.push_back(makePoint(static_cast<double>(i % 4) * 2.0,
                                 static_cast<double>(i / 4) * 2.0));

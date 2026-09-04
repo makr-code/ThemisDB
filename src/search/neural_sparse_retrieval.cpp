@@ -230,7 +230,8 @@ NeuralSparseRetrieval::search(const SparseVector& query_vec, size_t k) const {
     }
 
     // Accumulate dot-product scores across all shared terms
-    std::unordered_map<std::string, float> accum;
+    std::unordered_map<std::string, float> accum = {};
+
     accum.reserve(forward_index_.size());
 
     for (const auto& [term, q_weight] : query_vec) {
@@ -249,7 +250,8 @@ NeuralSparseRetrieval::search(const SparseVector& query_vec, size_t k) const {
     }
 
     // Build result list, applying score threshold
-    std::vector<Result> results;
+    std::vector<Result> results = {};
+
     results.reserve(accum.size());
     for (auto& [doc_id, raw_score] : accum) {
         if (raw_score < config_.score_threshold) {

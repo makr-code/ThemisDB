@@ -320,7 +320,8 @@ static void BM_W5C_WarmupConvergence(benchmark::State& state) {
     idx.createIndex("wc", "t", false);
 
     w5c::Rng rng(kW5CSeed + 7);
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     for (int i = 0; i < kW5CCorpus; ++i) {
         const std::string k = "wc_" + std::to_string(i);
         keys.push_back(k);

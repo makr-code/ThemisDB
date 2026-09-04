@@ -657,7 +657,8 @@ bool RedisCache::put(std::string_view key, const CacheEntry &entry, uint64_t ttl
 
     uint64_t effective_ttl = ttl_ms > 0 ? ttl_ms : default_ttl_ms_.load();
 
-    std::optional<std::string> reply;
+    std::optional<std::string> reply = {};
+
     if (effective_ttl > 0) {
         reply = sendCommand(nc, {"SET", rkey, rvalue, "PX", std::to_string(effective_ttl)});
     } else {

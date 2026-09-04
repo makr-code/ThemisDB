@@ -68,7 +68,8 @@ TensorCompressionRoutingAccelerator::computeRoutingScores(
 
 #if defined(THEMIS_ENABLE_CUDA) && THEMIS_ENABLE_CUDA
     if (!force_cpu) {
-        std::vector<float> packed;
+        std::vector<float> packed = {};
+
         packed.reserve(route_weights.size() * dim);
         for (const auto& route : route_weights) {
             packed.insert(packed.end(), route.begin(), route.end());
@@ -97,7 +98,8 @@ TensorCompressionRoutingAccelerator::computeRoutingScores(
 std::vector<int8_t>
 TensorCompressionRoutingAccelerator::compressToInt8Cpu(const std::vector<float>& input,
                                                        float scale) const {
-    std::vector<int8_t> out;
+    std::vector<int8_t> out = {};
+
     out.reserve(input.size());
 
     for (const float v : input) {

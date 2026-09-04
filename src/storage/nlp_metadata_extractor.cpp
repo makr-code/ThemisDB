@@ -206,7 +206,8 @@ std::vector<std::string> NlpMetadataExtractor::extractKeywords(
     auto keywords_scored = nlp_.extractKeywords(text, max_keywords);
 
     // Already sorted by score in analyzer; enforce length filter
-    std::vector<std::string> keywords;
+    std::vector<std::string> keywords = {};
+
     for (const auto& kw : keywords_scored) {
         if (kw.text.length() >= config_.min_keyword_length) {
             keywords.push_back(kw.text);

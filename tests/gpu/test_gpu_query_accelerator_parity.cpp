@@ -58,7 +58,8 @@ static std::vector<Row> makeRows(size_t n, double base = 1.0) {
 
 /// Build rows whose ID is drawn from the provided list (for join tests).
 static std::vector<Row> makeKeyRows(const std::vector<uint64_t>& ids) {
-    std::vector<Row> rows;
+    std::vector<Row> rows = {};
+
     rows.reserve(ids.size());
     for (uint64_t id : ids) {
         Row r;
@@ -325,7 +326,8 @@ TEST_P(QueryAcceleratorParityTest, HashJoin_Parity) {
     // both results and assert they are identical, regardless of emit order.
     using IdPair = std::pair<uint64_t, uint64_t>;
     auto toIdPairs = [](const std::vector<std::pair<Row, Row>>& pairs) {
-        std::vector<IdPair> v;
+        std::vector<IdPair> v = {};
+
         v.reserve(pairs.size());
         for (const auto& p : pairs) {
           v.emplace_back(p.first.id, p.second.id);

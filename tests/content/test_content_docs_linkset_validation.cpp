@@ -213,7 +213,8 @@ protected:
     fs::path root_path;
 
     std::set<std::string> extractProcessorNames(const std::string& content) {
-        std::set<std::string> processors;
+        std::set<std::string> processors = {};
+
         // Look for common processor class names
         std::vector<std::string> patterns = {
             "ImageProcessor", "PDFProcessor", "OfficeProcessor", "HtmlProcessor",

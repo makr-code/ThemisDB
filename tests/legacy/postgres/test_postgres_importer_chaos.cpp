@@ -1197,7 +1197,8 @@ TEST(StreamReadLineTest, NoTrailingNewline) {
 TEST(StreamReadLineTest, MultipleShortLinesReadCorrectly) {
     std::istringstream in("a\nb\nc\n");
     std::string line; bool trunc;
-    std::vector<std::string> lines;
+    std::vector<std::string> lines = {};
+
     while (streamReadLine(in, line, 100, trunc)) {
         lines.push_back(line);
     }

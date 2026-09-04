@@ -53,7 +53,8 @@ namespace {
     const std::vector<std::pair<std::string, std::shared_ptr<IAnnIndex>>>& candidates,
     const AnnFrontdoor::Config& config) {
     if (config.distributed_cost_budget <= 0.0) {
-        std::vector<std::string> all_ids;
+        std::vector<std::string> all_ids = {};
+
         for (const auto& [id, _] : candidates) {
             all_ids.push_back(id);
         }
@@ -374,7 +375,8 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
 
         result.shards_attempted = execution_backends.size();
 
-        std::unordered_map<int64_t, float> best_distance_by_id;
+        std::unordered_map<int64_t, float> best_distance_by_id = {};
+
         for (const auto& [scope, backend] : execution_backends) {
             (void)scope;
             bool success = false;
@@ -401,7 +403,8 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
             }
         }
 
-        std::vector<AnnSearchResult> merged;
+        std::vector<AnnSearchResult> merged = {};
+
         merged.reserve(best_distance_by_id.size());
         for (const auto& [id, distance] : best_distance_by_id) {
             merged.push_back({id, distance});

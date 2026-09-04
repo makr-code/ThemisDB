@@ -192,7 +192,8 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, MmapForEachIteratesAllBytes) {
     themis::storage::MmapBlobView view(path);
     ASSERT_TRUE(view.valid());
 
-    std::vector<uint8_t> collected;
+    std::vector<uint8_t> collected = {};
+
     collected.reserve(data.size());
 
     view.forEach(1024, [&](const uint8_t* ptr, size_t len) {

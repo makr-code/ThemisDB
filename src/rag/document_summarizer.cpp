@@ -59,7 +59,8 @@ double scoreSentence(const std::string& sentence,
     }
     const auto words = tokeniseWords(sentence);
     size_t hits = 0;
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& w : words) {
         if (query_terms.count(w) && !seen.count(w)) {
             ++hits;
@@ -219,7 +220,8 @@ struct DocumentSummarizer::Impl {
 
     /// Build the set of query terms for extractive scoring.
     std::unordered_set<std::string> queryTerms(const std::string& query) const {
-        std::unordered_set<std::string> terms;
+        std::unordered_set<std::string> terms = {};
+
         for (auto& w : tokeniseWords(query)) {
             if (w.size() > 2) { // skip stop-word candidates
                 terms.insert(w);
@@ -447,7 +449,8 @@ MultiDocumentSummary DocumentSummarizer::summarizeMultiple(
     const std::string& query) const
 {
     // Convert to RetrievedDocument then delegate
-    std::vector<judge::RetrievedDocument> converted;
+    std::vector<judge::RetrievedDocument> converted = {};
+
     converted.reserve(documents.size());
     for (const auto& sd : documents) {
         judge::RetrievedDocument rd;

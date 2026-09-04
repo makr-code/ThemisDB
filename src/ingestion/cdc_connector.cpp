@@ -301,7 +301,8 @@ parseColToken(const std::string& line, size_t& pos) {
 /// Parse all column-value pairs starting at `pos` in `line`.
 static std::unordered_map<std::string, std::string>
 parseColSet(const std::string& line, size_t& pos) {
-    std::unordered_map<std::string, std::string> result;
+    std::unordered_map<std::string, std::string> result = {};
+
     while (pos < line.size()) {
         auto [c, v] = parseColToken(line, pos);
         if (c.empty()) {

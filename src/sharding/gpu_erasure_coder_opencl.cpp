@@ -397,7 +397,8 @@ public:
         // Collect the indices of available chunks (up to data_shards needed)
         std::set<uint32_t> missing_set(missing_indices.begin(),
                                        missing_indices.end());
-        std::vector<uint32_t> present_indices;
+        std::vector<uint32_t> present_indices = {};
+
         for (uint32_t i = 0; i < total_shards; ++i) {
             if (!missing_set.count(i) && available_chunks.count(i))
                 present_indices.push_back(i);

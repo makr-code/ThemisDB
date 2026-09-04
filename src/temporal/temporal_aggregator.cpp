@@ -369,7 +369,8 @@ TrendResult TemporalAggregator::analyzeTrend(
     // Build (x, y) vectors: x = window centre relative to period_start (ms),
     // y = aggregated value.
     std::vector<double> xs;
-    std::vector<double> ys;
+    std::vector<double> ys = {};
+
     xs.reserve(windows.size());
     ys.reserve(windows.size());
 

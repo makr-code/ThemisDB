@@ -914,7 +914,8 @@ public:
         if (!r) {
           return std::nullopt;
         }
-        std::optional<std::string> result;
+        std::optional<std::string> result = {};
+
         if (r->type == REDIS_REPLY_STRING)
             result = std::string(r->str, r->len);
         freeReplyObject(r);

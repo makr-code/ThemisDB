@@ -204,7 +204,8 @@ std::optional<AdapterInfo> LoRAOrchestrator::getAdapter(const std::string& adapt
 std::vector<AdapterInfo> LoRAOrchestrator::listAdapters(
     const std::optional<std::string>& filter) const {
     std::shared_lock<std::shared_mutex> lock(impl_->state_mutex);
-    std::vector<AdapterInfo> out;
+    std::vector<AdapterInfo> out = {};
+
     out.reserve(impl_->adapters.size());
     for (const auto& kv : impl_->adapters) {
         if (!filter || kv.second.base_model == *filter) {
@@ -421,7 +422,8 @@ std::optional<LoRAOrchestrator::JobInfo> LoRAOrchestrator::getJob(const std::str
 
 std::vector<LoRAOrchestrator::JobInfo> LoRAOrchestrator::listJobs(const std::optional<JobStatus>& status) const {
     std::shared_lock<std::shared_mutex> lock(impl_->state_mutex);
-    std::vector<JobInfo> jobs;
+    std::vector<JobInfo> jobs = {};
+
     for (const auto& kv : impl_->jobs) {
         if (!status || kv.second.status == *status) {
             jobs.push_back(kv.second);

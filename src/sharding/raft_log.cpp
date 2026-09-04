@@ -820,7 +820,8 @@ void RaftSnapshotManager::cleanupOldSnapshots() {
     // NOTE: called with mutex_ held
     try {
         // Build list without taking the lock again (already held by caller)
-        std::vector<uint64_t> ids;
+        std::vector<uint64_t> ids = {};
+
         if (std::filesystem::exists(config_.snapshot_directory)) {
             for (const auto& entry :
                  std::filesystem::directory_iterator(config_.snapshot_directory)) {

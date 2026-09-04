@@ -277,7 +277,8 @@ MIGManager::Status MIGManager::unassignFromTenant(const std::string& instance_id
 std::vector<MIGManager::MIGInstance> MIGManager::getInstances() const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<MIGInstance> result;
+    std::vector<MIGInstance> result = {};
+
     result.reserve(instances_.size());
     for (const auto& kv : instances_) {
         result.push_back(kv.second);
@@ -289,7 +290,8 @@ std::vector<MIGManager::MIGInstance>
 MIGManager::getInstancesForDevice([[maybe_unused]] int device_index) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<MIGInstance> result;
+    std::vector<MIGInstance> result = {};
+
     for (const auto& kv : instances_) {
         if (kv.second.device_index == device_index) {
             result.push_back(kv.second);
@@ -302,7 +304,8 @@ std::vector<MIGManager::MIGInstance>
 MIGManager::getInstancesForTenant(const std::string& tenant_id) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<MIGInstance> result;
+    std::vector<MIGInstance> result = {};
+
     for (const auto& kv : instances_) {
         if (kv.second.tenant_id == tenant_id) {
             result.push_back(kv.second);

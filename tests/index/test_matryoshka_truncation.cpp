@@ -79,7 +79,8 @@ static std::vector<std::vector<float>> rand_vecs(
 }
 
 static std::vector<float> flatten(const std::vector<std::vector<float>>& vv) {
-    std::vector<float> out;
+    std::vector<float> out = {};
+
     out.reserve(vv.size() * (vv.empty() ? 0 : vv[0].size()));
     for (const auto& v : vv)
         out.insert(out.end(), v.begin(), v.end());
@@ -96,7 +97,8 @@ static std::vector<int64_t> brute_force_knn(
         scored.emplace_back(l2dist(db[i], q), static_cast<int64_t>(i));
     std::sort(scored.begin(), scored.end());
     scored.resize(std::min<size_t>(scored.size(), static_cast<size_t>(k)));
-    std::vector<int64_t> ids;
+    std::vector<int64_t> ids = {};
+
     for (auto& p : scored) {
       ids.push_back(p.second);
     }
@@ -266,7 +268,8 @@ TEST_F(MatryoshkaTruncatedIndexTest, Recall_TopK) {
     auto bf_ids = brute_force_knn(trunc_db, q_trunc, K);
 
     auto res = idx->search(flat_db_.data(), FULL_DIM, K);
-    std::vector<int64_t> res_ids;
+    std::vector<int64_t> res_ids = {};
+
     for (auto& r : res) {
       res_ids.push_back(r.id);
     }

@@ -211,7 +211,8 @@ TEST_F(ProcessCommunityDetectorTest, LCD08_CommunityIdsUnique) {
     saveModel("m_unique", nodes, edges);
 
     const auto comms = detector_->detect("m_unique");
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(comms.size());
     for (const auto& c : comms) {
       ids.push_back(c.community_id);

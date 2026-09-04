@@ -483,7 +483,8 @@ TEST_F(Phase3PlanCacheOptimization, RegressionThroughputUnderConcurrentLoad) {
 
     auto run_workload = [&](bool cached) {
         const auto start = std::chrono::steady_clock::now();
-        std::vector<std::thread> threads;
+        std::vector<std::thread> threads = {};
+
         for (int t = 0; t < 4; ++t) {
             threads.emplace_back([&, t]() {
                 for (int i = 0; i < 100; ++i) {

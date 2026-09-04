@@ -112,7 +112,8 @@ static void BM_PreparedStatementDelete(benchmark::State& state) {
         state.PauseTiming();
         
         // Setup
-        std::map<std::string, PreparedStatement> cache;
+        std::map<std::string, PreparedStatement> cache = {};
+
         for (int i = 0; i < num_statements; ++i) {
             std::string name = "stmt_" + std::to_string(i);
             cache[name] = {"SELECT * FROM table", {23}};

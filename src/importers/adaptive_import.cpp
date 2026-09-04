@@ -52,7 +52,8 @@ AdaptiveImportOptimizer::topologicalSort(const std::vector<InferenceTableSchema>
         }
     }
 
-    std::set<std::string> visited;
+    std::set<std::string> visited = {};
+
     while (!ready.empty()) {
         std::string t = *ready.begin();
         ready.erase(ready.begin());

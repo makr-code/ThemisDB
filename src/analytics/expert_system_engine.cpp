@@ -312,7 +312,8 @@ int ExpertSystemEngine::forwardChain(int max_cycles) {
             const auto all_bindings = matchAllConditions(rule, all_facts);
             for (const auto &bindings : all_bindings) {
                 // Gather matched facts for ML scoring.
-                std::vector<Fact> matched;
+                std::vector<Fact> matched = {};
+
                 for (const auto &cond : rule.conditions) {
                     const auto s = applyBinding(cond.subject, bindings);
                     const auto p = applyBinding(cond.predicate, bindings);

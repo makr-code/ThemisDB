@@ -853,7 +853,8 @@ public:
 
     std::vector<json> allJsonSnapshots() const {
         auto handles = all();
-        std::vector<json> out;
+        std::vector<json> out = {};
+
         out.reserve(handles.size());
         for (const auto& handle : handles) {
             out.push_back(handle->toJson());

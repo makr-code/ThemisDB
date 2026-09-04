@@ -140,7 +140,8 @@ bool SSMStateRocksDBStore::invalidate(const std::string& session_id) {
             return false;
         }
 
-        std::vector<std::string> keys_to_delete;
+        std::vector<std::string> keys_to_delete = {};
+
         for (it->Seek(prefix); it->Valid() && it->key().starts_with(prefix); it->Next()) {
             keys_to_delete.push_back(it->key().ToString());
         }

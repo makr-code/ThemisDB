@@ -295,7 +295,8 @@ public:
         std::lock_guard<std::mutex> lock(mu_);
         size_t freed = 0;
 
-        std::vector<uint64_t> to_evict;
+        std::vector<uint64_t> to_evict = {};
+
         for (auto& [id, h] : allocations_) {
             if (h.owner_id == owner_id) {
                 to_evict.push_back(id);
@@ -431,7 +432,8 @@ public:
 
     std::vector<AllocationHandle> listAllocations() const {
         std::lock_guard<std::mutex> lock(mu_);
-        std::vector<AllocationHandle> result;
+        std::vector<AllocationHandle> result = {};
+
         result.reserve(allocations_.size());
         for (const auto& [id, h] : allocations_) {
             result.push_back(h);

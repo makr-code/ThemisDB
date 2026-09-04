@@ -104,7 +104,8 @@ public:
         DeltaResult result;
         
         // Build hash set of base chunks
-        std::map<std::string, uint32_t> base_hashes;
+        std::map<std::string, uint32_t> base_hashes = {};
+
         for (const auto& chunk : base_manifest) {
             base_hashes[chunk.hash] = chunk.index;
         }
@@ -175,7 +176,8 @@ public:
         // Build a full manifest (CDC for non-trivial blobs, whole-file otherwise)
         // so we can map chunk_index → (offset, size).
         auto boundaries = rabin_->FindChunkBoundaries(data);
-        std::vector<ChunkInfo> manifest;
+        std::vector<ChunkInfo> manifest = {};
+
         if (boundaries.size() >= 2) {
             for (size_t i = 0; i < boundaries.size() - 1; i++) {
                 uint64_t start = boundaries[i];
@@ -199,7 +201,8 @@ public:
         }
 
         // Build index → ChunkInfo lookup
-        std::unordered_map<uint32_t, const ChunkInfo*> by_index;
+        std::unordered_map<uint32_t, const ChunkInfo*> by_index = {};
+
         for (const auto& c : manifest) { by_index[c.index] = &c; }
 
         for (uint32_t idx : chunk_indices) {

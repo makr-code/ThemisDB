@@ -558,7 +558,8 @@ ColumnStats StatisticsCollector::buildColumnStats(
     }
 
     // Numeric histogram (attempt conversion; silently skip non-numeric)
-    std::vector<double> numeric_vals;
+    std::vector<double> numeric_vals = {};
+
     numeric_vals.reserve(values.size());
     for (const auto& v : values) {
         if (v.empty()) {
@@ -695,7 +696,8 @@ std::optional<TableStats> StatisticsCollector::loadStats(std::string_view table_
                     cs.max_value = cj["max_value"].get<double>();
                 }
                 if (cj.contains("histogram") && cj["histogram"].is_array()) {
-                    std::vector<HistogramBucket> hist_buckets;
+                    std::vector<HistogramBucket> hist_buckets = {};
+
                     hist_buckets.reserve(cj["histogram"].size());
                     for (const auto& bj : cj["histogram"]) {
                         HistogramBucket b;
@@ -758,7 +760,8 @@ std::optional<std::vector<IndexStats>> StatisticsCollector::loadIndexStats(
             return std::nullopt;
         }
 
-        std::vector<IndexStats> stats;
+        std::vector<IndexStats> stats = {};
+
         stats.reserve(arr.size());
         for (const auto& item : arr) {
             IndexStats s;

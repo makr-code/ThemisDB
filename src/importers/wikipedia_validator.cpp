@@ -38,7 +38,8 @@ WikipediaValidationReport WikipediaIngestionPipeline::validateUnlocked() const {
     WikipediaValidationReport report;
     report.dead_letters = snapshot_.dead_letters.size();
 
-    std::map<std::string, uint64_t> titles;
+    std::map<std::string, uint64_t> titles = {};
+
     for (const auto& [page_id, page] : snapshot_.pages) {
         titles[WikipediaTransform::normalizeTitle(page.title)] = page_id;
     }

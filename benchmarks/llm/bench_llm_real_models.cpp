@@ -154,7 +154,8 @@ BENCHMARK_F(RealLLMBench, RealModel_BatchEmbedding_100Docs)(benchmark::State& st
 
     auto& manager = llm::LLMPluginManager::instance();
     // Generate test documents
-    std::vector<std::string> documents;
+    std::vector<std::string> documents = {};
+
     for (int i = 0; i < 100; ++i) {
         documents.push_back("Document " + std::to_string(i) + ": Sample content for embedding generation benchmark.");
     }

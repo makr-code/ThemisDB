@@ -35,7 +35,8 @@ std::vector<std::string> insertItems(SecondaryIndexManager& idx,
                                      size_t count,
                                      const std::string& match_value,
                                      size_t num_matching) {
-    std::vector<std::string> expected_pks;
+    std::vector<std::string> expected_pks = {};
+
     for (size_t i = 0; i < count; ++i) {
         std::string pk = "item" + std::to_string(i);
         std::string val = (i < num_matching) ? match_value : "other_" + std::to_string(i);
@@ -175,7 +176,8 @@ TEST(ParallelScanTest, ParallelAndSequentialResultsAgree) {
     const size_t N = scan_cfg.parallel_threshold + 100;
     const size_t NUM_MATCHING = 50;
 
-    std::vector<std::string> expected;
+    std::vector<std::string> expected = {};
+
     for (size_t i = 0; i < N; ++i) {
         std::string pk = "k" + std::to_string(i);
         std::string val = (i < NUM_MATCHING) ? "yes" : "no";

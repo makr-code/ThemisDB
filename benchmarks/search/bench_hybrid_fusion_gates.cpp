@@ -31,7 +31,8 @@ std::vector<RankedItem> makeRankedList(std::size_t count, double bias) {
 }
 
 std::vector<RankedItem> fuseRrf(const std::vector<RankedItem>& left, const std::vector<RankedItem>& right) {
-    std::unordered_map<std::string, double> fused;
+    std::unordered_map<std::string, double> fused = {};
+
     fused.reserve(left.size() + right.size());
 
     for (std::size_t index = 0; index < left.size(); ++index) {
@@ -41,7 +42,8 @@ std::vector<RankedItem> fuseRrf(const std::vector<RankedItem>& left, const std::
         fused[right[index].document_id] += 1.0 / static_cast<double>(60U + index + 1U);
     }
 
-    std::vector<RankedItem> result;
+    std::vector<RankedItem> result = {};
+
     result.reserve(fused.size());
     for (const auto& [document_id, score] : fused) {
         result.push_back(RankedItem{document_id, score});

@@ -276,7 +276,8 @@ std::vector<Keyword> NlpTextAnalyzer::extractKeywords(std::string_view text, siz
     }
 
     // Calculate TF-IDF scores (simplified version)
-    std::vector<Keyword> keywords;
+    std::vector<Keyword> keywords = {};
+
     size_t total_terms = tokens.size();
 
     for (const auto &[term, freq] : term_freqs) {

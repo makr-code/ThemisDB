@@ -474,7 +474,8 @@ Soc2ControlSet::Soc2ControlSet() {
 }
 
 std::vector<Soc2ControlResult> Soc2ControlSet::evaluateRule(const PolicyRule &rule) const {
-    std::vector<Soc2ControlResult> results;
+    std::vector<Soc2ControlResult> results = {};
+
     results.reserve(controls_.size());
     for (const auto &ctrl : controls_) {
         results.push_back(ctrl->evaluate(rule));

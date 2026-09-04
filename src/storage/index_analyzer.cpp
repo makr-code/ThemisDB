@@ -276,7 +276,8 @@ std::vector<IndexAnalysisReport> IndexAnalyzer::analyzeAll() {
         snapshot = config_.indices;
     }
 
-    std::vector<IndexAnalysisReport> reports;
+    std::vector<IndexAnalysisReport> reports = {};
+
     reports.reserve(snapshot.size());
 
     for (const auto& entry : snapshot) {

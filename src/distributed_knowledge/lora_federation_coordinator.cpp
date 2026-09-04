@@ -267,7 +267,8 @@ GlobalAdapterDelta LoRAFederationCoordinator::doAggregation() {
 
     for (const auto &[key, values] : key_values) {
         if (config_.aggregation_algorithm == "median") {
-            std::vector<double> vals;
+            std::vector<double> vals = {};
+
             vals.reserve(values.size());
             for (const auto &[v, _] : values) {
                 vals.push_back(v);
@@ -542,7 +543,8 @@ LoRAFederationCoordinator::makeL2NormOutlierFilter([[maybe_unused]] double z_thr
         };
 
         // Collect norms for every gradient in this round
-        std::vector<double> norms;
+        std::vector<double> norms = {};
+
         norms.reserve(all_gradients.size());
         for (const auto &[sid, grad] : all_gradients) {
             if (grad.data.is_object()) {
@@ -568,7 +570,8 @@ LoRAFederationCoordinator::makeL2NormOutlierFilter([[maybe_unused]] double z_thr
         // This avoids skew from one poisoned high-norm gradient.
         const double med = median(norms);
 
-        std::vector<double> abs_dev;
+        std::vector<double> abs_dev = {};
+
         abs_dev.reserve(norms.size());
         for (double n : norms) {
             abs_dev.push_back(std::abs(n - med));

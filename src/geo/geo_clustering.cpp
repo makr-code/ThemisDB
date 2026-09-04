@@ -181,7 +181,8 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
 
     // Returns the indices of all valid points within epsilon_m of point i.
     auto regionQuery = [&]([[maybe_unused]] std::size_t i) -> std::vector<std::size_t> {
-        std::vector<std::size_t> neighbours;
+        std::vector<std::size_t> neighbours = {};
+
         if (use_gpu_adj) {
             const uint8_t *row = gpu_adj.data() + i * n;
             for (std::size_t j = 0; j < n; ++j) {
@@ -226,7 +227,8 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
         result.labels[i] = cluster_id;
 
         // Seed queue with neighbours (excluding i itself).
-        std::vector<std::size_t> queue;
+        std::vector<std::size_t> queue = {};
+
         queue.reserve(neighbours.size());
         for (std::size_t nb : neighbours) {
             if (nb != i) {

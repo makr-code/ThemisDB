@@ -161,7 +161,8 @@ private:
      */
     void analyzeIncidentDetails(const ProcessIncident& incident) {
         // Simulate correlation analysis
-        std::vector<int> correlations;
+        std::vector<int> correlations = {};
+
         for (size_t i = 0; i < incident.events.size(); ++i) {
             for (size_t j = i + 1; j < incident.events.size(); ++j) {
                 // Simulate temporal correlation check
@@ -423,7 +424,8 @@ static void BM_GO02_LinkTraversalLatency(benchmark::State& state) {
         links.push_back(link);
     }
 
-    std::vector<double> latencies;
+    std::vector<double> latencies = {};
+
     for (auto _ : state) {
         for (const auto& link : links) {
             auto start = std::chrono::high_resolution_clock::now();
@@ -461,7 +463,8 @@ BENCHMARK(BM_GO02_LinkTraversalLatency)
 static void BM_GO03_GraphConstructionTime(benchmark::State& state) {
     const int num_models = 100;
     
-    std::vector<double> construction_times;
+    std::vector<double> construction_times = {};
+
     for (auto _ : state) {
         state.PauseTiming();
         std::vector<GraphLink> graph_edges;
@@ -525,7 +528,8 @@ static void BM_GO04_CycleDetectionPerformance(benchmark::State& state) {
         }
     }
 
-    std::vector<double> detection_times;
+    std::vector<double> detection_times = {};
+
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
 
@@ -601,7 +605,8 @@ static void BM_GO05_CommunityDetection(benchmark::State& state) {
         }
     }
 
-    std::vector<double> detection_times;
+    std::vector<double> detection_times = {};
+
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
 
@@ -678,7 +683,8 @@ static void BM_GO06_ComplexGraphP95Latency(benchmark::State& state) {
         }
     }
 
-    std::vector<double> operation_times;
+    std::vector<double> operation_times = {};
+
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
 

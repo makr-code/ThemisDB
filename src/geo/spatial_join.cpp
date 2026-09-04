@@ -50,7 +50,8 @@ std::vector<SpatialJoinPair> spatialJoin(const std::vector<std::pair<std::string
         return {};
     }
 
-    std::vector<SpatialJoinPair> results;
+    std::vector<SpatialJoinPair> results = {};
+
     // Overflow-safe heuristic: cap outer.size() before multiplying to prevent
     // wrap-around on very large inputs.
     results.reserve(std::min(outer.size(), config.max_pairs / 8 + 1) * 8);
@@ -70,7 +71,8 @@ std::vector<SpatialJoinPair> spatialJoin(const std::vector<std::pair<std::string
     //
     // Lookup-only index: used exclusively via find() for O(1) key→index resolution.
     // Iteration order is never observed — unordered_map is safe here (false positive suppression).
-    std::unordered_map<std::string, std::size_t> inner_key_idx;
+    std::unordered_map<std::string, std::size_t> inner_key_idx = {};
+
     inner_key_idx.reserve(inner.size());
     for (std::size_t i = 0; i < inner.size(); ++i) {
         inner_key_idx.emplace(inner[i].first, i);

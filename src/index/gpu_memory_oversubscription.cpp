@@ -577,7 +577,8 @@ bool GPUMemoryOversubscriptionManager::isPartitionInVRAM(
 std::vector<size_t> GPUMemoryOversubscriptionManager::getHotPartitions() const {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
-    std::vector<size_t> result;
+    std::vector<size_t> result = {};
+
     result.reserve(pImpl_->lru_list.size());
     for (const size_t pid : pImpl_->lru_list) {
         auto it = pImpl_->partitions.find(pid);
@@ -595,7 +596,8 @@ std::vector<size_t> GPUMemoryOversubscriptionManager::getHotPartitions() const {
 std::vector<size_t> GPUMemoryOversubscriptionManager::getColdPartitions() const {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
-    std::vector<size_t> result;
+    std::vector<size_t> result = {};
+
     for (const size_t pid : pImpl_->insertion_order) {
         auto it = pImpl_->partitions.find(pid);
         if (it != pImpl_->partitions.end() && !it->second.in_vram) {

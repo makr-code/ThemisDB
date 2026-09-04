@@ -173,7 +173,8 @@ public:
             initialized_ = true;
         }
         
-        std::vector<std::string> names;
+        std::vector<std::string> names = {};
+
         names.reserve(calendars_.size());
         
         for (const auto& [name, cal] : calendars_) {

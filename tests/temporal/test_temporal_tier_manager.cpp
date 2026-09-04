@@ -419,7 +419,8 @@ TEST(TierManagerConcurrencyTest, ConcurrentReads_NoDeadlock) {
         mgr.insert("t", makeDoc("k", i * 10, (i + 1) * 10));
 
     std::atomic<int> hits{0};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 8; ++t) {
         threads.emplace_back([&, t]() {
             for (int q = 0; q < 50; ++q) {

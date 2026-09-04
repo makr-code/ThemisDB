@@ -117,7 +117,8 @@ bool InMemorySessionBackend::remove(const std::string& session_id) {
 
 std::vector<std::string> InMemorySessionBackend::listActiveSessions() {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(store_.size());
     for (const auto& [id, _] : store_) {
         ids.push_back(id);
@@ -550,7 +551,8 @@ size_t VoiceSessionManager::expireOldSessions() {
 
 std::vector<VoiceSessionData> VoiceSessionManager::getSessionsForUser(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
-    std::vector<VoiceSessionData> result;
+    std::vector<VoiceSessionData> result = {};
+
     for (const auto& [id, session] : active_cache_) {
         if (session.user_id == user_id &&
             session.state != SessionState::TERMINATED &&
@@ -774,7 +776,8 @@ size_t VoiceSessionManager::terminateAllSessions(int64_t timeout_ms) {
         std::lock_guard<std::mutex> lock(manager_mutex_);
         
         // Collect session IDs (to avoid iterator invalidation)
-        std::vector<std::string> session_ids;
+        std::vector<std::string> session_ids = {};
+
         for (const auto& [id, session] : active_cache_) {
             if (session.state != SessionState::TERMINATED && 
                 session.state != SessionState::CLOSING) {

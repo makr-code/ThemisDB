@@ -139,7 +139,8 @@ TEST_F(SchemaAuditLogTest, FullHistorySpansAllTables) {
     auto full = log.getFullHistory();
     ASSERT_EQ(full.size(), 3u);
 
-    std::set<std::string> tables;
+    std::set<std::string> tables = {};
+
     for (const auto& e : full) {
       tables.insert(e.table_name);
     }

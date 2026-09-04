@@ -56,7 +56,8 @@ std::map<std::string, std::string> MetricAggregator::applyDropLabels(
     if (drop.empty()) {
       return labels;
     }
-    std::map<std::string, std::string> result;
+    std::map<std::string, std::string> result = {};
+
     for (const auto& [k, v] : labels) {
         if (std::find(drop.begin(), drop.end(), k) == drop.end()) {
             result[k] = v;
@@ -214,7 +215,8 @@ AggregatedMetric MetricAggregator::aggregateHistograms(
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Collect all observations from all matching snapshot entries.
-    std::vector<double> all_values;
+    std::vector<double> all_values = {};
+
     for (const auto& [key, snapshots] : snapshots_) {
         for (const auto& snap : snapshots) {
             if (snap.metric_name != metric_name) {
@@ -269,7 +271,8 @@ bool MetricAggregator::removeAggregationRule(const std::string& metric_name) {
 
 std::vector<AggregationRule> MetricAggregator::getRules() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<AggregationRule> out;
+    std::vector<AggregationRule> out = {};
+
     out.reserve(rules_.size());
     for (const auto& [name, rule] : rules_) {
         out.push_back(rule);
@@ -338,7 +341,8 @@ std::vector<AggregatedMetric> MetricAggregator::applyRules() const {
                     applyDropLabels(snap.labels, rule.drop_labels);
 
                 // Build group key from group_by_labels.
-                std::map<std::string, std::string> group_labels;
+                std::map<std::string, std::string> group_labels = {};
+
                 for (const auto& gl : rule.group_by_labels) {
                     auto it = effective_labels.find(gl);
                     if (it != effective_labels.end()) {
@@ -426,7 +430,8 @@ ShardAggregationSnapshot MetricAggregator::aggregateShardMetrics(
                 auto effective_labels =
                     applyDropLabels(snap.labels, rule.drop_labels);
 
-                std::map<std::string, std::string> group_labels;
+                std::map<std::string, std::string> group_labels = {};
+
                 for (const auto& gl : rule.group_by_labels) {
                     auto it = effective_labels.find(gl);
                     if (it != effective_labels.end()) {

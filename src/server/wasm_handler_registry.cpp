@@ -115,7 +115,8 @@ static bool isBase64(unsigned char c) {
 }
 
 std::vector<uint8_t> WasmHandlerRegistry::base64Decode([[maybe_unused]] const std::string& encoded) {
-    std::vector<uint8_t> result;
+    std::vector<uint8_t> result = {};
+
     result.reserve((encoded.size() / 4) * 3);
 
     int i = 0;
@@ -272,7 +273,8 @@ std::vector<json> WasmHandlerRegistry::listHandlers(
     const std::string& tenant_id_filter) const
 {
     std::shared_lock lock(registry_mutex_);
-    std::vector<json> result;
+    std::vector<json> result = {};
+
     result.reserve(registry_.size());
 
     for (const auto& [key, entry] : registry_) {

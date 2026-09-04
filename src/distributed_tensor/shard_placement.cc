@@ -148,7 +148,8 @@ bool DefaultShardPlacementStrategy::validate_placement(
   // For cross-zone replication, verify shards are on different zones.
   if (constraints == PlacementConstraint::CROSS_ZONE_REPLICATION &&
       plan.shard_placements.size() > 1) {
-    std::vector<std::string> node_ids;
+    std::vector<std::string> node_ids = {};
+
     node_ids.reserve(plan.shard_placements.size());
     for (const auto& shard : plan.shard_placements) {
       node_ids.push_back(shard.node_id);

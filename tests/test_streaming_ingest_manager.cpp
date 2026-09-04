@@ -112,7 +112,8 @@ TEST_F(StreamingIngestManagerTest, SM04_IngestBatchWritesAll) {
     auto& mgr = manager();
     ASSERT_TRUE(mgr.start());
 
-    std::vector<StreamingIngestManager::Event> events;
+    std::vector<StreamingIngestManager::Event> events = {};
+
     for (int i = 0; i < 100; ++i) {
         events.push_back({"key_" + std::to_string(i), "val_" + std::to_string(i)});
     }

@@ -237,7 +237,8 @@ TEST_F(IntegrationFixture, Chaos_ConcurrentWrites) {
 
     constexpr int threads = 4;
     constexpr int per_thread = 25;
-    std::vector<std::thread> pool;
+    std::vector<std::thread> pool = {};
+
     for (int t = 0; t < threads; ++t) {
         pool.emplace_back([&, t]() {
             for (int i = 0; i < per_thread; ++i) {

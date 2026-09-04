@@ -229,7 +229,8 @@ std::vector<RetrievedDocument> FederatedRAGMerger::mergeRRF(const std::vector<Sh
     }
 
     // Collect and sort by RRF score descending (stable sort for tie-break)
-    std::vector<RetrievedDocument> merged;
+    std::vector<RetrievedDocument> merged = {};
+
     merged.reserve(rrf_scores.size());
     for (auto &[doc_id, doc] : best_doc) {
         doc.relevance_score = rrf_scores[doc_id];
@@ -289,7 +290,8 @@ FederatedRAGMerger::mergeScoreWeighted(const std::vector<ShardRetrievalResult> &
         }
     }
 
-    std::vector<RetrievedDocument> merged;
+    std::vector<RetrievedDocument> merged = {};
+
     merged.reserve(sum_scores.size());
     for (auto &[doc_id, doc] : best_doc) {
         doc.relevance_score = sum_scores[doc_id];
@@ -388,7 +390,8 @@ std::vector<RetrievedDocument> FederatedRAGMerger::deduplicate(std::vector<Retri
     // ─────────────────────────────────────────────────────────────────────────
     
     std::set<std::string> seen;  // Ordered set: deterministic iteration
-    std::vector<RetrievedDocument> result;
+    std::vector<RetrievedDocument> result = {};
+
     result.reserve(docs.size());
     for (auto &doc : docs) {
         if (seen.insert(doc.doc_id).second) {

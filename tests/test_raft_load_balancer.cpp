@@ -173,7 +173,8 @@ TEST_F(RaftLoadBalancerTest, AC3_HealthBasedRoutingSkipsUnhealthy) {
         std::this_thread::sleep_for(5ms);
     }
 
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (int i = 0; i < 30; ++i) {
         seen.insert(lb.selectBackend());
     }
@@ -262,7 +263,8 @@ TEST_F(RaftLoadBalancerTest, AC4_UpdateWeightChangesRouting) {
 
     lb.updateWeight("w1:8766", 3.0);
 
-    std::unordered_map<std::string, int> counts;
+    std::unordered_map<std::string, int> counts = {};
+
     for (int i = 0; i < 40; ++i) {
         ++counts[lb.selectBackend()];
     }
@@ -315,7 +317,8 @@ TEST_F(RaftLoadBalancerTest, AC5_PrefersLocalDatacenter) {
     lb.addBackend("west2:8766", 1.0, "dc-west");
     lb.addBackend("east1:8766", 1.0, "dc-east");
 
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (int i = 0; i < 20; ++i) {
         seen.insert(lb.selectBackend());
     }
@@ -442,7 +445,8 @@ TEST_F(RaftLoadBalancerTest, AC8_WeightedRoundRobinFavoursHeavierBackend) {
     lb.addBackend("wh:8766", 4.0);  // heavy
     lb.addBackend("wl:8766", 1.0);  // light
 
-    std::unordered_map<std::string, int> counts;
+    std::unordered_map<std::string, int> counts = {};
+
     for (int i = 0; i < 40; ++i) {
         ++counts[lb.selectBackend()];
     }
@@ -521,7 +525,8 @@ TEST_F(RaftLoadBalancerTest, AC10_ConsistentHashDifferentKeysDifferentBackends) 
     lb.addBackend("ch2:8766");
     lb.addBackend("ch3:8766");
 
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (int i = 0; i < 100; ++i) {
         seen.insert(lb.selectBackend("key-" + std::to_string(i)));
     }

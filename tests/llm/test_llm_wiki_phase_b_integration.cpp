@@ -71,7 +71,8 @@ struct WikiQueryOptions {
 struct WikiIngestResult {
     int total_files = 0;
     int total_chunks = 0;
-    std::vector<std::string> failed_files;
+    std::vector<std::string> failed_files = {};
+
     bool ok() const { return failed_files.empty(); }
 };
 

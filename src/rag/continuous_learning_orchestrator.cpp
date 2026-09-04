@@ -470,7 +470,8 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
                                   + kEvalConfidenceWeight * eval_rate;
 
         // Use BayesianOptimizer to suggest new retrieval parameters
-        std::unordered_map<std::string, ParameterBounds> param_bounds;
+        std::unordered_map<std::string, ParameterBounds> param_bounds = {};
+
         param_bounds["top_k"]               = {1.0, 20.0};
         param_bounds["similarity_threshold"] = {0.5,  0.95};
 

@@ -1245,7 +1245,8 @@ http::response<http::string_body> SchemaApiHandler::handleBatchConstraintValidat
         size_t row_index = 0;
         for (const auto& row_json : body["rows"]) {
             // Convert JSON object to string map
-            std::map<std::string, themis::ColumnValue> row;
+            std::map<std::string, themis::ColumnValue> row = {};
+
             if (row_json.is_object()) {
                 for (auto& [k, v] : row_json.items()) {
                     if (v.is_string()) {

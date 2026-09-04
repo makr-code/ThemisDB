@@ -340,7 +340,8 @@ CrashRecoveryManager::recover(RocksDBWrapper& db) {
         }
 
         std::string line;
-        std::vector<std::string> all_lines;
+        std::vector<std::string> all_lines = {};
+
         while (std::getline(f, line)) {
           all_lines.push_back(line);
         }

@@ -118,7 +118,8 @@ public:
             const storage::TTTrain& query, int k) const override {
         std::shared_lock lock(rw_mutex_);
 
-        std::vector<TensorSearchResult> results;
+        std::vector<TensorSearchResult> results = {};
+
         results.reserve(store_.size());
 
         float q_norm = ttNorm(query);

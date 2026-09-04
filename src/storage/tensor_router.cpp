@@ -133,7 +133,8 @@ struct TensorRouter::Impl {
         std::size_t total = data.size();
         std::size_t sample_n = std::min(total, policy.probe_sample_elements);
 
-        std::vector<float> sample;
+        std::vector<float> sample = {};
+
         if (sample_n >= total) {
             sample = data;
         } else {

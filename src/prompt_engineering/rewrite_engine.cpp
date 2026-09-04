@@ -100,7 +100,8 @@ public:
     std::vector<std::string> list_rules() const override {
         std::shared_lock lock(rule_lock_);
 
-        std::vector<std::string> rule_ids;
+        std::vector<std::string> rule_ids = {};
+
         for (const auto& rule : rules_) {
             rule_ids.push_back(rule->rule_id());
         }

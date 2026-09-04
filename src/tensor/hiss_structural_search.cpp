@@ -325,7 +325,8 @@ bool TensorNetworkGraph::rerouteEdge(std::size_t from, std::size_t to, const std
 }
 
 std::vector<std::size_t> TensorNetworkGraph::neighbors(std::size_t node_index) const {
-    std::vector<std::size_t> out;
+    std::vector<std::size_t> out = {};
+
     for (const auto& e : edges_) {
         if (e.from == node_index) {
           out.push_back(e.to);
@@ -385,7 +386,8 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
     // Notes: O(num_samples) candidate generation, O(k log k) sort, O(n) edge pack.
     //        For THEMIS_HAS_HISS_GLOBAL see include/tensor/hiss_structural_search.h.
     std::uint64_t rng = cfg.random_seed;
-    std::vector<TensorGraphEdge> candidates;
+    std::vector<TensorGraphEdge> candidates = {};
+
     candidates.reserve(std::min<std::size_t>(cfg.num_samples, train.cores.size() * 2));
 
     const std::size_t max_depth = std::max<std::size_t>(cfg.max_reshape_depth, 1);
@@ -416,7 +418,8 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
               [](const auto& a, const auto& b) { return a.weight > b.weight; });
 
     constexpr std::size_t kMaxPackedIndex = 0xFFFFFFFFULL;
-    std::unordered_map<std::uint64_t, TensorGraphEdge> best_by_edge;
+    std::unordered_map<std::uint64_t, TensorGraphEdge> best_by_edge = {};
+
     for (const auto& e : candidates) {
         // Packed edge key uses 32-bit lanes per endpoint.
         if (e.from > kMaxPackedIndex || e.to > kMaxPackedIndex) {
@@ -432,7 +435,8 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
         }
     }
 
-    std::vector<TensorGraphEdge> unique_candidates;
+    std::vector<TensorGraphEdge> unique_candidates = {};
+
     unique_candidates.reserve(best_by_edge.size());
     for (const auto& kv : best_by_edge) {
       unique_candidates.push_back(kv.second);
@@ -491,7 +495,8 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
 
     std::vector<std::size_t> bit_depths;
     std::vector<std::size_t> padded_grid_sizes;
-    std::vector<std::size_t> quantics_mode_sizes;
+    std::vector<std::size_t> quantics_mode_sizes = {};
+
     bit_depths.reserve(resolved_grid_sizes.size());
     padded_grid_sizes.reserve(resolved_grid_sizes.size());
 

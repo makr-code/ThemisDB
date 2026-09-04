@@ -195,7 +195,8 @@ std::vector<SpellingCorrection> QueryExpander::suggestSpellingCorrections(
     }
 
     // Collect all candidates within max_edit_distance
-    std::vector<SpellingCorrection> candidates;
+    std::vector<SpellingCorrection> candidates = {};
+
     for (const auto& vocab_word : vocabulary_) {
         int d = editDistance(lower, vocab_word);
         if (d <= config_.max_edit_distance) {
@@ -367,7 +368,8 @@ std::vector<SpellingCorrection> QueryExpander::suggestQueryCorrections(
 
 std::vector<std::string> QueryExpander::suggestAlternatives(const std::string& query) const {
     auto tokens = tokenize(query);
-    std::vector<std::string> alternatives;
+    std::vector<std::string> alternatives = {};
+
     if (tokens.empty() || !config_.use_synonyms) {
         return alternatives;
     }

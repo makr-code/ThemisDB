@@ -332,7 +332,8 @@ TEST_F(LlamaCppTokenizerTest, TokenizationPerformance) {
     LlamaTokenizer tokenizer(model_path_);
     
     // Generate 1000 short texts
-    std::vector<std::string> texts;
+    std::vector<std::string> texts = {};
+
     for (int i = 0; i < 1000; ++i) {
         texts.push_back("This is test text number " + std::to_string(i) + " for tokenization.");
     }

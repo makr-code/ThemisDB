@@ -121,7 +121,8 @@ Status ProjectLifecycle::applyTransition(
 
     // Read current state (already held under unique_lock by callers)
     std::string state_str;
-    std::optional<ProjectState> current;
+    std::optional<ProjectState> current = {};
+
     if (storage_->get("lifecycle:" + project_id, state_str))
         current = projectStateFromString(state_str);
 

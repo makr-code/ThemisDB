@@ -219,7 +219,8 @@ void CircuitBreakerManager::resetAll() {
 
 std::vector<std::string> CircuitBreakerManager::getAllShardIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> shard_ids;
+    std::vector<std::string> shard_ids = {};
+
     shard_ids.reserve(circuit_breakers_.size());
     
     for (const auto& [shard_id, _] : circuit_breakers_) {

@@ -180,7 +180,8 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
             add_filter("subject");
 
             // Numeric min_rating handled separately
-            std::optional<double> min_rating;
+            std::optional<double> min_rating = {};
+
             if (request_json.contains("min_rating") &&
                 request_json["min_rating"].is_number()) {
                 min_rating = request_json["min_rating"].get<double>();

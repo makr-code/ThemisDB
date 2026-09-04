@@ -256,7 +256,8 @@ static void BM_W2C_ReopenLatency_NoWAL(benchmark::State& state) {
         db->close();
     }
 
-    std::unique_ptr<RocksDBWrapper> db;
+    std::unique_ptr<RocksDBWrapper> db = {};
+
     for (auto _ : state) {
         // Timed: full close + reopen round-trip
         if (db) { db->close(); db.reset(); }

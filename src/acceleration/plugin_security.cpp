@@ -549,7 +549,8 @@ bool PluginSecurityVerifier::verifySignature(const std::string &filePath, const 
     }
 
     // Step 5: Decode signature from hex
-    std::vector<uint8_t> sigBytes;
+    std::vector<uint8_t> sigBytes = {};
+
     if (!decodeHexString(signature.signature, sigBytes)) {
         EVP_PKEY_free(pubKey);
         X509_free(cert);
@@ -569,7 +570,8 @@ bool PluginSecurityVerifier::verifySignature(const std::string &filePath, const 
     // Initialize verification context
     if (EVP_DigestVerifyInit(mdctx, nullptr, EVP_sha256(), nullptr, pubKey) == 1) {
         // Convert file hash from hex string to bytes
-        std::vector<uint8_t> hashBytes;
+        std::vector<uint8_t> hashBytes = {};
+
         if (decodeHexString(fileHash, hashBytes)) {
             // Verify signature
             int result = EVP_DigestVerify(mdctx, sigBytes.data(), sigBytes.size(), hashBytes.data(), hashBytes.size());
@@ -1090,7 +1092,8 @@ void PluginSecurityAuditor::logEvent([[maybe_unused]] const PluginSecurityEvent 
 
 std::vector<PluginSecurityEvent> PluginSecurityAuditor::getEventsForPlugin([[maybe_unused]] const std::string &pluginPath) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<PluginSecurityEvent> result;
+    std::vector<PluginSecurityEvent> result = {};
+
     for ([[maybe_unused]] const auto &event : events_) {
         if ([[maybe_unused]] event.pluginPath == pluginPath) {
             result.push_back([[maybe_unused]] event);

@@ -383,7 +383,8 @@ std::vector<ColumnBatch> ColumnBatch::split([[maybe_unused]] size_t max_rows) co
         return {};
     }
 
-    std::vector<ColumnBatch> result;
+    std::vector<ColumnBatch> result = {};
+
     for (size_t offset = 0; offset < total; offset += max_rows) {
         size_t len = std::min(max_rows, total - offset);
         ColumnBatch sub;
@@ -1261,7 +1262,8 @@ ColumnBatch ColumnarExecutionEngine::execute(const ColumnBatch &input, const Vec
 
 std::vector<ColumnBatch> ColumnarExecutionEngine::executeBatched(const std::vector<ColumnBatch> &batches,
                                                                  const VectorizedPipeline &pipeline) {
-    std::vector<ColumnBatch> results;
+    std::vector<ColumnBatch> results = {};
+
     results.reserve(batches.size());
     for (const auto &batch : batches) {
         results.push_back(execute(batch, pipeline));

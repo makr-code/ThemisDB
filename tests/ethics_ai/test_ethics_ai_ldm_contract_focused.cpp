@@ -238,7 +238,8 @@ TEST(EthicsAiLdmContract, EAL04_MetaVerdict_AllAbstain_ProducesDissent) {
         "kant", "rawls", "utilitarianism", "islamische_ethik"
     };
 
-    std::vector<DiscourseRoundOutput> results;
+    std::vector<DiscourseRoundOutput> results = {};
+
     for (const auto& sid : school_ids) {
         DiscourseRoundOutput out;
         out.school_id   = sid;
@@ -355,7 +356,8 @@ TEST(EthicsAiLdmContract, EAL06_CrossCulturalFlag_MultiRegionConsensus) {
 
 TEST(EthicsAiLdmContract, EAL07_MirrorSchool_PresentInMinorityDissent_EvenForClearConsensus) {
     // Set up CLEAR_CONSENSUS main schools.
-    std::vector<DiscourseRoundOutput> main_results;
+    std::vector<DiscourseRoundOutput> main_results = {};
+
     const std::vector<std::string> school_ids = {
         "kant", "rawls", "contractualism", "rationalism", "socratic"
     };

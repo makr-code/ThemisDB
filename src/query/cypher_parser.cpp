@@ -184,7 +184,8 @@ struct CypherParser::Lexer {
     }
 
     std::vector<CypherParser::Token> tokenize() {
-        std::vector<CypherParser::Token> tokens;
+        std::vector<CypherParser::Token> tokens = {};
+
         tokens.reserve(src.size());
 
         while (true) {
@@ -532,7 +533,8 @@ struct CypherParser::Parser {
 
     // prop_map := key COLON literal (COMMA key COLON literal)*
     std::vector<CypherPropertyFilter> parsePropMap() {
-        std::vector<CypherPropertyFilter> props;
+        std::vector<CypherPropertyFilter> props = {};
+
         if (check(TokenType::RBRACE)) {
             ++cursor;
             return props;

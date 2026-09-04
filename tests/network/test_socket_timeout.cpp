@@ -284,7 +284,8 @@ TEST(W1S02AtomicTimeout, ConcurrentHotReloadAndArmDoNotDataRace) {
     std::atomic<bool> stop{false};
 
     std::vector<std::thread> writers;
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int i = 0; i < 4; ++i) {
         writers.emplace_back([&hot_ms, &stop, i]() {
             while (!stop.load(std::memory_order_relaxed)) {

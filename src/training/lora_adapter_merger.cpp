@@ -234,7 +234,8 @@ MergeResult LoRAAdapterMerger::mergeLinearAll(
         size_t out_dim = ref_entry.out_dim;
         float  alpha   = ref_entry.alpha;
 
-        std::vector<AdapterDescriptor> descs;
+        std::vector<AdapterDescriptor> descs = {};
+
         for (size_t i = 0; i < adapters.size(); ++i)
             descs.push_back({adapters[i], lname, weights[i]});
 
@@ -404,7 +405,8 @@ MergeResult LoRAAdapterMerger::mergeTIESAll(
         size_t out_dim = ref.out_dim;
         float  alpha   = ref.alpha;
 
-        std::vector<AdapterDescriptor> descs;
+        std::vector<AdapterDescriptor> descs = {};
+
         for (const auto* a : adapters)
             descs.push_back({a, lname, 1.0f});
 

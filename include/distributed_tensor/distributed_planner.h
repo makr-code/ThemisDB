@@ -178,7 +178,8 @@ class DistributedTensorPlanner {
 			uint32_t freshness_ttl_s = 3600) noexcept {
 		(void)correlation_id;
 		(void)freshness_ttl_s;
-		std::vector<RoutingSummary> out;
+		std::vector<RoutingSummary> out = {};
+
 		out.reserve(summaries.size());
 		for (const auto& s : summaries) {
 			RoutingSummary r;
@@ -200,7 +201,8 @@ class DistributedTensorPlanner {
 			const std::string& correlation_id = {}) noexcept {
 		(void)query_context;
 		(void)correlation_id;
-		std::vector<FragmentLoadRequest> reqs;
+		std::vector<FragmentLoadRequest> reqs = {};
+
 		for (const auto& r : routing_summaries) {
 			if (r.rejected_as_stale || r.rejected_as_unhealthy) {
 			  continue;
@@ -234,7 +236,8 @@ class DistributedTensorPlanner {
 
 	std::vector<FragmentLoadResult> executeFragmentLoads(const std::vector<FragmentLoadRequest>& requests, const std::string& correlation_id = {}) noexcept {
 		if (!fragment_fetcher_) {
-			std::vector<FragmentLoadResult> results;
+			std::vector<FragmentLoadResult> results = {};
+
 			for (const auto& req : requests) {
 				FragmentLoadResult r;
 				r.shard_id = req.shard_id;

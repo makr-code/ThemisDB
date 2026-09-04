@@ -90,7 +90,8 @@ std::vector<BenchmarkEntry>
 BenchmarkMatrix::entries(std::string_view dataset_tag,
                          std::string_view hardware_tag,
                          std::string_view runner_version) const {
-    std::vector<BenchmarkEntry> out;
+    std::vector<BenchmarkEntry> out = {};
+
     out.reserve(cells_.size());
     for (const auto& [key, result] : cells_) {
         BenchmarkEntry e;
@@ -145,7 +146,8 @@ BenchmarkMatrix::scenariosWithFullCoverage(
     std::vector<BenchmarkScenario> result;
 
     // Collect distinct scenarios present in the matrix.
-    std::vector<BenchmarkScenario> present_scenarios;
+    std::vector<BenchmarkScenario> present_scenarios = {};
+
     for (const auto& [key, _] : cells_) {
         if (std::find(present_scenarios.begin(),
                       present_scenarios.end(),

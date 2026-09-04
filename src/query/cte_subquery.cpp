@@ -418,7 +418,8 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateSubquery(
     // Detect correlated subquery: outer row is non-empty and the subquery AST
     // references at least one outer variable by name.
     if (!outerRow.empty() && outerRow.is_object()) {
-        std::unordered_set<std::string> outerVarNames;
+        std::unordered_set<std::string> outerVarNames = {};
+
         for (const auto& item : outerRow.items()) {
             outerVarNames.insert(item.key());
         }
