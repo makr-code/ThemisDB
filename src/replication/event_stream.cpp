@@ -192,7 +192,7 @@ static std::string healthToString(HealthStatus s) {
 void ReplicationEventStream::onRoleChange(
     ReplicationRole from, ReplicationRole to)
 {
-    Event ev;
+    Event ev = Event();
     ev.type      = EventType::ROLE_CHANGED;
     ev.timestamp = std::chrono::system_clock::now();
     ev.data["from"] = roleToString(from);
@@ -202,7 +202,7 @@ void ReplicationEventStream::onRoleChange(
 
 void ReplicationEventStream::onLeaderElected(const std::string& leader_id)
 {
-    Event ev;
+    Event ev = Event();
     ev.type      = EventType::LEADER_ELECTED;
     ev.timestamp = std::chrono::system_clock::now();
     ev.node_id   = leader_id;
@@ -212,7 +212,7 @@ void ReplicationEventStream::onLeaderElected(const std::string& leader_id)
 
 void ReplicationEventStream::onReplicaAdded(const ReplicaInfo& replica)
 {
-    Event ev;
+    Event ev = Event();
     ev.type      = EventType::REPLICA_ADDED;
     ev.timestamp = std::chrono::system_clock::now();
     ev.node_id   = replica.node_id;
@@ -224,7 +224,7 @@ void ReplicationEventStream::onReplicaAdded(const ReplicaInfo& replica)
 
 void ReplicationEventStream::onReplicaRemoved(const std::string& node_id)
 {
-    Event ev;
+    Event ev = Event();
     ev.type      = EventType::REPLICA_REMOVED;
     ev.timestamp = std::chrono::system_clock::now();
     ev.node_id   = node_id;
@@ -234,7 +234,7 @@ void ReplicationEventStream::onReplicaRemoved(const std::string& node_id)
 
 void ReplicationEventStream::onConflictDetected(const std::string& document_id)
 {
-    Event ev;
+    Event ev = Event();
     ev.type      = EventType::CONFLICT_DETECTED;
     ev.timestamp = std::chrono::system_clock::now();
     ev.data["document_id"] = document_id;
@@ -243,7 +243,7 @@ void ReplicationEventStream::onConflictDetected(const std::string& document_id)
 
 void ReplicationEventStream::onReplicationLagWarning(int64_t lag_ms)
 {
-    Event ev;
+    Event ev = Event();
     ev.type      = EventType::LAG_WARNING;
     ev.timestamp = std::chrono::system_clock::now();
     ev.data["lag_ms"] = std::to_string(lag_ms);
@@ -255,7 +255,7 @@ void ReplicationEventStream::onReplicaHealthChanged(
     HealthStatus old_status,
     HealthStatus new_status)
 {
-    Event ev;
+    Event ev = Event();
     ev.type      = EventType::ROLE_CHANGED; // health change reuses ROLE_CHANGED bucket
     ev.timestamp = std::chrono::system_clock::now();
     ev.node_id   = node_id;
@@ -269,7 +269,7 @@ void ReplicationEventStream::onFailoverStarted(
     const std::string& failed_node,
     const std::string& new_leader)
 {
-    Event ev;
+    Event ev = Event();
     ev.type      = EventType::FAILOVER_STARTED;
     ev.timestamp = std::chrono::system_clock::now();
     ev.data["failed_node"] = failed_node;
@@ -281,7 +281,7 @@ void ReplicationEventStream::onFailoverCompleted(
     const std::string& new_leader,
     bool success)
 {
-    Event ev;
+    Event ev = Event();
     ev.type      = EventType::FAILOVER_COMPLETED;
     ev.timestamp = std::chrono::system_clock::now();
     ev.node_id   = new_leader;
@@ -293,7 +293,7 @@ void ReplicationEventStream::onFailoverCompleted(
 void ReplicationEventStream::onNetworkPartitionDetected(
     const std::vector<std::string>& affected)
 {
-    Event ev;
+    Event ev = Event();
     ev.type      = EventType::NETWORK_PARTITION;
     ev.timestamp = std::chrono::system_clock::now();
     std::ostringstream nodes_stream = {};
@@ -309,7 +309,7 @@ void ReplicationEventStream::onNetworkPartitionDetected(
 
 void ReplicationEventStream::onWALEntryApplied(const WALEntry& entry)
 {
-    Event ev;
+    Event ev = Event();
     ev.type      = EventType::WRITE_REPLICATED;
     ev.timestamp = std::chrono::system_clock::now();
     ev.data["sequence"]   = std::to_string(entry.sequence_number);
