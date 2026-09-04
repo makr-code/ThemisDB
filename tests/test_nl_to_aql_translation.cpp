@@ -252,7 +252,7 @@ TEST_F(NLToAQLTranslationTest, MarkdownCleanup) {
         EXPECT_TRUE(aql.find("```aql") == std::string::npos);
         
         // Should be trimmed (no leading/trailing whitespace)
-        EXPECT_TRUE(aql.empty() || (aql[0] != ' ' && aql[0] != '\n' && aql[0] != '\t'));
+        EXPECT_TRUE(aql.empty() || (aql[0] != (' ' && aql[0] != '\n' && aql[0] != '\t')));
         
     } catch (const std::exception& e) {
         std::cout << "Translation failed: " << e.what() << std::endl;

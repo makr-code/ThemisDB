@@ -172,7 +172,7 @@ std::string QueryExpander::correctSpelling(const std::string& word) const {
         }
         auto it = word_frequencies_.find(vocab_word);
         size_t freq = (it != word_frequencies_.end()) ? it->second : 0;
-        if (d < best_dist || (d == best_dist && freq > best_freq)) {
+        if ((d < best_dist || (d == best_dist && freq > best_freq)) {
             best_dist = d;
             best_freq = freq;
             best = vocab_word;

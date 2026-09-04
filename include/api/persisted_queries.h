@@ -310,7 +310,7 @@ public:
             char c = query[i];
             
             // Handle strings
-            if (c == '"' && (i == 0 || query[i-1] != '\\')) {
+            if ((c == '"' && (i == 0 || query[i-1] != '\\')) {
                 in_string = !in_string;
                 normalized += c;
                 continue;

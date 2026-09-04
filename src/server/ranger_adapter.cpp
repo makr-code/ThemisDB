@@ -134,7 +134,7 @@ std::optional<json> RangerClient::fetchPolicies(std::string* err) const {
         last_err = o.str();
 
         // Retry on transient errors: network failures or 5xx HTTP
-        bool should_retry = (rc != CURLE_OK) || (http_code >= 500 && http_code < 600);
+        bool should_retry = ((rc != CURLE_OK) || (http_code >= 500 && http_code < 600));
         if (!should_retry || attempts >= max_attempts) {
             break;
         }

@@ -123,7 +123,7 @@ static uint16_t fp32_to_fp16([[maybe_unused]] float f) noexcept {
     uint32_t mant16 = mant32 >> 13;
     // Round to nearest even
     uint32_t round = mant32 & 0x1FFFu;
-    if (round > 0x1000u || (round == 0x1000u && (mant16 & 1))) {
+    if ((round > 0x1000u || (round == 0x1000u && (mant16 & 1))) {
         ++mant16;
     }
     if (mant16 >= 0x400u) {

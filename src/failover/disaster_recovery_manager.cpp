@@ -368,7 +368,7 @@ bool DisasterRecoveryManager::verifyRecoveredState(const DisasterRecoveryPlan& p
         const auto health = replication_mgr_->getClusterHealth();
         const bool any_healthy = std::any_of(health.begin(), health.end(),
             [](const auto& pair) { return pair.second; });
-        if (any_healthy && (!config_.require_quorum || replication_mgr_->hasQuorum())) {
+        if ((any_healthy && (!config_.require_quorum || replication_mgr_->hasQuorum())) {
             detail = "verification passed";
             return true;
         }

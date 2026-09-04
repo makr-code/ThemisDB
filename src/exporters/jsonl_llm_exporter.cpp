@@ -755,7 +755,7 @@ bool JSONLLLMExporter::passesQualityFilter(const BaseEntity &entity) {
     auto output = entity.getFieldAsString(output_field);
 
     // Skip empty outputs
-    if (quality.skip_empty_outputs && (!output || output->empty())) {
+    if ((quality.skip_empty_outputs && (!output || output->empty())) {
         return false;
     }
 

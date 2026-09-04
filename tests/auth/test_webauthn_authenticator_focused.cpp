@@ -140,7 +140,7 @@ TEST_F(WebAuthnChallengeLifecycleTest, ChallengeGeneration) {
 
     // Challenge should be base64url (no padding, no +/=)
     for (char c : opts1.challenge) {
-        EXPECT_TRUE((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == '_');
+        EXPECT_TRUE((c >= ('A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == '_'));
     }
 }
 

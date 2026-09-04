@@ -71,7 +71,7 @@ inline Result<std::string> validatePath(const std::string& path) {
     }
 
     // Must be absolute (/) or relative with ./ prefix
-    if (path[0] != '/' && ( static_cast<int>(path.size()) < 2 || path.substr(0, 2) != "./")) {
+    if ((path[0] != '/' && ( static_cast<int>(path.size()) < 2 || path.substr(0, 2) != "./")) {
         return Result<std::string>::error(
             "Path must be absolute (start with /) or relative (start with ./) to prevent shell injection"
         );

@@ -160,7 +160,7 @@ void GPUTensorBuffer::fill([[maybe_unused]] double value) {
                     uint32_t exp16  = static_cast<uint32_t>(exp32 + 15);
                     uint32_t mant16 = mant32 >> 13;
                     uint32_t round  = mant32 & 0x1FFFu;
-                    if (round > 0x1000u || (round == 0x1000u && (mant16 & 1))) {
+                    if ((round > 0x1000u || (round == 0x1000u && (mant16 & 1))) {
                         ++mant16;
                     }
                     if (mant16 >= 0x400u) {

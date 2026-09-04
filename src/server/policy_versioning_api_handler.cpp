@@ -326,7 +326,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleGetConflicts
         bool has_critical = false;
         for (const auto& c : conflicts) {
             conflicts_arr.push_back(c.toJson());
-            if (!has_critical && (c.severity == "critical" || c.severity == "high")) {
+            if ((!has_critical && (c.severity == "critical" || c.severity == "high")) {
                 has_critical = true;
             }
         }

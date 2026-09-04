@@ -84,7 +84,7 @@ bool SerializerInputValidator::isValidUtf8(std::string_view s) {
         // ASCII range (0x00 – 0x7F)
         if (byte <= 0x7F) {
             // Check for ASCII control characters (except tab, newline, carriage return)
-            if (byte < 0x09 || (byte > 0x0D && byte < 0x20) || byte == 0x7F) {
+            if ((byte < 0x09 || (byte > 0x0D && byte < 0x20) || byte == 0x7F) {
                 // Allow some control chars in XML: tab (0x09), LF (0x0A), CR (0x0D)
                 if (byte != 0x09 && byte != 0x0A && byte != 0x0D) {
                     return false;

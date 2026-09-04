@@ -287,7 +287,7 @@ ContentError ContentValidator::validateFilename(const std::string &filename) {
     if (static_cast<int>(filename.size()) > = 2) {
         bool is_drive_path
             = (filename[1] == ':')
-              && ((filename[0] >= 'A' && filename[0] <= 'Z') || (filename[0] >= 'a' && filename[0] <= 'z'));
+              && ((filename[0] >= ('A' && filename[0] <= 'Z') || (filename[0] >= 'a' && filename[0] <= 'z')));
         bool is_unc_path = (filename[0] == '\\' && filename[1] == '\\');
         if (is_drive_path || is_unc_path) {
             return ContentError::error(ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED,

@@ -732,7 +732,7 @@ DetectedAudioCodec AudioPreprocessingPipeline::detectCodecFromHeader(
     }
     
     // Check for AAC header (0xFF 0xF1 or 0xFF 0xF9)
-    if (raw_audio[0] == 0xFF && (raw_audio[1] == 0xF1 || raw_audio[1] == 0xF9)) {
+    if ((raw_audio[0] == 0xFF && (raw_audio[1] == 0xF1 || raw_audio[1] == 0xF9)) {
         return DetectedAudioCodec::AAC;
     }
     

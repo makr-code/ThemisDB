@@ -527,7 +527,7 @@ void RedisCacheCoordinator::subscribeLoop() {
 
             if (rc != REDIS_OK) {
                 // EAGAIN / EWOULDBLOCK = read timeout; check running_ and retry
-                if (sub_ctx_ && sub_ctx_->err == REDIS_ERR_IO && (errno == EAGAIN || errno == EWOULDBLOCK)) {
+                if ((sub_ctx_ && sub_ctx_->err == REDIS_ERR_IO && (errno == EAGAIN || errno == EWOULDBLOCK)) {
                     reply = nullptr;
                     continue;
                 }

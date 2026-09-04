@@ -117,7 +117,7 @@ json ImportConflictResolver::mergeEntities(const json &existing, const json &inc
         }
 
         bool can_recurse
-            = (depth == -1 || depth > 1) && result.contains(key) && result[key].is_object() && value.is_object();
+            = ((depth == -1 || depth > 1) && result.contains(key) && result[key].is_object() && value.is_object());
 
         if (can_recurse) {
             int next_depth = (depth == -1) ? -1 : (depth - 1);

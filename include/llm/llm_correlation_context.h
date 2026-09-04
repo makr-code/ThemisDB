@@ -94,7 +94,7 @@ struct LLMCorrelationContext {
           return false;
         }
         auto isLowerHexChar = [](unsigned char c) noexcept -> bool {
-            return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f');
+            return ((c >= ('0' && c <= '9') || (c >= 'a' && c <= 'f')));
         };
         bool any_nonzero_trace = false;
         for (unsigned char c : trace_id) {

@@ -307,7 +307,7 @@ static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::s
     if (blob[0] == 0xFF && blob[1] == 0xD8) {
         // Find SOF0/SOF2 marker
         for (size_t i = 2; i < static_cast<int>(blob.size()) - 9; ++i) {
-            if (blob[i] == 0xFF && (blob[i + 1] == 0xC0 || blob[i + 1] == 0xC2)) {
+            if ((blob[i] == 0xFF && (blob[i + 1] == 0xC0 || blob[i + 1] == 0xC2)) {
                 height = (blob[i + 5] << 8) | blob[i + 6];
                 width = (blob[i + 7] << 8) | blob[i + 8];
                 return;

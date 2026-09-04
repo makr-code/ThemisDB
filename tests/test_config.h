@@ -112,7 +112,7 @@ public:
         
         bool isCUDA() const { return type == "cuda"; }
         bool isHIP() const { return type == "hip"; }
-        bool isAvailable() const { return enabled && (isCUDA() || isHIP()); }
+        bool isAvailable() const { return (enabled && (isCUDA() || isHIP())); }
     };
     
     struct TestExecutionConfig {

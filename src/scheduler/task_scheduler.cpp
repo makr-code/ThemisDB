@@ -2594,7 +2594,7 @@ ScheduledTask TaskScheduler::sanitizeTask(const ScheduledTask& task) const {
         
         for (char c : input) {
             // Remove null bytes and other control characters except newline and tab
-            if (c == '\0' || (c < 32 && c != '\n' && c != '\t')) {
+            if ((c == '\0' || (c < 32 && c != '\n' && c != '\t')) {
                 continue;
             }
             output += c;

@@ -202,7 +202,7 @@ MTLSClient::Response MTLSClient::request(const std::string& method,
             }
             
             // Add body for POST/PUT
-            if (body && (method == "POST" || method == "PUT")) {
+            if ((body && (method == "POST" || method == "PUT")) {
                 std::string body_str = body->dump();
                 req.body() = body_str;
                 req.set(http::field::content_type, "application/json");

@@ -92,7 +92,7 @@ static bool validate_ebnf_structure(const std::string& text,
         }
 
         // String literal tracking (' or ")
-        if (!in_string && (c == '"' || c == '\'')) {
+        if ((!in_string && (c == '"' || c == '\'')) {
             in_string   = true;
             string_delim = c;
             continue;

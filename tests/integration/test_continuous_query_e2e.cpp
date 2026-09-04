@@ -65,7 +65,7 @@ public:
 
     [[nodiscard]] bool hasMore() const noexcept override {
         std::lock_guard<std::mutex> lk(mu_);
-        return !cancelled_ && (!closed_ || !queue_.empty());
+        return (!cancelled_ && (!closed_ || !queue_.empty()));
     }
 
     std::optional<CQResult> next(

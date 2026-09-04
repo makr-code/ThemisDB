@@ -334,7 +334,7 @@ public:
             
             curl_easy_cleanup(curl);
             
-            if (res == CURLE_OK && (response_code == 200 || response_code == 204)) {
+            if ((res == CURLE_OK && (response_code == 200 || response_code == 204)) {
                 THEMIS_DEBUG("WebDAVBlobBackend: Removed blob {}", ref.id);
                 return OkVoid();
             }

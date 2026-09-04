@@ -297,7 +297,7 @@ FederatedImportCoordinator::FederatedTrainingCoordinator::aggregateRound(
 
     const bool use_median = aggregation_algorithm == "median";
     const bool use_trimmed_mean = aggregation_algorithm == "trimmed_mean";
-    const bool use_fedavg = aggregation_algorithm == "FedAvg" || (!use_median && !use_trimmed_mean);
+    const bool use_fedavg = (aggregation_algorithm == "FedAvg" || (!use_median && !use_trimmed_mean));
 
     if (use_median) {
         result.algorithm_used = "median";

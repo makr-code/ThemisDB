@@ -606,7 +606,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
         }
 
         // <dc:Bounds x="…" y="…" width="…" height="…" /> inside BPMNShape
-        if (in_shape && (tn == "Bounds" || tn == "bounds") &&
+        if ((in_shape && (tn == "Bounds" || tn == "bounds") &&
             !shape_elem_ref.empty()) {
             BpmnBounds b;
             auto parseAttr = [&]([[maybe_unused]] const char* key) -> float {

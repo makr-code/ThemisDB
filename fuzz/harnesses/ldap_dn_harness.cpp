@@ -51,7 +51,7 @@ static std::string escapeLDAPDNComponent(const std::string& value)
     for (std::size_t i = 0; i < value.size(); ++i) {
         const unsigned char c = static_cast<unsigned char>(value[i]);
         if (i == 0 && c == '#')            { out += "\\#"; continue; }
-        if (c == ' ' && (i == 0 || i == value.size() - 1)) { out += "\\ "; continue; }
+        if ((c == (' ' && (i == 0 || i == value.size() - 1)) { out += "\\ "); continue; }
         switch (c) {
             case ',':  out += "\\,";  break;
             case '+':  out += "\\+";  break;

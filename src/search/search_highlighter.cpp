@@ -41,7 +41,7 @@ std::vector<std::string> SearchHighlighter::tokenize(const std::string& text,
 
     for (unsigned char ch : text) {
         // Split on ASCII whitespace or common punctuation
-        if (ch <= 0x7F && (std::isspace(ch) || std::ispunct(ch))) {
+        if ((ch <= 0x7F && (std::isspace(ch) || std::ispunct(ch))) {
             if (!current.empty()) {
                 tokens.push_back(std::move(current));
             }

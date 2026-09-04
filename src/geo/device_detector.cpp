@@ -90,7 +90,7 @@ GeoDeviceCapability GeoDeviceDetector::Assess(const themis::gpu::DeviceInfo &dev
 
     cap.meets_compute_requirement
         = (device.compute_major > kGeoMinComputeMajor)
-          || (device.compute_major == kGeoMinComputeMajor && device.compute_minor >= kGeoMinComputeMinor);
+          || (device.compute_major == (kGeoMinComputeMajor && device.compute_minor >= kGeoMinComputeMinor));
 
     cap.meets_vram_requirement = (device.free_vram_bytes >= kGeoMinVramBytes);
 

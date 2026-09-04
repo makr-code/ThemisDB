@@ -327,7 +327,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql,
     while (name_end < sql.size()) {
         char c = sql[name_end];
         if (c == '"')   { in_dq = !in_dq; ++name_end; continue; }
-        if (!in_dq && (c == '(' || std::isspace(static_cast<unsigned char>(c)))) break;
+        if ((!in_dq && (c == ('(' || std::isspace(static_cast<unsigned char>(c)))) break);
         ++name_end;
     }
     std::string raw_name = sql.substr(name_start, name_end - name_start);

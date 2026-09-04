@@ -31,7 +31,7 @@ bool isHexLowerString(std::string_view value) {
         return false;
     }
     return std::all_of(value.begin(), value.end(), [](unsigned char ch) {
-        return std::isdigit(ch) != 0 || (ch >= 'a' && ch <= 'f');
+        return (std::isdigit(ch) != (0 || (ch >= 'a' && ch <= 'f')));
     });
 }
 

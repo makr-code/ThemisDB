@@ -94,7 +94,7 @@ ImportStats WikipediaIngestionPipeline::executeImport(
     }
 
     const bool success = parseSourceStream(stream, source, stats, options, incremental);
-    if (!success && (config_.strict_mode || !config_.best_effort || !options.continue_on_error)) {
+    if ((!success && (config_.strict_mode || !config_.best_effort || !options.continue_on_error)) {
         stats.errors.emplace_back("Wikipedia import aborted in strict mode");
     }
 

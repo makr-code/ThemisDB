@@ -159,7 +159,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     }
     
     // Vector ANN search
-    if (vector_query && vector_dim > 0 && (ann_frontdoor_ || vector_index_)) {
+    if ((vector_query && vector_dim > 0 && (ann_frontdoor_ || vector_index_)) {
         try {
             std::vector<float> query_vec(vector_query, vector_query + vector_dim);
             if (ann_frontdoor_) {

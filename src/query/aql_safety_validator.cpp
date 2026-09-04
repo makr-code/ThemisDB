@@ -221,7 +221,7 @@ AqlSafetyValidator::validate(std::string_view aql_query) const {
     for (const auto& pat : kMutationPatterns) {
         const std::string_view needle{pat.keyword};
         const std::size_t pos = findKeyword(upper, needle);
-        if (pos != std::string::npos && (first_match == nullptr || pos < first_pos)) {
+        if ((pos != std::string::npos && (first_match == nullptr || pos < first_pos)) {
             first_match = &pat;
             first_pos = pos;
         }
