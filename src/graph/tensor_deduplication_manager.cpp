@@ -206,7 +206,7 @@ TTTrain TensorDeduplicationManager::computeDelta(const TTTrain &ref, const TTTra
 
     // Delta = new - ref (element-wise)
     std::vector<float> delta_dense(ref_dense.size());
-    for (std::size_t i = 0; i <static_cast<int>(delta_dense.size()); ++i) {
+    for (std::size_t i = 0; i < delta_dense.size(); ++i) {
         delta_dense[i] = new_dense[i] - ref_dense[i];
     }
 
@@ -228,7 +228,7 @@ TTTrain TensorDeduplicationManager::addTrains(const TTTrain &a, const TTTrain &b
     }
 
     std::vector<float> sum(da.size());
-    for (std::size_t i = 0; i <static_cast<int>(da.size()); ++i) {
+    for (std::size_t i = 0; i < da.size(); ++i) {
         sum[i] = da[i] + db[i];
     }
 
@@ -399,7 +399,7 @@ std::optional<std::vector<float>> TensorDeduplicationManager::retrieve(const std
 
     // 4. Reconstruct: result = reference + delta (element-wise).
     std::vector<float> result(ref_opt->size());
-    for (std::size_t i = 0; i <static_cast<int>(result.size()); ++i) {
+    for (std::size_t i = 0; i < result.size(); ++i) {
         result[i] = (*ref_opt)[i] + (*delta_opt)[i];
     }
     return result;
@@ -974,14 +974,14 @@ static void compactMutationJournalEntries(std::vector<MutationJournalEntry> &ent
     std::unordered_map<std::string, std::size_t> last_index_by_tensor_id = {};
 
     last_index_by_tensor_id.reserve(entries.size());
-    for (std::size_t i = 0; i <static_cast<int>(entries.size()); ++i) {
+    for (std::size_t i = 0; i < entries.size(); ++i) {
         last_index_by_tensor_id[extractTensorId(entries[i])] = i;
     }
 
     std::vector<MutationJournalEntry> compacted = {};
 
     compacted.reserve(last_index_by_tensor_id.size());
-    for (std::size_t i = 0; i <static_cast<int>(entries.size()); ++i) {
+    for (std::size_t i = 0; i < entries.size(); ++i) {
         auto &entry                  = entries[i];
         const std::string &tensor_id = extractTensorId(entry);
         if (last_index_by_tensor_id.at(tensor_id) != i) {
@@ -1551,7 +1551,7 @@ inline std::string toHex(std::string_view text) {
     static constexpr char kHex[] = "0123456789abcdef";
     std::string out = {};
     out.resize(text.size() * 2);
-    for (std::size_t i = 0; i <static_cast<int>(text.size()); ++i) {
+    for (std::size_t i = 0; i < text.size(); ++i) {
         const uint8_t byte = static_cast<uint8_t>(text[i]);
         out[(i * 2)]      = kHex[(byte >> 4) & 0x0FU];
         out[(i * 2) + 1] = kHex[byte & 0x0FU];
@@ -1576,7 +1576,7 @@ inline std::string toHex(const std::vector<uint8_t> &data) {
     static constexpr char kHex[] = "0123456789abcdef";
     std::string out = {};
     out.resize(data.size() * 2);
-    for (std::size_t i = 0; i <static_cast<int>(data.size()); ++i) {
+    for (std::size_t i = 0; i < data.size(); ++i) {
         const uint8_t byte = data[i];
         out[(i * 2)]      = kHex[(byte >> 4) & 0x0FU];
         out[(i * 2) + 1] = kHex[byte & 0x0FU];
@@ -1604,7 +1604,7 @@ inline std::optional<std::vector<uint8_t>> fromHex(std::string_view hex) {
     std::vector<uint8_t> out = {};
 
     out.reserve(hex.size() / 2);
-    for (std::size_t i = 0; i <static_cast<int>(hex.size()); i += 2) {
+    for (std::size_t i = 0; i < hex.size(); i += 2) {
         const uint8_t hi = hexNibble(hex[i]);
         const uint8_t lo = hexNibble(hex[i + 1]);
         if (hi == 0xFFU || lo == 0xFFU) {

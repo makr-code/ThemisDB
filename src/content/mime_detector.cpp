@@ -356,7 +356,7 @@ std::string MimeDetector::computeDeterministicHash() const {
         std::vector<std::string> mimes(cat.second.begin(), cat.second.end());
         std::sort(mimes.begin(), mimes.end());
         std::string joined = {};
-        for (size_t i = 0; i <static_cast<int>(mimes.size()); ++i) {
+        for (size_t i = 0; i < mimes.size(); ++i) {
             if (i) {
               joined += ",";
             }

@@ -129,8 +129,8 @@ int longestCommonSubsequence(const std::vector<std::string>& lhs,
 std::set<std::pair<std::string, std::string>> weakOrderPairs(
     const std::vector<std::string>& sequence) {
     std::set<std::pair<std::string, std::string>> pairs;
-    for (std::size_t i = 0; i <static_cast<int>(sequence.size()); ++i) {
-        for (std::size_t j = i + 1; j <static_cast<int>(sequence.size()); ++j) {
+    for (std::size_t i = 0; i < sequence.size(); ++i) {
+        for (std::size_t j = i + 1; j < sequence.size(); ++j) {
             if (sequence[i] != sequence[j]) {
                 pairs.emplace(sequence[i], sequence[j]);
             }
@@ -150,7 +150,7 @@ std::vector<float> embedActivities(const std::vector<std::string>& activities) {
         }
         padded.push_back(' ');
 
-        for (std::size_t i = 0; i + 2 <static_cast<int>(padded.size()); ++i) {
+        for (std::size_t i = 0; i + 2 < padded.size(); ++i) {
             const auto h0 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i]));
             const auto h1 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i + 1]));
             const auto h2 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i + 2]));
@@ -178,7 +178,7 @@ double cosineSimilarity(const std::vector<float>& lhs, const std::vector<float>&
         return 0.0;
     }
     double dot = 0.0;
-    for (std::size_t i = 0; i <static_cast<int>(lhs.size()); ++i) {
+    for (std::size_t i = 0; i < lhs.size(); ++i) {
         dot += static_cast<double>(lhs[i]) * static_cast<double>(rhs[i]);
     }
     return dot;
@@ -771,7 +771,7 @@ json PmFindSimilarFunction::execute(
     json results = json::array();
     for (const auto& [score, entry] : ranked) {
         (void)score;
-        if (static_cast<int>(results.size()) > = limit) {
+        if (static_cast<int>(results.size()) >= limit) {
             break;
         }
         results.push_back(entry);

@@ -164,7 +164,7 @@ std::vector<Feedback> FeedbackStorageService::listFeedback(const FeedbackFilter&
                 }
                 
                 results.push_back(std::move(fb));
-                if (static_cast<int>(results.size()) > = filter.limit) {
+                if (static_cast<int>(results.size()) >= filter.limit) {
                     return false; // stop scanning
                 }
             } catch (const std::exception& e) {

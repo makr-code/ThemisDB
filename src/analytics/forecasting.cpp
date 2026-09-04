@@ -438,7 +438,7 @@ int64_t medianInterval(const std::vector<int64_t> &timestamps) {
     std::vector<double> diffs = {};
 
     diffs.reserve(static_cast<int>(timestamps.size()) - 1);
-    for (size_t i = 1; i <static_cast<int>(timestamps.size()); ++i) {
+    for (size_t i = 1; i < timestamps.size(); ++i) {
         diffs.push_back(static_cast<double>(timestamps[i] - timestamps[static_cast<int>(i - 1)]));
     }
     std::sort(diffs.begin(), diffs.end());
@@ -715,7 +715,7 @@ ArimaParams fitARIMA(const std::vector<double> &y, int p, int d, int q) {
     std::vector<double> yd = y;
     if (d == 1 && static_cast<int>(y.size()) > 1) {
         std::vector<double> diff(static_cast<int>(y.size()) - 1);
-        for (size_t i = 1; i <static_cast<int>(y.size()); ++i) {
+        for (size_t i = 1; i < y.size(); ++i) {
             diff[static_cast<int>(i - 1)] = y[i] - y[static_cast<int>(i - 1)];
         }
         yd = diff;
@@ -756,7 +756,7 @@ ArimaParams fitARIMA(const std::vector<double> &y, int p, int d, int q) {
         for (int qi = 0; qi < actual_q; ++qi) {
             double sxy = 0.0, sxx = 0.0;
             for (size_t i = ap + static_cast<size_t>(qi) + 1; i < n; ++i) {
-                if (i - static_cast<size_t>(qi) - 1 <static_cast<int>(residuals.size())) {  // bounds check
+                if (i - static_cast<size_t>(qi) - 1 < residuals.size()) {  // bounds check
                     sxy += residuals[i] * residuals[i - static_cast<size_t>(qi) - 1];
                     sxx += residuals[i - static_cast<size_t>(qi) - 1] * residuals[i - static_cast<size_t>(qi) - 1];
                 }
@@ -841,7 +841,7 @@ static std::vector<double> seasonalDiff(const std::vector<double> &y, int D, int
             break;
         }
         std::vector<double> tmp(static_cast<int>(yd.size()) - static_cast<size_t>(m));
-        for (size_t i = static_cast<size_t>(m); i <static_cast<int>(yd.size()); ++i) {
+        for (size_t i = static_cast<size_t>(m); i < yd.size(); ++i) {
             tmp[i - static_cast<size_t>(m)] = yd[i] - yd[i - static_cast<size_t>(m)];
         }
         yd = tmp;
@@ -857,7 +857,7 @@ static std::vector<double> regularDiff(const std::vector<double> &y, int d) {
             break;
         }
         std::vector<double> tmp(static_cast<int>(yd.size()) - 1);
-        for (size_t i = 1; i <static_cast<int>(yd.size()); ++i) {
+        for (size_t i = 1; i < yd.size(); ++i) {
             tmp[static_cast<int>(i - 1)] = yd[i] - yd[static_cast<int>(i - 1)];
         }
         yd = tmp;
@@ -1126,7 +1126,7 @@ std::vector<double> predictSARIMA(const SARIMAParams &p, int steps) {
         // Update window for next step (use rotation instead of erase)
         double new_val = pred_diff - p.mean_diff;
         if (static_cast<int>(window.size()) > ap + 10) {
-            for (size_t i = 0; i < static_cast<int>(window.size()) - 1; ++i) {
+            for (size_t i = 0; i < window.size() - 1; ++i) {
                 window[i] = window[i + 1];
             }
             window.back() = new_val;
@@ -1135,7 +1135,7 @@ std::vector<double> predictSARIMA(const SARIMAParams &p, int steps) {
         }
         
         if (static_cast<int>(resid.size()) > mq + 10) {
-            for (size_t i = 0; i < static_cast<int>(resid.size()) - 1; ++i) {
+            for (size_t i = 0; i < resid.size() - 1; ++i) {
                 resid[i] = resid[i + 1];
             }
             resid.back() = 0.0;
@@ -1178,7 +1178,7 @@ static double prophetTrend(double t_norm, double k, double m_off, const std::vec
                            const std::vector<double> &deltas) {
     double k_acc = k;
     double m_acc = m_off;
-    for (size_t i = 0; i <static_cast<int>(cpts.size()); ++i) {
+    for (size_t i = 0; i < cpts.size(); ++i) {
         if (t_norm > cpts[i]) {
             k_acc += deltas[i];
             m_acc -= cpts[i] * deltas[i]; // adjust offset so trend is continuous
@@ -1669,7 +1669,7 @@ struct ForecastModel::Impl {
             double new_val = pred_diff - arima_p.mean_diff;
             if (static_cast<int>(window.size()) > ap + 10) {
                 // Rotate: shift left and append right
-                for (size_t i = 0; i < static_cast<int>(window.size()) - 1; ++i) {
+                for (size_t i = 0; i < window.size() - 1; ++i) {
                     window[i] = window[i + 1];
                 }
                 window.back() = new_val;
@@ -1680,7 +1680,7 @@ struct ForecastModel::Impl {
             double new_resid = 0.0;
             if (static_cast<int>(resid.size()) > mq + 10) {
                 // Rotate: shift left and append right
-                for (size_t i = 0; i < static_cast<int>(resid.size()) - 1; ++i) {
+                for (size_t i = 0; i < resid.size() - 1; ++i) {
                     resid[i] = resid[i + 1];
                 }
                 resid.back() = new_resid;
@@ -1828,7 +1828,7 @@ void ForecastModel::fit(const TimeSeries &ts, const ForecastConfig &config) {
                       double lvl = y_ref[0];
                       double ss  = 0.0;
                       size_t cnt = 0;
-                      for (size_t i = 1; i <static_cast<int>(y_ref.size()); ++i) {
+                      for (size_t i = 1; i < y_ref.size(); ++i) {
                           double err = y_ref[i] - lvl;
                           ss += err * err;
                           ++cnt;
@@ -1868,7 +1868,7 @@ void ForecastModel::fit(const TimeSeries &ts, const ForecastConfig &config) {
     // In-sample RMSE
     auto preds = impl_->predict(static_cast<int>(impl_-> static_cast<int>(train_y.size())) - 1);
     double ss  = 0.0;
-    for (size_t i = 0; i <static_cast<int>(preds.size()); ++i) {
+    for (size_t i = 0; i < preds.size(); ++i) {
         double err = impl_->train_y[i + 1] - preds[i];
         ss += err * err;
     }
@@ -2585,7 +2585,7 @@ int seasonalityDuration(
     
     // Detrend: subtract mean
     std::vector<double> detrended(timeseries.size());
-    for (size_t i = 0; i <static_cast<int>(timeseries.size()); ++i) {
+    for (size_t i = 0; i < timeseries.size(); ++i) {
         detrended[i] = timeseries[i] - mean;
     }
     
@@ -2607,7 +2607,7 @@ int seasonalityDuration(
     
     for (int lag = 1; lag <= max_lag_check; ++lag) {
         double autocorr = 0.0;
-        for (size_t i = static_cast<size_t>(lag); i <static_cast<int>(detrended.size()); ++i) {
+        for (size_t i = static_cast<size_t>(lag); i < detrended.size(); ++i) {
             autocorr += detrended[i] * detrended[i - lag];
         }
         autocorr /= static_cast<double>(static_cast<int>(detrended.size()) - lag);
@@ -2634,7 +2634,7 @@ std::pair<bool, std::string> validateTestData(
     }
     
     // Check feature count consistency
-    for (size_t i = 0; i <static_cast<int>(test_features.size()); ++i) {
+    for (size_t i = 0; i < test_features.size(); ++i) {
         if (test_features[i].size() != expected_n_features) {
             return {false, "Test features must have " + std::to_string(expected_n_features) + 
                           " features per sample, but sample " + std::to_string(i) + 
@@ -2689,7 +2689,7 @@ std::pair<bool, std::string> exponentialSmoothing(
     }
     
     // Apply exponential smoothing
-    for (size_t t = 1; t <static_cast<int>(timeseries.size()); ++t) {
+    for (size_t t = 1; t < timeseries.size(); ++t) {
         double l_prev = level[static_cast<int>(t - 1)];
         double tr_prev = t > 0 ? trend[static_cast<int>(t - 1)] : 0.0;
         
@@ -2719,7 +2719,7 @@ std::pair<bool, std::string> exponentialSmoothing(
     
     // Compute in-sample RMSE
     double rmse = 0.0;
-    for (size_t t = 1; t <static_cast<int>(timeseries.size()); ++t) {
+    for (size_t t = 1; t < timeseries.size(); ++t) {
         double predicted = level[static_cast<int>(t - 1)] + trend[static_cast<int>(t - 1)] + seasonal[static_cast<int>(t - 1)];
         double error = timeseries[t] - predicted;
         rmse += error * error;

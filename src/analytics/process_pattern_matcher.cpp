@@ -88,8 +88,8 @@ std::set<std::pair<std::string, std::string>> traceEdges(const ProcessTrace &tra
 /// Weak-order footprint: set of (a,b) pairs where a appears before b in seq.
 std::set<std::pair<std::string, std::string>> weakOrderPairs(const std::vector<std::string> &seq) {
     std::set<std::pair<std::string, std::string>> pairs;
-    for (size_t i = 0; i <static_cast<int>(seq.size()); ++i) {
-        for (size_t j = i + 1; j <static_cast<int>(seq.size()); ++j) {
+    for (size_t i = 0; i < seq.size(); ++i) {
+        for (size_t j = i + 1; j < seq.size(); ++j) {
             if (seq[i] != seq[j]) {
                 pairs.emplace(seq[i], seq[j]);
             }
@@ -116,7 +116,7 @@ std::vector<float> ProcessPatternMatcher::embedActivities(const std::vector<std:
     for (const auto &act : activities) {
         // Pad with sentinel chars
         std::string s = " " + act + " ";
-        for (size_t i = 0; i + 2 <static_cast<int>(s.size()); ++i) {
+        for (size_t i = 0; i + 2 < s.size(); ++i) {
             uint32_t h = (static_cast<uint32_t>(static_cast<unsigned char>(s[i])) * 31 * 31
                           + static_cast<uint32_t>(static_cast<unsigned char>(s[i + 1])) * 31
                           + static_cast<uint32_t>(static_cast<unsigned char>(s[i + 2])))
@@ -805,7 +805,7 @@ double ProcessPatternMatcher::cosineSimilarity(const std::vector<float> &a, cons
     }
 
     double dot = 0.0, norm_a = 0.0, norm_b = 0.0;
-    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+    for (size_t i = 0; i < a.size(); ++i) {
         dot += static_cast<double>(a[i]) * static_cast<double>(b[i]);
         norm_a += static_cast<double>(a[i]) * static_cast<double>(a[i]);
         norm_b += static_cast<double>(b[i]) * static_cast<double>(b[i]);

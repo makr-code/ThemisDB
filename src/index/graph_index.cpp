@@ -256,7 +256,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 						// Iterating j by index ensures encryptList.push_back() cannot
 						// invalidate any active iterator even if the same container were
 						// involved (they are distinct here, but the pattern is consistent).
-						for (size_t ji = 0; ji <static_cast<int>(j.size()); ++ji) {
+						for (size_t ji = 0; ji < j.size(); ++ji) {
 							const auto& jv = j[ji];
 							if (jv.is_string()) {
 							  encryptList.push_back(jv.get<std::string>());
@@ -437,7 +437,7 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 	});
 	
 	// Phase 1: Audit log for bulk node access (threshold: 100+ neighbors)
-	if (static_cast<int>(result.size()) > = 100) {
+	if (static_cast<int>(result.size()) >= 100) {
 		logAuditEvent_("BULK_NODE_ACCESS", std::string(fromPk), "outNeighbors",static_cast<int>(result.size()), 0);
 	}
 	

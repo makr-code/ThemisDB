@@ -368,7 +368,7 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
     std::vector<const VersionedDocument*> to_delete_ptrs = {};
 
     to_delete_ptrs.reserve(static_cast<int>(historical.size()) - keep_latest_n);
-    for (size_t i = keep_latest_n; i <static_cast<int>(historical.size()); ++i) {
+    for (size_t i = keep_latest_n; i < historical.size(); ++i) {
         to_delete_ptrs.push_back(historical[i]);
     }
 

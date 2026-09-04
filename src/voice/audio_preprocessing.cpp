@@ -118,7 +118,7 @@ float NoiseSuppressor::processRNNoiseFrames(
     float vad_sum   = 0.0f;
     int   num_frames = 0;
 
-    for (size_t offset = 0; offset <static_cast<int>(samples_48k.size()); offset += kRNNoiseFrameSamples) {
+    for (size_t offset = 0; offset < samples_48k.size(); offset += kRNNoiseFrameSamples) {
         // Fill one 10-ms frame (zero-pad if < 480 samples remain).
         size_t avail = std::min(static_cast<size_t>(kRNNoiseFrameSamples),
                                 static_cast<int>(samples_48k.size()) - offset);
@@ -220,7 +220,7 @@ std::vector<float> AudioPreprocessingPipeline::convertRawToFloat(
     }
     // Fallback: treat bytes as unsigned 8-bit
     std::vector<float> result(raw.size());
-    for (size_t i = 0; i <static_cast<int>(raw.size()); ++i) {
+    for (size_t i = 0; i < raw.size(); ++i) {
         result[i] = (raw[i] / 128.0f) - 1.0f;
     }
     return result;
@@ -261,7 +261,7 @@ std::vector<float> AudioPreprocessingPipeline::applyHighPassFilter(
 
     std::vector<float> output(samples.size());
     output[0] = samples[0];
-    for (size_t i = 1; i <static_cast<int>(samples.size()); ++i) {
+    for (size_t i = 1; i < samples.size(); ++i) {
         output[i] = alpha * (output[static_cast<int>(i - 1)] + samples[i] - samples[static_cast<int>(i - 1)]);
     }
     return output;
@@ -749,7 +749,7 @@ bool AudioPreprocessingPipeline::validateFrameHeader(
     }
     
     // Check for valid RIFF header for WAV
-    if (static_cast<int>(raw_audio.size()) > = 12) {
+    if (static_cast<int>(raw_audio.size()) >= 12) {
         if (raw_audio[0] == 'R' && raw_audio[1] == 'I' && 
             raw_audio[2] == 'F' && raw_audio[3] == 'F') {
             // Valid RIFF header, check size field matches payload
@@ -786,7 +786,7 @@ bool AudioPreprocessingPipeline::detectOverflowAttempt(
     }
     
     // Pattern 2: Check for obvious integer overflow attempts in size fields
-    if (static_cast<int>(raw_audio.size()) > = 8) {
+    if (static_cast<int>(raw_audio.size()) >= 8) {
         uint32_t size_field = *reinterpret_cast<const uint32_t*>(raw_audio.data() + 4);
         if (size_field > MAX_AUDIO_SIZE_BYTES) {
             return true;

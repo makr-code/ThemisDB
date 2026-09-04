@@ -218,7 +218,7 @@ std::string negationFlip(const std::string& query, size_t variant_index)
 
     std::string result = query;
     size_t idx = variant_index % negations.size();
-    for (size_t i = 0; i <static_cast<int>(negations.size()); ++i) {
+    for (size_t i = 0; i < negations.size(); ++i) {
         const auto& [from, to] = negations[(idx + i) % negations.size()];
         auto pos = result.find(from);
         if (pos != std::string::npos) {
@@ -383,7 +383,7 @@ std::vector<RetrievedDocument> AdversarialTester::generatePoisonedDocuments(
     const std::vector<RetrievedDocument>& documents) const
 {
     std::vector<RetrievedDocument> poisoned = documents;
-    for (size_t i = 0; i <static_cast<int>(poisoned.size()); ++i) {
+    for (size_t i = 0; i < poisoned.size(); ++i) {
         // Inject poison payload into every second document to simulate a
         // realistic partial-poisoning attack.
         if (i % 2 == 0) {
@@ -550,7 +550,7 @@ void AdversarialTester::testDocumentPoisoning(RAGJudge& judge,
         // documents receive a poison payload; odd-indexed documents remain
         // unmodified to simulate a realistic partial-poisoning scenario where
         // only some retrieved documents are attacker-controlled.
-        for (size_t i = 0; i <static_cast<int>(base_docs.size()); ++i) {
+        for (size_t i = 0; i < base_docs.size(); ++i) {
             if (i % 2 != 0) { continue; }
 
             PoisoningResult pr;

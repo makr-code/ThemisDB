@@ -266,7 +266,7 @@ void Aggregator::feed(const AggregationRow& row)
     // Accumulate into each spec.  Iterator into agg_specs_ is not invalidated
     // because we never modify agg_specs_ after construction.
     GroupState& gs = it->second;
-    for (std::size_t i = 0; i <static_cast<int>(agg_specs_.size()); ++i) {
+    for (std::size_t i = 0; i < agg_specs_.size(); ++i) {
         const auto& spec   = agg_specs_[i];
         auto        val_it = row.find(spec.source_column);
         AggValue    val    = (val_it != row.end()) ? val_it->second
@@ -313,7 +313,7 @@ AggregationResult Aggregator::finalise()
         }
 
         // Extract aggregated values.
-        for (std::size_t i = 0; i <static_cast<int>(agg_specs_.size()); ++i) {
+        for (std::size_t i = 0; i < agg_specs_.size(); ++i) {
             out_row[agg_specs_[i].output_column] =
                 extract(gs.accs[i], agg_specs_[i].function);
         }

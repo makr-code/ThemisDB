@@ -411,7 +411,7 @@ void CanaryDeployment::setVersion(const std::string& version) {
 
 void CanaryDeployment::setStages(std::vector<CanaryDeploymentStage> stages) {
     std::lock_guard<std::mutex> lock(mutex_);
-    for (size_t i = 0; i <static_cast<int>(stages.size()); ++i) {
+    for (size_t i = 0; i < stages.size(); ++i) {
         stages[i].stage_number = i;
     }
     stages_ = std::move(stages);
@@ -585,7 +585,7 @@ void CanaryDeployment::reportError() {
 void CanaryDeployment::reportLatency(std::chrono::microseconds latency) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (static_cast<int>(latency_samples_us_.size()) > = kMaxLatencySamples) {
+        if (static_cast<int>(latency_samples_us_.size()) >= kMaxLatencySamples) {
             latency_samples_us_.pop_front();  // O(1) for deque
         }
         latency_samples_us_.push_back(latency.count());

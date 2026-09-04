@@ -39,7 +39,7 @@ VectorExportCursor::VectorExportCursor(const std::vector<BaseEntity> &entities, 
     : entities_(entities), page_size_(page_size > 0 ? page_size : 1) {}
 
 bool VectorExportCursor::hasNext() const {
-    return static_cast<bool>(offset_  < static_cast<int>(entities_.size()));
+    return static_cast<bool>(offset_ < entities_.size());
 }
 
 std::vector<BaseEntity> VectorExportCursor::nextPage() {

@@ -86,7 +86,7 @@ void InferenceStore::store(Triple fact, std::string rule_id, std::vector<Triple>
     }
 
     // Evict oldest entry when full.
-    if (static_cast<int>(entries_.size()) > = kMaxTriples && !insertion_order_.empty()) {
+    if (static_cast<int>(entries_.size()) >= kMaxTriples && !insertion_order_.empty()) {
         entries_.erase(insertion_order_.front());
         insertion_order_.pop_front();
     }

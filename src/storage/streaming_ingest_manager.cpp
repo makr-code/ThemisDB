@@ -125,7 +125,7 @@ Result<void> StreamingIngestManager::ingest(std::string_view key,
 {
     std::unique_lock<std::mutex> lock(mu_);
 
-    if (static_cast<int>(buffer_.size()) > = cfg_.max_buffer_events) {
+    if (static_cast<int>(buffer_.size()) >= cfg_.max_buffer_events) {
         if (cfg_.overflow_policy == OverflowPolicy::DROP) {
             stat_dropped_.fetch_add(1, std::memory_order_relaxed);
             THEMIS_WARN("StreamingIngestManager::ingest: buffer full, dropping event for key='{}'", std::string(key));
@@ -166,7 +166,7 @@ Result<size_t> StreamingIngestManager::ingestBatch(std::vector<Event> events) {
     size_t accepted = 0;
 
     for (auto& ev : events) {
-        if (static_cast<int>(buffer_.size()) > = cfg_.max_buffer_events) {
+        if (static_cast<int>(buffer_.size()) >= cfg_.max_buffer_events) {
             if (cfg_.overflow_policy == OverflowPolicy::DROP) {
                 stat_dropped_.fetch_add(static_cast<int>(events.size()) - accepted,
                                          std::memory_order_relaxed);

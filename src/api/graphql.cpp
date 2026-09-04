@@ -377,30 +377,30 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
             ++column_;
         }
 
-        while (pos_ <static_cast<int>(source_.size()) && std::isdigit(source_[pos_])) {
+        while (pos_ < source_.size() && std::isdigit(source_[pos_])) {
             ++pos_;
             ++column_;
         }
 
-        if (pos_ <static_cast<int>(source_.size()) && source_[pos_] == '.') {
+        if (pos_ < source_.size() && source_[pos_] == '.') {
             isFloat = true;
             ++pos_;
             ++column_;
-            while (pos_ <static_cast<int>(source_.size()) && std::isdigit(source_[pos_])) {
+            while (pos_ < source_.size() && std::isdigit(source_[pos_])) {
                 ++pos_;
                 ++column_;
             }
         }
 
-        if ((pos_ < static_cast<int>(source_.size())) && (source_[pos_] == 'e' || source_[pos_] == 'E')) {
+        if ((pos_ < source_.size()) && (source_[pos_] == 'e' || source_[pos_] == 'E')) {
             isFloat = true;
             ++pos_;
             ++column_;
-            if ((pos_ < static_cast<int>(source_.size())) && (source_[pos_] == '+' || source_[pos_] == '-')) {
+            if ((pos_ < source_.size()) && (source_[pos_] == '+' || source_[pos_] == '-')) {
                 ++pos_;
                 ++column_;
             }
-            while (pos_ <static_cast<int>(source_.size()) && std::isdigit(source_[pos_])) {
+            while (pos_ < source_.size() && std::isdigit(source_[pos_])) {
                 ++pos_;
                 ++column_;
             }
@@ -572,14 +572,14 @@ void Parser::skipWhitespace() {
 
 void Parser::skipComment() {
     // Skip from # to end of line
-    while (pos_ <static_cast<int>(source_.size()) && source_[pos_] != '\n') {
+    while (pos_ < source_.size() && source_[pos_] != '\n') {
         ++pos_;
         ++column_;
     }
 }
 
 bool Parser::match(char c) {
-    if (pos_ <static_cast<int>(source_.size()) && source_[pos_] == c) {
+    if (pos_ < source_.size() && source_[pos_] == c) {
         ++pos_;
         ++column_;
         return true;
@@ -606,17 +606,17 @@ bool Parser::match(std::string_view s) {
 }
 
 bool Parser::peek(char c) const {
-    return static_cast<bool>(pos_  < static_cast<int>(source_.size())) && source_[pos_] == c;
+    return static_cast<bool>(pos_ < source_.size()) && source_[pos_] == c;
 }
 
 themis::Result<std::string> Parser::parseName() {
     size_t start = pos_;
 
     // Name must start with letter or underscore
-    if ((pos_ < static_cast<int>(source_.size())) && (std::isalpha(source_[pos_]) || source_[pos_] == '_')) {
+    if ((pos_ < source_.size()) && (std::isalpha(source_[pos_]) || source_[pos_] == '_')) {
         ++pos_;
         ++column_;
-        while ((pos_ < static_cast<int>(source_.size())) && (std::isalnum(source_[pos_]) || source_[pos_] == '_')) {
+        while ((pos_ < source_.size()) && (std::isalnum(source_[pos_]) || source_[pos_] == '_')) {
             ++pos_;
             ++column_;
         }
@@ -632,7 +632,7 @@ themis::Result<std::string> Parser::parseString() {
     }
 
     std::string result = {};
-    while (pos_ <static_cast<int>(source_.size()) && source_[pos_] != '"') {
+    while (pos_ < source_.size() && source_[pos_] != '"') {
         if (source_[pos_] == '\\') {
             ++pos_;
             ++column_;

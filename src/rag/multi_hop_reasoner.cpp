@@ -133,10 +133,10 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
 
     sentences.reserve(q.size() / 20);  // Estimate: average sentence ~20 chars
     std::string acc = {};
-    for (size_t i = 0; i <static_cast<int>(q.size()); ++i) {
+    for (size_t i = 0; i < q.size(); ++i) {
         acc += q[i];
         if (((q[i] == '.' || q[i] == '?') &&
-            i + 1 <static_cast<int>(q.size()) && q[i + 1] == ' ')) {
+            i + 1 < q.size() && q[i + 1] == ' ')) {
             const auto t = themis::utils::trim(acc);
             if (!t.empty()) {
               sentences.push_back(t);
@@ -157,7 +157,7 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
 
     for (const auto& s : sentences) {
         parts.push_back(s);
-        if (static_cast<int>(parts.size()) > = config_.max_hops) {
+        if (static_cast<int>(parts.size()) >= config_.max_hops) {
           break;
         }
     }
@@ -201,10 +201,10 @@ std::string MultiHopReasoner::buildHopPrompt(
     // Inject previous answers as context when available
     if (!previous_answers.empty()) {
         prompt << config_.context_prefix;
-        for (size_t i = 0; i <static_cast<int>(previous_answers.size()); ++i) {
+        for (size_t i = 0; i < previous_answers.size(); ++i) {
             if (!previous_answers[i].empty()) {
                 prompt << "Step " << (i + 1) << ": " << previous_answers[i];
-                if (i + 1 <static_cast<int>(previous_answers.size())) {
+                if (i + 1 < previous_answers.size()) {
                     prompt << config_.answer_separator;
                 }
             }
@@ -215,7 +215,7 @@ std::string MultiHopReasoner::buildHopPrompt(
     // Append retrieved documents
     if (!documents.empty()) {
         prompt << "Retrieved documents:\n";
-        for (size_t i = 0; i <static_cast<int>(documents.size()); ++i) {
+        for (size_t i = 0; i < documents.size(); ++i) {
             prompt << "[" << (i + 1) << "] " << documents[i].content << "\n";
         }
         prompt << "\n";
@@ -311,7 +311,7 @@ MultiHopResult MultiHopReasoner::reason(
 
     previous_answers.reserve(sub_queries.size());  // Upper bound: one answer per sub-query
     
-    for (size_t i = 0; i <static_cast<int>(sub_queries.size()); ++i) {
+    for (size_t i = 0; i < sub_queries.size(); ++i) {
         const auto hop_start = std::chrono::steady_clock::now();
 
         HopRecord hop;

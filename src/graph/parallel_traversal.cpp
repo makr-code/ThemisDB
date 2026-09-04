@@ -309,7 +309,7 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(c
     per_source.reserve(sources.size());
 
     // Process sources in batches of max_concurrent to cap thread count.
-    for (size_t batch_start = 0; batch_start <static_cast<int>(sources.size());) {
+    for (size_t batch_start = 0; batch_start < sources.size();) {
         const size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(sources.size()));
 
         std::vector<std::future<SourceTraversalResult>> futures;
@@ -357,7 +357,7 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceDFS(c
 
     per_source.reserve(sources.size());
 
-    for (size_t batch_start = 0; batch_start <static_cast<int>(sources.size());) {
+    for (size_t batch_start = 0; batch_start < sources.size();) {
         const size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(sources.size()));
 
         std::vector<std::future<SourceTraversalResult>> futures;

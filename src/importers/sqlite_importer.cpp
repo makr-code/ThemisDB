@@ -122,12 +122,12 @@ static bool simpleInsertFallbackSQLite(const std::string& sql, std::string& out_
     
     pos += 4;  // Skip "INTO"
     // Skip whitespace
-    while ((pos < static_cast<int>(upper_sql.size())) && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
+    while ((pos < upper_sql.size()) && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
         ++pos;
     
     // Extract table name (stop at whitespace or '(')
     size_t start = pos;
-    while (pos <static_cast<int>(upper_sql.size()) && upper_sql[pos] != ' ' && upper_sql[pos] != '\t' && upper_sql[pos] != '(')
+    while (pos < upper_sql.size() && upper_sql[pos] != ' ' && upper_sql[pos] != '\t' && upper_sql[pos] != '(')
         ++pos;
     
     if (start < pos) {
@@ -398,8 +398,7 @@ json SQLiteImporter::getSourceSchema(const std::string& source_path) {
 
         if (line.find(';') != std::string::npos) {
             std::string upper_prefix = {};
-            for (size_t i = 0;
-                 i <static_cast<int>(current_sql.size()) && i < 30; ++i) {
+            for (size_t i = 0; i < current_sql.size() && i < 30; ++i) {
                 upper_prefix += static_cast<char>(
                     std::toupper(
                         static_cast<unsigned char>(current_sql[i])));
@@ -570,7 +569,7 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
 
         // Build a short upper-case prefix for keyword matching
         std::string prefix = {};
-        for (size_t i = 0; i <static_cast<int>(current_sql.size()) && i < 30; ++i) {
+        for (size_t i = 0; i < current_sql.size() && i < 30; ++i) {
             prefix += static_cast<char>(
                 std::toupper(static_cast<unsigned char>(current_sql[i])));
         }
@@ -670,7 +669,7 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
     bool in_string = false;
     char str_char = '\0';
     size_t close_pos = std::string::npos;
-    for (size_t k = open_pos; k <static_cast<int>(sql.size()); ++k) {
+    for (size_t k = open_pos; k < sql.size(); ++k) {
         char c = sql[k];
         if (in_string) {
             if (c == str_char) {
@@ -700,7 +699,7 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
         bool inq = false;
         char qc  = '\0';
         std::string cur = {};
-        for (size_t i = 0; i <static_cast<int>(cols_str.size()); ++i) {
+        for (size_t i = 0; i < cols_str.size(); ++i) {
             char c = cols_str[i];
             if (inq) {
                 cur += c;
@@ -746,7 +745,7 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
 
         // Build an upper-case prefix for constraint detection
         std::string upper_def = {};
-        for (size_t i = 0; i <static_cast<int>(col_def.size()) && i < 25; ++i) {
+        for (size_t i = 0; i < col_def.size() && i < 25; ++i) {
             upper_def += static_cast<char>(
                 std::toupper(static_cast<unsigned char>(col_def[i])));
         }
@@ -792,7 +791,7 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
         }
 
         // Skip leading whitespace before type
-        while (type_start <static_cast<int>(col_def.size()) &&
+        while (type_start < col_def.size() &&
                (col_def[type_start] == ' ' || col_def[type_start] == '\t')) {
             ++type_start;
         }
@@ -904,7 +903,7 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
 
     while (static_cast<size_t>(pos) <static_cast<int>(values_payload.size())) {
         // Skip whitespace and commas between tuples
-        while (pos <static_cast<int>(values_payload.size()) &&
+        while (pos < values_payload.size() &&
                (values_payload[pos] == ' ' || values_payload[pos] == '\t' ||
                 values_payload[pos] == ',' || values_payload[pos] == '\r' ||
                 values_payload[pos] == '\n')) {
@@ -921,12 +920,12 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
         bool in_str = false;
         char sq = '\0';
         size_t k = pos + 1;
-        while (k <static_cast<int>(values_payload.size()) && dep > 0) {
+        while (k < values_payload.size() && dep > 0) {
             char c = values_payload[k];
             if (in_str) {
                 if (c == sq) {
                     // Handle doubled-quote escape: '' or ""
-                    if (k + 1 <static_cast<int>(values_payload.size()) &&
+                    if (k + 1 < values_payload.size() &&
                         values_payload[k + 1] == sq) {
                         ++k;  // skip the second quote
                     } else {
@@ -1088,7 +1087,7 @@ json SQLiteImporter::convertRowToEntity(const TableSchema& schema,
                                         const std::vector<std::string>& values) {
     json entity;
     entity["_type"] = schema.name;
-    for (size_t i = 0; i <static_cast<int>(values.size())  && static_cast<size_t>(i) <static_cast<int>(schema.columns.size()); ++i) {
+    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) <static_cast<int>(schema.columns.size()); ++i) {
         entity[schema.columns[i]] = values[i];
     }
     return entity;

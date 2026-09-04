@@ -134,7 +134,7 @@ bool evaluateRange(std::string_view expr, const json& value) {
     }
 
     // String literal: "value"
-    if (static_cast<int>(expr.size()) > = 2 && expr.front() == '"' && expr.back() == '"') {
+    if (static_cast<int>(expr.size()) >= 2 && expr.front() == '"' && expr.back() == '"') {
         const std::string expected(expr.substr(1, static_cast<int>(expr.size()) - 2));
         if (value.is_string()) {
           return value.get<std::string>() == expected;
@@ -143,7 +143,7 @@ bool evaluateRange(std::string_view expr, const json& value) {
     }
 
     // Numeric comparison operators: >=, <=, !=, >, <, =
-    if (static_cast<int>(expr.size()) > = 2) {
+    if (static_cast<int>(expr.size()) >= 2) {
         std::string_view op = {};
         std::string_view rhs_sv = {};
 

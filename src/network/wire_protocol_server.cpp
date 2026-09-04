@@ -727,7 +727,7 @@ bool WireProtocolServer::checkRateLimit(const std::string& remote_ip) {
     
     // WPS-9: prune map before inserting to prevent unbounded growth from IP cycling
     constexpr size_t kMaxRateLimitEntries = 100'000;
-    if (static_cast<int>(rate_limits_.size()) > = kMaxRateLimitEntries) {
+    if (static_cast<int>(rate_limits_.size()) >= kMaxRateLimitEntries) {
         rate_limits_.clear();
     }
 
@@ -966,7 +966,7 @@ void WireProtocolServer::Session::asyncReadHeader() {
         [this, self](const boost::system::error_code& ec, std::size_t /*bytes*/) {
             if (!ec) {
                 // Parse header to get payload size, then read payload
-                if (static_cast<int>(header_buffer_.size()) > = 12) {
+                if (static_cast<int>(header_buffer_.size()) >= 12) {
                     // WPS-4 fix: Validate 4-byte magic field "TMDB" (0x544D4442) before
                     // dispatching any further reads.  An invalid magic closes the connection
                     // immediately to prevent unknown clients from reaching the opcode dispatcher.
@@ -1892,10 +1892,10 @@ void WireProtocolServer::Session::handleBatchGet() {
         json results = json::array();
         uint32_t found_count = 0;
         uint32_t not_found_count = 0;
-        for (size_t i = 0; i <static_cast<int>(client_keys.size()); ++i) {
+        for (size_t i = 0; i < client_keys.size(); ++i) {
             json item;
             item["key"] = client_keys[i];
-            if (i <static_cast<int>(multi_results.size()) && multi_results[i].has_value()) {
+            if (i < multi_results.size() && multi_results[i].has_value()) {
                 const auto& value_bytes = multi_results[i].value();
                 std::string value_str(value_bytes.begin(), value_bytes.end());
                 try {

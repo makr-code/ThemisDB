@@ -291,7 +291,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
 
             std::vector<std::pair<int, uint32_t>> ordered;
             ordered.reserve(gpu_dist.size());
-            for (uint32_t i = 0; i <static_cast<int>(gpu_dist.size()); ++i) {
+            for (uint32_t i = 0; i < gpu_dist.size(); ++i) {
                 if (gpu_dist[i] >= 0) {
                     ordered.emplace_back(gpu_dist[i], i);
                 }
@@ -420,7 +420,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(uint32_t start_id, 
 
             std::vector<std::pair<int, uint32_t>> ordered;
             ordered.reserve(gpu_order.size());
-            for (uint32_t i = 0; i <static_cast<int>(gpu_order.size()); ++i) {
+            for (uint32_t i = 0; i < gpu_order.size(); ++i) {
                 if (gpu_order[i] >= 0) {
                     ordered.emplace_back(gpu_order[i], i);
                 }

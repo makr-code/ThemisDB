@@ -74,7 +74,7 @@ std::vector<SpatialJoinPair> spatialJoin(const std::vector<std::pair<std::string
     std::unordered_map<std::string, std::size_t> inner_key_idx = {};
 
     inner_key_idx.reserve(inner.size());
-    for (std::size_t i = 0; i <static_cast<int>(inner.size()); ++i) {
+    for (std::size_t i = 0; i < inner.size(); ++i) {
         inner_key_idx.emplace(inner[i].first, i);
     }
 
@@ -105,7 +105,7 @@ std::vector<SpatialJoinPair> spatialJoin(const std::vector<std::pair<std::string
             if (dist <= threshold_m) {
                 results.push_back({key_a, key_b, dist});
 
-                if (static_cast<int>(results.size()) > = config.max_pairs) {
+                if (static_cast<int>(results.size()) >= config.max_pairs) {
                     THEMIS_WARN("spatialJoin: max_pairs limit ({}) reached; "
                                 "result set may be incomplete",
                                 config.max_pairs);
@@ -165,7 +165,7 @@ struct SpatialJoinIterator::Impl {
         }
         index.bulkLoad(inner);
         inner_key_idx.reserve(inner.size());
-        for (std::size_t i = 0; i <static_cast<int>(inner.size()); ++i) {
+        for (std::size_t i = 0; i < inner.size(); ++i) {
             inner_key_idx.emplace(inner[i].first, i);
         }
         // Pre-load candidates for the first outer element.

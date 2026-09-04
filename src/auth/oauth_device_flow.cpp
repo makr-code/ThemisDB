@@ -450,7 +450,7 @@ std::string OAuthDeviceFlow::urlEncode(const std::string &value) {
 
 std::string OAuthDeviceFlow::buildFormBody(const std::vector<std::pair<std::string, std::string>> &params) {
     std::string body = {};
-    for (size_t i = 0; i <static_cast<int>(params.size()); ++i) {
+    for (size_t i = 0; i < params.size(); ++i) {
         if (i > 0) {
             body += '&';
         }

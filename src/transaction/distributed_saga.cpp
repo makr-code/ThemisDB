@@ -451,7 +451,7 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
 
     // Collect results
     DistributedSagaStatus wave_status;
-    for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
+    for (size_t i = 0; i < futures.size(); ++i) {
         try {
             auto st = futures[i].get();
             if (!st.ok && wave_status.ok) {

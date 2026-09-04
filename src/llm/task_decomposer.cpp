@@ -325,7 +325,7 @@ json simpleYamlToJson(const std::string& yaml_text) {
 
         // Determine indent level
         int indent = 0;
-        while ((indent < static_cast<int>(line.size()) && (line[indent] == ' ' || line[indent] == '\t')))
+        while ((indent < line.size() && (line[indent] == ' ' || line[indent] == '\t')))
             ++indent;
 
         // Multiline scalar continuation

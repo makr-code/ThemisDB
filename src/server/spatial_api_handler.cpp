@@ -342,10 +342,10 @@ http::response<http::string_body> SpatialApiHandler::handleMetrics(
 std::string SpatialApiHandler::urlDecode([[maybe_unused]] const std::string& str) {
     std::string result = {};
     result.reserve(str.size());
-    for (size_t i = 0; i <static_cast<int>(str.size()); ++i) {
+    for (size_t i = 0; i < str.size(); ++i) {
         // Check if we have at least 2 more characters after '%' for hex decoding
-        // i + 2 <static_cast<int>(str.size()) ensures str[i+1] and str[i+2] are valid
-        if (str[i] == '%' && i + 2 <static_cast<int>(str.size())) {
+        // i + 2 < str.size() ensures str[i+1] and str[i+2] are valid
+        if (str[i] == '%' && i + 2 < str.size()) {
             int value = 0;
             std::istringstream is(str.substr(i + 1, 2));
             if (is >> std::hex >> value) {

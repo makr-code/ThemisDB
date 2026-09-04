@@ -69,8 +69,8 @@ bool WsChangeHandler::isChangeStreamPath([[maybe_unused]] std::string_view path)
 static std::string url_decode(const std::string& encoded) {
     std::string result = {};
     result.reserve(encoded.size());
-    for (std::size_t i = 0; i <static_cast<int>(encoded.size()); ++i) {
-        if (encoded[i] == '%' && i + 2 <static_cast<int>(encoded.size()) &&
+    for (std::size_t i = 0; i < encoded.size(); ++i) {
+        if (encoded[i] == '%' && i + 2 < encoded.size() &&
             std::isxdigit(static_cast<unsigned char>(encoded[i + 1])) &&
             std::isxdigit(static_cast<unsigned char>(encoded[i + 2])))
         {

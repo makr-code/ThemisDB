@@ -545,7 +545,7 @@ std::map<std::string, float> SemanticQueryCache::extractQueryFeatures_(std::stri
     }
     
     // Add bigram features
-    for (size_t i = 0; i + 1 <static_cast<int>(tokens.size()); ++i) {
+    for (size_t i = 0; i + 1 < tokens.size(); ++i) {
         // Optimize: Use fmt::format for string building in loop instead of concatenation
         std::string bigram = fmt::format("{}_{}", tokens[i], tokens[i + 1]);
         features[bigram] = 0.5f / total;  // Lower weight for bigrams

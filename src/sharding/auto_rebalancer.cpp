@@ -265,7 +265,7 @@ void AutoRebalancer::monitorLoop() {
                             // Check max concurrent operations
                             {
                                 std::lock_guard<std::mutex> lock(mutex_);
-                                if (static_cast<int>(active_operations_.size()) > = config_.max_concurrent_operations) {
+                                if (static_cast<int>(active_operations_.size()) >= config_.max_concurrent_operations) {
                                     THEMIS_WARN("Max concurrent operations reached, queuing remaining");
                                     break;
                                 }
@@ -540,7 +540,7 @@ bool AutoRebalancer::canTriggerRebalance() const {
     }
     
     // Check max concurrent operations
-    if (static_cast<int>(active_operations_.size()) > = config_.max_concurrent_operations) {
+    if (static_cast<int>(active_operations_.size()) >= config_.max_concurrent_operations) {
         return false;
     }
     

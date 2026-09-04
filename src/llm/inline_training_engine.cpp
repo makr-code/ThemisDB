@@ -624,7 +624,7 @@ TrainingResult InlineTrainingEngine::trainLoop(
                 if (accumulated_gradients.empty()) {
                     accumulated_gradients = grads;
                 } else {
-                    for (size_t i = 0; i <static_cast<int>(grads.size())  && static_cast<size_t>(i) <static_cast<int>(accumulated_gradients.size()); ++i) {
+                    for (size_t i = 0; i < grads.size()  && static_cast<size_t>(i) <static_cast<int>(accumulated_gradients.size()); ++i) {
                         accumulated_gradients[i] += grads[i];
                     }
                 }

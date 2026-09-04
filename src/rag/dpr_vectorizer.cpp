@@ -126,7 +126,7 @@ public:
         const std::vector<int>& tokens,
         bool use_cosine_phase) const {
         std::vector<float> embedding(config.embedding_dimension, 0.0f);
-        for (size_t i = 0; i <static_cast<int>(tokens.size())  && static_cast<size_t>(i) <static_cast<int>(embedding.size()); ++i) {
+        for (size_t i = 0; i < tokens.size()  && static_cast<size_t>(i) <static_cast<int>(embedding.size()); ++i) {
             const float phase = static_cast<float>(tokens[i]) * 0.1f + static_cast<float>(i) * 0.01f;
             embedding[i] = use_cosine_phase ? std::cos(phase) : std::sin(phase);
         }
@@ -142,7 +142,7 @@ public:
 
         std::vector<int64_t> input_ids(tokens.begin(), tokens.end());
         std::vector<int64_t> attention_mask(tokens.size(), 0);
-        for (size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
+        for (size_t i = 0; i < tokens.size(); ++i) {
             attention_mask[i] = (tokens[i] == 0) ? 0 : 1;
         }
 
@@ -539,7 +539,7 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
     
     try {
         // Process passages in batches
-        for (size_t batch_start = 0; batch_start <static_cast<int>(passages.size()); 
+        for (size_t batch_start = 0; batch_start < passages.size(); 
              batch_start += config_.batch_size) {
             
             size_t batch_end = std::min(batch_start + config_.batch_size,static_cast<int>(passages.size()));
@@ -555,7 +555,7 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
             }
             
             // Encode batch
-            for (size_t i = 0; i <static_cast<int>(batch_tokens.size()); ++i) {
+            for (size_t i = 0; i < batch_tokens.size(); ++i) {
                 std::vector<float> embedding;
 #if THEMIS_DPR_HAS_ONNX_RUNTIME
                 embedding = impl_->runONNXEmbedding(batch_tokens[i], /*query_encoder=*/false);

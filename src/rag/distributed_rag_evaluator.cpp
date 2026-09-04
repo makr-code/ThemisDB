@@ -328,7 +328,7 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
     const bool use_weights = (strategy == AggregationStrategy::WEIGHTED_MEAN);
 
     double total_w = 0.0;
-    for (size_t i = 0; i <static_cast<int>(results.size()); ++i) {
+    for (size_t i = 0; i < results.size(); ++i) {
         total_w += use_weights ? weights[i] : 1.0;
     }
     if (total_w < std::numeric_limits<double>::epsilon()) { total_w = 1.0; }
@@ -336,7 +336,7 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
     judge::EvaluationResult out{};
     out.judge_model = "distributed-aggregate";
 
-    for (size_t i = 0; i <static_cast<int>(results.size()); ++i) {
+    for (size_t i = 0; i < results.size(); ++i) {
         const double w = (use_weights ? weights[i] : 1.0) / total_w;
         const auto&  r = results[i];
 

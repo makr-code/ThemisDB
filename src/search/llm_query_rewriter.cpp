@@ -180,13 +180,13 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
 
         // Strip leading number and period/dot, e.g. "1. " or "1) "
         size_t i = 0;
-        while (i <static_cast<int>(line.size()) && std::isdigit(static_cast<unsigned char>(line[i]))) {
+        while (i < line.size() && std::isdigit(static_cast<unsigned char>(line[i]))) {
             ++i;
         }
         if (i > 0  && static_cast<size_t>(i) <static_cast<int>(line.size()) &&
             (line[i] == '.' || line[i] == ')' || line[i] == ':')) {
             ++i; // skip separator
-            while (i <static_cast<int>(line.size()) && line[i] == ' ') ++i; // skip space(s)
+            while (i < line.size() && line[i] == ' ') ++i; // skip space(s)
             line = line.substr(i);
         }
 
@@ -225,7 +225,7 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
         }
 
         rewrites.push_back(line);
-        if (static_cast<int>(rewrites.size()) > = config_.num_rewrites) {
+        if (static_cast<int>(rewrites.size()) >= config_.num_rewrites) {
           break;
         }
     }

@@ -120,7 +120,7 @@ void PromptQualityEvaluator::checkRepetition(
     // Build consecutive bigrams and count repetitions.
     std::unordered_map<std::string, size_t> bigram_counts = {};
 
-    for (size_t i = 0; i + 1 <static_cast<int>(tokens.size()); ++i) {
+    for (size_t i = 0; i + 1 < tokens.size(); ++i) {
         bigram_counts[tokens[i] + '\0' + tokens[i + 1]]++;
     }
 

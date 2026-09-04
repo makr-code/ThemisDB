@@ -109,14 +109,14 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         return c;
     };
     auto peek
-        = [&]([[maybe_unused]] std::size_t offset = 0) -> char { return static_cast<bool>((pos + offset  < static_cast<int>(code.size()))) ? code[pos + offset] : '\0'; };
+        = [&]([[maybe_unused]] std::size_t offset = 0) -> char { return static_cast<bool>((pos + offset < code.size())) ? code[pos + offset] : '\0'; };
 
     while (static_cast<size_t>(pos) <static_cast<int>(code.size())) {
         // Skip whitespace (preserve for faithful reconstruction)
         if (std::isspace(static_cast<unsigned char>(code[pos]))) {
             std::string ws = {};
             std::size_t tl = line, tc = col;
-            while (pos <static_cast<int>(code.size()) && std::isspace(static_cast<unsigned char>(code[pos]))) {
+            while (pos < code.size() && std::isspace(static_cast<unsigned char>(code[pos]))) {
                 ws += advance();
             }
             tokens.push_back({AQLTokenType::UNKNOWN, ws, tl, tc});
@@ -128,7 +128,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         // Single-line comment //
         if (code[pos] == '/' && peek(1) == '/') {
             std::string comment = {};
-            while (pos <static_cast<int>(code.size()) && code[pos] != '\n') {
+            while (pos < code.size() && code[pos] != '\n') {
                 comment += advance();
             }
             tokens.push_back({AQLTokenType::COMMENT, comment, tl, tc});
@@ -174,7 +174,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         if (code[pos] == '@') {
             std::string ident = {};
             ident += advance(); // @
-            while ((pos < static_cast<int>(code.size())) && (std::isalnum(static_cast<unsigned char>(code[pos])) || code[pos] == '_')) {
+            while ((pos < code.size()) && (std::isalnum(static_cast<unsigned char>(code[pos])) || code[pos] == '_')) {
                 ident += advance();
             }
             tokens.push_back({AQLTokenType::IDENTIFIER, ident, tl, tc});
@@ -183,17 +183,17 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
 
         // Number (integer or float)
         if ((std::isdigit(static_cast<unsigned char>(code[pos])))
-            || ((code[pos] == '-') && ((pos + 1 < static_cast<int>(code.size())) && std::isdigit(static_cast<unsigned char>(code[pos + 1]))))) {
+            || ((code[pos] == '-') && ((pos + 1 < code.size()) && std::isdigit(static_cast<unsigned char>(code[pos + 1]))))) {
             std::string num = {};
             if (code[pos] == '-') {
                 num += advance();
             }
-            while (pos <static_cast<int>(code.size()) && std::isdigit(static_cast<unsigned char>(code[pos]))) {
+            while (pos < code.size() && std::isdigit(static_cast<unsigned char>(code[pos]))) {
                 num += advance();
             }
-            if (pos <static_cast<int>(code.size()) && code[pos] == '.') {
+            if (pos < code.size() && code[pos] == '.') {
                 num += advance();
-                while (pos <static_cast<int>(code.size()) && std::isdigit(static_cast<unsigned char>(code[pos]))) {
+                while (pos < code.size() && std::isdigit(static_cast<unsigned char>(code[pos]))) {
                     num += advance();
                 }
             }
@@ -204,16 +204,16 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         // Identifier or keyword
         if (std::isalpha(static_cast<unsigned char>(code[pos])) || code[pos] == '_') {
             std::string ident = {};
-            while ((pos < static_cast<int>(code.size())) && (std::isalnum(static_cast<unsigned char>(code[pos])) || code[pos] == '_')) {
+            while ((pos < code.size()) && (std::isalnum(static_cast<unsigned char>(code[pos])) || code[pos] == '_')) {
                 ident += advance();
             }
 
             // Peek for '(' to detect function calls
             std::size_t look = pos;
-            while (look <static_cast<int>(code.size()) && code[look] == ' ') {
+            while (look < code.size() && code[look] == ' ') {
                 ++look;
             }
-            bool is_call = (look <static_cast<int>(code.size()) && code[look] == '(');
+            bool is_call = (look < code.size() && code[look] == '(');
 
             std::string lower = toLowerAqlSyntax(ident);
             AQLTokenType ttype = {};
@@ -232,7 +232,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         }
 
         // Two-char operators
-        if (pos + 1 <static_cast<int>(code.size())) {
+        if (pos + 1 < code.size()) {
             std::string two{code[pos], code[pos + 1]};
             if (two == "==" || two == "!=" || two == "<=" || two == ">=" || two == "&&" || two == "||" || two == "|>") {
                 advance();
@@ -366,7 +366,7 @@ std::vector<AQLAnnotation> AQLSyntaxHighlighter::annotateErrors(const std::strin
     }
 
     // --- 3. FOR without IN ---
-    for (std::size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
+    for (std::size_t i = 0; i < tokens.size(); ++i) {
         const auto &tok = tokens[i];
         if (tok.type != AQLTokenType::KEYWORD) {
             continue;
@@ -377,7 +377,7 @@ std::vector<AQLAnnotation> AQLSyntaxHighlighter::annotateErrors(const std::strin
 
         // Skip whitespace/identifier tokens and look for IN
         bool found_in = false;
-        for (std::size_t j = i + 1; j <static_cast<int>(tokens.size()) && j < i + 8; ++j) {
+        for (std::size_t j = i + 1; j < tokens.size() && j < i + 8; ++j) {
             const auto &t = tokens[j];
             if (t.type == AQLTokenType::KEYWORD && toLowerAqlSyntax(t.value) == "in") {
                 found_in = true;

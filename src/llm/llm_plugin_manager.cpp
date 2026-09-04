@@ -1228,7 +1228,7 @@ std::vector<int32_t> LLMPluginManager::ProcessTokensSafe(
     try {
         result.reserve(tokens.size());
         
-        for (size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
+        for (size_t i = 0; i < tokens.size(); ++i) {
             if (i >= max_tokens) {
                 spdlog::warn("ProcessTokensSafe: token limit reached at index {}", i);
                 break;

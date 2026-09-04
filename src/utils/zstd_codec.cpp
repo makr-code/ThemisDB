@@ -146,7 +146,7 @@ Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size
         i += run;
     }
 
-    if (static_cast<int>(rle.size()) > = size + 5) {
+    if (static_cast<int>(rle.size()) >= size + 5) {
         std::vector<uint8_t> raw;
         raw.reserve(size + 5);
         raw.push_back(static_cast<uint8_t>('T'));
@@ -322,7 +322,7 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
 
     std::vector<uint8_t> output = {};
 
-    for (size_t i = 5; i + 1 <static_cast<int>(compressed.size()); i += 2) {
+    for (size_t i = 5; i + 1 < compressed.size(); i += 2) {
         const uint8_t count = compressed[i];
         const uint8_t value = compressed[i + 1];
         if (count == 0) {

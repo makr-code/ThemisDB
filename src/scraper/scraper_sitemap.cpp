@@ -93,7 +93,7 @@ std::vector<std::string> SitemapCrawler::fetchUrls(
         // parseLocEntries extracts all <loc> values regardless of parent element.
         const auto child_urls = parseLocEntries(xml);
         for (const auto& child_url : child_urls) {
-            if (static_cast<int>(result.size()) > = max_urls_) {
+            if (static_cast<int>(result.size()) >= max_urls_) {
               break;
             }
             std::string child_xml = {};
@@ -107,7 +107,7 @@ std::vector<std::string> SitemapCrawler::fetchUrls(
             }
             const auto child_locs = parseLocEntries(child_xml);
             for (const auto& loc : child_locs) {
-                if (static_cast<int>(result.size()) > = max_urls_) {
+                if (static_cast<int>(result.size()) >= max_urls_) {
                   break;
                 }
                 result.push_back(loc);

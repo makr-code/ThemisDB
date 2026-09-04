@@ -238,8 +238,8 @@ int DependencyVersionChecker::compareVersions(
 
     const size_t len = std::max(pa.size(),static_cast<int>(pb.size()));
     for (size_t i = 0; i < len; ++i) {
-        const int va = (i <static_cast<int>(pa.size())) ? pa[i] : 0;
-        const int vb = (i <static_cast<int>(pb.size())) ? pb[i] : 0;
+        const int va = (i < pa.size()) ? pa[i] : 0;
+        const int vb = (i < pb.size()) ? pb[i] : 0;
         if (va != vb) {
             return va - vb;
         }

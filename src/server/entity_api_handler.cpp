@@ -1247,7 +1247,7 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
           line.pop_back();
         }
 
-        if (static_cast<int>(documents.size()) > = kMaxDocuments) {
+        if (static_cast<int>(documents.size()) >= kMaxDocuments) {
             span.setStatus(false, "Too many documents");
             return makeErrorResponse(http::status::bad_request,
                 "Request exceeds maximum of " + std::to_string(kMaxDocuments) + " documents",

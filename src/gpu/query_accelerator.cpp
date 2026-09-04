@@ -1158,18 +1158,18 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
     double sum = 0.0;
     switch (config_.precision_mode) {
         case PrecisionMode::FP16:
-            for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+            for (size_t i = 0; i < a.size(); ++i) {
                 sum += static_cast<double>(quantise_fp16(a[i]) * quantise_fp16(b[i]));
             }
             break;
         case PrecisionMode::BF16:
-            for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+            for (size_t i = 0; i < a.size(); ++i) {
                 sum += static_cast<double>(quantise_bf16(a[i]) * quantise_bf16(b[i]));
             }
             break;
         case PrecisionMode::FP32:
         [[fallthrough]];\n        default:
-            for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+            for (size_t i = 0; i < a.size(); ++i) {
                 sum += static_cast<double>(a[i]) * static_cast<double>(b[i]);
             }
             break;
@@ -1365,7 +1365,7 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
         std::sort_heap(heap.begin(), heap.end());
 
         result.results[qi].resize(heap.size());
-        for (size_t ni = 0; ni <static_cast<int>(heap.size()); ++ni) {
+        for (size_t ni = 0; ni < heap.size(); ++ni) {
             result.results[qi][ni].index    = heap[ni].second;
             result.results[qi][ni].distance = heap[ni].first;
         }
@@ -1527,7 +1527,7 @@ GPUQueryAccelerator::TopKResult GPUQueryAccelerator::topK(std::vector<Row> rows,
     // gather the corresponding rows.  This avoids copying the (potentially
     // large) payload data during sorting.
     std::vector<size_t> cpu_idx(rows.size());
-    for (size_t i = 0; i <static_cast<int>(rows.size()); ++i)
+    for (size_t i = 0; i < rows.size(); ++i)
         cpu_idx[i] = i;
 
     auto cmp = [&](size_t a, size_t b) {

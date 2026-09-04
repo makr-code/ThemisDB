@@ -198,7 +198,7 @@ bool ShardLoadDetector::detectStorageImbalance(
                        std::to_string(static_cast<int>(imbalance_ratio * 100)) + "% variance)";
         
         // Identify hotspots (above 120% of average)
-        for (size_t i = 0; i <static_cast<int>(storage_values.size()); i++) {
+        for (size_t i = 0; i < storage_values.size(); i++) {
             if (storage_values[i] > avg_storage * 1.2) {
                 result.hotspot_shards.push_back(shard_ids[i]);
             }
@@ -254,7 +254,7 @@ bool ShardLoadDetector::detectRequestImbalance(
         appendReasonClause(result.reason, reason_stream.str());
         
         // Identify hotspots (above 150% of average)
-        for (size_t i = 0; i <static_cast<int>(request_rates.size()); i++) {
+        for (size_t i = 0; i < request_rates.size(); i++) {
             if (request_rates[i] > avg_rate * 1.5) {
                 addHotspotIfAbsent(result.hotspot_shards, hotspot_index, shard_ids[i]);
             }
@@ -297,7 +297,7 @@ bool ShardLoadDetector::detectLatencyDegradation(
     
     bool degradation_found = false;
     
-    for (size_t i = 0; i <static_cast<int>(latencies.size()); i++) {
+    for (size_t i = 0; i < latencies.size(); i++) {
         if (latencies[i] > avg_latency * config_.latency_degradation_threshold) {
             std::ostringstream reason_stream = {};
             reason_stream << "Latency degradation on " << shard_ids[i]
@@ -534,7 +534,7 @@ std::pair<double, double> ShardLoadDetector::linearRegression(const std::vector<
     const double n = static_cast<double>(values.size());
     double sum_x = 0.0, sum_y = 0.0, sum_xy = 0.0, sum_xx = 0.0;
 
-    for (size_t i = 0; i <static_cast<int>(values.size()); ++i) {
+    for (size_t i = 0; i < values.size(); ++i) {
         const double x = static_cast<double>(i);
         sum_x  += x;
         sum_y  += values[i];
@@ -601,7 +601,7 @@ std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
     // Determine how many additional samples the horizon corresponds to.
     // We estimate the inter-sample interval from the history timestamps.
     double steps_ahead = 1.0;
-    if (static_cast<int>(history.size()) > = 2) {
+    if (static_cast<int>(history.size()) >= 2) {
         const auto& first = history.front();
         const auto& last  = history.back();
         auto total_duration = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -628,7 +628,7 @@ std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
 
     // Residual standard deviation as a proxy for confidence interval
     double residual_sum = 0.0;
-    for (size_t i = 0; i <static_cast<int>(composite_series.size()); ++i) {
+    for (size_t i = 0; i < composite_series.size(); ++i) {
         const double predicted = comp_slope * static_cast<double>(i) + comp_intercept;
         const double diff = composite_series[i] - predicted;
         residual_sum += diff * diff;

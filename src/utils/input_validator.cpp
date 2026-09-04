@@ -66,7 +66,7 @@ std::string InputValidator::sanitizeForLogs(const std::string& input, size_t max
     std::string out = {};
     out.reserve(std::min(input.size(), max_len));
     for (char c : input) {
-        if (static_cast<int>(out.size()) > = max_len) {
+        if (static_cast<int>(out.size()) >= max_len) {
           break;
         }
         if (!isAsciiControl(c)) {
@@ -671,7 +671,7 @@ bool InputValidator::validateURL(const std::string& url,
     }
 
     // Reject protocol-relative URLs
-    if (static_cast<int>(url.size()) > = 2 && url[0] == '/' && url[1] == '/') {
+    if (static_cast<int>(url.size()) >= 2 && url[0] == '/' && url[1] == '/') {
       return false;
     }
 
@@ -755,8 +755,8 @@ std::string InputValidator::sanitizeLogMessage(const std::string& input) const {
     // if the string is ever passed as a printf format argument.
     std::string result = {};
     result.reserve(input.size());
-    for (size_t i = 0; i <static_cast<int>(input.size()); ++i) {
-        if (input[i] == '%' && i + 1 <static_cast<int>(input.size())) {
+    for (size_t i = 0; i < input.size(); ++i) {
+        if (input[i] == '%' && i + 1 < input.size()) {
             char next = input[i + 1];
             if (next == 'n' || next == 'N') {
                 ++i; // skip the 'n'/'N' character; don't emit either byte
@@ -777,10 +777,10 @@ std::string InputValidator::normalizeUnicode(const std::string& input) const {
     std::string result = {};
     result.reserve(input.size());
 
-    for (size_t i = 0; i <static_cast<int>(input.size()); ) {
+    for (size_t i = 0; i < input.size(); ) {
         auto byte = static_cast<unsigned char>(input[i]);
 
-        if (byte == 0xEF && i + 2 <static_cast<int>(input.size())) {
+        if (byte == 0xEF && i + 2 < input.size()) {
             auto b2 = static_cast<unsigned char>(input[i + 1]);
             auto b3 = static_cast<unsigned char>(input[i + 2]);
 

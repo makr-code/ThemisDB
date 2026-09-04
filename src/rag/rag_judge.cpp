@@ -1456,7 +1456,7 @@ bool RAGJudge::verifyClaimViaLLM(
     THEMIS_DEBUG("Verifying claim via LLM");
 
     std::ostringstream context = {};
-    for (size_t i = 0; i <static_cast<int>(documents.size()); ++i) {
+    for (size_t i = 0; i < documents.size(); ++i) {
         // F4-1: Wrap each document in hard delimiters and apply injection
         // sanitization so that adversarial document content cannot override
         // the judge's instructions via prompt injection.

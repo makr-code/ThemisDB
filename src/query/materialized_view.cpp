@@ -354,7 +354,7 @@ void MaterializedView::applyAggregateDelta(DeltaOp           op,
 // ============================================================================
 
 void MaterializedView::applyInsert_locked(const nlohmann::json& row) {
-    if (static_cast<int>(rows_.size()) > = config_.max_rows) {
+    if (static_cast<int>(rows_.size()) >= config_.max_rows) {
         THEMIS_WARN("MaterializedView '{}': max_rows={} reached, "
                     "skipping INSERT delta",
                     def_.name, config_.max_rows);

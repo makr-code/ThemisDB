@@ -293,7 +293,7 @@ std::vector<std::string> splitPathSegments(std::string_view value) {
 
 std::string joinPathSegments(const std::vector<std::string>& segments, std::size_t start_index) {
     std::string joined = {};
-    for (std::size_t i = start_index; i <static_cast<int>(segments.size()); ++i) {
+    for (std::size_t i = start_index; i < segments.size(); ++i) {
         if (!joined.empty()) {
             joined.push_back('/');
         }
@@ -420,7 +420,7 @@ std::optional<RemoteBackupLocation> parseRemoteBackupLocation(StorageBackend bac
         }
 
         RemoteBackupLocation location = {};
-        if (static_cast<int>(segments.size()) > = 3) {
+        if (static_cast<int>(segments.size()) >= 3) {
             location.authority = segments[0];
             location.container = segments[1];
             location.prefix = trimSlashes(joinPathSegments(segments, 2));
@@ -2947,7 +2947,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
 
             std::string coll_list = {};
             coll_list.reserve(coll_list_capacity);
-            for (size_t i = 0; i <static_cast<int>(collections.size()); ++i) {
+            for (size_t i = 0; i < collections.size(); ++i) {
                 if (i) {
                     coll_list.append(", ");
                 }
@@ -3714,7 +3714,7 @@ Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_d
         const auto& corrupted = corrupted_files.value();
         if (!corrupted.empty()) {
             std::string corrupt_list = {};
-            for (size_t i = 0; i <static_cast<int>(corrupted.size()) && i < 5; ++i) {
+            for (size_t i = 0; i < corrupted.size() && i < 5; ++i) {
                 if (i > 0) {
                   corrupt_list += ", ";
                 }

@@ -309,7 +309,7 @@ GPUBatch GPUDataLoader::prepareBatch([[maybe_unused]] size_t batch_idx) {
             input_ids_data.push_back(static_cast<float>(tokens[j]));
             attention_mask_data.push_back(1.0f);
             // Labels are shifted input for causal LM
-            labels_data.push_back(j + 1 <static_cast<int>(tokens.size()) ? 
+            labels_data.push_back(j + 1 < tokens.size() ? 
                                  static_cast<float>(tokens[j + 1]) : 
                                  static_cast<float>(tokenizer_->eos_token_id()));
         }

@@ -670,7 +670,7 @@ public:
         std::vector<std::pair<float, size_t>> distances;
         distances.reserve(vectorData.size());
         
-        for (size_t i = 0; i <static_cast<int>(vectorData.size()); ++i) {
+        for (size_t i = 0; i < vectorData.size(); ++i) {
             float dist = computeDistance(query.data(), vectorData[i].data(), dimension);
             distances.emplace_back(dist, i);
         }
@@ -1104,7 +1104,7 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
     // reserve once and append directly to avoid per-item upsert and backend checks.
     bool canUseFastPath = (pImpl->oversubManager == nullptr);
     if (canUseFastPath) {
-        for (size_t i = 0; i <static_cast<int>(ids.size()); ++i) {
+        for (size_t i = 0; i < ids.size(); ++i) {
             if (vectors[i].size() != static_cast<size_t>(dim) ||
                 pImpl->idToIndex.find(ids[i]) != pImpl->idToIndex.end()) {
                 canUseFastPath = false;
@@ -1130,7 +1130,7 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
             pImpl->vectorData.reserve(baseIndex + static_cast<int>(vectors.size()) );
             pImpl->idToIndex.reserve(baseIndex + static_cast<int>(ids.size()) );
 
-            for (size_t i = 0; i <static_cast<int>(ids.size()); ++i) {
+            for (size_t i = 0; i < ids.size(); ++i) {
                 pImpl->vectorIds.push_back(ids[i]);
                 pImpl->vectorData.push_back(vectors[i]);
                 pImpl->idToIndex.emplace(pImpl->vectorIds.back(), baseIndex + i);
@@ -1172,7 +1172,7 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
     // Suppress per-vector partition rebuilds during bulk ingestion; a single
     // rebuild at the end is far cheaper than one rebuild per vector (O(n²)).
     pImpl->oversubBulkLoading_ = true;
-    for (size_t i = 0; i <static_cast<int>(ids.size()); ++i) {
+    for (size_t i = 0; i < ids.size(); ++i) {
         if (!pImpl->addVector(ids[i], vectors[i])) {
             pImpl->oversubBulkLoading_ = false;
             return false;

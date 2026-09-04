@@ -402,12 +402,12 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
             std::unordered_map<std::string, double> scores;
             
             // Text contributions
-            for (size_t i = 0; i <static_cast<int>(textResults.size()); ++i) {
+            for (size_t i = 0; i < textResults.size(); ++i) {
                 scores[textResults[i].pk] += 1.0 / (kRrf + i + 1);
             }
             
             // Vector contributions
-            for (size_t i = 0; i <static_cast<int>(vectorResults.size()); ++i) {
+            for (size_t i = 0; i < vectorResults.size(); ++i) {
                 scores[vectorResults[i].pk] += 1.0 / (kRrf + i + 1);
             }
             

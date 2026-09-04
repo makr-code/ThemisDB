@@ -128,9 +128,9 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
             scores.assign(batch.size(), 0.0);
         }
 
-        for (size_t i = 0; i <static_cast<int>(batch.size()); ++i) {
+        for (size_t i = 0; i < batch.size(); ++i) {
             const auto& c = batch[i];
-            const double llm_score = (i <static_cast<int>(scores.size())) ? scores[i] : 0.0;
+            const double llm_score = (i < scores.size()) ? scores[i] : 0.0;
 
             LlmRerankResult r;
             r.document_id   = c.document_id;
@@ -176,7 +176,7 @@ std::vector<ClickEvent> LlmReranker::toClickEvents(
 ) {
     std::vector<ClickEvent> events = {};
 
-    for (size_t rank = 0; rank <static_cast<int>(results.size()); ++rank) {
+    for (size_t rank = 0; rank < results.size(); ++rank) {
         const auto& r = results[rank];
         if (r.llm_score >= relevance_threshold) {
             ClickEvent ev;
@@ -209,7 +209,7 @@ std::string LlmReranker::buildPrompt(
     oss << ".\n\n"
         << "Query: " << query << "\n\n";
 
-    for (size_t i = 0; i <static_cast<int>(batch.size()); ++i) {
+    for (size_t i = 0; i < batch.size(); ++i) {
         // Truncate snippet to max_snippet_length
         const std::string& full = batch[i].content;
         const std::string snippet = (static_cast<int>(full.size()) > config_.max_snippet_length)

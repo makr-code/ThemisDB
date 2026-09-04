@@ -338,14 +338,14 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
         } else if (target_dtype == DType::FLOAT16) {
             // Convert to FP16 (simulate precision loss)
             result.cpu_data_.resize(cpu_data_.size());
-            for (size_t i = 0; i <static_cast<int>(cpu_data_.size()); ++i) {
+            for (size_t i = 0; i < cpu_data_.size(); ++i) {
                 uint16_t fp16_bits = fp32_to_fp16_bits(cpu_data_[i]);
                 result.cpu_data_[i] = fp16_bits_to_fp32(fp16_bits);
             }
         } else if (target_dtype == DType::BFLOAT16) {
             // Convert to BF16 (simulate precision loss)
             result.cpu_data_.resize(cpu_data_.size());
-            for (size_t i = 0; i <static_cast<int>(cpu_data_.size()); ++i) {
+            for (size_t i = 0; i < cpu_data_.size(); ++i) {
                 uint16_t bf16_bits = fp32_to_bf16_bits(cpu_data_[i]);
                 result.cpu_data_[i] = bf16_bits_to_fp32(bf16_bits);
             }
@@ -837,7 +837,7 @@ GPUTensor GPUTensor::dispatch_transpose() const {
 void GPUTensor::multiply_inplace([[maybe_unused]] float scalar) {
     if (is_cpu()) {
         // CPU implementation
-        for (size_t i = 0; i <static_cast<int>(cpu_data_.size()); ++i) {
+        for (size_t i = 0; i < cpu_data_.size(); ++i) {
             cpu_data_[i] *= scalar;
         }
     } else {
@@ -866,7 +866,7 @@ void GPUTensor::multiply_inplace([[maybe_unused]] float scalar) {
         
         // Fallback for Vulkan/DirectX: download, multiply, upload
         auto data = download();
-        for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
+        for (size_t i = 0; i < data.size(); ++i) {
             data[i] *= scalar;
         }
         upload(data);

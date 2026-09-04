@@ -406,7 +406,7 @@ std::string FederationReplicaManagerImpl::ComputeStateHash() const {
 
 bool FederationReplicaManagerImpl::ReplayEntries(
     const std::vector<std::string>& entries) {
-  for (size_t i = 0; i <static_cast<int>(entries.size()); ++i) {
+  for (size_t i = 0; i < entries.size(); ++i) {
     uint64_t index = snapshot_index_ + i + 1;
     ApplyEntryLocked(index, 0, entries[i]);
   }

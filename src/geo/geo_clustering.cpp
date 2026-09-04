@@ -252,7 +252,7 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
             result.labels[j] = cluster_id;
 
             std::vector<std::size_t> j_neighbours = regionQuery(j);
-            if (static_cast<int>(j_neighbours.size()) > = config.min_points) {
+            if (static_cast<int>(j_neighbours.size()) >= config.min_points) {
                 // j is a core point; add its unvisited neighbours.
                 for (std::size_t nb : j_neighbours) {
                     if (result.labels[nb] == kDbscanUnclassified || result.labels[nb] == kDbscanNoise) {

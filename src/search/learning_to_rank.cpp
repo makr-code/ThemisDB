@@ -89,7 +89,7 @@ std::vector<RankedResult> LearningToRank::rerankWithVariant(
 // ============================================================================
 
 void LearningToRank::recordClick(const ClickEvent& event) {
-    if (static_cast<int>(clicks_.size()) > = config_.max_click_buffer) {
+    if (static_cast<int>(clicks_.size()) >= config_.max_click_buffer) {
         // Evict oldest event when buffer is full
         clicks_.erase(clicks_.begin());
     }

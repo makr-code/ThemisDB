@@ -66,7 +66,7 @@ std::vector<ShardInfo> URNResolver::resolveReplicas(const URN& urn, size_t repli
     std::vector<std::string> successor_ids = hash_ring_->getSuccessors(hash, replica_count + 1);
     
     // Skip the first one (it's the primary), add the rest
-    for (size_t i = 1; i <static_cast<int>(successor_ids.size()) && static_cast<int>(result.size()) <= replica_count; ++i) {
+    for (size_t i = 1; i < successor_ids.size() && static_cast<int>(result.size()) <= replica_count; ++i) {
         auto replica = topology_->getShard(successor_ids[i]);
         if (replica && replica->is_healthy) {
             result.push_back(*replica);

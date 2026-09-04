@@ -44,7 +44,7 @@ namespace {
 std::string unescapeAml(std::string_view s) {
     std::string out = {};
     out.reserve(s.size());
-    for (size_t i = 0; i <static_cast<int>(s.size()); ) {
+    for (size_t i = 0; i < s.size(); ) {
         if (s[i] != '&') { out += s[i++]; continue; }
         size_t semi = s.find(';', i + 1);
         if (semi == std::string_view::npos) { out += s[i++]; continue; }

@@ -53,7 +53,7 @@ void GPUGraphCache::capture(const QueryShape &shape) {
     }
 
     // Evict the LRU entry if the cache is at capacity.
-    if (static_cast<int>(entries_.size()) > = kMaxEntries) {
+    if (static_cast<int>(entries_.size()) >= kMaxEntries) {
         evictLRU();
     }
 

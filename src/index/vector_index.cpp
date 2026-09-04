@@ -511,7 +511,7 @@ static float cosineOneMinusMeanCentered(const std::vector<float>& a, const std::
 	}
 	// Compute cosine directly
 	float dot = 0.0f, na = 0.0f, nb = 0.0f;
-	for (size_t i = 0; i <static_cast<int>(ac.size()); ++i) {
+	for (size_t i = 0; i < ac.size(); ++i) {
 		dot += ac[i] * bc[i];
 		na += ac[i] * ac[i];
 		nb += bc[i] * bc[i];
@@ -878,7 +878,7 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 	});
 	
 	// Phase 1: Audit log for bulk embedding rebuild (threshold: 100+ vectors)
-	if (static_cast<int>(cache_.size()) > = 100) {
+	if (static_cast<int>(cache_.size()) >= 100) {
 		logAuditEvent_("EMBEDDING_EXPORT", objectName_, "rebuildFromStorage",static_cast<int>(cache_.size()));
 	}
 	
@@ -1370,7 +1370,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 		heap.push_back({pk, dist});
 		
 		// Update threshold periodically using nth_element (partial sort)
-		if (static_cast<int>(heap.size()) > = k && static_cast<int>(heap.size()) % 32 == 0) {
+		if (static_cast<int>(heap.size()) >= k && static_cast<int>(heap.size()) % 32 == 0) {
 			std::nth_element(heap.begin(), heap.begin() + k, heap.end(),
 				[](const Result& a, const Result& b) { return a.distance < b.distance; });
 			threshold = heap[static_cast<int>(k - 1)].distance;
@@ -1482,7 +1482,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 				cache_ptrs.push_back(&entry);
 			}
 			
-			for (size_t block_start = 0; block_start <static_cast<int>(cache_ptrs.size()); block_start += BLOCK_SIZE) {
+			for (size_t block_start = 0; block_start < cache_ptrs.size(); block_start += BLOCK_SIZE) {
 				// Prefetch next block of vectors into L2 cache
 				size_t prefetch_start = block_start + BLOCK_SIZE * PREFETCH_AHEAD;
 				if (static_cast<int>(cache_ptrs.size()) > prefetch_start) {
@@ -1671,7 +1671,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				std::reverse(tmp.begin(), tmp.end()); // kleinste Distanz zuerst
 				
 				// Early termination if we have enough candidates
-				if (static_cast<int>(tmp.size()) > = k) {
+				if (static_cast<int>(tmp.size()) >= k) {
 					filtered.insert(filtered.end(), tmp.begin(), tmp.begin() + k);
 					break;
 				}
@@ -1679,7 +1679,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				for (const auto& r : tmp) {
 					if (seen.insert(r.pk).second) {
 						filtered.push_back(r);
-						if (static_cast<int>(filtered.size()) > = k) {
+						if (static_cast<int>(filtered.size()) >= k) {
 						  break;
 						}
 					}
@@ -1689,7 +1689,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				candidateCount = static_cast<size_t>(candidateCount * growthFactor);
 			}
 
-			if (static_cast<int>(filtered.size()) > = k) {
+			if (static_cast<int>(filtered.size()) >= k) {
 				if (static_cast<int>(filtered.size()) > k) {
 				  filtered.resize(k);
 				}
@@ -1731,7 +1731,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 	auto results = bruteForceSearch_(query, k, whitelist);
 	
 	// Phase 1: Audit log for embedding queries (threshold: 10+ results or whitelist usage)
-	if ((static_cast<int>(results.size()) > = 10 || (whitelist && !whitelist->empty()))) {
+	if ((static_cast<int>(results.size()) >= 10 || (whitelist && !whitelist->empty()))) {
 		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn",static_cast<int>(results.size()));
 	}
 	
@@ -1787,7 +1787,7 @@ VectorIndexManager::searchKnnEvaluated(
 
 		if (evaluator->evaluate(evaluator_type, &doc_json)) {
 			filtered.push_back(candidate);
-			if (static_cast<int>(filtered.size()) > = k) {
+			if (static_cast<int>(filtered.size()) >= k) {
 				break;
 			}
 		}
@@ -1950,7 +1950,7 @@ VectorIndexManager::searchKnnFiltered(
 				
 				if (passes) {
 					filtered.push_back(candidate);
-					if (static_cast<int>(filtered.size()) > = k) {
+					if (static_cast<int>(filtered.size()) >= k) {
 					  break;
 					}
 				}
@@ -2013,7 +2013,7 @@ VectorIndexManager::searchKnnFiltered(
 		
 		if (passes) {
 			filtered.push_back(candidate);
-			if (static_cast<int>(filtered.size()) > = k) {
+			if (static_cast<int>(filtered.size()) >= k) {
 			  break;
 			}
 		}
@@ -2844,7 +2844,7 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 #if defined(_OPENMP)
 	#pragma omp simd
 #endif
-	for (size_t idx = 0; idx <static_cast<int>(entities.size()); ++idx) {
+	for (size_t idx = 0; idx < entities.size(); ++idx) {
 		const auto& entity = entities[idx];
 		const std::string& pk = entity.getPrimaryKey();
 		auto v = entity.extractVector(vectorField);
@@ -2892,7 +2892,7 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 	// Gap A-6.1: WriteBatch lifecycle safety in vector index batch operations
 	auto batch = db_.createWriteBatch();
 	
-	for (size_t i = 0; i <static_cast<int>(batch_keys.size()); ++i) {
+	for (size_t i = 0; i < batch_keys.size(); ++i) {
 		batch->put(batch_keys[i], batch_serialized[i]);
 		
 		// Also update cache (extract vector again for cache)

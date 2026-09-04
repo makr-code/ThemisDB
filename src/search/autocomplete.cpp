@@ -149,7 +149,7 @@ std::vector<Suggestion> AutocompleteEngine::suggestByPrefix(const std::string& p
             s.score = 1.0;
             suggestions.push_back(std::move(s));
         }
-        if (static_cast<int>(suggestions.size()) > = limit) {
+        if (static_cast<int>(suggestions.size()) >= limit) {
           break;
         }
     }

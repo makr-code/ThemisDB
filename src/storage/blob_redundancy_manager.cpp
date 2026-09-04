@@ -833,7 +833,7 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
                      blob_id, healthy, required,static_cast<int>(missing.size()),
                      [&]() {
                          std::ostringstream ss = {};
-                         for (size_t i = 0; i <static_cast<int>(missing.size()); ++i) {
+                         for (size_t i = 0; i < missing.size(); ++i) {
                              if (i) {
                                ss << ", ";
                              }
@@ -1020,7 +1020,7 @@ Result<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
                 s.data          = std::move(*chunk_data);
                 available[i]    = std::move(s);
 
-                if (static_cast<int>(available.size()) > = static_cast<size_t>(ec_config.data_shards)) {
+                if (static_cast<int>(available.size()) >= static_cast<size_t>(ec_config.data_shards)) {
                     // We have enough shards to reconstruct; stop reading further
                     // to save I/O when shards are on separate remote nodes.
                     break;

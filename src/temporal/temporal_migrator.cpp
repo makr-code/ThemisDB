@@ -377,7 +377,7 @@ MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& ta
 
         for (const auto& key : table.getAllKeys()) {
             auto history = table.getHistory(key);
-            for (size_t i = 1; i <static_cast<int>(history.size()); ++i) {
+            for (size_t i = 1; i < history.size(); ++i) {
                 if (history[i].sys_time.start < history[static_cast<int>(i - 1)].sys_time.start) {
                     r.passed = false;
                     r.detail = "Key '" + key + "': versions out of order at index "
@@ -404,7 +404,7 @@ MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& ta
 
         for (const auto& key : table.getAllKeys()) {
             auto history = table.getHistory(key);
-            for (size_t i = 1; i <static_cast<int>(history.size()); ++i) {
+            for (size_t i = 1; i < history.size(); ++i) {
                 if (history[i].sys_time.start < history[static_cast<int>(i - 1)].sys_time.end) {
                     r.passed = false;
                     r.detail = "Key '" + key + "': overlapping versions at index "
@@ -454,7 +454,7 @@ MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& ta
         for (const auto& key : table.getAllKeys()) {
             auto history = table.getHistory(key);
             // Expect closed version[i].sys_end == next version[i+1].sys_start
-            for (size_t i = 0; i + 1 <static_cast<int>(history.size()); ++i) {
+            for (size_t i = 0; i + 1 < history.size(); ++i) {
                 if (!history[i].isCurrent() &&
                     history[i].sys_time.end != history[i + 1].sys_time.start) {
                     ++gaps;

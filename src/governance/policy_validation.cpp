@@ -133,12 +133,12 @@ PolicyValidator::detectContradictoryRules(const PolicyManager &policy_mgr) const
     THEMIS_DEBUG("Checking {} rules for contradictions",static_cast<int>(all_rules.size()));
 
     // Compare each pair of rules
-    for (size_t i = 0; i <static_cast<int>(all_rules.size()); ++i) {
+    for (size_t i = 0; i < all_rules.size(); ++i) {
         if (!all_rules[i].enabled) {
             continue;
         }
 
-        for (size_t j = i + 1; j <static_cast<int>(all_rules.size()); ++j) {
+        for (size_t j = i + 1; j < all_rules.size(); ++j) {
             if (!all_rules[j].enabled) {
                 continue;
             }
@@ -321,13 +321,13 @@ PolicyValidator::detectCircularDependencies(const PolicyManager &policy_mgr) con
                || (r1.allow_cache != r2.allow_cache);
     };
 
-    for (std::size_t i = 0; i <static_cast<int>(all_rules.size()); ++i) {
+    for (std::size_t i = 0; i < all_rules.size(); ++i) {
         const auto &r1 = all_rules[i];
         if (!r1.enabled) {
             continue;
         }
 
-        for (std::size_t j = i + 1; j <static_cast<int>(all_rules.size()); ++j) {
+        for (std::size_t j = i + 1; j < all_rules.size(); ++j) {
             const auto &r2 = all_rules[j];
             if (!r2.enabled) {
                 continue;
@@ -378,7 +378,7 @@ PolicyValidator::detectCircularDependencies(const PolicyManager &policy_mgr) con
             }
         }
 
-        if (static_cast<int>(component.size()) > = 3) {
+        if (static_cast<int>(component.size()) >= 3) {
             ConflictResult conflict;
             conflict.conflict_id          = "circular_" + component[0];
             conflict.conflict_type        = "circular";

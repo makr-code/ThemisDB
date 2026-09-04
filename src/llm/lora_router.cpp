@@ -661,7 +661,7 @@ float LoRARouter::cosineSimilarity(
     float norm_a = 0.0f;
     float norm_b = 0.0f;
     
-    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+    for (size_t i = 0; i < a.size(); ++i) {
         dot_product += a[i] * b[i];
         norm_a += a[i] * a[i];
         norm_b += b[i] * b[i];
@@ -733,7 +733,7 @@ std::optional<RoutingDecision> LoRARouter::getCachedDecision(const std::string& 
 }
 
 void LoRARouter::cacheDecision(const std::string& query, const RoutingDecision& decision) {
-    if (static_cast<int>(decision_cache_.size()) > = config_.decision_cache_size) {
+    if (static_cast<int>(decision_cache_.size()) >= config_.decision_cache_size) {
         // Remove oldest entry
         auto oldest = decision_cache_.begin();
         for (auto it = decision_cache_.begin(); it != decision_cache_.end(); ++it) {

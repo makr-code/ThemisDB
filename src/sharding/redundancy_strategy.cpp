@@ -266,7 +266,7 @@ bool StripeGroup::isComplete() const {
 std::vector<uint32_t> StripeGroup::getMissingChunks() const {
     std::vector<uint32_t> missing = {};
 
-    for (size_t i = 0; i <static_cast<int>(data_chunks.size()); ++i) {
+    for (size_t i = 0; i < data_chunks.size(); ++i) {
         if (data_chunks[i].shard_id.empty()) {
             missing.push_back(static_cast<uint32_t>(i));
         }
@@ -1782,7 +1782,7 @@ WriteResult RedundancyStrategy::writeMirror(
     // Wait for writes based on write concern and enforce deadline
     uint32_t successful = 0;
     const auto wait_timeout = config_.replication_timeout;
-    for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
+    for (size_t i = 0; i < futures.size(); ++i) {
         try {
             auto status = futures[i].wait_for(wait_timeout);
             if (status != std::future_status::ready) {
@@ -2017,7 +2017,7 @@ WriteResult RedundancyStrategy::writeStripe(
     written_shards.reserve(target_shards.size());
     failed_shards.reserve(target_shards.size());
     
-    for (size_t i = 0; i <static_cast<int>(chunks.size())  && static_cast<size_t>(i) <static_cast<int>(target_shards.size()); ++i) {
+    for (size_t i = 0; i < chunks.size()  && static_cast<size_t>(i) <static_cast<int>(target_shards.size()); ++i) {
         const auto& chunk = chunks[i];
         const auto& shard_id = target_shards[i];
         
@@ -2029,7 +2029,7 @@ WriteResult RedundancyStrategy::writeStripe(
     // Wait for writes based on write concern and enforce deadline
     uint32_t successful = 0;
     const auto wait_timeout = config_.replication_timeout;
-    for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
+    for (size_t i = 0; i < futures.size(); ++i) {
         try {
             auto status = futures[i].wait_for(wait_timeout);
             if (status != std::future_status::ready) {
@@ -2089,7 +2089,7 @@ WriteResult RedundancyStrategy::writeStripeMirror(
     
     std::vector<std::string> all_written_shards;
     
-    for (size_t i = 0; i <static_cast<int>(chunks.size()); ++i) {
+    for (size_t i = 0; i < chunks.size(); ++i) {
         const auto& chunk = chunks[i];
         std::string chunk_doc_id = document_id + ":chunk:" + std::to_string(i);
         
@@ -2147,7 +2147,7 @@ WriteResult RedundancyStrategy::writeParity(
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
     
-    for (size_t i = 0; i <static_cast<int>(chunks.size())  && static_cast<size_t>(i) <static_cast<int>(target_shards.size()); ++i) {
+    for (size_t i = 0; i < chunks.size()  && static_cast<size_t>(i) <static_cast<int>(target_shards.size()); ++i) {
         const auto& chunk = chunks[i];
         const auto& shard_id = target_shards[i];
         bool is_parity = i >= data_shards;
@@ -2162,7 +2162,7 @@ WriteResult RedundancyStrategy::writeParity(
     // W2-S06: Consensus validation — wait for sufficient acknowledgments
     // Erasure coding consensus: need at least data_shards successful writes
     uint32_t successful = 0;
-    for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
+    for (size_t i = 0; i < futures.size(); ++i) {
         try {
             if (futures[i].get()) {
                 written_shards.push_back(target_shards[i]);
@@ -2326,7 +2326,7 @@ WriteResult RedundancyStrategy::writeGeoMirror(
 
     std::vector<std::string> written_shards, failed_shards;
     uint32_t successful = 0;
-    for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
+    for (size_t i = 0; i < futures.size(); ++i) {
         try {
             auto status = futures[i].wait_for(replication_timeout);
             if (status != std::future_status::ready) {
@@ -2841,7 +2841,7 @@ std::vector<std::vector<uint8_t>> RedundancyStrategy::splitIntoChunks(
 ) {
     std::vector<std::vector<uint8_t>> chunks;
     
-    for (size_t offset = 0; offset <static_cast<int>(data.size()); offset += chunk_size) {
+    for (size_t offset = 0; offset < data.size(); offset += chunk_size) {
         size_t size = std::min(chunk_size, static_cast<int>(data.size()) - offset);
         std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + size);
         chunks.push_back(chunk);
@@ -3274,7 +3274,7 @@ bool RedundancyStrategy::remove(
         std::vector<std::string> shards{primary_shard};
         shards.insert(shards.end(), replicas.begin(), replicas.end());
 
-        for (size_t i = 0; i <static_cast<int>(shards.size()); ++i) {
+        for (size_t i = 0; i < shards.size(); ++i) {
             targets.emplace_back(shards[i],
                                  document_id + ":chunk:" + std::to_string(i));
         }
@@ -3289,7 +3289,7 @@ bool RedundancyStrategy::remove(
         std::vector<std::string> shards{primary_shard};
         shards.insert(shards.end(), replicas.begin(), replicas.end());
 
-        for (size_t i = 0; i <static_cast<int>(shards.size()) && i < total; ++i) {
+        for (size_t i = 0; i < shards.size() && i < total; ++i) {
             bool is_parity = (i >= erasure_config.data_shards);
             std::string key = document_id +
                               (is_parity ? ":parity:" : ":data:") +
@@ -3338,7 +3338,7 @@ bool RedundancyStrategy::remove(
     }
 
     uint32_t successes = 0;
-    for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
+    for (size_t i = 0; i < futures.size(); ++i) {
         try {
             if (futures[i].get()) {
                 ++successes;
@@ -3457,7 +3457,7 @@ bool RedundancyStrategy::recoverDocument(
         std::vector<std::string> shards{*primary_opt};
         shards.insert(shards.end(), replicas2.begin(), replicas2.end());
 
-        for (size_t i = 0; i <static_cast<int>(shards.size()) && i < total; ++i) {
+        for (size_t i = 0; i < shards.size() && i < total; ++i) {
             bool is_parity = (i >= k);
             std::string key = document_id +
                               (is_parity ? ":parity:" : ":data:") +
@@ -3507,7 +3507,7 @@ bool RedundancyStrategy::recoverDocument(
         }
 
         uint32_t restored = 0;
-        for (size_t i = 0; i <static_cast<int>(shards.size())  && static_cast<size_t>(i) <static_cast<int>(all_chunks.size()); ++i) {
+        for (size_t i = 0; i < shards.size()  && static_cast<size_t>(i) <static_cast<int>(all_chunks.size()); ++i) {
             if (chunk_opts[i]) continue;  // chunk was already present
 
             bool is_parity = (i >= k);
@@ -3562,7 +3562,7 @@ RedundancyStrategy::DocumentHealth RedundancyStrategy::checkDocumentHealth(
 
     if (config_.mode == RedundancyMode::STRIPE) {
         // Each shard holds a unique chunk — read each chunk key
-        for (size_t i = 0; i <static_cast<int>(all_shards.size()); ++i) {
+        for (size_t i = 0; i < all_shards.size(); ++i) {
             const std::string key = document_id + ":chunk:" + std::to_string(i);
             auto shard_info = topology.getShard(all_shards[i]);
             bool shard_healthy = (!shard_info || shard_info->is_healthy);
@@ -3590,7 +3590,7 @@ RedundancyStrategy::DocumentHealth RedundancyStrategy::checkDocumentHealth(
         std::vector<std::string> shards{*primary_opt};
         shards.insert(shards.end(), replicas.begin(), replicas.end());
 
-        for (size_t i = 0; i <static_cast<int>(shards.size()) && i < total; ++i) {
+        for (size_t i = 0; i < shards.size() && i < total; ++i) {
             bool is_parity = (i >= k);
             std::string key = document_id +
                               (is_parity ? ":parity:" : ":data:") +

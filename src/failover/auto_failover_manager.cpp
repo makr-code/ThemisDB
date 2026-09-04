@@ -155,7 +155,7 @@ bool AutoFailoverManager::triggerManualFailover(
             queue_pressure_threshold = config_.queue_pressure_threshold;
         }
         
-        if (static_cast<int>(failover_queue_.size()) > = max_concurrent) {
+        if (static_cast<int>(failover_queue_.size()) >= max_concurrent) {
             spdlog::error("Failover queue is full (max: {})", max_concurrent);
             {
                 // LOCK2: stats_mutex_ (acquired after failover_mutex_, per lock order)
@@ -984,7 +984,7 @@ bool AutoFailoverManager::checkAndApplyGcGrace(const std::string& node_id) {
         std::remove_if(recent_failure_timestamps_.begin(), recent_failure_timestamps_.end(),
             [&]([[maybe_unused]] const auto& ts) { return ts < window_start; }),
         recent_failure_timestamps_.end());
-    if (static_cast<int>(recent_failure_timestamps_.size()) > = cfg.gc_grace_failure_count) {
+    if (static_cast<int>(recent_failure_timestamps_.size()) >= cfg.gc_grace_failure_count) {
         gc_grace_expiry_ = now + cfg.gc_grace_period;
         spdlog::warn("GC grace period started for node {} ({}ms)",
                      node_id, cfg.gc_grace_period.count());

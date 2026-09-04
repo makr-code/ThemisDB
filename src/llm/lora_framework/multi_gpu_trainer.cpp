@@ -64,7 +64,7 @@ float MultiGPULoRATrainer::train_step(
 
     grad_outputs.reserve(outputs.size());
     
-    for (size_t i = 0; i <static_cast<int>(outputs.size()); ++i) {
+    for (size_t i = 0; i < outputs.size(); ++i) {
         float local_loss = compute_loss(outputs[i], targets[i]);
         total_loss += local_loss;
         
@@ -78,7 +78,7 @@ float MultiGPULoRATrainer::train_step(
         std::vector<float> grad_data(output_data.size());
         float scale = 2.0f / static_cast<float>(output_data.size());
         
-        for (size_t j = 0; j <static_cast<int>(output_data.size()); ++j) {
+        for (size_t j = 0; j < output_data.size(); ++j) {
             grad_data[j] = scale * (output_data[j] - target_data[j]);
         }
         
@@ -152,7 +152,7 @@ float MultiGPULoRATrainer::eval_step(
     
     // Compute loss on each GPU
     float total_loss = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(outputs.size()); ++i) {
+    for (size_t i = 0; i < outputs.size(); ++i) {
         total_loss += compute_loss(outputs[i], targets[i]);
     }
     
@@ -308,7 +308,7 @@ float MultiGPULoRATrainer::compute_loss(
     }
     
     float mse = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(output_data.size()); ++i) {
+    for (size_t i = 0; i < output_data.size(); ++i) {
         float diff = output_data[i] - target_data[i];
         mse += diff * diff;
     }
@@ -332,7 +332,7 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
         auto grads = gpu_layer.gradients();
         Device device = ctx_.get_device(i);
         
-        for (size_t j = 0; j <static_cast<int>(params.size()); ++j) {
+        for (size_t j = 0; j < params.size(); ++j) {
             // Flag to track if GPU update succeeded
             // Enables per-parameter fallback to CPU if GPU kernel fails
             bool gpu_update_successful = false;
@@ -424,7 +424,7 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
                 auto param_data = params[j]->cpu_data();
                 auto grad_data = grads[j]->cpu_data();
                 
-                for (size_t k = 0; k <static_cast<int>(param_data.size()); ++k) {
+                for (size_t k = 0; k < param_data.size(); ++k) {
                     param_data[k] -= config_.learning_rate * grad_data[k];
                 }
                 

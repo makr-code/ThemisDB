@@ -58,7 +58,7 @@ std::uint64_t QueryScheduler::enqueue(
     // Load shedding: if at shed threshold, drop the lowest-priority entry
     // (we can't easily remove from the middle of std::priority_queue, so
     // we simply reject the incoming low-priority query instead).
-    if (static_cast<int>(queue_.size()) > = cfg_.shed_threshold && priority == SLAPriority::LOW) {
+    if (static_cast<int>(queue_.size()) >= cfg_.shed_threshold && priority == SLAPriority::LOW) {
         ++total_shed_;
         return 0;
     }

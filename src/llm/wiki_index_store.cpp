@@ -244,7 +244,7 @@ void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
     // Collect indices of chunks that still need embeddings
     std::vector<std::size_t> need_embed = {};
 
-    for (std::size_t i = 0; i <static_cast<int>(chunks.size()); ++i) {
+    for (std::size_t i = 0; i < chunks.size(); ++i) {
         if (chunks[i].embedding.empty()) {
             if (!tryResolveEmbeddingFromCaches(chunks[i], &chunks[i].embedding)) {
                 need_embed.push_back(i);
@@ -253,7 +253,7 @@ void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
     }
 
     // Embed in configurable batches
-    for (std::size_t b = 0; b <static_cast<int>(need_embed.size());
+    for (std::size_t b = 0; b < need_embed.size();
          b += static_cast<std::size_t>(effective_batch_size)) {
         std::size_t end = std::min(b + static_cast<std::size_t>(effective_batch_size),
                                    need_embed.size());
@@ -266,7 +266,7 @@ void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
         auto vecs = llm_.embedBatch(texts);
         for (std::size_t k = b; k < end; ++k) {
             std::size_t ci = need_embed[k];
-            if (k - b <static_cast<int>(vecs.size())) {
+            if (k - b < vecs.size()) {
                 chunks[ci].embedding = vecs[k - b];
                 const auto cache_key = makeEmbeddingCacheKey(chunks[ci]);
                 upsertEmbeddingCacheEntry(cache_key, chunks[ci].embedding);
@@ -479,7 +479,7 @@ std::vector<WikiChunk> WikiIndexStore::evaluateQuery(
         // ── MRR ─────────────────────────────────────────────────────────────
         // Reciprocal rank of the first relevant result; 0 if none in results.
         double rr = 0.0;
-        for (std::size_t i = 0; i <static_cast<int>(results.size()); ++i) {
+        for (std::size_t i = 0; i < results.size(); ++i) {
             if (rel_set.count(results[i].doc_id)) {
                 rr = 1.0 / static_cast<double>(i + 1);
                 break;
@@ -883,7 +883,7 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
 
     scored.reserve(chunks_.size());
 
-    for (std::size_t ci = 0; ci <static_cast<int>(chunks_.size()); ++ci) {
+    for (std::size_t ci = 0; ci < chunks_.size(); ++ci) {
         const WikiChunk& chunk = chunks_[ci];
 
         // Build chunk token frequencies

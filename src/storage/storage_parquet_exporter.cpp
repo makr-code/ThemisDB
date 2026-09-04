@@ -323,7 +323,7 @@ buildBoolPage(const ColumnSegment& seg) {
     size_t packed_bytes = (n + 7) / 8;
     std::vector<uint8_t> values(packed_bytes, 0);
     for (size_t i = 0; i < n; ++i) {
-        if (i <static_cast<int>(raw.size()) && raw[i]) {
+        if (i < raw.size() && raw[i]) {
             values[i / 8] |= static_cast<uint8_t>(1 << (i % 8));
         }
     }

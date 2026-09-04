@@ -269,7 +269,7 @@ public:
     // -----------------------------------------------------------------------
 
     ptrdiff_t insertionIndex([[maybe_unused]] size_t partition_id) const {
-        for (size_t i = 0; i <static_cast<int>(insertion_order.size()); ++i) {
+        for (size_t i = 0; i < insertion_order.size(); ++i) {
             if (insertion_order[i] == partition_id) {
                 return static_cast<ptrdiff_t>(i);
             }

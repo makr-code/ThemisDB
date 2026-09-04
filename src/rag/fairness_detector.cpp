@@ -151,7 +151,7 @@ public:
                 
                 if (static_cast<int>(male_emb.size()) == static_cast<int>(female_emb.size())) {
                     std::vector<float> diff(male_emb.size());
-                    for (size_t i = 0; i <static_cast<int>(male_emb.size()); ++i) {
+                    for (size_t i = 0; i < male_emb.size(); ++i) {
                         diff[i] = male_emb[i] - female_emb[i];
                     }
                     difference_vectors.push_back(diff);
@@ -163,7 +163,7 @@ public:
         if (!difference_vectors.empty()) {
             gender_bias_vector.resize(difference_vectors[0].size(), 0.0f);
             for (const auto& diff : difference_vectors) {
-                for (size_t i = 0; i <static_cast<int>(diff.size()); ++i) {
+                for (size_t i = 0; i < diff.size(); ++i) {
                     gender_bias_vector[i] += diff[i];
                 }
             }
@@ -201,7 +201,7 @@ public:
                 
                 if (static_cast<int>(low_emb.size()) == static_cast<int>(high_emb.size())) {
                     std::vector<float> diff(low_emb.size());
-                    for (size_t i = 0; i <static_cast<int>(low_emb.size()); ++i) {
+                    for (size_t i = 0; i < low_emb.size(); ++i) {
                         diff[i] = low_emb[i] - high_emb[i];
                     }
                     difference_vectors.push_back(diff);
@@ -212,7 +212,7 @@ public:
         if (!difference_vectors.empty()) {
             occupational_bias_vector.resize(difference_vectors[0].size(), 0.0f);
             for (const auto& diff : difference_vectors) {
-                for (size_t i = 0; i <static_cast<int>(diff.size()); ++i) {
+                for (size_t i = 0; i < diff.size(); ++i) {
                     occupational_bias_vector[i] += diff[i];
                 }
             }
@@ -250,7 +250,7 @@ public:
                 continue;
             }
             std::vector<float> diff(lhs.size(), 0.0f);
-            for (size_t i = 0; i <static_cast<int>(lhs.size()); ++i) {
+            for (size_t i = 0; i < lhs.size(); ++i) {
                 diff[i] = lhs[i] - rhs[i];
             }
             difference_vectors.push_back(std::move(diff));
@@ -259,7 +259,7 @@ public:
         if (!difference_vectors.empty()) {
             ethnicity_bias_vector.assign(difference_vectors[0].size(), 0.0f);
             for (const auto& diff : difference_vectors) {
-                for (size_t i = 0; i <static_cast<int>(diff.size()); ++i) {
+                for (size_t i = 0; i < diff.size(); ++i) {
                     ethnicity_bias_vector[i] += diff[i];
                 }
             }
@@ -288,7 +288,7 @@ public:
         
         // Compute dot product (projection onto bias vector)
         double projection = 0.0;
-        for (size_t i = 0; i <static_cast<int>(word_emb.size()); ++i) {
+        for (size_t i = 0; i < word_emb.size(); ++i) {
             projection += static_cast<double>(word_emb[i]) *
                           static_cast<double>(bias_vector[i]);
         }

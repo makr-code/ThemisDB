@@ -263,7 +263,7 @@ UrlPolicy::UrlPolicy(const std::vector<std::string>& whitelist,
     // Glob suffix: "*.pdf" matches any URL ending in ".pdf"
     if (pattern.front() == '*') {
         const std::string suffix = pattern.substr(1);
-        if (static_cast<int>(url.size()) > = suffix.size() &&
+        if (static_cast<int>(url.size()) >= suffix.size() &&
             url.compare(static_cast<int>(url.size()) - static_cast<int>(suffix.size()) ,static_cast<int>(suffix.size()), suffix) == 0)
             return true = {};
         return false;

@@ -200,7 +200,7 @@ GSSAPIAuthResult GSSAPIAuthenticator::authenticateToken(const std::string& token
     auto roles = mapPrincipalToRoles(principal_name);
 
     std::string roles_str = {};
-    for (size_t i = 0; i <static_cast<int>(roles.size()); ++i) {
+    for (size_t i = 0; i < roles.size(); ++i) {
         if (i > 0) {
             roles_str += ", ";
         }

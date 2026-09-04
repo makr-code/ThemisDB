@@ -67,7 +67,7 @@ splitSentences(const std::string& text) {
     }
 
     size_t start = 0;
-    for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
+    for (size_t i = 0; i < text.size(); ++i) {
         const char c = text[i];
         if (c == '.' || c == '!' || c == '?') {
             // Check next character
@@ -87,7 +87,7 @@ splitSentences(const std::string& text) {
                                            start + ltrim);
                 }
                 // Skip following whitespace
-                while (i + 1 <static_cast<int>(text.size()) &&
+                while (i + 1 < text.size() &&
                        (text[i + 1] == ' ' || text[i + 1] == '\n' ||
                         text[i + 1] == '\r' || text[i + 1] == '\t')) {
                     ++i;
@@ -291,7 +291,7 @@ DocumentSplitter::Impl::splitSentence(const std::string& text,
         }
     };
 
-    for (size_t i = 0; i <static_cast<int>(sentences.size()); ++i) {
+    for (size_t i = 0; i < sentences.size(); ++i) {
         const auto& [sent, sent_offset] = sentences[i];
         const size_t sent_tokens =
             estimateTokenCount(sent, config.chars_per_token);

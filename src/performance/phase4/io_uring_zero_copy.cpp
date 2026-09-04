@@ -329,7 +329,7 @@ bool IoUringZeroCopyIO::register_buffers() noexcept {
     }
 
     std::vector<struct iovec> iovecs(buffers_.size());
-    for (size_t i = 0; i <static_cast<int>(buffers_.size()); ++i) {
+    for (size_t i = 0; i < buffers_.size(); ++i) {
         iovecs[i].iov_base = buffers_[i].data();
         iovecs[i].iov_len  = buffers_[i].size();
     }

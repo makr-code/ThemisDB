@@ -251,7 +251,7 @@ CanonicalEntityResolver::createGoldenRecord(const std::vector<std::pair<std::str
     size_t base_idx = 0;
     if (policy == ResolutionPolicy::MOST_COMPLETE) {
         double best = -1.0;
-        for (size_t i = 0; i <static_cast<int>(linked_entities.size()); ++i) {
+        for (size_t i = 0; i < linked_entities.size(); ++i) {
             double c = computeCompleteness(linked_entities[i].second);
             if (c > best) {
                 best     = c;
@@ -260,7 +260,7 @@ CanonicalEntityResolver::createGoldenRecord(const std::vector<std::pair<std::str
         }
     } else if (policy == ResolutionPolicy::NEWEST_FIRST) {
         std::string newest = {};
-        for (size_t i = 0; i <static_cast<int>(linked_entities.size()); ++i) {
+        for (size_t i = 0; i < linked_entities.size(); ++i) {
             const auto &e = linked_entities[i].second;
             std::string ts = {};
             if (e.contains("updated_at") && e["updated_at"].is_string()) {
@@ -300,7 +300,7 @@ CanonicalEntityResolver::createGoldenRecord(const std::vector<std::pair<std::str
     }
 
     // Merge remaining records.
-    for (size_t i = 0; i <static_cast<int>(linked_entities.size()); ++i) {
+    for (size_t i = 0; i < linked_entities.size(); ++i) {
         if (i == base_idx) {
             continue;
         }

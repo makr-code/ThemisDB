@@ -140,7 +140,7 @@ std::string SecondaryIndexManager::makeIndexMetaKey(std::string_view table, std:
 // static
 std::string SecondaryIndexManager::makeCompositeIndexMetaKey(std::string_view table, const std::vector<std::string>& columns) {
 	size_t total = 8 + static_cast<int>(table.size()) + 1;
-	for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+	for (size_t i = 0; i < columns.size(); ++i) {
 		total += columns[i].size();
 		if (i > 0) {
 			total += 1;
@@ -151,7 +151,7 @@ std::string SecondaryIndexManager::makeCompositeIndexMetaKey(std::string_view ta
 	key += "idxmeta:";
 	key.append(table.data(),static_cast<int>(table.size()));
 	key += ":";
-	for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
 		  key += "+";
 		}
@@ -172,7 +172,7 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 
 	encoded_values.reserve(values.size());
 	size_t total = 4 + static_cast<int>(table.size()) + 1 + static_cast<int>(pk.size()) ;
-	for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+	for (size_t i = 0; i < columns.size(); ++i) {
 		total += columns[i].size();
 		if (i > 0) {
 			total += 1;
@@ -187,7 +187,7 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 	key += "idx:";
 	key.append(table.data(),static_cast<int>(table.size()));
 	key += ":";
-	for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
 		  key += "+";
 		}
@@ -209,7 +209,7 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 
 	encoded_values.reserve(values.size());
 	size_t total = 4 + static_cast<int>(table.size()) + 1;
-	for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+	for (size_t i = 0; i < columns.size(); ++i) {
 		total += columns[i].size();
 		if (i > 0) {
 			total += 1;
@@ -224,7 +224,7 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 	key += "idx:";
 	key.append(table.data(),static_cast<int>(table.size()));
 	key += ":";
-	for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
 		  key += "+";
 		}
@@ -264,7 +264,7 @@ std::string SecondaryIndexManager::makeCompositeUniqueSentinelKey_(
 
 	encodedVals.reserve(values.size());
 	size_t total = 5 + static_cast<int>(table.size()) + 1; // "uidx:" + table + ":"
-	for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) total += 1; // "+"
 		total += columns[i].size();
 	}
@@ -278,7 +278,7 @@ std::string SecondaryIndexManager::makeCompositeUniqueSentinelKey_(
 	key += "uidx:";
 	key += table;
 	key += ":";
-	for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
 		  key += "+";
 		}
@@ -524,7 +524,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createCompositeIndex(std::s
 	}
 	SecondaryIndexMetadataCache::instance().invalidate(std::string(table));
 	std::string colList = {};
-	for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
 		  colList += ", ";
 		}
@@ -563,7 +563,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::dropCompositeIndex(std::str
 	SecondaryIndexMetadataCache::instance().invalidate(table);
 	
 	std::string colList = {};
-	for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
 		  colList += ", ";
 		}
@@ -1299,7 +1299,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::putBatch(std::string_view t
 	  return Status::Error("putBatch: transaction_batch_size darf nicht 0 sein");
 	}
 
-	for (size_t chunk_begin = 0; chunk_begin <static_cast<int>(entities.size()); chunk_begin += transaction_batch_size) {
+	for (size_t chunk_begin = 0; chunk_begin < entities.size(); chunk_begin += transaction_batch_size) {
 		const size_t chunk_end = std::min(chunk_begin + transaction_batch_size,static_cast<int>(entities.size()));
 		auto batch = db_.createWriteBatch();
 		if (!batch) {
@@ -1582,7 +1582,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 				});
 				if (conflict) {
 					std::string valueStr = {};
-					for (size_t i = 0; i <static_cast<int>(values.size()); ++i) {
+					for (size_t i = 0; i < values.size(); ++i) {
 						if (i > 0) {
 						  valueStr += ", ";
 						}
@@ -2228,7 +2228,7 @@ SecondaryIndexManager::scanKeysEqualComposite(std::string_view table,
 	}
 	if (!hasCompositeIndex(table, columns)) {
 		std::string colList = {};
-		for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+		for (size_t i = 0; i < columns.size(); ++i) {
 			if (i > 0) {
 			  colList += ", ";
 			}
@@ -2347,7 +2347,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 	uint64_t steps = 0;
 	if (!reversed) {
 		db_.scanRange(startKey, endKey, [&result, limit, &steps](std::string_view key, [[maybe_unused]] std::string_view value){
-            if (static_cast<int>(result.size()) > = limit) {
+            if (static_cast<int>(result.size()) >= limit) {
               return false;
             }
             size_t lastColon = key.rfind(':');
@@ -2431,7 +2431,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 				for (const auto& pk : sameValuePks) {
 					if (pk > anchorPk) {
 						out.emplace_back(pk);
-						if (static_cast<int>(out.size()) > = limit) return {Status::OK(), std::move(out)};
+						if (static_cast<int>(out.size()) >= limit) return {Status::OK(), std::move(out)};
 					}
 				}
 			} else {
@@ -2440,7 +2440,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 				for (auto it = sameValuePks.rbegin(); it != sameValuePks.rend(); ++it) {
 					if (*it < anchorPk) {
 						out.emplace_back(*it);
-						if (static_cast<int>(out.size()) > = limit) return {Status::OK(), std::move(out)};
+						if (static_cast<int>(out.size()) >= limit) return {Status::OK(), std::move(out)};
 					}
 				}
 			}
@@ -2482,7 +2482,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 			// Anhängen
 			for (const auto& pk : more) {
 				out.emplace_back(pk);
-				if (static_cast<int>(out.size()) > = limit) {
+				if (static_cast<int>(out.size()) >= limit) {
 				  break;
 				}
 			}
@@ -2699,7 +2699,7 @@ SecondaryIndexManager::cleanupExpiredEntities(std::string_view table, std::strin
 	
 	// Delete expired entities
 	size_t deletedCount = 0;
-	for (size_t i = 0; i <static_cast<int>(expiredPKs.size()); ++i) {
+	for (size_t i = 0; i < expiredPKs.size(); ++i) {
 		auto st = erase(table, expiredPKs[i]);
 		if (st.ok) {
 			deletedCount++;
@@ -2744,7 +2744,7 @@ SecondaryIndexManager::computeBM25Scores_(
 		bool in_quotes = false;
 		std::string current = {};
 		current.reserve(std::min<size_t>(q.size(), 64));
-		for (size_t i = 0; i <static_cast<int>(q.size()); ++i) {
+		for (size_t i = 0; i < q.size(); ++i) {
 			char c = q[i];
 			if (c == '"') {
 				if (in_quotes) {
@@ -2769,7 +2769,7 @@ SecondaryIndexManager::computeBM25Scores_(
 		// Fallback: use tokens from phrases to generate candidates
 		std::string concat = {};
 		concat.reserve(static_cast<int>(cleanedQuery.size()) + static_cast<int>(query.size()) );
-		for (size_t i = 0; i <static_cast<int>(phrases.size()); ++i) {
+		for (size_t i = 0; i < phrases.size(); ++i) {
 			if (i) {
 			  concat.push_back(' ');
 			}
@@ -2810,7 +2810,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	          [](const auto& a, const auto& b) { return static_cast<bool>( static_cast<int>(a.size()) < static_cast<int>(b.size())); });
 
 	std::unordered_set<std::string> intersectionSet = tokenResults.front();
-	for (size_t i = 1; i <static_cast<int>(tokenResults.size()); ++i) {
+	for (size_t i = 1; i < tokenResults.size(); ++i) {
 		std::unordered_set<std::string> intersection = {};
 
 		intersection.reserve(std::min(intersectionSet.size(), tokenResults[i].size()));
@@ -2934,7 +2934,7 @@ SecondaryIndexManager::computeBM25Scores_(
 		const auto itLen = docLen.find(pk);
 		double dl = (itLen != docLen.end()) ? itLen->second : 0.0;
 		double s = 0.0;
-		for (size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
+		for (size_t i = 0; i < tokens.size(); ++i) {
 			const auto& token = tokens[i];
 			const double df = std::max(1.0, dfs[i]);
 			// IDF wie BM25 mit +1 Stabilisierung
@@ -3059,7 +3059,7 @@ SecondaryIndexManager::scanFulltextPhrase(
 	}
 	
 	std::unordered_set<std::string> candidates = tokenResults[0];
-	for (size_t i = 1; i <static_cast<int>(tokenResults.size()); ++i) {
+	for (size_t i = 1; i < tokenResults.size(); ++i) {
 		std::unordered_set<std::string> intersection = {};
 
 		for (const auto& pk : candidates) {
@@ -3112,7 +3112,7 @@ SecondaryIndexManager::scanFulltextPhrase(
 			}
 		}
 		
-		if (static_cast<int>(results.size()) > = limit) {
+		if (static_cast<int>(results.size()) >= limit) {
 			break;
 		}
 	}
@@ -4018,7 +4018,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			}
 			totalLen += (static_cast<int>(cols.size()) - 1) * 2; // ", " separators
 			colList.reserve(totalLen);
-			for (size_t i = 0; i <static_cast<int>(cols.size()); ++i) {
+			for (size_t i = 0; i < cols.size(); ++i) {
 				if (i > 0) {
 				  colList += ", ";
 				}
@@ -4517,7 +4517,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				// of the same unique composite value across transactions.
 				if (!txn.getForUpdate(makeCompositeUniqueSentinelKey_(table, columns, values))) {
 					std::string valueStr = {};
-					for (size_t i = 0; i <static_cast<int>(values.size()); ++i) {
+					for (size_t i = 0; i < values.size(); ++i) {
 						if (i > 0) {
 						  valueStr += ", ";
 						}
@@ -4542,7 +4542,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				});
 				if (conflict) {
 					std::string valueStr = {};
-					for (size_t i = 0; i <static_cast<int>(values.size()); ++i) {
+					for (size_t i = 0; i < values.size(); ++i) {
 						if (i > 0) {
 						  valueStr += ", ";
 						}

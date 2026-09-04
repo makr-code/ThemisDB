@@ -125,7 +125,7 @@ bool lrm_executeWithTimeout(uint32_t timeout_ms, Func&& op) {
 namespace {
 std::string trimCopy(const std::string& s) {
     size_t start = 0;
-    while (start <static_cast<int>(s.size()) && std::isspace(static_cast<unsigned char>(s[start]))) {
+    while (start < s.size() && std::isspace(static_cast<unsigned char>(s[start]))) {
       start++;
     }
     size_t end = s.size();

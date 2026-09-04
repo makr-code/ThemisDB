@@ -165,7 +165,7 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
         if (sig_b64.rfind("vault:", 0) == 0) {
             // strip prefix 'vault:v1:'
             size_t pos = sig_b64.find(':', 6); // after 'vault:'
-            if (pos != std::string::npos && pos + 1 <static_cast<int>(sig_b64.size())) {
+            if (pos != std::string::npos && pos + 1 < sig_b64.size()) {
                 std::string inner = sig_b64.substr(pos + 1);
                 std::vector<uint8_t> sig = vaultBase64Decode(inner);
                 SigningResult res;

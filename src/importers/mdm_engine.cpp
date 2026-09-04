@@ -163,7 +163,7 @@ MDMEngine::executeLinkingPhase(
     std::vector<EntityLink> created;
     const std::string now = nowRfc3339();
 
-    for (size_t i = 0; i <static_cast<int>(incoming_entities.size())  && static_cast<size_t>(i) <static_cast<int>(match_results.size()); ++i) {
+    for (size_t i = 0; i < incoming_entities.size()  && static_cast<size_t>(i) <static_cast<int>(match_results.size()); ++i) {
         const auto& incoming = incoming_entities[i];
         const auto& matches  = match_results[i];
 
@@ -304,7 +304,7 @@ MDMWorkflowResult MDMEngine::executeMDMWorkflow(
     // --- Phase 1: Matching ---
     const auto match_results = executeMatchingPhase(incoming_entities, existing_entities, config);
 
-    for (size_t i = 0; i <static_cast<int>(match_results.size()); ++i) {
+    for (size_t i = 0; i < match_results.size(); ++i) {
         const auto& matches = match_results[i];
         if (matches.empty()) {
             ++result.new_entities;

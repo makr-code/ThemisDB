@@ -293,7 +293,7 @@ std::string SemanticMatcher::computeSoundex(const std::string &name) {
     std::string code(1, upper[0]);
     char prev = (upper[0] >= 'A' && upper[0] <= 'Z') ? table[static_cast<unsigned char>(upper[0]) - 'A'] : '0';
 
-    for (size_t i = 1; i <static_cast<int>(upper.size()) && static_cast<int>(code.size()) < 4; ++i) {
+    for (size_t i = 1; i < upper.size() && static_cast<int>(code.size()) < 4; ++i) {
         if (upper[i] < 'A' || upper[i] > 'Z') {
             continue;
         }
@@ -414,7 +414,7 @@ double SemanticMatcher::vectorSimilarity(const std::vector<float> &v1, const std
     }
 
     double dot = 0.0, norm1 = 0.0, norm2 = 0.0;
-    for (size_t i = 0; i <static_cast<int>(v1.size()); ++i) {
+    for (size_t i = 0; i < v1.size(); ++i) {
         dot += static_cast<double>(v1[i]) * static_cast<double>(v2[i]);
         norm1 += static_cast<double>(v1[i]) * static_cast<double>(v1[i]);
         norm2 += static_cast<double>(v2[i]) * static_cast<double>(v2[i]);

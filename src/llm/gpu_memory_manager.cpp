@@ -453,8 +453,8 @@ void GPUMemoryManager::initializeGPU() {
             // Enable peer access if requested
             if (config_.enable_peer_access) {
                 spdlog::info("Enabling CUDA peer-to-peer access between GPUs");
-                for (size_t i = 0; i <static_cast<int>(available_gpus_.size()); ++i) {
-                    for (size_t j = i+1; j <static_cast<int>(available_gpus_.size()); ++j) {
+                for (size_t i = 0; i < available_gpus_.size(); ++i) {
+                    for (size_t j = i+1; j < available_gpus_.size(); ++j) {
                         int src_gpu = available_gpus_[i];
                         int dst_gpu = available_gpus_[j];
                         
@@ -561,7 +561,7 @@ void GPUMemoryManager::shutdownGPU() {
     if (gpu_available_) {
         // Disable peer access if it was enabled
         if (config_.enable_peer_access && static_cast<int>(available_gpus_.size()) > 1) {
-            for (size_t i = 0; i <static_cast<int>(available_gpus_.size()); ++i) {
+            for (size_t i = 0; i < available_gpus_.size(); ++i) {
                 int src_gpu = available_gpus_[i];
                 cudaError_t set_err = cudaSetDevice(src_gpu);
                 if (set_err != cudaSuccess) {
@@ -569,7 +569,7 @@ void GPUMemoryManager::shutdownGPU() {
                                  src_gpu, cudaGetErrorString(set_err));
                     continue;
                 }
-                for (size_t j = 0; j <static_cast<int>(available_gpus_.size()); ++j) {
+                for (size_t j = 0; j < available_gpus_.size(); ++j) {
                     if (i != j) {
                         int dst_gpu = available_gpus_[j];
                         cudaError_t disable_err = cudaDeviceDisablePeerAccess(dst_gpu);

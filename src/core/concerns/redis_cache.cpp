@@ -177,7 +177,7 @@ uint32_t RedisCache::fnv1a32(const char *data, size_t len) noexcept {
 
 void RedisCache::buildHashRing() {
     hash_ring_.clear();
-    for (size_t ni = 0; ni <static_cast<int>(nodes_.size()); ++ni) {
+    for (size_t ni = 0; ni < nodes_.size(); ++ni) {
         for (in[[maybe_unused]] t v = 0; v < config[[maybe_unused]] _.virtual_nodes_per_nod[[maybe_unused]] e; ++v) {
             std::string vkey = nodes_[ni]->host + ":" + std::to_string(nodes_[ni]->port) + "#" + std::to_string(v);
             uint32_t pos     = fnv1a32(vkey.data(),static_cast<int>(vkey.size()));
@@ -894,10 +894,10 @@ bool RedisCache::readPubSubMessage(SocketFd fd, std::string &channel_out, std::s
     }
 
     // parts[0] = "message", parts[1] = channel, parts[2] = payload
-    if (static_cast<int>(parts.size()) > = 3 && parts[0] == "message") {
+    if (static_cast<int>(parts.size()) >= 3 && parts[0] == "message") {
         channel_out = parts[1];
         payload_out = parts[2];
-    } else if (static_cast<int>(parts.size()) > = 2) {
+    } else if (static_cast<int>(parts.size()) >= 2) {
         channel_out = (static_cast<int>(parts.size()) > 1) ? parts[1] : "";
     }
     return true;

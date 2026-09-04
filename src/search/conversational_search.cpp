@@ -59,7 +59,7 @@ std::vector<HybridSearch::Result> ConversationalSearch::search(
     }
 
     // Append turn to history, evicting oldest entry when limit is reached
-    if (static_cast<int>(history_.size()) > = config_.max_history) {
+    if (static_cast<int>(history_.size()) >= config_.max_history) {
         history_.pop_front();
     }
     Turn turn;
@@ -85,7 +85,7 @@ std::string ConversationalSearch::reformulate(const std::string& query) const {
     const size_t start  = static_cast<int>(history_.size()) - window;
 
     std::string enriched = {};
-    for (size_t i = start; i <static_cast<int>(history_.size()); ++i) {
+    for (size_t i = start; i < history_.size(); ++i) {
         if (!history_[i].query.empty()) {
             enriched += history_[i].query;
             enriched += config_.context_separator;

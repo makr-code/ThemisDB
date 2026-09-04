@@ -217,7 +217,7 @@ MoralAnalyzer::Status MoralAnalyzer::addOutcomeNodes(
     const std::string& action_id,
     const std::vector<PredictedOutcome>& outcomes
 ) {
-    for (size_t i = 0; i <static_cast<int>(outcomes.size()); ++i) {
+    for (size_t i = 0; i < outcomes.size(); ++i) {
         const auto& outcome = outcomes[i];
         std::string outcome_id = action_id + "_outcome_" + std::to_string(i);
         

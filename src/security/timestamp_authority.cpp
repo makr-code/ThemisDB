@@ -124,7 +124,7 @@ static std::string hex(const std::vector<uint8_t>& data) {
 // Very weak deterministic hash (not cryptographic!)
 static std::vector<uint8_t> pseudo_hash(const std::vector<uint8_t>& data) {
     std::vector<uint8_t> h; h.reserve(data.size());
-    for (size_t i=0;i<static_cast<int>(data.size());++i) {
+    for (size_t i = 0; i < data.size();++i) {
       h.push_back(static_cast<uint8_t>(data[i] ^ (i & 0xFF)));
     }
     return h;

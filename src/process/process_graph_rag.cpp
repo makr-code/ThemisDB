@@ -53,7 +53,7 @@ float cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b)
       return 0.f;
     }
     float dot = 0.f, na = 0.f, nb = 0.f;
-    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+    for (size_t i = 0; i < a.size(); ++i) {
         dot += a[i] * b[i];
         na  += a[i] * a[i];
         nb  += b[i] * b[i];

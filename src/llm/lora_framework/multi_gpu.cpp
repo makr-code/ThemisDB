@@ -31,7 +31,7 @@ MultiGPUContext::MultiGPUContext(int num_gpus, const std::vector<int>& gpu_ids)
     }
     
     spdlog::info("MultiGPUContext created with {} GPUs",static_cast<int>(devices_.size()));
-    for (size_t i = 0; i <static_cast<int>(devices_.size()); ++i) {
+    for (size_t i = 0; i < devices_.size(); ++i) {
         spdlog::info("  Rank {}: Device {} ({})", 
             i, devices_[i].device_id, 
             devices_[i].type == DeviceType::CUDA ? "CUDA" : 

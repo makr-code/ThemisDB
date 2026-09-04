@@ -81,8 +81,8 @@ std::vector<ConvergenceMarker> ConvergenceMarkerEngine::detectConvergences(
     const float high_tension_threshold = 0.7f;
 
     // Compare all pairs
-    for (size_t i = 0; i <static_cast<int>(round_outputs.size()); ++i) {
-        for (size_t j = i + 1; j <static_cast<int>(round_outputs.size()); ++j) {
+    for (size_t i = 0; i < round_outputs.size(); ++i) {
+        for (size_t j = i + 1; j < round_outputs.size(); ++j) {
             const auto& a = round_outputs[i];
             const auto& b = round_outputs[j];
 

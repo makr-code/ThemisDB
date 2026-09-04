@@ -253,7 +253,7 @@ std::string WiscKeyStorage::put(const std::string& key, const std::string& value
     }
     
     static_cast<void>(key);
-    if (static_cast<int>(value.size()) > = VALUE_SEPARATION_THRESHOLD) {
+    if (static_cast<int>(value.size()) >= VALUE_SEPARATION_THRESHOLD) {
         // Store value in separate log
         ValueAddress addr = value_log_->append(value);
         separated_values_.fetch_add(1, std::memory_order_relaxed);

@@ -441,7 +441,7 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
             // Generate synthetic column names: col_0, col_1, ...
             auto fields = parseCsvRow(header_line, delim, quote_char_);
             cols_vec.reserve(fields.size());
-            for (size_t i = 0; i <static_cast<int>(fields.size()); ++i)
+            for (size_t i = 0; i < fields.size(); ++i)
                 cols_vec.push_back("col_" + std::to_string(i));
             // Re-wind: treat the first "header" line as a data row too
             file.clear();
@@ -868,7 +868,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
         // If no header was read, generate synthetic column names on first row
         if (columns.empty()) {
             auto first_fields = parseCsvRow(line, delim, quote_char_);
-            for (size_t i = 0; i <static_cast<int>(first_fields.size()); ++i)
+            for (size_t i = 0; i < first_fields.size(); ++i)
                 columns.push_back("col_" + std::to_string(i));
         }
 
@@ -918,7 +918,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
 
         // Build entity JSON
         json entity = json::object();
-        for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+        for (size_t i = 0; i < columns.size(); ++i) {
             entity[columns[i]] = fields[i];
         }
 

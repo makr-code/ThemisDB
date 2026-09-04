@@ -87,7 +87,7 @@ void HnswParameterTuner::recordQueryResult(size_t k, int ef_used, double latency
     }
     
     // Adapt if we have enough samples
-    if (static_cast<int>(recent_queries_.size()) > = 100) {
+    if (static_cast<int>(recent_queries_.size()) >= 100) {
         adapt();
     }
 }

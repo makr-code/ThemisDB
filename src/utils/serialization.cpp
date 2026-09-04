@@ -135,14 +135,14 @@ std::vector<uint8_t> Serialization::Encoder::finish() {
 Serialization::Decoder::Decoder(const std::vector<uint8_t>& data) : data_(data) {}
 
 Serialization::TypeTag Serialization::Decoder::peekType() const {
-    if (pos_ >= static_cast<int>(data_.size())) {
+    if (pos_ >= data_.size()) {
         return TypeTag::NULL_VALUE;
     }
     return static_cast<TypeTag>(data_[pos_]);
 }
 
 Serialization::TypeTag Serialization::Decoder::readTag() {
-    if (pos_ >= static_cast<int>(data_.size())) {
+    if (pos_ >= data_.size()) {
         logErrorWithContext(makeErrorContext(
             ErrorCode::DESERIALIZATION_FAILED,
             fmt::format("Decoder read past end: pos={} size={}", pos_,static_cast<int>(data_.size())),
@@ -155,7 +155,7 @@ Serialization::TypeTag Serialization::Decoder::readTag() {
 
 uint32_t Serialization::Decoder::readUInt32() {
     // Phase A.4 Hardening - CRITICAL: Bounds check before reading 4 bytes
-    if (pos_ + 4 > static_cast<int>(data_.size())) {
+    if (pos_ + 4 > data_.size()) {
         // Bounds overflow detected - return 0 and don't advance pos_
         // This prevents silent out-of-bounds reads on malformed data
         return 0;
@@ -169,7 +169,7 @@ uint32_t Serialization::Decoder::readUInt32() {
 
 uint64_t Serialization::Decoder::readUInt64() {
     // Phase A.4 Hardening - CRITICAL: Bounds check before reading 8 bytes
-    if (pos_ + 8 > static_cast<int>(data_.size())) {
+    if (pos_ + 8 > data_.size()) {
         // Bounds overflow detected - return 0 and don't advance pos_
         // This prevents silent out-of-bounds reads on malformed data
         return 0;
@@ -322,7 +322,7 @@ void Serialization::Decoder::endObject() {
 }
 
 bool Serialization::Decoder::hasMore() const {
-    return static_cast<bool>(pos_  < static_cast<int>(data_.size()));
+    return static_cast<bool>(pos_ < data_.size());
 }
 
 } // namespace utils

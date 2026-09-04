@@ -49,7 +49,7 @@ struct PairwiseComparator::Impl {
         // Add documents
         if (!documents.empty()) {
             prompt << "Retrieved Documents:\n";
-            for (size_t i = 0; i <static_cast<int>(documents.size()); ++i) {
+            for (size_t i = 0; i < documents.size(); ++i) {
                 prompt << "Document " << (i+1) << ": " << documents[i].second << "\n";
             }
             prompt << "\n";

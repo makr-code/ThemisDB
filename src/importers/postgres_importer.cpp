@@ -226,13 +226,13 @@ static std::vector<std::string> splitTopLevelCommas(const std::string& s) {
     int   depth     = 0;
     bool  in_string = false;
     std::string current = {};
-    for (size_t i = 0; i <static_cast<int>(s.size()); ++i) {
+    for (size_t i = 0; i < s.size(); ++i) {
         char c = s[i];
         if (in_string) {
             current += c;
             if (c == '\'') {
                 // PostgreSQL '' escape: two consecutive single-quotes inside a string
-                if (i + 1 <static_cast<int>(s.size()) && s[i + 1] == '\'') {
+                if (i + 1 < s.size() && s[i + 1] == '\'') {
                     current += s[++i];
                 } else {
                     in_string = false;
@@ -271,10 +271,10 @@ static size_t findMatchingParen(const std::string& sql, size_t open_pos) {
     if (open_pos >= sql.size() || sql[open_pos] != '(') return std::string::npos;
     int  depth     = 0;
     bool in_string = false;
-    for (size_t k = open_pos; k <static_cast<int>(sql.size()); ++k) {
+    for (size_t k = open_pos; k < sql.size(); ++k) {
         char c = sql[k];
         if (in_string) {
-            if (c == '\'' && k + 1 <static_cast<int>(sql.size()) && sql[k + 1] == '\'') {
+            if (c == '\'' && k + 1 < sql.size() && sql[k + 1] == '\'') {
                 ++k;  // '' escape
             } else if (c == '\'') {
                 in_string = false;
@@ -1451,7 +1451,7 @@ bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint
 
     auto joinCols = [](const std::vector<std::string>& cols) {
         std::string out = {};
-        for (size_t i = 0; i <static_cast<int>(cols.size()); ++i) {
+        for (size_t i = 0; i < cols.size(); ++i) {
             if (i > 0) {
               out += ",";
             }
@@ -1928,11 +1928,11 @@ bool PostgreSQLImporter::parseExcludeConstraint(const std::string& constraint_de
         (paren_pos == std::string::npos || using_pos < paren_pos)) {
         // Skip "USING" and whitespace
         size_t meth_start = using_pos + 5;
-        while (meth_start <static_cast<int>(upper.size()) && std::isspace(static_cast<unsigned char>(upper[meth_start])))
+        while (meth_start < upper.size() && std::isspace(static_cast<unsigned char>(upper[meth_start])))
             ++meth_start;
         // Method name ends at whitespace or '('
         size_t meth_end = meth_start;
-        while (meth_end <static_cast<int>(upper.size()) &&
+        while (meth_end < upper.size() &&
                !std::isspace(static_cast<unsigned char>(upper[meth_end])) &&
                upper[meth_end] != '(')
             ++meth_end;
@@ -1949,7 +1949,7 @@ bool PostgreSQLImporter::parseExcludeConstraint(const std::string& constraint_de
         // Find matching closing parenthesis
         int depth = 0;
         size_t close_pos = std::string::npos;
-        for (size_t i = paren_pos; i <static_cast<int>(upper.size()); ++i) {
+        for (size_t i = paren_pos; i < upper.size(); ++i) {
             if (upper[i] == '(')      ++depth;
             else if (upper[i] == ')') { if (--depth == 0) { close_pos = i; break; } }
         }
@@ -2244,7 +2244,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
         // PostgreSQL binary COPY starts with the signature: "PGCOPY\n\xff\r\n\0"
         if (first_data_line) {
             first_data_line = false;
-            if (static_cast<int>(line.size()) > = 6 && line.compare(0, 6, "PGCOPY") == 0) {
+            if (static_cast<int>(line.size()) >= 6 && line.compare(0, 6, "PGCOPY") == 0) {
                 addError(stats, ImportErrorCode::BINARY_COPY_FORMAT,
                          ImportErrorSeverity::ERROR,
                          "Binary COPY format detected for table '" + table_name +
@@ -2452,8 +2452,8 @@ std::string PostgreSQLImporter::unescapeCopyValue(const std::string& val) const 
     // Apply other escape sequences
     std::string out = {};
     out.reserve(val.size());
-    for (size_t i = 0; i <static_cast<int>(val.size()); ++i) {
-        if (val[i] == '\\' && i + 1 <static_cast<int>(val.size())) {
+    for (size_t i = 0; i < val.size(); ++i) {
+        if (val[i] == '\\' && i + 1 < val.size()) {
             char next = val[++i];
             switch (next) {
                 case 'N':  /* \N already handled above as entire field */ out += '\\'; out += 'N'; break;
@@ -2669,7 +2669,7 @@ json PostgreSQLImporter::convertRowToEntity(const TableSchema& schema, const std
     json entity;
     entity["_type"] = schema.name;
     
-    for (size_t i = 0; i <static_cast<int>(values.size())  && static_cast<size_t>(i) <static_cast<int>(schema.columns.size()); i++) {
+    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) <static_cast<int>(schema.columns.size()); i++) {
         entity[schema.columns[i]] = values[i];
     }
 
@@ -2913,7 +2913,7 @@ uint64_t PostgreSQLImporter::computeRowHash(const std::string& raw_row,
     std::unordered_map<std::string, size_t> schema_column_index = {};
 
     schema_column_index.reserve(schema_columns.size());
-    for (size_t i = 0; i <static_cast<int>(schema_columns.size()); ++i) {
+    for (size_t i = 0; i < schema_columns.size(); ++i) {
         schema_column_index.emplace(schema_columns[i], i);
     }
 

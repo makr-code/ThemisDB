@@ -448,9 +448,9 @@ std::string AiOperationGuard::extractCollection(
         if (pos != std::string::npos) {
             // Skip the " IN " and take the next word
             std::size_t start = pos + 4;
-            while (start <static_cast<int>(uq.size()) && uq[start] == ' ') { ++start; }
+            while (start < uq.size() && uq[start] == ' ') { ++start; }
             std::size_t end = start;
-            while (end <static_cast<int>(uq.size()) && (std::isalnum(static_cast<unsigned char>(uq[end])) || uq[end] == '_')) {
+            while (end < uq.size() && (std::isalnum(static_cast<unsigned char>(uq[end])) || uq[end] == '_')) {
                 ++end;
             }
             if (end > start) {

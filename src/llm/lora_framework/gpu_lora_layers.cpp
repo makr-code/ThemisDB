@@ -591,7 +591,7 @@ void GPUSGDOptimizer::add_parameters(const std::vector<GPUTensor*>& params) {
 }
 
 void GPUSGDOptimizer::step() {
-    for (size_t i = 0; i <static_cast<int>(parameters_.size()); ++i) {
+    for (size_t i = 0; i < parameters_.size(); ++i) {
         auto* param = parameters_[i];
         
         if (!param->grad) {

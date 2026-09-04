@@ -111,7 +111,7 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
     // Build arrays – zero-copy for numeric types, builder-based for others
     std::vector<std::shared_ptr<arrow::Array>> arrays;
 
-    for (size_t col_idx = 0; col_idx <static_cast<int>(columns.size()); ++col_idx) {
+    for (size_t col_idx = 0; col_idx < columns.size(); ++col_idx) {
         const auto &col = columns[col_idx];
         std::shared_ptr<arrow::Array> array;
 
@@ -331,9 +331,9 @@ class JSONCSVExporter : public IAnalyticsExporter {
 
         // Header
         const auto &columns = batch.getColumns();
-        for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+        for (size_t i = 0; i < columns.size(); ++i) {
             oss << columns[i].schema.name;
-            if (i < static_cast<int>(columns.size()) - 1) {
+            if (i < columns.size() - 1) {
                 oss << ",";
             }
         }
@@ -341,7 +341,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
 
         // Data rows
         for (size_t row = 0; row < batch.rowCount(); ++row) {
-            for (size_t col = 0; col <static_cast<int>(columns.size()); ++col) {
+            for (size_t col = 0; col < columns.size(); ++col) {
                 const auto &column = columns[col];
 
                 if (column.null_bitmap[row]) {
@@ -387,7 +387,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
                     }
                 }
 
-                if (col < static_cast<int>(columns.size()) - 1) {
+                if (col < columns.size() - 1) {
                     oss << ",";
                 }
             }

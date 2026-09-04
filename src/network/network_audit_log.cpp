@@ -158,7 +158,7 @@ void NetworkAuditLog::record([[maybe_unused]] AuditEvent event) {
     {
         std::lock_guard<std::mutex> lk(mutex_);
 
-        if (static_cast<int>(buffer_.size()) > = config_.max_entries) {
+        if (static_cast<int>(buffer_.size()) >= config_.max_entries) {
             buffer_.pop_front();
             ++total_evicted_;
         }

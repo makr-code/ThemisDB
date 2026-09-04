@@ -551,7 +551,7 @@ void PIIDetector::scanJsonRecursive(
             }
         }
     } else if (obj.is_array()) {
-        for (size_t i = 0; i <static_cast<int>(obj.size()); ++i) {
+        for (size_t i = 0; i < obj.size(); ++i) {
             std::string new_path = path + "[" + std::to_string(i) + "]";
             scanJsonRecursive(obj.at(i), new_path, findings);
         }
@@ -584,7 +584,7 @@ std::vector<PIIFinding> PIIDetector::deduplicateFindings(
     std::vector<PIIFinding> deduplicated;
     deduplicated.push_back(findings.front());
     
-    for (size_t i = 1; i <static_cast<int>(findings.size()); ++i) {
+    for (size_t i = 1; i < findings.size(); ++i) {
         const auto& prev = deduplicated.back();
         const auto& curr = findings.at(i);
         
