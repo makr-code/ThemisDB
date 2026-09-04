@@ -1,6 +1,7 @@
 name: "Release: Rollback"
 
-# Manual rollback workflow for cleaning up failed releases.
+# Rechenaufwand-Score: R=2 (K=2, L=2, N=1) | last-calibrated: 2026-09-04
+# Trigger policy: manual workflow_dispatch (no scheduled execution)
 # Allows deleting release artifacts and reverting version changes if needed.
 #
 # Trigger: workflow_dispatch with version to rollback
