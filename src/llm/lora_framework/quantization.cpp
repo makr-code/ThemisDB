@@ -333,7 +333,7 @@ float quantization_error(const std::vector<float>& original,
         float diff = original[i] - reconstructed[i];
         mse += diff * diff;
     }
-    mse /= original.size();
+    mse /= static_cast<float>(original.size());
     
     return mse;
 }

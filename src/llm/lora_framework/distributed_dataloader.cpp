@@ -80,7 +80,7 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch(size_t batch_idx) {
     std::vector<GPUTensor> sharded_batch;
     sharded_batch.reserve(ctx_.num_gpus());
     
-    size_t samples_per_gpu = (batch_samples.size() + ctx_.num_gpus() - 1) / ctx_.num_gpus();
+    size_t samples_per_gpu = (batch_samples.size() + static_cast<size_t>(ctx_.num_gpus()) - 1) / static_cast<size_t>(ctx_.num_gpus());
     
     for (int gpu_idx = 0; gpu_idx < ctx_.num_gpus(); ++gpu_idx) {
         size_t gpu_start = gpu_idx * samples_per_gpu;

@@ -617,7 +617,7 @@ std::vector<GradientTensor> ParameterServerAggregator::aggregate(
             if (grad.data.size() != tensor_size) continue;
             
             // Get weight for this shard
-            float weight = 1.0f / shard_gradients.size();  // Default weight
+            float weight = 1.0f / static_cast<float>(shard_gradients.size());  // Default weight
             auto it = shard_weights_.find(grad.source_shard);
             if (it != shard_weights_.end()) {
                 weight = it->second / total_weight;
@@ -1391,7 +1391,7 @@ void DistributedTrainingCoordinator::initializeAggregator() {
         case SyncStrategy::PARAMETER_SERVER: {
             // Create equal weights for all shards
             std::map<std::string, float> weights;
-            float weight = 1.0f / config_.participant_shards.size();
+            float weight = 1.0f / static_cast<float>(config_.participant_shards.size());
             for (const auto& shard : config_.participant_shards) {
                 weights[shard] = weight;
             }

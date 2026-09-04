@@ -424,7 +424,7 @@ float EthicalGuidelinesManager::calculateConfidence(
     float base_confidence = 0.3f;
     float per_keyword = 0.15f;
     
-    float confidence = base_confidence + (detected_keywords.size() * per_keyword);
+    float confidence = base_confidence + (static_cast<float>(detected_keywords.size()) * per_keyword);
     return std::min(confidence, 1.0f);
 }
 

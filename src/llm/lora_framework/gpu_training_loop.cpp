@@ -1056,7 +1056,7 @@ float computeFusedMSELossGradientGPU(
         
         float sum = 0.0f;
         std::vector<float> grad_data(pred_data.size());
-        float scale = 2.0f / pred_data.size();
+        float scale = 2.0f / static_cast<float>(pred_data.size());
         
         for (size_t i = 0; i < pred_data.size(); ++i) {
             float diff = pred_data[i] - target_data[i];
@@ -1065,7 +1065,7 @@ float computeFusedMSELossGradientGPU(
         }
         
         grad_output.upload(grad_data);
-        return sum / pred_data.size();
+        return sum / static_cast<float>(pred_data.size());
 #endif
     } else {
         // CPU fallback or other backends
@@ -1074,7 +1074,7 @@ float computeFusedMSELossGradientGPU(
         
         float sum = 0.0f;
         std::vector<float> grad_data(pred_data.size());
-        float scale = 2.0f / pred_data.size();
+        float scale = 2.0f / static_cast<float>(pred_data.size());
         
         for (size_t i = 0; i < pred_data.size(); ++i) {
             float diff = pred_data[i] - target_data[i];

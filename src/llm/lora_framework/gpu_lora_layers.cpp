@@ -743,7 +743,7 @@ float GPULoRATrainer::compute_mse_loss(const GPUTensor& output, const GPUTensor&
 GPUTensor GPULoRATrainer::compute_mse_grad(const GPUTensor& output, const GPUTensor& target) {
     // grad_MSE = 2 * (output - target) / n
     auto diff = output - target;
-    float scale = 2.0f / output.size();
+    float scale = 2.0f / static_cast<float>(output.size());
     return diff * scale;
 }
 

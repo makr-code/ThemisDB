@@ -372,7 +372,7 @@ bool ProductionValidator::validateQuality(const std::string& model_id) {
         }
     }
     
-    double score = (tests.size() > 0) ? (passed * 100.0 / tests.size()) : 0.0;
+    double score = (tests.size() > 0) ? (passed * 100.0 / static_cast<double>(tests.size())) : 0.0;
     
     spdlog::info("Quality test results: {}/{} passed ({:.1f}%)", passed, tests.size(), score);
     
