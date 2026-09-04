@@ -1689,6 +1689,7 @@ std::string GpuCompressionManager::algorithm_to_string(
         case GpuCompressionAlgorithm::ZSTD:   return "gpu_zstd";
         case GpuCompressionAlgorithm::SNAPPY: return "gpu_snappy";
         case GpuCompressionAlgorithm::LZ4:    return "gpu_lz4";
+        default: break;
     }
     return "unknown";
 }
@@ -1701,6 +1702,7 @@ std::string GpuCompressionManager::accel_type_to_string(
         case GpuAccelerationType::CUDA:     return "cuda";
         case GpuAccelerationType::HIP:      return "hip";
         case GpuAccelerationType::AUTO:     return "auto";
+        default: break;
     }
     return "unknown";
 }
