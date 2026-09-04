@@ -34,13 +34,13 @@ std::unordered_set<std::string> tokenSet(const std::string& text) {
         if (std::isalnum(ch)) {
             cur += static_cast<char>(std::tolower(ch));
         } else {
-            if (static_cast<int>(cur.size()) > = 2) {
+            if (static_cast<int>(cur.size()) >= 2) {
                 tokens.insert(cur);
             }
             cur.clear();
         }
     }
-    if (static_cast<int>(cur.size()) > = 2) {
+    if (static_cast<int>(cur.size()) >= 2) {
         tokens.insert(cur);
     }
     return tokens;
@@ -97,7 +97,7 @@ std::vector<std::string> doSplitSentences(const std::string&              text,
     std::vector<std::string> sentences;
     std::string current = {};
 
-    for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
+    for (size_t i = 0; i < text.size(); ++i) {
         char ch = text[i];
         current += ch;
 
@@ -107,19 +107,19 @@ std::vector<std::string> doSplitSentences(const std::string&              text,
         if (isDelim || atEnd) {
             // Consume any trailing whitespace up to the next sentence start
             size_t j = i + 1;
-            while (j <static_cast<int>(text.size()) && std::isspace(static_cast<unsigned char>(text[j]))) {
+            while (j < text.size() && std::isspace(static_cast<unsigned char>(text[j]))) {
                 ++j;
             }
 
             // Emit only when the next char is uppercase or we are at end-of-string
             // (handles abbreviations like "Dr." or "e.g.").
-            bool nextIsUpper = (j <static_cast<int>(text.size()) &&
+            bool nextIsUpper = (j < text.size() &&
                                 std::isupper(static_cast<unsigned char>(text[j])));
             bool nextIsEnd   = (j >= text.size());
 
             if (nextIsUpper || nextIsEnd || atEnd) {
                 trim(current);
-                if (static_cast<int>(current.size()) > = cfg.min_sentence_length) {
+                if (static_cast<int>(current.size()) >= cfg.min_sentence_length) {
                     sentences.push_back(current);
                 }
                 current.clear();
@@ -130,7 +130,7 @@ std::vector<std::string> doSplitSentences(const std::string&              text,
 
     // Flush any remainder (last sentence without a trailing delimiter)
     trim(current);
-    if (static_cast<int>(current.size()) > = cfg.min_sentence_length) {
+    if (static_cast<int>(current.size()) >= cfg.min_sentence_length) {
         sentences.push_back(current);
     }
 
@@ -195,7 +195,7 @@ CitationHighlighter::highlight(const std::string&              answer,
     size_t cited_count  = 0;
     double total_sim    = 0.0;
 
-    for (size_t si = 0; si <static_cast<int>(sentences.size()); ++si) {
+    for (size_t si = 0; si < sentences.size(); ++si) {
         const auto& sentence = sentences[si];
 
         SentenceCitationMapping mapping;
@@ -211,7 +211,7 @@ CitationHighlighter::highlight(const std::string&              answer,
 
         scored.reserve(chunks.size());
 
-        for (size_t ci = 0; ci <static_cast<int>(chunks.size()); ++ci) {
+        for (size_t ci = 0; ci < chunks.size(); ++ci) {
             double sim = computeSimilarity(sentence, chunks[ci].content);
             scored.push_back({ci, sim});
             if (sim > best_score) {

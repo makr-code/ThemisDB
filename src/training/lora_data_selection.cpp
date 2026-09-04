@@ -153,7 +153,7 @@ static std::vector<uint32_t> buildMinHash(const std::string& text, size_t num_pe
     // reproducible MinHash computation across runs (issue #5414 Phase 1).
     std::set<std::string> shingles = {};
 
-    for (size_t i = 0; i + 2 <static_cast<int>(words.size()); ++i) {
+    for (size_t i = 0; i + 2 < words.size(); ++i) {
         shingles.insert(words[i] + " " + words[i+1] + " " + words[i+2]);
     }
     if (shingles.empty()) {
@@ -188,7 +188,7 @@ static double jaccardEstimate(const std::vector<uint32_t>& a,
       return 0.0;
     }
     size_t matches = 0;
-    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+    for (size_t i = 0; i < a.size(); ++i) {
         if (a[i] == b[i]) {
           ++matches;
         }
@@ -421,11 +421,11 @@ public:
 
         // Greedy deduplication: keep first; skip near-duplicates
         std::vector<bool> is_dup(samples.size(), false);
-        for (size_t i = 0; i <static_cast<int>(samples.size()); ++i) {
+        for (size_t i = 0; i < samples.size(); ++i) {
             if (is_dup[i]) {
               continue;
             }
-            for (size_t j = i + 1; j <static_cast<int>(samples.size()); ++j) {
+            for (size_t j = i + 1; j < samples.size(); ++j) {
                 if (is_dup[j]) {
                   continue;
                 }
@@ -439,7 +439,7 @@ public:
         std::vector<DataSample> out = {};
 
         out.reserve(samples.size());
-        for (size_t i = 0; i <static_cast<int>(samples.size()); ++i) {
+        for (size_t i = 0; i < samples.size(); ++i) {
             if (!is_dup[i]) {
               out.push_back(samples[i]);
             }
@@ -467,7 +467,7 @@ public:
             if (text.empty()) {
               return v;
             }
-            for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
+            for (size_t i = 0; i < text.size(); ++i) {
                 v[i % 8] += static_cast<double>(static_cast<unsigned char>(text[i]));
             }
             double norm = 0.0;
@@ -501,7 +501,7 @@ public:
         auto distance = [](const std::vector<double>& a,
                            const std::vector<double>& b) -> double {
             double d = 0.0;
-            for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+            for (size_t i = 0; i < a.size(); ++i) {
                 double diff = a[i] - b[i];
                 d += diff * diff;
             }
@@ -515,7 +515,7 @@ public:
             // Assign
             for (size_t i = 0; i < n; ++i) {
                 double best_dist = std::numeric_limits<double>::max();
-                for (size_t c = 0; c <static_cast<int>(centroids.size()); ++c) {
+                for (size_t c = 0; c < centroids.size(); ++c) {
                     double d = distance(embeddings[i], centroids[c]);
                     if (d < best_dist) { best_dist = d; assignments[i] = c; }
                 }
@@ -532,7 +532,7 @@ public:
                   new_centroids[c][d] += embeddings[i][d];
                 }
             }
-            for (size_t c = 0; c <static_cast<int>(centroids.size()); ++c) {
+            for (size_t c = 0; c < centroids.size(); ++c) {
                 if (counts[c] > 0) {
                     for (double& x : new_centroids[c]) {
                       x /= static_cast<double>(counts[c]);
@@ -546,7 +546,7 @@ public:
         std::vector<DataSample> out;
         out.reserve(k);
         std::vector<bool> selected(n, false);
-        for (size_t c = 0; c <static_cast<int>(centroids.size()); ++c) {
+        for (size_t c = 0; c < centroids.size(); ++c) {
             double best_dist = std::numeric_limits<double>::max();
             size_t best_idx  = n; // sentinel
             for (size_t i = 0; i < n; ++i) {
@@ -857,7 +857,7 @@ static std::string trimRight(std::string s) {
 
 static std::string trimLeft(const std::string& s) {
     size_t i = 0;
-    while ((i <static_cast<int>(s.size()) && (s[i] == ' ' || s[i] == '\t'))) {
+    while ((i < s.size() && (s[i] == ' ' || s[i] == '\t'))) {
       ++i;
     }
     return s.substr(i);
@@ -873,7 +873,7 @@ static std::string stripQuotes(const std::string& s) {
 
 static std::string removeComment(const std::string& s) {
     bool in_single = false, in_double = false;
-    for (size_t i = 0; i <static_cast<int>(s.size()); ++i) {
+    for (size_t i = 0; i < s.size(); ++i) {
         char c = s[i];
         if      (c == '\'' && !in_double) {
           in_single = !in_single;
@@ -950,7 +950,7 @@ static LoRADataSelectionConfig parseYAMLText(const std::string& text,
         }
 
         size_t indent = 0;
-        while (indent <static_cast<int>(line.size()) && line[indent] == ' ') {
+        while (indent < line.size() && line[indent] == ' ') {
           ++indent;
         }
         const std::string content = line.substr(indent);
@@ -1074,7 +1074,7 @@ std::string SelectionAuditEntry::toJSONL() const {
 
     // Build selected_ids JSON array inline
     std::string ids_arr = "[";
-    for (size_t i = 0; i <static_cast<int>(selected_ids.size()); ++i) {
+    for (size_t i = 0; i < selected_ids.size(); ++i) {
         if (i > 0) {
           ids_arr += ',';
         }
@@ -1145,7 +1145,7 @@ static SelfImprovementConfig parseSelfImprovementYAML(
         }
 
         size_t indent = 0;
-        while (indent <static_cast<int>(line.size()) && line[indent] == ' ') {
+        while (indent < line.size() && line[indent] == ' ') {
           ++indent;
         }
         const std::string content = line.substr(indent);
@@ -1296,21 +1296,21 @@ public:
                                    double metric_value) {
         // Find operator boundary
         size_t i = 0;
-        while (i <static_cast<int>(condition.size()) &&
+        while (i < condition.size() &&
                (condition[i] == '<' || condition[i] == '>' ||
                 condition[i] == '=' || condition[i] == ' ')) ++i;
         // Extract operator part (before first digit or minus sign)
         std::string op = {};
         size_t j = 0;
-        while (j <static_cast<int>(condition.size()) && condition[j] == ' ') {
+        while (j < condition.size() && condition[j] == ' ') {
           ++j;
         }
-        while (j <static_cast<int>(condition.size()) &&
+        while (j < condition.size() &&
                (condition[j] == '<' || condition[j] == '>' ||
                 condition[j] == '=' || condition[j] == '!')) {
             op += condition[j++];
         }
-        while (j <static_cast<int>(condition.size()) && condition[j] == ' ') {
+        while (j < condition.size() && condition[j] == ' ') {
           ++j;
         }
         double threshold = 0.0;

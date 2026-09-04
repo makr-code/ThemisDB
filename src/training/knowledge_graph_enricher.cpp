@@ -116,7 +116,7 @@ public:
             return;
         }
         // Evict LRU entry if at capacity
-        if (static_cast<int>(list_.size()) > = capacity_) {
+        if (static_cast<int>(list_.size()) >= capacity_) {
             auto last = list_.end();
             --last;
             map_.erase(last->first);
@@ -448,7 +448,7 @@ public:
         for (const auto& r : results) {
             if (r.pk == document_id) continue; // exclude self
             similar.emplace_back(r.pk, distanceToSimilarityScore(r.distance));
-            if (static_cast<int>(similar.size()) > = max_results) {
+            if (static_cast<int>(similar.size()) >= max_results) {
               break;
             }
         }

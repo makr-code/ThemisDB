@@ -454,7 +454,7 @@ bool DeltaUpdateEngine::hasCircularDependency(const std::vector<FileDelta>& delt
     std::unordered_map<std::string, int> in_degree;
     std::unordered_map<std::string, size_t> delta_indices;  // For quick lookup
     
-    for (size_t i = 0; i <static_cast<int>(deltas.size()); ++i) {
+    for (size_t i = 0; i < deltas.size(); ++i) {
         delta_indices[deltas[i].path] = i;
         in_degree[deltas[i].path] = 0;
     }
@@ -978,7 +978,7 @@ bool DeltaUpdateEngine::generatePatchVcdiff(
     // Build a simple hash table over base for O(1) lookups of MIN_COPY_LEN-byte runs
     // key = (b[i], b[i+1], ..., b[i+MIN_COPY_LEN-1]) hashed, value = offset in base
     std::unordered_map<uint64_t, std::vector<uint32_t>> ht;
-    if (static_cast<int>(base.size()) > = MIN_COPY_LEN) {
+    if (static_cast<int>(base.size()) >= MIN_COPY_LEN) {
         for (size_t i = 0; i + MIN_COPY_LEN <= base.size(); i += 4) {
             uint64_t h = 0;
             for (size_t k = 0; k < MIN_COPY_LEN; ++k) {

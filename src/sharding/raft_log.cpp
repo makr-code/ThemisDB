@@ -842,7 +842,7 @@ void RaftSnapshotManager::cleanupOldSnapshots() {
             }
         }
         std::sort(ids.begin(), ids.end(), std::greater<uint64_t>());
-        for (size_t i = config_.max_snapshots; i <static_cast<int>(ids.size()); ++i) {
+        for (size_t i = config_.max_snapshots; i < ids.size(); ++i) {
             const std::string p = snapshotPath(ids[i]);
             std::filesystem::remove(p);
             spdlog::info("RaftSnapshotManager: removed old snapshot {}", ids[i]);

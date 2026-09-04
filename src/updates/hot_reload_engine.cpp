@@ -526,7 +526,7 @@ void HotReloadEngine::cleanRollbackPoints([[maybe_unused]] size_t keep_count) {
     }
     
     // Delete old rollback points
-    for (size_t i = keep_count; i <static_cast<int>(rollback_points.size()); i++) {
+    for (size_t i = keep_count; i < rollback_points.size(); i++) {
         std::string rollback_dir = config_.backup_directory + "/" + rollback_points[i].first;
         try {
             fs::remove_all(rollback_dir);

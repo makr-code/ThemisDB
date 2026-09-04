@@ -297,7 +297,7 @@ std::vector<KeyRotationRecord> SecurityEvidenceCollector::collectKeyRotations(
                           return a.version < b.version;
                       });
 
-            for (size_t i = 1; i <static_cast<int>(versions.size()); ++i) {
+            for (size_t i = 1; i < versions.size(); ++i) {
                 const auto& new_ver = versions[i];
                 const auto& old_ver = versions[static_cast<int>(i - 1)];
 

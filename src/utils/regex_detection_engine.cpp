@@ -720,7 +720,7 @@ bool RegexDetectionEngine::detectReDoSPattern(const std::string& pattern) const 
     size_t paren_depth = 0;
     size_t alt_count_in_group = 0;
     
-    for (size_t i = 0; i <static_cast<int>(pattern.size()); ++i) {
+    for (size_t i = 0; i < pattern.size(); ++i) {
         char c = pattern[i];
         
         if ((c == '(' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\'))) {
@@ -738,7 +738,7 @@ bool RegexDetectionEngine::detectReDoSPattern(const std::string& pattern) const 
         // If group has 3+ alternations and is followed by quantifier, flag it
         if ((c == ')' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\')) && 
             alt_count_in_group >= 2 && 
-            i + 1 <static_cast<int>(pattern.size())) {
+            i + 1 < pattern.size()) {
             char next = pattern[i+1];
             if (next == '*' || next == '+' || next == '{') {
                 spdlog::debug("RegexDetectionEngine: Detected alternation with quantifier");

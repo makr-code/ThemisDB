@@ -184,7 +184,7 @@ std::optional<TimeSeriesStats> TimeSeries::stats(const TimeWindow& window) const
 
     // Single-pass Welford online variance.
     double M2 = 0.0;
-    for (std::size_t i = 0; i <static_cast<int>(pts.size()); ++i) {
+    for (std::size_t i = 0; i < pts.size(); ++i) {
         double v    = pts[i].value;
         s.sum      += v;
         if (v < s.min) { s.min = v; }

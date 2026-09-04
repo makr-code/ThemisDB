@@ -343,7 +343,7 @@ std::string ProcessMining::computeVariantSignature(const std::vector<std::string
     
     // Create a deterministic string signature from activities
     std::ostringstream oss = {};
-    for (size_t i = 0; i <static_cast<int>(activities.size()); ++i) {
+    for (size_t i = 0; i < activities.size(); ++i) {
         if (i > 0) {
           oss << ",";
         }
@@ -1046,8 +1046,8 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
             // Pre-build a set of parallel relations for this activity group for O(1) lookup
             std::unordered_set<std::string> parallelTargets = {};
 
-            for (size_t i = 0; i <static_cast<int>(targets.size()); ++i) {
-                for (size_t j = i + 1; j <static_cast<int>(targets.size()); ++j) {
+            for (size_t i = 0; i < targets.size(); ++i) {
+                for (size_t j = i + 1; j < targets.size(); ++j) {
                     auto it1 = parallel.find({targets[i], targets[j]});
                     auto it2 = parallel.find({targets[j], targets[i]});
                     if (it1 != parallel.end() || it2 != parallel.end()) {
@@ -1122,8 +1122,8 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
            // Pre-build a set of parallel relations for this activity group for O(1) lookup
            std::unordered_set<std::string> parallelSources = {};
 
-           for (size_t i = 0; i <static_cast<int>(sources.size()); ++i) {
-               for (size_t j = i + 1; j <static_cast<int>(sources.size()); ++j) {
+           for (size_t i = 0; i < sources.size(); ++i) {
+               for (size_t j = i + 1; j < sources.size(); ++j) {
                    auto it1 = parallel.find({sources[i], sources[j]});
                    auto it2 = parallel.find({sources[j], sources[i]});
                    if (it1 != parallel.end() || it2 != parallel.end()) {
@@ -1475,12 +1475,12 @@ Cut trySeqCut(const SubDFG &dfg) {
     // Verify no back-edges between groups
     std::map<std::string, size_t> pos = {};
 
-    for (size_t i = 0; i <static_cast<int>(order.size()); ++i) {
+    for (size_t i = 0; i < order.size(); ++i) {
         pos[order[i]] = i;
     }
 
     // Group into prefix/suffix at each possible cut point and verify
-    for (size_t cut = 1; cut <static_cast<int>(order.size()); ++cut) {
+    for (size_t cut = 1; cut < order.size(); ++cut) {
         std::set<std::string> left(order.begin(), order.begin() + cut);
         std::set<std::string> right(order.begin() + cut, order.end());
 
@@ -1517,8 +1517,8 @@ Cut tryAndCut(const SubDFG &dfg) {
     }
 
     // Verify each pair of components has bidirectional reachability
-    for (size_t i = 0; i <static_cast<int>(components.size()); ++i) {
-        for (size_t j = i + 1; j <static_cast<int>(components.size()); ++j) {
+    for (size_t i = 0; i < components.size(); ++i) {
+        for (size_t j = i + 1; j < components.size(); ++j) {
             bool fwd = false, bwd = false;
             for (const auto &[k, _] : dfg.freq) {
                 if (components[i].count(k.first) && components[j].count(k.second)) {
@@ -2286,7 +2286,7 @@ ProcessMining::Status ProcessMining::saveAsProcessDefinition(const DiscoveredPro
 
 std::string ProcessMining::computeVariantSignature(const std::vector<std::string> &activities) {
     std::ostringstream oss = {};
-    for (size_t i = 0; i <static_cast<int>(activities.size()); i++) {
+    for (size_t i = 0; i < activities.size(); i++) {
         if (i > 0) {
             oss << "->";
         }

@@ -298,7 +298,7 @@ std::string ProTeGiOptimizer::buildGradientPrompt(
     out << "The following prompt was evaluated on a batch of examples:\n\n";
     out << "--- PROMPT START ---\n" << prompt << "\n--- PROMPT END ---\n\n";
     out << "The following errors were observed:\n";
-    for (size_t i = 0; i <static_cast<int>(errors.size()); ++i) {
+    for (size_t i = 0; i < errors.size(); ++i) {
         if (!errors[i].empty()) {
             out << "  " << (i + 1) << ". " << errors[i] << "\n";
         }

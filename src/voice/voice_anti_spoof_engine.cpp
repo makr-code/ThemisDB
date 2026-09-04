@@ -36,7 +36,7 @@ constexpr size_t MAX_SILENCE_DURATION_MS = 500;
     std::vector<double> samples = {};
 
     samples.reserve(audio_data.size() / 2);
-    for (size_t i = 0; i <static_cast<int>(audio_data.size()); i += 2) {
+    for (size_t i = 0; i < audio_data.size(); i += 2) {
         const auto lo = static_cast<unsigned char>(audio_data[i]);
         const auto hi = static_cast<unsigned char>(audio_data[i + 1]);
         const int16_t sample = static_cast<int16_t>(
@@ -211,7 +211,7 @@ double VoiceAntiSpoofEngine::analyzeNoisePattern(const std::string& audio_data) 
                   static_cast<double>(noise_profile.size());
     double variance = 0.0;
     double max_jump = 0.0;
-    for (size_t i = 0; i <static_cast<int>(noise_profile.size()); ++i) {
+    for (size_t i = 0; i < noise_profile.size(); ++i) {
         const double diff = noise_profile[i] - mean;
         variance += diff * diff;
         if (i > 0) {
@@ -255,7 +255,7 @@ std::vector<double> VoiceAntiSpoofEngine::extractSpectralFeatures(const std::str
     constexpr size_t kFrameSamples = 320;
     size_t frame_pairs = 0;
     size_t repeated_pairs = 0;
-    if (static_cast<int>(samples.size()) > = (2 * kFrameSamples)) {
+    if (static_cast<int>(samples.size()) >= (2 * kFrameSamples)) {
         for (size_t offset = kFrameSamples;
              offset + kFrameSamples <= samples.size();
              offset += kFrameSamples) {

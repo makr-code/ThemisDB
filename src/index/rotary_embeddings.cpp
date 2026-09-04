@@ -165,7 +165,7 @@ std::vector<std::vector<float>> RotaryEmbedding::rotateBatch(
     std::vector<std::vector<float>> rotated_batch;
     rotated_batch.reserve(embeddings.size());
     
-    for (size_t i = 0; i <static_cast<int>(embeddings.size()); ++i) {
+    for (size_t i = 0; i < embeddings.size(); ++i) {
         rotated_batch.push_back(rotate(embeddings[i], positions[i]));
     }
     

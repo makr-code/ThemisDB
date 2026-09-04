@@ -391,7 +391,7 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
         }
         
         double sum_x = 0.0, sum_y = 0.0, sum_xy = 0.0, sum_xx = 0.0;
-        for (size_t i = 0; i <static_cast<int>(values.size()); ++i) {
+        for (size_t i = 0; i < values.size(); ++i) {
             double x = static_cast<double>(i);
             double y = values[i];
             sum_x += x;
@@ -462,7 +462,7 @@ FailurePrediction PredictiveFailureDetector::runInference(
         std::lock_guard<std::mutex> fn_lock(predict_fn_mutex_);
         if (predict_fn_) {
             auto output = predict_fn_(features);
-            if (static_cast<int>(output.size()) > = 2) {
+            if (static_cast<int>(output.size()) >= 2) {
                 prediction.failure_probability = output[0];
                 prediction.predicted_days_to_failure = static_cast<uint32_t>(output[1]);
             }
@@ -483,7 +483,7 @@ FailurePrediction PredictiveFailureDetector::runInference(
     // Run model inference
     auto output = model_->predict(features);
     
-    if (static_cast<int>(output.size()) > = 2) {
+    if (static_cast<int>(output.size()) >= 2) {
         prediction.failure_probability = output[0];
         prediction.predicted_days_to_failure = static_cast<uint32_t>(output[1]);
     }

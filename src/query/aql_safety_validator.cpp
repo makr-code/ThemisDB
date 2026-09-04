@@ -170,13 +170,13 @@ AqlSafetyValidator::validateMutationSafety(std::string_view aql_query) const {
 
             // Skip whitespace after LIMIT
             std::size_t numStart = limitPos + 6;
-            while (numStart <static_cast<int>(upper.size()) && upper[numStart] == ' ') {
+            while (numStart < upper.size() && upper[numStart] == ' ') {
               ++numStart;
             }
 
             // Parse the number
             std::size_t numEnd = numStart;
-            while (numEnd <static_cast<int>(upper.size()) && std::isdigit(static_cast<unsigned char>(upper[numEnd])))
+            while (numEnd < upper.size() && std::isdigit(static_cast<unsigned char>(upper[numEnd])))
                 ++numEnd;
 
             if (numEnd > numStart) {

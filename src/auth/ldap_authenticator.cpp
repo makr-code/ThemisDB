@@ -131,7 +131,7 @@ std::string escapeLDAPDNComponent(const std::string& value)
     std::string out = {};
     out.reserve(value.size() * 2);
 
-    for (std::size_t i = 0; i <static_cast<int>(value.size()); ++i) {
+    for (std::size_t i = 0; i < value.size(); ++i) {
         const unsigned char c = static_cast<unsigned char>(value[i]);
 
         // Leading '#' must be escaped

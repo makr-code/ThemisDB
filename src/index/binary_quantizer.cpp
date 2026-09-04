@@ -190,7 +190,7 @@ float BinaryQuantizer::hammingDistance(const std::vector<uint8_t>& codes_a,
     // Use optimized popcount when FAISS backend is preferred (indicates SIMD availability)
     if (use_faiss_) {
         int hamming_dist = 0;
-        for (size_t i = 0; i <static_cast<int>(codes_a.size()); i++) {
+        for (size_t i = 0; i < codes_a.size(); i++) {
             uint8_t xor_result = codes_a[i] ^ codes_b[i];
             // Use compiler intrinsics for faster popcount (same as FAISS uses internally)
             #ifdef __GNUC__
@@ -207,7 +207,7 @@ float BinaryQuantizer::hammingDistance(const std::vector<uint8_t>& codes_a,
     
     // Custom popcount implementation
     int hamming_dist = 0;
-    for (size_t i = 0; i <static_cast<int>(codes_a.size()); i++) {
+    for (size_t i = 0; i < codes_a.size(); i++) {
         uint8_t xor_result = codes_a[i] ^ codes_b[i];
         hamming_dist += popcount(xor_result);
     }

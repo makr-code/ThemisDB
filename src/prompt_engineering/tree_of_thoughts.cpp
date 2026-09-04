@@ -426,7 +426,7 @@ std::string TreeOfThoughtsBuilder::synthesiseAnswer(
 {
     std::ostringstream ans = {};
     ans << "Based on the following reasoning chain:\n\n";
-    for (size_t i = 0; i <static_cast<int>(best_path.size()); ++i) {
+    for (size_t i = 0; i < best_path.size(); ++i) {
         ans << "Step " << (i + 1) << ": " << best_path[i] << "\n";
     }
     ans << "\nConclusion: The best path through the problem \""
@@ -451,7 +451,7 @@ std::string TreeOfThoughtsBuilder::buildGenerationPrompt(
 
     if (!path.empty()) {
         out << "Reasoning so far:\n";
-        for (size_t i = 0; i <static_cast<int>(path.size()); ++i) {
+        for (size_t i = 0; i < path.size(); ++i) {
             out << "Step " << (i + 1) << ": " << path[i] << "\n";
         }
         out << "\n";
@@ -493,7 +493,7 @@ std::string TreeOfThoughtsBuilder::buildSynthesisPrompt(
     out << "You have completed a reasoning process for the problem below.\n\n";
     out << "Problem:\n" << problem << "\n\n";
     out << "Best reasoning chain:\n";
-    for (size_t i = 0; i <static_cast<int>(best_path.size()); ++i) {
+    for (size_t i = 0; i < best_path.size(); ++i) {
         out << "Step " << (i + 1) << ": " << best_path[i] << "\n";
     }
     out << "\nSynthesize a concise, accurate final answer based on the reasoning above.\n";

@@ -67,7 +67,7 @@ bool DecisionRecordYamlProcessor::submit(DecisionRecord record) {
 
     {
         std::lock_guard<std::mutex> lk(mutex_);
-        if (static_cast<int>(queue_.size()) > = config_.max_queue_depth) {
+        if (static_cast<int>(queue_.size()) >= config_.max_queue_depth) {
             ++dropped_;
             return false;
         }

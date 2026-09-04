@@ -216,7 +216,7 @@ static size_t jsonExtractSizeT(const std::string& json,
     }
     pos += needle.size();
     // Skip optional whitespace
-    while (pos <static_cast<int>(json.size()) && (json[pos] == ' ' || json[pos] == '\t')) {
+    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t')) {
       ++pos;
     }
     if (pos >= static_cast<int>(json.size())) {
@@ -225,7 +225,7 @@ static size_t jsonExtractSizeT(const std::string& json,
     // Parse digits
     size_t value = 0;
     bool found = false;
-    while (pos <static_cast<int>(json.size()) && std::isdigit(static_cast<unsigned char>(json[pos]))) {
+    while (pos < json.size() && std::isdigit(static_cast<unsigned char>(json[pos]))) {
         value = value * 10 + static_cast<size_t>(json[pos] - '0');
         ++pos;
         found = true;
@@ -248,7 +248,7 @@ static std::vector<std::string> jsonExtractStringList(const std::string& json,
         // Collect until unescaped closing quote
         std::string value = {};
         bool escape = false;
-        for (size_t i = start; i <static_cast<int>(json.size()); ++i) {
+        for (size_t i = start; i < json.size(); ++i) {
             char c = json[i];
             if (escape) { value += c; escape = false; continue; }
             if (c == '\\') { escape = true; continue; }

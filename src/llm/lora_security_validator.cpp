@@ -678,7 +678,7 @@ bool LoRASecurityValidator::parseLoRAMetadata(const std::vector<uint8_t>& data,
     // Magic bytes: SafeTensors starts with an 8-byte little-endian uint64
     // that encodes the JSON header length.  The JSON header must contain at
     // least one key and fit within the file.
-    if (static_cast<int>(data.size()) > = 8) {
+    if (static_cast<int>(data.size()) >= 8) {
         uint64_t header_size = 0;
         for (int i = 0; i < 8; ++i) {
             header_size |= (static_cast<uint64_t>(data[i]) << (i * 8));
@@ -908,7 +908,7 @@ std::vector<size_t> LoRASecurityValidator::findOutliers(
     float mean = calculateMean(values);
     float stddev = calculateStdDev(values, mean);
     
-    for (size_t i = 0; i <static_cast<int>(values.size()); i++) {
+    for (size_t i = 0; i < values.size(); i++) {
         float z_score = std::abs((values[i] - mean) / stddev);
         if (z_score > threshold) {
             outliers.push_back(i);
@@ -1143,7 +1143,7 @@ void EmbeddingAnomalyDetector::updateBaseline(const std::vector<float>& embeddin
     
     // Update running statistics (Welford's online algorithm)
     sample_count_++;
-    for (size_t i = 0; i <static_cast<int>(embedding.size()); i++) {
+    for (size_t i = 0; i < embedding.size(); i++) {
         float delta = embedding[i] - mean_embedding_[i];
         mean_embedding_[i] += delta / sample_count_;
         float delta2 = embedding[i] - mean_embedding_[i];
@@ -1184,7 +1184,7 @@ float EmbeddingAnomalyDetector::calculateCosineSimilarity(
     }
     
     float dot = 0.0f, norm_a = 0.0f, norm_b = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(a.size()); i++) {
+    for (size_t i = 0; i < a.size(); i++) {
         dot += a[i] * b[i];
         norm_a += a[i] * a[i];
         norm_b += b[i] * b[i];
@@ -1202,7 +1202,7 @@ float EmbeddingAnomalyDetector::calculateEuclideanDistance(
     }
     
     float sum = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(a.size()); i++) {
+    for (size_t i = 0; i < a.size(); i++) {
         float diff = a[i] - b[i];
         sum += diff * diff;
     }
@@ -1216,7 +1216,7 @@ bool EmbeddingAnomalyDetector::isOutlier(const std::vector<float>& embedding) {
     }
     
     // Check if any dimension is outlier
-    for (size_t i = 0; i <static_cast<int>(embedding.size()); i++) {
+    for (size_t i = 0; i < embedding.size(); i++) {
         float stddev = std::sqrt(stddev_embedding_[i] / sample_count_);
         float z_score = std::abs((embedding[i] - mean_embedding_[i]) / stddev);
         if (z_score > config_.outlier_threshold) {

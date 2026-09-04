@@ -1181,13 +1181,13 @@ namespace {
         return -1;
     };
 
-    for (std::size_t i = 0; i <static_cast<int>(input.size()); ++i) {
+    for (std::size_t i = 0; i < input.size(); ++i) {
         const char ch = input[i];
         if (ch == '+') {
             out.push_back(' ');
             continue;
         }
-        if (ch == '%' && i + 2 <static_cast<int>(input.size())) {
+        if (ch == '%' && i + 2 < input.size()) {
             const int hi = hexValue(input[i + 1]);
             const int lo = hexValue(input[i + 2]);
             if (hi >= 0 && lo >= 0) {

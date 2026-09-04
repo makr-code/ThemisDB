@@ -655,7 +655,7 @@ bool WasmPluginSandbox::checkImportAllowlist() {
     if (!unknown.empty()) {
         std::ostringstream oss = {};
         oss << "WASM module requires " <<static_cast<int>(unknown.size()) << " unregistered host function(s): ";
-        for (size_t i = 0; i <static_cast<int>(unknown.size()); ++i) {
+        for (size_t i = 0; i < unknown.size(); ++i) {
             if (i) {
                 oss << ", ";
             }

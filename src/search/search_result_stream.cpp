@@ -106,7 +106,7 @@ std::vector<HybridSearch::Result> SearchResultStream::nextPage() {
 // ============================================================================
 
 bool SearchResultStream::hasMore() const {
-    return static_cast<bool>(cursor_  < static_cast<int>(results_.size()));
+    return static_cast<bool>(cursor_ < results_.size());
 }
 
 // ============================================================================

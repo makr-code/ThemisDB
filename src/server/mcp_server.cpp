@@ -3766,7 +3766,7 @@ json McpServer::toolHybridSearch(const json& args) {
         std::sort(ranked.begin(), ranked.end(), [](auto& a, auto& b){ return a.second > b.second; });
 
         json merged = json::array();
-        for (size_t i = 0; i < static_cast<int>(ranked.size()) && i < top_k; ++i) {
+        for (size_t i = 0; i < ranked.size() && i < top_k; ++i) {
             const auto& [id, score] = ranked[i];
             auto it = doc_cache.find(id);
             json entry  = (it != doc_cache.end()) ? it->second : json::object();

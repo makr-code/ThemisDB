@@ -430,7 +430,7 @@ void PaxosSnapshotManager::cleanupOldSnapshots([[maybe_unused]] size_t keep_coun
         }
         
         // Delete old snapshots beyond keep_count
-        for (size_t i = keep_count; i <static_cast<int>(snapshots.size()); ++i) {
+        for (size_t i = keep_count; i < snapshots.size(); ++i) {
             std::string filepath = getSnapshotPath(snapshots[i]);
             std::filesystem::remove(filepath);
             spdlog::info("Deleted old Paxos snapshot: id={}", snapshots[i]);

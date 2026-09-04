@@ -272,7 +272,7 @@ std::vector<AggregateResult> TemporalAggregator::aggregateSnapshots(
 
     for (Timestamp snap = from; snap < to; snap += spec.window_size_ms) {
         // Activate versions whose sys_start ≤ snap (they have arrived by this tick).
-        while (next_to_activate <static_cast<int>(all_versions.size()) &&
+        while (next_to_activate < all_versions.size() &&
                all_versions[next_to_activate].sys_time.start <= snap) {
             active.push_back(&all_versions[next_to_activate++]);
         }

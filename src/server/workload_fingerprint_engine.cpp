@@ -160,7 +160,7 @@ WorkloadFingerprintEngine::classify(
         // distribution is softened by residual MIXED mass.
         double first = vec[domIdx];
         double second = 0.0;
-        for (std::size_t i = 0; i <static_cast<int>(vec.size()); ++i) {
+        for (std::size_t i = 0; i < vec.size(); ++i) {
             if (i == domIdx) {
                 continue;
             }

@@ -372,7 +372,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
             // Compress with Gorilla
             try {
                 GorillaEncoder encoder;
-                for (size_t i = 0; i <static_cast<int>(timestamps.size()); ++i) {
+                for (size_t i = 0; i < timestamps.size(); ++i) {
                     encoder.add(timestamps[i], values[i]);
                 }
                 std::vector<uint8_t> compressed = encoder.finish();
@@ -531,7 +531,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
         groups.reserve(rows.size());
 
         // Validate and group
-        for (size_t i = 0; i <static_cast<int>(rows.size()); ++i) {
+        for (size_t i = 0; i < rows.size(); ++i) {
             const auto& row = rows[i];
             if (row.metric.empty() || row.entity.empty()) {
                 result.row_errors.emplace_back(i, "metric and entity cannot be empty");
@@ -585,7 +585,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
 
             try {
                 GorillaEncoder encoder;
-                for (size_t j = 0; j <static_cast<int>(timestamps.size()); ++j) {
+                for (size_t j = 0; j < timestamps.size(); ++j) {
                     encoder.add(timestamps[j], values[j]);
                 }
                 std::vector<uint8_t> compressed = encoder.finish();
@@ -665,7 +665,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
     // No-compression path — raw key-value entries per row in a single WriteBatch.
     rocksdb::WriteBatch batch;
 
-    for (size_t i = 0; i <static_cast<int>(rows.size()); ++i) {
+    for (size_t i = 0; i < rows.size(); ++i) {
         const auto& row = rows[i];
         if (row.metric.empty() || row.entity.empty()) {
             result.row_errors.emplace_back(i, "metric and entity cannot be empty");

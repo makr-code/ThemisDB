@@ -191,10 +191,10 @@ void GradientTensor::compress(GradientCompressionType type) {
             compressed.push_back(min_bits & 0xFF);
             
             // Quantize and pack
-            for (size_t i = 0; i <static_cast<int>(data.size()); i += 2) {
+            for (size_t i = 0; i < data.size(); i += 2) {
                 uint8_t val1 = scale > 0 ? 
                     static_cast<uint8_t>(std::round((data[i] - min_val) / scale)) & 0x0F : 0;
-                uint8_t val2 = (i + 1 <static_cast<int>(data.size()) && scale > 0) ? 
+                uint8_t val2 = (i + 1 < data.size() && scale > 0) ? 
                     static_cast<uint8_t>(std::round((data[i+1] - min_val) / scale)) & 0x0F : 0;
                 compressed.push_back((val1 << 4) | val2);
             }
@@ -214,7 +214,7 @@ void GradientTensor::compress(GradientCompressionType type) {
             // Create indices sorted by absolute value
             std::vector<std::pair<size_t, float>> indexed_vals;
             indexed_vals.reserve(data.size());
-            for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
+            for (size_t i = 0; i < data.size(); ++i) {
                 indexed_vals.push_back({i, std::abs(data[i])});
             }
             std::partial_sort(indexed_vals.begin(), indexed_vals.begin() + k, 
@@ -284,7 +284,7 @@ void GradientTensor::decompress() {
             // Dequantize
             data.clear();
             data.reserve(static_cast<int>(compressed.size()) - 8);
-            for (size_t i = 8; i <static_cast<int>(compressed.size()); ++i) {
+            for (size_t i = 8; i < compressed.size(); ++i) {
                 data.push_back(compressed[i] * scale + min_val);
             }
             break;
@@ -307,7 +307,7 @@ void GradientTensor::decompress() {
             // Dequantize
             data.clear();
             data.reserve((static_cast<int>(compressed.size()) - 8) * 2);
-            for (size_t i = 8; i <static_cast<int>(compressed.size()); ++i) {
+            for (size_t i = 8; i < compressed.size(); ++i) {
                 uint8_t packed = compressed[i];
                 uint8_t val1 = (packed >> 4) & 0x0F;
                 uint8_t val2 = packed & 0x0F;
@@ -591,7 +591,7 @@ std::vector<GradientTensor> AllReduceAggregator::aggregate(
     aggregated.reserve(template_grads.size());
     
     // For each layer
-    for (size_t layer_idx = 0; layer_idx <static_cast<int>(template_grads.size()); ++layer_idx) {
+    for (size_t layer_idx = 0; layer_idx < template_grads.size(); ++layer_idx) {
         GradientTensor agg_tensor;
         agg_tensor.layer_name = template_grads[layer_idx].layer_name;
         agg_tensor.shape = template_grads[layer_idx].shape;
@@ -666,7 +666,7 @@ std::vector<GradientTensor> ParameterServerAggregator::aggregate(
     }
     
     // For each layer
-    for (size_t layer_idx = 0; layer_idx <static_cast<int>(template_grads.size()); ++layer_idx) {
+    for (size_t layer_idx = 0; layer_idx < template_grads.size(); ++layer_idx) {
         GradientTensor agg_tensor;
         agg_tensor.layer_name = template_grads[layer_idx].layer_name;
         agg_tensor.shape = template_grads[layer_idx].shape;
@@ -678,7 +678,7 @@ std::vector<GradientTensor> ParameterServerAggregator::aggregate(
         agg_tensor.data.resize(tensor_size, 0.0f);
         
         // Weighted sum
-        for (size_t shard_idx = 0; shard_idx <static_cast<int>(shard_gradients.size()); ++shard_idx) {
+        for (size_t shard_idx = 0; shard_idx < shard_gradients.size(); ++shard_idx) {
             const auto& shard_grad_list = shard_gradients[shard_idx];
             if (layer_idx >= static_cast<int>(shard_grad_list.size())) {
               continue;

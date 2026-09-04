@@ -141,8 +141,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
             const size_t max_concurrent = std::min(
                 config_.max_concurrent_shards,static_cast<int>(remote_shards.size()));
 
-            for (size_t batch_start = 0;
-                 batch_start <static_cast<int>(remote_shards.size());
+            for (size_t batch_start = 0; batch_start < remote_shards.size();
                  batch_start += max_concurrent) {
 
                 const size_t batch_end = std::min(
@@ -165,7 +164,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
                 const auto timeout =
                     std::chrono::milliseconds(config_.shard_timeout_ms);
 
-                for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
+                for (size_t i = 0; i < futures.size(); ++i) {
                     const auto& shard = remote_shards[batch_start + i];
                     try {
                         if (futures[i].wait_for(timeout) ==

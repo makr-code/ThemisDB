@@ -438,7 +438,7 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
     fused.reserve(static_cast<int>(ann_list.size()) + static_cast<int>(graph_list.size()) );
 
     // Seed from ANN list
-    for (size_t r = 0; r < static_cast<int>(ann_list.size()); ++r) {
+    for (size_t r = 0; r < ann_list.size(); ++r) {
         const auto& id = ann_list[r];
         auto& entry = fused[id];
         entry.node_id   = id;
@@ -446,7 +446,7 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
         entry.rrf_score += 1.0 / (query.rrf_k + r + 1.0);
     }
     // Add from graph list
-    for (size_t r = 0; r < static_cast<int>(graph_list.size()); ++r) {
+    for (size_t r = 0; r < graph_list.size(); ++r) {
         const auto& id = graph_list[r];
         auto& entry = fused[id];
         if (entry.node_id.empty()) {

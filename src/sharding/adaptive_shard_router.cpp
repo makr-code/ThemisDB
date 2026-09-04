@@ -235,7 +235,7 @@ nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
         auto iteration_start = std::chrono::high_resolution_clock::now();
         
         // Select shards for this iteration
-        double threshold = iteration <static_cast<int>(thresholds.size()) ? 
+        double threshold = iteration < thresholds.size() ? 
                           thresholds[iteration] : adaptive_config_.fallback_threshold;
         
         auto shard_ids = selectShardsForIteration(
@@ -477,7 +477,7 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
     selected.reserve(std::min(max_shards,static_cast<int>(candidates.size())));
     for (const auto& candidate : candidates) {
         selected.push_back(candidate.shard_id);
-        if (static_cast<int>(selected.size()) > = max_shards) {
+        if (static_cast<int>(selected.size()) >= max_shards) {
             break;
         }
     }

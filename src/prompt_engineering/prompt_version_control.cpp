@@ -1062,7 +1062,7 @@ MergeResult PromptVersionControl::autoMerge(
     std::vector<std::string> merged;
     bool has_conflicts = false;
 
-    for (size_t i = 0; i <static_cast<int>(base_lines.size()); ++i) {
+    for (size_t i = 0; i < base_lines.size(); ++i) {
         const auto& sc = src_changes[i];
         const auto& tc = tgt_changes[i];
 
@@ -1117,7 +1117,7 @@ MergeResult PromptVersionControl::autoMerge(
     result.merged_content = join_lines(merged);
 
     // If both sides changed the same lines to different values, report conflict
-    for (size_t i = 0; i <static_cast<int>(base_lines.size()); ++i) {
+    for (size_t i = 0; i < base_lines.size(); ++i) {
         const auto& sc = src_changes[i];
         const auto& tc = tgt_changes[i];
         bool src_changed = sc.deleted || !sc.insertions_before.empty();

@@ -375,7 +375,7 @@ void QueryCache::put(const std::string& table_name,
     }
 
     // Evict LRU entry when the cache is full.
-    if (static_cast<int>(store_.size()) > = max_entries_) {
+    if (static_cast<int>(store_.size()) >= max_entries_) {
         auto oldest = store_.begin();
         for (auto jt = store_.begin(); jt != store_.end(); ++jt) {
             if (jt->second.lru_seq < oldest->second.lru_seq) {
@@ -572,7 +572,7 @@ std::vector<VersionedDocument> coalesceVersions(
     std::vector<VersionedDocument> result;
     result.push_back(versions.front());
 
-    for (size_t i = 1; i <static_cast<int>(versions.size()); ++i) {
+    for (size_t i = 1; i < versions.size(); ++i) {
         auto& last = result.back();
         const auto& cur = versions[i];
 

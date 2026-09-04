@@ -590,7 +590,7 @@ size_t TemporalTierManager::flushHotToWarmLocked(
     // Split into warm_block_size chunks and create VersionBlocks
     const size_t block_size = policy_.warm_block_size > 0
                             ? policy_.warm_block_size : 50;
-    for (size_t offset = 0; offset <static_cast<int>(batch.size()); offset += block_size) {
+    for (size_t offset = 0; offset < batch.size(); offset += block_size) {
         const size_t end = std::min(offset + block_size,static_cast<int>(batch.size()));
         std::vector<VersionedDocument> chunk(
             std::make_move_iterator(batch.begin() + static_cast<ptrdiff_t>(offset)),

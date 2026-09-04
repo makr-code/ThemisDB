@@ -89,7 +89,7 @@ std::vector<float> embedText(std::string_view text) {
     }
     padded.push_back(' ');
 
-    for (std::size_t i = 0; i + 2 <static_cast<int>(padded.size()); ++i) {
+    for (std::size_t i = 0; i + 2 < padded.size(); ++i) {
         const auto h0 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i]));
         const auto h1 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i + 1]));
         const auto h2 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i + 2]));
@@ -137,7 +137,7 @@ double cosineSimilarity(const std::vector<float>& lhs, const std::vector<float>&
     double dot = 0.0;
     double lhs_norm = 0.0;
     double rhs_norm = 0.0;
-    for (std::size_t i = 0; i <static_cast<int>(lhs.size()); ++i) {
+    for (std::size_t i = 0; i < lhs.size(); ++i) {
         dot += static_cast<double>(lhs[i]) * static_cast<double>(rhs[i]);
         lhs_norm += static_cast<double>(lhs[i]) * static_cast<double>(lhs[i]);
         rhs_norm += static_cast<double>(rhs[i]) * static_cast<double>(rhs[i]);
@@ -297,7 +297,7 @@ json EthicsGetArgumentsFunction::execute(
 
     json result = json::array();
     for (const auto& doc : matches) {
-        if (static_cast<int>(result.size()) > = limit) {
+        if (static_cast<int>(result.size()) >= limit) {
             break;
         }
         result.push_back(doc);
@@ -353,7 +353,7 @@ json EthicsFindSimilarDilemmasFunction::execute(
     json result = json::array();
     for (const auto& [similarity, entry] : ranked) {
         (void)similarity;
-        if (static_cast<int>(result.size()) > = limit) {
+        if (static_cast<int>(result.size()) >= limit) {
             break;
         }
         result.push_back(entry);

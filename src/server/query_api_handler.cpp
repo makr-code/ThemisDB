@@ -789,7 +789,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         // EARLY: Join-Erkennung vor Translation (Translator unterstützt keine Field==Field Prädikate)
         if (*parse_result && (*parse_result)->traversal == nullptr) {
             const auto& for_nodes = (*parse_result)->for_nodes;
-            if (static_cast<int>(for_nodes.size()) > = 2) {
+            if (static_cast<int>(for_nodes.size()) >= 2) {
             // Wiederverwendung der Join-Logik wie weiter unten
             auto joinSpan = Tracer::startSpan("aql.join");
             const auto& f1_ref = for_nodes.front();
@@ -1114,7 +1114,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
             }
 
-            // Extrahiere einfache FILTER-Pr�dikate auf v/e im Format: FILTER v.<field> == <literal|funktion> oder FILTER e.<field> == <literal|funktion>
+            // Extrahiere einfache FILTER-Pr�dikate auf v/e im Format: FILTER v.<field>== <literal|funktion> oder FILTER e.<field>== <literal|funktion>
             struct SimplePred {
                 enum class Op { Eq, Neq, Lt, Lte, Gt, Gte };
                 char var = '\0'; // 'v' or 'e'
@@ -1371,7 +1371,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         }
                         continue;
                     }
-                    // <literal|funktion> == v.field
+                    // <literal|funktion>== v.field
                     {
                         nlohmann::json leftLit;
                         bool hasLeft = evalExprToLiteral(be->left, leftLit);
@@ -1786,7 +1786,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     // Joins via doppeltem FOR (MVP): Wenn mehrere FOR-Klauseln vorhanden sind und keine Traversal-Query aktiv ist
                     if ((*parse_result) && (*parse_result)->traversal == nullptr) {
                         const auto& for_nodes = (*parse_result)->for_nodes;
-                        if (static_cast<int>(for_nodes.size()) > = 2) {
+                        if (static_cast<int>(for_nodes.size()) >= 2) {
                         auto joinSpan = Tracer::startSpan("aql.join");
                         // Beschränkung: Genau zwei FOR-Klauseln, Equality-Join über FILTER lhs.field == rhs.field
                         const auto& f1 = for_nodes.front();

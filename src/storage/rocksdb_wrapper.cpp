@@ -801,7 +801,7 @@ bool RocksDBWrapper::open() {
         cf_handles_.reserve(static_cast<int>(cf_handles_.size()) + static_cast<int>(cf_handles.size()) );
         // Store column family handles
         // When sharding mode filtered CFs,static_cast<int>(cf_handles.size()) == static_cast<int>(cf_descriptors.size())
-        for (size_t i = 0; i <static_cast<int>(cf_handles.size()); ++i) {
+        for (size_t i = 0; i < cf_handles.size(); ++i) {
             // All remaining CFs (after sharding filter) are stored
             cf_handles_.emplace_back(cf_handles[i]);
         }
@@ -856,7 +856,7 @@ void RocksDBWrapper::close() {
         std::lock_guard<std::mutex> lock(cf_handles_mutex_);
         
         // Destroy any created ColumnFamily handles first to avoid RocksDB assertions
-        for (size_t i = 0; i <static_cast<int>(cf_handles_.size()); ++i) {
+        for (size_t i = 0; i < cf_handles_.size(); ++i) {
             auto* h = cf_handles_[i];
             if (h) {
                 // Safe to call even if DB is shutting down; check status
@@ -1368,7 +1368,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
     // Track the highest index we've prefetched to avoid redundant operations
     size_t last_prefetched_index = 0;
     
-    for (size_t i = 0; i <static_cast<int>(keys.size()); ++i) {
+    for (size_t i = 0; i < keys.size(); ++i) {
         // Prefetch upcoming values at stride intervals to avoid redundant prefetch
         if (config_.enable_cpu_prefetch && static_cast<int>(keys.size()) >= config_.prefetch_min_batch_size) {
             // Prefetch multiple items ahead based on prefetch_distance
@@ -1378,7 +1378,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
             
             for (size_t d = 1; d <= config_.prefetch_distance; ++d) {
                 size_t prefetch_idx = i + d;
-                if (prefetch_idx <static_cast<int>(keys.size()) && prefetch_idx > last_prefetched_index) {
+                if (prefetch_idx < keys.size() && prefetch_idx > last_prefetched_index) {
                     if (statuses[prefetch_idx].ok() && !values[prefetch_idx].empty()) {
                         performance::prefetch(values[prefetch_idx].data(), performance::PrefetchHint::T0);
                         highest_prefetched = prefetch_idx;
@@ -2841,7 +2841,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsy
     std::vector<rocksdb::Status> statuses = base_db->MultiGet(read_opts, rock_keys, &values);
     
     // Process results
-    for (size_t i = 0; i <static_cast<int>(keys.size()); ++i) {
+    for (size_t i = 0; i < keys.size(); ++i) {
         if (statuses[i].ok()) {
             results.emplace_back(std::in_place, values[i].begin(), values[i].end());
         } else if (statuses[i].IsNotFound()) {

@@ -269,7 +269,7 @@ public:
 
         // Find leaf index by composite key (adapter_id, version)
         size_t leaf_idx = sorted.size(); // sentinel
-        for (size_t i = 0; i <static_cast<int>(sorted.size()); ++i) {
+        for (size_t i = 0; i < sorted.size(); ++i) {
             if (sorted[i].adapter_id == adapter_id && sorted[i].version == version) {
                 leaf_idx = i;
                 break;
@@ -298,7 +298,7 @@ public:
             std::vector<std::string> next = {};
 
             next.reserve(layer.size() / 2);
-            for (size_t i = 0; i <static_cast<int>(layer.size()); i += 2) {
+            for (size_t i = 0; i < layer.size(); i += 2) {
                 next.push_back(combineHashes(layer[i], layer[i + 1]));
                 // Collect sibling for our proof path
                 if (i == idx || i + 1 == idx) {
@@ -383,7 +383,7 @@ private:
             std::vector<std::string> next = {};
 
             next.reserve(layer.size() / 2);
-            for (size_t i = 0; i <static_cast<int>(layer.size()); i += 2) {
+            for (size_t i = 0; i < layer.size(); i += 2) {
                 next.push_back(combineHashes(layer[i], layer[i + 1]));
             }
             layer = std::move(next);
@@ -626,7 +626,7 @@ public:
                 std::vector<std::string> next = {};
 
                 next.reserve(layer.size() / 2);
-                for (size_t i = 0; i <static_cast<int>(layer.size()); i += 2) {
+                for (size_t i = 0; i < layer.size(); i += 2) {
                     next.push_back(combineHashes(layer[i], layer[i + 1]));
                 }
                 layer = std::move(next);

@@ -334,7 +334,7 @@ void ContinuousBatchScheduler::processBatchResults(
     bool saw_decode_error = false;
     std::vector<ScheduledRequest*> to_retry;
 
-    for (size_t i = 0; i <static_cast<int>(batch.size()); ++i) {
+    for (size_t i = 0; i < batch.size(); ++i) {
         auto* req = batch[i];
         const auto& resp = responses[i];
         const bool decode_failed = !resp.error_message.empty();

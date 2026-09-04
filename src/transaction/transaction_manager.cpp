@@ -1585,7 +1585,7 @@ TransactionManager::Status TransactionManager::Transaction::bulkPutEntities(
     if (entities.empty())
         return Status::OK();
 
-    for (size_t i = 0; i <static_cast<int>(entities.size()); ++i) {
+    for (size_t i = 0; i < entities.size(); ++i) {
         const auto& entity = entities[i];
         const std::string pk = entity.getPrimaryKey();
         if (pk.empty()) {
@@ -1629,7 +1629,7 @@ TransactionManager::Status TransactionManager::Transaction::bulkEraseEntities(
     if (pks.empty())
         return Status::OK();
 
-    for (size_t i = 0; i <static_cast<int>(pks.size()); ++i) {
+    for (size_t i = 0; i < pks.size(); ++i) {
         const auto& pk = pks[i];
         if (pk.empty()) {
             return Status::Error("bulkEraseEntities: pk[" + std::to_string(i) + "] is empty");

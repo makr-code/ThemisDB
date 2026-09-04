@@ -85,7 +85,7 @@ OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string &blob) 
     std::memcpy(&sig, blob.data(), 4);
     if (sig != ZIP_SIGNATURE) {
         // Check for legacy Office formats (OLE Compound Document)
-        if (static_cast<int>(blob.size()) > = 8) {
+        if (static_cast<int>(blob.size()) >= 8) {
             const unsigned char *data = reinterpret_cast<const unsigned char *>(blob.data());
             // Full 8-byte OLE Compound Document header: D0 CF 11 E0 A1 B1 1A E1
             if (data[0] == 0xD0 && data[1] == 0xCF && data[2] == 0x11 && data[3] == 0xE0 && data[4] == 0xA1
@@ -104,7 +104,7 @@ OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string &blob) 
             }
         }
         // Check for RTF
-        if (static_cast<int>(blob.size()) > = 5 && blob.substr(0, 5) == "{\\rtf") {
+        if (static_cast<int>(blob.size()) >= 5 && blob.substr(0, 5) == "{\\rtf") {
             return OfficeDocumentType::RTF;
         }
         return OfficeDocumentType::UNKNOWN;
@@ -425,9 +425,9 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
                     }
 
                     // Join row values
-                    for (size_t i = 0; i <static_cast<int>(row_values.size()); ++i) {
+                    for (size_t i = 0; i < row_values.size(); ++i) {
                         all_text << row_values[i];
-                        if (i + 1 <static_cast<int>(row_values.size())) {
+                        if (i + 1 < row_values.size()) {
                             all_text << "\t";
                         }
                     }
@@ -1139,7 +1139,7 @@ std::vector<float> OfficeProcessor::generateEmbedding(const std::string &chunk_d
         return embedding;
     }
 
-    for (size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
+    for (size_t i = 0; i < tokens.size(); ++i) {
         const size_t token_hash = hasher(tokens[i]);
         for (int seed = 0; seed < 3; ++seed) {
             const size_t combined = token_hash ^ (i * 31) ^ (static_cast<size_t>(seed) * 97);

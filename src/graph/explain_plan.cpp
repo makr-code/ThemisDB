@@ -94,7 +94,7 @@ std::string GraphExplainPlan::toJson() const {
     out << "\"is_analyzed\":" << (is_analyzed ? "true" : "false") << ",";
     out << "\"nodes\":[";
 
-    for (size_t i = 0; i <static_cast<int>(nodes.size()); ++i) {
+    for (size_t i = 0; i < nodes.size(); ++i) {
         const auto& node = nodes[i];
         out << "{";
         out << "\"node_id\":\"" << escapeJson(node.node_id) << "\",";
@@ -125,7 +125,7 @@ std::string GraphExplainPlan::toJson() const {
         out << "}";
 
         out << "}";
-        if (i + 1 <static_cast<int>(nodes.size())) {
+        if (i + 1 < nodes.size()) {
             out << ",";
         }
     }

@@ -251,7 +251,7 @@ InferenceHandle AsyncInferenceEngine::submit(
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
         // Check queue size and handle backpressure
-        if (static_cast<int>(request_queue_.size()) > = config_.max_queue_size) {
+        if (static_cast<int>(request_queue_.size()) >= config_.max_queue_size) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
                 std::lock_guard<std::mutex> tl(tracking_mutex_);
@@ -354,7 +354,7 @@ std::string AsyncInferenceEngine::submitAsync(
 
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
-        if (static_cast<int>(request_queue_.size()) > = config_.max_queue_size) {
+        if (static_cast<int>(request_queue_.size()) >= config_.max_queue_size) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected++;
                 std::lock_guard<std::mutex> tl(tracking_mutex_);
@@ -498,7 +498,7 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
         future = local_promise->get_future().share();
 
         std::unique_lock<std::mutex> lock(queue_mutex_);
-        if (static_cast<int>(request_queue_.size()) > = config_.max_queue_size) {
+        if (static_cast<int>(request_queue_.size()) >= config_.max_queue_size) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
                 std::lock_guard<std::mutex> tl(tracking_mutex_);

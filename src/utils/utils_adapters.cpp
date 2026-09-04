@@ -112,7 +112,7 @@ SanitisedChunk PIIStreamDetectorAdapter::pseudonymise(
         const std::string placeholder = "[REDACTED]";
         size_t start = f.start_offset + offset_shift;
         size_t len   = f.end_offset - f.start_offset;
-        if (start <static_cast<int>(text.size()) && start + len <= text.size()) {
+        if (start < text.size() && start + len <= text.size()) {
             text.replace(start, len, placeholder);
             offset_shift += static_cast<int>(placeholder.size()) - len;
         }
@@ -318,7 +318,7 @@ VectorReplayIterator::VectorReplayIterator(std::vector<SAGALogEntry> entries)
 {}
 
 bool VectorReplayIterator::hasNext() const {
-    return static_cast<bool>(pos_  < static_cast<int>(entries_.size()));
+    return static_cast<bool>(pos_ < entries_.size());
 }
 
 SAGALogEntry VectorReplayIterator::next() {

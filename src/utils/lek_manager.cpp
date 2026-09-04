@@ -17,7 +17,7 @@
  * KEK (Key Encryption Key)
  *   ↓ (AES-GCM encryption)
  * LEK (Log Encryption Key, per date)
- *   ├─ Stored: lek:encrypted:<YYYY-MM-DD> = AES-GCM(KEK, LEK)
+ *   ├─ Stored: lek:encrypted:<YYYY-MM-DD>= AES-GCM(KEK, LEK)
  *   ├─ Cached: lek_<YYYY-MM-DD> (unencrypted in memory)
  *   └─ Revoked: lek_revoked:<YYYY-MM-DD> (presence indicates revocation)
  * ```

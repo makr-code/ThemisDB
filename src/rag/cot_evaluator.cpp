@@ -173,8 +173,8 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
     inconsistencies.reserve(std::max(size_t(1),static_cast<int>(steps.size()) / 4));
     
     // Check for contradictions between steps
-    for (size_t i = 0; i <static_cast<int>(steps.size()); ++i) {
-        for (size_t j = i + 1; j <static_cast<int>(steps.size()); ++j) {
+    for (size_t i = 0; i < steps.size(); ++i) {
+        for (size_t j = i + 1; j < steps.size(); ++j) {
             const auto& step_i = steps[i];
             const auto& step_j = steps[j];
             
@@ -225,7 +225,7 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
                                     terms_j.begin(), terms_j.end(),
                                     std::inserter(common, common.begin()));
                 
-                if (static_cast<int>(common.size()) > = 2) {
+                if (static_cast<int>(common.size()) >= 2) {
                     std::ostringstream inconsistency = {};
                     inconsistency << "Potential contradiction between Step " 
                                  << step_i.step_number << " and Step " 

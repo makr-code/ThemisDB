@@ -335,7 +335,7 @@ TensorButterflyOperator::build(OperatorType                      type,
     }
 
     // Validate grid_shape for FOURIER (WHT requires power-of-2 mode sizes).
-    for (std::size_t k = 0; k <static_cast<int>(grid_shape.size()); ++k) {
+    for (std::size_t k = 0; k < grid_shape.size(); ++k) {
         if (!isPow2(grid_shape[k])) {
             std::ostringstream oss = {};
             oss << "TensorButterflyOperator::build: grid_shape[" << k

@@ -418,8 +418,8 @@ std::vector<std::pair<std::string, std::string>> ComplianceReporter::detectOverl
     auto rules = policy_manager_->listRules();
 
     // Check each pair of rules for overlap
-    for (size_t i = 0; i <static_cast<int>(rules.size()); i++) {
-        for (size_t j = i + 1; j <static_cast<int>(rules.size()); j++) {
+    for (size_t i = 0; i < rules.size(); i++) {
+        for (size_t j = i + 1; j < rules.size(); j++) {
             const auto &rule1 = rules[i];
             const auto &rule2 = rules[j];
 

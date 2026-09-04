@@ -219,18 +219,18 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
         std::string encoded_creds = {};
         const auto& src = credentials;
-        for (size_t i = 0; i <static_cast<int>(src.size()); i += 3) {
+        for (size_t i = 0; i < src.size(); i += 3) {
             const unsigned char b0 = static_cast<unsigned char>(src[i]);
-            const unsigned char b1 = (i + 1 <static_cast<int>(src.size())) ?
+            const unsigned char b1 = (i + 1 < src.size()) ?
                 static_cast<unsigned char>(src[i + 1]) : 0;
-            const unsigned char b2 = (i + 2 <static_cast<int>(src.size())) ?
+            const unsigned char b2 = (i + 2 < src.size()) ?
                 static_cast<unsigned char>(src[i + 2]) : 0;
 
             encoded_creds += b64_table[(b0 >> 2) & 0x3F];
             encoded_creds += b64_table[((b0 & 0x03) << 4) | ((b1 >> 4) & 0x0F)];
-            encoded_creds += (i + 1 <static_cast<int>(src.size())) ?
+            encoded_creds += (i + 1 < src.size()) ?
                 b64_table[((b1 & 0x0F) << 2) | ((b2 >> 6) & 0x03)] : '=';
-            encoded_creds += (i + 2 <static_cast<int>(src.size())) ?
+            encoded_creds += (i + 2 < src.size()) ?
                 b64_table[b2 & 0x3F] : '=';
         }
 

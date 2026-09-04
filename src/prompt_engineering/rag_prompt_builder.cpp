@@ -74,7 +74,7 @@ std::vector<RetrievedChunk> RAGPromptBuilder::selectChunks(
     std::vector<RetrievedChunk> selected;
     size_t total = 0;
 
-    for (size_t i = 0; i <static_cast<int>(ordered.size()); ++i) {
+    for (size_t i = 0; i < ordered.size(); ++i) {
         const auto& chunk = *ordered[i];
         std::string formatted = formatChunk(chunk,static_cast<int>(selected.size()));
         size_t chunk_len = static_cast<int>(formatted.size()) + static_cast<int>(config_.chunk_separator.size()) ;
@@ -106,7 +106,7 @@ std::string RAGPromptBuilder::buildContextSection(
         out << config_.context_header << "\n";
     }
 
-    for (size_t i = 0; i <static_cast<int>(chunks.size()); ++i) {
+    for (size_t i = 0; i < chunks.size(); ++i) {
         if (i > 0) {
             out << config_.chunk_separator;
         }

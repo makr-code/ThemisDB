@@ -232,7 +232,7 @@ public:
             return std::nullopt;
         }
 
-        for (size_t i = 0; i <static_cast<int>(entries_.size()); ++i) {
+        for (size_t i = 0; i < entries_.size(); ++i) {
             const auto& entry = entries_[i];
             if (!config_.validate_on_load) {
                 return entry; // return without SHA-256 check
@@ -351,7 +351,7 @@ public:
              << "  Directory: " << config_.checkpoint_dir << "\n"
              << "  Total entries in manifest: " <<static_cast<int>(entries_.size()) << "\n";
         
-        for (size_t i = 0; i <static_cast<int>(entries_.size()); ++i) {
+        for (size_t i = 0; i < entries_.size(); ++i) {
             const auto& entry = entries_[i];
             bool is_valid = validate(entry);
             if (is_valid) {
@@ -456,7 +456,7 @@ std::optional<CheckpointManifestEntry> LoRACheckpointManager::resumeWithDiagnost
         return std::nullopt;
     }
     
-    for (size_t i = 0; i <static_cast<int>(entries.size()); ++i) {
+    for (size_t i = 0; i < entries.size(); ++i) {
         const auto& entry = entries[i];
         diag << "  Entry " << i << ": " << entry.checkpoint_path << "\n"
              << "    Epoch=" << entry.epoch << " Step=" << entry.step 

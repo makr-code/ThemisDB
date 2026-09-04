@@ -227,7 +227,7 @@ double WorkloadPredictor::compute_ema(const std::vector<double>& values) const n
       return 0.0;
     }
     double ema = values[0];
-    for (size_t i = 1; i <static_cast<int>(values.size()); ++i) {
+    for (size_t i = 1; i < values.size(); ++i) {
         ema = config_.ema_alpha * values[i] + (1.0 - config_.ema_alpha) * ema;
     }
     return ema;

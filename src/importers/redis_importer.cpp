@@ -241,7 +241,7 @@ json RedisImporter::fetchKeyDocument(const std::string& key,
                 const json pairs = json::parse(raw);
                 json hobj = json::object();
                 if (pairs.is_array()) {
-                    for (size_t i = 0; i + 1 <static_cast<int>(pairs.size()); i += 2) {
+                    for (size_t i = 0; i + 1 < pairs.size(); i += 2) {
                         hobj[pairs[i].get<std::string>()] = pairs[i + 1];
                     }
                 }
@@ -271,7 +271,7 @@ json RedisImporter::fetchKeyDocument(const std::string& key,
                 const json pairs = json::parse(raw);
                 json zobj = json::object();
                 if (pairs.is_array()) {
-                    for (size_t i = 0; i + 1 <static_cast<int>(pairs.size()); i += 2) {
+                    for (size_t i = 0; i + 1 < pairs.size(); i += 2) {
                         zobj[pairs[i].get<std::string>()] = pairs[i + 1];
                     }
                 }

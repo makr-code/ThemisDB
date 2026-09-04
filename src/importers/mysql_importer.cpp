@@ -169,18 +169,18 @@ static bool simpleInsertFallback(const std::string& sql, std::string& out_table_
     
     pos += 4;  // Skip "INTO"
     // Skip whitespace
-    while ((pos <static_cast<int>(upper_sql.size()) && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t')))
+    while ((pos < upper_sql.size() && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t')))
         ++pos;
     
     // Extract table name (stop at whitespace or '(')
     size_t start = pos;
-    while (pos <static_cast<int>(upper_sql.size()) && upper_sql[pos] != ' ' && upper_sql[pos] != '\t' && upper_sql[pos] != '(')
+    while (pos < upper_sql.size() && upper_sql[pos] != ' ' && upper_sql[pos] != '\t' && upper_sql[pos] != '(')
         ++pos;
     
     if (start < pos) {
         out_table_name = sql.substr(start, pos - start);
         // Remove backticks if present
-        if (static_cast<int>(out_table_name.size()) > = 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`') {
+        if (static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`') {
             out_table_name = out_table_name.substr(1, static_cast<int>(out_table_name.size()) - 2);
         }
         return true;
@@ -495,7 +495,7 @@ json MySQLImporter::getSourceSchema(const std::string& source_path) {
           continue;
         }
         // Skip MySQL conditional comments (/*!...*/)
-        if (static_cast<int>(line.size()) > = 2 && line[0] == '/' && line[1] == '*') {
+        if (static_cast<int>(line.size()) >= 2 && line[0] == '/' && line[1] == '*') {
           continue;
         }
 
@@ -714,7 +714,7 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
         std::string upper_sql = current_sql;
         // Convert to upper for keyword matching (first 20 chars is sufficient)
         std::string prefix = {};
-        for (size_t i = 0; i <static_cast<int>(current_sql.size()) && i < 30; ++i) {
+        for (size_t i = 0; i < current_sql.size() && i < 30; ++i) {
             prefix += static_cast<char>(std::toupper(static_cast<unsigned char>(current_sql[i])));
         }
 
@@ -810,7 +810,7 @@ bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema
     bool in_string = false;
     char str_char = '\0';
     size_t close_pos = std::string::npos;
-    for (size_t k = open_pos; k <static_cast<int>(sql.size()); ++k) {
+    for (size_t k = open_pos; k < sql.size(); ++k) {
         char c = sql[k];
         if (in_string) {
             if (c == '\\') { ++k; continue; }  // MySQL backslash escape inside strings
@@ -840,12 +840,12 @@ bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema
         bool inq = false;
         char qc  = '\0';
         std::string cur = {};
-        for (size_t i = 0; i <static_cast<int>(cols_str.size()); ++i) {
+        for (size_t i = 0; i < cols_str.size(); ++i) {
             char c = cols_str[i];
             if (inq) {
                 cur += c;
                 if (c == '\\') {
-                    if (i + 1 <static_cast<int>(cols_str.size())) {
+                    if (i + 1 < cols_str.size()) {
                       cur += cols_str[++i];
                     }
                 } else if (c == qc) {
@@ -889,7 +889,7 @@ bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema
         }
 
         std::string upper_def = {};
-        for (size_t i = 0; i <static_cast<int>(col_def.size()) && i < 20; ++i)
+        for (size_t i = 0; i < col_def.size() && i < 20; ++i)
             upper_def += static_cast<char>(std::toupper(static_cast<unsigned char>(col_def[i])));
 
         // Skip table-level constraints: PRIMARY KEY, UNIQUE KEY, KEY, INDEX, CONSTRAINT, CHECK
@@ -931,7 +931,7 @@ bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema
 
         // Extract type: skip leading whitespace after name, then take up to first
         // space / '(' / constraint keyword
-        while (type_start <static_cast<int>(col_def.size()) &&
+        while (type_start < col_def.size() &&
                (col_def[type_start] == ' ' || col_def[type_start] == '\t')) {
             ++type_start;
         }
@@ -1043,7 +1043,7 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
     size_t rows_imported = 0;
     while (static_cast<size_t>(pos) <static_cast<int>(values_payload.size())) {
         // Skip whitespace and commas between tuples
-        while (pos <static_cast<int>(values_payload.size()) &&
+        while (pos < values_payload.size() &&
                (values_payload[pos] == ' ' || values_payload[pos] == '\t' ||
                 values_payload[pos] == ',' || values_payload[pos] == '\r' ||
                 values_payload[pos] == '\n')) {
@@ -1064,7 +1064,7 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
         bool in_str = false;
         char sq = '\0';
         size_t k = pos + 1;
-        while (k <static_cast<int>(values_payload.size()) && dep > 0) {
+        while (k < values_payload.size() && dep > 0) {
             char c = values_payload[k];
             if (in_str) {
                 if (c == '\\') { ++k; }
@@ -1338,7 +1338,7 @@ json MySQLImporter::convertRowToEntity(const TableSchema& schema,
     json entity;
     entity["_type"] = schema.name;
 
-    for (size_t i = 0; i <static_cast<int>(values.size())  && static_cast<size_t>(i) <static_cast<int>(schema.columns.size()); ++i) {
+    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) <static_cast<int>(schema.columns.size()); ++i) {
         entity[schema.columns[i]] = values[i];
     }
 
@@ -1572,10 +1572,10 @@ std::string MySQLImporter::unquoteIdentifier(const std::string& s) {
         }
         t = t.substr(f, l - f + 1);
     }
-    if (static_cast<int>(t.size()) > = 2 && t.front() == '`' && t.back() == '`') {
+    if (static_cast<int>(t.size()) >= 2 && t.front() == '`' && t.back() == '`') {
         return t.substr(1, static_cast<int>(t.size()) - 2);
     }
-    if (static_cast<int>(t.size()) > = 2 && t.front() == '"' && t.back() == '"') {
+    if (static_cast<int>(t.size()) >= 2 && t.front() == '"' && t.back() == '"') {
         return t.substr(1, static_cast<int>(t.size()) - 2);
     }
     return t;
@@ -1590,10 +1590,10 @@ std::string MySQLImporter::stripMySQLComments(const std::string& sql) {
     result.reserve(sql.size());
     size_t i = 0;
     while (static_cast<size_t>(i) <static_cast<int>(sql.size())) {
-        if (i + 1 <static_cast<int>(sql.size()) && sql[i] == '/' && sql[i + 1] == '*') {
+        if (i + 1 < sql.size() && sql[i] == '/' && sql[i + 1] == '*') {
             // Skip until closing */
             i += 2;
-            while (i + 1 <static_cast<int>(sql.size()) && !(sql[i] == '*' && sql[i + 1] == '/')) {
+            while (i + 1 < sql.size() && !(sql[i] == '*' && sql[i + 1] == '/')) {
                 ++i;
             }
             i += 2;  // skip */
@@ -1682,7 +1682,7 @@ uint64_t MySQLImporter::computeRowHash(const std::string& tuple_str,
     std::unordered_map<std::string, size_t> schema_column_index = {};
 
     schema_column_index.reserve(schema_columns.size());
-    for (size_t i = 0; i <static_cast<int>(schema_columns.size()); ++i) {
+    for (size_t i = 0; i < schema_columns.size(); ++i) {
         schema_column_index.emplace(schema_columns[i], i);
     }
     std::string key_data = {};

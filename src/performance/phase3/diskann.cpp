@@ -80,11 +80,11 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
     
     // Step 2: Build graph by connecting each node to R nearest neighbors
     size_t edge_count = 0;
-    for (size_t i = 0; i <static_cast<int>(nodes.size()); i++) {
+    for (size_t i = 0; i < nodes.size(); i++) {
         std::priority_queue<std::pair<float, size_t>> nearest;
         
         // Find R nearest neighbors
-        for (size_t j = 0; j <static_cast<int>(nodes.size()); j++) {
+        for (size_t j = 0; j < nodes.size(); j++) {
             if (i == j) {
               continue;
             }
@@ -359,7 +359,7 @@ float DiskANNIndex::compute_distance(const std::vector<float>& a, const std::vec
     }
     
     float sum = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(a.size()); i++) {
+    for (size_t i = 0; i < a.size(); i++) {
         float diff = a[i] - b[i];
         sum += diff * diff;
     }
@@ -511,7 +511,7 @@ std::unique_ptr<VantagePointTree::Node> VantagePointTree::build_tree(
 
 float VantagePointTree::compute_distance(const std::vector<float>& a, const std::vector<float>& b) const {
     float sum = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(a.size()); i++) {
+    for (size_t i = 0; i < a.size(); i++) {
         float diff = a[i] - b[i];
         sum += diff * diff;
     }

@@ -351,7 +351,7 @@ void HTTPClientPool::warmup(size_t num_connections) {
     size_t connections_per_stripe = num_connections / stripes_.size();
     size_t remainder = num_connections % stripes_.size();
     
-    for (size_t i = 0; i <static_cast<int>(stripes_.size()); ++i) {
+    for (size_t i = 0; i < stripes_.size(); ++i) {
         auto& stripe = stripes_[i];
         std::lock_guard<std::mutex> lock(stripe->mutex);
         

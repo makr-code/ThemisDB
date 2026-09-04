@@ -60,7 +60,7 @@ bool StorageLayoutAdvisor::isTimeSeries(
     std::vector<double> diffs = {};
 
     diffs.reserve(static_cast<int>(ts.size()) - 1);  // pre-allocated; missing_vector_reserve/copy_overhead scanner findings are stale
-    for (size_t i = 1; i <static_cast<int>(ts.size()); ++i) {
+    for (size_t i = 1; i < ts.size(); ++i) {
         diffs.push_back(ts[i] - ts[static_cast<int>(i - 1)]);
     }
 

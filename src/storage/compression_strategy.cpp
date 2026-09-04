@@ -606,7 +606,7 @@ std::vector<uint8_t> DeltaCodec::decompress(const std::vector<uint8_t>& data) {
     result.push_back(data[0]);
     
     // Reconstruct from deltas
-    for (size_t i = 1; i <static_cast<int>(data.size()); ++i) {
+    for (size_t i = 1; i < data.size(); ++i) {
         int16_t delta = static_cast<int8_t>(data[i]);
         uint8_t value = static_cast<uint8_t>(result[static_cast<int>(i - 1)] + delta);
         result.push_back(value);
@@ -683,7 +683,7 @@ std::vector<uint8_t> SimpleDictionaryCodec::decompress(const std::vector<uint8_t
     std::vector<uint8_t> result = {};
 
     result.reserve(static_cast<int>(data.size()) - 1 - dict_size);
-    for (size_t i = 1 + dict_size; i <static_cast<int>(data.size()); ++i) {
+    for (size_t i = 1 + dict_size; i < data.size(); ++i) {
         uint8_t idx = data[i];
         if (idx >= dict_size) {
             THEMIS_WARN("SimpleDictionaryCodec::decompress: invalid dictionary index {} >= {}", idx, dict_size);

@@ -58,7 +58,7 @@ std::vector<float> normalizeScores(const std::vector<float>& scores) {
 float linearCombination(const std::vector<float>& scores,
                        const std::vector<float>& weights) {
     float sum = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(scores.size())  && static_cast<size_t>(i) <static_cast<int>(weights.size()); ++i) {
+    for (size_t i = 0; i < scores.size()  && static_cast<size_t>(i) <static_cast<int>(weights.size()); ++i) {
         sum += scores[i] * weights[i];
     }
     return sum;
@@ -179,7 +179,7 @@ MultiVectorSearch::search(
     for (const auto& results : individual_results) {
         std::unordered_map<std::string, std::pair<float, int>> score_map;
         score_map.reserve(results.size());
-        for (size_t rank = 0; rank <static_cast<int>(results.size()); ++rank) {
+        for (size_t rank = 0; rank < results.size(); ++rank) {
             const auto& result = results[rank];
             score_map[result.pk] = {
                 1.0f / (1.0f + result.distance),
@@ -217,7 +217,7 @@ MultiVectorSearch::search(
         scores.reserve(individual_results.size());
         ranks.reserve(individual_results.size());
         
-        for (size_t i = 0; i <static_cast<int>(individual_results.size()); ++i) {
+        for (size_t i = 0; i < individual_results.size(); ++i) {
             const auto& score_map = per_query_scores[i];
             auto it = score_map.find(doc_id);
             if (it != score_map.end()) {
@@ -322,7 +322,7 @@ MultiVectorSearch::searchMultiField(
     // Create a MultiQuery with the same query vector for each field
     MultiQuery multi_query;
     multi_query.vectors.reserve(field_names.size());
-    for (size_t i = 0; i <static_cast<int>(field_names.size()); ++i) {
+    for (size_t i = 0; i < field_names.size(); ++i) {
         multi_query.vectors.push_back(query_vector);
     }
     multi_query.field_names = field_names;
@@ -378,7 +378,7 @@ MultiVectorSearch::hybridSearch(
     std::unordered_set<std::string> all_docs;
     std::unordered_map<std::string, std::pair<float, int>> vector_score_by_doc;
     vector_score_by_doc.reserve(vector_results.size());
-    for (size_t rank = 0; rank <static_cast<int>(vector_results.size()); ++rank) {
+    for (size_t rank = 0; rank < vector_results.size(); ++rank) {
         const auto& result = vector_results[rank];
         vector_score_by_doc[result.pk] = {
             1.0f / (1.0f + result.distance),
@@ -579,7 +579,7 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
             
             // Evaluate this weight configuration
             float total_ndcg = 0.0f;
-            for (size_t q = 0; q <static_cast<int>(queries.size()); ++q) {
+            for (size_t q = 0; q < queries.size(); ++q) {
                 SearchConfig config;
                 config.weights = current_weights;
                 config.top_k = 10;

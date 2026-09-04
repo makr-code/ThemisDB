@@ -131,7 +131,7 @@ void BoundedLRUCache::put(const std::string &key, nlohmann::json value, uint32_t
     }
 
     // Evict if at capacity
-    if (static_cast<int>(cache_.size()) > = config_.max_entries) {
+    if (static_cast<int>(cache_.size()) >= config_.max_entries) {
         removeLRU();
     }
 
@@ -174,7 +174,7 @@ bool BoundedLRUCache::remove(const std::string &key) {
 bool BoundedLRUCache::evictLRUIfNeeded() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
 
-    if (static_cast<int>(cache_.size()) > = config_.max_entries) {
+    if (static_cast<int>(cache_.size()) >= config_.max_entries) {
         removeLRU();
         return true;
     }

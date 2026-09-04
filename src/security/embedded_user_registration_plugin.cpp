@@ -522,7 +522,7 @@ private:
 
             auto fromHex = [](const std::string& hex, std::vector<unsigned char>& out) {
                 out.resize(hex.size() / 2);
-                for (size_t i = 0; i <static_cast<int>(out.size()); ++i) {
+                for (size_t i = 0; i < out.size(); ++i) {
                     out[i] = static_cast<unsigned char>(
                         std::stoul(hex.substr(i * 2, 2), nullptr, 16));
                 }

@@ -388,7 +388,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(const std:
                         l1_entry->window_count.store(entry.window_count, std::memory_order_relaxed);
 
                         std::unique_lock<std::shared_mutex> l1_lock(l1_mutex_);
-                        if (static_cast<int>(l1_cache_.size()) > = config_.l1_max_entries) {
+                        if (static_cast<int>(l1_cache_.size()) >= config_.l1_max_entries) {
                             evictLRU(CacheLevel::HOT);
                         }
                         l2_eviction_strategy_->onRemove(key);
@@ -680,7 +680,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
 
         if (result_size < config_.l1_max_entry_size) {
             std::unique_lock<std::shared_mutex> l1_lock(l1_mutex_);
-            if (static_cast<int>(l1_cache_.size()) > = config_.l1_max_entries) {
+            if (static_cast<int>(l1_cache_.size()) >= config_.l1_max_entries) {
                 evictLRU(CacheLevel::HOT);
             }
             auto l1_entry    = std::make_unique<L1Entry>();
@@ -704,7 +704,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
             auto compressed = utils::zstd_compress(result_str, config_.l2_compression_level);
             if (!compressed.empty()) {
                 std::lock_guard<std::mutex> l2_lock(l2_mutex_);
-                if (static_cast<int>(l2_cache_.size()) > = config_.l2_max_entries) {
+                if (static_cast<int>(l2_cache_.size()) >= config_.l2_max_entries) {
                     evictLRU(CacheLevel::WARM);
                 }
                 L2Entry l2_entry;
@@ -805,7 +805,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
     if (level == CacheLevel::HOT && result_size < config_.l1_max_entry_size) {
         {
             std::unique_lock<std::shared_mutex> lock(l1_mutex_);
-            if (static_cast<int>(l1_cache_.size()) > = config_.l1_max_entries) {
+            if (static_cast<int>(l1_cache_.size()) >= config_.l1_max_entries) {
                 evictLRU(CacheLevel::HOT);
             }
             auto entry    = std::make_unique<L1Entry>();
@@ -856,7 +856,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
         size_t compressed_size = 0;
         {
             std::lock_guard<std::mutex> lock(l2_mutex_);
-            if (static_cast<int>(l2_cache_.size()) > = config_.l2_max_entries) {
+            if (static_cast<int>(l2_cache_.size()) >= config_.l2_max_entries) {
                 evictLRU(CacheLevel::WARM);
             }
             L2Entry entry;
@@ -1866,7 +1866,7 @@ std::vector<std::string> AdaptiveQueryCache::exportKeys([[maybe_unused]] size_t 
     {
         std::shared_lock<std::shared_mutex> lock(l1_mutex_);
         for (const auto &[key, entry] : l1_cache_) {
-            if (static_cast<int>(keys.size()) > = max_keys) {
+            if (static_cast<int>(keys.size()) >= max_keys) {
                 break;
             }
             keys.push_back("L1:" + key.substr(0, 16) + "...");
@@ -1877,7 +1877,7 @@ std::vector<std::string> AdaptiveQueryCache::exportKeys([[maybe_unused]] size_t 
     {
         std::lock_guard<std::mutex> lock(l2_mutex_);
         for (const auto &[key, entry] : l2_cache_) {
-            if (static_cast<int>(keys.size()) > = max_keys) {
+            if (static_cast<int>(keys.size()) >= max_keys) {
                 break;
             }
             keys.push_back("L2:" + key.substr(0, 16) + "...");
@@ -2421,7 +2421,7 @@ void AdaptiveQueryCache::applyReplicatedEntry(const cache::ReplicationMessage &m
     if (result_size < config_.l1_max_entry_size) {
         std::unique_lock<std::shared_mutex> lock(l1_mutex_);
         if (l1_cache_.count(key) == 0) { // Don't overwrite a locally fresher entry
-            if (static_cast<int>(l1_cache_.size()) > = config_.l1_max_entries) {
+            if (static_cast<int>(l1_cache_.size()) >= config_.l1_max_entries) {
                 evictLRU(CacheLevel::HOT);
             }
             auto entry    = std::make_unique<L1Entry>();
@@ -2447,7 +2447,7 @@ void AdaptiveQueryCache::applyReplicatedEntry(const cache::ReplicationMessage &m
 
         std::lock_guard<std::mutex> lock(l2_mutex_);
         if (l2_cache_.count(key) == 0) {
-            if (static_cast<int>(l2_cache_.size()) > = config_.l2_max_entries) {
+            if (static_cast<int>(l2_cache_.size()) >= config_.l2_max_entries) {
                 evictLRU(CacheLevel::WARM);
             }
             L2Entry entry;

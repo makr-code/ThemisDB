@@ -113,7 +113,7 @@ void PredictivePrefetcher::recordQueryAccess(const std::string &fingerprint, con
 
         // Ensure source key exists; evict oldest if at capacity
         if (transitions_.find(from) == transitions_.end()) {
-            if (static_cast<int>(ordered_keys_.size()) > = config_.max_tracked_keys) {
+            if (static_cast<int>(ordered_keys_.size()) >= config_.max_tracked_keys) {
                 // Evict the oldest tracked source key
                 const std::string &oldest = ordered_keys_.front();
                 transitions_.erase(oldest);

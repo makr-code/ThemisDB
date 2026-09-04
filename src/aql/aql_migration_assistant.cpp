@@ -120,7 +120,7 @@ std::string AQLMigrationAssistant::extractArgs(const std::string &src, std::size
     std::size_t start = open_paren + 1;
     std::size_t i     = open_paren;
 
-    for (; i <static_cast<int>(src.size()); ++i) {
+    for (; i < src.size(); ++i) {
         char c = src[i];
         if (c == '(') {
             ++depth;
@@ -146,7 +146,7 @@ std::vector<std::string> splitArgs(const std::string &args_str) {
     int depth         = 0;
     std::size_t start = 0;
 
-    for (std::size_t i = 0; i <static_cast<int>(args_str.size()); ++i) {
+    for (std::size_t i = 0; i < args_str.size(); ++i) {
         char c = args_str[i];
         if (c == '(') {
             ++depth;
@@ -226,7 +226,7 @@ bool findNextFunctionCall(const std::string &query, const std::string &keyword, 
 
         // Must be followed by optional whitespace then '('
         std::size_t check = pos + static_cast<int>(keyword.size()) ;
-        while (check <static_cast<int>(query.size()) && std::isspace(static_cast<unsigned char>(query[check]))) {
+        while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
             ++check;
         }
         if (check >= query.size() || query[check] != '(') {
@@ -256,8 +256,8 @@ std::string AQLMigrationAssistant::rewriteDoubleAtBind(const std::string &query,
     result.reserve(query.size());
     bool rewritten = false;
 
-    for (std::size_t i = 0; i <static_cast<int>(query.size()); ++i) {
-        if (i + 1 <static_cast<int>(query.size()) && query[i] == '@' && query[i + 1] == '@') {
+    for (std::size_t i = 0; i < query.size(); ++i) {
+        if (i + 1 < query.size() && query[i] == '@' && query[i + 1] == '@') {
             // Replace @@ with @
             result += '@';
             ++i; // skip second @
@@ -333,7 +333,7 @@ std::string AQLMigrationAssistant::rewriteNear(const std::string &query, std::ve
         std::size_t end = paren_pos;
         {
             int depth = 0;
-            for (; end <static_cast<int>(query.size()); ++end) {
+            for (; end < query.size(); ++end) {
                 if (query[end] == '(') {
                     ++depth;
                 } else if (query[end] == ')') {
@@ -410,7 +410,7 @@ std::string AQLMigrationAssistant::rewriteWithin(const std::string &query, std::
         std::size_t end = paren_pos;
         {
             int depth = 0;
-            for (; end <static_cast<int>(query.size()); ++end) {
+            for (; end < query.size(); ++end) {
                 if (query[end] == '(') {
                     ++depth;
                 } else if (query[end] == ')') {
@@ -494,7 +494,7 @@ std::string AQLMigrationAssistant::rewriteFulltext(const std::string &query,
         std::size_t end = paren_pos;
         {
             int depth = 0;
-            for (; end <static_cast<int>(query.size()); ++end) {
+            for (; end < query.size(); ++end) {
                 if (query[end] == '(') {
                     ++depth;
                 } else if (query[end] == ')') {
@@ -560,7 +560,7 @@ std::string AQLMigrationAssistant::rewriteDocument(const std::string &query,
             continue;
         }
 
-        if (static_cast<int>(args.size()) > = 2) {
+        if (static_cast<int>(args.size()) >= 2) {
             const std::string &collection = args[0];
             const std::string &key        = args[1];
 
@@ -570,7 +570,7 @@ std::string AQLMigrationAssistant::rewriteDocument(const std::string &query,
             std::size_t end = paren_pos;
             {
                 int depth = 0;
-                for (; end <static_cast<int>(query.size()); ++end) {
+                for (; end < query.size(); ++end) {
                     if (query[end] == '(') {
                         ++depth;
                     } else if (query[end] == ')') {
@@ -618,7 +618,7 @@ void AQLMigrationAssistant::detectV8(const std::string &query, std::vector<Migra
 
     // Require V8(
     std::size_t check = pos + 2;
-    while (check <static_cast<int>(query.size()) && std::isspace(static_cast<unsigned char>(query[check]))) {
+    while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
         ++check;
     }
     if (check >= query.size() || query[check] != '(') {
@@ -651,7 +651,7 @@ void AQLMigrationAssistant::detectTypeCheckFunctions(const std::string &query,
         }
 
         std::size_t check = pos + static_cast<int>(fn.size()) ;
-        while (check <static_cast<int>(query.size()) && std::isspace(static_cast<unsigned char>(query[check]))) {
+        while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
             ++check;
         }
         if (check >= query.size() || query[check] != '(') {
@@ -681,7 +681,7 @@ void AQLMigrationAssistant::detectHashFunction(const std::string &query, std::ve
     }
 
     std::size_t check = pos + static_cast<int>(fn.size()) ;
-    while (check <static_cast<int>(query.size()) && std::isspace(static_cast<unsigned char>(query[check]))) {
+    while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
         ++check;
     }
     if (check >= query.size() || query[check] != '(') {
@@ -710,7 +710,7 @@ void AQLMigrationAssistant::detectAttributesFunction(const std::string &query,
     }
 
     std::size_t check = pos + static_cast<int>(fn.size()) ;
-    while (check <static_cast<int>(query.size()) && std::isspace(static_cast<unsigned char>(query[check]))) {
+    while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
         ++check;
     }
     if (check >= query.size() || query[check] != '(') {
@@ -738,7 +738,7 @@ void AQLMigrationAssistant::detectTranslateFunction(const std::string &query,
     }
 
     std::size_t check = pos + static_cast<int>(fn.size()) ;
-    while (check <static_cast<int>(query.size()) && std::isspace(static_cast<unsigned char>(query[check]))) {
+    while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
         ++check;
     }
     if (check >= query.size() || query[check] != '(') {

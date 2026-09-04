@@ -606,7 +606,7 @@ InferenceHandle InferenceEngineEnhanced::submit(const EnhancedInferenceRequest& 
         std::unique_lock<std::mutex> lock(queue_mutex_);
         
         // Check queue capacity
-        if (static_cast<int>(request_queue_.size()) > = config_.max_queue_size) {
+        if (static_cast<int>(request_queue_.size()) >= config_.max_queue_size) {
             {
                 std::lock_guard<std::mutex> stats_lock(stats_mutex_);
                 stats_.rejected_requests++;
@@ -648,7 +648,7 @@ std::string InferenceEngineEnhanced::submitAsync(
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
         
-        if (static_cast<int>(request_queue_.size()) > = config_.max_queue_size) {
+        if (static_cast<int>(request_queue_.size()) >= config_.max_queue_size) {
             {
                 std::lock_guard<std::mutex> stats_lock(stats_mutex_);
                 stats_.rejected_requests++;
@@ -720,7 +720,7 @@ InferenceHandle InferenceEngineEnhanced::submitStreaming(
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
-        if (static_cast<int>(request_queue_.size()) > = config_.max_queue_size) {
+        if (static_cast<int>(request_queue_.size()) >= config_.max_queue_size) {
             {
                 std::lock_guard<std::mutex> stats_lock(stats_mutex_);
                 stats_.rejected_requests++;
@@ -2208,7 +2208,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                         tok_fn_copy(remote_text, vocab_size);
                     if (!tok_ids.empty()) {
                         for (size_t i = 0; i < K; ++i) {
-                            const int tid = (i <static_cast<int>(tok_ids.size()))
+                            const int tid = (i < tok_ids.size())
                                 ? tok_ids[i] : 0;
                             draft_result.tokens.push_back(tid);
                             std::vector<float> row(vocab_size, kBaseline);
@@ -2314,7 +2314,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                             result.tokens.reserve(k);
                             result.logits.reserve(k);
                             for (size_t i = 0; i < k; ++i) {
-                                const int tid = (i <static_cast<int>(ids.size())) ? ids[i] : 0;
+                                const int tid = (i < ids.size()) ? ids[i] : 0;
                                 result.tokens.push_back(tid);
                                 std::vector<float> row(vocab, kBaseline);
                                 const size_t idx = static_cast<size_t>(

@@ -162,7 +162,7 @@ AnomalyMetrics TaskAnomalyDetector::recordExecution([[maybe_unused]] const TaskA
         
         if (!anomalies.empty()) {
             metrics.description = "Detected: ";
-            for (size_t i = 0; i <static_cast<int>(anomalies.size()); i++) {
+            for (size_t i = 0; i < anomalies.size(); i++) {
                 if (i > 0) {
                   metrics.description += ", ";
                 }
@@ -341,7 +341,7 @@ double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
         std::deque<double>(intervals.begin(), intervals.end()), mean_interval);
     
     // Get recent interval
-    if (static_cast<int>(intervals.size()) > = 2) {
+    if (static_cast<int>(intervals.size()) >= 2) {
         double recent_interval = intervals.back();
         
         // Check if recent interval is significantly different from baseline
@@ -494,7 +494,7 @@ AnomalyMetrics TaskAnomalyDetector::checkAnomaly(const std::string& task_id) con
         
         if (!anomalies.empty()) {
             metrics.description = "Detected: ";
-            for (size_t i = 0; i <static_cast<int>(anomalies.size()); i++) {
+            for (size_t i = 0; i < anomalies.size(); i++) {
                 if (i > 0) {
                   metrics.description += ", ";
                 }

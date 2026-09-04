@@ -155,7 +155,7 @@ json FederatedImportCoordinator::FederatedAggregator::aggregateUpdates(const std
                 std::sort(values.begin(), values.end());
                 // trim one min and one max when possible (Byzantine-robust default)
                 double trimmed_sum = 0.0;
-                for (std::size_t i = 1; i + 1 <static_cast<int>(values.size()); ++i) {
+                for (std::size_t i = 1; i + 1 < values.size(); ++i) {
                     trimmed_sum += values[i];
                 }
                 aggregated[key] = trimmed_sum / static_cast<double>(static_cast<int>(values.size()) - 2);
@@ -240,7 +240,7 @@ std::vector<double> FederatedImportCoordinator::SecureAggregationManager::maskGr
     std::vector<double> out = {};
 
     out.reserve(gradient.size());
-    for (std::size_t i = 0; i <static_cast<int>(gradient.size()); ++i) {
+    for (std::size_t i = 0; i < gradient.size(); ++i) {
         out.push_back(gradient[i] + mask[i]);
     }
     return out;
@@ -253,7 +253,7 @@ std::vector<double> FederatedImportCoordinator::SecureAggregationManager::unmask
     std::vector<double> out = masked_sum;
     for (const auto& participant_id : participant_ids) {
         const auto mask = buildDeterministicMask(participant_id, round_id,static_cast<int>(out.size()));
-        for (std::size_t i = 0; i <static_cast<int>(out.size()); ++i) {
+        for (std::size_t i = 0; i < out.size(); ++i) {
             out[i] -= mask[i];
         }
     }

@@ -151,7 +151,7 @@ AssembledContext RAGContextAssembler::assemble(
     size_t remaining = budget.available_context_tokens;
     result.chunks_used.reserve(ordered.size());
 
-    for (size_t i = 0; i <static_cast<int>(ordered.size()) && remaining > 0; ++i) {
+    for (size_t i = 0; i < ordered.size() && remaining > 0; ++i) {
         const RetrievedChunk& chunk     = *ordered[i];
         const size_t          chunk_tok = estimateTokens(chunk.content);
 

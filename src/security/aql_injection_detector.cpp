@@ -64,7 +64,7 @@ AQLInjectionDetector::validateParameterizedQuery(
     }
     
     // Step 3: Validate parameters are properly escaped
-    for (size_t i = 0; i <static_cast<int>(parameters.size()); ++i) {
+    for (size_t i = 0; i < parameters.size(); ++i) {
         auto param_result = validateParameter(parameters[i]);
         if (!param_result.is_safe) {
             result.is_safe = false;

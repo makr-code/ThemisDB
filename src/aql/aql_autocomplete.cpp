@@ -273,9 +273,9 @@ std::vector<std::string> AQLAutoComplete::declaredVariables(const std::string &t
     // Static patterns compiled once for performance
     // FOR <var> IN ...
     static const std::regex for_re(R"(FOR\s+([A-Za-z_][A-Za-z0-9_]*)\s+IN)", std::regex::icase);
-    // LET <var> = ...
+    // LET <var>= ...
     static const std::regex let_re(R"(LET\s+([A-Za-z_][A-Za-z0-9_]*)\s*=)", std::regex::icase);
-    // COLLECT <var> = <expr> — captures the grouping variable after COLLECT
+    // COLLECT <var>= <expr> — captures the grouping variable after COLLECT
     static const std::regex collect_re(R"(COLLECT\s+([A-Za-z_][A-Za-z0-9_]*)\s*=)", std::regex::icase);
     // COLLECT ... INTO <group_var> — [\s\S] matches newlines too
     static const std::regex collect_into_re(R"(COLLECT\b[\s\S]*?\bINTO\s+([A-Za-z_][A-Za-z0-9_]*))", std::regex::icase);

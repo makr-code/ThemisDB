@@ -211,7 +211,7 @@ std::vector<Token> NlpTextAnalyzer::tokenize(std::string_view text) const {
     size_t position = 0;
     Language lang   = detectLanguage(text);
 
-    for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
+    for (size_t i = 0; i < text.size(); ++i) {
         char c = text[i];
 
         if (std::isalnum(c) || c == '_' || c == '-') {

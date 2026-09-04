@@ -590,8 +590,8 @@ bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>& deviceIds) {
     }
     
     // Check if P2P is available between devices (simplified XGMI check)
-    for (size_t i = 0; i <static_cast<int>(deviceIds.size()); ++i) {
-        for (size_t j = i + 1; j <static_cast<int>(deviceIds.size()); ++j) {
+    for (size_t i = 0; i < deviceIds.size(); ++i) {
+        for (size_t j = i + 1; j < deviceIds.size(); ++j) {
             int canAccess = 0;
             hipDeviceCanAccessPeer(&canAccess, deviceIds[i], deviceIds[j]);
             if (canAccess) {

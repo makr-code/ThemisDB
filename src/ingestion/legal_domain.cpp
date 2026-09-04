@@ -250,7 +250,7 @@ std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsW
         }
 
         std::size_t end = pos;
-        while (end <static_cast<int>(trimmed.size()) &&
+        while (end < trimmed.size() &&
                (std::isalnum(static_cast<unsigned char>(trimmed[end])) || trimmed[end] == '.')) {
             ++end;
         }

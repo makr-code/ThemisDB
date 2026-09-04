@@ -377,7 +377,7 @@ double HallucinationDashboard::computeTrend(const std::deque<double>& data) cons
     }
     double n = static_cast<double>(data.size());
     double sx = 0.0, sy = 0.0, sxy = 0.0, sx2 = 0.0;
-    for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
+    for (size_t i = 0; i < data.size(); ++i) {
         double x = static_cast<double>(i);
         double y = data[i];
         sx  += x;

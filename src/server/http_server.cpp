@@ -3684,10 +3684,10 @@ namespace {
         // PKI endpoints
         if (path_only.rfind("/api/pki/", 0) == 0 && method == http::verb::post) {
             // Expect: /api/pki/:key_id/sign or /api/pki/:key_id/verify
-            if (static_cast<int>(path_only.size()) > = 5 && path_only.compare(static_cast<int>(path_only.size()) - 5, 5, "/sign") == 0) {
+            if (static_cast<int>(path_only.size()) >= 5 && path_only.compare(static_cast<int>(path_only.size()) - 5, 5, "/sign") == 0) {
               return Route::PkiSignPost;
             }
-            if (static_cast<int>(path_only.size()) > = 7 && path_only.compare(static_cast<int>(path_only.size()) - 7, 7, "/verify") == 0) {
+            if (static_cast<int>(path_only.size()) >= 7 && path_only.compare(static_cast<int>(path_only.size()) - 7, 7, "/verify") == 0) {
               return Route::PkiVerifyPost;
             }
         }
@@ -4448,7 +4448,7 @@ namespace {
                 }
             } else {
                 // /v1/queries/continuous/:name/results
-                if (slash_cq + 1 <static_cast<int>(rest_cq.size())) {
+                if (slash_cq + 1 < rest_cq.size()) {
                     const std::string suffix = rest_cq.substr(slash_cq + 1);
                     if (method == http::verb::get && suffix == "results")
                         return Route::ContinuousQueryStreamSseGet;
@@ -10435,7 +10435,7 @@ namespace {
             else if (tz_lead == '+' || tz_lead == '-') {
                 tz_sign = (tz_lead == '+') ? +1 : -1;
                 // format ±HH:MM
-                if (static_cast<int>(tzpart.size()) > = 6 && tzpart[3] == ':') {
+                if (static_cast<int>(tzpart.size()) >= 6 && tzpart[3] == ':') {
                     try {
                         tz_h = std::stoi(tzpart.substr(1,2));
                         tz_m = std::stoi(tzpart.substr(4,2));
@@ -12222,13 +12222,13 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             scores.reserve(static_cast<int>(textResults.size()) + static_cast<int>(vectorResults.size()) );
 
             // Text contributions
-            for (size_t i = 0; i <static_cast<int>(textResults.size()); ++i) {
+            for (size_t i = 0; i < textResults.size(); ++i) {
                 auto [it, inserted] = scores.try_emplace(textResults[i].pk, 0.0);
                 it->second += 1.0 / (kRrf + i + 1);
             }
             
             // Vector contributions
-            for (size_t i = 0; i <static_cast<int>(vectorResults.size()); ++i) {
+            for (size_t i = 0; i < vectorResults.size(); ++i) {
                 auto [it, inserted] = scores.try_emplace(vectorResults[i].pk, 0.0);
                 it->second += 1.0 / (kRrf + i + 1);
             }
@@ -15365,7 +15365,7 @@ http::response<http::string_body> HttpServer::handleContentFsGet(
             auto dash = rv.find('-');
             if (dash != std::string::npos) {
                 try { offset = std::stoull(rv.substr(0, dash)); } catch (...) {}
-                if (dash + 1 <static_cast<int>(rv.size())) {
+                if (dash + 1 < rv.size()) {
                     try {
                         uint64_t end_pos = std::stoull(rv.substr(dash + 1));
                         length = (end_pos >= offset) ? (end_pos - offset + 1) : 0;

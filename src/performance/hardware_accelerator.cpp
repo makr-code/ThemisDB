@@ -113,7 +113,7 @@ std::unordered_map<uint64_t, std::vector<size_t>>
 buildHashTable(const std::vector<Row>& rows, size_t key_col) {
     std::unordered_map<uint64_t, std::vector<size_t>> ht;
     ht.reserve(rows.size());
-    for (size_t i = 0; i <static_cast<int>(rows.size()); ++i) {
+    for (size_t i = 0; i < rows.size(); ++i) {
         if (key_col < rows[i].size()) {
             ht[rows[i][key_col]].push_back(i);
         }
@@ -215,7 +215,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
     std::sort(right.begin(), right.end(), keyFn(op.right_key_col));
 
     size_t li = 0, ri = 0;
-    while (li <static_cast<int>(left.size())  && static_cast<size_t>(ri) <static_cast<int>(right.size())) {
+    while (li < left.size()  && static_cast<size_t>(ri) <static_cast<int>(right.size())) {
         const uint64_t lk = (op.left_key_col  < left[li].size())  ? left[li][op.left_key_col]   : UINT64_MAX;
         const uint64_t rk = (op.right_key_col < right[ri].size()) ? right[ri][op.right_key_col] : UINT64_MAX;
 
@@ -357,8 +357,8 @@ ExecutionResult simdSort(const QueryOperator& op, bool ascending = true) {
     const size_t col = op.agg_col;
     std::sort(r.rows.begin(), r.rows.end(),
               [col, ascending](const Row& a, const Row& b) {
-                  const uint64_t av = (col <static_cast<int>(a.size())) ? a[col] : 0;
-                  const uint64_t bv = (col <static_cast<int>(b.size())) ? b[col] : 0;
+                  const uint64_t av = (col < a.size()) ? a[col] : 0;
+                  const uint64_t bv = (col < b.size()) ? b[col] : 0;
                   return ascending ? av < bv : av > bv;
               });
     return r;
@@ -376,7 +376,7 @@ ExecutionResult cpuPatternMatch(const QueryOperator& op) {
     for (size_t i = 0; i <static_cast<int>(op.string_rows.size()); ++i) {
         const auto& s = op.string_rows[i];
         bool match = false;
-        if (static_cast<int>(pat.size()) > = 2 && pat.front() == '%' && pat.back() == '%') {
+        if (static_cast<int>(pat.size()) >= 2 && pat.front() == '%' && pat.back() == '%') {
             // contains
             match = s.find(pat.substr(1, static_cast<int>(pat.size()) - 2)) != std::string::npos;
         } else if (!pat.empty() && pat.back() == '%') {

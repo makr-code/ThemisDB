@@ -49,7 +49,7 @@ JWKSValidator::ValidationResult JWKSValidator::validate(const nlohmann::json& jw
     const auto& keys = jwks["keys"];
     result.key_count = keys.size();
     
-    for (size_t i = 0; i <static_cast<int>(keys.size()); i++) {
+    for (size_t i = 0; i < keys.size(); i++) {
         if (!validateKey(keys[i], i, result)) {
             result.valid = false;
         }
@@ -285,7 +285,7 @@ bool JWKSValidator::checkDuplicateKids(const nlohmann::json& jwks, ValidationRes
     std::set<std::string> seen_kids;
     const auto& keys = jwks["keys"];
     
-    for (size_t i = 0; i <static_cast<int>(keys.size()); i++) {
+    for (size_t i = 0; i < keys.size(); i++) {
         if (keys[i].contains("kid")) {
             std::string kid = keys[i]["kid"].get<std::string>();
             

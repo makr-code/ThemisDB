@@ -77,7 +77,7 @@ ClusterUpdateManager::ClusterUpdateManager(const Config& config)
 static constexpr int NODE_NOT_FOUND = -1;
 
 int ClusterUpdateManager::findNodeIndex(const std::string& node_id) const {
-    for (size_t i = 0; i <static_cast<int>(node_statuses_.size()); ++i) {
+    for (size_t i = 0; i < node_statuses_.size(); ++i) {
         if (node_statuses_[i].node_id == node_id) {
             return static_cast<int>(i);
         }

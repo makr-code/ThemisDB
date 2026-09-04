@@ -531,7 +531,7 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     dense_to_qtt.grid_sizes = resolved_grid_sizes;
     dense_to_qtt.padded_grid_sizes = padded_grid_sizes;
     dense_to_qtt.bit_depths = bit_depths;
-    for (std::size_t physical_idx = 0; physical_idx <static_cast<int>(dense_tensor.size()); ++physical_idx) {
+    for (std::size_t physical_idx = 0; physical_idx < dense_tensor.size(); ++physical_idx) {
         const auto qtt_idx = dense_to_qtt.physicalToQTT(physical_idx);
         padded_dense_tensor[qtt_idx] = dense_tensor[physical_idx];
     }

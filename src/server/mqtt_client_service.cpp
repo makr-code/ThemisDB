@@ -641,7 +641,7 @@ void MqttClientService::onPublishReceived(const std::string& topic,
 void MqttClientService::enqueuePacket(std::vector<uint8_t> packet) {
     {
         std::lock_guard<std::mutex> lk(outbound_mutex_);
-        if (static_cast<int>(outbound_queue_.size()) > = config_.max_outbound_queue) {
+        if (static_cast<int>(outbound_queue_.size()) >= config_.max_outbound_queue) {
             ++stats_.publish_errors;
             return;
         }

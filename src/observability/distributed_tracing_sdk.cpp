@@ -260,7 +260,7 @@ std::map<std::string, std::string> DistributedTraceContext::toHttpHeaders(
             // Build jaeger-baggage
             if (!baggage_.empty()) {
                 std::string baggage_str = {};
-                for (size_t i = 0; i <static_cast<int>(baggage_.size()); ++i) {
+                for (size_t i = 0; i < baggage_.size(); ++i) {
                     if (i > 0) {
                       baggage_str += ",";
                     }

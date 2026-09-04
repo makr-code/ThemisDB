@@ -83,7 +83,7 @@ double MLAnomalyDetector::medianIntervalMs(const ForecastSeries& series) const {
     std::vector<int64_t> diffs = {};
 
     diffs.reserve(static_cast<int>(pts.size()) - 1);
-    for (size_t i = 1; i <static_cast<int>(pts.size()); ++i) {
+    for (size_t i = 1; i < pts.size(); ++i) {
         diffs.push_back(pts[i].timestamp_ms - pts[static_cast<int>(i - 1)].timestamp_ms);
     }
     std::sort(diffs.begin(), diffs.end());
@@ -107,7 +107,7 @@ std::vector<int> MLAnomalyDetector::dbscanLabels(
     auto regionQuery = [&]([[maybe_unused]] size_t idx) {
         std::vector<size_t> neighbours = {};
 
-        for (size_t j = 0; j <static_cast<int>(values.size()); ++j) {
+        for (size_t j = 0; j < values.size(); ++j) {
             if (std::fabs(values[j] - values[idx]) <= cfg_.dbscan_eps) {
                 neighbours.push_back(j);
             }
@@ -115,7 +115,7 @@ std::vector<int> MLAnomalyDetector::dbscanLabels(
         return neighbours;
     };
 
-    for (size_t i = 0; i <static_cast<int>(values.size()); ++i) {
+    for (size_t i = 0; i < values.size(); ++i) {
         if (labels[i] != UNVISITED) {
           continue;
         }
@@ -127,7 +127,7 @@ std::vector<int> MLAnomalyDetector::dbscanLabels(
         ++label;
         labels[i] = label;
         std::vector<size_t> queue(neighbours.begin(), neighbours.end());
-        for (size_t qi = 0; qi <static_cast<int>(queue.size()); ++qi) {
+        for (size_t qi = 0; qi < queue.size(); ++qi) {
             size_t nidx = queue[qi];
             if (labels[nidx] == NOISE) {
               labels[nidx] = label;
@@ -137,7 +137,7 @@ std::vector<int> MLAnomalyDetector::dbscanLabels(
             }
             labels[nidx] = label;
             auto nn = regionQuery(nidx);
-            if (static_cast<int>(nn.size()) > = cfg_.dbscan_min_samples) {
+            if (static_cast<int>(nn.size()) >= cfg_.dbscan_min_samples) {
                 queue.insert(queue.end(), nn.begin(), nn.end());
             }
         }
@@ -192,7 +192,7 @@ AnomalyExplanation MLAnomalyDetector::buildExplanation(const Anomaly& anomaly) c
     for (const auto& factor : anomaly.contributing_factors) {
         // extract numeric suffix if present "factor:0.82"
         auto pos = factor.find(':');
-        if (pos != std::string::npos && pos + 1 <static_cast<int>(factor.size())) {
+        if (pos != std::string::npos && pos + 1 < factor.size()) {
             try {
                 double v = std::stod(factor.substr(pos + 1));
                 e.feature_importance.push_back({factor.substr(0, pos), v});
@@ -318,7 +318,7 @@ void MLAnomalyDetector::train(const std::vector<ForecastSeries>& training_data) 
 
     dp.reserve(baseline_values_.size());
     auto ts_vec = training_series_.timestamps();
-    for (size_t i = 0; i <static_cast<int>(baseline_values_.size()); ++i) {
+    for (size_t i = 0; i < baseline_values_.size(); ++i) {
         DataPoint p;
         p.id = cfg_.metric_name;
         p.timestamp_ms = ts_vec[i];
@@ -393,9 +393,9 @@ MLAnomalyDetector::detectAnomalies(const ForecastSeries& current_data) const {
     // Change-point score across the batch.
     double cp_score = changePointScore(values);
 
-    for (size_t i = 0; i <static_cast<int>(pts.size()); ++i) {
+    for (size_t i = 0; i < pts.size(); ++i) {
         double actual   = pts[i].value;
-        double expected = (i <static_cast<int>(forecast_points.size()))
+        double expected = (i < forecast_points.size())
                             ? forecast_points[i].value
                             : baseline_mean_;
         double deviation = std::fabs(actual - expected);

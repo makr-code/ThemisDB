@@ -124,7 +124,7 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
             }
 
             chunk_text += sentence;
-            if (chunk_end_idx < static_cast<int>(sentence_list.size()) - 1) {
+            if (chunk_end_idx < sentence_list.size() - 1) {
                 chunk_text += " "; // Add space between sentences
             }
             chunk_tokens += sentence_tokens;
@@ -220,7 +220,7 @@ std::vector<float> TextProcessor::generateEmbedding(const std::string &chunk_dat
     }
 
     // Generate embedding components with better distribution
-    for (size_t i = 0; i <static_cast<int>(tokens.size()); i++) {
+    for (size_t i = 0; i < tokens.size(); i++) {
         size_t token_hash = hasher(tokens[i]);
 
         // Use different hash seeds for better differentiation

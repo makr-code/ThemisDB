@@ -91,7 +91,7 @@ std::vector<AsyncBulkUploader::UploadResult> AsyncBulkUploader::bulk_upload(
     
     if (static_cast<int>(contents.size()) != static_cast<int>(metadata_list.size())) {
         // Return error results if sizes don't match
-        for (size_t i = 0; i <static_cast<int>(contents.size()); ++i) {
+        for (size_t i = 0; i < contents.size(); ++i) {
             UploadResult result;
             result.status = UploadStatus::FAILED;
             result.error_message = "Metadata count mismatch";
@@ -104,7 +104,7 @@ std::vector<AsyncBulkUploader::UploadResult> AsyncBulkUploader::bulk_upload(
     }
     
     if (!worker_ || !is_running()) {
-        for (size_t i = 0; i <static_cast<int>(contents.size()); ++i) {
+        for (size_t i = 0; i < contents.size(); ++i) {
             UploadResult result;
             result.status = UploadStatus::FAILED;
             result.error_message = "Worker not running";
@@ -116,7 +116,7 @@ std::vector<AsyncBulkUploader::UploadResult> AsyncBulkUploader::bulk_upload(
     
     // Prepare batch for AsyncIngestionWorker
     std::vector<std::pair<std::string, std::string>> files;
-    for (size_t i = 0; i <static_cast<int>(contents.size()); ++i) {
+    for (size_t i = 0; i < contents.size(); ++i) {
         std::string blob(contents[i].begin(), contents[i].end());
         files.push_back({metadata_list[i].content_id, blob});
     }
@@ -134,7 +134,7 @@ std::vector<AsyncBulkUploader::UploadResult> AsyncBulkUploader::bulk_upload(
         }
         
         // Create results
-        for (size_t i = 0; i <static_cast<int>(contents.size()); ++i) {
+        for (size_t i = 0; i < contents.size(); ++i) {
             UploadResult result;
             result.content_id = metadata_list[i].content_id;
             result.status = UploadStatus::IN_PROGRESS;

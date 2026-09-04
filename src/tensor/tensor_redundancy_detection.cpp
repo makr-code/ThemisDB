@@ -71,8 +71,8 @@ RedundancyMetrics SimilarityBasedDetector::detect(
     }
 
     int redundant = 0;
-    for (size_t i = 0; i <static_cast<int>(summaries.size()); ++i) {
-        for (size_t j = i + 1; j <static_cast<int>(summaries.size()); ++j) {
+    for (size_t i = 0; i < summaries.size(); ++i) {
+        for (size_t j = i + 1; j < summaries.size(); ++j) {
             if (summaries[i] && summaries[j]) {
                 float sim_diff = std::abs(summaries[i]->similarity_score - 
                                          summaries[j]->similarity_score);
@@ -99,8 +99,8 @@ std::vector<std::size_t> SimilarityBasedDetector::deduplicate(
 
     std::vector<std::size_t> removed_indices;
 
-    for (size_t i = 0; i <static_cast<int>(summaries.size()); ++i) {
-        for (size_t j = i + 1; j <static_cast<int>(summaries.size()); ++j) {
+    for (size_t i = 0; i < summaries.size(); ++i) {
+        for (size_t j = i + 1; j < summaries.size(); ++j) {
             float sim_diff = std::abs(summaries[i].similarity_score - 
                                      summaries[j].similarity_score);
             if (sim_diff < threshold) {
@@ -188,7 +188,7 @@ std::vector<std::size_t> ContentHashDetector::deduplicate(
     std::vector<std::size_t> removed_indices;
     std::unordered_set<std::string> seen_hashes;
 
-    for (size_t i = 0; i <static_cast<int>(summaries.size()); ++i) {
+    for (size_t i = 0; i < summaries.size(); ++i) {
         std::string hash = hashSummary(summaries[i]);
         if (seen_hashes.count(hash) > 0) {
             removed_indices.push_back(i);
@@ -248,8 +248,8 @@ RedundancyMetrics EmbeddingBasedDetector::detect(
     metrics.similarity_threshold = threshold;
 
     int redundant = 0;
-    for (size_t i = 0; i <static_cast<int>(summaries.size()); ++i) {
-        for (size_t j = i + 1; j <static_cast<int>(summaries.size()); ++j) {
+    for (size_t i = 0; i < summaries.size(); ++i) {
+        for (size_t j = i + 1; j < summaries.size(); ++j) {
             if (summaries[i] && summaries[j]) {
                 // Try to get embeddings; different summary types have different fields
                 // For now, just check if they're AdapterSummary or similar
@@ -276,8 +276,8 @@ std::vector<std::size_t> EmbeddingBasedDetector::deduplicate(
 
     std::vector<std::size_t> removed_indices;
 
-    for (size_t i = 0; i <static_cast<int>(summaries.size()); ++i) {
-        for (size_t j = i + 1; j <static_cast<int>(summaries.size()); ++j) {
+    for (size_t i = 0; i < summaries.size(); ++i) {
+        for (size_t j = i + 1; j < summaries.size(); ++j) {
             if (summaries[i].domain == summaries[j].domain) {
                 removed_indices.push_back(j);
                 break;  // Remove only one per iteration to avoid index issues
@@ -322,8 +322,8 @@ RedundancyMetrics MetadataBasedDetector::detect(
 
     // Check for identical metadata patterns
     int redundant = 0;
-    for (size_t i = 0; i <static_cast<int>(summaries.size()); ++i) {
-        for (size_t j = i + 1; j <static_cast<int>(summaries.size()); ++j) {
+    for (size_t i = 0; i < summaries.size(); ++i) {
+        for (size_t j = i + 1; j < summaries.size(); ++j) {
             if (summaries[i] && summaries[j]) {
                 if (summaries[i]->domain == summaries[j]->domain &&
                     summaries[i]->tenant_id == summaries[j]->tenant_id) {
@@ -347,8 +347,8 @@ std::vector<std::size_t> MetadataBasedDetector::deduplicate(
 
     std::vector<std::size_t> removed_indices;
 
-    for (size_t i = 0; i <static_cast<int>(summaries.size()); ++i) {
-        for (size_t j = i + 1; j <static_cast<int>(summaries.size()); ++j) {
+    for (size_t i = 0; i < summaries.size(); ++i) {
+        for (size_t j = i + 1; j < summaries.size(); ++j) {
             if (summaries[i].domain == summaries[j].domain &&
                 summaries[i].tenant_id == summaries[j].tenant_id) {
                 removed_indices.push_back(j);

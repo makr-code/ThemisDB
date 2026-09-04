@@ -198,7 +198,7 @@ HybridFusionResult HybridRetriever::fuseRRF(
     doc_map.reserve(static_cast<int>(bm25_candidates.size()) + static_cast<int>(vector_candidates.size()) );
 
     // Process BM25 list in the order provided (assumed sorted descending).
-    for (size_t i = 0; i <static_cast<int>(bm25_candidates.size()); ++i) {
+    for (size_t i = 0; i < bm25_candidates.size(); ++i) {
         const auto& src = bm25_candidates[i];
         auto& entry = doc_map[src.id];
         if (entry.doc.id.empty()) {
@@ -213,7 +213,7 @@ HybridFusionResult HybridRetriever::fuseRRF(
     }
 
     // Process vector list.
-    for (size_t i = 0; i <static_cast<int>(vector_candidates.size()); ++i) {
+    for (size_t i = 0; i < vector_candidates.size(); ++i) {
         const auto& src = vector_candidates[i];
         auto& entry = doc_map[src.id];
         if (entry.doc.id.empty()) {
@@ -295,7 +295,7 @@ HybridFusionResult HybridRetriever::fuseLinear(
     }
     if (config_.normalize_scores) { normaliseScores(vec_raw); }
 
-    for (size_t i = 0; i <static_cast<int>(bm25_candidates.size()); ++i) {
+    for (size_t i = 0; i < bm25_candidates.size(); ++i) {
         const auto& src = bm25_candidates[i];
         auto& entry = doc_map[src.id];
         if (entry.doc.id.empty()) { entry.doc = src; }
@@ -305,7 +305,7 @@ HybridFusionResult HybridRetriever::fuseLinear(
         entry.score.hybrid_score += config_.bm25_weight * bm25_raw[i];
     }
 
-    for (size_t i = 0; i <static_cast<int>(vector_candidates.size()); ++i) {
+    for (size_t i = 0; i < vector_candidates.size(); ++i) {
         const auto& src = vector_candidates[i];
         auto& entry = doc_map[src.id];
         if (entry.doc.id.empty()) { entry.doc = src; }

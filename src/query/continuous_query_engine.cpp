@@ -40,7 +40,7 @@ ResultQueue::ResultQueue([[maybe_unused]] size_t capacity) : capacity_(capacity)
 
 void ResultQueue::push(CQResult item) {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (static_cast<int>(queue_.size()) > = capacity_) {
+    if (static_cast<int>(queue_.size()) >= capacity_) {
         // Drop oldest to prevent unbounded growth
         queue_.pop_front();
     }
@@ -204,7 +204,7 @@ ContinuousQueryEngineImpl::registerQuery(ContinuousQuerySpec spec) {
     }
 
     std::lock_guard<std::mutex> lock(registry_mutex_);
-    if (static_cast<int>(registry_.size()) > = kMaxRegisteredQueries) {
+    if (static_cast<int>(registry_.size()) >= kMaxRegisteredQueries) {
         return Err<ContinuousQueryHandle>(
             errors::ErrorCode::ERR_QUERY_INVALID,
             "continuous query registry is full (max " +
@@ -288,7 +288,7 @@ void ContinuousQueryEngineImpl::injectTuple(const std::string& collection,
                                              const std::string& tuple,
                                              int64_t            event_ts) {
     std::lock_guard<std::mutex> lock(inject_mutex_);
-    if (static_cast<int>(inject_queue_.size()) > = kMaxInjectQueueDepth) {
+    if (static_cast<int>(inject_queue_.size()) >= kMaxInjectQueueDepth) {
         // Drop oldest entry to prevent unbounded memory growth
         inject_queue_.pop_front();
     }

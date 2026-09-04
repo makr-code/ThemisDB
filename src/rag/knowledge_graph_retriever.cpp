@@ -341,7 +341,7 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
             size_t e = span_buf.find_last_not_of(' ');
             return (s == std::string::npos) ? std::string{} : span_buf.substr(s, e - s + 1);
         }();
-        if (static_cast<int>(trimmed.size()) > = config_.min_entity_length) {
+        if (static_cast<int>(trimmed.size()) >= config_.min_entity_length) {
             // Count words
             size_t words = 0;
             bool in_word = false;

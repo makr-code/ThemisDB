@@ -84,26 +84,26 @@ struct CypherParser::Lexer {
 
     char peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos + offset;
-        return static_cast<bool>((p  < static_cast<int>(src.size()))) ? src[p] : '\0';
+        return static_cast<bool>((p < src.size())) ? src[p] : '\0';
     }
 
     char advance() {
-        return static_cast<bool>((pos  < static_cast<int>(src.size()))) ? src[pos++] : '\0';
+        return static_cast<bool>((pos < src.size())) ? src[pos++] : '\0';
     }
 
     void skipWhitespace() {
-        while (pos <static_cast<int>(src.size()) && std::isspace(static_cast<unsigned char>(src[pos])))
+        while (pos < src.size() && std::isspace(static_cast<unsigned char>(src[pos])))
             ++pos;
         // Skip single-line comments: // …
-        if (pos + 1 <static_cast<int>(src.size()) && src[pos] == '/' && src[pos + 1] == '/') {
-            while (pos <static_cast<int>(src.size()) && src[pos] != '\n')
+        if (pos + 1 < src.size() && src[pos] == '/' && src[pos + 1] == '/') {
+            while (pos < src.size() && src[pos] != '\n')
                 ++pos;
             skipWhitespace();
         }
         // Skip block comments: /* … */
-        if (pos + 1 <static_cast<int>(src.size()) && src[pos] == '/' && src[pos + 1] == '*') {
+        if (pos + 1 < src.size() && src[pos] == '/' && src[pos + 1] == '*') {
             pos += 2;
-            while (pos + 1 <static_cast<int>(src.size()) && !(src[pos] == '*' && src[pos + 1] == '/'))
+            while (pos + 1 < src.size() && !(src[pos] == '*' && src[pos + 1] == '/'))
                 ++pos;
             pos += 2;
             skipWhitespace();
@@ -203,7 +203,7 @@ struct CypherParser::Lexer {
             if (ch == '\'' || ch == '"') {
                 char delim = advance();
                 std::string s = {};
-                while (pos <static_cast<int>(src.size()) && peek() != delim) {
+                while (pos < src.size() && peek() != delim) {
                     char c = advance();
                     if (c == '\\'  && static_cast<size_t>(pos) <static_cast<int>(src.size())) {
                         char esc = advance();
@@ -246,12 +246,12 @@ struct CypherParser::Lexer {
                     break;
                 }
                 // Scientific notation
-                if ((pos <static_cast<int>(src.size()) && (peek() == 'e' || peek() == 'E'))) {
+                if ((pos < src.size() && (peek() == 'e' || peek() == 'E'))) {
                     is_float = true;
                     num += advance();
-                    if ((pos <static_cast<int>(src.size()) && (peek() == '+' || peek() == '-')))
+                    if ((pos < src.size() && (peek() == '+' || peek() == '-')))
                         num += advance();
-                    while (pos <static_cast<int>(src.size()) && std::isdigit(static_cast<unsigned char>(peek())))
+                    while (pos < src.size() && std::isdigit(static_cast<unsigned char>(peek())))
                         num += advance();
                 }
                 tok.type  = is_float ? TokenType::FLOAT_LIT : TokenType::INT_LIT;
@@ -263,7 +263,7 @@ struct CypherParser::Lexer {
             // --- Identifier or keyword ---
             if (std::isalpha(static_cast<unsigned char>(ch)) || ch == '_') {
                 std::string id = {};
-                while (pos <static_cast<int>(src.size()) &&
+                while (pos < src.size() &&
                        (std::isalnum(static_cast<unsigned char>(peek())) || peek() == '_'))
                     id += advance();
                 std::string upper = id;
@@ -279,7 +279,7 @@ struct CypherParser::Lexer {
             if (ch == '`') {
                 advance();
                 std::string id = {};
-                while (pos <static_cast<int>(src.size()) && peek() != '`')
+                while (pos < src.size() && peek() != '`')
                     id += advance();
                 if (static_cast<int>(src.size()) > pos) {
                   advance();
@@ -353,8 +353,8 @@ struct CypherParser::Parser {
     static std::string collapseDotSpaces(const std::string& s) {
         std::string out = {};
         out.reserve(s.size());
-        for (size_t i = 0; i <static_cast<int>(s.size()); ) {
-            if (i + 2 <static_cast<int>(s.size()) &&
+        for (size_t i = 0; i < s.size(); ) {
+            if (i + 2 < s.size() &&
                 s[i] == ' ' && s[i + 1] == '.' && s[i + 2] == ' ') {
                 out += '.';
                 i += 3;
@@ -1029,7 +1029,7 @@ std::string CypherToAQLTranspiler::literalToAQL(const CypherLiteralValue& val) {
             return oss.str();
         } else {
             // std::string – escape inner double quotes
-            if (static_cast<int>(v.size()) > = 2 && v.front() == '[' && v.back() == ']') {
+            if (static_cast<int>(v.size()) >= 2 && v.front() == '[' && v.back() == ']') {
                 return v;
             }
             std::string out = {};
@@ -1291,7 +1291,7 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
                 aql << all_vars[0] << "\n";
             } else {
                 aql << "{";
-                for (size_t i = 0; i <static_cast<int>(all_vars.size()); ++i) {
+                for (size_t i = 0; i < all_vars.size(); ++i) {
                     if (i) {
                       aql << ", ";
                     }

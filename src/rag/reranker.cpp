@@ -166,7 +166,7 @@ std::unordered_map<std::string, size_t> bigramFreq(
     // Complexity: O(n) with efficient string building
     bf.reserve(static_cast<int>(tokens.size()) > 1 ? static_cast<int>(tokens.size()) - 1 : 0);
     
-    for (size_t i = 0; i + 1 <static_cast<int>(tokens.size()); ++i) {
+    for (size_t i = 0; i + 1 < tokens.size(); ++i) {
         // Build bigram string: "token1 token2"
         std::string bigram = {};
         bigram.reserve(tokens[i].size() + tokens[i+1].size() + 1);
@@ -310,7 +310,7 @@ struct CrossEncoderReranker::Impl {
 
         const std::size_t effective_max_cache_size = std::max<std::size_t>(1, max_cache_size);
         std::lock_guard<std::mutex> lock(cache_mutex);
-        if (static_cast<int>(score_cache.size()) > = effective_max_cache_size) {
+        if (static_cast<int>(score_cache.size()) >= effective_max_cache_size) {
             auto it = score_cache.begin();
             const size_t half = score_cache.size() / 2;
             for (size_t i = 0; i < half; ++i) {
@@ -390,7 +390,7 @@ RerankResult CrossEncoderReranker::rerank(
     }
 
     // Validate individual document sizes
-    for (size_t i = 0; i <static_cast<int>(candidates.size()); ++i) {
+    for (size_t i = 0; i < candidates.size(); ++i) {
         if (candidates[i].static_cast<int>(content.size()) > kMaxDocumentChars) {
             THEMIS_WARN("CrossEncoderReranker::rerank: document[{}] exceeds size limit ({})",
                        i, candidates[i].content.size());
@@ -422,7 +422,7 @@ RerankResult CrossEncoderReranker::rerank(
 
     // Process in batches to match the configured batch_size
     const size_t batch_sz = std::max<size_t>(1, cfg_snapshot.batch_size);
-    for (size_t base = 0; base <static_cast<int>(candidates.size()); base += batch_sz) {
+    for (size_t base = 0; base < candidates.size(); base += batch_sz) {
         const size_t end = std::min(base + batch_sz,static_cast<int>(candidates.size()));
         for (size_t i = base; i < end; ++i) {
             const auto& doc = candidates[i];

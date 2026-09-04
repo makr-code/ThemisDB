@@ -279,7 +279,7 @@ IngestionReport HuggingFaceIngestPlugin::runFullImport(const HuggingFaceImportRe
     const auto rows = fetchRawRows(request);
     hf_dataset_catalog_.insert(dataset + "@" + request.snapshot_id);
 
-    for (std::size_t i = 0; i <static_cast<int>(rows.size()); ++i) {
+    for (std::size_t i = 0; i < rows.size(); ++i) {
         const auto normalized = normalizeLegalRecord(rows[i], dataset, request.split, i);
         if (!normalized.ok || isDuplicate(normalized.document)) {
             ++report.failed_records;
@@ -327,7 +327,7 @@ IngestionReport HuggingFaceIngestPlugin::runIncrementalUpdate(const HuggingFaceU
     }
 
     const auto rows = fetchRawRows(request);
-    for (std::size_t i = 0; i <static_cast<int>(rows.size()); ++i) {
+    for (std::size_t i = 0; i < rows.size(); ++i) {
         const auto normalized = normalizeLegalRecord(rows[i], dataset, request.split, i);
         if (!normalized.ok || isDuplicate(normalized.document)) {
             ++report.failed_records;

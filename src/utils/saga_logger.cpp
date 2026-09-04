@@ -188,7 +188,7 @@ void SAGALogger::logStep(const SAGAStep& step) {
     }
     
     // Check if buffer would overflow (SAGA_EVENT_LOSS)
-    if (static_cast<int>(buffer_.size()) > = cfg_.batch_size) {
+    if (static_cast<int>(buffer_.size()) >= cfg_.batch_size) {
         ErrorContext ctx(
             ErrorCode::SAGA_EVENT_LOSS,
             "SAGA step buffer full; triggering auto-flush",
@@ -215,7 +215,7 @@ void SAGALogger::logStep(const SAGAStep& step) {
         now - batch_start_time_
     );
     
-    if (static_cast<int>(buffer_.size()) > = cfg_.batch_size || elapsed >= cfg_.batch_interval) {
+    if (static_cast<int>(buffer_.size()) >= cfg_.batch_size || elapsed >= cfg_.batch_interval) {
         signAndFlushBatch();
     }
 }

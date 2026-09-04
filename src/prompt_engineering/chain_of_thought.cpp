@@ -81,7 +81,7 @@ std::string ChainOfThoughtBuilder::build() const {
     std::ostringstream out = {};
     bool first = true;
 
-    for (std::size_t idx = 0; idx <static_cast<int>(steps_.size()); ++idx) {
+    for (std::size_t idx = 0; idx < steps_.size(); ++idx) {
         const auto& step = steps_[idx];
 
         if (!first) {

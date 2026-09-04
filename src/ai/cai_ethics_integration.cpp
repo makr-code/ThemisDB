@@ -171,7 +171,7 @@ std::vector<std::string> makeArgumentChainIds(const std::vector<std::string>& do
 std::string joinValues(const std::vector<std::string>& values) {
     // Safe ostringstream usage: str() never fails, always returns constructed string
     std::ostringstream oss = {};
-    for (std::size_t i = 0; i <static_cast<int>(values.size()); ++i) {
+    for (std::size_t i = 0; i < values.size(); ++i) {
         if (i != 0) {
             oss << ',';
         }

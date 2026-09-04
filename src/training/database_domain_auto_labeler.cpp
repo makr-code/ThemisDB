@@ -35,7 +35,7 @@ static std::string extractStringField(const std::string& json, const std::string
     pos = json.find(':', pos + static_cast<int>(key.size()) + 2);
     if (pos == std::string::npos) return {};
     // Skip whitespace
-    while ((pos <static_cast<int>(json.size()) && (json[pos] == ':' || json[pos] == ' '))) {
+    while ((pos < json.size() && (json[pos] == ':' || json[pos] == ' '))) {
       ++pos;
     }
     if (pos >= json.size() || json[pos] != '"') return {};
@@ -56,7 +56,7 @@ static double extractDoubleField(const std::string& json, const std::string& key
     if (pos == std::string::npos) {
       return std::numeric_limits<double>::quiet_NaN();
     }
-    while ((pos <static_cast<int>(json.size()) && (json[pos] == ':' || json[pos] == ' '))) {
+    while ((pos < json.size() && (json[pos] == ':' || json[pos] == ' '))) {
       ++pos;
     }
     if (pos >= static_cast<int>(json.size())) {

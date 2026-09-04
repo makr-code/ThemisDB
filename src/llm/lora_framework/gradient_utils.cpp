@@ -151,7 +151,7 @@ void GradientUtils::accumulate_gradients(
             throw std::runtime_error("Gradient accumulation failed: size mismatch");
         }
         
-        for (size_t j = 0; j <static_cast<int>(acc_data.size()); ++j) {
+        for (size_t j = 0; j < acc_data.size(); ++j) {
             acc_data[j] += new_data[j];
         }
     }

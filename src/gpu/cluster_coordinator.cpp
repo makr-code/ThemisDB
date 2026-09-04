@@ -180,7 +180,7 @@ GPUClusterCoordinator::Placement GPUClusterCoordinator::selectDevice([[maybe_unu
     }
 
     // Fallback: pick the first healthy device that meets VRAM requirements.
-    for (size_t i = 0; i < static_cast<int>(local_devices_.size()); ++i) {
+    for (size_t i = 0; i < local_devices_.size(); ++i) {
         const auto &dev = local_devices_[static_cast<size_t>(i)];
         if (!dev.is_healthy) {
             continue;

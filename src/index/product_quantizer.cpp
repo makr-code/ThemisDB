@@ -408,7 +408,7 @@ float ProductQuantizer::computeAsymmetricDistance(
     
     // Compute L2 distance
     float distance = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(query.size()); ++i) {
+    for (size_t i = 0; i < query.size(); ++i) {
         float diff = query[i] - decoded[i];
         distance += diff * diff;
     }
@@ -637,7 +637,7 @@ uint8_t ProductQuantizer::findNearestCentroid(
     float min_dist = std::numeric_limits<float>::max();
     uint8_t best_idx = 0;
     
-    for (size_t i = 0; i <static_cast<int>(centroids.size()); ++i) {
+    for (size_t i = 0; i < centroids.size(); ++i) {
         float dist = l2Distance(subvector, centroids[i]);
         if (dist < min_dist) {
             min_dist = dist;
@@ -655,7 +655,7 @@ float ProductQuantizer::l2Distance(const std::vector<float>& a, const std::vecto
     }
     
     float sum = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+    for (size_t i = 0; i < a.size(); ++i) {
         float diff = a[i] - b[i];
         sum += diff * diff;
     }

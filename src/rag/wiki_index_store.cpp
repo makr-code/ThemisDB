@@ -229,7 +229,7 @@ struct WikiIndexStore::Impl {
         positional_index_.clear();
         for (const auto& [doc_id, text] : docs) {
             const auto tokens = tokenise(text);
-            for (size_t pos = 0; pos <static_cast<int>(tokens.size()); ++pos) {
+            for (size_t pos = 0; pos < tokens.size(); ++pos) {
                 positional_index_[tokens[pos]][doc_id].push_back(pos);
             }
         }
@@ -351,7 +351,7 @@ struct WikiIndexStore::Impl {
         }
         cache_db = raw_db_instance;
         // cf_handles[0] = default CF (not used); cf_handles[1] = embedding_cache.
-        if (static_cast<int>(cf_handles.size()) > = 2) {
+        if (static_cast<int>(cf_handles.size()) >= 2) {
             cache_cf = cf_handles[1];
             // Default CF handle: close immediately (we don't need it).
             delete cf_handles[0];
@@ -493,7 +493,7 @@ static bool termsWithinWindow(
     // term has at least one position inside [anchor, anchor + window_size).
     for (size_t anchor : *term_pos_lists[0]) {
         bool all_in_window = true;
-        for (size_t ti = 1; ti <static_cast<int>(term_pos_lists.size()); ++ti) {
+        for (size_t ti = 1; ti < term_pos_lists.size(); ++ti) {
             bool found = false;
             for (size_t p : *term_pos_lists[ti]) {
                 if (p >= anchor && p < anchor + window_size) {
@@ -567,7 +567,7 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
         candidates.push_back(doc_id);
     }
 
-    for (size_t ti = 1; ti <static_cast<int>(phrase_terms.size()); ++ti) {
+    for (size_t ti = 1; ti < phrase_terms.size(); ++ti) {
         auto it = impl_->positional_index_.find(phrase_terms[ti]);
         if (it == impl_->positional_index_.end()) return {};
         const auto& posting = it->second;
@@ -592,7 +592,7 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
         bool phrase_found = false;
         for (size_t anchor : pos0) {
             bool consecutive = true;
-            for (size_t ti = 1; ti <static_cast<int>(phrase_terms.size()); ++ti) {
+            for (size_t ti = 1; ti < phrase_terms.size(); ++ti) {
                 const auto& pos_ti =
                     impl_->positional_index_.at(phrase_terms[ti]).at(doc_id);
                 size_t expected = anchor + ti;
@@ -665,7 +665,7 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
         bool within = false;
         if (term1 == term2) {
             // Same term: need ≥2 positions within distance of each other.
-            for (size_t i = 0; i + 1 <static_cast<int>(pos_list1.size()) && !within; ++i) {
+            for (size_t i = 0; i + 1 < pos_list1.size() && !within; ++i) {
                 if (pos_list1[i + 1] - pos_list1[i] <= distance) {
                   within = true;
                 }
@@ -673,7 +673,7 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
         } else {
             // Two-pointer scan (both lists are sorted).
             size_t i = 0, j = 0;
-            while (i <static_cast<int>(pos_list1.size())  && static_cast<size_t>(j) <static_cast<int>(pos_list2.size()) && !within) {
+            while (i < pos_list1.size()  && static_cast<size_t>(j) <static_cast<int>(pos_list2.size()) && !within) {
                 size_t p1 = pos_list1[i];
                 size_t p2 = pos_list2[j];
                 size_t d  = (p1 <= p2) ? (p2 - p1) : (p1 - p2);

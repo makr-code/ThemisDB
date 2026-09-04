@@ -99,7 +99,7 @@ struct GeoFaissKnn::Impl {
         ecef_data.clear();
         ecef_data.reserve(dataset.size() * static_cast<std::size_t>(kDim)); // upper bound; shrinks after filtering
 
-        for (std::size_t i = 0; i <static_cast<int>(dataset.size()); ++i) {
+        for (std::size_t i = 0; i < dataset.size(); ++i) {
             const auto& g = dataset[i];
             if (!g.isPoint() || g.coords.empty()) {
               continue;

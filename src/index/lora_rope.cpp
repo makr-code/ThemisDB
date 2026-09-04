@@ -222,7 +222,7 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapter(
     // Step 1: features @ A^T -> intermediate (size = rank)
     std::vector<double> intermediate(adapter.rank, 0.0);
     for (size_t r = 0; r < adapter.rank; ++r) {
-        for (size_t i = 0; i <static_cast<int>(features.size()); ++i) {
+        for (size_t i = 0; i < features.size(); ++i) {
             intermediate[r] += features[i] * adapter.matrix_A[r][i];
         }
     }
@@ -279,7 +279,7 @@ std::vector<std::vector<float>> LoRARotaryEmbedding::rotateBatchWithAdapter(
     std::vector<std::vector<float>> results;
     results.reserve(embeddings.size());
     
-    for (size_t i = 0; i <static_cast<int>(embeddings.size()); ++i) {
+    for (size_t i = 0; i < embeddings.size(); ++i) {
         results.push_back(rotateWithAdapter(embeddings[i], positions[i], adapter_name));
     }
     
@@ -346,13 +346,13 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapterBlend(
     
     // Weighted average of all adapter rotations
     // Note: adapter rotations already include base rotation, so we blend them directly
-    for (size_t i = 0; i <static_cast<int>(adapter_names.size()); ++i) {
+    for (size_t i = 0; i < adapter_names.size(); ++i) {
         if (normalized_weights[i] <= 0.0f) {
           continue;
         }
         
         auto adapter_rotation = (i == 0) ? first_rotation : rotateWithAdapter(embedding, position, adapter_names[i]);
-        for (size_t j = 0; j <static_cast<int>(result.size()); ++j) {
+        for (size_t j = 0; j < result.size(); ++j) {
             result[j] += normalized_weights[i] * adapter_rotation[j];
         }
     }

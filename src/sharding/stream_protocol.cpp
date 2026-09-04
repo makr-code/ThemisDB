@@ -1158,7 +1158,7 @@ void StreamPlan::executorLoop() {
             
             // Start new sessions if we have capacity
             while (active_count < config_.max_concurrent_sessions && 
-                   next_session <static_cast<int>(sessions_.size())) {
+                   next_session < sessions_.size()) {
                 sessions_[next_session]->start();
                 next_session++;
                 active_count++;

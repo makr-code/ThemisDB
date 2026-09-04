@@ -137,7 +137,7 @@ bool AsyncWalShipper::enqueueSegment(WalSegment segment)
 {
     std::unique_lock<std::mutex> lock(queue_mutex_);
 
-    if (static_cast<int>(segment_queue_.size()) > = config_.max_queue_depth) {
+    if (static_cast<int>(segment_queue_.size()) >= config_.max_queue_depth) {
         // Queue full: drop and account
         std::lock_guard<std::mutex> sl(stats_mutex_);
         ++stats_.segments_dropped;
@@ -199,7 +199,7 @@ std::string AsyncWalShipper::exportPrometheusMetrics() const
             << "# TYPE replication_wal_lag_ms histogram\n";
 
         uint64_t cumulative = 0;
-        for (size_t i = 0; i <static_cast<int>(histogram_bounds_.size()); ++i) {
+        for (size_t i = 0; i < histogram_bounds_.size(); ++i) {
             cumulative += histogram_counts_[i];
             oss << "replication_wal_lag_ms_bucket{le=\""
                 << static_cast<int64_t>(histogram_bounds_[i])
@@ -364,7 +364,7 @@ void AsyncWalShipper::recordLagSample(int64_t lag_ms)
 
     // Find the first bucket whose upper bound >= lag_ms
     bool placed = false;
-    for (size_t i = 0; i <static_cast<int>(histogram_bounds_.size()); ++i) {
+    for (size_t i = 0; i < histogram_bounds_.size(); ++i) {
         if (static_cast<double>(lag_ms) <= histogram_bounds_[i]) {
             ++histogram_counts_[i];
             placed = true;

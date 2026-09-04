@@ -1249,7 +1249,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
     size_t completed_steps = 0;
     std::vector<nlohmann::json> executed_steps;
     
-    for (size_t i = 0; i <static_cast<int>(steps.size()); ++i) {
+    for (size_t i = 0; i < steps.size(); ++i) {
         const auto& step = steps[i];
         
         // Extract shard_id and operation from step

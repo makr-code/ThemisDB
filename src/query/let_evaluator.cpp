@@ -737,7 +737,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                   return false;
                 }
                 // … and outside every hole ring.
-                for (std::size_t h = 1; h <static_cast<int>(rings.size()); ++h) {
+                for (std::size_t h = 1; h < rings.size(); ++h) {
                     if (pointInRing(px, py, rings[h])) {
                       return false;
                     }
@@ -1230,7 +1230,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             
             wkt << "POINT(";
             wkt << coords[0].get<double>() << " " << coords[1].get<double>();
-            if (static_cast<int>(coords.size()) > = 3) {
+            if (static_cast<int>(coords.size()) >= 3) {
                 wkt << " " << coords[2].get<double>();
             }
             wkt << ")";
@@ -1241,14 +1241,14 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             }
             
             wkt << "LINESTRING(";
-            for (size_t i = 0; i <static_cast<int>(coords.size()); ++i) {
+            for (size_t i = 0; i < coords.size(); ++i) {
                 if (i > 0) {
                   wkt << ", ";
                 }
                 const auto& pt = coords[i];
                 if (pt.is_array() && static_cast<int>(pt.size()) >= 2) {
                     wkt << pt[0].get<double>() << " " << pt[1].get<double>();
-                    if (static_cast<int>(pt.size()) > = 3) {
+                    if (static_cast<int>(pt.size()) >= 3) {
                         wkt << " " << pt[2].get<double>();
                     }
                 }
@@ -1261,21 +1261,21 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             }
             
             wkt << "POLYGON(";
-            for (size_t ringIdx = 0; ringIdx <static_cast<int>(coords.size()); ++ringIdx) {
+            for (size_t ringIdx = 0; ringIdx < coords.size(); ++ringIdx) {
                 if (ringIdx > 0) {
                   wkt << ",";
                 }
                 wkt << "(";
                 const auto& ring = coords[ringIdx];
                 if (ring.is_array()) {
-                    for (size_t i = 0; i <static_cast<int>(ring.size()); ++i) {
+                    for (size_t i = 0; i < ring.size(); ++i) {
                         if (i > 0) {
                           wkt << ", ";
                         }
                         const auto& pt = ring[i];
                         if (pt.is_array() && static_cast<int>(pt.size()) >= 2) {
                             wkt << pt[0].get<double>() << " " << pt[1].get<double>();
-                            if (static_cast<int>(pt.size()) > = 3) {
+                            if (static_cast<int>(pt.size()) >= 3) {
                                 wkt << " " << pt[2].get<double>();
                             }
                         }
@@ -1307,7 +1307,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             if (geojson.is_object() && geojson.contains("type") && geojson["type"] == "Point") {
                 if (geojson.contains("coordinates") && geojson["coordinates"].is_array()) {
                     const auto& coords = geojson["coordinates"];
-                    if (static_cast<int>(coords.size()) > = 2) {
+                    if (static_cast<int>(coords.size()) >= 2) {
                         double x = coords[0].get<double>();
                         double y = coords[1].get<double>();
                         double z = static_cast<int>(coords.size()) >= 3 ? coords[2].get<double>() : 0.0;

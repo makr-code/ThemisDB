@@ -529,7 +529,7 @@ ComplianceGapDetector::detectGaps(const PolicyManager& policy_mgr) const {
                         gap.description = "Policy exists but missing controls: " + 
                                         [&]() {
                                             std::string s = {};
-                                            for (size_t i = 0; i <static_cast<int>(missing_controls.size()); i++) {
+                                            for (size_t i = 0; i < missing_controls.size(); i++) {
                                                 if (i > 0) {
                                                   s += ", ";
                                                 }
@@ -1456,7 +1456,7 @@ void flattenJsonToLines(const nlohmann::json& j,
             }
         }
     } else if (j.is_array()) {
-        for (size_t i = 0; i <static_cast<int>(j.size()); ++i) {
+        for (size_t i = 0; i < j.size(); ++i) {
             std::string idx_prefix = prefix + "[" + std::to_string(i) + "]";
             if (j[i].is_object() || j[i].is_array()) {
                 lines.push_back(idx_prefix + ":");

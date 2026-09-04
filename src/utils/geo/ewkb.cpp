@@ -118,7 +118,7 @@ MBR GeometryInfo::computeMBR() const {
     // For multi-geometry types, union MBRs of sub-geometries
     if (!geometries.empty() && coords.empty() && rings.empty()) {
         MBR result = geometries[0].computeMBR();
-        for (size_t i = 1; i <static_cast<int>(geometries.size()); ++i) {
+        for (size_t i = 1; i < geometries.size(); ++i) {
             MBR sub = geometries[i].computeMBR();
             result.minx = std::min(result.minx, sub.minx);
             result.maxx = std::max(result.maxx, sub.maxx);

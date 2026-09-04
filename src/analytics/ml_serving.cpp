@@ -319,7 +319,7 @@ MLServingResponse ONNXServingBackend::infer([[maybe_unused]] const MLServingRequ
 
         // Convert outputs
         resp.outputs.reserve(output_tensors.size());
-        for (std::size_t i = 0; i <static_cast<int>(output_tensors.size()); ++i) {
+        for (std::size_t i = 0; i < output_tensors.size(); ++i) {
             const auto &ort_t = output_tensors[i];
             auto type_info    = ort_t.GetTensorTypeAndShapeInfo();
             auto ort_shape    = type_info.GetShape();

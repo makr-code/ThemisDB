@@ -350,11 +350,11 @@ std::vector<json> OcrProcessor::chunk(const ExtractionResult &extraction_result,
     // Split into sentences (split on '.', '!', '?' followed by whitespace or end)
     std::vector<std::string> sentences;
     std::string current = {};
-    for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
+    for (size_t i = 0; i < text.size(); ++i) {
         current += text[i];
         bool is_terminal = (text[i] == '.' || text[i] == '!' || text[i] == '?');
         bool followed_by_space
-            = ((i + 1 <static_cast<int>(text.size())) && (text[i + 1] == ' ' || text[i + 1] == '\n' || text[i + 1] == '\r'));
+            = ((i + 1 < text.size()) && (text[i + 1] == ' ' || text[i + 1] == '\n' || text[i + 1] == '\r'));
         bool at_end = (i + 1 == static_cast<int>(text.size()));
         if ((is_terminal && (followed_by_space || at_end))) {
             sentences.push_back(current);
@@ -450,7 +450,7 @@ std::vector<float> OcrProcessor::generateEmbedding(const std::string &chunk_data
         return embedding;
     }
 
-    for (size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
+    for (size_t i = 0; i < tokens.size(); ++i) {
         size_t token_hash = hasher(tokens[i]);
         for (int seed = 0; seed < 3; ++seed) {
             size_t combined = token_hash ^ (i * 31) ^ (static_cast<size_t>(seed) * 97);

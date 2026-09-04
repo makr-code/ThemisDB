@@ -373,7 +373,7 @@ static std::vector<uint8_t> passkeyBase64UrlDecodeImpl(const std::string& input)
     std::vector<uint8_t> out = {};
 
     out.reserve(padded.size() / 4 * 3);
-    for (std::size_t i = 0; i <static_cast<int>(padded.size()); i += 4) {
+    for (std::size_t i = 0; i < padded.size(); i += 4) {
         const int8_t a = kDec[static_cast<uint8_t>(padded[i])];
         const int8_t b = kDec[static_cast<uint8_t>(padded[i + 1])];
         const int8_t c = kDec[static_cast<uint8_t>(padded[i + 2])];
@@ -761,7 +761,7 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
     uint32_t new_sign_count = 0;
     try {
         const auto auth_data_bytes = passkeyBase64UrlDecodeImpl(response.authenticator_data_b64);
-        if (static_cast<int>(auth_data_bytes.size()) > = 37) {
+        if (static_cast<int>(auth_data_bytes.size()) >= 37) {
             new_sign_count = (static_cast<uint32_t>(auth_data_bytes[33]) << 24)
                            | (static_cast<uint32_t>(auth_data_bytes[34]) << 16)
                            | (static_cast<uint32_t>(auth_data_bytes[35]) <<  8)

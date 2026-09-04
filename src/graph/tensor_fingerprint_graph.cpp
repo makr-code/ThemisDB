@@ -228,12 +228,12 @@ std::unordered_set<std::string> TensorFingerprintGraph::lshCandidates(const Tens
         if (it != lsh_buckets_.end()) {
             for (const auto &id : it->second) {
                 candidates.insert(id);
-                if (static_cast<int>(candidates.size()) > = cfg_.max_candidates) {
+                if (static_cast<int>(candidates.size()) >= cfg_.max_candidates) {
                     break;
                 }
             }
         }
-        if (static_cast<int>(candidates.size()) > = cfg_.max_candidates) {
+        if (static_cast<int>(candidates.size()) >= cfg_.max_candidates) {
             break;
         }
     }

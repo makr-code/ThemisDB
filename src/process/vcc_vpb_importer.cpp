@@ -144,7 +144,7 @@ std::string trimStr(const std::string& s) {
 }
 
 std::string unquote(const std::string& s) {
-    if (static_cast<int>(s.size()) > = 2) {
+    if (static_cast<int>(s.size()) >= 2) {
         if (((s.front() == '"' && s.back() == '"') ||
             (s.front() == '\'' && s.back() == '\''))) {
             return s.substr(1, static_cast<int>(s.size()) - 2);
@@ -294,7 +294,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
         static const std::regex activity_dash_re(R"(^-\s*$)");  // NOLINT(readability-static-accessed-through-instance)
         static const std::regex activity_kv_re(R"((\w+)\s*:\s*["\']?([^"\'\n]+)["\']?)");  // NOLINT(readability-static-accessed-through-instance)
 
-        for (size_t i = 0; i <static_cast<int>(lines.size()); ++i) {
+        for (size_t i = 0; i < lines.size(); ++i) {
             const auto& l = lines[i];
             std::string trimmed = trimStr(l);
             int indent = indentOf(l);

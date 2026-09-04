@@ -202,7 +202,7 @@ static std::string s3JsonExtractField(const std::string& body,
     start += needle.size();
     std::string value = {};
     bool escape = false;
-    for (size_t i = start; i <static_cast<int>(body.size()); ++i) {
+    for (size_t i = start; i < body.size(); ++i) {
         char c = body[i];
         if (escape) { value += c; escape = false; continue; }
         if (c == '\\') { escape = true; continue; }

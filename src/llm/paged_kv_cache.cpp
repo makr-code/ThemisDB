@@ -66,7 +66,7 @@ bool PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vecto
         for (int attempt = 0; attempt <= kMaxEvictionRetries; ++attempt) {
             block_table->allocateBlocks(blocks_to_allocate);
             current_blocks = block_table->getBlockMapping();
-            if (static_cast<int>(current_blocks.size()) > = num_blocks_needed) {
+            if (static_cast<int>(current_blocks.size()) >= num_blocks_needed) {
                 allocated = true;
                 break;
             }
@@ -92,7 +92,7 @@ bool PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vecto
     lru_map_[sequence_id] = lru_order_.begin();
 
     // Store KV data in blocks
-    for (size_t i = 0; i <static_cast<int>(current_blocks.size()); ++i) {
+    for (size_t i = 0; i < current_blocks.size(); ++i) {
         int block_id = current_blocks[i];
         
         // Calculate offset for this block
@@ -336,9 +336,9 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
             std::vector<uint8_t> result;
             
             // Pack 2 4-bit values per byte
-            for (size_t i = 0; i <static_cast<int>(kv_data.size()); i += 2) {
+            for (size_t i = 0; i < kv_data.size(); i += 2) {
                 uint8_t low = quantizeToNVFP4(kv_data[i]);
-                uint8_t high = (i + 1 <static_cast<int>(kv_data.size())) ? quantizeToNVFP4(kv_data[i + 1]) : 0;
+                uint8_t high = (i + 1 < kv_data.size()) ? quantizeToNVFP4(kv_data[i + 1]) : 0;
                 result.push_back((high << 4) | (low & 0x0F));
             }
             return result;
@@ -364,7 +364,7 @@ std::vector<float> PagedKVCache::dequantizeKVData(
 
             result.reserve(quantized_data.size() / 2);
             
-            for (size_t i = 0; i + 1 <static_cast<int>(quantized_data.size()); i += 2) {
+            for (size_t i = 0; i + 1 < quantized_data.size(); i += 2) {
                 uint16_t half = (static_cast<uint16_t>(quantized_data[i + 1]) << 8) | quantized_data[i];
                 uint32_t bits = (static_cast<uint32_t>(half) << 16);
                 result.push_back(std::bit_cast<float>(bits));
@@ -392,7 +392,7 @@ std::vector<float> PagedKVCache::dequantizeKVData(
             result.reserve(static_cast<int>(quantized_data.size()) - 8);
             
             // Dequantize values
-            for (size_t i = 8; i <static_cast<int>(quantized_data.size()); ++i) {
+            for (size_t i = 8; i < quantized_data.size(); ++i) {
                 int8_t quantized = static_cast<int8_t>(quantized_data[i]);
                 result.push_back(min_val + (static_cast<float>(quantized) * scale));
             }

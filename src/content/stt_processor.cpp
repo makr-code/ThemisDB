@@ -352,7 +352,7 @@ bool STTProcessor::streamTranscribe(const std::vector<uint8_t> &audio_stream,
     int64_t emitted_end_ms = 0; // high-watermark: end time of last emitted segment
     bool any_success       = false;
 
-    for (size_t start = 0; start <static_cast<int>(pcm_data.size()); start += STEP_SAMPLES) {
+    for (size_t start = 0; start < pcm_data.size(); start += STEP_SAMPLES) {
         size_t end = std::min(start + WINDOW_SAMPLES,static_cast<int>(pcm_data.size()));
         std::vector<float> window(pcm_data.begin() + static_cast<std::ptrdiff_t>(start),
                                   pcm_data.begin() + static_cast<std::ptrdiff_t>(end));
@@ -985,7 +985,7 @@ std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(const std::vecto
     // Assumes both inputs are L2-normalised; result is in [-1, 1].
     auto cosineSim = [](const std::vector<float> &a, const std::vector<float> &b) -> float {
         float dot = 0.0f;
-        for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+        for (size_t i = 0; i < a.size(); ++i) {
             dot += a[i] * b[i];
         }
         return std::max(-1.0f, std::min(1.0f, dot));

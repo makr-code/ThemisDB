@@ -78,7 +78,7 @@ namespace {
             size_t pos = 0;
             while ((pos = query.find(placeholder, pos)) != std::string::npos) {
                 const size_t next = pos + static_cast<int>(placeholder.size()) ;
-                const bool digit_continuation = next <static_cast<int>(query.size()) &&
+                const bool digit_continuation = next < query.size() &&
                     std::isdigit(static_cast<unsigned char>(query[next]));
                 if (digit_continuation) {
                     pos = next;
@@ -422,7 +422,7 @@ void PostgresSession::handleQuery(const std::string& query) {
                 constexpr size_t kCopyPrefixLen = sizeof("COPY ") - 1; // 5 chars
                 std::string q = query;
                 size_t start = kCopyPrefixLen;
-                while (start <static_cast<int>(q.size()) && q[start] == ' ') { ++start; }
+                while (start < q.size() && q[start] == ' ') { ++start; }
                 // Find end: first of '(' (column list), whitespace, or end-of-string
                 size_t end = q.find_first_of(" (", start);
                 if (end == std::string::npos) { end = q.size(); }
@@ -568,9 +568,9 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
         // Replace $1, $2, etc. using typed, placeholder-safe literal binding.
         std::vector<std::pair<std::string, std::string>> replacements;
         replacements.reserve(params.size());
-        for (size_t i = 0; i <static_cast<int>(params.size()); ++i) {
+        for (size_t i = 0; i < params.size(); ++i) {
             std::string placeholder = "$" + std::to_string(i + 1);
-            int32_t paramType = (i <static_cast<int>(paramTypes.size())) ? paramTypes[i] : 25; // default to text
+            int32_t paramType = (i < paramTypes.size()) ? paramTypes[i] : 25; // default to text
             replacements.emplace_back(std::move(placeholder), bindParameterValue(params[i], paramType));
         }
         std::sort(replacements.begin(), replacements.end(),
@@ -1033,7 +1033,7 @@ void PostgresSession::handleCopyDone() {
 
             // Build JSON document: {col0: "v0", col1: "v1", ...}
             nlohmann::json doc;
-            for (size_t i = 0; i <static_cast<int>(fields.size()); ++i) {
+            for (size_t i = 0; i < fields.size(); ++i) {
                 doc["col" + std::to_string(i)] = fields[i];
             }
 
@@ -2116,12 +2116,12 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     
     // Extract table name
     size_t tableStart = intoPos + 4;
-    while (tableStart <static_cast<int>(query.size()) && std::isspace(query[tableStart])) {
+    while (tableStart < query.size() && std::isspace(query[tableStart])) {
       tableStart++;
     }
     
     size_t tableEnd = tableStart;
-    while (tableEnd <static_cast<int>(query.size()) && !std::isspace(query[tableEnd]) && query[tableEnd] != '(') tableEnd++;
+    while (tableEnd < query.size() && !std::isspace(query[tableEnd]) && query[tableEnd] != '(') tableEnd++;
     
     std::string tableName = query.substr(tableStart, tableEnd - tableStart);
     
@@ -2196,7 +2196,7 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     
     // Build Cypher CREATE statement
     std::string cypher = "CREATE (n:" + tableName + " {";
-    for (size_t i = 0; i <static_cast<int>(columns.size())  && static_cast<size_t>(i) <static_cast<int>(values.size()); ++i) {
+    for (size_t i = 0; i < columns.size()  && static_cast<size_t>(i) <static_cast<int>(values.size()); ++i) {
         if (i > 0) {
           cypher += ", ";
         }
@@ -2268,7 +2268,7 @@ std::string PostgresSession::parseUpdateQuery(const std::string& query) {
     std::vector<std::string> assignments;
     size_t start = 0;
     bool inQuote = false;
-    for (size_t i = 0; i <static_cast<int>(cypherSetClause.size()); ++i) {
+    for (size_t i = 0; i < cypherSetClause.size(); ++i) {
         if ((cypherSetClause[i] == '\'' && (i == 0 || cypherSetClause[static_cast<int>(i - 1)] != '\\'))) {
             inQuote = !inQuote;
         } else if (cypherSetClause[i] == ',' && !inQuote) {
@@ -2282,7 +2282,7 @@ std::string PostgresSession::parseUpdateQuery(const std::string& query) {
     
     // Process each assignment
     cypherSetClause.clear();
-    for (size_t i = 0; i <static_cast<int>(assignments.size()); ++i) {
+    for (size_t i = 0; i < assignments.size(); ++i) {
         std::string assignment = assignments[i];
         assignment.erase(0, assignment.find_first_not_of(" \t"));
         
@@ -2330,7 +2330,7 @@ std::string PostgresSession::parseDeleteQuery(const std::string& query) {
     
     // Extract table name
     size_t tableStart = fromPos + 4;
-    while (tableStart <static_cast<int>(query.size()) && std::isspace(query[tableStart])) {
+    while (tableStart < query.size() && std::isspace(query[tableStart])) {
       tableStart++;
     }
     

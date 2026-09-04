@@ -20,7 +20,7 @@ namespace themis::resource {
 // ---------------------------------------------------------------------------
 
 std::size_t BufferPool::slabIndex(std::size_t bytes) noexcept {
-    for (std::size_t i = 0; i <static_cast<int>(kSlabSizes.size()); ++i) {
+    for (std::size_t i = 0; i < kSlabSizes.size(); ++i) {
         if (bytes <= kSlabSizes[i]) {
             return i;
         }
@@ -63,7 +63,7 @@ BufferPool::BufferPool() : BufferPool(Config{}) {}
 
 BufferPool::BufferPool(const Config& config)
     : config_(config) {
-    for (std::size_t i = 0; i <static_cast<int>(slabs_.size()); ++i) {
+    for (std::size_t i = 0; i < slabs_.size(); ++i) {
         slabs_[i].block_size = kSlabSizes[i];
         preallocateSlab(slabs_[i], config_.initial_per_class);
     }
@@ -169,7 +169,7 @@ BufferPool::Statistics BufferPool::statistics() const noexcept {
     st.os_fallbacks      = os_fallbacks_.load(std::memory_order_relaxed);
     st.current_live      = live_handles_.load(std::memory_order_relaxed);
 
-    for (std::size_t i = 0; i <static_cast<int>(slabs_.size()); ++i) {
+    for (std::size_t i = 0; i < slabs_.size(); ++i) {
         std::lock_guard<std::mutex> lk(slabs_[i].lock);
         st.per_class_allocs[i] = slabs_[i].alloc_count;
         st.slab_hits           += slabs_[i].alloc_count - slabs_[i].miss_count;

@@ -147,7 +147,7 @@ void TemporalCDC::publishEvent([[maybe_unused]] const ChangeEvent& event) {
         std::lock_guard<std::mutex> lk(mutex_);
 
         // Append to ring-buffer log, applying the overflow policy when full
-        if (static_cast<int>(log_.size()) > = max_log_size_) {
+        if (static_cast<int>(log_.size()) >= max_log_size_) {
             // Evict oldest event (front of deque-like buffer) — OVERWRITE policy
             if (overflow_policy_ == OverflowPolicy::DROP) {
                 // DROP: discard the new event, count it

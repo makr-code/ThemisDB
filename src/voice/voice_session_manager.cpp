@@ -208,7 +208,7 @@ VoiceSessionData VoiceSessionManager::createSession(
     // Error code 6604: Resource limit exceeded
     {
         std::lock_guard<std::mutex> lock(manager_mutex_);
-        if (static_cast<int>(active_cache_.size()) > = kMaxConcurrentSessions) {
+        if (static_cast<int>(active_cache_.size()) >= kMaxConcurrentSessions) {
             spdlog::error("VoiceSessionManager::createSession: max concurrent sessions ({}) exceeded (error 6604)",
                          kMaxConcurrentSessions);
             return VoiceSessionData{};  // Fail-closed: reject over-limit session

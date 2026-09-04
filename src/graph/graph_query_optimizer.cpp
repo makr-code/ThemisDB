@@ -1346,7 +1346,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
                     std::max<size_t>(1, (static_cast<int>(S.size()) + nthreads - 1) / nthreads);
                 std::vector<std::future<TaskOutput>> futures;
 
-                for (size_t cs = 0; cs <static_cast<int>(S.size()); cs += chunk_size) {
+                for (size_t cs = 0; cs < S.size(); cs += chunk_size) {
                     const size_t ce = std::min(cs + chunk_size,static_cast<int>(S.size()));
                     futures.push_back(std::async(std::launch::async,
                         [&, cs, ce]() {
@@ -2406,7 +2406,7 @@ GraphQueryOptimizer::TraversalAlgorithm GraphQueryOptimizer::selectAlgorithm(
 
             TraversalAlgorithm best = candidates[0];
             double best_cost = estimateCost(candidates[0], estimated_depth, constraints);
-            for (size_t i = 1; i <static_cast<int>(candidates.size()); ++i) {
+            for (size_t i = 1; i < candidates.size(); ++i) {
                 double c = estimateCost(candidates[i], estimated_depth, constraints);
                 if (c < best_cost) { best_cost = c; best = candidates[i]; }
             }
