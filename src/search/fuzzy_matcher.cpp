@@ -206,7 +206,7 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
         char next = (i + 1 < n) ? upper[i + 1] : '\0';
         char prev = (i > 0) ? upper[static_cast<int>(i - 1)] : '\0';
 
-        if (i == 0 && (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U')) {
+        if ((i == 0 && (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U'))) {
             result += c; continue;
         }
         if (isVowel(c) && i != 0) continue; // drop non-initial vowels
@@ -244,8 +244,8 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
             case 'Q': result += 'K'; break;
             case 'R': result += 'R'; break;
             case 'S':
-                if (next == 'H' || (next == 'I' && (i+2 < n) &&
-                    (upper[i+2] == 'A' || upper[i+2] == 'O')))
+                if ((next == 'H' || (next == 'I' && ((i+2 < n) &&
+                    (upper[i+2] == 'A' || upper[i+2] == 'O')))))
                     result += 'X';
                 else result += 'S';
                 break;

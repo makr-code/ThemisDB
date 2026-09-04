@@ -438,7 +438,7 @@ void IndexRecommender::persistLoop_() {
 
 double IndexRecommender::computeBenefit(const ColumnAccess& ca) const {
     uint64_t total = total_queries_.load();
-    if (total == 0 || (ca.filter_count == 0 && ca.sort_count == 0)) {
+    if ((total == 0 || (ca.filter_count == 0 && ca.sort_count == 0))) {
         return 0.0;
     }
 
@@ -463,7 +463,7 @@ double IndexRecommender::computeCostModelBenefit(
     const TableStats&   tbl_stats) const
 {
     uint64_t total = total_queries_.load();
-    if (total == 0 || (ca.filter_count == 0 && ca.sort_count == 0)) {
+    if ((total == 0 || (ca.filter_count == 0 && ca.sort_count == 0))) {
         return 0.0;
     }
 

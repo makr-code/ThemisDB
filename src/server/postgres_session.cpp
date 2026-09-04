@@ -55,7 +55,7 @@ namespace {
     
     bool containsControlCharacters(const std::string& input) {
         return std::any_of(input.begin(), input.end(), [](unsigned char c) {
-            return c == '\0' || (std::iscntrl(c) && c != '\t' && c != '\n' && c != '\r');
+            return (c == '\0' || (std::iscntrl(c) && c != '\t' && c != '\n' && c != '\r'));
         });
     }
 
@@ -2269,7 +2269,7 @@ std::string PostgresSession::parseUpdateQuery(const std::string& query) {
     size_t start = 0;
     bool inQuote = false;
     for (size_t i = 0; i <static_cast<int>(cypherSetClause.size()); ++i) {
-        if (cypherSetClause[i] == '\'' && (i == 0 || cypherSetClause[static_cast<int>(i - 1)] != '\\')) {
+        if ((cypherSetClause[i] == '\'' && (i == 0 || cypherSetClause[static_cast<int>(i - 1)] != '\\'))) {
             inQuote = !inQuote;
         } else if (cypherSetClause[i] == ',' && !inQuote) {
             assignments.push_back(cypherSetClause.substr(start, i - start));

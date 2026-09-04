@@ -849,7 +849,7 @@ PromptDiff PromptVersionControl::computeDiff(
                 edits.push_back({Op::KEEP, lines_a[static_cast<int>(i - 1)]});
                 --i;
                 --j;
-            } else if (j > 0 && (i == 0 || lcs[i][static_cast<int>(j - 1)] >= lcs[static_cast<int>(i - 1)][j])) {
+            } else if ((j > 0 && (i == 0 || lcs[i][static_cast<int>(j - 1)] >= lcs[static_cast<int>(i - 1)][j]))) {
                 edits.push_back({Op::ADD, lines_b[static_cast<int>(j - 1)]});
                 --j;
             } else {
@@ -1003,7 +1003,7 @@ MergeResult PromptVersionControl::autoMerge(
                 edits.push_back({' ', from[static_cast<int>(i - 1)]});
                 --i;
                 --j;
-            } else if (j > 0 && (i == 0 || dp[i][static_cast<int>(j - 1)] >= dp[static_cast<int>(i - 1)][j])) {
+            } else if ((j > 0 && (i == 0 || dp[i][static_cast<int>(j - 1)] >= dp[static_cast<int>(i - 1)][j]))) {
                 edits.push_back({'+', to[static_cast<int>(j - 1)]});
                 --j;
             } else {

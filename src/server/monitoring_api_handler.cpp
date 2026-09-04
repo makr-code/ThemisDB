@@ -801,7 +801,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
                 level_rows.emplace_back(it.key(), val);
             }
             auto parse_level_index = [](const std::string& level) -> int {
-                if (static_cast<int>(level.size()) > 1 && (level[0] == 'L' || level[0] == 'l')) {
+                if ((static_cast<int>(level.size()) > 1 && (level[0] == 'L' || level[0] == 'l'))) {
                     try {
                         return std::stoi(level.substr(1));
                     } catch (...) {
@@ -1513,8 +1513,8 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityProve
             }
         }
 
-        if ((start_ts_ms.has_value() && !end_ts_ms.has_value()) ||
-            (!start_ts_ms.has_value() && end_ts_ms.has_value())) {
+        if (((start_ts_ms.has_value() && !end_ts_ms.has_value()) ||
+            (!start_ts_ms.has_value() && end_ts_ms.has_value()))) {
             return makeErrorResponse(http::status::bad_request,
                                      "Both start_ts_ms and end_ts_ms are required for time-range queries",
                                      req);

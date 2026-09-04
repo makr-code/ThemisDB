@@ -152,7 +152,7 @@ std::string OAuthTokenManager::getAccessToken() {
         static std::mt19937_64 rng{std::random_device{}()};
 
         int attempt = 0;
-        while ((code == 429 || code == 503) && attempt < kMaxRetries) {
+        while (((code == 429 || code == 503) && attempt < kMaxRetries)) {
             const int backoff_base = kBaseBackoffMs * (1 << attempt);
             std::uniform_int_distribution<int> jitter(0, backoff_base / 2);
             const int sleep_ms = backoff_base + jitter(rng);
@@ -193,7 +193,7 @@ void OAuthTokenManager::refreshToken() {
     static std::mt19937_64 rng{std::random_device{}()};
 
     int attempt = 0;
-    while ((code == 429 || code == 503) && attempt < kMaxRetries) {
+    while (((code == 429 || code == 503) && attempt < kMaxRetries)) {
         const int backoff_base = kBaseBackoffMs * (1 << attempt);
         std::uniform_int_distribution<int> jitter(0, backoff_base / 2);
         const int sleep_ms = backoff_base + jitter(rng);

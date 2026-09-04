@@ -255,7 +255,7 @@ std::optional<BackendEndpoint> SmartRouter::route(
         }
         uint32_t sc = s->active_connections.load(std::memory_order_relaxed);
         uint32_t cc = chosen->active_connections.load(std::memory_order_relaxed);
-        if (sc < cc || (sc == cc && s->cached_avg_latency < chosen->cached_avg_latency)) {
+        if ((sc < cc || (sc == cc && s->cached_avg_latency < chosen->cached_avg_latency))) {
             chosen = s;
         }
     }
@@ -304,7 +304,7 @@ std::optional<BackendEndpoint> SmartRouter::routeLeastLoaded() const {
         }
         uint32_t sc = state.active_connections.load(std::memory_order_relaxed);
         uint32_t cc = chosen->active_connections.load(std::memory_order_relaxed);
-        if (sc < cc || (sc == cc && state.cached_avg_latency < chosen->cached_avg_latency)) {
+        if ((sc < cc || (sc == cc && state.cached_avg_latency < chosen->cached_avg_latency))) {
             chosen = &state;
         }
     }

@@ -631,7 +631,7 @@ private:
             if (fromSrid == 3857) {
                 // Web Mercator
                 std::tie(lat, lon) = crs::webMercatorToGeographic(x, y);
-            } else if (fromDef.utmZone > 0 || fromSrid >= 31466 && fromSrid <= 31469) {
+            } else if ((fromDef.utmZone > 0 || (fromSrid >= 31466 && fromSrid <= 31469))) {
                 // UTM or Gauß-Krüger
                 crs::UTMZone zone(fromDef.utmZone > 0 ? fromDef.utmZone : 0, fromDef.utmNorth);
                 zone.lon0 = fromDef.centralMeridian;

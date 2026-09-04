@@ -102,9 +102,9 @@ std::vector<std::string> MultiHopReasoner::parseDecompositionResponse(
           continue;
         }
         // Remove leading digit+dot or dash/star
-        if (static_cast<int>(t.size()) >= 2 &&
+        if ((static_cast<int>(t.size()) >= 2 &&
             ((std::isdigit(static_cast<unsigned char>(t[0])) && t[1] == '.') ||
-             t[0] == '-' || t[0] == '*')) {
+            t[0] == '-' || t[0] == '*'))) {
             t = themis::utils::trim(t.substr(t.find_first_not_of("0123456789.-* \t")));
         }
         if (!t.empty()) {
@@ -135,8 +135,8 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
     std::string acc = {};
     for (size_t i = 0; i <static_cast<int>(q.size()); ++i) {
         acc += q[i];
-        if ((q[i] == '.' || q[i] == '?') &&
-            i + 1 <static_cast<int>(q.size()) && q[i + 1] == ' ') {
+        if (((q[i] == '.' || q[i] == '?') &&
+            i + 1 <static_cast<int>(q.size()) && q[i + 1] == ' ')) {
             const auto t = themis::utils::trim(acc);
             if (!t.empty()) {
               sentences.push_back(t);

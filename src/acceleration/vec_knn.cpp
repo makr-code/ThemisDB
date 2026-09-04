@@ -340,7 +340,7 @@ void DistanceCache::invalidate(const std::string &pk) {
     for (auto it = map_.begin(); it != map_.end();) {
         const std::string &k = it->first;
         auto sep             = k.find('\0');
-        bool matches         = (sep != std::string::npos) && (k.substr(0, sep) == pk || k.substr(sep + 1) == pk);
+        bool matches         = ((sep != std::string::npos) && (k.substr(0, sep) == pk || k.substr(sep + 1) == pk));
         if (matches) {
             auto oi = std::find(order_.begin(), order_.end(), k);
             if (oi != order_.end()) {

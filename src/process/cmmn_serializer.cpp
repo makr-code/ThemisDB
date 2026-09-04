@@ -440,8 +440,8 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
         }
 
         // ── <onPart sourceRef="…"/> inside a sentry ───────────────────────
-        if (in_sentry && (tn == "onPart" || tn == "planItemOnPart" ||
-                          tn == "caseFileItemOnPart")) {
+        if ((in_sentry && (tn == "onPart" || tn == "planItemOnPart" ||
+                          tn == "caseFileItemOnPart"))) {
             auto it = t.attrs.find("sourceRef");
             if (it != t.attrs.end() && !current_sentry_id.empty()) {
                 sentry_sources[current_sentry_id] = it->second;
@@ -450,8 +450,8 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
         }
 
         // ── <entryCriterion sentryRef="…"/> / <exitCriterion …/> ──────────
-        if ((tn == "entryCriterion" || tn == "exitCriterion") &&
-            !current_item_id.empty()) {
+        if (((tn == "entryCriterion" || tn == "exitCriterion") &&
+            !current_item_id.empty())) {
             auto it = t.attrs.find("sentryRef");
             if (it != t.attrs.end()) {
                 // Map this sentry to the current plan item as the edge target.

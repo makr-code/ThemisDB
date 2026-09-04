@@ -39,10 +39,10 @@ bool containsKeyword(const std::string &upper_query, const std::string &kw) {
     size_t p = 0;
     while ((p = upper_query.find(kw, p)) != std::string::npos) {
         bool ok_before
-            = (p == 0 || !std::isalnum(static_cast<unsigned char>(upper_query[static_cast<int>(p - 1)])) && upper_query[static_cast<int>(p - 1)] != '_');
+            = ((p == 0 || (!std::isalnum(static_cast<unsigned char>(upper_query[static_cast<int>(p - 1)])) && upper_query[static_cast<int>(p - 1)] != '_')));
         size_t after  = p + static_cast<int>(kw.size()) ;
-        bool ok_after = (after >= upper_query.size()
-                         || !std::isalnum(static_cast<unsigned char>(upper_query[after])) && upper_query[after] != '_');
+        bool ok_after = ((after >= upper_query.size()
+                          || (!std::isalnum(static_cast<unsigned char>(upper_query[after])) && upper_query[after] != '_')));
         if (ok_before && ok_after) {
             return true;
         }

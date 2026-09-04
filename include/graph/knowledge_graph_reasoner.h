@@ -56,9 +56,9 @@ struct Triple {
     }
     [[nodiscard]] bool operator!=(const Triple& o) const noexcept { return !(*this == o); }
     [[nodiscard]] bool isGround() const noexcept {
-        return (subject.empty()   || subject[0]   != '?') &&
-               (predicate.empty() || predicate[0] != '?') &&
-               (object.empty()    || object[0]    != '?');
+        return ((subject.empty()   || subject[0]   != '?') &&
+                (predicate.empty() || predicate[0] != '?') &&
+                (object.empty()    || object[0]    != '?'));
     }
 };
 

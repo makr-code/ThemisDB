@@ -399,7 +399,7 @@ GeneratedImage SDPlugin::generateLocked(const std::string& prompt,
         img.error_message = "invalid control strength";
         return img;
     }
-    if (!cfg.lora_adapter_path.empty() && (!std::isfinite(cfg.lora_scale) || cfg.lora_scale <= 0.0f)) {
+    if ((!cfg.lora_adapter_path.empty() && (!std::isfinite(cfg.lora_scale) || cfg.lora_scale <= 0.0f))) {
         ++error_count_;
         img.success = false;
         img.error_message = "invalid LoRA scale";
@@ -552,7 +552,7 @@ GeneratedImage SDPlugin::generateImg2ImgLocked(const std::string& prompt,
         img.error_message = "invalid control strength";
         return img;
     }
-    if (!cfg.lora_adapter_path.empty() && (!std::isfinite(cfg.lora_scale) || cfg.lora_scale <= 0.0f)) {
+    if ((!cfg.lora_adapter_path.empty() && (!std::isfinite(cfg.lora_scale) || cfg.lora_scale <= 0.0f))) {
         ++error_count_;
         img.success = false;
         img.error_message = "invalid LoRA scale";

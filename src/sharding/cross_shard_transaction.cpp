@@ -615,8 +615,8 @@ bool CrossShardTransactionCoordinator::beginTransaction(
 
         // Assign snapshot timestamp for MVCC isolation
         // For snapshot isolation, use TrueTime to get a globally consistent timestamp
-        if (truetime_ && (isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
-                          isolation_level == IsolationLevel::SERIALIZABLE)) {
+        if ((truetime_ && (isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
+                          isolation_level == IsolationLevel::SERIALIZABLE))) {
             auto tt_now = truetime_->now();
             // Use the latest bound to ensure we read the most recent committed data
             txn.snapshot_timestamp = tt_now.latest.count();
@@ -2755,8 +2755,8 @@ int64_t CrossShardTransactionCoordinator::generateCommitTimestamp(
     int64_t commit_timestamp = 0;
     
     // Use TrueTime for MVCC isolation levels
-    if (truetime_ && (txn.isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
-                      txn.isolation_level == IsolationLevel::SERIALIZABLE)) {
+    if ((truetime_ && (txn.isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
+                      txn.isolation_level == IsolationLevel::SERIALIZABLE))) {
         auto tt_now = truetime_->now();
         commit_timestamp = tt_now.earliest.count();
         

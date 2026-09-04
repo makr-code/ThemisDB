@@ -333,7 +333,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
         size_t uni = static_cast<int>(query_words.size()) + static_cast<int>(entry_words.size()) - intersect;
         float jaccard = uni ? static_cast<float>(intersect) / static_cast<float>(uni) : 0.0f;
 
-        if (dot > best_similarity || (std::abs(dot - best_similarity) < 1e-5 && jaccard > best_jaccard)) {
+        if ((dot > best_similarity || (std::abs(dot - best_similarity) < 1e-5 && jaccard > best_jaccard))) {
             best_similarity = dot;
             best_jaccard = jaccard;
             best_overlap = meaningful_overlap;
@@ -341,7 +341,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
             found = true;
         }
     }
-    if (found && (best_jaccard >= 0.5f || (best_overlap >= 1 && (best_similarity >= 0.1f || best_similarity >= config_.similarity_threshold)))) {
+    if ((found && (best_jaccard >= 0.5f || (best_overlap >= 1 && (best_similarity >= 0.1f || best_similarity >= config_.similarity_threshold))))) {
         stats_.hits++;
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);

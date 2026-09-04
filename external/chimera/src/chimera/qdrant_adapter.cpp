@@ -149,7 +149,7 @@ struct QdrantAdapter::QdrantState {
             [](httplib::Client& cli) -> bool {
                 // Health-check: GET /collections (200 or 401 means server up)
                 auto res = cli.Get("/collections");
-                return res && (res->status == 200 || res->status == 401);
+                return (res && (res->status == 200 || res->status == 401));
             },
             pool_cfg)
     {
@@ -604,7 +604,7 @@ Result<bool> QdrantAdapter::create_index(
         auto res = conn->Put(path.c_str(), body.dump(), "application/json");
         qdrant_state_->pool.release(std::move(conn));
 
-        if (!res || (res->status != 200 && res->status != 201)) {
+        if ((!res || (res->status != 200 && res->status != 201))) {
             const std::string msg = res ? res->body : "no response";
             return Result<bool>::err(
                 ErrorCode::INTERNAL_ERROR,

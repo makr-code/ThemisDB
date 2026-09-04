@@ -246,10 +246,10 @@ struct CypherParser::Lexer {
                     break;
                 }
                 // Scientific notation
-                if (pos <static_cast<int>(src.size()) && (peek() == 'e' || peek() == 'E')) {
+                if ((pos <static_cast<int>(src.size()) && (peek() == 'e' || peek() == 'E'))) {
                     is_float = true;
                     num += advance();
-                    if (pos <static_cast<int>(src.size()) && (peek() == '+' || peek() == '-'))
+                    if ((pos <static_cast<int>(src.size()) && (peek() == '+' || peek() == '-')))
                         num += advance();
                     while (pos <static_cast<int>(src.size()) && std::isdigit(static_cast<unsigned char>(peek())))
                         num += advance();

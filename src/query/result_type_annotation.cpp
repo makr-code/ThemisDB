@@ -156,12 +156,12 @@ ResultFieldType promoteType(ResultFieldType a, ResultFieldType b) {
       return a;
     }
     // INT + FLOAT → FLOAT
-    if ((a == ResultFieldType::INT  && b == ResultFieldType::FLOAT) ||
-        (a == ResultFieldType::FLOAT && b == ResultFieldType::INT))
+    if (((a == ResultFieldType::INT  && b == ResultFieldType::FLOAT) ||
+        (a == ResultFieldType::FLOAT && b == ResultFieldType::INT)))
         return ResultFieldType::FLOAT;
     // ARRAY + VECTOR → VECTOR
-    if ((a == ResultFieldType::ARRAY  && b == ResultFieldType::VECTOR) ||
-        (a == ResultFieldType::VECTOR && b == ResultFieldType::ARRAY))
+    if (((a == ResultFieldType::ARRAY  && b == ResultFieldType::VECTOR) ||
+        (a == ResultFieldType::VECTOR && b == ResultFieldType::ARRAY)))
         return ResultFieldType::VECTOR;
     // Incompatible → fall back to UNKNOWN
     return ResultFieldType::UNKNOWN;

@@ -337,7 +337,7 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
                 std::string word = {};
                 while (stream_i >> word && !i_has_negation) {
                     // Remove punctuation from word end
-                    while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+                    while ((!word.empty() && (word.back() < 'a' || word.back() > 'z'))) {
                         word.pop_back();
                     }
                     if (negation_words_set.count(word)) {
@@ -352,7 +352,7 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
                 std::string word = {};
                 while (stream_j >> word && !j_has_negation) {
                     // Remove punctuation from word end
-                    while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+                    while ((!word.empty() && (word.back() < 'a' || word.back() > 'z'))) {
                         word.pop_back();
                     }
                     if (negation_words_set.count(word)) {

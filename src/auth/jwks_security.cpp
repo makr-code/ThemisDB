@@ -448,7 +448,7 @@ bool CertificateUtils::verifyCertificate(const std::string& cert_path) {
     const ASN1_TIME* notAfter = X509_get0_notAfter(cert);
     ASN1_TIME_diff(&day, &sec, nullptr, notAfter);
     
-    bool is_valid = (day > 0 || (day == 0 && sec > 0));
+    bool is_valid = ((day > 0 || (day == 0 && sec > 0)));
     
     X509_free(cert);
     return is_valid;
@@ -487,7 +487,7 @@ CertificateUtils::getCertificateInfo(const std::string& cert_path) {
     int day, sec;
     const ASN1_TIME* notAfter = X509_get0_notAfter(cert.get());
     ASN1_TIME_diff(&day, &sec, nullptr, notAfter);
-    info.is_expired = !(day > 0 || (day == 0 && sec > 0));
+    info.is_expired = !(((day > 0 || (day == 0 && sec > 0))));
     
     // Key size
     EVP_PKEY* pkey = X509_get_pubkey(cert.get());

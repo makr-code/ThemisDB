@@ -138,7 +138,7 @@ bool validateDistanceOutputs(const std::vector<float>& distances, bool useL2, st
             validationError = "L2 distance output is negative at index " + std::to_string(i);
             return false;
         }
-        if (!useL2 && (value < -kCosineDistanceTolerance || value > 2.0F + kCosineDistanceTolerance)) {
+        if ((!useL2 && (value < -kCosineDistanceTolerance || value > 2.0F + kCosineDistanceTolerance))) {
             validationError = "Cosine distance output out of [0, 2] range at index " + std::to_string(i);
             return false;
         }
@@ -168,7 +168,7 @@ bool validateTopKOutputs(const std::vector<int>& topkIndices, const std::vector<
             validationError = "Top-K L2 distance is negative at position " + std::to_string(i);
             return false;
         }
-        if (!useL2 && (distance < -kCosineDistanceTolerance || distance > 2.0F + kCosineDistanceTolerance)) {
+        if ((!useL2 && (distance < -kCosineDistanceTolerance || distance > 2.0F + kCosineDistanceTolerance))) {
             validationError = "Top-K cosine distance out of [0, 2] range at position " + std::to_string(i);
             return false;
         }

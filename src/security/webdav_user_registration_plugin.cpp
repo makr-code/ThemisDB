@@ -476,7 +476,7 @@ public:
             long http_code = 0;
             curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &http_code);
 
-            if (res == CURLE_OK && (http_code == 200 || http_code == 207)) {
+            if ((res == CURLE_OK && (http_code == 200 || http_code == 207))) {
                 // Extract displayname from the PROPFIND response.
                 static constexpr size_t kDisplayNameOpenLen = sizeof("<D:displayname>") - 1;
                 size_t dn_start = response_body.find("<D:displayname>");
@@ -663,7 +663,7 @@ private:
         long http_code = 0;
         curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &http_code);
 
-        if (res == CURLE_OK && (http_code == 200 || http_code == 207)) {
+        if ((res == CURLE_OK && (http_code == 200 || http_code == 207))) {
             // Helper: extract text between open and close tags.
             auto extract = [&](const std::string& open_tag,
                                const std::string& close_tag) -> std::string {
