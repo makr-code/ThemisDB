@@ -1728,6 +1728,7 @@ WriteResult RedundancyStrategy::writeMirror(
             }
             required_acks = config_.write_quorum;
             break;
+        default: break;
     }
 
     if (static_cast<int>(target_shards.size()) < required_acks) {
@@ -1817,6 +1818,7 @@ WriteResult RedundancyStrategy::writeMirror(
         case WriteConcern::QUORUM:
             success = successful >= required_acks;
             break;
+        default: break;
     }
     
     if (success) {
@@ -1995,6 +1997,7 @@ WriteResult RedundancyStrategy::writeStripe(
             }
             required_acks = config_.write_quorum;
             break;
+        default: break;
     }
     
     if (static_cast<int>(target_shards.size()) < required_acks) {
@@ -2057,6 +2060,7 @@ WriteResult RedundancyStrategy::writeStripe(
         [[fallthrough]];\n        case WriteConcern::QUORUM:
             success = successful >= required_acks;
             break;
+        default: break;
     }
     
     if (success) {
@@ -2276,6 +2280,7 @@ WriteResult RedundancyStrategy::writeGeoMirror(
         case WriteConcern::QUORUM:
             required_acks = write_quorum;
             break;
+        default: break;
     }
 
     if (static_cast<int>(target_shards.size()) < required_acks) {
@@ -2384,6 +2389,7 @@ WriteResult RedundancyStrategy::writeGeoMirror(
         case WriteConcern::QUORUM:
             success = successful >= required_acks;
             break;
+        default: break;
     }
 
     if (success) {
@@ -2968,6 +2974,7 @@ std::vector<uint8_t> RedundancyStrategy::mergeChunksWithConsistency(
             }
             result_version = latest->version_token;
             return latest->data;
+        default: break;
         }
     }
     
