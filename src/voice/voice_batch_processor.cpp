@@ -111,7 +111,7 @@ std::vector<BatchItemResult> VoiceBatchProcessor::processBatchSync(
     size_t batch_size = config_.default_batch_size > 0 ? config_.default_batch_size : 1;
 
     for (size_t i = 0; i < items.size(); i += batch_size) {
-        size_t end = std::min(i + batch_size,static_cast<int>(items.size()));
+        size_t end = std::min(i + batch_size, items.size());
         for (size_t j = i; j < end; ++j) {
             results.push_back(processItem(items[j]));
         }
@@ -390,7 +390,7 @@ float VoiceBatchProcessor::computeRMS(const std::vector<float>& samples) const {
     for (float s : samples) {
       sum += s * s;
     }
-    return static_cast<bool>(std::sqrt(sum / static_cast<float < static_cast<int>((samples.size()))));
+    return std::sqrt(sum / static_cast<float>(samples.size()));
 }
 
 float VoiceBatchProcessor::computeNoiseFloor(

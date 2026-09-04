@@ -1866,7 +1866,7 @@ void ForecastModel::fit(const TimeSeries &ts, const ForecastConfig &config) {
     impl_->fitted = true;
 
     // In-sample RMSE
-    auto preds = impl_->predict(static_cast<int>(impl_-> static_cast<int>(train_y.size())) - 1);
+    auto preds = impl_->predict(static_cast<int>(impl_->train_y.size()) - 1);
     double ss  = 0.0;
     for (size_t i = 0; i < preds.size(); ++i) {
         double err = impl_->train_y[i + 1] - preds[i];
@@ -2007,7 +2007,7 @@ void ForecastModel::update(double new_value) {
             // without running-sum state).  Full refit is correct but O(n).
             lp = ::themisdb::analytics::fitLinear(impl_->train_y);
             // Reinitialize running sums from the freshly fitted series.
-            impl_->lin_n   = impl_-> static_cast<int>(train_y.size());
+            impl_->lin_n   = impl_->train_y.size();
             impl_->lin_sx  = 0.0;
             impl_->lin_sy  = 0.0;
             impl_->lin_sxx = 0.0;
@@ -2033,7 +2033,7 @@ void ForecastModel::update(double new_value) {
         auto &hp        = impl_->hw_p;
         int m           = hp.m;
         bool has_season = (m >= 2) && !hp.S.empty();
-        int n_prev      = static_cast<int>(impl_-> static_cast<int>(train_y.size())) - 1; // index before this obs
+        int n_prev      = static_cast<int>(impl_->train_y.size()) - 1; // index before this obs
 
         double L_prev = hp.L;
         double T_prev = hp.T;
@@ -2071,7 +2071,7 @@ void ForecastModel::update(double new_value) {
         auto &ap = impl_->arima_p;
         // Compute differenced value (d==1): need at least 2 points (the previous
         // training value is at static_cast<int>(train_y.size()) -2 since we just pushed the new value).
-        double y_diff = (ap.d == 1 && impl_-> static_cast<int>(train_y.size()) >= 2) ? (y - impl_->train_y[impl_-> static_cast<int>(train_y.size()) - 2]) : y;
+        double y_diff = (ap.d == 1 && impl_->train_y.size() >= 2) ? (y - impl_->train_y[impl_->train_y.size() - 2]) : y;
         // Update last window - use erase+push_back pattern safely
         if (!ap.last_window.empty() && static_cast<int>(ap.last_window.size()) > 0) {
             // Rotate instead of erase to avoid iterator invalidation
@@ -2214,8 +2214,8 @@ std::string ForecastModel::serialize() const {
     oss << "hw_L=" << impl_->hw_p.L << "\n";
     oss << "hw_T=" << impl_->hw_p.T << "\n";
     oss << "hw_sigma=" << impl_->hw_p.residual_stddev << "\n";
-    oss << "hw_S_size=" << impl_-> static_cast<int>(hw_p.S.size()) << "\n";
-    for (size_t i = 0; i < impl_-> static_cast<int>(hw_p.S.size()); ++i) {
+    oss << "hw_S_size=" << impl_->hw_p.S.size() << "\n";
+    for (size_t i = 0; i < impl_->hw_p.S.size(); ++i) {
         oss << "hw_S_" << i << "=" << impl_->hw_p.S[i] << "\n";
     }
     // ARIMA params (needed for ARIMA and ENSEMBLE predict after deserialization)
@@ -2223,25 +2223,25 @@ std::string ForecastModel::serialize() const {
     oss << "ar_last_obs=" << impl_->arima_p.last_obs << "\n";
     oss << "ar_d=" << impl_->arima_p.d << "\n";
     oss << "ar_sigma=" << impl_->arima_p.residual_stddev << "\n";
-    oss << "ar_coeffs_n=" << impl_-> static_cast<int>(arima_p.ar_coeffs.size()) << "\n";
-    for (size_t i = 0; i < impl_-> static_cast<int>(arima_p.ar_coeffs.size()); ++i) {
+    oss << "ar_coeffs_n=" << impl_->arima_p.ar_coeffs.size() << "\n";
+    for (size_t i = 0; i < impl_->arima_p.ar_coeffs.size(); ++i) {
         oss << "ar_c_" << i << "=" << impl_->arima_p.ar_coeffs[i] << "\n";
     }
-    oss << "ma_coeffs_n=" << impl_-> static_cast<int>(arima_p.ma_coeffs.size()) << "\n";
-    for (size_t i = 0; i < impl_-> static_cast<int>(arima_p.ma_coeffs.size()); ++i) {
+    oss << "ma_coeffs_n=" << impl_->arima_p.ma_coeffs.size() << "\n";
+    for (size_t i = 0; i < impl_->arima_p.ma_coeffs.size(); ++i) {
         oss << "ma_c_" << i << "=" << impl_->arima_p.ma_coeffs[i] << "\n";
     }
-    oss << "ar_win_n=" << impl_-> static_cast<int>(arima_p.last_window.size()) << "\n";
-    for (size_t i = 0; i < impl_-> static_cast<int>(arima_p.last_window.size()); ++i) {
+    oss << "ar_win_n=" << impl_->arima_p.last_window.size() << "\n";
+    for (size_t i = 0; i < impl_->arima_p.last_window.size(); ++i) {
         oss << "ar_w_" << i << "=" << impl_->arima_p.last_window[i] << "\n";
     }
-    oss << "ar_res_n=" << impl_-> static_cast<int>(arima_p.last_resid.size()) << "\n";
-    for (size_t i = 0; i < impl_-> static_cast<int>(arima_p.last_resid.size()); ++i) {
+    oss << "ar_res_n=" << impl_->arima_p.last_resid.size() << "\n";
+    for (size_t i = 0; i < impl_->arima_p.last_resid.size(); ++i) {
         oss << "ar_r_" << i << "=" << impl_->arima_p.last_resid[i] << "\n";
     }
     // Training timestamps
-    oss << "train_n=" << impl_-> static_cast<int>(train_ts.size()) << "\n";
-    for (size_t i = 0; i < impl_-> static_cast<int>(train_ts.size()); ++i) {
+    oss << "train_n=" << impl_->train_ts.size() << "\n";
+    for (size_t i = 0; i < impl_->train_ts.size(); ++i) {
         oss << "ts_" << i << "=" << impl_->train_ts[i] << "\n";
     }
     // SARIMA params (serialised only when method == SARIMA)
@@ -2407,7 +2407,7 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
     int hw_s_size                     = readI("hw_S_size");
     model.impl_->hw_p.S.resize(static_cast<size_t>(hw_s_size));
     for (int i = 0; i < hw_s_size; ++i) {
-        if (static_cast<size_t>(i) < model.impl_-> static_cast<int>(hw_p.S.size())) {  // bounds check
+        if (static_cast<size_t>(i) < model.impl_->hw_p.S.size()) {  // bounds check
             model.impl_->hw_p.S[static_cast<size_t>(i)] = readD("hw_S_" + std::to_string(i));
         }
     }
@@ -2419,28 +2419,28 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
     int ar_n                             = readI("ar_coeffs_n");
     model.impl_->arima_p.ar_coeffs.resize(static_cast<size_t>(ar_n));
     for (int i = 0; i < ar_n; ++i) {
-        if (static_cast<size_t>(i) < model.impl_-> static_cast<int>(arima_p.ar_coeffs.size())) {  // bounds check
+        if (static_cast<size_t>(i) < model.impl_->arima_p.ar_coeffs.size()) {  // bounds check
             model.impl_->arima_p.ar_coeffs[static_cast<size_t>(i)] = readD("ar_c_" + std::to_string(i));
         }
     }
     int ma_n = readI("ma_coeffs_n");
     model.impl_->arima_p.ma_coeffs.resize(static_cast<size_t>(ma_n));
     for (int i = 0; i < ma_n; ++i) {
-        if (static_cast<size_t>(i) < model.impl_-> static_cast<int>(arima_p.ma_coeffs.size())) {  // bounds check
+        if (static_cast<size_t>(i) < model.impl_->arima_p.ma_coeffs.size()) {  // bounds check
             model.impl_->arima_p.ma_coeffs[static_cast<size_t>(i)] = readD("ma_c_" + std::to_string(i));
         }
     }
     int win_n = readI("ar_win_n");
     model.impl_->arima_p.last_window.resize(static_cast<size_t>(win_n));
     for (int i = 0; i < win_n; ++i) {
-        if (static_cast<size_t>(i) < model.impl_-> static_cast<int>(arima_p.last_window.size())) {  // bounds check
+        if (static_cast<size_t>(i) < model.impl_->arima_p.last_window.size()) {  // bounds check
             model.impl_->arima_p.last_window[static_cast<size_t>(i)] = readD("ar_w_" + std::to_string(i));
         }
     }
     int res_n = readI("ar_res_n");
     model.impl_->arima_p.last_resid.resize(static_cast<size_t>(res_n));
     for (int i = 0; i < res_n; ++i) {
-        if (static_cast<size_t>(i) < model.impl_-> static_cast<int>(arima_p.last_resid.size())) {  // bounds check
+        if (static_cast<size_t>(i) < model.impl_->arima_p.last_resid.size()) {  // bounds check
             model.impl_->arima_p.last_resid[static_cast<size_t>(i)] = readD("ar_r_" + std::to_string(i));
         }
     }
@@ -2448,7 +2448,7 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
     int train_n = readI("train_n");
     model.impl_->train_ts.resize(static_cast<size_t>(train_n));
     for (int i = 0; i < train_n; ++i) {
-        if (static_cast<size_t>(i) < model.impl_-> static_cast<int>(train_ts.size())) {  // bounds check
+        if (static_cast<size_t>(i) < model.impl_->train_ts.size()) {  // bounds check
             model.impl_->train_ts[static_cast<size_t>(i)] = readL("ts_" + std::to_string(i));
         }
     }
@@ -2543,7 +2543,7 @@ ForecastModel::ModelInfo ForecastModel::info() const {
     ModelInfo mi;
     mi.method          = impl_->method;
     mi.fitted          = impl_->fitted;
-    mi.training_points = impl_-> static_cast<int>(train_y.size());
+    mi.training_points = impl_->train_y.size();
     mi.in_sample_rmse  = impl_->in_sample_rmse;
     if (!impl_->train_ts.empty()) {
         mi.train_start_ms     = impl_->train_ts.front();

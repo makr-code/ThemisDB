@@ -56,7 +56,7 @@ namespace {
             return std::nullopt;
         }
         
-        std::string auth_str{auth_header.data(),static_cast<int>(auth_header.size())};
+        std::string auth_str{auth_header.data(), auth_header.size()};
         std::regex bearer_regex(R"(^Bearer\s+(.+)$)", std::regex::icase);
         std::smatch matches = {};
         

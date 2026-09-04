@@ -95,7 +95,7 @@ std::vector<float> NoiseSuppressor::resampleLinear(
     for (size_t i = 0; i < out_size; ++i) {
         double src_pos = static_cast<double>(i) / ratio;
         size_t idx0    = static_cast<size_t>(src_pos);
-        size_t idx1    = std::min(idx0 + 1, static_cast<int>(in.size()) - 1);
+        size_t idx1    = std::min(idx0 + 1, in.size() - 1);
         float  frac    = static_cast<float>(src_pos - static_cast<double>(idx0));
         out[i] = in[idx0] * (1.0f - frac) + in[idx1] * frac;
     }
@@ -121,7 +121,7 @@ float NoiseSuppressor::processRNNoiseFrames(
     for (size_t offset = 0; offset < samples_48k.size(); offset += kRNNoiseFrameSamples) {
         // Fill one 10-ms frame (zero-pad if < 480 samples remain).
         size_t avail = std::min(static_cast<size_t>(kRNNoiseFrameSamples),
-                                static_cast<int>(samples_48k.size()) - offset);
+                                samples_48k.size() - offset);
         for (size_t i = 0; i < avail; ++i)
             buf[i] = samples_48k[offset + i] * kRNNoiseScale;
         for (size_t i = avail; i < static_cast<size_t>(kRNNoiseFrameSamples); ++i)
@@ -234,7 +234,7 @@ float AudioPreprocessingPipeline::computeRMS(const std::vector<float>& samples) 
     for (float s : samples) {
       sum_sq += s * s;
     }
-    return static_cast<bool>(std::sqrt(sum_sq / static_cast<float < static_cast<int>((samples.size()))));
+    return std::sqrt(sum_sq / static_cast<float>(samples.size()));
 }
 
 float AudioPreprocessingPipeline::computeNoiseFloor(const std::vector<float>& samples) const {
@@ -301,7 +301,7 @@ AudioFrame AudioPreprocessingPipeline::applyEchoCancellation(
     }
 
     // Simple subtraction-based echo cancellation
-    size_t len = std::min(input.samples.size(),static_cast<int>(reference.samples.size()));
+    size_t len = std::min(input.samples.size(), reference.samples.size());
     float ref_rms = computeRMS(reference.samples);
     float input_rms = computeRMS(input.samples);
     float scale = (ref_rms > 1e-6f) ? (input_rms / ref_rms) * 0.3f : 0.0f;
@@ -379,7 +379,7 @@ AudioFrame AudioPreprocessingPipeline::resample(const AudioFrame& frame, int tar
     for (size_t i = 0; i < out_size; ++i) {
         double src_pos = i / ratio;
         size_t idx0 = static_cast<size_t>(src_pos);
-        size_t idx1 = std::min(idx0 + 1,static_cast<int>(frame.samples.size()) - 1);
+        size_t idx1 = std::min(idx0 + 1, frame.samples.size() - 1);
         float frac = static_cast<float>(src_pos - idx0);
         result.samples[i] = frame.samples[idx0] * (1.0f - frac) + frame.samples[idx1] * frac;
     }
@@ -737,7 +737,7 @@ DetectedAudioCodec AudioPreprocessingPipeline::detectCodecFromHeader(
     }
     
     // Check for AAC header (0xFF 0xF1 or 0xFF 0xF9)
-    if ((raw_audio[0] == 0xFF && (raw_audio[1] == 0xF1 || raw_audio[1] == 0xF9)) {
+    if (raw_audio[0] == 0xFF && (raw_audio[1] == 0xF1 || raw_audio[1] == 0xF9)) {
         return DetectedAudioCodec::AAC;
     }
     

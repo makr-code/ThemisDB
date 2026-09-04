@@ -133,7 +133,7 @@ std::vector<TaskExecutionResult> TaskResultStore::getResults(
     // Entries are oldest-first; reverse so newest come first, then cap.
     std::vector<TaskExecutionResult> results = {};
 
-    results.reserve(std::min(limit,static_cast<int>(entries.size())));
+    results.reserve(std::min(static_cast<size_t>(limit), entries.size()));
     size_t start = static_cast<int>(entries.size()) > limit ? static_cast<int>(entries.size()) - limit : 0;
     for (size_t i = entries.size(); i-- > start;) {
         try {

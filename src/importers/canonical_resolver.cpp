@@ -107,7 +107,7 @@ std::string CanonicalEntityResolver::reconcileStringField(const std::string &val
             }
             return value1 + separator + value2;
         case FieldRule::TAKE_LONGEST:
-            return static_cast<bool>(( static_cast<int>(value1.size()) < static_cast<int>(= value2.size()))) ? value1 : value2;
+            return (value1.size() >= value2.size()) ? value1 : value2;
         case FieldRule::TAKE_NEWEST:
             // Treat values as ISO timestamp strings; lexicographic order suffices for ISO 8601.
             return (value1 >= value2) ? value1 : value2;
@@ -215,7 +215,7 @@ std::string CanonicalEntityResolver::bestStringValue(const std::string &v1, cons
         case ResolutionPolicy::MOST_COMPLETE:
         [[fallthrough]];
         case ResolutionPolicy::RICHEST_MERGE:
-            return static_cast<bool>(( static_cast<int>(v1.size()) < static_cast<int>(= v2.size()))) ? v1 : v2;
+            return (v1.size() >= v2.size()) ? v1 : v2;
         case ResolutionPolicy::EXISTING_PREFERRED:
             return v1;
         case ResolutionPolicy::INCOMING_PREFERRED:

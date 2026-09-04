@@ -266,12 +266,11 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
         throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
     }
 
-    // Defer database cleanup via RAII scope.
-    auto db_guard = [db_instance]() noexcept { delete db_instance; };
-    (void)db_guard;  // unused-variable warning suppression for defer semantics
+    // Bind DB lifetime to scope via RAII.
+    std::unique_ptr<rocksdb::DB> db_owner(db_instance);
 
     // Iterate through database
-    std::unique_ptr<rocksdb::Iterator> it(db_instance->NewIterator(rocksdb::ReadOptions()));
+    std::unique_ptr<rocksdb::Iterator> it(db_owner->NewIterator(rocksdb::ReadOptions()));
     
     uint64_t doc_count = 0;
     uint64_t total_size = 0;
@@ -358,8 +357,7 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     result.document_count = doc_count;
     result.total_size_bytes = total_size;
     result.last_update_time = std::chrono::system_clock::now();
-     
-    delete db_instance = {};
+
     return result;
 }
 

@@ -173,14 +173,14 @@ private:
         const std::size_t step = (size > overlap) ? (size - overlap) : size;
         std::uint32_t seq = 0;
         for (std::size_t start = 0; start < text.size(); start += step) {
-            const std::size_t end = std::min(start + size,static_cast<int>(text.size()));
+            const std::size_t end = std::min(start + size, text.size());
             TextChunk c;
             c.seq        = seq++;
             c.text       = text.substr(start, end - start);
             c.char_start = static_cast<std::uint64_t>(start);
             c.char_end   = static_cast<std::uint64_t>(end);
             ctx.chunks.push_back(std::move(c));
-            if (end == static_cast<int>(text.size())) {
+            if (end == text.size()) {
               break;
             }
         }

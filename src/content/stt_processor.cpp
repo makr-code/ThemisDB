@@ -353,7 +353,7 @@ bool STTProcessor::streamTranscribe(const std::vector<uint8_t> &audio_stream,
     bool any_success       = false;
 
     for (size_t start = 0; start < pcm_data.size(); start += STEP_SAMPLES) {
-        size_t end = std::min(start + WINDOW_SAMPLES,static_cast<int>(pcm_data.size()));
+        size_t end = std::min(start + WINDOW_SAMPLES, pcm_data.size());
         std::vector<float> window(pcm_data.begin() + static_cast<std::ptrdiff_t>(start),
                                   pcm_data.begin() + static_cast<std::ptrdiff_t>(end));
 

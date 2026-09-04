@@ -1352,15 +1352,15 @@ std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
     
     // Simple serialization format:
     // [lora_id_length][lora_id][path_length][path][vram_bytes][rank][alpha][scale]
-    size_t id_len = lora-> static_cast<int>(lora_id.size());
-    size_t path_len = lora-> static_cast<int>(path.size());
+    size_t id_len = lora->lora_id.size();
+    size_t path_len = lora->path.size();
     
     serialized.resize(sizeof(size_t) * 2 + id_len + path_len + sizeof(size_t) + sizeof(int) * 2 + sizeof(float));
     
     size_t offset = 0;
     // Validate each write stays within the pre-allocated buffer (scanner-friendly bounds anchoring)
     const size_t expected_size = sizeof(size_t) * 2 + id_len + path_len + sizeof(size_t) + sizeof(int) * 2 + sizeof(float);
-    if (static_cast<int>(serialized.size()) < expected_size) {
+    if (serialized.size() < expected_size) {
         spdlog::error("LoRA serialization buffer underallocated for {}", lora_id);
         return std::vector<uint8_t>();
     }
@@ -1543,11 +1543,11 @@ std::optional<QuantizationStats> MultiLoRAManager::getQuantizationStats(const st
     
     // Calculate scale statistics
     if (!lora->scale_factors.empty()) {
-        stats.num_channels = lora-> static_cast<int>(scale_factors.size());
+        stats.num_channels = lora->scale_factors.size();
         stats.min_scale = *std::min_element(lora->scale_factors.begin(), lora->scale_factors.end());
         stats.max_scale = *std::max_element(lora->scale_factors.begin(), lora->scale_factors.end());
         stats.avg_scale = std::accumulate(lora->scale_factors.begin(), lora->scale_factors.end(), 0.0f) 
-                         / static_cast<float>(lora-> static_cast<int>(scale_factors.size()));
+                         / static_cast<float>(lora->scale_factors.size());
     }
     
     return stats;
@@ -1736,7 +1736,7 @@ void MultiLoRAManager::quantizeINT8(LoRASlot* lora, const std::vector<float>& we
         // Update metadata
         lora->is_quantized = true;
         lora->quantization_mode = QuantizationMode::INT8;
-        lora->vram_bytes = num_weights + lora-> static_cast<int>(scale_factors.size()) * sizeof(float);  // INT8 weights + scales
+        lora->vram_bytes = num_weights + lora->scale_factors.size() * sizeof(float);  // INT8 weights + scales
         
         spdlog::debug("INT8 quantization: {} channels, {} weights per channel", 
                       num_channels, weights_per_channel);
@@ -1814,7 +1814,7 @@ void MultiLoRAManager::quantizeINT4(LoRASlot* lora, const std::vector<float>& we
         // Update metadata
         lora->is_quantized = true;
         lora->quantization_mode = QuantizationMode::INT4;
-        lora->vram_bytes = lora-> static_cast<int>(quantized_weights.size()) + lora-> static_cast<int>(scale_factors.size()) * sizeof(float);
+        lora->vram_bytes = lora->quantized_weights.size() + lora->scale_factors.size() * sizeof(float);
         
         spdlog::debug("INT4 quantization: {} groups, {} group size", num_groups, group_size);
     } catch (const std::exception& e) {
@@ -2241,7 +2241,7 @@ bool MultiLoRAManager::loadLoRAMultiGPU(LoRASlot* lora) {
             }
             
             spdlog::info("LoRA {} replicated across {} GPUs (data parallel)", 
-                         lora->lora_id, lora-> static_cast<int>(assigned_gpus.size()));
+                         lora->lora_id, lora->assigned_gpus.size());
             break;
         }
         
@@ -2252,9 +2252,9 @@ bool MultiLoRAManager::loadLoRAMultiGPU(LoRASlot* lora) {
             lora->primary_gpu = config_.multi_gpu.devices[0];
             lora->gpu_placement = GPUPlacement::MULTI_GPU;
             
-            for (size_t i = 0; i <static_cast<int>(config_.multi_gpu.devices.size()); ++i) {
+            for (size_t i = 0; i < config_.multi_gpu.devices.size(); ++i) {
                 int gpu_id = config_.multi_gpu.devices[i];
-                size_t chunk = (i == static_cast<int>(config_.multi_gpu.devices.size()) - 1) ? 
+                size_t chunk = (i == config_.multi_gpu.devices.size() - 1) ?
                               (lora->vram_bytes - chunk_size * i) : chunk_size;
                 
                 // In production: load shard on each GPU
@@ -2264,7 +2264,7 @@ bool MultiLoRAManager::loadLoRAMultiGPU(LoRASlot* lora) {
             }
             
             spdlog::info("LoRA {} split across {} GPUs (model parallel)", 
-                         lora->lora_id, lora-> static_cast<int>(assigned_gpus.size()));
+                         lora->lora_id, lora->assigned_gpus.size());
             break;
         }
         
@@ -2297,7 +2297,7 @@ void MultiLoRAManager::updateGPUMemoryTracking() {
                     gpu_vram_usage_[gpu_id] += lora->vram_bytes;
                 } else {
                     // Split across GPUs
-                    size_t chunk = lora->vram_bytes / lora-> static_cast<int>(assigned_gpus.size());
+                    size_t chunk = lora->vram_bytes / lora->assigned_gpus.size();
                     gpu_vram_usage_[gpu_id] += chunk;
                 }
             }
@@ -2556,7 +2556,7 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
     
     spdlog::info("LoRA loaded successfully: {} ({} MB VRAM, GPU(s): {})", 
                  lora_id, result->vram_bytes / (1024 * 1024),
-                 result-> static_cast<int>(assigned_gpus.size()));
+                 result->assigned_gpus.size());
     
     return result;
 }
@@ -3567,7 +3567,7 @@ std::vector<float> MultiLoRAManager::computeLinearSchedule(
     
     // Linear transition from static_weights to target_weights
     std::vector<float> weights = schedule.static_weights;
-    size_t num_weights = std::min(weights.size(),static_cast<int>(target_weights.size()));
+    size_t num_weights = std::min(weights.size(), target_weights.size());
     
     // Interpolate: weight(t) = start_weight * (1 - progress) + end_weight * progress
     for (size_t i = 0; i < num_weights; ++i) {
@@ -3635,7 +3635,7 @@ std::vector<float> MultiLoRAManager::computeExponentialSchedule(
     
     // Exponential transition from static_weights to target_weights
     std::vector<float> weights = schedule.static_weights;
-    size_t num_weights = std::min(weights.size(),static_cast<int>(target_weights.size()));
+    size_t num_weights = std::min(weights.size(), target_weights.size());
     
     for (size_t i = 0; i < num_weights; ++i) {
         weights[i] = weights[i] * (1.0f - progress) + target_weights[i] * progress;

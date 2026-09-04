@@ -54,7 +54,7 @@ void LearningMetrics::recordEvaluation(const EvaluationEntry& entry) {
     impl_->coherence_history.push_back(entry.coherence_score);
     impl_->timestamps.push_back(entry.timestamp);
 
-    while (impl_-> static_cast<int>(accuracy_history.size()) > impl_->config.window_size) {
+    while (impl_->accuracy_history.size() > impl_->config.window_size) {
         impl_->accuracy_history.pop_front();
         impl_->faithfulness_history.pop_front();
         impl_->relevance_history.pop_front();
@@ -68,7 +68,7 @@ MetricsSnapshot LearningMetrics::computeMetrics() const {
     std::lock_guard<std::mutex> lock(impl_->mtx);
 
     MetricsSnapshot snap;
-    snap.num_evaluations = impl_-> static_cast<int>(accuracy_history.size());
+    snap.num_evaluations = impl_->accuracy_history.size();
 
     snap.mean_accuracy     = computeMean(impl_->accuracy_history);
     snap.mean_faithfulness = computeMean(impl_->faithfulness_history);
@@ -101,7 +101,7 @@ void LearningMetrics::exportMetrics(const std::string& filepath) const {
     }
 
     file << "timestamp,accuracy,faithfulness,relevance,completeness,coherence\n";
-    for (size_t i = 0; i < impl_-> static_cast<int>(accuracy_history.size()); ++i) {
+    for (size_t i = 0; i < impl_->accuracy_history.size(); ++i) {
         auto t = std::chrono::system_clock::to_time_t(impl_->timestamps[i]);
         file << t << ","
              << std::fixed << std::setprecision(4)
@@ -146,7 +146,7 @@ double LearningMetrics::computeMean(const std::deque<double>& data) const {
     if (data.empty()) {
       return 0.0;
     }
-    return static_cast<bool>(std::accumulate(data.begin(), data.end(), 0.0) / static_cast<double < static_cast<int>((data.size())));
+    return std::accumulate(data.begin(), data.end(), 0.0) / static_cast<double>(data.size());
 }
 
 double LearningMetrics::computeStdDev(

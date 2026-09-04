@@ -199,7 +199,7 @@ public:
                 }
 
                 // MSE loss vs target (truncate to min dimension).
-                size_t out_dim = std::min({pred.size(),static_cast<int>(s.target.size()), in_dim});
+                size_t out_dim = std::min({pred.size(), s.target.size(), in_dim});
                 double loss = 0.0;
                 for (size_t j = 0; j < out_dim; ++j) {
                     double diff = pred[j] - s.target[j];
@@ -294,7 +294,7 @@ public:
 
         for (size_t ti = 0; ti < tasks_.size(); ++ti) {
             const auto& proto = task_prototypes_[ti];
-            size_t n = std::min(input.size(),static_cast<int>(proto.size()));
+            size_t n = std::min(input.size(), proto.size());
 
             float dot = 0.0f, norm_in = 0.0f, norm_p = 0.0f;
             for (size_t k = 0; k < n; ++k) {
@@ -435,7 +435,7 @@ public:
         const size_t input_dim = 32;
         for (size_t i = 0; i < num_samples_per_task; ++i) {
             // Task A samples
-            MTLSample s_            MTLSample s_a; = MTLSample();
+            MTLSample s_a = MTLSample();
             s_a.task_id = "task_semantic";
             s_a.input.resize(input_dim);
             s_a.target.resize(input_dim);
@@ -446,7 +446,7 @@ public:
             samples.push_back(s_a);
             
             // Task B samples (slightly different distribution)
-            MTLSample s_            MTLSample s_b; = MTLSample();
+            MTLSample s_b = MTLSample();
             s_b.task_id = "task_sentiment";
             s_b.input.resize(input_dim);
             s_b.target.resize(input_dim);
@@ -457,7 +457,7 @@ public:
             samples.push_back(s_b);
             
             // Task C samples (different again)
-            MTLSample s_            MTLSample s_c; = MTLSample();
+            MTLSample s_c = MTLSample();
             s_c.task_id = "task_qa";
             s_c.input.resize(input_dim);
             s_c.target.resize(input_dim);

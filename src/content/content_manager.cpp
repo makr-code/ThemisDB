@@ -1830,7 +1830,9 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
                 if (beta != 0.0) {
                     auto pr = graph_index_->dijkstra(qi.origin, nb);
                     if (pr.first.ok) {
-                      distCost = pr.second.totalCost; else distCost = static_cast<double>(nextHop);
+                        distCost = pr.second.totalCost;
+                    } else {
+                        distCost = static_cast<double>(nextHop);
                     }
                 } else {
                     distCost = static_cast<double>(nextHop);

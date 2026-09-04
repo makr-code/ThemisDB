@@ -198,7 +198,7 @@ std::chrono::milliseconds AdaptiveRateLimiter::computeP99(
     // p99 index (ceiling).
     const size_t idx =
         static_cast<size_t>(std::ceil(0.99 * static_cast<double>(latencies.size()))) - 1;
-    const size_t clamped = std::min(idx, static_cast<int>(latencies.size()) - 1);
+    const size_t clamped = std::min(idx, latencies.size() - 1);
 
     return std::chrono::milliseconds{latencies[clamped]};
 }
@@ -215,7 +215,7 @@ double AdaptiveRateLimiter::computeErrorRate(
             samples.begin(), samples.end(),
             [](const TimedSample& s){ return s.is_error; }));
 
-    return static_cast<bool>(static_cast<double>(errors) / static_cast<double < static_cast<int>((samples.size())));
+    return static_cast<double>(errors) / static_cast<double>(samples.size());
 }
 
 } // namespace server

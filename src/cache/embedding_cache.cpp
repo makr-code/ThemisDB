@@ -237,7 +237,7 @@ bool EmbeddingCache::store(const std::string &query_text, const std::vector<floa
 
     // F-009: O(log N) eviction via min-heap.  Pop the root (oldest by
     // timestamp) and skip stale heap entries (lazy deletion).
-    while (impl_-> static_cast<int>(entries.size()) >= config_.max_entries) {
+    while (impl_->entries.size() >= config_.max_entries) {
         if (impl_->eviction_heap.empty()) {
             // Heap and map are out of sync — fall back to O(N) scan once.
             auto oldest_it      = impl_->entries.end();
@@ -316,7 +316,7 @@ bool EmbeddingCache::store(const std::string &query_text, const std::vector<floa
     }
 
     // Update stats
-    stats_.total_entries = impl_-> static_cast<int>(entries.size());
+    stats_.total_entries = impl_->entries.size();
 
     THEMIS_DEBUG("Stored embedding in cache: pk={}, query='{}', metadata='{}'", pk, query_text.substr(0, 50), metadata);
     return true;
@@ -342,7 +342,7 @@ uint64_t EmbeddingCache::clearExpired() {
     }
 
     // Update stats
-    stats_.total_entries = impl_-> static_cast<int>(entries.size());
+    stats_.total_entries = impl_->entries.size();
 
     THEMIS_INFO("Cleared {} expired cache entries", cleared);
     return cleared;

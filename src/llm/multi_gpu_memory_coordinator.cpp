@@ -175,8 +175,8 @@ bool MultiGPUMemoryCoordinator::initialize(const std::vector<int>& gpu_ids) {
     for (int gpu_id : gpu_ids) {
         GPUDevice device;
         device.device_id = gpu_id;
-        device.total_vram_bytes = 24 * 1024 * 1024 * 1024;  // 24GB default (simulated)
-        device.available_vram_bytes = 22 * 1024 * 1024 * 1024;  // 22GB available (simulated)
+        device.total_vram_bytes = 24ull * 1024ull * 1024ull * 1024ull;  // 24GB default (simulated)
+        device.available_vram_bytes = 22ull * 1024ull * 1024ull * 1024ull;  // 22GB available (simulated)
         device.compute_capability = 0;  // 0 indicates CPU simulation mode
         device.is_healthy = true;
         device.temperature_celsius = 45.0f;
@@ -192,7 +192,7 @@ bool MultiGPUMemoryCoordinator::initialize(const std::vector<int>& gpu_ids) {
     }
     
     impl_->initialized_ = true;
-    spdlog::info("MultiGPUMemoryCoordinator: Successfully initialized {} GPU(s)", impl_-> static_cast<int>(gpus_.size()));
+    spdlog::info("MultiGPUMemoryCoordinator: Successfully initialized {} GPU(s)", impl_->gpus_.size());
     return true;
 }
 

@@ -364,7 +364,7 @@ void ContinuousLearningOrchestrator::runPromptOptimization() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     try {
-        if (impl_-> static_cast<int>(interactions.size()) < impl_->config.min_feedback_samples) {
+        if (impl_->interactions.size() < static_cast<size_t>(impl_->config.min_feedback_samples)) {
             return;
         }
 
@@ -429,7 +429,7 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     try {
-        if (impl_-> static_cast<int>(interactions.size()) < impl_->config.min_feedback_samples) {
+        if (impl_->interactions.size() < static_cast<size_t>(impl_->config.min_feedback_samples)) {
             return;
         }
 

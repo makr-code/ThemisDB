@@ -315,7 +315,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
         }
         // cosine similarity assuming normalized embeddings
         float dot = 0.0f;
-        for (size_t i = 0; i < std::min(entry.embedding.size(),static_cast<int>(query_embedding.size())); ++i) {
+        for (size_t i = 0; i < std::min(entry.embedding.size(), query_embedding.size()); ++i) {
             dot += entry.embedding[i] * query_embedding[i];
         }
         // Jaccard similarity over token sets as secondary metric

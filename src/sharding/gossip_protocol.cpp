@@ -420,7 +420,7 @@ void GossipProtocol::cleanupLoop() {
         updatePeerHealth();
         
         // Sleep for cleanup interval (half of gossip interval)
-        uint32_t cleanup_interval = std::max(config_.gossip_interval_sec / 2, 1);
+        uint32_t cleanup_interval = std::max<uint32_t>(config_.gossip_interval_sec / 2, 1u);
         for (uint32_t i = 0; i < cleanup_interval && running_.load(); ++i) {
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
@@ -598,7 +598,7 @@ std::vector<PeerInfo> GossipProtocol::selectRandomPeers(size_t count) {
 
     std::shuffle(candidates.begin(), candidates.end(), gen);
     
-    size_t select_count = std::min(count,static_cast<int>(candidates.size()));
+    size_t select_count = std::min(count, candidates.size());
     selected.insert(selected.end(), candidates.begin(), candidates.begin() + select_count);
     
     return selected;

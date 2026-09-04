@@ -264,15 +264,15 @@ std::vector<ContentChunk> GeoProcessor::chunk(
     const auto& geo = result.geo.value();
     
     // Each chunk contains a subset of coordinates
-    const int coords_per_chunk = 100;
-    
-    for (size_t i = 0; i <static_cast<int>(geo.coordinates.size()); i += coords_per_chunk) {
+    const size_t coords_per_chunk = 100;
+
+    for (size_t i = 0; i < geo.coordinates.size(); i += coords_per_chunk) {
         ContentChunk chunk;
-        
+
         std::ostringstream text = {};
-        text << "Coordinates " << i << "-" << std::min(i + coords_per_chunk,static_cast<int>(geo.coordinates.size())) << ": ";
-        
-        size_t end = std::min(i + coords_per_chunk,static_cast<int>(geo.coordinates.size()));
+        text << "Coordinates " << i << "-" << std::min(i + coords_per_chunk, geo.coordinates.size()) << ": ";
+
+        size_t end = std::min(i + coords_per_chunk, geo.coordinates.size());
         for (size_t j = i; j < end; ++j) {
             text << "(" << geo.coordinates[j].first << "," << geo.coordinates[j].second << ") ";
         }

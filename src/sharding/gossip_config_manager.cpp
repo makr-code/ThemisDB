@@ -665,7 +665,7 @@ std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
     thread_local std::mt19937 gen(std::random_device{}());
     std::shuffle(candidates.begin(), candidates.end(), gen);
     
-    size_t select_count = std::min(count,static_cast<int>(candidates.size()));
+    size_t select_count = std::min(count, candidates.size());
     selected.insert(selected.end(), candidates.begin(), candidates.begin() + select_count);
     
     return selected;

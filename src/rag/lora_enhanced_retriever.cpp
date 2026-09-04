@@ -128,7 +128,7 @@ LoRAEnhancedRetriever::rerank(
     }
 
     const std::size_t rerank_k =
-        std::min(config_.top_k_rerank,static_cast<int>(candidates.size()));
+        std::min(config_.top_k_rerank, candidates.size());
 
     // Split into top-K (to re-rank) and the rest (append unchanged).
     std::vector<judge::RetrievedDocument> to_rerank(

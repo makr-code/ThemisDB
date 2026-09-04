@@ -138,7 +138,7 @@ void GradientUtils::accumulate_gradients(
     }
     
     // Add new gradients to accumulated
-    size_t num_grads = std::min(accumulated.size(),static_cast<int>(new_gradients.size()));
+    size_t num_grads = std::min(accumulated.size(), new_gradients.size());
     for (size_t i = 0; i < num_grads; ++i) {
         if (!new_gradients[i]) {
           continue;

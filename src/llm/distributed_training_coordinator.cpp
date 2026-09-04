@@ -209,7 +209,7 @@ void GradientTensor::compress(GradientCompressionType type) {
               break;
             }
             
-            size_t k = std::max(size_t(1),static_cast<int>(data.size()) / 10);
+            size_t k = std::max<size_t>(size_t(1), data.size() / 10);
             
             // Create indices sorted by absolute value
             std::vector<std::pair<size_t, float>> indexed_vals;

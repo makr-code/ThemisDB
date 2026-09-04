@@ -660,10 +660,10 @@ bool MLServingClient::isBackendAvailable(MLBackendType type) const {
     }
     // Construct a temporary backend to check availability
     if (type == MLBackendType::ONNX_RUNTIME) {
-        ONNXServingBackend tmp = {};
+        ONNXServingBackend tmp{};
         return tmp.isAvailable();
     }
-    TFServingBackend tmp = {};
+    TFServingBackend tmp{};
     return tmp.isAvailable();
 }
 

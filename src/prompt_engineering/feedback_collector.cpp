@@ -782,7 +782,7 @@ FeedbackStats FeedbackCollector::calculateStats(
     std::sort(sorted_types.begin(), sorted_types.end(),
               [](const auto& a, const auto& b) { return a.second > b.second; });
     
-    for (size_t i = 0; i < std::min(size_t(3),static_cast<int>(sorted_types.size())); ++i) {
+    for (size_t i = 0; i < std::min<size_t>(3, sorted_types.size()); ++i) {
         stats.common_issues.push_back(feedbackTypeToString(sorted_types[i].first));
     }
     

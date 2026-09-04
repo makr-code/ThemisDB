@@ -91,7 +91,7 @@ httplib::Request HttpTypeAdapter::beastToHttplib(
             size_t eq_pos = query_string.find('=', start);
             size_t amp_pos = query_string.find('&', start);
 
-            if ((eq_pos != std::string::npos && (amp_pos == std::string::npos || eq_pos < amp_pos)) {
+            if (eq_pos != std::string::npos && (amp_pos == std::string::npos || eq_pos < amp_pos)) {
                 std::string key = query_string.substr(start, eq_pos - start);
                 size_t value_end = (amp_pos != std::string::npos) ? amp_pos : query_string.length();
                 std::string value = query_string.substr(eq_pos + 1, value_end - eq_pos - 1);

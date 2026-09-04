@@ -308,7 +308,7 @@ std::vector<MacroInfo> VoiceMacroManager::listMacros(
     std::lock_guard<std::mutex> lock(impl_->mutex);
     std::vector<MacroInfo> result = {};
 
-    result.reserve(impl_-> static_cast<int>(macros.size()));
+    result.reserve(impl_->macros.size());
 
     for (const auto& kv : impl_->macros) {
         if (tags.empty()) {
@@ -518,7 +518,7 @@ std::vector<MacroID> VoiceMacroManager::importMacros(const std::string& json_str
 json VoiceMacroManager::getStatistics() const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     json stats;
-    stats["total_macros"]     = impl_-> static_cast<int>(macros.size());
+    stats["total_macros"]     = impl_->macros.size();
     stats["total_executions"] = impl_->total_executions;
     size_t enabled_count = 0;
     for (const auto& kv : impl_->macros) {

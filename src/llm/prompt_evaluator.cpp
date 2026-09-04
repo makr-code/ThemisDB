@@ -211,7 +211,7 @@ double PromptEvaluator::computeRelevance(
         }
     }
     
-    return static_cast<bool>(static_cast<double < static_cast<int>((found) / tokens_expected.size()));
+    return static_cast<double>(found) / static_cast<double>(tokens_expected.size());
 }
 
 bool PromptEvaluator::isStatisticallySignificant(

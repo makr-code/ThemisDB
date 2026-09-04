@@ -157,7 +157,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
         
         // Validate dimension
         int expectedDim = vector_index_->getDimension();
-        if (expectedDim > 0  && static_cast<size_t>(static_cast) < int>(queryVector.size()) != expectedDim) {
+        if (expectedDim > 0  && static_cast<size_t>(queryVector.size()) != expectedDim) {
             span.setStatus(false, "Dimension mismatch");
             return makeErrorResponse(http::status::bad_request,
                 "Vector dimension mismatch: expected " + std::to_string(expectedDim) +
@@ -197,7 +197,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
         if (use_cursor) {
             // Slice [offset, offset+k) und Cursor-Felder setzen
             json items = json::array();
-            size_t start = std::min(offset,static_cast<int>(results.size()));
+            size_t start = std::min(offset, results.size());
             size_t end = std::min(results.size(), start + k);
             for (size_t i = start; i < end; ++i) {
                 items.push_back({{"pk", results[i].pk}, {"distance", results[i].distance}});
@@ -368,7 +368,7 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                     if (!v.is_number()) { vec.clear(); break; }
                     vec.push_back(v.get<float>());
                 }
-                if (vec.empty()  || static_cast<size_t>(static_cast) < int>(vec.size()) != configured_dim) { ++errors; continue; }
+                if (vec.empty()  || static_cast<size_t>(vec.size()) != configured_dim) { ++errors; continue; }
 
                 // Build entity
                 BaseEntity e(pk);

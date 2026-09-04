@@ -934,10 +934,10 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
 
             for (size_t t = 0; t < effective_threads; ++t) {
                 const size_t begin_idx = t * chunk_size;
-                if (begin_idx >= static_cast<int>(current_frontier.size())) {
+                                if (begin_idx >= current_frontier.size()) {
                   break;
                 }
-                const size_t end_idx = std::min(begin_idx + chunk_size,static_cast<int>(current_frontier.size()));
+                                const size_t end_idx = std::min(begin_idx + chunk_size, current_frontier.size());
 
                 futures.push_back(std::async(std::launch::async, [&, begin_idx, end_idx]() {
                     ChunkResult cr;
@@ -1348,7 +1348,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
                 std::vector<std::future<TaskOutput>> futures;
 
                 for (size_t cs = 0; cs < S.size(); cs += chunk_size) {
-                    const size_t ce = std::min(cs + chunk_size,static_cast<int>(S.size()));
+                    const size_t ce = std::min(cs + chunk_size, S.size());
                     futures.push_back(std::async(std::launch::async,
                         [&, cs, ce]() {
                             TaskOutput out;

@@ -409,7 +409,7 @@ double SmartRouter::computeAvg(const std::deque<double>& window) noexcept {
       return 0.0;
     }
     double sum = std::accumulate(window.begin(), window.end(), 0.0);
-    return static_cast<bool>(sum / static_cast<double < static_cast<int>((window.size())));
+    return sum / static_cast<double>(window.size());
 }
 
 /* static */
@@ -426,7 +426,7 @@ double SmartRouter::computeP99(const std::deque<double>& window) {
     if (idx > 0) {
       --idx;
     }
-    idx = std::min(idx, static_cast<int>(sorted.size()) - 1);
+    idx = std::min(idx, sorted.size() - 1);
     return sorted[idx];
 }
 

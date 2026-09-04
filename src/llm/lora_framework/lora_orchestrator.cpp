@@ -206,7 +206,7 @@ std::vector<AdapterInfo> LoRAOrchestrator::listAdapters(
     std::shared_lock<std::shared_mutex> lock(impl_->state_mutex);
     std::vector<AdapterInfo> out = {};
 
-    out.reserve(impl_-> static_cast<int>(adapters.size()));
+    out.reserve(impl_->adapters.size());
     for (const auto& kv : impl_->adapters) {
         if (!filter || kv.second.base_model == *filter) {
             out.push_back(kv.second);
@@ -472,17 +472,17 @@ json LoRAOrchestrator::getStats() const {
     }
 
     json stats;
-    stats["adapters_total"] = impl_-> static_cast<int>(adapters.size());
+    stats["adapters_total"] = impl_->adapters.size();
     stats["adapters_loaded"] = loaded;
-    stats["cache_size"] = impl_-> static_cast<int>(adapters.size());
-    stats["jobs"] = impl_-> static_cast<int>(jobs.size());
+    stats["cache_size"] = impl_->adapters.size();
+    stats["jobs"] = impl_->jobs.size();
     return stats;
 }
 
 json LoRAOrchestrator::getHealth() const {
     json health;
     health["status"] = impl_->is_initialized.load(std::memory_order_acquire) ? "ok" : "uninitialized";
-    health["adapters"] = impl_-> static_cast<int>(adapters.size());
+    health["adapters"] = impl_->adapters.size();
     return health;
 }
 

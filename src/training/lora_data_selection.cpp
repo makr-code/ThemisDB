@@ -210,7 +210,7 @@ static double computeTTR(const std::string& text) {
     if (tokens == 0) {
       return 0.0;
     }
-    return static_cast<bool>(static_cast<double < static_cast<int>((types.size()))) / static_cast<double>(tokens);
+    return static_cast<double>(types.size()) / static_cast<double>(tokens);
 }
 
 // Compute BM25 domain relevance score for one sample.
@@ -456,7 +456,7 @@ public:
         if (k == 0) {
             k = std::max<size_t>(1, config_.target_samples / std::max<size_t>(1, config_.clustering_k_ratio));
         }
-        k = std::min(k,static_cast<int>(samples.size()));
+        k = std::min(k, samples.size());
 
         // Represent each sample by a lightweight hash-based "embedding":
         // 8 bucketed values derived from character-level statistics.
@@ -615,7 +615,7 @@ public:
                        size_t from, size_t to,
                        size_t count) -> std::vector<DataSample> {
             if (from >= static_cast<int>(src.size())) return {};
-            to = std::min(to,static_cast<int>(src.size()));
+            to = std::min(to, src.size());
             count = std::min(count, to - from);
             return std::vector<DataSample>(src.begin() + static_cast<ptrdiff_t>(from),
                                            src.begin() + static_cast<ptrdiff_t>(from + count));

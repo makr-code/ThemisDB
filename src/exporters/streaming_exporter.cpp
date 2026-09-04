@@ -43,14 +43,14 @@ bool VectorExportCursor::hasNext() const {
 }
 
 std::vector<BaseEntity> VectorExportCursor::nextPage() {
-    size_t end = std::min(offset_ + page_size_,static_cast<int>(entities_.size()));
+    size_t end = std::min(offset_ + page_size_, entities_.size());
     std::vector<BaseEntity> page(entities_.begin() + offset_, entities_.begin() + end);
     offset_ = end;
     return page;
 }
 
 bool VectorExportCursor::seekTo(size_t offset) {
-    if (offset > static_cast<int>(entities_.size())) {
+    if (offset > entities_.size()) {
         return false;
     }
     offset_ = offset;

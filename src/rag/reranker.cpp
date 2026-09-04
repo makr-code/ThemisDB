@@ -391,7 +391,7 @@ RerankResult CrossEncoderReranker::rerank(
 
     // Validate individual document sizes
     for (size_t i = 0; i < candidates.size(); ++i) {
-        if (candidates[i].static_cast<int>(content.size()) > kMaxDocumentChars) {
+        if (candidates[i].content.size() > kMaxDocumentChars) {
             THEMIS_WARN("CrossEncoderReranker::rerank: document[{}] exceeds size limit ({})",
                        i, candidates[i].content.size());
             result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -423,7 +423,7 @@ RerankResult CrossEncoderReranker::rerank(
     // Process in batches to match the configured batch_size
     const size_t batch_sz = std::max<size_t>(1, cfg_snapshot.batch_size);
     for (size_t base = 0; base < candidates.size(); base += batch_sz) {
-        const size_t end = std::min(base + batch_sz,static_cast<int>(candidates.size()));
+        const size_t end = std::min(base + batch_sz, candidates.size());
         for (size_t i = base; i < end; ++i) {
             const auto& doc = candidates[i];
             const std::string key = impl_->cacheKey(query, doc.id);
@@ -450,7 +450,7 @@ RerankResult CrossEncoderReranker::rerank(
 
     // ── Build output ─────────────────────────────────────────────────────────
     const double threshold = cfg_snapshot.min_score_threshold;
-    const size_t output_count = std::min(effective_top_k,static_cast<int>(scored.size()));
+    const size_t output_count = std::min(effective_top_k, scored.size());
 
     result.documents.reserve(output_count);
     result.scores.reserve(output_count);

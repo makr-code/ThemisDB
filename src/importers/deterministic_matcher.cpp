@@ -198,7 +198,7 @@ double SemanticMatcher::jaroWinklerDistance(const std::string &s1, const std::st
     double jaro = jaroSimilarity(s1, s2);
     // Compute common prefix length (up to 4 characters).
     int prefix = 0;
-    for (size_t i = 0; i < std::min({s1.size(),static_cast<int>(s2.size()), size_t{4}}); ++i) {
+    for (size_t i = 0; i < std::min({s1.size(), s2.size(), size_t{4}}); ++i) {
         if (s1[i] == s2[i]) {
             ++prefix;
         } else {
@@ -242,7 +242,7 @@ double SemanticMatcher::levenshteinSimilarity(const std::string &s1, const std::
     if (s1.empty() || s2.empty()) {
         return 0.0;
     }
-    const size_t max_len = std::max(s1.size(),static_cast<int>(s2.size()));
+    const size_t max_len = std::max(s1.size(), s2.size());
     const size_t dist    = levenshteinDistance(s1, s2);
     return 1.0 - static_cast<double>(dist) / static_cast<double>(max_len);
 }

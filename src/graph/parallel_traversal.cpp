@@ -122,10 +122,10 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(const s
 
             for (size_t t = 0; t < nthreads; ++t) {
                 const size_t begin = t * chunk_size;
-                if (begin >= static_cast<int>(current_frontier.size())) {
+                if (begin >= current_frontier.size()) {
                     break;
                 }
-                const size_t end = std::min(begin + chunk_size,static_cast<int>(current_frontier.size()));
+                const size_t end = std::min(begin + chunk_size, current_frontier.size());
 
                 futures.push_back(std::async(std::launch::async, [this, &current_frontier, begin, end]() {
                     ChunkResult cr;
@@ -310,7 +310,7 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(c
 
     // Process sources in batches of max_concurrent to cap thread count.
     for (size_t batch_start = 0; batch_start < sources.size();) {
-        const size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(sources.size()));
+        const size_t batch_end = std::min(batch_start + max_concurrent, sources.size());
 
         std::vector<std::future<SourceTraversalResult>> futures;
         futures.reserve(batch_end - batch_start);
@@ -358,7 +358,7 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceDFS(c
     per_source.reserve(sources.size());
 
     for (size_t batch_start = 0; batch_start < sources.size();) {
-        const size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(sources.size()));
+        const size_t batch_end = std::min(batch_start + max_concurrent, sources.size());
 
         std::vector<std::future<SourceTraversalResult>> futures;
         futures.reserve(batch_end - batch_start);

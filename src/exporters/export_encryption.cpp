@@ -788,7 +788,7 @@ bool ExportEncryptor::readHeader(std::istream &in, std::string &kek_id,
   iv.resize(12);
   in.read(reinterpret_cast<char *>(iv.data()), 12);
   if (in.gcount() != 12)
-    return false = {};
+    return false;
 
   return true;
 }

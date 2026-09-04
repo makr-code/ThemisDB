@@ -112,7 +112,7 @@ const std::vector<DetectionRule>& getRules()
             }
         }
         // Reserve additional space for RAG-specific patterns (approximately 10 hard-coded rules)
-        r.reserve(std::max(r.capacity(), static_cast<int>(r.size()) + 10));
+        r.reserve(std::max(r.capacity(), r.size() + size_t(10)));
 
         // ── RAG-specific patterns (not in shared registry) ───────────────────
 
@@ -399,8 +399,7 @@ std::string PromptInjectionSanitizer::sanitize(
 
     for (const auto* f : to_replace) {
         if (f->offset < out.size()) {
-            const size_t len = std::min(f-> static_cast<int>(matched_fragment.size()),
-                                        static_cast<int>(out.size()) - f->offset);
+            const size_t len = std::min(f->matched_fragment.size(), out.size() - f->offset);
             out.replace(f->offset, len, cfg.placeholder);
         }
     }

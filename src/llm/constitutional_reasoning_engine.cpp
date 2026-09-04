@@ -364,7 +364,7 @@ float ConstitutionalReasoningEngine::scoreResponse(const std::string& response) 
     }
     
     float compliance_rate = 1.0f - (static_cast<float>(violations.size()) / 
-                                   impl_-> static_cast<int>(config.principles.size()));
+                                   static_cast<float>(impl_->config.principles.size()));
     
     return std::max(0.0f, std::min(1.0f, compliance_rate));
 }

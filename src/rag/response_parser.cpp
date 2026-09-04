@@ -205,7 +205,7 @@ bool ResponseParser::validate(const ParsedResponse& parsed) {
         return false;
     }
     
-    if ((parsed.confidence && (*parsed.confidence < 0.0 || *parsed.confidence > 1.0)) {
+    if (parsed.confidence && (*parsed.confidence < 0.0 || *parsed.confidence > 1.0)) {
         THEMIS_WARN("Confidence {} out of valid range [0, 1]", *parsed.confidence);
         return false;
     }

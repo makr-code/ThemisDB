@@ -128,7 +128,7 @@ std::vector<AQLFewShotExample> AQLFewShotExampleLibrary::findRelevant(const std:
     std::sort(scored.begin(), scored.end(), [](const auto &a, const auto &b) { return a.first > b.first; });
 
     // Collect top-n results
-    std::size_t count = std::min(n,static_cast<int>(scored.size()));
+    std::size_t count = std::min(n, scored.size());
     std::vector<AQLFewShotExample> result;
     result.reserve(count);
     for (std::size_t i = 0; i < count; ++i) {
