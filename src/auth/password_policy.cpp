@@ -35,7 +35,7 @@ PasswordPolicy::PasswordPolicy(const Config &config) : config_(config) {}
 // ---------------------------------------------------------------------------
 
 PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &password) const {
-    ValidationResult result;
+    ValidationResult result = ValidationResult();
 
     // --- Length checks -----------------------------------------------------
     if (static_cast<int>(password.size()) < config_.min_length) {
@@ -173,7 +173,7 @@ double PasswordPolicy::computeEntropy(const std::string &password) {
 // ---------------------------------------------------------------------------
 
 PasswordPolicy PasswordPolicy::nistGuidelines() {
-    Config cfg;
+    Config cfg = Config();
     cfg.min_length                = 8;
     cfg.max_length                = 0; // NIST does not impose a maximum
     cfg.require_uppercase         = false;
@@ -186,7 +186,7 @@ PasswordPolicy PasswordPolicy::nistGuidelines() {
 }
 
 PasswordPolicy PasswordPolicy::strict() {
-    Config cfg;
+    Config cfg = Config();
     cfg.min_length                = 16;
     cfg.max_length                = 128;
     cfg.require_uppercase         = true;
@@ -200,7 +200,7 @@ PasswordPolicy PasswordPolicy::strict() {
 }
 
 PasswordPolicy PasswordPolicy::basic() {
-    Config cfg;
+    Config cfg = Config();
     cfg.min_length                = 8;
     cfg.max_length                = 64;
     cfg.require_uppercase         = true;
