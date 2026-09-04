@@ -36,6 +36,12 @@ on:
       - develop
       - community
       - release/**
+    paths:
+      - .github/workflows/release-promote.yml
+      - .github/scripts/version-release-type-manager.sh
+      - CHANGELOG.md
+      - RELEASE_TYPE
+      - VERSION
   workflow_dispatch:
     inputs:
       release-type:
@@ -67,7 +73,7 @@ permissions:
 
 concurrency:
   group: ci-release-promote-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
 
