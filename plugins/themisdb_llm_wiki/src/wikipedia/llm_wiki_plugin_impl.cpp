@@ -241,7 +241,7 @@ Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
         json_index_path_         = j.value("json_index_path",         std::string{});
         retrieval_top_k_         = j.value("retrieval_top_k",         5);
         retrieval_min_score_     = j.value("retrieval_min_score",     0.0f);
-        fail_open_               = j.value("fail_open",               true);
+        fail_open_               = j.value("fail_open",               false);
         lint_max_staleness_days_ = j.value("lint_max_staleness_days", 30);
         has_wikipedia_license_   = j.value("llm_wiki_wikipedia",      false);
 

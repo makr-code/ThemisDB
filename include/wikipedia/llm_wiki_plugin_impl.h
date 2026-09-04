@@ -142,6 +142,8 @@ public:
      *   "retrieval_top_k":         5,
      *   "retrieval_min_score":     0.0,
      *   "fail_open":               false,
+     *   "enforce_process_policy":  true,
+     *   "process_policy_path":     "",
      *   "lint_max_staleness_days": 30,
      *   "llm_wiki_wikipedia":      false,
      *   "splitter_max_tokens":     220,

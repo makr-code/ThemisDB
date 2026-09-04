@@ -22,6 +22,8 @@
 #include "wikipedia/llm_wiki_plugin_impl.h"
 // Edition/feature gate enforcement lives in src/llm_wiki for now.
 #include "edition_gate.h"
+#include "config/config_path_resolver.h"
+#include "llm_wiki/process_policy_manager.h"
 
 #include "importers/wikipedia_pipeline.hpp"
 #include "importers/wikipedia_types.hpp"
@@ -136,6 +138,27 @@ bool containsUnsafePattern(const std::string& text) {
         if (lower.find(pattern) != std::string::npos) return true;
     }
     return false;
+}
+
+std::string resolveProcessPolicyPath(const std::string& configured_path) {
+    if (!configured_path.empty()) {
+        if (auto resolved =
+                themis::config::ConfigPathResolver::tryResolve(configured_path)) {
+            return *resolved;
+        }
+        return configured_path;
+    }
+
+    const auto source_tree_default =
+        (std::filesystem::path(__FILE__).parent_path() / ".." / "process" /
+         "llm_wiki_process_policy.yaml")
+            .lexically_normal()
+            .string();
+    if (auto resolved =
+            themis::config::ConfigPathResolver::tryResolve(source_tree_default)) {
+        return *resolved;
+    }
+    return source_tree_default;
 }
 
 // ── Simple glob match ─────────────────────────────────────────────────────────
@@ -253,6 +276,10 @@ Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
         // In-memory fallback is allowed only when explicitly enabled
         // (test/degraded mode).
         fail_open_               = j.value("fail_open",               false);
+        const bool enforce_process_policy =
+            j.value("enforce_process_policy", true);
+        const std::string configured_process_policy_path =
+            j.value("process_policy_path", std::string{});
         lint_max_staleness_days_ = j.value("lint_max_staleness_days", 30);
         has_wikipedia_license_   = j.value("llm_wiki_wikipedia",      false);
 
@@ -265,6 +292,33 @@ Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
         if (!workspace_root_.empty() && json_index_path_.empty()) {
             json_index_path_ =
                 (std::filesystem::path(workspace_root_) / "plugin_chunks.json").string();
+        }
+
+        if (enforce_process_policy) {
+            themis::llm_wiki::LLMWikiProcessPolicy loaded_policy;
+            const auto policy_path =
+                resolveProcessPolicyPath(configured_process_policy_path);
+            const auto policy_status =
+                themis::llm_wiki::ProcessPolicyManager::loadFromYaml(
+                    policy_path, loaded_policy);
+            if (!policy_status.ok()) {
+                return Status::Error(
+                    "LLM Wiki process policy validation failed (fail-closed): " +
+                    policy_status.message);
+            }
+            if (fail_open_ && loaded_policy.mode != "shadow") {
+                return Status::Error(
+                    "fail_open=true is allowed only when process policy mode is "
+                    "'shadow'; current mode: " +
+                    loaded_policy.mode);
+            }
+            spdlog::info(
+                "[llm_wiki] Loaded process policy id={} mode={} path={}",
+                loaded_policy.policy_id, loaded_policy.mode, policy_path);
+        } else {
+            spdlog::warn(
+                "[llm_wiki] Process policy enforcement disabled by config "
+                "(enforce_process_policy=false)");
         }
 
         // ── Phase B activation ─────────────────────────────────────────────────
