@@ -62,7 +62,7 @@ struct Group {
  * @brief Health status for storage containers
  */
 struct HealthStatus {
-    bool healthy;                  // Overall health status
+    bool healthy = 0;                  // Overall health status
     std::string message;           // Status message
     std::vector<std::string> errors; // Error details
     int64_t checked_at_ms;         // Health check timestamp

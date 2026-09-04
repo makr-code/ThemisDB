@@ -68,18 +68,31 @@ GPUMemoryManager::GPUMemoryManager(acceleration::BackendType backend) {
             break;
         // Handle other backend types
         case acceleration::BackendType::ZLUDA:
+        [[fallthrough]];
         case acceleration::BackendType::ROCM:
+        [[fallthrough]];
         case acceleration::BackendType::OPENGL:
+        [[fallthrough]];
         case acceleration::BackendType::METAL:
+        [[fallthrough]];
         case acceleration::BackendType::ONEAPI:
+        [[fallthrough]];
         case acceleration::BackendType::OPENCL:
+        [[fallthrough]];
         case acceleration::BackendType::WEBGPU:
+        [[fallthrough]];
         case acceleration::BackendType::AUTO:
+        [[fallthrough]];
         case acceleration::BackendType::MULTI_GPU:
+        [[fallthrough]];
         case acceleration::BackendType::NPU_APPLE:
+        [[fallthrough]];
         case acceleration::BackendType::NPU_INTEL:
+        [[fallthrough]];
         case acceleration::BackendType::NPU_QUALCOMM:
+        [[fallthrough]];
         case acceleration::BackendType::NPU_ARM:
+        [[fallthrough]];
         case acceleration::BackendType::NNAPI:
             // Fallback to CPU for unsupported backends
             default_device_ = Device::cpu();

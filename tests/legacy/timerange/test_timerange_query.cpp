@@ -118,7 +118,8 @@ TEST_F(TimeRangeQueryTest, GetEdgesInTimeRange_Overlap) {
     // e1 [1000-2000] overlaps, e2 [1500-3000] overlaps, e3 [2500-4000] no overlap, e4 always valid
     EXPECT_GE(edges.size(), 2);
     
-    std::vector<std::string> edgeIds;
+    std::vector<std::string> edgeIds = {};
+
     for (const auto& e : edges) {
         edgeIds.push_back(e.edgeId);
     }
@@ -134,7 +135,8 @@ TEST_F(TimeRangeQueryTest, GetEdgesInTimeRange_FullContainment) {
     auto [status, edges] = graphIdx->getEdgesInTimeRange(1000, 3000, true);
     ASSERT_TRUE(status.ok) << status.message;
     
-    std::vector<std::string> edgeIds;
+    std::vector<std::string> edgeIds = {};
+
     for (const auto& e : edges) {
         edgeIds.push_back(e.edgeId);
     }

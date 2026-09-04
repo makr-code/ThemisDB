@@ -267,7 +267,7 @@ TEST(QUICClientTest, NotConnectedBeforeConnect) {
 
 // QS-33
 TEST(QUICClientTest, ParseUrlValid) {
-    std::string host;
+    std::string host = {};
     uint16_t    port = 0;
     EXPECT_TRUE(QUICClient::parseUrl("quic://server.example.com:8769", host, port));
     EXPECT_EQ(host, "server.example.com");
@@ -276,7 +276,7 @@ TEST(QUICClientTest, ParseUrlValid) {
 
 // QS-34
 TEST(QUICClientTest, ParseUrlLocalhost) {
-    std::string host;
+    std::string host = {};
     uint16_t    port = 0;
     EXPECT_TRUE(QUICClient::parseUrl("quic://127.0.0.1:8769", host, port));
     EXPECT_EQ(host, "127.0.0.1");
@@ -285,7 +285,7 @@ TEST(QUICClientTest, ParseUrlLocalhost) {
 
 // QS-35
 TEST(QUICClientTest, ParseUrlInvalidScheme) {
-    std::string host;
+    std::string host = {};
     uint16_t    port = 0;
     EXPECT_FALSE(QUICClient::parseUrl("http://server.example.com:8769", host, port));
     EXPECT_FALSE(QUICClient::parseUrl("", host, port));
@@ -293,14 +293,14 @@ TEST(QUICClientTest, ParseUrlInvalidScheme) {
 }
 
 TEST(QUICClientTest, ParseUrlInvalidPortStringRejected) {
-    std::string host;
+    std::string host = {};
     uint16_t    port = 0;
     EXPECT_FALSE(QUICClient::parseUrl("quic://server.example.com:not-a-port", host, port));
     EXPECT_FALSE(QUICClient::parseUrl("quic://server.example.com:", host, port));
 }
 
 TEST(QUICClientTest, ParseUrlOutOfRangePortRejected) {
-    std::string host;
+    std::string host = {};
     uint16_t    port = 0;
     EXPECT_FALSE(QUICClient::parseUrl("quic://server.example.com:70000", host, port));
     EXPECT_FALSE(QUICClient::parseUrl("quic://server.example.com:999999999999", host, port));
@@ -311,7 +311,7 @@ TEST(QUICClientTest, VerifyTlsDisabledLogsVerifyNoneFallback) {
     auto previous_logger = spdlog::default_logger();
     auto previous_level = spdlog::get_level();
 
-    std::ostringstream capture;
+    std::ostringstream capture = {};
     auto sink = std::make_shared<spdlog::sinks::ostream_sink_mt>(capture);
     auto logger = std::make_shared<spdlog::logger>("quic_tls_verify_none_test", sink);
     logger->set_pattern("%v");

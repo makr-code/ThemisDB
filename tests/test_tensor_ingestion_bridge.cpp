@@ -71,8 +71,12 @@ static std::vector<float> makeConstantEmbedding(std::size_t dim, float val = 1.0
 /// two short vectors → expected κ is high.
 static std::vector<float> makeRankOneEmbedding(std::size_t rows, std::size_t cols) {
     std::vector<float> u(rows), v(cols);
-    for (std::size_t i = 0; i < rows; ++i) u[i] = static_cast<float>(i + 1);
-    for (std::size_t j = 0; j < cols; ++j) v[j] = static_cast<float>(j + 1);
+    for (std::size_t i = 0; i < rows; ++i) {
+      u[i] = static_cast<float>(i + 1);
+    }
+    for (std::size_t j = 0; j < cols; ++j) {
+      v[j] = static_cast<float>(j + 1);
+    }
     std::vector<float> out(rows * cols);
     for (std::size_t i = 0; i < rows; ++i)
         for (std::size_t j = 0; j < cols; ++j)
@@ -96,8 +100,12 @@ static ExtractionContext makeContextWithEmbedding(
     vr.source_file_id = file_id;
     vr.text_snippet   = "Test chunk";
     vr.embedding      = emb;
-    if (!section_ref.empty()) vr.metadata["section_ref"] = section_ref;
-    if (!page.empty())        vr.metadata["page"]        = page;
+    if (!section_ref.empty()) {
+      vr.metadata["section_ref"] = section_ref;
+    }
+    if (!page.empty()) {
+      vr.metadata["page"]        = page;
+    }
 
     ctx.embeddings.push_back(std::move(vr));
     return ctx;

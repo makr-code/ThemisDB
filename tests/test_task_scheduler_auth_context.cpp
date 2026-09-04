@@ -122,8 +122,8 @@ TEST_F(TaskSchedulerAuthContextTest, EmptyUserIdFallsBackToSystemFallback) {
 TEST_F(TaskSchedulerAuthContextTest, ThreadLocalContextIsIsolatedPerThread) {
     TaskScheduler::setRequestContext({"main_thread_user", "1.2.3.4"});
 
-    std::string thread_user;
-    std::string thread_ip;
+    std::string thread_user = {};
+    std::string thread_ip = {};
     std::thread worker([&]() {
         // Worker thread should start with no context set
         thread_user = TaskScheduler::currentUserId("fallback");

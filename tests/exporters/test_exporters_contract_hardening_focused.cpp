@@ -70,9 +70,11 @@ struct MockCsvRow {
 static std::string serializeCsvRow(const MockCsvRow& row,
                                    char delimiter = kCsvDefaultDelimiter,
                                    const char* line_sep = kCsvDefaultLineSep) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (std::size_t i = 0; i < row.cells.size(); ++i) {
-        if (i > 0) ss << delimiter;
+        if (i > 0) {
+          ss << delimiter;
+        }
         if (!row.cells[i].has_value()) {
             // null → empty cell
         } else {
@@ -83,7 +85,9 @@ static std::string serializeCsvRow(const MockCsvRow& row,
             if (needs_quote) {
                 ss << kCsvQuoteChar;
                 for (char c : v) {
-                    if (c == kCsvQuoteChar) ss << kCsvQuoteChar;
+                    if (c == kCsvQuoteChar) {
+                      ss << kCsvQuoteChar;
+                    }
                     ss << c;
                 }
                 ss << kCsvQuoteChar;
@@ -122,7 +126,8 @@ struct MockParquetOutput {
 
     void addRow(const MockParquetRow& row) {
         rows.push_back(row);
-        std::vector<bool> row_nulls;
+        std::vector<bool> row_nulls = {};
+
         for (auto& v : row.values)
             row_nulls.push_back(!v.has_value());
         null_bitmap.push_back(std::move(row_nulls));
@@ -131,7 +136,7 @@ struct MockParquetOutput {
 
 // Serialize to a deterministic string for comparison
 static std::string serializeParquet(const MockParquetOutput& out) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (auto& col : out.schema.columns)
         ss << col.name << ":" << static_cast<int>(col.type) << ";";
     ss << "|";
@@ -148,8 +153,8 @@ static std::string serializeParquet(const MockParquetOutput& out) {
 // ---------------------------------------------------------------------------
 
 struct MockChunk {
-    std::uint64_t seq;
-    std::string   data;
+    std::uint64_t seq = {};
+    std::string   data = {};
 };
 
 struct MockStreamingExporter {
@@ -167,7 +172,9 @@ struct MockStreamingExporter {
 
     bool isSequential() const {
         for (std::size_t i = 1; i < chunks.size(); ++i)
-            if (chunks[i].seq != chunks[i-1].seq + 1) return false;
+            if (chunks[i].seq != chunks[i-1].seq + 1) {
+              return false;
+            }
         return true;
     }
 };
@@ -212,7 +219,7 @@ TEST(ExportersContractHardeningEXCH03, HeaderAlwaysFirst) {
     MockCsvRow data_row;
     data_row.cells = {std::string("1"), std::string("alice"), std::string("42")};
 
-    std::string output;
+    std::string output = {};
     output += serializeCsvRow(header_row, ',', "\n");
     output += serializeCsvRow(data_row,   ',', "\n");
 

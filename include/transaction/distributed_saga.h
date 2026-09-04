@@ -180,7 +180,7 @@ struct RemoteStep {
     std::string service_endpoint;
 
     /// Forward operation path (e.g. "/reserve").
-    std::string operation;
+    std::string operation = {};
 
     /// Parameters forwarded to the remote service.
     nlohmann::json params;

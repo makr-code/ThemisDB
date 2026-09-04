@@ -75,17 +75,17 @@ bool SystemMemoryPressureMonitor::is_running() const noexcept {
 
 size_t SystemMemoryPressureMonitor::register_eviction_callback(
     PressureLevel trigger_level, EvictionCallback callback) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
     size_t handle = next_handle_++;
     callbacks_.push_back({handle, trigger_level, std::move(callback)});
     return handle;
 }
 
-void SystemMemoryPressureMonitor::unregister_eviction_callback(size_t handle) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+void SystemMemoryPressureMonitor::unregister_eviction_callback([[maybe_unused]] size_t handle) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
     callbacks_.erase(
         std::remove_if(callbacks_.begin(), callbacks_.end(),
-                       [handle](const CallbackEntry& e) { return e.handle == handle; }),
+                       [handle]([[maybe_unused]] const CallbackEntry& e) { return e.handle == handle; }),
         callbacks_.end());
 }
 
@@ -132,14 +132,16 @@ SystemMemoryPressureMonitor::read_os_memory() const {
     std::ifstream meminfo("/proc/meminfo");
     size_t mem_total_kb = 0;
     size_t mem_available_kb = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(meminfo, line)) {
         if (line.rfind("MemTotal:", 0) == 0) {
             mem_total_kb = std::stoull(line.substr(9));
         } else if (line.rfind("MemAvailable:", 0) == 0) {
             mem_available_kb = std::stoull(line.substr(13));
         }
-        if (mem_total_kb && mem_available_kb) break;
+        if (mem_total_kb && mem_available_kb) {
+          break;
+        }
     }
     snap.total_bytes     = mem_total_kb * 1024;
     snap.available_bytes = mem_available_kb * 1024;
@@ -200,11 +202,17 @@ SystemMemoryPressureMonitor::read_os_memory() const {
 }
 
 SystemMemoryPressureMonitor::PressureLevel
-SystemMemoryPressureMonitor::classify(double usage_percent) const noexcept {
+SystemMemoryPressureMonitor::classify([[maybe_unused]] double usage_percent) const noexcept {
     const auto& t = config_.thresholds;
-    if (usage_percent >= t.critical_threshold) return PressureLevel::CRITICAL;
-    if (usage_percent >= t.high_threshold)     return PressureLevel::HIGH;
-    if (usage_percent >= t.moderate_threshold) return PressureLevel::MODERATE;
+    if (usage_percent >= t.critical_threshold) {
+      return PressureLevel::CRITICAL;
+    }
+    if (usage_percent >= t.high_threshold) {
+      return PressureLevel::HIGH;
+    }
+    if (usage_percent >= t.moderate_threshold) {
+      return PressureLevel::MODERATE;
+    }
     return PressureLevel::NORMAL;
 }
 
@@ -218,7 +226,7 @@ void SystemMemoryPressureMonitor::poll_loop() {
         }
 
         if (snap.level != PressureLevel::NORMAL) {
-            trigger_callbacks(snap.level);
+            trigger_callbacks([[maybe_unused]] snap.level);
         }
 
         // Sleep in small increments so stop() can interrupt quickly.
@@ -232,14 +240,14 @@ void SystemMemoryPressureMonitor::poll_loop() {
     }
 }
 
-void SystemMemoryPressureMonitor::trigger_callbacks(PressureLevel current_level) {
+void SystemMemoryPressureMonitor::trigger_callbacks([[maybe_unused]] PressureLevel current_level) {
     std::vector<EvictionCallback> to_call;
     {
-        std::lock_guard<std::mutex> lock(callbacks_mutex_);
-        for (const auto& entry : callbacks_) {
+        std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+        for ([[maybe_unused]] const auto& entry : callbacks_) {
             if (static_cast<int>(current_level) >=
                 static_cast<int>(entry.trigger_level)) {
-                to_call.push_back(entry.callback);
+                to_call.push_back([[maybe_unused]] entry.callback);
             }
         }
     }

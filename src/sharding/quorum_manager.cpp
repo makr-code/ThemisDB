@@ -76,7 +76,7 @@ QuorumResult QuorumManager::executeWrite(WriteOperation operation,
     if (!isQuorumAchievable(target_nodes.size(), true)) {
         stats_.failed_writes.fetch_add(1, std::memory_order_release);
         THEMIS_WARN("Write quorum not achievable: required={}, available={}", 
-                    required_acks, target_nodes.size());
+                    required_acks,static_cast<int>(target_nodes.size()));
         return QuorumResult::failed("Quorum not achievable with available nodes");
     }
     
@@ -107,7 +107,7 @@ QuorumResult QuorumManager::executeWrite(WriteOperation operation,
     auto end = std::chrono::steady_clock::now();
     auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
-    bool success = successful_nodes.size() >= required_acks;
+    bool success = static_cast<int>(successful_nodes.size()) >= required_acks;
     
     if (success) {
         stats_.successful_writes.fetch_add(1, std::memory_order_release);
@@ -118,7 +118,7 @@ QuorumResult QuorumManager::executeWrite(WriteOperation operation,
     } else {
         stats_.failed_writes.fetch_add(1, std::memory_order_release);
         THEMIS_WARN("Write quorum FAILED: {}/{} nodes acknowledged; {} timed out", 
-                    successful_nodes.size(), required_acks, failed_nodes.size());
+                    successful_nodes.size(), required_acks,static_cast<int>(failed_nodes.size()));
         QuorumResult result = QuorumResult::failed("Failed to achieve write quorum");
         result.acks_received = successful_nodes.size();
         result.acks_required = required_acks;
@@ -179,7 +179,7 @@ QuorumResult QuorumManager::executeRead(ReadOperation operation,
     auto end = std::chrono::steady_clock::now();
     auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
-    bool success = successful_nodes.size() >= required_acks;
+    bool success = static_cast<int>(successful_nodes.size()) >= required_acks;
     
     if (success) {
         stats_.successful_reads.fetch_add(1, std::memory_order_release);
@@ -190,7 +190,7 @@ QuorumResult QuorumManager::executeRead(ReadOperation operation,
     } else {
         stats_.failed_reads.fetch_add(1, std::memory_order_release);
         THEMIS_WARN("Read quorum FAILED: {}/{} nodes responded; {} timed out", 
-                    successful_nodes.size(), required_acks, failed_nodes.size());
+                    successful_nodes.size(), required_acks,static_cast<int>(failed_nodes.size()));
         QuorumResult result = QuorumResult::failed("Failed to achieve read quorum");
         result.acks_received = successful_nodes.size();
         result.acks_required = required_acks;
@@ -202,13 +202,13 @@ QuorumResult QuorumManager::executeRead(ReadOperation operation,
 }
 
 /** @brief Compute required acknowledgments for writes under current config. */
-size_t QuorumManager::getWriteQuorumSize(size_t total_nodes) const {
+size_t QuorumManager::getWriteQuorumSize([[maybe_unused]] size_t total_nodes) const {
     std::lock_guard<std::mutex> lock(config_mutex_);
     return calculateQuorumSize(config_.write_quorum, config_.custom_write_quorum, total_nodes);
 }
 
 /** @brief Compute required acknowledgments for reads under current config. */
-size_t QuorumManager::getReadQuorumSize(size_t total_nodes) const {
+size_t QuorumManager::getReadQuorumSize([[maybe_unused]] size_t total_nodes) const {
     std::lock_guard<std::mutex> lock(config_mutex_);
     return calculateQuorumSize(config_.read_quorum, config_.custom_read_quorum, total_nodes);
 }
@@ -318,7 +318,7 @@ std::vector<std::pair<std::string, T>> QuorumManager::waitForOperations(
     }
     
     if (!timed_out_nodes.empty()) {
-        THEMIS_WARN("Quorum wait: {} nodes timed out", timed_out_nodes.size());
+        THEMIS_WARN("Quorum wait: {} nodes timed out",static_cast<int>(timed_out_nodes.size()));
     }
     
     return results;

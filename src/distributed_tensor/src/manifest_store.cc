@@ -395,7 +395,7 @@ uint64_t ManifestStore::getCurrentVersion(const std::string& artifact_id) const 
   }
 
   std::string counter_key = artifact_id + ":counter";
-  std::string value;
+  std::string value = {};
   rocksdb::Status status = g_manifest_db->Get(rocksdb::ReadOptions(), counter_key, &value);
   
   if (!status.ok()) {
@@ -422,7 +422,7 @@ std::vector<ManifestVersion> ManifestStore::getVersionHistory(const std::string&
     // Get current version count
     uint64_t current_version = 0;
     std::string counter_key = artifact_id + ":counter";
-    std::string counter_value;
+    std::string counter_value = {};
     rocksdb::Status counter_status = g_manifest_db->Get(rocksdb::ReadOptions(), counter_key, &counter_value);
     
     if (counter_status.ok()) {
@@ -436,7 +436,7 @@ std::vector<ManifestVersion> ManifestStore::getVersionHistory(const std::string&
     // Iterate through versions 1 to current_version
     for (uint64_t v = 1; v <= current_version; ++v) {
       std::string version_key = artifact_id + ":version:" + std::to_string(v);
-      std::string version_json;
+      std::string version_json = {};
       rocksdb::Status status = g_manifest_db->Get(rocksdb::ReadOptions(), version_key, &version_json);
       
       if (!status.ok()) {
@@ -480,7 +480,7 @@ ManifestStoreStatus ManifestStore::deleteManifest(const std::string& artifact_id
     
     // Delete all versions (get count first)
     uint64_t current_version = 0;
-    std::string counter_value;
+    std::string counter_value = {};
     rocksdb::Status counter_status = g_manifest_db->Get(rocksdb::ReadOptions(), 
                                                         artifact_id + ":counter", 
                                                         &counter_value);
@@ -569,7 +569,7 @@ ManifestStoreStatus ManifestStore::internalRead(const std::string& artifact_id,
 
   if (version_id == 0) {
     // Read latest manifest for this artifact
-    std::string value;
+    std::string value = {};
     rocksdb::Status status = g_manifest_db->Get(rocksdb::ReadOptions(), 
                                                 artifact_id, &value);
     
@@ -590,7 +590,7 @@ ManifestStoreStatus ManifestStore::internalRead(const std::string& artifact_id,
 
   // Read specific version from version history key
   std::string version_key = artifact_id + ":version:" + std::to_string(version_id);
-  std::string value;
+  std::string value = {};
   rocksdb::Status status = g_manifest_db->Get(rocksdb::ReadOptions(),
                                               version_key, &value);
   

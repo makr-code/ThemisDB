@@ -37,7 +37,7 @@ struct ValidationResult {
   std::string error_message;
   
   /// Sanitized input value (if applicable)
-  std::string sanitized_value;
+  std::string sanitized_value = {};
   
   /// Additional details for logging/debugging
   std::string details;

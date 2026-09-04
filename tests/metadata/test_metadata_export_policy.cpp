@@ -182,7 +182,9 @@ TEST(FilteredExportPolicyTest, ConcurrentAddAndCheck) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // No crash; exported + blocked == kThreads * kIter
     EXPECT_EQ(exported.load() + blocked.load(), kThreads * kIter);

@@ -77,7 +77,9 @@ static const char* kBlocklistPatterns[] = {
 };
 
 bool containsIgnoreCase(const std::string& haystack, const std::string& needle) {
-    if (needle.empty()) return false;
+    if (needle.empty()) {
+      return false;
+    }
     return std::search(
                haystack.begin(), haystack.end(),
                needle.begin(),   needle.end(),
@@ -110,7 +112,9 @@ SimpleAdversarialTester::SimpleAdversarialTester()
     : detector_fn_(&SimpleAdversarialTester::defaultDetect) {}
 
 void SimpleAdversarialTester::setDetectorFn(DetectorFn fn) {
-    if (fn) detector_fn_ = std::move(fn);
+    if (fn) {
+      detector_fn_ = std::move(fn);
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -119,7 +123,7 @@ void SimpleAdversarialTester::setDetectorFn(DetectorFn fn) {
 
 void SimpleAdversarialTester::addTestCase(AdversarialTestCase test_case) {
     const auto it = std::find_if(cases_.begin(), cases_.end(),
-                                  [&](const AdversarialTestCase& c) {
+                                  [&]([[maybe_unused]] const AdversarialTestCase& c) {
                                       return c.id == test_case.id;
                                   });
     if (it != cases_.end()) {
@@ -191,7 +195,7 @@ void SimpleAdversarialTester::loadDefaultTestSuite() {
     for (const auto& tc : kDefaultCases) {
         // Skip if already registered (idempotent)
         const auto it = std::find_if(cases_.begin(), cases_.end(),
-                                      [&](const AdversarialTestCase& c) {
+                                      [&]([[maybe_unused]] const AdversarialTestCase& c) {
                                           return c.id == tc.id;
                                       });
         if (it == cases_.end()) {
@@ -206,7 +210,7 @@ void SimpleAdversarialTester::loadDefaultTestSuite() {
 
 AdversarialTestResult SimpleAdversarialTester::runOne(const std::string& id) const {
     const auto it = std::find_if(cases_.begin(), cases_.end(),
-                                  [&](const AdversarialTestCase& c) {
+                                  [&]([[maybe_unused]] const AdversarialTestCase& c) {
                                       return c.id == id;
                                   });
     if (it == cases_.end()) {
@@ -245,8 +249,12 @@ AdversarialTestReport SimpleAdversarialTester::runAll() const {
         r.detection_ms =
             std::chrono::duration<double, std::milli>(t_end - t_start).count();
 
-        if (blocked)     ++report.blocked_count;
-        if (r.passed())  ++report.passed_count;
+        if (blocked) {
+          ++report.blocked_count;
+        }
+        if (r.passed()) {
+          ++report.passed_count;
+        }
 
         report.results.push_back(std::move(r));
     }

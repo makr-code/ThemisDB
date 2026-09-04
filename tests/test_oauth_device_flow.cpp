@@ -49,7 +49,9 @@ std::string makeErrorJson(const std::string& error,
                           const std::string& description = "") {
     json j;
     j["error"] = error;
-    if (!description.empty()) j["error_description"] = description;
+    if (!description.empty()) {
+      j["error_description"] = description;
+    }
     return j.dump();
 }
 
@@ -323,7 +325,7 @@ TEST(OAuthDeviceFlowTest, Authenticate_ProgressCallbackInvoked) {
 }
 
 TEST(OAuthDeviceFlowTest, RequestDeviceCode_ScopesEncodedInBody) {
-    std::string captured_body;
+    std::string captured_body = {};
     OAuthDeviceFlow flow(makeConfig());
     flow.setHttpPostForTesting([&captured_body](const std::string&,
                                                 const std::string& body) {
@@ -342,7 +344,7 @@ TEST(OAuthDeviceFlowTest, RequestDeviceCode_ScopesEncodedInBody) {
 TEST(OAuthDeviceFlowTest, PollForToken_ClientSecretIncludedWhenSet) {
     OAuthDeviceFlow::Config cfg = makeConfig();
     cfg.client_secret = "my-secret";
-    std::string captured_body;
+    std::string captured_body = {};
 
     OAuthDeviceFlow flow(cfg);
     flow.setHttpPostForTesting([&captured_body](const std::string& url,

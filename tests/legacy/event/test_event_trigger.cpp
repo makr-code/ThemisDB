@@ -145,7 +145,7 @@ TEST_F(EventTriggerTest, KeyPrefixFiltering) {
     config.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
     
     std::atomic<int> callback_count{0};
-    std::string last_key;
+    std::string last_key = {};
     
     auto callback = [&callback_count, &last_key](const Changefeed::ChangeEvent& event) {
         callback_count++;

@@ -97,7 +97,7 @@ public:
                     
                     CURLcode res = curl_perform(curl);
                     if (res == CURLE_OK) {
-                        long response_code;
+                        long response_code = {};
                         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
                         if (response_code == 200) {
                             healthy_count++;
@@ -147,7 +147,7 @@ public:
             
             CURL* curl = curl_easy_init();
             if (curl) {
-                std::string response;
+                std::string response = {};
                 std::string payload = record.dump();
                 
                 curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -200,7 +200,7 @@ public:
         
         CURL* curl = curl_easy_init();
         if (curl) {
-            std::string response;
+            std::string response = {};
             
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
             curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);
@@ -268,7 +268,7 @@ private:
     static std::string getCurrentTimestamp() {
         auto now = std::chrono::system_clock::now();
         auto time = std::chrono::system_clock::to_time_t(now);
-        std::stringstream ss;
+        std::stringstream ss = {};
         ss << std::put_time(std::localtime(&time), "%Y-%m-%d %H:%M:%S");
         return ss.str();
     }

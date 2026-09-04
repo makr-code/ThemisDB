@@ -85,9 +85,9 @@ struct CompressionConfig {
 struct CompressionResult {
     std::vector<uint8_t> data;
     CompressionMethod method_used;
-    size_t original_size;
-    float compression_ratio;
-    bool success;
+    size_t original_size = {};
+    float compression_ratio = {};
+    bool success = {};
     
     CompressionResult() 
         : method_used(CompressionMethod::NONE)

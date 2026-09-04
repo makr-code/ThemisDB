@@ -33,7 +33,7 @@ bool ReplicaTopology::loadFromJson(const nlohmann::json& config) {
     replica_sets_.clear();
     
     for (const auto& item : config) {
-        ShardReplicaSet replica_set;
+        ShardReplicaSet replica_set = {};
         
         if (!item.contains("shard_id") || !item.contains("primary_id")) {
             continue;

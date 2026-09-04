@@ -34,7 +34,7 @@ using namespace std::chrono_literals;
 struct MockKeyEntry {
     std::vector<uint8_t> material;
     enum Status { ACTIVE, ROTATING, REVOKED } status;
-    uint64_t rotation_epoch;
+    uint64_t rotation_epoch = {};
 };
 
 class MockKeyProvider {

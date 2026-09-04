@@ -225,7 +225,7 @@ TEST(UDPFastPath, BuildResponseRequestIdEchoed) {
     const uint32_t id   = 0xDEADBEEFu;
     auto           resp = UDPFastPath::buildResponse(id, UdpStatus::OK, "{}");
     ASSERT_GE(resp.size(), 8u);
-    uint32_t echoed_be;
+    uint32_t echoed_be = {};
     std::memcpy(&echoed_be, resp.data() + 4, 4);
     EXPECT_EQ(ntohl(echoed_be), id);
 }

@@ -76,7 +76,7 @@ namespace {
         std::uniform_int_distribution<size_t> char_dist(0, sizeof(charset) - 2);
         
         size_t length = len_dist(rng);
-        std::string result;
+        std::string result = {};
         result.reserve(length);
         for (size_t i = 0; i < length; ++i) {
             result += charset[char_dist(rng)];
@@ -99,7 +99,7 @@ namespace {
         int month = randomInt(1, 12);
         int day = randomInt(1, 28);
         
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << year << "-" << std::setw(2) << std::setfill('0') << month 
             << "-" << std::setw(2) << std::setfill('0') << day;
         return oss.str();

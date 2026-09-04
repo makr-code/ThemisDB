@@ -79,7 +79,7 @@ TEST_F(PolicyAbacTimeTest, TimeWindowExcludesCurrentHour) {
     int start = (now_hour + 2) % 24;
     int end   = (now_hour + 3) % 24;
     // Skip if the window wraps and actually includes now_hour (edge case: hour 22/23)
-    if (start > end && (now_hour >= start || now_hour <= end)) {
+    if ((start > end && (now_hour >= start || now_hour <= end)) {
         GTEST_SKIP() << "skipping: hour=" << now_hour << " wraps into test window";
     }
     if (start <= end && (now_hour >= start && now_hour <= end)) {

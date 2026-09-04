@@ -37,7 +37,9 @@ namespace fs = std::filesystem;
 // ---------------------------------------------------------------------------
 
 BinaryMimeType detectBinaryMimeType(const std::string& raw) {
-    if (raw.size() < 4) return BinaryMimeType::UNKNOWN;
+    if (static_cast<int>(raw.size()) < 4) {
+      return BinaryMimeType::UNKNOWN;
+    }
 
     // PDF: magic bytes "%PDF"
     if (raw[0] == '%' && raw[1] == 'P' && raw[2] == 'D' && raw[3] == 'F') {
@@ -72,7 +74,7 @@ bool isConverterSafe(const std::string& converter) {
     for (char c : converter) {
         switch (c) {
             case '|': case ';': case '&': case '$': case '<': case '>':
-            case '`': case '!': case '\n': case '\r': case '\0':
+            [[fallthrough]];\n            case '`': case '!': case '\n': case '\r': case '\0':
                 return false;
             default:
                 break;
@@ -86,10 +88,14 @@ bool isConverterSafe(const std::string& converter) {
 // ---------------------------------------------------------------------------
 
 bool isPathTraversalSafe(const std::string& path) {
-    if (path.empty()) return true;
+    if (path.empty()) {
+      return true;
+    }
     // Iterate over each component of the path and reject any ".." segment.
     for (const auto& component : fs::path(path)) {
-        if (component == "..") return false;
+        if (component == "..") {
+          return false;
+        }
     }
     return true;
 }
@@ -151,14 +157,14 @@ static std::string extractXmlText(const std::string& raw,
         : pugi::parse_default;
     // Try lenient parsing for HTML
     pugi::xml_parse_result result =
-        doc.load_buffer(raw.data(), raw.size(), parse_flags);
+        doc.load_buffer(raw.data(),static_cast<int>(raw.size()), parse_flags);
     if (!result && is_html) {
         // Retry with declaration stripping for malformed HTML
-        result = doc.load_buffer(raw.data(), raw.size(),
+        result = doc.load_buffer(raw.data(),static_cast<int>(raw.size()),
                                   pugi::parse_default | pugi::parse_fragment
                                   | pugi::parse_pi);
     }
-    std::ostringstream out;
+    std::ostringstream out = {};
     collectTextNodes(doc, out);
     return out.str();
 #else
@@ -171,22 +177,26 @@ static std::string extractXmlText(const std::string& raw,
 /// without requiring nlohmann/json in this translation unit.
 /// Handles both "key":"value" and bare string values.
 static std::string extractJsonText(const std::string& raw) {
-    std::string result;
+    std::string result = {};
     result.reserve(raw.size() / 2);
     bool in_string = false;
     bool escape = false;
-    std::string token;
+    std::string token = {};
 
-    for (size_t i = 0; i < raw.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(raw.size()); ++i) {
         char c = raw[i];
         if (escape) {
-            if (in_string) token += c;
+            if (in_string) {
+              token += c;
+            }
             escape = false;
             continue;
         }
         if (c == '\\') {
             escape = true;
-            if (in_string) token += c;
+            if (in_string) {
+              token += c;
+            }
             continue;
         }
         if (c == '"') {
@@ -220,9 +230,12 @@ static std::string runExternalConverter(const std::string& cmd) {
 #else
     FILE* pipe = popen(cmd.c_str(), "r");  // NOLINT(cert-env33-c)
 #endif
-    if (!pipe) return "";
-    std::string result;
-    std::array<char, 4096> buf;
+    if (!pipe) {
+      return "";
+    }
+    std::string result = {};
+    std::array<char, 4096> buf = {};
+
     while (std::fgets(buf.data(), static_cast<int>(buf.size()), pipe) != nullptr) {
         result += buf.data();
     }
@@ -242,18 +255,22 @@ static std::string shellEscapePath(const std::string& path) {
     // Double-quote escaping for cmd.exe / PowerShell
     std::string escaped = "\"";
     for (char c : path) {
-        if (c == '"') escaped += "\\\"";
+        if (c == '"') {
+          escaped += "\\\"";
+        }
         else          escaped += c;
     }
     escaped += '"';
     return escaped;
 #else
     // POSIX single-quote escaping
-    std::string escaped;
-    escaped.reserve(path.size() + 2);
+    std::string escaped = {};
+    escaped.reserve(static_cast<int>(path.size()) + 2);
     escaped += '\'';
     for (char c : path) {
-        if (c == '\'') escaped += "'\"'\"'";
+        if (c == '\'') {
+          escaped += "'\"'\"'";
+        }
         else           escaped += c;
     }
     escaped += '\'';
@@ -277,8 +294,12 @@ static const char* stderrRedirect() {
 /// @return Extracted plain text, or empty string on failure/unavailability.
 static std::string extractPdfWithConverter(const std::string& file_path,
                                            const std::string& converter) {
-    if (converter.empty()) return "";
-    if (!isConverterSafe(converter)) return "";
+    if (converter.empty()) {
+      return "";
+    }
+    if (!isConverterSafe(converter)) {
+      return "";
+    }
     // pdftotext syntax: pdftotext <input> - (dash = stdout)
     std::string cmd = converter + " " + shellEscapePath(file_path) + " -" + stderrRedirect();
     return runExternalConverter(cmd);
@@ -291,8 +312,12 @@ static std::string extractPdfWithConverter(const std::string& file_path,
 /// @return Extracted plain text, or empty string on failure/unavailability.
 static std::string extractDocxWithConverter(const std::string& file_path,
                                             const std::string& converter) {
-    if (converter.empty()) return "";
-    if (!isConverterSafe(converter)) return "";
+    if (converter.empty()) {
+      return "";
+    }
+    if (!isConverterSafe(converter)) {
+      return "";
+    }
     // pandoc syntax: pandoc -f docx -t plain <input>
     std::string cmd = converter + " -f docx -t plain " + shellEscapePath(file_path) + stderrRedirect();
     return runExternalConverter(cmd);
@@ -330,7 +355,9 @@ public:
         auto it = config.options.find("format");
         if (it != config.options.end()) {
             // Parse format string
-            if (it->second == "pdf") format_ = FileFormat::PDF;
+            if (it->second == "pdf") {
+              format_ = FileFormat::PDF;
+            }
             else if (it->second == "docx") format_ = FileFormat::DOCX;
             else if (it->second == "txt") format_ = FileFormat::TXT;
             else if (it->second == "html") format_ = FileFormat::HTML;
@@ -510,7 +537,7 @@ public:
                                 ++processed;
                                 if (progress_callback &&
                                     (processed % 10 == 0 ||
-                                     processed == files_to_process.size())) {
+                                     processed == static_cast<int>(files_to_process.size()))) {
                                     progress_callback(config_.source_id, processed,
                                                       files_to_process.size(),
                                                       "Validation failed: " +
@@ -540,7 +567,7 @@ public:
                     // Report progress
                     if (progress_callback &&
                         (processed % 10 == 0 ||
-                         processed == files_to_process.size())) {
+                         processed == static_cast<int>(files_to_process.size()))) {
                         progress_callback(config_.source_id, processed, 
                                         files_to_process.size(),
                                         "Processing: " + file_path.filename().string());
@@ -580,7 +607,7 @@ private:
         for (auto& ch : ext) {
             ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
         }
-        std::string content;
+        std::string content = {};
 
         // Read raw file content
         std::ifstream file(file_path, std::ios::binary);
@@ -658,7 +685,7 @@ public:
         format_ = format;
     }
 
-    void setMetadataExtraction(bool enabled) {
+    void setMetadataExtraction([[maybe_unused]] bool enabled) {
         metadata_extraction_ = enabled;
     }
 
@@ -757,7 +784,7 @@ void FileSystemIngester::setFileFormat(FileFormat format) {
     impl_->setFileFormat(format);
 }
 
-void FileSystemIngester::setMetadataExtraction(bool enabled) {
+void FileSystemIngester::setMetadataExtraction([[maybe_unused]] bool enabled) {
     impl_->setMetadataExtraction(enabled);
 }
 

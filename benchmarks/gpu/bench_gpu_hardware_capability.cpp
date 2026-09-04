@@ -96,7 +96,7 @@ public:
     TransferResult transfer(const TransferRequest& req,
                             const std::vector<DeviceInfo>& devs)
     {
-        TransferResult res;
+        TransferResult res = {};
 
         if (req.size_bytes == 0) { res.ok = true; return res; }
         if (!req.src_ptr || !req.dst_ptr) {
@@ -169,7 +169,9 @@ struct Topology {
     }
 
     float bandwidthBetween(int a, int b) const {
-        if (a < 0 || b < 0 || a >= num_gpus || b >= num_gpus) return 0.0f;
+        if (a < 0 || b < 0 || a >= num_gpus || b >= num_gpus) {
+          return 0.0f;
+        }
         return bw[static_cast<size_t>(a)][static_cast<size_t>(b)];
     }
 
@@ -191,7 +193,9 @@ static Topology makeNVLinkTopo(int n, float bw_gbps = 300.0f) {
                 std::vector<float>(static_cast<size_t>(n), 0.0f));
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
-            if (i != j) t.addNVLink(i, j, bw_gbps);
+            if (i != j) {
+              t.addNVLink(i, j, bw_gbps);
+            }
         }
     }
     return t;
@@ -218,7 +222,9 @@ public:
 
     const DeviceInfo* select(uint64_t required_vram = 0) {
         std::lock_guard<std::mutex> lk(mu_);
-        if (devs_.empty()) return nullptr;
+        if (devs_.empty()) {
+          return nullptr;
+        }
 
         switch (strategy_) {
             case Strategy::ROUND_ROBIN: {
@@ -226,15 +232,21 @@ public:
                 for (size_t tried = 0; tried < n; ++tried) {
                     const size_t idx = cursor_ % n;
                     cursor_ = (cursor_ + 1) % n;
-                    if (eligible(devs_[idx], required_vram)) return &devs_[idx];
+                    if (eligible(devs_[idx], required_vram)) {
+                      return &devs_[idx];
+                    }
                 }
                 return nullptr;
             }
             case Strategy::LEAST_LOADED: {
                 const DeviceInfo* best = nullptr;
                 for (const auto& d : devs_) {
-                    if (!eligible(d, required_vram)) continue;
-                    if (!best || d.free_vram > best->free_vram) best = &d;
+                    if (!eligible(d, required_vram)) {
+                      continue;
+                    }
+                    if (!best || d.free_vram > best->free_vram) {
+                      best = &d;
+                    }
                 }
                 return best;
             }
@@ -243,8 +255,12 @@ public:
                     // fallback to least-loaded
                     const DeviceInfo* best = nullptr;
                     for (const auto& d : devs_) {
-                        if (!eligible(d, required_vram)) continue;
-                        if (!best || d.free_vram > best->free_vram) best = &d;
+                        if (!eligible(d, required_vram)) {
+                          continue;
+                        }
+                        if (!best || d.free_vram > best->free_vram) {
+                          best = &d;
+                        }
                     }
                     return best;
                 }
@@ -252,7 +268,9 @@ public:
                 const DeviceInfo* best = nullptr;
                 float best_bw = -1.0f;
                 for (const auto& d : devs_) {
-                    if (!eligible(d, required_vram)) continue;
+                    if (!eligible(d, required_vram)) {
+                      continue;
+                    }
                     float bw = topo_.totalOutgoing(d.index);
                     if (bw > best_bw) { best_bw = bw; best = &d; }
                 }
@@ -512,7 +530,9 @@ static void BM_GpuNVLinkBandwidthQuery(benchmark::State& state) {
         float total = 0.0f;
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
-                if (i != j) total += topo.bandwidthBetween(i, j);
+                if (i != j) {
+                  total += topo.bandwidthBetween(i, j);
+                }
             }
         }
         benchmark::DoNotOptimize(total);

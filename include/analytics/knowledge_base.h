@@ -74,7 +74,7 @@ struct TriplePattern {
  * A Horn clause rule: if all conditions match, derive each consequent.
  */
 struct HornClause {
-    std::string                  id;
+    std::string                  id = {};
     int                          priority = 0;     ///< Higher fires first
     std::string                  description;
     std::vector<TriplePattern>   conditions;       ///< All must match (conjunction)

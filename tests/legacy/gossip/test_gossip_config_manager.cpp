@@ -333,8 +333,8 @@ TEST_F(GossipConfigManagerTest, ConfigUpdateCallback) {
     GossipConfigManager manager(config, topology_);
     
     bool callback_called = false;
-    std::string received_key;
-    std::string received_value;
+    std::string received_key = {};
+    std::string received_value = {};
     
     manager.onConfigUpdate([&](const ConfigUpdate& update) {
         callback_called = true;
@@ -477,7 +477,7 @@ TEST_F(GossipConfigManagerTest, ResourceSnapshotCallback) {
     GossipConfigManager manager(config, topology_);
     
     bool callback_called = false;
-    std::string received_shard_id;
+    std::string received_shard_id = {};
     
     manager.onResourceSnapshot([&](const ResourceSnapshot& snapshot) {
         callback_called = true;

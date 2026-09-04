@@ -33,11 +33,15 @@ namespace {
 [[nodiscard]] std::map<std::string, uint64_t> parseFolded(const std::string& text) {
     std::map<std::string, uint64_t> result;
     std::istringstream stream(text);
-    std::string line;
+    std::string line = {};
     while (std::getline(stream, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         auto space = line.rfind(' ');
-        if (space == std::string::npos) continue;
+        if (space == std::string::npos) {
+          continue;
+        }
         std::string stack = line.substr(0, space);
         uint64_t count = 0;
         try {
@@ -64,7 +68,7 @@ namespace {
 // ---------------------------------------------------------------------------
 
 std::string MergedFlameGraph::toFoldedText() const {
-    std::ostringstream out;
+    std::ostringstream out = {};
     for (const auto& [stack, count] : stacks) {
         out << stack << ' ' << count << '\n';
     }
@@ -86,8 +90,8 @@ json MergedFlameGraph::toJSON() const {
         {"generated_at_ms", ts_ms},
         {"node_ids", node_ids},
         {"node_versions", node_versions},
-        {"node_count", node_ids.size()},
-        {"stack_count", stacks.size()},
+        {"node_count",static_cast<int>(node_ids.size())},
+        {"stack_count",static_cast<int>(stacks.size())},
         {"folded_text", toFoldedText()},
         {"stacks", stacks_arr}
     };
@@ -115,7 +119,7 @@ public:
             insertion_order_.push_back(profile.node_id);
         }
 
-        while (config_.max_nodes > 0 && profiles_.size() > config_.max_nodes && !insertion_order_.empty()) {
+        while (config_.max_nodes > 0 && static_cast<int>(profiles_.size()) > config_.max_nodes && !insertion_order_.empty()) {
             const auto evict_id = insertion_order_.front();
             insertion_order_.erase(insertion_order_.begin());
             profiles_.erase(evict_id);
@@ -149,8 +153,12 @@ public:
         auto curMap  = parseFolded(current_text);
 
         uint64_t baseTotal = 0, curTotal = 0;
-        for (const auto& [k, v] : baseMap) baseTotal += v;
-        for (const auto& [k, v] : curMap)  curTotal  += v;
+        for (const auto& [k, v] : baseMap) {
+          baseTotal += v;
+        }
+        for (const auto& [k, v] : curMap) {
+          curTotal  += v;
+        }
 
         if (baseTotal > 0 && curTotal > 0) {
             result.cpu_regression_percent =
@@ -188,7 +196,9 @@ public:
         // Cap list sizes for usability
         const auto limit = config_.max_diff_hotspots;
         auto trim = [limit](std::vector<std::string>& v) {
-            if (v.size() > limit) v.resize(limit);
+            if (static_cast<int>(v.size()) > limit) {
+              v.resize(limit);
+            }
         };
         trim(result.new_hotspots);
         trim(result.removed_hotspots);
@@ -199,7 +209,8 @@ public:
 
     std::vector<std::string> getNodeIds() const {
         std::lock_guard<std::mutex> lk(mutex_);
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         ids.reserve(profiles_.size());
         for (const auto& [id, _] : profiles_) {
             ids.push_back(id);
@@ -210,7 +221,7 @@ public:
 
     size_t nodeCount() const {
         std::lock_guard<std::mutex> lk(mutex_);
-        return profiles_.size();
+        return static_cast<int>(profiles_.size());
     }
 
     DistributedFlameGraphConfig getConfig() const {
@@ -226,7 +237,8 @@ private:
 
     [[nodiscard]] static std::vector<std::string> collectIds(
             const std::map<std::string, NodeProfile>& snapshot) {
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         ids.reserve(snapshot.size());
         for (const auto& [id, _] : snapshot) {
             ids.push_back(id);
@@ -242,9 +254,13 @@ private:
 
         for (const auto& id : sortedUniqueIds(ids)) {
             auto it = snapshot.find(id);
-            if (it == snapshot.end()) continue;
+            if (it == snapshot.end()) {
+              continue;
+            }
             const NodeProfile& np = it->second;
-            if (np.snapshot.type != ProfileType::CPU) continue;
+            if (np.snapshot.type != ProfileType::CPU) {
+              continue;
+            }
 
             result.node_ids.push_back(id);
             result.node_versions[id] = np.version;
@@ -254,8 +270,12 @@ private:
             if (config_.normalize_per_node) {
                 // Compute total samples for this node
                 uint64_t node_total = 0;
-                for (const auto& [s, c] : stacks) node_total += c;
-                if (node_total == 0) continue;
+                for (const auto& [s, c] : stacks) {
+                  node_total += c;
+                }
+                if (node_total == 0) {
+                  continue;
+                }
 
                 // Scale each stack's count to its proportional share of this
                 // node's total samples, expressed as parts-per-million (0 –

@@ -284,7 +284,7 @@ TEST_F(GPUVectorIndexMemorySafety, ConcurrentIndexManagement) {
                 for (int i = 0; i < ITERATIONS; ++i) {
                     try {
                         {
-                            GPUVectorIndex gpu_index;
+                            GPUVectorIndex gpu_index = {};
                             if (gpu_index.initialize(64)) {
                                 ++successful_cycles;
                             }
@@ -320,7 +320,7 @@ TEST_F(GPUVectorIndexMemorySafety, ExplicitShutdownCleansupResources) {
     try {
         size_t pre_shutdown_free = CudaMemoryTracker::getFreeFenceMemory();
         
-        GPUVectorIndex gpu_index;
+        GPUVectorIndex gpu_index = {};
         
         if (!gpu_index.initialize(128)) {
             GTEST_SKIP() << "GPU initialization failed";
@@ -350,7 +350,7 @@ TEST_F(GPUVectorIndexMemorySafety, MultipleShutdownCallsSafe) {
     // Verify that calling shutdown() multiple times is safe
     
     try {
-        GPUVectorIndex gpu_index;
+        GPUVectorIndex gpu_index = {};
         
         if (!gpu_index.initialize(64)) {
             GTEST_SKIP() << "GPU initialization failed";
@@ -380,7 +380,7 @@ TEST_F(GPUVectorIndexMemorySafety, GpuStateValidation) {
         CudaMemoryTracker::resetCudaErrors();
         
         {
-            GPUVectorIndex gpu_index;
+            GPUVectorIndex gpu_index = {};
             
             if (!gpu_index.initialize(128)) {
                 GTEST_SKIP() << "GPU initialization failed";

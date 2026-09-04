@@ -377,24 +377,36 @@ bool InputValidator::IsValidUTF8(std::string_view value) {
       continue;
     } else if ((byte & 0xE0) == 0xC0) {
       // 2-byte sequence
-      if (i + 1 >= value.length()) return false;
+      if (i + 1 >= value.length()) {
+        return false;
+      }
       unsigned char next = static_cast<unsigned char>(value[i + 1]);
-      if ((next & 0xC0) != 0x80) return false;
+      if ((next & 0xC0) != 0x80) {
+        return false;
+      }
       i++;
     } else if ((byte & 0xF0) == 0xE0) {
       // 3-byte sequence
-      if (i + 2 >= value.length()) return false;
+      if (i + 2 >= value.length()) {
+        return false;
+      }
       for (int j = 1; j <= 2; j++) {
         unsigned char next = static_cast<unsigned char>(value[i + j]);
-        if ((next & 0xC0) != 0x80) return false;
+        if ((next & 0xC0) != 0x80) {
+          return false;
+        }
       }
       i += 2;
     } else if ((byte & 0xF8) == 0xF0) {
       // 4-byte sequence
-      if (i + 3 >= value.length()) return false;
+      if (i + 3 >= value.length()) {
+        return false;
+      }
       for (int j = 1; j <= 3; j++) {
         unsigned char next = static_cast<unsigned char>(value[i + j]);
-        if ((next & 0xC0) != 0x80) return false;
+        if ((next & 0xC0) != 0x80) {
+          return false;
+        }
       }
       i += 3;
     } else {
@@ -430,7 +442,7 @@ bool InputValidator::ContainsInjectionPatterns(std::string_view value) {
 
 std::optional<std::string> InputValidator::SafeUrlDecode(
     std::string_view encoded) {
-  std::string decoded;
+  std::string decoded = {};
   
   for (size_t i = 0; i < encoded.length(); ++i) {
     if (encoded[i] == '%') {
@@ -461,7 +473,7 @@ std::optional<std::string> InputValidator::SafeUrlDecode(
 }
 
 std::string InputValidator::EscapeForSQL(std::string_view value) {
-  std::string escaped;
+  std::string escaped = {};
   
   for (char c : value) {
     if (c == '\'') {

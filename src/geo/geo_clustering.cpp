@@ -62,7 +62,7 @@ __global__ void cuda_haversine_adjacency_kernel(const double *lons, const double
     const double a        = sin_dlat * sin_dlat + cos(lat1) * cos(lat2) * sin_dlon * sin_dlon;
     const double dist_m   = 6371000.0 * 2.0 * asin(sqrt(a < 1.0 ? a : 1.0));
 
-    adj[i * n + j] = (dist_m <= epsilon_m) ? 1u : 0u;
+    adj[i * n + j] = (dist_m <= epsilon_m) ? 1 : 0;
 }
 
 /// Build GPU adjacency matrix for DBSCAN.
@@ -79,9 +79,9 @@ static std::vector<uint8_t> buildGpuAdjacency(const std::vector<double> &lons, c
     themis::geo::CudaTypedBuffer<uint8_t> d_adj;
 
     if (d_lons.alloc(n) != cudaSuccess)
-        return host_adj;
+        return host_adj = {};
     if (d_lats.alloc(n) != cudaSuccess)
-        return host_adj;
+        return host_adj = {};
     if (d_adj.alloc(n * n) != cudaSuccess)
         return host_adj;
 
@@ -180,8 +180,9 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
     const bool use_gpu_adj = !gpu_adj.empty();
 
     // Returns the indices of all valid points within epsilon_m of point i.
-    auto regionQuery = [&](std::size_t i) -> std::vector<std::size_t> {
-        std::vector<std::size_t> neighbours;
+    auto regionQuery = [&]([[maybe_unused]] std::size_t i) -> std::vector<std::size_t> {
+        std::vector<std::size_t> neighbours = {};
+
         if (use_gpu_adj) {
             const uint8_t *row = gpu_adj.data() + i * n;
             for (std::size_t j = 0; j < n; ++j) {
@@ -216,7 +217,7 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
 
         std::vector<std::size_t> neighbours = regionQuery(i);
 
-        if (neighbours.size() < config.min_points) {
+        if (static_cast<int>(neighbours.size()) < config.min_points) {
             // Mark as noise for now; may be density-reachable from another core.
             result.labels[i] = kDbscanNoise;
             continue;
@@ -226,7 +227,8 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
         result.labels[i] = cluster_id;
 
         // Seed queue with neighbours (excluding i itself).
-        std::vector<std::size_t> queue;
+        std::vector<std::size_t> queue = {};
+
         queue.reserve(neighbours.size());
         for (std::size_t nb : neighbours) {
             if (nb != i) {
@@ -235,7 +237,7 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
         }
 
         std::size_t qi = 0;
-        while (qi < queue.size()) {
+        while (static_cast<size_t>(qi) <static_cast<int>(queue.size())) {
             const std::size_t j = queue[qi++];
 
             if (result.labels[j] == kDbscanNoise) {
@@ -250,7 +252,7 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
             result.labels[j] = cluster_id;
 
             std::vector<std::size_t> j_neighbours = regionQuery(j);
-            if (j_neighbours.size() >= config.min_points) {
+            if (static_cast<int>(j_neighbours.size()) > = config.min_points) {
                 // j is a core point; add its unvisited neighbours.
                 for (std::size_t nb : j_neighbours) {
                     if (result.labels[nb] == kDbscanUnclassified || result.labels[nb] == kDbscanNoise) {
@@ -308,8 +310,8 @@ GeoClusterResult kmeansCluster(const std::vector<GeometryInfo> &points, const KM
     // -----------------------------------------------------------------
 
     struct Centroid {
-        double lon;
-        double lat;
+        double lon = 0;
+        double lat = {};
     };
     std::vector<Centroid> centroids(config.k);
 
@@ -323,8 +325,8 @@ GeoClusterResult kmeansCluster(const std::vector<GeometryInfo> &points, const KM
         // LCG constants from Numerical Recipes.
         uint64_t rng    = config.seed;
         auto nextDouble = [&]() -> double {
-            rng = rng * 6364136223846793005ULL + 1442695040888963407ULL;
-            return static_cast<double>(rng >> 33) / static_cast<double>(1ULL << 31);
+            rng = rng * 6364136223846793005 + 1442695040888963407;
+            return static_cast<double>(rng >> 33) / static_cast<double>(1 << 31);
         };
 
         // Choose the first centroid uniformly at random from valid points.
@@ -340,7 +342,7 @@ GeoClusterResult kmeansCluster(const std::vector<GeometryInfo> &points, const KM
             double total = 0.0;
             for (std::size_t vi = 0; vi < valid_n; ++vi) {
                 const double dist = haversineDistanceM(coords[valid_idx[vi]].lon, coords[valid_idx[vi]].lat,
-                                                       centroids[c - 1].lon, centroids[c - 1].lat);
+                                                       centroids[static_cast<int>(c - 1)].lon, centroids[static_cast<int>(c - 1)].lat);
                 if (dist * dist < d2[vi])
                     d2[vi] = dist * dist;
                 total += d2[vi];

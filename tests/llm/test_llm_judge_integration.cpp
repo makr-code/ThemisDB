@@ -185,7 +185,7 @@ TEST_F(LLMJudgeIntegrationInferenceFunctionTest, CustomInferenceFunctionCalled) 
 TEST_F(LLMJudgeIntegrationInferenceFunctionTest, InferenceFunctionReceivesPrompt) {
     LLMJudgeIntegration integration;
 
-    std::string received_prompt;
+    std::string received_prompt = {};
     integration.setInferenceFunction([&received_prompt](const std::string& prompt) {
         received_prompt = prompt;
         return makeJudgeResponse(4.5, 0.9, "Test");

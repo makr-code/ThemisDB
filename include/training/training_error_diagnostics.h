@@ -86,7 +86,7 @@ public:
      * @brief Add a numeric input parameter.
      */
     TrainingDiagnostics& input(const std::string& key, double value) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << value;
         return input(key, oss.str());
     }
@@ -145,7 +145,7 @@ public:
      * ```
      */
     std::string to_string() const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
 
         oss << "[" << timestamp_string() << "] ";
         
@@ -162,7 +162,9 @@ public:
         if (!inputs_.empty()) {
             oss << "\nInputs: ";
             for (size_t i = 0; i < inputs_.size(); ++i) {
-                if (i > 0) oss << ", ";
+                if (i > 0) {
+                  oss << ", ";
+                }
                 oss << inputs_[i].first << "=" << inputs_[i].second;
             }
         }
@@ -170,7 +172,9 @@ public:
         if (!notes_.empty()) {
             oss << "\nNotes: ";
             for (size_t i = 0; i < notes_.size(); ++i) {
-                if (i > 0) oss << "; ";
+                if (i > 0) {
+                  oss << "; ";
+                }
                 oss << notes_[i];
             }
         }

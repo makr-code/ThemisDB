@@ -37,7 +37,7 @@ namespace {
 static std::string b64url(const std::vector<uint8_t>& in) {
     static const char* tbl =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string b64;
+    std::string b64 = {};
     b64.reserve(((in.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= in.size()) {
@@ -61,7 +61,9 @@ static std::string b64url(const std::vector<uint8_t>& in) {
         b64.push_back('=');
     }
     for (char& c : b64) { if (c == '+') c = '-'; else if (c == '/') c = '_'; }
-    while (!b64.empty() && b64.back() == '=') b64.pop_back();
+    while (!b64.empty() && b64.back() == '=') {
+      b64.pop_back();
+    }
     return b64;
 }
 
@@ -75,11 +77,15 @@ struct ECFixture {
 
     ECFixture() {
         ec_key = EC_KEY_new_by_curve_name(NID_X9_62_prime256v1);
-        if (!ec_key) throw std::runtime_error("EC_KEY_new_by_curve_name failed");
+        if (!ec_key) {
+          throw std::runtime_error("EC_KEY_new_by_curve_name failed");
+        }
         if (EC_KEY_generate_key(ec_key) != 1)
             throw std::runtime_error("EC_KEY_generate_key failed");
         pkey = EVP_PKEY_new();
-        if (!pkey) throw std::runtime_error("EVP_PKEY_new failed");
+        if (!pkey) {
+          throw std::runtime_error("EVP_PKEY_new failed");
+        }
         // EVP_PKEY_set1_EC_KEY increments ec_key's refcount; we keep our own
         // reference so we can call EC_KEY_get0_public_key() directly on ec_key.
         if (EVP_PKEY_set1_EC_KEY(pkey, ec_key) != 1)
@@ -88,8 +94,12 @@ struct ECFixture {
 
     ~ECFixture() {
         // Free our own ec_key reference (EVP_PKEY holds a separate reference)
-        if (ec_key) EC_KEY_free(ec_key);
-        if (pkey) EVP_PKEY_free(pkey);
+        if (ec_key) {
+          EC_KEY_free(ec_key);
+        }
+        if (pkey) {
+          EVP_PKEY_free(pkey);
+        }
     }
 
     // Extract raw x,y coordinates (32 bytes each for P-256)
@@ -113,7 +123,9 @@ struct ECFixture {
 // Sign header_payload with ECDSA P-256, return base64url(r||s) (JWT raw encoding)
 static std::string sign_ES256(EVP_PKEY* pkey, const std::string& header_payload) {
     EVP_MD_CTX* mctx = EVP_MD_CTX_new();
-    if (!mctx) throw std::runtime_error("EVP_MD_CTX_new failed");
+    if (!mctx) {
+      throw std::runtime_error("EVP_MD_CTX_new failed");
+    }
 
     size_t der_len = 0;
     EVP_DigestSignInit(mctx, nullptr, EVP_sha256(), nullptr, pkey);
@@ -127,7 +139,9 @@ static std::string sign_ES256(EVP_PKEY* pkey, const std::string& header_payload)
     // Parse DER-encoded ECDSA_SIG → extract r and s, build r||s (32+32 bytes)
     const unsigned char* der_ptr = der_sig.data();
     ECDSA_SIG* esig = d2i_ECDSA_SIG(nullptr, &der_ptr, (long)der_sig.size());
-    if (!esig) throw std::runtime_error("d2i_ECDSA_SIG failed");
+    if (!esig) {
+      throw std::runtime_error("d2i_ECDSA_SIG failed");
+    }
 
     const BIGNUM *r = nullptr, *s = nullptr;
     ECDSA_SIG_get0(esig, &r, &s);
@@ -256,8 +270,10 @@ TEST_F(ES256ValidatorTest, TamperedPayload_Rejected) {
     auto parts = [&]() -> std::vector<std::string> {
         std::vector<std::string> p;
         std::istringstream ss(token);
-        std::string part;
-        while (std::getline(ss, part, '.')) p.push_back(part);
+        std::string part = {};
+        while (std::getline(ss, part, '.')) {
+          p.push_back(part);
+        }
         return p;
     }();
     ASSERT_EQ(parts.size(), 3u);

@@ -35,7 +35,8 @@ static void GP23_01_BackendSelection_Least_Loaded(benchmark::State& state) {
     GPULoadBalancer balancer(GPULoadBalancer::Strategy::LEAST_LOADED);
     
     // Create mock device list (in-memory only, no actual GPU calls)
-    std::vector<DeviceInfo> devices;
+    std::vector<DeviceInfo> devices = {};
+
     for (int i = 0; i < 4; ++i) {
         DeviceInfo info;
         info.index = i;
@@ -61,7 +62,8 @@ BENCHMARK(GP23_01_BackendSelection_Least_Loaded)->Repetitions(5);
 static void GP23_01_BackendSelection_Round_Robin(benchmark::State& state) {
     GPULoadBalancer balancer(GPULoadBalancer::Strategy::ROUND_ROBIN);
     
-    std::vector<DeviceInfo> devices;
+    std::vector<DeviceInfo> devices = {};
+
     for (int i = 0; i < 4; ++i) {
         DeviceInfo info;
         info.index = i;
@@ -133,7 +135,8 @@ BENCHMARK(GP23_03_DiagnosticEmission)->Repetitions(5);
 static void GP23_04_DeviceHealthCheck(benchmark::State& state) {
     GPULoadBalancer balancer(GPULoadBalancer::Strategy::ROUND_ROBIN);
     
-    std::vector<DeviceInfo> devices;
+    std::vector<DeviceInfo> devices = {};
+
     for (int i = 0; i < 4; ++i) {
         DeviceInfo info;
         info.index = i;

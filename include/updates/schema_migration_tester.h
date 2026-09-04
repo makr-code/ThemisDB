@@ -33,7 +33,7 @@ namespace updates {
 struct MigrationTestCaseResult {
     std::string name;   ///< Test case name
     bool passed = false;
-    std::string error_message;
+    std::string error_message = {};
 };
 
 /**

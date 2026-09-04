@@ -115,7 +115,7 @@ void PromptRegressionRunner::clearFixtures() {
 }
 
 std::size_t PromptRegressionRunner::fixtureCount() const noexcept {
-    return fixtures_.size();
+    return static_cast<int>(fixtures_.size());
 }
 
 // ============================================================================
@@ -137,7 +137,7 @@ RegressionResult PromptRegressionRunner::run(
 
     // Inconclusive: too few fixtures or mismatched vector sizes.
     if (n < run_config_.min_fixtures ||
-        baseline_outputs.size() != candidate_outputs.size() ||
+        static_cast<int>(baseline_outputs.size()) != static_cast<int>(candidate_outputs.size()) ||
         n == 0) {
         result.inconclusive = true;
         return result;
@@ -239,13 +239,13 @@ RegressionResult PromptRegressionRunner::run(
 // Logging
 // ============================================================================
 
-void PromptRegressionRunner::setLogCallback(LogCallback cb) {
-    log_callback_ = std::move(cb);
+void PromptRegressionRunner::setLogCallback([[maybe_unused]] LogCallback cb) {
+    log_callback_ = std::move([[maybe_unused]] cb);
 }
 
 void PromptRegressionRunner::emitLog(const RegressionResult& result,
                                      const std::string&       template_id) const {
-    if (!log_callback_) { return; }
+    if ([[maybe_unused]] !log_callback_) { return; }
     try {
         const auto ts = static_cast<std::int64_t>(
             std::chrono::system_clock::to_time_t(

@@ -40,7 +40,7 @@ TEST_F(CounterMergeOperatorTest, BasicIncrement) {
     ASSERT_TRUE(status.ok()) << status.ToString();
     
     // Read back
-    std::string value;
+    std::string value = {};
     status = db_->Get(rocksdb::ReadOptions(), "counter1", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "5");
@@ -53,7 +53,7 @@ TEST_F(CounterMergeOperatorTest, MultipleIncrements) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "counter2", "5").ok());
     
     // Read back - should be 35
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "counter2", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "35");
@@ -68,7 +68,7 @@ TEST_F(CounterMergeOperatorTest, NegativeIncrements) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "counter3", "-20").ok());
     
     // Should be 50
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "counter3", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "50");
@@ -82,7 +82,7 @@ TEST_F(CounterMergeOperatorTest, ZeroIncrement) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "counter4", "0").ok());
     
     // Should still be 42
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "counter4", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "42");
@@ -94,7 +94,7 @@ TEST_F(CounterMergeOperatorTest, LargeNumbers) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "counter5", "2000000").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "counter5", "3000000").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "counter5", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "6000000");
@@ -108,7 +108,7 @@ TEST_F(CounterMergeOperatorTest, MixedWithPut) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "counter6", "50").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "counter6", "25").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "counter6", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "175");
@@ -122,7 +122,7 @@ TEST_F(CounterMergeOperatorTest, ConcurrentCounters) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "counter_c", "30").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "counter_b", "15").ok());
     
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->Get(rocksdb::ReadOptions(), "counter_a", &value).ok());
     EXPECT_EQ(value, "15");
     
@@ -143,7 +143,7 @@ TEST_F(CounterMergeOperatorTest, CounterAfterDelete) {
     // Merge after delete should start fresh
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "counter7", "50").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "counter7", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "50");
@@ -164,7 +164,7 @@ TEST_F(CounterMergeOperatorTest, PersistenceAfterReopen) {
     ASSERT_TRUE(status.ok());
     
     // Verify counter persisted
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->Get(rocksdb::ReadOptions(), "counter8", &value).ok());
     EXPECT_EQ(value, "300");
     

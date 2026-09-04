@@ -276,7 +276,9 @@ struct JoinConsistencyTest : TemporalCrossModuleFixture {};
 TEST_F(JoinConsistencyTest, JoinAsOf_MatchingPredicate_ReturnsPairsCurrentAtInstant) {
     // Join predicate: employee's dept_id equals the department's key.
     auto predicate = [](const VersionedDocument& e, const VersionedDocument& d) -> bool {
-        if (!e.data.contains("dept_id")) return false;
+        if (!e.data.contains("dept_id")) {
+          return false;
+        }
         return e.data["dept_id"].get<std::string>() == d.key;
     };
 

@@ -37,10 +37,14 @@ static fs::path makeTempDir(const std::string& suffix) {
 
 // Count YAML files in a directory tree.
 static size_t countYamlFiles(const fs::path& dir) {
-    if (!fs::exists(dir)) return 0;
+    if (!fs::exists(dir)) {
+      return 0;
+    }
     size_t n = 0;
     for (const auto& e : fs::recursive_directory_iterator(dir)) {
-        if (e.path().extension() == ".yaml") ++n;
+        if (e.path().extension() == ".yaml") {
+          ++n;
+        }
     }
     return n;
 }

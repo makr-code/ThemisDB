@@ -91,18 +91,25 @@ DiscourseVerdict clusterMajorityVerdict(
     const std::vector<DiscourseRoundOutput>& outputs,
     const std::vector<std::string>&          school_ids)
 {
-    std::unordered_map<int, int> counts;
+    std::unordered_map<int, int> counts = {};
+
     for (const auto& sid : school_ids) {
         auto it = std::find_if(outputs.begin(), outputs.end(),
                                [&sid](const DiscourseRoundOutput& o) {
                                    return o.school_id == sid;
                                });
-        if (it == outputs.end()) continue;
-        if (it->timed_out || it->ldm_verdict == DiscourseVerdict::ABSTAIN) continue;
+        if (it == outputs.end()) {
+          continue;
+        }
+        if (it->timed_out || it->ldm_verdict == DiscourseVerdict::ABSTAIN) {
+          continue;
+        }
         counts[static_cast<int>(it->ldm_verdict)]++;
     }
 
-    if (counts.empty()) return DiscourseVerdict::ABSTAIN;
+    if (counts.empty()) {
+      return DiscourseVerdict::ABSTAIN;
+    }
 
     auto best = std::max_element(counts.begin(), counts.end(),
                                  [](const auto& a, const auto& b) {
@@ -129,7 +136,9 @@ struct DiscourseOrchestrator::Impl {
 
     /// Returns the active inference function; falls back to stub when empty.
     LLMInferenceFn effectiveInferenceFn() const {
-        if (inference_fn) return inference_fn;
+        if (inference_fn) {
+          return inference_fn;
+        }
         return stubLLMInference;
     }
 };
@@ -150,7 +159,7 @@ void DiscourseOrchestrator::setLLMInferenceFn(LLMInferenceFn fn)
     impl_->inference_fn = std::move(fn);
 }
 
-void DiscourseOrchestrator::setSchoolTimeoutMs(int timeout_ms) noexcept
+void DiscourseOrchestrator::setSchoolTimeoutMs([[maybe_unused]] int timeout_ms) noexcept
 {
     impl_->timeout_ms = timeout_ms;
 }
@@ -257,7 +266,8 @@ DiscourseOrchestrator::runEbene2(
     // --- Intra-cluster consolidation ---
     for (const auto& [cluster_name, school_ids] : plan.cluster_map) {
         // Identify active (non-ABSTAIN) schools in this cluster.
-        std::vector<std::string> active_ids;
+        std::vector<std::string> active_ids = {};
+
         for (const auto& sid : school_ids) {
             auto it = std::find_if(ebene1_results.begin(), ebene1_results.end(),
                                    [&sid](const DiscourseRoundOutput& o) {
@@ -273,7 +283,9 @@ DiscourseOrchestrator::runEbene2(
 
         // Empty cluster — skip silently (not an error; logged at DEBUG level).
         // Error: LDM_CLUSTER_EMPTY — observable via cluster_positions count.
-        if (active_ids.empty()) continue;
+        if (active_ids.empty()) {
+          continue;
+        }
 
         ClusterPosition cp;
         cp.cluster_name = cluster_name;
@@ -283,7 +295,8 @@ DiscourseOrchestrator::runEbene2(
                           static_cast<double>(school_ids.size());
 
         // Collect thesis_ids from active schools (up to 3 per school, deduplicated).
-        std::vector<std::string> all_thesis;
+        std::vector<std::string> all_thesis = {};
+
         for (const auto& sid : active_ids) {
             auto it = std::find_if(ebene1_results.begin(), ebene1_results.end(),
                                    [&sid](const DiscourseRoundOutput& o) {
@@ -321,7 +334,7 @@ DiscourseOrchestrator::runEbene2(
         const auto sep_pos = axis.find(kAxisSep);
         if (sep_pos != std::string::npos) {
             entry.cluster_a = axis.substr(0, sep_pos);
-            entry.cluster_b = axis.substr(sep_pos + kAxisSep.size());
+            entry.cluster_b = axis.substr(sep_pos + static_cast<int>(kAxisSep.size()) );
         } else {
             entry.cluster_a = axis;
             entry.cluster_b = axis;
@@ -365,7 +378,7 @@ std::vector<DiscourseRoundOutput> DiscourseOrchestrator::runMirrorSchools(
                                      }));
     }
 
-    for (std::size_t i = 0; i < mirror_policy.mirror_school_ids.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(mirror_policy.mirror_school_ids.size()); ++i) {
         const std::string& sid    = mirror_policy.mirror_school_ids[i];
         auto status = futures[i].wait_for(std::chrono::milliseconds(timeout_ms));
 

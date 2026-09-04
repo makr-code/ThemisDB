@@ -54,7 +54,9 @@ public:
 
     /// Route a key to its shard index (deterministic for the same key + ring).
     int route(const std::string& key) const {
-        if (num_shards_ == 0) return -1;
+        if (num_shards_ == 0) {
+          return -1;
+        }
         std::size_t h = std::hash<std::string>{}(key);
         return static_cast<int>(h % static_cast<std::size_t>(num_shards_));
     }
@@ -66,7 +68,9 @@ public:
 
     /// Fallback: return the next shard in ring order when primary is unavailable.
     int fallback(const std::string& key, int depth) const {
-        if (num_shards_ == 0) return -1;
+        if (num_shards_ == 0) {
+          return -1;
+        }
         std::size_t h = std::hash<std::string>{}(key);
         return static_cast<int>((h + static_cast<std::size_t>(depth)) %
                                 static_cast<std::size_t>(num_shards_));
@@ -97,7 +101,7 @@ enum class TxnState { IDLE, PREPARED, COMMITTED, ABORTED, IN_DOUBT };
 
 struct StubTxnRecord {
     TxnState state{TxnState::IDLE};
-    std::string txn_id;
+    std::string txn_id = {};
 };
 
 /// Stub distributed coordinator implementing 2PC contract (§2).
@@ -115,19 +119,29 @@ public:
 
     ShardingErrorCode commit(const std::string& txn_id) {
         auto it = txns_.find(txn_id);
-        if (it == txns_.end()) return ShardingErrorCode::INTERNAL_ERROR;
+        if (it == txns_.end()) {
+          return ShardingErrorCode::INTERNAL_ERROR;
+        }
         // Double-commit: idempotent no-op per §2
-        if (it->second.state == TxnState::COMMITTED) return ShardingErrorCode::OK;
-        if (it->second.state != TxnState::PREPARED) return ShardingErrorCode::INTERNAL_ERROR;
+        if (it->second.state == TxnState::COMMITTED) {
+          return ShardingErrorCode::OK;
+        }
+        if (it->second.state != TxnState::PREPARED) {
+          return ShardingErrorCode::INTERNAL_ERROR;
+        }
         it->second.state = TxnState::COMMITTED;
         return ShardingErrorCode::OK;
     }
 
     ShardingErrorCode abort(const std::string& txn_id) {
         auto it = txns_.find(txn_id);
-        if (it == txns_.end()) return ShardingErrorCode::INTERNAL_ERROR;
+        if (it == txns_.end()) {
+          return ShardingErrorCode::INTERNAL_ERROR;
+        }
         // Idempotent
-        if (it->second.state == TxnState::ABORTED) return ShardingErrorCode::OK;
+        if (it->second.state == TxnState::ABORTED) {
+          return ShardingErrorCode::OK;
+        }
         it->second.state = TxnState::ABORTED;
         return ShardingErrorCode::OK;
     }
@@ -143,7 +157,9 @@ public:
 
     TxnState stateOf(const std::string& txn_id) const {
         auto it = txns_.find(txn_id);
-        if (it == txns_.end()) return TxnState::IDLE;
+        if (it == txns_.end()) {
+          return TxnState::IDLE;
+        }
         return it->second.state;
     }
 
@@ -154,12 +170,14 @@ private:
 /// Stub WAL entry.
 struct WalEntry {
     uint64_t lsn{0};
-    std::string data;
+    std::string data = {};
     uint32_t crc{0};
 
     static uint32_t computeCrc(const std::string& d) {
         uint32_t h = 0;
-        for (unsigned char c : d) h = h * 31 + c;
+        for (unsigned char c : d) {
+          h = h * 31 + c;
+        }
         return h;
     }
 };
@@ -190,7 +208,9 @@ public:
 
     /// Inject corruption into an entry for testing.
     void corruptEntry(std::size_t idx) {
-        if (idx < entries_.size()) entries_[idx].crc ^= 0xDEADBEEFu;
+        if (idx < entries_.size()) {
+          entries_[idx].crc ^= 0xDEADBEEFu;
+        }
     }
 
     std::size_t size() const noexcept { return entries_.size(); }
@@ -323,7 +343,9 @@ TEST(ShardingContract2PC, SCR08_CoordinatorCrashLeavesTxnInDoubt) {
 TEST(ShardingContractWal, SCR09_AppendOrderingPreserved) {
     StubWal wal;
     const std::vector<std::string> entries = {"entry-A", "entry-B", "entry-C"};
-    for (const auto& e : entries) ASSERT_EQ(wal.append(e), ShardingErrorCode::OK);
+    for (const auto& e : entries) {
+      ASSERT_EQ(wal.append(e), ShardingErrorCode::OK);
+    }
     EXPECT_EQ(wal.size(), entries.size());
     // LSNs must be strictly increasing
     const auto& stored = wal.entries();
@@ -356,7 +378,9 @@ TEST(ShardingContractWal, SCR11_CorruptionDetectedOnReplay) {
 TEST(ShardingContractWal, SCR12_CleanWalReplaySucceeds) {
     StubWal wal;
     const std::vector<std::string> data = {"alpha", "beta", "gamma"};
-    for (const auto& d : data) wal.append(d);
+    for (const auto& d : data) {
+      wal.append(d);
+    }
     std::vector<std::string> out;
     EXPECT_EQ(wal.replay(&out), ShardingErrorCode::OK);
     EXPECT_EQ(out, data);

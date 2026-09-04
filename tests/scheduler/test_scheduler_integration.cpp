@@ -55,17 +55,23 @@ protected:
     }
 
     void TearDown() override {
-        if (scheduler_) scheduler_->stop();
+        if (scheduler_) {
+          scheduler_->stop();
+        }
         scheduler_.reset();
         engine_.reset();
         idx_.reset();
-        if (storage_) storage_->close();
+        if (storage_) {
+          storage_->close();
+        }
         storage_.reset();
         std::filesystem::remove_all(db_path_);
     }
 
     void makeScheduler(bool persist = false) {
-        if (scheduler_) scheduler_->stop();
+        if (scheduler_) {
+          scheduler_->stop();
+        }
         TaskScheduler::Config cfg;
         cfg.max_concurrent_tasks     = 4;
         cfg.check_interval           = 50ms;
@@ -253,11 +259,15 @@ TEST_F(SchedulerIntegrationTest, ExportMetricsPrometheusFormatValid) {
     // Every non-blank line must start with '#', or be a valid metric line
     // (i.e. must not have spaces in the metric name portion).
     std::istringstream iss(text);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         // Lines starting with '#' are HELP/TYPE comments – always valid
-        if (line[0] == '#') continue;
+        if (line[0] == '#') {
+          continue;
+        }
         // Metric lines: name[{labels}] value
         // The metric name must not contain spaces (label block starts with '{')
         auto brace = line.find('{');
@@ -319,7 +329,8 @@ TEST_F(SchedulerIntegrationTest, ConcurrentTasksExecuteInParallel) {
     });
 
     // Register 3 tasks, each triggered manually back-to-back
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (int i = 0; i < 3; ++i) {
         ScheduledTask t;
         t.name          = "slow_task_" + std::to_string(i);
@@ -335,7 +346,9 @@ TEST_F(SchedulerIntegrationTest, ConcurrentTasksExecuteInParallel) {
     // by setting next_run to "now" for all tasks
     for (auto& id : ids) {
         auto t = scheduler_->getTask(id);
-        if (t) t->next_run = std::chrono::system_clock::now();
+        if (t) {
+          t->next_run = std::chrono::system_clock::now();
+        }
     }
     // Notify scheduler
     std::this_thread::sleep_for(300ms);
@@ -431,7 +444,9 @@ TEST_F(SchedulerIntegrationTest, PersistenceRoundTripRestoresRetryPolicy) {
 TEST_F(SchedulerIntegrationTest, SchedulerLoopAppliesRetryPolicy) {
     std::atomic<int> attempts{0};
     scheduler_->registerFunction("loop_retry_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        if (++attempts < 2) throw std::runtime_error("transient");
+        if (++attempts < 2) {
+          throw std::runtime_error("transient");
+        }
         return nlohmann::json{{"ok", true}};
     });
     ScheduledTask task;

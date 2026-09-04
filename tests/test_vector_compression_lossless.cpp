@@ -18,7 +18,7 @@ namespace themis { namespace compression {
 struct SparseVectorCSR {
     std::vector<float> values;
     std::vector<uint32_t> indices;
-    uint32_t dimension;
+    uint32_t dimension = {};
     
     size_t compressed_bytes() const {
         return sizeof(dimension) + 
@@ -56,7 +56,9 @@ public:
     static float compute_sparsity(const std::vector<float>& vec, float epsilon = 1e-9f) {
         size_t zero_count = 0;
         for (float v : vec) {
-            if (std::abs(v) < epsilon) ++zero_count;
+            if (std::abs(v) < epsilon) {
+              ++zero_count;
+            }
         }
         return static_cast<float>(zero_count) / vec.size();
     }
@@ -103,7 +105,9 @@ public:
         while (true) {
             uint8_t byte = *ptr++;
             result |= static_cast<uint32_t>(byte & 0x7F) << shift;
-            if ((byte & 0x80) == 0) break;
+            if ((byte & 0x80) == 0) {
+              break;
+            }
             shift += 7;
         }
         
@@ -113,7 +117,9 @@ public:
     static std::vector<uint8_t> compress_delta(const std::vector<int32_t>& values) {
         std::vector<uint8_t> result;
         
-        if (values.empty()) return result;
+        if (values.empty()) {
+          return result;
+        }
         
         encode(result, zigzag_encode(values[0]));
         
@@ -128,7 +134,9 @@ public:
     static std::vector<int32_t> decompress_delta(const std::vector<uint8_t>& data) {
         std::vector<int32_t> result;
         
-        if (data.empty()) return result;
+        if (data.empty()) {
+          return result;
+        }
         
         const uint8_t* ptr = data.data();
         const uint8_t* end = ptr + data.size();
@@ -342,7 +350,8 @@ TEST(VarIntTest, VarIntEncoding) {
 
 TEST(VarIntTest, DeltaCompressionMonotonic) {
     // Monotonic increasing sequence
-    std::vector<int32_t> original;
+    std::vector<int32_t> original = {};
+
     for (int32_t i = 0; i < 1000; ++i) {
         original.push_back(1000 + i);
     }
@@ -513,9 +522,9 @@ enum class CompressionMethod {
 struct CompressionResult {
     CompressionMethod method;
     size_t original_bytes;
-    size_t compressed_bytes;
-    float compression_ratio;
-    bool lossless;
+    size_t compressed_bytes = {};
+    float compression_ratio = {};
+    bool lossless = {};
 };
 
 CompressionMethod selectCompressionMethod(const std::vector<float>& vec, 
@@ -529,7 +538,9 @@ CompressionMethod selectCompressionMethod(const std::vector<float>& vec,
     // Integer check
     size_t int_count = 0;
     for (float v : vec) {
-        if (std::abs(v - std::round(v)) < 1e-6f) ++int_count;
+        if (std::abs(v - std::round(v)) < 1e-6f) {
+          ++int_count;
+        }
     }
     if (int_count > vec.size() * 0.9) {
         return CompressionMethod::DELTA_VARINT;
@@ -559,7 +570,8 @@ TEST(IntegrationTest, AdaptiveCompressionSelection) {
     
     // Test 2: Integer vector
     {
-        std::vector<float> int_vec;
+        std::vector<float> int_vec = {};
+
         for (int i = 0; i < 1000; ++i) {
             int_vec.push_back(static_cast<float>(100 + i));
         }

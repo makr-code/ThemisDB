@@ -80,12 +80,20 @@ json RouteRegistry::buildOpenApiSpec(const std::string& api_version) const {
         }
 
         json operation = json::object();
-        if (!op.summary.empty())     operation["summary"]     = op.summary;
-        if (!op.description.empty()) operation["description"] = op.description;
-        if (!op.operationId.empty()) operation["operationId"] = op.operationId;
+        if (!op.summary.empty()) {
+          operation["summary"]     = op.summary;
+        }
+        if (!op.description.empty()) {
+          operation["description"] = op.description;
+        }
+        if (!op.operationId.empty()) {
+          operation["operationId"] = op.operationId;
+        }
         if (!op.tags.empty()) {
             json tags_arr = json::array();
-            for (const auto& t : op.tags) tags_arr.push_back(t);
+            for (const auto& t : op.tags) {
+              tags_arr.push_back(t);
+            }
             operation["tags"] = std::move(tags_arr);
         }
         if (!params.empty()) {
@@ -198,11 +206,21 @@ json RouteRegistry::buildOpenApiSpec(const std::string& api_version) const {
 
     // Well-known tag descriptions
     auto tag_description = [](const std::string& t) -> std::string {
-        if (t == "monitoring")    return "Health, metrics and observability endpoints";
-        if (t == "observability") return "Operator observability REST API – alerts, silences, health";
-        if (t == "entities")      return "Entity CRUD operations";
-        if (t == "query")         return "Query execution endpoints";
-        if (t == "license")       return "License management and status";
+        if (t == "monitoring") {
+          return "Health, metrics and observability endpoints";
+        }
+        if (t == "observability") {
+          return "Operator observability REST API – alerts, silences, health";
+        }
+        if (t == "entities") {
+          return "Entity CRUD operations";
+        }
+        if (t == "query") {
+          return "Query execution endpoints";
+        }
+        if (t == "license") {
+          return "License management and status";
+        }
         return "";
     };
 
@@ -275,11 +293,12 @@ inline std::size_t hashRouteOperation(const RouteEntry& e) {
 /// map of routeKey → operation hash.
 std::unordered_map<std::string, std::size_t>
 parseSnapshot(const std::string& snapshot) {
-    std::unordered_map<std::string, std::size_t> result;
+    std::unordered_map<std::string, std::size_t> result = {};
+
     if (snapshot.empty()) { return result; }
 
     std::istringstream ss(snapshot);
-    std::string line;
+    std::string line = {};
     while (std::getline(ss, line)) {
         auto sep = line.rfind('\t');
         if (sep == std::string::npos) { continue; }
@@ -300,14 +319,15 @@ std::string RouteRegistry::captureSpecSnapshot() const {
     std::shared_lock<std::shared_mutex> lk(mutex_);
     // Build a line-per-route text: "METHOD /path\t<hash>\n"
     // Sorted for determinism regardless of insertion order.
-    std::vector<std::string> lines;
+    std::vector<std::string> lines = {};
+
     lines.reserve(entries_.size());
     for (const auto& e : entries_) {
         lines.push_back(routeKey(e) + "\t"
                         + std::to_string(hashRouteOperation(e)));
     }
     std::sort(lines.begin(), lines.end());
-    std::string result;
+    std::string result = {};
     result.reserve(lines.size() * 64);
     for (const auto& l : lines) { result += l + "\n"; }
     return result;

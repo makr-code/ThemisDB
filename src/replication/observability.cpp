@@ -76,7 +76,8 @@ ReplicationObserver::getTopology() const
     nodes.reserve(replicas.size());  // Pre-allocate to avoid reallocations
     
     // Build a map: node_id → role for downstream lookup
-    std::map<std::string, ReplicationRole> role_map;
+    std::map<std::string, ReplicationRole> role_map = {};
+
     for (const auto& r : replicas) {
         role_map[r.node_id] = r.role;
     }
@@ -204,7 +205,9 @@ ReplicationObserver::calculateHealthScore() const
     int failed   = 0;
     int degraded = 0;
     for (const auto& r : replicas) {
-        if (r.health_status == HealthStatus::FAILED)   ++failed;
+        if (r.health_status == HealthStatus::FAILED) {
+          ++failed;
+        }
         else if (r.health_status == HealthStatus::DEGRADED) ++degraded;
     }
     const int total = static_cast<int>(replicas.size());

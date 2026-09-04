@@ -47,7 +47,7 @@ std::string ProjectTemplate::generateUuid() const {
             std::chrono::steady_clock::now().time_since_epoch().count())
     };
     std::uniform_int_distribution<uint64_t> dist;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         << std::setw(16) << dist(rng)
         << std::setw(16) << dist(rng);
@@ -167,7 +167,9 @@ std::optional<std::string> ProjectTemplate::createObjectFromDefinition(
 {
     const std::string type = obj_def.value("type", std::string{});
     const std::string name = obj_def.value("name", std::string{});
-    if (name.empty()) return std::nullopt;
+    if (name.empty()) {
+      return std::nullopt;
+    }
 
     const std::string key =
         "template_obj:" + project_id + ":" + type + ":" + name;

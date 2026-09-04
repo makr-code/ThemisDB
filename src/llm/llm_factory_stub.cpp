@@ -22,37 +22,51 @@ void registerLLMPluginManagerFactory(LLMPluginManagerFactory f) { g_plugin_manag
 void registerLoRAOrchestratorFactory(LoRAOrchestratorFactory f) { g_lora_orchestrator_factory = std::move(f); }
 
 std::shared_ptr<IDocsAssistant> createDocsAssistant() {
-    if(g_docs_factory) return g_docs_factory();
+    if(g_docs_factory) {
+      return g_docs_factory();
+    }
     return nullptr;
 }
 
 std::shared_ptr<IEmbeddedLLM> createEmbeddedLLM() {
-    if(g_embedded_factory) return g_embedded_factory();
+    if(g_embedded_factory) {
+      return g_embedded_factory();
+    }
     return nullptr;
 }
 
 std::shared_ptr<IThemisHelpLoRA> createThemisHelpLoRA() {
-    if(g_help_lora_factory) return g_help_lora_factory();
+    if(g_help_lora_factory) {
+      return g_help_lora_factory();
+    }
     return nullptr;
 }
 
 std::shared_ptr<ILlamaWrapper> createLlamaWrapper() {
-    if(g_llama_factory) return g_llama_factory();
+    if(g_llama_factory) {
+      return g_llama_factory();
+    }
     return nullptr;
 }
 
 std::shared_ptr<ILLMModelAuditLogger> createLLMModelAuditLogger() {
-    if(g_audit_factory) return g_audit_factory();
+    if(g_audit_factory) {
+      return g_audit_factory();
+    }
     return nullptr;
 }
 
 std::shared_ptr<themis::llm::ILLMPluginManager> createLLMPluginManager() {
-    if (g_plugin_manager_factory) return g_plugin_manager_factory();
+    if (g_plugin_manager_factory) {
+      return g_plugin_manager_factory();
+    }
     return nullptr;
 }
 
 std::shared_ptr<themis::llm::lora::ILoRAOrchestrator> createLoRAOrchestrator() {
-    if (g_lora_orchestrator_factory) return g_lora_orchestrator_factory();
+    if (g_lora_orchestrator_factory) {
+      return g_lora_orchestrator_factory();
+    }
     return nullptr;
 }
 

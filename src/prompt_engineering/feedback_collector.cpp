@@ -116,11 +116,11 @@ FeedbackEntry FeedbackEntry::fromJson(const nlohmann::json& j) {
 std::string FeedbackEntry::computeChecksum() const {
     // FNV-1a 64-bit hash over key audit fields: id, prompt_id, type, query, severity, timestamp
     // This provides a lightweight audit trail without external crypto dependencies.
-    uint64_t hash = 14695981039346656037ULL;
-    auto fnv_update = [&](const std::string& s) {
+    uint64_t hash = 14695981039346656037;
+    auto fnv_update = [&]([[maybe_unused]] const std::string& s) {
         for (unsigned char c : s) {
             hash ^= c;
-            hash *= 1099511628211ULL;
+            hash *= 1099511628211;
         }
     };
     fnv_update(id);
@@ -128,14 +128,14 @@ std::string FeedbackEntry::computeChecksum() const {
     fnv_update(feedbackTypeToString(type));
     fnv_update(query);
     // Include severity as a fixed-precision string
-    std::ostringstream sev_str;
+    std::ostringstream sev_str = {};
     sev_str << std::fixed << std::setprecision(6) << severity;
     fnv_update(sev_str.str());
     // Include timestamp as epoch seconds
     auto ts = std::chrono::system_clock::to_time_t(timestamp);
     fnv_update(std::to_string(ts));
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0') << std::setw(16) << hash;
     return oss.str();
 }
@@ -271,7 +271,7 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedback(
         result.push_back(entry);
         
         // Apply limit if specified
-        if (limit > 0 && result.size() >= limit) {
+        if (limit > 0 && static_cast<int>(result.size()) >= limit) {
             break;
         }
     }
@@ -301,7 +301,7 @@ std::vector<std::string> FeedbackCollector::getPromptsWithNegativeFeedback(
     std::vector<std::string> result;
     
     for (const auto& [prompt_id, entries] : feedback_) {
-        if (entries.size() < min_feedback) {
+        if (static_cast<int>(entries.size()) < min_feedback) {
             continue;
         }
         
@@ -348,7 +348,7 @@ FeedbackCollector::getFailedQueries(
         result.emplace_back(entry.query, entry.response, entry.type);
         
         // Apply limit
-        if (result.size() >= limit) {
+        if (static_cast<int>(result.size()) > = limit) {
             break;
         }
     }
@@ -368,7 +368,8 @@ std::vector<FailedQueryPattern> FeedbackCollector::analyzeFailurePatterns(
     }
     
     // Filter to failure entries
-    std::vector<FeedbackEntry> failures;
+    std::vector<FeedbackEntry> failures = {};
+
     for (const auto& entry : it->second) {
         if (entry.type != FeedbackType::USER_POSITIVE) {
             failures.push_back(entry);
@@ -416,7 +417,8 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedbackInTimeRange(
         return {};
     }
     
-    std::vector<FeedbackEntry> result;
+    std::vector<FeedbackEntry> result = {};
+
     for (const auto& entry : it->second) {
         if (entry.timestamp >= start && entry.timestamp <= end) {
             result.push_back(entry);
@@ -434,7 +436,7 @@ size_t FeedbackCollector::pruneOldFeedback(
     
     for (auto& [prompt_id, entries] : feedback_) {
         auto it = std::remove_if(entries.begin(), entries.end(),
-            [&](const FeedbackEntry& entry) {
+            [&]([[maybe_unused]] const FeedbackEntry& entry) {
                 return entry.timestamp < older_than;
             });
         
@@ -467,7 +469,7 @@ size_t FeedbackCollector::pruneOldFeedback(
         for (const auto& e : to_delete) {
             deleteFromDB(e);
         }
-        THEMIS_DEBUG("Pruned {} old feedback entries from DB", to_delete.size());
+        THEMIS_DEBUG("Pruned {} old feedback entries from DB",static_cast<int>(to_delete.size()));
     }
     
     THEMIS_INFO("Pruned {} old feedback entries", deleted);
@@ -483,7 +485,7 @@ size_t FeedbackCollector::clearFeedback(const std::string& prompt_id) {
         return 0;
     }
     
-    size_t count = it->second.size();
+    size_t count = it-> static_cast<int>(second.size());
     feedback_.erase(it);
     
     // Delete from DB if available: delete both primary records and index entries
@@ -501,7 +503,7 @@ size_t FeedbackCollector::clearFeedback(const std::string& prompt_id) {
         for (const auto& e : to_delete) {
             deleteFromDB(e);
         }
-        THEMIS_DEBUG("Deleted {} feedback DB entries for prompt '{}'", to_delete.size(), prompt_id);
+        THEMIS_DEBUG("Deleted {} feedback DB entries for prompt '{}'",static_cast<int>(to_delete.size()), prompt_id);
     }
     
     THEMIS_INFO("Cleared {} feedback entries for prompt '{}'", count, prompt_id);
@@ -534,7 +536,7 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedbackPaged(
             continue;
         }
         result.push_back(entry);
-        if (page_size > 0 && result.size() >= page_size) {
+        if (page_size > 0 && static_cast<int>(result.size()) >= page_size) {
             break;
         }
     }
@@ -554,7 +556,7 @@ std::vector<FeedbackEntry> FeedbackCollector::detectOutliers(
     }
 
     const auto& entries = it->second;
-    if (entries.size() < 2) {
+    if (static_cast<int>(entries.size()) < 2) {
         return {};
     }
 
@@ -577,7 +579,8 @@ std::vector<FeedbackEntry> FeedbackCollector::detectOutliers(
         return {}; // All severities are identical – no outliers
     }
 
-    std::vector<FeedbackEntry> outliers;
+    std::vector<FeedbackEntry> outliers = {};
+
     for (const auto& e : entries) {
         double z = std::abs(e.severity - mean) / stddev;
         if (z > z_threshold) {
@@ -642,7 +645,7 @@ std::string FeedbackCollector::generateId() const {
     auto now = std::chrono::system_clock::now().time_since_epoch();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "feedback_" << std::hex << std::setfill('0')
         << std::setw(12) << ms
         << "_"
@@ -657,13 +660,15 @@ std::string FeedbackCollector::formatTimestampKey(
     // Zero-padded 20-digit microseconds since epoch ensures lexicographic == chronological order.
     auto us = std::chrono::duration_cast<std::chrono::microseconds>(
                   tp.time_since_epoch()).count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::setfill('0') << std::setw(20) << us;
     return oss.str();
 }
 
 void FeedbackCollector::persist(const FeedbackEntry& entry) {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
     
     // Primary record: feedback:{prompt_id}:{entry_id} → JSON
     std::string primary_key = std::string(KEY_PREFIX) + entry.prompt_id + ":" + entry.id;
@@ -688,7 +693,9 @@ void FeedbackCollector::persist(const FeedbackEntry& entry) {
 }
 
 void FeedbackCollector::deleteFromDB(const FeedbackEntry& entry) {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
 
     std::string primary_key = std::string(KEY_PREFIX) + entry.prompt_id + ":" + entry.id;
     db_->del(primary_key);
@@ -701,7 +708,9 @@ void FeedbackCollector::deleteFromDB(const FeedbackEntry& entry) {
 }
 
 void FeedbackCollector::loadFromDB() {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
     
     std::string prefix = KEY_PREFIX;
     size_t loaded = 0;
@@ -724,7 +733,7 @@ void FeedbackCollector::loadFromDB() {
 FeedbackStats FeedbackCollector::calculateStats(
     const std::vector<FeedbackEntry>& entries
 ) const {
-    FeedbackStats stats;
+    FeedbackStats stats = {};
     
     if (entries.empty()) {
         return stats;
@@ -773,7 +782,7 @@ FeedbackStats FeedbackCollector::calculateStats(
     std::sort(sorted_types.begin(), sorted_types.end(),
               [](const auto& a, const auto& b) { return a.second > b.second; });
     
-    for (size_t i = 0; i < std::min(size_t(3), sorted_types.size()); ++i) {
+    for (size_t i = 0; i < std::min(size_t(3),static_cast<int>(sorted_types.size())); ++i) {
         stats.common_issues.push_back(feedbackTypeToString(sorted_types[i].first));
     }
     
@@ -798,20 +807,20 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
         "can","as","if","so","than","then","there","also","just","more","all"
     };
 
-    auto tokenise = [&](const std::string& text) {
+    auto tokenise = [&]([[maybe_unused]] const std::string& text) {
         std::vector<std::string> tokens;
-        std::string cur;
+        std::string cur = {};
         for (unsigned char c : text) {
             if (std::isalnum(c)) {
                 cur += static_cast<char>(std::tolower(c));
             } else if (!cur.empty()) {
-                if (STOP_WORDS.find(cur) == STOP_WORDS.end() && cur.size() >= 2) {
+                if (STOP_WORDS.find(cur) == STOP_WORDS.end() && static_cast<int>(cur.size()) >= 2) {
                     tokens.push_back(cur);
                 }
                 cur.clear();
             }
         }
-        if (!cur.empty() && STOP_WORDS.find(cur) == STOP_WORDS.end() && cur.size() >= 2) {
+        if (!cur.empty() && STOP_WORDS.find(cur) == STOP_WORDS.end() && static_cast<int>(cur.size()) >= 2) {
             tokens.push_back(cur);
         }
         return tokens;
@@ -839,15 +848,20 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
     // --- Step 3: for each entry compute its most discriminative keyword ---
     // Score = TF * log(N / DF + 1).  The keyword with the highest score
     // becomes the representative for the pattern.
-    auto best_keyword = [&](size_t entry_idx) -> std::string {
+    auto best_keyword = [&]([[maybe_unused]] size_t entry_idx) -> std::string {
         const auto& tokens = per_entry_tokens[entry_idx];
-        if (tokens.empty()) return "[empty]";
+        if (tokens.empty()) {
+          return "[empty]";
+        }
 
         // TF: raw count within this query
-        std::unordered_map<std::string, size_t> tf;
-        for (const auto& t : tokens) tf[t]++;
+        std::unordered_map<std::string, size_t> tf = {};
 
-        std::string best_term;
+        for (const auto& t : tokens) {
+          tf[t]++;
+        }
+
+        std::string best_term = {};
         double best_score = -1.0;
         for (const auto& [term, count] : tf) {
             double tfidf = static_cast<double>(count)
@@ -862,7 +876,8 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
     };
 
     // --- Step 4: group entries by their best keyword (pattern) ---
-    std::unordered_map<std::string, FailedQueryPattern> patterns;
+    std::unordered_map<std::string, FailedQueryPattern> patterns = {};
+
     for (size_t i = 0; i < num_docs; ++i) {
         const auto& entry = entries[i];
         std::string key   = best_keyword(i);
@@ -871,7 +886,7 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
         p.pattern = key;
         p.occurrences++;
 
-        if (p.examples.size() < 5) {
+        if (static_cast<int>(p.examples.size()) < 5) {
             p.examples.push_back(entry.query);
         }
 
@@ -886,7 +901,8 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
     }
 
     // --- Step 5: filter by min_occurrences and sort ---
-    std::vector<FailedQueryPattern> result;
+    std::vector<FailedQueryPattern> result = {};
+
     result.reserve(patterns.size());
     for (const auto& [key, pat] : patterns) {
         if (pat.occurrences >= min_occurrences) {

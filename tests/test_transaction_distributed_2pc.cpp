@@ -481,13 +481,19 @@ TEST_F(DistributedTxnManagerTest, ConcurrentTransactionsAllSucceed) {
                 makeParticipant("node_b_" + std::to_string(idx), pb, {"key_" + std::to_string(idx)}),
             };
             const auto tid = mgr->beginDistributed(parts);
-            if (!mgr->prepareDistributed(tid).ok) return;
-            if (!mgr->commitDistributed(tid).ok) return;
+            if (!mgr->prepareDistributed(tid).ok) {
+              return;
+            }
+            if (!mgr->commitDistributed(tid).ok) {
+              return;
+            }
             ++successes;
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(successes.load(), N);
 }
 
@@ -789,7 +795,9 @@ TEST(Distributed2PCPerfTests, BatchedPrepareWindowGroupsTransactions) {
     DistributedTransactionManager mgr("perf-coord-batch", cfg);
 
     std::vector<std::unique_ptr<MockParticipant>> participants(N);
-    for (auto& p : participants) p = std::make_unique<MockParticipant>();
+    for (auto& p : participants) {
+      p = std::make_unique<MockParticipant>();
+    }
 
     // Begin all transactions before any prepares so they all land in the batch.
     std::vector<std::string> txn_ids;
@@ -805,10 +813,14 @@ TEST(Distributed2PCPerfTests, BatchedPrepareWindowGroupsTransactions) {
     std::atomic<int> successes{0};
     for (int i = 0; i < N; ++i) {
         threads.emplace_back([&mgr, &txn_ids, &successes, i] {
-            if (mgr.prepareDistributed(txn_ids[i]).ok) ++successes;
+            if (mgr.prepareDistributed(txn_ids[i]).ok) {
+              ++successes;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(successes.load(), N);
 
@@ -895,12 +907,18 @@ TEST(Distributed2PCPerfTests, ConcurrentTxnsWithThreadPool) {
                 makeParticipant("a" + std::to_string(i), pa[i].get()),
                 makeParticipant("b" + std::to_string(i), pb[i].get()),
             });
-            if (!mgr.prepareDistributed(tid).ok)  return;
-            if (!mgr.commitDistributed(tid).ok)   return;
+            if (!mgr.prepareDistributed(tid).ok) {
+              return;
+            }
+            if (!mgr.commitDistributed(tid).ok) {
+              return;
+            }
             ++successes;
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(successes.load(), N);
 }
@@ -922,13 +940,16 @@ TEST(Distributed2PCPerfTests, P99LatencyFiveShards) {
     DistributedTransactionManager mgr("perf-p99", cfg);
 
     std::vector<std::unique_ptr<MockParticipant>> participants(SHARDS);
-    for (auto& p : participants) p = std::make_unique<MockParticipant>();
+    for (auto& p : participants) {
+      p = std::make_unique<MockParticipant>();
+    }
 
     std::vector<double> latencies_us;
     latencies_us.reserve(ITERATIONS);
 
     for (int i = 0; i < ITERATIONS; ++i) {
-        std::vector<Participant> parts;
+        std::vector<Participant> parts = {};
+
         for (int s = 0; s < SHARDS; ++s) {
             parts.push_back(makeParticipant(
                 "shard_" + std::to_string(s),
@@ -972,7 +993,9 @@ TEST(Distributed2PCPerfTests, ThroughputAtLeast10kOpsPerSec) {
 
     constexpr int MAX_PARTICIPANTS = 500;
     std::vector<std::unique_ptr<MockParticipant>> pool(MAX_PARTICIPANTS);
-    for (auto& p : pool) p = std::make_unique<MockParticipant>();
+    for (auto& p : pool) {
+      p = std::make_unique<MockParticipant>();
+    }
 
     std::atomic<uint64_t> ops{0};
     std::atomic<bool>     stop_flag{false};
@@ -988,20 +1011,27 @@ TEST(Distributed2PCPerfTests, ThroughputAtLeast10kOpsPerSec) {
                 makeParticipant("a" + std::to_string(ops.load()), pa),
                 makeParticipant("b" + std::to_string(ops.load()), pb),
             });
-            if (!mgr.prepareDistributed(tid).ok) continue;
-            if (!mgr.commitDistributed(tid).ok)  continue;
+            if (!mgr.prepareDistributed(tid).ok) {
+              continue;
+            }
+            if (!mgr.commitDistributed(tid).ok) {
+              continue;
+            }
             ++ops;
         }
     };
 
-    std::vector<std::thread> workers;
+    std::vector<std::thread> workers = {};
+
     for (int i = 0; i < WORKER_THREADS; ++i) {
         workers.emplace_back(worker, i);
     }
 
     std::this_thread::sleep_for(std::chrono::seconds(DURATION_SEC));
     stop_flag.store(true, std::memory_order_relaxed);
-    for (auto& t : workers) t.join();
+    for (auto& t : workers) {
+      t.join();
+    }
 
     const double ops_per_sec = static_cast<double>(ops.load()) / DURATION_SEC;
     std::printf("[PERF-D4] 2PC throughput: %.0f ops/s (target ≥ 10000)\n", ops_per_sec);
@@ -1163,7 +1193,9 @@ TEST_F(DistributedTxnManagerTest, Stub279_RemoteCommitUsesConfiguredPhase2Dispat
             EXPECT_EQ(node_id, "remote-node");
             EXPECT_EQ(endpoint, "remote-node:9090");
             EXPECT_TRUE(do_commit);
-            if (do_commit) ++commit_calls;
+            if (do_commit) {
+              ++commit_calls;
+            }
             return true;
         };
 
@@ -1357,7 +1389,9 @@ TEST_F(DistributedTxnManagerTest, Stub279_PureRemoteTransactionSucceedsWithPhase
             const std::string& /*node_id*/,
             const std::string& /*endpoint*/,
             bool do_commit) {
-        if (do_commit) ++commit_calls;
+        if (do_commit) {
+          ++commit_calls;
+        }
         return true;
     };
 

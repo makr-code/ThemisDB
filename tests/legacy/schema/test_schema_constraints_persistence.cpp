@@ -28,7 +28,9 @@ protected:
     }
 
     void TearDown() override {
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
     }
 
     std::unique_ptr<RocksDBWrapper> db_;

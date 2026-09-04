@@ -24,9 +24,13 @@ protected:
     
     // Helper to verify tensors are close
     bool areClose(const std::vector<float>& a, const std::vector<float>& b, float eps = TENSOR_EPSILON) {
-        if (a.size() != b.size()) return false;
+        if (a.size() != b.size()) {
+          return false;
+        }
         for (size_t i = 0; i < a.size(); ++i) {
-            if (std::abs(a[i] - b[i]) > eps) return false;
+            if (std::abs(a[i] - b[i]) > eps) {
+              return false;
+            }
         }
         return true;
     }
@@ -116,9 +120,15 @@ TEST_F(KernelFusionTest, FusedAttentionQKV) {
     // Check all outputs have non-zero values
     bool q_nonzero = false, k_nonzero = false, v_nonzero = false;
     for (size_t i = 0; i < total; ++i) {
-        if (query[i] != 0.0f) q_nonzero = true;
-        if (key[i] != 0.0f) k_nonzero = true;
-        if (value[i] != 0.0f) v_nonzero = true;
+        if (query[i] != 0.0f) {
+          q_nonzero = true;
+        }
+        if (key[i] != 0.0f) {
+          k_nonzero = true;
+        }
+        if (value[i] != 0.0f) {
+          v_nonzero = true;
+        }
     }
     EXPECT_TRUE(q_nonzero);
     EXPECT_TRUE(k_nonzero);
@@ -237,7 +247,9 @@ TEST_F(KernelFusionTest, FusedRoPEAttentionScore) {
     std::vector<float> query(q_total, 0.5f);
     std::vector<float> key(q_total, 0.5f);
     std::vector<int> position_ids(seq_len);
-    for (int i = 0; i < seq_len; ++i) position_ids[i] = i;
+    for (int i = 0; i < seq_len; ++i) {
+      position_ids[i] = i;
+    }
     
     std::vector<float> scores(score_total);
     

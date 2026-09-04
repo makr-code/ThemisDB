@@ -245,7 +245,9 @@ TEST(RedisImporterTest, INC12_ValidateSourceMockPing) {
     RedisImporter imp;
     imp.initialize(redisConfig());
     imp.setMockCommandForTesting([](const std::vector<std::string>& cmd) -> std::string {
-        if (!cmd.empty() && cmd[0] == "PING") return "PONG";
+        if (!cmd.empty() && cmd[0] == "PING") {
+          return "PONG";
+        }
         return "";
     });
     std::vector<std::string> errors;
@@ -269,8 +271,12 @@ TEST(RedisImporterTest, INC13_ImportStringKeys) {
             return json::array({"0", json::array()}).dump();
         }
         if (cmd[0] == "PTTL") return "-1"; // No expiry.
-        if (cmd[0] == "TYPE") return "string";
-        if (cmd[0] == "GET") return cmd.size() > 1 ? cmd[1] + "_value" : "val";
+        if (cmd[0] == "TYPE") {
+          return "string";
+        }
+        if (cmd[0] == "GET") {
+          return cmd.size() > 1 ? cmd[1] + "_value" : "val";
+        }
         return "";
     });
 
@@ -292,8 +298,12 @@ TEST(RedisImporterTest, INC14_ImportHashKey) {
         if (cmd[0] == "SCAN") {
             return json::array({"0", json::array()}).dump();
         }
-        if (cmd[0] == "PTTL") return "-1";
-        if (cmd[0] == "TYPE") return "hash";
+        if (cmd[0] == "PTTL") {
+          return "-1";
+        }
+        if (cmd[0] == "TYPE") {
+          return "hash";
+        }
         if (cmd[0] == "HGETALL") {
             // Return alternating field/value pairs.
             return json::array({"name","Alice","age","30"}).dump();
@@ -317,9 +327,15 @@ TEST(RedisImporterTest, INC15_CancelStopsImport) {
             // Would return keys forever if not cancelled.
             return json::array({"1", json::array({"k1"})}).dump();
         }
-        if (cmd[0] == "PTTL") return "-1";
-        if (cmd[0] == "TYPE") return "string";
-        if (cmd[0] == "GET")  return "val";
+        if (cmd[0] == "PTTL") {
+          return "-1";
+        }
+        if (cmd[0] == "TYPE") {
+          return "string";
+        }
+        if (cmd[0] == "GET") {
+          return "val";
+        }
         return "";
     });
 
@@ -340,9 +356,15 @@ TEST(RedisImporterTest, INC16_DeadlineEnforcement) {
             // Simulate non-terminating SCAN (cursor never reaches 0).
             return json::array({"99", json::array({"k" + std::to_string(scan_calls)})}).dump();
         }
-        if (cmd[0] == "PTTL") return "-1";
-        if (cmd[0] == "TYPE") return "string";
-        if (cmd[0] == "GET")  return "val";
+        if (cmd[0] == "PTTL") {
+          return "-1";
+        }
+        if (cmd[0] == "TYPE") {
+          return "string";
+        }
+        if (cmd[0] == "GET") {
+          return "val";
+        }
         return "";
     });
 

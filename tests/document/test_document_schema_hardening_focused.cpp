@@ -399,7 +399,9 @@ TEST_F(MergeEdgeTest, ME02_OursDeletesTheirsModifies_ConflictReported) {
         << "Deletion in ours vs modification in theirs must produce a conflict.";
     bool found = false;
     for (const auto& c : r.value().conflicts) {
-        if (c.field_name == "x") found = true;
+        if (c.field_name == "x") {
+          found = true;
+        }
     }
     EXPECT_TRUE(found);
 }
@@ -443,7 +445,9 @@ TEST_F(MergeEdgeTest, ME05_BothAddSameFieldDifferentValues_Conflict) {
         << "Both branches adding the same field with different values must conflict.";
     bool found = false;
     for (const auto& c : r.value().conflicts) {
-        if (c.field_name == "new") found = true;
+        if (c.field_name == "new") {
+          found = true;
+        }
     }
     EXPECT_TRUE(found);
 }

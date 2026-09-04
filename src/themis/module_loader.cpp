@@ -85,7 +85,9 @@ void* ModuleLoader::loadLibrary(const std::string& path) {
 }
 
 void ModuleLoader::unloadLibrary(void* handle) {
-    if (!handle) return;
+    if (!handle) {
+      return;
+    }
 #ifdef _WIN32
     FreeLibrary(static_cast<HMODULE>(handle));
 #else
@@ -232,7 +234,7 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     }
 
     // Step 5: Verify module signature and integrity
-    std::string errorMessage;
+    std::string errorMessage = {};
     if (!verifier_->verifyModule(modulePath, errorMessage)) {
         result.errorCode     = ModuleErrorCode::VERIFICATION_FAILED;
         result.errorCategory = categorizeError(result.errorCode);
@@ -476,7 +478,7 @@ void ModuleLoader::unloadModule(const std::string& moduleName) {
 
 void ModuleLoader::unloadAllModules() {
     std::unique_lock<std::shared_mutex> lk(modulesMutex_);
-    spdlog::info("Unloading all modules ({} loaded)", loadedModules_.size());
+    spdlog::info("Unloading all modules ({} loaded)",static_cast<int>(loadedModules_.size()));
 
     auto&    auditor = PluginSecurityAuditor::instance();
     uint64_t now     = static_cast<uint64_t>(std::time(nullptr));
@@ -517,7 +519,8 @@ ModuleLoader::getModuleInfo(const std::string& moduleName) const {
 
 std::vector<LoadedModule> ModuleLoader::getAllLoadedModules() const {
     std::shared_lock<std::shared_mutex> lk(modulesMutex_);
-    std::vector<LoadedModule> result;
+    std::vector<LoadedModule> result = {};
+
     result.reserve(loadedModules_.size());
     for (const auto& [name, module] : loadedModules_) {
         result.push_back(module);
@@ -533,11 +536,11 @@ std::vector<LoadedModule> ModuleLoader::getAllLoadedModules() const {
 // Security policy forwarding
 // ============================================================================
 
-void ModuleLoader::setRequireSignature(bool require) {
+void ModuleLoader::setRequireSignature([[maybe_unused]] bool require) {
     verifier_->setRequireSignature(require);
 }
 
-void ModuleLoader::setAllowUnsigned(bool allow) {
+void ModuleLoader::setAllowUnsigned([[maybe_unused]] bool allow) {
     verifier_->setAllowUnsigned(allow);
 }
 
@@ -677,7 +680,7 @@ std::string ModuleLoader::getErrorMessage(ModuleErrorCode code) const {
         case ModuleErrorCode::INTERNAL_ERROR:
             return "Internal module loader error";
         case ModuleErrorCode::UNKNOWN_ERROR:
-        default:
+        [[fallthrough]];\n        default:
             return "Unknown error";
     }
 }
@@ -688,33 +691,33 @@ ErrorCategory ModuleLoader::categorizeError(ModuleErrorCode code) const {
             return ErrorCategory::NONE;
 
         case ModuleErrorCode::MODULE_ACCESS_DENIED:
-        case ModuleErrorCode::LOAD_LIBRARY_FAILED:
+        [[fallthrough]];\n        case ModuleErrorCode::LOAD_LIBRARY_FAILED:
             return ErrorCategory::TRANSIENT;
 
         case ModuleErrorCode::MODULE_NOT_FOUND:
-        case ModuleErrorCode::MODULE_DIRECTORY_NOT_FOUND:
-        case ModuleErrorCode::VERSION_INCOMPATIBLE:
-        case ModuleErrorCode::ABI_INCOMPATIBLE:
-        case ModuleErrorCode::METADATA_MISSING:
+        [[fallthrough]];\n        case ModuleErrorCode::MODULE_DIRECTORY_NOT_FOUND:
+        [[fallthrough]];\n        case ModuleErrorCode::VERSION_INCOMPATIBLE:
+        [[fallthrough]];\n        case ModuleErrorCode::ABI_INCOMPATIBLE:
+        [[fallthrough]];\n        case ModuleErrorCode::METADATA_MISSING:
             return ErrorCategory::RECOVERABLE;
 
         case ModuleErrorCode::VERIFICATION_FAILED:
-        case ModuleErrorCode::SIGNATURE_INVALID:
-        case ModuleErrorCode::HASH_MISMATCH:
-        case ModuleErrorCode::CERTIFICATE_REVOKED:
-        case ModuleErrorCode::CERTIFICATE_EXPIRED:
-        case ModuleErrorCode::UNTRUSTED_SIGNER:
-        case ModuleErrorCode::BLACKLISTED:
-        case ModuleErrorCode::QUARANTINED:
-        case ModuleErrorCode::ZONE_ID_BLOCKED:
-        case ModuleErrorCode::POLICY_VIOLATION:
+        [[fallthrough]];\n        case ModuleErrorCode::SIGNATURE_INVALID:
+        [[fallthrough]];\n        case ModuleErrorCode::HASH_MISMATCH:
+        [[fallthrough]];\n        case ModuleErrorCode::CERTIFICATE_REVOKED:
+        [[fallthrough]];\n        case ModuleErrorCode::CERTIFICATE_EXPIRED:
+        [[fallthrough]];\n        case ModuleErrorCode::UNTRUSTED_SIGNER:
+        [[fallthrough]];\n        case ModuleErrorCode::BLACKLISTED:
+        [[fallthrough]];\n        case ModuleErrorCode::QUARANTINED:
+        [[fallthrough]];\n        case ModuleErrorCode::ZONE_ID_BLOCKED:
+        [[fallthrough]];\n        case ModuleErrorCode::POLICY_VIOLATION:
             return ErrorCategory::FATAL;
 
         case ModuleErrorCode::MODULE_ALREADY_LOADED:
-        case ModuleErrorCode::SYMBOL_NOT_FOUND:
-        case ModuleErrorCode::METADATA_CORRUPTED:
-        case ModuleErrorCode::INITIALIZATION_FAILED:
-        default:
+        [[fallthrough]];\n        case ModuleErrorCode::SYMBOL_NOT_FOUND:
+        [[fallthrough]];\n        case ModuleErrorCode::METADATA_CORRUPTED:
+        [[fallthrough]];\n        case ModuleErrorCode::INITIALIZATION_FAILED:
+        [[fallthrough]];\n        default:
             return ErrorCategory::PERMANENT;
     }
 }
@@ -751,12 +754,24 @@ ModuleLoader::extractModuleMetadata(const std::string& modulePath) {
     auto getPatch =
         reinterpret_cast<GetVersionIntFunc>(getSymbol(tempHandle, "themis_api_version_patch"));
 
-    if (getVersionStr) metadata.version    = getVersionStr();
-    if (getAbiVersion) metadata.abiVersion = getAbiVersion();
-    if (getBuildId)    metadata.buildId    = getBuildId();
-    if (getMajor)      metadata.themisMajor = getMajor();
-    if (getMinor)      metadata.themisMinor = getMinor();
-    if (getPatch)      metadata.themisPatch = getPatch();
+    if (getVersionStr) {
+      metadata.version    = getVersionStr();
+    }
+    if (getAbiVersion) {
+      metadata.abiVersion = getAbiVersion();
+    }
+    if (getBuildId) {
+      metadata.buildId    = getBuildId();
+    }
+    if (getMajor) {
+      metadata.themisMajor = getMajor();
+    }
+    if (getMinor) {
+      metadata.themisMinor = getMinor();
+    }
+    if (getPatch) {
+      metadata.themisPatch = getPatch();
+    }
 
     unloadLibrary(tempHandle);
 
@@ -772,7 +787,7 @@ ModuleLoader::extractModuleMetadata(const std::string& modulePath) {
 }
 
 ModuleMetadata ModuleLoader::extractMetadataFromHandle(void* handle) {
-    ModuleMetadata metadata;
+    ModuleMetadata metadata = {};
 
     if (!handle) {
         return metadata;
@@ -794,12 +809,24 @@ ModuleMetadata ModuleLoader::extractMetadataFromHandle(void* handle) {
     auto getPatch =
         reinterpret_cast<GetVersionIntFunc>(getSymbol(handle, "themis_api_version_patch"));
 
-    if (getVersionStr) metadata.version     = getVersionStr();
-    if (getAbiVersion) metadata.abiVersion  = getAbiVersion();
-    if (getBuildId)    metadata.buildId     = getBuildId();
-    if (getMajor)      metadata.themisMajor = getMajor();
-    if (getMinor)      metadata.themisMinor = getMinor();
-    if (getPatch)      metadata.themisPatch = getPatch();
+    if (getVersionStr) {
+      metadata.version     = getVersionStr();
+    }
+    if (getAbiVersion) {
+      metadata.abiVersion  = getAbiVersion();
+    }
+    if (getBuildId) {
+      metadata.buildId     = getBuildId();
+    }
+    if (getMajor) {
+      metadata.themisMajor = getMajor();
+    }
+    if (getMinor) {
+      metadata.themisMinor = getMinor();
+    }
+    if (getPatch) {
+      metadata.themisPatch = getPatch();
+    }
 
     return metadata;
 }
@@ -880,14 +907,14 @@ void ModuleLoader::quarantineModule(const std::string& modulePath) {
         it->second.lastErrorMessage);
 }
 
-uint64_t ModuleLoader::calculateBackoffTime(uint32_t consecutiveFailures) const {
+uint64_t ModuleLoader::calculateBackoffTime([[maybe_unused]] uint32_t consecutiveFailures) const {
     if (consecutiveFailures == 0) {
         return 0;
     }
     if (consecutiveFailures > 32) {
         return maxBackoffSeconds_;
     }
-    uint64_t backoff = 1ULL << (consecutiveFailures - 1);
+    uint64_t backoff = 1 << (consecutiveFailures - 1);
     return std::min(backoff, static_cast<uint64_t>(maxBackoffSeconds_));
 }
 
@@ -938,7 +965,8 @@ ModuleLoader::getFailureHistory(const std::string& modulePath) const {
 }
 
 std::vector<std::string> ModuleLoader::getQuarantinedModules() const {
-    std::vector<std::string> quarantined;
+    std::vector<std::string> quarantined = {};
+
     for (const auto& [path, history] : failureHistory_) {
         if (history.isQuarantined()) {
             quarantined.push_back(path);
@@ -975,12 +1003,12 @@ void ModuleLoader::clearFailureHistory(const std::string& modulePath) {
     }
 }
 
-void ModuleLoader::setQuarantineThreshold(uint32_t threshold) {
+void ModuleLoader::setQuarantineThreshold([[maybe_unused]] uint32_t threshold) {
     quarantineThreshold_ = threshold;
     spdlog::info("Quarantine threshold set to: {}", threshold);
 }
 
-void ModuleLoader::setMaxBackoffSeconds(uint32_t maxSeconds) {
+void ModuleLoader::setMaxBackoffSeconds([[maybe_unused]] uint32_t maxSeconds) {
     maxBackoffSeconds_ = maxSeconds;
     spdlog::info("Max backoff time set to: {} seconds", maxSeconds);
 }
@@ -1072,7 +1100,7 @@ void ModuleLoader::clearHealthChecks() {
     spdlog::info("All health checks cleared");
 }
 
-void ModuleLoader::setStagedLoadingEnabled(bool enable) {
+void ModuleLoader::setStagedLoadingEnabled([[maybe_unused]] bool enable) {
     stagedLoadingEnabled_ = enable;
     spdlog::info("Staged loading {}", enable ? "enabled" : "disabled");
 }
@@ -1299,7 +1327,7 @@ void ModuleLoader::watchdogCheckAllModules() {
             continue;
         }
 
-        std::string errorMsg;
+        std::string errorMsg = {};
         bool        healthy = watchdogRunHealthChecks(modCopy, errorMsg);
 
         uint64_t now = nowMs();
@@ -1468,7 +1496,7 @@ struct TempDirGuard {
     explicit TempDirGuard(std::string path) : path_(std::move(path)) {}
     ~TempDirGuard() {
         if (!path_.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove_all(path_, ec);
         }
     }
@@ -1487,9 +1515,9 @@ std::string makeTempDirPath() {
     // Combine a monotonic timestamp with a random component to guarantee
     // uniqueness under concurrent calls.
     auto ns = std::chrono::steady_clock::now().time_since_epoch().count();
-    std::random_device rd;
+    std::random_device rd = {};
     std::uniform_int_distribution<uint32_t> dist;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << ns << "_" << dist(rd);
     return (base / oss.str()).string();
 }
@@ -1498,18 +1526,22 @@ std::string makeTempDirPath() {
 /// Returns true when safe; false when the path escapes the temp dir.
 ///
 /// Precondition: resolvedPath was produced by lexically_normal() on
-/// (tempDir / non_empty_name), so resolvedStr.size() > tempStr.size() is
+/// (tempDir / non_empty_name), so static_cast<int>(resolvedStr.size()) > static_cast<int>(tempStr.size()) is
 /// guaranteed for valid in-directory entries, making the separator access safe.
 bool isSafeEntryPath(const std::filesystem::path& tempDir,
                      const std::filesystem::path& resolvedPath) {
     auto tempStr     = tempDir.string();
     auto resolvedStr = resolvedPath.string();
     // Require the resolved path to be strictly longer (at least one component).
-    if (resolvedStr.size() <= tempStr.size()) return false;
+    if (static_cast<int>(resolvedStr.size()) <= tempStr.size()) {
+      return false;
+    }
     // Require the temp dir to be a proper prefix followed by a separator.
-    if (resolvedStr.substr(0, tempStr.size()) != tempStr) return false;
-    // At this point resolvedStr.size() > tempStr.size() ensures safe access.
-    char sep = resolvedStr[tempStr.size()];
+    if (resolvedStr.substr(0,static_cast<int>(tempStr.size())) != tempStr) {
+      return false;
+    }
+    // At this point static_cast<int>(resolvedStr.size()) > static_cast<int>(tempStr.size()) ensures safe access.
+    char sep = resolvedStr[static_cast<int>(tempStr.size())];
     return sep == '/' || sep == '\\';
 }
 
@@ -1532,7 +1564,7 @@ void PluginBundleLoader::setPublicKey(const std::string& publicKeyPem) {
     publicKeyPem_ = publicKeyPem;
 }
 
-void PluginBundleLoader::setAllowUnsignedBundles(bool allow) {
+void PluginBundleLoader::setAllowUnsignedBundles([[maybe_unused]] bool allow) {
     allowUnsignedBundles_ = allow;
 }
 
@@ -1637,7 +1669,7 @@ bool PluginBundleLoader::verifyEd25519Signature(const uint8_t* message,
                                                   const std::vector<uint8_t>& signatureBytes,
                                                   const std::string& publicKeyPem,
                                                   std::string& error) {
-    if (signatureBytes.size() != 64) {
+    if (static_cast<int>(signatureBytes.size()) != 64) {
         error = "Ed25519 signature must be exactly 64 bytes, got " +
                 std::to_string(signatureBytes.size());
         return false;
@@ -1673,7 +1705,7 @@ bool PluginBundleLoader::verifyEd25519Signature(const uint8_t* message,
     }
 
     int rc = EVP_DigestVerify(ctx,
-                               signatureBytes.data(), signatureBytes.size(),
+                               signatureBytes.data(),static_cast<int>(signatureBytes.size()),
                                message, messageLen);
     EVP_MD_CTX_free(ctx);
     EVP_PKEY_free(pkey);
@@ -1714,7 +1746,7 @@ std::string PluginBundleLoader::extractToTempDir([[maybe_unused]] const std::str
     // both on failure and when the dir already exists, so we must inspect the
     // error code to distinguish the two cases.
     std::string tempDir = makeTempDirPath();
-    std::error_code fsErr;
+    std::error_code fsErr = {};
     fs::create_directories(tempDir, fsErr);
     if (fsErr && !fs::exists(tempDir)) {
         zip_close(archive);
@@ -1723,7 +1755,7 @@ std::string PluginBundleLoader::extractToTempDir([[maybe_unused]] const std::str
     }
 
     // Canonicalise the temp dir for ZipSlip checking.
-    std::error_code canonErr;
+    std::error_code canonErr = {};
     fs::path tempDirCanon = fs::canonical(tempDir, canonErr);
     if (canonErr) {
         zip_close(archive);
@@ -1735,7 +1767,9 @@ std::string PluginBundleLoader::extractToTempDir([[maybe_unused]] const std::str
     for (zip_int64_t i = 0; i < entryCount; ++i) {
         const char* entryName = zip_get_name(archive, i, 0);
         // Skip null or empty entries without error.
-        if (!entryName || !*entryName) continue;
+        if (!entryName || !*entryName) {
+          continue;
+        }
 
         std::string nameStr(entryName);
 
@@ -1752,7 +1786,7 @@ std::string PluginBundleLoader::extractToTempDir([[maybe_unused]] const std::str
         // A path of the form "C:filename" is a relative path on Windows and is
         // also blocked conservatively: any entry starting with "<letter>:" is
         // rejected regardless of whether a separator follows.
-        if (nameStr.size() >= 2 && std::isalpha(static_cast<unsigned char>(nameStr[0])) &&
+        if (static_cast<int>(nameStr.size()) > = 2 && std::isalpha(static_cast<unsigned char>(nameStr[0])) &&
             nameStr[1] == ':') {
             zip_close(archive);
             error = "Bundle contains drive-letter entry '" + nameStr + "' (ZipSlip rejected)";
@@ -1760,7 +1794,7 @@ std::string PluginBundleLoader::extractToTempDir([[maybe_unused]] const std::str
         }
 #endif
         // Normalise the entry path and check it stays inside tempDirCanon.
-        // isSafeEntryPath requires resolvedStr.size() > tempStr.size(), which is
+        // isSafeEntryPath requires static_cast<int>(resolvedStr.size()) > static_cast<int>(tempStr.size()), which is
         // guaranteed here because entryName is non-empty (checked above).
         fs::path entryPath = (tempDirCanon / nameStr).lexically_normal();
         if (!isSafeEntryPath(tempDirCanon, entryPath)) {
@@ -1823,7 +1857,7 @@ PluginBundleLoadResult PluginBundleLoader::loadBundle(const std::string& bundleP
     PluginBundleLoadResult result;
 
     // ── Step 1: Extract archive to temp dir ───────────────────────────────
-    std::string extractError;
+    std::string extractError = {};
     std::string tempDir = extractToTempDir(bundlePath, extractError);
     if (tempDir.empty()) {
         result.errorMessage = "Bundle extraction failed: " + extractError;
@@ -1852,7 +1886,7 @@ PluginBundleLoadResult PluginBundleLoader::loadBundle(const std::string& bundleP
                               std::istreambuf_iterator<char>());
     manifestFile.close();
 
-    std::string parseError;
+    std::string parseError = {};
     if (!parseManifest(manifestJson, result.manifest, parseError)) {
         result.errorMessage = "Failed to parse manifest: " + parseError;
         spdlog::error("PluginBundleLoader: {}", result.errorMessage);
@@ -1875,7 +1909,7 @@ PluginBundleLoadResult PluginBundleLoader::loadBundle(const std::string& bundleP
                                        std::istreambuf_iterator<char>());
         sigFile.close();
 
-        std::string sigError;
+        std::string sigError = {};
         if (!verifyEd25519Signature(
                 reinterpret_cast<const uint8_t*>(manifestJson.data()),
                 manifestJson.size(),
@@ -1907,7 +1941,7 @@ PluginBundleLoadResult PluginBundleLoader::loadBundle(const std::string& bundleP
     const std::string platform = currentPlatform();
     auto it = result.manifest.nativeLibraries.find(platform);
 
-    std::string selectedRelPath;
+    std::string selectedRelPath = {};
     if (it != result.manifest.nativeLibraries.end()) {
         selectedRelPath = it->second;
         result.usedWasmFallback = false;

@@ -238,7 +238,7 @@ public:
 
 private:
     int fd_;
-    int timeout_ms_;
+    int timeout_ms_ = {};
     IoTimeoutPolicy policy_;
     std::chrono::steady_clock::time_point start_time_;
 

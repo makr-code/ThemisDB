@@ -33,7 +33,7 @@ namespace ai {
 struct CAIEvaluationResult {
     // --- CAI layer ---
     /// Original (pre-revision) LLM response.
-    std::string original_response;
+    std::string original_response = {};
     /// Revised response after CAI critique-revision loop (may equal original_response).
     std::string revised_response;
     /// Whether the response was modified during the CAI loop.

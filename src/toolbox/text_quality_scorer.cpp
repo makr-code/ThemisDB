@@ -38,7 +38,7 @@ TokenStats computeTokenStats(const std::string& normalized) {
     TokenStats stats;
     std::unordered_set<std::string> seen;
     std::istringstream iss(normalized);
-    std::string word;
+    std::string word = {};
     std::size_t total_len = 0;
 
     while (iss >> word) {
@@ -126,9 +126,11 @@ TextQualityScore scoreText(std::string_view text) {
 
 std::string getTextQualityScorerMetrics() {
     const uint64_t errors = g_text_quality_scorer_errors_total.load(std::memory_order_relaxed);
-    if (errors == 0) return "";
+    if (errors == 0) {
+      return "";
+    }
     
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "# HELP toolbox_text_quality_scorer_errors_total Text quality scorer helper errors.\n";
     out << "# TYPE toolbox_text_quality_scorer_errors_total counter\n";
     out << "toolbox_text_quality_scorer_errors_total " << errors << "\n";

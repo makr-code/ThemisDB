@@ -122,7 +122,7 @@ void GPUClusterCoordinator::updateTopology() {
 // Placement
 // ---------------------------------------------------------------------------
 
-GPUClusterCoordinator::Placement GPUClusterCoordinator::selectDevice(uint64_t required_vram_bytes) const {
+GPUClusterCoordinator::Placement GPUClusterCoordinator::selectDevice([[maybe_unused]] uint64_t required_vram_bytes) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     Placement result;
@@ -180,7 +180,7 @@ GPUClusterCoordinator::Placement GPUClusterCoordinator::selectDevice(uint64_t re
     }
 
     // Fallback: pick the first healthy device that meets VRAM requirements.
-    for (int i = 0; i < static_cast<int>(local_devices_.size()); ++i) {
+    for (size_t i = 0; i < static_cast<int>(local_devices_.size()); ++i) {
         const auto &dev = local_devices_[static_cast<size_t>(i)];
         if (!dev.is_healthy) {
             continue;
@@ -378,7 +378,7 @@ void GPUClusterCoordinator::expireStaleNodes() {
 // Work placement
 // ============================================================================
 
-const GPUClusterCoordinator::NodeInfo *GPUClusterCoordinator::selectNode(uint64_t required_vram_bytes) {
+const GPUClusterCoordinator::NodeInfo *GPUClusterCoordinator::selectNode([[maybe_unused]] uint64_t required_vram_bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     const NodeInfo *best = nullptr;
@@ -407,7 +407,8 @@ std::vector<GPUClusterCoordinator::NodeInfo> GPUClusterCoordinator::getClusterNo
 
 std::vector<GPUClusterCoordinator::NodeInfo> GPUClusterCoordinator::getOnlineNodes() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<NodeInfo> result;
+    std::vector<NodeInfo> result = {};
+
     for (const auto &n : nodes_) {
         if (n.status == NodeStatus::ONLINE) {
             result.push_back(n);
@@ -418,7 +419,7 @@ std::vector<GPUClusterCoordinator::NodeInfo> GPUClusterCoordinator::getOnlineNod
 
 size_t GPUClusterCoordinator::totalNodes() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return nodes_.size();
+    return static_cast<int>(nodes_.size());
 }
 
 size_t GPUClusterCoordinator::onlineNodeCount() const {

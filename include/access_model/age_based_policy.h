@@ -111,7 +111,9 @@ struct AgeBasedPolicy {
      * @param seconds_since_access Time in seconds since last access
      */
     bool shouldDemoteL1ToL2(uint32_t seconds_since_access) const noexcept {
-        if (l1_zero_access_days == 0) return false;
+        if (l1_zero_access_days == 0) {
+          return false;
+        }
         return seconds_since_access > (l1_zero_access_days * 86400u);
     }
 
@@ -119,7 +121,9 @@ struct AgeBasedPolicy {
      * @brief Check if data in L2 should be demoted to L3 based on age.
      */
     bool shouldDemoteL2ToL3(uint32_t seconds_since_access) const noexcept {
-        if (l2_zero_access_days == 0) return false;
+        if (l2_zero_access_days == 0) {
+          return false;
+        }
         return seconds_since_access > (l2_zero_access_days * 86400u);
     }
 

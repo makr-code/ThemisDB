@@ -63,7 +63,7 @@ bool PromptTemplateManager::loadTemplate(EvaluationDimension dimension, const st
         return false;
     }
     
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     templates_[dimension] = buffer.str();
     
@@ -340,8 +340,8 @@ std::string PromptTemplateManager::replacePlaceholders(
     }
     
     // Replace {context} with concatenated documents
-    std::ostringstream context_stream;
-    for (size_t i = 0; i < input.documents.size(); ++i) {
+    std::ostringstream context_stream = {};
+    for (size_t i = 0; i <static_cast<int>(input.documents.size()); ++i) {
         context_stream << "Document " << (i + 1) << ":\n"
                       << input.documents[i].content << "\n\n";
     }
@@ -359,10 +359,10 @@ std::string PromptTemplateManager::replacePlaceholders(
 std::string PromptTemplateManager::formatFewShotExamples(
     const std::vector<FewShotExample>& examples
 ) const {
-    std::ostringstream stream;
+    std::ostringstream stream = {};
     stream << "**Few-Shot Examples:**\n\n";
     
-    for (size_t i = 0; i < examples.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(examples.size()); ++i) {
         const auto& ex = examples[i];
         stream << "Example " << (i + 1) << ":\n";
         stream << "Query: " << ex.query << "\n";

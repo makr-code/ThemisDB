@@ -35,7 +35,7 @@ public:
     };
 
     struct EmbeddingResult {
-        bool success;
+        bool success = 0;
         std::string error_message;
         std::vector<float> embedding;  // Mock: 384-dim embedding
     };
@@ -78,8 +78,8 @@ public:
         : max_tokens_(max_tokens), current_tokens_(0) {}
 
     struct AddTurnResult {
-        bool success;
-        std::string error_message;
+        bool success = 0;
+        std::string error_message = {};
         uint32_t evicted_turns;  // Number of turns removed due to overflow
     };
 

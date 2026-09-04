@@ -57,7 +57,7 @@ ShardRepairEngine::ShardRepairEngine(
       ring_(ring),
       topology_(topology),
       read_handler_(std::move(read_handler)),
-      write_handler_(std::move(write_handler)) {}
+      write_handler_([[maybe_unused]] std::move(write_handler)) {}
 
 /** @brief Stop worker threads on destruction. */
 ShardRepairEngine::~ShardRepairEngine() {
@@ -138,7 +138,7 @@ void ShardRepairEngine::setResourceManager(std::shared_ptr<ShardResourceManager>
 std::string ShardRepairEngine::generateJobId() const {
     uint64_t counter = job_counter_.fetch_add(1);
     auto now = std::chrono::system_clock::now().time_since_epoch().count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "repair-" << now << "-" << counter;
     return oss.str();
 }
@@ -232,7 +232,8 @@ RepairJob ShardRepairEngine::getJobStatus(const std::string& job_id) const {
 /** @brief Return currently active (not completed) repair jobs. */
 std::vector<RepairJob> ShardRepairEngine::getActiveJobs() const {
     std::lock_guard<std::timed_mutex> lock(jobs_mutex_);
-    std::vector<RepairJob> active;
+    std::vector<RepairJob> active = {};
+
     for (const auto& [id, job] : jobs_) {
         if (!job.completed) {
             active.push_back(job);
@@ -244,7 +245,8 @@ std::vector<RepairJob> ShardRepairEngine::getActiveJobs() const {
 /** @brief Return latest per-shard health reports cache snapshot. */
 std::vector<ShardHealthReport> ShardRepairEngine::getShardHealthReports() const {
     std::lock_guard<std::mutex> lock(health_mutex_);
-    std::vector<ShardHealthReport> reports;
+    std::vector<ShardHealthReport> reports = {};
+
     reports.reserve(shard_health_.size());
     for (const auto& [id, report] : shard_health_) {
         reports.push_back(report);
@@ -263,7 +265,7 @@ std::string ShardRepairEngine::exportPrometheusMetrics() const {
     RepairMetrics m = getRepairMetrics();
     auto reports = getShardHealthReports();
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     oss << "# HELP themis_shard_repair_scans_total Total anti-entropy scans performed\n"
         << "# TYPE themis_shard_repair_scans_total counter\n"
@@ -372,7 +374,9 @@ void ShardRepairEngine::repairLoop() {
             return !job_queue_.empty() || !running_.load();
         });
 
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
 
         // Drain up to repair_batch_size jobs
         uint32_t processed = 0;
@@ -381,7 +385,9 @@ void ShardRepairEngine::repairLoop() {
             job_queue_.pop();
 
             auto it = jobs_.find(job_id);
-            if (it == jobs_.end()) continue;
+            if (it == jobs_.end()) {
+              continue;
+            }
 
             RepairJob& job = it->second;
             lock.unlock();
@@ -443,7 +449,7 @@ void ShardRepairEngine::performAntiEntropyScan() {
     // Determine number of parallel workers (0 → use hardware_concurrency)
     uint32_t num_workers = config_.num_parallel_workers;
     if (num_workers == 0) {
-        num_workers = std::max(1u, std::thread::hardware_concurrency());
+        num_workers = std::max(1, std::thread::hardware_concurrency());
     }
     num_workers = std::min(num_workers, static_cast<uint32_t>(total_shards));
 
@@ -471,7 +477,7 @@ void ShardRepairEngine::performAntiEntropyScan() {
 
     // Partition shards into bands – one per worker thread
     std::vector<std::vector<ShardInfo>> bands(num_workers);
-    for (size_t i = 0; i < all_shards.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(all_shards.size()); ++i) {
         bands[i % num_workers].push_back(all_shards[i]);
     }
 
@@ -482,8 +488,12 @@ void ShardRepairEngine::performAntiEntropyScan() {
     auto& pool_mgr = themis::utils::getThreadPoolManager();
 
     for (uint32_t w = 0; w < num_workers; ++w) {
-        if (!running_.load()) break;
-        if (bands[w].empty()) continue;
+        if (!running_.load()) {
+          break;
+        }
+        if (bands[w].empty()) {
+          continue;
+        }
 
         auto promise = std::make_shared<std::promise<void>>();
         band_futures.push_back(promise->get_future());
@@ -546,7 +556,9 @@ void ShardRepairEngine::scanShardBand(const std::vector<ShardInfo>& band,
                                        const std::string& scan_job_id,
                                        uint64_t total_shards) {
     for (const auto& shard_info : band) {
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
 
         const std::string& shard_id = shard_info.shard_id;
 
@@ -555,7 +567,8 @@ void ShardRepairEngine::scanShardBand(const std::vector<ShardInfo>& band,
         report.last_scan = std::chrono::system_clock::now();
 
         // Obtain document list for this shard (if provider is set)
-        std::vector<std::string> doc_ids;
+        std::vector<std::string> doc_ids = {};
+
         if (doc_list_provider_) {
             try {
                 doc_ids = doc_list_provider_(shard_id);
@@ -566,7 +579,9 @@ void ShardRepairEngine::scanShardBand(const std::vector<ShardInfo>& band,
         }
 
         for (const auto& doc_id : doc_ids) {
-            if (!running_.load()) break;
+            if (!running_.load()) {
+              break;
+            }
 
             // Enforce the IOPS budget – back-off if the token bucket is empty.
             if (resource_manager_ &&
@@ -685,14 +700,17 @@ void ShardRepairEngine::executeRepairJob(RepairJob& job) {
         // Filter to the requested shard
         shards_to_repair.erase(
             std::remove_if(shards_to_repair.begin(), shards_to_repair.end(),
-                           [&](const ShardInfo& s) { return s.shard_id != job.shard_id; }),
+                           [&]([[maybe_unused]] const ShardInfo& s) { return s.shard_id != job.shard_id; }),
             shards_to_repair.end());
     }
 
     for (const auto& shard_info : shards_to_repair) {
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
 
-        std::vector<std::string> doc_ids;
+        std::vector<std::string> doc_ids = {};
+
         if (doc_list_provider_) {
             try {
                 doc_ids = doc_list_provider_(shard_info.shard_id);

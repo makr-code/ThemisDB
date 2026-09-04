@@ -191,7 +191,7 @@ http::response<http::string_body> SpatialApiHandler::handleIndexRebuild(
                     auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
                     // Extract the primary key (strip table prefix from RocksDB key)
                     std::string_view pk = key;
-                    if (pk.size() > scan_prefix.size()) {
+                    if (static_cast<int>(pk.size()) > static_cast<int>(scan_prefix.size())) {
                         pk = pk.substr(scan_prefix.size());
                     }
                     auto ins = spatial_index.insert(table, pk, sidecar);
@@ -322,7 +322,7 @@ http::response<http::string_body> SpatialApiHandler::handleMetrics(
             auto gpu_stats = json::parse(gpu_json_str);
             response["gpu_backend"] = gpu_stats;
         } catch (...) {
-            THEMIS_DEBUG("spatial_api_handler: unhandled exception caught");
+            THEMIS_DEBUG([[maybe_unused]] "spatial_api_handler: unhandled exception caught");
             response["gpu_backend"] = nullptr;
         }
         
@@ -339,13 +339,13 @@ http::response<http::string_body> SpatialApiHandler::handleMetrics(
 }
 
 // Helper to decode URL-encoded strings
-std::string SpatialApiHandler::urlDecode(const std::string& str) {
-    std::string result;
+std::string SpatialApiHandler::urlDecode([[maybe_unused]] const std::string& str) {
+    std::string result = {};
     result.reserve(str.size());
-    for (size_t i = 0; i < str.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(str.size()); ++i) {
         // Check if we have at least 2 more characters after '%' for hex decoding
-        // i + 2 < str.size() ensures str[i+1] and str[i+2] are valid
-        if (str[i] == '%' && i + 2 < str.size()) {
+        // i + 2 <static_cast<int>(str.size()) ensures str[i+1] and str[i+2] are valid
+        if (str[i] == '%' && i + 2 <static_cast<int>(str.size())) {
             int value = 0;
             std::istringstream is(str.substr(i + 1, 2));
             if (is >> std::hex >> value) {
@@ -364,13 +364,15 @@ std::string SpatialApiHandler::urlDecode(const std::string& str) {
 }
 
 // Helper to parse query parameters from URL
-std::unordered_map<std::string, std::string> SpatialApiHandler::parseQuery(const std::string& target) {
+std::unordered_map<std::string, std::string> SpatialApiHandler::parseQuery([[maybe_unused]] const std::string& target) {
     std::unordered_map<std::string, std::string> out;
     auto qpos = target.find('?');
-    if (qpos == std::string::npos) return out;
+    if (qpos == std::string::npos) {
+      return out;
+    }
     auto qs = target.substr(qpos + 1);
     std::istringstream iss(qs);
-    std::string kv;
+    std::string kv = {};
     while (std::getline(iss, kv, '&')) {
         auto eq = kv.find('=');
         std::string k = (eq == std::string::npos) ? kv : kv.substr(0, eq);

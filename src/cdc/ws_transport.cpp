@@ -60,7 +60,7 @@ void WsTransport::removeSession(const std::string& session_id) {
     auto it = sessions_.find(session_id);
     if (it != sessions_.end()) {
         THEMIS_INFO("WsTransport: session removed: {} ({} subscriptions)",
-                    session_id, it->second.subscriptions.size());
+                    session_id, it-> static_cast<int>(second.subscriptions.size()));
         sessions_.erase(it);
     }
 }
@@ -114,8 +114,8 @@ void WsTransport::pollAndDeliver(const SendFn& send_fn, const CloseFn& close_fn)
 
     // Phase 1: snapshot the active subscriptions (fast, under lock).
     struct QueryItem {
-        std::string session_id;
-        std::string sub_id;
+        std::string session_id = {};
+        std::string sub_id = {};
         Changefeed::ListOptions opts;
     };
     std::vector<QueryItem> query_items;
@@ -145,8 +145,8 @@ void WsTransport::pollAndDeliver(const SendFn& send_fn, const CloseFn& close_fn)
 
     // Phase 2: query changefeed without holding the mutex (may take time).
     struct QueryResult {
-        std::string session_id;
-        std::string sub_id;
+        std::string session_id = {};
+        std::string sub_id = {};
         std::vector<Changefeed::ChangeEvent> events;
     };
     std::vector<QueryResult> results;
@@ -169,8 +169,8 @@ void WsTransport::pollAndDeliver(const SendFn& send_fn, const CloseFn& close_fn)
 
     // Phase 3: apply back-pressure checks and update sequence pointers (under lock).
     struct Delivery {
-        std::string session_id;
-        std::string sub_id;
+        std::string session_id = {};
+        std::string sub_id = {};
         std::vector<Changefeed::ChangeEvent> events;
     };
     std::vector<Delivery> deliveries;
@@ -191,7 +191,7 @@ void WsTransport::pollAndDeliver(const SendFn& send_fn, const CloseFn& close_fn)
             }
 
             // Back-pressure: close and remove sessions that cannot accept more events.
-            if (session.pending_events + result.events.size() > kMaxPendingEvents) {
+            if (session.pending_events + static_cast<int>(result.events.size()) > kMaxPendingEvents) {
                 THEMIS_WARN("WsTransport: session {} back-pressure limit reached "
                             "(pending={}, new={}), closing with 1011",
                             result.session_id, session.pending_events,

@@ -158,7 +158,7 @@ struct MerkleProof {
      * @brief Get the number of hash operations required to verify this proof.
      * @return Depth of the proof path (O(log N))
      */
-    [[nodiscard]] size_t verificationCost() const { return proof_path.size(); }
+    [[nodiscard]] size_t verificationCost() const { return static_cast<int>(proof_path.size()); }
 
     // Compatibility public member `root_hash` exists for tests and older APIs.
 

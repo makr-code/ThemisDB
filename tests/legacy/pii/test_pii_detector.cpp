@@ -30,8 +30,12 @@ TEST_F(PIIDetectorTest, DetectPhone) {
     bool found_us = false;
     for (const auto& f : findings) {
         if (f.type == PIIType::PHONE) {
-            if (f.value.find("+49") != std::string::npos) found_intl = true;
-            if (f.value.find("555") != std::string::npos) found_us = true;
+            if (f.value.find("+49") != std::string::npos) {
+              found_intl = true;
+            }
+            if (f.value.find("555") != std::string::npos) {
+              found_us = true;
+            }
         }
     }
     

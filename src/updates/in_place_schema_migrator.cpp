@@ -47,14 +47,16 @@ bool InPlaceSchemaMigrator::isAdditiveMigration(
     const SchemaManager::TableSchema& to_schema)
 {
     // Build a map of existing columns for fast lookup (Error Code: 7447)
-    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> from_props;
+    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> from_props = {};
+
     from_props.reserve(from_schema.properties.size());
     for (const auto& p : from_schema.properties) {
         from_props[p.name] = &p;
     }
 
     // Every column in from_schema must appear unchanged in to_schema
-    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> to_props;
+    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> to_props = {};
+
     to_props.reserve(to_schema.properties.size());
     for (const auto& p : to_schema.properties) {
         to_props[p.name] = &p;
@@ -74,7 +76,7 @@ bool InPlaceSchemaMigrator::isAdditiveMigration(
     }
 
     // to_schema must add at least one new column
-    return to_schema.properties.size() > from_schema.properties.size();
+    return static_cast<bool>( static_cast<int>(to_schema.properties.size()) < static_cast<int>(from_schema.properties.size()));
 }
 
 // ----------------------------------------------------------------------------
@@ -86,14 +88,16 @@ std::vector<std::string> InPlaceSchemaMigrator::findAddedColumns(
     const SchemaManager::TableSchema& to_schema)
 {
     // Use unordered_set for O(1) lookups instead of map (Error Code: 7448)
-    std::unordered_set<std::string> from_names;
+    std::unordered_set<std::string> from_names = {};
+
     from_names.reserve(from_schema.properties.size());
     for (const auto& p : from_schema.properties) {
         from_names.insert(p.name);
     }
 
-    std::vector<std::string> added;
-    added.reserve(to_schema.properties.size() - from_schema.properties.size());
+    std::vector<std::string> added = {};
+
+    added.reserve(to_schema.properties.size() - static_cast<int>(from_schema.properties.size()) );
     for (const auto& p : to_schema.properties) {
         if (from_names.find(p.name) == from_names.end()) {
             added.push_back(p.name);
@@ -113,19 +117,21 @@ MigrationChangePreview InPlaceSchemaMigrator::preview(
     MigrationChangePreview result;
 
     // Build property maps for O(1) lookup using unordered_map (Error Code: 7449-7450)
-    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> from_map;
+    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> from_map = {};
+
     from_map.reserve(from_schema.properties.size());
     for (const auto& p : from_schema.properties) {
         from_map[p.name] = &p;
     }
-    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> to_map;
+    std::unordered_map<std::string, const SchemaManager::PropertyInfo*> to_map = {};
+
     to_map.reserve(to_schema.properties.size());
     for (const auto& p : to_schema.properties) {
         to_map[p.name] = &p;
     }
 
     // Added columns: present in to_schema but not in from_schema
-    result.added_columns.reserve(to_schema.properties.size() - from_schema.properties.size());
+    result.added_columns.reserve(to_schema.properties.size() - static_cast<int>(from_schema.properties.size()) );
     for (const auto& p : to_schema.properties) {
         if (from_map.find(p.name) == from_map.end()) {
             result.added_columns.push_back(p);
@@ -133,7 +139,7 @@ MigrationChangePreview InPlaceSchemaMigrator::preview(
     }
 
     // Removed columns: present in from_schema but not in to_schema
-    result.removed_columns.reserve(from_schema.properties.size() - to_schema.properties.size());
+    result.removed_columns.reserve(from_schema.properties.size() - static_cast<int>(to_schema.properties.size()) );
     for (const auto& p : from_schema.properties) {
         if (to_map.find(p.name) == to_map.end()) {
             result.removed_columns.push_back(p);
@@ -172,10 +178,10 @@ MigrationChangePreview InPlaceSchemaMigrator::preview(
     } else {
         result.is_valid      = false;
         // Use stringstream for efficient string concatenation (Error Code: 7451)
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Migration preview: migration is not purely additive "
-            << "(" << result.removed_columns.size() << " removed, "
-            << result.modified_columns.size() << " modified); "
+            << "(" <<static_cast<int>(result.removed_columns.size()) << " removed, "
+            <<static_cast<int>(result.modified_columns.size()) << " modified); "
             << "use SchemaMigrationTester for destructive or type-changing migrations";
         result.error_message = oss.str();
     }
@@ -195,7 +201,7 @@ InPlaceMigrationResult InPlaceSchemaMigrator::apply(
     SchemaVersionManager& version_mgr,
     const std::string& author)
 {
-    InPlaceMigrationResult result;
+    InPlaceMigrationResult result = {};
 
     if (table_name.empty()) {
         result.error_message = "table_name must not be empty";
@@ -224,9 +230,9 @@ InPlaceMigrationResult InPlaceSchemaMigrator::apply(
 
     // Record the change in version history
     // Use ostringstream for efficient string building (Error Code: 7470)
-    std::ostringstream msg_stream;
+    std::ostringstream msg_stream = {};
     msg_stream << "in-place additive migration: added " 
-               << result.added_columns.size() << " column(s)";
+               <<static_cast<int>(result.added_columns.size()) << " column(s)";
     auto ver_result = version_mgr.createSchemaVersion(
         table_name,
         author,
@@ -244,15 +250,17 @@ InPlaceMigrationResult InPlaceSchemaMigrator::apply(
     result.success        = true;
 
     // Use stringstream for efficient string concatenation (Error Code: 7452)
-    std::ostringstream cols_stream;
-    for (size_t i = 0; i < result.added_columns.size(); ++i) {
-        if (i) cols_stream << ", ";
+    std::ostringstream cols_stream = {};
+    for (size_t i = 0; i <static_cast<int>(result.added_columns.size()); ++i) {
+        if (i) {
+          cols_stream << ", ";
+        }
         cols_stream << result.added_columns[i];
     }
     LOG_INFO(
         "InPlaceSchemaMigrator: table '{}' migrated in-place to v{}; "
         "added {} column(s): {}",
-        table_name, result.schema_version, result.added_columns.size(),
+        table_name, result.schema_version,static_cast<int>(result.added_columns.size()),
         cols_stream.str());
 
     return result;

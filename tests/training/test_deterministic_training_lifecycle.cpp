@@ -54,13 +54,17 @@ std::vector<float> makeRandomWeights(size_t n, float scale, unsigned int seed) {
     std::mt19937 rng(seed);
     std::uniform_real_distribution<float> dist(-scale, scale);
     std::vector<float> v(n);
-    for (float& x : v) x = dist(rng);
+    for (float& x : v) {
+      x = dist(rng);
+    }
     return v;
 }
 
 float l2Norm(const std::vector<float>& v) {
     float s = 0.0f;
-    for (float x : v) s += x * x;
+    for (float x : v) {
+      s += x * x;
+    }
     return std::sqrt(s);
 }
 
@@ -330,7 +334,9 @@ TEST(DeterministicTrainingLifecycle, DTL_09_synthetic_loss_monotone) {
             loss += (w.A[i] - target_A[i]) * (w.A[i] - target_A[i]);
         loss /= static_cast<float>(w.B.size() + w.A.size());
 
-        if (step > 0 && loss < prev_loss) saw_decrease = true;
+        if (step > 0 && loss < prev_loss) {
+          saw_decrease = true;
+        }
 
         // Gradient = 2*(w - target); delta = -lr * gradient
         std::vector<float> dB(w.B.size()), dA(w.A.size());
@@ -398,8 +404,12 @@ TEST(DeterministicTrainingLifecycle, DTL_11_n_identical_updates_equals_n_scaled)
     }
 
     std::vector<float> dB_n(dB.size()), dA_n(dA.size());
-    for (size_t i = 0; i < dB.size(); ++i) dB_n[i] = dB[i] * static_cast<float>(N);
-    for (size_t i = 0; i < dA.size(); ++i) dA_n[i] = dA[i] * static_cast<float>(N);
+    for (size_t i = 0; i < dB.size(); ++i) {
+      dB_n[i] = dB[i] * static_cast<float>(N);
+    }
+    for (size_t i = 0; i < dA.size(); ++i) {
+      dA_n[i] = dA[i] * static_cast<float>(N);
+    }
     a_1.applyUpdate("fc", dB_n, dA_n);
 
     const auto& wn = a_n.getWeights("fc");

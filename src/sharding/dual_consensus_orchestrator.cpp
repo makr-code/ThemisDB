@@ -85,7 +85,7 @@ bool DualConsensusOrchestrator::initialize(
     }
     
     spdlog::info("DualConsensusOrchestrator initialized: node={}, cluster_size={}",
-                node_id, cluster_nodes.size());
+                node_id,static_cast<int>(cluster_nodes.size()));
     
     return true;
 }
@@ -776,7 +776,7 @@ size_t DualConsensusOrchestrator::triggerFullSync() {
     }
     
     spdlog::info("DualConsensusOrchestrator: Full sync completed. Synced: {}/{}",
-                synced_count, inconsistent_keys.size());
+                synced_count,static_cast<int>(inconsistent_keys.size()));
     
     return synced_count;
 }
@@ -785,9 +785,9 @@ size_t DualConsensusOrchestrator::triggerFullSync() {
 // Configuration and Callbacks
 // ============================================================================
 
-void DualConsensusOrchestrator::setSyncCallback(SyncCallback callback) {
+void DualConsensusOrchestrator::setSyncCallback([[maybe_unused]] SyncCallback callback) {
     std::lock_guard<std::mutex> lock(state_mutex_);
-    sync_callback_ = std::move(callback);
+    sync_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void DualConsensusOrchestrator::setConflictResolver(ConflictResolver resolver) {
@@ -795,9 +795,9 @@ void DualConsensusOrchestrator::setConflictResolver(ConflictResolver resolver) {
     conflict_resolver_ = std::move(resolver);
 }
 
-void DualConsensusOrchestrator::setConsistencyCallback(ConsistencyCallback callback) {
+void DualConsensusOrchestrator::setConsistencyCallback([[maybe_unused]] ConsistencyCallback callback) {
     std::lock_guard<std::mutex> lock(state_mutex_);
-    consistency_callback_ = std::move(callback);
+    consistency_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void DualConsensusOrchestrator::setBackgroundSyncInterval(std::chrono::milliseconds interval) {
@@ -885,7 +885,9 @@ nlohmann::json DualConsensusOrchestrator::getMetrics() const {
     {
         std::lock_guard<std::mutex> state_lock(state_mutex_);
         for (const auto& [k, s] : consistency_states_) {
-            if (s != CrossLayerConsistencyState::CONSISTENT) ++inconsistent_count;
+            if (s != CrossLayerConsistencyState::CONSISTENT) {
+              ++inconsistent_count;
+            }
         }
     }
     
@@ -959,7 +961,9 @@ void DualConsensusOrchestrator::backgroundSyncThread() {
                          inconsistent_keys.size());
             
             for (const auto& key : inconsistent_keys) {
-                if (!running_) break;
+                if (!running_) {
+                  break;
+                }
                 
                 auto state = checkConsistency(key);
                 
@@ -967,14 +971,18 @@ void DualConsensusOrchestrator::backgroundSyncThread() {
                 if (state == CrossLayerConsistencyState::STORAGE_AHEAD) {
                     // Retry on transient failure (up to 2 attempts)
                     for (int attempt = 0; attempt < 2 && running_; ++attempt) {
-                        if (syncCacheFromStorage(key)) break;
+                        if (syncCacheFromStorage(key)) {
+                          break;
+                        }
                         spdlog::warn("DualConsensusOrchestrator: Retry {} for STORAGE_AHEAD sync "
                                      "key={}", attempt + 1, key);
                     }
                 } else if (state == CrossLayerConsistencyState::CACHE_AHEAD && isDegraded()) {
                     // Only sync storage from cache if we're in degraded mode
                     for (int attempt = 0; attempt < 2 && running_; ++attempt) {
-                        if (syncStorageFromCache(key)) break;
+                        if (syncStorageFromCache(key)) {
+                          break;
+                        }
                         spdlog::warn("DualConsensusOrchestrator: Retry {} for CACHE_AHEAD sync "
                                      "key={}", attempt + 1, key);
                     }
@@ -1017,7 +1025,7 @@ void DualConsensusOrchestrator::updateConsistencyStateLocked(const std::string& 
         old_state = state_it->second;
     }
     
-    CrossLayerConsistencyState new_state;
+    CrossLayerConsistencyState new_state = {};
     if (token.storage_version == storage_version && 
         token.cache_version   == cache_version) {
         new_state = CrossLayerConsistencyState::CONSISTENT;

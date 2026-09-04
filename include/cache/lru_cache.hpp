@@ -203,7 +203,9 @@ size_t LRUCache<Key, Value>::capacity() const noexcept {
 template <typename Key, typename Value>
 double LRUCache<Key, Value>::hit_rate() const noexcept {
     uint64_t total = stats_.hits + stats_.misses;
-    if (total == 0) return 0.0;
+    if (total == 0) {
+      return 0.0;
+    }
     return static_cast<double>(stats_.hits) / static_cast<double>(total);
 }
 

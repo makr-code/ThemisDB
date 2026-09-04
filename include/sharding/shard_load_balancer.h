@@ -110,7 +110,7 @@ public:
      * @brief Per-shard statistics exported by @ref statistics().
      */
     struct ShardStatistics {
-        std::string shard_id;
+        std::string shard_id = {};
         ShardMetrics metrics;
         double       load_score     = 0.0;
         std::size_t  total_selected = 0;

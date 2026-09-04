@@ -331,7 +331,7 @@ TEST_F(CacheHitRateSloMonitorTest, AlertLabels_ContainRequiredFields) {
 // ---------------------------------------------------------------------------
 
 TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_ValidConfig) {
-    std::string err;
+    std::string err = {};
     EXPECT_TRUE(config_.validate(&err));
     EXPECT_TRUE(err.empty());
 }
@@ -339,7 +339,7 @@ TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_ValidConfig) {
 TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_CriticalNotLessThanWarning) {
     config_.critical_threshold = 0.60;  // same as warning
     config_.warning_threshold  = 0.60;
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(config_.validate(&err));
     EXPECT_FALSE(err.empty());
 
@@ -349,7 +349,7 @@ TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_CriticalNotLessThanWarning) {
 
 TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_ThresholdOutOfRange) {
     config_.warning_threshold = 1.50;  // > 1.0
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(config_.validate(&err));
 
     config_.warning_threshold = 0.60;
@@ -359,7 +359,7 @@ TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_ThresholdOutOfRange) {
 
 TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_NegativeCooldown) {
     config_.alert_cooldown_seconds = -1;
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(config_.validate(&err));
     EXPECT_FALSE(err.empty());
 }
@@ -600,7 +600,7 @@ TEST_F(CacheHitRateSloMonitorTest, GetStatus_LatencyPerTierBreakdown) {
 TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_LatencyThresholdsValid) {
     config_.p99_warn_ms     = 10.0;
     config_.p99_critical_ms = 50.0;
-    std::string err;
+    std::string err = {};
     EXPECT_TRUE(config_.validate(&err));
     EXPECT_TRUE(err.empty());
 }
@@ -608,7 +608,7 @@ TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_LatencyThresholdsValid) {
 TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_LatencyCriticalMustBeGreaterThanWarn) {
     config_.p99_warn_ms     = 50.0;
     config_.p99_critical_ms = 10.0;  // critical < warn – invalid
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(config_.validate(&err));
     EXPECT_FALSE(err.empty());
 }
@@ -616,13 +616,13 @@ TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_LatencyCriticalMustBeGreaterTh
 TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_LatencyEqualThresholdsInvalid) {
     config_.p99_warn_ms     = 20.0;
     config_.p99_critical_ms = 20.0;  // equal – invalid (critical must be strictly greater)
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(config_.validate(&err));
 }
 
 TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_LatencyNegativeThresholdInvalid) {
     config_.p99_warn_ms = -1.0;
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(config_.validate(&err));
 }
 
@@ -630,7 +630,7 @@ TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_LatencyOnlyOneThresholdSetIsVa
     // Only warn set, critical stays 0 → valid (only warning alerting enabled)
     config_.p99_warn_ms     = 20.0;
     config_.p99_critical_ms = 0.0;
-    std::string err;
+    std::string err = {};
     EXPECT_TRUE(config_.validate(&err));
 
     // Only critical set, warn stays 0 → valid (only critical alerting enabled)

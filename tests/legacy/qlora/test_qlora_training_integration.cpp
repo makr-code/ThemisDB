@@ -33,7 +33,7 @@ protected:
         service_config_.qlora.layer_by_layer = true;
         
         const auto tmp_dir = std::filesystem::temp_directory_path() / "themisdb_qlora_tests";
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::create_directories(tmp_dir, ec);
         base_model_path_ = (tmp_dir / "test_model.gguf").string();
         createMinimalGGUF(base_model_path_);
@@ -52,7 +52,7 @@ protected:
 
     void TearDown() override {
         if (!base_model_path_.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(base_model_path_, ec);
         }
     }

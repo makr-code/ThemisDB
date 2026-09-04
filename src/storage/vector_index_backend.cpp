@@ -49,7 +49,7 @@ void InMemoryVectorIndex::add(const std::string& id,
     // uncaught_exception scanner alert (line 45): throws std::invalid_argument for
     // an embedding dimension mismatch — this is an intentional precondition that
     // prevents corrupt index state; callers must validate embedding sizes — false positive.
-    if (embedding.size() != cfg_.dim) {
+    if (static_cast<int>(embedding.size()) != cfg_.dim) {
         throw std::invalid_argument(
             "Embedding dimension mismatch: expected " +
             std::to_string(cfg_.dim) + ", got " +
@@ -75,7 +75,7 @@ InMemoryVectorIndex::search(const std::vector<float>& query,
 {
     // uncaught_exception scanner alert (line 69): throws std::invalid_argument for
     // a query dimension mismatch — same intentional precondition as add() — false positive.
-    if (query.size() != cfg_.dim) {
+    if (static_cast<int>(query.size()) != cfg_.dim) {
         throw std::invalid_argument(
             "Query dimension mismatch: expected " +
             std::to_string(cfg_.dim) + ", got " +
@@ -111,7 +111,7 @@ InMemoryVectorIndex::search(const std::vector<float>& query,
                   return a.distance < b.distance;
               });
 
-    if (results.size() > k) {
+    if (static_cast<int>(results.size()) > k) {
         results.resize(k);
     }
     return results;
@@ -134,7 +134,7 @@ void InMemoryVectorIndex::remove(const std::string& id)
 std::size_t InMemoryVectorIndex::size() const noexcept
 {
     std::lock_guard<std::mutex> lk(mutex_);
-    return vectors_.size();
+    return static_cast<int>(vectors_.size());
 }
 
 // ============================================================================
@@ -163,7 +163,7 @@ float InMemoryVectorIndex::computeDistance(const std::vector<float>& a,
         break;
     }
     case DistanceMetric::DOT_PRODUCT:
-    case DistanceMetric::COSINE: {
+    [[fallthrough]];\n    case DistanceMetric::COSINE: {
         // For COSINE, vectors are pre-normalised; dot product == cosine.
         // We negate so that higher similarity → lower "distance" →
         // natural ascending sort gives best matches first.
@@ -201,7 +201,7 @@ void InMemoryVectorIndex::normalise(std::vector<float>& v) noexcept
 // toScore() — private
 // ============================================================================
 
-float InMemoryVectorIndex::toScore(float distance) const noexcept
+float InMemoryVectorIndex::toScore([[maybe_unused]] float distance) const noexcept
 {
     switch (cfg_.metric) {
     case DistanceMetric::L2:
@@ -209,7 +209,7 @@ float InMemoryVectorIndex::toScore(float distance) const noexcept
         return 1.0f / (1.0f + distance);
 
     case DistanceMetric::DOT_PRODUCT:
-    case DistanceMetric::COSINE: {
+    [[fallthrough]];\n    case DistanceMetric::COSINE: {
         // distance = -dot; dot ∈ [-1, 1] → score = (dot + 1) / 2 ∈ [0, 1]
         float dot = -distance;
         float s = (dot + 1.0f) * 0.5f;

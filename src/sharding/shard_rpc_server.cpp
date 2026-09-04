@@ -47,7 +47,7 @@ namespace themis::sharding {
 class ShardServiceImpl final : public themis::sharding::proto::ShardService::Service {
 public:
     explicit ShardServiceImpl(ShardRPCServer::RequestHandler* handler)
-        : handler_(handler) {}
+        : handler_([[maybe_unused]] handler) {}
 
     // Called once Impl is constructed so we can serve shard identity.
     void setImplRef(const std::string& address) {
@@ -59,7 +59,7 @@ public:
         const themis::sharding::proto::PrepareRequest* request,
         themis::sharding::proto::PrepareResponse* response
     ) override {
-        if (!handler_) {
+        if ([[maybe_unused]] !handler_) {
             return grpc::Status(grpc::StatusCode::FAILED_PRECONDITION, "No request handler configured");
         }
         
@@ -89,14 +89,14 @@ public:
         const themis::sharding::proto::CommitRequest* request,
         themis::sharding::proto::CommitResponse* response
     ) override {
-        if (!handler_) {
+        if ([[maybe_unused]] !handler_) {
             return grpc::Status(grpc::StatusCode::FAILED_PRECONDITION, "No request handler configured");
         }
         
         THEMIS_DEBUG("gRPC CommitTransaction: txn_id={}", request->transaction_id());
         
         try {
-            bool success = handler_->onCommit(request->transaction_id());
+            bool success = handler_->onCommit([[maybe_unused]] request->transaction_id());
             response->set_success(success);
             
             return grpc::Status::OK;
@@ -114,14 +114,14 @@ public:
         const themis::sharding::proto::AbortRequest* request,
         themis::sharding::proto::AbortResponse* response
     ) override {
-        if (!handler_) {
+        if ([[maybe_unused]] !handler_) {
             return grpc::Status(grpc::StatusCode::FAILED_PRECONDITION, "No request handler configured");
         }
         
         THEMIS_DEBUG("gRPC AbortTransaction: txn_id={}", request->transaction_id());
         
         try {
-            bool success = handler_->onAbort(request->transaction_id());
+            bool success = handler_->onAbort([[maybe_unused]] request->transaction_id());
             response->set_success(success);
             
             return grpc::Status::OK;
@@ -140,7 +140,7 @@ public:
     ) override {
         THEMIS_DEBUG("gRPC HealthCheck");
         
-        if (handler_) {
+        if ([[maybe_unused]] handler_) {
             auto health_info = handler_->onHealthCheck();
             response->set_status(health_info.is_healthy ? "healthy" : "unhealthy");
             response->set_version(health_info.version);
@@ -168,7 +168,7 @@ public:
 
         response->set_shard_id(listen_address_);
 
-        if (handler_) {
+        if ([[maybe_unused]] handler_) {
             try {
                 const auto edges = handler_->onCollectWaitForEdges();
                 for (const auto& edge : edges) {
@@ -201,7 +201,7 @@ public:
         response->set_shard_id(listen_address_);
 
         // state: derived from health check when handler is available
-        if (handler_) {
+        if ([[maybe_unused]] handler_) {
             try {
                 auto health = handler_->onHealthCheck();
                 response->set_state(health.is_healthy ? "healthy" : "unhealthy");
@@ -229,7 +229,7 @@ private:
 #endif // THEMIS_HAS_SHARD_GRPC
 
 struct ShardRPCServer::Impl {
-    std::string listen_address;
+    std::string listen_address = {};
     RequestHandler* handler = nullptr;
     ShardRPCServer::Config config;  // Store full configuration
     
@@ -271,7 +271,7 @@ ShardRPCServer::~ShardRPCServer() {
 }
 
 /** @brief Install application request handler used by incoming RPC methods. */
-void ShardRPCServer::setRequestHandler(RequestHandler* handler) {
+void ShardRPCServer::setRequestHandler([[maybe_unused]] RequestHandler* handler) {
     impl_->handler = handler;
 }
 
@@ -282,7 +282,7 @@ void ShardRPCServer::setRequestHandler(RequestHandler* handler) {
 bool ShardRPCServer::start() {
 #if THEMIS_HAS_SHARD_GRPC
     try {
-        impl_->service = std::make_unique<ShardServiceImpl>(impl_->handler);
+        impl_->service = std::make_unique<ShardServiceImpl>([[maybe_unused]] impl_->handler);
         impl_->service->setImplRef(impl_->listen_address);
         
         grpc::ServerBuilder builder;

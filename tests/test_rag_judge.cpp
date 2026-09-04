@@ -374,7 +374,9 @@ TEST_F(RAGJudgeTest, MetricsInterJudgeAgreement) {
 // Test: Inter-judge agreement is 1.0 when all scores are identical
 TEST_F(RAGJudgeTest, MetricsInterJudgeAgreementPerfect) {
     std::vector<EvaluationResult> results(3);
-    for (auto& r : results) r.overall_score = 0.7;
+    for (auto& r : results) {
+      r.overall_score = 0.7;
+    }
     EXPECT_DOUBLE_EQ(metrics::calculateInterJudgeAgreement(results), 1.0);
 }
 

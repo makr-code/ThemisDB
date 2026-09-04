@@ -30,7 +30,7 @@
 namespace {
 
 bool isBooleanLiteral(const std::string& value, bool& parsed) {
-    std::string normalized;
+    std::string normalized = {};
     normalized.reserve(value.size());
     for (const unsigned char ch : value) {
         normalized.push_back(static_cast<char>(std::tolower(ch)));
@@ -51,7 +51,7 @@ bool isBooleanLiteral(const std::string& value, bool& parsed) {
 
 bool tryParseInt(const std::string& value, int& parsed) {
     const char* begin = value.data();
-    const char* end = begin + value.size();
+    const char* end = begin + static_cast<int>(value.size()) ;
     auto [ptr, ec] = std::from_chars(begin, end, parsed);
     return ec == std::errc{} && ptr == end;
 }
@@ -59,7 +59,7 @@ bool tryParseInt(const std::string& value, int& parsed) {
 bool tryParseDouble(const std::string& value, double& parsed) {
     char* end_ptr = nullptr;
     const double parsed_value = std::strtod(value.c_str(), &end_ptr);
-    if (end_ptr != value.c_str() + value.size()) {
+    if (end_ptr != value.c_str() + static_cast<int>(value.size()) ) {
         return false;
     }
 
@@ -84,7 +84,7 @@ PIIDetector::PIIDetector(std::string config_path,
         initializeDefaultEngine();
     }
     
-    spdlog::info("PIIDetector: Initialized with {} engine(s)", engines_.size());
+    spdlog::info("PIIDetector: Initialized with {} engine(s)",static_cast<int>(engines_.size()));
 }
 
 bool PIIDetector::reload(const std::string& config_path) {
@@ -113,7 +113,7 @@ bool PIIDetector::reload(const std::string& config_path) {
         config_path_ = config_path;
     }
     
-    spdlog::info("PIIDetector: Reloaded {} engine(s) from {}", engines_.size(), path);
+    spdlog::info("PIIDetector: Reloaded {} engine(s) from {}",static_cast<int>(engines_.size()), path);
     return true;
 }
 
@@ -214,7 +214,8 @@ std::string PIIDetector::maskValue(PIIType type, const std::string& value) const
 std::vector<std::string> PIIDetector::getEnabledEngines() const {
     std::scoped_lock lock(mutex_);
     
-    std::vector<std::string> enabled;
+    std::vector<std::string> enabled = {};
+
     for (const auto& engine : engines_) {
         if (engine->isEnabled()) {
             enabled.push_back(engine->getName());
@@ -228,7 +229,7 @@ nlohmann::json PIIDetector::getEngineMetadata() const {
     std::scoped_lock lock(mutex_);
 
     nlohmann::json metadata = {
-        {"total_engines", engines_.size()},
+        {"total_engines",static_cast<int>(engines_.size())},
         {"enabled_engines", 0},
         {"pki_verification_enabled", pki_client_ != nullptr},
         {"engines", nlohmann::json::array()}
@@ -252,7 +253,7 @@ nlohmann::json PIIDetector::getEngineMetadata() const {
 bool PIIDetector::loadFromYaml(const std::string& path) {
     try {
         // Use ConfigPathResolver to handle both new and legacy paths
-        std::string resolved;
+        std::string resolved = {};
         auto maybe_resolved = themis::config::ConfigPathResolver::tryResolve(path);
         if (maybe_resolved) {
             resolved = *maybe_resolved;
@@ -419,11 +420,11 @@ void PIIDetector::initializeDefaultEngine() {
         }
     }
 
-    spdlog::info("PIIDetector: Initialized with {} embedded unsigned engine(s)", engines_.size());
+    spdlog::info("PIIDetector: Initialized with {} embedded unsigned engine(s)",static_cast<int>(engines_.size()));
 }
 
 bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
-    std::string engine_type;
+    std::string engine_type = {};
     
     try {
         engine_type = engine_config.value("type", "");
@@ -550,7 +551,7 @@ void PIIDetector::scanJsonRecursive(
             }
         }
     } else if (obj.is_array()) {
-        for (size_t i = 0; i < obj.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(obj.size()); ++i) {
             std::string new_path = path + "[" + std::to_string(i) + "]";
             scanJsonRecursive(obj.at(i), new_path, findings);
         }
@@ -569,7 +570,7 @@ void PIIDetector::scanJsonRecursive(
 std::vector<PIIFinding> PIIDetector::deduplicateFindings(
     std::vector<PIIFinding> findings) {
     
-    if (findings.size() <= 1) {
+    if (static_cast<int>(findings.size()) <= 1) {
         return findings;
     }
     
@@ -583,7 +584,7 @@ std::vector<PIIFinding> PIIDetector::deduplicateFindings(
     std::vector<PIIFinding> deduplicated;
     deduplicated.push_back(findings.front());
     
-    for (size_t i = 1; i < findings.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(findings.size()); ++i) {
         const auto& prev = deduplicated.back();
         const auto& curr = findings.at(i);
         

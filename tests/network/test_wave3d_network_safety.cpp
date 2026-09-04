@@ -206,7 +206,7 @@ TEST(Wave3DNetworkSafety, W3D05_WireProtocolServer_lock_ordering_documented) {
     std::ifstream f(source_path);
     ASSERT_TRUE(f.is_open()) << "Unable to open source file: " << source_path.string();
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << f.rdbuf();
     const std::string content = ss.str();
 

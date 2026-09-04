@@ -30,7 +30,7 @@
 // BBR congestion-control info structure (kernel 4.9+).
 // Not exposed by glibc; defined locally using standard integer types.
 struct tcp_bbr_info {
-    uint32_t bbr_bw_lo;       ///< Bandwidth estimate lower 32 bits (bytes/s)
+    uint32_t bbr_bw_lo = 0;       ///< Bandwidth estimate lower 32 bits (bytes/s)
     uint32_t bbr_bw_hi;       ///< Bandwidth estimate upper 32 bits (bytes/s)
     uint32_t bbr_min_rtt;     ///< Min-RTT estimate (microseconds)
     uint32_t bbr_pacing_gain; ///< Pacing gain (scaled by 2^8)
@@ -145,7 +145,7 @@ CongestionDiagnostics BbrCongestionController::getDiagnostics() const noexcept {
         // tcp_bbr_info.bbr_bw is in bytes/sec (64-bit, high and low words).
         const uint64_t bw_lo = cc_info.bbr.bbr_bw_lo;
         const uint64_t bw_hi = cc_info.bbr.bbr_bw_hi;
-        diag.bandwidth_bps = ((bw_hi << 32) | bw_lo) * 8ULL;
+        diag.bandwidth_bps = ((bw_hi << 32) | bw_lo) * 8;
         diag.min_rtt_us    = cc_info.bbr.bbr_min_rtt;
     }
 #  endif // TCP_CC_INFO
@@ -172,7 +172,9 @@ std::string BbrCongestionController::getActiveAlgorithmName() const noexcept {
 bool BbrCongestionController::isBBRv2Available() noexcept {
 #ifdef __linux__
     const int probe_fd = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (probe_fd < 0) return false;
+    if (probe_fd < 0) {
+      return false;
+    }
     const char* name = "bbr2";
     const bool ok = ::setsockopt(probe_fd, IPPROTO_TCP, TCP_CONGESTION,
                                   name, static_cast<socklen_t>(std::strlen(name))) == 0;
@@ -187,7 +189,9 @@ bool BbrCongestionController::isBBRv2Available() noexcept {
 bool BbrCongestionController::isBBRv1Available() noexcept {
 #ifdef __linux__
     const int probe_fd = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (probe_fd < 0) return false;
+    if (probe_fd < 0) {
+      return false;
+    }
     const char* name = "bbr";
     const bool ok = ::setsockopt(probe_fd, IPPROTO_TCP, TCP_CONGESTION,
                                   name, static_cast<socklen_t>(std::strlen(name))) == 0;

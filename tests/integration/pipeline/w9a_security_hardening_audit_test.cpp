@@ -233,8 +233,8 @@ private:
 /// @brief A single audit log entry with an integrity hash.
 struct AuditEntry {
     uint64_t    sequence{0};
-    std::string operation;
-    std::string subject;
+    std::string operation = {};
+    std::string subject = {};
     bool        allowed{true};
 
     /// @brief Simple deterministic hash of the entry fields.

@@ -63,7 +63,7 @@ struct ReplicaState {
  * @brief Partition detection result
  */
 struct PartitionStatus {
-    bool is_partitioned;                                ///< True when partition symptoms are detected.
+    bool is_partitioned = 0;                                ///< True when partition symptoms are detected.
     std::vector<std::string> reachable_nodes;           ///< Peers reachable from this node.
     std::vector<std::string> unreachable_nodes;         ///< Peers currently unreachable.
     bool has_quorum;                                    ///< True when reachable set still forms quorum.
@@ -267,7 +267,7 @@ private:
     std::thread partition_detector_thread_;          ///< Partition detector worker thread.
     
     // Thread synchronization
-    std::condition_variable cv_;
+    std::condition_variable cv_ = {};
     std::mutex cv_mutex_;                            ///< Wait mutex for worker thread sleep/wake.
     
     /**

@@ -127,8 +127,12 @@ TEST(MySQLImporterRegistry, CreateImporterWithEmptyConfigDoesNotThrow) {
 /// Returns HTTP-like status: 200 OK, 400 Bad Request, 501 Not Implemented.
 static int simulateMySQLRouteValidation(const std::string& source_path,
                                          bool plugin_registered) {
-    if (!plugin_registered) return 501;
-    if (source_path.empty()) return 400;
+    if (!plugin_registered) {
+      return 501;
+    }
+    if (source_path.empty()) {
+      return 400;
+    }
     return 200;
 }
 

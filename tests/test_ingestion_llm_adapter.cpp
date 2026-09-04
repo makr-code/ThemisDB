@@ -441,7 +441,7 @@ protected:
         }
     }
 
-    std::string model_path_;
+    std::string model_path_ = {};
 };
 
 TEST_F(LegalLlmAdapterIntegTest, IsLlmAvailableTrueWithRealModel) {

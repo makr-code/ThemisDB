@@ -43,7 +43,7 @@ struct ContinuousLearningClient::Impl {
     
     // Trigger callback
     std::function<void(const OptimizationTrigger&)> trigger_callback;
-    std::mutex callback_mutex;
+    std::mutex callback_mutex = {};
     
     Impl(const Config& cfg) : config(cfg) {}
     
@@ -126,7 +126,7 @@ struct ContinuousLearningClient::Impl {
         metric_history.push_back(metric);
         
         // Keep only recent metrics
-        if (metric_history.size() > config.metric_window_size) {
+        if (static_cast<int>(metric_history.size()) > config.metric_window_size) {
             metric_history.pop_front();
         }
     }
@@ -134,7 +134,8 @@ struct ContinuousLearningClient::Impl {
     std::vector<double> getRecentMetrics(MetricType type) {
         std::lock_guard<std::mutex> lock(history_mutex);
         
-        std::vector<double> values;
+        std::vector<double> values = {};
+
         for (const auto& metric : metric_history) {
             if (metric.type == type) {
                 values.push_back(metric.value);
@@ -205,7 +206,7 @@ void ContinuousLearningClient::logMetric(const QualityMetric& metric) {
         impl_->metric_batch.push_back(metric);
         
         // Flush if batch is full
-        if (impl_->metric_batch.size() >= impl_->config.batch_size) {
+        if (impl_-> static_cast<int>(metric_batch.size()) >= impl_->config.batch_size) {
             std::vector<QualityMetric> to_send(
                 impl_->metric_batch.begin(),
                 impl_->metric_batch.end()
@@ -338,7 +339,7 @@ ContinuousLearningClient::Statistics ContinuousLearningClient::getStatistics() c
 void ContinuousLearningClient::setTriggerCallback(
     std::function<void(const OptimizationTrigger&)> callback
 ) {
-    std::lock_guard<std::mutex> lock(impl_->callback_mutex);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
     impl_->trigger_callback = callback;
 }
 
@@ -359,9 +360,9 @@ void ContinuousLearningClient::evaluateTriggers() {
         THEMIS_INFO("Recommendation: {}", trigger->recommendation);
         
         // Call callback if set
-        std::lock_guard<std::mutex> lock(impl_->callback_mutex);
-        if (impl_->trigger_callback) {
-            impl_->trigger_callback(*trigger);
+        std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
+        if ([[maybe_unused]] impl_->trigger_callback) {
+            impl_->trigger_callback([[maybe_unused]] *trigger);
         }
     }
 }
@@ -376,7 +377,7 @@ OptimizationTrigger ContinuousLearningClient::createTrigger(
     trigger.trigger_type = type;
     trigger.threshold = threshold;
     trigger.current_value = current_value;
-    trigger.sample_count = impl_->metric_history.size();
+    trigger.sample_count = impl_-> static_cast<int>(metric_history.size());
     trigger.recommendation = recommendation;
     
     return trigger;
@@ -464,10 +465,10 @@ std::string generateRecommendation(const QCResult& result) {
         return "Quality acceptable - continue monitoring";
     }
     
-    std::string combined;
-    for (size_t i = 0; i < recommendations.size(); i++) {
+    std::string combined = {};
+    for (size_t i = 0; i <static_cast<int>(recommendations.size()); i++) {
         combined += recommendations[i];
-        if (i < recommendations.size() - 1) {
+        if (i < static_cast<int>(recommendations.size()) - 1) {
             combined += "; ";
         }
     }

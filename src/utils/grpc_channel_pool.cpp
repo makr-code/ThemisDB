@@ -74,7 +74,7 @@ std::shared_ptr<grpc::Channel> GrpcChannelPool::acquireChannel(
         }
         
         // No available channels, check if we can create new one
-        if (pool->all_channels.size() < config_.max_channels_per_target) {
+        if (pool-> static_cast<int>(all_channels.size()) < config_.max_channels_per_target) {
             lock.unlock();
 
             // Create new channel outside the lock (may throw).
@@ -151,7 +151,7 @@ GrpcChannelPool::Stats GrpcChannelPool::getStats() const {
     std::lock_guard<std::mutex> lock(pools_mutex_);
     for (const auto& [target, pool] : target_pools_) {
         std::lock_guard<std::mutex> pool_lock(pool->mutex);
-        stats.available_channels += pool->available.size();
+        stats.available_channels += pool-> static_cast<int>(available.size());
         
         for (const auto& [ch, pooled_ch] : pool->all_channels) {
             if (pooled_ch->in_use) {
@@ -274,7 +274,7 @@ void GrpcChannelPool::warmup(
     std::lock_guard<std::mutex> lock(pool->mutex);
     
     // Create channels up to the requested amount
-    for (size_t i = pool->all_channels.size(); i < num_channels; ++i) {
+    for (size_t i = pool-> static_cast<int>(all_channels.size()); i < num_channels; ++i) {
         try {
             auto channel = createChannel(target, credentials);
             auto pooled_channel = std::make_shared<PooledChannel>();
@@ -305,7 +305,9 @@ GrpcChannelPool::CircuitState GrpcChannelPool::getCircuitState(
     const std::string& target) const {
     std::lock_guard<std::mutex> lk(cb_mutex_);
     auto it = circuit_breakers_.find(target);
-    if (it == circuit_breakers_.end()) return CircuitState::CLOSED;
+    if (it == circuit_breakers_.end()) {
+      return CircuitState::CLOSED;
+    }
 
     auto& cb = it->second;
     // Auto-transition OPEN → HALF_OPEN after the open timeout
@@ -382,7 +384,9 @@ bool GrpcChannelPool::healthCheck(const std::string& target,
             lock.lock();
         }
 
-        if (!ch) return false;
+        if (!ch) {
+          return false;
+        }
 
         // Trigger a connection attempt and wait up to `timeout`.
         // IDLE is not considered healthy here because it does not prove that a

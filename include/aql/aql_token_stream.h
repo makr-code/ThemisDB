@@ -88,7 +88,9 @@ public:
     void push(const std::string& token) {
         {
             std::lock_guard<std::mutex> lock(mutex_);
-            if (closed_ || cancelled_) return;
+            if (closed_ || cancelled_) {
+              return;
+            }
             queue_.push(token);
         }
         cv_.notify_one();

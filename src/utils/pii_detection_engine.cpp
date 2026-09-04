@@ -45,7 +45,7 @@ std::string PluginSignature::computeConfigHash(const nlohmann::json& config) {
            normalized.length(), hash);
     
     // Convert to hex string
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') 
             << static_cast<int>(hash[i]);
@@ -116,30 +116,54 @@ std::string PIITypeUtils::toString(PIIType type) {
 }
 
 PIIType PIITypeUtils::fromString(const std::string& name) {
-    if (name == "EMAIL") return PIIType::EMAIL;
-    if (name == "PHONE") return PIIType::PHONE;
-    if (name == "SSN") return PIIType::SSN;
-    if (name == "CREDIT_CARD") return PIIType::CREDIT_CARD;
-    if (name == "IBAN") return PIIType::IBAN;
-    if (name == "IP_ADDRESS") return PIIType::IP_ADDRESS;
-    if (name == "URL") return PIIType::URL;
-    if (name == "PERSON_NAME") return PIIType::PERSON_NAME;
-    if (name == "LOCATION") return PIIType::LOCATION;
-    if (name == "ORGANIZATION") return PIIType::ORGANIZATION;
+    if (name == "EMAIL") {
+      return PIIType::EMAIL;
+    }
+    if (name == "PHONE") {
+      return PIIType::PHONE;
+    }
+    if (name == "SSN") {
+      return PIIType::SSN;
+    }
+    if (name == "CREDIT_CARD") {
+      return PIIType::CREDIT_CARD;
+    }
+    if (name == "IBAN") {
+      return PIIType::IBAN;
+    }
+    if (name == "IP_ADDRESS") {
+      return PIIType::IP_ADDRESS;
+    }
+    if (name == "URL") {
+      return PIIType::URL;
+    }
+    if (name == "PERSON_NAME") {
+      return PIIType::PERSON_NAME;
+    }
+    if (name == "LOCATION") {
+      return PIIType::LOCATION;
+    }
+    if (name == "ORGANIZATION") {
+      return PIIType::ORGANIZATION;
+    }
     return PIIType::UNKNOWN;
 }
 
 std::string PIITypeUtils::maskValue(PIIType type, const std::string& value, 
                                      const std::string& mode) {
-    if (value.empty()) return value;
+    if (value.empty()) {
+      return value;
+    }
     
     if (mode == "strict") {
         // For display, still apply partial formatting for some types
         if (type == PIIType::SSN) {
             // ***-**-1234 style
-            std::string out;
+            std::string out = {};
             int total_digits = 0;
-            for (char c : value) if (std::isdigit(static_cast<unsigned char>(c))) ++total_digits;
+            for (char c : value) {
+              if (std::isdigit(static_cast<unsigned char>(c))) ++total_digits;
+            }
             int visible_tail = std::min(4, total_digits);
             int to_mask = total_digits - visible_tail;
             for (char c : value) {
@@ -154,9 +178,11 @@ std::string PIITypeUtils::maskValue(PIIType type, const std::string& value,
         }
         if (type == PIIType::CREDIT_CARD) {
             // **** **** **** 1234 style
-            std::string out;
+            std::string out = {};
             int total_digits = 0;
-            for (char c : value) if (std::isdigit(static_cast<unsigned char>(c))) ++total_digits;
+            for (char c : value) {
+              if (std::isdigit(static_cast<unsigned char>(c))) ++total_digits;
+            }
             int visible_tail = std::min(4, total_digits);
             int to_mask = total_digits - visible_tail;
             for (char c : value) {
@@ -185,14 +211,16 @@ std::string PIITypeUtils::maskValue(PIIType type, const std::string& value,
             }
             
             case PIIType::PHONE:
-            case PIIType::CREDIT_CARD: {
+            [[fallthrough]];\n            case PIIType::CREDIT_CARD: {
                 // Preserve separators, mask digits except last 4
                 // First, count digits
                 int total_digits = 0;
-                for (char c : value) if (std::isdigit(static_cast<unsigned char>(c))) ++total_digits;
+                for (char c : value) {
+                  if (std::isdigit(static_cast<unsigned char>(c))) ++total_digits;
+                }
                 int visible_tail = std::min(4, total_digits);
                 int to_mask = total_digits - visible_tail;
-                std::string out;
+                std::string out = {};
                 out.reserve(value.size());
                 for (char c : value) {
                     if (std::isdigit(static_cast<unsigned char>(c))) {

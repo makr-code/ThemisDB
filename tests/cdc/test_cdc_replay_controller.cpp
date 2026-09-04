@@ -105,12 +105,17 @@ private:
     std::vector<Changefeed::ChangeEvent> filter(
         const ReplayOptions& opts) const
     {
-        std::vector<Changefeed::ChangeEvent> out;
+        std::vector<Changefeed::ChangeEvent> out = {};
+
         for (const auto& ev : events_) {
             // from_sequence is an exclusive lower bound: keep events with seq > from_sequence
-            if (opts.from_sequence > 0 && ev.sequence <= opts.from_sequence) continue;
+            if (opts.from_sequence > 0 && ev.sequence <= opts.from_sequence) {
+              continue;
+            }
             // to_sequence is an inclusive upper bound: keep events with seq <= to_sequence
-            if (opts.to_sequence   > 0 && ev.sequence > opts.to_sequence)   continue;
+            if (opts.to_sequence   > 0 && ev.sequence > opts.to_sequence) {
+              continue;
+            }
             if (opts.from_timestamp_ms > 0 &&
                 ev.timestamp_ms < opts.from_timestamp_ms)                   continue;
             if (opts.to_timestamp_ms > 0 &&
@@ -122,7 +127,9 @@ private:
                 for (auto t : opts.event_types) {
                     if (ev.type == t) { found = true; break; }
                 }
-                if (!found) continue;
+                if (!found) {
+                  continue;
+                }
             }
             if (opts.max_events_per_session > 0 &&
                 out.size() >= opts.max_events_per_session) break;
@@ -138,8 +145,11 @@ private:
 std::vector<Changefeed::ChangeEvent> makeEventRange(
     uint64_t from, uint64_t to)
 {
-    std::vector<Changefeed::ChangeEvent> v;
-    for (uint64_t i = from; i <= to; ++i) v.push_back(makeEv(i));
+    std::vector<Changefeed::ChangeEvent> v = {};
+
+    for (uint64_t i = from; i <= to; ++i) {
+      v.push_back(makeEv(i));
+    }
     return v;
 }
 
@@ -232,7 +242,8 @@ TEST(InMemoryReplayControllerTest, TimestampRangeFiltersCorrectly) {
 // ── AC-R7  key_prefix filter ──────────────────────────────────────────────────
 
 TEST(InMemoryReplayControllerTest, KeyPrefixFilterWorks) {
-    std::vector<Changefeed::ChangeEvent> events;
+    std::vector<Changefeed::ChangeEvent> events = {};
+
     for (uint64_t i = 1; i <= 4; ++i) {
         events.push_back(makeEv(i, "orders:k"));
     }
@@ -254,7 +265,8 @@ TEST(InMemoryReplayControllerTest, KeyPrefixFilterWorks) {
 // ── AC-R8  event_types filter ────────────────────────────────────────────────
 
 TEST(InMemoryReplayControllerTest, EventTypeFilterWorks) {
-    std::vector<Changefeed::ChangeEvent> events;
+    std::vector<Changefeed::ChangeEvent> events = {};
+
     for (uint64_t i = 1; i <= 4; ++i) {
         events.push_back(makeEv(i, "k:", 0,
             Changefeed::ChangeEventType::EVENT_PUT));

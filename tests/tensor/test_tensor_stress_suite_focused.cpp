@@ -116,8 +116,12 @@ static TTTrain generateTestTrain(const std::string& seed_str, size_t dim = kDefa
     std::vector<float> core0(1 * dim * 2);
     std::vector<float> core1(2 * dim * 1);
     
-    for (auto& v : core0) v = dis(rng);
-    for (auto& v : core1) v = dis(rng);
+    for (auto& v : core0) {
+      v = dis(rng);
+    }
+    for (auto& v : core1) {
+      v = dis(rng);
+    }
 
     TTTrain train;
     train.mode_sizes = {1, dim};
@@ -147,7 +151,9 @@ public:
 
 private:
     double percentile(int p) const {
-        if (latencies_.empty()) return 0.0;
+        if (latencies_.empty()) {
+          return 0.0;
+        }
         auto sorted = latencies_;
         std::nth_element(sorted.begin(),
                         sorted.begin() + (sorted.size() * p / 100),
@@ -271,7 +277,9 @@ public:
             stats.total_operations++;
 
             if (profile_.enable_chaos) {
-                if (chaos_.shouldFail()) stats.failed_operations++;
+                if (chaos_.shouldFail()) {
+                  stats.failed_operations++;
+                }
                 chaos_.injectDelay();
             }
         }
@@ -291,15 +299,25 @@ private:
         size_t store_count = (profile_.operation_count * profile_.store_ratio) / 100;
         // remove_count = remaining
 
-        for (size_t i = 0; i < query_count && idx < seq.size(); ++i, ++idx) seq[idx] = 0;
-        for (size_t i = 0; i < store_count && idx < seq.size(); ++i, ++idx) seq[idx] = 1;
-        while (idx < seq.size()) seq[idx++] = 2;
+        for (size_t i = 0; i < query_count && idx < seq.size(); ++i, ++idx) {
+          seq[idx] = 0;
+        }
+        for (size_t i = 0; i < store_count && idx < seq.size(); ++i, ++idx) {
+          seq[idx] = 1;
+        }
+        while (idx < seq.size()) {
+          seq[idx++] = 2;
+        }
     }
 
     void executeQuery() {
-        if (graph_.size() == 0) return;
+        if (graph_.size() == 0) {
+          return;
+        }
         auto keys = graph_.adapterKeys();
-        if (keys.empty()) return;
+        if (keys.empty()) {
+          return;
+        }
         std::uniform_int_distribution<size_t> dis(0, keys.size() - 1);
         auto query_key = keys[dis(rng_)];
         graph_.findSimilar(query_key, 5);
@@ -313,7 +331,9 @@ private:
 
     void executeRemove() {
         auto keys = graph_.adapterKeys();
-        if (keys.empty()) return;
+        if (keys.empty()) {
+          return;
+        }
         std::uniform_int_distribution<size_t> dis(0, keys.size() - 1);
         graph_.removeAdapter(keys[dis(rng_)]);
     }

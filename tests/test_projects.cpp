@@ -73,7 +73,7 @@ protected:
     static constexpr const char* kDbPath = "./data/test_projects_db";
 
     void SetUp() override {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(kDbPath, ec);
 
         RocksDBWrapper::Config cfg;
@@ -84,7 +84,7 @@ protected:
 
     void TearDown() override {
         storage_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(kDbPath, ec);
     }
 

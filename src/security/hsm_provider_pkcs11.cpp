@@ -93,26 +93,40 @@ public:
     bool load(const std::string& path) {
 #if defined(_WIN32)
         lib_ = LoadLibraryA(path.c_str());
-        if(!lib_) return false;
+        if(!lib_) {
+          return false;
+        }
         auto getFn = (CK_C_GetFunctionList)GetProcAddress((HMODULE)lib_, "C_GetFunctionList");
-        if(!getFn) return false;
+        if(!getFn) {
+          return false;
+        }
         CK_RV rv = getFn(&funcs_);
         return rv == CKR_OK && funcs_ && funcs_->C_Initialize(nullptr) == CKR_OK;
 #else
         lib_ = dlopen(path.c_str(), RTLD_NOW);
-        if(!lib_) return false;
+        if(!lib_) {
+          return false;
+        }
         auto getFn = (CK_C_GetFunctionList)dlsym(lib_, "C_GetFunctionList");
-        if(!getFn) return false;
+        if(!getFn) {
+          return false;
+        }
         CK_RV rv = getFn(&funcs_);
         return rv == CKR_OK && funcs_ && funcs_->C_Initialize(nullptr) == CKR_OK;
 #endif
     }
     void unload() {
-        if(funcs_) funcs_->C_Finalize(nullptr);
+        if(funcs_) {
+          funcs_->C_Finalize(nullptr);
+        }
 #if defined(_WIN32)
-        if(lib_) FreeLibrary((HMODULE)lib_);
+        if(lib_) {
+          FreeLibrary((HMODULE)lib_);
+        }
 #else
-        if(lib_) dlclose(lib_);
+        if(lib_) {
+          dlclose(lib_);
+        }
 #endif
         lib_ = nullptr; funcs_ = nullptr;
     }
@@ -124,9 +138,11 @@ private:
 
 // Base64 encoding using OpenSSL
 static std::string toBase64(const std::vector<uint8_t>& data) {
-    if(data.empty()) return "";
+    if(data.empty()) {
+      return "";
+    }
     // EVP_EncodeBlock adds null terminator and pads with '='
-    size_t outLen = ((data.size() + 2) / 3) * 4;
+    size_t outLen = ((static_cast<int>(data.size()) + 2) / 3) * 4;
     std::vector<unsigned char> encoded(outLen + 1);
     int len = EVP_EncodeBlock(encoded.data(), data.data(), (int)data.size());
     return std::string((char*)encoded.data(), len);
@@ -140,19 +156,21 @@ static std::vector<uint8_t> fromBase64(const std::string& b64) {
     int len = EVP_DecodeBlock(decoded.data(), (const unsigned char*)b64.data(), (int)b64.size());
     if(len < 0) return {}; // Decoding error
     // Remove padding bytes
-    while(len > 0 && b64[b64.size() - (outLen - len)] == '=') --len;
+    while(len > 0 && b64[b64.size() - (outLen - len)] == '=') {
+      --len;
+    }
     decoded.resize(len);
     return decoded;
 }
 
 // AES-256-GCM encrypt (fallback): returns iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& data) {
-    if (key.size() != 32) return {};
+    if (static_cast<int>(key.size()) != 32) return {};
     std::vector<uint8_t> iv(12);
     if (RAND_bytes(iv.data(), 12) != 1) return {};
     HSM_PKCS11_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
     if (!ctx) return {};
-    std::vector<uint8_t> ciphertext(data.size() + 16);
+    std::vector<uint8_t> ciphertext(static_cast<int>(data.size()) + 16);
     std::vector<uint8_t> tag(16);
     int len = 0, ct_len = 0;
     bool ok =
@@ -161,9 +179,13 @@ static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& 
         EVP_EncryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv.data()) == 1 &&
         EVP_EncryptUpdate(ctx.get(), ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
     ct_len = len;
-    if (ok) ok = EVP_EncryptFinal_ex(ctx.get(), ciphertext.data() + len, &len) == 1;
+    if (ok) {
+      ok = EVP_EncryptFinal_ex(ctx.get(), ciphertext.data() + len, &len) == 1;
+    }
     ct_len += len;
-    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
+    if (ok) {
+      ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
+    }
     if (!ok) return {};
     ciphertext.resize(ct_len);
     std::vector<uint8_t> result;
@@ -175,9 +197,9 @@ static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& 
 
 // AES-256-GCM decrypt (fallback): expects iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> pkcs11_stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
-    if (key.size() != 32 || encrypted.size() < 12 + 16) return {};
+    if (static_cast<int>(key.size()) != 32 || static_cast<int>(encrypted.size()) < 12 + 16) return {};
     const uint8_t* iv  = encrypted.data();
-    size_t ct_len      = encrypted.size() - 12 - 16;
+    size_t ct_len      = static_cast<int>(encrypted.size()) - 12 - 16;
     const uint8_t* ct  = encrypted.data() + 12;
     const uint8_t* tag = encrypted.data() + 12 + ct_len;
     HSM_PKCS11_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
@@ -190,8 +212,12 @@ static std::vector<uint8_t> pkcs11_stub_aes_decrypt(const std::vector<uint8_t>& 
         EVP_DecryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv) == 1 &&
         EVP_DecryptUpdate(ctx.get(), plaintext.data(), &len, ct, (int)ct_len) == 1;
     pt_len = len;
-    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
-    if (ok) ok = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len) > 0;
+    if (ok) {
+      ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
+    }
+    if (ok) {
+      ok = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len) > 0;
+    }
     if (!ok) return {};
     plaintext.resize(pt_len);
     return plaintext;
@@ -282,7 +308,9 @@ static CK_SLOT_ID selectSlot(
     if (!token_label.empty() && api && api->C_GetTokenInfo) {
         for (CK_SLOT_ID slot : slots) {
             CK_TOKEN_INFO info{};
-            if (api->C_GetTokenInfo(slot, &info) != CKR_OK) continue;
+            if (api->C_GetTokenInfo(slot, &info) != CKR_OK) {
+              continue;
+            }
             // PKCS#11 labels are exactly 32 bytes, blank-padded, no null terminator.
             // Comparison is case-sensitive per PKCS#11 v2.20 §9.2 (labels are opaque
             // UTF-8 sequences). Ensure HSMConfig::token_label matches the exact
@@ -318,7 +346,9 @@ static CK_SLOT_ID selectSlot(
 
 bool HSMProvider::initialize(){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if(initialized_) return true;
+    if(initialized_) {
+      return true;
+    }
     // Attempt real PKCS#11
     if(!config_.library_path.empty() && impl_->loader.load(config_.library_path)){
         auto api = impl_->loader.api();
@@ -335,7 +365,7 @@ bool HSMProvider::initialize(){
                 rv = api->C_GetSlotList(1, slots.data(), &slotCount);
                 if(rv == CKR_OK){
                     // Select slot by token label or slot ID
-                    std::string slot_err;
+                    std::string slot_err = {};
                     CK_SLOT_ID chosen = selectSlot(api, slots, config_.slot_id,
                                                    config_.token_label, slot_err);
                     if (!slot_err.empty()) {
@@ -347,12 +377,14 @@ bool HSMProvider::initialize(){
                     std::string pin = config_.pin;
                     if(pin.empty()){
                         const char* envPin = std::getenv("THEMIS_HSM_PIN");
-                        if(envPin) pin = envPin;
+                        if(envPin) {
+                          pin = envPin;
+                        }
                     }
                     
                     uint32_t poolSize = config_.session_pool_size;
                     if(const char* envPool = std::getenv("THEMIS_HSM_SESSION_POOL")){
-                        poolSize = std::max(1u, (uint32_t)std::atoi(envPool));
+                        poolSize = std::max(1, (uint32_t)std::atoi(envPool));
                     }
                     impl_->pool.resize(poolSize);
                     for(uint32_t i=0;i<poolSize;++i){
@@ -369,7 +401,7 @@ bool HSMProvider::initialize(){
                         if(!pin.empty()){
                             CK_RV rvLogin = api->C_Login(
                                 impl_->pool[i].handle, CKU_USER,
-                                (CK_BYTE_PTR)pin.data(), (uint32_t)pin.size());
+                                ([[maybe_unused]] CK_BYTE_PTR)pin.data(), (uint32_t)pin.size());
                             if(rvLogin == CKR_USER_ALREADY_LOGGED_IN){
                                 // Session is already authenticated – this is fine
                                 THEMIS_DEBUG("PKCS#11 session {} already logged in", i);
@@ -404,7 +436,9 @@ bool HSMProvider::initialize(){
                     if(!impl_->real_ready){
                         std::string err = "No private key found in any pool session – "
                                          "check key_label='" + config_.key_label + "'";
-                        if (last_error_.empty()) last_error_ = err;
+                        if (last_error_.empty()) {
+                          last_error_ = err;
+                        }
                         impl_->fallbackLogOnce(err);
                     }
                     if(pin.empty()){
@@ -465,7 +499,9 @@ bool HSMProvider::initialize(){
 
 void HSMProvider::finalize(){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if(!initialized_) return;
+    if(!initialized_) {
+      return;
+    }
     if(impl_->real_ready && impl_->loader.api()){
         auto api = impl_->loader.api();
         // Close all sessions in the pool
@@ -507,7 +543,7 @@ static std::vector<uint8_t> sha256(const std::vector<uint8_t>& data){
         THEMIS_ERROR("sha256: EVP_DigestInit_ex failed");
         return {};
     }
-    EVP_DigestUpdate(ctx.get(), data.data(), data.size());
+    EVP_DigestUpdate(ctx.get(), data.data(),static_cast<int>(data.size()));
     if (EVP_DigestFinal_ex(ctx.get(), out.data(), &len) != 1) {
         THEMIS_ERROR("sha256: EVP_DigestFinal_ex failed");
         return {};
@@ -523,9 +559,9 @@ static const uint8_t SHA256_DER_PREFIX[] = {
 
 // Append DER prefix + digest for raw RSA PKCS#1v1.5 signing
 static std::vector<uint8_t> makeDigestInfo(const std::vector<uint8_t>& digest){
-    std::vector<uint8_t> di(sizeof(SHA256_DER_PREFIX) + digest.size());
+    std::vector<uint8_t> di(sizeof(SHA256_DER_PREFIX) + static_cast<int>(digest.size()) );
     std::memcpy(di.data(), SHA256_DER_PREFIX, sizeof(SHA256_DER_PREFIX));
-    std::memcpy(di.data()+sizeof(SHA256_DER_PREFIX), digest.data(), digest.size());
+    std::memcpy(di.data()+sizeof(SHA256_DER_PREFIX), digest.data(),static_cast<int>(digest.size()));
     return di;
 }
 
@@ -582,7 +618,7 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
                 std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue=der.data();
                 if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK){
                     const unsigned char* p = der.data(); 
-                    HSM_P11_X509_ptr x(d2i_X509(nullptr, &p, der.size()));
+                    HSM_P11_X509_ptr x(d2i_X509(nullptr, &p,static_cast<int>(der.size())));
                     if(x.get()){
                         ASN1_INTEGER* si = X509_get_serialNumber(x.get());
                         if(si){
@@ -609,8 +645,10 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
 
 HSMProvider::SessionEntry* HSMProvider::acquireSession(){
     // Lock-free round-robin selection: find next ready session
-    uint32_t poolSize = impl_->pool.size();
-    if(poolSize == 0) return nullptr;
+    uint32_t poolSize = impl_-> static_cast<int>(pool.size());
+    if(poolSize == 0) {
+      return nullptr;
+    }
     
     // Try up to poolSize iterations to find ready session
     for(uint32_t attempt = 0; attempt < poolSize; ++attempt){
@@ -638,7 +676,7 @@ HSMSignatureResult HSMProvider::sign(const std::vector<uint8_t>& data, const std
 HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const std::string& key_label){
     auto startTime = std::chrono::high_resolution_clock::now();
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    HSMSignatureResult r;
+    HSMSignatureResult r = {};
     if(!initialized_){ 
         r.error_message = "Nicht initialisiert"; 
         impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
@@ -764,7 +802,9 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
         }
         if (bridge) {
             bool result = bridge(data, signature_b64, key_label.empty() ? config_.key_label : key_label);
-            if(result) impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+            if(result) {
+              impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+            }
             else impl_->verify_errors.fetch_add(1, std::memory_order_relaxed);
             auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
                 std::chrono::high_resolution_clock::now() - startTime).count();
@@ -774,7 +814,9 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
         // Fallback: verify by comparing Base64-encoded hash
         auto expected = toBase64(sha256(data));
         bool result = (expected == signature_b64);
-        if(result) impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+        if(result) {
+          impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+        }
         else impl_->verify_errors.fetch_add(1, std::memory_order_relaxed);
         auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - startTime).count();
@@ -807,7 +849,9 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
     }
     CK_RV rv = api->C_Verify(sess->handle, (CK_BYTE_PTR)input.data(), (uint32_t)input.size(), (CK_BYTE_PTR)sig.data(), (uint32_t)sig.size());
     bool result = (rv == CKR_OK);
-    if(result) impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+    if(result) {
+      impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+    }
     else impl_->verify_errors.fetch_add(1, std::memory_order_relaxed);
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::high_resolution_clock::now() - startTime).count();
@@ -835,7 +879,9 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
         }
         // Fallback: AES-256-GCM with stub KEK
         auto result = pkcs11_stub_aes_encrypt(impl_->stub_kek, data);
-        if (result.empty()) last_error_ = "Stub AES encrypt failed";
+        if (result.empty()) {
+          last_error_ = "Stub AES encrypt failed";
+        }
         return result;
     }
     auto api = impl_->loader.api();
@@ -885,7 +931,9 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
         }
         // Fallback: AES-256-GCM with stub KEK
         auto result = pkcs11_stub_aes_decrypt(impl_->stub_kek, encrypted);
-        if (result.empty()) last_error_ = "Stub AES decrypt failed (bad ciphertext or mismatched key)";
+        if (result.empty()) {
+          last_error_ = "Stub AES decrypt failed (bad ciphertext or mismatched key)";
+        }
         return result;
     }
     auto api = impl_->loader.api();
@@ -936,7 +984,9 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
     }
     
     auto api = impl_->loader.api();
-    if(!api) return false;
+    if(!api) {
+      return false;
+    }
     
     // Get first ready session
     auto sess = acquireSession();
@@ -962,7 +1012,7 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
     
     CK_ATTRIBUTE pub_template[] = {
         {CKA_CLASS, &cls_pub, sizeof(cls_pub)},
-        {CKA_LABEL, (void*)label.c_str(), label.size()},
+        {CKA_LABEL, (void*)label.c_str(),static_cast<int>(label.size())},
         {CKA_TOKEN, &ck_true, sizeof(ck_true)},
         {CKA_VERIFY, &ck_true, sizeof(ck_true)},
         {CKA_MODULUS_BITS, &modulus_bits, sizeof(modulus_bits)},
@@ -972,7 +1022,7 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
     // Private key template
     CK_ATTRIBUTE priv_template[] = {
         {CKA_CLASS, &cls_priv, sizeof(cls_priv)},
-        {CKA_LABEL, (void*)label.c_str(), label.size()},
+        {CKA_LABEL, (void*)label.c_str(),static_cast<int>(label.size())},
         {CKA_TOKEN, &ck_true, sizeof(ck_true)},
         {CKA_PRIVATE, &ck_true, sizeof(ck_true)},
         {CKA_SENSITIVE, &ck_true, sizeof(ck_true)},
@@ -1020,7 +1070,9 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     }
     
     auto api = impl_->loader.api();
-    if(!api) return false;
+    if(!api) {
+      return false;
+    }
     
     // Get first ready session
     auto sess = acquireSession();
@@ -1030,7 +1082,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     }
     
     // Parse PEM certificate to DER format
-    BIO* bio = BIO_new_mem_buf(cert_pem.data(), cert_pem.size());
+    BIO* bio = BIO_new_mem_buf(cert_pem.data(),static_cast<int>(cert_pem.size()));
     if(!bio){
         THEMIS_ERROR("importCertificate: Failed to create BIO");
         releaseSession(sess);
@@ -1065,7 +1117,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     
     // Extract serial number for metadata
     ASN1_INTEGER* serial_int = X509_get_serialNumber(x509.get());
-    std::string serial_hex;
+    std::string serial_hex = {};
     if(serial_int){
         HSM_P11_BIGNUM_ptr bn(ASN1_INTEGER_to_BN(serial_int, nullptr));
         if(bn.get()){
@@ -1085,7 +1137,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     CK_ATTRIBUTE cert_template[] = {
         {CKA_CLASS, &cert_class, sizeof(cert_class)},
         {CKA_CERTIFICATE_TYPE, &cert_type, sizeof(cert_type)},
-        {CKA_LABEL, (void*)key_label.c_str(), key_label.size()},
+        {CKA_LABEL, (void*)key_label.c_str(),static_cast<int>(key_label.size())},
         {CKA_TOKEN, &ck_true, sizeof(ck_true)},
         {CKA_VALUE, der.get(), (CK_ULONG)der_len}
     };
@@ -1154,11 +1206,17 @@ std::optional<std::string> HSMProvider::getCertificate(const std::string& key_la
     CK_ATTRIBUTE valAttr; valAttr.type = CKA_VALUE; valAttr.pValue = nullptr; valAttr.ulValueLen = 0;
     // Zertifikat aus erster Session mit certObj
     HSMProvider::SessionEntry* sess = nullptr; for(auto& s: impl_->pool){ if(s.certObj){ sess=&s; break; } }
-    if(!sess) return std::nullopt;
-    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK || valAttr.ulValueLen==0) return std::nullopt;
+    if(!sess) {
+      return std::nullopt;
+    }
+    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK || valAttr.ulValueLen==0) {
+      return std::nullopt;
+    }
     std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue = der.data();
-    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK) return std::nullopt;
-    const unsigned char* p = der.data(); X509* x = d2i_X509(nullptr, &p, der.size()); if(!x) return std::nullopt;
+    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK) {
+      return std::nullopt;
+    }
+    const unsigned char* p = der.data(); X509* x = d2i_X509(nullptr, &p,static_cast<int>(der.size())); if(!x) return std::nullopt;
     BIO* mem = BIO_new(BIO_s_mem());
     PEM_write_bio_X509(mem, x);
     X509_free(x);
@@ -1171,13 +1229,15 @@ std::optional<std::string> HSMProvider::getCertificate(const std::string& key_la
 bool HSMProvider::isReady() const { return impl_->real_ready || initialized_; }
 
 std::string HSMProvider::getTokenInfo() const {
-    if (!impl_->real_ready) return "PKCS11 fallback stub";
-    std::ostringstream oss;
+    if (!impl_->real_ready) {
+      return "PKCS11 fallback stub";
+    }
+    std::ostringstream oss = {};
     oss << "PKCS11 real session active (slot=" << config_.slot_id;
     if (!config_.token_label.empty()) {
         oss << ", label=" << config_.token_label;
     }
-    oss << ", pool=" << impl_->pool.size() << ")";
+    oss << ", pool=" << impl_-> static_cast<int>(pool.size()) << ")";
     return oss.str();
 }
 
@@ -1191,7 +1251,7 @@ HSMPerformanceStats HSMProvider::getStats() const {
     stats.verify_errors = impl_->verify_errors.load(std::memory_order_relaxed);
     stats.total_sign_time_us = impl_->total_sign_time_us.load(std::memory_order_relaxed);
     stats.total_verify_time_us = impl_->total_verify_time_us.load(std::memory_order_relaxed);
-    stats.pool_size = impl_->pool.size();
+    stats.pool_size = impl_-> static_cast<int>(pool.size());
     stats.pool_round_robin_hits = impl_->pool_round_robin_hits.load(std::memory_order_relaxed);
     return stats;
 }
@@ -1214,7 +1274,9 @@ bool HSMProvider::isStubProvider() const {
 void HSMProvider::periodicSecurityCheck() {
     std::lock_guard<std::mutex> lock(impl_->mtx);
     
-    if (!initialized_) return;
+    if (!initialized_) {
+      return;
+    }
     
     // If using stub fallback (no real HSM), log security warning
     if (!impl_->real_ready) {

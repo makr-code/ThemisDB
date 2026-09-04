@@ -143,7 +143,9 @@ TEST_F(TemporalGraphTest, BfsAtTime_NoTemporalEdges_ReturnsAllNeighbors) {
     
     // Query at any time should return all nodes
     auto [status, bfsResult] = graph_mgr_->bfsAtTime("A", t_2023_jan, 10);
-    if (!status.ok) FAIL() << status.message;
+    if (!status.ok) {
+      FAIL() << status.message;
+    }
 
     EXPECT_EQ(bfsResult.size(), 3u);
     EXPECT_EQ(bfsResult[0], "A");
@@ -162,13 +164,17 @@ TEST_F(TemporalGraphTest, BfsAtTime_FiltersByValidFrom) {
     
     // Query at 2021: e1 not yet valid, should only return A
     auto [status1, bfs2021] = graph_mgr_->bfsAtTime("A", t_2021_jan, 10);
-    if (!status1.ok) FAIL() << status1.message;
+    if (!status1.ok) {
+      FAIL() << status1.message;
+    }
     EXPECT_EQ(bfs2021.size(), 1u);
     EXPECT_EQ(bfs2021[0], "A");
     
     // Query at 2023: e1 is valid, should return A -> B -> C
     auto [status2, bfs2023] = graph_mgr_->bfsAtTime("A", t_2023_jan, 10);
-    if (!status2.ok) FAIL() << status2.message;
+    if (!status2.ok) {
+      FAIL() << status2.message;
+    }
     EXPECT_EQ(bfs2023.size(), 3u);
     EXPECT_EQ(bfs2023[0], "A");
     EXPECT_EQ(bfs2023[1], "B");
@@ -576,8 +582,11 @@ TEST_F(TemporalGraphTest, GetEdgesInTimeRange_ReturnsOverlappingEdges) {
     auto [status, edges] = graph_mgr_->getEdgesInTimeRange(t_2022_jan, t_2023_jan, false);
     ASSERT_TRUE(status.ok) << status.message;
 
-    std::vector<std::string> ids;
-    for (const auto& e : edges) ids.push_back(e.edgeId);
+    std::vector<std::string> ids = {};
+
+    for (const auto& e : edges) {
+      ids.push_back(e.edgeId);
+    }
 
     EXPECT_NE(std::find(ids.begin(), ids.end(), "e1"), ids.end());
     EXPECT_NE(std::find(ids.begin(), ids.end(), "e2"), ids.end());
@@ -596,8 +605,11 @@ TEST_F(TemporalGraphTest, GetEdgesInTimeRange_FullContainment) {
     auto [status, edges] = graph_mgr_->getEdgesInTimeRange(t_2021_jan, t_2023_jan, true);
     ASSERT_TRUE(status.ok) << status.message;
 
-    std::vector<std::string> ids;
-    for (const auto& e : edges) ids.push_back(e.edgeId);
+    std::vector<std::string> ids = {};
+
+    for (const auto& e : edges) {
+      ids.push_back(e.edgeId);
+    }
 
     EXPECT_NE(std::find(ids.begin(), ids.end(), "e1"), ids.end());
     EXPECT_EQ(std::find(ids.begin(), ids.end(), "e2"), ids.end());
@@ -617,8 +629,11 @@ TEST_F(TemporalGraphTest, GetOutEdgesInTimeRange_FiltersFromNode) {
     auto [status, edges] = graph_mgr_->getOutEdgesInTimeRange("A", t_2021_jan, t_2023_jan, false);
     ASSERT_TRUE(status.ok) << status.message;
 
-    std::vector<std::string> ids;
-    for (const auto& e : edges) ids.push_back(e.edgeId);
+    std::vector<std::string> ids = {};
+
+    for (const auto& e : edges) {
+      ids.push_back(e.edgeId);
+    }
 
     EXPECT_NE(std::find(ids.begin(), ids.end(), "e1"), ids.end());
     EXPECT_EQ(std::find(ids.begin(), ids.end(), "e2"), ids.end());

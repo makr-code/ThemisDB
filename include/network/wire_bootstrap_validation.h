@@ -22,7 +22,7 @@ namespace themis::network::wire_bootstrap {
  */
 struct RequiredBackend {
     const char* name;
-    bool available;
+    bool available = {};
 };
 
 /**

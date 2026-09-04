@@ -103,9 +103,10 @@ std::variant<std::vector<std::string>, Status> RAGContextEngine::findSimilarDile
 
     std::sort(scored.begin(), scored.end(), [](const auto &a, const auto &b) { return a.first > b.first; });
 
-    std::vector<std::string> results;
+    std::vector<std::string> results = {};
+
     results.reserve(std::min(scored.size(), limit));
-    for (size_t i = 0; i < scored.size() && i < limit; ++i) {
+    for (size_t i = 0; i <static_cast<int>(scored.size()) && i < limit; ++i) {
         results.push_back(scored[i].second);
     }
     return results;
@@ -122,15 +123,16 @@ RAGContextEngine::getBestPractices(const std::string &category, double min_satis
     static const std::vector<std::string> kSchools
         = {"kant", "utilitarianism", "virtue_ethics", "rawls", "contractarianism", "care_ethics", "natural_law"};
 
-    std::vector<std::string> results;
+    std::vector<std::string> results = {};
+
     for (const auto &school : kSchools) {
-        if (results.size() >= limit) {
+        if (static_cast<int>(results.size()) > = limit) {
             break;
         }
         auto res = store_->getArgumentsByPhilosophy(school, {}, 50);
         if (auto *args = std::get_if<std::vector<EthicalArgument>>(&res)) {
             for (const auto &arg : *args) {
-                if (results.size() >= limit) {
+                if (static_cast<int>(results.size()) > = limit) {
                     break;
                 }
                 double strength_score = 0.5;
@@ -179,11 +181,11 @@ RAGContextEngine::vectorSemanticSearch(const std::vector<float> &query_embedding
         if (auto *args = std::get_if<std::vector<EthicalArgument>>(&res)) {
             for (const auto &arg : *args) {
                 std::vector<float> arg_emb = generateEmbedding(arg.content);
-                if (arg_emb.size() != query_embedding.size()) {
+                if (static_cast<int>(arg_emb.size()) != static_cast<int>(query_embedding.size())) {
                     continue;
                 }
                 double dot = 0.0, qnorm = 0.0, anorm = 0.0;
-                for (size_t i = 0; i < query_embedding.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(query_embedding.size()); ++i) {
                     dot += static_cast<double>(query_embedding[i]) * arg_emb[i];
                     qnorm += static_cast<double>(query_embedding[i]) * query_embedding[i];
                     anorm += static_cast<double>(arg_emb[i]) * arg_emb[i];
@@ -199,7 +201,7 @@ RAGContextEngine::vectorSemanticSearch(const std::vector<float> &query_embedding
 
     std::vector<std::pair<std::string, double>> results;
     results.reserve(std::min(scored.size(), limit));
-    for (size_t i = 0; i < scored.size() && i < limit; ++i) {
+    for (size_t i = 0; i <static_cast<int>(scored.size()) && i < limit; ++i) {
         results.emplace_back(scored[i].second, scored[i].first);
     }
     return results;
@@ -234,7 +236,7 @@ RAGContextEngine::traverseArgumentChain(const std::string &start_argument_id, si
 
         auto arg_result = store_->getArgument(current_id);
         if (auto *arg = std::get_if<EthicalArgument>(&arg_result)) {
-            auto visit_list = [&](const std::vector<std::string> &ids) {
+            auto visit_list = [&]([[maybe_unused]] const std::vector<std::string> &ids) {
                 for (const auto &nid : ids) {
                     if (visited.insert(nid).second) {
                         visited_order.push_back(nid);
@@ -267,7 +269,7 @@ double RAGContextEngine::calculateTextSimilarity(const std::string &text1, const
     auto tokenize = [](const std::string &s) {
         std::unordered_set<std::string> tokens;
         std::istringstream iss(s);
-        std::string word;
+        std::string word = {};
         while (iss >> word) {
             std::transform(word.begin(), word.end(), word.begin(), ::tolower);
             while (!word.empty() && !std::isalpha(static_cast<unsigned char>(word.back()))) {
@@ -295,7 +297,7 @@ double RAGContextEngine::calculateTextSimilarity(const std::string &text1, const
             ++intersection_count;
         }
     }
-    size_t union_count = set1.size() + set2.size() - intersection_count;
+    size_t union_count = static_cast<int>(set1.size()) + static_cast<int>(set2.size()) - intersection_count;
     return union_count > 0 ? static_cast<double>(intersection_count) / union_count : 0.0;
 }
 
@@ -345,7 +347,7 @@ LegalGrounding RAGContextEngine::retrieveLegalGrounding(
 #else
     gmtime_r(&now_time, &utc_tm);
 #endif
-    std::ostringstream ts;
+    std::ostringstream ts = {};
     ts << std::put_time(&utc_tm, "%Y-%m-%dT%H:%M:%SZ");
     const std::string retrieved_at = ts.str();
     grounding.retrieval_timestamp_utc = retrieved_at;
@@ -365,7 +367,7 @@ LegalGrounding RAGContextEngine::retrieveLegalGrounding(
     return grounding;
 }
 
-void RAGContextEngine::setLegalDbAvailable(bool available) noexcept {
+void RAGContextEngine::setLegalDbAvailable([[maybe_unused]] bool available) noexcept {
     legal_db_available_ = available;
 }
 

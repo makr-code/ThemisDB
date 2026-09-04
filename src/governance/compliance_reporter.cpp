@@ -31,7 +31,7 @@ namespace governance {
 namespace {
 
 static std::string reporter_escapePDFString(const std::string &s) {
-    std::string result;
+    std::string result = {};
     result.reserve(s.size());
     for (unsigned char c : s) {
         if (c == '(') {
@@ -50,7 +50,7 @@ static std::string reporter_escapePDFString(const std::string &s) {
 }
 
 static std::string buildComplianceReportHTML(const ComplianceReport &report) {
-    std::ostringstream html;
+    std::ostringstream html = {};
     std::time_t ts    = static_cast<std::time_t>(report.generated_at);
     char time_buf[32] = {};
     std::tm *tm_info  = std::localtime(&ts);
@@ -90,14 +90,14 @@ static std::string buildComplianceReportHTML(const ComplianceReport &report) {
          << "</table>";
 
     if (!report.gaps.empty()) {
-        html << "<h2>Compliance Gaps (" << report.gaps.size() << ")</h2>"
+        html << "<h2>Compliance Gaps (" <<static_cast<int>(report.gaps.size()) << ")</h2>"
              << "<table><tr><th>Type</th><th>Severity</th>"
              << "<th>Description</th><th>Affected Resources</th></tr>";
         for (const auto &gap : report.gaps) {
             html << "<tr><td>" << gap.gap_type << "</td>"
                  << "<td class='gap-" << gap.severity << "'>" << gap.severity << "</td>"
                  << "<td>" << gap.description << "</td>"
-                 << "<td>" << gap.affected_resources.size() << " resource(s)</td></tr>";
+                 << "<td>" <<static_cast<int>(gap.affected_resources.size()) << " resource(s)</td></tr>";
         }
         html << "</table>";
     } else {
@@ -138,7 +138,7 @@ static std::string buildComplianceReportPDF(const ComplianceReport &report) {
     lines.push_back("Active Rules:  " + std::to_string(report.active_rules));
     lines.push_back("Inactive Rules:" + std::to_string(report.inactive_rules));
 
-    std::ostringstream score_ss;
+    std::ostringstream score_ss = {};
     score_ss << std::fixed << std::setprecision(1) << report.compliance_score;
     lines.push_back("Compliance Score: " + score_ss.str() + "%");
     lines.push_back("");
@@ -185,14 +185,14 @@ static std::string buildComplianceReportPDF(const ComplianceReport &report) {
         }
         page_streams.back()
             += std::to_string(static_cast<int>(MARGIN)) + " " + std::to_string(static_cast<int>(y)) + " Td\n";
-        std::string display = line.size() > 100 ? line.substr(0, 97) + "..." : line;
+        std::string display = static_cast<int>(line.size()) > 100 ? line.substr(0, 97) + "..." : line;
         page_streams.back() += "(" + reporter_escapePDFString(display) + ") Tj\n";
         y -= LINE_H;
     }
     page_streams.back() += "ET\n";
 
     // Assemble PDF binary
-    std::string pdf;
+    std::string pdf = {};
     pdf.reserve(4096);
     pdf += "%PDF-1.4\n";
     pdf += "%\xE2\xE3\xCF\xD3\n";
@@ -418,8 +418,8 @@ std::vector<std::pair<std::string, std::string>> ComplianceReporter::detectOverl
     auto rules = policy_manager_->listRules();
 
     // Check each pair of rules for overlap
-    for (size_t i = 0; i < rules.size(); i++) {
-        for (size_t j = i + 1; j < rules.size(); j++) {
+    for (size_t i = 0; i <static_cast<int>(rules.size()); i++) {
+        for (size_t j = i + 1; j <static_cast<int>(rules.size()); j++) {
             const auto &rule1 = rules[i];
             const auto &rule2 = rules[j];
 
@@ -675,7 +675,8 @@ nlohmann::json ComplianceReporter::generateCcpaReport(const CcpaRuleSet &rule_se
 
     // Check whether any active policy rule covers CCPA-required resources
     const std::vector<std::string> ccpa_resources = {"personal_information", "data_subject", "consumer_data"};
-    std::vector<std::string> uncovered;
+    std::vector<std::string> uncovered = {};
+
     for (const auto &res : ccpa_resources) {
         bool covered = false;
         for (const auto &rule : rules) {
@@ -827,7 +828,7 @@ double ComplianceReporter::calculateComplianceScore(const std::vector<Compliance
 }
 
 std::string ComplianceReporter::reportToCSV(const ComplianceReport &report) const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
 
     // Header
     csv << "Report ID,Generated At,Type,Total Rules,Active Rules,Compliance Score\n";
@@ -840,7 +841,7 @@ std::string ComplianceReporter::reportToCSV(const ComplianceReport &report) cons
     csv << "\nGap Type,Severity,Description,Affected Count\n";
     for (const auto &gap : report.gaps) {
         csv << gap.gap_type << "," << gap.severity << ","
-            << "\"" << gap.description << "\"," << gap.affected_resources.size() << "\n";
+            << "\"" << gap.description << "\"," <<static_cast<int>(gap.affected_resources.size()) << "\n";
     }
 
     return csv.str();
@@ -903,7 +904,7 @@ BiasAuditReport ComplianceReporter::generateBiasAuditReport(
                 actual_entropy -= p * std::log(p);
             }
         }
-        const double max_entropy    = (group_map.size() > 1) ? std::log(static_cast<double>(group_map.size())) : 1.0;
+        const double max_entropy    = (static_cast<int>(group_map.size()) > 1) ? std::log(static_cast<double>(group_map.size())) : 1.0;
         fs.demographic_parity_score = (max_entropy > 0.0) ? (actual_entropy / max_entropy) : 1.0;
 
         // Clamp to [0, 1]
@@ -953,7 +954,7 @@ BiasAuditReport ComplianceReporter::generateBiasAuditReport(
 // ============================================================================
 
 RuleEvaluationEntry RuleEvaluationEntry::fromJson(const nlohmann::json &j) {
-    RuleEvaluationEntry e;
+    RuleEvaluationEntry e = {};
     if (j.contains("timestamp") && j["timestamp"].is_number()) {
         e.timestamp_ms = j["timestamp"].get<int64_t>();
     }
@@ -1021,7 +1022,7 @@ nlohmann::json TimeWindowReport::toJson() const {
 }
 
 std::string TimeWindowReport::toCSV() const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "window_start_ms,window_end_ms,generated_at,framework,"
         << "total_evaluations,enforce_mode_evaluations,observe_mode_evaluations,"
         << "ccpa_opted_out_count,encryption_required_count,export_blocked_count,"

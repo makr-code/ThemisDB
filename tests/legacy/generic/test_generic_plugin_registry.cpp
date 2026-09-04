@@ -127,8 +127,12 @@ TEST_F(GenericPluginRegistryTest, ListPluginsReturnsRegisteredNames) {
 
     bool foundX = false, foundY = false;
     for (const auto& n : names) {
-        if (n == "plugin_x") foundX = true;
-        if (n == "plugin_y") foundY = true;
+        if (n == "plugin_x") {
+          foundX = true;
+        }
+        if (n == "plugin_y") {
+          foundY = true;
+        }
     }
     EXPECT_TRUE(foundX);
     EXPECT_TRUE(foundY);

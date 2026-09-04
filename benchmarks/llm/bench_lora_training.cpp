@@ -503,7 +503,8 @@ static void BM_Concurrent_AdapterTraining(benchmark::State& state) {
     }
     
     std::vector<Tensor> inputs;
-    std::vector<Tensor> targets;
+    std::vector<Tensor> targets = {};
+
     for (size_t i = 0; i < num_adapters; ++i) {
         inputs.emplace_back(std::vector<size_t>{32, 768});
         targets.emplace_back(std::vector<size_t>{32, 768});

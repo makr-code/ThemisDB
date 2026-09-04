@@ -15,7 +15,7 @@ namespace distributed_tensor {
 static std::string get_iso8601_timestamp() noexcept {
   auto now = std::chrono::system_clock::now();
   auto time = std::chrono::system_clock::to_time_t(now);
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << std::put_time(std::gmtime(&time), "%Y-%m-%dT%H:%M:%SZ");
   return oss.str();
 }
@@ -23,7 +23,9 @@ static std::string get_iso8601_timestamp() noexcept {
 // Helper: Simple hash computation (basic XOR-based hash for manifest structure).
 // In production, this would use a cryptographic hash like SHA-256.
 static std::string compute_simple_hash(const std::string& input) noexcept {
-  if (input.empty()) return "0000000000000000";
+  if (input.empty()) {
+    return "0000000000000000";
+  }
 
   // Simple hash: take first 16 bytes as hex string.
   uint64_t hash = 0;
@@ -31,7 +33,7 @@ static std::string compute_simple_hash(const std::string& input) noexcept {
     hash = hash * 31 + static_cast<uint8_t>(input[i]);
   }
 
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << std::hex << std::setfill('0') << std::setw(16) << hash;
   return oss.str();
 }
@@ -55,7 +57,7 @@ ArtifactManifest::ArtifactManifest(const std::string& artifact_id,
 
 void ArtifactManifest::compute_manifest_hash() noexcept {
   // Construct a normalized string representation of manifest metadata.
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << artifact_id_ << "|" << static_cast<int>(artifact_class_) << "|"
       << version_ << "|" << content_hash_ << "|" << total_size_bytes_ << "|"
       << static_cast<int>(lifecycle_stage_) << "|" << recovery_strategy_ << "|"

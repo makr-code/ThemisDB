@@ -21,7 +21,7 @@ namespace themis::rag::judge {
  * @brief A single reasoning step in CoT
  */
 struct ReasoningStep {
-    int step_number;
+    int step_number = 0;
     std::string question;      ///< Self-questioning
     std::string observation;   ///< What was observed
     std::string evidence;      ///< Supporting evidence
@@ -32,7 +32,7 @@ struct ReasoningStep {
  * @brief Chain-of-Thought evaluation result
  */
 struct CoTEvaluationResult {
-    double final_score;        ///< Final score 0-1
+    double final_score = 0;        ///< Final score 0-1
     std::vector<ReasoningStep> reasoning_steps;
     std::string final_reasoning;
     bool logic_consistent;     ///< Whether reasoning is internally consistent

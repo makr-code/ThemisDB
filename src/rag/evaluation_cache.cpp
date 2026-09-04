@@ -53,7 +53,9 @@ bool EvaluationCache::isExpired(const CacheEntry& entry) const {
 }
 
 void EvaluationCache::evictLRU() {
-    if (lru_list_.empty()) return;
+    if (lru_list_.empty()) {
+      return;
+    }
 
     // The back of lru_list_ holds the least-recently-used key.
     const CacheKey& lru_key = lru_list_.back();
@@ -148,7 +150,7 @@ void EvaluationCache::put(
     }
 
     // Evict LRU entry if at capacity
-    while (cache_.size() >= config_.max_entries) {
+    while (static_cast<int>(cache_.size()) >= config_.max_entries) {
         evictLRU();
     }
 
@@ -171,7 +173,9 @@ bool EvaluationCache::contains(
 
     const CacheKey key = computeKey(query, answer);
     auto it = cache_.find(key);
-    if (it == cache_.end()) return false;
+    if (it == cache_.end()) {
+      return false;
+    }
     if (isExpired(it->second)) {
         removeFromLRU(key);
         cache_.erase(it);
@@ -193,7 +197,7 @@ void EvaluationCache::clear() {
 
     THEMIS_INFO("EvaluationCache: cleared {} entries", old_size);
 
-    if (invalidation_callback_) {
+    if ([[maybe_unused]] invalidation_callback_) {
         invalidation_callback_(InvalidationTrigger::MANUAL, old_size);
     }
 }
@@ -230,24 +234,26 @@ void EvaluationCache::invalidate(
                     old_size, static_cast<int>(trigger));
     }
 
-    if (invalidation_callback_) {
+    if ([[maybe_unused]] invalidation_callback_) {
         invalidation_callback_(trigger, old_size);
     }
 }
 
 void EvaluationCache::warmCache(
     RAGJudge& judge, const std::vector<EvaluationInput>& queries) {
-    THEMIS_INFO("EvaluationCache: warming cache with {} queries", queries.size());
+    THEMIS_INFO("EvaluationCache: warming cache with {} queries",static_cast<int>(queries.size()));
 
     for (const auto& input : queries) {
         // Skip if already cached
-        if (contains(input.query, input.generated_answer)) continue;
+        if (contains(input.query, input.generated_answer)) {
+          continue;
+        }
 
         auto result = judge.evaluate(input);
         put(input.query, input.generated_answer, result);
     }
 
-    THEMIS_INFO("EvaluationCache: warm-up complete, cache size={}", cache_.size());
+    THEMIS_INFO("EvaluationCache: warm-up complete, cache size={}",static_cast<int>(cache_.size()));
 }
 
 CacheStatistics EvaluationCache::getStatistics() const {
@@ -281,7 +287,7 @@ CacheConfig EvaluationCache::getConfig() const {
 void EvaluationCache::registerInvalidationCallback(
     std::function<void(InvalidationTrigger, size_t)> callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    invalidation_callback_ = std::move(callback);
+    invalidation_callback_ = std::move([[maybe_unused]] callback);
 }
 
 } // namespace themis::rag::judge

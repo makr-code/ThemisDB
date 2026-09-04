@@ -110,8 +110,12 @@ public:
         if (!std::isfinite(lat)) {
             return 0.0;
         }
-        if (lat < MIN_LATITUDE) return MIN_LATITUDE;
-        if (lat > MAX_LATITUDE) return MAX_LATITUDE;
+        if (lat < MIN_LATITUDE) {
+          return MIN_LATITUDE;
+        }
+        if (lat > MAX_LATITUDE) {
+          return MAX_LATITUDE;
+        }
         return lat;
     }
     
@@ -124,8 +128,12 @@ public:
         if (!std::isfinite(lon)) {
             return 0.0;
         }
-        if (lon < MIN_LONGITUDE) return MIN_LONGITUDE;
-        if (lon > MAX_LONGITUDE) return MAX_LONGITUDE;
+        if (lon < MIN_LONGITUDE) {
+          return MIN_LONGITUDE;
+        }
+        if (lon > MAX_LONGITUDE) {
+          return MAX_LONGITUDE;
+        }
         return lon;
     }
     

@@ -190,7 +190,9 @@ TEST_F(AnalyticsPhase2A2Test, QueryExecutionReleaseConnection) {
     // Simulate query execution pattern with guard
     auto execute = [&pool_ptr]() -> QueryResult {
         int conn_id = pool_ptr->acquire();
-        if (conn_id < 0) throw std::runtime_error("No connection");
+        if (conn_id < 0) {
+          throw std::runtime_error("No connection");
+        }
         
         auto release_fn = [pool_ptr, conn_id]() { pool_ptr->release(conn_id); };
         ConnectionGuard guard(conn_id, release_fn);
@@ -215,7 +217,9 @@ TEST_F(AnalyticsPhase2A2Test, FailedQueryExecutionReleaseConnection) {
     auto execute = [&pool_ptr]() -> QueryResult {
         try {
             int conn_id = pool_ptr->acquire();
-            if (conn_id < 0) throw std::runtime_error("No connection");
+            if (conn_id < 0) {
+              throw std::runtime_error("No connection");
+            }
             
             auto release_fn = [pool_ptr, conn_id]() { pool_ptr->release(conn_id); };
             ConnectionGuard guard(conn_id, release_fn);
@@ -262,7 +266,8 @@ TEST_F(AnalyticsPhase2A2Test, PoolRecoveryAfterExhaustion) {
     
     auto small_pool = std::make_shared<ConnectionPool>(2);
     
-    std::vector<int> conns;
+    std::vector<int> conns = {};
+
     for (int i = 0; i < 2; ++i) {
         int conn = small_pool->acquire();
         EXPECT_GT(conn, 0);
@@ -291,7 +296,9 @@ TEST_F(AnalyticsPhase2A2Test, TransactionSafeWrite) {
     
     try {
         int conn_id = pool_ptr->acquire();
-        if (conn_id < 0) throw std::runtime_error("No connection");
+        if (conn_id < 0) {
+          throw std::runtime_error("No connection");
+        }
         
         auto release_fn = [pool_ptr, conn_id]() { pool_ptr->release(conn_id); };
         ConnectionGuard guard(conn_id, release_fn);
@@ -321,7 +328,9 @@ TEST_F(AnalyticsPhase2A2Test, TransactionRollbackOnException) {
     
     try {
         int conn_id = pool_ptr->acquire();
-        if (conn_id < 0) throw std::runtime_error("No connection");
+        if (conn_id < 0) {
+          throw std::runtime_error("No connection");
+        }
         
         auto release_fn = [pool_ptr, conn_id]() { pool_ptr->release(conn_id); };
         ConnectionGuard guard(conn_id, release_fn);
@@ -405,10 +414,13 @@ TEST_F(AnalyticsPhase2A2Test, ConnectionHealthCheck) {
     EXPECT_TRUE(healthy);
     
     // Acquire all connections
-    std::vector<int> conns;
+    std::vector<int> conns = {};
+
     for (int i = 0; i < 10; ++i) {
         int conn = pool_->acquire();
-        if (conn > 0) conns.push_back(conn);
+        if (conn > 0) {
+          conns.push_back(conn);
+        }
     }
     
     // Pool should still be considered healthy if designed correctly
@@ -429,7 +441,8 @@ TEST_F(AnalyticsPhase2A2Test, PoolStatistics) {
     EXPECT_EQ(0, pool_->getTotalAcquired());
     
     // Acquire some connections
-    std::vector<int> conns;
+    std::vector<int> conns = {};
+
     for (int i = 0; i < 5; ++i) {
         int conn = pool_->acquire();
         conns.push_back(conn);
@@ -530,7 +543,9 @@ TEST(Phase2A2MissingDtorTest, ExplicitDefaultDtorReleasesVector) {
     {
         TrivialWithVector obj;
         obj.data.reserve(1024);  // Force heap allocation
-        for (int i = 0; i < 512; ++i) obj.data.push_back(i);
+        for (int i = 0; i < 512; ++i) {
+          obj.data.push_back(i);
+        }
         obj.value = 42;
         EXPECT_EQ(512, static_cast<int>(obj.data.size()));
         EXPECT_EQ(42, obj.value);
@@ -545,7 +560,8 @@ TEST(Phase2A2MissingDtorTest, ExplicitDefaultDtorInCollection) {
     // Fix-C2 (ITree): objects with explicit ~T() = default can be stored in
     // std::vector and destroyed safely via element destruction.
 
-    std::vector<TrivialWithVector> collection;
+    std::vector<TrivialWithVector> collection = {};
+
     for (int i = 0; i < 100; ++i) {
         TrivialWithVector item;
         item.data.resize(static_cast<size_t>(i + 1), i);
@@ -627,13 +643,15 @@ TEST(Phase2A2IteratorSafetyTest, EraseWhileIteratingCollectThenErase) {
     // Models the collect-then-erase pattern for safe container modification.
     // This is the iterator_invalidation fix pattern for std::map/vector loops.
 
-    std::map<int, std::string> items;
+    std::map<int, std::string> items = {};
+
     for (int i = 0; i < 20; ++i) {
         items[i] = (i % 2 == 0) ? "even" : "odd";
     }
 
     // CORRECT pattern: collect keys to erase, then erase in a separate pass
-    std::vector<int> to_erase;
+    std::vector<int> to_erase = {};
+
     for (const auto &[k, v] : items) {
         if (v == "odd") {
             to_erase.push_back(k);
@@ -674,7 +692,9 @@ TEST(Phase2A2ExceptionInDtorTest, CallbackExceptionDoesNotEscapeFlush) {
             // CORRECT: wrap the potentially-throwing flush in try/catch
             // to prevent std::terminate() during stack unwinding.
             try {
-                if (on_flush) on_flush();
+                if (on_flush) {
+                  on_flush();
+                }
             } catch (...) {
                 // Suppressed — no-throw guarantee in destructor
             }

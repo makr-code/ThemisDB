@@ -33,7 +33,7 @@ namespace utils {
 class AuditLoggerStressTest : public ::testing::Test {
 protected:
     fs::path tmp_dir;
-    std::string log_path;
+    std::string log_path = {};
 
     void SetUp() override {
         tmp_dir = fs::temp_directory_path() / "audit_logger_stress_test";
@@ -166,7 +166,7 @@ TEST_F(AuditLoggerStressTest, ConcurrentWriters_128Threads) {
     std::vector<std::thread> threads;
     std::atomic<int> total_events = 0;
     std::atomic<int> error_count = 0;
-    std::mutex error_mutex;
+    std::mutex error_mutex = {};
     std::vector<std::string> error_messages;
     
     for (int t = 0; t < kThreads; ++t) {
@@ -334,7 +334,7 @@ TEST_F(AuditLoggerStressTest, MixedPayloadSizes) {
                     event["seq"] = i;
                     
                     // Vary payload size
-                    std::string payload;
+                    std::string payload = {};
                     int size = (i % 3) == 0 ? 10 : (i % 3) == 1 ? 1000 : 10000;
                     payload.assign(size, 'X');
                     event["payload"] = payload;

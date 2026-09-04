@@ -34,7 +34,9 @@ namespace {
 /// Maps Kafka/broker error patterns to ImporterErrorCode.
 [[maybe_unused]] static ImportErrorCode mapDebeziumErrorToCode(const std::string& error_msg) {
     const auto lower = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
         return s;
     };
     const std::string lmsg = lower(error_msg);
@@ -121,7 +123,7 @@ bool DebeziumCDCImporter::initialize(const std::string& config_json) {
 bool DebeziumCDCImporter::validateSource(const std::string& source_path,
                                           std::vector<std::string>& errors) {
 #ifndef THEMIS_ENABLE_DEBEZIUM
-    if (mock_events_.empty()) {
+    if ([[maybe_unused]] mock_events_.empty()) {
         errors.push_back(
             "DebeziumCDCImporter: THEMIS_ENABLE_DEBEZIUM is not defined. "
             "Rebuild with -DTHEMIS_ENABLE_DEBEZIUM=ON to enable the full "
@@ -136,7 +138,7 @@ bool DebeziumCDCImporter::validateSource(const std::string& source_path,
         return false;
     }
 
-    if (config_.topic_prefix.empty() && mock_events_.empty()) {
+    if ([[maybe_unused]] config_.topic_prefix.empty() && mock_events_.empty()) {
         errors.push_back("DebeziumCDCImporter: 'topic_prefix' is required.");
         return false;
     }
@@ -165,10 +167,18 @@ std::string DebeziumCDCImporter::sanitiseBrokers(const std::string& brokers) {
 /*static*/
 DebeziumCDCImporter::ChangeOp DebeziumCDCImporter::mapOpChar(
     const std::string& op_str) {
-    if (op_str == "c") return ChangeOp::Create;
-    if (op_str == "u") return ChangeOp::Update;
-    if (op_str == "d") return ChangeOp::Delete;
-    if (op_str == "r") return ChangeOp::Read;
+    if (op_str == "c") {
+      return ChangeOp::Create;
+    }
+    if (op_str == "u") {
+      return ChangeOp::Update;
+    }
+    if (op_str == "d") {
+      return ChangeOp::Delete;
+    }
+    if (op_str == "r") {
+      return ChangeOp::Read;
+    }
     return ChangeOp::Unknown;
 }
 
@@ -191,7 +201,7 @@ DebeziumCDCImporter::CDCEvent DebeziumCDCImporter::parseDebeziumEnvelope(
             event.source_ts_ms  = src.value("ts_ms", int64_t{0});
             // Compose fully-qualified table name: schema.table
             const std::string schema = src.value("schema", std::string{});
-            if (!schema.empty() && !event.table.empty()) {
+            if ([[maybe_unused]] !schema.empty() && !event.table.empty()) {
                 event.table = schema + "." + event.table;
             }
         }
@@ -209,9 +219,11 @@ DebeziumCDCImporter::CDCEvent DebeziumCDCImporter::parseDebeziumEnvelope(
 }
 
 bool DebeziumCDCImporter::tableAllowed(const std::string& table) const {
-    if (config_.table_filter.empty()) return true;
+    if (config_.table_filter.empty()) {
+      return true;
+    }
     return std::any_of(config_.table_filter.begin(), config_.table_filter.end(),
-                       [&](const std::string& f) {
+                       [&]([[maybe_unused]] const std::string& f) {
                            return table.find(f) != std::string::npos;
                        });
 }
@@ -235,17 +247,19 @@ ImportStats DebeziumCDCImporter::importData(
     // stream result directly so callers (and tests) observe connector
     // unavailability correctly.
     return streamEvents(options,
-        [&](const CDCEvent& event) -> bool {
-            if (cancelled_.load(std::memory_order_relaxed)) return false;
+        [&]([[maybe_unused]] const CDCEvent& event) -> bool {
+            if (cancelled_.load(std::memory_order_relaxed)) {
+              return false;
+            }
 
             ++stats.total_records;
 
-            if (event.op == ChangeOp::Unknown) {
+            if ([[maybe_unused]] event.op == ChangeOp::Unknown) {
                 ++stats.skipped_records;
                 return true;
             }
 
-            if (!tableAllowed(event.table)) {
+            if ([[maybe_unused]] !tableAllowed(event.table)) {
                 ++stats.skipped_records;
                 return true;
             }
@@ -253,7 +267,7 @@ ImportStats DebeziumCDCImporter::importData(
             // In production: dispatch to ThemisDB storage layer.
             ++stats.imported_records;
 
-            if (progress_callback) {
+            if ([[maybe_unused]] progress_callback) {
                 progress_callback("stream", stats.total_records, 0);
             }
             return true;
@@ -275,18 +289,24 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
         : std::nullopt;
 
     // ---- Mock path (for unit tests) ----------------------------------------
-    if (!mock_events_.empty()) {
-        for (auto& event : mock_events_) {
-            if (cancelled_.load(std::memory_order_relaxed)) break;
-            if (deadline && std::chrono::steady_clock::now() >= *deadline) break;
+    if ([[maybe_unused]] !mock_events_.empty()) {
+        for ([[maybe_unused]] auto& event : mock_events_) {
+            if (cancelled_.load(std::memory_order_relaxed)) {
+              break;
+            }
+            if (deadline && std::chrono::steady_clock::now() >= *deadline) {
+              break;
+            }
             ++stats.total_records;
 
-            if (!tableAllowed(event.table)) {
+            if ([[maybe_unused]] !tableAllowed(event.table)) {
                 ++stats.skipped_records;
                 continue;
             }
 
-            if (!callback(event)) break;
+            if (!callback(event)) {
+              break;
+            }
             ++stats.imported_records;
         }
         mock_events_.clear();
@@ -318,7 +338,7 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
 #else
     // ---- Production path (librdkafka C++ API) --------------------------------
 
-    std::string errstr;
+    std::string errstr = {};
 
     // 1. Build and apply consumer configuration.
     std::unique_ptr<RdKafka::Conf> conf(
@@ -425,7 +445,9 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
 
         std::unique_ptr<RdKafka::Message> msg(
             consumer->consume(config_.poll_timeout_ms));
-        if (!msg) continue;
+        if (!msg) {
+          continue;
+        }
 
         switch (msg->err()) {
             case RdKafka::ERR_NO_ERROR: {
@@ -435,7 +457,7 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
                     static_cast<const char*>(msg->payload()),
                     msg->len());
 
-                std::string parse_err;
+                std::string parse_err = {};
                 CDCEvent event;
                 try {
                     const json envelope = json::parse(payload);
@@ -457,14 +479,14 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
                 }
 
                 // Store the Kafka offset in the event for downstream consumers.
-                event.offset = static_cast<uint64_t>(msg->offset());
+                event.offset = static_cast<uint64_t>([[maybe_unused]] msg->offset());
 
-                if (!tableAllowed(event.table)) {
+                if ([[maybe_unused]] !tableAllowed(event.table)) {
                     ++stats.skipped_records;
                     break;
                 }
 
-                if (!callback(event)) {
+                if ([[maybe_unused]] !callback(event)) {
                     // Callback requested stop.
                     stop = true;
                 } else {
@@ -550,7 +572,7 @@ void DebeziumCDCImporter::cancel() {
 json DebeziumCDCImporter::getSourceSchema(const std::string& source_path) {
     (void)source_path;
 
-    if (mock_events_.empty()) {
+    if ([[maybe_unused]] mock_events_.empty()) {
         // In production: read the first message from each topic, extract the
         // Debezium schema envelope, and convert to ThemisDB schema format.
         return json::object();
@@ -558,9 +580,13 @@ json DebeziumCDCImporter::getSourceSchema(const std::string& source_path) {
 
     // Build a schema summary from the injected mock events.
     json schema = json::object();
-    for (const auto& event : mock_events_) {
-        if (event.table.empty()) continue;
-        if (schema.contains(event.table)) continue;
+    for ([[maybe_unused]] const auto& event : mock_events_) {
+        if (event.table.empty()) {
+          continue;
+        }
+        if (schema.contains(event.table)) {
+          continue;
+        }
 
         json fields = json::array();
         const json& sample = event.after.is_null() ? event.before : event.after;
@@ -584,8 +610,8 @@ json DebeziumCDCImporter::getSourceSchema(const std::string& source_path) {
 // Testing support
 // ============================================================================
 
-void DebeziumCDCImporter::setMockEventsForTesting(std::vector<CDCEvent> events) {
-    mock_events_ = std::move(events);
+void DebeziumCDCImporter::setMockEventsForTesting([[maybe_unused]] std::vector<CDCEvent> events) {
+    mock_events_ = std::move([[maybe_unused]] events);
 }
 
 } // namespace importers

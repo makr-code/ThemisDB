@@ -127,7 +127,9 @@ TEST(InMemoryFeatureFlagsTest, ThreadSafeSetAndGet) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // No crash or data race — correctness only validated indirectly
     EXPECT_GE(readTrue.load(), 0);

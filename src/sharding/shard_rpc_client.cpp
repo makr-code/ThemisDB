@@ -255,14 +255,18 @@ struct ShardRPCClient::Impl {
     }
     
     bool isChannelReady() {
-        if (!channel) return false;
+        if (!channel) {
+          return false;
+        }
         
         auto state = channel->GetState(false);
         return state == GRPC_CHANNEL_READY || state == GRPC_CHANNEL_IDLE;
     }
     
-    bool waitForChannelReady(int timeout_ms) {
-        if (!channel) return false;
+    bool waitForChannelReady([[maybe_unused]] int timeout_ms) {
+        if (!channel) {
+          return false;
+        }
         
         auto deadline = std::chrono::system_clock::now() + 
                        std::chrono::milliseconds(timeout_ms);
@@ -286,9 +290,9 @@ ShardRPCClient::ShardRPCClient(const Config& config)
 ShardRPCClient::~ShardRPCClient() = default;
 
 /** @brief Install or clear in-process response handler used by simulation fallback. */
-void ShardRPCClient::setInProcessResponseHandler(InProcessResponseHandler handler) {
-    std::lock_guard<std::mutex> lk(impl_->handler_mutex);
-    impl_->in_process_handler = std::move(handler);
+void ShardRPCClient::setInProcessResponseHandler([[maybe_unused]] InProcessResponseHandler handler) {
+    std::lock_guard<std::mutex> lk([[maybe_unused]] impl_->handler_mutex);
+    impl_->in_process_handler = std::move([[maybe_unused]] handler);
 }
 
 /**
@@ -302,7 +306,7 @@ bool ShardRPCClient::prepare(
     const nlohmann::json& operations
 ) {
     THEMIS_DEBUG("RPC PREPARE to {}: txn={}, ops={}", 
-                impl_->config.endpoint, txn_id, operations.size());
+                impl_->config.endpoint, txn_id,static_cast<int>(operations.size()));
     
     try {
         nlohmann::json params = {
@@ -474,7 +478,8 @@ bool ShardRPCClient::ping() {
 std::vector<ShardRPCClient::WaitForEdge> ShardRPCClient::collectWaitForEdges() {
     try {
         auto response = sendRequest("collect_wait_for_edges", nlohmann::json::object());
-        std::vector<WaitForEdge> edges;
+        std::vector<WaitForEdge> edges = {};
+
         if (!response.contains("edges") || !response["edges"].is_array()) {
             return edges;
         }
@@ -563,7 +568,7 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
     const nlohmann::json& params
 ) {
     int attempts = 0;
-    std::exception_ptr last_exception;
+    std::exception_ptr last_exception = {};
     
     while (attempts < impl_->config.max_retries) {
         ++attempts;
@@ -637,7 +642,7 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordFailure();
             }
-            impl_->recordMetrics(method, "non_retryable_error", 0u);
+            impl_->recordMetrics(method, "non_retryable_error", 0);
             THEMIS_WARN("gRPC {} non-retryable error: {}", method, e.what());
             throw;  // Rethrow immediately without further retry attempts
 
@@ -648,7 +653,7 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordFailure();
             }
-            impl_->recordMetrics(method, "retryable_error", 0u);
+            impl_->recordMetrics(method, "retryable_error", 0);
 
             THEMIS_WARN("gRPC {} attempt {}/{} failed: {}",
                        method, attempts, impl_->config.max_retries, err_msg);
@@ -904,20 +909,20 @@ bool ShardRPCClient::isRetryableError(grpc::StatusCode code) {
     // Categorize errors as retryable or non-retryable
     switch (code) {
         case grpc::StatusCode::UNAVAILABLE:
-        case grpc::StatusCode::DEADLINE_EXCEEDED:
-        case grpc::StatusCode::RESOURCE_EXHAUSTED:
-        case grpc::StatusCode::ABORTED:
-        case grpc::StatusCode::INTERNAL:
+        [[fallthrough]];\n        case grpc::StatusCode::DEADLINE_EXCEEDED:
+        [[fallthrough]];\n        case grpc::StatusCode::RESOURCE_EXHAUSTED:
+        [[fallthrough]];\n        case grpc::StatusCode::ABORTED:
+        [[fallthrough]];\n        case grpc::StatusCode::INTERNAL:
             return true;
         
         case grpc::StatusCode::INVALID_ARGUMENT:
-        case grpc::StatusCode::NOT_FOUND:
-        case grpc::StatusCode::ALREADY_EXISTS:
-        case grpc::StatusCode::PERMISSION_DENIED:
-        case grpc::StatusCode::UNAUTHENTICATED:
-        case grpc::StatusCode::FAILED_PRECONDITION:
-        case grpc::StatusCode::OUT_OF_RANGE:
-        case grpc::StatusCode::UNIMPLEMENTED:
+        [[fallthrough]];\n        case grpc::StatusCode::NOT_FOUND:
+        [[fallthrough]];\n        case grpc::StatusCode::ALREADY_EXISTS:
+        [[fallthrough]];\n        case grpc::StatusCode::PERMISSION_DENIED:
+        [[fallthrough]];\n        case grpc::StatusCode::UNAUTHENTICATED:
+        [[fallthrough]];\n        case grpc::StatusCode::FAILED_PRECONDITION:
+        [[fallthrough]];\n        case grpc::StatusCode::OUT_OF_RANGE:
+        [[fallthrough]];\n        case grpc::StatusCode::UNIMPLEMENTED:
             return false;
         
         default:
@@ -951,7 +956,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
     // (possibly sleeping) retry loop.
     InProcessResponseHandler injected_handler;
     {
-        std::lock_guard<std::mutex> lk(impl_->handler_mutex);
+        std::lock_guard<std::mutex> lk([[maybe_unused]] impl_->handler_mutex);
         injected_handler = impl_->in_process_handler;
     }
     
@@ -966,7 +971,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
 
     // In-process simulation for single-node deployments
     int attempts = 0;
-    std::exception_ptr last_exception;
+    std::exception_ptr last_exception = {};
     
     while (attempts < impl_->config.max_retries) {
         ++attempts;
@@ -992,7 +997,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
             // If a custom handler has been injected (e.g. for testing failure
             // scenarios), delegate to it instead of the hardcoded fallback.
             nlohmann::json response;
-            if (injected_handler) {
+            if ([[maybe_unused]] injected_handler) {
                 response = injected_handler(method, params);
             } else {
                 // Built-in hardcoded fallback responses for single-node / test mode.
@@ -1061,7 +1066,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordFailure();
             }
-            impl_->recordMetrics(method, "retryable_error", 0u);
+            impl_->recordMetrics(method, "retryable_error", 0);
 
             THEMIS_WARN("RPC {} attempt {}/{} failed: {}",
                        method, attempts, impl_->config.max_retries, e.what());

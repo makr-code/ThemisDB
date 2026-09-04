@@ -195,7 +195,7 @@ TEST_F(ThemisIntegrationTest, RuntimeGate_BlocksCompileTimeEnabledFeature_OnExpi
 
     for (std::string_view feat : kGatedFeatureNames) {
         if (IsFeatureEnabled(feat)) {
-            std::string err;
+            std::string err = {};
             EXPECT_FALSE(
                 RuntimeLicenseGate::instance().isFeatureAllowed(feat, err))
                 << "Runtime gate must block compile-time-ON feature '"
@@ -284,7 +284,7 @@ TEST_F(ThemisIntegrationTest, LicenseWithContactEmail_ErrorContainsEmail) {
     auto result        = makeActivation(false, "expired");
     RuntimeLicenseGate::instance().initialize(result, lic);
 
-    std::string err;
+    std::string err = {};
     RuntimeLicenseGate::instance().isFeatureAllowed("enterprise_plugins", err);
     EXPECT_NE(err.find("renew@corp.example"), std::string::npos)
         << "Expired-license error should include the contact email. Got: " << err;
@@ -309,7 +309,7 @@ TEST_F(ThemisIntegrationTest, OverrideLifecycle_Set_Query_Clear_Requery) {
     EXPECT_FALSE(em.hasFeatureOverride("enterprise_plugins"));
 
     // After clearing, the result is determined purely by the edition+license gate.
-    std::string err;
+    std::string err = {};
     const bool after = em.isFeatureAvailable("enterprise_plugins", err);
     // If still blocked, it must not be due to an admin override.
     if (!after) {
@@ -429,7 +429,7 @@ TEST_F(ThemisIntegrationTest, HashVerifier_TempFile_RoundTrip) {
     EXPECT_EQ(result.computedHash, hash);
     EXPECT_EQ(result.expectedHash, hash);
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(path, ec);
 }
 
@@ -455,7 +455,7 @@ TEST_F(ThemisIntegrationTest, HashVerifier_TamperedFile_DetectedByManifest) {
         << "Verification must fail when file content has been tampered";
     EXPECT_NE(result.computedHash, result.expectedHash);
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(path, ec);
 }
 
@@ -463,7 +463,7 @@ TEST_F(ThemisIntegrationTest, BuildManifest_RoundTrip_WithHashVerifier) {
     // exportBuildManifest() and verifyBuildManifest() must be consistent, and
     // the manifest file must be a non-empty JSON document.
     const std::string path = tmpPath("themis_integ_build_manifest.json");
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(path, ec);
 
     ASSERT_TRUE(exportBuildManifest(path))
@@ -492,7 +492,7 @@ TEST_F(ThemisIntegrationTest, FullGateStack_AdminOverrideFalse_WinsOverActiveLic
     const std::string feat = "enterprise_plugins";
     em.setFeatureOverride(feat, false);
 
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(em.isFeatureAvailable(feat, err));
     EXPECT_NE(err.find("administratively disabled"), std::string::npos)
         << "Error must mention 'administratively disabled'. Got: " << err;
@@ -511,7 +511,7 @@ TEST_F(ThemisIntegrationTest, FullGateStack_ExpiredLicense_ThenAdminOverrideTrue
     for (std::string_view feat : kGatedFeatureNames) {
         em.setFeatureOverride(feat, true);
 
-        std::string err;
+        std::string err = {};
         const bool allowed = em.isFeatureAvailable(feat, err);
 
         if (!IsFeatureEnabled(feat)) {

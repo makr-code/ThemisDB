@@ -100,7 +100,7 @@ enum class AnomalyMethod {
  * treated as metadata and preserved in results / explanations.
  */
 struct DataPoint {
-    std::string id;
+    std::string id = {};
     int64_t     timestamp_ms = 0;
     std::map<std::string, PointValue> fields;
 
@@ -113,8 +113,12 @@ struct DataPoint {
     template<typename T>
     std::optional<T> get(const std::string& name) const {
         auto it = fields.find(name);
-        if (it == fields.end()) return std::nullopt;
-        if (auto* p = std::get_if<T>(&it->second)) return *p;
+        if (it == fields.end()) {
+          return std::nullopt;
+        }
+        if (auto* p = std::get_if<T>(&it->second)) {
+          return *p;
+        }
         return std::nullopt;
     }
 
@@ -316,7 +320,7 @@ public:
     void clearAnomalies();
 
     struct WindowStats {
-        size_t window_size;     ///< current window size (may be < config window_size during warm-up)
+        size_t window_size = 0;     ///< current window size (may be < config window_size during warm-up)
         size_t anomaly_count;
         double anomaly_rate;
         bool   trained;

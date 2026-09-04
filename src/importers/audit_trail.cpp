@@ -99,7 +99,7 @@ std::string auditEventTypeToString(AuditEventType t) {
 std::string AuditedImporter::ImmutableAuditLog::computeEventHash(const AuditEvent &event,
                                                                  const std::string &prev_hash) const {
     // Deterministic serialisation
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << prev_hash << eventTypeToString(event.type) << event.timestamp << event.user_principal
        << event.importer_instance_id << event.correlation_id << event.details.dump();
     const std::string payload = ss.str();
@@ -109,12 +109,12 @@ std::string AuditedImporter::ImmutableAuditLog::computeEventHash(const AuditEven
     unsigned int digest_len = 0;
     EVP_MD_CTX *ctx         = EVP_MD_CTX_new();
     EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr);
-    EVP_DigestUpdate(ctx, payload.data(), payload.size());
+    EVP_DigestUpdate(ctx, payload.data(),static_cast<int>(payload.size()));
     EVP_DigestFinal_ex(ctx, digest, &digest_len);
     EVP_MD_CTX_free(ctx);
 
     // Return first 32 hex chars (128-bit prefix) – same width as the old 16-char placeholder
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     for (unsigned int i = 0; i < digest_len; ++i) {
         hex << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(digest[i]);
     }
@@ -133,11 +133,11 @@ void AuditedImporter::ImmutableAuditLog::recordEvent(const AuditEvent &event) {
 }
 
 bool AuditedImporter::ImmutableAuditLog::verifyIntegrity() const {
-    if (events_.size() != chain_hashes_.size()) {
+    if (static_cast<int>(events_.size()) != static_cast<int>(chain_hashes_.size())) {
         return false;
     }
     std::string prev = "0000000000000000";
-    for (size_t i = 0; i < events_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(events_.size()); ++i) {
         std::string expected = computeEventHash(events_[i], prev);
         if (expected != chain_hashes_[i]) {
             return false;
@@ -149,7 +149,7 @@ bool AuditedImporter::ImmutableAuditLog::verifyIntegrity() const {
 
 json AuditedImporter::ImmutableAuditLog::exportForSIEM(const std::string &format) const {
     json arr = json::array();
-    for (size_t i = 0; i < events_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(events_.size()); ++i) {
         const auto &e = events_[i];
         json entry    = {{"event_type", eventTypeToString(e.type)},
                          {"timestamp", e.timestamp},
@@ -176,7 +176,7 @@ json AuditedImporter::ImmutableAuditLog::exportForSIEM(const std::string &format
 }
 
 size_t AuditedImporter::ImmutableAuditLog::size() const {
-    return events_.size();
+    return static_cast<int>(events_.size());
 }
 
 const std::vector<AuditedImporter::AuditEvent> &AuditedImporter::ImmutableAuditLog::events() const {
@@ -194,7 +194,7 @@ void AuditedImporter::ImmutableAuditLog::emitAuditEvent(const AuditEvent& event)
     // Bounded: buffer limited to 100,000 events; drops oldest when full
 
     // Buffer overflow handling: if we're at max capacity, drop oldest event
-    if (events_.size() >= kMaxAuditBufferSize) {
+    if (static_cast<int>(events_.size()) > = kMaxAuditBufferSize) {
         // Drop oldest event (FIFO)
         if (!events_.empty()) {
             events_.erase(events_.begin());

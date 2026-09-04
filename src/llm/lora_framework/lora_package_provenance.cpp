@@ -47,7 +47,7 @@ static std::string nowISO8601_pkg() {
 #else
     gmtime_r(&t, &tm_utc);
 #endif
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%SZ");
     return ss.str();
 }
@@ -59,7 +59,7 @@ static std::string generateId_pkg() {
     static std::mt19937_64 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
     std::lock_guard<std::mutex> lock(id_mu);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     oss << std::setw(16) << dis(gen);
     oss << std::setw(16) << dis(gen);
@@ -71,7 +71,7 @@ static std::string sha256Hex(const std::string& data) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char*>(data.data()),
            data.size(), digest);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (auto byte : digest) {
         oss << std::setw(2) << static_cast<int>(byte);
@@ -91,18 +91,19 @@ static std::string computeMerkleRoot(std::vector<std::string> leaves) {
         return sha256Hex("");
     }
     // Pad to even number of leaves by duplicating the last one.
-    while (leaves.size() > 1 && (leaves.size() % 2 != 0)) {
+    while (static_cast<int>(leaves.size()) > 1 && (leaves.size() % 2 != 0)) {
         leaves.push_back(leaves.back());
     }
-    while (leaves.size() > 1) {
-        std::vector<std::string> next;
+    while (static_cast<int>(leaves.size()) > 1) {
+        std::vector<std::string> next = {};
+
         next.reserve(leaves.size() / 2);
-        for (std::size_t i = 0; i + 1 < leaves.size(); i += 2) {
+        for (std::size_t i = 0; i + 1 <static_cast<int>(leaves.size()); i += 2) {
             next.push_back(hashPair(leaves[i], leaves[i + 1]));
         }
         leaves = std::move(next);
         // Pad again if needed.
-        if (leaves.size() > 1 && (leaves.size() % 2 != 0)) {
+        if (static_cast<int>(leaves.size()) > 1 && (leaves.size() % 2 != 0)) {
             leaves.push_back(leaves.back());
         }
     }
@@ -308,7 +309,8 @@ json ReceiptManifest::toJSON() const {
 }
 
 std::string ReceiptManifest::computeMerkleRoot() const {
-    std::vector<std::string> leaves;
+    std::vector<std::string> leaves = {};
+
     leaves.reserve(receipts.size());
     for (const auto& r : receipts) {
         leaves.push_back(r.receipt_hash.empty() ? r.computeContentHash()
@@ -694,7 +696,8 @@ ReceiptManifest ProvenanceHashLedger::createManifest(
     // Append each receipt to the artifact's chain so they are durably linked.
     // We do this without the outer mutex held to avoid re-entrancy; appendReceipt
     // takes the lock internally.  We accumulate the populated receipts.
-    std::vector<DistributionReceipt> populated;
+    std::vector<DistributionReceipt> populated = {};
+
     populated.reserve(receipts.size());
     for (auto& r : receipts) {
         if (r.artifact_id.empty()) {
@@ -855,7 +858,7 @@ json ProvenanceHashLedger::exportAuditPath(
     //   product_chains : package_id  → [AdapterProduct …]
     //   packages_by_id : package_id  → LoRAPackage
     //   products_by_id : product_id  → AdapterProduct
-    std::string resolved_adapter_id;
+    std::string resolved_adapter_id = {};
     std::string resolved_package_id; // non-empty → filter products to one package
 
     if (impl_->package_chains.count(artifact_id)) {

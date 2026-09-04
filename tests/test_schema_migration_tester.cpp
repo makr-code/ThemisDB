@@ -53,8 +53,8 @@ static SchemaManager::TableSchema makeSchema(
 
 class SchemaMigrationTesterTest : public ::testing::Test {
 protected:
-    std::string staging_dir_;
-    std::string prod_db_path_;
+    std::string staging_dir_ = {};
+    std::string prod_db_path_ = {};
 
     std::unique_ptr<RocksDBWrapper>       prod_db_;
     std::unique_ptr<SecondaryIndexManager> prod_idx_;
@@ -176,7 +176,9 @@ TEST_F(SchemaMigrationTesterTest, UserTestCase_Pass) {
             auto t = const_cast<SchemaManager&>(sm).getTable("products");
             if (!t) { err = "table 'products' not found"; return false; }
             for (const auto& p : t->properties)
-                if (p.name == "sku") return true;
+                if (p.name == "sku") {
+                  return true;
+                }
             err = "column 'sku' not found";
             return false;
         }

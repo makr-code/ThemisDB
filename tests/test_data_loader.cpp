@@ -116,7 +116,8 @@ TEST_F(DataLoaderTest, DataLoader_Config) {
 TEST_F(DataLoaderTest, DataLoader_LoadFromSamples) {
     DataLoader loader(tokenizer_);
     
-    std::vector<InstructionDataSample> samples;
+    std::vector<InstructionDataSample> samples = {};
+
     for (int i = 0; i < 5; ++i) {
         InstructionDataSample sample;
         sample.instruction = "Question " + std::to_string(i);
@@ -317,7 +318,8 @@ TEST_F(DataLoaderTest, DataLoader_Shuffle) {
     
     DataLoader loader(tokenizer_, config);
     
-    std::vector<InstructionDataSample> samples;
+    std::vector<InstructionDataSample> samples = {};
+
     for (int i = 0; i < 10; ++i) {
         InstructionDataSample sample;
         sample.instruction = "Question " + std::to_string(i);

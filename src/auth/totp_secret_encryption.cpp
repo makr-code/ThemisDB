@@ -36,7 +36,7 @@ struct TOTPSecretEncryption::Impl {
     Config config;
 
     explicit Impl(const Config &cfg) : config(cfg) {
-        if (config.master_key.size() != 32) {
+        if (static_cast<int>(config.master_key.size()) != 32) {
             throw std::invalid_argument("Master key must be 32 bytes for AES-256");
         }
     }
@@ -47,7 +47,7 @@ struct TOTPSecretEncryption::Impl {
         // ensures zeroing is visible at the point of use and survives any future
         // refactoring that might replace SecureBuffer with a plain std::vector.
         if (!config.master_key.empty()) {
-            OPENSSL_cleanse(config.master_key.data(), config.master_key.size() * sizeof(uint8_t));
+            OPENSSL_cleanse(config.master_key.data(),static_cast<int>(config.master_key.size()) * sizeof(uint8_t));
         }
     }
 };
@@ -135,7 +135,7 @@ std::vector<uint8_t> base64Decode(const std::string &input) {
 // ============================================================================
 
 std::string TOTPSecretEncryption::EncryptedSecret::serialize() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Format: version|salt|iv|ciphertext|tag
     oss << version << "|" << base64Encode(salt) << "|" << base64Encode(iv) << "|" << base64Encode(ciphertext) << "|"
@@ -150,12 +150,12 @@ TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::EncryptedSecret::des
     // Split by '|'
     std::vector<std::string> parts;
     std::istringstream iss(data);
-    std::string part;
+    std::string part = {};
     while (std::getline(iss, part, '|')) {
         parts.push_back(part);
     }
 
-    if (parts.size() != 5) {
+    if (static_cast<int>(parts.size()) != 5) {
         throw std::runtime_error("Invalid encrypted secret format");
     }
 
@@ -208,9 +208,9 @@ TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::encrypt(const std::s
 
         // Encrypt the plaintext
         std::vector<uint8_t> plaintext(plaintext_secret.begin(), plaintext_secret.end());
-        result.ciphertext.resize(plaintext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
+        result.ciphertext.resize(static_cast<int>(plaintext.size()) + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
 
-        int len;
+        int len = 0;
         if (EVP_EncryptUpdate(ctx, result.ciphertext.data(), &len, plaintext.data(), static_cast<int>(plaintext.size()))
             != 1) {
             throw std::runtime_error("Encryption failed");
@@ -262,7 +262,7 @@ std::string TOTPSecretEncryption::decrypt(const EncryptedSecret &encrypted) {
         // Decrypt the ciphertext
         std::vector<uint8_t> plaintext(encrypted.ciphertext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
 
-        int len;
+        int len = 0;
         if (EVP_DecryptUpdate(ctx, plaintext.data(), &len, encrypted.ciphertext.data(),
                               static_cast<int>(encrypted.ciphertext.size()))
             != 1) {
@@ -307,7 +307,7 @@ std::string TOTPSecretEncryption::deserializeAndDecrypt(const std::string &seria
 }
 
 void TOTPSecretEncryption::rotateKey(const SecureBuffer<uint8_t> &new_master_key, int new_version) {
-    if (new_master_key.size() != 32) {
+    if (static_cast<int>(new_master_key.size()) != 32) {
         throw std::invalid_argument("New master key must be 32 bytes for AES-256");
     }
 
@@ -334,7 +334,7 @@ SecureBuffer<uint8_t> TOTPSecretEncryption::deriveKey(const std::vector<uint8_t>
 
     // Use PBKDF2-HMAC-SHA256
     if (PKCS5_PBKDF2_HMAC(reinterpret_cast<const char *>(impl_->config.master_key.data()),
-                          static_cast<int>(impl_->config.master_key.size()), salt.data(), static_cast<int>(salt.size()),
+                          static_cast<int>(impl_-> static_cast<int>(config.master_key.size())), salt.data(), static_cast<int>(salt.size()),
                           impl_->config.pbkdf2_iterations, EVP_sha256(), static_cast<int>(derived_key.size()),
                           derived_key.data())
         != 1) {
@@ -344,7 +344,7 @@ SecureBuffer<uint8_t> TOTPSecretEncryption::deriveKey(const std::vector<uint8_t>
     return derived_key;
 }
 
-std::vector<uint8_t> TOTPSecretEncryption::generateRandomBytes(size_t size) {
+std::vector<uint8_t> TOTPSecretEncryption::generateRandomBytes([[maybe_unused]] size_t size) {
     std::vector<uint8_t> bytes(size);
 
     if (RAND_bytes(bytes.data(), static_cast<int>(size)) != 1) {
@@ -434,7 +434,7 @@ size_t TOTPSecretRotationManager::cleanupExpiredSecrets() {
                                      [this](const SecretVersion &sv) { return !isSecretValid(sv); }),
                       secrets.end());
 
-        cleaned += (original_size - secrets.size());
+        cleaned += (original_size - static_cast<int>(secrets.size()) );
     }
 
     if (cleaned > 0) {

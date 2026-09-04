@@ -36,7 +36,7 @@ using namespace themis::metadata; // for SchemaDiffEngine, SchemaDiff, etc.
 
 struct ColumnSpec {
     std::string name;
-    std::string type;
+    std::string type = {};
     bool        nullable   = true;
     bool        indexed    = false;
     std::string index_type = "";

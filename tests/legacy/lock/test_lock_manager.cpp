@@ -197,7 +197,8 @@ TEST_F(LockManagerTest, ConcurrentExclusiveAccess) {
     std::atomic<int> inside{0};
     std::atomic<int> violations{0};
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([&, i]() {
             LockManager::TransactionId txn = static_cast<uint64_t>(i + 100);
@@ -205,7 +206,9 @@ TEST_F(LockManagerTest, ConcurrentExclusiveAccess) {
                                       std::chrono::milliseconds(5000));
             if (res.status == LockStatus::GRANTED) {
                 int cnt = ++inside;
-                if (cnt > 1) ++violations;
+                if (cnt > 1) {
+                  ++violations;
+                }
                 std::this_thread::sleep_for(std::chrono::milliseconds(5));
                 --inside;
                 lm.releaseLock(txn, "shared_row");
@@ -213,7 +216,9 @@ TEST_F(LockManagerTest, ConcurrentExclusiveAccess) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(violations.load(), 0) << "Mutual exclusion violated";
 }
@@ -224,7 +229,8 @@ TEST_F(LockManagerTest, ConcurrentSharedReadAccess) {
     std::atomic<bool> exceeded_single{false};
 
     // First ensure no exclusive lock holds
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_readers; ++i) {
         threads.emplace_back([&, i]() {
             auto res = lm.acquireLock(static_cast<uint64_t>(i + 200), "shared_data",
@@ -240,7 +246,9 @@ TEST_F(LockManagerTest, ConcurrentSharedReadAccess) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // Multiple readers should have run concurrently
     EXPECT_TRUE(exceeded_single) << "Expected concurrent shared reads";

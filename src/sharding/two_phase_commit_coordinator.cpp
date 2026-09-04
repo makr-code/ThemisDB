@@ -123,7 +123,7 @@ void TwoPhaseCommitCoordinator::registerParticipantByEndpoint(
 /** @brief Return number of currently registered participants. */
 size_t TwoPhaseCommitCoordinator::participantCount() const {
     std::lock_guard<std::timed_mutex> lock(mutex_);
-    return participants_.size();
+    return static_cast<int>(participants_.size());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -202,8 +202,11 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         {"transaction_id", transaction_id},
         {"coordinator_id", coordinator_id_},
         {"shards",         [&]() {
-            std::vector<std::string> v;
-            for (auto& [s, _] : ops_per_shard) v.push_back(s);
+            std::vector<std::string> v = {};
+
+            for (auto& [s, _] : ops_per_shard) {
+              v.push_back(s);
+            }
             return v;
         }()}
     });
@@ -300,7 +303,9 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
  * @return Number of transactions resolved during recovery pass.
  */
 size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
-    if (!wal_) return 0;
+    if (!wal_) {
+      return 0;
+    }
 
     THEMIS_INFO("2PC coordinator [{}] recovering from WAL…", coordinator_id_);
 
@@ -311,7 +316,8 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
         const auto recovered_wal =
             themis::transaction::TwoPhaseCommitWALRecovery::reconstruct(entries);
 
-        std::map<std::string, CoordinatorTxnRecord> recovered;
+        std::map<std::string, CoordinatorTxnRecord> recovered = {};
+
         for (const auto& [txn_id, replay_txn] : recovered_wal) {
             CoordinatorTxnRecord rec;
             rec.transaction_id     = txn_id;
@@ -425,7 +431,8 @@ TwoPhaseCommitCoordinator::getRecoverableTransactions() const {
 
     std::lock_guard<std::timed_mutex> lock(mutex_);
 
-    std::vector<RecoverableTwoPhaseTransaction> result;
+    std::vector<RecoverableTwoPhaseTransaction> result = {};
+
     for (const auto& [txn_id, rec] : transactions_) {
         if (rec.state == CoordinatorTxnState::COMPLETED) {
             continue;
@@ -473,7 +480,9 @@ std::optional<CoordinatorTxnState>
 TwoPhaseCommitCoordinator::getTransactionState(const std::string& transaction_id) const {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     auto it = transactions_.find(transaction_id);
-    if (it == transactions_.end()) return std::nullopt;
+    if (it == transactions_.end()) {
+      return std::nullopt;
+    }
     return it->second.state;
 }
 
@@ -484,7 +493,9 @@ nlohmann::json TwoPhaseCommitCoordinator::getStatistics() const {
     size_t active    = 0;
     size_t completed = 0;
     for (const auto& [id, rec] : transactions_) {
-        if (rec.state == CoordinatorTxnState::COMPLETED) ++completed;
+        if (rec.state == CoordinatorTxnState::COMPLETED) {
+          ++completed;
+        }
         else                                              ++active;
     }
 
@@ -493,7 +504,7 @@ nlohmann::json TwoPhaseCommitCoordinator::getStatistics() const {
         {"coordinator_id",      coordinator_id_},
         {"uptime_seconds",      static_cast<uint64_t>(
                                     std::chrono::duration_cast<std::chrono::seconds>(uptime).count())},
-        {"registered_shards",   participants_.size()},
+        {"registered_shards",static_cast<int>(participants_.size())},
         {"total_transactions",  total_transactions_.load()},
         {"total_commits",       total_commits_.load()},
         {"total_aborts",        total_aborts_.load()},
@@ -575,7 +586,8 @@ void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
     const auto shard_ids =
         rec.participant_shards.empty()
             ? [&rec]() {
-                  std::vector<std::string> ids;
+                  std::vector<std::string> ids = {};
+
                   ids.reserve(rec.shard_payloads.size());
                   for (const auto& [shard_id, _] : rec.shard_payloads) {
                       ids.push_back(shard_id);

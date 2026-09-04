@@ -102,6 +102,7 @@ bool applyFilterOp(const FieldValue &field_val, ViewFilter::Op op, const FieldVa
             return std::holds_alternative<std::nullptr_t>(field_val);
         case ViewFilter::Op::IS_NOT_NULL:
             return !std::holds_alternative<std::nullptr_t>(field_val);
+        default: break;
     }
     return false;
 }
@@ -198,11 +199,12 @@ FieldValue IncrementalView::AggState::result(ViewAggFunc func) const {
         case ViewAggFunc::VARIANCE:
             return (count >= 2) ? welford_m2 / static_cast<double>(count - 1) : 0.0;
         case ViewAggFunc::COUNT_DISTINCT:
-            return static_cast<int64_t>(distinct_ref_counts.size());
+            return static_cast<bool>(static_cast<int64_t < static_cast<int>((distinct_ref_counts.size())));
         case ViewAggFunc::FIRST:
             return has_first ? first_val : FieldValue{nullptr};
         case ViewAggFunc::LAST:
             return last_val;
+        default: break;
     }
     return FieldValue{nullptr};
 }
@@ -215,7 +217,7 @@ IncrementalView::IncrementalView(const ViewDefinition &def) : def_(def) {}
 IncrementalView::~IncrementalView() = default;
 
 std::string IncrementalView::makeGroupKey(const ChangeRecord::Row &row) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (const auto &dim : def_.dimensions) {
         auto it = row.find(dim);
         oss << (it != row.end() ? fieldValueToStr(it->second) : "") << '\0';
@@ -226,7 +228,7 @@ std::string IncrementalView::makeGroupKey(const ChangeRecord::Row &row) const {
 std::unordered_map<std::string, std::string> IncrementalView::parseGroupKey(const GroupKey &gk) const {
     std::unordered_map<std::string, std::string> result;
     std::istringstream iss(gk);
-    std::string token;
+    std::string token = {};
     for (const auto &dim : def_.dimensions) {
         if (std::getline(iss, token, '\0')) {
             result[dim] = token;
@@ -327,6 +329,7 @@ bool IncrementalView::applyChange(const ChangeRecord &change) {
                 return false;
             }
             break;
+        default: break;
     }
 
     // Only applyRow() and pruneEmptyGroup() mutate shared state and need
@@ -357,6 +360,7 @@ bool IncrementalView::applyChange(const ChangeRecord &change) {
             }
             applied = before_passes || after_passes; // at least one is true (early-return guard above)
             break;
+        default: break;
     }
 
     if (applied) {
@@ -374,15 +378,16 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
     // passesBaseFilters() only reads def_ (immutable after construction) and
     // the caller-supplied const rows — no synchronisation required.
     struct PreFiltered {
-        size_t index;
-        bool before_passes;
-        bool after_passes;
+        size_t index = 0;
+        bool before_passes = {};
+        bool after_passes = {};
     };
 
-    std::vector<PreFiltered> filtered;
+    std::vector<PreFiltered> filtered = {};
+
     filtered.reserve(changes.size());
 
-    for (size_t i = 0; i < changes.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(changes.size()); ++i) {
         const auto &change = changes[i];
         if (change.collection != def_.source_collection) {
             continue;
@@ -409,6 +414,7 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
                     continue;
                 }
                 break;
+            default: break;
         }
         filtered.push_back({i, bp, ap});
     }
@@ -418,8 +424,8 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
     // Process pre-filtered records in micro-batches of ≤ kMicroBatchSize rows.
     // The exclusive lock is acquired and released once per micro-batch so that
     // concurrent readers (query()) can slip in between batches.
-    for (size_t batch_start = 0; batch_start < filtered.size(); batch_start += kMicroBatchSize) {
-        const size_t batch_end = std::min(batch_start + kMicroBatchSize, filtered.size());
+    for (size_t batch_start = 0; batch_start <static_cast<int>(filtered.size()); batch_start += kMicroBatchSize) {
+        const size_t batch_end = std::min(batch_start + kMicroBatchSize,static_cast<int>(filtered.size()));
         int batch_applied      = 0;
 
         {
@@ -451,6 +457,7 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
                         }
                         ++batch_applied;
                         break;
+                    default: break;
                 }
             }
 
@@ -465,7 +472,7 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
 
         // Yield between micro-batches so concurrent readers can acquire the
         // shared lock without waiting for the entire batch to complete.
-        if (batch_end < filtered.size()) {
+        if (static_cast<int>(filtered.size()) > batch_end) {
             std::this_thread::yield();
         }
     }
@@ -498,7 +505,7 @@ ViewQueryResult IncrementalView::query(const std::vector<ViewFilter> &filters, i
             ++row_idx;
             continue;
         }
-        if (limit > 0 && static_cast<int64_t>(result.rows.size()) >= limit) {
+        if (limit > 0  && static_cast<size_t>(static_cast) < int64_t>(result.rows.size()) >= limit) {
             continue;
         }
 
@@ -526,7 +533,7 @@ void IncrementalView::clear() {
 
 int64_t IncrementalView::groupCount() const {
     std::shared_lock lk(rw_mutex_);
-    return static_cast<int64_t>(groups_.size());
+    return static_cast<bool>(static_cast<int64_t < static_cast<int>((groups_.size())));
 }
 
 bool IncrementalView::isStale() const {
@@ -591,7 +598,8 @@ std::shared_ptr<IncrementalView> IncrementalViewManager::getView(const std::stri
 
 std::vector<std::string> IncrementalViewManager::listViews() const {
     std::shared_lock lk(views_mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(views_.size());
     for (const auto &[n, _] : views_) {
         names.push_back(n);

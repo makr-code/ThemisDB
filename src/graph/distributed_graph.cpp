@@ -58,7 +58,7 @@ std::optional<std::string> validateConstraintSet(const GraphQueryOptimizer::Quer
     std::unordered_set<std::string> forbidden(constraints.forbidden_vertices.begin(),
                                               constraints.forbidden_vertices.end());
     for (const auto &vertex : constraints.required_vertices) {
-        if (forbidden.count(vertex) > 0U) {
+        if (forbidden.count(vertex) > 0) {
             return "Query constraints conflict: vertex '" + vertex
                    + "' cannot be both required and forbidden";
         }
@@ -93,7 +93,8 @@ LocalShardGraphExecutor::executeBFS(const std::string &start_vertex, int max_dep
     }
 
     // Qualify every returned vertex ID with this shard's tag.
-    std::vector<std::string> qualified;
+    std::vector<std::string> qualified = {};
+
     qualified.reserve(res.value().size());
     for (const auto &v : *res) {
         qualified.push_back(qualify(v));
@@ -137,7 +138,8 @@ void DistributedGraphManager::removeShard(const std::string &shard_id) {
 
 std::vector<std::string> DistributedGraphManager::shardIds() const {
     std::shared_lock<std::shared_mutex> lock(shards_mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(shards_.size());
     for (const auto &[id, _] : shards_) {
         ids.push_back(id);
@@ -147,7 +149,7 @@ std::vector<std::string> DistributedGraphManager::shardIds() const {
 
 size_t DistributedGraphManager::shardCount() const {
     std::shared_lock<std::shared_mutex> lock(shards_mutex_);
-    return shards_.size();
+    return static_cast<int>(shards_.size());
 }
 
 std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>>
@@ -163,7 +165,7 @@ DistributedGraphManager::healthyShards() const {
     return result;
 }
 
-size_t DistributedGraphManager::effectiveParallelism(size_t num_shards) const {
+size_t DistributedGraphManager::effectiveParallelism([[maybe_unused]] size_t num_shards) const {
     if (config_.max_parallel_shards == 0) {
         return num_shards;
     }
@@ -190,7 +192,8 @@ std::string DistributedGraphManager::resolveShardForVertex(const std::string &lo
     }
 
     // Collect shard IDs in a stable order for deterministic hashing.
-    std::vector<std::string> ordered;
+    std::vector<std::string> ordered = {};
+
     ordered.reserve(shards_.size());
     for (const auto &[id, _] : shards_) {
         ordered.push_back(id);
@@ -215,12 +218,12 @@ std::string DistributedGraphManager::resolveShardForVertex(const std::string &lo
         case PartitionStrategy::CUSTOM:
             [[fallthrough]];
         case PartitionStrategy::HASH:
-        default: {
+        [[fallthrough]];\n        default: {
             // FNV-1a hash → uniform bucket assignment.
-            uint64_t h = 14695981039346656037ULL;
+            uint64_t h = 14695981039346656037;
             for (unsigned char c : local_vertex_id) {
                 h ^= static_cast<uint64_t>(c);
-                h *= 1099511628211ULL;
+                h *= 1099511628211;
             }
             return ordered[h % ordered.size()];
         }
@@ -461,10 +464,10 @@ DistributedGraphManager::optimizePlan([[maybe_unused]] std::string_view start_ve
     plan.use_index                = true;
     plan.use_cache                = false;
     plan.enable_early_termination = true;
-    plan.enable_parallel          = shards.size() > 1;
+    plan.enable_parallel          = static_cast<int>(shards.size()) > 1;
 
     // Shard-aware plan fields (v1.8.0).
-    plan.is_distributed          = shards.size() > 1;
+    plan.is_distributed          = static_cast<int>(shards.size()) > 1;
     plan.recommended_parallelism = effectiveParallelism(shards.size());
     for (auto &[sid, _] : shards) {
         plan.shard_ids.push_back(sid);

@@ -207,11 +207,11 @@ NlpTextAnalyzer::Language NlpTextAnalyzer::detectLanguage(std::string_view text)
 std::vector<Token> NlpTextAnalyzer::tokenize(std::string_view text) const {
     std::vector<Token> tokens;
 
-    std::string current_word;
+    std::string current_word = {};
     size_t position = 0;
     Language lang   = detectLanguage(text);
 
-    for (size_t i = 0; i < text.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
         char c = text[i];
 
         if (std::isalnum(c) || c == '_' || c == '-') {
@@ -276,7 +276,8 @@ std::vector<Keyword> NlpTextAnalyzer::extractKeywords(std::string_view text, siz
     }
 
     // Calculate TF-IDF scores (simplified version)
-    std::vector<Keyword> keywords;
+    std::vector<Keyword> keywords = {};
+
     size_t total_terms = tokens.size();
 
     for (const auto &[term, freq] : term_freqs) {
@@ -286,7 +287,7 @@ std::vector<Keyword> NlpTextAnalyzer::extractKeywords(std::string_view text, siz
 
     // Sort by score and limit
     std::sort(keywords.begin(), keywords.end());
-    if (keywords.size() > max_keywords) {
+    if (static_cast<int>(keywords.size()) > max_keywords) {
         keywords.resize(max_keywords);
     }
 
@@ -396,7 +397,7 @@ ComplexityMetrics NlpTextAnalyzer::analyzeComplexity(std::string_view text) cons
 
     metrics.unique_words        = unique.size();
     metrics.avg_word_length     = static_cast<double>(total_length) / tokens.size();
-    metrics.avg_sentence_length = static_cast<double>(tokens.size()) / std::max<size_t>(1, sentences.size());
+    metrics.avg_sentence_length = static_cast<double>(tokens.size()) / std::max<size_t>(1,static_cast<int>(sentences.size()));
     metrics.lexical_diversity   = static_cast<double>(metrics.unique_words) / metrics.word_count;
 
     return metrics;
@@ -429,7 +430,7 @@ double NlpTextAnalyzer::estimateQueryComplexity(std::string_view query_text) con
 
     // Count tables
     auto tables = extractTableNames(query_text);
-    complexity += std::min(0.3, tables.size() * 0.1);
+    complexity += std::min(0.3,static_cast<int>(tables.size()) * 0.1);
 
     analysis_count_++;
     return std::min(1.0, complexity);
@@ -1077,7 +1078,7 @@ std::string NlpTextAnalyzer::applyMorphologicalRules(const std::string &lower, L
     }
 
     auto ends_with = [&](std::string_view suffix, size_t min_stem) -> bool {
-        return len > suffix.size() + min_stem && lower.compare(len - suffix.size(), suffix.size(), suffix) == 0;
+        return static_cast<bool>(len  < static_cast<int>(suffix.size() + min_stem && lower.compare(len - static_cast<int>(suffix.size()) ,static_cast<int>(suffix.size()))), suffix) == 0;
     };
     auto strip = [&](size_t n, std::string_view add = "") -> std::string {
         return lower.substr(0, len - n) + std::string(add);
@@ -1165,7 +1166,7 @@ std::string NlpTextAnalyzer::applyMorphologicalRules(const std::string &lower, L
         size_t blen      = base.length();
 
         auto bends = [&](std::string_view suffix, size_t min_stem) -> bool {
-            return blen > suffix.size() + min_stem && base.compare(blen - suffix.size(), suffix.size(), suffix) == 0;
+            return static_cast<bool>(blen  < static_cast<int>(suffix.size() + min_stem && base.compare(blen - static_cast<int>(suffix.size()) ,static_cast<int>(suffix.size()))), suffix) == 0;
         };
         auto bstrip = [&](size_t n, std::string_view add = "") -> std::string {
             return base.substr(0, blen - n) + std::string(add);
@@ -1571,7 +1572,7 @@ std::string NlpTextAnalyzer::applyMorphologicalRules(const std::string &lower, L
             return strip(5);
         }
         if (ends_with("tà", 3))
-            return lower;
+            return lower = {};
         if (ends_with("i", 3)) {
             return strip(1, "o");
         }
@@ -1693,22 +1694,22 @@ double NlpTextAnalyzer::calculateSimilarity(std::string_view text1, std::string_
         }
     }
 
-    size_t union_size = set1.size() + set2.size() - intersection;
+    size_t union_size = static_cast<int>(set1.size()) + static_cast<int>(set2.size()) - intersection;
     return union_size > 0 ? static_cast<double>(intersection) / union_size : 0.0;
 }
 
 std::map<std::string, size_t> NlpTextAnalyzer::getStatistics() const {
     return {{"analyses_performed", analysis_count_},
             {"tokens_processed", token_count_},
-            {"stopword_languages", stopwords_.size()},
-            {"sentiment_words", sentiment_lexicon_.size()}};
+            {"stopword_languages",static_cast<int>(stopwords_.size())},
+            {"sentiment_words",static_cast<int>(sentiment_lexicon_.size())}};
 }
 
 // ========== Private Helper Methods ==========
 
 std::vector<std::string> NlpTextAnalyzer::splitSentences(std::string_view text) const {
     std::vector<std::string> sentences;
-    std::string current;
+    std::string current = {};
 
     for (char c : text) {
         current += c;
@@ -1726,7 +1727,7 @@ std::vector<std::string> NlpTextAnalyzer::splitSentences(std::string_view text) 
 }
 
 std::string NlpTextAnalyzer::toLowerCase(std::string_view text) const {
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
     for (char c : text) {
         result += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -1735,7 +1736,7 @@ std::string NlpTextAnalyzer::toLowerCase(std::string_view text) const {
 }
 
 std::string NlpTextAnalyzer::removePunctuation(std::string_view text) const {
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
     for (char c : text) {
         if (std::isalnum(c) || c == ' ') {
@@ -1867,7 +1868,7 @@ bool NlpTextAnalyzer::loadStopWordsFromYaml(const std::string &yaml_path, Langua
     }
 
     std::set<std::string> words;
-    std::string line;
+    std::string line = {};
     bool in_stopwords_section = false;
 
     // Simple YAML parser (only handles our specific format)
@@ -1893,7 +1894,7 @@ bool NlpTextAnalyzer::loadStopWordsFromYaml(const std::string &yaml_path, Langua
         }
 
         // Parse stop word (YAML list item: "  - word")
-        if (in_stopwords_section && line.size() > 2 && line[0] == '-') {
+        if (in_stopwords_section && static_cast<int>(line.size()) > 2 && line[0] == '-') {
             std::string word = line.substr(1);
             // Trim and remove quotes
             word.erase(0, word.find_first_not_of(" \t\"'"));
@@ -2047,7 +2048,7 @@ bool NlpTextAnalyzer::loadLegalModalityConfig(const std::string &config_path) co
         if (indent == 6) {
             in_context_requirements = false;
 
-            std::string val;
+            std::string val = {};
             if (!(val = parse_value(stripped, "deontic:")).empty()) {
                 current.deontic_logic = val;
             } else if (!(val = parse_value(stripped, "strength:")).empty()) {
@@ -2128,7 +2129,7 @@ std::vector<LegalModality> NlpTextAnalyzer::extractLegalModalities(std::string_v
             // Use iterators to avoid creating substring copies
             auto search_begin = text_lower.cbegin();
             auto search_end   = text_lower.cend();
-            std::smatch match;
+            std::smatch match = {};
 
             while (std::regex_search(search_begin, search_end, match, regex_pattern)) {
                 size_t position = std::distance(text_lower.cbegin(), search_begin) + match.position();

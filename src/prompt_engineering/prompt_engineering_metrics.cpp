@@ -28,7 +28,9 @@ PromptEngineeringMetrics::PromptEngineeringMetrics()
 
 // Optimization metrics
 void PromptEngineeringMetrics::recordOptimizationAttempt(const std::string& prompt_id) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     optimization_attempts_.fetch_add(1, std::memory_order_relaxed);
 }
@@ -37,7 +39,9 @@ void PromptEngineeringMetrics::recordOptimizationSuccess(
     const std::string& prompt_id,
     double improvement
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     (void)improvement;
     optimization_successes_.fetch_add(1, std::memory_order_relaxed);
@@ -47,7 +51,9 @@ void PromptEngineeringMetrics::recordOptimizationFailure(
     const std::string& prompt_id,
     const std::string& reason
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     (void)reason;
     optimization_failures_.fetch_add(1, std::memory_order_relaxed);
@@ -57,7 +63,9 @@ void PromptEngineeringMetrics::recordOptimizationDuration(
     const std::string& prompt_id,
     double duration_ms
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     optimization_total_duration_ms_.fetch_add(duration_ms, std::memory_order_relaxed);
 }
@@ -66,7 +74,9 @@ void PromptEngineeringMetrics::recordOptimizationIterations(
     const std::string& prompt_id,
     int iterations
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     optimization_total_iterations_.fetch_add(iterations, std::memory_order_relaxed);
 }
@@ -76,7 +86,9 @@ void PromptEngineeringMetrics::recordABTestStart(
     const std::string& test_id,
     const std::string& prompt_id
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)test_id;
     (void)prompt_id;
     ab_test_starts_.fetch_add(1, std::memory_order_relaxed);
@@ -87,7 +99,9 @@ void PromptEngineeringMetrics::recordABTestObservation(
     const std::string& version,
     bool success
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)test_id;
     (void)version;
     (void)success;
@@ -99,7 +113,9 @@ void PromptEngineeringMetrics::recordABTestCompletion(
     const std::string& winner,
     double confidence
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)test_id;
     (void)winner;
     (void)confidence;
@@ -110,14 +126,18 @@ void PromptEngineeringMetrics::recordABTestDuration(
     const std::string& test_id,
     double duration_seconds
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)test_id;
     (void)duration_seconds;
     // Could track per-test durations if needed
 }
 
-void PromptEngineeringMetrics::recordActiveABTests(int count) {
-    if (!config_.enabled) return;
+void PromptEngineeringMetrics::recordActiveABTests([[maybe_unused]] int count) {
+    if (!config_.enabled) {
+      return;
+    }
     active_ab_tests_.store(count, std::memory_order_relaxed);
 }
 
@@ -127,7 +147,9 @@ void PromptEngineeringMetrics::recordPromptExecution(
     bool success,
     double latency_ms
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     prompt_executions_.fetch_add(1, std::memory_order_relaxed);
     if (success) {
@@ -138,7 +160,7 @@ void PromptEngineeringMetrics::recordPromptExecution(
     prompt_total_latency_ms_.fetch_add(latency_ms, std::memory_order_relaxed);
 
     // Check alert thresholds
-    if (alert_callback_) {
+    if ([[maybe_unused]] alert_callback_) {
         int64_t execs    = prompt_executions_.load(std::memory_order_relaxed);
         int64_t failures = prompt_failures_.load(std::memory_order_relaxed);
         if (execs > 0) {
@@ -149,7 +171,7 @@ void PromptEngineeringMetrics::recordPromptExecution(
                 ev.value       = failure_rate;
                 ev.threshold   = alert_config_.max_failure_rate;
                 ev.message     = "Prompt failure rate exceeded threshold";
-                alert_callback_(ev);
+                alert_callback_([[maybe_unused]] ev);
             }
         }
     }
@@ -159,7 +181,9 @@ void PromptEngineeringMetrics::recordPromptSuccessRate(
     const std::string& prompt_id,
     double rate
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     prompt_success_rates_[prompt_id] = rate;
 }
@@ -168,7 +192,9 @@ void PromptEngineeringMetrics::recordPromptAverageLatency(
     const std::string& prompt_id,
     double latency_ms
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     prompt_avg_latencies_[prompt_id] = latency_ms;
 }
@@ -177,7 +203,9 @@ void PromptEngineeringMetrics::recordPromptExecutionCount(
     const std::string& prompt_id,
     int64_t count
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     prompt_execution_counts_[prompt_id] = count;
 }
@@ -187,7 +215,9 @@ void PromptEngineeringMetrics::recordFeedback(
     const std::string& prompt_id,
     const std::string& type
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     feedback_total_.fetch_add(1, std::memory_order_relaxed);
     (void)prompt_id;
     
@@ -202,7 +232,9 @@ void PromptEngineeringMetrics::recordFeedbackSeverity(
     const std::string& prompt_id,
     double severity
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     (void)severity;
     // Could track severity distribution
@@ -211,17 +243,19 @@ void PromptEngineeringMetrics::recordFeedbackSeverity(
 void PromptEngineeringMetrics::recordHallucinationDetection(
     const std::string& prompt_id
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     int64_t count = hallucination_detections_.fetch_add(1, std::memory_order_relaxed) + 1;
 
-    if (alert_callback_ && count > alert_config_.max_hallucinations) {
+    if ([[maybe_unused]] alert_callback_ && count > alert_config_.max_hallucinations) {
         AlertEvent ev;
         ev.metric_name = "hallucination_count";
         ev.value       = static_cast<double>(count);
         ev.threshold   = static_cast<double>(alert_config_.max_hallucinations);
         ev.message     = "Hallucination count exceeded threshold";
-        alert_callback_(ev);
+        alert_callback_([[maybe_unused]] ev);
     }
 }
 
@@ -229,7 +263,9 @@ void PromptEngineeringMetrics::recordFailedQuery(
     const std::string& prompt_id,
     const std::string& failure_type
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     (void)failure_type;
     failed_queries_.fetch_add(1, std::memory_order_relaxed);
@@ -239,7 +275,9 @@ void PromptEngineeringMetrics::recordTotalFeedbackCount(
     const std::string& prompt_id,
     int64_t count
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     (void)count;
     // Per-prompt feedback count
@@ -249,7 +287,9 @@ void PromptEngineeringMetrics::recordPositiveRatio(
     const std::string& prompt_id,
     double ratio
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     (void)ratio;
     // Per-prompt positive ratio
@@ -260,20 +300,26 @@ void PromptEngineeringMetrics::recordVersionCommit(
     const std::string& prompt_id,
     const std::string& branch
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     (void)branch;
     version_commits_.fetch_add(1, std::memory_order_relaxed);
 }
 
 void PromptEngineeringMetrics::recordVersionRollback(const std::string& prompt_id) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     version_rollbacks_.fetch_add(1, std::memory_order_relaxed);
 }
 
 void PromptEngineeringMetrics::recordBranchCreation(const std::string& prompt_id) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     branch_creations_.fetch_add(1, std::memory_order_relaxed);
 }
@@ -283,7 +329,9 @@ void PromptEngineeringMetrics::recordMergeOperation(
     const std::string& strategy,
     bool success
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     (void)prompt_id;
     (void)strategy;
     merge_operations_.fetch_add(1, std::memory_order_relaxed);
@@ -296,14 +344,18 @@ void PromptEngineeringMetrics::recordVersionCount(
     const std::string& prompt_id,
     int count
 ) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     prompt_version_counts_[prompt_id] = count;
 }
 
 // Integration metrics
 void PromptEngineeringMetrics::recordIntegrationExecution(bool before) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     if (before) {
         integration_before_calls_.fetch_add(1, std::memory_order_relaxed);
     } else {
@@ -312,18 +364,22 @@ void PromptEngineeringMetrics::recordIntegrationExecution(bool before) {
 }
 
 void PromptEngineeringMetrics::recordBackgroundWorkerCycle() {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     background_worker_cycles_.fetch_add(1, std::memory_order_relaxed);
 }
 
-void PromptEngineeringMetrics::recordBackgroundWorkerDuration(double duration_ms) {
-    if (!config_.enabled) return;
+void PromptEngineeringMetrics::recordBackgroundWorkerDuration([[maybe_unused]] double duration_ms) {
+    if (!config_.enabled) {
+      return;
+    }
     background_worker_total_duration_ms_.fetch_add(duration_ms, std::memory_order_relaxed);
 }
 
 // Export metrics in Prometheus format
 std::string PromptEngineeringMetrics::exportMetrics() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     const std::string prefix = config_.namespace_prefix;
 
     // Optimization metrics
@@ -663,13 +719,17 @@ std::string PromptEngineeringMetrics::formatMetric(
 std::string PromptEngineeringMetrics::formatLabels(
     const std::map<std::string, std::string>& labels
 ) const {
-    if (labels.empty()) return "";
+    if (labels.empty()) {
+      return "";
+    }
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{";
     bool first = true;
     for (const auto& [key, value] : labels) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         oss << key << "=\"" << value << "\"";
         first = false;
     }
@@ -721,13 +781,19 @@ nlohmann::json PromptEngineeringMetrics::snapshotToJson() const {
 
 void PromptEngineeringMetrics::restoreFromJson(const nlohmann::json& snapshot) {
     auto load_i64 = [&](const char* key, std::atomic<int64_t>& target) {
-        if (snapshot.contains(key)) target.store(snapshot[key].get<int64_t>(), std::memory_order_relaxed);
+        if (snapshot.contains(key)) {
+          target.store(snapshot[key].get<int64_t>(), std::memory_order_relaxed);
+        }
     };
     auto load_i32 = [&](const char* key, std::atomic<int>& target) {
-        if (snapshot.contains(key)) target.store(snapshot[key].get<int>(), std::memory_order_relaxed);
+        if (snapshot.contains(key)) {
+          target.store(snapshot[key].get<int>(), std::memory_order_relaxed);
+        }
     };
     auto load_dbl = [&](const char* key, std::atomic<double>& target) {
-        if (snapshot.contains(key)) target.store(snapshot[key].get<double>(), std::memory_order_relaxed);
+        if (snapshot.contains(key)) {
+          target.store(snapshot[key].get<double>(), std::memory_order_relaxed);
+        }
     };
 
     load_i64("optimization_attempts",           optimization_attempts_);
@@ -774,9 +840,9 @@ void PromptEngineeringMetrics::setAlertConfig(const AlertConfig& cfg) {
     alert_config_ = cfg;
 }
 
-void PromptEngineeringMetrics::setAlertCallback(AlertCallback cb) {
+void PromptEngineeringMetrics::setAlertCallback([[maybe_unused]] AlertCallback cb) {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
-    alert_callback_ = std::move(cb);
+    alert_callback_ = std::move([[maybe_unused]] cb);
 }
 
 // ============================================================================
@@ -785,7 +851,9 @@ void PromptEngineeringMetrics::setAlertCallback(AlertCallback cb) {
 
 void PromptEngineeringMetrics::recordReflectionCycleStart(
     const std::string& /*prompt_id*/) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     reflection_cycle_starts_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -793,7 +861,9 @@ void PromptEngineeringMetrics::recordReflectionCycleComplete(
     const std::string& /*prompt_id*/,
     size_t iterations,
     bool   improved) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     reflection_cycle_completions_.fetch_add(1, std::memory_order_relaxed);
     reflection_iterations_total_.fetch_add(static_cast<int64_t>(iterations),
                                            std::memory_order_relaxed);
@@ -804,17 +874,21 @@ void PromptEngineeringMetrics::recordReflectionCycleComplete(
 
 void PromptEngineeringMetrics::recordReflectionGuardFired(
     const std::string& /*prompt_id*/) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     reflection_guard_fires_.fetch_add(1, std::memory_order_relaxed);
 }
 
 void PromptEngineeringMetrics::recordReflectionQualityDelta(
     const std::string& /*prompt_id*/,
     double delta) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     // Atomic double accumulation via CAS loop (same pattern as existing code).
     double current = reflection_quality_delta_sum_.load(std::memory_order_relaxed);
-    double desired;
+    double desired = 0;
     do {
         desired = current + delta;
     } while (!reflection_quality_delta_sum_.compare_exchange_weak(

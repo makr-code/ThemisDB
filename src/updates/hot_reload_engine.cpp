@@ -65,7 +65,9 @@ public:
     EvpMdCtxRaii(EvpMdCtxRaii&& other) noexcept : ctx_(other.release()) {}
     EvpMdCtxRaii& operator=(EvpMdCtxRaii&& other) noexcept {
         if (this != &other) {
-            if (ctx_) EVP_MD_CTX_free(ctx_);
+            if (ctx_) {
+              EVP_MD_CTX_free(ctx_);
+            }
             ctx_ = other.release();
         }
         return *this;
@@ -148,7 +150,7 @@ HotReloadEngine::DownloadResult HotReloadEngine::downloadRelease(const std::stri
     result.download_path = version_dir;
     
     // Download files
-    size_t file_count = manifest->files.size();
+    size_t file_count = manifest-> static_cast<int>(files.size());
     size_t current_file = 0;
     
     for (const auto& file : manifest->files) {
@@ -210,7 +212,9 @@ ReloadResult HotReloadEngine::applyHotReload(
     auto recordHistory = [this, &current_version, &version](bool success,
                               const std::string& error_msg,
                               const std::string& event_type) {
-        if (!history_logger_) return;
+        if (!history_logger_) {
+          return;
+        }
         UpdateHistoryEntry entry;
         entry.who           = config_.history_actor;
         entry.timestamp_ms  = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -255,7 +259,7 @@ ReloadResult HotReloadEngine::applyHotReload(
     }
 
     // Create backup
-    std::string rollback_id;
+    std::string rollback_id = {};
     if (config_.create_backup) {
         reportProgress(30, "Creating backup");
         rollback_id = createBackup(manifest->files);
@@ -264,7 +268,7 @@ ReloadResult HotReloadEngine::applyHotReload(
 
     // Apply updates
     reportProgress(50, "Applying updates");
-    size_t file_count = manifest->files.size();
+    size_t file_count = manifest-> static_cast<int>(files.size());
     size_t current_file = 0;
 
     std::string version_dir = config_.download_directory + "/" + version;
@@ -514,15 +518,15 @@ std::vector<std::pair<std::string, std::string>> HotReloadEngine::listRollbackPo
     return rollback_points;
 }
 
-void HotReloadEngine::cleanRollbackPoints(size_t keep_count) {
+void HotReloadEngine::cleanRollbackPoints([[maybe_unused]] size_t keep_count) {
     auto rollback_points = listRollbackPoints();
     
-    if (rollback_points.size() <= keep_count) {
+    if (static_cast<int>(rollback_points.size()) <= keep_count) {
         return;
     }
     
     // Delete old rollback points
-    for (size_t i = keep_count; i < rollback_points.size(); i++) {
+    for (size_t i = keep_count; i <static_cast<int>(rollback_points.size()); i++) {
         std::string rollback_dir = config_.backup_directory + "/" + rollback_points[i].first;
         try {
             fs::remove_all(rollback_dir);
@@ -536,7 +540,7 @@ void HotReloadEngine::cleanRollbackPoints(size_t keep_count) {
 void HotReloadEngine::setProgressCallback(
     std::function<void(int, const std::string&)> callback
 ) {
-    progress_callback_ = std::move(callback);
+    progress_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void HotReloadEngine::setPostUpdateHealthCheck(PostUpdateHealthCheck check) {
@@ -703,7 +707,7 @@ std::string HotReloadEngine::calculateFileHash(const std::string& path) {
         return "";
     }
     
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (unsigned int i = 0; i < hashLen; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }
@@ -724,7 +728,7 @@ std::string HotReloadEngine::generateRollbackId() {
 void HotReloadEngine::reportProgress(int percentage, const std::string& message) {
     LOG_DEBUG("Progress: {}% - {}", percentage, message);
     
-    if (progress_callback_) {
+    if ([[maybe_unused]] progress_callback_) {
         progress_callback_(percentage, message);
     }
 }

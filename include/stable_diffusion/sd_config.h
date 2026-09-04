@@ -24,7 +24,7 @@ using json = nlohmann::json;
  * @brief Runtime configuration for the Stable Diffusion image generation plugin.
  */
 struct SDConfig {
-    std::string model_path;
+    std::string model_path = {};
     int         width = 512;
     int         height = 512;
     int         steps = 20;

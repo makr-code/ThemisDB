@@ -97,8 +97,12 @@ struct ImportHandle {
     ImportHandle& operator=(const ImportHandle&) = delete;
 
     ImportStatus getStatus() const {
-        if (running.load()) return ImportStatus::RUNNING;
-        if (!future.valid()) return ImportStatus::PENDING;
+        if (running.load()) {
+          return ImportStatus::RUNNING;
+        }
+        if (!future.valid()) {
+          return ImportStatus::PENDING;
+        }
         if (future.wait_for(std::chrono::seconds(0)) != std::future_status::ready)
             return ImportStatus::RUNNING;
         return ImportStatus::COMPLETED;
@@ -132,7 +136,9 @@ public:
     std::vector<std::shared_ptr<ImportHandle>> all() const {
         std::lock_guard<std::mutex> lk(mutex_);
         std::vector<std::shared_ptr<ImportHandle>> out;
-        for (auto& [k, v] : jobs_) out.push_back(v);
+        for (auto& [k, v] : jobs_) {
+          out.push_back(v);
+        }
         return out;
     }
     void remove(const std::string& id) {
@@ -225,7 +231,7 @@ static std::string buildPrometheusText(const ImportJobRegistry& registry) {
         }
     }
 
-    std::ostringstream o;
+    std::ostringstream o = {};
     o << "themisdb_import_jobs_total{status=\"running\"} " << running << "\n"
       << "themisdb_import_jobs_total{status=\"completed\"} " << completed << "\n"
       << "themisdb_import_rows_total{status=\"imported\"} " << imported << "\n"
@@ -383,7 +389,9 @@ TEST(AsyncImportTest, LiveProgressCounterIncrements) {
     size_t max_seen = 0;
     for (int i = 0; i < 20; ++i) {
         max_seen = std::max(max_seen, handle->current_records.load());
-        if (handle->getStatus() == ImportStatus::COMPLETED) break;
+        if (handle->getStatus() == ImportStatus::COMPLETED) {
+          break;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
     }
     handle->future.wait_for(std::chrono::seconds(2));
@@ -496,7 +504,7 @@ static ImportOptions optionsFromJson(const std::string& json_str) {
     // GAP-020: mirrors the production cap of 100,000 for batch_size.
     static constexpr size_t kMaxBatchSize = 100'000;
     auto j = nlohmann::json::parse(json_str);
-    ImportOptions opts;
+    ImportOptions opts = {};
     if (j.contains("dry_run") && j["dry_run"].is_boolean())
         opts.dry_run = j["dry_run"].get<bool>();
     if (j.contains("continue_on_error") && j["continue_on_error"].is_boolean())
@@ -511,10 +519,14 @@ static ImportOptions optionsFromJson(const std::string& json_str) {
         opts.enforce_utf8 = j["enforce_utf8"].get<bool>();
     if (j.contains("include_tables") && j["include_tables"].is_array())
         for (auto& t : j["include_tables"])
-            if (t.is_string()) opts.include_tables.push_back(t.get<std::string>());
+            if (t.is_string()) {
+              opts.include_tables.push_back(t.get<std::string>());
+            }
     if (j.contains("type_overrides") && j["type_overrides"].is_object())
         for (auto& [k, v] : j["type_overrides"].items())
-            if (v.is_string()) opts.type_overrides[k] = v.get<std::string>();
+            if (v.is_string()) {
+              opts.type_overrides[k] = v.get<std::string>();
+            }
     return opts;
 }
 
@@ -628,10 +640,16 @@ TEST(ImportApiS3RouteTest, ValidS3UrlNoKey) {
 /// Returns HTTP-like status: 200 (OK), 400 (bad request), 501 (not configured).
 static int simulateS3RouteValidation(const std::string& source_path,
                                       bool s3_importer_configured) {
-    if (!s3_importer_configured) return 501;
-    if (source_path.empty()) return 400;
+    if (!s3_importer_configured) {
+      return 501;
+    }
+    if (source_path.empty()) {
+      return 400;
+    }
     std::string bucket, key;
-    if (!parseS3UrlForApi(source_path, bucket, key)) return 400;
+    if (!parseS3UrlForApi(source_path, bucket, key)) {
+      return 400;
+    }
     return 200;
 }
 

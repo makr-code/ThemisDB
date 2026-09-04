@@ -10,8 +10,8 @@
 
 namespace {
 struct Dataset {
-    int dim;
-    int n;
+    int dim = 0;
+    int n = {};
     std::vector<float> data; // row-major, size n*dim
     explicit Dataset(int n_, int dim_, uint32_t seed=123) : dim(dim_), n(n_), data(n_*dim_) {
         std::mt19937 rng(seed);
@@ -31,7 +31,9 @@ struct Dataset {
 std::unique_ptr<hnswlib::HierarchicalNSW<float>> build_hnsw(const Dataset& ds, int M=16, int efC=200) {
     auto space = std::make_unique<hnswlib::InnerProductSpace>(ds.dim);
     auto index = std::make_unique<hnswlib::HierarchicalNSW<float>>(space.get(), ds.n, M, efC);
-    for (int i=0;i<ds.n;i++) index->addPoint((void*)ds.row(i), i);
+    for (int i=0;i<ds.n;i++) {
+      index->addPoint((void*)ds.row(i), i);
+    }
     index->setEf(200);
     // Keep space alive by moving ownership into index's templated alias workaround
     // We just leak space on purpose here (benchmark process), to keep index valid
@@ -61,7 +63,9 @@ static void search_prefilter(const hnswlib::HierarchicalNSW<float>& index,
             int id = p.second;
             if (seen.insert(id).second && whitelist.find(id) != whitelist.end()) {
                 out.emplace_back(p.first, id);
-                if ((int)out.size() >= k) break;
+                if ((int)out.size() >= k) {
+                  break;
+                }
             }
         }
         cand = (int)std::max<double>(cand+1, cand*growth);
@@ -86,8 +90,12 @@ static void search_postfilter(const hnswlib::HierarchicalNSW<float>& index,
     while(!res.empty()) { buf.emplace_back(res.top().first, (int)res.top().second); res.pop(); }
     std::reverse(buf.begin(), buf.end());
     for (auto& p : buf) {
-        if ((int)out.size() >= k) break;
-        if (whitelist.find(p.second) != whitelist.end()) out.emplace_back(p.first, p.second);
+        if ((int)out.size() >= k) {
+          break;
+        }
+        if (whitelist.find(p.second) != whitelist.end()) {
+          out.emplace_back(p.first, p.second);
+        }
     }
 }
 
@@ -105,7 +113,9 @@ static void BenchPrefilter(benchmark::State& state) {
     std::vector<int> ids(N); std::iota(ids.begin(), ids.end(), 0);
     std::mt19937 rng(42); std::shuffle(ids.begin(), ids.end(), rng);
     std::unordered_set<int> whitelist; whitelist.reserve(whitelist_size*2);
-    for (int i=0;i<whitelist_size;i++) whitelist.insert(ids[i]);
+    for (int i=0;i<whitelist_size;i++) {
+      whitelist.insert(ids[i]);
+    }
 
     std::vector<std::pair<float,int>> out;
     std::vector<int> qidx(256);
@@ -135,7 +145,9 @@ static void BenchPostfilter(benchmark::State& state) {
     std::vector<int> ids(N); std::iota(ids.begin(), ids.end(), 0);
     std::mt19937 rng(43); std::shuffle(ids.begin(), ids.end(), rng);
     std::unordered_set<int> whitelist; whitelist.reserve(whitelist_size*2);
-    for (int i=0;i<whitelist_size;i++) whitelist.insert(ids[i]);
+    for (int i=0;i<whitelist_size;i++) {
+      whitelist.insert(ids[i]);
+    }
 
     std::vector<std::pair<float,int>> out;
     std::vector<int> qidx(256);

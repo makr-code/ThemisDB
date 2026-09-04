@@ -52,7 +52,7 @@ namespace {
  *
  * @param native_sock Platform-native socket descriptor.
  */
-inline void closeNativeSocket(int native_sock) noexcept {
+inline void closeNativeSocket([[maybe_unused]] int native_sock) noexcept {
 #ifdef _WIN32
     ::closesocket(static_cast<SOCKET>(native_sock));
 #else
@@ -84,8 +84,8 @@ inline bool setSocketTimeout(int native_sock, uint32_t timeout_ms) noexcept {
     return ok;
 #else
     struct timeval tv;
-    tv.tv_sec  = static_cast<long>(timeout_ms / 1000u);
-    tv.tv_usec = static_cast<long>((timeout_ms % 1000u) * 1000u);
+    tv.tv_sec  = static_cast<long>(timeout_ms / 1000);
+    tv.tv_usec = static_cast<long>((timeout_ms % 1000) * 1000);
     bool ok = (::setsockopt(native_sock, SOL_SOCKET, SO_RCVTIMEO,
                              &tv, sizeof(tv)) == 0);
     ok &= (::setsockopt(native_sock, SOL_SOCKET, SO_SNDTIMEO,

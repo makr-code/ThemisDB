@@ -40,7 +40,7 @@ UnifiedPolicyDecision PolicyCoordinator::evaluate(
     const std::vector<std::string>& user_roles
 ) const {
     // Evaluate classification-based policy
-    PolicyDecision classification_decision;
+    PolicyDecision classification_decision = {};
     if (policy_engine_) {
         classification_decision = policy_engine_->evaluate(headers, route);
     } else {

@@ -77,7 +77,9 @@ static constexpr std::string_view STATE_INITIAL_JSON = R"({
 })";
 
 void writeIfAbsent(const std::filesystem::path& path, std::string_view content) {
-    if (std::filesystem::exists(path)) return;
+    if (std::filesystem::exists(path)) {
+      return;
+    }
     std::ofstream ofs(path);
     if (ofs.is_open()) {
         ofs << content;
@@ -85,14 +87,14 @@ void writeIfAbsent(const std::filesystem::path& path, std::string_view content) 
 }
 
 void mkdirP(const std::filesystem::path& p) {
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(p, ec);
 }
 
 } // anonymous namespace
 
 std::string WikiWorkspaceOrchestrator::slugify(const std::string& text) {
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
     for (unsigned char c : text) {
         if (std::isalnum(c)) {
@@ -103,7 +105,9 @@ std::string WikiWorkspaceOrchestrator::slugify(const std::string& text) {
             }
         }
     }
-    while (!result.empty() && result.back() == '-') result.pop_back();
+    while (!result.empty() && result.back() == '-') {
+      result.pop_back();
+    }
     return result.empty() ? "page" : result;
 }
 
@@ -124,14 +128,20 @@ std::string WikiWorkspaceOrchestrator::isoTimestamp() {
 WikiState WikiWorkspaceOrchestrator::loadState(const std::string& root) {
     WikiState state;
     auto state_path = std::filesystem::path(root) / "wiki" / "state.json";
-    if (!std::filesystem::exists(state_path)) return state;
+    if (!std::filesystem::exists(state_path)) {
+      return state;
+    }
 
     std::ifstream ifs(state_path);
-    if (!ifs.is_open()) return state;
+    if (!ifs.is_open()) {
+      return state;
+    }
 
     try {
         auto j = nlohmann::json::parse(ifs, nullptr, false);
-        if (!j.is_object()) return state;
+        if (!j.is_object()) {
+          return state;
+        }
 
         state.version = j.value("version", std::string{"wiki-cpp-1"});
 
@@ -237,7 +247,7 @@ void WikiWorkspaceOrchestrator::saveState(const std::string& root, const WikiSta
         ofs << j.dump(2);
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::rename(tmp_path, state_path, ec);
     if (ec) {
         spdlog::warn("[llm_wiki/orch] Rename {} -> {} failed: {}", tmp_path, state_path.string(), ec.message());
@@ -255,7 +265,9 @@ void WikiWorkspaceOrchestrator::appendLog(const std::string& root, const std::st
 void WikiWorkspaceOrchestrator::rebuildIndex(const std::string& root, const WikiState& state) {
     auto index_path = std::filesystem::path(root) / "wiki" / "index.md";
     std::ofstream ofs(index_path);
-    if (!ofs.is_open()) return;
+    if (!ofs.is_open()) {
+      return;
+    }
 
     ofs << "# Wiki Index\n\n";
     ofs << "| Page | Source | Updated |\n";
@@ -268,12 +280,16 @@ void WikiWorkspaceOrchestrator::rebuildIndex(const std::string& root, const Wiki
 }
 
 bool WikiWorkspaceOrchestrator::hasContradictionCue(const std::string& text) {
-    std::string lower;
+    std::string lower = {};
     lower.reserve(text.size());
-    for (unsigned char c : text) lower += static_cast<char>(std::tolower(c));
+    for (unsigned char c : text) {
+      lower += static_cast<char>(std::tolower(c));
+    }
 
     for (std::string_view cue : CONTRADICTION_CUES) {
-        if (lower.find(cue) != std::string::npos) return true;
+        if (lower.find(cue) != std::string::npos) {
+          return true;
+        }
     }
     return false;
 }
@@ -304,7 +320,7 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
     const std::vector<themis::llm::WikiChunk>& chunks)
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    WikiIngestResult result;
+    WikiIngestResult result = {};
 
     if (workspace_root_.empty()) {
         result.errors++;
@@ -323,7 +339,7 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
 
     auto raw_dest = fs::path(root) / "raw_sources" / src.filename();
     if (!fs::exists(raw_dest)) {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::copy_file(source_path, raw_dest, fs::copy_options::skip_existing, ec);
         if (ec) {
             spdlog::warn("[llm_wiki/orch] copy_file failed ({} → {}): {}", source_path, raw_dest.string(), ec.message());
@@ -342,8 +358,10 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
             for (const auto& chunk : chunks) {
                 ofs << "### " << (chunk.section_title.empty() ? "Preamble" : chunk.section_title) << "\n\n";
                 const auto& txt = chunk.text;
-                ofs << "> " << txt.substr(0, std::min<std::size_t>(300, txt.size()));
-                if (txt.size() > 300) ofs << "…";
+                ofs << "> " << txt.substr(0, std::min<std::size_t>(300,static_cast<int>(txt.size())));
+                if (static_cast<int>(txt.size()) > 300) {
+                  ofs << "…";
+                }
                 ofs << "\n\n";
             }
         }
@@ -360,7 +378,8 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
     }
 
     {
-        std::vector<std::string> seen_sections;
+        std::vector<std::string> seen_sections = {};
+
         for (const auto& chunk : chunks) {
             if (!chunk.section_title.empty()) {
                 std::string ss = slugify(chunk.section_title);
@@ -369,13 +388,13 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
                 }
             }
         }
-        for (std::size_t i = 0; i < seen_sections.size(); ++i) {
+        for (std::size_t i = 0; i <static_cast<int>(seen_sections.size()); ++i) {
             WikiLink lnk;
             lnk.from = slug;
             lnk.to = seen_sections[i];
             lnk.type = "concept";
             state.links.push_back(lnk);
-            if (i + 1 < seen_sections.size()) {
+            if (i + 1 <static_cast<int>(seen_sections.size())) {
                 WikiLink adj;
                 adj.from = seen_sections[i];
                 adj.to = seen_sections[i + 1];
@@ -454,8 +473,10 @@ WikiQueryResult WikiWorkspaceOrchestrator::query(
                     ofs << "### " << (chunk.section_title.empty() ? "Preamble" : chunk.section_title)
                         << " (" << chunk.source_path << ")\n\n";
                     const auto& txt = chunk.text;
-                    ofs << "> " << txt.substr(0, std::min<std::size_t>(300, txt.size()));
-                    if (txt.size() > 300) ofs << "…";
+                    ofs << "> " << txt.substr(0, std::min<std::size_t>(300,static_cast<int>(txt.size())));
+                    if (static_cast<int>(txt.size()) > 300) {
+                      ofs << "…";
+                    }
                     ofs << "\n\n---\n\n";
                 }
             }
@@ -485,17 +506,21 @@ WikiLintResult WikiWorkspaceOrchestrator::lint(
     int max_staleness_days)
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    WikiLintResult result;
+    WikiLintResult result = {};
 
-    if (workspace_root.empty()) return result;
+    if (workspace_root.empty()) {
+      return result;
+    }
     WikiState state = loadState(workspace_root);
 
-    std::unordered_set<std::string> link_targets;
+    std::unordered_set<std::string> link_targets = {};
+
     for (const auto& lnk : state.links) {
         link_targets.insert(lnk.to);
     }
 
-    std::unordered_set<std::string> page_slugs;
+    std::unordered_set<std::string> page_slugs = {};
+
     for (const auto& [slug, meta] : state.pages) {
         page_slugs.insert(slug);
     }
@@ -506,7 +531,8 @@ WikiLintResult WikiWorkspaceOrchestrator::lint(
         }
     }
 
-    std::unordered_set<std::string> reported_missing;
+    std::unordered_set<std::string> reported_missing = {};
+
     for (const auto& lnk : state.links) {
         if (page_slugs.find(lnk.to) == page_slugs.end() && reported_missing.find(lnk.to) == reported_missing.end()) {
             result.missing_backlinks.push_back(lnk.to);
@@ -516,7 +542,9 @@ WikiLintResult WikiWorkspaceOrchestrator::lint(
 
     const std::time_t now = std::time(nullptr);
     for (const auto& [slug, meta] : state.pages) {
-        if (meta.updated.empty()) continue;
+        if (meta.updated.empty()) {
+          continue;
+        }
         std::tm tm_val{};
 #ifdef _WIN32
         std::istringstream ss(meta.updated);
@@ -551,17 +579,22 @@ WikiLintResult WikiWorkspaceOrchestrator::lint(
 
 WikiWorkspaceStats WikiWorkspaceOrchestrator::stats(const std::string& workspace_root) {
     std::lock_guard<std::mutex> lock(mutex_);
-    WikiWorkspaceStats s;
-    if (workspace_root.empty()) return s;
+    WikiWorkspaceStats s = {};
+    if (workspace_root.empty()) {
+      return s;
+    }
 
     WikiState state = loadState(workspace_root);
     s.wiki_pages = static_cast<int>(state.pages.size());
 
     for (const auto& task : state.tasks) {
-        if (task.status == "open") s.open_tasks++;
+        if (task.status == "open") {
+          s.open_tasks++;
+        }
     }
 
-    std::unordered_set<std::string> link_targets;
+    std::unordered_set<std::string> link_targets = {};
+
     for (const auto& lnk : state.links) {
         link_targets.insert(lnk.to);
     }

@@ -117,7 +117,7 @@ TEST(P0HardeningSHI, InjectedCallbackTakesPriority) {
 
 /// Helper: register a callback that captures the prompt seen by the backend.
 struct PromptCapture {
-    std::string seen_prompt;
+    std::string seen_prompt = {};
     bool called = false;
 };
 

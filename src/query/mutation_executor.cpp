@@ -45,12 +45,12 @@ std::optional<MutationResult> processStep(
 {
     switch (step.type) {
         case MutationStepType::AcquireLock:
-        case MutationStepType::ReleaseLock:
+        [[fallthrough]];\n        case MutationStepType::ReleaseLock:
             // Lock management is handled by the context / caller
             return std::nullopt;
 
         case MutationStepType::Serialize:
-        case MutationStepType::UpdateIndexes:
+        [[fallthrough]];\n        case MutationStepType::UpdateIndexes:
             // Serialization and index updates are transparent at this level
             return std::nullopt;
 
@@ -121,10 +121,12 @@ MutationResult MutationExecutor::executeInsert(const MutationExecutionPlan& plan
 
     for (const auto& step : plan.steps) {
         auto err = processStep(step, plan.collection, ctx, inserted_ids);
-        if (err.has_value()) return *err;
+        if (err.has_value()) {
+          return *err;
+        }
     }
 
-    return MutationResult::Ok(static_cast<int64_t>(inserted_ids.empty() ? 1 : inserted_ids.size()),
+    return static_cast<bool>(MutationResult::Ok(static_cast<int64_t < static_cast<int>((inserted_ids.empty() ? 1 : inserted_ids.size()))),
                                std::move(inserted_ids));
 }
 
@@ -138,7 +140,9 @@ MutationResult MutationExecutor::executeUpdate(const MutationExecutionPlan& plan
 
     for (const auto& step : plan.steps) {
         auto err = processStep(step, plan.collection, ctx, ids);
-        if (err.has_value()) return *err;
+        if (err.has_value()) {
+          return *err;
+        }
     }
 
     return MutationResult::Ok(1);
@@ -154,7 +158,9 @@ MutationResult MutationExecutor::executeRemove(const MutationExecutionPlan& plan
 
     for (const auto& step : plan.steps) {
         auto err = processStep(step, plan.collection, ctx, ids);
-        if (err.has_value()) return *err;
+        if (err.has_value()) {
+          return *err;
+        }
     }
 
     return MutationResult::Ok(1);
@@ -170,7 +176,9 @@ MutationResult MutationExecutor::executeReplace(const MutationExecutionPlan& pla
 
     for (const auto& step : plan.steps) {
         auto err = processStep(step, plan.collection, ctx, ids);
-        if (err.has_value()) return *err;
+        if (err.has_value()) {
+          return *err;
+        }
     }
 
     return MutationResult::Ok(1);
@@ -195,7 +203,9 @@ MutationResult MutationExecutor::executeUpsert(const MutationExecutionPlan& plan
             continue;
         }
         auto err = processStep(step, plan.collection, ctx, ids);
-        if (err.has_value()) return *err;
+        if (err.has_value()) {
+          return *err;
+        }
     }
 
     const int64_t affected = 1;

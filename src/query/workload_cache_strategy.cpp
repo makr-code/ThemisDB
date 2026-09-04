@@ -98,7 +98,7 @@ WorkloadCacheConfig WorkloadCacheConfig::forWorkload(WorkloadType type) {
             break;
             
         case WorkloadType::UNKNOWN:
-        default:
+        [[fallthrough]];\n        default:
             // UNKNOWN: Conservative defaults
             config.max_entries = 10000;
             config.max_memory_bytes = 100 * 1024 * 1024;     // 100MB
@@ -213,7 +213,7 @@ void WorkloadCacheStrategy::recordQuery(
 WorkloadType WorkloadCacheStrategy::detectWorkload() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (query_patterns_.size() < config_.min_samples_for_detection) {
+    if (static_cast<int>(query_patterns_.size()) < config_.min_samples_for_detection) {
         THEMIS_DEBUG("Insufficient samples for workload detection: {} < {}",
                     query_patterns_.size(), config_.min_samples_for_detection);
         return WorkloadType::UNKNOWN;
@@ -421,7 +421,7 @@ std::chrono::seconds WorkloadCacheStrategy::calculateTTL(
     return ttl;
 }
 
-std::vector<std::string> WorkloadCacheStrategy::getHotQueries(size_t limit) const {
+std::vector<std::string> WorkloadCacheStrategy::getHotQueries([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Create vector of (fingerprint, access_count) pairs
@@ -435,21 +435,22 @@ std::vector<std::string> WorkloadCacheStrategy::getHotQueries(size_t limit) cons
     // Sort by access count (descending)
     std::partial_sort(
         query_frequencies.begin(),
-        query_frequencies.begin() + std::min(limit, query_frequencies.size()),
+        query_frequencies.begin() + std::min(limit,static_cast<int>(query_frequencies.size())),
         query_frequencies.end(),
         [](const auto& a, const auto& b) { return a.second > b.second; }
     );
     
     // Extract fingerprints
-    std::vector<std::string> hot_queries;
-    hot_queries.reserve(std::min(limit, query_frequencies.size()));
+    std::vector<std::string> hot_queries = {};
+
+    hot_queries.reserve(std::min(limit,static_cast<int>(query_frequencies.size())));
     
-    for (size_t i = 0; i < std::min(limit, query_frequencies.size()); ++i) {
+    for (size_t i = 0; i < std::min(limit,static_cast<int>(query_frequencies.size())); ++i) {
         hot_queries.push_back(query_frequencies[i].first);
     }
     
     THEMIS_INFO("Identified {} hot queries from {} total patterns",
-               hot_queries.size(), query_patterns_.size());
+               hot_queries.size(),static_cast<int>(query_patterns_.size()));
     
     return hot_queries;
 }

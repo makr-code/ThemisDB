@@ -101,7 +101,7 @@ TEST_F(AQLConversationContextTest, RefineBeforeStartThrows) {
 TEST_F(AQLConversationContextTest, StartDoesNotThrowWithoutModel) {
     // Without a loaded LLM model, start() should return an empty string
     // but must NOT throw or crash.
-    std::string result;
+    std::string result = {};
     EXPECT_NO_THROW({ result = ctx->start("Find all users"); });
     // Result is either a valid AQL string or empty (no model loaded)
     (void)result;
@@ -153,7 +153,7 @@ TEST_F(AQLConversationContextTest, RefineDoesNotThrowWithoutModel) {
     // Attempt start; if turn count becomes 1 we can call refine
     try { ctx->start("find all users"); } catch (...) {}
     if (ctx->turnCount() >= 1) {
-        std::string result;
+        std::string result = {};
         EXPECT_NO_THROW({ result = ctx->refine("also filter by age > 18"); });
         (void)result;
     }
@@ -240,7 +240,9 @@ TEST_F(AQLConversationContextTest, MaxTurns_SystemMessageAlwaysPreserved) {
 TEST_F(AQLConversationContextTest, MaxTurns_TurnCountNeverExceedsLimit) {
     auto ctx3 = makeContextWithFakeLLM(*handler, /*max_turns=*/3);
     for (int i = 0; i < 10; ++i) {
-        if (i == 0) ctx3.start("first turn");
+        if (i == 0) {
+          ctx3.start("first turn");
+        }
         else        ctx3.refine("refine " + std::to_string(i));
     }
     EXPECT_LE(ctx3.turnCount(), 3u);
@@ -362,7 +364,8 @@ TEST_F(AQLConversationContextTest, ConcurrentTurnCountReadIsConsistent) {
     std::atomic<bool> stop{false};
     std::atomic<std::size_t> max_observed_turns{0};
 
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int i = 0; i < 4; ++i) {
         readers.emplace_back([&tctx, &stop, &max_observed_turns]() {
             while (!stop.load(std::memory_order_relaxed)) {
@@ -382,7 +385,9 @@ TEST_F(AQLConversationContextTest, ConcurrentTurnCountReadIsConsistent) {
         tctx.refine("step " + std::to_string(i));
     }
     stop = true;
-    for (auto& t : readers) t.join();
+    for (auto& t : readers) {
+      t.join();
+    }
 
     // All observed turn counts must have been within the window.
     EXPECT_LE(max_observed_turns.load(), 5u)

@@ -57,7 +57,7 @@ std::string PlanCache::fingerprint(const std::string& query) {
     SHA256(reinterpret_cast<const unsigned char*>(normalized.data()),
            normalized.size(), hash);
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         ss << std::setw(2) << static_cast<unsigned int>(hash[i]);
@@ -66,7 +66,7 @@ std::string PlanCache::fingerprint(const std::string& query) {
 }
 
 std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
-    std::string normalized;
+    std::string normalized = {};
     normalized.reserve(query.size());
 
     bool in_single_quote = false;
@@ -74,12 +74,12 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
     bool literal_placeholder_inserted = false;
     bool last_was_space = false;
 
-    for (size_t i = 0; i < query.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(query.size()); ++i) {
         const char ch = query[i];
 
         if (in_single_quote) {
             if (ch == '\'') {
-                if (i + 1 < query.size() && query[i + 1] == '\'') {
+                if (i + 1 <static_cast<int>(query.size()) && query[i + 1] == '\'') {
                     ++i;
                     continue;
                 }
@@ -92,7 +92,7 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
         if (in_double_quote) {
             normalized.push_back(ch);
             if (ch == '"') {
-                if (i + 1 < query.size() && query[i + 1] == '"') {
+                if (i + 1 <static_cast<int>(query.size()) && query[i + 1] == '"') {
                     normalized.push_back(query[++i]);
                     continue;
                 }
@@ -130,11 +130,11 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
         // Treat a leading '+' or '-' sign as part of a numeric literal when it
         // is not preceded by an identifier character (so "x-1" keeps its minus
         // but "x=-1" or "WHERE n=-1" normalises the sign away with the digit).
-        if ((ch == '+' || ch == '-') &&
-            (i == 0 || (!std::isalnum(static_cast<unsigned char>(query[i - 1])) &&
-                        query[i - 1] != '_' && query[i - 1] != '@')) &&
-            i + 1 < query.size() &&
-            std::isdigit(static_cast<unsigned char>(query[i + 1])) != 0) {
+        if (((ch == '+' || ch == '-') &&
+            (i == 0 || (!std::isalnum(static_cast<unsigned char>(query[static_cast<int>(i - 1)])) &&
+                        query[static_cast<int>(i - 1)] != '_' && query[static_cast<int>(i - 1)] != '@')) &&
+            i + 1 <static_cast<int>(query.size()) &&
+            std::isdigit(static_cast<unsigned char>(query[i + 1])) != 0)) {
             // The sign is a numeric prefix; skip it so the following digit
             // handler collapses the whole signed literal into a single '?'.
             last_was_space = false;
@@ -144,13 +144,13 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
         const bool numeric_literal =
             (std::isdigit(static_cast<unsigned char>(ch)) != 0) &&
             (i == 0 ||
-             (!std::isalnum(static_cast<unsigned char>(query[i - 1])) &&
-              query[i - 1] != '_' && query[i - 1] != '@'));
+             (!std::isalnum(static_cast<unsigned char>(query[static_cast<int>(i - 1)])) &&
+              query[static_cast<int>(i - 1)] != '_' && query[static_cast<int>(i - 1)] != '@'));
         if (numeric_literal) {
             if (normalized.empty() || normalized.back() != '?') {
                 normalized.push_back('?');
             }
-            while (i + 1 < query.size()) {
+            while (i + 1 <static_cast<int>(query.size())) {
                 const char next = query[i + 1];
                 const bool continue_numeric =
                     (std::isdigit(static_cast<unsigned char>(next)) != 0) ||
@@ -322,7 +322,7 @@ void PlanCache::put(const std::string&                query,
         table_index_[tbl].push_back(fp);
     }
 
-    THEMIS_DEBUG("PlanCache stored: fp={}, tables={}", fp.substr(0, 16), tables.size());
+    THEMIS_DEBUG("PlanCache stored: fp={}, tables={}", fp.substr(0, 16),static_cast<int>(tables.size()));
 }
 
 bool PlanCache::recordExecutionFailure(const std::string& query,
@@ -410,9 +410,9 @@ size_t PlanCache::evictExpired() {
     }
 
     if (!to_remove.empty()) {
-        THEMIS_DEBUG("PlanCache evicted {} expired plan(s)", to_remove.size());
+        THEMIS_DEBUG("PlanCache evicted {} expired plan(s)",static_cast<int>(to_remove.size()));
     }
-    return to_remove.size();
+    return static_cast<int>(to_remove.size());
 }
 
 // =============================================================================
@@ -458,7 +458,9 @@ size_t PlanCache::estimateCurrentMemoryBytes() const {
 // =============================================================================
 
 void PlanCache::evictLRU_locked() {
-    if (lru_list_.empty()) return;
+    if (lru_list_.empty()) {
+      return;
+    }
 
     const std::string& fp = lru_list_.back();
     auto it = cache_.find(fp);
@@ -518,7 +520,9 @@ bool PlanCache::isDriftExceeded(const Statistics& snapshot,
 
         if (snap_count == 0 || cur_count == 0) {
             // Zero vs non-zero is always drift; equal zeros are fine
-            if (snap_count != cur_count) return true;
+            if (snap_count != cur_count) {
+              return true;
+            }
             continue;
         }
 
@@ -546,7 +550,7 @@ std::string PlanCache::makeCacheKey(const std::string& query,
     SHA256(reinterpret_cast<const unsigned char*>(composite.data()),
            composite.size(), hash);
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         ss << std::setw(2) << static_cast<unsigned int>(hash[i]);
@@ -578,7 +582,7 @@ size_t PlanCache::estimatePlanSizeBytes(const CachedPlan& plan) {
         total += hint.size();
     }
     for (const auto& [key, value] : plan.plan.nlp_hints) {
-        total += key.size() + value.size();
+        total += static_cast<int>(key.size()) + static_cast<int>(value.size()) ;
     }
 
     return total;

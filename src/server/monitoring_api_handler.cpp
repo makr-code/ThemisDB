@@ -143,14 +143,14 @@ http::response<http::string_body> MonitoringApiHandler::handleLiveness(
 http::response<http::string_body> MonitoringApiHandler::handleReadiness(
     const http::request<http::string_body>& req
 ) {
-    auto span = Tracer::startSpan("handleReadiness");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleReadiness");
     // Readiness probe: server is ready to accept traffic.
     // Reports per-layer health: server state, storage, connections, memory.
     bool server_running = (is_running_ == nullptr) || is_running_->load(std::memory_order_relaxed);
 
     // --- Layer 1: Storage ---
     bool storage_ok = false;
-    std::string storage_error;
+    std::string storage_error = {};
     if (storage_) {
         try {
             storage_ok = (storage_->getRawDB() != nullptr);
@@ -320,9 +320,9 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
         response["modules"] = {
             {"compiled_in", modules_compiled},
             {"not_compiled", modules_disabled},
-            {"total", build_config.modules.size()},
-            {"compiled_count", modules_compiled.size()},
-            {"disabled_count", modules_disabled.size()}
+            {"total",static_cast<int>(build_config.modules.size())},
+            {"compiled_count",static_cast<int>(modules_compiled.size())},
+            {"disabled_count",static_cast<int>(modules_disabled.size())}
         };
 
         // Add API versioning information (supported versions, deprecation policy).
@@ -357,13 +357,19 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
             std::sort(supported.begin(), supported.end(), [](const json& a, const json& b) {
                 const int major_a = a.value("major", 0);
                 const int major_b = b.value("major", 0);
-                if (major_a != major_b) return major_a < major_b;
+                if (major_a != major_b) {
+                  return major_a < major_b;
+                }
                 const int minor_a = a.value("minor", 0);
                 const int minor_b = b.value("minor", 0);
-                if (minor_a != minor_b) return minor_a < minor_b;
+                if (minor_a != minor_b) {
+                  return minor_a < minor_b;
+                }
                 const int patch_a = a.value("patch", 0);
                 const int patch_b = b.value("patch", 0);
-                if (patch_a != patch_b) return patch_a < patch_b;
+                if (patch_a != patch_b) {
+                  return patch_a < patch_b;
+                }
                 return a.dump() < b.dump();
             });
             response["supported_api_versions"] = supported;
@@ -391,7 +397,7 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
     // routes are always present even if the caller did not invoke it explicitly
     // at startup.
     try {
-        std::string api_version;
+        std::string api_version = {};
 #ifdef THEMIS_VERSION_STRING
         api_version = THEMIS_VERSION_STRING;
 #else
@@ -440,7 +446,7 @@ http::response<http::string_body> MonitoringApiHandler::handleStats(
         try {
             rocksdb_json = json::parse(rocksdb_stats);
         } catch (...) {
-            THEMIS_DEBUG("monitoring_api_handler: unhandled exception caught");
+            THEMIS_DEBUG([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
             rocksdb_json = {{"error", "Failed to parse RocksDB stats"}};
         }
         
@@ -503,7 +509,7 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
         caps["build"]["uuid"] = THEMIS_BUILD_UUID;
 #endif
     } catch (...) {
-        THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
+        THEMIS_WARN([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
         // If build info fails, continue with basic capabilities
     }
 
@@ -578,7 +584,7 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
                 };
             }
         } catch (...) {
-            THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
+            THEMIS_WARN([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
             // If schema manager fails, continue without schema capabilities
             caps["schema_awareness"] = {
                 {"enabled", false}
@@ -616,14 +622,18 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         try {
             rdb = json::parse(storage_->getStats());
         } catch (...) {
-            THEMIS_DEBUG("monitoring_api_handler: unhandled exception caught");
+            THEMIS_DEBUG([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
             rdb = json::object();
         }
         json r = rdb.contains("rocksdb") ? rdb["rocksdb"] : json::object();
 
-        auto get_u64 = [&](const char* k) -> uint64_t {
-            if (r.contains(k) && r[k].is_number_unsigned()) return r[k].get<uint64_t>();
-            if (r.contains(k) && r[k].is_number_integer()) return static_cast<uint64_t>(r[k].get<int64_t>());
+        auto get_u64 = [&]([[maybe_unused]] const char* k) -> uint64_t {
+            if (r.contains(k) && r[k].is_number_unsigned()) {
+              return r[k].get<uint64_t>();
+            }
+            if (r.contains(k) && r[k].is_number_integer()) {
+              return static_cast<uint64_t>(r[k].get<int64_t>());
+            }
             return 0ull;
         };
         uint64_t block_cache_usage = get_u64("block_cache_usage_bytes");
@@ -632,12 +642,12 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         uint64_t pending_compaction = get_u64("estimate_pending_compaction_bytes");
         uint64_t memtable_bytes = get_u64("memtable_size_bytes");
 
-        std::string out;
+        std::string out = {};
         out.reserve(4096);
 
         // themis_build_info – static info metric with version/build labels
         {
-            std::string version;
+            std::string version = {};
 #ifdef THEMIS_BUILD_VERSION_STRING
             version = THEMIS_BUILD_VERSION_STRING;
 #else
@@ -784,16 +794,18 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             std::vector<std::pair<std::string, uint64_t>> level_rows;
             for (auto it = r["files_per_level"].begin(); it != r["files_per_level"].end(); ++it) {
                 uint64_t val = 0;
-                if (it.value().is_number_integer()) val = static_cast<uint64_t>(it.value().get<int64_t>());
+                if (it.value().is_number_integer()) {
+                  val = static_cast<uint64_t>(it.value().get<int64_t>());
+                }
                 else if (it.value().is_number_unsigned()) val = it.value().get<uint64_t>();
                 level_rows.emplace_back(it.key(), val);
             }
             auto parse_level_index = [](const std::string& level) -> int {
-                if (level.size() > 1 && (level[0] == 'L' || level[0] == 'l')) {
+                if ((static_cast<int>(level.size()) > 1 && (level[0] == 'L' || level[0] == 'l'))) {
                     try {
                         return std::stoi(level.substr(1));
                     } catch (...) {
-                        THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
+                        THEMIS_WARN([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
                     }
                 }
                 return -1;
@@ -847,7 +859,8 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         try {
             auto& plugin_manager = themis::plugins::PluginManager::instance();
             auto all_stats = plugin_manager.getMetrics().getAllStats();
-            std::vector<std::string> sorted_plugin_names;
+            std::vector<std::string> sorted_plugin_names = {};
+
             sorted_plugin_names.reserve(all_stats.size());
             for (const auto& [plugin_name, _] : all_stats) {
                 sorted_plugin_names.push_back(plugin_name);
@@ -1006,7 +1019,8 @@ http::response<http::string_body> MonitoringApiHandler::handlePluginMetrics(
     try {
         auto& plugin_manager = themis::plugins::PluginManager::instance();
         auto all_stats = plugin_manager.getMetrics().getAllStats();
-        std::vector<std::string> sorted_plugin_names;
+        std::vector<std::string> sorted_plugin_names = {};
+
         sorted_plugin_names.reserve(all_stats.size());
         for (const auto& [plugin_name, _] : all_stats) {
             sorted_plugin_names.push_back(plugin_name);
@@ -1019,7 +1033,7 @@ http::response<http::string_body> MonitoringApiHandler::handlePluginMetrics(
             const auto& stats = all_stats.at(plugin_name);
             // Convert loaded_at to ISO 8601 string
             auto time_t_val = std::chrono::system_clock::to_time_t(stats.loaded_at);
-            std::tm tm_val;
+            std::tm tm_val = {};
             #ifdef _WIN32
                 gmtime_s(&tm_val, &time_t_val);
             #else
@@ -1151,23 +1165,29 @@ json MonitoringApiHandler::buildConcernsJson(
 namespace {
 
 [[nodiscard]] std::string urlDecode(std::string_view input) {
-    std::string out;
+    std::string out = {};
     out.reserve(input.size());
 
     auto hexValue = [](char c) -> int {
-        if (c >= '0' && c <= '9') return c - '0';
-        if (c >= 'a' && c <= 'f') return 10 + (c - 'a');
-        if (c >= 'A' && c <= 'F') return 10 + (c - 'A');
+        if (c >= '0' && c <= '9') {
+          return c - '0';
+        }
+        if (c >= 'a' && c <= 'f') {
+          return 10 + (c - 'a');
+        }
+        if (c >= 'A' && c <= 'F') {
+          return 10 + (c - 'A');
+        }
         return -1;
     };
 
-    for (std::size_t i = 0; i < input.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(input.size()); ++i) {
         const char ch = input[i];
         if (ch == '+') {
             out.push_back(' ');
             continue;
         }
-        if (ch == '%' && i + 2 < input.size()) {
+        if (ch == '%' && i + 2 <static_cast<int>(input.size())) {
             const int hi = hexValue(input[i + 1]);
             const int lo = hexValue(input[i + 2]);
             if (hi >= 0 && lo >= 0) {
@@ -1192,9 +1212,9 @@ namespace {
 
     std::string_view query = target.substr(query_pos + 1);
     std::size_t pos = 0;
-    while (pos < query.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(query.size())) {
         const auto amp = query.find('&', pos);
-        const auto token_end = (amp == std::string_view::npos) ? query.size() : amp;
+        const auto token_end = (amp == std::string_view::npos) ?static_cast<int>(query.size()) : amp;
         const auto eq = query.find('=', pos);
 
         if (eq != std::string_view::npos && eq < token_end) {
@@ -1336,7 +1356,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
                     duration_minutes = j["duration_minutes"].get<int>();
                 }
             } catch (...) {
-                THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
+                THEMIS_WARN([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
                 // ignore JSON parse errors; use default duration
             }
         }
@@ -1378,7 +1398,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealt
 
         // Alertmanager health
         {
-            json am;
+            json am = {};
             if (alertmanager_) {
                 const auto& cfg = alertmanager_->getConfig();
                 am["enabled"]      = cfg.enabled;
@@ -1449,9 +1469,9 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityProve
             try {
                 std::size_t consumed = 0;
                 out = std::stoll(value, &consumed);
-                return consumed == value.size();
+                return consumed == static_cast<int>(value.size());
             } catch (...) {
-                THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
+                THEMIS_WARN([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
                 return false;
             }
         };
@@ -1493,8 +1513,8 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityProve
             }
         }
 
-        if ((start_ts_ms.has_value() && !end_ts_ms.has_value()) ||
-            (!start_ts_ms.has_value() && end_ts_ms.has_value())) {
+        if (((start_ts_ms.has_value() && !end_ts_ms.has_value()) ||
+            (!start_ts_ms.has_value() && end_ts_ms.has_value()))) {
             return makeErrorResponse(http::status::bad_request,
                                      "Both start_ts_ms and end_ts_ms are required for time-range queries",
                                      req);
@@ -1517,7 +1537,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityProve
             if (start_ts_ms.has_value()) {
                 records.erase(
                     std::remove_if(records.begin(), records.end(),
-                                   [&](const observability::ProvenanceStepRecord& rec) {
+                                   [&]([[maybe_unused]] const observability::ProvenanceStepRecord& rec) {
                                        return rec.timestamp_ms < *start_ts_ms ||
                                               rec.timestamp_ms > *end_ts_ms;
                                    }),
@@ -1548,7 +1568,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityProve
                   });
 
         bool truncated = false;
-        if (records.size() > limit) {
+        if (static_cast<int>(records.size()) > limit) {
             records.resize(limit);
             truncated = true;
         }
@@ -1606,7 +1626,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
     auto span = Tracer::startSpan("handleMetricsHtml");
     try {
         // Collect raw Prometheus text
-        std::string version;
+        std::string version = {};
 #ifdef THEMIS_VERSION_STRING
         version = THEMIS_VERSION_STRING;
 #else
@@ -1627,10 +1647,12 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         // Parse the prometheus text into (name, value) pairs for the table
         std::vector<std::pair<std::string, std::string>> rows;
         std::istringstream iss(prom_text);
-        std::string line;
+        std::string line = {};
         while (std::getline(iss, line)) {
             auto sp = line.rfind(' ');
-            if (sp == std::string::npos) continue;
+            if (sp == std::string::npos) {
+              continue;
+            }
             rows.emplace_back(line.substr(0, sp), line.substr(sp + 1));
         }
         std::sort(rows.begin(), rows.end(), [](const auto& a, const auto& b) {
@@ -1640,9 +1662,9 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
             return a.first < b.first;
         });
 
-        std::string html;
+        std::string html = {};
         auto escape_html = [](std::string_view value) {
-            std::string escaped;
+            std::string escaped = {};
             escaped.reserve(value.size());
             for (const char ch : value) {
                 switch (ch) {
@@ -1697,28 +1719,40 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
             auto extract_str = [&](const std::string& src, const std::string& key) -> std::string {
                 const std::string needle = "\"" + key + "\":\"";
                 auto pos = src.find(needle);
-                if (pos == std::string::npos) return "";
+                if (pos == std::string::npos) {
+                  return "";
+                }
                 pos += needle.size();
                 auto end = src.find('"', pos);
-                if (end == std::string::npos) return "";
+                if (end == std::string::npos) {
+                  return "";
+                }
                 return src.substr(pos, end - pos);
             };
             auto extract_num = [&](const std::string& src, const std::string& key) -> std::string {
                 const std::string needle = "\"" + key + "\":";
                 auto pos = src.find(needle);
-                if (pos == std::string::npos) return "";
+                if (pos == std::string::npos) {
+                  return "";
+                }
                 pos += needle.size();
                 auto end = src.find_first_of(",}", pos);
-                if (end == std::string::npos) return "";
+                if (end == std::string::npos) {
+                  return "";
+                }
                 return src.substr(pos, end - pos);
             };
             auto extract_bool = [&](const std::string& src, const std::string& key) -> std::string {
                 const std::string needle = "\"" + key + "\":";
                 auto pos = src.find(needle);
-                if (pos == std::string::npos) return "";
+                if (pos == std::string::npos) {
+                  return "";
+                }
                 pos += needle.size();
                 auto end = src.find_first_of(",}", pos);
-                if (end == std::string::npos) return "";
+                if (end == std::string::npos) {
+                  return "";
+                }
                 return src.substr(pos, end - pos);
             };
 
@@ -1732,7 +1766,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
                     std::string arr = loop_context.substr(arr_start + 1, arr_end - arr_start);
                     // Split on "},{" boundaries
                     size_t cur = 0;
-                    while (cur < arr.size()) {
+                    while (static_cast<size_t>(cur) <static_cast<int>(arr.size())) {
                         auto next = arr.find("},{", cur);
                         if (next == std::string::npos) {
                             loop_items.push_back(arr.substr(cur));
@@ -1832,7 +1866,7 @@ http::response<http::string_body> MonitoringApiHandler::handleLicenseStatus(
     if (lic) {
         // Mask the license key: show only the first 8 characters.
         std::string masked_key = lic->license_key;
-        if (masked_key.size() > 8) {
+        if (static_cast<int>(masked_key.size()) > 8) {
             masked_key = masked_key.substr(0, 8) + "...";
         }
         body["license_key"]      = masked_key;

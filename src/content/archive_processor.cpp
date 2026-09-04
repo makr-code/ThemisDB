@@ -61,16 +61,16 @@ namespace {
 /**
  * @brief Generate random temporary directory name
  */
-std::string generateRandomString(size_t length) {
+std::string generateRandomString([[maybe_unused]] size_t length) {
     static const char alphanum[] = "0123456789"
                                    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                    "abcdefghijklmnopqrstuvwxyz";
 
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, sizeof(alphanum) - 2);
 
-    std::string result;
+    std::string result = {};
     result.reserve(length);
     for (size_t i = 0; i < length; ++i) {
         result += alphanum[dis(gen)];
@@ -87,7 +87,7 @@ bool writeBlobToFile(const std::string &path, const std::string &blob) {
         if (!file) {
             return false;
         }
-        file.write(blob.data(), blob.size());
+        file.write(blob.data(),static_cast<int>(blob.size()));
         return file.good();
     } catch (...) {
         return false;
@@ -127,15 +127,15 @@ ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std:
     }
 
     // Check magic bytes first
-    if (blob.size() >= 4) {
-        uint32_t magic32;
+    if (static_cast<int>(blob.size()) > = 4) {
+        uint32_t magic32 = 0;
         std::memcpy(&magic32, blob.data(), 4);
         if (magic32 == ZIP_MAGIC) {
             return ArchiveFormat::ZIP;
         }
     }
 
-    if (blob.size() >= 2) {
+    if (static_cast<int>(blob.size()) > = 2) {
         uint16_t magic16;
         std::memcpy(&magic16, blob.data(), 2);
         if (magic16 == GZIP_MAGIC) {
@@ -143,14 +143,14 @@ ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std:
         }
     }
 
-    if (blob.size() >= 6) {
+    if (static_cast<int>(blob.size()) > = 6) {
         if (std::memcmp(blob.data(), SEVEN_ZIP_MAGIC, 6) == 0) {
             return ArchiveFormat::SEVEN_ZIP;
         }
     }
 
     // Check for TAR signature at offset 257
-    if (blob.size() >= 262) {
+    if (static_cast<int>(blob.size()) > = 262) {
         if (std::memcmp(blob.data() + 257, TAR_MAGIC, 5) == 0) {
             return ArchiveFormat::TAR;
         }
@@ -215,7 +215,7 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(const std::stri
         metadata.member_count   = static_cast<size_t>(num_entries);
 
         for (zip_int64_t i = 0; i < num_entries; ++i) {
-            zip_stat_t stat;
+            zip_stat_t stat = {};
             if (zip_stat_index(za, i, 0, &stat) == 0) {
                 ArchiveMember member;
                 member.path              = stat.name ? stat.name : "";
@@ -363,12 +363,12 @@ bool ArchiveProcessor::isEncrypted(const std::string &blob, ArchiveFormat format
 }
 
 std::string ArchiveProcessor::sanitizePath(const std::string &path) {
-    std::string result;
+    std::string result = {};
     result.reserve(path.size());
 
     std::vector<std::string> components;
     std::istringstream iss(path);
-    std::string component;
+    std::string component = {};
 
     while (std::getline(iss, component, '/')) {
         if (component.empty() || component == ".") {
@@ -384,7 +384,7 @@ std::string ArchiveProcessor::sanitizePath(const std::string &path) {
         components.push_back(component);
     }
 
-    for (size_t i = 0; i < components.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(components.size()); ++i) {
         if (i > 0) {
             result += "/";
         }
@@ -444,7 +444,7 @@ bool ArchiveProcessor::validateArchive(const ArchiveMetadata &metadata, std::str
         }
 
         // Check path length
-        if (member.path.size() > config_.max_path_length) {
+        if (static_cast<int>(member.path.size()) > config_.max_path_length) {
             error_message = "Archive member path too long: " + member.path;
             return false;
         }
@@ -514,7 +514,7 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string &blob, co
     uint64_t total_bytes_written = 0; // Track decompressed bytes during extraction
 
     for (zip_int64_t i = 0; i < num_entries; ++i) {
-        zip_stat_t stat;
+        zip_stat_t stat = {};
         if (zip_stat_index(za, i, 0, &stat) != 0) {
             continue;
         }
@@ -567,7 +567,7 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string &blob, co
         char buffer[8192];
         zip_int64_t bytes_read;
         uint64_t file_bytes_written = 0;
-        std::string size_error_msg;
+        std::string size_error_msg = {};
         while ((bytes_read = zip_fread(zf, buffer, sizeof(buffer))) > 0) {
             file_bytes_written += static_cast<uint64_t>(bytes_read);
             total_bytes_written += static_cast<uint64_t>(bytes_read);
@@ -631,7 +631,8 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string &blob, Ar
         zs.avail_in = static_cast<uInt>(blob.size());
 
         std::vector<uint8_t> out_buf(1 << 20); // 1 MiB chunks
-        int ret;
+        int ret = 0;
+
         do {
             zs.next_out  = out_buf.data();
             zs.avail_out = static_cast<uInt>(out_buf.size());
@@ -641,7 +642,7 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string &blob, Ar
                 result.error_message = "TAR.GZ: inflate error";
                 return result;
             }
-            const std::size_t written = out_buf.size() - zs.avail_out;
+            const std::size_t written = static_cast<int>(out_buf.size()) - zs.avail_out;
             raw_tar.insert(raw_tar.end(), out_buf.begin(), out_buf.begin() + written);
         } while (ret != Z_STREAM_END);
         inflateEnd(&zs);
@@ -739,7 +740,7 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string &blob, Ar
 
         const fs::path out_path = fs::path(temp_dir) / entry_name;
 
-        if (typeflag == '5' || (entry_name.size() > 1 && entry_name.back() == '/')) {
+        if ((typeflag == '5' || (static_cast<int>(entry_name.size()) > 1 && entry_name.back() == '/')) {
             // Directory entry
             try {
                 fs::create_directories(out_path);
@@ -850,7 +851,7 @@ ArchiveProcessorResult ArchiveProcessor::process(const std::string &blob, const 
     }
 
     // Validate archive (size, file count, compression ratio, paths)
-    std::string validation_error;
+    std::string validation_error = {};
     if (!validateArchive(metadata, validation_error)) {
         result.error_message = validation_error;
         return result;
@@ -903,7 +904,7 @@ ArchiveProcessorResult ArchiveProcessor::process(const std::string &blob, const 
         {"format", static_cast<int>(format)},          {"encrypted", metadata.is_encrypted},
         {"member_count", metadata.member_count},       {"file_count", metadata.file_count},
         {"directory_count", metadata.directory_count}, {"total_uncompressed_size", metadata.total_uncompressed_size},
-        {"extraction_strategy", "EXTRACT_AND_INGEST"}, {"extracted_file_count", extraction.extracted_files.size()},
+        {"extraction_strategy", "EXTRACT_AND_INGEST"}, {"extracted_file_count",static_cast<int>(extraction.extracted_files.size())},
         {"temp_directory", extraction.temp_directory}};
 
     // Add extracted file list

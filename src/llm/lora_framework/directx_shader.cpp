@@ -57,21 +57,23 @@ bool DirectXShader::load() {
     fs::path p(shader_path_);
 
     // If the path points to a compiled bytecode (.cso/.dxil), try to read it.
-    auto try_read_bytecode = [&](const fs::path& file_path) -> bool {
+    auto try_read_bytecode = [&]([[maybe_unused]] const fs::path& file_path) -> bool {
         std::ifstream file(file_path.string(), std::ios::binary | std::ios::ate);
         if (!file.is_open()) {
             return false;
         }
         std::streamsize size = file.tellg();
         file.seekg(0, std::ios::beg);
-        if (size <= 0) return false;
+        if (size <= 0) {
+          return false;
+        }
         bytecode_.resize(static_cast<size_t>(size));
         if (!file.read(reinterpret_cast<char*>(bytecode_.data()), size)) {
             bytecode_.clear();
             return false;
         }
         std::cout << "DirectXShader: Loaded shader bytecode from " << file_path.string()
-                  << " (" << bytecode_.size() << " bytes)\n";
+                  << " (" <<static_cast<int>(bytecode_.size()) << " bytes)\n";
         return true;
     };
 
@@ -111,11 +113,13 @@ bool DirectXShader::load() {
                 static_cast<const uint8_t*>(blob->GetBufferPointer()) + blob->GetBufferSize()
             );
             std::cout << "DirectXShader: Compiled HLSL source " << shader_path_ << " ("
-                      << bytecode_.size() << " bytes)\n";
+                      <<static_cast<int>(bytecode_.size()) << " bytes)\n";
             return true;
         }
         // Attempt to read as compiled bytecode
-        if (try_read_bytecode(p)) return true;
+        if (try_read_bytecode(p)) {
+          return true;
+        }
     }
 
     // 2) If file not found or not readable, attempt to switch extensions.
@@ -156,7 +160,7 @@ bool DirectXShader::load() {
                 static_cast<const uint8_t*>(blob->GetBufferPointer()) + blob->GetBufferSize()
             );
             std::cout << "DirectXShader: Compiled HLSL source " << alt.string() << " ("
-                      << bytecode_.size() << " bytes)\n";
+                      <<static_cast<int>(bytecode_.size()) << " bytes)\n";
             return true;
         }
     }

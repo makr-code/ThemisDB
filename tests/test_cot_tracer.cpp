@@ -372,7 +372,7 @@ TEST(CoTTracerTest, ThrowingBeginTracerDoesNotAbortBuild) {
     ChainOfThoughtBuilder builder;
     builder.addStep("safe content");
     builder.attachTracer(tracer);
-    std::string result;
+    std::string result = {};
     EXPECT_NO_THROW(result = builder.build());
     EXPECT_NE(result.find("safe content"), std::string::npos);
 }
@@ -386,7 +386,7 @@ TEST(CoTTracerTest, ThrowingEndTracerDoesNotAbortBuild) {
     ChainOfThoughtBuilder builder;
     builder.addStep("safe content");
     builder.attachTracer(tracer);
-    std::string result;
+    std::string result = {};
     EXPECT_NO_THROW(result = builder.build());
     EXPECT_NE(result.find("safe content"), std::string::npos);
 }

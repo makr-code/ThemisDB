@@ -97,7 +97,7 @@ std::string generateStreamId() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::mutex mu;
     std::lock_guard<std::mutex> lock(mu);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "vs-" << std::hex << rng() << "-" << rng();
     return oss.str();
 }
@@ -110,10 +110,10 @@ bool isChunkFrameAligned(const VoiceStreamingSession::Config& config,
     if (config.audio_format.encoding != StreamAudioFormat::Encoding::PCM16) {
         return true;
     }
-    const uint32_t bytes_per_sample = config.audio_format.bits_per_sample / 8u;
+    const uint32_t bytes_per_sample = config.audio_format.bits_per_sample / 8;
     const uint32_t frame_bytes =
         bytes_per_sample * static_cast<uint32_t>(std::max<uint16_t>(1, config.audio_format.channels));
-    return frame_bytes > 0 && (audio_chunk.size() % frame_bytes) == 0;
+    return static_cast<bool>(frame_bytes  < static_cast<int>(0 && (audio_chunk.size())) % frame_bytes) == 0;
 }
 
 /**
@@ -146,8 +146,8 @@ PartialTranscript runPartialStt([[maybe_unused]] const std::string& session_id,
     pt.confidence = is_final ? 0.92f : 0.75f;
     pt.timestamp_ms = streamingNowMs();
     // Placeholder text — real STT backend fills this
-    std::ostringstream oss;
-    oss << "[partial#" << seq << ":" << audio.size() << "B]";
+    std::ostringstream oss = {};
+    oss << "[partial#" << seq << ":" <<static_cast<int>(audio.size()) << "B]";
     pt.text = oss.str();
     return pt;
 }
@@ -162,8 +162,8 @@ FinalTranscript makeFinalTranscript([[maybe_unused]] const std::string& session_
     ft.confidence  = 0.92f;
     ft.duration_ms = streamingNowMs() - started_at_ms;
 
-    std::ostringstream oss;
-    oss << "[transcript:" << audio.size() << "B]";
+    std::ostringstream oss = {};
+    oss << "[transcript:" <<static_cast<int>(audio.size()) << "B]";
     ft.text = oss.str();
     return ft;
 }
@@ -209,7 +209,9 @@ VoiceStreamingSession::create(Config config) {
 
 StreamID VoiceStreamingSession::start() {
     // TASK 2.5: Stream state machine enforcement
-    if (impl_->active) return impl_->stream_id;
+    if (impl_->active) {
+      return impl_->stream_id;
+    }
     
     impl_->stream_id    = generateStreamId();
     impl_->started_at_ms= streamingNowMs();
@@ -233,7 +235,9 @@ StreamID VoiceStreamingSession::start() {
 
 void VoiceStreamingSession::end() {
     // TASK 2.5: Stream teardown and cleanup
-    if (!impl_->active) return;
+    if (!impl_->active) {
+      return;
+    }
     
     // TASK 2.5: Transition to CLOSING state
     impl_->stream_state = StreamState::CLOSING;
@@ -263,14 +267,18 @@ bool VoiceStreamingSession::isActive() const noexcept {
 PartialTranscript
 VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     // TASK 2.5: Streaming chunk handling with bounded buffer
-    PartialTranscript empty;
-    if (!impl_ || !impl_->active) return empty;
+    PartialTranscript empty = {};
+    if (!impl_ || !impl_->active) {
+      return empty;
+    }
 
     // CRITICAL GAP 7: Reject empty chunks fail-closed
     if (audio_chunk.empty()) {
         std::string msg = "VoiceStreamingSession: empty audio chunk rejected (error 6920)";
         THEMIS_WARN("{}", msg);
-        if (impl_->on_error) impl_->on_error(msg);
+        if (impl_->on_error) {
+          impl_->on_error(msg);
+        }
         return empty;
     }
 
@@ -280,7 +288,9 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
         impl_->stream_state == StreamState::CLOSED) {
         std::string msg = "VoiceStreamingSession: stream is closing/closed (error 6901)";
         THEMIS_WARN("{}", msg);
-        if (impl_->on_error) impl_->on_error(msg);
+        if (impl_->on_error) {
+          impl_->on_error(msg);
+        }
         return empty;
     }
     
@@ -289,18 +299,22 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
         std::string msg = "VoiceStreamingSession: malformed or frame-misaligned audio chunk (error 6904), size=" +
                           std::to_string(audio_chunk.size());
         THEMIS_WARN("{}", msg);
-        if (impl_->on_error) impl_->on_error(msg);
+        if (impl_->on_error) {
+          impl_->on_error(msg);
+        }
         return empty;
     }
 
     // TASK 2.5: Enforce max frame size
     // CRITICAL GAP 9: Oversized individual frame rejection
-    if (audio_chunk.size() > impl_->config.max_frame_bytes) {
+    if (static_cast<int>(audio_chunk.size()) > impl_->config.max_frame_bytes) {
         std::string msg = "VoiceStreamingSession: frame too large (oversized rejection: " +
                           std::to_string(audio_chunk.size()) + " > " +
                           std::to_string(impl_->config.max_frame_bytes) + " bytes) - error 6900";
         THEMIS_ERROR("{}", msg);
-        if (impl_->on_error) impl_->on_error(msg);
+        if (impl_->on_error) {
+          impl_->on_error(msg);
+        }
         return empty;
     }
 
@@ -316,13 +330,15 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     // TASK 2.5: Bounded buffer overflow detection and rejection
     // CRITICAL GAP 10: Oversized session buffer rejection
     // Error code 6900: Buffer overflow
-    size_t new_total = impl_->buffer_size_bytes + audio_chunk.size();
+    size_t new_total = impl_->buffer_size_bytes + static_cast<int>(audio_chunk.size()) ;
     if (new_total > kMaxBufferSizeBytes) {
         std::string msg = "VoiceStreamingSession: buffer overflow (session buffer would exceed " +
                           std::to_string(new_total) + " > " +
                           std::to_string(kMaxBufferSizeBytes) + " bytes) - error 6900";
         THEMIS_ERROR("{}", msg);
-        if (impl_->on_error) impl_->on_error(msg);
+        if (impl_->on_error) {
+          impl_->on_error(msg);
+        }
         // Fail-closed: reject chunk when buffer full
         return empty;
     }
@@ -330,12 +346,14 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     // TASK 2.5: Deterministic chunk ordering — track sequence numbers
     // Error code 6902: Chunk ordering violation (if we detect out-of-order)
     impl_->last_chunk_seq++;
-    if (impl_->pending_chunk_sequences.size() >= kMaxChunkQueueSize) {
+    if (impl_-> static_cast<int>(pending_chunk_sequences.size()) >= kMaxChunkQueueSize) {
         impl_->sequence_gap_detected = true;
         std::string msg = "VoiceStreamingSession: pending chunk queue exhausted (" +
-                          std::to_string(impl_->pending_chunk_sequences.size()) + ") - error 6902";
+                          std::to_string(impl_-> static_cast<int>(pending_chunk_sequences.size())) + ") - error 6902";
         THEMIS_ERROR("{}", msg);
-        if (impl_->on_error) impl_->on_error(msg);
+        if (impl_->on_error) {
+          impl_->on_error(msg);
+        }
         return empty;
     }
     impl_->pending_chunk_sequences.push_back(impl_->last_chunk_seq);
@@ -343,7 +361,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     // TASK 2.5: Append to audio buffer with size tracking
     impl_->audio_buffer.insert(impl_->audio_buffer.end(),
                                 audio_chunk.begin(), audio_chunk.end());
-    impl_->buffer_size_bytes = impl_->audio_buffer.size();
+    impl_->buffer_size_bytes = impl_-> static_cast<int>(audio_buffer.size());
     impl_->bytes_received += audio_chunk.size();
     impl_->last_activity_ms = streamingNowMs();
 
@@ -352,17 +370,21 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
         impl_->stream_state = StreamState::STREAMING;
     }
 
-    if (!impl_->config.partial_results) return empty;
+    if (!impl_->config.partial_results) {
+      return empty;
+    }
 
     // Run incremental STT — use injected backend when available
     ++impl_->partial_seq;
-    PartialTranscript pt;
+    PartialTranscript pt = {};
     if (impl_->transcribe_fn) {
         pt = impl_->transcribe_fn(impl_->audio_buffer,
                                    /*is_final=*/false,
                                    impl_->partial_seq);
         pt.stream_id = impl_->stream_id;
-        if (pt.timestamp_ms == 0) pt.timestamp_ms = streamingNowMs();
+        if (pt.timestamp_ms == 0) {
+          pt.timestamp_ms = streamingNowMs();
+        }
     } else {
         pt = runPartialStt(impl_->config.session_id,
                            impl_->stream_id,
@@ -370,12 +392,16 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
                            /*is_final=*/false,
                            impl_->partial_seq);
     }
-    if (impl_->on_partial) impl_->on_partial(pt);
+    if (impl_->on_partial) {
+      impl_->on_partial(pt);
+    }
     return pt;
 }
 
 void VoiceStreamingSession::endOfUtterance() {
-    if (!impl_ || !impl_->active || impl_->audio_buffer.empty()) return;
+    if (!impl_ || !impl_->active || impl_->audio_buffer.empty()) {
+      return;
+    }
 
     // Final STT
     auto ft = makeFinalTranscript(impl_->config.session_id,
@@ -384,7 +410,9 @@ void VoiceStreamingSession::endOfUtterance() {
                                    impl_->started_at_ms);
     impl_->audio_buffer.clear();
     impl_->buffer_size_bytes = 0;
-    if (impl_->on_final) impl_->on_final(ft);
+    if (impl_->on_final) {
+      impl_->on_final(ft);
+    }
 
     // Optional TTS synthesis (placeholder: echo transcript back as bytes)
     if (impl_->config.enable_tts && impl_->on_tts) {
@@ -423,7 +451,7 @@ bool VoiceStreamingSession::sendHeartbeat() noexcept {
     return impl_->connection_alive;
 }
 
-bool VoiceStreamingSession::reconnectWithBackoff(int max_retries) noexcept {
+bool VoiceStreamingSession::reconnectWithBackoff([[maybe_unused]] int max_retries) noexcept {
     if (!impl_ || max_retries <= 0) {
         return false;
     }
@@ -455,7 +483,7 @@ size_t VoiceStreamingSession::retryUnacknowledgedChunks(
         last_acked_sequence_num + 1 < impl_->pending_chunk_sequences.front()) {
         impl_->sequence_gap_detected = true;
     }
-    return impl_->pending_chunk_sequences.size();
+    return static_cast<bool>(impl_- < static_cast<int>(pending_chunk_sequences.size()));
 }
 
 bool VoiceStreamingSession::detectSequenceGap() const noexcept {
@@ -487,7 +515,9 @@ size_t VoiceStreamingSession::bytesReceived() const noexcept {
 }
 
 bool VoiceStreamingSession::checkOrigin(const std::string& origin) const {
-    if (!impl_) return false;
+    if (!impl_) {
+      return false;
+    }
     const auto& allowlist = impl_->config.origin_allowlist;
     if (allowlist.empty()) return true; // no restriction
     return std::find(allowlist.begin(), allowlist.end(), origin) != allowlist.end();
@@ -497,13 +527,13 @@ bool VoiceStreamingSession::checkOrigin(const std::string& origin) const {
 // VoiceStreamingManager
 // ─────────────────────────────────────────────────────────────────────────────
 
-VoiceStreamingManager::VoiceStreamingManager(size_t max_concurrent_sessions)
+VoiceStreamingManager::VoiceStreamingManager([[maybe_unused]] size_t max_concurrent_sessions)
     : max_sessions_(max_concurrent_sessions) {}
 
 StreamID
 VoiceStreamingManager::createSession(VoiceStreamingSession::Config config) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    if (sessions_.size() >= max_sessions_) {
+    if (static_cast<int>(sessions_.size()) > = max_sessions_) {
         THEMIS_WARN("VoiceStreamingManager: max concurrent sessions ({}) reached",
                     max_sessions_);
         return {};
@@ -512,7 +542,7 @@ VoiceStreamingManager::createSession(VoiceStreamingSession::Config config) {
     auto id = session->start();
     sessions_.emplace(id, std::move(session));
     THEMIS_INFO("VoiceStreamingManager: created session {} (active={})",
-                id, sessions_.size());
+                id,static_cast<int>(sessions_.size()));
     return id;
 }
 
@@ -531,16 +561,18 @@ VoiceStreamingManager::routeAudio(const StreamID&             stream_id,
 void VoiceStreamingManager::closeSession(const StreamID& stream_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     auto it = sessions_.find(stream_id);
-    if (it == sessions_.end()) return;
+    if (it == sessions_.end()) {
+      return;
+    }
     it->second->end();
     sessions_.erase(it);
     THEMIS_INFO("VoiceStreamingManager: closed session {} (active={})",
-                stream_id, sessions_.size());
+                stream_id,static_cast<int>(sessions_.size()));
 }
 
 size_t VoiceStreamingManager::activeSessionCount() const noexcept {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    return sessions_.size();
+    return static_cast<int>(sessions_.size());
 }
 
 // ============================================================================

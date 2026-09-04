@@ -139,7 +139,7 @@ json BasicSpamDetectionPlugin::getStatistics() const {
         {"rejection_rate", validation_count_ > 0 
             ? static_cast<double>(rejected_count_) / validation_count_ 
             : 0.0},
-        {"spam_keywords_count", spam_keywords_.size()}
+        {"spam_keywords_count",static_cast<int>(spam_keywords_.size())}
     };
 }
 

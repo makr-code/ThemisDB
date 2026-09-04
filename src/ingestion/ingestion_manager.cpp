@@ -56,7 +56,7 @@ static std::string generateCorrelationId() {
     static std::atomic<uint64_t> counter{0};
     auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
     auto seq = ++counter;
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0')
        << std::setw(16) << static_cast<uint64_t>(ts)
        << '-'
@@ -93,10 +93,12 @@ static std::string sourceTypeLabel(SourceType t) {
 /// substring inside a larger regex pattern.
 static std::string regexEscape(const std::string& s) {
     static const std::string kMeta = R"(\.^$*+?()[]{}|)";
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() * 2);
     for (char c : s) {
-        if (kMeta.find(c) != std::string::npos) out += '\\';
+        if (kMeta.find(c) != std::string::npos) {
+          out += '\\';
+        }
         out += c;
     }
     return out;
@@ -114,18 +116,22 @@ static std::regex buildKeyRegex(const std::string& key) {
 static bool findJsonStringValueRe(const std::string& json,
                                    const std::regex& key_re,
                                    std::string& value) {
-    std::smatch m;
-    if (!std::regex_search(json, m, key_re)) return false;
+    std::smatch m = {};
+    if (!std::regex_search(json, m, key_re)) {
+      return false;
+    }
     auto pos = static_cast<std::string::size_type>(m.position() + m.length());
     // Skip whitespace before the value token
-    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t' ||
+    while (pos <static_cast<int>(json.size()) && (json[pos] == ' ' || json[pos] == '\t' ||
                                   json[pos] == '\r' || json[pos] == '\n'))
         ++pos;
-    if (pos >= json.size() || json[pos] != '"') return false;
+    if (pos >= json.size() || json[pos] != '"') {
+      return false;
+    }
     ++pos;
     value.clear();
     bool esc = false;
-    while (pos < json.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(json.size())) {
         char c = json[pos++];
         if (esc) {
             switch (c) {
@@ -140,7 +146,9 @@ static bool findJsonStringValueRe(const std::string& json,
             continue;
         }
         if (c == '\\') { esc = true; continue; }
-        if (c == '"') break;
+        if (c == '"') {
+          break;
+        }
         value += c;
     }
     return true;
@@ -149,7 +157,9 @@ static bool findJsonStringValueRe(const std::string& json,
 /// Returns true when the document looks like a JSON object or array.
 static bool looksLikeJson(const std::string& content) {
     for (char c : content) {
-        if (c == ' ' || c == '\t' || c == '\r' || c == '\n') continue;
+        if (c == ' ' || c == '\t' || c == '\r' || c == '\n') {
+          continue;
+        }
         return c == '{' || c == '[';
     }
     return false;
@@ -159,7 +169,7 @@ static bool looksLikeJson(const std::string& content) {
 // Compiled schema for a single field (avoids per-document regex construction)
 // ============================================================================
 struct CompiledFieldRule {
-    std::string            name;
+    std::string            name = {};
     SchemaFieldRule        rule;
     std::regex             key_re;     ///< compiled [{,]\\s*"name"\\s*: pattern
     std::optional<std::regex> value_re; ///< compiled field-value pattern (if any)
@@ -199,7 +209,7 @@ struct CompiledFieldRule {
 static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) {
     // Pre-compile the content-level pattern
     bool content_re_ok = false;
-    std::regex content_re;
+    std::regex content_re = {};
     if (!schema.required_content_pattern.empty()) {
         try {
             content_re    = std::regex(schema.required_content_pattern);
@@ -208,7 +218,8 @@ static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) 
     }
 
     // Pre-compile per-field key patterns and value patterns
-    std::vector<CompiledFieldRule> compiled_fields;
+    std::vector<CompiledFieldRule> compiled_fields = {};
+
     compiled_fields.reserve(schema.fields.size());
     for (const auto& kv : schema.fields) {
         compiled_fields.emplace_back(kv.first, kv.second);
@@ -224,13 +235,13 @@ static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) 
 
         // --- content-level checks ---
         if (schema.min_content_length > 0 &&
-            content.size() < schema.min_content_length) {
+            static_cast<int>(content.size()) < schema.min_content_length) {
             result.addViolation("",
                 "document too short: " + std::to_string(content.size()) +
                 " bytes (minimum " + std::to_string(schema.min_content_length) + ")");
         }
         if (schema.max_content_length > 0 &&
-            content.size() > schema.max_content_length) {
+            static_cast<int>(content.size()) > schema.max_content_length) {
             result.addViolation("",
                 "document too long: " + std::to_string(content.size()) +
                 " bytes (maximum " + std::to_string(schema.max_content_length) + ")");
@@ -267,18 +278,18 @@ static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) 
                 if (cf.rule.expected_type == SchemaFieldType::STRING ||
                     cf.rule.min_length > 0 || cf.rule.max_length > 0 ||
                     !cf.rule.pattern.empty()) {
-                    std::string str_val;
+                    std::string str_val = {};
                     bool is_string = findJsonStringValueRe(content, cf.key_re, str_val);
 
                     if (cf.rule.expected_type == SchemaFieldType::STRING && !is_string) {
                         result.addViolation(cf.name, "expected a string value");
                     } else if (is_string) {
-                        if (cf.rule.min_length > 0 && str_val.size() < cf.rule.min_length) {
+                        if (cf.rule.min_length > 0 && static_cast<int>(str_val.size()) < cf.rule.min_length) {
                             result.addViolation(cf.name,
                                 "string too short: " + std::to_string(str_val.size()) +
                                 " chars (minimum " + std::to_string(cf.rule.min_length) + ")");
                         }
-                        if (cf.rule.max_length > 0 && str_val.size() > cf.rule.max_length) {
+                        if (cf.rule.max_length > 0 && static_cast<int>(str_val.size()) > cf.rule.max_length) {
                             result.addViolation(cf.name,
                                 "string too long: " + std::to_string(str_val.size()) +
                                 " chars (maximum " + std::to_string(cf.rule.max_length) + ")");
@@ -316,7 +327,7 @@ static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) 
 namespace {
 /// Sanitise a source_id so it is safe as part of a file name.
 static std::string sanitiseSourceId(const std::string& sid) {
-    std::string out;
+    std::string out = {};
     out.reserve(sid.size());
     for (char c : sid) {
         if (std::isalnum(static_cast<unsigned char>(c)) ||
@@ -356,7 +367,9 @@ bool CheckpointStore::write(const IngestionCheckpoint& cp) {
     std::lock_guard<std::mutex> lock(mutex_);
     try {
         std::ofstream f(checkpointPath(cp.source_id), std::ios::trunc);
-        if (!f) return false;
+        if (!f) {
+          return false;
+        }
         f << "source_id="       << cp.source_id       << '\n'
           << "processed_count=" << cp.processed_count  << '\n'
           << "byte_offset="     << cp.byte_offset       << '\n'
@@ -373,15 +386,21 @@ bool CheckpointStore::read(const std::string& source_id,
     std::lock_guard<std::mutex> lock(mutex_);
     try {
         std::ifstream f(checkpointPath(source_id));
-        if (!f) return false;
+        if (!f) {
+          return false;
+        }
         out = IngestionCheckpoint{};
-        std::string line;
+        std::string line = {};
         while (std::getline(f, line)) {
             auto eq = line.find('=');
-            if (eq == std::string::npos) continue;
+            if (eq == std::string::npos) {
+              continue;
+            }
             std::string key = line.substr(0, eq);
             std::string val = line.substr(eq + 1);
-            if (key == "source_id")       out.source_id       = val;
+            if (key == "source_id") {
+              out.source_id       = val;
+            }
             else if (key == "processed_count") {
                 try { out.processed_count = std::stoull(val); } catch (...) {}
             } else if (key == "byte_offset") {
@@ -491,7 +510,9 @@ public:
                            const SourceConfig& new_config) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = sources_.find(source_id);
-        if (it == sources_.end()) return false;
+        if (it == sources_.end()) {
+          return false;
+        }
         // Preserve the canonical source_id from the registry key
         SourceConfig updated = new_config;
         updated.source_id = source_id;
@@ -883,7 +904,9 @@ public:
                 {
                     std::lock_guard<std::mutex> lock(mutex_);
                     for (const auto& q : quarantine_) {
-                        if (q.source_id != source_id) continue;
+                        if (q.source_id != source_id) {
+                          continue;
+                        }
                         IngestionLineageRecord rq;
                         rq.run_correlation_id  = stats.correlation_id;
                         rq.source_id           = source_id;
@@ -926,7 +949,7 @@ public:
         return stats;
     }
     
-    IngestionReport ingestAll(ProgressCallback progress_callback) {
+    IngestionReport ingestAll([[maybe_unused]] ProgressCallback progress_callback) {
         IngestionReport report;
         report.dry_run = dry_run_;
         
@@ -950,7 +973,8 @@ public:
         // spinning up threads for trivially-skipped disabled sources; disabled
         // sources are recorded synchronously after the parallel wave completes.
         std::vector<SourceConfig> enabled_sources;
-        std::vector<SourceConfig> disabled_sources;
+        std::vector<SourceConfig> disabled_sources = {};
+
         for (const auto& cfg : all_sources) {
             if (cfg.enabled) {
                 enabled_sources.push_back(cfg);
@@ -959,15 +983,15 @@ public:
             }
         }
 
-        if (parallel_enabled_ && enabled_sources.size() > 1) {
+        if (parallel_enabled_ && static_cast<int>(enabled_sources.size()) > 1) {
             const size_t concurrency =
-                std::min(max_threads_, enabled_sources.size());
+                std::min(max_threads_,static_cast<int>(enabled_sources.size()));
 
             std::vector<std::future<std::pair<std::string, IngestionStats>>> futures;
             futures.reserve(enabled_sources.size());
 
             size_t submitted = 0;
-            while (submitted < enabled_sources.size()) {
+            while (static_cast<size_t>(submitted) <static_cast<int>(enabled_sources.size())) {
                 size_t wave_end = std::min(submitted + concurrency,
                                            enabled_sources.size());
                 for (size_t i = submitted; i < wave_end; ++i) {
@@ -1018,7 +1042,8 @@ public:
     
     std::vector<SourceConfig> getRegisteredSources() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::vector<SourceConfig> result;
+        std::vector<SourceConfig> result = {};
+
         for (const auto& pair : sources_) {
             result.push_back(pair.second);
         }
@@ -1052,7 +1077,9 @@ public:
     bool getSchemaConfig(const std::string& source_id, SchemaConfig& out) const {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = schema_configs_.find(source_id);
-        if (it == schema_configs_.end()) return false;
+        if (it == schema_configs_.end()) {
+          return false;
+        }
         out = it->second;
         return true;
     }
@@ -1071,12 +1098,14 @@ public:
                                   LegalIngestionConfig& out) const {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = legal_ingestion_configs_.find(source_id);
-        if (it == legal_ingestion_configs_.end()) return false;
+        if (it == legal_ingestion_configs_.end()) {
+          return false;
+        }
         out = it->second;
         return true;
     }
 
-    void setDryRun(bool enabled) { dry_run_ = enabled; }
+    void setDryRun([[maybe_unused]] bool enabled) { dry_run_ = enabled; }
     bool isDryRun() const { return dry_run_; }
 
     void setRateLimitConfig(const RateLimitConfig& config) {
@@ -1114,7 +1143,9 @@ public:
             [&updated](const QuarantineEntry& e) {
                 return e.item_path == updated.item_path;
             });
-        if (it == quarantine_.end()) return false;
+        if (it == quarantine_.end()) {
+          return false;
+        }
         *it = updated;
         return true;
     }
@@ -1144,7 +1175,9 @@ public:
     bool pauseSource(const std::string& source_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = sources_.find(source_id);
-        if (it == sources_.end()) return false;
+        if (it == sources_.end()) {
+          return false;
+        }
         it->second.enabled = false;
         return true;
     }
@@ -1152,7 +1185,9 @@ public:
     bool resumeSource(const std::string& source_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = sources_.find(source_id);
-        if (it == sources_.end()) return false;
+        if (it == sources_.end()) {
+          return false;
+        }
         it->second.enabled = true;
         return true;
     }
@@ -1170,7 +1205,9 @@ public:
         {
             std::lock_guard<std::mutex> lock(mutex_);
             auto it = sources_.find(source_id);
-            if (it == sources_.end()) return preview;
+            if (it == sources_.end()) {
+              return preview;
+            }
             config = it->second;
         }
 
@@ -1182,11 +1219,15 @@ public:
 
         namespace fs = std::filesystem;
         const fs::path root(config.location);
-        if (!fs::exists(root)) return preview;
+        if (!fs::exists(root)) {
+          return preview;
+        }
 
-        auto addDoc = [&](const fs::path& p) {
+        auto addDoc = [&]([[maybe_unused]] const fs::path& p) {
             std::ifstream f(p, std::ios::binary);
-            if (!f) return;
+            if (!f) {
+              return;
+            }
             std::string content{std::istreambuf_iterator<char>(f),
                                  std::istreambuf_iterator<char>()};
             if (!content.empty()) {
@@ -1200,9 +1241,11 @@ public:
         } else if (fs::is_directory(root)) {
             // Single pass: count all files and collect up to max_documents.
             for (auto& entry : fs::recursive_directory_iterator(root)) {
-                if (!entry.is_regular_file()) continue;
+                if (!entry.is_regular_file()) {
+                  continue;
+                }
                 ++preview.total_available;
-                if (preview.documents.size() < max_documents) {
+                if (static_cast<int>(preview.documents.size()) < max_documents) {
                     addDoc(entry.path());
                 }
             }
@@ -1224,7 +1267,7 @@ public:
         checkpoint_store_shared_ = std::move(new_store);
     }
 
-    void enableIncrementalMode(bool enabled) {
+    void enableIncrementalMode([[maybe_unused]] bool enabled) {
         incremental_mode_ = enabled;
     }
 
@@ -1237,7 +1280,9 @@ public:
             std::lock_guard<std::mutex> lock(mutex_);
             cs = checkpoint_store_shared_;
         }
-        if (!cs) return false;
+        if (!cs) {
+          return false;
+        }
         return cs->read(source_id, out);
     }
 
@@ -1247,7 +1292,9 @@ public:
             std::lock_guard<std::mutex> lock(mutex_);
             cs = checkpoint_store_shared_;
         }
-        if (!cs) return false;
+        if (!cs) {
+          return false;
+        }
         return cs->clear(source_id);
     }
 
@@ -1274,7 +1321,7 @@ public:
         return plugin_registry_.listPlugins();
     }
 
-    void setLineageTrackingEnabled(bool enabled) {
+    void setLineageTrackingEnabled([[maybe_unused]] bool enabled) {
         std::lock_guard<std::mutex> lock(mutex_);
         lineage_enabled_ = enabled;
     }
@@ -1312,7 +1359,9 @@ public:
     bool checkRateLimit(const std::string& source_id,
                         size_t bytes_this_call,
                         IngestionStats& stats) {
-        if (!rate_limit_config_.enabled) return true;
+        if (!rate_limit_config_.enabled) {
+          return true;
+        }
 
         // Per-source token bucket.
         // A shared_ptr is used so that after unlocking the mutex the bucket
@@ -1437,13 +1486,16 @@ std::unique_ptr<ISourceConnector> ConnectorPluginRegistry::create(
         const std::string& plugin_name) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = factories_.find(plugin_name);
-    if (it == factories_.end()) return nullptr;
+    if (it == factories_.end()) {
+      return nullptr;
+    }
     return it->second();
 }
 
 std::vector<std::string> ConnectorPluginRegistry::listPlugins() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(factories_.size());
     for (const auto& kv : factories_) {
         names.push_back(kv.first);
@@ -1479,8 +1531,8 @@ IngestionStats IngestionManager::ingestSource(const std::string& source_id,
     return impl_->ingestSource(source_id, progress_callback);
 }
 
-IngestionReport IngestionManager::ingestAll(ProgressCallback progress_callback) {
-    return impl_->ingestAll(progress_callback);
+IngestionReport IngestionManager::ingestAll([[maybe_unused]] ProgressCallback progress_callback) {
+    return impl_->ingestAll([[maybe_unused]] progress_callback);
 }
 
 std::vector<SourceConfig> IngestionManager::getRegisteredSources() const {
@@ -1509,7 +1561,7 @@ bool IngestionManager::getSchemaConfig(const std::string& source_id,
     return impl_->getSchemaConfig(source_id, out);
 }
 
-void IngestionManager::setDryRun(bool enabled) {
+void IngestionManager::setDryRun([[maybe_unused]] bool enabled) {
     impl_->setDryRun(enabled);
 }
 
@@ -1561,7 +1613,7 @@ void IngestionManager::setCheckpointDir(const std::string& checkpoint_dir) {
     impl_->setCheckpointDir(checkpoint_dir);
 }
 
-void IngestionManager::enableIncrementalMode(bool enabled) {
+void IngestionManager::enableIncrementalMode([[maybe_unused]] bool enabled) {
     impl_->enableIncrementalMode(enabled);
 }
 
@@ -1599,7 +1651,7 @@ std::vector<std::string> IngestionManager::listConnectorPlugins() const {
     return impl_->listConnectorPlugins();
 }
 
-void IngestionManager::enableLineageTracking(bool enabled) {
+void IngestionManager::enableLineageTracking([[maybe_unused]] bool enabled) {
     impl_->setLineageTrackingEnabled(enabled);
 }
 
@@ -1727,10 +1779,12 @@ IngestionManager::getReIngestionController() const {
 
 namespace {
 static std::string promEscapeLabel(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (char c : s) {
-        if (c == '\\') out += "\\\\";
+        if (c == '\\') {
+          out += "\\\\";
+        }
         else if (c == '"')  out += "\\\"";
         else if (c == '\n') out += "\\n";
         else out += c;
@@ -1747,7 +1801,9 @@ static void writeMetricMultiLabel(
     os << name << '{';
     bool first = true;
     for (const auto& [k, v] : labels) {
-        if (!first) os << ',';
+        if (!first) {
+          os << ',';
+        }
         os << k << "=\"" << promEscapeLabel(v) << '"';
         first = false;
     }
@@ -1765,7 +1821,7 @@ static void writeMetric(std::ostream& os,
 
 std::string IngestionMetricsExporter::exportText(
         const IngestionReport& report) const {
-    std::ostringstream os;
+    std::ostringstream os = {};
 
     // Per-source metrics – use source_type from source_stats key if available
     for (const auto& [sid, stats] : report.source_stats) {
@@ -1807,7 +1863,9 @@ std::string IngestionMetricsExporter::exportText(
     // Count permanently-failed entries for the dedicated metric
     size_t perm_failed = 0;
     for (const auto& e : report.quarantine) {
-        if (e.permanently_failed) ++perm_failed;
+        if (e.permanently_failed) {
+          ++perm_failed;
+        }
     }
     os << "# HELP " << prefix_ << "_quarantine_permanently_failed_total "
        << "Items in quarantine that exceeded max retry attempts\n"
@@ -1830,7 +1888,7 @@ std::string IngestionMetricsExporter::exportText(
         const IngestionStats& stats,
         const std::string& source_id,
         const std::string& source_type) const {
-    std::ostringstream os;
+    std::ostringstream os = {};
 
     // Base labels always present; source_type added when non-empty
     std::vector<std::pair<std::string,std::string>> base_labels = {
@@ -1883,7 +1941,8 @@ std::string IngestionMetricsExporter::exportText(
            << "# TYPE " << ec_metric << " counter\n";
 
         // Count occurrences per error code
-        std::unordered_map<int, size_t> code_counts;
+        std::unordered_map<int, size_t> code_counts = {};
+
         for (const auto& err : stats.errors) {
             code_counts[static_cast<int>(err.code)]++;
         }
@@ -2088,7 +2147,7 @@ IngestionBuilder& IngestionBuilder::withTargetCollection(
     return *this;
 }
 
-IngestionBuilder& IngestionBuilder::withDryRun(bool enabled) {
+IngestionBuilder& IngestionBuilder::withDryRun([[maybe_unused]] bool enabled) {
     opts_->dry_run = enabled;
     return *this;
 }
@@ -2158,7 +2217,8 @@ IngestionAdminApi::IngestionAdminApi(IngestionManager& manager)
     : mgr_(manager) {}
 
 std::vector<SourceStatus> IngestionAdminApi::listSources() const {
-    std::vector<SourceStatus> result;
+    std::vector<SourceStatus> result = {};
+
     for (const auto& cfg : mgr_.getRegisteredSources()) {
         SourceStatus s;
         s.source_id  = cfg.source_id;
@@ -2207,10 +2267,14 @@ bool IngestionAdminApi::retryQuarantineItem(const std::string& item_path) {
         [&item_path](const QuarantineEntry& e) {
             return e.item_path == item_path;
         });
-    if (it == items.end()) return false;
+    if (it == items.end()) {
+      return false;
+    }
 
     // Do not retry entries that have been permanently failed
-    if (it->permanently_failed) return false;
+    if (it->permanently_failed) {
+      return false;
+    }
 
     RetryConfig cfg = mgr_.getRetryConfig();
     QuarantineEntry entry = *it;
@@ -2300,20 +2364,26 @@ std::string IngestionAdminApi::healthJson() const {
     auto sources    = mgr_.getRegisteredSources();
     auto quarantine = mgr_.getQuarantineItems();
 
-    size_t total     = sources.size();
+    size_t total = sources.size();
     size_t enabled   = 0;
     for (const auto& s : sources) {
-        if (s.enabled) ++enabled;
+        if (s.enabled) {
+          ++enabled;
+        }
     }
-    size_t qsize          = quarantine.size();
+    size_t qsize = quarantine.size();
     size_t retry_successes = mgr_.getQuarantineRetrySuccessCount();
 
     // Determine overall status
     std::string status = "healthy";
-    if (qsize > 0) status = "degraded";
-    if (enabled == 0 && total > 0) status = "unhealthy";
+    if (qsize > 0) {
+      status = "degraded";
+    }
+    if (enabled == 0 && total > 0) {
+      status = "unhealthy";
+    }
 
-    std::ostringstream os;
+    std::ostringstream os = {};
     os << "{"
        << "\"status\":\"" << status << "\","
        << "\"registered_sources\":" << total << ","

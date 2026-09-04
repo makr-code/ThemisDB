@@ -58,7 +58,9 @@ public:
     }
 
     std::string evict() override {
-        if (key_order.empty()) return "";
+        if (key_order.empty()) {
+          return "";
+        }
         std::string k = key_order.front();
         key_order.erase(key_order.begin());
         return k;
@@ -86,7 +88,8 @@ public:
             filter.ttl_max_seconds == 0) {
             return all_keys;  // no filter → return all
         }
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         for (const auto& k : all_keys) {
             if (filter.prefix.has_value() &&
                 k.rfind(*filter.prefix, 0) == 0) {
@@ -114,7 +117,7 @@ class MockCacheWarmup final : public ICacheWarmup {
 public:
     std::vector<CacheEntry<std::string, std::string>> inserted;
     bool should_error = false;
-    std::string error_message;
+    std::string error_message = {};
 
     WarmupResult warm(IWarmupSource& source) override {
         if (should_error) {
@@ -124,7 +127,9 @@ public:
         auto t0 = std::chrono::steady_clock::now();
         while (true) {
             auto batch = source.nextBatch();
-            if (batch.empty()) break;
+            if (batch.empty()) {
+              break;
+            }
             for (auto& e : batch) {
                 inserted.push_back(e);
                 ++s.entries_inserted;
@@ -179,8 +184,12 @@ public:
                 base * cfg_.aggressiveness * pattern.access_frequency);
         }
         auto result = std::chrono::milliseconds(base);
-        if (result < cfg_.minTTL) result = cfg_.minTTL;
-        if (result > cfg_.maxTTL) result = cfg_.maxTTL;
+        if (result < cfg_.minTTL) {
+          result = cfg_.minTTL;
+        }
+        if (result > cfg_.maxTTL) {
+          result = cfg_.maxTTL;
+        }
         return result;
     }
 

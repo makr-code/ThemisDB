@@ -20,7 +20,7 @@ protected:
 
     void TearDown() override {
         if (!cache_dir_.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove_all(cache_dir_, ec);
         }
     }
@@ -203,12 +203,16 @@ TEST_F(LLMResponseCacheTest, HighConcurrency) {
         threads.emplace_back([&cache, &hits]() {
             for (int j = 0; j < 100; ++j) {
                 auto cached = cache.get("Shared prompt");
-                if (cached.has_value()) hits++;
+                if (cached.has_value()) {
+                  hits++;
+                }
             }
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     EXPECT_EQ(hits, 1000);  // All should hit
 }
@@ -312,7 +316,9 @@ TEST_F(LLMResponseCacheTest, ConcurrentPutAndGet) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     EXPECT_EQ(put_count, 100);
     EXPECT_EQ(get_count, 100);
@@ -345,7 +351,9 @@ TEST_F(LLMResponseCacheTest, ConcurrentStatisticsUpdate) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     // Verify statistics are consistent (no lost updates)
     auto stats = cache.getStatistics();
@@ -391,7 +399,9 @@ TEST_F(LLMResponseCacheTest, ConcurrentClearAndAccess) {
         should_stop = true;
     });
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     // No crashes = success
     SUCCEED();
@@ -427,7 +437,9 @@ TEST_F(LLMResponseCacheTest, ConcurrentInvalidate) {
         }
     });
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     // Some entries should be invalidated
     auto stats = cache.getStatistics();

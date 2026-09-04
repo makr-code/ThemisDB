@@ -94,8 +94,12 @@ struct XOEVVersion {
         return major == o.major && minor == o.minor && patch == o.patch;
     }
     bool operator<(const XOEVVersion& o) const noexcept {
-        if (major != o.major) return major < o.major;
-        if (minor != o.minor) return minor < o.minor;
+        if (major != o.major) {
+          return major < o.major;
+        }
+        if (minor != o.minor) {
+          return minor < o.minor;
+        }
         return patch < o.patch;
     }
 };
@@ -235,7 +239,7 @@ public:
 
     XOEVImportResult importFromXML(std::string_view xml_content,
                                    XOEVStandard standard) override {
-        XOEVImportResult result;
+        XOEVImportResult result = {};
         if (xml_content.empty()) {
             result.errors.push_back({0, "", "XML content is empty", true});
             return result;
@@ -247,7 +251,9 @@ public:
 
         while (true) {
             auto start = xml.find("<record", pos);
-            if (start == std::string::npos) break;
+            if (start == std::string::npos) {
+              break;
+            }
             auto end = xml.find("</record>", start);
             if (end == std::string::npos) {
                 result.errors.push_back({result.records_parsed,
@@ -288,7 +294,7 @@ public:
     XOEVExportResult exportToXML(const std::vector<XOEVRecord>& records,
                                  XOEVStandard standard,
                                  const XOEVVersion& version) override {
-        XOEVExportResult result;
+        XOEVExportResult result = {};
         if (records.empty()) {
             result.success     = true;
             result.xml_output  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -341,9 +347,12 @@ public:
 
     std::vector<XOEVRecord> storedRecords() const override {
         std::unique_lock<std::mutex> lk(mutex_);
-        std::vector<XOEVRecord> result;
+        std::vector<XOEVRecord> result = {};
+
         result.reserve(store_.size());
-        for (const auto& [id, r] : store_) result.push_back(r);
+        for (const auto& [id, r] : store_) {
+          result.push_back(r);
+        }
         return result;
     }
 
@@ -361,9 +370,13 @@ private:
         std::size_t pos = 0;
         while (true) {
             auto ts = fragment.find('<', pos);
-            if (ts == std::string::npos) break;
+            if (ts == std::string::npos) {
+              break;
+            }
             auto te = fragment.find('>', ts);
-            if (te == std::string::npos) break;
+            if (te == std::string::npos) {
+              break;
+            }
             std::string tag = fragment.substr(ts + 1, te - ts - 1);
             // Skip closing tags and the <record …> element itself.
             if (tag.empty() || tag[0] == '/' || tag.find("record") == 0) {
@@ -372,7 +385,9 @@ private:
             }
             // Strip attributes from tag name.
             auto space = tag.find(' ');
-            if (space != std::string::npos) tag = tag.substr(0, space);
+            if (space != std::string::npos) {
+              tag = tag.substr(0, space);
+            }
 
             auto vs = te + 1;
             auto ve = fragment.find("</" + tag + ">", vs);
@@ -384,7 +399,7 @@ private:
 
     /// Escape the five XML predefined characters.
     static std::string escapeXML_(const std::string& s) {
-        std::string out;
+        std::string out = {};
         out.reserve(s.size());
         for (char c : s) {
             switch (c) {

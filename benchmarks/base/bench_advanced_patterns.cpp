@@ -57,7 +57,9 @@ public:
     std::vector<float> genVec(size_t dim) {
         std::uniform_real_distribution<float> dis(-1.0f, 1.0f);
         std::vector<float> v(dim);
-        for (auto& x : v) x = dis(rng_);
+        for (auto& x : v) {
+          x = dis(rng_);
+        }
         return v;
     }
     
@@ -66,7 +68,9 @@ public:
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         std::uniform_int_distribution<size_t> dis(0, charset.length() - 1);
         std::string s(len, ' ');
-        for (char& c : s) c = charset[dis(rng_)];
+        for (char& c : s) {
+          c = charset[dis(rng_)];
+        }
         return s;
     }
     
@@ -437,7 +441,7 @@ class ParallelityBenchPhase2G : public benchmark::Fixture {
 protected:
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> sim_;
-    std::string db_path_;
+    std::string db_path_ = {};
 
     void SetUp(const benchmark::State&) override {
         RocksDBWrapper::Config cfg;
@@ -492,7 +496,7 @@ class ParallelityBenchPhase2G_2H : public benchmark::Fixture {
 protected:
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> sim_;
-    std::string db_path_;
+    std::string db_path_ = {};
 
     void SetUp(const benchmark::State&) override {
         RocksDBWrapper::Config cfg;
@@ -668,7 +672,7 @@ class ParallelityBenchPhase2G_NonTxn : public benchmark::Fixture {
 protected:
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> sim_;
-    std::string db_path_;
+    std::string db_path_ = {};
 
     void SetUp(const benchmark::State&) override {
         RocksDBWrapper::Config cfg;
@@ -796,7 +800,7 @@ class ParallelityBenchPhase2G_Unprepared_NonTxn : public benchmark::Fixture {
 protected:
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> sim_;
-    std::string db_path_;
+    std::string db_path_ = {};
 
     void SetUp(const benchmark::State&) override {
         RocksDBWrapper::Config cfg;
@@ -924,7 +928,7 @@ class ParallelityBenchPhase2G_Txn10 : public benchmark::Fixture {
 protected:
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> sim_;
-    std::string db_path_;
+    std::string db_path_ = {};
 
     void SetUp(const benchmark::State&) override {
         RocksDBWrapper::Config cfg;
@@ -1038,7 +1042,7 @@ class ParallelityBenchPhase2G_Txn5 : public benchmark::Fixture {
 protected:
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> sim_;
-    std::string db_path_;
+    std::string db_path_ = {};
 
     void SetUp(const benchmark::State&) override {
         RocksDBWrapper::Config cfg;
@@ -1152,7 +1156,7 @@ class ParallelityBenchPhase2G_Txn10_DualQueue : public benchmark::Fixture {
 protected:
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> sim_;
-    std::string db_path_;
+    std::string db_path_ = {};
 
     void SetUp(const benchmark::State&) override {
         RocksDBWrapper::Config cfg;
@@ -1266,7 +1270,7 @@ BENCHMARK_F(ParallelityBenchPhase2G_Txn10_DualQueue, Phase2G_Txn10DQ_32Threads) 
 class RocksDBRaw_NonTxn : public benchmark::Fixture {
 protected:
     std::unique_ptr<rocksdb::TransactionDB> db_;
-    std::string db_path_;
+    std::string db_path_ = {};
     rocksdb::WriteOptions write_opts_;
     std::atomic<bool> failed_{false};
     std::string first_error_;
@@ -1424,7 +1428,7 @@ BENCHMARK_F(RocksDBRaw_NonTxn, RocksRawNTX_32Threads) (benchmark::State& state) 
 class RocksDBRaw_Txn10 : public benchmark::Fixture {
 protected:
     std::unique_ptr<rocksdb::TransactionDB> db_;
-    std::string db_path_;
+    std::string db_path_ = {};
     rocksdb::WriteOptions write_opts_;
     std::atomic<bool> failed_{false};
     std::string first_error_;
@@ -1583,7 +1587,7 @@ class ThemisNoPipe_NonTxn : public benchmark::Fixture {
 protected:
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> sim_;
-    std::string db_path_;
+    std::string db_path_ = {};
 
     void SetUp(const benchmark::State&) override {
         RocksDBWrapper::Config cfg;
@@ -1691,7 +1695,7 @@ class ThemisNoPipe_Txn10 : public benchmark::Fixture {
 protected:
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> sim_;
-    std::string db_path_;
+    std::string db_path_ = {};
 
     void SetUp(const benchmark::State&) override {
         RocksDBWrapper::Config cfg;
@@ -1787,7 +1791,7 @@ class ThemisWithPipe_NonTxn : public benchmark::Fixture {
 protected:
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> sim_;
-    std::string db_path_;
+    std::string db_path_ = {};
 
     void SetUp(const benchmark::State&) override {
         RocksDBWrapper::Config cfg;
@@ -1895,7 +1899,7 @@ class ThemisWithPipe_Txn10 : public benchmark::Fixture {
 protected:
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> sim_;
-    std::string db_path_;
+    std::string db_path_ = {};
 
     void SetUp(const benchmark::State&) override {
         RocksDBWrapper::Config cfg;
@@ -2248,7 +2252,7 @@ protected:
     }
 
 protected:
-    std::string base_path_;
+    std::string base_path_ = {};
 };
 
 // Optimized: 1 thread with dedicated DB
@@ -2964,7 +2968,8 @@ BENCHMARK_F(BestPracticeBench, BestPractice_Batch_1000Items)(benchmark::State& s
     sim->createIndex("batch", "id");
     
     for (auto _ : state) {
-        std::vector<BaseEntity> batch;
+        std::vector<BaseEntity> batch = {};
+
         for (int i = 0; i < 1000; ++i) {
             batch.emplace_back("entity_" + std::to_string(i), BaseEntity::FieldMap{
                 {"data", RandomGenerator::instance().randStr(100)},
@@ -3073,7 +3078,8 @@ BENCHMARK_F(GapAnalysisBench, Gap_ConcurrencyScaling_8Threads) (benchmark::State
     std::atomic<int> counter(0);
     
     for (auto _ : state) {
-        std::vector<std::thread> threads;
+        std::vector<std::thread> threads = {};
+
         for (int t = 0; t < 8; ++t) {
             threads.emplace_back([this, &counter, t]() {
                 auto sim = std::make_unique<SecondaryIndexManager>(fixture_->getDb());

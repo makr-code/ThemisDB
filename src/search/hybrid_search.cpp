@@ -140,16 +140,16 @@ std::vector<HybridSearch::Result> HybridSearch::search(
             
             if (status.ok) {
                 bm25_results.reserve(ft_results.size());
-                for (size_t i = 0; i < ft_results.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(ft_results.size()); ++i) {
                     const auto& ft_result = ft_results[i];
-                    Result r;
+                    Result r = Result();
                     r.document_id = ft_result.pk;
                     r.bm25_score = ft_result.score;
                     r.bm25_rank = static_cast<int>(i + 1);
                     bm25_results.push_back(r);
                 }
                 bm25_ok = true;
-                THEMIS_DEBUG("BM25 search returned {} results", bm25_results.size());
+                THEMIS_DEBUG("BM25 search returned {} results",static_cast<int>(bm25_results.size()));
             } else {
                 THEMIS_WARN("BM25 search failed: {}", status.message);
             }
@@ -159,7 +159,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     }
     
     // Vector ANN search
-    if (vector_query && vector_dim > 0 && (ann_frontdoor_ || vector_index_)) {
+    if ((vector_query && vector_dim > 0 && (ann_frontdoor_ || vector_index_)) {
         try {
             std::vector<float> query_vec(vector_query, vector_query + vector_dim);
             if (ann_frontdoor_) {
@@ -172,9 +172,9 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                 );
 
                 vector_results.reserve(frontdoor_result.candidates.size());
-                for (size_t i = 0; i < frontdoor_result.candidates.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(frontdoor_result.candidates.size()); ++i) {
                     const auto& candidate = frontdoor_result.candidates[i];
-                    Result r;
+                    Result r = Result();
                     r.document_id = std::to_string(candidate.id);
                     r.vector_score = distanceToSimilarity(candidate.distance,
                                                           config_.vector_metric);
@@ -193,9 +193,9 @@ std::vector<HybridSearch::Result> HybridSearch::search(
 
                     if (status.ok) {
                         vector_results.reserve(vec_results.size());
-                        for (size_t i = 0; i < vec_results.size(); ++i) {
+                        for (size_t i = 0; i <static_cast<int>(vec_results.size()); ++i) {
                             const auto& vec_result = vec_results[i];
-                            Result r;
+                            Result r = Result();
                             r.document_id = vec_result.pk;
                             r.vector_score = distanceToSimilarity(vec_result.distance,
                                                                   config_.vector_metric);
@@ -219,9 +219,9 @@ std::vector<HybridSearch::Result> HybridSearch::search(
 
                 if (status.ok) {
                     vector_results.reserve(vec_results.size());
-                    for (size_t i = 0; i < vec_results.size(); ++i) {
+                    for (size_t i = 0; i <static_cast<int>(vec_results.size()); ++i) {
                         const auto& vec_result = vec_results[i];
-                        Result r;
+                        Result r = Result();
                         r.document_id = vec_result.pk;
                         // Convert distance to similarity based on configured metric
                         r.vector_score = distanceToSimilarity(vec_result.distance,
@@ -230,7 +230,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                         vector_results.push_back(r);
                     }
                     vector_ok = true;
-                    THEMIS_DEBUG("Vector search returned {} results", vector_results.size());
+                    THEMIS_DEBUG("Vector search returned {} results",static_cast<int>(vector_results.size()));
                 } else {
                     THEMIS_WARN("Vector search failed: {}", status.message);
                 }
@@ -272,11 +272,12 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     
     // Fuse results – wrapped in a safety-net catch to guarantee search() never throws
     try {
-        std::vector<Result> fused;
+        std::vector<Result> fused = {};
+
         if (config_.use_rrf) {
             fused = reciprocalRankFusion(bm25_results, vector_results);
             THEMIS_INFO("Hybrid search: {} BM25 + {} vector -> {} fused results",
-                       bm25_results.size(), vector_results.size(), fused.size());
+                       bm25_results.size(),static_cast<int>(vector_results.size()),static_cast<int>(fused.size()));
         } else {
             // Linear combination fallback
             std::unordered_map<std::string, Result> doc_map;
@@ -289,7 +290,9 @@ std::vector<HybridSearch::Result> HybridSearch::search(
             
             for (const auto& r : vector_results) {
                 auto& doc = doc_map[r.document_id];
-                if (doc.document_id.empty()) doc = r;
+                if (doc.document_id.empty()) {
+                  doc = r;
+                }
                 doc.vector_score = r.vector_score;
                 doc.vector_rank = r.vector_rank;
                 doc.hybrid_score += config_.vector_weight * r.vector_score;
@@ -305,17 +308,18 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                           return a.hybrid_score > b.hybrid_score;
                       });
             
-            if (fused.size() > config_.k) {
+            if (static_cast<int>(fused.size()) > config_.k) {
                 fused.resize(config_.k);
             }
             
             THEMIS_INFO("Hybrid search (linear): {} BM25 + {} vector -> {} combined results",
-                       bm25_results.size(), vector_results.size(), fused.size());
+                       bm25_results.size(),static_cast<int>(vector_results.size()),static_cast<int>(fused.size()));
         }
 
         // LLM re-ranking: optional Phase-3 post-processing step
         if (reranker_ && !fused.empty() && !text_query.empty()) {
-            std::vector<LlmRerankCandidate> candidates;
+            std::vector<LlmRerankCandidate> candidates = {};
+
             candidates.reserve(fused.size());
             for (const auto& r : fused) {
                 LlmRerankCandidate c;
@@ -328,10 +332,12 @@ std::vector<HybridSearch::Result> HybridSearch::search(
             auto reranked = reranker_->rerank(text_query, candidates);
 
             // Rebuild Result list in LLM-determined order, updating hybrid_score
-            std::vector<Result> reranked_results;
+            std::vector<Result> reranked_results = {};
+
             reranked_results.reserve(reranked.size());
             // Build a lookup map for O(1) access
-            std::unordered_map<std::string, const Result*> result_map;
+            std::unordered_map<std::string, const Result*> result_map = {};
+
             for (const auto& r : fused) {
                 result_map[r.document_id] = &r;
             }
@@ -343,7 +349,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                     reranked_results.push_back(std::move(out));
                 }
             }
-            THEMIS_INFO("LLM re-ranker: {} -> {} results", fused.size(), reranked_results.size());
+            THEMIS_INFO("LLM re-ranker: {} -> {} results",static_cast<int>(fused.size()),static_cast<int>(reranked_results.size()));
             return reranked_results;
         }
 
@@ -362,7 +368,7 @@ std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
     std::unordered_map<std::string, Result> doc_map;
     
     // Process BM25 results
-    for (size_t i = 0; i < bm25_results.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(bm25_results.size()); ++i) {
         const auto& r = bm25_results[i];
         auto& doc = doc_map[r.document_id];
         doc.document_id = r.document_id;
@@ -376,13 +382,15 @@ std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
     }
     
     // Process vector results
-    for (size_t i = 0; i < vector_results.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(vector_results.size()); ++i) {
         const auto& r = vector_results[i];
         auto& doc = doc_map[r.document_id];
         doc.document_id = r.document_id;
         doc.vector_score = r.vector_score;
         doc.vector_rank = static_cast<int>(i + 1);
-        if (doc.content.empty()) doc.content = r.content;
+        if (doc.content.empty()) {
+          doc.content = r.content;
+        }
         
         // RRF contribution from vector search
         double rrf_score = 1.0 / (config_.rrf_k + (i + 1));
@@ -390,7 +398,8 @@ std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
     }
     
     // Convert map to vector and sort by hybrid score
-    std::vector<Result> fused_results;
+    std::vector<Result> fused_results = {};
+
     for (const auto& [_, result] : doc_map) {
         fused_results.push_back(result);
     }
@@ -401,18 +410,20 @@ std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
               });
     
     // Limit to top-k
-    if (fused_results.size() > config_.k) {
+    if (static_cast<int>(fused_results.size()) > config_.k) {
         fused_results.resize(config_.k);
     }
     
     THEMIS_INFO("RRF fusion: {} BM25 + {} vector -> {} results",
-                bm25_results.size(), vector_results.size(), fused_results.size());
+                bm25_results.size(),static_cast<int>(vector_results.size()),static_cast<int>(fused_results.size()));
     
     return fused_results;
 }
 
 void HybridSearch::normalizeScores(std::vector<Result>& results, bool is_bm25) {
-    if (results.empty()) return;
+    if (results.empty()) {
+      return;
+    }
     
     // Find min/max scores
     double min_score = std::numeric_limits<double>::max();

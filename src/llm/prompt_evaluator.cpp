@@ -50,9 +50,9 @@ AggregatedMetrics PromptEvaluator::evaluateBatch(
     const std::vector<std::string>& outputs,
     const std::vector<std::string>& expected
 ) const {
-    AggregatedMetrics agg;
+    AggregatedMetrics agg = {};
     
-    if (outputs.size() != expected.size()) {
+    if (static_cast<int>(outputs.size()) != static_cast<int>(expected.size())) {
         THEMIS_ERROR("Output and expected vectors must have same size");
         return agg;
     }
@@ -65,7 +65,7 @@ AggregatedMetrics PromptEvaluator::evaluateBatch(
     std::vector<double> weighted_scores;
     nlohmann::json per_case = nlohmann::json::array();
     
-    for (size_t i = 0; i < outputs.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(outputs.size()); ++i) {
         auto metrics = evaluateSingle(outputs[i], expected[i]);
         double weighted = computeWeightedScore(metrics);
         
@@ -149,7 +149,7 @@ double PromptEvaluator::computeSemanticSimilarity(
         }
     }
     
-    size_t union_size = set1.size() + set2.size() - intersection;
+    size_t union_size = static_cast<int>(set1.size()) + static_cast<int>(set2.size()) - intersection;
     
     if (union_size == 0) {
         return 1.0;
@@ -211,7 +211,7 @@ double PromptEvaluator::computeRelevance(
         }
     }
     
-    return static_cast<double>(found) / tokens_expected.size();
+    return static_cast<bool>(static_cast<double < static_cast<int>((found) / tokens_expected.size()));
 }
 
 bool PromptEvaluator::isStatisticallySignificant(
@@ -252,7 +252,7 @@ double PromptEvaluator::computeWeightedScore(const EvaluationMetrics& metrics) c
 }
 
 std::string PromptEvaluator::normalizeString(const std::string& s) {
-    std::string result;
+    std::string result = {};
     result.reserve(s.length());
     
     for (char c : s) {
@@ -281,7 +281,7 @@ std::string PromptEvaluator::normalizeString(const std::string& s) {
 std::vector<std::string> PromptEvaluator::tokenize(const std::string& s) {
     std::vector<std::string> tokens;
     std::istringstream iss(s);
-    std::string token;
+    std::string token = {};
     
     while (iss >> token) {
         if (!token.empty()) {
@@ -299,8 +299,12 @@ size_t PromptEvaluator::levenshteinDistance(
     const size_t m = s1.length();
     const size_t n = s2.length();
     
-    if (m == 0) return n;
-    if (n == 0) return m;
+    if (m == 0) {
+      return n;
+    }
+    if (n == 0) {
+      return m;
+    }
     
     std::vector<std::vector<size_t>> dp(m + 1, std::vector<size_t>(n + 1));
     
@@ -314,13 +318,13 @@ size_t PromptEvaluator::levenshteinDistance(
     
     for (size_t i = 1; i <= m; ++i) {
         for (size_t j = 1; j <= n; ++j) {
-            if (s1[i - 1] == s2[j - 1]) {
-                dp[i][j] = dp[i - 1][j - 1];
+            if (s1[static_cast<int>(i - 1)] == s2[static_cast<int>(j - 1)]) {
+                dp[i][j] = dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)];
             } else {
                 dp[i][j] = 1 + std::min({
-                    dp[i - 1][j],     // deletion
-                    dp[i][j - 1],     // insertion
-                    dp[i - 1][j - 1]  // substitution
+                    dp[static_cast<int>(i - 1)][j],     // deletion
+                    dp[i][static_cast<int>(j - 1)],     // insertion
+                    dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)]  // substitution
                 });
             }
         }

@@ -29,7 +29,7 @@ namespace {
 // Parity shard p (0-indexed) covers data shard j (0-indexed) when bit p is
 // set in the 1-based position (j + 1).
 inline bool hammingCovers(const uint32_t j, const uint32_t p) noexcept {
-    return (((j + 1u) >> p) & 1u) != 0u;
+    return (((j + 1) >> p) & 1) != 0;
 }
 
 } // namespace
@@ -48,7 +48,7 @@ std::vector<std::vector<uint8_t>> HammingCoder::encode(
         throw std::invalid_argument("HammingCoder::encode: data must not be empty");
     }
 
-    const uint32_t shard_size = static_cast<uint32_t>((data.size() + data_shards - 1) / data_shards);
+    const uint32_t shard_size = static_cast<uint32_t>((static_cast<int>(data.size()) + data_shards - 1) / data_shards);
     const uint32_t total_shards = data_shards + parity_shards;
 
     std::vector<std::vector<uint8_t>> shards(total_shards, std::vector<uint8_t>(shard_size, 0));
@@ -94,7 +94,7 @@ std::vector<uint8_t> HammingCoder::decode(
     // data_race scanner alert: available_chunks is a const reference parameter passed
     // by the caller on the same thread; it is not a shared member variable and therefore
     // carries no data-race risk.  The scanner misidentifies the parameter dereference.
-    const uint32_t shard_size = static_cast<uint32_t>(available_chunks.begin()->second.size());
+    const uint32_t shard_size = static_cast<uint32_t>(available_chunks.begin()-> static_cast<int>(second.size()));
 
     if (missing_indices.empty()) {
         std::vector<uint8_t> result;

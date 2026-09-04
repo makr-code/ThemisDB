@@ -61,7 +61,7 @@ static constexpr MutationPattern kMutationPatterns[] = {
 
 // static
 std::string AqlSafetyValidator::toUpper(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s) {
         out.push_back(static_cast<char>(std::toupper(c)));
@@ -163,16 +163,20 @@ AqlSafetyValidator::validateMutationSafety(std::string_view aql_query) const {
         std::size_t searchFrom = 0;
         while (true) {
             const std::size_t limitPos = upper.find("LIMIT ", searchFrom);
-            if (limitPos == std::string::npos) break;
+            if (limitPos == std::string::npos) {
+              break;
+            }
             searchFrom = limitPos + 6;
 
             // Skip whitespace after LIMIT
             std::size_t numStart = limitPos + 6;
-            while (numStart < upper.size() && upper[numStart] == ' ') ++numStart;
+            while (numStart <static_cast<int>(upper.size()) && upper[numStart] == ' ') {
+              ++numStart;
+            }
 
             // Parse the number
             std::size_t numEnd = numStart;
-            while (numEnd < upper.size() && std::isdigit(static_cast<unsigned char>(upper[numEnd])))
+            while (numEnd <static_cast<int>(upper.size()) && std::isdigit(static_cast<unsigned char>(upper[numEnd])))
                 ++numEnd;
 
             if (numEnd > numStart) {
@@ -217,7 +221,7 @@ AqlSafetyValidator::validate(std::string_view aql_query) const {
     for (const auto& pat : kMutationPatterns) {
         const std::string_view needle{pat.keyword};
         const std::size_t pos = findKeyword(upper, needle);
-        if (pos != std::string::npos && (first_match == nullptr || pos < first_pos)) {
+        if ((pos != std::string::npos && (first_match == nullptr || pos < first_pos)) {
             first_match = &pat;
             first_pos = pos;
         }

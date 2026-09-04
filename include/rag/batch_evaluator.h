@@ -25,7 +25,7 @@ namespace themis::rag::judge {
  * @brief Batch evaluation progress
  */
 struct BatchProgress {
-    size_t total_items;
+    size_t total_items = 0;
     size_t completed_items;
     size_t failed_items;
     double progress_percentage;

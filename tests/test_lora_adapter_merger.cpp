@@ -70,8 +70,12 @@ TEST(LoRAAdapterMergerTest, LinearMergeWithZeroWeightsProducesZero) {
     auto res = merger.mergeLinear(descs, "q_proj", 2, 2, 1, 1.0f);
     EXPECT_TRUE(res.success);
     // Merged ΔW = 0 → B and A should also be ~0
-    for (float v : res.B) EXPECT_NEAR(v, 0.0f, 1e-5f);
-    for (float v : res.A) EXPECT_NEAR(v, 0.0f, 1e-5f);
+    for (float v : res.B) {
+      EXPECT_NEAR(v, 0.0f, 1e-5f);
+    }
+    for (float v : res.A) {
+      EXPECT_NEAR(v, 0.0f, 1e-5f);
+    }
 }
 
 TEST(LoRAAdapterMergerTest, LinearMergeEmptyAdaptersReturnsError) {
@@ -137,8 +141,12 @@ TEST(LoRAAdapterMergerTest, LinearMergeSymmetricWeightsProducesSymmetricResult) 
     EXPECT_TRUE(r2.success);
     // The Frobenius norms should be equal (commutativity of sum)
     float f1 = 0.0f, f2 = 0.0f;
-    for (float v : r1.B) f1 += v * v;
-    for (float v : r2.B) f2 += v * v;
+    for (float v : r1.B) {
+      f1 += v * v;
+    }
+    for (float v : r2.B) {
+      f2 += v * v;
+    }
     EXPECT_NEAR(f1, f2, 1e-4f);
 }
 
@@ -273,8 +281,12 @@ TEST(LoRAAdapterMergerTest, TIESMergeHighThresholdTrimsAll) {
     auto res = merger.mergeTIES(descs, "q_proj", 2, 2, 1, 1.0f, 0.99f);
     EXPECT_TRUE(res.success);
     // Output should be near zero (high threshold trims most values)
-    for (float v : res.B) EXPECT_NEAR(v, 0.0f, 5e-3f);
-    for (float v : res.A) EXPECT_NEAR(v, 0.0f, 5e-3f);
+    for (float v : res.B) {
+      EXPECT_NEAR(v, 0.0f, 5e-3f);
+    }
+    for (float v : res.A) {
+      EXPECT_NEAR(v, 0.0f, 5e-3f);
+    }
 }
 
 // ============================================================================
@@ -339,8 +351,12 @@ TEST(LoRAAdapterMergerTest, LinearAndTIESGiveSameOrderOfMagnitude) {
     EXPECT_TRUE(r_ties.success);
 
     float mag_lin = 0.0f, mag_ties = 0.0f;
-    for (float v : r_lin.B)  mag_lin  += v * v;
-    for (float v : r_ties.B) mag_ties += v * v;
+    for (float v : r_lin.B) {
+      mag_lin  += v * v;
+    }
+    for (float v : r_ties.B) {
+      mag_ties += v * v;
+    }
     // Both should be non-negative; zero B is acceptable for zero A initialization
     EXPECT_GE(mag_lin,  0.0f);
     EXPECT_GE(mag_ties, 0.0f);

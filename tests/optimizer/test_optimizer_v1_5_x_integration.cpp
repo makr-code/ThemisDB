@@ -136,7 +136,8 @@ TEST_F(DistributedCostModelTest, ParallelismScaling) {
         query, {"shard_0", "shard_1"}, false);
     
     // Large cluster
-    std::vector<std::string> large_cluster;
+    std::vector<std::string> large_cluster = {};
+
     for (int i = 0; i < 16; i++) {
         large_cluster.push_back("shard_" + std::to_string(i));
     }

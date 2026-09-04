@@ -106,7 +106,7 @@ static std::string sha256HexOfFile(const std::string& path) {
     EVP_MD_CTX_free(ctx);
 
     // Encode as lowercase hex string
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex;
     for (unsigned int i = 0; i < digest_len; ++i) {
         hex.width(2);
@@ -145,7 +145,7 @@ static uint64_t mixMetadata(uint64_t seed, const ImageMetadata* metadata) {
     return seed;
 }
 
-static float nextFloat01(uint64_t& state) {
+static float nextFloat01([[maybe_unused]] uint64_t& state) {
     // xorshift64*
     state ^= state >> 12;
     state ^= state << 25;
@@ -158,7 +158,7 @@ static float nextFloat01(uint64_t& state) {
 // Simple BPE-style tokenizer: split on whitespace and punctuation, lowercase.
 static std::vector<std::string> tokenize(const std::string& text) {
     std::vector<std::string> tokens;
-    std::string token;
+    std::string token = {};
     for (char c : text) {
         if (std::isspace(static_cast<unsigned char>(c)) ||
             std::ispunct(static_cast<unsigned char>(c))) {
@@ -407,7 +407,7 @@ struct ONNXClipPlugin::Impl {
                                      const ImageMetadata* metadata,
                                      const std::string& model,
                                      int embedding_dim_value) const {
-        EmbeddingResult result;
+        EmbeddingResult result = {};
         if (image_data.empty()) {
             result.success = false;
             result.error_message = "Image data is empty";
@@ -442,7 +442,7 @@ struct ONNXClipPlugin::Impl {
     EmbeddingResult computeTextEmbedding(const std::string& text,
                                          const std::string& model,
                                          int embedding_dim_value) const {
-        EmbeddingResult result;
+        EmbeddingResult result = {};
         if (text.empty()) {
             result.success = false;
             result.error_message = "Text input is empty";
@@ -706,11 +706,12 @@ std::vector<EmbeddingResult> ONNXClipPlugin::generateEmbeddingBatch(
     RequestGuard req_guard(snap);
 
     std::lock_guard<std::mutex> lock(snap->mutex);
-    std::vector<EmbeddingResult> results;
+    std::vector<EmbeddingResult> results = {};
+
     results.reserve(images.size());
 
     if (!snap->ready) {
-        for (size_t i = 0; i < images.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(images.size()); ++i) {
             EmbeddingResult result;
             result.success = false;
             result.error_message = "ONNXClipPlugin not initialized";
@@ -722,8 +723,8 @@ std::vector<EmbeddingResult> ONNXClipPlugin::generateEmbeddingBatch(
 
     // Process in sub-batches of max_batch_size to bound memory usage.
     const size_t batch_limit = static_cast<size_t>(snap->max_batch_size);
-    for (size_t start = 0; start < images.size(); start += batch_limit) {
-        const size_t end = std::min(start + batch_limit, images.size());
+    for (size_t start = 0; start <static_cast<int>(images.size()); start += batch_limit) {
+        const size_t end = std::min(start + batch_limit,static_cast<int>(images.size()));
         for (size_t i = start; i < end; ++i) {
             results.push_back(snap->computeEmbedding(images[i], nullptr,
                                                       snap->model_name,

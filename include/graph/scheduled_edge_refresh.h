@@ -569,7 +569,7 @@ private:
     mutable std::mutex policy_mutex_;   ///< Tier 2: Protects policy_ updates
     mutable std::mutex cycle_mutex_;    ///< Tier 1: Serialises concurrent triggerRefresh calls
     mutable std::mutex stats_mutex_;    ///< Tier 3: Protects last_stats_ / audit_trail_ / changefeed_
-    std::condition_variable cv_;
+    std::condition_variable cv_ = {};
     std::mutex cv_mutex_;               ///< Tier 3: Protects condition variable
 
     std::thread scheduler_thread_;

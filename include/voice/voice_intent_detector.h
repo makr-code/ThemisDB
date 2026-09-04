@@ -80,7 +80,7 @@ IntentCategory stringToIntent(const std::string& s);
 /// @brief Extracted named entity from text (frozen types).
 struct NamedEntity {
     /// @brief Entity text as found in input.
-    std::string text;
+    std::string text = {};
 
     /// @brief Entity type: DATE, PERSON, ORGANIZATION, NUMBER, METRIC, OBJECT, TIME_RANGE.
     std::string type;

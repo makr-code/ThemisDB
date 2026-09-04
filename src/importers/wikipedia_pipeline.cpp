@@ -94,7 +94,7 @@ ImportStats WikipediaIngestionPipeline::executeImport(
     }
 
     const bool success = parseSourceStream(stream, source, stats, options, incremental);
-    if (!success && (config_.strict_mode || !config_.best_effort || !options.continue_on_error)) {
+    if ((!success && (config_.strict_mode || !config_.best_effort || !options.continue_on_error)) {
         stats.errors.emplace_back("Wikipedia import aborted in strict mode");
     }
 
@@ -179,8 +179,9 @@ void WikipediaIngestionPipeline::cancel() {
     cancel_requested_.store(true);
 }
 
-std::vector<WikipediaRevisionRecord> WikipediaIngestionPipeline::revisionsForPage(uint64_t page_id) const {
-    std::vector<WikipediaRevisionRecord> revisions;
+std::vector<WikipediaRevisionRecord> WikipediaIngestionPipeline::revisionsForPage([[maybe_unused]] uint64_t page_id) const {
+    std::vector<WikipediaRevisionRecord> revisions = {};
+
     for (const auto& [_, revision] : snapshot_.revisions) {
         if (revision.page_id == page_id) {
             revisions.push_back(revision);
@@ -193,11 +194,11 @@ std::vector<WikipediaRevisionRecord> WikipediaIngestionPipeline::revisionsForPag
 }
 
 size_t WikipediaIngestionPipeline::relationalRowCount() const {
-    return snapshot_.pages.size() + snapshot_.revisions.size() + snapshot_.links.size() +
-        snapshot_.categories.size() + snapshot_.redirects.size() + snapshot_.dead_letters.size();
+    return static_cast<int>(snapshot_.pages.size()) + static_cast<int>(snapshot_.revisions.size()) + static_cast<int>(snapshot_.links.size()) +
+        snapshot_.categories.size() + static_cast<int>(snapshot_.redirects.size()) + static_cast<int>(snapshot_.dead_letters.size()) ;
 }
 
-void WikipediaIngestionPipeline::removeExistingPageDerivedRows(uint64_t page_id) {
+void WikipediaIngestionPipeline::removeExistingPageDerivedRows([[maybe_unused]] uint64_t page_id) {
     auto remove_by_page = [page_id](const auto& row) {
         return row.page_id == page_id;
     };
@@ -243,7 +244,7 @@ std::string WikipediaIngestionPipeline::nowIso8601() const {
 #else
     gmtime_r(&time, &tm);
 #endif
-    std::ostringstream output;
+    std::ostringstream output = {};
     output << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
     return output.str();
 }

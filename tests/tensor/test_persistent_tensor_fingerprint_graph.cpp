@@ -29,7 +29,8 @@ public:
     }
 
     std::vector<std::string> listKeys(const std::string& prefix) const override {
-        std::vector<std::string> keys;
+        std::vector<std::string> keys = {};
+
         for (const auto& kv : store_) {
             if (kv.first.rfind(prefix, 0) == 0) {
                 keys.push_back(kv.first);
@@ -71,7 +72,8 @@ public:
     }
 
     std::vector<std::string> listKeys(const std::string& prefix) const override {
-        std::vector<std::string> keys;
+        std::vector<std::string> keys = {};
+
         for (const auto& kv : store_) {
             if (kv.first.rfind(prefix, 0) == 0) {
                 keys.push_back(kv.first);

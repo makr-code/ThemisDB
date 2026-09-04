@@ -45,7 +45,7 @@ struct DeltaResult {
 
 // Blob metadata for strategy selection
 struct BlobMetadata {
-    uint64_t size;
+    uint64_t size = 0;
     std::string blob_type;
     uint64_t base_version_size;
     double estimated_change_rate;  // 0.0 - 1.0

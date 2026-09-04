@@ -48,7 +48,7 @@ nlohmann::json PolicyReview::toJson() const {
 }
 
 PolicyReview PolicyReview::fromJson(const nlohmann::json &j) {
-    PolicyReview review;
+    PolicyReview review = {};
     if (j.contains("review_id")) {
         review.review_id = j["review_id"].get<std::string>();
     }
@@ -95,7 +95,7 @@ nlohmann::json ReviewScheduler::ReviewSchedule::toJson() const {
 }
 
 ReviewScheduler::ReviewSchedule ReviewScheduler::ReviewSchedule::fromJson(const nlohmann::json &j) {
-    ReviewSchedule schedule;
+    ReviewSchedule schedule = {};
     if (j.contains("rule_id")) {
         schedule.rule_id = j["rule_id"].get<std::string>();
     }
@@ -157,7 +157,8 @@ void ReviewScheduler::removeSchedule(const std::string &rule_id) {
 std::vector<ReviewScheduler::ReviewSchedule> ReviewScheduler::getAllSchedules() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<ReviewSchedule> result;
+    std::vector<ReviewSchedule> result = {};
+
     result.reserve(schedules_.size());
 
     for (const auto &pair : schedules_) {
@@ -183,7 +184,7 @@ std::vector<std::string> ReviewScheduler::getRulesDueForReview(int64_t current_t
         }
     }
 
-    THEMIS_DEBUG("Found {} rules due for review", due_rules.size());
+    THEMIS_DEBUG("Found {} rules due for review",static_cast<int>(due_rules.size()));
     return due_rules;
 }
 
@@ -205,7 +206,7 @@ std::vector<std::string> ReviewScheduler::getOverdueReviews(int64_t current_time
         }
     }
 
-    THEMIS_INFO("Found {} overdue reviews", overdue_rules.size());
+    THEMIS_INFO("Found {} overdue reviews",static_cast<int>(overdue_rules.size()));
     return overdue_rules;
 }
 
@@ -257,7 +258,7 @@ bool ReviewScheduler::importSchedules(const nlohmann::json &j) {
             schedules_[schedule.rule_id] = schedule;
         }
 
-        THEMIS_INFO("Imported {} review schedules", schedules_.size());
+        THEMIS_INFO("Imported {} review schedules",static_cast<int>(schedules_.size()));
         return true;
 
     } catch (const std::exception &e) {
@@ -274,7 +275,7 @@ std::string ReviewWorkflow::generateReviewId() const {
     static std::mt19937_64 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "review-" << std::hex << dis(gen);
     return oss.str();
 }
@@ -314,7 +315,8 @@ std::optional<PolicyReview> ReviewWorkflow::getReview(const std::string &review_
 std::vector<PolicyReview> ReviewWorkflow::listReviews() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<PolicyReview> result;
+    std::vector<PolicyReview> result = {};
+
     result.reserve(reviews_.size());
 
     for (const auto &pair : reviews_) {
@@ -434,7 +436,7 @@ std::vector<PolicyReview> ReviewWorkflow::getOverdueReviews(int64_t current_time
         }
     }
 
-    THEMIS_INFO("Found {} overdue reviews", result.size());
+    THEMIS_INFO("Found {} overdue reviews",static_cast<int>(result.size()));
     return result;
 }
 
@@ -490,7 +492,7 @@ bool ReviewWorkflow::importReviews(const nlohmann::json &j) {
             reviews_[review.review_id] = review;
         }
 
-        THEMIS_INFO("Imported {} reviews", reviews_.size());
+        THEMIS_INFO("Imported {} reviews",static_cast<int>(reviews_.size()));
         return true;
 
     } catch (const std::exception &e) {
@@ -512,7 +514,7 @@ nlohmann::json PolicyExpiration::ExpirationConfig::toJson() const {
 }
 
 PolicyExpiration::ExpirationConfig PolicyExpiration::ExpirationConfig::fromJson(const nlohmann::json &j) {
-    ExpirationConfig config;
+    ExpirationConfig config = {};
     if (j.contains("rule_id")) {
         config.rule_id = j["rule_id"].get<std::string>();
     }
@@ -582,7 +584,8 @@ void PolicyExpiration::removeExpiration(const std::string &rule_id) {
 std::vector<PolicyExpiration::ExpirationConfig> PolicyExpiration::getAllExpirations() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<ExpirationConfig> result;
+    std::vector<ExpirationConfig> result = {};
+
     result.reserve(expirations_.size());
 
     for (const auto &pair : expirations_) {
@@ -608,7 +611,7 @@ std::vector<std::string> PolicyExpiration::getExpiredRules(int64_t current_time)
         }
     }
 
-    THEMIS_INFO("Found {} expired rules", expired_rules.size());
+    THEMIS_INFO("Found {} expired rules",static_cast<int>(expired_rules.size()));
     return expired_rules;
 }
 
@@ -654,7 +657,7 @@ std::vector<PolicyExpiration::ExpirationWarning> PolicyExpiration::getRulesExpir
         }
     }
 
-    THEMIS_DEBUG("Found {} rules expiring soon", warnings.size());
+    THEMIS_DEBUG("Found {} rules expiring soon",static_cast<int>(warnings.size()));
     return warnings;
 }
 
@@ -694,7 +697,7 @@ std::vector<std::string> PolicyExpiration::processExpirations(PolicyManager &pol
         }
     }
 
-    THEMIS_INFO("Processed expirations: disabled {} rules", disabled_rules.size());
+    THEMIS_INFO("Processed expirations: disabled {} rules",static_cast<int>(disabled_rules.size()));
     return disabled_rules;
 }
 
@@ -744,7 +747,7 @@ bool PolicyExpiration::importExpirations(const nlohmann::json &j) {
             expirations_[config.rule_id] = config;
         }
 
-        THEMIS_INFO("Imported {} expirations", expirations_.size());
+        THEMIS_INFO("Imported {} expirations",static_cast<int>(expirations_.size()));
         return true;
 
     } catch (const std::exception &e) {
@@ -785,7 +788,7 @@ nlohmann::json NotificationManager::NotificationConfig::toJson() const {
 }
 
 NotificationManager::NotificationConfig NotificationManager::NotificationConfig::fromJson(const nlohmann::json &j) {
-    NotificationConfig config;
+    NotificationConfig config = {};
     if (j.contains("email_enabled")) {
         config.email_enabled = j["email_enabled"].get<bool>();
     }
@@ -823,7 +826,7 @@ std::string NotificationManager::generateNotificationId() const {
     static std::mt19937_64 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "notif-" << std::hex << dis(gen);
     return oss.str();
 }
@@ -842,10 +845,10 @@ NotificationManager::NotificationConfig NotificationManager::getConfig() const {
 }
 
 bool NotificationManager::notifyReviewDue(const std::string &recipient, const PolicyReview &review) {
-    std::ostringstream subject;
+    std::ostringstream subject = {};
     subject << "Policy Review Due: " << review.rule_id;
 
-    std::ostringstream message;
+    std::ostringstream message = {};
     message << "A policy review is due for rule: " << review.rule_id << "\n"
             << "Review ID: " << review.review_id << "\n"
             << "Reviewer: " << review.reviewer << "\n"
@@ -858,10 +861,10 @@ bool NotificationManager::notifyReviewDue(const std::string &recipient, const Po
 
 bool NotificationManager::notifyReviewOverdue(const std::string &recipient, const PolicyReview &review,
                                               int days_overdue) {
-    std::ostringstream subject;
+    std::ostringstream subject = {};
     subject << "OVERDUE: Policy Review for " << review.rule_id;
 
-    std::ostringstream message;
+    std::ostringstream message = {};
     message << "A policy review is OVERDUE for rule: " << review.rule_id << "\n"
             << "Review ID: " << review.review_id << "\n"
             << "Reviewer: " << review.reviewer << "\n"
@@ -875,10 +878,10 @@ bool NotificationManager::notifyReviewOverdue(const std::string &recipient, cons
 
 bool NotificationManager::notifyExpirationWarning(const std::string &recipient,
                                                   const PolicyExpiration::ExpirationWarning &warning) {
-    std::ostringstream subject;
+    std::ostringstream subject = {};
     subject << "Policy Expiration Warning: " << warning.rule_id;
 
-    std::ostringstream message;
+    std::ostringstream message = {};
     message << "Policy rule " << warning.rule_id << " is expiring soon.\n"
             << "Expiration Date: " << warning.expiration_date << "\n"
             << "Days Until Expiration: " << warning.days_until_expiration << "\n"
@@ -890,10 +893,10 @@ bool NotificationManager::notifyExpirationWarning(const std::string &recipient,
 }
 
 bool NotificationManager::notifyRuleExpired(const std::string &recipient, const std::string &rule_id) {
-    std::ostringstream subject;
+    std::ostringstream subject = {};
     subject << "Policy Rule Expired: " << rule_id;
 
-    std::ostringstream message;
+    std::ostringstream message = {};
     message << "Policy rule " << rule_id << " has expired and has been disabled.\n"
             << "Please review the rule and update or remove it as appropriate.";
 

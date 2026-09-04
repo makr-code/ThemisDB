@@ -105,7 +105,7 @@ std::vector<uint8_t> buildWriteRequest(
 
 /// Snappy-compress a byte buffer.
 std::string snappyCompress(const std::vector<uint8_t>& data) {
-    std::string compressed;
+    std::string compressed = {};
     snappy::Compress(reinterpret_cast<const char*>(data.data()), data.size(),
                      &compressed);
     return compressed;
@@ -342,7 +342,9 @@ TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyDecompressionBombRejected) {
         while (pos < compressed.size()) {
             uint8_t b = static_cast<uint8_t>(compressed[pos++]);
             orig_varint_bytes++;
-            if ((b & 0x80) == 0) break;
+            if ((b & 0x80) == 0) {
+              break;
+            }
         }
     }
     tampered.append(compressed.substr(orig_varint_bytes));
@@ -361,7 +363,7 @@ TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyDecompressionBombRejected) {
 
 class PrometheusRemoteWriteHandlerTest : public ::testing::Test {
 protected:
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<RocksDBWrapper> db;
     std::shared_ptr<TSStore>        ts_store;
 

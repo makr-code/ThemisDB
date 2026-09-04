@@ -506,10 +506,11 @@ TEST(HugePagesTest, MemoryTracking) {
     // Track multiple allocations
     struct Allocation {
         void* ptr;
-        size_t size;
+        size_t size = {};
     };
     
-    std::vector<Allocation> allocations;
+    std::vector<Allocation> allocations = {};
+
     std::vector<size_t> sizes = {
         2 * 1024 * 1024,   // 2MB
         4 * 1024 * 1024,   // 4MB
@@ -779,7 +780,7 @@ TEST(HugePagesTest, HugePagesWithRocksDBCache) {
     
     // Simulate cache operations
     struct CacheBlock {
-        uint64_t key;
+        uint64_t key = 0;
         char data[4096];
     };
     
@@ -856,7 +857,7 @@ TEST(HugePagesTest, HugePagesWithIndexStructures) {
     struct BTreeNode {
         uint64_t keys[64];
         uint64_t children[65];
-        int num_keys;
+        int num_keys = {};
     };
     
     BTreeNode* nodes = static_cast<BTreeNode*>(index_ptr);

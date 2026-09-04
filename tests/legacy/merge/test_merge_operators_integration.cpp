@@ -41,7 +41,7 @@ TEST_F(MergeOperatorsIntegrationTest, CounterAndMaxTogether) {
     ASSERT_TRUE(db->Merge(rocksdb::WriteOptions(), "visits", "50").ok());
     ASSERT_TRUE(db->Merge(rocksdb::WriteOptions(), "visits", "75").ok());
     
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db->Get(rocksdb::ReadOptions(), "visits", &value).ok());
     EXPECT_EQ(value, "225");
     
@@ -84,7 +84,7 @@ TEST_F(MergeOperatorsIntegrationTest, BatchOperations) {
     ASSERT_TRUE(db->Write(rocksdb::WriteOptions(), &batch).ok());
     
     // Verify all counters
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db->Get(rocksdb::ReadOptions(), "counter1", &value).ok());
     EXPECT_EQ(value, "15");
     
@@ -110,7 +110,8 @@ TEST_F(MergeOperatorsIntegrationTest, ConcurrentMergeOperations) {
     const int num_threads = 4;
     const int increments_per_thread = 25;
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([db, increments_per_thread]() {
             for (int j = 0; j < increments_per_thread; ++j) {
@@ -124,7 +125,7 @@ TEST_F(MergeOperatorsIntegrationTest, ConcurrentMergeOperations) {
     }
     
     // Should have 100 total increments
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db->Get(rocksdb::ReadOptions(), "concurrent_counter", &value).ok());
     EXPECT_EQ(value, "100");
     
@@ -146,7 +147,7 @@ TEST_F(MergeOperatorsIntegrationTest, AppendOperatorUsageScenario) {
     ASSERT_TRUE(db->Merge(rocksdb::WriteOptions(), "user:123:events", "click_button").ok());
     ASSERT_TRUE(db->Merge(rocksdb::WriteOptions(), "user:123:events", "logout").ok());
     
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db->Get(rocksdb::ReadOptions(), "user:123:events", &value).ok());
     EXPECT_EQ(value, "login,view_page,click_button,logout");
     
@@ -169,7 +170,7 @@ TEST_F(MergeOperatorsIntegrationTest, SetOperatorUsageScenario) {
     ASSERT_TRUE(db->Merge(rocksdb::WriteOptions(), "post:456:tags", "cpp").ok()); // duplicate
     ASSERT_TRUE(db->Merge(rocksdb::WriteOptions(), "post:456:tags", "performance").ok());
     
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db->Get(rocksdb::ReadOptions(), "post:456:tags", &value).ok());
     EXPECT_EQ(value, "cpp,database,performance,rocksdb");
     
@@ -192,7 +193,7 @@ TEST_F(MergeOperatorsIntegrationTest, MaxOperatorUsageScenario) {
     ASSERT_TRUE(db->Merge(rocksdb::WriteOptions(), "sensor:1:max_temp", "25.7").ok());
     ASSERT_TRUE(db->Merge(rocksdb::WriteOptions(), "sensor:1:max_temp", "23.1").ok());
     
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db->Get(rocksdb::ReadOptions(), "sensor:1:max_temp", &value).ok());
     EXPECT_NEAR(std::stod(value), 25.7, 0.001);
     
@@ -221,7 +222,7 @@ TEST_F(MergeOperatorsIntegrationTest, MergeWithCompaction) {
     ASSERT_TRUE(db->CompactRange(rocksdb::CompactRangeOptions(), nullptr, nullptr).ok());
     
     // Verify counter is correct after compaction
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db->Get(rocksdb::ReadOptions(), "compact_counter", &value).ok());
     EXPECT_EQ(value, "100");
     
@@ -250,7 +251,7 @@ TEST_F(MergeOperatorsIntegrationTest, MergeWithSnapshot) {
     // Read with snapshot (should see old value)
     rocksdb::ReadOptions read_opts;
     read_opts.snapshot = snapshot;
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db->Get(read_opts, "snap_counter", &value).ok());
     EXPECT_EQ(value, "10");
     

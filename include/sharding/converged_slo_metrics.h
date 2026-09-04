@@ -319,7 +319,9 @@ struct ConvergedSLOMetrics {
         }
         
         // Operation type counters
-        if (metrics.operation_type == "read") read_operations++;
+        if (metrics.operation_type == "read") {
+          read_operations++;
+        }
         else if (metrics.operation_type == "write") write_operations++;
         else if (metrics.operation_type == "inference") inference_operations++;
         else if (metrics.operation_type == "rag") rag_operations++;

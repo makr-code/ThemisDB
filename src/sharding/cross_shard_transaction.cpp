@@ -90,7 +90,7 @@ std::vector<std::unordered_set<std::string>> collectCycles(
     int next_index = 0;
 
     std::function<void(const std::string&)> strong_connect =
-        [&](const std::string& node) {
+        [&]([[maybe_unused]] const std::string& node) {
         index[node] = next_index;
         lowlink[node] = next_index;
         ++next_index;
@@ -116,7 +116,8 @@ std::vector<std::unordered_set<std::string>> collectCycles(
             return;
         }
 
-        std::vector<std::string> component;
+        std::vector<std::string> component = {};
+
         while (!stack.empty()) {
             const auto current = stack.back();
             stack.pop_back();
@@ -127,7 +128,7 @@ std::vector<std::unordered_set<std::string>> collectCycles(
             }
         }
 
-        bool is_cycle_component = component.size() > 1;
+        bool is_cycle_component = static_cast<int>(component.size()) > 1;
         if (!is_cycle_component && !component.empty()) {
             const auto self_it = graph.find(component.front());
             if (self_it != graph.end()) {
@@ -156,7 +157,8 @@ std::vector<std::unordered_set<std::string>> collectCycles(
 std::unordered_set<std::string> collectCycleNodes(
     const std::map<std::string, std::vector<std::string>>& graph
 ) {
-    std::unordered_set<std::string> cycle_nodes;
+    std::unordered_set<std::string> cycle_nodes = {};
+
     for (auto& cycle : collectCycles(graph)) {
         cycle_nodes.insert(cycle.begin(), cycle.end());
     }
@@ -367,8 +369,8 @@ bool CrossShardTransactionCoordinator::start() {
     // Start PreCommit retry thread for non-blocking 3PC
     // Only start if deferred PreCommit callback is configured
     {
-        std::lock_guard<std::mutex> lk(callbacks_mutex_);
-        if (deferred_precommit_callback_) {
+        std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+        if ([[maybe_unused]] deferred_precommit_callback_) {
             precommit_retry_thread_ = std::thread(
                 &CrossShardTransactionCoordinator::preCommitRetryThread, this
             );
@@ -488,9 +490,10 @@ CrossShardTransactionCoordinator::getRecoverableTransactions() const {
                 info.state = themis::transaction::RecoverableTwoPhaseState::UNKNOWN;
                 break;
             case TransactionState::COMMITTED:
-            case TransactionState::ABORTED:
+            [[fallthrough]];\n            case TransactionState::ABORTED:
                 info.state = themis::transaction::RecoverableTwoPhaseState::COMPLETED;
                 break;
+            default: break;
         }
         recoverable.push_back(std::move(info));
     }
@@ -612,8 +615,8 @@ bool CrossShardTransactionCoordinator::beginTransaction(
 
         // Assign snapshot timestamp for MVCC isolation
         // For snapshot isolation, use TrueTime to get a globally consistent timestamp
-        if (truetime_ && (isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
-                          isolation_level == IsolationLevel::SERIALIZABLE)) {
+        if ((truetime_ && (isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
+                          isolation_level == IsolationLevel::SERIALIZABLE))) {
             auto tt_now = truetime_->now();
             // Use the latest bound to ensure we read the most recent committed data
             txn.snapshot_timestamp = tt_now.latest.count();
@@ -770,7 +773,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     {
         std::shared_ptr<CrossShardForeignKeyValidator> fk_val;
         {
-            std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+            std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
             fk_val = fk_validator_;
         }
         if (fk_val) {
@@ -796,7 +799,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
                 spdlog::error(
                     "Transaction {} aborted during prepare: {} cross-shard FK "
                     "violation(s) detected",
-                    transaction_id, violations.size());
+                    transaction_id,static_cast<int>(violations.size()));
                 for (const auto& v : violations) {
                     spdlog::error("  FK violation: {}", v.message);
                 }
@@ -815,7 +818,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     // holding two mutexes simultaneously.
     std::shared_ptr<CrossShardForeignKeyValidator> fk_validator;
     {
-        std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+        std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
         fk_validator = fk_validator_;
     }
     if (fk_validator) {
@@ -1214,9 +1217,9 @@ bool CrossShardTransactionCoordinator::executeSaga(
     const std::vector<nlohmann::json>& compensations
 ) {
     // Validate input early before acquiring locks
-    if (steps.size() != compensations.size()) {
+    if (static_cast<int>(steps.size()) != static_cast<int>(compensations.size())) {
         spdlog::error("SAGA transaction {} has mismatched steps ({}) and compensations ({})", 
-                     transaction_id, steps.size(), compensations.size());
+                     transaction_id,static_cast<int>(steps.size()),static_cast<int>(compensations.size()));
         return false;
     }
     
@@ -1240,13 +1243,13 @@ bool CrossShardTransactionCoordinator::executeSaga(
     lock.unlock();
     
     spdlog::info("Executing SAGA transaction {} with {} steps", 
-                transaction_id, steps.size());
+                transaction_id,static_cast<int>(steps.size()));
     
     // Execute steps sequentially
     size_t completed_steps = 0;
     std::vector<nlohmann::json> executed_steps;
     
-    for (size_t i = 0; i < steps.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(steps.size()); ++i) {
         const auto& step = steps[i];
         
         // Extract shard_id and operation from step
@@ -1467,7 +1470,8 @@ bool CrossShardTransactionCoordinator::isDeadlocked(
 std::vector<CrossShardTransaction> CrossShardTransactionCoordinator::getActiveTransactions() const {
     std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
     
-    std::vector<CrossShardTransaction> active;
+    std::vector<CrossShardTransaction> active = {};
+
     for (const auto& [id, txn] : transactions_) {
         if (txn.state == TransactionState::ACTIVE ||
             txn.state == TransactionState::PREPARING ||
@@ -1492,24 +1496,24 @@ nlohmann::json CrossShardTransactionCoordinator::getStatistics() const {
 void CrossShardTransactionCoordinator::onTransactionStateChange(
     std::function<void(const std::string&, TransactionState, TransactionState)> callback
 ) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    on_state_change_callback_ = std::move(callback);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    on_state_change_callback_ = std::move([[maybe_unused]] callback);
 }
 
-void CrossShardTransactionCoordinator::setPreCommitCallback(PreCommitRpcFn fn) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    precommit_callback_ = std::move(fn);
+void CrossShardTransactionCoordinator::setPreCommitCallback([[maybe_unused]] PreCommitRpcFn fn) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    precommit_callback_ = std::move([[maybe_unused]] fn);
 }
 
-void CrossShardTransactionCoordinator::setDeferredPreCommitCallback(DeferredPreCommitFn fn) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    deferred_precommit_callback_ = std::move(fn);
+void CrossShardTransactionCoordinator::setDeferredPreCommitCallback([[maybe_unused]] DeferredPreCommitFn fn) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    deferred_precommit_callback_ = std::move([[maybe_unused]] fn);
 }
 
 void CrossShardTransactionCoordinator::setForeignKeyValidator(
     std::shared_ptr<CrossShardForeignKeyValidator> validator)
 {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
     fk_validator_ = std::move(validator);
 }
 
@@ -1657,7 +1661,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
     // during the (potentially blocking) RPC fan-out.
     PreCommitRpcFn precommit_cb;
     {
-        std::lock_guard<std::mutex> lk(callbacks_mutex_);
+        std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
         precommit_cb = precommit_callback_;
     }
 
@@ -1678,7 +1682,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
     if (!precommit_cb) {
         spdlog::error("execute3PC [{}]: missing PreCommit RPC callback; failing closed",
                       txn.transaction_id);
-        failClosedAbortAllParticipants("precommit_callback_missing");
+        failClosedAbortAllParticipants([[maybe_unused]] "precommit_callback_missing");
         return false;
     }
 
@@ -1745,7 +1749,8 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
 
     if (!all_precommitted) {
         // Check if we have deferred PreCommit callback for non-blocking behavior
-        std::vector<std::string> failed_shards;
+        std::vector<std::string> failed_shards = {};
+
         for (const auto& [shard_id, participant] : txn.participants) {
             if (!participant.precommitted) {
                 failed_shards.push_back(shard_id);
@@ -1760,14 +1765,14 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
         // prepare(), which takes transactions_mutex_ before callbacks_mutex_.
         DeferredPreCommitFn deferred_cb;
         {
-            std::lock_guard<std::mutex> lk(callbacks_mutex_);
+            std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
             deferred_cb = deferred_precommit_callback_;
         }
 
         if (deferred_cb && !failed_shards.empty()) {
             spdlog::warn("3PC Phase 2 (PreCommit) partial failure for transaction {}: "
                        "{} failed shards, scheduling deferred retry",
-                       txn.transaction_id, failed_shards.size());
+                       txn.transaction_id,static_cast<int>(failed_shards.size()));
 
             // Store deferred PreCommit for retry tracking before invoking the
             // callback so a concurrent retry thread can observe the entry.
@@ -1790,7 +1795,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
                     std::lock_guard<std::mutex> def_lk(deferred_mutex_);
                     deferred_precommits_.erase(txn.transaction_id);
                 }
-                failClosedAbortAllParticipants("deferred_precommit_callback_threw");
+                failClosedAbortAllParticipants([[maybe_unused]] "deferred_precommit_callback_threw");
                 return false;
             } catch (...) {
                 spdlog::error("execute3PC [{}]: deferred PreCommit callback threw unknown exception - failing closed",
@@ -1799,7 +1804,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
                     std::lock_guard<std::mutex> def_lk(deferred_mutex_);
                     deferred_precommits_.erase(txn.transaction_id);
                 }
-                failClosedAbortAllParticipants("deferred_precommit_callback_unknown_exception");
+                failClosedAbortAllParticipants([[maybe_unused]] "deferred_precommit_callback_unknown_exception");
                 return false;
             }
 
@@ -2007,7 +2012,8 @@ bool CrossShardTransactionCoordinator::executeCalvin(CrossShardTransaction& txn)
     // Sorting by shard_id removes any possibility of circular wait, making
     // deadlocks structurally impossible during the Calvin execution phase.
     // -------------------------------------------------------------------------
-    std::vector<std::string> shard_order;
+    std::vector<std::string> shard_order = {};
+
     shard_order.reserve(txn.participants.size());
     for (const auto& [shard_id, _] : txn.participants) {
         shard_order.push_back(shard_id);
@@ -2017,7 +2023,7 @@ bool CrossShardTransactionCoordinator::executeCalvin(CrossShardTransaction& txn)
     }
 
     spdlog::info("Calvin transaction {}: acquiring locks on {} shards in deterministic order",
-                 txn.transaction_id, shard_order.size());
+                 txn.transaction_id,static_cast<int>(shard_order.size()));
 
     std::vector<std::string> locked_shards;
     bool all_locked = true;
@@ -2379,7 +2385,8 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
         if (!config_.shard_endpoints.empty()) {
             for (const auto& [shard_id, endpoint] : config_.shard_endpoints) {
                 try {
-                    std::vector<CrossShardTransactionConfig::PolledWaitForEdge> remote_edges;
+                    std::vector<CrossShardTransactionConfig::PolledWaitForEdge> remote_edges = {};
+
                     if (config_.polled_wait_for_edge_collector) {
                         remote_edges = config_.polled_wait_for_edge_collector(shard_id, endpoint);
                     } else {
@@ -2474,7 +2481,7 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
             deadlocked_transactions_++;
 
             // Select deadlock victim according to configured policy.
-            std::string victim_id;
+            std::string victim_id = {};
             std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> candidates;
             {
                 std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
@@ -2509,9 +2516,10 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
                     }
                     case DeadlockVictimPolicy::RANDOM: {
                         thread_local std::mt19937 rng{std::random_device{}()};
-                        std::uniform_int_distribution<size_t> dist(0, candidates.size() - 1);
-                        victim_id = candidates[dist(rng)].first;
+                        std::uniform_int_distribution<uint64_t> dist(0, static_cast<int>(candidates.size()) - 1);
+                        victim_id = candidates[static_cast<size_t>(dist(rng))].first;
                         break;
+                    default: break;
                     }
                 }
             }
@@ -2563,7 +2571,7 @@ CrossShardTransactionCoordinator::buildWaitForGraph() const {
         }
     }
     
-    spdlog::debug("Built wait-for graph with {} nodes", graph.size());
+    spdlog::debug("Built wait-for graph with {} nodes",static_cast<int>(graph.size()));
     
     return graph;
 }
@@ -2619,7 +2627,7 @@ void CrossShardTransactionCoordinator::executeCompensations(
     const std::vector<nlohmann::json>& compensations
 ) {
     spdlog::info("Executing compensations for SAGA transaction {} ({} steps to compensate)", 
-                transaction_id, executed_steps.size());
+                transaction_id,static_cast<int>(executed_steps.size()));
     
     // Execute compensations in reverse order
     // Using index-based loop to access both executed_steps and compensations arrays
@@ -2744,11 +2752,11 @@ void CrossShardTransactionCoordinator::executeCompensations(
 int64_t CrossShardTransactionCoordinator::generateCommitTimestamp(
     const CrossShardTransaction& txn
 ) {
-    int64_t commit_timestamp;
+    int64_t commit_timestamp = 0;
     
     // Use TrueTime for MVCC isolation levels
-    if (truetime_ && (txn.isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
-                      txn.isolation_level == IsolationLevel::SERIALIZABLE)) {
+    if ((truetime_ && (txn.isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
+                      txn.isolation_level == IsolationLevel::SERIALIZABLE))) {
         auto tt_now = truetime_->now();
         commit_timestamp = tt_now.earliest.count();
         
@@ -2872,6 +2880,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                     return TransactionProtocol::PERCOLATOR;
                 case ::sharding::TransactionProtocol::CALVIN:
                     return TransactionProtocol::CALVIN;
+                default: break;
             }
             return TransactionProtocol::TWO_PHASE_COMMIT;
         };
@@ -2885,17 +2894,18 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                 case ::sharding::TransactionState::PREPARED:
                     return TransactionState::PREPARED;
                 case ::sharding::TransactionState::PRE_COMMITTING:
-                case ::sharding::TransactionState::PRE_COMMITTED:
-                case ::sharding::TransactionState::COMMITTING:
+                [[fallthrough]];\n                case ::sharding::TransactionState::PRE_COMMITTED:
+                [[fallthrough]];\n                case ::sharding::TransactionState::COMMITTING:
                     return TransactionState::COMMITTING;
                 case ::sharding::TransactionState::COMMITTED:
                     return TransactionState::COMMITTED;
                 case ::sharding::TransactionState::ABORTING:
                     return TransactionState::ABORTING;
                 case ::sharding::TransactionState::ABORTED:
-                case ::sharding::TransactionState::COMPENSATING:
-                case ::sharding::TransactionState::COMPENSATED:
+                [[fallthrough]];\n                case ::sharding::TransactionState::COMPENSATING:
+                [[fallthrough]];\n                case ::sharding::TransactionState::COMPENSATED:
                     return TransactionState::ABORTED;
+                default: break;
             }
             return TransactionState::UNKNOWN;
         };
@@ -3034,10 +3044,11 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                         it->second.compensations[entry.participant_id] = entry.data;
                     }
                     break;
+                default: break;
             }
         }
         
-        spdlog::info("WAL replay complete, {} transactions in memory", transactions_.size());
+        spdlog::info("WAL replay complete, {} transactions in memory",static_cast<int>(transactions_.size()));
         
     } catch (const std::exception& e) {
         spdlog::error("Failed to replay WAL: {}", e.what());
@@ -3083,7 +3094,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                     transactions_to_resume.push_back(txn_id);
                     break;
                 case TransactionState::COMMITTED:
-                case TransactionState::ABORTED:
+                [[fallthrough]];\n                case TransactionState::ABORTED:
                     // Final states - can be cleaned up eventually
                     break;
                 default:
@@ -3105,7 +3116,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
     
     // Phase 2.3.4: Actually resume transactions (done outside lock to avoid deadlock)
     if (!transactions_to_timeout.empty()) {
-        spdlog::info("Aborting {} stale transactions", transactions_to_timeout.size());
+        spdlog::info("Aborting {} stale transactions",static_cast<int>(transactions_to_timeout.size()));
         for (const auto& txn_id : transactions_to_timeout) {
             try {
                 // Log timeout abort
@@ -3123,7 +3134,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
     }
     
     if (!transactions_to_resume.empty()) {
-        spdlog::info("Will resume {} in-flight transactions", transactions_to_resume.size());
+        spdlog::info("Will resume {} in-flight transactions",static_cast<int>(transactions_to_resume.size()));
         // Note: Actual resumption would happen in a background thread
         // For now, we just log what needs to be done
         // In production, you would:
@@ -3166,6 +3177,7 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
                     return ::sharding::TransactionProtocol::PERCOLATOR;
                 case TransactionProtocol::CALVIN:
                     return ::sharding::TransactionProtocol::CALVIN;
+                default: break;
             }
             return ::sharding::TransactionProtocol::TWO_PHASE_COMMIT;
         };
@@ -3188,11 +3200,13 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
                     return ::sharding::TransactionState::ABORTED;
                 case TransactionState::UNKNOWN:
                     return ::sharding::TransactionState::ABORTING;
+                default: break;
             }
             return ::sharding::TransactionState::INITIATED;
         };
 
-        std::vector<::sharding::TransactionSnapshotEntry> active_txns;
+        std::vector<::sharding::TransactionSnapshotEntry> active_txns = {};
+
         for (const auto& [txn_id, txn] : transactions_) {
             // Only snapshot non-final transactions
             if (txn.state != TransactionState::COMMITTED && 
@@ -3238,7 +3252,7 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
         if (snapshot_id.has_value()) {
             operations_since_snapshot_ = 0;
             spdlog::info("Created transaction snapshot {} with {} active transactions", 
-                        snapshot_id.value(), active_txns.size());
+                        snapshot_id.value(),static_cast<int>(active_txns.size()));
         } else {
             spdlog::error("Failed to create transaction snapshot");
         }
@@ -3311,15 +3325,15 @@ bool PercolatorCoordinator::execute(
 
     // Helper: acquire a lock on one shard with retry/backoff honoring
     // config_.max_retries and config_.lock_timeout.
-    auto acquire_lock = [&](const std::string& shard_id) -> bool {
+    auto acquire_lock = [&]([[maybe_unused]] const std::string& shard_id) -> bool {
         for (uint32_t attempt = 0; attempt <= config_.max_retries; ++attempt) {
             if (attempt > 0) {
                 // Exponential backoff capped at lock_timeout.
                 // Guard the left-shift against overflow by capping the exponent.
-                const uint32_t shift = std::min(attempt - 1u, MAX_BACKOFF_SHIFT);
+                const uint32_t shift = std::min(attempt - 1, MAX_BACKOFF_SHIFT);
                 auto delay = std::min(
                     config_.lock_timeout,
-                    std::chrono::milliseconds(BASE_RETRY_DELAY_MS) * (1u << shift)
+                    std::chrono::milliseconds(BASE_RETRY_DELAY_MS) * (1 << shift)
                 );
                 spdlog::debug("[Percolator] Retry {} for lock on shard {} (delay {}ms)",
                               attempt, shard_id, delay.count());
@@ -3522,7 +3536,7 @@ size_t PercolatorCoordinator::cleanStaleLocks(
     }
 
     spdlog::info("[Percolator] cleanStaleLocks: cleaned {} / {} stale locks",
-                 cleaned, stale_txn_ids.size());
+                 cleaned,static_cast<int>(stale_txn_ids.size()));
     return cleaned;
 }
 
@@ -3553,7 +3567,7 @@ void CrossShardTransactionCoordinator::preCommitRetryThread() {
             }
             
             spdlog::debug("Attempting PreCommit retry for transaction {} ({} shards)",
-                        txn_id, failed_shards.size());
+                        txn_id,static_cast<int>(failed_shards.size()));
             
             // Get the transaction
             auto txn_opt = getTransaction(txn_id);
@@ -3576,7 +3590,7 @@ void CrossShardTransactionCoordinator::preCommitRetryThread() {
             // Snapshot the PreCommit callback under the lock
             PreCommitRpcFn precommit_cb;
             {
-                std::lock_guard<std::mutex> lk(callbacks_mutex_);
+                std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
                 precommit_cb = precommit_callback_;
             }
             
@@ -3637,7 +3651,8 @@ void CrossShardTransactionCoordinator::preCommitRetryThread() {
                 spdlog::warn("Partial PreCommit recovery for transaction {}, "
                            "rescheduling remaining shards", txn_id);
                 
-                std::vector<std::string> still_failed;
+                std::vector<std::string> still_failed = {};
+
                 for (const auto& shard_id : failed_shards) {
                     auto txn_snapshot = getTransaction(txn_id);
                     if (txn_snapshot) {

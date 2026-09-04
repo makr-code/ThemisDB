@@ -150,7 +150,9 @@ public:
 class MockMimeDetector {
 public:
     std::string DetectMimeType(const std::vector<uint8_t>& data) {
-        if (data.empty()) return "application/octet-stream";
+        if (data.empty()) {
+          return "application/octet-stream";
+        }
         
         // Simple magic number detection
         if (data.size() >= 4) {

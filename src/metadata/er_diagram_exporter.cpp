@@ -28,7 +28,7 @@ namespace themis {
 std::string ERDiagramExporter::escapeMermaid(const std::string& s) {
     // Mermaid identifiers must not contain spaces, quotes, or special characters.
     // Replace runs of disallowed characters with underscores.
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s) {
         if (std::isalnum(c) || c == '_' || c == '-') {
@@ -43,8 +43,8 @@ std::string ERDiagramExporter::escapeMermaid(const std::string& s) {
 std::string ERDiagramExporter::escapeDOT(const std::string& s) {
     // Inside a DOT record label the following characters must be escaped:
     //   <  >  |  {  }  \  "
-    std::string out;
-    out.reserve(s.size() + 4);
+    std::string out = {};
+    out.reserve(static_cast<int>(s.size()) + 4);
     for (unsigned char c : s) {
         switch (c) {
             case '<':  out += "\\<"; break;
@@ -68,7 +68,7 @@ std::string ERDiagramExporter::exportMermaid(
     const std::vector<SchemaManager::TableSchema>& tables,
     const std::vector<SchemaManager::RelationshipSchema>& relationships
 ) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "erDiagram\n";
 
     // ── Entity definitions ────────────────────────────────────────────────────
@@ -105,7 +105,7 @@ std::string ERDiagramExporter::exportMermaid(
     }
 
     spdlog::debug("ERDiagramExporter: exportMermaid() produced {} entities, {} relationships",
-                  tables.size(), relationships.size());
+                  tables.size(),static_cast<int>(relationships.size()));
     return oss.str();
 }
 
@@ -117,7 +117,7 @@ std::string ERDiagramExporter::exportDOT(
     const std::vector<SchemaManager::TableSchema>& tables,
     const std::vector<SchemaManager::RelationshipSchema>& relationships
 ) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "digraph schema {\n";
     oss << "    rankdir=LR;\n";
     oss << "    node [shape=record, style=filled, fillcolor=lightblue, fontname=\"Helvetica\"];\n";
@@ -127,7 +127,7 @@ std::string ERDiagramExporter::exportDOT(
     // ── Node definitions ──────────────────────────────────────────────────────
     for (const auto& table : tables) {
         // Build the record label: "{TableName|prop1: type1\lprop2: type2\l}"
-        std::ostringstream label;
+        std::ostringstream label = {};
         label << "{" << escapeDOT(table.name) << "|";
         for (const auto& prop : table.properties) {
             const std::string type = prop.type.empty() ? "string" : prop.type;
@@ -156,7 +156,7 @@ std::string ERDiagramExporter::exportDOT(
     oss << "}\n";
 
     spdlog::debug("ERDiagramExporter: exportDOT() produced {} nodes, {} edges",
-                  tables.size(), relationships.size());
+                  tables.size(),static_cast<int>(relationships.size()));
     return oss.str();
 }
 
@@ -227,7 +227,7 @@ nlohmann::json ERDiagramExporter::exportJSON(
     result["edges"] = std::move(edges);
 
     spdlog::debug("ERDiagramExporter: exportJSON() produced {} nodes, {} edges",
-                  tables.size(), relationships.size());
+                  tables.size(),static_cast<int>(relationships.size()));
     return result;
 }
 

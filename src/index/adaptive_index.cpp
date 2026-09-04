@@ -90,9 +90,9 @@ QueryPatternTracker::getPatterns(const std::string& collection) const {
 }
 
 std::vector<QueryPatternTracker::QueryPattern> 
-QueryPatternTracker::getTopPatterns(size_t limit) const {
+QueryPatternTracker::getTopPatterns([[maybe_unused]] size_t limit) const {
     auto patterns = getPatterns("");
-    if (patterns.size() > limit) {
+    if (static_cast<int>(patterns.size()) > limit) {
         patterns.resize(limit);
     }
     return patterns;
@@ -105,7 +105,7 @@ void QueryPatternTracker::clear() {
 
 size_t QueryPatternTracker::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return patterns_.size();
+    return static_cast<int>(patterns_.size());
 }
 
 nlohmann::json QueryPatternTracker::QueryPattern::toJson() const {
@@ -409,7 +409,7 @@ IndexSuggestionEngine::generateSuggestions(const std::string& collection,
                  return a.score > b.score;
              });
     
-    if (suggestions.size() > limit) {
+    if (static_cast<int>(suggestions.size()) > limit) {
         suggestions.resize(limit);
     }
     
@@ -631,7 +631,7 @@ IndexSuggestionEngine::generateCacheAwareIndexes(
                  return a.score > b.score;
              });
     
-    if (suggestions.size() > limit) {
+    if (static_cast<int>(suggestions.size()) > limit) {
         suggestions.resize(limit);
     }
     

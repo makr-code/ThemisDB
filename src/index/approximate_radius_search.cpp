@@ -113,7 +113,7 @@ ApproximateRadiusSearch::search(
     // Set metadata
     search_result.total_candidates = results.size();
     search_result.actual_max_distance = max_distance;
-    search_result.truncated = (results.size() >= max_results && max_results > 0);
+    search_result.truncated = (static_cast<int>(results.size()) >= max_results && max_results > 0);
     
     auto end = std::chrono::high_resolution_clock::now();
     search_result.computation_time_ms = 
@@ -122,7 +122,7 @@ ApproximateRadiusSearch::search(
     // Update statistics using numerically stable incremental mean
     stats_.total_searches++;
     double n = static_cast<double>(stats_.total_searches);
-    stats_.avg_results_per_search += (results.size() - stats_.avg_results_per_search) / n;
+    stats_.avg_results_per_search += (static_cast<int>(results.size()) - stats_.avg_results_per_search) / n;
     stats_.avg_time_ms += (search_result.computation_time_ms - stats_.avg_time_ms) / n;
     
     return search_result;
@@ -154,7 +154,8 @@ ApproximateRadiusSearch::batchSearch(
                         "Query vectors cannot be empty");
     }
     
-    std::vector<SearchResult> batch_results;
+    std::vector<SearchResult> batch_results = {};
+
     batch_results.reserve(query_vectors.size());
     
     // Process each query
@@ -220,7 +221,7 @@ ApproximateRadiusSearch::searchWithTargetCount(
         float ratio = static_cast<float>(actual_count) / static_cast<float>(target_count);
         if (ratio >= (1.0f - TARGET_TOLERANCE) && ratio <= (1.0f + TARGET_TOLERANCE)) {
             // Truncate to exact target count if needed
-            if (best_result.results.size() > static_cast<size_t>(target_count)) {
+            if (static_cast<int>(best_result.results.size()) > static_cast<size_t>(target_count)) {
                 best_result.results.resize(target_count);
                 best_result.truncated = true;
             }
@@ -241,7 +242,7 @@ ApproximateRadiusSearch::searchWithTargetCount(
     }
     
     // Return best result found
-    if (best_result.results.size() > static_cast<size_t>(target_count)) {
+    if (static_cast<int>(best_result.results.size()) > static_cast<size_t>(target_count)) {
         best_result.results.resize(target_count);
         best_result.truncated = true;
     }
@@ -311,7 +312,7 @@ Result<size_t> ApproximateRadiusSearch::estimateResultCount(
     // Extrapolate to full dataset
     // This is a rough estimate since we're sampling the k-nearest neighbors
     // which is biased towards closer vectors
-    if (within_radius == sample_results.size()) {
+    if (within_radius == static_cast<int>(sample_results.size())) {
         // All samples within radius, likely many more
         size_t estimate = (total_vectors * within_radius) / sample_size;
         return std::min(estimate, total_vectors);

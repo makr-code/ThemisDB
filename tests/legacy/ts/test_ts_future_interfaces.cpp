@@ -127,7 +127,8 @@ TEST(TsFutureInterfacesTests, HeuristicSelector_SineSeries_ReturnsGorilla) {
 
 TEST(TsFutureInterfacesTests, HeuristicSelector_RegularCounters_ReturnsDeltaOfDelta) {
     // Perfectly regular timestamps and constant delta-of-delta
-    std::vector<TSStore::DataPoint> pts;
+    std::vector<TSStore::DataPoint> pts = {};
+
     for (int i = 0; i < 20; ++i) {
         pts.push_back(dp("m", "e", static_cast<int64_t>(i) * 1000,
                           static_cast<double>(i)));  // monotone integers
@@ -318,7 +319,8 @@ TEST(TsFutureInterfacesTests, IQR_ClearOutlier_Detected) {
 
 TEST(TsFutureInterfacesTests, IQR_NoOutliers_InSymmetricData) {
     // Symmetric data within normal range
-    std::vector<TSStore::DataPoint> pts;
+    std::vector<TSStore::DataPoint> pts = {};
+
     for (int i = 0; i < 20; ++i) {
         pts.push_back(dp("m", "e", i * 1000, static_cast<double>(i)));
     }

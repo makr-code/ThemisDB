@@ -149,7 +149,8 @@ TEST(WaveD_ShardingSoak, ShardAssignmentStableAcrossSoak) {
         "tx:abc", "tx:def", "meta:schema-v2", "index:primary"
     };
 
-    std::vector<int> first_assignments;
+    std::vector<int> first_assignments = {};
+
     first_assignments.reserve(keys.size());
     for (const auto& k : keys) {
         first_assignments.push_back(router.route(k));

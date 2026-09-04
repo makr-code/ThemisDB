@@ -205,7 +205,8 @@ TEST(MaintenanceHardeningPhase23, MTN12_TaskTypeStringRoundTrip) {
         MaintenanceTaskType::VECTOR_REINDEX,
     };
 
-    std::set<std::string> seen_strings;
+    std::set<std::string> seen_strings = {};
+
     for (auto t : all_types) {
         const std::string s = taskTypeToString(t);
         EXPECT_NE(s, "unknown") << "Unmapped task type enum value";
@@ -242,7 +243,8 @@ TEST(MaintenanceHardeningPhase23, MTN13_JobStateStringCoverage) {
         MaintenanceJobState::SKIPPED,
     };
 
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (auto s : all_states) {
         const std::string str = jobStateToString(s);
         EXPECT_FALSE(str.empty());

@@ -93,7 +93,7 @@ std::string SemanticCache::computeKey(const std::string &prompt, const nlohmann:
     std::string input = prompt + params.dump();
 
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char *>(input.c_str()), input.size(), hash);
+    SHA256(reinterpret_cast<const unsigned char *>(input.c_str()),static_cast<int>(input.size()), hash);
 
     return themis::hash::bytes_to_hex(hash, SHA256_DIGEST_LENGTH);
 }
@@ -138,7 +138,7 @@ bool SemanticCache::put(const std::string &prompt, const nlohmann::json &params,
     if (s.ok()) {
         // Update in-memory size counters so getStats() avoids a full RocksDB scan.
         entry_count_.fetch_add(1, std::memory_order_relaxed);
-        total_bytes_.fetch_add(key.size() + value.size(), std::memory_order_relaxed);
+        total_bytes_.fetch_add(static_cast<int>(key.size()) + static_cast<int>(value.size()) , std::memory_order_relaxed);
     }
 
     return s.ok();
@@ -148,7 +148,7 @@ std::optional<SemanticCache::CacheEntry> SemanticCache::query(const std::string 
     auto start = std::chrono::steady_clock::now();
 
     std::string key = computeKey(prompt, params);
-    std::string value;
+    std::string value = {};
 
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
@@ -290,9 +290,9 @@ uint64_t SemanticCache::clearExpired() {
         // clamp an underflow.  Relaxed ordering is safe: entry_count_ is used
         // for statistics only, not for memory ordering between other variables.
         uint64_t expected = entry_count_.load(std::memory_order_relaxed);
-        uint64_t desired;
+        uint64_t desired = 0;
         do {
-            desired = (expected >= removed) ? expected - removed : 0u;
+            desired = (expected >= removed) ? expected - removed : 0;
         } while (!entry_count_.compare_exchange_weak(expected, desired, std::memory_order_relaxed,
                                                      std::memory_order_relaxed));
     }

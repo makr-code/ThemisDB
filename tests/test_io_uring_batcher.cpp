@@ -50,7 +50,9 @@ static bool readAll(int fd, void* buf, size_t n) {
     auto*  p    = static_cast<char*>(buf);
     while (done < n) {
         ssize_t r = ::read(fd, p + done, n - done);
-        if (r <= 0) return false;
+        if (r <= 0) {
+          return false;
+        }
         done += static_cast<size_t>(r);
     }
     return true;
@@ -92,7 +94,9 @@ TEST(IoUringBatchedSenderTest, IUB03_SubmitWaitEmptyQueue) {
 TEST(IoUringBatchedSenderTest, IUB04_EnqueueNoPendingData) {
 #ifdef __linux__
     auto [send_fd, recv_fd] = makeSockPair();
-    if (send_fd < 0) GTEST_SKIP() << "socketpair unavailable";
+    if (send_fd < 0) {
+      GTEST_SKIP() << "socketpair unavailable";
+    }
 
     IoUringBatchedSender sender;
     WireProtocolBatcher  batcher(send_fd);
@@ -112,7 +116,9 @@ TEST(IoUringBatchedSenderTest, IUB04_EnqueueNoPendingData) {
 TEST(IoUringBatchedSenderTest, IUB05_SingleMessageDelivered) {
 #ifdef __linux__
     auto [send_fd, recv_fd] = makeSockPair();
-    if (send_fd < 0) GTEST_SKIP() << "socketpair unavailable";
+    if (send_fd < 0) {
+      GTEST_SKIP() << "socketpair unavailable";
+    }
 
     const std::string msg = "hello-io_uring";
     IoUringBatchedSender sender;
@@ -144,7 +150,9 @@ TEST(IoUringBatchedSenderTest, IUB06_MultipleBatchersOneRound) {
 
     for (size_t i = 0; i < N; ++i) {
         auto [s, r] = makeSockPair();
-        if (s < 0) GTEST_SKIP() << "socketpair unavailable";
+        if (s < 0) {
+          GTEST_SKIP() << "socketpair unavailable";
+        }
         send_fds[i] = s;
         recv_fds[i] = r;
     }
@@ -180,7 +188,9 @@ TEST(IoUringBatchedSenderTest, IUB06_MultipleBatchersOneRound) {
 TEST(IoUringBatchedSenderTest, IUB07_LastStatsBytes) {
 #ifdef __linux__
     auto [send_fd, recv_fd] = makeSockPair();
-    if (send_fd < 0) GTEST_SKIP() << "socketpair unavailable";
+    if (send_fd < 0) {
+      GTEST_SKIP() << "socketpair unavailable";
+    }
 
     const std::string msg = "stats-test-payload";
     IoUringBatchedSender sender;
@@ -205,7 +215,9 @@ TEST(IoUringBatchedSenderTest, IUB08_TotalStatsMonotonic) {
 #ifdef __linux__
     auto [s1, r1] = makeSockPair();
     auto [s2, r2] = makeSockPair();
-    if (s1 < 0 || s2 < 0) GTEST_SKIP() << "socketpair unavailable";
+    if (s1 < 0 || s2 < 0) {
+      GTEST_SKIP() << "socketpair unavailable";
+    }
 
     const std::string msg = "round";
     IoUringBatchedSender sender;
@@ -248,7 +260,9 @@ TEST(IoUringBatchedSenderTest, IUB09_RoundsCounter) {
 TEST(IoUringBatchedSenderTest, IUB10_BatcherMultiAdd) {
 #ifdef __linux__
     auto [send_fd, recv_fd] = makeSockPair();
-    if (send_fd < 0) GTEST_SKIP() << "socketpair unavailable";
+    if (send_fd < 0) {
+      GTEST_SKIP() << "socketpair unavailable";
+    }
 
     const std::string part1 = "HEADER:";
     const std::string part2 = "BODY_DATA";
@@ -297,7 +311,9 @@ TEST(IoUringBatchedSenderTest, IUB11_NonLinuxFallbackCompiles) {
 TEST(IoUringBatchedSenderTest, IUB12_DestructionWithPending) {
 #ifdef __linux__
     auto [send_fd, recv_fd] = makeSockPair();
-    if (send_fd < 0) GTEST_SKIP() << "socketpair unavailable";
+    if (send_fd < 0) {
+      GTEST_SKIP() << "socketpair unavailable";
+    }
 
     const std::string msg = "will-be-flushed-by-enqueue";
     {

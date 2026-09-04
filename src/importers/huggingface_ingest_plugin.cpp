@@ -24,8 +24,8 @@ namespace {
 
 std::string trim(std::string value) {
     auto is_space = [](unsigned char c) { return std::isspace(c) != 0; };
-    value.erase(value.begin(), std::find_if(value.begin(), value.end(), [&](unsigned char c) { return !is_space(c); }));
-    value.erase(std::find_if(value.rbegin(), value.rend(), [&](unsigned char c) { return !is_space(c); }).base(), value.end());
+    value.erase(value.begin(), std::find_if(value.begin(), value.end(), [&]([[maybe_unused]] unsigned char c) { return !is_space(c); }));
+    value.erase(std::find_if(value.rbegin(), value.rend(), [&]([[maybe_unused]] unsigned char c) { return !is_space(c); }).base(), value.end());
     return value;
 }
 
@@ -42,7 +42,7 @@ std::string rowString(const json& row, std::string_view key, std::string default
 
 std::string stableHashHex(std::string_view input) {
     const auto hash_value = std::hash<std::string_view>{}(input);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << hash_value;
     return oss.str();
 }
@@ -160,11 +160,11 @@ double HuggingFaceIngestPlugin::computeQualityScore(const json& raw_row, const L
 
 std::string HuggingFaceIngestPlugin::buildLeakageSensitiveSplit(const LegalDocument& document) const {
     const std::string leakage_group = document.jurisdiction + "|" + document.court + "|" + document.issued_at;
-    const auto bucket = std::hash<std::string>{}(leakage_group) % 10U;
-    if (bucket < 8U) {
+    const auto bucket = std::hash<std::string>{}(leakage_group) % 10;
+    if (bucket < 8) {
         return "train";
     }
-    if (bucket == 8U) {
+    if (bucket == 8) {
         return "val";
     }
     return "test";
@@ -279,7 +279,7 @@ IngestionReport HuggingFaceIngestPlugin::runFullImport(const HuggingFaceImportRe
     const auto rows = fetchRawRows(request);
     hf_dataset_catalog_.insert(dataset + "@" + request.snapshot_id);
 
-    for (std::size_t i = 0; i < rows.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(rows.size()); ++i) {
         const auto normalized = normalizeLegalRecord(rows[i], dataset, request.split, i);
         if (!normalized.ok || isDuplicate(normalized.document)) {
             ++report.failed_records;
@@ -327,7 +327,7 @@ IngestionReport HuggingFaceIngestPlugin::runIncrementalUpdate(const HuggingFaceU
     }
 
     const auto rows = fetchRawRows(request);
-    for (std::size_t i = 0; i < rows.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(rows.size()); ++i) {
         const auto normalized = normalizeLegalRecord(rows[i], dataset, request.split, i);
         if (!normalized.ok || isDuplicate(normalized.document)) {
             ++report.failed_records;
@@ -361,7 +361,7 @@ ValidationReport HuggingFaceIngestPlugin::validateQuality() const {
 
     for (const auto& [id, example] : training_examples_) {
         (void)id;
-        if (example.input.size() < config_.min_quality_text_length) {
+        if (static_cast<int>(example.input.size()) < config_.min_quality_text_length) {
             report.ok = false;
             ++report.failed_examples;
             report.errors.push_back("training example below min text length: " + example.example_id);
@@ -413,7 +413,7 @@ AdaLoraExportReport HuggingFaceIngestPlugin::exportAdaLoraJsonl(const AdaLoraExp
 
     for (const auto& entry : ordered_examples) {
         const auto& example = entry.get();
-        json line;
+        json line = {};
         if (request.format == AdaLoraExportFormat::PROMPT_RESPONSE) {
             line["prompt"] = example.input;
             line["response"] = example.target;

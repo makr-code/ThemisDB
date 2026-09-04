@@ -47,7 +47,8 @@ std::vector<TransactionSemanticAdvisor::BatchAffinityHint>
 TransactionSemanticAdvisor::analyzeBatch(
     const std::vector<TransactionContext>& pending_txs) const
 {
-    std::vector<BatchAffinityHint> hints;
+    std::vector<BatchAffinityHint> hints = {};
+
     if (pending_txs.empty()) {
         emitDecisionRecord(0, 0);
         return hints;
@@ -104,7 +105,7 @@ TransactionSemanticAdvisor::analyzeBatch(
         }
     }
 
-    emitDecisionRecord(hints.size(), pending_txs.size());
+    emitDecisionRecord(hints.size(),static_cast<int>(pending_txs.size()));
     return hints;
 }
 
@@ -148,7 +149,7 @@ double TransactionSemanticAdvisor::entityOverlap(
     }
 
     // Jaccard: shared / union
-    size_t union_size = a.entity_map.size() + b.entity_map.size() - shared;
+    size_t union_size = static_cast<int>(a.entity_map.size()) + static_cast<int>(b.entity_map.size()) - shared;
     return static_cast<double>(shared) / static_cast<double>(union_size);
 }
 

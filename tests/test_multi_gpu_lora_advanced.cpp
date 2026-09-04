@@ -389,8 +389,12 @@ TEST_F(MultiGPULoRAAdvancedTest, TenantIsolationTracking) {
     
     for (const auto& entry : heatmap) {
         std::string tenant = entry["tenant_id"];
-        if (tenant == "tenant-A") found_tenant_a = true;
-        if (tenant == "tenant-B") found_tenant_b = true;
+        if (tenant == "tenant-A") {
+          found_tenant_a = true;
+        }
+        if (tenant == "tenant-B") {
+          found_tenant_b = true;
+        }
     }
     
     EXPECT_TRUE(found_tenant_a);
@@ -421,8 +425,12 @@ TEST_F(MultiGPULoRAAdvancedTest, AuditLogRecordsLoRAOperations) {
         EXPECT_TRUE(entry.contains("timestamp"));
         
         std::string event_type = entry["event_type"];
-        if (event_type == "load") found_load = true;
-        if (event_type == "unload") found_unload = true;
+        if (event_type == "load") {
+          found_load = true;
+        }
+        if (event_type == "unload") {
+          found_unload = true;
+        }
     }
     
     EXPECT_TRUE(found_load);

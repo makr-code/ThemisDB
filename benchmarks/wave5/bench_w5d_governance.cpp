@@ -96,7 +96,9 @@ public:
             "abcdefghijklmnopqrstuvwxyz0123456789";
         std::uniform_int_distribution<std::size_t> d(0, kC.size() - 1);
         std::string s(len, ' ');
-        for (auto& c : s) c = kC[d(eng_)];
+        for (auto& c : s) {
+          c = kC[d(eng_)];
+        }
         return s;
     }
     int64_t integer(int64_t lo, int64_t hi) {
@@ -104,7 +106,7 @@ public:
         return d(eng_);
     }
 private:
-    std::mt19937_64 eng_;
+    std::mt19937_64 eng_ = {};
 };
 
 struct Percentiles {
@@ -195,7 +197,7 @@ public:
         idx_.reset();
         db_->close();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(dbPath_, ec);
     }
 

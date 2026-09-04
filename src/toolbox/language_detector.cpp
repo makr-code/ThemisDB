@@ -30,7 +30,7 @@ std::vector<std::string> tokenize(std::string_view text) {
     
     std::string buf(text);
     std::istringstream iss(buf);
-    std::string word;
+    std::string word = {};
     while (iss >> word) {
         tokens.push_back(utils::toLower(word));
     }
@@ -53,7 +53,7 @@ DefaultLanguageDetector::DefaultLanguageDetector(double min_ratio)
 
 std::string DefaultLanguageDetector::detect(std::string_view text) const {
     auto tokens = tokenize(text);
-    if (tokens.size() < 3) {
+    if (static_cast<int>(tokens.size()) < 3) {
         return "und";
     }
 

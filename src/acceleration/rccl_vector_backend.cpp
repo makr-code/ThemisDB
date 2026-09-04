@@ -160,10 +160,12 @@ public:
     }
     
     bool enableAllP2PAccess() {
-        if (config.deviceIds.empty()) return true;
+        if (config.deviceIds.empty()) {
+          return true;
+        }
         
-        for (size_t i = 0; i < config.deviceIds.size(); ++i) {
-            for (size_t j = i + 1; j < config.deviceIds.size(); ++j) {
+        for (size_t i = 0; i <static_cast<int>(config.deviceIds.size()); ++i) {
+            for (size_t j = i + 1; j <static_cast<int>(config.deviceIds.size()); ++j) {
                 int canAccess = 0;
                 hipDeviceCanAccessPeer(&canAccess, config.deviceIds[i], config.deviceIds[j]);
                 if (canAccess) {
@@ -197,7 +199,9 @@ public:
     
     bool checkXGMIAvailable() {
         // Simple check: if P2P is available between any two devices, assume XGMI
-        if (config.deviceIds.size() < 2) return false;
+        if (static_cast<int>(config.deviceIds.size()) < 2) {
+          return false;
+        }
         
         int canAccess = 0;
         hipDeviceCanAccessPeer(&canAccess, config.deviceIds[0], config.deviceIds[1]);
@@ -207,11 +211,13 @@ public:
     int countXGMILinks() {
         // Simplified: count P2P-capable device pairs
         int count = 0;
-        for (size_t i = 0; i < config.deviceIds.size(); ++i) {
-            for (size_t j = i + 1; j < config.deviceIds.size(); ++j) {
+        for (size_t i = 0; i <static_cast<int>(config.deviceIds.size()); ++i) {
+            for (size_t j = i + 1; j <static_cast<int>(config.deviceIds.size()); ++j) {
                 int canAccess = 0;
                 hipDeviceCanAccessPeer(&canAccess, config.deviceIds[i], config.deviceIds[j]);
-                if (canAccess) count++;
+                if (canAccess) {
+                  count++;
+                }
             }
         }
         return count;
@@ -231,7 +237,7 @@ public:
             (stats.avgCollectiveTimeMs * (stats.numCollectives - 1) + timeMs) / stats.numCollectives;
     }
     
-    void recordP2P(size_t bytes) {
+    void recordP2P([[maybe_unused]] size_t bytes) {
         auto now = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(now - lastOpStart);
         double timeMs = duration.count() / 1000.0;
@@ -282,7 +288,9 @@ bool RCCLVectorBackend::isP2PEnabled() const {
 
 bool RCCLVectorBackend::allReduce(const float* sendBuf, float* recvBuf, size_t count,
                                    ReductionOp op, hipStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     pImpl->startTiming();
     
@@ -304,7 +312,9 @@ bool RCCLVectorBackend::allReduce(const float* sendBuf, float* recvBuf, size_t c
 
 bool RCCLVectorBackend::broadcast(float* buffer, size_t count, int root,
                                    hipStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     pImpl->startTiming();
     RCCL_CHECK(rcclBroadcast(buffer, buffer, count, rcclFloat, root, 
@@ -315,7 +325,9 @@ bool RCCLVectorBackend::broadcast(float* buffer, size_t count, int root,
 
 bool RCCLVectorBackend::allGather(const float* sendBuf, float* recvBuf, size_t sendCount,
                                    hipStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     pImpl->startTiming();
     RCCL_CHECK(rcclAllGather(sendBuf, recvBuf, sendCount, rcclFloat, 
@@ -326,7 +338,9 @@ bool RCCLVectorBackend::allGather(const float* sendBuf, float* recvBuf, size_t s
 
 bool RCCLVectorBackend::reduce(const float* sendBuf, float* recvBuf, size_t count,
                                 ReductionOp op, int root, hipStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     pImpl->startTiming();
     
@@ -347,7 +361,9 @@ bool RCCLVectorBackend::reduce(const float* sendBuf, float* recvBuf, size_t coun
 
 bool RCCLVectorBackend::reduceScatter(const float* sendBuf, float* recvBuf, size_t recvCount,
                                        ReductionOp op, hipStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     pImpl->startTiming();
     
@@ -368,7 +384,9 @@ bool RCCLVectorBackend::reduceScatter(const float* sendBuf, float* recvBuf, size
 
 bool RCCLVectorBackend::p2pSend(const float* buffer, size_t count, int peerRank,
                                  hipStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     pImpl->startTiming();
     RCCL_CHECK(rcclSend(buffer, count, rcclFloat, peerRank, pImpl->comm, stream));
@@ -378,7 +396,9 @@ bool RCCLVectorBackend::p2pSend(const float* buffer, size_t count, int peerRank,
 
 bool RCCLVectorBackend::p2pRecv(float* buffer, size_t count, int peerRank,
                                  hipStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     pImpl->startTiming();
     RCCL_CHECK(rcclRecv(buffer, count, rcclFloat, peerRank, pImpl->comm, stream));
@@ -408,7 +428,9 @@ bool RCCLVectorBackend::canAccessPeer(int deviceId1, int deviceId2) {
 }
 
 bool RCCLVectorBackend::synchronize(hipStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     // Use a barrier via AllReduce of a dummy value
     float dummy = 0.0f;
@@ -416,7 +438,9 @@ bool RCCLVectorBackend::synchronize(hipStream_t stream) {
 }
 
 bool RCCLVectorBackend::waitAll() {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     HIP_CHECK(hipDeviceSynchronize());
     return true;
 }
@@ -424,7 +448,9 @@ bool RCCLVectorBackend::waitAll() {
 bool RCCLVectorBackend::mergeTopK(const uint32_t* localIndices, const float* localDistances,
                                    size_t localK, uint32_t* globalIndices, float* globalDistances,
                                    size_t k, int root, hipStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     int rank = pImpl->config.rank;
     size_t worldSize = pImpl->config.worldSize;
@@ -500,7 +526,7 @@ bool RCCLVectorBackend::mergeTopK(const uint32_t* localIndices, const float* loc
     }
 
     std::vector<size_t> order(totalK);
-    std::iota(order.begin(), order.end(), 0u);
+    std::iota(order.begin(), order.end(), 0);
     const size_t select_k = (k < totalK) ? k : totalK;
     std::partial_sort(order.begin(), order.begin() + select_k, order.end(),
                       [&](size_t a, size_t b) {
@@ -559,14 +585,18 @@ std::string RCCLVectorBackend::getRCCLVersionString() {
 }
 
 bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>& deviceIds) {
-    if (deviceIds.size() < 2) return false;
+    if (static_cast<int>(deviceIds.size()) < 2) {
+      return false;
+    }
     
     // Check if P2P is available between devices (simplified XGMI check)
-    for (size_t i = 0; i < deviceIds.size(); ++i) {
-        for (size_t j = i + 1; j < deviceIds.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(deviceIds.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(deviceIds.size()); ++j) {
             int canAccess = 0;
             hipDeviceCanAccessPeer(&canAccess, deviceIds[i], deviceIds[j]);
-            if (canAccess) return true;
+            if (canAccess) {
+              return true;
+            }
         }
     }
     

@@ -251,14 +251,18 @@ TEST_F(MVCCIntegrationTest, ConcurrentPuts_AllRetrievable) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Verify all keys are readable
     int found = 0;
     for (int t = 0; t < kThreads; ++t) {
         for (int i = 0; i < kPerThread; ++i) {
             auto v = mvcc_->getLatest("ct_" + std::to_string(t) + "_" + std::to_string(i));
-            if (v.has_value()) ++found;
+            if (v.has_value()) {
+              ++found;
+            }
         }
     }
     EXPECT_EQ(found, kThreads * kPerThread);

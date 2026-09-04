@@ -160,7 +160,7 @@ TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsWorkWithoutSdk) {
             };
         });
 
-    OpenGLVectorBackend backend;
+    OpenGLVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         OpenGLVectorBackend::setAvailabilityFn({});
         OpenGLVectorBackend::setInitializeFn({});
@@ -261,7 +261,7 @@ TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsForwardParameters) {
             return std::vector<float>{7.0f};
         });
 
-    OpenGLVectorBackend backend;
+    OpenGLVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         OpenGLVectorBackend::setComputeDistancesFn({});
         GTEST_SKIP() << "capability:opengl_stub_bridge_path_exercisable=false;reason=backend_unavailable_or_init_failed";
@@ -310,7 +310,7 @@ TEST(VulkanGlslCompilerFnTest, DirectXStubBridgeFnsWorkWithoutSdk) {
             };
         });
 
-    DirectXVectorBackend backend;
+    DirectXVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         DirectXVectorBackend::setAvailabilityFn({});
         DirectXVectorBackend::setInitializeFn({});

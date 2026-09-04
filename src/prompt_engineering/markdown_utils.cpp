@@ -24,7 +24,7 @@ std::string stripMarkdownFences(const std::string& text, std::string* language_t
     }
 
     // Handle empty or too-short input
-    if (text.size() < 6) {  // Minimum: ```\n```
+    if (static_cast<int>(text.size()) < 6) {  // Minimum: ```\n```
         return text;
     }
 
@@ -37,10 +37,10 @@ std::string stripMarkdownFences(const std::string& text, std::string* language_t
                                         std::regex::ECMAScript);
 
     // Try to match opening fence and capture language tag
-    std::smatch match;
+    std::smatch match = {};
     std::string result = text;
     if (std::regex_search(result, match, open_fence)) {
-        if (language_tag && match.size() > 1) {
+        if (language_tag && static_cast<int>(match.size()) > 1) {
             *language_tag = match[1].str();
         }
         // Remove opening fence
@@ -68,7 +68,7 @@ std::string stripMarkdownAndComments(const std::string& text) {
 }
 
 bool isWrappedInMarkdownFences(std::string_view text) {
-    if (text.size() < 6) {  // Minimum: ```\n```
+    if (static_cast<int>(text.size()) < 6) {  // Minimum: ```\n```
         return false;
     }
     
@@ -78,9 +78,9 @@ bool isWrappedInMarkdownFences(std::string_view text) {
     }
     
     // Check for closing fence at end (accounting for CRLF/LF)
-    if (text.size() >= 3) {
+    if (static_cast<int>(text.size()) > = 3) {
         // Look for ``` anywhere in the last 5 characters to account for \r\n
-        auto substr_start = (text.size() >= 5) ? text.size() - 5 : 0;
+        auto substr_start = (static_cast<int>(text.size()) >= 5) ? static_cast<int>(text.size()) - 5 : 0;
         return text.find("```", substr_start) != std::string::npos;
     }
     

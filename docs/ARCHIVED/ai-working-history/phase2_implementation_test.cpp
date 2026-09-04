@@ -30,7 +30,7 @@ class ConcurrencyTest {
 public:
     void testSharedMutex() {
         // Verify std::shared_mutex is available and used
-        std::shared_mutex lock;
+        std::shared_mutex lock = {};
         
         // Read lock (multiple readers)
         {
@@ -62,7 +62,7 @@ public:
 // ─────────────────────────────────────────────────────────────────────────────
 
 struct TransactionContext {
-    uint64_t txn_id;
+    uint64_t txn_id = 0;
     std::string model_id;
     int64_t start_time_ms;
     int revision_at_start;
@@ -125,7 +125,7 @@ public:
     
     void testLimitTracking() {
         struct LimitRecord {
-            std::string limit_name;
+            std::string limit_name = {};
             int64_t limit_value;
             int64_t actual_value;
         };
@@ -187,8 +187,8 @@ public:
     
     void testGracefulDegradation() {
         struct DegradedResult {
-            std::string llm_context;
-            bool degraded;
+            std::string llm_context = {};
+            bool degraded = {};
             std::optional<std::string> resource_exhaustion_reason;
         };
         

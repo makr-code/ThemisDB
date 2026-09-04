@@ -88,7 +88,7 @@ TEST_F(DynamicFeatureFlagTest, OverrideFalseAlwaysBlocks) {
     // Disable a gated feature via admin override.
     EditionManager::instance().setFeatureOverride("enterprise_plugins", false);
 
-    std::string err;
+    std::string err = {};
     bool allowed = EditionManager::instance().isFeatureAvailable("enterprise_plugins", err);
     EXPECT_FALSE(allowed);
     EXPECT_FALSE(err.empty());
@@ -102,7 +102,7 @@ TEST_F(DynamicFeatureFlagTest, OverrideFalseBlocksUnknownFeature) {
     // override should block them.
     EditionManager::instance().setFeatureOverride("custom_feature_xyz", false);
 
-    std::string err;
+    std::string err = {};
     bool allowed = EditionManager::instance().isFeatureAvailable("custom_feature_xyz", err);
     EXPECT_FALSE(allowed);
     EXPECT_FALSE(err.empty());
@@ -131,7 +131,7 @@ TEST_F(DynamicFeatureFlagTest, OverrideTrueCannotBypassCompileTimeGate) {
     for (std::string_view feat : kGatedFeatureNames) {
         EditionManager::instance().setFeatureOverride(feat, true);
 
-        std::string err;
+        std::string err = {};
         bool allowed = EditionManager::instance().isFeatureAvailable(std::string(feat), err);
 
         if (!IsFeatureEnabled(feat)) {
@@ -155,7 +155,7 @@ TEST_F(DynamicFeatureFlagTest, OverrideTrueDoesNotAffectBehaviorWhenAlreadyAllow
             continue; // already compile-time blocked; tested above
         }
         EditionManager::instance().setFeatureOverride(feat, true);
-        std::string err;
+        std::string err = {};
         EXPECT_TRUE(EditionManager::instance().isFeatureAvailable(std::string(feat), err))
             << "Override=true must not block a feature that passes edition+license. err: " << err;
         EditionManager::instance().clearFeatureOverride(feat);
@@ -180,7 +180,7 @@ TEST_F(DynamicFeatureFlagTest, ClearOverrideRestoresBehavior) {
     // After clearing, the result is purely determined by edition+license.
     // (Both paths — allowed or blocked — are valid depending on the build.)
     // The important thing is that we are no longer blocked due to override.
-    std::string err;
+    std::string err = {};
     bool after_clear = EditionManager::instance().isFeatureAvailable("rbac", err);
     if (!after_clear) {
         // Must be because of edition or license, not admin override.
@@ -260,7 +260,7 @@ TEST_F(DynamicFeatureFlagTest, OverrideFalseMovesFeatureToUnavailableList) {
 
     // Find the first compile-time enabled feature (if any) so we have
     // something to move to the unavailable list.
-    std::string target_feat;
+    std::string target_feat = {};
     for (std::string_view feat : kGatedFeatureNames) {
         if (IsFeatureEnabled(feat)) {
             target_feat = std::string(feat);

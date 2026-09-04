@@ -73,7 +73,7 @@ struct SQLLiteralExpr : SQLExpr {
 
 struct SQLColumnExpr : SQLExpr {
     std::string table;   // optional table alias prefix
-    std::string column;
+    std::string column = {};
     SQLColumnExpr(std::string t, std::string c) : table(std::move(t)), column(std::move(c)) {}
     explicit SQLColumnExpr(std::string c) : column(std::move(c)) {}
     SQLExprType type() const override { return SQLExprType::Column; }
@@ -165,7 +165,7 @@ struct SQLASTNode {
 // ============================================================================
 
 struct SQLParseError {
-    std::string message;
+    std::string message = {};
     size_t position = 0;  // character offset into the query string
 
     std::string toString() const {

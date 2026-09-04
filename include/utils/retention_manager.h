@@ -64,7 +64,7 @@ public:
      * @brief Statistics for retention operations
      */
     struct RetentionStats {
-        size_t total_entities_scanned;
+        size_t total_entities_scanned = 0;
         size_t archived_count;
         size_t purged_count;
         size_t retained_count;

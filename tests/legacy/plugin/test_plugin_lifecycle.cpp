@@ -29,9 +29,9 @@ public:
     };
     
     struct PluginMetadata {
-        std::string name;
-        std::string version;
-        std::string api_version;
+        std::string name = {};
+        std::string version = {};
+        std::string api_version = {};
         std::vector<std::string> dependencies;
     };
     

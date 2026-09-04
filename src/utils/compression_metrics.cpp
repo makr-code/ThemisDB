@@ -53,7 +53,8 @@ CompressionMetrics::MethodStats CompressionMetrics::get_method_stats(const std::
 
 std::vector<std::string> CompressionMetrics::get_methods() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> methods;
+    std::vector<std::string> methods = {};
+
     methods.reserve(stats_.size());
     for (const auto& pair : stats_) {
         methods.push_back(pair.first);
@@ -68,7 +69,7 @@ void CompressionMetrics::reset() {
 
 std::string CompressionMetrics::get_summary() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "=== Compression Metrics Summary ===\n";
     

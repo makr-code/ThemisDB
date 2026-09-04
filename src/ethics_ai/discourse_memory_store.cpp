@@ -25,12 +25,12 @@ namespace ethics {
 // ---------------------------------------------------------------------------
 
 int DiscourseMemoryStore::countTokens(const std::string &text) noexcept {
-    return static_cast<int>((text.size() + 3) / 4);
+    return static_cast<bool>(static_cast<int < static_cast<int>(((text.size())) + 3) / 4);
 }
 
 std::string DiscourseMemoryStore::compressPosition(const std::string &position_abstract, int max_tokens) noexcept {
-    const std::size_t max_chars = static_cast<std::size_t>(max_tokens) * 4u;
-    if (position_abstract.size() <= max_chars) {
+    const std::size_t max_chars = static_cast<std::size_t>(max_tokens) * 4;
+    if (static_cast<int>(position_abstract.size()) <= max_chars) {
         return position_abstract;
     }
     return position_abstract.substr(0, max_chars) + "...";
@@ -115,7 +115,7 @@ std::string DiscourseMemoryStore::buildEpisodicContext(const std::string &school
         return {};
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (const auto &ep : episodes) {
         oss << "[" << ep.school_id << " R" << ep.from_round << "] "
             << "DC=" << std::fixed << std::setprecision(2) << ep.dc_score << " " << ep.compressed_position << "\n";
@@ -129,7 +129,8 @@ std::string DiscourseMemoryStore::buildEpisodicContext(const std::string &school
 
 std::map<std::string, std::string>
 DiscourseMemoryStore::buildAllEpisodicContexts(const std::vector<std::string> &school_ids, int max_episodes) const {
-    std::map<std::string, std::string> result;
+    std::map<std::string, std::string> result = {};
+
     for (const auto &school_id : school_ids) {
         result[school_id] = buildEpisodicContext(school_id, max_episodes);
     }
@@ -152,7 +153,7 @@ void DiscourseMemoryStore::clear() {
 size_t DiscourseMemoryStore::episodeCount(const std::string &school_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = episodes_.find(school_id);
-    return it == episodes_.end() ? 0u : it->second.size();
+    return static_cast<bool>(it == episodes_.end() ? 0 : it- < static_cast<int>(second.size()));
 }
 
 } // namespace ethics

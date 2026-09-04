@@ -57,20 +57,20 @@ namespace {
         }
 
         size_t padding = 0;
-        for (size_t i = input.size(); i > 0 && input[i - 1] == '='; --i) {
+        for (size_t i = input.size(); i > 0 && input[static_cast<int>(i - 1)] == '='; --i) {
             ++padding;
         }
         if (padding > 2) {
             return false;
         }
 
-        for (size_t i = 0; i < input.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(input.size()); ++i) {
             const unsigned char ch = static_cast<unsigned char>(input[i]);
             const bool is_base64_char = std::isalnum(ch) || ch == '+' || ch == '/' || ch == '=';
             if (!is_base64_char) {
                 return false;
             }
-            if (ch == '=' && i < input.size() - padding) {
+            if (ch == '='  && static_cast<size_t>(i) < static_cast<int>(input.size()) - padding) {
                 return false;
             }
         }
@@ -86,7 +86,9 @@ namespace {
         }
         
         BIO* bmem = BIO_new(BIO_s_mem());
-        if (!bmem) return "";
+        if (!bmem) {
+          return "";
+        }
         BIO* b64 = BIO_new(BIO_f_base64());
         if (!b64) { BIO_free(bmem); return ""; }
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
@@ -121,7 +123,9 @@ namespace {
     // Base64 decode helper
     std::optional<std::vector<unsigned char>> base64DecodeBytes(const std::string& encoded) {
         BIO* bmem = BIO_new_mem_buf(encoded.c_str(), static_cast<int>(encoded.size()));
-        if (!bmem) return std::nullopt;
+        if (!bmem) {
+          return std::nullopt;
+        }
         BIO* b64 = BIO_new(BIO_f_base64());
         if (!b64) { BIO_free(bmem); return std::nullopt; }
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
@@ -207,7 +211,7 @@ std::optional<SignedRequest> SignedRequest::fromJSON(const nlohmann::json& j) {
  * @return Deterministic line-based representation used for signing and verification.
  */
 std::string SignedRequest::getCanonicalString() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "signature_format=" << signature_format << '\n'
         << "shard_id=" << shard_id << '\n'
         << "operation=" << operation << '\n'
@@ -287,7 +291,7 @@ SignedRequest SignedRequestSigner::createSignedRequest(const std::string& operat
 
 /** @brief Generate pseudo-random 64-bit nonce for replay protection. */
 uint64_t SignedRequestSigner::generateNonce() const {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dis;
     return dis(gen);
@@ -338,7 +342,7 @@ std::optional<std::string> SignedRequestSigner::signData(const std::string& data
     }
     
     // Update with data
-    if (EVP_DigestSignUpdate(md_ctx.get(), data.c_str(), data.size()) != 1) {
+    if (EVP_DigestSignUpdate(md_ctx.get(), data.c_str(),static_cast<int>(data.size())) != 1) {
         return std::nullopt;
     }
     
@@ -422,7 +426,7 @@ void SignedRequestVerifier::cleanupExpiredNonces() {
 }
 
 /** @brief Verify timestamp skew is within configured bounds. */
-bool SignedRequestVerifier::verifyTimestamp(uint64_t timestamp_ms) const {
+bool SignedRequestVerifier::verifyTimestamp([[maybe_unused]] uint64_t timestamp_ms) const {
     uint64_t current_time = getCurrentTimestampMs();
     uint64_t time_diff = (current_time > timestamp_ms) ?
         (current_time - timestamp_ms) : (timestamp_ms - current_time);
@@ -458,7 +462,7 @@ bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_
         return rejectWithAuditCode(kAuditNonceReplay, "nonce=" + std::to_string(nonce));
     }
 
-    while (seen_nonces_.size() >= config_.max_nonce_cache && !nonce_fifo_.empty()) {
+    while (static_cast<int>(seen_nonces_.size()) >= config_.max_nonce_cache && !nonce_fifo_.empty()) {
         const NonceEntry oldest = nonce_fifo_.front();
         nonce_fifo_.pop_front();
         const auto it = seen_nonces_.find(oldest.nonce);
@@ -574,9 +578,13 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
 
     // Step 2: Parse the certificate and extract the public key.
     auto bio = utils::make_bio_mem_buf(cert_pem.c_str(), static_cast<int>(cert_pem.size()));
-    if (!bio) return false;
+    if (!bio) {
+      return false;
+    }
     auto cert = utils::read_x509_from_bio(bio.get());
-    if (!cert) return false;
+    if (!cert) {
+      return false;
+    }
 
     // Step 3: Verify the certificate against the CA (if ca_cert_path is configured).
     // Note: if ca_cert_path is empty, chain validation is skipped.  Production
@@ -607,12 +615,16 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
 
     // Step 5: Extract public key from the parsed certificate.
     auto pubkey = utils::EVPKeyPtr(X509_get_pubkey(cert.get()));
-    if (!pubkey) return false;
+    if (!pubkey) {
+      return false;
+    }
 
     // Step 6: Verify RSA/ECDSA-SHA-256 signature against the canonical request string.
     const std::string canonical = request.getCanonicalString();
     auto md_ctx = utils::make_evp_md_ctx();
-    if (!md_ctx) return false;
+    if (!md_ctx) {
+      return false;
+    }
     const int pubkey_type = EVP_PKEY_base_id(pubkey.get());
     if (pubkey_type == EVP_PKEY_ED25519) {
         if (EVP_DigestVerifyInit(md_ctx.get(), nullptr, nullptr, nullptr, pubkey.get()) != 1) {
@@ -627,7 +639,7 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
         if (EVP_DigestVerifyInit(md_ctx.get(), nullptr, EVP_sha256(), nullptr, pubkey.get()) != 1) {
             return false;
         }
-        if (EVP_DigestVerifyUpdate(md_ctx.get(), canonical.c_str(), canonical.size()) != 1) {
+        if (EVP_DigestVerifyUpdate(md_ctx.get(), canonical.c_str(),static_cast<int>(canonical.size())) != 1) {
             return false;
         }
         return EVP_DigestVerifyFinal(md_ctx.get(), signature_bytes->data(), signature_bytes->size()) == 1;
@@ -642,7 +654,7 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
  * @brief Purge expired nonce entries from replay cache.
  * @param now_ms Current timestamp in milliseconds.
  */
-void SignedRequestVerifier::purgeExpiredNoncesLocked(uint64_t now_ms) {
+void SignedRequestVerifier::purgeExpiredNoncesLocked([[maybe_unused]] uint64_t now_ms) {
     while (!nonce_fifo_.empty()) {
         const NonceEntry oldest = nonce_fifo_.front();
         const bool is_expired =

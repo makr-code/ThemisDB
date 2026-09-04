@@ -238,7 +238,7 @@ void GRPCServer::registerService(void* service_impl) {
     }
 
     services_.push_back(service);
-    std::cout << "[RPC-I] Service registered (count=" << services_.size() << ")" << std::endl;
+    std::cout << "[RPC-I] Service registered (count=" <<static_cast<int>(services_.size()) << ")" << std::endl;
 }
 
 std::string GRPCServer::getAddress() const {
@@ -375,14 +375,18 @@ void GRPCServer::recordRPC(const std::string& method, bool success,
         std::lock_guard<std::mutex> lock(metrics_mutex_);
         auto& m = methodMetricsLocked(method);
         ++m.requests;
-        if (!success) ++m.errors;
+        if (!success) {
+          ++m.errors;
+        }
         m.latency_ms += duration_ms;
     }
 
     {
         std::lock_guard<std::mutex> lock(stats_mutex_);
         ++stats_.total_requests;
-        if (success) ++stats_.successful_requests;
+        if (success) {
+          ++stats_.successful_requests;
+        }
         else         ++stats_.failed_requests;
     }
 
@@ -396,7 +400,7 @@ void GRPCServer::recordRPC(const std::string& method, bool success,
 // ============================================================================
 
 std::string GRPCServer::getMetricsText() const {
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     // Snapshot method-level counters
     std::unordered_map<std::string, uint64_t> reqs, errs, lats;
@@ -409,7 +413,9 @@ std::string GRPCServer::getMetricsText() const {
         }
     }
 
-    if (reqs.empty()) return "";
+    if (reqs.empty()) {
+      return "";
+    }
 
     // grpc_server_requests_total
     out << "# HELP grpc_server_requests_total Total gRPC requests received.\n";
@@ -461,17 +467,21 @@ void GRPCServer::logAccess(const std::string& method, int status_code,
     std::function<void(const std::string&)> sink_copy;
     {
         std::lock_guard<std::mutex> lock(log_sink_mutex_);
-        if (!access_log_sink_) return;
+        if (!access_log_sink_) {
+          return;
+        }
         sink_copy = access_log_sink_;
     }
 
     // Build a minimal JSON object (no external JSON library required)
     auto jsEscape = [](const std::string& s) {
-        std::string out;
-        out.reserve(s.size() + 2);
+        std::string out = {};
+        out.reserve(static_cast<int>(s.size()) + 2);
         out += '"';
         for (char c : s) {
-            if      (c == '"')  out += "\\\"";
+            if      (c == '"') {
+              out += "\\\"";
+            }
             else if (c == '\\') out += "\\\\";
             else if (c == '\n') out += "\\n";
             else                out += c;
@@ -480,7 +490,7 @@ void GRPCServer::logAccess(const std::string& method, int status_code,
         return out;
     };
 
-    std::ostringstream js;
+    std::ostringstream js = {};
     js << "{"
        << "\"timestamp_ms\":" << std::chrono::duration_cast<std::chrono::milliseconds>(
               std::chrono::system_clock::now().time_since_epoch()).count()
@@ -499,8 +509,10 @@ void GRPCServer::logAccess(const std::string& method, int status_code,
 
 std::string GRPCServer::loadFile(const std::string& path) {
     std::ifstream file(path);
-    if (!file) throw std::runtime_error("Failed to open file: " + path);
-    std::ostringstream buf;
+    if (!file) {
+      throw std::runtime_error("Failed to open file: " + path);
+    }
+    std::ostringstream buf = {};
     buf << file.rdbuf();
     return buf.str();
 }

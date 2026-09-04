@@ -292,7 +292,9 @@ openTempRdb(const std::string& path) {
     cfg.db_path   = path;
     cfg.enable_wal = true;
     auto db = std::make_shared<themis::RocksDBWrapper>(cfg);
-    if (!db->open()) return nullptr;
+    if (!db->open()) {
+      return nullptr;
+    }
     return db;
 }
 
@@ -301,7 +303,7 @@ static void closeAndCleanupTempRdb(const std::shared_ptr<themis::RocksDBWrapper>
     if (db) {
         db->close();
     }
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(path, ec);
 }
 
@@ -314,7 +316,9 @@ TEST(TCS, TCB_RDB_01_NullDbThrows) {
 TEST(TCS, TCB_RDB_02_PutGetRoundTrip) {
     auto path = makeTempRdbPath("02");
     auto db   = openTempRdb(path);
-    if (!db) GTEST_SKIP() << "RocksDB unavailable";
+    if (!db) {
+      GTEST_SKIP() << "RocksDB unavailable";
+    }
 
     storage::RocksDBTensorBackend backend(db);
     std::vector<uint8_t> val{1, 2, 3, 4, 5};
@@ -330,7 +334,9 @@ TEST(TCS, TCB_RDB_02_PutGetRoundTrip) {
 TEST(TCS, TCB_RDB_03_GetMissingReturnsNullopt) {
     auto path = makeTempRdbPath("03");
     auto db   = openTempRdb(path);
-    if (!db) GTEST_SKIP() << "RocksDB unavailable";
+    if (!db) {
+      GTEST_SKIP() << "RocksDB unavailable";
+    }
 
     storage::RocksDBTensorBackend backend(db);
     auto got = backend.get("__ttn__:absent:key");
@@ -342,7 +348,9 @@ TEST(TCS, TCB_RDB_03_GetMissingReturnsNullopt) {
 TEST(TCS, TCB_RDB_04_DelRemovesEntry) {
     auto path = makeTempRdbPath("04");
     auto db   = openTempRdb(path);
-    if (!db) GTEST_SKIP() << "RocksDB unavailable";
+    if (!db) {
+      GTEST_SKIP() << "RocksDB unavailable";
+    }
 
     storage::RocksDBTensorBackend backend(db);
     std::vector<uint8_t> val{0xAB};
@@ -357,7 +365,9 @@ TEST(TCS, TCB_RDB_04_DelRemovesEntry) {
 TEST(TCS, TCB_RDB_05_ListKeysByPrefix) {
     auto path = makeTempRdbPath("05");
     auto db   = openTempRdb(path);
-    if (!db) GTEST_SKIP() << "RocksDB unavailable";
+    if (!db) {
+      GTEST_SKIP() << "RocksDB unavailable";
+    }
 
     storage::RocksDBTensorBackend backend(db);
     std::vector<uint8_t> dummy{0};
@@ -379,7 +389,9 @@ TEST(TCS, TCB_RDB_05_ListKeysByPrefix) {
 TEST(TCS, TCB_RDB_06_IntegratedWithTensorCoreStorageBridge) {
     auto path = makeTempRdbPath("06");
     auto db   = openTempRdb(path);
-    if (!db) GTEST_SKIP() << "RocksDB unavailable";
+    if (!db) {
+      GTEST_SKIP() << "RocksDB unavailable";
+    }
 
     auto backend = std::make_shared<storage::RocksDBTensorBackend>(db);
     tensor::TensorCoreStorageBridge sink(backend);

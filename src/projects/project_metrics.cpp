@@ -26,7 +26,7 @@ std::string ProjectMetrics::getMetricsText() const {
         return "";
     }
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     out << "# HELP projects_changes_total Total collaboration change events recorded.\n";
     out << "# TYPE projects_changes_total counter\n";

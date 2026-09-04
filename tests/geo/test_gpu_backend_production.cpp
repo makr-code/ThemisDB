@@ -238,8 +238,8 @@ TEST_F(GpuBackendProductionTest, ThreadSafety) {
     std::vector<std::thread> threads;
     std::atomic<int> success_count{0};
     std::atomic<bool> exception_occurred{false};
-    std::string exception_message;
-    std::mutex exception_mutex;
+    std::string exception_message = {};
+    std::mutex exception_mutex = {};
     
     for (int t = 0; t < num_threads; ++t) {
         threads.emplace_back([this, &success_count, &exception_occurred, 

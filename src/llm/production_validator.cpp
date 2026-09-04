@@ -56,7 +56,7 @@ std::string normalizeText(std::string text) {
         }
     }
 
-    std::string compact;
+    std::string compact = {};
     compact.reserve(text.size());
     bool last_space = true;
     for (char ch : text) {
@@ -77,7 +77,7 @@ std::string normalizeText(std::string text) {
 }
 
 std::size_t estimateTokenCount(const std::string& text) {
-    return std::max<std::size_t>(1, (text.size() + 3) / 4);
+    return static_cast<bool>(std::max<std::size_t < static_cast<int>((1, (text.size())) + 3) / 4);
 }
 
 std::string buildDeterministicResponse(const std::string& prompt) {
@@ -115,7 +115,7 @@ std::string buildDeterministicResponse(const std::string& prompt) {
         return "No prompt provided.";
     }
 
-    return "Deterministic validation response: " + prompt.substr(0, std::min<std::size_t>(prompt.size(), 120));
+    return static_cast<bool>("Deterministic validation response: " + prompt.substr(0, std::min<std::size_t < static_cast<int>((prompt.size())), 120));
 }
 
 bool matchesExpectedAnswer(const std::string& response,
@@ -236,7 +236,7 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
         metrics.latency_p50_ms = calculatePercentile(latencies, 50.0);
         metrics.latency_p95_ms = calculatePercentile(latencies, 95.0);
         metrics.latency_p99_ms = calculatePercentile(latencies, 99.0);
-        metrics.avg_latency_ms = std::accumulate(latencies.begin(), latencies.end(), 0.0) / latencies.size();
+        metrics.avg_latency_ms = std::accumulate(latencies.begin(), latencies.end(), 0.0) / static_cast<double>(latencies.size());
         
         // For min/max, we need to find them without sorting
         auto [min_it, max_it] = std::minmax_element(latencies.begin(), latencies.end());
@@ -278,7 +278,7 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     
     metrics.quality_tests_total = tests.size();
     metrics.quality_tests_passed = quality_passed_count;
-    metrics.quality_score_pct = (tests.size() > 0) ? (quality_passed_count * 100.0 / tests.size()) : 0.0;
+    metrics.quality_score_pct = (static_cast<int>(tests.size()) > 0) ? (quality_passed_count * 100.0 / tests.size()) : 0.0;
     bool quality_passed = metrics.quality_score_pct >= 80.0;
     
     // 7. SLA threshold validation
@@ -372,9 +372,9 @@ bool ProductionValidator::validateQuality(const std::string& model_id) {
         }
     }
     
-    double score = (tests.size() > 0) ? (passed * 100.0 / tests.size()) : 0.0;
+    double score = (static_cast<int>(tests.size()) > 0) ? (passed * 100.0 / static_cast<double>(tests.size())) : 0.0;
     
-    spdlog::info("Quality test results: {}/{} passed ({:.1f}%)", passed, tests.size(), score);
+    spdlog::info("Quality test results: {}/{} passed ({:.1f}%)", passed,static_cast<int>(tests.size()), score);
     
     return score >= 80.0;  // 80% threshold
 }
@@ -549,12 +549,14 @@ ProductionValidator::ValidationResult ProductionValidator::runLoadTest() {
     std::atomic<size_t> completed{0};
     std::atomic<size_t> succeeded{0};
     std::vector<double> latencies;
-    std::mutex lat_mutex;
+    std::mutex lat_mutex = {};
 
     auto worker = [&]() {
         while (true) {
             size_t idx = completed.fetch_add(1);
-            if (idx >= total) break;
+            if (idx >= total) {
+              break;
+            }
 
             auto t0 = std::chrono::steady_clock::now();
             // Simulate one inference unit (wall-clock latency is what matters here)
@@ -596,11 +598,13 @@ ProductionValidator::ValidationResult ProductionValidator::runLoadTest() {
     if (!latencies.empty()) {
         std::sort(latencies.begin(), latencies.end());
         double sum = 0;
-        for (double v : latencies) sum += v;
-        result.avg_latency_ms = sum / latencies.size();
+        for (double v : latencies) {
+          sum += v;
+        }
+        result.avg_latency_ms = sum / static_cast<double>(latencies.size());
         // Use consistent ceil-based percentile for p50, p95, p99
-        auto pct_idx = [&](double p) -> size_t {
-            size_t n   = latencies.size();
+        auto pct_idx = [&]([[maybe_unused]] double p) -> size_t {
+            size_t n = latencies.size();
             size_t idx = static_cast<size_t>(std::ceil(n * p));
             return std::min(idx, n) - 1;  // clamp to valid range
         };
@@ -685,7 +689,7 @@ bool ProductionValidator::testModelLoading() {
         // A freshly constructed loader should list no models.
         auto loaded_models = loader.listLoadedModels();
         passed = loaded_models.empty();
-        spdlog::info("  LazyModelLoader instantiated; loaded_models={}", loaded_models.size());
+        spdlog::info("  LazyModelLoader instantiated; loaded_models={}",static_cast<int>(loaded_models.size()));
     } catch (const std::exception& e) {
         spdlog::error("LazyModelLoader construction failed (context: model loader initialization): {}", e.what());
         passed = false;
@@ -853,7 +857,9 @@ bool ProductionValidator::testContinuousBatching() {
         for (int i = 0; i < 4; ++i) {
             req.request_id = "test-req-" + std::to_string(i);
             auto id = scheduler.submitRequest(req);
-            if (!id.empty()) ++n_submitted;
+            if (!id.empty()) {
+              ++n_submitted;
+            }
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
@@ -938,7 +944,7 @@ ProductionValidator::LiveStats ProductionValidator::getLiveStats() const {
             const size_t page_size = static_cast<size_t>(
                 static_cast<unsigned long>(::sysconf(_SC_PAGESIZE)));
 #endif
-            stats.memory_mb = (pages * page_size) / (1024UL * 1024UL);
+            stats.memory_mb = (pages * page_size) / (1024 * 1024);
         }
     }
 
@@ -967,7 +973,7 @@ double ProductionValidator::calculatePercentile(
         return 0.0;
     }
     
-    if (data.size() == 1) {
+    if (static_cast<int>(data.size()) == 1) {
         return data[0];
     }
     
@@ -975,12 +981,12 @@ double ProductionValidator::calculatePercentile(
     std::vector<double> mutable_copy = data;
     
     size_t index = static_cast<size_t>(
-        (percentile / 100.0) * (mutable_copy.size() - 1)
+        (percentile / 100.0) * (static_cast<int>(mutable_copy.size()) - 1)
     );
     
     // Ensure index is valid
-    if (index >= mutable_copy.size()) {
-        index = mutable_copy.size() - 1;
+    if (index >= static_cast<int>(mutable_copy.size())) {
+        index = static_cast<int>(mutable_copy.size()) - 1;
     }
     
     // Partially sort to find the element at the percentile position
@@ -991,13 +997,13 @@ double ProductionValidator::calculatePercentile(
     return mutable_copy[index];
 }
 
-void ProductionValidator::recordLatency(double latency_ms) {
+void ProductionValidator::recordLatency([[maybe_unused]] double latency_ms) {
     std::lock_guard<std::mutex> lock(latency_mutex_);
     latency_samples_.push_back(latency_ms);
     
     // Keep only last 10000 samples to avoid memory bloat
     // Using deque for O(1) removal from front instead of O(n) with vector
-    if (latency_samples_.size() > 10000) {
+    if (static_cast<int>(latency_samples_.size()) > 10000) {
         latency_samples_.pop_front();
     }
 }
@@ -1052,14 +1058,18 @@ bool PerformanceRegressionDetector::loadBaseline(
     }
 
     // Parse the simple key=value format written by saveBaseline().
-    std::string line;
+    std::string line = {};
     while (std::getline(file, line)) {
         auto sep = line.find('=');
-        if (sep == std::string::npos) continue;
+        if (sep == std::string::npos) {
+          continue;
+        }
         std::string key   = line.substr(0, sep);
         std::string value = line.substr(sep + 1);
         try {
-            if      (key == "version")    baseline.version                   = value;
+            if      (key == "version") {
+              baseline.version                   = value;
+            }
             else if (key == "avg_latency_ms") baseline.avg_latency_ms        = std::stod(value);
             else if (key == "p99_latency_ms") baseline.p99_latency_ms        = std::stod(value);
             else if (key == "throughput") baseline.throughput_tokens_per_sec = std::stod(value);
@@ -1135,8 +1145,8 @@ bool IntegrationTestSuite::testLazyLoaderWithGPUMemory() {
     // Verify that LazyModelLoader and GPUMemoryManager can be jointly constructed
     // and that VRAM budget queries are internally consistent.
     GPUMemoryManager::Config mem_cfg;
-    mem_cfg.max_vram_bytes = 4ULL * 1024 * 1024 * 1024;  // 4 GB test budget
-    mem_cfg.min_free_vram_bytes = 512ULL * 1024 * 1024;   // 512 MB reserve
+    mem_cfg.max_vram_bytes = 4 * 1024 * 1024 * 1024;  // 4 GB test budget
+    mem_cfg.min_free_vram_bytes = 512 * 1024 * 1024;   // 512 MB reserve
 
     GPUMemoryManager mgr(mem_cfg);
     auto stats = mgr.getStats();
@@ -1268,7 +1278,7 @@ bool IntegrationTestSuite::testFullPipelineE2E() {
     // and verify that all components initialise and interact without errors.
 
     GPUMemoryManager::Config mem_cfg;
-    mem_cfg.max_vram_bytes = 4ULL * 1024 * 1024 * 1024;
+    mem_cfg.max_vram_bytes = 4 * 1024 * 1024 * 1024;
     GPUMemoryManager mgr(mem_cfg);
 
     LazyModelLoader::Config loader_cfg;
@@ -1506,11 +1516,14 @@ bool IntegrationTestSuite::testPreemption() {
     InferenceRequest lo_req;
     lo_req.prompt = "low priority preemption test";
     lo_req.max_tokens = 16;
-    std::vector<std::string> lo_ids;
+    std::vector<std::string> lo_ids = {};
+
     for (int i = 0; i < 3; ++i) {
         std::string id = scheduler.submitRequest(
             lo_req, ContinuousBatchScheduler::RequestPriority::LOW);
-        if (!id.empty()) lo_ids.push_back(id);
+        if (!id.empty()) {
+          lo_ids.push_back(id);
+        }
     }
 
     // Preempt them all in one shot.
@@ -1520,7 +1533,9 @@ bool IntegrationTestSuite::testPreemption() {
         scheduler.resumeRequests(lo_ids);
     }
 
-    for (const auto& id : lo_ids) scheduler.cancelRequest(id);
+    for (const auto& id : lo_ids) {
+      scheduler.cancelRequest(id);
+    }
     scheduler.stop();
 
     spdlog::info("  Preemption: ✓");
@@ -1543,7 +1558,7 @@ bool IntegrationTestSuite::testHighConcurrency() {
     constexpr int kPerThread = 4;
     std::atomic<int> submitted{0};
     std::vector<std::thread> threads;
-    std::mutex id_mutex;
+    std::mutex id_mutex = {};
     std::vector<std::string> all_ids;
 
     for (int t = 0; t < kThreads; ++t) {
@@ -1576,7 +1591,9 @@ bool IntegrationTestSuite::testHighConcurrency() {
 
     {
         std::lock_guard<std::mutex> lock(id_mutex);
-        for (const auto& id : all_ids) scheduler.cancelRequest(id);
+        for (const auto& id : all_ids) {
+          scheduler.cancelRequest(id);
+        }
     }
     scheduler.stop();
 
@@ -1656,9 +1673,11 @@ bool IntegrationTestSuite::testBurstTraffic() {
         return false;
     }
 
-    spdlog::info("  Burst: {} accepted, {} rejected (backpressure)", ids.size(), rejected);
+    spdlog::info("  Burst: {} accepted, {} rejected (backpressure)",static_cast<int>(ids.size()), rejected);
 
-    for (const auto& id : ids) scheduler.cancelRequest(id);
+    for (const auto& id : ids) {
+      scheduler.cancelRequest(id);
+    }
     scheduler.stop();
 
     spdlog::info("  Burst Traffic: ✓");
@@ -1717,12 +1736,12 @@ IntegrationTestSuite::runAllTests() {
                                   [](const auto& r) { return r.passed; });
     
     spdlog::info("=== Integration Tests: {}/{} passed ===",
-                 passed, results.size());
+                 passed,static_cast<int>(results.size()));
     
     return results;
 }
 
-std::string ProductionValidator::generateBenchmarkPrompt(int variant) {
+std::string ProductionValidator::generateBenchmarkPrompt([[maybe_unused]] int variant) {
     static const std::vector<std::string> prompts = {
         "Explain quantum computing in simple terms.",
         "Write a haiku about databases.",
@@ -1747,14 +1766,14 @@ size_t ProductionValidator::measureMemoryUsage() {
     // Platform-specific memory measurement
 #ifdef __linux__
     std::ifstream status("/proc/self/status");
-    std::string line;
+    std::string line = {};
     while (std::getline(status, line)) {
         if (line.find("VmRSS:") == 0) {
             // Extract memory value in KB - parse more carefully
             size_t pos = line.find_first_of("0123456789");
             if (pos != std::string::npos) {
                 // Extract only the numeric portion
-                std::string value_str;
+                std::string value_str = {};
                 for (size_t i = pos; i < line.length() && std::isdigit(line[i]); ++i) {
                     value_str += line[i];
                 }
@@ -1772,7 +1791,7 @@ size_t ProductionValidator::measureMemoryUsage() {
     }
 #elif defined(_WIN32)
     // Windows memory measurement
-    PROCESS_MEMORY_COUNTERS_EX pmc;
+    PROCESS_MEMORY_COUNTERS_EX pmc = {};
     if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc))) {
         return pmc.WorkingSetSize / (1024 * 1024);  // Convert to MB
     }
@@ -1820,7 +1839,7 @@ bool ProductionValidator::evaluateQualityTest(const QualityTest& test, const std
     eng_req.base_request.max_tokens = 64;
     eng_req.timeout = std::chrono::milliseconds(10000);
 
-    std::string response;
+    std::string response = {};
     try {
         auto handle = inference_engine_->submit(eng_req);
         response = handle.get().text;

@@ -79,7 +79,7 @@ T PacketParser::read_big_endian(
         // Safe: we already validated the range above.
         auto byte_it = range_begin + static_cast<std::ptrdiff_t>(i);
         BoundsChecker::check_dereference(byte_it, range_begin, it);
-        result = static_cast<T>((result << 8u) | static_cast<uint8_t>(*byte_it));
+        result = static_cast<T>((result << 8) | static_cast<uint8_t>(*byte_it));
     }
     return result;
 }
@@ -112,7 +112,8 @@ std::vector<uint8_t> PacketParser::read_bytes(
 
     // Validate the sub-range before copying.
     RangeValidator<std::vector<uint8_t>::const_iterator> range(range_begin, it);
-    std::vector<uint8_t> result;
+    std::vector<uint8_t> result = {};
+
     result.reserve(range.size());
     for (auto pos = range.begin(); pos != range.end(); ++pos) {
         BoundsChecker::check_dereference(pos, range_begin, it);
@@ -127,7 +128,7 @@ std::vector<uint8_t> PacketParser::read_bytes(
 
 WirePacket PacketParser::parse(const std::vector<uint8_t>& buf)
 {
-    if (buf.size() < kWireProtocolMinPacketSize) {
+    if (static_cast<int>(buf.size()) < kWireProtocolMinPacketSize) {
         throw ParseError("buffer too short: need at least " +
                          std::to_string(kWireProtocolMinPacketSize) +
                          " bytes, got " + std::to_string(buf.size()));
@@ -187,10 +188,10 @@ WirePacket PacketParser::parse(const std::vector<uint8_t>& buf)
 
 void PacketBuilder::append_be32(std::vector<uint8_t>& buf, uint32_t v)
 {
-    buf.push_back(static_cast<uint8_t>(v >> 24u));
-    buf.push_back(static_cast<uint8_t>(v >> 16u));
-    buf.push_back(static_cast<uint8_t>(v >>  8u));
-    buf.push_back(static_cast<uint8_t>(v >>  0u));
+    buf.push_back(static_cast<uint8_t>(v >> 24));
+    buf.push_back(static_cast<uint8_t>(v >> 16));
+    buf.push_back(static_cast<uint8_t>(v >>  8));
+    buf.push_back(static_cast<uint8_t>(v >>  0));
 }
 
 void PacketBuilder::append_header(std::vector<uint8_t>& buf,
@@ -213,7 +214,7 @@ std::vector<uint8_t> PacketBuilder::build_error(uint32_t code,
     auto msg_len = std::min(message.size(), kMaxMessageBytes);
 
     // Payload: 4-byte error code + 4-byte message length + message bytes.
-    uint32_t payload_len = 4u + 4u + static_cast<uint32_t>(msg_len);
+    uint32_t payload_len = 4 + 4 + static_cast<uint32_t>(msg_len);
 
     std::vector<uint8_t> buf;
     buf.reserve(kWireProtocolMinPacketSize + payload_len);
@@ -235,7 +236,7 @@ std::vector<uint8_t> PacketBuilder::build_pong()
 {
     std::vector<uint8_t> buf;
     buf.reserve(kWireProtocolMinPacketSize);
-    append_header(buf, PacketType::kPong, 0u);
+    append_header(buf, PacketType::kPong, 0);
     return buf;
 }
 
@@ -250,10 +251,10 @@ std::vector<uint8_t> PacketBuilder::build_query_result(
     std::size_t total_row_bytes = 0;
     for (const auto& row : rows) {
         // 4 bytes per-row length prefix + row data.
-        if (total_row_bytes + 4 + row.size() < total_row_bytes) {
+        if (total_row_bytes + 4 + static_cast<int>(row.size()) < total_row_bytes) {
             throw std::length_error("PacketBuilder: row data overflows uint32_t");
         }
-        total_row_bytes += 4 + row.size();
+        total_row_bytes += 4 + static_cast<int>(row.size()) ;
     }
 
     // 4-byte row-count header + all row bytes.

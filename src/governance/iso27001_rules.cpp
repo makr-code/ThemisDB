@@ -432,11 +432,12 @@ Iso27001ControlSet::Iso27001ControlSet() {
     controls_.push_back(std::make_shared<Iso27001A1323Control>());
     controls_.push_back(std::make_shared<Iso27001A1813Control>());
 
-    THEMIS_DEBUG("Iso27001ControlSet initialized with {} control evaluators", controls_.size());
+    THEMIS_DEBUG("Iso27001ControlSet initialized with {} control evaluators",static_cast<int>(controls_.size()));
 }
 
 std::vector<Iso27001ControlResult> Iso27001ControlSet::evaluateRule(const PolicyRule &rule) const {
-    std::vector<Iso27001ControlResult> results;
+    std::vector<Iso27001ControlResult> results = {};
+
     results.reserve(controls_.size());
     for (const auto &ctrl : controls_) {
         results.push_back(ctrl->evaluate(rule));
@@ -458,7 +459,7 @@ Iso27001AuditReport Iso27001ControlSet::generateReport(const PolicyManager &poli
     Iso27001AuditReport report;
 
     const int64_t ts = iso27001NowMs();
-    std::ostringstream id_ss;
+    std::ostringstream id_ss = {};
     id_ss << "iso27001-" << ts;
     report.report_id       = id_ss.str();
     report.generated_at_ms = ts;
@@ -503,7 +504,7 @@ void Iso27001ControlSet::collectEvidence(const std::string &resource, const std:
 
     Iso27001EvidenceItem ev;
     {
-        std::ostringstream id_ss;
+        std::ostringstream id_ss = {};
         id_ss << "ev-" << (++evidence_counter_) << "-" << iso27001NowMs();
         ev.evidence_id = id_ss.str();
     }

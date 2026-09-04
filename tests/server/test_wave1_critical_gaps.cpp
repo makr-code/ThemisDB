@@ -42,11 +42,15 @@ int timedJoinAll(std::vector<std::thread>& threads,
     std::vector<std::future<void>> futs;
     futs.reserve(threads.size());
     for (auto& t : threads) {
-        if (!t.joinable()) continue;
+        if (!t.joinable()) {
+          continue;
+        }
         futs.emplace_back(
             std::async(std::launch::async,
                        [th = std::move(t)]() mutable {
-                           if (th.joinable()) th.join();
+                           if (th.joinable()) {
+                             th.join();
+                           }
                        }));
     }
     for (auto& f : futs) {
@@ -68,7 +72,8 @@ int timedJoinAll(std::vector<std::thread>& threads,
  */
 TEST(Wave1CriticalGaps, TimedJoin_QuickThreadsJoinClean)
 {
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 4; ++i)
         threads.emplace_back([]() { /* instant exit */ });
 
@@ -110,7 +115,7 @@ TEST(Wave1CriticalGaps, TimedJoin_StuckThreadCountedAsStraggler)
  */
 TEST(Wave1CriticalGaps, CallOnce_InvokedExactlyOnceUnderConcurrency)
 {
-    std::once_flag flag;
+    std::once_flag flag = {};
     std::atomic<int> init_count{0};
 
     constexpr int kThreads = 8;
@@ -123,7 +128,9 @@ TEST(Wave1CriticalGaps, CallOnce_InvokedExactlyOnceUnderConcurrency)
             });
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(1, init_count.load());
 }
@@ -134,11 +141,12 @@ TEST(Wave1CriticalGaps, CallOnce_InvokedExactlyOnceUnderConcurrency)
  */
 TEST(Wave1CriticalGaps, CallOnce_ResultConsistentAcrossThreads)
 {
-    std::once_flag flag;
+    std::once_flag flag = {};
     bool ok = false;
 
     constexpr int kThreads = 4;
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < kThreads; ++i) {
         threads.emplace_back([&flag, &ok]() {
             std::call_once(flag, [&ok]() { ok = true; });
@@ -146,7 +154,9 @@ TEST(Wave1CriticalGaps, CallOnce_ResultConsistentAcrossThreads)
             EXPECT_TRUE(ok);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_TRUE(ok);
 }
 
@@ -165,7 +175,7 @@ TEST(Wave1CriticalGaps, HandlerSnapshot_ConsistentUnderConcurrentReads)
     // api_handlers_mutex_ + monitoring_api_ in http_server.cpp).
     int handler_v1 = 1, handler_v2 = 2;
     int* handler_ptr = &handler_v1;
-    std::mutex handler_mutex;
+    std::mutex handler_mutex = {};
 
     constexpr int kReaderThreads = 8;
     std::atomic<int> mismatches{0};
@@ -181,7 +191,9 @@ TEST(Wave1CriticalGaps, HandlerSnapshot_ConsistentUnderConcurrentReads)
                 snap = handler_ptr;
             }
             // Use snap without holding the lock.
-            if (snap == nullptr) ++mismatches;
+            if (snap == nullptr) {
+              ++mismatches;
+            }
         });
     }
 
@@ -192,7 +204,9 @@ TEST(Wave1CriticalGaps, HandlerSnapshot_ConsistentUnderConcurrentReads)
     });
 
     writer.join();
-    for (auto& t : readers) t.join();
+    for (auto& t : readers) {
+      t.join();
+    }
 
     // No reader should have observed a null snap.
     EXPECT_EQ(0, mismatches.load());

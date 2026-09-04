@@ -74,7 +74,7 @@ public:
     };
 
     struct InjectionResult {
-        bool success;
+        bool success = 0;
         InjectionState state;
         std::string component;
         FaultType type;

@@ -116,7 +116,7 @@ TEST(RuntimeLicenseGate, ExpiredLicense_EnterpriseFeature_Blocked) {
     // All known enterprise features must be blocked.
     for (const char* feat : {"enterprise_plugins", "multi_master",
                               "field_encryption", "rbac", "hsm"}) {
-        std::string err;
+        std::string err = {};
         bool allowed = gate.isFeatureAllowed(feat, err);
 
         // For compile-time OFF features (Community build), the compile-time
@@ -140,7 +140,7 @@ TEST(RuntimeLicenseGate, ExpiredLicense_ErrorMessageContainsStatus) {
     auto res = makeResult(false, "expired", 0, "License expired on 2000-01-01");
     gate.initialize(res, makeLicense());
 
-    std::string err;
+    std::string err = {};
     gate.isFeatureAllowed("enterprise_plugins", err);
     EXPECT_FALSE(err.empty());
     // The message must mention either the edition or the expired status.
@@ -212,7 +212,7 @@ TEST(RuntimeLicenseGate, InvalidLicense_ErrorMessageContainsContact) {
     auto res             = makeResult(false, "expired");
     gate.initialize(res, lic);
 
-    std::string err;
+    std::string err = {};
     gate.isFeatureAllowed("enterprise_plugins", err);
     EXPECT_NE(err.find("license@example.org"), std::string::npos)
         << "Error should contain contact email. Got: " << err;

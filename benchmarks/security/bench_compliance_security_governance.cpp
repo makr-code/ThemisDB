@@ -40,7 +40,7 @@ using json = nlohmann::json;
 
 std::vector<uint8_t> generateTestData(size_t size) {
     std::vector<uint8_t> data(size);
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, 255);
     std::generate(data.begin(), data.end(), [&]() { return static_cast<uint8_t>(dis(gen)); });
@@ -52,9 +52,9 @@ std::string generateRandomString(size_t length) {
         "0123456789"
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         "abcdefghijklmnopqrstuvwxyz";
-    std::string result;
+    std::string result = {};
     result.reserve(length);
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, sizeof(alphanum) - 2);
     for (size_t i = 0; i < length; ++i) {
@@ -183,7 +183,8 @@ static void BM_PolicyEvaluation_DifferentClassifications(benchmark::State& state
     
     int idx = 0;
     for (auto _ : state) {
-        std::unordered_map<std::string, std::string> headers;
+        std::unordered_map<std::string, std::string> headers = {};
+
         headers["classification"] = classifications[idx % classifications.size()];
         
         PolicyDecision decision = engine.evaluate(headers, "/api/query");

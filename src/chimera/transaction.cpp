@@ -86,7 +86,8 @@ bool TransactionContext::create_savepoint(
 }
 
 std::vector<std::string> TransactionContext::get_savepoints() const noexcept {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(savepoints_.size());
     for (const auto& [name, _] : savepoints_) {
         result.push_back(name);

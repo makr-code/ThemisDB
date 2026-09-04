@@ -116,7 +116,7 @@ int64_t EncryptedField<int64_t>::deserialize(const std::string& str) {
 // double specialization
 template<>
 std::string EncryptedField<double>::serialize(const double& value) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::setprecision(17) << value;
     return oss.str();
 }
@@ -129,7 +129,7 @@ double EncryptedField<double>::deserialize(const std::string& str) {
 // std::vector<float> specialization (for vector embeddings)
 template<>
 std::string EncryptedField<std::vector<float>>::serialize(const std::vector<float>& value) {
-    std::string result;
+    std::string result = {};
     uint32_t size = static_cast<uint32_t>(value.size());
     
     // Append size (4 bytes, little-endian)
@@ -146,17 +146,17 @@ std::string EncryptedField<std::vector<float>>::serialize(const std::vector<floa
 
 template<>
 std::vector<float> EncryptedField<std::vector<float>>::deserialize(const std::string& str) {
-    if (str.size() < sizeof(uint32_t)) {
+    if ([[maybe_unused]] static_cast<int>(str.size()) < sizeof(uint32_t)) {
         throw DecryptionException("Invalid vector serialization: too short");
     }
     
     // Read size
-    uint32_t size;
+    uint32_t size = {};
     std::memcpy(&size, str.data(), sizeof(size));
     
     // Validate size
-    size_t expected_bytes = sizeof(uint32_t) + size * sizeof(float);
-    if (str.size() != expected_bytes) {
+    size_t expected_bytes = sizeof([[maybe_unused]] uint32_t) + size * sizeof(float);
+    if (static_cast<int>(str.size()) != expected_bytes) {
         throw DecryptionException(
             "Invalid vector serialization: size mismatch (expected " + 
             std::to_string(expected_bytes) + " bytes, got " + 

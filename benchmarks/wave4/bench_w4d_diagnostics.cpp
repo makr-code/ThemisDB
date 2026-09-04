@@ -244,19 +244,25 @@ static void BM_W4D_03_PipelineHealthCheck(benchmark::State& state) {
         // Storage check.
         {
             auto v = db->get("health_key");
-            if (v && !v->empty()) iter_mask |= 0x01u;
+            if (v && !v->empty()) {
+              iter_mask |= 0x01u;
+            }
         }
 
         // Vector check.
         {
             auto results = idx->search(rng.genVec(64), 1);
-            if (!results.empty()) iter_mask |= 0x02u;
+            if (!results.empty()) {
+              iter_mask |= 0x02u;
+            }
         }
 
         // Graph check: outNeighbors returns ok + non-empty list if sentinel is present.
         {
             auto [st, neighbours] = graph->outNeighbors("health_node");
-            if (st.ok() && !neighbours.empty()) iter_mask |= 0x04u;
+            if (st.ok() && !neighbours.empty()) {
+              iter_mask |= 0x04u;
+            }
         }
 
         component_mask |= iter_mask;

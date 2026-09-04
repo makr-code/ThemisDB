@@ -218,7 +218,8 @@ TEST_F(ModelLoadingTest, Concurrent_MultipleLoads) {
     std::vector<std::thread> threads;
     
     // Create mock model files
-    std::vector<std::string> model_paths;
+    std::vector<std::string> model_paths = {};
+
     for (int i = 0; i < num_threads; ++i) {
         model_paths.push_back(
             createMockModelFile("model_" + std::to_string(i) + ".gguf", 1024)

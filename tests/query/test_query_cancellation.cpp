@@ -223,7 +223,9 @@ TEST_F(ExecuteAqlCancellableTest, CancelDuringExecution_TokenIsSignalled) {
         auto deadline = std::chrono::steady_clock::now() +
                         std::chrono::milliseconds(500);
         while (!query_started.load()) {
-            if (std::chrono::steady_clock::now() > deadline) break;
+            if (std::chrono::steady_clock::now() > deadline) {
+              break;
+            }
             std::this_thread::yield();
         }
         canceller.cancel("req-200");

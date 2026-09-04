@@ -71,7 +71,8 @@ public:
 
     std::vector<std::string> listSecretNames() const override {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::vector<std::string> names;
+        std::vector<std::string> names = {};
+
         names.reserve(secrets_.size());
         for (const auto& kv : secrets_) {
             names.push_back(kv.first);
@@ -188,7 +189,8 @@ public:
      */
     std::vector<std::string> listSecretNames() const override {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         result.reserve(registered_names_.size());
         for (const auto& name : registered_names_) {
             if (hasSecret(name)) {

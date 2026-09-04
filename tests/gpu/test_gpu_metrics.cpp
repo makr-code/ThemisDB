@@ -117,8 +117,12 @@ TEST_F(GPUMetricsTest, Fallback_ReasonLabelPresent) {
     bool found_oom = false, found_circ = false;
     for (const auto& s : snap) {
         if (s.name.find("fallback_total") != std::string::npos) {
-            if (s.name.find("oom") != std::string::npos)          found_oom  = true;
-            if (s.name.find("circuit_open") != std::string::npos) found_circ = true;
+            if (s.name.find("oom") != std::string::npos) {
+              found_oom  = true;
+            }
+            if (s.name.find("circuit_open") != std::string::npos) {
+              found_circ = true;
+            }
         }
     }
     EXPECT_TRUE(found_oom);
@@ -415,7 +419,9 @@ TEST_F(GPUMetricsTest, ThermalPower_ConcurrentWrites_NoDataRace) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_FALSE(m.snapshot().empty());
 }
 
@@ -433,7 +439,9 @@ TEST_F(GPUMetricsTest, Concurrent_Writes_NoDataRace) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     // Just verify it didn't crash and snapshot is non-empty.
     EXPECT_FALSE(m.snapshot().empty());
 }

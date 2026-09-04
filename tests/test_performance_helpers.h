@@ -118,7 +118,9 @@ public:
     double getOpsPerSecond() const {
         auto duration = std::chrono::high_resolution_clock::now() - start_;
         double seconds = std::chrono::duration_cast<std::chrono::duration<double>>(duration).count();
-        if (seconds == 0.0) return 0.0;
+        if (seconds == 0.0) {
+          return 0.0;
+        }
         return static_cast<double>(count_) / seconds;
     }
 
@@ -144,7 +146,7 @@ public:
     // Get current memory usage in MB
     static double getCurrentMemoryUsageMB() {
 #ifdef _WIN32
-        PROCESS_MEMORY_COUNTERS pmc;
+        PROCESS_MEMORY_COUNTERS pmc = {};
         if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
             return static_cast<double>(pmc.WorkingSetSize) / (1024.0 * 1024.0);
         }

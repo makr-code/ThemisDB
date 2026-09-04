@@ -104,7 +104,7 @@ json QueryProfile::toJSON() const {
 }
 
 std::string QueryProfile::toSummary() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Query: " << query_id << "\n";
     oss << "Duration: " << std::fixed << std::setprecision(2) 
         << (total_duration.count() / 1000.0) << " ms\n";
@@ -112,8 +112,10 @@ std::string QueryProfile::toSummary() const {
     
     if (used_index) {
         oss << "Indexes used: ";
-        for (size_t i = 0; i < indexes_used.size(); ++i) {
-            if (i > 0) oss << ", ";
+        for (size_t i = 0; i <static_cast<int>(indexes_used.size()); ++i) {
+            if (i > 0) {
+              oss << ", ";
+            }
             oss << indexes_used[i];
         }
         oss << "\n";
@@ -163,7 +165,7 @@ public:
         }
         
         // Keep only max_profiles_retained most recent
-        if (profiles.size() > config.max_profiles_retained) {
+        if (static_cast<int>(profiles.size()) > config.max_profiles_retained) {
             std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> times;
             for (const auto& [id, profile] : profiles) {
                 times.push_back({id, profile->start_time});
@@ -171,7 +173,7 @@ public:
             std::sort(times.begin(), times.end(),
                      [](const auto& a, const auto& b) { return a.second < b.second; });
             
-            size_t to_delete = profiles.size() - config.max_profiles_retained;
+            size_t to_delete = static_cast<int>(profiles.size()) - config.max_profiles_retained;
             for (size_t i = 0; i < to_delete; ++i) {
                 profiles.erase(times[i].first);
             }
@@ -325,7 +327,7 @@ std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_all_profiles() con
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
     std::vector<std::shared_ptr<QueryProfile>> result;
-    result.reserve(impl_->profiles.size());
+    result.reserve(impl_-> static_cast<int>(profiles.size()));
     for (const auto& [_, profile] : impl_->profiles) {
         result.push_back(profile);
     }
@@ -353,11 +355,11 @@ std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_slow_queries(
     return result;
 }
 
-std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_top_queries(size_t limit) const {
+std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_top_queries([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
     std::vector<std::shared_ptr<QueryProfile>> result;
-    result.reserve(impl_->profiles.size());
+    result.reserve(impl_-> static_cast<int>(profiles.size()));
     for (const auto& [_, profile] : impl_->profiles) {
         result.push_back(profile);
     }
@@ -367,7 +369,7 @@ std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_top_queries(size_t
                  return a->total_duration > b->total_duration;
              });
     
-    if (result.size() > limit) {
+    if (static_cast<int>(result.size()) > limit) {
         result.resize(limit);
     }
     
@@ -419,7 +421,7 @@ bool QueryProfiler::is_enabled() const {
 json QueryProfiler::get_statistics() const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
-    size_t total_queries = impl_->profiles.size();
+    size_t total_queries = impl_-> static_cast<int>(profiles.size());
     std::chrono::microseconds total_duration{0};
     size_t total_rows = 0;
     size_t queries_with_index = 0;
@@ -428,8 +430,12 @@ json QueryProfiler::get_statistics() const {
     for (const auto& [_, profile] : impl_->profiles) {
         total_duration += profile->total_duration;
         total_rows += profile->result_rows;
-        if (profile->used_index) queries_with_index++;
-        if (profile->used_cache) queries_with_cache++;
+        if (profile->used_index) {
+          queries_with_index++;
+        }
+        if (profile->used_cache) {
+          queries_with_cache++;
+        }
     }
     
     double avg_duration = total_queries > 0 ? 
@@ -505,11 +511,11 @@ ScopedOperatorProfile::~ScopedOperatorProfile() {
     profiler_.record_operator(query_id_, stats_);
 }
 
-void ScopedOperatorProfile::record_rows(size_t count) {
+void ScopedOperatorProfile::record_rows([[maybe_unused]] size_t count) {
     stats_.rows_processed += count;
 }
 
-void ScopedOperatorProfile::record_bytes(size_t count) {
+void ScopedOperatorProfile::record_bytes([[maybe_unused]] size_t count) {
     stats_.bytes_processed += count;
 }
 

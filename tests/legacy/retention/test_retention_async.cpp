@@ -19,7 +19,7 @@ static std::string makeRetTempPath(const std::string& tag) {
 }
 
 struct RetentionFixture : ::testing::Test {
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<RocksDBWrapper> db;
     std::unique_ptr<TSStore> store;
     int64_t base_ms{1700000000000LL};
@@ -277,9 +277,11 @@ TEST_F(RetentionFixture, AuditCallbackReceivesHardDeleteEntry) {
     RetentionPolicy policy;
     policy.per_metric["disk2"] = std::chrono::days(7);
     RetentionManager mgr(store.get(), policy);
-    std::string last_action;
+    std::string last_action = {};
     mgr.setAuditCallback([&](const RetentionAuditEntry& e) {
-        if (!e.action.empty()) last_action = e.action;
+        if (!e.action.empty()) {
+          last_action = e.action;
+        }
     });
     mgr.apply();
     // "hard_delete" and/or "apply" should appear

@@ -91,7 +91,7 @@ std::string LLMInteractionStore::generateId() const {
     auto now = std::chrono::system_clock::now().time_since_epoch();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         << std::setw(12) << ms
         << "-"
@@ -139,7 +139,7 @@ LLMInteractionStore::Interaction LLMInteractionStore::createInteraction(Interact
 
 std::optional<LLMInteractionStore::Interaction> LLMInteractionStore::getInteraction(const std::string& id) const {
     std::string key = makeKey(id);
-    std::string value;
+    std::string value = {};
     
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;

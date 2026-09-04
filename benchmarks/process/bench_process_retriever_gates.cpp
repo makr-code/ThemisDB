@@ -164,7 +164,8 @@ public:
     QueryResult paginatedQuery(const std::string& state, int page, int page_size = 20) {
         QueryResult result;
 
-        std::vector<ProcessModelRecord> filtered;
+        std::vector<ProcessModelRecord> filtered = {};
+
         for (const auto& model : models_) {
             if (model.state == state) {
                 filtered.push_back(model);

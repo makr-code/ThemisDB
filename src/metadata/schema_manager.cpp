@@ -155,13 +155,14 @@ std::vector<SchemaManager::TableSchema> SchemaManager::getAllTables() {
     }
     
     // Extract tables from cache
-    std::vector<TableSchema> tables;
+    std::vector<TableSchema> tables = {};
+
     tables.reserve(table_cache_.size());
     for (const auto& [name, schema] : table_cache_) {
         tables.push_back(schema);
     }
     
-    spdlog::debug("SchemaManager: getAllTables() returned {} tables", tables.size());
+    spdlog::debug("SchemaManager: getAllTables() returned {} tables",static_cast<int>(tables.size()));
     return tables;
 }
 
@@ -206,22 +207,24 @@ std::vector<SchemaManager::RelationshipSchema> SchemaManager::getAllRelationship
             buildCache();
         }
         // Read under the write lock — no re-lock needed.
-        std::vector<RelationshipSchema> relationships;
+        std::vector<RelationshipSchema> relationships = {};
+
         relationships.reserve(rel_cache_.size());
         for (const auto& [name, schema] : rel_cache_) {
             relationships.push_back(schema);
         }
-        spdlog::debug("SchemaManager: getAllRelationships() returned {} relationships", relationships.size());
+        spdlog::debug("SchemaManager: getAllRelationships() returned {} relationships",static_cast<int>(relationships.size()));
         return relationships;
     }
     
-    std::vector<RelationshipSchema> relationships;
+    std::vector<RelationshipSchema> relationships = {};
+
     relationships.reserve(rel_cache_.size());
     for (const auto& [name, schema] : rel_cache_) {
         relationships.push_back(schema);
     }
     
-    spdlog::debug("SchemaManager: getAllRelationships() returned {} relationships", relationships.size());
+    spdlog::debug("SchemaManager: getAllRelationships() returned {} relationships",static_cast<int>(relationships.size()));
     return relationships;
 }
 
@@ -319,7 +322,7 @@ void SchemaManager::recordMutation(std::string_view table_name) {
     }
 
     spdlog::debug("SchemaManager: Mutation recorded for table '{}' (window count: {})",
-                  table_name, log.size());
+                  table_name,static_cast<int>(log.size()));
 }
 
 void SchemaManager::enableAdaptiveTTL(AdaptiveTTLConfig config) {
@@ -360,7 +363,9 @@ std::chrono::seconds SchemaManager::computeAdaptiveTTL() const {
             log.pop_front();
         }
         double rate = (window_secs > 0.0) ? static_cast<double>(log.size()) / window_secs : 0.0;
-        if (rate > max_rate) max_rate = rate;
+        if (rate > max_rate) {
+          max_rate = rate;
+        }
     }
 
     // effective_ttl = base_ttl / (1 + scale * max_rate), clamped to [min_ttl, max_ttl]
@@ -490,7 +495,7 @@ std::vector<std::string> SchemaManager::discoverTableNames() {
             };
 
             const bool is_internal = std::any_of(kInternalPrefixes.begin(), kInternalPrefixes.end(),
-                [&](std::string_view prefix) {
+                [&]([[maybe_unused]] std::string_view prefix) {
                     return key.rfind(prefix, 0) == 0;
                 });
 
@@ -510,7 +515,7 @@ std::vector<std::string> SchemaManager::discoverTableNames() {
             it->Next();
         }
         
-        spdlog::debug("SchemaManager: Discovered {} table names", table_names.size());
+        spdlog::debug("SchemaManager: Discovered {} table names",static_cast<int>(table_names.size()));
         
     } catch (const std::exception& e) {
         spdlog::error("SchemaManager: Exception during table discovery: {}", e.what());
@@ -560,7 +565,7 @@ std::vector<SchemaManager::PropertyInfo> SchemaManager::discoverProperties(
             try {
                 std::string pk = key.substr(prefix.length());
                 const auto value = it->value();
-                std::vector<uint8_t> blob(value.data(), value.data() + value.size());
+                std::vector<uint8_t> blob(value.data(), value.data() + static_cast<int>(value.size()) );
                 
                 // Try to deserialize as BaseEntity
                 BaseEntity entity = BaseEntity::deserialize(pk, blob);
@@ -620,7 +625,8 @@ std::vector<SchemaManager::PropertyInfo> SchemaManager::discoverProperties(
     }
     
     // Convert to vector
-    std::vector<PropertyInfo> properties;
+    std::vector<PropertyInfo> properties = {};
+
     properties.reserve(property_map.size());
     for (const auto& [name, prop] : property_map) {
         properties.push_back(prop);
@@ -884,7 +890,7 @@ void SchemaManager::buildCache() {
         for (const auto& idx : schema.indexes) {
             for (const auto& col : idx.columns) {
                 auto it = std::find_if(schema.properties.begin(), schema.properties.end(),
-                                       [&](const PropertyInfo& prop) {
+                                       [&]([[maybe_unused]] const PropertyInfo& prop) {
                                            return prop.name == col;
                                        });
                 if (it != schema.properties.end()) {
@@ -932,7 +938,7 @@ void SchemaManager::buildCache() {
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
     spdlog::info("SchemaManager: Cache built in {}ms - {} tables ({} custom), {} relationships",
-                 duration.count(), table_cache_.size(), custom_schemas_.size(), rel_cache_.size());
+                 duration.count(),static_cast<int>(table_cache_.size()),static_cast<int>(custom_schemas_.size()),static_cast<int>(rel_cache_.size()));
 }
 
 // ============================================================================
@@ -991,13 +997,16 @@ bool SchemaManager::patchTableSchema(std::string_view table_name, const json& up
     
     if (updates.contains("properties") && updates["properties"].is_array()) {
         // Merge or replace properties
-        std::map<std::string, PropertyInfo> prop_map;
+        std::map<std::string, PropertyInfo> prop_map = {};
+
         for (const auto& prop : schema.properties) {
             prop_map[prop.name] = prop;
         }
         
         for (const auto& upd_prop : updates["properties"]) {
-            if (!upd_prop.contains("name")) continue;
+            if (!upd_prop.contains("name")) {
+              continue;
+            }
             
             std::string prop_name = upd_prop["name"].get<std::string>();
             PropertyInfo& info = prop_map[prop_name];
@@ -1025,13 +1034,16 @@ bool SchemaManager::patchTableSchema(std::string_view table_name, const json& up
     
     if (updates.contains("indexes") && updates["indexes"].is_array()) {
         // Similar merge logic for indexes
-        std::map<std::string, IndexInfo> idx_map;
+        std::map<std::string, IndexInfo> idx_map = {};
+
         for (const auto& idx : schema.indexes) {
             idx_map[idx.name] = idx;
         }
         
         for (const auto& upd_idx : updates["indexes"]) {
-            if (!upd_idx.contains("name")) continue;
+            if (!upd_idx.contains("name")) {
+              continue;
+            }
             
             std::string idx_name = upd_idx["name"].get<std::string>();
             IndexInfo& info = idx_map[idx_name];
@@ -1125,7 +1137,8 @@ std::string SchemaManager::validateSchema(const TableSchema& schema) const {
     }
     
     // Validate properties
-    std::set<std::string> prop_names;
+    std::set<std::string> prop_names = {};
+
     for (const auto& prop : schema.properties) {
         if (prop.name.empty()) {
             return "Property name cannot be empty";
@@ -1157,7 +1170,8 @@ std::string SchemaManager::validateSchema(const TableSchema& schema) const {
     }
     
     // Validate indexes
-    std::set<std::string> idx_names;
+    std::set<std::string> idx_names = {};
+
     for (const auto& idx : schema.indexes) {
         if (idx.name.empty()) {
             return "Index name cannot be empty";
@@ -1193,7 +1207,7 @@ std::string SchemaManager::validateSchema(const TableSchema& schema) const {
 }
 
 SchemaManager::TableSchema SchemaManager::parseTableSchema(const json& j) {
-    TableSchema schema;
+    TableSchema schema = {};
     
     if (!j.contains("name") || !j["name"].is_string()) {
         throw std::runtime_error("Schema must contain 'name' field");
@@ -1208,7 +1222,7 @@ SchemaManager::TableSchema SchemaManager::parseTableSchema(const json& j) {
     
     if (j.contains("properties") && j["properties"].is_array()) {
         for (const auto& prop_json : j["properties"]) {
-            PropertyInfo prop;
+            PropertyInfo prop = {};
             
             if (!prop_json.contains("name") || !prop_json["name"].is_string()) {
                 throw std::runtime_error("Property must have 'name' field");
@@ -1239,7 +1253,7 @@ SchemaManager::TableSchema SchemaManager::parseTableSchema(const json& j) {
     
     if (j.contains("indexes") && j["indexes"].is_array()) {
         for (const auto& idx_json : j["indexes"]) {
-            IndexInfo idx;
+            IndexInfo idx = {};
             
             if (!idx_json.contains("name") || !idx_json["name"].is_string()) {
                 throw std::runtime_error("Index must have 'name' field");
@@ -1309,7 +1323,7 @@ void SchemaManager::loadCustomSchemas() {
             // Parse schema JSON
             try {
                 const auto value = it->value();
-                std::string schema_json(value.data(), value.data() + value.size());
+                std::string schema_json(value.data(), value.data() + static_cast<int>(value.size()) );
                 json j = json::parse(schema_json);
                 TableSchema schema = parseTableSchema(j);
                 

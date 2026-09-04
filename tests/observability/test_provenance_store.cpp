@@ -29,7 +29,7 @@ protected:
     void SetUp() override {
         const auto db_path = testDbPath();
         if (fs::exists(db_path)) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove_all(db_path, ec);
         }
     }
@@ -37,7 +37,7 @@ protected:
     void TearDown() override {
         const auto db_path = testDbPath();
         if (fs::exists(db_path)) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove_all(db_path, ec);
         }
     }

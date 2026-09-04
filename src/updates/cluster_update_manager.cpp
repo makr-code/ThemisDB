@@ -77,7 +77,7 @@ ClusterUpdateManager::ClusterUpdateManager(const Config& config)
 static constexpr int NODE_NOT_FOUND = -1;
 
 int ClusterUpdateManager::findNodeIndex(const std::string& node_id) const {
-    for (size_t i = 0; i < node_statuses_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(node_statuses_.size()); ++i) {
         if (node_statuses_[i].node_id == node_id) {
             return static_cast<int>(i);
         }
@@ -96,7 +96,9 @@ void ClusterUpdateManager::emitProgress(const std::string& current_node,
         progress.current_node = current_node;
         progress.status       = status_msg;
         for (const auto& s : node_statuses_) {
-            if (s.state == ClusterNodeState::COMPLETED)   ++progress.nodes_updated;
+            if (s.state == ClusterNodeState::COMPLETED) {
+              ++progress.nodes_updated;
+            }
             if (s.state == ClusterNodeState::FAILED ||
                 s.state == ClusterNodeState::ROLLED_BACK) ++progress.nodes_failed;
         }
@@ -118,7 +120,9 @@ bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
     {
         std::lock_guard<std::mutex> lock(mutex_);
         int idx = findNodeIndex(node.node_id);
-        if (idx >= 0) node_statuses_[idx].state = ClusterNodeState::DRAINING;
+        if (idx >= 0) {
+          node_statuses_[idx].state = ClusterNodeState::DRAINING;
+        }
     }
     emitProgress(node.node_id, "Draining connections on node " + node.node_id);
 
@@ -136,7 +140,9 @@ bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
     {
         std::lock_guard<std::mutex> lock(mutex_);
         int idx = findNodeIndex(node.node_id);
-        if (idx >= 0) node_statuses_[idx].state = ClusterNodeState::APPLYING;
+        if (idx >= 0) {
+          node_statuses_[idx].state = ClusterNodeState::APPLYING;
+        }
     }
     emitProgress(node.node_id, "Applying update on node " + node.node_id);
 
@@ -182,7 +188,9 @@ bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
             {
                 std::lock_guard<std::mutex> lock(mutex_);
                 int idx = findNodeIndex(node.node_id);
-                if (idx >= 0) node_statuses_[idx].state = ClusterNodeState::ROLLED_BACK;
+                if (idx >= 0) {
+                  node_statuses_[idx].state = ClusterNodeState::ROLLED_BACK;
+                }
             }
             LOG_WARN("ClusterUpdateManager: rolled back node={}", node.node_id);
         }
@@ -232,12 +240,14 @@ bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
 
         if (should_rollback) {
             NodeRollbackFunc rollback_fn;
-            std::string applied_ver;
+            std::string applied_ver = {};
             {
                 std::lock_guard<std::mutex> lock(mutex_);
                 rollback_fn = node_rollback_fn_;
                 int idx = findNodeIndex(node.node_id);
-                if (idx >= 0) applied_ver = node_statuses_[idx].applied_version;
+                if (idx >= 0) {
+                  applied_ver = node_statuses_[idx].applied_version;
+                }
             }
             if (rollback_fn) {
                 rollback_fn(node, applied_ver);
@@ -245,7 +255,9 @@ bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
             {
                 std::lock_guard<std::mutex> lock(mutex_);
                 int idx = findNodeIndex(node.node_id);
-                if (idx >= 0) node_statuses_[idx].state = ClusterNodeState::ROLLED_BACK;
+                if (idx >= 0) {
+                  node_statuses_[idx].state = ClusterNodeState::ROLLED_BACK;
+                }
             }
             LOG_WARN("ClusterUpdateManager: rolled back node={} after health check failure",
                      node.node_id);
@@ -260,7 +272,9 @@ bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
     {
         std::lock_guard<std::mutex> lock(mutex_);
         int idx = findNodeIndex(node.node_id);
-        if (idx >= 0) node_statuses_[idx].state = ClusterNodeState::REJOINING;
+        if (idx >= 0) {
+          node_statuses_[idx].state = ClusterNodeState::REJOINING;
+        }
     }
     emitProgress(node.node_id, "Node " + node.node_id + " rejoining cluster");
 
@@ -342,9 +356,15 @@ ClusterUpdateResult ClusterUpdateManager::updateCluster(
         std::lock_guard<std::mutex> lock(mutex_);
         result.node_statuses = node_statuses_;
         for (const auto& s : node_statuses_) {
-            if (s.state == ClusterNodeState::COMPLETED)   ++result.nodes_updated;
-            if (s.state == ClusterNodeState::FAILED)      ++result.nodes_failed;
-            if (s.state == ClusterNodeState::ROLLED_BACK) ++result.nodes_rolled_back;
+            if (s.state == ClusterNodeState::COMPLETED) {
+              ++result.nodes_updated;
+            }
+            if (s.state == ClusterNodeState::FAILED) {
+              ++result.nodes_failed;
+            }
+            if (s.state == ClusterNodeState::ROLLED_BACK) {
+              ++result.nodes_rolled_back;
+            }
         }
         result.success = (result.nodes_failed == 0 &&
                           result.nodes_rolled_back == 0 &&
@@ -398,7 +418,7 @@ bool ClusterUpdateManager::isCancelled() const {
 }
 
 size_t ClusterUpdateManager::totalNodes() const {
-    return sorted_nodes_.size();
+    return static_cast<int>(sorted_nodes_.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -420,7 +440,7 @@ void ClusterUpdateManager::setNodeRollbackFunc(NodeRollbackFunc fn) {
     node_rollback_fn_ = std::move(fn);
 }
 
-void ClusterUpdateManager::setProgressCallback(ProgressCallback fn) {
+void ClusterUpdateManager::setProgressCallback([[maybe_unused]] ProgressCallback fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     progress_cb_ = std::move(fn);
 }

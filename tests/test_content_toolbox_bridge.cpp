@@ -112,7 +112,7 @@ struct TestDatabase {
         graph_index.reset();
         vector_index.reset();
         storage.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(path, ec);
     }
 };
@@ -153,15 +153,20 @@ public:
     }
 
     void registerExtractor(std::shared_ptr<IFormatExtractor> e) override {
-        if (!e) return;
+        if (!e) {
+          return;
+        }
         for (const auto& m : e->supportedMimeTypes()) {
             registry_[m] = e;
         }
     }
 
     std::vector<std::string> registeredMimeTypes() const override {
-        std::vector<std::string> v;
-        for (const auto& [m, _] : registry_) v.push_back(m);
+        std::vector<std::string> v = {};
+
+        for (const auto& [m, _] : registry_) {
+          v.push_back(m);
+        }
         return v;
     }
 

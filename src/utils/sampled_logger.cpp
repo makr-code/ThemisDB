@@ -23,10 +23,10 @@ namespace utils {
 // ---------------------------------------------------------------------------
 
 struct SampledLogger::Bucket {
-    double tokens;
+    double tokens = 0;
     std::chrono::steady_clock::time_point last_refill;
 
-    explicit Bucket(double initial) : tokens(initial), last_refill(std::chrono::steady_clock::now()) {}
+    explicit Bucket([[maybe_unused]] double initial) : tokens(initial), last_refill(std::chrono::steady_clock::now()) {}
 
     /// Refill and try to consume one token. Returns true if allowed.
     bool try_consume(double rate, double burst) {
@@ -81,7 +81,7 @@ bool SampledLogger::should_log(Logger::Level level, const char* file, int line) 
 
     // Step 2: per-(file:line:level) token-bucket rate limit.
     // Build a compact key string.
-    std::string key;
+    std::string key = {};
     key.reserve(128);
     key += (file ? file : "?");
     key += ':';

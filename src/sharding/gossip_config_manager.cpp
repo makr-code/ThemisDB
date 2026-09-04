@@ -55,7 +55,8 @@ VectorClock::Ordering VectorClock::compare(const VectorClock& other) const {
     bool other_greater = false;
     
     // Collect all shard IDs from both clocks
-    std::set<std::string> all_shards;
+    std::set<std::string> all_shards = {};
+
     for (const auto& [shard_id, _] : clocks_) {
         all_shards.insert(shard_id);
     }
@@ -326,7 +327,9 @@ std::string GossipConfigManager::publishConfigUpdate(
     // Immediately propagate to peers
     auto peers = selectRandomPeers(config_.fanout);
     for (const auto& peer : peers) {
-        if (!topology_) continue;
+        if (!topology_) {
+          continue;
+        }
         auto shard_info = topology_->getShard(peer);
         if (shard_info) {
             sendGossipMessage(shard_info->primary_endpoint, 
@@ -373,12 +376,14 @@ void GossipConfigManager::publishResourceSnapshot(const ResourceSnapshot& snapsh
     }
     
     // Store snapshot locally
-    handleResourceSnapshot(snapshot);
+    handleResourceSnapshot([[maybe_unused]] snapshot);
     
     // Propagate to peers
     auto peers = selectRandomPeers(config_.fanout);
     for (const auto& peer : peers) {
-        if (!topology_) continue;
+        if (!topology_) {
+          continue;
+        }
         auto shard_info = topology_->getShard(peer);
         if (shard_info) {
             sendGossipMessage(shard_info->primary_endpoint,
@@ -459,7 +464,7 @@ proto::GossipMessage GossipConfigManager::handleGossipMessage(
                 return ack;
             }
             
-            handleResourceSnapshot(snapshot);
+            handleResourceSnapshot([[maybe_unused]] snapshot);
         }
     } else if (message.message_type() == "heartbeat") {
         // Respond with our heartbeat
@@ -485,14 +490,14 @@ proto::GossipMessage GossipConfigManager::handleGossipMessage(
     return ack;
 }
 
-void GossipConfigManager::onConfigUpdate(ConfigUpdateCallback callback) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
-    config_update_callback_ = std::move(callback);
+void GossipConfigManager::onConfigUpdate([[maybe_unused]] ConfigUpdateCallback callback) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+    config_update_callback_ = std::move([[maybe_unused]] callback);
 }
 
-void GossipConfigManager::onResourceSnapshot(ResourceSnapshotCallback callback) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
-    resource_snapshot_callback_ = std::move(callback);
+void GossipConfigManager::onResourceSnapshot([[maybe_unused]] ResourceSnapshotCallback callback) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+    resource_snapshot_callback_ = std::move([[maybe_unused]] callback);
 }
 
 std::string GossipConfigManager::getConfig(const std::string& config_key) const {
@@ -600,7 +605,9 @@ void GossipConfigManager::performGossipRound() {
     
     // Send heartbeat to each peer
     for (const auto& peer : peers) {
-        if (!topology_) continue;
+        if (!topology_) {
+          continue;
+        }
         
         auto shard_info = topology_->getShard(peer);
         if (shard_info && shard_info->is_healthy) {
@@ -621,7 +628,9 @@ void GossipConfigManager::performAntiEntropyScan() {
     auto peers = selectRandomPeers(config_.fanout);
     
     for (const auto& peer : peers) {
-        if (!topology_) continue;
+        if (!topology_) {
+          continue;
+        }
         
         auto shard_info = topology_->getShard(peer);
         if (shard_info && shard_info->is_healthy) {
@@ -630,7 +639,7 @@ void GossipConfigManager::performAntiEntropyScan() {
     }
 }
 
-std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
+std::vector<std::string> GossipConfigManager::selectRandomPeers([[maybe_unused]] size_t count) {
     std::vector<std::string> selected;
     
     if (!topology_) {
@@ -640,7 +649,8 @@ std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
     auto all_shards = topology_->getAllShards();
     
     // Filter out ourselves and unhealthy shards
-    std::vector<std::string> candidates;
+    std::vector<std::string> candidates = {};
+
     for (const auto& shard : all_shards) {
         if (shard.shard_id != config_.local_shard_id && shard.is_healthy) {
             candidates.push_back(shard.shard_id);
@@ -655,7 +665,7 @@ std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
     thread_local std::mt19937 gen(std::random_device{}());
     std::shuffle(candidates.begin(), candidates.end(), gen);
     
-    size_t select_count = std::min(count, candidates.size());
+    size_t select_count = std::min(count,static_cast<int>(candidates.size()));
     selected.insert(selected.end(), candidates.begin(), candidates.begin() + select_count);
     
     return selected;
@@ -676,7 +686,9 @@ void GossipConfigManager::sendGossipMessage(
         gossip_send_fn = gossip_send_fn_;
     }
 
-    if (!client_ && !gossip_send_fn) return;
+    if (!client_ && !gossip_send_fn) {
+      return;
+    }
 
     try {
         auto t0 = std::chrono::steady_clock::now();
@@ -690,7 +702,7 @@ void GossipConfigManager::sendGossipMessage(
         } else {
             // Default path: serialize the GossipMessage to binary via protobuf
             // and POST it to the peer's gossip endpoint over mTLS.
-            std::string payload;
+            std::string payload = {};
             if (!message.SerializeToString(&payload)) {
                 spdlog::warn("GossipConfigManager::sendGossipMessage — proto serialization failed; "
                              "message dropped (peer={})", peer_endpoint);
@@ -717,7 +729,7 @@ void GossipConfigManager::sendGossipMessage(
             std::lock_guard<std::mutex> lk(latency_mutex_);
             propagation_latencies_ms_.push_back(latency_ms);
             // Cap history to avoid unbounded growth.
-            if (propagation_latencies_ms_.size() > 1000) {
+            if (static_cast<int>(propagation_latencies_ms_.size()) > 1000) {
                 propagation_latencies_ms_.erase(propagation_latencies_ms_.begin());
             }
         }
@@ -759,7 +771,7 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
         }
         
         const bool key_exists = (it != config_updates_.end());
-        if (!key_exists && config_updates_.size() >= config_.max_updates) {
+        if (!key_exists && static_cast<int>(config_updates_.size()) >= config_.max_updates) {
             if (config_updates_.empty()) {
                 return;
             }
@@ -788,11 +800,11 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
     // Notify callback
     ConfigUpdateCallback config_update_callback;
     {
-        std::lock_guard<std::mutex> lock(callback_mutex_);
+        std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
         config_update_callback = config_update_callback_;
     }
-    if (config_update_callback) {
-        config_update_callback(update);
+    if ([[maybe_unused]] config_update_callback) {
+        config_update_callback([[maybe_unused]] update);
     }
     
     // Calculate and track propagation latency
@@ -800,7 +812,7 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
         std::chrono::system_clock::now().time_since_epoch()
     ).count());
     
-    const uint64_t latency_ns = (now_ns >= update.timestamp_ns) ? (now_ns - update.timestamp_ns) : 0ULL;
+    const uint64_t latency_ns = (now_ns >= update.timestamp_ns) ? (now_ns - update.timestamp_ns) : 0;
     double latency_ms = latency_ns / 1e6;
     {
         std::lock_guard<std::mutex> lock(latency_mutex_);
@@ -808,7 +820,7 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
         
         // Keep only last N latencies
         static constexpr size_t MAX_LATENCY_SAMPLES = 1000;
-        if (propagation_latencies_ms_.size() > MAX_LATENCY_SAMPLES) {
+        if (static_cast<int>(propagation_latencies_ms_.size()) > MAX_LATENCY_SAMPLES) {
             propagation_latencies_ms_.erase(propagation_latencies_ms_.begin());
         }
     }
@@ -819,7 +831,7 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
     }
 }
 
-void GossipConfigManager::handleResourceSnapshot(const ResourceSnapshot& snapshot) {
+void GossipConfigManager::handleResourceSnapshot([[maybe_unused]] const ResourceSnapshot& snapshot) {
     {
         std::lock_guard<std::mutex> lock(resource_mutex_);
         
@@ -843,11 +855,11 @@ void GossipConfigManager::handleResourceSnapshot(const ResourceSnapshot& snapsho
     // Notify callback
     ResourceSnapshotCallback resource_snapshot_callback;
     {
-        std::lock_guard<std::mutex> lock(callback_mutex_);
+        std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
         resource_snapshot_callback = resource_snapshot_callback_;
     }
-    if (resource_snapshot_callback) {
-        resource_snapshot_callback(snapshot);
+    if ([[maybe_unused]] resource_snapshot_callback) {
+        resource_snapshot_callback([[maybe_unused]] snapshot);
     }
 }
 
@@ -863,9 +875,9 @@ bool GossipConfigManager::shouldAcceptUpdate(const ConfigUpdate& update) {
     ).count());
     
     // Reject updates older than 1 hour.
-    static constexpr uint64_t MAX_UPDATE_AGE_NS = 3600ULL * 1000000000ULL;
+    static constexpr uint64_t MAX_UPDATE_AGE_NS = 3600 * 1000000000;
     // Accept bounded future skew to avoid unsigned underflow and tolerate mild clock drift.
-    static constexpr uint64_t MAX_FUTURE_SKEW_NS = 300ULL * 1000000000ULL;
+    static constexpr uint64_t MAX_FUTURE_SKEW_NS = 300 * 1000000000;
     if (update.timestamp_ns > now_ns) {
         if (update.timestamp_ns - now_ns > MAX_FUTURE_SKEW_NS) {
             return false;
@@ -892,12 +904,12 @@ std::string GossipConfigManager::generateUpdateId() const {
     // For production, consider using Windows UUID APIs (CoCreateGuid) or boost::uuid
     auto now = std::chrono::system_clock::now();
     auto timestamp = std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dis;
     uint64_t random_part = dis(gen);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << std::hex << timestamp << "-" << random_part;
     return ss.str();
 }

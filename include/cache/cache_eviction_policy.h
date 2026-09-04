@@ -54,7 +54,7 @@ public:
      * @brief Eviction decision result
      */
     struct EvictionDecision {
-        bool should_evict;      ///< true if key should be evicted
+        bool should_evict = 0;      ///< true if key should be evicted
         std::string victim_key; ///< Selected victim key when should_evict is true
         std::string reason;     ///< Human-readable reason
     };

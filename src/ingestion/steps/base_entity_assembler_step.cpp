@@ -41,7 +41,7 @@ public:
     }
     const char* getVersion() const override { return "0.0.1"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(const char*) override { return true; }
+    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 
@@ -69,7 +69,8 @@ public:
 private:
     static void dedupById(ExtractionContext& ctx) {
         std::unordered_map<std::string, std::size_t> id_to_idx;
-        std::vector<BaseEntity> deduped;
+        std::vector<BaseEntity> deduped = {};
+
         deduped.reserve(ctx.entities.size());
 
         for (auto& ent : ctx.entities) {

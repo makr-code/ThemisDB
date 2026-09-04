@@ -128,7 +128,7 @@ Result<size_t> Neo4jAdapter::batch_insert(
 }
 
 Result<QueryStatistics> Neo4jAdapter::get_query_statistics() const {
-    QueryStatistics stats;
+    QueryStatistics stats = {};
     return Result<QueryStatistics>::ok(std::move(stats));
 }
 
@@ -242,7 +242,7 @@ Result<GraphPath> Neo4jAdapter::shortest_path(
 #ifdef THEMIS_CHIMERA_NEO4J
     // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
     // TODO: Execute Cypher shortestPath() query with max_depth bound
-    GraphPath path;
+    GraphPath path = {};
     return Result<GraphPath>::ok(std::move(path));
 #else
     return Result<GraphPath>::err(
@@ -347,7 +347,7 @@ Result<size_t> Neo4jAdapter::batch_insert_documents(
 #ifdef THEMIS_CHIMERA_NEO4J
     // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
     // TODO: Batch UNWIND + CREATE nodes via Cypher
-    return Result<size_t>::ok(docs.size());
+    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(docs.size())));
 #else
     return Result<size_t>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -515,14 +515,14 @@ Result<bool> Neo4jAdapter::release_savepoint(
 Result<TransactionStats> Neo4jAdapter::get_transaction_stats(
     const std::string& /*transaction_id*/
 ) {
-    TransactionStats stats;
+    TransactionStats stats = {};
     return Result<TransactionStats>::ok(std::move(stats));
 }
 
 Result<TransactionState> Neo4jAdapter::get_transaction_state(
     const std::string& /*transaction_id*/
 ) {
-    TransactionState state;
+    TransactionState state = {};
     return Result<TransactionState>::ok(std::move(state));
 }
 

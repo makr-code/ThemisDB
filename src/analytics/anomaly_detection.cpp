@@ -60,7 +60,8 @@ namespace analytics {
 // ============================================================================
 
 std::vector<double> DataPoint::numericFeatures() const {
-    std::vector<double> out;
+    std::vector<double> out = {};
+
     for (const auto &[name, val] : fields) { // map: deterministic order
         if (auto *d = std::get_if<double>(&val)) {
             out.push_back(*d);
@@ -74,7 +75,8 @@ std::vector<double> DataPoint::numericFeatures() const {
 }
 
 std::vector<std::string> DataPoint::numericFieldNames() const {
-    std::vector<std::string> out;
+    std::vector<std::string> out = {};
+
     for (const auto &[name, val] : fields) {
         if (std::holds_alternative<double>(val) || std::holds_alternative<int64_t>(val)
             || std::holds_alternative<bool>(val)) {
@@ -98,11 +100,11 @@ double computeMean(const std::vector<double> &v) {
     if (v.empty()) {
         return 0.0;
     }
-    return std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double>(v.size());
+    return static_cast<bool>(std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double < static_cast<int>((v.size())));
 }
 
 double computeVarianceFromMean(const std::vector<double> &v, double mean) {
-    if (v.size() < 2) {
+    if (static_cast<int>(v.size()) < 2) {
         return 0.0;
     }
     double acc = 0.0;
@@ -110,7 +112,7 @@ double computeVarianceFromMean(const std::vector<double> &v, double mean) {
         double d = x - mean;
         acc += d * d;
     }
-    return acc / static_cast<double>(v.size());
+    return static_cast<bool>(acc / static_cast<double < static_cast<int>((v.size())));
 }
 
 double computeStddev(const std::vector<double> &v, double mean) {
@@ -121,18 +123,18 @@ double computeMedian(std::vector<double> v) { // takes by value – sorted local
     if (v.empty()) {
         return 0.0;
     }
-    std::nth_element(v.begin(), v.begin() + v.size() / 2, v.end());
+    std::nth_element(v.begin(), v.begin() + static_cast<int>(v.size()) / 2, v.end());
     if (v.size() % 2 == 1) {
         return v[v.size() / 2];
     }
     double hi = v[v.size() / 2];
-    std::nth_element(v.begin(), v.begin() + v.size() / 2 - 1, v.end());
+    std::nth_element(v.begin(), v.begin() + static_cast<int>(v.size()) / 2 - 1, v.end());
     return (v[v.size() / 2 - 1] + hi) * 0.5;
 }
 
 double computeMAD(const std::vector<double> &v, double median) {
     std::vector<double> dev(v.size());
-    for (size_t i = 0; i < v.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(v.size()); ++i) {
         dev[i] = std::abs(v[i] - median);
     }
     return computeMedian(dev);
@@ -145,11 +147,11 @@ void computeQuartiles(const std::vector<double> &sorted, double &q1, double &q3)
         q1 = q3 = 0.0;
         return;
     }
-    auto lerp = [&](double pos) -> double {
+    auto lerp = [&]([[maybe_unused]] double pos) -> double {
         size_t lo   = static_cast<size_t>(pos);
         double frac = pos - static_cast<double>(lo);
         if (lo + 1 >= n) {
-            return sorted[n - 1];
+            return sorted[static_cast<int>(n - 1)];
         }
         return sorted[lo] + frac * (sorted[lo + 1] - sorted[lo]);
     };
@@ -164,7 +166,7 @@ inline double squash(double s, double s0 = 3.0, double k = 1.0) {
 }
 
 /// Clamp to [0,1].
-inline double clamp01(double v) {
+inline double clamp01([[maybe_unused]] double v) {
     return v < 0.0 ? 0.0 : (v > 1.0 ? 1.0 : v);
 }
 
@@ -178,7 +180,7 @@ struct FeatureMatrix {
 };
 
 FeatureMatrix buildMatrix(const std::vector<DataPoint> &data) {
-    FeatureMatrix fm;
+    FeatureMatrix fm = {};
     if (data.empty()) {
         return fm;
     }
@@ -195,10 +197,11 @@ FeatureMatrix buildMatrix(const std::vector<DataPoint> &data) {
 // Per-feature column accessor
 // --------------------------------------------------------------------------
 std::vector<double> column(const FeatureMatrix &fm, size_t col) {
-    std::vector<double> out;
+    std::vector<double> out = {};
+
     out.reserve(fm.rows.size());
     for (const auto &row : fm.rows) {
-        if (col < row.size()) {
+        if (static_cast<int>(row.size()) > col) {
             out.push_back(row[col]);
         }
     }
@@ -292,19 +295,19 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
             }
         }
 
-        if (idx.size() <= 1 || h >= height_limit) {
+        if (static_cast<int>(idx.size()) <= 1 || h >= height_limit) {
             // leaf – split_feature remains -1
             continue;
         }
 
-        std::uniform_int_distribution<size_t> feat_dist(0, n_features - 1);
+        std::uniform_int_distribution<uint64_t> feat_dist(0, n_features - 1);
         size_t feat              = 0;
         double fmin              = 0.0;
         double fmax              = 0.0;
         bool found_split_feature = false;
 
         for (size_t attempt = 0; attempt < n_features; ++attempt) {
-            feat = feat_dist(rng);
+            feat = static_cast<size_t>(feat_dist(rng));
             fmin = std::numeric_limits<double>::max();
             fmax = std::numeric_limits<double>::lowest();
             for (size_t i : idx) {
@@ -326,7 +329,8 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
         const double split_val = val_dist(rng);
 
         std::vector<size_t> left_idx;
-        std::vector<size_t> right_idx;
+        std::vector<size_t> right_idx = {};
+
         left_idx.reserve(idx.size());
         right_idx.reserve(idx.size());
         for (size_t i : idx) {
@@ -357,14 +361,14 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
 double iforestPathLength(const ITree &tree, const std::vector<double> &x) {
     int node  = 0;
     int depth = 0;
-    while (node >= 0 && node < static_cast<int>(tree.nodes.size())) {
+    while (node >= 0  && static_cast<size_t>(node) < static_cast<int>(tree.nodes.size())) {
         const IFNode &n = tree.nodes[static_cast<size_t>(node)];
         if (n.split_feature < 0) {
             // leaf: add adjustment for remaining points
             return static_cast<double>(depth) + iforestC(static_cast<double>(n.size));
         }
         size_t f = static_cast<size_t>(n.split_feature);
-        double v = (f < x.size()) ? x[f] : 0.0;
+        double v = (f <static_cast<int>(x.size())) ? x[f] : 0.0;
         if (v < n.split_value) {
             node = n.left;
         } else {
@@ -384,7 +388,7 @@ double iforestPathLength(const ITree &tree, const std::vector<double> &x) {
 
 double euclidean(const std::vector<double> &a, const std::vector<double> &b) {
     double sum = 0.0;
-    size_t n   = std::min(a.size(), b.size());
+    size_t n   = std::min(a.size(),static_cast<int>(b.size()));
     for (size_t i = 0; i < n; ++i) {
         double d = a[i] - b[i];
         sum += d * d;
@@ -397,7 +401,7 @@ std::vector<std::pair<double, size_t>> knn(const std::vector<std::vector<double>
                                            const std::vector<double> &query, int k) {
     std::vector<std::pair<double, size_t>> dists;
     dists.reserve(train.size());
-    for (size_t i = 0; i < train.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(train.size()); ++i) {
         dists.emplace_back(euclidean(train[i], query), i);
     }
     int kk = std::min(k, static_cast<int>(dists.size()));
@@ -452,7 +456,8 @@ struct AnomalyDetector::Impl {
     // ---- helpers ----
     std::vector<double> extractFeatures(const DataPoint &p) const {
         if (!feature_names.empty()) {
-            std::vector<double> out;
+            std::vector<double> out = {};
+
             out.reserve(feature_names.size());
             for (const auto &name : feature_names) {
                 auto it = p.fields.find(name);
@@ -482,7 +487,7 @@ struct AnomalyDetector::Impl {
     // ---- Per-feature anomaly scores ----
     std::vector<double> zscoreContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size() && i < means.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(x.size())  && static_cast<size_t>(i) <static_cast<int>(means.size()); ++i) {
             double sd = (stddevs[i] > 1e-10) ? stddevs[i] : 1e-10;
             c[i]      = std::min(std::abs(x[i] - means[i]) / sd, 9.0);
         }
@@ -491,7 +496,7 @@ struct AnomalyDetector::Impl {
 
     std::vector<double> modZscoreContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size() && i < medians.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(x.size())  && static_cast<size_t>(i) <static_cast<int>(medians.size()); ++i) {
             double mad = (mads[i] > 1e-10) ? mads[i] : 1e-10;
             c[i]       = std::min(0.6745 * std::abs(x[i] - medians[i]) / mad, 9.0);
         }
@@ -500,7 +505,7 @@ struct AnomalyDetector::Impl {
 
     std::vector<double> iqrContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size() && i < q1.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(x.size())  && static_cast<size_t>(i) <static_cast<int>(q1.size()); ++i) {
             double fence_lo = q1[i] - 1.5 * iqr[i];
             double fence_hi = q3[i] + 1.5 * iqr[i];
             double range    = (iqr[i] > 1e-10) ? iqr[i] : 1.0;
@@ -583,7 +588,7 @@ struct AnomalyDetector::Impl {
         // LOF = mean of (lrd_neighbours / lrd_x)
         double lof = 0.0;
         for (const auto &[dist, idx] : neighbours) {
-            double n_lrd = (idx < lof_lrd.size()) ? lof_lrd[idx] : lrd_x;
+            double n_lrd = (idx <static_cast<int>(lof_lrd.size())) ? lof_lrd[idx] : lrd_x;
             lof += n_lrd / (lrd_x > 0 ? lrd_x : 1e-10);
         }
         lof /= static_cast<double>(neighbours.size());
@@ -608,8 +613,8 @@ struct AnomalyDetector::Impl {
             case AnomalyMethod::ENSEMBLE: {
                 if (!sub_detectors.empty()) {
                     double score = 0.0, total_w = 0.0;
-                    for (size_t i = 0; i < sub_detectors.size(); ++i) {
-                        double w = (i < sub_weights.size()) ? sub_weights[i] : 1.0;
+                    for (size_t i = 0; i <static_cast<int>(sub_detectors.size()); ++i) {
+                        double w = (i <static_cast<int>(sub_weights.size())) ? sub_weights[i] : 1.0;
                         score += w * sub_detectors[i]->impl_->computeScore(x);
                         total_w += w;
                     }
@@ -659,12 +664,12 @@ struct AnomalyDetector::Impl {
             std::mt19937 rng(42);
             forest.clear();
             forest.reserve(static_cast<size_t>(cfg.n_estimators));
-            std::uniform_int_distribution<size_t> idx_dist(0, data.size() - 1);
+            std::uniform_int_distribution<uint64_t> idx_dist(0, static_cast<int>(data.size()) - 1);
 
             for (int t = 0; t < cfg.n_estimators; ++t) {
                 std::vector<size_t> sample(static_cast<size_t>(sub_size));
                 for (auto &s : sample) {
-                    s = idx_dist(rng);
+                    s = static_cast<size_t>(idx_dist(rng));
                 }
                 forest.push_back(buildITree(fm, sample, 0, hl, rng));
             }
@@ -682,13 +687,13 @@ struct AnomalyDetector::Impl {
             lof_max = 1.0;
 
             // Compute lrd for each training point
-            for (size_t i = 0; i < lof_train.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(lof_train.size()); ++i) {
                 auto neighbours = knn(lof_train, lof_train[i], k + 1);
                 // Remove self (distance ~0)
                 neighbours.erase(std::remove_if(neighbours.begin(), neighbours.end(),
                                                 [i](const auto &pr) { return pr.second == i; }),
                                  neighbours.end());
-                if (neighbours.size() > static_cast<size_t>(k)) {
+                if (static_cast<int>(neighbours.size()) > static_cast<size_t>(k)) {
                     neighbours.resize(static_cast<size_t>(k));
                 }
                 if (neighbours.empty()) {
@@ -705,12 +710,12 @@ struct AnomalyDetector::Impl {
             }
 
             // Compute LOF for each training point to find max (normalisation)
-            for (size_t i = 0; i < lof_train.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(lof_train.size()); ++i) {
                 auto neighbours = knn(lof_train, lof_train[i], k + 1);
                 neighbours.erase(std::remove_if(neighbours.begin(), neighbours.end(),
                                                 [i](const auto &pr) { return pr.second == i; }),
                                  neighbours.end());
-                if (neighbours.size() > static_cast<size_t>(k)) {
+                if (static_cast<int>(neighbours.size()) > static_cast<size_t>(k)) {
                     neighbours.resize(static_cast<size_t>(k));
                 }
                 if (neighbours.empty()) {
@@ -741,7 +746,7 @@ struct AnomalyDetector::Impl {
         for (const auto &tree : forest) {
             int node  = 0;
             int depth = 0;
-            while (node >= 0 && node < static_cast<int>(tree.nodes.size())) {
+            while (node >= 0  && static_cast<size_t>(node) < static_cast<int>(tree.nodes.size())) {
                 const IFNode &nd = tree.nodes[static_cast<size_t>(node)];
                 if (nd.split_feature < 0) {
                     break; // leaf
@@ -751,7 +756,7 @@ struct AnomalyDetector::Impl {
                     contrib[f] += 1.0;
                     ++total_splits;
                 }
-                double v = (f < x.size()) ? x[f] : 0.0;
+                double v = (f <static_cast<int>(x.size())) ? x[f] : 0.0;
                 node     = (v < nd.split_value) ? nd.left : nd.right;
                 if (++depth > tree.height_limit + 10) {
                     break; // safety
@@ -779,7 +784,7 @@ struct AnomalyDetector::Impl {
             return contrib;
         }
         for (const auto &[dist, idx] : neighbours) {
-            for (size_t f = 0; f < n_features && f < lof_train[idx].size(); ++f) {
+            for (size_t f = 0; f < n_features  && static_cast<size_t>(f) < lof_train[idx].size(); ++f) {
                 double d = x[f] - lof_train[idx][f];
                 contrib[f] += d * d;
             }
@@ -801,14 +806,14 @@ struct AnomalyDetector::Impl {
 
         sub_detectors.clear();
         sub_weights.clear();
-        for (size_t i = 0; i < methods.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(methods.size()); ++i) {
             DetectorConfig sub_cfg = cfg;
             sub_cfg.method         = methods[i];
             sub_cfg.adaptive       = false;
             auto sub               = std::make_unique<AnomalyDetector>(sub_cfg);
             sub->train(data);
             sub_detectors.push_back(std::move(sub));
-            double w = (i < cfg.ensemble_weights.size()) ? cfg.ensemble_weights[i] : 1.0;
+            double w = (i <static_cast<int>(cfg.ensemble_weights.size())) ? cfg.ensemble_weights[i] : 1.0;
             sub_weights.push_back(w);
         }
     }
@@ -859,7 +864,7 @@ void AnomalyDetector::train(const std::vector<DataPoint> &data) {
 
     if (impl_->cfg.adaptive) {
         impl_->ring.insert(impl_->ring.end(), data.begin(), data.end());
-        while (impl_->ring.size() > impl_->ring_max) {
+        while (impl_-> static_cast<int>(ring.size()) > impl_->ring_max) {
             impl_->ring.pop_front();
         }
     }
@@ -895,7 +900,8 @@ AnomalyResult AnomalyDetector::predict(const DataPoint &point) const {
 }
 
 std::vector<AnomalyResult> AnomalyDetector::predictBatch(const std::vector<DataPoint> &data) const {
-    std::vector<AnomalyResult> results;
+    std::vector<AnomalyResult> results = {};
+
     results.reserve(data.size());
     for (const auto &p : data) {
         results.push_back(predict(p));
@@ -940,12 +946,12 @@ AnomalyExplanation AnomalyDetector::explain(const DataPoint &point) const {
             if (!impl_->sub_detectors.empty()) {
                 contrib.assign(impl_->n_features, 0.0);
                 double total_w = 0.0;
-                for (size_t i = 0; i < impl_->sub_detectors.size(); ++i) {
-                    double w   = (i < impl_->sub_weights.size()) ? impl_->sub_weights[i] : 1.0;
+                for (size_t i = 0; i < impl_-> static_cast<int>(sub_detectors.size()); ++i) {
+                    double w   = (i < impl_-> static_cast<int>(sub_weights.size())) ? impl_->sub_weights[i] : 1.0;
                     auto sub_x = impl_->sub_detectors[i]->impl_->extractFeatures(point);
                     std::vector<double> sc;
                     switch (impl_->sub_detectors[i]->impl_->cfg.method) {
-                        case AnomalyMethod::Z_SCORE:
+                        [[fallthrough]];\n                        case AnomalyMethod::Z_SCORE:
                             sc = impl_->sub_detectors[i]->impl_->zscoreContributions(sub_x);
                             break;
                         case AnomalyMethod::MODIFIED_Z_SCORE:
@@ -964,7 +970,7 @@ AnomalyExplanation AnomalyDetector::explain(const DataPoint &point) const {
                             sc = impl_->sub_detectors[i]->impl_->zscoreContributions(sub_x);
                             break;
                     }
-                    for (size_t f = 0; f < contrib.size() && f < sc.size(); ++f) {
+                    for (size_t f = 0; f <static_cast<int>(contrib.size())  && static_cast<size_t>(f) <static_cast<int>(sc.size()); ++f) {
                         contrib[f] += w * sc[f];
                     }
                     total_w += w;
@@ -982,7 +988,7 @@ AnomalyExplanation AnomalyDetector::explain(const DataPoint &point) const {
             break;
     }
 
-    for (size_t i = 0; i < contrib.size() && i < impl_->feature_names.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(contrib.size())  && static_cast<size_t>(i) < impl_-> static_cast<int>(feature_names.size()); ++i) {
         exp.feature_contributions.emplace_back(impl_->feature_names[i], contrib[i]);
     }
 
@@ -990,7 +996,7 @@ AnomalyExplanation AnomalyDetector::explain(const DataPoint &point) const {
     std::sort(exp.feature_contributions.begin(), exp.feature_contributions.end(),
               [](const auto &a, const auto &b) { return a.second > b.second; });
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "Anomaly score " << exp.score << " via " << anomalyMethodName(impl_->cfg.method) << ". ";
     if (!exp.feature_contributions.empty()) {
         ss << "Top driver: " << exp.feature_contributions[0].first
@@ -1010,7 +1016,7 @@ void AnomalyDetector::update(const DataPoint &point) {
     }
 
     impl_->ring.push_back(point);
-    while (impl_->ring.size() > impl_->ring_max) {
+    while (impl_-> static_cast<int>(ring.size()) > impl_->ring_max) {
         impl_->ring.pop_front();
     }
 
@@ -1024,7 +1030,7 @@ void AnomalyDetector::update(const DataPoint &point) {
 // ============================================================================
 
 std::string AnomalyDetector::serialize() const {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "method=" << static_cast<int>(impl_->cfg.method) << "\n";
     ss << "threshold=" << impl_->cfg.threshold << "\n";
     ss << "contamination=" << impl_->cfg.contamination << "\n";
@@ -1032,7 +1038,7 @@ std::string AnomalyDetector::serialize() const {
     ss << "n_features=" << impl_->n_features << "\n";
 
     ss << "feature_names=";
-    for (size_t i = 0; i < impl_->feature_names.size(); ++i) {
+    for (size_t i = 0; i < impl_-> static_cast<int>(feature_names.size()); ++i) {
         if (i) {
             ss << ",";
         }
@@ -1042,7 +1048,7 @@ std::string AnomalyDetector::serialize() const {
 
     auto writeVec = [&](const char *key, const std::vector<double> &v) {
         ss << key << "=";
-        for (size_t i = 0; i < v.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(v.size()); ++i) {
             if (i) {
                 ss << ",";
             }
@@ -1064,20 +1070,21 @@ std::string AnomalyDetector::serialize() const {
 AnomalyDetector AnomalyDetector::deserialize(const std::string &data) {
     AnomalyDetector det;
     std::istringstream ss(data);
-    std::string line;
+    std::string line = {};
 
     auto splitComma = [](const std::string &s) -> std::vector<std::string> {
         std::vector<std::string> parts;
         std::istringstream ls(s);
-        std::string tok;
+        std::string tok = {};
         while (std::getline(ls, tok, ',')) {
             parts.push_back(tok);
         }
         return parts;
     };
 
-    auto toDoubleVec = [&](const std::string &s) -> std::vector<double> {
-        std::vector<double> v;
+    auto toDoubleVec = [&]([[maybe_unused]] const std::string &s) -> std::vector<double> {
+        std::vector<double> v = {};
+
         for (const auto& t : splitComma(s)) {
             try { v.push_back(std::stod(t)); } catch (...) {}
         }
@@ -1201,7 +1208,7 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &
         ++points_seen_;
 
         window_.push_back(point);
-        while (window_.size() > config_.window_size) {
+        while (static_cast<int>(window_.size()) > config_.window_size) {
             window_.pop_front();
         }
 

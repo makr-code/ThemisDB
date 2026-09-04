@@ -22,13 +22,13 @@ namespace content {
 bool ContentError::isRetryable() const {
     switch (code) {
         case ContentErrorCode::CONTENT_TIMEOUT:
-        case ContentErrorCode::CONTENT_PROCESSOR_UNAVAILABLE:
-        case ContentErrorCode::CONTENT_STORAGE_FAILED:
-        case ContentErrorCode::CONTENT_QUEUE_FULL:
-        case ContentErrorCode::CONTENT_BACKPRESSURE:
-        case ContentErrorCode::CONTENT_WORKER_UNAVAILABLE:
-        case ContentErrorCode::CONTENT_INTERNAL_ERROR:
-        case ContentErrorCode::CONTENT_DEPENDENCY_ERROR:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_PROCESSOR_UNAVAILABLE:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_STORAGE_FAILED:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_QUEUE_FULL:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_BACKPRESSURE:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_WORKER_UNAVAILABLE:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_INTERNAL_ERROR:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_DEPENDENCY_ERROR:
             return true;
         default:
             return false;
@@ -38,14 +38,14 @@ bool ContentError::isRetryable() const {
 bool ContentError::isClientError() const {
     int c = static_cast<int>(code);
     // Validation, rate limiting, and authorization errors
-    return (c >= 1000 && c < 1200) || (c >= 1400 && c < 1500);
+    return ((c >= 1000 && c < 1200) || (c >= 1400 && c < 1500));
 }
 
 bool ContentError::isServerError() const {
     int c = static_cast<int>(code);
     // Processing, storage, resource, and internal errors
-    return (c >= 1100 && c < 1200 && code != ContentErrorCode::CONTENT_TIMEOUT) || (c >= 1300 && c < 1400)
-           || (c >= 1500 && c < 1600) || (c >= 1900 && c < 2000);
+    return ((c >= 1100 && c < 1200 && code != ContentErrorCode::CONTENT_TIMEOUT) || (c >= 1300 && c < 1400)
+           || (c >= 1500 && c < 1600) || (c >= 1900 && c < 2000));
 }
 
 int ContentError::getHttpStatus() const {
@@ -55,17 +55,17 @@ int ContentError::getHttpStatus() const {
 
         // Client errors (400-level)
         case ContentErrorCode::CONTENT_INVALID_INPUT:
-        case ContentErrorCode::CONTENT_EMPTY:
-        case ContentErrorCode::CONTENT_SCHEMA_INVALID:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_EMPTY:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_SCHEMA_INVALID:
             return 400; // Bad Request
 
         case ContentErrorCode::CONTENT_UNAUTHORIZED:
             return 401; // Unauthorized
 
         case ContentErrorCode::CONTENT_MIME_TYPE_DENIED:
-        case ContentErrorCode::CONTENT_MALWARE_DETECTED:
-        case ContentErrorCode::CONTENT_PII_DETECTED:
-        case ContentErrorCode::CONTENT_ABUSE_DETECTED:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_MALWARE_DETECTED:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_PII_DETECTED:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_ABUSE_DETECTED:
             return 403; // Forbidden
 
         case ContentErrorCode::CONTENT_NOT_FOUND:
@@ -78,7 +78,7 @@ int ContentError::getHttpStatus() const {
             return 413; // Payload Too Large
 
         case ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED:
-        case ContentErrorCode::CONTENT_MIME_TYPE_INVALID:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_MIME_TYPE_INVALID:
             return 415; // Unsupported Media Type
 
         case ContentErrorCode::CONTENT_RATE_LIMIT_EXCEEDED:
@@ -86,25 +86,25 @@ int ContentError::getHttpStatus() const {
 
         // Server errors (500-level)
         case ContentErrorCode::CONTENT_PROCESSING_FAILED:
-        case ContentErrorCode::CONTENT_EXTRACTION_FAILED:
-        case ContentErrorCode::CONTENT_CHUNKING_FAILED:
-        case ContentErrorCode::CONTENT_EMBEDDING_FAILED:
-        case ContentErrorCode::CONTENT_INDEXING_FAILED:
-        case ContentErrorCode::CONTENT_STORAGE_FAILED:
-        case ContentErrorCode::CONTENT_COMPRESSION_FAILED:
-        case ContentErrorCode::CONTENT_ENCRYPTION_FAILED:
-        case ContentErrorCode::CONTENT_INTERNAL_ERROR:
-        case ContentErrorCode::CONTENT_DEPENDENCY_ERROR:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_EXTRACTION_FAILED:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_CHUNKING_FAILED:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_EMBEDDING_FAILED:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_INDEXING_FAILED:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_STORAGE_FAILED:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_COMPRESSION_FAILED:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_ENCRYPTION_FAILED:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_INTERNAL_ERROR:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_DEPENDENCY_ERROR:
             return 500; // Internal Server Error
 
         case ContentErrorCode::CONTENT_PROCESSOR_UNAVAILABLE:
-        case ContentErrorCode::CONTENT_WORKER_UNAVAILABLE:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_WORKER_UNAVAILABLE:
             return 503; // Service Unavailable
 
         case ContentErrorCode::CONTENT_QUEUE_FULL:
-        case ContentErrorCode::CONTENT_BACKPRESSURE:
-        case ContentErrorCode::CONTENT_MEMORY_LIMIT:
-        case ContentErrorCode::CONTENT_CPU_LIMIT:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_BACKPRESSURE:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_MEMORY_LIMIT:
+        [[fallthrough]];\n        case ContentErrorCode::CONTENT_CPU_LIMIT:
             return 503; // Service Unavailable
 
         default:
@@ -150,7 +150,7 @@ json ContentError::toJsonVerbose() const {
 }
 
 ContentError ContentError::fromJson(const json &j) {
-    ContentError err;
+    ContentError err = {};
 
     if (j.contains("code") && j["code"].is_number()) {
         err.code = static_cast<ContentErrorCode>(j["code"].get<int>());

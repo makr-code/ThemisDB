@@ -126,7 +126,8 @@ NetworkHealth PartitionDetector::getNetworkHealth() const {
 std::vector<NodeConnectivity> PartitionDetector::getNodeConnectivity() const {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     
-    std::vector<NodeConnectivity> result;
+    std::vector<NodeConnectivity> result = {};
+
     for (const auto& pair : nodes_) {
         result.push_back(pair.second);
     }
@@ -140,17 +141,17 @@ bool PartitionDetector::isSplitBrainDetected() const {
 
 /** @brief Return historical partition event list. */
 std::vector<PartitionEvent> PartitionDetector::getPartitionHistory() const {
-    std::lock_guard<std::mutex> lock(events_mutex_);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] events_mutex_);
     return partition_history_;
 }
 
 /** @brief Register callback used to perform active health checks. */
-void PartitionDetector::setHealthCheckCallback(HealthCheckCallback callback) {
+void PartitionDetector::setHealthCheckCallback([[maybe_unused]] HealthCheckCallback callback) {
     health_check_callback_ = callback;
 }
 
 /** @brief Register callback invoked on partition detect and heal events. */
-void PartitionDetector::setPartitionCallback(PartitionCallback callback) {
+void PartitionDetector::setPartitionCallback([[maybe_unused]] PartitionCallback callback) {
     partition_callback_ = callback;
 }
 
@@ -160,7 +161,7 @@ void PartitionDetector::healthCheckLoop() {
         stats_.total_health_checks++;
         
         // Perform health checks
-        if (health_check_callback_) {
+        if ([[maybe_unused]] health_check_callback_) {
             std::vector<std::string> node_ids;
             {
                 std::lock_guard<std::mutex> lock(nodes_mutex_);
@@ -171,7 +172,7 @@ void PartitionDetector::healthCheckLoop() {
             
             for (const auto& node_id : node_ids) {
                 auto start = std::chrono::steady_clock::now();
-                bool success = health_check_callback_(node_id);
+                bool success = health_check_callback_([[maybe_unused]] node_id);
                 auto end = std::chrono::steady_clock::now();
                 auto rtt = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
                 
@@ -241,13 +242,13 @@ void PartitionDetector::detectPartition() {
                            std::to_string(unreachable_nodes.size()) + " nodes";
         
         {
-            std::lock_guard<std::mutex> events_lock(events_mutex_);
-            partition_history_.push_back(event);
+            std::lock_guard<std::mutex> events_lock([[maybe_unused]] events_mutex_);
+            partition_history_.push_back([[maybe_unused]] event);
         }
         
         // Notify callback
-        if (partition_callback_) {
-            partition_callback_(event);
+        if ([[maybe_unused]] partition_callback_) {
+            partition_callback_([[maybe_unused]] event);
         }
     }
 }
@@ -270,16 +271,16 @@ void PartitionDetector::checkPartitionHealing() {
         stats_.partitions_healed++;
         
         // Mark last partition event as healed
-        std::lock_guard<std::mutex> events_lock(events_mutex_);
+        std::lock_guard<std::mutex> events_lock([[maybe_unused]] events_mutex_);
         if (!partition_history_.empty()) {
             auto& last_event = partition_history_.back();
-            if (!last_event.is_healed) {
+            if ([[maybe_unused]] !last_event.is_healed) {
                 last_event.is_healed = true;
                 last_event.healed_at = std::chrono::steady_clock::now();
                 
                 // Notify callback
-                if (partition_callback_) {
-                    partition_callback_(last_event);
+                if ([[maybe_unused]] partition_callback_) {
+                    partition_callback_([[maybe_unused]] last_event);
                 }
             }
         }

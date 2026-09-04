@@ -225,7 +225,7 @@ TEST_F(HotReloadEngineConfigTest, CustomConfig_IsPreserved) {
 
 class UpdateStateMachineTest : public ::testing::Test {
 protected:
-    std::string tmp_log_;
+    std::string tmp_log_ = {};
 
     void SetUp() override {
         tmp_log_ = std::string("/tmp/test_update_sm_") + std::to_string(
@@ -370,10 +370,12 @@ TEST_F(UpdateStateMachineTest, PersistentLog_WrittenToFile) {
     EXPECT_TRUE(fs::exists(tmp_log_));
 
     std::ifstream f(tmp_log_);
-    std::string line;
+    std::string line = {};
     int line_count = 0;
     while (std::getline(f, line)) {
-        if (!line.empty()) ++line_count;
+        if (!line.empty()) {
+          ++line_count;
+        }
     }
     EXPECT_GE(line_count, 2);
 }
@@ -604,7 +606,9 @@ TEST_F(ProgressCallbackTest, UpdatesConfig_NotificationEvents) {
     // Default events should include common update lifecycle events
     bool has_update_available = false;
     for (const auto& ev : cfg.notifications.on_events) {
-        if (ev == "update_available") has_update_available = true;
+        if (ev == "update_available") {
+          has_update_available = true;
+        }
     }
     EXPECT_TRUE(has_update_available);
 }
@@ -643,7 +647,7 @@ TEST(StateMachineThreadSafetyTest, Callback_CanCallCurrentState_NoDeadlock) {
 
 TEST(StateMachineThreadSafetyTest, Callback_CanCallCurrentVersion_NoDeadlock) {
     UpdateStateMachine sm;
-    std::string observed_version;
+    std::string observed_version = {};
 
     sm.addStateChangeCallback([&](UpdateState, UpdateState, const std::string&) {
         // currentVersion() acquires mutex_ – must NOT deadlock after fix
@@ -681,7 +685,7 @@ TEST(StateMachineThreadSafetyTest, Reset_Callback_CanCallCurrentVersion_NoDeadlo
     sm.transition(UpdateState::DOWNLOADING, "3.0.0");
     sm.transition(UpdateState::FAILED,      "3.0.0");
 
-    std::string version_at_reset;
+    std::string version_at_reset = {};
     sm.addStateChangeCallback([&](UpdateState, UpdateState, const std::string&) {
         version_at_reset = sm.currentVersion();
     });
@@ -696,9 +700,9 @@ TEST(StateMachineThreadSafetyTest, Reset_Callback_CanCallCurrentVersion_NoDeadlo
 
 class DeltaUpdateEngineTest : public ::testing::Test {
 protected:
-    std::string tmp_dir_;
-    std::string install_dir_;
-    std::string download_dir_;
+    std::string tmp_dir_ = {};
+    std::string install_dir_ = {};
+    std::string download_dir_ = {};
 
     void SetUp() override {
         auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
@@ -918,7 +922,9 @@ TEST_F(DeltaUpdateEngineTest, GenerateApplyPatch_ZstdDict_Identical) {
 TEST_F(DeltaUpdateEngineTest, GenerateApplyPatch_ZstdDict_SmallDiff) {
     // base and target differ only in a few bytes (realistic update)
     std::vector<uint8_t> base(4096);
-    for (size_t i = 0; i < base.size(); ++i) base[i] = static_cast<uint8_t>(i & 0xFF);
+    for (size_t i = 0; i < base.size(); ++i) {
+      base[i] = static_cast<uint8_t>(i & 0xFF);
+    }
 
     auto target = base;
     target[100] = 0xFF;
@@ -971,7 +977,9 @@ TEST_F(DeltaUpdateEngineTest, GenerateApplyPatch_ZstdDict_EmptyBase) {
 
 TEST_F(DeltaUpdateEngineTest, GenerateApplyPatch_Vcdiff_SmallDiff) {
     std::vector<uint8_t> base(2048);
-    for (size_t i = 0; i < base.size(); ++i) base[i] = static_cast<uint8_t>(i % 251);
+    for (size_t i = 0; i < base.size(); ++i) {
+      base[i] = static_cast<uint8_t>(i % 251);
+    }
 
     auto target = base;
     target[50]  = 0xCC;
@@ -1181,9 +1189,9 @@ TEST_F(DeltaUpdateEngineTest, ProgressCallback_IsInvoked) {
 
 class DeltaPathTraversalTest : public ::testing::Test {
 protected:
-    std::string tmp_dir_;
-    std::string install_dir_;
-    std::string download_dir_;
+    std::string tmp_dir_ = {};
+    std::string install_dir_ = {};
+    std::string download_dir_ = {};
 
     void SetUp() override {
         auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
@@ -1304,7 +1312,9 @@ TEST_F(DeltaPathTraversalTest, NormalSubdirPath_WithPatch_AppliesSuccessfully) {
     // Prove that the security check does NOT block valid nested-path operations.
     std::string rel_path = "lib/sub/libfoo.so";
     std::vector<uint8_t> base_data(512);
-    for (size_t i = 0; i < base_data.size(); ++i) base_data[i] = static_cast<uint8_t>(i & 0xFF);
+    for (size_t i = 0; i < base_data.size(); ++i) {
+      base_data[i] = static_cast<uint8_t>(i & 0xFF);
+    }
 
     auto target_data = base_data;
     target_data[10] = 0xFF;
@@ -1581,8 +1591,8 @@ TEST_F(PostUpdateHealthCheckFunctionalTest, HealthCheckCanBeCleared) {
 
 class UpdateHistoryLoggerTest : public ::testing::Test {
 protected:
-    std::string tmp_dir_;
-    std::string log_file_;
+    std::string tmp_dir_ = {};
+    std::string log_file_ = {};
 
     void SetUp() override {
         auto ts = std::chrono::system_clock::now().time_since_epoch().count();
@@ -1767,9 +1777,9 @@ TEST_F(UpdateHistoryLoggerTest, HotReloadEngineConfig_HistoryFieldsCustomizable)
 
 class CheckpointTest : public ::testing::Test {
 protected:
-    std::string tmp_dir_;
-    std::string log_file_;
-    std::string history_file_;
+    std::string tmp_dir_ = {};
+    std::string log_file_ = {};
+    std::string history_file_ = {};
 
     void SetUp() override {
         auto ts   = std::chrono::steady_clock::now().time_since_epoch().count();

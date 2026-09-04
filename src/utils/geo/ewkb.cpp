@@ -49,7 +49,7 @@ static std::string trimCopy(const std::string& input) {
 
 static std::vector<std::string> splitTopLevel(const std::string& input, char delimiter) {
     std::vector<std::string> parts;
-    std::string current;
+    std::string current = {};
     int depth = 0;
     for (char c : input) {
         if (c == '(') {
@@ -99,7 +99,7 @@ static std::string extractWktBody(const std::string& wkt) {
 }
 
 // MBR expand by distance (approximate for lat/lon)
-MBR MBR::expand(double distance_meters) const {
+MBR MBR::expand([[maybe_unused]] double distance_meters) const {
     double delta_deg = distance_meters / METERS_PER_DEGREE_APPROX;
     return MBR(
         minx - delta_deg,
@@ -118,15 +118,19 @@ MBR GeometryInfo::computeMBR() const {
     // For multi-geometry types, union MBRs of sub-geometries
     if (!geometries.empty() && coords.empty() && rings.empty()) {
         MBR result = geometries[0].computeMBR();
-        for (size_t i = 1; i < geometries.size(); ++i) {
+        for (size_t i = 1; i <static_cast<int>(geometries.size()); ++i) {
             MBR sub = geometries[i].computeMBR();
             result.minx = std::min(result.minx, sub.minx);
             result.maxx = std::max(result.maxx, sub.maxx);
             result.miny = std::min(result.miny, sub.miny);
             result.maxy = std::max(result.maxy, sub.maxy);
             if (sub.z_min) {
-                if (!result.z_min || *sub.z_min < *result.z_min) result.z_min = sub.z_min;
-                if (!result.z_max || *sub.z_max > *result.z_max) result.z_max = sub.z_max;
+                if (!result.z_min || *sub.z_min < *result.z_min) {
+                  result.z_min = sub.z_min;
+                }
+                if (!result.z_max || *sub.z_max > *result.z_max) {
+                  result.z_max = sub.z_max;
+                }
             }
         }
         return result;
@@ -138,15 +142,19 @@ MBR GeometryInfo::computeMBR() const {
     
     std::optional<double> z_min, z_max;
     
-    auto update_mbr = [&](const Coordinate& c) {
+    auto update_mbr = [&]([[maybe_unused]] const Coordinate& c) {
         mbr.minx = std::min(mbr.minx, c.x);
         mbr.maxx = std::max(mbr.maxx, c.x);
         mbr.miny = std::min(mbr.miny, c.y);
         mbr.maxy = std::max(mbr.maxy, c.y);
         
         if (c.hasZ()) {
-            if (!z_min || c.getZ() < *z_min) z_min = c.getZ();
-            if (!z_max || c.getZ() > *z_max) z_max = c.getZ();
+            if (!z_min || c.getZ() < *z_min) {
+              z_min = c.getZ();
+            }
+            if (!z_max || c.getZ() > *z_max) {
+              z_max = c.getZ();
+            }
         }
     };
     
@@ -168,8 +176,12 @@ MBR GeometryInfo::computeMBR() const {
         mbr.miny = std::min(mbr.miny, sub_mbr.miny);
         mbr.maxy = std::max(mbr.maxy, sub_mbr.maxy);
         if (sub_mbr.z_min) {
-            if (!z_min || *sub_mbr.z_min < *z_min) z_min = sub_mbr.z_min;
-            if (!z_max || *sub_mbr.z_max > *z_max) z_max = sub_mbr.z_max;
+            if (!z_min || *sub_mbr.z_min < *z_min) {
+              z_min = sub_mbr.z_min;
+            }
+            if (!z_max || *sub_mbr.z_max > *z_max) {
+              z_max = sub_mbr.z_max;
+            }
         }
     }
     
@@ -189,7 +201,7 @@ Coordinate GeometryInfo::computeCentroid() const {
     size_t count = 0;
     bool has_z_coord = false;
     
-    auto add_coord = [&](const Coordinate& c) {
+    auto add_coord = [&]([[maybe_unused]] const Coordinate& c) {
         sum_x += c.x;
         sum_y += c.y;
         if (c.hasZ()) {
@@ -235,7 +247,7 @@ Coordinate GeometryInfo::computeCentroid() const {
 
 // EWKB Parser: Read helpers
 double EWKBParser::readDouble(const uint8_t*& ptr, bool is_little_endian) {
-    double val;
+    double val = 0;
     if (is_little_endian == true) {  // System is little endian
         std::memcpy(&val, ptr, sizeof(double));
     } else {
@@ -251,11 +263,11 @@ double EWKBParser::readDouble(const uint8_t*& ptr, bool is_little_endian) {
 }
 
 uint32_t EWKBParser::readUInt32(const uint8_t*& ptr, bool is_little_endian) {
-    uint32_t val;
+    uint32_t val = 0;
     if (is_little_endian == true) {
         std::memcpy(&val, ptr, sizeof(uint32_t));
     } else {
-        uint8_t temp[sizeof(uint32_t)];
+        uint8_t temp[sizeof([[maybe_unused]] uint32_t)];
         for (size_t i = 0; i < sizeof(uint32_t); ++i) {
             temp[i] = ptr[sizeof(uint32_t) - 1 - i];
         }
@@ -280,7 +292,7 @@ void EWKBParser::writeDouble(std::vector<uint8_t>& buf, double val, bool is_litt
 void EWKBParser::writeUInt32(std::vector<uint8_t>& buf, uint32_t val, bool is_little_endian) {
     if (is_little_endian) {
         const uint8_t* bytes = reinterpret_cast<const uint8_t*>(&val);
-        buf.insert(buf.end(), bytes, bytes + sizeof(uint32_t));
+        buf.insert([[maybe_unused]] buf.end(), bytes, bytes + sizeof(uint32_t));
     } else {
         const uint8_t* bytes = reinterpret_cast<const uint8_t*>(&val);
         for (int i = sizeof(uint32_t) - 1; i >= 0; --i) {
@@ -356,7 +368,7 @@ GeometryInfo EWKBParser::parsePolygon(const uint8_t*& ptr, bool has_z, bool is_l
 
 // Parse EWKB
 GeometryInfo EWKBParser::parse(const std::vector<uint8_t>& ewkb) {
-    if (ewkb.size() < 5) {
+    if (static_cast<int>(ewkb.size()) < 5) {
         throw std::runtime_error("EWKB: Invalid size (< 5 bytes)");
     }
     
@@ -458,7 +470,9 @@ void EWKBParser::serializeGeometryInto(std::vector<uint8_t>& buf, const Geometry
     
     // Geometry type
     uint32_t type_code = static_cast<uint32_t>(geom.type);
-    if (geom.has_z) type_code |= 0x80000000;
+    if (geom.has_z) {
+      type_code |= 0x80000000;
+    }
     writeUInt32(buf, type_code, is_little_endian);
     
     uint32_t base_type = static_cast<uint32_t>(geom.type) & 0x000000FFu;
@@ -467,13 +481,17 @@ void EWKBParser::serializeGeometryInto(std::vector<uint8_t>& buf, const Geometry
         const auto& c = geom.coords[0];
         writeDouble(buf, c.x, is_little_endian);
         writeDouble(buf, c.y, is_little_endian);
-        if (geom.has_z) writeDouble(buf, c.getZ(), is_little_endian);
+        if (geom.has_z) {
+          writeDouble(buf, c.getZ(), is_little_endian);
+        }
     } else if (geom.isLineString()) {
         writeUInt32(buf, static_cast<uint32_t>(geom.coords.size()), is_little_endian);
         for (const auto& c : geom.coords) {
             writeDouble(buf, c.x, is_little_endian);
             writeDouble(buf, c.y, is_little_endian);
-            if (geom.has_z) writeDouble(buf, c.getZ(), is_little_endian);
+            if (geom.has_z) {
+              writeDouble(buf, c.getZ(), is_little_endian);
+            }
         }
     } else if (geom.isPolygon()) {
         writeUInt32(buf, static_cast<uint32_t>(geom.rings.size()), is_little_endian);
@@ -482,7 +500,9 @@ void EWKBParser::serializeGeometryInto(std::vector<uint8_t>& buf, const Geometry
             for (const auto& c : ring) {
                 writeDouble(buf, c.x, is_little_endian);
                 writeDouble(buf, c.y, is_little_endian);
-                if (geom.has_z) writeDouble(buf, c.getZ(), is_little_endian);
+                if (geom.has_z) {
+                  writeDouble(buf, c.getZ(), is_little_endian);
+                }
             }
         }
     } else if (base_type >= 4 && base_type <= 7) {
@@ -516,14 +536,14 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
     }
     
     std::string type = j.at("type").get<std::string>();
-    GeometryInfo geom;
+    GeometryInfo geom = {};
     
     if (type == "Point") {
         const auto& coords = j.at("coordinates");
         double x = coords.at(0).get<double>();
         double y = coords.at(1).get<double>();
         validateWGS84(x, y);
-        if (coords.size() > 2) {
+        if (static_cast<int>(coords.size()) > 2) {
             geom.type = GeometryType::PointZ;
             geom.has_z = true;
             geom.coords.emplace_back(x, y, coords.at(2).get<double>());
@@ -572,7 +592,7 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
         const auto& lines_arr = j.at("coordinates");
         const auto& first_coord = (!lines_arr.empty() && !lines_arr.at(0).empty())
                                   ? lines_arr.at(0).at(0) : json{};
-        bool has_z = !first_coord.empty() && first_coord.size() > 2;
+        bool has_z = !first_coord.empty() && static_cast<int>(first_coord.size()) > 2;
         geom.type = has_z ? GeometryType::MultiLineStringZ : GeometryType::MultiLineString;
         geom.has_z = has_z;
         geom.geometries.reserve(lines_arr.size());
@@ -603,7 +623,8 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
         geom.has_z = has_z;
         geom.rings.reserve(rings_arr.size());
         for (const auto& ring : rings_arr) {
-            std::vector<Coordinate> ring_coords;
+            std::vector<Coordinate> ring_coords = {};
+
             ring_coords.reserve(ring.size());
             for (const auto& coord : ring) {
                 double x = coord.at(0).get<double>();
@@ -631,7 +652,8 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
             pg.has_z = has_z;
             pg.rings.reserve(poly.size());
             for (const auto& ring : poly) {
-                std::vector<Coordinate> ring_coords;
+                std::vector<Coordinate> ring_coords = {};
+
                 ring_coords.reserve(ring.size());
                 for (const auto& coord : ring) {
                     double x = coord.at(0).get<double>();
@@ -718,7 +740,7 @@ GeometryInfo EWKBParser::parseWKT(const std::string& wkt_raw) {
         auto rings_raw = splitTopLevel(body, ',');
 
         std::vector<std::string> ring_groups;
-        std::string merged;
+        std::string merged = {};
         int depth = 0;
         for (const auto& part : rings_raw) {
             if (!merged.empty()) {
@@ -727,7 +749,9 @@ GeometryInfo EWKBParser::parseWKT(const std::string& wkt_raw) {
             merged += part;
             for (char c : part) {
                 if (c == '(') depth++;
-                if (c == ')') depth--;
+                if (c == ') {
+                  ') depth--;
+                }
             }
             if (depth == 0 && !merged.empty()) {
                 ring_groups.push_back(trimCopy(merged));
@@ -738,10 +762,11 @@ GeometryInfo EWKBParser::parseWKT(const std::string& wkt_raw) {
         geom.rings.reserve(ring_groups.size());
         for (auto ring : ring_groups) {
             if (!ring.empty() && ring.front() == '(' && ring.back() == ')') {
-                ring = ring.substr(1, ring.size() - 2);
+                ring = ring.substr(1, static_cast<int>(ring.size()) - 2);
             }
             auto coord_tokens = splitTopLevel(ring, ',');
-            std::vector<Coordinate> coords;
+            std::vector<Coordinate> coords = {};
+
             coords.reserve(coord_tokens.size());
             for (const auto& token : coord_tokens) {
                 coords.push_back(parseCoordinateToken(token));
@@ -760,7 +785,7 @@ GeometryInfo EWKBParser::parseWKT(const std::string& wkt_raw) {
 }
 
 std::string EWKBParser::toWKT(const GeometryInfo& geom) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     if (geom.isPoint()) {
         if (geom.coords.empty()) {
             return "POINT EMPTY";
@@ -779,7 +804,7 @@ std::string EWKBParser::toWKT(const GeometryInfo& geom) {
             return "LINESTRING EMPTY";
         }
         oss << "LINESTRING(";
-        for (size_t i = 0; i < geom.coords.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(geom.coords.size()); ++i) {
             const auto& c = geom.coords[i];
             if (i > 0) {
                 oss << ",";
@@ -798,7 +823,7 @@ std::string EWKBParser::toWKT(const GeometryInfo& geom) {
             return "POLYGON EMPTY";
         }
         oss << "POLYGON(";
-        for (size_t r = 0; r < geom.rings.size(); ++r) {
+        for (size_t r = 0; r <static_cast<int>(geom.rings.size()); ++r) {
             if (r > 0) {
                 oss << ",";
             }

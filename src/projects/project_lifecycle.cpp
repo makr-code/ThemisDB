@@ -33,10 +33,18 @@ const char* projectStateToString(ProjectState state) noexcept {
 }
 
 std::optional<ProjectState> projectStateFromString(const std::string& s) noexcept {
-    if (s == "created")  return ProjectState::CREATED;
-    if (s == "active")   return ProjectState::ACTIVE;
-    if (s == "archived") return ProjectState::ARCHIVED;
-    if (s == "deleted")  return ProjectState::DELETED;
+    if (s == "created") {
+      return ProjectState::CREATED;
+    }
+    if (s == "active") {
+      return ProjectState::ACTIVE;
+    }
+    if (s == "archived") {
+      return ProjectState::ARCHIVED;
+    }
+    if (s == "deleted") {
+      return ProjectState::DELETED;
+    }
     return std::nullopt;
 }
 
@@ -79,7 +87,9 @@ bool ProjectLifecycle::isValidTransition(
     ProjectState from, ProjectState to) noexcept
 {
     // DELETED is a terminal state — no outgoing transitions
-    if (from == ProjectState::DELETED) return false;
+    if (from == ProjectState::DELETED) {
+      return false;
+    }
 
     switch (to) {
         case ProjectState::ACTIVE:
@@ -110,8 +120,9 @@ Status ProjectLifecycle::applyTransition(
         return Status::Error("applyTransition: actor must not be empty");
 
     // Read current state (already held under unique_lock by callers)
-    std::string state_str;
-    std::optional<ProjectState> current;
+    std::string state_str = {};
+    std::optional<ProjectState> current = {};
+
     if (storage_->get("lifecycle:" + project_id, state_str))
         current = projectStateFromString(state_str);
 
@@ -170,7 +181,7 @@ Status ProjectLifecycle::initProject(
     std::unique_lock lock(mutex_);
 
     const std::string state_key = "lifecycle:" + project_id;
-    std::string existing;
+    std::string existing = {};
     if (storage_->get(state_key, existing))
         return Status::Error(
             "Lifecycle already initialised for project: " + project_id);
@@ -234,7 +245,7 @@ std::optional<ProjectState> ProjectLifecycle::getState(
     const std::string& project_id) const
 {
     std::shared_lock lock(mutex_);
-    std::string val;
+    std::string val = {};
     if (!storage_->get("lifecycle:" + project_id, val))
         return std::nullopt;
     return projectStateFromString(val);

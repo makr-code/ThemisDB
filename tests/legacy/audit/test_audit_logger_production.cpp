@@ -61,7 +61,7 @@ protected:
     }
 
     std::filesystem::path dir_;
-    std::string           path_;
+    std::string           path_ = {};
 };
 
 TEST_F(AuditSearchTest, EmptyLogReturnsNoResults) {
@@ -179,7 +179,7 @@ protected:
     }
 
     std::filesystem::path dir_;
-    std::string           path_;
+    std::string           path_ = {};
 };
 
 TEST_F(ComplianceReportTest, EmptyLogProducesZeroReport) {
@@ -271,8 +271,8 @@ protected:
     }
 
     std::filesystem::path dir_;
-    std::string           path_;
-    std::string           archive_;
+    std::string           path_ = {};
+    std::string           archive_ = {};
 };
 
 TEST_F(AuditRetentionTest, ArchiveMovesOldEntries) {

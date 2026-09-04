@@ -55,7 +55,8 @@ ShardMetrics* OperationalMetrics::getShardMetrics(const std::string& shard_id) {
 std::vector<std::string> OperationalMetrics::getShardIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(shard_metrics_.size());
     
     for (const auto& [id, _] : shard_metrics_) {
@@ -68,7 +69,7 @@ std::vector<std::string> OperationalMetrics::getShardIds() const {
 std::string OperationalMetrics::exportPrometheusMetrics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     
     // Header comments
     ss << "# HELP themisdb_shard_requests_total Total number of requests\n";
@@ -416,7 +417,9 @@ void OperationalMetrics::recordRequest(
     bool is_write
 ) {
     auto* metrics = getShardMetrics(shard_id);
-    if (!metrics) return;
+    if (!metrics) {
+      return;
+    }
     
     metrics->total_requests.fetch_add(1, std::memory_order_relaxed);
     
@@ -458,7 +461,9 @@ void OperationalMetrics::updateResourceUsage(
     uint64_t disk_bytes
 ) {
     auto* metrics = getShardMetrics(shard_id);
-    if (!metrics) return;
+    if (!metrics) {
+      return;
+    }
     
     metrics->memory_usage_bytes.store(memory_bytes, std::memory_order_relaxed);
     metrics->disk_usage_bytes.store(disk_bytes, std::memory_order_relaxed);
@@ -471,7 +476,9 @@ void OperationalMetrics::recordNetworkTraffic(
     uint64_t bytes_received
 ) {
     auto* metrics = getShardMetrics(shard_id);
-    if (!metrics) return;
+    if (!metrics) {
+      return;
+    }
     
     metrics->network_bytes_sent.fetch_add(bytes_sent, std::memory_order_relaxed);
     metrics->network_bytes_received.fetch_add(bytes_received, std::memory_order_relaxed);
@@ -485,7 +492,9 @@ void OperationalMetrics::updateReplicationMetrics(
     uint64_t sync_replica_count
 ) {
     auto* metrics = getShardMetrics(shard_id);
-    if (!metrics) return;
+    if (!metrics) {
+      return;
+    }
     
     metrics->replication_lag_ms.store(lag_ms, std::memory_order_relaxed);
     metrics->replica_count.store(replica_count, std::memory_order_relaxed);
@@ -499,7 +508,9 @@ void OperationalMetrics::recordQuorumOperation(
     bool success
 ) {
     auto* metrics = getShardMetrics(shard_id);
-    if (!metrics) return;
+    if (!metrics) {
+      return;
+    }
     
     if (is_write) {
         metrics->quorum_writes.fetch_add(1, std::memory_order_relaxed);
@@ -520,7 +531,9 @@ void OperationalMetrics::recordDurabilityOperation(
     bool checkpoint_created
 ) {
     auto* metrics = getShardMetrics(shard_id);
-    if (!metrics) return;
+    if (!metrics) {
+      return;
+    }
     
     if (wal_sync) {
         metrics->wal_syncs.fetch_add(1, std::memory_order_relaxed);
@@ -539,7 +552,9 @@ void OperationalMetrics::recordTransaction(
     bool had_conflict
 ) {
     auto* metrics = getShardMetrics(shard_id);
-    if (!metrics) return;
+    if (!metrics) {
+      return;
+    }
     
     metrics->transactions_started.fetch_add(1, std::memory_order_relaxed);
     
@@ -558,7 +573,9 @@ void OperationalMetrics::recordTransaction(
 
 void OperationalMetrics::recordPartitionEvent(const std::string& shard_id) {
     auto* metrics = getShardMetrics(shard_id);
-    if (!metrics) return;
+    if (!metrics) {
+      return;
+    }
     
     metrics->partition_events.fetch_add(1, std::memory_order_relaxed);
     metrics->last_update_time = std::chrono::system_clock::now();
@@ -569,7 +586,9 @@ void OperationalMetrics::updateShardHealth(
     HealthStatus status
 ) {
     auto* metrics = getShardMetrics(shard_id);
-    if (!metrics) return;
+    if (!metrics) {
+      return;
+    }
     
     metrics->setHealthStatus(status);
     metrics->last_update_time = std::chrono::system_clock::now();
@@ -592,7 +611,7 @@ std::string OperationalMetrics::formatPrometheusMetric(
     const std::map<std::string, std::string>& labels
 ) {
     (void)type;
-    std::stringstream ss;
+    std::stringstream ss = {};
     
     ss << name;
     
@@ -600,7 +619,9 @@ std::string OperationalMetrics::formatPrometheusMetric(
         ss << "{";
         bool first = true;
         for (const auto& [key, val] : labels) {
-            if (!first) ss << ",";
+            if (!first) {
+              ss << ",";
+            }
             ss << key << "=\"" << val << "\"";
             first = false;
         }

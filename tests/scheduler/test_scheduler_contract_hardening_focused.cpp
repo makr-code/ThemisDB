@@ -13,7 +13,8 @@
 namespace themis::scheduler::test {
 
 TEST(SchedulerContractHardening, ErrorCodeUniqueness) {
-    std::set<int32_t> seen;
+    std::set<int32_t> seen = {};
+
     const int32_t codes[] = {
         static_cast<int32_t>(SchedulerError::kTaskNotFound),
         static_cast<int32_t>(SchedulerError::kTaskAlreadyExists),

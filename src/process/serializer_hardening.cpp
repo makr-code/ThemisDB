@@ -34,8 +34,8 @@ SerializerValidationResult SerializerInputValidator::validateInput(
 
     // Check size limit
     if (!isInputSizeValid(input.size())) {
-        std::ostringstream oss;
-        oss << format_name << " input size (" << input.size()
+        std::ostringstream oss = {};
+        oss << format_name << " input size (" <<static_cast<int>(input.size())
             << " bytes) exceeds maximum (" << kMaxModelInputBytes << " bytes)";
         return SerializerValidationResult::failure(
             oss.str(),
@@ -84,7 +84,7 @@ bool SerializerInputValidator::isValidUtf8(std::string_view s) {
         // ASCII range (0x00 – 0x7F)
         if (byte <= 0x7F) {
             // Check for ASCII control characters (except tab, newline, carriage return)
-            if (byte < 0x09 || (byte > 0x0D && byte < 0x20) || byte == 0x7F) {
+            if ((byte < 0x09 || (byte > 0x0D && byte < 0x20) || byte == 0x7F) {
                 // Allow some control chars in XML: tab (0x09), LF (0x0A), CR (0x0D)
                 if (byte != 0x09 && byte != 0x0A && byte != 0x0D) {
                     return false;
@@ -114,27 +114,45 @@ bool SerializerInputValidator::isValidUtf8Sequence(
 
     // 2-byte sequence: 110xxxxx 10xxxxxx
     if ((byte & 0xE0) == 0xC0) {
-        if (remaining_bytes < 2) return false;
-        if ((data[1] & 0xC0) != 0x80) return false;
+        if (remaining_bytes < 2) {
+          return false;
+        }
+        if ((data[1] & 0xC0) != 0x80) {
+          return false;
+        }
         sequence_length = 2;
         return true;
     }
 
     // 3-byte sequence: 1110xxxx 10xxxxxx 10xxxxxx
     if ((byte & 0xF0) == 0xE0) {
-        if (remaining_bytes < 3) return false;
-        if ((data[1] & 0xC0) != 0x80) return false;
-        if ((data[2] & 0xC0) != 0x80) return false;
+        if (remaining_bytes < 3) {
+          return false;
+        }
+        if ((data[1] & 0xC0) != 0x80) {
+          return false;
+        }
+        if ((data[2] & 0xC0) != 0x80) {
+          return false;
+        }
         sequence_length = 3;
         return true;
     }
 
     // 4-byte sequence: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
     if ((byte & 0xF8) == 0xF0) {
-        if (remaining_bytes < 4) return false;
-        if ((data[1] & 0xC0) != 0x80) return false;
-        if ((data[2] & 0xC0) != 0x80) return false;
-        if ((data[3] & 0xC0) != 0x80) return false;
+        if (remaining_bytes < 4) {
+          return false;
+        }
+        if ((data[1] & 0xC0) != 0x80) {
+          return false;
+        }
+        if ((data[2] & 0xC0) != 0x80) {
+          return false;
+        }
+        if ((data[3] & 0xC0) != 0x80) {
+          return false;
+        }
         sequence_length = 4;
         return true;
     }
@@ -188,7 +206,7 @@ std::pair<int32_t, int32_t> SerializerInputValidator::countXmlTags(std::string_v
     int32_t close_count = 0;
 
     size_t pos = 0;
-    while (pos < xml.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(xml.size())) {
         size_t tag_start = xml.find('<', pos);
         if (tag_start == std::string_view::npos) {
             break;
@@ -280,7 +298,7 @@ int64_t ParserStateTracker::getElapsedMs() const {
 }
 
 std::string ParserStateTracker::getDiagnosticMessage() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Parser state: depth=" << current_depth_ << "/" << max_depth_
         << ", elements=" << element_count_ << "/" << max_elements_
         << ", elapsed=" << getElapsedMs() << "ms/" << timeout_ms_ << "ms";
@@ -301,7 +319,8 @@ SerializerValidationResult BpmnValidator::validateBpmnConstraints(
     }
 
     // Check for duplicate IDs
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (const auto& id : element_ids) {
         if (id.empty()) {
             return SerializerValidationResult::failure(
@@ -333,7 +352,7 @@ SerializerValidationResult EpkValidator::validateEpkConstraints(
     std::set<std::string> node_set(nodes.begin(), nodes.end());
 
     // Check for duplicate node IDs
-    if (node_set.size() != nodes.size()) {
+    if (static_cast<int>(node_set.size()) != static_cast<int>(nodes.size())) {
         return SerializerValidationResult::failure(
             "EPK contains duplicate node IDs"
         );
@@ -373,7 +392,8 @@ SerializerValidationResult CmmnValidator::validateCmmnConstraints(
     }
 
     // Check for duplicate item IDs
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (const auto& id : item_ids) {
         if (id.empty()) {
             return SerializerValidationResult::failure(

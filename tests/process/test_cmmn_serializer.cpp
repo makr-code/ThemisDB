@@ -73,7 +73,9 @@ static const ProcessNodeInfo* findNode(
     const std::string& id)
 {
     for (const auto& n : nodes) {
-        if (n.node_id == id) return &n;
+        if (n.node_id == id) {
+          return &n;
+        }
     }
     return nullptr;
 }

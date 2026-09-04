@@ -24,7 +24,7 @@ namespace aql {
 
 AQLFewShotExampleLibrary::AQLFewShotExampleLibrary() {
     registerBuiltins_();
-    THEMIS_DEBUG("AQLFewShotExampleLibrary initialized with {} built-in examples", examples_.size());
+    THEMIS_DEBUG("AQLFewShotExampleLibrary initialized with {} built-in examples",static_cast<int>(examples_.size()));
 }
 
 void AQLFewShotExampleLibrary::registerExample(const AQLFewShotExample &example) {
@@ -43,7 +43,8 @@ const std::vector<AQLFewShotExample> &AQLFewShotExampleLibrary::all() const {
 }
 
 std::vector<AQLFewShotExample> AQLFewShotExampleLibrary::findByDomain(AQLExampleDomain domain) const {
-    std::vector<AQLFewShotExample> result;
+    std::vector<AQLFewShotExample> result = {};
+
     for (const auto &ex : examples_) {
         if (ex.domain == domain) {
             result.push_back(ex);
@@ -56,7 +57,8 @@ std::vector<AQLFewShotExample> AQLFewShotExampleLibrary::findByTag(const std::st
     std::string tag_lower = tag;
     std::transform(tag_lower.begin(), tag_lower.end(), tag_lower.begin(), ::tolower);
 
-    std::vector<AQLFewShotExample> result;
+    std::vector<AQLFewShotExample> result = {};
+
     for (const auto &ex : examples_) {
         for (const auto &t : ex.tags) {
             std::string t_lower = t;
@@ -81,7 +83,8 @@ const AQLFewShotExample *AQLFewShotExampleLibrary::findById(const std::string &i
 std::vector<AQLFewShotExample> AQLFewShotExampleLibrary::findRelevant(const std::string &nl_query, std::size_t n,
                                                                       std::optional<AQLExampleDomain> domain) const {
     // Build candidate list (optionally filtered by domain)
-    std::vector<const AQLFewShotExample *> candidates;
+    std::vector<const AQLFewShotExample *> candidates = {};
+
     for (const auto &ex : examples_) {
         if (!domain.has_value() || ex.domain == domain.value()) {
             candidates.push_back(&ex);
@@ -125,7 +128,7 @@ std::vector<AQLFewShotExample> AQLFewShotExampleLibrary::findRelevant(const std:
     std::sort(scored.begin(), scored.end(), [](const auto &a, const auto &b) { return a.first > b.first; });
 
     // Collect top-n results
-    std::size_t count = std::min(n, scored.size());
+    std::size_t count = std::min(n,static_cast<int>(scored.size()));
     std::vector<AQLFewShotExample> result;
     result.reserve(count);
     for (std::size_t i = 0; i < count; ++i) {
@@ -138,7 +141,7 @@ std::string AQLFewShotExampleLibrary::formatForPrompt(const std::vector<AQLFewSh
     if (examples.empty()) {
         return {};
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Here are some examples of natural language queries and their AQL translations:\n\n";
     for (const auto &ex : examples) {
         oss << "Natural language: " << ex.nl_query << "\n";
@@ -153,7 +156,7 @@ std::string AQLFewShotExampleLibrary::buildPromptSection(const std::string &nl_q
 }
 
 std::size_t AQLFewShotExampleLibrary::size() const {
-    return examples_.size();
+    return static_cast<int>(examples_.size());
 }
 
 // ============================================================================
@@ -172,7 +175,7 @@ void AQLFewShotExampleLibrary::rebuildEmbeddingIndex() {
     }
 
     embedding_cache_.resize(examples_.size());
-    for (std::size_t i = 0; i < examples_.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(examples_.size()); ++i) {
         embedding_cache_[i] = embedding_provider_->embed(examples_[i].nl_query);
     }
 }
@@ -181,12 +184,12 @@ bool AQLFewShotExampleLibrary::ensureEmbedding_(std::size_t idx) const {
     if (!embedding_provider_) {
         return false;
     }
-    if (idx >= examples_.size()) {
+    if (idx >= static_cast<int>(examples_.size())) {
         return false;
     }
 
     // Grow cache if needed
-    if (embedding_cache_.size() <= idx) {
+    if (static_cast<int>(embedding_cache_.size()) <= idx) {
         embedding_cache_.resize(examples_.size());
     }
     // Compute on demand if not yet cached
@@ -197,12 +200,12 @@ bool AQLFewShotExampleLibrary::ensureEmbedding_(std::size_t idx) const {
 }
 
 double AQLFewShotExampleLibrary::cosineSimilarity_(const std::vector<float> &a, const std::vector<float> &b) {
-    if (a.size() != b.size() || a.empty()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
         return 0.0;
     }
 
     double dot = 0.0, norm_a = 0.0, norm_b = 0.0;
-    for (std::size_t i = 0; i < a.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         dot += static_cast<double>(a[i]) * static_cast<double>(b[i]);
         norm_a += static_cast<double>(a[i]) * static_cast<double>(a[i]);
         norm_b += static_cast<double>(b[i]) * static_cast<double>(b[i]);
@@ -231,7 +234,7 @@ double AQLFewShotExampleLibrary::computeRelevance_(const std::string &query, con
     auto tokenize = [](const std::string &s) {
         std::unordered_set<std::string> tokens;
         std::istringstream iss(s);
-        std::string token;
+        std::string token = {};
         while (iss >> token) {
             std::transform(token.begin(), token.end(), token.begin(), ::tolower);
             // Strip trailing punctuation
@@ -259,7 +262,7 @@ double AQLFewShotExampleLibrary::computeRelevance_(const std::string &query, con
         }
     }
 
-    std::size_t union_size = q_tokens.size() + ex_tokens.size() - intersection;
+    std::size_t union_size = static_cast<int>(q_tokens.size()) + static_cast<int>(ex_tokens.size()) - intersection;
     return (union_size > 0) ? static_cast<double>(intersection) / static_cast<double>(union_size) : 0.0;
 }
 
@@ -277,7 +280,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::DOCUMENT,
                          "Return every document in a collection",
                          {"document", "select", "all"}});
-    index_by_id_["doc_all_documents"] = examples_.size() - 1;
+    index_by_id_["doc_all_documents"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"doc_filter_city",
                          "Find all users in Seattle",
@@ -285,7 +288,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::DOCUMENT,
                          "Filter documents by a string field",
                          {"document", "filter", "string"}});
-    index_by_id_["doc_filter_city"] = examples_.size() - 1;
+    index_by_id_["doc_filter_city"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"doc_sort_limit",
                          "Get the top 10 products sorted by price descending",
@@ -293,7 +296,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::DOCUMENT,
                          "Sort and limit results",
                          {"document", "sort", "limit"}});
-    index_by_id_["doc_sort_limit"] = examples_.size() - 1;
+    index_by_id_["doc_sort_limit"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"doc_filter_numeric",
                          "Find users older than 30",
@@ -301,7 +304,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::DOCUMENT,
                          "Filter documents by a numeric comparison",
                          {"document", "filter", "numeric", "comparison"}});
-    index_by_id_["doc_filter_numeric"] = examples_.size() - 1;
+    index_by_id_["doc_filter_numeric"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"doc_insert",
                          "Insert a new user with name Alice and age 25",
@@ -309,7 +312,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::DOCUMENT,
                          "Insert a new document",
                          {"document", "insert", "write"}});
-    index_by_id_["doc_insert"] = examples_.size() - 1;
+    index_by_id_["doc_insert"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"doc_update",
                          "Update the status of order 12345 to shipped",
@@ -317,7 +320,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::DOCUMENT,
                          "Update a document by key",
                          {"document", "update", "write"}});
-    index_by_id_["doc_update"] = examples_.size() - 1;
+    index_by_id_["doc_update"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"doc_remove",
                          "Delete all inactive users",
@@ -325,7 +328,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::DOCUMENT,
                          "Remove documents matching a filter",
                          {"document", "delete", "remove", "write"}});
-    index_by_id_["doc_remove"] = examples_.size() - 1;
+    index_by_id_["doc_remove"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"doc_return_fields",
                          "Get only the name and email of all users",
@@ -333,7 +336,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::DOCUMENT,
                          "Project specific fields",
                          {"document", "projection", "return"}});
-    index_by_id_["doc_return_fields"] = examples_.size() - 1;
+    index_by_id_["doc_return_fields"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back(
         {"doc_multi_filter",
@@ -342,7 +345,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
          AQLExampleDomain::DOCUMENT,
          "Combine multiple filter conditions",
          {"document", "filter", "and", "multi-condition"}});
-    index_by_id_["doc_multi_filter"] = examples_.size() - 1;
+    index_by_id_["doc_multi_filter"] = static_cast<int>(examples_.size()) - 1;
 
     // -----------------------------------------------------------------------
     // GRAPH examples
@@ -353,7 +356,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::GRAPH,
                          "Simple outbound graph traversal (depth 1)",
                          {"graph", "traversal", "outbound", "edges"}});
-    index_by_id_["graph_outbound"] = examples_.size() - 1;
+    index_by_id_["graph_outbound"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"graph_deep",
                          "Find all nodes reachable from users/1 up to 3 hops",
@@ -361,7 +364,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::GRAPH,
                          "Deep graph traversal with max depth",
                          {"graph", "traversal", "depth", "hops"}});
-    index_by_id_["graph_deep"] = examples_.size() - 1;
+    index_by_id_["graph_deep"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"graph_shortest_path",
                          "Find the shortest path between users/1 and users/5",
@@ -369,7 +372,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::GRAPH,
                          "Shortest path query between two nodes",
                          {"graph", "shortest-path", "path"}});
-    index_by_id_["graph_shortest_path"] = examples_.size() - 1;
+    index_by_id_["graph_shortest_path"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"graph_any_direction",
                          "Find all nodes connected to product/99 in any direction",
@@ -377,7 +380,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::GRAPH,
                          "Bidirectional graph traversal",
                          {"graph", "traversal", "any", "bidirectional"}});
-    index_by_id_["graph_any_direction"] = examples_.size() - 1;
+    index_by_id_["graph_any_direction"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"graph_edge_filter",
                          "Find colleagues of user alice with collaboration strength above 5",
@@ -385,7 +388,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::GRAPH,
                          "Graph traversal with edge property filter",
                          {"graph", "traversal", "edge-filter"}});
-    index_by_id_["graph_edge_filter"] = examples_.size() - 1;
+    index_by_id_["graph_edge_filter"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"graph_with_path",
                          "Show the path from users/1 to users/10 including edge details",
@@ -393,7 +396,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::GRAPH,
                          "Graph traversal returning the full path object",
                          {"graph", "path", "traversal"}});
-    index_by_id_["graph_with_path"] = examples_.size() - 1;
+    index_by_id_["graph_with_path"] = static_cast<int>(examples_.size()) - 1;
 
     // -----------------------------------------------------------------------
     // VECTOR examples
@@ -405,7 +408,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::VECTOR,
                          "Approximate nearest-neighbour vector search by cosine similarity",
                          {"vector", "similarity", "ann", "cosine"}});
-    index_by_id_["vector_ann_search"] = examples_.size() - 1;
+    index_by_id_["vector_ann_search"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"vector_hybrid_search",
                          "Find documents similar to query vector that also have category electronics",
@@ -414,7 +417,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::VECTOR,
                          "Hybrid vector + attribute filter search",
                          {"vector", "hybrid", "filter", "similarity"}});
-    index_by_id_["vector_hybrid_search"] = examples_.size() - 1;
+    index_by_id_["vector_hybrid_search"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"vector_l2_distance",
                          "Find the 3 nearest neighbours using Euclidean distance",
@@ -423,7 +426,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::VECTOR,
                          "Nearest-neighbour search using L2 / Euclidean distance",
                          {"vector", "l2", "euclidean", "nearest-neighbour"}});
-    index_by_id_["vector_l2_distance"] = examples_.size() - 1;
+    index_by_id_["vector_l2_distance"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"vector_dot_product",
                          "Rank articles by relevance to query using dot product similarity",
@@ -432,7 +435,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::VECTOR,
                          "Vector search ranked by dot-product score",
                          {"vector", "dot-product", "ranking"}});
-    index_by_id_["vector_dot_product"] = examples_.size() - 1;
+    index_by_id_["vector_dot_product"] = static_cast<int>(examples_.size()) - 1;
 
     // -----------------------------------------------------------------------
     // GEOSPATIAL examples
@@ -444,7 +447,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
          AQLExampleDomain::GEOSPATIAL,
          "Radius search around a point",
          {"geo", "geospatial", "radius", "distance"}});
-    index_by_id_["geo_within_radius"] = examples_.size() - 1;
+    index_by_id_["geo_within_radius"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"geo_sort_nearest",
                          "List the 10 nearest stores to location 51.5, -0.1",
@@ -453,7 +456,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::GEOSPATIAL,
                          "Find and sort nearest locations to a point",
                          {"geo", "nearest", "sort", "distance"}});
-    index_by_id_["geo_sort_nearest"] = examples_.size() - 1;
+    index_by_id_["geo_sort_nearest"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"geo_contains_polygon",
                          "Find all events that fall within the city polygon",
@@ -461,7 +464,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::GEOSPATIAL,
                          "Point-in-polygon containment check",
                          {"geo", "polygon", "contains", "spatial"}});
-    index_by_id_["geo_contains_polygon"] = examples_.size() - 1;
+    index_by_id_["geo_contains_polygon"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"geo_distance_filter",
                          "Find hotels within 2 km of the airport and with rating above 4",
@@ -470,7 +473,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::GEOSPATIAL,
                          "Combine geospatial radius filter with attribute filter",
                          {"geo", "filter", "radius", "combined"}});
-    index_by_id_["geo_distance_filter"] = examples_.size() - 1;
+    index_by_id_["geo_distance_filter"] = static_cast<int>(examples_.size()) - 1;
 
     // -----------------------------------------------------------------------
     // TIMESERIES examples
@@ -482,7 +485,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::TIMESERIES,
                          "Time-range query for recent records",
                          {"timeseries", "range", "date", "filter"}});
-    index_by_id_["ts_range_query"] = examples_.size() - 1;
+    index_by_id_["ts_range_query"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"ts_between",
                          "Find all orders placed between January 1 and January 31, 2025",
@@ -491,7 +494,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::TIMESERIES,
                          "Date range between two ISO timestamps",
                          {"timeseries", "between", "date-range"}});
-    index_by_id_["ts_between"] = examples_.size() - 1;
+    index_by_id_["ts_between"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"ts_hourly_avg",
                          "Compute hourly average temperature for the past week",
@@ -501,7 +504,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::TIMESERIES,
                          "Hourly aggregation of a time-series metric",
                          {"timeseries", "aggregation", "hourly", "average"}});
-    index_by_id_["ts_hourly_avg"] = examples_.size() - 1;
+    index_by_id_["ts_hourly_avg"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"ts_latest_per_device",
                          "Get the most recent reading for each device",
@@ -511,7 +514,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::TIMESERIES,
                          "Latest value per group in a time-series collection",
                          {"timeseries", "latest", "per-device", "collect"}});
-    index_by_id_["ts_latest_per_device"] = examples_.size() - 1;
+    index_by_id_["ts_latest_per_device"] = static_cast<int>(examples_.size()) - 1;
 
     // -----------------------------------------------------------------------
     // AGGREGATION examples
@@ -522,7 +525,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::AGGREGATION,
                          "Count documents grouped by a field",
                          {"aggregation", "collect", "count", "group-by"}});
-    index_by_id_["agg_count_by_group"] = examples_.size() - 1;
+    index_by_id_["agg_count_by_group"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"agg_sum",
                          "Calculate the total revenue per product category",
@@ -531,7 +534,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::AGGREGATION,
                          "Sum aggregation grouped by a field",
                          {"aggregation", "sum", "group-by", "revenue"}});
-    index_by_id_["agg_sum"] = examples_.size() - 1;
+    index_by_id_["agg_sum"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"agg_avg_rating",
                          "Calculate the average rating for each restaurant",
@@ -540,7 +543,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::AGGREGATION,
                          "Average aggregation with grouping",
                          {"aggregation", "average", "group-by", "rating"}});
-    index_by_id_["agg_avg_rating"] = examples_.size() - 1;
+    index_by_id_["agg_avg_rating"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"agg_having",
                          "Find cities with more than 100 users",
@@ -549,7 +552,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::AGGREGATION,
                          "HAVING-style filter after aggregation",
                          {"aggregation", "having", "filter", "count"}});
-    index_by_id_["agg_having"] = examples_.size() - 1;
+    index_by_id_["agg_having"] = static_cast<int>(examples_.size()) - 1;
 
     // -----------------------------------------------------------------------
     // GENERAL examples (multi-domain / join-like patterns)
@@ -561,7 +564,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::GENERAL,
                          "Subquery-based join pattern",
                          {"subquery", "join", "exists"}});
-    index_by_id_["gen_subquery_join"] = examples_.size() - 1;
+    index_by_id_["gen_subquery_join"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back(
         {"gen_nested_return",
@@ -571,7 +574,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
          AQLExampleDomain::GENERAL,
          "Nested subquery to enrich each document with related data",
          {"subquery", "nested", "enrich"}});
-    index_by_id_["gen_nested_return"] = examples_.size() - 1;
+    index_by_id_["gen_nested_return"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"gen_fulltext_search",
                          "Search for documents containing the word database in the description",
@@ -579,7 +582,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::GENERAL,
                          "Text containment search",
                          {"fulltext", "contains", "search", "text"}});
-    index_by_id_["gen_fulltext_search"] = examples_.size() - 1;
+    index_by_id_["gen_fulltext_search"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"gen_array_filter",
                          "Find products that have the tag sale in their tags array",
@@ -587,7 +590,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::GENERAL,
                          "Filter documents where an array field contains a value",
                          {"array", "in-array", "filter"}});
-    index_by_id_["gen_array_filter"] = examples_.size() - 1;
+    index_by_id_["gen_array_filter"] = static_cast<int>(examples_.size()) - 1;
 
     examples_.push_back({"gen_distinct",
                          "Get the distinct list of countries from the users collection",
@@ -595,7 +598,7 @@ void AQLFewShotExampleLibrary::registerBuiltins_() {
                          AQLExampleDomain::GENERAL,
                          "DISTINCT values of a field",
                          {"distinct", "unique", "values"}});
-    index_by_id_["gen_distinct"] = examples_.size() - 1;
+    index_by_id_["gen_distinct"] = static_cast<int>(examples_.size()) - 1;
 }
 
 } // namespace aql

@@ -35,7 +35,8 @@ TEST(BuddyAllocatorTest, BasicAllocation) {
 TEST(BuddyAllocatorTest, MultipleAllocations) {
     BuddyAllocator allocator(64 * 1024, 64);  // 64KB
     
-    std::vector<void*> ptrs;
+    std::vector<void*> ptrs = {};
+
     for (int i = 0; i < 10; ++i) {
         auto result = allocator.allocate(128);
         ASSERT_TRUE(result.has_value());
@@ -155,7 +156,8 @@ TEST(SlabAllocatorTest, BasicAllocation) {
 TEST(SlabAllocatorTest, MultipleAllocations) {
     SlabAllocator allocator(64, 32);
     
-    std::vector<void*> ptrs;
+    std::vector<void*> ptrs = {};
+
     for (int i = 0; i < 100; ++i) {
         auto result = allocator.allocate(64);
         ASSERT_TRUE(result.has_value());
@@ -186,7 +188,8 @@ TEST(SlabAllocatorTest, Utilization) {
     
     EXPECT_EQ(allocator.getUtilization(), 0.0);
     
-    std::vector<void*> ptrs;
+    std::vector<void*> ptrs = {};
+
     for (int i = 0; i < 5; ++i) {
         auto result = allocator.allocate(64);
         ASSERT_TRUE(result.has_value());
@@ -486,7 +489,8 @@ TEST(PoolAllocatorTest, ConcurrentAllocations) {
         }
     };
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 4; ++i) {
         threads.emplace_back(worker);
     }
@@ -512,7 +516,8 @@ TEST(BuddyAllocatorTest, ConcurrentAccess) {
         }
     };
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 4; ++i) {
         threads.emplace_back(worker);
     }
@@ -555,7 +560,8 @@ TEST(SlabAllocatorTest, AllocationLatency) {
     
     auto start = std::chrono::high_resolution_clock::now();
     
-    std::vector<void*> ptrs;
+    std::vector<void*> ptrs = {};
+
     for (int i = 0; i < iterations; ++i) {
         auto result = allocator.allocate(128);
         ASSERT_TRUE(result.has_value());

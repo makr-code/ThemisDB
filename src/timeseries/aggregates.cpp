@@ -41,7 +41,7 @@ TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::aggregate(
     const TimeWindow& window,
     AggregateFunction func
 ) {
-    AggregateResult result;
+    AggregateResult result = {};
     
     if (count == 0) {
         return result;
@@ -63,7 +63,7 @@ TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::aggregate(
     for (const auto& [window_ts, window_values] : window_data) {
         result.timestamps.push_back(window_ts);
         result.values.push_back(
-            applyAggregate(window_values.data(), window_values.size(), func)
+            applyAggregate(window_values.data(),static_cast<int>(window_values.size()), func)
         );
     }
     
@@ -110,7 +110,7 @@ TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::rollingWindow(
     int64_t window_size_seconds,
     AggregateFunction func
 ) {
-    AggregateResult result;
+    AggregateResult result = {};
     
     if (count == 0) {
         return result;
@@ -121,7 +121,8 @@ TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::rollingWindow(
         int64_t window_start = timestamps[i] - window_size_seconds;
         
         // Collect values in window
-        std::vector<double> window_values;
+        std::vector<double> window_values = {};
+
         for (size_t j = 0; j <= i; ++j) {
             if (timestamps[j] >= window_start && timestamps[j] <= timestamps[i]) {
                 window_values.push_back(values[j]);
@@ -131,7 +132,7 @@ TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::rollingWindow(
         if (!window_values.empty()) {
             result.timestamps.push_back(timestamps[i]);
             result.values.push_back(
-                applyAggregate(window_values.data(), window_values.size(), func)
+                applyAggregate(window_values.data(),static_cast<int>(window_values.size()), func)
             );
         }
     }
@@ -195,7 +196,7 @@ double TimeSeriesAggregates::applyAggregate(
             return values[0];
         
         case AggregateFunction::LAST:
-            return values[count - 1];
+            return values[static_cast<int>(count - 1)];
         
         case AggregateFunction::PERCENTILE_50:
             return computePercentile(values, count, 0.50);

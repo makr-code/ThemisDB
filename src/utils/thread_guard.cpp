@@ -82,7 +82,7 @@ bool ThreadGuard::join_with_timeout() noexcept {
         struct State {
             std::atomic<bool> finished{false};
             std::mutex cv_mutex;
-            std::condition_variable cv;
+            std::condition_variable cv = {};
         };
         auto state = std::make_shared<State>();
 

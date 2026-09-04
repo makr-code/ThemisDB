@@ -302,7 +302,7 @@ BENCHMARK_F(VRAMBenchmark, MemoryFragmentation_RandomAllocationPattern)(benchmar
     
     PagedKVCacheManager cache_mgr(config);
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(128, 4096);
     

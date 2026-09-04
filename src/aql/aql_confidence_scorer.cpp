@@ -26,7 +26,7 @@ namespace aql {
 
 AQLConfidenceScore AQLConfidenceScorer::score(const std::string &aql_query, const std::string & /*nl_query*/,
                                               const std::string &schema_context) const {
-    AQLConfidenceScore result;
+    AQLConfidenceScore result = {};
 
     if (aql_query.empty()) {
         result.reasoning = "Empty query: no AQL was generated.";
@@ -47,7 +47,7 @@ AQLConfidenceScore AQLConfidenceScorer::score(const std::string &aql_query, cons
                                 + result.schema_match_score * config_.schema_match_weight;
 
     // Build human-readable reasoning
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "structural=" << result.structural_score << " completeness=" << result.completeness_score
         << " schema_match=" << result.schema_match_score << " overall=" << result.overall_confidence;
     if (!result.has_required_keywords) {
@@ -126,7 +126,7 @@ std::vector<std::string> AQLConfidenceScorer::extractCollections(const std::stri
 
     // Heuristic: lines of the form "  - <identifier>:" (common schema notation)
     std::istringstream stream(schema_context);
-    std::string line;
+    std::string line = {};
     while (std::getline(stream, line)) {
         // Strip leading whitespace
         auto it = std::find_if(line.begin(), line.end(), [](unsigned char c) { return !std::isspace(c); });
@@ -135,7 +135,7 @@ std::vector<std::string> AQLConfidenceScorer::extractCollections(const std::stri
         }
         std::string stripped(it, line.end());
 
-        if (stripped.size() > 2 && stripped[0] == '-' && stripped[1] == ' ') {
+        if (static_cast<int>(stripped.size()) > 2 && stripped[0] == '-' && stripped[1] == ' ') {
             std::string rest = stripped.substr(2);
             // Trim leading spaces after the dash
             rest.erase(rest.begin(),
@@ -183,8 +183,8 @@ bool AQLConfidenceScorer::containsKeyword(const std::string &aql_lower, const st
 
     std::size_t pos = 0;
     while ((pos = aql_lower.find(keyword, pos)) != std::string::npos) {
-        bool leftOk  = (pos == 0) || !isWordChar(aql_lower[pos - 1]);
-        bool rightOk = (pos + keyword.size() >= aql_lower.size()) || !isWordChar(aql_lower[pos + keyword.size()]);
+        bool leftOk  = (pos == 0) || !isWordChar(aql_lower[static_cast<int>(pos - 1)]);
+        bool rightOk = (pos + static_cast<int>(keyword.size()) >= aql_lower.size()) || !isWordChar(aql_lower[pos + static_cast<int>(keyword.size()) ]);
         if (leftOk && rightOk) {
             return true;
         }

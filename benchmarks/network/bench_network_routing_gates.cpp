@@ -80,7 +80,7 @@ struct BenchBackend {
     std::string   name;
     BackendHealth health;
     uint32_t      latencyMs;
-    std::string   region;
+    std::string   region = {};
 };
 
 /**
@@ -184,7 +184,9 @@ public:
     explicit BenchQueueGate(int capacity) : capacity_(capacity), depth_(0) {}
 
     NetworkErrorCode admit() noexcept {
-        if (depth_ >= capacity_) return NetworkErrorCode::BACKPRESSURE_EXCEEDED;
+        if (depth_ >= capacity_) {
+          return NetworkErrorCode::BACKPRESSURE_EXCEEDED;
+        }
         ++depth_;
         return NetworkErrorCode::OK;
     }
@@ -209,9 +211,13 @@ public:
     }
 
     NetworkErrorCode evaluate(const std::string& token) const noexcept {
-        if (token.empty()) return NetworkErrorCode::AUTH_REQUIRED;
+        if (token.empty()) {
+          return NetworkErrorCode::AUTH_REQUIRED;
+        }
         auto it = sessions_.find(token);
-        if (it == sessions_.end()) return NetworkErrorCode::SESSION_MALFORMED;
+        if (it == sessions_.end()) {
+          return NetworkErrorCode::SESSION_MALFORMED;
+        }
         return NetworkErrorCode::OK;
     }
 
@@ -241,7 +247,7 @@ static const BenchTopologyRouter& benchRouter() {
  */
 static void BM_NRG07_TopologySelectHotPath(benchmark::State& state) {
     const auto& router = benchRouter();
-    std::string selected;
+    std::string selected = {};
     // Warmup
     for (int i = 0; i < kWarmupIterations; ++i) {
         (void)router.select(static_cast<std::size_t>(i), selected);

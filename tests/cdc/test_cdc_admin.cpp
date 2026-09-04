@@ -15,7 +15,7 @@ protected:
     std::unique_ptr<rocksdb::TransactionDB> db;
     std::unique_ptr<Changefeed> changefeed;
     std::unique_ptr<CDCAdmin> admin;
-    std::string test_db_path;
+    std::string test_db_path = {};
     
     void SetUp() override {
         // Create temporary test database

@@ -86,7 +86,7 @@ private:
     /**
      * @brief Sigmoid activation function
      */
-    static float sigmoid(float x) {
+    static float sigmoid([[maybe_unused]] float x) {
         return 1.0f / (1.0f + std::exp(-x));
     }
     
@@ -205,8 +205,12 @@ private:
         
         // Normalize
         float count = (float)(batch_size * seq_len);
-        for (auto& v : agg_k) v /= count;
-        for (auto& v : agg_v) v /= count;
+        for (auto& v : agg_k) {
+          v /= count;
+        }
+        for (auto& v : agg_v) {
+          v /= count;
+        }
         
         // Update memory: M[i,j] += α * σ(agg_k[i]) * σ(agg_v[j])
         for (size_t i = 0; i < config_.memory_dim; ++i) {
@@ -234,14 +238,14 @@ float validateNumericConsistency(
     const std::vector<float>& cpu_output,
     const std::vector<float>& cuda_output) {
     
-    if (cpu_output.size() != cuda_output.size()) {
+    if (static_cast<int>(cpu_output.size()) != static_cast<int>(cuda_output.size())) {
         return std::numeric_limits<float>::max();
     }
     
     double total_error = 0.0;
     size_t count = 0;
     
-    for (size_t i = 0; i < cpu_output.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(cpu_output.size()); ++i) {
         float cpu_val = cpu_output[i];
         float cuda_val = cuda_output[i];
         

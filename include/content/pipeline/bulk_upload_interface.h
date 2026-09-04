@@ -80,7 +80,7 @@ public:
      */
     struct UploadResult {
         UploadStatus status = UploadStatus::PENDING;
-        std::string content_id;
+        std::string content_id = {};
         std::string error_message;
         size_t bytes_uploaded = 0;
     };

@@ -54,7 +54,7 @@ class VecKnnInsertFocusedTests : public ::testing::Test {
 protected:
     static constexpr int kDim = 64;
 
-    std::string   db_path_;
+    std::string   db_path_ = {};
     std::unique_ptr<RocksDBWrapper>      db_;
     std::unique_ptr<VectorIndexManager>  vim_;
 
@@ -112,7 +112,9 @@ protected:
         std::mt19937 rng(static_cast<uint32_t>(seed + 1));
         std::uniform_real_distribution<float> dis(-1.f, 1.f);
         std::vector<float> v(kDim);
-        for (auto& x : v) x = dis(rng);
+        for (auto& x : v) {
+          x = dis(rng);
+        }
         return v;
     }
 
@@ -346,7 +348,9 @@ TEST_F(VecKnnInsertFocusedTests, ComputeDistancesShape) {
     }
     auto dists = p.computeDistances(queries.data(), NQ, db.data(), ND, kDim);
     ASSERT_EQ(dists.size(), static_cast<std::size_t>(NQ * ND));
-    for (float d : dists) EXPECT_GE(d, 0.f);
+    for (float d : dists) {
+      EXPECT_GE(d, 0.f);
+    }
 }
 
 // ============================================================================
@@ -414,7 +418,9 @@ TEST_F(VecKnnInsertFocusedTests, DistanceCacheThreadSafety) {
             dc.get("a" + std::to_string(i), "b" + std::to_string(i), v);
         });
     }
-    for (auto& w : workers) w.join();
+    for (auto& w : workers) {
+      w.join();
+    }
     EXPECT_LE(dc.size(), static_cast<std::size_t>(N));
 }
 
@@ -425,7 +431,8 @@ TEST_F(VecKnnInsertFocusedTests, InsertBatchVectorFieldOverride) {
     // vim_ is already initialised in SetUp() with "embedding" as the field.
     // Use 5 entities with the default "embedding" field and pass the field
     // name explicitly as a vectorField override.
-    std::vector<BaseEntity> entities;
+    std::vector<BaseEntity> entities = {};
+
     for (int i = 0; i < 5; ++i) {
         entities.emplace_back("fld_" + std::to_string(i), BaseEntity::FieldMap{
             {"embedding", randVec(i)}

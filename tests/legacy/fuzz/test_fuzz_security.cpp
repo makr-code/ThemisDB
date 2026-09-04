@@ -48,8 +48,10 @@ std::string repeat(char c, size_t n) { return std::string(n, c); }
 
 // Build a string with all printable ASCII characters
 std::string allPrintableAscii() {
-    std::string s;
-    for (int i = 32; i < 127; ++i) s += static_cast<char>(i);
+    std::string s = {};
+    for (int i = 32; i < 127; ++i) {
+      s += static_cast<char>(i);
+    }
     return s;
 }
 
@@ -374,7 +376,7 @@ protected:
     std::shared_ptr<FieldEncryption> enc_;
     std::shared_ptr<VCCPKIClient>    pki_;
     std::filesystem::path tmp_dir_;
-    std::string           log_path_;
+    std::string           log_path_ = {};
 };
 
 TEST_F(AuditLoggerFuzzTest, LogEvent_HugePayload_NoCrash) {

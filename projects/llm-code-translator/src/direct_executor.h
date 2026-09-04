@@ -60,7 +60,7 @@ public:
     
     // Get execution statistics
     struct ExecutionStats {
-        size_t total_executions;
+        size_t total_executions = 0;
         size_t successful_executions;
         size_t failed_executions;
         int64_t total_execution_time_ms;

@@ -176,7 +176,9 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         double num = toNumber(args[0]);
-        if (num < 0) throw std::runtime_error("SQRT: negative number");
+        if (num < 0) {
+          throw std::runtime_error("SQRT: negative number");
+        }
         return std::sqrt(num);
     }
 };
@@ -237,11 +239,15 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         double num = toNumber(args[0]);
-        if (num <= 0) throw std::runtime_error("LOG: non-positive number");
+        if (num <= 0) {
+          throw std::runtime_error("LOG: non-positive number");
+        }
         
         if (args.size() > 1) {
             double base = toNumber(args[1]);
-            if (base <= 0 || base == 1) throw std::runtime_error("LOG: invalid base");
+            if (base <= 0 || base == 1) {
+              throw std::runtime_error("LOG: invalid base");
+            }
             return std::log(num) / std::log(base);
         }
         return std::log(num);
@@ -270,7 +276,9 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         double num = toNumber(args[0]);
-        if (num <= 0) throw std::runtime_error("LOG10: non-positive number");
+        if (num <= 0) {
+          throw std::runtime_error("LOG10: non-positive number");
+        }
         return std::log10(num);
     }
 };
@@ -393,7 +401,9 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         double num = toNumber(args[0]);
-        if (num < -1 || num > 1) throw std::runtime_error("ASIN: value out of range [-1, 1]");
+        if (num < -1 || num > 1) {
+          throw std::runtime_error("ASIN: value out of range [-1, 1]");
+        }
         return std::asin(num);
     }
 };
@@ -418,7 +428,9 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         double num = toNumber(args[0]);
-        if (num < -1 || num > 1) throw std::runtime_error("ACOS: value out of range [-1, 1]");
+        if (num < -1 || num > 1) {
+          throw std::runtime_error("ACOS: value out of range [-1, 1]");
+        }
         return std::acos(num);
     }
 };
@@ -637,9 +649,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
-        if (args.empty()) throw std::runtime_error("MIN requires at least 1 argument");
+        if (args.empty()) {
+          throw std::runtime_error("MIN requires at least 1 argument");
+        }
         
-        std::vector<double> values;
+        std::vector<double> values = {};
+
         for (const auto& arg : args) {
             if (arg.is_array()) {
                 for (const auto& elem : arg) {
@@ -650,7 +665,9 @@ public:
             }
         }
         
-        if (values.empty()) throw std::runtime_error("MIN: no values provided");
+        if (values.empty()) {
+          throw std::runtime_error("MIN: no values provided");
+        }
         return *std::min_element(values.begin(), values.end());
     }
 };
@@ -679,9 +696,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
-        if (args.empty()) throw std::runtime_error("MAX requires at least 1 argument");
+        if (args.empty()) {
+          throw std::runtime_error("MAX requires at least 1 argument");
+        }
         
-        std::vector<double> values;
+        std::vector<double> values = {};
+
         for (const auto& arg : args) {
             if (arg.is_array()) {
                 for (const auto& elem : arg) {
@@ -692,7 +712,9 @@ public:
             }
         }
         
-        if (values.empty()) throw std::runtime_error("MAX: no values provided");
+        if (values.empty()) {
+          throw std::runtime_error("MAX: no values provided");
+        }
         return *std::max_element(values.begin(), values.end());
     }
 };
@@ -750,7 +772,9 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         const auto& arr = args[0];
-        if (arr.empty()) return 0.0;
+        if (arr.empty()) {
+          return 0.0;
+        }
         
         double sum = 0;
         for (const auto& elem : arr) {

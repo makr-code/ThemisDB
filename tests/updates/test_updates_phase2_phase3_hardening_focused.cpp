@@ -114,7 +114,7 @@ TEST(SchemaMigrationHardeningTest, ApplyCustomMigrationAndRollbackNoOp) {
     EXPECT_TRUE(result.success) << result.error_message;
     EXPECT_EQ(result.version, "1.5.0");
 
-    std::string stored_value;
+    std::string stored_value = {};
     EXPECT_TRUE(storage.get("users:1", stored_value));
     EXPECT_EQ(stored_value, "alice");
 

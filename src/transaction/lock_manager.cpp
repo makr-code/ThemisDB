@@ -28,7 +28,9 @@ namespace themis {
 // S   Y   N   Y   N
 // X   N   N   N   N
 bool LockManager::compatible(LockType held, LockType requested) noexcept {
-    if (held == LockType::EXCLUSIVE) return false;
+    if (held == LockType::EXCLUSIVE) {
+      return false;
+    }
 
     if (held == LockType::SHARED) {
         return requested == LockType::SHARED ||
@@ -145,10 +147,14 @@ bool LockManager::releaseLock(TransactionId txn_id, const std::string& key) {
     std::lock_guard<std::mutex> lk(mutex_);
 
     auto txn_it = held_by_txn_.find(txn_id);
-    if (txn_it == held_by_txn_.end()) return false;
+    if (txn_it == held_by_txn_.end()) {
+      return false;
+    }
 
     auto key_it = txn_it->second.find(key);
-    if (key_it == txn_it->second.end()) return false;
+    if (key_it == txn_it->second.end()) {
+      return false;
+    }
 
     // Remove from per-transaction map
     txn_it->second.erase(key_it);
@@ -191,8 +197,9 @@ void LockManager::releaseAllLocks(TransactionId txn_id) {
     }
 
     // Collect keys before modification
-    std::vector<std::string> keys;
-    keys.reserve(txn_it->second.size());
+    std::vector<std::string> keys = {};
+
+    keys.reserve(txn_it-> static_cast<int>(second.size()));
     for (const auto& [k, _] : txn_it->second) {
         keys.push_back(k);
     }
@@ -219,7 +226,7 @@ void LockManager::releaseAllLocks(TransactionId txn_id) {
     shrinking_txns_.erase(txn_id);
     waiting_for_.erase(txn_id);
 
-    THEMIS_DEBUG("LockManager: released all {} locks for txn {}", keys.size(), txn_id);
+    THEMIS_DEBUG("LockManager: released all {} locks for txn {}",static_cast<int>(keys.size()), txn_id);
 }
 
 // ---------------------------------------------------------------------------
@@ -252,7 +259,7 @@ LockManager::LockResult LockManager::upgradeLock(
 
     // Check if upgrade is immediately possible (we are the only holder)
     auto& entry = lock_table_[key];
-    bool only_holder = (entry.holders.size() == 1 &&
+    bool only_holder = (static_cast<int>(entry.holders.size()) == 1 &&
                         entry.holders[0].holder == txn_id);
 
     if (!only_holder) {
@@ -267,7 +274,7 @@ LockManager::LockResult LockManager::upgradeLock(
                 // (i.e., it is truly a mutual upgrade, not an ordinary acquire).
                 bool is_upgrade_waiter = std::any_of(
                     entry.holders.begin(), entry.holders.end(),
-                    [&](const LockEntry& e) { return e.holder == waiter->txn_id; });
+                    [&]([[maybe_unused]] const LockEntry& e) { return e.holder == waiter->txn_id; });
                 if (is_upgrade_waiter) {
                     THEMIS_WARN(
                         "[TXLOCK] Mutual upgrade deadlock detected for key={}, tx_a={}, tx_b={}: "
@@ -319,14 +326,20 @@ bool LockManager::holdsLock(
     std::lock_guard<std::mutex> lk(mutex_);
 
     auto txn_it = held_by_txn_.find(txn_id);
-    if (txn_it == held_by_txn_.end()) return false;
+    if (txn_it == held_by_txn_.end()) {
+      return false;
+    }
 
     auto key_it = txn_it->second.find(key);
-    if (key_it == txn_it->second.end()) return false;
+    if (key_it == txn_it->second.end()) {
+      return false;
+    }
 
     LockType held = key_it->second;
     // EXCLUSIVE implies SHARED/IS/IX
-    if (held == LockType::EXCLUSIVE) return true;
+    if (held == LockType::EXCLUSIVE) {
+      return true;
+    }
     return held == type;
 }
 
@@ -339,9 +352,11 @@ LockManager::getLocksHeld(TransactionId txn_id) const {
 
     std::vector<std::pair<std::string, LockType>> result;
     auto it = held_by_txn_.find(txn_id);
-    if (it == held_by_txn_.end()) return result;
+    if (it == held_by_txn_.end()) {
+      return result;
+    }
 
-    result.reserve(it->second.size());
+    result.reserve(it-> static_cast<int>(second.size()));
     for (const auto& [k, lt] : it->second) {
         result.emplace_back(k, lt);
     }
@@ -365,7 +380,7 @@ bool LockManager::isInShrinkingPhase(TransactionId txn_id) const {
 // ---------------------------------------------------------------------------
 // Configuration
 // ---------------------------------------------------------------------------
-void LockManager::setEscalationThreshold(size_t threshold) {
+void LockManager::setEscalationThreshold([[maybe_unused]] size_t threshold) {
     escalation_threshold_.store(threshold, std::memory_order_relaxed);
 }
 
@@ -404,7 +419,9 @@ LockManager::getWaiters(const std::string& key) const {
 
     std::vector<TransactionId> result;
     auto it = lock_table_.find(key);
-    if (it == lock_table_.end()) return result;
+    if (it == lock_table_.end()) {
+      return result;
+    }
 
     for (const auto& req : it->second.waiters) {
         result.push_back(req->txn_id);
@@ -451,17 +468,23 @@ bool LockManager::tryGrantLock(
 void LockManager::processWaiters(const std::string& key) {
     // mutex_ must be held
     auto lt_it = lock_table_.find(key);
-    if (lt_it == lock_table_.end()) return;
+    if (lt_it == lock_table_.end()) {
+      return;
+    }
 
     auto& entry = lt_it->second;
 
     for (auto& req : entry.waiters) {
-        if (req->granted) continue;
+        if (req->granted) {
+          continue;
+        }
 
         // Check compatibility with all current holders
         bool ok = true;
         for (const auto& holder : entry.holders) {
-            if (holder.holder == req->txn_id) continue;
+            if (holder.holder == req->txn_id) {
+              continue;
+            }
             if (!compatible(holder.type, req->type)) {
                 ok = false;
                 break;
@@ -488,29 +511,34 @@ void LockManager::checkEscalation(TransactionId txn_id, const std::string& key) 
     // format (colon-separated). The table prefix is "table_name:". Keys that do not
     // contain a colon are not eligible for escalation.
     auto txn_it = held_by_txn_.find(txn_id);
-    if (txn_it == held_by_txn_.end()) return;
+    if (txn_it == held_by_txn_.end()) {
+      return;
+    }
 
     // Cache threshold to avoid repeated atomic loads
     const size_t threshold = escalation_threshold_.load(std::memory_order_relaxed);
-    if (txn_it->second.size() < threshold) {
+    if (txn_it-> static_cast<int>(second.size()) < threshold) {
         return;
     }
 
     // Extract table prefix (e.g. "table:pk" → "table:")
     auto colon_pos = key.find(':');
-    if (colon_pos == std::string::npos) return;
+    if (colon_pos == std::string::npos) {
+      return;
+    }
 
     std::string table_prefix = key.substr(0, colon_pos + 1);
 
     // Count row-level locks on this table
-    std::vector<std::string> row_keys;
+    std::vector<std::string> row_keys = {};
+
     for (const auto& [k, _] : txn_it->second) {
-        if (k.find(table_prefix) == 0 && k.size() > table_prefix.size()) {
+        if (k.find(table_prefix) == 0 && static_cast<int>(k.size()) > static_cast<int>(table_prefix.size())) {
             row_keys.push_back(k);
         }
     }
 
-    if (row_keys.size() < threshold) {
+    if (static_cast<int>(row_keys.size()) < threshold) {
         return;
     }
 
@@ -558,7 +586,7 @@ bool LockManager::acquirePredicateLock(TransactionId txn_id,
     }
     std::lock_guard<std::mutex> lk(mutex_);
     size_t max_locks = max_predicate_locks_.load(std::memory_order_relaxed);
-    if (max_locks > 0 && predicate_locks_.size() >= max_locks) {
+    if (max_locks > 0 && static_cast<int>(predicate_locks_.size()) >= max_locks) {
         // Limit reached: drop the lock silently.  This may raise the
         // false-positive abort rate but does not compromise correctness.
         // Wave 4C T4: emit warning so operators can tune max_predicate_locks.
@@ -574,7 +602,7 @@ bool LockManager::acquirePredicateLock(TransactionId txn_id,
     return true;
 }
 
-void LockManager::setMaxPredicateLocks(size_t max_locks) {
+void LockManager::setMaxPredicateLocks([[maybe_unused]] size_t max_locks) {
     max_predicate_locks_.store(max_locks, std::memory_order_relaxed);
 }
 
@@ -582,7 +610,7 @@ size_t LockManager::getMaxPredicateLocks() const {
     return max_predicate_locks_.load(std::memory_order_relaxed);
 }
 
-void LockManager::setPredicateLockingEnabled(bool enabled) {
+void LockManager::setPredicateLockingEnabled([[maybe_unused]] bool enabled) {
     predicate_locking_enabled_.store(enabled, std::memory_order_relaxed);
 }
 
@@ -609,7 +637,9 @@ LockManager::TransactionId LockManager::checkPredicateConflict(
     }
     std::lock_guard<std::mutex> lk(mutex_);
     for (const auto& pl : predicate_locks_) {
-        if (pl.txn_id == writing_txn_id) continue;
+        if (pl.txn_id == writing_txn_id) {
+          continue;
+        }
         if (key >= pl.start_key && key <= pl.end_key) {
             return pl.txn_id;
         }

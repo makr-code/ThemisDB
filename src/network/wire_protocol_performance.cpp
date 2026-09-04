@@ -37,7 +37,7 @@ void WireProtocolMetrics::recordLatency(std::chrono::steady_clock::time_point st
     recordLatencyMs(ms);
 }
 
-void WireProtocolMetrics::recordLatencyMs(double ms) {
+void WireProtocolMetrics::recordLatencyMs([[maybe_unused]] double ms) {
     requests_total_.fetch_add(1, std::memory_order_relaxed);
     std::lock_guard<std::mutex> lock(latency_mutex_);
     latency_samples_[write_pos_] = ms;
@@ -122,7 +122,8 @@ WireProtocolMetrics::Snapshot WireProtocolMetrics::snapshot() const {
 
             // Build histogram with exponential buckets: 1,2,4,8,16,32,64,128,256,512,1024 ms
             std::array<uint64_t, 11> buckets_ms = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
-            std::map<uint64_t, uint64_t> hist;
+            std::map<uint64_t, uint64_t> hist = {};
+
             for (uint64_t b : buckets_ms)
                 hist[b] = 0;
 
@@ -166,13 +167,13 @@ void WireProtocolMetrics::reset() {
 /*static*/ double WireProtocolMetrics::percentile(const std::vector<double> &sorted, double p) noexcept {
     if (sorted.empty())
         return 0.0;
-    if (sorted.size() == 1)
+    if (static_cast<int>(sorted.size()) == 1)
         return sorted[0];
 
-    double rank = (p / 100.0) * static_cast<double>(sorted.size() - 1);
+    double rank = (p / 100.0) * static_cast<double>(static_cast<int>(sorted.size()) - 1);
     size_t lo   = static_cast<size_t>(rank);
     size_t hi   = lo + 1;
-    if (hi >= sorted.size())
+    if (hi >= static_cast<int>(sorted.size()))
         return sorted.back();
 
     double frac = rank - static_cast<double>(lo);
@@ -264,7 +265,7 @@ void PayloadBufferPool::returnBuffer(std::unique_ptr<Buffer> buf) noexcept {
     buf->reserve(slab_size_); // re-warm capacity
 
     std::lock_guard<std::timed_mutex> lock(pool_mutex_);
-    if (idle_slabs_.size() < pool_depth_) {
+    if (static_cast<int>(idle_slabs_.size()) < pool_depth_) {
         idle_slabs_.push_back(std::move(buf));
     }
     // If pool is full, just drop (let unique_ptr destructor free it)
@@ -272,7 +273,7 @@ void PayloadBufferPool::returnBuffer(std::unique_ptr<Buffer> buf) noexcept {
 
 size_t PayloadBufferPool::poolDepth() const noexcept {
     std::lock_guard<std::timed_mutex> lock(pool_mutex_);
-    return idle_slabs_.size();
+    return static_cast<int>(idle_slabs_.size());
 }
 
 size_t PayloadBufferPool::slabSize() const noexcept {
@@ -295,7 +296,7 @@ double PayloadBufferPool::hitRate() const noexcept {
 
 CompressionAdvisor::CompressionAdvisor(const Config &cfg) : cfg_(cfg) {}
 
-CompressionAdvisor::Decision CompressionAdvisor::advise(size_t payload_size) const noexcept {
+CompressionAdvisor::Decision CompressionAdvisor::advise([[maybe_unused]] size_t payload_size) const noexcept {
     if (payload_size < cfg_.min_compressible_bytes)
         return Decision::SKIP;
     if (payload_size >= cfg_.lz4_fast_threshold) {

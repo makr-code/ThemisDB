@@ -72,7 +72,7 @@ public:
 
     [[nodiscard]] std::string Report() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
 
         oss << "\n=== Endurance Soak Metrics ===\n";
         oss << "Total Operations: " << total_operations_ << "\n";
@@ -115,7 +115,9 @@ public:
 
     [[nodiscard]] bool HasMemoryLeak() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (snapshots_.size() < 2) return false;
+        if (snapshots_.size() < 2) {
+          return false;
+        }
         auto first_mem = snapshots_.front().memory_bytes;
         auto last_mem = snapshots_.back().memory_bytes;
         // Flag as leak if memory grew by more than 50%
@@ -124,7 +126,9 @@ public:
 
     [[nodiscard]] bool HasConnectionLeak() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (snapshots_.size() < 2) return false;
+        if (snapshots_.size() < 2) {
+          return false;
+        }
         auto first_conn = snapshots_.front().active_connections;
         auto last_conn = snapshots_.back().active_connections;
         // Flag as leak if connections didn't return to baseline
@@ -133,12 +137,16 @@ public:
 
     [[nodiscard]] double LatencyDrift() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (snapshots_.size() < 2) return 0.0;
+        if (snapshots_.size() < 2) {
+          return 0.0;
+        }
 
         auto p99_first = ComputeP99(snapshots_.front().recent_latencies_us);
         auto p99_last = ComputeP99(snapshots_.back().recent_latencies_us);
 
-        if (p99_first == 0) return 0.0;
+        if (p99_first == 0) {
+          return 0.0;
+        }
         return (static_cast<double>(p99_last) - p99_first) / p99_first * 100.0;
     }
 
@@ -148,7 +156,9 @@ public:
 
 private:
     [[nodiscard]] static uint64_t ComputeP99(const std::vector<uint64_t>& latencies) {
-        if (latencies.empty()) return 0;
+        if (latencies.empty()) {
+          return 0;
+        }
         auto sorted = latencies;
         std::sort(sorted.begin(), sorted.end());
         size_t idx =
@@ -184,7 +194,9 @@ public:
     [[nodiscard]] bool UpdateDocument(const std::string& key, const std::string& value) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = data_.find(key);
-        if (it == data_.end()) return false;
+        if (it == data_.end()) {
+          return false;
+        }
         size_t old_size = it->second.size();
         it->second = value;
         memory_usage_ += value.size() - old_size;
@@ -451,7 +463,8 @@ TEST_F(EnduranceSoakTest, SOK_07_NoCascadingFailures) {
     std::atomic<bool> stop_flag{false};
 
     // Heavy concurrent load
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 16; ++t) {
         threads.emplace_back([this, &metrics, &stop_flag]() {
             db_->OpenConnection();

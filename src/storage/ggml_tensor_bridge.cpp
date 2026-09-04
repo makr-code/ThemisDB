@@ -202,7 +202,9 @@ struct FakeTensor {
  */
 static ggml_tensor* allocGgmlTensor1d(ggml_context* ctx, std::size_t n_elements) noexcept {
 #ifdef THEMIS_HAS_GGML
-    if (!ctx) return nullptr;
+    if (!ctx) {
+      return nullptr;
+    }
     // ggml_new_tensor_1d(ctx, type, ne0) — allocates inside ctx's arena.
     return ggml_new_tensor_1d(ctx, GGML_TYPE_F32, static_cast<int64_t>(n_elements));
 #else
@@ -242,9 +244,13 @@ ggml_tensor* MappedTTTensor::ggmlTensor() const noexcept {
     // dead code — false positive.
     // unvalidated_llm_output scanner alert: data is numeric float values from a
     // tensor decomposition, not free-form text from an LLM — false positive.
-    if (!impl_ || !impl_->valid) return nullptr;
+    if (!impl_ || !impl_->valid) {
+      return nullptr;
+    }
     // Return real allocation when GgmlAllocFn was wired (GTB-01 / STUB #263a).
-    if (impl_->real_ggml_tensor) return impl_->real_ggml_tensor;
+    if (impl_->real_ggml_tensor) {
+      return impl_->real_ggml_tensor;
+    }
 #ifndef THEMIS_UNIT_TEST
     // Production guard: inference must not proceed with a fake tensor pointer.
     // Call GgmlTensorBridge::setGgmlAllocFn() before calling asGgmlTensor().
@@ -353,7 +359,7 @@ struct GgmlTensorBridge::Impl {
             !handle.impl_->fake_tensor.data.empty()) {
             // Guard: ensure tensor type is F32 and has sufficient capacity before copying.
             const size_t copy_bytes =
-                handle.impl_->fake_tensor.data.size() * sizeof(float);
+                handle.impl_-> static_cast<int>(fake_tensor.data.size()) * sizeof(float);
             const bool type_ok = handle.impl_->real_ggml_tensor->type == GGML_TYPE_F32;
             const size_t alloc_bytes =
                 static_cast<size_t>(handle.impl_->real_ggml_tensor->ne[0]) * sizeof(float);

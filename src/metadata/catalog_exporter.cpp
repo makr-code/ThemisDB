@@ -207,7 +207,7 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
     // Basic auth encoded inline as "Authorization: Basic <base64(user:pass)>"
     // libcurl handles base64 encoding when we set CURLOPT_USERPWD; for our
     // injected test path we build the header string directly.
-    std::string auth_header;
+    std::string auth_header = {};
     if (!config_.username.empty()) {
         // Build a simple "user:pass" credential string for the Authorization header.
         // libcurl will base64-encode it when using CURLOPT_USERPWD, but since our
@@ -217,20 +217,20 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
         // Manual base64 encoding (no external dependency required)
         static const char b64_table[] =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-        std::string encoded_creds;
+        std::string encoded_creds = {};
         const auto& src = credentials;
-        for (size_t i = 0; i < src.size(); i += 3) {
+        for (size_t i = 0; i <static_cast<int>(src.size()); i += 3) {
             const unsigned char b0 = static_cast<unsigned char>(src[i]);
-            const unsigned char b1 = (i + 1 < src.size()) ?
+            const unsigned char b1 = (i + 1 <static_cast<int>(src.size())) ?
                 static_cast<unsigned char>(src[i + 1]) : 0;
-            const unsigned char b2 = (i + 2 < src.size()) ?
+            const unsigned char b2 = (i + 2 <static_cast<int>(src.size())) ?
                 static_cast<unsigned char>(src[i + 2]) : 0;
 
             encoded_creds += b64_table[(b0 >> 2) & 0x3F];
             encoded_creds += b64_table[((b0 & 0x03) << 4) | ((b1 >> 4) & 0x0F)];
-            encoded_creds += (i + 1 < src.size()) ?
+            encoded_creds += (i + 1 <static_cast<int>(src.size())) ?
                 b64_table[((b1 & 0x0F) << 2) | ((b2 >> 6) & 0x03)] : '=';
-            encoded_creds += (i + 2 < src.size()) ?
+            encoded_creds += (i + 2 <static_cast<int>(src.size())) ?
                 b64_table[b2 & 0x3F] : '=';
         }
 
@@ -238,7 +238,7 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
     }
 
     const std::string body = payload.dump();
-    std::string response_body;
+    std::string response_body = {};
 
     spdlog::info("CatalogExporter: Publishing to Apache Atlas at {}", url);
 
@@ -251,15 +251,19 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
             auto resp = json::parse(response_body);
             if (resp.contains("mutatedEntities")) {
                 for (const auto& [op, arr] : resp["mutatedEntities"].items()) {
-                    if (arr.is_array()) count += static_cast<int>(arr.size());
+                    if (arr.is_array()) {
+                      count += static_cast<int>(arr.size());
+                    }
                 }
             }
         } catch (...) { /* count stays at 0 */ }
 
         // Use entity array size as lower-bound count when response is empty
         const int sent = static_cast<int>(
-            payload.contains("entities") ? payload["entities"].size() : 0u);
-        if (count == 0) count = sent;
+            payload.contains("entities") ? payload["entities"].size() : 0);
+        if (count == 0) {
+          count = sent;
+        }
 
         spdlog::info("CatalogExporter: Atlas accepted {} entities (HTTP {})",
                      count, status);
@@ -361,7 +365,7 @@ CatalogExporter::sendToDataHub(const json& proposals) {
     const std::string url =
         config_.endpoint + "/aspects?action=ingestProposal";
 
-    std::string auth_header;
+    std::string auth_header = {};
     if (!config_.token.empty()) {
         auth_header = "Authorization: Bearer " + config_.token;
     }
@@ -373,7 +377,7 @@ CatalogExporter::sendToDataHub(const json& proposals) {
         wrapper["proposal"] = proposal;
 
         const std::string body = wrapper.dump();
-        std::string response_body;
+        std::string response_body = {};
 
         spdlog::debug("CatalogExporter: Sending DataHub proposal for {}",
                       proposal.value("entityUrn", "(unknown)"));

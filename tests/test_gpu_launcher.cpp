@@ -87,7 +87,9 @@ TEST(GPULauncherTest, SubmitBatch_MixedResults) {
     ASSERT_EQ(results.size(), 4u);
     size_t ok = 0, fail = 0;
     for (const auto& r : results) {
-        if (r.success) ++ok; else ++fail;
+        if (r.success) {
+          ++ok; else ++fail;
+        }
     }
     EXPECT_EQ(ok, 2u);
     EXPECT_EQ(fail, 2u);
@@ -196,7 +198,9 @@ TEST(GPULauncherTest, Concurrent_Submits_NoDataRace) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(backend_calls.load(), THREADS * OPS_PER_THREAD);
     EXPECT_EQ(launcher.getStats().submitted,

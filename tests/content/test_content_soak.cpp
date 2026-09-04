@@ -44,7 +44,9 @@ namespace {
 /// Allows CI environments to shorten wall-clock time without changing test logic.
 double soakDurationMultiplier() {
     const char* env = std::getenv("THEMIS_SOAK_DURATION_MULTIPLIER");
-    if (env == nullptr) return 1.0;
+    if (env == nullptr) {
+      return 1.0;
+    }
     try {
         return std::max(0.1, std::min(10.0, std::stod(env)));
     } catch (...) {
@@ -80,8 +82,12 @@ enum class ValidationResult { PASS, REJECT_EMPTY, REJECT_TOO_LARGE, REJECT_MALFO
 static constexpr size_t MAX_PAYLOAD_BYTES = 1024 * 1024;  // 1 MB
 
 ValidationResult simulateValidation(const std::string& payload) {
-    if (payload.empty()) return ValidationResult::REJECT_EMPTY;
-    if (payload.size() > MAX_PAYLOAD_BYTES) return ValidationResult::REJECT_TOO_LARGE;
+    if (payload.empty()) {
+      return ValidationResult::REJECT_EMPTY;
+    }
+    if (payload.size() > MAX_PAYLOAD_BYTES) {
+      return ValidationResult::REJECT_TOO_LARGE;
+    }
     // Simulate malformed-MIME detection: payloads starting with "\x00\x01" are flagged.
     if (payload.size() >= 2 &&
         payload[0] == '\x00' && payload[1] == '\x01') {
@@ -111,7 +117,9 @@ struct ProcessorAvailabilityToggle {
         }
         // Simulate processing work proportional to payload size
         volatile size_t checksum = 0;
-        for (char c : payload) checksum += static_cast<unsigned char>(c);
+        for (char c : payload) {
+          checksum += static_cast<unsigned char>(c);
+        }
         (void)checksum;
         ++processed_count;
         return true;
@@ -189,7 +197,9 @@ TEST(ContentSoakTest, SustainedIngestionStability) {
     // Wait for soak duration to elapse
     std::this_thread::sleep_until(deadline + 100ms);
     stop.store(true, std::memory_order_release);
-    for (auto& t : workers) t.join();
+    for (auto& t : workers) {
+      t.join();
+    }
 
     // Assertions
     EXPECT_FALSE(any_exception.load()) << "Worker threw an unhandled exception during soak";
@@ -262,7 +272,9 @@ TEST(ContentSoakTest, AsyncQueuePressureUnderLoad) {
                     // Simulate processing
                     const auto& item = queue.back();
                     volatile size_t cs = 0;
-                    for (char c : item) cs += static_cast<unsigned char>(c);
+                    for (char c : item) {
+                      cs += static_cast<unsigned char>(c);
+                    }
                     (void)cs;
                     queue.pop_back();
                     ++processed;
@@ -418,12 +430,16 @@ TEST(ContentSoakTest, PolicyGateHighThroughput) {
                         determinism_violation.store(true, std::memory_order_release);
                     }
                     ++total_evals;
-                    if (!result) ++total_violations;
+                    if (!result) {
+                      ++total_violations;
+                    }
                 } else {
                     const auto payload = generatePayload(rng, 128, 512);
                     const bool pass = simulatePolicyEvaluation(payload, 7);
                     ++total_evals;
-                    if (!pass) ++total_violations;
+                    if (!pass) {
+                      ++total_violations;
+                    }
                 }
 
                 std::this_thread::sleep_for(eval_interval);
@@ -433,7 +449,9 @@ TEST(ContentSoakTest, PolicyGateHighThroughput) {
 
     std::this_thread::sleep_until(deadline + 200ms);
     stop.store(true);
-    for (auto& t : workers) t.join();
+    for (auto& t : workers) {
+      t.join();
+    }
 
     EXPECT_FALSE(determinism_violation.load())
         << "Policy evaluation produced non-deterministic results for identical inputs";
@@ -525,7 +543,9 @@ TEST(ContentSoakTest, FilterWhitelistStabilityLongRun) {
 
     std::this_thread::sleep_until(deadline + 200ms);
     stop.store(true);
-    for (auto& t : workers) t.join();
+    for (auto& t : workers) {
+      t.join();
+    }
 
     EXPECT_FALSE(contract_violated.load())
         << "Filter whitelist contract violated: unknown key allowed through or known key rejected";

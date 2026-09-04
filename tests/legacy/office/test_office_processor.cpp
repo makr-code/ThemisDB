@@ -33,7 +33,7 @@ protected:
     
     // Helper: Create a minimal ZIP file signature
     std::string createMinimalZipSignature() {
-        std::string zip;
+        std::string zip = {};
         // ZIP local file header signature: PK\x03\x04
         zip += "PK\x03\x04";
         // Add some padding
@@ -60,8 +60,12 @@ TEST_F(OfficeProcessorTest, SupportedCategories) {
     bool has_structured = false;
     
     for (const auto& cat : categories) {
-        if (cat == ContentCategory::TEXT) has_text = true;
-        if (cat == ContentCategory::STRUCTURED) has_structured = true;
+        if (cat == ContentCategory::TEXT) {
+          has_text = true;
+        }
+        if (cat == ContentCategory::STRUCTURED) {
+          has_structured = true;
+        }
     }
     
     EXPECT_TRUE(has_text) << "Office processor should support TEXT category";
@@ -85,7 +89,7 @@ TEST_F(OfficeProcessorTest, IsAvailable) {
 // ============================================================================
 
 TEST_F(OfficeProcessorTest, DetectDocumentType_Empty) {
-    std::string empty_blob;
+    std::string empty_blob = {};
     auto doc_type = OfficeProcessor::detectDocumentType(empty_blob);
     EXPECT_EQ(doc_type, OfficeDocumentType::UNKNOWN);
 }
@@ -144,7 +148,7 @@ TEST_F(OfficeProcessorTest, ExtractFromInvalidBlob) {
 }
 
 TEST_F(OfficeProcessorTest, ExtractFromEmptyBlob) {
-    std::string empty_blob;
+    std::string empty_blob = {};
     ContentType content_type;
     content_type.mime_type = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
     
@@ -363,7 +367,9 @@ TEST_F(LegacyOfficeExtractionTest, WrongMagicHeaderIsRejected) {
     // Wrong magic (not D0 CF 11 E0 A1 B1 1A E1)
     bad_blob[0] = '\xAA'; bad_blob[1] = '\xBB'; bad_blob[2] = '\xCC'; bad_blob[3] = '\xDD';
     const char* marker = "WordDocument";
-    for (size_t i = 0; i < strlen(marker); ++i) bad_blob[8 + i] = marker[i];
+    for (size_t i = 0; i < strlen(marker); ++i) {
+      bad_blob[8 + i] = marker[i];
+    }
     auto result = proc.extract(bad_blob, ct);
     EXPECT_FALSE(result.ok) << "Blob with wrong OLE magic should not succeed";
     EXPECT_FALSE(result.error_message.empty())
@@ -543,7 +549,9 @@ protected:
         blob[0] = '\xD0'; blob[1] = '\xCF'; blob[2] = '\x11'; blob[3] = '\xE0';
         blob[4] = '\xA1'; blob[5] = '\xB1'; blob[6] = '\x1A'; blob[7] = '\xE1';
         const char* marker = "WordDocument";
-        for (size_t i = 0; i < strlen(marker); ++i) blob[8 + i] = marker[i];
+        for (size_t i = 0; i < strlen(marker); ++i) {
+          blob[8 + i] = marker[i];
+        }
         return blob;
     }
 };
@@ -638,7 +646,9 @@ TEST_F(LibreOfficeSecurityTest, OLEBlobWithEmbeddedNullBytesHandledSafely) {
     // Overwrite the bytes after the marker with alternating 0x00/0xFF garbage
     // to simulate a malformed/malicious document body
     const size_t marker_end = 8 + strlen("WordDocument");
-    for (size_t i = marker_end; i < blob.size(); i += 2) blob[i] = '\xFF';
+    for (size_t i = marker_end; i < blob.size(); i += 2) {
+      blob[i] = '\xFF';
+    }
 
     // Use a non-existent soffice so the test does not depend on the environment
     OfficeProcessor::Config cfg;
@@ -661,7 +671,9 @@ TEST_F(LibreOfficeSecurityTest, LargeOLEBlobHandledGracefully) {
     blob[0] = '\xD0'; blob[1] = '\xCF'; blob[2] = '\x11'; blob[3] = '\xE0';
     blob[4] = '\xA1'; blob[5] = '\xB1'; blob[6] = '\x1A'; blob[7] = '\xE1';
     const char* marker = "WordDocument";
-    for (size_t i = 0; i < strlen(marker); ++i) blob[8 + i] = marker[i];
+    for (size_t i = 0; i < strlen(marker); ++i) {
+      blob[8 + i] = marker[i];
+    }
 
     OfficeProcessor::Config cfg;
     cfg.libreoffice_path = "/nonexistent/soffice_security_test";
@@ -688,7 +700,7 @@ TEST_F(LibreOfficeSecurityTest, LargeOLEBlobHandledGracefully) {
 // on disk after the extraction call returns.
 TEST_F(LibreOfficeSecurityTest, TempDirIsCleanedUpAfterFailure) {
     // Snapshot the number of themisdb_lo_* entries before extraction
-    std::error_code tmp_ec;
+    std::error_code tmp_ec = {};
     std::string tmp_base = std::filesystem::temp_directory_path(tmp_ec).string();
     if (tmp_ec || tmp_base.empty()) {
         tmp_base = ".";
@@ -696,14 +708,18 @@ TEST_F(LibreOfficeSecurityTest, TempDirIsCleanedUpAfterFailure) {
 
     auto count_lo_dirs = [&]() -> int {
         namespace fs = std::filesystem;
-        std::error_code ec;
-        if (!fs::exists(tmp_base, ec) || ec) return -1;
+        std::error_code ec = {};
+        if (!fs::exists(tmp_base, ec) || ec) {
+          return -1;
+        }
 
         int n = 0;
         for (fs::directory_iterator it(tmp_base, ec); !ec && it != fs::directory_iterator(); it.increment(ec)) {
             if (it->is_directory(ec) && !ec) {
                 const std::string name = it->path().filename().string();
-                if (name.rfind("themisdb_lo_", 0) == 0) ++n;
+                if (name.rfind("themisdb_lo_", 0) == 0) {
+                  ++n;
+                }
             }
         }
 

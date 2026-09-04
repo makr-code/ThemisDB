@@ -93,7 +93,7 @@ DatabaseConnectionManager::acquireConnection(
         }
         
         // Check if we can create new connection
-        size_t total = active_connections_.size() + idle_connections_.size();
+        size_t total = static_cast<int>(active_connections_.size()) + static_cast<int>(idle_connections_.size()) ;
         if (total < config_.max_connections) {
             lock.unlock();  // Release lock while creating connection
             
@@ -256,7 +256,7 @@ DatabaseConnectionManager::getStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     ConnectionStats stats;
-    stats.total_connections = active_connections_.size() + idle_connections_.size();
+    stats.total_connections = static_cast<int>(active_connections_.size()) + static_cast<int>(idle_connections_.size()) ;
     stats.active_connections = active_connections_.size();
     stats.idle_connections = idle_connections_.size();
     // db_connection_leak scanner alerts (lines 241-242 and related load() calls):
@@ -301,7 +301,8 @@ DatabaseConnectionManager::getConnectionHealth() const {
     // — no lock acquired per iteration — false positive.
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<ConnectionHealth> health_list;
+    std::vector<ConnectionHealth> health_list = {};
+
     health_list.reserve(connection_health_.size());
     
     for (const auto& [ptr, health] : connection_health_) {
@@ -428,7 +429,7 @@ bool DatabaseConnectionManager::shouldRemoveConnection(const Connection* conn) c
     return false;
 }
 
-void DatabaseConnectionManager::updateCircuitBreaker(bool success) {
+void DatabaseConnectionManager::updateCircuitBreaker([[maybe_unused]] bool success) {
     if (success) {
         consecutive_successes_++;
         consecutive_failures_ = 0;
@@ -476,7 +477,7 @@ bool DatabaseConnectionManager::canAttemptConnection() const {
 }
 
 std::chrono::milliseconds 
-DatabaseConnectionManager::calculateBackoffDelay(size_t attempt) const {
+DatabaseConnectionManager::calculateBackoffDelay([[maybe_unused]] size_t attempt) const {
     double delay_ms = config_.initial_retry_delay.count() * 
                      std::pow(config_.backoff_multiplier, attempt);
     
@@ -494,7 +495,7 @@ ExponentialBackoff::ExponentialBackoff(const Config& config)
     , rng_(std::random_device{}()) {
 }
 
-std::chrono::milliseconds ExponentialBackoff::calculateDelay(size_t attempt) const {
+std::chrono::milliseconds ExponentialBackoff::calculateDelay([[maybe_unused]] size_t attempt) const {
     double base_delay = config_.initial_delay.count() * 
                        std::pow(config_.multiplier, attempt);
     

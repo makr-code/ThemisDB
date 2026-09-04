@@ -32,7 +32,7 @@ bool CounterMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
                                   [[maybe_unused]] rocksdb::Logger* logger) const {
     // Parse new value as integer
     int64_t delta = 0;
-    auto result = std::from_chars(value.data(), value.data() + value.size(), delta);
+    auto result = std::from_chars(value.data(), value.data() + static_cast<int>(value.size()) , delta);
     if (result.ec != std::errc()) {
         spdlog::warn("CounterMergeOperator: Failed to parse value as integer");
         return false;
@@ -68,12 +68,12 @@ bool AppendMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
                                  std::string* new_value,
                                  [[maybe_unused]] rocksdb::Logger* logger) const {
     if (existing_value) {
-        new_value->reserve(existing_value->size() + delimiter_.size() + value.size());
+        new_value->reserve(existing_value->size() + static_cast<int>(delimiter_.size()) + static_cast<int>(value.size()) );
         new_value->assign(existing_value->data(), existing_value->size());
         new_value->append(delimiter_);
-        new_value->append(value.data(), value.size());
+        new_value->append(value.data(),static_cast<int>(value.size()));
     } else {
-        new_value->assign(value.data(), value.size());
+        new_value->assign(value.data(),static_cast<int>(value.size()));
     }
     return true;
 }
@@ -90,7 +90,7 @@ bool SetMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
     if (existing_value) {
         std::string existing_str(existing_value->data(), existing_value->size());
         std::stringstream ss(existing_str);
-        std::string item;
+        std::string item = {};
         while (std::getline(ss, item, ',')) {
             if (!item.empty()) {
                 unique_values.insert(item);
@@ -99,9 +99,9 @@ bool SetMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
     }
 
     // Parse and add new values (comma-separated)
-    std::string value_str(value.data(), value.size());
+    std::string value_str(value.data(),static_cast<int>(value.size()));
     std::stringstream ss(value_str);
-    std::string item;
+    std::string item = {};
     while (std::getline(ss, item, ',')) {
         if (!item.empty()) {
             unique_values.insert(item);
@@ -130,7 +130,7 @@ bool MaxMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
                               [[maybe_unused]] rocksdb::Logger* logger) const {
     // Parse new value as double
     double new_val = 0.0;
-    auto result = std::from_chars(value.data(), value.data() + value.size(), new_val);
+    auto result = std::from_chars(value.data(), value.data() + static_cast<int>(value.size()) , new_val);
     if (result.ec != std::errc()) {
         spdlog::warn("MaxMergeOperator: Failed to parse value as double");
         return false;

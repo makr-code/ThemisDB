@@ -39,8 +39,12 @@ namespace {
 /// Rejects leading '-' to prevent argument injection (e.g. "--help").
 /// This is a defence-in-depth guard; the primary protection is posix_spawn().
 static bool isValidInterfaceName(std::string_view iface) noexcept {
-    if (iface.empty() || iface.size() > 15) return false;
-    if (iface.front() == '-') return false;
+    if (iface.empty() || static_cast<int>(iface.size()) > 15) {
+      return false;
+    }
+    if (iface.front() == '-') {
+      return false;
+    }
     return std::all_of(iface.begin(), iface.end(), [](char c) {
         return std::isalnum(static_cast<unsigned char>(c)) ||
                c == '-' || c == '_' || c == '.';
@@ -60,7 +64,9 @@ static bool runTcCommand(const char* tc_bin, char* const argv[]) noexcept {
     int status = 0;
     // Retry EINTR from waitpid (signal safety).
     while (::waitpid(pid, &status, 0) == -1) {
-        if (errno != EINTR) return false;
+        if (errno != EINTR) {
+          return false;
+        }
     }
     return WIFEXITED(status) && WEXITSTATUS(status) == 0;
 }
@@ -97,7 +103,7 @@ void TokenBucket::refill() {
     }
 }
 
-bool TokenBucket::tryConsume(uint64_t bytes) {
+bool TokenBucket::tryConsume([[maybe_unused]] uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     refill();
 
@@ -127,7 +133,7 @@ bool TokenBucket::consume(uint64_t bytes, std::chrono::milliseconds timeout) {
         }
 
         // Sleep for a short interval proportional to the deficit
-        double rate_bytes_per_sec;
+        double rate_bytes_per_sec = {};
         {
             std::lock_guard<std::mutex> lock(mutex_);
             rate_bytes_per_sec = static_cast<double>(rate_bps_) / 8.0;
@@ -202,7 +208,7 @@ void LeakyBucket::drain() {
     }
 }
 
-bool LeakyBucket::add(uint64_t bytes) {
+bool LeakyBucket::add([[maybe_unused]] uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     drain();
 
@@ -355,7 +361,7 @@ QoSManager::~QoSManager() = default;
 // -------------------------------------------------------------------------
 
 std::shared_ptr<QoSManager::ConnectionState>
-QoSManager::findConnection(uint64_t id) const {
+QoSManager::findConnection([[maybe_unused]] uint64_t id) const {
     std::lock_guard<std::mutex> lock(connections_mutex_);
     auto it = connections_.find(id);
     if (it == connections_.end()) {
@@ -385,9 +391,9 @@ void QoSManager::registerConnection(uint64_t connection_id, Priority priority) {
     connections_[connection_id] = std::move(state);
 }
 
-void QoSManager::unregisterConnection(uint64_t connection_id) {
+void QoSManager::unregisterConnection([[maybe_unused]] uint64_t connection_id) {
     // Clean up tenant assignment and decrement tenant connection count
-    std::string old_tenant_id;
+    std::string old_tenant_id = {};
     {
         std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);
         auto it = tenant_assignments_.find(connection_id);
@@ -440,7 +446,7 @@ void QoSManager::setTokenBucket(uint64_t connection_id,
     }
 }
 
-void QoSManager::clearTokenBucket(uint64_t connection_id) {
+void QoSManager::clearTokenBucket([[maybe_unused]] uint64_t connection_id) {
     auto state = findConnection(connection_id);
     if (!state) {
         return;
@@ -455,14 +461,14 @@ void QoSManager::clearTokenBucket(uint64_t connection_id) {
 
 uint64_t QoSManager::effectiveMaxBandwidthBps() const {
     if (config_.max_bandwidth_mbps > 0) {
-        return config_.max_bandwidth_mbps * 1'000'000ULL;
+        return config_.max_bandwidth_mbps * 1'000'000;
     }
     return config_.max_bandwidth_bps;
 }
 
 uint64_t QoSManager::effectiveDefaultRateBps() const {
     if (config_.per_connection_limit_mbps > 0) {
-        return config_.per_connection_limit_mbps * 1'000'000ULL;
+        return config_.per_connection_limit_mbps * 1'000'000;
     }
     return config_.default_rate_bps;
 }
@@ -498,7 +504,7 @@ void QoSManager::setLeakyBucket(uint64_t connection_id,
     }
 }
 
-void QoSManager::clearLeakyBucket(uint64_t connection_id) {
+void QoSManager::clearLeakyBucket([[maybe_unused]] uint64_t connection_id) {
     auto state = findConnection(connection_id);
     if (!state) {
         return;
@@ -594,10 +600,10 @@ std::optional<QoSManager::PendingSend> QoSManager::dequeueForSend() {
 size_t QoSManager::getPendingQueueDepth(Priority priority) const {
     std::lock_guard<std::mutex> lock(pq_mutex_);
     switch (priority) {
-        case Priority::CRITICAL: return pq_critical_.size();
-        case Priority::HIGH:     return pq_high_.size();
-        case Priority::MEDIUM:   return pq_medium_.size();
-        case Priority::LOW:      return pq_low_.size();
+        case Priority::CRITICAL: return static_cast<int>(pq_critical_.size());
+        case Priority::HIGH:     return static_cast<int>(pq_high_.size());
+        case Priority::MEDIUM:   return static_cast<int>(pq_medium_.size());
+        case Priority::LOW:      return static_cast<int>(pq_low_.size());
     }
     return 0;
 }
@@ -624,7 +630,7 @@ void QoSManager::recordAck(uint64_t connection_id,
     cc->recordAck(bytes_acked, rtt);
 }
 
-void QoSManager::recordLoss(uint64_t connection_id) {
+void QoSManager::recordLoss([[maybe_unused]] uint64_t connection_id) {
     auto state = findConnection(connection_id);
     if (!state) {
         return;
@@ -640,7 +646,7 @@ void QoSManager::recordLoss(uint64_t connection_id) {
     cc->recordLoss();
 }
 
-uint64_t QoSManager::getCongestionWindow(uint64_t connection_id) const {
+uint64_t QoSManager::getCongestionWindow([[maybe_unused]] uint64_t connection_id) const {
     auto state = findConnection(connection_id);
     if (!state) {
         return UINT64_MAX;
@@ -790,7 +796,7 @@ bool QoSManager::allowSend(uint64_t connection_id,
 
         // Fire callback if set
         {
-            std::lock_guard<std::mutex> cb_lock(callback_mutex_);
+            std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callback_mutex_);
             if (backpressure_cb_) {
                 backpressure_cb_(connection_id, bytes);
             }
@@ -802,7 +808,7 @@ bool QoSManager::allowSend(uint64_t connection_id,
     // Evaluate the shared tenant bucket BEFORE consuming per-connection tokens.
     // If the tenant quota rejects the send, no per-connection tokens should be
     // charged (tenant is the outer "budget owner").
-    std::string tenant_id;
+    std::string tenant_id = {};
     {
         std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);
         auto ta_it = tenant_assignments_.find(connection_id);
@@ -915,7 +921,7 @@ void QoSManager::recordBytesSent(uint64_t connection_id, uint64_t bytes) {
     }
 
     // Update per-tenant bytes_sent counter
-    std::string tenant_id;
+    std::string tenant_id = {};
     {
         std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);
         auto it = tenant_assignments_.find(connection_id);
@@ -950,7 +956,7 @@ QoSManager::Stats QoSManager::getStats() const {
     s.total_bytes_sent     = total_bytes_sent_.load(std::memory_order_relaxed);
     s.total_bytes_received = total_bytes_received_.load(std::memory_order_relaxed);
     s.total_bytes_shaped   = total_bytes_shaped_.load(std::memory_order_relaxed);
-    s.backpressure_events  = total_backpressure_events_.load(std::memory_order_relaxed);
+    s.backpressure_events  = total_backpressure_events_.load([[maybe_unused]] std::memory_order_relaxed);
 
     {
         std::lock_guard<std::mutex> lock(connections_mutex_);
@@ -966,7 +972,7 @@ QoSManager::Stats QoSManager::getStats() const {
 }
 
 QoSManager::ConnectionStats
-QoSManager::getConnectionStats(uint64_t connection_id) const {
+QoSManager::getConnectionStats([[maybe_unused]] uint64_t connection_id) const {
     auto state = findConnection(connection_id);
     if (!state) {
         return ConnectionStats{};
@@ -979,7 +985,7 @@ QoSManager::getConnectionStats(uint64_t connection_id) const {
     cs.bytes_received       = state->bytes_received.load(std::memory_order_relaxed);
     cs.bytes_shaped         = state->bytes_shaped.load(std::memory_order_relaxed);
     cs.queue_depth          = state->queue_depth.load(std::memory_order_relaxed);
-    cs.backpressure_events  = state->backpressure_events.load(std::memory_order_relaxed);
+    cs.backpressure_events  = state->backpressure_events.load([[maybe_unused]] std::memory_order_relaxed);
     cs.has_token_bucket     = false;
     cs.token_bucket_rate_bps    = 0;
     cs.token_bucket_burst_bytes = 0;
@@ -1014,7 +1020,8 @@ QoSManager::getAllConnectionStats() const {
         }
     }
 
-    std::vector<ConnectionStats> result;
+    std::vector<ConnectionStats> result = {};
+
     result.reserve(ids.size());
     for (uint64_t id : ids) {
         result.push_back(getConnectionStats(id));
@@ -1028,7 +1035,7 @@ QoSManager::getAllConnectionStats() const {
 
 void QoSManager::setBackpressureCallback(
     std::function<void(uint64_t, uint64_t)> cb) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
     backpressure_cb_ = std::move(cb);
 }
 
@@ -1086,7 +1093,7 @@ void QoSManager::setTenantQuota(const std::string& tenant_id,
 
 void QoSManager::assignTenant(uint64_t connection_id,
                                 const std::string& tenant_id) {
-    std::string old_tenant_id;
+    std::string old_tenant_id = {};
     {
         std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);
         auto it = tenant_assignments_.find(connection_id);
@@ -1147,7 +1154,8 @@ QoSManager::getAllTenantStats() const {
         }
     }
 
-    std::vector<TenantQuotaStats> result;
+    std::vector<TenantQuotaStats> result = {};
+
     result.reserve(ids.size());
     for (const auto& id : ids) {
         result.push_back(getTenantStats(id));

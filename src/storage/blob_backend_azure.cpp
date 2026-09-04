@@ -40,15 +40,15 @@ private:
     std::string container_name_;
     std::string prefix_;
     std::unique_ptr<Azure::Storage::Blobs::BlobContainerClient> container_client_;
-    std::string init_error_;
+    std::string init_error_ = {};
     mutable std::mutex mutex_;
     
     // Compute SHA256 hash
     static std::string computeSHA256(const std::vector<uint8_t>& data) {
         unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(data.data(), data.size(), hash);
+        SHA256(data.data(),static_cast<int>(data.size()), hash);
         
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0') 
                << static_cast<int>(hash[i]);
@@ -140,7 +140,7 @@ public:
             ref.hash_sha256 = computeSHA256(data);
             ref.created_at = std::chrono::system_clock::now().time_since_epoch().count();
             
-            THEMIS_DEBUG("Blob stored in Azure: id={}, size={} bytes", blob_id, data.size());
+            THEMIS_DEBUG("Blob stored in Azure: id={}, size={} bytes", blob_id,static_cast<int>(data.size()));
             return Ok(ref);
             
         } catch (const Azure::Core::RequestFailedException& e) {
@@ -179,8 +179,10 @@ public:
             auto& body = response.Value.BodyStream;
             std::vector<uint8_t> buffer(4096);
             while (true) {
-                size_t bytes_read = body->Read(buffer.data(), buffer.size());
-                if (bytes_read == 0) break;
+                size_t bytes_read = body->Read(buffer.data(),static_cast<int>(buffer.size()));
+                if (bytes_read == 0) {
+                  break;
+                }
                 data.insert(data.end(), buffer.begin(), buffer.begin() + bytes_read);
             }
             
@@ -197,7 +199,7 @@ public:
                 }
             }
             
-            THEMIS_DEBUG("Blob retrieved from Azure: id={}, size={} bytes", ref.id, data.size());
+            THEMIS_DEBUG("Blob retrieved from Azure: id={}, size={} bytes", ref.id,static_cast<int>(data.size()));
             return Ok(data);
             
         } catch (const Azure::Core::RequestFailedException& e) {

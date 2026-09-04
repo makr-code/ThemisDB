@@ -49,7 +49,9 @@ struct Ed25519KeyPair {
 
 Ed25519KeyPair generateKeyPair() {
     EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_ED25519, nullptr);
-    if (!ctx) throw std::runtime_error("EVP_PKEY_CTX_new_id failed");
+    if (!ctx) {
+      throw std::runtime_error("EVP_PKEY_CTX_new_id failed");
+    }
 
     if (EVP_PKEY_keygen_init(ctx) != 1) {
         EVP_PKEY_CTX_free(ctx);
@@ -87,7 +89,9 @@ std::vector<uint8_t> signMessage(const std::vector<uint8_t>& private_key,
                                  const std::string& message) {
     EVP_PKEY* pkey = EVP_PKEY_new_raw_private_key(
         EVP_PKEY_ED25519, nullptr, private_key.data(), private_key.size());
-    if (!pkey) throw std::runtime_error("EVP_PKEY_new_raw_private_key failed");
+    if (!pkey) {
+      throw std::runtime_error("EVP_PKEY_new_raw_private_key failed");
+    }
 
     EVP_MD_CTX* ctx = EVP_MD_CTX_new();
     if (!ctx) { EVP_PKEY_free(pkey); throw std::runtime_error("EVP_MD_CTX_new failed"); }
@@ -558,7 +562,9 @@ TEST_F(SignedPluginRepositoryTest, ConcurrentAddEntriesAreThreadSafe) {
             repo_.addEntry(entries[static_cast<size_t>(i)]);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(static_cast<size_t>(N), repo_.listEntries().size());
 }

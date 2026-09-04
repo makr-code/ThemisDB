@@ -46,7 +46,7 @@ void LoRAPatternClassifier::registerAdapterDomain(AdapterDomain domain) {
     std::lock_guard<std::mutex> lock(mutex_);
     // Overwrite existing entry with same adapter_id.
     auto it = std::find_if(domains_.begin(), domains_.end(),
-                           [&](const AdapterDomain &d) { return d.adapter_id == domain.adapter_id; });
+                           [&]([[maybe_unused]] const AdapterDomain &d) { return d.adapter_id == domain.adapter_id; });
     if (it != domains_.end()) {
         *it = std::move(domain);
     } else {
@@ -60,7 +60,7 @@ void LoRAPatternClassifier::registerAdapterDomain(AdapterDomain domain) {
 
 /*static*/ std::string LoRAPatternClassifier::buildPrompt(const std::vector<DataPoint> &events,
                                                           const std::string &adapter_id) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Classify the following events for pattern detection.\n";
     if (!adapter_id.empty()) {
         oss << "Adapter: " << adapter_id << "\n";
@@ -79,7 +79,7 @@ void LoRAPatternClassifier::registerAdapterDomain(AdapterDomain domain) {
             }
             oss << k << "=";
             std::visit(
-                [&](const auto &val) {
+                [&]([[maybe_unused]] const auto &val) {
                     using T = std::decay_t<decltype(val)>;
                     if constexpr (std::is_same_v<T, std::monostate>) {
                         oss << "null";
@@ -159,13 +159,13 @@ PatternResult LoRAPatternClassifier::automlFallback(const std::vector<DataPoint>
     constexpr double kMinFallbackConfidence = 0.05;
     constexpr double kMaxFallbackConfidence = 0.99;
 
-    const auto clamp01 = [](double v) { return std::max(0.0, std::min(1.0, v)); };
+    const auto clamp01 = []([[maybe_unused]] double v) { return std::max(0.0, std::min(1.0, v)); };
 
     // Derive fallback label from registered adapter domain whenever possible.
     std::string inferred_label = "unknown";
     if (!adapter_id.empty()) {
         const auto it = std::find_if(domains_.begin(), domains_.end(),
-                                     [&](const AdapterDomain &d) { return d.adapter_id == adapter_id; });
+                                     [&]([[maybe_unused]] const AdapterDomain &d) { return d.adapter_id == adapter_id; });
         if (it != domains_.end() && !it->domain.empty()) {
             inferred_label = it->domain;
         }
@@ -173,17 +173,18 @@ PatternResult LoRAPatternClassifier::automlFallback(const std::vector<DataPoint>
 
     std::size_t total_fields   = 0;
     std::size_t numeric_fields = 0;
-    std::vector<double> numeric_values;
+    std::vector<double> numeric_values = {};
+
     numeric_values.reserve(events.size() * kExpectedFieldsPerEvent);
     int monotonic_steps = 0;
     int step_count      = 0;
-    for (std::size_t i = 0; i < events.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(events.size()); ++i) {
         const auto &ev = events[i];
         total_fields += ev.fields.size();
 
         if (i > 0) {
             ++step_count;
-            if (events[i - 1].timestamp_ms <= ev.timestamp_ms) {
+            if (events[static_cast<int>(i - 1)].timestamp_ms <= ev.timestamp_ms) {
                 ++monotonic_steps;
             }
         }
@@ -251,12 +252,12 @@ PatternResult LoRAPatternClassifier::automlFallback(const std::vector<DataPoint>
 // ──────────────────────────────────────────────────────────────────────────────
 
 /*static*/ double LoRAPatternClassifier::cosineSimilarity(const std::vector<double> &a, const std::vector<double> &b) {
-    if (a.empty() || a.size() != b.size()) {
+    if (a.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         return 0.0;
     }
 
     double dot = 0.0, na = 0.0, nb = 0.0;
-    for (std::size_t i = 0; i < a.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         dot += a[i] * b[i];
         na += a[i] * a[i];
         nb += b[i] * b[i];
@@ -284,7 +285,7 @@ std::string LoRAPatternClassifier::selectAdapter(const std::string &context) {
     try { ctx_emb = embedding_fn_(context); }
     catch (...) { return domains_.front().adapter_id; }
 
-    std::string best_id;
+    std::string best_id = {};
     double best_sim = -1.0;
     for (const auto &d : domains_) {
         const double sim = cosineSimilarity(ctx_emb, d.embedding);
@@ -314,7 +315,7 @@ PatternResult LoRAPatternClassifier::classify(const std::vector<DataPoint> &even
     }
 
     const std::string prompt = buildPrompt(events, aid);
-    std::string response;
+    std::string response = {};
     try {
         response = inference_fn_(aid, prompt);
     } catch (...) {
@@ -332,7 +333,7 @@ std::vector<PatternResult> LoRAPatternClassifier::batchClassify(const std::vecto
         return {};
     }
 
-    const std::size_t n       = events.size();
+    const std::size_t n = events.size();
     const std::size_t workers = std::max<std::size_t>(1, cfg_.max_parallel_workers);
 
     std::vector<PatternResult> results(n);
@@ -364,7 +365,7 @@ std::vector<PatternResult> LoRAPatternClassifier::batchClassify(const std::vecto
 
 std::size_t LoRAPatternClassifier::registeredAdapterCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return domains_.size();
+    return static_cast<int>(domains_.size());
 }
 
 bool LoRAPatternClassifier::hasInferenceFn() const {

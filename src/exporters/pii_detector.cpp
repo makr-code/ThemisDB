@@ -56,7 +56,7 @@ std::vector<PIIDetector::PIIMatch> PIIDetector::detectPII(const std::string& tex
     
     if (config_.detect_email) {
         std::sregex_iterator it(text.begin(), text.end(), email_pattern_);
-        std::sregex_iterator end;
+        std::sregex_iterator end = {};
         for (; it != end; ++it) {
             PIIMatch match;
             match.type = PIIType::EMAIL;
@@ -69,7 +69,7 @@ std::vector<PIIDetector::PIIMatch> PIIDetector::detectPII(const std::string& tex
     
     if (config_.detect_phone) {
         std::sregex_iterator it(text.begin(), text.end(), phone_pattern_);
-        std::sregex_iterator end;
+        std::sregex_iterator end = {};
         for (; it != end; ++it) {
             PIIMatch match;
             match.type = PIIType::PHONE;
@@ -82,7 +82,7 @@ std::vector<PIIDetector::PIIMatch> PIIDetector::detectPII(const std::string& tex
     
     if (config_.detect_ssn) {
         std::sregex_iterator it(text.begin(), text.end(), ssn_pattern_);
-        std::sregex_iterator end;
+        std::sregex_iterator end = {};
         for (; it != end; ++it) {
             PIIMatch match;
             match.type = PIIType::SSN;
@@ -95,7 +95,7 @@ std::vector<PIIDetector::PIIMatch> PIIDetector::detectPII(const std::string& tex
     
     if (config_.detect_credit_card) {
         std::sregex_iterator it(text.begin(), text.end(), credit_card_pattern_);
-        std::sregex_iterator end;
+        std::sregex_iterator end = {};
         for (; it != end; ++it) {
             PIIMatch match;
             match.type = PIIType::CREDIT_CARD;
@@ -108,7 +108,7 @@ std::vector<PIIDetector::PIIMatch> PIIDetector::detectPII(const std::string& tex
     
     if (config_.detect_ip_address) {
         std::sregex_iterator it(text.begin(), text.end(), ip_pattern_);
-        std::sregex_iterator end;
+        std::sregex_iterator end = {};
         for (; it != end; ++it) {
             PIIMatch match;
             match.type = PIIType::IP_ADDRESS;
@@ -187,9 +187,9 @@ std::string PIIDetector::maskString(const std::string& value) const {
 
 std::string PIIDetector::hashString(const std::string& value) const {
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(value.data()), value.size(), hash);
+    SHA256(reinterpret_cast<const unsigned char*>(value.data()),static_cast<int>(value.size()), hash);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "SHA256:";
     // Use first 8 bytes for readability and space efficiency
     // Note: This reduces uniqueness but is acceptable for PII redaction
@@ -205,7 +205,7 @@ std::string PIIDetector::partialRedact(const std::string& value) const {
         return maskString(value);
     }
     
-    std::string result;
+    std::string result = {};
     result += value.substr(0, config_.partial_keep_prefix);
     result += std::string(value.length() - config_.partial_keep_prefix - config_.partial_keep_suffix, '*');
     result += value.substr(value.length() - config_.partial_keep_suffix);

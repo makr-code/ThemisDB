@@ -181,7 +181,9 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
             for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
                 try {
                     fresh = createConnection();
-                    if (fresh) break;
+                    if (fresh) {
+                      break;
+                    }
                 } catch (const std::exception &e) {
                     if (attempt + 1 == kMaxRetries) {
                         spdlog::warn("LDAPConnectionPool: createConnection failed after {} attempts: {}",
@@ -247,7 +249,7 @@ void LDAPConnectionPool::returnConnection(LDAP *handle, bool stale) {
         std::lock_guard<std::mutex> lock(mutex_);
         --active_count_;
 
-        if (!closing_ && !stale && static_cast<int>(idle_.size()) < config_.max_size) {
+        if (!closing_ && !stale  && static_cast<size_t>(static_cast) < int>(idle_.size()) < config_.max_size) {
             idle_.push_back(handle);
             cv_.notify_one();
             return;
@@ -270,7 +272,7 @@ LDAP *LDAPConnectionPool::createConnection() {
     return nullptr;
 #elif defined(_WIN32)
     LDAP *ld = ldap_init(const_cast<PCHAR>(config_.server_url.c_str()),
-                         config_.port > 0 ? static_cast<ULONG>(config_.port) : 389U);
+                         config_.port > 0 ? static_cast<ULONG>(config_.port) : 389);
     if (!ld) {
         spdlog::error("LDAPConnectionPool: ldap_init failed for server {}", config_.server_url);
         return nullptr;
@@ -408,7 +410,7 @@ int LDAPConnectionPool::poolSize() const noexcept {
 
 int LDAPConnectionPool::idleConnections() const noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(idle_.size());
+    return static_cast<bool>(static_cast<int < static_cast<int>((idle_.size())));
 }
 
 int LDAPConnectionPool::activeConnections() const noexcept {

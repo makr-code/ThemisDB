@@ -30,7 +30,7 @@ using json = nlohmann::json;
 
 std::vector<uint8_t> generateMockAudio(size_t size_bytes) {
     std::vector<uint8_t> audio(size_bytes);
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, 255);
     
@@ -100,7 +100,8 @@ static void BM_MultipleSessionsParallel(benchmark::State& state) {
     VoiceAssistant assistant(config);
     
     const int num_sessions = state.range(0);
-    std::vector<std::string> session_ids;
+    std::vector<std::string> session_ids = {};
+
     for (int i = 0; i < num_sessions; i++) {
         session_ids.push_back("session-" + std::to_string(i));
     }
@@ -384,7 +385,8 @@ static void BM_ConcurrentTextCommands(benchmark::State& state) {
     VoiceAssistant assistant(config);
     
     const int num_threads = state.range(0);
-    std::vector<std::string> commands;
+    std::vector<std::string> commands = {};
+
     for (int i = 0; i < num_threads; i++) {
         commands.push_back("Command from thread " + std::to_string(i));
     }
@@ -420,7 +422,8 @@ static void BM_MemoryUsagePerSession(benchmark::State& state) {
     
     for (auto _ : state) {
         state.PauseTiming();
-        std::vector<std::string> session_ids;
+        std::vector<std::string> session_ids = {};
+
         for (int i = 0; i < num_sessions; i++) {
             session_ids.push_back("mem-session-" + std::to_string(i));
         }
@@ -772,7 +775,7 @@ static void BM_TTSGenSpeed_ByLength(benchmark::State& state) {
     // Generate text of approximately the requested character count.
     const std::string word   = "ThemisDB ";
     const int target_chars   = state.range(0);
-    std::string text;
+    std::string text = {};
     text.reserve(static_cast<size_t>(target_chars));
     while (static_cast<int>(text.size()) < target_chars) {
         text += word;

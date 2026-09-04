@@ -35,7 +35,7 @@ std::string ImportConflictResolver::computeKey(const json &entity, const std::ve
     // Separator unlikely to appear in field values
     static constexpr char kSep = '\x1F'; // ASCII unit separator
 
-    std::string key;
+    std::string key = {};
     for (const auto &col : key_columns) {
         if (!key.empty()) {
             key += kSep;
@@ -117,7 +117,7 @@ json ImportConflictResolver::mergeEntities(const json &existing, const json &inc
         }
 
         bool can_recurse
-            = (depth == -1 || depth > 1) && result.contains(key) && result[key].is_object() && value.is_object();
+            = ((depth == -1 || depth > 1) && result.contains(key) && result[key].is_object() && value.is_object());
 
         if (can_recurse) {
             int next_depth = (depth == -1) ? -1 : (depth - 1);
@@ -147,7 +147,8 @@ ConflictReasonType ImportConflictResolver::determineConflictReason(
     affected_fields.clear();
 
     // Collect all keys from both entities
-    std::set<std::string> all_keys;
+    std::set<std::string> all_keys = {};
+
     if (existing.is_object()) {
         for (const auto& item : existing.items()) {
             all_keys.insert(item.key());
@@ -180,7 +181,7 @@ ConflictReasonType ImportConflictResolver::determineConflictReason(
     }
 
     // Check if timestamp field is the only difference → timestamp conflict
-    if (affected_fields.size() == 1 && affected_fields[0] == "timestamp") {
+    if (static_cast<int>(affected_fields.size()) == 1 && affected_fields[0] == "timestamp") {
         return ConflictReasonType::TIMESTAMP_CONFLICT;
     }
 
@@ -195,7 +196,7 @@ ConflictReasonType ImportConflictResolver::determineConflictReason(
     }
 
     // Multiple field differences → merge conflict
-    if (affected_fields.size() > 1) {
+    if (static_cast<int>(affected_fields.size()) > 1) {
         return ConflictReasonType::MERGE_CONFLICT;
     }
 

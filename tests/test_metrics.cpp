@@ -47,7 +47,8 @@ TEST_F(MetricsTest, CounterThreadSafety) {
     constexpr int num_threads = 10;
     constexpr int increments_per_thread = 1000;
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([counter]() {
             for (int j = 0; j < increments_per_thread; ++j) {
@@ -101,7 +102,8 @@ TEST_F(MetricsTest, GaugeThreadSafety) {
     
     gauge->set(1000.0);
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     // Half threads increment, half decrement
     for (int i = 0; i < 10; ++i) {
         threads.emplace_back([gauge, i]() {
@@ -169,7 +171,8 @@ TEST_F(MetricsTest, HistogramThreadSafety) {
     constexpr int num_threads = 10;
     constexpr int observations_per_thread = 100;
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([histogram]() {
             for (int j = 0; j < observations_per_thread; ++j) {

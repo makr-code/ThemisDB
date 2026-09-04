@@ -36,15 +36,23 @@ struct AudioFrame {
     };
     
     Codec codec;
-    uint32_t sample_rate;
+    uint32_t sample_rate = {};
     uint16_t channels;
     std::vector<uint8_t> data;
     
     bool isValid() const {
-        if (codec == Codec::UNKNOWN) return false;
-        if (sample_rate == 0) return false;
-        if (channels == 0) return false;
-        if (data.empty()) return false;
+        if (codec == Codec::UNKNOWN) {
+          return false;
+        }
+        if (sample_rate == 0) {
+          return false;
+        }
+        if (channels == 0) {
+          return false;
+        }
+        if (data.empty()) {
+          return false;
+        }
         if (data.size() > 512 * 1024) return false;  // >512KB = invalid
         return true;
     }

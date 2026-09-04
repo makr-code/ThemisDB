@@ -35,7 +35,7 @@ static std::string b64urlEncode(const std::vector<uint8_t>& data)
 {
     const uint8_t* d = data.data();
     const size_t   n = data.size();
-    std::string out;
+    std::string out = {};
     out.reserve(((n + 2) / 3) * 4);
     for (size_t i = 0; i < n; i += 3) {
         const uint32_t b0 = d[i];
@@ -48,10 +48,14 @@ static std::string b64urlEncode(const std::vector<uint8_t>& data)
         out += (i + 2 < n) ? kB64Table[(t      ) & 0x3F] : '=';
     }
     for (char& c : out) {
-        if (c == '+') c = '-';
+        if (c == '+') {
+          c = '-';
+        }
         else if (c == '/') c = '_';
     }
-    while (!out.empty() && out.back() == '=') out.pop_back();
+    while (!out.empty() && out.back() == '=') {
+      out.pop_back();
+    }
     return out;
 }
 
@@ -93,7 +97,9 @@ static void cborAppendUint(std::vector<uint8_t>& buf, uint64_t v)
         buf.push_back(static_cast<uint8_t>(v));
     } else {
         buf.push_back(0x1A);
-        for (int i = 3; i >= 0; --i) buf.push_back(static_cast<uint8_t>(v >> (i * 8)));
+        for (int i = 3; i >= 0; --i) {
+          buf.push_back(static_cast<uint8_t>(v >> (i * 8)));
+        }
     }
 }
 
@@ -132,7 +138,9 @@ static void cborAppendText(std::vector<uint8_t>& buf, const std::string& s)
 // Append CBOR map header with count pairs
 static void cborAppendMapHeader(std::vector<uint8_t>& buf, size_t count)
 {
-    if (count <= 23) buf.push_back(static_cast<uint8_t>(0xA0 | count));
+    if (count <= 23) {
+      buf.push_back(static_cast<uint8_t>(0xA0 | count));
+    }
     else { buf.push_back(0xB8); buf.push_back(static_cast<uint8_t>(count)); }
 }
 

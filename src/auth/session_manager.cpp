@@ -36,8 +36,8 @@ namespace {
 /// map lookups have normalised comparison time regardless of input content.
 std::string hashSessionId(const std::string &session_id) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char *>(session_id.data()), session_id.size(), digest);
-    std::ostringstream oss;
+    SHA256(reinterpret_cast<const unsigned char *>(session_id.data()),static_cast<int>(session_id.size()), digest);
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned char b : digest) {
         oss << std::setw(2) << static_cast<int>(b);
@@ -57,13 +57,13 @@ std::string hashSessionId(const std::string &session_id) {
  * @return true if both session IDs are equal, false otherwise
  */
 bool constantTimeSessionIdEquals(const std::string &id1, const std::string &id2) noexcept {
-    if (id1.size() != id2.size()) {
+    if (static_cast<int>(id1.size()) != static_cast<int>(id2.size())) {
         return false;
     }
     if (id1.empty()) {
         return true;
     }
-    return CRYPTO_memcmp(id1.data(), id2.data(), id1.size()) == 0;
+    return CRYPTO_memcmp(id1.data(), id2.data(),static_cast<int>(id1.size())) == 0;
 }
 
 } // anonymous namespace
@@ -85,7 +85,7 @@ std::string SessionManager::generateSessionId() {
     if (RAND_bytes(buf, sizeof(buf)) != 1) {
         throw std::runtime_error("SessionManager: RAND_bytes failed");
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "sess_";
     for (unsigned char b : buf) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
@@ -130,13 +130,13 @@ void SessionManager::enforceSessionLimits(const std::string &user_id) {
         }
     }
 
-    if (user_sessions.size() < limits_.max_sessions_per_user) {
+    if (static_cast<int>(user_sessions.size()) < limits_.max_sessions_per_user) {
         return;
     }
 
     // Sort ascending by creation time; evict oldest
     std::sort(user_sessions.begin(), user_sessions.end());
-    const size_t to_remove = user_sessions.size() - limits_.max_sessions_per_user + 1;
+    const size_t to_remove = static_cast<int>(user_sessions.size()) - limits_.max_sessions_per_user + 1;
     for (size_t i = 0; i < to_remove; ++i) {
         THEMIS_INFO("SessionManager: evicting oldest session '{}' for user '{}' (limit={})", user_sessions[i].second,
                     user_id, limits_.max_sessions_per_user);
@@ -235,7 +235,8 @@ void SessionManager::terminateSession(const std::string &session_id) {
 int SessionManager::terminateAllOtherSessions(const std::string &user_id, const std::string &keep_session_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<std::string> to_erase;
+    std::vector<std::string> to_erase = {};
+
     for (const auto &[id, info] : sessions_) {
         // `id` is the SHA-256 hash of the original token; compare against
         // info.session_id (which holds the original token) so that the raw
@@ -249,9 +250,9 @@ int SessionManager::terminateAllOtherSessions(const std::string &user_id, const 
         sessions_.erase(id);
     }
 
-    THEMIS_INFO("SessionManager: terminated {} sessions for user '{}' (kept '{}')", to_erase.size(), user_id,
+    THEMIS_INFO("SessionManager: terminated {} sessions for user '{}' (kept '{}')",static_cast<int>(to_erase.size()), user_id,
                 keep_session_id);
-    return static_cast<int>(to_erase.size());
+    return static_cast<bool>(static_cast<int < static_cast<int>((to_erase.size())));
 }
 
 // ---------------------------------------------------------------------------
@@ -291,7 +292,7 @@ std::vector<SessionManager::SessionInfo> SessionManager::listSessions(const std:
 
 size_t SessionManager::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return sessions_.size();
+    return static_cast<int>(sessions_.size());
 }
 
 size_t SessionManager::pruneExpired() {
@@ -300,7 +301,8 @@ size_t SessionManager::pruneExpired() {
 }
 
 size_t SessionManager::pruneExpiredLocked() {
-    std::vector<std::string> expired;
+    std::vector<std::string> expired = {};
+
     for (const auto &[id, info] : sessions_) {
         if (isExpired(info)) {
             expired.push_back(id);
@@ -309,7 +311,7 @@ size_t SessionManager::pruneExpiredLocked() {
     for (const auto &id : expired) {
         sessions_.erase(id);
     }
-    return expired.size();
+    return static_cast<int>(expired.size());
 }
 
 } // namespace auth

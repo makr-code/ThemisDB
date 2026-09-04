@@ -64,7 +64,7 @@ void ResourceProfiler::snapshot(int epoch, int step, float loss, float lr) {
     query_gpu_utilization(snapshot);
     check_alerts(snapshot);
     impl_->snapshots.push_back(snapshot);
-    for (const auto& cb : impl_->callbacks) {
+    for ([[maybe_unused]] const auto& cb : impl_->callbacks) {
         cb(snapshot);
     }
 }
@@ -82,7 +82,7 @@ std::vector<ResourceSnapshot> ResourceProfiler::get_snapshots() const {
 
 ResourceStats ResourceProfiler::compute_stats() const {
     ResourceStats stats;
-    stats.num_snapshots = impl_->snapshots.size();
+    stats.num_snapshots = impl_-> static_cast<int>(snapshots.size());
     if (impl_->snapshots.empty()) {
         return stats;
     }
@@ -94,7 +94,7 @@ ResourceStats ResourceProfiler::compute_stats() const {
         stats.avg_samples_per_second    += s.samples_per_second;
         stats.avg_tokens_per_second     += s.tokens_per_second;
     }
-    const float n = static_cast<float>(impl_->snapshots.size());
+    const float n = static_cast<float>(impl_-> static_cast<int>(snapshots.size()));
     stats.avg_gpu_utilization        /= n;
     stats.avg_gpu_memory_utilization /= n;
     stats.avg_samples_per_second     /= n;
@@ -104,8 +104,8 @@ ResourceStats ResourceProfiler::compute_stats() const {
     return stats;
 }
 
-void ResourceProfiler::register_callback(ResourceMonitorCallback callback) {
-    impl_->callbacks.push_back(std::move(callback));
+void ResourceProfiler::register_callback([[maybe_unused]] ResourceMonitorCallback callback) {
+    impl_->callbacks.push_back([[maybe_unused]] std::move(callback));
 }
 
 void ResourceProfiler::clear() {
@@ -136,7 +136,9 @@ void ResourceProfiler::export_to_json(const std::string& filename) const {
 }
 
 size_t ResourceProfiler::get_peak_gpu_memory() const {
-    if (impl_->snapshots.empty()) return 0;
+    if (impl_->snapshots.empty()) {
+      return 0;
+    }
     return std::max_element(impl_->snapshots.begin(), impl_->snapshots.end(),
         [](const ResourceSnapshot& a, const ResourceSnapshot& b){
             return a.gpu_memory_allocated < b.gpu_memory_allocated;
@@ -144,7 +146,9 @@ size_t ResourceProfiler::get_peak_gpu_memory() const {
 }
 
 size_t ResourceProfiler::get_peak_cpu_memory() const {
-    if (impl_->snapshots.empty()) return 0;
+    if (impl_->snapshots.empty()) {
+      return 0;
+    }
     return std::max_element(impl_->snapshots.begin(), impl_->snapshots.end(),
         [](const ResourceSnapshot& a, const ResourceSnapshot& b){
             return a.cpu_memory_used < b.cpu_memory_used;

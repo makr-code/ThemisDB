@@ -272,7 +272,7 @@ struct StripeGroup {
 
 /** @brief Result payload for write path with redundancy fanout metadata. */
 struct WriteResult {
-    bool success;
+    bool success = 0;
     std::string document_id;
     std::vector<std::string> written_shards;
     std::vector<std::string> failed_shards;
@@ -289,7 +289,7 @@ struct WriteResult {
 
 /** @brief Result payload for read path including source, chunk, and snapshot-version metadata. */
 struct ReadResult {
-    bool success;
+    bool success = 0;
     std::string document_id;
     std::string data;
     std::string source_shard;
@@ -302,7 +302,7 @@ struct ReadResult {
 
 /** @brief Aggregated runtime statistics for redundancy strategy activity. */
 struct RedundancyStats {
-    uint64_t total_documents;
+    uint64_t total_documents = 0;
     uint64_t total_replicas;
     uint64_t total_chunks;
     uint64_t parity_chunks;

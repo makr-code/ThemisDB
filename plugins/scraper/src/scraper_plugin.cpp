@@ -193,7 +193,7 @@ std::vector<std::pair<std::string, std::string>> ScraperPlugin::collectSeeds() c
 namespace {
 #ifdef THEMIS_ENABLE_CURL
 struct CurlBuf {
-    std::string data;
+    std::string data = {};
     static std::size_t write(char *p, std::size_t sz, std::size_t nmemb, void *ud) {
         static_cast<CurlBuf *>(ud)->data.append(p, sz * nmemb);
         return sz * nmemb;
@@ -245,7 +245,7 @@ std::string ScraperPlugin::fetchPage(const std::string &url) const {
 #ifdef THEMIS_ENABLE_PUGIXML
     pugi::xml_document doc;
     doc.load_string(html.c_str(), pugi::parse_default | pugi::parse_fragment);
-    std::ostringstream out;
+    std::ostringstream out = {};
     std::function<void(const pugi::xml_node &)> walk = [&](const pugi::xml_node &n) {
         for (const auto &child : n.children()) {
             if (child.type() == pugi::node_pcdata || child.type() == pugi::node_cdata) {
@@ -265,7 +265,7 @@ std::string ScraperPlugin::fetchPage(const std::string &url) const {
     return out.str();
 #else
     // Minimal tag stripper
-    std::string out;
+    std::string out = {};
     bool in_tag    = false;
     bool in_script = false;
     for (std::size_t i = 0; i < html.size(); ++i) {
@@ -344,7 +344,7 @@ void ScraperPlugin::processDocument(const std::string &url, const std::string &h
     std::string title = title_hint;
     if (title.empty()) {
         std::istringstream ss(text);
-        std::string line;
+        std::string line = {};
         while (std::getline(ss, line)) {
             // Trim
             const auto begin = line.find_first_not_of(" \t\r\n");
@@ -426,7 +426,7 @@ void ScraperPlugin::runSearchLoop(const std::string &seed_url, const std::string
                 std::this_thread::sleep_for(std::chrono::milliseconds(config_.crawl_options.request_delay_ms));
             }
 
-            std::string result_html;
+            std::string result_html = {};
             if (form.method == "POST") {
                 const std::string body = search_engine_->buildSearchBody(form, query, pg);
                 // For POST: use api_client with form body
@@ -458,7 +458,7 @@ void ScraperPlugin::runSearchLoop(const std::string &seed_url, const std::string
                     std::this_thread::sleep_for(std::chrono::milliseconds(config_.crawl_options.request_delay_ms));
                 }
 
-                std::string doc_html;
+                std::string doc_html = {};
                 if (config_.crawl_options.render_mode == ScraperRenderMode::JS_RENDERED && js_renderer_
                     && js_renderer_->isAvailable()) {
                     JsRenderRequest jreq;
@@ -604,7 +604,7 @@ ScraperRunStats ScraperPlugin::scrape() {
         }
 
         // HTML / JS_RENDERED path
-        std::string page_html;
+        std::string page_html = {};
         if (config_.crawl_options.render_mode == ScraperRenderMode::JS_RENDERED && js_renderer_
             && js_renderer_->isAvailable()) {
             JsRenderRequest jreq;

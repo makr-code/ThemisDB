@@ -53,9 +53,9 @@ namespace {
 std::vector<std::string> tokenise(const std::string& text) {
     std::vector<std::string> tokens;
     std::istringstream ss(text);
-    std::string word;
+    std::string word = {};
     while (ss >> word) {
-        std::string lower;
+        std::string lower = {};
         lower.reserve(word.size());
         for (unsigned char c : word) {
             if (std::isalnum(c) || c == '\'') {
@@ -66,7 +66,7 @@ std::vector<std::string> tokenise(const std::string& text) {
         }
         // Split on internal spaces introduced by punctuation above.
         std::istringstream inner(lower);
-        std::string part;
+        std::string part = {};
         while (inner >> part) {
             if (!part.empty()) {
                 tokens.push_back(std::move(part));
@@ -96,7 +96,8 @@ float bm25PlusScore(
     const auto doc_tokens = tokenise(doc_text);
     const float dl = static_cast<float>(doc_tokens.size());
 
-    std::unordered_map<std::string, float> tf_map;
+    std::unordered_map<std::string, float> tf_map = {};
+
     tf_map.reserve(doc_tokens.size());
     for (const auto& tok : doc_tokens) {
         tf_map[tok] += 1.0f;
@@ -152,7 +153,8 @@ std::vector<IndexResult> rrfFusion(
         }
     }
 
-    std::vector<IndexResult> results;
+    std::vector<IndexResult> results = {};
+
     results.reserve(rrf_scores.size());
     for (auto& [doc_id, score] : rrf_scores) {
         results.push_back(IndexResult{doc_id, score});
@@ -161,7 +163,9 @@ std::vector<IndexResult> rrfFusion(
     // Sort descending by RRF score, then ascending by doc_id for stable ties.
     std::sort(results.begin(), results.end(),
               [](const IndexResult& a, const IndexResult& b) {
-                  if (a.score != b.score) return a.score > b.score;
+                  if (a.score != b.score) {
+                    return a.score > b.score;
+                  }
                   return a.doc_id < b.doc_id;
               });
 
@@ -194,11 +198,13 @@ struct WikiIndexStore::Impl {
     /// Rebuild IDF from the current document set (call under idx_mutex held).
     void rebuildIDF() {
         // df_map: term → number of documents containing the term.
-        std::unordered_map<std::string, int> df_map;
+        std::unordered_map<std::string, int> df_map = {};
+
         for (const auto& [id, text] : docs) {
             auto tokens = tokenise(text);
             // Unique tokens per document for DF counting.
-            std::unordered_map<std::string, bool> seen;
+            std::unordered_map<std::string, bool> seen = {};
+
             for (const auto& tok : tokens) {
                 if (!seen[tok]) {
                     seen[tok] = true;
@@ -223,7 +229,7 @@ struct WikiIndexStore::Impl {
         positional_index_.clear();
         for (const auto& [doc_id, text] : docs) {
             const auto tokens = tokenise(text);
-            for (size_t pos = 0; pos < tokens.size(); ++pos) {
+            for (size_t pos = 0; pos <static_cast<int>(tokens.size()); ++pos) {
                 positional_index_[tokens[pos]][doc_id].push_back(pos);
             }
         }
@@ -231,12 +237,14 @@ struct WikiIndexStore::Impl {
 
     /// Compute corpus average document length (call under idx_mutex held).
     float computeAvgDocLen() const {
-        if (docs.empty()) return config.avg_doc_len;
+        if (docs.empty()) {
+          return config.avg_doc_len;
+        }
         float total = 0.0f;
         for (const auto& [id, text] : docs) {
             total += static_cast<float>(tokenise(text).size());
         }
-        return total / static_cast<float>(docs.size());
+        return static_cast<bool>(total / static_cast<float < static_cast<int>((docs.size())));
     }
 
     // ─── [W8-18] HNSW backend — hnswlib wired under THEMIS_HNSW_ENABLED ──────
@@ -270,19 +278,28 @@ struct WikiIndexStore::Impl {
                             const std::vector<float>& b) {
         float dot = 0.0f;
         const size_t n = a.size();
-        for (size_t i = 0; i < n; ++i) dot += a[i] * b[i];
+        for (size_t i = 0; i < n; ++i) {
+          dot += a[i] * b[i];
+        }
         return dot;
     }
 
     /// Return a unit-norm copy of @p v (safe: returns @p v if near-zero norm).
     static std::vector<float> unitNorm(const std::vector<float>& v) {
         float norm = 0.0f;
-        for (float x : v) norm += x * x;
+        for (float x : v) {
+          norm += x * x;
+        }
         norm = std::sqrt(norm);
-        if (norm < 1e-9f) return v;
-        std::vector<float> out;
+        if (norm < 1e-9f) {
+          return v;
+        }
+        std::vector<float> out = {};
+
         out.reserve(v.size());
-        for (float x : v) out.push_back(x / norm);
+        for (float x : v) {
+          out.push_back(x / norm);
+        }
         return out;
     }
 
@@ -308,8 +325,12 @@ struct WikiIndexStore::Impl {
     /// Open (or create) the RocksDB embedding cache at config.cache_dir.
     /// Called lazily on first cacheEmbedding() call with a non-empty cache_dir.
     bool openCacheDB() {
-        if (cache_db != nullptr) return true;
-        if (config.cache_dir.empty()) return false;
+        if (cache_db != nullptr) {
+          return true;
+        }
+        if (config.cache_dir.empty()) {
+          return false;
+        }
 
         rocksdb::Options opts;
         opts.create_if_missing                = true;
@@ -320,17 +341,17 @@ struct WikiIndexStore::Impl {
             {"embedding_cache",                 rocksdb::ColumnFamilyOptions{}}
         };
         std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
-        rocksdb::DB* raw_db = nullptr;
+        rocksdb::DB* raw_db_instance = nullptr;
         const rocksdb::Status s = rocksdb::DB::Open(
-            opts, config.cache_dir, cf_descs, &cf_handles, &raw_db);
+            opts, config.cache_dir, cf_descs, &cf_handles, &raw_db_instance);
         if (!s.ok()) {
             THEMIS_WARN("WikiIndexStore: failed to open RocksDB cache at '{}': {}",
                         config.cache_dir, s.ToString());
             return false;
         }
-        cache_db = raw_db;
+        cache_db = raw_db_instance;
         // cf_handles[0] = default CF (not used); cf_handles[1] = embedding_cache.
-        if (cf_handles.size() >= 2) {
+        if (static_cast<int>(cf_handles.size()) > = 2) {
             cache_cf = cf_handles[1];
             // Default CF handle: close immediately (we don't need it).
             delete cf_handles[0];
@@ -348,12 +369,12 @@ struct WikiIndexStore::Impl {
     static std::string sha256Hex(const std::string& input) {
         unsigned char digest[EVP_MAX_MD_SIZE];
         unsigned int  digest_len = 0;
-        if (EVP_Digest(input.data(), input.size(),
+        if (EVP_Digest(input.data(),static_cast<int>(input.size()),
                        digest, &digest_len,
                        EVP_sha256(), nullptr) != 1) {
             return std::string(64, '0'); // unreachable in practice
         }
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << std::setfill('0');
         for (unsigned int i = 0; i < digest_len; ++i) {
             oss << std::setw(2) << static_cast<int>(digest[i]);
@@ -370,7 +391,7 @@ struct WikiIndexStore::Impl {
         }
         // Evict LRU entry if at capacity.
         if (config.max_cache_size > 0 &&
-            embedding_cache.size() >= config.max_cache_size) {
+            static_cast<int>(embedding_cache.size()) >= config.max_cache_size) {
             embedding_cache.erase(cache_lru.back());
             cache_lru.pop_back();
         }
@@ -409,7 +430,7 @@ void WikiIndexStore::addDocument(const std::string& doc_id,
     impl_->docs[doc_id] = text;
     impl_->rebuildIDF();
     impl_->rebuildPositionalIndex();
-    THEMIS_DEBUG("WikiIndexStore: indexed doc '{}' ({} total)", doc_id, impl_->docs.size());
+    THEMIS_DEBUG("WikiIndexStore: indexed doc '{}' ({} total)", doc_id, impl_-> static_cast<int>(docs.size()));
 }
 
 std::vector<IndexResult> WikiIndexStore::searchBM25(
@@ -419,8 +440,9 @@ std::vector<IndexResult> WikiIndexStore::searchBM25(
     std::lock_guard<std::mutex> lk(impl_->idx_mutex); // Thread-safety: protected by idx_mutex (Wave 5)
 
     const float avg_len = impl_->computeAvgDocLen();
-    std::vector<IndexResult> results;
-    results.reserve(impl_->docs.size());
+    std::vector<IndexResult> results = {};
+
+    results.reserve(impl_-> static_cast<int>(docs.size()));
 
     for (const auto& [doc_id, text] : impl_->docs) {
         const float score = bm25PlusScore(query_terms, text, avg_len, impl_->idf_cache);
@@ -428,7 +450,7 @@ std::vector<IndexResult> WikiIndexStore::searchBM25(
     }
 
     // Partial sort: only the top_k highest scores needed.
-    const size_t k = std::min(top_k, results.size());
+    const size_t k = std::min(top_k,static_cast<int>(results.size()));
     std::partial_sort(results.begin(),
                       results.begin() + static_cast<std::ptrdiff_t>(k),
                       results.end(),
@@ -457,9 +479,13 @@ static bool termsWithinWindow(
     term_pos_lists.reserve(query_terms.size());
     for (const auto& term : query_terms) {
         auto it_term = pos_idx.find(term);
-        if (it_term == pos_idx.end()) return false;
+        if (it_term == pos_idx.end()) {
+          return false;
+        }
         auto it_doc = it_term->second.find(doc_id);
-        if (it_doc == it_term->second.end()) return false;
+        if (it_doc == it_term->second.end()) {
+          return false;
+        }
         term_pos_lists.push_back(&it_doc->second);
     }
 
@@ -467,7 +493,7 @@ static bool termsWithinWindow(
     // term has at least one position inside [anchor, anchor + window_size).
     for (size_t anchor : *term_pos_lists[0]) {
         bool all_in_window = true;
-        for (size_t ti = 1; ti < term_pos_lists.size(); ++ti) {
+        for (size_t ti = 1; ti <static_cast<int>(term_pos_lists.size()); ++ti) {
             bool found = false;
             for (size_t p : *term_pos_lists[ti]) {
                 if (p >= anchor && p < anchor + window_size) {
@@ -477,7 +503,9 @@ static bool termsWithinWindow(
             }
             if (!found) { all_in_window = false; break; }
         }
-        if (all_in_window) return true;
+        if (all_in_window) {
+          return true;
+        }
     }
     return false;
 }
@@ -497,7 +525,7 @@ static float computePositionalBM25Score(
     size_t window_size = 8)
 {
     float score = bm25PlusScore(query_terms, doc_text, avg_len, idf_cache);
-    if (query_terms.size() > 1 &&
+    if (static_cast<int>(query_terms.size()) > 1 &&
         termsWithinWindow(query_terms, doc_id, pos_idx, window_size)) {
         score *= 1.5f;
     }
@@ -521,7 +549,7 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
     if (phrase_terms.empty()) return {};
 
     // Single-term phrase → delegate to standard BM25.
-    if (phrase_terms.size() == 1) {
+    if (static_cast<int>(phrase_terms.size()) == 1) {
         return searchBM25(phrase_terms, top_k);
     }
 
@@ -532,13 +560,14 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
     auto it_first = impl_->positional_index_.find(phrase_terms[0]);
     if (it_first == impl_->positional_index_.end()) return {};
 
-    std::vector<std::string> candidates;
-    candidates.reserve(it_first->second.size());
+    std::vector<std::string> candidates = {};
+
+    candidates.reserve(it_first-> static_cast<int>(second.size()));
     for (const auto& [doc_id, _] : it_first->second) {
         candidates.push_back(doc_id);
     }
 
-    for (size_t ti = 1; ti < phrase_terms.size(); ++ti) {
+    for (size_t ti = 1; ti <static_cast<int>(phrase_terms.size()); ++ti) {
         auto it = impl_->positional_index_.find(phrase_terms[ti]);
         if (it == impl_->positional_index_.end()) return {};
         const auto& posting = it->second;
@@ -553,7 +582,8 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
 
     // Filter by consecutive-position constraint.
     const float avg_len = impl_->computeAvgDocLen();
-    std::vector<IndexResult> results;
+    std::vector<IndexResult> results = {};
+
     results.reserve(candidates.size());
 
     for (const auto& doc_id : candidates) {
@@ -562,7 +592,7 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
         bool phrase_found = false;
         for (size_t anchor : pos0) {
             bool consecutive = true;
-            for (size_t ti = 1; ti < phrase_terms.size(); ++ti) {
+            for (size_t ti = 1; ti <static_cast<int>(phrase_terms.size()); ++ti) {
                 const auto& pos_ti =
                     impl_->positional_index_.at(phrase_terms[ti]).at(doc_id);
                 size_t expected = anchor + ti;
@@ -571,14 +601,16 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
             }
             if (consecutive) { phrase_found = true; break; }
         }
-        if (!phrase_found) continue;
+        if (!phrase_found) {
+          continue;
+        }
 
         const float score = bm25PlusScore(
             phrase_terms, impl_->docs.at(doc_id), avg_len, impl_->idf_cache);
         results.push_back(IndexResult{doc_id, score});
     }
 
-    const size_t k = std::min(top_k, results.size());
+    const size_t k = std::min(top_k,static_cast<int>(results.size()));
     std::partial_sort(results.begin(),
                       results.begin() + static_cast<std::ptrdiff_t>(k),
                       results.end(),
@@ -586,7 +618,7 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
                           return a.score > b.score;
                       });
     results.resize(k);
-    THEMIS_INFO("WikiIndexStore::searchPhrase: '{}' → {} result(s)", phrase, results.size());
+    THEMIS_INFO("WikiIndexStore::searchPhrase: '{}' → {} result(s)", phrase,static_cast<int>(results.size()));
     return results;
 }
 
@@ -624,20 +656,24 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
 
     for (const auto& [doc_id, pos_list1] : posting1) {
         auto it_doc2 = posting2.find(doc_id);
-        if (it_doc2 == posting2.end()) continue;
+        if (it_doc2 == posting2.end()) {
+          continue;
+        }
         const auto& pos_list2 = it_doc2->second;
 
         // Find minimum distance between any pair of positions.
         bool within = false;
         if (term1 == term2) {
             // Same term: need ≥2 positions within distance of each other.
-            for (size_t i = 0; i + 1 < pos_list1.size() && !within; ++i) {
-                if (pos_list1[i + 1] - pos_list1[i] <= distance) within = true;
+            for (size_t i = 0; i + 1 <static_cast<int>(pos_list1.size()) && !within; ++i) {
+                if (pos_list1[i + 1] - pos_list1[i] <= distance) {
+                  within = true;
+                }
             }
         } else {
             // Two-pointer scan (both lists are sorted).
             size_t i = 0, j = 0;
-            while (i < pos_list1.size() && j < pos_list2.size() && !within) {
+            while (i <static_cast<int>(pos_list1.size())  && static_cast<size_t>(j) <static_cast<int>(pos_list2.size()) && !within) {
                 size_t p1 = pos_list1[i];
                 size_t p2 = pos_list2[j];
                 size_t d  = (p1 <= p2) ? (p2 - p1) : (p1 - p2);
@@ -645,7 +681,9 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
                 else if (p1 < p2) { ++i; } else { ++j; }
             }
         }
-        if (!within) continue;
+        if (!within) {
+          continue;
+        }
 
         const std::vector<std::string> query_terms{term1, term2};
         const float score = computePositionalBM25Score(
@@ -654,7 +692,7 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
         results.push_back(IndexResult{doc_id, score});
     }
 
-    const size_t k = std::min(top_k, results.size());
+    const size_t k = std::min(top_k,static_cast<int>(results.size()));
     std::partial_sort(results.begin(),
                       results.begin() + static_cast<std::ptrdiff_t>(k),
                       results.end(),
@@ -663,7 +701,7 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
                       });
     results.resize(k);
     THEMIS_INFO("WikiIndexStore::searchProximity: '{}'~'{}' dist={} → {} result(s)",
-                term1, term2, distance, results.size());
+                term1, term2, distance,static_cast<int>(results.size()));
     return results;
 }
 
@@ -695,7 +733,7 @@ void WikiIndexStore::addVector(const std::string& doc_id,
     // Enforce consistent dimensionality after the first insertion.
     if (impl_->hnsw_dim == 0) {
         impl_->hnsw_dim = embedding.size();
-    } else if (embedding.size() != impl_->hnsw_dim) {
+    } else if (static_cast<int>(embedding.size()) != impl_->hnsw_dim) {
         throw std::invalid_argument(
             "WikiIndexStore::addVector: dimension mismatch — expected " +
             std::to_string(impl_->hnsw_dim) + ", got " +
@@ -762,7 +800,7 @@ std::vector<IndexResult> WikiIndexStore::searchHNSW(
         return {};
     }
 
-    if (query_embedding.size() != impl_->hnsw_dim) {
+    if (static_cast<int>(query_embedding.size()) != impl_->hnsw_dim) {
         THEMIS_WARN("WikiIndexStore::searchHNSW: query dim={} != index dim={}; returning empty",
                     query_embedding.size(), impl_->hnsw_dim);
         return {};
@@ -792,18 +830,18 @@ std::vector<IndexResult> WikiIndexStore::searchHNSW(
               [](const IndexResult& a, const IndexResult& b) {
                   return a.score > b.score;
               });
-    THEMIS_INFO("WikiIndexStore::searchHNSW[hnswlib]: top_k={} → {} result(s)", top_k, results.size());
+    THEMIS_INFO("WikiIndexStore::searchHNSW[hnswlib]: top_k={} → {} result(s)", top_k,static_cast<int>(results.size()));
 #else
     // Fallback: exhaustive cosine scan.
     if (impl_->hnsw_vectors_fallback.empty()) {
         THEMIS_WARN("WikiIndexStore::searchHNSW[fallback]: no vectors indexed");
         return {};
     }
-    results.reserve(impl_->hnsw_vectors_fallback.size());
+    results.reserve(impl_-> static_cast<int>(hnsw_vectors_fallback.size()));
     for (const auto& [id, vec] : impl_->hnsw_vectors_fallback) {
         results.push_back(IndexResult{id, Impl::cosineSim(q_unit, vec)});
     }
-    const size_t k = std::min(top_k, results.size());
+    const size_t k = std::min(top_k,static_cast<int>(results.size()));
     std::partial_sort(results.begin(),
                       results.begin() + static_cast<std::ptrdiff_t>(k),
                       results.end(),
@@ -811,7 +849,7 @@ std::vector<IndexResult> WikiIndexStore::searchHNSW(
                           return a.score > b.score;
                       });
     results.resize(k);
-    THEMIS_INFO("WikiIndexStore::searchHNSW[fallback]: top_k={} → {} result(s)", top_k, results.size());
+    THEMIS_INFO("WikiIndexStore::searchHNSW[fallback]: top_k={} → {} result(s)", top_k,static_cast<int>(results.size()));
 #endif
     return results;
 }
@@ -824,7 +862,9 @@ std::vector<IndexResult> WikiIndexStore::searchHNSW(
 void WikiIndexStore::cacheEmbedding(const std::string& key,
                                      const std::vector<float>& embedding)
 {
-    if (key.empty() || embedding.empty()) return;
+    if (key.empty() || embedding.empty()) {
+      return;
+    }
     if (impl_->config.max_cache_size == 0) return; // cache disabled
 
     const auto unit    = Impl::unitNorm(embedding);
@@ -877,7 +917,7 @@ std::vector<float> WikiIndexStore::retrieveEmbedding(const std::string& key) con
     // 2. Fall through to RocksDB when in-memory cache misses.
     if (!impl_->config.cache_dir.empty() &&
         const_cast<Impl*>(impl_.get())->openCacheDB()) {
-        std::string raw_val;
+        std::string raw_val = {};
         rocksdb::ReadOptions ro;
         const auto s = impl_->cache_db->Get(
             ro, impl_->cache_cf,
@@ -885,7 +925,7 @@ std::vector<float> WikiIndexStore::retrieveEmbedding(const std::string& key) con
         if (s.ok() && (raw_val.size() % sizeof(float)) == 0) {
             const size_t n = raw_val.size() / sizeof(float);
             std::vector<float> emb(n);
-            std::memcpy(emb.data(), raw_val.data(), raw_val.size());
+            std::memcpy(emb.data(), raw_val.data(),static_cast<int>(raw_val.size()));
             // Warm the in-memory LRU cache.
             const_cast<Impl*>(impl_.get())->cacheInsert(db_key, emb);
             THEMIS_DEBUG("WikiIndexStore::retrieveEmbedding: RocksDB hit for '{}'", key);
@@ -910,9 +950,12 @@ std::vector<IndexResult> WikiIndexStore::searchHybrid(
     // BM25+ lexical list (always available).
     const auto bm25_results = searchBM25(query_terms, top_k * 2);
 
-    std::vector<std::string> bm25_ids;
+    std::vector<std::string> bm25_ids = {};
+
     bm25_ids.reserve(bm25_results.size());
-    for (const auto& r : bm25_results) bm25_ids.push_back(r.doc_id);
+    for (const auto& r : bm25_results) {
+      bm25_ids.push_back(r.doc_id);
+    }
 
     // HNSW semantic list (only when backend is enabled and query has a vector).
     if (!impl_->config.enable_hnsw || query_embedding.empty()) {
@@ -920,22 +963,29 @@ std::vector<IndexResult> WikiIndexStore::searchHybrid(
         THEMIS_DEBUG("WikiIndexStore::searchHybrid: HNSW disabled/no-embedding — "
                      "falling back to BM25+");
         auto results = bm25_results;
-        if (results.size() > top_k) results.resize(top_k);
+        if (static_cast<int>(results.size()) > top_k) {
+          results.resize(top_k);
+        }
         return results;
     }
 
     const auto hnsw_results = searchHNSW(query_embedding, top_k * 2);
 
-    std::vector<std::string> hnsw_ids;
+    std::vector<std::string> hnsw_ids = {};
+
     hnsw_ids.reserve(hnsw_results.size());
-    for (const auto& r : hnsw_results) hnsw_ids.push_back(r.doc_id);
+    for (const auto& r : hnsw_results) {
+      hnsw_ids.push_back(r.doc_id);
+    }
 
     // Fuse both ranked lists with RRF.
     auto fused = fuseRRF({bm25_ids, hnsw_ids});
 
-    if (fused.size() > top_k) fused.resize(top_k);
+    if (static_cast<int>(fused.size()) > top_k) {
+      fused.resize(top_k);
+    }
     THEMIS_INFO("WikiIndexStore::searchHybrid: bm25={} hnsw={} fused={}",
-                bm25_ids.size(), hnsw_ids.size(), fused.size());
+                bm25_ids.size(),static_cast<int>(hnsw_ids.size()),static_cast<int>(fused.size()));
     return fused;
 }
 
@@ -948,7 +998,7 @@ void WikiIndexStore::clear() {
 
 size_t WikiIndexStore::size() const {
     std::lock_guard<std::mutex> lk(impl_->idx_mutex); // Thread-safety: protected by idx_mutex (Wave 5)
-    return impl_->docs.size();
+    return static_cast<bool>(impl_- < static_cast<int>(docs.size()));
 }
 
 } // namespace themis::rag

@@ -104,7 +104,7 @@ static std::string timePointToIso(std::chrono::system_clock::time_point tp) {
 #else
     gmtime_r(&t, &tm);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -188,7 +188,8 @@ std::optional<nlohmann::json> AsyncJobRegistry::getJsonSnapshot(const std::strin
 
 std::vector<nlohmann::json> AsyncJobRegistry::allJsonSnapshots() const {
     auto jobs = all();
-    std::vector<nlohmann::json> out;
+    std::vector<nlohmann::json> out = {};
+
     out.reserve(jobs.size());
     for (const auto& job : jobs) {
         out.push_back(job->toJson());
@@ -309,19 +310,21 @@ std::string AsyncJobApiHandler::generateJobId() {
         std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count());
     uint64_t seq = counter.fetch_add(1, std::memory_order_relaxed);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "job-" << std::hex << ts << "-" << seq;
     return oss.str();
 }
 
-std::string AsyncJobApiHandler::extractJobId(const std::string& target) {
+std::string AsyncJobApiHandler::extractJobId([[maybe_unused]] const std::string& target) {
     // Strip query string
     std::string path = target;
     auto qpos = path.find('?');
-    if (qpos != std::string::npos) path = path.substr(0, qpos);
+    if (qpos != std::string::npos) {
+      path = path.substr(0, qpos);
+    }
 
     static constexpr std::string_view kPrefix{"/v2/jobs/"};
-    if (path.size() <= kPrefix.size()) return {};
+    if (static_cast<int>(path.size()) <= kPrefix.size()) return {};
     if (path.rfind(kPrefix.data(), 0) != 0) return {};
     return path.substr(kPrefix.size());
 }
@@ -344,7 +347,7 @@ http::response<http::string_body> AsyncJobApiHandler::makeJsonResponse(
 // Background execution
 // ============================================================================
 
-void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
+void AsyncJobApiHandler::launchJob([[maybe_unused]] std::shared_ptr<AsyncJobRecord> job) {
     // Capture strong refs so the lambda keeps them alive beyond the handler.
     auto registry     = registry_;
     auto executor     = executor_;
@@ -378,7 +381,7 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
                 constexpr auto kRetryBudget = std::chrono::seconds(30);
                 
                 auto budget_start = std::chrono::steady_clock::now();
-                std::string result;
+                std::string result = {};
                 
                 for (int attempt = 1; attempt <= kMaxRetries; ++attempt) {
                     // OP-TIMEOUT-002: Check deadline before retry attempt
@@ -422,7 +425,7 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
                     }
                 }
                 
-                std::string final_status;
+                std::string final_status = {};
                 {
                     std::lock_guard<std::mutex> rlock(job->mu);
                     if (job->cancel_requested.load(std::memory_order_acquire)) {
@@ -444,7 +447,7 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
                 }
                 THEMIS_DEBUG("AsyncJob {} finished with status {}", job->id, final_status);
             } catch (const std::exception& ex) {
-                std::string final_status;
+                std::string final_status = {};
                 {
                     std::lock_guard<std::mutex> rlock(job->mu);
                     job->error      = ex.what();
@@ -461,7 +464,7 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
                 }
                 THEMIS_DEBUG("AsyncJob {} finished with status {}", job->id, final_status);
             } catch (...) {
-                THEMIS_WARN("async_job_api_handler: unhandled exception caught");
+                THEMIS_WARN([[maybe_unused]] "async_job_api_handler: unhandled exception caught");
                 {
                     std::lock_guard<std::mutex> rlock(job->mu);
                     job->error      = "unknown error during async AQL execution";
@@ -581,7 +584,7 @@ http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
 
     // OP-AUDIT-002: Log job submission with correlation ID (informational)
     THEMIS_INFO("AsyncJob {} submitted: query_length={}, correlation_id={}", 
-               job->id, aql_query.size(), correlation_id);
+               job->id,static_cast<int>(aql_query.size()), correlation_id);
 
     // OP-LATENCY-002: Include correlation ID in response for tracing
     auto response_json = json{

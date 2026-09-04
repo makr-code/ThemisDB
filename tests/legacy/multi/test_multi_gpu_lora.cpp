@@ -23,7 +23,7 @@ using namespace themis::llm;
 
 namespace {
 bool ensureFixtureFile(const std::filesystem::path& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(path.parent_path(), ec);
     if (ec) {
         return false;
@@ -520,7 +520,8 @@ TEST_F(MultiGPULoRATest, SimultaneousLoadsOnDifferentGPUs) {
     }
     
     // Each should be on a different GPU
-    std::set<int> used_gpus;
+    std::set<int> used_gpus = {};
+
     for (const auto& id : lora_ids) {
         auto gpus = manager.getLoRAGPUPlacement(id);
         EXPECT_EQ(gpus.size(), 1);

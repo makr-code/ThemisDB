@@ -17,7 +17,7 @@ namespace fs = std::filesystem;
 
 class DistributedBlacklistTest : public ::testing::Test {
 protected:
-    std::string temp_db_path;
+    std::string temp_db_path = {};
     
     void SetUp() override {
         // Create a unique temp directory for each test
@@ -292,7 +292,8 @@ TEST_F(DistributedBlacklistTest, ConcurrentAddsAndChecks)
     auto expiry = std::chrono::system_clock::now() + std::chrono::hours(1);
     
     // Writer threads
-    std::vector<std::thread> writers;
+    std::vector<std::thread> writers = {};
+
     for (int i = 0; i < 3; ++i) {
         writers.emplace_back([&, i]() {
             for (int j = 0; j < 50; ++j) {
@@ -303,7 +304,8 @@ TEST_F(DistributedBlacklistTest, ConcurrentAddsAndChecks)
     }
     
     // Reader threads
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int i = 0; i < 3; ++i) {
         readers.emplace_back([&, i]() {
             for (int j = 0; j < 50; ++j) {
@@ -315,8 +317,12 @@ TEST_F(DistributedBlacklistTest, ConcurrentAddsAndChecks)
     }
     
     // Wait for all
-    for (auto& t : writers) t.join();
-    for (auto& t : readers) t.join();
+    for (auto& t : writers) {
+      t.join();
+    }
+    for (auto& t : readers) {
+      t.join();
+    }
     
     // Verify all tokens were added
     for (int i = 0; i < 3; ++i) {

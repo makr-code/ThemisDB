@@ -126,7 +126,7 @@ Result<std::size_t> StoreBackedRoundTripEditor::countSnapshots(
 
 std::string StoreBackedRoundTripEditor::makeSnapshotId(const std::string& relay_id,
                                                        std::size_t interaction_index) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << relay_id << ':' << std::setw(10) << std::setfill('0') << interaction_index;
     return oss.str();
 }

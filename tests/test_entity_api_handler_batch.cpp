@@ -70,7 +70,7 @@ protected:
     }
 
     EntityApiHandler makeHandler() {
-        EntityApiConfig cfg;
+        EntityApiConfig cfg = {};
         return EntityApiHandler(
             storage_, secondary_index_, graph_index_, tx_manager_,
             field_encryption_, key_provider_, auth_, cfg);

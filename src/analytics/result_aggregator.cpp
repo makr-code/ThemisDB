@@ -25,7 +25,7 @@ namespace analytics {
 // In production, this would be a properly designed connection pool
 class ConnectionPool {
 public:
-    explicit ConnectionPool(int size = 10) : available_(size), total_(size) {}
+    explicit ConnectionPool([[maybe_unused]] int size = 10) : available_(size), total_(size) {}
 
     int acquire() {
         if (available_ > 0) {
@@ -36,7 +36,7 @@ public:
         return -1;
     }
 
-    void release(int connection_id) noexcept {
+    void release([[maybe_unused]] int connection_id) noexcept {
         if (connection_id > 0) {
             available_++;
             used_--;
@@ -72,7 +72,7 @@ ResultAggregator::~ResultAggregator() noexcept {
     // ========================================================================
     try {
         if (!buffer_.empty()) {
-            spdlog::warn("ResultAggregator destroyed with {} pending records", buffer_.size());
+            spdlog::warn("ResultAggregator destroyed with {} pending records",static_cast<int>(buffer_.size()));
             // In production, would flush pending records
             buffer_.clear();
         }
@@ -117,7 +117,7 @@ WriteResult ResultAggregator::WriteResults(const ResultBatch& batch) {
         ConnectionGuard guard(conn_id, release_fn);
         
         spdlog::debug("WriteResults: batch_id={}, records={}", 
-                     batch.batch_id, batch.records.size());
+                     batch.batch_id,static_cast<int>(batch.records.size()));
         
         // ====================================================================
         // Gap A-2-13: Scoped transaction guards for begin/commit/rollback
@@ -213,7 +213,7 @@ WriteResult ResultAggregator::WriteResults(const ResultBatch& batch) {
 // Gap A-2-14, A-2-18: Batch flush with connection reuse
 // ========================================================================
 WriteResult ResultAggregator::FlushBuffer() {
-    WriteResult result;
+    WriteResult result = {};
     
     if (buffer_.empty()) {
         result.success = true;
@@ -241,7 +241,7 @@ WriteResult ResultAggregator::FlushBuffer() {
         auto release_fn = [this, conn_id]() { pool_->release(conn_id); };
         ConnectionGuard guard(conn_id, release_fn);
         
-        spdlog::info("FlushBuffer: {} records pending", buffer_.size());
+        spdlog::info("FlushBuffer: {} records pending",static_cast<int>(buffer_.size()));
         
         size_t flushed = 0;
         try {
@@ -260,7 +260,7 @@ WriteResult ResultAggregator::FlushBuffer() {
             // ============================================================
             result.success = false;
             result.records_written = flushed;
-            result.records_failed = buffer_.size() - flushed;
+            result.records_failed = static_cast<int>(buffer_.size()) - flushed;
             result.error_message = e.what();
             
             spdlog::error("FlushBuffer failed after writing {} records: {}", 
@@ -345,7 +345,7 @@ void ResultAggregator::ResetStats() noexcept {
 // Private helper methods for transaction management
 // ========================================================================
 
-void ResultAggregator::BeginTransaction(int connection_id) {
+void ResultAggregator::BeginTransaction([[maybe_unused]] int connection_id) {
     if (connection_id <= 0) {
         throw std::invalid_argument("Invalid connection ID");
     }
@@ -353,7 +353,7 @@ void ResultAggregator::BeginTransaction(int connection_id) {
     // In production, would execute BEGIN statement
 }
 
-void ResultAggregator::CommitTransaction(int connection_id) {
+void ResultAggregator::CommitTransaction([[maybe_unused]] int connection_id) {
     if (connection_id <= 0) {
         throw std::invalid_argument("Invalid connection ID");
     }
@@ -361,7 +361,7 @@ void ResultAggregator::CommitTransaction(int connection_id) {
     // In production, would execute COMMIT statement
 }
 
-void ResultAggregator::RollbackTransaction(int connection_id) noexcept {
+void ResultAggregator::RollbackTransaction([[maybe_unused]] int connection_id) noexcept {
     if (connection_id <= 0) {
         return;  // Invalid connection, nothing to rollback
     }
@@ -382,7 +382,7 @@ void ResultAggregator::WriteRecord(int connection_id, const ResultRecord& record
         throw std::invalid_argument("Record has no values");
     }
     spdlog::debug("WriteRecord: conn_id={}, record_id={}, values={}", 
-                connection_id, record.record_id, record.values.size());
+                connection_id, record.record_id,static_cast<int>(record.values.size()));
     // In production, would execute INSERT statement
 }
 
@@ -391,7 +391,7 @@ void ResultAggregator::LogDiagnostics(const std::string& error) const {
     spdlog::error(
         "ResultAggregator diagnostics: error={}, buffered={}, "
         "total_written={}, total_failed={}, error_count={}",
-        error, buffer_.size(), stats.total_written, stats.total_failed,
+        error,static_cast<int>(buffer_.size()), stats.total_written, stats.total_failed,
         stats.error_count);
 }
 

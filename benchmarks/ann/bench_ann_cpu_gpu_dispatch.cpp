@@ -130,7 +130,7 @@ HnswSearchEnv& cosineHnswEnv() {
         env.dim = 128;
         env.count = 4000;
         env.db_path = (std::filesystem::temp_directory_path() / "themis_bench_ann_cpu_gpu_dispatch_hnsw").string();
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(env.db_path, ec);
 
         RocksDBWrapper::Config cfg;

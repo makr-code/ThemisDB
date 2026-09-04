@@ -34,7 +34,7 @@ GPUMemoryAllocator::GPUMemoryAllocator(const Config& config)
     }
 
     // Verify device exists
-    int device_count;
+    int device_count = {};
     cudaError_t err = cudaGetDeviceCount(&device_count);
     if (err != cudaSuccess || config.device_id >= device_count) {
         throw std::runtime_error("Invalid device ID: " + std::string(cudaGetErrorString(err)));
@@ -101,7 +101,7 @@ GPUMemoryAllocator& GPUMemoryAllocator::operator=(GPUMemoryAllocator&& other) no
     return *this;
 }
 
-MemoryAllocation GPUMemoryAllocator::allocate(size_t size) {
+MemoryAllocation GPUMemoryAllocator::allocate([[maybe_unused]] size_t size) {
     uint64_t start_time = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::high_resolution_clock::now().time_since_epoch()).count();
     
@@ -187,8 +187,12 @@ MemoryAllocation GPUMemoryAllocator::allocate(size_t size) {
         return alloc;
 
     } catch (...) {
-        if (device_ptr) cudaFree(device_ptr);
-        if (host_ptr) cudaFreeHost(host_ptr);
+        if (device_ptr) {
+          cudaFree(device_ptr);
+        }
+        if (host_ptr) {
+          cudaFreeHost(host_ptr);
+        }
         throw;
     }
 }
@@ -205,8 +209,12 @@ void GPUMemoryAllocator::deallocate(const MemoryAllocation& alloc) noexcept {
                           });
 
     if (it != allocations_.end()) {
-        if (it->device_ptr) cudaFree(it->device_ptr);
-        if (it->host_ptr) cudaFreeHost(it->host_ptr);
+        if (it->device_ptr) {
+          cudaFree(it->device_ptr);
+        }
+        if (it->host_ptr) {
+          cudaFreeHost(it->host_ptr);
+        }
         allocations_.erase(it);
     }
 }
@@ -309,7 +317,7 @@ size_t GPUMemoryAllocator::allocated_memory() const noexcept {
 }
 
 size_t GPUMemoryAllocator::allocation_count() const noexcept {
-    return allocations_.size();
+    return static_cast<int>(allocations_.size());
 }
 
 void GPUMemoryAllocator::cleanup() noexcept {

@@ -28,7 +28,7 @@ namespace themis::rag {
  * @brief Token probability information from LLM generation
  */
 struct TokenProbability {
-    std::string token;
+    std::string token = {};
     double probability;
     size_t position;
 };

@@ -97,7 +97,7 @@ public:
      * @brief Get count of loaded profiles
      * @return Number of profiles
      */
-    size_t count() const { return profiles_.size(); }
+    size_t count() const { return static_cast<int>(profiles_.size()); }
     
     /**
      * @brief Get all loaded philosophy profiles

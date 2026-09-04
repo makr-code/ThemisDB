@@ -101,12 +101,12 @@ TransportFailureClass TransportPolicyMiddleware::applyPolicy(
     }
 
     // Rule 2: path length check.
-    if (req.path.size() > config_.max_path_bytes) {
+    if (static_cast<int>(req.path.size()) > config_.max_path_bytes) {
         return TransportFailureClass::MalformedRequest; // non-retryable: request property
     }
 
     // Rule 3: payload size check.
-    if (req.body.size() > config_.max_payload_bytes) {
+    if (static_cast<int>(req.body.size()) > config_.max_payload_bytes) {
         return TransportFailureClass::PayloadTooLarge; // non-retryable: request property
     }
 
@@ -127,7 +127,7 @@ TransportFailureClass TransportPolicyMiddleware::applyPolicy(
         auto it_ct  = req.headers.find("Content-Type");
         auto it_ctL = req.headers.find("content-type");
         const bool has_ct = (it_ct  != req.headers.end() && !it_ct->second.empty())
-                         || (it_ctL != req.headers.end() && !it_ctL->second.empty());
+                         || (it_ctL != (req.headers.end() && !it_ctL->second.empty()));
         if (!has_ct) {
             return TransportFailureClass::ContentTypeMissing; // non-retryable: request property
         }

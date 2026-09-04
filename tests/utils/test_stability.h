@@ -111,8 +111,12 @@ inline bool poll_until(
 {
     const auto deadline = std::chrono::steady_clock::now() + timeout;
     while (true) {
-        if (predicate()) return true;
-        if (std::chrono::steady_clock::now() >= deadline) return false;
+        if (predicate()) {
+          return true;
+        }
+        if (std::chrono::steady_clock::now() >= deadline) {
+          return false;
+        }
         std::this_thread::yield();
     }
 }

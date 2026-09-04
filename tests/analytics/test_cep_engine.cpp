@@ -419,7 +419,9 @@ TEST_F(WindowManagerTest, SessionWindowExtendedByEvents) {
 TEST(AggregatorTest, CountAggregation) {
     Aggregator agg;
     agg.addAggregation("cnt", AggregationType::COUNT, "value");
-    for (int i = 0; i < 5; ++i) agg.processEvent(makeEventWithField("E", "value", i));
+    for (int i = 0; i < 5; ++i) {
+      agg.processEvent(makeEventWithField("E", "value", i));
+    }
     auto res = agg.getResult("cnt");
     ASSERT_TRUE(res.has_value());
     EXPECT_EQ(std::get<int64_t>(res->result), 5);
@@ -551,8 +553,12 @@ TEST(AggregatorTest, GroupByAggregation) {
         if (res.group_by_values.count("category")) {
             const auto& category_value = res.group_by_values.at("category");
             if (const auto* category = std::get_if<std::string>(&category_value)) {
-                if (*category == "A") found_a = true;
-                if (*category == "B") found_b = true;
+                if (*category == "A") {
+                  found_a = true;
+                }
+                if (*category == "B") {
+                  found_b = true;
+                }
             }
         }
     }
@@ -900,7 +906,9 @@ class CEPEngineTest : public ::testing::Test {
 protected:
     void SetUp() override {
         auto& engine = CEPEngine::getInstance();
-        if (engine.isInitialized()) engine.shutdown();
+        if (engine.isInitialized()) {
+          engine.shutdown();
+        }
 
         CEPConfig cfg;
         cfg.worker_threads  = 2;
@@ -1116,7 +1124,9 @@ TEST_F(CEPEngineTest, SequencePatternRuleViaEngine) {
 
 TEST(CEPEngineBackpressureTest, EngineDropsEventsWhenQueueFull) {
     auto& engine = CEPEngine::getInstance();
-    if (engine.isInitialized()) engine.shutdown();
+    if (engine.isInitialized()) {
+      engine.shutdown();
+    }
 
     CEPConfig cfg;
     cfg.worker_threads  = 0;        // No workers: queue fills up immediately
@@ -1145,7 +1155,9 @@ TEST(CEPEngineBackpressureTest, EngineDropsEventsWhenQueueFull) {
 
 TEST(CEPEngineBackpressureTest, BackpressureMetricInPrometheus) {
     auto& engine = CEPEngine::getInstance();
-    if (engine.isInitialized()) engine.shutdown();
+    if (engine.isInitialized()) {
+      engine.shutdown();
+    }
 
     CEPConfig cfg;
     cfg.worker_threads  = 0;
@@ -1168,7 +1180,9 @@ TEST(CEPEngineBackpressureTest, BackpressureMetricInPrometheus) {
 
 TEST(CEPEngineBackpressureTest, BackpressureDisabledStillUsesBoundedQueue) {
     auto& engine = CEPEngine::getInstance();
-    if (engine.isInitialized()) engine.shutdown();
+    if (engine.isInitialized()) {
+      engine.shutdown();
+    }
 
     CEPConfig cfg;
     cfg.worker_threads        = 0;
@@ -1199,7 +1213,9 @@ TEST(CEPEngineBackpressureTest, BackpressureDisabledStillUsesBoundedQueue) {
 
 TEST(CEPEngineBackpressureTest, QueueDepthReflectsUnprocessedEvents) {
     auto& engine = CEPEngine::getInstance();
-    if (engine.isInitialized()) engine.shutdown();
+    if (engine.isInitialized()) {
+      engine.shutdown();
+    }
 
     CEPConfig cfg;
     cfg.worker_threads        = 0;   // No workers: events accumulate
@@ -1239,7 +1255,9 @@ TEST(CEPStatefulCheckpointTest, PartialMatchStateSurvivesCheckpointRestore) {
     // ── Phase 1: submit event A, checkpoint, then restart ──────────────────
     {
         auto& engine = CEPEngine::getInstance();
-        if (engine.isInitialized()) engine.shutdown();
+        if (engine.isInitialized()) {
+          engine.shutdown();
+        }
 
         CEPConfig cfg;
         cfg.worker_threads        = 1;
@@ -1274,7 +1292,9 @@ TEST(CEPStatefulCheckpointTest, PartialMatchStateSurvivesCheckpointRestore) {
         engine.shutdown();
 
         // ── Phase 2: restart, restore checkpoint, submit event B ───────────
-        if (engine.isInitialized()) engine.shutdown();
+        if (engine.isInitialized()) {
+          engine.shutdown();
+        }
         engine.initialize(cfg);
 
         // Re-register the same rule (simulate fresh start)
@@ -1306,7 +1326,9 @@ TEST(CEPStatefulCheckpointTest, CheckpointWithNoPartialMatchesIsClean) {
     std::filesystem::remove_all(cp_path);
 
     auto& engine = CEPEngine::getInstance();
-    if (engine.isInitialized()) engine.shutdown();
+    if (engine.isInitialized()) {
+      engine.shutdown();
+    }
 
     CEPConfig cfg;
     cfg.worker_threads        = 1;
@@ -1338,7 +1360,9 @@ TEST(CEPStatefulCheckpointTest, CheckpointWithNoPartialMatchesIsClean) {
 // std::this_thread::sleep_for (which would block for the full interval).
 TEST(CEPEngineShutdownTest, ShutdownReturnsWithin100msRegardlessOfMetricsInterval) {
     auto& engine = CEPEngine::getInstance();
-    if (engine.isInitialized()) engine.shutdown();
+    if (engine.isInitialized()) {
+      engine.shutdown();
+    }
 
     CEPConfig cfg;
     cfg.worker_threads        = 1;
@@ -1369,7 +1393,9 @@ TEST(CEPEngineShutdownTest, StopLatencyWithActiveWorkers) {
 #endif
 
     auto& engine = CEPEngine::getInstance();
-    if (engine.isInitialized()) engine.shutdown();
+    if (engine.isInitialized()) {
+      engine.shutdown();
+    }
 
     CEPConfig cfg;
     cfg.worker_threads        = 4;

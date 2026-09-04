@@ -125,7 +125,7 @@ TEST(CycleMetricsTest, LockFreeRingBuffer) {
     EXPECT_EQ(buffer.size(), 3);
     
     // Test pop
-    int value;
+    int value = {};
     EXPECT_TRUE(buffer.tryPop(value));
     EXPECT_EQ(value, 1);
     EXPECT_TRUE(buffer.tryPop(value));
@@ -153,7 +153,7 @@ TEST(CycleMetricsTest, LockFreeRingBufferOverflow) {
     EXPECT_EQ(buffer.dropped_count(), 1);
     
     // Pop one, then push should succeed
-    int value;
+    int value = {};
     EXPECT_TRUE(buffer.tryPop(value));
     EXPECT_TRUE(buffer.tryPush(777));
 }
@@ -187,7 +187,7 @@ TEST(CycleMetricsTest, LockFreeRingBufferConcurrent) {
         }
         
         int received = 0;
-        int value;
+        int value = 0;
         while (received < NUM_ITEMS) {
             if (buffer.tryPop(value)) {
                 EXPECT_EQ(value, received);

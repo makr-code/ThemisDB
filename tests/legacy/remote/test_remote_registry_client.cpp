@@ -246,7 +246,7 @@ TEST(RemoteRegistryClient, PartialFileCleanedUpOnFailure) {
     cfg.verify_ssl   = false;
     cfg.download_dir = "/tmp/themis_test_cleanup";
 
-    std::error_code dir_ec;
+    std::error_code dir_ec = {};
     std::filesystem::create_directories(cfg.download_dir, dir_ec);
     EXPECT_FALSE(dir_ec) << "Failed to create test dir: " << dir_ec.message();
     if (dir_ec) {

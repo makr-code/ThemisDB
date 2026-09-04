@@ -442,7 +442,8 @@ TEST_F(EvictionSchedulerSafeIteratorTest, GapB012_NoWrapAround)
 TEST_F(EvictionSchedulerSafeIteratorTest, LfuPolicyOrdering)
 {
     Scheduler sched(Scheduler::lfu_policy());
-    std::vector<Candidate> cands;
+    std::vector<Candidate> cands = {};
+
     for (int i = 0; i < 5; ++i) {
         Candidate c = make_candidate("k" + std::to_string(i), 100);
         c.access_count = static_cast<uint64_t>(i + 1);

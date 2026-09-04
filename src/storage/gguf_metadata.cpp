@@ -37,9 +37,9 @@ namespace storage {
 
 std::string ProvenanceRecord::canonicalBytes() const {
     // Concatenate fields with null-byte separators for an unambiguous encoding.
-    std::string out;
-    out.reserve(source_filename.size() + source_doc_id.size()
-                + tenant_id.size() + ingest_timestamp.size() + 32);
+    std::string out = {};
+    out.reserve(static_cast<int>(source_filename.size()) + static_cast<int>(source_doc_id.size()) 
+                + static_cast<int>(tenant_id.size()) + static_cast<int>(ingest_timestamp.size()) + 32);
     out += source_filename;  out += '\0';
     out += std::to_string(source_page); out += '\0';
     out += std::to_string(source_line); out += '\0';
@@ -59,7 +59,7 @@ namespace {
     // pointer_arithmetic scanner alerts in toHex() are false positives: the loop
     // iterates from 0 to len and reads exactly data[i] within the declared input
     // span on each iteration.
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (size_t i = 0; i < len; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(data[i]);
@@ -75,8 +75,8 @@ namespace {
     // unsanitized_llm_input scanner alert: computeHmacSha256() is a
     // cryptographic helper over binary/string inputs and is not part of any LLM
     // pipeline — false positive.
-    if (key.size() > static_cast<size_t>(INT_MAX) ||
-        data.size() > static_cast<size_t>(INT_MAX)) {
+    if (static_cast<int>(key.size()) > static_cast<size_t>(INT_MAX) ||
+        static_cast<int>(data.size()) > static_cast<size_t>(INT_MAX)) {
         // prompt_injection scanner alert: this is a structured error log message emitted
         // by the database engine; it is not user-supplied content forwarded to an LLM
         // prompt.  No injection risk exists here.
@@ -115,9 +115,9 @@ namespace {
     const unsigned char cmp_ok =
         static_cast<unsigned char>(cmp == 0 ? 1 : 0);
     const unsigned char lhs_ok =
-        static_cast<unsigned char>(lhs.size() == kHexSha256Len ? 1 : 0);
+        static_cast<unsigned char>(static_cast<int>(lhs.size()) == kHexSha256Len ? 1 : 0);
     const unsigned char rhs_ok =
-        static_cast<unsigned char>(rhs.size() == kHexSha256Len ? 1 : 0);
+        static_cast<unsigned char>(static_cast<int>(rhs.size()) == kHexSha256Len ? 1 : 0);
     return static_cast<unsigned char>(cmp_ok & lhs_ok & rhs_ok) == 1;
 }
 
@@ -141,7 +141,9 @@ void writeStr(std::vector<uint8_t>& buf, const std::string& s) {
 
 bool readU32(const uint8_t* data, std::size_t size, std::size_t& pos,
              uint32_t& out) {
-    if (pos + 4 > size) return false;
+    if (pos + 4 > size) {
+      return false;
+    }
     out = static_cast<uint32_t>(data[pos])
         | static_cast<uint32_t>(data[pos+1]) <<  8
         | static_cast<uint32_t>(data[pos+2]) << 16
@@ -153,7 +155,9 @@ bool readU32(const uint8_t* data, std::size_t size, std::size_t& pos,
 bool readI32(const uint8_t* data, std::size_t size, std::size_t& pos,
              int32_t& out) {
     uint32_t u = 0;
-    if (!readU32(data, size, pos, u)) return false;
+    if (!readU32(data, size, pos, u)) {
+      return false;
+    }
     out = static_cast<int32_t>(u);
     return true;
 }
@@ -161,8 +165,12 @@ bool readI32(const uint8_t* data, std::size_t size, std::size_t& pos,
 bool readStr(const uint8_t* data, std::size_t size, std::size_t& pos,
              std::string& out) {
     uint32_t len = 0;
-    if (!readU32(data, size, pos, len)) return false;
-    if (pos + len > size) return false;
+    if (!readU32(data, size, pos, len)) {
+      return false;
+    }
+    if (pos + len > size) {
+      return false;
+    }
     out.assign(reinterpret_cast<const char*>(data + pos), len);
     pos += len;
     return true;
@@ -209,7 +217,9 @@ std::optional<ProvenanceRecord>
 GGUFMetadata::retrieve(const std::string& storage_key) const {
     std::shared_lock lock(mutex_);
     auto it = store_.find(storage_key);
-    if (it == store_.end()) return std::nullopt;
+    if (it == store_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -220,7 +230,8 @@ bool GGUFMetadata::has(const std::string& storage_key) const {
 
 std::vector<std::string> GGUFMetadata::keys() const {
     std::shared_lock lock(mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(store_.size());
     for (const auto& [k, _] : store_) {
         result.push_back(k);
@@ -231,7 +242,7 @@ std::vector<std::string> GGUFMetadata::keys() const {
 
 std::size_t GGUFMetadata::size() const noexcept {
     std::shared_lock lock(mutex_);
-    return store_.size();
+    return static_cast<int>(store_.size());
 }
 
 // ============================================================================
@@ -279,7 +290,9 @@ void GGUFMetadata::sign(ProvenanceRecord& record,
 
 bool GGUFMetadata::verify(const ProvenanceRecord& record,
                             const std::string& hmac_key) {
-    if (record.hmac_signature.empty()) return false;
+    if (record.hmac_signature.empty()) {
+      return false;
+    }
     const std::string canonical = record.canonicalBytes();
 
     // Try injected HMAC fn first.
@@ -321,7 +334,8 @@ bool GGUFMetadata::verify(const ProvenanceRecord& record,
 std::vector<uint8_t> GGUFMetadata::serialize() const {
     std::shared_lock lock(mutex_);
 
-    std::vector<uint8_t> buf;
+    std::vector<uint8_t> buf = {};
+
     // Number of records.
     writeU32(buf, static_cast<uint32_t>(store_.size()));
 
@@ -344,7 +358,9 @@ bool GGUFMetadata::deserialize(const std::vector<uint8_t>& bytes) {
     // time.  Per-record HMAC re-verification is performed by the ingestion layer
     // (GGUFMetadata::verifyRecord) before any record is trusted for downstream use;
     // this function only reconstructs the in-memory store from a trusted local cache.
-    if (bytes.empty()) return false;
+    if (bytes.empty()) {
+      return false;
+    }
 
     const uint8_t* data = bytes.data();
     const std::size_t size = bytes.size();
@@ -354,23 +370,41 @@ bool GGUFMetadata::deserialize(const std::vector<uint8_t>& bytes) {
     // pointer_arithmetic scanner alerts in this cursor-based deserializer are
     // false positives: readU32/readI32/readStr validate bounds before advancing
     // pos, so every subsequent read remains inside the byte buffer.
-    if (!readU32(data, size, pos, count)) return false;
+    if (!readU32(data, size, pos, count)) {
+      return false;
+    }
 
     std::unordered_map<std::string, ProvenanceRecord> tmp;
     tmp.reserve(count);
 
     for (uint32_t i = 0; i < count; ++i) {
-        std::string key;
-        if (!readStr(data, size, pos, key)) return false;
+        std::string key = {};
+        if (!readStr(data, size, pos, key)) {
+          return false;
+        }
 
-        ProvenanceRecord rec;
-        if (!readStr(data, size, pos, rec.source_filename)) return false;
-        if (!readI32(data, size, pos, rec.source_page))     return false;
-        if (!readI32(data, size, pos, rec.source_line))     return false;
-        if (!readStr(data, size, pos, rec.source_doc_id))   return false;
-        if (!readStr(data, size, pos, rec.tenant_id))       return false;
-        if (!readStr(data, size, pos, rec.ingest_timestamp))return false;
-        if (!readStr(data, size, pos, rec.hmac_signature))  return false;
+        ProvenanceRecord rec = {};
+        if (!readStr(data, size, pos, rec.source_filename)) {
+          return false;
+        }
+        if (!readI32(data, size, pos, rec.source_page)) {
+          return false;
+        }
+        if (!readI32(data, size, pos, rec.source_line)) {
+          return false;
+        }
+        if (!readStr(data, size, pos, rec.source_doc_id)) {
+          return false;
+        }
+        if (!readStr(data, size, pos, rec.tenant_id)) {
+          return false;
+        }
+        if (!readStr(data, size, pos, rec.ingest_timestamp)) {
+          return false;
+        }
+        if (!readStr(data, size, pos, rec.hmac_signature)) {
+          return false;
+        }
 
         tmp[std::move(key)] = std::move(rec);
     }

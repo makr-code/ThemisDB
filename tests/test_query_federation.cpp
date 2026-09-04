@@ -37,7 +37,8 @@ public:
         const std::vector<std::string>& shard_ids) override
     {
         last_on_shards_call = shard_ids;
-        std::vector<ShardResult> results;
+        std::vector<ShardResult> results = {};
+
         for (const auto& id : shard_ids) {
             ShardResult r;
             r.shard_id = id;
@@ -489,7 +490,8 @@ TEST(QueryFederationRAGTest, QF_RAG_01_MergeContainsDocsFromAllThreeShards) {
     auto ctx = qf.mergeRAGResults(inputs);
 
     // Collect shard IDs present in merged output
-    std::set<std::string> shards_seen;
+    std::set<std::string> shards_seen = {};
+
     for (const auto& doc : ctx.documents) {
         shards_seen.insert(doc.shard_id);
     }

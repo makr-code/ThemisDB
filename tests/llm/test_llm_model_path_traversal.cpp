@@ -70,7 +70,7 @@ protected:
     }
 
     void TearDown() override {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(model_root_, ec);
     }
 };

@@ -172,7 +172,9 @@ struct ServerEnv {
     }
 
     bool ensureInit(benchmark::State& state) {
-        if (ready) return true;
+        if (ready) {
+          return true;
+        }
         try {
             std::filesystem::remove_all(kBenchDb);
 
@@ -558,7 +560,9 @@ BENCHMARK(BM_HttpMessage_Build_PostRequest);
 // ============================================================================
 
 static void BM_HttpServer_Health_Endpoint(benchmark::State& state) {
-    if (!ServerEnv::instance().ensureInit(state)) return;
+    if (!ServerEnv::instance().ensureInit(state)) {
+      return;
+    }
 
     for (auto _ : state) {
         auto status = sendHttpRequest("/health", http::verb::get);
@@ -575,7 +579,9 @@ BENCHMARK(BM_HttpServer_Health_Endpoint);
 // ============================================================================
 
 static void BM_HttpServer_Documents_List_Persistent(benchmark::State& state) {
-    if (!ServerEnv::instance().ensureInit(state)) return;
+    if (!ServerEnv::instance().ensureInit(state)) {
+      return;
+    }
 
     // Open a single persistent (keep-alive) connection for the entire run
     try {

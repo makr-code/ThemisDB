@@ -75,7 +75,7 @@ json PerformanceAnalysis::toJSON() const {
 }
 
 std::string PerformanceAnalysis::toReport() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "=== ThemisDB Performance Analysis Report ===\n\n";
     
@@ -94,14 +94,14 @@ std::string PerformanceAnalysis::toReport() const {
             case IssueSeverity::INFO: info++; break;
         }
     }
-    oss << "Total Issues: " << issues.size() << "\n";
+    oss << "Total Issues: " <<static_cast<int>(issues.size()) << "\n";
     oss << "  Critical: " << critical << "\n";
     oss << "  Warning: " << warning << "\n";
     oss << "  Info: " << info << "\n\n";
     
     // Issues
     oss << "--- Issues ---\n\n";
-    for (size_t i = 0; i < issues.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(issues.size()); ++i) {
         const auto& issue = issues[i];
         oss << i + 1 << ". [" << to_string(issue.severity) << "] " 
             << issue.title << "\n";
@@ -167,7 +167,7 @@ PerformanceAnalysis PerformanceAnalyzer::analyze(const QueryProfiler& query_prof
     
     // Generate summary metrics
     analysis.summary_metrics = json{
-        {"total_issues", analysis.issues.size()},
+        {"total_issues",static_cast<int>(analysis.issues.size())},
         {"critical_issues", std::count_if(analysis.issues.begin(), analysis.issues.end(),
             [](const auto& i) { return i.severity == IssueSeverity::CRITICAL; })},
         {"warning_issues", std::count_if(analysis.issues.begin(), analysis.issues.end(),
@@ -257,7 +257,8 @@ json PerformanceAnalyzer::generate_recommendations(
     const std::vector<PerformanceIssue>& issues) {
     json recommendations = json::array();
     
-    std::unordered_map<IssueCategory, size_t> category_counts;
+    std::unordered_map<IssueCategory, size_t> category_counts = {};
+
     for (const auto& issue : issues) {
         category_counts[issue.category]++;
     }
@@ -306,7 +307,7 @@ void PerformanceAnalyzer::export_html_report(const PerformanceAnalysis& analysis
     // Summary section
     file << "<div class='summary'>\n";
     file << "<h2>Summary</h2>\n";
-    file << "<p>Total Issues: " << analysis.issues.size() << "</p>\n";
+    file << "<p>Total Issues: " <<static_cast<int>(analysis.issues.size()) << "</p>\n";
     file << "</div>\n";
     
     // Issues section
@@ -329,7 +330,7 @@ PerformanceIssue PerformanceAnalyzer::check_slow_queries(const QueryProfiler& qu
     }
     
     PerformanceIssue issue;
-    issue.severity = slow_queries.size() > 10 ? IssueSeverity::CRITICAL : IssueSeverity::WARNING;
+    issue.severity = static_cast<int>(slow_queries.size()) > 10 ? IssueSeverity::CRITICAL : IssueSeverity::WARNING;
     issue.category = IssueCategory::SLOW_OPERATIONS;
     issue.title = "Slow Queries Detected";
     issue.description = "Found " + std::to_string(slow_queries.size()) + 
@@ -342,7 +343,7 @@ PerformanceIssue PerformanceAnalyzer::check_slow_queries(const QueryProfiler& qu
         "Optimize query predicates"
     };
     issue.metrics = json{
-        {"count", slow_queries.size()},
+        {"count",static_cast<int>(slow_queries.size())},
         {"threshold_ms", impl_->config.slow_query_threshold.count()}
     };
     
@@ -363,7 +364,7 @@ PerformanceIssue PerformanceAnalyzer::check_full_scans(const QueryProfiler& quer
     const size_t queries_with_index = stats.value("queries_with_index", static_cast<size_t>(0));
     const size_t full_scan_proxy    = (queries_with_index <= total_queries)
                                       ? (total_queries - queries_with_index)
-                                      : 0u;
+                                      : 0;
 
     if (full_scan_proxy == 0 || full_scan_proxy < impl_->config.max_full_scan_threshold) {
         return PerformanceIssue{};
@@ -522,7 +523,7 @@ PerformanceIssue PerformanceAnalyzer::check_slow_storage_ops(
     }
     
     PerformanceIssue issue;
-    issue.severity = slow_ops.size() > 100 ? IssueSeverity::CRITICAL : IssueSeverity::WARNING;
+    issue.severity = static_cast<int>(slow_ops.size()) > 100 ? IssueSeverity::CRITICAL : IssueSeverity::WARNING;
     issue.category = IssueCategory::SLOW_OPERATIONS;
     issue.title = "Slow Storage Operations";
     issue.description = "Found " + std::to_string(slow_ops.size()) + 
@@ -534,7 +535,7 @@ PerformanceIssue PerformanceAnalyzer::check_slow_storage_ops(
         "Optimize batch operations"
     };
     issue.metrics = json{
-        {"count", slow_ops.size()},
+        {"count",static_cast<int>(slow_ops.size())},
         {"threshold_ms", impl_->config.slow_storage_op_threshold.count()}
     };
     
@@ -566,9 +567,9 @@ std::string PerformanceAnalyzer::generate_html_footer() const {
 }
 
 std::string PerformanceAnalyzer::generate_html_issue_section(const PerformanceIssue& issue) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
-    std::string severity_class;
+    std::string severity_class = {};
     switch (issue.severity) {
         case IssueSeverity::CRITICAL: severity_class = "critical"; break;
         case IssueSeverity::WARNING: severity_class = "warning"; break;

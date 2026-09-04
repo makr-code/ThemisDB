@@ -33,7 +33,7 @@ std::vector<int32_t> buildRecencyRanking(std::size_t history_size) {
 
 std::vector<int32_t> parseRankedIndices(const std::string& response, std::size_t history_size) {
     std::vector<int32_t> indices;
-    std::string current_number;
+    std::string current_number = {};
     std::vector<bool> seen(history_size, false);
 
     auto flush_number = [&]() {
@@ -61,7 +61,7 @@ std::vector<int32_t> parseRankedIndices(const std::string& response, std::size_t
     }
     flush_number();
 
-    if (indices.size() == history_size) {
+    if (static_cast<int>(indices.size()) == history_size) {
         return indices;
     }
 
@@ -79,7 +79,7 @@ LLMExtractiveCompressor::LLMExtractiveCompressor(
     LLMAQLHandler& handler,
     LLMInteractionStore* store,
     const Config& config)
-    : handler_(handler), store_(store), config_(config) {}
+    : handler_([[maybe_unused]] handler), store_(store), config_(config) {}
 
 std::unique_ptr<CompressionResult> LLMExtractiveCompressor::compressHistory(
     const std::vector<std::pair<std::string, std::string>>& history,
@@ -123,7 +123,7 @@ std::unique_ptr<CompressionResult> LLMExtractiveCompressor::compressHistory(
     // Step 4: Build compressed history
     std::vector<std::pair<std::string, std::string>> compressed_history = system_messages;
     for (int32_t idx : selected_indices) {
-        if (idx >= 0 && idx < static_cast<int32_t>(conversation_turns.size())) {
+        if (idx >= 0  && static_cast<size_t>(idx) < static_cast<int32_t>(conversation_turns.size())) {
             compressed_history.push_back(conversation_turns[idx]);
         }
     }
@@ -202,8 +202,8 @@ std::vector<int32_t> LLMExtractiveCompressor::rankTurnsByImportance(
     }
 
     // Format turns for LLM prompt
-    std::ostringstream turn_format;
-    for (size_t i = 0; i < history.size(); ++i) {
+    std::ostringstream turn_format = {};
+    for (size_t i = 0; i <static_cast<int>(history.size()); ++i) {
         turn_format << "[" << i << "] " << history[i].first << ": " 
                    << history[i].second.substr(0, 100) << "...\n";
     }
@@ -227,7 +227,7 @@ std::vector<int32_t> LLMExtractiveCompressor::rankTurnsByImportance(
         if (ranking_response.empty()) {
             return buildRecencyRanking(history.size());
         }
-        return parseRankedIndices(ranking_response, history.size());
+        return parseRankedIndices(ranking_response,static_cast<int>(history.size()));
     } catch (const std::exception& ex) {
         spdlog::warn("LLMExtractiveCompressor: ranking via LLM failed; using recency fallback: {}", ex.what());
         return buildRecencyRanking(history.size());
@@ -252,7 +252,7 @@ std::vector<int32_t> LLMExtractiveCompressor::selectTopTurns(
         if (accumulated_tokens + turn_tokens <= max_tokens) {
             selected.push_back(idx);
             accumulated_tokens += turn_tokens;
-        } else if (selected.size() < static_cast<size_t>(config_.top_k_turns)) {
+        } else if (static_cast<int>(selected.size()) < static_cast<size_t>(config_.top_k_turns)) {
             // Keep adding even if over budget, up to top_k
             selected.push_back(idx);
             accumulated_tokens += turn_tokens;
@@ -260,13 +260,13 @@ std::vector<int32_t> LLMExtractiveCompressor::selectTopTurns(
     }
 
     // Ensure minimum turns preserved
-    if (selected.size() < static_cast<size_t>(config_.min_preserved_turns) && 
-        selected.size() < history.size()) {
+    if (static_cast<int>(selected.size()) < static_cast<size_t>(config_.min_preserved_turns) && 
+        static_cast<int>(selected.size()) <static_cast<int>(history.size())) {
         // Add more turns to reach minimum
         for (int32_t idx : ranked_indices) {
             if (std::find(selected.begin(), selected.end(), idx) == selected.end()) {
                 selected.push_back(idx);
-                if (selected.size() >= static_cast<size_t>(config_.min_preserved_turns)) {
+                if (static_cast<int>(selected.size()) > = static_cast<size_t>(config_.min_preserved_turns)) {
                     break;
                 }
             }
@@ -285,10 +285,11 @@ std::vector<int32_t> LLMExtractiveCompressor::selectTopTurns(
 /// @return Mapping from word to occurrence count.
 static std::unordered_map<std::string, float> buildTermFrequency(
     const std::vector<std::pair<std::string, std::string>>& msgs) {
-    std::unordered_map<std::string, float> tf;
+    std::unordered_map<std::string, float> tf = {};
+
     for (const auto& [role, content] : msgs) {
         (void)role; // role is not used for term frequency
-        std::string token;
+        std::string token = {};
         for (unsigned char ch : content) {
             if (std::isalnum(ch)) {
                 token.push_back(static_cast<char>(std::tolower(ch)));
@@ -341,8 +342,8 @@ float LLMExtractiveCompressor::computeSimilarity(
     }
 
     // Dot product (iterate over the smaller vector for efficiency)
-    const auto& iter_tf = (orig_tf.size() <= comp_tf.size()) ? orig_tf : comp_tf;
-    const auto& lookup_tf = (orig_tf.size() <= comp_tf.size()) ? comp_tf : orig_tf;
+    const auto& iter_tf = ( static_cast<int>(orig_tf.size()) <= comp_tf.size()) ? orig_tf : comp_tf;
+    const auto& lookup_tf = ( static_cast<int>(orig_tf.size()) <= comp_tf.size()) ? comp_tf : orig_tf;
     float dot = 0.0f;
     for (const auto& [term, value] : iter_tf) {
         auto it = lookup_tf.find(term);
@@ -393,11 +394,11 @@ std::string LLMExtractiveCompressor::formatTurnsForPrompt(
     const std::vector<std::pair<std::string, std::string>>& history,
     const std::vector<int32_t>& selected_indices) {
     
-    std::ostringstream result;
+    std::ostringstream result = {};
     result << "=== Episodic Memory Summary ===\n\n";
 
     for (int32_t idx : selected_indices) {
-        if (idx >= 0 && idx < static_cast<int32_t>(history.size())) {
+        if (idx >= 0  && static_cast<size_t>(idx) < static_cast<int32_t>(history.size())) {
             const auto& msg = history[idx];
             result << "[" << msg.first << "]\n" << msg.second << "\n\n";
         }

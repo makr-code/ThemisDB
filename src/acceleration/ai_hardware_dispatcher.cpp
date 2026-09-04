@@ -169,11 +169,11 @@ bool validateSimilarityRequest(const AiInferenceRequest &req, std::string &error
 
 AiInferenceResult runVectorSimilarityDispatch(const ANNKernelDispatch &dispatch, BackendType backend_type,
                                               const std::string &ep_used, const AiInferenceRequest &req) {
-    AiInferenceResult result;
+    AiInferenceResult result = AiInferenceResult();
     result.backend_used = backend_type;
     result.ep_used      = ep_used;
 
-    std::string validation_error;
+    std::string validation_error = {};
     if (!validateSimilarityRequest(req, validation_error)) {
         result.success = false;
         result.error   = validation_error;
@@ -431,12 +431,12 @@ AiInferenceResult AiHardwareDispatcher::runOn(BackendType backend, AiInferenceRe
         case BackendType::ONNX_RUNTIME:
             return dispatchOnnxRuntime(req);
         case BackendType::CUDA:
-        case BackendType::HIP:
-        case BackendType::VULKAN:
-        case BackendType::METAL:
-        case BackendType::OPENCL:
-        case BackendType::DIRECTX:
-        case BackendType::ONEAPI:
+        [[fallthrough]];\n        case BackendType::HIP:
+        [[fallthrough]];\n        case BackendType::VULKAN:
+        [[fallthrough]];\n        case BackendType::METAL:
+        [[fallthrough]];\n        case BackendType::OPENCL:
+        [[fallthrough]];\n        case BackendType::DIRECTX:
+        [[fallthrough]];\n        case BackendType::ONEAPI:
             return dispatchGpuFallback(req);
         default:
             return dispatchCpuFallback(req);
@@ -759,7 +759,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchAppleANE([[maybe_unused]] AiInfe
     // This stub delegates to the Metal backend which has Core ML integration.
     // A real implementation would create an MLModel session, prepare an
     // MLMultiArray from req.input_data, run prediction, and extract results.
-    AiInferenceResult result;
+    AiInferenceResult result = AiInferenceResult();
     result.success      = false;
     result.backend_used = BackendType::NPU_APPLE;
     result.error        = "Core ML dispatch requires Objective-C++ compilation "
@@ -800,7 +800,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchIntelNPU([[maybe_unused]] AiInfe
         const float *out_ptr = output_tensor.data<float>();
         size_t out_size      = output_tensor.get_size();
 
-        AiInferenceResult result;
+        AiInferenceResult result = AiInferenceResult();
         result.success      = true;
         result.backend_used = BackendType::NPU_INTEL;
         result.ep_used      = "OpenVINOExecutionProvider/NPU";
@@ -829,7 +829,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchQualcommQNN([[maybe_unused]] AiI
     // QnnInterface_getProviders → QnnBackend_create → QnnContext_create →
     // QnnGraph_create → populate graph → QnnGraph_finalize → execute.
     // Full implementation requires QNN SDK linkage (-DTHEMIS_ENABLE_NPU_QUALCOMM=ON).
-    AiInferenceResult result;
+    AiInferenceResult result = AiInferenceResult();
     result.success      = false;
     result.backend_used = BackendType::NPU_QUALCOMM;
     result.error        = "QNN full dispatch requires QNN SDK linkage. "
@@ -848,7 +848,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchArmEthos([[maybe_unused]] AiInfe
     }
     // ARM Ethos-N dispatch via the Ethos-N kernel driver ioctl interface or
     // via the Arm NN TfLite delegate.  Requires linking libEthosN.so.
-    AiInferenceResult result;
+    AiInferenceResult result = AiInferenceResult();
     result.success      = false;
     result.backend_used = BackendType::NPU_ARM;
     result.error        = "ARM Ethos-N dispatch requires libEthosN.so linkage. "
@@ -878,7 +878,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchNNAPI([[maybe_unused]] AiInferen
     }
     return ort_result;
 #else
-    AiInferenceResult result;
+    AiInferenceResult result = AiInferenceResult();
     result.success      = false;
     result.backend_used = BackendType::NNAPI;
     result.error        = "NNAPI dispatch requires ONNX Runtime "
@@ -901,7 +901,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime([[maybe_unused]] AiI
     }
 
     auto t0 = std::chrono::steady_clock::now();
-    AiInferenceResult result;
+    AiInferenceResult result = AiInferenceResult();
     result.backend_used = BackendType::ONNX_RUNTIME;
     result.ep_used      = req.chosen_ep.empty() ? "CPUExecutionProvider" : req.chosen_ep;
 
@@ -957,7 +957,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime([[maybe_unused]] AiI
         // Input tensor
         OrtValue *input_tensor = nullptr;
         ort->CreateTensorWithDataAsOrtValue(mem_info, const_cast<float *>(req.input_data),
-                                            req.input_elements * sizeof(float), shape.data(), shape.size(),
+                                            req.input_elements * sizeof(float), shape.data(),static_cast<int>(shape.size()),
                                             ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT, &input_tensor);
 
         // Query input/output names
@@ -1045,7 +1045,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime([[maybe_unused]] AiI
 AiInferenceResult AiHardwareDispatcher::dispatchGpuFallback(AiInferenceRequest &req) {
     if (isVectorSimilarityTask(req.task_tag)) {
 #ifdef THEMIS_ENABLE_CUDA
-        CUDAVectorBackend cuda_backend;
+        CUDAVectorBackend cuda_backend = {};
         if (!cuda_backend.initialize()) {
             THEMIS_WARN("AiHardwareDispatcher: CUDA backend init failed for vector similarity — using CPU fallback");
             return runCpuVectorSimilarity(req);
@@ -1081,7 +1081,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchCpuFallback(AiInferenceRequest &
     // CPU fallback: identity copy (caller is expected to provide a pre-computed
     // embedding or run the model via a separate thread-pool).  Real inference
     // would call an llama.cpp / ggml or OpenBLAS routine here.
-    AiInferenceResult result;
+    AiInferenceResult result = AiInferenceResult();
     result.success      = true;
     result.backend_used = BackendType::CPU;
     result.ep_used      = "CPUExecutionProvider";

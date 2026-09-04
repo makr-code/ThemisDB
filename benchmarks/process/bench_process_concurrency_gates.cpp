@@ -212,7 +212,7 @@ static void BM_CP01_ConcurrentCrud_Small(benchmark::State& state) {
                             break;
                         }
                         case 1: {  // Update
-                            SimProcessModel m;
+                            SimProcessModel m = {};
                             if (store->read(model_id, m)) {
                                 m.revision++;
                                 store->update(model_id, m);
@@ -303,7 +303,7 @@ static void BM_CP02_ConcurrentCrud_Medium(benchmark::State& state) {
                             break;
                         }
                         case 1: {
-                            SimProcessModel m;
+                            SimProcessModel m = {};
                             if (store->read(model_id, m)) {
                                 m.revision++;
                                 store->update(model_id, m);
@@ -425,7 +425,7 @@ static void BM_CP04_ConcurrentExport(benchmark::State& state) {
             threads.emplace_back([&store, &thread_exports, t, num_models]() {
                 for (int i = t; i < num_models; i += kNumThreads) {
                     std::string model_id = "model_" + std::to_string(i);
-                    SimProcessModel m;
+                    SimProcessModel m = {};
                     if (store->read(model_id, m)) {
                         std::string xml = simulateBpmnExport(m);
                         benchmark::DoNotOptimize(xml);
@@ -557,7 +557,7 @@ static void BM_CP06_ConcurrentRetrieval_Medium(benchmark::State& state) {
                 for (int q = 0; q < 100; ++q) {
                     int model_idx = model_dist(gen);
                     std::string model_id = "model_" + std::to_string(model_idx);
-                    SimProcessModel m;
+                    SimProcessModel m = {};
                     if (store->read(model_id, m)) {
                         thread_queries[t]++;
                     }

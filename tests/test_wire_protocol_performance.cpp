@@ -138,9 +138,13 @@ TEST(WireProtocolMetrics, SlidingWindowEvictsOldSamples) {
     WireProtocolMetrics m(cfg);
 
     // First 5 samples: 100 ms each
-    for (int i = 0; i < 5; ++i) m.recordLatencyMs(100.0);
+    for (int i = 0; i < 5; ++i) {
+      m.recordLatencyMs(100.0);
+    }
     // Overwrite with 1 ms each
-    for (int i = 0; i < 5; ++i) m.recordLatencyMs(1.0);
+    for (int i = 0; i < 5; ++i) {
+      m.recordLatencyMs(1.0);
+    }
 
     auto snap = m.snapshot();
     EXPECT_EQ(snap.latency.sample_count, 5u);

@@ -36,7 +36,7 @@ static inline double clamp(double v, double lo, double hi) noexcept {
 static std::string replaceAll(std::string s, const std::string &from, const std::string &to) {
     std::string::size_type pos = 0;
     while ((pos = s.find(from, pos)) != std::string::npos) {
-        s.replace(pos, from.size(), to);
+        s.replace(pos,static_cast<int>(from.size()), to);
         pos += to.size();
     }
     return s;
@@ -54,7 +54,7 @@ TileCoord latLonToTile(double lon, double lat, uint32_t zoom) noexcept {
     lat = clamp(lat, -kMercatorMaxLat, kMercatorMaxLat);
     lon = clamp(lon, -180.0, 180.0);
 
-    const double n = static_cast<double>(1u << zoom); // 2^zoom
+    const double n = static_cast<double>(1 << zoom); // 2^zoom
 
     // Tile column: linear in longitude.
     const double x_f = (lon + 180.0) / 360.0 * n;
@@ -64,7 +64,7 @@ TileCoord latLonToTile(double lon, double lat, uint32_t zoom) noexcept {
     const double lat_r = lat * kTilePi / 180.0;
     const double y_f   = (1.0 - std::log(std::tan(lat_r) + 1.0 / std::cos(lat_r)) / kTilePi) / 2.0 * n;
 
-    const uint32_t max_idx = (zoom == 0) ? 0u : static_cast<uint32_t>(n) - 1u;
+    const uint32_t max_idx = (zoom == 0) ? 0 : static_cast<uint32_t>(n) - 1;
 
     TileCoord tc;
     tc.zoom = zoom;
@@ -80,14 +80,14 @@ TileCoord latLonToTile(double lon, double lat, uint32_t zoom) noexcept {
 double tileXToLon(uint32_t x, uint32_t zoom) noexcept {
     if (zoom > kMaxZoom)
         zoom = kMaxZoom;
-    const double n = static_cast<double>(1u << zoom);
+    const double n = static_cast<double>(1 << zoom);
     return static_cast<double>(x) / n * 360.0 - 180.0;
 }
 
 double tileYToLat(uint32_t y, uint32_t zoom) noexcept {
     if (zoom > kMaxZoom)
         zoom = kMaxZoom;
-    const double n   = static_cast<double>(1u << zoom);
+    const double n   = static_cast<double>(1 << zoom);
     const double rad = std::atan(std::sinh(kTilePi * (1.0 - 2.0 * static_cast<double>(y) / n)));
     return rad * 180.0 / kTilePi;
 }
@@ -200,7 +200,7 @@ VectorTileResult encodeVectorTile(const TileCoord &tile, const std::vector<Geome
     const double ext = static_cast<double>(tile_extent);
 
     for (const auto &geom : geometries) {
-        VectorTileFeature feat;
+        VectorTileFeature feat = {};
 
         if (geom.type == GeometryType::Point) {
             if (geom.coords.empty()) {

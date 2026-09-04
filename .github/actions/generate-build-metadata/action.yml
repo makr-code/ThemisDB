@@ -1,0 +1,132 @@
+name: Generate Build Metadata
+description: |
+  Generates build-metadata.json and OCI image annotations from VERSION/RELEASE_TYPE files.
+  Metadata includes build timestamp, git commit, build number, and release type.
+
+inputs:
+  version-file:
+    description: Path to VERSION file (relative to repo root)
+    required: false
+    default: VERSION
+  release-type-file:
+    description: Path to RELEASE_TYPE file (relative to repo root)
+    required: false
+    default: RELEASE_TYPE
+  output-path:
+    description: Path where to write build-metadata.json
+    required: false
+    default: build-metadata.json
+  include-sbom:
+    description: Include SBOM hash in metadata (if available)
+    required: false
+    default: "false"
+
+outputs:
+  build-metadata-json:
+    description: Path to generated build-metadata.json
+    value: ${{ steps.generate.outputs.metadata-path }}
+  build-version:
+    description: Extracted version string
+    value: ${{ steps.generate.outputs.version }}
+  release-type:
+    description: Extracted release type
+    value: ${{ steps.generate.outputs.release-type }}
+  docker-labels:
+    description: OCI image labels as JSON (use in docker/build-push-action)
+    value: ${{ steps.generate.outputs.docker-labels }}
+
+runs:
+  using: composite
+  steps:
+    - name: Generate metadata
+      id: generate
+      shell: bash
+      run: |
+        set -euo pipefail
+        
+        # Read VERSION and RELEASE_TYPE
+        VERSION_FILE="${{ github.workspace }}/${{ inputs.version-file }}"
+        RELEASE_TYPE_FILE="${{ github.workspace }}/${{ inputs.release-type-file }}"
+        OUTPUT_PATH="${{ inputs.output-path }}"
+        
+        if [[ ! -f "$VERSION_FILE" ]]; then
+          echo "ERROR: VERSION file not found: $VERSION_FILE" >&2
+          exit 1
+        fi
+        
+        if [[ ! -f "$RELEASE_TYPE_FILE" ]]; then
+          echo "ERROR: RELEASE_TYPE file not found: $RELEASE_TYPE_FILE" >&2
+          exit 1
+        fi
+        
+        VERSION=$(cat "$VERSION_FILE" | tr -d '[:space:]')
+        RELEASE_TYPE=$(cat "$RELEASE_TYPE_FILE" | tr -d '[:space:]')
+        BUILD_TIMESTAMP=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+        GIT_COMMIT=$(git rev-parse HEAD)
+        GIT_COMMIT_SHORT=$(git rev-parse --short HEAD)
+        GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+        GITHUB_RUN_ID="${{ github.run_id }}"
+        GITHUB_RUN_NUMBER="${{ github.run_number }}"
+        BUILD_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        
+        # Optional SBOM
+        SBOM_HASH=""
+        if [[ "${{ inputs.include-sbom }}" == "true" ]] && [[ -f "build-metadata.sbom.cdx.json" ]]; then
+          SBOM_HASH=$(sha256sum build-metadata.sbom.cdx.json | awk '{print $1}')
+        fi
+        
+        # Generate build-metadata.json with proper JSON escaping
+        cat > "$OUTPUT_PATH" <<'METADATA_EOF'
+        {
+          "build": {
+            "timestamp": "BUILD_TIMESTAMP_PLACEHOLDER",
+            "url": "BUILD_URL_PLACEHOLDER",
+            "number": GITHUB_RUN_NUMBER_PLACEHOLDER,
+            "id": "GITHUB_RUN_ID_PLACEHOLDER"
+          },
+          "version": {
+            "version": "VERSION_PLACEHOLDER",
+            "release_type": "RELEASE_TYPE_PLACEHOLDER"
+          },
+          "git": {
+            "commit": "GIT_COMMIT_PLACEHOLDER",
+            "commit_short": "GIT_COMMIT_SHORT_PLACEHOLDER",
+            "branch": "GIT_BRANCH_PLACEHOLDER"
+          },
+          "sbom_hash": "SBOM_HASH_PLACEHOLDER"
+        }
+        METADATA_EOF
+        
+        # Replace placeholders
+        sed -i "s|BUILD_TIMESTAMP_PLACEHOLDER|$BUILD_TIMESTAMP|g" "$OUTPUT_PATH"
+        sed -i "s|BUILD_URL_PLACEHOLDER|$BUILD_URL|g" "$OUTPUT_PATH"
+        sed -i "s|GITHUB_RUN_NUMBER_PLACEHOLDER|$GITHUB_RUN_NUMBER|g" "$OUTPUT_PATH"
+        sed -i "s|GITHUB_RUN_ID_PLACEHOLDER|$GITHUB_RUN_ID|g" "$OUTPUT_PATH"
+        sed -i "s|VERSION_PLACEHOLDER|$VERSION|g" "$OUTPUT_PATH"
+        sed -i "s|RELEASE_TYPE_PLACEHOLDER|$RELEASE_TYPE|g" "$OUTPUT_PATH"
+        sed -i "s|GIT_COMMIT_PLACEHOLDER|$GIT_COMMIT|g" "$OUTPUT_PATH"
+        sed -i "s|GIT_COMMIT_SHORT_PLACEHOLDER|$GIT_COMMIT_SHORT|g" "$OUTPUT_PATH"
+        sed -i "s|GIT_BRANCH_PLACEHOLDER|$GIT_BRANCH|g" "$OUTPUT_PATH"
+        sed -i "s|SBOM_HASH_PLACEHOLDER|$SBOM_HASH|g" "$OUTPUT_PATH"
+        
+        # Generate OCI labels for docker/build-push-action
+        # Format: label1=value1,label2=value2
+        DOCKER_LABELS="org.opencontainers.image.version=$VERSION"
+        DOCKER_LABELS="$DOCKER_LABELS,org.opencontainers.image.revision=$GIT_COMMIT"
+        DOCKER_LABELS="$DOCKER_LABELS,org.opencontainers.image.created=$BUILD_TIMESTAMP"
+        DOCKER_LABELS="$DOCKER_LABELS,org.opencontainers.image.url=$BUILD_URL"
+        DOCKER_LABELS="$DOCKER_LABELS,dev.themisdb.release_type=$RELEASE_TYPE"
+        DOCKER_LABELS="$DOCKER_LABELS,dev.themisdb.github_run=$GITHUB_RUN_NUMBER"
+        
+        # Set outputs
+        echo "metadata-path=$OUTPUT_PATH" >> "$GITHUB_OUTPUT"
+        echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+        echo "release-type=$RELEASE_TYPE" >> "$GITHUB_OUTPUT"
+        echo "docker-labels=$DOCKER_LABELS" >> "$GITHUB_OUTPUT"
+        
+        echo "✓ Generated build metadata:"
+        echo "  Version: $VERSION"
+        echo "  Release Type: $RELEASE_TYPE"
+        echo "  Commit: $GIT_COMMIT_SHORT"
+        echo "  Branch: $GIT_BRANCH"
+        echo "  Metadata: $OUTPUT_PATH"

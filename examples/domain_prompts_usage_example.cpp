@@ -187,7 +187,9 @@ int main() {
     std::unordered_map<std::string, std::vector<std::string>> by_domain;
     for (const auto& pt : all_prompts) {
         std::string domain = "standard";
-        if (pt.id.find("scientific") != std::string::npos) domain = "scientific";
+        if (pt.id.find("scientific") != std::string::npos) {
+          domain = "scientific";
+        }
         else if (pt.id.find("legal") != std::string::npos) domain = "legal";
         else if (pt.id.find("technical") != std::string::npos) domain = "technical";
         else if (pt.id.find("business") != std::string::npos || 

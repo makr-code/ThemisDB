@@ -226,7 +226,9 @@ TEST(ManifestStoreConcurrencyTest, ConcurrentStoreDoesNotCorrupt) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // Size should be at most kWorkers * kPerWorker distinct artifact IDs.
     EXPECT_LE(store.size(), static_cast<std::size_t>(kWorkers * kPerWorker));

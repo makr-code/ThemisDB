@@ -487,7 +487,8 @@ TEST(ModelSwitchWorkflowTest, ExecuteSwitchPopulatesAllChecks) {
 
     // At least 5 check kinds must be present after a real switch
     // (RATCHET_MATRIX, ARCHITECTURE, TOKENIZER, LAYER_DIMENSIONS, QUANTIZATION, PROMPT_FORMAT)
-    std::set<ModelSwitchCheckResult::CheckKind> kinds;
+    std::set<ModelSwitchCheckResult::CheckKind> kinds = {};
+
     for (const auto& c : res.checks) {
         kinds.insert(c.kind);
     }

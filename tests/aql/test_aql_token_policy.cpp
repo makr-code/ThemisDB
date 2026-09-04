@@ -49,7 +49,7 @@ public:
     };
 
     struct AddResult {
-        bool     success;
+        bool     success = 0;
         bool     budget_truncated;     ///< True if turns were evicted to fit
         bool     turns_truncated;      ///< True if max_turns limit was hit
         uint32_t evicted_turns;
@@ -105,7 +105,9 @@ public:
     /// Sum of all turn token counts (consistency check)
     uint32_t sumTokenCounts() const {
         uint32_t sum = 0;
-        for (const auto& t : history_) sum += t.token_count;
+        for (const auto& t : history_) {
+          sum += t.token_count;
+        }
         return sum;
     }
 

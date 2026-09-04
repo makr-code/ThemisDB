@@ -206,7 +206,9 @@ TEST_F(NlpLemmatizeTest, TokenizeSetsLemma) {
     bool found_running  = false;
     for (const auto& tok : tokens) {
         std::string lower_text = tok.text;
-        for (auto& c : lower_text) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : lower_text) {
+          c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
         if (lower_text == "children") {
             EXPECT_EQ(tok.lemma, "child");
             found_children = true;
@@ -349,8 +351,12 @@ TEST_F(NlpMultiLanguageTest, LegalModalitiesHardcodedFallback) {
     bool found_obligation = false;
     bool found_permission = false;
     for (const auto& m : modalities) {
-        if (m.category == "obligation") found_obligation = true;
-        if (m.category == "permission") found_permission = true;
+        if (m.category == "obligation") {
+          found_obligation = true;
+        }
+        if (m.category == "permission") {
+          found_permission = true;
+        }
     }
     EXPECT_TRUE(found_obligation);
     EXPECT_TRUE(found_permission);

@@ -61,7 +61,7 @@ void GraphQLWsHandler::reset() {
 
 size_t GraphQLWsHandler::activeSubscriptionCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return subscriptions_.size();
+    return static_cast<int>(subscriptions_.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -103,13 +103,13 @@ GraphQLWsHandler::handleFrame(std::string_view frame_text)
 
     if (type == "subscribe") {
         if (id.empty()) {
-            THEMIS_WARN("GraphQLWsHandler: subscribe message missing 'id'");
+            THEMIS_WARN([[maybe_unused]] "GraphQLWsHandler: subscribe message missing 'id'");
             return {buildError("", "subscribe message missing required 'id'")};
         }
         frames = handleSubscribe(id, payload_json);
     } else if (type == "complete") {
         if (id.empty()) {
-            THEMIS_WARN("GraphQLWsHandler: complete message missing 'id'");
+            THEMIS_WARN([[maybe_unused]] "GraphQLWsHandler: complete message missing 'id'");
             return {buildError("", "complete message missing required 'id'")};
         }
         frames = handleComplete(id);
@@ -144,7 +144,7 @@ GraphQLWsHandler::handleConnectionInit(const std::string& /*payload_json*/)
         // The protocol mandates closing 4429 "Too many initialisation requests".
         // We simply return nothing; the caller (transport) should close the
         // connection with close code 4429.
-        THEMIS_WARN("GraphQLWsHandler: duplicate connection_init – ignoring");
+        THEMIS_WARN([[maybe_unused]] "GraphQLWsHandler: duplicate connection_init – ignoring");
         return {};
     }
 
@@ -170,7 +170,7 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
             THEMIS_WARN("GraphQLWsHandler: duplicate subscription id '{}'", id);
             return {buildError(id, "Subscriber for " + id + " already exists")};
         }
-        if (subscriptions_.size() >= limits_.max_subscriptions) {
+        if (static_cast<int>(subscriptions_.size()) > = limits_.max_subscriptions) {
             THEMIS_WARN("GraphQLWsHandler: max_subscriptions ({}) reached for id '{}'",
                         limits_.max_subscriptions, id);
             return {buildError(id, "Maximum concurrent subscriptions exceeded")};
@@ -251,7 +251,7 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
             auto alive = alive_;  // shared ownership; survives handler destruction
 
             cdc_handle = changefeed_->subscribe(std::move(f),
-                [self, sub_id, alive](const themis::Changefeed::ChangeEvent& ev) {
+                [self, sub_id, alive]([[maybe_unused]] const themis::Changefeed::ChangeEvent& ev) {
                     // Guard against use-after-free: reset() sets this flag to
                     // false (with release ordering) before destroying the
                     // subscription handles; we load it with acquire ordering so
@@ -290,7 +290,7 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
     }
 
     THEMIS_INFO("GraphQLWsHandler: subscription '{}' registered (query: {} chars)",
-                id, query.size());
+                id,static_cast<int>(query.size()));
 
     // Flush any frames that may have been queued by the CDC callback between
     // wiring and registering (timing edge case – normally empty).
@@ -340,26 +340,26 @@ std::string GraphQLWsHandler::buildConnectionAck() {
 }
 
 /*static*/
-std::string GraphQLWsHandler::buildPing(const std::string& payload) {
+std::string GraphQLWsHandler::buildPing([[maybe_unused]] const std::string& payload) {
     json msg{{"type", "ping"}};
     if (!payload.empty()) {
         try {
             msg["payload"] = json::parse(payload);
         } catch (const json::exception& ex) {
-            THEMIS_WARN("GraphQLWsHandler::buildPing: payload is not valid JSON ({}), omitting", ex.what());
+            THEMIS_WARN([[maybe_unused]] "GraphQLWsHandler::buildPing: payload is not valid JSON ({}), omitting", ex.what());
         }
     }
     return msg.dump();
 }
 
 /*static*/
-std::string GraphQLWsHandler::buildPong(const std::string& payload) {
+std::string GraphQLWsHandler::buildPong([[maybe_unused]] const std::string& payload) {
     json msg{{"type", "pong"}};
     if (!payload.empty()) {
         try {
             msg["payload"] = json::parse(payload);
         } catch (const json::exception& ex) {
-            THEMIS_WARN("GraphQLWsHandler::buildPong: payload is not valid JSON ({}), omitting", ex.what());
+            THEMIS_WARN([[maybe_unused]] "GraphQLWsHandler::buildPong: payload is not valid JSON ({}), omitting", ex.what());
         }
     }
     return msg.dump();
@@ -373,7 +373,7 @@ std::string GraphQLWsHandler::buildNext(const std::string& id,
     try {
         payload = json::parse(data_json);
     } catch (const json::exception& ex) {
-        THEMIS_WARN("GraphQLWsHandler::buildNext: data_json is not valid JSON ({}), using raw string", ex.what());
+        THEMIS_WARN([[maybe_unused]] "GraphQLWsHandler::buildNext: data_json is not valid JSON ({}), using raw string", ex.what());
         payload = json{{"raw", data_json}};
     }
     return json{
@@ -395,12 +395,12 @@ std::string GraphQLWsHandler::buildError(const std::string& id,
 }
 
 /*static*/
-std::string GraphQLWsHandler::buildComplete(const std::string& id) {
+std::string GraphQLWsHandler::buildComplete([[maybe_unused]] const std::string& id) {
     return json{{"type", "complete"}, {"id", id}}.dump();
 }
 
 /*static*/
-bool GraphQLWsHandler::isGraphQLWsPath(std::string_view path) {
+bool GraphQLWsHandler::isGraphQLWsPath([[maybe_unused]] std::string_view path) {
     return path == "/graphql" || path == "/v2/graphql/subscriptions";
 }
 
@@ -417,9 +417,13 @@ std::string GraphQLWsHandler::extractOnChangeCollection(const graphql::Document&
     // Returns the string value of the "collection" argument on the `onChange`
     // field, or an empty string if not found.
     for (const auto& op : doc.operations) {
-        if (op.type != graphql::OperationType::Subscription) continue;
+        if (op.type != graphql::OperationType::Subscription) {
+          continue;
+        }
         for (const auto& field : op.selections) {
-            if (field.name != "onChange") continue;
+            if (field.name != "onChange") {
+              continue;
+            }
             const auto it = field.arguments.find("collection");
             if (it != field.arguments.end() && it->second && it->second->isString()) {
                 return it->second->asString();

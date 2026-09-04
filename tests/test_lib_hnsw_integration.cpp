@@ -469,7 +469,9 @@ TEST_F(HNSWLibIntegrationTest, IncrementalReindex_ReinsertAfterMarkDelete) {
     bool deleted_visible = false;
     auto tmp = r_after_delete;
     while (!tmp.empty()) {
-        if (tmp.top().second == 42u) deleted_visible = true;
+        if (tmp.top().second == 42u) {
+          deleted_visible = true;
+        }
         tmp.pop();
     }
     EXPECT_FALSE(deleted_visible) << "Deleted label 42 should not appear in results";

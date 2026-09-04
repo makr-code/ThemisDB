@@ -39,7 +39,7 @@ AdaptiveBatcher::AdaptiveBatcher(const Config& config, ::themis::llm::GPUMemoryM
     spdlog::info("  VRAM safety margin: {:.1f}%", config_.vram_safety_margin * 100.0f);
 }
 
-size_t AdaptiveBatcher::computeOptimalBatchSize(size_t sequence_length) {
+size_t AdaptiveBatcher::computeOptimalBatchSize([[maybe_unused]] size_t sequence_length) {
     if (!config_.enable_dynamic_batching) {
         return current_batch_size_;
     }
@@ -130,11 +130,11 @@ void AdaptiveBatcher::increaseBatchSizeIfPossible() {
     }
 }
 
-void AdaptiveBatcher::updateUtilization(float utilization) {
+void AdaptiveBatcher::updateUtilization([[maybe_unused]] float utilization) {
     recent_utilizations_.push_back(utilization);
     
     // Keep only last 100 values
-    if (recent_utilizations_.size() > 100) {
+    if (static_cast<int>(recent_utilizations_.size()) > 100) {
         recent_utilizations_.erase(recent_utilizations_.begin());
     }
 }
@@ -169,7 +169,7 @@ float AdaptiveBatcher::computeAverageUtilization() const {
     return sum / recent_utilizations_.size();
 }
 
-size_t AdaptiveBatcher::estimateMemoryPerSample(size_t sequence_length) const {
+size_t AdaptiveBatcher::estimateMemoryPerSample([[maybe_unused]] size_t sequence_length) const {
     // Memory breakdown per sample:
     // - Input embeddings: seq_len × hidden_dim × 4 bytes
     // - LoRA activations: seq_len × rank × 4 bytes

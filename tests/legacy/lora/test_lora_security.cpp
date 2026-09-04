@@ -46,7 +46,7 @@ protected:
     
     LoRASecurityConfig config_;
     std::unique_ptr<LoRASecurityValidator> validator_;
-    std::string test_file_;
+    std::string test_file_ = {};
 };
 
 TEST_F(LoRASecurityTest, CalculateChecksum) {
@@ -86,7 +86,8 @@ TEST_F(LoRASecurityTest, TrustedSignerManagement) {
 
 TEST_F(LoRASecurityTest, DetectWeightAnomalies_Normal) {
     // Normal distribution
-    std::vector<float> weights;
+    std::vector<float> weights = {};
+
     for (int i = 0; i < 1000; i++) {
         weights.push_back(static_cast<float>(i) / 1000.0f);
     }
@@ -96,7 +97,8 @@ TEST_F(LoRASecurityTest, DetectWeightAnomalies_Normal) {
 }
 
 TEST_F(LoRASecurityTest, DetectWeightAnomalies_Outliers) {
-    std::vector<float> weights;
+    std::vector<float> weights = {};
+
     for (int i = 0; i < 1000; i++) {
         weights.push_back(1.0f);
     }
@@ -591,7 +593,7 @@ static std::string certFingerprint(const std::string& cert_pem) {
     X509_digest(cert, EVP_sha256(), digest, &digest_len);
     X509_free(cert);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(digest[i]);
@@ -740,7 +742,9 @@ protected:
 
     void TearDown() override {
         std::remove(lora_file_.c_str());
-        if (!sig_file_.empty()) std::remove(sig_file_.c_str());
+        if (!sig_file_.empty()) {
+          std::remove(sig_file_.c_str());
+        }
     }
 
     void writeSigFile(const std::string& fp, const std::vector<uint8_t>& sig) {
@@ -808,7 +812,9 @@ TEST_F(LoRACertStoreIntegrationTest, ValidCertTamperedSigFails) {
     ASSERT_FALSE(sig.empty()) << "Key generation or signing failed";
 
     // Tamper: flip every bit in the signature
-    for (auto& b : sig) b = static_cast<uint8_t>(~b);
+    for (auto& b : sig) {
+      b = static_cast<uint8_t>(~b);
+    }
 
     writeSigFile(fingerprint_, sig);
 

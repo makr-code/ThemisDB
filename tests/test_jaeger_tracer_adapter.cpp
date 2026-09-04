@@ -151,7 +151,9 @@ TEST(JaegerTracerAdapterTest, OpenCircuitReturnsInvalidSpan) {
     cfg.success_threshold = 1;
 
     JaegerTracerAdapter adapter(cfg);
-    for (int i = 0; i < 3; ++i) adapter.startSpan("trip-" + std::to_string(i));
+    for (int i = 0; i < 3; ++i) {
+      adapter.startSpan("trip-" + std::to_string(i));
+    }
     ASSERT_EQ(adapter.circuitBreakerState(), CircuitBreaker::State::OPEN);
 
     auto span = adapter.startSpan("during-open");
@@ -223,7 +225,9 @@ TEST(JaegerTracerAdapterTest, StartChildSpanOnOpenCircuitReturnsInvalidSpan) {
     cfg.timeout           = std::chrono::seconds(60);
 
     JaegerTracerAdapter adapter(cfg);
-    for (int i = 0; i < 3; ++i) adapter.startSpan("trip");
+    for (int i = 0; i < 3; ++i) {
+      adapter.startSpan("trip");
+    }
     ASSERT_EQ(adapter.circuitBreakerState(), CircuitBreaker::State::OPEN);
 
     auto parent = adapter.startSpan("parent");
@@ -298,7 +302,9 @@ TEST(JaegerTracerAdapterTest, StartSpanFromHeadersOnOpenCircuitReturnsInvalidSpa
     cfg.timeout           = std::chrono::seconds(60);
 
     JaegerTracerAdapter adapter(cfg);
-    for (int i = 0; i < 3; ++i) adapter.startSpan("trip-" + std::to_string(i));
+    for (int i = 0; i < 3; ++i) {
+      adapter.startSpan("trip-" + std::to_string(i));
+    }
     ASSERT_EQ(adapter.circuitBreakerState(), CircuitBreaker::State::OPEN);
 
     std::map<std::string, std::string> headers;

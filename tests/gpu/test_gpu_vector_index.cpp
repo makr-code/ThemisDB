@@ -469,7 +469,8 @@ TEST_F(GPUVectorIndexTest, FailedBackendSwitchPreservesExistingIndexState) {
         GPUVectorIndex::Backend::VULKAN
     };
 
-    std::optional<GPUVectorIndex::Backend> unavailableBackend;
+    std::optional<GPUVectorIndex::Backend> unavailableBackend = {};
+
     for (auto candidate : candidates) {
         if (std::find(available.begin(), available.end(), candidate) == available.end()) {
             unavailableBackend = candidate;

@@ -370,7 +370,7 @@ nlohmann::json HybridRetentionManager::compressWithGorilla(const nlohmann::json&
     std::string metric_pattern = params.value("metric_pattern", "*");
     
     // Build AQL query to compress recent data
-    std::ostringstream aql;
+    std::ostringstream aql = {};
     aql << "FOR d IN " << config_.source_table << " "
         << "FILTER d.timestamp > DATE_SUB(NOW(), " << duration_hours << ", 'hours') ";
     
@@ -447,7 +447,7 @@ nlohmann::json HybridRetentionManager::applyAdaptiveRetention(const nlohmann::js
     std::string high_res = params.value("high_cv_resolution", "1m");
     
     // Build AQL query for adaptive retention
-    std::ostringstream aql;
+    std::ostringstream aql = {};
     aql << "FOR d IN " << config_.source_table << " "
         << "FILTER d.resolution == '1s' "
         << "AND d.timestamp BETWEEN DATE_SUB(NOW(), " << max_age_hours << ", 'hours') "
@@ -528,7 +528,7 @@ nlohmann::json HybridRetentionManager::applyTimeBasedRetention(const nlohmann::j
     std::string target_res = params.value("target_resolution", "1d");
     
     // Build AQL query for time-based retention
-    std::ostringstream aql;
+    std::ostringstream aql = {};
     aql << "FOR d IN " << config_.adaptive_table << " "
         << "FILTER d.timestamp < DATE_SUB(NOW(), " << min_age_hours << ", 'hours') "
         << "COLLECT "
@@ -586,7 +586,7 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
     bool verify = params.value("verify_aggregates", true);
     
     // Cleanup Stage 2 data (1s data that's been aggregated adaptively)
-    std::ostringstream aql_stage2;
+    std::ostringstream aql_stage2 = {};
     aql_stage2 << "FOR d IN " << config_.source_table << " "
                << "FILTER d.resolution == '1s' "
                << "AND d.timestamp < DATE_SUB(NOW(), " << config_.stage2.min_age.count() << ", 'hours') ";
@@ -623,7 +623,7 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
     size_t stage2_deleted = (*result2).is_array() ? (*result2).size() : size_t{0};
     
     // Cleanup Stage 3 data (adaptive data that's been aggregated to daily)
-    std::ostringstream aql_stage3;
+    std::ostringstream aql_stage3 = {};
     aql_stage3 << "FOR d IN " << config_.adaptive_table << " "
                << "FILTER d.timestamp < DATE_SUB(NOW(), " << config_.stage3.min_age.count() << ", 'hours') ";
     

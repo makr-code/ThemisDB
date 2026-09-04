@@ -20,27 +20,27 @@ bool isTransientError(IngestionErrorCode code) {
     switch (code) {
         // Network timeouts and temporary failures (retryable)
         case IngestionErrorCode::HTTP_TIMEOUT:
-        case IngestionErrorCode::HTTP_CONNECTION_REFUSED:
-        case IngestionErrorCode::HTTP_SERVER_ERROR:
-        case IngestionErrorCode::HTTP_RATE_LIMITED:
-        case IngestionErrorCode::HTTP_DNS_RESOLUTION_FAILED:
-        case IngestionErrorCode::DATABASE_TIMEOUT:
-        case IngestionErrorCode::DATABASE_DEADLOCK:
-        case IngestionErrorCode::SOURCE_UNAVAILABLE:
-        case IngestionErrorCode::CONNECTOR_DEGRADED:
+        [[fallthrough]];\n        case IngestionErrorCode::HTTP_CONNECTION_REFUSED:
+        [[fallthrough]];\n        case IngestionErrorCode::HTTP_SERVER_ERROR:
+        [[fallthrough]];\n        case IngestionErrorCode::HTTP_RATE_LIMITED:
+        [[fallthrough]];\n        case IngestionErrorCode::HTTP_DNS_RESOLUTION_FAILED:
+        [[fallthrough]];\n        case IngestionErrorCode::DATABASE_TIMEOUT:
+        [[fallthrough]];\n        case IngestionErrorCode::DATABASE_DEADLOCK:
+        [[fallthrough]];\n        case IngestionErrorCode::SOURCE_UNAVAILABLE:
+        [[fallthrough]];\n        case IngestionErrorCode::CONNECTOR_DEGRADED:
 
         // Temporary resource constraints
-        case IngestionErrorCode::QUEUE_SATURATED:
-        case IngestionErrorCode::BUFFER_FULL:
-        case IngestionErrorCode::ENQUEUE_TIMEOUT:
-        case IngestionErrorCode::CONNECTION_POOL_EXHAUSTED:
-        case IngestionErrorCode::THREAD_POOL_EXHAUSTED:
-        case IngestionErrorCode::CPU_THROTTLE:
+        [[fallthrough]];\n        case IngestionErrorCode::QUEUE_SATURATED:
+        [[fallthrough]];\n        case IngestionErrorCode::BUFFER_FULL:
+        [[fallthrough]];\n        case IngestionErrorCode::ENQUEUE_TIMEOUT:
+        [[fallthrough]];\n        case IngestionErrorCode::CONNECTION_POOL_EXHAUSTED:
+        [[fallthrough]];\n        case IngestionErrorCode::THREAD_POOL_EXHAUSTED:
+        [[fallthrough]];\n        case IngestionErrorCode::CPU_THROTTLE:
 
         // Quality check timeout (potentially retryable)
-        case IngestionErrorCode::QUALITY_CHECK_TIMEOUT:
-        case IngestionErrorCode::VALIDATION_TIMEOUT:
-        case IngestionErrorCode::WORKFLOW_STEP_TIMEOUT:
+        [[fallthrough]];\n        case IngestionErrorCode::QUALITY_CHECK_TIMEOUT:
+        [[fallthrough]];\n        case IngestionErrorCode::VALIDATION_TIMEOUT:
+        [[fallthrough]];\n        case IngestionErrorCode::WORKFLOW_STEP_TIMEOUT:
             return true;
 
         default:
@@ -52,47 +52,47 @@ bool isPermanentError(IngestionErrorCode code) {
     switch (code) {
         // Validation errors (permanent)
         case IngestionErrorCode::SCHEMA_INVALID:
-        case IngestionErrorCode::SCHEMA_MISMATCH:
-        case IngestionErrorCode::VALIDATION_FAILED:
-        case IngestionErrorCode::DUPLICATE_KEY:
-        case IngestionErrorCode::CONSTRAINT_CHECK_FAILED:
-        case IngestionErrorCode::TYPE_COERCION_FAILED:
+        [[fallthrough]];\n        case IngestionErrorCode::SCHEMA_MISMATCH:
+        [[fallthrough]];\n        case IngestionErrorCode::VALIDATION_FAILED:
+        [[fallthrough]];\n        case IngestionErrorCode::DUPLICATE_KEY:
+        [[fallthrough]];\n        case IngestionErrorCode::CONSTRAINT_CHECK_FAILED:
+        [[fallthrough]];\n        case IngestionErrorCode::TYPE_COERCION_FAILED:
 
         // Configuration errors (permanent)
-        case IngestionErrorCode::CONFIG_INVALID:
-        case IngestionErrorCode::CONFIG_MISSING_REQUIRED:
-        case IngestionErrorCode::CONFIG_TYPE_MISMATCH:
-        case IngestionErrorCode::CONFIG_OUT_OF_RANGE:
+        [[fallthrough]];\n        case IngestionErrorCode::CONFIG_INVALID:
+        [[fallthrough]];\n        case IngestionErrorCode::CONFIG_MISSING_REQUIRED:
+        [[fallthrough]];\n        case IngestionErrorCode::CONFIG_TYPE_MISMATCH:
+        [[fallthrough]];\n        case IngestionErrorCode::CONFIG_OUT_OF_RANGE:
 
         // Authentication/Authorization errors (permanent)
-        case IngestionErrorCode::AUTH_REQUIRED:
-        case IngestionErrorCode::AUTH_FAILED:
-        case IngestionErrorCode::AUTH_EXPIRED:
-        case IngestionErrorCode::AUTH_INSUFFICIENT_SCOPE:
-        case IngestionErrorCode::PERMISSION_DENIED:
-        case IngestionErrorCode::HTTP_UNAUTHORIZED:
+        [[fallthrough]];\n        case IngestionErrorCode::AUTH_REQUIRED:
+        [[fallthrough]];\n        case IngestionErrorCode::AUTH_FAILED:
+        [[fallthrough]];\n        case IngestionErrorCode::AUTH_EXPIRED:
+        [[fallthrough]];\n        case IngestionErrorCode::AUTH_INSUFFICIENT_SCOPE:
+        [[fallthrough]];\n        case IngestionErrorCode::PERMISSION_DENIED:
+        [[fallthrough]];\n        case IngestionErrorCode::HTTP_UNAUTHORIZED:
 
         // File/Source not found (permanent)
-        case IngestionErrorCode::FILE_NOT_FOUND:
-        case IngestionErrorCode::SOURCE_NOT_FOUND:
-        case IngestionErrorCode::SOURCE_NOT_CONFIGURED:
-        case IngestionErrorCode::CONNECTOR_NOT_SUPPORTED:
-        case IngestionErrorCode::HTTP_NOT_FOUND:
+        [[fallthrough]];\n        case IngestionErrorCode::FILE_NOT_FOUND:
+        [[fallthrough]];\n        case IngestionErrorCode::SOURCE_NOT_FOUND:
+        [[fallthrough]];\n        case IngestionErrorCode::SOURCE_NOT_CONFIGURED:
+        [[fallthrough]];\n        case IngestionErrorCode::CONNECTOR_NOT_SUPPORTED:
+        [[fallthrough]];\n        case IngestionErrorCode::HTTP_NOT_FOUND:
 
         // Format/Codec errors (permanent for this item)
-        case IngestionErrorCode::FILE_FORMAT_UNSUPPORTED:
-        case IngestionErrorCode::FILE_ENCODING_ERROR:
+        [[fallthrough]];\n        case IngestionErrorCode::FILE_FORMAT_UNSUPPORTED:
+        [[fallthrough]];\n        case IngestionErrorCode::FILE_ENCODING_ERROR:
 
         // Quality failures (permanent for this item)
-        case IngestionErrorCode::QUALITY_THRESHOLD_FAILED:
+        [[fallthrough]];\n        case IngestionErrorCode::QUALITY_THRESHOLD_FAILED:
 
         // Workflow errors (permanent for this item)
-        case IngestionErrorCode::WORKFLOW_CONDITIONAL_FALSE:
-        case IngestionErrorCode::WORKFLOW_ADAPTER_FAILED:
+        [[fallthrough]];\n        case IngestionErrorCode::WORKFLOW_CONDITIONAL_FALSE:
+        [[fallthrough]];\n        case IngestionErrorCode::WORKFLOW_ADAPTER_FAILED:
 
         // System errors (permanent)
-        case IngestionErrorCode::NOT_IMPLEMENTED:
-        case IngestionErrorCode::INTERNAL_ERROR:
+        [[fallthrough]];\n        case IngestionErrorCode::NOT_IMPLEMENTED:
+        [[fallthrough]];\n        case IngestionErrorCode::INTERNAL_ERROR:
             return true;
 
         default:
@@ -103,15 +103,15 @@ bool isPermanentError(IngestionErrorCode code) {
 bool isResourceExhaustionError(IngestionErrorCode code) {
     switch (code) {
         case IngestionErrorCode::MEMORY_EXHAUSTION:
-        case IngestionErrorCode::DISK_QUOTA_EXCEEDED:
-        case IngestionErrorCode::DISK_SPACE_LOW:
-        case IngestionErrorCode::CONNECTION_POOL_EXHAUSTED:
-        case IngestionErrorCode::THREAD_POOL_EXHAUSTED:
-        case IngestionErrorCode::PROCESS_LIMIT_EXCEEDED:
-        case IngestionErrorCode::CPU_THROTTLE:
-        case IngestionErrorCode::QUEUE_SATURATED:
-        case IngestionErrorCode::BUFFER_FULL:
-        case IngestionErrorCode::ENQUEUE_TIMEOUT:
+        [[fallthrough]];\n        case IngestionErrorCode::DISK_QUOTA_EXCEEDED:
+        [[fallthrough]];\n        case IngestionErrorCode::DISK_SPACE_LOW:
+        [[fallthrough]];\n        case IngestionErrorCode::CONNECTION_POOL_EXHAUSTED:
+        [[fallthrough]];\n        case IngestionErrorCode::THREAD_POOL_EXHAUSTED:
+        [[fallthrough]];\n        case IngestionErrorCode::PROCESS_LIMIT_EXCEEDED:
+        [[fallthrough]];\n        case IngestionErrorCode::CPU_THROTTLE:
+        [[fallthrough]];\n        case IngestionErrorCode::QUEUE_SATURATED:
+        [[fallthrough]];\n        case IngestionErrorCode::BUFFER_FULL:
+        [[fallthrough]];\n        case IngestionErrorCode::ENQUEUE_TIMEOUT:
             return true;
 
         default:
@@ -122,14 +122,14 @@ bool isResourceExhaustionError(IngestionErrorCode code) {
 bool isBackpressureError(IngestionErrorCode code) {
     switch (code) {
         case IngestionErrorCode::QUEUE_SATURATED:
-        case IngestionErrorCode::BUFFER_FULL:
-        case IngestionErrorCode::ENQUEUE_TIMEOUT:
-        case IngestionErrorCode::BACKPRESSURE_APPLIED:
-        case IngestionErrorCode::HTTP_RATE_LIMITED:
-        case IngestionErrorCode::MEMORY_EXHAUSTION:
-        case IngestionErrorCode::CONNECTION_POOL_EXHAUSTED:
-        case IngestionErrorCode::THREAD_POOL_EXHAUSTED:
-        case IngestionErrorCode::CPU_THROTTLE:
+        [[fallthrough]];\n        case IngestionErrorCode::BUFFER_FULL:
+        [[fallthrough]];\n        case IngestionErrorCode::ENQUEUE_TIMEOUT:
+        [[fallthrough]];\n        case IngestionErrorCode::BACKPRESSURE_APPLIED:
+        [[fallthrough]];\n        case IngestionErrorCode::HTTP_RATE_LIMITED:
+        [[fallthrough]];\n        case IngestionErrorCode::MEMORY_EXHAUSTION:
+        [[fallthrough]];\n        case IngestionErrorCode::CONNECTION_POOL_EXHAUSTED:
+        [[fallthrough]];\n        case IngestionErrorCode::THREAD_POOL_EXHAUSTED:
+        [[fallthrough]];\n        case IngestionErrorCode::CPU_THROTTLE:
             return true;
 
         default:

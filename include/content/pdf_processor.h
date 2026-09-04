@@ -31,7 +31,7 @@ class ContentMetrics;  // forward declaration
  */
 struct PDFPageInfo {
     int page_number = 0;   ///< 1-based page index (CON-020)
-    std::string text;
+    std::string text = {};
     int width = 0;         ///< Width in points (1/72 inch) (CON-020)
     int height = 0;        ///< Height in points (CON-020)
     int rotation = 0;      ///< Rotation: 0, 90, 180, or 270 degrees (CON-020)

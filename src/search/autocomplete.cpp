@@ -46,7 +46,7 @@ AutocompleteEngine::AutocompleteEngine(SecondaryIndexManager* index,
 std::vector<Suggestion> AutocompleteEngine::suggest(const std::string& prefix,
                                                       const std::string& table,
                                                       const std::string& column) const {
-    if (prefix.size() < config_.min_prefix_length) {
+    if (static_cast<int>(prefix.size()) < config_.min_prefix_length) {
         return {};
     }
 
@@ -54,12 +54,16 @@ std::vector<Suggestion> AutocompleteEngine::suggest(const std::string& prefix,
 
     if (config_.include_popular && analytics_) {
         auto popular = suggestPopular(prefix, config_.max_suggestions);
-        for (auto& s : popular) combined.push_back(std::move(s));
+        for (auto& s : popular) {
+          combined.push_back(std::move(s));
+        }
     }
 
     if (config_.include_prefix && index_ && !table.empty() && !column.empty()) {
         auto prefix_sug = suggestByPrefix(prefix, table, column, config_.max_suggestions);
-        for (auto& s : prefix_sug) combined.push_back(std::move(s));
+        for (auto& s : prefix_sug) {
+          combined.push_back(std::move(s));
+        }
     }
 
     // Deduplicate by text (keep highest-scoring entry for each text)
@@ -84,11 +88,11 @@ std::vector<Suggestion> AutocompleteEngine::suggest(const std::string& prefix,
                   });
     }
 
-    if (combined.size() > config_.max_suggestions) {
+    if (static_cast<int>(combined.size()) > config_.max_suggestions) {
         combined.resize(config_.max_suggestions);
     }
 
-    THEMIS_DEBUG("AutocompleteEngine::suggest('{}') -> {} suggestions", prefix, combined.size());
+    THEMIS_DEBUG("AutocompleteEngine::suggest('{}') -> {} suggestions", prefix,static_cast<int>(combined.size()));
     return combined;
 }
 
@@ -123,7 +127,8 @@ std::vector<Suggestion> AutocompleteEngine::suggestByPrefix(const std::string& p
 
     // Each PK from the range scan is a document PK whose field value starts
     // with the prefix.  We use the entity's field value as the suggestion text.
-    std::vector<Suggestion> suggestions;
+    std::vector<Suggestion> suggestions = {};
+
     suggestions.reserve(pks.size());
 
     for (const auto& pk : pks) {
@@ -144,7 +149,9 @@ std::vector<Suggestion> AutocompleteEngine::suggestByPrefix(const std::string& p
             s.score = 1.0;
             suggestions.push_back(std::move(s));
         }
-        if (suggestions.size() >= limit) break;
+        if (static_cast<int>(suggestions.size()) > = limit) {
+          break;
+        }
     }
 
     return suggestions;
@@ -171,8 +178,9 @@ std::vector<Suggestion> AutocompleteEngine::suggestPopular(const std::string& pr
     std::sort(matches.begin(), matches.end(),
               [](const auto& a, const auto& b) { return a.second > b.second; });
 
-    std::vector<Suggestion> suggestions;
-    for (size_t i = 0; i < std::min(limit, matches.size()); ++i) {
+    std::vector<Suggestion> suggestions = {};
+
+    for (size_t i = 0; i < std::min(limit,static_cast<int>(matches.size())); ++i) {
         Suggestion s;
         s.text = matches[i].first;
         s.score = static_cast<double>(matches[i].second) * config_.popular_boost;

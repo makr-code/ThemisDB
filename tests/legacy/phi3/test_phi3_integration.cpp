@@ -104,8 +104,12 @@ TEST_F(Phi3IntegrationTest, DefaultConfigHasPhi3Settings) {
         bool has_gate_up_proj = false;
         for (const auto& module : targets) {
             std::string mod_name = module.as<std::string>();
-            if (mod_name == "qkv_proj") has_qkv_proj = true;
-            if (mod_name == "gate_up_proj") has_gate_up_proj = true;
+            if (mod_name == "qkv_proj") {
+              has_qkv_proj = true;
+            }
+            if (mod_name == "gate_up_proj") {
+              has_gate_up_proj = true;
+            }
         }
         EXPECT_TRUE(has_qkv_proj) << "Should have qkv_proj (Phi-3 specific)";
         EXPECT_TRUE(has_gate_up_proj) << "Should have gate_up_proj (Phi-3 specific)";

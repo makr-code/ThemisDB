@@ -59,13 +59,17 @@ public:
     }
 
     [[nodiscard]] double getMean() const {
-        if (latencies_.empty()) return 0.0;
+        if (latencies_.empty()) {
+          return 0.0;
+        }
         double sum = std::accumulate(latencies_.begin(), latencies_.end(), 0.0);
         return sum / latencies_.size();
     }
 
     [[nodiscard]] double getMedian() const {
-        if (latencies_.empty()) return 0.0;
+        if (latencies_.empty()) {
+          return 0.0;
+        }
         auto sorted = latencies_;
         std::sort(sorted.begin(), sorted.end());
         if (sorted.size() % 2 == 0) {
@@ -87,7 +91,9 @@ public:
     }
 
     [[nodiscard]] double getPercentile(double p) const {
-        if (latencies_.empty()) return 0.0;
+        if (latencies_.empty()) {
+          return 0.0;
+        }
         auto sorted = latencies_;
         std::sort(sorted.begin(), sorted.end());
         size_t idx = static_cast<size_t>(std::ceil(p / 100.0 * sorted.size())) - 1;

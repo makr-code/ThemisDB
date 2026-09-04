@@ -24,7 +24,8 @@ namespace llm {
 
 /*static*/
 std::vector<std::regex> ModelRouter::compilePatterns(const RoutingRule& rule) {
-    std::vector<std::regex> compiled;
+    std::vector<std::regex> compiled = {};
+
     compiled.reserve(rule.prompt_patterns.size());
     for (const auto& pattern : rule.prompt_patterns) {
         try {
@@ -48,13 +49,17 @@ bool ModelRouter::evaluate(const CompiledRule& cr,
     // Helper: check prompt patterns
     auto matchesAnyPattern = [&]() -> bool {
         for (const auto& re : cr.compiled_patterns) {
-            if (std::regex_search(prompt, re)) return true;
+            if (std::regex_search(prompt, re)) {
+              return true;
+            }
         }
         return false;
     };
     auto matchesAllPatterns = [&]() -> bool {
         for (const auto& re : cr.compiled_patterns) {
-            if (!std::regex_search(prompt, re)) return false;
+            if (!std::regex_search(prompt, re)) {
+              return false;
+            }
         }
         return true;
     };
@@ -63,7 +68,9 @@ bool ModelRouter::evaluate(const CompiledRule& cr,
     auto matchesAnyTag = [&]() -> bool {
         for (const auto& required : rule.metadata_tags) {
             for (const auto& t : tags) {
-                if (t == required) return true;
+                if (t == required) {
+                  return true;
+                }
             }
         }
         return false;
@@ -74,7 +81,9 @@ bool ModelRouter::evaluate(const CompiledRule& cr,
             for (const auto& t : tags) {
                 if (t == required) { found = true; break; }
             }
-            if (!found) return false;
+            if (!found) {
+              return false;
+            }
         }
         return true;
     };
@@ -83,13 +92,21 @@ bool ModelRouter::evaluate(const CompiledRule& cr,
     const bool has_tags     = !rule.metadata_tags.empty();
 
     if (any_mode) {
-        if (has_patterns && matchesAnyPattern()) return true;
-        if (has_tags     && matchesAnyTag())     return true;
+        if (has_patterns && matchesAnyPattern()) {
+          return true;
+        }
+        if (has_tags     && matchesAnyTag()) {
+          return true;
+        }
         return false;
     } else {
         // ALL mode: every non-empty criterion group must fully match
-        if (has_patterns && !matchesAllPatterns()) return false;
-        if (has_tags     && !matchesAllTags())     return false;
+        if (has_patterns && !matchesAllPatterns()) {
+          return false;
+        }
+        if (has_tags     && !matchesAllTags()) {
+          return false;
+        }
         return true;
     }
 }
@@ -146,8 +163,10 @@ void ModelRouter::addRule(const RoutingRule& rule) {
 bool ModelRouter::removeRule(const std::string& rule_id) {
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = std::find_if(rules_.begin(), rules_.end(),
-        [&](const CompiledRule& cr) { return cr.rule.id == rule_id; });
-    if (it == rules_.end()) return false;
+        [&]([[maybe_unused]] const CompiledRule& cr) { return cr.rule.id == rule_id; });
+    if (it == rules_.end()) {
+      return false;
+    }
     rules_.erase(it);
     spdlog::debug("ModelRouter: removed rule '{}'", rule_id);
     return true;
@@ -155,9 +174,12 @@ bool ModelRouter::removeRule(const std::string& rule_id) {
 
 std::vector<RoutingRule> ModelRouter::getRules() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<RoutingRule> out;
+    std::vector<RoutingRule> out = {};
+
     out.reserve(rules_.size());
-    for (const auto& cr : rules_) out.push_back(cr.rule);
+    for (const auto& cr : rules_) {
+      out.push_back(cr.rule);
+    }
     return out;
 }
 
@@ -169,18 +191,21 @@ void ModelRouter::clearRules() {
 
 size_t ModelRouter::ruleCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return rules_.size();
+    return static_cast<int>(rules_.size());
 }
 
 RoutingResult ModelRouter::route(const std::string& prompt,
                                   const nlohmann::json& metadata) const {
     // Extract tags from metadata["tags"] (array of strings)
-    std::vector<std::string> tags;
+    std::vector<std::string> tags = {};
+
     if (metadata.is_object() && metadata.contains("tags")) {
         const auto& jtags = metadata.at("tags");
         if (jtags.is_array()) {
             for (const auto& t : jtags) {
-                if (t.is_string()) tags.push_back(t.get<std::string>());
+                if (t.is_string()) {
+                  tags.push_back(t.get<std::string>());
+                }
             }
         }
     }

@@ -22,7 +22,7 @@ using json = nlohmann::json;
  */
 struct WikipediaEmbeddingHookConfig {
     bool enabled = false;
-    std::string provider;
+    std::string provider = {};
     std::string model = "hook:unbound";
 
     [[nodiscard]] json toJson() const {

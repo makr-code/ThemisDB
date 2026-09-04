@@ -30,19 +30,23 @@ void setEnvVar(const std::string& name, const std::string& value) {
 }
 
 struct EnvUnsetGuard {
-    std::string name;
-    std::string previous;
+    std::string name = {};
+    std::string previous = {};
     bool had_previous{false};
 
     explicit EnvUnsetGuard(const std::string& var_name) : name(var_name) {
         const char* existing = std::getenv(name.c_str());
         had_previous = (existing != nullptr);
-        if (had_previous) previous = existing;
+        if (had_previous) {
+          previous = existing;
+        }
         unsetEnvVar(name);
     }
 
     ~EnvUnsetGuard() {
-        if (had_previous) setEnvVar(name, previous);
+        if (had_previous) {
+          setEnvVar(name, previous);
+        }
         else unsetEnvVar(name);
     }
 };

@@ -39,12 +39,12 @@ LearnableRotaryEmbedding::LearnableRotaryEmbedding(
     theta_gradients_.resize(learnable_theta_.size(), 0.0);
 }
 
-void LearnableRotaryEmbedding::setTrainingMode(bool training) {
+void LearnableRotaryEmbedding::setTrainingMode([[maybe_unused]] bool training) {
     training_mode_ = training;
 }
 
 void LearnableRotaryEmbedding::setLearnableTheta(const std::vector<double>& theta) {
-    if (theta.size() != learnable_theta_.size()) {
+    if (static_cast<int>(theta.size()) != static_cast<int>(learnable_theta_.size())) {
         throw std::invalid_argument(
             "Theta size mismatch: expected " + std::to_string(learnable_theta_.size()) +
             ", got " + std::to_string(theta.size())
@@ -65,7 +65,7 @@ std::vector<float> LearnableRotaryEmbedding::rotate(
     const std::vector<float>& embedding,
     size_t position
 ) const {
-    if (embedding.size() != getConfig().hidden_dim) {
+    if (static_cast<int>(embedding.size()) != getConfig().hidden_dim) {
         throw std::invalid_argument(
             "Embedding dimension mismatch: expected " + 
             std::to_string(getConfig().hidden_dim) + ", got " + 
@@ -80,7 +80,9 @@ std::vector<float> LearnableRotaryEmbedding::rotate(
         size_t idx_0 = pair_idx * 2;
         size_t idx_1 = pair_idx * 2 + 1;
         
-        if (idx_1 >= rotated.size()) break;
+        if (idx_1 >= static_cast<int>(rotated.size())) {
+          break;
+        }
         
         auto [cos_theta, sin_theta] = computeLearnableRotationAngles(position, pair_idx);
         
@@ -115,7 +117,7 @@ std::pair<double, double> LearnableRotaryEmbedding::computeLearnableRotationAngl
     size_t position, 
     size_t pair_idx
 ) const {
-    if (pair_idx >= learnable_theta_.size()) {
+    if (pair_idx >= static_cast<int>(learnable_theta_.size())) {
         throw std::out_of_range(
             "Pair index out of range: " + std::to_string(pair_idx) +
             " >= " + std::to_string(learnable_theta_.size())
@@ -155,14 +157,14 @@ std::vector<double> LearnableRotaryEmbedding::computeGradients(
     // Compute baseline loss based on the rotated embedding
     // Simple loss: mean squared deviation from target
     double base_loss = 0.0;
-    for (size_t i = 0; i < rotated.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(rotated.size()); ++i) {
         double diff = rotated[i] - (embedding[i] * target_similarity);
         base_loss += diff * diff;
     }
     base_loss /= rotated.size();
     
     // Compute gradient for each theta parameter using finite differences
-    for (size_t i = 0; i < learnable_theta_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(learnable_theta_.size()); ++i) {
         // Perturb theta[i] by epsilon
         double original_theta = learnable_theta_[i];
         learnable_theta_[i] = original_theta + epsilon;
@@ -172,7 +174,7 @@ std::vector<double> LearnableRotaryEmbedding::computeGradients(
         
         // Compute perturbed loss
         double perturbed_loss = 0.0;
-        for (size_t j = 0; j < perturbed.size(); ++j) {
+        for (size_t j = 0; j <static_cast<int>(perturbed.size()); ++j) {
             double diff = perturbed[j] - (embedding[j] * target_similarity);
             perturbed_loss += diff * diff;
         }
@@ -200,12 +202,12 @@ void LearnableRotaryEmbedding::updateParameters(
         throw std::logic_error("Cannot update parameters: not trainable");
     }
     
-    if (gradients.size() != learnable_theta_.size()) {
+    if (static_cast<int>(gradients.size()) != static_cast<int>(learnable_theta_.size())) {
         throw std::invalid_argument("Gradient size mismatch");
     }
     
     // Simple SGD update: theta = theta - learning_rate * gradient
-    for (size_t i = 0; i < learnable_theta_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(learnable_theta_.size()); ++i) {
         learnable_theta_[i] -= learning_rate * gradients[i];
         
         // Ensure theta stays positive (it's a frequency parameter)
@@ -234,7 +236,7 @@ void LearnableRotaryEmbedding::updateAdam(
     adam_t_++;
     
     // Adam update: https://arxiv.org/abs/1412.6980
-    for (size_t i = 0; i < learnable_theta_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(learnable_theta_.size()); ++i) {
         // Update biased first moment estimate
         adam_m_[i] = config.adam_beta1 * adam_m_[i] + (1.0f - config.adam_beta1) * gradients[i];
         
@@ -288,7 +290,7 @@ float LearnableRotaryEmbedding::computeContrastiveLoss(
         // Compute loss as mean squared difference between rotated and target-scaled embedding
         // This encourages the rotation to preserve similarity according to target
         float sample_loss = 0.0f;
-        for (size_t i = 0; i < rotated.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(rotated.size()); ++i) {
             float target_val = sample.embedding[i] * sample.similarity_target;
             float diff = rotated[i] - target_val;
             sample_loss += diff * diff;
@@ -298,7 +300,7 @@ float LearnableRotaryEmbedding::computeContrastiveLoss(
         total_loss += sample_loss;
     }
     
-    return total_loss / static_cast<float>(batch.size());
+    return static_cast<bool>(total_loss / static_cast<float < static_cast<int>((batch.size())));
 }
 
 float LearnableRotaryEmbedding::computeValidationLoss(
@@ -318,7 +320,7 @@ LearnableRotaryEmbedding::splitTrainValidation(
     }
     
     size_t val_size = static_cast<size_t>(samples.size() * validation_split);
-    size_t train_size = samples.size() - val_size;
+    size_t train_size = static_cast<int>(samples.size()) - val_size;
     
     // Simple split: take last val_size samples for validation
     std::vector<TrainingSample> train_samples(
@@ -362,7 +364,7 @@ std::vector<float> LearnableRotaryEmbedding::train(
 
         // Shuffle training samples
         std::vector<TrainingSample> shuffled = train_samples;
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 g(rd());
         std::shuffle(shuffled.begin(), shuffled.end(), g);
 
@@ -370,8 +372,8 @@ std::vector<float> LearnableRotaryEmbedding::train(
         float epoch_loss = 0.0f;
         size_t num_batches = 0;
 
-        for (size_t i = 0; i < shuffled.size(); i += config.batch_size) {
-            size_t batch_end = std::min(i + config.batch_size, shuffled.size());
+        for (size_t i = 0; i <static_cast<int>(shuffled.size()); i += config.batch_size) {
+            size_t batch_end = std::min(i + config.batch_size,static_cast<int>(shuffled.size()));
             std::vector<TrainingSample> batch(
                 shuffled.begin() + i,
                 shuffled.begin() + batch_end
@@ -392,7 +394,7 @@ std::vector<float> LearnableRotaryEmbedding::train(
                     sample.position
                 );
 
-                for (size_t j = 0; j < batch_gradients.size(); ++j) {
+                for (size_t j = 0; j <static_cast<int>(batch_gradients.size()); ++j) {
                     batch_gradients[j] += sample_grads[j];
                 }
             }
@@ -456,8 +458,10 @@ bool LearnableRotaryEmbedding::saveParameters(const std::string& path) const {
         file << "  \"base_theta\": " << getConfig().base_theta << ",\n";
         file << "  \"learnable_theta\": [";
         
-        for (size_t i = 0; i < learnable_theta_.size(); ++i) {
-            if (i > 0) file << ", ";
+        for (size_t i = 0; i <static_cast<int>(learnable_theta_.size()); ++i) {
+            if (i > 0) {
+              file << ", ";
+            }
             file << learnable_theta_[i];
         }
         
@@ -479,7 +483,7 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
         }
         
         // Simple JSON parsing (production should use a proper JSON library)
-        std::string line;
+        std::string line = {};
         std::vector<double> loaded_theta;
         bool reading_theta = false;
         
@@ -497,7 +501,7 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
             if (reading_theta) {
                 // Parse numbers from the line
                 std::stringstream ss(line);
-                std::string token;
+                std::string token = {};
                 
                 while (std::getline(ss, token, ',')) {
                     // Remove whitespace and brackets
@@ -524,7 +528,7 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
         file.close();
         
         // Validate and set loaded theta
-        if (loaded_theta.size() == learnable_theta_.size()) {
+        if (static_cast<int>(loaded_theta.size()) == static_cast<int>(learnable_theta_.size())) {
             learnable_theta_ = loaded_theta;
             return true;
         }

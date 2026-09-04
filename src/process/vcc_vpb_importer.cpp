@@ -75,9 +75,15 @@ BPMNNodeType VccVpbImporter::activityTypeToNodeType_(std::string_view type_str) 
     std::string t(type_str);
     std::transform(t.begin(), t.end(), t.begin(), ::tolower);
 
-    if (t == "start")   return BPMNNodeType::START_EVENT;
-    if (t == "end")     return BPMNNodeType::END_EVENT;
-    if (t == "gateway" || t == "xor_gateway") return BPMNNodeType::EXCLUSIVE_GATEWAY;
+    if (t == "start") {
+      return BPMNNodeType::START_EVENT;
+    }
+    if (t == "end") {
+      return BPMNNodeType::END_EVENT;
+    }
+    if (t == "gateway" || t == "xor_gateway") {
+      return BPMNNodeType::EXCLUSIVE_GATEWAY;
+    }
     if (t == "parallel_gateway" || t == "and_gateway")
                         return BPMNNodeType::PARALLEL_GATEWAY;
     if (t == "inclusive_gateway" || t == "or_gateway")
@@ -99,11 +105,17 @@ ProcessEdgeType VccVpbImporter::edgeTypeToProcessEdgeType_(std::string_view type
     std::string t(type_str);
     std::transform(t.begin(), t.end(), t.begin(), ::tolower);
 
-    if (t == "conditional")    return ProcessEdgeType::CONDITIONAL_FLOW;
-    if (t == "default")        return ProcessEdgeType::DEFAULT_FLOW;
+    if (t == "conditional") {
+      return ProcessEdgeType::CONDITIONAL_FLOW;
+    }
+    if (t == "default") {
+      return ProcessEdgeType::DEFAULT_FLOW;
+    }
     if (t == "exception"  || t == "error")
                                return ProcessEdgeType::EXCEPTION_FLOW;
-    if (t == "message")        return ProcessEdgeType::MESSAGE_FLOW;
+    if (t == "message") {
+      return ProcessEdgeType::MESSAGE_FLOW;
+    }
     return ProcessEdgeType::SEQUENCE_FLOW;
 }
 
@@ -132,10 +144,10 @@ std::string trimStr(const std::string& s) {
 }
 
 std::string unquote(const std::string& s) {
-    if (s.size() >= 2) {
-        if ((s.front() == '"' && s.back() == '"') ||
-            (s.front() == '\'' && s.back() == '\'')) {
-            return s.substr(1, s.size() - 2);
+    if (static_cast<int>(s.size()) > = 2) {
+        if (((s.front() == '"' && s.back() == '"') ||
+            (s.front() == '\'' && s.back() == '\''))) {
+            return s.substr(1, static_cast<int>(s.size()) - 2);
         }
     }
     return s;
@@ -153,7 +165,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
 
     std::vector<std::string> lines;
     std::istringstream ss(yaml_text);
-    std::string line;
+    std::string line = {};
     while (std::getline(ss, line)) {
         lines.push_back(line);
     }
@@ -173,11 +185,13 @@ json parseVccVpbYaml(const std::string& yaml_text) {
     std::vector<Frame> stack;
     stack.push_back({&result, -1, false, ""});
 
-    std::string current_list_key;
+    std::string current_list_key = {};
 
     auto indentOf = [](const std::string& l) -> int {
         int i = 0;
-        while (i < (int)l.size() && (l[i] == ' ' || l[i] == '\t')) ++i;
+        while ((i < (int)l.size() && (l[i] == ' ' || l[i] == '\t'))) {
+          ++i;
+        }
         return i;
     };
 
@@ -193,10 +207,10 @@ json parseVccVpbYaml(const std::string& yaml_text) {
     json doc = json::object();
 
     // Top-level scalar fields
-    auto extractTopLevel = [&](const std::string& key) -> std::string {
+    auto extractTopLevel = [&]([[maybe_unused]] const std::string& key) -> std::string {
         std::regex re("^" + key + R"(\s*:\s*["\']?([^"\'\n]+)["\']?\s*$)");
         for (const auto& l : lines) {
-            std::smatch m;
+            std::smatch m = {};
             if (std::regex_match(l, m, re)) {
                 return unquote(trimStr(m[1].str()));
             }
@@ -228,14 +242,16 @@ json parseVccVpbYaml(const std::string& yaml_text) {
         // Try inline list first
         bool found_inline = false;
         for (const auto& l : lines) {
-            std::smatch m;
+            std::smatch m = {};
             if (std::regex_search(l, m, inline_re)) {  // NOLINT(clang-diagnostic-error) - regex is static const
                 std::string items = m[1].str();
                 auto it  = std::sregex_iterator(items.begin(), items.end(), item_re);  // NOLINT(clang-diagnostic-error) - regex is static const
                 auto end = std::sregex_iterator();
                 for (; it != end; ++it) {
                     std::string val = (*it)[1].matched ? (*it)[1].str() : (*it)[2].str();
-                    if (!val.empty()) comp_list.push_back(val);
+                    if (!val.empty()) {
+                      comp_list.push_back(val);
+                    }
                 }
                 found_inline = true;
                 break;
@@ -252,11 +268,11 @@ json parseVccVpbYaml(const std::string& yaml_text) {
                 }
                 if (in_compliance) {
                     // Input validation: check bounds before accessing array index
-                    if (l.empty() || (l.size() > 0 && l[0] != ' ')) { 
+                    if ((l.empty() || (static_cast<int>(l.size()) > 0 && l[0] != ' '))) { 
                         in_compliance = false; 
                         continue; 
                     }
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_match(l, m, multiline_item_re)) {  // NOLINT(clang-diagnostic-error) - regex is static const
                         comp_list.push_back(trimStr(m[1].str()));
                     }
@@ -278,7 +294,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
         static const std::regex activity_dash_re(R"(^-\s*$)");  // NOLINT(readability-static-accessed-through-instance)
         static const std::regex activity_kv_re(R"((\w+)\s*:\s*["\']?([^"\'\n]+)["\']?)");  // NOLINT(readability-static-accessed-through-instance)
 
-        for (size_t i = 0; i < lines.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(lines.size()); ++i) {
             const auto& l = lines[i];
             std::string trimmed = trimStr(l);
             int indent = indentOf(l);
@@ -288,7 +304,9 @@ json parseVccVpbYaml(const std::string& yaml_text) {
                 continue;
             }
 
-            if (!in_activities) continue;
+            if (!in_activities) {
+              continue;
+            }
 
             // Detect end of activities block (new top-level key with indent 0)
             if (indent == 0 && !trimmed.empty() && trimmed[0] != '-') {
@@ -303,7 +321,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
 
             // New activity item
             if (std::regex_match(trimmed, activity_dash_re) ||  // NOLINT(clang-diagnostic-error) - regex is static const
-                (trimmed.size() >= 2 && trimmed.substr(0, 2) == "- ")) {
+                (static_cast<int>(trimmed.size()) >= 2 && trimmed.substr(0, 2) == "- ")) {
 
                 if (in_activity && !current_activity.empty()) {
                     activities.push_back(current_activity);
@@ -312,9 +330,9 @@ json parseVccVpbYaml(const std::string& yaml_text) {
                 in_activity    = true;
 
                 // Check if first key is on same line: "- id: foo"
-                std::string rest = (trimmed.size() > 2) ? trimStr(trimmed.substr(2)) : "";
+                std::string rest = (static_cast<int>(trimmed.size()) > 2) ? trimStr(trimmed.substr(2)) : "";
                 if (!rest.empty()) {
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_search(rest, m, activity_kv_re)) {  // NOLINT(clang-diagnostic-error) - regex is static const
                         current_activity[m[1].str()] = unquote(trimStr(m[2].str()));
                     }
@@ -324,7 +342,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
 
             if (in_activity) {
                 // Parse key: value inside activity
-                std::smatch m;
+                std::smatch m = {};
                 if (std::regex_search(trimmed, m, activity_kv_re)) {  // NOLINT(clang-diagnostic-error) - regex is static const
                     current_activity[m[1].str()] = unquote(trimStr(m[2].str()));
                 }
@@ -358,7 +376,9 @@ json parseVccVpbYaml(const std::string& yaml_text) {
                 continue;
             }
 
-            if (!in_edges) continue;
+            if (!in_edges) {
+              continue;
+            }
 
             if (indent == 0 && !trimmed.empty() && trimmed[0] != '-') {
                 if (in_edge && !current_edge.empty()) {
@@ -371,7 +391,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
             }
 
             if (std::regex_match(trimmed, edge_dash_re) ||  // NOLINT(clang-diagnostic-error) - regex is static const
-                (trimmed.size() >= 2 && trimmed.substr(0, 2) == "- ")) {
+                (static_cast<int>(trimmed.size()) >= 2 && trimmed.substr(0, 2) == "- ")) {
 
                 if (in_edge && !current_edge.empty()) {
                     edges.push_back(current_edge);
@@ -379,9 +399,9 @@ json parseVccVpbYaml(const std::string& yaml_text) {
                 }
                 in_edge = true;
 
-                std::string rest = (trimmed.size() > 2) ? trimStr(trimmed.substr(2)) : "";
+                std::string rest = (static_cast<int>(trimmed.size()) > 2) ? trimStr(trimmed.substr(2)) : "";
                 if (!rest.empty()) {
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_search(rest, m, edge_kv_re)) {  // NOLINT(clang-diagnostic-error) - regex is static const
                         current_edge[m[1].str()] = unquote(trimStr(m[2].str()));
                     }
@@ -390,7 +410,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
             }
 
             if (in_edge) {
-                std::smatch m;
+                std::smatch m = {};
                 if (std::regex_search(trimmed, m, edge_kv_re)) {  // NOLINT(clang-diagnostic-error) - regex is static const
                     current_edge[m[1].str()] = unquote(trimStr(m[2].str()));
                 }
@@ -425,7 +445,9 @@ VccVpbImporter::ImportResult VccVpbImporter::parseModelNode_(
 
     // Override with document data
     std::string id = doc.value("id", "");
-    if (!id.empty()) rec.id = id;
+    if (!id.empty()) {
+      rec.id = id;
+    }
     if (rec.id.empty()) {
         result.ok      = false;
         result.message = "VCC-VPB model is missing 'id' field";
@@ -433,7 +455,9 @@ VccVpbImporter::ImportResult VccVpbImporter::parseModelNode_(
     }
 
     std::string name = doc.value("name", "");
-    if (!name.empty()) rec.name = name;
+    if (!name.empty()) {
+      rec.name = name;
+    }
     rec.name_en     = doc.value("name_en", rec.name_en);
     rec.description = doc.value("description", rec.description);
     rec.description_en = doc.value("description_en", rec.description_en);
@@ -449,7 +473,9 @@ VccVpbImporter::ImportResult VccVpbImporter::parseModelNode_(
     if (doc.contains("compliance") && doc["compliance"].is_array()) {
         rec.compliance_tags.clear();
         for (const auto& tag : doc["compliance"]) {
-            if (tag.is_string()) rec.compliance_tags.push_back(tag.get<std::string>());
+            if (tag.is_string()) {
+              rec.compliance_tags.push_back(tag.get<std::string>());
+            }
         }
     }
 
@@ -465,7 +491,9 @@ VccVpbImporter::ImportResult VccVpbImporter::parseModelNode_(
             n.description = act.value("description", "");
             n.subtype     = "";
 
-            if (n.node_id.empty()) continue;
+            if (n.node_id.empty()) {
+              continue;
+            }
 
             std::string type_str = act.value("type", "task");
             BPMNNodeType btype   = activityTypeToNodeType_(type_str);
@@ -474,7 +502,9 @@ VccVpbImporter::ImportResult VccVpbImporter::parseModelNode_(
             // Determine subtype for task variants
             std::string t_lower = type_str;
             std::transform(t_lower.begin(), t_lower.end(), t_lower.begin(), ::tolower);
-            if (t_lower == "user_task" || t_lower == "user")      n.subtype = "USER_TASK";
+            if (t_lower == "user_task" || t_lower == "user") {
+              n.subtype = "USER_TASK";
+            }
             else if (t_lower == "service_task" || t_lower == "service") n.subtype = "SERVICE_TASK";
 
             // SLA → timeout
@@ -495,7 +525,9 @@ VccVpbImporter::ImportResult VccVpbImporter::parseModelNode_(
             // Responsible role → store in description
             std::string role = act.value("responsible_role", "");
             if (!role.empty()) {
-                if (n.description.empty()) n.description = "Role: " + role;
+                if (n.description.empty()) {
+                  n.description = "Role: " + role;
+                }
                 else                       n.description += " | Role: " + role;
             }
 
@@ -510,12 +542,16 @@ VccVpbImporter::ImportResult VccVpbImporter::parseModelNode_(
             edge.edge_id   = e.value("id", "edge_" + std::to_string(++edge_counter));
             edge.from_node = e.value("from", "");
             edge.to_node   = e.value("to",   "");
-            if (edge.from_node.empty() || edge.to_node.empty()) continue;
+            if (edge.from_node.empty() || edge.to_node.empty()) {
+              continue;
+            }
 
             edge.edge_type = edgeTypeToProcessEdgeType_(e.value("type", "sequence"));
 
             std::string cond = e.value("condition", "");
-            if (!cond.empty()) edge.condition_expression = cond;
+            if (!cond.empty()) {
+              edge.condition_expression = cond;
+            }
 
             edges.push_back(std::move(edge));
         }
@@ -630,7 +666,7 @@ std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importYamlList(
 
     // Each model is introduced by "  - id:" or "  -\n    id:"
     // Split the block into individual model YAML chunks.
-    std::string block = text.substr(list_start + key_pattern.size());  // RAII-managed substring
+    std::string block = text.substr(list_start + static_cast<int>(key_pattern.size()) );  // RAII-managed substring
     std::istringstream ss(block);
     std::string line;  // RAII-managed line buffer
     std::vector<std::string> model_chunks;  // RAII-managed vector
@@ -659,7 +695,7 @@ std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importYamlList(
                             (line_len == 3 || line[3] == '\r'));
 
         try {
-            if ((is_new_model || is_dash_only) && !current_chunk.empty()) {
+            if (((is_new_model || is_dash_only) && !current_chunk.empty())) {
                 model_chunks.push_back(current_chunk);
                 current_chunk.clear();
             }
@@ -684,7 +720,9 @@ std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importYamlList(
                     current_chunk += "\n";
                 }
             } else if (line.empty()) {
-                if (!current_chunk.empty()) current_chunk += "\n";
+                if (!current_chunk.empty()) {
+                  current_chunk += "\n";
+                }
             } else {
                 // Top-level key outside the list — stop
                 break;
@@ -724,9 +762,13 @@ std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importDirectory(
     try {
         for (const auto& entry : fs::recursive_directory_iterator(
                                      std::string(directory_path))) {
-            if (!entry.is_regular_file()) continue;
+            if (!entry.is_regular_file()) {
+              continue;
+            }
             auto ext = entry.path().extension().string();
-            if (ext != ".yaml" && ext != ".yml") continue;
+            if (ext != ".yaml" && ext != ".yml") {
+              continue;
+            }
 
             std::ifstream f(entry.path());
             if (!f.is_open()) {
@@ -740,7 +782,9 @@ std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importDirectory(
             // Try as list first, then as single model
             auto list_results = importYamlList(content, "administrative_models", meta_defaults);
             if (!list_results.empty() && list_results[0].ok) {
-                for (auto& r : list_results) results.push_back(std::move(r));
+                for (auto& r : list_results) {
+                  results.push_back(std::move(r));
+                }
             } else {
                 results.push_back(importYaml(content, meta_defaults));
             }

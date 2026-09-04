@@ -70,7 +70,8 @@ void CDCMaterializedViewMaintainer::applyEvent(const Changefeed::ChangeEvent &ev
 }
 
 void CDCMaterializedViewMaintainer::applyEvents(const std::vector<Changefeed::ChangeEvent> &events) {
-    std::vector<themisdb::analytics::ChangeRecord> records;
+    std::vector<themisdb::analytics::ChangeRecord> records = {};
+
     records.reserve(events.size());
     for (const auto &ev : events) {
         auto rec = toChangeRecord(ev);

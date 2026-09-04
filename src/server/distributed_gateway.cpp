@@ -110,13 +110,13 @@ ClusterGatewayConfig ClusterGatewayConfig::fromJson(const nlohmann::json& j) {
 // ConsistentHashRing
 // ===========================================================================
 
-ConsistentHashRing::ConsistentHashRing(uint32_t virtual_nodes)
+ConsistentHashRing::ConsistentHashRing([[maybe_unused]] uint32_t virtual_nodes)
     : virtual_nodes_(virtual_nodes) {}
 
 // FNV-1a 64-bit hash with a replica seed suffix for virtual nodes.
 uint64_t ConsistentHashRing::hash(const std::string& key, uint32_t replica) {
-    static constexpr uint64_t kFNVOffset = 14695981039346656037ULL;
-    static constexpr uint64_t kFNVPrime  = 1099511628211ULL;
+    static constexpr uint64_t kFNVOffset = 14695981039346656037;
+    static constexpr uint64_t kFNVPrime  = 1099511628211;
 
     std::string salted = key + "#" + std::to_string(replica);
     uint64_t h = kFNVOffset;
@@ -163,11 +163,12 @@ std::optional<GatewayNode> ConsistentHashRing::getNode(
 
 std::size_t ConsistentHashRing::nodeCount() const {
     std::shared_lock lock(mutex_);
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& [h, node] : ring_) {
         seen.insert(node.node_id);
     }
-    return seen.size();
+    return static_cast<int>(seen.size());
 }
 
 // ===========================================================================
@@ -474,7 +475,7 @@ nlohmann::json DistributedGateway::getClusterStatus() const {
         {"has_quorum",     hasQuorum()},
         {"quorum_lost",    quorum_lost_},
         {"config_version", cfg.version},
-        {"route_count",    cfg.routes.size()},
+        {"route_count",static_cast<int>(cfg.routes.size())},
         {"ring_nodes",     hash_ring_.nodeCount()},
         {"cluster_nodes",  nodes},
     };
@@ -547,7 +548,7 @@ bool DistributedGateway::needsSessionAffinity(
         std::string accept_lower(accept.begin(), accept.end());
         std::transform(accept_lower.begin(), accept_lower.end(),
                        accept_lower.begin(), ::tolower);
-        if (accept_lower.find("text/event-stream") != std::string::npos) {
+        if ([[maybe_unused]] accept_lower.find("text/event-stream") != std::string::npos) {
             return true;
         }
     }
@@ -597,7 +598,7 @@ std::chrono::milliseconds DistributedGateway::retryDelay(
     uint32_t max_ms) noexcept
 {
     // Clamp the shift to avoid undefined behaviour on 32-bit left-shift overflow.
-    constexpr uint32_t kMaxShift = 31u;
+    constexpr uint32_t kMaxShift = 31;
     const uint32_t shift = (attempt < kMaxShift) ? attempt : kMaxShift;
     // base_ms × 2^shift, saturating at UINT32_MAX before the max clamp.
     const uint64_t raw = static_cast<uint64_t>(base_ms) << shift;

@@ -43,7 +43,9 @@ std::vector<float> makePeakedLogits(size_t vocab_size, size_t token,
                                     float peak = 10.0f, float baseline = -10.0f)
 {
     std::vector<float> logits(vocab_size, baseline);
-    if (token < vocab_size) logits[token] = peak;
+    if (token < vocab_size) {
+      logits[token] = peak;
+    }
     return logits;
 }
 
@@ -149,7 +151,9 @@ TEST(SpeculativeDecoderTest, AdjustedDistributionSumsToOne) {
     float sum = std::accumulate(adj.begin(), adj.end(), 0.0f);
     EXPECT_NEAR(sum, 1.0f, 1e-5f);
 
-    for (float v : adj) EXPECT_GE(v, 0.0f);
+    for (float v : adj) {
+      EXPECT_GE(v, 0.0f);
+    }
 }
 
 TEST(SpeculativeDecoderTest, AdjustedDistributionIdenticalFallsBackToUniform) {
@@ -158,7 +162,9 @@ TEST(SpeculativeDecoderTest, AdjustedDistributionIdenticalFallsBackToUniform) {
     auto adj = SpeculativeDecoder::adjustedDistribution(p, p);
 
     ASSERT_EQ(adj.size(), 4u);
-    for (float v : adj) EXPECT_NEAR(v, 0.25f, 1e-5f);
+    for (float v : adj) {
+      EXPECT_NEAR(v, 0.25f, 1e-5f);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -210,7 +216,9 @@ TEST(SpeculativeDecoderTest, VerifyAllAccepted) {
     EXPECT_EQ(result.num_accepted, K);
     EXPECT_TRUE(result.all_accepted);
     EXPECT_EQ(result.accepted_tokens.size(), K);
-    for (int t : result.accepted_tokens) EXPECT_EQ(t, static_cast<int>(peak_token));
+    for (int t : result.accepted_tokens) {
+      EXPECT_EQ(t, static_cast<int>(peak_token));
+    }
     EXPECT_GE(result.bonus_token, 0);
     EXPECT_NEAR(result.acceptance_rate, 1.0f, 1e-5f);
 }

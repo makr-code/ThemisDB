@@ -103,7 +103,9 @@ TEST(RTreeCursor, RTC03_BulkLoad_RangeCursorCoversAll) {
     auto cursor = idx.openRangeCursor(world);
     int count = 0;
     GeoIndexEntry e;
-    while (cursor->next(e) == CursorStatus::OK) ++count;
+    while (cursor->next(e) == CursorStatus::OK) {
+      ++count;
+    }
     EXPECT_EQ(count, 3);
 }
 
@@ -140,7 +142,9 @@ TEST(RTreeCursor, RTC05_RangeCursor_EstimatedResultCount) {
     // Drain the cursor and count actual hits
     GeoIndexEntry e;
     std::size_t actual = 0;
-    while (cursor->next(e) == CursorStatus::OK) ++actual;
+    while (cursor->next(e) == CursorStatus::OK) {
+      ++actual;
+    }
 
     EXPECT_EQ(estimate, actual);
     EXPECT_EQ(actual, 2u);
@@ -210,7 +214,9 @@ TEST(RTreeCursor, RTC08_KNNCursor_KLargerThanIndex) {
 
     GeoIndexEntry e;
     int count = 0;
-    while (cursor->next(e) == CursorStatus::OK) ++count;
+    while (cursor->next(e) == CursorStatus::OK) {
+      ++count;
+    }
     EXPECT_EQ(count, 2);
 }
 

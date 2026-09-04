@@ -131,7 +131,9 @@ TEST(LockFreeHistogramTest, LFH07_PercentileCorrectness) {
 // ---------------------------------------------------------------------------
 TEST(LockFreeHistogramTest, LFH08_ResetClearsCounters) {
     LockFreeHistogram<uint64_t, 16> h;
-    for (int i = 0; i < 100; ++i) h.record(static_cast<uint64_t>(i));
+    for (int i = 0; i < 100; ++i) {
+      h.record(static_cast<uint64_t>(i));
+    }
     EXPECT_GT(h.count(), 0u);
     h.reset();
     EXPECT_EQ(h.count(), 0u);
@@ -183,7 +185,9 @@ TEST(LockFreeHistogramTest, LFH11_ConcurrentRecordNoDataRaces) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(h.count(), static_cast<uint64_t>(THREADS) * OPS_PER_THREAD);
 }

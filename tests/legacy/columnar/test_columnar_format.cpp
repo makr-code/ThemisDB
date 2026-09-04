@@ -104,14 +104,16 @@ TEST(DictionaryCodecTest, SingleString) {
 
 TEST(DictionaryCodecTest, ShouldUseDictionary) {
     // High cardinality - should not use dictionary
-    std::vector<std::string> high_cardinality;
+    std::vector<std::string> high_cardinality = {};
+
     for (int i = 0; i < 100; ++i) {
         high_cardinality.push_back("unique_" + std::to_string(i));
     }
     EXPECT_FALSE(DictionaryCodec::shouldUseDictionary(high_cardinality));
 
     // Low cardinality - should use dictionary
-    std::vector<std::string> low_cardinality;
+    std::vector<std::string> low_cardinality = {};
+
     for (int i = 0; i < 100; ++i) {
         low_cardinality.push_back(i % 5 == 0 ? "A" : "B");
     }
@@ -504,7 +506,8 @@ TEST(ColumnarFormatManagerTest, CompressionStats) {
 
 TEST(CompressionRatioTest, RLEHighCompressionForRepeats) {
     // Data with many repeats
-    std::vector<int32_t> data;
+    std::vector<int32_t> data = {};
+
     for (int i = 0; i < 1000; ++i) {
         data.push_back(i / 100);  // 100 repeats of each value
     }
@@ -525,7 +528,8 @@ TEST(CompressionRatioTest, RLEHighCompressionForRepeats) {
 
 TEST(CompressionRatioTest, NoCompressionForUnique) {
     // All unique values
-    std::vector<int32_t> data;
+    std::vector<int32_t> data = {};
+
     for (int i = 0; i < 100; ++i) {
         data.push_back(i);
     }
@@ -617,7 +621,8 @@ TEST(IntegrationTest, EndToEndColumnarWorkflow) {
 
 TEST(IntegrationTest, LargeDatasetCompression) {
     // Simulate analytical workload with long repeated runs (RLE-friendly)
-    std::vector<int32_t> category_ids;
+    std::vector<int32_t> category_ids = {};
+
     for (int i = 0; i < 10000; ++i) {
         category_ids.push_back(i / 1000);  // 10 categories, each repeated in long runs
     }

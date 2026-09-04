@@ -66,8 +66,8 @@ TEST_F(DistributedTransactionManagerMoveTests, TransactionIdCapturedBeforeMove) 
 TEST_F(DistributedTransactionManagerMoveTests, TransactionMetadataSnapshotSurvivesMove) {
     // Mock structure to simulate captured metadata
     struct TransactionMetadata {
-        std::string id;
-        std::string state;
+        std::string id = {};
+        std::string state = {};
         std::chrono::system_clock::time_point created_at;
     };
     
@@ -162,7 +162,7 @@ protected:
  */
 TEST_F(SagaOrchestratorTemplateTests, TemplateRetrievedFromMapNotFromOriginal) {
     struct SAGATemplate {
-        std::string name;
+        std::string name = {};
         std::string definition;
     };
     
@@ -188,7 +188,7 @@ TEST_F(SagaOrchestratorTemplateTests, TemplateRetrievedFromMapNotFromOriginal) {
  */
 TEST_F(SagaOrchestratorTemplateTests, TemplateInstantiationFromMapCopy) {
     struct SAGATemplate {
-        std::string name;
+        std::string name = {};
         std::string id;
         std::map<std::string, std::string> context;
     };
@@ -301,8 +301,8 @@ protected:
  */
 TEST_F(ModelPipelineSharedOwnershipTests, ModelSharedPtrSurvivesPipeline) {
     struct LLMModel {
-        std::string model_id;
-        std::string state;
+        std::string model_id = {};
+        std::string state = {};
         std::vector<float> weights;
         
         LLMModel(const std::string& id) : model_id(id), state("INIT") {}
@@ -330,7 +330,7 @@ TEST_F(ModelPipelineSharedOwnershipTests, ModelSharedPtrSurvivesPipeline) {
  */
 TEST_F(ModelPipelineSharedOwnershipTests, ModelPipelineStagaAccessViasharedPtr) {
     struct Model {
-        std::string id;
+        std::string id = {};
         int inference_count = 0;
     };
     
@@ -360,7 +360,7 @@ TEST_F(ModelPipelineSharedOwnershipTests, ModelPipelineStagaAccessViasharedPtr) 
  */
 TEST_F(ModelPipelineSharedOwnershipTests, ModelRefCountingPreventsDeletion) {
     struct Model {
-        std::string id;
+        std::string id = {};
         Model() { ++g_sprint8_model_instance_count; }
         ~Model() { --g_sprint8_model_instance_count; }
     };

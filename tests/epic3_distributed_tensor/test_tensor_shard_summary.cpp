@@ -688,7 +688,8 @@ TEST(TensorShardSummaryTest, TSS35_StatsMultipleOperations) {
 // TSS-36: Routing preserves shard order.
 // ──────────────────────────────────────────────────────────────────────────────
 TEST(TensorShardSummaryTest, TSS36_RoutingPreservesOrder) {
-    std::vector<ShardSummary> summaries;
+    std::vector<ShardSummary> summaries = {};
+
     for (int i = 0; i < 5; ++i) {
         ShardSummary s = makeFreshSummary("shard-" + std::to_string(i));
         summaries.push_back(s);

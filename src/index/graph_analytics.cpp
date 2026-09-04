@@ -34,8 +34,8 @@ GraphAnalytics::buildTopology(const std::vector<std::string>& node_pks) const {
     
     // Batch lookups: fewer DB roundtrips (10-100× faster for large graphs)
     const size_t batch_size = 256;
-    for (size_t start = 0; start < node_pks.size(); start += batch_size) {
-        size_t end = std::min(start + batch_size, node_pks.size());
+    for (size_t start = 0; start <static_cast<int>(node_pks.size()); start += batch_size) {
+        size_t end = std::min(start + batch_size,static_cast<int>(node_pks.size()));
         
         for (size_t i = start; i < end; ++i) {
             const auto& pk = node_pks[i];
@@ -79,12 +79,12 @@ GraphAnalytics::degreeCentrality(const std::vector<std::string>& node_pks) const
         
         auto out_it = topo.outgoing.find(pk);
         if (out_it != topo.outgoing.end()) {
-            dr.out_degree = static_cast<int>(out_it->second.size());
+            dr.out_degree = static_cast<int>(out_it-> static_cast<int>(second.size()));
         }
         
         auto in_it = topo.incoming.find(pk);
         if (in_it != topo.incoming.end()) {
-            dr.in_degree = static_cast<int>(in_it->second.size());
+            dr.in_degree = static_cast<int>(in_it-> static_cast<int>(second.size()));
         }
         
         dr.total_degree = dr.in_degree + dr.out_degree;
@@ -146,7 +146,7 @@ GraphAnalytics::pageRank(
         out_degrees.reserve(n);
         for (const auto& pk : node_pks) {
             auto out_it = topo.outgoing.find(pk);
-            out_degrees.push_back((out_it != topo.outgoing.end()) ? out_it->second.size() : 0);
+            out_degrees.push_back((out_it != topo.outgoing.end()) ? out_it-> static_cast<int>(second.size()) : 0);
         }
         
         // Distribute rank from each node to its outgoing neighbors
@@ -212,7 +212,8 @@ GraphAnalytics::betweennessCentrality(const std::vector<std::string>& node_pks) 
     }
     
     // Initialize betweenness scores
-    std::map<std::string, double> betweenness;
+    std::map<std::string, double> betweenness = {};
+
     for (const auto& pk : node_pks) {
         betweenness[pk] = 0.0;
     }
@@ -245,7 +246,9 @@ GraphAnalytics::betweennessCentrality(const std::vector<std::string>& node_pks) 
             stack.push_back(v);
             
             auto out_it = topo.outgoing.find(v);
-            if (out_it == topo.outgoing.end()) continue;
+            if (out_it == topo.outgoing.end()) {
+              continue;
+            }
             
             for (const auto& w : out_it->second) {
                 // First time we see w?
@@ -321,7 +324,9 @@ GraphAnalytics::closenessCentrality(const std::vector<std::string>& node_pks) co
             q.pop();
             
             auto out_it = topo.outgoing.find(v);
-            if (out_it == topo.outgoing.end()) continue;
+            if (out_it == topo.outgoing.end()) {
+              continue;
+            }
             
             for (const auto& w : out_it->second) {
                 if (distance[w] < 0) {
@@ -393,11 +398,16 @@ GraphAnalytics::louvainCommunities(
     if (m == 0.0) m = 1.0;  // Avoid division by zero
 
     // Compute node degrees (total degree)
-    std::map<std::string, double> node_degree;
+    std::map<std::string, double> node_degree = {};
+
     for (const auto& pk : node_pks) {
         double deg = 0.0;
-        if (topo.outgoing.count(pk)) deg += topo.outgoing.at(pk).size();
-        if (topo.incoming.count(pk)) deg += topo.incoming.at(pk).size();
+        if (topo.outgoing.count(pk)) {
+          deg += topo.outgoing.at(pk).size();
+        }
+        if (topo.incoming.count(pk)) {
+          deg += topo.incoming.at(pk).size();
+        }
         node_degree[pk] = deg;
     }
 
@@ -436,7 +446,9 @@ GraphAnalytics::louvainCommunities(
                 double best_delta_q = 0.0;
 
                 for (const auto& [candidate_comm, edges_to_comm] : comm_edges) {
-                    if (candidate_comm == current_comm) continue;
+                    if (candidate_comm == current_comm) {
+                      continue;
+                    }
 
                     // Calculate modularity change (simplified):
                     // Delta Q = (edges_to_comm / m) - (k_i * Sigma_comm / (2*m*m))
@@ -572,7 +584,7 @@ GraphAnalytics::kShortestPaths(
     
     // Helper: Path comparator for uniqueness checking
     auto pathKey = [](const PathInfo& p) -> std::string {
-        std::string key;
+        std::string key = {};
         for (const auto& v : p.vertices) {
             key += v + "|";
         }
@@ -594,7 +606,7 @@ GraphAnalytics::kShortestPaths(
         
         // Priority queue: (distance, current_node, path_vertices, path_edges)
         struct DijkstraState {
-            double dist;
+            double dist = 0;
             std::string node;
             std::vector<std::string> path_vertices;
             std::vector<std::pair<std::string, std::string>> path_edges;
@@ -631,7 +643,9 @@ GraphAnalytics::kShortestPaths(
             
             // Explore neighbors
             auto [st_out, neighbors] = graphMgr_.outNeighbors(state.node);
-            if (!st_out.ok) continue;
+            if (!st_out.ok) {
+              continue;
+            }
             
             for (const auto& neighbor : neighbors) {
                 // Skip excluded edges
@@ -689,12 +703,14 @@ GraphAnalytics::kShortestPaths(
     
     // Step 2: Find k-1 additional shortest paths
     for (int k_idx = 1; k_idx < k; ++k_idx) {
-        if (A.empty()) break;
+        if (A.empty()) {
+          break;
+        }
         
-        const PathInfo& prev_path = A[k_idx - 1];
+        const PathInfo& prev_path = A[static_cast<int>(k_idx - 1)];
         
         // For each node in the previous shortest path (except the last)
-        for (size_t spur_idx = 0; spur_idx < prev_path.vertices.size() - 1; ++spur_idx) {
+        for (size_t spur_idx = 0; spur_idx <static_cast<int>(prev_path.vertices.size()) - 1; ++spur_idx) {
             const std::string& spur_node = prev_path.vertices[spur_idx];
             
             // Root path: from source to spur node
@@ -712,16 +728,16 @@ GraphAnalytics::kShortestPaths(
             
             // Remove edges that are part of previous paths with the same root
             for (const auto& path : A) {
-                if (path.vertices.size() > spur_idx + 1) {
+                if (static_cast<int>(path.vertices.size()) > spur_idx + 1) {
                     bool same_root = true;
-                    for (size_t i = 0; i <= spur_idx && i < path.vertices.size(); ++i) {
+                    for (size_t i = 0; i <= spur_idx  && static_cast<size_t>(i) <static_cast<int>(path.vertices.size()); ++i) {
                         if (path.vertices[i] != root_vertices[i]) {
                             same_root = false;
                             break;
                         }
                     }
                     
-                    if (same_root && spur_idx < path.edges.size()) {
+                    if (same_root  && static_cast<size_t>(spur_idx) <static_cast<int>(path.edges.size())) {
                         excluded_edges.insert(path.edges[spur_idx]);
                     }
                 }
@@ -730,14 +746,14 @@ GraphAnalytics::kShortestPaths(
             // Find spur path from spur node to target
             auto [found_spur, spur_path] = dijkstra(spur_node, target, excluded_edges);
             
-            if (found_spur && spur_path.vertices.size() > 1) {
+            if (found_spur && static_cast<int>(spur_path.vertices.size()) > 1) {
                 // Combine root path + spur path
                 PathInfo total_path;
                 total_path.vertices = root_vertices;
                 total_path.edges = root_edges;
                 
                 // Add spur path (skip first vertex as it's the spur node)
-                for (size_t i = 1; i < spur_path.vertices.size(); ++i) {
+                for (size_t i = 1; i <static_cast<int>(spur_path.vertices.size()); ++i) {
                     total_path.vertices.push_back(spur_path.vertices[i]);
                 }
                 for (const auto& edge : spur_path.edges) {

@@ -398,7 +398,8 @@ TEST_F(DeterministicConflictResolutionTest, SequentialResolutionStateIntegrity) 
     conflict_set.push_back(createTestWrite("w2", "doc_001", "test_collection"));
 
     // Multiple sequential calls should not corrupt state
-    std::vector<std::string> winners;
+    std::vector<std::string> winners = {};
+
     for (int i = 0; i < 10; ++i) {
         MMWriteEntry winner = resolver_->resolve("doc_001", conflict_set, default_context_);
         winners.push_back(winner.write_id);

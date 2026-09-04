@@ -237,7 +237,8 @@ TEST_F(HttpAqlFulltextOrTest, FulltextOr_MultipleStructural) {
     auto docs = result["result"];
     ASSERT_GE(docs.size(), 3);  // Database Theory, Recent Update (2023), Old Document (1990)
     
-    std::set<std::string> found_titles;
+    std::set<std::string> found_titles = {};
+
     for (const auto& doc : docs) {
         found_titles.insert(doc["title"]);
     }

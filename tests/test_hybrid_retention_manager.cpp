@@ -69,7 +69,9 @@ TEST(GorillaCompressionTest, DecodeRoundtrip) {
     size_t idx = 0;
     while (true) {
         auto point = decoder.next();
-        if (!point) break;
+        if (!point) {
+          break;
+        }
         ASSERT_LT(idx, original.size());
         EXPECT_EQ(point->first, original[idx].first);
         EXPECT_DOUBLE_EQ(point->second, original[idx].second);

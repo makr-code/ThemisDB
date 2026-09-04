@@ -108,7 +108,8 @@ public:
       throw std::invalid_argument(
           "source_ids must be empty or match texts.size()");
     }
-    std::vector<DetectionResult> results;
+    std::vector<DetectionResult> results = {};
+
     for (size_t i = 0; i < texts.size(); ++i) {
       std::string sid = (source_ids.size() > i) ? source_ids[i] : "";
       results.push_back(detect_text(texts[i], sid));

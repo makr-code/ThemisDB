@@ -38,7 +38,9 @@ static GeometryInfo makeSquarePolygon(double lon, double lat, double half_deg = 
 static bool hasPair(const std::vector<SpatialJoinPair>& pairs,
                     const std::string& ka, const std::string& kb) {
     for (const auto& p : pairs) {
-        if (p.key_a == ka && p.key_b == kb) return true;
+        if (p.key_a == ka && p.key_b == kb) {
+          return true;
+        }
     }
     return false;
 }
@@ -333,8 +335,12 @@ TEST(SpatialJoinIterator, TwoPairsYieldedInOrder) {
     while (it.advance()) {
         ++count;
         const auto& p = it.current();
-        if (p.key_a == "a1" && p.key_b == "b1") saw_a1_b1 = true;
-        if (p.key_a == "a2" && p.key_b == "b2") saw_a2_b2 = true;
+        if (p.key_a == "a1" && p.key_b == "b1") {
+          saw_a1_b1 = true;
+        }
+        if (p.key_a == "a2" && p.key_b == "b2") {
+          saw_a2_b2 = true;
+        }
     }
     EXPECT_EQ(count, 2);
     EXPECT_TRUE(saw_a1_b1);
@@ -353,7 +359,9 @@ TEST(SpatialJoinIterator, MaxPairsLimit_StopsEarly) {
     SpatialJoinIterator it(outer, inner, 10'000.0, cfg);
 
     std::size_t count = 0;
-    while (it.advance()) ++count;
+    while (it.advance()) {
+      ++count;
+    }
     EXPECT_LE(count, 3u);
     EXPECT_TRUE(it.done());
 }
@@ -391,11 +399,15 @@ TEST(SpatialJoinIterator, MatchesMaterializedSpatialJoin) {
 
     auto batch = spatialJoin(outer, inner, threshold);
     std::set<std::pair<std::string,std::string>> batch_set;
-    for (const auto& p : batch) batch_set.emplace(p.key_a, p.key_b);
+    for (const auto& p : batch) {
+      batch_set.emplace(p.key_a, p.key_b);
+    }
 
     SpatialJoinIterator it(outer, inner, threshold);
     std::set<std::pair<std::string,std::string>> iter_set;
-    while (it.advance()) iter_set.emplace(it.current().key_a, it.current().key_b);
+    while (it.advance()) {
+      iter_set.emplace(it.current().key_a, it.current().key_b);
+    }
 
     EXPECT_EQ(batch_set, iter_set);
 }

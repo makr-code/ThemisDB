@@ -83,7 +83,9 @@ themis::BaseEntity toVectorEntity(const VectorRecord& record) {
 
 Result<void> IGraphWriter::write(const BaseEntitySet& entity_set) {
     auto r1 = writeEntities(entity_set.nodes);
-    if (!r1) return r1;
+    if (!r1) {
+      return r1;
+    }
     return writeRelations(entity_set.edges);
 }
 
@@ -121,7 +123,7 @@ Result<void> InMemoryGraphWriter::writeRelations(const std::vector<EntityRelatio
     for (const auto& e : edges) {
         // Upsert: find existing edge with same (from, to, type)
         auto it = std::find_if(edges_.begin(), edges_.end(),
-            [&](const EntityRelation& r) {
+            [&]([[maybe_unused]] const EntityRelation& r) {
                 return r.from_id == e.from_id
                     && r.to_id   == e.to_id
                     && r.relation_type == e.relation_type;
@@ -139,12 +141,12 @@ Result<void> InMemoryGraphWriter::writeRelations(const std::vector<EntityRelatio
 
 std::size_t InMemoryGraphWriter::nodeCount() const {
     std::lock_guard<std::mutex> lock(mtx_);
-    return nodes_.size();
+    return static_cast<int>(nodes_.size());
 }
 
 std::size_t InMemoryGraphWriter::edgeCount() const {
     std::lock_guard<std::mutex> lock(mtx_);
-    return edges_.size();
+    return static_cast<int>(edges_.size());
 }
 
 void InMemoryGraphWriter::clear() {
@@ -167,7 +169,7 @@ Result<void> InMemoryVectorWriter::writeVectors(const std::vector<VectorRecord>&
 
 std::size_t InMemoryVectorWriter::vectorCount() const {
     std::lock_guard<std::mutex> lock(mtx_);
-    return records_.size();
+    return static_cast<int>(records_.size());
 }
 
 const VectorRecord* InMemoryVectorWriter::findByChunkId(const std::string& chunk_id) const {
@@ -235,7 +237,7 @@ Result<std::string> InMemoryDocWriter::writeDocument(const BaseEntitySet& entity
 
 std::size_t InMemoryDocWriter::documentCount() const {
     std::lock_guard<std::mutex> lock(mtx_);
-    return docs_.size();
+    return static_cast<int>(docs_.size());
 }
 
 std::string InMemoryDocWriter::getDocument(const std::string& doc_id) const {
@@ -258,11 +260,15 @@ Result<void> IngestionSinkBundle::writeAll(const BaseEntitySet& entity_set,
                                             const std::string& collection) const {
     if (graph) {
         auto r = graph->write(entity_set);
-        if (!r) return r;
+        if (!r) {
+          return r;
+        }
     }
     if (vector && !entity_set.chunks.empty()) {
         auto r = vector->writeVectors(entity_set.chunks);
-        if (!r) return r;
+        if (!r) {
+          return r;
+        }
     }
     if (doc) {
         auto r = doc->writeDocument(entity_set, collection);
@@ -305,7 +311,9 @@ nlohmann::json DocumentStoreSinkAdapter::serialise(const BaseEntitySet& es) {
             {"extracted_at", e.provenance.extracted_at}
         };
         nlohmann::json props;
-        for (const auto& [k, v] : e.properties) props[k] = v;
+        for (const auto& [k, v] : e.properties) {
+          props[k] = v;
+        }
         ej["properties"] = std::move(props);
         nodes.push_back(std::move(ej));
     }
@@ -322,7 +330,9 @@ nlohmann::json DocumentStoreSinkAdapter::serialise(const BaseEntitySet& es) {
             rj["weight"] = weight_it->second;
         }
         nlohmann::json rprops;
-        for (const auto& [k, v] : r.properties) rprops[k] = v;
+        for (const auto& [k, v] : r.properties) {
+          rprops[k] = v;
+        }
         rj["properties"] = std::move(rprops);
         edges.push_back(std::move(rj));
     }
@@ -365,7 +375,9 @@ Result<std::string> DocumentStoreSinkAdapter::writeDocument(
         // If already exists, attempt update
         if (result.error().code() == errors::ErrorCode::ERR_DOC_ALREADY_EXISTS) {
             auto upd = store_->update(collection, doc_id, rec.body);
-            if (!upd) return tl::make_unexpected(upd.error());
+            if (!upd) {
+              return tl::make_unexpected(upd.error());
+            }
         } else {
             return tl::make_unexpected(result.error());
         }
@@ -431,12 +443,12 @@ Result<void> GraphStoreSinkAdapter::writeRelations(const std::vector<EntityRelat
 
 std::size_t GraphStoreSinkAdapter::nodeCount() const {
     std::lock_guard<std::mutex> lock(mtx_);
-    return written_node_ids_.size();
+    return static_cast<int>(written_node_ids_.size());
 }
 
 std::size_t GraphStoreSinkAdapter::edgeCount() const {
     std::lock_guard<std::mutex> lock(mtx_);
-    return written_edge_ids_.size();
+    return static_cast<int>(written_edge_ids_.size());
 }
 
 VectorIndexSinkAdapter::VectorIndexSinkAdapter(
@@ -494,7 +506,7 @@ Result<void> VectorIndexSinkAdapter::writeVectors(const std::vector<VectorRecord
 
     std::lock_guard<std::mutex> lock(mtx_);
     for (const auto& record : records) {
-        if (record.embedding.size() != dimension_) {
+        if (static_cast<int>(record.embedding.size()) != dimension_) {
             return tl::make_unexpected(
                 Error(errors::ErrorCode::ERR_INDEX_INVALID_TYPE,
                       "chunk '" + record.chunk_id + "' embedding dimension mismatch"));

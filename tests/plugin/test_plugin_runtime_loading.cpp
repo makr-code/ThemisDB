@@ -38,7 +38,9 @@ namespace {
     };
 
     for (const auto& p : candidates) {
-        if (fs::exists(p)) return fs::absolute(p);
+        if (fs::exists(p)) {
+          return fs::absolute(p);
+        }
     }
 
     // 3) Last resort: return the bare filename and let the loader search PATH
@@ -68,7 +70,7 @@ struct BioDeleter {
 
 [[nodiscard]] std::string bytesToHex(const std::vector<unsigned char>& bytes) {
     static constexpr char kHex[] = "0123456789abcdef";
-    std::string result;
+    std::string result = {};
     result.reserve(bytes.size() * 2);
     for (const auto byte : bytes) {
         result.push_back(kHex[(byte >> 4) & 0x0F]);
@@ -159,7 +161,8 @@ struct BioDeleter {
 
     // The verifier expects the signature to be over the raw hash bytes (not hex ASCII).
     // Decode the hex hash_text into raw bytes first.
-    std::vector<unsigned char> hash_bytes;
+    std::vector<unsigned char> hash_bytes = {};
+
     hash_bytes.reserve(hash_text.size() / 2);
     try {
         for (size_t i = 0; i < hash_text.size(); i += 2) {
@@ -242,7 +245,7 @@ protected:
         EXPECT_TRUE(unload_all.has_value()) << unload_all.error().message();
 
         const auto metadata_path = runtimePluginPath().parent_path() / (runtimePluginPath().stem().string() + ".json");
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove(metadata_path, ec);
     }
 

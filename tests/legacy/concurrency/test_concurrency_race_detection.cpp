@@ -60,7 +60,7 @@ TEST(ConcurrencyRaceTest, ConcurrentMapAccess) {
     constexpr int OPS_PER_THREAD = 500;
     
     std::map<int, int> shared_map;
-    std::mutex map_mutex;
+    std::mutex map_mutex = {};
     std::atomic<int> insert_count{0};
     std::atomic<int> read_count{0};
     
@@ -69,7 +69,7 @@ TEST(ConcurrencyRaceTest, ConcurrentMapAccess) {
     // Mix of readers and writers
     for (int i = 0; i < NUM_THREADS; ++i) {
         threads.emplace_back([&, thread_id = i]() {
-            std::random_device rd;
+            std::random_device rd = {};
             std::mt19937 gen(rd() + thread_id);
             std::uniform_int_distribution<> dis(0, 1000);
             
@@ -114,7 +114,7 @@ TEST(ConcurrencyRaceTest, ConcurrentTransactionSimulation) {
     struct TransactionLog {
         std::atomic<int> committed{0};
         std::atomic<int> aborted{0};
-        std::mutex mutex;
+        std::mutex mutex = {};
         std::vector<int> log;
     };
     
@@ -158,8 +158,8 @@ TEST(ConcurrencyRaceTest, ProducerConsumerPattern) {
     constexpr int ITEMS_PER_PRODUCER = 200;
     
     std::vector<int> queue;
-    std::mutex queue_mutex;
-    std::condition_variable cv;
+    std::mutex queue_mutex = {};
+    std::condition_variable cv = {};
     std::atomic<bool> done{false};
     std::atomic<int> produced{0};
     std::atomic<int> consumed{0};
@@ -227,7 +227,7 @@ TEST(ConcurrencyRaceTest, ReaderWriterLock) {
     constexpr int NUM_WRITERS = 2;
     constexpr int OPERATIONS = 100;
     
-    std::shared_mutex rw_mutex;
+    std::shared_mutex rw_mutex = {};
     int shared_value = 0;
     std::atomic<int> read_operations{0};
     std::atomic<int> write_operations{0};
@@ -332,7 +332,7 @@ TEST(ConcurrencyRaceTest, ConcurrentCacheAccess) {
     
     for (int i = 0; i < NUM_THREADS; ++i) {
         threads.emplace_back([&, thread_id = i]() {
-            std::random_device rd;
+            std::random_device rd = {};
             std::mt19937 gen(rd() + thread_id);
             std::uniform_int_distribution<> cache_dis(0, CACHE_SIZE - 1);
             std::uniform_int_distribution<> op_dis(0, 9);
@@ -382,7 +382,7 @@ TEST(ConcurrencyRaceTest, LockFreeStackOperations) {
     constexpr int PUSH_OPS = 200;
     
     struct Node {
-        int value;
+        int value = 0;
         std::atomic<Node*> next;
         Node(int v) : value(v), next(nullptr) {}
     };
@@ -423,7 +423,9 @@ TEST(ConcurrencyRaceTest, LockFreeStackOperations) {
             int local_pops = 0;
             while (true) {
                 Node* old_head = head.load(std::memory_order_acquire);
-                if (!old_head) break;
+                if (!old_head) {
+                  break;
+                }
                 
                 Node* new_head = old_head->next.load(std::memory_order_relaxed);
                 if (head.compare_exchange_weak(old_head, new_head,

@@ -112,7 +112,8 @@ TEST(ValidationContractHardening, PLG27_FailSafeValidationSemantics) {
     };
     
     // Verify all are distinct error codes
-    std::set<int32_t> codes;
+    std::set<int32_t> codes = {};
+
     for (auto err : validation_stages) {
         codes.insert(static_cast<int32_t>(err));
     }

@@ -93,7 +93,7 @@ private:
     State state_;
     std::atomic<int> request_count_;
     std::atomic<int> error_count_;
-    bool is_leader_;
+    bool is_leader_ = {};
     std::map<std::string, std::string> data_;
     mutable std::mutex mutex_;
 };

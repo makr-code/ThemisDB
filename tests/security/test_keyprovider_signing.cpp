@@ -31,10 +31,14 @@ public:
         // If key ends with :cert return cert
         if (key_id.size() > 5 && key_id.substr(key_id.size()-5) == ":cert") {
             auto id = key_id.substr(0, key_id.size()-5);
-            if (cert_.count(id)) return cert_[id];
+            if (cert_.count(id)) {
+              return cert_[id];
+            }
             throw KeyNotFoundException(key_id, 0);
         }
-        if (priv_.count(key_id)) return priv_[key_id];
+        if (priv_.count(key_id)) {
+          return priv_[key_id];
+        }
         return MockKeyProvider::getKey(key_id); // fallback
     }
 
@@ -42,7 +46,9 @@ public:
     SigningResult sign(const std::string& key_id, const std::vector<uint8_t>& data) override {
         // Expect key_id to be base id
         std::string base = key_id;
-        if (!priv_.count(base)) throw KeyNotFoundException(key_id, 0);
+        if (!priv_.count(base)) {
+          throw KeyNotFoundException(key_id, 0);
+        }
         auto& priv = priv_[base];
         auto& cert = cert_[base];
 
@@ -68,7 +74,9 @@ static std::pair<std::string,std::string> make_key_and_cert_pem() {
     std::cerr << "DEBUG: OPENSSL_VERSION_TEXT=" << OPENSSL_VERSION_TEXT << std::endl;
     EVP_PKEY* pkey = nullptr;
     EVP_PKEY_CTX* pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, nullptr);
-    if (!pctx) throw std::runtime_error("EVP_PKEY_CTX_new_id failed");
+    if (!pctx) {
+      throw std::runtime_error("EVP_PKEY_CTX_new_id failed");
+    }
     if (EVP_PKEY_keygen_init(pctx) != 1) { EVP_PKEY_CTX_free(pctx); throw std::runtime_error("EVP_PKEY_keygen_init failed"); }
     if (EVP_PKEY_CTX_set_rsa_keygen_bits(pctx, 2048) != 1) { EVP_PKEY_CTX_free(pctx); throw std::runtime_error("EVP_PKEY_CTX_set_rsa_keygen_bits failed"); }
     if (EVP_PKEY_keygen(pctx, &pkey) != 1) { EVP_PKEY_CTX_free(pctx); throw std::runtime_error("EVP_PKEY_keygen failed"); }

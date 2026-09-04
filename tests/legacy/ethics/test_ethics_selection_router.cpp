@@ -55,7 +55,7 @@ static const char* kPhiloDir     = THEMIS_PHILOSOPHIES_DIR;
 
 class EthicsSelectionRouterTest : public ::testing::Test {
 protected:
-    std::string tmp_dir;
+    std::string tmp_dir = {};
     std::unique_ptr<EthicsProfileRegistry> registry;
 
     void SetUp() override {
@@ -88,9 +88,13 @@ protected:
         f << "name: \"" << id << " school\"\n";
         f << "taxonomy_class: " << tax_class << "\n";
         f << "tags:\n";
-        for (const auto& t : tags) f << "  - " << t << "\n";
+        for (const auto& t : tags) {
+          f << "  - " << t << "\n";
+        }
         f << "applicable_domains:\n";
-        for (const auto& t : tags) f << "  - " << t << "\n";
+        for (const auto& t : tags) {
+          f << "  - " << t << "\n";
+        }
         f << "description: |\n  School " << id << " focuses on " << tax_class << ".\n";
         f << "main_theses: []\nsecondary_theses: []\ndecision_framework: {}\nstrengths: []\nweaknesses: []\n";
     }
@@ -257,7 +261,7 @@ TEST_F(EthicsSelectionRouterTest, ESR10_ConcurrentRouteCalls) {
                                        // Thread Sanitizer to detect data-race regressions without
                                        // extending CI runtime beyond the 30-second test timeout
     std::vector<size_t> counts(kThreads, 0);
-    std::mutex           counts_mutex;
+    std::mutex           counts_mutex = {};
     std::vector<std::thread> threads;
 
     for (int i = 0; i < kThreads; ++i) {
@@ -272,7 +276,9 @@ TEST_F(EthicsSelectionRouterTest, ESR10_ConcurrentRouteCalls) {
             counts[i] = local_count;
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // All threads must have produced non-zero results (registry has profiles)
     for (int i = 0; i < kThreads; ++i) {

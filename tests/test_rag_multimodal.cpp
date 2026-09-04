@@ -314,8 +314,12 @@ TEST(MultiModalRAGFusionTest, TextAndImageFused) {
     bool has_text  = false;
     bool has_image = false;
     for (const auto& src : result.sources) {
-        if (src.modality == Modality::TEXT)  has_text  = true;
-        if (src.modality == Modality::IMAGE) has_image = true;
+        if (src.modality == Modality::TEXT) {
+          has_text  = true;
+        }
+        if (src.modality == Modality::IMAGE) {
+          has_image = true;
+        }
     }
     EXPECT_TRUE(has_text);
     EXPECT_TRUE(has_image);
@@ -342,7 +346,9 @@ TEST(MultiModalRAGFusionTest, NoDocumentDuplicates) {
     // Document "shared" should appear exactly once.
     size_t count = 0;
     for (const auto& src : result.sources) {
-        if (src.document_id == "shared") ++count;
+        if (src.document_id == "shared") {
+          ++count;
+        }
     }
     EXPECT_EQ(count, 1u);
 }
@@ -373,7 +379,8 @@ TEST(MultiModalRAGFusionTest, MaxSourcesRespected) {
     cfg.max_sources = 3;
     MultiModalRAG mm(cfg);
 
-    std::vector<RetrievedDocument> many_text;
+    std::vector<RetrievedDocument> many_text = {};
+
     for (int i = 0; i < 10; ++i) {
         many_text.push_back(makeTextDoc("t" + std::to_string(i),
                                         "Content " + std::to_string(i),
@@ -546,14 +553,16 @@ TEST(MultiModalQueryTest, DefaultModalitiesIsText) {
 TEST(MultiModalRAGPerformanceTest, CompletesInReasonableTime) {
     MultiModalRAG mm;
 
-    std::vector<RetrievedDocument> text_docs;
+    std::vector<RetrievedDocument> text_docs = {};
+
     for (int i = 0; i < 50; ++i) {
         text_docs.push_back(makeTextDoc(
             "t" + std::to_string(i),
             "Content for document " + std::to_string(i) + " about various topics.",
             1.0 - i * 0.01));
     }
-    std::vector<ImageDocument> image_docs;
+    std::vector<ImageDocument> image_docs = {};
+
     for (int i = 0; i < 50; ++i) {
         image_docs.push_back(makeImageDoc(
             "i" + std::to_string(i),

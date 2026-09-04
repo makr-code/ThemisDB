@@ -27,7 +27,7 @@ static constexpr double kRasterPi           = 3.14159265358979323846;
 static constexpr double kRasterEarthRadiusM = 6371000.0; // mean Earth radius (m)
 
 /// Convert metres to degrees of latitude (constant everywhere).
-static double metresToDegreesLat(double m) noexcept {
+static double metresToDegreesLat([[maybe_unused]] double m) noexcept {
     return m / (kRasterEarthRadiusM * kRasterPi / 180.0);
 }
 
@@ -58,7 +58,7 @@ RasterGrid::RasterGrid(double min_lon_, double min_lat_, double max_lon_, double
     }
 }
 
-bool RasterGrid::isNoData(float v) const noexcept {
+bool RasterGrid::isNoData([[maybe_unused]] float v) const noexcept {
     // NaN != NaN by IEEE 754, so special-case NaN sentinel
     if (std::isnan(no_data_value)) {
         return std::isnan(v);
@@ -113,10 +113,10 @@ RasterSampleResult sampleAt(const RasterGrid &grid, double lon, double lat) noex
     }
 
     // Four surrounding cell indices (clamped to valid range).
-    const auto clamp_col = [&](long c) -> std::size_t {
+    const auto clamp_col = [&]([[maybe_unused]] long c) -> std::size_t {
         return static_cast<std::size_t>(std::max(0L, std::min(c, static_cast<long>(grid.width) - 1L)));
     };
-    const auto clamp_row = [&](long r) -> std::size_t {
+    const auto clamp_row = [&]([[maybe_unused]] long r) -> std::size_t {
         return static_cast<std::size_t>(std::max(0L, std::min(r, static_cast<long>(grid.height) - 1L)));
     };
 
@@ -139,8 +139,8 @@ RasterSampleResult sampleAt(const RasterGrid &grid, double lon, double lat) noex
 
     // Bilinear blend with no-data exclusion: collect valid weights.
     struct WV {
-        double w;
-        float v;
+        double w = 0;
+        float v = {};
     };
     WV samples[4] = {
         {(1.0 - tx) * (1.0 - ty), v00},
@@ -178,8 +178,8 @@ RasterGrid queryBBox(const RasterGrid &grid, const MBR &bbox) {
     // Cell centre for column c: lon_c = min_lon + (c + 0.5) * cell_size_x
     // Solving: c_min = ceil((bbox.minx - min_lon) / cell_size_x - 0.5)
     //          c_max = floor((bbox.maxx - min_lon) / cell_size_x - 0.5)
-    const auto to_col = [&](double lon) -> double { return (lon - grid.min_lon) / grid.cell_size_x - 0.5; };
-    const auto to_row = [&](double lat) -> double { return (lat - grid.min_lat) / grid.cell_size_y - 0.5; };
+    const auto to_col = [&]([[maybe_unused]] double lon) -> double { return (lon - grid.min_lon) / grid.cell_size_x - 0.5; };
+    const auto to_row = [&]([[maybe_unused]] double lat) -> double { return (lat - grid.min_lat) / grid.cell_size_y - 0.5; };
 
     long c_min = static_cast<long>(std::ceil(to_col(bbox.minx)));
     long c_max = static_cast<long>(std::floor(to_col(bbox.maxx)));

@@ -303,7 +303,9 @@ private:
     static std::string headerValueCI(const std::map<std::string, std::string>& headers,
                                      const std::string& name) {
         auto it = headers.find(name);
-        if (it != headers.end()) return it->second;
+        if (it != headers.end()) {
+          return it->second;
+        }
         for (const auto& [k, v] : headers) {
             if (k.size() == name.size() &&
                 std::equal(k.begin(), k.end(), name.begin(),
@@ -356,21 +358,31 @@ private:
             parts.push_back(value.substr(start));
         }
 
-        if (parts.size() < 2) return false;
+        if (parts.size() < 2) {
+          return false;
+        }
 
         auto isHex = [](const std::string& s) {
-            if (s.empty()) return false;
+            if (s.empty()) {
+              return false;
+            }
             return std::all_of(s.begin(), s.end(), [](unsigned char c) {
                 return std::isxdigit(c) != 0;
             });
         };
 
-        if (!isHex(parts[0]) || !isHex(parts[1])) return false;
+        if (!isHex(parts[0]) || !isHex(parts[1])) {
+          return false;
+        }
 
         out.trace_id = parts[0];
         out.span_id  = parts[1];
-        if (parts.size() >= 3) out.sampled   = parts[2];
-        if (parts.size() >= 4) out.parent_id = parts[3];
+        if (parts.size() >= 3) {
+          out.sampled   = parts[2];
+        }
+        if (parts.size() >= 4) {
+          out.parent_id = parts[3];
+        }
         return true;
     }
 };

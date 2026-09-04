@@ -284,7 +284,7 @@ void run_transcription_demo() {
 
 
      // Test Persistence Flow
-    std::stringstream ss;
+    std::stringstream ss = {};
     if (transcriber->serialize(ss)) {
         std::string serialized_data = ss.str();
         std::cout << "\n[TEST SUCCESS] State successfully serialized to " << serialized_data.length() << " bytes." << std::endl;

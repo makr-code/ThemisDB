@@ -18,14 +18,18 @@
 using namespace themis::security;
 
 static std::string getHSMLibPath() {
-    if(const char* env = std::getenv("THEMIS_TEST_HSM_LIBRARY")) return env;
+    if(const char* env = std::getenv("THEMIS_TEST_HSM_LIBRARY")) {
+      return env;
+    }
     std::vector<std::string> paths = {
         "/usr/lib/softhsm/libsofthsm2.so",
         "/usr/lib/x86_64-linux-gnu/softhsm/libsofthsm2.so",
         "/usr/local/lib/softhsm/libsofthsm2.so",
         "/opt/homebrew/lib/softhsm/libsofthsm2.so"
     };
-    for(auto& p: paths) if(std::filesystem::exists(p)) return p;
+    for(auto& p: paths) {
+      if(std::filesystem::exists(p)) return p;
+    }
     return "";
 }
 
@@ -44,7 +48,9 @@ static HSMConfig makeConfig(uint32_t poolSize) {
 static std::vector<uint8_t> randomData(size_t size) {
     static std::mt19937 rng(42);
     std::vector<uint8_t> data(size);
-    for(auto& b: data) b = rng() & 0xFF;
+    for(auto& b: data) {
+      b = rng() & 0xFF;
+    }
     return data;
 }
 

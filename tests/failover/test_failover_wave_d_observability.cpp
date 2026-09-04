@@ -87,7 +87,9 @@ public:
     bool hasType(FailoverEventType t) const {
         std::lock_guard<std::mutex> lk(mu_);
         for (const auto& ev : events_) {
-            if (ev.type == t) return true;
+            if (ev.type == t) {
+              return true;
+            }
         }
         return false;
     }

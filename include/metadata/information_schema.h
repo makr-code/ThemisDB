@@ -89,7 +89,7 @@ struct ISKeyColumnUsage {
 
 /// Row in INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
 struct ISReferentialConstraint {
-    std::string constraint_catalog;
+    std::string constraint_catalog = {};
     std::string constraint_schema;
     std::string constraint_name;           ///< FK constraint name
     std::string unique_constraint_catalog; ///< Catalog of referenced constraint

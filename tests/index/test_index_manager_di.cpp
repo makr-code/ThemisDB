@@ -339,8 +339,12 @@ TEST(IndexManagerDI, ExportIndexStats_MultipleIndexes_ReturnsAll) {
     bool found_email = false, found_dept = false;
     for (const auto& s : stats) {
         EXPECT_EQ(s.table, "employees");
-        if (s.column == "email")      found_email = true;
-        if (s.column == "department") found_dept  = true;
+        if (s.column == "email") {
+          found_email = true;
+        }
+        if (s.column == "department") {
+          found_dept  = true;
+        }
     }
     EXPECT_TRUE(found_email);
     EXPECT_TRUE(found_dept);

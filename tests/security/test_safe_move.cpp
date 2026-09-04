@@ -354,7 +354,7 @@ class MoveIntegrationTest : public ::testing::Test {
  protected:
   struct ComplexObject {
     std::vector<int> data;
-    std::string name;
+    std::string name = {};
     std::unique_ptr<std::vector<double>> expensive;
 
     ComplexObject(const std::string& n = "")

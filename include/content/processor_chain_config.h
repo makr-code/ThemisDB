@@ -165,7 +165,7 @@ public:
 
         // Parse a single StageConfig from a JSON value (bool or object).
         auto load_stage = [](const json& v) -> StageConfig {
-            StageConfig s;
+            StageConfig s = {};
             if (v.is_boolean()) {
                 s.enabled = v.get<bool>();
             } else if (v.is_object()) {
@@ -182,12 +182,22 @@ public:
         };
 
         auto load_stage_cfg = [&load_stage](const json& obj) -> ContentTypePipelineConfig {
-            ContentTypePipelineConfig c;
-            if (obj.contains("extraction"))    c.extraction    = load_stage(obj["extraction"]);
-            if (obj.contains("chunking"))      c.chunking      = load_stage(obj["chunking"]);
-            if (obj.contains("embedding"))     c.embedding     = load_stage(obj["embedding"]);
-            if (obj.contains("deduplication")) c.deduplication = load_stage(obj["deduplication"]);
-            if (obj.contains("storage"))       c.storage       = load_stage(obj["storage"]);
+            ContentTypePipelineConfig c = {};
+            if (obj.contains("extraction")) {
+              c.extraction    = load_stage(obj["extraction"]);
+            }
+            if (obj.contains("chunking")) {
+              c.chunking      = load_stage(obj["chunking"]);
+            }
+            if (obj.contains("embedding")) {
+              c.embedding     = load_stage(obj["embedding"]);
+            }
+            if (obj.contains("deduplication")) {
+              c.deduplication = load_stage(obj["deduplication"]);
+            }
+            if (obj.contains("storage")) {
+              c.storage       = load_stage(obj["storage"]);
+            }
             return c;
         };
 
@@ -205,7 +215,9 @@ public:
 
         if (j.contains("categories") && j["categories"].is_object()) {
             for (auto it = j["categories"].begin(); it != j["categories"].end(); ++it) {
-                if (!it.value().is_object()) continue;
+                if (!it.value().is_object()) {
+                  continue;
+                }
                 const auto cat_it = categoryNames().find(it.key());
                 if (cat_it == categoryNames().end()) continue;  // unknown – skip silently
                 cfg.category_configs[cat_it->second] = load_stage_cfg(it.value());

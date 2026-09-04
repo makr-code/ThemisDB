@@ -104,7 +104,7 @@ void ExporterMetrics::recordQualityFilterRejection(const std::string& reason) {
     quality_filter_rejections_[reason]++;
 }
 
-void ExporterMetrics::recordSchemaValidation(bool passed) {
+void ExporterMetrics::recordSchemaValidation([[maybe_unused]] bool passed) {
     schema_validations_total_++;
     if (passed) {
         schema_validations_passed_++;
@@ -115,7 +115,9 @@ void ExporterMetrics::recordSchemaValidation(bool passed) {
 
 double ExporterMetrics::getExportRate() const {
     size_t duration_ms = total_duration_ms_.load();
-    if (duration_ms == 0) return 0.0;
+    if (duration_ms == 0) {
+      return 0.0;
+    }
     
     size_t entities = total_entities_.load();
     return (entities * 1000.0) / duration_ms;  // entities per second
@@ -123,7 +125,9 @@ double ExporterMetrics::getExportRate() const {
 
 double ExporterMetrics::getThroughput() const {
     size_t duration_ms = total_duration_ms_.load();
-    if (duration_ms == 0) return 0.0;
+    if (duration_ms == 0) {
+      return 0.0;
+    }
     
     size_t bytes = total_bytes_.load();
     return (bytes * 1000.0) / duration_ms;  // bytes per second
@@ -131,7 +135,9 @@ double ExporterMetrics::getThroughput() const {
 
 double ExporterMetrics::getAverageLatency() const {
     size_t exports = total_exports_.load();
-    if (exports == 0) return 0.0;
+    if (exports == 0) {
+      return 0.0;
+    }
     
     size_t duration_ms = total_duration_ms_.load();
     return static_cast<double>(duration_ms) / exports;
@@ -180,11 +186,11 @@ ExporterMetrics::SchemaValidationStats ExporterMetrics::getSchemaValidationStats
     return stats;
 }
 
-void ExporterMetrics::recordPIIDetection(size_t count) {
+void ExporterMetrics::recordPIIDetection([[maybe_unused]] size_t count) {
     pii_detections_ += count;
 }
 
-void ExporterMetrics::recordPIIRedaction(size_t count) {
+void ExporterMetrics::recordPIIRedaction([[maybe_unused]] size_t count) {
     pii_redactions_ += count;
 }
 
@@ -205,11 +211,13 @@ double ExporterMetrics::getCompressionRatio() const {
     size_t uncompressed = compression_uncompressed_bytes_.load();
     size_t compressed = compression_compressed_bytes_.load();
     
-    if (uncompressed == 0) return 0.0;
+    if (uncompressed == 0) {
+      return 0.0;
+    }
     return static_cast<double>(compressed) / uncompressed;
 }
 
-void ExporterMetrics::recordParquetBytesWritten(size_t bytes) {
+void ExporterMetrics::recordParquetBytesWritten([[maybe_unused]] size_t bytes) {
     parquet_bytes_written_ += bytes;
 }
 
@@ -225,7 +233,7 @@ size_t ExporterMetrics::getCheckpointCount() const {
     return checkpoint_count_.load();
 }
 
-void ExporterMetrics::recordDeltaDocSkipped(size_t count) {
+void ExporterMetrics::recordDeltaDocSkipped([[maybe_unused]] size_t count) {
     delta_docs_skipped_ += count;
 }
 
@@ -247,7 +255,7 @@ size_t ExporterMetrics::getEncryptedOutputBytes() const {
     return encryption_output_bytes_.load();
 }
 
-void ExporterMetrics::recordEncryption(size_t encrypted_bytes) {
+void ExporterMetrics::recordEncryption([[maybe_unused]] size_t encrypted_bytes) {
     encrypted_bytes_written_ += encrypted_bytes;
 }
 
@@ -373,7 +381,7 @@ json ExporterMetrics::toJson() const {
 }
 
 std::string ExporterMetrics::toString() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::fixed << std::setprecision(2);
     
     oss << "Export Metrics:\n";
@@ -415,29 +423,39 @@ void ExporterMetrics::updateLatencyHistogram(std::chrono::milliseconds duration)
     }
 }
 
-double ExporterMetrics::calculatePercentile(double percentile) const {
+double ExporterMetrics::calculatePercentile([[maybe_unused]] double percentile) const {
     size_t total = latency_histogram_.count_0_10ms.load() +
                    latency_histogram_.count_10_50ms.load() +
                    latency_histogram_.count_50_100ms.load() +
                    latency_histogram_.count_100_500ms.load() +
                    latency_histogram_.count_500plus.load();
     
-    if (total == 0) return 0.0;
+    if (total == 0) {
+      return 0.0;
+    }
     
     size_t target = static_cast<size_t>(total * percentile);
     size_t cumulative = 0;
     
     cumulative += latency_histogram_.count_0_10ms.load();
-    if (cumulative >= target) return LATENCY_0_10MS_MIDPOINT;
+    if (cumulative >= target) {
+      return LATENCY_0_10MS_MIDPOINT;
+    }
     
     cumulative += latency_histogram_.count_10_50ms.load();
-    if (cumulative >= target) return LATENCY_10_50MS_MIDPOINT;
+    if (cumulative >= target) {
+      return LATENCY_10_50MS_MIDPOINT;
+    }
     
     cumulative += latency_histogram_.count_50_100ms.load();
-    if (cumulative >= target) return LATENCY_50_100MS_MIDPOINT;
+    if (cumulative >= target) {
+      return LATENCY_50_100MS_MIDPOINT;
+    }
     
     cumulative += latency_histogram_.count_100_500ms.load();
-    if (cumulative >= target) return LATENCY_100_500MS_MIDPOINT;
+    if (cumulative >= target) {
+      return LATENCY_100_500MS_MIDPOINT;
+    }
     
     return LATENCY_500PLUS_MIDPOINT;
 }

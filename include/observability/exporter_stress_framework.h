@@ -111,7 +111,7 @@ struct Observation {
     std::int64_t created_ns;
 
     /// Type: "metric" or "span".
-    std::string type;
+    std::string type = {};
 
     /// Metric name or span name.
     std::string name;

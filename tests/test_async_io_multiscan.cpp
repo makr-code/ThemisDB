@@ -102,7 +102,8 @@ TEST_F(AsyncIOMultiScanTest, AsyncMultiGet) {
     insertTestData(num_records);
 
     // Prepare keys for MultiGet
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     for (int i = 0; i < 100; ++i) {
         keys.push_back("key_" + std::to_string(i));
     }

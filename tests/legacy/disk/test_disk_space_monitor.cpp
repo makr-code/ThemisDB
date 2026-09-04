@@ -27,7 +27,7 @@ protected:
         // Cleanup
     }
     
-    std::string test_path_;
+    std::string test_path_ = {};
     DiskSpaceMonitor::Config config_;
 };
 
@@ -83,7 +83,7 @@ TEST_F(DiskSpaceMonitorTest, CanWriteCheck) {
 
 TEST_F(DiskSpaceMonitorTest, AlertCallbackInvoked) {
     bool alert_received = false;
-    std::string alert_message;
+    std::string alert_message = {};
     
     DiskSpaceMonitor monitor(test_path_, config_);
     

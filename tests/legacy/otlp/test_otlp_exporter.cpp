@@ -374,7 +374,9 @@ TEST(OtlpExporterTest, DequeQueueBelowCapacityNeverDrops)
     s.trace_id = "abcdef0000000000abcdef0000000000";
     s.name     = "no-drop";
 
-    for (int i = 0; i < 50; ++i) exp.enqueue(s);
+    for (int i = 0; i < 50; ++i) {
+      exp.enqueue(s);
+    }
 
     EXPECT_EQ(exp.droppedSpanCount(), 0u);
     exp.stop();

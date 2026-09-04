@@ -42,7 +42,7 @@ struct ReplicaStats {
  * @brief Snapshot representation.
  */
 struct Snapshot {
-  uint64_t snapshot_index;
+  uint64_t snapshot_index = 0;
   uint64_t snapshot_term;
   std::string state_blob;
   uint32_t checksum;

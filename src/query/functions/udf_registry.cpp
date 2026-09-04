@@ -37,7 +37,7 @@ static std::string utcNow() {
 #else
     gmtime_r(&t, &tm);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -47,17 +47,39 @@ static std::string utcNow() {
 // ============================================================================
 
 ArgType UdfDefinition::parseArgType(const std::string& s) {
-    if (s == "ANY")      return ArgType::ANY;
-    if (s == "STRING")   return ArgType::STRING;
-    if (s == "NUMBER")   return ArgType::NUMBER;
-    if (s == "INTEGER")  return ArgType::INTEGER;
-    if (s == "BOOLEAN")  return ArgType::BOOLEAN;
-    if (s == "ARRAY")    return ArgType::ARRAY;
-    if (s == "OBJECT")   return ArgType::OBJECT;
-    if (s == "GEOMETRY") return ArgType::GEOMETRY;
-    if (s == "VECTOR")   return ArgType::VECTOR;
-    if (s == "DOCUMENT") return ArgType::DOCUMENT;
-    if (s == "NULLABLE") return ArgType::NULLABLE;
+    if (s == "ANY") {
+      return ArgType::ANY;
+    }
+    if (s == "STRING") {
+      return ArgType::STRING;
+    }
+    if (s == "NUMBER") {
+      return ArgType::NUMBER;
+    }
+    if (s == "INTEGER") {
+      return ArgType::INTEGER;
+    }
+    if (s == "BOOLEAN") {
+      return ArgType::BOOLEAN;
+    }
+    if (s == "ARRAY") {
+      return ArgType::ARRAY;
+    }
+    if (s == "OBJECT") {
+      return ArgType::OBJECT;
+    }
+    if (s == "GEOMETRY") {
+      return ArgType::GEOMETRY;
+    }
+    if (s == "VECTOR") {
+      return ArgType::VECTOR;
+    }
+    if (s == "DOCUMENT") {
+      return ArgType::DOCUMENT;
+    }
+    if (s == "NULLABLE") {
+      return ArgType::NULLABLE;
+    }
     throw std::runtime_error("Unknown argument type: " + s);
 }
 
@@ -115,7 +137,9 @@ std::string UdfDefinition::validateBody(const nlohmann::json& expr, int depth) {
     const std::string type = expr["type"].get<std::string>();
 
     if (type == "const") {
-        if (!expr.contains("value")) return "'const' node requires 'value'";
+        if (!expr.contains("value")) {
+          return "'const' node requires 'value'";
+        }
     } else if (type == "arg") {
         if (!expr.contains("index") || !expr["index"].is_number_integer())
             return "'arg' node requires integer 'index'";
@@ -123,10 +147,14 @@ std::string UdfDefinition::validateBody(const nlohmann::json& expr, int depth) {
         if (!expr.contains("function") || !expr["function"].is_string())
             return "'call' node requires string 'function'";
         if (expr.contains("args")) {
-            if (!expr["args"].is_array()) return "'call' node 'args' must be an array";
+            if (!expr["args"].is_array()) {
+              return "'call' node 'args' must be an array";
+            }
             for (const auto& a : expr["args"]) {
                 auto err = validateBody(a, depth + 1);
-                if (!err.empty()) return err;
+                if (!err.empty()) {
+                  return err;
+                }
             }
         }
     } else if (type == "op") {
@@ -135,18 +163,28 @@ std::string UdfDefinition::validateBody(const nlohmann::json& expr, int depth) {
         if (!expr.contains("left") || !expr.contains("right"))
             return "'op' node requires 'left' and 'right'";
         auto err = validateBody(expr["left"], depth + 1);
-        if (!err.empty()) return err;
+        if (!err.empty()) {
+          return err;
+        }
         err = validateBody(expr["right"], depth + 1);
-        if (!err.empty()) return err;
+        if (!err.empty()) {
+          return err;
+        }
     } else if (type == "if") {
         if (!expr.contains("cond") || !expr.contains("then") || !expr.contains("else"))
             return "'if' node requires 'cond', 'then', 'else'";
         auto err = validateBody(expr["cond"], depth + 1);
-        if (!err.empty()) return err;
+        if (!err.empty()) {
+          return err;
+        }
         err = validateBody(expr["then"], depth + 1);
-        if (!err.empty()) return err;
+        if (!err.empty()) {
+          return err;
+        }
         err = validateBody(expr["else"], depth + 1);
-        if (!err.empty()) return err;
+        if (!err.empty()) {
+          return err;
+        }
     } else {
         return "unknown expression type '" + type + "'";
     }
@@ -227,7 +265,8 @@ nlohmann::json UdfFunction::evalExpr(
         }
         const std::string fname = expr["function"].get<std::string>();
 
-        std::vector<nlohmann::json> callArgs;
+        std::vector<nlohmann::json> callArgs = {};
+
         if (expr.contains("args") && expr["args"].is_array()) {
             for (const auto& a : expr["args"]) {
                 callArgs.push_back(evalExpr(a, args, context, depth + 1));
@@ -251,7 +290,9 @@ nlohmann::json UdfFunction::evalExpr(
 
         // Arithmetic (numeric)
         auto toNum = [](const nlohmann::json& v) -> double {
-            if (v.is_number()) return v.get<double>();
+            if (v.is_number()) {
+              return v.get<double>();
+            }
             throw std::runtime_error("Expected numeric operand");
         };
 
@@ -260,22 +301,34 @@ nlohmann::json UdfFunction::evalExpr(
                 return left.get<std::string>() + right.get<std::string>();
             return toNum(left) + toNum(right);
         }
-        if (op == "-")  return toNum(left) - toNum(right);
-        if (op == "*")  return toNum(left) * toNum(right);
+        if (op == "-") {
+          return toNum(left) - toNum(right);
+        }
+        if (op == "*") {
+          return toNum(left) * toNum(right);
+        }
         if (op == "/") {
             double r = toNum(right);
-            if (r == 0.0) throw std::runtime_error(def_.name + ": division by zero");
+            if (r == 0.0) {
+              throw std::runtime_error(def_.name + ": division by zero");
+            }
             return toNum(left) / r;
         }
         if (op == "%") {
             double r = toNum(right);
-            if (r == 0.0) throw std::runtime_error(def_.name + ": modulo by zero");
+            if (r == 0.0) {
+              throw std::runtime_error(def_.name + ": modulo by zero");
+            }
             return std::fmod(toNum(left), r);
         }
 
         // Comparison
-        if (op == "==") return left == right;
-        if (op == "!=") return left != right;
+        if (op == "==") {
+          return left == right;
+        }
+        if (op == "!=") {
+          return left != right;
+        }
         if (op == "<") {
             if (left.is_number() && right.is_number())
                 return toNum(left) < toNum(right);
@@ -300,20 +353,36 @@ nlohmann::json UdfFunction::evalExpr(
         // Logical
         if (op == "&&") {
             auto toBool = [](const nlohmann::json& v) -> bool {
-                if (v.is_boolean()) return v.get<bool>();
-                if (v.is_null())    return false;
-                if (v.is_number())  return v.get<double>() != 0;
-                if (v.is_string())  return !v.get<std::string>().empty();
+                if (v.is_boolean()) {
+                  return v.get<bool>();
+                }
+                if (v.is_null()) {
+                  return false;
+                }
+                if (v.is_number()) {
+                  return v.get<double>() != 0;
+                }
+                if (v.is_string()) {
+                  return !v.get<std::string>().empty();
+                }
                 return true;
             };
             return toBool(left) && toBool(right);
         }
         if (op == "||") {
             auto toBool = [](const nlohmann::json& v) -> bool {
-                if (v.is_boolean()) return v.get<bool>();
-                if (v.is_null())    return false;
-                if (v.is_number())  return v.get<double>() != 0;
-                if (v.is_string())  return !v.get<std::string>().empty();
+                if (v.is_boolean()) {
+                  return v.get<bool>();
+                }
+                if (v.is_null()) {
+                  return false;
+                }
+                if (v.is_number()) {
+                  return v.get<double>() != 0;
+                }
+                if (v.is_string()) {
+                  return !v.get<std::string>().empty();
+                }
                 return true;
             };
             return toBool(left) || toBool(right);
@@ -329,7 +398,9 @@ nlohmann::json UdfFunction::evalExpr(
         }
         nlohmann::json cond = evalExpr(expr["cond"], args, context, depth + 1);
         bool condVal = false;
-        if (cond.is_boolean()) condVal = cond.get<bool>();
+        if (cond.is_boolean()) {
+          condVal = cond.get<bool>();
+        }
         else if (!cond.is_null()) condVal = true;
 
         return evalExpr(condVal ? expr["then"] : expr["else"], args, context, depth + 1);
@@ -409,7 +480,8 @@ bool UdfRegistry::hasUdf(const std::string& name) const {
 
 std::vector<UdfDefinition> UdfRegistry::listUdfs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<UdfDefinition> result;
+    std::vector<UdfDefinition> result = {};
+
     result.reserve(udfs_.size());
     for (const auto& kv : udfs_) {
         result.push_back(kv.second);

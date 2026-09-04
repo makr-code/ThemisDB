@@ -465,7 +465,8 @@ TEST_F(MultiGPULoRATest, SimultaneousLoadsOnDifferentGPUs) {
     }
     
     // Each should be on a different GPU
-    std::set<int> used_gpus;
+    std::set<int> used_gpus = {};
+
     for (const auto& id : lora_ids) {
         auto gpus = manager.getLoRAGPUPlacement(id);
         EXPECT_EQ(gpus.size(), 1);

@@ -125,7 +125,7 @@ protected:
         }
         
         std::ifstream ifs(log_path);
-        std::string line;
+        std::string line = {};
         while (std::getline(ifs, line)) {
             if (!line.empty()) {
                 entries.push_back(nlohmann::json::parse(line));

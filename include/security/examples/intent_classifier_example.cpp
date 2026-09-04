@@ -50,7 +50,7 @@ struct QueryContext {
 struct SimulatedAlert {
     std::string intent_type;
     double      confidence;
-    std::string session_id;
+    std::string session_id = {};
     std::string evidence_snippet;  // must be <= 128 chars
 };
 

@@ -26,7 +26,7 @@ namespace aql {
 namespace {
 
 std::string toUpper(const std::string &s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (char c : s) {
         out += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
@@ -39,10 +39,10 @@ bool containsKeyword(const std::string &upper_query, const std::string &kw) {
     size_t p = 0;
     while ((p = upper_query.find(kw, p)) != std::string::npos) {
         bool ok_before
-            = (p == 0 || !std::isalnum(static_cast<unsigned char>(upper_query[p - 1])) && upper_query[p - 1] != '_');
-        size_t after  = p + kw.size();
-        bool ok_after = (after >= upper_query.size()
-                         || !std::isalnum(static_cast<unsigned char>(upper_query[after])) && upper_query[after] != '_');
+            = ((p == 0 || (!std::isalnum(static_cast<unsigned char>(upper_query[static_cast<int>(p - 1)])) && upper_query[static_cast<int>(p - 1)] != '_')));
+        size_t after  = p + static_cast<int>(kw.size()) ;
+        bool ok_after = ((after >= upper_query.size()
+                          || (!std::isalnum(static_cast<unsigned char>(upper_query[after])) && upper_query[after] != '_')));
         if (ok_before && ok_after) {
             return true;
         }
@@ -144,7 +144,7 @@ std::vector<QueryModelType> AQLModelRouter::classify(const std::string &aql_quer
 
     struct Score {
         QueryModelType type;
-        int hits;
+        int hits = {};
     };
     std::vector<Score> scores;
 
@@ -171,8 +171,9 @@ std::vector<QueryModelType> AQLModelRouter::classify(const std::string &aql_quer
     // Sort by hit count descending.
     std::sort(scores.begin(), scores.end(), [](const Score &a, const Score &b) { return a.hits > b.hits; });
 
-    std::vector<QueryModelType> result;
-    result.reserve(scores.size() + 1);
+    std::vector<QueryModelType> result = {};
+
+    result.reserve(static_cast<int>(scores.size()) + 1);
     for (const auto &s : scores) {
         result.push_back(s.type);
     }
@@ -200,7 +201,7 @@ RoutingDecision AQLModelRouter::route(const std::string &aql_query) const {
     decision.primary_type = decision.detected_types.front();
 
     // Find best enabled route for primary type.
-    auto findRoute = [&](QueryModelType target) -> std::optional<ModelRoute> {
+    auto findRoute = [&]([[maybe_unused]] QueryModelType target) -> std::optional<ModelRoute> {
         for (const auto &r : routes_) { // already sorted by priority desc
             if (r.model_type == target && r.enabled) {
                 return r;
@@ -212,11 +213,11 @@ RoutingDecision AQLModelRouter::route(const std::string &aql_query) const {
     decision.selected_route = findRoute(decision.primary_type);
 
     // Build explanation.
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "Classified as " << modelTypeName(decision.primary_type);
-    if (decision.detected_types.size() > 1) {
+    if (static_cast<int>(decision.detected_types.size()) > 1) {
         ss << " (also: ";
-        for (size_t i = 1; i < decision.detected_types.size(); ++i) {
+        for (size_t i = 1; i <static_cast<int>(decision.detected_types.size()); ++i) {
             if (i > 1) {
                 ss << ", ";
             }

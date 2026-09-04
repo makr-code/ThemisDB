@@ -31,7 +31,7 @@ UpdateApiHandler::UpdateApiHandler(std::shared_ptr<utils::UpdateChecker> checker
 http::response<http::string_body> UpdateApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
-    auto span = Tracer::startSpan("handleRequest");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRequest");
     std::string target = std::string(req.target());
     auto method = req.method();
     

@@ -166,7 +166,8 @@ void demonstrateBatchSearch() {
     // Add vectors
     std::cout << "\nBuilding index with 10,000 vectors...\n";
     auto vectors = generateVectors(10000, dimension);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < vectors.size(); ++i) {
         ids.push_back("vec_" + std::to_string(i));
     }
@@ -216,7 +217,8 @@ void demonstrateBackendComparison() {
     
     // Generate test data
     auto vectors = generateVectors(numVectors, dimension);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < vectors.size(); ++i) {
         ids.push_back("vec_" + std::to_string(i));
     }
@@ -278,7 +280,7 @@ void demonstrateBackendComparison() {
         auto buildTime = std::chrono::duration_cast<std::chrono::milliseconds>(buildEnd - buildStart);
         auto searchTime = std::chrono::duration_cast<std::chrono::microseconds>(searchEnd - searchStart);
         
-        std::string backendName;
+        std::string backendName = {};
         switch (backend) {
             case GPUVectorIndex::Backend::CPU: backendName = "CPU"; break;
             case GPUVectorIndex::Backend::VULKAN: backendName = "Vulkan"; break;
@@ -306,7 +308,8 @@ void demonstrateDistanceMetrics() {
     
     // Generate test vectors
     auto vectors = generateVectors(1000, dimension);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < vectors.size(); ++i) {
         ids.push_back("vec_" + std::to_string(i));
     }
@@ -376,7 +379,8 @@ void demonstrateHIPBackend() {
     
     // Generate test data
     auto vectors = generateVectors(numVectors, dimension);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (int i = 0; i < numVectors; ++i) {
         ids.push_back("vec_" + std::to_string(i));
     }

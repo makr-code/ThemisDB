@@ -38,7 +38,7 @@ ChainOfThoughtBuilder& ChainOfThoughtBuilder::addStep(
     if (!label.empty()) {
         step.label = label;
     } else if (config_.number_steps) {
-        step.label = config_.step_prefix + std::to_string(steps_.size() + 1);
+        step.label = config_.step_prefix + std::to_string(static_cast<int>(steps_.size()) + 1);
     }
 
     steps_.push_back(std::move(step));
@@ -62,7 +62,7 @@ void ChainOfThoughtBuilder::clear() {
 }
 
 size_t ChainOfThoughtBuilder::stepCount() const {
-    return steps_.size();
+    return static_cast<int>(steps_.size());
 }
 
 const CoTConfig& ChainOfThoughtBuilder::getConfig() const {
@@ -78,10 +78,10 @@ std::string ChainOfThoughtBuilder::build() const {
         return {};
     }
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     bool first = true;
 
-    for (std::size_t idx = 0; idx < steps_.size(); ++idx) {
+    for (std::size_t idx = 0; idx <static_cast<int>(steps_.size()); ++idx) {
         const auto& step = steps_[idx];
 
         if (!first) {
@@ -150,7 +150,7 @@ std::string ChainOfThoughtBuilder::buildFewShot(
     const std::string& question,
     const std::vector<std::pair<std::string, std::string>>& examples) {
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     for (const auto& [ex_question, ex_answer] : examples) {
         out << "Q: " << ex_question << "\n";
@@ -165,7 +165,7 @@ std::string ChainOfThoughtBuilder::buildFewShot(
 
 std::string ChainOfThoughtBuilder::wrapWithCoT(const std::string& prompt,
                                                bool explicit_steps) {
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     if (explicit_steps) {
         out << "Solve the following task by reasoning through it step by step.\n\n";

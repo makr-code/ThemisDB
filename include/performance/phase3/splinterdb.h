@@ -46,7 +46,7 @@ public:
     
     // Get compaction statistics
     struct Stats {
-        size_t compactions_completed;
+        size_t compactions_completed = 0;
         size_t compactions_in_progress;
         double avg_compaction_time_ms;
     };

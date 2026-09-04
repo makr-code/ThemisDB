@@ -71,7 +71,7 @@ static void BM_RandomAccess(benchmark::State& state) {
     char* data = static_cast<char*>(buffer);
     
     // Generate random indices
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<size_t> dist(0, buffer_size - 1);
     
@@ -178,7 +178,7 @@ static void BM_BufferPoolSimulation(benchmark::State& state) {
     }
     
     char* data = static_cast<char*>(pool);
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<size_t> dist(0, pool_size - 4096);
     

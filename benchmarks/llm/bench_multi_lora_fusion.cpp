@@ -69,8 +69,8 @@ protected:
 
     MultiLoRAManager::Config config_;
     std::unique_ptr<MultiLoRAManager> manager_;
-    std::string lora_path_;
-    std::string preflight_error_;
+    std::string lora_path_ = {};
+    std::string preflight_error_ = {};
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -78,7 +78,9 @@ protected:
 // ═══════════════════════════════════════════════════════════
 
 BENCHMARK_F(MultiLoRAFusionFixture, FusionTwoAdapters)(benchmark::State& state) {
-    if (!ensureReady(state)) return;
+    if (!ensureReady(state)) {
+      return;
+    }
     FusionConfig config;
     config.strategy = FusionStrategy::STATIC;
     config.source_lora_ids = {"bench-lora-1", "bench-lora-2"};
@@ -97,7 +99,9 @@ BENCHMARK_F(MultiLoRAFusionFixture, FusionTwoAdapters)(benchmark::State& state) 
 }
 
 BENCHMARK_F(MultiLoRAFusionFixture, FusionThreeAdapters)(benchmark::State& state) {
-    if (!ensureReady(state)) return;
+    if (!ensureReady(state)) {
+      return;
+    }
     FusionConfig config;
     config.strategy = FusionStrategy::STATIC;
     config.source_lora_ids = {"bench-lora-1", "bench-lora-2", "bench-lora-3"};
@@ -116,7 +120,9 @@ BENCHMARK_F(MultiLoRAFusionFixture, FusionThreeAdapters)(benchmark::State& state
 }
 
 BENCHMARK_F(MultiLoRAFusionFixture, FusionWithCache)(benchmark::State& state) {
-    if (!ensureReady(state)) return;
+    if (!ensureReady(state)) {
+      return;
+    }
     FusionConfig config;
     config.strategy = FusionStrategy::STATIC;
     config.source_lora_ids = {"bench-lora-1", "bench-lora-2"};
@@ -144,7 +150,9 @@ BENCHMARK_F(MultiLoRAFusionFixture, FusionWithCache)(benchmark::State& state) {
 }
 
 BENCHMARK_F(MultiLoRAFusionFixture, DynamicFusionWeightUpdate)(benchmark::State& state) {
-    if (!ensureReady(state)) return;
+    if (!ensureReady(state)) {
+      return;
+    }
     // Setup initial fusion
     FusionConfig config;
     config.strategy = FusionStrategy::DYNAMIC;
@@ -154,7 +162,7 @@ BENCHMARK_F(MultiLoRAFusionFixture, DynamicFusionWeightUpdate)(benchmark::State&
     
     manager_->fuseLoRAsAdvanced("dynamic-bench", config);
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dist(0.0f, 1.0f);
     
@@ -176,7 +184,9 @@ BENCHMARK_F(MultiLoRAFusionFixture, DynamicFusionWeightUpdate)(benchmark::State&
 // ═══════════════════════════════════════════════════════════
 
 BENCHMARK_F(MultiLoRAFusionFixture, CacheInvalidation)(benchmark::State& state) {
-    if (!ensureReady(state)) return;
+    if (!ensureReady(state)) {
+      return;
+    }
     // Create multiple fusion entries
     for (int i = 0; i < 10; ++i) {
         FusionConfig config;
@@ -200,7 +210,9 @@ BENCHMARK_F(MultiLoRAFusionFixture, CacheInvalidation)(benchmark::State& state) 
 }
 
 BENCHMARK_F(MultiLoRAFusionFixture, ListFusionCache)(benchmark::State& state) {
-    if (!ensureReady(state)) return;
+    if (!ensureReady(state)) {
+      return;
+    }
     // Create fusion entries
     for (int i = 0; i < 20; ++i) {
         FusionConfig config;
@@ -227,7 +239,9 @@ BENCHMARK_F(MultiLoRAFusionFixture, ListFusionCache)(benchmark::State& state) {
 // ═══════════════════════════════════════════════════════════
 
 BENCHMARK_F(MultiLoRAFusionFixture, CompatibilityCheck)(benchmark::State& state) {
-    if (!ensureReady(state)) return;
+    if (!ensureReady(state)) {
+      return;
+    }
     FusionConfig config;
     config.source_lora_ids = {"bench-lora-1", "bench-lora-2", "bench-lora-3"};
     config.enforce_quantization_match = true;
@@ -250,7 +264,9 @@ BENCHMARK_F(MultiLoRAFusionFixture, CompatibilityCheck)(benchmark::State& state)
 // ═══════════════════════════════════════════════════════════
 
 BENCHMARK_F(MultiLoRAFusionFixture, ScheduledWeightsComputation)(benchmark::State& state) {
-    if (!ensureReady(state)) return;
+    if (!ensureReady(state)) {
+      return;
+    }
     // Setup scheduled fusion
     FusionConfig config;
     config.strategy = FusionStrategy::SCHEDULED;
@@ -279,7 +295,9 @@ BENCHMARK_F(MultiLoRAFusionFixture, ScheduledWeightsComputation)(benchmark::Stat
 }
 
 BENCHMARK_F(MultiLoRAFusionFixture, ScheduledCustomFunction)(benchmark::State& state) {
-    if (!ensureReady(state)) return;
+    if (!ensureReady(state)) {
+      return;
+    }
     // Setup scheduled fusion with custom function
     FusionConfig config;
     config.strategy = FusionStrategy::SCHEDULED;
@@ -316,7 +334,9 @@ BENCHMARK_F(MultiLoRAFusionFixture, ScheduledCustomFunction)(benchmark::State& s
 // ═══════════════════════════════════════════════════════════
 
 BENCHMARK_F(MultiLoRAFusionFixture, GetFusionMetrics)(benchmark::State& state) {
-    if (!ensureReady(state)) return;
+    if (!ensureReady(state)) {
+      return;
+    }
     // Create some fusion activity
     for (int i = 0; i < 5; ++i) {
         FusionConfig config;
@@ -370,7 +390,7 @@ static void BM_FusionStrategy(benchmark::State& state, FusionStrategy strategy) 
     
     state.SetItemsProcessed(state.iterations());
     
-    std::string label;
+    std::string label = {};
     switch (strategy) {
         case FusionStrategy::STATIC: label = "STATIC"; break;
         case FusionStrategy::DYNAMIC: label = "DYNAMIC"; break;

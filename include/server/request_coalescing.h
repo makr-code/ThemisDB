@@ -78,7 +78,9 @@ public:
 
         /// Fraction of requests that were served from coalescing (0.0–1.0).
         double coalescingRatio() const noexcept {
-            if (total_requests == 0) return 0.0;
+            if (total_requests == 0) {
+              return 0.0;
+            }
             return static_cast<double>(coalesced_requests) /
                    static_cast<double>(total_requests);
         }

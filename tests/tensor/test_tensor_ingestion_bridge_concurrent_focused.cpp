@@ -27,15 +27,21 @@ static std::vector<float> generateRandomEmbedding(size_t dim, unsigned seed = 42
     std::mt19937 gen(seed);
     std::uniform_real_distribution<float> dis(0.0f, 1.0f);
     std::vector<float> emb(dim);
-    for (auto& e : emb) e = dis(gen);
+    for (auto& e : emb) {
+      e = dis(gen);
+    }
     return emb;
 }
 
 // Helper: generate compressible (low-rank) embedding
 static std::vector<float> generateRankOneEmbedding(size_t rows, size_t cols) {
     std::vector<float> u(rows), v(cols);
-    for (size_t i = 0; i < rows; ++i) u[i] = static_cast<float>(i + 1);
-    for (size_t j = 0; j < cols; ++j) v[j] = static_cast<float>(j + 1);
+    for (size_t i = 0; i < rows; ++i) {
+      u[i] = static_cast<float>(i + 1);
+    }
+    for (size_t j = 0; j < cols; ++j) {
+      v[j] = static_cast<float>(j + 1);
+    }
     std::vector<float> out(rows * cols);
     for (size_t i = 0; i < rows; ++i) {
         for (size_t j = 0; j < cols; ++j) {
@@ -73,7 +79,9 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC01_ConcurrentDecomposeMultipleEm
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_GT(successful_decomposes.load(), 0);
 }
 
@@ -111,7 +119,9 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC02_ConfigRaceDuringDecompose) {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     stop_flag.store(true);
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     EXPECT_GT(decomposes.load(), 0);
     EXPECT_GT(configs.load(), 0);
@@ -134,7 +144,9 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC03_ConcurrentShouldDecomposeSame
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     // All should return same result (deterministic)
     if (should_decompose_true.load() > 0) {
@@ -165,7 +177,9 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC04_MixedDecomposeAndShouldDecomp
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(operations.load(), num_threads);
 }
 
@@ -183,7 +197,9 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC05_AtomicCounterThreadSafety) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     long long total_count = bridge_->decomposeCount();
     EXPECT_GE(total_count, (long long)num_threads * decompositions_per_thread);
@@ -208,7 +224,9 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC06_RNGDeterminismSameSeed) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     // All should give same answer: either all true or all false
     int true_count = should_decompose_results.load();
@@ -225,11 +243,15 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC07_LargeEmbeddingPilotProjection
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([&]() {
             bool result = bridge_->shouldDecompose(emb);
-            if (result) successful_pilots.fetch_add(1);
+            if (result) {
+              successful_pilots.fetch_add(1);
+            }
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     // Should be consistent across threads
     EXPECT_GT(successful_pilots.load(), 0);
@@ -251,7 +273,9 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC08_RNGSeedCollisionTest) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(deterministic_results.load(), num_threads);
 }
 
@@ -269,7 +293,9 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC09_PilotWorkUnderHighConcurrency
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(pilot_checks.load(), num_threads);
 }
 
@@ -290,7 +316,9 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC10_HighConcurrentDecompositions)
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(completes.load(), num_threads);
 }
 
@@ -318,7 +346,9 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC11_DecomposerWorkQueueFairness) 
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     EXPECT_GT(high_priority_done.load(), 0);
     EXPECT_GT(low_priority_done.load(), 0);
@@ -338,7 +368,9 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC12_KappaSkipCountAccuracy) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     long long skip_count = bridge_->kappaSkipCount();
     EXPECT_GE(skip_count, 0LL);
@@ -370,7 +402,9 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC13_ConfigChangeDuringActiveDecom
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(decomposes.load(), num_decompose_threads * 50);
 }
 
@@ -399,7 +433,9 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC14_ConcurrentDecomposeCountReads
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(reads.load(), num_threads);
 }
 
@@ -437,7 +473,9 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC15_DescriptionThreadSafety) {
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
     stop_flag.store(true);
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     EXPECT_GT(reads.load(), 0);
     EXPECT_EQ(sets.load(), setter_threads * 50);

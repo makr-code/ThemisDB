@@ -49,7 +49,7 @@ Status RocksDbWikiStore::open(const std::string& db_path) {
 
     // Ensure the directory exists (RocksDB creates the directory itself when
     // create_if_missing=true, but the parent directory must exist).
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(db_path, ec);
     if (ec) {
         return Status::Error("Failed to create RocksDB directory '" + db_path +
@@ -59,18 +59,18 @@ Status RocksDbWikiStore::open(const std::string& db_path) {
     options_.create_if_missing = true;
     options_.error_if_exists   = false;
 
-    rocksdb::DB* raw_db_ptr = nullptr;
-    rocksdb::Status rdb_st = rocksdb::DB::Open(options_, db_path, &raw_db_ptr);
+    rocksdb::DB* db_instance = nullptr;
+    rocksdb::Status rdb_st = rocksdb::DB::Open(options_, db_path, &db_instance);
 
     if (!rdb_st.ok()) {
-        // RAII: raw_db_ptr is null on failure per RocksDB contract; nothing to
-        // delete here.  Ensure db_ remains nullptr.
-        db_.reset();
+        // RocksDB contract: on failure, db_instance remains nullptr.
+        // Ensure db_ remains nullptr.
+        db_ = nullptr;
         return toThemisError(rdb_st);
     }
 
-    // Transfer ownership to the smart pointer.
-    db_.reset(raw_db_ptr);
+    // Assign raw pointer directly.
+    db_ = db_instance;
     db_path_ = db_path;
     return Status::Ok();
 }
@@ -87,7 +87,8 @@ void RocksDbWikiStore::close() {
     rocksdb::FlushOptions flush_opts;
     flush_opts.wait = true;
     (void)db_->FlushWAL(flush_opts.wait);  // best-effort; ignore return code
-    db_.reset();
+    delete db_;
+    db_ = nullptr;
     db_path_.clear();
 }
 
@@ -121,7 +122,7 @@ std::pair<Status, std::string> RocksDbWikiStore::get(
     if (!db_) {
         return {Status::Error("store is not open"), {}};
     }
-    std::string value;
+    std::string value = {};
     rocksdb::Status rdb_st =
         db_->Get(rocksdb::ReadOptions(), rocksdb::Slice(key), &value);
 

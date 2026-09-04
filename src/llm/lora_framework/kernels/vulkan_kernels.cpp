@@ -44,12 +44,12 @@ struct VulkanState {
     std::unordered_map<std::string, std::unique_ptr<VulkanComputePipeline>> pipelines;
     
     // Mutex for thread safety
-    std::recursive_timed_mutex mutex;
+    std::recursive_timed_mutex mutex = {};
 };
 
 static VulkanState g_vulkan_state;
 constexpr auto kVulkanStateLockTimeout = std::chrono::seconds(30);
-constexpr uint64_t kVulkanKernelWaitTimeoutNs = 30000000000ULL;
+constexpr uint64_t kVulkanKernelWaitTimeoutNs = 30000000000;
 
 static std::unique_lock<std::recursive_timed_mutex> lock_vulkan_state_or_throw() {
     std::unique_lock<std::recursive_timed_mutex> lock(g_vulkan_state.mutex, std::defer_lock);
@@ -245,21 +245,21 @@ struct FusedBackwardBufferCache {
 };
 
 struct MatmulPushConstants {
-    uint32_t M;
+    uint32_t M = 0;
     uint32_t N;
     uint32_t K;
     uint32_t alpha_bits;
 };
 
 struct ElementwisePushConstants {
-    uint32_t size;
+    uint32_t size = 0;
     uint32_t op;
     uint32_t rows;
     uint32_t cols;
     uint32_t scalar_bits;
 };
 
-static uint32_t float_to_bits(float value) {
+static uint32_t float_to_bits([[maybe_unused]] float value) {
     uint32_t bits = 0;
     std::memcpy(&bits, &value, sizeof(bits));
     return bits;
@@ -330,7 +330,7 @@ static std::string get_shader_path(const std::string& shader_name) {
                            ". Please compile shaders or provide pre-compiled SPIR-V files.");
 }
 
-bool initialize_vulkan_lora(int device_id) {
+bool initialize_vulkan_lora([[maybe_unused]] int device_id) {
     auto lock = lock_vulkan_state_or_throw();
     
     if (g_vulkan_state.initialized) {
@@ -448,8 +448,8 @@ static void dispatch_matmul_device(
     pipeline->bind_buffer(2, buf_C);
     pipeline->set_push_constants(&pc, sizeof(pc));
 
-    const uint32_t groups_x = (N + 15u) / 16u;
-    const uint32_t groups_y = (M + 15u) / 16u;
+    const uint32_t groups_x = (N + 15) / 16;
+    const uint32_t groups_y = (M + 15) / 16;
     pipeline->dispatch(groups_x, groups_y, 1);
 }
 
@@ -462,10 +462,10 @@ static void dispatch_transpose_device(
 
     ElementwisePushConstants pc;
     pc.size = rows * cols;
-    pc.op = 5u; // transpose
+    pc.op = 5; // transpose
     pc.rows = rows;
     pc.cols = cols;
-    pc.scalar_bits = 0u;
+    pc.scalar_bits = 0;
 
     pipeline->bind_buffer(0, buf_input);
     // Layout requires binding 1 for elementwise pipeline; reuse input as dummy.
@@ -473,7 +473,7 @@ static void dispatch_transpose_device(
     pipeline->bind_buffer(2, buf_output);
     pipeline->set_push_constants(&pc, sizeof(pc));
 
-    const uint32_t groups = (pc.size + 255u) / 256u;
+    const uint32_t groups = (pc.size + 255) / 256;
     pipeline->dispatch(groups, 1, 1);
 }
 
@@ -534,7 +534,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     
     // Push constants for elementwise operation
     struct PushConstants {
-        uint32_t size;
+        uint32_t size = 0;
         uint32_t op;      // 0 = add
         uint32_t rows;    // unused for add
         uint32_t cols;    // unused for add
@@ -565,7 +565,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     pipeline->set_push_constants(&pc, sizeof(pc));
     
     // Dispatch with workgroup size 256
-    uint32_t groups = (size_u32 + 255u) / 256u;
+    uint32_t groups = (size_u32 + 255) / 256;
     pipeline->dispatch(groups, 1, 1);
     
     wait_for_pipeline_or_throw(pipeline, "launch_add_shader");
@@ -583,11 +583,11 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
     }
     
     struct PushConstants {
-        uint32_t size;
+        uint32_t size = 0;
         uint32_t op;      // 2 = multiply
-        uint32_t rows;
-        uint32_t cols;
-        uint32_t scalar;
+        uint32_t rows = {};
+        uint32_t cols = {};
+        uint32_t scalar = {};
     } pc;
     
     const uint32_t size_u32 = checked_u32_size(size, "launch_multiply_shader");
@@ -613,7 +613,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
     
     pipeline->set_push_constants(&pc, sizeof(pc));
     
-    uint32_t groups = (size_u32 + 255u) / 256u;
+    uint32_t groups = (size_u32 + 255) / 256;
     pipeline->dispatch(groups, 1, 1);
     
     wait_for_pipeline_or_throw(pipeline, "launch_multiply_shader");
@@ -634,11 +634,11 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     }
     
     struct PushConstants {
-        uint32_t size;
+        uint32_t size = 0;
         uint32_t op;      // 4 = scalar multiply
-        uint32_t rows;
-        uint32_t cols;
-        uint32_t scalar_bits;
+        uint32_t rows = {};
+        uint32_t cols = {};
+        uint32_t scalar_bits = {};
     } pc;
     
     const uint32_t size_u32 = checked_u32_size(size, "launch_scalar_multiply_shader");
@@ -663,7 +663,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     
     pipeline->set_push_constants(&pc, sizeof(pc));
     
-    uint32_t groups = (size_u32 + 255u) / 256u;
+    uint32_t groups = (size_u32 + 255) / 256;
     pipeline->dispatch(groups, 1, 1);
     
     wait_for_pipeline_or_throw(pipeline, "launch_relu_shader");
@@ -681,11 +681,11 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
     }
     
     struct PushConstants {
-        uint32_t size;
+        uint32_t size = 0;
         uint32_t op;      // 5 = transpose
-        uint32_t rows;
-        uint32_t cols;
-        uint32_t scalar;
+        uint32_t rows = {};
+        uint32_t cols = {};
+        uint32_t scalar = {};
     } pc;
     
     size_t total_size = checked_mul_size(static_cast<size_t>(rows), static_cast<size_t>(cols), "launch_transpose_shader");
@@ -711,7 +711,7 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
     
     pipeline->set_push_constants(&pc, sizeof(pc));
     
-    uint32_t groups = (total_size_u32 + 255u) / 256u;
+    uint32_t groups = (total_size_u32 + 255) / 256;
     pipeline->dispatch(groups, 1, 1);
     
     wait_for_pipeline_or_throw(pipeline, "launch_gelu_shader");
@@ -735,11 +735,11 @@ void launch_lora_grad_A_shader(
     
     // Push constants for gradient computation
     struct PushConstants {
-        uint32_t batch_size;
-        uint32_t in_dim;
-        uint32_t rank;
-        uint32_t out_dim;
-        uint32_t scaling_bits;
+        uint32_t batch_size = 0;
+        uint32_t in_dim = {};
+        uint32_t rank = {};
+        uint32_t out_dim = {};
+        uint32_t scaling_bits = {};
         uint32_t compute_mode; // 0 = grad_A
     } pc;
     
@@ -797,11 +797,11 @@ void launch_lora_grad_B_shader(
     }
     
     struct PushConstants {
-        uint32_t batch_size;
-        uint32_t in_dim;
-        uint32_t rank;
-        uint32_t out_dim;
-        uint32_t scaling_bits;
+        uint32_t batch_size = 0;
+        uint32_t in_dim = {};
+        uint32_t rank = {};
+        uint32_t out_dim = {};
+        uint32_t scaling_bits = {};
         uint32_t compute_mode; // 1 = grad_B
     } pc;
     
@@ -864,10 +864,10 @@ void launch_embedding_lookup_shader(
     }
 
     struct PushConstants {
-        uint32_t batch_size;
-        uint32_t seq_len;
-        uint32_t hidden_dim;
-        uint32_t vocab_size;
+        uint32_t batch_size = 0;
+        uint32_t seq_len = {};
+        uint32_t hidden_dim = {};
+        uint32_t vocab_size = {};
     } pc;
 
     pc.batch_size = static_cast<uint32_t>(batch_size);
@@ -894,7 +894,7 @@ void launch_embedding_lookup_shader(
     pipeline->bind_buffer(2, buf_output);
     pipeline->set_push_constants(&pc, sizeof(pc));
 
-    const uint32_t groups = (total_tokens_u32 + 255u) / 256u;
+    const uint32_t groups = (total_tokens_u32 + 255) / 256;
     pipeline->dispatch(groups, 1, 1);
 
     wait_for_pipeline_or_throw(pipeline, "launch_lora_backward_shader");
@@ -917,10 +917,10 @@ void launch_sequence_mean_shader(
     }
 
     struct PushConstants {
-        uint32_t batch_size;
-        uint32_t seq_len;
-        uint32_t hidden_dim;
-        uint32_t reserved;
+        uint32_t batch_size = 0;
+        uint32_t seq_len = {};
+        uint32_t hidden_dim = {};
+        uint32_t reserved = {};
     } pc;
 
     pc.batch_size = static_cast<uint32_t>(batch_size);
@@ -945,7 +945,7 @@ void launch_sequence_mean_shader(
     pipeline->bind_buffer(1, buf_output);
     pipeline->set_push_constants(&pc, sizeof(pc));
 
-    const uint32_t groups = (output_elems_u32 + 255u) / 256u;
+    const uint32_t groups = (output_elems_u32 + 255) / 256;
     pipeline->dispatch(groups, 1, 1);
 
     wait_for_pipeline_or_throw(pipeline, "launch_lora_grad_A_shader");

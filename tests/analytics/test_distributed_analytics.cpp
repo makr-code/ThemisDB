@@ -82,8 +82,12 @@ static OLAPQuery makeQuery(const std::string& measure_name,
 
 /** Extract double from a RowValue. */
 static double dval(const RowValue& v) {
-    if (auto* d = std::get_if<double>(&v))   return *d;
-    if (auto* i = std::get_if<int64_t>(&v))  return static_cast<double>(*i);
+    if (auto* d = std::get_if<double>(&v)) {
+      return *d;
+    }
+    if (auto* i = std::get_if<int64_t>(&v)) {
+      return static_cast<double>(*i);
+    }
     return 0.0;
 }
 
@@ -93,7 +97,9 @@ static const OLAPRow* findRow(const OLAPResult& r, const std::string& region) {
         auto it = row.values.find("region");
         if (it != row.values.end()) {
             if (auto* s = std::get_if<std::string>(&it->second)) {
-                if (*s == region) return &row;
+                if (*s == region) {
+                  return &row;
+                }
             }
         }
     }
@@ -541,7 +547,9 @@ TEST(ExecuteDistributedTest, PartialFailureAllowed) {
     // shard_info should record one failure
     int failures = 0;
     for (const auto& si : dr.shard_info) {
-        if (!si.success) ++failures;
+        if (!si.success) {
+          ++failures;
+        }
     }
     EXPECT_EQ(failures, 1);
 }

@@ -92,7 +92,7 @@ std::string ProjectVersioning::generateUuid() const {
             std::chrono::steady_clock::now().time_since_epoch().count())
     };
     std::uniform_int_distribution<uint64_t> dist;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         << std::setw(16) << dist(rng)
         << std::setw(16) << dist(rng);
@@ -112,10 +112,10 @@ Sha256Digest ProjectVersioning::computeChecksum(const std::string& data) const {
         return {};
 
     EVP_DigestInit_ex(ctx.get(), EVP_sha256(), nullptr);
-    EVP_DigestUpdate(ctx.get(), data.data(), data.size());
+    EVP_DigestUpdate(ctx.get(), data.data(),static_cast<int>(data.size()));
     EVP_DigestFinal_ex(ctx.get(), digest, &len);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned int i = 0; i < len; ++i)
         oss << std::hex << std::setfill('0') << std::setw(2) << (int)digest[i];
     return oss.str();
@@ -154,7 +154,7 @@ std::variant<SnapshotId, Status> ProjectVersioning::createSnapshot(
 
     json content_array = json::array();
     for (const auto& key : doc_keys) {
-        std::string val;
+        std::string val = {};
         if (storage_->get(key, val)) {
             const json parsed = safeJsonParse(val, "createSnapshot_doc");
             if (!parsed.is_null()) {
@@ -209,7 +209,7 @@ std::optional<SnapshotMeta> ProjectVersioning::getSnapshot(
     const SnapshotId& snap_id) const
 {
     std::shared_lock lock(mutex_);
-    std::string val;
+    std::string val = {};
     if (!storage_->get(snap_id, val))
         return std::nullopt;
     const json parsed = safeJsonParse(val, "getSnapshot");
@@ -232,9 +232,11 @@ std::vector<SnapshotMeta> ProjectVersioning::listSnapshots(
     storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view) {
         // Extract snap_uuid from key  "snap_idx:<proj>:<uuid>"
         const auto pos = key.rfind(':');
-        if (pos == std::string_view::npos) return true;
+        if (pos == std::string_view::npos) {
+          return true;
+        }
         const std::string snap_id = "snap:" + std::string(key.substr(pos + 1));
-        std::string val;
+        std::string val = {};
         if (storage_->get(snap_id, val)) {
             const json parsed = safeJsonParse(val, "listSnapshots");
             if (!parsed.is_null() && parsed.is_object()) {
@@ -265,7 +267,7 @@ Status ProjectVersioning::deleteSnapshot(const SnapshotId& snap_id) {
 
     std::unique_lock lock(mutex_);
 
-    std::string val;
+    std::string val = {};
     if (!storage_->get(snap_id, val))
         return Status::Error("deleteSnapshot: snapshot not found: " + snap_id);
 
@@ -311,7 +313,7 @@ Status ProjectVersioning::restoreSnapshot(
 
     std::unique_lock lock(mutex_);
 
-    std::string meta_str;
+    std::string meta_str = {};
     if (!storage_->get(snap_id, meta_str))
         return Status::Error("restoreSnapshot: snapshot not found: " + snap_id);
 
@@ -328,7 +330,7 @@ Status ProjectVersioning::restoreSnapshot(
     }
 
     const auto snap_uuid = snap_id.substr(5);
-    std::string content_str;
+    std::string content_str = {};
     if (!storage_->get("snap_data:" + snap_uuid, content_str))
         return Status::Error("restoreSnapshot: snapshot content missing for: " + snap_id);
 
@@ -374,7 +376,7 @@ bool ProjectVersioning::verifySnapshot(const SnapshotId& snap_id) const {
     if (snap_id.empty() || !snap_id.starts_with("snap:"))
         return false;
 
-    std::string meta_str;
+    std::string meta_str = {};
     if (!storage_->get(snap_id, meta_str)) 
         return false;
 
@@ -390,7 +392,7 @@ bool ProjectVersioning::verifySnapshot(const SnapshotId& snap_id) const {
     }
 
     const auto snap_uuid = snap_id.substr(5);
-    std::string content_str;
+    std::string content_str = {};
     if (!storage_->get("snap_data:" + snap_uuid, content_str))
         return false;
 

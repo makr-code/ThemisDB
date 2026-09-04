@@ -208,7 +208,7 @@ public:
      */
     struct RestoreResult {
         bool     success{false};
-        std::string tag_name;
+        std::string tag_name = {};
         uint64_t target_sequence{0};   ///< Changefeed sequence of the tag
         int64_t  timestamp_ms{0};      ///< Unix timestamp of the tag
         std::string message;           ///< Human-readable status or error

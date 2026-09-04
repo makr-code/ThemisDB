@@ -29,7 +29,7 @@ static std::string getCurrentTimestamp() {
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         now.time_since_epoch()) % 1000;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(std::localtime(&time), "%Y-%m-%dT%H:%M:%S")
         << '.' << std::setfill('0') << std::setw(3) << ms.count() << 'Z';
     return oss.str();
@@ -85,7 +85,8 @@ std::vector<RoutingSummary> DistributedTensorPlanner::planSummaryFirstRouting(
     const std::string& correlation_id,
     uint32_t freshness_ttl_s) noexcept {
     
-    std::vector<RoutingSummary> routing_results;
+    std::vector<RoutingSummary> routing_results = {};
+
     routing_results.reserve(summaries.size());
 
     for (const auto& summary : summaries) {
@@ -198,7 +199,8 @@ std::vector<FragmentLoadResult> DistributedTensorPlanner::executeFragmentLoads(
     const std::string& correlation_id) noexcept {
     
     if (!fragment_fetcher_) {
-        std::vector<FragmentLoadResult> results;
+        std::vector<FragmentLoadResult> results = {};
+
         for (const auto& req : requests) {
             FragmentLoadResult result;
             result.shard_id = req.shard_id;
@@ -341,7 +343,7 @@ std::string DistributedTensorPlanner::buildFallbackRouting(
     
     // In fallback mode, broaden the search to include stale summaries
     // with explicit stale-fragment fetch
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "fallback_routing:include_stale:shard_count=" << summaries.size();
     return oss.str();
 }

@@ -174,10 +174,10 @@ private:
         std::vector<TimedSample> window;
 
         /// Current token count (adaptive capacity).
-        size_t current_capacity;
+        size_t current_capacity = {};
 
         /// Available tokens in the current window.
-        size_t available_tokens;
+        size_t available_tokens = {};
 
         /// Start of the current token-replenishment window.
         std::chrono::steady_clock::time_point window_start;

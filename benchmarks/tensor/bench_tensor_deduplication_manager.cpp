@@ -162,7 +162,8 @@ static void BM_TDM_StoreOverwrite(benchmark::State& state) {
         auto mgr = makeDedupManager(engine);
         
         // Pre-populate with base tensors
-        std::vector<std::string> tensor_ids;
+        std::vector<std::string> tensor_ids = {};
+
         for (std::size_t i = 0; i < tensor_count; ++i) {
             std::string id = "tensor_" + std::to_string(i);
             tensor_ids.push_back(id);

@@ -154,7 +154,9 @@ HealthProbe makeIndexMaintenanceHealthProbe(
         // Check for failed jobs
         int failed = 0;
         for (auto& job : active_jobs) {
-            if (job.is_failed) ++failed;
+            if (job.is_failed) {
+              ++failed;
+            }
         }
         sig.details["failed_jobs"] = std::to_string(failed);
 

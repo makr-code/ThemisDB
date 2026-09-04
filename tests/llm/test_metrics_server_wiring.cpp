@@ -45,7 +45,7 @@ namespace monitoring {
 
 struct FakePlugin final : public ILLMPlugin {
     bool   load_called  = false;
-    std::string last_path;
+    std::string last_path = {};
 
     bool loadModel(const std::string& path,
                    [[maybe_unused]] const nlohmann::json&) override {
@@ -80,21 +80,21 @@ static MetricsServer makeServer()
 
 static std::string reloadPost(MetricsServer& srv, const std::string& body)
 {
-    std::string resp;
+    std::string resp = {};
     srv.handlePost(srv.serverConfig().admin_reload_path, body, resp);
     return resp;
 }
 
 static std::string simulatePost(MetricsServer& srv, const std::string& body)
 {
-    std::string resp;
+    std::string resp = {};
     srv.handlePost(srv.serverConfig().admin_simulate_path, body, resp);
     return resp;
 }
 
 static std::string sessionDelete(MetricsServer& srv, const std::string& sid)
 {
-    std::string resp;
+    std::string resp = {};
     srv.handleDelete(srv.serverConfig().admin_sessions_path, sid, resp);
     return resp;
 }
@@ -239,7 +239,7 @@ TEST_F(MSW_Tests, MSW_09_SessionDeleteDelegatesToCancelCbKnownSession)
     auto srv = makeServer();
 
     bool called = false;
-    std::string seen_sid;
+    std::string seen_sid = {};
     mgr.setCancelSessionCallback(
         [&called, &seen_sid](const std::string& sid) -> bool {
             called   = true;

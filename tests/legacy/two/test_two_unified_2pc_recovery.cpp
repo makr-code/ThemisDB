@@ -39,7 +39,7 @@ using namespace themis::sharding;
 
 /// RAII guard that removes a temporary directory when destroyed.
 struct TempDirGuard {
-    std::string path;
+    std::string path = {};
     ~TempDirGuard() { std::filesystem::remove_all(path); }
 };
 

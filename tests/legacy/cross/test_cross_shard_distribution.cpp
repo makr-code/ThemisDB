@@ -83,7 +83,7 @@ protected:
         }
         
         // Read metadata size
-        uint32_t metadata_size;
+        uint32_t metadata_size = {};
         std::memcpy(&metadata_size, data.data(), 4);
         
         if (data.size() < 4 + metadata_size) {

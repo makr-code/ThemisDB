@@ -271,8 +271,12 @@ TEST_F(TemporalAggregatorTest, Sliding_DefaultSlide_EqualsTumbling) {
     // Same number of windows and same total count
     EXPECT_EQ(r_t.size(), r_s.size());
     size_t sum_t = 0, sum_s = 0;
-    for (const auto& r : r_t) sum_t += r.record_count;
-    for (const auto& r : r_s) sum_s += r.record_count;
+    for (const auto& r : r_t) {
+      sum_t += r.record_count;
+    }
+    for (const auto& r : r_s) {
+      sum_s += r.record_count;
+    }
     EXPECT_EQ(sum_t, sum_s);
 }
 
@@ -427,7 +431,9 @@ TEST_F(TemporalAggregatorTest, GroupBy_SUM_GroupValuesPopulated) {
         if (!windows.empty() &&
             windows[0].group_values.count("cat") &&
             windows[0].group_values.at("cat") == "A") {
-            for (const auto& w : windows) sum_a += w.value;
+            for (const auto& w : windows) {
+              sum_a += w.value;
+            }
         }
     }
     EXPECT_DOUBLE_EQ(sum_a, 30.0);

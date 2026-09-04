@@ -30,7 +30,7 @@ LLMSemanticValidator::LLMSemanticValidator(
 SemanticValidationResult LLMSemanticValidator::validate(const query::ASTNode* ast)
 {
     auto start_time = std::chrono::high_resolution_clock::now();
-    SemanticValidationResult result;
+    SemanticValidationResult result = {};
 
     if (!ast) {
         result.status = SemanticValidationResult::Status::UNKNOWN_ERROR;
@@ -109,14 +109,19 @@ const LLMSemanticValidator::Config& LLMSemanticValidator::getConfig() const
 static std::unordered_map<std::string, std::string> extractVariableBindings(
     const query::ASTNode* ast)
 {
-    std::unordered_map<std::string, std::string> bindings;
-    if (!ast) return bindings;
+    std::unordered_map<std::string, std::string> bindings = {};
+
+    if (!ast) {
+      return bindings;
+    }
     
     // Try to cast ast to Query*
     // Note: In the semantic validator context, ast should be a Query struct
     auto query_ptr = reinterpret_cast<const query::Query*>(ast);
     
-    if (!query_ptr) return bindings;
+    if (!query_ptr) {
+      return bindings;
+    }
     
     // Extract FOR bindings: FOR var IN collection
     for (const auto& for_node : query_ptr->for_nodes) {
@@ -138,21 +143,31 @@ static std::unordered_map<std::string, std::string> extractVariableBindings(
  */
 static std::string inferTypeFromExpression(const std::shared_ptr<query::Expression>& expr)
 {
-    if (!expr) return "unknown";
+    if (!expr) {
+      return "unknown";
+    }
     
     auto type = expr->getType();
     switch (type) {
         case query::ASTNodeType::Literal: {
             auto lit = std::dynamic_pointer_cast<query::LiteralExpr>(expr);
             if (lit) {
-                if (std::holds_alternative<std::string>(lit->value)) return "string";
-                if (std::holds_alternative<bool>(lit->value)) return "boolean";
+                if (std::holds_alternative<std::string>(lit->value)) {
+                  return "string";
+                }
+                if (std::holds_alternative<bool>(lit->value)) {
+                  return "boolean";
+                }
                 if (std::holds_alternative<int64_t>(lit->value) ||
                     std::holds_alternative<double>(lit->value)) return "number";
                 if (std::holds_alternative<nlohmann::json>(lit->value)) {
                     auto& j = std::get<nlohmann::json>(lit->value);
-                    if (j.is_array()) return "array";
-                    if (j.is_object()) return "object";
+                    if (j.is_array()) {
+                      return "array";
+                    }
+                    if (j.is_object()) {
+                      return "object";
+                    }
                 }
                 return "unknown";
             }
@@ -171,7 +186,9 @@ static std::string inferTypeFromExpression(const std::shared_ptr<query::Expressi
                 if (fc->name == "SUM" || fc->name == "AVG" || fc->name == "COUNT" ||
                     fc->name == "MIN" || fc->name == "MAX" || fc->name == "FLOOR" ||
                     fc->name == "CEIL" || fc->name == "ROUND") return "number";
-                if (fc->name == "LENGTH" || fc->name == "SIZE") return "number";
+                if (fc->name == "LENGTH" || fc->name == "SIZE") {
+                  return "number";
+                }
                 // Default: unknown
             }
             return "unknown";
@@ -201,11 +218,11 @@ static std::pair<bool, std::string> checkBinaryOpTypeCompatibility(
         // Allow same-type comparisons
         if (left_type == right_type) return {true, ""};
         // Allow numeric comparisons between int/double
-        if ((left_type == "number" || left_type == "unknown") &&
-            (right_type == "number" || right_type == "unknown")) return {true, ""};
+        if (((left_type == "number" || left_type == "unknown") &&
+            (right_type == "number" || right_type == "unknown"))) return {true, ""};
         // Allow string/unknown comparisons
-        if ((left_type == "string" || left_type == "unknown") &&
-            (right_type == "string" || right_type == "unknown")) return {true, ""};
+        if (((left_type == "string" || left_type == "unknown") &&
+            (right_type == "string" || right_type == "unknown"))) return {true, ""};
         return {false, fmt::format("Comparison of {} with {}", left_type, right_type)};
     }
     
@@ -217,8 +234,8 @@ static std::pair<bool, std::string> checkBinaryOpTypeCompatibility(
     
     // Arithmetic operators require numeric types
     if (op == Op::Add || op == Op::Sub || op == Op::Mul || op == Op::Div || op == Op::Mod) {
-        if ((left_type == "number" || left_type == "unknown") &&
-            (right_type == "number" || right_type == "unknown")) return {true, ""};
+        if (((left_type == "number" || left_type == "unknown") &&
+            (right_type == "number" || right_type == "unknown"))) return {true, ""};
         // ADD can also concatenate strings
         if (op == Op::Add && left_type == "string" && right_type == "string")
             return {true, ""};
@@ -247,7 +264,9 @@ static void walkExpressionForTypeChecks(
     const std::shared_ptr<SemanticSchemaContext>& schema_context,
     const std::unordered_map<std::string, std::string>& variable_bindings)
 {
-    if (!expr) return;
+    if (!expr) {
+      return;
+    }
     
     auto type = expr->getType();
     
@@ -308,7 +327,7 @@ static void walkExpressionForTypeChecks(
         if (fc) {
             // Common function signature checks
             if (fc->name == "CONCAT" && !fc->arguments.empty()) {
-                for (size_t i = 0; i < fc->arguments.size(); ++i) {
+                for (size_t i = 0; i < fc-> static_cast<int>(arguments.size()); ++i) {
                     auto arg_type = inferTypeFromExpression(fc->arguments[i]);
                     if (arg_type != "string" && arg_type != "unknown") {
                         result.warnings.push_back(fmt::format(
@@ -441,7 +460,7 @@ void LLMSemanticValidator::validateJoins(
     
     // PHASE 4.6: Join Detection
     // Detect JOIN operations (multiple FOR clauses)
-    if (query_ptr->for_nodes.size() <= 1 && query_ptr->for_node.variable.empty()) {
+    if (query_ptr-> static_cast<int>(for_nodes.size()) <= 1 && query_ptr->for_node.variable.empty()) {
         // No join detected (single collection query)
         spdlog::debug("[aql_semantic_validator] Single collection query (no JOIN)");
         return;
@@ -460,14 +479,14 @@ void LLMSemanticValidator::validateJoins(
     }
     
     // Detect join: multiple FOR bindings
-    if (for_bindings.size() <= 1) {
+    if (static_cast<int>(for_bindings.size()) <= 1) {
         spdlog::debug("[aql_semantic_validator] Single FOR clause (no JOIN)");
         return;
     }
     
-    spdlog::debug("[aql_semantic_validator] JOIN detected with {} clauses", for_bindings.size());
+    spdlog::debug("[aql_semantic_validator] JOIN detected with {} clauses",static_cast<int>(for_bindings.size()));
     result.warnings.push_back(
-        fmt::format("JOIN detected: {} collections involved", for_bindings.size())
+        fmt::format("JOIN detected: {} collections involved",static_cast<int>(for_bindings.size()))
     );
     
     // Step 1: Verify all referenced collections exist
@@ -484,7 +503,8 @@ void LLMSemanticValidator::validateJoins(
     // Step 2: Check for circular join dependencies (using dependency graph)
     // In AQL, circular joins typically involve self-referential or graph traversal
     // This is a simplified check: verify all collection names are distinct (or explicitly self-join)
-    std::unordered_set<std::string> collection_names;
+    std::unordered_set<std::string> collection_names = {};
+
     for (const auto& [var, collection] : for_bindings) {
         if (collection_names.count(collection) > 0) {
             // Duplicate collection (possible self-join)
@@ -502,19 +522,21 @@ void LLMSemanticValidator::validateJoins(
     bool join_condition_found = false;
     
     for (const auto& filter_node : query_ptr->filters) {
-        if (!filter_node || !filter_node->condition) continue;
+        if (!filter_node || !filter_node->condition) {
+          continue;
+        }
         
         // Check if filter references multiple FOR variables
         std::unordered_set<std::string> referenced_vars = extractVariablesFromExpression(filter_node->condition);
         
-        if (referenced_vars.size() >= 2) {
-            spdlog::debug("[aql_semantic_validator] Join condition found with {} variables", referenced_vars.size());
+        if (static_cast<int>(referenced_vars.size()) > = 2) {
+            spdlog::debug("[aql_semantic_validator] Join condition found with {} variables",static_cast<int>(referenced_vars.size()));
             join_condition_found = true;
             break;
         }
     }
     
-    if (!join_condition_found && for_bindings.size() > 1) {
+    if (!join_condition_found && static_cast<int>(for_bindings.size()) > 1) {
         spdlog::warn("[aql_semantic_validator] JOIN without explicit join condition (Cartesian product)");
         result.warnings.push_back(
             "JOIN without explicit join condition may result in Cartesian product (performance impact)"
@@ -538,7 +560,9 @@ static std::unordered_set<std::string> extractVariablesFromExpression(
 {
     std::unordered_set<std::string> variables;
     
-    if (!expr) return variables;
+    if (!expr) {
+      return variables;
+    }
     
     // Recursively traverse expression tree
     auto expr_type = expr->getType();
@@ -597,7 +621,7 @@ static void estimateJoinSelectivity(
     const query::Query* query_ptr,
     SemanticValidationResult& result)
 {
-    if (!query_ptr || query_ptr->for_nodes.size() <= 1) {
+    if (!query_ptr || query_ptr-> static_cast<int>(for_nodes.size()) <= 1) {
         return;
     }
     
@@ -653,7 +677,7 @@ static void estimateJoinSelectivity(
 }
     if (schema_context_) {
         auto collections = schema_context_->listCollections();
-        spdlog::debug("[aql_semantic_validator] Available collections: {}", collections.size());
+        spdlog::debug("[aql_semantic_validator] Available collections: {}",static_cast<int>(collections.size()));
     }
 }
 
@@ -689,7 +713,7 @@ void LLMSemanticValidator::estimateCardinality(
  * Uses -1 for variadic (any number of parameters)
  */
 struct FunctionSignature {
-    size_t min_params;
+    size_t min_params = 0;
     size_t max_params;  // -1 = variadic
     std::string return_type;
     std::vector<std::string> param_types;  // Empty = any type
@@ -790,14 +814,16 @@ void LLMSemanticValidator::validateFunctionSignatures(
         }
     }
     
-    spdlog::debug("[aql_semantic_validator] Found {} function calls", function_calls.size());
+    spdlog::debug("[aql_semantic_validator] Found {} function calls",static_cast<int>(function_calls.size()));
     
     // Validate each function call
     for (const auto& func_call : function_calls) {
-        if (!func_call) continue;
+        if (!func_call) {
+          continue;
+        }
         
         const std::string& func_name = func_call->name;
-        size_t param_count = func_call->arguments.size();
+        size_t param_count = func_call-> static_cast<int>(arguments.size());
         
         spdlog::debug("[aql_semantic_validator] Validating function call: {}({})", func_name, param_count);
         
@@ -856,7 +882,7 @@ void LLMSemanticValidator::validateFunctionSignatures(
             
             // Validate parameter types if specified
             if (!sig.param_types.empty()) {
-                for (size_t i = 0; i < param_count && i < sig.param_types.size(); ++i) {
+                for (size_t i = 0; i < param_count  && static_cast<size_t>(i) <static_cast<int>(sig.param_types.size()); ++i) {
                     if (sig.param_types[i].empty()) continue;  // Any type allowed
                     
                     auto param_type = inferTypeFromExpression(func_call->arguments[i]);
@@ -887,7 +913,9 @@ static std::vector<std::shared_ptr<query::FunctionCallExpr>> extractFunctionCall
 {
     std::vector<std::shared_ptr<query::FunctionCallExpr>> calls;
     
-    if (!expr) return calls;
+    if (!expr) {
+      return calls;
+    }
     
     auto expr_type = expr->getType();
     

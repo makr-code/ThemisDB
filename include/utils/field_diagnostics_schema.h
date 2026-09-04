@@ -245,7 +245,7 @@ struct DiagnosticEvent {
             timestamp.time_since_epoch()) % 1000;
         
         std::tm tm_utc = {};
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         if (themis::observability::detail::gmtime_utc(tt, tm_utc)) {
             oss << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%S");
         } else {
@@ -287,7 +287,7 @@ struct DiagnosticEvent {
      * @return Single-line summary of event
      */
     std::string toString() const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "[" << failureCategoryToString(failure_category) << "] "
             << module_name << ": " << error_message
             << " (" << severityToString(severity_level) << ")";
@@ -374,7 +374,7 @@ struct adl_serializer<themis::observability::DiagnosticEvent> {
         // Use mktime_utc() (wraps timegm / _mkgmtime) so the tm is interpreted
         // as UTC rather than the host local timezone.
         if (j.contains("timestamp")) {
-            std::string ts_str;
+            std::string ts_str = {};
             j.at("timestamp").get_to(ts_str);
             std::tm tm = {};
             std::istringstream ss(ts_str);
@@ -389,9 +389,11 @@ struct adl_serializer<themis::observability::DiagnosticEvent> {
 
         // Parse failure_category from its string representation
         if (j.contains("failure_category")) {
-            std::string cat;
+            std::string cat = {};
             j.at("failure_category").get_to(cat);
-            if (cat == "NLI_INFERENCE")       evt.failure_category = DiagnosticFailureCategory::NLI_INFERENCE;
+            if (cat == "NLI_INFERENCE") {
+              evt.failure_category = DiagnosticFailureCategory::NLI_INFERENCE;
+            }
             else if (cat == "MTLS_CONNECTION") evt.failure_category = DiagnosticFailureCategory::MTLS_CONNECTION;
             else if (cat == "QUERY_TIMEOUT")   evt.failure_category = DiagnosticFailureCategory::QUERY_TIMEOUT;
             else if (cat == "SHARD_ROUTING")   evt.failure_category = DiagnosticFailureCategory::SHARD_ROUTING;
@@ -403,14 +405,20 @@ struct adl_serializer<themis::observability::DiagnosticEvent> {
             else                               evt.failure_category = DiagnosticFailureCategory::UNKNOWN;
         }
 
-        if (j.contains("module_name")) j.at("module_name").get_to(evt.module_name);
-        if (j.contains("error_message")) j.at("error_message").get_to(evt.error_message);
+        if (j.contains("module_name")) {
+          j.at("module_name").get_to(evt.module_name);
+        }
+        if (j.contains("error_message")) {
+          j.at("error_message").get_to(evt.error_message);
+        }
 
         // Parse severity_level from its string representation
         if (j.contains("severity_level")) {
-            std::string sev;
+            std::string sev = {};
             j.at("severity_level").get_to(sev);
-            if (sev == "DEBUG")         evt.severity_level = DiagnosticSeverity::DEBUG;
+            if (sev == "DEBUG") {
+              evt.severity_level = DiagnosticSeverity::DEBUG;
+            }
             else if (sev == "INFO")     evt.severity_level = DiagnosticSeverity::INFO;
             else if (sev == "WARN")     evt.severity_level = DiagnosticSeverity::WARN;
             else if (sev == "ERROR")    evt.severity_level = DiagnosticSeverity::ERROR;
@@ -418,11 +426,21 @@ struct adl_serializer<themis::observability::DiagnosticEvent> {
             else                        evt.severity_level = DiagnosticSeverity::INFO;
         }
 
-        if (j.contains("deployment_environment")) j.at("deployment_environment").get_to(evt.deployment_environment);
-        if (j.contains("version")) j.at("version").get_to(evt.version);
-        if (j.contains("stacktrace_hash")) j.at("stacktrace_hash").get_to(evt.stacktrace_hash);
-        if (j.contains("affected_user_count")) j.at("affected_user_count").get_to(evt.affected_user_count);
-        if (j.contains("request_id")) j.at("request_id").get_to(evt.request_id);
+        if (j.contains("deployment_environment")) {
+          j.at("deployment_environment").get_to(evt.deployment_environment);
+        }
+        if (j.contains("version")) {
+          j.at("version").get_to(evt.version);
+        }
+        if (j.contains("stacktrace_hash")) {
+          j.at("stacktrace_hash").get_to(evt.stacktrace_hash);
+        }
+        if (j.contains("affected_user_count")) {
+          j.at("affected_user_count").get_to(evt.affected_user_count);
+        }
+        if (j.contains("request_id")) {
+          j.at("request_id").get_to(evt.request_id);
+        }
 
         if (j.contains("context_data") && j.at("context_data").is_object()) {
             for (auto& [k, v] : j.at("context_data").items()) {

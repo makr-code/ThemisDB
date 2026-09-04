@@ -100,11 +100,11 @@ std::string AuthError::maskSensitiveData(const std::string& input) {
     auto applyMask = [](const std::string& source,
                         const std::regex& pattern,
                         const auto& masker) {
-        std::string output;
+        std::string output = {};
         output.reserve(source.size());
 
         std::sregex_iterator it(source.begin(), source.end(), pattern);
-        std::sregex_iterator end;
+        std::sregex_iterator end = {};
         std::size_t last = 0;
         for (; it != end; ++it) {
             const auto& match = *it;
@@ -205,7 +205,7 @@ std::string AuthError::generateRequestId() {
     static std::mt19937 local_gen(local_rd());
     static std::uniform_int_distribution<> dis(0, 15);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "auth-";
     
     for (int i = 0; i < 8; i++) {

@@ -394,7 +394,9 @@ TEST(QTTMappingDescriptor, EdgeCaseDimensionOne) {
     const std::size_t total_padded = 2u * 4u; // 8
     std::size_t padding_count = 0;
     for (std::size_t q = 0; q < total_padded; ++q) {
-        if (!desc.qttToPhysical(q).has_value()) ++padding_count;
+        if (!desc.qttToPhysical(q).has_value()) {
+          ++padding_count;
+        }
     }
     EXPECT_EQ(padding_count, total_padded - total_physical);
 }

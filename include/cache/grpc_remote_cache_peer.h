@@ -179,7 +179,7 @@ public:
         "/themis.cache.v1.CacheInvalidation/Invalidate";
 
     struct Config {
-        std::string address;
+        std::string address = {};
         int rpc_timeout_ms = 1000;
         bool        tls_enabled   = false;
         bool        allow_insecure = false;

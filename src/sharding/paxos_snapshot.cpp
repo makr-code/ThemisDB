@@ -93,7 +93,7 @@ std::string PaxosSnapshot::calculateChecksum() const {
            data_str.size(), hash);
     
     // Convert to hex string
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
@@ -106,10 +106,10 @@ bool PaxosSnapshot::verifyChecksum() const {
     return calculated == checksum;
 }
 
-std::vector<uint8_t> PaxosSnapshot::compress(int level) const {
+std::vector<uint8_t> PaxosSnapshot::compress([[maybe_unused]] int level) const {
     const std::string json_str = toJSON().dump();
     return themis::utils::zstd_compress(
-        reinterpret_cast<const uint8_t*>(json_str.data()), json_str.size(), level);
+        reinterpret_cast<const uint8_t*>(json_str.data()),static_cast<int>(json_str.size()), level);
 }
 
 /* static */ std::optional<PaxosSnapshot> PaxosSnapshot::decompress(
@@ -228,7 +228,7 @@ std::optional<uint64_t> PaxosSnapshotManager::createSnapshot(
         const bool compression_succeeded = !compressed.empty();
         const double ratio = compression_succeeded
             ? static_cast<double>(snapshot.toJSON().dump().size()) /
-              std::max<size_t>(1, compressed.size())
+              std::max<size_t>(1,static_cast<int>(compressed.size()))
             : 1.0;
 
         std::ofstream file(temp_filepath, std::ios::binary | std::ios::trunc);
@@ -252,22 +252,22 @@ std::optional<uint64_t> PaxosSnapshotManager::createSnapshot(
         file.flush();
         if (!file.good()) {
             file.close();
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(temp_filepath, ec);
             spdlog::error("Failed to fully write snapshot file: {}", temp_filepath);
             return std::nullopt;
         }
         file.close();
         if (!file) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(temp_filepath, ec);
             spdlog::error("Failed to close snapshot file cleanly: {}", temp_filepath);
             return std::nullopt;
         }
-        std::error_code rename_ec;
+        std::error_code rename_ec = {};
         std::filesystem::rename(temp_filepath, filepath, rename_ec);
         if (rename_ec) {
-            std::error_code cleanup_ec;
+            std::error_code cleanup_ec = {};
             std::filesystem::remove(temp_filepath, cleanup_ec);
             spdlog::error("Failed to publish snapshot file {}: {}", filepath, rename_ec.message());
             return std::nullopt;
@@ -276,7 +276,7 @@ std::optional<uint64_t> PaxosSnapshotManager::createSnapshot(
         spdlog::info("Created Paxos snapshot: id={} slot={} instances={} log_entries={} "
                      "compressed={} ratio={:.2f}x",
                     snapshot.snapshot_id, last_committed_slot,
-                    instances.size(), committed_log.size(),
+                    instances.size(),static_cast<int>(committed_log.size()),
                     compression_succeeded, ratio);
         
         // Cleanup old snapshots
@@ -285,7 +285,7 @@ std::optional<uint64_t> PaxosSnapshotManager::createSnapshot(
         return snapshot.snapshot_id;
         
     } catch (const std::exception& e) {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove(temp_filepath, ec);
         spdlog::error("Failed to create Paxos snapshot: {}", e.what());
         return std::nullopt;
@@ -305,7 +305,7 @@ std::optional<PaxosSnapshot> PaxosSnapshotManager::loadLatestSnapshot() {
     return loadSnapshot(snapshots[0]);
 }
 
-std::optional<PaxosSnapshot> PaxosSnapshotManager::loadSnapshot(uint64_t snapshot_id) {
+std::optional<PaxosSnapshot> PaxosSnapshotManager::loadSnapshot([[maybe_unused]] uint64_t snapshot_id) {
     try {
         std::string filepath = getSnapshotPath(snapshot_id);
         
@@ -325,7 +325,7 @@ std::optional<PaxosSnapshot> PaxosSnapshotManager::loadSnapshot(uint64_t snapsho
         const bool is_compressed = (magic[0] == 'P' && magic[1] == 'A' &&
                                     magic[2] == 'X' && magic[3] == 'Z');
 
-        PaxosSnapshot snapshot;
+        PaxosSnapshot snapshot = {};
 
         if (is_compressed) {
             // Read remaining bytes as compressed data
@@ -376,7 +376,7 @@ std::optional<PaxosSnapshot> PaxosSnapshotManager::loadSnapshot(uint64_t snapsho
         
         spdlog::info("Loaded Paxos snapshot: id={} slot={} instances={} log_entries={}",
                     snapshot.snapshot_id, snapshot.last_committed_slot,
-                    snapshot.instances.size(), snapshot.committed_log.size());
+                    snapshot.instances.size(),static_cast<int>(snapshot.committed_log.size()));
         
         return snapshot;
         
@@ -400,7 +400,7 @@ std::vector<uint64_t> PaxosSnapshotManager::listSnapshots() const {
                 
                 // Parse snapshot ID from filename (format: paxos_snapshot_<id>.json)
                 if (filename.find("paxos_snapshot_") == 0 && filename.ends_with(".json")) {
-                    std::string id_str = filename.substr(15, filename.size() - 20);
+                    std::string id_str = filename.substr(15, static_cast<int>(filename.size()) - 20);
                     try {
                         uint64_t snapshot_id = std::stoull(id_str);
                         snapshots.push_back(snapshot_id);
@@ -421,16 +421,16 @@ std::vector<uint64_t> PaxosSnapshotManager::listSnapshots() const {
     return snapshots;
 }
 
-void PaxosSnapshotManager::cleanupOldSnapshots(size_t keep_count) {
+void PaxosSnapshotManager::cleanupOldSnapshots([[maybe_unused]] size_t keep_count) {
     try {
         auto snapshots = listSnapshots();
         
-        if (snapshots.size() <= keep_count) {
+        if (static_cast<int>(snapshots.size()) <= keep_count) {
             return;  // Nothing to cleanup
         }
         
         // Delete old snapshots beyond keep_count
-        for (size_t i = keep_count; i < snapshots.size(); ++i) {
+        for (size_t i = keep_count; i <static_cast<int>(snapshots.size()); ++i) {
             std::string filepath = getSnapshotPath(snapshots[i]);
             std::filesystem::remove(filepath);
             spdlog::info("Deleted old Paxos snapshot: id={}", snapshots[i]);
@@ -441,7 +441,7 @@ void PaxosSnapshotManager::cleanupOldSnapshots(size_t keep_count) {
     }
 }
 
-std::string PaxosSnapshotManager::getSnapshotPath(uint64_t snapshot_id) const {
+std::string PaxosSnapshotManager::getSnapshotPath([[maybe_unused]] uint64_t snapshot_id) const {
     return snapshot_directory_ + "/paxos_snapshot_" + std::to_string(snapshot_id) + ".json";
 }
 

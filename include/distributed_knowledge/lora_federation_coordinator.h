@@ -75,7 +75,7 @@ struct EncryptedGradient {
  * payload to incorporate global knowledge without full retraining.
  */
 struct GlobalAdapterDelta {
-    uint64_t       round;               ///< Federated round that produced this delta
+    uint64_t       round = 0;               ///< Federated round that produced this delta
     std::string    version;             ///< Monotonic version string, e.g. "global-v42"
     size_t         participants;        ///< Number of shards that contributed
     std::string    algorithm;           ///< Aggregation algorithm used ("FedAvg" etc.)

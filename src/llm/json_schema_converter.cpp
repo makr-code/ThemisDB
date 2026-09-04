@@ -43,8 +43,8 @@ static const std::unordered_set<std::string> kPrimitiveRuleNames =
 // ---------------------------------------------------------------------------
 
 std::string JsonSchemaConverter::escapeGbnfString(const std::string& s) {
-    std::string result;
-    result.reserve(s.size() + 4);
+    std::string result = {};
+    result.reserve(static_cast<int>(s.size()) + 4);
     for (unsigned char c : s) {
         switch (c) {
             case '"':  result += "\\\""; break;
@@ -59,7 +59,7 @@ std::string JsonSchemaConverter::escapeGbnfString(const std::string& s) {
 }
 
 std::string JsonSchemaConverter::sanitizeRuleName(const std::string& s) {
-    std::string result;
+    std::string result = {};
     result.reserve(s.size());
     for (unsigned char c : s) {
         if (std::isalnum(c) || c == '_' || c == '-') {
@@ -87,10 +87,12 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
 
     // Handle "enum" (takes precedence over "type")
     if (schema.contains("enum") && schema["enum"].is_array() && !schema["enum"].empty()) {
-        std::string body;
+        std::string body = {};
         bool first = true;
         for (const auto& elem : schema["enum"]) {
-            if (!first) body += " | ";
+            if (!first) {
+              body += " | ";
+            }
             first = false;
             if (elem.is_string()) {
                 body += "\"\\\"" + escapeGbnfString(elem.get<std::string>()) + "\\\"\"";
@@ -109,7 +111,7 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
     }
 
     // Determine type(s)
-    std::string type_str;
+    std::string type_str = {};
     if (schema.contains("type")) {
         if (schema["type"].is_string()) {
             type_str = schema["type"].get<std::string>();
@@ -117,11 +119,21 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
         // Note: array-of-types is not handled (uncommon in tool schemas)
     }
 
-    if (type_str == "string") return "string";
-    if (type_str == "integer") return "integer";
-    if (type_str == "number")  return "number";
-    if (type_str == "boolean") return "boolean";
-    if (type_str == "null")    return "null";
+    if (type_str == "string") {
+      return "string";
+    }
+    if (type_str == "integer") {
+      return "integer";
+    }
+    if (type_str == "number") {
+      return "number";
+    }
+    if (type_str == "boolean") {
+      return "boolean";
+    }
+    if (type_str == "null") {
+      return "null";
+    }
 
     if (type_str == "array") {
         if (schema.contains("items") && schema["items"].is_object()) {
@@ -129,7 +141,7 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
             std::string item_rule_name = rule_prefix + "-item";
             std::string item_body = schemaNodeToRuleBody(schema["items"], item_rule_name, new_rules);
             // If item_body is a primitive reference, no new rule needed
-            std::string item_ref;
+            std::string item_ref = {};
             if (kPrimitiveRuleNames.count(item_body)) {
                 item_ref = item_body;
             } else {
@@ -142,23 +154,27 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
         return "array";
     }
 
-    if (type_str == "object" || (type_str.empty() && schema.contains("properties"))) {
+    if ((type_str == "object" || (type_str.empty() && schema.contains("properties"))) {
         if (!schema.contains("properties") || !schema["properties"].is_object()
             || schema["properties"].empty()) {
             return "object";
         }
 
         // Collect required set
-        std::unordered_set<std::string> required_set;
+        std::unordered_set<std::string> required_set = {};
+
         if (schema.contains("required") && schema["required"].is_array()) {
             for (const auto& r : schema["required"]) {
-                if (r.is_string()) required_set.insert(r.get<std::string>());
+                if (r.is_string()) {
+                  required_set.insert(r.get<std::string>());
+                }
             }
         }
 
         // Build ordered list: required fields first (in "required" order),
         // then remaining optional fields (in "properties" insertion order).
-        std::vector<std::string> ordered_props;
+        std::vector<std::string> ordered_props = {};
+
         if (schema.contains("required") && schema["required"].is_array()) {
             for (const auto& r : schema["required"]) {
                 if (r.is_string() && schema["properties"].contains(r.get<std::string>())) {
@@ -176,15 +192,15 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
         // We include all properties (required + optional) in the grammar.
         // Optional fields are wrapped in an outer "(... )?".
         // Pattern: "{" ws req_pair ("," ws req_pair)* ("," ws opt_pair)* "}"
-        std::string required_part;
-        std::string optional_part;
+        std::string required_part = {};
+        std::string optional_part = {};
 
         for (const auto& key : ordered_props) {
             const auto& prop_schema = schema["properties"][key];
             std::string val_rule_name = rule_prefix + "-" + sanitizeRuleName(key);
             std::string val_body = schemaNodeToRuleBody(prop_schema, val_rule_name, new_rules);
 
-            std::string val_ref;
+            std::string val_ref = {};
             if (kPrimitiveRuleNames.count(val_body)) {
                 val_ref = val_body;
             } else {
@@ -196,7 +212,9 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
                 "\"\\\"" + escapeGbnfString(key) + "\\\"\" ws \":\" ws " + val_ref;
 
             if (required_set.count(key)) {
-                if (!required_part.empty()) required_part += " ws \",\" ws ";
+                if (!required_part.empty()) {
+                  required_part += " ws \",\" ws ";
+                }
                 required_part += pair_fragment;
             } else {
                 optional_part += " (ws \",\" ws " + pair_fragment + ")?";
@@ -238,7 +256,7 @@ std::string JsonSchemaConverter::schemaToEbnf(const json& schema) {
     std::vector<std::pair<std::string, std::string>> new_rules;
         std::string root_body = schemaNodeToRuleBody(schema, "root", new_rules);
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << kBaseRules;
     out << "root ::= " << root_body << "\n";
     for (const auto& [name, body] : new_rules) {
@@ -246,7 +264,7 @@ std::string JsonSchemaConverter::schemaToEbnf(const json& schema) {
     }
 
     std::string result = out.str();
-    if (result.size() > kMaxGrammarBytes) {
+    if (static_cast<int>(result.size()) > kMaxGrammarBytes) {
             spdlog::warn("JsonSchemaConverter::schemaToEbnf: generated grammar exceeds {} bytes, rejecting",
                          kMaxGrammarBytes);
             return "value ::= .*\\n";
@@ -263,7 +281,7 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
 
     // Build one alternative per tool:
     // call-<name> ::= "{" ws "\"name\"" ws ":" ws "\"<name>\"" ws "," ws "\"arguments\"" ws ":" ws <args-rule> ws "}"
-    std::string root_alternatives;
+    std::string root_alternatives = {};
     for (const auto& tool : tools) {
         if (tool.name.empty()) {
             spdlog::warn("JsonSchemaConverter::toolsToEbnf: skipping tool with empty name");
@@ -274,14 +292,14 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
         std::string args_rule_name = "args-" + safe_name;
 
         // Generate argument grammar from tool's parameter schema
-        std::string args_body;
+        std::string args_body = {};
         if (!tool.parameters.is_null() && tool.parameters.is_object()) {
             args_body = schemaNodeToRuleBody(tool.parameters, args_rule_name, new_rules);
         } else {
             args_body = "object";
         }
 
-        std::string args_ref;
+        std::string args_ref = {};
         if (kPrimitiveRuleNames.count(args_body)) {
             args_ref = args_body;
         } else {
@@ -296,7 +314,9 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
 
         new_rules.emplace_back(call_rule_name, call_body);
 
-        if (!root_alternatives.empty()) root_alternatives += " | ";
+        if (!root_alternatives.empty()) {
+          root_alternatives += " | ";
+        }
         root_alternatives += call_rule_name;
     }
 
@@ -304,7 +324,7 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
         return "";
     }
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << kBaseRules;
     out << "root ::= " << root_alternatives << "\n";
     for (const auto& [name, body] : new_rules) {
@@ -312,7 +332,7 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
     }
 
     std::string result = out.str();
-    if (result.size() > kMaxGrammarBytes) {
+    if (static_cast<int>(result.size()) > kMaxGrammarBytes) {
         spdlog::warn("JsonSchemaConverter::toolsToEbnf: generated grammar exceeds {} bytes, rejecting",
                      kMaxGrammarBytes);
         return "";
@@ -321,30 +341,40 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
 }
 
 std::optional<ToolCall> JsonSchemaConverter::parseToolCall(const std::string& text) {
-    if (text.empty()) return std::nullopt;
+    if (text.empty()) {
+      return std::nullopt;
+    }
 
     // Find JSON boundaries: locate the first '{' and the matching '}'
     std::size_t start = text.find('{');
-    if (start == std::string::npos) return std::nullopt;
+    if (start == std::string::npos) {
+      return std::nullopt;
+    }
 
     // Find the matching closing brace
     int depth = 0;
     std::size_t end = std::string::npos;
-    for (std::size_t i = start; i < text.size(); ++i) {
+    for (std::size_t i = start; i <static_cast<int>(text.size()); ++i) {
         if (text[i] == '{') ++depth;
         else if (text[i] == '}') {
             --depth;
             if (depth == 0) { end = i; break; }
         }
     }
-    if (end == std::string::npos) return std::nullopt;
+    if (end == std::string::npos) {
+      return std::nullopt;
+    }
 
     std::string json_str = text.substr(start, end - start + 1);
     try {
         json obj = json::parse(json_str);
-        if (!obj.is_object()) return std::nullopt;
+        if (!obj.is_object()) {
+          return std::nullopt;
+        }
 
-        if (!obj.contains("name") || !obj["name"].is_string()) return std::nullopt;
+        if (!obj.contains("name") || !obj["name"].is_string()) {
+          return std::nullopt;
+        }
 
         ToolCall result;
         result.name = obj["name"].get<std::string>();

@@ -63,7 +63,7 @@ static void BM_TransactionWithRollback(benchmark::State& state) {
 // ============================================================================
 
 struct PreparedStatement {
-    std::string query;
+    std::string query = {};
     std::vector<int32_t> paramTypes;
 };
 
@@ -112,7 +112,8 @@ static void BM_PreparedStatementDelete(benchmark::State& state) {
         state.PauseTiming();
         
         // Setup
-        std::map<std::string, PreparedStatement> cache;
+        std::map<std::string, PreparedStatement> cache = {};
+
         for (int i = 0; i < num_statements; ++i) {
             std::string name = "stmt_" + std::to_string(i);
             cache[name] = {"SELECT * FROM table", {23}};
@@ -135,11 +136,11 @@ static void BM_PreparedStatementDelete(benchmark::State& state) {
 // ============================================================================
 
 struct Portal {
-    std::string statementName;
+    std::string statementName = {};
     std::vector<std::string> params;
-    size_t currentRow;
+    size_t currentRow = {};
     std::vector<std::vector<std::string>> cachedResults;
-    bool resultsComplete;
+    bool resultsComplete = {};
 };
 
 static void BM_PortalCreation(benchmark::State& state) {

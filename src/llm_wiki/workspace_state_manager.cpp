@@ -57,8 +57,8 @@ static std::string computeSHA256(const std::string& data) noexcept {
 
     // Placeholder: use a simple FNV-1a variant for determinism
     // Real implementation would use EVP_sha256 from OpenSSL
-    std::uint64_t hash = 14695981039346656037ULL;  // FNV offset basis
-    constexpr std::uint64_t prime = 1099511628211ULL;
+    std::uint64_t hash = 14695981039346656037;  // FNV offset basis
+    constexpr std::uint64_t prime = 1099511628211;
 
     for (unsigned char c : data) {
         hash ^= c;
@@ -66,7 +66,7 @@ static std::string computeSHA256(const std::string& data) noexcept {
     }
 
     // Format as hex
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "sha256:" << std::hex << std::setfill('0') << std::setw(16) << hash;
     return oss.str();
 }
@@ -133,7 +133,8 @@ static WorkspaceStatus deserializeJsonToState(
             auto links_j = j.at("links");
             if (links_j.is_object()) {
                 for (const auto& [page, refs] : links_j.items()) {
-                    std::vector<std::string> ref_vec;
+                    std::vector<std::string> ref_vec = {};
+
                     if (refs.is_array()) {
                         ref_vec = refs.get<std::vector<std::string>>();
                     }
@@ -148,7 +149,8 @@ static WorkspaceStatus deserializeJsonToState(
             if (tasks_j.is_object()) {
                 for (const auto& [task_id, task_data] : tasks_j.items()) {
                     if (task_data.is_object()) {
-                        std::unordered_map<std::string, std::string> task_map;
+                        std::unordered_map<std::string, std::string> task_map = {};
+
                         for (const auto& [k, v] : task_data.items()) {
                             task_map[k] = v.dump();
                         }
@@ -331,12 +333,14 @@ WorkspaceStatus WorkspaceStateManager::recoverFromLog(
         }
         
         // Read all lines and use the last valid JSON object
-        std::string line;
+        std::string line = {};
         json last_valid_j = nullptr;
         int valid_entries = 0;
         
         while (std::getline(ifs, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             
             try {
                 json j = json::parse(line);

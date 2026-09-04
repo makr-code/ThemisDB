@@ -77,17 +77,17 @@ static bool derReadLength(const uint8_t *data, size_t size, size_t &offset, size
         return false;
     }
     uint8_t lb = data[offset++];
-    if ((lb & 0x80u) == 0u) {
+    if ((lb & 0x80u) == 0) {
         length = lb;
         return true;
     }
     size_t nb = lb & 0x7Fu;
-    if (nb == 0u || nb > 4u || offset + nb > size) {
+    if (nb == 0 || nb > 4 || offset + nb > size) {
         return false;
     }
     length = 0;
     for (size_t i = 0; i < nb; ++i) {
-        length = (length << 8u) | data[offset++];
+        length = (length << 8) | data[offset++];
     }
     return true;
 }
@@ -120,7 +120,7 @@ static const uint8_t *findContextTag(const uint8_t *data, size_t size, uint8_t t
 
 // Unwrap a SEQUENCE: verify tag 0x30, advance past tag+length, return content.
 static bool unwrapSequence(const uint8_t *data, size_t size, const uint8_t *&content, size_t &content_size) {
-    if (size < 2u || data[0] != ASN1_TAG_SEQUENCE) {
+    if (size < 2 || data[0] != ASN1_TAG_SEQUENCE) {
         return false;
     }
     size_t pos = 1;
@@ -140,7 +140,7 @@ static bool unwrapSequence(const uint8_t *data, size_t size, const uint8_t *&con
 // Accepts GeneralString (0x1B), UTF8String (0x0C), PrintableString (0x13),
 // IA5String (0x16) as Kerberos implementations vary.
 static std::string readKerberosString(const uint8_t *data, size_t size) {
-    if (size < 2u) {
+    if (size < 2) {
         return {};
     }
     uint8_t tag = data[0];
@@ -161,7 +161,7 @@ static std::string readKerberosString(const uint8_t *data, size_t size) {
 
 // Holds the cleartext fields extractable from a KRB5 AP-REQ token.
 struct Krb5TokenFields {
-    std::string realm;
+    std::string realm = {};
     std::string sname;      // "service/host@REALM"
     uint32_t ap_options{0}; // AP-REQ ap-options bitmask
     bool parsed{false};
@@ -169,7 +169,7 @@ struct Krb5TokenFields {
 
 // Parse Ticket [APPLICATION 1] to extract realm and sname.
 static bool parseKrb5Ticket(const uint8_t *data, size_t size, Krb5TokenFields &out) {
-    if (size < 2u || data[0] != KRB5_APP1_TAG) {
+    if (size < 2 || data[0] != KRB5_APP1_TAG) {
         return false;
     }
     size_t pos     = 1;
@@ -189,29 +189,29 @@ static bool parseKrb5Ticket(const uint8_t *data, size_t size, Krb5TokenFields &o
 
     // [1] Realm  — GeneralString
     size_t realm_tag_size    = 0;
-    const uint8_t *realm_tag = findContextTag(seq_content, seq_size, 1u, realm_tag_size);
+    const uint8_t *realm_tag = findContextTag(seq_content, seq_size, 1, realm_tag_size);
     if (realm_tag) {
         out.realm = readKerberosString(realm_tag, realm_tag_size);
     }
 
     // [2] PrincipalName SEQUENCE { [0] name-type, [1] SEQUENCE OF KerberosString }
     size_t sname_tag_size    = 0;
-    const uint8_t *sname_tag = findContextTag(seq_content, seq_size, 2u, sname_tag_size);
+    const uint8_t *sname_tag = findContextTag(seq_content, seq_size, 2, sname_tag_size);
     if (sname_tag) {
         const uint8_t *pn_content = nullptr;
         size_t pn_size            = 0;
         if (unwrapSequence(sname_tag, sname_tag_size, pn_content, pn_size)) {
             size_t names_tag_size    = 0;
-            const uint8_t *names_tag = findContextTag(pn_content, pn_size, 1u, names_tag_size);
+            const uint8_t *names_tag = findContextTag(pn_content, pn_size, 1, names_tag_size);
             if (names_tag) {
                 const uint8_t *names_seq = nullptr;
                 size_t names_seq_size    = 0;
                 if (unwrapSequence(names_tag, names_tag_size, names_seq, names_seq_size)) {
-                    std::string sname_str;
+                    std::string sname_str = {};
                     size_t p = 0;
                     while (p < names_seq_size) {
                         // Each element: tag byte, length, string bytes
-                        if (p + 2u > names_seq_size) {
+                        if (p + 2 > names_seq_size) {
                             break;
                         }
                         uint8_t stag = names_seq[p++];
@@ -245,7 +245,7 @@ static bool parseKrb5Ticket(const uint8_t *data, size_t size, Krb5TokenFields &o
 
 // Parse AP-REQ [APPLICATION 14] to extract ap-options and the embedded Ticket.
 static bool parseKrb5ApReq(const uint8_t *data, size_t size, Krb5TokenFields &out) {
-    if (size < 2u || data[0] != KRB5_APP14_TAG) {
+    if (size < 2 || data[0] != KRB5_APP14_TAG) {
         return false;
     }
     size_t pos     = 1;
@@ -265,22 +265,22 @@ static bool parseKrb5ApReq(const uint8_t *data, size_t size, Krb5TokenFields &ou
 
     // [2] APOptions BIT STRING
     size_t opts_tag_size    = 0;
-    const uint8_t *opts_tag = findContextTag(seq_content, seq_size, 2u, opts_tag_size);
-    if (opts_tag && opts_tag_size >= 2u && opts_tag[0] == 0x03u) {
+    const uint8_t *opts_tag = findContextTag(seq_content, seq_size, 2, opts_tag_size);
+    if (opts_tag && opts_tag_size >= 2 && opts_tag[0] == 0x03u) {
         size_t bs_pos = 1;
         size_t bs_len = 0;
-        if (derReadLength(opts_tag, opts_tag_size, bs_pos, bs_len) && bs_len >= 5u
+        if (derReadLength(opts_tag, opts_tag_size, bs_pos, bs_len) && bs_len >= 5
             && bs_pos + bs_len <= opts_tag_size) {
             // Skip unused-bits byte; read 4 flag bytes (big-endian)
             const uint8_t *fb = opts_tag + bs_pos + 1;
-            out.ap_options    = (static_cast<uint32_t>(fb[0]) << 24u) | (static_cast<uint32_t>(fb[1]) << 16u)
-                                | (static_cast<uint32_t>(fb[2]) << 8u) | static_cast<uint32_t>(fb[3]);
+            out.ap_options    = (static_cast<uint32_t>(fb[0]) << 24) | (static_cast<uint32_t>(fb[1]) << 16)
+                                | (static_cast<uint32_t>(fb[2]) << 8) | static_cast<uint32_t>(fb[3]);
         }
     }
 
     // [3] Ticket
     size_t ticket_tag_size    = 0;
-    const uint8_t *ticket_tag = findContextTag(seq_content, seq_size, 3u, ticket_tag_size);
+    const uint8_t *ticket_tag = findContextTag(seq_content, seq_size, 3, ticket_tag_size);
     if (!ticket_tag) {
         return false;
     }
@@ -293,7 +293,7 @@ static bool parseKrb5ApReq(const uint8_t *data, size_t size, Krb5TokenFields &ou
 // (i.e., the start of the AP-REQ), and sets inner_size.
 // Returns nullptr on any format error.
 static const uint8_t *parseGssapiKrb5Header(const uint8_t *data, size_t size, size_t &inner_size) {
-    if (size < 2u || data[0] != GSSAPI_APP0_TAG) {
+    if (size < 2 || data[0] != GSSAPI_APP0_TAG) {
         return nullptr;
     }
     size_t pos       = 1;
@@ -319,11 +319,11 @@ static const uint8_t *parseGssapiKrb5Header(const uint8_t *data, size_t size, si
     rem -= KRB5_OID_DER_LEN;
 
     // Skip 2-byte inner token ID (0x01 0x00 = AP-REQ)
-    if (rem < 2u) {
+    if (rem < 2) {
         return nullptr;
     }
-    inner += 2u;
-    rem -= 2u;
+    inner += 2;
+    rem -= 2;
 
     inner_size = rem;
     return inner;
@@ -334,7 +334,7 @@ static const uint8_t *parseGssapiKrb5Header(const uint8_t *data, size_t size, si
 static Krb5TokenFields extractKrb5Fields(const std::vector<uint8_t> &token_data) {
     Krb5TokenFields fields;
     size_t inner_size    = 0;
-    const uint8_t *inner = parseGssapiKrb5Header(token_data.data(), token_data.size(), inner_size);
+    const uint8_t *inner = parseGssapiKrb5Header(token_data.data(),static_cast<int>(token_data.size()), inner_size);
     if (!inner) {
         return fields;
     }
@@ -413,7 +413,7 @@ bool KerberosSecurityValidator::validateASN1Structure(const std::vector<uint8_t>
     }
 
     // Start recursive depth validation
-    return validateASN1Depth(data.data(), data.size(), 0);
+    return validateASN1Depth(data.data(),static_cast<int>(data.size()), 0);
 }
 
 bool KerberosSecurityValidator::validateASN1Depth(const uint8_t *data, size_t size, size_t current_depth) {
@@ -429,7 +429,7 @@ bool KerberosSecurityValidator::validateASN1Depth(const uint8_t *data, size_t si
     size_t offset = 0;
 
     while (offset < size) {
-        ASN1Tag tag;
+        ASN1Tag tag = {};
         if (!parseASN1Tag(data + offset, size - offset, tag)) {
             return false;
         }
@@ -550,15 +550,15 @@ bool KerberosSecurityValidator::verifyChannelBinding(const std::vector<uint8_t> 
     // Validate the token is a structurally valid GSSAPI/KRB5 AP-REQ.
     // Reject non-KRB5 tokens fail-closed to prevent token-type confusion.
     size_t inner_size    = 0;
-    const uint8_t *inner = parseGssapiKrb5Header(token_data.data(), token_data.size(), inner_size);
+    const uint8_t *inner = parseGssapiKrb5Header(token_data.data(),static_cast<int>(token_data.size()), inner_size);
     if (!inner) {
         utils::Logger::warn("verifyChannelBinding: token is not a valid GSSAPI/KRB5 "
                             "token (size={}); rejecting {} binding bytes (fail-closed)",
-                            token_data.size(), channel_binding.size());
+                            token_data.size(),static_cast<int>(channel_binding.size()));
         return false;
     }
 
-    if (inner_size < 2u || inner[0] != KRB5_APP14_TAG) {
+    if (inner_size < 2 || inner[0] != KRB5_APP14_TAG) {
         utils::Logger::warn("verifyChannelBinding: AP-REQ APPLICATION 14 not found; "
                             "rejecting channel binding (fail-closed)");
         return false;
@@ -641,7 +641,7 @@ KerberosSecurityValidator::TokenInfo KerberosSecurityValidator::getTokenInfo(con
 
         // Extract has_mutual_auth from the AP-REQ ap-options bitmask
         // (RFC 4120 §5.5.1 — bit 1 = mutual-required).
-        info.has_mutual_auth = (fields.ap_options & AP_OPT_MUTUAL_REQUIRED) != 0u;
+        info.has_mutual_auth = (fields.ap_options & AP_OPT_MUTUAL_REQUIRED) != 0;
     } else {
         // Fallback: token is not a parseable KRB5 AP-REQ; use config defaults.
         info.service_principal = config_.expected_service_principal;
@@ -711,7 +711,7 @@ KerberosSecurityValidator::Config KerberosSecurityValidator::forService(const st
 std::vector<uint8_t> ChannelBindingGenerator::generateFromTLSCertificate(const std::vector<uint8_t> &server_cert) {
     // Compute SHA256 hash of certificate (tls-server-end-point per RFC 5929)
     std::vector<uint8_t> hash(SHA256_DIGEST_LENGTH);
-    SHA256(server_cert.data(), server_cert.size(), hash.data());
+    SHA256(server_cert.data(),static_cast<int>(server_cert.size()), hash.data());
 
     utils::Logger::info("Generated TLS server endpoint channel binding");
 

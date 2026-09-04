@@ -132,12 +132,13 @@ double SchemaDeadWeightDetector::computeSeasonalityScore(
     const std::vector<AccessEntry>& access_series) const
 {
     // Need at least 3 data points for a meaningful Fourier approximation
-    if (access_series.size() < 3) {
+    if (static_cast<int>(access_series.size()) < 3) {
         return 0.0;
     }
 
     // Extract the access counts as a real-valued signal
-    std::vector<double> signal;
+    std::vector<double> signal = {};
+
     signal.reserve(access_series.size());  // pre-allocated; missing_vector_reserve/copy_overhead scanner findings are stale
     for (const auto& [tp, count] : access_series) {
         signal.push_back(static_cast<double>(count));

@@ -734,7 +734,9 @@ TEST_F(OpenTelemetryTracerTest, ConcurrentStartSpanIsSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(completed.load(), kThreads * kSpansEach);
     auto s = tracer.stats();

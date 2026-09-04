@@ -73,7 +73,7 @@ void OIDCProvider::discover() {
     const std::string discovery_url = base + "/.well-known/openid-configuration";
     spdlog::debug("OIDCProvider: fetching discovery document from {}", discovery_url);
 
-    std::string body;
+    std::string body = {};
     try {
         body = httpGet(discovery_url);
     } catch (const std::exception& ex) {
@@ -202,7 +202,7 @@ std::string OIDCProvider::httpGet(const std::string& url) const {
         throw std::runtime_error("Failed to initialize libcurl handle");
     }
 
-    std::string response_body;
+    std::string response_body = {};
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, oidcWriteCallback);

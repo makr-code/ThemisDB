@@ -239,7 +239,8 @@ TEST(AdaptiveHealthCheck, FHC_10_P95CalculationWith20Samples) {
     EXPECT_EQ(expected_idx, 19u);
 
     // Build 20 samples: 10ms..200ms (10ms each step)
-    std::vector<std::chrono::milliseconds> samples;
+    std::vector<std::chrono::milliseconds> samples = {};
+
     for (int i = 1; i <= 20; ++i) {
         samples.push_back(std::chrono::milliseconds(i * 10));
     }

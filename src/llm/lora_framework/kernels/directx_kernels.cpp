@@ -44,9 +44,15 @@ static std::string get_shader_path(const std::string& shader_name) {
     std::vector<fs::path> roots;
     fs::path cur = fs::current_path();
     roots.push_back(cur);
-    if (cur.has_parent_path()) roots.push_back(cur.parent_path());
-    if (cur.parent_path().has_parent_path()) roots.push_back(cur.parent_path().parent_path());
-    if (cur.parent_path().parent_path().has_parent_path()) roots.push_back(cur.parent_path().parent_path().parent_path());
+    if (cur.has_parent_path()) {
+      roots.push_back(cur.parent_path());
+    }
+    if (cur.parent_path().has_parent_path()) {
+      roots.push_back(cur.parent_path().parent_path());
+    }
+    if (cur.parent_path().parent_path().has_parent_path()) {
+      roots.push_back(cur.parent_path().parent_path().parent_path());
+    }
 
     for (const auto& root : roots) {
         std::cout << "DirectX Debug: probing root: " << root.string() << "\n";
@@ -196,7 +202,7 @@ static uint32_t checked_u32_size(size_t value, const char* context) {
     return static_cast<uint32_t>(value);
 }
 
-bool initialize_directx_lora(int adapter_id) {
+bool initialize_directx_lora([[maybe_unused]] int adapter_id) {
     std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
     if (g_directx_state.initialized) {
         return true;
@@ -336,7 +342,7 @@ void launch_matmul_shader(
         // Set root constants (dimensions)
         struct RootConstants {
             uint32_t M, K, N;
-            float alpha;
+            float alpha = {};
         } constants = {static_cast<uint32_t>(M), static_cast<uint32_t>(K), 
                        static_cast<uint32_t>(N), alpha};
         
@@ -416,7 +422,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
         
         // Set root constants (op=0 for add)
         struct RootConstants {
-            uint32_t size;
+            uint32_t size = 0;
             uint32_t op;      // 0=add
             uint32_t rows;
             uint32_t cols;
@@ -434,7 +440,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
         
         // Dispatch
-        uint32_t thread_groups = (size_u32 + 255u) / 256u;
+        uint32_t thread_groups = (size_u32 + 255) / 256;
         pipeline->dispatch(thread_groups, 1, 1);
         
         // Execute and wait
@@ -491,7 +497,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
         g_directx_state.context->reset_command_list();
         
         struct RootConstants {
-            uint32_t size;
+            uint32_t size = 0;
             uint32_t op;      // 2=multiply
             uint32_t rows;
             uint32_t cols;
@@ -506,7 +512,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
         pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
         
-        uint32_t thread_groups = (size_u32 + 255u) / 256u;
+        uint32_t thread_groups = (size_u32 + 255) / 256;
         pipeline->dispatch(thread_groups, 1, 1);
         
         g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
@@ -579,11 +585,11 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
         g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
 
         struct RootConstants {
-            uint32_t size;
+            uint32_t size = 0;
             uint32_t op;      // 4=scalar multiply
             uint32_t rows;
             uint32_t cols;
-            float scalar_val;
+            float scalar_val = {};
         } constants = {size_u32, 4, 0, 0, scalar};
 
         std::cout << "DirectX Debug: RootConstants -> size=" << constants.size
@@ -594,7 +600,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
         pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
         
-        uint32_t thread_groups = (size_u32 + 255u) / 256u;
+        uint32_t thread_groups = (size_u32 + 255) / 256;
         std::cout << "DirectX Debug: dispatch thread_groups=" << thread_groups << "\n";
         pipeline->dispatch(thread_groups, 1, 1);
         
@@ -649,10 +655,10 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
         g_directx_state.context->reset_command_list();
         
         struct RootConstants {
-            uint32_t size;
+            uint32_t size = 0;
             uint32_t op;      // 5=transpose
-            uint32_t rows;
-            uint32_t cols;
+            uint32_t rows = {};
+            uint32_t cols = {};
             float scalar;
         } constants = {size_u32, 5,
                        static_cast<uint32_t>(rows), static_cast<uint32_t>(cols), 0.0f};
@@ -665,7 +671,7 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
         pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
         
-        uint32_t thread_groups = (size_u32 + 255u) / 256u;
+        uint32_t thread_groups = (size_u32 + 255) / 256;
         pipeline->dispatch(thread_groups, 1, 1);
         
         g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
@@ -750,7 +756,7 @@ void launch_lora_grad_A_shader(
         
         // Set root constants
         struct RootConstants {
-            uint32_t batch_size;
+            uint32_t batch_size = 0;
             uint32_t in_dim;
             uint32_t rank;
             uint32_t out_dim;
@@ -867,7 +873,7 @@ void launch_lora_grad_B_shader(
         
         // Set root constants
         struct RootConstants {
-            uint32_t batch_size;
+            uint32_t batch_size = 0;
             uint32_t in_dim;
             uint32_t rank;
             uint32_t out_dim;
@@ -952,10 +958,10 @@ void launch_embedding_lookup_shader(
         
         // Set root constants
         struct Constants {
-            uint32_t batch_size;
-            uint32_t seq_len;
-            uint32_t hidden_dim;
-            uint32_t vocab_size;
+            uint32_t batch_size = 0;
+            uint32_t seq_len = {};
+            uint32_t hidden_dim = {};
+            uint32_t vocab_size = {};
         } constants = {
             static_cast<uint32_t>(batch_size),
             static_cast<uint32_t>(seq_len),
@@ -980,7 +986,7 @@ void launch_embedding_lookup_shader(
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_token_ids));
         
         // Dispatch: each thread handles one token
-        uint32_t thread_groups = (total_tokens_u32 + 255u) / 256u;
+        uint32_t thread_groups = (total_tokens_u32 + 255) / 256;
         pipeline->dispatch(thread_groups, 1, 1);
         
         // Execute and wait
@@ -1040,10 +1046,10 @@ void launch_sequence_mean_shader(
         
         // Set root constants
         struct Constants {
-            uint32_t batch_size;
-            uint32_t seq_len;
-            uint32_t hidden_dim;
-            uint32_t reserved;
+            uint32_t batch_size = 0;
+            uint32_t seq_len = {};
+            uint32_t hidden_dim = {};
+            uint32_t reserved = {};
         } constants = {
             static_cast<uint32_t>(batch_size),
             static_cast<uint32_t>(seq_len),
@@ -1066,7 +1072,7 @@ void launch_sequence_mean_shader(
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_input));
         
         // Dispatch: each thread handles one output element
-        uint32_t thread_groups = (output_size_u32 + 255u) / 256u;
+        uint32_t thread_groups = (output_size_u32 + 255) / 256;
         pipeline->dispatch(thread_groups, 1, 1);
         
         // Execute and wait
@@ -1091,7 +1097,7 @@ namespace themis {
 namespace lora {
 namespace directx {
 
-bool initialize_directx_lora(int adapter_id) {
+bool initialize_directx_lora([[maybe_unused]] int adapter_id) {
     return false;
 }
 

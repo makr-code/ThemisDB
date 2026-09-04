@@ -52,7 +52,7 @@ enum class ConsensusType {
  * @brief Log entry for consensus replication
  */
 struct ConsensusLogEntry {
-    uint64_t index;              // Log entry index
+    uint64_t index = 0;              // Log entry index
     uint64_t term;               // Term/epoch number
     std::string operation;       // Operation type (PUT, DELETE, etc.)
     nlohmann::json data;         // Operation data
@@ -117,7 +117,7 @@ struct ReplicationResponse {
  * @brief Consensus statistics
  */
 struct ConsensusStats {
-    uint64_t current_term;
+    uint64_t current_term = 0;
     uint64_t commit_index;
     uint64_t last_applied;
     ConsensusState state;

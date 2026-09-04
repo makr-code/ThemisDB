@@ -60,13 +60,15 @@ static std::string objStorageJsonExtractString(const std::string& json,
     auto start = json.find(needle);
     if (start == std::string::npos) return {};
     start += needle.size();
-    std::string value;
+    std::string value = {};
     bool escape = false;
-    for (size_t i = start; i < json.size(); ++i) {
+    for (size_t i = start; i <static_cast<int>(json.size()); ++i) {
         char c = json[i];
         if (escape) { value += c; escape = false; continue; }
         if (c == '\\') { escape = true; continue; }
-        if (c == '"') break;
+        if (c == '"') {
+          break;
+        }
         value += c;
     }
     return value;
@@ -74,8 +76,10 @@ static std::string objStorageJsonExtractString(const std::string& json,
 
 /// Determine whether a key refers to a JSON object (ends with .json).
 static bool isJsonKey(const std::string& key) {
-    if (key.size() < 5) return false;
-    std::string suffix = key.substr(key.size() - 5);
+    if (static_cast<int>(key.size()) < 5) {
+      return false;
+    }
+    std::string suffix = key.substr(static_cast<int>(key.size()) - 5);
     // case-insensitive compare ".json"
     std::transform(suffix.begin(), suffix.end(), suffix.begin(),
                    [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
@@ -87,7 +91,9 @@ static bool isJsonKey(const std::string& key) {
 static bool isKeySafe(const std::string& key) {
     // Reject any key containing ".." to prevent path traversal when the key
     // is later written to a local temp path or used as a document identifier.
-    if (key.find("..") != std::string::npos) return false;
+    if (key.find("..") != std::string::npos) {
+      return false;
+    }
     return true;
 }
 
@@ -104,7 +110,9 @@ public:
     ~Impl() = default;
 
     bool initialize(const SourceConfig& config) {
-        if (config.type != SourceType::OBJECT_STORAGE) return false;
+        if (config.type != SourceType::OBJECT_STORAGE) {
+          return false;
+        }
         config_ = config;
 
         auto opt = [&](const std::string& k, const std::string& def) {
@@ -153,7 +161,9 @@ public:
 
     bool isAvailable() const {
         // When mocks are injected, always report available.
-        if (list_fn_ && fetch_fn_) return true;
+        if (list_fn_ && fetch_fn_) {
+          return true;
+        }
 
 #ifdef THEMIS_ENABLE_S3
         if (provider_ == ObjectStorageProvider::S3) {
@@ -227,7 +237,7 @@ public:
 #endif
 
         // No SDK compiled for the requested provider
-        std::string provider_name;
+        std::string provider_name = {};
         switch (provider_) {
             case ObjectStorageProvider::GCS:   provider_name = "GCS (THEMIS_ENABLE_GCS)"; break;
             case ObjectStorageProvider::AZURE: provider_name = "Azure (THEMIS_ENABLE_AZURE)"; break;
@@ -254,7 +264,9 @@ private:
                             const std::string& body) const {
         if (isJsonKey(key)) {
             std::string text = objStorageJsonExtractString(body, text_field_);
-            if (!text.empty()) return text;
+            if (!text.empty()) {
+              return text;
+            }
             // Fall through: treat whole body as text if field absent.
         }
         return body;
@@ -278,13 +290,19 @@ private:
         size_t processed = 0;
         try {
             while (true) {
-                if (max_keys_ > 0 && processed >= max_keys_) break;
+                if (max_keys_ > 0 && processed >= max_keys_) {
+                  break;
+                }
 
                 auto keys = list_fn_();
-                if (keys.empty()) break;
+                if (keys.empty()) {
+                  break;
+                }
 
                 for (const auto& key : keys) {
-                    if (max_keys_ > 0 && processed >= max_keys_) break;
+                    if (max_keys_ > 0 && processed >= max_keys_) {
+                      break;
+                    }
 
                     if (!isKeySafe(key)) {
                         stats.addError(IngestionErrorCode::FILE_READ_ERROR,
@@ -315,7 +333,7 @@ private:
                     ++processed;
                 }
 
-                if (progress_callback) {
+                if ([[maybe_unused]] progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0, // total unknown
@@ -344,7 +362,8 @@ private:
                 client_cfg.endpointOverride = endpoint_url_;
             }
 
-            std::unique_ptr<Aws::S3::S3Client> s3;
+            std::unique_ptr<Aws::S3::S3Client> s3 = {};
+
             if (!access_key_.empty() && !secret_key_.empty()) {
                 Aws::Auth::AWSCredentials creds(access_key_, secret_key_);
                 s3 = std::make_unique<Aws::S3::S3Client>(creds, client_cfg);
@@ -355,7 +374,9 @@ private:
             Aws::S3::Model::ListObjectsV2Request req;
             req.SetBucket(bucket_);
             req.SetMaxKeys(1);
-            if (!prefix_.empty()) req.SetPrefix(prefix_);
+            if (!prefix_.empty()) {
+              req.SetPrefix(prefix_);
+            }
 
             auto outcome = s3->ListObjectsV2(req);
             return outcome.IsSuccess();
@@ -372,7 +393,8 @@ private:
             client_cfg.endpointOverride = endpoint_url_;
         }
 
-        std::unique_ptr<Aws::S3::S3Client> s3;
+        std::unique_ptr<Aws::S3::S3Client> s3 = {};
+
         if (!access_key_.empty() && !secret_key_.empty()) {
             Aws::Auth::AWSCredentials creds(access_key_, secret_key_);
             s3 = std::make_unique<Aws::S3::S3Client>(creds, client_cfg);
@@ -380,16 +402,20 @@ private:
             s3 = std::make_unique<Aws::S3::S3Client>(client_cfg);
         }
 
-        std::string continuation_token;
+        std::string continuation_token = {};
         size_t processed = 0;
 
         try {
             do {
-                if (max_keys_ > 0 && processed >= max_keys_) break;
+                if (max_keys_ > 0 && processed >= max_keys_) {
+                  break;
+                }
 
                 Aws::S3::Model::ListObjectsV2Request list_req;
                 list_req.SetBucket(bucket_);
-                if (!prefix_.empty()) list_req.SetPrefix(prefix_);
+                if (!prefix_.empty()) {
+                  list_req.SetPrefix(prefix_);
+                }
                 list_req.SetMaxKeys(1000);
                 if (!continuation_token.empty()) {
                     list_req.SetContinuationToken(continuation_token);
@@ -407,7 +433,9 @@ private:
 
                 const auto& result = list_outcome.GetResult();
                 for (const auto& obj : result.GetContents()) {
-                    if (max_keys_ > 0 && processed >= max_keys_) break;
+                    if (max_keys_ > 0 && processed >= max_keys_) {
+                      break;
+                    }
 
                     const std::string key = obj.GetKey();
                     if (!isKeySafe(key)) {
@@ -436,7 +464,7 @@ private:
                         continue;
                     }
 
-                    std::ostringstream oss;
+                    std::ostringstream oss = {};
                     oss << get_outcome.GetResult().GetBody().rdbuf();
                     std::string body = oss.str();
 
@@ -447,7 +475,7 @@ private:
                     stats.bytes_processed += body.size();
                     ++processed;
 
-                    if (progress_callback) {
+                    if ([[maybe_unused]] progress_callback) {
                         progress_callback(config_.source_id,
                                           stats.documents_processed,
                                           0,
@@ -498,7 +526,9 @@ private:
             size_t processed = 0;
             for (auto& obj_meta : client.ListObjects(bucket_,
                                                      gcs::Prefix(prefix_))) {
-                if (max_keys_ > 0 && processed >= max_keys_) break;
+                if (max_keys_ > 0 && processed >= max_keys_) {
+                  break;
+                }
                 if (!obj_meta) {
                     stats.addError(IngestionErrorCode::HTTP_REQUEST_FAILED,
                                    IngestionErrorSeverity::WARNING,
@@ -539,7 +569,7 @@ private:
                 stats.bytes_processed += body.size();
                 ++processed;
 
-                if (progress_callback) {
+                if ([[maybe_unused]] progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0,
@@ -579,7 +609,7 @@ private:
             auto container_client = BlobContainerClient::CreateFromConnectionString(
                 connection_str_, container_);
 
-            ListBlobsOptions list_opts;
+            ListBlobsOptions list_opts = {};
             if (!prefix_.empty()) {
                 list_opts.Prefix = prefix_;
             }
@@ -587,10 +617,14 @@ private:
             size_t processed = 0;
             for (auto page = container_client.ListBlobs(list_opts);
                  page.HasPage(); page.MoveToNextPage()) {
-                if (max_keys_ > 0 && processed >= max_keys_) break;
+                if (max_keys_ > 0 && processed >= max_keys_) {
+                  break;
+                }
 
                 for (const auto& blob_item : page.Blobs) {
-                    if (max_keys_ > 0 && processed >= max_keys_) break;
+                    if (max_keys_ > 0 && processed >= max_keys_) {
+                      break;
+                    }
 
                     const std::string key = blob_item.Name;
                     if (!isKeySafe(key)) {
@@ -607,11 +641,11 @@ private:
                     Azure::Storage::Blobs::DownloadBlobOptions dl_opts;
                     auto dl = blob_client.Download(dl_opts);
 
-                    std::string body;
+                    std::string body = {};
                     auto& stream = *dl.Value.BodyStream;
                     std::vector<uint8_t> buf(4096);
                     size_t n = 0;
-                    while ((n = stream.Read(buf.data(), buf.size())) > 0) {
+                    while ((n = stream.Read(buf.data(),static_cast<int>(buf.size()))) > 0) {
                         body.append(reinterpret_cast<char*>(buf.data()), n);
                     }
 
@@ -622,7 +656,7 @@ private:
                     stats.bytes_processed += body.size();
                     ++processed;
 
-                    if (progress_callback) {
+                    if ([[maybe_unused]] progress_callback) {
                         progress_callback(config_.source_id,
                                           stats.documents_processed,
                                           0,

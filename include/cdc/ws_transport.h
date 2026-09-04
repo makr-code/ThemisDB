@@ -204,13 +204,13 @@ private:
     // ── Internal data structures ───────────────────────────────────────────
 
     struct Subscription {
-        std::string id;
+        std::string id = {};
         SubscriptionFilter filter;
         uint64_t last_sent_sequence = 0; ///< Last delivered sequence number
     };
 
     struct Session {
-        std::string id;
+        std::string id = {};
         std::unordered_map<std::string, Subscription> subscriptions; ///< sub_id → Subscription
         size_t pending_events = 0; ///< Back-pressure counter
     };

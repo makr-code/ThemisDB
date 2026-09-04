@@ -24,7 +24,7 @@ using tcp = net::ip::tcp;
 class HttpAqlShortestPathTest : public ::testing::Test {
 protected:
     static std::filesystem::path findRepoRootWithSchemas() {
-        std::error_code ec;
+        std::error_code ec = {};
         auto base = std::filesystem::current_path(ec);
         if (ec) {
             return {};
@@ -72,7 +72,7 @@ protected:
     }
 
     void SetUp() override {
-        std::error_code ec;
+        std::error_code ec = {};
         original_cwd_ = std::filesystem::current_path(ec);
         const auto repo_root = findRepoRootWithSchemas();
         if (!repo_root.empty()) {
@@ -126,7 +126,7 @@ protected:
         std::filesystem::remove_all(db_path_);
 
         if (!original_cwd_.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::current_path(original_cwd_, ec);
         }
     }

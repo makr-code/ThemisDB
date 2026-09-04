@@ -65,7 +65,7 @@ int ModuleLoader::getZoneIdentifier(const std::string& modulePath) const {
         return -1;
     }
     try {
-        return std::stoi(content.substr(pos + zoneIdKey.size()));
+        return std::stoi(content.substr(pos + static_cast<int>(zoneIdKey.size()) ));
     } catch (...) {
         return -1;
     }

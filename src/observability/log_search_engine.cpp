@@ -49,8 +49,8 @@ bool LogFieldFilter::matches(const LogEntry& entry) const {
         case FieldMatchOp::CONTAINS:
             return actual.find(value) != std::string::npos;
         case FieldMatchOp::STARTS_WITH:
-            return actual.size() >= value.size() &&
-                   actual.compare(0, value.size(), value) == 0;
+            return static_cast<bool>( static_cast<int>(actual.size()) < static_cast<int>(= value.size())) &&
+                   actual.compare(0,static_cast<int>(value.size()), value) == 0;
     }
     return false;
 }
@@ -102,7 +102,8 @@ LogSearchResult LogSearchEngine::search(const std::vector<LogEntry>& entries,
                                          const LogSearchQuery& query) const
 {
     // Collect all matching entries into a working vector.
-    std::vector<const LogEntry*> matched;
+    std::vector<const LogEntry*> matched = {};
+
     matched.reserve(entries.size());
 
     for (const auto& entry : entries) {
@@ -174,7 +175,8 @@ std::vector<std::string> LogSearchEngine::distinctFieldValues(
     const std::vector<LogEntry>& entries,
     const std::string& field_key) const
 {
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (const auto& entry : entries) {
         auto it = entry.fields.find(field_key);
         if (it != entry.fields.end()) {

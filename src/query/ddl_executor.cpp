@@ -32,7 +32,9 @@ bool SchemaRegistry::hasIndex(const std::string& collection,
                                const std::string& index_name) const {
     std::lock_guard<std::mutex> lk(mu_);
     auto it = indexes_.find(collection);
-    if (it == indexes_.end()) return false;
+    if (it == indexes_.end()) {
+      return false;
+    }
     return it->second.count(index_name) > 0;
 }
 
@@ -44,23 +46,31 @@ bool SchemaRegistry::hasView(const std::string& name) const {
 nlohmann::json SchemaRegistry::collectionOptions(const std::string& name) const {
     std::lock_guard<std::mutex> lk(mu_);
     auto it = collections_.find(name);
-    if (it == collections_.end()) return nlohmann::json::object();
+    if (it == collections_.end()) {
+      return nlohmann::json::object();
+    }
     return it->second;
 }
 
 std::vector<std::string> SchemaRegistry::collections() const {
     std::lock_guard<std::mutex> lk(mu_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(collections_.size());
-    for (const auto& kv : collections_) result.push_back(kv.first);
+    for (const auto& kv : collections_) {
+      result.push_back(kv.first);
+    }
     return result;
 }
 
 std::vector<std::string> SchemaRegistry::views() const {
     std::lock_guard<std::mutex> lk(mu_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(views_.size());
-    for (const auto& kv : views_) result.push_back(kv.first);
+    for (const auto& kv : views_) {
+      result.push_back(kv.first);
+    }
     return result;
 }
 
@@ -86,7 +96,9 @@ void SchemaRegistry::dropIndex(const std::string& collection,
                                 const std::string& index_name) {
     std::lock_guard<std::mutex> lk(mu_);
     auto it = indexes_.find(collection);
-    if (it != indexes_.end()) it->second.erase(index_name);
+    if (it != indexes_.end()) {
+      it->second.erase(index_name);
+    }
 }
 
 void SchemaRegistry::addView(const std::string& name, const std::string& body) {
@@ -177,7 +189,9 @@ Result<bool> DDLExecutor::execCreateIndex(const SchemaDDL& ddl) {
 
 Result<bool> DDLExecutor::execDropIndex(const SchemaDDL& ddl) {
     if (!registry_.hasCollection(ddl.collection)) {
-        if (ddl.if_exists) return Ok(true);
+        if (ddl.if_exists) {
+          return Ok(true);
+        }
         return Err<bool>(
             errors::ErrorCode::ERR_SCHEMA_TABLE_NOT_FOUND,
             fmt::format("Cannot drop index '{}': collection '{}' does not exist",
@@ -185,7 +199,9 @@ Result<bool> DDLExecutor::execDropIndex(const SchemaDDL& ddl) {
     }
 
     if (!registry_.hasIndex(ddl.collection, ddl.name)) {
-        if (ddl.if_exists) return Ok(true);
+        if (ddl.if_exists) {
+          return Ok(true);
+        }
         return Err<bool>(
             errors::ErrorCode::ERR_SCHEMA_TABLE_NOT_FOUND,
             fmt::format("Index '{}' on collection '{}' does not exist",
@@ -198,7 +214,9 @@ Result<bool> DDLExecutor::execDropIndex(const SchemaDDL& ddl) {
 
 Result<bool> DDLExecutor::execCreateView(const SchemaDDL& ddl) {
     if (registry_.hasView(ddl.name)) {
-        if (ddl.if_exists) return Ok(true);
+        if (ddl.if_exists) {
+          return Ok(true);
+        }
         return Err<bool>(
             errors::ErrorCode::ERR_DOC_ALREADY_EXISTS,
             fmt::format("View '{}' already exists", ddl.name));
@@ -209,7 +227,9 @@ Result<bool> DDLExecutor::execCreateView(const SchemaDDL& ddl) {
 
 Result<bool> DDLExecutor::execDropView(const SchemaDDL& ddl) {
     if (!registry_.hasView(ddl.name)) {
-        if (ddl.if_exists) return Ok(true);
+        if (ddl.if_exists) {
+          return Ok(true);
+        }
         return Err<bool>(
             errors::ErrorCode::ERR_SCHEMA_TABLE_NOT_FOUND,
             fmt::format("View '{}' does not exist", ddl.name));

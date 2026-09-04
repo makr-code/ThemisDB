@@ -105,7 +105,7 @@ ProcessAgenticRag::encodeContext(const ProcessRagContext& ctx)
 
     // Encode missing documents list.
     if (!ctx.missing_documents.empty()) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (const auto& md : ctx.missing_documents) {
             oss << "- " << md << '\n';
         }
@@ -132,7 +132,8 @@ ProcessRagContext ProcessAgenticRag::mergeDocuments(
 {
     // Build a set of existing attachment IDs for O(log n) lookup
     // instead of O(n) linear search per doc (avoiding O(n²) complexity)
-    std::unordered_set<std::string> existing_ids;
+    std::unordered_set<std::string> existing_ids = {};
+
     for (const auto& existing : ctx.attachments) {
         if (existing.contains("_id")) {
             try {
@@ -147,7 +148,9 @@ ProcessRagContext ProcessAgenticRag::mergeDocuments(
 
     for (const auto& doc : extra_docs) {
         auto type_it = doc.metadata.find("type");
-        if (type_it == doc.metadata.end()) continue;
+        if (type_it == doc.metadata.end()) {
+          continue;
+        }
 
         const std::string& t = type_it->second;
         if (t == "attachment" || t == "similar_case") {
@@ -218,13 +221,16 @@ ProcessAgenticResult ProcessAgenticRag::runLoop(
         auto docs = encodeContext(ctx);
 
         // Filter out already-seen documents.
-        std::vector<rag::judge::RetrievedDocument> fresh;
+        std::vector<rag::judge::RetrievedDocument> fresh = {};
+
         for (auto& d : docs) {
             bool already_seen = false;
             for (const auto& sid : seen_ids) {
                 if (d.id == sid) { already_seen = true; break; }
             }
-            if (!already_seen) fresh.push_back(std::move(d));
+            if (!already_seen) {
+              fresh.push_back(std::move(d));
+            }
         }
         return fresh;
     };

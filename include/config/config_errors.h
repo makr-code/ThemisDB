@@ -46,7 +46,7 @@ public:
     const std::vector<std::string>& attempted_paths() const { return attempted_paths_; }
     
 private:
-    std::string requested_path_;
+    std::string requested_path_ = {};
     std::vector<std::string> attempted_paths_;
     
     static std::string buildMessage(const std::string& path,

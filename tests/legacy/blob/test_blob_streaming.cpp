@@ -351,7 +351,7 @@ TEST_F(BlobStreamingTest, MemoryBoundedParallelWrites) {
     auto read_rss_kb = []() -> size_t {
 #ifdef __linux__
         std::ifstream status("/proc/self/status");
-        std::string line;
+        std::string line = {};
         while (std::getline(status, line)) {
             if (line.rfind("VmRSS:", 0) == 0) {
                 size_t kb = 0;

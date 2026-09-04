@@ -68,7 +68,9 @@ TimeRange BiTemporalJoin::intersection(const TimeRange& a,
 bool BiTemporalJoin::rowMatches(const BiTemporalRow& l,
                                  const BiTemporalRow& r) const noexcept {
     // Keys must match first
-    if (config_.left_key_fn(l) != config_.right_key_fn(r)) return false;
+    if (config_.left_key_fn(l) != config_.right_key_fn(r)) {
+      return false;
+    }
 
     Timestamp t = config_.as_of == kMaxTimestamp ? now() : config_.as_of;
 
@@ -95,7 +97,9 @@ bool BiTemporalJoin::rowMatches(const BiTemporalRow& l,
 
         case JoinMode::SNAPSHOT:
             // Both rows must be visible at the given system-time snapshot
-            if (!l.sys_time.contains(t) || !r.sys_time.contains(t)) return false;
+            if (!l.sys_time.contains(t) || !r.sys_time.contains(t)) {
+              return false;
+            }
             if (config_.apply_sys_time_predicate)
                 return overlaps(l.sys_time, r.sys_time) &&
                        overlaps(l.valid_time, r.valid_time);
@@ -125,7 +129,9 @@ BiTemporalJoin::makeResult(const BiTemporalRow& l,
 // ─────────────────────────────────────────────────────────────────────────────
 
 void BiTemporalJoin::forEach(std::function<bool(BiTemporalJoinResult)> cb) const {
-    if (!cb) return;
+    if (!cb) {
+      return;
+    }
 
     // Build a hash index on the right side, keyed by right_key_fn
     std::unordered_map<std::string, std::vector<const BiTemporalRow*>> right_idx;
@@ -137,11 +143,15 @@ void BiTemporalJoin::forEach(std::function<bool(BiTemporalJoinResult)> cb) const
     for (const auto& lrow : left_) {
         const std::string lkey = config_.left_key_fn(lrow);
         auto it = right_idx.find(lkey);
-        if (it == right_idx.end()) continue;
+        if (it == right_idx.end()) {
+          continue;
+        }
 
         for (const BiTemporalRow* rrow : it->second) {
             if (rowMatches(lrow, *rrow)) {
-                if (!cb(makeResult(lrow, *rrow))) return;
+                if (!cb(makeResult(lrow, *rrow))) {
+                  return;
+                }
             }
         }
     }
@@ -161,7 +171,9 @@ std::vector<BiTemporalJoinResult> BiTemporalJoin::execute() const {
     // Sort by key, then by valid_time_overlap.start
     std::sort(results.begin(), results.end(),
               [](const BiTemporalJoinResult& a, const BiTemporalJoinResult& b){
-                  if (a.key != b.key) return a.key < b.key;
+                  if (a.key != b.key) {
+                    return a.key < b.key;
+                  }
                   return a.valid_time_overlap.start < b.valid_time_overlap.start;
               });
     return results;

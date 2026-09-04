@@ -44,7 +44,8 @@ std::vector<double> aggregateElementWiseMedian(
     const std::vector<FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient>& updates,
     std::size_t dims) {
     std::vector<double> out(dims, 0.0);
-    std::vector<double> values;
+    std::vector<double> values = {};
+
     values.reserve(updates.size());
     for (std::size_t d = 0; d < dims; ++d) {
         values.clear();
@@ -54,7 +55,7 @@ std::vector<double> aggregateElementWiseMedian(
         std::sort(values.begin(), values.end());
         const std::size_t mid = values.size() / 2;
         out[d] = values.size() % 2 == 0
-            ? (values[mid - 1] + values[mid]) / 2.0
+            ? (values[static_cast<int>(mid - 1)] + values[mid]) / 2.0
             : values[mid];
     }
     return out;
@@ -75,7 +76,8 @@ std::vector<double> aggregateElementWiseTrimmedMean(
     }
 
     std::vector<double> out(dims, 0.0);
-    std::vector<double> values;
+    std::vector<double> values = {};
+
     values.reserve(updates.size());
     const std::size_t trim_count = static_cast<std::size_t>(std::floor(trim_ratio * updates.size()));
 
@@ -85,8 +87,8 @@ std::vector<double> aggregateElementWiseTrimmedMean(
             values.push_back(upd.gradient[d]);
         }
         std::sort(values.begin(), values.end());
-        const std::size_t begin = std::min(trim_count, values.size());
-        const std::size_t end = values.size() > trim_count ? values.size() - trim_count : values.size();
+        const std::size_t begin = std::min(trim_count,static_cast<int>(values.size()));
+        const std::size_t end = static_cast<int>(values.size()) > trim_count ? static_cast<int>(values.size()) - trim_count : values.size();
         if (begin >= end) {
             out[d] = 0.0;
             continue;
@@ -147,16 +149,16 @@ json FederatedImportCoordinator::FederatedAggregator::aggregateUpdates(const std
 
             if (aggregation_algorithm == "median" && !values.empty()) {
                 std::sort(values.begin(), values.end());
-                size_t mid      = values.size() / 2;
-                aggregated[key] = values.size() % 2 == 0 ? (values[mid - 1] + values[mid]) / 2.0 : values[mid];
-            } else if (aggregation_algorithm == "trimmed_mean" && values.size() >= 3) {
+                size_t mid = values.size() / 2;
+                aggregated[key] = values.size() % 2 == 0 ? (values[static_cast<int>(mid - 1)] + values[mid]) / 2.0 : values[mid];
+            } else if (aggregation_algorithm == "trimmed_mean" && static_cast<int>(values.size()) >= 3) {
                 std::sort(values.begin(), values.end());
                 // trim one min and one max when possible (Byzantine-robust default)
                 double trimmed_sum = 0.0;
-                for (std::size_t i = 1; i + 1 < values.size(); ++i) {
+                for (std::size_t i = 1; i + 1 <static_cast<int>(values.size()); ++i) {
                     trimmed_sum += values[i];
                 }
-                aggregated[key] = trimmed_sum / static_cast<double>(values.size() - 2);
+                aggregated[key] = trimmed_sum / static_cast<double>(static_cast<int>(values.size()) - 2);
             } else {
                 aggregated[key] = sum / cnt; // FedAvg
             }
@@ -198,7 +200,7 @@ json FederatedImportCoordinator::DifferentialPrivacyManager::addDifferentialPriv
     double sensitivity = 1.0;
     double sigma       = sensitivity * std::sqrt(2.0 * std::log(1.25 / delta)) / epsilon;
 
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 rng(rd());
     std::normal_distribution<double> noise(0.0, sigma);
 
@@ -219,7 +221,7 @@ bool FederatedImportCoordinator::DifferentialPrivacyManager::verifyPrivacyBudget
     return epsilon_total <= 1.0 && delta <= 1e-5 && delta > 0.0;
 }
 
-void FederatedImportCoordinator::DifferentialPrivacyManager::spendBudget(double epsilon_used) {
+void FederatedImportCoordinator::DifferentialPrivacyManager::spendBudget([[maybe_unused]] double epsilon_used) {
     if (epsilon_used < 0.0) {
         throw std::invalid_argument("epsilon_used must be non-negative");
     }
@@ -234,10 +236,11 @@ std::vector<double> FederatedImportCoordinator::SecureAggregationManager::maskGr
     const std::vector<double>& gradient,
     const std::string& participant_id,
     const std::string& round_id) const {
-    const auto mask = buildDeterministicMask(participant_id, round_id, gradient.size());
-    std::vector<double> out;
+    const auto mask = buildDeterministicMask(participant_id, round_id,static_cast<int>(gradient.size()));
+    std::vector<double> out = {};
+
     out.reserve(gradient.size());
-    for (std::size_t i = 0; i < gradient.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(gradient.size()); ++i) {
         out.push_back(gradient[i] + mask[i]);
     }
     return out;
@@ -249,8 +252,8 @@ std::vector<double> FederatedImportCoordinator::SecureAggregationManager::unmask
     const std::string& round_id) const {
     std::vector<double> out = masked_sum;
     for (const auto& participant_id : participant_ids) {
-        const auto mask = buildDeterministicMask(participant_id, round_id, out.size());
-        for (std::size_t i = 0; i < out.size(); ++i) {
+        const auto mask = buildDeterministicMask(participant_id, round_id,static_cast<int>(out.size()));
+        for (std::size_t i = 0; i <static_cast<int>(out.size()); ++i) {
             out[i] -= mask[i];
         }
     }
@@ -282,7 +285,7 @@ FederatedImportCoordinator::FederatedTrainingCoordinator::aggregateRound(
         return result;
     }
     for (const auto& upd : updates) {
-        if (upd.gradient.size() != dims) {
+        if (static_cast<int>(upd.gradient.size()) != dims) {
             throw std::invalid_argument("All participant gradients must share identical dimensions");
         }
     }
@@ -294,7 +297,7 @@ FederatedImportCoordinator::FederatedTrainingCoordinator::aggregateRound(
 
     const bool use_median = aggregation_algorithm == "median";
     const bool use_trimmed_mean = aggregation_algorithm == "trimmed_mean";
-    const bool use_fedavg = aggregation_algorithm == "FedAvg" || (!use_median && !use_trimmed_mean);
+    const bool use_fedavg = (aggregation_algorithm == "FedAvg" || (!use_median && !use_trimmed_mean));
 
     if (use_median) {
         result.algorithm_used = "median";

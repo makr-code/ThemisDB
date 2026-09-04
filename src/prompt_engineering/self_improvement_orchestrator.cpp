@@ -113,7 +113,7 @@ std::vector<OptimizationResult> SelfImprovementOrchestrator::runAutoOptimization
         }
 
         auto all_metrics = tracker_->getAllMetrics();
-        THEMIS_INFO("Running auto-optimization check on {} prompts", all_metrics.size());
+        THEMIS_INFO("Running auto-optimization check on {} prompts",static_cast<int>(all_metrics.size()));
 
         for (const auto& metrics : all_metrics) {
             if (!shouldOptimize(metrics.prompt_id)) {
@@ -137,7 +137,8 @@ std::vector<OptimizationResult> SelfImprovementOrchestrator::runAutoOptimization
     }
 
     // Run each optimization without holding the mutex.
-    std::vector<OptimizationResult> results;
+    std::vector<OptimizationResult> results = {};
+
     results.reserve(candidates.size());
     for (auto& [prompt_id, test_cases] : candidates) {
         results.push_back(optimizePrompt(prompt_id, test_cases));
@@ -156,7 +157,7 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
     result.status = OptimizationStatus::NOT_STARTED;
     result.started_at = std::chrono::system_clock::now();
 
-    auto finalizeResult = [&](OptimizationStatus fallback_status) {
+    auto finalizeResult = [&]([[maybe_unused]] OptimizationStatus fallback_status) {
         if (result.status == OptimizationStatus::NOT_STARTED) {
             result.status = fallback_status;
         }
@@ -219,7 +220,8 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
             // mislead the optimizer into thinking the prompt is worthless.
             if (evaluator_ && !cases.empty()) {
                 std::vector<std::string> prompt_with_inputs;
-                std::vector<std::string> expected;
+                std::vector<std::string> expected = {};
+
                 prompt_with_inputs.reserve(cases.size());
                 expected.reserve(cases.size());
                 for (const auto& tc : cases) {
@@ -237,7 +239,9 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
                 prompt.find("task") != std::string::npos) score += 0.15;
             if (prompt.find("Example") != std::string::npos ||
                 prompt.find("example") != std::string::npos) score += 0.15;
-            if (prompt.length() > 100) score += 0.1;
+            if (prompt.length() > 100) {
+              score += 0.1;
+            }
             if (prompt.find("Format") != std::string::npos ||
                 prompt.find("Output") != std::string::npos) score += 0.1;
             return std::min(1.0, score);
@@ -470,7 +474,8 @@ std::vector<OptimizationResult> SelfImprovementOrchestrator::getOptimizationHist
 std::vector<ABTest> SelfImprovementOrchestrator::getActiveABTests() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<ABTest> tests;
+    std::vector<ABTest> tests = {};
+
     tests.reserve(active_ab_tests_.size());
     
     for (const auto& [id, test] : active_ab_tests_) {
@@ -529,7 +534,7 @@ std::string SelfImprovementOrchestrator::generateTestId() const {
     auto now = std::chrono::system_clock::now().time_since_epoch();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "abtest_" << std::hex << std::setfill('0')
         << std::setw(12) << ms
         << "_"
@@ -632,11 +637,14 @@ std::vector<TestCase> SelfImprovementOrchestrator::buildTestCasesFromFeedback(
         FeedbackType::USER_POSITIVE
     );
 
-    std::vector<TestCase> test_cases;
+    std::vector<TestCase> test_cases = {};
+
     test_cases.reserve(positive.size());
 
     for (const auto& entry : positive) {
-        if (entry.query.empty()) continue;
+        if (entry.query.empty()) {
+          continue;
+        }
 
         TestCase tc;
         tc.input           = entry.query;

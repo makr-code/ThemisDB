@@ -21,12 +21,16 @@ static void BM_VectorDistance_Euclidean(benchmark::State& state) {
     std::vector<float> v1(state.range(0));
     std::vector<float> v2(state.range(0));
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
     
-    for (auto& val : v1) val = dis(gen);
-    for (auto& val : v2) val = dis(gen);
+    for (auto& val : v1) {
+      val = dis(gen);
+    }
+    for (auto& val : v2) {
+      val = dis(gen);
+    }
     
     for (auto _ : state) {
         float dist = 0.0f;
@@ -49,22 +53,30 @@ static void BM_VectorDistance_Cosine(benchmark::State& state) {
     std::vector<float> v1(state.range(0));
     std::vector<float> v2(state.range(0));
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
     
     // Normalize vectors
     auto normalize = [](std::vector<float>& v) {
         float sum = 0.0f;
-        for (float x : v) sum += x * x;
+        for (float x : v) {
+          sum += x * x;
+        }
         float norm = std::sqrt(sum);
         if (norm > 1e-6) {
-            for (float& x : v) x /= norm;
+            for (float& x : v) {
+              x /= norm;
+            }
         }
     };
     
-    for (auto& val : v1) val = dis(gen);
-    for (auto& val : v2) val = dis(gen);
+    for (auto& val : v1) {
+      val = dis(gen);
+    }
+    for (auto& val : v2) {
+      val = dis(gen);
+    }
     normalize(v1);
     normalize(v2);
     
@@ -86,18 +98,24 @@ BENCHMARK(BM_VectorDistance_Cosine)
 static void BM_VectorNormalization(benchmark::State& state) {
     std::vector<float> v(state.range(0));
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
     
     for (auto _ : state) {
-        for (auto& val : v) val = dis(gen);
+        for (auto& val : v) {
+          val = dis(gen);
+        }
         
         float sum = 0.0f;
-        for (float x : v) sum += x * x;
+        for (float x : v) {
+          sum += x * x;
+        }
         float norm = std::sqrt(sum);
         if (norm > 1e-6) {
-            for (float& x : v) x /= norm;
+            for (float& x : v) {
+              x /= norm;
+            }
         }
         
         benchmark::DoNotOptimize(v[0]);
@@ -128,7 +146,7 @@ static double haversineDist(const Point& p1, const Point& p2) {
 }
 
 static void BM_GeoDistance_Haversine(benchmark::State& state) {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> lat_dis(-90.0, 90.0);
     std::uniform_real_distribution<> lon_dis(-180.0, 180.0);
@@ -151,7 +169,7 @@ BENCHMARK(BM_GeoDistance_Haversine)
     ->Range(100, 10000);
 
 static void BM_GeoPointInBoundingBox(benchmark::State& state) {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> lat_dis(-90.0, 90.0);
     std::uniform_real_distribution<> lon_dis(-180.0, 180.0);
@@ -183,7 +201,7 @@ BENCHMARK(BM_GeoPointInBoundingBox)
 // ===== Combined Vector-Geo Simulation Benchmark =====
 
 static void BM_VectorGeoFiltering(benchmark::State& state) {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> vec_dis(0.0, 1.0);
     std::uniform_real_distribution<> lat_dis(-90.0, 90.0);
@@ -197,14 +215,18 @@ static void BM_VectorGeoFiltering(benchmark::State& state) {
     std::vector<Item> items(state.range(0));
     for (auto& item : items) {
         item.embedding.resize(128);
-        for (auto& v : item.embedding) v = vec_dis(gen);
+        for (auto& v : item.embedding) {
+          v = vec_dis(gen);
+        }
         item.location.lat = lat_dis(gen);
         item.location.lon = lon_dis(gen);
     }
     
     // Query vector
     std::vector<float> query_vec(128);
-    for (auto& v : query_vec) v = vec_dis(gen);
+    for (auto& v : query_vec) {
+      v = vec_dis(gen);
+    }
     
     // Query location
     Point query_loc = {40.5, -73.5};

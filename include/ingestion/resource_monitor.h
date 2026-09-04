@@ -373,7 +373,9 @@ public:
      */
     std::size_t calculatePerNodeQuota(std::size_t cluster_wide_limit) const {
         std::lock_guard<std::mutex> lock(state_mutex_);
-        if (cluster_size_ == 0) return cluster_wide_limit;
+        if (cluster_size_ == 0) {
+          return cluster_wide_limit;
+        }
         return cluster_wide_limit / cluster_size_;
     }
 

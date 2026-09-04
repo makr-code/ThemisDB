@@ -66,7 +66,8 @@ static const int8_t kBase64Table[256] = {
 /// Decode a standard Base64 string to raw bytes.
 /// Returns empty vector on invalid input.
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
-    std::vector<uint8_t> out;
+    std::vector<uint8_t> out = {};
+
     out.reserve((encoded.size() / 4) * 3 + 3);
 
     int bits   = 0;

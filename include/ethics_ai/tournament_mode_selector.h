@@ -50,7 +50,7 @@ struct TournamentSelectionResult {
     std::vector<std::string> secondary_opponents;  ///< Headline-only opponent school IDs
     /// Assembled opponent context string for injection into the school's prompt.
     /// Primary opponents: full argument text. Secondary: "[school: headline_text]"
-    std::string assembled_context;
+    std::string assembled_context = {};
     int         total_tokens_estimated{0};         ///< Estimated token count of assembled_context
 };
 

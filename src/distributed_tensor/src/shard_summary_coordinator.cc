@@ -162,7 +162,8 @@ ShardSummaryRefreshResult ShardSummaryCoordinator::refreshShard(
 std::vector<ShardSummaryRefreshResult> ShardSummaryCoordinator::refreshAll(
     std::unordered_map<std::string, tensor::ShardSummary>& summaries,
     int64_t now_ms) noexcept {
-    std::vector<ShardSummaryRefreshResult> results;
+    std::vector<ShardSummaryRefreshResult> results = {};
+
     results.reserve(summaries.size());
 
     const int64_t ts = resolveNow(now_ms);
@@ -247,7 +248,8 @@ std::vector<RoutingDecision> ShardSummaryCoordinator::routeSummaryFirst(
     const std::vector<tensor::ShardSummary>& summaries,
     AccuracyMode mode,
     int64_t now_ms) const noexcept {
-    std::vector<RoutingDecision> decisions;
+    std::vector<RoutingDecision> decisions = {};
+
     decisions.reserve(summaries.size());
 
     const int64_t ts = resolveNow(now_ms);

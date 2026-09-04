@@ -48,13 +48,15 @@ static std::string kafkaJsonExtractString(const std::string& json,
     auto start = json.find(needle);
     if (start == std::string::npos) return {};
     start += needle.size();
-    std::string value;
+    std::string value = {};
     bool escape = false;
-    for (size_t i = start; i < json.size(); ++i) {
+    for (size_t i = start; i <static_cast<int>(json.size()); ++i) {
         char c = json[i];
         if (escape) { value += c; escape = false; continue; }
         if (c == '\\') { escape = true; continue; }
-        if (c == '"') break;
+        if (c == '"') {
+          break;
+        }
         value += c;
     }
     return value;
@@ -75,7 +77,9 @@ public:
     }
 
     bool initialize(const SourceConfig& config) {
-        if (config.type != SourceType::KAFKA) return false;
+        if (config.type != SourceType::KAFKA) {
+          return false;
+        }
         config_  = config;
         brokers_ = config.location;
 
@@ -121,7 +125,9 @@ public:
 
     bool isAvailable() const {
         // When a test mock is set, always report available.
-        if (message_fn_) return true;
+        if (message_fn_) {
+          return true;
+        }
 
 #ifdef THEMIS_ENABLE_KAFKA
         // Perform a metadata request to verify broker connectivity.
@@ -134,13 +140,17 @@ public:
 
         rd_kafka_t* rk = rd_kafka_new(RD_KAFKA_CONSUMER, conf,
                                       errstr, sizeof(errstr));
-        if (!rk) return false;
+        if (!rk) {
+          return false;
+        }
 
         const rd_kafka_metadata_t* meta = nullptr;
         rd_kafka_resp_err_t err = rd_kafka_metadata(rk, 1, nullptr, &meta,
                                                     poll_timeout_ms_);
         bool ok = (err == RD_KAFKA_RESP_ERR_NO_ERROR);
-        if (meta) rd_kafka_metadata_destroy(meta);
+        if (meta) {
+          rd_kafka_metadata_destroy(meta);
+        }
         rd_kafka_destroy(rk);
         return ok;
 #else
@@ -203,8 +213,10 @@ private:
     // that the ThemisDB checkpoint is always written before Kafka forgets the
     // messages, ensuring at-least-once delivery semantics.
     // -----------------------------------------------------------------------
-    void writeCheckpoint(size_t processed_count) {
-        if (!checkpoint_store_) return;
+    void writeCheckpoint([[maybe_unused]] size_t processed_count) {
+        if (!checkpoint_store_) {
+          return;
+        }
         IngestionCheckpoint cp;
         cp.source_id       = config_.source_id;
         cp.processed_count = processed_count;
@@ -242,13 +254,19 @@ private:
         size_t consumed = 0;
         try {
             while (true) {
-                if (max_messages_ > 0 && consumed >= max_messages_) break;
+                if (max_messages_ > 0 && consumed >= max_messages_) {
+                  break;
+                }
 
                 auto batch = message_fn_();
-                if (batch.empty()) break;
+                if (batch.empty()) {
+                  break;
+                }
 
                 for (auto& payload : batch) {
-                    if (max_messages_ > 0 && consumed >= max_messages_) break;
+                    if (max_messages_ > 0 && consumed >= max_messages_) {
+                      break;
+                    }
 
                     std::string text = extractText(payload);
                     if (!text.empty()) {
@@ -262,7 +280,7 @@ private:
                     ++consumed;
                 }
 
-                if (progress_callback) {
+                if ([[maybe_unused]] progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0, // total unknown for Kafka
@@ -409,14 +427,18 @@ private:
 
         try {
             while (true) {
-                if (max_messages_ > 0 && consumed >= max_messages_) break;
+                if (max_messages_ > 0 && consumed >= max_messages_) {
+                  break;
+                }
 
                 rd_kafka_message_t* msg =
                     rd_kafka_consumer_poll(rk, poll_timeout_ms_);
 
                 if (!msg) {
                     ++consecutive_timeouts;
-                    if (consecutive_timeouts >= kMaxTimeouts) break;
+                    if (consecutive_timeouts >= kMaxTimeouts) {
+                      break;
+                    }
                     continue;
                 }
 
@@ -447,7 +469,7 @@ private:
                     stats.bytes_processed += msg->len;
                     ++consumed;
 
-                    if (progress_callback) {
+                    if ([[maybe_unused]] progress_callback) {
                         progress_callback(config_.source_id,
                                           stats.documents_processed,
                                           0,
@@ -494,7 +516,7 @@ private:
             // 4-byte schema ID.  Without the Schema Registry we treat the
             // remaining bytes as UTF-8 text.  Full Avro deserialization
             // (using a registry lookup) is deferred to a follow-up task.
-            if (payload.size() > 5 && static_cast<unsigned char>(payload[0]) == 0x00) {
+            if (static_cast<int>(payload.size()) > 5 && static_cast<unsigned char>(payload[0]) == 0x00) {
                 return payload.substr(5); // strip magic + schema ID
             }
             return payload;

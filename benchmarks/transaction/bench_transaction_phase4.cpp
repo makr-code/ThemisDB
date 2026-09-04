@@ -63,7 +63,7 @@ public:
     void SetUp(const ::benchmark::State& state) override {
         const auto unique_id = static_cast<unsigned long long>(
             std::chrono::steady_clock::now().time_since_epoch().count());
-        std::ostringstream suffix;
+        std::ostringstream suffix = {};
         suffix << "bench_txn_phase4_t" << state.thread_index() << "_" << unique_id;
         const auto db_dir = std::filesystem::absolute(
             std::filesystem::path("data") / suffix.str());
@@ -128,7 +128,7 @@ public:
         cfg.commit_timeout      = 5000ms;
         cfg.default_txn_timeout = 60s;
 
-        std::ostringstream name;
+        std::ostringstream name = {};
         name << "bench-phase4-coord-t" << state.thread_index();
         mgr_ = std::make_unique<DistributedTransactionManager>(name.str(), cfg);
 
@@ -146,7 +146,8 @@ protected:
     std::array<std::unique_ptr<BenchMockParticipant>, 3> participants_;
 
     std::vector<Participant> makeParticipants() {
-        std::vector<Participant> ps;
+        std::vector<Participant> ps = {};
+
         for (int i = 0; i < 3; ++i) {
             Participant p;
             p.node_id       = "bench-node-" + std::to_string(i);

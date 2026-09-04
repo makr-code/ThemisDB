@@ -162,7 +162,7 @@ public:
      * @brief Export metadata
      */
     struct Metadata {
-        size_t row_count;
+        size_t row_count = 0;
         size_t column_count;
         size_t total_bytes;
         std::vector<ColumnSchema> schema;

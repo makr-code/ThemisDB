@@ -44,7 +44,9 @@ MultiFieldBoostedSearch::MultiFieldBoostedSearch(SecondaryIndexManager* index,
 
 void MultiFieldBoostedSearch::normalizeScores(
     std::vector<std::pair<std::string, double>>& scored) {
-    if (scored.empty()) return;
+    if (scored.empty()) {
+      return;
+    }
 
     double min_score = std::numeric_limits<double>::max();
     double max_score = std::numeric_limits<double>::lowest();
@@ -150,7 +152,8 @@ std::vector<MultiFieldBoostedSearch::Result> MultiFieldBoostedSearch::search(
     }
 
     // Build result list from accumulator
-    std::vector<Result> results;
+    std::vector<Result> results = {};
+
     results.reserve(accum.size());
     for (auto& [doc_id, entry] : accum) {
         Result r;
@@ -166,12 +169,12 @@ std::vector<MultiFieldBoostedSearch::Result> MultiFieldBoostedSearch::search(
                   return a.score > b.score;
               });
 
-    if (results.size() > config_.k) {
+    if (static_cast<int>(results.size()) > config_.k) {
         results.resize(config_.k);
     }
 
     THEMIS_INFO("MultiFieldBoostedSearch: query='{}' fields={} -> {} results",
-                query, fields.size(), results.size());
+                query,static_cast<int>(fields.size()),static_cast<int>(results.size()));
 
     return results;
 }

@@ -91,7 +91,9 @@ public:
     explicit MockConnectionCounter(std::size_t limit) : limit_(limit), count_(0) {}
 
     NetworkErrorCode accept() noexcept {
-        if (count_ >= limit_) return NetworkErrorCode::CONNECTION_LIMIT_REACHED;
+        if (count_ >= limit_) {
+          return NetworkErrorCode::CONNECTION_LIMIT_REACHED;
+        }
         ++count_;
         return NetworkErrorCode::OK;
     }
@@ -137,7 +139,9 @@ public:
     explicit MockQueueGate(int capacity) : capacity_(capacity), depth_(0) {}
 
     NetworkErrorCode admit() noexcept {
-        if (depth_ >= capacity_) return NetworkErrorCode::BACKPRESSURE_EXCEEDED;
+        if (depth_ >= capacity_) {
+          return NetworkErrorCode::BACKPRESSURE_EXCEEDED;
+        }
         ++depth_;
         return NetworkErrorCode::OK;
     }
@@ -177,7 +181,9 @@ enum class SessionState { ACTIVE, EXPIRED, REVOKED };
 struct MockSessionGuard {
     NetworkErrorCode evaluate(const std::string& token,
                               SessionState state) const noexcept {
-        if (token.empty()) return NetworkErrorCode::AUTH_REQUIRED;
+        if (token.empty()) {
+          return NetworkErrorCode::AUTH_REQUIRED;
+        }
         switch (state) {
             case SessionState::ACTIVE:  return NetworkErrorCode::OK;
             case SessionState::EXPIRED: return NetworkErrorCode::SESSION_EXPIRED;
@@ -312,7 +318,9 @@ TEST(NetworkLifecycleGuardrails, NLG06_IdleConnectionDrained) {
  */
 TEST(NetworkLifecycleGuardrails, NLG07_BackpressureTransientNoStall) {
     MockQueueGate gate(3);
-    for (int i = 0; i < 3; ++i) gate.admit();
+    for (int i = 0; i < 3; ++i) {
+      gate.admit();
+    }
 
     // Queue full — next admit must be transient.
     auto code = gate.admit();
@@ -342,7 +350,9 @@ TEST(NetworkLifecycleGuardrails, NLG08_PeakLoadNoStateCorruption) {
     MockConnectionCounter counter(kLimit);
 
     // Fill to limit.
-    for (std::size_t i = 0; i < kLimit; ++i) counter.accept();
+    for (std::size_t i = 0; i < kLimit; ++i) {
+      counter.accept();
+    }
     ASSERT_EQ(counter.count(), kLimit);
 
     // Hammer with 50 over-limit accepts.

@@ -268,7 +268,9 @@ void fusedSoftmaxDropoutAttention(
                 // Softmax
                 float max_score = -INFINITY;
                 for (int j = 0; j < seq_len_kv; ++j) {
-                    if (is_causal && j > i) continue;
+                    if (is_causal && j > i) {
+                      continue;
+                    }
                     
                     int idx = ((b * num_heads + h) * seq_len_q + i) * seq_len_kv + j;
                     max_score = std::max(max_score, scores[idx]);
@@ -276,7 +278,9 @@ void fusedSoftmaxDropoutAttention(
                 
                 float sum_exp = 0.0f;
                 for (int j = 0; j < seq_len_kv; ++j) {
-                    if (is_causal && j > i) continue;
+                    if (is_causal && j > i) {
+                      continue;
+                    }
                     
                     int idx = ((b * num_heads + h) * seq_len_q + i) * seq_len_kv + j;
                     float exp_val = std::exp(scores[idx] - max_score);

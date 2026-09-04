@@ -91,9 +91,9 @@ constexpr auto kGpuDispatchTimeout = std::chrono::seconds(5);
 // FP16 / BF16 quantisation helpers (CPU simulation of Tensor Core precision)
 // ---------------------------------------------------------------------------
 
-/// Encode a float32 to IEEE 754 FP16 bits (uint16_t).
-static uint16_t fp32_to_fp16(float f) noexcept {
-    uint32_t bits;
+/// Encode a float32 to IEEE 754 FP16 bits ([[maybe_unused]] uint16_t).
+static uint16_t fp32_to_fp16([[maybe_unused]] float f) noexcept {
+    uint32_t bits = 0;
     std::memcpy(&bits, &f, 4);
     const uint32_t sign   = (bits >> 31) & 0x1u;
     const int32_t exp32   = static_cast<int32_t>((bits >> 23) & 0xFFu) - 127;
@@ -102,7 +102,7 @@ static uint16_t fp32_to_fp16(float f) noexcept {
     // Special cases
     if (exp32 == 128) {
         // Inf or NaN
-        return static_cast<uint16_t>((sign << 15) | 0x7C00u | (mant32 ? 0x0200u : 0u)); // preserve NaN signal
+        return static_cast<uint16_t>((sign << 15) | 0x7C00u | (mant32 ? 0x0200u : 0)); // preserve NaN signal
     }
     if (exp32 < -24) {
         // Too small: flush to ±0
@@ -123,7 +123,7 @@ static uint16_t fp32_to_fp16(float f) noexcept {
     uint32_t mant16 = mant32 >> 13;
     // Round to nearest even
     uint32_t round = mant32 & 0x1FFFu;
-    if (round > 0x1000u || (round == 0x1000u && (mant16 & 1u))) {
+    if ((round > 0x1000u || (round == 0x1000u && (mant16 & 1))) {
         ++mant16;
     }
     if (mant16 >= 0x400u) {
@@ -134,12 +134,12 @@ static uint16_t fp32_to_fp16(float f) noexcept {
 }
 
 /// Decode IEEE 754 FP16 bits back to float32.
-static float fp16_to_fp32(uint16_t h) noexcept {
+static float fp16_to_fp32([[maybe_unused]] uint16_t h) noexcept {
     const uint32_t sign   = static_cast<uint32_t>((h >> 15) & 0x1u);
     const uint32_t exp16  = (h >> 10) & 0x1Fu;
     const uint32_t mant16 = h & 0x3FFu;
 
-    uint32_t bits;
+    uint32_t bits = 0;
     if (exp16 == 0x1F) {
         // Inf or NaN
         bits = (sign << 31) | 0x7F800000u | (mant16 << 13);
@@ -159,37 +159,37 @@ static float fp16_to_fp32(uint16_t h) noexcept {
             bits = (sign << 31) | (static_cast<uint32_t>(e + 127) << 23) | (m << 13);
         }
     } else {
-        bits = (sign << 31) | ((exp16 + 112u) << 23) | (mant16 << 13);
+        bits = (sign << 31) | ((exp16 + 112) << 23) | (mant16 << 13);
     }
-    float f;
+    float f = 0;
     std::memcpy(&f, &bits, 4);
     return f;
 }
 
 /// Round-trip a float through FP16 to simulate Tensor Core precision loss.
-static float quantise_fp16(float f) noexcept {
+static float quantise_fp16([[maybe_unused]] float f) noexcept {
     return fp16_to_fp32(fp32_to_fp16(f));
 }
 
-/// Encode a float32 to BF16 bits (uint16_t) — top 16 bits of FP32 with RNE.
-static uint16_t fp32_to_bf16(float f) noexcept {
-    uint32_t bits;
+/// Encode a float32 to BF16 bits ([[maybe_unused]] uint16_t) — top 16 bits of FP32 with RNE.
+static uint16_t fp32_to_bf16([[maybe_unused]] float f) noexcept {
+    uint32_t bits = 0;
     std::memcpy(&bits, &f, 4);
     // Round to nearest even
-    bits += 0x7FFFu + ((bits >> 16) & 1u);
+    bits += 0x7FFFu + ((bits >> 16) & 1);
     return static_cast<uint16_t>(bits >> 16);
 }
 
 /// Decode BF16 bits back to float32 — restore the truncated mantissa bits as 0.
-static float bf16_to_fp32(uint16_t b) noexcept {
+static float bf16_to_fp32([[maybe_unused]] uint16_t b) noexcept {
     uint32_t bits = static_cast<uint32_t>(b) << 16;
-    float f;
+    float f = 0;
     std::memcpy(&f, &bits, 4);
     return f;
 }
 
 /// Round-trip a float through BF16 to simulate Tensor Core precision loss.
-static float quantise_bf16(float f) noexcept {
+static float quantise_bf16([[maybe_unused]] float f) noexcept {
     return bf16_to_fp32(fp32_to_bf16(f));
 }
 
@@ -222,7 +222,7 @@ GPUGraphCache::Stats GPUQueryAccelerator::getGraphCacheStats() const {
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-bool GPUQueryAccelerator::shouldUseGPU(size_t num_rows) const noexcept {
+bool GPUQueryAccelerator::shouldUseGPU([[maybe_unused]] size_t num_rows) const noexcept {
     if (config_.force_cpu) {
         return false;
     }
@@ -265,7 +265,7 @@ GPUQueryAccelerator::ScanResult GPUQueryAccelerator::scan(const std::vector<Row>
     // captured graph (CPU simulation: execute normally but note the cache hit).
     // On a miss we capture the new shape for future replays.
     if (graph_cache_enabled_) {
-        QueryShape shape = makeShape(QueryShape::OpType::SCAN, rows.size());
+        QueryShape shape = makeShape(QueryShape::OpType::SCAN,static_cast<int>(rows.size()));
         if (graph_cache_.lookup(shape)) {
             std::lock_guard<std::mutex> lk(mutex_);
             ++stats_.graph_cache_hits;
@@ -388,7 +388,7 @@ GPUQueryAccelerator::SortResult GPUQueryAccelerator::sort(std::vector<Row> rows,
     // Graph cache check — include sort order in the param hash ---------------
     if (graph_cache_enabled_) {
         uint64_t param   = static_cast<uint64_t>(order);
-        QueryShape shape = makeShape(QueryShape::OpType::SORT, rows.size(), param);
+        QueryShape shape = makeShape(QueryShape::OpType::SORT,static_cast<int>(rows.size()), param);
         if (graph_cache_.lookup(shape)) {
             std::lock_guard<std::mutex> lk(mutex_);
             ++stats_.graph_cache_hits;
@@ -505,7 +505,7 @@ GPUQueryAccelerator::SortResult GPUQueryAccelerator::sort(std::vector<Row> rows,
 
 GPUQueryAccelerator::AggResult GPUQueryAccelerator::aggregate(const std::vector<Row> &rows, AggFunc func,
                                                               KeyFn value_fn) {
-    AggResult result;
+    AggResult result = {};
     if (rows.empty()) {
         return result;
     }
@@ -517,7 +517,7 @@ GPUQueryAccelerator::AggResult GPUQueryAccelerator::aggregate(const std::vector<
     // Graph cache check — include AggFunc in the param hash ------------------
     if (graph_cache_enabled_) {
         uint64_t param   = static_cast<uint64_t>(func);
-        QueryShape shape = makeShape(QueryShape::OpType::AGGREGATE, rows.size(), param);
+        QueryShape shape = makeShape(QueryShape::OpType::AGGREGATE,static_cast<int>(rows.size()), param);
         if (graph_cache_.lookup(shape)) {
             std::lock_guard<std::mutex> lk(mutex_);
             ++stats_.graph_cache_hits;
@@ -659,17 +659,17 @@ GPUQueryAccelerator::AggResult GPUQueryAccelerator::aggregate(const std::vector<
 GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<Row> &left,
                                                               const std::vector<Row> &right, JoinKeyFn left_key,
                                                               JoinKeyFn right_key) {
-    JoinResult result;
+    JoinResult result = {};
     if (left.empty() || right.empty()) {
         return result;
     }
 
-    bool use_gpu    = shouldUseGPU(left.size() + right.size());
+    bool use_gpu    = shouldUseGPU(static_cast<int>(left.size()) + static_cast<int>(right.size()) );
     result.used_gpu = use_gpu;
 
     // Graph cache check — key on total row count -----------------------------
     if (graph_cache_enabled_) {
-        size_t total     = left.size() + right.size();
+        size_t total     = static_cast<int>(left.size()) + static_cast<int>(right.size()) ;
         QueryShape shape = makeShape(QueryShape::OpType::JOIN, total);
         if (graph_cache_.lookup(shape)) {
             std::lock_guard<std::mutex> lk(mutex_);
@@ -689,7 +689,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
     JoinKeyFn probe_key                = right_key;
     bool swapped                       = false;
 
-    if (right.size() < left.size()) {
+    if (static_cast<int>(right.size()) <static_cast<int>(left.size())) {
         std::swap(build_side, probe_side);
         std::swap(build_key, probe_key);
         swapped = true;
@@ -786,7 +786,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
                 bytes += r.data.size();
             std::lock_guard<std::mutex> lk(mutex_);
             ++stats_.total_joins;
-            recordOp(left.size() + right.size(), bytes, true);
+            recordOp(static_cast<int>(left.size()) + static_cast<int>(right.size()) , bytes, true);
             return result;
         }
         result.used_gpu = false;
@@ -822,7 +822,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
     }
     std::lock_guard<std::mutex> lk(mutex_);
     ++stats_.total_joins;
-    recordOp(left.size() + right.size(), bytes, result.used_gpu);
+    recordOp(static_cast<int>(left.size()) + static_cast<int>(right.size()) , bytes, result.used_gpu);
 
     return result;
 }
@@ -836,7 +836,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
     DotProductResult result;
     result.precision_used = config_.precision_mode;
 
-    if (a.empty() || a.size() != b.size()) {
+    if (a.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         std::lock_guard<std::mutex> lk(mutex_);
         ++stats_.total_dot_products;
         recordOp(0, 0, false);
@@ -1017,7 +1017,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                 ++stats_.fp16_ops;
             else if (config_.precision_mode == PrecisionMode::BF16)
                 ++stats_.bf16_ops;
-            recordOp(a.size(), a.size() * sizeof(float) * 2, true);
+            recordOp(a.size(),static_cast<int>(a.size()) * sizeof(float) * 2, true);
             return result;
         }
         result.used_gpu = false;
@@ -1146,7 +1146,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                 ++stats_.fp16_ops;
             else if (config_.precision_mode == PrecisionMode::BF16)
                 ++stats_.bf16_ops;
-            recordOp(a.size(), a.size() * sizeof(float) * 2, true);
+            recordOp(a.size(),static_cast<int>(a.size()) * sizeof(float) * 2, true);
             return result;
         }
         result.used_gpu = false;
@@ -1158,18 +1158,18 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
     double sum = 0.0;
     switch (config_.precision_mode) {
         case PrecisionMode::FP16:
-            for (size_t i = 0; i < a.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
                 sum += static_cast<double>(quantise_fp16(a[i]) * quantise_fp16(b[i]));
             }
             break;
         case PrecisionMode::BF16:
-            for (size_t i = 0; i < a.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
                 sum += static_cast<double>(quantise_bf16(a[i]) * quantise_bf16(b[i]));
             }
             break;
         case PrecisionMode::FP32:
-        default:
-            for (size_t i = 0; i < a.size(); ++i) {
+        [[fallthrough]];\n        default:
+            for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
                 sum += static_cast<double>(a[i]) * static_cast<double>(b[i]);
             }
             break;
@@ -1183,7 +1183,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
     } else if (config_.precision_mode == PrecisionMode::BF16) {
         ++stats_.bf16_ops;
     }
-    recordOp(a.size(), a.size() * sizeof(float) * 2, result.used_gpu);
+    recordOp(a.size(),static_cast<int>(a.size()) * sizeof(float) * 2, result.used_gpu);
 
     return result;
 }
@@ -1198,8 +1198,8 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
     AnnResult result;
 
     // Validate inputs --------------------------------------------------------
-    if (dim == 0 || k == 0 || numQueries == 0 || numVectors == 0 || queries.size() != numQueries * dim
-        || database.size() != numVectors * dim) {
+    if (dim == 0 || k == 0 || numQueries == 0 || numVectors == 0 || static_cast<int>(queries.size()) != numQueries * dim
+        || static_cast<int>(database.size()) != numVectors * dim) {
         std::lock_guard<std::mutex> lk(mutex_);
         ++stats_.total_ann_searches;
         recordOp(0, 0, false);
@@ -1349,9 +1349,9 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
                 dist = -dot;
             }
 
-            if (heap.size() < actual_k) {
+            if (static_cast<int>(heap.size()) < actual_k) {
                 heap.emplace_back(dist, vi);
-                if (heap.size() == actual_k) {
+                if (static_cast<int>(heap.size()) == actual_k) {
                     std::make_heap(heap.begin(), heap.end());
                 }
             } else if (dist < heap.front().first) {
@@ -1365,7 +1365,7 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
         std::sort_heap(heap.begin(), heap.end());
 
         result.results[qi].resize(heap.size());
-        for (size_t ni = 0; ni < heap.size(); ++ni) {
+        for (size_t ni = 0; ni <static_cast<int>(heap.size()); ++ni) {
             result.results[qi][ni].index    = heap[ni].second;
             result.results[qi][ni].distance = heap[ni].first;
         }
@@ -1385,19 +1385,19 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
 
 GPUQueryAccelerator::TopKResult GPUQueryAccelerator::topK(std::vector<Row> rows, KeyFn key_fn, size_t k,
                                                           SortOrder order) {
-    TopKResult result;
+    TopKResult result = {};
     if (rows.empty() || k == 0) {
         return result;
     }
 
-    const size_t actual_k = std::min(k, rows.size());
+    const size_t actual_k = std::min(k,static_cast<int>(rows.size()));
     bool use_gpu          = shouldUseGPU(rows.size());
     result.used_gpu       = use_gpu;
 
     // Graph cache check — pack k and order into the param hash ----------------
     if (graph_cache_enabled_) {
-        uint64_t param   = static_cast<uint64_t>(k) ^ (static_cast<uint64_t>(order) << 32u);
-        QueryShape shape = makeShape(QueryShape::OpType::TOPK, rows.size(), param);
+        uint64_t param   = static_cast<uint64_t>(k) ^ (static_cast<uint64_t>(order) << 32);
+        QueryShape shape = makeShape(QueryShape::OpType::TOPK,static_cast<int>(rows.size()), param);
         if (graph_cache_.lookup(shape)) {
             std::lock_guard<std::mutex> lk(mutex_);
             ++stats_.graph_cache_hits;
@@ -1527,7 +1527,7 @@ GPUQueryAccelerator::TopKResult GPUQueryAccelerator::topK(std::vector<Row> rows,
     // gather the corresponding rows.  This avoids copying the (potentially
     // large) payload data during sorting.
     std::vector<size_t> cpu_idx(rows.size());
-    for (size_t i = 0; i < rows.size(); ++i)
+    for (size_t i = 0; i <static_cast<int>(rows.size()); ++i)
         cpu_idx[i] = i;
 
     auto cmp = [&](size_t a, size_t b) {

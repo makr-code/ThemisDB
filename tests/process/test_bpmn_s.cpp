@@ -35,15 +35,18 @@ using namespace themis::process;
 // ─────────────────────────────────────────────────────────────────────────────
 
 struct DsgvoViolation {
-    std::string message;
+    std::string message = {};
 };
 
 static std::vector<DsgvoViolation> checkDsgvoNodes(
     const std::vector<ProcessNodeInfo>& nodes)
 {
-    std::vector<DsgvoViolation> violations;
+    std::vector<DsgvoViolation> violations = {};
+
     for (const auto& node : nodes) {
-        if (!node.dsgvo_annotation.has_value()) continue;
+        if (!node.dsgvo_annotation.has_value()) {
+          continue;
+        }
         const auto& ann = *node.dsgvo_annotation;
 
         if ((ann.data_category == "personal" || ann.data_category == "sensitive")

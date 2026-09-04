@@ -61,7 +61,7 @@ static constexpr uint64_t kIngestionContractSeed = 42;
 // Mock row
 // ---------------------------------------------------------------------------
 struct MockRow {
-    int         index;
+    int         index = 0;
     std::string value;
     bool        schema_valid = true;
 };
@@ -70,7 +70,7 @@ struct MockRow {
 // Mock ingestion buffer
 // ---------------------------------------------------------------------------
 struct MockBuffer {
-    std::size_t capacity;
+    std::size_t capacity = {};
     std::size_t used = 0;
 
     bool isFull() const { return used >= capacity; }
@@ -136,8 +136,12 @@ struct MockQuotaChecker {
     std::uint64_t used = 0;
 
     IngestionErrorCode checkAndConsume(std::uint64_t rows) {
-        if (limit == 0u) return IngestionErrorCode::OK;
-        if (used + rows > limit) return IngestionErrorCode::INGESTION_QUOTA_EXCEEDED;
+        if (limit == 0u) {
+          return IngestionErrorCode::OK;
+        }
+        if (used + rows > limit) {
+          return IngestionErrorCode::INGESTION_QUOTA_EXCEEDED;
+        }
         used += rows;
         return IngestionErrorCode::OK;
     }
@@ -225,7 +229,8 @@ TEST(IngestionContractHardeningINCH05, PartialBatchNotVisiblePreCommit) {
 
 TEST(IngestionContractHardeningINCH06, BatchCommitPreservesOrdering) {
     MockBatchWriter writer;
-    std::vector<MockRow> rows;
+    std::vector<MockRow> rows = {};
+
     for (int i = 0; i < 10; ++i) rows.push_back({i, "v" + std::to_string(i)});
 
     auto r = writer.write(rows);
@@ -261,7 +266,8 @@ TEST(IngestionContractHardeningINCH08, BatchSizeLimitEnforced) {
     MockBatchWriter writer;
     writer.max_batch_size = 5;
 
-    std::vector<MockRow> big_batch;
+    std::vector<MockRow> big_batch = {};
+
     for (int i = 0; i < 6; ++i) big_batch.push_back({i, "v"});
 
     auto r = writer.write(big_batch);

@@ -141,7 +141,9 @@ TEST(AdaLoraTTBridgeStub271, ALTB_P4_02_training_step_fn_is_called) {
                                      [[maybe_unused]] double eps) -> std::size_t {
             fn_called = true;
             // Simulate training step: halve active rank.
-            for (auto& l : exp_ref.layers) l.active_rank = 1u;
+            for (auto& l : exp_ref.layers) {
+              l.active_rank = 1u;
+            }
             returned_rank = exp_ref.totalActiveRank();
             return returned_rank;
         });
@@ -189,7 +191,9 @@ TEST(AdaLoraTTBridgeDRFix, ALTB_DR_01_concurrent_store_adapter_no_crash) {
             EXPECT_TRUE(bridge.storeAdapter(exp));
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 }
 
 // ALTB-DR-02: concurrent storeAdapter() and findSimilarAdapters() complete without crashing.
@@ -219,5 +223,7 @@ TEST(AdaLoraTTBridgeDRFix, ALTB_DR_02_concurrent_store_and_find_no_crash) {
             EXPECT_NO_THROW(bridge.findSimilarAdapters(query, /*top_k=*/2));
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 }

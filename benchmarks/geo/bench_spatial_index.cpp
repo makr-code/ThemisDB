@@ -117,7 +117,9 @@ static void BM_LinearScan_Intersects(benchmark::State& state) {
     for (auto _ : state) {
         int count = 0;
         for (const auto& e : entries) {
-            if (e.mbr.intersects(query)) ++count;
+            if (e.mbr.intersects(query)) {
+              ++count;
+            }
         }
         benchmark::DoNotOptimize(count);
     }

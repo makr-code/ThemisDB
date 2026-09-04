@@ -32,7 +32,7 @@ enum class QueryIntent {
  * @brief Relevance evaluation result
  */
 struct RelevanceResult {
-    double relevance_score;           ///< Overall score 0-1
+    double relevance_score = 0;           ///< Overall score 0-1
     std::vector<std::string> reverse_questions;
     double question_similarity_score; ///< Similarity to original query
     QueryIntent detected_intent;

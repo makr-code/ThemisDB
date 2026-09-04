@@ -86,7 +86,7 @@ constexpr const char *FG_DARK_GREY = "\x1b[90m"; // comments
 // Constructor
 // ---------------------------------------------------------------------------
 
-AQLSyntaxHighlighter::AQLSyntaxHighlighter(bool use_ansi) : use_ansi_(use_ansi) {}
+AQLSyntaxHighlighter::AQLSyntaxHighlighter([[maybe_unused]] bool use_ansi) : use_ansi_(use_ansi) {}
 
 // ---------------------------------------------------------------------------
 // Tokenizer
@@ -109,14 +109,14 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         return c;
     };
     auto peek
-        = [&](std::size_t offset = 0) -> char { return (pos + offset < code.size()) ? code[pos + offset] : '\0'; };
+        = [&]([[maybe_unused]] std::size_t offset = 0) -> char { return static_cast<bool>((pos + offset  < static_cast<int>(code.size()))) ? code[pos + offset] : '\0'; };
 
-    while (pos < code.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(code.size())) {
         // Skip whitespace (preserve for faithful reconstruction)
         if (std::isspace(static_cast<unsigned char>(code[pos]))) {
-            std::string ws;
+            std::string ws = {};
             std::size_t tl = line, tc = col;
-            while (pos < code.size() && std::isspace(static_cast<unsigned char>(code[pos]))) {
+            while (pos <static_cast<int>(code.size()) && std::isspace(static_cast<unsigned char>(code[pos]))) {
                 ws += advance();
             }
             tokens.push_back({AQLTokenType::UNKNOWN, ws, tl, tc});
@@ -127,8 +127,8 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
 
         // Single-line comment //
         if (code[pos] == '/' && peek(1) == '/') {
-            std::string comment;
-            while (pos < code.size() && code[pos] != '\n') {
+            std::string comment = {};
+            while (pos <static_cast<int>(code.size()) && code[pos] != '\n') {
                 comment += advance();
             }
             tokens.push_back({AQLTokenType::COMMENT, comment, tl, tc});
@@ -137,10 +137,10 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
 
         // Block comment /* … */
         if (code[pos] == '/' && peek(1) == '*') {
-            std::string comment;
+            std::string comment = {};
             comment += advance();
             comment += advance(); // consume /*
-            while (pos < code.size()) {
+            while (static_cast<size_t>(pos) <static_cast<int>(code.size())) {
                 if (code[pos] == '*' && peek(1) == '/') {
                     comment += advance();
                     comment += advance();
@@ -155,12 +155,12 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         // String literal (single or double quote)
         if (code[pos] == '"' || code[pos] == '\'') {
             char q = code[pos];
-            std::string str;
+            std::string str = {};
             str += advance(); // opening quote
-            while (pos < code.size()) {
+            while (static_cast<size_t>(pos) <static_cast<int>(code.size())) {
                 char c = advance();
                 str += c;
-                if (c == '\\' && pos < code.size()) {
+                if (c == '\\'  && static_cast<size_t>(pos) <static_cast<int>(code.size())) {
                     str += advance(); // escaped char
                 } else if (c == q) {
                     break;
@@ -172,9 +172,9 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
 
         // Bind parameter  @name
         if (code[pos] == '@') {
-            std::string ident;
+            std::string ident = {};
             ident += advance(); // @
-            while (pos < code.size() && (std::isalnum(static_cast<unsigned char>(code[pos])) || code[pos] == '_')) {
+            while ((pos < static_cast<int>(code.size())) && (std::isalnum(static_cast<unsigned char>(code[pos])) || code[pos] == '_')) {
                 ident += advance();
             }
             tokens.push_back({AQLTokenType::IDENTIFIER, ident, tl, tc});
@@ -182,18 +182,18 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         }
 
         // Number (integer or float)
-        if (std::isdigit(static_cast<unsigned char>(code[pos]))
-            || (code[pos] == '-' && pos + 1 < code.size() && std::isdigit(static_cast<unsigned char>(code[pos + 1])))) {
-            std::string num;
+        if ((std::isdigit(static_cast<unsigned char>(code[pos])))
+            || ((code[pos] == '-') && ((pos + 1 < static_cast<int>(code.size())) && std::isdigit(static_cast<unsigned char>(code[pos + 1]))))) {
+            std::string num = {};
             if (code[pos] == '-') {
                 num += advance();
             }
-            while (pos < code.size() && std::isdigit(static_cast<unsigned char>(code[pos]))) {
+            while (pos <static_cast<int>(code.size()) && std::isdigit(static_cast<unsigned char>(code[pos]))) {
                 num += advance();
             }
-            if (pos < code.size() && code[pos] == '.') {
+            if (pos <static_cast<int>(code.size()) && code[pos] == '.') {
                 num += advance();
-                while (pos < code.size() && std::isdigit(static_cast<unsigned char>(code[pos]))) {
+                while (pos <static_cast<int>(code.size()) && std::isdigit(static_cast<unsigned char>(code[pos]))) {
                     num += advance();
                 }
             }
@@ -203,20 +203,20 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
 
         // Identifier or keyword
         if (std::isalpha(static_cast<unsigned char>(code[pos])) || code[pos] == '_') {
-            std::string ident;
-            while (pos < code.size() && (std::isalnum(static_cast<unsigned char>(code[pos])) || code[pos] == '_')) {
+            std::string ident = {};
+            while ((pos < static_cast<int>(code.size())) && (std::isalnum(static_cast<unsigned char>(code[pos])) || code[pos] == '_')) {
                 ident += advance();
             }
 
             // Peek for '(' to detect function calls
             std::size_t look = pos;
-            while (look < code.size() && code[look] == ' ') {
+            while (look <static_cast<int>(code.size()) && code[look] == ' ') {
                 ++look;
             }
-            bool is_call = (look < code.size() && code[look] == '(');
+            bool is_call = (look <static_cast<int>(code.size()) && code[look] == '(');
 
             std::string lower = toLowerAqlSyntax(ident);
-            AQLTokenType ttype;
+            AQLTokenType ttype = {};
             if (is_call && builtinFunctions().count(lower)) {
                 ttype = AQLTokenType::FUNCTION;
             } else if (coreKeywords().count(lower)) {
@@ -232,7 +232,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         }
 
         // Two-char operators
-        if (pos + 1 < code.size()) {
+        if (pos + 1 <static_cast<int>(code.size())) {
             std::string two{code[pos], code[pos + 1]};
             if (two == "==" || two == "!=" || two == "<=" || two == ">=" || two == "&&" || two == "||" || two == "|>") {
                 advance();
@@ -299,7 +299,7 @@ std::string AQLSyntaxHighlighter::colorize(const AQLToken &tok) const {
 
 std::string AQLSyntaxHighlighter::highlightBlock(const std::string &aql_code) const {
     auto tokens = tokenize(aql_code);
-    std::string out;
+    std::string out = {};
     out.reserve(aql_code.size() * 2);
     for (const auto &tok : tokens) {
         out += colorize(tok);
@@ -317,9 +317,9 @@ std::vector<AQLAnnotation> AQLSyntaxHighlighter::annotateErrors(const std::strin
 
     // --- 1. Balanced brackets check ---
     struct BracketEntry {
-        char ch;
-        std::size_t line;
-        std::size_t col;
+        char ch = {};
+        std::size_t line = {};
+        std::size_t col = {};
     };
     std::vector<BracketEntry> stack;
 
@@ -335,7 +335,7 @@ std::vector<AQLAnnotation> AQLSyntaxHighlighter::annotateErrors(const std::strin
                 errors.push_back({tok.line, tok.column, std::string("Unmatched closing '") + c + "'"});
             } else {
                 char open = stack.back().ch;
-                bool ok   = (c == ')' && open == '(') || (c == '}' && open == '{') || (c == ']' && open == '[');
+                bool ok   = ((c == ')' && open == '(') || (c == '}' && open == '{') || (c == ']' && open == '['));
                 if (!ok) {
                     errors.push_back({tok.line, tok.column,
                                       std::string("Mismatched bracket: expected closing for '") + open
@@ -355,7 +355,7 @@ std::vector<AQLAnnotation> AQLSyntaxHighlighter::annotateErrors(const std::strin
         if (tok.type != AQLTokenType::STRING) {
             continue;
         }
-        if (tok.value.size() < 2) {
+        if (static_cast<int>(tok.value.size()) < 2) {
             errors.push_back({tok.line, tok.column, "Unterminated string literal"});
             continue;
         }
@@ -366,7 +366,7 @@ std::vector<AQLAnnotation> AQLSyntaxHighlighter::annotateErrors(const std::strin
     }
 
     // --- 3. FOR without IN ---
-    for (std::size_t i = 0; i < tokens.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
         const auto &tok = tokens[i];
         if (tok.type != AQLTokenType::KEYWORD) {
             continue;
@@ -377,7 +377,7 @@ std::vector<AQLAnnotation> AQLSyntaxHighlighter::annotateErrors(const std::strin
 
         // Skip whitespace/identifier tokens and look for IN
         bool found_in = false;
-        for (std::size_t j = i + 1; j < tokens.size() && j < i + 8; ++j) {
+        for (std::size_t j = i + 1; j <static_cast<int>(tokens.size()) && j < i + 8; ++j) {
             const auto &t = tokens[j];
             if (t.type == AQLTokenType::KEYWORD && toLowerAqlSyntax(t.value) == "in") {
                 found_in = true;
@@ -399,7 +399,7 @@ std::vector<AQLAnnotation> AQLSyntaxHighlighter::annotateErrors(const std::strin
 
     // Sort by (line, column) for a deterministic order
     std::stable_sort(errors.begin(), errors.end(), [](const AQLAnnotation &a, const AQLAnnotation &b) {
-        return a.line < b.line || (a.line == b.line && a.column < b.column);
+        return (a.line < b.line) || ((a.line == b.line) && (a.column < b.column));
     });
 
     return errors;
@@ -417,7 +417,7 @@ HighlightedResponse AQLSyntaxHighlighter::formatLLMResponse(const std::string &l
     const std::size_t len = llm_response.size();
 
     // Helper: find ```  possibly followed by "aql" on the same line
-    auto findFence = [&](std::size_t start) -> std::size_t { return llm_response.find("```", start); };
+    auto findFence = [&]([[maybe_unused]] std::size_t start) -> std::size_t { return llm_response.find("```", start); };
 
     while (pos < len) {
         std::size_t fence_open = findFence(pos);
@@ -451,7 +451,7 @@ HighlightedResponse AQLSyntaxHighlighter::formatLLMResponse(const std::string &l
 
         // Find closing ```
         std::size_t fence_close = findFence(code_start);
-        std::string code_content;
+        std::string code_content = {};
         if (fence_close == std::string::npos) {
             // Unterminated block — treat everything to end as code
             code_content = llm_response.substr(code_start);

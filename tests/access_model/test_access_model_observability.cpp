@@ -94,7 +94,7 @@ TEST_F(TraceContextTest, ThreadLocalIsolation) {
     TraceContext main_ctx{main_id};
     TraceContextManager::setContext(main_ctx);
     
-    std::string thread_id;
+    std::string thread_id = {};
     std::thread t([&thread_id]() {
         // In new thread, context should be empty
         auto ctx = TraceContextManager::getContext();

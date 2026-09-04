@@ -74,7 +74,9 @@ protected:
     // Simulate writing data to a shard
     bool simulateWrite(const URN& urn, const nlohmann::json& data) {
         std::string shard_id = hash_ring_->getShardForURN(urn);
-        if (shard_id.empty()) return false;
+        if (shard_id.empty()) {
+          return false;
+        }
         
         std::lock_guard<std::mutex> lock(data_mutex_);
         simulated_data_[shard_id][urn.toString()] = data;
@@ -84,14 +86,20 @@ protected:
     // Simulate reading data from a shard
     std::optional<nlohmann::json> simulateRead(const URN& urn) {
         std::string shard_id = hash_ring_->getShardForURN(urn);
-        if (shard_id.empty()) return std::nullopt;
+        if (shard_id.empty()) {
+          return std::nullopt;
+        }
         
         std::lock_guard<std::mutex> lock(data_mutex_);
         auto shard_it = simulated_data_.find(shard_id);
-        if (shard_it == simulated_data_.end()) return std::nullopt;
+        if (shard_it == simulated_data_.end()) {
+          return std::nullopt;
+        }
         
         auto doc_it = shard_it->second.find(urn.toString());
-        if (doc_it == shard_it->second.end()) return std::nullopt;
+        if (doc_it == shard_it->second.end()) {
+          return std::nullopt;
+        }
         
         return doc_it->second;
     }
@@ -257,7 +265,8 @@ TEST_F(ShardingE2ETest, ScatterGatherQuery) {
     EXPECT_EQ(results.size(), 20u);
     
     // Verify all products found
-    std::set<int> found_ids;
+    std::set<int> found_ids = {};
+
     for (const auto& product : results) {
         found_ids.insert(product["product_id"].get<int>());
     }
@@ -308,7 +317,8 @@ TEST_F(ShardingE2ETest, ScatterGatherWithFiltering) {
 
 TEST_F(ShardingE2ETest, DataMigrationWorkflow) {
     // Write data to shard_1
-    std::vector<std::string> urns_to_migrate;
+    std::vector<std::string> urns_to_migrate = {};
+
     for (int i = 1; i <= 5; ++i) {
         char uuid[37];
         snprintf(uuid, sizeof(uuid), "550e8400-e29b-41d4-a716-%012d", i);
@@ -346,7 +356,8 @@ TEST_F(ShardingE2ETest, RebalancingSimulation) {
     // Simulate adding a new shard and rebalancing
     
     // Initial data distribution
-    std::map<std::string, int> initial_counts;
+    std::map<std::string, int> initial_counts = {};
+
     for (int i = 1; i <= 100; ++i) {
         char uuid[37];
         snprintf(uuid, sizeof(uuid), "%08x-%04x-%04x-%04x-%012x",
@@ -402,7 +413,8 @@ TEST_F(ShardingE2ETest, ShardFailoverScenario) {
     URNResolver resolver(topology_, hash_ring_, "shard_1");
     
     // Find a URN that routes to shard_2
-    std::optional<URN> target_urn;
+    std::optional<URN> target_urn = {};
+
     for (int i = 1; i <= 1000; ++i) {
         char uuid[37];
         snprintf(uuid, sizeof(uuid), "550e8400-e29b-41d4-a716-%012d", i);
@@ -571,7 +583,8 @@ TEST_F(ShardingE2ETest, ConcurrentWorkload) {
     };
     
     // Run 8 concurrent workers
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 8; ++t) {
         threads.emplace_back(worker, t);
     }

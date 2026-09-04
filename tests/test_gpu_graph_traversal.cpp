@@ -151,7 +151,8 @@ TEST_F(GPUGraphTraversalTest, BFS_NoDuplicateVertices) {
     auto res = trav_->bfs("A");
     ASSERT_TRUE(res.has_value());
 
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& v : res->visited_vertices) {
         EXPECT_TRUE(seen.insert(v).second) << "Duplicate: " << v;
     }
@@ -279,7 +280,8 @@ TEST_F(GPUGraphTraversalTest, DFS_NoDuplicateVertices) {
     auto res = trav_->dfs("A");
     ASSERT_TRUE(res.has_value());
 
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& v : res->visited_vertices) {
         EXPECT_TRUE(seen.insert(v).second) << "Duplicate in DFS: " << v;
     }

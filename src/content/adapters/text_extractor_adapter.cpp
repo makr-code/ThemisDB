@@ -37,14 +37,14 @@ public:
     {
         ingestion::FormatExtractResult out;
         try {
-            std::string blob(reinterpret_cast<const char*>(data.data()), data.size());
+            std::string blob(reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()));
 
             ContentType ct;
             ct.mime_type = mime_type;
             ct.category  = ContentCategory::TEXT;
             ct.supports_text_extraction = true;
 
-            ExtractionResult result;
+            ExtractionResult result = {};
             if (mime_type == "text/html" || mime_type == "application/xhtml+xml") {
                 result = html_processor_.extract(blob, ct);
             } else if (mime_type == "text/markdown" || mime_type == "text/x-markdown") {

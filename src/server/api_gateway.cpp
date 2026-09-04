@@ -135,7 +135,7 @@ http::response<http::string_body> APIGateway::handleRequest(
                 bool auth_ok = false;
                 const auto auth_header = req[http::field::authorization];
                 if (!auth_header.empty()) {
-                    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+                    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
                     if (token) {
                         auto result = auth.validateToken(*token);
                         auth_ok = result.authorized;
@@ -371,7 +371,7 @@ void APIGateway::registerHandler(
     std::function<http::response<http::string_body>(const http::request<http::string_body>&)> handler
 ) {
     spdlog::info("Registering handler for pattern: {}", pattern);
-    handlers_[pattern] = std::move(handler);
+    handlers_[pattern] = std::move([[maybe_unused]] handler);
 }
 
 void APIGateway::registerDeprecation(
@@ -389,7 +389,7 @@ std::optional<sharding::URN> APIGateway::extractUrnFromPath(const std::string& p
     const std::string entities_prefix = "/entities/";
     auto urn_pos = path.find(entities_prefix);
     if (urn_pos != std::string::npos) {
-        std::string urn_str = path.substr(urn_pos + entities_prefix.size());
+        std::string urn_str = path.substr(urn_pos + static_cast<int>(entities_prefix.size()) );
         auto qpos = urn_str.find('?');
         if (qpos != std::string::npos) {
             urn_str = urn_str.substr(0, qpos);
@@ -514,10 +514,10 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
         // Check if Authorization header exists for user-based rate limiting
         const auto auth_header = req[http::field::authorization];
         if (!auth_header.empty()) {
-            std::string auth_value = std::string(auth_header.data(), auth_header.size());
+            std::string auth_value = std::string(auth_header.data(),static_cast<int>(auth_header.size()));
             
             // Extract JWT subject if possible (via AuthMiddleware)
-            if (auth_ && auth_value.size() > 7 && auth_value.substr(0, 7) == "Bearer ") {
+            if (auth_ && static_cast<int>(auth_value.size()) > 7 && auth_value.substr(0, 7) == "Bearer ") {
                 auto& auth = *auth_;
                 std::string token = auth_value.substr(7);
                 auto ctx = auth.extractContext(token);
@@ -527,7 +527,7 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
                     // Fallback: use a stable hash of the token (not the full token)
                     // Convert hash to hex string to avoid collisions from modulo
                     size_t hash_val = std::hash<std::string>{}(token);
-                    std::ostringstream oss;
+                    std::ostringstream oss = {};
                     oss << "token_" << std::hex << hash_val;
                     client_id = oss.str();
                 }
@@ -561,7 +561,7 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
     const auto auth_header = req[http::field::authorization];
     if (!auth_header.empty()) {
         // Use auth header as client ID
-        client_id = std::string(auth_header.data(), auth_header.size());
+        client_id = std::string(auth_header.data(),static_cast<int>(auth_header.size()));
     } else {
         // Fall back to IP or other identifier
         client_id = ipClientId();
@@ -599,7 +599,7 @@ http::response<http::string_body> APIGateway::executeLocal(
     std::function<http::response<http::string_body>(const http::request<http::string_body>&)> handler
 ) {
     try {
-        return handler(req);
+        return handler([[maybe_unused]] req);
     } catch (const std::exception& e) {
         spdlog::error("Local execution failed: {}", e.what());
         return makeErrorResponse(http::status::internal_server_error, 
@@ -766,7 +766,7 @@ void APIGateway::recordMetrics(
     }
     
     // Record request count
-    std::string target_str;
+    std::string target_str = {};
     switch (target) {
         case RouteTarget::LOCAL: target_str = "local"; break;
         case RouteTarget::SHARD: target_str = "shard"; break;
@@ -805,7 +805,7 @@ APIVersion APIGateway::processVersionHeaders(
     // Check for version prefix in URL path first (e.g. "/v1/entities").
     // Strip query string before inspecting the path so that a target like
     // "/v1/entities?page=2" is correctly resolved to version "v1".
-    std::string version_header;
+    std::string version_header = {};
     std::optional<std::string> url_version_str;
     {
         std::string raw_target = std::string(req.target());
@@ -836,7 +836,7 @@ APIVersion APIGateway::processVersionHeaders(
     // Check for Accept-API-Version range header (e.g. "1.0-2.0").
     // When present and no explicit version was determined from the URL or
     // API-Version header, resolve the best matching version within the range.
-    APIVersion version;
+    APIVersion version = {};
     if (url_version_str) {
         version = version_manager.resolveVersion(*url_version_str);
         spdlog::debug("APIGateway: version resolved from URL path prefix: {}", version.toString());
@@ -912,7 +912,7 @@ void APIGateway::addDeprecationHeaders(
     // Add API-Deprecated header (issue-specified format: "v1.0 (remove YYYY-MM-DD)")
     // Use major.minor format (no patch) to match the documented "v1.0" style.
     auto removal_time_t = std::chrono::system_clock::to_time_t(deprecation->removal_date);
-    std::tm removal_tm_api;
+    std::tm removal_tm_api = {};
     portable_gmtime_r_impl(&removal_time_t, &removal_tm_api);
     char api_deprecated_buf[64];
     std::strftime(api_deprecated_buf, sizeof(api_deprecated_buf), "%Y-%m-%d", &removal_tm_api);
@@ -925,7 +925,7 @@ void APIGateway::addDeprecationHeaders(
     
     // Add Sunset header (RFC 8594) with removal date
     auto removal_time = std::chrono::system_clock::to_time_t(deprecation->removal_date);
-    std::tm removal_tm;
+    std::tm removal_tm = {};
     portable_gmtime_r_impl(&removal_time, &removal_tm);
     char sunset_buf[100];
     std::strftime(sunset_buf, sizeof(sunset_buf), "%a, %d %b %Y %H:%M:%S GMT", &removal_tm);
@@ -949,7 +949,7 @@ std::optional<std::string> APIGateway::extractVersionFromPath(const std::string&
         R"(^/v(\d+(?:\.\d+){0,2})(?=/|$))"
     );
 
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(path, m, kVersionPrefixRegex)) {
         return std::nullopt;
     }
@@ -967,7 +967,7 @@ std::string APIGateway::stripVersionPrefix(const std::string& path) const {
         R"(^/v\d+(?:\.\d+){0,2}(?=/|$))"
     );
 
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(path, m, kVersionPrefixStripRegex)) {
         return path;
     }

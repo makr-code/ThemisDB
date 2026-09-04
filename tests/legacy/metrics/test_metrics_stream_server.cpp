@@ -35,7 +35,9 @@ protected:
         srv_.resetStats();
     }
     void TearDown() override {
-        if (srv_.isRunning()) srv_.stop();
+        if (srv_.isRunning()) {
+          srv_.stop();
+        }
     }
 
     MetricsStreamServer srv_;
@@ -594,7 +596,9 @@ TEST_F(MetricsStreamServerTest, ConcurrentPushFromMultipleThreads) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(kThreads * kPushesPerThread, delivered.load());
     EXPECT_EQ(static_cast<uint64_t>(kThreads * kPushesPerThread),

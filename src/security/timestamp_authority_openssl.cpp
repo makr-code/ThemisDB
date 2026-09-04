@@ -119,7 +119,7 @@ namespace {
 bool startsWithHttps(const std::string& url) {
     constexpr char kHttpsPrefix[] = "https://";
     constexpr std::size_t kPrefixLen = sizeof(kHttpsPrefix) - 1;
-    if (url.size() < kPrefixLen) {
+    if (static_cast<int>(url.size()) < kPrefixLen) {
         return false;
     }
     return std::equal(
@@ -158,8 +158,12 @@ bool applyTSATransportHardening(CURL* curl, const TSAConfig& config, std::string
 } // namespace
 
 static const EVP_MD* selectDigest(const std::string& algo){
-    if(algo == "SHA384") return EVP_sha384();
-    if(algo == "SHA512") return EVP_sha512();
+    if(algo == "SHA384") {
+      return EVP_sha384();
+    }
+    if(algo == "SHA512") {
+      return EVP_sha512();
+    }
     return EVP_sha256();
 }
 
@@ -188,7 +192,7 @@ static std::string b64Encode(const std::vector<uint8_t>& data){
     BIO_flush(b64);
     BUF_MEM* ptr = nullptr; 
     BIO_get_mem_ptr(b64, &ptr);
-    std::string out;
+    std::string out = {};
     if (ptr && ptr->data && ptr->length > 0) {
         out.assign(ptr->data, ptr->length);
     }
@@ -213,7 +217,9 @@ static std::vector<uint8_t> b64Decode(const std::string& s){
     
     std::vector<uint8_t> out(s.size());
     int len = BIO_read(mem, out.data(), (int)out.size());
-    if(len < 0) len = 0; 
+    if(len < 0) {
+      len = 0;
+    }
     out.resize(len);
     // b64_ptr destructor automatically cleans up the BIO chain
     return out;
@@ -221,7 +227,9 @@ static std::vector<uint8_t> b64Decode(const std::string& s){
 
 // Helper: Convert ASN1_GENERALIZEDTIME to Unix milliseconds
 static uint64_t asn1TimeToUnixMs(ASN1_GENERALIZEDTIME* gen) {
-    if (!gen || !gen->data) return 0;
+    if (!gen || !gen->data) {
+      return 0;
+    }
     
     // Use OpenSSL's built-in conversion which handles all valid ASN.1 formats
     struct tm tm_time = {};
@@ -239,7 +247,7 @@ static uint64_t asn1TimeToUnixMs(ASN1_GENERALIZEDTIME* gen) {
     #else
         // Portable fallback: temporarily set TZ to UTC
         const char* old_tz = getenv("TZ");
-        std::string old_tz_copy;
+        std::string old_tz_copy = {};
         if (old_tz) {
             old_tz_copy = old_tz;
         }
@@ -260,7 +268,9 @@ static uint64_t asn1TimeToUnixMs(ASN1_GENERALIZEDTIME* gen) {
     #endif
 #endif
     
-    if (t == -1) return 0;
+    if (t == -1) {
+      return 0;
+    }
     
     // Convert to milliseconds
     return static_cast<uint64_t>(t) * 1000;
@@ -275,7 +285,9 @@ TimestampAuthority& TimestampAuthority::operator=(TimestampAuthority&&) noexcept
 std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>& data){
     const EVP_MD* md = selectDigest(config_.hash_algorithm);
     TSA_EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
-    if (!ctx.get()) throw std::runtime_error("EVP_MD_CTX_new failed");
+    if (!ctx.get()) {
+      throw std::runtime_error("EVP_MD_CTX_new failed");
+    }
     
     std::vector<uint8_t> out(EVP_MD_size(md));
     unsigned int outlen=0;
@@ -283,7 +295,7 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
     if (EVP_DigestInit_ex(ctx.get(), md, nullptr) != 1) {
         throw std::runtime_error("EVP_DigestInit_ex failed");
     }
-    EVP_DigestUpdate(ctx.get(), data.data(), data.size());
+    EVP_DigestUpdate(ctx.get(), data.data(),static_cast<int>(data.size()));
     if (EVP_DigestFinal_ex(ctx.get(), out.data(), &outlen) != 1) {
         throw std::runtime_error("EVP_DigestFinal_ex failed");
     }
@@ -291,7 +303,7 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
     return out;
 }
 
-std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes){
+std::vector<uint8_t> TimestampAuthority::generateNonce([[maybe_unused]] size_t bytes){
     if (bytes == 0) {
         return {};
     }
@@ -344,7 +356,9 @@ std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint
         }
     }
     
-    if(config_.cert_req) TS_REQ_set_cert_req(req.get(), 1);
+    if(config_.cert_req) {
+      TS_REQ_set_cert_req(req.get(), 1);
+    }
     
     if(!config_.policy_oid.empty()){
         TSA_ASN1_OBJECT_ptr policy(OBJ_txt2obj(config_.policy_oid.c_str(), 1));
@@ -520,9 +534,15 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
             const ASN1_INTEGER* seconds = TS_ACCURACY_get_seconds(accuracy);
             const ASN1_INTEGER* millis = TS_ACCURACY_get_millis(accuracy);
             const ASN1_INTEGER* micros = TS_ACCURACY_get_micros(accuracy);
-            if(seconds) token.accuracy_seconds = ASN1_INTEGER_get(seconds);
-            if(millis) token.accuracy_millis = ASN1_INTEGER_get(millis);
-            if(micros) token.accuracy_micros = ASN1_INTEGER_get(micros);
+            if(seconds) {
+              token.accuracy_seconds = ASN1_INTEGER_get(seconds);
+            }
+            if(millis) {
+              token.accuracy_millis = ASN1_INTEGER_get(millis);
+            }
+            if(micros) {
+              token.accuracy_micros = ASN1_INTEGER_get(micros);
+            }
         }
         
         // Extract ordering hint (RFC 3161 - optional, default FALSE)
@@ -559,22 +579,32 @@ TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data
 }
 
 bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash,const TimestampToken& token){
-    if(token.token_der.empty()) return false;
+    if(token.token_der.empty()) {
+      return false;
+    }
     try {
         const unsigned char* p = token.token_der.data();
         PKCS7_ptr pkcs7(d2i_PKCS7(nullptr,&p,(long)token.token_der.size()));
-        if(!pkcs7) return false;
+        if(!pkcs7) {
+          return false;
+        }
         
         TSA_TS_TST_INFO_ptr tst(PKCS7_to_TS_TST_INFO(pkcs7.get()));
-        if(!tst) return false;
+        if(!tst) {
+          return false;
+        }
         
         TS_MSG_IMPRINT* imprint = TS_TST_INFO_get_msg_imprint(tst.get());
-        if (!imprint) return false;
+        if (!imprint) {
+          return false;
+        }
         
         ASN1_OCTET_STRING* os = TS_MSG_IMPRINT_get_msg(imprint);
-        if (!os) return false;
+        if (!os) {
+          return false;
+        }
         
-        bool match = (os->length == (int)hash.size() && std::memcmp(os->data, hash.data(), hash.size())==0);
+        bool match = (os->length == (int)hash.size() && std::memcmp(os->data, hash.data(),static_cast<int>(hash.size()))==0);
         return match;
     } catch (const std::exception& e) {
         THEMIS_ERROR("verifyTimestampForHash error: {}", e.what());
@@ -591,25 +621,31 @@ TimestampToken TimestampAuthority::parseToken(const std::vector<uint8_t>& der){ 
 TimestampToken TimestampAuthority::parseToken(const std::string& b64){ auto der = b64Decode(b64); return parseTSPResponse(der); }
 
 std::optional<std::string> TimestampAuthority::getTSACertificate(){
-    if(cached_tsa_cert_.empty()) return std::nullopt;
+    if(cached_tsa_cert_.empty()) {
+      return std::nullopt;
+    }
     
     try {
         // Convert DER to PEM format
         const unsigned char* p = cached_tsa_cert_.data();
-        if (cached_tsa_cert_.size() > static_cast<std::size_t>(LONG_MAX)) {
+        if (static_cast<int>(cached_tsa_cert_.size()) > static_cast<std::size_t>(LONG_MAX)) {
             THEMIS_ERROR("getTSACertificate error: cached TSA cert exceeds OpenSSL size limit");
             return std::nullopt;
         }
         X509_ptr cert(d2i_X509(nullptr, &p, static_cast<long>(cached_tsa_cert_.size())));
-        if(!cert) return std::nullopt;
+        if(!cert) {
+          return std::nullopt;
+        }
         
         TSA_BIO_ptr bio(BIO_new(BIO_s_mem()));
-        if(!bio) return std::nullopt;
+        if(!bio) {
+          return std::nullopt;
+        }
         
         PEM_write_bio_X509(bio.get(), cert.get());
         BUF_MEM* mem = nullptr;
         BIO_get_mem_ptr(bio.get(), &mem);
-        std::string pem;
+        std::string pem = {};
         if (mem && mem->data && mem->length > 0) {
             pem.assign(mem->data, mem->length);
         }
@@ -621,7 +657,9 @@ std::optional<std::string> TimestampAuthority::getTSACertificate(){
 }
 
 bool TimestampAuthority::isAvailable(){
-    if(!impl_->curl) return false;
+    if(!impl_->curl) {
+      return false;
+    }
     if(!applyTSATransportHardening(impl_->curl, config_, last_error_)){ return false; }
     curl_easy_setopt(impl_->curl, CURLOPT_URL, config_.url.c_str());
     curl_easy_setopt(impl_->curl, CURLOPT_NOBODY, 1L);
@@ -663,7 +701,7 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
     // Validate timestamp token structure
     const unsigned char* p = token.token_der.data();
     // Safe cast: d2i_PKCS7 expects long, ensure we don't overflow
-    if (token.token_der.size() > static_cast<size_t>(LONG_MAX)) {
+    if (static_cast<int>(token.token_der.size()) > static_cast<size_t>(LONG_MAX)) {
         validation_errors_.push_back("Token size exceeds maximum allowed");
         return false;
     }
@@ -744,7 +782,7 @@ bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_a
     // Convert max age from days to milliseconds with overflow check
     // max_age_days * 24 * 60 * 60 * 1000 = max_age_days * 86400000
     // Check if multiplication would overflow uint64_t
-    constexpr uint64_t MS_PER_DAY = 86400000ULL;
+    constexpr uint64_t MS_PER_DAY = 86400000;
     if (max_age_days < 0) {
         validation_errors_.push_back("Maximum age must be non-negative");
         return false;
@@ -770,7 +808,7 @@ bool eIDASTimestampValidator::isQualifiedTSA(
     validation_errors_.clear();
     
     // Validate certificate size
-    if (tsa_cert.size() > static_cast<size_t>(INT_MAX)) {
+    if (static_cast<int>(tsa_cert.size()) > static_cast<size_t>(INT_MAX)) {
         validation_errors_.push_back("TSA certificate size exceeds maximum allowed");
         return false;
     }
@@ -807,7 +845,7 @@ bool eIDASTimestampValidator::isQualifiedTSA(
         X509_NAME_print_ex(name_bio.get(), subject, 0, XN_FLAG_RFC2253);
         BUF_MEM* name_buf = nullptr;
         BIO_get_mem_ptr(name_bio.get(), &name_buf);
-        std::string subject_name;
+        std::string subject_name = {};
         if (name_buf && name_buf->data && name_buf->length > 0) {
             subject_name.assign(name_buf->data, name_buf->length);
         }

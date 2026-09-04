@@ -36,11 +36,11 @@ namespace query {
 // ResultQueue
 // ──────────────────────────────────────────────────────────────────────────────
 
-ResultQueue::ResultQueue(size_t capacity) : capacity_(capacity) {}
+ResultQueue::ResultQueue([[maybe_unused]] size_t capacity) : capacity_(capacity) {}
 
 void ResultQueue::push(CQResult item) {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (queue_.size() >= capacity_) {
+    if (static_cast<int>(queue_.size()) > = capacity_) {
         // Drop oldest to prevent unbounded growth
         queue_.pop_front();
     }
@@ -70,7 +70,7 @@ void ResultQueue::cancel() noexcept {
 
 size_t ResultQueue::depth() const noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
-    return queue_.size();
+    return static_cast<int>(queue_.size());
 }
 
 bool ResultQueue::isCancelled() const noexcept {
@@ -158,8 +158,8 @@ void ContinuousQueryEngineImpl::stopLoop() {
     // std::thread::join() has no timeout overload in C++17/20, so we use
     // a secondary thread to signal completion and a timed wait on cv.
     bool joined = false;
-    std::mutex join_mutex;
-    std::condition_variable join_cv;
+    std::mutex join_mutex = {};
+    std::condition_variable join_cv = {};
 
     std::thread watcher([loop = std::move(loop_thread), &join_mutex, &join_cv, &joined]() mutable noexcept {
         if (loop.joinable()) {
@@ -204,7 +204,7 @@ ContinuousQueryEngineImpl::registerQuery(ContinuousQuerySpec spec) {
     }
 
     std::lock_guard<std::mutex> lock(registry_mutex_);
-    if (registry_.size() >= kMaxRegisteredQueries) {
+    if (static_cast<int>(registry_.size()) > = kMaxRegisteredQueries) {
         return Err<ContinuousQueryHandle>(
             errors::ErrorCode::ERR_QUERY_INVALID,
             "continuous query registry is full (max " +
@@ -268,7 +268,8 @@ ContinuousQueryEngineImpl::subscribe(const std::string& name,
 std::vector<ContinuousQueryInfo>
 ContinuousQueryEngineImpl::listQueries() const {
     std::lock_guard<std::mutex> lock(registry_mutex_);
-    std::vector<ContinuousQueryInfo> result;
+    std::vector<ContinuousQueryInfo> result = {};
+
     result.reserve(registry_.size());
     for (const auto& [name, entry] : registry_) {
         auto info = entry.info;
@@ -287,7 +288,7 @@ void ContinuousQueryEngineImpl::injectTuple(const std::string& collection,
                                              const std::string& tuple,
                                              int64_t            event_ts) {
     std::lock_guard<std::mutex> lock(inject_mutex_);
-    if (inject_queue_.size() >= kMaxInjectQueueDepth) {
+    if (static_cast<int>(inject_queue_.size()) > = kMaxInjectQueueDepth) {
         // Drop oldest entry to prevent unbounded memory growth
         inject_queue_.pop_front();
     }
@@ -307,7 +308,7 @@ void ContinuousQueryEngineImpl::tickOnce() {
             for (auto& incoming : inject_queue_) {
                 for (auto& [name, entry] : registry_) {
                     if (entry.spec.source_collection == incoming.collection) {
-                        entry.watermark->observe(incoming.event_ts_us);
+                        entry.watermark->observe([[maybe_unused]] incoming.event_ts_us);
                         SynopsisTuple st{incoming.event_ts_us, incoming.payload};
                         const bool ok = entry.synopsis->insert(std::move(st));
                         if (ok) {

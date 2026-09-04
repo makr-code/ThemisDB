@@ -366,7 +366,7 @@ public:
      * @brief Identifiziert Prozess-Varianten
      */
     struct VariantInfo {
-        int variant_id;
+        int variant_id = 0;
         std::vector<std::string> activities;    ///< Aktivitätssequenz
         int frequency;                          ///< Anzahl Cases
         double percentage;                      ///< Anteil am Gesamt
@@ -410,7 +410,7 @@ public:
      * @brief Alignment-basierte Conformance (präziser, aber langsamer)
      */
     struct AlignmentResult {
-        double fitness;
+        double fitness = 0;
         double precision;
         
         struct Move {

@@ -83,7 +83,7 @@ public:
 
     /** A single recovered WAL entry. */
     struct Entry {
-        uint64_t    sequence;
+        uint64_t    sequence = 0;
         EntryType   type;
         std::string key;
         std::string value;   // empty for DEL / CHECKPOINT

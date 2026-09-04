@@ -93,7 +93,9 @@ class StubHashRing {
 public:
     explicit StubHashRing(int num_shards) : num_shards_(num_shards) {}
     int lookup(const std::string& key) const noexcept {
-        if (num_shards_ == 0) return -1;
+        if (num_shards_ == 0) {
+          return -1;
+        }
         std::size_t h = std::hash<std::string>{}(key);
         return static_cast<int>(h % static_cast<std::size_t>(num_shards_));
     }
@@ -106,7 +108,7 @@ class StubTxnParticipant {
 public:
     enum class State { IDLE, PREPARED, COMMITTED, ABORTED };
     State state{State::IDLE};
-    std::string current_txn;
+    std::string current_txn = {};
 
     ShardingErrorCode prepare(const std::string& txn_id) noexcept {
         current_txn = txn_id;
@@ -140,7 +142,9 @@ class StubShardHealth {
 public:
     explicit StubShardHealth(int num_shards) : health_(num_shards, true) {}
     bool isHealthy(int shard_id) const noexcept {
-        if (shard_id < 0 || shard_id >= static_cast<int>(health_.size())) return false;
+        if (shard_id < 0 || shard_id >= static_cast<int>(health_.size())) {
+          return false;
+        }
         return health_[static_cast<std::size_t>(shard_id)];
     }
 private:
@@ -164,7 +168,8 @@ static void BM_SRG01_ConsistentHashRouting1K(benchmark::State& state) {
         benchmark::DoNotOptimize(ring.lookup("warm-key-" + std::to_string(i)));
     }
     std::mt19937_64 rng_engine(kShardCanonicalSeed);
-    std::uniform_int_distribution<uint64_t> dist;
+    std::uniform_int_distribution<uint64_t> dist = {};
+
     for (auto _ : state) {
         std::string key = "key-" + std::to_string(dist(rng_engine));
         benchmark::DoNotOptimize(ring.lookup(key));
@@ -302,7 +307,8 @@ static void BM_SRG06_RouteLookup64ShardWarm(benchmark::State& state) {
         benchmark::DoNotOptimize(ring.lookup("warm-" + std::to_string(i)));
     }
     std::mt19937_64 rng_engine(kShardCanonicalSeed);
-    std::uniform_int_distribution<uint64_t> dist;
+    std::uniform_int_distribution<uint64_t> dist = {};
+
     for (auto _ : state) {
         std::string key = "k-" + std::to_string(dist(rng_engine));
         benchmark::DoNotOptimize(ring.lookup(key));

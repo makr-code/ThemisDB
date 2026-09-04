@@ -27,12 +27,12 @@ extern "C" {
     // These would normally be in clip.h from llama.cpp
     struct clip_ctx;
     struct clip_image_u8 {
-        int nx;
+        int nx = 0;
         int ny;
         uint8_t* data;
     };
     struct clip_image_f32 {
-        int nx;
+        int nx = 0;
         int ny;
         float* data;
     };
@@ -115,7 +115,7 @@ VisionEncoder::VisionEncoder(const std::string& clip_model_path,
             const std::string sidecar_path = clip_model_path + ".sha256";
             if (std::filesystem::exists(sidecar_path)) {
                 std::ifstream sidecar(sidecar_path);
-                std::string expected_hash;
+                std::string expected_hash = {};
                 if (sidecar >> expected_hash && !expected_hash.empty()) {
                     const std::string actual_hash =
                         themis::modules::ModuleHashVerifier::computeSHA256(clip_model_path);
@@ -308,7 +308,7 @@ std::vector<float> VisionEncoder::encodeImage(const std::string& image_path) {
         
         if (verbosity_ > 1) {
             spdlog::debug("VisionEncoder: Encoded image {} ({} floats) in {}ms", 
-                         image_path, embeddings.size(), inference_time.count());
+                         image_path,static_cast<int>(embeddings.size()), inference_time.count());
         }
         
         return embeddings;
@@ -343,7 +343,7 @@ std::vector<float> VisionEncoder::encodeImageData(const std::vector<uint8_t>& im
         if (!ofs) {
             throw std::runtime_error("Failed to create temporary image file");
         }
-        ofs.write(reinterpret_cast<const char*>(image_data.data()), image_data.size());
+        ofs.write(reinterpret_cast<const char*>(image_data.data()),static_cast<int>(image_data.size()));
     }
     
     try {
@@ -470,7 +470,9 @@ void VisionEncoder::setUserContext(const std::string& user_id) {
 }
 
 bool VisionEncoder::validateImageSize(const std::string& image_path) const {
-    if (!config_) return true;
+    if (!config_) {
+      return true;
+    }
     
     const auto& validation = config_->getSecurityConfig().validation;
     
@@ -487,7 +489,9 @@ bool VisionEncoder::validateImageSize(const std::string& image_path) const {
 }
 
 bool VisionEncoder::validateImageFormat(const std::string& image_path) const {
-    if (!config_) return true;
+    if (!config_) {
+      return true;
+    }
     
     const auto& validation = config_->getSecurityConfig().validation;
     
@@ -512,7 +516,9 @@ bool VisionEncoder::validateImageFormat(const std::string& image_path) const {
 }
 
 bool VisionEncoder::validateImageResolution(const std::string& image_path) const {
-    if (!config_) return true;
+    if (!config_) {
+      return true;
+    }
     
     const auto& validation = config_->getSecurityConfig().validation;
     

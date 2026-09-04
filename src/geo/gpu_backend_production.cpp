@@ -41,7 +41,7 @@ namespace geo {
 class CpuParallelBackend final : public ISpatialComputeBackend {
   public:
     CpuParallelBackend() {
-        thread_count_ = std::max(1u, std::thread::hardware_concurrency());
+        thread_count_ = std::max(1, std::thread::hardware_concurrency());
     }
 
     const char *name() const noexcept override {
@@ -52,16 +52,16 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
         return true;
     }
 
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
         SpatialBatchResults out;
-        out.mask.resize(in.count, 0u);
+        out.mask.resize(in.count, 0);
 
         if (in.count == 0) {
             return out;
         }
 
         // When no geometry data is provided return zero mask immediately.
-        if (in.geoms_a.size() < in.count || in.geoms_b.size() < in.count) {
+        if (static_cast<int>(in.geoms_a.size()) < in.count || static_cast<int>(in.geoms_b.size()) < in.count) {
             return out;
         }
 
@@ -72,7 +72,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
         if (thread_count_ == 0) {
             THEMIS_WARN("CpuParallelBackend: thread_count_ is 0; falling back to single-threaded");
             for (size_t i = 0; i < in.count; ++i) {
-                out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+                out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1 : 0;
             }
             return out;
         }
@@ -95,7 +95,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
             futures.emplace_back(std::async(std::launch::async,
                 [this, &in, &out, start_idx, end_idx]() {
                     for (size_t i = start_idx; i < end_idx; ++i) {
-                        out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+                        out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1 : 0;
                     }
                 }));
         }
@@ -112,7 +112,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
         return out;
     }
 
-    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom2) override {
         // Use MBR as fast pre-check
         auto mbr1 = geom1.computeMBR();
         auto mbr2 = geom2.computeMBR();
@@ -138,22 +138,22 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
     // Previously the default base-class implementations returned an empty
     // GeometryInfo; now they are properly wired to the CPU exact path.
 
-    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
+    GeometryInfo stBuffer(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom, doubl[[maybe_unused]] e distance_[[maybe_unused]] m, in[[maybe_unused]] t arc_point[[maybe_unused]] s = 36) override {
         auto *b = getCpuExactBackend();
         return b ? b->stBuffer(geom, distance_m, arc_points) : GeometryInfo{};
     }
 
-    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stUnion(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
         auto *b = getCpuExactBackend();
         return b ? b->stUnion(g1, g2) : GeometryInfo{};
     }
 
-    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stDifference(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
         auto *b = getCpuExactBackend();
         return b ? b->stDifference(g1, g2) : GeometryInfo{};
     }
 
-    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
+    double geodesicDistance(doubl[[maybe_unused]] e la[[maybe_unused]] t1, doubl[[maybe_unused]] e lo[[maybe_unused]] n1, doubl[[maybe_unused]] e la[[maybe_unused]] t2, doubl[[maybe_unused]] e lo[[maybe_unused]] n2) const override {
         auto *b = getCpuExactBackend();
         return b ? b->geodesicDistance(lat1, lon1, lat2, lon2) : 0.0;
     }
@@ -164,14 +164,14 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
     // Point-in-polygon test using ray-casting algorithm
     bool pointInPolygon(const Coordinate &point, const GeometryInfo &polygon) const {
         const auto &ring = polygon.rings.empty() ? polygon.coords : polygon.rings[0];
-        if (ring.size() < 3) {
+        if (static_cast<int>(ring.size()) < 3) {
             return false;
         }
 
         bool inside = false;
-        size_t j    = ring.size() - 1;
+        size_t j    = static_cast<int>(ring.size()) - 1;
 
-        for (size_t i = 0; i < ring.size(); j = i++) {
+        for (size_t i = 0; i <static_cast<int>(ring.size()); j = i++) {
             if (((ring[i].y > point.y) != (ring[j].y > point.y))
                 && (point.x < (ring[j].x - ring[i].x) * (point.y - ring[i].y) / (ring[j].y - ring[i].y) + ring[i].x)) {
                 inside = !inside;
@@ -204,8 +204,8 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
     }
 
     bool checkEdgeIntersections(const std::vector<Coordinate> &ring1, const std::vector<Coordinate> &ring2) const {
-        for (size_t i = 0, j = ring1.size() - 1; i < ring1.size(); j = i++) {
-            for (size_t k = 0, l = ring2.size() - 1; k < ring2.size(); l = k++) {
+        for (size_t i = 0, j = static_cast<int>(ring1.size()) - 1; i <static_cast<int>(ring1.size()); j = i++) {
+            for (size_t k = 0, l = static_cast<int>(ring2.size()) - 1; k <static_cast<int>(ring2.size()); l = k++) {
                 if (segmentsIntersect(ring1[j], ring1[i], ring2[l], ring2[k])) {
                     return true;
                 }
@@ -285,7 +285,7 @@ __global__ void cuda_pairwise_intersects_kernel(const double *mbrs_a, const doub
     const double b_maxx = mbrs_b[off + 2];
     const double b_maxy = mbrs_b[off + 3];
 
-    results[idx] = (a_minx <= b_maxx && a_maxx >= b_minx && a_miny <= b_maxy && a_maxy >= b_miny) ? 1u : 0u;
+    results[idx] = (a_minx <= b_maxx && a_maxx >= b_minx && a_miny <= b_maxy && a_maxy >= b_miny) ? 1 : 0;
 }
 
 /// Batch ST_BUFFER kernel for Point geometries.
@@ -346,7 +346,7 @@ class CudaBackend final : public ISpatialComputeBackend {
     //   Phase 1 — GPU MBR filter (conservative, no false negatives).
     //   Phase 2 — CPU exact verification for MBR-positive candidates only.
     // Device buffers are cached and grown on demand to amortise cudaMalloc cost.
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
         SpatialBatchResults out;
         out.mask.resize(in.count);
 
@@ -355,7 +355,7 @@ class CudaBackend final : public ISpatialComputeBackend {
         }
 
         // When no geometry data is provided, return zero-filled mask.
-        if (in.geoms_a.size() < in.count || in.geoms_b.size() < in.count) {
+        if (static_cast<int>(in.geoms_a.size()) < in.count || static_cast<int>(in.geoms_b.size()) < in.count) {
             return out;
         }
 
@@ -383,17 +383,17 @@ class CudaBackend final : public ISpatialComputeBackend {
 
         if (!ensureCachedBuffers(n, mbr_sz, res_sz)) {
             THEMIS_WARN("CUDA buffer cache failed, falling back to CPU-parallel");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
 
         // Upload geometry MBRs to device memory.
-        cudaError_t e;
+        cudaError_t e = {};
         if ((e = cudaMemcpy(d_cached_mbrs_a_.get(), mbrs_a.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess
             || (e = cudaMemcpy(d_cached_mbrs_b_.get(), mbrs_b.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess
             || (e = cudaMemset(d_cached_results_.get(), 0, res_sz)) != cudaSuccess) {
             THEMIS_WARN("CUDA upload failed ({}), falling back to CPU-parallel", static_cast<int>(e));
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
 
@@ -401,7 +401,7 @@ class CudaBackend final : public ISpatialComputeBackend {
         // n must be positive and fit in an int before computing the grid size.
         if (n <= 0 || static_cast<size_t>(n) > static_cast<size_t>(INT_MAX)) {
             THEMIS_WARN("CudaBackend: n={} out of valid range, falling back to CPU-parallel", n);
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
         const int blockSize = 256;
@@ -416,7 +416,7 @@ class CudaBackend final : public ISpatialComputeBackend {
 
         if (e != cudaSuccess) {
             THEMIS_WARN("CUDA execution failed ({}), falling back to CPU-parallel", static_cast<int>(e));
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
 
@@ -424,7 +424,8 @@ class CudaBackend final : public ISpatialComputeBackend {
         // Eliminates false positives from the conservative MBR filter.
         // Build a sub-batch of only the candidates to leverage parallel threading.
         SpatialBatchInputs candidates;
-        std::vector<size_t> candidate_indices;
+        std::vector<size_t> candidate_indices = {};
+
         for (int i = 0; i < n; ++i) {
             if (out.mask[i]) {
                 candidate_indices.push_back(static_cast<size_t>(i));
@@ -435,22 +436,22 @@ class CudaBackend final : public ISpatialComputeBackend {
         if (!candidate_indices.empty()) {
             candidates.count   = candidate_indices.size();
             auto exact_results = cpu_exact_.batchIntersects(candidates);
-            for (size_t j = 0; j < candidate_indices.size(); ++j) {
-                out.mask[candidate_indices[j]] = (j < exact_results.mask.size()) ? exact_results.mask[j] : 0u;
+            for (size_t j = 0; j <static_cast<int>(candidate_indices.size()); ++j) {
+                out.mask[candidate_indices[j]] = (j <static_cast<int>(exact_results.mask.size())) ? exact_results.mask[j] : 0;
             }
         }
 
         return out;
     }
 
-    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom2) override {
         // For single geometry checks, CPU is often faster due to transfer overhead
         return cpu_exact_.exactIntersects(geom1, geom2);
     }
 
     /// GPU-accelerated ST_BUFFER for Point geometries using the batch kernel.
     /// Falls back to cpu_exact_ for non-Point types or on any CUDA error.
-    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
+    GeometryInfo stBuffer(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom, doubl[[maybe_unused]] e distance_[[maybe_unused]] m, in[[maybe_unused]] t arc_point[[maybe_unused]] s = 36) override {
         if (!is_available_ || !geom.isPoint() || geom.coords.empty() || distance_m <= 0.0 || arc_points < 3) {
             return cpu_exact_.stBuffer(geom, distance_m, arc_points);
         }
@@ -517,15 +518,15 @@ class CudaBackend final : public ISpatialComputeBackend {
         return result;
     }
 
-    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stUnion(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
         return cpu_exact_.stUnion(g1, g2);
     }
 
-    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stDifference(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
         return cpu_exact_.stDifference(g1, g2);
     }
 
-    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
+    double geodesicDistance(doubl[[maybe_unused]] e la[[maybe_unused]] t1, doubl[[maybe_unused]] e lo[[maybe_unused]] n1, doubl[[maybe_unused]] e la[[maybe_unused]] t2, doubl[[maybe_unused]] e lo[[maybe_unused]] n2) const override {
         return cpu_exact_.geodesicDistance(lat1, lon1, lat2, lon2);
     }
 
@@ -550,7 +551,7 @@ class CudaBackend final : public ISpatialComputeBackend {
         d_cached_mbrs_b_.free();
         d_cached_results_.free();
         cached_n_ = 0;
-        cudaError_t e;
+        cudaError_t e = {};
         if ((e = d_cached_mbrs_a_.alloc(mbr_sz / sizeof(double))) != cudaSuccess) {
             THEMIS_WARN("CUDA cudaMalloc failed for d_cached_mbrs_a_ ({})", static_cast<int>(e));
             return false;
@@ -560,7 +561,7 @@ class CudaBackend final : public ISpatialComputeBackend {
             d_cached_mbrs_a_.free();
             return false;
         }
-        if ((e = d_cached_results_.alloc(res_sz / sizeof(uint8_t))) != cudaSuccess) {
+        if ([[maybe_unused]] (e = d_cached_results_.alloc(res_sz / sizeof(uint8_t))) != cudaSuccess) {
             THEMIS_WARN("CUDA cudaMalloc failed for d_cached_results_ ({})", static_cast<int>(e));
             d_cached_mbrs_a_.free();
             d_cached_mbrs_b_.free();
@@ -587,7 +588,9 @@ __kernel void pairwise_mbr_intersects(
     const int count)
 {
     int idx = get_global_id(0);
-    if (idx >= count) return;
+    if (idx >= count) {
+      return;
+    }
     int off = idx * 4;
     double a_minx = mbrs_a[off];
     double a_miny = mbrs_a[off + 1];
@@ -676,7 +679,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         return is_available_;
     }
 
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
         SpatialBatchResults out;
         out.mask.resize(in.count);
 
@@ -685,7 +688,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         }
 
         // When no geometry data is provided, return zero-filled mask.
-        if (in.geoms_a.size() < in.count || in.geoms_b.size() < in.count) {
+        if (static_cast<int>(in.geoms_a.size()) < in.count || static_cast<int>(in.geoms_b.size()) < in.count) {
             return out;
         }
 
@@ -716,7 +719,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             = clCreateBuffer(context_, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, mbr_sz, mbrs_a.data(), &err);
         if (err != CL_SUCCESS) {
             THEMIS_WARN("OpenCL buffer creation failed (mbrs_a), falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
         cl_mem d_mbrs_b
@@ -724,7 +727,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         if (err != CL_SUCCESS) {
             clReleaseMemObject(d_mbrs_a);
             THEMIS_WARN("OpenCL buffer creation failed (mbrs_b), falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
         cl_mem d_results = clCreateBuffer(context_, CL_MEM_WRITE_ONLY, res_sz, nullptr, &err);
@@ -732,7 +735,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             clReleaseMemObject(d_mbrs_a);
             clReleaseMemObject(d_mbrs_b);
             THEMIS_WARN("OpenCL buffer creation failed (results), falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
 
@@ -743,7 +746,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             clReleaseMemObject(d_mbrs_b);
             clReleaseMemObject(d_results);
             THEMIS_WARN("OpenCL kernel creation failed, falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
 
@@ -754,7 +757,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             clReleaseMemObject(d_mbrs_b);
             clReleaseMemObject(d_results);
             THEMIS_WARN("OpenCL clSetKernelArg failed for arg 0, falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
         err = clSetKernelArg(kernel, 1, sizeof(cl_mem), &d_mbrs_b);
@@ -764,7 +767,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             clReleaseMemObject(d_mbrs_b);
             clReleaseMemObject(d_results);
             THEMIS_WARN("OpenCL clSetKernelArg failed for arg 1, falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
         err = clSetKernelArg(kernel, 2, sizeof(cl_mem), &d_results);
@@ -774,7 +777,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             clReleaseMemObject(d_mbrs_b);
             clReleaseMemObject(d_results);
             THEMIS_WARN("OpenCL clSetKernelArg failed for arg 2, falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
         err = clSetKernelArg(kernel, 3, sizeof(cl_int), &n);
@@ -784,7 +787,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             clReleaseMemObject(d_mbrs_b);
             clReleaseMemObject(d_results);
             THEMIS_WARN("OpenCL clSetKernelArg failed for arg 3, falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
 
@@ -805,7 +808,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
 
         if (!ok) {
             THEMIS_WARN("OpenCL execution failed, falling back to CPU-parallel");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
 
@@ -813,7 +816,8 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         // Eliminates false positives from the conservative MBR filter.
         // Build a sub-batch of only the candidates to leverage parallel threading.
         SpatialBatchInputs candidates;
-        std::vector<size_t> candidate_indices;
+        std::vector<size_t> candidate_indices = {};
+
         for (int i = 0; i < n; ++i) {
             if (out.mask[i]) {
                 candidate_indices.push_back(static_cast<size_t>(i));
@@ -824,31 +828,31 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         if (!candidate_indices.empty()) {
             candidates.count   = candidate_indices.size();
             auto exact_results = cpu_exact_.batchIntersects(candidates);
-            for (size_t j = 0; j < candidate_indices.size(); ++j) {
-                out.mask[candidate_indices[j]] = (j < exact_results.mask.size()) ? exact_results.mask[j] : 0u;
+            for (size_t j = 0; j <static_cast<int>(candidate_indices.size()); ++j) {
+                out.mask[candidate_indices[j]] = (j <static_cast<int>(exact_results.mask.size())) ? exact_results.mask[j] : 0;
             }
         }
 
         return out;
     }
 
-    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom2) override {
         return cpu_exact_.exactIntersects(geom1, geom2);
     }
 
-    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
+    GeometryInfo stBuffer(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom, doubl[[maybe_unused]] e distance_[[maybe_unused]] m, in[[maybe_unused]] t arc_point[[maybe_unused]] s = 36) override {
         return cpu_exact_.stBuffer(geom, distance_m, arc_points);
     }
 
-    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stUnion(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
         return cpu_exact_.stUnion(g1, g2);
     }
 
-    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stDifference(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
         return cpu_exact_.stDifference(g1, g2);
     }
 
-    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
+    double geodesicDistance(doubl[[maybe_unused]] e la[[maybe_unused]] t1, doubl[[maybe_unused]] e lo[[maybe_unused]] n1, doubl[[maybe_unused]] e la[[maybe_unused]] t2, doubl[[maybe_unused]] e lo[[maybe_unused]] n2) const override {
         return cpu_exact_.geodesicDistance(lat1, lon1, lat2, lon2);
     }
 
@@ -872,7 +876,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         if (err != CL_SUCCESS) {
             size_t log_sz = 0;
             clGetProgramBuildInfo(program_, device_, CL_PROGRAM_BUILD_LOG, 0, nullptr, &log_sz);
-            std::string log;
+            std::string log = {};
             if (log_sz > 0) {
                 log.assign(log_sz, '\0');
                 clGetProgramBuildInfo(program_, device_, CL_PROGRAM_BUILD_LOG, log_sz, &log[0], nullptr);
@@ -926,17 +930,17 @@ class ProductionGpuBackend final : public ISpatialComputeBackend {
         return active_backend_ != nullptr;
     }
 
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
         if (active_backend_) {
             return active_backend_->batchIntersects(in);
         }
 
         SpatialBatchResults out;
-        out.mask.assign(in.count, 0u);
+        out.mask.assign(in.count, 0);
         return out;
     }
 
-    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom2) override {
         if (active_backend_) {
             return active_backend_->exactIntersects(geom1, geom2);
         }
@@ -945,19 +949,19 @@ class ProductionGpuBackend final : public ISpatialComputeBackend {
         return mbr1.intersects(mbr2);
     }
 
-    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
+    GeometryInfo stBuffer(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom, doubl[[maybe_unused]] e distance_[[maybe_unused]] m, in[[maybe_unused]] t arc_point[[maybe_unused]] s = 36) override {
         return active_backend_ ? active_backend_->stBuffer(geom, distance_m, arc_points) : GeometryInfo{};
     }
 
-    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stUnion(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
         return active_backend_ ? active_backend_->stUnion(g1, g2) : GeometryInfo{};
     }
 
-    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stDifference(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
         return active_backend_ ? active_backend_->stDifference(g1, g2) : GeometryInfo{};
     }
 
-    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
+    double geodesicDistance(doubl[[maybe_unused]] e la[[maybe_unused]] t1, doubl[[maybe_unused]] e lo[[maybe_unused]] n1, doubl[[maybe_unused]] e la[[maybe_unused]] t2, doubl[[maybe_unused]] e lo[[maybe_unused]] n2) const override {
         return active_backend_ ? active_backend_->geodesicDistance(lat1, lon1, lat2, lon2) : 0.0;
     }
 
@@ -988,16 +992,16 @@ class ProductionGpuRegistryProxy final : public ISpatialComputeBackend {
         auto *b = getProductionGpuBackend();
         return b && b->isAvailable();
     }
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
         auto *b = getProductionGpuBackend();
         if (b) {
             return b->batchIntersects(in);
         }
         SpatialBatchResults out;
-        out.mask.assign(in.count, 0u);
+        out.mask.assign(in.count, 0);
         return out;
     }
-    bool exactIntersects(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
         auto *b = getProductionGpuBackend();
         return b ? b->exactIntersects(g1, g2) : false;
     }

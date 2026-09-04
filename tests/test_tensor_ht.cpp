@@ -46,7 +46,9 @@ std::vector<float> makeTensor(const std::vector<std::size_t>& shape,
                                float fill_value = 0.0f)
 {
     std::size_t N = 1;
-    for (auto s : shape) N *= s;
+    for (auto s : shape) {
+      N *= s;
+    }
     return std::vector<float>(N, fill_value);
 }
 
@@ -55,11 +57,15 @@ std::vector<float> randomTensor(const std::vector<std::size_t>& shape,
                                  unsigned seed = 42)
 {
     std::size_t N = 1;
-    for (auto s : shape) N *= s;
+    for (auto s : shape) {
+      N *= s;
+    }
     std::mt19937 rng(seed);
     std::normal_distribution<float> dist(0.0f, 1.0f);
     std::vector<float> t(N);
-    for (auto& v : t) v = dist(rng);
+    for (auto& v : t) {
+      v = dist(rng);
+    }
     return t;
 }
 
@@ -73,12 +79,16 @@ std::vector<float> rank1Tensor(const std::vector<std::size_t>& shape, unsigned s
     std::vector<std::vector<float>> factors;
     for (auto s : shape) {
         std::vector<float> f(s);
-        for (auto& v : f) v = dist(rng);
+        for (auto& v : f) {
+          v = dist(rng);
+        }
         factors.push_back(std::move(f));
     }
 
     std::size_t N = 1;
-    for (auto s : shape) N *= s;
+    for (auto s : shape) {
+      N *= s;
+    }
     std::vector<float> t(N, 0.0f);
 
     std::size_t d = shape.size();
@@ -98,14 +108,18 @@ std::vector<float> rank1Tensor(const std::vector<std::size_t>& shape, unsigned s
 /// Frobenius norm of a flat vector.
 double frobNorm(const std::vector<float>& v) {
     double s = 0.0;
-    for (float x : v) s += static_cast<double>(x) * x;
+    for (float x : v) {
+      s += static_cast<double>(x) * x;
+    }
     return std::sqrt(s);
 }
 
 /// Relative error between two flat vectors.
 double relError(const std::vector<float>& a, const std::vector<float>& b) {
     double na = frobNorm(a);
-    if (na < 1e-12) return 0.0;
+    if (na < 1e-12) {
+      return 0.0;
+    }
     double err = 0.0;
     for (std::size_t i = 0; i < a.size(); ++i) {
         double d = static_cast<double>(a[i]) - static_cast<double>(b[i]);

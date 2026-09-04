@@ -157,7 +157,7 @@ struct SecurityDenialEntry {
     int64_t timestamp_ms = 0;
     std::string user_id;
     std::string session_id;
-    std::string action;
+    std::string action = {};
     std::string resource;
     std::string denial_reason;         // e.g., "auth_failed", "access_denied", "privilege_escalation"
     std::string denial_code;           // e.g., "SECURITY_VIOLATION"

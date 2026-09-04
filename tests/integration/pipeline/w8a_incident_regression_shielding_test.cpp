@@ -44,7 +44,7 @@ class StateMachinePipeline {
 public:
     struct TransitionResult {
         bool        ok{false};
-        std::string error;
+        std::string error = {};
         DocState    state{DocState::kNew};
     };
 
@@ -108,7 +108,7 @@ private:
 struct CommandResult {
     bool        executed{false};
     bool        duplicate{false};
-    std::string command_id;
+    std::string command_id = {};
 };
 
 /// @brief Command bus that enforces exactly-once execution via command ID set.
@@ -187,7 +187,7 @@ public:
 
 private:
     struct Entry {
-        uint64_t    seq;
+        uint64_t    seq = 0;
         std::string payload;
     };
 
@@ -298,7 +298,7 @@ public:
 
     struct OpResult {
         bool        ok{false};
-        std::string error;
+        std::string error = {};
     };
 
     /// @brief Attempt a write using the provided token.
@@ -332,7 +332,7 @@ private:
 class AtomicUpdatePipeline {
 public:
     struct Record {
-        std::string field_a;
+        std::string field_a = {};
         std::string field_b;
         std::string field_c;
     };

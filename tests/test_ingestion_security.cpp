@@ -133,7 +133,7 @@ TEST(FileSystemIngesterSymlinkTest, SymlinkOutsideBaseIsSkipped) {
 
     // Create a symlink inside sandbox pointing to the outside file
     auto symlink_path = sandbox / "link_to_outside.txt";
-    std::error_code ec;
+    std::error_code ec = {};
     fs::create_symlink(outside_file, symlink_path, ec);
     if (ec) {
         // Symlink creation may not be supported (e.g. restricted CI).

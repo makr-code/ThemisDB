@@ -35,7 +35,7 @@ namespace {
 
 // MurmurHash3-inspired 64-bit finaliser for string keys.
 // Produces a uniform-looking hash without requiring external libraries.
-uint64_t murmur_mix64(uint64_t k) noexcept {
+uint64_t murmur_mix64([[maybe_unused]] uint64_t k) noexcept {
     k ^= k >> 33;
     k *= UINT64_C(0xff51afd7ed558ccd);
     k ^= k >> 33;
@@ -62,9 +62,9 @@ uint64_t hashString(const std::string& s) noexcept {
 DistributedVectorIndex::DistributedVectorIndex(const DistributedVectorIndexConfig& cfg)
     : config_(cfg)
     , shards_()
-    , next_id_(cfg.num_shards, 0)
     , local_to_global_id_(cfg.num_shards)
     , local_to_global_version_(cfg.num_shards)
+    , next_id_(cfg.num_shards, 0)
     , alive_ids_(cfg.num_shards)
 {
     if (cfg.num_shards == 0) {
@@ -81,15 +81,15 @@ DistributedVectorIndex::DistributedVectorIndex(const DistributedVectorIndexConfi
                                                std::vector<std::unique_ptr<IAnnIndex>> shards)
     : config_(cfg)
     , shards_(std::move(shards))
-    , next_id_(cfg.num_shards, 0)
     , local_to_global_id_(cfg.num_shards)
     , local_to_global_version_(cfg.num_shards)
+    , next_id_(cfg.num_shards, 0)
     , alive_ids_(cfg.num_shards)
 {
     if (config_.num_shards == 0) {
         throw std::invalid_argument("DistributedVectorIndex: num_shards must be > 0");
     }
-    if (shards_.size() != config_.num_shards) {
+    if (static_cast<int>(shards_.size()) != config_.num_shards) {
         throw std::invalid_argument(
             "DistributedVectorIndex: shards.size() must equal config.num_shards");
     }
@@ -142,7 +142,9 @@ void DistributedVectorIndex::buildRing_() {
             const std::string token = "shard:" + std::to_string(s) + ":vn:" + std::to_string(v);
             uint64_t h = hashString(token);
             // Resolve rare collision by linear probing on the ring
-            while (ring_.count(h)) ++h;
+            while (ring_.count(h)) {
+              ++h;
+            }
             ring_[h] = s;
         }
     }
@@ -157,18 +159,24 @@ uint64_t DistributedVectorIndex::hashKey_(const std::string& key) const noexcept
 }
 
 size_t DistributedVectorIndex::shardFor_(const std::string& key) const noexcept {
-    if (config_.num_shards == 1) return 0;
+    if (config_.num_shards == 1) {
+      return 0;
+    }
     const uint64_t h = hashKey_(key);
     switch (config_.strategy) {
     case ShardingStrategy::HASH:
-    case ShardingStrategy::RANGE:
+    [[fallthrough]];\n    case ShardingStrategy::RANGE:
         // RANGE uses hash-bucket assignment as an alias for HASH.
         // Proper lexicographic range partitioning is deferred.
         return static_cast<size_t>(h % config_.num_shards);
     case ShardingStrategy::CONSISTENT_HASH: {
-        if (ring_.empty()) return 0;
+        if (ring_.empty()) {
+          return 0;
+        }
         auto it = ring_.lower_bound(h);
-        if (it == ring_.end()) it = ring_.begin();
+        if (it == ring_.end()) {
+          it = ring_.begin();
+        }
         return it->second;
     }
     }
@@ -184,7 +192,7 @@ std::optional<int64_t> DistributedVectorIndex::parseGlobalIdFromKey_(const std::
     if (pos == std::string::npos || pos + 1 >= key.size()) {
         return std::nullopt;
     }
-    for (size_t i = pos + 1; i < key.size(); ++i) {
+    for (size_t i = pos + 1; i <static_cast<int>(key.size()); ++i) {
         if (!std::isdigit(static_cast<unsigned char>(key[i]))) {
             return std::nullopt;
         }
@@ -202,7 +210,9 @@ std::optional<int64_t> DistributedVectorIndex::parseGlobalIdFromKey_(const std::
 
 bool DistributedVectorIndex::insert(const std::string& pk,
                                     const float* vec, size_t dim) {
-    if (!vec || dim == 0) return false;
+    if (!vec || dim == 0) {
+      return false;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -284,14 +294,16 @@ bool DistributedVectorIndex::insert(const std::string& pk,
 
 bool DistributedVectorIndex::insert(const std::string& pk,
                                     const std::vector<float>& vec) {
-    return insert(pk, vec.data(), vec.size());
+    return insert(pk, vec.data(),static_cast<int>(vec.size()));
 }
 
 bool DistributedVectorIndex::remove(const std::string& pk) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = pk_to_shard_.find(pk);
-    if (it == pk_to_shard_.end()) return false;
+    if (it == pk_to_shard_.end()) {
+      return false;
+    }
 
     const size_t shard_idx = it->second.first;
     const int64_t id       = it->second.second;
@@ -326,7 +338,7 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(const float* query,
     {
         std::lock_guard<std::mutex> lock(mutex_);
         best_by_global_id.reserve(static_cast<size_t>(k) * shards_.size());
-        for (size_t s = 0; s < shards_.size(); ++s) {
+        for (size_t s = 0; s <static_cast<int>(shards_.size()); ++s) {
             auto partial = shards_[s]->search(query, dim, k);
             for (auto& r : partial) {
                 // Only include results whose ID is still alive in this shard.
@@ -352,7 +364,8 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(const float* query,
         }
     }
 
-    std::vector<AnnSearchResult> merged;
+    std::vector<AnnSearchResult> merged = {};
+
     merged.reserve(best_by_global_id.size());
     for (const auto& [id, candidate] : best_by_global_id) {
         merged.push_back({id, candidate.distance});
@@ -375,7 +388,7 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(const float* query,
 
 std::vector<AnnSearchResult> DistributedVectorIndex::search(
         const std::vector<float>& query, int k) const {
-    return search(query.data(), query.size(), k);
+    return search(query.data(),static_cast<int>(query.size()), k);
 }
 
 // ---------------------------------------------------------------------------
@@ -384,18 +397,19 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(
 
 size_t DistributedVectorIndex::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return pk_to_shard_.size();
+    return static_cast<int>(pk_to_shard_.size());
 }
 
 size_t DistributedVectorIndex::numShards() const {
-    return shards_.size();
+    return static_cast<int>(shards_.size());
 }
 
 std::vector<DistributedShardStats> DistributedVectorIndex::getShardStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<DistributedShardStats> stats;
+    std::vector<DistributedShardStats> stats = {};
+
     stats.reserve(shards_.size());
-    for (size_t i = 0; i < shards_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(shards_.size()); ++i) {
         stats.push_back({i, alive_ids_[i].size()});
     }
     return stats;
@@ -408,7 +422,7 @@ DistributedVectorIndexStats DistributedVectorIndex::getStats() const {
     stats.min_shard_size = std::numeric_limits<size_t>::max();
     stats.max_shard_size = 0;
 
-    for (size_t i = 0; i < shards_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(shards_.size()); ++i) {
         const size_t n = alive_ids_[i].size();
         stats.total_vectors += n;
         stats.max_shard_size = std::max(stats.max_shard_size, n);

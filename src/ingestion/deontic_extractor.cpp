@@ -34,7 +34,7 @@ static std::regex makeRe(const std::string& pattern) {
 // PROHIBITION must be checked before PERMISSION (darf nicht vs. darf).
 struct DeonticPattern {
     DeonticCategory  category;
-    std::regex       re;
+    std::regex       re = {};
     double           base_confidence;
 };
 
@@ -153,7 +153,7 @@ static const std::vector<EntityPattern>& getEntityPatterns() {
 DeonticExtractor::DeonticExtractor()
     : confidence_threshold_(0.75) {}
 
-void DeonticExtractor::setConfidenceThreshold(double threshold) {
+void DeonticExtractor::setConfidenceThreshold([[maybe_unused]] double threshold) {
     confidence_threshold_ = threshold;
 }
 
@@ -222,7 +222,7 @@ DeonticExtraction DeonticExtractor::extractRegex(const std::string& text) const 
                          != result.deontic_categories.end();
     if (is_obligation) {
         // Heuristic: extract actor from entity list
-        std::string actor;
+        std::string actor = {};
         for (const auto& ent : result.entities) {
             if (ent.type == "person_role") {
                 actor = ent.value;
@@ -231,12 +231,12 @@ DeonticExtraction DeonticExtractor::extractRegex(const std::string& text) const 
         }
 
         // Derive action from obligation pattern match (simplified heuristic)
-        std::string action;
+        std::string action = {};
         static const std::regex kBedarf(
             "bedarf(?:.*?)(einer|des|der)\\s+([\\w]+)",
             std::regex::ECMAScript | std::regex::icase);
-        std::smatch m;
-        if (std::regex_search(text, m, kBedarf) && m.size() >= 3) {
+        std::smatch m = {};
+        if (std::regex_search(text, m, kBedarf) && static_cast<int>(m.size()) >= 3) {
             action = m[1].str() + " " + m[2].str() + " einholen";
         }
 

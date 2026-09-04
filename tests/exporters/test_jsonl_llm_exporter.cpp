@@ -56,7 +56,7 @@ protected:
     std::vector<std::string> readLinesFromFile(const std::string& path) {
         std::vector<std::string> lines;
         std::ifstream file(path);
-        std::string line;
+        std::string line = {};
         while (std::getline(file, line)) {
             if (!line.empty()) {
                 lines.push_back(line);

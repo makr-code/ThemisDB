@@ -1,0 +1,330 @@
+name: "Release: Nightly"
+
+# Rechenaufwand-Score: R=6 (K=6, L=6, N=6) | last-calibrated: 2026-09-04
+# Trigger policy: repo framework score calibration for workflow cost controls.
+# Automatic nightly builds and releases: every night + manual dispatch.
+#
+# Pipeline stages:
+#   check-changes → set-release-type → build-matrix → generate-metadata
+#   → publish-release → publish-docker → notify
+#
+# Produces:
+#   GitHub Release: v<version>-nightly.<date>[.<run>]
+#   Docker tags:
+#     - themisdb:nightly
+#     - themisdb:nightly-<date>
+#     - themisdb:<version>-nightly-<date>
+#   Release artifacts:
+#     - build-metadata.json
+#     - SBOM (CycloneDX)
+#     - Nightly changelog
+#
+# Nightly versioning: uses VERSION file base + "nightly" suffix
+# Example: VERSION=2.4.0 → v2.4.0-nightly.20260904
+
+on:
+  schedule:
+    - cron: '30 3 * * *'  # 03:30 UTC daily
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Force build even if no commits since last nightly"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+permissions:
+  contents: write
+  packages: write
+  actions: read
+  pull-requests: read
+  issues: write
+
+concurrency:
+  group: ci-release-nightly-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+
+  check-changes:
+    name: Check for Changes Since Last Nightly
+    runs-on: ubuntu-latest
+    outputs:
+      has-changes: ${{ steps.check.outputs.has-changes }}
+      last-nightly-tag: ${{ steps.check.outputs.last-nightly-tag }}
+      commit-count: ${{ steps.check.outputs.commit-count }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for commits since last nightly
+        id: check
+        run: |
+          set -euo pipefail
+          
+          # Get most recent nightly tag
+          LAST_NIGHTLY=$(git describe --tags --match "v*-nightly*" --abbrev=0 2>/dev/null || echo "")
+          
+          if [[ -z "$LAST_NIGHTLY" ]]; then
+            echo "::notice::No prior nightly tags found — forcing build"
+            echo "has-changes=true" >> "$GITHUB_OUTPUT"
+            echo "last-nightly-tag=" >> "$GITHUB_OUTPUT"
+            COMMIT_COUNT=$(git rev-list --count HEAD)
+            echo "commit-count=$COMMIT_COUNT" >> "$GITHUB_OUTPUT"
+          else
+            COMMIT_COUNT=$(git rev-list --count "$LAST_NIGHTLY..HEAD")
+            if [[ $COMMIT_COUNT -gt 0 ]]; then
+              echo "::notice::Found $COMMIT_COUNT commits since $LAST_NIGHTLY"
+              echo "has-changes=true" >> "$GITHUB_OUTPUT"
+              echo "last-nightly-tag=$LAST_NIGHTLY" >> "$GITHUB_OUTPUT"
+              echo "commit-count=$COMMIT_COUNT" >> "$GITHUB_OUTPUT"
+            else
+              echo "::notice::No commits since $LAST_NIGHTLY"
+              echo "has-changes=false" >> "$GITHUB_OUTPUT"
+              echo "last-nightly-tag=$LAST_NIGHTLY" >> "$GITHUB_OUTPUT"
+              echo "commit-count=0" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
+  set-release-type:
+    name: Set Release Type to Nightly
+    runs-on: ubuntu-latest
+    needs: check-changes
+    if: |
+      needs.check-changes.outputs.has-changes == 'true' ||
+      github.event_name == 'workflow_dispatch' && github.event.inputs.force == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update RELEASE_TYPE to nightly
+        run: |
+          echo "::notice::Using workspace-only RELEASE_TYPE override for nightly run"
+
+  build-matrix:
+    name: Build Nightly (Matrix)
+    needs: set-release-type
+    uses: ./.github/workflows/release-build-matrix.yml
+    with:
+      build_matrix: community-only
+
+  generate-metadata:
+    name: Generate Build Metadata
+    needs: build-matrix
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.metadata.outputs.build-version }}
+      release-type: ${{ steps.metadata.outputs.release-type }}
+      nightly-tag: ${{ steps.version.outputs.nightly-tag }}
+      docker-labels: ${{ steps.metadata.outputs.docker-labels }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Override RELEASE_TYPE for nightly metadata
+        run: |
+          echo "nightly" > RELEASE_TYPE
+
+      - name: Generate build metadata
+        id: metadata
+        uses: ./.github/actions/generate-build-metadata
+        with:
+          output-path: build-metadata.json
+
+      - name: Generate nightly version tag
+        id: version
+        run: |
+          set -euo pipefail
+          VERSION=$(cat VERSION | tr -d '[:space:]')
+          DATE=$(date +%Y%m%d)
+          RUN_NUM=${{ github.run_number }}
+          
+          # Format: v2.4.0-nightly.20260904.1234
+          NIGHTLY_TAG="v${VERSION}-nightly.${DATE}.${RUN_NUM}"
+          
+          echo "nightly-tag=$NIGHTLY_TAG" >> "$GITHUB_OUTPUT"
+          echo "::notice::Nightly tag: $NIGHTLY_TAG"
+
+      - name: Upload build metadata as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-metadata
+          path: build-metadata.json
+          retention-days: 90
+
+  publish-release:
+    name: Publish GitHub Release
+    needs: [check-changes, generate-metadata, build-matrix]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download build metadata
+        uses: actions/download-artifact@v4
+        with:
+          name: build-metadata
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+
+      - name: Generate nightly release notes
+        id: release-notes
+        run: |
+          set -euo pipefail
+          
+          VERSION=$(cat VERSION | tr -d '[:space:]')
+          NIGHTLY_TAG="${{ needs.generate-metadata.outputs.nightly-tag }}"
+          BUILD_DATE=$(date +%Y-%m-%d)
+          BUILD_TIME=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          COMMIT_SHORT=$(git rev-parse --short HEAD)
+          COMMIT_URL="https://github.com/${{ github.repository }}/commit/$(git rev-parse HEAD)"
+          BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          COMMIT_COUNT="${{ needs.check-changes.outputs.commit-count }}"
+          
+          # Generate changelog entries
+          LAST_NIGHTLY="${{ needs.check-changes.outputs.last-nightly-tag }}"
+          if [[ -n "$LAST_NIGHTLY" ]]; then
+            CHANGELOG=$(git log --oneline "$LAST_NIGHTLY..HEAD" | head -20)
+          else
+            CHANGELOG=$(git log --oneline -20 HEAD)
+          fi
+          
+          # Build release notes
+          cat > release-notes.md << 'RELEASE_NOTES_EOF'
+          # ThemisDB Nightly Release — RELEASE_DATE_PLACEHOLDER
+          
+          **Build Number:** `GITHUB_RUN_NUMBER_PLACEHOLDER`  
+          **Commit:** [`COMMIT_SHORT_PLACEHOLDER`](COMMIT_URL_PLACEHOLDER)  
+          **Branch:** `BRANCH_PLACEHOLDER`
+          
+          ## ⚠️ Pre-release Notice
+          
+          This is a **nightly build** of ThemisDB's `develop` branch. It may contain unfinished features and breaking changes.
+          
+          ## Recent Changes
+          
+          ```
+          CHANGELOG_PLACEHOLDER
+          ```
+          
+          ## Build Metadata
+          
+          ```json
+          BUILD_METADATA_PLACEHOLDER
+          ```
+          
+          RELEASE_NOTES_EOF
+          
+          # Substitute placeholders
+          sed -i "s|RELEASE_DATE_PLACEHOLDER|$BUILD_DATE|g" release-notes.md
+          sed -i "s|GITHUB_RUN_NUMBER_PLACEHOLDER|${{ github.run_number }}|g" release-notes.md
+          sed -i "s|COMMIT_SHORT_PLACEHOLDER|$COMMIT_SHORT|g" release-notes.md
+          sed -i "s|COMMIT_URL_PLACEHOLDER|$COMMIT_URL|g" release-notes.md
+          sed -i "s|BRANCH_PLACEHOLDER|$BRANCH|g" release-notes.md
+          sed -i "s|CHANGELOG_PLACEHOLDER|${CHANGELOG//$'\n'/\\n}|g" release-notes.md
+          
+          # Embed build metadata
+          sed -i "/BUILD_METADATA_PLACEHOLDER/r build-metadata.json" release-notes.md
+          sed -i "/BUILD_METADATA_PLACEHOLDER/d" release-notes.md
+          
+          echo "Release notes generated"
+          cat release-notes.md
+
+      - name: Create GitHub Release
+        id: release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.generate-metadata.outputs.nightly-tag }}
+          body_path: release-notes.md
+          prerelease: true
+          draft: false
+          files: |
+            build-metadata.json
+            release-artifacts/**/*
+
+  publish-docker:
+    name: Publish Docker Images
+    needs: generate-metadata
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-community-release-${{ github.run_number }}
+          path: ./build-artifacts
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Log in to GitHub Container Registry (OIDC)
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for Docker
+        id: meta
+        run: |
+          set -euo pipefail
+          VERSION="${{ needs.generate-metadata.outputs.version }}"
+          DATE=$(date +%Y%m%d)
+          RUN_NUM=${{ github.run_number }}
+          
+          # Tags: themisdb:nightly, themisdb:nightly-YYYYMMDD, themisdb:X.Y.Z-nightly-YYYYMMDD
+          TAGS="themisdb/themisdb:nightly"
+          TAGS="${TAGS},themisdb/themisdb:nightly-${DATE}"
+          TAGS="${TAGS},themisdb/themisdb:${VERSION}-nightly-${DATE}"
+          TAGS="${TAGS},ghcr.io/${{ github.repository }}:nightly"
+          TAGS="${TAGS},ghcr.io/${{ github.repository }}:nightly-${DATE}"
+          
+          echo "tags=$TAGS" >> "$GITHUB_OUTPUT"
+          echo "::notice::Docker tags: $TAGS"
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@1ca370b3a9802d92335f2b519451aa5cf81194a15
+        with:
+          context: .
+          file: ./docker/Dockerfile.unified
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ needs.generate-metadata.outputs.docker-labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  notify:
+    name: Notify Build Completion
+    needs: [generate-metadata, publish-release, publish-docker]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Report nightly build status
+        run: |
+          echo "✓ Nightly Release Complete"
+          echo "  Tag: ${{ needs.generate-metadata.outputs.nightly-tag }}"
+          echo "  Version: ${{ needs.generate-metadata.outputs.version }}"
+          echo "  Release Type: ${{ needs.generate-metadata.outputs.release-type }}"
+          echo "  Workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

@@ -404,7 +404,8 @@ TEST_F(AccessCoordinatorFocusedTest, ACM06_CorrelationIDGeneration) {
     }
     
     // Correlation IDs should be unique
-    std::set<std::string> ids;
+    std::set<std::string> ids = {};
+
     for (const auto& t : transitions) {
         ids.insert(t.correlation_id);
     }

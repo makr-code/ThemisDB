@@ -493,7 +493,9 @@ TEST(TransactionAuditorTest, AC20_ConcurrentRecord) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(auditor.size(), static_cast<size_t>(kThreads * kPerThread));
 }

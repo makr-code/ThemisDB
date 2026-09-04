@@ -181,7 +181,7 @@ private:
 
     /// Per-source BFS result (before merging).
     struct SourceTraversalResult {
-        std::string source;
+        std::string source = {};
         std::vector<std::string> visited;   // ordered by discovery
         size_t nodes_explored = 0;
         size_t edges_traversed = 0;

@@ -85,7 +85,7 @@ BuiltTemporalSpatialQuery::execute(const themisdb::temporal::SystemVersionedTabl
     }
     const auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::steady_clock::now() - t0).count();
-    THEMIS_DEBUG("geo.temporal_spatial_query.execute: elapsed_us={} result_count={}", elapsed_us, result.size());
+    THEMIS_DEBUG("geo.temporal_spatial_query.execute: elapsed_us={} result_count={}", elapsed_us,static_cast<int>(result.size()));
     return result;
 }
 

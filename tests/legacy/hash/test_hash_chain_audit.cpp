@@ -87,7 +87,7 @@ TEST_F(HashChainAuditTest, ChainSeedChangesGenesisHash) {
 // ============================================================================
 
 TEST_F(HashChainAuditTest, HeadPersistedAcrossInstances) {
-    std::string first_hash;
+    std::string first_hash = {};
     {
         HashChainAuditWriter w(cfg);
         w.write({{"e", "A"}});
@@ -141,8 +141,10 @@ TEST_F(HashChainAuditTest, VerifyDetectsTampering) {
     {
         std::ifstream ifs(kLog);
         std::vector<std::string> lines;
-        std::string line;
-        while (std::getline(ifs, line)) lines.push_back(line);
+        std::string line = {};
+        while (std::getline(ifs, line)) {
+          lines.push_back(line);
+        }
         ifs.close();
 
         ASSERT_GE(lines.size(), 2u);
@@ -154,7 +156,9 @@ TEST_F(HashChainAuditTest, VerifyDetectsTampering) {
         }
 
         std::ofstream ofs(kLog, std::ios::trunc);
-        for (const auto& s : lines) ofs << s << '\n';
+        for (const auto& s : lines) {
+          ofs << s << '\n';
+        }
     }
 
     AuditLogVerifier verifier;

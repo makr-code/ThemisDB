@@ -58,12 +58,12 @@ constexpr double kFragPctPerL0File       = 2.0;
 constexpr double kMaxFallbackFragPct     = 50.0;
 
 /// Bytes in one megabyte (used for orphan-entry estimation).
-constexpr uint64_t kBytesPerMB           = 1024ULL * 1024ULL;
+constexpr uint64_t kBytesPerMB           = 1024 * 1024;
 
 /// Estimated orphan entries per megabyte of pending-compaction bytes.
 /// This is a coarse heuristic; accurate tracking requires a dedicated
 /// metadata column family.
-constexpr uint64_t kEstimatedOrphansPerMB = 1000ULL;
+constexpr uint64_t kEstimatedOrphansPerMB = 1000;
 
 /// RocksDB key prefix used to persist per-index stats-update timestamps.
 /// Key format: "__ia_stats_ts__:<index_name>"  Value: decimal epoch seconds.
@@ -74,8 +74,12 @@ static const std::string kStatsTimestampPrefix = "__ia_stats_ts__:";
 constexpr uint32_t kFallbackStatsAgeHours = 72;
 
 storage::StorageTierLevel tierFromString(const std::string& s) {
-    if (s == "warm") return storage::StorageTierLevel::WARM;
-    if (s == "cold") return storage::StorageTierLevel::COLD;
+    if (s == "warm") {
+      return storage::StorageTierLevel::WARM;
+    }
+    if (s == "cold") {
+      return storage::StorageTierLevel::COLD;
+    }
     return storage::StorageTierLevel::HOT;
 }
 
@@ -91,11 +95,21 @@ std::string tierToString(storage::StorageTierLevel tier) {
 TierThresholds loadTierThresholds(const YAML::Node& node,
                                    const TierThresholds& defaults) {
     TierThresholds t = defaults;
-    if (!node || !node.IsMap()) return t;
-    if (node["reorganize_pct"])       t.reorganize_pct       = node["reorganize_pct"].as<double>(t.reorganize_pct);
-    if (node["partial_rebuild_pct"])  t.partial_rebuild_pct  = node["partial_rebuild_pct"].as<double>(t.partial_rebuild_pct);
-    if (node["full_rebuild_pct"])     t.full_rebuild_pct     = node["full_rebuild_pct"].as<double>(t.full_rebuild_pct);
-    if (node["stats_stale_hours"])    t.stats_stale_hours    = node["stats_stale_hours"].as<uint32_t>(t.stats_stale_hours);
+    if (!node || !node.IsMap()) {
+      return t;
+    }
+    if (node["reorganize_pct"]) {
+      t.reorganize_pct       = node["reorganize_pct"].as<double>(t.reorganize_pct);
+    }
+    if (node["partial_rebuild_pct"]) {
+      t.partial_rebuild_pct  = node["partial_rebuild_pct"].as<double>(t.partial_rebuild_pct);
+    }
+    if (node["full_rebuild_pct"]) {
+      t.full_rebuild_pct     = node["full_rebuild_pct"].as<double>(t.full_rebuild_pct);
+    }
+    if (node["stats_stale_hours"]) {
+      t.stats_stale_hours    = node["stats_stale_hours"].as<uint32_t>(t.stats_stale_hours);
+    }
     return t;
 }
 
@@ -117,8 +131,12 @@ Result<IndexAnalyzeConfig> IndexAnalyzeConfig::fromYamlFile(const std::string& y
             return cfg;
         }
 
-        if (node["enabled"])         cfg.enabled         = node["enabled"].as<bool>(true);
-        if (node["cron_expression"]) cfg.cron_expression = node["cron_expression"].as<std::string>("0 2 * * *");
+        if (node["enabled"]) {
+          cfg.enabled         = node["enabled"].as<bool>(true);
+        }
+        if (node["cron_expression"]) {
+          cfg.cron_expression = node["cron_expression"].as<std::string>("0 2 * * *");
+        }
 
         if (node["thresholds"]) {
             const auto& thr = node["thresholds"];
@@ -137,7 +155,9 @@ Result<IndexAnalyzeConfig> IndexAnalyzeConfig::fromYamlFile(const std::string& y
             for (const auto& entry : node["indices"]) {
                 IndexEntry ie;
                 ie.name    = entry["name"].as<std::string>("");
-                if (ie.name.empty()) continue;
+                if (ie.name.empty()) {
+                  continue;
+                }
                 ie.tier    = tierFromString(entry["tier"].as<std::string>("hot"));
                 ie.enabled = entry["enabled"].as<bool>(true);
 
@@ -150,7 +170,7 @@ Result<IndexAnalyzeConfig> IndexAnalyzeConfig::fromYamlFile(const std::string& y
         }
 
         THEMIS_INFO("IndexAnalyzeConfig: loaded from '{}' ({} indices, cron='{}')",
-                    yaml_path, cfg.indices.size(), cfg.cron_expression);
+                    yaml_path,static_cast<int>(cfg.indices.size()), cfg.cron_expression);
         return cfg;
 
     } catch (const YAML::Exception& ex) {
@@ -187,7 +207,7 @@ IndexAnalyzer::IndexAnalyzer(std::shared_ptr<RocksDBWrapper> db_wrapper,
         throw std::invalid_argument("IndexAnalyzer: db_wrapper must not be null");
     }
     THEMIS_INFO("IndexAnalyzer: initialised (cron='{}', {} indices registered)",
-                config_.cron_expression, config_.indices.size());
+                config_.cron_expression,static_cast<int>(config_.indices.size()));
 }
 
 IndexAnalyzer::~IndexAnalyzer() {
@@ -256,11 +276,14 @@ std::vector<IndexAnalysisReport> IndexAnalyzer::analyzeAll() {
         snapshot = config_.indices;
     }
 
-    std::vector<IndexAnalysisReport> reports;
+    std::vector<IndexAnalysisReport> reports = {};
+
     reports.reserve(snapshot.size());
 
     for (const auto& entry : snapshot) {
-        if (!entry.enabled) continue;
+        if (!entry.enabled) {
+          continue;
+        }
 
         // lock_in_loop scanner alert (line 251): the index-entry snapshot is
         // captured before the loop; thresholds are intentionally re-read per
@@ -289,7 +312,7 @@ std::vector<IndexAnalysisReport> IndexAnalyzer::analyzeAll() {
         last_run_time_  = std::chrono::system_clock::now();
     }
 
-    THEMIS_INFO("IndexAnalyzer: analyzeAll completed ({} reports)", reports.size());
+    THEMIS_INFO("IndexAnalyzer: analyzeAll completed ({} reports)",static_cast<int>(reports.size()));
     return reports;
 }
 
@@ -358,8 +381,8 @@ void IndexAnalyzer::schedulerLoop() {
 
     while (running_.load(std::memory_order_relaxed)) {
         // Snapshot current cron expression
-        std::string cron_expr;
-        bool enabled;
+        std::string cron_expr = {};
+        bool enabled = {};
         {
             std::lock_guard<std::mutex> lock(mutex_);
             cron_expr = config_.cron_expression;
@@ -415,7 +438,9 @@ void IndexAnalyzer::schedulerLoop() {
                            [this] { return !running_.load(std::memory_order_relaxed); });
         }
 
-        if (!running_.load(std::memory_order_relaxed)) break;
+        if (!running_.load(std::memory_order_relaxed)) {
+          break;
+        }
 
         // Check that it is actually time to run (cv_ may have been spuriously notified
         // due to a config change; re-validate)
@@ -458,7 +483,7 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
     // ── Fragmentation: L0 file count as proxy ─────────────────────────────
     // Hot-tier L0 files indicate write-stall risk; warm/cold are compacted
     // less aggressively so we tolerate more overlap.
-    std::string l0_str;
+    std::string l0_str = {};
     uint64_t l0_files = 0;
     if (raw_db->GetProperty("rocksdb.num-files-at-level0", &l0_str)) {
         try {
@@ -508,7 +533,7 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
     // triggers an initial statistics update.
     {
         const std::string ts_key = kStatsTimestampPrefix + index_name;
-        std::string ts_str;
+        std::string ts_str = {};
         uint32_t age_hours = kFallbackStatsAgeHours;
         if (db_wrapper_->get(ts_key, ts_str) && !ts_str.empty()) {
             try {
@@ -518,7 +543,7 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
                 const int64_t age_secs = now_epoch - stored_epoch;
                 age_hours = (age_secs > 0)
                     ? static_cast<uint32_t>(age_secs / 3600)
-                    : 0u;
+                    : 0;
             } catch (...) {
                 THEMIS_WARN("index_analyzer: unhandled exception caught");
                 age_hours = kFallbackStatsAgeHours;
@@ -538,7 +563,7 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
 
     // Build human-readable reason
     {
-        std::ostringstream reason;
+        std::ostringstream reason = {};
         reason << "tier=" << tierToString(tier)
                << " frag=" << std::round(frag_pct * 10.0) / 10.0 << "%"
                << " L0_files=" << l0_files
@@ -560,14 +585,16 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
 
 void IndexAnalyzer::applyAdvisor(IndexAnalysisReport& report) {
     std::shared_ptr<IIndexAnalysisAdvisor> advisor;
-    bool ai_enabled;
+    bool ai_enabled = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         advisor    = advisor_;
         ai_enabled = config_.ai_advisor_enabled;
     }
 
-    if (!ai_enabled || !advisor) return;
+    if (!ai_enabled || !advisor) {
+      return;
+    }
 
     try {
         auto override_result = advisor->advise(report);
@@ -592,10 +619,18 @@ void IndexAnalyzer::applyAdvisor(IndexAnalysisReport& report) {
 IndexRecommendation IndexAnalyzer::classify(double frag_pct,
                                              bool stats_stale,
                                              const TierThresholds& t) {
-    if (frag_pct >= t.full_rebuild_pct)    return IndexRecommendation::FULL_REBUILD;
-    if (frag_pct >= t.partial_rebuild_pct) return IndexRecommendation::PARTIAL_REBUILD;
-    if (frag_pct >= t.reorganize_pct)      return IndexRecommendation::REORGANIZE;
-    if (stats_stale)                        return IndexRecommendation::UPDATE_STATS;
+    if (frag_pct >= t.full_rebuild_pct) {
+      return IndexRecommendation::FULL_REBUILD;
+    }
+    if (frag_pct >= t.partial_rebuild_pct) {
+      return IndexRecommendation::PARTIAL_REBUILD;
+    }
+    if (frag_pct >= t.reorganize_pct) {
+      return IndexRecommendation::REORGANIZE;
+    }
+    if (stats_stale) {
+      return IndexRecommendation::UPDATE_STATS;
+    }
     return IndexRecommendation::NONE;
 }
 

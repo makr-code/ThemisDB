@@ -400,7 +400,9 @@ TEST(RateLimiterConcurrencyTest, ConcurrentRequests_ThreadSafe) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     auto stats = limiter.getStatistics();
     EXPECT_EQ(stats.total_requests, static_cast<size_t>(THREADS * REQUESTS));

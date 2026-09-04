@@ -21,8 +21,10 @@ static std::vector<Row> makeRows(size_t n, double base_value = 1.0) {
 
 // Helper – extract the float payload as a double.
 static double payloadVal(const Row& r) {
-    if (r.data.size() < sizeof(float)) return 0.0;
-    float v;
+    if (r.data.size() < sizeof(float)) {
+      return 0.0;
+    }
+    float v = {};
     std::memcpy(&v, r.data.data(), sizeof(float));
     return static_cast<double>(v);
 }
@@ -214,7 +216,8 @@ TEST_F(GPUQueryAcceleratorTest, AggregateUpdatesStats) {
 // Build rows with ID as join key
 static std::vector<Row> makeJoinRows(
     std::initializer_list<uint64_t> ids) {
-    std::vector<Row> rows;
+    std::vector<Row> rows = {};
+
     for (uint64_t id : ids) {
         Row r;
         r.id = id;
@@ -441,7 +444,9 @@ TEST_F(GPUQueryAcceleratorTest, AnnSearch_SortedByDistanceAscending) {
 
     // Database: vectors at positions 0..9
     std::vector<float> db(n * dim);
-    for (size_t i = 0; i < n; ++i) db[i] = static_cast<float>(i);
+    for (size_t i = 0; i < n; ++i) {
+      db[i] = static_cast<float>(i);
+    }
 
     // Query at 4.6 → sorted by |4.6 - i|: 5(0.4), 4(0.6), 6(1.4), 3(1.6)...
     std::vector<float> q = {4.6f};

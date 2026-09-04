@@ -83,7 +83,7 @@ static std::unique_ptr<RBAC> build_test_rbac() {
 class AuthAttackVectorTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        std::string license_error;
+        std::string license_error = {};
         rbac_feature_available_ =
             themis::license::RuntimeLicenseGate::instance().isFeatureAllowed("rbac", license_error);
         rbac_ = build_test_rbac();

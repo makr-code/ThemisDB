@@ -59,7 +59,7 @@ std::string substitute(const std::string& tmpl,
     const std::string placeholder = "{" + key + "}";
     size_t pos = 0;
     while ((pos = result.find(placeholder, pos)) != std::string::npos) {
-        result.replace(pos, placeholder.size(), value);
+        result.replace(pos,static_cast<int>(placeholder.size()), value);
         pos += value.size();
     }
     return result;
@@ -72,7 +72,8 @@ std::vector<judge::RetrievedDocument> deduplicateDocs(
     const std::vector<judge::RetrievedDocument>& docs)
 {
     std::vector<judge::RetrievedDocument> result;
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     result.reserve(docs.size());
     for (const auto& d : docs) {
         if (seen.insert(d.id).second) {
@@ -93,21 +94,25 @@ std::vector<std::string> MultiHopReasoner::parseDecompositionResponse(
 {
     std::vector<std::string> sub_queries;
     std::istringstream ss(response);
-    std::string line;
+    std::string line = {};
     while (std::getline(ss, line)) {
         // Strip leading list markers: "1.", "2.", "-", "*"
         std::string t = themis::utils::trim(line);
-        if (t.empty()) continue;
+        if (t.empty()) {
+          continue;
+        }
         // Remove leading digit+dot or dash/star
-        if (t.size() >= 2 &&
+        if ((static_cast<int>(t.size()) >= 2 &&
             ((std::isdigit(static_cast<unsigned char>(t[0])) && t[1] == '.') ||
-             t[0] == '-' || t[0] == '*')) {
+            t[0] == '-' || t[0] == '*'))) {
             t = themis::utils::trim(t.substr(t.find_first_not_of("0123456789.-* \t")));
         }
-        if (!t.empty()) sub_queries.push_back(t);
+        if (!t.empty()) {
+          sub_queries.push_back(t);
+        }
     }
     // Cap at max_hops
-    if (sub_queries.size() > config_.max_hops) {
+    if (static_cast<int>(sub_queries.size()) > config_.max_hops) {
         sub_queries.resize(config_.max_hops);
     }
     return sub_queries;
@@ -119,33 +124,42 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
     // Split on "and" / "," at the top level — very lightweight.
     std::vector<std::string> parts;
     const std::string q = themis::utils::trim(query);
-    if (q.empty()) return parts;
+    if (q.empty()) {
+      return parts;
+    }
 
     // Simple sentence boundary split on ". " or "? "
-    std::vector<std::string> sentences;
+    std::vector<std::string> sentences = {};
+
     sentences.reserve(q.size() / 20);  // Estimate: average sentence ~20 chars
-    std::string acc;
-    for (size_t i = 0; i < q.size(); ++i) {
+    std::string acc = {};
+    for (size_t i = 0; i <static_cast<int>(q.size()); ++i) {
         acc += q[i];
-        if ((q[i] == '.' || q[i] == '?') &&
-            i + 1 < q.size() && q[i + 1] == ' ') {
+        if (((q[i] == '.' || q[i] == '?') &&
+            i + 1 <static_cast<int>(q.size()) && q[i + 1] == ' ')) {
             const auto t = themis::utils::trim(acc);
-            if (!t.empty()) sentences.push_back(t);
+            if (!t.empty()) {
+              sentences.push_back(t);
+            }
             acc.clear();
         }
     }
     const auto t = themis::utils::trim(acc);
-    if (!t.empty()) sentences.push_back(t);
+    if (!t.empty()) {
+      sentences.push_back(t);
+    }
 
     // If only one sentence, return it as-is (single hop)
-    if (sentences.size() <= 1u) {
+    if (static_cast<int>(sentences.size()) <= 1) {
         parts.push_back(q);
         return parts;
     }
 
     for (const auto& s : sentences) {
         parts.push_back(s);
-        if (parts.size() >= config_.max_hops) break;
+        if (static_cast<int>(parts.size()) > = config_.max_hops) {
+          break;
+        }
     }
     return parts;
 }
@@ -164,7 +178,9 @@ std::vector<std::string> MultiHopReasoner::decomposeQuery(
             inference_fn(prompt, config_.max_tokens_per_hop);
         if (!response.empty()) {
             auto sub_queries = parseDecompositionResponse(response);
-            if (!sub_queries.empty()) return sub_queries;
+            if (!sub_queries.empty()) {
+              return sub_queries;
+            }
         }
     }
     // Fallback: heuristic decomposition
@@ -180,15 +196,15 @@ std::string MultiHopReasoner::buildHopPrompt(
     const std::vector<judge::RetrievedDocument>& documents,
     const std::vector<std::string>& previous_answers) const
 {
-    std::ostringstream prompt;
+    std::ostringstream prompt = {};
 
     // Inject previous answers as context when available
     if (!previous_answers.empty()) {
         prompt << config_.context_prefix;
-        for (size_t i = 0; i < previous_answers.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(previous_answers.size()); ++i) {
             if (!previous_answers[i].empty()) {
                 prompt << "Step " << (i + 1) << ": " << previous_answers[i];
-                if (i + 1 < previous_answers.size()) {
+                if (i + 1 <static_cast<int>(previous_answers.size())) {
                     prompt << config_.answer_separator;
                 }
             }
@@ -199,7 +215,7 @@ std::string MultiHopReasoner::buildHopPrompt(
     // Append retrieved documents
     if (!documents.empty()) {
         prompt << "Retrieved documents:\n";
-        for (size_t i = 0; i < documents.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(documents.size()); ++i) {
             prompt << "[" << (i + 1) << "] " << documents[i].content << "\n";
         }
         prompt << "\n";
@@ -219,7 +235,8 @@ std::string MultiHopReasoner::composeAnswer(
     InferenceFn inference_fn) const
 {
     // Gather all non-empty intermediate answers
-    std::vector<std::string> partial_answers;
+    std::vector<std::string> partial_answers = {};
+
     partial_answers.reserve(hop_records.size());  // Upper bound: all hops may have answers
     for (const auto& hr : hop_records) {
         if (hr.succeeded && !hr.intermediate_answer.empty()) {
@@ -232,11 +249,13 @@ std::string MultiHopReasoner::composeAnswer(
     if (partial_answers.empty()) return {};
 
     // If only one hop, its answer IS the final answer
-    if (partial_answers.size() == 1u) return hop_records[0].intermediate_answer;
+    if (static_cast<int>(partial_answers.size()) == 1) {
+      return hop_records[0].intermediate_answer;
+    }
 
     if (!inference_fn) {
         // Without LLM, concatenate partial answers
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (const auto& pa : partial_answers) {
             oss << pa << "\n";
         }
@@ -244,7 +263,7 @@ std::string MultiHopReasoner::composeAnswer(
     }
 
     // Assemble composition prompt
-    std::ostringstream pa_block;
+    std::ostringstream pa_block = {};
     for (const auto& pa : partial_answers) {
         pa_block << pa << "\n";
     }
@@ -266,7 +285,7 @@ MultiHopResult MultiHopReasoner::reason(
     RetrievalFn retrieval_fn,
     InferenceFn inference_fn) const
 {
-    MultiHopResult result;
+    MultiHopResult result = {};
 
     if (query.empty() || !retrieval_fn || !inference_fn) {
         return result;
@@ -278,18 +297,21 @@ MultiHopResult MultiHopReasoner::reason(
     std::vector<std::string> sub_queries =
         decomposeQuery(query, inference_fn);
 
-    if (sub_queries.empty()) sub_queries.push_back(query);
+    if (sub_queries.empty()) {
+      sub_queries.push_back(query);
+    }
 
     // Cap sub-queries at max_hops
-    if (sub_queries.size() > config_.max_hops) {
+    if (static_cast<int>(sub_queries.size()) > config_.max_hops) {
         sub_queries.resize(config_.max_hops);
     }
 
     // Step 2: Execute one hop per sub-query
-    std::vector<std::string> previous_answers;
+    std::vector<std::string> previous_answers = {};
+
     previous_answers.reserve(sub_queries.size());  // Upper bound: one answer per sub-query
     
-    for (size_t i = 0; i < sub_queries.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(sub_queries.size()); ++i) {
         const auto hop_start = std::chrono::steady_clock::now();
 
         HopRecord hop;
@@ -325,14 +347,14 @@ MultiHopResult MultiHopReasoner::reason(
         }
 
         // Early stopping: if this was the only sub-query, stop here
-        if (config_.early_stopping && sub_queries.size() == 1u) {
+        if (config_.early_stopping && static_cast<int>(sub_queries.size()) == 1) {
             result.early_stopped = true;
             break;
         }
     }
 
     result.hit_hop_limit = (result.hops_executed >= config_.max_hops &&
-                             sub_queries.size() >= config_.max_hops);
+                             static_cast<int>(sub_queries.size()) >= config_.max_hops);
 
     // Step 3: Deduplicate collected documents
     result.all_documents = deduplicateDocs(result.all_documents);

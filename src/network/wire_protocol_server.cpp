@@ -98,7 +98,7 @@ constexpr std::size_t kMaxBpmnVariablesFields = 256;
 constexpr std::size_t kDefaultBpmnHistoryEvents = 1000;
 constexpr std::size_t kMaxBpmnHistoryEvents = 10000;
 constexpr uint32_t kMaxWireFrameSizeMb =
-    static_cast<uint32_t>(std::numeric_limits<uint32_t>::max() / (1024u * 1024u));
+    static_cast<uint32_t>(std::numeric_limits<uint32_t>::max() / (1024 * 1024));
 constexpr int kBindListenMaxRetries = 3; // kept for reference; active retry uses WireRetryPolicy
 constexpr auto kBindListenRetryBaseDelay = std::chrono::milliseconds(100); // kept for reference
 
@@ -118,11 +118,15 @@ constexpr int kShutdownJoinTimeoutMs = 5000;
 /// and the caller returns promptly.
 static void timedJoin(std::thread& t,
                       int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
-    if (!t.joinable()) return;
+    if (!t.joinable()) {
+      return;
+    }
     std::promise<void> done;
     auto fut = done.get_future();
     std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
-        if (inner.joinable()) inner.join();
+        if (inner.joinable()) {
+          inner.join();
+        }
         p.set_value();
     });
     watcher.detach();
@@ -135,10 +139,10 @@ static void timedJoin(std::thread& t,
 }
 
 uint64_t fnv1a64(std::string_view value) {
-    uint64_t hash = 1469598103934665603ULL;
+    uint64_t hash = 1469598103934665603;
     for (unsigned char ch : value) {
         hash ^= static_cast<uint64_t>(ch);
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
     return hash;
 }
@@ -160,7 +164,7 @@ bool hasControlCharacters(std::string_view value) {
 }
 
 bool isReasonableWireIdentifier(std::string_view value) {
-    return !value.empty() && value.size() <= kMaxWireIdentifierLength &&
+    return !value.empty() && static_cast<int>(value.size()) <= kMaxWireIdentifierLength &&
            !hasControlCharacters(value);
 }
 
@@ -175,16 +179,16 @@ std::size_t escapedJsonStringLength(std::string_view value) {
     for (unsigned char ch : value) {
         switch (ch) {
             case '\"':
-            case '\\':
-            case '\b':
-            case '\f':
-            case '\n':
-            case '\r':
-            case '\t':
+            [[fallthrough]];\n            case '\\':
+            [[fallthrough]];\n            case '\b':
+            [[fallthrough]];\n            case '\f':
+            [[fallthrough]];\n            case '\n':
+            [[fallthrough]];\n            case '\r':
+            [[fallthrough]];\n            case '\t':
                 escaped_length += 2;
                 break;
             default:
-                escaped_length += (ch < 0x20u) ? 6u : 1u;
+                escaped_length += (ch < 0x20u) ? 6 : 1;
                 break;
         }
     }
@@ -212,7 +216,7 @@ bool validateBpmnVariablesObject(const json& variables, std::string& error_messa
         return false;
     }
 
-    if (variables.size() > kMaxBpmnVariablesFields) {
+    if (static_cast<int>(variables.size()) > kMaxBpmnVariablesFields) {
         error_message = "variables object exceeds maximum field count";
         return false;
     }
@@ -363,7 +367,7 @@ void WireProtocolServer::start() {
     bool has_geo_callback = false;
     {
         std::lock_guard<std::mutex> lock(g_network_geo_fn_mutex);
-        has_geo_callback = static_cast<bool>(g_network_geo_query_fn);
+        has_geo_callback = static_cast<bool>([[maybe_unused]] g_network_geo_query_fn);
     }
     const bool has_geo_backend = static_cast<bool>(spatial_index_) || has_geo_callback;
     if (!wire_bootstrap::validateRequiredBackends(
@@ -656,9 +660,9 @@ void WireProtocolServer::wait() {
 size_t WireProtocolServer::getActiveConnections() const {
     std::lock_guard<std::mutex> lock(connections_mutex_);
 #ifdef THEMIS_ENABLE_WEBSOCKET
-    return active_sessions_.size() + active_ws_sessions_.size();
+    return static_cast<int>(active_sessions_.size()) + static_cast<int>(active_ws_sessions_.size()) ;
 #else
-    return active_sessions_.size();
+    return static_cast<int>(active_sessions_.size());
 #endif
 }
 
@@ -723,7 +727,7 @@ bool WireProtocolServer::checkRateLimit(const std::string& remote_ip) {
     
     // WPS-9: prune map before inserting to prevent unbounded growth from IP cycling
     constexpr size_t kMaxRateLimitEntries = 100'000;
-    if (rate_limits_.size() >= kMaxRateLimitEntries) {
+    if (static_cast<int>(rate_limits_.size()) > = kMaxRateLimitEntries) {
         rate_limits_.clear();
     }
 
@@ -779,7 +783,9 @@ void WireProtocolServer::unregisterConnection(const std::string& remote_ip) {
     // Guard against spurious calls for sessions that were rejected before
     // registerConnection() could be called (client_ip_ == "unknown") and for
     // WebSocket-upgraded sessions whose client_ip_ was cleared prior to upgrade.
-    if (!was_registered) return;
+    if (!was_registered) {
+      return;
+    }
 
     const uint32_t prev = active_connection_count_.fetch_sub(1, std::memory_order_relaxed);
     // Detect recovery: if we were overloaded and have now dropped below the
@@ -794,7 +800,9 @@ void WireProtocolServer::unregisterConnection(const std::string& remote_ip) {
 }
 
 void WireProtocolServer::doAccept() {
-    if (!running_.load(std::memory_order_acquire)) return;
+    if (!running_.load(std::memory_order_acquire)) {
+      return;
+    }
 
     auto session = std::make_shared<Session>(
         session_id_counter_.fetch_add(1, std::memory_order_acq_rel),
@@ -958,7 +966,7 @@ void WireProtocolServer::Session::asyncReadHeader() {
         [this, self](const boost::system::error_code& ec, std::size_t /*bytes*/) {
             if (!ec) {
                 // Parse header to get payload size, then read payload
-                if (header_buffer_.size() >= 12) {
+                if (static_cast<int>(header_buffer_.size()) > = 12) {
                     // WPS-4 fix: Validate 4-byte magic field "TMDB" (0x544D4442) before
                     // dispatching any further reads.  An invalid magic closes the connection
                     // immediately to prevent unknown clients from reaching the opcode dispatcher.
@@ -1162,7 +1170,7 @@ void WireProtocolServer::Session::asyncUpgradeToWebSocket(
 }
 #endif // THEMIS_ENABLE_WEBSOCKET
 
-void WireProtocolServer::Session::asyncReadPayload(uint32_t payload_size) {
+void WireProtocolServer::Session::asyncReadPayload([[maybe_unused]] uint32_t payload_size) {
     if (payload_size == 0) {
         // No payload, check if we need to read checksum
         payload_buffer_.clear();
@@ -1217,11 +1225,11 @@ void WireProtocolServer::Session::asyncReadChecksum() {
 
                 uint32_t computed_crc = crc32Update(
                     0,
-                    header_buffer_.data(), header_buffer_.size());
+                    header_buffer_.data(),static_cast<int>(header_buffer_.size()));
                 if (!payload_buffer_.empty()) {
                     computed_crc = crc32Update(
                         computed_crc,
-                        payload_buffer_.data(), payload_buffer_.size());
+                        payload_buffer_.data(),static_cast<int>(payload_buffer_.size()));
                 }
 
                 if (computed_crc != expected_crc) {
@@ -1277,10 +1285,10 @@ void WireProtocolServer::Session::dispatchToWorkerPool(std::function<void()> han
 
 void WireProtocolServer::Session::handleMessage() {
     requests_processed_.fetch_add(1, std::memory_order_relaxed);
-    bytes_received_.fetch_add(header_buffer_.size() + payload_buffer_.size(), std::memory_order_relaxed);
+    bytes_received_.fetch_add(static_cast<int>(header_buffer_.size()) + static_cast<int>(payload_buffer_.size()) , std::memory_order_relaxed);
     
     // Validate header size (must be at least 12 bytes)
-    if (header_buffer_.size() < 12) {
+    if (static_cast<int>(header_buffer_.size()) < 12) {
         sendError(0x0008, "Invalid header size");
         return;
     }
@@ -1513,11 +1521,11 @@ void WireProtocolServer::Session::handleAuthRequest() {
     // On success sets authenticated_ = true and records the username.
     // When Config::require_auth is false, any non-empty token (or no token) is accepted.
     try {
-        std::string token;
-        std::string username_req;
+        std::string token = {};
+        std::string username_req = {};
 
         if (!payload_buffer_.empty()) {
-            if (payload_buffer_.size() > kMaxAuthPayloadBytes) {
+            if (static_cast<int>(payload_buffer_.size()) > kMaxAuthPayloadBytes) {
                 sendError(413, "AUTH payload too large");
                 return;
             }
@@ -1554,8 +1562,8 @@ void WireProtocolServer::Session::handleAuthRequest() {
             // WPS-2 fix: use CRYPTO_memcmp for constant-time comparison to prevent
             // timing side-channel attacks that leak the pre-shared token prefix/length.
             const auto& stored = server_->config_.auth_token;
-            if (token.size() == stored.size()) {
-                accepted = (CRYPTO_memcmp(token.data(), stored.data(), stored.size()) == 0);
+            if (static_cast<int>(token.size()) == static_cast<int>(stored.size())) {
+                accepted = (CRYPTO_memcmp(token.data(), stored.data(),static_cast<int>(stored.size())) == 0);
             }
             // Different lengths → accepted stays false (no timing leak from size mismatch
             // because the size comparison itself is O(1) and constant).
@@ -1610,7 +1618,7 @@ void WireProtocolServer::Session::handleGet() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxCrudPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxCrudPayloadBytes) {
             sendError(413, "GET payload too large");
             return;
         }
@@ -1620,8 +1628,8 @@ void WireProtocolServer::Session::handleGet() {
             sendError(400, "Invalid GET payload: expected JSON object");
             return;
         }
-        if ((request.contains("collection") && !request["collection"].is_string()) ||
-            (request.contains("key") && !request["key"].is_string())) {
+        if (((request.contains("collection") && !request["collection"].is_string()) ||
+            (request.contains("key") && !request["key"].is_string()))) {
             sendError(400, "Invalid 'collection' or 'key' type in GET request");
             return;
         }
@@ -1641,7 +1649,7 @@ void WireProtocolServer::Session::handleGet() {
         std::string storage_key = collection + ":" + key;
         auto result = server_->storage_->get(storage_key);
 
-        json response;
+        json response = {};
         if (result.has_value()) {
             const auto& value_bytes = result.value();
             // Try to parse value as JSON; fall back to base64-style string.
@@ -1684,7 +1692,7 @@ void WireProtocolServer::Session::handlePut() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxCrudPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxCrudPayloadBytes) {
             sendError(413, "PUT payload too large");
             return;
         }
@@ -1694,8 +1702,8 @@ void WireProtocolServer::Session::handlePut() {
             sendError(400, "Invalid PUT payload: expected JSON object");
             return;
         }
-        if ((request.contains("collection") && !request["collection"].is_string()) ||
-            (request.contains("key") && !request["key"].is_string())) {
+        if (((request.contains("collection") && !request["collection"].is_string()) ||
+            (request.contains("key") && !request["key"].is_string()))) {
             sendError(400, "Invalid 'collection' or 'key' type in PUT request");
             return;
         }
@@ -1755,7 +1763,7 @@ void WireProtocolServer::Session::handleDelete() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxCrudPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxCrudPayloadBytes) {
             sendError(413, "DELETE payload too large");
             return;
         }
@@ -1765,8 +1773,8 @@ void WireProtocolServer::Session::handleDelete() {
             sendError(400, "Invalid DELETE payload: expected JSON object");
             return;
         }
-        if ((request.contains("collection") && !request["collection"].is_string()) ||
-            (request.contains("key") && !request["key"].is_string())) {
+        if (((request.contains("collection") && !request["collection"].is_string()) ||
+            (request.contains("key") && !request["key"].is_string()))) {
             sendError(400, "Invalid 'collection' or 'key' type in DELETE request");
             return;
         }
@@ -1814,7 +1822,7 @@ void WireProtocolServer::Session::handleBatchGet() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxBatchPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxBatchPayloadBytes) {
             sendError(413, "BATCH_GET payload too large");
             return;
         }
@@ -1850,14 +1858,16 @@ void WireProtocolServer::Session::handleBatchGet() {
         }
 
         constexpr size_t kMaxBatchElements = 1000;
-        if (keys_arr.size() > kMaxBatchElements) {
+        if (static_cast<int>(keys_arr.size()) > kMaxBatchElements) {
             sendError(400, "BATCH_GET exceeds maximum of 1000 keys per request");
             return;
         }
 
-        std::vector<std::string> client_keys;
+        std::vector<std::string> client_keys = {};
+
         client_keys.reserve(keys_arr.size());
-        std::vector<std::string> storage_keys;
+        std::vector<std::string> storage_keys = {};
+
         storage_keys.reserve(keys_arr.size());
         for (const auto& key_val : keys_arr) {
             if (!key_val.is_string()) {
@@ -1882,10 +1892,10 @@ void WireProtocolServer::Session::handleBatchGet() {
         json results = json::array();
         uint32_t found_count = 0;
         uint32_t not_found_count = 0;
-        for (size_t i = 0; i < client_keys.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(client_keys.size()); ++i) {
             json item;
             item["key"] = client_keys[i];
-            if (i < multi_results.size() && multi_results[i].has_value()) {
+            if (i <static_cast<int>(multi_results.size()) && multi_results[i].has_value()) {
                 const auto& value_bytes = multi_results[i].value();
                 std::string value_str(value_bytes.begin(), value_bytes.end());
                 try {
@@ -1932,7 +1942,7 @@ void WireProtocolServer::Session::handleBatchPut() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxBatchPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxBatchPayloadBytes) {
             sendError(413, "BATCH_PUT payload too large");
             return;
         }
@@ -1968,7 +1978,7 @@ void WireProtocolServer::Session::handleBatchPut() {
         }
 
         constexpr size_t kMaxBatchElements = 1000;
-        if (items_arr.size() > kMaxBatchElements) {
+        if (static_cast<int>(items_arr.size()) > kMaxBatchElements) {
             sendError(400, "BATCH_PUT exceeds maximum of 1000 items per request");
             return;
         }
@@ -1976,10 +1986,11 @@ void WireProtocolServer::Session::handleBatchPut() {
         struct ValidatedItem {
             std::string key;
             std::string storage_key;
-            std::string value_str;
+            std::string value_str = {};
         };
 
-        std::vector<ValidatedItem> valid_items;
+        std::vector<ValidatedItem> valid_items = {};
+
         valid_items.reserve(items_arr.size());
 
         json results = json::array();
@@ -2092,7 +2103,7 @@ void WireProtocolServer::Session::handleTransactionBegin() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxTransactionPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxTransactionPayloadBytes) {
             sendError(413, "TRANSACTION_BEGIN payload too large");
             return;
         }
@@ -2164,7 +2175,7 @@ void WireProtocolServer::Session::handleTransactionCommit() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxTransactionPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxTransactionPayloadBytes) {
             sendError(413, "TRANSACTION_COMMIT payload too large");
             return;
         }
@@ -2232,7 +2243,7 @@ void WireProtocolServer::Session::handleTransactionAbort() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxTransactionPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxTransactionPayloadBytes) {
             sendError(413, "TRANSACTION_ABORT payload too large");
             return;
         }
@@ -2295,7 +2306,7 @@ void WireProtocolServer::Session::handleGraphTraverse() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxGraphPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxGraphPayloadBytes) {
             sendError(413, "GRAPH_TRAVERSE payload too large");
             return;
         }
@@ -2358,7 +2369,7 @@ void WireProtocolServer::Session::handleGraphTraverse() {
         int limit     = request.value("limit", 100);
         std::string edge_type = request.value("edge_type", "");
 
-        if (!edge_type.empty() && (isBlankString(edge_type) || !isReasonableWireIdentifier(edge_type))) {
+        if ((!edge_type.empty()) && (isBlankString(edge_type) || !isReasonableWireIdentifier(edge_type))) {
             sendError(400, "Invalid 'edge_type' in GRAPH_TRAVERSE request");
             return;
         }
@@ -2383,18 +2394,22 @@ void WireProtocolServer::Session::handleGraphTraverse() {
         }
 
         themis::TraversalDirection direction = themis::TraversalDirection::OUTBOUND;
-        if (direction_str == "inbound")  direction = themis::TraversalDirection::INBOUND;
+        if (direction_str == "inbound") {
+          direction = themis::TraversalDirection::INBOUND;
+        }
         else if (direction_str == "any") direction = themis::TraversalDirection::ANY;
 
         auto trav_result = server_->query_engine_->executeGeneralTraversal(
             start_vertex, depth_min, depth_max, direction, collection, edge_type);
 
-        json response;
+        json response = {};
         if (trav_result) {
             json vertices = json::array();
             int count = 0;
             for (const auto& tr : trav_result.value()) {
-                if (count++ >= limit) break;
+                if (count++ >= limit) {
+                  break;
+                }
                 json v;
                 v["vertex_pk"] = tr.vertex_pk;
                 v["depth"]     = tr.depth;
@@ -2432,7 +2447,7 @@ void WireProtocolServer::Session::handleQuery() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxQueryPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxQueryPayloadBytes) {
             sendError(413, "QUERY payload too large");
             return;
         }
@@ -2461,7 +2476,7 @@ void WireProtocolServer::Session::handleQuery() {
             return;
         }
         constexpr size_t kMaxQueryStringLength = 1'048'576;
-        if (query_str.size() > kMaxQueryStringLength) {
+        if (static_cast<int>(query_str.size()) > kMaxQueryStringLength) {
             sendError(400, "'query' exceeds maximum length in QUERY_AQL request");
             return;
         }
@@ -2482,7 +2497,7 @@ void WireProtocolServer::Session::handleQuery() {
         // Execute the AQL query through the shared QueryEngine.
         auto result = themis::executeAql(query_str, *server_->query_engine_);
 
-        json response;
+        json response = {};
         if (result) {
             const auto& result_json = result.value();
             int batch_size_i = request.value("batch_size", 100);
@@ -2495,9 +2510,9 @@ void WireProtocolServer::Session::handleQuery() {
 
             bool has_more = false;
             json first_batch;
-            std::string cursor_id;
+            std::string cursor_id = {};
 
-            if (result_json.is_array() && result_json.size() > batch_size) {
+            if (result_json.is_array() && static_cast<int>(result_json.size()) > batch_size) {
                 // Large result: store in cursor registry and return first batch.
                 first_batch = json::array();
                 for (size_t i = 0; i < batch_size; ++i) {
@@ -2558,7 +2573,7 @@ void WireProtocolServer::Session::handleCursorNext() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxCursorPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxCursorPayloadBytes) {
             sendError(413, "CURSOR_NEXT payload too large");
             return;
         }
@@ -2652,7 +2667,7 @@ void WireProtocolServer::Session::handleCursorClose() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxCursorPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxCursorPayloadBytes) {
             sendError(413, "CURSOR_CLOSE payload too large");
             return;
         }
@@ -2735,12 +2750,13 @@ void WireProtocolServer::Session::handleVectorSearch() {
 
         constexpr size_t kMaxVectorDimensions = 16384;
         const auto& vector_json = request["vector"];
-        if (vector_json.size() > kMaxVectorDimensions) {
+        if (static_cast<int>(vector_json.size()) > kMaxVectorDimensions) {
             sendError(400, "VECTOR_SEARCH vector exceeds maximum dimension of 16384");
             return;
         }
 
-        std::vector<float> query_vector;
+        std::vector<float> query_vector = {};
+
         query_vector.reserve(vector_json.size());
         for (const auto& v : vector_json) {
             if (!v.is_number()) {
@@ -2775,7 +2791,7 @@ void WireProtocolServer::Session::handleVectorSearch() {
 
         auto [status, results] = server_->vector_index_->searchKnn(query_vector, k);
 
-        json response;
+        json response = {};
         if (!status.ok) {
             response["success"] = false;
             response["error"] = status.message;
@@ -3052,7 +3068,9 @@ void WireProtocolServer::Session::handleGeoQuery() {
         json results_arr = json::array();
         uint32_t count = 0;
         for (const auto& res : search_results) {
-            if (count++ >= limit) break;
+            if (count++ >= limit) {
+              break;
+            }
             json entry;
             entry["primary_key"] = res.primary_key;
             entry["mbr"] = {
@@ -3096,7 +3114,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
     
     try {
         // Parse TimeSeriesQueryRequest from payload
-        TimeSeriesQueryRequest request;
+        TimeSeriesQueryRequest request = {};
         if (!TimeSeriesQueryRequest::parse(payload_buffer_, request)) {
             sendError(0x0009, "Failed to parse TimeSeriesQueryRequest");
             return;
@@ -3135,7 +3153,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
             return;
         }
 
-        constexpr uint64_t kMaxTimeseriesWindowNs = 315'360'000'000'000'000ULL;  // 10 years
+        constexpr uint64_t kMaxTimeseriesWindowNs = 315'360'000'000'000'000;  // 10 years
         const uint64_t window_ns = request.end_time_ns - request.start_time_ns;
         if (window_ns > kMaxTimeseriesWindowNs) {
             sendError(0x000B, "requested time window exceeds supported range");
@@ -3227,7 +3245,9 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                 
                 // Create response buckets with aggregated values
                 for (const auto& [bucket_start_ms, values] : bucket_data) {
-                    if (values.empty()) continue;
+                    if (values.empty()) {
+                      continue;
+                    }
                     
                     TimeSeriesBucket bucket;
                     bucket.timestamp_ns = static_cast<uint64_t>(bucket_start_ms) * 1000000;
@@ -3410,7 +3430,7 @@ namespace {
     // Retry parsing a bounded number of times for transient/incomplete payload edge cases.
     json parsePayloadJsonWithRetry(const std::vector<uint8_t>& payload_buffer, int max_attempts) {
         std::string payload_str(payload_buffer.begin(), payload_buffer.end());
-        std::exception_ptr last_error;
+        std::exception_ptr last_error = {};
         const int attempts = std::max(1, max_attempts);
         for (int attempt = 1; attempt <= attempts; ++attempt) {
             try {
@@ -3442,7 +3462,7 @@ void WireProtocolServer::Session::handleBpmnStartProcess() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxBpmnPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxBpmnPayloadBytes) {
             sendError(413, "BPMN start-process payload too large");
             return;
         }
@@ -3473,7 +3493,7 @@ void WireProtocolServer::Session::handleBpmnStartProcess() {
         json variables = request.value("variables", json::object());
         std::string business_key = request.value("business_key", "");
 
-        std::string variables_error;
+        std::string variables_error = {};
         if (!validateBpmnVariablesObject(variables, variables_error)) {
             sendError(400, std::string("Invalid variables: ") + variables_error);
             return;
@@ -3578,7 +3598,7 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxBpmnPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxBpmnPayloadBytes) {
             sendError(413, "BPMN task-complete payload too large");
             return;
         }
@@ -3609,7 +3629,7 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
         json variables = request.value("variables", json::object());
         std::string assignee = request.value("assignee", username_);
 
-        std::string variables_error;
+        std::string variables_error = {};
         if (!validateBpmnVariablesObject(variables, variables_error)) {
             sendError(400, std::string("Invalid variables: ") + variables_error);
             return;
@@ -3632,8 +3652,8 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
         // For simplicity, we'll assume task_id format is "instance_id:node_id" or just token_id
         // Let's extract instance_id from the task if it contains ':'
         
-        std::string instance_id;
-        std::string node_id;
+        std::string instance_id = {};
+        std::string node_id = {};
         
         size_t colon_pos = task_id.find(':');
         if (colon_pos != std::string::npos) {
@@ -3718,7 +3738,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxBpmnPayloadBytes) {
+        if (static_cast<int>(payload_buffer_.size()) > kMaxBpmnPayloadBytes) {
             sendError(413, "BPMN query-instance payload too large");
             return;
         }
@@ -3744,7 +3764,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
             sendError(400, "Invalid include_history: expected boolean");
             return;
         }
-        if (request.contains("max_history_events") && !request["max_history_events"].is_number_unsigned()) {
+        if ([[maybe_unused]] request.contains("max_history_events") && !request["max_history_events"].is_number_unsigned()) {
             sendError(400, "Invalid max_history_events: expected unsigned integer");
             return;
         }
@@ -3762,7 +3782,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
             sendError(400, "Invalid process_instance_id: must be <= 256 chars and contain no control characters");
             return;
         }
-        if (max_history_events == 0 || max_history_events > kMaxBpmnHistoryEvents) {
+        if ([[maybe_unused]] max_history_events == 0 || max_history_events > kMaxBpmnHistoryEvents) {
             sendError(400, "Invalid max_history_events: must be in range 1..10000");
             return;
         }
@@ -3830,7 +3850,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
             json history = json::array();
             for (const auto& token : instance.tokens) {
                 for (const auto& node : token.visited_nodes) {
-                    if (history.size() >= max_history_events) {
+                    if ([[maybe_unused]] static_cast<int>(history.size()) >= max_history_events) {
                         history_truncated = true;
                         break;
                     }
@@ -3846,7 +3866,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
                     }
                     event["data"] = json::object();
                     event["data"]["node_id"] = node;
-                    history.push_back(event);
+                    history.push_back([[maybe_unused]] event);
                 }
                 if (history_truncated) {
                     break;

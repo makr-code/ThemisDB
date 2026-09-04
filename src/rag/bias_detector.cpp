@@ -29,7 +29,7 @@ BiasDetector::BiasDetector(const BiasDetectorConfig& config)
 BiasDetectionResult BiasDetector::detectPositionBias(
     const std::vector<std::pair<ComparisonResult, bool>>& comparisons
 ) {
-    THEMIS_DEBUG("Detecting position bias with {} comparisons", comparisons.size());
+    THEMIS_DEBUG("Detecting position bias with {} comparisons",static_cast<int>(comparisons.size()));
     
     BiasDetectionResult result;
     result.type = BiasType::POSITION_BIAS;
@@ -37,7 +37,7 @@ BiasDetectionResult BiasDetector::detectPositionBias(
     result.bias_magnitude = 0.0;
     result.p_value = 1.0;
     
-    if (comparisons.size() < config_.min_samples_for_detection) {
+    if (static_cast<int>(comparisons.size()) < config_.min_samples_for_detection) {
         result.description = "Insufficient samples for position bias detection";
         THEMIS_WARN("Not enough samples for position bias detection: {} < {}", 
                    comparisons.size(), config_.min_samples_for_detection);
@@ -107,7 +107,7 @@ BiasDetectionResult BiasDetector::detectPositionBias(
 BiasDetectionResult BiasDetector::detectLengthBias(
     const std::vector<std::pair<double, size_t>>& evaluations
 ) {
-    THEMIS_DEBUG("Detecting length bias with {} evaluations", evaluations.size());
+    THEMIS_DEBUG("Detecting length bias with {} evaluations",static_cast<int>(evaluations.size()));
     
     BiasDetectionResult result;
     result.type = BiasType::LENGTH_BIAS;
@@ -115,7 +115,7 @@ BiasDetectionResult BiasDetector::detectLengthBias(
     result.bias_magnitude = 0.0;
     result.p_value = 1.0;
     
-    if (evaluations.size() < config_.min_samples_for_detection) {
+    if (static_cast<int>(evaluations.size()) < config_.min_samples_for_detection) {
         result.description = "Insufficient samples for length bias detection";
         THEMIS_WARN("Not enough samples for length bias detection");
         return result;
@@ -133,7 +133,7 @@ BiasDetectionResult BiasDetector::detectLengthBias(
     // Calculate Pearson correlation
     double correlation = calculateCorrelation(scores, lengths);
     result.bias_magnitude = std::abs(correlation);
-    result.p_value = calculatePValue(correlation, evaluations.size());
+    result.p_value = calculatePValue(correlation,static_cast<int>(evaluations.size()));
     
     result.is_significant = (result.p_value < config_.significance_threshold) && 
                             (result.bias_magnitude > config_.bias_threshold);
@@ -158,7 +158,7 @@ BiasDetectionResult BiasDetector::detectLengthBias(
 std::vector<BiasDetectionResult> BiasDetector::analyzeAllBiases(
     const std::vector<EvaluationResult>& evaluation_history
 ) {
-    THEMIS_INFO("Running comprehensive bias analysis on {} evaluations", evaluation_history.size());
+    THEMIS_INFO("Running comprehensive bias analysis on {} evaluations",static_cast<int>(evaluation_history.size()));
     
     std::vector<BiasDetectionResult> results;
     
@@ -181,7 +181,7 @@ std::vector<BiasDetectionResult> BiasDetector::analyzeAllBiases(
     // Position bias would require pairwise comparison history
     // Not available from evaluation history alone
     
-    THEMIS_INFO("Bias analysis complete: {} significant biases detected", results.size());
+    THEMIS_INFO("Bias analysis complete: {} significant biases detected",static_cast<int>(results.size()));
     return results;
 }
 
@@ -221,7 +221,7 @@ double BiasDetector::calculateCorrelation(
     const std::vector<double>& x,
     const std::vector<double>& y
 ) {
-    if (x.size() != y.size() || x.empty()) {
+    if (static_cast<int>(x.size()) != static_cast<int>(y.size()) || x.empty()) {
         return 0.0;
     }
     
@@ -277,12 +277,12 @@ double BiasDetector::calculateChiSquare(
     const std::vector<int>& observed,
     const std::vector<int>& expected
 ) {
-    if (observed.size() != expected.size()) {
+    if (static_cast<int>(observed.size()) != static_cast<int>(expected.size())) {
         return 0.0;
     }
     
     double chi_square = 0.0;
-    for (size_t i = 0; i < observed.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(observed.size()); ++i) {
         if (expected[i] > 0) {
             double diff = observed[i] - expected[i];
             chi_square += (diff * diff) / expected[i];

@@ -43,7 +43,8 @@ TEST_F(ConcurrencyChurnTest, C01_ConcurrentAtomicIncrement) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(work);
     }
@@ -62,7 +63,7 @@ TEST_F(ConcurrencyChurnTest, C01_ConcurrentAtomicIncrement) {
 
 TEST_F(ConcurrencyChurnTest, C02_ConcurrentLinkCreation) {
     std::vector<ProcessLink> links_storage;
-    std::mutex links_mutex;
+    std::mutex links_mutex = {};
     std::barrier sync_point(kNumThreads);
 
     auto create_links = [&links_storage, &links_mutex, &sync_point](int32_t thread_id) {
@@ -82,7 +83,8 @@ TEST_F(ConcurrencyChurnTest, C02_ConcurrentLinkCreation) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(create_links, i);
     }
@@ -95,7 +97,8 @@ TEST_F(ConcurrencyChurnTest, C02_ConcurrentLinkCreation) {
     EXPECT_EQ(links_storage.size(), expected_size);
 
     // Verify all link IDs are unique
-    std::set<std::string> unique_ids;
+    std::set<std::string> unique_ids = {};
+
     for (const auto& link : links_storage) {
         EXPECT_EQ(unique_ids.count(link.link_id), 0) << "Duplicate link ID: " << link.link_id;
         unique_ids.insert(link.link_id);
@@ -108,7 +111,7 @@ TEST_F(ConcurrencyChurnTest, C02_ConcurrentLinkCreation) {
 
 TEST_F(ConcurrencyChurnTest, C03_ConcurrentAttachmentCreation) {
     std::vector<ProcessAttachment> attachments;
-    std::mutex attachments_mutex;
+    std::mutex attachments_mutex = {};
     std::atomic<int64_t> clock_ms{1000};
     std::barrier sync_point(kNumThreads);
 
@@ -129,7 +132,8 @@ TEST_F(ConcurrencyChurnTest, C03_ConcurrentAttachmentCreation) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(create_attachments, i);
     }
@@ -142,7 +146,8 @@ TEST_F(ConcurrencyChurnTest, C03_ConcurrentAttachmentCreation) {
     EXPECT_EQ(attachments.size(), expected_size);
 
     // Verify timestamps are monotonically increasing (at least for the same thread)
-    std::map<std::string, int64_t> last_timestamp;
+    std::map<std::string, int64_t> last_timestamp = {};
+
     for (const auto& attach : attachments) {
         // We can't guarantee global monotonicity due to thread scheduling,
         // but we can verify no timestamp goes backward (extreme check)
@@ -156,7 +161,7 @@ TEST_F(ConcurrencyChurnTest, C03_ConcurrentAttachmentCreation) {
 
 TEST_F(ConcurrencyChurnTest, C04_ReadHeavyConcurrentAccess) {
     std::vector<ProcessLink> shared_links;
-    std::shared_mutex access_mutex;
+    std::shared_mutex access_mutex = {};
 
     // Pre-populate with test data
     for (int32_t i = 0; i < 100; ++i) {
@@ -183,7 +188,8 @@ TEST_F(ConcurrencyChurnTest, C04_ReadHeavyConcurrentAccess) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(reader);
     }
@@ -202,7 +208,7 @@ TEST_F(ConcurrencyChurnTest, C04_ReadHeavyConcurrentAccess) {
 
 TEST_F(ConcurrencyChurnTest, C05_SingleWriterMultipleReaders) {
     std::vector<ProcessAttachment> shared_data;
-    std::shared_mutex access_mutex;
+    std::shared_mutex access_mutex = {};
     std::atomic<int64_t> writer_done{0};
 
     auto writer = [&shared_data, &access_mutex, &writer_done]() {
@@ -228,7 +234,9 @@ TEST_F(ConcurrencyChurnTest, C05_SingleWriterMultipleReaders) {
                 reads += shared_data.size();
             }
 
-            if (reads > 0) break;
+            if (reads > 0) {
+              break;
+            }
             std::this_thread::yield();
         }
     };
@@ -278,7 +286,8 @@ TEST_F(ConcurrencyChurnTest, C06_ConcurrentErrorEnumAccess) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(check_errors);
     }
@@ -297,7 +306,7 @@ TEST_F(ConcurrencyChurnTest, C06_ConcurrentErrorEnumAccess) {
 
 TEST_F(ConcurrencyChurnTest, C07_BarrierSynchronization) {
     std::vector<int32_t> execution_order;
-    std::mutex order_mutex;
+    std::mutex order_mutex = {};
     std::barrier barrier(kNumThreads);
 
     auto synchronized_work = [&execution_order, &order_mutex, &barrier](int32_t thread_id) {
@@ -318,7 +327,8 @@ TEST_F(ConcurrencyChurnTest, C07_BarrierSynchronization) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(synchronized_work, i);
     }
@@ -333,7 +343,9 @@ TEST_F(ConcurrencyChurnTest, C07_BarrierSynchronization) {
     // Count positive and negative markers
     int32_t pre_barrier_count = 0, post_barrier_count = 0;
     for (int32_t val : execution_order) {
-        if (val > 0) pre_barrier_count++;
+        if (val > 0) {
+          pre_barrier_count++;
+        }
         else post_barrier_count++;
     }
     EXPECT_EQ(pre_barrier_count, kNumThreads);
@@ -383,7 +395,8 @@ TEST_F(ConcurrencyChurnTest, C08_HighContentionLinkOperations) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(mixed_operations, i);
     }
@@ -408,7 +421,7 @@ TEST_F(ConcurrencyChurnTest, C09_ConcurrentReadModifyWrite) {
     };
 
     Counter shared{0};
-    std::mutex counter_mutex;
+    std::mutex counter_mutex = {};
     std::atomic<int64_t> successful_updates{0};
     std::barrier sync_point(kNumThreads);
 
@@ -426,7 +439,8 @@ TEST_F(ConcurrencyChurnTest, C09_ConcurrentReadModifyWrite) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(increment_and_check);
     }
@@ -446,7 +460,7 @@ TEST_F(ConcurrencyChurnTest, C09_ConcurrentReadModifyWrite) {
 
 TEST_F(ConcurrencyChurnTest, C10_TryLockWithFallback) {
     std::map<std::string, int64_t> shared_map;
-    std::timed_mutex map_mutex;
+    std::timed_mutex map_mutex = {};
     std::atomic<int64_t> successful_acquisitions{0};
     std::atomic<int64_t> failed_acquisitions{0};
     std::barrier sync_point(kNumThreads);
@@ -469,7 +483,8 @@ TEST_F(ConcurrencyChurnTest, C10_TryLockWithFallback) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(try_update_map, i);
     }
@@ -511,7 +526,8 @@ TEST_F(ConcurrencyChurnTest, C11_OrderedLockAcquisitionDeadlockPrevention) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(ordered_operation, i);
     }
@@ -548,7 +564,8 @@ TEST_F(ConcurrencyChurnTest, C12_HighContentionLockCycles) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(rapid_cycle, i);
     }

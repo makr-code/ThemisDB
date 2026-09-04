@@ -56,7 +56,7 @@ std::optional<CronExpression> CronExpression::parse(const std::string& expressio
     if (!expression.empty() && expression[0] == '@') {
         std::string special = expression;
         // Trim whitespace
-        while (!special.empty() && (special.back() == ' ' || special.back() == '\t')) {
+        while ((!special.empty() && (special.back() == ' ' || special.back() == '\t'))) {
             special.pop_back();
         }
 
@@ -88,14 +88,14 @@ std::optional<CronExpression> CronExpression::parse(const std::string& expressio
     // Split expression into fields
     std::istringstream iss(expression);
     std::vector<std::string> fields;
-    std::string field;
+    std::string field = {};
     
     while (iss >> field) {
         fields.push_back(field);
     }
     
-    if (fields.size() != 5 && fields.size() != 6) {
-        THEMIS_ERROR("Invalid cron expression: expected 5 or 6 fields, got {}", fields.size());
+    if (static_cast<int>(fields.size()) != 5 && static_cast<int>(fields.size()) != 6) {
+        THEMIS_ERROR("Invalid cron expression: expected 5 or 6 fields, got {}",static_cast<int>(fields.size()));
         return std::nullopt;
     }
 
@@ -131,7 +131,7 @@ std::optional<CronExpression> CronExpression::parse(const std::string& expressio
     }
 
     // Optional 6th field: year (1970-2199)
-    if (fields.size() == 6) {
+    if (static_cast<int>(fields.size()) == 6) {
         auto years = parseField(fields[5], 1970, 2199);
         if (!years) {
             THEMIS_ERROR("Invalid year field: {} (must be in range 1970-2199)", fields[5]);
@@ -149,7 +149,7 @@ CronValidationResult CronExpression::validate(const std::string& expression) {
     // Handle special @-expressions
     if (!expression.empty() && expression[0] == '@') {
         std::string special = expression;
-        while (!special.empty() && (special.back() == ' ' || special.back() == '\t')) {
+        while ((!special.empty() && (special.back() == ' ' || special.back() == '\t'))) {
             special.pop_back();
         }
         static const std::set<std::string> VALID_SPECIALS = {
@@ -175,13 +175,13 @@ CronValidationResult CronExpression::validate(const std::string& expression) {
     // Provide more detailed error message
     std::istringstream iss(expression);
     std::vector<std::string> fields;
-    std::string field;
+    std::string field = {};
     
     while (iss >> field) {
         fields.push_back(field);
     }
     
-    if (fields.size() != 5 && fields.size() != 6) {
+    if (static_cast<int>(fields.size()) != 5 && static_cast<int>(fields.size()) != 6) {
         result.error_message = "Cron expression must have 5 fields (minute hour day month weekday)"
                                " or 6 fields (minute hour day month weekday year), got " +
                                std::to_string(fields.size());
@@ -214,7 +214,7 @@ CronValidationResult CronExpression::validate(const std::string& expression) {
         return result;
     }
 
-    if (fields.size() == 6 && !parseField(fields[5], 1970, 2199)) {
+    if (static_cast<int>(fields.size()) == 6 && !parseField(fields[5], 1970, 2199)) {
         result.error_message = "Invalid year field '" + fields[5] + "' (must be 1970-2199)";
         return result;
     }
@@ -280,27 +280,41 @@ std::optional<std::chrono::system_clock::time_point> CronExpression::getNextExec
         // Check year constraint
         if (!years_.empty()) {
             int year = tm.tm_year + 1900;
-            if (years_.find(year) == years_.end()) return false;
+            if (years_.find(year) == years_.end()) {
+              return false;
+            }
         }
-        if (minutes_.find(tm.tm_min) == minutes_.end())      return false;
-        if (hours_.find(tm.tm_hour) == hours_.end())         return false;
+        if (minutes_.find(tm.tm_min) == minutes_.end()) {
+          return false;
+        }
+        if (hours_.find(tm.tm_hour) == hours_.end()) {
+          return false;
+        }
 
         bool day_matches     = days_.find(tm.tm_mday) != days_.end();
         bool weekday_matches = weekdays_.find(tm.tm_wday) != weekdays_.end();
-        bool day_is_wildcard     = days_.size() == 31;
-        bool weekday_is_wildcard = weekdays_.size() == 7;
+        bool day_is_wildcard     = static_cast<int>(days_.size()) == 31;
+        bool weekday_is_wildcard = static_cast<int>(weekdays_.size()) == 7;
 
         if (day_is_wildcard && weekday_is_wildcard) {
             // ok
         } else if (!day_is_wildcard && weekday_is_wildcard) {
-            if (!day_matches) return false;
+            if (!day_matches) {
+              return false;
+            }
         } else if (day_is_wildcard && !weekday_is_wildcard) {
-            if (!weekday_matches) return false;
+            if (!weekday_matches) {
+              return false;
+            }
         } else {
-            if (!day_matches && !weekday_matches) return false;
+            if (!day_matches && !weekday_matches) {
+              return false;
+            }
         }
 
-        if (months_.find(tm.tm_mon + 1) == months_.end()) return false;
+        if (months_.find(tm.tm_mon + 1) == months_.end()) {
+          return false;
+        }
         return true;
     };
 
@@ -324,7 +338,7 @@ std::optional<std::chrono::system_clock::time_point> CronExpression::getNextExec
 bool CronExpression::matches(const std::chrono::system_clock::time_point& time) const {
 
     auto time_t = std::chrono::system_clock::to_time_t(time);
-    std::tm tm;
+    std::tm tm = {};
 
 #ifdef _WIN32
     localtime_s(&tm, &time_t);
@@ -354,20 +368,26 @@ bool CronExpression::matches(const std::chrono::system_clock::time_point& time) 
     bool weekday_matches = weekdays_.find(tm.tm_wday) != weekdays_.end();
 
     // If both are wildcards (match all), then both match
-    bool day_is_wildcard = days_.size() == 31; // All days
-    bool weekday_is_wildcard = weekdays_.size() == 7; // All weekdays
+    bool day_is_wildcard = static_cast<int>(days_.size()) == 31; // All days
+    bool weekday_is_wildcard = static_cast<int>(weekdays_.size()) == 7; // All weekdays
 
     if (day_is_wildcard && weekday_is_wildcard) {
         // Both are wildcards, always match
     } else if (!day_is_wildcard && weekday_is_wildcard) {
         // Only day is specified, must match day
-        if (!day_matches) return false;
+        if (!day_matches) {
+          return false;
+        }
     } else if (day_is_wildcard && !weekday_is_wildcard) {
         // Only weekday is specified, must match weekday
-        if (!weekday_matches) return false;
+        if (!weekday_matches) {
+          return false;
+        }
     } else {
         // Both are specified, use OR logic (match either)
-        if (!day_matches && !weekday_matches) return false;
+        if (!day_matches && !weekday_matches) {
+          return false;
+        }
     }
 
     if (months_.find(tm.tm_mon + 1) == months_.end()) { // tm_mon is 0-11
@@ -378,47 +398,47 @@ bool CronExpression::matches(const std::chrono::system_clock::time_point& time) 
 }
 
 std::string CronExpression::describe() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Simple description based on patterns
-    if (minutes_.size() == 1 && *minutes_.begin() == 0 &&
-        hours_.size() == 1 && *hours_.begin() == 0 &&
-        days_.size() == 1 && *days_.begin() == 1 &&
-        months_.size() == 12) {
+    if (static_cast<int>(minutes_.size()) == 1 && *minutes_.begin() == 0 &&
+        static_cast<int>(hours_.size()) == 1 && *hours_.begin() == 0 &&
+        static_cast<int>(days_.size()) == 1 && *days_.begin() == 1 &&
+        static_cast<int>(months_.size()) == 12) {
         oss << "Monthly at midnight on the 1st";
         return oss.str();
     }
     
-    if (minutes_.size() == 1 && *minutes_.begin() == 0 &&
-        hours_.size() == 1 && *hours_.begin() == 0 &&
-        days_.size() == 31 &&
-        months_.size() == 12) {
+    if (static_cast<int>(minutes_.size()) == 1 && *minutes_.begin() == 0 &&
+        static_cast<int>(hours_.size()) == 1 && *hours_.begin() == 0 &&
+        static_cast<int>(days_.size()) == 31 &&
+        static_cast<int>(months_.size()) == 12) {
         oss << "Daily at midnight";
         return oss.str();
     }
     
-    if (minutes_.size() == 1 && *minutes_.begin() == 0 &&
-        hours_.size() == 1 &&
-        days_.size() == 31 &&
-        months_.size() == 12) {
+    if (static_cast<int>(minutes_.size()) == 1 && *minutes_.begin() == 0 &&
+        static_cast<int>(hours_.size()) == 1 &&
+        static_cast<int>(days_.size()) == 31 &&
+        static_cast<int>(months_.size()) == 12) {
         oss << "Daily at " << *hours_.begin() << ":00";
         return oss.str();
     }
     
-    if (minutes_.size() == 60 && hours_.size() == 1 &&
-        days_.size() == 31 && months_.size() == 12) {
+    if (static_cast<int>(minutes_.size()) == 60 && static_cast<int>(hours_.size()) == 1 &&
+        static_cast<int>(days_.size()) == 31 && static_cast<int>(months_.size()) == 12) {
         oss << "Every minute during hour " << *hours_.begin();
         return oss.str();
     }
     
-    if (minutes_.size() == 4 && hours_.size() == 24 &&
-        days_.size() == 31 && months_.size() == 12) {
+    if (static_cast<int>(minutes_.size()) == 4 && static_cast<int>(hours_.size()) == 24 &&
+        static_cast<int>(days_.size()) == 31 && static_cast<int>(months_.size()) == 12) {
         oss << "Every 15 minutes";
         return oss.str();
     }
     
-    if (minutes_.size() == 12 && hours_.size() == 24 &&
-        days_.size() == 31 && months_.size() == 12) {
+    if (static_cast<int>(minutes_.size()) == 12 && static_cast<int>(hours_.size()) == 24 &&
+        static_cast<int>(days_.size()) == 31 && static_cast<int>(months_.size()) == 12) {
         oss << "Every 5 minutes";
         return oss.str();
     }
@@ -434,9 +454,11 @@ std::string CronExpression::describe() const {
 // Returns -1 if not a known alias.
 static int monthNameToNumber(const std::string& name) {
     // Case-insensitive comparison via a local uppercase copy
-    std::string upper;
+    std::string upper = {};
     upper.reserve(name.size());
-    for (char c : name) upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    for (char c : name) {
+      upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    }
 
     static const std::pair<const char*, int> kMonthNames[] = {
         {"JAN", 1}, {"FEB", 2}, {"MAR", 3}, {"APR", 4},
@@ -448,7 +470,9 @@ static int monthNameToNumber(const std::string& name) {
         {"OCTOBER", 10}, {"NOVEMBER", 11}, {"DECEMBER", 12}
     };
     for (const auto& kv : kMonthNames) {
-        if (upper == kv.first) return kv.second;
+        if (upper == kv.first) {
+          return kv.second;
+        }
     }
     return -1;
 }
@@ -456,9 +480,11 @@ static int monthNameToNumber(const std::string& name) {
 // Translate a weekday name to its numeric equivalent (0=Sunday … 6=Saturday).
 // Returns -1 if not a known alias.
 static int weekdayNameToNumber(const std::string& name) {
-    std::string upper;
+    std::string upper = {};
     upper.reserve(name.size());
-    for (char c : name) upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    for (char c : name) {
+      upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    }
 
     static const std::pair<const char*, int> kWeekdayNames[] = {
         {"SUN", 0}, {"MON", 1}, {"TUE", 2}, {"WED", 3},
@@ -468,7 +494,9 @@ static int weekdayNameToNumber(const std::string& name) {
         {"THURSDAY", 4}, {"FRIDAY", 5}, {"SATURDAY", 6}
     };
     for (const auto& kv : kWeekdayNames) {
-        if (upper == kv.first) return kv.second;
+        if (upper == kv.first) {
+          return kv.second;
+        }
     }
     return -1;
 }
@@ -477,7 +505,9 @@ static int weekdayNameToNumber(const std::string& name) {
 // Returns std::nullopt on failure.
 static std::optional<int> parseToken(const std::string& token,
                                      int min_value, int max_value) {
-    if (token.empty()) return std::nullopt;
+    if (token.empty()) {
+      return std::nullopt;
+    }
 
     // Try integer first
     bool all_digits = true;
@@ -487,7 +517,9 @@ static std::optional<int> parseToken(const std::string& token,
     if (all_digits) {
         try {
             int v = std::stoi(token);
-            if (v < min_value || v > max_value) return std::nullopt;
+            if (v < min_value || v > max_value) {
+              return std::nullopt;
+            }
             return v;
         } catch (const std::invalid_argument &) {
             return std::nullopt;
@@ -549,12 +581,15 @@ std::optional<std::set<int>> CronExpression::parseField(
     
     // Parse as single token (number or name alias)
     auto v = parseToken(field, min_value, max_value);
-    if (!v) return std::nullopt;
+    if (!v) {
+      return std::nullopt;
+    }
     return std::set<int>{*v};
 }
 
 std::optional<std::set<int>> CronExpression::parseWildcard(int min_value, int max_value) {
-    std::set<int> result;
+    std::set<int> result = {};
+
     for (int i = min_value; i <= max_value; ++i) {
         result.insert(i);
     }
@@ -572,13 +607,18 @@ std::optional<std::set<int>> CronExpression::parseRange(
     auto start_opt = parseToken(range.substr(0, dash_pos), min_value, max_value);
     auto end_opt   = parseToken(range.substr(dash_pos + 1), min_value, max_value);
 
-    if (!start_opt || !end_opt) return std::nullopt;
+    if (!start_opt || !end_opt) {
+      return std::nullopt;
+    }
 
     int start = *start_opt;
     int end   = *end_opt;
-    if (start > end) return std::nullopt;
+    if (start > end) {
+      return std::nullopt;
+    }
 
-    std::set<int> result;
+    std::set<int> result = {};
+
     for (int i = start; i <= end; ++i) {
         result.insert(i);
     }
@@ -590,10 +630,12 @@ std::optional<std::set<int>> CronExpression::parseList(
     
     std::set<int> result;
     std::istringstream iss(list);
-    std::string item;
+    std::string item = {};
     
     while (std::getline(iss, item, ',')) {
-        if (item.empty()) return std::nullopt;
+        if (item.empty()) {
+          return std::nullopt;
+        }
 
         // Each list item may be a step, range, wildcard, or single token.
         std::optional<std::set<int>> item_values;
@@ -608,7 +650,9 @@ std::optional<std::set<int>> CronExpression::parseList(
             if (v) item_values = std::set<int>{*v};
         }
 
-        if (!item_values) return std::nullopt;
+        if (!item_values) {
+          return std::nullopt;
+        }
         result.insert(item_values->begin(), item_values->end());
     }
     
@@ -656,7 +700,9 @@ std::optional<std::set<int>> CronExpression::parseStep(
         } else {
             // start/step — starting at 'start', step by 'step_value' up to max_value
             auto start_opt = parseToken(range_part, min_value, max_value);
-            if (!start_opt) return std::nullopt;
+            if (!start_opt) {
+              return std::nullopt;
+            }
             for (int i = *start_opt; i <= max_value; i += step_value) {
                 range_values.insert(i);
             }

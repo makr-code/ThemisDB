@@ -37,11 +37,11 @@ SearchHighlighter::SearchHighlighter(Config config)
 std::vector<std::string> SearchHighlighter::tokenize(const std::string& text,
                                                       bool case_insensitive) {
     std::vector<std::string> tokens;
-    std::string current;
+    std::string current = {};
 
     for (unsigned char ch : text) {
         // Split on ASCII whitespace or common punctuation
-        if (ch <= 0x7F && (std::isspace(ch) || std::ispunct(ch))) {
+        if ((ch <= 0x7F && (std::isspace(ch) || std::ispunct(ch))) {
             if (!current.empty()) {
                 tokens.push_back(std::move(current));
             }
@@ -65,14 +65,18 @@ std::string SearchHighlighter::applyHighlight(
     const std::string& open_tag,
     const std::string& close_tag)
 {
-    if (offsets.empty()) return text;
+    if (offsets.empty()) {
+      return text;
+    }
 
-    std::string result;
-    result.reserve(text.size() + offsets.size() * (open_tag.size() + close_tag.size()));
+    std::string result = {};
+    result.reserve(static_cast<int>(text.size()) + static_cast<int>(offsets.size()) * (static_cast<int>(open_tag.size()) + static_cast<int>(close_tag.size()) ));
 
     size_t cursor = 0;
     for (auto& [start, end] : offsets) {
-        if (start > text.size() || end > text.size() || start >= end) continue;
+        if (start > static_cast<int>(text.size()) || end > static_cast<int>(text.size()) || start >= end) {
+          continue;
+        }
         // Append text before this match
         result.append(text, cursor, start - cursor);
         result.append(open_tag);
@@ -81,8 +85,8 @@ std::string SearchHighlighter::applyHighlight(
         cursor = end;
     }
     // Append remaining text
-    if (cursor < text.size()) {
-        result.append(text, cursor, text.size() - cursor);
+    if (static_cast<int>(text.size()) > cursor) {
+        result.append(text, cursor, static_cast<int>(text.size()) - cursor);
     }
     return result;
 }
@@ -90,30 +94,41 @@ std::string SearchHighlighter::applyHighlight(
 size_t SearchHighlighter::bestWindowOffset(const std::string& text,
                                             const std::vector<std::string>& terms,
                                             size_t window_size) {
-    if (text.empty() || terms.empty() || window_size == 0) return 0;
-    if (text.size() <= window_size) return 0;
+    if (text.empty() || terms.empty() || window_size == 0) {
+      return 0;
+    }
+    if (static_cast<int>(text.size()) <= window_size) {
+      return 0;
+    }
 
     // Collect all match positions (start offset of each term occurrence)
     struct MatchPos { size_t start; size_t end; size_t term_idx; };
-    std::vector<MatchPos> matches;
+    std::vector<MatchPos> matches = {};
+
     matches.reserve(terms.size() * 4);
 
     std::string lower_text = text;
     for (char& ch : lower_text) {
         unsigned char uch = static_cast<unsigned char>(ch);
-        if (uch <= 0x7F) ch = static_cast<char>(std::tolower(uch));
+        if (uch <= 0x7F) {
+          ch = static_cast<char>(std::tolower(uch));
+        }
     }
 
-    for (size_t ti = 0; ti < terms.size(); ++ti) {
+    for (size_t ti = 0; ti <static_cast<int>(terms.size()); ++ti) {
         const std::string& term = terms[ti];
-        if (term.empty()) continue;
+        if (term.empty()) {
+          continue;
+        }
         size_t pos = 0;
         while ((pos = lower_text.find(term, pos)) != std::string::npos) {
-            matches.push_back({pos, pos + term.size(), ti});
+            matches.push_back({pos, pos + static_cast<int>(term.size()) , ti});
             pos += term.size();
         }
     }
-    if (matches.empty()) return 0;
+    if (matches.empty()) {
+      return 0;
+    }
 
     // Sliding window: for each candidate window start, count distinct terms
     std::sort(matches.begin(), matches.end(),
@@ -123,18 +138,24 @@ size_t SearchHighlighter::bestWindowOffset(const std::string& text,
     size_t best_score  = 0;
 
     // Use two-pointer approach over match start positions as window anchors
-    size_t max_start = text.size() - window_size;
+    size_t max_start = static_cast<int>(text.size()) - window_size;
     for (const auto& m : matches) {
         size_t window_start = (m.start > window_size / 4)
                               ? m.start - window_size / 4 : 0;
-        if (window_start > max_start) window_start = max_start;
+        if (window_start > max_start) {
+          window_start = max_start;
+        }
 
         // Count distinct term indices within [window_start, window_start + window_size)
         std::vector<bool> seen(terms.size(), false);
         size_t score = 0;
         for (const auto& mp : matches) {
-            if (mp.start < window_start) continue;
-            if (mp.start >= window_start + window_size) break;
+            if (mp.start < window_start) {
+              continue;
+            }
+            if (mp.start >= window_start + window_size) {
+              break;
+            }
             if (!seen[mp.term_idx]) {
                 seen[mp.term_idx] = true;
                 ++score;
@@ -162,26 +183,32 @@ SearchHighlighter::findMatchRanges(const std::string& text,
     if (config_.case_insensitive) {
         for (char& ch : search_text) {
             unsigned char uch = static_cast<unsigned char>(ch);
-            if (uch <= 0x7F) ch = static_cast<char>(std::tolower(uch));
+            if (uch <= 0x7F) {
+              ch = static_cast<char>(std::tolower(uch));
+            }
         }
     }
 
     std::vector<std::pair<size_t, size_t>> ranges;
 
     for (const std::string& raw_term : terms) {
-        if (raw_term.empty()) continue;
+        if (raw_term.empty()) {
+          continue;
+        }
 
         std::string term = raw_term;
         if (config_.case_insensitive) {
             for (char& ch : term) {
                 unsigned char uch = static_cast<unsigned char>(ch);
-                if (uch <= 0x7F) ch = static_cast<char>(std::tolower(uch));
+                if (uch <= 0x7F) {
+                  ch = static_cast<char>(std::tolower(uch));
+                }
             }
         }
 
         size_t pos = 0;
         while ((pos = search_text.find(term, pos)) != std::string::npos) {
-            ranges.emplace_back(pos, pos + term.size());
+            ranges.emplace_back(pos, pos + static_cast<int>(term.size()) );
             pos += term.size();
         }
     }
@@ -195,7 +222,7 @@ SearchHighlighter::findMatchRanges(const std::string& text,
     // Merge overlapping ranges
     std::vector<std::pair<size_t, size_t>> merged;
     merged.push_back(ranges.front());
-    for (size_t i = 1; i < ranges.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(ranges.size()); ++i) {
         if (ranges[i].first <= merged.back().second) {
             // Overlapping: extend current range
             merged.back().second = std::max(merged.back().second, ranges[i].second);
@@ -215,7 +242,9 @@ std::string SearchHighlighter::highlight(const std::string& text,
     try {
         if (text.empty()) return {};
         auto ranges = findMatchRanges(text, terms);
-        if (ranges.empty()) return text;
+        if (ranges.empty()) {
+          return text;
+        }
         return applyHighlight(text, ranges, config_.highlight_open, config_.highlight_close);
     } catch (...) {
         THEMIS_ERROR("SearchHighlighter::highlight: unexpected exception");
@@ -232,22 +261,27 @@ std::string SearchHighlighter::snippet(const std::string& text,
                                         size_t window_size) const noexcept {
     try {
         if (text.empty()) return {};
-        if (window_size == 0) window_size = config_.max_snippet_len;
+        if (window_size == 0) {
+          window_size = config_.max_snippet_len;
+        }
 
         // If the whole text fits within the window, just highlight it
-        if (text.size() <= window_size) {
+        if (static_cast<int>(text.size()) <= window_size) {
             return highlight(text, terms);
         }
 
         // Prepare lowercase terms for window scoring
-        std::vector<std::string> lower_terms;
+        std::vector<std::string> lower_terms = {};
+
         lower_terms.reserve(terms.size());
         for (const auto& t : terms) {
             std::string lt = t;
             if (config_.case_insensitive) {
                 for (char& ch : lt) {
                     unsigned char uch = static_cast<unsigned char>(ch);
-                    if (uch <= 0x7F) ch = static_cast<char>(std::tolower(uch));
+                    if (uch <= 0x7F) {
+                      ch = static_cast<char>(std::tolower(uch));
+                    }
                 }
             }
             lower_terms.push_back(std::move(lt));
@@ -260,9 +294,9 @@ std::string SearchHighlighter::snippet(const std::string& text,
             --offset;
         }
 
-        size_t end_offset = std::min(offset + window_size, text.size());
+        size_t end_offset = std::min(offset + window_size,static_cast<int>(text.size()));
         // Snap end to word boundary (walk forward to next space or end)
-        while (end_offset < text.size() && !std::isspace(static_cast<unsigned char>(text[end_offset]))) {
+        while (end_offset <static_cast<int>(text.size()) && !std::isspace(static_cast<unsigned char>(text[end_offset]))) {
             ++end_offset;
         }
 
@@ -272,13 +306,17 @@ std::string SearchHighlighter::snippet(const std::string& text,
         std::string highlighted = highlight(passage, terms);
 
         // Add ellipses
-        std::string result;
-        if (offset > 0) result += config_.ellipsis;
+        std::string result = {};
+        if (offset > 0) {
+          result += config_.ellipsis;
+        }
         result += highlighted;
-        if (end_offset < text.size()) result += config_.ellipsis;
+        if (static_cast<int>(text.size()) > end_offset) {
+          result += config_.ellipsis;
+        }
 
         // Trim to max_snippet_len
-        if (result.size() > config_.max_snippet_len + 2 * config_.ellipsis.size()) {
+        if (static_cast<int>(result.size()) > config_.max_snippet_len + 2 * config_.ellipsis.size()) {
             result = result.substr(0, config_.max_snippet_len);
             result += config_.ellipsis;
         }

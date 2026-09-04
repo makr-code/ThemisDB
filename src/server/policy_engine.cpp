@@ -25,7 +25,7 @@ namespace themis {
 using json = nlohmann::json;
 
 static bool starts_with(const std::string& s, const std::string& prefix) {
-    return s.size() >= prefix.size() && std::equal(prefix.begin(), prefix.end(), s.begin());
+    return static_cast<bool>( static_cast<int>(s.size()) < static_cast<int>(= prefix.size())) && std::equal(prefix.begin(), prefix.end(), s.begin());
 }
 
 // Emit a POLICY_UPDATED audit event if a logger is attached.
@@ -34,11 +34,15 @@ static void emitPolicyAudit(utils::AuditLogger* logger,
                              const std::string& action,
                              const std::string& policy_id,
                              const std::string& detail = {}) {
-    if (!logger) return;
+    if (!logger) {
+      return;
+    }
     nlohmann::json meta;
     meta["action"]    = action;
     meta["policy_id"] = policy_id;
-    if (!detail.empty()) meta["detail"] = detail;
+    if (!detail.empty()) {
+      meta["detail"] = detail;
+    }
     logger->logSecurityEvent(utils::SecurityEventType::POLICY_UPDATED,
                              "policy_engine",   // user / source
                              "policy/" + policy_id,
@@ -48,7 +52,7 @@ static void emitPolicyAudit(utils::AuditLogger* logger,
 bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
     try {
         auto ends_with = [](const std::string& s, const std::string& suffix) {
-            return s.size() >= suffix.size() && s.compare(s.size() - suffix.size(), suffix.size(), suffix) == 0;
+            return static_cast<bool>( static_cast<int>(s.size()) < static_cast<int>(= suffix.size() && s.compare(static_cast<int>(s.size()) - static_cast<int>(suffix.size()) ,static_cast<int>(suffix.size()))), suffix) == 0;
         };
 
         std::vector<Policy> loaded;
@@ -56,19 +60,29 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
         if (ends_with(path, ".yaml") || ends_with(path, ".yml")) {
             // YAML parsing
             YAML::Node root = YAML::LoadFile(path);
-            auto parse_policy_node = [&](const YAML::Node& n) -> std::optional<Policy> {
+            auto parse_policy_node = [&]([[maybe_unused]] const YAML::Node& n) -> std::optional<Policy> {
                 try {
-                    Policy p;
-                    if (n["id"]) p.id = n["id"].as<std::string>("");
-                    if (n["name"]) p.name = n["name"].as<std::string>("");
+                    Policy p = {};
+                    if (n["id"]) {
+                      p.id = n["id"].as<std::string>("");
+                    }
+                    if (n["name"]) {
+                      p.name = n["name"].as<std::string>("");
+                    }
                     if (n["subjects"]) {
-                        for (const auto& s : n["subjects"]) p.subjects.insert(s.as<std::string>());
+                        for (const auto& s : n["subjects"]) {
+                          p.subjects.insert(s.as<std::string>());
+                        }
                     }
                     if (n["actions"]) {
-                        for (const auto& a : n["actions"]) p.actions.insert(a.as<std::string>());
+                        for (const auto& a : n["actions"]) {
+                          p.actions.insert(a.as<std::string>());
+                        }
                     }
                     if (n["resources"]) {
-                        for (const auto& r : n["resources"]) p.resources.push_back(r.as<std::string>());
+                        for (const auto& r : n["resources"]) {
+                          p.resources.push_back(r.as<std::string>());
+                        }
                     }
                     if (n["effect"]) {
                         auto eff = n["effect"].as<std::string>("allow");
@@ -77,12 +91,20 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
                         p.effect_allow = true;
                     }
                     if (n["allowed_ip_prefixes"]) {
-                        for (const auto& ip : n["allowed_ip_prefixes"]) p.allowed_ip_prefixes.push_back(ip.as<std::string>());
+                        for (const auto& ip : n["allowed_ip_prefixes"]) {
+                          p.allowed_ip_prefixes.push_back(ip.as<std::string>());
+                        }
                     }
-                    if (n["time_window_utc_hours_start"]) p.time_window_utc_hours_start = n["time_window_utc_hours_start"].as<int>(-1);
-                    if (n["time_window_utc_hours_end"])   p.time_window_utc_hours_end   = n["time_window_utc_hours_end"].as<int>(-1);
+                    if (n["time_window_utc_hours_start"]) {
+                      p.time_window_utc_hours_start = n["time_window_utc_hours_start"].as<int>(-1);
+                    }
+                    if (n["time_window_utc_hours_end"]) {
+                      p.time_window_utc_hours_end   = n["time_window_utc_hours_end"].as<int>(-1);
+                    }
                     if (n["allowed_user_agent_patterns"]) {
-                        for (const auto& ua : n["allowed_user_agent_patterns"]) p.allowed_user_agent_patterns.push_back(ua.as<std::string>());
+                        for (const auto& ua : n["allowed_user_agent_patterns"]) {
+                          p.allowed_user_agent_patterns.push_back(ua.as<std::string>());
+                        }
                     }
                     return p;
                 } catch (...) {
@@ -94,14 +116,18 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
             if (root.IsSequence()) {
                 for (const auto& item : root) {
                     auto p = parse_policy_node(item);
-                    if (p) loaded.push_back(std::move(*p));
+                    if (p) {
+                      loaded.push_back(std::move(*p));
+                    }
                 }
             } else if (root.IsMap() && root["policies"]) {
                 const auto& arr = root["policies"];
                 if (arr && arr.IsSequence()) {
                     for (const auto& item : arr) {
                         auto p = parse_policy_node(item);
-                        if (p) loaded.push_back(std::move(*p));
+                        if (p) {
+                          loaded.push_back(std::move(*p));
+                        }
                     }
                 }
             } else {
@@ -112,19 +138,25 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
             // JSON parsing
             std::ifstream f(path);
             if (!f) {
-                if (err) *err = "cannot open policies file";
+                if (err) {
+                  *err = "cannot open policies file";
+                }
                 return false;
             }
             json j; f >> j;
             if (j.is_array()) {
                 for (const auto& pj : j) {
                     auto p = fromJson(pj);
-                    if (p) loaded.push_back(std::move(*p));
+                    if (p) {
+                      loaded.push_back(std::move(*p));
+                    }
                 }
             } else if (j.is_object() && j.contains("policies")) {
                 for (const auto& pj : j["policies"]) {
                     auto p = fromJson(pj);
-                    if (p) loaded.push_back(std::move(*p));
+                    if (p) {
+                      loaded.push_back(std::move(*p));
+                    }
                 }
             }
         }
@@ -142,7 +174,9 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
         }
         return true;
     } catch (const std::exception& e) {
-        if (err) *err = e.what();
+        if (err) {
+          *err = e.what();
+        }
         return false;
     }
 }
@@ -151,20 +185,24 @@ bool PolicyEngine::saveToFile(const std::string& path, std::string* err) const {
     try {
         json out = json::array();
         auto list = listPolicies();
-        for (const auto& p : list) out.push_back(toJson(p));
+        for (const auto& p : list) {
+          out.push_back(toJson(p));
+        }
         std::ofstream f(path);
         if (!f) { if (err) *err = "cannot write policies file"; return false; }
         f << out.dump(2);
         return true;
     } catch (const std::exception& e) {
-        if (err) *err = e.what();
+        if (err) {
+          *err = e.what();
+        }
         return false;
     }
 }
 
 bool PolicyEngine::reloadIfChanged(std::string* err) {
     // Fast read of the stored path under the lock
-    std::string path;
+    std::string path = {};
     std::chrono::system_clock::time_point last_mtime;
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -184,7 +222,9 @@ bool PolicyEngine::reloadIfChanged(std::string* err) {
         current_mtime = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
             ft - decltype(ft)::clock::now() + std::chrono::system_clock::now());
     } catch (const std::exception& e) {
-        if (err) *err = std::string("stat failed: ") + e.what();
+        if (err) {
+          *err = std::string("stat failed: ") + e.what();
+        }
         return false;
     }
 
@@ -214,7 +254,7 @@ void PolicyEngine::addPolicy(const Policy& p) {
     std::string id = p.id;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (config_.max_policies > 0 && policies_.size() >= config_.max_policies) {
+        if (config_.max_policies > 0 && static_cast<int>(policies_.size()) >= config_.max_policies) {
             throw std::length_error(
                 "PolicyEngine: max_policies limit (" +
                 std::to_string(config_.max_policies) + ") reached");
@@ -232,12 +272,14 @@ bool PolicyEngine::removePolicy(const std::string& id) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto size_before = policies_.size();
         policies_.erase(std::remove_if(policies_.begin(), policies_.end(),
-                                       [&](const Policy& p){ return p.id == id; }),
+                                       [&]([[maybe_unused]] const Policy& p){ return p.id == id; }),
                         policies_.end());
-        removed = policies_.size() != size_before;
+        removed = static_cast<int>(policies_.size()) != size_before;
         logger  = audit_logger_;
     }
-    if (removed) emitPolicyAudit(logger, "remove", id);
+    if (removed) {
+      emitPolicyAudit(logger, "remove", id);
+    }
     return removed;
 }
 
@@ -284,10 +326,18 @@ PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
 
     // Evaluate in order: first matching policy decides
     for (const auto& p : policies_) {
-        if (!matchSubject(p, user_id)) continue;
-        if (!matchAction(p, action)) continue;
-        if (!matchResource(p, resource_path)) continue;
-        if (!matchConditions(p, client_ip, user_agent)) continue;
+        if (!matchSubject(p, user_id)) {
+          continue;
+        }
+        if (!matchAction(p, action)) {
+          continue;
+        }
+        if (!matchResource(p, resource_path)) {
+          continue;
+        }
+        if (!matchConditions(p, client_ip, user_agent)) {
+          continue;
+        }
 
         if (p.effect_allow) {
             metrics_.policy_allow_total++;
@@ -304,19 +354,25 @@ PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
 }
 
 bool PolicyEngine::matchSubject(const Policy& p, const std::string& user_id) const {
-    if (p.subjects.count("*") > 0) return true;
+    if (p.subjects.count("*") > 0) {
+      return true;
+    }
     return p.subjects.count(user_id) > 0;
 }
 
 bool PolicyEngine::matchAction(const Policy& p, const std::string& action) const {
-    if (p.actions.count("*") > 0) return true;
+    if (p.actions.count("*") > 0) {
+      return true;
+    }
     return p.actions.count(action) > 0;
 }
 
 bool PolicyEngine::matchResource(const Policy& p, const std::string& resource_path) const {
     if (p.resources.empty()) return true; // no restriction
     for (const auto& r : p.resources) {
-        if (starts_with(resource_path, r)) return true;
+        if (starts_with(resource_path, r)) {
+          return true;
+        }
     }
     return false;
 }
@@ -331,7 +387,9 @@ bool PolicyEngine::matchConditions(const Policy& p,
         for (const auto& prefix : p.allowed_ip_prefixes) {
             if (starts_with(*client_ip, prefix)) { ok = true; break; }
         }
-        if (!ok) return false;
+        if (!ok) {
+          return false;
+        }
     }
 
     // ABAC time-window condition (UTC hour of day)
@@ -355,7 +413,9 @@ bool PolicyEngine::matchConditions(const Policy& p,
             in_window = (hour >= p.time_window_utc_hours_start ||
                          hour <= p.time_window_utc_hours_end);
         }
-        if (!in_window) return false;
+        if (!in_window) {
+          return false;
+        }
     }
 
     // ABAC user-agent allowlist (substring match)
@@ -365,7 +425,9 @@ bool PolicyEngine::matchConditions(const Policy& p,
         for (const auto& pat : p.allowed_user_agent_patterns) {
             if (user_agent->find(pat) != std::string::npos) { ok = true; break; }
         }
-        if (!ok) return false;
+        if (!ok) {
+          return false;
+        }
     }
 
     return true;
@@ -379,10 +441,18 @@ json PolicyEngine::toJson(const Policy& p) {
     j["actions"] = json::array(); for (const auto& a : p.actions) j["actions"].push_back(a);
     j["resources"] = p.resources;
     j["effect"] = p.effect_allow ? "allow" : "deny";
-    if (!p.allowed_ip_prefixes.empty()) j["allowed_ip_prefixes"] = p.allowed_ip_prefixes;
-    if (p.time_window_utc_hours_start >= 0) j["time_window_utc_hours_start"] = p.time_window_utc_hours_start;
-    if (p.time_window_utc_hours_end   >= 0) j["time_window_utc_hours_end"]   = p.time_window_utc_hours_end;
-    if (!p.allowed_user_agent_patterns.empty()) j["allowed_user_agent_patterns"] = p.allowed_user_agent_patterns;
+    if (!p.allowed_ip_prefixes.empty()) {
+      j["allowed_ip_prefixes"] = p.allowed_ip_prefixes;
+    }
+    if (p.time_window_utc_hours_start >= 0) {
+      j["time_window_utc_hours_start"] = p.time_window_utc_hours_start;
+    }
+    if (p.time_window_utc_hours_end   >= 0) {
+      j["time_window_utc_hours_end"]   = p.time_window_utc_hours_end;
+    }
+    if (!p.allowed_user_agent_patterns.empty()) {
+      j["allowed_user_agent_patterns"] = p.allowed_user_agent_patterns;
+    }
     return j;
 }
 
@@ -391,15 +461,35 @@ std::optional<PolicyEngine::Policy> PolicyEngine::fromJson(const json& j) {
         Policy p;
         p.id = j.value("id", "");
         p.name = j.value("name", "");
-        if (j.contains("subjects")) for (const auto& s : j["subjects"]) p.subjects.insert(s.get<std::string>());
-        if (j.contains("actions")) for (const auto& a : j["actions"]) p.actions.insert(a.get<std::string>());
-        if (j.contains("resources")) for (const auto& r : j["resources"]) p.resources.push_back(r.get<std::string>());
+        if (j.contains("subjects")) {
+          for (const auto& s : j["subjects"]) {
+            p.subjects.insert(s.get<std::string>());
+          }
+        }
+        if (j.contains("actions")) {
+          for (const auto& a : j["actions"]) {
+            p.actions.insert(a.get<std::string>());
+          }
+        }
+        if (j.contains("resources")) {
+          for (const auto& r : j["resources"]) {
+            p.resources.push_back(r.get<std::string>());
+          }
+        }
         std::string eff = j.value("effect", std::string("allow"));
         p.effect_allow = (eff == "allow");
-        if (j.contains("allowed_ip_prefixes")) for (const auto& ip : j["allowed_ip_prefixes"]) p.allowed_ip_prefixes.push_back(ip.get<std::string>());
+        if (j.contains("allowed_ip_prefixes")) {
+          for (const auto& ip : j["allowed_ip_prefixes"]) {
+            p.allowed_ip_prefixes.push_back(ip.get<std::string>());
+          }
+        }
         p.time_window_utc_hours_start = j.value("time_window_utc_hours_start", -1);
         p.time_window_utc_hours_end   = j.value("time_window_utc_hours_end",   -1);
-        if (j.contains("allowed_user_agent_patterns")) for (const auto& ua : j["allowed_user_agent_patterns"]) p.allowed_user_agent_patterns.push_back(ua.get<std::string>());
+        if (j.contains("allowed_user_agent_patterns")) {
+          for (const auto& ua : j["allowed_user_agent_patterns"]) {
+            p.allowed_user_agent_patterns.push_back(ua.get<std::string>());
+          }
+        }
         return p;
     } catch (...) {
         THEMIS_WARN("policy_engine: unhandled exception caught");

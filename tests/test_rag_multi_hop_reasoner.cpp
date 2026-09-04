@@ -37,7 +37,8 @@ static RetrievedDocument makeDoc(const std::string& id,
 static RetrievalFn stubRetrieval(size_t n = 2)
 {
     return [n](const std::string& sub_query, size_t /*top_k*/) {
-        std::vector<RetrievedDocument> docs;
+        std::vector<RetrievedDocument> docs = {};
+
         for (size_t i = 0; i < n; ++i) {
             docs.push_back(makeDoc("doc_" + std::to_string(i),
                                    "Document " + std::to_string(i) +

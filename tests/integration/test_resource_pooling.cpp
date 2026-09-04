@@ -239,7 +239,9 @@ TEST(Phase3ResourcePooling, ConnectionPoolStressTest) {
             }
         });
     }
-    for (auto& th : workers) th.join();
+    for (auto& th : workers) {
+      th.join();
+    }
 
     EXPECT_EQ(acquired.load(), released.load());
     EXPECT_EQ(pool.in_use(), 0u);
@@ -659,12 +661,16 @@ TEST(Phase3ResourcePooling, IntegrationConcurrentPoolOperations) {
             if (mgr.connectionPool().acquire(std::chrono::milliseconds(200), slot)) {
                 conn_ok.fetch_add(1);
                 auto buf = mgr.bufferPool().acquire(512);
-                if (buf.valid()) buf_ok.fetch_add(1);
+                if (buf.valid()) {
+                  buf_ok.fetch_add(1);
+                }
                 mgr.connectionPool().release(slot);
             }
         });
     }
-    for (auto& th : workers) th.join();
+    for (auto& th : workers) {
+      th.join();
+    }
 
     EXPECT_GT(conn_ok.load(), 0);
     EXPECT_GT(buf_ok.load(), 0);
@@ -791,7 +797,9 @@ TEST(Phase3ResourcePooling, IntegrationPoolScenarioQueryExecution) {
             mgr.connectionPool().release(slot);
         });
     }
-    for (auto& th : workers) th.join();
+    for (auto& th : workers) {
+      th.join();
+    }
 
     EXPECT_GT(done.load(), 0);
     mgr.shutdown();
@@ -901,7 +909,9 @@ TEST(Phase3ResourcePooling, PerformanceTuningPeakUtilizationLimit) {
     const auto st = pool.statistics();
     EXPECT_NEAR(st.peak_utilization, 1.0, 0.01);
 
-    for (int s : slots) pool.release(s);
+    for (int s : slots) {
+      pool.release(s);
+    }
 }
 
 /**

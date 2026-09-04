@@ -86,8 +86,8 @@ struct MultiPrimaryConfig {
 struct WriteConflict {
     LSN lsn1;
     LSN lsn2;
-    uint64_t timestamp1;
-    uint64_t timestamp2;
+    uint64_t timestamp1 = {};
+    uint64_t timestamp2 = {};
     std::string primary_id1;
     std::string primary_id2;
     

@@ -163,9 +163,9 @@ public:
 private:
     // Composite key: (tensor_name, shard_id, artifact_id)
     struct Key {
-        std::string tensor_name;
+        std::string tensor_name = {};
         uint32_t    shard_id    = 0;
-        std::string artifact_id;
+        std::string artifact_id = {};
 
         bool operator==(const Key& o) const noexcept {
             return tensor_name == o.tensor_name

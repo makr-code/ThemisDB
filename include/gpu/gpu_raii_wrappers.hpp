@@ -199,8 +199,8 @@ class GPUMemoryHandle {
 
  private:
     void* ptr_;
-    size_t size_;
-    size_t count_;
+    size_t size_ = {};
+    size_t count_ = {};
 
     /// Destroy and free GPU memory
     void destroy() noexcept {
@@ -316,7 +316,9 @@ class GPUStreamHandle {
     /// @return true if stream is idle; false if pending operations exist
     bool isIdle() noexcept {
 #if THEMIS_GPU_RAII_HAS_CUDA
-        if (stream_ == nullptr) return true;
+        if (stream_ == nullptr) {
+          return true;
+        }
         cudaError_t err = cudaStreamQuery(stream_);
         return err == cudaSuccess;
 #else
@@ -449,7 +451,9 @@ class GPUEventHandle {
     /// @return true if event is complete; false if pending
     bool isCompleted() noexcept {
 #if THEMIS_GPU_RAII_HAS_CUDA
-        if (event_ == nullptr) return false;
+        if (event_ == nullptr) {
+          return false;
+        }
         cudaError_t err = cudaEventQuery(event_);
         return err == cudaSuccess;
 #else

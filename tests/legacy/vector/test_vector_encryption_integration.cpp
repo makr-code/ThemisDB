@@ -140,7 +140,7 @@ TEST_F(VectorEncryptionIntegrationTest, Phase2_HnswEncryptionOnly) {
     
     // Verify meta.txt contains "encrypted" flag
     std::ifstream meta(test_hnsw_path_ + "/meta.txt");
-    std::string line;
+    std::string line = {};
     bool found_encrypted_flag = false;
     while (std::getline(meta, line)) {
         if (line == "encrypted") {

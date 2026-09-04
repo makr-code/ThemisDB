@@ -27,9 +27,9 @@ public:
     };
     
     struct EvaluationContext {
-        std::string user;
-        std::string resource;
-        std::string action;
+        std::string user = {};
+        std::string resource = {};
+        std::string action = {};
         std::map<std::string, std::string> attributes;
     };
     
@@ -64,7 +64,9 @@ public:
         
         for (const auto& policy : policies) {
             Effect effect = evaluate_policy(policy, ctx);
-            if (effect == Effect::ALLOW) allow_count++;
+            if (effect == Effect::ALLOW) {
+              allow_count++;
+            }
             else deny_count++;
         }
         
@@ -190,8 +192,10 @@ BENCHMARK(BM_PolicySetEvaluation)->Arg(10)->Arg(100)->Arg(1000);
 static void BM_CachingImpact(benchmark::State& state) {
     bool use_cache = state.range(0);
     
-    PolicyEngine engine;
-    if (use_cache) engine.enable_cache();
+    PolicyEngine engine = {};
+    if (use_cache) {
+      engine.enable_cache();
+    }
     else engine.disable_cache();
     
     PolicyEngine::Policy policy = create_simple_rbac_policy();
@@ -237,7 +241,8 @@ static void BM_ConflictDetection(benchmark::State& state) {
     size_t num_policies = state.range(0);
     PolicyEngine engine;
     
-    std::vector<PolicyEngine::Policy> policies;
+    std::vector<PolicyEngine::Policy> policies = {};
+
     for (size_t i = 0; i < num_policies; ++i) {
         policies.push_back(create_simple_rbac_policy());
     }

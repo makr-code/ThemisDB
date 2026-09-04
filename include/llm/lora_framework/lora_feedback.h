@@ -102,15 +102,29 @@ struct Feedback {
      * @brief Deserialize from JSON
      */
     static Feedback fromJSON(const json& j) {
-        Feedback fb;
+        Feedback fb = {};
         
-        if (j.contains("id")) fb.id = j["id"].get<std::string>();
-        if (j.contains("adapter_id")) fb.adapter_id = j["adapter_id"].get<std::string>();
-        if (j.contains("user_id")) fb.user_id = j["user_id"].get<std::string>();
-        if (j.contains("rating")) fb.rating = j["rating"].get<int>();
-        if (j.contains("feedback_text")) fb.feedback_text = j["feedback_text"].get<std::string>();
-        if (j.contains("prompt")) fb.prompt = j["prompt"].get<std::string>();
-        if (j.contains("response")) fb.response = j["response"].get<std::string>();
+        if (j.contains("id")) {
+          fb.id = j["id"].get<std::string>();
+        }
+        if (j.contains("adapter_id")) {
+          fb.adapter_id = j["adapter_id"].get<std::string>();
+        }
+        if (j.contains("user_id")) {
+          fb.user_id = j["user_id"].get<std::string>();
+        }
+        if (j.contains("rating")) {
+          fb.rating = j["rating"].get<int>();
+        }
+        if (j.contains("feedback_text")) {
+          fb.feedback_text = j["feedback_text"].get<std::string>();
+        }
+        if (j.contains("prompt")) {
+          fb.prompt = j["prompt"].get<std::string>();
+        }
+        if (j.contains("response")) {
+          fb.response = j["response"].get<std::string>();
+        }
         
         if (j.contains("model_response_id")) {
             fb.model_response_id = j["model_response_id"].get<std::string>();

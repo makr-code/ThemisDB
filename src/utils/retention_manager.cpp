@@ -28,7 +28,7 @@ RetentionManager::RetentionManager(const std::string& config_path)
         }
     }
     
-    spdlog::info("RetentionManager: Initialized with {} policy/policies", policies_.size());
+    spdlog::info("RetentionManager: Initialized with {} policy/policies",static_cast<int>(policies_.size()));
 }
 
 bool RetentionManager::registerPolicy(const RetentionPolicy& policy) {
@@ -68,7 +68,8 @@ bool RetentionManager::removePolicy(const std::string& policy_name) {
 }
 
 std::vector<RetentionManager::RetentionPolicy> RetentionManager::getPolicies() const {
-    std::vector<RetentionPolicy> result;
+    std::vector<RetentionPolicy> result = {};
+
     result.reserve(policies_.size());
     
     for (const auto& [name, policy] : policies_) {
@@ -129,7 +130,7 @@ bool RetentionManager::shouldPurge(
 RetentionManager::RetentionAction RetentionManager::archiveEntity(
     const std::string& entity_id,
     const std::string& policy_name,
-    std::function<bool(const std::string&)> archive_handler) {
+    std::function<bool([[maybe_unused]] const std::string&)> archive_handler) {
     
     RetentionAction action;
     action.entity_id = entity_id;
@@ -145,7 +146,7 @@ RetentionManager::RetentionAction RetentionManager::archiveEntity(
         return action;
     }
     try {
-        action.success = archive_handler(entity_id);
+        action.success = archive_handler([[maybe_unused]] entity_id);
         if (!action.success) {
             action.error_message = "Archive handler returned false";
         }
@@ -169,7 +170,7 @@ RetentionManager::RetentionAction RetentionManager::archiveEntity(
 RetentionManager::RetentionAction RetentionManager::purgeEntity(
     const std::string& entity_id,
     const std::string& policy_name,
-    std::function<bool(const std::string&)> purge_handler) {
+    std::function<bool([[maybe_unused]] const std::string&)> purge_handler) {
     
     RetentionAction action;
     action.entity_id = entity_id;
@@ -194,7 +195,7 @@ RetentionManager::RetentionAction RetentionManager::purgeEntity(
     }
     
     try {
-        action.success = purge_handler(entity_id);
+        action.success = purge_handler([[maybe_unused]] entity_id);
         if (!action.success) {
             action.error_message = "Purge handler returned false";
         }
@@ -218,7 +219,7 @@ RetentionManager::RetentionAction RetentionManager::purgeEntity(
 RetentionManager::RetentionStats RetentionManager::runRetentionCheck(
     std::function<std::vector<std::pair<std::string, std::chrono::system_clock::time_point>>(const std::string&)> entity_provider,
     std::function<bool(const std::string&)> archive_handler,
-    std::function<bool(const std::string&)> purge_handler) {
+    std::function<bool([[maybe_unused]] const std::string&)> purge_handler) {
     
     auto start = std::chrono::steady_clock::now();
     
@@ -270,7 +271,7 @@ RetentionManager::RetentionStats RetentionManager::runRetentionCheck(
     return total_stats;
 }
 
-std::vector<RetentionManager::RetentionAction> RetentionManager::getHistory(size_t limit) const {
+std::vector<RetentionManager::RetentionAction> RetentionManager::getHistory([[maybe_unused]] size_t limit) const {
     if (limit == 0 || limit >= action_history_.size()) {
         return action_history_;
     }
@@ -335,7 +336,7 @@ bool RetentionManager::loadPolicies(const std::string& config_path) {
             registerPolicy(policy);
         }
 
-        spdlog::info("RetentionManager: Loaded {} policies from '{}'", policies_.size(), config_path);
+        spdlog::info("RetentionManager: Loaded {} policies from '{}'",static_cast<int>(policies_.size()), config_path);
         return true;
 
     } catch (const std::exception& e) {
@@ -348,7 +349,7 @@ bool RetentionManager::loadPolicies(const std::string& config_path) {
 void RetentionManager::logAction(const RetentionAction& action) {
     // Add to history (keep last 10000 actions)
     action_history_.push_back(action);
-    if (action_history_.size() > 10000) {
+    if (static_cast<int>(action_history_.size()) > 10000) {
         action_history_.erase(action_history_.begin());
     }
     
@@ -373,7 +374,7 @@ void RetentionManager::startBackgroundJob(
     std::function<std::vector<std::pair<std::string,
         std::chrono::system_clock::time_point>>(const std::string&)> entity_provider,
     std::function<bool(const std::string&)> archive_handler,
-    std::function<bool(const std::string&)> purge_handler) {
+    std::function<bool([[maybe_unused]] const std::string&)> purge_handler) {
 
     if (bg_running_.exchange(true)) {
         // Already running
@@ -388,12 +389,14 @@ void RetentionManager::startBackgroundJob(
     bg_thread_ = std::thread([this, interval,
                                ep = std::move(entity_provider),
                                ah = std::move(archive_handler),
-                               ph = std::move(purge_handler)]() {
+                               ph = std::move([[maybe_unused]] purge_handler)]() {
         while (true) {
             // Wait for the interval or until stopped
             std::unique_lock<std::mutex> lk(bg_mutex_);
             bool stopped = bg_cv_.wait_for(lk, interval, [this]{ return bg_stop_; });
-            if (stopped) break;
+            if (stopped) {
+              break;
+            }
             lk.unlock();
 
             try {

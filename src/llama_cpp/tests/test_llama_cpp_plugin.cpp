@@ -149,7 +149,7 @@ TEST(LlamaCppPluginFocusedTests, E4_GenerateRAGHonoursExplicitContextOverrideFor
     p.loadModel("", {});
 
     int observed_max_tokens = -1;
-    p.setGenerateFn([&](const InferenceRequest& request) {
+    p.setGenerateFn([&]([[maybe_unused]] const InferenceRequest& request) {
         observed_max_tokens = request.max_tokens;
         InferenceResponse response;
         response.success = true;
@@ -207,7 +207,7 @@ TEST(LlamaCppPluginFocusedTests, G2_ListLoRAsAfterLoad) {
     LlamaCppPlugin p;
     p.loadLoRA("a1", "/lora.bin", 0.8f);
     const auto loras = p.listLoRAs();
-    EXPECT_EQ(loras.size(), 1u);
+    EXPECT_EQ(loras.size(), 1);
     EXPECT_EQ(loras[0].lora_id, "a1");
     EXPECT_FLOAT_EQ(loras[0].scale, 0.8f);
 }
@@ -226,7 +226,7 @@ TEST(LlamaCppPluginFocusedTests, H1_DuplicateLoRAIdReplaces) {
     p.loadLoRA("a1", "/lora1.bin", 1.0f);
     p.loadLoRA("a1", "/lora2.bin", 0.5f);
     const auto loras = p.listLoRAs();
-    EXPECT_EQ(loras.size(), 1u);
+    EXPECT_EQ(loras.size(), 1);
     EXPECT_FLOAT_EQ(loras[0].scale, 0.5f);
 }
 
@@ -239,7 +239,7 @@ TEST(LlamaCppPluginFocusedTests, H3_MultipleLoRAsListedCorrectly) {
     LlamaCppPlugin p;
     p.loadLoRA("a", "/a.bin", 1.0f);
     p.loadLoRA("b", "/b.bin", 0.5f);
-    EXPECT_EQ(p.listLoRAs().size(), 2u);
+    EXPECT_EQ(p.listLoRAs().size(), 2);
 }
 
 // ── Group I – getCapabilities ─────────────────────────────────────────────────
@@ -275,7 +275,7 @@ TEST(LlamaCppPluginFocusedTests, J2_PerformanceStatsContainsInferenceCount) {
     InferenceRequest req; req.prompt = "hi";
     p.generate(req); p.generate(req);
     const auto s = p.getPerformanceStats();
-    EXPECT_GE(s["inference_count"].get<uint64_t>(), 2u);
+    EXPECT_GE(s["inference_count"].get<uint64_t>(), 2);
 }
 
 TEST(LlamaCppPluginFocusedTests, J3_PluginNameInMemoryStats) {
@@ -335,7 +335,7 @@ TEST(LlamaCppPluginFocusedTests, K5_StreamCallbackTokenMatchesGenerateText) {
     p.loadModel("", {});
     InferenceRequest req;
     req.prompt = "compare";
-    std::string streamed;
+    std::string streamed = {};
     const auto stream_resp = p.generateStream(req,
         [&streamed](const std::string& t) { streamed += t; });
     const auto direct_resp = p.generate(req);
@@ -357,7 +357,7 @@ TEST(LlamaCppPluginFocusedTests, L2_BatchSingleRequestReturnsOneResponse) {
     InferenceRequest req;
     req.prompt = "single";
     const auto results = p.generateBatch({req});
-    ASSERT_EQ(results.size(), 1u);
+    ASSERT_EQ(results.size(), 1);
     EXPECT_TRUE(results[0].success);
 }
 
@@ -367,7 +367,7 @@ TEST(LlamaCppPluginFocusedTests, L3_BatchMultipleRequestsPreservesOrder) {
     InferenceRequest r1, r2, r3;
     r1.prompt = "aaaa"; r2.prompt = "bbbb"; r3.prompt = "cccc";
     const auto results = p.generateBatch({r1, r2, r3});
-    ASSERT_EQ(results.size(), 3u);
+    ASSERT_EQ(results.size(), 3);
     // Each response text should contain part of the corresponding prompt
     EXPECT_NE(results[0].text.find("aaaa"), std::string::npos);
     EXPECT_NE(results[1].text.find("bbbb"), std::string::npos);
@@ -379,7 +379,7 @@ TEST(LlamaCppPluginFocusedTests, L4_BatchErrorWhenNotLoaded) {
     InferenceRequest req;
     req.prompt = "fail";
     const auto results = p.generateBatch({req});
-    ASSERT_EQ(results.size(), 1u);
+    ASSERT_EQ(results.size(), 1);
     EXPECT_FALSE(results[0].success);
 }
 
@@ -390,7 +390,7 @@ TEST(LlamaCppPluginFocusedTests, L5_BatchIncreasesInferenceCount) {
     r1.prompt = "x"; r2.prompt = "y";
     p.generateBatch({r1, r2});
     const auto stats = p.getPerformanceStats();
-    EXPECT_GE(stats["inference_count"].get<uint64_t>(), 2u);
+    EXPECT_GE(stats["inference_count"].get<uint64_t>(), 2);
 }
 
 // ── Group M – capabilities v2.1.0 ────────────────────────────────────────────
@@ -601,7 +601,7 @@ TEST(LlamaCppPluginFocusedTests, P3_ConcurrentLoraRegistryAndGenerate) {
     // No deadlock or crash is expected.
     std::atomic<int> generate_ok{0};
 
-    auto lora_writer = [&](int id) {
+    auto lora_writer = [&]([[maybe_unused]] int id) {
         const std::string path = "/stub/lora_" + std::to_string(id) + ".bin";
         const std::string name = "lora_" + std::to_string(id);
         plugin.loadLoRA(name, path, 1.0f);
@@ -642,7 +642,7 @@ TEST(LlamaCppPluginFocusedTests, Q1_EmbedFn_InjectedFnCalled) {
     plugin.loadModel("", {});
 
     bool called = false;
-    plugin.setEmbedFn([&](const std::string& text) -> std::vector<float> {
+    plugin.setEmbedFn([&]([[maybe_unused]] const std::string& text) -> std::vector<float> {
         called = true;
         EXPECT_EQ(text, "hello");
         return std::vector<float>(128, 1.0f);
@@ -650,7 +650,7 @@ TEST(LlamaCppPluginFocusedTests, Q1_EmbedFn_InjectedFnCalled) {
 
     auto result = plugin.embed("hello");
     EXPECT_TRUE(called) << "setEmbedFn callback must be invoked by embed()";
-    ASSERT_EQ(result.size(), 128u);
+    ASSERT_EQ(result.size(), 128);
     EXPECT_FLOAT_EQ(result[0], 1.0f);
 }
 
@@ -664,7 +664,7 @@ TEST(LlamaCppPluginFocusedTests, Q2_EmbedFn_EmptyReturnFallsBackToStub) {
     });
 
     auto result = plugin.embed("anything");
-    ASSERT_EQ(result.size(), 384u) << "empty fn result must fall back to 384-dim zero vector";
+    ASSERT_EQ(result.size(), 384) << "empty fn result must fall back to 384-dim zero vector";
     for (float v : result) {
         EXPECT_FLOAT_EQ(v, 0.0f);
     }
@@ -677,13 +677,13 @@ TEST(LlamaCppPluginFocusedTests, Q3_EmbedFn_ClearingRevertsToStub) {
 
     plugin.setEmbedFn([](const std::string&) { return std::vector<float>(64, 3.14f); });
     // Verify injection is active
-    ASSERT_EQ(plugin.embed("test").size(), 64u);
+    ASSERT_EQ(plugin.embed("test").size(), 64);
 
     // Clear the fn
     plugin.setEmbedFn(nullptr);
 
     auto result = plugin.embed("test");
-    ASSERT_EQ(result.size(), 384u) << "after clearing embed_fn_, stub zero-vector must be returned";
+    ASSERT_EQ(result.size(), 384) << "after clearing embed_fn_, stub zero-vector must be returned";
     for (float v : result) {
         EXPECT_FLOAT_EQ(v, 0.0f);
     }
@@ -695,7 +695,7 @@ TEST(LlamaCppPluginFocusedTests, Q4_EmbedFn_UsedEvenWithoutModel) {
     // Do NOT call loadModel → model_loaded_ is false
 
     plugin.setEmbedFn([](const std::string& text) {
-        return std::vector<float>(16, static_cast<float>(text.size()));
+        return static_cast<bool>(std::vector<float>(16, static_cast<float < static_cast<int>((text.size()))));
     });
 
     // embed() early-returns {} when !model_loaded_; fn is not called in that path.
@@ -710,7 +710,7 @@ TEST(LlamaCppPluginFocusedTests, R1_GenerateFn_InjectedFnCalled) {
     plugin.loadModel("", {});
 
     bool called = false;
-    plugin.setGenerateFn([&](const InferenceRequest& request) {
+    plugin.setGenerateFn([&]([[maybe_unused]] const InferenceRequest& request) {
         called = true;
         EXPECT_EQ(request.prompt, "bridge");
         InferenceResponse response;
@@ -783,7 +783,7 @@ TEST(LlamaCppPluginFocusedTests, S3_BridgeFn_ToolCallsForwarded) {
     tool.parameters = json::parse(R"({"type":"object","properties":{"item":{"type":"string"}}})");
 
     plugin.setGenerateFn([&tool](const InferenceRequest& req) -> InferenceResponse {
-        EXPECT_EQ(req.tools.size(), 1u);
+        EXPECT_EQ(req.tools.size(), 1);
         EXPECT_EQ(req.tools.front().name, tool.name);
         InferenceResponse resp;
         resp.success = true;
@@ -801,7 +801,7 @@ TEST(LlamaCppPluginFocusedTests, S3_BridgeFn_ToolCallsForwarded) {
 
     const auto response = plugin.generate(request);
     EXPECT_TRUE(response.success);
-    ASSERT_EQ(response.tool_calls.size(), 1u);
+    ASSERT_EQ(response.tool_calls.size(), 1);
     EXPECT_EQ(response.tool_calls.front().name, "lookup_price");
     EXPECT_EQ(response.tool_calls.front().arguments.value("item", ""), "laptop");
 }
@@ -814,7 +814,7 @@ TEST(LlamaCppPluginFocusedTests, T1_CancellationToken_PreCancelledRejectsRequest
     plugin.loadModel("", {});
     // Wire a bridge so the test can verify the path never reaches generation.
     bool bridge_called = false;
-    plugin.setGenerateFn([&](const InferenceRequest&) -> InferenceResponse {
+    plugin.setGenerateFn([&]([[maybe_unused]] const InferenceRequest&) -> InferenceResponse {
         bridge_called = true;
         InferenceResponse r;
         r.success = true;
@@ -1091,9 +1091,11 @@ TEST(LlamaCppPluginFocusedTests, X1_StreamCallbackRetry_TransientException) {
     int throw_count = 0;
     InferenceRequest req;
     req.prompt = "x1_retry_test";
-    req.stream_callback = [&](const std::string&) {
+    req.stream_callback = [&]([[maybe_unused]] const std::string&) {
         // Throw on the first two calls to force the retry path.
-        if (throw_count++ < 2) throw std::runtime_error("transient");
+        if (throw_count++ < 2) {
+          throw std::runtime_error("transient");
+        }
     };
 
     const auto resp = plugin.generate(req);
@@ -1103,7 +1105,7 @@ TEST(LlamaCppPluginFocusedTests, X1_StreamCallbackRetry_TransientException) {
 
     const auto stats_after = plugin.getPerformanceStats();
     const uint64_t retries_after = stats_after.value("stream_retry_count", uint64_t{0});
-    EXPECT_GE(retries_after, retries_before + 1u)
+    EXPECT_GE(retries_after, retries_before + 1)
         << "stream_retry_count must increase when transient exceptions are retried";
 #endif
 }

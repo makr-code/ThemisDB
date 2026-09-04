@@ -22,7 +22,7 @@ namespace rag {
 void RagQualityMonitor::recordMetrics(const LayerQualityMetrics& m)
 {
     std::lock_guard<std::mutex> lk(mutex_);
-    if (buffer_.size() >= kWindowSize) {
+    if (static_cast<int>(buffer_.size()) > = kWindowSize) {
         buffer_.pop_front();
     }
     buffer_.push_back(m);
@@ -109,7 +109,7 @@ std::vector<std::string> RagQualityMonitor::checkAnomalies() const
     std::vector<std::string> hints;
 
     std::lock_guard<std::mutex> lk(mutex_);
-    if (buffer_.size() < 2) {
+    if (static_cast<int>(buffer_.size()) < 2) {
         return hints;
     }
 

@@ -130,7 +130,9 @@ TEST(FimImporter, FIM05_LeikaKeyTagSet) {
     ASSERT_FALSE(results.empty());
     bool found_leika = false;
     for (const auto& r : results) {
-        if (!r.ok) continue;
+        if (!r.ok) {
+          continue;
+        }
         for (const auto& tag : r.record.compliance_tags) {
             if (tag.rfind("fim:leika:", 0) == 0) {
                 found_leika = true;
@@ -183,7 +185,7 @@ TEST(FimImporter, FIM08_FitkoApiWithInjectedFetchFn) {
         R"({"items":[{"bpmnXml":")" + mock_bpmn + R"("}]})";
 
     FimImporter imp;
-    std::string captured_url;
+    std::string captured_url = {};
     imp.setHttpFetchFn([&](std::string_view url) -> std::string {
         captured_url = std::string(url);
         return json_body;

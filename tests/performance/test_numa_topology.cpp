@@ -41,7 +41,8 @@ TEST(NumaTopologyTest, AllCpuIdsNonNegative) {
 
 TEST(NumaTopologyTest, CpuIdsNoDuplicates) {
     const NumaTopology& topo = NumaTopologyDetector::detect();
-    std::vector<int> all_cpus;
+    std::vector<int> all_cpus = {};
+
     for (const auto& node : topo.nodes) {
         all_cpus.insert(all_cpus.end(), node.cpu_ids.begin(), node.cpu_ids.end());
     }
@@ -177,9 +178,12 @@ TEST(ThreadPinnerTest, MultiThreadedPinning) {
     }
 
     // Collect all CPUs across nodes into a flat list (once, outside the loop)
-    std::vector<int> all_cpus;
+    std::vector<int> all_cpus = {};
+
     for (const auto& node : topo.nodes)
-        for (int c : node.cpu_ids) all_cpus.push_back(c);
+        for (int c : node.cpu_ids) {
+          all_cpus.push_back(c);
+        }
 
     std::vector<std::thread> threads;
     std::atomic<int> success_count{0};
@@ -194,7 +198,9 @@ TEST(ThreadPinnerTest, MultiThreadedPinning) {
             ThreadPinner::unpin();
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // If pinning is supported, all threads should have succeeded
     // (skip silently if the platform does not support it)

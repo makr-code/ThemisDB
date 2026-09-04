@@ -52,7 +52,7 @@ struct ParticipantStatus {
 
 /** @brief One SAGA step or compensation step snapshot record. */
 struct SAGAStep {
-    uint32_t step_number;
+    uint32_t step_number = 0;
     std::string operation;
     nlohmann::json data;
     bool completed = false;
@@ -97,7 +97,7 @@ struct TransactionSnapshotEntry {
 
 /** @brief Complete transaction snapshot payload including checksum metadata. */
 struct TransactionSnapshot {
-    uint64_t snapshot_id;
+    uint64_t snapshot_id = 0;
     LSN last_applied_lsn;
     std::string coordinator_id;
     uint64_t timestamp;

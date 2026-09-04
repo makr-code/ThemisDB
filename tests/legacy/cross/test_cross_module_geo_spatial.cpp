@@ -267,7 +267,9 @@ TEST_F(GeoSpatialTest, B5_MaterialisedResultCountMatchesIteratorCount) {
     // Iterator version
     SpatialJoinIterator it(cluster, cluster, threshold_m);
     int iter_count = 0;
-    while (it.advance()) ++iter_count;
+    while (it.advance()) {
+      ++iter_count;
+    }
 
     EXPECT_EQ(static_cast<int>(pairs.size()), iter_count)
         << "spatialJoin() and SpatialJoinIterator must yield the same pair count";

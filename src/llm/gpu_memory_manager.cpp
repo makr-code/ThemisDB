@@ -89,7 +89,9 @@ public:
           gpu_device_id_(gpu_device_id) {}
     
     ~MemoryHolder() noexcept {
-        if (!ptr_) return;
+        if (!ptr_) {
+          return;
+        }
         
         try {
             switch (type_) {
@@ -255,7 +257,8 @@ inline GPUMemoryManager::GPUHealth buildUnavailableGpuHealth(int gpu_device_id,
 
 inline std::vector<int> sanitizeGpuDeviceList(const std::vector<int>& requested_gpus,
                                               std::optional<int> max_device_count = std::nullopt) {
-    std::vector<int> sanitized;
+    std::vector<int> sanitized = {};
+
     sanitized.reserve(requested_gpus.size());
     std::unordered_set<int> seen;
 
@@ -296,7 +299,7 @@ inline void cleanupRawAllocation(void* ptr,
     }
 }
 
-inline std::optional<float> queryNvmlTemperatureCelsius(int gpu_device_id) {
+inline std::optional<float> queryNvmlTemperatureCelsius([[maybe_unused]] int gpu_device_id) {
 #if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
     using nvmlReturn_t = int;
     using nvmlDevice_t = void*;
@@ -391,7 +394,7 @@ GPUMemoryManager::~GPUMemoryManager() {
     // Just log what we're cleaning up
     for (const auto& [model_id, allocs] : allocations_) {
         spdlog::info("Cleaning up memory for model: {} ({} allocations)", 
-                     model_id, allocs.size());
+                     model_id,static_cast<int>(allocs.size()));
     }
     
     // Clear allocations - this will trigger holder destructors
@@ -432,7 +435,7 @@ void GPUMemoryManager::initializeGPU() {
         
         // Initialize multi-GPU support (v1.4.0)
         if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
-            spdlog::info("Initializing multi-GPU support with {} GPUs", config_.gpu_devices.size());
+            spdlog::info("Initializing multi-GPU support with {} GPUs",static_cast<int>(config_.gpu_devices.size()));
             available_gpus_ = sanitizeGpuDeviceList(config_.gpu_devices, deviceCount);
 
             if (available_gpus_.empty()) {
@@ -450,8 +453,8 @@ void GPUMemoryManager::initializeGPU() {
             // Enable peer access if requested
             if (config_.enable_peer_access) {
                 spdlog::info("Enabling CUDA peer-to-peer access between GPUs");
-                for (size_t i = 0; i < available_gpus_.size(); ++i) {
-                    for (size_t j = i+1; j < available_gpus_.size(); ++j) {
+                for (size_t i = 0; i <static_cast<int>(available_gpus_.size()); ++i) {
+                    for (size_t j = i+1; j <static_cast<int>(available_gpus_.size()); ++j) {
                         int src_gpu = available_gpus_[i];
                         int dst_gpu = available_gpus_[j];
                         
@@ -489,7 +492,7 @@ void GPUMemoryManager::initializeGPU() {
         }
         
         spdlog::info("GPU Memory Manager: Running with real CUDA support");
-        spdlog::info("  Available GPUs: {}", available_gpus_.size());
+        spdlog::info("  Available GPUs: {}",static_cast<int>(available_gpus_.size()));
     } else {
         gpu_available_ = false;
         spdlog::warn("No usable CUDA GPU detected: {}", cudaGetErrorString(err));
@@ -509,7 +512,7 @@ void GPUMemoryManager::initializeGPU() {
     
     // Initialize multi-GPU support in simulation mode (v1.4.0)
     if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
-        spdlog::info("Initializing multi-GPU support (simulation) with {} GPUs", config_.gpu_devices.size());
+        spdlog::info("Initializing multi-GPU support (simulation) with {} GPUs",static_cast<int>(config_.gpu_devices.size()));
         available_gpus_ = sanitizeGpuDeviceList(config_.gpu_devices);
         if (available_gpus_.empty()) {
             spdlog::warn("No valid configured GPUs remain after validation, falling back to primary GPU {}",
@@ -534,14 +537,14 @@ void GPUMemoryManager::initializeGPU() {
     }
     
     spdlog::info("GPU Memory Manager: CUDA not enabled at build time; GPU runtime remains unavailable");
-    spdlog::info("  Tracked GPU slots: {}", available_gpus_.size());
+    spdlog::info("  Tracked GPU slots: {}",static_cast<int>(available_gpus_.size()));
 #endif
 
     // Apply VRAM limit fallback: if max_vram_bytes is still 0 after platform-specific
     // initialization (e.g. no GPU available or cudaGetDeviceProperties failed), use a
     // sensible simulation default so that canAllocate() and getLeastLoadedGPU() work.
     if (config_.max_vram_bytes == 0) {
-        config_.max_vram_bytes = 8ULL * 1024 * 1024 * 1024;  // 8 GB simulation default
+        config_.max_vram_bytes = 8 * 1024 * 1024 * 1024;  // 8 GB simulation default
         spdlog::info("  VRAM limit defaulted to {:.2f} GB (simulation)",
                      config_.max_vram_bytes / (1024.0 * 1024 * 1024));
     }
@@ -557,8 +560,8 @@ void GPUMemoryManager::shutdownGPU() {
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
         // Disable peer access if it was enabled
-        if (config_.enable_peer_access && available_gpus_.size() > 1) {
-            for (size_t i = 0; i < available_gpus_.size(); ++i) {
+        if (config_.enable_peer_access && static_cast<int>(available_gpus_.size()) > 1) {
+            for (size_t i = 0; i <static_cast<int>(available_gpus_.size()); ++i) {
                 int src_gpu = available_gpus_[i];
                 cudaError_t set_err = cudaSetDevice(src_gpu);
                 if (set_err != cudaSuccess) {
@@ -566,7 +569,7 @@ void GPUMemoryManager::shutdownGPU() {
                                  src_gpu, cudaGetErrorString(set_err));
                     continue;
                 }
-                for (size_t j = 0; j < available_gpus_.size(); ++j) {
+                for (size_t j = 0; j <static_cast<int>(available_gpus_.size()); ++j) {
                     if (i != j) {
                         int dst_gpu = available_gpus_[j];
                         cudaError_t disable_err = cudaDeviceDisablePeerAccess(dst_gpu);
@@ -871,7 +874,9 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
 }
 
 bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
-    if (!ptr) return false;
+    if (!ptr) {
+      return false;
+    }
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = allocations_.find(model_id);
@@ -925,7 +930,9 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
 }
 
 bool GPUMemoryManager::freeCPU(const std::string& model_id, void* ptr) {
-    if (!ptr) return false;
+    if (!ptr) {
+      return false;
+    }
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = allocations_.find(model_id);
@@ -1170,7 +1177,7 @@ bool GPUMemoryManager::defragment() {
     // Iterate through each model and consolidate fragmented allocations
     for (auto& [model_id, allocs] : allocations_) {
         // Skip if model has only one allocation (not fragmented)
-        if (allocs.size() <= 1) {
+        if (static_cast<int>(allocs.size()) <= 1) {
             continue;
         }
         
@@ -1188,20 +1195,20 @@ bool GPUMemoryManager::defragment() {
         }
         
         // Defragment GPU memory if there are multiple GPU allocations
-        if (gpu_allocs.size() > 1) {
+        if (static_cast<int>(gpu_allocs.size()) > 1) {
             if (defragmentModelGPU(model_id, gpu_allocs)) {
-                allocations_consolidated += gpu_allocs.size() - 1;
+                allocations_consolidated += static_cast<int>(gpu_allocs.size()) - 1;
             }
         }
         
         // Defragment CPU memory if there are multiple CPU allocations
-        if (cpu_allocs.size() > 1) {
+        if (static_cast<int>(cpu_allocs.size()) > 1) {
             if (defragmentModelCPU(model_id, cpu_allocs)) {
-                allocations_consolidated += cpu_allocs.size() - 1;
+                allocations_consolidated += static_cast<int>(cpu_allocs.size()) - 1;
             }
         }
         
-        if (gpu_allocs.size() > 1 || cpu_allocs.size() > 1) {
+        if (static_cast<int>(gpu_allocs.size()) > 1 || static_cast<int>(cpu_allocs.size()) > 1) {
             models_defragmented++;
         }
     }
@@ -1229,7 +1236,7 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
 
     // Defragment each device separately
     for (const auto& [device_id, device_allocs] : per_device_allocs) {
-        if (device_allocs.size() <= 1) {
+        if (static_cast<int>(device_allocs.size()) <= 1) {
             continue;
         }
 
@@ -1343,7 +1350,8 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
         // Remove only the allocations that were identified as fragmented (device_allocs),
         // not all allocations for this device_id.
         auto& model_allocs = allocations_[model_id];
-        std::unordered_set<void*> ptrs_to_erase;
+        std::unordered_set<void*> ptrs_to_erase = {};
+
         for (const auto& alloc : device_allocs) {
             ptrs_to_erase.insert(alloc.gpu_ptr);
         }
@@ -1372,7 +1380,7 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
 
 bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id, 
                                           const std::vector<MemoryAllocation>& cpu_allocs) {
-    if (cpu_allocs.size() <= 1) {
+    if (static_cast<int>(cpu_allocs.size()) <= 1) {
         return false;
     }
     
@@ -1389,7 +1397,7 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
     }
     
     // Consolidate pinned allocations
-    if (pinned_allocs.size() > 1) {
+    if (static_cast<int>(pinned_allocs.size()) > 1) {
         size_t total_ram = 0;
         for (const auto& alloc : pinned_allocs) {
             total_ram += alloc.ram_bytes;
@@ -1448,7 +1456,8 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
         }
 
         // Update allocations - removing old allocations will trigger cleanup via RAII.
-        std::unordered_set<void*> ptrs_to_erase;
+        std::unordered_set<void*> ptrs_to_erase = {};
+
         for (const auto& alloc : pinned_allocs) {
             ptrs_to_erase.insert(alloc.cpu_ptr);
         }
@@ -1472,7 +1481,7 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
     }
     
     // Consolidate regular allocations
-    if (regular_allocs.size() > 1) {
+    if (static_cast<int>(regular_allocs.size()) > 1) {
         size_t total_ram = 0;
         for (const auto& alloc : regular_allocs) {
             total_ram += alloc.ram_bytes;
@@ -1514,7 +1523,8 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
         }
 
         // Update allocations - removing old allocations will trigger cleanup via RAII.
-        std::unordered_set<void*> ptrs_to_erase;
+        std::unordered_set<void*> ptrs_to_erase = {};
+
         for (const auto& alloc : regular_allocs) {
             ptrs_to_erase.insert(alloc.cpu_ptr);
         }
@@ -1574,7 +1584,8 @@ GPUMemoryManager::Stats GPUMemoryManager::getStats() const {
 std::vector<std::string> GPUMemoryManager::getLoadedModels() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> models;
+    std::vector<std::string> models = {};
+
     models.reserve(allocations_.size());
     
     for (const auto& [model_id, _] : allocations_) {
@@ -1864,13 +1875,13 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
     return true;
 }
 
-size_t GPUMemoryManager::getGPUVRAM(int gpu_device_id) const {
+size_t GPUMemoryManager::getGPUVRAM([[maybe_unused]] int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = per_gpu_vram_used_.find(gpu_device_id);
     return it != per_gpu_vram_used_.end() ? it->second : 0;
 }
 
-size_t GPUMemoryManager::getFreeGPUVRAM(int gpu_device_id) const {
+size_t GPUMemoryManager::getFreeGPUVRAM([[maybe_unused]] int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
         return 0;
@@ -1885,7 +1896,8 @@ size_t GPUMemoryManager::getFreeGPUVRAM(int gpu_device_id) const {
 
 std::vector<int> GPUMemoryManager::getAvailableGPUs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<int> runtime_available_gpus;
+    std::vector<int> runtime_available_gpus = {};
+
     runtime_available_gpus.reserve(available_gpus_.size());
     for (int gpu_id : available_gpus_) {
         if (isGPUAvailableNoLock(gpu_health_status_, gpu_id)) {
@@ -1895,7 +1907,7 @@ std::vector<int> GPUMemoryManager::getAvailableGPUs() const {
     return runtime_available_gpus;
 }
 
-bool GPUMemoryManager::isGPUAvailable(int gpu_device_id) const {
+bool GPUMemoryManager::isGPUAvailable([[maybe_unused]] int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     return gpu_available_ && isGPUAvailableNoLock(gpu_health_status_, gpu_device_id);
 }
@@ -2031,7 +2043,7 @@ void GPUMemoryManager::clearGPUTemperatureProviderFn() {
 
 // GPU Health Monitoring Implementation
 
-GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats(int gpu_device_id) const {
+GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats([[maybe_unused]] int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     GPUStats stats = {};
@@ -2096,7 +2108,8 @@ GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats(int gpu_device_id) cons
 std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<GPUStats> all_stats;
+    std::vector<GPUStats> all_stats = {};
+
     for (int gpu_id : available_gpus_) {
         // Get stats inline to avoid deadlock (mutex already locked)
         GPUStats stats = {};
@@ -2159,7 +2172,7 @@ std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const
     return all_stats;
 }
 
-GPUMemoryManager::GPUHealth GPUMemoryManager::getGPUHealth(int gpu_device_id) const {
+GPUMemoryManager::GPUHealth GPUMemoryManager::getGPUHealth([[maybe_unused]] int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     GPUHealth health = {};
@@ -2198,7 +2211,8 @@ GPUMemoryManager::GPUHealth GPUMemoryManager::getGPUHealth(int gpu_device_id) co
 std::vector<GPUMemoryManager::GPUHealth> GPUMemoryManager::getAllGPUHealth() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<GPUHealth> all_health;
+    std::vector<GPUHealth> all_health = {};
+
     for (int gpu_id : available_gpus_) {
         // Get health inline to avoid deadlock (mutex already locked)
         GPUHealth health = {};
@@ -2231,7 +2245,7 @@ std::vector<GPUMemoryManager::GPUHealth> GPUMemoryManager::getAllGPUHealth() con
     return all_health;
 }
 
-bool GPUMemoryManager::isGPUHealthy(int gpu_device_id) const {
+bool GPUMemoryManager::isGPUHealthy([[maybe_unused]] int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id)) {
@@ -2279,7 +2293,7 @@ void GPUMemoryManager::markGPUUnhealthy(int gpu_device_id, const std::string& re
     gpu_health_data_[gpu_device_id] = health;
 }
 
-void GPUMemoryManager::markGPUHealthy(int gpu_device_id) {
+void GPUMemoryManager::markGPUHealthy([[maybe_unused]] int gpu_device_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id)) {
@@ -2342,7 +2356,8 @@ int GPUMemoryManager::getLeastLoadedGPU() const {
 std::vector<int> GPUMemoryManager::getHealthyGPUs() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<int> healthy_gpus;
+    std::vector<int> healthy_gpus = {};
+
     for (int gpu_id : available_gpus_) {
         auto it = gpu_health_status_.find(gpu_id);
         if (it != gpu_health_status_.end() && it->second) {
@@ -2383,10 +2398,10 @@ float GPUMemoryManager::getAverageGPULoad() const {
     return (healthy_count > 0) ? (total_load / healthy_count) : 0.0f;
 }
 
-bool GPUMemoryManager::needsLoadRebalancing(float threshold) const {
+bool GPUMemoryManager::needsLoadRebalancing([[maybe_unused]] float threshold) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (available_gpus_.size() < 2) {
+    if (static_cast<int>(available_gpus_.size()) < 2) {
         return false;  // No need to rebalance with single GPU
     }
     
@@ -2432,7 +2447,7 @@ bool GPUMemoryManager::needsLoadRebalancing(float threshold) const {
     return false;
 }
 
-void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
+void GPUMemoryManager::updateGPUHealth([[maybe_unused]] int gpu_device_id) {
     std::unique_lock<std::mutex> lock(mutex_);
     if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id) ||
         !isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
@@ -2603,7 +2618,7 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
         "gpu_runtime_unavailable");
 }
 
-void GPUMemoryManager::checkGPUHealth(int gpu_device_id) {
+void GPUMemoryManager::checkGPUHealth([[maybe_unused]] int gpu_device_id) {
     updateGPUHealth(gpu_device_id);
 
     if (!gpu_available_) {
@@ -2612,7 +2627,7 @@ void GPUMemoryManager::checkGPUHealth(int gpu_device_id) {
     }
 
     bool is_healthy = true;
-    std::string reason;
+    std::string reason = {};
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -2632,7 +2647,9 @@ void GPUMemoryManager::checkGPUHealth(int gpu_device_id) {
         // Check utilization
         if (util_it != gpu_utilizations_.end() && util_it->second > 95.0f) {
             is_healthy = false;
-            if (!reason.empty()) reason += "; ";
+            if (!reason.empty()) {
+              reason += "; ";
+            }
             reason += "Utilization too high: " + std::to_string(util_it->second) + "%";
         }
     }

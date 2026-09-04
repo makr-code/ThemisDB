@@ -43,25 +43,25 @@ TEST(LlamaCppValidationGatesFocusedTests, VG1_ContextLength_BelowMin_UsesDefault
     // Plugin must not crash; context window defaults gracefully
     auto info = p.getModelInfo();
     ASSERT_TRUE(info.has_value());
-    EXPECT_GT(info->context_length, 0u);
+    EXPECT_GT(info->context_length, 0);
 }
 
 // VG2: context_length at the valid boundary (128)
 TEST(LlamaCppValidationGatesFocusedTests, VG2_ContextLength_AtMinBoundary) {
     LlamaCppPlugin p;
     json cfg;
-    cfg["context_length"] = 128u;
+    cfg["context_length"] = 128;
     EXPECT_TRUE(p.loadModel("/stub/m.gguf", cfg));
     auto info = p.getModelInfo();
     ASSERT_TRUE(info.has_value());
-    EXPECT_GE(info->context_length, 128u);
+    EXPECT_GE(info->context_length, 128);
 }
 
 // VG3: context_length at max boundary (131072)
 TEST(LlamaCppValidationGatesFocusedTests, VG3_ContextLength_AtMaxBoundary) {
     LlamaCppPlugin p;
     json cfg;
-    cfg["context_length"] = 131072u;
+    cfg["context_length"] = 131072;
     EXPECT_TRUE(p.loadModel("/stub/m.gguf", cfg));
     auto info = p.getModelInfo();
     ASSERT_TRUE(info.has_value());

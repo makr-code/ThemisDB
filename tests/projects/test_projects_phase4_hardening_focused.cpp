@@ -103,7 +103,7 @@ TEST_F(ProjectsPhase4Test, PRH04_SnapshotRestoreDetectsCorruption) {
     // Corrupt snapshot payload without updating metadata checksum.
     const std::string snap_uuid = snap_id.substr(5);
     const std::string data_key = "snap_data:" + snap_uuid;
-    std::string original_payload;
+    std::string original_payload = {};
     ASSERT_TRUE(storage_->get(data_key, original_payload));
     ASSERT_TRUE(storage_->put(data_key, original_payload + "corrupt"));
 

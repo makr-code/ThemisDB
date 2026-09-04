@@ -206,7 +206,8 @@ public:
     /// @brief Return a snapshot of all keys (for post-condition assertions).
     std::unordered_set<std::string> Keys() const {
         std::lock_guard<std::mutex> lk(mu_);
-        std::unordered_set<std::string> ks;
+        std::unordered_set<std::string> ks = {};
+
         for (const auto& [k, _] : data_) { ks.insert(k); }
         return ks;
     }

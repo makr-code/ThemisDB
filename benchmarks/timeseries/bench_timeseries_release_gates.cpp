@@ -78,8 +78,8 @@ static constexpr int kRepetitions = 5;
 // ---------------------------------------------------------------------------
 
 struct TimePoint {
-    std::int64_t ts_ns;
-    double       value;
+    std::int64_t ts_ns = {};
+    double       value = {};
 };
 
 /// In-memory write: append to a series vector (monotonic ts assumed).
@@ -93,21 +93,23 @@ static std::size_t rangeQuery(const std::vector<TimePoint>& series,
                                std::int64_t start, std::int64_t end) {
     std::size_t count = 0;
     for (const auto& p : series) {
-        if (p.ts_ns >= start && p.ts_ns <= end) ++count;
+        if (p.ts_ns >= start && p.ts_ns <= end) {
+          ++count;
+        }
     }
     return count;
 }
 
 /// Gorilla encode: memcpy double → uint64.
 static std::uint64_t gorillaEncode(double v) {
-    std::uint64_t bits;
+    std::uint64_t bits = 0;
     std::memcpy(&bits, &v, sizeof(bits));
     return bits;
 }
 
 /// Gorilla decode: memcpy uint64 → double.
 static double gorillaDecode(std::uint64_t bits) {
-    double v;
+    double v = 0;
     std::memcpy(&v, &bits, sizeof(v));
     return v;
 }
@@ -115,9 +117,12 @@ static double gorillaDecode(std::uint64_t bits) {
 /// Downsampling: bucket average over resolution_ns intervals.
 static std::size_t downsample(const std::vector<TimePoint>& input,
                                std::int64_t resolution_ns) {
-    if (input.empty() || resolution_ns <= 0) return 0;
+    if (input.empty() || resolution_ns <= 0) {
+      return 0;
+    }
     std::map<std::int64_t, double> buckets;
-    std::map<std::int64_t, int>    counts;
+    std::map<std::int64_t, int>    counts = {};
+
     for (const auto& p : input) {
         std::int64_t bk = p.ts_ns / resolution_ns;
         buckets[bk] += p.value;
@@ -219,7 +224,9 @@ static void BM_TSRG03_GorillaRoundTrip(benchmark::State& state) {
     std::mt19937_64 rng(kTimeseriesCanonicalSeed);
     std::uniform_real_distribution<double> dist(-1e15, 1e15);
     std::vector<double> values(100);
-    for (auto& v : values) v = dist(rng);
+    for (auto& v : values) {
+      v = dist(rng);
+    }
 
     // Warmup
     for (int i = 0; i < kWarmupIterations; ++i) {
@@ -306,7 +313,8 @@ BENCHMARK(BM_TSRG05_RetentionCheck)
  * GATE-TSRG-06: p99 ≤ 50 µs.
  */
 static void BM_TSRG06_SeriesLookup(benchmark::State& state) {
-    std::unordered_map<std::string, std::int64_t> index;
+    std::unordered_map<std::string, std::int64_t> index = {};
+
     for (int i = 0; i < 1000; ++i) {
         index["series_" + std::to_string(i)] = static_cast<std::int64_t>(i);
     }

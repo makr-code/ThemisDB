@@ -197,8 +197,12 @@ struct ReconstructionScoreAtK {
      * @note     No exception is thrown for out-of-range k.
      */
     [[nodiscard]] ReconstructionScore rs_at(size_t k) const noexcept {
-        if (k == 0) return 1.0;
-        if (rs_per_interaction.empty()) return 1.0;
+        if (k == 0) {
+          return 1.0;
+        }
+        if (rs_per_interaction.empty()) {
+          return 1.0;
+        }
         const size_t idx = std::min(k, rs_per_interaction.size()) - 1;
         return rs_per_interaction[idx];
     }

@@ -62,7 +62,7 @@ namespace timeseries {
 /// A decoded Prometheus label (name=value pair).
 struct PromLabel {
     std::string name;
-    std::string value;
+    std::string value = {};
 };
 
 /// A decoded Prometheus sample (double value + millisecond timestamp).

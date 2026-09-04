@@ -225,7 +225,9 @@ TEST_F(WALChaosTest, MultiSegment_AllEntriesRecoveredAcrossRotations) {
 
     int seg_count = 0;
     for (const auto& e : fs::directory_iterator(wal_dir_)) {
-        if (e.path().extension() == ".log") ++seg_count;
+        if (e.path().extension() == ".log") {
+          ++seg_count;
+        }
     }
     EXPECT_GT(seg_count, 1) << "Expected multiple segments from rotation";
 
@@ -316,7 +318,8 @@ TEST_F(WALChaosTest, ConcurrentWrites_AllEntriesRecoverable) {
         ASSERT_TRUE(wal_r.has_value());
         auto& wal = *wal_r;
 
-        std::vector<std::thread> threads;
+        std::vector<std::thread> threads = {};
+
         for (int t = 0; t < kThreads; ++t) {
             threads.emplace_back([&, t] {
                 for (int i = 0; i < kOps; ++i) {
@@ -325,7 +328,9 @@ TEST_F(WALChaosTest, ConcurrentWrites_AllEntriesRecoverable) {
                 }
             });
         }
-        for (auto& th : threads) th.join();
+        for (auto& th : threads) {
+          th.join();
+        }
     }
 
     int count = 0;

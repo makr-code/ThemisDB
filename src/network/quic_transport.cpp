@@ -82,11 +82,15 @@ constexpr int kShutdownJoinTimeoutMs = 5000;
 /// @brief Join @p t within @p timeout_ms; log and detach on timeout.
 static void timedJoin(std::thread& t,
                       int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
-    if (!t.joinable()) return;
+    if (!t.joinable()) {
+      return;
+    }
     std::promise<void> done;
     auto fut = done.get_future();
     std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
-        if (inner.joinable()) inner.join();
+        if (inner.joinable()) {
+          inner.join();
+        }
         p.set_value();
     });
     watcher.detach();
@@ -197,7 +201,7 @@ SSL_CTX* QuicTransport::createSslContext(const std::string& cert_path,
 // ─────────────────────────────────────────────────────────────────────────────
 
 /* static */
-bool QuicTransport::isValidPort(uint16_t port) {
+bool QuicTransport::isValidPort([[maybe_unused]] uint16_t port) {
     // Reserved / conflicting ThemisDB ports:
     //   8766 – TCP binary wire protocol
     //   8767 – HTTP/1-2 server (alt-HTTP)
@@ -366,7 +370,7 @@ void QuicTransport::handlePacket(const udp::endpoint& sender,
     }
 
     // Decode the QUIC packet header to extract connection IDs.
-    ngtcp2_pkt_hd hd;
+    ngtcp2_pkt_hd hd = {};
     if (ngtcp2_pkt_decode_hd_long(&hd, data, len) < 0) {
         // May be a short-header packet for an unknown connection; ignore.
         std::lock_guard<std::mutex> slk(stats_mutex_);

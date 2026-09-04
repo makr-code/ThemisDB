@@ -50,7 +50,7 @@ protected:
         seed_ = 42;
     }
     
-    uint32_t seed_;
+    uint32_t seed_ = {};
 };
 
 class Phase2LockOrderingTest : public ::testing::Test {
@@ -59,7 +59,7 @@ protected:
         seed_ = 42;
     }
     
-    uint32_t seed_;
+    uint32_t seed_ = {};
 };
 
 class Phase2TimeoutTest : public ::testing::Test {
@@ -68,7 +68,7 @@ protected:
         seed_ = 42;
     }
     
-    uint32_t seed_;
+    uint32_t seed_ = {};
 };
 
 class Phase2ExceptionSafetyTest : public ::testing::Test {
@@ -77,7 +77,7 @@ protected:
         seed_ = 42;
     }
     
-    uint32_t seed_;
+    uint32_t seed_ = {};
 };
 
 class Phase2ErrorLoggingTest : public ::testing::Test {
@@ -86,7 +86,7 @@ protected:
         seed_ = 42;
     }
     
-    uint32_t seed_;
+    uint32_t seed_ = {};
 };
 
 class Phase2DeterminismTest : public ::testing::Test {
@@ -133,7 +133,8 @@ TEST_F(Phase2ThreadSafetyTest, TS01_ConcurrentElectionStartup) {
     const int num_threads = 10;
     const int iterations = 5;
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([&, i]() {
             std::mt19937 gen(seed_ + i);
@@ -157,7 +158,9 @@ TEST_F(Phase2ThreadSafetyTest, TS01_ConcurrentElectionStartup) {
     
     // Wait for all threads to complete
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     // Verify:
@@ -187,7 +190,8 @@ TEST_F(Phase2ThreadSafetyTest, TS02_ConcurrentLoadUpdates) {
     const int num_threads = 8;
     const int updates_per_thread = 20;
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([&, i]() {
             std::string shard_id = "shard-" + std::to_string(i);
@@ -209,7 +213,9 @@ TEST_F(Phase2ThreadSafetyTest, TS02_ConcurrentLoadUpdates) {
     }
     
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     // Verify:
@@ -243,7 +249,8 @@ TEST_F(Phase2ThreadSafetyTest, TS03_ConcurrentRoutingCounters) {
     const int num_threads = 10;
     const int increments = 100;
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([&]() {
             for (int j = 0; j < increments; ++j) {
@@ -254,7 +261,9 @@ TEST_F(Phase2ThreadSafetyTest, TS03_ConcurrentRoutingCounters) {
     }
     
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     // Verify: both counters should have identical values
@@ -403,7 +412,9 @@ TEST_F(Phase2LockOrderingTest, LO01_CoordinatorLockHierarchy) {
     
     // Join all threads with timeout
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     coordinator->stop();
@@ -427,7 +438,8 @@ TEST_F(Phase2LockOrderingTest, LO02_LoadDetectorSingleLock) {
     std::atomic<int> detected_imbalances{0};
     const int num_threads = 5;
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([&, i]() {
             std::mt19937 gen(seed_ + i);
@@ -456,7 +468,9 @@ TEST_F(Phase2LockOrderingTest, LO02_LoadDetectorSingleLock) {
     }
     
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     // Verify: operations completed without deadlock
@@ -482,7 +496,8 @@ TEST_F(Phase2LockOrderingTest, LO03_QuorumConfigIsolation) {
     
     const int num_threads = 6;
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         if (i < 2) {
             // Update threads
@@ -509,7 +524,9 @@ TEST_F(Phase2LockOrderingTest, LO03_QuorumConfigIsolation) {
     }
     
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     // Verify

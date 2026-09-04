@@ -53,7 +53,7 @@ enum class FtsError : uint32_t {
 
 // Query result from FTS search
 struct SearchResult {
-  uint64_t doc_id;                           ///< Document identifier
+  uint64_t doc_id = 0;                           ///< Document identifier
   float score;                               ///< BM25 score [0, ∞)
   std::vector<uint32_t> term_positions;      ///< Positions of query terms (for highlighting)
   std::string snippet;                       ///< First 200 chars with query context

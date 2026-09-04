@@ -616,7 +616,9 @@ TEST_F(OtelApiTracingTest, ConcurrentApiSpans) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(errors.load(), 0);
     EXPECT_GE(Tracer::getTotalSpans(), before);

@@ -454,7 +454,7 @@ TEST_F(AdaptiveCachePhase1Test, ConfigValidationValid) {
     // Default config should be valid
     EXPECT_TRUE(config_.validate());
     
-    std::string error;
+    std::string error = {};
     EXPECT_TRUE(config_.validate(&error));
     EXPECT_TRUE(error.empty());
 }
@@ -462,7 +462,7 @@ TEST_F(AdaptiveCachePhase1Test, ConfigValidationValid) {
 TEST_F(AdaptiveCachePhase1Test, ConfigValidationInvalidL1MaxEntries) {
     config_.l1_max_entries = 0;
     
-    std::string error;
+    std::string error = {};
     EXPECT_FALSE(config_.validate(&error));
     EXPECT_FALSE(error.empty());
     EXPECT_NE(error.find("l1_max_entries"), std::string::npos);
@@ -471,7 +471,7 @@ TEST_F(AdaptiveCachePhase1Test, ConfigValidationInvalidL1MaxEntries) {
 TEST_F(AdaptiveCachePhase1Test, ConfigValidationInvalidL2Compression) {
     config_.l2_compression_level = 23;  // Out of valid Zstd range
     
-    std::string error;
+    std::string error = {};
     EXPECT_FALSE(config_.validate(&error));
     EXPECT_FALSE(error.empty());
     EXPECT_NE(error.find("l2_compression_level"), std::string::npos);
@@ -481,7 +481,7 @@ TEST_F(AdaptiveCachePhase1Test, ConfigValidationInvalidTTL) {
     config_.min_ttl_seconds = 1000;
     config_.max_ttl_seconds = 100;  // max < min
     
-    std::string error;
+    std::string error = {};
     EXPECT_FALSE(config_.validate(&error));
     EXPECT_FALSE(error.empty());
     EXPECT_NE(error.find("max_ttl_seconds"), std::string::npos);
@@ -490,7 +490,7 @@ TEST_F(AdaptiveCachePhase1Test, ConfigValidationInvalidTTL) {
 TEST_F(AdaptiveCachePhase1Test, ConfigValidationInvalidFrequencyWeight) {
     config_.frequency_weight = 1.5f;  // Out of [0, 1] range
     
-    std::string error;
+    std::string error = {};
     EXPECT_FALSE(config_.validate(&error));
     EXPECT_FALSE(error.empty());
     EXPECT_NE(error.find("frequency_weight"), std::string::npos);
@@ -499,7 +499,7 @@ TEST_F(AdaptiveCachePhase1Test, ConfigValidationInvalidFrequencyWeight) {
 TEST_F(AdaptiveCachePhase1Test, ConfigValidationInvalidSizeLimits) {
     config_.l1_max_entry_size = 100000000;  // Larger than max_total_entry_size
     
-    std::string error;
+    std::string error = {};
     EXPECT_FALSE(config_.validate(&error));
     EXPECT_FALSE(error.empty());
     EXPECT_NE(error.find("l1_max_entry_size"), std::string::npos);
@@ -508,7 +508,7 @@ TEST_F(AdaptiveCachePhase1Test, ConfigValidationInvalidSizeLimits) {
 TEST_F(AdaptiveCachePhase1Test, ConfigValidationInvalidCircuitBreaker) {
     config_.cb_failure_threshold = 0;
     
-    std::string error;
+    std::string error = {};
     EXPECT_FALSE(config_.validate(&error));
     EXPECT_FALSE(error.empty());
     EXPECT_NE(error.find("cb_failure_threshold"), std::string::npos);
@@ -518,7 +518,7 @@ TEST_F(AdaptiveCachePhase1Test, ConfigValidationInvalidRateLimit) {
     config_.enable_rate_limiting = true;
     config_.max_requests_per_second = 0;
     
-    std::string error;
+    std::string error = {};
     EXPECT_FALSE(config_.validate(&error));
     EXPECT_FALSE(error.empty());
     EXPECT_NE(error.find("max_requests_per_second"), std::string::npos);
@@ -536,7 +536,7 @@ TEST_F(AdaptiveCachePhase1Test, ConfigValidationConstructorThrowsOnInvalid) {
 TEST_F(AdaptiveCachePhase1Test, ConfigValidationEmptyPath) {
     config_.l3_db_path = "";
     
-    std::string error;
+    std::string error = {};
     EXPECT_FALSE(config_.validate(&error));
     EXPECT_NE(error.find("l3_db_path"), std::string::npos);
 }
@@ -988,7 +988,7 @@ TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLConfigValidation) {
     // Test invalid: min >= max
     config_.adaptive_ttl_min_seconds = 1000;
     config_.adaptive_ttl_max_seconds = 100;
-    std::string error;
+    std::string error = {};
     EXPECT_FALSE(config_.validate(&error));
     EXPECT_NE(error.find("min_seconds must be less than"), std::string::npos);
     

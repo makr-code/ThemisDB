@@ -94,7 +94,7 @@ protected:
         std::string event_type;
         std::string principal_id;
         std::string resource;
-        bool allowed;
+        bool allowed = {};
     };
 
     std::unordered_map<std::string, MockPolicy> policy_cache_;
@@ -113,7 +113,9 @@ protected:
             if (policy.principal_id == principal && policy.resource == resource &&
                 policy.action == action) {
                 logAudit("POLICY_EVAL", principal, resource, policy.allowed);
-                if (!policy.allowed) denial_count_++;
+                if (!policy.allowed) {
+                  denial_count_++;
+                }
                 return policy.allowed;
             }
         }
@@ -156,7 +158,8 @@ TEST_F(Phase3PolicyHardeningTest, P_RLS_01_SingleConstraint) {
     };
     
     // Apply RLS filter
-    std::vector<MockRow> filtered_rows;
+    std::vector<MockRow> filtered_rows = {};
+
     for (const auto& row : all_rows) {
         if (row.user_id == constraints[0].value) {
             filtered_rows.push_back(row);
@@ -200,7 +203,8 @@ TEST_F(Phase3PolicyHardeningTest, P_RLS_02_CascadingConstraints) {
     };
     
     // Apply cascading filter
-    std::vector<MockRow> filtered;
+    std::vector<MockRow> filtered = {};
+
     for (const auto& row : all_rows) {
         bool matches_all = (row.tenant_id == constraints[0].value &&
                            row.org_id == constraints[1].value &&
@@ -233,7 +237,7 @@ TEST_F(Phase3PolicyHardeningTest, P_RLS_03_MixedStaticDynamic) {
     };
     
     struct MockRow {
-        std::string region;
+        std::string region = {};
         std::string department;
         std::string data;
     };
@@ -244,7 +248,8 @@ TEST_F(Phase3PolicyHardeningTest, P_RLS_03_MixedStaticDynamic) {
         {"US-EAST", "engineering", "denied_wrong_region"},
     };
     
-    std::vector<MockRow> filtered;
+    std::vector<MockRow> filtered = {};
+
     for (const auto& row : rows) {
         if (row.region == constraints[0].value &&
             row.department == constraints[1].value) {
@@ -279,7 +284,8 @@ TEST_F(Phase3PolicyHardeningTest, P_RLS_04_NullHandling) {
         {"user_alice", "denied"},
     };
     
-    std::vector<MockRow> filtered;
+    std::vector<MockRow> filtered = {};
+
     for (const auto& row : rows) {
         // Default: NULL (empty) → deny (fail-closed)
         if (!row.owner_id.empty() && row.owner_id == principal) {
@@ -599,8 +605,8 @@ TEST_F(Phase3PolicyHardeningTest, P_DENY_04_ConcurrentPolicyUpdate) {
 TEST_F(Phase3PolicyHardeningTest, P_MASK_01_PIIRedaction) {
     struct Row {
         std::string user_id;
-        std::string email;
-        std::string phone;
+        std::string email = {};
+        std::string phone = {};
     };
     
     Row original{"user_123", "alice@example.com", "555-1234"};

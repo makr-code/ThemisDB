@@ -65,7 +65,7 @@ static long perf_event_open_syscall(struct perf_event_attr* attr,
  * @param sw_config  A PERF_COUNT_SW_* constant.
  * @return           A non-negative file descriptor, or -1 on failure.
  */
-static int openSoftwareCounter(uint64_t sw_config) noexcept {
+static int openSoftwareCounter([[maybe_unused]] uint64_t sw_config) noexcept {
     struct perf_event_attr attr{};
     attr.type        = PERF_TYPE_SOFTWARE;
     attr.size        = sizeof(attr);
@@ -84,7 +84,7 @@ static int openSoftwareCounter(uint64_t sw_config) noexcept {
 }
 
 /** Enable a perf counter fd; no-op if fd < 0. */
-static void enableCounter(int fd) noexcept {
+static void enableCounter([[maybe_unused]] int fd) noexcept {
     if (fd >= 0) {
         ::ioctl(fd, PERF_EVENT_IOC_RESET,  0);
         ::ioctl(fd, PERF_EVENT_IOC_ENABLE, 0);
@@ -92,15 +92,17 @@ static void enableCounter(int fd) noexcept {
 }
 
 /** Disable a perf counter fd; no-op if fd < 0. */
-static void disableCounter(int fd) noexcept {
+static void disableCounter([[maybe_unused]] int fd) noexcept {
     if (fd >= 0) {
         ::ioctl(fd, PERF_EVENT_IOC_DISABLE, 0);
     }
 }
 
 /** Read the current absolute count from a perf fd.  Returns -1 on error. */
-static int64_t readCounter(int fd) noexcept {
-    if (fd < 0) return -1;
+static int64_t readCounter([[maybe_unused]] int fd) noexcept {
+    if (fd < 0) {
+      return -1;
+    }
     uint64_t value = 0;
     ssize_t n = ::read(fd, &value, sizeof(value));
     return (n == static_cast<ssize_t>(sizeof(value)))
@@ -152,7 +154,9 @@ public:
     // -----------------------------------------------------------------------
     void start() {
         std::unique_lock<std::mutex> lk(mu_);
-        if (running_) return;
+        if (running_) {
+          return;
+        }
 
 #if THEMIS_EBPF_LINUX
         openCounters();
@@ -166,11 +170,15 @@ public:
     void stop() {
         {
             std::unique_lock<std::mutex> lk(mu_);
-            if (!running_) return;
+            if (!running_) {
+              return;
+            }
             running_ = false;
         }
         cv_.notify_all();
-        if (thread_.joinable()) thread_.join();
+        if (thread_.joinable()) {
+          thread_.join();
+        }
 
 #if THEMIS_EBPF_LINUX
         closeCounters();
@@ -202,7 +210,7 @@ public:
 
     void registerEventCallback(std::function<void(const std::vector<KernelEvent>&)> cb) {
         std::lock_guard<std::mutex> lk(mu_);
-        callback_ = std::move(cb);
+        callback_ = std::move([[maybe_unused]] cb);
     }
 
     void reset() {
@@ -244,7 +252,9 @@ private:
             if (fd_ctx_sw_ >= 0) {
                 enableCounter(fd_ctx_sw_);
                 prev_ctx_sw_ = readCounter(fd_ctx_sw_);
-                if (prev_ctx_sw_ < 0) prev_ctx_sw_ = 0;
+                if (prev_ctx_sw_ < 0) {
+                  prev_ctx_sw_ = 0;
+                }
             }
         }
         if (config_.probe_page_faults) {
@@ -252,7 +262,9 @@ private:
             if (fd_pg_fault_ >= 0) {
                 enableCounter(fd_pg_fault_);
                 prev_pg_fault_ = readCounter(fd_pg_fault_);
-                if (prev_pg_fault_ < 0) prev_pg_fault_ = 0;
+                if (prev_pg_fault_ < 0) {
+                  prev_pg_fault_ = 0;
+                }
             }
         }
         if (config_.probe_cpu_migrations) {
@@ -260,7 +272,9 @@ private:
             if (fd_cpu_mig_ >= 0) {
                 enableCounter(fd_cpu_mig_);
                 prev_cpu_mig_ = readCounter(fd_cpu_mig_);
-                if (prev_cpu_mig_ < 0) prev_cpu_mig_ = 0;
+                if (prev_cpu_mig_ < 0) {
+                  prev_cpu_mig_ = 0;
+                }
             }
         }
         if (config_.probe_task_clock) {
@@ -268,7 +282,9 @@ private:
             if (fd_task_clk_ >= 0) {
                 enableCounter(fd_task_clk_);
                 prev_task_clk_ = readCounter(fd_task_clk_);
-                if (prev_task_clk_ < 0) prev_task_clk_ = 0;
+                if (prev_task_clk_ < 0) {
+                  prev_task_clk_ = 0;
+                }
             }
         }
     }
@@ -327,13 +343,19 @@ private:
 
         auto delta = [&](int fd, int64_t& prev, EbpfProbeType type,
                          const std::string& desc) {
-            if (fd < 0) return;
+            if (fd < 0) {
+              return;
+            }
             int64_t cur = readCounter(fd);
-            if (cur < 0) return;
+            if (cur < 0) {
+              return;
+            }
             int64_t d = cur - prev;
             if (d < 0) d = 0; // counter reset or wrap
             prev = cur;
-            if (d == 0) return;
+            if (d == 0) {
+              return;
+            }
             KernelEvent ev;
             ev.type        = type;
             ev.timestamp   = now;
@@ -375,7 +397,9 @@ private:
             {
                 std::unique_lock<std::mutex> wlk(mu_);
                 cv_.wait_for(wlk, interval, [this]{ return !running_; });
-                if (!running_) break;
+                if (!running_) {
+                  break;
+                }
             }
 
             std::vector<KernelEvent> batch;
@@ -388,8 +412,8 @@ private:
             {
                 std::lock_guard<std::mutex> slk(mu_);
                 for (const auto& ev : batch) {
-                    accumulateEvent(ev);
-                    appendEvent(ev);
+                    accumulateEvent([[maybe_unused]] ev);
+                    appendEvent([[maybe_unused]] ev);
                 }
                 ++stats_.collection_cycles;
                 publishMetrics();
@@ -409,7 +433,7 @@ private:
         }
     }
 
-    void accumulateEvent(const KernelEvent& ev) {
+    void accumulateEvent([[maybe_unused]] const KernelEvent& ev) {
         switch (ev.type) {
             case EbpfProbeType::CONTEXT_SWITCH:
                 stats_.context_switches_total += ev.delta;
@@ -428,9 +452,9 @@ private:
         }
     }
 
-    void appendEvent(const KernelEvent& ev) {
-        events_.push_back(ev);
-        while (events_.size() > config_.max_events_retained) {
+    void appendEvent([[maybe_unused]] const KernelEvent& ev) {
+        events_.push_back([[maybe_unused]] ev);
+        while ([[maybe_unused]] static_cast<int>(events_.size()) > config_.max_events_retained) {
             events_.pop_front();
         }
     }
@@ -500,8 +524,8 @@ std::vector<KernelEvent> EbpfTracer::getRecentEvents() const {
 }
 
 void EbpfTracer::registerEventCallback(
-        std::function<void(const std::vector<KernelEvent>&)> cb) {
-    impl_->registerEventCallback(std::move(cb));
+        std::function<void([[maybe_unused]] const std::vector<KernelEvent>&)> cb) {
+    impl_->registerEventCallback([[maybe_unused]] std::move(cb));
 }
 
 void EbpfTracer::reset() { impl_->reset(); }

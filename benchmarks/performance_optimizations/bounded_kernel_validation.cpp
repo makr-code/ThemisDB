@@ -131,7 +131,8 @@ TEST_F(BoundedKernelValidationTest, TopKSelectionGPUvsCPUParity) {
     // ✅ Ordering is deterministic
 
     // Create a simple distance array for testing
-    std::vector<float> distances;
+    std::vector<float> distances = {};
+
     for (size_t i = 0; i < 100; ++i) {
         distances.push_back(static_cast<float>(i) / 100.0f);
     }
@@ -221,7 +222,7 @@ TEST_F(BoundedKernelValidationTest, GeoDistanceInputValidationGate) {
     // ✅ Error code returned for invalid input
 
     struct LatLon {
-        float latitude;
+        float latitude = 0;
         float longitude;
     };
 
@@ -270,7 +271,9 @@ TEST_F(BoundedKernelValidationTest, GeoContainmentOutputValidation) {
     // Validation function (POST-CONDITION)
     auto validateContainmentResult = [](const std::vector<uint8_t>& results) -> bool {
         for (uint8_t r : results) {
-            if (r != 0 && r != 1) return false;
+            if (r != 0 && r != 1) {
+              return false;
+            }
         }
         return true;
     };
@@ -331,7 +334,7 @@ TEST_F(BoundedKernelValidationTest, ACLEnforcementAlwaysCPU) {
     // ✅ Security boundary maintained
 
     struct Node {
-        uint64_t id;
+        uint64_t id = 0;
     };
 
     // CPU-only ACL check
@@ -362,9 +365,9 @@ TEST_F(BoundedKernelValidationTest, ProvenanceChainDeterminism) {
     // ✅ No GPU parallelization that would lose order
 
     struct Edge {
-        uint64_t from;
-        uint64_t to;
-        int timestamp;
+        uint64_t from = 0;
+        uint64_t to = {};
+        int timestamp = {};
     };
 
     // Build chain twice, verify identical order
@@ -471,14 +474,15 @@ TEST_F(BoundedKernelValidationTest, PolicyACLBypassPrevention) {
     // ✅ Unauthorized data never appears in results
 
     struct Node {
-        uint64_t id;
+        uint64_t id = 0;
     };
 
     std::vector<Node> acl_denied = {Node{1}, Node{3}, Node{5}};
     std::vector<Node> gpu_candidates = {Node{0}, Node{1}, Node{2}, Node{3}};
 
     // GPU results must be filtered through ACL
-    std::vector<Node> final_result;
+    std::vector<Node> final_result = {};
+
     for (const auto& candidate : gpu_candidates) {
         // CPU ACL check
         bool is_denied =

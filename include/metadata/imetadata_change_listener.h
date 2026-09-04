@@ -77,8 +77,12 @@ struct MetadataChangeEvent {
         json j;
         j["change_type"] = static_cast<int>(change_type);
         j["table_name"]  = table_name;
-        if (actor)  j["actor"]  = *actor;
-        if (detail) j["detail"] = *detail;
+        if (actor) {
+          j["actor"]  = *actor;
+        }
+        if (detail) {
+          j["detail"] = *detail;
+        }
         j["timestamp_ms"] = std::chrono::duration_cast<std::chrono::milliseconds>(
             timestamp.time_since_epoch()).count();
         return j;
@@ -139,7 +143,9 @@ public:
         events_.push_back(event);
         auto cb = callback_;          // copy under lock
         lk.unlock();
-        if (cb) cb(event);
+        if (cb) {
+          cb(event);
+        }
     }
 
     // ── Inspection helpers ────────────────────────────────────────────────────
@@ -165,7 +171,9 @@ public:
      */
     std::optional<MetadataChangeEvent> lastEvent() const {
         std::unique_lock<std::mutex> lk(mutex_);
-        if (events_.empty()) return std::nullopt;
+        if (events_.empty()) {
+          return std::nullopt;
+        }
         return events_.back();
     }
 

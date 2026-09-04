@@ -96,7 +96,9 @@ namespace WALLoggingHelper {
     std::string_view      component_label,
     std::string_view      component_id)
 {
-    if (!wal) return std::nullopt;
+    if (!wal) {
+      return std::nullopt;
+    }
 
     try {
         WALEntry entry = buildEntry(type, txn_id, data);

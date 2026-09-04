@@ -55,7 +55,8 @@ public:
     }
     
     std::vector<std::string> listDocuments(const std::string& shard_id) {
-        std::vector<std::string> docs;
+        std::vector<std::string> docs = {};
+
         if (data.count(shard_id)) {
             for (const auto& [doc_id, _] : data[shard_id]) {
                 docs.push_back(doc_id);

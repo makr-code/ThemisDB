@@ -48,7 +48,7 @@ namespace {
 class TestDatabase {
 public:
     TestDatabase() {
-        std::random_device rd;
+        std::random_device rd = {};
         path_ = std::filesystem::temp_directory_path() /
                 ("themis_bp_test_" + std::to_string(rd()) + "_" +
                  std::to_string(std::chrono::steady_clock::now()
@@ -415,8 +415,8 @@ TEST_F(AsyncIngestionBackpressureTest, Statistics_BackpressureMetricsCountedOnOv
     // Gate that blocks the worker in the handler until we release it.
     // This ensures job1 is actively being processed (already dequeued) and
     // job2 is in the queue (at max_queue_depth=1) when we measure metrics.
-    std::mutex       gate_mutex;
-    std::condition_variable gate_cv;
+    std::mutex       gate_mutex = {};
+    std::condition_variable gate_cv = {};
     bool             gate_open = false;
     std::atomic<bool> job1_started{false};
 

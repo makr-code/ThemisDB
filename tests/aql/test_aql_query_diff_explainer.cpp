@@ -19,7 +19,9 @@ static bool hasDiffKind(const QueryDiffResult& r, QueryDiffEntry::Kind k) {
 
 static bool explanationContains(const QueryDiffResult& r, const std::string& substr) {
     for (const auto& d : r.diffs) {
-        if (d.explanation.find(substr) != std::string::npos) return true;
+        if (d.explanation.find(substr) != std::string::npos) {
+          return true;
+        }
     }
     return r.summary.find(substr) != std::string::npos;
 }

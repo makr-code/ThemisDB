@@ -155,7 +155,7 @@ enum class ConnectorCapability {
  */
 struct CapabilityCheckResult {
     /// True if capability is natively supported, false if fallback needed
-    bool supported;
+    bool supported = {};
 
     /// Description of fallback path (e.g., "CDC → POLLING", "SCHEMA_INFERENCE → ALL_TEXT")
     /// Empty string if capability is natively supported.
@@ -744,10 +744,16 @@ struct ImportHandle {
     ImportHandle& operator=(const ImportHandle&) = delete;
 
     ImportStatus getStatus() const {
-        if (running.load()) return ImportStatus::RUNNING;
-        if (!future.valid()) return ImportStatus::PENDING;
+        if (running.load()) {
+          return ImportStatus::RUNNING;
+        }
+        if (!future.valid()) {
+          return ImportStatus::PENDING;
+        }
         using fs = std::future_status;
-        if (future.wait_for(std::chrono::seconds(0)) != fs::ready) return ImportStatus::RUNNING;
+        if (future.wait_for(std::chrono::seconds(0)) != fs::ready) {
+          return ImportStatus::RUNNING;
+        }
         return ImportStatus::COMPLETED;
     }
 
@@ -762,7 +768,7 @@ struct ImportHandle {
     }
 
     json toJson() const {
-        std::string st;
+        std::string st = {};
         switch (getStatus()) {
             case ImportStatus::PENDING:    st = "pending";    break;
             case ImportStatus::RUNNING:    st = "running";    break;
@@ -814,7 +820,9 @@ public:
         std::lock_guard<std::mutex> lk(mutex_);
         std::vector<std::shared_ptr<ImportHandle>> out;
         out.reserve(jobs_.size());
-        for (auto& [k, v] : jobs_) out.push_back(v);
+        for (auto& [k, v] : jobs_) {
+          out.push_back(v);
+        }
         return out;
     }
 
@@ -845,7 +853,8 @@ public:
 
     std::vector<json> allJsonSnapshots() const {
         auto handles = all();
-        std::vector<json> out;
+        std::vector<json> out = {};
+
         out.reserve(handles.size());
         for (const auto& handle : handles) {
             out.push_back(handle->toJson());

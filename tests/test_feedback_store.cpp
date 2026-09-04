@@ -560,7 +560,8 @@ TEST_F(FeedbackStoreTest, GetLinkedAdapters) {
 // Test: Get feedback for adapter
 TEST_F(FeedbackStoreTest, GetFeedbackForAdapter) {
     // Create multiple feedback entries
-    std::vector<std::string> feedback_ids;
+    std::vector<std::string> feedback_ids = {};
+
     for (int i = 0; i < 5; i++) {
         FeedbackStore::FeedbackEntry feedback;
         feedback.type = FeedbackType::POSITIVE;

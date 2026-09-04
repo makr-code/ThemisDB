@@ -44,7 +44,9 @@ inline bool streamReadLine(std::istream& file,
     line.clear();
 
     if (max_bytes == 0) {
-        if (!std::getline(file, line)) return false;
+        if (!std::getline(file, line)) {
+          return false;
+        }
         return true;
     }
 
@@ -54,7 +56,9 @@ inline bool streamReadLine(std::istream& file,
 
     while (file.get(c)) {
         got_any = true;
-        if (c == '\n') break;
+        if (c == '\n') {
+          break;
+        }
 
         if (count < max_bytes) {
             line += c;

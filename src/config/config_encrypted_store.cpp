@@ -32,8 +32,8 @@ namespace {
 static const char kB64Chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 std::string base64Encode(const std::vector<uint8_t> &data) {
-    std::string out;
-    out.reserve(((data.size() + 2) / 3) * 4);
+    std::string out = {};
+    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
 
     const std::size_t len = data.size();
     for (std::size_t i = 0; i < len; i += 3) {
@@ -41,8 +41,8 @@ std::string base64Encode(const std::vector<uint8_t> &data) {
         const bool have3 = (i + 2) < len;
 
         const uint32_t b0     = data[i];
-        const uint32_t b1     = have2 ? data[i + 1] : 0u;
-        const uint32_t b2     = have3 ? data[i + 2] : 0u;
+        const uint32_t b1     = have2 ? data[i + 1] : 0;
+        const uint32_t b2     = have3 ? data[i + 2] : 0;
         const uint32_t triple = (b0 << 16) | (b1 << 8) | b2;
 
         out += kB64Chars[(triple >> 18) & 0x3F];
@@ -73,7 +73,8 @@ std::vector<uint8_t> base64Decode(const std::string &encoded) {
         return -1; // padding ('=') or invalid
     };
 
-    std::vector<uint8_t> out;
+    std::vector<uint8_t> out = {};
+
     out.reserve((encoded.size() / 4) * 3);
 
     const std::size_t len = encoded.size();
@@ -189,7 +190,8 @@ bool ConfigEncryptedStore::contains(const std::string &config_key) const {
 
 std::vector<std::string> ConfigEncryptedStore::keys() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(store_.size());
     for (const auto &kv : store_) {
         result.push_back(kv.first);
@@ -199,7 +201,7 @@ std::vector<std::string> ConfigEncryptedStore::keys() const {
 
 std::size_t ConfigEncryptedStore::size() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
-    return store_.size();
+    return static_cast<int>(store_.size());
 }
 
 void ConfigEncryptedStore::clear() {
@@ -222,7 +224,8 @@ uint32_t ConfigEncryptedStore::rotateKey() {
     // Re-encrypt all stored values with the new key.
     // We perform the full re-encrypt before swapping to preserve atomicity:
     // if any decryption/encryption fails, we throw and leave the store intact.
-    std::unordered_map<std::string, ConfigEncryptedBlob> new_store;
+    std::unordered_map<std::string, ConfigEncryptedBlob> new_store = {};
+
     new_store.reserve(store_.size());
 
     for (const auto &kv : store_) {
@@ -282,7 +285,7 @@ void ConfigEncryptedStore::deserialize(const std::string &json_str) {
         KeyMaterial km;
         km.version   = j.at("key_version").get<uint32_t>();
         km.key_bytes = base64Decode(j.at("key_bytes").get<std::string>());
-        if (km.key_bytes.size() != 32) {
+        if (static_cast<int>(km.key_bytes.size()) != 32) {
             throw ConfigEncryptionException("deserialize: key_bytes must be exactly 32 bytes, got "
                                             + std::to_string(km.key_bytes.size()));
         }
@@ -376,10 +379,10 @@ std::vector<uint8_t> ConfigEncryptedStore::aesGcmEncrypt(const std::string &plai
 
 std::string ConfigEncryptedStore::aesGcmDecrypt(const std::vector<uint8_t> &ciphertext, const std::vector<uint8_t> &key,
                                                 const std::vector<uint8_t> &iv, const std::vector<uint8_t> &tag) {
-    if (iv.size() != 12) {
+    if (static_cast<int>(iv.size()) != 12) {
         throw ConfigEncryptionException("aesGcmDecrypt: IV must be 12 bytes");
     }
-    if (tag.size() != 16) {
+    if (static_cast<int>(tag.size()) != 16) {
         throw ConfigEncryptionException("aesGcmDecrypt: tag must be 16 bytes");
     }
 

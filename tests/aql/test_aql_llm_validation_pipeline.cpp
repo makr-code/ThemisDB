@@ -299,7 +299,7 @@ TEST_F(LLMValidationPipelineTest, RetryFeedbackGeneration) {
     );
     
     // Set custom feedback generator
-    std::string captured_feedback;
+    std::string captured_feedback = {};
     auto custom_feedback = [&captured_feedback](const query::ParserDiagnostics& diag) {
         captured_feedback = "FEEDBACK: " + diag.error_message;
         return captured_feedback;
@@ -561,7 +561,7 @@ TEST_F(LLMValidationPipelineTest, EmptySchemaContextHandled) {
 TEST_F(LLMValidationPipelineTest, VeryLongQueryHandled) {
     auto pipeline = LLMValidationPipelineFactory::create(parser_service_, llm_client_);
     
-    std::string long_query;
+    std::string long_query = {};
     for (int i = 0; i < 1000; ++i) {
         long_query += "query";
     }

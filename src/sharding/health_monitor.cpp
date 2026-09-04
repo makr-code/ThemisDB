@@ -201,7 +201,7 @@ bool HealthMonitor::triggerManualFailover(const std::string& failed_node_id,
 }
 
 /** @brief Enable/disable automatic failover policy. */
-void HealthMonitor::setAutoFailoverEnabled(bool enabled) {
+void HealthMonitor::setAutoFailoverEnabled([[maybe_unused]] bool enabled) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_.auto_failover_enabled = enabled;
 }
@@ -211,10 +211,10 @@ void HealthMonitor::setAutoFailoverEnabled(bool enabled) {
  * @param max_events Maximum number of events.
  * @return Failover event tail.
  */
-std::vector<FailoverEvent> HealthMonitor::getFailoverHistory(size_t max_events) const {
+std::vector<FailoverEvent> HealthMonitor::getFailoverHistory([[maybe_unused]] size_t max_events) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    size_t count = std::min(max_events, failover_history_.size());
+    size_t count = std::min(max_events,static_cast<int>(failover_history_.size()));
     return std::vector<FailoverEvent>(
         failover_history_.end() - count,
         failover_history_.end()
@@ -317,7 +317,9 @@ void HealthMonitor::performHealthChecks() {
     auto all_shards = topology_->getAllShards();
     for (const auto& shard_id : all_shards) {
         auto replica_set = topology_->getReplicaSet(shard_id);
-        if (!replica_set) continue;
+        if (!replica_set) {
+          continue;
+        }
         
         for (const auto& replica_id : replica_set->replicas) {
             // In production: check replica health via HTTP
@@ -387,7 +389,8 @@ std::optional<std::string> HealthMonitor::selectStandbyForPromotion() const {
     auto all_primaries = primary_coordinator_->getActivePrimaries();
     
     // Filter for STANDBY nodes with healthy status
-    std::vector<std::string> candidates;
+    std::vector<std::string> candidates = {};
+
     for (const auto& primary : all_primaries) {
         auto info = primary_coordinator_->getPrimaryInfo(primary.node_id);
         if (info && info->state == PrimaryState::STANDBY) {
@@ -415,7 +418,7 @@ void HealthMonitor::recordFailoverEvent(const FailoverEvent& event) {
     last_failover_time_ = event.timestamp;
     
     // Keep only last 100 events
-    if (failover_history_.size() > 100) {
+    if (static_cast<int>(failover_history_.size()) > 100) {
         failover_history_.erase(failover_history_.begin());
     }
 }

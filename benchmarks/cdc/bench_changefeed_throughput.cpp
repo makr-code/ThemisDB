@@ -25,7 +25,7 @@ public:
         // Create unique thread-safe test database path
         const auto unique_id = static_cast<unsigned long long>(
             std::chrono::steady_clock::now().time_since_epoch().count());
-        std::ostringstream suffix;
+        std::ostringstream suffix = {};
         suffix << "bench_changefeed_tmp_t" << state.thread_index() << "_" << unique_id;
         const auto db_dir = std::filesystem::absolute(
             std::filesystem::path("data") / suffix.str());

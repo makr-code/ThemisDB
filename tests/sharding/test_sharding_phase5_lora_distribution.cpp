@@ -247,7 +247,8 @@ TEST_F(P5MerkleProofTest, L15_GenerateProofMissingAdapterReturnsNullopt) {
 }
 
 TEST_F(P5MerkleProofTest, L16_VerifyProofRoundTrip) {
-    std::vector<LoRAPackageRef> batch;
+    std::vector<LoRAPackageRef> batch = {};
+
     for (int i = 0; i < 5; ++i) {
         batch.push_back(makeRef("ada-" + std::to_string(i)));
     }
@@ -412,7 +413,8 @@ TEST(P5EndToEndTest, L25_FullArtifactReceiptChain) {
 
     // ── 3. Distribute to 3 shards ───────────────────────────────────────────
     const std::vector<DistributionShardId> shards = {"shard-0", "shard-1", "shard-2"};
-    std::vector<DistributionEventId> all_events;
+    std::vector<DistributionEventId> all_events = {};
+
     for (const auto& artifact : batch) {
         auto per_shard = manager->distributeToAllShards(artifact, "external", shards);
         for (const auto& [s, eid] : per_shard) {

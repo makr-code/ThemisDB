@@ -56,7 +56,7 @@ namespace fs = std::filesystem;
 
 class TransportDegradationTest : public ::testing::Test {
 protected:
-    std::string test_db_path;
+    std::string test_db_path = {};
     std::unique_ptr<rocksdb::TransactionDB> db;
     std::unique_ptr<Changefeed> changefeed;
     std::unique_ptr<ConsumerGroupManager> manager;
@@ -230,7 +230,8 @@ TEST_F(TransportDegradationTest, TRD06_PartitionFanOutIsDisjoint) {
     // belongs to exactly one partition — no key should be assigned to both
     // consumer 0 and consumer 1.
     const uint32_t consumer_count = 2;
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     for (int i = 0; i < 10; ++i) {
         keys.push_back("key:" + std::to_string(i));
     }

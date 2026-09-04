@@ -25,7 +25,7 @@ namespace performance {
 namespace phase3 {
 
 struct BaoOptimizer::Impl {
-    std::mt19937 rng;
+    std::mt19937 rng = {};
     std::unordered_map<std::string, std::pair<double, double>> arms; // plan_id -> (alpha, beta) for Beta distribution
     size_t queries_optimized = 0;
     size_t model_updates = 0;
@@ -44,7 +44,9 @@ struct BaoOptimizer::Impl {
         std::gamma_distribution<> gamma_beta(beta, 1.0);
         double x = gamma_alpha(rng);
         double y = gamma_beta(rng);
-        if (x + y == 0) return 0.5;
+        if (x + y == 0) {
+          return 0.5;
+        }
         return x / (x + y);
     }
 };
@@ -164,7 +166,9 @@ BaoOptimizer::Stats BaoOptimizer::get_stats() const {
 }
 
 double BaoOptimizer::getMissRate() const {
-    if (impl_->queries_optimized == 0) return 0.0;
+    if (impl_->queries_optimized == 0) {
+      return 0.0;
+    }
     return static_cast<double>(impl_->miss_count) /
            static_cast<double>(impl_->queries_optimized);
 }

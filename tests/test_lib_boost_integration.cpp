@@ -302,7 +302,8 @@ TEST_F(BoostLibIntegrationTest, MultipleIoContextThreads) {
     }
     
     // Run io_context in multiple threads
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 4; ++i) {
         threads.emplace_back([&ioc]() {
             ioc.run();

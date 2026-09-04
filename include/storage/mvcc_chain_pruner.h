@@ -50,12 +50,12 @@ public:
          * TemporalTierManager.  All keys from a single prune run are stored
          * under the same table.
          */
-        std::string table_name;
+        std::string table_name = {};
 
         /**
          * Value of `VersionedDocument::modified_by` on migrated documents.
          */
-        std::string modified_by;
+        std::string modified_by = {};
 
         Config()
             : min_versions_to_keep(1)

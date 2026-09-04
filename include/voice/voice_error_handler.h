@@ -82,7 +82,9 @@ public:
 
     template<typename Func>
     bool call(Func&& func) {
-        if (!canCall()) return false;
+        if (!canCall()) {
+          return false;
+        }
         try {
             func();
             recordSuccess();

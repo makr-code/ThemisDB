@@ -108,7 +108,7 @@ TEST_F(UpdatesContractTest, UPD10_DefaultErrorIsChecksumMismatch) {
 // UPD-11: DeploymentSlot switch dispatch works
 TEST_F(UpdatesContractTest, UPD11_SlotSwitchDispatch) {
     DeploymentSlot slot = DeploymentSlot::kGreen;
-    std::string name;
+    std::string name = {};
     switch (slot) {
         case DeploymentSlot::kBlue:  name = "blue";  break;
         case DeploymentSlot::kGreen: name = "green"; break;

@@ -33,7 +33,7 @@ static const std::string b64_chars =
     "0123456789+/";
 
 static std::string vaultBase64Encode(const std::vector<uint8_t>& data) {
-    std::string ret;
+    std::string ret = {};
     int val = 0, valb = -6;
     for (uint8_t c : data) {
         val = (val << 8) + c;
@@ -43,19 +43,27 @@ static std::string vaultBase64Encode(const std::vector<uint8_t>& data) {
             valb -= 6;
         }
     }
-    if (valb > -6) ret.push_back(b64_chars[((val << 8) >> (valb + 8)) & 0x3F]);
-    while (ret.size() % 4) ret.push_back('=');
+    if (valb > -6) {
+      ret.push_back(b64_chars[((val << 8) >> (valb + 8)) & 0x3F]);
+    }
+    while (ret.size() % 4) {
+      ret.push_back('=');
+    }
     return ret;
 }
 
 static std::vector<uint8_t> vaultBase64Decode(const std::string& encoded) {
     std::vector<int> T(256, -1);
-    for (int i = 0; i < 64; i++) T[(unsigned char)b64_chars[i]] = i;
+    for (int i = 0; i < 64; i++) {
+      T[(unsigned char)b64_chars[i]] = i;
+    }
 
     std::vector<uint8_t> out;
     int val = 0, valb = -8;
     for (unsigned char c : encoded) {
-        if (T[c] == -1) break;
+        if (T[c] == -1) {
+          break;
+        }
         val = (val << 6) + T[c];
         valb += 6;
         if (valb >= 0) {
@@ -98,7 +106,9 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
 
     // Build URL: /v1/<transit_mount>/sign/<key_id>
     std::string url = vault_addr;
-    if (url.back() == '/') url.pop_back();
+    if (url.back() == '/') {
+      url.pop_back();
+    }
     url += "/v1/" + transit_mount + "/sign/" + key_id;
 
     // Prepare JSON payload: { "input": base64(data) }
@@ -107,9 +117,11 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
 
     // Setup CURL
     CURL* curl = curl_easy_init();
-    if (!curl) throw std::runtime_error("Failed to init CURL for VaultSigningProvider");
+    if (!curl) {
+      throw std::runtime_error("Failed to init CURL for VaultSigningProvider");
+    }
 
-    std::string response;
+    std::string response = {};
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.dump().c_str());
@@ -119,7 +131,9 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
 
     struct curl_slist* headers = nullptr;
     headers = curl_slist_append(headers, "Content-Type: application/json");
-    if (!vault_token.empty()) headers = curl_slist_append(headers, (std::string("X-Vault-Token: ") + vault_token).c_str());
+    if (!vault_token.empty()) {
+      headers = curl_slist_append(headers, (std::string("X-Vault-Token: ") + vault_token).c_str());
+    }
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
     CURLcode rc = curl_easy_perform(curl);
@@ -137,7 +151,7 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
     // Parse response JSON to extract signature
     try {
         json j = json::parse(response);
-        std::string sig_b64;
+        std::string sig_b64 = {};
         if (j.contains("data") && j["data"].contains("signature")) {
             sig_b64 = j["data"]["signature"].get<std::string>();
         } else if (j.contains("data") && j["data"].contains("signatures") && j["data"]["signatures"].is_array()) {
@@ -151,7 +165,7 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
         if (sig_b64.rfind("vault:", 0) == 0) {
             // strip prefix 'vault:v1:'
             size_t pos = sig_b64.find(':', 6); // after 'vault:'
-            if (pos != std::string::npos && pos + 1 < sig_b64.size()) {
+            if (pos != std::string::npos && pos + 1 <static_cast<int>(sig_b64.size())) {
                 std::string inner = sig_b64.substr(pos + 1);
                 std::vector<uint8_t> sig = vaultBase64Decode(inner);
                 SigningResult res;

@@ -679,7 +679,8 @@ static GeometryInfo makeTestPoint(double x, double y) {
 
 static GeometryInfo makeTestPolygon(std::initializer_list<std::pair<double,double>> pts) {
     GeometryInfo g(GeometryType::Polygon);
-    std::vector<Coordinate> ring;
+    std::vector<Coordinate> ring = {};
+
     for (auto& p : pts) ring.push_back({p.first, p.second});
     g.rings.push_back(ring);
     return g;
@@ -690,7 +691,8 @@ static GeometryInfo makeTestMultiPolygon(
     GeometryInfo g(GeometryType::MultiPolygon);
     for (const auto& pts : polys) {
         GeometryInfo poly(GeometryType::Polygon);
-        std::vector<Coordinate> ring;
+        std::vector<Coordinate> ring = {};
+
         for (const auto& p : pts) ring.push_back({p.first, p.second});
         poly.rings.push_back(ring);
         g.geometries.push_back(poly);

@@ -30,7 +30,7 @@ OptimizerResult PromptOptimizer::optimize(
     EvaluationFunction eval_fn,
     ImprovementFunction improve_fn
 ) {
-    THEMIS_INFO("Starting prompt optimization with {} test cases", test_cases.size());
+    THEMIS_INFO("Starting prompt optimization with {} test cases",static_cast<int>(test_cases.size()));
     
     if (test_cases.empty()) {
         THEMIS_ERROR("Cannot optimize without test cases");
@@ -124,7 +124,7 @@ std::string PromptOptimizer::generateFeedback(
     double score,
     const std::vector<TestCase>& test_cases
 ) const {
-    std::ostringstream feedback;
+    std::ostringstream feedback = {};
     
     feedback << "Current prompt score: " << score << "\n\n";
     
@@ -149,7 +149,7 @@ std::string PromptOptimizer::generateFeedback(
         feedback << "- Testing on more challenging cases\n";
     }
     
-    feedback << "\nNumber of test cases: " << test_cases.size() << "\n";
+    feedback << "\nNumber of test cases: " <<static_cast<int>(test_cases.size()) << "\n";
     
     return feedback.str();
 }
@@ -170,7 +170,7 @@ std::string PromptOptimizer::defaultImprovePrompt(
     );
     
     // Build improved prompt with structured sections
-    std::ostringstream improved;
+    std::ostringstream improved = {};
     improved << "# Improved Prompt\n\n";
     improved << "## Task\n";
     improved << current_prompt << "\n\n";

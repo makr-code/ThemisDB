@@ -31,7 +31,7 @@ SecureString::~SecureString() {
 
 void SecureString::securely_clear() noexcept {
     if (!data_.empty()) {
-        OPENSSL_cleanse(data_.data(), data_.size());
+        OPENSSL_cleanse(data_.data(),static_cast<int>(data_.size()));
         data_.clear();
     }
 }
@@ -62,7 +62,7 @@ SecureVector<T>::~SecureVector() {
 template <typename T>
 void SecureVector<T>::securely_clear() noexcept {
     if (!data_.empty()) {
-        OPENSSL_cleanse(data_.data(), data_.size() * sizeof(T));
+        OPENSSL_cleanse(data_.data(),static_cast<int>(data_.size()) * sizeof(T));
         data_.clear();
     }
 }
@@ -87,7 +87,9 @@ template class SecureVector<char>;
 namespace detail {
 
 void secure_mlock(void* ptr, std::size_t len) noexcept {
-    if (!ptr || len == 0) return;
+    if (!ptr || len == 0) {
+      return;
+    }
 #if defined(THEMIS_HAS_MLOCK)
     if (::mlock(ptr, len) != 0) {
         spdlog::warn("mlock() failed for {} bytes", len);
@@ -102,7 +104,9 @@ void secure_mlock(void* ptr, std::size_t len) noexcept {
 }
 
 void secure_munlock(void* ptr, std::size_t len) noexcept {
-    if (!ptr || len == 0) return;
+    if (!ptr || len == 0) {
+      return;
+    }
 #if defined(THEMIS_HAS_MLOCK)
     ::munlock(ptr, len);
 #elif defined(THEMIS_HAS_VIRTUALLOCK)
@@ -111,7 +115,9 @@ void secure_munlock(void* ptr, std::size_t len) noexcept {
 }
 
 void secure_zero(void* ptr, std::size_t len) noexcept {
-    if (!ptr || len == 0) return;
+    if (!ptr || len == 0) {
+      return;
+    }
     OPENSSL_cleanse(ptr, len);
 }
 

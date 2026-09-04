@@ -53,12 +53,12 @@ constexpr int kL3InitRetryDelayMs     = 1000; // initial backoff
 constexpr int kL3InitMaxTotalDelayMs  = 3000; // sum of all sleep_for calls across retries
 
 // C4: AI/LLM safety constants — hard caps applied unconditionally in put().
-constexpr size_t  kAbsoluteMaxEntrySizeBytes = 67108864ULL; // 64 MiB
+constexpr size_t  kAbsoluteMaxEntrySizeBytes = 67108864; // 64 MiB
 constexpr int     kAbsoluteMaxTTLSeconds      = 86400;       // 24 hours
 
 AdaptiveQueryCache::AdaptiveQueryCache(const Config &config) : config_(config) {
     // Phase 2: Validate configuration on startup
-    std::string validation_error;
+    std::string validation_error = {};
     if (!config_.validate(&validation_error)) {
         throw std::invalid_argument("Invalid cache configuration: " + validation_error);
     }
@@ -192,10 +192,10 @@ std::string AdaptiveQueryCache::generateFingerprint(const std::string &query, co
 
     // Compute SHA256 hash
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);
+    SHA256(reinterpret_cast<const unsigned char *>(input.data()),static_cast<int>(input.size()), hash);
 
     // Convert to hex string
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         ss << std::setw(2) << static_cast<int>(hash[i]);
@@ -388,7 +388,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(const std:
                         l1_entry->window_count.store(entry.window_count, std::memory_order_relaxed);
 
                         std::unique_lock<std::shared_mutex> l1_lock(l1_mutex_);
-                        if (l1_cache_.size() >= config_.l1_max_entries) {
+                        if (static_cast<int>(l1_cache_.size()) > = config_.l1_max_entries) {
                             evictLRU(CacheLevel::HOT);
                         }
                         l2_eviction_strategy_->onRemove(key);
@@ -600,7 +600,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
 
     const int64_t now_ms         = getCurrentTimeMs();
     const std::string result_str = result.dump();
-    const size_t result_size     = result_str.size();
+    const size_t result_size = result_str.size();
 
     if (!checkTenantQuota(tenant_id, result_size)) {
         THEMIS_WARN("Tenant {} quota exceeded, rejecting entry", tenant_id);
@@ -658,7 +658,8 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
         return false;
     }
 
-    std::shared_ptr<cache::ICacheCoordinator> repl_coord;
+    std::shared_ptr<cache::ICacheCoordinator> repl_coord = {};
+
     if (config_.enable_replication) {
         std::lock_guard<std::mutex> lk(coordinator_mutex_);
         repl_coord = coordinator_;
@@ -679,7 +680,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
 
         if (result_size < config_.l1_max_entry_size) {
             std::unique_lock<std::shared_mutex> l1_lock(l1_mutex_);
-            if (l1_cache_.size() >= config_.l1_max_entries) {
+            if (static_cast<int>(l1_cache_.size()) > = config_.l1_max_entries) {
                 evictLRU(CacheLevel::HOT);
             }
             auto l1_entry    = std::make_unique<L1Entry>();
@@ -703,7 +704,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
             auto compressed = utils::zstd_compress(result_str, config_.l2_compression_level);
             if (!compressed.empty()) {
                 std::lock_guard<std::mutex> l2_lock(l2_mutex_);
-                if (l2_cache_.size() >= config_.l2_max_entries) {
+                if (static_cast<int>(l2_cache_.size()) > = config_.l2_max_entries) {
                     evictLRU(CacheLevel::WARM);
                 }
                 L2Entry l2_entry;
@@ -787,7 +788,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
                 tenant_metrics_[tenant_id].bytes_used += result_size;
             }
             notifyCoordinator();
-            if (rep_listener) {
+            if ([[maybe_unused]] rep_listener) {
                 cache::CacheReplicationEvent ev;
                 ev.type        = cache::CacheReplicationEventType::WRITE;
                 ev.key         = key;
@@ -804,7 +805,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
     if (level == CacheLevel::HOT && result_size < config_.l1_max_entry_size) {
         {
             std::unique_lock<std::shared_mutex> lock(l1_mutex_);
-            if (l1_cache_.size() >= config_.l1_max_entries) {
+            if (static_cast<int>(l1_cache_.size()) > = config_.l1_max_entries) {
                 evictLRU(CacheLevel::HOT);
             }
             auto entry    = std::make_unique<L1Entry>();
@@ -834,7 +835,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
             }
         }
         notifyCoordinator();
-        if (rep_listener) {
+        if ([[maybe_unused]] rep_listener) {
             cache::CacheReplicationEvent ev;
             ev.type        = cache::CacheReplicationEventType::WRITE;
             ev.key         = key;
@@ -855,7 +856,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
         size_t compressed_size = 0;
         {
             std::lock_guard<std::mutex> lock(l2_mutex_);
-            if (l2_cache_.size() >= config_.l2_max_entries) {
+            if (static_cast<int>(l2_cache_.size()) > = config_.l2_max_entries) {
                 evictLRU(CacheLevel::WARM);
             }
             L2Entry entry;
@@ -880,7 +881,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
             }
         }
         notifyCoordinator();
-        if (rep_listener) {
+        if ([[maybe_unused]] rep_listener) {
             cache::CacheReplicationEvent ev;
             ev.type        = cache::CacheReplicationEventType::WRITE;
             ev.key         = fingerprint;
@@ -942,7 +943,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
         }
         if (ok) {
             notifyCoordinator();
-            if (rep_listener) {
+            if ([[maybe_unused]] rep_listener) {
                 cache::CacheReplicationEvent ev;
                 ev.type        = cache::CacheReplicationEventType::WRITE;
                 ev.key         = l3_key;
@@ -964,11 +965,11 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
     // C-3: Limit pattern length to mitigate ReDoS; C++ stdlib regex has no
     // backtracking budget API, so length capping is the primary mitigation.
     constexpr size_t kMaxRegexPatternLen = 256;
-    if (pattern.size() > kMaxRegexPatternLen) {
-        THEMIS_WARN("Cache invalidate: pattern too long ({} chars), rejecting to prevent ReDoS", pattern.size());
+    if (static_cast<int>(pattern.size()) > kMaxRegexPatternLen) {
+        THEMIS_WARN([[maybe_unused]] "Cache invalidate: pattern too long ({} chars), rejecting to prevent ReDoS",static_cast<int>(pattern.size()));
         return 0;
     }
-    std::regex re;
+    std::regex re = {};
     try {
         re = std::regex(pattern, std::regex::ECMAScript | std::regex::optimize);
     } catch (const std::regex_error &e) {
@@ -1059,7 +1060,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
                     }
                 }
 
-                THEMIS_DEBUG("Invalidated {} L3 cache entries", keys_to_delete.size());
+                THEMIS_DEBUG("Invalidated {} L3 cache entries",static_cast<int>(keys_to_delete.size()));
             } catch (const std::exception &e) {
                 if (!lock.owns_lock()) {
                     // C1: Re-acquire with timeout in error path.
@@ -1107,7 +1108,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
             std::lock_guard<std::mutex> rep_lock(replication_mutex_);
             rep_listener = replication_listener_;
         }
-        if (rep_listener) {
+        if ([[maybe_unused]] rep_listener) {
             cache::CacheReplicationEvent ev;
             ev.type    = cache::CacheReplicationEventType::INVALIDATE;
             ev.pattern = pattern;
@@ -1226,12 +1227,12 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
 
     {
         std::shared_lock<std::shared_mutex> lock(l1_mutex_);
-        std::string eviction_name;
+        std::string eviction_name = {};
         {
             std::lock_guard<std::mutex> evl(l1_eviction_mutex_);
             eviction_name = std::string(l1_eviction_strategy_->getName());
         }
-        info["l1"] = {{"entries", l1_cache_.size()},
+        info["l1"] = {{"entries",static_cast<int>(l1_cache_.size())},
                       {"max_entries", config_.l1_max_entries},
                       {"utilization", static_cast<double>(l1_cache_.size()) / config_.l1_max_entries},
                       {"eviction_policy", eviction_name}};
@@ -1239,7 +1240,7 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
 
     {
         std::lock_guard<std::mutex> lock(l2_mutex_);
-        info["l2"] = {{"entries", l2_cache_.size()},
+        info["l2"] = {{"entries",static_cast<int>(l2_cache_.size())},
                       {"max_entries", config_.l2_max_entries},
                       {"utilization", static_cast<double>(l2_cache_.size()) / config_.l2_max_entries},
                       {"eviction_policy", std::string(l2_eviction_strategy_->getName())}};
@@ -1302,7 +1303,7 @@ int AdaptiveQueryCache::calculateAdaptiveTTL(int64_t access_count) const {
     return adaptive_ttl;
 }
 
-AdaptiveQueryCache::CacheLevel AdaptiveQueryCache::selectCacheLevel(size_t result_size) const {
+AdaptiveQueryCache::CacheLevel AdaptiveQueryCache::selectCacheLevel([[maybe_unused]] size_t result_size) const {
     if (result_size < config_.l1_max_entry_size) {
         return CacheLevel::HOT;
     } else if (result_size < config_.l2_max_entry_size) {
@@ -1456,10 +1457,10 @@ void AdaptiveQueryCache::emitEvictionEvent(const std::string& key, access_model:
     // cache or coordinator code that tries to acquire the same or a dependent lock.
     access_model::EvictionListener* listener = nullptr;
     {
-        std::lock_guard<std::mutex> lock(eviction_listener_mutex_);
+        std::lock_guard<std::mutex> lock([[maybe_unused]] eviction_listener_mutex_);
         listener = eviction_listener_;
     }
-    if (!listener) {
+    if ([[maybe_unused]] !listener) {
         return;  // No listener registered
     }
 
@@ -1484,7 +1485,7 @@ double AdaptiveQueryCache::calculateLRUScore(int64_t last_accessed_ms, int64_t a
 }
 
 // Phase 1: Size validation helpers
-bool AdaptiveQueryCache::isWithinSizeLimit(size_t size) const {
+bool AdaptiveQueryCache::isWithinSizeLimit([[maybe_unused]] size_t size) const {
     return size <= config_.max_total_entry_size;
 }
 
@@ -1775,7 +1776,7 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
     // L1 tier
     {
         std::shared_lock<std::shared_mutex> lock(l1_mutex_);
-        size_t entries          = l1_cache_.size();
+        size_t entries = l1_cache_.size();
         double util             = static_cast<double>(entries) / config_.l1_max_entries;
         std::string tier_status = (util > 0.9) ? "DEGRADED" : "OK";
         tiers["l1"]             = {{"status", tier_status},
@@ -1791,7 +1792,7 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
     // L2 tier
     {
         std::lock_guard<std::mutex> lock(l2_mutex_);
-        size_t entries          = l2_cache_.size();
+        size_t entries = l2_cache_.size();
         double util             = static_cast<double>(entries) / config_.l2_max_entries;
         std::string tier_status = (util > 0.9) ? "DEGRADED" : "OK";
         tiers["l2"]             = {{"status", tier_status},
@@ -1857,7 +1858,7 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
     return health;
 }
 
-std::vector<std::string> AdaptiveQueryCache::exportKeys(size_t max_keys) const {
+std::vector<std::string> AdaptiveQueryCache::exportKeys([[maybe_unused]] size_t max_keys) const {
     std::vector<std::string> keys;
     keys.reserve(max_keys);
 
@@ -1865,7 +1866,7 @@ std::vector<std::string> AdaptiveQueryCache::exportKeys(size_t max_keys) const {
     {
         std::shared_lock<std::shared_mutex> lock(l1_mutex_);
         for (const auto &[key, entry] : l1_cache_) {
-            if (keys.size() >= max_keys) {
+            if (static_cast<int>(keys.size()) > = max_keys) {
                 break;
             }
             keys.push_back("L1:" + key.substr(0, 16) + "...");
@@ -1876,7 +1877,7 @@ std::vector<std::string> AdaptiveQueryCache::exportKeys(size_t max_keys) const {
     {
         std::lock_guard<std::mutex> lock(l2_mutex_);
         for (const auto &[key, entry] : l2_cache_) {
-            if (keys.size() >= max_keys) {
+            if (static_cast<int>(keys.size()) > = max_keys) {
                 break;
             }
             keys.push_back("L2:" + key.substr(0, 16) + "...");
@@ -1958,7 +1959,7 @@ size_t AdaptiveQueryCache::bulkPut(
         }
     }
 
-    THEMIS_INFO("Bulk put completed: {}/{} entries cached", successful, entries.size());
+    THEMIS_INFO("Bulk put completed: {}/{} entries cached", successful,static_cast<int>(entries.size()));
     return successful;
 }
 
@@ -2086,7 +2087,7 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string &tenant_id) {
             std::lock_guard<std::mutex> rep_lock(replication_mutex_);
             rep_listener = replication_listener_;
         }
-        if (rep_listener) {
+        if ([[maybe_unused]] rep_listener) {
             cache::CacheReplicationEvent ev;
             ev.type      = cache::CacheReplicationEventType::INVALIDATE_TENANT;
             ev.tenant_id = tenant_id;
@@ -2176,7 +2177,7 @@ size_t AdaptiveQueryCache::invalidatePII(const std::string &pii_uuid) {
                     l3_db_->scanPrefix(pii_ref_prefix, [&](std::string_view key, std::string_view) {
                         pii_ref_keys.emplace_back(key);
                         std::string k(key);
-                        if (k.size() > pii_ref_prefix.size()) {
+                        if (static_cast<int>(k.size()) > static_cast<int>(pii_ref_prefix.size())) {
                             cache_keys.emplace_back(QUERY_CACHE_PREFIX + k.substr(pii_ref_prefix.size()));
                         }
                         return true;
@@ -2329,7 +2330,7 @@ nlohmann::json AdaptiveQueryCache::getPrefetchStats() const {
     return j;
 }
 
-void AdaptiveQueryCache::recordPrefetchOverheadBytes(uint64_t bytes) {
+void AdaptiveQueryCache::recordPrefetchOverheadBytes([[maybe_unused]] uint64_t bytes) {
     if (prefetcher_) {
         prefetcher_->recordOverheadBytes(bytes);
     }
@@ -2404,7 +2405,7 @@ void AdaptiveQueryCache::applyReplicatedEntry(const cache::ReplicationMessage &m
 
     int64_t now_ms         = getCurrentTimeMs();
     std::string result_str = msg.result.dump();
-    size_t result_size     = result_str.size();
+    size_t result_size = result_str.size();
 
     // Honour per-entry size limit and tenant quota checks
     if (config_.enable_size_limits && !isWithinSizeLimit(result_size)) {
@@ -2420,7 +2421,7 @@ void AdaptiveQueryCache::applyReplicatedEntry(const cache::ReplicationMessage &m
     if (result_size < config_.l1_max_entry_size) {
         std::unique_lock<std::shared_mutex> lock(l1_mutex_);
         if (l1_cache_.count(key) == 0) { // Don't overwrite a locally fresher entry
-            if (l1_cache_.size() >= config_.l1_max_entries) {
+            if (static_cast<int>(l1_cache_.size()) > = config_.l1_max_entries) {
                 evictLRU(CacheLevel::HOT);
             }
             auto entry    = std::make_unique<L1Entry>();
@@ -2446,7 +2447,7 @@ void AdaptiveQueryCache::applyReplicatedEntry(const cache::ReplicationMessage &m
 
         std::lock_guard<std::mutex> lock(l2_mutex_);
         if (l2_cache_.count(key) == 0) {
-            if (l2_cache_.size() >= config_.l2_max_entries) {
+            if (static_cast<int>(l2_cache_.size()) > = config_.l2_max_entries) {
                 evictLRU(CacheLevel::WARM);
             }
             L2Entry entry;
@@ -2510,13 +2511,13 @@ void AdaptiveQueryCache::applyReplicatedInvalidation(const cache::ReplicationMes
 // Phase 4: Cache Replication for High-Availability
 // ============================================================================
 
-void AdaptiveQueryCache::setReplicationListener(std::shared_ptr<cache::ICacheReplicationListener> listener) {
+void AdaptiveQueryCache::setReplicationListener([[maybe_unused]] std::shared_ptr<cache::ICacheReplicationListener> listener) {
     std::lock_guard<std::mutex> lock(replication_mutex_);
-    replication_listener_ = std::move(listener);
-    if (replication_listener_) {
-        THEMIS_INFO("AdaptiveQueryCache: replication listener registered ({})", replication_listener_->replicaId());
+    replication_listener_ = std::move([[maybe_unused]] listener);
+    if ([[maybe_unused]] replication_listener_) {
+        THEMIS_INFO([[maybe_unused]] "AdaptiveQueryCache: replication listener registered ({})", replication_listener_->replicaId());
     } else {
-        THEMIS_INFO("AdaptiveQueryCache: replication listener unregistered");
+        THEMIS_INFO([[maybe_unused]] "AdaptiveQueryCache: replication listener unregistered");
     }
 }
 
@@ -2524,13 +2525,13 @@ void AdaptiveQueryCache::setReplicationListener(std::shared_ptr<cache::ICacheRep
 // Phase 5: BLOCK 2 Cache Integration — AccessCoordinator Listener
 // ============================================================================
 
-void AdaptiveQueryCache::setEvictionListener(access_model::EvictionListener* listener) noexcept {
-    std::lock_guard<std::mutex> lock(eviction_listener_mutex_);
+void AdaptiveQueryCache::setEvictionListener([[maybe_unused]] access_model::EvictionListener* listener) noexcept {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] eviction_listener_mutex_);
     eviction_listener_ = listener;
-    if (eviction_listener_) {
-        THEMIS_INFO("AdaptiveQueryCache: eviction listener registered for AccessCoordinator");
+    if ([[maybe_unused]] eviction_listener_) {
+        THEMIS_INFO([[maybe_unused]] "AdaptiveQueryCache: eviction listener registered for AccessCoordinator");
     } else {
-        THEMIS_INFO("AdaptiveQueryCache: eviction listener unregistered");
+        THEMIS_INFO([[maybe_unused]] "AdaptiveQueryCache: eviction listener unregistered");
     }
 }
 

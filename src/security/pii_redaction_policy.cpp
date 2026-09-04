@@ -68,7 +68,7 @@ bool PIIRedactionPolicy::isStrictMode() const {
     return strict_mode_;
 }
 
-void PIIRedactionPolicy::setStrictMode(bool strict) {
+void PIIRedactionPolicy::setStrictMode([[maybe_unused]] bool strict) {
     std::lock_guard<std::mutex> lock(mutex_);
     strict_mode_ = strict;
 }
@@ -93,7 +93,7 @@ std::string PIIRedactionPolicy::applyRedaction(const std::string& text) const {
                   return a.start_offset < b.start_offset;
               });
 
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
 
     size_t pos = 0;
@@ -115,8 +115,8 @@ std::string PIIRedactionPolicy::applyRedaction(const std::string& text) const {
     }
 
     // Append any trailing non-PII content.
-    if (pos < text.size()) {
-        result.append(text, pos, text.size() - pos);
+    if (static_cast<int>(text.size()) > pos) {
+        result.append(text, pos, static_cast<int>(text.size()) - pos);
     }
 
     return result;
@@ -135,7 +135,8 @@ std::map<std::string, std::string> PIIRedactionPolicy::redactAttributes(
     const std::map<std::string, std::string>& attributes) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::map<std::string, std::string> result;
+    std::map<std::string, std::string> result = {};
+
     for (const auto& [key, value] : attributes) {
         // If the attribute key itself is a recognised PII field name, replace
         // the entire value with the appropriate mask rather than a substring

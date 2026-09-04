@@ -102,13 +102,13 @@ public:
      */
     struct CausalChain {
         /// What signal triggered the autonomous action.
-        std::string signal;
+        std::string signal = {};
 
         /// Why the signal is relevant to the system state.
         std::string analysis;
 
         /// What was decided / changed.
-        std::string decision;
+        std::string decision = {};
 
         /// How confident the system is in this decision [0.0, 1.0].
         double confidence{0.0};

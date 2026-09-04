@@ -487,7 +487,9 @@ public:
                 && batch.num_vectors > 0 && batch.dim > 0 && batch.k > 0) {
             result.results.resize(batch.num_queries);
             for (size_t qi = 0; qi < batch.num_queries; ++qi) {
-                if (token.is_cancelled()) break;
+                if (token.is_cancelled()) {
+                  break;
+                }
                 const float* q = batch.queries + qi * batch.dim;
                 std::vector<std::pair<uint32_t, float>> row;
                 row.reserve(batch.num_vectors);
@@ -928,11 +930,19 @@ struct ValidationReport {
 
     /// @brief Check if all registered backends have complete kernel coverage.
     [[nodiscard]] bool allComplete() const noexcept {
-        if (entries.empty()) return true;
+        if (entries.empty()) {
+          return true;
+        }
         for (const auto& e : entries) {
-            if (e.hasANN && !e.annComplete) return false;
-            if (e.hasGeo && !e.geoComplete) return false;
-            if (e.hasMatrix && !e.matrixComplete) return false;
+            if (e.hasANN && !e.annComplete) {
+              return false;
+            }
+            if (e.hasGeo && !e.geoComplete) {
+              return false;
+            }
+            if (e.hasMatrix && !e.matrixComplete) {
+              return false;
+            }
         }
         return true;
     }
@@ -1109,16 +1119,32 @@ struct CapabilityRequirements {
     /// Returns true if @p caps satisfies every field in @p reqs.
     static inline bool satisfies(const BackendCapabilities& caps,
                                   const CapabilityRequirements& reqs) noexcept {
-        if (reqs.needsVectorOps && !caps.supportsVectorOps) return false;
-        if (reqs.needsGraphOps  && !caps.supportsGraphOps)  return false;
-        if (reqs.needsGeoOps    && !caps.supportsGeoOps)    return false;
-        if (reqs.needsMatrixOps && !caps.supportsMatrixOps) return false;
-        if (reqs.needsBatch     && !caps.supportsBatchProcessing) return false;
-        if (reqs.needsAsync     && !caps.supportsAsync)     return false;
+        if (reqs.needsVectorOps && !caps.supportsVectorOps) {
+          return false;
+        }
+        if (reqs.needsGraphOps  && !caps.supportsGraphOps) {
+          return false;
+        }
+        if (reqs.needsGeoOps    && !caps.supportsGeoOps) {
+          return false;
+        }
+        if (reqs.needsMatrixOps && !caps.supportsMatrixOps) {
+          return false;
+        }
+        if (reqs.needsBatch     && !caps.supportsBatchProcessing) {
+          return false;
+        }
+        if (reqs.needsAsync     && !caps.supportsAsync) {
+          return false;
+        }
         const auto reqP = static_cast<uint32_t>(reqs.requiredPrecisions);
         const auto hasP = static_cast<uint32_t>(caps.supportedPrecisions);
-        if ((reqP & hasP) != reqP) return false;
-        if ((reqs.requiredMetrics & caps.supportedMetrics) != reqs.requiredMetrics) return false;
+        if ((reqP & hasP) != reqP) {
+          return false;
+        }
+        if ((reqs.requiredMetrics & caps.supportedMetrics) != reqs.requiredMetrics) {
+          return false;
+        }
         return true;
     }
 
@@ -1336,7 +1362,9 @@ struct DeviceSet {
      * @return true on success; false when the set is already full.
      */
     bool push(uint32_t device) noexcept {
-        if (count >= kMaxDevices) return false;
+        if (count >= kMaxDevices) {
+          return false;
+        }
         devices[count++] = device;
         return true;
     }

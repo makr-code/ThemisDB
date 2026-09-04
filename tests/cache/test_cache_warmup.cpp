@@ -45,15 +45,19 @@ static void writeLogLine(std::ofstream& f,
     rec["key"] = key;
     rec["value_b64"] = value_b64;
     rec["ttl_remaining_s"] = ttl_remaining_s;
-    if (!tenant.empty()) rec["tenant"] = tenant;
+    if (!tenant.empty()) {
+      rec["tenant"] = tenant;
+    }
     f << rec.dump() << '\n';
 }
 
 /// Produce a 64-char lowercase hex string (valid SHA-256 key).
 static std::string makeKey(int n) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0');
-    for (int i = 0; i < 8; ++i) ss << std::setw(8) << n;
+    for (int i = 0; i < 8; ++i) {
+      ss << std::setw(8) << n;
+    }
     return ss.str();
 }
 
@@ -62,7 +66,7 @@ static const std::string kB64 =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static std::string b64Encode(const std::string& data) {
-    std::string out;
+    std::string out = {};
     out.reserve(((data.size() + 2) / 3) * 4);
     uint32_t buf = 0;
     int bits = 0;
@@ -78,7 +82,9 @@ static std::string b64Encode(const std::string& data) {
         buf <<= (6 - bits);
         out.push_back(kB64[buf & 0x3F]);
     }
-    while (out.size() % 4 != 0) out.push_back('=');
+    while (out.size() % 4 != 0) {
+      out.push_back('=');
+    }
     return out;
 }
 
@@ -98,7 +104,7 @@ protected:
     }
 
     void TearDown() override {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(db_path_, ec);
         std::filesystem::remove(log_path_, ec);
         std::filesystem::remove(snap_path_, ec);
@@ -335,7 +341,7 @@ TEST_F(CacheWarmupTest, ExportSnapshot_RoundTrip) {
         EXPECT_EQ(result->result["n"], i);
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(db_path2, ec);
 }
 
@@ -460,10 +466,12 @@ TEST_F(CacheWarmupTest, ExportSnapshot_TenantIsolation_RoundTrip) {
     // Verify the snapshot file keys are bare fingerprints, not tenant-scoped.
     {
         std::ifstream f(snap_path_);
-        std::string line;
+        std::string line = {};
         int line_count = 0;
         while (std::getline(f, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             auto rec = json::parse(line);
             std::string exported_key = rec["key"].get<std::string>();
             // Must be a 64-char hex string, NOT "tenant:acme:<fp>"
@@ -494,7 +502,7 @@ TEST_F(CacheWarmupTest, ExportSnapshot_TenantIsolation_RoundTrip) {
         EXPECT_EQ(result->result["n"], i);
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(db_path2, ec);
 }
 
@@ -645,7 +653,7 @@ TEST_F(CacheWarmupTest, WarmupFromLog_SingleWorker_SameAsDefault) {
         EXPECT_EQ(ep->result, es->result);
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(config1.l3_db_path, ec);
     std::filesystem::remove_all(config2.l3_db_path, ec);
 }

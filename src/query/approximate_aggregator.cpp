@@ -31,10 +31,10 @@ namespace {
 // 64-bit FNV-1a hash with MurmurHash3 finalizer for good avalanche properties.
 uint64_t hashValue(const nlohmann::json& v) {
     const std::string s = v.is_string() ? v.get<std::string>() : v.dump();
-    uint64_t h = 14695981039346656037ULL;
+    uint64_t h = 14695981039346656037;
     for (unsigned char c : s) {
         h ^= static_cast<uint64_t>(c);
-        h *= 1099511628211ULL;
+        h *= 1099511628211;
     }
     // MurmurHash3 64-bit finalizer: mix bits for uniform distribution.
     h ^= h >> 33;
@@ -46,10 +46,12 @@ uint64_t hashValue(const nlohmann::json& v) {
 }
 
 // Count leading zeros of a 64-bit integer plus 1.
-uint8_t rho(uint64_t value) {
-    if (value == 0) return 65;
+uint8_t rho([[maybe_unused]] uint64_t value) {
+    if (value == 0) {
+      return 65;
+    }
     uint8_t count = 1;
-    while ((value & (1ULL << 63)) == 0) {
+    while ((value & (1 << 63)) == 0) {
         ++count;
         value <<= 1;
     }
@@ -68,7 +70,7 @@ void ApproximateCountDistinct::add(const nlohmann::json& value) {
     // Use the top `precision_` bits as the register index.
     const int idx = static_cast<int>(h >> (64 - precision_));
     // Remaining bits determine the rho value.
-    const uint64_t w = (h << precision_) | ((1ULL << precision_) - 1);
+    const uint64_t w = (h << precision_) | ((1 << precision_) - 1);
     const uint8_t r  = rho(w);
     if (r > registers_[static_cast<size_t>(idx)]) {
         registers_[static_cast<size_t>(idx)] = r;
@@ -96,7 +98,9 @@ nlohmann::json ApproximateCountDistinct::estimate() const {
     for (int i = 0; i < num_registers_; ++i) {
         const uint8_t r = registers_[static_cast<size_t>(i)];
         sum += std::pow(2.0, -static_cast<double>(r));
-        if (r == 0) ++zeros;
+        if (r == 0) {
+          ++zeros;
+        }
     }
     double raw = alpha * static_cast<double>(num_registers_) *
                  static_cast<double>(num_registers_) / sum;
@@ -129,7 +133,9 @@ ApproximatePercentile::ApproximatePercentile(double quantile, int compression)
       compression_(std::max(compression, 10)) {}
 
 void ApproximatePercentile::add(const nlohmann::json& value) {
-    if (!value.is_number()) return;
+    if (!value.is_number()) {
+      return;
+    }
     const double v = value.get<double>();
     centroids_.push_back({v, 1.0});
     total_weight_ += 1.0;
@@ -141,7 +147,9 @@ void ApproximatePercentile::add(const nlohmann::json& value) {
 }
 
 void ApproximatePercentile::compress() {
-    if (centroids_.empty()) return;
+    if (centroids_.empty()) {
+      return;
+    }
     std::stable_sort(centroids_.begin(), centroids_.end(),
                      [](const Centroid& a, const Centroid& b) {
                          return a.mean < b.mean;
@@ -191,7 +199,9 @@ void ApproximatePercentile::merge(const IApproximateAggregator& other) {
 }
 
 nlohmann::json ApproximatePercentile::estimate() const {
-    if (centroids_.empty()) return nullptr;
+    if (centroids_.empty()) {
+      return nullptr;
+    }
 
     // Ensure sorted for quantile lookup.
     std::vector<Centroid> sorted = centroids_;
@@ -202,11 +212,11 @@ nlohmann::json ApproximatePercentile::estimate() const {
 
     const double target_weight = quantile_ * total_weight_;
     double cum = 0.0;
-    for (size_t i = 0; i < sorted.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(sorted.size()); ++i) {
         cum += sorted[i].weight;
         if (cum >= target_weight) {
             // Linear interpolation between adjacent centroids.
-            if (i + 1 < sorted.size()) {
+            if (i + 1 <static_cast<int>(sorted.size())) {
                 const double frac = (cum - target_weight) / sorted[i].weight;
                 return sorted[i].mean * (1.0 - frac) +
                        sorted[i + 1].mean * frac;
@@ -246,11 +256,13 @@ uint64_t SamplingAggregator::nextRng() {
 }
 
 void SamplingAggregator::add(const nlohmann::json& value) {
-    if (!value.is_number()) return;
+    if (!value.is_number()) {
+      return;
+    }
     const double v = value.get<double>();
     ++total_seen_;
 
-    if (reservoir_.size() < sample_size_) {
+    if (static_cast<int>(reservoir_.size()) < sample_size_) {
         reservoir_.push_back(v);
     } else {
         // Reservoir sampling: replace a random element.
@@ -274,7 +286,9 @@ void SamplingAggregator::merge(const IApproximateAggregator& other) {
 }
 
 nlohmann::json SamplingAggregator::estimate() const {
-    if (reservoir_.empty()) return nullptr;
+    if (reservoir_.empty()) {
+      return nullptr;
+    }
 
     const double scale = total_seen_ > 0
         ? static_cast<double>(total_seen_) / static_cast<double>(reservoir_.size())
@@ -293,14 +307,16 @@ nlohmann::json SamplingAggregator::estimate() const {
         case AggregationType::AVG: {
             const double sample_sum =
                 std::accumulate(reservoir_.begin(), reservoir_.end(), 0.0);
-            return sample_sum / static_cast<double>(reservoir_.size());
+            return static_cast<bool>(sample_sum / static_cast<double < static_cast<int>((reservoir_.size())));
         }
     }
     return nullptr;
 }
 
 double SamplingAggregator::errorRate() const {
-    if (total_seen_ == 0) return 0.0;
+    if (total_seen_ == 0) {
+      return 0.0;
+    }
     // Central limit theorem: relative error ≈ 1/sqrt(effective_sample_size).
     return 1.0 / std::sqrt(static_cast<double>(
         std::min(reservoir_.size(), total_seen_)));

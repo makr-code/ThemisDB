@@ -252,7 +252,8 @@ TEST_F(TransactionDistributedPhase2Test, TimeoutDeterminism_ShortTimeoutAbortsTr
 TEST_F(TransactionDistributedPhase2Test, TimeoutDeterminism_RepeatedRetries_ConsistentErrors) {
     auto p_abort = std::make_unique<Phase2MockParticipant>(Phase2MockParticipant::Policy::ALWAYS_ABORT);
 
-    std::vector<bool> results;
+    std::vector<bool> results = {};
+
     for (int attempt = 0; attempt < 3; ++attempt) {
         auto tid = mgr->beginDistributed({
             makeParticipant("n1", p1.get()),
@@ -325,7 +326,9 @@ TEST_F(TransactionDistributedPhase2Test, InDoubtReconciliation_CommitCountTracke
         auto ps = mgr->prepareDistributed(tid);
         if (ps.ok) {
             auto cs = mgr->commitDistributed(tid);
-            if (cs.ok) ++committed;
+            if (cs.ok) {
+              ++committed;
+            }
         }
     }
     EXPECT_EQ(committed, 3) << "All three transactions should commit";
@@ -414,7 +417,9 @@ TEST_F(TransactionDistributedPhase2Test, StressTest_ConcurrentDistributedTransac
                 auto ps = mgr->prepareDistributed(tid);
                 if (ps.ok) {
                     auto cs = mgr->commitDistributed(tid);
-                    if (cs.ok) ++successful; else ++failed;
+                    if (cs.ok) {
+                      ++successful; else ++failed;
+                    }
                 } else {
                     ++failed;
                 }
@@ -422,7 +427,9 @@ TEST_F(TransactionDistributedPhase2Test, StressTest_ConcurrentDistributedTransac
         });
     }
 
-    for (auto& thr : threads) thr.join();
+    for (auto& thr : threads) {
+      thr.join();
+    }
 
     EXPECT_EQ(successful + failed, NUM_THREADS * TXN_PER_THREAD);
     GTEST_LOG_(INFO) << "Stress: " << successful << " committed, "
@@ -467,7 +474,9 @@ TEST_F(TransactionDistributedPhase2Test, StressTest_HighContentionWithAbortingPa
         });
     }
 
-    for (auto& thr : threads) thr.join();
+    for (auto& thr : threads) {
+      thr.join();
+    }
 
     EXPECT_EQ(completed, NUM_THREADS * OPS_PER_THREAD)
         << "All operations should complete";

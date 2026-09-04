@@ -64,7 +64,7 @@ public:
 
 private:
     struct TableSchema {
-        std::string name;
+        std::string name = {};
         std::string schema;   ///< Database name (from USE statement or dump header)
         std::vector<std::string> columns;
         std::map<std::string, std::string> column_types;

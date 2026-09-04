@@ -49,11 +49,11 @@ RetentionApiHandler::RetentionApiHandler(std::shared_ptr<vcc::RetentionManager> 
     if (!retention_manager_) {
         // Create default instance if none provided
         retention_manager_ = std::make_shared<vcc::RetentionManager>();
-        spdlog::info("RetentionApiHandler: Created default RetentionManager instance");
+        spdlog::info([[maybe_unused]] "RetentionApiHandler: Created default RetentionManager instance");
     }
 }
 
-json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
+json RetentionApiHandler::listPolicies([[maybe_unused]] const RetentionQueryFilter& filter) {
     if (!retention_manager_) {
         return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
     }
@@ -67,7 +67,8 @@ json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
     auto all_policies = retention_manager.getPolicies();
 
     // Apply filters
-    std::vector<vcc::RetentionManager::RetentionPolicy> filtered;
+    std::vector<vcc::RetentionManager::RetentionPolicy> filtered = {};
+
     filtered.reserve(all_policies.size());
     
     for (const auto& policy : all_policies) {
@@ -115,7 +116,7 @@ json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
     };
 }
 
-json RetentionApiHandler::createOrUpdatePolicy(const json& policy_json) {
+json RetentionApiHandler::createOrUpdatePolicy([[maybe_unused]] const json& policy_json) {
     try {
     auto span = Tracer::startSpan("createOrUpdatePolicy");
         if (!retention_manager_) {
@@ -155,7 +156,7 @@ json RetentionApiHandler::createOrUpdatePolicy(const json& policy_json) {
     }
 }
 
-json RetentionApiHandler::deletePolicy(const std::string& policy_name) {
+json RetentionApiHandler::deletePolicy([[maybe_unused]] const std::string& policy_name) {
     if (!retention_manager_) {
         return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
     }
@@ -181,7 +182,7 @@ json RetentionApiHandler::deletePolicy(const std::string& policy_name) {
     };
 }
 
-json RetentionApiHandler::getHistory(size_t limit) {
+json RetentionApiHandler::getHistory([[maybe_unused]] size_t limit) {
     if (!retention_manager_) {
         return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
     }
@@ -196,12 +197,12 @@ json RetentionApiHandler::getHistory(size_t limit) {
     
     return json{
         {"items", items},
-        {"total", actions.size()},
+        {"total",static_cast<int>(actions.size())},
         {"limit", limit}
     };
 }
 
-json RetentionApiHandler::getPolicyStats(const std::string& policy_name) {
+json RetentionApiHandler::getPolicyStats([[maybe_unused]] const std::string& policy_name) {
     auto span = Tracer::startSpan("getPolicyStats");
     if (!retention_manager_) {
         return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
@@ -227,7 +228,7 @@ json RetentionApiHandler::getPolicyStats(const std::string& policy_name) {
 
 // Helper methods
 
-json RetentionApiHandler::policyToJson(const vcc::RetentionManager::RetentionPolicy& policy) {
+json RetentionApiHandler::policyToJson([[maybe_unused]] const vcc::RetentionManager::RetentionPolicy& policy) {
     auto span = Tracer::startSpan("policyToJson");
     return json{
         {"name", policy.name},
@@ -240,7 +241,7 @@ json RetentionApiHandler::policyToJson(const vcc::RetentionManager::RetentionPol
     };
 }
 
-vcc::RetentionManager::RetentionPolicy RetentionApiHandler::jsonToPolicy(const json& j) {
+vcc::RetentionManager::RetentionPolicy RetentionApiHandler::jsonToPolicy([[maybe_unused]] const json& j) {
     vcc::RetentionManager::RetentionPolicy policy;
     
     policy.name = j.at("name").get<std::string>();
@@ -275,11 +276,11 @@ vcc::RetentionManager::RetentionPolicy RetentionApiHandler::jsonToPolicy(const j
     return policy;
 }
 
-json RetentionApiHandler::actionToJson(const vcc::RetentionManager::RetentionAction& action) {
+json RetentionApiHandler::actionToJson([[maybe_unused]] const vcc::RetentionManager::RetentionAction& action) {
     auto span = Tracer::startSpan("actionToJson");
     // Convert timestamp to ISO 8601 string
     auto timestamp_t = std::chrono::system_clock::to_time_t(action.timestamp);
-    std::tm tm;
+    std::tm tm = {};
     #ifdef _WIN32
     localtime_s(&tm, &timestamp_t);
     #else

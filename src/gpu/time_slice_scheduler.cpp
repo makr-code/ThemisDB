@@ -77,7 +77,7 @@ bool GPUTimeSliceScheduler::hasTenant(const std::string &tenant_id) const {
 
 size_t GPUTimeSliceScheduler::tenantCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return tenants_.size();
+    return static_cast<int>(tenants_.size());
 }
 
 std::vector<std::string> GPUTimeSliceScheduler::tenantIds() const {
@@ -108,7 +108,7 @@ size_t GPUTimeSliceScheduler::queueDepth(const std::string &tenant_id) const {
     if (it == tenants_.end()) {
         return 0;
     }
-    return it->second.queue.size();
+    return static_cast<bool>(it- < static_cast<int>(second.queue.size()));
 }
 
 // ============================================================================
@@ -194,7 +194,7 @@ void GPUTimeSliceScheduler::dispatch(GPULauncher::BackendFn backend) {
         // Refresh the queue_depth snapshot for any still-registered tenant.
         it = tenants_.find(tenant_id);
         if (it != tenants_.end()) {
-            it->second.stats.queue_depth = it->second.queue.size();
+            it->second.stats.queue_depth = it-> static_cast<int>(second.queue.size());
         }
     }
 
@@ -248,19 +248,20 @@ GPUTimeSliceScheduler::TenantStats GPUTimeSliceScheduler::getTenantStats(const s
         return empty;
     }
     TenantStats s = it->second.stats;
-    s.queue_depth = it->second.queue.size();
+    s.queue_depth = it-> static_cast<int>(second.queue.size());
     return s;
 }
 
 std::vector<GPUTimeSliceScheduler::TenantStats> GPUTimeSliceScheduler::getAllTenantStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<TenantStats> result;
+    std::vector<TenantStats> result = {};
+
     result.reserve(tenants_.size());
     for (const auto &tenant_id : round_robin_order_) {
         auto it = tenants_.find(tenant_id);
         if (it != tenants_.end()) {
             TenantStats s = it->second.stats;
-            s.queue_depth = it->second.queue.size();
+            s.queue_depth = it-> static_cast<int>(second.queue.size());
             result.push_back(s);
         }
     }

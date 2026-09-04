@@ -48,7 +48,7 @@ VoiceAssistant::Config createVoiceConfig() {
 
 std::vector<uint8_t> generateMockAudio(size_t size) {
     std::vector<uint8_t> audio(size);
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, 255);
     std::generate(audio.begin(), audio.end(), [&]() { return static_cast<uint8_t>(dis(gen)); });
@@ -303,7 +303,8 @@ static void BM_PluginQueryWithMetrics(benchmark::State& state) {
         // Query by type
         for (int i = 0; i < 4; i++) {
             start = std::chrono::steady_clock::now();
-            std::vector<PluginManifest> typed;
+            std::vector<PluginManifest> typed = {};
+
             typed.reserve(all_plugins.size());
             for (const auto& plugin : all_plugins) {
                 if (plugin.type == static_cast<PluginType>(i)) {

@@ -33,7 +33,7 @@ using namespace themis::sharding;
 
 static std::vector<uint8_t> generateRandomData(size_t size) {
     std::vector<uint8_t> data(size);
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, 255);
     

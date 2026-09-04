@@ -157,7 +157,7 @@ TEST_F(MIGManagerTest, FeatureDisabled_CreateRejectsWithFeatureDisabled) {
     GPUFeatureFlags::GetInstance().disable(
         GPUFeatureFlags::Feature::MIG_MANAGER);
 
-    std::string id;
+    std::string id = {};
     auto s = create("1g.5gb", id);
     EXPECT_EQ(s, Status::MIG_FEATURE_DISABLED);
     EXPECT_TRUE(id.empty());
@@ -165,7 +165,7 @@ TEST_F(MIGManagerTest, FeatureDisabled_CreateRejectsWithFeatureDisabled) {
 
 TEST_F(MIGManagerTest, FeatureDisabled_DestroyRejectsWithFeatureDisabled) {
     // Pre-create while feature is enabled.
-    std::string id;
+    std::string id = {};
     ASSERT_EQ(create("1g.5gb", id), Status::OK);
 
     GPUFeatureFlags::GetInstance().disable(
@@ -179,7 +179,7 @@ TEST_F(MIGManagerTest, FeatureDisabled_DestroyRejectsWithFeatureDisabled) {
 // ===========================================================================
 
 TEST_F(MIGManagerTest, InvalidProfile_Rejected) {
-    std::string id;
+    std::string id = {};
     auto s = mgr.createPartition(0, "bad_profile", id, {makeFakeA100(0)});
     EXPECT_EQ(s, Status::INVALID_PROFILE);
     EXPECT_TRUE(id.empty());
@@ -190,7 +190,7 @@ TEST_F(MIGManagerTest, InvalidProfile_Rejected) {
 // ===========================================================================
 
 TEST_F(MIGManagerTest, DeviceNotInList_ReturnsDeviceNotFound) {
-    std::string id;
+    std::string id = {};
     auto s = mgr.createPartition(99, "1g.5gb", id, {makeFakeA100(0)});
     EXPECT_EQ(s, Status::DEVICE_NOT_FOUND);
 }
@@ -198,7 +198,7 @@ TEST_F(MIGManagerTest, DeviceNotInList_ReturnsDeviceNotFound) {
 TEST_F(MIGManagerTest, NonMIGDevice_ReturnsMIGNotSupported) {
     DeviceInfo gpu = makeFakeA100(0);
     gpu.compute_major = 7;  // Volta — no MIG support.
-    std::string id;
+    std::string id = {};
     auto s = mgr.createPartition(0, "1g.5gb", id, {gpu});
     EXPECT_EQ(s, Status::MIG_NOT_SUPPORTED);
 }
@@ -206,7 +206,7 @@ TEST_F(MIGManagerTest, NonMIGDevice_ReturnsMIGNotSupported) {
 TEST_F(MIGManagerTest, NoGPUHardware_CreateViaNativeEnumReturnsDeviceNotFound) {
     // The native createPartition(3-arg) calls DeviceDiscovery::Enumerate().
     // On CI without CUDA hardware no real device index 99 exists.
-    std::string id;
+    std::string id = {};
     auto s = mgr.createPartition(99, "1g.5gb", id);
     EXPECT_TRUE(s == Status::DEVICE_NOT_FOUND ||
                 s == Status::MIG_NOT_SUPPORTED);
@@ -217,7 +217,7 @@ TEST_F(MIGManagerTest, NoGPUHardware_CreateViaNativeEnumReturnsDeviceNotFound) {
 // ===========================================================================
 
 TEST_F(MIGManagerTest, CreatePartition_ReturnsOKAndPopulatesId) {
-    std::string id;
+    std::string id = {};
     EXPECT_EQ(create("1g.5gb", id), Status::OK);
     EXPECT_FALSE(id.empty());
 
@@ -237,7 +237,7 @@ TEST_F(MIGManagerTest, CreateMultiplePartitions_UniqueIds) {
 }
 
 TEST_F(MIGManagerTest, CreatePartition_MemoryBytesMatchProfile) {
-    std::string id;
+    std::string id = {};
     ASSERT_EQ(create("7g.40gb", id), Status::OK);
 
     MIGManager::MIGInstance inst;
@@ -249,7 +249,7 @@ TEST_F(MIGManagerTest, CreatePartition_MemoryBytesMatchProfile) {
 }
 
 TEST_F(MIGManagerTest, CreatePartition_IdMatchesMakeInstanceId) {
-    std::string id;
+    std::string id = {};
     ASSERT_EQ(create("1g.5gb", id), Status::OK);
     // First partition on device 0 must have gi_id=0.
     EXPECT_EQ(id, MIGManager::makeInstanceId(0, 0));
@@ -261,11 +261,11 @@ TEST_F(MIGManagerTest, CreatePartition_IdMatchesMakeInstanceId) {
 
 TEST_F(MIGManagerTest, CreatePartition_ExceedsMaxInstances) {
     for (int i = 0; i < 7; ++i) {
-        std::string id;
+        std::string id = {};
         ASSERT_EQ(create("1g.5gb", id), Status::OK)
             << "Failed at iteration " << i;
     }
-    std::string id;
+    std::string id = {};
     EXPECT_EQ(create("1g.5gb", id), Status::PARTITION_LIMIT_EXCEEDED);
 }
 
@@ -274,7 +274,7 @@ TEST_F(MIGManagerTest, CreatePartition_ExceedsMaxInstances) {
 // ===========================================================================
 
 TEST_F(MIGManagerTest, DestroyPartition_ExistingInstance_OK) {
-    std::string id;
+    std::string id = {};
     ASSERT_EQ(create("1g.5gb", id), Status::OK);
 
     EXPECT_EQ(mgr.destroyPartition(id), Status::OK);
@@ -292,7 +292,7 @@ TEST_F(MIGManagerTest, DestroyPartition_FreesSlotForNewPartition) {
         ASSERT_EQ(create("1g.5gb", ids[i]), Status::OK);
     }
     ASSERT_EQ(mgr.destroyPartition(ids[3]), Status::OK);
-    std::string new_id;
+    std::string new_id = {};
     EXPECT_EQ(create("1g.5gb", new_id), Status::OK);
     EXPECT_EQ(mgr.getStats().active_instances, 7u);
 }
@@ -302,7 +302,7 @@ TEST_F(MIGManagerTest, DestroyPartition_FreesSlotForNewPartition) {
 // ===========================================================================
 
 TEST_F(MIGManagerTest, AssignToTenant_OK) {
-    std::string id;
+    std::string id = {};
     ASSERT_EQ(create("2g.10gb", id), Status::OK);
 
     EXPECT_EQ(mgr.assignToTenant(id, "tenant_A"), Status::OK);
@@ -314,7 +314,7 @@ TEST_F(MIGManagerTest, AssignToTenant_OK) {
 }
 
 TEST_F(MIGManagerTest, UnassignFromTenant_OK) {
-    std::string id;
+    std::string id = {};
     ASSERT_EQ(create("2g.10gb", id), Status::OK);
     ASSERT_EQ(mgr.assignToTenant(id, "tenant_A"), Status::OK);
 
@@ -327,7 +327,7 @@ TEST_F(MIGManagerTest, UnassignFromTenant_OK) {
 }
 
 TEST_F(MIGManagerTest, AssignAndUnassign_AllowsReassign) {
-    std::string id;
+    std::string id = {};
     ASSERT_EQ(create("1g.5gb", id), Status::OK);
     ASSERT_EQ(mgr.assignToTenant(id, "tenant_A"), Status::OK);
     ASSERT_EQ(mgr.unassignFromTenant(id), Status::OK);
@@ -343,14 +343,14 @@ TEST_F(MIGManagerTest, AssignAndUnassign_AllowsReassign) {
 // ===========================================================================
 
 TEST_F(MIGManagerTest, AssignAlreadyAssigned_Rejected) {
-    std::string id;
+    std::string id = {};
     ASSERT_EQ(create("1g.5gb", id), Status::OK);
     ASSERT_EQ(mgr.assignToTenant(id, "tenant_A"), Status::OK);
     EXPECT_EQ(mgr.assignToTenant(id, "tenant_B"), Status::ALREADY_ASSIGNED);
 }
 
 TEST_F(MIGManagerTest, UnassignNotAssigned_Rejected) {
-    std::string id;
+    std::string id = {};
     ASSERT_EQ(create("1g.5gb", id), Status::OK);
     EXPECT_EQ(mgr.unassignFromTenant(id), Status::NOT_ASSIGNED);
 }
@@ -409,7 +409,7 @@ TEST_F(MIGManagerTest, GetInstancesForTenant_FiltersCorrectly) {
 }
 
 TEST_F(MIGManagerTest, GetInstance_ReturnsCorrectDescriptor) {
-    std::string id;
+    std::string id = {};
     ASSERT_EQ(create("3g.20gb", id), Status::OK);
 
     MIGManager::MIGInstance inst;
@@ -445,7 +445,7 @@ TEST_F(MIGManagerTest, Stats_CountAllOperations) {
 }
 
 TEST_F(MIGManagerTest, Reset_ClearsAllState) {
-    std::string id;
+    std::string id = {};
     create("1g.5gb", id);
     mgr.reset();
 
@@ -562,7 +562,7 @@ TEST_F(MIGManagerTest, ConcurrentCreate_NoDataRace) {
     const std::vector<DeviceInfo> devices = {makeFakeA100(0)};
 
     auto worker = [&]() {
-        std::string id;
+        std::string id = {};
         auto s = mgr.createPartition(0, "1g.5gb", id, devices);
         if (s == Status::OK) {
             ok_count.fetch_add(1, std::memory_order_relaxed);
@@ -576,7 +576,9 @@ TEST_F(MIGManagerTest, ConcurrentCreate_NoDataRace) {
     for (int i = 0; i < THREADS; ++i) {
         threads.emplace_back(worker);
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(ok_count.load(), THREADS);
     EXPECT_EQ(mgr.getStats().active_instances,

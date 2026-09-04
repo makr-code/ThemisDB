@@ -30,7 +30,9 @@ namespace {
 std::string makeJsonDoc(size_t num_fields) {
     std::string doc = "{";
     for (size_t i = 0; i < num_fields; ++i) {
-        if (i > 0) doc += ',';
+        if (i > 0) {
+          doc += ',';
+        }
         doc += "\"field" + std::to_string(i) + "\":\"value" + std::to_string(i) + "\"";
     }
     doc += "}";
@@ -42,7 +44,7 @@ std::string makePlainText(size_t target_bytes) {
     const std::string chunk =
         "The quick brown fox jumps over the lazy dog. "
         "Pack my box with five dozen liquor jugs. ";
-    std::string doc;
+    std::string doc = {};
     doc.reserve(target_bytes + chunk.size());
     while (doc.size() < target_bytes) {
         doc += chunk;

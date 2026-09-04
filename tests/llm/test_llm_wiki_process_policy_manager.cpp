@@ -13,7 +13,7 @@ namespace {
 std::filesystem::path makeTempDir() {
     auto root = std::filesystem::temp_directory_path() /
                 "themisdb_llm_wiki_process_policy_tests";
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(root, ec);
     std::filesystem::create_directories(root, ec);
     return root;

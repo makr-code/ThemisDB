@@ -117,7 +117,7 @@ void TimeSeriesMetrics::recordAggregation(const std::string& /*metric_name*/, do
     }
 }
 
-void TimeSeriesMetrics::recordOptimizerResult(bool hit) {
+void TimeSeriesMetrics::recordOptimizerResult([[maybe_unused]] bool hit) {
     if (hit) {
         optimizer_hits_.fetch_add(1, std::memory_order_relaxed);
     } else {
@@ -166,19 +166,23 @@ void TimeSeriesMetrics::recordAggRefreshLag(const std::string& agg_id, double la
 double TimeSeriesMetrics::getAggRefreshLatency(const std::string& agg_id) const {
     std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
     auto it = agg_refresh_stats_.find(agg_id);
-    if (it == agg_refresh_stats_.end() || it->second.latency_count == 0) return -1.0;
+    if (it == agg_refresh_stats_.end() || it->second.latency_count == 0) {
+      return -1.0;
+    }
     return it->second.total_latency_ms / static_cast<double>(it->second.latency_count);
 }
 
 double TimeSeriesMetrics::getAggRefreshLag(const std::string& agg_id) const {
     std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
     auto it = agg_refresh_stats_.find(agg_id);
-    if (it == agg_refresh_stats_.end()) return -1.0;
+    if (it == agg_refresh_stats_.end()) {
+      return -1.0;
+    }
     return it->second.last_lag_ms;
 }
 
 std::string TimeSeriesMetrics::exportPrometheus() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Ingestion metrics
     oss << formatPrometheusMetric("themis_timeseries_data_points_written_total", "counter",
@@ -488,7 +492,7 @@ double TimeSeriesMetrics::getAverageLatency(double total_latency, uint64_t count
 
 std::string TimeSeriesMetrics::formatPrometheusMetric(const std::string& name, const std::string& type,
                                                       const std::string& help, uint64_t value) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "# HELP " << name << " " << help << "\n";
     oss << "# TYPE " << name << " " << type << "\n";
     oss << name << " " << value << "\n\n";
@@ -497,7 +501,7 @@ std::string TimeSeriesMetrics::formatPrometheusMetric(const std::string& name, c
 
 std::string TimeSeriesMetrics::formatPrometheusMetric(const std::string& name, const std::string& type,
                                                       const std::string& help, double value) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "# HELP " << name << " " << help << "\n";
     oss << "# TYPE " << name << " " << type << "\n";
     oss << name << " " << std::fixed << std::setprecision(6) << value << "\n\n";

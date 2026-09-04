@@ -212,8 +212,12 @@ TEST_F(GAP008AlertmanagerTest, OperatorApiAlertsList_ReturnsAllFiringAlerts) {
     // Check that both alert IDs are present
     bool found1 = false, found2 = false;
     for (const auto& a : alerts) {
-        if (a.alert_id == "op1") found1 = true;
-        if (a.alert_id == "op2") found2 = true;
+        if (a.alert_id == "op1") {
+          found1 = true;
+        }
+        if (a.alert_id == "op2") {
+          found2 = true;
+        }
     }
     EXPECT_TRUE(found1);
     EXPECT_TRUE(found2);

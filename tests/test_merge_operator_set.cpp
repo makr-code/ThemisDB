@@ -41,7 +41,7 @@ TEST_F(SetMergeOperatorTest, BasicSetAdd) {
     ASSERT_TRUE(status.ok()) << status.ToString();
     
     // Read back
-    std::string value;
+    std::string value = {};
     status = db_->Get(rocksdb::ReadOptions(), "set1", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "id1");
@@ -54,7 +54,7 @@ TEST_F(SetMergeOperatorTest, MultipleUniqueValues) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set2", "id3").ok());
     
     // Read back - should be sorted and unique
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "set2", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "id1,id2,id3");
@@ -69,7 +69,7 @@ TEST_F(SetMergeOperatorTest, DuplicateValues) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set3", "id2").ok()); // duplicate
     
     // Read back - duplicates should be removed
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "set3", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "id1,id2,id3");
@@ -80,7 +80,7 @@ TEST_F(SetMergeOperatorTest, BatchAddMultipleValues) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set4", "id1,id2,id3").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set4", "id4,id5").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "set4", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "id1,id2,id3,id4,id5");
@@ -91,7 +91,7 @@ TEST_F(SetMergeOperatorTest, BatchWithDuplicates) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set5", "id1,id2,id3").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set5", "id2,id3,id4").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "set5", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "id1,id2,id3,id4"); // Should deduplicate
@@ -102,7 +102,7 @@ TEST_F(SetMergeOperatorTest, EmptyStringHandling) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set6", "id1,,id2").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set6", ",id3,").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "set6", &value);
     ASSERT_TRUE(status.ok());
     // Empty strings should be filtered out
@@ -117,7 +117,7 @@ TEST_F(SetMergeOperatorTest, MixedWithPut) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set7", "id3").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set7", "id1").ok()); // duplicate
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "set7", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "id1,id2,id3");
@@ -131,7 +131,7 @@ TEST_F(SetMergeOperatorTest, ConcurrentSets) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set_c", "c1,c2,c3").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set_b", "b2,b3").ok());
     
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->Get(rocksdb::ReadOptions(), "set_a", &value).ok());
     EXPECT_EQ(value, "a1,a2,a3");
     
@@ -152,7 +152,7 @@ TEST_F(SetMergeOperatorTest, SetAfterDelete) {
     // Add after delete should start fresh
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set8", "new1,new2").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "set8", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "new1,new2");
@@ -173,7 +173,7 @@ TEST_F(SetMergeOperatorTest, PersistenceAfterReopen) {
     ASSERT_TRUE(status.ok());
     
     // Verify set persisted
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->Get(rocksdb::ReadOptions(), "set9", &value).ok());
     EXPECT_EQ(value, "id1,id2,id3");
     
@@ -190,7 +190,7 @@ TEST_F(SetMergeOperatorTest, AlphanumericValues) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set10", "user789").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "set10", "user123").ok()); // duplicate
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "set10", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "user123,user456,user789");

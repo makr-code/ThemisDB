@@ -148,6 +148,223 @@ git push origin main
 
 ---
 
+---
+
+## SOP-04b — Nightly Release (Automated)
+
+**Trigger:** Automatic daily schedule at 03:30 UTC, or manual workflow dispatch.  
+**Owner:** CI/automation (no human approval required)  
+**Prerequisite:** Commits exist since last nightly release.
+
+### Automation Flow
+
+The `.github/workflows/release-nightly.yml` workflow runs automatically every day and:
+
+1. Checks for commits since the last nightly tag
+2. Sets `RELEASE_TYPE=nightly` 
+3. Generates nightly version: `v<major>.<minor>.<patch>-nightly.<YYYYMMDD>.<runnum>`
+4. Builds community edition (all platforms)
+5. Generates build metadata (timestamp, commit hash, build number)
+6. Creates GitHub pre-release with auto-generated release notes
+7. Pushes Docker images:
+   - `themisdb:nightly`
+   - `themisdb:nightly-YYYYMMDD`
+   - `themisdb:2.4.0-nightly-YYYYMMDD`
+8. Attaches build metadata, SBOM, and changelog to the release
+9. Posts notification to the pinned nightly tracker issue
+
+### Manual Trigger
+
+To trigger a nightly release manually:
+
+```bash
+gh workflow run release-nightly.yml --ref develop --field force=true
+```
+
+### When to Use Nightly Releases
+
+- **For early testing:** Users and developers get the latest development build daily
+- **For CI verification:** Automated verification that the pipeline works end-to-end
+- **For rollback testing:** Nightly artifacts can be used to verify rollback procedures
+
+### Nightly Release Artifacts
+
+| Platform | Format | Located at |
+|---|---|---|
+| Linux x86_64 | `.tar.gz`, `.deb`, `.rpm`, `.zip` | GitHub Release assets |
+| Windows x86_64 | `.zip` | GitHub Release assets |
+| Docker | Multi-arch image | `themisdb:nightly`, `ghcr.io/makr-code/themisdb:nightly` |
+| Build info | `build-metadata.json` | GitHub Release asset |
+| Software BOM | `sbom-source.cyclonedx.json` | GitHub Release asset |
+
+### Quality Assurance
+
+- Nightly builds do NOT require additional sign-off beyond CI gates
+- Nightly images are not pushed to `latest` tag
+- Nightly versions are not submitted to WinGet
+- Users are advised that nightly builds are for testing only
+
+### Rollback
+
+If a nightly build is broken:
+1. The next nightly will automatically supersede it
+2. Or manually delete the problematic release from GitHub UI
+3. No code changes required
+
+---
+
+## SOP-04c — Semi-Automatic Release Promotion (via PR Labels)
+
+**Trigger:** Pull request labeled with `release/alpha`, `release/beta`, `release/rc`, or `release/stable` and merged.  
+**Owner:** Release Manager (approval), automation (promotion)  
+**SLA:** Release PR created within 5 minutes of source PR merge.
+
+### Workflow Overview
+
+The `.github/workflows/release-promote.yml` workflow is triggered when a PR is merged with a release label:
+
+1. Extract release type from the PR label
+2. Read current VERSION file
+3. Bump version according to release type (or manual input)
+4. Update RELEASE_TYPE file
+5. Update CHANGELOG.md with new version section and git log entries
+6. Create release PR: `release/v<new-version>` → `develop`
+7. Add PR checklist for manual verification
+8. Comment on source PR with promotion status
+
+### Step-by-Step: Promoting an Alpha Release
+
+**Setup:**
+1. Ensure code changes are merged to `develop`
+2. Apply label `release/alpha` to the PR before merging
+
+**Workflow Execution:**
+1. PR is merged; label triggers `.github/workflows/release-promote.yml`
+2. Workflow reads current version (e.g., `2.4.0`) and RELEASE_TYPE (e.g., `alpha`)
+3. Bumps to next MINOR: `2.5.0-alpha1`
+4. Sets `RELEASE_TYPE=alpha`
+5. Updates CHANGELOG: adds `## [2.5.0-alpha1] - YYYY-MM-DD` section
+6. Creates PR: `release/v2.5.0-alpha1` → `develop`
+7. PR includes checklist:
+   - [ ] CI gates passed
+   - [ ] CHANGELOG entries accurate
+   - [ ] VERSIONING.md examples updated
+   - [ ] No breaking changes
+   - [ ] Approved by ≥ 2 maintainers
+
+**Manual Approval & Release:**
+1. Maintainer reviews the generated release PR
+2. Verifies: version bump is correct, changelog entries match reality
+3. Requests changes if needed (e.g., if PATCH should be bumped instead)
+4. Approves and merges release PR into `develop` after ≥ 2 approvals
+5. **Manually creates the release tag:**
+   ```bash
+   git checkout develop
+   git pull
+   git tag -s v2.5.0-alpha1 -m "Release v2.5.0-alpha1"
+   git push origin v2.5.0-alpha1
+   ```
+6. Tag push automatically triggers `.github/workflows/release-publish.yml`
+7. Unified orchestrator builds, publishes to GitHub + Docker, and notifies
+
+### Step-by-Step: Promoting a Stable Release from RC
+
+**Setup:**
+1. Current version is `2.5.0-rc1` (from a previous RC promotion)
+2. RC has been tested and approved for promotion to stable
+3. Apply label `release/stable` to the PR that merges final RC fixes
+
+**Workflow Execution:**
+1. Workflow reads version `2.5.0-rc1` and RELEASE_TYPE `rc`
+2. Detects stable promotion; bumps to: `2.5.0` (removes -rc suffix)
+3. Sets `RELEASE_TYPE=stable`
+4. Updates CHANGELOG: `## [2.5.0] - YYYY-MM-DD`
+5. Creates release PR with full checklist
+
+**Manual Approval:**
+1. Release manager reviews and verifies:
+   - All Wave 7 gates passed
+   - `release_critical` CI is green
+   - Top-risk module sign-offs received (server, llm, sharding)
+   - Resilience/security artifacts complete
+   - Release notes drafted
+2. Approves PR and merges into `develop`
+3. Creates tag: `git tag -s v2.5.0 -m "Release v2.5.0"`
+4. Pushes tag: `git push origin v2.5.0`
+
+### Approval Checklist Template
+
+The auto-generated release PR includes this checklist (reviewer must verify):
+
+```markdown
+## Release Promotion Checklist
+
+- [ ] **CI Gates:** All CI workflows passed (build, test, lint)
+- [ ] **Changelog:** Release notes in CHANGELOG.md are complete and accurate
+- [ ] **Version:** VERSION and RELEASE_TYPE files contain correct values
+- [ ] **Documentation:** VERSIONING.md examples are current (if applicable)
+- [ ] **Breaking Changes:** No breaking changes introduced OR documented in CHANGELOG
+- [ ] **Release Notes:** For stable/rc, release notes drafted and ready for publication
+- [ ] **Governance:** All release governance documents synchronized (ROADMAP.md, FUTURE_ENHANCEMENTS.md)
+- [ ] **Approvals:** This PR has been approved by ≥ 2 maintainers
+
+## Manual Actions After Merge
+
+After this PR is merged into `develop`, the release manager must:
+
+1. Create the release tag:
+   ```bash
+   git checkout develop
+   git pull
+   git tag -s v<version> -m "Release v<version>"
+   git push origin v<version>
+   ```
+
+2. Verify the tag triggers `release-publish.yml` workflow
+
+3. Monitor the unified release orchestration workflow for completion
+```
+
+### Version Bump Rules
+
+| Release Type | Bump Strategy | Example |
+|---|---|---|
+| **Alpha** | MINOR (default) | `2.4.0` → `2.5.0-alpha1` |
+| **Beta** | PATCH (increment suffix) | `2.5.0-alpha2` → `2.5.0-beta1` |
+| **RC** | PATCH (increment suffix) | `2.5.0-beta1` → `2.5.0-rc1` |
+| **Stable** | Remove suffix | `2.5.0-rc1` → `2.5.0` |
+| **Hotfix** | PATCH (manual via SOP-02) | `2.5.0` → `2.5.1` |
+
+Override via manual dispatch:
+```bash
+gh workflow run release-promote.yml \
+  --ref develop \
+  --field release_type=rc \
+  --field version_bump=patch
+```
+
+### Troubleshooting
+
+**Q: The version bump is wrong (should be PATCH, got MINOR)**  
+A: Approve the PR with a request for changes. The maintainer can:
+1. Edit VERSION and RELEASE_TYPE files directly in the PR
+2. Or dismiss the PR and trigger a manual dispatch with correct `version_bump=patch`
+
+**Q: The release PR was created but CI is failing**  
+A: Wait for CI to complete. If it fails:
+1. Fix the issue in a new commit on the release branch
+2. Push the fix; CI will re-run
+3. Once green, request approval
+
+**Q: The release PR was not created**  
+A: Check the workflow logs:
+```bash
+gh run list --workflow release-promote.yml --limit 1
+gh run view <run-id> --log
+```
+
+---
+
 ## SOP-05 — Security Vulnerability Response
 
 **Trigger:** Security vulnerability reported (internally discovered or via responsible disclosure).  

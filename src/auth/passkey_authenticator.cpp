@@ -52,23 +52,29 @@ namespace {
 
 /// @brief Read the CBOR argument (length or integer payload) and advance pos.
 static size_t passkeyCborReadArg(const std::vector<uint8_t>& d, size_t pos, uint64_t& out) {
-    if (pos >= d.size()) {
+    if (pos >= static_cast<int>(d.size())) {
         throw std::runtime_error("CBOR: truncated data");
     }
     const uint8_t info = d[pos] & 0x1F;
     ++pos;
     if (info <= 23) { out = info; return pos; }
     if (info == 24) {
-        if (pos >= d.size()) throw std::runtime_error("CBOR: truncated 1-byte arg");
+        if (pos >= static_cast<int>(d.size())) {
+          throw std::runtime_error("CBOR: truncated 1-byte arg");
+        }
         out = d[pos++]; return pos;
     }
     if (info == 25) {
-        if (pos + 1 >= d.size()) throw std::runtime_error("CBOR: truncated 2-byte arg");
+        if (pos + 1 >= d.size()) {
+          throw std::runtime_error("CBOR: truncated 2-byte arg");
+        }
         out = (static_cast<uint64_t>(d[pos]) << 8) | d[pos + 1];
         pos += 2; return pos;
     }
     if (info == 26) {
-        if (pos + 3 >= d.size()) throw std::runtime_error("CBOR: truncated 4-byte arg");
+        if (pos + 3 >= d.size()) {
+          throw std::runtime_error("CBOR: truncated 4-byte arg");
+        }
         out = (static_cast<uint64_t>(d[pos])     << 24)
             | (static_cast<uint64_t>(d[pos + 1]) << 16)
             | (static_cast<uint64_t>(d[pos + 2]) <<  8)
@@ -76,9 +82,13 @@ static size_t passkeyCborReadArg(const std::vector<uint8_t>& d, size_t pos, uint
         pos += 4; return pos;
     }
     if (info == 27) {
-        if (pos + 7 >= d.size()) throw std::runtime_error("CBOR: truncated 8-byte arg");
+        if (pos + 7 >= d.size()) {
+          throw std::runtime_error("CBOR: truncated 8-byte arg");
+        }
         out = 0;
-        for (int i = 0; i < 8; ++i) out = (out << 8) | d[pos + i];
+        for (int i = 0; i < 8; ++i) {
+          out = (out << 8) | d[pos + i];
+        }
         pos += 8; return pos;
     }
     throw std::runtime_error("CBOR: unsupported additional info " +
@@ -87,25 +97,31 @@ static size_t passkeyCborReadArg(const std::vector<uint8_t>& d, size_t pos, uint
 
 /// @brief Skip one CBOR item, returning the new position.
 static size_t passkeyCborSkip(const std::vector<uint8_t>& d, size_t pos) {
-    if (pos >= d.size()) throw std::runtime_error("CBOR: truncated (skip)");
+    if (pos >= static_cast<int>(d.size())) {
+      throw std::runtime_error("CBOR: truncated (skip)");
+    }
     const uint8_t initial = d[pos];
     const uint8_t major   = initial >> 5;
     uint64_t arg = 0;
 
     switch (major) {
         case 0:
-        case 1:  // unsigned / negative integer
+        [[fallthrough]];\n        case 1:  // unsigned / negative integer
             return passkeyCborReadArg(d, pos, arg);
 
         case 2:
-        case 3:  // byte / text string
+        [[fallthrough]];\n        case 3:  // byte / text string
             pos = passkeyCborReadArg(d, pos, arg);
-            if (pos + arg > d.size()) throw std::runtime_error("CBOR: string OOB (skip)");
+            if (pos + arg > static_cast<int>(d.size())) {
+              throw std::runtime_error("CBOR: string OOB (skip)");
+            }
             return pos + static_cast<size_t>(arg);
 
         case 4:  // array
             pos = passkeyCborReadArg(d, pos, arg);
-            for (uint64_t i = 0; i < arg; ++i) pos = passkeyCborSkip(d, pos);
+            for (uint64_t i = 0; i < arg; ++i) {
+              pos = passkeyCborSkip(d, pos);
+            }
             return pos;
 
         case 5:  // map
@@ -121,13 +137,21 @@ static size_t passkeyCborSkip(const std::vector<uint8_t>& d, size_t pos) {
             return passkeyCborSkip(d, pos);
 
         default:
-        case 7: {  // float / simple
+        [[fallthrough]];\n        case 7: {  // float / simple
             const uint8_t info2 = initial & 0x1F;
             ++pos;
-            if (info2 == 24) return pos + 1;
-            if (info2 == 25) return pos + 2;
-            if (info2 == 26) return pos + 4;
-            if (info2 == 27) return pos + 8;
+            if (info2 == 24) {
+              return pos + 1;
+            }
+            if (info2 == 25) {
+              return pos + 2;
+            }
+            if (info2 == 26) {
+              return pos + 4;
+            }
+            if (info2 == 27) {
+              return pos + 8;
+            }
             return pos;
         }
     }
@@ -144,7 +168,7 @@ static void passkeyCborParseAttestationObject(const std::vector<uint8_t>& d,
     if (pos >= d.size() || (d[pos] >> 5) != 5)
         throw std::runtime_error("CBOR: expected map for attestation object");
 
-    uint64_t count;
+    uint64_t count = {};
     pos = passkeyCborReadArg(d, pos, count);
 
     for (uint64_t i = 0; i < count; ++i) {
@@ -154,9 +178,11 @@ static void passkeyCborParseAttestationObject(const std::vector<uint8_t>& d,
             pos = passkeyCborSkip(d, pos);
             continue;
         }
-        uint64_t klen;
+        uint64_t klen = {};
         pos = passkeyCborReadArg(d, pos, klen);
-        if (pos + klen > d.size()) throw std::runtime_error("CBOR: key text OOB");
+        if (pos + klen > static_cast<int>(d.size())) {
+          throw std::runtime_error("CBOR: key text OOB");
+        }
         const std::string key(d.begin() + static_cast<ptrdiff_t>(pos),
                               d.begin() + static_cast<ptrdiff_t>(pos + klen));
         pos += klen;
@@ -164,9 +190,11 @@ static void passkeyCborParseAttestationObject(const std::vector<uint8_t>& d,
         if (key == "fmt") {
             if (pos >= d.size() || (d[pos] >> 5) != 3)
                 throw std::runtime_error("CBOR: fmt must be text");
-            uint64_t vlen;
+            uint64_t vlen = {};
             pos = passkeyCborReadArg(d, pos, vlen);
-            if (pos + vlen > d.size()) throw std::runtime_error("CBOR: fmt text OOB");
+            if (pos + vlen > static_cast<int>(d.size())) {
+              throw std::runtime_error("CBOR: fmt text OOB");
+            }
             fmt.assign(d.begin() + static_cast<ptrdiff_t>(pos),
                         d.begin() + static_cast<ptrdiff_t>(pos + vlen));
             pos += vlen;
@@ -174,9 +202,11 @@ static void passkeyCborParseAttestationObject(const std::vector<uint8_t>& d,
         } else if (key == "authData") {
             if (pos >= d.size() || (d[pos] >> 5) != 2)
                 throw std::runtime_error("CBOR: authData must be bytes");
-            uint64_t vlen;
+            uint64_t vlen = {};
             pos = passkeyCborReadArg(d, pos, vlen);
-            if (pos + vlen > d.size()) throw std::runtime_error("CBOR: authData OOB");
+            if (pos + vlen > static_cast<int>(d.size())) {
+              throw std::runtime_error("CBOR: authData OOB");
+            }
             auth_data.assign(d.begin() + static_cast<ptrdiff_t>(pos),
                              d.begin() + static_cast<ptrdiff_t>(pos + vlen));
             pos += vlen;
@@ -208,58 +238,74 @@ static void passkeyCborParseCoseKey(const std::vector<uint8_t>& d, size_t pos, P
     if (pos >= d.size() || (d[pos] >> 5) != 5)
         throw std::runtime_error("CBOR: expected map for COSE key");
 
-    uint64_t count;
+    uint64_t count = {};
     pos = passkeyCborReadArg(d, pos, count);
 
     for (uint64_t i = 0; i < count; ++i) {
-        if (pos >= d.size()) throw std::runtime_error("CBOR: truncated COSE key map");
+        if (pos >= static_cast<int>(d.size())) {
+          throw std::runtime_error("CBOR: truncated COSE key map");
+        }
 
         const uint8_t k_initial = d[pos];
         const uint8_t k_major   = k_initial >> 5;
         int64_t k{0};
         if (k_major == 0) {
-            uint64_t v; pos = passkeyCborReadArg(d, pos, v); k = static_cast<int64_t>(v);
+            uint64_t v = 0; pos = passkeyCborReadArg(d, pos, v); k = static_cast<int64_t>(v);
         } else if (k_major == 1) {
-            uint64_t v; pos = passkeyCborReadArg(d, pos, v); k = -1 - static_cast<int64_t>(v);
+            uint64_t v = 0; pos = passkeyCborReadArg(d, pos, v); k = -1 - static_cast<int64_t>(v);
         } else {
             pos = passkeyCborSkip(d, pos); pos = passkeyCborSkip(d, pos); continue;
         }
 
-        if (pos >= d.size()) throw std::runtime_error("CBOR: truncated COSE key value");
+        if (pos >= static_cast<int>(d.size())) {
+          throw std::runtime_error("CBOR: truncated COSE key value");
+        }
         const uint8_t v_major = d[pos] >> 5;
 
         auto readInt = [&]() -> int64_t {
-            uint64_t v; pos = passkeyCborReadArg(d, pos, v); return static_cast<int64_t>(v);
+            uint64_t v = 0; pos = passkeyCborReadArg(d, pos, v); return static_cast<int64_t>(v);
         };
         auto readNegInt = [&]() -> int64_t {
-            uint64_t v; pos = passkeyCborReadArg(d, pos, v); return -1 - static_cast<int64_t>(v);
+            uint64_t v = 0; pos = passkeyCborReadArg(d, pos, v); return -1 - static_cast<int64_t>(v);
         };
         auto readBytes = [&]() -> std::vector<uint8_t> {
-            uint64_t vlen; pos = passkeyCborReadArg(d, pos, vlen);
-            if (pos + vlen > d.size()) throw std::runtime_error("CBOR: byte value OOB");
+            uint64_t vlen = 0; pos = passkeyCborReadArg(d, pos, vlen);
+            if (pos + vlen > static_cast<int>(d.size())) {
+              throw std::runtime_error("CBOR: byte value OOB");
+            }
             std::vector<uint8_t> b(d.begin() + static_cast<ptrdiff_t>(pos),
                                    d.begin() + static_cast<ptrdiff_t>(pos + vlen));
             pos += vlen; return b;
         };
 
         if (k == 1) {  // kty
-            if (v_major == 0) out.kty = readInt();
+            if (v_major == 0) {
+              out.kty = readInt();
+            }
             else if (v_major == 1) out.kty = readNegInt();
             else pos = passkeyCborSkip(d, pos);
         } else if (k == 3) {  // alg
-            if (v_major == 0) out.alg = readInt();
+            if (v_major == 0) {
+              out.alg = readInt();
+            }
             else if (v_major == 1) out.alg = readNegInt();
             else pos = passkeyCborSkip(d, pos);
         } else if (k == -1) {  // crv (EC int) or n (RSA bytes)
-            if (v_major == 2) out.neg1_bytes = readBytes();
+            if (v_major == 2) {
+              out.neg1_bytes = readBytes();
+            }
             else if (v_major == 0) out.crv = readInt();
             else if (v_major == 1) out.crv = readNegInt();
             else pos = passkeyCborSkip(d, pos);
         } else if (k == -2) {  // x (EC) or e (RSA)
-            if (v_major == 2) out.neg2_bytes = readBytes();
+            if (v_major == 2) {
+              out.neg2_bytes = readBytes();
+            }
             else pos = passkeyCborSkip(d, pos);
         } else if (k == -3) {  // y (EC)
-            if (v_major == 2) out.neg3_bytes = readBytes();
+            if (v_major == 2) {
+              out.neg3_bytes = readBytes();
+            }
             else pos = passkeyCborSkip(d, pos);
         } else {
             pos = passkeyCborSkip(d, pos);
@@ -275,12 +321,12 @@ static const char passkeyB64Table[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static std::string passkeyBase64UrlEncodeImpl(const uint8_t* data, std::size_t len) {
-    std::string out;
+    std::string out = {};
     out.reserve(((len + 2) / 3) * 4);
     for (std::size_t i = 0; i < len; i += 3) {
         const uint32_t b0 = data[i];
-        const uint32_t b1 = (i + 1 < len) ? data[i + 1] : 0u;
-        const uint32_t b2 = (i + 2 < len) ? data[i + 2] : 0u;
+        const uint32_t b1 = (i + 1 < len) ? data[i + 1] : 0;
+        const uint32_t b2 = (i + 2 < len) ? data[i + 2] : 0;
         const uint32_t t  = (b0 << 16) | (b1 << 8) | b2;
         out += passkeyB64Table[(t >> 18) & 0x3F];
         out += passkeyB64Table[(t >> 12) & 0x3F];
@@ -288,20 +334,28 @@ static std::string passkeyBase64UrlEncodeImpl(const uint8_t* data, std::size_t l
         out += (i + 2 < len) ? passkeyB64Table[(t)      & 0x3F] : '=';
     }
     for (char& c : out) {
-        if (c == '+') c = '-';
+        if (c == '+') {
+          c = '-';
+        }
         else if (c == '/') c = '_';
     }
-    while (!out.empty() && out.back() == '=') out.pop_back();
+    while (!out.empty() && out.back() == '=') {
+      out.pop_back();
+    }
     return out;
 }
 
 static std::vector<uint8_t> passkeyBase64UrlDecodeImpl(const std::string& input) {
     std::string padded = input;
     for (char& c : padded) {
-        if (c == '-') c = '+';
+        if (c == '-') {
+          c = '+';
+        }
         else if (c == '_') c = '/';
     }
-    while (padded.size() % 4 != 0) padded += '=';
+    while (padded.size() % 4 != 0) {
+      padded += '=';
+    }
 
     static const int8_t kDec[256] = {
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
@@ -316,17 +370,24 @@ static std::vector<uint8_t> passkeyBase64UrlDecodeImpl(const std::string& input)
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
     };
 
-    std::vector<uint8_t> out;
+    std::vector<uint8_t> out = {};
+
     out.reserve(padded.size() / 4 * 3);
-    for (std::size_t i = 0; i < padded.size(); i += 4) {
+    for (std::size_t i = 0; i <static_cast<int>(padded.size()); i += 4) {
         const int8_t a = kDec[static_cast<uint8_t>(padded[i])];
         const int8_t b = kDec[static_cast<uint8_t>(padded[i + 1])];
         const int8_t c = kDec[static_cast<uint8_t>(padded[i + 2])];
         const int8_t dd = kDec[static_cast<uint8_t>(padded[i + 3])];
-        if (a < 0 || b < 0) throw std::runtime_error("Base64URL: invalid character");
+        if (a < 0 || b < 0) {
+          throw std::runtime_error("Base64URL: invalid character");
+        }
         out.push_back(static_cast<uint8_t>((a << 2) | (b >> 4)));
-        if (padded[i + 2] != '=') out.push_back(static_cast<uint8_t>((b << 4) | (c >> 2)));
-        if (padded[i + 3] != '=') out.push_back(static_cast<uint8_t>((c << 6) | dd));
+        if (padded[i + 2] != '=') {
+          out.push_back(static_cast<uint8_t>((b << 4) | (c >> 2)));
+        }
+        if (padded[i + 3] != '=') {
+          out.push_back(static_cast<uint8_t>((c << 6) | dd));
+        }
     }
     return out;
 }
@@ -347,7 +408,7 @@ struct AuthDataFields {
 };
 
 static AuthDataFields parseAuthData(const std::vector<uint8_t>& d) {
-    if (d.size() < 37)
+    if (static_cast<int>(d.size()) < 37)
         throw std::runtime_error("authData too short (" + std::to_string(d.size()) + " bytes)");
 
     AuthDataFields ad;
@@ -359,16 +420,18 @@ static AuthDataFields parseAuthData(const std::vector<uint8_t>& d) {
                   |  static_cast<uint32_t>(d[36]);
 
     constexpr uint8_t kFlagAT = 0x40;
-    if (!(ad.flags & kFlagAT)) return ad;
+    if (!(ad.flags & kFlagAT)) {
+      return ad;
+    }
 
     // Attested credential data: AAGUID[16] + credIdLen[2] + credId[N] + COSE key
-    if (d.size() < 37 + 16 + 2)
+    if (static_cast<int>(d.size()) < 37 + 16 + 2)
         throw std::runtime_error("authData too short for attested credential");
 
     size_t off = 37;
     // Format AAGUID as a simple 32-char hex string
     {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (size_t k = 0; k < 16; ++k)
             oss << std::hex << std::setw(2) << std::setfill('0')
                 << static_cast<int>(d[off + k]);
@@ -380,7 +443,7 @@ static AuthDataFields parseAuthData(const std::vector<uint8_t>& d) {
         (static_cast<uint16_t>(d[off]) << 8) | static_cast<uint16_t>(d[off + 1]);
     off += 2;
 
-    if (d.size() < off + cred_id_len)
+    if (static_cast<int>(d.size()) < off + cred_id_len)
         throw std::runtime_error("authData too short for credentialId");
 
     ad.credential_id_b64 = passkeyBase64UrlEncodeImpl(d.data() + off, cred_id_len);
@@ -417,7 +480,7 @@ static EVP_PKEY* coseKeyToEvpPkey(const std::vector<uint8_t>& cose_key_bytes,
             err_out = "unsupported EC curve (only P-256 supported)";
             return nullptr;
         }
-        if (fields.neg2_bytes.size() != 32 || fields.neg3_bytes.size() != 32) {
+        if (static_cast<int>(fields.neg2_bytes.size()) != 32 || static_cast<int>(fields.neg3_bytes.size()) != 32) {
             err_out = "EC P-256 x/y coordinates are not 32 bytes";
             return nullptr;
         }
@@ -432,7 +495,7 @@ static EVP_PKEY* coseKeyToEvpPkey(const std::vector<uint8_t>& cose_key_bytes,
         if (!bld) { err_out = "OSSL_PARAM_BLD_new failed"; return nullptr; }
         OSSL_PARAM_BLD_push_utf8_string(bld, OSSL_PKEY_PARAM_GROUP_NAME, "P-256", 0);
         OSSL_PARAM_BLD_push_octet_string(bld, OSSL_PKEY_PARAM_PUB_KEY,
-                                          point.data(), point.size());
+                                          point.data(),static_cast<int>(point.size()));
         OSSL_PARAM* params = OSSL_PARAM_BLD_to_param(bld);
         OSSL_PARAM_BLD_free(bld);
         if (!params) { err_out = "OSSL_PARAM_BLD_to_param failed"; return nullptr; }
@@ -512,13 +575,13 @@ static EVP_PKEY* coseKeyToEvpPkey(const std::vector<uint8_t>& cose_key_bytes,
 
 static std::vector<uint8_t> sha256Bytes(const std::string& s) {
     std::array<unsigned char, SHA256_DIGEST_LENGTH> digest{};
-    SHA256(reinterpret_cast<const unsigned char*>(s.data()), s.size(), digest.data());
+    SHA256(reinterpret_cast<const unsigned char*>(s.data()),static_cast<int>(s.size()), digest.data());
     return {digest.begin(), digest.end()};
 }
 
 static std::vector<uint8_t> sha256Bytes(const std::vector<uint8_t>& v) {
     std::array<unsigned char, SHA256_DIGEST_LENGTH> digest{};
-    SHA256(v.data(), v.size(), digest.data());
+    SHA256(v.data(),static_cast<int>(v.size()), digest.data());
     return {digest.begin(), digest.end()};
 }
 
@@ -544,13 +607,15 @@ PasskeyAuthenticator::PasskeyAuthenticator(std::string relying_party_id,
 // generateSecureChallenge
 // ============================================================================
 
-std::string PasskeyAuthenticator::generateSecureChallenge(size_t bytes) const {
-    if (bytes < 16) bytes = 16;
+std::string PasskeyAuthenticator::generateSecureChallenge([[maybe_unused]] size_t bytes) const {
+    if (bytes < 16) {
+      bytes = 16;
+    }
     std::vector<uint8_t> buf(bytes);
     if (RAND_bytes(buf.data(), static_cast<int>(bytes)) != 1) {
         throw std::runtime_error("PasskeyAuthenticator: RAND_bytes failed");
     }
-    return passkeyBase64UrlEncodeImpl(buf.data(), buf.size());
+    return passkeyBase64UrlEncodeImpl(buf.data(),static_cast<int>(buf.size()));
 }
 
 // ============================================================================
@@ -642,7 +707,9 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
         auto it = pending_challenges_.find(challenge_id);
         if (it == pending_challenges_.end()) {
             spdlog::warn("PasskeyAuthenticator: completeAuthentication — challenge not found");
-            if (audit_logger_) audit_logger_->logPasskeyFailure("", "challenge_not_found");
+            if (audit_logger_) {
+              audit_logger_->logPasskeyFailure("", "challenge_not_found");
+            }
             return PasskeyVerifyResult::INVALID_CHALLENGE;
         }
         challenge = it->second;
@@ -652,7 +719,9 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
     // 2. Check expiry
     if (std::chrono::system_clock::now() > challenge.expires_at) {
         spdlog::warn("PasskeyAuthenticator: completeAuthentication — challenge expired");
-        if (audit_logger_) audit_logger_->logPasskeyFailure(challenge.user_id, "challenge_expired");
+        if (audit_logger_) {
+          audit_logger_->logPasskeyFailure(challenge.user_id, "challenge_expired");
+        }
         return PasskeyVerifyResult::INVALID_CHALLENGE;
     }
 
@@ -663,7 +732,9 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
         auto it = credentials_.find(response.credential_id);
         if (it == credentials_.end()) {
             spdlog::warn("PasskeyAuthenticator: completeAuthentication — credential not found");
-            if (audit_logger_) audit_logger_->logPasskeyFailure(challenge.user_id, "credential_not_found");
+            if (audit_logger_) {
+              audit_logger_->logPasskeyFailure(challenge.user_id, "credential_not_found");
+            }
             return PasskeyVerifyResult::CREDENTIAL_NOT_FOUND;
         }
         credential = it->second;
@@ -690,7 +761,7 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
     uint32_t new_sign_count = 0;
     try {
         const auto auth_data_bytes = passkeyBase64UrlDecodeImpl(response.authenticator_data_b64);
-        if (auth_data_bytes.size() >= 37) {
+        if (static_cast<int>(auth_data_bytes.size()) > = 37) {
             new_sign_count = (static_cast<uint32_t>(auth_data_bytes[33]) << 24)
                            | (static_cast<uint32_t>(auth_data_bytes[34]) << 16)
                            | (static_cast<uint32_t>(auth_data_bytes[35]) <<  8)
@@ -698,7 +769,9 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
         }
     } catch (const std::exception& ex) {
         spdlog::warn("PasskeyAuthenticator: sign_count extraction failed ({})", ex.what());
-        if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "sign_count_parse_error");
+        if (audit_logger_) {
+          audit_logger_->logPasskeyFailure(credential.user_id, "sign_count_parse_error");
+        }
         return PasskeyVerifyResult::INVALID_SIGNATURE;
     }
 
@@ -706,7 +779,9 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
     if ((credential.sign_count > 0 || new_sign_count > 0)
         && cloneDetectionFailed(credential.sign_count, new_sign_count))
     {
-        if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "replay_attack_clone_detected");
+        if (audit_logger_) {
+          audit_logger_->logPasskeyFailure(credential.user_id, "replay_attack_clone_detected");
+        }
         return PasskeyVerifyResult::REPLAY_ATTACK;
     }
 
@@ -737,7 +812,8 @@ std::vector<PasskeyCredential> PasskeyAuthenticator::listCredentials(
     const std::string& user_id) const
 {
     std::lock_guard<std::mutex> lock(cred_mutex_);
-    std::vector<PasskeyCredential> result;
+    std::vector<PasskeyCredential> result = {};
+
     for (const auto& [id, cred] : credentials_) {
         if (cred.user_id == user_id) {
             result.push_back(cred);
@@ -777,7 +853,7 @@ bool PasskeyAuthenticator::verifyRegistration(
         const auto cbor_bytes = passkeyBase64UrlDecodeImpl(attestation_response_b64);
 
         // 3. Parse attestation object → fmt + authData bytes
-        std::string fmt;
+        std::string fmt = {};
         std::vector<uint8_t> auth_data_bytes;
         passkeyCborParseAttestationObject(cbor_bytes, fmt, auth_data_bytes);
 
@@ -806,7 +882,7 @@ bool PasskeyAuthenticator::verifyRegistration(
         }
 
         // 8. Validate the COSE public key is parseable
-        std::string key_err;
+        std::string key_err = {};
         EVP_PKEY* pkey = coseKeyToEvpPkey(ad.cose_key_bytes, key_err);
         if (!pkey) {
             spdlog::warn("PasskeyAuthenticator: verifyRegistration — COSE key error ({})",
@@ -877,7 +953,9 @@ bool PasskeyAuthenticator::verifyAuthentication(
         if (!std::equal(ad.rp_id_hash.begin(), ad.rp_id_hash.end(),
                         expected_hash.begin())) {
             spdlog::warn("PasskeyAuthenticator: verifyAuthentication — rpIdHash mismatch");
-            if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "rp_id_hash_mismatch");
+            if (audit_logger_) {
+              audit_logger_->logPasskeyFailure(credential.user_id, "rp_id_hash_mismatch");
+            }
             return false;
         }
 
@@ -885,14 +963,17 @@ bool PasskeyAuthenticator::verifyAuthentication(
         constexpr uint8_t kFlagUP = 0x01;
         if (!(ad.flags & kFlagUP)) {
             spdlog::warn("PasskeyAuthenticator: verifyAuthentication — UP flag not set");
-            if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "user_presence_flag_not_set");
+            if (audit_logger_) {
+              audit_logger_->logPasskeyFailure(credential.user_id, "user_presence_flag_not_set");
+            }
             return false;
         }
 
         // 7. Build signed data: authData || SHA-256(clientDataJSON)
         const auto client_data_hash = sha256Bytes(client_data_bytes);
-        std::vector<uint8_t> signed_data;
-        signed_data.reserve(auth_data_bytes.size() + client_data_hash.size());
+        std::vector<uint8_t> signed_data = {};
+
+        signed_data.reserve(static_cast<int>(auth_data_bytes.size()) + static_cast<int>(client_data_hash.size()) );
         signed_data.insert(signed_data.end(),
                            auth_data_bytes.begin(), auth_data_bytes.end());
         signed_data.insert(signed_data.end(),
@@ -902,14 +983,16 @@ bool PasskeyAuthenticator::verifyAuthentication(
         const std::vector<uint8_t> cose_key(
             reinterpret_cast<const uint8_t*>(credential.public_key_cbor.data()),
             reinterpret_cast<const uint8_t*>(credential.public_key_cbor.data())
-                + credential.public_key_cbor.size());
+                + static_cast<int>(credential.public_key_cbor.size()) );
 
-        std::string key_err;
+        std::string key_err = {};
         EVP_PKEY* pkey = coseKeyToEvpPkey(cose_key, key_err);
         if (!pkey) {
             spdlog::warn("PasskeyAuthenticator: verifyAuthentication — public key load error ({})",
                          key_err);
-            if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "public_key_load_error:" + key_err);
+            if (audit_logger_) {
+              audit_logger_->logPasskeyFailure(credential.user_id, "public_key_load_error:" + key_err);
+            }
             return false;
         }
 
@@ -918,31 +1001,39 @@ bool PasskeyAuthenticator::verifyAuthentication(
         if (!ctx) {
             EVP_PKEY_free(pkey);
             spdlog::warn("PasskeyAuthenticator: verifyAuthentication — EVP_MD_CTX_new failed");
-            if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "evp_context_alloc_failed");
+            if (audit_logger_) {
+              audit_logger_->logPasskeyFailure(credential.user_id, "evp_context_alloc_failed");
+            }
             return false;
         }
 
         const bool sig_ok =
             EVP_DigestVerifyInit(ctx, nullptr, EVP_sha256(), nullptr, pkey) == 1
-         && EVP_DigestVerifyUpdate(ctx, signed_data.data(), signed_data.size()) == 1
-         && EVP_DigestVerifyFinal(ctx, signature_bytes.data(), signature_bytes.size()) == 1;
+         && EVP_DigestVerifyUpdate(ctx, signed_data.data(),static_cast<int>(signed_data.size())) == 1
+         && EVP_DigestVerifyFinal(ctx, signature_bytes.data(),static_cast<int>(signature_bytes.size())) == 1;
 
         EVP_MD_CTX_free(ctx);
         EVP_PKEY_free(pkey);
 
         if (!sig_ok) {
             spdlog::warn("PasskeyAuthenticator: verifyAuthentication — signature invalid");
-            if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "signature_invalid");
+            if (audit_logger_) {
+              audit_logger_->logPasskeyFailure(credential.user_id, "signature_invalid");
+            }
             return false;
         }
 
         spdlog::debug("PasskeyAuthenticator: verifyAuthentication — signature verified");
-        if (audit_logger_) audit_logger_->logPasskeySuccess(credential.user_id, credential.credential_id);
+        if (audit_logger_) {
+          audit_logger_->logPasskeySuccess(credential.user_id, credential.credential_id);
+        }
         return true;
 
     } catch (const std::exception& ex) {
         spdlog::warn("PasskeyAuthenticator: verifyAuthentication exception ({})", ex.what());
-        if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, std::string("exception:") + ex.what());
+        if (audit_logger_) {
+          audit_logger_->logPasskeyFailure(credential.user_id, std::string("exception:") + ex.what());
+        }
         return false;
     }
 }

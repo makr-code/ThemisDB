@@ -304,7 +304,8 @@ TEST_F(MaterializedViewScopeTest, RefreshExceedingMaxRowsReturnsError) {
     auto view = view_result.value();
     
     // Create rows exceeding limit
-    std::vector<nlohmann::json> many_rows;
+    std::vector<nlohmann::json> many_rows = {};
+
     for (int i = 0; i < 10; ++i) {
         many_rows.push_back(createTestDocument("doc" + std::to_string(i), 
                                               "value" + std::to_string(i)));
@@ -325,7 +326,8 @@ TEST_F(MaterializedViewScopeTest, LargeBatchScopeTaggingPerformance) {
     auto view = view_result.value();
     
     // Create large batch of rows
-    std::vector<nlohmann::json> large_batch;
+    std::vector<nlohmann::json> large_batch = {};
+
     for (int i = 0; i < 1000; ++i) {
         large_batch.push_back(createTestDocument(
             "doc" + std::to_string(i),

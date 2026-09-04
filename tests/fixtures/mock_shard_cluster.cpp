@@ -142,7 +142,8 @@ bool MockShardCluster::isShardHealthy(int shard_id) const {
 }
 
 std::vector<int> MockShardCluster::getHealthyShards() const {
-    std::vector<int> healthy;
+    std::vector<int> healthy = {};
+
     for (int i = 0; i < num_shards_; ++i) {
         if (shards_[i]->is_healthy) {
             healthy.push_back(i);
@@ -152,7 +153,8 @@ std::vector<int> MockShardCluster::getHealthyShards() const {
 }
 
 std::vector<int> MockShardCluster::getFailedShards() const {
-    std::vector<int> failed;
+    std::vector<int> failed = {};
+
     for (int i = 0; i < num_shards_; ++i) {
         if (!shards_[i]->is_healthy) {
             failed.push_back(i);

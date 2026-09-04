@@ -55,7 +55,9 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
+        if (server_) {
+          server_->stop();
+        }
         storage_->close();
         std::filesystem::remove_all("data/themis_http_vector_largescale_test");
     }
@@ -205,13 +207,15 @@ TEST_F(HttpVectorLargeScaleTest, VectorSearch_CursorPagination_MultiplePage) {
 
     // Search with cursor pagination: k=10, expect 5 pages
     std::vector<float> query_vec(64, 0.5f);
-    std::string cursor;
+    std::string cursor = {};
     size_t total_items = 0;
     int page_count = 0;
     
     while (true) {
         json search_req = {{"vector", query_vec}, {"k", 10}, {"use_cursor", true}};
-        if (!cursor.empty()) search_req["cursor"] = cursor;
+        if (!cursor.empty()) {
+          search_req["cursor"] = cursor;
+        }
         
         auto search_resp = httpPost("/vector/search", search_req);
         ASSERT_TRUE(search_resp.contains("items"));
@@ -220,7 +224,9 @@ TEST_F(HttpVectorLargeScaleTest, VectorSearch_CursorPagination_MultiplePage) {
         total_items += search_resp["items"].size();
         ++page_count;
         
-        if (!search_resp["has_more"].get<bool>()) break;
+        if (!search_resp["has_more"].get<bool>()) {
+          break;
+        }
         
         ASSERT_TRUE(search_resp.contains("next_cursor"));
         cursor = search_resp["next_cursor"].get<std::string>();

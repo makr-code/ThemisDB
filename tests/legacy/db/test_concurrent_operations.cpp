@@ -210,7 +210,8 @@ TEST_F(ConcurrentOperationsTest, ConcurrentReads_WithUpdates) {
     });
     
     // Reader threads
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int i = 0; i < 10; ++i) {
         readers.emplace_back([this, &stop_flag, &read_count]() {
             while (!stop_flag) {
@@ -634,7 +635,7 @@ TEST_F(ConcurrentOperationsTest, Stress_MixedWorkload) {
     std::atomic<int> reads_completed{0};
     std::atomic<int> writes_completed{0};
     std::vector<std::thread> threads;
-    std::random_device rd;
+    std::random_device rd = {};
     
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([this, i, &reads_completed, &writes_completed, &rd]() {

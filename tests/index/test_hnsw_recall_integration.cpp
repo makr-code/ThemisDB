@@ -32,17 +32,23 @@ static std::vector<std::vector<float>> makeRandomVectors(
     std::uniform_real_distribution<float> dist(-1.f, 1.f);
     std::vector<std::vector<float>> out(n, std::vector<float>(dim));
     for (auto& v : out)
-        for (auto& x : v) x = dist(rng);
+        for (auto& x : v) {
+          x = dist(rng);
+        }
     return out;
 }
 
 // Normalise to unit length (required for cosine / dot-product spaces)
 static std::vector<float> normalise(std::vector<float> v) {
     float norm = 0.f;
-    for (float x : v) norm += x * x;
+    for (float x : v) {
+      norm += x * x;
+    }
     norm = std::sqrt(norm);
     if (norm > 1e-9f)
-        for (auto& x : v) x /= norm;
+        for (auto& x : v) {
+          x /= norm;
+        }
     return v;
 }
 
@@ -57,7 +63,9 @@ static float l2sq(const std::vector<float>& a, const std::vector<float>& b) {
 
 static float innerProduct(const std::vector<float>& a, const std::vector<float>& b) {
     float s = 0.f;
-    for (size_t i = 0; i < a.size(); ++i) s += a[i] * b[i];
+    for (size_t i = 0; i < a.size(); ++i) {
+      s += a[i] * b[i];
+    }
     return s;
 }
 
@@ -72,7 +80,8 @@ static std::vector<size_t> bfKnnL2(
     std::partial_sort(scored.begin(),
                       scored.begin() + std::min((int)scored.size(), k),
                       scored.end());
-    std::vector<size_t> ids;
+    std::vector<size_t> ids = {};
+
     for (int i = 0; i < k && i < (int)scored.size(); ++i)
         ids.push_back(scored[i].second);
     return ids;
@@ -90,7 +99,8 @@ static std::vector<size_t> bfKnnIP(
     std::partial_sort(scored.begin(),
                       scored.begin() + std::min((int)scored.size(), k),
                       scored.end());
-    std::vector<size_t> ids;
+    std::vector<size_t> ids = {};
+
     for (int i = 0; i < k && i < (int)scored.size(); ++i)
         ids.push_back(scored[i].second);
     return ids;
@@ -102,7 +112,9 @@ static float recallAtK(const std::vector<size_t>& exact,
     std::set<size_t> gold(exact.begin(), exact.end());
     size_t hits = 0;
     for (auto& p : ann)
-        if (gold.count(p.second)) ++hits;
+        if (gold.count(p.second)) {
+          ++hits;
+        }
     return static_cast<float>(hits) / static_cast<float>(exact.size());
 }
 
@@ -224,10 +236,14 @@ class HnswRecallCosine : public ::testing::Test {
 protected:
     void SetUp() override {
         auto raw = makeRandomVectors(kN, kDim, 2);
-        for (auto& v : raw) db_.push_back(normalise(v));
+        for (auto& v : raw) {
+          db_.push_back(normalise(v));
+        }
 
         auto rawq = makeRandomVectors(kQueries, kDim, 88);
-        for (auto& v : rawq) queries_.push_back(normalise(v));
+        for (auto& v : rawq) {
+          queries_.push_back(normalise(v));
+        }
 
         space_ = std::make_unique<hnswlib::InnerProductSpace>(kDim);
         idx_   = std::make_unique<hnswlib::HierarchicalNSW<float>>(

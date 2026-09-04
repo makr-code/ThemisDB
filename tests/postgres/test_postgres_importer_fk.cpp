@@ -38,14 +38,18 @@ static std::string fixturePath(const std::string& name) {
     };
     for (const auto& b : bases) {
         std::ifstream f(b + name);
-        if (f) return b + name;
+        if (f) {
+          return b + name;
+        }
     }
     return "tests/fixtures/importers/" + name;
 }
 
 static std::string readFile(const std::string& path) {
     std::ifstream f(path);
-    if (!f) return "";
+    if (!f) {
+      return "";
+    }
     return std::string((std::istreambuf_iterator<char>(f)),
                         std::istreambuf_iterator<char>());
 }
@@ -55,7 +59,7 @@ static std::string readFile(const std::string& path) {
 // ---------------------------------------------------------------------------
 class FKFixtureFileTest : public ::testing::Test {
 protected:
-    std::string sql_;
+    std::string sql_ = {};
     void SetUp() override {
         sql_ = readFile(fixturePath("sample_pg_fk.sql"));
     }
@@ -158,7 +162,7 @@ TEST_F(FKImportStatsTest, SerializesToJson) {
 class FKImporterIntegrationTest : public ::testing::Test {
 protected:
     themis::importers::PostgreSQLImporter importer_;
-    std::string fixture_path_;
+    std::string fixture_path_ = {};
 
     void SetUp() override {
         fixture_path_ = fixturePath("sample_pg_fk.sql");
@@ -409,12 +413,14 @@ TEST_F(FKImporterIntegrationTest, DataRowsStillImportedWithFkPreservation) {
 class FKConstraintJsonStructureTest : public ::testing::Test {
 protected:
     themis::importers::PostgreSQLImporter importer_;
-    std::string fixture_path_;
+    std::string fixture_path_ = {};
     nlohmann::json orders_fks_;
 
     void SetUp() override {
         fixture_path_ = fixturePath("sample_pg_fk.sql");
-        if (readFile(fixture_path_).empty()) return;
+        if (readFile(fixture_path_).empty()) {
+          return;
+        }
 
         auto schema = importer_.getSourceSchema(fixture_path_);
         for (const auto& tbl : schema) {
@@ -483,7 +489,7 @@ TEST_F(FKConstraintJsonStructureTest, FkHasOnUpdateField) {
 class FKTableSchemaFieldTest : public ::testing::Test {
 protected:
     themis::importers::PostgreSQLImporter importer_;
-    std::string fixture_path_;
+    std::string fixture_path_ = {};
 
     void SetUp() override {
         fixture_path_ = fixturePath("sample_pg_fk.sql");

@@ -142,7 +142,8 @@ TEST(RagContextBudgetManagerTest, RCB07_ExplicitReleaseIdempotent) {
 // RCB-08: multiple allocations tracked correctly; move semantics work.
 TEST(RagContextBudgetManagerTest, RCB08_MultipleAllocations) {
     RagContextBudgetManager mgr{1000};
-    std::vector<BudgetHandle> handles;
+    std::vector<BudgetHandle> handles = {};
+
     for (int i = 0; i < 5; ++i) {
         handles.push_back(mgr.allocate(100));
     }
@@ -186,7 +187,9 @@ TEST(PromptQualityEvaluatorTest, PQE02_InjectionPatternDetected) {
     ASSERT_FALSE(report.failed_checks.empty());
     bool found_inj = false;
     for (const auto& fc : report.failed_checks) {
-        if (fc.id.find("INJ") != std::string::npos) found_inj = true;
+        if (fc.id.find("INJ") != std::string::npos) {
+          found_inj = true;
+        }
     }
     EXPECT_TRUE(found_inj);
     EXPECT_LT(report.score, 1.0);
@@ -204,7 +207,9 @@ TEST(PromptQualityEvaluatorTest, PQE03_LowTokenDiversity) {
     auto report = ev.evaluateText(low_div_text, cfg);
     bool found_div = false;
     for (const auto& fc : report.failed_checks) {
-        if (fc.id == "DIV-001") found_div = true;
+        if (fc.id == "DIV-001") {
+          found_div = true;
+        }
     }
     EXPECT_TRUE(found_div);
 }
@@ -221,7 +226,9 @@ TEST(PromptQualityEvaluatorTest, PQE04_HighRepetition) {
     auto report = ev.evaluateText(rep_text, cfg);
     bool found_rep = false;
     for (const auto& fc : report.failed_checks) {
-        if (fc.id == "REP-001") found_rep = true;
+        if (fc.id == "REP-001") {
+          found_rep = true;
+        }
     }
     EXPECT_TRUE(found_rep);
 }

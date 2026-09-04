@@ -103,7 +103,7 @@ struct TraceContext {
    */
   static std::string GenerateTraceId() {
     static thread_local std::mt19937_64 rng(std::random_device{}());
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(16) << std::setfill('0')
         << rng();  // Upper 64 bits
     oss << std::hex << std::setw(16) << std::setfill('0')
@@ -113,7 +113,7 @@ struct TraceContext {
 
   static std::string GenerateSpanId() {
     static thread_local std::mt19937_64 rng(std::random_device{}());
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(16) << std::setfill('0') << rng();
     return oss.str();
   }
@@ -122,7 +122,7 @@ struct TraceContext {
    * @brief Serialize to W3C traceparent header format.
    */
   std::string ToHeader() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "00-" << trace_id << "-" << span_id << "-";
     oss << std::hex << std::setw(2) << std::setfill('0')
         << (int)trace_flags;
@@ -135,7 +135,7 @@ struct TraceContext {
   static TraceContext FromHeader(const std::string& header) {
     TraceContext ctx;
     // Simplified parsing; production version uses full RFC compliance
-    if (header.size() >= 55) {  // "00-<32>-<16>-<2>"
+    if (static_cast<int>(header.size()) > = 55) {  // "00-<32>-<16>-<2>"
       ctx.trace_id = header.substr(3, 32);
       ctx.span_id = header.substr(36, 16);
     }
@@ -449,7 +449,7 @@ void ProcessTelemetryIntegrationImpl::RecordSpan(
   span_history_.push_back(span);
 
   // Trim buffer if exceeds max size
-  if (span_history_.size() > kMaxSpanBufferSize) {
+  if (static_cast<int>(span_history_.size()) > kMaxSpanBufferSize) {
     span_history_.erase(span_history_.begin());
   }
 
@@ -505,7 +505,8 @@ bool ProcessTelemetryIntegrationImpl::ExportSpans() {
   }
 
   // Serialize spans to OTLP JSON
-  std::vector<std::string> span_jsons;
+  std::vector<std::string> span_jsons = {};
+
   for (const auto& span : span_history_) {
     span_jsons.push_back(SerializeSpanOtlp(span));
   }
@@ -527,7 +528,7 @@ bool ProcessTelemetryIntegrationImpl::ExportSpans() {
 std::string ProcessTelemetryIntegrationImpl::SerializeSpanOtlp(
     const std::shared_ptr<DistributedSpan>& span) {
   // Simplified OTLP JSON serialization
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << "{"
       << "\"name\":\"" << span->GetOperationName() << "\","
       << "\"context\":{\"trace_id\":\"" << span->GetContext().trace_id << "\","
@@ -539,7 +540,7 @@ std::string ProcessTelemetryIntegrationImpl::SerializeSpanOtlp(
 bool ProcessTelemetryIntegrationImpl::SendSpansToCollector(
     const std::vector<std::string>& span_jsons) {
   // Simplified: log export (production version uses HTTP POST)
-  utils::Logger::Info("ExportSpans: sending %zu spans to %s", span_jsons.size(),
+  utils::Logger::Info("ExportSpans: sending %zu spans to %s",static_cast<int>(span_jsons.size()),
                       config_.otel_exporter_endpoint.c_str());
   return true;
 }

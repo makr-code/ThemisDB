@@ -128,7 +128,7 @@ std::string formatDiagnostic(
     std::string_view context,
     std::string_view detail
 ) noexcept {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     const std::string category = errorCodeCategory(code);
     const std::string error_name = errorCodeToString(code);

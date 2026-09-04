@@ -42,8 +42,8 @@ bool JudgeConfigManager::loadFromYAML(const std::string& filepath) {
     }
     
     // Simple YAML-like parsing (key: value format)
-    std::string line;
-    std::string current_section;
+    std::string line = {};
+    std::string current_section = {};
     
     while (std::getline(file, line)) {
         // Skip comments and empty lines
@@ -53,7 +53,9 @@ bool JudgeConfigManager::loadFromYAML(const std::string& filepath) {
         
         // Detect section headers (indentation-based)
         size_t indent = line.find_first_not_of(" \t");
-        if (indent == std::string::npos) continue;
+        if (indent == std::string::npos) {
+          continue;
+        }
         
         line = line.substr(indent);
         
@@ -77,7 +79,7 @@ bool JudgeConfigManager::loadFromYAML(const std::string& filepath) {
         }
     }
     
-    THEMIS_INFO("Loaded {} configuration entries", config_.size());
+    THEMIS_INFO("Loaded {} configuration entries",static_cast<int>(config_.size()));
     return validate();
 }
 
@@ -127,7 +129,7 @@ bool JudgeConfigManager::loadFromJSONString(const std::string& json_str) {
             flatten(j, "");
         }
         
-        THEMIS_INFO("Loaded {} configuration entries from JSON", config_.size());
+        THEMIS_INFO("Loaded {} configuration entries from JSON",static_cast<int>(config_.size()));
         return validate();
     } catch (const json::exception& e) {
         THEMIS_ERROR("Failed to parse JSON configuration: {}", e.what());
@@ -222,7 +224,7 @@ std::string JudgeConfigManager::toJSON() const {
         std::vector<std::string> parts = splitKey(key);
         json* current = &j;
         
-        for (size_t i = 0; i < parts.size() - 1; ++i) {
+        for (size_t i = 0; i < static_cast<int>(parts.size()) - 1; ++i) {
             if (!(*current).contains(parts[i])) {
                 (*current)[parts[i]] = json::object();
             }
@@ -246,7 +248,7 @@ void JudgeConfigManager::clear() {
 std::vector<std::string> JudgeConfigManager::splitKey(const std::string& key) const {
     std::vector<std::string> parts;
     std::istringstream stream(key);
-    std::string part;
+    std::string part = {};
     
     while (std::getline(stream, part, '.')) {
         if (!part.empty()) {

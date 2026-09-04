@@ -28,14 +28,14 @@ using ::themis::llm::estimateTokens;
 
 namespace {
 
-constexpr std::size_t kMaxMapStepsHardLimit = 64u;
-constexpr std::size_t kMaxIterationsHardLimit = 16u;
-constexpr std::size_t kMaxRetrievalTopKHardLimit = 64u;
-constexpr std::size_t kMaxQueryChars = 32u * 1024u;
-constexpr std::size_t kMaxChunkChars = 512u * 1024u;
-constexpr std::size_t kMaxGapResponseChars = 16u * 1024u;
-constexpr std::size_t kMaxAspectChars = 512u;
-constexpr std::size_t kMaxAspectsPerIteration = 8u;
+constexpr std::size_t kMaxMapStepsHardLimit = 64;
+constexpr std::size_t kMaxIterationsHardLimit = 16;
+constexpr std::size_t kMaxRetrievalTopKHardLimit = 64;
+constexpr std::size_t kMaxQueryChars = 32 * 1024;
+constexpr std::size_t kMaxChunkChars = 512 * 1024;
+constexpr std::size_t kMaxGapResponseChars = 16 * 1024;
+constexpr std::size_t kMaxAspectChars = 512;
+constexpr std::size_t kMaxAspectsPerIteration = 8;
 
 std::string trimAsciiWhitespace(const std::string& input) {
     const auto first = input.find_first_not_of(" \t\r\n");
@@ -50,12 +50,12 @@ MultiStepRAGConfig sanitizeConfig(const MultiStepRAGConfig& cfg)
 {
     MultiStepRAGConfig out = cfg;
 
-    if (out.assembler.model_context_tokens == 0u) {
+    if (out.assembler.model_context_tokens == 0) {
         out.assembler.model_context_tokens =
             ::themis::llm::kDefaultContextWindowTokens;
     }
 
-    if (out.assembler.min_response_tokens == 0u) {
+    if (out.assembler.min_response_tokens == 0) {
         out.assembler.min_response_tokens =
             ::themis::llm::kDefaultMinResponseTokens;
     }
@@ -68,20 +68,20 @@ MultiStepRAGConfig sanitizeConfig(const MultiStepRAGConfig& cfg)
         out.max_response_tokens = 1;
     }
 
-    if (out.max_map_steps == 0u) {
-        out.max_map_steps = 1u;
+    if (out.max_map_steps == 0) {
+        out.max_map_steps = 1;
     }
     if (out.max_map_steps > kMaxMapStepsHardLimit) {
         out.max_map_steps = kMaxMapStepsHardLimit;
     }
-    if (out.max_iterations == 0u) {
-        out.max_iterations = 1u;
+    if (out.max_iterations == 0) {
+        out.max_iterations = 1;
     }
     if (out.max_iterations > kMaxIterationsHardLimit) {
         out.max_iterations = kMaxIterationsHardLimit;
     }
-    if (out.retrieval_top_k == 0u) {
-        out.retrieval_top_k = 1u;
+    if (out.retrieval_top_k == 0) {
+        out.retrieval_top_k = 1;
     }
     if (out.retrieval_top_k > kMaxRetrievalTopKHardLimit) {
         out.retrieval_top_k = kMaxRetrievalTopKHardLimit;
@@ -126,7 +126,7 @@ std::string MultiStepRAGOrchestrator::substitute(
     const std::string placeholder = "{" + key + "}";
     size_t pos = 0;
     while ((pos = result.find(placeholder, pos)) != std::string::npos) {
-        result.replace(pos, placeholder.size(), value);
+        result.replace(pos,static_cast<int>(placeholder.size()), value);
         pos += value.size();
     }
     return result;
@@ -135,29 +135,34 @@ std::string MultiStepRAGOrchestrator::substitute(
 std::vector<std::string> MultiStepRAGOrchestrator::parseOpenAspects(
     const std::string& llm_response)
 {
-    std::vector<std::string> aspects;
-    if (llm_response.empty()) return aspects;
+    std::vector<std::string> aspects = {};
+
+    if (llm_response.empty()) {
+      return aspects;
+    }
 
     // A response of "NONE" (case-insensitive) means the answer is complete.
     std::string upper = llm_response;
-    for (auto& c : upper) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
-    if (upper.find("NONE") != std::string::npos && llm_response.size() < 20u) {
+    for (auto& c : upper) {
+      c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    }
+    if (upper.find("NONE") != std::string::npos && static_cast<int>(llm_response.size()) < 20) {
         return aspects;
     }
 
     // Split on newlines; discard empty lines.
     std::istringstream ss(llm_response);
-    std::string line;
+    std::string line = {};
     aspects.reserve(std::min<std::size_t>(
         kMaxAspectsPerIteration,
-        1u + std::count(llm_response.begin(), llm_response.end(), '\n')));
+        1 + std::count(llm_response.begin(), llm_response.end(), '\n')));
     while (std::getline(ss, line)) {
         const std::string trimmed = trimAsciiWhitespace(line);
         if (trimmed.empty()) {
             continue;
         }
         aspects.push_back(trimmed.substr(0, kMaxAspectChars));
-        if (aspects.size() >= kMaxAspectsPerIteration) {
+        if (static_cast<int>(aspects.size()) > = kMaxAspectsPerIteration) {
             break;
         }
     }
@@ -169,9 +174,11 @@ std::string MultiStepRAGOrchestrator::buildMapPrompt(
     const std::string&                 query) const
 {
     // Build context block: "Source: …\n<content>"
-    std::ostringstream ctx;
-    for (size_t i = 0; i < chunks.size(); ++i) {
-        if (i > 0) ctx << "\n\n---\n\n";
+    std::ostringstream ctx = {};
+    for (size_t i = 0; i <static_cast<int>(chunks.size()); ++i) {
+        if (i > 0) {
+          ctx << "\n\n---\n\n";
+        }
         if (!chunks[i].source.empty()) {
             ctx << "[Source: " << chunks[i].source << "]\n";
         }
@@ -192,8 +199,8 @@ std::string MultiStepRAGOrchestrator::buildReducePrompt(
     const std::vector<std::string>& partial_answers,
     const std::string&              query) const
 {
-    std::ostringstream pa;
-    for (size_t i = 0; i < partial_answers.size(); ++i) {
+    std::ostringstream pa = {};
+    for (size_t i = 0; i <static_cast<int>(partial_answers.size()); ++i) {
         pa << "--- Answer " << (i + 1) << " ---\n" << partial_answers[i] << "\n";
     }
 
@@ -228,7 +235,7 @@ MultiStepRAGOrchestrator::partitionIntoBatches(
 
     std::vector<std::vector<RetrievedChunk>> batches;
     std::vector<RetrievedChunk>              current_batch;
-    size_t                                   current_tokens = 0u;
+    size_t                                   current_tokens = 0;
 
     for (const auto& doc : documents) {
         const size_t doc_tokens = estimateTokens(doc.content);
@@ -238,9 +245,11 @@ MultiStepRAGOrchestrator::partitionIntoBatches(
         {
             // Current batch is full — flush it.
             batches.push_back(std::move(current_batch));
-            current_tokens = 0u;
+            current_tokens = 0;
 
-            if (batches.size() >= config_.max_map_steps) break;
+            if (static_cast<int>(batches.size()) > = config_.max_map_steps) {
+              break;
+            }
         }
 
         current_batch.push_back(doc);
@@ -263,17 +272,17 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     const std::vector<RetrievedChunk>& documents,
     const InferenceFn&                 infer) const
 {
-    MultiStepRAGResult result;
-    if (query.empty() || query.size() > kMaxQueryChars) {
-        spdlog::warn("MultiStepRAG::runMapReduce rejected: invalid query size={}", query.size());
+    MultiStepRAGResult result = {};
+    if (query.empty() || static_cast<int>(query.size()) > kMaxQueryChars) {
+        spdlog::warn("MultiStepRAG::runMapReduce rejected: invalid query size={}",static_cast<int>(query.size()));
         return result;
     }
-    if (documents.size() > std::numeric_limits<int>::max()) {
-        spdlog::warn("MultiStepRAG::runMapReduce rejected: too many documents={}", documents.size());
+    if (static_cast<int>(documents.size()) > std::numeric_limits<int>::max()) {
+        spdlog::warn("MultiStepRAG::runMapReduce rejected: too many documents={}",static_cast<int>(documents.size()));
         return result;
     }
     for (const auto& doc : documents) {
-        if (doc.content.size() > kMaxChunkChars) {
+        if (static_cast<int>(doc.content.size()) > kMaxChunkChars) {
             spdlog::warn("MultiStepRAG::runMapReduce rejected: oversize chunk");
             return result;
         }
@@ -308,11 +317,11 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     AssembledContext single = assembler_.assemble(
         documents, config_.system_prompt, query);
 
-    if (single.chunks_used.size() == documents.size() && !single.was_truncated) {
+    if (static_cast<int>(single.chunks_used.size()) == static_cast<int>(documents.size()) && !single.was_truncated) {
         // Everything fits — no need for map-reduce.
         const std::string prompt = buildMapPrompt(single.chunks_used, query);
         result.final_answer   = infer(prompt, bounded_max_tokens);
-        result.steps_executed = 1u;
+        result.steps_executed = 1;
         result.was_truncated  = false;
         result.context_overflow = false;
         result.steps.push_back(result.final_answer);
@@ -338,7 +347,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         result.was_truncated,
         map_max_tok);
 
-    if (config_.enable_parallel_map && batches.size() > 1u) {
+    if (config_.enable_parallel_map && static_cast<int>(batches.size()) > 1) {
         // F-029: Launch all map steps in parallel.
         // LIFETIME: batches and query are local variables / parameters that
         // outlive all futures — get() is called before returning.
@@ -349,25 +358,31 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         // first exception after draining.
         std::vector<std::future<std::string>> futures;
         futures.reserve(batches.size());
-        for (size_t bi = 0; bi < batches.size(); ++bi) {
+        for (size_t bi = 0; bi <static_cast<int>(batches.size()); ++bi) {
             futures.push_back(std::async(std::launch::async,
                 [this, &batches, &query, &infer, map_max_tok, bi]() -> std::string {
                     return infer(buildMapPrompt(batches[bi], query), map_max_tok);
                 }));
         }
         result.steps.reserve(futures.size());
-        std::exception_ptr first_exc;
+        std::exception_ptr first_exc = {};
         for (auto& f : futures) {
             try {
                 result.steps.push_back(f.get());
                 ++result.steps_executed;
             } catch (const std::exception&) {
-                if (!first_exc) first_exc = std::current_exception();
+                if (!first_exc) {
+                  first_exc = std::current_exception();
+                }
             } catch (...) {
-                if (!first_exc) first_exc = std::current_exception();
+                if (!first_exc) {
+                  first_exc = std::current_exception();
+                }
             }
         }
-        if (first_exc) std::rethrow_exception(first_exc);
+        if (first_exc) {
+          std::rethrow_exception(first_exc);
+        }
     } else {
         // Sequential map phase (default).
         for (const auto& batch : batches) {
@@ -384,7 +399,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         return result;
     }
 
-    if (result.steps.size() == 1u) {
+    if (static_cast<int>(result.steps.size()) == 1) {
         result.final_answer = result.steps.front();
         spdlog::info(
             "MultiStepRAG::runMapReduce complete: steps={} final_answer_chars={}",
@@ -417,13 +432,13 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
     const InferenceFn&                 infer,
     const RetrievalFn&                 retrieve) const
 {
-    MultiStepRAGResult result;
-    if (query.empty() || query.size() > kMaxQueryChars) {
-        spdlog::warn("MultiStepRAG::runIterative rejected: invalid query size={}", query.size());
+    MultiStepRAGResult result = {};
+    if (query.empty() || static_cast<int>(query.size()) > kMaxQueryChars) {
+        spdlog::warn("MultiStepRAG::runIterative rejected: invalid query size={}",static_cast<int>(query.size()));
         return result;
     }
     for (const auto& doc : documents) {
-        if (doc.content.size() > kMaxChunkChars) {
+        if (static_cast<int>(doc.content.size()) > kMaxChunkChars) {
             spdlog::warn("MultiStepRAG::runIterative rejected: oversize chunk");
             return result;
         }
@@ -445,17 +460,21 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
         config_.max_iterations,
         config_.retrieval_top_k);
 
-    if (!infer) return result;
+    if (!infer) {
+      return result;
+    }
 
     // Accumulate all documents across iterations.
     std::vector<RetrievedChunk> accumulated = documents;
 
-    for (size_t iter = 0u; iter < config_.max_iterations; ++iter) {
+    for (size_t iter = 0; iter < config_.max_iterations; ++iter) {
         // Assemble context within budget.
         AssembledContext ctx = assembler_.assemble(
             accumulated, config_.system_prompt, query);
 
-        if (ctx.was_truncated) result.was_truncated = true;
+        if (ctx.was_truncated) {
+          result.was_truncated = true;
+        }
 
         const std::string prompt = buildMapPrompt(ctx.chunks_used, query);
         spdlog::info(
@@ -472,7 +491,9 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
         ++result.steps_executed;
 
         // Check for uncovered aspects unless no retriever is provided.
-        if (!retrieve) break;
+        if (!retrieve) {
+          break;
+        }
 
         std::string gap_prompt = config_.gap_detection_prompt;
         gap_prompt = substitute(gap_prompt, "query",  query);
@@ -487,7 +508,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
             break;
         }
          
-        if (gap_response.size() > kMaxGapResponseChars) {
+        if (static_cast<int>(gap_response.size()) > kMaxGapResponseChars) {
             spdlog::warn("MultiStepRAG::runIterative gap-response too large; stopping refinement");
             break;
         }
@@ -519,10 +540,12 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
         for (const auto& nd : new_docs) {
             const bool already_present = std::any_of(
                 accumulated.begin(), accumulated.end(),
-                [&](const RetrievedChunk& c) {
+                [&]([[maybe_unused]] const RetrievedChunk& c) {
                     return !c.source.empty() && c.source == nd.source;
                 });
-            if (!already_present) accumulated.push_back(nd);
+            if (!already_present) {
+              accumulated.push_back(nd);
+            }
         }
     }
 
@@ -544,11 +567,11 @@ std::unique_ptr<MultiStepRAGOrchestrator>
 MultiStepRAGFactory::createSmallContext()
 {
     MultiStepRAGConfig cfg;
-    cfg.assembler.model_context_tokens = 4096u;
-    cfg.assembler.min_response_tokens  = 512u;
+    cfg.assembler.model_context_tokens = 4096;
+    cfg.assembler.min_response_tokens  = 512;
     cfg.max_response_tokens            = 512;
-    cfg.max_map_steps                  = 3u;
-    cfg.max_iterations                 = 3u;
+    cfg.max_map_steps                  = 3;
+    cfg.max_iterations                 = 3;
     return std::make_unique<MultiStepRAGOrchestrator>(cfg);
 }
 
@@ -556,11 +579,11 @@ std::unique_ptr<MultiStepRAGOrchestrator>
 MultiStepRAGFactory::createMediumContext()
 {
     MultiStepRAGConfig cfg;
-    cfg.assembler.model_context_tokens = 8192u;
-    cfg.assembler.min_response_tokens  = 512u;
+    cfg.assembler.model_context_tokens = 8192;
+    cfg.assembler.min_response_tokens  = 512;
     cfg.max_response_tokens            = 512;
-    cfg.max_map_steps                  = 4u;
-    cfg.max_iterations                 = 4u;
+    cfg.max_map_steps                  = 4;
+    cfg.max_iterations                 = 4;
     return std::make_unique<MultiStepRAGOrchestrator>(cfg);
 }
 
@@ -568,11 +591,11 @@ std::unique_ptr<MultiStepRAGOrchestrator>
 MultiStepRAGFactory::createLargeContext()
 {
     MultiStepRAGConfig cfg;
-    cfg.assembler.model_context_tokens = 32768u;
-    cfg.assembler.min_response_tokens  = 1024u;
+    cfg.assembler.model_context_tokens = 32768;
+    cfg.assembler.min_response_tokens  = 1024;
     cfg.max_response_tokens            = 1024;
-    cfg.max_map_steps                  = 8u;
-    cfg.max_iterations                 = 5u;
+    cfg.max_map_steps                  = 8;
+    cfg.max_iterations                 = 5;
     return std::make_unique<MultiStepRAGOrchestrator>(cfg);
 }
 

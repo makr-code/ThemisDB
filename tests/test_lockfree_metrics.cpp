@@ -88,7 +88,9 @@ TEST_F(LockFreeMetricsTest, CounterConcurrentIncrements_AC1) {
             }
         });
     }
-    for (auto& t : workers) t.join();
+    for (auto& t : workers) {
+      t.join();
+    }
 
     std::string out = m_->exportMetrics();
     EXPECT_NE(out.find("concurrent_counter"), std::string::npos);
@@ -219,7 +221,9 @@ TEST_F(LockFreeMetricsTest, ThreadLocalAggregation_AC3) {
             }
         });
     }
-    for (auto& t : workers) t.join();
+    for (auto& t : workers) {
+      t.join();
+    }
 
     // Allow at least one background flush cycle.
     std::this_thread::sleep_for(50ms);

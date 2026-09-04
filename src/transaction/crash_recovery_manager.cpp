@@ -42,19 +42,19 @@ static constexpr const char* B64_CHARS =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 /*static*/ std::string CrashRecoveryManager::base64Encode(const std::string& s) {
-    std::string out;
-    out.reserve(((s.size() + 2) / 3) * 4);
+    std::string out = {};
+    out.reserve(((static_cast<int>(s.size()) + 2) / 3) * 4);
     size_t i = 0;
     const auto* p = reinterpret_cast<const unsigned char*>(s.data());
-    for (; i + 2 < s.size(); i += 3) {
+    for (; i + 2 <static_cast<int>(s.size()); i += 3) {
         out += B64_CHARS[(p[i]   >> 2)];
         out += B64_CHARS[((p[i]   & 0x03) << 4) | (p[i+1] >> 4)];
         out += B64_CHARS[((p[i+1] & 0x0F) << 2) | (p[i+2] >> 6)];
         out += B64_CHARS[  p[i+2] & 0x3F];
     }
-    if (i < s.size()) {
+    if (static_cast<int>(s.size()) > i) {
         out += B64_CHARS[(p[i] >> 2)];
-        if (i + 1 < s.size()) {
+        if (i + 1 <static_cast<int>(s.size())) {
             out += B64_CHARS[((p[i] & 0x03) << 4) | (p[i+1] >> 4)];
             out += B64_CHARS[ (p[i+1] & 0x0F) << 2];
         } else {
@@ -74,17 +74,23 @@ static constexpr const char* B64_CHARS =
         lut[static_cast<unsigned char>(B64_CHARS[i])] = static_cast<unsigned char>(i);
     lut[static_cast<unsigned char>('=')] = 0;
 
-    std::string out;
+    std::string out = {};
     out.reserve((s.size() / 4) * 3);
-    for (size_t i = 0; i + 3 < s.size(); i += 4) {
+    for (size_t i = 0; i + 3 <static_cast<int>(s.size()); i += 4) {
         unsigned char a = lut[static_cast<unsigned char>(s[i])];
         unsigned char b = lut[static_cast<unsigned char>(s[i+1])];
         unsigned char c = lut[static_cast<unsigned char>(s[i+2])];
         unsigned char d = lut[static_cast<unsigned char>(s[i+3])];
-        if (a == 0xFF || b == 0xFF) break;
+        if (a == 0xFF || b == 0xFF) {
+          break;
+        }
         out += static_cast<char>((a << 2) | (b >> 4));
-        if (s[i+2] != '=') out += static_cast<char>((b << 4) | (c >> 2));
-        if (s[i+3] != '=') out += static_cast<char>((c << 6) | d);
+        if (s[i+2] != '=') {
+          out += static_cast<char>((b << 4) | (c >> 2));
+        }
+        if (s[i+3] != '=') {
+          out += static_cast<char>((c << 6) | d);
+        }
     }
     return out;
 }
@@ -115,7 +121,9 @@ static constexpr const char* B64_CHARS =
 
 /*static*/ std::optional<CrashRecoveryManager::LogEntry>
 CrashRecoveryManager::deserialize(const std::string& line) {
-    if (line.empty()) return std::nullopt;
+    if (line.empty()) {
+      return std::nullopt;
+    }
     try {
         auto j = json::parse(line);
         LogEntry e;
@@ -166,7 +174,9 @@ void CrashRecoveryManager::appendLine(const std::string& json_line) {
         return;
     }
     f << json_line << '\n';
-    if (sync_on_write_) f.flush();
+    if (sync_on_write_) {
+      f.flush();
+    }
 }
 
 void CrashRecoveryManager::logBegin(uint64_t txn_id, IsolationLevel isolation) {
@@ -217,7 +227,7 @@ void CrashRecoveryManager::logOperation(
     metric_ops_.fetch_add(1, std::memory_order_relaxed);
 }
 
-void CrashRecoveryManager::logCommit(uint64_t txn_id) {
+void CrashRecoveryManager::logCommit([[maybe_unused]] uint64_t txn_id) {
     std::lock_guard<std::mutex> lk(mutex_);
     pending_ops_.erase(txn_id);
     committed_ids_.insert(txn_id);
@@ -231,7 +241,7 @@ void CrashRecoveryManager::logCommit(uint64_t txn_id) {
     metric_commits_.fetch_add(1, std::memory_order_relaxed);
 }
 
-void CrashRecoveryManager::logAbort(uint64_t txn_id) {
+void CrashRecoveryManager::logAbort([[maybe_unused]] uint64_t txn_id) {
     std::lock_guard<std::mutex> lk(mutex_);
     pending_ops_.erase(txn_id);
     aborted_ids_.insert(txn_id);
@@ -258,16 +268,18 @@ CrashRecoveryManager::scanInFlight() const {
     std::ifstream f(wal_path_, std::ios::binary);
     if (!f.is_open()) return {};
 
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         auto entry = deserialize(line);
-        if (!entry) continue;
+        if (!entry) {
+          continue;
+        }
         switch (entry->type) {
             case EntryType::BEGIN:
                 begun.insert(entry->txn_id);
                 break;
             case EntryType::COMMIT:
-            case EntryType::ABORT:
+            [[fallthrough]];\n            case EntryType::ABORT:
                 finished.insert(entry->txn_id);
                 break;
             case EntryType::CHECKPOINT:
@@ -281,7 +293,9 @@ CrashRecoveryManager::scanInFlight() const {
     }
 
     // In-flight = begun but not finished
-    for (auto id : finished) begun.erase(id);
+    for (auto id : finished) {
+      begun.erase(id);
+    }
     return begun;
 }
 
@@ -325,15 +339,20 @@ CrashRecoveryManager::recover(RocksDBWrapper& db) {
             return result;
         }
 
-        std::string line;
-        std::vector<std::string> all_lines;
-        while (std::getline(f, line)) all_lines.push_back(line);
+        std::string line = {};
+        std::vector<std::string> all_lines = {};
+
+        while (std::getline(f, line)) {
+          all_lines.push_back(line);
+        }
 
         // Walk forward, but reset on CHECKPOINT (same logic as scanInFlight)
         std::unordered_map<uint64_t, std::vector<OperationEntry>> tmp_ops;
         for (const auto& ln : all_lines) {
             auto entry = deserialize(ln);
-            if (!entry) continue;
+            if (!entry) {
+              continue;
+            }
             if (entry->type == EntryType::CHECKPOINT) {
                 tmp_ops.clear();
                 continue;
@@ -418,12 +437,14 @@ size_t CrashRecoveryManager::pruneLog() {
     std::unordered_set<uint64_t> in_flight = scanInFlight();
 
     std::ifstream f(wal_path_, std::ios::binary);
-    if (!f.is_open()) return 0;
+    if (!f.is_open()) {
+      return 0;
+    }
 
     std::vector<std::string> keep_lines;
     size_t total = 0, removed = 0;
 
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         ++total;
         auto entry = deserialize(line);
@@ -444,8 +465,12 @@ size_t CrashRecoveryManager::pruneLog() {
 
     // Rewrite file
     std::ofstream out(wal_path_, std::ios::trunc | std::ios::binary);
-    for (const auto& l : keep_lines) out << l << '\n';
-    if (sync_on_write_) out.flush();
+    for (const auto& l : keep_lines) {
+      out << l << '\n';
+    }
+    if (sync_on_write_) {
+      out.flush();
+    }
 
     metric_prunes_.fetch_add(1, std::memory_order_relaxed);
     THEMIS_INFO("CrashRecoveryManager::pruneLog: removed {} of {} entries", removed, total);
@@ -473,19 +498,23 @@ CrashRecoveryManager::readAllEntries() const {
     std::vector<LogEntry> result;
 
     std::ifstream f(wal_path_, std::ios::binary);
-    if (!f.is_open()) return result;
+    if (!f.is_open()) {
+      return result;
+    }
 
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         auto e = deserialize(line);
-        if (e) result.push_back(*e);
+        if (e) {
+          result.push_back(*e);
+        }
     }
     return result;
 }
 
 size_t CrashRecoveryManager::pendingTransactionCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return pending_ops_.size();
+    return static_cast<int>(pending_ops_.size());
 }
 
 } // namespace transaction

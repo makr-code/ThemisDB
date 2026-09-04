@@ -204,7 +204,8 @@ private:
  * @brief Generate random process models for linking
  */
 static std::vector<std::string> generateProcessModels(int count) {
-    std::vector<std::string> models;
+    std::vector<std::string> models = {};
+
     for (int i = 0; i < count; ++i) {
         models.push_back("model_" + std::to_string(i));
     }
@@ -448,7 +449,7 @@ BENCHMARK(BM_LP04_GraphTraversal)
 // ============================================================================
 
 struct LinkRecord {
-    std::string id;
+    std::string id = {};
     std::string source_model_id;
     std::string target_model_id;
     int64_t created_ms{0};
@@ -478,7 +479,8 @@ static void BM_LP05_StaleLinkDetection(benchmark::State& state) {
         links.push_back(link);
     }
 
-    std::vector<double> detection_times;
+    std::vector<double> detection_times = {};
+
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
 
@@ -521,7 +523,8 @@ BENCHMARK(BM_LP05_StaleLinkDetection)
 static void BM_LP06_BatchLinkOperations(benchmark::State& state) {
     const int batch_size = 1000;
     
-    std::vector<double> batch_times;
+    std::vector<double> batch_times = {};
+
     for (auto _ : state) {
         state.PauseTiming();
         std::vector<LinkRecord> batch_links;

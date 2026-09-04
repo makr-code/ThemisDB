@@ -291,7 +291,7 @@ void example_configurable_retention(TaskScheduler& scheduler, QueryEngine* query
             int retention_days = params.value("retention_days", 365);
             
             // Build AQL query dynamically
-            std::ostringstream aql;
+            std::ostringstream aql = {};
             aql << "FOR d IN timeseries "
                 << "FILTER d.resolution == '" << source_res << "' ";
             

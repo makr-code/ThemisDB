@@ -350,7 +350,7 @@ TEST(AutoFailoverManagerFocusedTest, RegisteredCallbackReceivesFailoverCompleted
     auto mgr = makeManager();
 
     std::vector<FailoverEventType> received;
-    std::mutex mtx;
+    std::mutex mtx = {};
 
     mgr.registerEventCallback([&](FailoverEventType t, const std::string&, const std::string&) {
         std::lock_guard<std::mutex> lk(mtx);
@@ -407,8 +407,8 @@ TEST(AutoFailoverManagerFocusedTest, CallbackExceptionDoesNotCrashManager) {
 TEST(AutoFailoverManagerFocusedTest, CallbackReceivesCorrectNodeId) {
     auto mgr = makeManager();
 
-    std::string captured_node;
-    std::mutex mtx;
+    std::string captured_node = {};
+    std::mutex mtx = {};
 
     mgr.registerEventCallback([&](FailoverEventType, const std::string& node, const std::string&) {
         std::lock_guard<std::mutex> lk(mtx);

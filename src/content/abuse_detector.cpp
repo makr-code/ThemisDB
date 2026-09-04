@@ -35,7 +35,7 @@ PhotoDNAAbuseDetector::PhotoDNAAbuseDetector(
 // static
 uint64_t PhotoDNAAbuseDetector::computeHash(const std::string& data) {
     if (data.empty()) {
-        return 0ULL;
+        return 0;
     }
 
     // Sample 64 evenly-spaced bytes from the raw data.
@@ -55,10 +55,10 @@ uint64_t PhotoDNAAbuseDetector::computeHash(const std::string& data) {
     const uint8_t mean = static_cast<uint8_t>(sum / kSamples);
 
     // Build the 64-bit hash: bit i = 1 iff samples[i] >= mean.
-    uint64_t hash = 0ULL;
+    uint64_t hash = 0;
     for (std::size_t i = 0; i < kSamples; ++i) {
         if (samples[i] >= mean) {
-            hash |= (uint64_t{1} << i);
+            hash |= ([[maybe_unused]] uint64_t{1} << i);
         }
     }
     return hash;

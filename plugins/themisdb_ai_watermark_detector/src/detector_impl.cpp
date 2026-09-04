@@ -219,7 +219,7 @@ void WatermarkDetectorImpl::clear_cache() {
 
 std::string WatermarkDetectorImpl::get_cache_stats() const {
   std::lock_guard<std::mutex> lock(mutex_);
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   size_t total = cache_hits_ + cache_misses_;
   float hit_rate = (total > 0) ? (100.0f * cache_hits_ / total) : 0.0f;
   oss << "Cache hits: " << cache_hits_ << ", misses: " << cache_misses_
@@ -255,9 +255,12 @@ std::vector<uint32_t> WatermarkDetectorImpl::tokenize(const std::string& text) {
   //                   are not meaningful for watermark detection.
   // Removal Plan: Replace with actual tokenizer in Phase 2
   //               (see plugins/themisdb_ai_watermark_detector/ROADMAP.md Phase 2).
-  std::vector<uint32_t> tokens;
+  std::vector<uint32_t> tokens = {};
+
   int estimated_tokens = text.size() / 4;  // rough estimate: 4 chars per token
-  if (estimated_tokens < 10) estimated_tokens = 10;
+  if (estimated_tokens < 10) {
+    estimated_tokens = 10;
+  }
 
   for (int i = 0; i < estimated_tokens && i < 1000; ++i) {
     tokens.push_back(i % 50000);  // dummy token ID
@@ -268,13 +271,17 @@ std::vector<uint32_t> WatermarkDetectorImpl::tokenize(const std::string& text) {
 std::string WatermarkDetectorImpl::detect_language(const std::string& text) {
   // STUB: Phase 2 implementation will use language detection library (e.g., fasttext).
   // For now, return "en" as default.
-  if (text.empty()) return "unknown";
+  if (text.empty()) {
+    return "unknown";
+  }
   return "en";
 }
 
 float WatermarkDetectorImpl::aggregate_scores(
     const std::unordered_map<std::string, float>& heuristics) {
-  if (heuristics.empty()) return 0.5f;
+  if (heuristics.empty()) {
+    return 0.5f;
+  }
 
   float sum = 0.0f;
   for (const auto& [name, score] : heuristics) {

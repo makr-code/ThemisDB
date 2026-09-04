@@ -132,10 +132,14 @@ TEST(CompressionHardening, ZstdConcurrentEncodeDecodeSafe) {
             if (!decomp.has_value()) { ++failures; return; }
 
             std::string result(decomp->begin(), decomp->end());
-            if (result != payload) ++failures;
+            if (result != payload) {
+              ++failures;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(failures.load(), 0);
 }
 

@@ -216,7 +216,9 @@ TEST_F(DynamicScalingTest, ScaleUp_CappedAtCeiling) {
 
     std::atomic<int> blocker{0};
     scheduler_->registerFunction("slow_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        while (blocker.load() == 0) std::this_thread::sleep_for(5ms);
+        while (blocker.load() == 0) {
+          std::this_thread::sleep_for(5ms);
+        }
         return {};
     });
 
@@ -253,7 +255,9 @@ TEST_F(DynamicScalingTest, ScaleDown_LimitDecreasesAfterIdleTicks) {
 
     std::atomic<bool> release{false};
     scheduler_->registerFunction("slow_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        while (!release.load()) std::this_thread::sleep_for(5ms);
+        while (!release.load()) {
+          std::this_thread::sleep_for(5ms);
+        }
         return {};
     });
 

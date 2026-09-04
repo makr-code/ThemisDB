@@ -123,8 +123,12 @@ TEST_F(HotReloadManagerTest, RegisterModuleAppearsInList) {
     // Order not guaranteed – check both names present.
     bool found_alpha = false, found_beta = false;
     for (const auto& n : names) {
-        if (n == "alpha") found_alpha = true;
-        if (n == "beta")  found_beta  = true;
+        if (n == "alpha") {
+          found_alpha = true;
+        }
+        if (n == "beta") {
+          found_beta  = true;
+        }
     }
     EXPECT_TRUE(found_alpha);
     EXPECT_TRUE(found_beta);
@@ -304,7 +308,9 @@ TEST_F(HotReloadManagerTest, ConcurrentRegisterUnregister) {
             mgr.registerModule("mod_" + std::to_string(i), loader);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     threads.clear();
 
     for (int i = 0; i < n; ++i) {
@@ -312,7 +318,9 @@ TEST_F(HotReloadManagerTest, ConcurrentRegisterUnregister) {
             mgr.unregisterModule("mod_" + std::to_string(i));
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_TRUE(mgr.registeredModules().empty());
 }
@@ -329,7 +337,9 @@ TEST_F(HotReloadManagerTest, ConcurrentReloadAttempts) {
             mgr.reloadModule("shared_mod", "/nonexistent.so");
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_TRUE(true);  // Reaching here means no crash / deadlock.
 }
@@ -343,7 +353,9 @@ TEST_F(HotReloadManagerTest, ConcurrentCallbackRegistration) {
             mgr.addReloadCallback([](const std::string&, HotReloadManager::ReloadPhase) {});
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_NO_THROW(mgr.clearReloadCallbacks());
 }
@@ -469,7 +481,9 @@ TEST_F(HotReloadManagerTest, ConcurrentReadersWithReloadThread) {
     }
 
     reload_thread.join();
-    for (auto& t : readers) t.join();
+    for (auto& t : readers) {
+      t.join();
+    }
 
     // All assertions run on the main test thread after all workers have joined.
     EXPECT_FALSE(reader_saw_empty_list.load())

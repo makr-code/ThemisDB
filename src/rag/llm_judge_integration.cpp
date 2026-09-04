@@ -34,7 +34,7 @@ ParsedResponse makeUnavailableJudgeResponse(std::string message) {
 }
 
 std::string makeUnavailableJudgeJson(std::string_view reason) {
-    std::ostringstream response;
+    std::ostringstream response = {};
     response << R"({"score":-1,"confidence":0.0,"reasoning":")"
              << reason
              << R"(","success":false})";
@@ -96,8 +96,8 @@ ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
     // Call LLM with retries
     const themis::utils::RetryConfig llm_retry_cfg{
         /* max_attempts       */ static_cast<uint32_t>(config_.max_retries),
-        /* initial_backoff_ms */ 100u,
-        /* max_backoff_ms     */ 30'000u,
+        /* initial_backoff_ms */ 100,
+        /* max_backoff_ms     */ 30'000,
         /* multiplier         */ 2.0,
         /* jitter_fraction    */ 0.0,
     };
@@ -105,7 +105,9 @@ ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
         [&]() -> std::optional<std::string> {
             try {
                 auto r = callLLM(prompt);
-                if (!r.empty()) return r;
+                if (!r.empty()) {
+                  return r;
+                }
             } catch (const std::exception& e) {
                 THEMIS_WARN("LLM call failed: {}", e.what());
             }
@@ -139,12 +141,12 @@ std::string LLMJudgeIntegration::evaluateDimension(
     }
 
     THEMIS_DEBUG("LLMJudgeIntegration::evaluateDimension dim={} prompt_len={}",
-                 static_cast<int>(dimension), prompt.size());
+                 static_cast<int>(dimension),static_cast<int>(prompt.size()));
 
     const themis::utils::RetryConfig dim_retry_cfg{
         /* max_attempts       */ static_cast<uint32_t>(config_.max_retries),
-        /* initial_backoff_ms */ 100u,
-        /* max_backoff_ms     */ 30'000u,
+        /* initial_backoff_ms */ 100,
+        /* max_backoff_ms     */ 30'000,
         /* multiplier         */ 2.0,
         /* jitter_fraction    */ 0.0,
     };
@@ -152,7 +154,9 @@ std::string LLMJudgeIntegration::evaluateDimension(
         [&]() -> std::optional<std::string> {
             try {
                 auto r = callLLM(prompt);
-                if (!r.empty()) return r;
+                if (!r.empty()) {
+                  return r;
+                }
             } catch (const std::exception& e) {
                 THEMIS_WARN("LLM call failed (dim={}): {}", static_cast<int>(dimension), e.what());
             }
@@ -160,7 +164,9 @@ std::string LLMJudgeIntegration::evaluateDimension(
         },
         dim_retry_cfg);
 
-    if (dim_result) return *dim_result;
+    if (dim_result) {
+      return *dim_result;
+    }
 
     THEMIS_ERROR("LLM failed to respond for dimension {}", static_cast<int>(dimension));
     return makeUnavailableJudgeJson("llm_unavailable");

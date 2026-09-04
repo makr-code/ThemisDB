@@ -30,7 +30,7 @@ namespace {
 /// Tokenise @p text into a set of lowercase alpha-numeric tokens.
 std::unordered_set<std::string> tokeniseSet(const std::string& text) {
     std::unordered_set<std::string> tokens;
-    std::string tok;
+    std::string tok = {};
     for (unsigned char ch : text) {
         if (std::isalnum(ch)) {
             tok += static_cast<char>(std::tolower(ch));
@@ -41,7 +41,9 @@ std::unordered_set<std::string> tokeniseSet(const std::string& text) {
             }
         }
     }
-    if (!tok.empty()) tokens.insert(tok);
+    if (!tok.empty()) {
+      tokens.insert(tok);
+    }
     return tokens;
 }
 
@@ -49,14 +51,20 @@ std::unordered_set<std::string> tokeniseSet(const std::string& text) {
 double jaccardTokenSets(const std::unordered_set<std::string>& A,
                         const std::unordered_set<std::string>& B)
 {
-    if (A.empty() && B.empty()) return 1.0;
-    if (A.empty() || B.empty()) return 0.0;
+    if (A.empty() && B.empty()) {
+      return 1.0;
+    }
+    if (A.empty() || B.empty()) {
+      return 0.0;
+    }
 
     std::size_t inter = 0;
     for (const auto& t : A) {
-        if (B.count(t)) ++inter;
+        if (B.count(t)) {
+          ++inter;
+        }
     }
-    const std::size_t uni = A.size() + B.size() - inter;
+    const std::size_t uni = static_cast<int>(A.size()) + static_cast<int>(B.size()) - inter;
     return uni == 0 ? 0.0 : static_cast<double>(inter) / static_cast<double>(uni);
 }
 
@@ -120,7 +128,7 @@ LoRAEnhancedRetriever::rerank(
     }
 
     const std::size_t rerank_k =
-        std::min(config_.top_k_rerank, candidates.size());
+        std::min(config_.top_k_rerank,static_cast<int>(candidates.size()));
 
     // Split into top-K (to re-rank) and the rest (append unchanged).
     std::vector<judge::RetrievedDocument> to_rerank(
@@ -152,9 +160,11 @@ LoRAEnhancedRetriever::rerank(
     if (config_.min_lora_score > 0.0) {
         auto partition_it = std::stable_partition(
             to_rerank.begin(), to_rerank.end(),
-            [&](const judge::RetrievedDocument& d) {
+            [&]([[maybe_unused]] const judge::RetrievedDocument& d) {
                 auto it = d.metadata.find("lora_score");
-                if (it == d.metadata.end()) return true;
+                if (it == d.metadata.end()) {
+                  return true;
+                }
                 try {
                     return std::stod(it->second) >= config_.min_lora_score;
                 } catch (...) {
@@ -166,7 +176,8 @@ LoRAEnhancedRetriever::rerank(
     }
 
     // Combine: re-ranked set first, then tail.
-    std::vector<judge::RetrievedDocument> result;
+    std::vector<judge::RetrievedDocument> result = {};
+
     result.reserve(candidates.size());
     result.insert(result.end(),
                   std::make_move_iterator(to_rerank.begin()),

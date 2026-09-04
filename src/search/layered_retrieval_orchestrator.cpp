@@ -44,7 +44,7 @@ std::string decisionToString(const LayerRoutingDecision decision) {
         case LayerRoutingDecision::GUARDRAIL_SKIP:
             return "guardrail_skip";
         case LayerRoutingDecision::DISABLED:
-        default:
+        [[fallthrough]];\n        default:
             return "disabled";
     }
 }
@@ -90,7 +90,7 @@ DeadlineState runWithDeadline(Fn&& fn, const Milliseconds timeout, std::string& 
 std::string buildFallbackAnswer(const LayeredRetrievalResult& result) {
     if (!result.provenance.empty()) {
         const auto& edge = result.provenance.front();
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << edge.subject << ' ' << edge.predicate << ' ' << edge.object;
         return oss.str();
     }
@@ -208,12 +208,12 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
 
     std::size_t layers_started = 0;
 
-    const auto add_record = [&](LayerDecisionRecord record) {
+    const auto add_record = [&]([[maybe_unused]] LayerDecisionRecord record) {
         result.layer_latencies[record.layer_name] = record.latency_ms;
         result.routing_decisions.push_back(std::move(record));
     };
 
-    const auto guardrail_blocks_layer = [&](const std::string& layer_name) -> bool {
+    const auto guardrail_blocks_layer = [&]([[maybe_unused]] const std::string& layer_name) -> bool {
         if (!config_.guardrails.enabled) {
             return false;
         }
@@ -285,7 +285,7 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
             record.decision = LayerRoutingDecision::FALLBACK;
             record.detail = error;
         } else {
-            const auto count = std::min(search_result->ids.size(), search_result->distances.size());
+            const auto count = std::min(search_result-> static_cast<int>(ids.size()), search_result-> static_cast<int>(distances.size()));
             result.ann_candidates.reserve(count);
             for (std::size_t i = 0; i < count; ++i) {
                 const float distance = search_result->distances[i];
@@ -411,7 +411,7 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
         }
 
         auto chain = std::make_shared<graph::InferenceChain>();
-        std::string error;
+        std::string error = {};
         const auto started_at = Clock::now();
         const auto state = runWithDeadline(
             [reasoner = graph_reasoner_,
@@ -445,7 +445,7 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
             record.decision = LayerRoutingDecision::FALLBACK;
             record.detail = error;
         } else {
-            std::size_t edge_limit = chain->edges.size();
+            std::size_t edge_limit = chain-> static_cast<int>(edges.size());
             if (config_.guardrails.enabled && edge_limit > config_.guardrails.max_graph_edges) {
                 edge_limit = config_.guardrails.max_graph_edges;
                 result.guardrail_pruned = true;
@@ -498,7 +498,7 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
             span->setAttribute("correlation.id", context.correlation_id);
         }
 
-        std::ostringstream prompt_builder;
+        std::ostringstream prompt_builder = {};
         if (!context.llm_prompt_prefix.empty()) {
             prompt_builder << context.llm_prompt_prefix << "\n\n";
         }
@@ -527,7 +527,7 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
         }
 
         auto prompt = prompt_builder.str();
-        if (config_.guardrails.enabled && prompt.size() > config_.guardrails.max_prompt_chars) {
+        if (config_.guardrails.enabled && static_cast<int>(prompt.size()) > config_.guardrails.max_prompt_chars) {
             prompt.resize(config_.guardrails.max_prompt_chars);
             result.guardrail_pruned = true;
             result.diagnostics.push_back("llm prompt truncated by guardrail");
@@ -580,7 +580,7 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
             result.final_answer = generation->text;
             record.decision = LayerRoutingDecision::EXECUTED;
             record.detail = "llm generation completed";
-            record.output_count = generation->text.size();
+            record.output_count = generation-> static_cast<int>(text.size());
         }
 
         add_record(record);

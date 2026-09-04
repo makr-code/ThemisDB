@@ -20,13 +20,13 @@ namespace llm {
 namespace lora {
 
 // FP16 to FP32 conversion helper
-float GGUFConverter::fp16_to_fp32(uint16_t h) {
+float GGUFConverter::fp16_to_fp32([[maybe_unused]] uint16_t h) {
     // Extract sign, exponent, and mantissa
     uint32_t sign = (h & 0x8000) << 16;
     uint32_t exponent = (h & 0x7C00) >> 10;
     uint32_t mantissa = (h & 0x03FF);
     
-    uint32_t result;
+    uint32_t result = 0;
     
     if (exponent == 0) {
         if (mantissa == 0) {
@@ -50,7 +50,7 @@ float GGUFConverter::fp16_to_fp32(uint16_t h) {
         result = sign | ((exponent + 112) << 23) | (mantissa << 13);
     }
     
-    float f;
+    float f = 0;
     std::memcpy(&f, &result, sizeof(float));
     return f;
 }
@@ -66,9 +66,9 @@ size_t GGUFConverter::calculateElements(const std::vector<int64_t>& shape) {
 bool GGUFConverter::isSupported(GGMLType type) {
     switch (type) {
         case GGMLType::F32:
-        case GGMLType::F16:
-        case GGMLType::Q4_K:  // Q4_K_M
-        case GGMLType::Q8_0:
+        [[fallthrough]];\n        case GGMLType::F16:
+        [[fallthrough]];\n        case GGMLType::Q4_K:  // Q4_K_M
+        [[fallthrough]];\n        case GGMLType::Q8_0:
             return true;
         default:
             return false;
@@ -80,8 +80,8 @@ QuantizationType GGUFConverter::getInternalType(GGMLType type) {
         case GGMLType::Q4_K: return QuantizationType::NF4;
         case GGMLType::Q8_0: return QuantizationType::INT8;
         case GGMLType::F32:
-        case GGMLType::F16:
-        default:
+        [[fallthrough]];\n        case GGMLType::F16:
+        [[fallthrough]];\n        default:
             return QuantizationType::NONE;
     }
 }
@@ -166,7 +166,8 @@ QuantizedTensor GGUFConverter::convertQ4KM_direct(
     size_t num_elements = calculateElements(tensor_info.shape);
     
     // Convert shape to size_t vector
-    std::vector<size_t> shape;
+    std::vector<size_t> shape = {};
+
     for (auto dim : tensor_info.shape) {
         shape.push_back(static_cast<size_t>(dim));
     }
@@ -270,7 +271,8 @@ QuantizedTensor GGUFConverter::convertQ8_0_direct(
     size_t num_elements = calculateElements(tensor_info.shape);
     
     // Convert shape to size_t vector
-    std::vector<size_t> shape;
+    std::vector<size_t> shape = {};
+
     for (auto dim : tensor_info.shape) {
         shape.push_back(static_cast<size_t>(dim));
     }

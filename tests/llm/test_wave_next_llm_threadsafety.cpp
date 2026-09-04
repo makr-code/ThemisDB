@@ -49,7 +49,9 @@ public:
     bool isModelLoaded() const                      override { return loaded_; }
 
     std::optional<themis::llm::ModelInfo> getModelInfo() const override {
-        if (!loaded_) return std::nullopt;
+        if (!loaded_) {
+          return std::nullopt;
+        }
         themis::llm::ModelInfo info{};
         info.model_id  = name_;
         info.is_loaded = true;
@@ -146,7 +148,9 @@ TEST(WaveBL7ThreadSafety, ConcurrentGetModel) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -278,7 +282,9 @@ TEST(WaveBL7ThreadSafety, AtomicPluginCounterExact) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // plugin_operation_count_ must equal kExpected (8 × 100 = 800).
     EXPECT_EQ(mgr.getPluginOperationCount(), kExpected);

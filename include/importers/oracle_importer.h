@@ -62,7 +62,7 @@ public:
 
 private:
     struct TableSchema {
-        std::string name;
+        std::string name = {};
         std::string schema;   ///< Owner/schema name (from CREATE TABLE "OWNER"."TABLE")
         std::vector<std::string> columns;
         std::map<std::string, std::string> column_types;

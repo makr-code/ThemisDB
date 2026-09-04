@@ -101,7 +101,7 @@ TEST(HardwareProfile, RegistryInitializesAndActivatesProfiles) {
         DeploymentProfileId::Development
     );
 
-    std::string error;
+    std::string error = {};
     EXPECT_TRUE(registry.activate("production", &error)) << error;
     ASSERT_NE(registry.activeProfile(), nullptr);
     EXPECT_EQ(

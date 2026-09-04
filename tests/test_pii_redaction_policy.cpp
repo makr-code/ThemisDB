@@ -210,7 +210,7 @@ protected:
         PIIRedactionPolicy::get().setStrictMode(false);
     }
 
-    std::ostringstream oss_;
+    std::ostringstream oss_ = {};
     std::shared_ptr<spdlog::logger> logger_;
 };
 

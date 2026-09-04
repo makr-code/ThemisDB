@@ -79,14 +79,28 @@ namespace {
 }
 
 MultiLoRAManager::MultiLoRAManager(const Config& config)
-    : config_(config), 
+    : config_(config),
+      loras_(),
+      adapter_state_lock_(),
+      adapter_cache_lock_(),
+      mutex_(),
+      metrics_lock_(),
+      eviction_cv_(),
       total_vram_bytes_(0),
-      next_round_robin_gpu_(0),
-      eviction_thread_(nullptr),
       cache_hits_(0),
       cache_misses_(0),
       evictions_(0),
-      switches_(0) {
+      switches_(0),
+      gpu_vram_usage_(),
+      next_round_robin_gpu_(0),
+      lora_tenants_(),
+      audit_log_(),
+      gpu_health_status_(),
+      gpu_last_health_check_(),
+      fusion_cache_(),
+      eviction_thread_(nullptr),
+      eviction_thread_running_(false),
+      eviction_thread_done_(false) {
     
     spdlog::info("MultiLoRAManager initialized (vLLM-style):");
     spdlog::info("  Max LoRA VRAM: {} MB", config_.max_lora_vram_mb);
@@ -130,7 +144,7 @@ MultiLoRAManager::MultiLoRAManager(const Config& config)
                          config_.multi_gpu.strategy == MultiGPUStrategy::ROUND_ROBIN ? "ROUND_ROBIN" :
                          config_.multi_gpu.strategy == MultiGPUStrategy::DATA_PARALLEL ? "DATA_PARALLEL" :
                          config_.multi_gpu.strategy == MultiGPUStrategy::MODEL_PARALLEL ? "MODEL_PARALLEL" : "UNKNOWN");
-            spdlog::info("    Devices: {} GPUs", config_.multi_gpu.devices.size());
+            spdlog::info("    Devices: {} GPUs",static_cast<int>(config_.multi_gpu.devices.size()));
             spdlog::info("    Max VRAM per GPU: {} MB", config_.multi_gpu.max_vram_per_gpu_mb);
             spdlog::info("    Peer transfer: {}", config_.multi_gpu.enable_peer_transfer ? "enabled" : "disabled");
             
@@ -337,7 +351,7 @@ bool MultiLoRAManager::loadLoRA(
             spdlog::warn("LoRA cache entry {} is empty (null slot), reloading", lora_id);
             loras_.erase(it);
             cache_misses_++;
-            if (loras_.size() >= config_.max_lora_slots) {
+            if (static_cast<int>(loras_.size()) > = config_.max_lora_slots) {
                 spdlog::info("LoRA cache full, evicting LRU");
                 evictLRU();
             }
@@ -356,7 +370,7 @@ bool MultiLoRAManager::loadLoRA(
     cache_misses_++;
     
     // Check if we need to evict
-    if (loras_.size() >= config_.max_lora_slots) {
+    if (static_cast<int>(loras_.size()) > = config_.max_lora_slots) {
         spdlog::info("LoRA cache full, evicting LRU");
         evictLRU();
     }
@@ -521,7 +535,7 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
     // the lookup here and copy mutable fields to stack-local variables before releasing.
     void* adapter_handle = nullptr;
     float scale = 0.0f;
-    ApplyAdapterFn apply_fn_copy;
+    ApplyAdapterFn apply_fn_copy = ApplyAdapterFn();
     bool has_adapter = false;
 
     {
@@ -624,7 +638,7 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
 bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* context) {
     // Same lock-then-snapshot pattern as applyLoRA to prevent use-after-free.
     void* adapter_handle = nullptr;
-    RemoveAdapterFn remove_fn_copy;
+    RemoveAdapterFn remove_fn_copy = RemoveAdapterFn();
     bool has_adapter = false;
 
     {
@@ -726,11 +740,11 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
     const std::vector<std::pair<InferenceRequest, std::string>>& requests,
     llama_context* model_context
 ) {
-    spdlog::info("Multi-LoRA batch inference: {} requests", requests.size());
+    spdlog::info("Multi-LoRA batch inference: {} requests",static_cast<int>(requests.size()));
 
     if (!config_.enable_multi_lora_batch) {
         errors::logError(errors::ErrorCode::ERR_LORA_BATCHING_DISABLED);
-        return {};
+        return std::vector<InferenceResponse>();
     }
 
     // A valid llama_context is required for inference.
@@ -776,20 +790,20 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
 
     // Group requests by LoRA adapter for efficiency
     std::map<std::string, std::vector<size_t>> lora_to_requests;
-    for (size_t i = 0; i < requests.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(requests.size()); ++i) {
         lora_to_requests[requests[i].second].push_back(i);
     }
 
-    spdlog::debug("Batch has {} unique LoRAs", lora_to_requests.size());
+    spdlog::debug("Batch has {} unique LoRAs",static_cast<int>(lora_to_requests.size()));
 
     // Process each LoRA group sequentially: apply adapter → generate → remove adapter
     for (const auto& [lora_id, indices] : lora_to_requests) {
-        spdlog::debug("Processing {} requests with LoRA {}", indices.size(), lora_id);
+        spdlog::debug("Processing {} requests with LoRA {}",static_cast<int>(indices.size()), lora_id);
 
         // Verify LoRA is loaded
         auto* lora = getLoRA(lora_id);
         if (!lora) {
-            spdlog::warn("LoRA {} not loaded, skipping {} requests", lora_id, indices.size());
+            spdlog::warn("LoRA {} not loaded, skipping {} requests", lora_id,static_cast<int>(indices.size()));
             for (size_t idx : indices) {
                 responses[idx].success       = false;
                 responses[idx].error_message = "LoRA not loaded: " + lora_id;
@@ -811,7 +825,7 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             const InferenceRequest& request = requests[idx].first;
             auto wall_start = std::chrono::steady_clock::now();
 
-            InferenceResponse response;
+            InferenceResponse response = InferenceResponse();
             response.model_used  = lora->base_model_id;
             response.lora_used   = lora_id;
             response.request_id  = request.request_id;
@@ -890,7 +904,9 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
                     }
                 }
 
-                if (next_token == eos_token) break;
+                if (next_token == eos_token) {
+                  break;
+                }
 
                 generated.push_back(next_token);
 
@@ -904,7 +920,7 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             }
 
             // --- Detokenise generated tokens ---
-            std::string generated_text;
+            std::string generated_text = {};
             generated_text.reserve(generated.size() * 4);
             char piece_buf[256];
             for (int32_t token_id : generated) {
@@ -940,7 +956,7 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
         lora->use_count += indices.size();
     }
 
-    spdlog::info("Multi-LoRA batch inference completed: {} responses", responses.size());
+    spdlog::info("Multi-LoRA batch inference completed: {} responses",static_cast<int>(responses.size()));
     return responses;
 }
 
@@ -949,7 +965,7 @@ bool MultiLoRAManager::fuseLoRAs(
     const std::string& fused_id,
     const std::vector<float>& weights
 ) {
-    spdlog::info("Fusing {} LoRAs into: {}", lora_ids.size(), fused_id);
+    spdlog::info("Fusing {} LoRAs into: {}",static_cast<int>(lora_ids.size()), fused_id);
     
     if (!config_.enable_adapter_fusion) {
         spdlog::error("Adapter fusion is disabled");
@@ -961,9 +977,9 @@ bool MultiLoRAManager::fuseLoRAs(
         return false;
     }
     
-    if (lora_ids.size() != weights.size()) {
+    if (static_cast<int>(lora_ids.size()) != static_cast<int>(weights.size())) {
         errors::logError(errors::ErrorCode::ERR_LORA_WEIGHT_MISMATCH,
-                        lora_ids.size(), weights.size());
+                        lora_ids.size(),static_cast<int>(weights.size()));
         return false;
     }
     
@@ -975,9 +991,9 @@ bool MultiLoRAManager::fuseLoRAs(
     
     // Validate all LoRAs are loaded and compatible
     std::vector<LoRASlot*> source_loras;
-    std::string base_model_id;
+    std::string base_model_id = {};
     
-    for (size_t i = 0; i < lora_ids.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(lora_ids.size()); ++i) {
         auto it = loras_.find(lora_ids[i]);
         if (it == loras_.end()) {
             errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_ids[i]);
@@ -1014,7 +1030,8 @@ bool MultiLoRAManager::fuseLoRAs(
         return false;
     }
     
-    std::vector<float> normalized_weights;
+    std::vector<float> normalized_weights = {};
+
     for (float w : weights) {
         normalized_weights.push_back(w / weight_sum);
     }
@@ -1034,7 +1051,7 @@ bool MultiLoRAManager::fuseLoRAs(
     float avg_alpha = 0.0f;
     size_t total_vram = 0;
     
-    for (size_t i = 0; i < source_loras.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(source_loras.size()); ++i) {
         avg_rank += source_loras[i]->rank * normalized_weights[i];
         avg_alpha += source_loras[i]->alpha * normalized_weights[i];
         // VRAM usage is approximately the maximum of individual LoRAs
@@ -1059,7 +1076,7 @@ bool MultiLoRAManager::fuseLoRAs(
     // Check VRAM budget
     if (total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * BYTES_PER_MB) {
         spdlog::warn("Fused LoRA would exceed VRAM budget, attempting eviction");
-        while (loras_.size() > 0 && 
+        while (static_cast<int>(loras_.size()) > 0 && 
                total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * BYTES_PER_MB) {
             evictLRU();
         }
@@ -1070,7 +1087,7 @@ bool MultiLoRAManager::fuseLoRAs(
     loras_[fused_id] = std::move(fused_lora);
     
     spdlog::info("LoRA fusion completed: {} created from {} source LoRAs", 
-                 fused_id, lora_ids.size());
+                 fused_id,static_cast<int>(lora_ids.size()));
     spdlog::debug("Fused LoRA properties: rank={}, alpha={}, VRAM={}MB", 
                  loras_[fused_id]->rank, 
                  loras_[fused_id]->alpha,
@@ -1115,14 +1132,15 @@ bool MultiLoRAManager::isLoRALoaded(const std::string& lora_id) const {
 std::vector<LoRAInfo> MultiLoRAManager::listLoRAs() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<LoRAInfo> result;
+    std::vector<LoRAInfo> result = {};
+
     result.reserve(loras_.size());
     
     for (const auto& [id, slot] : loras_) {
         if (!slot) {
             continue;
         }
-        LoRAInfo info;
+        LoRAInfo info = LoRAInfo();
         info.id = id;
         info.name = id;
         info.lora_id = id;
@@ -1140,13 +1158,14 @@ std::vector<LoRAInfo> MultiLoRAManager::listLoRAs() const {
 
 std::vector<LoRAInfo> MultiLoRAManager::listLoRAs(const std::string& base_model_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<LoRAInfo> result;
+    std::vector<LoRAInfo> result = {};
+
     for (const auto& [id, slot] : loras_) {
         if (!slot) {
             continue;
         }
         if (base_model_id.empty() || slot->base_model_id == base_model_id) {
-            LoRAInfo info;
+            LoRAInfo info = LoRAInfo();
             info.id = id;
             info.name = id;
             info.path = slot->path;
@@ -1165,12 +1184,14 @@ std::vector<LoRAInfo> MultiLoRAManager::listLoRAs(const std::string& base_model_
 std::optional<LoRAInfo> MultiLoRAManager::getLoRAInfo(const std::string& lora_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = loras_.find(lora_id);
-    if (it == loras_.end()) return std::nullopt;
+    if (it == loras_.end()) {
+      return std::nullopt;
+    }
     const auto* const slot = it->second.get();
     if (!slot) {
         return std::nullopt;
     }
-    LoRAInfo info;
+    LoRAInfo info = LoRAInfo();
     info.id = it->first;
     info.name = it->first;
     info.lora_id = it->first;
@@ -1183,7 +1204,7 @@ std::optional<LoRAInfo> MultiLoRAManager::getLoRAInfo(const std::string& lora_id
     return info;
 }
 
-size_t MultiLoRAManager::evictLRU(size_t /*target_vram_mb*/) {
+size_t MultiLoRAManager::evictLRU([[maybe_unused]] size_t /*target_vram_mb*/) {
     // Already locked by caller
     
     if (loras_.empty()) {
@@ -1192,7 +1213,7 @@ size_t MultiLoRAManager::evictLRU(size_t /*target_vram_mb*/) {
     
     // Find LRU unpinned LoRA
     LoRASlot* lru_lora = nullptr;
-    std::string lru_id;
+    std::string lru_id = {};
     auto oldest_time = std::chrono::system_clock::now();
     
     for (auto& [id, lora] : loras_) {
@@ -1306,7 +1327,7 @@ json MultiLoRAManager::getCacheStats() const {
 
 MultiLoRAManager::Stats MultiLoRAManager::getStatistics() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    Stats s;
+    Stats s = Stats();
     s.total_loras_loaded = loras_.size();
     s.cache_hits = cache_hits_;
     s.cache_misses = cache_misses_;
@@ -1319,7 +1340,7 @@ std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
     auto* lora = getLoRA(lora_id);
     if (!lora) {
         errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
-        return {};
+        return std::vector<uint8_t>();
     }
     
     spdlog::info("Exporting LoRA for cross-shard transfer: {}", lora_id);
@@ -1331,17 +1352,17 @@ std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
     
     // Simple serialization format:
     // [lora_id_length][lora_id][path_length][path][vram_bytes][rank][alpha][scale]
-    size_t id_len = lora->lora_id.size();
-    size_t path_len = lora->path.size();
+    size_t id_len = lora-> static_cast<int>(lora_id.size());
+    size_t path_len = lora-> static_cast<int>(path.size());
     
     serialized.resize(sizeof(size_t) * 2 + id_len + path_len + sizeof(size_t) + sizeof(int) * 2 + sizeof(float));
     
     size_t offset = 0;
     // Validate each write stays within the pre-allocated buffer (scanner-friendly bounds anchoring)
     const size_t expected_size = sizeof(size_t) * 2 + id_len + path_len + sizeof(size_t) + sizeof(int) * 2 + sizeof(float);
-    if (serialized.size() < expected_size) {
+    if (static_cast<int>(serialized.size()) < expected_size) {
         spdlog::error("LoRA serialization buffer underallocated for {}", lora_id);
-        return {};
+        return std::vector<uint8_t>();
     }
     std::memcpy(serialized.data() + offset, &id_len, sizeof(size_t));
     offset += sizeof(size_t);
@@ -1359,7 +1380,7 @@ std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
     offset += sizeof(int);
     std::memcpy(serialized.data() + offset, &lora->scale, sizeof(float));
     
-    spdlog::info("LoRA {} serialized: {} bytes", lora_id, serialized.size());
+    spdlog::info("LoRA {} serialized: {} bytes", lora_id,static_cast<int>(serialized.size()));
     
     return serialized;
 }
@@ -1372,7 +1393,7 @@ bool MultiLoRAManager::importLoRA(
     std::lock_guard<std::mutex> lock(mutex_);
     
     spdlog::info("Importing LoRA from remote shard: {} ({} bytes)", 
-                 lora_id, data.size());
+                 lora_id,static_cast<int>(data.size()));
     
     // Security: Warn about missing integrity verification for imported LoRAs
     // Imported LoRAs are not verified for integrity (checksum/signature) which could
@@ -1384,7 +1405,7 @@ bool MultiLoRAManager::importLoRA(
     // Security: Validate data size to prevent import of maliciously crafted data
     // Reject excessively large imports that could indicate tampering or DoS
     const size_t MAX_LORA_IMPORT_SIZE = config_.max_lora_vram_mb * 1024 * 1024 * 2; // 2x VRAM budget
-    if (data.size() > MAX_LORA_IMPORT_SIZE) {
+    if (static_cast<int>(data.size()) > MAX_LORA_IMPORT_SIZE) {
         spdlog::error("[SECURITY] LoRA import rejected: data size {} exceeds maximum allowed {} bytes",
                      data.size(), MAX_LORA_IMPORT_SIZE);
         errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "data too large");
@@ -1403,7 +1424,7 @@ bool MultiLoRAManager::importLoRA(
     size_t offset = 0;
     size_t id_len, path_len;
     
-    if (data.size() < sizeof(size_t)) {
+    if (static_cast<int>(data.size()) < sizeof(size_t)) {
         errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "too small");
         return false;
     }
@@ -1411,7 +1432,7 @@ bool MultiLoRAManager::importLoRA(
     std::memcpy(&id_len, data.data() + offset, sizeof(size_t));
     offset += sizeof(size_t);
     
-    if (offset + id_len > data.size()) {
+    if (offset + id_len > static_cast<int>(data.size())) {
         errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "invalid id_len");
         return false;
     }
@@ -1422,7 +1443,7 @@ bool MultiLoRAManager::importLoRA(
     std::memcpy(&path_len, data.data() + offset, sizeof(size_t));
     offset += sizeof(size_t);
     
-    if (offset + path_len > data.size()) {
+    if (offset + path_len > static_cast<int>(data.size())) {
         errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "invalid path_len");
         return false;
     }
@@ -1476,7 +1497,7 @@ bool MultiLoRAManager::importLoRA(
     return true;
 }
 
-bool MultiLoRAManager::hasCapacity(size_t vram_bytes) const {
+bool MultiLoRAManager::hasCapacity([[maybe_unused]] size_t vram_bytes) const {
     std::lock_guard<std::mutex> lock(mutex_);
     // FIND-015: Use named constant for byte to MB conversion
     size_t vram_mb = vram_bytes / BYTES_PER_MB;
@@ -1513,7 +1534,7 @@ std::optional<QuantizationStats> MultiLoRAManager::getQuantizationStats(const st
         return std::nullopt;
     }
     
-    QuantizationStats stats;
+    QuantizationStats stats = QuantizationStats();
     stats.lora_id = lora_id;
     stats.mode = lora->quantization_mode;
     stats.original_bytes = lora->original_vram_bytes;
@@ -1522,11 +1543,11 @@ std::optional<QuantizationStats> MultiLoRAManager::getQuantizationStats(const st
     
     // Calculate scale statistics
     if (!lora->scale_factors.empty()) {
-        stats.num_channels = lora->scale_factors.size();
+        stats.num_channels = lora-> static_cast<int>(scale_factors.size());
         stats.min_scale = *std::min_element(lora->scale_factors.begin(), lora->scale_factors.end());
         stats.max_scale = *std::max_element(lora->scale_factors.begin(), lora->scale_factors.end());
         stats.avg_scale = std::accumulate(lora->scale_factors.begin(), lora->scale_factors.end(), 0.0f) 
-                         / lora->scale_factors.size();
+                         / static_cast<float>(lora-> static_cast<int>(scale_factors.size()));
     }
     
     return stats;
@@ -1550,7 +1571,7 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
         
         // Load actual LoRA weights from the GGUF file for quantization.
         std::vector<float> weights;
-        GGUFLoader gguf_loader;
+        GGUFLoader gguf_loader = {};
         if (!lora->path.empty() && gguf_loader.parseFile(lora->path)) {
             const auto& meta = gguf_loader.getMetadata();
             // Update VRAM estimate from real file metadata.
@@ -1559,7 +1580,7 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
                 lora->vram_bytes          = meta.total_size;
             }
             // Find the first F32 or F16 weight tensor to use for scale calibration.
-            std::string weight_tensor;
+            std::string weight_tensor = {};
             for (const auto& t : meta.tensors) {
                 if (t.type == GGMLType::F32 || t.type == GGMLType::F16) {
                     weight_tensor = t.name;
@@ -1576,8 +1597,8 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
                         const uint16_t* h = reinterpret_cast<const uint16_t*>(raw.data());
                         for (size_t i = 0; i < n_f16; ++i) {
                             // IEEE 754 half-precision to single-precision conversion.
-                            uint32_t s = (h[i] >> 15u) & 1u;
-                            uint32_t e = (h[i] >> 10u) & 0x1fu;
+                            uint32_t s = (h[i] >> 15) & 1;
+                            uint32_t e = (h[i] >> 10) & 0x1fu;
                             uint32_t m = h[i] & 0x3ffu;
                             if (e == 0) {
                                 weights[i] = (s ? -1.f : 1.f) * std::ldexp(static_cast<float>(m), -24);
@@ -1586,14 +1607,14 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
                                                             :  std::numeric_limits<float>::infinity())
                                                        : std::numeric_limits<float>::quiet_NaN();
                             } else {
-                                weights[i] = (s ? -1.f : 1.f) * std::ldexp(static_cast<float>(m + (1u << 10u)),
+                                weights[i] = (s ? -1.f : 1.f) * std::ldexp(static_cast<float>(m + (1 << 10)),
                                                                              static_cast<int>(e) - 25);
                             }
                         }
                     } else {
                         size_t n_f32 = raw.size() / sizeof(float);
                         weights.resize(n_f32);
-                        std::memcpy(weights.data(), raw.data(), raw.size());
+                        std::memcpy(weights.data(), raw.data(),static_cast<int>(raw.size()));
                     }
                     spdlog::debug("quantizeLoRA: loaded {} floats from tensor '{}' in {}",
                                   weights.size(), weight_tensor, lora->path);
@@ -1693,7 +1714,9 @@ void MultiLoRAManager::quantizeINT8(LoRASlot* lora, const std::vector<float>& we
         // Quantize weights
         for (size_t ch = 0; ch < num_channels; ++ch) {
             float scale = lora->scale_factors[ch];
-            if (scale < MIN_SCALE_EPSILON) scale = MIN_SCALE_EPSILON;
+            if (scale < MIN_SCALE_EPSILON) {
+              scale = MIN_SCALE_EPSILON;
+            }
             
             size_t offset = ch * weights_per_channel;
             
@@ -1713,7 +1736,7 @@ void MultiLoRAManager::quantizeINT8(LoRASlot* lora, const std::vector<float>& we
         // Update metadata
         lora->is_quantized = true;
         lora->quantization_mode = QuantizationMode::INT8;
-        lora->vram_bytes = num_weights + lora->scale_factors.size() * sizeof(float);  // INT8 weights + scales
+        lora->vram_bytes = num_weights + lora-> static_cast<int>(scale_factors.size()) * sizeof(float);  // INT8 weights + scales
         
         spdlog::debug("INT8 quantization: {} channels, {} weights per channel", 
                       num_channels, weights_per_channel);
@@ -1791,7 +1814,7 @@ void MultiLoRAManager::quantizeINT4(LoRASlot* lora, const std::vector<float>& we
         // Update metadata
         lora->is_quantized = true;
         lora->quantization_mode = QuantizationMode::INT4;
-        lora->vram_bytes = lora->quantized_weights.size() + lora->scale_factors.size() * sizeof(float);
+        lora->vram_bytes = lora-> static_cast<int>(quantized_weights.size()) + lora-> static_cast<int>(scale_factors.size()) * sizeof(float);
         
         spdlog::debug("INT4 quantization: {} groups, {} group size", num_groups, group_size);
     } catch (const std::exception& e) {
@@ -1806,7 +1829,7 @@ void MultiLoRAManager::calibrateScales(const std::vector<float>& weights, std::v
     
     if (scales.empty() || weights.empty()) {
         spdlog::error("calibrateScales: empty scales ({}) or weights ({}) vector", 
-                      scales.size(), weights.size());
+                      scales.size(),static_cast<int>(weights.size()));
         return;
     }
     
@@ -1828,7 +1851,7 @@ void MultiLoRAManager::calibrateScales(const std::vector<float>& weights, std::v
         float max_abs = 0.0f;
         
         // Find max absolute value in this channel
-        for (size_t i = 0; i < weights_per_channel && (offset + i) < weights.size(); ++i) {
+        for (size_t i = 0; i < weights_per_channel && (offset + i) <static_cast<int>(weights.size()); ++i) {
             max_abs = std::max(max_abs, std::abs(weights[offset + i]));
         }
         
@@ -1859,14 +1882,14 @@ void MultiLoRAManager::calibrateScales(const std::vector<float>& weights, std::v
     }
 }
 
-std::vector<float> MultiLoRAManager::simulateWeights(size_t count) {
+std::vector<float> MultiLoRAManager::simulateWeights([[maybe_unused]] size_t count) {
     // Deterministic weight estimate used only when the backing GGUF file cannot
     // be parsed.  Values are scaled to [-1, 1] so that quantization scale
     // calibration produces meaningful (non-trivial) results.
     const size_t kMaxAlloc = 1024 * 1024 / sizeof(float);  // cap at 1 MB
     size_t actual = std::min(count, kMaxAlloc);
     if (actual == 0) {
-        return {};
+        return std::vector<float>();
     }
     try {
         std::vector<float> weights(actual);
@@ -1877,7 +1900,7 @@ std::vector<float> MultiLoRAManager::simulateWeights(size_t count) {
     } catch (const std::bad_alloc& e) {
         spdlog::error("simulateWeights: allocation failed (count={}, actual={}): {}",
                       count, actual, e.what());
-        return {};
+        return std::vector<float>();
     }
 }
 
@@ -1903,7 +1926,7 @@ bool MultiLoRAManager::loadLoRA(
             spdlog::warn("LoRA cache entry {} is empty (null slot), reloading", lora_id);
             loras_.erase(it);
             cache_misses_++;
-            if (loras_.size() >= config_.max_lora_slots) {
+            if (static_cast<int>(loras_.size()) > = config_.max_lora_slots) {
                 spdlog::info("LoRA cache full, evicting LRU");
                 evictLRU();
             }
@@ -1920,7 +1943,7 @@ bool MultiLoRAManager::loadLoRA(
     cache_misses_++;
     
     // Check if we need to evict
-    if (loras_.size() >= config_.max_lora_slots) {
+    if (static_cast<int>(loras_.size()) > = config_.max_lora_slots) {
         spdlog::info("LoRA cache full, evicting LRU");
         evictLRU();
     }
@@ -1948,7 +1971,7 @@ void MultiLoRAManager::setMultiGPUConfig(const MultiGPUConfig& config) {
         next_round_robin_gpu_ = 0;
     }
     
-    spdlog::info("Multi-GPU configuration updated: {} GPUs", config.devices.size());
+    spdlog::info("Multi-GPU configuration updated: {} GPUs",static_cast<int>(config.devices.size()));
 }
 
 std::vector<int> MultiLoRAManager::getLoRAGPUPlacement(const std::string& lora_id) const {
@@ -1956,12 +1979,12 @@ std::vector<int> MultiLoRAManager::getLoRAGPUPlacement(const std::string& lora_i
     
     auto it = loras_.find(lora_id);
     if (it == loras_.end()) {
-        return {};
+        return std::vector<int>();
     }
 
     auto* const slot = it->second.get();
     if (!slot) {
-        return {};
+        return std::vector<int>();
     }
     
     return slot->assigned_gpus;
@@ -1980,7 +2003,7 @@ size_t MultiLoRAManager::balanceGPULoad() {
         return 0;
     }
     
-    if (config_.multi_gpu.devices.size() < 2) {
+    if (static_cast<int>(config_.multi_gpu.devices.size()) < 2) {
         return 0;  // Nothing to balance with single GPU
     }
     
@@ -2046,7 +2069,9 @@ size_t MultiLoRAManager::balanceGPULoad() {
                 }
             }
         }
-        if (moved >= 5) break;
+        if (moved >= 5) {
+          break;
+        }
     }
     
     if (moved > 0) {
@@ -2058,7 +2083,7 @@ size_t MultiLoRAManager::balanceGPULoad() {
 
 // Internal multi-GPU helper methods
 
-int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
+int MultiLoRAManager::selectGPUForLoRA([[maybe_unused]] size_t vram_bytes) {
     // Already locked by caller
     
     if (!config_.multi_gpu.enabled || config_.multi_gpu.devices.empty()) {
@@ -2068,7 +2093,7 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
     // Validate that devices list is not corrupted
     if (static_cast<size_t>(next_round_robin_gpu_) >= config_.multi_gpu.devices.size()) {
         spdlog::error("next_round_robin_gpu_ {} out of bounds (devices.size()={}), resetting to 0", 
-                      next_round_robin_gpu_, config_.multi_gpu.devices.size());
+                      next_round_robin_gpu_,static_cast<int>(config_.multi_gpu.devices.size()));
         next_round_robin_gpu_ = 0;
     }
     
@@ -2080,7 +2105,7 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
         case MultiGPUStrategy::ROUND_ROBIN: {
             // Simple round-robin across GPUs
             int selected_gpu = config_.multi_gpu.devices[next_round_robin_gpu_];
-            next_round_robin_gpu_ = (next_round_robin_gpu_ + 1) % config_.multi_gpu.devices.size();
+            next_round_robin_gpu_ = static_cast<int>((next_round_robin_gpu_ + 1) % static_cast<int>(config_.multi_gpu.devices.size()));
             
             // Validate GPU is in tracking map
             if (gpu_vram_usage_.find(selected_gpu) == gpu_vram_usage_.end()) {
@@ -2138,7 +2163,7 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
             
             size_t max_free = max_vram_per_gpu_bytes - gpu_vram_usage_[best_gpu];
             
-            for (size_t i = 1; i < config_.multi_gpu.devices.size(); ++i) {
+            for (size_t i = 1; i <static_cast<int>(config_.multi_gpu.devices.size()); ++i) {
                 int gpu_id = config_.multi_gpu.devices[i];
                 
                 // Initialize if not in map
@@ -2216,7 +2241,7 @@ bool MultiLoRAManager::loadLoRAMultiGPU(LoRASlot* lora) {
             }
             
             spdlog::info("LoRA {} replicated across {} GPUs (data parallel)", 
-                         lora->lora_id, lora->assigned_gpus.size());
+                         lora->lora_id, lora-> static_cast<int>(assigned_gpus.size()));
             break;
         }
         
@@ -2227,9 +2252,9 @@ bool MultiLoRAManager::loadLoRAMultiGPU(LoRASlot* lora) {
             lora->primary_gpu = config_.multi_gpu.devices[0];
             lora->gpu_placement = GPUPlacement::MULTI_GPU;
             
-            for (size_t i = 0; i < config_.multi_gpu.devices.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(config_.multi_gpu.devices.size()); ++i) {
                 int gpu_id = config_.multi_gpu.devices[i];
-                size_t chunk = (i == config_.multi_gpu.devices.size() - 1) ? 
+                size_t chunk = (i == static_cast<int>(config_.multi_gpu.devices.size()) - 1) ? 
                               (lora->vram_bytes - chunk_size * i) : chunk_size;
                 
                 // In production: load shard on each GPU
@@ -2239,7 +2264,7 @@ bool MultiLoRAManager::loadLoRAMultiGPU(LoRASlot* lora) {
             }
             
             spdlog::info("LoRA {} split across {} GPUs (model parallel)", 
-                         lora->lora_id, lora->assigned_gpus.size());
+                         lora->lora_id, lora-> static_cast<int>(assigned_gpus.size()));
             break;
         }
         
@@ -2272,7 +2297,7 @@ void MultiLoRAManager::updateGPUMemoryTracking() {
                     gpu_vram_usage_[gpu_id] += lora->vram_bytes;
                 } else {
                     // Split across GPUs
-                    size_t chunk = lora->vram_bytes / lora->assigned_gpus.size();
+                    size_t chunk = lora->vram_bytes / lora-> static_cast<int>(assigned_gpus.size());
                     gpu_vram_usage_[gpu_id] += chunk;
                 }
             }
@@ -2280,7 +2305,7 @@ void MultiLoRAManager::updateGPUMemoryTracking() {
     }
 }
 
-bool MultiLoRAManager::isGPUHealthy(int gpu_id) const {
+bool MultiLoRAManager::isGPUHealthy([[maybe_unused]] int gpu_id) const {
     // Already locked by caller
 
     // Verify the GPU is in the configured device list first.
@@ -2321,7 +2346,8 @@ std::vector<int> MultiLoRAManager::getAvailableGPUs() const {
         return {0};
     }
     
-    std::vector<int> available;
+    std::vector<int> available = {};
+
     for (int gpu_id : config_.multi_gpu.devices) {
         if (isGPUHealthy(gpu_id)) {
             available.push_back(gpu_id);
@@ -2424,7 +2450,7 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
     // The actual llama.cpp adapter handle is initialized lazily in
     // initializeLoRAWithModel() once the base llama_model* is known.
     {
-        GGUFLoader gguf_loader;
+        GGUFLoader gguf_loader = {};
         if (gguf_loader.parseFile(lora_path)) {
             const auto& meta = gguf_loader.getMetadata();
             if (meta.total_size > 0) {
@@ -2462,7 +2488,7 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
         // Non-GGUF fixtures (e.g. test .bin files) still need a stable
         // non-zero size estimate for memory accounting and quantization paths.
         if (lora->original_vram_bytes == 0 || lora->vram_bytes == 0) {
-            std::error_code size_ec;
+            std::error_code size_ec = {};
             const auto file_bytes = std::filesystem::file_size(lora_path, size_ec);
             if (!size_ec && file_bytes > 0) {
                 lora->original_vram_bytes = file_bytes;
@@ -2530,7 +2556,7 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
     
     spdlog::info("LoRA loaded successfully: {} ({} MB VRAM, GPU(s): {})", 
                  lora_id, result->vram_bytes / (1024 * 1024),
-                 result->assigned_gpus.size());
+                 result-> static_cast<int>(assigned_gpus.size()));
     
     return result;
 }
@@ -2679,7 +2705,7 @@ size_t MultiLoRAManager::evictResourceAware(int gpu_id, size_t target_vram_mb) {
     
     // Build eviction candidates
     struct EvictionCandidate {
-        std::string lora_id;
+        std::string lora_id = {};
         LoRASlot* lora;
         double score;  // Lower score = evict first
     };
@@ -2988,7 +3014,8 @@ size_t MultiLoRAManager::checkGPUHealthAndMigrate() {
     }
     
     // Find unhealthy GPUs with LoRAs
-    std::vector<int> unhealthy_gpus;
+    std::vector<int> unhealthy_gpus = {};
+
     for (const auto& [gpu_id, is_healthy] : gpu_health_status_) {
         if (!is_healthy) {
             unhealthy_gpus.push_back(gpu_id);
@@ -3013,7 +3040,8 @@ size_t MultiLoRAManager::checkGPUHealthAndMigrate() {
         spdlog::warn("GPU {} is unhealthy, migrating adapters", unhealthy_gpu);
         
         // Find LoRAs on unhealthy GPU
-        std::vector<std::string> loras_to_migrate;
+        std::vector<std::string> loras_to_migrate = {};
+
         for (const auto& [id, lora] : loras_) {
             if (!lora) {
                 continue;
@@ -3098,15 +3126,15 @@ void MultiLoRAManager::setLoRATenant(const std::string& lora_id, const std::stri
     }
 }
 
-json MultiLoRAManager::getGPUTransferAuditLog(size_t limit) const {
+json MultiLoRAManager::getGPUTransferAuditLog([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     json log = json::array();
     
-    size_t start = (limit > 0 && audit_log_.size() > limit) ? 
-                   (audit_log_.size() - limit) : 0;
+    size_t start = (limit > 0 && static_cast<int>(audit_log_.size()) > limit) ? 
+                   (static_cast<int>(audit_log_.size()) - limit) : 0;
     
-    for (size_t i = start; i < audit_log_.size(); ++i) {
+    for (size_t i = start; i <static_cast<int>(audit_log_.size()); ++i) {
         const auto& event = audit_log_[i];
         
         json entry;
@@ -3135,7 +3163,7 @@ void MultiLoRAManager::logGPUTransferEvent(const std::string& event_type,
     // This method is called from: loadLoRAInternal, unloadLoRA, evictResourceAware,
     // migrateLoRAToGPU, checkGPUHealthAndMigrate
     
-    AuditEvent event;
+    AuditEvent event = AuditEvent();
     event.timestamp = std::chrono::system_clock::now();
     event.event_type = event_type;
     event.lora_id = lora_id;
@@ -3145,12 +3173,12 @@ void MultiLoRAManager::logGPUTransferEvent(const std::string& event_type,
     event.vram_bytes = vram_bytes;
     event.details = details;
     
-    audit_log_.push_back(event);
+    audit_log_.push_back([[maybe_unused]] event);
     
     // Trim log if it exceeds max size
-    if (audit_log_.size() > max_audit_log_size_) {
+    if (static_cast<int>(audit_log_.size()) > max_audit_log_size_) {
         audit_log_.erase(audit_log_.begin(), 
-                        audit_log_.begin() + (audit_log_.size() - max_audit_log_size_));
+                        audit_log_.begin() + (static_cast<int>(audit_log_.size()) - max_audit_log_size_));
     }
     
     // Log to spdlog for external audit systems
@@ -3230,7 +3258,7 @@ bool MultiLoRAManager::fuseLoRAsAdvanced(
         // Update cache and shared metrics under lock.
         std::lock_guard<std::mutex> lock(mutex_);
         if (config.enable_cache) {
-            FusionCacheEntry entry;
+            FusionCacheEntry entry = FusionCacheEntry();
             entry.fusion_id = fused_id;
             entry.source_lora_ids = config.source_lora_ids;
             entry.weights = config.weights;
@@ -3281,14 +3309,15 @@ bool MultiLoRAManager::fuseLoRAsInternal(
         return false;
     }
     
-    if (config.source_lora_ids.size() != config.weights.size()) {
+    if (static_cast<int>(config.source_lora_ids.size()) != static_cast<int>(config.weights.size())) {
         errors::logError(errors::ErrorCode::ERR_LORA_WEIGHT_MISMATCH,
-                        config.source_lora_ids.size(), config.weights.size());
+                        config.source_lora_ids.size(),static_cast<int>(config.weights.size()));
         return false;
     }
     
     // Validate all LoRAs are loaded
-    std::vector<LoRASlot*> source_loras;
+    std::vector<LoRASlot*> source_loras = {};
+
     for (const auto& lora_id : config.source_lora_ids) {
         auto it = loras_.find(lora_id);
         if (it == loras_.end()) {
@@ -3320,7 +3349,8 @@ bool MultiLoRAManager::fuseLoRAsInternal(
         return false;
     }
     
-    std::vector<float> normalized_weights;
+    std::vector<float> normalized_weights = {};
+
     for (float w : config.weights) {
         normalized_weights.push_back(w / weight_sum);
     }
@@ -3339,7 +3369,7 @@ bool MultiLoRAManager::fuseLoRAsInternal(
     float avg_alpha = 0.0f;
     size_t total_vram = 0;
     
-    for (size_t i = 0; i < source_loras.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(source_loras.size()); ++i) {
         avg_rank += source_loras[i]->rank * normalized_weights[i];
         avg_alpha += source_loras[i]->alpha * normalized_weights[i];
         total_vram = std::max(total_vram, source_loras[i]->vram_bytes);
@@ -3353,7 +3383,7 @@ bool MultiLoRAManager::fuseLoRAsInternal(
     // Check VRAM budget
     if (total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * 1024 * 1024) {
         spdlog::warn("Fused LoRA would exceed VRAM budget, attempting eviction");
-        while (loras_.size() > 0 && 
+        while (static_cast<int>(loras_.size()) > 0 && 
                total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * 1024 * 1024) {
             evictLRU();
         }
@@ -3364,7 +3394,7 @@ bool MultiLoRAManager::fuseLoRAsInternal(
     loras_[fused_id] = std::move(fused_lora);
     
     spdlog::info("LoRA fusion internal completed: {} from {} source LoRAs", 
-                 fused_id, config.source_lora_ids.size());
+                 fused_id,static_cast<int>(config.source_lora_ids.size()));
     
     return true;
 }
@@ -3386,9 +3416,9 @@ bool MultiLoRAManager::updateFusionWeights(
         return false;
     }
     
-    if (new_weights.size() != config_it->second.source_lora_ids.size()) {
+    if (static_cast<int>(new_weights.size()) != config_it-> static_cast<int>(second.source_lora_ids.size())) {
         spdlog::error("Weight count mismatch: expected {}, got {}",
-                     config_it->second.source_lora_ids.size(), new_weights.size());
+                     config_it-> static_cast<int>(second.source_lora_ids.size()),static_cast<int>(new_weights.size()));
         return false;
     }
     
@@ -3433,7 +3463,7 @@ std::vector<float> MultiLoRAManager::getCurrentFusionWeights(
     
     auto config_it = fusion_configs_.find(fusion_id);
     if (config_it == fusion_configs_.end()) {
-        return {};
+        return std::vector<float>();
     }
     
     // For SCHEDULED strategy, compute current weights based on schedule
@@ -3457,7 +3487,7 @@ std::vector<float> MultiLoRAManager::computeScheduledWeights(
         if (config_it != fusion_configs_.end()) {
             return config_it->second.weights;
         }
-        return {};
+        return std::vector<float>();
     }
     
     const auto& schedule = schedule_it->second;
@@ -3524,10 +3554,11 @@ std::vector<float> MultiLoRAManager::computeLinearSchedule(
         static_cast<float>(time_offset) / schedule.transition_duration.count()));
     
     // Determine target weights
-    std::vector<float> target_weights;
+    std::vector<float> target_weights = {};
+
     if (!schedule.target_weights.empty()) {
         target_weights = schedule.target_weights;
-    } else if (schedule.static_weights.size() >= 2) {
+    } else if (static_cast<int>(schedule.static_weights.size()) >= 2) {
         // Backward compatibility: use a_weight and b_weight
         target_weights = {schedule.a_weight, schedule.b_weight};
     } else {
@@ -3536,7 +3567,7 @@ std::vector<float> MultiLoRAManager::computeLinearSchedule(
     
     // Linear transition from static_weights to target_weights
     std::vector<float> weights = schedule.static_weights;
-    size_t num_weights = std::min(weights.size(), target_weights.size());
+    size_t num_weights = std::min(weights.size(),static_cast<int>(target_weights.size()));
     
     // Interpolate: weight(t) = start_weight * (1 - progress) + end_weight * progress
     for (size_t i = 0; i < num_weights; ++i) {
@@ -3560,10 +3591,11 @@ std::vector<float> MultiLoRAManager::computeExponentialSchedule(
         static_cast<float>(time_offset) / schedule.transition_duration.count());
     
     // Determine target weights
-    std::vector<float> target_weights;
+    std::vector<float> target_weights = {};
+
     if (!schedule.target_weights.empty()) {
         target_weights = schedule.target_weights;
-    } else if (schedule.static_weights.size() >= 2) {
+    } else if (static_cast<int>(schedule.static_weights.size()) >= 2) {
         target_weights = {schedule.a_weight, schedule.b_weight};
     } else {
         return schedule.static_weights;
@@ -3575,7 +3607,7 @@ std::vector<float> MultiLoRAManager::computeExponentialSchedule(
     // Compute exponential progress
     // For decay: progress = 1 - exp(-base * t)
     // For growth: progress = (exp(base * t) - 1) / (exp(base) - 1)
-    float progress;
+    float progress = 0;
     if (schedule.exponential_decay) {
         // Exponential decay: fast transition at start, slow at end
         progress = 1.0f - std::exp(-safe_base * normalized_time);
@@ -3603,7 +3635,7 @@ std::vector<float> MultiLoRAManager::computeExponentialSchedule(
     
     // Exponential transition from static_weights to target_weights
     std::vector<float> weights = schedule.static_weights;
-    size_t num_weights = std::min(weights.size(), target_weights.size());
+    size_t num_weights = std::min(weights.size(),static_cast<int>(target_weights.size()));
     
     for (size_t i = 0; i < num_weights; ++i) {
         weights[i] = weights[i] * (1.0f - progress) + target_weights[i] * progress;
@@ -3627,10 +3659,10 @@ std::vector<float> MultiLoRAManager::computeStepWiseSchedule(
     if (!schedule.static_weights.empty()) {
         size_t expected_size = schedule.static_weights.size();
         for (const auto& step_weight : schedule.step_weights) {
-            if (step_weight.size() != expected_size) {
+            if (static_cast<int>(step_weight.size()) != expected_size) {
                 spdlog::warn("Step-wise schedule has inconsistent weight vector sizes; "
                            "expected {}, got {}. Falling back to static weights.",
-                           expected_size, step_weight.size());
+                           expected_size,static_cast<int>(step_weight.size()));
                 return schedule.static_weights;
             }
         }
@@ -3646,7 +3678,7 @@ std::vector<float> MultiLoRAManager::computeStepWiseSchedule(
     size_t step_index = std::distance(schedule.step_times.begin(), it);
     
     // Return weights for current step
-    if (step_index < schedule.step_weights.size()) {
+    if (static_cast<int>(schedule.step_weights.size()) > step_index) {
         return schedule.step_weights[step_index];
     }
     
@@ -3688,7 +3720,7 @@ size_t MultiLoRAManager::clearFusionCache() {
 FusionMetrics MultiLoRAManager::getFusionMetrics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    FusionMetrics metrics;
+    FusionMetrics metrics = FusionMetrics();
     metrics.total_fusions = total_fusions_;
     metrics.cache_hits = fusion_cache_hits_;
     metrics.cache_misses = fusion_cache_misses_;
@@ -3718,7 +3750,8 @@ FusionMetrics MultiLoRAManager::getFusionMetrics() const {
 std::vector<FusionCacheEntry> MultiLoRAManager::listFusionCache() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<FusionCacheEntry> entries;
+    std::vector<FusionCacheEntry> entries = {};
+
     entries.reserve(fusion_cache_.size());
     
     for (const auto& [_, entry] : fusion_cache_) {
@@ -3738,7 +3771,8 @@ bool MultiLoRAManager::checkFusionCompatibility(
         return false;
     }
     
-    std::vector<LoRASlot*> source_loras;
+    std::vector<LoRASlot*> source_loras = {};
+
     for (const auto& lora_id : lora_ids) {
         auto it = loras_.find(lora_id);
         if (it == loras_.end()) {
@@ -3772,7 +3806,7 @@ bool MultiLoRAManager::validateFusionCompatibility(
         return false;
     }
     
-    for (size_t i = 1; i < source_loras.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(source_loras.size()); ++i) {
         const auto* lora = source_loras[i];
         if (!lora) {
             spdlog::debug("Fusion compatibility check failed: source LoRA at index {} is null", i);

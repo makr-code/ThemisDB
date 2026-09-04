@@ -74,9 +74,12 @@ TEST_F(GraphWatermarkingTest, PartialGraph_DetectedWhen95PercentPresent) {
     auto original = buildGraph(50, "n");
     auto ws = embedder_.embed(original, "tenant_B", 7u);
 
-    std::vector<std::string> wm_nodes;
+    std::vector<std::string> wm_nodes = {};
+
     for (const auto& id : ws.data.node_ids) {
-        if (id.rfind("wm_", 0) == 0) wm_nodes.push_back(id);
+        if (id.rfind("wm_", 0) == 0) {
+          wm_nodes.push_back(id);
+        }
     }
     ASSERT_GE(wm_nodes.size(), 3u);
 
@@ -119,8 +122,12 @@ TEST_F(GraphWatermarkingTest, TenantIsolation_NoXTenantMatch) {
     auto ws_B = embedder_.embed(buildGraph(10), "tenantB", 2u);
 
     std::vector<std::string> wm_A, wm_B;
-    for (const auto& id : ws_A.data.node_ids) if (id.rfind("wm_", 0) == 0) wm_A.push_back(id);
-    for (const auto& id : ws_B.data.node_ids) if (id.rfind("wm_", 0) == 0) wm_B.push_back(id);
+    for (const auto& id : ws_A.data.node_ids) {
+      if (id.rfind("wm_", 0) == 0) wm_A.push_back(id);
+    }
+    for (const auto& id : ws_B.data.node_ids) {
+      if (id.rfind("wm_", 0) == 0) wm_B.push_back(id);
+    }
 
     RegisteredFingerprint fp_A{"tenantA", ws_A.fingerprint_id, wm_A};
     RegisteredFingerprint fp_B{"tenantB", ws_B.fingerprint_id, wm_B};
@@ -201,9 +208,12 @@ TEST_F(GraphWatermarkingTest, EmptyFingerprintList_ReturnsNullopt) {
 // ---------------------------------------------------------------------------
 TEST_F(GraphWatermarkingTest, FullWatermarkPresence_ConfidenceIsOne) {
     auto ws = embedder_.embed(buildGraph(10), "conf_tenant", 99u);
-    std::vector<std::string> wm_nodes;
+    std::vector<std::string> wm_nodes = {};
+
     for (const auto& id : ws.data.node_ids) {
-        if (id.rfind("wm_", 0) == 0) wm_nodes.push_back(id);
+        if (id.rfind("wm_", 0) == 0) {
+          wm_nodes.push_back(id);
+        }
     }
 
     RegisteredFingerprint fp{"conf_tenant", ws.fingerprint_id, wm_nodes};

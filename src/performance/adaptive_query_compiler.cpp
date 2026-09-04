@@ -126,19 +126,25 @@ static bool compareString(const std::string& lhs,
         case Predicate::Op::GE:   return lhs >= rhs;
         case Predicate::Op::LIKE: {
             // Simple prefix/suffix LIKE matching.
-            if (rhs.empty()) return lhs.empty();
+            if (rhs.empty()) {
+              return lhs.empty();
+            }
             const bool prefix_wild = rhs.front() == '%';
             const bool suffix_wild = rhs.back()  == '%';
             std::string pattern = rhs;
-            if (prefix_wild) pattern = pattern.substr(1);
-            if (suffix_wild) pattern = pattern.substr(0, pattern.size() - 1);
+            if (prefix_wild) {
+              pattern = pattern.substr(1);
+            }
+            if (suffix_wild) {
+              pattern = pattern.substr(0, static_cast<int>(pattern.size()) - 1);
+            }
             if (prefix_wild && suffix_wild)
                 return lhs.find(pattern) != std::string::npos;
             if (prefix_wild)
-                return lhs.size() >= pattern.size() &&
-                       lhs.substr(lhs.size() - pattern.size()) == pattern;
+                return static_cast<bool>( static_cast<int>(lhs.size()) < static_cast<int>(= pattern.size())) &&
+                       lhs.substr(static_cast<int>(lhs.size()) - static_cast<int>(pattern.size()) ) == pattern;
             if (suffix_wild)
-                return lhs.substr(0, pattern.size()) == pattern;
+                return lhs.substr(0,static_cast<int>(pattern.size())) == pattern;
             return lhs == pattern;
         }
         default: return false;
@@ -153,7 +159,9 @@ static QueryValue resolveValue(const Predicate&   pred,
         return pred.value;
     if (!pred.param_name.empty()) {
         const auto* v = params.get(pred.param_name);
-        if (v) return *v;
+        if (v) {
+          return *v;
+        }
     }
     return std::monostate{};
 }
@@ -169,7 +177,9 @@ static bool evalPredicate(const QueryRow&    row,
     if (std::holds_alternative<std::monostate>(*col_val)) return false; // NULL
 
     const QueryValue rhs = resolveValue(pred, params);
-    if (std::holds_alternative<std::monostate>(rhs)) return false;
+    if (std::holds_alternative<std::monostate>(rhs)) {
+      return false;
+    }
 
     // Type-aware comparison
     if (std::holds_alternative<int64_t>(*col_val) &&
@@ -223,21 +233,27 @@ struct IRGenOptions {
 static std::string generateLLVMIR(const ParsedQuery& query,
                                    [[maybe_unused]] const Schema&      schema,
                                    const IRGenOptions& opts) {
-    std::ostringstream ir;
+    std::ostringstream ir = {};
     ir << "; ThemisDB Adaptive Query Compiler – LLVM IR (simulated)\n";
     ir << "; Query fingerprint: " << query.fingerprint << "\n";
     ir << "; Table: " << query.table << "\n";
     ir << "; OptLevel: O" << opts.opt_level << "\n";
-    if (opts.enable_vectorization) ir << "; vectorize: enabled\n";
-    if (opts.enable_prefetch)      ir << "; prefetch: enabled\n";
-    if (opts.enable_inlining)      ir << "; inlining: enabled\n";
+    if (opts.enable_vectorization) {
+      ir << "; vectorize: enabled\n";
+    }
+    if (opts.enable_prefetch) {
+      ir << "; prefetch: enabled\n";
+    }
+    if (opts.enable_inlining) {
+      ir << "; inlining: enabled\n";
+    }
     ir << "\n";
     ir << "define i32 @compiled_query(i8* %params_ptr) {\n";
     ir << "entry:\n";
 
     switch (query.op_type) {
         case QueryOpType::Filter:
-            ir << "  ; Filter specialisation: " << query.predicates.size()
+            ir << "  ; Filter specialisation: " <<static_cast<int>(query.predicates.size())
                << " predicate(s)\n";
             for (const auto& p : query.predicates) {
                 ir << "  ; predicate: " << p.column << " op val\n";
@@ -258,7 +274,7 @@ static std::string generateLLVMIR(const ParsedQuery& query,
             break;
         case QueryOpType::Projection:
             ir << "  ; Projection specialisation: "
-               << query.select_columns.size() << " column(s)\n";
+               <<static_cast<int>(query.select_columns.size()) << " column(s)\n";
             break;
         default:
             ir << "  ; Generic specialisation\n";
@@ -272,7 +288,7 @@ static std::string generateLLVMIR(const ParsedQuery& query,
 
 static std::string generateAssembly(const ParsedQuery&  query,
                                      const IRGenOptions& opts) {
-    std::ostringstream asm_str;
+    std::ostringstream asm_str = {};
     asm_str << "# ThemisDB Adaptive Query Compiler – assembly (simulated)\n";
     asm_str << "# Fingerprint: " << query.fingerprint << "\n";
     asm_str << "compiled_query:\n";
@@ -296,7 +312,7 @@ static QueryRow makeRow(const std::string&       table,
                          const TableSchema*        tschema,
                          size_t                    row_idx,
                          [[maybe_unused]] const QueryParams&        params) {
-    QueryRow row;
+    QueryRow row = {};
     if (!tschema) {
         row.column_names = {"id", "value"};
         row.values       = {QueryValue{static_cast<int64_t>(row_idx)},
@@ -571,7 +587,9 @@ private:
             for (const auto& pred : query.predicates) {
                 if (!evalPredicate(row, pred, params)) { pass = false; break; }
             }
-            if (pass) result.rows.push_back(std::move(row));
+            if (pass) {
+              result.rows.push_back(std::move(row));
+            }
         }
         return result;
     }
@@ -615,7 +633,9 @@ private:
             AggAccum acc;
             for (const auto& row : base.rows) {
                 const QueryValue* v = row.get(query.agg_column);
-                if (!v) continue;
+                if (!v) {
+                  continue;
+                }
                 double val = 0.0;
                 if (std::holds_alternative<int64_t>(*v))
                     val = static_cast<double>(std::get<int64_t>(*v));
@@ -625,8 +645,12 @@ private:
                     continue;
                 acc.sum   += val;
                 acc.count += 1;
-                if (val < acc.min_v) acc.min_v = val;
-                if (val > acc.max_v) acc.max_v = val;
+                if (val < acc.min_v) {
+                  acc.min_v = val;
+                }
+                if (val > acc.max_v) {
+                  acc.max_v = val;
+                }
             }
 
             QueryRow out_row;
@@ -645,7 +669,7 @@ private:
 
         for (const auto& row : base.rows) {
             const QueryValue* gv = row.get(query.group_by_column);
-            std::string gkey;
+            std::string gkey = {};
             if (!gv || std::holds_alternative<std::monostate>(*gv)) {
                 gkey = "__NULL__";
             } else if (std::holds_alternative<int64_t>(*gv)) {
@@ -663,7 +687,9 @@ private:
 
             auto& acc = groups[gkey];
             const QueryValue* v = row.get(query.agg_column);
-            if (!v) continue;
+            if (!v) {
+              continue;
+            }
             double val = 0.0;
             if (std::holds_alternative<int64_t>(*v))
                 val = static_cast<double>(std::get<int64_t>(*v));
@@ -673,8 +699,12 @@ private:
                 continue;
             acc.sum   += val;
             acc.count += 1;
-            if (val < acc.min_v) acc.min_v = val;
-            if (val > acc.max_v) acc.max_v = val;
+            if (val < acc.min_v) {
+              acc.min_v = val;
+            }
+            if (val > acc.max_v) {
+              acc.max_v = val;
+            }
         }
 
         QueryResult result;
@@ -695,9 +725,15 @@ private:
     static double applyAggFunction(const std::string& fn,
                                     const AggAccum&    acc,
                                     [[maybe_unused]] size_t             total_rows) {
-        if (fn == "COUNT") return static_cast<double>(acc.count);
-        if (fn == "SUM")   return acc.sum;
-        if (fn == "AVG")   return acc.count > 0 ? acc.sum / acc.count : 0.0;
+        if (fn == "COUNT") {
+          return static_cast<double>(acc.count);
+        }
+        if (fn == "SUM") {
+          return acc.sum;
+        }
+        if (fn == "AVG") {
+          return acc.count > 0 ? acc.sum / acc.count : 0.0;
+        }
         if (fn == "MIN")   return acc.min_v != std::numeric_limits<double>::max()
                                       ? acc.min_v : 0.0;
         if (fn == "MAX")   return acc.max_v != std::numeric_limits<double>::lowest()
@@ -715,12 +751,15 @@ private:
         constexpr size_t kRows = 5;
 
         // Build hash table from right side
-        std::unordered_map<std::string, QueryRow> hash_table;
+        std::unordered_map<std::string, QueryRow> hash_table = {};
+
         for (size_t i = 0; i < kRows; ++i) {
             QueryRow rrow = makeRow(query.join_table, rtschema, i, params);
             const QueryValue* key = rrow.get(query.join_key_right);
-            if (!key) continue;
-            std::string kstr;
+            if (!key) {
+              continue;
+            }
+            std::string kstr = {};
             if (std::holds_alternative<int64_t>(*key))
                 kstr = std::to_string(std::get<int64_t>(*key));
             else if (std::holds_alternative<std::string>(*key))
@@ -732,21 +771,25 @@ private:
         for (size_t i = 0; i < kRows; ++i) {
             QueryRow lrow = makeRow(query.table, ltschema, i, params);
             const QueryValue* lkey = lrow.get(query.join_key_left);
-            if (!lkey) continue;
-            std::string lkstr;
+            if (!lkey) {
+              continue;
+            }
+            std::string lkstr = {};
             if (std::holds_alternative<int64_t>(*lkey))
                 lkstr = std::to_string(std::get<int64_t>(*lkey));
             else if (std::holds_alternative<std::string>(*lkey))
                 lkstr = std::get<std::string>(*lkey);
 
             auto rit = hash_table.find(lkstr);
-            if (rit == hash_table.end()) continue;
+            if (rit == hash_table.end()) {
+              continue;
+            }
 
             // Merge columns
             QueryRow joined;
             joined.column_names = lrow.column_names;
             joined.values       = lrow.values;
-            for (size_t ci = 0; ci < rit->second.column_names.size(); ++ci) {
+            for (size_t ci = 0; ci < rit-> static_cast<int>(second.column_names.size()); ++ci) {
                 joined.column_names.push_back(
                     query.join_table + "." + rit->second.column_names[ci]);
                 joined.values.push_back(rit->second.values[ci]);
@@ -772,9 +815,15 @@ private:
                   [&](const QueryRow& a, const QueryRow& b) {
                       const QueryValue* va = a.get(col);
                       const QueryValue* vb = b.get(col);
-                      if (!va && !vb) return false;
-                      if (!va) return !asc;
-                      if (!vb) return asc;
+                      if (!va && !vb) {
+                        return false;
+                      }
+                      if (!va) {
+                        return !asc;
+                      }
+                      if (!vb) {
+                        return asc;
+                      }
                       if (std::holds_alternative<int64_t>(*va) &&
                           std::holds_alternative<int64_t>(*vb)) {
                           return asc ? (std::get<int64_t>(*va) < std::get<int64_t>(*vb))
@@ -799,10 +848,12 @@ private:
         filter_q.op_type = QueryOpType::Filter;
         auto base = execFilter(filter_q, schema, params);
 
-        if (query.limit == 0) return base;
+        if (query.limit == 0) {
+          return base;
+        }
 
-        size_t start = std::min(query.offset, base.rows.size());
-        size_t end   = std::min(start + query.limit, base.rows.size());
+        size_t start = std::min(query.offset,static_cast<int>(base.rows.size()));
+        size_t end   = std::min(start + query.limit,static_cast<int>(base.rows.size()));
 
         QueryResult result;
         result.rows = std::vector<QueryRow>(base.rows.begin() + static_cast<ptrdiff_t>(start),
@@ -840,7 +891,7 @@ private:
 
         cq.llvm_ir   = generateLLVMIR(query, schema, ir_opts);
         cq.assembly  = generateAssembly(query, ir_opts);
-        cq.code_size_bytes = cq.llvm_ir.size() + cq.assembly.size();
+        cq.code_size_bytes = static_cast<int>(cq.llvm_ir.size()) + static_cast<int>(cq.assembly.size()) ;
 
         // Build the type-specialised execution closure.
         // The closure captures copies of all compile-time constants so the
@@ -857,10 +908,11 @@ private:
                     std::string  column;
                     Predicate::Op op;
                     QueryValue   value;
-                    std::string  param_name;
+                    std::string  param_name = {};
                     ColumnType   col_type;
                 };
-                std::vector<PredInfo> preds;
+                std::vector<PredInfo> preds = {};
+
                 preds.reserve(query.predicates.size());
                 const TableSchema* tschema = schema.getTable(query.table);
                 for (const auto& p : query.predicates) {
@@ -924,7 +976,9 @@ private:
                             }
                             if (!ok) { pass = false; break; }
                         }
-                        if (pass) result.rows.push_back(std::move(row));
+                        if (pass) {
+                          result.rows.push_back(std::move(row));
+                        }
                     }
                     return result;
                 };
@@ -951,7 +1005,9 @@ private:
                         bool pass = true;
                         for (const auto& p : preds_snap)
                             if (!evalPredicate(row, p, params)) { pass = false; break; }
-                        if (pass) base.rows.push_back(std::move(row));
+                        if (pass) {
+                          base.rows.push_back(std::move(row));
+                        }
                     }
 
                     if (grp_col.empty()) {
@@ -959,7 +1015,9 @@ private:
                         AggAccum acc;
                         for (const auto& row : base.rows) {
                             const QueryValue* v = row.get(agg_col);
-                            if (!v) continue;
+                            if (!v) {
+                              continue;
+                            }
                             double val = 0.0;
                             if (std::holds_alternative<int64_t>(*v))
                                 val = static_cast<double>(std::get<int64_t>(*v));
@@ -967,13 +1025,17 @@ private:
                                 val = std::get<double>(*v);
                             else continue;
                             acc.sum += val; acc.count++;
-                            if (val < acc.min_v) acc.min_v = val;
-                            if (val > acc.max_v) acc.max_v = val;
+                            if (val < acc.min_v) {
+                              acc.min_v = val;
+                            }
+                            if (val > acc.max_v) {
+                              acc.max_v = val;
+                            }
                         }
                         QueryRow out;
                         out.column_names.push_back(agg_fn + "_result");
                         out.values.push_back(QueryValue{applyAggFunction(
-                            agg_fn, acc, base.rows.size())});
+                            agg_fn, acc,static_cast<int>(base.rows.size()))});
                         QueryResult r;
                         r.rows.push_back(std::move(out));
                         return r;
@@ -981,7 +1043,8 @@ private:
 
                     // GROUP BY aggregate
                     std::unordered_map<std::string, AggAccum> groups;
-                    std::vector<std::string> order;
+                    std::vector<std::string> order = {};
+
                     for (const auto& row : base.rows) {
                         const QueryValue* gv = row.get(grp_col);
                         std::string gk = gv && std::holds_alternative<std::string>(*gv)
@@ -989,10 +1052,14 @@ private:
                                          : gv && std::holds_alternative<int64_t>(*gv)
                                              ? std::to_string(std::get<int64_t>(*gv))
                                              : "__NULL__";
-                        if (groups.find(gk) == groups.end()) order.push_back(gk);
+                        if (groups.find(gk) == groups.end()) {
+                          order.push_back(gk);
+                        }
                         auto& acc = groups[gk];
                         const QueryValue* v = row.get(agg_col);
-                        if (!v) continue;
+                        if (!v) {
+                          continue;
+                        }
                         double val = 0.0;
                         if (std::holds_alternative<int64_t>(*v))
                             val = static_cast<double>(std::get<int64_t>(*v));
@@ -1000,8 +1067,12 @@ private:
                             val = std::get<double>(*v);
                         else continue;
                         acc.sum += val; acc.count++;
-                        if (val < acc.min_v) acc.min_v = val;
-                        if (val > acc.max_v) acc.max_v = val;
+                        if (val < acc.min_v) {
+                          acc.min_v = val;
+                        }
+                        if (val > acc.max_v) {
+                          acc.max_v = val;
+                        }
                     }
                     QueryResult r;
                     for (const auto& gk : order) {
@@ -1073,7 +1144,9 @@ private:
      */
     void updateSpeedupEstimate() {
         // Require at least a few samples of each path for a stable estimate
-        if (cold_exec_samples_ < 3 || hot_exec_samples_ < 1) return;
+        if (cold_exec_samples_ < 3 || hot_exec_samples_ < 1) {
+          return;
+        }
 
         const double cold_avg = static_cast<double>(total_cold_exec_time_us_) /
                                 static_cast<double>(cold_exec_samples_);

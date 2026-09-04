@@ -44,7 +44,9 @@ static int stubPrimaryL2(const float*, const float*, float* d,
     }
     int rc = g_primaryReturnCode;
     if (rc == 0) {
-        for (int i = 0; i < nq * nv; ++i) d[i] = 0.5f;
+        for (int i = 0; i < nq * nv; ++i) {
+          d[i] = 0.5f;
+        }
     }
     ++g_primaryCallCount;
     return rc;
@@ -53,7 +55,9 @@ static int stubPrimaryL2(const float*, const float*, float* d,
 // --- ANN distance stub (fallback): writes 9.9 into every output cell ---
 static int stubFallbackL2(const float*, const float*, float* d,
                           int nq, int nv, int, void*) {
-    for (int i = 0; i < nq * nv; ++i) d[i] = 9.9f;
+    for (int i = 0; i < nq * nv; ++i) {
+      d[i] = 9.9f;
+    }
     ++g_fallbackCallCount;
     return 0;
 }
@@ -79,7 +83,9 @@ static int stubPrimaryGeoDist(const double*, const double*,
                                const double*, const double*,
                                float* out, int count,
                                GeoDistanceFormula, void*) {
-    for (int i = 0; i < count; ++i) out[i] = 1.f;
+    for (int i = 0; i < count; ++i) {
+      out[i] = 1.f;
+    }
     ++g_primaryCallCount;
     return g_primaryReturnCode;
 }
@@ -89,7 +95,9 @@ static int stubFallbackGeoDist(const double*, const double*,
                                 const double*, const double*,
                                 float* out, int count,
                                 GeoDistanceFormula, void*) {
-    for (int i = 0; i < count; ++i) out[i] = 999.f;
+    for (int i = 0; i < count; ++i) {
+      out[i] = 999.f;
+    }
     ++g_fallbackCallCount;
     return 0;
 }
@@ -98,7 +106,9 @@ static int stubFallbackGeoDist(const double*, const double*,
 static int stubPrimaryGeoContain(const double*, const double*, int numPts,
                                   const double*, int,
                                   uint8_t* res, void*) {
-    for (int i = 0; i < numPts; ++i) res[i] = 1;
+    for (int i = 0; i < numPts; ++i) {
+      res[i] = 1;
+    }
     ++g_primaryCallCount;
     return g_primaryReturnCode;
 }
@@ -107,7 +117,9 @@ static int stubPrimaryGeoContain(const double*, const double*, int numPts,
 static int stubFallbackGeoContain(const double*, const double*, int numPts,
                                    const double*, int,
                                    uint8_t* res, void*) {
-    for (int i = 0; i < numPts; ++i) res[i] = 0;
+    for (int i = 0; i < numPts; ++i) {
+      res[i] = 0;
+    }
     ++g_fallbackCallCount;
     return 0;
 }

@@ -37,7 +37,7 @@ public:
         try {
             std::vector<uint8_t> blob(
                 reinterpret_cast<const uint8_t*>(data.data()),
-                reinterpret_cast<const uint8_t*>(data.data()) + data.size());
+                reinterpret_cast<const uint8_t*>(data.data()) + static_cast<int>(data.size()) );
 
             ExtractionOptions opts;
             auto result = processor_.extract(blob, mime_type, opts);

@@ -126,7 +126,7 @@ OutboxWriter::OutboxWriter(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHand
     }
 }
 
-std::string OutboxWriter::makeKey(uint64_t seq) const {
+std::string OutboxWriter::makeKey([[maybe_unused]] uint64_t seq) const {
     char buf[64];
     std::snprintf(buf, sizeof(buf), "%s%020llu", KEY_PREFIX, static_cast<unsigned long long>(seq));
     return std::string(buf);
@@ -136,7 +136,7 @@ uint64_t OutboxWriter::nextSequence() {
     std::lock_guard<std::mutex> lock(sequence_mutex_);
 
     rocksdb::ReadOptions read_opts;
-    std::string seq_value;
+    std::string seq_value = {};
     rocksdb::Status s;
 
     if (cf_) {
@@ -229,7 +229,7 @@ OutboxRelay::~OutboxRelay() {
     stop();
 }
 
-std::string OutboxRelay::makeKey(uint64_t seq) const {
+std::string OutboxRelay::makeKey([[maybe_unused]] uint64_t seq) const {
     char buf[64];
     std::snprintf(buf, sizeof(buf), "%s%020llu", KEY_PREFIX, static_cast<unsigned long long>(seq));
     return std::string(buf);
@@ -269,7 +269,7 @@ std::vector<OutboxRecord> OutboxRelay::scanRecords(size_t limit, OutboxState fil
 
             if (all_states || rec.state == filter_state) {
                 result.push_back(std::move(rec));
-                if (limit > 0 && result.size() >= limit) {
+                if (limit > 0 && static_cast<int>(result.size()) >= limit) {
                     break;
                 }
             }
@@ -378,11 +378,11 @@ std::vector<OutboxRecord> OutboxRelay::listRecords(OutboxState state, size_t lim
     return scanRecords(limit, state, /*all_states=*/false);
 }
 
-std::vector<OutboxRecord> OutboxRelay::listAllRecords(size_t limit) const {
+std::vector<OutboxRecord> OutboxRelay::listAllRecords([[maybe_unused]] size_t limit) const {
     return scanRecords(limit, OutboxState::PENDING, /*all_states=*/true);
 }
 
-bool OutboxRelay::removeRecord(uint64_t outbox_sequence) {
+bool OutboxRelay::removeRecord([[maybe_unused]] uint64_t outbox_sequence) {
     std::string db_key = makeKey(outbox_sequence);
     rocksdb::WriteOptions write_opts;
     rocksdb::Status s;

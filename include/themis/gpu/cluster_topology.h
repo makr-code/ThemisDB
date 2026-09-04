@@ -56,7 +56,7 @@ struct TopologyLink {
     int dst_device_index = -1;
 
     // Inter-node fields
-    std::string src_node_id;
+    std::string src_node_id = {};
     std::string dst_node_id;
 
     bool is_inter_node() const noexcept { return !src_node_id.empty(); }

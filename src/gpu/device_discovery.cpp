@@ -53,7 +53,7 @@ DeviceInfo MakeCPUFallback() {
     d.name             = "CPU Fallback";
     d.backend          = "CPU_FALLBACK";
     d.total_vram_bytes = edition::GPU_MAX_VRAM_GB > 0
-                             ? static_cast<uint64_t>(edition::GPU_MAX_VRAM_GB) * 1024ULL * 1024ULL * 1024ULL
+                             ? static_cast<uint64_t>(edition::GPU_MAX_VRAM_GB) * 1024 * 1024 * 1024
                              : 0;
     d.free_vram_bytes  = d.total_vram_bytes;
     d.compute_major    = 0;
@@ -106,7 +106,7 @@ std::vector<DeviceInfo> EnumerateCUDA() {
 #ifdef THEMIS_ENABLE_NVML
             // Query whether MIG mode is currently enabled via NVML, and
             // retrieve the hardware-accurate maximum instance count.
-            nvmlDevice_t nvml_dev;
+            nvmlDevice_t nvml_dev = {};
             if (nvmlDeviceGetHandleByIndex(static_cast<unsigned int>(i), &nvml_dev) == NVML_SUCCESS) {
                 unsigned int current_mode = 0, pending_mode = 0;
                 if (nvmlDeviceGetMIGMode(nvml_dev, &current_mode, &pending_mode) == NVML_SUCCESS) {
@@ -225,7 +225,8 @@ DeviceInfo DeviceDiscovery::GetBestDevice() {
 }
 
 std::vector<DeviceInfo> DeviceDiscovery::GetHealthyDevices(const std::vector<DeviceInfo> &devices) {
-    std::vector<DeviceInfo> result;
+    std::vector<DeviceInfo> result = {};
+
     for (const auto &d : devices) {
         if (d.is_healthy) {
             result.push_back(d);

@@ -59,8 +59,10 @@ protected:
 
     // Helper: read a string value from the DB (outside any transaction).
     std::optional<std::string> readRaw(std::string_view key) {
-        std::string out;
-        if (db_->get(std::string(key), out)) return out;
+        std::string out = {};
+        if (db_->get(std::string(key), out)) {
+          return out;
+        }
         return std::nullopt;
     }
 

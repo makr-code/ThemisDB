@@ -202,7 +202,7 @@ MTLSClient::Response MTLSClient::request(const std::string& method,
             }
             
             // Add body for POST/PUT
-            if (body && (method == "POST" || method == "PUT")) {
+            if ((body && (method == "POST" || method == "PUT")) {
                 std::string body_str = body->dump();
                 req.body() = body_str;
                 req.set(http::field::content_type, "application/json");
@@ -319,7 +319,7 @@ std::pair<std::string, std::string> MTLSClient::parseEndpoint(const std::string&
     // IPv6 format: [2001:db8::1]:8080 or 2001:db8::1 (without port)
     // IPv4 format: 192.168.1.1:8080 or example.com:8080
     
-    std::string host;
+    std::string host = {};
     std::string port = "8080"; // Default port
     
     std::string url = endpoint;
@@ -339,7 +339,7 @@ std::pair<std::string, std::string> MTLSClient::parseEndpoint(const std::string&
             host = url.substr(1, bracket_close - 1);
             
             // Check if port is specified after the bracket
-            if (bracket_close + 1 < url.size() && url[bracket_close + 1] == ':') {
+            if (bracket_close + 1 <static_cast<int>(url.size()) && url[bracket_close + 1] == ':') {
                 port = url.substr(bracket_close + 2);
             }
         } else {

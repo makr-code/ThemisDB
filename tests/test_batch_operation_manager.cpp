@@ -164,7 +164,8 @@ TEST_F(BatchOperationManagerTest, ConcurrentEnqueue) {
     
     manager.start();
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 5; ++t) {
         threads.emplace_back([&, t]() {
             for (int i = 0; i < 20; ++i) {

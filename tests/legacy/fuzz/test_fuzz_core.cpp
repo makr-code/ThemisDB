@@ -60,7 +60,9 @@ std::mt19937_64& rng() {
 std::string randomString(size_t len) {
     std::uniform_int_distribution<int> dist(0, 255);
     std::string s(len, '\0');
-    for (auto& c : s) c = static_cast<char>(dist(rng()));
+    for (auto& c : s) {
+      c = static_cast<char>(dist(rng()));
+    }
     return s;
 }
 
@@ -121,7 +123,9 @@ TEST_F(FuzzWireV2FrameHeader, IsValidRejectsWrongMagic) {
 
 TEST_F(FuzzWireV2FrameHeader, IsValidRejectsWrongVersion) {
     for (int v = 0; v <= 255; ++v) {
-        if (v == static_cast<int>(WIRE_VERSION_2)) continue;
+        if (v == static_cast<int>(WIRE_VERSION_2)) {
+          continue;
+        }
         V2FrameHeader h{};
         h.magic   = WIRE_V2_MAGIC;
         h.version = static_cast<uint8_t>(v);
@@ -249,7 +253,9 @@ TEST_F(FuzzBufferPool, ConcurrentAcquireRelease_NoCrash) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_GE(pool.hitCount() + pool.missCount(),
               static_cast<uint64_t>(kThreads * kIters));
@@ -318,7 +324,9 @@ TEST_F(FuzzWireV2Metrics, ConcurrentRecordCalls_NoCrash) {
             }
         });
     }
-    for (auto& thr : threads) thr.join();
+    for (auto& thr : threads) {
+      thr.join();
+    }
 
     EXPECT_NO_THROW({ auto snap = m.snapshot(); (void)snap; });
     EXPECT_EQ(m.totalRequests(),
@@ -343,7 +351,9 @@ TEST_F(FuzzWireV2Metrics, UnknownErrorKinds_NoCrash) {
 
 TEST_F(FuzzWireV2Metrics, ResetThenSnapshot_NoCrash) {
     WireProtocolMetrics m;
-    for (int i = 0; i < 50; ++i) m.recordLatencyMs(static_cast<double>(i));
+    for (int i = 0; i < 50; ++i) {
+      m.recordLatencyMs(static_cast<double>(i));
+    }
     m.reset();
     EXPECT_NO_THROW({ auto snap = m.snapshot(); (void)snap; });
     EXPECT_EQ(m.totalRequests(), 0u);
@@ -442,7 +452,9 @@ TEST_F(FuzzLicenseData, GetEmbeddedLicense_NoCrash) {
 
 TEST_F(FuzzLicenseData, IsLicenseValidOnDefault_NoCrash) {
     auto maybe_ld = getEmbeddedLicense();
-    if (!maybe_ld) GTEST_SKIP() << "No embedded license – skip";
+    if (!maybe_ld) {
+      GTEST_SKIP() << "No embedded license – skip";
+    }
     EXPECT_NO_THROW({
         bool v = isLicenseValid(*maybe_ld);
         (void)v;

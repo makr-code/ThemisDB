@@ -171,7 +171,8 @@ std::vector<VersionedDocument> BiTemporalTable::queryBiTemporal(
         return {};
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (const auto& v : it->second) {
         if (v.sys_time.contains(sys_as_of) &&
             v.valid_time.contains(valid_at)) {
@@ -190,7 +191,8 @@ std::vector<VersionedDocument> BiTemporalTable::queryCurrentByValidTime(
         return {};
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (const auto& v : it->second) {
         if (v.isCurrent() && v.valid_time.contains(valid_at)) {
             result.push_back(v);
@@ -212,15 +214,16 @@ BiTemporalTable::findOverlaps(const std::string& key) const {
     const auto& versions = it->second;
 
     // Only inspect current rows
-    std::vector<const VersionedDocument*> current;
+    std::vector<const VersionedDocument*> current = {};
+
     for (const auto& v : versions) {
         if (v.isCurrent()) {
             current.push_back(&v);
         }
     }
 
-    for (size_t i = 0; i < current.size(); ++i) {
-        for (size_t j = i + 1; j < current.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(current.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(current.size()); ++j) {
             if (current[i]->valid_time.overlaps(current[j]->valid_time)) {
                 overlaps.emplace_back(*current[i], *current[j]);
             }
@@ -272,7 +275,7 @@ std::vector<TimeRange> BiTemporalTable::findGaps(const std::string& key,
     // Merge overlapping covered intervals, then compute complement in [from, to)
     std::vector<TimeRange> merged;
     merged.push_back(covered[0]);
-    for (size_t i = 1; i < covered.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(covered.size()); ++i) {
         if (covered[i].start <= merged.back().end) {
             merged.back().end = std::max(merged.back().end, covered[i].end);
         } else {
@@ -332,7 +335,8 @@ std::vector<VersionedDocument> BiTemporalTable::scanBiTemporal(
     Timestamp sys_as_of, Timestamp valid_at) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (const auto& [key, versions] : rows_) {
         for (const auto& v : versions) {
             if (v.sys_time.contains(sys_as_of) &&
@@ -347,7 +351,8 @@ std::vector<VersionedDocument> BiTemporalTable::scanBiTemporal(
 std::vector<std::string> BiTemporalTable::getAllKeys() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     keys.reserve(rows_.size());
     for (const auto& [key, _] : rows_) {
         keys.push_back(key);
@@ -365,7 +370,7 @@ std::vector<std::string> BiTemporalTable::getAllKeys() const {
 
 size_t BiTemporalTable::keyCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return rows_.size();
+    return static_cast<int>(rows_.size());
 }
 
 size_t BiTemporalTable::versionCount() const {
@@ -393,7 +398,7 @@ nlohmann::json BiTemporalTable::getStatistics() const {
     }
 
     return {{"table_name", table_name_},
-            {"key_count", rows_.size()},
+            {"key_count",static_cast<int>(rows_.size())},
             {"current_rows", current_count},
             {"historical_rows", historical_count},
             {"total_versions", current_count + historical_count}};
@@ -424,7 +429,7 @@ size_t BiTemporalTable::closeCurrentRows(
 
 BiTemporalTable::MergeResult BiTemporalTable::merge(const BiTemporalTable& other) {
     // Reject cross-table merges to avoid mixing unrelated entity histories.
-    MergeResult result;
+    MergeResult result = {};
     if (table_name_ != other.table_name_) {
         return result;
     }
@@ -449,7 +454,7 @@ BiTemporalTable::MergeResult BiTemporalTable::merge(const BiTemporalTable& other
             bool found_exact = false;
             std::size_t conflict_idx = std::numeric_limits<std::size_t>::max();
 
-            for (std::size_t i = 0; i < self_versions.size(); ++i) {
+            for (std::size_t i = 0; i <static_cast<int>(self_versions.size()); ++i) {
                 const auto& s_row = self_versions[i];
 
                 if (s_row.valid_time == o_row.valid_time &&

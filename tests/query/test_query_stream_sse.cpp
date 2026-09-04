@@ -73,8 +73,12 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
-        if (storage_) storage_->close();
+        if (server_) {
+          server_->stop();
+        }
+        if (storage_) {
+          storage_->close();
+        }
         std::filesystem::remove_all(kDbPath);
     }
 
@@ -131,7 +135,7 @@ protected:
     static std::vector<json> parseSseDataEvents(const std::string& body) {
         std::vector<json> events;
         std::istringstream iss(body);
-        std::string line;
+        std::string line = {};
         while (std::getline(iss, line)) {
             if (!line.empty() && line.rfind("data: ", 0) == 0) {
                 try {
@@ -146,7 +150,7 @@ protected:
     static std::vector<std::string> parseSseEventNames(const std::string& body) {
         std::vector<std::string> names;
         std::istringstream iss(body);
-        std::string line;
+        std::string line = {};
         while (std::getline(iss, line)) {
             if (!line.empty() && line.rfind("event: ", 0) == 0) {
                 names.push_back(line.substr(7));
@@ -327,7 +331,8 @@ TEST(WsChangesMessageFormat, FilterTypeIsParsedToPutEventType) {
     }
 
     // Simulate event_types extraction
-    std::set<std::string> event_types;
+    std::set<std::string> event_types = {};
+
     if (client_msg.contains("filter") && client_msg["filter"].is_object()) {
         const auto& flt = client_msg["filter"];
         if (flt.contains("type") && flt["type"].is_string()) {
@@ -345,7 +350,8 @@ TEST(WsChangesMessageFormat, FilterTypeDeleteIsParsed) {
         {"collection", "orders"},
         {"filter", {{"type", "DELETE"}}}
     };
-    std::set<std::string> event_types;
+    std::set<std::string> event_types = {};
+
     if (client_msg.contains("filter") && client_msg["filter"].is_object()) {
         const auto& flt = client_msg["filter"];
         if (flt.contains("type") && flt["type"].is_string()) {
@@ -358,7 +364,8 @@ TEST(WsChangesMessageFormat, FilterTypeDeleteIsParsed) {
 
 TEST(WsChangesMessageFormat, NoFilterMeansAllEventTypes) {
     json client_msg = {{"action", "subscribe"}, {"collection", "orders"}};
-    std::set<std::string> event_types;
+    std::set<std::string> event_types = {};
+
     if (client_msg.contains("filter") && client_msg["filter"].is_object()) {
         const auto& flt = client_msg["filter"];
         if (flt.contains("type") && flt["type"].is_string()) {

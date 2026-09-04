@@ -261,7 +261,8 @@ TEST_F(LLMPrefixCacheTest, ConcurrentAccess) {
         }
     };
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back(worker, i);
     }

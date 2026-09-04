@@ -36,16 +36,16 @@ constexpr int64_t kLLMResponseTimeoutMs = 30000;  // TASK 2.4: 30 second timeout
 struct PromptSanitizationOutcome {
     bool allowed = true;
     bool changed = false;
-    std::string sanitized;
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string sanitized = {};
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
 };
 
 PromptSanitizationOutcome sanitizePromptFragment(const std::string& text) {
     PromptSanitizationOutcome outcome;
     outcome.sanitized = text;
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
     if (!llm::prompt_safety::sanitizePromptWithSharedPolicy(
             text,
             outcome.sanitized,
@@ -101,15 +101,15 @@ std::string VoiceAssistant::generateLLMResponse(
     }
 
     // TASK 2.4: Build prompt with conversation history for context
-    std::stringstream prompt;
+    std::stringstream prompt = {};
     prompt << "You are a helpful voice assistant integrated into ThemisDB. ";
     prompt << "You help users with database queries, data analysis, and general tasks.\n\n";
     
     // Add conversation history (last 5 exchanges for context)
-    size_t history_start = session.history.size() > 10 ? session.history.size() - 10 : 0;
+    size_t history_start = static_cast<int>(session.history.size()) > 10 ?static_cast<int>(session.history.size()) - 10 : 0;
     size_t sanitized_history_entries = 0;
     size_t blocked_history_entries = 0;
-    for (size_t i = history_start; i < session.history.size(); ++i) {
+    for (size_t i = history_start; i <static_cast<int>(session.history.size()); ++i) {
         const auto history_outcome = sanitizePromptFragment(session.history[i]);
         if (!history_outcome.allowed) {
             ++blocked_history_entries;
@@ -212,7 +212,7 @@ json VoiceAssistant::generateSummary(const std::string& transcript) {
     }
     
     // Build prompt for summary generation
-    std::stringstream prompt;
+    std::stringstream prompt = {};
     prompt << "Please provide a concise summary of the following transcript:\n\n";
     prompt << transcript_outcome.sanitized.substr(
         0, std::min(transcript_outcome.sanitized.size(), size_t(4000))) << "\n\n";
@@ -270,7 +270,7 @@ json VoiceAssistant::extractKeyPoints(const std::string& transcript) {
     }
     
     // Build prompt for key points extraction
-    std::stringstream prompt;
+    std::stringstream prompt = {};
     prompt << "Extract the key points from the following transcript as a bullet list:\n\n";
     prompt << transcript_outcome.sanitized.substr(
         0, std::min(transcript_outcome.sanitized.size(), size_t(4000))) << "\n\n";
@@ -283,7 +283,7 @@ json VoiceAssistant::extractKeyPoints(const std::string& transcript) {
             // Parse bullet points from response
             json key_points = json::array();
             std::istringstream iss(response);
-            std::string line;
+            std::string line = {};
             while (std::getline(iss, line)) {
                 // Remove bullet point markers
                 if (line.find("- ") == 0 || line.find("* ") == 0) {
@@ -341,7 +341,7 @@ json VoiceAssistant::extractActionItems(const std::string& transcript) {
     }
     
     // Build prompt for action items extraction
-    std::stringstream prompt;
+    std::stringstream prompt = {};
     prompt << "Extract action items and tasks from the following transcript:\n\n";
     prompt << transcript_outcome.sanitized.substr(
         0, std::min(transcript_outcome.sanitized.size(), size_t(4000))) << "\n\n";
@@ -354,7 +354,7 @@ json VoiceAssistant::extractActionItems(const std::string& transcript) {
             // Parse action items from response
             json action_items = json::array();
             std::istringstream iss(response);
-            std::string line;
+            std::string line = {};
             while (std::getline(iss, line)) {
                 // Remove bullet point markers
                 if (line.find("- ") == 0 || line.find("* ") == 0) {

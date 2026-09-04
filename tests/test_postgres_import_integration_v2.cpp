@@ -29,7 +29,7 @@ static std::string writeTempFile(const std::string& content,
 }
 
 struct TempFile {
-    std::string path;
+    std::string path = {};
     explicit TempFile(const std::string& content, const std::string& suffix = ".sql")
         : path(writeTempFile(content, suffix)) {}
     ~TempFile() { try { fs::remove(path); } catch (...) {} }

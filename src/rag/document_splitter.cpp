@@ -41,7 +41,9 @@ void validateConfig(const DocumentSplitterConfig& cfg) {
 
 /// Estimate token count for @p text using @p chars_per_token.
 inline size_t estimateTokenCount(const std::string& text, double chars_per_token) {
-    if (text.empty()) return 0;
+    if (text.empty()) {
+      return 0;
+    }
     return static_cast<size_t>(
         std::ceil(static_cast<double>(text.size()) / chars_per_token));
 }
@@ -60,10 +62,12 @@ std::vector<std::pair<std::string, size_t>>
 splitSentences(const std::string& text) {
     std::vector<std::pair<std::string, size_t>> sentences;
 
-    if (text.empty()) return sentences;
+    if (text.empty()) {
+      return sentences;
+    }
 
     size_t start = 0;
-    for (size_t i = 0; i < text.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
         const char c = text[i];
         if (c == '.' || c == '!' || c == '?') {
             // Check next character
@@ -83,7 +87,7 @@ splitSentences(const std::string& text) {
                                            start + ltrim);
                 }
                 // Skip following whitespace
-                while (i + 1 < text.size() &&
+                while (i + 1 <static_cast<int>(text.size()) &&
                        (text[i + 1] == ' ' || text[i + 1] == '\n' ||
                         text[i + 1] == '\r' || text[i + 1] == '\t')) {
                     ++i;
@@ -94,7 +98,7 @@ splitSentences(const std::string& text) {
     }
 
     // Trailing fragment (no terminal punctuation)
-    if (start < text.size()) {
+    if (static_cast<int>(text.size()) > start) {
         std::string tail = text.substr(start);
         const size_t ltrim = tail.find_first_not_of(" \t\r\n");
         if (ltrim != std::string::npos) {
@@ -115,8 +119,10 @@ std::string extractOverlapTail(const std::string& text,
     if (text.empty() || overlap_tokens == 0) return {};
     const size_t overlap_chars =
         static_cast<size_t>(static_cast<double>(overlap_tokens) * chars_per_token);
-    if (overlap_chars >= text.size()) return text;
-    return text.substr(text.size() - overlap_chars);
+    if (overlap_chars >= static_cast<int>(text.size())) {
+      return text;
+    }
+    return text.substr(static_cast<int>(text.size()) - overlap_chars);
 }
 
 } // anonymous namespace
@@ -147,8 +153,11 @@ struct DocumentSplitter::Impl {
 std::vector<DocumentChunk>
 DocumentSplitter::Impl::splitFixed(const std::string& text,
                                     const std::string& doc_id) const {
-    std::vector<DocumentChunk> chunks;
-    if (text.empty()) return chunks;
+    std::vector<DocumentChunk> chunks = {};
+
+    if (text.empty()) {
+      return chunks;
+    }
 
     const size_t chunk_chars =
         static_cast<size_t>(static_cast<double>(config.chunk_size) *
@@ -158,11 +167,11 @@ DocumentSplitter::Impl::splitFixed(const std::string& text,
     size_t chunk_idx = 0;
     size_t pos       = 0;
 
-    while (pos < text.size()) {
-        const size_t core_end = std::min(pos + step_chars, text.size());
+    while (static_cast<size_t>(pos) <static_cast<int>(text.size())) {
+        const size_t core_end = std::min(pos + step_chars,static_cast<int>(text.size()));
 
         // Build chunk: optional overlap prefix + core
-        std::string content;
+        std::string content = {};
         size_t core_start_in_chunk = 0;
 
         if (chunk_idx > 0 && config.overlap > 0 && !chunks.empty()) {
@@ -200,8 +209,11 @@ DocumentSplitter::Impl::splitFixed(const std::string& text,
 std::vector<DocumentChunk>
 DocumentSplitter::Impl::splitSliding(const std::string& text,
                                       const std::string& doc_id) const {
-    std::vector<DocumentChunk> chunks;
-    if (text.empty()) return chunks;
+    std::vector<DocumentChunk> chunks = {};
+
+    if (text.empty()) {
+      return chunks;
+    }
 
     const size_t chunk_chars =
         static_cast<size_t>(static_cast<double>(config.chunk_size) *
@@ -216,8 +228,8 @@ DocumentSplitter::Impl::splitSliding(const std::string& text,
     size_t chunk_idx = 0;
     size_t pos       = 0;
 
-    while (pos < text.size()) {
-        const size_t end = std::min(pos + chunk_chars, text.size());
+    while (static_cast<size_t>(pos) <static_cast<int>(text.size())) {
+        const size_t end = std::min(pos + chunk_chars,static_cast<int>(text.size()));
         std::string  content = text.substr(pos, end - pos);
 
         const size_t tok = estimateTokenCount(content, config.chars_per_token);
@@ -245,19 +257,26 @@ DocumentSplitter::Impl::splitSliding(const std::string& text,
 std::vector<DocumentChunk>
 DocumentSplitter::Impl::splitSentence(const std::string& text,
                                        const std::string& doc_id) const {
-    std::vector<DocumentChunk> chunks;
-    if (text.empty()) return chunks;
+    std::vector<DocumentChunk> chunks = {};
+
+    if (text.empty()) {
+      return chunks;
+    }
 
     const auto sentences = splitSentences(text);
-    if (sentences.empty()) return chunks;
+    if (sentences.empty()) {
+      return chunks;
+    }
 
     size_t chunk_idx  = 0;
-    std::string current;
+    std::string current = {};
     size_t current_tokens = 0;
     size_t chunk_start_offset = sentences.front().second;
 
-    auto flush = [&](size_t end_offset) {
-        if (current.empty()) return;
+    auto flush = [&]([[maybe_unused]] size_t end_offset) {
+        if (current.empty()) {
+          return;
+        }
         const size_t tok = estimateTokenCount(current, config.chars_per_token);
         if (tok >= config.min_chunk_size || config.min_chunk_size == 0) {
             DocumentChunk chunk;
@@ -272,7 +291,7 @@ DocumentSplitter::Impl::splitSentence(const std::string& text,
         }
     };
 
-    for (size_t i = 0; i < sentences.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(sentences.size()); ++i) {
         const auto& [sent, sent_offset] = sentences[i];
         const size_t sent_tokens =
             estimateTokenCount(sent, config.chars_per_token);
@@ -351,7 +370,7 @@ DocumentSplitter::split(const std::string& text,
         case SplitStrategy::Sliding:
             return impl_->splitSliding(text, document_id);
         case SplitStrategy::Sentence:
-        default:
+        [[fallthrough]];\n        default:
             return impl_->splitSentence(text, document_id);
     }
 }

@@ -30,11 +30,12 @@ static std::vector<float> generateRandomVector(size_t size) {
 }
 
 static std::vector<uint8_t> vectorToBytes(const std::vector<float>& vec) {
-    std::vector<uint8_t> bytes;
+    std::vector<uint8_t> bytes = {};
+
     bytes.reserve(vec.size() * sizeof(float));
     
     for (float v : vec) {
-        uint32_t bits;
+        uint32_t bits = 0;
         std::memcpy(&bits, &v, sizeof(float));
         
         bytes.push_back((bits >> 0) & 0xFF);

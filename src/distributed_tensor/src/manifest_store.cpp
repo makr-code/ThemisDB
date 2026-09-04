@@ -86,7 +86,7 @@ std::size_t ManifestStore::evict(const std::string& artifact_id) {
 // evictStale
 // ---------------------------------------------------------------------------
 
-std::size_t ManifestStore::evictStale(double max_age_s) {
+std::size_t ManifestStore::evictStale([[maybe_unused]] double max_age_s) {
     const auto now = std::chrono::system_clock::now();
     std::lock_guard<std::mutex> lock(mutex_);
     std::size_t removed = 0;
@@ -118,7 +118,9 @@ ManifestStore::get(const std::string& tensor_name, uint32_t shard_id) const {
         }
     }
 
-    if (!best) return std::nullopt;
+    if (!best) {
+      return std::nullopt;
+    }
     return *best;
 }
 
@@ -130,7 +132,8 @@ std::vector<ArtifactManifest>
 ManifestStore::list(const std::string& tensor_name) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<ArtifactManifest> result;
+    std::vector<ArtifactManifest> result = {};
+
     for (const auto& [k, v] : entries_) {
         if (k.tensor_name == tensor_name) {
             result.push_back(v);
@@ -140,7 +143,9 @@ ManifestStore::list(const std::string& tensor_name) const {
     // Sort by shard_id asc, then version desc.
     std::sort(result.begin(), result.end(),
         [](const ArtifactManifest& a, const ArtifactManifest& b) {
-            if (a.shard_id != b.shard_id) return a.shard_id < b.shard_id;
+            if (a.shard_id != b.shard_id) {
+              return a.shard_id < b.shard_id;
+            }
             return a.version > b.version;
         });
 
@@ -153,7 +158,7 @@ ManifestStore::list(const std::string& tensor_name) const {
 
 std::size_t ManifestStore::size() const noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
-    return entries_.size();
+    return static_cast<int>(entries_.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -161,7 +166,9 @@ std::size_t ManifestStore::size() const noexcept {
 // ---------------------------------------------------------------------------
 
 void ManifestStore::refreshFreshnessMetrics() const {
-    if (!metrics_) return;
+    if (!metrics_) {
+      return;
+    }
 
     const auto now = std::chrono::system_clock::now();
 

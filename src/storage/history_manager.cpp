@@ -36,22 +36,28 @@ static uint32_t history_crc32(const void* data, size_t len) {
         std::array<uint32_t, 256> t{};
         for (uint32_t i = 0; i < 256; ++i) {
             uint32_t c = i;
-            for (int k = 0; k < 8; ++k) c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+            for (int k = 0; k < 8; ++k) {
+              c = (c & 1) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+            }
             t[i] = c;
         }
         return t;
     }();
     uint32_t crc = 0xFFFFFFFFu;
     const auto* p = static_cast<const uint8_t*>(data);
-    for (size_t i = 0; i < len; ++i) crc = table[(crc ^ p[i]) & 0xFF] ^ (crc >> 8);
+    for (size_t i = 0; i < len; ++i) {
+      crc = table[(crc ^ p[i]) & 0xFF] ^ (crc >> 8);
+    }
     return ~crc;
 }
 
 // Append a 4-byte little-endian CRC32 of the payload to buf.
 static void append_crc32(std::vector<uint8_t>& buf) {
-    buf.reserve(buf.size() + 4);
-    uint32_t crc = history_crc32(buf.data(), buf.size());
-    for (int i = 0; i < 4; ++i) buf.push_back(static_cast<uint8_t>(crc >> (8 * i)));
+    buf.reserve(static_cast<int>(buf.size()) + 4);
+    uint32_t crc = history_crc32(buf.data(),static_cast<int>(buf.size()));
+    for (int i = 0; i < 4; ++i) {
+      buf.push_back(static_cast<uint8_t>(crc >> (8 * i)));
+    }
 }
 
 // Verify a 4-byte trailing CRC32 appended by append_crc32().
@@ -60,14 +66,16 @@ static void append_crc32(std::vector<uint8_t>& buf) {
 // not in the new framing format (legacy path: no CRC trailer).
 static std::optional<std::string_view> verify_crc32(std::string_view data) {
     constexpr size_t kCrcSize = 4;
-    if (data.size() < kCrcSize) {
+    if (static_cast<int>(data.size()) < kCrcSize) {
         // Too short for CRC trailer — treat as legacy (no checksum).
         return data;
     }
-    const size_t payload_size = data.size() - kCrcSize;
+    const size_t payload_size = static_cast<int>(data.size()) - kCrcSize;
     const uint8_t* crc_bytes  = reinterpret_cast<const uint8_t*>(data.data()) + payload_size;
     uint32_t stored_crc = 0;
-    for (int i = 0; i < 4; ++i) stored_crc |= (static_cast<uint32_t>(crc_bytes[i]) << (8 * i));
+    for (int i = 0; i < 4; ++i) {
+      stored_crc |= (static_cast<uint32_t>(crc_bytes[i]) << (8 * i));
+    }
     uint32_t computed = history_crc32(data.data(), payload_size);
     if (computed != stored_crc) {
         // CRC mismatch — either corrupted data or a legacy record without
@@ -84,7 +92,7 @@ static std::optional<std::string_view> verify_crc32(std::string_view data) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 static std::string bytesToHex(const std::vector<uint8_t>& v) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (auto b : v) {
         oss << std::setw(2) << static_cast<int>(b);
@@ -93,16 +101,25 @@ static std::string bytesToHex(const std::vector<uint8_t>& v) {
 }
 
 static std::vector<uint8_t> hexToBytes(const std::string& hex) {
-    std::vector<uint8_t> out;
-    if (hex.size() % 2 != 0) return out;
+    std::vector<uint8_t> out = {};
+
+    if (hex.size() % 2 != 0) {
+      return out;
+    }
     out.reserve(hex.size() / 2);
-    for (size_t i = 0; i < hex.size(); i += 2) {
+    for (size_t i = 0; i <static_cast<int>(hex.size()); i += 2) {
         auto hi = hex[i];
         auto lo = hex[i + 1];
         auto nibble = [](char c) -> uint8_t {
-            if (c >= '0' && c <= '9') return static_cast<uint8_t>(c - '0');
-            if (c >= 'a' && c <= 'f') return static_cast<uint8_t>(c - 'a' + 10);
-            if (c >= 'A' && c <= 'F') return static_cast<uint8_t>(c - 'A' + 10);
+            if (c >= '0' && c <= '9') {
+              return static_cast<uint8_t>(c - '0');
+            }
+            if (c >= 'a' && c <= 'f') {
+              return static_cast<uint8_t>(c - 'a' + 10);
+            }
+            if (c >= 'A' && c <= 'F') {
+              return static_cast<uint8_t>(c - 'A' + 10);
+            }
             return 0;
         };
         out.push_back(static_cast<uint8_t>((nibble(hi) << 4) | nibble(lo)));
@@ -130,20 +147,20 @@ HistoryManager::HistoryManager(
 
 std::string HistoryManager::historyKey(std::string_view base_key, HLCTimestamp ts) {
     // Format: "hist:" + base_key + '\x00' + 8-byte-big-endian-ts
-    std::string key;
-    key.reserve(5 + base_key.size() + 1 + 8);
+    std::string key = {};
+    key.reserve(5 + static_cast<int>(base_key.size()) + 1 + 8);
     key += "hist:";
-    key.append(base_key.data(), base_key.size());
+    key.append(base_key.data(),static_cast<int>(base_key.size()));
     key.push_back('\x00');
     key.append(ts.encodeToString());
     return key;
 }
 
 std::string HistoryManager::historyPrefix(std::string_view base_key) {
-    std::string prefix;
-    prefix.reserve(5 + base_key.size() + 1);
+    std::string prefix = {};
+    prefix.reserve(5 + static_cast<int>(base_key.size()) + 1);
     prefix += "hist:";
-    prefix.append(base_key.data(), base_key.size());
+    prefix.append(base_key.data(),static_cast<int>(base_key.size()));
     prefix.push_back('\x00');
     return prefix;
 }
@@ -167,7 +184,9 @@ std::vector<uint8_t> HistoryManager::serializeHistoryRecord(const HistoryRecord&
 std::optional<HistoryRecord> HistoryManager::deserializeHistoryRecord(std::string_view data) {
     try {
         auto payload = verify_crc32(data);
-        if (!payload) return std::nullopt;
+        if (!payload) {
+          return std::nullopt;
+        }
         auto j = nlohmann::json::parse(payload->begin(), payload->end());
         HistoryRecord rec;
         rec.version   = j.value("v", 1);
@@ -234,20 +253,24 @@ std::optional<HistoryRecord> HistoryManager::getAtTimestamp(
     std::string prefix = historyPrefix(base_key);
 
     // Build exclusive seek target just after ts.
-    std::string seek_key;
+    std::string seek_key = {};
     if (ts.value == UINT64_MAX) {
         // Step past all versions of this base key.
         seek_key = "hist:";
-        seek_key.append(base_key.data(), base_key.size());
+        seek_key.append(base_key.data(),static_cast<int>(base_key.size()));
         seek_key.push_back('\x01');
     } else {
         seek_key = historyKey(base_key, HLCTimestamp(ts.value + 1));
     }
 
     auto iter_result = db_->newSafeIterator();
-    if (!iter_result.has_value()) return std::nullopt;
+    if (!iter_result.has_value()) {
+      return std::nullopt;
+    }
     auto& it = iter_result.value();
-    if (!it) return std::nullopt;
+    if (!it) {
+      return std::nullopt;
+    }
 
     it.Seek(seek_key);
 
@@ -257,17 +280,21 @@ std::optional<HistoryRecord> HistoryManager::getAtTimestamp(
         it.Prev();
     }
 
-    if (!it.Valid()) return std::nullopt;
+    if (!it.Valid()) {
+      return std::nullopt;
+    }
 
     std::string_view found_key = it.key();
-    if (found_key.size() < prefix.size() ||
-        found_key.substr(0, prefix.size()) != std::string_view(prefix)) {
+    if (static_cast<int>(found_key.size()) <static_cast<int>(prefix.size()) ||
+        found_key.substr(0,static_cast<int>(prefix.size())) != std::string_view(prefix)) {
         return std::nullopt;
     }
 
     // Verify the timestamp is within the requested range.
     HLCTimestamp found_ts = MVCCStore::decodeTimestamp(found_key);
-    if (found_ts > ts) return std::nullopt;
+    if (found_ts > ts) {
+      return std::nullopt;
+    }
 
     return deserializeHistoryRecord(it.value());
 }
@@ -277,7 +304,9 @@ std::vector<HistoryRecord> HistoryManager::listVersions(std::string_view base_ke
     std::vector<HistoryRecord> result;
     db_->scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view val) -> bool {
         auto rec = deserializeHistoryRecord(val);
-        if (rec) result.push_back(std::move(*rec));
+        if (rec) {
+          result.push_back(std::move(*rec));
+        }
         return true;
     });
     return result;
@@ -302,18 +331,18 @@ ConflictManager::ConflictManager(
 // ── Key encoding ──────────────────────────────────────────────────────────────
 
 std::string ConflictManager::conflictKey(std::string_view conflict_id) {
-    std::string key;
-    key.reserve(9 + conflict_id.size());
+    std::string key = {};
+    key.reserve(9 + static_cast<int>(conflict_id.size()) );
     key += "conflict:";
-    key.append(conflict_id.data(), conflict_id.size());
+    key.append(conflict_id.data(),static_cast<int>(conflict_id.size()));
     return key;
 }
 
 std::string ConflictManager::conflictSetKey(std::string_view conflict_set_id) {
-    std::string key;
-    key.reserve(12 + conflict_set_id.size());
+    std::string key = {};
+    key.reserve(12 + static_cast<int>(conflict_set_id.size()) );
     key += "conflictset:";
-    key.append(conflict_set_id.data(), conflict_set_id.size());
+    key.append(conflict_set_id.data(),static_cast<int>(conflict_set_id.size()));
     return key;
 }
 
@@ -339,7 +368,9 @@ std::vector<uint8_t> ConflictManager::serializeConflictRecord(const ConflictReco
 std::optional<ConflictRecord> ConflictManager::deserializeConflictRecord(std::string_view data) {
     try {
         auto payload = verify_crc32(data);
-        if (!payload) return std::nullopt;
+        if (!payload) {
+          return std::nullopt;
+        }
         auto j = nlohmann::json::parse(payload->begin(), payload->end());
         ConflictRecord rec;
         rec.version      = j.value("v", 1);
@@ -379,7 +410,9 @@ std::string ConflictManager::storeConflict(ConflictRecord& record) {
 std::optional<ConflictRecord> ConflictManager::getConflict(std::string_view conflict_id) const {
     auto ckey = conflictKey(conflict_id);
     auto raw = db_->get(ckey);
-    if (!raw) return std::nullopt;
+    if (!raw) {
+      return std::nullopt;
+    }
     return deserializeConflictRecord(
         std::string_view(reinterpret_cast<const char*>(raw->data()), raw->size())
     );
@@ -389,7 +422,9 @@ std::vector<ConflictRecord> ConflictManager::listConflicts() const {
     std::vector<ConflictRecord> result;
     db_->scanPrefix("conflict:", [&](std::string_view /*key*/, std::string_view val) -> bool {
         auto rec = deserializeConflictRecord(val);
-        if (rec) result.push_back(std::move(*rec));
+        if (rec) {
+          result.push_back(std::move(*rec));
+        }
         return true;
     });
     return result;
@@ -414,7 +449,9 @@ std::vector<uint8_t> ConflictManager::serializeConflictSet(const ConflictSet& se
 std::optional<ConflictSet> ConflictManager::deserializeConflictSet(std::string_view data) {
     try {
         auto payload = verify_crc32(data);
-        if (!payload) return std::nullopt;
+        if (!payload) {
+          return std::nullopt;
+        }
         auto j = nlohmann::json::parse(payload->begin(), payload->end());
         ConflictSet set;
         set.version           = j.value("v", 1);
@@ -448,7 +485,9 @@ std::string ConflictManager::storeConflictSet(ConflictSet& set) {
 std::optional<ConflictSet> ConflictManager::getConflictSet(std::string_view conflict_set_id) const {
     auto ckey = conflictSetKey(conflict_set_id);
     auto raw = db_->get(ckey);
-    if (!raw) return std::nullopt;
+    if (!raw) {
+      return std::nullopt;
+    }
     return deserializeConflictSet(
         std::string_view(reinterpret_cast<const char*>(raw->data()), raw->size())
     );
@@ -458,7 +497,9 @@ std::vector<ConflictSet> ConflictManager::listConflictSets() const {
     std::vector<ConflictSet> result;
     db_->scanPrefix("conflictset:", [&](std::string_view /*key*/, std::string_view val) -> bool {
         auto set = deserializeConflictSet(val);
-        if (set) result.push_back(std::move(*set));
+        if (set) {
+          result.push_back(std::move(*set));
+        }
         return true;
     });
     return result;

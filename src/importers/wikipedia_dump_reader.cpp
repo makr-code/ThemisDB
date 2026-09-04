@@ -18,8 +18,8 @@ bool WikipediaIngestionPipeline::parseSourceStream(
     ImportStats& stats,
     const ImportOptions& options,
     bool incremental) {
-    std::string line;
-    std::string page_block;
+    std::string line = {};
+    std::string page_block = {};
     bool inside_page = false;
     size_t page_index = 0;
     const size_t resume_pages = (incremental &&
@@ -55,7 +55,7 @@ bool WikipediaIngestionPipeline::parseSourceStream(
             continue;
         }
 
-        std::string error;
+        std::string error = {};
         auto parsed_page = parseXmlPageBlock(page_block, source, error);
         if (!parsed_page.has_value()) {
             ++stats.failed_records;

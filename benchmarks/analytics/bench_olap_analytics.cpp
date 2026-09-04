@@ -238,7 +238,9 @@ static void BM_OLAP_MultiJoin(benchmark::State& state) {
         for (const auto& o : orders) {
             auto cit = cust_map.find(o.customer_id);
             auto pit = prod_map.find(o.product_id);
-            if (cit == cust_map.end() || pit == prod_map.end()) continue;
+            if (cit == cust_map.end() || pit == prod_map.end()) {
+              continue;
+            }
 
             // Composite key: region*10 + category (both small ranges)
             int64_t key = cit->second->region_id * 10 + pit->second->category_id;

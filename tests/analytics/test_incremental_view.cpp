@@ -38,7 +38,9 @@ static ChangeRecord insert_rec(const std::string& collection,
     r.type = ChangeType::INSERT;
     r.collection = collection;
     r.change_time = std::chrono::system_clock::now();
-    for (auto& [k, v] : fields) r.after_row[k] = v;
+    for (auto& [k, v] : fields) {
+      r.after_row[k] = v;
+    }
     return r;
 }
 
@@ -48,7 +50,9 @@ static ChangeRecord delete_rec(const std::string& collection,
     r.type = ChangeType::DELETE;
     r.collection = collection;
     r.change_time = std::chrono::system_clock::now();
-    for (auto& [k, v] : fields) r.before_row[k] = v;
+    for (auto& [k, v] : fields) {
+      r.before_row[k] = v;
+    }
     return r;
 }
 
@@ -59,8 +63,12 @@ static ChangeRecord update_rec(const std::string& collection,
     r.type = ChangeType::UPDATE;
     r.collection = collection;
     r.change_time = std::chrono::system_clock::now();
-    for (auto& [k, v] : before) r.before_row[k] = v;
-    for (auto& [k, v] : after)  r.after_row[k]  = v;
+    for (auto& [k, v] : before) {
+      r.before_row[k] = v;
+    }
+    for (auto& [k, v] : after) {
+      r.after_row[k]  = v;
+    }
     return r;
 }
 
@@ -84,8 +92,12 @@ static double getDouble(const ViewQueryResult& r,
         if (dit != row.group_key.end() && dit->second == dim_val) {
             auto ait = row.values.find(agg_name);
             if (ait != row.values.end()) {
-                if (auto* d = std::get_if<double>(&ait->second)) return *d;
-                if (auto* i = std::get_if<int64_t>(&ait->second)) return static_cast<double>(*i);
+                if (auto* d = std::get_if<double>(&ait->second)) {
+                  return *d;
+                }
+                if (auto* i = std::get_if<int64_t>(&ait->second)) {
+                  return static_cast<double>(*i);
+                }
             }
         }
     }
@@ -767,7 +779,8 @@ TEST(IncrementalViewPerfTest, ReaderP99DuringBatchApply) {
 
     // Seed some initial rows so query() has real groups to iterate over.
     {
-        std::vector<ChangeRecord> seed;
+        std::vector<ChangeRecord> seed = {};
+
         for (int i = 0; i < 500; ++i) {
             ChangeRecord r;
             r.type = ChangeType::INSERT;

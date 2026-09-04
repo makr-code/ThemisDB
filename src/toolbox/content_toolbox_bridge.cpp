@@ -116,7 +116,7 @@ ContentToolboxBridge& ContentToolboxBridge::operator=(ContentToolboxBridge&&) no
 // Helper: Record bridge operation latency
 // ─────────────────────────────────────────────────────────────────────────────
 
-void ContentToolboxBridge::recordLatency(uint64_t latency_ms) noexcept {
+void ContentToolboxBridge::recordLatency([[maybe_unused]] uint64_t latency_ms) noexcept {
     impl_->bridge_operations_total_.fetch_add(1, std::memory_order_relaxed);
     
     // Convert milliseconds to microseconds for histogram
@@ -156,7 +156,7 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
     }
 
     // ── Step 1: ContentManager ingest (security, dedup, storage, embeddings)
-    std::string blob(reinterpret_cast<const char*>(data.data()), data.size());
+    std::string blob(reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()));
 
     content::ContentManager::IngestResult cm_result;
     {
@@ -176,7 +176,7 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
     out.child_ids   = cm_result.extracted_content_ids;
 
     // ── Step 2: Retrieve extracted text for Toolbox enrichment
-    std::string extracted_text;
+    std::string extracted_text = {};
     {
         std::lock_guard<std::mutex> lk(impl_->mutex_);
         auto assembly = impl_->content_manager_->assembleContent(
@@ -276,9 +276,9 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
     }
 
     // Retrieve metadata to get MIME type and filename hint
-    std::string mime_type;
-    std::string filename_hint;
-    std::string extracted_text;
+    std::string mime_type = {};
+    std::string filename_hint = {};
+    std::string extracted_text = {};
 
     {
         std::lock_guard<std::mutex> lk(impl_->mutex_);
@@ -393,7 +393,9 @@ uint64_t ContentToolboxBridge::vectorWriteFailuresTotal() const noexcept {
 
 std::string ContentToolboxBridge::getMetricsText() const {
     const uint64_t ops = impl_->bridge_operations_total_.load();
-    if (ops == 0) return "";
+    if (ops == 0) {
+      return "";
+    }
 
     const uint64_t failures = impl_->bridge_failures_total_.load();
     const uint64_t graph_failures = impl_->graph_write_failures_total_.load();
@@ -404,7 +406,7 @@ std::string ContentToolboxBridge::getMetricsText() const {
     const uint64_t bucket_10000_plus = impl_->bridge_latency_us_bucket_10000_plus_.load();
     const uint64_t latency_sum_us = impl_->bridge_latency_us_sum_.load();
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     out << "# HELP toolbox_bridge_failures_total Total bridge operation failures.\n";
     out << "# TYPE toolbox_bridge_failures_total counter\n";

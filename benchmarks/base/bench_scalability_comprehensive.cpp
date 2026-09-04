@@ -31,7 +31,7 @@ using namespace themis;
 
 class DeterministicRNG {
 private:
-    std::mt19937_64 gen_;
+    std::mt19937_64 gen_ = {};
 
 public:
     explicit DeterministicRNG(uint64_t seed = 42) : gen_(seed) {}
@@ -40,7 +40,7 @@ public:
 
     std::string generateString(size_t length) {
         static const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        std::string result;
+        std::string result = {};
         result.reserve(length);
         for (size_t i = 0; i < length; ++i) {
             result += charset[next() % (sizeof(charset) - 1)];
@@ -336,7 +336,9 @@ static void BM_FullScanScaling(benchmark::State& state) {
         // Simulate full scan by reading all keys
         for (size_t i = 0; i < dataset_size; ++i) {
             auto value = db.get("entity:scan_" + std::to_string(i));
-            if (value.has_value()) count++;
+            if (value.has_value()) {
+              count++;
+            }
         }
         benchmark::DoNotOptimize(count);
     }

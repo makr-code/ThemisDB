@@ -23,7 +23,9 @@ namespace query {
 // =============================================================================
 
 bool SpatialHint::isValid() const {
-    if (fieldName.empty()) return false;
+    if (fieldName.empty()) {
+      return false;
+    }
     
     switch (type) {
         case SpatialHintType::USE_INDEX:
@@ -40,7 +42,7 @@ bool SpatialHint::isValid() const {
 }
 
 std::string SpatialHint::toString() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     switch (type) {
         case SpatialHintType::USE_INDEX:
@@ -116,7 +118,7 @@ SpatialHint SpatialHintParser::parseHint(const std::string& hintString) {
     
     // Pattern: HINT_TYPE(field, arg)
     std::regex hint_regex("(USE_INDEX|FORCE_SCAN|INDEX_PRIORITY|DISTANCE_ORDER)\\s*\\(([^,]+),?([^)]*)\\)");
-    std::smatch match;
+    std::smatch match = {};
     
     if (!std::regex_search(normalized, match, hint_regex)) {
         THEMIS_WARN("GeospatialHints: Failed to parse hint: {}", hintString);
@@ -141,9 +143,9 @@ SpatialHint SpatialHintParser::parseHint(const std::string& hintString) {
     if (hintType == "USE_INDEX") {
         hint.type = SpatialHintType::USE_INDEX;
         // Remove quotes from index name if present
-        if (additionalArg.length() >= 2 && 
+        if ((additionalArg.length() >= 2 && 
             (additionalArg.front() == '"' && additionalArg.back() == '"' ||
-             additionalArg.front() == '\'' && additionalArg.back() == '\'')) {
+             additionalArg.front() == '\'' && additionalArg.back() == '\''))) {
             hint.indexName = additionalArg.substr(1, additionalArg.length() - 2);
         } else {
             hint.indexName = additionalArg;
@@ -161,9 +163,9 @@ SpatialHint SpatialHintParser::parseHint(const std::string& hintString) {
     } else if (hintType == "DISTANCE_ORDER") {
         hint.type = SpatialHintType::DISTANCE_ORDER;
         // Remove quotes
-        if (additionalArg.length() >= 2 && 
+        if ((additionalArg.length() >= 2 && 
             (additionalArg.front() == '"' && additionalArg.back() == '"' ||
-             additionalArg.front() == '\'' && additionalArg.back() == '\'')) {
+             additionalArg.front() == '\'' && additionalArg.back() == '\''))) {
             hint.orderDirection = additionalArg.substr(1, additionalArg.length() - 2);
         } else {
             hint.orderDirection = additionalArg;
@@ -210,8 +212,8 @@ std::string SpatialHintParser::getHintWarning(
     if (hint.type == SpatialHintType::FORCE_SCAN) {
         // Check if good index is available
         for (const auto& [indexName, indexType] : availableIndexes) {
-            if ((indexType == "SPATIAL" || indexType == "RTREE" || indexType == "QUADTREE") &&
-                indexName.find(hint.fieldName) != std::string::npos) {
+            if (((indexType == "SPATIAL" || indexType == "RTREE" || indexType == "QUADTREE") &&
+                indexName.find(hint.fieldName) != std::string::npos)) {
                 return "FORCE_SCAN specified but spatial index '" + indexName + 
                        "' is available and likely faster";
             }
@@ -240,7 +242,7 @@ std::vector<SpatialHint> SpatialHintParser::parseHintsFromQuery(
     // Find all hint patterns in query text
     std::regex hint_pattern("(USE_INDEX|FORCE_SCAN|INDEX_PRIORITY|DISTANCE_ORDER)\\s*\\([^)]+\\)");
     std::sregex_iterator iter(queryText.begin(), queryText.end(), hint_pattern);
-    std::sregex_iterator end;
+    std::sregex_iterator end = {};
     
     while (iter != end) {
         std::string hintStr = iter->str();
@@ -293,7 +295,9 @@ bool SpatialHintContext::shouldUseIndex(const std::string& predicateId) const {
 
 std::string SpatialHintContext::getRecommendedIndex(const std::string& predicateId) const {
     const auto* plan = getPlanForPredicate(predicateId);
-    if (!plan) return "";
+    if (!plan) {
+      return "";
+    }
     
     const auto* useIndexHint = plan->getHint(SpatialHintType::USE_INDEX);
     if (useIndexHint) {

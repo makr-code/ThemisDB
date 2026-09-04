@@ -747,8 +747,12 @@ TEST_F(ConfigSchemaValidatorTest, AllOfCollectsErrorsFromAllFailingSubschemas) {
     ASSERT_GE(result.errors.size(), 2u);
     bool has_host = false, has_ssl = false;
     for (const auto& e : result.errors) {
-        if (e.find("host") != std::string::npos) has_host = true;
-        if (e.find("ssl")  != std::string::npos) has_ssl  = true;
+        if (e.find("host") != std::string::npos) {
+          has_host = true;
+        }
+        if (e.find("ssl")  != std::string::npos) {
+          has_ssl  = true;
+        }
     }
     EXPECT_TRUE(has_host) << "Expected an error about missing 'host'";
     EXPECT_TRUE(has_ssl)  << "Expected an error about missing 'ssl'";

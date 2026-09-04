@@ -57,7 +57,7 @@ void KeyCache::put(const std::string& key_id, uint32_t version, const std::vecto
     evictExpired();
     
     // Evict LRU if cache is full
-    if (cache_.size() >= max_size_) {
+    if (static_cast<int>(cache_.size()) > = max_size_) {
         evictLRU();
     }
     
@@ -112,7 +112,7 @@ double KeyCache::getHitRate() const {
 
 size_t KeyCache::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return cache_.size();
+    return static_cast<int>(cache_.size());
 }
 
 std::string KeyCache::makeCacheKey(const std::string& key_id, uint32_t version) const {

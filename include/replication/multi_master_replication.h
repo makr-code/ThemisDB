@@ -131,13 +131,17 @@ private:
 class HybridLogicalClock {
 public:
     struct Timestamp {
-        uint64_t physical;  // Physical time (milliseconds since epoch)
+        uint64_t physical = 0;  // Physical time (milliseconds since epoch)
         uint32_t logical;   // Logical counter
-        std::string node_id;
+        std::string node_id = {};
 
         bool operator<(const Timestamp& other) const {
-            if (physical != other.physical) return physical < other.physical;
-            if (logical  != other.logical)  return logical  < other.logical;
+            if (physical != other.physical) {
+              return physical < other.physical;
+            }
+            if (logical  != other.logical) {
+              return logical  < other.logical;
+            }
             return node_id < other.node_id;
         }
         bool operator==(const Timestamp& other) const {
@@ -146,7 +150,7 @@ public:
                    node_id  == other.node_id;
         }
         std::string toString() const {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "HLC(" << physical << "," << logical << "," << node_id << ")";
             return oss.str();
         }
@@ -398,7 +402,7 @@ public:
     
     // Read Operations
     struct ReadResult {
-        bool success;
+        bool success = 0;
         std::string data;
         VectorClock version;
         std::string source_node;
@@ -431,7 +435,7 @@ public:
     
     // Statistics
     struct Stats {
-        uint64_t writes_total;
+        uint64_t writes_total = 0;
         uint64_t writes_replicated;
         uint64_t writes_pending;
         uint64_t conflicts_detected;

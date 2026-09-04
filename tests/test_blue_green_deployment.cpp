@@ -225,7 +225,7 @@ TEST_F(BlueGreenPromoteTest, Promote_DoesNotCallEngine) {
 
 TEST_F(BlueGreenPromoteTest, Promote_InvokesCallback) {
     DeploymentSlot cb_slot  = DeploymentSlot::BLUE;
-    std::string    cb_ver;
+    std::string    cb_ver = {};
     bg_.setPromotionCallback([&](DeploymentSlot slot, const std::string& ver) {
         cb_slot = slot;
         cb_ver  = ver;
@@ -292,7 +292,7 @@ TEST_F(BlueGreenRollbackTest, Rollback_RestoresOriginalActiveSlot) {
 }
 
 TEST_F(BlueGreenRollbackTest, Rollback_InvokesCallback) {
-    std::string reason_received;
+    std::string reason_received = {};
     bg_.setRollbackCallback([&](const std::string& r) {
         reason_received = r;
     });

@@ -81,7 +81,9 @@ std::optional<MetricAnomaly> MetricAnomalyDetector::observe(
 {
     std::unique_lock<std::mutex> lk(mutex_);
     auto it = streams_.find(metric_name);
-    if (it == streams_.end()) return std::nullopt;
+    if (it == streams_.end()) {
+      return std::nullopt;
+    }
 
     StreamState& state = *it->second;
     ++state.points_seen;
@@ -96,7 +98,9 @@ std::optional<MetricAnomaly> MetricAnomalyDetector::observe(
 
     auto raw = state.sad.process(dp);  // may return nullopt during warm-up
 
-    if (!raw) return std::nullopt;
+    if (!raw) {
+      return std::nullopt;
+    }
 
     // Enrich the result into a MetricAnomaly.
     MetricAnomaly ma;
@@ -108,7 +112,7 @@ std::optional<MetricAnomaly> MetricAnomalyDetector::observe(
     ma.timestamp      = timestamp;
     ma.description    = raw->description;
     if (ma.description.empty() && ma.is_anomaly) {
-        std::ostringstream desc;
+        std::ostringstream desc = {};
         desc << std::fixed << std::setprecision(4)
              << "Anomaly on '" << metric_name
              << "': observed=" << value
@@ -149,7 +153,8 @@ MetricAnomalyDetector::getAnomalies(const std::string& metric_name) const {
 
 std::vector<MetricAnomaly> MetricAnomalyDetector::getAllAnomalies() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<MetricAnomaly> result;
+    std::vector<MetricAnomaly> result = {};
+
     for (const auto& [name, state] : streams_) {
         result.insert(result.end(),
                       state->anomalies.begin(),
@@ -185,9 +190,9 @@ void MetricAnomalyDetector::clearAllAnomalies() {
 // setCallback
 // ---------------------------------------------------------------------------
 
-void MetricAnomalyDetector::setCallback(AnomalyCallback cb) {
+void MetricAnomalyDetector::setCallback([[maybe_unused]] AnomalyCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
-    callback_ = std::move(cb);
+    callback_ = std::move([[maybe_unused]] cb);
 }
 
 // ---------------------------------------------------------------------------
@@ -216,7 +221,7 @@ void MetricAnomalyDetector::publishMetrics() const {
         mc.setGauge("themis_anomaly_score",       latest_score,                         labels);
         mc.setGauge("themis_anomaly_detected",    latest_detected,                      labels);
         mc.setGauge("themis_anomaly_total",
-                    static_cast<double>(state->anomalies.size()),                        labels);
+                    static_cast<double>(state-> static_cast<int>(anomalies.size())),                        labels);
         mc.setGauge("themis_anomaly_window_size",
                     static_cast<double>(stats.window_size),                              labels);
         mc.setGauge("themis_anomaly_points_seen",
@@ -230,9 +235,9 @@ void MetricAnomalyDetector::publishMetrics() const {
 
 std::string MetricAnomalyDetector::generateReport() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "=== ThemisDB Metric Anomaly Detection Report ===\n\n";
-    oss << "Monitored metrics: " << streams_.size() << "\n\n";
+    oss << "Monitored metrics: " <<static_cast<int>(streams_.size()) << "\n\n";
 
     for (const auto& [name, state] : streams_) {
         auto stats = state->sad.getWindowStats();
@@ -243,12 +248,12 @@ std::string MetricAnomalyDetector::generateReport() const {
         oss << "  Points seen:     " << state->points_seen << "\n";
         oss << "  Window size:     " << stats.window_size << "\n";
         oss << "  Trained:         " << (stats.trained ? "yes" : "no (warming up)") << "\n";
-        oss << "  Anomaly count:   " << state->anomalies.size() << "\n";
+        oss << "  Anomaly count:   " << state-> static_cast<int>(anomalies.size()) << "\n";
         if (!state->anomalies.empty()) {
             oss << "  Recent anomalies:\n";
-            size_t start = state->anomalies.size() > 5
-                           ? state->anomalies.size() - 5 : 0;
-            for (size_t i = start; i < state->anomalies.size(); ++i) {
+            size_t start = state-> static_cast<int>(anomalies.size()) > 5
+                           ? state-> static_cast<int>(anomalies.size()) - 5 : 0;
+            for (size_t i = start; i < state-> static_cast<int>(anomalies.size()); ++i) {
                 const auto& a = state->anomalies[i];
                 oss << std::fixed << std::setprecision(4)
                     << "    [" << a.severity << "] score=" << a.score
@@ -277,7 +282,7 @@ json MetricAnomalyDetector::generateReportJson() const {
             {"points_seen",    state->points_seen},
             {"window_size",    stats.window_size},
             {"trained",        stats.trained},
-            {"anomaly_count",  state->anomalies.size()},
+            {"anomaly_count",  state-> static_cast<int>(anomalies.size())},
             {"anomalies",      anomalies_arr}
         });
     }
@@ -287,7 +292,7 @@ json MetricAnomalyDetector::generateReportJson() const {
                      .count();
     return json{
         {"generated_at_ms", ts_ms},
-        {"monitored_count", streams_.size()},
+        {"monitored_count",static_cast<int>(streams_.size())},
         {"metrics",         metrics_arr}
     };
 }
@@ -298,12 +303,13 @@ json MetricAnomalyDetector::generateReportJson() const {
 
 size_t MetricAnomalyDetector::monitoredCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return streams_.size();
+    return static_cast<int>(streams_.size());
 }
 
 std::vector<std::string> MetricAnomalyDetector::monitoredNames() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(streams_.size());
     for (const auto& [name, _] : streams_) {
         names.push_back(name);
@@ -316,10 +322,16 @@ std::vector<std::string> MetricAnomalyDetector::monitoredNames() const {
 // ---------------------------------------------------------------------------
 
 /*static*/
-std::string MetricAnomalyDetector::scoreSeverity(double score) noexcept {
-    if (score >= 0.9) return "critical";
-    if (score >= 0.75) return "high";
-    if (score >= 0.6) return "medium";
+std::string MetricAnomalyDetector::scoreSeverity([[maybe_unused]] double score) noexcept {
+    if (score >= 0.9) {
+      return "critical";
+    }
+    if (score >= 0.75) {
+      return "high";
+    }
+    if (score >= 0.6) {
+      return "medium";
+    }
     return "low";
 }
 

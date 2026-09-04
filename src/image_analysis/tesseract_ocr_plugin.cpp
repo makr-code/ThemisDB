@@ -172,7 +172,9 @@ struct TesseractOCRPlugin::Impl {
                     continue;
                 }
                 std::unique_ptr<char[]> word_ptr(ri->GetUTF8Text(level));
-                if (!word_ptr) continue;
+                if (!word_ptr) {
+                  continue;
+                }
 
                 int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
                 ri->BoundingBox(level, &x1, &y1, &x2, &y2);

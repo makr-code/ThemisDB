@@ -251,8 +251,8 @@ bool MetadataShard::put(
         std::lock_guard<std::mutex> lock(subscriptions_mutex_);
         auto sub_it = subscriptions_.find(partition);
         if (sub_it != subscriptions_.end()) {
-            for (auto& callback : sub_it->second) {
-                callback(entry);
+            for ([[maybe_unused]] auto& callback : sub_it->second) {
+                callback([[maybe_unused]] entry);
             }
         }
     }
@@ -344,7 +344,7 @@ nlohmann::json MetadataShard::getPartitionStats(MetadataPartitionKey partition) 
     
     return {
         {"partition", static_cast<int>(partition)},
-        {"entry_count", partition_it->second.size()}
+        {"entry_count", partition_it-> static_cast<int>(second.size())}
     };
 }
 
@@ -381,7 +381,7 @@ void MetadataShard::subscribe(
     std::function<void(const MetadataEntry&)> callback
 ) {
     std::lock_guard<std::mutex> lock(subscriptions_mutex_);
-    subscriptions_[partition].push_back(callback);
+    subscriptions_[partition].push_back([[maybe_unused]] callback);
 }
 
 /** @brief Determine shard owner id by hashing key into metadata shard space. */
@@ -567,7 +567,7 @@ nlohmann::json MetadataShardRouter::getStatistics() const {
     std::lock_guard<std::mutex> lock(shards_mutex_);
     
     nlohmann::json stats = {
-        {"num_shards", shards_.size()},
+        {"num_shards",static_cast<int>(shards_.size())},
         {"total_operations", total_operations_.load()},
         {"routing_errors", routing_errors_.load()}
     };
@@ -649,7 +649,8 @@ bool MetadataShard::recoverFromWAL() {
             storage_.clear();
             
             for (const auto& [partition_key, entries] : snapshot->partitions) {
-                std::map<std::string, MetadataEntry> partition_entries;
+                std::map<std::string, MetadataEntry> partition_entries = {};
+
                 for (const auto& [key, value_json] : entries) {
                     MetadataEntry entry = MetadataEntry::fromJson(value_json);
                     partition_entries[key] = entry;
@@ -658,7 +659,7 @@ bool MetadataShard::recoverFromWAL() {
             }
             
             last_applied_lsn_ = snapshot->last_applied_lsn;
-            spdlog::info("Restored {} partitions from snapshot", storage_.size());
+            spdlog::info("Restored {} partitions from snapshot",static_cast<int>(storage_.size()));
         } else {
             spdlog::info("No snapshot found, starting with empty metadata");
             last_applied_lsn_ = LSN(0, 0);

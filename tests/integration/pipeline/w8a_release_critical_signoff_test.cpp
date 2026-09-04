@@ -59,7 +59,9 @@ struct ReleaseGateMetrics {
     /// @brief Compute p99 latency from sorted latency vector.
     static uint64_t ComputePercentile(const std::vector<uint64_t>& sorted_latencies,
                                        double percentile) {
-        if (sorted_latencies.empty()) return 0;
+        if (sorted_latencies.empty()) {
+          return 0;
+        }
         size_t index = static_cast<size_t>(
             (percentile / 100.0) * static_cast<double>(sorted_latencies.size() - 1));
         return sorted_latencies[std::min(index, sorted_latencies.size() - 1)];
@@ -88,20 +90,26 @@ struct ReleaseGateMetrics {
     /// @brief Validate SLA compliance.
     [[nodiscard]] bool PassesReleaseSLA() const {
         // Read SLA: p99 ≤ 200µs
-        if (read_p99_us > 200) return false;
+        if (read_p99_us > 200) {
+          return false;
+        }
         // Write SLA: throughput ≥ 80k ops/s (requires elapsed time)
         if (elapsed.count() > 0) {
             double write_rate = total_writes / elapsed.count();
-            if (write_rate < 80000.0) return false;
+            if (write_rate < 80000.0) {
+              return false;
+            }
         }
         // Zero critical errors
-        if (total_errors > 0) return false;
+        if (total_errors > 0) {
+          return false;
+        }
         return true;
     }
 
     /// @brief Generate diagnostic report.
     std::string Report() const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "\n=== Release Critical Signoff Metrics ===\n";
         oss << "Read Performance:\n"
             << "  p99: " << read_p99_us << " us (SLA: ≤ 200us)\n"
@@ -148,7 +156,9 @@ public:
     [[nodiscard]] bool UpdateDocument(const std::string& key, const std::string& value) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = data_.find(key);
-        if (it == data_.end()) return false;
+        if (it == data_.end()) {
+          return false;
+        }
         it->second = value;
         return true;
     }
@@ -309,15 +319,21 @@ TEST_F(ReleaseSignoffTest, RCS_04_NoErrorEscalationNominalLoad) {
             // Read
             auto result = db_->ReadDocument(key);
             success = result.has_value();
-            if (success) metrics.total_reads++;
+            if (success) {
+              metrics.total_reads++;
+            }
         } else if (op_type < 0.9) {
             // Write
             success = db_->WriteDocument(key + "_new", "content_new_" + std::to_string(i));
-            if (success) metrics.total_writes++;
+            if (success) {
+              metrics.total_writes++;
+            }
         } else {
             // Update
             success = db_->UpdateDocument(key, "updated_" + std::to_string(i));
-            if (success) metrics.total_writes++;
+            if (success) {
+              metrics.total_writes++;
+            }
         }
 
         if (!success) {
@@ -343,7 +359,8 @@ TEST_F(ReleaseSignoffTest, RCS_05_QueryCorrectnessUnderLoad) {
     }
 
     // Perform heavy concurrent writing
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([this, doc_count, t]() {
             for (int i = 0; i < 100; ++i) {
@@ -379,7 +396,8 @@ TEST_F(ReleaseSignoffTest, RCS_06_IndexConsistencyUnderConcurrentWrites) {
     }
 
     // Concurrent updates
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 8; ++t) {
         threads.emplace_back([this, doc_count, t]() {
             for (int i = 0; i < 100; ++i) {
@@ -442,7 +460,8 @@ TEST_F(ReleaseSignoffTest, RCS_07_TransactionIsolationValidation) {
     };
 
     std::thread w(writer);
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int i = 0; i < 4; ++i) {
         readers.emplace_back(reader);
     }

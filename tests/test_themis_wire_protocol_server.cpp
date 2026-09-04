@@ -1146,7 +1146,7 @@ std::size_t authPayloadSizeForTokenMirror(std::string_view token) {
 /// Local mirror of the sanitizeForMessage function from wire_protocol_server.cpp.
 /// Replaces control characters (< 0x20) and DEL (0x7F) with '?'.
 std::string sanitizeForMessageMirror(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s) {
         if (c < 0x20u || c == 0x7Fu) {

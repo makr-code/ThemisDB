@@ -382,7 +382,7 @@ protected:
         std::filesystem::remove_all(test_dir_);
     }
 
-    std::string test_dir_;
+    std::string test_dir_ = {};
     std::unique_ptr<RocksDBWrapper>        db_;
     std::unique_ptr<SecondaryIndexManager> sec_;
     std::unique_ptr<GraphIndexManager>     graph_;

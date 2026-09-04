@@ -62,13 +62,13 @@ struct CrossShardFKConstraint {
     std::string name;
 
     /// Table that owns the foreign-key column.
-    std::string child_table;
+    std::string child_table = {};
 
     /// Column in @c child_table that holds the foreign-key value.
     std::string child_column;
 
     /// Table that is referenced (parent / owner of the key).
-    std::string parent_table;
+    std::string parent_table = {};
 
     /// Column in @c parent_table that is referenced (typically the PK).
     std::string parent_column;

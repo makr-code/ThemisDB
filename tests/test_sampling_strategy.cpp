@@ -37,22 +37,30 @@ TEST(SamplingStrategy, AlwaysOffShouldNotSample) {
 
 TEST(SamplingStrategy, ProbabilityOneAlwaysSamples) {
     auto s = SamplingStrategy::probability(1.0);
-    for (int i = 0; i < 10; ++i) EXPECT_TRUE(s.shouldSample());
+    for (int i = 0; i < 10; ++i) {
+      EXPECT_TRUE(s.shouldSample());
+    }
 }
 
 TEST(SamplingStrategy, ProbabilityZeroNeverSamples) {
     auto s = SamplingStrategy::probability(0.0);
-    for (int i = 0; i < 10; ++i) EXPECT_FALSE(s.shouldSample());
+    for (int i = 0; i < 10; ++i) {
+      EXPECT_FALSE(s.shouldSample());
+    }
 }
 
 TEST(SamplingStrategy, ParentBasedSamplesWhenParentSampled) {
     auto s = SamplingStrategy::parentBased(0.0); // root never
-    for (int i = 0; i < 20; ++i) EXPECT_TRUE(s.shouldSample(/*parent_sampled=*/true));
+    for (int i = 0; i < 20; ++i) {
+      EXPECT_TRUE(s.shouldSample(/*parent_sampled=*/true));
+    }
 }
 
 TEST(SamplingStrategy, ParentBasedDoesNotSampleRootWhenProbabilityZero) {
     auto s = SamplingStrategy::parentBased(0.0);
-    for (int i = 0; i < 20; ++i) EXPECT_FALSE(s.shouldSample(/*parent_sampled=*/false));
+    for (int i = 0; i < 20; ++i) {
+      EXPECT_FALSE(s.shouldSample(/*parent_sampled=*/false));
+    }
 }
 
 TEST(SamplingStrategy, DefaultConstructorIsAlwaysOn) {

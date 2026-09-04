@@ -147,7 +147,7 @@ struct ScheduledTask {
     size_t successful_executions = 0;
     size_t failed_executions = 0;
     double avg_execution_time_ms = 0.0;
-    std::string last_error;
+    std::string last_error = {};
     ErrorCategory last_error_category = ErrorCategory::NONE;
     std::chrono::system_clock::time_point last_success_time;
     std::chrono::system_clock::time_point last_failure_time;

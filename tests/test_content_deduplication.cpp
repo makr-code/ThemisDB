@@ -124,7 +124,8 @@ std::vector<uint8_t> makeGradientBmp(int width = 32, int height = 32) {
 // ============================================================================
 
 TEST(ComputePHash, EmptyBlobReturnsEmpty) {
-    std::vector<uint8_t> empty;
+    std::vector<uint8_t> empty = {};
+
     EXPECT_TRUE(ImageProcessor::computePHash(empty).empty());
 }
 
@@ -189,7 +190,9 @@ TEST(ComputePHash, FallbackForNonBmpReturnsHex) {
 TEST(ComputeMinHash, EmptyTextReturnsMaxValues) {
     auto sig = TextProcessor::computeMinHash("");
     ASSERT_EQ(sig.size(), 128u);
-    for (auto v : sig) EXPECT_EQ(v, UINT32_MAX);
+    for (auto v : sig) {
+      EXPECT_EQ(v, UINT32_MAX);
+    }
 }
 
 TEST(ComputeMinHash, ProducesCorrectSize) {
@@ -213,7 +216,9 @@ TEST(ComputeMinHash, SimilarTextsShareMostMinHashValues) {
     // Estimate Jaccard: fraction of matching MinHash values
     size_t matches = 0;
     for (size_t i = 0; i < s1.size(); ++i) {
-        if (s1[i] == s2[i]) ++matches;
+        if (s1[i] == s2[i]) {
+          ++matches;
+        }
     }
     double estimated_jaccard = static_cast<double>(matches) / s1.size();
     EXPECT_GT(estimated_jaccard, 0.5) << "Similar texts should have high Jaccard estimate";
@@ -228,7 +233,9 @@ TEST(ComputeMinHash, DissimilarTextsHaveLowJaccard) {
 
     size_t matches = 0;
     for (size_t i = 0; i < s1.size(); ++i) {
-        if (s1[i] == s2[i]) ++matches;
+        if (s1[i] == s2[i]) {
+          ++matches;
+        }
     }
     double estimated_jaccard = static_cast<double>(matches) / s1.size();
     EXPECT_LT(estimated_jaccard, 0.5) << "Dissimilar texts should have low Jaccard estimate";
@@ -454,7 +461,7 @@ protected:
     static std::string sha256Hex(const std::string& data) {
         unsigned char digest[SHA256_DIGEST_LENGTH];
         SHA256(reinterpret_cast<const unsigned char*>(data.data()), data.size(), digest);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << std::setfill('0');
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i)
             oss << std::setw(2) << static_cast<unsigned int>(digest[i]);
@@ -678,7 +685,7 @@ std::string makeTextBlob(size_t target_bytes) {
         "information", "retrieval", "perceptual", "hashing", "content",
         "deduplication", "similarity", "detection", "document", "index"
     };
-    std::string text;
+    std::string text = {};
     text.reserve(target_bytes + 20);
     size_t idx = 0;
     while (text.size() < target_bytes) {

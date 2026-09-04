@@ -75,7 +75,7 @@ void simulateStreamingPrefill(
 // Each token is represented as one word-character for test purposes.
 std::string buildRetrievedContext(std::size_t doc_count, std::size_t tokens_each)
 {
-    std::string ctx;
+    std::string ctx = {};
     ctx.reserve(doc_count * tokens_each * 5); // ~5 chars per token
     for (std::size_t d = 0; d < doc_count; ++d) {
         ctx += "Document " + std::to_string(d) + ": ";
@@ -232,7 +232,8 @@ TEST_F(RAGTTFTBenchmark, TTFT03_VariableContextSize) {
         { 4096, "4096 tok" },
     };
 
-    std::vector<double> p95_values;
+    std::vector<double> p95_values = {};
+
     for (const auto& c : cases) {
         const std::string ctx    = buildRetrievedContext(1, c.tokens);
         const std::string prompt = ctx + "\nSummarise.";
@@ -356,7 +357,9 @@ TEST_F(RAGTTFTBenchmark, TTFT05_StreamingCallback_FirstTokenDelivery) {
         return ttft_ms;
     };
 
-    for (int i = 0; i < warmup; ++i) (void)measure_with_counter();
+    for (int i = 0; i < warmup; ++i) {
+      (void)measure_with_counter();
+    }
     callback_invocation_count = 0; // reset after warmup
 
     std::vector<double> samples;

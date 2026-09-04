@@ -162,9 +162,13 @@ inline bool InMemorySSMStateStore::checkpoint(const std::string& session_id,
     std::lock_guard<std::mutex> lk(mu_);
     auto &vec = state_by_session_[session_id];
     // duplicate timestamp rejected
-    for (const auto &s : vec) if (s.snapshot_ts == snapshot.snapshot_ts) return false;
+    for (const auto &s : vec) {
+      if (s.snapshot_ts == snapshot.snapshot_ts) return false;
+    }
     vec.push_back(snapshot);
-    if (vec.size() > max_snapshots_per_session_) vec.erase(vec.begin());
+    if (vec.size() > max_snapshots_per_session_) {
+      vec.erase(vec.begin());
+    }
     return true;
 }
 
@@ -173,9 +177,13 @@ inline std::optional<SSMStateSnapshot> InMemorySSMStateStore::resume(
     const std::optional<HLCTimestamp>& snapshot_ts) {
     std::lock_guard<std::mutex> lk(mu_);
     auto it = state_by_session_.find(session_id);
-    if (it == state_by_session_.end() || it->second.empty()) return std::nullopt;
+    if (it == state_by_session_.end() || it->second.empty()) {
+      return std::nullopt;
+    }
     if (snapshot_ts.has_value()) {
-        for (const auto &s : it->second) if (s.snapshot_ts == snapshot_ts.value()) return s;
+        for (const auto &s : it->second) {
+          if (s.snapshot_ts == snapshot_ts.value()) return s;
+        }
         return std::nullopt;
     }
     return it->second.back();
@@ -195,7 +203,9 @@ inline std::string InMemorySSMStateStore::getStats() const {
     std::lock_guard<std::mutex> lk(mu_);
     size_t sessions = state_by_session_.size();
     size_t total = 0;
-    for (const auto &p : state_by_session_) total += p.second.size();
+    for (const auto &p : state_by_session_) {
+      total += p.second.size();
+    }
     return "{\"sessions\": " + std::to_string(sessions) + ", \"snapshots\": " + std::to_string(total) + "}";
 }
 

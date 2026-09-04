@@ -67,9 +67,9 @@ struct ScopedEnv {
     ScopedEnv& operator=(const ScopedEnv&) = delete;
 
 private:
-    std::string name_;
-    std::string old_value_;
-    bool had_old_;
+    std::string name_ = {};
+    std::string old_value_ = {};
+    bool had_old_ = {};
 };
 
 /// RAII env-var unset.

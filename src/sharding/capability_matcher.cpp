@@ -53,11 +53,12 @@ std::vector<CapabilityMatchResult> CapabilityMatcher::match(
 ) {
     total_matches_++;
     
-    std::vector<CapabilityMatchResult> results;
+    std::vector<CapabilityMatchResult> results = {};
+
     results.reserve(shards.size());
     
     // Build IDF if using TF-IDF and not already built
-    if (config_.use_tfidf && (total_shards_ != shards.size())) {
+    if (config_.use_tfidf && (total_shards_ != static_cast<int>(shards.size()))) {
         buildIDF(shards);
     }
     
@@ -75,7 +76,7 @@ std::vector<CapabilityMatchResult> CapabilityMatcher::match(
     std::sort(results.begin(), results.end());
     
     // Limit to max results
-    if (results.size() > config_.max_results) {
+    if (static_cast<int>(results.size()) > config_.max_results) {
         results.resize(config_.max_results);
     }
     
@@ -154,7 +155,7 @@ CapabilityMatchResult CapabilityMatcher::matchShard(
 
 std::vector<std::string> CapabilityMatcher::extractKeywords(const std::string& query_text) {
     std::vector<std::string> keywords;
-    std::string word;
+    std::string word = {};
     std::istringstream stream(query_text);
     
     while (stream >> word) {
@@ -182,7 +183,9 @@ void CapabilityMatcher::buildIDF(const std::vector<ShardInfo>& shards) {
     idf_cache_.clear();
     total_shards_ = shards.size();
     
-    if (total_shards_ == 0) return;
+    if (total_shards_ == 0) {
+      return;
+    }
     
     // Count document frequency for each term
     std::map<std::string, size_t> doc_frequency;
@@ -215,7 +218,7 @@ nlohmann::json CapabilityMatcher::getStatistics() const {
         {"total_matches", total_matches_.load()},
         {"keyword_matches", keyword_matches_.load()},
         {"semantic_matches", semantic_matches_.load()},
-        {"idf_cache_size", idf_cache_.size()},
+        {"idf_cache_size",static_cast<int>(idf_cache_.size())},
         {"total_shards", total_shards_}
     };
 }
@@ -231,12 +234,14 @@ double CapabilityMatcher::calculateKeywordScore(
     
     if (!config_.use_tfidf) {
         // Simple Jaccard similarity
-        std::set<std::string> query_set;
+        std::set<std::string> query_set = {};
+
         for (const auto& kw : query_keywords) {
             query_set.insert(normalize(kw));
         }
         
-        std::set<std::string> normalized_shard_kw;
+        std::set<std::string> normalized_shard_kw = {};
+
         for (const auto& kw : shard_keywords) {
             normalized_shard_kw.insert(normalize(kw));
         }
@@ -250,7 +255,8 @@ double CapabilityMatcher::calculateKeywordScore(
     double shard_magnitude = 0.0;
     
     // Calculate TF-IDF vectors
-    std::map<std::string, double> query_tfidf;
+    std::map<std::string, double> query_tfidf = {};
+
     for (const auto& term : query_keywords) {
         std::string norm_term = normalize(term);
         double tf = calculateTF(norm_term, query_keywords);
@@ -293,7 +299,7 @@ double CapabilityMatcher::calculateSemanticScore(
     const std::vector<float>& shard_embedding
 ) {
     if (query_embedding.empty() || shard_embedding.empty() ||
-        query_embedding.size() != shard_embedding.size()) {
+        static_cast<int>(query_embedding.size()) != static_cast<int>(shard_embedding.size())) {
         return 0.0;
     }
     
@@ -302,7 +308,7 @@ double CapabilityMatcher::calculateSemanticScore(
     double query_magnitude = 0.0;
     double shard_magnitude = 0.0;
     
-    for (size_t i = 0; i < query_embedding.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(query_embedding.size()); ++i) {
         dot_product += static_cast<double>(query_embedding[i]) * static_cast<double>(shard_embedding[i]);
         query_magnitude += static_cast<double>(query_embedding[i]) * static_cast<double>(query_embedding[i]);
         shard_magnitude += static_cast<double>(shard_embedding[i]) * static_cast<double>(shard_embedding[i]);
@@ -330,12 +336,14 @@ double CapabilityMatcher::calculateDomainScore(
     const std::vector<std::string>& shard_domains,
     std::vector<std::string>& matched_domains
 ) {
-    std::set<std::string> query_set;
+    std::set<std::string> query_set = {};
+
     for (const auto& d : query_domains) {
         query_set.insert(normalize(d));
     }
     
-    std::set<std::string> shard_set;
+    std::set<std::string> shard_set = {};
+
     for (const auto& d : shard_domains) {
         shard_set.insert(normalize(d));
     }
@@ -355,12 +363,14 @@ double CapabilityMatcher::calculateOrganizationScore(
     const std::vector<std::string>& shard_orgs,
     std::vector<std::string>& matched_orgs
 ) {
-    std::set<std::string> query_set;
+    std::set<std::string> query_set = {};
+
     for (const auto& o : query_orgs) {
         query_set.insert(normalize(o));
     }
     
-    std::set<std::string> shard_set;
+    std::set<std::string> shard_set = {};
+
     for (const auto& o : shard_orgs) {
         shard_set.insert(normalize(o));
     }
@@ -380,12 +390,14 @@ double CapabilityMatcher::calculateRegionScore(
     const std::vector<std::string>& shard_regions,
     std::vector<std::string>& matched_regions
 ) {
-    std::set<std::string> query_set;
+    std::set<std::string> query_set = {};
+
     for (const auto& r : query_regions) {
         query_set.insert(normalize(r));
     }
     
-    std::set<std::string> shard_set;
+    std::set<std::string> shard_set = {};
+
     for (const auto& r : shard_regions) {
         shard_set.insert(normalize(r));
     }
@@ -405,12 +417,14 @@ double CapabilityMatcher::calculateDataTypeScore(
     const std::vector<std::string>& shard_types,
     std::vector<std::string>& matched_types
 ) {
-    std::set<std::string> query_set;
+    std::set<std::string> query_set = {};
+
     for (const auto& t : query_types) {
         query_set.insert(normalize(t));
     }
     
-    std::set<std::string> shard_set;
+    std::set<std::string> shard_set = {};
+
     for (const auto& t : shard_types) {
         shard_set.insert(normalize(t));
     }
@@ -438,7 +452,7 @@ double CapabilityMatcher::calculateTF(
         }
     }
     
-    return keywords.empty() ? 0.0 : static_cast<double>(count) / keywords.size();
+    return static_cast<bool>(keywords.empty() ? 0.0 : static_cast<double < static_cast<int>((count) / keywords.size()));
 }
 
 double CapabilityMatcher::getIDF(const std::string& term) const {
@@ -491,7 +505,7 @@ double CapabilityMatcher::jaccardSimilarity(
         std::inserter(union_set, union_set.begin())
     );
     
-    return static_cast<double>(intersection.size()) / union_set.size();
+    return static_cast<bool>(static_cast<double < static_cast<int>((intersection.size()) / union_set.size()));
 }
 
 } // namespace themis::sharding

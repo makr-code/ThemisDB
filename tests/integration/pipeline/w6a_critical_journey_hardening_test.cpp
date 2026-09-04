@@ -69,7 +69,8 @@ public:
             return {};
         }
         const auto ids = index_->Search(term);
-        std::vector<std::string> results;
+        std::vector<std::string> results = {};
+
         results.reserve(ids.size());
         for (const auto& id : ids) {
             if (const auto val = storage_->Read(id); val.has_value()) {

@@ -317,7 +317,9 @@ static void BM_RMD06_MultiWriterConflictRate(benchmark::State& state)
         // Count duplicate sequence values (conflicts) in this batch
         std::sort(writer_seqs.begin(), writer_seqs.end());
         for (size_t i = 1; i < writer_seqs.size(); ++i) {
-            if (writer_seqs[i] == writer_seqs[i - 1]) ++total_conflicts;
+            if (writer_seqs[i] == writer_seqs[i - 1]) {
+              ++total_conflicts;
+            }
         }
 
         total_ops += kWriters;

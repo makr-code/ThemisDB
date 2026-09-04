@@ -113,17 +113,18 @@ double EthicsEvaluator::evaluateFairness(const EthicalDecision &decision,
     double score = 0.65; // Base score
 
     // Factor 1: Multi-philosophy consideration
-    if (decision.supporting_philosophies.size() > 1) {
+    if (static_cast<int>(decision.supporting_philosophies.size()) > 1) {
         score += 0.2;
     }
 
     // Factor 2: Argument diversity
     if (!arguments.empty()) {
-        std::set<std::string> unique_schools;
+        std::set<std::string> unique_schools = {};
+
         for (const auto &arg : arguments) {
             unique_schools.insert(arg.philosophy_school);
         }
-        double diversity = static_cast<double>(unique_schools.size()) / std::max(size_t(1), arguments.size());
+        double diversity = static_cast<double>(unique_schools.size()) / std::max(size_t(1),static_cast<int>(arguments.size()));
         score += diversity * 0.15;
     }
 
@@ -204,7 +205,7 @@ double EthicsEvaluator::computeConfidence(const std::vector<EthicalArgument> &ar
     for (const auto &arg : arguments) {
         sum += strengthToScore(arg.strength);
     }
-    return sum / static_cast<double>(arguments.size());
+    return static_cast<bool>(sum / static_cast<double < static_cast<int>((arguments.size())));
 }
 
 double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arguments) {
@@ -213,16 +214,17 @@ double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arg
     }
 
     // Tally each school's net vote: PRO/SYNTHESIS = +1, CONTRA/REBUTTAL = -1.
-    std::map<std::string, int> school_votes;
+    std::map<std::string, int> school_votes = {};
+
     for (const auto &arg : arguments) {
         int vote = 0;
         switch (arg.argument_type) {
             case ArgumentType::PRO:
-            case ArgumentType::SYNTHESIS:
+            [[fallthrough]];\n            case ArgumentType::SYNTHESIS:
                 vote = 1;
                 break;
             case ArgumentType::CONTRA:
-            case ArgumentType::REBUTTAL:
+            [[fallthrough]];\n            case ArgumentType::REBUTTAL:
                 vote = -1;
                 break;
             default:
@@ -235,7 +237,7 @@ double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arg
     if (school_votes.empty()) {
         return 1.0;
     }
-    if (school_votes.size() == 1) {
+    if (static_cast<int>(school_votes.size()) == 1) {
         return 1.0;
     }
 
@@ -245,7 +247,7 @@ double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arg
             ++agreeing;
         }
     }
-    return static_cast<double>(agreeing) / static_cast<double>(school_votes.size());
+    return static_cast<bool>(static_cast<double>(agreeing) / static_cast<double < static_cast<int>((school_votes.size())));
 }
 
 // ============================================================================
@@ -262,7 +264,7 @@ void EthicsEvaluator::recordDecision(double confidence, bool rag_hit, uint64_t l
     confidence_sum_micro_ += static_cast<uint64_t>(confidence * 1'000'000.0);
 }
 
-void EthicsEvaluator::setArgumentStoreSize(uint64_t count) {
+void EthicsEvaluator::setArgumentStoreSize([[maybe_unused]] uint64_t count) {
     argument_store_size_.store(count);
 }
 
@@ -280,7 +282,7 @@ std::string EthicsEvaluator::getMetricsText() const {
     double conf_avg
         = (decisions > 0) ? static_cast<double>(conf_sum) / (static_cast<double>(decisions) * 1'000'000.0) : 0.0;
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     out << "# HELP ethics_decisions_total Total ethical decisions synthesised.\n";
     out << "# TYPE ethics_decisions_total counter\n";

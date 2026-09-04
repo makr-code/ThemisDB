@@ -94,7 +94,9 @@ public:
     }
     
     void updateStats(bool success, int64_t execution_time_ms) {
-        if (!metrics_enabled) return;
+        if (!metrics_enabled) {
+          return;
+        }
         
         stats.total_executions++;
         if (success) {
@@ -116,7 +118,7 @@ DirectExecutor::DirectExecutor(std::shared_ptr<DatabaseInterface> db)
 DirectExecutor::~DirectExecutor() = default;
 
 ExecutionResult DirectExecutor::execute(const ExecutionPlan& plan) {
-    ResourceLimits default_limits;
+    ResourceLimits default_limits = {};
     return execute(plan, default_limits);
 }
 
@@ -282,7 +284,7 @@ ExecutionResult DirectExecutor::executeJoin(const ExecutionPlan& plan, const Res
     if (!left.is_array()) { left = nlohmann::json::array(); }
 
     // Right datasource from parameters["join_source"]
-    std::string right_source;
+    std::string right_source = {};
     std::string join_key = "id";
     if (plan.parameters.count("join_source")) {
         right_source = std::get<std::string>(plan.parameters.at("join_source"));
@@ -301,7 +303,8 @@ ExecutionResult DirectExecutor::executeJoin(const ExecutionPlan& plan, const Res
     if (!right.is_array()) { right = nlohmann::json::array(); }
 
     // Build hash map on right side keyed by join_key
-    std::unordered_map<std::string, nlohmann::json> right_map;
+    std::unordered_map<std::string, nlohmann::json> right_map = {};
+
     for (const auto& row : right) {
         if (row.contains(join_key)) {
             right_map[row[join_key].dump()] = row;
@@ -391,8 +394,8 @@ ExecutionResult DirectExecutor::executeVectorSearch(const ExecutionPlan& plan, c
 ExecutionResult DirectExecutor::executeTimeSeries(const ExecutionPlan& plan, const ResourceLimits& limits) {
     ExecutionResult result;
     
-    std::string start_time;
-    std::string end_time;
+    std::string start_time = {};
+    std::string end_time = {};
     std::string aggregation = "none";
     
     auto start_it = plan.parameters.find("start_time");
@@ -433,7 +436,7 @@ ExecutionResult DirectExecutor::executeMutation(const ExecutionPlan& plan, const
 
     if (mutation_type == "insert") {
         // record is passed as a JSON string in parameters["record_json"]
-        std::string record_json;
+        std::string record_json = {};
         if (plan.parameters.count("record_json")) {
             record_json = std::get<std::string>(plan.parameters.at("record_json"));
         }
@@ -687,7 +690,8 @@ bool MockDatabase::del(const std::string& datasource, const nlohmann::json& key)
 
 std::vector<nlohmann::json> MockDatabase::multiGet(const std::string& datasource, 
                                                       const std::vector<nlohmann::json>& keys) {
-    std::vector<nlohmann::json> out;
+    std::vector<nlohmann::json> out = {};
+
     out.reserve(keys.size());
     for (const auto& key : keys) {
         auto row = get(datasource, key);
@@ -741,9 +745,9 @@ nlohmann::json MockDatabase::graphTraverse(const std::string& datasource,
         if (!row.is_object()) {
             continue;
         }
-        if (start_node.is_null() || (row.contains("source") && row["source"] == start_node) ||
+        if (start_node.is_null() || ((row.contains("source") && row["source"] == start_node) ||
             (row.contains("from") && row["from"] == start_node) ||
-            (row.contains("sensor_id") && row["sensor_id"] == start_node)) {
+            (row.contains("sensor_id") && row["sensor_id"] == start_node))) {
             out.push_back(row);
         }
     }
@@ -834,7 +838,7 @@ nlohmann::json MockDatabase::timeSeriesQuery(const std::string& datasource,
             continue;
         }
         const auto ts = row["timestamp"].get<std::string>();
-        if ((!start_time.empty() && ts < start_time) || (!end_time.empty() && ts > end_time)) {
+        if (((!start_time.empty() && ts < start_time) || (!end_time.empty() && ts > end_time))) {
             continue;
         }
         filtered.push_back(row);

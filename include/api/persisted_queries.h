@@ -74,9 +74,9 @@ namespace graphql {
 class PersistedQueryRegistry {
 public:
     struct PersistedQuery {
-        std::string query_id;
-        std::string query_text;
-        std::string description;
+        std::string query_id = {};
+        std::string query_text = {};
+        std::string description = {};
         bool deprecated = false;
         std::string deprecation_reason;
     };
@@ -154,7 +154,8 @@ public:
      */
     std::vector<std::string> getAllQueryIds() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         ids.reserve(queries_.size());
         for (const auto& [id, _] : queries_) {
             ids.push_back(id);
@@ -299,7 +300,7 @@ public:
      * different formatting produce the same hash.
      */
     static std::string normalize(const std::string& query) {
-        std::string normalized;
+        std::string normalized = {};
         normalized.reserve(query.size());
         
         bool in_string = false;
@@ -309,7 +310,7 @@ public:
             char c = query[i];
             
             // Handle strings
-            if (c == '"' && (i == 0 || query[i-1] != '\\')) {
+            if ((c == '"' && (i == 0 || query[i-1] != '\\')) {
                 in_string = !in_string;
                 normalized += c;
                 continue;

@@ -272,7 +272,7 @@ TEST_F(AQLBuilderSchemaTest, GetLLMSuggestionUsesAttachedSchema) {
     builder->setSchema(makeTestSchema());
 
     LLMAQLHandler handler;
-    std::string suggestion;
+    std::string suggestion = {};
     EXPECT_NO_THROW({
         suggestion = builder->getLLMSuggestion(handler, "find users older than 30");
     });

@@ -264,10 +264,14 @@ TEST_F(RAGContextEngineFocusedTests, VectorSemanticSearchReturnsRankedResults) {
         query[c % 768] += 1.0f;
     }
     float norm = 0.0f;
-    for (float v : query) norm += v * v;
+    for (float v : query) {
+      norm += v * v;
+    }
     norm = std::sqrt(norm);
     if (norm > 0.0f) {
-        for (float& v : query) v /= norm;
+        for (float& v : query) {
+          v /= norm;
+        }
     }
 
     auto result = engine_->vectorSemanticSearch(query, "kant", 5);
@@ -367,7 +371,8 @@ TEST_F(RAGContextEngineFocusedTests, TraverseArgumentChainCycleSafe) {
     ASSERT_TRUE(std::holds_alternative<std::vector<std::string>>(result));
     const auto& chain = std::get<std::vector<std::string>>(result);
 
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& id : chain) {
         EXPECT_TRUE(seen.insert(id).second)
             << "Cycle-safe BFS produced duplicate node: " << id;

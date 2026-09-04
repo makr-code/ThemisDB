@@ -51,7 +51,7 @@ using namespace themis::ingestion;
 class StubAvailableBackend : public ITextGenerationBackend {
 public:
     mutable std::atomic<int> call_count{0};
-    std::string fixed_response;
+    std::string fixed_response = {};
 
     explicit StubAvailableBackend(const std::string& response = R"(
         {"deontic_category":"obligation","confidence":0.9,"entities":[],"obligations":[]})") 

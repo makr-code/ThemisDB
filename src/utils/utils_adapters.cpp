@@ -60,7 +60,7 @@ PIIDetectionResult PIIStreamDetectorAdapter::detect(
     cfg.lookahead_bytes = lookaheadBytes_;
     PIIStreamScanner scanner(engine_, cfg);
 
-    std::string_view sv(reinterpret_cast<const char*>(chunk.data()), chunk.size());
+    std::string_view sv(reinterpret_cast<const char*>(chunk.data()),static_cast<int>(chunk.size()));
     auto findings = scanner.scan_chunk(sv, /*is_last=*/true);
 
     PIIDetectionResult result;
@@ -101,7 +101,7 @@ SanitisedChunk PIIStreamDetectorAdapter::pseudonymise(
     cfg.lookahead_bytes = lookaheadBytes_;
     PIIStreamScanner scanner(engine_, cfg);
 
-    std::string_view sv(reinterpret_cast<const char*>(chunk.data()), chunk.size());
+    std::string_view sv(reinterpret_cast<const char*>(chunk.data()),static_cast<int>(chunk.size()));
     auto findings = scanner.scan_chunk(sv, /*is_last=*/true);
 
     // Build the sanitised output by masking each finding.
@@ -112,9 +112,9 @@ SanitisedChunk PIIStreamDetectorAdapter::pseudonymise(
         const std::string placeholder = "[REDACTED]";
         size_t start = f.start_offset + offset_shift;
         size_t len   = f.end_offset - f.start_offset;
-        if (start < text.size() && start + len <= text.size()) {
+        if (start <static_cast<int>(text.size()) && start + len <= text.size()) {
             text.replace(start, len, placeholder);
-            offset_shift += placeholder.size() - len;
+            offset_shift += static_cast<int>(placeholder.size()) - len;
         }
     }
 
@@ -129,7 +129,7 @@ SanitisedChunk PIIStreamDetectorAdapter::pseudonymise(
 }
 
 std::span<const PIICategory> PIIStreamDetectorAdapter::supportedCategories() const {
-    return {kAllCategories.data(), kAllCategories.size()};
+    return {kAllCategories.data(),static_cast<int>(kAllCategories.size())};
 }
 
 // ============================================================================
@@ -228,9 +228,9 @@ size_t HKDFKeyCacheAdapter::maxCacheSize() const {
 // static
 std::string HKDFKeyCacheAdapter::ikmHash(const std::vector<uint8_t>& ikm) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(ikm.data(), ikm.size(), digest);
+    SHA256(ikm.data(),static_cast<int>(ikm.size()), digest);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned char byte : digest) {
         oss << std::hex << std::setw(2) << std::setfill('0')
             << static_cast<int>(byte);
@@ -265,7 +265,9 @@ bool SampledLoggerSamplerAdapter::shouldSample(const LogEntry& entry) noexcept {
         // Counter-based approximate sampling: accept every ceil(1/rate)-th call.
         uint64_t c = callCounter_.fetch_add(1, std::memory_order_relaxed);
         uint64_t period = static_cast<uint64_t>(1.0 / rate + 0.5);
-        if (period == 0) period = 1;
+        if (period == 0) {
+          period = 1;
+        }
         accepted = (c % period == 0);
     }
 
@@ -289,7 +291,7 @@ double SampledLoggerSamplerAdapter::currentRate() const noexcept {
     return targetRate_.load(std::memory_order_relaxed);
 }
 
-void SampledLoggerSamplerAdapter::setTargetRate(double rate) noexcept {
+void SampledLoggerSamplerAdapter::setTargetRate([[maybe_unused]] double rate) noexcept {
     rate = std::max(0.0, std::min(1.0, rate));
     targetRate_.store(rate, std::memory_order_relaxed);
 
@@ -316,7 +318,7 @@ VectorReplayIterator::VectorReplayIterator(std::vector<SAGALogEntry> entries)
 {}
 
 bool VectorReplayIterator::hasNext() const {
-    return pos_ < entries_.size();
+    return static_cast<bool>(pos_  < static_cast<int>(entries_.size()));
 }
 
 SAGALogEntry VectorReplayIterator::next() {
@@ -393,7 +395,9 @@ std::future<PipelineResult> SequentialUtilsPipeline::run() {
     std::vector<IUtilsStage*> snapshot;
     {
         std::lock_guard<std::mutex> lock(mu_);
-        for (auto& s : stages_) snapshot.push_back(s.get());
+        for (auto& s : stages_) {
+          snapshot.push_back(s.get());
+        }
     }
 
     return std::async(std::launch::async, [snapshot]() {
@@ -413,7 +417,9 @@ std::future<PipelineResult> SequentialUtilsPipeline::run() {
 
 void SequentialUtilsPipeline::shutdown() noexcept {
     std::lock_guard<std::mutex> lock(mu_);
-    if (shutdownCalled_) return;
+    if (shutdownCalled_) {
+      return;
+    }
     shutdownCalled_ = true;
     // Tear down in reverse registration order.
     for (auto it = stages_.rbegin(); it != stages_.rend(); ++it) {

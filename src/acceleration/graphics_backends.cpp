@@ -238,7 +238,7 @@ public:
 
     uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags flags) {
         for (uint32_t i = 0; i < memoryProps.memoryTypeCount; ++i) {
-            if ((typeFilter & (1u << i)) &&
+            if ((typeFilter & (1 << i)) &&
                 (memoryProps.memoryTypes[i].propertyFlags & flags) == flags)
                 return i;
         }
@@ -251,7 +251,7 @@ public:
         ci.sType    = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
         ci.codeSize = spv.size() * sizeof(uint32_t);
         ci.pCode    = spv.data();
-        VkShaderModule mod;
+        VkShaderModule mod = {};
         if (vkCreateShaderModule(device, &ci, nullptr, &mod) != VK_SUCCESS)
             throw std::runtime_error("vkCreateShaderModule failed");
         return mod;
@@ -262,7 +262,7 @@ public:
         // before opening any file (CWE-862 / CWE-22).
         if (path.empty() ||
             path.find("..") != std::string::npos ||
-            path.size() != std::strlen(path.c_str())) {
+            static_cast<int>(path.size()) != std::strlen(path.c_str())) {
             throw std::runtime_error("[ShaderIntegrity] Rejected unsafe shader path");
         }
 
@@ -278,8 +278,12 @@ public:
         // Extract just the filename as the registry key
         std::string name = path;
         auto slash = path.rfind('/');
-        if (slash == std::string::npos) slash = path.rfind('\\');
-        if (slash != std::string::npos) name = path.substr(slash + 1);
+        if (slash == std::string::npos) {
+          slash = path.rfind('\\');
+        }
+        if (slash != std::string::npos) {
+          name = path.substr(slash + 1);
+        }
 
         auto result = ShaderIntegrityVerifier::instance().verify(name, buf);
         if (!result.passed) {
@@ -307,7 +311,9 @@ public:
     bool selectPhysicalDevice() {
         uint32_t count = 0;
         vkEnumeratePhysicalDevices(instance, &count, nullptr);
-        if (count == 0) return false;
+        if (count == 0) {
+          return false;
+        }
 
         std::vector<VkPhysicalDevice> devs(count);
         vkEnumeratePhysicalDevices(instance, &count, devs.data());
@@ -575,8 +581,12 @@ public:
     // when it is already large enough to avoid unnecessary re-allocation.
     void ensureStagingBuffer(BufMem& bm, VkDeviceSize needed,
                              VkBufferUsageFlags usage) {
-        if (bm.buffer != VK_NULL_HANDLE && bm.size >= needed) return;
-        if (bm.buffer != VK_NULL_HANDLE) destroyBuffer(bm);
+        if (bm.buffer != VK_NULL_HANDLE && bm.size >= needed) {
+          return;
+        }
+        if (bm.buffer != VK_NULL_HANDLE) {
+          destroyBuffer(bm);
+        }
         const VkMemoryPropertyFlags hostProps =
             VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
         bm = createBuffer(needed, usage, hostProps);
@@ -585,7 +595,9 @@ public:
     // Initialise fences for all staging slots.  Called lazily on the first
     // dispatch so we do not create fences until a device exists.
     void initStagingRing() {
-        if (stagingRingInited_) return;
+        if (stagingRingInited_) {
+          return;
+        }
         VkFenceCreateInfo fci{};
         fci.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
         for (int i = 0; i < kStagingSlots; ++i) {
@@ -855,7 +867,9 @@ public:
 
     // ---- Cleanup ------------------------------------------------------
     void cleanup() {
-        if (device == VK_NULL_HANDLE) return;
+        if (device == VK_NULL_HANDLE) {
+          return;
+        }
         vkDeviceWaitIdle(device);
 
         // Destroy double-buffer staging ring
@@ -870,17 +884,35 @@ public:
         }
         stagingRingInited_ = false;
 
-        if (l2Pipeline != VK_NULL_HANDLE)             vkDestroyPipeline(device, l2Pipeline, nullptr);
-        if (cosinePipeline != VK_NULL_HANDLE)         vkDestroyPipeline(device, cosinePipeline, nullptr);
-        if (innerProductPipeline != VK_NULL_HANDLE)   vkDestroyPipeline(device, innerProductPipeline, nullptr);
-        if (pipelineLayout != VK_NULL_HANDLE)         vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+        if (l2Pipeline != VK_NULL_HANDLE) {
+          vkDestroyPipeline(device, l2Pipeline, nullptr);
+        }
+        if (cosinePipeline != VK_NULL_HANDLE) {
+          vkDestroyPipeline(device, cosinePipeline, nullptr);
+        }
+        if (innerProductPipeline != VK_NULL_HANDLE) {
+          vkDestroyPipeline(device, innerProductPipeline, nullptr);
+        }
+        if (pipelineLayout != VK_NULL_HANDLE) {
+          vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+        }
         if (descriptorSetLayout != VK_NULL_HANDLE)
             vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
-        if (l2ShaderModule != VK_NULL_HANDLE)             vkDestroyShaderModule(device, l2ShaderModule, nullptr);
-        if (cosineShaderModule != VK_NULL_HANDLE)         vkDestroyShaderModule(device, cosineShaderModule, nullptr);
-        if (innerProductShaderModule != VK_NULL_HANDLE)   vkDestroyShaderModule(device, innerProductShaderModule, nullptr);
-        if (descriptorPool != VK_NULL_HANDLE)  vkDestroyDescriptorPool(device, descriptorPool, nullptr);
-        if (commandPool != VK_NULL_HANDLE)     vkDestroyCommandPool(device, commandPool, nullptr);
+        if (l2ShaderModule != VK_NULL_HANDLE) {
+          vkDestroyShaderModule(device, l2ShaderModule, nullptr);
+        }
+        if (cosineShaderModule != VK_NULL_HANDLE) {
+          vkDestroyShaderModule(device, cosineShaderModule, nullptr);
+        }
+        if (innerProductShaderModule != VK_NULL_HANDLE) {
+          vkDestroyShaderModule(device, innerProductShaderModule, nullptr);
+        }
+        if (descriptorPool != VK_NULL_HANDLE) {
+          vkDestroyDescriptorPool(device, descriptorPool, nullptr);
+        }
+        if (commandPool != VK_NULL_HANDLE) {
+          vkDestroyCommandPool(device, commandPool, nullptr);
+        }
 
         vkDestroyDevice(device, nullptr);
         device = VK_NULL_HANDLE;
@@ -1042,7 +1074,7 @@ std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batch
 // anonymous-namespace symbols have internal linkage and cannot be declared
 // extern in another TU.
 namespace glsl_bridge {
-    std::mutex                       s_vk_compile_glsl_mutex;
+    std::mutex                       s_vk_compile_glsl_mutex = {};
     VulkanVectorBackend::CompileGLSLFn s_vk_compile_glsl_fn;
 }
 
@@ -1060,7 +1092,9 @@ VulkanVectorBackend::~VulkanVectorBackend() {
 
 bool VulkanVectorBackend::hasBufferDeviceAddress() const noexcept {
 #ifdef THEMIS_ENABLE_VULKAN
-    if (initialized_ && impl_) return impl_->hasBufferDeviceAddress;
+    if (initialized_ && impl_) {
+      return impl_->hasBufferDeviceAddress;
+    }
 #endif
     return false;
 }
@@ -1069,9 +1103,13 @@ void VulkanVectorBackend::setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcep
 #ifdef THEMIS_ENABLE_VULKAN
     // Reject changes after initialize() — the pipeline has already been compiled
     // with the previous values.  Silently ignore to keep the API noexcept.
-    if (initialized_) return;
+    if (initialized_) {
+      return;
+    }
     // Zero dimensions would cause division-by-zero in dispatch group-count math.
-    if (wgX == 0 || wgY == 0) return;
+    if (wgX == 0 || wgY == 0) {
+      return;
+    }
     if (impl_) {
         impl_->wgL2X = wgX;
         impl_->wgL2Y = wgY;
@@ -1082,13 +1120,17 @@ void VulkanVectorBackend::setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcep
 #endif
 }
 
-void VulkanVectorBackend::setWorkgroupSizeBatchSearch(uint32_t wgX) noexcept {
+void VulkanVectorBackend::setWorkgroupSizeBatchSearch([[maybe_unused]] uint32_t wgX) noexcept {
 #ifdef THEMIS_ENABLE_VULKAN
     // Reject post-init and zero values; also clamp to 256 — batch_search.comp
     // declares shared float sharedQuery[256] so any value > 256 would cause
     // out-of-bounds shared-memory access in the shader.
-    if (initialized_) return;
-    if (wgX == 0 || wgX > 256u) return;
+    if (initialized_) {
+      return;
+    }
+    if (wgX == 0 || wgX > 256) {
+      return;
+    }
     if (impl_) {
         impl_->wgBatchSearchX = wgX;
     }
@@ -1101,14 +1143,16 @@ std::pair<uint32_t, uint32_t> VulkanVectorBackend::getWorkgroupSizeL2() const no
 #ifdef THEMIS_ENABLE_VULKAN
     if (impl_) return {impl_->wgL2X, impl_->wgL2Y};
 #endif
-    return {16u, 16u};
+    return {16, 16};
 }
 
 uint32_t VulkanVectorBackend::getWorkgroupSizeBatchSearch() const noexcept {
 #ifdef THEMIS_ENABLE_VULKAN
-    if (impl_) return impl_->wgBatchSearchX;
+    if (impl_) {
+      return impl_->wgBatchSearchX;
+    }
 #endif
-    return 256u;
+    return 256;
 }
 
 bool VulkanVectorBackend::isAvailable() const noexcept {
@@ -1214,11 +1258,15 @@ BackendCapabilities VulkanVectorBackend::getCapabilities() const {
 
 bool VulkanVectorBackend::initialize() {
 #ifdef THEMIS_ENABLE_VULKAN
-    if (initialized_) return true;
+    if (initialized_) {
+      return true;
+    }
 
     auto initStart = std::chrono::steady_clock::now();
 
-    if (!impl_) impl_ = std::make_unique<VulkanVectorBackendImpl>();
+    if (!impl_) {
+      impl_ = std::make_unique<VulkanVectorBackendImpl>();
+    }
 
     if (!impl_->createInstance()) {
         std::cerr << "[Vulkan] vkCreateInstance failed – no Vulkan ICD?" << std::endl;
@@ -1720,9 +1768,11 @@ uniform uint uDim;
 void main() {
     uint qi = gl_GlobalInvocationID.x;
     uint vi = gl_GlobalInvocationID.y;
-    if (qi >= uNQ || vi >= uNV) return;
+    if (qi >= uNQ || vi >= uNV) {
+      return;
+    }
     float sum = 0.0;
-    for (uint dd = 0u; dd < uDim; ++dd) {
+    for (uint dd = 0; dd < uDim; ++dd) {
         float diff = q[qi * uDim + dd] - v[vi * uDim + dd];
         sum += diff * diff;
     }
@@ -1748,9 +1798,11 @@ uniform uint uDim;
 void main() {
     uint qi = gl_GlobalInvocationID.x;
     uint vi = gl_GlobalInvocationID.y;
-    if (qi >= uNQ || vi >= uNV) return;
+    if (qi >= uNQ || vi >= uNV) {
+      return;
+    }
     float dot = 0.0, nq = 0.0, nv = 0.0;
-    for (uint dd = 0u; dd < uDim; ++dd) {
+    for (uint dd = 0; dd < uDim; ++dd) {
         float qv = q[qi * uDim + dd];
         float vv = v[vi * uDim + dd];
         dot += qv * vv;
@@ -1785,7 +1837,9 @@ const float PI = 3.14159265358979;
 
 void main() {
     uint i = gl_GlobalInvocationID.x;
-    if (i >= uCount) return;
+    if (i >= uCount) {
+      return;
+    }
     float a1 = lat1[i] * PI / 180.0;
     float o1 = lon1[i] * PI / 180.0;
     float a2 = lat2[i] * PI / 180.0;
@@ -1819,7 +1873,9 @@ uniform uint uNumVerts;
 
 void main() {
     uint p = gl_GlobalInvocationID.x;
-    if (p >= uNumPoints) return;
+    if (p >= uNumPoints) {
+      return;
+    }
     float testLat = pLat[p];
     float testLon = pLon[p];
     bool inside = false;
@@ -1835,7 +1891,7 @@ void main() {
         }
         j = i;
     }
-    result[p] = inside ? 1u : 0u;
+    result[p] = inside ? 1 : 0;
 }
 )glsl";
 
@@ -1859,15 +1915,17 @@ uniform uint uNumVerts;
 
 void main() {
     uint s = gl_GlobalInvocationID.x;
-    if (s >= uNumStarts) return;
-    for (uint v = 0u; v < uNumVerts; ++v) {
-        frontier[s * uNumVerts + v] = 0u;
-        visited[s * uNumVerts + v]  = 0u;
+    if (s >= uNumStarts) {
+      return;
+    }
+    for (uint v = 0; v < uNumVerts; ++v) {
+        frontier[s * uNumVerts + v] = 0;
+        visited[s * uNumVerts + v]  = 0;
     }
     uint sv = startVerts[s];
     if (sv < uNumVerts) {
-        frontier[s * uNumVerts + sv] = 1u;
-        visited[s * uNumVerts + sv]  = 1u;
+        frontier[s * uNumVerts + sv] = 1;
+        visited[s * uNumVerts + sv]  = 1;
     }
 }
 )glsl";
@@ -1895,19 +1953,23 @@ uniform uint uNumVerts;
 void main() {
     uint s = gl_GlobalInvocationID.x;
     uint v = gl_GlobalInvocationID.y;
-    if (s >= uNumStarts || v >= uNumVerts) return;
+    if (s >= uNumStarts || v >= uNumVerts) {
+      return;
+    }
 
     // Always clear the next-frontier slot for this invocation
-    nextFront[s * uNumVerts + v] = 0u;
+    nextFront[s * uNumVerts + v] = 0;
 
-    if (frontier[s * uNumVerts + v] == 0u) return;
+    if (frontier[s * uNumVerts + v] == 0) {
+      return;
+    }
 
     // Expand neighbours of v
-    for (uint u = 0u; u < uNumVerts; ++u) {
-        if (adj[v * uNumVerts + u] != 0u) {
-            uint prev = atomicOr(visited[s * uNumVerts + u], 1u);
-            if (prev == 0u) {
-                nextFront[s * uNumVerts + u] = 1u;
+    for (uint u = 0; u < uNumVerts; ++u) {
+        if (adj[v * uNumVerts + u] != 0) {
+            uint prev = atomicOr(visited[s * uNumVerts + u], 1);
+            if (prev == 0) {
+                nextFront[s * uNumVerts + u] = 1;
             }
         }
     }
@@ -1933,7 +1995,9 @@ uniform uint uNumVerts;
 void main() {
     uint p = gl_GlobalInvocationID.x;
     uint v = gl_GlobalInvocationID.y;
-    if (p >= uNumPairs || v >= uNumVerts) return;
+    if (p >= uNumPairs || v >= uNumVerts) {
+      return;
+    }
     dist[p * uNumVerts + v] = (v == startVerts[p]) ? 0.0 : 1e30;
     pred[p * uNumVerts + v] = -1;
 }
@@ -1962,14 +2026,16 @@ uniform uint uNumVerts;
 void main() {
     uint p = gl_GlobalInvocationID.x;
     uint v = gl_GlobalInvocationID.y;
-    if (p >= uNumPairs || v >= uNumVerts) return;
+    if (p >= uNumPairs || v >= uNumVerts) {
+      return;
+    }
 
     float bestDist = dist[p * uNumVerts + v];
     int   bestPred = pred[p * uNumVerts + v];
 
     // Scan all incoming edges u → v
-    for (uint u = 0u; u < uNumVerts; ++u) {
-        if (adj[u * uNumVerts + v] != 0u) {
+    for (uint u = 0; u < uNumVerts; ++u) {
+        if (adj[u * uNumVerts + v] != 0) {
             float du = dist[p * uNumVerts + u];
             if (du < 1e29) {
                 float candidate = du + wgt[u * uNumVerts + v];
@@ -2001,7 +2067,9 @@ static void* openLib(const char* name) {
 }
 
 static void closeLib(void* lib) {
-    if (!lib) return;
+    if (!lib) {
+      return;
+    }
 #if defined(__linux__) || defined(__unix__)
     dlclose(lib);
 #elif defined(_WIN32)
@@ -2010,7 +2078,9 @@ static void closeLib(void* lib) {
 }
 
 static void* libSym(void* lib, const char* sym) {
-    if (!lib) return nullptr;
+    if (!lib) {
+      return nullptr;
+    }
 #if defined(__linux__) || defined(__unix__)
     return dlsym(lib, sym);
 #elif defined(_WIN32)
@@ -2106,20 +2176,26 @@ public:
     bool loadEGLLibrary() {
 #if defined(__linux__) || defined(__unix__)
         libEGL_ = openLib("libEGL.so.1");
-        if (!libEGL_) libEGL_ = openLib("libEGL.so");
+        if (!libEGL_) {
+          libEGL_ = openLib("libEGL.so");
+        }
         libGL_  = openLib("libGL.so.1");
-        if (!libGL_)  libGL_  = openLib("libGL.so");
+        if (!libGL_) {
+          libGL_  = openLib("libGL.so");
+        }
 #elif defined(_WIN32)
         libGL_  = openLib("OpenGL32.dll");
         // On Windows, ANGLE provides EGL; try common install locations
         libEGL_ = openLib("libEGL.dll");
-        if (!libEGL_) libEGL_ = openLib("EGL.dll");
+        if (!libEGL_) {
+          libEGL_ = openLib("EGL.dll");
+        }
 #endif
         return libEGL_ != nullptr;
     }
 
     bool loadEGLFunctions() {
-        auto s = [&](const char* n) { return libSym(libEGL_, n); };
+        auto s = [&]([[maybe_unused]] const char* n) { return libSym(libEGL_, n); };
         pfnEglGetProcAddress   = reinterpret_cast<PFN_eglGetProcAddress>  (s("eglGetProcAddress"));
         pfnEglGetDisplay       = reinterpret_cast<PFN_eglGetDisplay>      (s("eglGetDisplay"));
         pfnEglInitialize       = reinterpret_cast<PFN_eglInitialize>      (s("eglInitialize"));
@@ -2136,13 +2212,17 @@ public:
 
     void* glProc(const char* name) {
         void* fn = nullptr;
-        if (pfnEglGetProcAddress) fn = pfnEglGetProcAddress(name);
-        if (!fn && libGL_) fn = libSym(libGL_, name);
+        if (pfnEglGetProcAddress) {
+          fn = pfnEglGetProcAddress(name);
+        }
+        if (!fn && libGL_) {
+          fn = libSym(libGL_, name);
+        }
         return fn;
     }
 
     bool loadGLFunctions() {
-        auto l = [&](const char* n) { return glProc(n); };
+        auto l = [&]([[maybe_unused]] const char* n) { return glProc(n); };
         pfnGlCreateShader       = reinterpret_cast<PFN_glCreateShader>     (l("glCreateShader"));
         pfnGlShaderSource       = reinterpret_cast<PFN_glShaderSource>     (l("glShaderSource"));
         pfnGlCompileShader      = reinterpret_cast<PFN_glCompileShader>    (l("glCompileShader"));
@@ -2181,9 +2261,13 @@ public:
     // ---- EGL context creation ------------------------------------------
 
     bool createEGLContext() {
-        if (!pfnEglGetDisplay) return false;
+        if (!pfnEglGetDisplay) {
+          return false;
+        }
         eglDisplay_ = pfnEglGetDisplay(nullptr);
-        if (eglDisplay_ == k_EGL_NO_DISPLAY) return false;
+        if (eglDisplay_ == k_EGL_NO_DISPLAY) {
+          return false;
+        }
 
         EGL_Int major = 0, minor = 0;
         if (!pfnEglInitialize(eglDisplay_, &major, &minor)) {
@@ -2284,10 +2368,14 @@ public:
 
     bool createShaderPrograms() {
         GL_GLuint l2Shader = compileShader(s_glsl_l2_src);
-        if (!l2Shader) return false;
+        if (!l2Shader) {
+          return false;
+        }
         l2Program_ = linkProgram(l2Shader);
         pfnGlDeleteShader(l2Shader);
-        if (!l2Program_) return false;
+        if (!l2Program_) {
+          return false;
+        }
 
         GL_GLuint cosShader = compileShader(s_glsl_cosine_src);
         if (!cosShader) { pfnGlDeleteProgram(l2Program_); l2Program_ = 0; return false; }
@@ -2334,13 +2422,19 @@ public:
         GL_GLint locNQ  = pfnGlGetUniformLocation(program, "uNQ");
         GL_GLint locNV  = pfnGlGetUniformLocation(program, "uNV");
         GL_GLint locDim = pfnGlGetUniformLocation(program, "uDim");
-        if (locNQ  >= 0) pfnGlUniform1ui(locNQ,  nq);
-        if (locNV  >= 0) pfnGlUniform1ui(locNV,  nv);
-        if (locDim >= 0) pfnGlUniform1ui(locDim, dim);
+        if (locNQ  >= 0) {
+          pfnGlUniform1ui(locNQ,  nq);
+        }
+        if (locNV  >= 0) {
+          pfnGlUniform1ui(locNV,  nv);
+        }
+        if (locDim >= 0) {
+          pfnGlUniform1ui(locDim, dim);
+        }
 
-        const GL_GLuint gx = (nq + 7u) / 8u;
-        const GL_GLuint gy = (nv + 7u) / 8u;
-        pfnGlDispatchCompute(gx, gy, 1u);
+        const GL_GLuint gx = (nq + 7) / 8;
+        const GL_GLuint gy = (nv + 7) / 8;
+        pfnGlDispatchCompute(gx, gy, 1);
         pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
 
         std::vector<float> out(static_cast<size_t>(nq) * nv);
@@ -2505,27 +2599,37 @@ public:
 
     void* glProc(const char* n) {
         void* fn = nullptr;
-        if (pfnEglGetProcAddress) fn = pfnEglGetProcAddress(n);
-        if (!fn && libGL_) fn = libSym(libGL_, n);
+        if (pfnEglGetProcAddress) {
+          fn = pfnEglGetProcAddress(n);
+        }
+        if (!fn && libGL_) {
+          fn = libSym(libGL_, n);
+        }
         return fn;
     }
 
     bool loadEGLLibrary() {
 #if defined(__linux__) || defined(__unix__)
         libEGL_ = openLib("libEGL.so.1");
-        if (!libEGL_) libEGL_ = openLib("libEGL.so");
+        if (!libEGL_) {
+          libEGL_ = openLib("libEGL.so");
+        }
         libGL_  = openLib("libGL.so.1");
-        if (!libGL_)  libGL_  = openLib("libGL.so");
+        if (!libGL_) {
+          libGL_  = openLib("libGL.so");
+        }
 #elif defined(_WIN32)
         libGL_  = openLib("OpenGL32.dll");
         libEGL_ = openLib("libEGL.dll");
-        if (!libEGL_) libEGL_ = openLib("EGL.dll");
+        if (!libEGL_) {
+          libEGL_ = openLib("EGL.dll");
+        }
 #endif
         return libEGL_ != nullptr;
     }
 
     bool loadEGLFunctions() {
-        auto s = [&](const char* n) { return libSym(libEGL_, n); };
+        auto s = [&]([[maybe_unused]] const char* n) { return libSym(libEGL_, n); };
         pfnEglGetProcAddress   = reinterpret_cast<PFN_eglGetProcAddress>  (s("eglGetProcAddress"));
         pfnEglGetDisplay       = reinterpret_cast<PFN_eglGetDisplay>      (s("eglGetDisplay"));
         pfnEglInitialize       = reinterpret_cast<PFN_eglInitialize>      (s("eglInitialize"));
@@ -2541,7 +2645,7 @@ public:
     }
 
     bool loadGLFunctions() {
-        auto l = [&](const char* n) { return glProc(n); };
+        auto l = [&]([[maybe_unused]] const char* n) { return glProc(n); };
         pfnGlCreateShader       = reinterpret_cast<PFN_glCreateShader>     (l("glCreateShader"));
         pfnGlShaderSource       = reinterpret_cast<PFN_glShaderSource>     (l("glShaderSource"));
         pfnGlCompileShader      = reinterpret_cast<PFN_glCompileShader>    (l("glCompileShader"));
@@ -2577,9 +2681,13 @@ public:
     }
 
     bool createEGLContext() {
-        if (!pfnEglGetDisplay) return false;
+        if (!pfnEglGetDisplay) {
+          return false;
+        }
         eglDisplay_ = pfnEglGetDisplay(nullptr);
-        if (eglDisplay_ == k_EGL_NO_DISPLAY) return false;
+        if (eglDisplay_ == k_EGL_NO_DISPLAY) {
+          return false;
+        }
         EGL_Int major = 0, minor = 0;
         if (!pfnEglInitialize(eglDisplay_, &major, &minor)) {
             eglDisplay_ = nullptr; return false;
@@ -2637,7 +2745,9 @@ public:
 
     bool createShaderPrograms() {
         haversineProgram_ = compileAndLink(s_glsl_haversine_src);
-        if (!haversineProgram_) return false;
+        if (!haversineProgram_) {
+          return false;
+        }
         pipProgram_ = compileAndLink(s_glsl_pip_src);
         if (!pipProgram_) { pfnGlDeleteProgram(haversineProgram_); haversineProgram_ = 0; return false; }
         return true;
@@ -2674,9 +2784,11 @@ public:
             pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, b, bufs[b]);
         pfnGlUseProgram(haversineProgram_);
         GL_GLint locCount = pfnGlGetUniformLocation(haversineProgram_, "uCount");
-        if (locCount >= 0) pfnGlUniform1ui(locCount, static_cast<GL_GLuint>(count));
-        const GL_GLuint gx = (static_cast<GL_GLuint>(count) + 63u) / 64u;
-        pfnGlDispatchCompute(gx, 1u, 1u);
+        if (locCount >= 0) {
+          pfnGlUniform1ui(locCount, static_cast<GL_GLuint>(count));
+        }
+        const GL_GLuint gx = (static_cast<GL_GLuint>(count) + 63) / 64;
+        pfnGlDispatchCompute(gx, 1, 1);
         pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
         std::vector<float> out(count);
         pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[4]);
@@ -2720,10 +2832,14 @@ public:
         pfnGlUseProgram(pipProgram_);
         GL_GLint locPts   = pfnGlGetUniformLocation(pipProgram_, "uNumPoints");
         GL_GLint locVerts = pfnGlGetUniformLocation(pipProgram_, "uNumVerts");
-        if (locPts   >= 0) pfnGlUniform1ui(locPts,   static_cast<GL_GLuint>(numPoints));
-        if (locVerts >= 0) pfnGlUniform1ui(locVerts, static_cast<GL_GLuint>(numVerts));
-        const GL_GLuint gx = (static_cast<GL_GLuint>(numPoints) + 63u) / 64u;
-        pfnGlDispatchCompute(gx, 1u, 1u);
+        if (locPts   >= 0) {
+          pfnGlUniform1ui(locPts,   static_cast<GL_GLuint>(numPoints));
+        }
+        if (locVerts >= 0) {
+          pfnGlUniform1ui(locVerts, static_cast<GL_GLuint>(numVerts));
+        }
+        const GL_GLuint gx = (static_cast<GL_GLuint>(numPoints) + 63) / 64;
+        pfnGlDispatchCompute(gx, 1, 1);
         pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
         std::vector<GL_GLuint> raw(numPoints);
         pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[3]);
@@ -2731,7 +2847,9 @@ public:
         pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, 0);
         pfnGlDeleteBuffers(4, bufs);
         std::vector<bool> out(numPoints);
-        for (size_t i = 0; i < numPoints; ++i) out[i] = (raw[i] != 0u);
+        for (size_t i = 0; i < numPoints; ++i) {
+          out[i] = (raw[i] != 0);
+        }
         return out;
     }
 
@@ -2742,8 +2860,12 @@ public:
         }
         if (eglContext_ && pfnEglMakeCurrent)
             pfnEglMakeCurrent(eglDisplay_, k_EGL_NO_SURFACE, k_EGL_NO_SURFACE, k_EGL_NO_CONTEXT);
-        if (eglContext_ && pfnEglDestroyContext) pfnEglDestroyContext(eglDisplay_, eglContext_);
-        if (eglDisplay_ && pfnEglTerminate) pfnEglTerminate(eglDisplay_);
+        if (eglContext_ && pfnEglDestroyContext) {
+          pfnEglDestroyContext(eglDisplay_, eglContext_);
+        }
+        if (eglDisplay_ && pfnEglTerminate) {
+          pfnEglTerminate(eglDisplay_);
+        }
         eglContext_ = nullptr; eglDisplay_ = nullptr;
         closeLib(libEGL_); libEGL_ = nullptr;
         closeLib(libGL_);  libGL_  = nullptr;
@@ -2816,27 +2938,37 @@ public:
 
     void* glProc(const char* n) {
         void* fn = nullptr;
-        if (pfnEglGetProcAddress) fn = pfnEglGetProcAddress(n);
-        if (!fn && libGL_) fn = libSym(libGL_, n);
+        if (pfnEglGetProcAddress) {
+          fn = pfnEglGetProcAddress(n);
+        }
+        if (!fn && libGL_) {
+          fn = libSym(libGL_, n);
+        }
         return fn;
     }
 
     bool loadEGLLibrary() {
 #if defined(__linux__) || defined(__unix__)
         libEGL_ = openLib("libEGL.so.1");
-        if (!libEGL_) libEGL_ = openLib("libEGL.so");
+        if (!libEGL_) {
+          libEGL_ = openLib("libEGL.so");
+        }
         libGL_  = openLib("libGL.so.1");
-        if (!libGL_)  libGL_  = openLib("libGL.so");
+        if (!libGL_) {
+          libGL_  = openLib("libGL.so");
+        }
 #elif defined(_WIN32)
         libGL_  = openLib("OpenGL32.dll");
         libEGL_ = openLib("libEGL.dll");
-        if (!libEGL_) libEGL_ = openLib("EGL.dll");
+        if (!libEGL_) {
+          libEGL_ = openLib("EGL.dll");
+        }
 #endif
         return libEGL_ != nullptr;
     }
 
     bool loadEGLFunctions() {
-        auto s = [&](const char* n) { return libSym(libEGL_, n); };
+        auto s = [&]([[maybe_unused]] const char* n) { return libSym(libEGL_, n); };
         pfnEglGetProcAddress   = reinterpret_cast<PFN_eglGetProcAddress>  (s("eglGetProcAddress"));
         pfnEglGetDisplay       = reinterpret_cast<PFN_eglGetDisplay>      (s("eglGetDisplay"));
         pfnEglInitialize       = reinterpret_cast<PFN_eglInitialize>      (s("eglInitialize"));
@@ -2852,7 +2984,7 @@ public:
     }
 
     bool loadGLFunctions() {
-        auto l = [&](const char* n) { return glProc(n); };
+        auto l = [&]([[maybe_unused]] const char* n) { return glProc(n); };
         pfnGlCreateShader       = reinterpret_cast<PFN_glCreateShader>     (l("glCreateShader"));
         pfnGlShaderSource       = reinterpret_cast<PFN_glShaderSource>     (l("glShaderSource"));
         pfnGlCompileShader      = reinterpret_cast<PFN_glCompileShader>    (l("glCompileShader"));
@@ -2888,9 +3020,13 @@ public:
     }
 
     bool createEGLContext() {
-        if (!pfnEglGetDisplay) return false;
+        if (!pfnEglGetDisplay) {
+          return false;
+        }
         eglDisplay_ = pfnEglGetDisplay(nullptr);
-        if (eglDisplay_ == k_EGL_NO_DISPLAY) return false;
+        if (eglDisplay_ == k_EGL_NO_DISPLAY) {
+          return false;
+        }
         EGL_Int major = 0, minor = 0;
         if (!pfnEglInitialize(eglDisplay_, &major, &minor)) {
             eglDisplay_ = nullptr; return false;
@@ -2993,17 +3129,21 @@ public:
         {
             GL_GLint locNS = pfnGlGetUniformLocation(bfsInitProgram_, "uNumStarts");
             GL_GLint locNV = pfnGlGetUniformLocation(bfsInitProgram_, "uNumVerts");
-            if (locNS >= 0) pfnGlUniform1ui(locNS, ns);
-            if (locNV >= 0) pfnGlUniform1ui(locNV, nv);
+            if (locNS >= 0) {
+              pfnGlUniform1ui(locNS, ns);
+            }
+            if (locNV >= 0) {
+              pfnGlUniform1ui(locNV, nv);
+            }
         }
-        const GL_GLuint gsInit = (ns + 63u) / 64u;
-        pfnGlDispatchCompute(gsInit, 1u, 1u);
+        const GL_GLuint gsInit = (ns + 63) / 64;
+        pfnGlDispatchCompute(gsInit, 1, 1);
         pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
 
         // BFS expand: maxDepth iterations, ping-pong frontA ↔ frontB
-        GL_GLuint curFront = 2u, nextFront = 3u;  // indices into bufs[]
-        const GL_GLuint gsx = (ns + 7u) / 8u;
-        const GL_GLuint gsy = (nv + 7u) / 8u;
+        GL_GLuint curFront = 2, nextFront = 3;  // indices into bufs[]
+        const GL_GLuint gsx = (ns + 7) / 8;
+        const GL_GLuint gsy = (nv + 7) / 8;
         for (uint32_t depth = 0; depth < maxDepth; ++depth) {
             pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 0, bufs[0]);   // adj
             pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 1, bufs[curFront]);
@@ -3013,10 +3153,14 @@ public:
             {
                 GL_GLint locNS = pfnGlGetUniformLocation(bfsExpandProgram_, "uNumStarts");
                 GL_GLint locNV = pfnGlGetUniformLocation(bfsExpandProgram_, "uNumVerts");
-                if (locNS >= 0) pfnGlUniform1ui(locNS, ns);
-                if (locNV >= 0) pfnGlUniform1ui(locNV, nv);
+                if (locNS >= 0) {
+                  pfnGlUniform1ui(locNS, ns);
+                }
+                if (locNV >= 0) {
+                  pfnGlUniform1ui(locNV, nv);
+                }
             }
-            pfnGlDispatchCompute(gsx, gsy, 1u);
+            pfnGlDispatchCompute(gsx, gsy, 1);
             pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
             std::swap(curFront, nextFront);
         }
@@ -3062,8 +3206,8 @@ public:
         pfnGlBufferData(k_SHADER_STORAGE_BUFFER, predBytes, nullptr, k_DYNAMIC_COPY);
         pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, 0);
 
-        const GL_GLuint gpx = (np + 7u) / 8u;
-        const GL_GLuint gpy = (nv + 7u) / 8u;
+        const GL_GLuint gpx = (np + 7) / 8;
+        const GL_GLuint gpy = (nv + 7) / 8;
 
         // Bellman-Ford init
         pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 0, bufs[2]);  // starts
@@ -3073,10 +3217,14 @@ public:
         {
             GL_GLint locNP = pfnGlGetUniformLocation(bfInitProgram_, "uNumPairs");
             GL_GLint locNV = pfnGlGetUniformLocation(bfInitProgram_, "uNumVerts");
-            if (locNP >= 0) pfnGlUniform1ui(locNP, np);
-            if (locNV >= 0) pfnGlUniform1ui(locNV, nv);
+            if (locNP >= 0) {
+              pfnGlUniform1ui(locNP, np);
+            }
+            if (locNV >= 0) {
+              pfnGlUniform1ui(locNV, nv);
+            }
         }
-        pfnGlDispatchCompute(gpx, gpy, 1u);
+        pfnGlDispatchCompute(gpx, gpy, 1);
         pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
 
         // Bellman-Ford relax (nv-1 iterations)
@@ -3088,11 +3236,15 @@ public:
         {
             GL_GLint locNP = pfnGlGetUniformLocation(bfRelaxProgram_, "uNumPairs");
             GL_GLint locNV = pfnGlGetUniformLocation(bfRelaxProgram_, "uNumVerts");
-            if (locNP >= 0) pfnGlUniform1ui(locNP, np);
-            if (locNV >= 0) pfnGlUniform1ui(locNV, nv);
+            if (locNP >= 0) {
+              pfnGlUniform1ui(locNP, np);
+            }
+            if (locNV >= 0) {
+              pfnGlUniform1ui(locNV, nv);
+            }
         }
         for (uint32_t iter = 0; iter + 1 < nv; ++iter) {
-            pfnGlDispatchCompute(gpx, gpy, 1u);
+            pfnGlDispatchCompute(gpx, gpy, 1);
             pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
         }
 
@@ -3117,8 +3269,12 @@ public:
         }
         if (eglContext_ && pfnEglMakeCurrent)
             pfnEglMakeCurrent(eglDisplay_, k_EGL_NO_SURFACE, k_EGL_NO_SURFACE, k_EGL_NO_CONTEXT);
-        if (eglContext_ && pfnEglDestroyContext) pfnEglDestroyContext(eglDisplay_, eglContext_);
-        if (eglDisplay_ && pfnEglTerminate) pfnEglTerminate(eglDisplay_);
+        if (eglContext_ && pfnEglDestroyContext) {
+          pfnEglDestroyContext(eglDisplay_, eglContext_);
+        }
+        if (eglDisplay_ && pfnEglTerminate) {
+          pfnEglTerminate(eglDisplay_);
+        }
         eglContext_ = nullptr; eglDisplay_ = nullptr;
         closeLib(libEGL_); libEGL_ = nullptr;
         closeLib(libGL_);  libGL_  = nullptr;
@@ -3146,8 +3302,12 @@ bool OpenGLVectorBackend::isAvailable() const noexcept {
     // Probe EGL availability by attempting a minimal OpenGL 4.3 context.
     // This is a one-shot check; we open and immediately close the library.
     void* lib = openLib("libEGL.so.1");
-    if (!lib) lib = openLib("libEGL.so");
-    if (!lib) return false;
+    if (!lib) {
+      lib = openLib("libEGL.so");
+    }
+    if (!lib) {
+      return false;
+    }
 
     auto fnGetDisplay    = reinterpret_cast<PFN_eglGetDisplay>  (libSym(lib, "eglGetDisplay"));
     auto fnInit          = reinterpret_cast<PFN_eglInitialize>  (libSym(lib, "eglInitialize"));
@@ -3238,8 +3398,12 @@ BackendCapabilities OpenGLVectorBackend::getCapabilities() const {
 
 bool OpenGLVectorBackend::initialize() {
 #ifdef THEMIS_ENABLE_OPENGL
-    if (initialized_) return true;
-    if (!impl_) impl_ = std::make_unique<OpenGLVectorBackendImpl>();
+    if (initialized_) {
+      return true;
+    }
+    if (!impl_) {
+      impl_ = std::make_unique<OpenGLVectorBackendImpl>();
+    }
 
     // Attempt to create a headless OpenGL 4.3 context via EGL.
     // On failure we activate the CPU fallback so the backend remains usable.
@@ -3251,8 +3415,12 @@ bool OpenGLVectorBackend::initialize() {
         if (impl_->pfnGlGetString) {
             const GL_GLubyte* r = impl_->pfnGlGetString(k_RENDERER);
             const GL_GLubyte* v = impl_->pfnGlGetString(k_VENDOR);
-            if (r) impl_->rendererName_ = reinterpret_cast<const char*>(r);
-            if (v) impl_->vendorName_   = reinterpret_cast<const char*>(v);
+            if (r) {
+              impl_->rendererName_ = reinterpret_cast<const char*>(r);
+            }
+            if (v) {
+              impl_->vendorName_   = reinterpret_cast<const char*>(v);
+            }
         }
         if (impl_->pfnGlGetIntegerv) {
             impl_->pfnGlGetIntegerv(k_MAJOR_VERSION, &impl_->glMajor_);
@@ -3513,12 +3681,20 @@ bool OpenGLGeoBackend::isAvailable() const noexcept {
 #ifdef THEMIS_ENABLE_OPENGL
     // Attempt a lightweight EGL probe (same logic as OpenGLVectorBackend)
     void* libEGL = openLib("libEGL.so.1");
-    if (!libEGL) libEGL = openLib("libEGL.so");
+    if (!libEGL) {
+      libEGL = openLib("libEGL.so");
+    }
 #ifdef _WIN32
-    if (!libEGL) libEGL = openLib("libEGL.dll");
-    if (!libEGL) libEGL = openLib("EGL.dll");
+    if (!libEGL) {
+      libEGL = openLib("libEGL.dll");
+    }
+    if (!libEGL) {
+      libEGL = openLib("EGL.dll");
+    }
 #endif
-    if (!libEGL) return false;
+    if (!libEGL) {
+      return false;
+    }
     closeLib(libEGL);
     return true;
 #else
@@ -3543,7 +3719,9 @@ BackendCapabilities OpenGLGeoBackend::getCapabilities() const {
 
 bool OpenGLGeoBackend::initialize() {
 #ifdef THEMIS_ENABLE_OPENGL
-    if (initialized_) return true;
+    if (initialized_) {
+      return true;
+    }
     if (!impl_->loadEGLLibrary()) {
         std::cerr << "[OpenGLGeo] EGL library not found; running in CPU fallback mode" << std::endl;
         initialized_ = true;
@@ -3575,7 +3753,9 @@ bool OpenGLGeoBackend::initialize() {
 
 void OpenGLGeoBackend::shutdown() {
 #ifdef THEMIS_ENABLE_OPENGL
-    if (impl_) impl_->cleanup();
+    if (impl_) {
+      impl_->cleanup();
+    }
     initialized_ = false;
 #endif
 }
@@ -3726,12 +3906,20 @@ OpenGLGraphBackend::~OpenGLGraphBackend() {
 bool OpenGLGraphBackend::isAvailable() const noexcept {
 #ifdef THEMIS_ENABLE_OPENGL
     void* libEGL = openLib("libEGL.so.1");
-    if (!libEGL) libEGL = openLib("libEGL.so");
+    if (!libEGL) {
+      libEGL = openLib("libEGL.so");
+    }
 #ifdef _WIN32
-    if (!libEGL) libEGL = openLib("libEGL.dll");
-    if (!libEGL) libEGL = openLib("EGL.dll");
+    if (!libEGL) {
+      libEGL = openLib("libEGL.dll");
+    }
+    if (!libEGL) {
+      libEGL = openLib("EGL.dll");
+    }
 #endif
-    if (!libEGL) return false;
+    if (!libEGL) {
+      return false;
+    }
     closeLib(libEGL);
     return true;
 #else
@@ -3756,7 +3944,9 @@ BackendCapabilities OpenGLGraphBackend::getCapabilities() const {
 
 bool OpenGLGraphBackend::initialize() {
 #ifdef THEMIS_ENABLE_OPENGL
-    if (initialized_) return true;
+    if (initialized_) {
+      return true;
+    }
     if (!impl_->loadEGLLibrary()) {
         std::cerr << "[OpenGLGraph] EGL library not found; running in CPU fallback mode" << std::endl;
         initialized_ = true;
@@ -3788,7 +3978,9 @@ bool OpenGLGraphBackend::initialize() {
 
 void OpenGLGraphBackend::shutdown() {
 #ifdef THEMIS_ENABLE_OPENGL
-    if (impl_) impl_->cleanup();
+    if (impl_) {
+      impl_->cleanup();
+    }
     initialized_ = false;
 #endif
 }
@@ -3843,7 +4035,7 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchBFS(
             std::vector<std::vector<uint32_t>> results(numStarts);
             for (size_t s = 0; s < numStarts; ++s) {
                 for (size_t v = 0; v < numVertices; ++v) {
-                    if (visited[s * numVertices + v] != 0u)
+                    if (visited[s * numVertices + v] != 0)
                         results[s].push_back(static_cast<uint32_t>(v));
                 }
             }
@@ -3866,11 +4058,13 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchBFS(
         while (!q.empty()) {
             auto [cur, depth] = q.front(); q.pop();
             results[s].push_back(cur);
-            if (depth >= maxDepth) continue;
+            if (depth >= maxDepth) {
+              continue;
+            }
             for (size_t u = 0; u < numVertices; ++u) {
-                if (adjacency[cur * numVertices + u] != 0u && !visited[u]) {
+                if (adjacency[cur * numVertices + u] != 0 && !visited[u]) {
                     visited[u] = true;
-                    q.push({static_cast<uint32_t>(u), depth + 1u});
+                    q.push({static_cast<uint32_t>(u), depth + 1});
                 }
             }
         }
@@ -3937,13 +4131,16 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
                 uint32_t sv = startVertices[p], ev = endVertices[p];
                 float dist_ev = bf.dist[p * numVertices + ev];
                 if (dist_ev >= 1e29f) continue;  // unreachable
-                std::vector<uint32_t> path;
+                std::vector<uint32_t> path = {};
+
                 for (int cur = static_cast<int>(ev); cur != -1;
                      cur = bf.pred[p * numVertices + static_cast<size_t>(cur)]) {
                     path.push_back(static_cast<uint32_t>(cur));
-                    if (static_cast<uint32_t>(cur) == sv) break;
+                    if (static_cast<uint32_t>(cur) == sv) {
+                      break;
+                    }
                     // Guard against cycles in predecessor array
-                    if (path.size() > numVertices) { path.clear(); break; }
+                    if (static_cast<int>(path.size()) > numVertices) { path.clear(); break; }
                 }
                 if (!path.empty()) {
                     std::reverse(path.begin(), path.end());
@@ -3967,9 +4164,11 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
         dist[sv] = 0.f;
         for (size_t iter = 0; iter + 1 < numVertices; ++iter) {
             for (size_t u = 0; u < numVertices; ++u) {
-                if (dist[u] >= 1e29f) continue;
+                if (dist[u] >= 1e29f) {
+                  continue;
+                }
                 for (size_t v = 0; v < numVertices; ++v) {
-                    if (adjacency[u * numVertices + v] != 0u) {
+                    if (adjacency[u * numVertices + v] != 0) {
                         float nd = dist[u] + weights[u * numVertices + v];
                         if (nd < dist[v]) {
                             dist[v] = nd;
@@ -3980,11 +4179,14 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
             }
         }
         if (dist[ev] >= 1e29f) continue;  // unreachable
-        std::vector<uint32_t> path;
+        std::vector<uint32_t> path = {};
+
         for (int cur = static_cast<int>(ev); cur != -1; cur = pred[static_cast<size_t>(cur)]) {
             path.push_back(static_cast<uint32_t>(cur));
-            if (static_cast<uint32_t>(cur) == sv) break;
-            if (path.size() > numVertices) { path.clear(); break; }
+            if (static_cast<uint32_t>(cur) == sv) {
+              break;
+            }
+            if (static_cast<int>(path.size()) > numVertices) { path.clear(); break; }
         }
         if (!path.empty()) {
             std::reverse(path.begin(), path.end());
@@ -4074,10 +4276,13 @@ static int vulkan_ann_topk_dispatch(
     using Pair = std::pair<float, uint32_t>;
     for (int q = 0; q < numQueries; ++q) {
         const float* row = distances + q * numVectors;
-        std::priority_queue<Pair> heap;
+        std::priority_queue<Pair> heap = {};
+
         for (int v = 0; v < numVectors; ++v) {
             heap.emplace(row[v], static_cast<uint32_t>(v));
-            if (static_cast<int>(heap.size()) > topK) heap.pop();
+            if (static_cast<int>(heap.size()) > topK) {
+              heap.pop();
+            }
         }
         int slot = static_cast<int>(heap.size()) - 1;
         while (!heap.empty()) {
@@ -4133,7 +4338,7 @@ static int vulkan_geo_containment(
             }
             j = i;
         }
-        results[p] = inside ? 1u : 0u;
+        results[p] = inside ? 1 : 0;
     }
     return 0;
 }

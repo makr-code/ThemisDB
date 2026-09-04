@@ -340,7 +340,9 @@ TEST_F(GPUUnifiedMemoryTest, Concurrent_AllocFree_NoRaces) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_GT(success_count.load(), 0);
     // After all threads complete the allocator should have no live allocations
@@ -363,7 +365,9 @@ TEST_F(GPUUnifiedMemoryTest, Concurrent_IsSupported_NoRace) {
             results[t] = GPUUnifiedMemoryAllocator::isSupported() ? 1 : 0;
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // All threads must observe the same value (CPU-only → 0 / false).
     for (int t = 1; t < THREADS; ++t) {

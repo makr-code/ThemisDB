@@ -43,7 +43,7 @@ void runSpeedupGate(benchmark::State &state, DistanceMetric metric) {
     std::vector<float> out_cpu(static_cast<size_t>(kNumQueries) * static_cast<size_t>(numVectors), 0.0f);
     std::vector<float> out_gpu(static_cast<size_t>(kNumQueries) * static_cast<size_t>(numVectors), 0.0f);
 
-    CPUVectorBackend cpu_backend;
+    CPUVectorBackend cpu_backend = {};
     if (!cpu_backend.initialize()) {
         state.SkipWithError("CPUVectorBackend::initialize() failed");
         return;
@@ -59,7 +59,7 @@ void runSpeedupGate(benchmark::State &state, DistanceMetric metric) {
     state.SkipWithError("THEMIS_ENABLE_CUDA is OFF; CUDA speedup gate skipped");
     return;
 #else
-    CUDAVectorBackend cuda_backend;
+    CUDAVectorBackend cuda_backend = {};
     if (!cuda_backend.initialize()) {
         state.SkipWithError("CUDAVectorBackend::initialize() failed");
         return;

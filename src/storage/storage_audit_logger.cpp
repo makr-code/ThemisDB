@@ -49,8 +49,8 @@ namespace fs = std::filesystem;
 #if defined(_WIN32)
 using themis_ssize_t = std::ptrdiff_t;
 static int themis_open_fd(const char* path, int flags, int mode) { return _open(path, flags, mode); }
-static int themis_close_fd(int fd) { return _close(fd); }
-static int themis_fsync_fd(int fd) { return _commit(fd); }
+static int themis_close_fd([[maybe_unused]] int fd) { return _close(fd); }
+static int themis_fsync_fd([[maybe_unused]] int fd) { return _commit(fd); }
 static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
     return static_cast<themis_ssize_t>(_write(fd, data, static_cast<unsigned int>(len)));
 }
@@ -59,8 +59,8 @@ using themis_ssize_t = ssize_t;
 // no_timeout scanner alert: these are thin POSIX syscall shims for local
 // audit-log files; block-device I/O does not require network-style timeouts.
 static int themis_open_fd(const char* path, int flags, int mode) { return ::open(path, flags, mode); }
-static int themis_close_fd(int fd) { return ::close(fd); }
-static int themis_fsync_fd(int fd) { return ::fsync(fd); }
+static int themis_close_fd([[maybe_unused]] int fd) { return ::close(fd); }
+static int themis_fsync_fd([[maybe_unused]] int fd) { return ::fsync(fd); }
 static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
     // no_timeout scanner alert: local audit-log write — blocking POSIX write
     // on local storage; no network timeout applicable here.
@@ -84,8 +84,8 @@ std::string_view StorageAuditLogger::eventName(Event e) {
     }
 }
 
-/* static */ std::string StorageAuditLogger::segmentName(uint64_t segment_id) {
-    std::ostringstream oss;
+/* static */ std::string StorageAuditLogger::segmentName([[maybe_unused]] uint64_t segment_id) {
+    std::ostringstream oss = {};
     oss << "audit_" << std::setw(6) << std::setfill('0') << segment_id << ".log";
     return oss.str();
 }
@@ -128,7 +128,7 @@ StorageAuditLogger::open(const Config& config) {
             "StorageAuditLogger: config.dir must not be empty");
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     fs::create_directories(config.dir, ec);
     if (ec) {
         return Err<std::unique_ptr<StorageAuditLogger>>(
@@ -158,7 +158,7 @@ Result<void> StorageAuditLogger::openOrCreate() {
     // the language rules — false positive.
     for (const auto& entry : fs::directory_iterator(config_.dir)) {
         std::string fn = entry.path().filename().string();
-        std::smatch m;
+        std::smatch m = {};
         if (std::regex_match(fn, m, seg_re)) {
             found.push_back(std::stoull(m[1].str()));
         }
@@ -224,15 +224,21 @@ Result<void> StorageAuditLogger::writeEntry(Event event,
                                              std::string_view extra) {
     // Rotate before writing if needed
     auto rot = rotateIfNeeded();
-    if (!rot.has_value()) return rot;
+    if (!rot.has_value()) {
+      return rot;
+    }
 
     // Build line:  <ts> <seq> <event> <key> [<extra>]\n
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << currentTimestamp() << ' '
         << std::setw(12) << std::setfill('0') << next_seq_ << ' '
         << eventName(event);
-    if (!key.empty())   oss << ' ' << key;
-    if (!extra.empty()) oss << ' ' << extra;
+    if (!key.empty()) {
+      oss << ' ' << key;
+    }
+    if (!extra.empty()) {
+      oss << ' ' << extra;
+    }
     oss << '\n';
 
     std::string line = oss.str();
@@ -262,7 +268,9 @@ Result<void> StorageAuditLogger::writeEntry(Event event,
 }
 
 Result<void> StorageAuditLogger::rotateIfNeeded() {
-    if (segment_bytes_ < config_.max_file_bytes) return OkVoid();
+    if (segment_bytes_ < config_.max_file_bytes) {
+      return OkVoid();
+    }
 
     if (fd_ >= 0) {
         themis_fsync_fd(fd_);
@@ -305,7 +313,7 @@ uint64_t StorageAuditLogger::lastSequence() const {
 
 size_t StorageAuditLogger::segmentCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return segments_.size();
+    return static_cast<int>(segments_.size());
 }
 
 Result<void> StorageAuditLogger::flush() {

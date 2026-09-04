@@ -17,7 +17,9 @@ namespace test {
 inline std::optional<std::string> tryGetModelPath(const std::string& model_name = "") {
     namespace fs = std::filesystem;
     auto& config = TestConfig::instance();
-    if (!config.llm().enabled) return std::nullopt;
+    if (!config.llm().enabled) {
+      return std::nullopt;
+    }
     
     std::string target = model_name.empty() ? config.llm().default_model : model_name;
     std::string path = config.llm().getModelPath(target);
@@ -64,10 +66,14 @@ inline std::optional<std::string> tryGetModelPath(const std::string& model_name 
  */
 inline std::optional<std::string> tryGetModelDir() {
     auto& config = TestConfig::instance();
-    if (!config.llm().enabled) return std::nullopt;
+    if (!config.llm().enabled) {
+      return std::nullopt;
+    }
     
     std::string models_dir = config.llm().models_dir;
-    if (!std::filesystem::exists(models_dir)) return std::nullopt;
+    if (!std::filesystem::exists(models_dir)) {
+      return std::nullopt;
+    }
     return models_dir;
 }
 
@@ -77,10 +83,14 @@ inline std::optional<std::string> tryGetModelDir() {
  */
 inline std::optional<std::string> tryGetLoRAAdapterPath(const std::string& adapter_name) {
     auto& config = TestConfig::instance();
-    if (!config.lora().enabled) return std::nullopt;
+    if (!config.lora().enabled) {
+      return std::nullopt;
+    }
     
     std::string path = config.lora().getAdapterPath(adapter_name);
-    if (path.empty() || !std::filesystem::exists(path)) return std::nullopt;
+    if (path.empty() || !std::filesystem::exists(path)) {
+      return std::nullopt;
+    }
     return path;
 }
 

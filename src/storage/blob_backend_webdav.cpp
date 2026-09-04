@@ -64,8 +64,8 @@ private:
     // CURL helper for reading data
     struct ReadData {
         const uint8_t* data;
-        size_t size;
-        size_t offset;
+        size_t size = {};
+        size_t offset = {};
     };
     
     static size_t readCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
@@ -88,9 +88,9 @@ private:
     // Compute SHA256 hash
     static std::string computeSHA256(const std::vector<uint8_t>& data) {
         unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(data.data(), data.size(), hash);
+        SHA256(data.data(),static_cast<int>(data.size()), hash);
         
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0') 
                << static_cast<int>(hash[i]);
@@ -142,7 +142,7 @@ public:
         // Enforce HTTPS scheme — reject anything that is not an https:// URL to
         // prevent data in transit from being sent without encryption on any
         // code path (not only plain http://, but also ftp://, ws://, etc.).
-        if (base_url_.size() < 8 || base_url_.substr(0, 8) != "https://") {
+        if (static_cast<int>(base_url_.size()) < 8 || base_url_.substr(0, 8) != "https://") {
             THEMIS_ERROR("WebDAVBlobBackend: non-HTTPS URL rejected: {}. "
                          "Use an https:// endpoint.", base_url_);
             throw std::invalid_argument(
@@ -202,7 +202,7 @@ public:
                 );
             }
             
-            long response_code;
+            long response_code = {};
             curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
             curl_easy_cleanup(curl);
             
@@ -225,7 +225,7 @@ public:
             ).count();
             
             THEMIS_DEBUG("WebDAVBlobBackend: Stored blob {} ({} bytes) at {}", 
-                blob_id, data.size(), url);
+                blob_id,static_cast<int>(data.size()), url);
             
             return Ok(ref);
             
@@ -272,7 +272,7 @@ public:
                 );
             }
             
-            long response_code;
+            long response_code = {};
             curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
             curl_easy_cleanup(curl);
             
@@ -293,7 +293,7 @@ public:
             }
             
             THEMIS_DEBUG("WebDAVBlobBackend: Retrieved blob {} ({} bytes)", 
-                ref.id, data.size());
+                ref.id,static_cast<int>(data.size()));
             
             return Ok(data);
             
@@ -334,7 +334,7 @@ public:
             
             curl_easy_cleanup(curl);
             
-            if (res == CURLE_OK && (response_code == 200 || response_code == 204)) {
+            if ((res == CURLE_OK && (response_code == 200 || response_code == 204)) {
                 THEMIS_DEBUG("WebDAVBlobBackend: Removed blob {}", ref.id);
                 return OkVoid();
             }

@@ -113,7 +113,8 @@ bool FinalLayerOrchestrator::setPackageStatus(const std::string& package_id,
 }
 
 std::vector<FinalLayerPackage> FinalLayerOrchestrator::listPackages() const {
-    std::vector<FinalLayerPackage> packages;
+    std::vector<FinalLayerPackage> packages = {};
+
     packages.reserve(packages_.size());
     for (const auto& [_, package] : packages_) {
         packages.push_back(package);
@@ -232,7 +233,7 @@ FinalLayerResolution FinalLayerOrchestrator::resolve(const FinalLayerRequest& re
     }
 
     if (!package) {
-        if (packages_.size() == 1u) {
+        if (static_cast<int>(packages_.size()) == 1) {
             package = &packages_.begin()->second;
             if (resolution.routing_reason_code.empty()) {
                 resolution.routing_reason_code = std::string(observability::reason_codes::final_layer::kSinglePackageSelected);
@@ -316,7 +317,7 @@ std::vector<FinalLayerCompatibilityRow> FinalLayerOrchestrator::buildCompatibili
         return rows;
     }
 
-    auto add_row = [&](const std::string& adapter_id) {
+    auto add_row = [&]([[maybe_unused]] const std::string& adapter_id) {
         if (adapter_id.empty()) {
             return;
         }

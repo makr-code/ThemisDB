@@ -159,7 +159,9 @@ TEST_F(CrossModuleTsFixture, ContinuousAggToForecast_LinearTrend_ForecastContinu
     // For a strictly increasing linear series, the first prediction must be
     // greater than the mean of the training data.
     double mean_val = 0.0;
-    for (const auto& p : pts) mean_val += p.value;
+    for (const auto& p : pts) {
+      mean_val += p.value;
+    }
     mean_val /= static_cast<double>(pts.size());
     EXPECT_GT(preds[0].value, mean_val)
         << "Linear forecast should predict beyond the training mean";
@@ -182,7 +184,9 @@ TEST_F(CrossModuleTsFixture, ContinuousAggToForecast_EmptyStore_FitThrows) {
         << "No refresh performed; queryMaterialized must return empty";
 
     themisdb::analytics::TimeSeries ts;
-    for (const auto& p : pts) ts.push(p.timestamp_ms, p.value);
+    for (const auto& p : pts) {
+      ts.push(p.timestamp_ms, p.value);
+    }
     EXPECT_TRUE(ts.empty());
 
     themisdb::analytics::ForecastModel model;
@@ -243,8 +247,12 @@ TEST_F(CrossModuleTsFixture, ContinuousAggToForecast_TwoMetrics_ModelsAreIndepen
     ASSERT_GE(pts2.size(), 2u);
 
     themisdb::analytics::TimeSeries ts1, ts2;
-    for (const auto& p : pts1) ts1.push(p.timestamp_ms, p.value);
-    for (const auto& p : pts2) ts2.push(p.timestamp_ms, p.value);
+    for (const auto& p : pts1) {
+      ts1.push(p.timestamp_ms, p.value);
+    }
+    for (const auto& p : pts2) {
+      ts2.push(p.timestamp_ms, p.value);
+    }
 
     themisdb::analytics::ForecastModel m1(
         themisdb::analytics::ForecastMethod::LINEAR_REGRESSION);
@@ -294,7 +302,9 @@ TEST_F(CrossModuleTsFixture, ContinuousAggToForecast_MaterializedTimestamps_Mono
 
     // Convert to TimeSeries and verify the analytics module preserves order.
     themisdb::analytics::TimeSeries ts;
-    for (const auto& p : pts) ts.push(p.timestamp_ms, p.value);
+    for (const auto& p : pts) {
+      ts.push(p.timestamp_ms, p.value);
+    }
 
     const auto& ts_pts = ts.points();
     ASSERT_EQ(ts_pts.size(), pts.size());

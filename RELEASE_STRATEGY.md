@@ -292,30 +292,185 @@ git tag -s military-v1.9.0 -m "ThemisDB Military v1.9.0"
 git push origin military-v1.9.0
 ```
 
+## 8. Nightly Release Flow (Automated)
+
+Nightly releases are generated automatically every day at 03:30 UTC (or on manual trigger) to provide early access to development builds.
+
+### Triggers
+
+1. **Schedule:** Daily at 03:30 UTC
+2. **Manual:** Workflow dispatch with optional force flag
+3. **Condition:** Only if commits exist since last nightly release (skip if no changes)
+
+### Workflow
+
+Workflow: `.github/workflows/release-nightly.yml`
+
+**Steps:**
+1. Detect commits since last nightly via git tags
+2. Set `RELEASE_TYPE=nightly`
+3. Generate nightly version: `v2.4.0-nightly.YYYYMMDD.runnum` (e.g., `v2.4.0-nightly.20260904.1234`)
+4. Build community edition (matrix: linux-release, windows-release)
+5. Generate build metadata (timestamp, commit hash, build number, release type)
+6. Create GitHub Pre-release with tag `v2.4.0-nightly.YYYYMMDD`
+7. Push Docker images:
+   - `themisdb:nightly`
+   - `themisdb:nightly-YYYYMMDD`
+   - `themisdb:2.4.0-nightly-YYYYMMDD`
+8. Attach build-metadata.json, SBOM, and changelog to release
+9. Post notification to GitHub Discussions (pinned nightly tracker issue)
+
+### Artifacts
+
+Nightly releases include:
+- Linux: `.tar.gz`, `.zip`, `.deb`, `.rpm`
+- Windows: `.zip`
+- Build metadata: `build-metadata.json`
+- Software Bill of Materials: `sbom-source.cyclonedx.json`
+- Nightly changelog (generated from commits since last nightly)
+
+### Versioning
+
+- Nightly tag format: `v<major>.<minor>.<patch>-nightly.<YYYYMMDD>.<runnum>`
+- Docker tags:
+  - `themisdb:nightly` (always latest nightly)
+  - `themisdb:nightly-YYYYMMDD` (specific date)
+  - `themisdb:2.4.0-nightly-YYYYMMDD` (full version with date)
+- OCI labels: `org.opencontainers.image.revision` (git commit), `io.themisdb.build.type=nightly`
+
+### Quality Gates
+
+- No additional CI gates beyond standard build verification
+- Nightly releases are for early testing; use RC or stable for production
+
+### Rules
+
+- Nightly releases are marked as `prerelease=true` on GitHub
+- Pre-release images do not receive the `latest` tag
+- Nightly artifacts are not submitted to WinGet
+- Nightly changelog is auto-generated from `git log` since last nightly
+- Old nightly releases (>30 days) may be cleaned up to manage storage
+
+---
+
+## 9. Semi-Automatic Release via PR Labels (Alpha/Beta/RC/Stable)
+
+Semi-automatic releases are triggered by applying release labels to pull requests. Upon PR merge, the workflow automatically bumps the version, updates changelog, and creates a release PR.
+
+### Workflow
+
+Workflow: `.github/workflows/release-promote.yml`
+
+### Trigger Mechanisms
+
+**Method 1: Label on PR**
+1. Author or maintainer applies label to PR before merge:
+   - `release/alpha` → promotes to alpha release
+   - `release/beta` → promotes to beta release
+   - `release/rc` → promotes to release candidate
+   - `release/stable` → promotes to stable release
+2. PR is merged into `develop`
+3. Workflow triggers automatically (via `pull_request` closed event)
+
+**Method 2: Manual Dispatch**
+1. Call workflow via GitHub UI or CLI with inputs:
+   - `release_type`: alpha|beta|rc|stable
+   - `version_bump`: major|minor|patch (defaults to minor)
+   - `target_branch`: develop (default) or alternative
+
+### Workflow Steps
+
+1. **Extract Release Context:** Determine release type from label or manual input
+2. **Bump Version:** Read current VERSION, determine bump type, write new version
+   - Default: MINOR bump for new releases
+   - Override: Input `version_bump` parameter for MAJOR or PATCH
+3. **Update RELEASE_TYPE:** Write `RELEASE_TYPE` file with new type (alpha|beta|rc|stable)
+4. **Update CHANGELOG:** Add new section `## [<new-version>] - YYYY-MM-DD` with git log entries
+5. **Create Release PR:** 
+   - Branch: `release/v<new-version>`
+   - Target: `develop`
+   - Includes PR checklist for manual verification
+6. **Notify Source PR:** Comment on the original PR with promotion status
+
+### Release PR Checklist
+
+The auto-generated release PR includes this checklist:
+
+- [ ] CI gates passed (build, test, lint)
+- [ ] Changelog entries are accurate
+- [ ] VERSIONING.md examples updated if needed
+- [ ] No breaking changes, or breaking changes documented in CHANGELOG
+- [ ] Release notes drafted (if stable/rc)
+- [ ] All documentation synchronized
+- [ ] Two approvals required (maintainers)
+
+### Approval & Merge
+
+1. Release PR must receive **≥ 2 approvals** from maintainers
+2. All CI gates must pass (`edition-community-ci`, PR gates)
+3. Maintainer merges release PR into `develop`
+4. After merge, maintainer manually creates the release tag:
+   ```bash
+   git checkout develop
+   git tag -s v<new-version> -m "Release v<new-version>"
+   git push origin v<new-version>
+   ```
+5. Tag push triggers `release-publish.yml` (unified orchestration)
+
+### Versioning Rules
+
+| Release Type | Version Bump | Example |
+|---|---|---|
+| Alpha | MINOR (default) | `2.4.0` → `2.5.0-alpha1` |
+| Beta | MINOR (default) | `2.5.0-alpha2` → `2.5.0-beta1` |
+| RC | PATCH (auto-increment) | `2.5.0-beta1` → `2.5.0-rc1` |
+| Stable | PATCH (auto-increment) | `2.5.0-rc1` → `2.5.0` |
+| Hotfix | PATCH (manual) | `2.5.0` → `2.5.1` |
+
+### Examples
+
+**Example 1: Alpha Release**
+1. PR merged with label `release/alpha`
+2. Workflow bumps: `2.4.0` → `2.5.0-alpha1`
+3. Sets `RELEASE_TYPE=alpha`
+4. Creates PR: `release/v2.5.0-alpha1` → `develop`
+5. After approval & merge, maintainer tags: `v2.5.0-alpha1`
+6. Tag triggers `release-publish.yml` → builds and publishes to all registries
+
+**Example 2: Stable Release from RC**
+1. PR merged with label `release/stable`
+2. Workflow bumps: `2.5.0-rc1` → `2.5.0` (removes suffix)
+3. Sets `RELEASE_TYPE=stable`
+4. Creates PR with release checklist
+5. After approval & merge, maintainer tags: `v2.5.0`
+6. Tag triggers `release-publish.yml` → builds, publishes to GitHub + Docker + WinGet
+
+---
+
 ## 8. Historical Release and Tag Reassignment Policy
 
 Historical releases and tags must be reassigned logically to the canonical edition lanes, but published tags should normally remain immutable.
 
-### 8.1 Core rule
+## 10. Historical Release and Tag Reassignment Policy
 
 A Git tag points to a commit, not to a branch. Therefore, historical release correction should prefer branch and documentation alignment over tag rewriting.
 
-### 8.2 Preferred correction order
+### 10.1 Core rule
 
 1. identify the intended edition and canonical target branch
 2. ensure the tagged release commit is reachable from the correct canonical edition branch
 3. correct release notes, changelog, and governance references
 4. only retag if the tag is clearly internal/unpublished and explicit human approval exists
 
-### 8.3 Community migration rule
+### 10.2 Preferred correction order
 
 Historical Community releases cut from `main` should be treated as Community releases and migrated logically to `community`.
 
-### 8.4 Military migration rule
+### 10.3 Community migration rule
 
 Historical Military releases associated with `millitary` should be treated as Military releases and migrated logically to `military`.
 
-### 8.5 Published tag immutability
+### 10.4 Military migration rule
 
 Published or externally consumed tags should not be force-moved as a normal migration step.
 
@@ -325,7 +480,7 @@ If a historical tag is wrong, preferred remedies are:
 - create a corrected replacement release if necessary
 - document the correction in release notes and governance docs
 
-### 8.6 Required historical inventory
+### 10.5 Published tag immutability
 
 Each historical tag/release should be inventoried with:
 
@@ -337,7 +492,7 @@ Each historical tag/release should be inventoried with:
 - canonical target branch
 - required corrective action
 
-## 9. Artefacts
+### 10.6 Required historical inventory
 
 Typical artefacts of one release:
 
@@ -354,7 +509,7 @@ Rules:
 - Artefact names may differ by platform or edition.
 - Artefact checksums should be published together with the release.
 
-## 9.1 Windows Package Manager (WinGet) Distribution
+## 11. Artefacts
 
 ThemisDB Community releases are published to the [Windows Package Manager Community Repository](https://github.com/microsoft/winget-pkgs) under the identifier `ThemisDB.ThemisDB`.
 
@@ -429,7 +584,7 @@ Rules:
 
 Pre-release versions (`-rc*`, `-alpha`, `-beta`) are published to winget-pkgs only after the corresponding stable release is accepted. This prevents `winget upgrade` from pushing pre-release software to users who installed a stable version.
 
-## 9.2 Docker Distribution
+## 11.1 Windows Package Manager (WinGet) Distribution
 
 ThemisDB Community images are published to Docker Hub as `themisdb/themisdb`.
 
@@ -477,7 +632,7 @@ PLATFORMS=linux/amd64,linux/arm64 TAG=<version> PUSH=true bash scripts/build-doc
 - Image name must be `themisdb/themisdb` (not `themisdb/themis`).
 - One image build per released commit — do not rebuild the same tag from a different commit.
 
-## 9.3 Linux Native Package Distribution
+## 11.2 Docker Distribution
 
 ThemisDB provides DEB, RPM, and TGZ packages for Linux server deployments.
 
@@ -530,7 +685,7 @@ This project centralizes packaging decisions here to make release behavior deter
 
 Action: Maintain these decisions in this file once agreed; CI and `.agent.md` should be updated to reflect chosen defaults.
 
-## 10. Manual Checklist
+## 11.3 Linux Native Package Distribution
 
 Before tagging, verify manually:
 
@@ -560,7 +715,7 @@ For historical reassignment work, also verify:
 - legacy branch references are documented or removed as planned
 - no published tag is rewritten without explicit approval
 
-## 11. Rollback
+## 12. Manual Checklist
 
 If a release must be reverted:
 
@@ -579,7 +734,7 @@ git tag -s v1.9.1 -m "ThemisDB v1.9.1"
 git push origin v1.9.1
 ```
 
-## 12. Best-Practice Summary
+## 13. Rollback
 
 - keep one tag per released source state
 - keep one milestone per release scope

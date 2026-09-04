@@ -104,7 +104,8 @@ http::response<http::string_body> WALApiHandler::handleApply(
             "Missing 'entries' array (or entries_compressed)", req);
     }
 
-    std::vector<sharding::WALEntry> entries;
+    std::vector<sharding::WALEntry> entries = {};
+
     entries.reserve(entries_json.size());
 
     try {
@@ -179,7 +180,7 @@ http::response<http::string_body> WALApiHandler::makeResponse(
     return res;
 }
 
-void WALApiHandler::recordLatency(int64_t elapsed_us) {
+void WALApiHandler::recordLatency([[maybe_unused]] int64_t elapsed_us) {
     wal_apply_latency_sum_us_.fetch_add(static_cast<uint64_t>(elapsed_us), std::memory_order_relaxed);
     wal_apply_latency_count_.fetch_add(1, std::memory_order_relaxed);
     if (elapsed_us <= 50'000) {
@@ -196,12 +197,12 @@ void WALApiHandler::recordLatency(int64_t elapsed_us) {
 std::string WALApiHandler::hmacSha256Hex(const std::string& key, const std::string& data) {
     unsigned int len = 0;
     unsigned char* result = HMAC(EVP_sha256(), key.data(), static_cast<int>(key.size()),
-                                 reinterpret_cast<const unsigned char*>(data.data()), data.size(), nullptr, &len);
+                                 reinterpret_cast<const unsigned char*>(data.data()),static_cast<int>(data.size()), nullptr, &len);
     if (!result || len == 0) {
         return {};
     }
     static constexpr char hex_digits[] = "0123456789abcdef";
-    std::string hex;
+    std::string hex = {};
     hex.reserve(len * 2);
     for (unsigned int i = 0; i < len; ++i) {
         hex.push_back(hex_digits[(result[i] >> 4) & 0x0F]);
@@ -211,9 +212,11 @@ std::string WALApiHandler::hmacSha256Hex(const std::string& key, const std::stri
 }
 
 bool WALApiHandler::timingSafeEqual(const std::string& a, const std::string& b) {
-    if (a.size() != b.size()) return false;
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+      return false;
+    }
     unsigned char diff = 0;
-    for (size_t i = 0; i < a.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         diff |= static_cast<unsigned char>(a[i] ^ b[i]);
     }
     return diff == 0;

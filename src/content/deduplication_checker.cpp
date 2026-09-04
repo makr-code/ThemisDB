@@ -47,7 +47,9 @@ static uint64_t hexToU64(const std::string& hex) {
     for (size_t i = 0; i < n; ++i) {
         v <<= 4;
         char c = hex[i];
-        if (c >= '0' && c <= '9')      v |= static_cast<uint64_t>(c - '0');
+        if (c >= '0' && c <= '9') {
+          v |= static_cast<uint64_t>(c - '0');
+        }
         else if (c >= 'a' && c <= 'f') v |= static_cast<uint64_t>(c - 'a' + 10);
         else if (c >= 'A' && c <= 'F') v |= static_cast<uint64_t>(c - 'A' + 10);
     }
@@ -64,7 +66,7 @@ static uint64_t hexToU64(const std::string& hex) {
     // Portable popcount
     uint32_t count = 0;
     while (diff) {
-        count += diff & 1u;
+        count += diff & 1;
         diff >>= 1;
     }
     return count;
@@ -75,21 +77,21 @@ static uint64_t hexToU64(const std::string& hex) {
     size_t band
 ) {
     // FNV-1a over the band's kBandRows uint32 values
-    uint64_t hash = 14695981039346656037ULL;
+    uint64_t hash = 14695981039346656037;
     size_t start = band * kBandRows;
-    size_t end   = std::min(start + kBandRows, sig.size());
+    size_t end   = std::min(start + kBandRows,static_cast<int>(sig.size()));
     for (size_t i = start; i < end; ++i) {
         uint32_t v = sig[i];
         for (int b = 0; b < 4; ++b) {
             hash ^= static_cast<uint64_t>((v >> (b * 8)) & 0xFF);
-            hash *= 1099511628211ULL;
+            hash *= 1099511628211;
         }
     }
     return hash;
 }
 
 /*static*/ std::string DeduplicationChecker::makeBandKey(size_t band, uint64_t hash_val) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << 'b' << band << ':' << std::hex << std::setw(16) << std::setfill('0') << hash_val;
     return oss.str();
 }
@@ -101,7 +103,9 @@ static uint64_t hexToU64(const std::string& hex) {
 std::optional<DuplicateOf> DeduplicationChecker::isDuplicateImage(
     const std::string& phash_hex
 ) const {
-    if (!storage_ || phash_hex.size() < 16) return std::nullopt;
+    if (!storage_ || static_cast<int>(phash_hex.size()) < 16) {
+      return std::nullopt;
+    }
 
     std::optional<DuplicateOf> result;
 
@@ -113,7 +117,9 @@ std::optional<DuplicateOf> DeduplicationChecker::isDuplicateImage(
         if (result) return false; // stop after first match
 
         std::string stored_hex(key.substr(kPrefix.size()));
-        if (stored_hex.size() < 16) return true;
+        if (static_cast<int>(stored_hex.size()) < 16) {
+          return true;
+        }
 
         uint32_t dist = hammingDistance(phash_hex, stored_hex);
         if (dist <= kPHashThreshold) {
@@ -132,7 +138,9 @@ void DeduplicationChecker::registerImage(
     const std::string& content_id,
     const std::string& phash_hex
 ) {
-    if (!storage_ || phash_hex.empty() || content_id.empty()) return;
+    if (!storage_ || phash_hex.empty() || content_id.empty()) {
+      return;
+    }
     std::string key = "phash_idx:" + phash_hex;
     storage_->put(key, content_id);
 }
@@ -144,7 +152,9 @@ void DeduplicationChecker::registerImage(
 std::optional<DuplicateOf> DeduplicationChecker::isDuplicateText(
     const std::vector<uint32_t>& minhash
 ) const {
-    if (minhash.size() < kNumHashFunctions) return std::nullopt;
+    if (static_cast<int>(minhash.size()) < kNumHashFunctions) {
+      return std::nullopt;
+    }
 
     for (size_t b = 0; b < kNumBands; ++b) {
         uint64_t bh  = bandHash(minhash, b);
@@ -163,7 +173,9 @@ void DeduplicationChecker::registerText(
     const std::string& content_id,
     const std::vector<uint32_t>& minhash
 ) {
-    if (minhash.size() < kNumHashFunctions || content_id.empty()) return;
+    if (static_cast<int>(minhash.size()) < kNumHashFunctions || content_id.empty()) {
+      return;
+    }
 
     for (size_t b = 0; b < kNumBands; ++b) {
         uint64_t bh = bandHash(minhash, b);

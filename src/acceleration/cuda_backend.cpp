@@ -92,7 +92,7 @@ namespace acceleration {
 // Mirrors kMaxK in src/acceleration/cuda/cuda_hnsw_kernels.cu.
 // For k > kHnswSinglePassMaxK the engine falls through to a multi-pass
 // host-merge strategy; this is considered a degraded operation mode.
-static constexpr uint32_t kHnswSinglePassMaxK = 1024u;
+static constexpr uint32_t kHnswSinglePassMaxK = 1024;
 
 #ifdef THEMIS_ENABLE_CUDA
 namespace {
@@ -104,7 +104,7 @@ constexpr float kCosineDistanceTolerance = 0.001f;
 struct StreamWaitResult {
     bool ok = false;
     AccelerationErrorCode errorCode = AccelerationErrorCode::SynchronizationFailed;
-    std::string message;
+    std::string message = {};
 };
 
 StreamWaitResult waitForStreamWithTimeout(cudaStream_t stream, std::chrono::milliseconds timeout) {
@@ -128,7 +128,7 @@ StreamWaitResult waitForStreamWithTimeout(cudaStream_t stream, std::chrono::mill
 }
 
 bool validateDistanceOutputs(const std::vector<float>& distances, bool useL2, std::string& validationError) {
-    for (size_t i = 0; i < distances.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(distances.size()); ++i) {
         const float value = distances[i];
         if (!std::isfinite(value)) {
             validationError = "Distance output contains non-finite value at index " + std::to_string(i);
@@ -138,7 +138,7 @@ bool validateDistanceOutputs(const std::vector<float>& distances, bool useL2, st
             validationError = "L2 distance output is negative at index " + std::to_string(i);
             return false;
         }
-        if (!useL2 && (value < -kCosineDistanceTolerance || value > 2.0F + kCosineDistanceTolerance)) {
+        if ((!useL2 && (value < -kCosineDistanceTolerance || value > 2.0F + kCosineDistanceTolerance))) {
             validationError = "Cosine distance output out of [0, 2] range at index " + std::to_string(i);
             return false;
         }
@@ -148,12 +148,12 @@ bool validateDistanceOutputs(const std::vector<float>& distances, bool useL2, st
 
 bool validateTopKOutputs(const std::vector<int>& topkIndices, const std::vector<float>& topkDistances, size_t numVectors,
                          bool useL2, std::string& validationError) {
-    if (topkIndices.size() != topkDistances.size()) {
+    if (static_cast<int>(topkIndices.size()) != static_cast<int>(topkDistances.size())) {
         validationError = "Top-K output size mismatch between indices and distances";
         return false;
     }
     const int maxVectorIndex = static_cast<int>(numVectors);
-    for (size_t i = 0; i < topkIndices.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(topkIndices.size()); ++i) {
         const int index = topkIndices[i];
         if (index < 0 || index >= maxVectorIndex) {
             validationError = "Top-K output index out of range at position " + std::to_string(i);
@@ -168,7 +168,7 @@ bool validateTopKOutputs(const std::vector<int>& topkIndices, const std::vector<
             validationError = "Top-K L2 distance is negative at position " + std::to_string(i);
             return false;
         }
-        if (!useL2 && (distance < -kCosineDistanceTolerance || distance > 2.0F + kCosineDistanceTolerance)) {
+        if ((!useL2 && (distance < -kCosineDistanceTolerance || distance > 2.0F + kCosineDistanceTolerance))) {
             validationError = "Top-K cosine distance out of [0, 2] range at position " + std::to_string(i);
             return false;
         }
@@ -209,7 +209,7 @@ BackendCapabilities CUDAVectorBackend::getCapabilities() const {
         = metricBit(DistanceMetric::L2) | metricBit(DistanceMetric::COSINE) | metricBit(DistanceMetric::INNER_PRODUCT);
 
     if (isAvailable()) {
-        cudaDeviceProp prop;
+        cudaDeviceProp prop = {};
         if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
             caps.deviceName     = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;
@@ -365,7 +365,7 @@ bool CUDAVectorBackend::buildHnswAnnIndex(const std::vector<HnswLayerGraph> &lay
     size_t effectiveBatchSize = maxBatchSize_;
     const size_t numNodes     = layers[0].num_nodes;
     if (numNodes > 0) {
-        const size_t vis_per_q = (numNodes + 7u) / 8u;
+        const size_t vis_per_q = (numNodes + 7) / 8;
         const size_t caps_mem  = getCapabilities().maxMemoryBytes;
         // Reserve ≥ 10% of VRAM for other allocations; cap pool to 90% of VRAM.
         const size_t pool_limit = (caps_mem > 0) ? static_cast<size_t>(caps_mem * 0.9) : SIZE_MAX;
@@ -399,7 +399,7 @@ bool CUDAVectorBackend::isHnswIndexBuilt() const noexcept {
     return hnswEngine_ && hnswEngine_->isBuilt();
 }
 
-void CUDAVectorBackend::setMaxBatchSize(size_t n) {
+void CUDAVectorBackend::setMaxBatchSize([[maybe_unused]] size_t n) {
     if (n == 0) {
         n = 1;
     }
@@ -513,7 +513,7 @@ std::vector<float> CUDAVectorBackend::computeDistances(const float *queries, siz
             std::cerr << lastError_.format() << std::endl;
             return {};
         }
-        std::string distanceValidationError;
+        std::string distanceValidationError = {};
         if (!validateDistanceOutputs(distances, useL2, distanceValidationError)) {
             setError(ErrorContext(AccelerationErrorCode::InputValidationFailed, "CUDA", distanceValidationError,
                                   "Falling back to CPU path is recommended for this batch"));
@@ -641,7 +641,7 @@ CUDAVectorBackend::batchKnnSearch(const float *queries, size_t numQueries, size_
             std::cerr << lastError_.format() << std::endl;
             return {};
         }
-        std::string topkValidationError;
+        std::string topkValidationError = {};
         if (!validateTopKOutputs(topkIndices, topkDistances, numVectors, useL2, topkValidationError)) {
             setError(ErrorContext(AccelerationErrorCode::InputValidationFailed, "CUDA", topkValidationError,
                                   "Falling back to CPU path is recommended for this batch"));
@@ -741,7 +741,7 @@ CUDAGraphEntry *CUDAGraphCache::get(const QueryShape &shape) noexcept {
 
 CUDAGraphEntry &CUDAGraphCache::put(const QueryShape &shape, CUDAGraphEntry entry) {
     // Only evict if this is truly a new key (not a replacement)
-    if (entries_.size() >= kMaxEntries && entries_.count(shape) == 0) {
+    if (static_cast<int>(entries_.size()) > = kMaxEntries && entries_.count(shape) == 0) {
         evictLRU();
     }
     entry.lastAccess = ++clock_;
@@ -997,7 +997,7 @@ CUDAVectorBackend::batchKnnSearchWithGraph(const float *queries, size_t numQueri
             return {};
         }
         const bool useL2 = (metric == DistanceMetric::L2);
-        std::string topkValidationError;
+        std::string topkValidationError = {};
         if (!validateTopKOutputs(topkIndices, topkDistances, numVectors, useL2, topkValidationError)) {
             setError(ErrorContext(AccelerationErrorCode::InputValidationFailed, "CUDA", topkValidationError,
                                   "Falling back to non-graph CUDA path is recommended for this batch"));
@@ -1112,7 +1112,7 @@ CUDAGraphBFSEntry *CUDAGraphBFSCache::get(const GraphBFSShape &shape) noexcept {
 }
 
 CUDAGraphBFSEntry &CUDAGraphBFSCache::put(const GraphBFSShape &shape, CUDAGraphBFSEntry entry) {
-    if (entries_.size() >= kMaxEntries && entries_.count(shape) == 0) {
+    if (static_cast<int>(entries_.size()) > = kMaxEntries && entries_.count(shape) == 0) {
         evictLRU();
     }
     entry.lastAccess = ++clock_;
@@ -1197,7 +1197,7 @@ CUDAGraphSPEntry *CUDAGraphSPCache::get(const GraphSPShape &shape) noexcept {
 }
 
 CUDAGraphSPEntry &CUDAGraphSPCache::put(const GraphSPShape &shape, CUDAGraphSPEntry entry) {
-    if (entries_.size() >= kMaxEntries && entries_.count(shape) == 0) {
+    if (static_cast<int>(entries_.size()) > = kMaxEntries && entries_.count(shape) == 0) {
         evictLRU();
     }
     entry.lastAccess = ++clock_;
@@ -1248,7 +1248,7 @@ BackendCapabilities CUDAGraphBackend::getCapabilities() const {
     caps.supportsAsync           = true;
     caps.supportedPrecisions     = PrecisionMode::FP32;
     if (isAvailable()) {
-        cudaDeviceProp prop;
+        cudaDeviceProp prop = {};
         if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
             caps.deviceName     = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;
@@ -1793,7 +1793,7 @@ BackendCapabilities CUDAGeoBackend::getCapabilities() const {
     caps.supportsAsync           = true;
     caps.supportedPrecisions     = PrecisionMode::FP32;
     if (isAvailable()) {
-        cudaDeviceProp prop;
+        cudaDeviceProp prop = {};
         if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
             caps.deviceName     = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;
@@ -2115,7 +2115,7 @@ BackendCapabilities CUDAMatrixBackend::getCapabilities() const {
     // the actual hardware capability at runtime via cuBLAS.
     caps.supportedPrecisions = PrecisionMode::FP32 | PrecisionMode::FP16 | PrecisionMode::BF16;
     if (isAvailable()) {
-        cudaDeviceProp prop;
+        cudaDeviceProp prop = {};
         if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
             caps.deviceName     = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;

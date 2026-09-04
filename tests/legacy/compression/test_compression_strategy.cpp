@@ -18,7 +18,7 @@ protected:
     
     std::vector<uint8_t> generate_random_data(size_t size, uint8_t min_val = 0, uint8_t max_val = 255) {
         std::vector<uint8_t> data(size);
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> dis(min_val, max_val);
         
@@ -31,7 +31,7 @@ protected:
     
     std::vector<uint8_t> generate_sparse_data(size_t size, float zero_ratio = 0.95f) {
         std::vector<uint8_t> data(size, 0);
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> pos_dis(0, size - 1);
         std::uniform_int_distribution<> val_dis(1, 255);
@@ -57,17 +57,19 @@ protected:
     }
     
     std::string generate_text_data(size_t size) {
-        std::string text;
+        std::string text = {};
         text.reserve(size);
         const char* words[] = {"hello", "world", "test", "compression", "data", "text", "string"};
         size_t word_count = sizeof(words) / sizeof(words[0]);
         
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> dis(0, word_count - 1);
         
         while (text.size() < size) {
-            if (!text.empty()) text += " ";
+            if (!text.empty()) {
+              text += " ";
+            }
             text += words[dis(gen)];
         }
         
@@ -183,7 +185,8 @@ TEST_F(CompressionStrategyTest, RLECodecDirectTest) {
 }
 
 TEST_F(CompressionStrategyTest, RLEMixedData) {
-    std::vector<uint8_t> data;
+    std::vector<uint8_t> data = {};
+
     for (int i = 0; i < 10; ++i) {
         data.insert(data.end(), 100, static_cast<uint8_t>(i));
     }
@@ -252,7 +255,8 @@ TEST_F(CompressionStrategyTest, DictionaryCompression) {
     CompressionStrategyManager manager(config);
     
     // Create data with few unique values
-    std::vector<uint8_t> original;
+    std::vector<uint8_t> original = {};
+
     for (int i = 0; i < 1000; ++i) {
         original.push_back(static_cast<uint8_t>(i % 10));
     }
@@ -265,7 +269,8 @@ TEST_F(CompressionStrategyTest, DictionaryCompression) {
 }
 
 TEST_F(CompressionStrategyTest, DictionaryCodecDirectTest) {
-    std::vector<uint8_t> data;
+    std::vector<uint8_t> data = {};
+
     for (int i = 0; i < 500; ++i) {
         data.push_back(static_cast<uint8_t>(i % 8));
     }

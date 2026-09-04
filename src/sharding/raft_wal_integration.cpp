@@ -136,7 +136,7 @@ void RaftWALIntegration::onBecomeFollower() {
 }
 
 /** @brief Advance commit-related compaction state to snapshot boundary. */
-void RaftWALIntegration::compact(uint64_t snapshot_index) {
+void RaftWALIntegration::compact([[maybe_unused]] uint64_t snapshot_index) {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     
     // Truncate Raft log entries up to snapshot_index
@@ -192,7 +192,7 @@ bool RaftWALIntegration::hasQuorum(const std::set<std::string>& acks) const {
     size_t cluster_size = members.empty() ? 1 : members.size();
     size_t quorum = (cluster_size / 2) + 1;
     
-    return acks.size() >= quorum;
+    return static_cast<int>(acks.size()) >= quorum;
 }
 
 /** @brief Mark follower acknowledgments up to match index and notify writers. */

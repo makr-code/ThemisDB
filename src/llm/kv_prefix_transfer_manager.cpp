@@ -99,13 +99,13 @@ bool KVPrefixTransferManager::transferIfBeneficial(
     attempt_count_.fetch_add(1, std::memory_order_relaxed);
 
     const auto result = remote_executor_.postBinary(
-        target_shard, kIngestPath, payload.data(), payload.size());
+        target_shard, kIngestPath, payload.data(),static_cast<int>(payload.size()));
 
     if (result.success) {
         success_count_.fetch_add(1, std::memory_order_relaxed);
         spdlog::debug(
             "[KVPrefix] KV state transferred to shard={}: {} bytes, model={}",
-            target_shard.shard_id, payload.size(), model_id);
+            target_shard.shard_id,static_cast<int>(payload.size()), model_id);
     } else {
         spdlog::warn(
             "[KVPrefix] Transfer to shard={} failed: {}; inference continues cold",

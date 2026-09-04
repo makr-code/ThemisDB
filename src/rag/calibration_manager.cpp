@@ -92,7 +92,9 @@ void CalibrationManager::addGroundTruth(const GroundTruthAnnotation& annotation)
 // ---------------------------------------------------------------------------
 
 double CalibrationManager::applyTemperatureScaling(double score, double temperature) {
-    if (temperature <= 0.0) return score;
+    if (temperature <= 0.0) {
+      return score;
+    }
     // Guard against edge cases at 0 and 1
     const double eps = 1e-7;
     double s = std::clamp(score, eps, 1.0 - eps);
@@ -123,17 +125,18 @@ std::vector<std::pair<double, double>> CalibrationManager::buildIsotonicModel(
 
     // PAV: merge adjacent blocks that violate monotonicity
     struct Block {
-        double sum_gt;
-        double sum_pred;
-        size_t count;
+        double sum_gt = 0;
+        double sum_pred = {};
+        size_t count = {};
         double avg_pred() const { return sum_pred / static_cast<double>(count); }
         double avg_gt()   const { return sum_gt   / static_cast<double>(count); }
     };
 
-    std::vector<Block> blocks;
+    std::vector<Block> blocks = {};
+
     for (size_t i : idx) {
         Block b{ground_truth[i], predictions[i], 1};
-        while (blocks.size() >= 2) {
+        while (static_cast<int>(blocks.size()) >= 2) {
             auto& last    = blocks.back();
             auto& second  = blocks[blocks.size() - 2];
             if (second.avg_gt() > last.avg_gt()) {
@@ -174,7 +177,8 @@ std::pair<CalibrationMetrics, CalibrationMetrics> CalibrationManager::train(
     }
 
     // Collect predictions
-    std::vector<EvaluationResult> predictions;
+    std::vector<EvaluationResult> predictions = {};
+
     predictions.reserve(ground_truth_.size());
     for (const auto& ann : ground_truth_) {
         EvaluationInput input;
@@ -188,7 +192,7 @@ std::pair<CalibrationMetrics, CalibrationMetrics> CalibrationManager::train(
     if (config_.method == CalibrationMethod::TEMPERATURE_SCALING) {
         // Grid search over temperature on the overall score
         std::vector<double> preds, gts;
-        for (size_t i = 0; i < predictions.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(predictions.size()); ++i) {
             preds.push_back(predictions[i].overall_score);
             gts.push_back(ground_truth_[i].overall_score);
         }
@@ -197,9 +201,12 @@ std::pair<CalibrationMetrics, CalibrationMetrics> CalibrationManager::train(
         double best_temp = 1.0;
         double best_ece  = std::numeric_limits<double>::max();
         for (double t = 0.1; t <= 5.0; t += 0.1) {
-            std::vector<double> scaled;
+            std::vector<double> scaled = {};
+
             scaled.reserve(preds.size());
-            for (double p : preds) scaled.push_back(applyTemperatureScaling(p, t));
+            for (double p : preds) {
+              scaled.push_back(applyTemperatureScaling(p, t));
+            }
             double ece = calculateECE(scaled, gts, confs);
             if (ece < best_ece) {
                 best_ece  = ece;
@@ -224,7 +231,9 @@ std::pair<CalibrationMetrics, CalibrationMetrics> CalibrationManager::train(
 // ---------------------------------------------------------------------------
 
 EvaluationResult CalibrationManager::calibrate(const EvaluationResult& result) {
-    if (config_.method == CalibrationMethod::NONE) return result;
+    if (config_.method == CalibrationMethod::NONE) {
+      return result;
+    }
 
     EvaluationResult calibrated = result;
 
@@ -268,7 +277,9 @@ CalibrationMetrics CalibrationManager::calculateMetrics(
     const std::vector<EvaluationResult>& predictions,
     const std::vector<GroundTruthAnnotation>& ground_truth) {
     CalibrationMetrics m{};
-    if (predictions.empty() || predictions.size() != ground_truth.size()) return m;
+    if (predictions.empty() || static_cast<int>(predictions.size()) != static_cast<int>(ground_truth.size())) {
+      return m;
+    }
 
     const size_t n = predictions.size();
 
@@ -323,7 +334,9 @@ double CalibrationManager::calculateECE(
     const std::vector<double>& predictions,
     const std::vector<double>& ground_truth,
     const std::vector<double>& /*confidences*/) {
-    if (predictions.empty()) return 0.0;
+    if (predictions.empty()) {
+      return 0.0;
+    }
 
     const int num_bins = config_.num_bins;
     const double bin_width = 1.0 / static_cast<double>(num_bins);
@@ -332,7 +345,7 @@ double CalibrationManager::calculateECE(
     std::vector<double> bin_confidence(num_bins, 0.0);
     std::vector<size_t> bin_count(num_bins, 0);
 
-    for (size_t i = 0; i < predictions.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(predictions.size()); ++i) {
         int bin = static_cast<int>(predictions[i] / bin_width);
         bin = std::clamp(bin, 0, num_bins - 1);
         bin_accuracy[bin]  += ground_truth[i];
@@ -343,7 +356,9 @@ double CalibrationManager::calculateECE(
     double ece = 0.0;
     const double n = static_cast<double>(predictions.size());
     for (int b = 0; b < num_bins; ++b) {
-        if (bin_count[b] == 0) continue;
+        if (bin_count[b] == 0) {
+          continue;
+        }
         double avg_acc  = bin_accuracy[b]   / static_cast<double>(bin_count[b]);
         double avg_conf = bin_confidence[b] / static_cast<double>(bin_count[b]);
         ece += (static_cast<double>(bin_count[b]) / n) * std::abs(avg_acc - avg_conf);
@@ -354,23 +369,29 @@ double CalibrationManager::calculateECE(
 double CalibrationManager::calculateBrierScore(
     const std::vector<double>& predictions,
     const std::vector<double>& ground_truth) {
-    if (predictions.empty()) return 0.0;
+    if (predictions.empty()) {
+      return 0.0;
+    }
 
     double sum = 0.0;
-    for (size_t i = 0; i < predictions.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(predictions.size()); ++i) {
         double diff = predictions[i] - ground_truth[i];
         sum += diff * diff;
     }
-    return sum / static_cast<double>(predictions.size());
+    return static_cast<bool>(sum / static_cast<double < static_cast<int>((predictions.size())));
 }
 
 double CalibrationManager::calculateInterAnnotatorAgreement(
     const std::vector<std::vector<double>>& annotations) {
-    if (annotations.empty() || annotations[0].empty()) return 0.0;
+    if (annotations.empty() || annotations[0].empty()) {
+      return 0.0;
+    }
 
     const size_t num_items       = annotations[0].size();
-    const size_t num_annotators  = annotations.size();
-    if (num_annotators < 2) return 1.0;
+    const size_t num_annotators = annotations.size();
+    if (num_annotators < 2) {
+      return 1.0;
+    }
 
     // Krippendorff's Alpha (interval metric) – simplified version
     double sum_var_items = 0.0;
@@ -397,7 +418,9 @@ double CalibrationManager::calculateInterAnnotatorAgreement(
             ++total;
         }
     }
-    if (total > 0) grand_mean /= static_cast<double>(total);
+    if (total > 0) {
+      grand_mean /= static_cast<double>(total);
+    }
     for (size_t k = 0; k < num_annotators; ++k) {
         for (size_t j = 0; j < num_items; ++j) {
             double d = annotations[k][j] - grand_mean;
@@ -446,7 +469,7 @@ bool CalibrationManager::loadModel(const std::string& filepath) {
     if (std::filesystem::exists(sha_path)) {
         std::ifstream sidecar(sha_path);
         if (sidecar.is_open()) {
-            std::string expected_hash;
+            std::string expected_hash = {};
             std::getline(sidecar, expected_hash);
             sidecar.close();
             

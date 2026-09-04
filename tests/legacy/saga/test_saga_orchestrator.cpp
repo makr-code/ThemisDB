@@ -85,7 +85,9 @@ SAGADefinition make_trivial_saga(const std::string& id = "s1",
     SAGAStep step;
     step.name = "only";
     step.forward = [forward_ok]() {
-        if (!forward_ok) throw std::runtime_error("forced failure");
+        if (!forward_ok) {
+          throw std::runtime_error("forced failure");
+        }
     };
     saga.steps.push_back(std::move(step));
     return saga;
@@ -196,7 +198,9 @@ TEST(SAGAOrchestratorTest, AC3_RetryPolicies_StepSucceedsOnSecondAttempt) {
     s.max_retries = 2;
     s.retry_delay = 1ms; // fast for tests
     s.forward     = [&attempts]() {
-        if (++attempts < 2) throw std::runtime_error("transient");
+        if (++attempts < 2) {
+          throw std::runtime_error("transient");
+        }
     };
     saga.steps.push_back(std::move(s));
 
@@ -367,7 +371,7 @@ TEST(SAGAOrchestratorTest, AC7_ComplexWorkflow_DiamondDAGExecutesCorrectly) {
     SAGAOrchestrator orch;
 
     std::vector<std::string> execution_order;
-    std::mutex mu;
+    std::mutex mu = {};
 
     auto track = [&](const std::string& name) {
         return [&execution_order, &mu, name]() {
@@ -597,7 +601,7 @@ TEST(SAGAOrchestratorTest, AC13_ExponentialBackoff_RetriesAreDelayed) {
     SAGAOrchestrator orch;
 
     std::vector<std::chrono::steady_clock::time_point> attempt_times;
-    std::mutex mu;
+    std::mutex mu = {};
 
     SAGADefinition saga;
     saga.id   = "backoff-1";
@@ -797,7 +801,7 @@ TEST(SAGAOrchestratorTest, AC19_Journal_WrittenWhenPathConfigured) {
         (std::filesystem::temp_directory_path() /
          ("saga_test_journal_" + std::to_string(ts) + ".jsonl"))
         .string();
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(journal_path, ec);
 
     SAGAOrchestrator::Config cfg;
@@ -810,7 +814,7 @@ TEST(SAGAOrchestratorTest, AC19_Journal_WrittenWhenPathConfigured) {
     EXPECT_TRUE(std::filesystem::exists(journal_path));
 
     std::ifstream ifs(journal_path);
-    std::string line;
+    std::string line = {};
     std::getline(ifs, line);
     EXPECT_NE(line.find("saga_started"), std::string::npos);
 
@@ -840,10 +844,14 @@ TEST(SAGAOrchestratorTest, AC20_ThreadSafety_ConcurrentExecuteCallsAreSafe) {
         threads.emplace_back([&orch, &succeeded, i]() {
             SAGADefinition saga = make_trivial_saga("thread-" + std::to_string(i));
             auto result = orch.execute(saga);
-            if (result.ok) ++succeeded;
+            if (result.ok) {
+              ++succeeded;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(succeeded.load(), N);
     auto m = orch.getMetrics();
@@ -1003,7 +1011,7 @@ TEST_F(SAGAOrchestratorFixtureTest, SingleStep_Success) {
 
 TEST_F(SAGAOrchestratorFixtureTest, MultiStep_Sequential_Success) {
     std::vector<int> order;
-    std::mutex mu;
+    std::mutex mu = {};
 
     SAGADefinition def;
     def.name           = "sequential";
@@ -1051,7 +1059,7 @@ TEST_F(SAGAOrchestratorFixtureTest, DAG_DependencyOrder_Enforced) {
     // reserve_inventory and validate_customer run first (wave 0)
     // charge_payment runs after both complete (wave 1)
     std::vector<std::string> execution_order;
-    std::mutex mu;
+    std::mutex mu = {};
 
     SAGADefinition def;
     def.name           = "dag_order";
@@ -1078,7 +1086,7 @@ TEST_F(SAGAOrchestratorFixtureTest, DAG_DependencyOrder_Enforced) {
 
 TEST_F(SAGAOrchestratorFixtureTest, StepFailure_TriggersCompensation) {
     std::vector<std::string> comp_log;
-    std::mutex mu;
+    std::mutex mu = {};
 
     SAGADefinition def;
     def.name           = "compensate_test";
@@ -1111,7 +1119,7 @@ TEST_F(SAGAOrchestratorFixtureTest, StepFailure_TriggersCompensation) {
 
 TEST_F(SAGAOrchestratorFixtureTest, Compensation_ReverseOrder) {
     std::vector<int> comp_order;
-    std::mutex mu;
+    std::mutex mu = {};
 
     SAGADefinition def;
     def.name           = "reverse_comp";
@@ -1173,7 +1181,9 @@ TEST_F(SAGAOrchestratorFixtureTest, RetryPolicy_SucceedsAfterRetries) {
     def.name = "retry_success";
     def.steps.push_back(makeStep("flaky", [&calls]{
         int n = ++calls;
-        if (n < 3) throw std::runtime_error("transient");
+        if (n < 3) {
+          throw std::runtime_error("transient");
+        }
     }, {}, {}, 2000ms, /*max_retries=*/3, /*retry_delay=*/1ms));
 
     auto st = orch.execute(def);
@@ -1275,7 +1285,7 @@ TEST_F(SAGAOrchestratorFixtureTest, Template_ExecuteFromTemplate) {
 TEST_F(SAGAOrchestratorFixtureTest, DAG_ThreeLevelDiamond_CorrectOrder) {
     // A → B, A → C, B → D, C → D  (diamond)
     std::vector<std::string> exec_order;
-    std::mutex mu;
+    std::mutex mu = {};
 
     auto record = [&](std::string name) -> std::function<void()> {
         return [&mu, &exec_order, name = std::move(name)]{
@@ -1402,7 +1412,9 @@ TEST_F(SAGAOrchestratorFixtureTest, Metrics_Retries_Counted) {
     SAGADefinition def;
     def.name = "metrics_retry";
     def.steps.push_back(makeStep("flaky", [&n]{
-        if (++n < 3) throw std::runtime_error("transient");
+        if (++n < 3) {
+          throw std::runtime_error("transient");
+        }
     }, {}, {}, 2000ms, /*max_retries=*/3, /*retry_delay=*/1ms));
 
     orch.execute(def);
@@ -1442,10 +1454,14 @@ TEST_F(SAGAOrchestratorFixtureTest, ConcurrentSAGAs_AllComplete) {
             def.steps.push_back(makeStep("s2", [&total_steps]{ ++total_steps; }, {}, {"s1"}));
 
             auto st = orch.execute(def);
-            if (st.ok) ++successes;
+            if (st.ok) {
+              ++successes;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(successes.load(), kSAGAs);
     EXPECT_EQ(total_steps.load(), kSAGAs * 2);
@@ -1500,7 +1516,7 @@ TEST_F(SAGAOrchestratorFixtureTest, Performance_ParallelFasterThanSequential) {
 
 TEST_F(SAGAOrchestratorFixtureTest, ChainedDependencies_Success) {
     std::vector<int> order;
-    std::mutex mu;
+    std::mutex mu = {};
 
     SAGADefinition def;
     def.name           = "chain";

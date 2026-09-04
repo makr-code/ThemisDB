@@ -61,10 +61,10 @@ static constexpr uint64_t kTemporalContractSeed = 42;
 // ============================================================================
 
 struct BiTemporalRow {
-    int         id;
-    std::int64_t valid_start;
+    int         id = 0;
+    std::int64_t valid_start = {};
     std::int64_t valid_end;   // kTemporalOpenEnd for open interval
-    std::int64_t tx_time;
+    std::int64_t tx_time = {};
     bool        soft_deleted = false;
 };
 
@@ -85,9 +85,12 @@ static std::vector<BiTemporalRow> mockSnapshotAt(
         const std::vector<BiTemporalRow>& store,
         std::int64_t t,
         std::int64_t snapshot_tx) {
-    std::vector<BiTemporalRow> result;
+    std::vector<BiTemporalRow> result = {};
+
     for (const auto& row : store) {
-        if (row.soft_deleted) continue;
+        if (row.soft_deleted) {
+          continue;
+        }
         if (row.tx_time > snapshot_tx) continue; // committed after snapshot
         if (row.valid_start <= t && t <= row.valid_end) {
             result.push_back(row);
@@ -113,7 +116,9 @@ static void mockApplyRetention(
 static std::size_t mockGcCount(const std::vector<BiTemporalRow>& store) {
     std::size_t count = 0;
     for (const auto& row : store) {
-        if (row.soft_deleted) ++count;
+        if (row.soft_deleted) {
+          ++count;
+        }
     }
     return count;
 }

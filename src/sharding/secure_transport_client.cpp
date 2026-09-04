@@ -90,34 +90,34 @@ bool SecureTransportClient::compressData(const std::string& data,
     }
     
     // Only compress if data exceeds threshold
-    if (data.size() < config_.compression_threshold) {
+    if (static_cast<int>(data.size()) < config_.compression_threshold) {
         return false;
     }
     
     try {
         if (config_.compression == Config::CompressionType::Zstd) {
             auto compressed_bytes = utils::zstd_compress(data, config_.compression_level);
-            if (!compressed_bytes.empty() && compressed_bytes.size() < data.size()) {
+            if (!compressed_bytes.empty() && static_cast<int>(compressed_bytes.size()) <static_cast<int>(data.size())) {
                 compressed = std::string(compressed_bytes.begin(), compressed_bytes.end());
                 if (compression_codec != nullptr) {
                     *compression_codec = "zstd";
                 }
                 spdlog::debug("SecureTransportClient: Compressed {} -> {} bytes (ratio: {:.2f}x)",
-                             data.size(), compressed.size(),
+                             data.size(),static_cast<int>(compressed.size()),
                              static_cast<double>(data.size()) / compressed.size());
                 return true;
             }
         }
         if (config_.compression == Config::CompressionType::LZ4) {
-            std::string lz4_output;
+            std::string lz4_output = {};
             const bool compressed_ok = lz4CompressFn_ && lz4CompressFn_(data, lz4_output);
-            if (compressed_ok && !lz4_output.empty() && lz4_output.size() < data.size()) {
+            if (compressed_ok && !lz4_output.empty() && static_cast<int>(lz4_output.size()) <static_cast<int>(data.size())) {
                 compressed = std::move(lz4_output);
                 if (compression_codec != nullptr) {
                     *compression_codec = "lz4";
                 }
                 spdlog::debug("SecureTransportClient: LZ4 compressed {} -> {} bytes (ratio: {:.2f}x)",
-                             data.size(), compressed.size(),
+                             data.size(),static_cast<int>(compressed.size()),
                              static_cast<double>(data.size()) / compressed.size());
                 return true;
             }
@@ -146,7 +146,7 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
     const Payload& payload,
     int retry_count
 ) {
-    TransferResult result;
+    TransferResult result = {};
     
     if (!mtls_client_ || !mtls_client_->isReady()) {
         result.error = "mTLS client not ready";
@@ -157,12 +157,12 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
     try {
         // Prepare payload
         size_t original_size = payload.data.size();
-        std::string transfer_data;
+        std::string transfer_data = {};
         bool compressed = false;
         std::string compression_codec = "none";
         
         // Try compression
-        std::string compressed_data;
+        std::string compressed_data = {};
         if (compressData(payload.data, compressed_data, &compression_codec)) {
             transfer_data = compressed_data;
             compressed = true;
@@ -210,7 +210,7 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
         spdlog::debug("SecureTransportClient: Sending {} bytes (compressed: {}) to {}{}",
                      original_size, compressed, endpoint, path);
         
-        std::string auth_header;
+        std::string auth_header = {};
         if (!payload.authorization_token.empty()) {
             auth_header = "Bearer " + payload.authorization_token;
         }

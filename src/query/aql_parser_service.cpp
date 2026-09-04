@@ -48,7 +48,7 @@ AQLParserServiceImpl::AQLParserServiceImpl(
 AQLParserServiceImpl::~AQLParserServiceImpl() = default;
 
 ParseResult AQLParserServiceImpl::parse(const std::string& aql_query) {
-    ParseResult result;
+    ParseResult result = {};
     
     if (aql_query.empty()) {
         result.success = false;

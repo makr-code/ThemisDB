@@ -79,7 +79,7 @@ int main() {
     
     // 2. Add some sample vectors
     std::cout << "2. Adding sample product vectors..." << std::endl;
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::normal_distribution<float> dist(0.0f, 1.0f);
     

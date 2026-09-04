@@ -70,7 +70,7 @@ static constexpr int kRepetitions = 5;
  * Gate: p99 ≤ 500 µs.
  */
 static void BM_MTN_DIST01_LeaderGatedDispatch(benchmark::State& state) {
-    std::mutex lock_mu;
+    std::mutex lock_mu = {};
     bool       is_leader = true;
     std::atomic<uint64_t> dispatch_count{0};
 
@@ -119,7 +119,8 @@ static void BM_MTN_DIST02_ScheduleListing(benchmark::State& state) {
     }
 
     for (auto _ : state) {
-        std::vector<maintenance::MaintenanceScheduleEntry> result;
+        std::vector<maintenance::MaintenanceScheduleEntry> result = {};
+
         result.reserve(schedules.size());
         for (const auto& [id, entry] : schedules) {
             result.push_back(entry);

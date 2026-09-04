@@ -64,15 +64,19 @@ static constexpr uint64_t kTimeseriesContractSeed = 42;
 // ============================================================================
 
 struct TimePoint {
-    std::int64_t ts_ns;
-    double       value;
+    std::int64_t ts_ns = {};
+    double       value = {};
 };
 
 /// Validates that the new point's timestamp is strictly greater than tail.
 static std::optional<TimeseriesErrorCode> mockWritePoint(
         std::int64_t tail_ts, std::int64_t new_ts) {
-    if (new_ts <= 0LL) return TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER;
-    if (new_ts <= tail_ts) return TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER;
+    if (new_ts <= 0LL) {
+      return TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER;
+    }
+    if (new_ts <= tail_ts) {
+      return TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER;
+    }
     return std::nullopt;
 }
 
@@ -83,7 +87,8 @@ static std::vector<TimePoint> mockRangeQuery(
         std::int64_t end_ns,
         bool series_exists = true) {
     if (!series_exists) return {}; // caller checks SERIES_NOT_FOUND separately
-    std::vector<TimePoint> result;
+    std::vector<TimePoint> result = {};
+
     for (const auto& p : series) {
         if (p.ts_ns >= start_ns && p.ts_ns <= end_ns) {
             result.push_back(p);
@@ -93,20 +98,22 @@ static std::vector<TimePoint> mockRangeQuery(
 }
 
 static std::optional<TimeseriesErrorCode> mockSeriesCheck(bool exists) {
-    if (!exists) return TimeseriesErrorCode::SERIES_NOT_FOUND;
+    if (!exists) {
+      return TimeseriesErrorCode::SERIES_NOT_FOUND;
+    }
     return std::nullopt;
 }
 
 /// Gorilla encode: stores the raw IEEE 754 bits (lossless mock).
 static std::uint64_t mockGorillaEncode(double v) {
-    std::uint64_t bits;
+    std::uint64_t bits = 0;
     std::memcpy(&bits, &v, sizeof(bits));
     return bits;
 }
 
 /// Gorilla decode: restores the raw IEEE 754 bits.
 static double mockGorillaDecode(std::uint64_t bits) {
-    double v;
+    double v = 0;
     std::memcpy(&v, &bits, sizeof(v));
     return v;
 }
@@ -116,7 +123,9 @@ static std::optional<TimeseriesErrorCode> mockDownsample(
         const std::vector<TimePoint>& input,
         std::int64_t resolution_ns,
         std::vector<double>& out_buckets) {
-    if (resolution_ns <= 0) return TimeseriesErrorCode::DOWNSAMPLING_RESOLUTION_INVALID;
+    if (resolution_ns <= 0) {
+      return TimeseriesErrorCode::DOWNSAMPLING_RESOLUTION_INVALID;
+    }
     if (input.empty()) {
         out_buckets.clear();
         return std::nullopt;
@@ -229,9 +238,9 @@ TEST(TimeseriesContractHardening, TSCH09_GorillaRoundTripArbitrary) {
         auto bits   = mockGorillaEncode(original);
         double decoded  = mockGorillaDecode(bits);
         // Bit-identical round-trip
-        std::uint64_t orig_bits;
+        std::uint64_t orig_bits = {};
         std::memcpy(&orig_bits, &original, sizeof(orig_bits));
-        std::uint64_t dec_bits;
+        std::uint64_t dec_bits = {};
         std::memcpy(&dec_bits, &decoded,   sizeof(dec_bits));
         EXPECT_EQ(orig_bits, dec_bits) << "Round-trip failed for value=" << original;
     }
@@ -272,7 +281,8 @@ TEST(TimeseriesContractHardening, TSCH12_NegInfPreservedGorilla) {
 
 /// TSCH-13: Output bucket count is deterministic for given resolution.
 TEST(TimeseriesContractHardening, TSCH13_DownsamplingCountDeterministic) {
-    std::vector<TimePoint> series;
+    std::vector<TimePoint> series = {};
+
     for (int i = 0; i < 1000; ++i) {
         series.push_back({static_cast<std::int64_t>(i) * 1'000'000LL, static_cast<double>(i)});
     }

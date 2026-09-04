@@ -97,7 +97,8 @@ std::optional<std::string> TierSelector::selectTier(
 
     // Find the coarsest tier whose resolution <= requested_resolution.
     // Tiers are ordered finest→coarsest, so we iterate in reverse.
-    std::optional<const DownsamplingTier*> best;
+    std::optional<const DownsamplingTier*> best = {};
+
     for (auto& tier : tiers) {
         if (tier.resolution <= requested_resolution) {
             best = &tier;
@@ -145,7 +146,7 @@ void DownsamplingPipeline::addPolicy([[maybe_unused]] const DownsamplingPolicy& 
     tier_selector_.registerPolicy(policy);
 
     THEMIS_INFO("DownsamplingPipeline: registered policy for '{}' with {} tier(s)",
-                policy.metric, policy.tiers.size());
+                policy.metric,static_cast<int>(policy.tiers.size()));
 }
 
 size_t DownsamplingPipeline::refresh(int64_t to_ms) {
@@ -217,7 +218,7 @@ size_t DownsamplingPipeline::refreshTier(
 
     // We don't have a direct "points written" count from ContinuousAggregateManager,
     // so return a positive sentinel to signal progress.
-    return (to_ms > from_ms) ? 1u : 0u;
+    return (to_ms > from_ms) ? 1 : 0;
 }
 
 int64_t DownsamplingPipeline::getWatermark(

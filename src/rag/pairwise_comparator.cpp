@@ -27,7 +27,7 @@ struct PairwiseComparator::Impl {
     Config config;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
     ResponseParser parser;
-    std::mt19937 rng;
+    std::mt19937 rng = {};
     mutable std::mutex scores_mutex;
     
     Impl() : rng(std::random_device{}()) {}
@@ -41,7 +41,7 @@ struct PairwiseComparator::Impl {
         const std::string& label_first,
         const std::string& label_second
     ) {
-        std::ostringstream prompt;
+        std::ostringstream prompt = {};
         
         prompt << "Compare two answers to the following query and determine which is better.\n\n";
         prompt << "Query: " << query << "\n\n";
@@ -49,7 +49,7 @@ struct PairwiseComparator::Impl {
         // Add documents
         if (!documents.empty()) {
             prompt << "Retrieved Documents:\n";
-            for (size_t i = 0; i < documents.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(documents.size()); ++i) {
                 prompt << "Document " << (i+1) << ": " << documents[i].second << "\n";
             }
             prompt << "\n";
@@ -87,8 +87,12 @@ Winner:)";
             
             if (j.contains("winner")) {
                 std::string winner_str = j["winner"].get<std::string>();
-                if (winner_str == "A") return ComparisonWinner::ANSWER_A;
-                if (winner_str == "B") return ComparisonWinner::ANSWER_B;
+                if (winner_str == "A") {
+                  return ComparisonWinner::ANSWER_A;
+                }
+                if (winner_str == "B") {
+                  return ComparisonWinner::ANSWER_B;
+                }
                 return ComparisonWinner::TIE;
             }
         } catch (const std::exception& e) {
@@ -140,7 +144,7 @@ ComparisonWinner PairwiseComparator::compareWithLLM(
     const std::string& answer_b,
     bool order_a_first
 ) {
-    std::string prompt;
+    std::string prompt = {};
     
     if (order_a_first) {
         prompt = impl_->generateComparisonPrompt(
@@ -271,7 +275,7 @@ PairwiseComparisonResult PairwiseComparator::compare(
             // Multiple evaluations with random orders
             std::vector<ComparisonWinner> results;
             
-            int num_samples;
+            int num_samples = {};
             {
                 std::lock_guard<std::mutex> lock(impl_->scores_mutex);
                 num_samples = impl_->config.num_samples;
@@ -281,7 +285,7 @@ PairwiseComparisonResult PairwiseComparator::compare(
             std::uniform_int_distribution<> dist(0, 1);
              
             for (int i = 0; i < num_samples; ++i) {
-                bool a_first;
+                bool a_first = 0;
                 {
                     std::lock_guard<std::mutex> lock(impl_->scores_mutex);
                     a_first = dist(impl_->rng) == 0;
@@ -294,7 +298,9 @@ PairwiseComparisonResult PairwiseComparator::compare(
             // Count votes
             int a_votes = 0, b_votes = 0, tie_votes = 0;
             for (auto winner : results) {
-                if (winner == ComparisonWinner::ANSWER_A) a_votes++;
+                if (winner == ComparisonWinner::ANSWER_A) {
+                  a_votes++;
+                }
                 else if (winner == ComparisonWinner::ANSWER_B) b_votes++;
                 else tie_votes++;
             }
@@ -316,7 +322,7 @@ PairwiseComparisonResult PairwiseComparator::compare(
     }
     
     // Generate reasoning
-    std::ostringstream reasoning;
+    std::ostringstream reasoning = {};
     reasoning << "Winner: ";
     switch (result.overall_winner) {
         case ComparisonWinner::ANSWER_A: reasoning << "Answer A"; break;

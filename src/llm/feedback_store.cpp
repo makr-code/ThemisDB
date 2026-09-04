@@ -44,8 +44,12 @@ static std::string feedbackTypeToString(FeedbackType type) {
 }
 
 static FeedbackType feedbackTypeFromString(const std::string& str) {
-    if (str == "positive") return FeedbackType::POSITIVE;
-    if (str == "negative") return FeedbackType::NEGATIVE;
+    if (str == "positive") {
+      return FeedbackType::POSITIVE;
+    }
+    if (str == "negative") {
+      return FeedbackType::NEGATIVE;
+    }
     throw std::invalid_argument("Invalid feedback type: " + str + " (must be 'positive' or 'negative')");
 }
 
@@ -60,10 +64,18 @@ static std::string validationStatusToString(ValidationStatus status) {
 }
 
 static ValidationStatus validationStatusFromString(const std::string& str) {
-    if (str == "pending") return ValidationStatus::PENDING;
-    if (str == "approved") return ValidationStatus::APPROVED;
-    if (str == "rejected") return ValidationStatus::REJECTED;
-    if (str == "flagged") return ValidationStatus::FLAGGED;
+    if (str == "pending") {
+      return ValidationStatus::PENDING;
+    }
+    if (str == "approved") {
+      return ValidationStatus::APPROVED;
+    }
+    if (str == "rejected") {
+      return ValidationStatus::REJECTED;
+    }
+    if (str == "flagged") {
+      return ValidationStatus::FLAGGED;
+    }
     throw std::invalid_argument("Invalid validation status: " + str);
 }
 
@@ -186,7 +198,7 @@ std::string FeedbackStore::generateId() const {
     auto now = std::chrono::system_clock::now().time_since_epoch();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         << std::setw(12) << ms
         << "-"
@@ -241,7 +253,7 @@ FeedbackStore::FeedbackEntry FeedbackStore::createFeedback(FeedbackEntry feedbac
 
 std::optional<FeedbackStore::FeedbackEntry> FeedbackStore::getFeedback(const std::string& id) const {
     std::string key = makeKey(id);
-    std::string value;
+    std::string value = {};
     
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
@@ -819,7 +831,7 @@ std::vector<FeedbackStore::FeedbackEntry> FeedbackStore::getFeedbackForAdapter(
             
             if (matches) {
                 results.push_back(*feedback);
-                if (results.size() >= options.limit) {
+                if (static_cast<int>(results.size()) > = options.limit) {
                     break;
                 }
             }
@@ -883,7 +895,7 @@ bool FeedbackStore::isLinkedToAdapter(
     const std::string& adapter_id) const {
     
     std::string key = makeGraphEdgeKey(feedback_id, adapter_id);
-    std::string value;
+    std::string value = {};
     
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;

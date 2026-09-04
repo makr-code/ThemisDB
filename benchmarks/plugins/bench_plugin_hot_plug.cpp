@@ -37,7 +37,7 @@ constexpr int DEBOUNCE_WAIT_MS = 600;
 
 class HotPlugBenchmarkFixture : public benchmark::Fixture {
 public:
-    std::string test_dir;
+    std::string test_dir = {};
     PluginManager* manager;
     
     void SetUp(const benchmark::State& state) override {
@@ -290,7 +290,8 @@ BENCHMARK_F(HotPlugBenchmarkFixture, MonitorMemoryFootprint)(benchmark::State& s
         state.PauseTiming();
         
         // Create multiple watch directories
-        std::vector<std::string> watch_dirs;
+        std::vector<std::string> watch_dirs = {};
+
         for (int i = 0; i < num_watches; i++) {
             std::string dir = test_dir + "_watch_" + std::to_string(i);
             fs::create_directories(dir);

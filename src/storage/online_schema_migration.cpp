@@ -30,7 +30,7 @@ namespace storage {
 namespace {
 
 std::string normalizePropertyType(const std::string& type) {
-    std::string trimmed;
+    std::string trimmed = {};
     trimmed.reserve(type.size());
     for (char ch : type) {
         if (!std::isspace(static_cast<unsigned char>(ch))) {
@@ -42,7 +42,7 @@ std::string normalizePropertyType(const std::string& type) {
     std::transform(upper.begin(), upper.end(), upper.begin(),
                    [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
 
-    auto starts_with = [&](const char* prefix) {
+    auto starts_with = [&]([[maybe_unused]] const char* prefix) {
         const std::string p(prefix);
         return upper.rfind(p, 0) == 0;
     };
@@ -228,7 +228,8 @@ MigrationResult SchemaMigrator::migrate()
     // per-table (online semantics: each table flip is done atomically).
 
     // Gather unique table names preserving order
-    std::vector<std::string> tables;
+    std::vector<std::string> tables = {};
+
     for (const auto& op : ops_) {
         // repeated_search scanner alert: this linear scan is over the tiny set of
         // tables touched by a single migration batch, so the cost is negligible
@@ -246,7 +247,9 @@ MigrationResult SchemaMigrator::migrate()
         if (!schema_opt.has_value()) {
             std::string msg = "table '" + table + "' not found in SchemaManager";
             result.errors.push_back(msg);
-            if (result.error_message.empty()) result.error_message = msg;
+            if (result.error_message.empty()) {
+              result.error_message = msg;
+            }
             LOG_ERROR("SchemaMigrator: {}", msg);
             if (config_.abort_on_first_error) {
                 phase_.store(OnlineDDLPhase::FAILED, std::memory_order_relaxed);
@@ -259,7 +262,9 @@ MigrationResult SchemaMigrator::migrate()
 
         // Apply operations for this table in staging order
         for (const auto& op : ops_) {
-            if (op.table_name != table) continue;
+            if (op.table_name != table) {
+              continue;
+            }
 
             MigrationResult op_result;
             switch (op.type) {
@@ -305,7 +310,9 @@ MigrationResult SchemaMigrator::migrate()
         if (!schema_mgr_.setTableSchema(table, schema)) {
             std::string msg = "failed to persist updated schema for table '" + table + "'";
             result.errors.push_back(msg);
-            if (result.error_message.empty()) result.error_message = msg;
+            if (result.error_message.empty()) {
+              result.error_message = msg;
+            }
             LOG_ERROR("SchemaMigrator: {}", msg);
             if (config_.abort_on_first_error) {
                 phase_.store(OnlineDDLPhase::FAILED, std::memory_order_relaxed);
@@ -326,7 +333,7 @@ MigrationResult SchemaMigrator::migrate()
     result.phase       = OnlineDDLPhase::COMPLETED;
 
     LOG_INFO("SchemaMigrator: migration v{} completed; {} op(s) applied across {} table(s)",
-             version_, result.ops_applied, tables.size());
+             version_, result.ops_applied,static_cast<int>(tables.size()));
 
     // Reset staging queue for reuse
     ops_.clear();
@@ -351,7 +358,7 @@ void SchemaMigrator::reset()
 
 size_t SchemaMigrator::pendingOps() const noexcept
 {
-    return ops_.size();
+    return static_cast<int>(ops_.size());
 }
 
 OnlineDDLPhase SchemaMigrator::currentPhase() const noexcept
@@ -371,7 +378,7 @@ const std::vector<MigrationOp>& SchemaMigrator::stagedOps() const noexcept
 MigrationResult SchemaMigrator::applyAddColumn(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
-    MigrationResult r;
+    MigrationResult r = {};
 
     if (op.column_name.empty()) {
         r.error_message = "ADD_COLUMN: column name must not be empty";
@@ -409,7 +416,7 @@ MigrationResult SchemaMigrator::applyDropColumn(
     MigrationResult r;
 
     auto it = std::find_if(schema.properties.begin(), schema.properties.end(),
-                           [&](const SchemaManager::PropertyInfo& p) {
+                           [&]([[maybe_unused]] const SchemaManager::PropertyInfo& p) {
                                return p.name == op.column_name;
                            });
 
@@ -422,7 +429,7 @@ MigrationResult SchemaMigrator::applyDropColumn(
     // Also remove any index referencing this column
     schema.indexes.erase(
         std::remove_if(schema.indexes.begin(), schema.indexes.end(),
-                       [&](const SchemaManager::IndexInfo& idx) {
+                       [&]([[maybe_unused]] const SchemaManager::IndexInfo& idx) {
                            return idx.name == op.column_name ||
                                   (!idx.columns.empty() && idx.columns[0] == op.column_name);
                        }),
@@ -439,7 +446,7 @@ MigrationResult SchemaMigrator::applyDropColumn(
 MigrationResult SchemaMigrator::applyRenameColumn(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
-    MigrationResult r;
+    MigrationResult r = {};
 
     if (op.new_name.empty()) {
         r.error_message = "RENAME_COLUMN: new_name must not be empty";
@@ -460,7 +467,7 @@ MigrationResult SchemaMigrator::applyRenameColumn(
     }
 
     auto it = std::find_if(schema.properties.begin(), schema.properties.end(),
-                           [&](const SchemaManager::PropertyInfo& p) {
+                           [&]([[maybe_unused]] const SchemaManager::PropertyInfo& p) {
                                return p.name == op.column_name;
                            });
 
@@ -474,9 +481,13 @@ MigrationResult SchemaMigrator::applyRenameColumn(
 
     // Update any index that references the old column name
     for (auto& idx : schema.indexes) {
-        if (idx.name == op.column_name) idx.name = op.new_name;
+        if (idx.name == op.column_name) {
+          idx.name = op.new_name;
+        }
         for (auto& col : idx.columns) {
-            if (col == op.column_name) col = op.new_name;
+            if (col == op.column_name) {
+              col = op.new_name;
+            }
         }
     }
 
@@ -489,7 +500,7 @@ MigrationResult SchemaMigrator::applyRenameColumn(
 MigrationResult SchemaMigrator::applyChangeColumnType(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
-    MigrationResult r;
+    MigrationResult r = {};
 
     if (op.column_type.empty()) {
         r.error_message = "CHANGE_COLUMN_TYPE: new type must not be empty";
@@ -497,7 +508,7 @@ MigrationResult SchemaMigrator::applyChangeColumnType(
     }
 
     auto it = std::find_if(schema.properties.begin(), schema.properties.end(),
-                           [&](const SchemaManager::PropertyInfo& p) {
+                           [&]([[maybe_unused]] const SchemaManager::PropertyInfo& p) {
                                return p.name == op.column_name;
                            });
 
@@ -520,7 +531,7 @@ MigrationResult SchemaMigrator::applyChangeColumnType(
 MigrationResult SchemaMigrator::applyAddIndex(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
-    MigrationResult r;
+    MigrationResult r = {};
 
     if (op.column_name.empty()) {
         r.error_message = "ADD_INDEX: column name must not be empty";
@@ -529,7 +540,7 @@ MigrationResult SchemaMigrator::applyAddIndex(
 
     // Verify the column exists
     bool col_exists = std::any_of(schema.properties.begin(), schema.properties.end(),
-                                  [&](const SchemaManager::PropertyInfo& p) {
+                                  [&]([[maybe_unused]] const SchemaManager::PropertyInfo& p) {
                                       return p.name == op.column_name;
                                   });
     if (!col_exists) {
@@ -540,7 +551,7 @@ MigrationResult SchemaMigrator::applyAddIndex(
 
     // Check for duplicate index
     bool idx_exists = std::any_of(schema.indexes.begin(), schema.indexes.end(),
-                                  [&](const SchemaManager::IndexInfo& idx) {
+                                  [&]([[maybe_unused]] const SchemaManager::IndexInfo& idx) {
                                       return idx.name == op.column_name;
                                   });
     if (idx_exists) {
@@ -579,7 +590,7 @@ MigrationResult SchemaMigrator::applyDropIndex(
     MigrationResult r;
 
     auto it = std::find_if(schema.indexes.begin(), schema.indexes.end(),
-                           [&](const SchemaManager::IndexInfo& idx) {
+                           [&]([[maybe_unused]] const SchemaManager::IndexInfo& idx) {
                                return idx.name == op.column_name;
                            });
 
@@ -609,7 +620,7 @@ MigrationResult SchemaMigrator::applyDropIndex(
 MigrationResult SchemaMigrator::applyPartitionTable(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
-    MigrationResult r;
+    MigrationResult r = {};
 
     if (op.partition_key.empty()) {
         r.error_message = "PARTITION_TABLE: partition_key must not be empty";
@@ -622,7 +633,7 @@ MigrationResult SchemaMigrator::applyPartitionTable(
 
     // Verify partition key column exists
     bool key_exists = std::any_of(schema.properties.begin(), schema.properties.end(),
-                                  [&](const SchemaManager::PropertyInfo& p) {
+                                  [&]([[maybe_unused]] const SchemaManager::PropertyInfo& p) {
                                       return p.name == op.partition_key;
                                   });
     if (!key_exists) {

@@ -77,14 +77,14 @@ MemoryPolicy::PressureLevel MemoryPolicy::getPressureLevel(
     return PressureLevel::NORMAL;
 }
 
-bool MemoryPolicy::isUnderPressure(uint64_t current_bytes) const {
+bool MemoryPolicy::isUnderPressure([[maybe_unused]] uint64_t current_bytes) const {
     return getPressureLevel(current_bytes) >= PressureLevel::ELEVATED;
 }
 
 void MemoryPolicy::recordPressureEvent(const MemoryPressureEvent& event) const {
     pressure_events_.push_back(event);
 
-    std::string level_str;
+    std::string level_str = {};
     switch (event.level) {
         case PressureLevel::NORMAL:
             level_str = "NORMAL";
@@ -187,7 +187,7 @@ bool ResultAccumulator::addResultWithSize(
 
     // Check if shard has too many batches
     auto& shard_batches = shard_batches_[shard_id];
-    if (shard_batches.size() >= policy_.max_batches_per_shard_) {
+    if (static_cast<int>(shard_batches.size()) > = policy_.max_batches_per_shard_) {
         spdlog::warn(
             "Shard {} has exceeded max batches: {}",
             shard_id,
@@ -295,7 +295,7 @@ bool ResultAccumulator::isUnderPressure() const {
 size_t ResultAccumulator::getResultCount(const std::string& shard_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = shard_batches_.find(shard_id);
-    return it != shard_batches_.end() ? it->second.size() : 0;
+    return static_cast<bool>(it != shard_batches_.end() ? it- < static_cast<int>(second.size())) : 0;
 }
 
 size_t ResultAccumulator::getTotalResultCount() const {
@@ -350,7 +350,7 @@ uint64_t ResultAccumulator::estimateJsonSize(const nlohmann::json& json) const {
     return json.dump().size();
 }
 
-void ResultAccumulator::handleMemoryPressure(uint64_t needed_bytes) {
+void ResultAccumulator::handleMemoryPressure([[maybe_unused]] uint64_t needed_bytes) {
     std::string reason = "Adding batch of " + std::to_string(needed_bytes) +
                         " bytes would exceed limit";
 
@@ -387,7 +387,7 @@ void ResultAccumulator::dropOldestBatch() {
     }
 
     // Find shard with oldest batch
-    std::string oldest_shard;
+    std::string oldest_shard = {};
     size_t oldest_index = 0;
     auto oldest_time = std::chrono::steady_clock::now();
 
@@ -419,7 +419,7 @@ void ResultAccumulator::truncateResults() {
     uint64_t freed = 0;
 
     for (auto& [shard_id, batches] : shard_batches_) {
-        while (batches.size() > 1) {
+        while (static_cast<int>(batches.size()) > 1) {
             const auto& batch = batches.back();
             freed += batch.size_bytes;
             current_memory_bytes_ -= batch.size_bytes;

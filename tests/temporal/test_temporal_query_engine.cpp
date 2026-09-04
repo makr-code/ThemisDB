@@ -296,7 +296,9 @@ TEST_F(TemporalQueryEngineTest, QuerySequenced_PeriodOverlap_ReturnsVersionsInRa
     EXPECT_GE(rows.size(), 2u);
     bool emp2_found = false;
     for (const auto& r : rows) {
-        if (r.data.value("name", "") == "Bob") emp2_found = true;
+        if (r.data.value("name", "") == "Bob") {
+          emp2_found = true;
+        }
     }
     EXPECT_TRUE(emp2_found);
 }
@@ -384,8 +386,12 @@ TEST_F(ApplicationTimeTest, QueryApplicationTime_PointInRange_ReturnsActiveRows)
     EXPECT_EQ(rows.size(), 2u);
     bool c1_found = false, c2_found = false;
     for (const auto& r : rows) {
-        if (r.key == "c1") c1_found = true;
-        if (r.key == "c2") c2_found = true;
+        if (r.key == "c1") {
+          c1_found = true;
+        }
+        if (r.key == "c2") {
+          c2_found = true;
+        }
     }
     EXPECT_TRUE(c1_found);
     EXPECT_TRUE(c2_found);
@@ -653,8 +659,12 @@ TEST_F(ExecuteBiTemporalQueryTest, BT_SpecAsOf_PointInRange_ReturnsActiveRows) {
     EXPECT_EQ(rows.size(), 2u);
     bool c1 = false, c2 = false;
     for (const auto& r : rows) {
-        if (r.key == "c1") c1 = true;
-        if (r.key == "c2") c2 = true;
+        if (r.key == "c1") {
+          c1 = true;
+        }
+        if (r.key == "c2") {
+          c2 = true;
+        }
     }
     EXPECT_TRUE(c1);
     EXPECT_TRUE(c2);
@@ -674,7 +684,9 @@ TEST_F(ExecuteBiTemporalQueryTest, BT_SpecBetweenAnd_ClosedBound_IncludesEndpoin
     EXPECT_GE(rows.size(), 1u);
     bool c2_found = false;
     for (const auto& r : rows) {
-        if (r.key == "c2") c2_found = true;
+        if (r.key == "c2") {
+          c2_found = true;
+        }
     }
     EXPECT_TRUE(c2_found);
 }
@@ -687,8 +699,12 @@ TEST_F(ExecuteBiTemporalQueryTest, BT_SpecContainedIn_OnlyFullyContainedRows) {
     // c3 must be present; c2 must not (it starts at 3000 < 5000)
     bool c3_found = false, c2_found = false;
     for (const auto& r : rows) {
-        if (r.key == "c3") c3_found = true;
-        if (r.key == "c2") c2_found = true;
+        if (r.key == "c3") {
+          c3_found = true;
+        }
+        if (r.key == "c2") {
+          c2_found = true;
+        }
     }
     EXPECT_TRUE(c3_found);
     EXPECT_FALSE(c2_found);
@@ -781,7 +797,9 @@ TEST(SequencedDistinctTest, SD_03_AdjacentSameData_Coalesced) {
     // The two adjacent equal-data intervals should coalesce into one.
     size_t k1_count = 0;
     for (const auto& row : all) {
-        if (row.key == "k1") ++k1_count;
+        if (row.key == "k1") {
+          ++k1_count;
+        }
     }
     EXPECT_EQ(k1_count, 1u);
 }
@@ -794,7 +812,9 @@ TEST(SequencedDistinctTest, SD_04_DifferentData_NotCoalesced) {
     auto result = TemporalQueryEngine::sequencedDistinct(t, {"v"});
     size_t k1_count = 0;
     for (const auto& row : result) {
-        if (row.key == "k1") ++k1_count;
+        if (row.key == "k1") {
+          ++k1_count;
+        }
     }
     // Two distinct data values → two rows after coalescing.
     EXPECT_GE(k1_count, 1u);
@@ -819,7 +839,9 @@ TEST(SequencedDistinctTest, SD_06_EmptyCompareFields_ComparesAll) {
     auto result = TemporalQueryEngine::sequencedDistinct(t);  // compare all fields
     size_t k1_count = 0;
     for (const auto& row : result) {
-        if (row.key == "k1") ++k1_count;
+        if (row.key == "k1") {
+          ++k1_count;
+        }
     }
     EXPECT_EQ(k1_count, 1u);
 }

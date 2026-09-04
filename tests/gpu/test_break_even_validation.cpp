@@ -446,7 +446,7 @@ TEST_F(BreakEvenValidatorTest, Concurrency_MultipleThreads_ShouldUseGPU) {
 
     std::vector<std::thread> threads;
     std::vector<BreakEvenDecision> decisions;
-    std::mutex decisions_mu;
+    std::mutex decisions_mu = {};
 
     for (int i = 0; i < 10; ++i) {
         threads.emplace_back([&] {
@@ -473,7 +473,8 @@ TEST_F(BreakEvenValidatorTest, Concurrency_MultipleThreads_ShouldUseGPU) {
 TEST_F(BreakEvenValidatorTest, Concurrency_Profile_WithMultipleThreads) {
     auto profile = MakeProfile(KernelType::kDistance, 100'000);
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 5; ++i) {
         threads.emplace_back([&] {
             validator_.Profile(profile);

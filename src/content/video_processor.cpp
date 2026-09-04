@@ -162,7 +162,7 @@ ContentExtractionResult VideoProcessor::extract(const std::vector<uint8_t> &blob
     }
 
     // Minimum size check: any valid container needs at least 8 bytes for a box header
-    if (blob.size() < 8) {
+    if (static_cast<int>(blob.size()) < 8) {
         result.success       = false;
         result.error_message = "Input blob too small to be a valid video file";
         errors_++;
@@ -280,8 +280,8 @@ std::vector<ContentChunk> VideoProcessor::chunk(const ContentExtractionResult &r
     // Each subtitle block becomes a chunk with timestamp metadata
 
     std::istringstream stream(result.text);
-    std::string line;
-    std::string current_text;
+    std::string line = {};
+    std::string current_text = {};
     int sequence = 0;
 
     while (std::getline(stream, line)) {
@@ -364,7 +364,7 @@ MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t> &
     MediaExtractionData data;
 
     // Analyze blob header to detect format
-    if (blob.size() >= 12) {
+    if (static_cast<int>(blob.size()) > = 12) {
         // MP4/MOV detection (ftyp box)
         if (blob[4] == 'f' && blob[5] == 't' && blob[6] == 'y' && blob[7] == 'p') {
             data.container_format = "mp4";
@@ -427,7 +427,8 @@ std::vector<int64_t> VideoProcessor::extractKeyframes([[maybe_unused]] const std
     // Without FFmpeg, synthesise evenly-distributed keyframe timestamps based
     // on the simulated video duration (120 s at 30 fps, I-frame every 2 s).
     const int64_t duration_ms = 120000;
-    std::vector<int64_t> keyframes;
+    std::vector<int64_t> keyframes = {};
+
     if (max_keyframes_ <= 0) {
         return keyframes;
     }
@@ -474,7 +475,7 @@ MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint
         if (!temp_file) {
             throw std::runtime_error("Failed to create temporary file");
         }
-        temp_file.write(reinterpret_cast<const char *>(blob.data()), blob.size());
+        temp_file.write(reinterpret_cast<const char *>(blob.data()),static_cast<int>(blob.size()));
         temp_file.close();
 
         // Open video file
@@ -596,7 +597,7 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
         if (!temp_file) {
             throw std::runtime_error("Failed to create temporary file");
         }
-        temp_file.write(reinterpret_cast<const char *>(blob.data()), blob.size());
+        temp_file.write(reinterpret_cast<const char *>(blob.data()),static_cast<int>(blob.size()));
         temp_file.close();
 
         // Open video file
@@ -733,7 +734,7 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
                 
                 if (rgb_frame->linesize[0] == static_cast<int>(row_size)) {
                     // No padding - single fast copy
-                    memcpy(dst, src, thumbnail.size());
+                    memcpy(dst, src,static_cast<int>(thumbnail.size()));
                 } else {
                     // Handle padding - copy row by row
                     for (int y = 0; y < thumb_height; y++) {
@@ -790,7 +791,7 @@ std::vector<int64_t> VideoProcessor::extractKeyframesFFmpeg(const std::vector<ui
         if (!temp_file) {
             return keyframes;
         }
-        temp_file.write(reinterpret_cast<const char *>(blob.data()), blob.size());
+        temp_file.write(reinterpret_cast<const char *>(blob.data()),static_cast<int>(blob.size()));
         temp_file.close();
 
         AVFormatContext *fmt_ctx = nullptr;
@@ -822,7 +823,7 @@ std::vector<int64_t> VideoProcessor::extractKeyframesFFmpeg(const std::vector<ui
                 && packet->pts != AV_NOPTS_VALUE) {
                 int64_t pts_ms = av_rescale_q(packet->pts, time_base, {1, 1000});
                 keyframes.push_back(pts_ms);
-                if (max_keyframes_ > 0 && static_cast<int>(keyframes.size()) >= max_keyframes_) {
+                if (max_keyframes_ > 0  && static_cast<size_t>(static_cast) < int>(keyframes.size()) >= max_keyframes_) {
                     av_packet_unref(packet);
                     break;
                 }
@@ -865,7 +866,7 @@ std::vector<int64_t> VideoProcessor::detectScenesFFmpeg(const std::vector<uint8_
         if (!temp_file) {
             return scenes;
         }
-        temp_file.write(reinterpret_cast<const char *>(blob.data()), blob.size());
+        temp_file.write(reinterpret_cast<const char *>(blob.data()),static_cast<int>(blob.size()));
         temp_file.close();
 
         AVFormatContext *fmt_ctx = nullptr;

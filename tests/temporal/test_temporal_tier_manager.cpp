@@ -39,7 +39,9 @@ static VersionedDocument makeDoc(const std::string& key,
 // TTM-BLOOM-01: Inserted timestamps are always found (no false negatives).
 TEST(BloomFilterTierManagerTest, InsertedAlwaysFound) {
     BloomFilter bf(100);
-    for (int i = 0; i < 100; ++i) bf.add(static_cast<int64_t>(i * 13));
+    for (int i = 0; i < 100; ++i) {
+      bf.add(static_cast<int64_t>(i * 13));
+    }
     for (int i = 0; i < 100; ++i)
         EXPECT_TRUE(bf.mightContain(static_cast<int64_t>(i * 13)));
 }
@@ -48,10 +50,14 @@ TEST(BloomFilterTierManagerTest, InsertedAlwaysFound) {
 TEST(BloomFilterTierManagerTest, FalsePositiveRateAcceptable) {
     constexpr int N = 500;
     BloomFilter bf(N, 8);
-    for (int i = 0; i < N; ++i) bf.add(static_cast<int64_t>(i));
+    for (int i = 0; i < N; ++i) {
+      bf.add(static_cast<int64_t>(i));
+    }
     int fp = 0;
     for (int i = N; i < N * 2; ++i)
-        if (bf.mightContain(static_cast<int64_t>(i))) ++fp;
+        if (bf.mightContain(static_cast<int64_t>(i))) {
+          ++fp;
+        }
     EXPECT_LT(static_cast<double>(fp) / N, 0.15);
 }
 
@@ -413,7 +419,8 @@ TEST(TierManagerConcurrencyTest, ConcurrentReads_NoDeadlock) {
         mgr.insert("t", makeDoc("k", i * 10, (i + 1) * 10));
 
     std::atomic<int> hits{0};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 8; ++t) {
         threads.emplace_back([&, t]() {
             for (int q = 0; q < 50; ++q) {
@@ -424,6 +431,8 @@ TEST(TierManagerConcurrencyTest, ConcurrentReads_NoDeadlock) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(hits.load(), 8 * 50);
 }

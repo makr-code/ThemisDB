@@ -129,7 +129,8 @@ std::optional<PromptMetrics> PromptPerformanceTracker::getMetrics(const std::str
 std::vector<PromptMetrics> PromptPerformanceTracker::getAllMetrics() const {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     
-    std::vector<PromptMetrics> result;
+    std::vector<PromptMetrics> result = {};
+
     result.reserve(metrics_.size());
     
     for (const auto& [id, metrics] : metrics_) {
@@ -179,7 +180,7 @@ std::vector<std::pair<std::string, double>> PromptPerformanceTracker::getTopPerf
               [](const auto& a, const auto& b) { return a.second > b.second; });
     
     // Return top N
-    if (candidates.size() > count) {
+    if (static_cast<int>(candidates.size()) > count) {
         candidates.resize(count);
     }
     
@@ -270,7 +271,9 @@ nlohmann::json PromptPerformanceTracker::getSummaryStatistics() const {
 // ============================================================================
 
 void PromptPerformanceTracker::persist(const std::string& prompt_id, const PromptMetrics& metrics) {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
     
     std::string key = std::string(KEY_PREFIX) + prompt_id;
     std::string value = metrics.toJson().dump();
@@ -282,7 +285,9 @@ void PromptPerformanceTracker::persist(const std::string& prompt_id, const Promp
 }
 
 void PromptPerformanceTracker::loadFromDB() {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
     
     std::string prefix = KEY_PREFIX;
     size_t loaded = 0;

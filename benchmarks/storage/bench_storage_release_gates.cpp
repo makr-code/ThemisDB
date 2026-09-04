@@ -105,14 +105,18 @@ public:
 
     std::optional<std::string> read(const std::string& key) const {
         auto it = data_.find(key);
-        if (it == data_.end()) return std::nullopt;
+        if (it == data_.end()) {
+          return std::nullopt;
+        }
         return it->second;
     }
 
     StorageErrorCode write(BenchWal& wal, const std::string& key, const std::string& value) {
         // WAL append first (write-before-ack contract).
         auto code = wal.append(key, value);
-        if (code != StorageErrorCode::OK) return code;
+        if (code != StorageErrorCode::OK) {
+          return code;
+        }
         // Index update after WAL.
         data_[key] = value;
         return StorageErrorCode::OK;
@@ -149,15 +153,19 @@ public:
 enum class Tier { HOT, WARM, COLD };
 
 struct TierHeuristics {
-    std::uint64_t accessCount;
+    std::uint64_t accessCount = {};
     std::chrono::system_clock::time_point lastAccess;
 };
 
 static Tier classifyTier(const TierHeuristics& h,
                           std::uint64_t hotThreshold = 1000,
                           std::uint64_t warmThreshold = 100) {
-    if (h.accessCount >= hotThreshold)  return Tier::HOT;
-    if (h.accessCount >= warmThreshold) return Tier::WARM;
+    if (h.accessCount >= hotThreshold) {
+      return Tier::HOT;
+    }
+    if (h.accessCount >= warmThreshold) {
+      return Tier::WARM;
+    }
     return Tier::COLD;
 }
 

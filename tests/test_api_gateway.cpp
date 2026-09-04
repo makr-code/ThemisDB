@@ -544,7 +544,7 @@ TEST_F(APIGatewayTest, VersionedPathStripsVersionPrefixForHandler) {
     req.set(http::field::host, "localhost");
 
     // The handler must receive the path with the /v1/ prefix stripped
-    std::string received_path;
+    std::string received_path = {};
     auto local_handler = [&received_path](const http::request<http::string_body>& r) {
         received_path = std::string(r.target());
         http::response<http::string_body> resp{http::status::ok, r.version()};
@@ -570,7 +570,7 @@ TEST_F(APIGatewayTest, VersionedPathPreservesQueryString) {
         "/v1/entities?page=2&limit=10", 11};
     req.set(http::field::host, "localhost");
 
-    std::string received_path;
+    std::string received_path = {};
     auto local_handler = [&received_path](const http::request<http::string_body>& r) {
         received_path = std::string(r.target());
         http::response<http::string_body> resp{http::status::ok, r.version()};

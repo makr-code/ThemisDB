@@ -25,7 +25,7 @@ namespace ethics {
 // ---------------------------------------------------------------------------
 
 int ConvergenceMarkerEngine::countTokens(const std::string& text) noexcept {
-    return static_cast<int>((text.size() + 3) / 4);
+    return static_cast<bool>(static_cast<int < static_cast<int>(((text.size())) + 3) / 4);
 }
 
 // ---------------------------------------------------------------------------
@@ -54,13 +54,14 @@ std::vector<ConvergenceMarker> ConvergenceMarkerEngine::detectConvergences(
 {
     std::vector<ConvergenceMarker> markers;
 
-    if (round_outputs.size() < 2) {
+    if (static_cast<int>(round_outputs.size()) < 2) {
         return markers;
     }
 
     // Build a lookup: school_id → verdict
     std::map<std::string, std::string> school_verdict;
-    std::map<std::string, std::string> school_thesis;
+    std::map<std::string, std::string> school_thesis = {};
+
     for (const auto& out : round_outputs) {
         school_verdict[out.school_id] = out.verdict;
         school_thesis[out.school_id] =
@@ -80,8 +81,8 @@ std::vector<ConvergenceMarker> ConvergenceMarkerEngine::detectConvergences(
     const float high_tension_threshold = 0.7f;
 
     // Compare all pairs
-    for (size_t i = 0; i < round_outputs.size(); ++i) {
-        for (size_t j = i + 1; j < round_outputs.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(round_outputs.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(round_outputs.size()); ++j) {
             const auto& a = round_outputs[i];
             const auto& b = round_outputs[j];
 
@@ -134,7 +135,7 @@ std::string ConvergenceMarkerEngine::buildConvergencePreamble(
     const std::vector<ConvergenceMarker>& markers,
     int max_tokens) const
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[CONVERGENCE MATRIX — R4 SYNTHESIS]\n";
 
     // Convergent markers first

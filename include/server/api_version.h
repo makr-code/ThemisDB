@@ -28,7 +28,7 @@ namespace themis::server {
  * Example: v1.3.0, v2.0.0
  */
 struct APIVersion {
-    uint32_t major;
+    uint32_t major = 0;
     uint32_t minor;
     uint32_t patch;
     
@@ -264,7 +264,7 @@ struct CompatPolicy {
  * on the request hot path.
  */
 struct CompatCheckResult {
-    bool        passed;            ///< true if the change satisfies the policy
+    bool        passed = 0;            ///< true if the change satisfies the policy
     std::string violation_reason;  ///< Non-empty when passed == false
 
     /// @return true if the check passed with no violations.

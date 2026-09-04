@@ -32,7 +32,7 @@ namespace storage {
 struct CompressedValue {
     std::vector<uint8_t> data;
     compression::CompressionMethod method;
-    size_t original_size;
+    size_t original_size = {};
     
     // Serialize to storage format: [method:1][original_size:8][data...]
     std::vector<uint8_t> serialize() const;
@@ -114,7 +114,9 @@ public:
      */
     std::optional<std::string> get_string(const std::string& key) {
         auto bytes = get(key);
-        if (!bytes) return std::nullopt;
+        if (!bytes) {
+          return std::nullopt;
+        }
         return std::string(bytes->begin(), bytes->end());
     }
     

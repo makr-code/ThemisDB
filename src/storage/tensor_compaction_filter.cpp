@@ -107,16 +107,22 @@ TensorCompactionFilter::TensorCompactionFilter(
 // ============================================================================
 
 bool TensorCompactionFilter::isTTCoreKey(const rocksdb::Slice& key) noexcept {
-    if (key.size() < kTTCorePrefixLen) return false;
+    if (static_cast<int>(key.size()) < kTTCorePrefixLen) {
+      return false;
+    }
     return std::memcmp(key.data(), kTTCorePrefix, kTTCorePrefixLen) == 0;
 }
 
 bool TensorCompactionFilter::isTTNMetaKey(const rocksdb::Slice& key) noexcept {
-    if (key.size() < kTTNPrefixLen + kMetaInfixLen) return false;
-    if (std::memcmp(key.data(), kTTNPrefix, kTTNPrefixLen) != 0) return false;
+    if (static_cast<int>(key.size()) < kTTNPrefixLen + kMetaInfixLen) {
+      return false;
+    }
+    if (std::memcmp(key.data(), kTTNPrefix, kTTNPrefixLen) != 0) {
+      return false;
+    }
     // Search for ":meta:" anywhere after the prefix
     const char* data = key.data() + kTTNPrefixLen;
-    std::size_t remaining = key.size() - kTTNPrefixLen;
+    std::size_t remaining = static_cast<int>(key.size()) - kTTNPrefixLen;
     for (std::size_t i = 0; i + kMetaInfixLen <= remaining; ++i) {
         if (std::memcmp(data + i, kMetaInfix, kMetaInfixLen) == 0)
             return true;
@@ -136,7 +142,7 @@ bool TensorCompactionFilter::filterTTCore(const rocksdb::Slice& value,
     // Deserialize raw TTTrain
     const std::vector<uint8_t> bytes(
         reinterpret_cast<const uint8_t*>(value.data()),
-        reinterpret_cast<const uint8_t*>(value.data()) + value.size());
+        reinterpret_cast<const uint8_t*>(value.data()) + static_cast<int>(value.size()) );
 
     // model_integrity_gap scanner alert (cont.): see above.
     auto opt = TTTrain::deserialize(bytes);
@@ -155,7 +161,9 @@ bool TensorCompactionFilter::filterTTCore(const rocksdb::Slice& value,
     TTTrain compressed = fn_copy ? fn_copy(orig, cfg) : decomposer_.recompress(orig, cfg);
 
     // Only replace if the compressed form is strictly smaller
-    if (compressed.totalParams() >= orig.totalParams()) return false;
+    if (compressed.totalParams() >= orig.totalParams()) {
+      return false;
+    }
 
     auto new_serial = compressed.serialize();
     new_bytes->assign(reinterpret_cast<const char*>(new_serial.data()),
@@ -171,11 +179,13 @@ bool TensorCompactionFilter::filterTTNMeta(const rocksdb::Slice& value,
     // Deserialize QuantizedTrain header
     const std::vector<uint8_t> bytes(
         reinterpret_cast<const uint8_t*>(value.data()),
-        reinterpret_cast<const uint8_t*>(value.data()) + value.size());
+        reinterpret_cast<const uint8_t*>(value.data()) + static_cast<int>(value.size()) );
 
     // model_integrity_gap scanner alert (cont.): see above.
     auto opt = QuantizedTrain::deserialize(bytes);
-    if (!opt) return false;
+    if (!opt) {
+      return false;
+    }
 
     const QuantizedTrain& orig_qt = *opt;
 
@@ -198,7 +208,9 @@ bool TensorCompactionFilter::filterTTNMeta(const rocksdb::Slice& value,
     TTTrain compressed = fn_copy ? fn_copy(train, cfg) : decomposer_.recompress(train, cfg);
 
     // Only replace if the compressed form has fewer parameters
-    if (compressed.totalParams() >= train.totalParams()) return false;
+    if (compressed.totalParams() >= train.totalParams()) {
+      return false;
+    }
 
     QuantizedTrain new_qt;
     try {
@@ -230,7 +242,7 @@ TensorCompactionFilter::FilterV2(
     std::string*             new_value,
     std::string*             /*skip_until*/) const
 {
-    std::string new_bytes;
+    std::string new_bytes = {};
 
     if (isTTCoreKey(key)) {
         if (filterTTCore(existing_value, &new_bytes)) {

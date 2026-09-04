@@ -129,14 +129,14 @@ ClusterHealthInfo HealthCheckSystem::checkClusterHealth(const std::map<std::stri
 }
 
 /** @brief Register callback for periodic cluster-health updates. */
-void HealthCheckSystem::registerCallback(HealthCheckCallback callback) {
+void HealthCheckSystem::registerCallback([[maybe_unused]] HealthCheckCallback callback) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     callback_ = callback;
 }
 
 /** @brief Start periodic cluster-health monitoring loop. */
 void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::string>& shard_endpoints) {
-    std::thread stale_thread;
+    std::thread stale_thread = {};
     {
         std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
         if (running_.load()) {
@@ -175,8 +175,8 @@ void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::str
                 callback_copy = callback_;
             }
 
-            if (callback_copy) {
-                callback_copy(health);
+            if ([[maybe_unused]] callback_copy) {
+                callback_copy([[maybe_unused]] health);
             }
 
             std::unique_lock<std::mutex> lock(cv_mutex_);
@@ -189,7 +189,7 @@ void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::str
 
 /** @brief Stop periodic monitoring loop and join worker thread safely. */
 void HealthCheckSystem::stopPeriodicChecks() {
-    std::thread thread_to_join;
+    std::thread thread_to_join = {};
     {
         std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
         running_.store(false);
@@ -388,7 +388,9 @@ HealthStatus HealthCheckSystem::aggregateHealth(const std::vector<ShardHealthInf
 
 /** @brief Return true when healthy shards form strict majority quorum. */
 bool HealthCheckSystem::hasQuorum(int healthy_shards, int total_shards) {
-    if (total_shards == 0) return false;
+    if (total_shards == 0) {
+      return false;
+    }
     return healthy_shards > total_shards / 2;
 }
 

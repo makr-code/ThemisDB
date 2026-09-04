@@ -294,7 +294,9 @@ TEST_F(OZGAndXOEVTest, XOEVRecord_FieldsMatch_OZGServiceFimProcessId) {
     ASSERT_TRUE(svc.has_value());
 
     for (const auto& field : svc->fields) {
-        if (!field.required) continue;
+        if (!field.required) {
+          continue;
+        }
         // The XOEV record should contain a field matching the OZG field name.
         // (This is a data-contract test, not an exact-match assertion.)
         EXPECT_FALSE(field.name.empty())

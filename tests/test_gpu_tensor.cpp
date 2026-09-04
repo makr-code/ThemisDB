@@ -98,7 +98,9 @@ TEST_F(GPUTensorBufferTest, FillFloat32) {
     buf.fill(3.14);
     std::vector<float> out(4);
     buf.copyToHost(out.data(), 4 * sizeof(float));
-    for (float v : out) EXPECT_NEAR(v, 3.14f, 1e-5f);
+    for (float v : out) {
+      EXPECT_NEAR(v, 3.14f, 1e-5f);
+    }
 }
 
 TEST_F(GPUTensorBufferTest, FillInt8) {
@@ -106,7 +108,9 @@ TEST_F(GPUTensorBufferTest, FillInt8) {
     buf.fill(7.0);
     std::vector<int8_t> out(6);
     buf.copyToHost(out.data(), 6);
-    for (int8_t v : out) EXPECT_EQ(v, 7);
+    for (int8_t v : out) {
+      EXPECT_EQ(v, 7);
+    }
 }
 
 TEST_F(GPUTensorBufferTest, FillUint8) {
@@ -114,7 +118,9 @@ TEST_F(GPUTensorBufferTest, FillUint8) {
     buf.fill(255.0);
     std::vector<uint8_t> out(3);
     buf.copyToHost(out.data(), 3);
-    for (uint8_t v : out) EXPECT_EQ(v, 255u);
+    for (uint8_t v : out) {
+      EXPECT_EQ(v, 255u);
+    }
 }
 
 TEST_F(GPUTensorBufferTest, FillZero) {
@@ -123,7 +129,9 @@ TEST_F(GPUTensorBufferTest, FillZero) {
     buf.fill(0.0);
     std::vector<float> out(8);
     buf.copyToHost(out.data(), 8 * sizeof(float));
-    for (float v : out) EXPECT_EQ(v, 0.0f);
+    for (float v : out) {
+      EXPECT_EQ(v, 0.0f);
+    }
 }
 
 TEST_F(GPUTensorBufferTest, FillFloat16_ProperIEEE754Encoding) {
@@ -157,7 +165,9 @@ TEST_F(GPUTensorBufferTest, CopyRoundtrip) {
     buf.copyFromHost(src, sizeof(src));
     float dst[4] = {};
     buf.copyToHost(dst, sizeof(dst));
-    for (int i = 0; i < 4; ++i) EXPECT_FLOAT_EQ(dst[i], src[i]);
+    for (int i = 0; i < 4; ++i) {
+      EXPECT_FLOAT_EQ(dst[i], src[i]);
+    }
 }
 
 TEST_F(GPUTensorBufferTest, CopyFromHostOverflowThrows) {
@@ -210,7 +220,9 @@ TEST_F(GPUTensorBufferTest, MoveConstructor) {
     EXPECT_EQ(dst.name(), "m");
     int32_t out[4] = {};
     dst.copyToHost(out, 4 * sizeof(int32_t));
-    for (int32_t v : out) EXPECT_EQ(v, 42);
+    for (int32_t v : out) {
+      EXPECT_EQ(v, 42);
+    }
 }
 
 // ============================================================================
@@ -233,7 +245,9 @@ TEST_F(GPUTensorBufferTest, SerialiseRoundtrip) {
 
     float dst[6] = {};
     restored.copyToHost(dst, sizeof(dst));
-    for (int i = 0; i < 6; ++i) EXPECT_FLOAT_EQ(dst[i], src[i]);
+    for (int i = 0; i < 6; ++i) {
+      EXPECT_FLOAT_EQ(dst[i], src[i]);
+    }
 }
 
 TEST_F(GPUTensorBufferTest, DeserialiseCorruptMagicThrows) {

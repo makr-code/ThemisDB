@@ -49,7 +49,8 @@ void ContinuousPlan::evaluate(ContinuousQueryState& state,
     const ResultMode eval_mode = plan_spec.result_mode;
 
     // 2. Expire old tuples and collect them as retractions
-    std::deque<SynopsisTuple> expired;
+    std::deque<SynopsisTuple> expired = {};
+
     if (plan_spec.window.isTimeBased()) {
         const int64_t window_start_us =
             wm_us - static_cast<int64_t>(plan_spec.window.range_ms) * 1000LL;

@@ -52,7 +52,9 @@ std::vector<float> createTestEmbedding(size_t dim, float base_value = 1.0f) {
 
 // Helper function to compute cosine similarity
 float cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b) {
-    if (a.size() != b.size()) return 0.0f;
+    if (a.size() != b.size()) {
+      return 0.0f;
+    }
     
     float dot = 0.0f, norm_a = 0.0f, norm_b = 0.0f;
     for (size_t i = 0; i < a.size(); ++i) {
@@ -61,7 +63,9 @@ float cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b)
         norm_b += b[i] * b[i];
     }
     
-    if (norm_a == 0.0f || norm_b == 0.0f) return 0.0f;
+    if (norm_a == 0.0f || norm_b == 0.0f) {
+      return 0.0f;
+    }
     return dot / (std::sqrt(norm_a) * std::sqrt(norm_b));
 }
 
@@ -232,7 +236,9 @@ int main() {
     std::cout << "  - Registered adapters: ";
     for (size_t i = 0; i < adapter_names.size(); ++i) {
         std::cout << adapter_names[i];
-        if (i < adapter_names.size() - 1) std::cout << ", ";
+        if (i < adapter_names.size() - 1) {
+          std::cout << ", ";
+        }
     }
     std::cout << std::endl;
     

@@ -79,7 +79,7 @@ struct TierTransitionLog {
  */
 struct EvictionEventLog {
     /// Evicted key
-    std::string key;
+    std::string key = {};
     
     /// Cache tier that evicted the key
     TierLevel from_tier;
@@ -125,7 +125,7 @@ struct PromotionDecisionLog {
     std::optional<TierLevel> target_tier;
     
     /// Decision outcome ("PROMOTE", "REJECT", "DEFER", "DEMOTE")
-    std::string decision;
+    std::string decision = {};
     
     /// Access count triggering decision
     uint64_t access_count;

@@ -45,7 +45,7 @@ SLOThresholds LagAlertManager::thresholds() const
 void LagAlertManager::setAlertCallback(AlertCallback callback)
 {
     std::lock_guard<std::mutex> lock(state_mutex_);
-    alert_callback_ = std::move(callback);
+    alert_callback_ = std::move([[maybe_unused]] callback);
 }
 
 // ---------------------------------------------------------------------------
@@ -127,7 +127,9 @@ bool LagAlertManager::checkReplicaLag(const std::string& replica_id)
     std::lock_guard<std::mutex> lock(state_mutex_);
 
     const auto it = replicas_.find(replica_id);
-    if (it == replicas_.end()) return false;
+    if (it == replicas_.end()) {
+      return false;
+    }
 
     evaluateReplicaAlerts(it->second, replica_id);
     return it->second.in_alert || it->second.in_critical;
@@ -137,7 +139,8 @@ std::vector<std::string> LagAlertManager::replicasInAlert() const
 {
     std::lock_guard<std::mutex> lock(state_mutex_);
 
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& [replica_id, state] : replicas_) {
         if (state.in_alert && !state.in_critical) {
             result.push_back(replica_id);
@@ -150,7 +153,8 @@ std::vector<std::string> LagAlertManager::replicasInCritical() const
 {
     std::lock_guard<std::mutex> lock(state_mutex_);
 
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& [replica_id, state] : replicas_) {
         if (state.in_critical) {
             result.push_back(replica_id);
@@ -168,7 +172,9 @@ std::vector<std::string> LagAlertManager::replicasEligibleForFailover() const
 
     for (const auto& [replica_id, state] : replicas_) {
         // Only replicas in sustained critical lag are eligible
-        if (!state.in_critical) continue;
+        if (!state.in_critical) {
+          continue;
+        }
 
         // Check if critical duration threshold is exceeded
         const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -189,7 +195,8 @@ std::map<std::string, int64_t> LagAlertManager::allReplicaLags() const
 {
     std::lock_guard<std::mutex> lock(state_mutex_);
 
-    std::map<std::string, int64_t> result;
+    std::map<std::string, int64_t> result = {};
+
     for (const auto& [replica_id, state] : replicas_) {
         result[replica_id] = state.lag.lag_ms;
     }
@@ -200,7 +207,7 @@ std::string LagAlertManager::exportPrometheusMetrics() const
 {
     std::lock_guard<std::mutex> lock(state_mutex_);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Lag per replica
     oss << "# HELP replication_lag_ms Current replication lag per replica (ms)\n"
@@ -365,7 +372,7 @@ void LagAlertManager::emitAlert(const AlertEvent& event)
 
     try {
         if (cb) {
-            cb(event);
+            cb([[maybe_unused]] event);
         }
     } catch (...) {
         // Suppress exceptions from callback to ensure alert infrastructure stays robust

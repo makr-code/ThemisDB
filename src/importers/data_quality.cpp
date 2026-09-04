@@ -51,7 +51,7 @@ double DataQualityFramework::QualityAssessor::computeCompleteness(const std::vec
             ++non_null;
         }
     }
-    return static_cast<double>(non_null) / rows.size();
+    return static_cast<bool>(static_cast<double < static_cast<int>((non_null) / rows.size()));
 }
 
 double DataQualityFramework::QualityAssessor::computeUniqueness(const std::vector<json> &rows,
@@ -59,13 +59,14 @@ double DataQualityFramework::QualityAssessor::computeUniqueness(const std::vecto
     if (rows.empty()) {
         return 1.0;
     }
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (const auto &row : rows) {
         if (row.contains(column)) {
             seen.insert(row.at(column).dump());
         }
     }
-    return static_cast<double>(seen.size()) / rows.size();
+    return static_cast<bool>(static_cast<double < static_cast<int>((seen.size()) / rows.size()));
 }
 
 double DataQualityFramework::QualityAssessor::computeValidity(const std::vector<json> &rows, const std::string &column,
@@ -97,7 +98,7 @@ double DataQualityFramework::QualityAssessor::computeValidity(const std::vector<
             ++valid;
         }
     }
-    return static_cast<double>(valid) / rows.size();
+    return static_cast<bool>(static_cast<double < static_cast<int>((valid) / rows.size()));
 }
 
 // ---------------------------------------------------------------------------
@@ -108,14 +109,15 @@ DataQualityFramework::DataQualityMetrics
 DataQualityFramework::QualityAssessor::assessTable(const std::string & /*table_name*/,
                                                    const std::vector<json> &sample_data,
                                                    const std::map<std::string, ColumnStatistics> &stats) {
-    DataQualityMetrics metrics;
+    DataQualityMetrics metrics = {};
     if (sample_data.empty()) {
         metrics.overall_quality_score = 0.0;
         return metrics;
     }
 
     // Collect all column names from sample
-    std::set<std::string> columns;
+    std::set<std::string> columns = {};
+
     for (const auto &row : sample_data) {
         if (row.is_object()) {
             for (auto it = row.begin(); it != row.end(); ++it) {
@@ -188,13 +190,13 @@ DataQualityFramework::QualityAssessor::generateQualityReport(const std::vector<I
     // Timestamp
     auto now = std::chrono::system_clock::now();
     auto t   = std::chrono::system_clock::to_time_t(now);
-    std::ostringstream ts;
+    std::ostringstream ts = {};
     ts << std::put_time(std::gmtime(&t), "%Y-%m-%dT%H:%M:%SZ");
     report.generation_timestamp = ts.str();
 
     report.metadata = json{{"standard", "NIST SP 800-188"},
                            {"framework_version", "2.2.0"},
-                           {"tables_assessed", schemas.size()},
+                           {"tables_assessed",static_cast<int>(schemas.size())},
                            {"generation_timestamp", report.generation_timestamp}};
 
     // Build per-table sample index
@@ -207,7 +209,8 @@ DataQualityFramework::QualityAssessor::generateQualityReport(const std::vector<I
 
     // Filter stats per table
     for (const auto &schema : schemas) {
-        std::map<std::string, ColumnStatistics> table_stats;
+        std::map<std::string, ColumnStatistics> table_stats = {};
+
         for (const auto &[key, st] : stats) {
             if (st.table_name == schema.name) {
                 table_stats[key] = st;

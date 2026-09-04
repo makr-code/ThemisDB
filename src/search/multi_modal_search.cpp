@@ -62,14 +62,16 @@ std::vector<MultiModalResult> MultiModalSearch::search(
             all_lists.push_back(std::move(results));
             weights.push_back(q.weight > 0.0 ? q.weight : 1.0);
             // Build a human-readable modality label
-            std::string mod_label;
+            std::string mod_label = {};
             switch (q.modality) {
                 case Modality::TEXT:   mod_label = "text";   break;
                 case Modality::IMAGE:  mod_label = "image";  break;
                 case Modality::AUDIO:  mod_label = "audio";  break;
                 case Modality::CUSTOM: mod_label = "custom"; break;
             }
-            if (!q.embedding_namespace.empty()) mod_label += ":" + q.embedding_namespace;
+            if (!q.embedding_namespace.empty()) {
+              mod_label += ":" + q.embedding_namespace;
+            }
             modality_names.push_back(std::move(mod_label));
         }
     }
@@ -115,7 +117,9 @@ std::vector<MultiModalResult> MultiModalSearch::searchTextAndImage(
             all_lists.push_back(std::move(results));
             weights.push_back(image_weight);
             std::string label = "image";
-            if (!image_namespace.empty()) label += ":" + image_namespace;
+            if (!image_namespace.empty()) {
+              label += ":" + image_namespace;
+            }
             modality_names.push_back(std::move(label));
         }
     }
@@ -155,8 +159,8 @@ std::vector<std::pair<std::string, double>> MultiModalSearch::executeModal(
         }
 
         case Modality::IMAGE:
-        case Modality::AUDIO:
-        case Modality::CUSTOM: {
+        [[fallthrough]];\n        case Modality::AUDIO:
+        [[fallthrough]];\n        case Modality::CUSTOM: {
             if (!vec_index_ || query.embedding.empty()) {
                 THEMIS_DEBUG("MultiModalSearch: embedding modality skipped (null index or empty embedding)");
                 return results;
@@ -205,14 +209,14 @@ std::vector<MultiModalResult> MultiModalSearch::fuseRRF(
     std::unordered_map<std::string, std::string> best_modality;
     std::unordered_map<std::string, double> best_contribution;
 
-    for (size_t list_idx = 0; list_idx < ranked_lists.size(); ++list_idx) {
-        const double w = (list_idx < weights.size()) ? weights[list_idx] : 1.0;
+    for (size_t list_idx = 0; list_idx <static_cast<int>(ranked_lists.size()); ++list_idx) {
+        const double w = (list_idx <static_cast<int>(weights.size())) ? weights[list_idx] : 1.0;
         const auto& list = ranked_lists[list_idx];
-        const std::string& mod_name = (list_idx < modality_names.size())
+        const std::string& mod_name = (list_idx <static_cast<int>(modality_names.size()))
             ? modality_names[list_idx]
             : "modal_" + std::to_string(list_idx);
 
-        for (size_t rank = 0; rank < list.size(); ++rank) {
+        for (size_t rank = 0; rank <static_cast<int>(list.size()); ++rank) {
             const std::string& doc_id = list[rank].first;
             double contribution = w / (config_.rrf_k + static_cast<double>(rank + 1));
             rrf_scores[doc_id] += contribution;
@@ -227,7 +231,8 @@ std::vector<MultiModalResult> MultiModalSearch::fuseRRF(
     }
 
     // Build result list
-    std::vector<MultiModalResult> results;
+    std::vector<MultiModalResult> results = {};
+
     results.reserve(rrf_scores.size());
     for (const auto& [doc_id, score] : rrf_scores) {
         MultiModalResult r;
@@ -242,12 +247,12 @@ std::vector<MultiModalResult> MultiModalSearch::fuseRRF(
               [](const MultiModalResult& a, const MultiModalResult& b) {
                   return a.score > b.score;
               });
-    if (results.size() > config_.k) {
+    if (static_cast<int>(results.size()) > config_.k) {
         results.resize(config_.k);
     }
 
     THEMIS_DEBUG("MultiModalSearch::fuseRRF: {} lists -> {} results (k={})",
-                 ranked_lists.size(), results.size(), config_.k);
+                 ranked_lists.size(),static_cast<int>(results.size()), config_.k);
     return results;
 }
 

@@ -43,7 +43,7 @@ namespace {
         }
     }
 
-    return printable_count == payload.size();
+    return printable_count == static_cast<int>(payload.size());
 }
 
 [[nodiscard]] std::string extractTranscriptCandidate(const std::string& payload) {
@@ -152,7 +152,7 @@ VoiceLivenessDetector::VerificationResult VoiceLivenessDetector::verifyResponse(
         result.reason = "Empty response payload";
         return result;
     }
-    if (audio_response.size() > config_.max_response_bytes) {
+    if (static_cast<int>(audio_response.size()) > config_.max_response_bytes) {
         result.reason = "Response payload too large";
         return result;
     }
@@ -240,7 +240,7 @@ VoiceLivenessDetector::VerificationResult VoiceLivenessDetector::verifyResponse(
     return result;
 }
 
-std::optional<Challenge> VoiceLivenessDetector::getChallenge(uint64_t challenge_id) const {
+std::optional<Challenge> VoiceLivenessDetector::getChallenge([[maybe_unused]] uint64_t challenge_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = active_challenges_.find(challenge_id);
@@ -264,18 +264,18 @@ size_t VoiceLivenessDetector::cleanupExpiredChallenges() {
         verified_timestamps_);
 }
 
-bool VoiceLivenessDetector::isReplayedChallenge(uint64_t challenge_id) const {
+bool VoiceLivenessDetector::isReplayedChallenge([[maybe_unused]] uint64_t challenge_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     return verified_challenges_.find(challenge_id) != verified_challenges_.end();
 }
 
 size_t VoiceLivenessDetector::getActiveChallengeCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return active_challenges_.size();
+    return static_cast<int>(active_challenges_.size());
 }
 
 std::string VoiceLivenessDetector::speechToText(const std::string& audio) {
-    if (audio.empty() || audio.size() > config_.max_response_bytes) {
+    if (audio.empty() || static_cast<int>(audio.size()) > config_.max_response_bytes) {
         return {};
     }
 
@@ -294,8 +294,8 @@ std::string VoiceLivenessDetector::generateRandomChallenge() {
     static std::random_device rd;
     static std::mt19937 gen(rd());
 
-    std::uniform_int_distribution<size_t> dis(0, CHALLENGE_PHRASES.size() - 1);
-    return CHALLENGE_PHRASES[dis(gen)];
+    std::uniform_int_distribution<uint64_t> dis(0, static_cast<int>(CHALLENGE_PHRASES.size()) - 1);
+    return CHALLENGE_PHRASES[static_cast<size_t>(dis(gen))];
 }
 
 int64_t VoiceLivenessDetector::nowMs() const {
@@ -305,7 +305,7 @@ int64_t VoiceLivenessDetector::nowMs() const {
 }
 
 std::string VoiceLivenessDetector::normalizeText(const std::string& text) {
-    std::string normalized;
+    std::string normalized = {};
     
     for (const unsigned char c : text) {
         if (std::isalnum(c)) {

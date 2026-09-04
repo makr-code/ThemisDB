@@ -99,7 +99,7 @@ struct TrainingIncident {
     TrainingErrorCode error_code = TrainingErrorCode::SUCCESS;
 
     /// Component identifier (e.g., "auto_labeler", "incremental_lora_trainer").
-    std::string component;
+    std::string component = {};
 
     /// Operation name within the component (e.g., "label_batch", "train_step").
     std::string operation;

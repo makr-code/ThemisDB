@@ -46,7 +46,8 @@ DistributedSagaStatus DistributedSagaCoordinator::validate(
     }
 
     // Build name set and check for duplicates
-    std::unordered_set<std::string> names;
+    std::unordered_set<std::string> names = {};
+
     for (const auto& step : saga.steps) {
         if (step.name.empty()) {
             return DistributedSagaStatus::Error("step name must not be empty");
@@ -82,7 +83,8 @@ DistributedSagaStatus DistributedSagaCoordinator::validate(
 
     enum class Color { WHITE, GRAY, BLACK };
     // Initialize all color map entries explicitly to avoid uninitialized access
-    std::unordered_map<std::string, Color> color;
+    std::unordered_map<std::string, Color> color = {};
+
     for (const auto& name : names) {
         color[name] = Color::WHITE;
     }
@@ -92,8 +94,12 @@ DistributedSagaStatus DistributedSagaCoordinator::validate(
     const auto dfs = [&](const std::string& u, auto&& self) -> bool {
         color[u] = Color::GRAY;
         for (const auto& v : adj[u]) {
-            if (color[v] == Color::GRAY) return true;
-            if (color[v] == Color::WHITE && self(v, self)) return true;
+            if (color[v] == Color::GRAY) {
+              return true;
+            }
+            if (color[v] == Color::WHITE && self(v, self)) {
+              return true;
+            }
         }
         color[u] = Color::BLACK;
         return false;
@@ -168,12 +174,13 @@ DistributedSagaReport DistributedSagaCoordinator::execute(
     }
 
     journalWrite(saga.saga_id, "STARTED");
-    THEMIS_INFO("DSAGA[{}]: starting ({} steps)", saga.saga_id, saga.steps.size());
+    THEMIS_INFO("DSAGA[{}]: starting ({} steps)", saga.saga_id,static_cast<int>(saga.steps.size()));
 
     // -- Build step map and initialise records --------------------------
     std::map<std::string, DistributedSagaStep> step_map;
     // Build a name→record-pointer index for O(1) lookup throughout execution
-    std::unordered_map<std::string, StepRecord*> record_index;
+    std::unordered_map<std::string, StepRecord*> record_index = {};
+
     for (const auto& step : saga.steps) {
         step_map.emplace(step.name, step);
         StepRecord rec;
@@ -187,7 +194,7 @@ DistributedSagaReport DistributedSagaCoordinator::execute(
     }
 
     // Helper: find record by name (O(1) via index)
-    auto findRecord = [&](const std::string& name) -> StepRecord& {
+    auto findRecord = [&]([[maybe_unused]] const std::string& name) -> StepRecord& {
         auto it = record_index.find(name);
         if (it == record_index.end()) {
             throw std::logic_error("Internal error: step record not found: " + name);
@@ -199,7 +206,8 @@ DistributedSagaReport DistributedSagaCoordinator::execute(
     // waves[i] contains steps that can run in parallel at wave i
     std::vector<std::string> topo = topologicalSort(saga);
     // topo is a flat order; group into waves by "level" (max dependency depth)
-    std::unordered_map<std::string, int> level;
+    std::unordered_map<std::string, int> level = {};
+
     for (const auto& name : topo) {
         int lvl = 0;
         for (const auto& dep : step_map.at(name).depends_on) {
@@ -209,18 +217,24 @@ DistributedSagaReport DistributedSagaCoordinator::execute(
     }
 
     int max_level = 0;
-    for (const auto& [name, lvl] : level) max_level = std::max(max_level, lvl);
+    for (const auto& [name, lvl] : level) {
+      max_level = std::max(max_level, lvl);
+    }
 
     std::vector<std::vector<std::string>> waves(max_level + 1);
-    for (const auto& [name, lvl] : level) waves[lvl].push_back(name);
+    for (const auto& [name, lvl] : level) {
+      waves[lvl].push_back(name);
+    }
 
     // -- Execute waves in order ----------------------------------------
     std::vector<std::string> executed_order; // names in forward-execution order
     bool failed = false;
-    std::string failure_reason;
+    std::string failure_reason = {};
 
     for (auto& wave : waves) {
-        if (failed) break;
+        if (failed) {
+          break;
+        }
 
         auto wst = executeWave(wave, step_map, record_index, failure_reason, deadline);
         if (!wst.ok) {
@@ -255,7 +269,7 @@ DistributedSagaReport DistributedSagaCoordinator::execute(
         report.failure_reason = failure_reason;
         journalWrite(saga.saga_id, "COMPENSATING", failure_reason);
         THEMIS_WARN("DSAGA[{}]: compensating {} steps after failure: {}",
-                    saga.saga_id, to_compensate.size(), failure_reason);
+                    saga.saga_id,static_cast<int>(to_compensate.size()), failure_reason);
 
         compensate(step_map, to_compensate, record_index);
 
@@ -279,7 +293,9 @@ DistributedSagaReport DistributedSagaCoordinator::execute(
 
         {
             std::lock_guard<std::mutex> lk(metrics_mutex_);
-            if (comp_ok)  ++metrics_.sagas_compensated;
+            if (comp_ok) {
+              ++metrics_.sagas_compensated;
+            }
             else          ++metrics_.sagas_failed;
         }
     } else {
@@ -324,12 +340,16 @@ std::vector<std::string> DistributedSagaCoordinator::topologicalSort(
     }
 
     // Use a sorted set as the ready queue for deterministic O(log n) extraction
-    std::set<std::string> ready;
+    std::set<std::string> ready = {};
+
     for (const auto& [name, deg] : in_degree) {
-        if (deg == 0) ready.insert(name);
+        if (deg == 0) {
+          ready.insert(name);
+        }
     }
 
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     while (!ready.empty()) {
         // Extract smallest name (deterministic ordering)
         auto it   = ready.begin();
@@ -372,14 +392,16 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
         return true;
     };
 
-    if (!config_.enable_parallel || wave.size() == 1) {
+    if (!config_.enable_parallel || static_cast<int>(wave.size()) == 1) {
         // Sequential execution
         for (const auto& name : wave) {
             auto it = index.find(name);
-            if (it == index.end()) continue;
+            if (it == index.end()) {
+              continue;
+            }
 
             const auto& step = step_map.at(name);
-            std::string missing_dep;
+            std::string missing_dep = {};
             if (!dependenciesSatisfied(step, missing_dep)) {
                 failure_reason = "Step '" + name +
                                  "' violated causal dependency: '" +
@@ -407,7 +429,7 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
 
         const DistributedSagaStep& step = step_map.at(name);
 
-        std::string missing_dep;
+        std::string missing_dep = {};
         if (!dependenciesSatisfied(step, missing_dep)) {
             failure_reason = "Step '" + name +
                              "' violated causal dependency: '" +
@@ -418,7 +440,9 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
         futures.push_back(
             std::async(std::launch::async,
                 [this, &step, rec, deadline]() -> DistributedSagaStatus {
-                    if (!rec) return DistributedSagaStatus::Error("record not found");
+                    if (!rec) {
+                      return DistributedSagaStatus::Error("record not found");
+                    }
                     return executeStep(step, *rec, deadline);
                 }
             )
@@ -427,7 +451,7 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
 
     // Collect results
     DistributedSagaStatus wave_status;
-    for (size_t i = 0; i < futures.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
         try {
             auto st = futures[i].get();
             if (!st.ok && wave_status.ok) {
@@ -531,7 +555,9 @@ DistributedSagaStatus DistributedSagaCoordinator::executeStep(
         {
             std::lock_guard<std::mutex> lk(metrics_mutex_);
             ++metrics_.total_step_executions;
-            if (attempt > 0) ++metrics_.total_step_retries;
+            if (attempt > 0) {
+              ++metrics_.total_step_retries;
+            }
         }
 
         if (last_status.ok) {
@@ -542,7 +568,7 @@ DistributedSagaStatus DistributedSagaCoordinator::executeStep(
             // QW-39: Verify distributed consensus for write durability
             // After local step succeeds, check that write was replicated to quorum
             if (config_.enable_consensus_verification) {
-                std::string consensus_failure_detail;
+                std::string consensus_failure_detail = {};
                 bool consensus_ok = verifyStepConsensus(
                     step.name,
                     step.node_id,
@@ -593,11 +619,15 @@ void DistributedSagaCoordinator::compensate(
         const std::string& name = *it;
 
         auto rit = index.find(name);
-        if (rit == index.end()) continue;
+        if (rit == index.end()) {
+          continue;
+        }
         StepRecord* rec = rit->second;
 
         // Only compensate steps that completed their forward action
-        if (rec->phase != StepRecord::Phase::DONE) continue;
+        if (rec->phase != StepRecord::Phase::DONE) {
+          continue;
+        }
 
         const auto& step = step_map.at(name);
         if (!step.compensate) {
@@ -679,7 +709,9 @@ DistributedSagaStatus DistributedSagaCoordinator::compensateStep(
             last_status = DistributedSagaStatus::Error("unknown compensation exception");
         }
 
-        if (last_status.ok) return DistributedSagaStatus::OK();
+        if (last_status.ok) {
+          return DistributedSagaStatus::OK();
+        }
 
         THEMIS_WARN("DSAGA: compensation of '{}' failed (attempt {}): {}",
                     step.name, attempt + 1, last_status.message);
@@ -774,7 +806,9 @@ std::optional<DistributedSagaReport> DistributedSagaCoordinator::getReport(
 ) const {
     std::lock_guard<std::mutex> lk(reports_mutex_);
     auto it = reports_.find(saga_id);
-    if (it == reports_.end()) return std::nullopt;
+    if (it == reports_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -796,11 +830,15 @@ void DistributedSagaCoordinator::journalWrite(
     const std::string& event,
     const std::string& detail
 ) {
-    if (config_.journal_path.empty()) return;
+    if (config_.journal_path.empty()) {
+      return;
+    }
 
     try {
         std::ofstream f(config_.journal_path, std::ios::app);
-        if (!f.is_open()) return;
+        if (!f.is_open()) {
+          return;
+        }
 
         auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count();
@@ -811,10 +849,12 @@ void DistributedSagaCoordinator::journalWrite(
           << ",\"event\":\"" << event << "\"";
         if (!detail.empty()) {
             // Minimal escaping of double quotes in detail
-            std::string escaped;
+            std::string escaped = {};
             escaped.reserve(detail.size());
             for (char c : detail) {
-                if (c == '"')  escaped += "\\\"";
+                if (c == '"') {
+                  escaped += "\\\"";
+                }
                 else if (c == '\\') escaped += "\\\\";
                 else escaped += c;
             }
@@ -926,7 +966,7 @@ DistributedSagaReport DistributedSagaCoordinator::executeDistributed(
                                  "REJECTED_INVALID_REMOTE_SAGA");
     }
 
-    for (size_t i = 0; i < remote_saga.steps.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(remote_saga.steps.size()); ++i) {
         const auto& step = remote_saga.steps[i];
         if (step.name.empty()) {
             return rejectDistributed(
@@ -974,17 +1014,23 @@ std::optional<DistributedSagaReport> DistributedSagaCoordinator::getDistributedS
 std::vector<std::string> DistributedSagaCoordinator::recoverInProgressSAGAs() {
     std::vector<std::string> recovered;
 
-    if (config_.journal_path.empty()) return recovered;
+    if (config_.journal_path.empty()) {
+      return recovered;
+    }
 
     std::ifstream f(config_.journal_path);
-    if (!f.is_open()) return recovered;
+    if (!f.is_open()) {
+      return recovered;
+    }
 
     // Track terminal states seen per saga_id
     std::map<std::string, std::string> latest_event; // saga_id → most recent event
 
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         try {
             auto entry = nlohmann::json::parse(line);
             std::string sid   = entry.value("saga_id", std::string{});
@@ -1033,7 +1079,8 @@ SagaVisualization DistributedSagaCoordinator::visualize(
     std::optional<DistributedSagaReport> report_opt = getReport(saga.saga_id);
 
     // Build phase lookup
-    std::unordered_map<std::string, std::string> phase_label;
+    std::unordered_map<std::string, std::string> phase_label = {};
+
     if (report_opt) {
         for (const auto& rec : report_opt->step_records) {
             switch (rec.phase) {
@@ -1048,7 +1095,7 @@ SagaVisualization DistributedSagaCoordinator::visualize(
     }
 
     // ── DOT graph ──────────────────────────────────────────────────────────
-    std::ostringstream dot;
+    std::ostringstream dot = {};
     dot << "digraph \"" << saga.saga_id << "\" {\n";
     dot << "  rankdir=LR;\n";
     dot << "  node [shape=box, style=filled, fillcolor=lightgrey];\n";
@@ -1058,7 +1105,9 @@ SagaVisualization DistributedSagaCoordinator::visualize(
         auto it = phase_label.find(step.name);
         if (it != phase_label.end()) {
             const std::string& ph = it->second;
-            if (ph == "DONE")        fill = "lightgreen";
+            if (ph == "DONE") {
+              fill = "lightgreen";
+            }
             else if (ph == "FAILED") fill = "salmon";
             else if (ph == "COMPENSATED") fill = "lightyellow";
             else if (ph == "EXECUTING" || ph == "COMPENSATING") fill = "lightblue";
@@ -1078,9 +1127,9 @@ SagaVisualization DistributedSagaCoordinator::visualize(
     dot << "}\n";
 
     // ── Text summary ───────────────────────────────────────────────────────
-    std::ostringstream txt;
+    std::ostringstream txt = {};
     txt << "SAGA: " << saga.saga_id << "\n";
-    txt << "Steps: " << saga.steps.size() << "\n";
+    txt << "Steps: " <<static_cast<int>(saga.steps.size()) << "\n";
     if (report_opt) {
         txt << "State: ";
         switch (report_opt->state) {
@@ -1103,8 +1152,12 @@ SagaVisualization DistributedSagaCoordinator::visualize(
                 default:                             txt << "·"; break;
             }
             txt << "] " << rec.name;
-            if (rec.attempts > 0) txt << " (attempts: " << rec.attempts << ")";
-            if (!rec.error_message.empty()) txt << " — " << rec.error_message;
+            if (rec.attempts > 0) {
+              txt << " (attempts: " << rec.attempts << ")";
+            }
+            if (!rec.error_message.empty()) {
+              txt << " — " << rec.error_message;
+            }
             txt << "\n";
         }
     } else {
@@ -1116,7 +1169,9 @@ SagaVisualization DistributedSagaCoordinator::visualize(
                 txt << " (after: ";
                 bool first = true;
                 for (const auto& d : step.depends_on) {
-                    if (!first) txt << ", ";
+                    if (!first) {
+                      txt << ", ";
+                    }
                     txt << d;
                     first = false;
                 }
@@ -1136,7 +1191,9 @@ SagaVisualization DistributedSagaCoordinator::visualize(
 bool DistributedSagaCoordinator::forceCompensate(const std::string& saga_id) {
     std::lock_guard<std::mutex> lk(reports_mutex_);
     auto it = reports_.find(saga_id);
-    if (it == reports_.end()) return false;
+    if (it == reports_.end()) {
+      return false;
+    }
     it->second.state          = SagaExecutionState::COMPENSATED;
     it->second.failure_reason = "forced compensation via manual intervention";
     journalWrite(saga_id, "FORCE_COMPENSATED");
@@ -1147,7 +1204,9 @@ bool DistributedSagaCoordinator::forceCompensate(const std::string& saga_id) {
 bool DistributedSagaCoordinator::forceComplete(const std::string& saga_id) {
     std::lock_guard<std::mutex> lk(reports_mutex_);
     auto it = reports_.find(saga_id);
-    if (it == reports_.end()) return false;
+    if (it == reports_.end()) {
+      return false;
+    }
     it->second.state          = SagaExecutionState::COMPLETED;
     it->second.failure_reason.clear();
     journalWrite(saga_id, "FORCE_COMPLETED");

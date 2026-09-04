@@ -474,7 +474,8 @@ Soc2ControlSet::Soc2ControlSet() {
 }
 
 std::vector<Soc2ControlResult> Soc2ControlSet::evaluateRule(const PolicyRule &rule) const {
-    std::vector<Soc2ControlResult> results;
+    std::vector<Soc2ControlResult> results = {};
+
     results.reserve(controls_.size());
     for (const auto &ctrl : controls_) {
         results.push_back(ctrl->evaluate(rule));
@@ -496,7 +497,7 @@ Soc2AuditReport Soc2ControlSet::generateReport(const PolicyManager &policy_mgr, 
 
     // Generate a deterministic report ID from current time
     const int64_t ts = nowMs();
-    std::ostringstream id_ss;
+    std::ostringstream id_ss = {};
     id_ss << "soc2-" << ts;
     report.report_id       = id_ss.str();
     report.generated_at_ms = ts;
@@ -541,7 +542,7 @@ void Soc2ControlSet::collectEvidence(const std::string &resource, const std::str
 
     Soc2EvidenceItem ev;
     {
-        std::ostringstream id_ss;
+        std::ostringstream id_ss = {};
         id_ss << "ev-" << (++evidence_counter_) << "-" << nowMs();
         ev.evidence_id = id_ss.str();
     }

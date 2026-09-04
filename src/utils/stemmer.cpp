@@ -45,9 +45,15 @@ std::string Stemmer::stem(std::string_view token, Language lang) {
 }
 
 Stemmer::Language Stemmer::parseLanguage(std::string_view langCode) {
-    if (langCode == "en" || langCode == "EN") return Language::EN;
-    if (langCode == "de" || langCode == "DE") return Language::DE;
-    if (langCode == "none" || langCode == "NONE") return Language::NONE;
+    if (langCode == "en" || langCode == "EN") {
+      return Language::EN;
+    }
+    if (langCode == "de" || langCode == "DE") {
+      return Language::DE;
+    }
+    if (langCode == "none" || langCode == "NONE") {
+      return Language::NONE;
+    }
     return Language::NONE; // Default fallback
 }
 
@@ -62,7 +68,9 @@ std::string Stemmer::languageToString(Language lang) {
 
 // English Porter Stemmer (simplified - Step 1a, 1b, 1c only)
 std::string Stemmer::stemEnglish(std::string word) {
-    if (word.length() <= 2) return word;
+    if (word.length() <= 2) {
+      return word;
+    }
     
     // Step 1a: plurals
     if (word.ends_with("sses")) {
@@ -126,7 +134,9 @@ std::string Stemmer::stemEnglish(std::string word) {
 
 // German Stemmer (simplified - removes common suffixes)
 std::string Stemmer::stemGerman(std::string word) {
-    if (word.length() <= 3) return word;
+    if (word.length() <= 3) {
+      return word;
+    }
     
     // Remove common German suffixes (order matters!)
     // Plurals
@@ -163,7 +173,9 @@ std::string Stemmer::stemGerman(std::string word) {
 }
 
 bool Stemmer::endsWithDoubleConsonant(const std::string& word) {
-    if (word.length() < 2) return false;
+    if (word.length() < 2) {
+      return false;
+    }
     char last = word[word.length() - 1];
     char prev = word[word.length() - 2];
     return last == prev && 

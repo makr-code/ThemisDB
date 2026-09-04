@@ -28,7 +28,7 @@ TEST(DisasterRecoveryManagerTest, ValidatePlanRejectsMissingPlanId) {
     auto plan = makeBasePlan();
     plan.plan_id.clear();
 
-    std::string error;
+    std::string error = {};
     EXPECT_FALSE(mgr.validatePlan(plan, error));
     EXPECT_FALSE(error.empty());
 }

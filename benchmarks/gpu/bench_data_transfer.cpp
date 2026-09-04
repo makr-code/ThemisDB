@@ -200,8 +200,12 @@ public:
                            bool add_bos = true,
                            bool add_eos = false) override {
         std::vector<int> tokens(SEQ_LENGTH, 1);
-        if (add_bos) tokens[0] = bos_token_id();
-        if (add_eos) tokens[SEQ_LENGTH-1] = eos_token_id();
+        if (add_bos) {
+          tokens[0] = bos_token_id();
+        }
+        if (add_eos) {
+          tokens[SEQ_LENGTH-1] = eos_token_id();
+        }
         return tokens;
     }
     
@@ -215,7 +219,7 @@ public:
     int pad_token_id() const override { return 0; }
     
 private:
-    int vocab_size_;
+    int vocab_size_ = {};
 };
 
 static void BM_DataLoader_WithPrefetch(benchmark::State& state) {
@@ -242,7 +246,8 @@ static void BM_DataLoader_WithPrefetch(benchmark::State& state) {
     GPUDataLoader loader(tokenizer, config);
     
     // Create training samples
-    std::vector<InstructionDataSample> samples;
+    std::vector<InstructionDataSample> samples = {};
+
     for (size_t i = 0; i < 100; ++i) {
         InstructionDataSample sample;
         sample.instruction = "Sample instruction " + std::to_string(i);
@@ -320,7 +325,8 @@ static void BM_BatchLoading_Throughput(benchmark::State& state) {
     GPUDataLoader loader(tokenizer, config);
     
     // Create training samples
-    std::vector<InstructionDataSample> samples;
+    std::vector<InstructionDataSample> samples = {};
+
     for (size_t i = 0; i < 200; ++i) {
         InstructionDataSample sample;
         sample.instruction = "Instruction " + std::to_string(i);

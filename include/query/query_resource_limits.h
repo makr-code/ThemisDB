@@ -62,7 +62,9 @@ public:
      * @return true if timeout_ms > 0 and the elapsed time exceeds timeout_ms.
      */
     [[nodiscard]] bool isTimedOut() const noexcept {
-        if (limits_.timeout_ms == 0) return false;
+        if (limits_.timeout_ms == 0) {
+          return false;
+        }
         auto elapsed = std::chrono::steady_clock::now() - start_;
         return std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count()
                >= static_cast<long long>(limits_.timeout_ms);
@@ -81,7 +83,9 @@ public:
         ++row_count_;
         memory_bytes_ += row_bytes;
 
-        if (isTimedOut()) return Violation::Timeout;
+        if (isTimedOut()) {
+          return Violation::Timeout;
+        }
         if (limits_.max_rows > 0 && row_count_ > limits_.max_rows)
             return Violation::RowLimit;
         if (limits_.max_memory_bytes > 0 && memory_bytes_ > limits_.max_memory_bytes)

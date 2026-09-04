@@ -285,7 +285,7 @@ BENCHMARK(BM_DistributedEvaluator_FastThorough)->Unit(benchmark::kMillisecond);
 static std::string makeBenignText(size_t byte_count)
 {
     const std::string word = "The retrieved document contains factual information. ";
-    std::string       out;
+    std::string       out = {};
     out.reserve(byte_count + word.size());
     while (out.size() < byte_count) { out += word; }
     out.resize(byte_count);

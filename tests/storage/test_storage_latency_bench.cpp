@@ -58,7 +58,7 @@ protected:
             engine_->close();
             engine_.reset();
         }
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(db_path_, ec);
     }
 
@@ -79,7 +79,9 @@ protected:
     }
 
     static int64_t percentile(const std::vector<int64_t>& sorted, double pct) {
-        if (sorted.empty()) return 0;
+        if (sorted.empty()) {
+          return 0;
+        }
         size_t idx = static_cast<size_t>(pct / 100.0 * (sorted.size() - 1));
         return sorted[idx];
     }

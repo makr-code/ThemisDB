@@ -91,7 +91,8 @@ void GPUMetrics::recordAllocFailTenant([[maybe_unused]] uint64_t bytes, const st
 
 void GPUMetrics::recordDealloc(uint64_t bytes, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::unordered_map<std::string, std::string> labels;
+    std::unordered_map<std::string, std::string> labels = {};
+
     if (!tenant_id.empty()) {
         labels["tenant"] = tenant_id;
     }
@@ -111,14 +112,15 @@ void GPUMetrics::recordCircuitOpen() {
 
 void GPUMetrics::setVRAMAllocated(uint64_t bytes, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::unordered_map<std::string, std::string> labels;
+    std::unordered_map<std::string, std::string> labels = {};
+
     if (!tenant_id.empty()) {
         labels["tenant"] = tenant_id;
     }
     setGauge("themis_gpu_vram_allocated_bytes", labels, static_cast<double>(bytes));
 }
 
-void GPUMetrics::setVRAMPeak(uint64_t bytes) {
+void GPUMetrics::setVRAMPeak([[maybe_unused]] uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     setGauge("themis_gpu_vram_peak_bytes", {}, static_cast<double>(bytes));
 }
@@ -152,7 +154,7 @@ void GPUMetrics::recordKernelDuration(const KernelRecord &record) {
 std::string GPUMetrics::nsight_export() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::fixed << std::setprecision(3);
 
     oss << "{\n";
@@ -163,7 +165,7 @@ std::string GPUMetrics::nsight_export() const {
         oss << "  \"Kernels\": []\n";
     } else {
         oss << "  \"Kernels\": [\n";
-        for (std::size_t i = 0; i < kernels_.size(); ++i) {
+        for (std::size_t i = 0; i <static_cast<int>(kernels_.size()); ++i) {
             const KernelRecord &k = kernels_[i];
             oss << "    {\n";
             oss << "      \"Name\": \"" << k.name << "\",\n";
@@ -173,7 +175,7 @@ std::string GPUMetrics::nsight_export() const {
             oss << "      \"Grid Size\": [" << k.grid_x << ", " << k.grid_y << ", " << k.grid_z << "],\n";
             oss << "      \"Block Size\": [" << k.block_x << ", " << k.block_y << ", " << k.block_z << "]\n";
             oss << "    }";
-            if (i + 1 < kernels_.size()) {
+            if (i + 1 <static_cast<int>(kernels_.size())) {
                 oss << ',';
             }
             oss << '\n';
@@ -199,7 +201,7 @@ std::string GPUMetrics::rocm_profiler_export() const {
     //
     // Each kernel is emitted as a complete event ("ph": "X").
     // Timestamps follow the Chrome trace convention (microseconds).
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     if (kernels_.empty()) {
         oss << "{\n  \"traceEvents\": []\n}\n";
@@ -208,7 +210,7 @@ std::string GPUMetrics::rocm_profiler_export() const {
 
     oss << "{\n  \"traceEvents\": [\n";
 
-    for (std::size_t i = 0; i < kernels_.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(kernels_.size()); ++i) {
         const KernelRecord &k = kernels_[i];
         const uint64_t ts     = static_cast<uint64_t>(k.duration_ns) / 1000;
         const uint64_t dur    = ts; // treat duration_ns as elapsed time
@@ -221,7 +223,7 @@ std::string GPUMetrics::rocm_profiler_export() const {
             << "\"grid\": [" << k.grid_x << "," << k.grid_y << "," << k.grid_z << "], "
             << "\"block\": [" << k.block_x << "," << k.block_y << "," << k.block_z << "]"
             << "}}";
-        if (i + 1 < kernels_.size()) {
+        if (i + 1 <static_cast<int>(kernels_.size())) {
             oss << ',';
         }
         oss << '\n';
@@ -237,8 +239,9 @@ std::string GPUMetrics::rocm_profiler_export() const {
 
 std::vector<GPUMetrics::Sample> GPUMetrics::snapshot() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<Sample> result;
-    result.reserve(counters_.size() + gauges_.size());
+    std::vector<Sample> result = {};
+
+    result.reserve(static_cast<int>(counters_.size()) + static_cast<int>(gauges_.size()) );
 
     for (const auto &kv : counters_) {
         Sample s;

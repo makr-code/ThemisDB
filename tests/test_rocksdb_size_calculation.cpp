@@ -40,7 +40,9 @@ static std::shared_ptr<RocksDBWrapper> openTempDB(const std::string& path) {
     cfg.db_path    = path;
     cfg.enable_wal = true;
     auto db = std::make_shared<RocksDBWrapper>(cfg);
-    if (!db->open()) return nullptr;
+    if (!db->open()) {
+      return nullptr;
+    }
     return db;
 }
 

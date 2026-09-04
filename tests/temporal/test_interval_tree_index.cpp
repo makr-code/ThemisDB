@@ -328,7 +328,9 @@ TEST_F(IntervalTreeIndexTest, ConcurrentReads_SharedMutex_NoDeadlock) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Each query targets exactly one interval → 8*50 = 400 hits expected
     EXPECT_EQ(total_hits.load(), NUM_THREADS * 50);

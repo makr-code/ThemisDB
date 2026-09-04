@@ -38,7 +38,7 @@ protected:
         }
     }
 
-    std::string test_dir_;
+    std::string test_dir_ = {};
 };
 
 // ============================================================================
@@ -567,7 +567,7 @@ protected:
         }
     }
 
-    std::string test_dir_;
+    std::string test_dir_ = {};
 };
 
 TEST_F(LLMDeploymentPluginSourceTest, LocalSourceWithMissingFileFallsBackToNextSource) {

@@ -104,7 +104,8 @@ void ModuleDependencyResolver::clear()
 std::vector<ModuleDependencyResolver::RegisteredModuleInfo>
 ModuleDependencyResolver::getRegisteredModules() const
 {
-    std::vector<RegisteredModuleInfo> result;
+    std::vector<RegisteredModuleInfo> result = {};
+
     result.reserve(modules_.size());
     for (const auto& kv : modules_) {
         RegisteredModuleInfo info;
@@ -119,7 +120,8 @@ ModuleDependencyResolver::getRegisteredModules() const
 
 DependencyResolutionResult ModuleDependencyResolver::resolve() const
 {
-    std::vector<std::string> all;
+    std::vector<std::string> all = {};
+
     all.reserve(modules_.size());
     for (const auto& kv : modules_) {
         all.push_back(kv.first);
@@ -152,7 +154,7 @@ DependencyResolutionResult ModuleDependencyResolver::resolveFor(
             std::unique(precheck.missingRequired.begin(), precheck.missingRequired.end()),
             precheck.missingRequired.end());
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Missing required dependencies:";
         for (const auto& m : precheck.missingRequired) {
             oss << ' ' << m;
@@ -181,7 +183,8 @@ DependencyResolutionResult ModuleDependencyResolver::resolveFor(
         }
     }
 
-    std::vector<std::string> closure;
+    std::vector<std::string> closure = {};
+
     closure.reserve(visited.size());
     for (const auto& kv : visited) {
         closure.push_back(kv.first);
@@ -233,7 +236,7 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
                 if (!dep.minVersion.empty() || !dep.maxVersion.empty()) {
                     const std::string& depVersion = modules_.at(dep.name).version;
                     if (!isVersionCompatible(depVersion, dep.minVersion, dep.maxVersion)) {
-                        std::ostringstream oss;
+                        std::ostringstream oss = {};
                         oss << n << " requires " << dep.name
                             << " version";
                         if (!dep.minVersion.empty()) {
@@ -260,7 +263,7 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
                     {
                         const std::string& depVersion = modules_.at(dep.name).version;
                         if (!isVersionCompatible(depVersion, dep.minVersion, dep.maxVersion)) {
-                            std::ostringstream oss;
+                            std::ostringstream oss = {};
                             oss << n << " optionally requires " << dep.name
                                 << " version";
                             if (!dep.minVersion.empty()) {
@@ -289,7 +292,7 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
     }
 
     if (!result.missingRequired.empty()) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Missing required dependencies:";
         for (const auto& m : result.missingRequired) {
             oss << " " << m;
@@ -300,7 +303,7 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
     }
 
     if (!result.versionMismatches.empty()) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Version constraint violations:";
         for (const auto& vm : result.versionMismatches) {
             oss << " [" << vm << "]";
@@ -312,7 +315,8 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
 
     // Kahn's algorithm: start with all nodes that have no unresolved deps.
     // Use a sorted vector to guarantee deterministic (alphabetical) output.
-    std::vector<std::string> ready;
+    std::vector<std::string> ready = {};
+
     for (const auto& kv : inDegree) {
         if (kv.second == 0) {
             ready.push_back(kv.first);
@@ -335,8 +339,9 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
     }
 
     // If not all nodes were processed, at least one cycle exists.
-    if (result.loadOrder.size() != nodes.size()) {
-        std::vector<std::string> cycleNodes;
+    if (static_cast<int>(result.loadOrder.size()) != static_cast<int>(nodes.size())) {
+        std::vector<std::string> cycleNodes = {};
+
         for (const auto& kv : inDegree) {
             if (kv.second > 0) {
                 cycleNodes.push_back(kv.first);
@@ -345,7 +350,7 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
         std::sort(cycleNodes.begin(), cycleNodes.end());
         result.cycles.push_back(cycleNodes);
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Circular dependency detected among modules:";
         for (const auto& cn : cycleNodes) {
             oss << " " << cn;

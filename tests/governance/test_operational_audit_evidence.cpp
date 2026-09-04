@@ -51,7 +51,8 @@ protected:
     static std::unordered_map<std::string, std::string> jsonToContext(
         const nlohmann::json& j
     ) {
-        std::unordered_map<std::string, std::string> context;
+        std::unordered_map<std::string, std::string> context = {};
+
         if (!j.is_object()) {
             return context;
         }

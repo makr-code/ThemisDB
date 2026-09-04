@@ -35,7 +35,9 @@ PIIStreamScanner::PIIStreamScanner(std::shared_ptr<IPIIDetectionEngine> engine,
     , cfg_(cfg)
     , global_offset_(0)
 {
-    if (!engine_) throw std::invalid_argument("PIIStreamScanner: engine must not be null");
+    if (!engine_) {
+      throw std::invalid_argument("PIIStreamScanner: engine must not be null");
+    }
     // Auto-derive lookahead_bytes from the engine's maxPatternLength() when the
     // caller uses the default config (lookahead_bytes == kDefaultLookaheadBytes).
     // This makes the cross-chunk sliding-window overlap exactly equal to the
@@ -48,7 +50,7 @@ PIIStreamScanner::PIIStreamScanner(std::shared_ptr<IPIIDetectionEngine> engine,
 
 std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, bool is_last) {
     // Append incoming chunk to the lookahead buffer.
-    lookahead_buf_.append(chunk.data(), chunk.size());
+    lookahead_buf_.append(chunk.data(),static_cast<int>(chunk.size()));
 
     // Determine how many bytes we can safely finalize: hold back the last
     // `lookahead_bytes` characters unless this is the final chunk (to handle
@@ -56,9 +58,9 @@ std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, boo
     size_t process_len = lookahead_buf_.size();
     size_t holdback    = 0;
 
-    if (!is_last && lookahead_buf_.size() > cfg_.lookahead_bytes) {
+    if (!is_last && static_cast<int>(lookahead_buf_.size()) > cfg_.lookahead_bytes) {
         holdback    = cfg_.lookahead_bytes;
-        process_len = lookahead_buf_.size() - holdback;
+        process_len = static_cast<int>(lookahead_buf_.size()) - holdback;
     }
 
     // Run detection on the portion we are ready to finalize.
@@ -92,13 +94,18 @@ std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, boo
     }
 
     // Filter by confidence and adjust offsets to be absolute in the document.
-    std::vector<PIIFinding> result;
+    std::vector<PIIFinding> result = {};
+
     result.reserve(raw_findings.size());
 
     for (auto& f : raw_findings) {
-        if (f.confidence < cfg_.min_confidence) continue;
+        if (f.confidence < cfg_.min_confidence) {
+          continue;
+        }
         // Only include findings that are entirely within the finalized window.
-        if (f.end_offset > process_len) continue;
+        if (f.end_offset > process_len) {
+          continue;
+        }
 
         f.start_offset += global_offset_;
         f.end_offset   += global_offset_;
@@ -138,7 +145,7 @@ std::string hmacPseudonym(const std::string& key, const std::string& value) {
          static_cast<int>(value.size()),
          digest, &digest_len);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < 4; ++i) { // 4 bytes → 8 hex chars
         oss << std::setw(2) << static_cast<int>(digest[i]);
@@ -161,7 +168,9 @@ PIIStreamPseudonymizer::PIIStreamPseudonymizer(
     , lek_mgr_(std::move(lek_mgr))
     , cfg_(std::move(cfg))
 {
-    if (!lek_mgr_) throw std::invalid_argument("PIIStreamPseudonymizer: lek_mgr must not be null");
+    if (!lek_mgr_) {
+      throw std::invalid_argument("PIIStreamPseudonymizer: lek_mgr must not be null");
+    }
 }
 
 std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool is_last) {
@@ -177,7 +186,7 @@ std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool i
 
     // Reconstruct the text for this chunk with PII spans replaced.
     // `findings` use absolute offsets; we need offsets relative to this chunk.
-    std::string result;
+    std::string result = {};
     result.reserve(chunk.size());
 
     // The scanner may not have returned findings for bytes it is still
@@ -192,8 +201,10 @@ std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool i
         size_t rel_start = f.start_offset - base_offset;
         size_t rel_end   = f.end_offset   - base_offset;
 
-        if (rel_start > finalized_chunk.size()) break;
-        rel_end = std::min(rel_end, finalized_chunk.size());
+        if (rel_start > static_cast<int>(finalized_chunk.size())) {
+          break;
+        }
+        rel_end = std::min(rel_end,static_cast<int>(finalized_chunk.size()));
 
         // Copy gap before this finding.
         if (rel_start > cursor) {
@@ -207,8 +218,8 @@ std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool i
         cursor = rel_end;
     }
     // Copy remaining text after last finding.
-    if (cursor < finalized_chunk.size()) {
-        result.append(finalized_chunk.data() + cursor, finalized_chunk.size() - cursor);
+    if (static_cast<int>(finalized_chunk.size()) > cursor) {
+        result.append(finalized_chunk.data() + cursor, static_cast<int>(finalized_chunk.size()) - cursor);
     }
 
     return result;

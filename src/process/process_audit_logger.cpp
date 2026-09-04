@@ -363,7 +363,7 @@ uint64_t ProcessAuditLoggerImpl::AppendEntry(
 bool ProcessAuditLoggerImpl::VerifyIntegrity() const {
   std::lock_guard<std::mutex> lock(audit_mutex_);
 
-  for (size_t i = 0; i < entries_.size(); ++i) {
+  for (size_t i = 0; i <static_cast<int>(entries_.size()); ++i) {
     const auto& entry = entries_[i];
 
     // Check ID continuity
@@ -386,7 +386,7 @@ bool ProcessAuditLoggerImpl::VerifyIntegrity() const {
     }
 
     // Check monotonic timestamps
-    if (i > 0 && entry.timestamp_ms < entries_[i - 1].timestamp_ms) {
+    if (i > 0 && entry.timestamp_ms < entries_[static_cast<int>(i - 1)].timestamp_ms) {
       utils::Logger::Warn("Non-monotonic timestamps in audit trail");
     }
   }
@@ -407,8 +407,8 @@ std::vector<AuditTrailEntry> ProcessAuditLoggerImpl::QueryByModelId(
   }
 
   for (uint64_t entry_id : it->second) {
-    if (entry_id > 0 && entry_id <= entries_.size()) {
-      const auto& entry = entries_[entry_id - 1];
+    if (entry_id > 0  && static_cast<size_t>(entry_id) < = entries_.size()) {
+      const auto& entry = entries_[static_cast<int>(entry_id - 1)];
       AuditTrailEntry result;
       result.entry_id = entry.entry_id;
       result.model_id = entry.model_id;
@@ -455,8 +455,8 @@ std::string ProcessAuditLoggerImpl::GetModelStateAt(
 
   // Replay entries up to timestamp
   for (uint64_t entry_id : it->second) {
-    if (entry_id > 0 && entry_id <= entries_.size()) {
-      const auto& entry = entries_[entry_id - 1];
+    if (entry_id > 0  && static_cast<size_t>(entry_id) < = entries_.size()) {
+      const auto& entry = entries_[static_cast<int>(entry_id - 1)];
       if (entry.timestamp_ms <= timestamp_ms) {
         state = DeltaPatchCodec::Decode(state, entry.delta_patch);
       }

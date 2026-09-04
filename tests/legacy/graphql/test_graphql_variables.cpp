@@ -173,7 +173,7 @@ TEST(GraphQLVariables, ExecutorUsesDefaultValueWhenVariableNotSupplied) {
     ASSERT_TRUE(parseResult.success);
 
     ExecutionContext ctx;  // No variables supplied at runtime
-    std::string capturedId;
+    std::string capturedId = {};
     ctx.resolvers["user"] = [&capturedId](const Field& f,
                                            const std::shared_ptr<Value>&,
                                            const ExecutionContext&) {
@@ -198,7 +198,7 @@ TEST(GraphQLVariables, ExecutorRuntimeVariableOverridesDefault) {
 
     ExecutionContext ctx;
     ctx.variables["id"] = Value::string("runtime-id");
-    std::string capturedId;
+    std::string capturedId = {};
     ctx.resolvers["user"] = [&capturedId](const Field& f,
                                            const std::shared_ptr<Value>&,
                                            const ExecutionContext&) {

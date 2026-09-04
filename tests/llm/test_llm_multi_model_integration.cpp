@@ -403,7 +403,8 @@ TEST_F(MultiModelIntegrationTest, PerModelResourceQuota) {
 
     // Submit a few requests — engine should still serve them regardless of quota
     // (quota is informational; the engine doesn't hard-block).
-    std::vector<InferenceHandle> handles;
+    std::vector<InferenceHandle> handles = {};
+
     for (int i = 0; i < 4; ++i) {
         handles.push_back(
             engine.submit(makeRequest("quota_" + std::to_string(i),
@@ -553,10 +554,14 @@ TEST_F(MultiModelIntegrationTest, SharedPoolBetweenBothEngines) {
 
     int async_ok = 0, enh_ok = 0;
     for (auto& h : async_handles) {
-        if (!h.get().text.empty()) ++async_ok;
+        if (!h.get().text.empty()) {
+          ++async_ok;
+        }
     }
     for (auto& h : enh_handles) {
-        if (!h.get().text.empty()) ++enh_ok;
+        if (!h.get().text.empty()) {
+          ++enh_ok;
+        }
     }
 
     EXPECT_EQ(async_ok, num_async_reqs)

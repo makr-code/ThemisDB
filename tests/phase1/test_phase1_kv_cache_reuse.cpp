@@ -72,7 +72,7 @@ std::string getTestModelPath() {
 }
 
 std::string compiledBackendSummary() {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "cuda=";
 #ifdef THEMIS_ENABLE_CUDA
     oss << "1";
@@ -479,7 +479,8 @@ TEST_F(KVCacheReuseTest, ZipfianDistributionWorkload) {
     LLMPrefixCache cache("test_zipfian_cache", cache_config_);
     
     // Create 20 different prefixes
-    std::vector<std::string> prefixes;
+    std::vector<std::string> prefixes = {};
+
     for (int i = 0; i < 20; ++i) {
         prefixes.push_back("Prefix " + std::to_string(i) + " for Zipfian distribution test pattern");
     }
@@ -503,7 +504,7 @@ TEST_F(KVCacheReuseTest, ZipfianDistributionWorkload) {
     for (int i = 0; i < total_accesses; ++i) {
         // Zipfian: P(k) ~ 1/k^alpha, alpha=1
         // Approximate: first 4 items get most traffic
-        int idx;
+        int idx = 0;
         if (i % 10 < 8) {
             // 80% of accesses go to top 20% of items
             idx = i % 4;
@@ -555,7 +556,9 @@ TEST(KVCacheReuseAcceptanceCriteria, AllCriteriaMet) {
     bool all_passed = true;
     for (const auto& c : criteria) {
         EXPECT_TRUE(c.passed) << c.criterion << " FAILED - Target: " << c.target << ", Actual: " << c.actual;
-        if (!c.passed) all_passed = false;
+        if (!c.passed) {
+          all_passed = false;
+        }
     }
     
     EXPECT_TRUE(all_passed) << "Some KV-Cache Reuse acceptance criteria not met";

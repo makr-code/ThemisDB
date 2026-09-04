@@ -46,7 +46,9 @@ static bool streamReadLineOracle(std::istream& file,
     line.clear();
 
     if (max_bytes == 0) {
-        if (!std::getline(file, line)) return false;
+        if (!std::getline(file, line)) {
+          return false;
+        }
         return true;
     }
 
@@ -56,7 +58,9 @@ static bool streamReadLineOracle(std::istream& file,
 
     while (file.get(c)) {
         got_any = true;
-        if (c == '\n') break;
+        if (c == '\n') {
+          break;
+        }
 
         if (count < max_bytes) {
             line += c;
@@ -76,7 +80,9 @@ static bool streamReadLineOracle(std::istream& file,
  */
 static std::string toLowerOracle(const std::string& s) {
     std::string result = s;
-    for (auto& ch : result) ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+    for (auto& ch : result) {
+      ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+    }
     return result;
 }
 
@@ -110,7 +116,9 @@ static thread_local OracleConnectionPoolState g_oracle_connection_pool;
 [[maybe_unused]] static ImportErrorCode mapOracleErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error reporting
     const auto msg_lower = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
         return s;
     };
     std::string lower_msg = msg_lower(error_msg);
@@ -160,30 +168,34 @@ static thread_local OracleConnectionPoolState g_oracle_connection_pool;
 static bool simpleInsertFallbackOracle(const std::string& sql, std::string& out_table_name) {
     // Very simple fallback: find "INSERT INTO" and extract table name
     const auto sql_upper = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+        }
         return s;
     };
     std::string upper_sql = sql_upper(sql);
     
     size_t pos = upper_sql.find("INTO");
-    if (pos == std::string::npos) return false;
+    if (pos == std::string::npos) {
+      return false;
+    }
     
     pos += 4;  // Skip "INTO"
     // Skip whitespace
-    while (pos < upper_sql.size() && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
+    while ((pos < static_cast<int>(upper_sql.size())) && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
         ++pos;
     
     // Skip owner prefix if present (e.g., "OWNER.")
     size_t name_start = pos;
-    while (pos < upper_sql.size() && upper_sql[pos] != ' ' && upper_sql[pos] != '\t' && upper_sql[pos] != '(')
+    while (pos <static_cast<int>(upper_sql.size()) && upper_sql[pos] != ' ' && upper_sql[pos] != '\t' && upper_sql[pos] != '(')
         ++pos;
     
     if (name_start < pos) {
         out_table_name = sql.substr(name_start, pos - name_start);
         // Remove quotes if present (both double and single quotes for Oracle)
-        if ((out_table_name.size() >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
-            (out_table_name.size() >= 2 && out_table_name[0] == '\'' && out_table_name[out_table_name.size() - 1] == '\'')) {
-            out_table_name = out_table_name.substr(1, out_table_name.size() - 2);
+        if (((static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
+            (static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '\'' && out_table_name[out_table_name.size() - 1] == '\''))) {
+            out_table_name = out_table_name.substr(1, static_cast<int>(out_table_name.size()) - 2);
         }
         return true;
     }
@@ -226,7 +238,7 @@ bool OracleImporter::validateSource(const std::string& source_path,
     }
 
     // Check for Oracle dump header markers in the first 100 lines.
-    std::string line;
+    std::string line = {};
     bool found_oracle = false;
     int lines_checked = 0;
     while (std::getline(file, line) && lines_checked < 100) {
@@ -396,8 +408,8 @@ json OracleImporter::getSourceSchema(const std::string& source_path) {
         return json::array();
     }
 
-    std::string line;
-    std::string current_sql;
+    std::string line = {};
+    std::string current_sql = {};
     // PHASE-4-HARDENING: Add bounds to prevent DoS from oversized SQL statements
     const size_t kMaxLineLength = 65536;  // 64 KB per line
     const size_t kMaxSqlLength = 1048576; // 1 MB per statement
@@ -408,23 +420,27 @@ json OracleImporter::getSourceSchema(const std::string& source_path) {
         ++lines_processed;
          
         // Truncate overly long lines
-        if (line.size() > kMaxLineLength) {
+        if (static_cast<int>(line.size()) > kMaxLineLength) {
             THEMIS_WARN("Oracle schema line {} exceeds max length ({}); truncating", 
                        lines_processed, kMaxLineLength);
             line.resize(kMaxLineLength);
         }
          
         // Skip empty lines and SQL comments (-- ...)
-        if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) continue;
+        if ((line.empty()) || ((static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-'))) {
+          continue;
+        }
 
         std::string stripped = stripOracleComments(line);
         {
             size_t first = stripped.find_first_not_of(" \t\r\n");
-            if (first == std::string::npos) continue;
+            if (first == std::string::npos) {
+              continue;
+            }
         }
 
         // Bounds check on accumulated SQL
-        if (current_sql.size() + stripped.size() + 1 > kMaxSqlLength) {
+        if (static_cast<int>(current_sql.size()) + static_cast<int>(stripped.size()) + 1 > kMaxSqlLength) {
             THEMIS_WARN("Oracle SQL statement exceeds max length ({}); truncating", kMaxSqlLength);
             current_sql.clear();
             continue;
@@ -435,7 +451,7 @@ json OracleImporter::getSourceSchema(const std::string& source_path) {
         if (line.find(';') != std::string::npos) {
             if (current_sql.find("CREATE TABLE") != std::string::npos ||
                 current_sql.find("create table") != std::string::npos) {
-                TableSchema schema;
+                TableSchema schema = {};
                 if (parseCreateTable(current_sql, schema)) {
                     schemas_[schema.name] = schema;
                 }
@@ -499,7 +515,7 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
 
     // Detect Oracle dump header in the first 50 lines.
     {
-        std::string hdr_line;
+        std::string hdr_line = {};
         int hdr_lines = 0;
         bool found_header = false;
         bool hdr_trunc = false;
@@ -512,8 +528,8 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
                 found_header = true;
             }
             if (!hdr_line.empty() &&
-                !(hdr_line.size() >= 2 && hdr_line[0] == '-' && hdr_line[1] == '-') &&
-                !(hdr_line.size() >= 2 && hdr_line[0] == '/' && hdr_line[1] == '*')) {
+                !(static_cast<int>(hdr_line.size()) >= 2 && hdr_line[0] == '-' && hdr_line[1] == '-') &&
+                !(static_cast<int>(hdr_line.size()) >= 2 && hdr_line[0] == '/' && hdr_line[1] == '*')) {
                 break;
             }
             hdr_lines++;
@@ -531,10 +547,10 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
     // Per-line read limit (default 64 MB, honoring max_statement_size_bytes)
     const size_t line_read_limit = options.max_statement_size_bytes > 0
                                    ? options.max_statement_size_bytes
-                                   : 64 * 1024 * 1024ULL;
+                                   : 64 * 1024 * 1024;
 
-    std::string line;
-    std::string current_sql;
+    std::string line = {};
+    std::string current_sql = {};
     size_t line_number = 0;
     size_t batch_row_count = 0;
     bool line_truncated = false;
@@ -549,12 +565,14 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
                      "line " + std::to_string(line_number));
             stats.warnings.push_back("Line truncated at " + std::to_string(line_number));
             current_sql.clear();
-            if (!options.continue_on_error) return false;
+            if (!options.continue_on_error) {
+              return false;
+            }
             continue;
         }
 
         // Skip empty lines and SQL comments (-- ...)
-        if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) {
+        if ((line.empty()) || ((static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-'))) {
             continue;
         }
 
@@ -562,14 +580,16 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
         std::string stripped_line = stripOracleComments(line);
         {
             size_t first = stripped_line.find_first_not_of(" \t\r\n");
-            if (first == std::string::npos) continue;
+            if (first == std::string::npos) {
+              continue;
+            }
         }
 
         current_sql += stripped_line + " ";
 
         // Statement-size guard
         if (options.max_statement_size_bytes > 0 &&
-            current_sql.size() > options.max_statement_size_bytes) {
+            static_cast<int>(current_sql.size()) > options.max_statement_size_bytes) {
             addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
                      ImportErrorSeverity::WARNING,
                      "SQL statement exceeds max_statement_size_bytes (" +
@@ -578,7 +598,9 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
             stats.warnings.push_back("Statement too large near line " +
                                      std::to_string(line_number));
             current_sql.clear();
-            if (!options.continue_on_error) return false;
+            if (!options.continue_on_error) {
+              return false;
+            }
             continue;
         }
 
@@ -588,14 +610,14 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
         }
 
         // Classify and process the completed statement (check first 30 chars for keyword)
-        std::string prefix;
-        for (size_t i = 0; i < current_sql.size() && i < 30; ++i) {
+        std::string prefix = {};
+        for (size_t i = 0; i <static_cast<int>(current_sql.size()) && i < 30; ++i) {
             prefix += static_cast<char>(std::toupper(static_cast<unsigned char>(current_sql[i])));
         }
 
         if (prefix.find("CREATE TABLE") != std::string::npos) {
             auto t0 = std::chrono::steady_clock::now();
-            TableSchema schema;
+            TableSchema schema = {};
             if (parseCreateTable(current_sql, schema)) {
                 if (shouldImportTable(schema.name, options)) {
                     schemas_[schema.name] = schema;
@@ -646,7 +668,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
     std::regex table_regex(
         R"REGEX(CREATE\s+TABLE\s+(?:(?:"([^"]+)"|(\w+))\.)?(?:"([^"]+)"|(\w+))\s*\()REGEX",
         std::regex_constants::icase);
-    std::smatch match;
+    std::smatch match = {};
 
     if (!std::regex_search(sql, match, table_regex)) {
         return false;
@@ -658,20 +680,26 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
     schema.name   = match[3].matched ? match[3].str()
                   : match[4].matched ? match[4].str() : "";
 
-    if (schema.name.empty()) return false;
+    if (schema.name.empty()) {
+      return false;
+    }
 
     // Find the outer parentheses wrapping the column definitions.
     size_t open_pos = sql.find('(', match.position());
-    if (open_pos == std::string::npos) return false;
+    if (open_pos == std::string::npos) {
+      return false;
+    }
 
     // Find matching closing paren using a depth counter (respects quotes)
     int depth = 0;
     bool in_string = false;
     size_t close_pos = std::string::npos;
-    for (size_t k = open_pos; k < sql.size(); ++k) {
+    for (size_t k = open_pos; k <static_cast<int>(sql.size()); ++k) {
         char c = sql[k];
         if (in_string) {
-            if (c == '\'') in_string = false;
+            if (c == '\'') {
+              in_string = false;
+            }
         } else if (c == '\'') {
             in_string = true;
         } else if (c == '(') {
@@ -681,7 +709,9 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
             if (depth == 0) { close_pos = k; break; }
         }
     }
-    if (close_pos == std::string::npos) return false;
+    if (close_pos == std::string::npos) {
+      return false;
+    }
 
     std::string cols_str = sql.substr(open_pos + 1, close_pos - open_pos - 1);
 
@@ -691,12 +721,14 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
         int dep = 0;
         bool inq = false;
         char qc  = '\0';
-        std::string cur;
-        for (size_t i = 0; i < cols_str.size(); ++i) {
+        std::string cur = {};
+        for (size_t i = 0; i <static_cast<int>(cols_str.size()); ++i) {
             char c = cols_str[i];
             if (inq) {
                 cur += c;
-                if (c == qc) inq = false;
+                if (c == qc) {
+                  inq = false;
+                }
             } else if (c == '\'' || c == '"') {
                 inq = true; qc = c; cur += c;
             } else if (c == '(') {
@@ -710,25 +742,33 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
                 cur += c;
             }
         }
-        if (!cur.empty()) col_defs.push_back(cur);
+        if (!cur.empty()) {
+          col_defs.push_back(cur);
+        }
     }
 
     for (auto& col_def : col_defs) {
         // Trim leading/trailing whitespace
         {
             size_t f = col_def.find_first_not_of(" \t\n\r");
-            if (f == std::string::npos) continue;
+            if (f == std::string::npos) {
+              continue;
+            }
             col_def = col_def.substr(f);
         }
         {
             size_t l = col_def.find_last_not_of(" \t\n\r");
-            if (l != std::string::npos) col_def = col_def.substr(0, l + 1);
+            if (l != std::string::npos) {
+              col_def = col_def.substr(0, l + 1);
+            }
         }
-        if (col_def.empty()) continue;
+        if (col_def.empty()) {
+          continue;
+        }
 
         // Build upper prefix for constraint detection
-        std::string upper_def;
-        for (size_t i = 0; i < col_def.size() && i < 25; ++i)
+        std::string upper_def = {};
+        for (size_t i = 0; i <static_cast<int>(col_def.size()) && i < 25; ++i)
             upper_def += static_cast<char>(std::toupper(static_cast<unsigned char>(col_def[i])));
 
         // Skip table-level constraints: PRIMARY KEY, UNIQUE, CONSTRAINT, CHECK, FOREIGN
@@ -742,25 +782,31 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
         }
 
         // Extract column name (may be double-quote-quoted or plain)
-        std::string col_name;
+        std::string col_name = {};
         size_t type_start = 0;
         if (!col_def.empty() && col_def[0] == '"') {
             size_t end_dq = col_def.find('"', 1);
-            if (end_dq == std::string::npos) continue;
+            if (end_dq == std::string::npos) {
+              continue;
+            }
             col_name   = col_def.substr(1, end_dq - 1);
             type_start = end_dq + 1;
         } else {
             // Plain identifier (unquoted)
             size_t sp = col_def.find_first_of(" \t");
-            if (sp == std::string::npos) continue;
+            if (sp == std::string::npos) {
+              continue;
+            }
             col_name   = col_def.substr(0, sp);
             type_start = sp;
         }
 
-        if (col_name.empty()) continue;
+        if (col_name.empty()) {
+          continue;
+        }
 
         // Skip leading whitespace after column name
-        while (type_start < col_def.size() &&
+        while (type_start <static_cast<int>(col_def.size()) &&
                (col_def[type_start] == ' ' || col_def[type_start] == '\t')) {
             ++type_start;
         }
@@ -769,16 +815,16 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
         // or VARCHAR2(255 BYTE))
         // PHASE-4-HARDENING: Add length limit to prevent DoS via oversized type strings
         const size_t kMaxTypeLength = 256;
-        std::string col_type;
+        std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
-        while (k < col_def.size() && col_type.size() < kMaxTypeLength) {
+        while (k <static_cast<int>(col_def.size()) && static_cast<int>(col_type.size()) < kMaxTypeLength) {
             char c = col_def[k];
             if (c == '(') { ++tdep; col_type += c; }
             else if (c == ')') {
                 if (tdep > 0) { --tdep; col_type += c; }
                 else break;
-            } else if ((c == ' ' || c == '\t') && tdep == 0) {
+            } else if (((c == ' ' || c == '\t') && tdep == 0)) {
                 break;
             } else {
                 col_type += c;
@@ -786,11 +832,13 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
             ++k;
         }
          
-        if (col_type.size() >= kMaxTypeLength) {
+        if (static_cast<int>(col_type.size()) > = kMaxTypeLength) {
             THEMIS_WARN("Oracle column type exceeds max length ({}); truncating", kMaxTypeLength);
         }
 
-        if (col_type.empty()) continue;
+        if (col_type.empty()) {
+          continue;
+        }
 
         schema.columns.push_back(col_name);
         schema.column_types[col_name] = col_type;
@@ -807,12 +855,12 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
     std::regex insert_regex(
         R"REGEX(INSERT\s+INTO\s+(?:(?:"([^"]+)"|(\w+))\.)?(?:"([^"]+)"|(\w+))\s*\(([^)]*)\)\s+VALUES\s*(.+?)\s*;?\s*$)REGEX",
         std::regex_constants::icase);
-    std::smatch match;
+    std::smatch match = {};
 
     if (!std::regex_search(sql, match, insert_regex)) {
         // PHASE-2-HARDENING: Prepared statement fallback
         // Try simple parsing to extract table name for audit logging
-        std::string fallback_table;
+        std::string fallback_table = {};
         if (simpleInsertFallbackOracle(sql, fallback_table)) {
             // Successfully extracted table name via fallback
         }
@@ -832,18 +880,23 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
     }
 
     // Resolve column list from the explicit column clause
-    std::vector<std::string> col_list;
+    std::vector<std::string> col_list = {};
+
     if (match[5].matched && !match[5].str().empty()) {
         std::istringstream css(match[5].str());
-        std::string col;
+        std::string col = {};
         while (std::getline(css, col, ',')) {
             col = unquoteIdentifier(col);
             col.erase(0, col.find_first_not_of(" \t"));
             if (!col.empty()) {
                 size_t last = col.find_last_not_of(" \t");
-                if (last != std::string::npos) col = col.substr(0, last + 1);
+                if (last != std::string::npos) {
+                  col = col.substr(0, last + 1);
+                }
             }
-            if (!col.empty()) col_list.push_back(col);
+            if (!col.empty()) {
+              col_list.push_back(col);
+            }
         }
     } else if (schemas_.count(table_name)) {
         col_list = schemas_[table_name].columns;
@@ -855,20 +908,26 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
     // Build effective schema for convertRowToEntity
     TableSchema eff_schema;
     eff_schema.name = table_name;
-    if (schemas_.count(table_name)) eff_schema = schemas_[table_name];
-    if (!col_list.empty()) eff_schema.columns = col_list;
+    if (schemas_.count(table_name)) {
+      eff_schema = schemas_[table_name];
+    }
+    if (!col_list.empty()) {
+      eff_schema.columns = col_list;
+    }
 
     // Parse the tuple list: (v1,...),(v2,...), ...
     size_t pos = 0;
-    while (pos < values_payload.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(values_payload.size())) {
         // Skip whitespace and commas between tuples
-        while (pos < values_payload.size() &&
+        while (pos <static_cast<int>(values_payload.size()) &&
                (values_payload[pos] == ' ' || values_payload[pos] == '\t' ||
                 values_payload[pos] == ',' || values_payload[pos] == '\r' ||
                 values_payload[pos] == '\n')) {
             ++pos;
         }
-        if (pos >= values_payload.size()) break;
+        if (pos >= static_cast<int>(values_payload.size())) {
+          break;
+        }
         if (values_payload[pos] != '(') {
             ++pos;
             continue;
@@ -879,10 +938,10 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
         int dep = 1;
         bool in_str = false;
         size_t k = pos + 1;
-        while (k < values_payload.size() && dep > 0) {
+        while (k <static_cast<int>(values_payload.size()) && dep > 0) {
             char c = values_payload[k];
             if (in_str) {
-                if (c == '\'' && k + 1 < values_payload.size() &&
+                if (c == '\'' && k + 1 <static_cast<int>(values_payload.size()) &&
                     values_payload[k + 1] == '\'') {
                     ++k;  // skip escaped quote ''
                 } else if (c == '\'') {
@@ -904,7 +963,7 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
         std::vector<std::string> values = parseInsertValues(tuple_str);
 
         if (!eff_schema.columns.empty() &&
-            values.size() != eff_schema.columns.size()) {
+            static_cast<int>(values.size()) != static_cast<int>(eff_schema.columns.size())) {
             ImportError err;
             err.code     = ImportErrorCode::COLUMN_COUNT_MISMATCH;
             err.severity = ImportErrorSeverity::WARNING;
@@ -919,7 +978,7 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
         } else {
             json entity = convertRowToEntity(eff_schema, values);
             THEMIS_DEBUG("Oracle INSERT entity: {}", entity.dump());
-            if (options.streaming_row_callback) {
+            if ([[maybe_unused]] options.streaming_row_callback) {
                 if (!options.streaming_row_callback(table_name, entity)) {
                     cancelled_ = true;
                 }
@@ -927,7 +986,9 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
             stats.imported_records++;
             emitMetric(options, "themisdb_import_rows_total",
                        {{"table", table_name}, {"status", "imported"}}, 1.0);
-            if (cancelled_) return true;
+            if (cancelled_) {
+              return true;
+            }
         }
 
         pos = k;
@@ -939,73 +1000,155 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
 std::string OracleImporter::mapOracleTypeToThemis(const std::string& oracle_type,
                                                    const ImportOptions& options) const {
     // User-configurable overrides take priority
-    auto it = options.type_overrides.find(oracle_type);
-    if (it != options.type_overrides.end()) return it->second;
+    auto it = options.type_overrides.find(oracle_typ[[maybe_unused]] e);
+    if (i[[maybe_unused]] t != option[[maybe_unused]] s.type_override[[maybe_unused]] s.en[[maybe_unused]] d()) {
+      return it->second;
+    }
 
     // Normalise: strip precision/scale specifier and trailing modifiers
     // e.g. "VARCHAR2(255 BYTE)" -> "varchar2", "NUMBER(10,2)" -> "number"
     std::string base_type = oracle_type;
     size_t paren = base_type.find('(');
-    if (paren != std::string::npos) base_type = base_type.substr(0, paren);
+    if (paren != std::string::npos) {
+      base_type = base_type.substr(0, paren);
+    }
     std::string lower = toLowerOracle(base_type);
     // Trim trailing whitespace
     {
         size_t l = lower.find_last_not_of(" \t");
-        if (l != std::string::npos) lower = lower.substr(0, l + 1);
+        if (l != std::string::npos) {
+          lower = lower.substr(0, l + 1);
+        }
     }
 
     // Numeric types
-    if (lower == "number")          return "double";
-    if (lower == "numeric")         return "double";
-    if (lower == "decimal")         return "double";
-    if (lower == "float")           return "double";
-    if (lower == "binary_float")    return "float";
-    if (lower == "binary_double")   return "double";
-    if (lower == "integer")         return "integer";
-    if (lower == "int")             return "integer";
-    if (lower == "smallint")        return "integer";
-    if (lower == "real")            return "double";
+    if (lower == "number") {
+      return "double";
+    }
+    if (lower == "numeric") {
+      return "double";
+    }
+    if (lower == "decimal") {
+      return "double";
+    }
+    if (lower == "float") {
+      return "double";
+    }
+    if (lower == "binary_float") {
+      return "float";
+    }
+    if (lower == "binary_double") {
+      return "double";
+    }
+    if (lower == "integer") {
+      return "integer";
+    }
+    if (lower == "int") {
+      return "integer";
+    }
+    if (lower == "smallint") {
+      return "integer";
+    }
+    if (lower == "real") {
+      return "double";
+    }
 
     // String types
-    if (lower == "varchar2")        return "string";
-    if (lower == "varchar")         return "string";
-    if (lower == "char")            return "string";
-    if (lower == "nvarchar2")       return "string";
-    if (lower == "nchar")           return "string";
-    if (lower == "clob")            return "string";
-    if (lower == "nclob")           return "string";
-    if (lower == "long")            return "string";
-    if (lower == "xmltype")         return "string";
-    if (lower == "rowid")           return "string";
-    if (lower == "urowid")          return "string";
+    if (lower == "varchar2") {
+      return "string";
+    }
+    if (lower == "varchar") {
+      return "string";
+    }
+    if (lower == "char") {
+      return "string";
+    }
+    if (lower == "nvarchar2") {
+      return "string";
+    }
+    if (lower == "nchar") {
+      return "string";
+    }
+    if (lower == "clob") {
+      return "string";
+    }
+    if (lower == "nclob") {
+      return "string";
+    }
+    if (lower == "long") {
+      return "string";
+    }
+    if (lower == "xmltype") {
+      return "string";
+    }
+    if (lower == "rowid") {
+      return "string";
+    }
+    if (lower == "urowid") {
+      return "string";
+    }
 
     // Binary types
-    if (lower == "blob")            return "binary";
-    if (lower == "raw")             return "binary";
-    if (lower == "long raw")        return "binary";
-    if (lower == "bfile")           return "binary";
+    if (lower == "blob") {
+      return "binary";
+    }
+    if (lower == "raw") {
+      return "binary";
+    }
+    if (lower == "long raw") {
+      return "binary";
+    }
+    if (lower == "bfile") {
+      return "binary";
+    }
 
     // Date / time types
     // Oracle DATE includes both date and time components
-    if (lower == "date")            return "datetime";
-    if (lower == "timestamp")       return "datetime";
+    if (lower == "date") {
+      return "datetime";
+    }
+    if (lower == "timestamp") {
+      return "datetime";
+    }
 
     // Interval types -> string representation
-    if (lower.find("interval") != std::string::npos) return "string";
+    if (lower.find("interval") != std::string::npos) {
+      return "string";
+    }
 
     // Timestamp with time zone / local time zone
-    if (lower.find("timestamp") != std::string::npos) return "datetime";
+    if (lower.find("timestamp") != std::string::npos) {
+      return "datetime";
+    }
 
     // Prefix-based fallbacks
-    if (lower.find("char")   != std::string::npos) return "string";
-    if (lower.find("clob")   != std::string::npos) return "string";
-    if (lower.find("number") != std::string::npos) return "double";
-    if (lower.find("float")  != std::string::npos) return "double";
-    if (lower.find("int")    != std::string::npos) return "integer";
-    if (lower.find("date")   != std::string::npos) return "datetime";
-    if (lower.find("time")   != std::string::npos) return "datetime";
-    if (lower.find("blob")   != std::string::npos) return "binary";
-    if (lower.find("raw")    != std::string::npos) return "binary";
+    if (lower.find("char")   != std::string::npos) {
+      return "string";
+    }
+    if (lower.find("clob")   != std::string::npos) {
+      return "string";
+    }
+    if (lower.find("number") != std::string::npos) {
+      return "double";
+    }
+    if (lower.find("float")  != std::string::npos) {
+      return "double";
+    }
+    if (lower.find("int")    != std::string::npos) {
+      return "integer";
+    }
+    if (lower.find("date")   != std::string::npos) {
+      return "datetime";
+    }
+    if (lower.find("time")   != std::string::npos) {
+      return "datetime";
+    }
+    if (lower.find("blob")   != std::string::npos) {
+      return "binary";
+    }
+    if (lower.find("raw")    != std::string::npos) {
+      return "binary";
+    }
 
     return "string";  // Default: treat unknown types as strings
 }
@@ -1028,7 +1171,7 @@ json OracleImporter::convertRowToEntity(const TableSchema& schema,
     json entity;
     entity["_type"] = schema.name;
 
-    for (size_t i = 0; i < values.size() && i < schema.columns.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(values.size())  && static_cast<size_t>(i) <static_cast<int>(schema.columns.size()); ++i) {
         entity[schema.columns[i]] = values[i];
     }
 
@@ -1048,20 +1191,22 @@ std::vector<std::string> OracleImporter::parseInsertValues(
     size_t n = values_clause.size();
 
     auto skipWs = [&]() {
-        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t' ||
+        while ((i < n) && (values_clause[i] == ' ' || values_clause[i] == '\t' ||
                          values_clause[i] == '\r' || values_clause[i] == '\n')) ++i;
     };
 
     while (i < n) {
         skipWs();
-        if (i >= n) break;
+        if (i >= n) {
+          break;
+        }
 
         char c = values_clause[i];
 
         if (c == '\'') {
             // Single-quoted string; Oracle uses '' to escape an embedded quote
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 char sc = values_clause[i];
                 if (sc == '\'' && i + 1 < n && values_clause[i + 1] == '\'') {
@@ -1111,19 +1256,25 @@ std::vector<std::string> OracleImporter::parseInsertValues(
             {
                 size_t f = token.find_first_not_of(" \t\r\n");
                 size_t l = token.find_last_not_of(" \t\r\n");
-                if (f == std::string::npos) token.clear();
+                if (f == std::string::npos) {
+                  token.clear();
+                }
                 else token = token.substr(f, l - f + 1);
             }
             // NULL -> empty string sentinel
-            std::string upper_tok;
+            std::string upper_tok = {};
             for (char ch : token)
                 upper_tok += static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
-            if (upper_tok == "NULL") token.clear();
+            if (upper_tok == "NULL") {
+              token.clear();
+            }
             result.push_back(token);
         }
 
         skipWs();
-        if (i < n && values_clause[i] == ',') ++i;
+        if (i < n && values_clause[i] == ',') {
+          ++i;
+        }
     }
 
     return result;
@@ -1135,12 +1286,14 @@ std::string OracleImporter::unquoteIdentifier(const std::string& s) {
     {
         size_t f = t.find_first_not_of(" \t\r\n");
         size_t l = t.find_last_not_of(" \t\r\n");
-        if (f == std::string::npos) return "";
+        if (f == std::string::npos) {
+          return "";
+        }
         t = t.substr(f, l - f + 1);
     }
     // Strip double quotes
-    if (t.size() >= 2 && t.front() == '"' && t.back() == '"') {
-        return t.substr(1, t.size() - 2);
+    if (static_cast<int>(t.size()) > = 2 && t.front() == '"' && t.back() == '"') {
+        return t.substr(1, static_cast<int>(t.size()) - 2);
     }
     return t;
 }
@@ -1148,14 +1301,14 @@ std::string OracleImporter::unquoteIdentifier(const std::string& s) {
 std::string OracleImporter::stripOracleComments(const std::string& sql) {
     // Remove Oracle hint comments (/*+ ... */) and regular block comments (/* ... */).
     // Inline comments (-- ...) are filtered at the line level by the caller.
-    std::string result;
+    std::string result = {};
     result.reserve(sql.size());
     size_t i = 0;
-    while (i < sql.size()) {
-        if (i + 1 < sql.size() && sql[i] == '/' && sql[i + 1] == '*') {
+    while (static_cast<size_t>(i) <static_cast<int>(sql.size())) {
+        if (i + 1 <static_cast<int>(sql.size()) && sql[i] == '/' && sql[i + 1] == '*') {
             // Skip until closing */
             i += 2;
-            while (i + 1 < sql.size() && !(sql[i] == '*' && sql[i + 1] == '/')) {
+            while (i + 1 <static_cast<int>(sql.size()) && !(sql[i] == '*' && sql[i + 1] == '/')) {
                 ++i;
             }
             i += 2;  // skip */
@@ -1193,7 +1346,7 @@ void OracleImporter::emitMetric(const ImportOptions& options,
                                  const std::string& metric,
                                  const std::map<std::string, std::string>& labels,
                                  double value) const {
-    if (options.metrics_callback) {
+    if ([[maybe_unused]] options.metrics_callback) {
         options.metrics_callback(metric, labels, value);
     }
 }
@@ -1202,14 +1355,14 @@ void OracleImporter::emitSpan(const ImportOptions& options,
                                const std::string& operation,
                                const std::map<std::string, std::string>& attributes,
                                double duration_seconds) const {
-    if (options.tracing_callback) {
+    if ([[maybe_unused]] options.tracing_callback) {
         options.tracing_callback(operation, attributes, duration_seconds);
     }
 }
 
 void OracleImporter::reportProgress(ProgressCallback& callback, const std::string& stage,
                                      size_t current, size_t total) {
-    if (callback) {
+    if ([[maybe_unused]] callback) {
         callback(stage, current, total);
     }
 }
@@ -1231,12 +1384,16 @@ plugins::PluginCapabilities OracleImporterPlugin::getCapabilities() const {
 }
 
 bool OracleImporterPlugin::initialize(const char* config_json) {
-    if (!importer_) return false;
+    if (!importer_) {
+      return false;
+    }
     return importer_->initialize(config_json ? config_json : "{}");
 }
 
 void OracleImporterPlugin::shutdown() {
-    if (importer_) importer_->cancel();
+    if (importer_) {
+      importer_->cancel();
+    }
 }
 
 } // namespace importers

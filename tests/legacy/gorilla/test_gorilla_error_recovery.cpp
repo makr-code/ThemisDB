@@ -26,7 +26,9 @@ protected:
 
     std::vector<uint8_t> encode(const std::vector<std::pair<int64_t, double>>& s) {
         GorillaEncoder enc;
-        for (auto& p : s) enc.add(p.first, p.second);
+        for (auto& p : s) {
+          enc.add(p.first, p.second);
+        }
         return enc.finish();
     }
 };
@@ -92,10 +94,14 @@ TEST_F(GorillaErrorRecoveryTest, TruncatedToOneByteAfterValid) {
     auto series = makeSeriesN(5);
     auto bytes = encode(series);
     // Truncate to leave only first few bytes beyond the header
-    if (bytes.size() > 15) bytes.resize(15);
+    if (bytes.size() > 15) {
+      bytes.resize(15);
+    }
     GorillaDecoder dec(bytes);
     int count = 0;
-    while (auto p = dec.next()) ++count;
+    while (auto p = dec.next()) {
+      ++count;
+    }
     EXPECT_GE(count, 0);
 }
 
@@ -238,7 +244,9 @@ TEST_F(GorillaErrorRecoveryTest, IrregularTimestepsRoundtrip) {
         {1000, 1.0}, {1001, 2.0}, {1010, 3.0}, {1100, 4.0}, {2000, 5.0}
     };
     GorillaEncoder enc;
-    for (auto& p : series) enc.add(p.first, p.second);
+    for (auto& p : series) {
+      enc.add(p.first, p.second);
+    }
     auto bytes = enc.finish();
     GorillaDecoder dec(bytes);
     for (auto& expected : series) {

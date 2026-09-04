@@ -364,7 +364,8 @@ struct DataPage {
 
 static DataPage encodePlainByteArrayPage(const std::vector<std::string> &vals) {
     // Serialise values first so we know the byte size
-    std::vector<uint8_t> value_buf;
+    std::vector<uint8_t> value_buf = {};
+
     for (const auto &v : vals) {
         // PLAIN BYTE_ARRAY: 4-byte little-endian length + bytes
         uint32_t len = static_cast<uint32_t>(v.size());
@@ -376,7 +377,8 @@ static DataPage encodePlainByteArrayPage(const std::vector<std::string> &vals) {
     }
 
     int32_t data_size = static_cast<int32_t>(value_buf.size());
-    std::vector<uint8_t> header_buf;
+    std::vector<uint8_t> header_buf = {};
+
     encodePageHeader(header_buf, data_size, data_size, static_cast<int32_t>(vals.size()));
 
     return {std::move(header_buf), std::move(value_buf)};
@@ -397,16 +399,16 @@ static std::string valueToString(const std::optional<Value> &opt_val) {
             } else if constexpr (std::is_same_v<T, int64_t>) {
                 return std::to_string(v);
             } else if constexpr (std::is_same_v<T, double>) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << v;
                 return oss.str();
             } else if constexpr (std::is_same_v<T, std::string>) {
                 return v;
             } else if constexpr (std::is_same_v<T, std::vector<float>>) {
                 // Represent embedding as JSON array string
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << "[";
-                for (size_t i = 0; i < v.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(v.size()); ++i) {
                     if (i > 0) {
                         oss << ",";
                     }
@@ -416,8 +418,8 @@ static std::string valueToString(const std::optional<Value> &opt_val) {
                 return oss.str();
             } else {
                 // vector<uint8_t> — binary blob
-                std::ostringstream oss;
-                oss << "<binary:" << v.size() << ">";
+                std::ostringstream oss = {};
+                oss << "<binary:" <<static_cast<int>(v.size()) << ">";
                 return oss.str();
             }
         },
@@ -450,7 +452,8 @@ std::vector<std::string> ParquetExporter::resolveColumns(const std::vector<BaseE
 
     // Explicit include list
     if (!options.include_fields.empty()) {
-        std::vector<std::string> cols;
+        std::vector<std::string> cols = {};
+
         for (const auto &f : options.include_fields) {
             if (exclude_set.find(f) == exclude_set.end()) {
                 cols.push_back(f);
@@ -459,7 +462,8 @@ std::vector<std::string> ParquetExporter::resolveColumns(const std::vector<BaseE
         return cols;
     }
     if (!config_.include_columns.empty()) {
-        std::vector<std::string> cols;
+        std::vector<std::string> cols = {};
+
         for (const auto &f : config_.include_columns) {
             if (exclude_set.find(f) == exclude_set.end()) {
                 cols.push_back(f);
@@ -470,7 +474,8 @@ std::vector<std::string> ParquetExporter::resolveColumns(const std::vector<BaseE
 
     // Auto-detect: collect all field names across all entities
     if (config_.auto_detect_schema) {
-        std::set<std::string> seen;
+        std::set<std::string> seen = {};
+
         for (const auto &e : entities) {
             for (const auto &kv : e.getAllFields()) {
                 if (exclude_set.find(kv.first) == exclude_set.end()) {
@@ -482,7 +487,8 @@ std::vector<std::string> ParquetExporter::resolveColumns(const std::vector<BaseE
     }
 
     // Derive from column_hints
-    std::vector<std::string> cols;
+    std::vector<std::string> cols = {};
+
     for (const auto &hint : config_.column_hints) {
         if (exclude_set.find(hint.name) == exclude_set.end()) {
             cols.push_back(hint.name);
@@ -547,7 +553,8 @@ ExportStats ParquetExporter::exportWithArrow(const std::vector<BaseEntity> &enti
     ExportStats stats;
 
     // ── Set up PII detector if needed ──────────────────────────────────────
-    std::unique_ptr<PIIDetector> pii_detector;
+    std::unique_ptr<PIIDetector> pii_detector = {};
+
     if (config_.pii_config.enable_detection) {
         PIIDetector::Config pii_cfg;
         pii_cfg.detect_email       = config_.pii_config.detect_email;
@@ -634,7 +641,7 @@ ExportStats ParquetExporter::exportWithArrow(const std::vector<BaseEntity> &enti
             return true;
 
         arrow::ArrayVector arrays;
-        for (size_t ci = 0; ci < columns.size(); ++ci) {
+        for (size_t ci = 0; ci <static_cast<int>(columns.size()); ++ci) {
             arrow::StringBuilder builder;
             for (const auto &v : col_values[ci]) {
                 if (v.empty()) {
@@ -664,7 +671,8 @@ ExportStats ParquetExporter::exportWithArrow(const std::vector<BaseEntity> &enti
     };
 
     // AQL predicate filter (compiled once, reused per entity)
-    std::unique_ptr<AqlPredicateFilter> aql_filter;
+    std::unique_ptr<AqlPredicateFilter> aql_filter = {};
+
     if (!options.filter_expression.empty()) {
         aql_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);
     }
@@ -691,7 +699,7 @@ ExportStats ParquetExporter::exportWithArrow(const std::vector<BaseEntity> &enti
         }
         duplicate_set.insert(entity.getPrimaryKey());
 
-        for (size_t ci = 0; ci < columns.size(); ++ci) {
+        for (size_t ci = 0; ci <static_cast<int>(columns.size()); ++ci) {
             std::string val = valueToString(entity.getField(columns[ci]));
 
             // PII scrub
@@ -724,8 +732,8 @@ ExportStats ParquetExporter::exportWithArrow(const std::vector<BaseEntity> &enti
             }
         }
 
-        if (options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
-            options.progress_callback(stats);
+        if ([[maybe_unused]] options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
+            options.progress_callback([[maybe_unused]] stats);
         }
     }
 
@@ -755,7 +763,8 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
     ExportStats stats;
 
     // ── Set up PII detector if needed ──────────────────────────────────────
-    std::unique_ptr<PIIDetector> pii_detector;
+    std::unique_ptr<PIIDetector> pii_detector = {};
+
     if (config_.pii_config.enable_detection) {
         PIIDetector::Config pii_cfg;
         pii_cfg.detect_email       = config_.pii_config.detect_email;
@@ -780,7 +789,8 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
     size_t row_count = 0;
 
     // AQL predicate filter (compiled once, reused per entity)
-    std::unique_ptr<AqlPredicateFilter> aql_filter_fb;
+    std::unique_ptr<AqlPredicateFilter> aql_filter_fb = {};
+
     if (!options.filter_expression.empty()) {
         aql_filter_fb = std::make_unique<AqlPredicateFilter>(options.filter_expression);
     }
@@ -806,7 +816,7 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
             continue;
         }
 
-        for (size_t ci = 0; ci < columns.size(); ++ci) {
+        for (size_t ci = 0; ci <static_cast<int>(columns.size()); ++ci) {
             std::string val = valueToString(entity.getField(columns[ci]));
 
             // PII scrub
@@ -833,8 +843,8 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
         ++row_count;
         ++stats.exported_entities;
 
-        if (options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
-            options.progress_callback(stats);
+        if ([[maybe_unused]] options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
+            options.progress_callback([[maybe_unused]] stats);
         }
 
         // File size limit: check each 100 entities
@@ -895,7 +905,7 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
     std::vector<ColumnChunkInfo> chunks;
     int64_t row_group_total_bytes = 0;
 
-    for (size_t ci = 0; ci < columns.size(); ++ci) {
+    for (size_t ci = 0; ci <static_cast<int>(columns.size()); ++ci) {
         int64_t col_start_offset = static_cast<int64_t>(file_offset);
 
         DataPage page = encodePlainByteArrayPage(col_data[ci]);
@@ -911,7 +921,7 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
         ofs.write(reinterpret_cast<const char *>(page.values.data()), static_cast<std::streamsize>(page.values.size()));
         file_offset += page.values.size();
 
-        int64_t col_size = static_cast<int64_t>(page.header.size() + page.values.size());
+        int64_t col_size = static_cast<int64_t>(page.header.size() + static_cast<int>(page.values.size()) );
         row_group_total_bytes += col_size;
 
         ColumnChunkInfo info;
@@ -951,7 +961,7 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
     // ofs closes via RAII when it goes out of scope.
     stats.bytes_written = file_offset;
 
-    THEMIS_INFO("Parquet export complete: {} rows, {} columns, {} bytes", row_count, columns.size(), file_offset);
+    THEMIS_INFO("Parquet export complete: {} rows, {} columns, {} bytes", row_count,static_cast<int>(columns.size()), file_offset);
 
     return stats;
 }

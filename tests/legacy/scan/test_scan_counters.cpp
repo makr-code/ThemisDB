@@ -41,7 +41,9 @@ protected:
     }
 
     void TearDown() override {
-        if (engine_) engine_->close();
+        if (engine_) {
+          engine_->close();
+        }
         fs::remove_all(db_path_);
     }
 
@@ -152,7 +154,7 @@ TEST_F(ScanCounterTest, ScanPredicate_FiltersCorrectly) {
         "", "",
         [](std::string_view /*key*/, std::string_view val) {
             // Keep keys ending in digit 0 or 5
-            return !val.empty() && (val.back() == '0' || val.back() == '5');
+            return (!val.empty() && (val.back() == ('0' || val.back() == '5')));
         },
         [&](std::string_view key, std::string_view /*val*/) {
             collected.emplace_back(key);

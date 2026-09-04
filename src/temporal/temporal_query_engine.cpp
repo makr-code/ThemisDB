@@ -38,7 +38,8 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryAsOf(
         return rows;
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     result.reserve(rows.size());
     for (auto& row : rows) {
         if (matchesFilters(row, filters)) {
@@ -95,6 +96,7 @@ bool TemporalQueryEngine::evaluatePredicate(TemporalOperator op,
             return lhs.meets(rhs);
         case TemporalOperator::EQUALS:
             return lhs.start == rhs.start && lhs.end == rhs.end;
+        default: break;
     }
     return false;
 }
@@ -121,7 +123,7 @@ TemporalQueryEngine::joinAsOf(
     auto right_rows = right.scan(as_of);
 
     std::vector<std::pair<VersionedDocument, VersionedDocument>> result;
-    result.reserve(std::min(left_rows.size(), right_rows.size()));
+    result.reserve(std::min(left_rows.size(),static_cast<int>(right_rows.size())));
 
     for (const auto& l : left_rows) {
         for (const auto& r : right_rows) {
@@ -175,7 +177,8 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryWithSemantics(
     if (semantics == TemporalSemantics::NON_SEQUENCED) {
         // Return every version across all time (atemporal view).
         auto keys = table.getAllKeys();
-        std::vector<VersionedDocument> result;
+        std::vector<VersionedDocument> result = {};
+
         for (const auto& key : keys) {
             auto versions =
                 table.getHistoryInRange(key, {kMinTimestamp, kMaxTimestamp});
@@ -243,7 +246,8 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryApplicationTime(
         return rows;
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     result.reserve(rows.size());
     for (auto& row : rows) {
         if (matchesFilters(row, filters)) {
@@ -305,13 +309,14 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryAsOfWithIndex(
         // full scan when the index itself has no entries (uninitialized /
         // not yet populated), because in that case the index cannot be trusted
         // to answer the query correctly.
-        if (index.size() == 0) {
+        if (static_cast<int>(index.size()) == 0) {
             return queryAsOf(table, as_of, filters);
         }
         return {};
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     result.reserve(candidates.size());
 
     // Build a narrow range [as_of, as_of+1) to limit the history scan per key.
@@ -336,7 +341,7 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryAsOfWithIndex(
 // QueryCache implementation
 // ============================================================================
 
-QueryCache::QueryCache(size_t max_entries)
+QueryCache::QueryCache([[maybe_unused]] size_t max_entries)
     : max_entries_(max_entries > 0 ? max_entries : 1) {}
 
 std::optional<std::vector<VersionedDocument>> QueryCache::get(
@@ -370,7 +375,7 @@ void QueryCache::put(const std::string& table_name,
     }
 
     // Evict LRU entry when the cache is full.
-    if (store_.size() >= max_entries_) {
+    if (static_cast<int>(store_.size()) > = max_entries_) {
         auto oldest = store_.begin();
         for (auto jt = store_.begin(); jt != store_.end(); ++jt) {
             if (jt->second.lru_seq < oldest->second.lru_seq) {
@@ -401,7 +406,7 @@ void QueryCache::clear() {
 
 size_t QueryCache::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return store_.size();
+    return static_cast<int>(store_.size());
 }
 
 // ============================================================================
@@ -411,7 +416,9 @@ size_t QueryCache::size() const {
 namespace {
 /// Remove logically-deleted rows from a result set when include_deleted==false.
 void applyDeletedFilter(std::vector<VersionedDocument>& rows, bool include_deleted) {
-    if (include_deleted) return;
+    if (include_deleted) {
+      return;
+    }
     rows.erase(
         std::remove_if(rows.begin(), rows.end(),
             [](const VersionedDocument& v) {
@@ -460,6 +467,7 @@ std::vector<VersionedDocument> TemporalQueryEngine::executeTemporalQuery(
             result = queryWithSemantics(table, TemporalSemantics::NON_SEQUENCED,
                                         {kMinTimestamp, kMaxTimestamp}, filters);
             break;
+        default: break;
     }
 
     applyDeletedFilter(result, spec.include_deleted);
@@ -511,6 +519,7 @@ std::vector<VersionedDocument> TemporalQueryEngine::executeTemporalQuery(
             result = queryApplicationTimeRange(table, kMinTimestamp,
                                                kMaxTimestamp, filters);
             break;
+        default: break;
     }
 
     applyDeletedFilter(result, spec.include_deleted);
@@ -535,8 +544,12 @@ bool documentsEqual(const Document& a,
         auto ib = b.find(f);
         const bool a_missing = (ia == a.end());
         const bool b_missing = (ib == b.end());
-        if (a_missing != b_missing) return false;
-        if (!a_missing && (*ia != *ib)) return false;
+        if (a_missing != b_missing) {
+          return false;
+        }
+        if (!a_missing && (*ia != *ib)) {
+          return false;
+        }
     }
     return true;
 }
@@ -559,7 +572,7 @@ std::vector<VersionedDocument> coalesceVersions(
     std::vector<VersionedDocument> result;
     result.push_back(versions.front());
 
-    for (size_t i = 1; i < versions.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(versions.size()); ++i) {
         auto& last = result.back();
         const auto& cur = versions[i];
 
@@ -596,7 +609,9 @@ std::vector<VersionedDocument> TemporalQueryEngine::sequencedDistinct(
     // Sort the global result by key, then sys_start for deterministic output.
     std::sort(result.begin(), result.end(),
               [](const VersionedDocument& a, const VersionedDocument& b) {
-                  if (a.key != b.key) return a.key < b.key;
+                  if (a.key != b.key) {
+                    return a.key < b.key;
+                  }
                   return a.sys_time.start < b.sys_time.start;
               });
 
@@ -637,7 +652,8 @@ std::vector<VersionedDocument> queryAsOfCached(
         return rows;
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     result.reserve(rows.size());
     for (auto& row : rows) {
         if (TemporalQueryEngine::matchesFilters(row, filters)) {

@@ -48,16 +48,18 @@ std::string sparqlLiteralToAQL(const SPARQLLiteralValue& val) {
         } else if constexpr (std::is_same_v<T, int64_t>) {
             return std::to_string(v);
         } else if constexpr (std::is_same_v<T, double>) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << v;
             return oss.str();
         } else {
             // std::string – emit as a quoted AQL string literal
-            std::string out;
-            out.reserve(v.size() + 2);
+            std::string out = {};
+            out.reserve(static_cast<int>(v.size()) + 2);
             out += '"';
             for (char c : v) {
-                if (c == '"')       out += "\\\"";
+                if (c == '"') {
+                  out += "\\\"";
+                }
                 else if (c == '\\') out += "\\\\";
                 else if (c == '\n') out += "\\n";
                 else if (c == '\r') out += "\\r";
@@ -119,17 +121,22 @@ public:
     explicit SPARQLLexer(const std::string& input) : input_(input), pos_(0) {}
 
     std::vector<SPARQLToken> tokenize() {
-        std::vector<SPARQLToken> tokens;
-        while (pos_ < input_.size()) {
+        std::vector<SPARQLToken> tokens = {};
+
+        while (static_cast<size_t>(pos_) <static_cast<int>(input_.size())) {
             skipWhitespace();
-            if (pos_ >= input_.size()) break;
+            if (pos_ >= static_cast<int>(input_.size())) {
+              break;
+            }
 
             size_t start = pos_;
             char c = input_[pos_];
 
             // Comment (# to end of line)
             if (c == '#') {
-                while (pos_ < input_.size() && input_[pos_] != '\n') ++pos_;
+                while (pos_ <static_cast<int>(input_.size()) && input_[pos_] != '\n') {
+                  ++pos_;
+                }
                 continue;
             }
 
@@ -137,7 +144,7 @@ public:
             if (c == '?' || c == '$') {
                 ++pos_;
                 size_t name_start = pos_;
-                while (pos_ < input_.size() &&
+                while (pos_ <static_cast<int>(input_.size()) &&
                        (std::isalnum(static_cast<unsigned char>(input_[pos_])) || input_[pos_] == '_')) {
                     ++pos_;
                 }
@@ -148,7 +155,7 @@ public:
 
             // URI reference <uri> vs. comparison operator < / <=
             if (c == '<') {
-                char next = (pos_ + 1 < input_.size()) ? input_[pos_ + 1] : '\0';
+                char next = (pos_ + 1 <static_cast<int>(input_.size())) ? input_[pos_ + 1] : '\0';
                 // Treat as URI when the character after '<' starts a typical URI scheme
                 // (letter, digit, underscore, slash, hash) and is not '=' or '>'
                 if (next != '=' && next != '>' && next != ' ' && next != '\t' &&
@@ -158,9 +165,11 @@ public:
                      next == '_' || next == '/' || next == '#')) {
                     ++pos_;  // consume '<'
                     size_t uri_start = pos_;
-                    while (pos_ < input_.size() && input_[pos_] != '>') ++pos_;
+                    while (pos_ <static_cast<int>(input_.size()) && input_[pos_] != '>') {
+                      ++pos_;
+                    }
                     std::string uri = input_.substr(uri_start, pos_ - uri_start);
-                    if (pos_ < input_.size()) ++pos_;  // consume '>'
+                    if (static_cast<int>(input_.size()) > pos_) ++pos_;  // consume '>'
                     tokens.push_back({SPARQLTokenType::URI, uri, start});
                     continue;
                 } else if (next == '=') {
@@ -182,7 +191,7 @@ public:
 
             // Numbers (and negative numbers)
             if (std::isdigit(static_cast<unsigned char>(c)) ||
-                (c == '-' && pos_ + 1 < input_.size() &&
+                (c == '-' && pos_ + 1 <static_cast<int>(input_.size()) &&
                  std::isdigit(static_cast<unsigned char>(input_[pos_ + 1])))) {
                 tokens.push_back(readNumber(start));
                 continue;
@@ -206,28 +215,28 @@ public:
                 case ';': tokens.push_back({SPARQLTokenType::SEMICOLON, ";", start}); ++pos_; break;
                 case '=': tokens.push_back({SPARQLTokenType::EQ,      "==", start}); ++pos_; break;
                 case '>':
-                    if (pos_ + 1 < input_.size() && input_[pos_ + 1] == '=') {
+                    if (pos_ + 1 <static_cast<int>(input_.size()) && input_[pos_ + 1] == '=') {
                         tokens.push_back({SPARQLTokenType::GTE, ">=", start}); pos_ += 2;
                     } else {
                         tokens.push_back({SPARQLTokenType::GT,  ">",  start}); ++pos_;
                     }
                     break;
                 case '!':
-                    if (pos_ + 1 < input_.size() && input_[pos_ + 1] == '=') {
+                    if (pos_ + 1 <static_cast<int>(input_.size()) && input_[pos_ + 1] == '=') {
                         tokens.push_back({SPARQLTokenType::NEQ,    "!=", start}); pos_ += 2;
                     } else {
                         tokens.push_back({SPARQLTokenType::NOT_OP, "!",  start}); ++pos_;
                     }
                     break;
                 case '&':
-                    if (pos_ + 1 < input_.size() && input_[pos_ + 1] == '&') {
+                    if (pos_ + 1 <static_cast<int>(input_.size()) && input_[pos_ + 1] == '&') {
                         tokens.push_back({SPARQLTokenType::AND_OP, "&&", start}); pos_ += 2;
                     } else {
                         tokens.push_back({SPARQLTokenType::INVALID, "&", start}); ++pos_;
                     }
                     break;
                 case '|':
-                    if (pos_ + 1 < input_.size() && input_[pos_ + 1] == '|') {
+                    if (pos_ + 1 <static_cast<int>(input_.size()) && input_[pos_ + 1] == '|') {
                         tokens.push_back({SPARQLTokenType::OR_OP, "||", start}); pos_ += 2;
                     } else {
                         tokens.push_back({SPARQLTokenType::INVALID, "|", start}); ++pos_;
@@ -245,10 +254,10 @@ public:
 
 private:
     const std::string& input_;
-    size_t pos_;
+    size_t pos_ = {};
 
     void skipWhitespace() {
-        while (pos_ < input_.size() &&
+        while (pos_ <static_cast<int>(input_.size()) &&
                std::isspace(static_cast<unsigned char>(input_[pos_]))) {
             ++pos_;
         }
@@ -256,9 +265,9 @@ private:
 
     SPARQLToken readString(char quote, size_t start) {
         ++pos_;  // skip opening quote
-        std::string val;
-        while (pos_ < input_.size() && input_[pos_] != quote) {
-            if (input_[pos_] == '\\' && pos_ + 1 < input_.size()) {
+        std::string val = {};
+        while (pos_ <static_cast<int>(input_.size()) && input_[pos_] != quote) {
+            if (input_[pos_] == '\\' && pos_ + 1 <static_cast<int>(input_.size())) {
                 char esc = input_[pos_ + 1];
                 switch (esc) {
                     case '"':  case '\'': case '\\': val += esc; break;
@@ -272,22 +281,24 @@ private:
                 val += input_[pos_++];
             }
         }
-        if (pos_ < input_.size()) ++pos_;  // skip closing quote
+        if (static_cast<int>(input_.size()) > pos_) ++pos_;  // skip closing quote
         return {SPARQLTokenType::STRING_LIT, val, start};
     }
 
-    SPARQLToken readNumber(size_t start) {
+    SPARQLToken readNumber([[maybe_unused]] size_t start) {
         size_t num_start = pos_;
-        if (input_[pos_] == '-') ++pos_;
-        while (pos_ < input_.size() &&
+        if (input_[pos_] == '-') {
+          ++pos_;
+        }
+        while (pos_ <static_cast<int>(input_.size()) &&
                std::isdigit(static_cast<unsigned char>(input_[pos_]))) {
             ++pos_;
         }
         bool is_float = false;
-        if (pos_ < input_.size() && input_[pos_] == '.') {
+        if (pos_ <static_cast<int>(input_.size()) && input_[pos_] == '.') {
             is_float = true;
             ++pos_;
-            while (pos_ < input_.size() &&
+            while (pos_ <static_cast<int>(input_.size()) &&
                    std::isdigit(static_cast<unsigned char>(input_[pos_]))) {
                 ++pos_;
             }
@@ -297,9 +308,9 @@ private:
                 num_str, start};
     }
 
-    SPARQLToken readIdent(size_t start) {
+    SPARQLToken readIdent([[maybe_unused]] size_t start) {
         size_t ident_start = pos_;
-        while (pos_ < input_.size() &&
+        while (pos_ <static_cast<int>(input_.size()) &&
                (std::isalnum(static_cast<unsigned char>(input_[pos_])) ||
                 input_[pos_] == '_' || input_[pos_] == '-')) {
             ++pos_;
@@ -307,10 +318,10 @@ private:
         std::string ident = input_.substr(ident_start, pos_ - ident_start);
 
         // Prefixed name: ident followed immediately by ':' and local part
-        if (pos_ < input_.size() && input_[pos_] == ':') {
+        if (pos_ <static_cast<int>(input_.size()) && input_[pos_] == ':') {
             ++pos_;  // consume ':'
             size_t local_start = pos_;
-            while (pos_ < input_.size() &&
+            while (pos_ <static_cast<int>(input_.size()) &&
                    (std::isalnum(static_cast<unsigned char>(input_[pos_])) ||
                     input_[pos_] == '_' || input_[pos_] == '-')) {
                 ++pos_;
@@ -371,12 +382,14 @@ public:
 
 private:
     std::vector<SPARQLToken> tokens_;
-    size_t pos_;
+    size_t pos_ = {};
 
     const SPARQLToken& current() const { return tokens_[pos_]; }
 
     void advance() {
-        if (pos_ + 1 < tokens_.size()) ++pos_;
+        if (pos_ + 1 <static_cast<int>(tokens_.size())) {
+          ++pos_;
+        }
     }
 
     bool check(SPARQLTokenType t) const { return current().type == t; }
@@ -568,7 +581,7 @@ private:
     }
 
     Result<SPARQLTerm> parseTerm() {
-        SPARQLTerm term;
+        SPARQLTerm term = {};
 
         if (check(SPARQLTokenType::VAR)) {
             term.type  = SPARQLTermType::Variable;
@@ -635,7 +648,9 @@ private:
         }
         advance();
         auto expr = parseExpr();
-        if (!expr) return expr;
+        if (!expr) {
+          return expr;
+        }
         if (!match(SPARQLTokenType::RPAREN)) {
             return parseError<std::shared_ptr<SPARQLExpr>>(
                 "Expected ')' to close FILTER");
@@ -647,11 +662,15 @@ private:
 
     Result<std::shared_ptr<SPARQLExpr>> parseOrExpr() {
         auto left = parseAndExpr();
-        if (!left) return left;
+        if (!left) {
+          return left;
+        }
         while (check(SPARQLTokenType::OR_OP)) {
             advance();
             auto right = parseAndExpr();
-            if (!right) return right;
+            if (!right) {
+              return right;
+            }
             auto node  = std::make_shared<SPARQLBinaryOpExpr>();
             node->op   = "||";
             node->left = std::move(*left);
@@ -663,11 +682,15 @@ private:
 
     Result<std::shared_ptr<SPARQLExpr>> parseAndExpr() {
         auto left = parseRelationalExpr();
-        if (!left) return left;
+        if (!left) {
+          return left;
+        }
         while (check(SPARQLTokenType::AND_OP)) {
             advance();
             auto right = parseRelationalExpr();
-            if (!right) return right;
+            if (!right) {
+              return right;
+            }
             auto node  = std::make_shared<SPARQLBinaryOpExpr>();
             node->op   = "&&";
             node->left = std::move(*left);
@@ -679,10 +702,14 @@ private:
 
     Result<std::shared_ptr<SPARQLExpr>> parseRelationalExpr() {
         auto left = parseUnaryExpr();
-        if (!left) return left;
+        if (!left) {
+          return left;
+        }
 
-        std::string op;
-        if      (check(SPARQLTokenType::EQ))  op = "==";
+        std::string op = {};
+        if      (check(SPARQLTokenType::EQ)) {
+          op = "==";
+        }
         else if (check(SPARQLTokenType::NEQ)) op = "!=";
         else if (check(SPARQLTokenType::LT))  op = "<";
         else if (check(SPARQLTokenType::LTE)) op = "<=";
@@ -692,7 +719,9 @@ private:
         if (!op.empty()) {
             advance();
             auto right = parseUnaryExpr();
-            if (!right) return right;
+            if (!right) {
+              return right;
+            }
             auto node  = std::make_shared<SPARQLBinaryOpExpr>();
             node->op   = op;
             node->left = std::move(*left);
@@ -706,7 +735,9 @@ private:
         if (check(SPARQLTokenType::NOT_OP)) {
             advance();
             auto operand = parsePrimaryExpr();
-            if (!operand) return operand;
+            if (!operand) {
+              return operand;
+            }
             auto node    = std::make_shared<SPARQLUnaryOpExpr>();
             node->op      = "!";
             node->operand = std::move(*operand);
@@ -719,7 +750,9 @@ private:
         if (check(SPARQLTokenType::LPAREN)) {
             advance();
             auto expr = parseExpr();
-            if (!expr) return expr;
+            if (!expr) {
+              return expr;
+            }
             if (!match(SPARQLTokenType::RPAREN)) {
                 return parseError<std::shared_ptr<SPARQLExpr>>("Expected ')'");
             }
@@ -792,14 +825,18 @@ static std::string termToAQLStr(const SPARQLTerm& term,
     switch (term.type) {
         case SPARQLTermType::Variable: {
             auto it = var_bindings.find(term.value);
-            if (it != var_bindings.end()) return it->second;
+            if (it != var_bindings.end()) {
+              return it->second;
+            }
             return current_triple + "." + field;  // first/unbound variable
         }
         case SPARQLTermType::URIRef:
-        case SPARQLTermType::PrefixedName:
+        [[fallthrough]];\n        case SPARQLTermType::PrefixedName:
             return "\"" + term.value + "\"";
         case SPARQLTermType::Literal:
-            if (term.is_literal_value) return sparqlLiteralToAQL(term.literal_value);
+            if (term.is_literal_value) {
+              return sparqlLiteralToAQL(term.literal_value);
+            }
             return "\"" + term.value + "\"";
     }
     return "null";
@@ -823,14 +860,18 @@ static std::string filterExprToAQL(const SPARQLExpr& expr,
             std::string right = filterExprToAQL(*b.right, var_bindings);
             // Map SPARQL logical operators to AQL keywords
             std::string aql_op = b.op;
-            if (b.op == "&&") aql_op = "AND";
+            if (b.op == "&&") {
+              aql_op = "AND";
+            }
             else if (b.op == "||") aql_op = "OR";
             return "(" + left + " " + aql_op + " " + right + ")";
         }
         case SPARQLExprType::UnaryOp: {
             const auto& u = static_cast<const SPARQLUnaryOpExpr&>(expr);
             std::string operand = filterExprToAQL(*u.operand, var_bindings);
-            if (u.op == "!") return "NOT " + operand;
+            if (u.op == "!") {
+              return "NOT " + operand;
+            }
             return operand;
         }
     }
@@ -860,7 +901,7 @@ Result<SPARQLASTNode> SPARQLParser::parse(const std::string& sparql_query) {
 // ============================================================================
 
 std::string SPARQLToAQLTranspiler::transpileSelect(const SPARQLSelectStatement& stmt) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Maps variable name -> AQL path expression (e.g. "_t0.subject")
     std::map<std::string, std::string> var_bindings;
@@ -920,8 +961,10 @@ std::string SPARQLToAQLTranspiler::transpileSelect(const SPARQLSelectStatement& 
 
             if (!constraints.empty()) {
                 oss << "FILTER ";
-                for (size_t i = 0; i < constraints.size(); ++i) {
-                    if (i > 0) oss << " AND ";
+                for (size_t i = 0; i <static_cast<int>(constraints.size()); ++i) {
+                    if (i > 0) {
+                      oss << " AND ";
+                    }
                     oss << constraints[i];
                 }
                 oss << "\n";
@@ -935,8 +978,10 @@ std::string SPARQLToAQLTranspiler::transpileSelect(const SPARQLSelectStatement& 
     // ORDER BY
     if (!stmt.order_by.empty()) {
         oss << "SORT ";
-        for (size_t i = 0; i < stmt.order_by.size(); ++i) {
-            if (i > 0) oss << ", ";
+        for (size_t i = 0; i <static_cast<int>(stmt.order_by.size()); ++i) {
+            if (i > 0) {
+              oss << ", ";
+            }
             const auto& spec = stmt.order_by[i];
             auto it = var_bindings.find(spec.variable);
             oss << (it != var_bindings.end() ? it->second : spec.variable);
@@ -955,7 +1000,7 @@ std::string SPARQLToAQLTranspiler::transpileSelect(const SPARQLSelectStatement& 
     }
 
     // RETURN
-    if (!stmt.star && stmt.variables.size() == 1) {
+    if (!stmt.star && static_cast<int>(stmt.variables.size()) == 1) {
         // Single variable: return binding directly (or null if unbound)
         auto it = var_bindings.find(stmt.variables[0]);
         oss << "RETURN " << (it != var_bindings.end() ? it->second : "null");
@@ -965,7 +1010,9 @@ std::string SPARQLToAQLTranspiler::transpileSelect(const SPARQLSelectStatement& 
         std::vector<std::string> all_keys;
 
         if (stmt.star || stmt.variables.empty()) {
-            for (const auto& [k, _] : var_bindings) all_keys.push_back(k);
+            for (const auto& [k, _] : var_bindings) {
+              all_keys.push_back(k);
+            }
             keys = &all_keys;
         } else {
             keys = &stmt.variables;
@@ -974,7 +1021,9 @@ std::string SPARQLToAQLTranspiler::transpileSelect(const SPARQLSelectStatement& 
         oss << "RETURN {";
         bool first = true;
         for (const auto& var : *keys) {
-            if (!first) oss << ", ";
+            if (!first) {
+              oss << ", ";
+            }
             auto it = var_bindings.find(var);
             oss << var << ": " << (it != var_bindings.end() ? it->second : "null");
             first = false;

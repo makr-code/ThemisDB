@@ -59,7 +59,7 @@ std::string QueryPlanVisualizer::planNodeTypeName(PlanNodeType type) {
 QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
                                               const QueryOptimizer::Plan& plan) {
     // Outermost node: Return. Use the most-selective count as the final output estimate.
-    QueryPlanNode return_node;
+    QueryPlanNode return_node = {};
     return_node.type = PlanNodeType::Return;
     return_node.description = "Return";
     return_node.estimated_rows = plan.details.empty() ? 0 : plan.details.front().estimatedCount;
@@ -70,8 +70,8 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
     // in the tree (closest to the scan).  Data flows bottom-up:
     //   Scan → Filter[most-selective] → … → Filter[least-selective] → Return
     //
-    // orderedPredicates is sorted ascending: [0] = most selective, [n-1] = least.
-    // Iterating from [n-1] down to [0] builds the chain in the correct display
+    // orderedPredicates is sorted ascending: [0] = most selective, [static_cast<int>(n - 1)] = least.
+    // Iterating from [static_cast<int>(n - 1)] down to [0] builds the chain in the correct display
     // order (top = least-selective child of Return, bottom = most-selective
     // parent of Scan).
     const size_t n = plan.orderedPredicates.size();
@@ -86,7 +86,7 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
 
         // Selectivity: fraction of proxy_scan_rows that pass this predicate.
         const double selectivity =
-            (proxy_scan_rows > 0 && static_cast<size_t>(i) < plan.details.size())
+            (proxy_scan_rows > 0 && static_cast<size_t>(i) <static_cast<int>(plan.details.size()))
                 ? std::min(1.0, static_cast<double>(plan.details[static_cast<size_t>(i)].estimatedCount) /
                                     static_cast<double>(proxy_scan_rows))
                 : 1.0;
@@ -95,7 +95,7 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
         filter_node->type = PlanNodeType::Filter;
         filter_node->description = pred.column + " == " + pred.value;
         filter_node->selectivity = std::min(1.0, std::max(0.0, selectivity));
-        filter_node->estimated_rows = static_cast<size_t>(i) < plan.details.size()
+        filter_node->estimated_rows = static_cast<size_t>(i) <static_cast<int>(plan.details.size())
             ? plan.details[static_cast<size_t>(i)].estimatedCount : 0;
         // Heuristic: each filter contributes proportionally to total cost
         filter_node->estimated_cost = 50.0 + 10.0 * static_cast<double>(i);
@@ -125,7 +125,7 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
 
     // Accumulate total cost bottom-up (simple sum for estimation)
     double total_cost = 0.0;
-    std::function<void(QueryPlanNode&)> accumulate_cost = [&](QueryPlanNode& n) {
+    std::function<void(QueryPlanNode&)> accumulate_cost = [&]([[maybe_unused]] QueryPlanNode& n) {
         for (auto& child : n.children) {
             accumulate_cost(*child);
             total_cost += child->estimated_cost;
@@ -161,7 +161,7 @@ void QueryPlanVisualizer::toTextImpl(const QueryPlanNode& node, bool analyze,
     }
 
     // Cost / rows
-    std::ostringstream ann;
+    std::ostringstream ann = {};
     ann << std::fixed << std::setprecision(2);
     ann << "  (cost=" << node.estimated_cost
         << " rows=" << node.estimated_rows;
@@ -194,7 +194,7 @@ void QueryPlanVisualizer::toTextImpl(const QueryPlanNode& node, bool analyze,
 }
 
 std::string QueryPlanVisualizer::toText(const QueryPlanNode& root, bool analyze) {
-    std::string out;
+    std::string out = {};
     out.reserve(4096);  // Pre-allocate for typical query plan output (5-20KB)
     out += analyze ? "EXPLAIN ANALYZE\n" : "EXPLAIN\n";
     out += std::string(60, '-') + "\n";
@@ -202,7 +202,7 @@ std::string QueryPlanVisualizer::toText(const QueryPlanNode& root, bool analyze)
     out += std::string(60, '-') + "\n";
  
     // Summary line
-    std::ostringstream summary;
+    std::ostringstream summary = {};
     summary << std::fixed << std::setprecision(2);
     summary << "Estimated total cost: " << root.estimated_cost
             << "  Estimated rows: " << root.estimated_rows << "\n";
@@ -269,7 +269,7 @@ nlohmann::json QueryPlanVisualizer::toJSON(const QueryPlanNode& root, bool analy
 //   \n, \r, \t are invalid bare bytes inside a quoted string; replace with
 //   their DOT escape sequences (\\n etc.) which Graphviz renders as printable.
 static std::string dotEscape(const std::string& s) {
-    std::string result;
+    std::string result = {};
     result.reserve(s.size());
     for (char c : s) {
         switch (c) {
@@ -308,7 +308,7 @@ void QueryPlanVisualizer::toDOTImpl(const QueryPlanNode& node, int& id_counter,
         shape = "ellipse";
     }
 
-    std::ostringstream label;
+    std::ostringstream label = {};
     label << planNodeTypeName(node.type);
     if (!node.description.empty() &&
         node.description != planNodeTypeName(node.type)) {
@@ -332,14 +332,14 @@ void QueryPlanVisualizer::toDOTImpl(const QueryPlanNode& node, int& id_counter,
 }
 
 std::string QueryPlanVisualizer::toDOT(const QueryPlanNode& root) {
-    std::string nodes_out;
-    std::string edges_out;
+    std::string nodes_out = {};
+    std::string edges_out = {};
     nodes_out.reserve(8192);  // Pre-allocate for node definitions
     edges_out.reserve(4096);  // Pre-allocate for edge definitions
     int counter = 0;
     toDOTImpl(root, counter, nodes_out, edges_out);
  
-    std::string dot;
+    std::string dot = {};
     dot.reserve(12288);  // Pre-allocate for complete DOT output
     dot += "digraph QueryPlan {\n";
     dot += "  rankdir=TB;\n";

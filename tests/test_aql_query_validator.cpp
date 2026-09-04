@@ -641,7 +641,7 @@ TEST(DocsAssistantDegradedTest, NotReadyReportsReason) {
 }
 
 TEST(DocsAssistantDegradedTest, IsFullyReadyFalseWhenNotReady) {
-    DocsAssistantFunctions daf;
+    DocsAssistantFunctions daf = {};
     if (!daf.isReady()) {
         EXPECT_FALSE(daf.isFullyReady());
     }
@@ -694,7 +694,9 @@ public:
     std::vector<float> embed(const std::string& text) override {
         // Produce a simple deterministic unit vector
         std::vector<float> v(dim_, 0.0f);
-        if (text.empty()) return v;
+        if (text.empty()) {
+          return v;
+        }
         // Use character sum to create a simple embedding
         float angle = static_cast<float>(
             std::accumulate(text.begin(), text.end(), 0u,

@@ -304,7 +304,8 @@ TEST_F(LazyReEncryptionTest, Concurrent_LazyReEncryption_ThreadSafe) {
     const size_t ops_per_thread = 50;
     
     // Encrypt initial blobs
-    std::vector<EncryptedBlob> blobs;
+    std::vector<EncryptedBlob> blobs = {};
+
     for (size_t i = 0; i < num_threads; ++i) {
         blobs.push_back(field_encryption_->encrypt("data_" + std::to_string(i), "test_key"));
     }

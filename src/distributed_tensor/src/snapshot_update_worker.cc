@@ -261,7 +261,9 @@ UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
   else if (final_decision == UpdateDecision::REBUILD
            || final_decision == UpdateDecision::ERROR_FALLBACK_TO_REBUILD)
     stats_.total_rebuilds++;
-  if (!success) stats_.total_failed_updates++;
+  if (!success) {
+    stats_.total_failed_updates++;
+  }
   updateAverages(stats_, metrics.analysis_time_ms, metrics.execution_time_ms);
 
   // Clean up checkpoint on success
@@ -286,7 +288,7 @@ UpdateDecision SnapshotBasedUpdateWorker::processDeltaWindow(const std::string& 
   task.current_manifest = current_manifest;
   task.artifact_size_bytes = artifact_size_bytes;
 
-  UpdateMetrics metrics;
+  UpdateMetrics metrics = {};
   return processTask(task, metrics);
 }
 

@@ -50,7 +50,8 @@ public:
     [[nodiscard]] bool add(int64_t, const float*, size_t) override { return true; }
 
     std::vector<AnnSearchResult> search(const float*, size_t, int k) const override {
-        std::vector<AnnSearchResult> results;
+        std::vector<AnnSearchResult> results = {};
+
         const int take = std::min(k, static_cast<int>(kStubCandidates.size()));
         results.reserve(static_cast<std::size_t>(take));
         for (int i = 0; i < take; ++i) {

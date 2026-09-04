@@ -101,7 +101,9 @@ protected:
     void TearDown() override {
         engine_.reset();
         idx_.reset();
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
         db_.reset();
         std::filesystem::remove_all(dbPath_);
     }
@@ -447,7 +449,9 @@ TEST_F(AutoLabelerDbFetchTest, RegisterDocument_EngineWinsOverRegistry) {
     ASSERT_FALSE(samples.empty());
     bool has_obligation = false;
     for (const auto& s : samples) {
-        if (s.category == "obligation") has_obligation = true;
+        if (s.category == "obligation") {
+          has_obligation = true;
+        }
     }
     EXPECT_TRUE(has_obligation)
         << "Engine-backed text (muss) must take precedence over registered offline text (kann)";

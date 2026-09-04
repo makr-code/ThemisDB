@@ -58,7 +58,7 @@ static ReplicationConfig makeConfig(
 }
 
 struct TempWALDir {
-    std::string path;
+    std::string path = {};
     explicit TempWALDir(const std::string& p) {
         const auto ticks = std::chrono::high_resolution_clock::now()
                                .time_since_epoch()
@@ -69,13 +69,13 @@ struct TempWALDir {
                 (base + "_" + std::to_string(ticks) + "_" + std::to_string(tid_hash)))
                    .string();
 
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(path, ec);
         std::filesystem::create_directories(path, ec);
     }
     ~TempWALDir() {
         for (int i = 0; i < 5; ++i) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove_all(path, ec);
             if (!ec) {
                 break;

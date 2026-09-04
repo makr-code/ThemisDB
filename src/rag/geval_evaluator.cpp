@@ -66,7 +66,7 @@ struct GEvalEvaluator::Impl {
         const std::vector<std::pair<std::string, std::string>>& documents,
         const std::string& dimension
     ) {
-        std::ostringstream prompt;
+        std::ostringstream prompt = {};
         
         prompt << "You are evaluating the quality of a generated answer.\n\n";
         prompt << "Evaluation Dimension: " << dimension << "\n\n";
@@ -75,7 +75,7 @@ struct GEvalEvaluator::Impl {
         
         if (!documents.empty()) {
             prompt << "Retrieved Documents:\n";
-            for (size_t i = 0; i < documents.size() && i < 3; i++) {
+            for (size_t i = 0; i <static_cast<int>(documents.size()) && i < 3; i++) {
                 prompt << "Document " << (i+1) << ":\n";
                 prompt << documents[i].second.substr(0, 500) << "...\n\n";
             }
@@ -173,7 +173,7 @@ struct GEvalEvaluator::Impl {
      * contains no logprobs.  The distribution is Gaussian-shaped around the
      * score level so that adjacent levels receive decreasing probability mass.
      */
-    std::vector<double> probsFromScore(double score_1_to_5) const {
+    std::vector<double> probsFromScore([[maybe_unused]] double score_1_to_5) const {
         // Clamp score to [1, kNumScoreLevels]
         double s = std::max(1.0, std::min(static_cast<double>(kNumScoreLevels),
                                           score_1_to_5));
@@ -184,7 +184,9 @@ struct GEvalEvaluator::Impl {
             probs[i] = std::exp(-0.5 * diff * diff);  // Gaussian, variance=1 (σ²=1)
             sum += probs[i];
         }
-        for (auto& p : probs) p /= sum;
+        for (auto& p : probs) {
+          p /= sum;
+        }
         return probs;
     }
 
@@ -244,12 +246,12 @@ struct GEvalEvaluator::Impl {
             if (!response.logprobs.empty()) {
                 // Walk the generated text tokens and pick the first score digit
                 std::istringstream iss(response.text);
-                std::string tok;
+                std::string tok = {};
                 size_t idx = 0;
-                while (iss >> tok && idx < response.logprobs.size()) {
+                while (iss >> tok  && static_cast<size_t>(idx) <static_cast<int>(response.logprobs.size())) {
                     // kNumScoreLevels ≤ 9 so single-digit check is safe
                     char max_digit = static_cast<char>('0' + kNumScoreLevels);
-                    if (tok.size() == 1 && tok[0] >= '1' && tok[0] <= max_digit) {
+                    if (static_cast<int>(tok.size()) == 1 && tok[0] >= '1' && tok[0] <= max_digit) {
                         double parsed = static_cast<double>(tok[0] - '0');
                         return probsFromScore(parsed);
                     }
@@ -259,7 +261,7 @@ struct GEvalEvaluator::Impl {
 
             // Fallback: parse a score from the response text
             static const std::regex kScoreRegex(R"(\b([1-5])\b)");
-            std::smatch m;
+            std::smatch m = {};
             if (std::regex_search(response.text, m, kScoreRegex)) {
                 double parsed = std::stod(m[1].str());
                 return probsFromScore(parsed);
@@ -336,23 +338,23 @@ GEvalResult GEvalEvaluator::evaluate(
         // Compute confidence and variance
         result.confidence = computeConfidence(result.token_probabilities);
         
-        if (sample_scores.size() > 1) {
+        if (static_cast<int>(sample_scores.size()) > 1) {
             double mean = result.geval_score;
             double sum_sq_diff = 0.0;
             for (double score : sample_scores) {
                 double diff = score - mean;
                 sum_sq_diff += diff * diff;
             }
-            result.variance = sum_sq_diff / (sample_scores.size() - 1);
+            result.variance = sum_sq_diff / (static_cast<int>(sample_scores.size()) - 1);
         } else {
             result.variance = 0.0;
         }
         
         // Generate reasoning summary
-        std::ostringstream reasoning;
+        std::ostringstream reasoning = {};
         reasoning << "G-Eval probabilistic scoring for " << dimension << ":\n";
         reasoning << "Token probability distribution:\n";
-        for (size_t i = 0; i < result.token_probabilities.size(); i++) {
+        for (size_t i = 0; i <static_cast<int>(result.token_probabilities.size()); i++) {
             reasoning << "  Level " << (i+1) << ": " 
                      << std::fixed << std::setprecision(3) 
                      << result.token_probabilities[i] << "\n";
@@ -386,15 +388,15 @@ std::vector<double> GEvalEvaluator::extractTokenProbabilities(
 }
 
 double GEvalEvaluator::computeGEvalScore(const std::vector<double>& probabilities) {
-    if (probabilities.size() != kNumScoreLevels) {
+    if (static_cast<int>(probabilities.size()) != kNumScoreLevels) {
         spdlog::warn("Expected {} probabilities for levels 1-{}, got {}",
-                     kNumScoreLevels, kNumScoreLevels, probabilities.size());
+                     kNumScoreLevels, kNumScoreLevels,static_cast<int>(probabilities.size()));
         return 0.5;  // Default to middle
     }
     
     // Compute expected value: E[score] = Σ(level × P(level))
     double expected_score = 0.0;
-    for (size_t i = 0; i < probabilities.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(probabilities.size()); i++) {
         int level = static_cast<int>(i) + 1;
         expected_score += level * probabilities[i];
     }
@@ -440,7 +442,7 @@ double GEvalEvaluator::aggregateScores(
         return 0.5;  // Default
     }
     
-    if (samples.size() == 1) {
+    if (static_cast<int>(samples.size()) == 1) {
         return samples[0];
     }
     
@@ -455,7 +457,7 @@ double GEvalEvaluator::aggregateScores(
             std::sort(sorted.begin(), sorted.end());
             size_t mid = sorted.size() / 2;
             if (sorted.size() % 2 == 0) {
-                return (sorted[mid-1] + sorted[mid]) / 2.0;
+                return (sorted[static_cast<int>(mid - 1)] + sorted[mid]) / 2.0;
             } else {
                 return sorted[mid];
             }
@@ -464,7 +466,8 @@ double GEvalEvaluator::aggregateScores(
         case AggregationMethod::MODE: {
             // For continuous scores, mode is tricky
             // Use the most common score (with some tolerance)
-            std::unordered_map<int, int> counts;
+            std::unordered_map<int, int> counts = {};
+
             for (double score : samples) {
                 int bucket = static_cast<int>(score * 10);  // 0.1 resolution
                 counts[bucket]++;

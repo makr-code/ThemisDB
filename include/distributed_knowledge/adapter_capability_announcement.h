@@ -143,7 +143,9 @@ struct AdapterCapabilityAnnouncement {
         a.is_withdrawal             = j.value("is_withdrawal", false);
 
         const std::string dt = j.value("domain_type", "GENERAL");
-        if      (dt == "SECURITY_MONITOR") a.domain_type = AdapterDomainType::SECURITY_MONITOR;
+        if      (dt == "SECURITY_MONITOR") {
+          a.domain_type = AdapterDomainType::SECURITY_MONITOR;
+        }
         else if (dt == "SCHEMA_ADVISOR")   a.domain_type = AdapterDomainType::SCHEMA_ADVISOR;
         else if (dt == "TRANSACTION")      a.domain_type = AdapterDomainType::TRANSACTION;
         else if (dt == "MULTI_TENANT")     a.domain_type = AdapterDomainType::MULTI_TENANT;

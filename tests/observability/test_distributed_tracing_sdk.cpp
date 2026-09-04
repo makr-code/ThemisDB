@@ -195,7 +195,7 @@ TEST_F(DistributedTracingSDKTest, OrphanSpanRecovery) {
 TEST_F(DistributedTracingSDKTest, ConcurrentContextPropagation) {
     std::vector<std::thread> threads;
     std::vector<std::shared_ptr<DistributedTraceContext>> contexts;
-    std::mutex contexts_mutex;
+    std::mutex contexts_mutex = {};
 
     // Create and propagate contexts concurrently
     for (int i = 0; i < 10; ++i) {

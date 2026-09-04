@@ -43,41 +43,55 @@ const std::vector<GovDataSource>& GovSourceCatalog::all() const {
 
 const GovDataSource* GovSourceCatalog::findById(const std::string& id) const {
     for (const auto& s : sources_) {
-        if (s.id == id) return &s;
+        if (s.id == id) {
+          return &s;
+        }
     }
     return nullptr;
 }
 
 std::vector<const GovDataSource*> GovSourceCatalog::byType(GovSourceType type) const {
-    std::vector<const GovDataSource*> result;
+    std::vector<const GovDataSource*> result = {};
+
     for (const auto& s : sources_) {
-        if (s.type == type) result.push_back(&s);
+        if (s.type == type) {
+          result.push_back(&s);
+        }
     }
     return result;
 }
 
 std::vector<const GovDataSource*> GovSourceCatalog::byBundesland(
         const std::string& iso) const {
-    std::vector<const GovDataSource*> result;
+    std::vector<const GovDataSource*> result = {};
+
     for (const auto& s : sources_) {
-        if (s.bundesland == iso) result.push_back(&s);
+        if (s.bundesland == iso) {
+          result.push_back(&s);
+        }
     }
     return result;
 }
 
 std::vector<const GovDataSource*> GovSourceCatalog::enabled() const {
-    std::vector<const GovDataSource*> result;
+    std::vector<const GovDataSource*> result = {};
+
     for (const auto& s : sources_) {
-        if (s.enabled) result.push_back(&s);
+        if (s.enabled) {
+          result.push_back(&s);
+        }
     }
     return result;
 }
 
 std::vector<const GovDataSource*> GovSourceCatalog::byIds(
         const std::vector<std::string>& ids) const {
-    std::vector<const GovDataSource*> result;
+    std::vector<const GovDataSource*> result = {};
+
     for (const auto& id : ids) {
-        if (const auto* s = findById(id)) result.push_back(s);
+        if (const auto* s = findById(id)) {
+          result.push_back(s);
+        }
     }
     return result;
 }
@@ -108,7 +122,7 @@ void GovSourceCatalog::loadFromFile(const std::string& path) {
     std::ifstream f(path);
     if (!f.is_open())
         throw std::runtime_error("GovSourceCatalog: cannot open '" + path + "'");
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << f.rdbuf();
     loadFromYaml(ss.str());
 }
@@ -117,42 +131,84 @@ void GovSourceCatalog::loadFromYaml(const std::string& yaml_content) {
 #ifdef THEMIS_ENABLE_YAML
     try {
         YAML::Node root = YAML::Load(yaml_content);
-        if (!root["sources"] || !root["sources"].IsSequence()) return;
+        if (!root["sources"] || !root["sources"].IsSequence()) {
+          return;
+        }
         for (const auto& n : root["sources"]) {
-            GovDataSource src;
-            if (n["id"])           src.id           = n["id"].as<std::string>();
-            if (n["name"])         src.name         = n["name"].as<std::string>();
-            if (n["base_url"])     src.base_url     = n["base_url"].as<std::string>();
-            if (n["search_url"])   src.search_url   = n["search_url"].as<std::string>();
-            if (n["sitemap_url"])  src.sitemap_url  = n["sitemap_url"].as<std::string>();
-            if (n["search_param"]) src.search_param = n["search_param"].as<std::string>();
-            if (n["page_param"])   src.page_param   = n["page_param"].as<std::string>();
-            if (n["results_per_page"]) src.results_per_page = n["results_per_page"].as<int>();
-            if (n["form_method"])  src.form_method  = n["form_method"].as<std::string>();
+            GovDataSource src = {};
+            if (n["id"]) {
+              src.id           = n["id"].as<std::string>();
+            }
+            if (n["name"]) {
+              src.name         = n["name"].as<std::string>();
+            }
+            if (n["base_url"]) {
+              src.base_url     = n["base_url"].as<std::string>();
+            }
+            if (n["search_url"]) {
+              src.search_url   = n["search_url"].as<std::string>();
+            }
+            if (n["sitemap_url"]) {
+              src.sitemap_url  = n["sitemap_url"].as<std::string>();
+            }
+            if (n["search_param"]) {
+              src.search_param = n["search_param"].as<std::string>();
+            }
+            if (n["page_param"]) {
+              src.page_param   = n["page_param"].as<std::string>();
+            }
+            if (n["results_per_page"]) {
+              src.results_per_page = n["results_per_page"].as<int>();
+            }
+            if (n["form_method"]) {
+              src.form_method  = n["form_method"].as<std::string>();
+            }
             if (n["result_list_selector"])
                 src.result_list_selector = n["result_list_selector"].as<std::string>();
             if (n["next_page_selector"])
                 src.next_page_selector = n["next_page_selector"].as<std::string>();
-            if (n["api_endpoint"])       src.api_endpoint       = n["api_endpoint"].as<std::string>();
-            if (n["api_results_field"])  src.api_results_field  = n["api_results_field"].as<std::string>();
-            if (n["api_cursor_field"])   src.api_cursor_field   = n["api_cursor_field"].as<std::string>();
-            if (n["api_key_env"])        src.api_key_env        = n["api_key_env"].as<std::string>();
-            if (n["notes"])              src.notes              = n["notes"].as<std::string>();
-            if (n["requires_auth"])      src.requires_auth      = n["requires_auth"].as<bool>();
-            if (n["enabled"])            src.enabled            = n["enabled"].as<bool>();
-            if (n["language"])           src.language           = n["language"].as<std::string>();
-            if (n["bundesland"])         src.bundesland         = n["bundesland"].as<std::string>();
+            if (n["api_endpoint"]) {
+              src.api_endpoint       = n["api_endpoint"].as<std::string>();
+            }
+            if (n["api_results_field"]) {
+              src.api_results_field  = n["api_results_field"].as<std::string>();
+            }
+            if (n["api_cursor_field"]) {
+              src.api_cursor_field   = n["api_cursor_field"].as<std::string>();
+            }
+            if (n["api_key_env"]) {
+              src.api_key_env        = n["api_key_env"].as<std::string>();
+            }
+            if (n["notes"]) {
+              src.notes              = n["notes"].as<std::string>();
+            }
+            if (n["requires_auth"]) {
+              src.requires_auth      = n["requires_auth"].as<bool>();
+            }
+            if (n["enabled"]) {
+              src.enabled            = n["enabled"].as<bool>();
+            }
+            if (n["language"]) {
+              src.language           = n["language"].as<std::string>();
+            }
+            if (n["bundesland"]) {
+              src.bundesland         = n["bundesland"].as<std::string>();
+            }
 
             if (n["type"]) {
                 const std::string t = n["type"].as<std::string>();
-                if      (t == "BUND")       src.type = GovSourceType::BUND;
+                if      (t == "BUND") {
+                  src.type = GovSourceType::BUND;
+                }
                 else if (t == "BUNDESLAND") src.type = GovSourceType::BUNDESLAND;
                 else if (t == "EU")         src.type = GovSourceType::EU;
                 else                        src.type = GovSourceType::OTHER;
             }
             if (n["search_style"]) {
                 const std::string ss = n["search_style"].as<std::string>();
-                if      (ss == "REST_JSON")   src.search_style = GovSearchStyle::REST_JSON;
+                if      (ss == "REST_JSON") {
+                  src.search_style = GovSearchStyle::REST_JSON;
+                }
                 else if (ss == "EURLEX_API")  src.search_style = GovSearchStyle::EURLEX_API;
                 else if (ss == "LISTING")     src.search_style = GovSearchStyle::LISTING;
                 else if (ss == "SITEMAP")     src.search_style = GovSearchStyle::SITEMAP;
@@ -162,7 +218,9 @@ void GovSourceCatalog::loadFromYaml(const std::string& yaml_content) {
                 for (const auto& kv : n["extra_params"])
                     src.extra_params[kv.first.as<std::string>()] = kv.second.as<std::string>();
             }
-            if (!src.id.empty()) upsert(std::move(src));
+            if (!src.id.empty()) {
+              upsert(std::move(src));
+            }
         }
     } catch (const YAML::Exception& e) {
         throw std::runtime_error(
@@ -178,7 +236,7 @@ void GovSourceCatalog::loadFromYaml(const std::string& yaml_content) {
 // ============================================================================
 
 void GovSourceCatalog::populateBuiltinBund() {
-    auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };
+    auto add = [&]([[maybe_unused]] GovDataSource s) { sources_.push_back(std::move(s)); };
 
     {
         GovDataSource s;
@@ -281,7 +339,7 @@ void GovSourceCatalog::populateBuiltinBund() {
 // ============================================================================
 
 void GovSourceCatalog::populateBuiltinBundeslaender() {
-    auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };
+    auto add = [&]([[maybe_unused]] GovDataSource s) { sources_.push_back(std::move(s)); };
 
     struct LandEntry {
         std::string id, name, iso, base_url, search_url, search_param,
@@ -391,7 +449,7 @@ void GovSourceCatalog::populateBuiltinBundeslaender() {
 // ============================================================================
 
 void GovSourceCatalog::populateBuiltinEU() {
-    auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };
+    auto add = [&]([[maybe_unused]] GovDataSource s) { sources_.push_back(std::move(s)); };
 
     {
         GovDataSource s;

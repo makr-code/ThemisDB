@@ -598,7 +598,9 @@ TEST_F(FullPipelineTest, FullPipeline_DeterministicFallback) {
       sum += val;
     }
     
-    if (i == 0) result1 = sum;
+    if (i == 0) {
+      result1 = sum;
+    }
     else result2 = sum;
   }
   

@@ -162,7 +162,7 @@ public:
      * to all *other* coordinators on the same bus.
      */
     struct Bus {
-        std::mutex                              mutex;
+        std::mutex                              mutex = {};
         std::vector<InProcessCacheCoordinator*> peers;
 
         void addPeer(InProcessCacheCoordinator* peer) {

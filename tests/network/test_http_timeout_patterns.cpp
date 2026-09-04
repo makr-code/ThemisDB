@@ -111,7 +111,9 @@ struct RequestTimeoutMirror {
     /// Evaluate whether a request that took @p elapsed_ms should time out.
     Outcome evaluate(uint32_t elapsed_ms) const {
         if (timeout_ms == 0) return Outcome::COMPLETED; // timer disabled
-        if (elapsed_ms >= timeout_ms) return Outcome::TIMED_OUT_408;
+        if (elapsed_ms >= timeout_ms) {
+          return Outcome::TIMED_OUT_408;
+        }
         return Outcome::COMPLETED;
     }
 };
@@ -287,7 +289,8 @@ TEST(HttpTimeoutLogic, ConcurrentRequestsTimeoutIndependently) {
     std::atomic<int> timed_out{0};
     std::atomic<int> completed{0};
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < kRequests; ++i) {
         threads.emplace_back([&, i]() {
             // Even-indexed requests exceed the timeout; odd ones do not.
@@ -300,7 +303,9 @@ TEST(HttpTimeoutLogic, ConcurrentRequestsTimeoutIndependently) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(timed_out.load(), kRequests / 2);
     EXPECT_EQ(completed.load(), kRequests / 2);

@@ -44,7 +44,9 @@ TEST(TransactionRetryManager, RetriesOnWriteConflict) {
     std::atomic<int> calls{0};
     int result = mgr.executeWithRetry([&]() -> int {
         int c = ++calls;
-        if (c < 3) throw std::runtime_error("write conflict detected");
+        if (c < 3) {
+          throw std::runtime_error("write conflict detected");
+        }
         return c;
     }, "conflict_op");
 
@@ -144,7 +146,9 @@ TEST(TransactionRetryManager, StatisticsTracking) {
     // One call that retries then succeeds
     std::atomic<int> calls{0};
     mgr.executeWithRetry([&]() -> int {
-        if (++calls < 2) throw std::runtime_error("timeout");
+        if (++calls < 2) {
+          throw std::runtime_error("timeout");
+        }
         return 0;
     }, "op2");
 

@@ -70,7 +70,8 @@ TEST(SchemaInference, LargeTableCountBoundsCheck) {
  */
 TEST(SchemaInference, NullTypeHandling) {
     // Empty sample should return UNKNOWN type (not crash)
-    std::vector<std::string> empty_sample;
+    std::vector<std::string> empty_sample = {};
+
     EXPECT_EQ(0u, empty_sample.size());
 }
 

@@ -73,7 +73,7 @@ public:
     Result<int64_t> load(SecurityLevel level) const {
         const std::string key =
             "user_storage:rotation_state:" + securityLevelToString(level);
-        std::string json_value;
+        std::string json_value = {};
         if (!get(key, json_value)) {
             return Result<int64_t>(int64_t{0});
         }

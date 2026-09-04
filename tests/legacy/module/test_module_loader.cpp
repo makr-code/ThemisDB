@@ -951,7 +951,7 @@ TEST(ModuleLoader, LoadModuleNotInManifestIsAllowed) {
 #ifdef _WIN32
 TEST(ModuleLoader, VerifyAuthenticodeSignatureNonExistent) {
     ModuleLoader loader;
-    std::string signerInfo;
+    std::string signerInfo = {};
     
     // Non-existent file: should return false
     bool result = loader.verifyAuthenticodeSignature("/nonexistent.dll", signerInfo);
@@ -977,7 +977,7 @@ TEST(ModuleLoader, RemoveZoneIdentifierNonExistent) {
 // RAII scope guard for cleaning up Zone.Identifier test files on Windows.
 // Deletes both the main file and its Zone.Identifier ADS on destruction.
 struct ZoneTestFileGuard {
-    std::string path;
+    std::string path = {};
     bool hasADS = false;
     ~ZoneTestFileGuard() {
         if (hasADS) {
@@ -1379,7 +1379,7 @@ TEST(PluginBundleLoader, CurrentPlatformKnownOS) {
 TEST(PluginBundleLoader, ParseManifestMinimal) {
     const std::string json = R"({"name":"test_plugin","version":"1.2.3"})";
     PluginBundleManifest m;
-    std::string err;
+    std::string err = {};
     EXPECT_TRUE(PluginBundleLoader::parseManifest(json, m, err));
     EXPECT_EQ(m.name,    "test_plugin");
     EXPECT_EQ(m.version, "1.2.3");
@@ -1404,7 +1404,7 @@ TEST(PluginBundleLoader, ParseManifestFull) {
     })";
 
     PluginBundleManifest m;
-    std::string err;
+    std::string err = {};
     ASSERT_TRUE(PluginBundleLoader::parseManifest(json, m, err)) << err;
     EXPECT_EQ(m.name,         "my_backend");
     EXPECT_EQ(m.version,      "2.0.1");
@@ -1421,7 +1421,7 @@ TEST(PluginBundleLoader, ParseManifestFull) {
 TEST(PluginBundleLoader, ParseManifestMissingName) {
     const std::string json = R"({"version":"1.0.0"})";
     PluginBundleManifest m;
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(PluginBundleLoader::parseManifest(json, m, err));
     EXPECT_FALSE(err.empty());
 }
@@ -1429,7 +1429,7 @@ TEST(PluginBundleLoader, ParseManifestMissingName) {
 TEST(PluginBundleLoader, ParseManifestMissingVersion) {
     const std::string json = R"({"name":"plugin_x"})";
     PluginBundleManifest m;
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(PluginBundleLoader::parseManifest(json, m, err));
     EXPECT_FALSE(err.empty());
 }
@@ -1437,7 +1437,7 @@ TEST(PluginBundleLoader, ParseManifestMissingVersion) {
 TEST(PluginBundleLoader, ParseManifestEmptyName) {
     const std::string json = R"({"name":"","version":"1.0.0"})";
     PluginBundleManifest m;
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(PluginBundleLoader::parseManifest(json, m, err));
     EXPECT_FALSE(err.empty());
 }
@@ -1445,7 +1445,7 @@ TEST(PluginBundleLoader, ParseManifestEmptyName) {
 TEST(PluginBundleLoader, ParseManifestInvalidJson) {
     const std::string json = "{ this is not valid json }";
     PluginBundleManifest m;
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(PluginBundleLoader::parseManifest(json, m, err));
     EXPECT_FALSE(err.empty());
 }
@@ -1458,7 +1458,7 @@ TEST(PluginBundleLoader, ParseManifestWasmFallbackOnly) {
         "wasmFallback": "plugin.wasm"
     })";
     PluginBundleManifest m;
-    std::string err;
+    std::string err = {};
     ASSERT_TRUE(PluginBundleLoader::parseManifest(json, m, err)) << err;
     EXPECT_EQ(m.wasmFallback, "plugin.wasm");
     EXPECT_TRUE(m.nativeLibraries.empty());
@@ -1496,7 +1496,7 @@ TEST(PluginBundleLoader, LoadBundleFailsClosedWithoutPublicKeyOrOptIn) {
 TEST(PluginBundleLoader, VerifyEd25519InvalidKeyReturnsError) {
     const uint8_t msg[] = "hello";
     std::vector<uint8_t> fakeSig(64, 0xAB);
-    std::string err;
+    std::string err = {};
     bool ok = PluginBundleLoader::verifyEd25519Signature(
         msg, sizeof(msg), fakeSig, "not-a-real-pem-key", err);
     EXPECT_FALSE(ok);
@@ -1506,7 +1506,7 @@ TEST(PluginBundleLoader, VerifyEd25519InvalidKeyReturnsError) {
 TEST(PluginBundleLoader, VerifyEd25519WrongSigLengthReturnsError) {
     const uint8_t msg[] = "data";
     std::vector<uint8_t> shortSig(10, 0x00);  // must be exactly 64 bytes
-    std::string err;
+    std::string err = {};
     bool ok = PluginBundleLoader::verifyEd25519Signature(
         msg, sizeof(msg), shortSig, "", err);
     EXPECT_FALSE(ok);

@@ -162,7 +162,7 @@ public:
      * @return {hit_rate, total_requests, cache_hits, cache_size}
      */
     struct CacheStats {
-        double hit_rate;
+        double hit_rate = 0;
         size_t total_requests;
         size_t cache_hits;
         size_t cache_size;

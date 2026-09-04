@@ -42,7 +42,8 @@ TEST_F(AQLFewShotExampleLibraryTest, AllExamplesHaveNonEmptyFields) {
 }
 
 TEST_F(AQLFewShotExampleLibraryTest, AllIdsAreUnique) {
-    std::unordered_map<std::string, int> id_counts;
+    std::unordered_map<std::string, int> id_counts = {};
+
     for (const auto& ex : lib.all()) {
         ++id_counts[ex.id];
     }

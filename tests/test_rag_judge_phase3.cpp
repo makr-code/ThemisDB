@@ -74,7 +74,9 @@ TEST_F(GEvalPhase3Test, ProbabilitiesSumToOne) {
         "completeness");
     ASSERT_EQ(result.token_probabilities.size(), kNumScoreLevels);
     double sum = 0.0;
-    for (double p : result.token_probabilities) sum += p;
+    for (double p : result.token_probabilities) {
+      sum += p;
+    }
     EXPECT_NEAR(sum, 1.0, 1e-6);
 }
 

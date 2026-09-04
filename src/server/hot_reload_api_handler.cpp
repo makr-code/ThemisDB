@@ -52,7 +52,7 @@ HotReloadApiHandler::HotReloadApiHandler(
 http::response<http::string_body> HotReloadApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
-    auto span = Tracer::startSpan("handleRequest");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRequest");
     std::string target = std::string(req.target());
     auto method = req.method();
     
@@ -211,7 +211,7 @@ http::response<http::string_body> HotReloadApiHandler::handleRollback(
     const http::request<http::string_body>& req,
     const std::string& rollback_id
 ) {
-    auto span = Tracer::startSpan("handleRollback");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRollback");
     try {
         LOG_INFO("Rollback request for ID: {}", rollback_id);
         

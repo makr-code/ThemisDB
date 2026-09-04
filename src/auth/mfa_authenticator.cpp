@@ -31,7 +31,7 @@ namespace {
     constexpr char BASE32_ALPHABET[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
     
     // Random device for cryptographic randomness
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 gen(rd());
 }
 
@@ -115,7 +115,7 @@ MFAAuthenticator::EnrollmentData MFAAuthenticator::generateEnrollment(const std:
 }
 
 std::string MFAAuthenticator::generateProvisioningURI(const EnrollmentData& enrollment) const {
-    std::ostringstream uri;
+    std::ostringstream uri = {};
     uri << "otpauth://totp/"
         << config_.issuer << ":" << enrollment.user_id
         << "?secret=" << enrollment.secret_base32
@@ -192,12 +192,12 @@ bool MFAAuthenticator::validateRecoveryCode(
     size_t found_idx = 0;
     const size_t incoming_len = recovery_code.size();
 
-    for (size_t i = 0; i < enrollment.recovery_codes.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(enrollment.recovery_codes.size()); ++i) {
         const auto& stored = enrollment.recovery_codes[i];
         // Length mismatch cannot be a match; the branch does not leak the
         // match position because it depends only on the (fixed) stored length,
         // not on which index matched.
-        bool len_match = (stored.size() == incoming_len);
+        bool len_match = (static_cast<int>(stored.size()) == incoming_len);
         int diff = len_match
             ? CRYPTO_memcmp(stored.data(), recovery_code.data(), incoming_len)
             : 1;
@@ -267,7 +267,7 @@ std::string MFAAuthenticator::generateRecoveryCode() const {
     const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     std::uniform_int_distribution<> dis(0, sizeof(charset) - 2);
     
-    std::string code;
+    std::string code = {};
     code.reserve(8);
     for (int i = 0; i < 8; ++i) {
         code += charset[dis(gen)];
@@ -306,7 +306,7 @@ std::string MFAAuthenticator::computeTOTP(
     uint32_t code_value = binary % modulus;
     
     // Format with leading zeros
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::setw(config_.code_length) << std::setfill('0') << code_value;
     return oss.str();
 }
@@ -341,7 +341,7 @@ std::vector<uint8_t> MFAAuthenticator::base32Decode(const std::string& input) co
 }
 
 std::string MFAAuthenticator::base32Encode(const std::vector<uint8_t>& input) const {
-    std::string output;
+    std::string output = {};
     int buffer = 0;
     int bits_left = 0;
     

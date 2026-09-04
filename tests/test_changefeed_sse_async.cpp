@@ -88,7 +88,7 @@ protected:
 
 // Test 1: Basic async event delivery via subscriptions
 TEST_F(AsyncSSEStreamTest, EventDeliveredAsynchronouslyViaSubscription) {
-    std::ostringstream output;
+    std::ostringstream output = {};
 
     AsyncSSEStream::Config config;
     config.max_duration_seconds = 1;  // Short duration for test
@@ -130,7 +130,7 @@ TEST_F(AsyncSSEStreamTest, EventDeliveredAsynchronouslyViaSubscription) {
 
 // Test 2: Backpressure handling with bounded queue
 TEST_F(AsyncSSEStreamTest, BackpressureHandlingWhenQueueFull) {
-    std::ostringstream output;
+    std::ostringstream output = {};
 
     AsyncSSEStream::Config config;
     config.max_buffered_events = 10;      // Small buffer to trigger backpressure
@@ -176,7 +176,7 @@ TEST_F(AsyncSSEStreamTest, BackpressureHandlingWhenQueueFull) {
 
 // Test 3: Heartbeat sending
 TEST_F(AsyncSSEStreamTest, HeartbeatsSentAtRegularIntervals) {
-    std::ostringstream output;
+    std::ostringstream output = {};
 
     AsyncSSEStream::Config config;
     config.max_duration_seconds = 2;
@@ -198,7 +198,7 @@ TEST_F(AsyncSSEStreamTest, HeartbeatsSentAtRegularIntervals) {
 
 // Test 4: Subscription filtering by key prefix
 TEST_F(AsyncSSEStreamTest, EventsFilteredByKeyPrefix) {
-    std::ostringstream output;
+    std::ostringstream output = {};
 
     AsyncSSEStream::Config config;
     config.max_duration_seconds = 1;
@@ -237,7 +237,7 @@ TEST_F(AsyncSSEStreamTest, EventsFilteredByKeyPrefix) {
 
 // Test 5: Event count tracking
 TEST_F(AsyncSSEStreamTest, EventCountingWorks) {
-    std::ostringstream output;
+    std::ostringstream output = {};
 
     AsyncSSEStream::Config config;
     config.max_duration_seconds = 1;
@@ -273,7 +273,7 @@ TEST_F(AsyncSSEStreamTest, EventCountingWorks) {
 
 // Test 6: Stream gracefully closes on timeout
 TEST_F(AsyncSSEStreamTest, StreamClosesOnTimeout) {
-    std::ostringstream output;
+    std::ostringstream output = {};
 
     AsyncSSEStream::Config config;
     config.max_duration_seconds = 1;  // Very short timeout
@@ -294,7 +294,7 @@ TEST_F(AsyncSSEStreamTest, StreamClosesOnTimeout) {
 
 // Test 7: Subscription cleanup on destruction (RAII)
 TEST_F(AsyncSSEStreamTest, SubscriptionCleanedUpOnDestruction) {
-    std::ostringstream output;
+    std::ostringstream output = {};
 
     AsyncSSEStream::Config config;
     config.max_duration_seconds = 10;  // Long timeout

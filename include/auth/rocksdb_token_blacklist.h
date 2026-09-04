@@ -110,8 +110,8 @@ private:
     Config config_;
 
     // RocksDB state
-    // DB ownership is managed with unique_ptr for RAII cleanup.
-    std::unique_ptr<rocksdb::DB> db_{nullptr};
+    // DB ownership is managed with raw pointer; destruction handled manually.
+    rocksdb::DB* db_{nullptr};
     rocksdb::ColumnFamilyHandle* cf_{nullptr};
 
     // Background purge thread

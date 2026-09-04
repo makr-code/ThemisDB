@@ -78,7 +78,8 @@ bool TensorTrainingCoordinator::runNextJob() {
 
     result.state = TrainingJobState::RUNNING;
 
-    std::vector<float> previous_aggregate;
+    std::vector<float> previous_aggregate = {};
+
     for (std::size_t iter = 0; iter < spec.max_iterations; ++iter) {
         std::vector<std::vector<float>> shard_outputs;
         shard_outputs.reserve(spec.shard_work.size());
@@ -143,7 +144,7 @@ TensorTrainingCoordinator::runShardWithRetry(const TensorTrainingJobSpec& spec,
             worker_it = workers_.begin();
         }
 
-        std::string err;
+        std::string err = {};
         auto output = worker_it->second->processShard(spec.job_id, worker_it->first, shard, err);
         if (output) {
             return output;

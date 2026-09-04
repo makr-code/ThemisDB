@@ -29,7 +29,7 @@ protected:
         db_path_ = "./data/gap008_backup_test";
         
         // Clean up from previous runs
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(db_path_, ec);
         
         // Create database wrapper
@@ -47,7 +47,7 @@ protected:
         db_wrapper_.reset();
         // Guard against empty path when SetUp() was skipped on Windows
         if (!db_path_.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove_all(db_path_, ec);
         }
     }
@@ -145,7 +145,7 @@ TEST_F(GAP008BackupAutomationTest, ListScheduledBackupsReturnsEmpty) {
 TEST_F(GAP008BackupAutomationTest, UploadToCloudRejectsInvalidUri) {
     // Create directory so the local-path check passes
     std::string local_path = "./data/gap008_uri_test";
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(local_path, ec);
     ASSERT_FALSE(ec);
 
@@ -171,7 +171,7 @@ TEST_F(GAP008BackupAutomationTest, UploadToCloudRejectsInvalidUri) {
 TEST_F(GAP008BackupAutomationTest, UploadToCloudReturnsNotAvailable) {
     // Create the backup directory explicitly so the local-path check passes
     std::string local_path = "./data/gap008_cloud_test_backup";
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(local_path, ec);
     ASSERT_FALSE(ec) << "Could not create test backup directory: " << ec.message();
 
@@ -253,7 +253,7 @@ TEST_F(GAP008BackupAutomationTest, RestoreFromCloudReturnsNotAvailable) {
     }
 
     // Cleanup
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all("./data/gap008_restore_path", ec);
 }
 

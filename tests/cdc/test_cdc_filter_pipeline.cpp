@@ -199,8 +199,11 @@ TEST(InMemoryFilterPipelineTest, ApplyBatchReturnOnlyPassingEventsInOrder) {
             return ev.sequence % 2 == 0;
         }));
 
-    std::vector<Changefeed::ChangeEvent> batch;
-    for (uint64_t i = 1; i <= 6; ++i) batch.push_back(makeEv(i));
+    std::vector<Changefeed::ChangeEvent> batch = {};
+
+    for (uint64_t i = 1; i <= 6; ++i) {
+      batch.push_back(makeEv(i));
+    }
 
     auto result = pipeline.applyBatch(batch);
     ASSERT_EQ(result.size(), 3u);
@@ -236,7 +239,9 @@ TEST(InMemoryFilterPipelineTest, PassDropCountersAndReset) {
             return ev.sequence % 2 != 0;
         }));
 
-    for (uint64_t i = 1; i <= 6; ++i) pipeline.apply(makeEv(i));
+    for (uint64_t i = 1; i <= 6; ++i) {
+      pipeline.apply(makeEv(i));
+    }
 
     EXPECT_EQ(pipeline.totalPassed(),  3u); // 1, 3, 5
     EXPECT_EQ(pipeline.totalDropped(), 3u); // 2, 4, 6
@@ -279,7 +284,9 @@ TEST(InMemoryFilterPipelineTest, ConcurrentAddFilterAndApplyAreThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     // No crash; pipeline is consistent
     EXPECT_LE(pipeline.size(), static_cast<std::size_t>(kThreads * kOps));
 }

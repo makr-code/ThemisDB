@@ -667,7 +667,7 @@ public:
                      const std::vector<std::string>& shard_ids) {
         
         THEMIS_INFO("Creating cloud backup: id={}, shards={}", 
-                   backup_id, shard_ids.size());
+                   backup_id,static_cast<int>(shard_ids.size()));
         
         try {
             if (backup_id.empty()) {
@@ -768,7 +768,7 @@ public:
                       const std::vector<std::string>& shard_ids) {
         
         THEMIS_INFO("Restoring cloud backup: id={}, shards={}", 
-                   backup_id, shard_ids.size());
+                   backup_id,static_cast<int>(shard_ids.size()));
         
         try {
             if (backup_id.empty()) {
@@ -873,7 +873,8 @@ public:
     }
     
     std::vector<BackupInfo> listBackups() const {
-        std::vector<BackupInfo> backups;
+        std::vector<BackupInfo> backups = {};
+
         backups.reserve(backup_catalog_.size());
         
         for (const auto& entry : backup_catalog_) {
@@ -901,7 +902,7 @@ public:
                              const std::vector<std::string>& shard_endpoints) {
         
         THEMIS_INFO("Setting replication target: datacenter={}, endpoints={}", 
-                   datacenter_id, shard_endpoints.size());
+                   datacenter_id,static_cast<int>(shard_endpoints.size()));
 
         if (datacenter_id.empty()) {
             THEMIS_ERROR("Failed to set replication target: datacenter_id must not be empty");
@@ -1012,9 +1013,9 @@ private:
         };
 
         if (config_.provider == "s3") {
-            if (!has_s3_callbacks()) {
-                if (!try_initialize_callbacks_from_sdk() || !has_s3_callbacks()) {
-                    THEMIS_ERROR("S3 provider requires upload/download/delete/list/exists callbacks");
+            if ([[maybe_unused]] !has_s3_callbacks()) {
+                if ([[maybe_unused]] !try_initialize_callbacks_from_sdk() || !has_s3_callbacks()) {
+                    THEMIS_ERROR([[maybe_unused]] "S3 provider requires upload/download/delete/list/exists callbacks");
                     storage_provider_.reset();
                     return;
                 }
@@ -1025,9 +1026,9 @@ private:
                 config_.s3_endpoint
             );
         } else if (config_.provider == "azure") {
-            if (!has_azure_callbacks()) {
-                if (!try_initialize_callbacks_from_sdk() || !has_azure_callbacks()) {
-                    THEMIS_ERROR("Azure provider requires upload/download/delete/list/exists callbacks");
+            if ([[maybe_unused]] !has_azure_callbacks()) {
+                if ([[maybe_unused]] !try_initialize_callbacks_from_sdk() || !has_azure_callbacks()) {
+                    THEMIS_ERROR([[maybe_unused]] "Azure provider requires upload/download/delete/list/exists callbacks");
                     storage_provider_.reset();
                     return;
                 }
@@ -1037,9 +1038,9 @@ private:
                 config_.azure_container
             );
         } else if (config_.provider == "gcs") {
-            if (!has_gcs_callbacks()) {
-                if (!try_initialize_callbacks_from_sdk() || !has_gcs_callbacks()) {
-                    THEMIS_ERROR("GCS provider requires upload/download/delete/list/exists callbacks");
+            if ([[maybe_unused]] !has_gcs_callbacks()) {
+                if ([[maybe_unused]] !try_initialize_callbacks_from_sdk() || !has_gcs_callbacks()) {
+                    THEMIS_ERROR([[maybe_unused]] "GCS provider requires upload/download/delete/list/exists callbacks");
                     storage_provider_.reset();
                     return;
                 }

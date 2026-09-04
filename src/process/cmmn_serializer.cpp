@@ -43,7 +43,7 @@ namespace process {
 namespace {
 
 /// Maximum CMMN XML document size (10 MiB).
-static constexpr size_t kMaxCmmnXmlBytes = 10u * 1024u * 1024u;
+static constexpr size_t kMaxCmmnXmlBytes = 10 * 1024 * 1024;
 
 /// Strip XML namespace prefix ("cmmn:humanTask" → "humanTask").
 static std::string_view stripNs(std::string_view name) {
@@ -52,14 +52,16 @@ static std::string_view stripNs(std::string_view name) {
 }
 
 static std::string unescapeXml(std::string_view s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
-    for (size_t i = 0; i < s.size(); ) {
+    for (size_t i = 0; i <static_cast<int>(s.size()); ) {
         if (s[i] != '&') { out += s[i++]; continue; }
         size_t semi = s.find(';', i + 1);
         if (semi == std::string_view::npos) { out += s[i++]; continue; }
         std::string_view ent = s.substr(i, semi - i + 1);
-        if      (ent == "&amp;")  out += '&';
+        if      (ent == "&amp;") {
+          out += '&';
+        }
         else if (ent == "<")   out += '<';
         else if (ent == ">")   out += '>';
         else if (ent == "&quot;") out += '"';
@@ -86,76 +88,120 @@ static void parseAttrs(std::string_view src,
     size_t i = 0;
     const size_t n = src.size();
     while (i < n) {
-        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) ++i;
-        if (i >= n || src[i] == '/' || src[i] == '>') break;
+        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) {
+          ++i;
+        }
+        if (i >= n || src[i] == '/' || src[i] == '>') {
+          break;
+        }
         size_t ns = i;
         while (i < n && src[i] != '=' && src[i] != '/' && src[i] != '>' &&
                !std::isspace(static_cast<unsigned char>(src[i]))) ++i;
-        if (i <= ns) break;
+        if (i <= ns) {
+          break;
+        }
         std::string attr_name = std::string(stripNs(src.substr(ns, i - ns)));
-        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) ++i;
+        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) {
+          ++i;
+        }
         if (i >= n || src[i] != '=') {
-            if (!attr_name.empty()) out.emplace(std::move(attr_name), "true");
+            if (!attr_name.empty()) {
+              out.emplace(std::move(attr_name), "true");
+            }
             continue;
         }
         ++i;
-        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) ++i;
-        if (i >= n) break;
-        std::string attr_val;
+        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) {
+          ++i;
+        }
+        if (i >= n) {
+          break;
+        }
+        std::string attr_val = {};
         if (src[i] == '"' || src[i] == '\'') {
             char q = src[i++];
             size_t vs = i;
-            while (i < n && src[i] != q) ++i;
+            while (i < n && src[i] != q) {
+              ++i;
+            }
             attr_val = unescapeXml(src.substr(vs, i - vs));
-            if (i < n) ++i;
+            if (i < n) {
+              ++i;
+            }
         } else {
             size_t vs = i;
             while (i < n && !std::isspace(static_cast<unsigned char>(src[i])) &&
                    src[i] != '>' && src[i] != '/') ++i;
             attr_val = std::string(src.substr(vs, i - vs));
         }
-        if (!attr_name.empty()) out.emplace(std::move(attr_name), std::move(attr_val));
+        if (!attr_name.empty()) {
+          out.emplace(std::move(attr_name), std::move(attr_val));
+        }
     }
 }
 
 template<typename TagCb, typename TextCb>
 bool tokenizeCmmnXml(std::string_view xml, TagCb tag_cb, TextCb text_cb) {
-    if (xml.size() > kMaxCmmnXmlBytes) return false;
+    if (static_cast<int>(xml.size()) > kMaxCmmnXmlBytes) {
+      return false;
+    }
 
     size_t i = 0;
     const size_t n = xml.size();
 
     while (i < n) {
         size_t ts = i;
-        while (i < n && xml[i] != '<') ++i;
-        if (i > ts) text_cb(xml.substr(ts, i - ts));
-        if (i >= n) break;
+        while (i < n && xml[i] != '<') {
+          ++i;
+        }
+        if (i > ts) {
+          text_cb(xml.substr(ts, i - ts));
+        }
+        if (i >= n) {
+          break;
+        }
         ++i;
-        if (i >= n) break;
+        if (i >= n) {
+          break;
+        }
 
         if (i + 2 < n && xml[i]=='!' && xml[i+1]=='-' && xml[i+2]=='-') {
             i += 3;
-            while (i + 2 < n && !(xml[i]=='-' && xml[i+1]=='-' && xml[i+2]=='>')) ++i;
-            if (i + 2 < n) i += 3;
+            while (i + 2 < n && !(xml[i]=='-' && xml[i+1]=='-' && xml[i+2]=='>')) {
+              ++i;
+            }
+            if (i + 2 < n) {
+              i += 3;
+            }
             continue;
         }
         if (i + 7 < n && xml.substr(i, 8) == "![CDATA[") {
             i += 8;
             size_t cs = i;
-            while (i + 2 < n && !(xml[i]==']' && xml[i+1]==']' && xml[i+2]=='>')) ++i;
+            while (i + 2 < n && !(xml[i]==']' && xml[i+1]==']' && xml[i+2]=='>')) {
+              ++i;
+            }
             text_cb(xml.substr(cs, i - cs));
-            if (i + 2 < n) i += 3;
+            if (i + 2 < n) {
+              i += 3;
+            }
             continue;
         }
         if (xml[i] == '?') {
-            while (i + 1 < n && !(xml[i]=='?' && xml[i+1]=='>')) ++i;
-            if (i + 1 < n) i += 2;
+            while (i + 1 < n && !(xml[i]=='?' && xml[i+1]=='>')) {
+              ++i;
+            }
+            if (i + 1 < n) {
+              i += 2;
+            }
             continue;
         }
         if (xml[i] == '!') {
             int depth = 1; ++i;
             while (i < n && depth > 0) {
-                if (xml[i] == '<') ++depth;
+                if (xml[i] == '<') {
+                  ++depth;
+                }
                 else if (xml[i] == '>') --depth;
                 ++i;
             }
@@ -169,15 +215,23 @@ bool tokenizeCmmnXml(std::string_view xml, TagCb tag_cb, TextCb text_cb) {
         while (i < n && xml[i] != '>' && xml[i] != '/' &&
                !std::isspace(static_cast<unsigned char>(xml[i]))) ++i;
         if (i <= name_s) {
-            while (i < n && xml[i] != '>') ++i;
-            if (i < n) ++i;
+            while (i < n && xml[i] != '>') {
+              ++i;
+            }
+            if (i < n) {
+              ++i;
+            }
             continue;
         }
         std::string local_name = std::string(stripNs(xml.substr(name_s, i - name_s)));
 
         if (is_close) {
-            while (i < n && xml[i] != '>') ++i;
-            if (i < n) ++i;
+            while (i < n && xml[i] != '>') {
+              ++i;
+            }
+            if (i < n) {
+              ++i;
+            }
             XmlTag t; t.name = std::move(local_name); t.is_close = true;
             tag_cb(t);
             continue;
@@ -204,7 +258,9 @@ bool tokenizeCmmnXml(std::string_view xml, TagCb tag_cb, TextCb text_cb) {
         tag.self_closing = self_close;
         parseAttrs(xml.substr(attr_s, tag_end - attr_s), tag.attrs);
 
-        if (self_close) i += 2;
+        if (self_close) {
+          i += 2;
+        }
         else if (i < n) ++i;
 
         tag_cb(tag);
@@ -225,7 +281,7 @@ static const std::set<std::string> kCmmnTaskTags = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::string CmmnSerializer::escapeXml_(std::string_view s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (char c : s) {
         switch (c) {
@@ -283,7 +339,7 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
     // Phase 3: Initialize parser state tracker for resource limit enforcement
     ParserStateTracker parser_state(static_cast<size_t>(kMaxCmmnXmlBytes));
 
-    auto tag_cb = [&](const XmlTag& t) {
+    auto tag_cb = [&]([[maybe_unused]] const XmlTag& t) {
         const std::string& tn = t.name;
 
         // ── Closing tags ──────────────────────────────────────────────────
@@ -327,9 +383,13 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
         // ── casePlanModel / plan-item task/stage/milestone ────────────────
         if (kCmmnTaskTags.count(tn)) {
             auto it_id = t.attrs.find("id");
-            if (it_id == t.attrs.end() || it_id->second.empty()) return;
+            if (it_id == t.attrs.end() || it_id->second.empty()) {
+              return;
+            }
             const std::string& nid = it_id->second;
-            if (!seen_node_ids.insert(nid).second) return;
+            if (!seen_node_ids.insert(nid).second) {
+              return;
+            }
 
             auto it_name = t.attrs.find("name");
             ProcessNodeInfo node;
@@ -363,7 +423,9 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
             result.nodes.push_back(std::move(node));
 
             // Track current item for criterion association on non-self-closing elements.
-            if (!t.self_closing) current_item_id = nid;
+            if (!t.self_closing) {
+              current_item_id = nid;
+            }
             return;
         }
 
@@ -378,8 +440,8 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
         }
 
         // ── <onPart sourceRef="…"/> inside a sentry ───────────────────────
-        if (in_sentry && (tn == "onPart" || tn == "planItemOnPart" ||
-                          tn == "caseFileItemOnPart")) {
+        if ((in_sentry && (tn == "onPart" || tn == "planItemOnPart" ||
+                          tn == "caseFileItemOnPart"))) {
             auto it = t.attrs.find("sourceRef");
             if (it != t.attrs.end() && !current_sentry_id.empty()) {
                 sentry_sources[current_sentry_id] = it->second;
@@ -388,8 +450,8 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
         }
 
         // ── <entryCriterion sentryRef="…"/> / <exitCriterion …/> ──────────
-        if ((tn == "entryCriterion" || tn == "exitCriterion") &&
-            !current_item_id.empty()) {
+        if (((tn == "entryCriterion" || tn == "exitCriterion") &&
+            !current_item_id.empty())) {
             auto it = t.attrs.find("sentryRef");
             if (it != t.attrs.end()) {
                 // Map this sentry to the current plan item as the edge target.
@@ -399,7 +461,7 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
         }
     };
 
-    auto text_cb = [&](std::string_view) {};
+    auto text_cb = [&]([[maybe_unused]] std::string_view) {};
 
     if (!tokenizeCmmnXml(cmmn_xml, tag_cb, text_cb)) {
         result.ok      = false;
@@ -413,9 +475,13 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
     static int edge_counter = 0;
     for (const auto& [sentry_id, source_ref] : sentry_sources) {
         auto it = sentry_targets.find(sentry_id);
-        if (it == sentry_targets.end()) continue;
+        if (it == sentry_targets.end()) {
+          continue;
+        }
         const std::string& target_ref = it->second;
-        if (source_ref.empty() || target_ref.empty()) continue;
+        if (source_ref.empty() || target_ref.empty()) {
+          continue;
+        }
 
         ProcessEdgeInfo edge;
         edge.edge_id   = "edge_sentry_" + sentry_id + "_" + std::to_string(++edge_counter);
@@ -475,7 +541,7 @@ std::string CmmnSerializer::exportXml(
     const std::vector<ProcessEdgeInfo>& edges)
 {
     static_cast<void>(edges);
-    std::ostringstream xml;
+    std::ostringstream xml = {};
 
     xml << R"(<?xml version="1.0" encoding="UTF-8"?>)" << "\n";
     xml << R"(<definitions xmlns="http://www.omg.org/spec/CMMN/20151109/MODEL")" << "\n";
@@ -487,7 +553,7 @@ std::string CmmnSerializer::exportXml(
         << R"(" name=")" << escapeXml_(case_name) << "\">\n";
 
     // Find the casePlanModel (if any) to use as the root container.
-    std::string plan_model_id;
+    std::string plan_model_id = {};
     for (const auto& n : nodes) {
         if (std::holds_alternative<BPMNNodeType>(n.node_type) &&
             std::get<BPMNNodeType>(n.node_type) == BPMNNodeType::SUBPROCESS &&
@@ -505,15 +571,21 @@ std::string CmmnSerializer::exportXml(
 
     // Emit plan-item elements.
     for (const auto& n : nodes) {
-        if (!std::holds_alternative<BPMNNodeType>(n.node_type)) continue;
+        if (!std::holds_alternative<BPMNNodeType>(n.node_type)) {
+          continue;
+        }
         auto btype = std::get<BPMNNodeType>(n.node_type);
 
         // Skip the casePlanModel itself (already emitted as root).
-        if (btype == BPMNNodeType::SUBPROCESS && n.subtype == "CASE_PLAN") continue;
+        if (btype == BPMNNodeType::SUBPROCESS && n.subtype == "CASE_PLAN") {
+          continue;
+        }
 
-        std::string tag;
+        std::string tag = {};
         if (btype == BPMNNodeType::TASK) {
-            if      (n.subtype == "HUMAN_TASK")    tag = "humanTask";
+            if      (n.subtype == "HUMAN_TASK") {
+              tag = "humanTask";
+            }
             else if (n.subtype == "PROCESS_TASK")  tag = "processTask";
             else if (n.subtype == "CASE_TASK")     tag = "caseTask";
             else                                    tag = "humanTask"; // default

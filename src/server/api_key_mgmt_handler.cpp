@@ -41,7 +41,7 @@ std::string ApiKeyMgmtHandler::generateToken() {
     if (RAND_bytes(buf, static_cast<int>(sizeof(buf))) != 1) {
         throw std::runtime_error("Failed to generate secure random bytes for API token");
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "themis_";
     for (auto b : buf) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
@@ -55,7 +55,7 @@ std::string ApiKeyMgmtHandler::generateKeyId() {
     if (RAND_bytes(buf, static_cast<int>(sizeof(buf))) != 1) {
         throw std::runtime_error("Failed to generate secure random bytes for key ID");
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "key_";
     for (auto b : buf) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
@@ -72,12 +72,12 @@ std::string ApiKeyMgmtHandler::currentTimestamp() {
 #else
     gmtime_r(&t, &tm_buf);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm_buf, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
 
-std::string ApiKeyMgmtHandler::expiryTimestamp(int days) {
+std::string ApiKeyMgmtHandler::expiryTimestamp([[maybe_unused]] int days) {
     if (days <= 0) return {};
     auto now = std::chrono::system_clock::now() + std::chrono::hours(24 * days);
     auto t = std::chrono::system_clock::to_time_t(now);
@@ -87,12 +87,12 @@ std::string ApiKeyMgmtHandler::expiryTimestamp(int days) {
 #else
     gmtime_r(&t, &tm_buf);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm_buf, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
 
-nlohmann::json ApiKeyMgmtHandler::recordToJson(const ApiKeyRecord& rec) {
+nlohmann::json ApiKeyMgmtHandler::recordToJson([[maybe_unused]] const ApiKeyRecord& rec) {
     nlohmann::json obj = {
         {"id",         rec.id},
         {"name",       rec.name},
@@ -109,7 +109,7 @@ nlohmann::json ApiKeyMgmtHandler::recordToJson(const ApiKeyRecord& rec) {
 // CRUD operations
 // ---------------------------------------------------------------------------
 
-nlohmann::json ApiKeyMgmtHandler::createKey(const nlohmann::json& body) {
+nlohmann::json ApiKeyMgmtHandler::createKey([[maybe_unused]] const nlohmann::json& body) {
     try {
         // Validate required field
         if (!body.contains("name") || !body["name"].is_string()) {
@@ -121,10 +121,13 @@ nlohmann::json ApiKeyMgmtHandler::createKey(const nlohmann::json& body) {
         }
 
         // Parse optional fields
-        std::vector<std::string> permissions;
+        std::vector<std::string> permissions = {};
+
         if (body.contains("permissions") && body["permissions"].is_array()) {
             for (const auto& p : body["permissions"]) {
-                if (p.is_string()) permissions.push_back(p.get<std::string>());
+                if (p.is_string()) {
+                  permissions.push_back(p.get<std::string>());
+                }
             }
         }
 
@@ -162,7 +165,7 @@ nlohmann::json ApiKeyMgmtHandler::createKey(const nlohmann::json& body) {
             }
         }
 
-        THEMIS_INFO("API Key created: id='{}' name='{}' permissions={}", key_id, name, permissions.size());
+        THEMIS_INFO("API Key created: id='{}' name='{}' permissions={}", key_id, name,static_cast<int>(permissions.size()));
 
         // Return full record including the one-time secret
         nlohmann::json resp = recordToJson(rec);
@@ -182,15 +185,15 @@ nlohmann::json ApiKeyMgmtHandler::listKeys() {
         for (const auto& [id, rec] : keys_) {
             items.push_back(recordToJson(rec));
         }
-        THEMIS_INFO("API Key list: {} keys", items.size());
-        return {{"items", items}, {"total", static_cast<int>(items.size())}};
+        THEMIS_INFO("API Key list: {} keys",static_cast<int>(items.size()));
+        return static_cast<bool>({{"items", items}, {"total", static_cast<int < static_cast<int>((items.size())))}};
     } catch (const std::exception& ex) {
         THEMIS_ERROR("ApiKeyMgmtHandler::listKeys failed: {}", ex.what());
         return {{"error", "Internal Server Error"}, {"message", ex.what()}, {"status_code", 500}};
     }
 }
 
-nlohmann::json ApiKeyMgmtHandler::getKey(const std::string& key_id) {
+nlohmann::json ApiKeyMgmtHandler::getKey([[maybe_unused]] const std::string& key_id) {
     try {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = keys_.find(key_id);
@@ -217,12 +220,16 @@ nlohmann::json ApiKeyMgmtHandler::updateKey(const std::string& key_id, const nlo
         // Apply updates
         if (body.contains("name") && body["name"].is_string()) {
             std::string new_name = body["name"].get<std::string>();
-            if (!new_name.empty()) rec.name = new_name;
+            if (!new_name.empty()) {
+              rec.name = new_name;
+            }
         }
         if (body.contains("permissions") && body["permissions"].is_array()) {
             rec.permissions.clear();
             for (const auto& p : body["permissions"]) {
-                if (p.is_string()) rec.permissions.push_back(p.get<std::string>());
+                if (p.is_string()) {
+                  rec.permissions.push_back(p.get<std::string>());
+                }
             }
             // Re-register token with updated permissions
             if (auth_) {
@@ -246,9 +253,9 @@ nlohmann::json ApiKeyMgmtHandler::updateKey(const std::string& key_id, const nlo
     }
 }
 
-nlohmann::json ApiKeyMgmtHandler::deleteKey(const std::string& key_id) {
+nlohmann::json ApiKeyMgmtHandler::deleteKey([[maybe_unused]] const std::string& key_id) {
     try {
-        std::string token_to_remove;
+        std::string token_to_remove = {};
         {
             std::lock_guard<std::mutex> lock(mutex_);
             auto it = keys_.find(key_id);

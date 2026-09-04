@@ -55,7 +55,7 @@ DeadLetterQueue::DeadLetterQueue(rocksdb::TransactionDB* db,
     }
 }
 
-std::string DeadLetterQueue::makeKey(uint64_t dlq_sequence) const {
+std::string DeadLetterQueue::makeKey([[maybe_unused]] uint64_t dlq_sequence) const {
     char buf[64];
     std::snprintf(buf, sizeof(buf), "%s%020llu",
                   KEY_PREFIX, static_cast<unsigned long long>(dlq_sequence));
@@ -65,7 +65,7 @@ std::string DeadLetterQueue::makeKey(uint64_t dlq_sequence) const {
 uint64_t DeadLetterQueue::nextSequence() {
     std::lock_guard<std::mutex> lock(sequence_mutex_);
 
-    std::string seq_value;
+    std::string seq_value = {};
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
 
@@ -132,9 +132,9 @@ DLQEntry DeadLetterQueue::enqueue(const Changefeed::ChangeEvent& event,
     return entry;
 }
 
-DLQEntry DeadLetterQueue::getEntry(uint64_t dlq_sequence) const {
+DLQEntry DeadLetterQueue::getEntry([[maybe_unused]] uint64_t dlq_sequence) const {
     const std::string key = makeKey(dlq_sequence);
-    std::string value;
+    std::string value = {};
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
 
@@ -172,10 +172,10 @@ Changefeed::ChangeEvent DeadLetterQueue::replay(uint64_t dlq_sequence,
     return recorded;
 }
 
-bool DeadLetterQueue::remove(uint64_t dlq_sequence) {
+bool DeadLetterQueue::remove([[maybe_unused]] uint64_t dlq_sequence) {
     const std::string key = makeKey(dlq_sequence);
     rocksdb::ReadOptions read_opts;
-    std::string existing;
+    std::string existing = {};
     rocksdb::Status read_status;
 
     if (cf_) {
@@ -216,7 +216,8 @@ size_t DeadLetterQueue::drain() {
     rocksdb::ReadOptions  read_opts;
     rocksdb::WriteOptions write_opts;
 
-    std::unique_ptr<rocksdb::Iterator> it;
+    std::unique_ptr<rocksdb::Iterator> it = {};
+
     if (cf_) {
         it.reset(db_->NewIterator(read_opts, cf_));
     } else {
@@ -254,7 +255,7 @@ size_t DeadLetterQueue::drain() {
     return deleted;
 }
 
-std::vector<DLQEntry> DeadLetterQueue::listEntries(size_t limit) const {
+std::vector<DLQEntry> DeadLetterQueue::listEntries([[maybe_unused]] size_t limit) const {
     std::vector<DLQEntry> results;
 
     rocksdb::ReadOptions read_opts;
@@ -284,7 +285,7 @@ std::vector<DLQEntry> DeadLetterQueue::listEntries(size_t limit) const {
                         key, e.what());
         }
 
-        if (limit > 0 && results.size() >= limit) {
+        if (limit > 0 && static_cast<int>(results.size()) >= limit) {
             break;
         }
         it->Next();

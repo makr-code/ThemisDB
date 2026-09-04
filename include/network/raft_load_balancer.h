@@ -96,7 +96,7 @@ public:
         LoadBalancingStrategy strategy = LoadBalancingStrategy::LEAST_CONNECTIONS;
 
         /// Datacenter / region label for this node.  Used for cross-DC routing.
-        std::string datacenter;
+        std::string datacenter = {};
 
         /// Prefer local-datacenter backends when available.
         bool prefer_local_datacenter = true;

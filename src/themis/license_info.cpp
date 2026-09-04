@@ -185,7 +185,7 @@ bool hasEmbeddedLicense() {
 }
 
 std::string formatLicenseInfo(const LicenseData& license) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "\n";
     oss << "===============================================================================\n";
@@ -356,7 +356,7 @@ bool verifyLicenseSignature(const LicenseData& license) {
     }
     
     // Construct the data that was signed (canonical format)
-    std::ostringstream data_stream;
+    std::ostringstream data_stream = {};
     data_stream << license.license_key
                 << "|" << license.organization_name
                 << "|" << license.organization_id
@@ -401,12 +401,12 @@ bool verifyLicenseSignature(const LicenseData& license) {
         return false;
     }
     
-    if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(), data_to_verify.size()) != 1) {
+    if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(),static_cast<int>(data_to_verify.size())) != 1) {
         spdlog::error("verifyLicenseSignature: EVP_DigestVerifyUpdate failed");
         return false;
     }
     
-    int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(), signature_bytes.size());
+    int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(),static_cast<int>(signature_bytes.size()));
     if (verify_result == 1) {
         valid = true;
     } else if (verify_result == 0) {
@@ -432,11 +432,11 @@ static std::string computeFingerprintHash(const std::string& raw) {
     EVP_MD_CTX* ctx = EVP_MD_CTX_new();
     if (ctx) {
         EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr);
-        EVP_DigestUpdate(ctx, raw.data(), raw.size());
+        EVP_DigestUpdate(ctx, raw.data(),static_cast<int>(raw.size()));
         EVP_DigestFinal_ex(ctx, digest, &dlen);
         EVP_MD_CTX_free(ctx);
     }
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < dlen; ++i)
         hex << std::setw(2) << static_cast<unsigned>(digest[i]);
@@ -446,19 +446,27 @@ static std::string computeFingerprintHash(const std::string& raw) {
 static std::string getPrimaryMacAddress() {
 #if defined(__linux__)
     struct ifaddrs* ifa_list = nullptr;
-    if (getifaddrs(&ifa_list) != 0) return "00:00:00:00:00:00";
+    if (getifaddrs(&ifa_list) != 0) {
+      return "00:00:00:00:00:00";
+    }
 
-    std::string result;
+    std::string result = {};
     for (struct ifaddrs* ifa = ifa_list; ifa; ifa = ifa->ifa_next) {
-        if (!ifa->ifa_name) continue;
-        if (std::string(ifa->ifa_name) == "lo") continue;
+        if (!ifa->ifa_name) {
+          continue;
+        }
+        if (std::string(ifa->ifa_name) == "lo") {
+          continue;
+        }
 
         int sock = socket(AF_INET, SOCK_DGRAM, 0);
-        if (sock < 0) continue;
+        if (sock < 0) {
+          continue;
+        }
 
         struct ifreq ifr{};
         std::strncpy(ifr.ifr_name, ifa->ifa_name, IFNAMSIZ - 1);
-        ifr.ifr_name[IFNAMSIZ - 1] = '\0'; // ensure null termination
+        ifr.ifr_name[static_cast<int>(IFNAMSIZ - 1)] = '\0'; // ensure null termination
         if (ioctl(sock, SIOCGIFHWADDR, &ifr) == 0) {
             const auto* mac = reinterpret_cast<const unsigned char*>(ifr.ifr_hwaddr.sa_data);
             char buf[32];
@@ -468,7 +476,9 @@ static std::string getPrimaryMacAddress() {
             result = buf;
         }
         close(sock);
-        if (!result.empty()) break;
+        if (!result.empty()) {
+          break;
+        }
     }
     freeifaddrs(ifa_list);
     return result.empty() ? "00:00:00:00:00:00" : result;
@@ -604,7 +614,7 @@ private:
         const std::string url = cfg_.server_url + "/" + action;
 
         // Build minimal JSON body
-        std::ostringstream body;
+        std::ostringstream body = {};
         body << "{"
              << "\"license_key\":\"" << license.license_key << "\","
              << "\"machine_fingerprint\":\"" << getMachineFingerprint() << "\","
@@ -612,7 +622,7 @@ private:
              << "}";
         const std::string body_str = body.str();
 
-        std::string response_body;
+        std::string response_body = {};
         curl_easy_setopt(curl, CURLOPT_URL,            url.c_str());
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS,     body_str.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,  curlWriteCallback);

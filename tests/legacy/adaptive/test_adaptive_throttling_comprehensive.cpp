@@ -48,9 +48,13 @@ TEST(AdaptiveThrottleDefaultTest, DisabledByDefault_NoSideEffects) {
     RateLimiter limiter(cfg);
 
     // Exhaust bucket
-    for (int i = 0; i < 5; ++i) limiter.allowRequest("ip1");
+    for (int i = 0; i < 5; ++i) {
+      limiter.allowRequest("ip1");
+    }
     // Several more rejections
-    for (int i = 0; i < 10; ++i) limiter.allowRequest("ip1");
+    for (int i = 0; i < 10; ++i) {
+      limiter.allowRequest("ip1");
+    }
 
     // Adaptive throttling is disabled – isAdaptivelyThrottled should return false
     EXPECT_FALSE(limiter.isAdaptivelyThrottled("ip1"));
@@ -129,7 +133,9 @@ TEST_F(AdaptiveThrottleTest, UnpenalisedIP_StillAllowed_Normally) {
 TEST_F(AdaptiveThrottleTest, Reset_ClearsAdaptiveState) {
     limiter_->allowRequest("victim");
     limiter_->allowRequest("victim");
-    for (int i = 0; i < 3; ++i) limiter_->allowRequest("victim");
+    for (int i = 0; i < 3; ++i) {
+      limiter_->allowRequest("victim");
+    }
 
     ASSERT_TRUE(limiter_->isAdaptivelyThrottled("victim"));
 
@@ -152,7 +158,9 @@ TEST(AdaptiveThrottlePenaltyExpiryTest, PenaltyExpires_AfterDuration) {
     // Exhaust + trigger penalty
     limiter.allowRequest("transient");
     limiter.allowRequest("transient");
-    for (int i = 0; i < 3; ++i) limiter.allowRequest("transient");
+    for (int i = 0; i < 3; ++i) {
+      limiter.allowRequest("transient");
+    }
 
     ASSERT_TRUE(limiter.isAdaptivelyThrottled("transient"));
 
@@ -172,7 +180,9 @@ TEST(AdaptiveThrottlePenaltyExpiryTest, PenaltyExpires_AfterDuration) {
 TEST_F(AdaptiveThrottleTest, Statistics_ReflectsPenaltyCount) {
     limiter_->allowRequest("p1");
     limiter_->allowRequest("p1");
-    for (int i = 0; i < 3; ++i) limiter_->allowRequest("p1");
+    for (int i = 0; i < 3; ++i) {
+      limiter_->allowRequest("p1");
+    }
     ASSERT_TRUE(limiter_->isAdaptivelyThrottled("p1"));
 
     auto stats = limiter_->getStatistics();

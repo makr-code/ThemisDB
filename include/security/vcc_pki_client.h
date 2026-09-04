@@ -24,7 +24,7 @@ namespace themis {
 
 // Basic certificate container used by the PKI client.
 struct X509Certificate {
-	std::string id;
+	std::string id = {};
 	std::string pem;
 	std::string subject;
 	std::string issuer;

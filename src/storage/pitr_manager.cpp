@@ -270,7 +270,7 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
     // unless the caller explicitly requested a replay cap.
     if (options.max_events_to_replay == 0) {
         const auto expected_events = from_sequence - to_sequence;
-        if (events.size() < expected_events) {
+        if (static_cast<int>(events.size()) < expected_events) {
             return Status::Error(
                 "WAL replay coverage incomplete: expected " +
                 std::to_string(expected_events) +
@@ -289,7 +289,7 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
 
     // Apply each event in reverse
     uint64_t replay_errors = 0;
-    std::string first_replay_error;
+    std::string first_replay_error = {};
     for (const auto& event : events) {
         // Apply table filter
         if (!options.tables.empty()) {
@@ -374,7 +374,7 @@ PITRManager::Status PITRManager::applyEventReverse(const Changefeed::ChangeEvent
             break;
 
         case Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT:
-        case Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK:
+        [[fallthrough]];\n        case Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK:
             // Metadata only, skip
             break;
     }
@@ -425,7 +425,7 @@ namespace {
     static const PITRManager::RestoreOptions kDefaultRestoreOptions{};
 }
 
-PITRManager::Status PITRManager::restoreToSequence(uint64_t target_sequence) {
+PITRManager::Status PITRManager::restoreToSequence([[maybe_unused]] uint64_t target_sequence) {
     return restoreToSequence(target_sequence, kDefaultRestoreOptions);
 }
 
@@ -437,7 +437,7 @@ PITRManager::Status PITRManager::restoreToTimestamp(int64_t timestamp_ms) {
     return restoreToTimestamp(timestamp_ms, kDefaultRestoreOptions);
 }
 
-PITRManager::RestorePreview PITRManager::previewRestore(uint64_t target_sequence) const {
+PITRManager::RestorePreview PITRManager::previewRestore([[maybe_unused]] uint64_t target_sequence) const {
     return previewRestore(target_sequence, kDefaultRestoreOptions);
 }
 

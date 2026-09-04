@@ -33,43 +33,71 @@ public:
      * @return Prometheus formatted string
      */
     static std::string exportMetrics(const std::vector<MetricsEntry>& metrics_list) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         try {
             // Write HELP and TYPE for each metric
             oss << "# HELP themis_hnsw_search_cycles HNSW vector search cycles\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             oss << "# TYPE themis_hnsw_search_cycles gauge\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             
             oss << "# HELP themis_pointer_passing_cycles Pointer passing overhead cycles\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             oss << "# TYPE themis_pointer_passing_cycles gauge\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             
             oss << "# HELP themis_llm_inference_cycles LLM inference cycles\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             oss << "# TYPE themis_llm_inference_cycles gauge\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             
             oss << "# HELP themis_cache_miss_cycles Cache miss cycles\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             oss << "# TYPE themis_cache_miss_cycles gauge\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             
             oss << "# HELP themis_pcie_transfer_cycles PCIe transfer cycles\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             oss << "# TYPE themis_pcie_transfer_cycles gauge\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             
             oss << "# HELP themis_cpu_efficiency_ratio CPU efficiency ratio\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             oss << "# TYPE themis_cpu_efficiency_ratio gauge\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             
             oss << "# HELP themis_total_operation_cycles Total operation cycles\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             oss << "# TYPE themis_total_operation_cycles gauge\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             
             // Aggregate metrics by operation
             std::map<std::string, std::vector<const OperationCycleMetrics*>> aggregated;
@@ -79,7 +107,9 @@ public:
             
             // Export aggregated values
             for (const auto& [operation, metrics_vec] : aggregated) {
-                if (metrics_vec.empty()) continue;
+                if (metrics_vec.empty()) {
+                  continue;
+                }
                 
                 // Calculate averages
                 uint64_t avg_hnsw = 0;
@@ -103,7 +133,9 @@ public:
                 }
                 
                 size_t count = metrics_vec.size();
-                if (count == 0) continue;
+                if (count == 0) {
+                  continue;
+                }
                 
                 avg_hnsw /= count;
                 avg_pointer /= count;
@@ -116,21 +148,37 @@ public:
                 
                 // Export metrics with labels
                 oss << "themis_hnsw_search_cycles{operation=\"" << operation << "\"} " << avg_hnsw << "\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "themis_pointer_passing_cycles{operation=\"" << operation << "\"} " << avg_pointer << "\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "themis_llm_inference_cycles{operation=\"" << operation << "\"} " << avg_llm << "\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "themis_cache_miss_cycles{operation=\"" << operation << "\"} " << avg_cache << "\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "themis_pcie_transfer_cycles{operation=\"" << operation << "\",direction=\"h2d\"} " << avg_pcie_h2d << "\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "themis_pcie_transfer_cycles{operation=\"" << operation << "\",direction=\"d2h\"} " << avg_pcie_d2h << "\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "themis_cpu_efficiency_ratio{operation=\"" << operation << "\"} " << std::fixed << std::setprecision(4) << avg_cpu_eff << "\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "themis_total_operation_cycles{operation=\"" << operation << "\"} " << avg_total << "\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
             }
             
             return oss.str();

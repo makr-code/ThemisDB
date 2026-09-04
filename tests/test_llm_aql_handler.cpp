@@ -760,7 +760,7 @@ TEST(LLMAQLHandlerHooksTest, ExecuteChatC1GateRejectsLowScore) {
 TEST(LLMAQLHandlerHooksTest, ExecuteChatC2TelemetryReceivesRuntimeMetrics) {
     bool telemetry_called = false;
     nlohmann::json observed = nlohmann::json::object();
-    std::string observed_query;
+    std::string observed_query = {};
 
     LLMAQLHandler::Config cfg;
     cfg.enable_c1_cai_safety_gate = true;
@@ -1588,7 +1588,7 @@ TEST_F(LLMAQLHandlerTest, MockLLM_WarnOnly_BrokenAQL_DoesNotThrow) {
     handler->setChatExecutor(makeMockExecutor("FOR x"));
     handler->setValidationMode(TranslationValidationMode::WARN_ONLY);
 
-    std::string result;
+    std::string result = {};
     EXPECT_NO_THROW({
         result = handler->translateNLToAQL("Find all users");
     });
@@ -1600,7 +1600,7 @@ TEST_F(LLMAQLHandlerTest, MockLLM_RejectOnError_ValidAQL_DoesNotThrow) {
     handler->setChatExecutor(makeMockExecutor("FOR doc IN collection RETURN doc"));
     handler->setValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
 
-    std::string result;
+    std::string result = {};
     EXPECT_NO_THROW({
         result = handler->translateNLToAQL("Find all documents");
     });
@@ -1678,7 +1678,7 @@ TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_SucceedsOnSecondAttempt) {
     });
     handler->setValidationMode(TranslationValidationMode::RETRY_ON_ERROR);
 
-    std::string result;
+    std::string result = {};
     EXPECT_NO_THROW({
         result = handler->translateNLToAQL("Find all documents");
     });
@@ -1701,7 +1701,9 @@ TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_FeedbackInjectedInPrompt) {
                     received_system_prompts.push_back(msg.content);
                 }
             }
-            if (call_count == 1) return "FOR x";
+            if (call_count == 1) {
+              return "FOR x";
+            }
             return "FOR doc IN collection RETURN doc";
         }
     );

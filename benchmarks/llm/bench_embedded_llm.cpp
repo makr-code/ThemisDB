@@ -78,7 +78,7 @@ static void BM_LLM_Embeddings(benchmark::State& state) {
     InitLLM(state);
     int num_words = state.range(0);
     
-    std::string text;
+    std::string text = {};
     for (int i = 0; i < num_words; ++i) {
         text += "word" + std::to_string(i) + " ";
     }
@@ -99,7 +99,8 @@ static void BM_LLM_Embeddings_Batch(benchmark::State& state) {
     InitLLM(state);
     int batch_size = state.range(0);
     
-    std::vector<std::string> texts;
+    std::vector<std::string> texts = {};
+
     for (int i = 0; i < batch_size; ++i) {
         texts.push_back("Sample text number " + std::to_string(i));
     }

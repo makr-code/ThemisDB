@@ -57,7 +57,7 @@ bool GeoBackendDispatcher::detectCudaAvailability() const noexcept {
         // Additional check: ensure default device is accessible
         int current_device = -1;
         if (cudaGetDevice(&current_device) == cudaSuccess && current_device >= 0) {
-            cudaDeviceProp prop;
+            cudaDeviceProp prop = {};
             if (cudaGetDeviceProperties(&prop, current_device) == cudaSuccess) {
                 return true;
             }
@@ -74,7 +74,7 @@ bool GeoBackendDispatcher::isCudaAvailable() const noexcept {
     return cuda_available_;
 }
 
-bool GeoBackendDispatcher::shouldUseCuda(size_t batch_size) const noexcept {
+bool GeoBackendDispatcher::shouldUseCuda([[maybe_unused]] size_t batch_size) const noexcept {
     if (!cuda_available_) {
         return false;
     }
@@ -98,7 +98,7 @@ GeoBackendDispatcher::HaversineResult GeoBackendDispatcher::computeHaversineBatc
     result.cpu_fallback = true;
     
     // Validation
-    if (points1.size() != points2.size()) {
+    if (static_cast<int>(points1.size()) != static_cast<int>(points2.size())) {
         result.error_code = -1;  // Size mismatch
         return result;
     }
@@ -140,7 +140,7 @@ GeoBackendDispatcher::HaversineResult GeoBackendDispatcher::computeHaversineBatc
         if (gpu_result.dispatched) {
             // Convert float distances from GPU to double for result
             result.distances_km.resize(gpu_result.distances_km.size());
-            for (size_t i = 0; i < gpu_result.distances_km.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(gpu_result.distances_km.size()); ++i) {
                 result.distances_km[i] = static_cast<double>(gpu_result.distances_km[i]);
             }
             result.cpu_fallback = false;
@@ -155,7 +155,7 @@ GeoBackendDispatcher::HaversineResult GeoBackendDispatcher::computeHaversineBatc
     
     // CPU fallback: Compute distances on host
     if (result.cpu_fallback) {
-        for (size_t i = 0; i < points1.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(points1.size()); ++i) {
             result.distances_km[i] = haversineDistance(
                 points1[i], points2[i], earth_radius_km);
         }
@@ -171,7 +171,7 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
     size_t num_test_points) noexcept {
     
     PointInPolygonResult result;
-    result.containment_mask.resize(num_test_points, 0u);
+    result.containment_mask.resize(num_test_points, 0);
     result.cpu_fallback = true;
     
     // Validation
@@ -189,7 +189,7 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
         point_lats.reserve(num_test_points);
         point_lons.reserve(num_test_points);
         
-        for (size_t i = 0; i < num_test_points && i < test_points.size(); ++i) {
+        for (size_t i = 0; i < num_test_points  && static_cast<size_t>(i) <static_cast<int>(test_points.size()); ++i) {
             point_lats.push_back(test_points[i].lat_deg);
             point_lons.push_back(test_points[i].lon_deg);
         }
@@ -197,7 +197,8 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
         // Prepare polygon coordinates (interleaved [lat, lon] pairs)
         // Performance gate: GATE-A-06-02 ≤ 2ms for typical workload
         if (!polygons.empty() && !polygons[0].vertices.empty()) {
-            std::vector<double> poly_coords;
+            std::vector<double> poly_coords = {};
+
             poly_coords.reserve(polygons[0].vertices.size() * 2);
             
             for (const auto& vertex : polygons[0].vertices) {
@@ -230,9 +231,9 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
     
     // CPU fallback: Compute containment on host
     if (result.cpu_fallback) {
-        for (size_t i = 0; i < num_test_points && i < test_points.size(); ++i) {
+        for (size_t i = 0; i < num_test_points  && static_cast<size_t>(i) <static_cast<int>(test_points.size()); ++i) {
             result.containment_mask[i] = 
-                pointInPolygon(test_points[i], polygons[0]) ? 1u : 0u;
+                pointInPolygon(test_points[i], polygons[0]) ? 1 : 0;
         }
         result.error_code = 0;
     }
@@ -249,7 +250,7 @@ GeoBackendDispatcher::VincentyResult GeoBackendDispatcher::computeVincentyBatch(
     result.cpu_fallback = true;
     
     // Validation
-    if (points1.size() != points2.size()) {
+    if (static_cast<int>(points1.size()) != static_cast<int>(points2.size())) {
         result.error_code = -1;  // Size mismatch
         return result;
     }
@@ -271,7 +272,7 @@ GeoBackendDispatcher::VincentyResult GeoBackendDispatcher::computeVincentyBatch(
     
     // CPU fallback: Compute Vincenty distances on host
     if (result.cpu_fallback) {
-        for (size_t i = 0; i < points1.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(points1.size()); ++i) {
             result.distances_km[i] = vincentyDistance(points1[i], points2[i]);
         }
         result.error_code = 0;
@@ -417,7 +418,7 @@ bool GeoBackendDispatcher::pointInPolygon(
     const Point& test_point,
     const Polygon& polygon) const noexcept {
     
-    if (polygon.vertices.size() < 3) {
+    if (static_cast<int>(polygon.vertices.size()) < 3) {
         return false;  // Degenerate polygon
     }
     

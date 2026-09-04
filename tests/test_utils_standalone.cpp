@@ -136,7 +136,9 @@ TEST(FileUtilsTest, ReadFileContents_PlainText) {
 
 TEST(FileUtilsTest, ReadFileContents_BinaryContent) {
     std::string binary(256, '\0');
-    for (int i = 0; i < 256; ++i) binary[i] = static_cast<char>(i);
+    for (int i = 0; i < 256; ++i) {
+      binary[i] = static_cast<char>(i);
+    }
     auto path = writeTempFile(binary);
     auto read  = themis::utils::readFileContents(path);
     std::filesystem::remove(path);

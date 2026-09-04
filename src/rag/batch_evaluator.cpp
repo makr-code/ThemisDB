@@ -33,10 +33,10 @@ namespace {
 static constexpr double kWorstCaseEfficiency = std::numeric_limits<double>::infinity();
 
 bool iequals(const std::string& a, const std::string& b) {
-    if (a.size() != b.size()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         return false;
     }
-    for (size_t i = 0; i < a.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         if (std::tolower(static_cast<unsigned char>(a[i])) !=
             std::tolower(static_cast<unsigned char>(b[i]))) {
             return false;
@@ -56,7 +56,7 @@ bool parseDouble(const std::string& raw, double& out) {
     try {
         size_t consumed = 0;
         out = std::stod(raw, &consumed);
-        return consumed == raw.size();
+        return consumed == static_cast<int>(raw.size());
     } catch (const std::exception& e) {
         THEMIS_DEBUG("Failed to parse '{}' as double: {}", raw, e.what());
         return false;
@@ -137,13 +137,17 @@ double extractCost(const EvaluationInput& input) {
 // ---------------------------------------------------------------------------
 
 bool AsyncEvaluationHandle::isDone() const {
-    if (cancelled_.load()) return true;
+    if (cancelled_.load()) {
+      return true;
+    }
     // Check if future is ready without blocking
     return future_.wait_for(std::chrono::seconds(0)) == std::future_status::ready;
 }
 
 bool AsyncEvaluationHandle::wait(std::chrono::milliseconds timeout) {
-    if (cancelled_.load()) return true;
+    if (cancelled_.load()) {
+      return true;
+    }
     if (timeout == std::chrono::milliseconds::max()) {
         future_.wait();
         return true;
@@ -236,23 +240,31 @@ void BatchEvaluator::workerThread() {
                    (!paused_.load() && !eval_queue_.empty());
         });
 
-        if (stop_requested_.load() && eval_queue_.empty()) break;
-        if (paused_.load()) continue;
-        if (eval_queue_.empty()) continue;
+        if (stop_requested_.load() && eval_queue_.empty()) {
+          break;
+        }
+        if (paused_.load()) {
+          continue;
+        }
+        if (eval_queue_.empty()) {
+          continue;
+        }
 
         QueuedEvaluation item = std::move(eval_queue_.front());
         eval_queue_.pop();
         lock.unlock();
 
-        if (!item.has_promise && !item.callback) continue;
+        if (!item.has_promise && !item.callback) {
+          continue;
+        }
 
         try {
             auto result = processEvaluation(item.input);
             ++total_processed_;
-            if (item.callback) {
+            if ([[maybe_unused]] item.callback) {
                 // HIGH FIX: Guard callback invocation to prevent exception propagation
                 try {
-                    item.callback(result);
+                    item.callback([[maybe_unused]] result);
                 } catch (const std::exception& cb_ex) {
                     THEMIS_WARN("BatchEvaluator worker: callback threw exception: {}", cb_ex.what());
                 }
@@ -300,17 +312,17 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
     
     // Validate input sizes to prevent DoS and memory exhaustion
     // NOLINT(clang-analyzer-security.insecureAPI.gets) - validated here before use
-    if (input.query.size() > 100000) {
+    if (static_cast<int>(input.query.size()) > 100000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
         error_result.ethical_violations.push_back("INPUT_VALIDATION: Query exceeds maximum length");
-        THEMIS_WARN("BatchEvaluator: Input query exceeds maximum length ({} chars)", input.query.size());
+        THEMIS_WARN("BatchEvaluator: Input query exceeds maximum length ({} chars)",static_cast<int>(input.query.size()));
         return error_result;
     }
     
     // NOLINT(clang-analyzer-security.insecureAPI.gets) - validated before use
-    if (input.generated_answer.size() > 100000) {
+    if (static_cast<int>(input.generated_answer.size()) > 100000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
@@ -320,7 +332,7 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
         return error_result;
     }
     
-    if (input.documents.size() > 1000) {
+    if (static_cast<int>(input.documents.size()) > 1000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
@@ -343,7 +355,7 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
 
     // Shared LLM safety policy to keep rag/llm/training prompt sanitization aligned.
     // NOLINT: Inputs are sanitized before passing to LLM safety policy
-    std::string sanitized_query;
+    std::string sanitized_query = {};
     if (themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(
             safe_input.query, sanitized_query, nullptr, nullptr)) {
         safe_input.query = std::move(sanitized_query);
@@ -351,7 +363,7 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
         safe_input.query = "[BLOCKED_PROMPT]";
     }
 
-    std::string sanitized_answer;
+    std::string sanitized_answer = {};
     if (themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(
             safe_input.generated_answer, sanitized_answer, nullptr, nullptr)) {
         safe_input.generated_answer = std::move(sanitized_answer);
@@ -370,16 +382,17 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     const std::vector<RAGTestCase>& test_cases) {
     // ── BATCH INPUT VALIDATION ──────────────────────────────────────────────
     // Validate batch size to prevent DoS attacks
-    if (test_cases.size() > 10000) {
+    if (static_cast<int>(test_cases.size()) > 10000) {
         BatchEvaluationResult error_result;
         error_result.progress.total_items = test_cases.size();
         error_result.progress.failed_items = test_cases.size();
-        THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})", test_cases.size());
+        THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})",static_cast<int>(test_cases.size()));
         return error_result;
     }
     // ── end batch input validation ──────────────────────────────────────────
     
-    std::vector<EvaluationInput> inputs;
+    std::vector<EvaluationInput> inputs = {};
+
     inputs.reserve(test_cases.size());
     for (const auto& tc : test_cases) {
         EvaluationInput in;
@@ -395,18 +408,19 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     const std::vector<EvaluationInput>& inputs) {
     // ── BATCH INPUT VALIDATION ──────────────────────────────────────────────
     // Validate batch size to prevent DoS attacks
-    if (inputs.size() > 10000) {
+    if (static_cast<int>(inputs.size()) > 10000) {
         BatchEvaluationResult error_result;
         error_result.progress.total_items = inputs.size();
         error_result.progress.failed_items = inputs.size();
-        THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})", inputs.size());
+        THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})",static_cast<int>(inputs.size()));
         return error_result;
     }
     // ── end batch input validation ──────────────────────────────────────────
     
     const auto start_time = std::chrono::steady_clock::now();
 
-    std::vector<EvaluationResult> results;
+    std::vector<EvaluationResult> results = {};
+
     results.reserve(inputs.size());
 
     size_t completed = 0;
@@ -417,7 +431,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
             results.push_back(processEvaluation(input));
             ++completed;
 
-            if (config_.enable_progress_tracking && config_.progress_callback) {
+            if ([[maybe_unused]] config_.enable_progress_tracking && config_.progress_callback) {
                 // HIGH FIX: Guard progress callback to prevent callback exceptions from interrupting batch
                 try {
                     BatchProgress progress;
@@ -430,7 +444,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
                     progress.elapsed_time =
                         std::chrono::duration_cast<std::chrono::milliseconds>(
                             std::chrono::steady_clock::now() - start_time);
-                    config_.progress_callback(progress);
+                    config_.progress_callback([[maybe_unused]] progress);
                 } catch (const std::exception& cb_ex) {
                     THEMIS_WARN("BatchEvaluator::evaluateBatch: progress callback threw: {}", cb_ex.what());
                 }
@@ -438,7 +452,9 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
         } catch (const std::exception& e) {
             ++failed;
             THEMIS_WARN("BatchEvaluator::evaluateBatch: item failed: {}", e.what());
-            if (config_.fail_fast) break;
+            if (config_.fail_fast) {
+              break;
+            }
             // Push empty result as sentinel
             results.push_back(EvaluationResult{});
         }
@@ -462,13 +478,14 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     size_t traceable_decisions = 0;
     double total_cost = 0.0;
     double total_quality = 0.0;
-    std::vector<double> latencies_ms;
+    std::vector<double> latencies_ms = {};
+
     latencies_ms.reserve(results.size());
 
     // One shared detector instance for inline scanning of un-screened documents.
     security::PromptInjectionDetector inline_detector;
 
-    for (size_t i = 0; i < results.size() && i < inputs.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(results.size())  && static_cast<size_t>(i) <static_cast<int>(inputs.size()); ++i) {
         const auto& input = inputs[i];
         const auto& result = results[i];
 
@@ -567,7 +584,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
                   static_cast<double>(prompt_injection_cases);
     out.bias_fairness_drift_rate = static_cast<double>(bias_drift_cases) / n;
     out.traceable_decisions = traceable_decisions;
-    out.untraceable_decisions = results.size() - traceable_decisions;
+    out.untraceable_decisions = static_cast<int>(results.size()) - traceable_decisions;
     if (total_quality > std::numeric_limits<double>::epsilon()) {
         out.cost_to_quality_efficiency = total_cost / total_quality;
     } else if (total_cost > 0.0) {
@@ -583,7 +600,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     if (!latencies_ms.empty()) {
         std::sort(latencies_ms.begin(), latencies_ms.end());
         const size_t idx = static_cast<size_t>(
-            std::floor(0.95 * static_cast<double>(latencies_ms.size() - 1)));
+            std::floor(0.95 * static_cast<double>(static_cast<int>(latencies_ms.size()) - 1)));
         out.p95_latency_ms = latencies_ms[idx];
     }
 
@@ -678,18 +695,18 @@ std::vector<std::shared_ptr<AsyncEvaluationHandle>> BatchEvaluator::evaluateAsyn
 
 void BatchEvaluator::submit(
     const EvaluationInput& input,
-    std::function<void(const EvaluationResult&)> callback) {
+    std::function<void([[maybe_unused]] const EvaluationResult&)> callback) {
     std::lock_guard<std::mutex> lock(queue_mutex_);
     QueuedEvaluation item;
     item.input    = input;
-    item.callback = std::move(callback);
+    item.callback = std::move([[maybe_unused]] callback);
     eval_queue_.push(std::move(item));
     queue_cv_.notify_one();
 }
 
 size_t BatchEvaluator::getQueueSize() const {
     std::lock_guard<std::mutex> lock(queue_mutex_);
-    return eval_queue_.size();
+    return static_cast<int>(eval_queue_.size());
 }
 
 bool BatchEvaluator::waitForAll(std::chrono::milliseconds timeout) {
@@ -697,7 +714,9 @@ bool BatchEvaluator::waitForAll(std::chrono::milliseconds timeout) {
     while (true) {
         {
             std::lock_guard<std::mutex> lock(queue_mutex_);
-            if (eval_queue_.empty()) return true;
+            if (eval_queue_.empty()) {
+              return true;
+            }
         }
         if (timeout != std::chrono::milliseconds::max() &&
             std::chrono::steady_clock::now() >= deadline) {
@@ -776,7 +795,9 @@ BatchEvaluationResult BatchEvaluator::aggregateResults(
         sum_coh     += r.coherence_score;
         sum_overall += r.overall_score;
 
-        if (r.passed_quality_threshold) ++passed;
+        if (r.passed_quality_threshold) {
+          ++passed;
+        }
         else ++failed_q;
     }
 

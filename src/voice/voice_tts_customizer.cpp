@@ -99,12 +99,15 @@ bool VoiceTTSCustomizer::hasProfile(const std::string& voice_id) const {
 
 std::optional<VoiceProfile> VoiceTTSCustomizer::getProfile(const std::string& voice_id) const {
     auto it = profiles_.find(voice_id);
-    if (it == profiles_.end()) return std::nullopt;
+    if (it == profiles_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
 std::vector<VoiceProfile> VoiceTTSCustomizer::listProfiles() const {
-    std::vector<VoiceProfile> result;
+    std::vector<VoiceProfile> result = {};
+
     result.reserve(profiles_.size());
     for (const auto& [id, p] : profiles_) {
         result.push_back(p);
@@ -113,10 +116,11 @@ std::vector<VoiceProfile> VoiceTTSCustomizer::listProfiles() const {
 }
 
 std::vector<VoiceProfile> VoiceTTSCustomizer::getProfilesForLanguage(const std::string& lang) const {
-    std::vector<VoiceProfile> result;
+    std::vector<VoiceProfile> result = {};
+
     for (const auto& [id, p] : profiles_) {
         if (p.language == lang ||
-            (p.language.size() >= 2 && lang.size() >= 2 &&
+            (static_cast<int>(p.language.size()) >= 2 && static_cast<int>(lang.size()) >= 2 &&
              p.language.substr(0, 2) == lang.substr(0, 2))) {
             result.push_back(p);
         }
@@ -139,12 +143,24 @@ ProsodyConfig VoiceTTSCustomizer::buildProsody(
 
     // Apply overrides: non-default values win
     ProsodyConfig def{};
-    if (overrides.pitch != def.pitch)       base.pitch = overrides.pitch;
-    if (overrides.speed != def.speed)       base.speed = overrides.speed;
-    if (overrides.volume != def.volume)     base.volume = overrides.volume;
-    if (overrides.emphasis != def.emphasis) base.emphasis = overrides.emphasis;
-    if (!overrides.style.empty())           base.style = overrides.style;
-    if (overrides.enable_ssml)              base.enable_ssml = true;
+    if (overrides.pitch != def.pitch) {
+      base.pitch = overrides.pitch;
+    }
+    if (overrides.speed != def.speed) {
+      base.speed = overrides.speed;
+    }
+    if (overrides.volume != def.volume) {
+      base.volume = overrides.volume;
+    }
+    if (overrides.emphasis != def.emphasis) {
+      base.emphasis = overrides.emphasis;
+    }
+    if (!overrides.style.empty()) {
+      base.style = overrides.style;
+    }
+    if (overrides.enable_ssml) {
+      base.enable_ssml = true;
+    }
 
     return validateProsody(base);
 }
@@ -171,15 +187,17 @@ SSMLResult VoiceTTSCustomizer::parseSSML(const std::string& ssml_text) const {
     size_t pos = 0;
     while ((pos = work.find("<prosody", pos)) != std::string::npos) {
         size_t end = work.find('>', pos);
-        if (end == std::string::npos) break;
+        if (end == std::string::npos) {
+          break;
+        }
         std::string tag = work.substr(pos, end - pos + 1);
 
         ProsodyConfig seg;
         // Extract rate attribute
-        auto extractAttr = [&](const std::string& attr) -> std::string {
+        auto extractAttr = [&]([[maybe_unused]] const std::string& attr) -> std::string {
             size_t a = tag.find(attr + "=\"");
             if (a == std::string::npos) return {};
-            size_t vs = a + attr.size() + 2;
+            size_t vs = a + static_cast<int>(attr.size()) + 2;
             size_t ve = tag.find('"', vs);
             if (ve == std::string::npos) return {};
             return tag.substr(vs, ve - vs);
@@ -213,17 +231,19 @@ SSMLResult VoiceTTSCustomizer::parseSSML(const std::string& ssml_text) const {
     }
 
     // Strip all XML tags
-    std::string plain;
+    std::string plain = {};
     plain.reserve(ssml_text.size());
     bool in_tag = false;
     for (char c : ssml_text) {
         if (c == '<') { in_tag = true; continue; }
         if (c == '>') { in_tag = false; continue; }
-        if (!in_tag) plain += c;
+        if (!in_tag) {
+          plain += c;
+        }
     }
 
     // Collapse whitespace
-    std::string collapsed;
+    std::string collapsed = {};
     bool last_space = true;
     for (char c : plain) {
         if (std::isspace(static_cast<unsigned char>(c))) {
@@ -234,7 +254,9 @@ SSMLResult VoiceTTSCustomizer::parseSSML(const std::string& ssml_text) const {
         }
     }
     // Trim trailing space
-    if (!collapsed.empty() && collapsed.back() == ' ') collapsed.pop_back();
+    if (!collapsed.empty() && collapsed.back() == ' ') {
+      collapsed.pop_back();
+    }
 
     result.plain_text = std::move(collapsed);
     return result;
@@ -275,13 +297,25 @@ const std::map<std::string, std::set<std::string>>& ssmlAllowedAttrs() {
 
 // Return true if the attribute value looks safe (no nested tags, no script keywords)
 bool isAttrValueSafe(const std::string& value) {
-    if (value.find('<') != std::string::npos) return false;
-    if (value.find('>') != std::string::npos) return false;
+    if (value.find('<') != std::string::npos) {
+      return false;
+    }
+    if (value.find('>') != std::string::npos) {
+      return false;
+    }
     // Reject common script/entity injection patterns
-    if (value.find("script") != std::string::npos) return false;
-    if (value.find("javascript") != std::string::npos) return false;
-    if (value.find("vbscript") != std::string::npos) return false;
-    if (value.find('\0') != std::string::npos) return false;
+    if (value.find("script") != std::string::npos) {
+      return false;
+    }
+    if (value.find("javascript") != std::string::npos) {
+      return false;
+    }
+    if (value.find("vbscript") != std::string::npos) {
+      return false;
+    }
+    if (value.find('\0') != std::string::npos) {
+      return false;
+    }
     return true;
 }
 
@@ -297,17 +331,21 @@ std::string sanitizeTagAttributes(
     auto it = allowed_map.find(tag_name);
     const std::set<std::string>* allowed = (it != allowed_map.end()) ? &it->second : nullptr;
 
-    std::string output;
+    std::string output = {};
     size_t ap = 0;
 
-    while (ap < attrs_str.size()) {
+    while (static_cast<size_t>(ap) <static_cast<int>(attrs_str.size())) {
         // Skip leading whitespace
-        while (ap < attrs_str.size() && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) ++ap;
-        if (ap >= attrs_str.size()) break;
+        while (ap <static_cast<int>(attrs_str.size()) && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) {
+          ++ap;
+        }
+        if (ap >= static_cast<int>(attrs_str.size())) {
+          break;
+        }
 
         // Read attribute name
         size_t ns = ap;
-        while (ap < attrs_str.size() && attrs_str[ap] != '=' &&
+        while (ap <static_cast<int>(attrs_str.size()) && attrs_str[ap] != '=' &&
                !std::isspace(static_cast<unsigned char>(attrs_str[ap])) &&
                attrs_str[ap] != '/' && attrs_str[ap] != '>')
         {
@@ -320,7 +358,9 @@ std::string sanitizeTagAttributes(
                        attr_name_lower.begin(), ::tolower);
 
         // Expect '='
-        while (ap < attrs_str.size() && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) ++ap;
+        while (ap <static_cast<int>(attrs_str.size()) && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) {
+          ++ap;
+        }
         if (ap >= attrs_str.size() || attrs_str[ap] != '=') {
             // Boolean attribute (no value) – strip it
             injection_found = true;
@@ -329,20 +369,26 @@ std::string sanitizeTagAttributes(
         ++ap; // skip '='
 
         // Skip whitespace before quote
-        while (ap < attrs_str.size() && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) ++ap;
+        while (ap <static_cast<int>(attrs_str.size()) && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) {
+          ++ap;
+        }
 
         // Require quoted value
         if (ap >= attrs_str.size() || (attrs_str[ap] != '"' && attrs_str[ap] != '\'')) {
             injection_found = true;
             // Skip unquoted value token
-            while (ap < attrs_str.size() && !std::isspace(static_cast<unsigned char>(attrs_str[ap]))) ++ap;
+            while (ap <static_cast<int>(attrs_str.size()) && !std::isspace(static_cast<unsigned char>(attrs_str[ap]))) {
+              ++ap;
+            }
             continue;
         }
         char quote = attrs_str[ap++];
         size_t vs = ap;
-        while (ap < attrs_str.size() && attrs_str[ap] != quote) ++ap;
+        while (ap <static_cast<int>(attrs_str.size()) && attrs_str[ap] != quote) {
+          ++ap;
+        }
         std::string attr_value = attrs_str.substr(vs, ap - vs);
-        if (ap < attrs_str.size()) ++ap; // skip closing quote
+        if (static_cast<int>(attrs_str.size()) > ap) ++ap; // skip closing quote
 
         // Validate value safety
         if (!isAttrValueSafe(attr_value)) {
@@ -373,11 +419,11 @@ SSMLSanitizeResult VoiceTTSCustomizer::sanitizeSSML(const std::string& ssml_inpu
     SSMLSanitizeResult result;
     const auto& allowed_tags = ssmlAllowedTags();
 
-    std::string output;
+    std::string output = {};
     output.reserve(ssml_input.size());
     size_t pos = 0;
 
-    while (pos < ssml_input.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(ssml_input.size())) {
         if (ssml_input[pos] != '<') {
             output += ssml_input[pos++];
             continue;
@@ -393,9 +439,13 @@ SSMLSanitizeResult VoiceTTSCustomizer::sanitizeSSML(const std::string& ssml_inpu
 
         std::string tag_body = ssml_input.substr(pos + 1, end - pos - 1);
         bool is_closing      = (!tag_body.empty() && tag_body[0] == '/');
-        if (is_closing) tag_body = tag_body.substr(1);
+        if (is_closing) {
+          tag_body = tag_body.substr(1);
+        }
         bool is_self_closing = (!tag_body.empty() && tag_body.back() == '/');
-        if (is_self_closing) tag_body.pop_back();
+        if (is_self_closing) {
+          tag_body.pop_back();
+        }
 
         // Extract tag name
         size_t sp = tag_body.find_first_of(" \t\r\n");
@@ -408,16 +458,20 @@ SSMLSanitizeResult VoiceTTSCustomizer::sanitizeSSML(const std::string& ssml_inpu
 
         if (allowed_tags.count(tag_name_lower)) {
             // Allowed tag: emit with sanitized attributes
-            std::string safe_attrs;
+            std::string safe_attrs = {};
             if (!is_closing && !attrs_str.empty()) {
                 safe_attrs = sanitizeTagAttributes(tag_name_lower, attrs_str,
                                                    result.had_injection_attempt);
             }
             output += '<';
-            if (is_closing) output += '/';
+            if (is_closing) {
+              output += '/';
+            }
             output += tag_name_lower;
             output += safe_attrs;
-            if (is_self_closing) output += '/';
+            if (is_self_closing) {
+              output += '/';
+            }
             output += '>';
         } else {
             // Disallowed tag: strip and flag
@@ -443,7 +497,9 @@ bool VoiceTTSCustomizer::isSSMLSafe(const std::string& ssml_input) const {
 float VoiceTTSCustomizer::computeSignalEnergy(
     const std::vector<uint8_t>& audio, int /*sample_rate*/) const
 {
-    if (audio.size() < 2) return 0.0f;
+    if (static_cast<int>(audio.size()) < 2) {
+      return 0.0f;
+    }
     size_t n_samples = audio.size() / 2;
     double energy = 0.0;
     for (size_t i = 0; i < n_samples; ++i) {
@@ -458,13 +514,18 @@ float VoiceTTSCustomizer::computeSignalEnergy(
 float VoiceTTSCustomizer::computeSpeechRhythm(
     const std::vector<uint8_t>& audio, int sample_rate) const
 {
-    if (audio.size() < 2 || sample_rate <= 0) return 0.5f;
+    if (static_cast<int>(audio.size()) < 2 || sample_rate <= 0) {
+      return 0.5f;
+    }
     // Simple rhythm: variance in energy across 100ms windows
     size_t window = static_cast<size_t>(sample_rate * 0.1);
     size_t n_samples = audio.size() / 2;
-    if (n_samples < window) return 0.5f;
+    if (n_samples < window) {
+      return 0.5f;
+    }
 
-    std::vector<float> energies;
+    std::vector<float> energies = {};
+
     for (size_t off = 0; off + window <= n_samples; off += window) {
         double e = 0.0;
         for (size_t i = off; i < off + window; ++i) {
@@ -475,12 +536,16 @@ float VoiceTTSCustomizer::computeSpeechRhythm(
         }
         energies.push_back(static_cast<float>(std::sqrt(e / static_cast<double>(window))));
     }
-    if (energies.empty()) return 0.5f;
+    if (energies.empty()) {
+      return 0.5f;
+    }
 
     float mean = std::accumulate(energies.begin(), energies.end(), 0.0f)
                  / static_cast<float>(energies.size());
     float var = 0.0f;
-    for (float v : energies) var += (v - mean) * (v - mean);
+    for (float v : energies) {
+      var += (v - mean) * (v - mean);
+    }
     var /= static_cast<float>(energies.size());
 
     // Guard against division by zero when mean energy is near zero
@@ -489,18 +554,24 @@ float VoiceTTSCustomizer::computeSpeechRhythm(
     return 1.0f - std::abs(norm - 0.3f) / 0.7f;
 }
 
-std::string VoiceTTSCustomizer::classifyMOS(float mos) const {
-    if (mos >= 4.0f) return "excellent";
-    if (mos >= 3.0f) return "good";
-    if (mos >= 2.0f) return "fair";
+std::string VoiceTTSCustomizer::classifyMOS([[maybe_unused]] float mos) const {
+    if (mos >= 4.0f) {
+      return "excellent";
+    }
+    if (mos >= 3.0f) {
+      return "good";
+    }
+    if (mos >= 2.0f) {
+      return "fair";
+    }
     return "poor";
 }
 
 MOSMetrics VoiceTTSCustomizer::estimateMOS(
     const std::vector<uint8_t>& audio_data, int sample_rate) const
 {
-    MOSMetrics m;
-    if (audio_data.size() < 2) {
+    MOSMetrics m = {};
+    if (static_cast<int>(audio_data.size()) < 2) {
         m.mos_score = 1.0f;
         m.quality_label = classifyMOS(1.0f);
         return m;
@@ -534,7 +605,7 @@ MOSMetrics VoiceTTSCustomizer::estimateMOSFromText(
     m.mos_score = 3.5f + 1.0f * intel;
     m.mos_score = std::clamp(m.mos_score, 3.5f, 4.5f);
     m.quality_label = classifyMOS(m.mos_score);
-    m.details = {{"input_len", input_text.size()}, {"output_len", out_len}};
+    m.details = {{"input_len",static_cast<int>(input_text.size())}, {"output_len", out_len}};
     return m;
 }
 
@@ -543,7 +614,8 @@ void VoiceTTSCustomizer::registerLanguageVoice(const LanguageVoice& lv) {
 }
 
 std::vector<LanguageVoice> VoiceTTSCustomizer::getSupportedLanguages() const {
-    std::vector<LanguageVoice> result;
+    std::vector<LanguageVoice> result = {};
+
     result.reserve(language_voices_.size());
     for (const auto& [code, lv] : language_voices_) {
         result.push_back(lv);
@@ -557,10 +629,10 @@ std::string VoiceTTSCustomizer::getBestVoiceForLanguage(const std::string& lang_
         return it->second.default_voice_id;
     }
     // Try prefix match (e.g. "en" matches "en-US")
-    if (lang_code.empty() || lang_code.size() < 2) return {};
+    if (lang_code.empty() || static_cast<int>(lang_code.size()) < 2) return {};
     std::string prefix = lang_code.substr(0, 2);
     for (const auto& [code, lv] : language_voices_) {
-        if (code.size() >= 2 && code.substr(0, 2) == prefix && !lv.default_voice_id.empty()) {
+        if (static_cast<int>(code.size()) > = 2 && code.substr(0, 2) == prefix && !lv.default_voice_id.empty()) {
             return lv.default_voice_id;
         }
     }
@@ -568,11 +640,13 @@ std::string VoiceTTSCustomizer::getBestVoiceForLanguage(const std::string& lang_
 }
 
 bool VoiceTTSCustomizer::supportsLanguage(const std::string& lang_code) const {
-    if (language_voices_.count(lang_code)) return true;
+    if (language_voices_.count(lang_code)) {
+      return true;
+    }
     // Check profile languages
     for (const auto& [id, p] : profiles_) {
         if (p.language == lang_code ||
-            (p.language.size() >= 2 && lang_code.size() >= 2 &&
+            (static_cast<int>(p.language.size()) >= 2 && static_cast<int>(lang_code.size()) >= 2 &&
              p.language.substr(0, 2) == lang_code.substr(0, 2))) {
             return true;
         }

@@ -111,8 +111,12 @@ TEST_F(McpOrchestratorBridgeTest, AttachOrchestrator_RegistersLlmOrchestrateTool
     if (resp.contains("result") && resp["result"].contains("tools")) {
         for (const auto& t : resp["result"]["tools"]) {
             const std::string name = t.value("name", "");
-            if (name == "llm_orchestrate") found_orchestrate = true;
-            if (name == "llm_list_modes")  found_list_modes  = true;
+            if (name == "llm_orchestrate") {
+              found_orchestrate = true;
+            }
+            if (name == "llm_list_modes") {
+              found_list_modes  = true;
+            }
         }
     }
     EXPECT_TRUE(found_orchestrate) << "Expected 'llm_orchestrate' in MCP tools list";

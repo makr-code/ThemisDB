@@ -53,7 +53,9 @@ namespace {
 std::string writeTmpFile(const std::string& name, const std::vector<uint8_t>& data) {
     std::string path = (fs::temp_directory_path() / name).string();
     std::ofstream ofs(path, std::ios::binary | std::ios::trunc);
-    if (!ofs) throw std::runtime_error("writeTmpFile: cannot create " + path);
+    if (!ofs) {
+      throw std::runtime_error("writeTmpFile: cannot create " + path);
+    }
     ofs.write(reinterpret_cast<const char*>(data.data()),
               static_cast<std::streamsize>(data.size()));
     return path;
@@ -87,7 +89,7 @@ protected:
     void TearDown() override {
         // Clean up any tmp files we may have created
         for (const auto& p : tmp_files_) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove(p, ec);
         }
     }
@@ -190,7 +192,8 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, MmapForEachIteratesAllBytes) {
     themis::storage::MmapBlobView view(path);
     ASSERT_TRUE(view.valid());
 
-    std::vector<uint8_t> collected;
+    std::vector<uint8_t> collected = {};
+
     collected.reserve(data.size());
 
     view.forEach(1024, [&](const uint8_t* ptr, size_t len) {

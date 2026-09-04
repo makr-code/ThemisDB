@@ -70,25 +70,25 @@ struct GremlinParser::Lexer {
 
     explicit Lexer(const std::string& s) : src(s) {}
 
-    char peek(size_t offset = 0) const {
+    char peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos + offset;
-        return (p < src.size()) ? src[p] : '\0';
+        return static_cast<bool>((p  < static_cast<int>(src.size()))) ? src[p] : '\0';
     }
 
     char advance() {
-        return (pos < src.size()) ? src[pos++] : '\0';
+        return static_cast<bool>((pos  < static_cast<int>(src.size()))) ? src[pos++] : '\0';
     }
 
     void skipWhitespace() {
-        while (pos < src.size() && std::isspace(static_cast<unsigned char>(src[pos])))
+        while (pos <static_cast<int>(src.size()) && std::isspace(static_cast<unsigned char>(src[pos])))
             ++pos;
     }
 
     std::string readString(char delim) {
         ++pos;  // skip opening delimiter
-        std::string buf;
-        while (pos < src.size() && src[pos] != delim) {
-            if (src[pos] == '\\' && pos + 1 < src.size()) {
+        std::string buf = {};
+        while (pos <static_cast<int>(src.size()) && src[pos] != delim) {
+            if (src[pos] == '\\' && pos + 1 <static_cast<int>(src.size())) {
                 ++pos;
                 switch (src[pos]) {
                     case 'n': buf += '\n'; break;
@@ -101,16 +101,17 @@ struct GremlinParser::Lexer {
             }
             ++pos;
         }
-        if (pos < src.size()) ++pos;  // skip closing delimiter
+        if (static_cast<int>(src.size()) > pos) ++pos;  // skip closing delimiter
         return buf;
     }
 
     std::vector<Token> tokenize() {
-        std::vector<Token> tokens;
+        std::vector<Token> tokens = {};
+
         tokens.reserve(src.size());
         while (true) {
             skipWhitespace();
-            if (pos >= src.size()) {
+            if (pos >= static_cast<int>(src.size())) {
                 tokens.push_back({GremlinTokenType::END_OF_FILE, "", pos});
                 break;
             }
@@ -134,14 +135,20 @@ struct GremlinParser::Lexer {
                 tokens.push_back({GremlinTokenType::STRING_LIT, s, start});
             } else if (c == '-' || std::isdigit(static_cast<unsigned char>(c))) {
                 bool neg = (c == '-');
-                if (neg) ++pos;
-                std::string num;
-                if (neg) num += '-';
+                if (neg) {
+                  ++pos;
+                }
+                std::string num = {};
+                if (neg) {
+                  num += '-';
+                }
                 bool has_dot = false;
-                while (pos < src.size() &&
+                while (pos <static_cast<int>(src.size()) &&
                        (std::isdigit(static_cast<unsigned char>(src[pos])) || src[pos] == '.')) {
                     if (src[pos] == '.') {
-                        if (has_dot) break;
+                        if (has_dot) {
+                          break;
+                        }
                         has_dot = true;
                     }
                     num += src[pos++];
@@ -151,8 +158,8 @@ struct GremlinParser::Lexer {
                 else
                     tokens.push_back({GremlinTokenType::INT_LIT, num, start});
             } else if (std::isalpha(static_cast<unsigned char>(c)) || c == '_') {
-                std::string ident;
-                while (pos < src.size() &&
+                std::string ident = {};
+                while (pos <static_cast<int>(src.size()) &&
                        (std::isalnum(static_cast<unsigned char>(src[pos])) || src[pos] == '_'))
                     ident += src[pos++];
                 if (ident == "true")
@@ -180,15 +187,19 @@ struct GremlinParser::Parser {
 
     explicit Parser(const std::vector<Token>& toks) : tokens(toks) {}
 
-    const Token& peek(size_t offset = 0) const {
+    const Token& peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos + offset;
-        if (p >= tokens.size()) return tokens.back();
+        if (p >= static_cast<int>(tokens.size())) {
+          return tokens.back();
+        }
         return tokens[p];
     }
 
     const Token& consume() {
         const Token& t = tokens[pos];
-        if (pos < tokens.size() - 1) ++pos;
+        if (pos < static_cast<int>(tokens.size()) - 1) {
+          ++pos;
+        }
         return t;
     }
 
@@ -235,7 +246,7 @@ struct GremlinParser::Parser {
             return GremlinValue(n);
         }
         if (t.type == GremlinTokenType::FLOAT_LIT) {
-            double d;
+            double d = 0;
             try { d = std::stod(t.value); }
             catch (...) {
                 THEMIS_WARN("gremlin_parser::parseValue: unhandled exception caught");
@@ -279,7 +290,8 @@ struct GremlinParser::Parser {
                 throw std::runtime_error("Unknown predicate: " + opName);
 
             expect(GremlinTokenType::LPAREN, "'('");
-            std::vector<GremlinValue> vals;
+            std::vector<GremlinValue> vals = {};
+
             if (!check(GremlinTokenType::RPAREN))
                 vals.push_back(parseValue());
             while (check(GremlinTokenType::COMMA)) {
@@ -305,7 +317,8 @@ struct GremlinParser::Parser {
             if (it != opMap.end()) {
                 consume();  // opName
                 expect(GremlinTokenType::LPAREN, "'('");
-                std::vector<GremlinValue> vals;
+                std::vector<GremlinValue> vals = {};
+
                 if (!check(GremlinTokenType::RPAREN))
                     vals.push_back(parseValue());
                 expect(GremlinTokenType::RPAREN, "')'");
@@ -383,7 +396,9 @@ struct GremlinParser::Parser {
                     if (check(GremlinTokenType::STRING_LIT))
                         step.strings.push_back(peek().value);
                     consume();
-                    if (check(GremlinTokenType::COMMA)) consume();
+                    if (check(GremlinTokenType::COMMA)) {
+                      consume();
+                    }
                 }
                 break;
 
@@ -401,7 +416,7 @@ struct GremlinParser::Parser {
                 break;
 
             case GremlinStepKind::HasNot:
-            case GremlinStepKind::HasId:
+            [[fallthrough]];\n            case GremlinStepKind::HasId:
                 if (check(GremlinTokenType::STRING_LIT) ||
                     check(GremlinTokenType::INT_LIT)) {
                     step.strings.push_back(peek().value);
@@ -410,40 +425,44 @@ struct GremlinParser::Parser {
                 break;
 
             case GremlinStepKind::Out:
-            case GremlinStepKind::In:
-            case GremlinStepKind::Both:
-            case GremlinStepKind::OutE:
-            case GremlinStepKind::InE:
-            case GremlinStepKind::BothE:
+            [[fallthrough]];\n            case GremlinStepKind::In:
+            [[fallthrough]];\n            case GremlinStepKind::Both:
+            [[fallthrough]];\n            case GremlinStepKind::OutE:
+            [[fallthrough]];\n            case GremlinStepKind::InE:
+            [[fallthrough]];\n            case GremlinStepKind::BothE:
                 // out() / out("EDGE_LABEL") / out("A", "B")
                 while (!check(GremlinTokenType::RPAREN)) {
                     if (check(GremlinTokenType::STRING_LIT))
                         step.strings.push_back(peek().value);
                     consume();
-                    if (check(GremlinTokenType::COMMA)) consume();
+                    if (check(GremlinTokenType::COMMA)) {
+                      consume();
+                    }
                 }
                 break;
 
             case GremlinStepKind::OutV:
-            case GremlinStepKind::InV:
-            case GremlinStepKind::BothV:
-            case GremlinStepKind::Count:
-            case GremlinStepKind::Dedup:
-            case GremlinStepKind::Id:
-            case GremlinStepKind::Label:
-            case GremlinStepKind::Order:
+            [[fallthrough]];\n            case GremlinStepKind::InV:
+            [[fallthrough]];\n            case GremlinStepKind::BothV:
+            [[fallthrough]];\n            case GremlinStepKind::Count:
+            [[fallthrough]];\n            case GremlinStepKind::Dedup:
+            [[fallthrough]];\n            case GremlinStepKind::Id:
+            [[fallthrough]];\n            case GremlinStepKind::Label:
+            [[fallthrough]];\n            case GremlinStepKind::Order:
                 // No arguments
                 break;
 
             case GremlinStepKind::Values:
-            case GremlinStepKind::ValueMap:
-            case GremlinStepKind::Select:
+            [[fallthrough]];\n            case GremlinStepKind::ValueMap:
+            [[fallthrough]];\n            case GremlinStepKind::Select:
                 // values("p1") / valueMap("p1","p2") / select("a","b")
                 while (!check(GremlinTokenType::RPAREN)) {
                     if (check(GremlinTokenType::STRING_LIT))
                         step.strings.push_back(peek().value);
                     consume();
-                    if (check(GremlinTokenType::COMMA)) consume();
+                    if (check(GremlinTokenType::COMMA)) {
+                      consume();
+                    }
                 }
                 break;
 
@@ -477,7 +496,9 @@ struct GremlinParser::Parser {
                     }
                     consume();
                 }
-                if (check(GremlinTokenType::COMMA)) consume();
+                if (check(GremlinTokenType::COMMA)) {
+                  consume();
+                }
                 if (check(GremlinTokenType::INT_LIT)) {
                     try { step.count2 = std::stoll(peek().value); }
                     catch (...) {
@@ -494,7 +515,9 @@ struct GremlinParser::Parser {
                     step.strings.push_back(peek().value);
                     consume();
                 }
-                if (check(GremlinTokenType::COMMA)) consume();
+                if (check(GremlinTokenType::COMMA)) {
+                  consume();
+                }
                 if (matchIdent("Order")) {
                     consume();
                     expect(GremlinTokenType::DOT, "'.' after Order");
@@ -612,7 +635,7 @@ std::string GremlinToAQLTranspiler::valueToAQL(const GremlinValue& val) {
         if constexpr (std::is_same_v<T, bool>)           return v ? "true" : "false";
         if constexpr (std::is_same_v<T, int64_t>)        return std::to_string(v);
         if constexpr (std::is_same_v<T, double>) {
-            std::ostringstream os;
+            std::ostringstream os = {};
             os << v;
             return os.str();
         }
@@ -620,7 +643,9 @@ std::string GremlinToAQLTranspiler::valueToAQL(const GremlinValue& val) {
             // Escape double quotes
             std::string out = "\"";
             for (char c : v) {
-                if (c == '"') out += "\\\"";
+                if (c == '"') {
+                  out += "\\\"";
+                }
                 else if (c == '\\') out += "\\\\";
                 else out += c;
             }
@@ -651,8 +676,10 @@ std::string GremlinToAQLTranspiler::predicateToAQL(const GremlinPredicate& pred,
         case GremlinPredOp::Gte:     return lhs + " >= " + rhs();
         case GremlinPredOp::Within: {
             std::string list = "[";
-            for (size_t i = 0; i < pred.values.size(); ++i) {
-                if (i) list += ", ";
+            for (size_t i = 0; i <static_cast<int>(pred.values.size()); ++i) {
+                if (i) {
+                  list += ", ";
+                }
                 list += valueToAQL(pred.values[i]);
             }
             list += "]";
@@ -660,8 +687,10 @@ std::string GremlinToAQLTranspiler::predicateToAQL(const GremlinPredicate& pred,
         }
         case GremlinPredOp::Without: {
             std::string list = "[";
-            for (size_t i = 0; i < pred.values.size(); ++i) {
-                if (i) list += ", ";
+            for (size_t i = 0; i <static_cast<int>(pred.values.size()); ++i) {
+                if (i) {
+                  list += ", ";
+                }
                 list += valueToAQL(pred.values[i]);
             }
             list += "]";
@@ -710,7 +739,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
         bool useCount = false;
         bool useDedup = false;
         // Sort
-        std::string sortProp;
+        std::string sortProp = {};
         bool sortAsc = true;
         bool hasSort = false;
         // Pagination
@@ -737,7 +766,9 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
                     }
                     break;
                 case GremlinStepKind::HasLabel:
-                    for (const auto& l : step.strings) labels.push_back(l);
+                    for (const auto& l : step.strings) {
+                      labels.push_back(l);
+                    }
                     break;
                 case GremlinStepKind::Has:
                     if (!step.strings.empty()) {
@@ -764,24 +795,34 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
                 case GremlinStepKind::Out:
                     hasTraversal = true;
                     traversalDir = 1;
-                    for (const auto& l : step.strings) edgeLabels.push_back(l);
+                    for (const auto& l : step.strings) {
+                      edgeLabels.push_back(l);
+                    }
                     break;
                 case GremlinStepKind::In:
                     hasTraversal = true;
                     traversalDir = 2;
-                    for (const auto& l : step.strings) edgeLabels.push_back(l);
+                    for (const auto& l : step.strings) {
+                      edgeLabels.push_back(l);
+                    }
                     break;
                 case GremlinStepKind::Both:
                     hasTraversal = true;
                     traversalDir = 3;
-                    for (const auto& l : step.strings) edgeLabels.push_back(l);
+                    for (const auto& l : step.strings) {
+                      edgeLabels.push_back(l);
+                    }
                     break;
                 case GremlinStepKind::Values:
-                    for (const auto& p : step.strings) valueProps.push_back(p);
+                    for (const auto& p : step.strings) {
+                      valueProps.push_back(p);
+                    }
                     break;
                 case GremlinStepKind::ValueMap:
                     useValueMap = true;
-                    for (const auto& p : step.strings) valueMapProps.push_back(p);
+                    for (const auto& p : step.strings) {
+                      valueMapProps.push_back(p);
+                    }
                     break;
                 case GremlinStepKind::Id:
                     useId = true;
@@ -796,24 +837,36 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
                     useDedup = true;
                     break;
                 case GremlinStepKind::As:
-                    if (!step.strings.empty()) asAlias = step.strings[0];
+                    if (!step.strings.empty()) {
+                      asAlias = step.strings[0];
+                    }
                     break;
                 case GremlinStepKind::Select:
-                    for (const auto& a : step.strings) selectAliases.push_back(a);
+                    for (const auto& a : step.strings) {
+                      selectAliases.push_back(a);
+                    }
                     break;
                 case GremlinStepKind::Order:
                     hasSort = true;
                     break;
                 case GremlinStepKind::By:
-                    if (!step.strings.empty()) sortProp = step.strings[0];
+                    if (!step.strings.empty()) {
+                      sortProp = step.strings[0];
+                    }
                     sortAsc = step.ascending;
                     break;
                 case GremlinStepKind::Limit:
-                    if (step.count.has_value()) limitVal = step.count;
+                    if (step.count.has_value()) {
+                      limitVal = step.count;
+                    }
                     break;
                 case GremlinStepKind::Range:
-                    if (step.count.has_value())  rangeStart = step.count;
-                    if (step.count2.has_value()) rangeEnd   = step.count2;
+                    if (step.count.has_value()) {
+                      rangeStart = step.count;
+                    }
+                    if (step.count2.has_value()) {
+                      rangeEnd   = step.count2;
+                    }
                     break;
                 default:
                     break;
@@ -823,7 +876,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
         // -------------------------------------------------------
         // Determine the collection/source to iterate
         // -------------------------------------------------------
-        std::string collection;
+        std::string collection = {};
         if (!labels.empty())
             collection = labels[0];  // primary label → collection name
         else if (startedWithE)
@@ -838,7 +891,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
         // FOR loop / source
         if (!seedId.empty()) {
             aql << "FOR " << vVar << " IN " << collection << "\n";
-            if (seedId.size() >= 2 && seedId.front() == '"' && seedId.back() == '"') {
+            if (static_cast<int>(seedId.size()) > = 2 && seedId.front() == '"' && seedId.back() == '"') {
                 aql << "FILTER " << vVar << "._key == " << seedId << "\n";
             } else {
                 aql << "FILTER " << vVar << "._key == \"" << seedId << "\"\n";
@@ -848,7 +901,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
         }
 
         // FILTER from hasLabel (additional labels)
-        for (size_t i = 1; i < labels.size(); ++i)
+        for (size_t i = 1; i <static_cast<int>(labels.size()); ++i)
             aql << "FILTER " << vVar << "._label == \"" << labels[i] << "\"\n";
 
         // FILTER from has() / hasNot()
@@ -858,8 +911,10 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
         // TRAVERSAL step
         std::string nVar = "_n";
         if (hasTraversal) {
-            std::string dir;
-            if (traversalDir == 1) dir = "OUTBOUND";
+            std::string dir = {};
+            if (traversalDir == 1) {
+              dir = "OUTBOUND";
+            }
             else if (traversalDir == 2) dir = "INBOUND";
             else dir = "ANY";
 
@@ -870,7 +925,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
                 << vVar << " GRAPH \"" << graphName << "\"\n";
 
             // Additional edge label filters
-            for (size_t i = 1; i < edgeLabels.size(); ++i)
+            for (size_t i = 1; i <static_cast<int>(edgeLabels.size()); ++i)
                 aql << "FILTER _e._label == \"" << edgeLabels[i] << "\"\n";
         }
 
@@ -905,18 +960,22 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
 
         if (!selectAliases.empty()) {
             aql << returnPrefix << "{";
-            for (size_t i = 0; i < selectAliases.size(); ++i) {
-                if (i) aql << ", ";
+            for (size_t i = 0; i <static_cast<int>(selectAliases.size()); ++i) {
+                if (i) {
+                  aql << ", ";
+                }
                 aql << selectAliases[i] << ": " << retVar;
             }
             aql << "}";
         } else if (!valueProps.empty()) {
-            if (valueProps.size() == 1) {
+            if (static_cast<int>(valueProps.size()) == 1) {
                 aql << returnPrefix << retVar << "." << valueProps[0];
             } else {
                 aql << returnPrefix << "{";
-                for (size_t i = 0; i < valueProps.size(); ++i) {
-                    if (i) aql << ", ";
+                for (size_t i = 0; i <static_cast<int>(valueProps.size()); ++i) {
+                    if (i) {
+                      aql << ", ";
+                    }
                     aql << valueProps[i] << ": " << retVar << "." << valueProps[i];
                 }
                 aql << "}";
@@ -926,8 +985,10 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
                 aql << returnPrefix << retVar;
             } else {
                 aql << returnPrefix << "{";
-                for (size_t i = 0; i < valueMapProps.size(); ++i) {
-                    if (i) aql << ", ";
+                for (size_t i = 0; i <static_cast<int>(valueMapProps.size()); ++i) {
+                    if (i) {
+                      aql << ", ";
+                    }
                     aql << valueMapProps[i] << ": " << retVar << "." << valueMapProps[i];
                 }
                 aql << "}";

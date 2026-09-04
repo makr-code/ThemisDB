@@ -78,7 +78,7 @@ public:
      * @brief Restore preview (dry-run result)
      */
     struct RestorePreview {
-        uint64_t target_sequence;                      // Target sequence to restore to
+        uint64_t target_sequence = 0;                      // Target sequence to restore to
         uint64_t current_sequence;                     // Current sequence before restore
         uint64_t events_to_replay;                     // Number of events to replay backward
         std::vector<std::string> affected_tables;      // Tables that will be affected
@@ -105,18 +105,22 @@ public:
         Phase phase = Phase::NOT_STARTED;
         uint64_t events_processed = 0;
         uint64_t total_events = 0;
-        std::string current_table;
-        std::string last_error;
+        std::string current_table = {};
+        std::string last_error = {};
         int64_t start_time_ms = 0;
         int64_t end_time_ms = 0;
         
         double getProgressPercent() const {
-            if (total_events == 0) return 0.0;
+            if (total_events == 0) {
+              return 0.0;
+            }
             return (static_cast<double>(events_processed) / total_events) * 100.0;
         }
         
         int64_t getElapsedMs() const {
-            if (start_time_ms == 0) return 0;
+            if (start_time_ms == 0) {
+              return 0;
+            }
             int64_t end = (end_time_ms > 0) ? end_time_ms : getCurrentTimeMs();
             return end - start_time_ms;
         }

@@ -145,13 +145,15 @@ static void BM_TwoGPU_DataParallel(benchmark::State& state) {
     MultiGPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, ctx);
     
     // Create sharded input tensors (one per GPU)
-    std::vector<GPUTensor> inputs;
+    std::vector<GPUTensor> inputs = {};
+
     for (int i = 0; i < 2; ++i) {
         inputs.emplace_back(std::vector<size_t>{per_gpu_batch_size, HIDDEN_DIM}, Device::cuda(i));
         inputs[i].fill(0.5f);
     }
     
-    std::vector<GPUTensor> targets;
+    std::vector<GPUTensor> targets = {};
+
     for (int i = 0; i < 2; ++i) {
         targets.emplace_back(std::vector<size_t>{per_gpu_batch_size, HIDDEN_DIM}, Device::cuda(i));
         targets[i].fill(0.3f);
@@ -214,13 +216,15 @@ static void BM_FourGPU_DataParallel(benchmark::State& state) {
     MultiGPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, ctx);
     
     // Create sharded input tensors (one per GPU)
-    std::vector<GPUTensor> inputs;
+    std::vector<GPUTensor> inputs = {};
+
     for (int i = 0; i < 4; ++i) {
         inputs.emplace_back(std::vector<size_t>{per_gpu_batch_size, HIDDEN_DIM}, Device::cuda(i));
         inputs[i].fill(0.5f);
     }
     
-    std::vector<GPUTensor> targets;
+    std::vector<GPUTensor> targets = {};
+
     for (int i = 0; i < 4; ++i) {
         targets.emplace_back(std::vector<size_t>{per_gpu_batch_size, HIDDEN_DIM}, Device::cuda(i));
         targets[i].fill(0.3f);
@@ -285,7 +289,8 @@ static void BM_GradientSync_Overhead(benchmark::State& state) {
     MultiGPULoRALayer layer(tensor_size, tensor_size, 8, 1.0f, ctx);
     
     // Create dummy inputs and perform forward/backward to generate gradients
-    std::vector<GPUTensor> inputs;
+    std::vector<GPUTensor> inputs = {};
+
     for (int i = 0; i < num_gpus; ++i) {
         inputs.emplace_back(std::vector<size_t>{1, tensor_size}, Device::cuda(i));
         inputs[i].fill(1.0f / num_gpus);
@@ -359,13 +364,15 @@ static void BM_CommCompute_Ratio(benchmark::State& state) {
     size_t per_gpu_batch = batch_size / num_gpus;
     
     // Create inputs
-    std::vector<GPUTensor> inputs;
+    std::vector<GPUTensor> inputs = {};
+
     for (int i = 0; i < num_gpus; ++i) {
         inputs.emplace_back(std::vector<size_t>{per_gpu_batch, HIDDEN_DIM}, Device::cuda(i));
         inputs[i].fill(0.5f);
     }
     
-    std::vector<GPUTensor> targets;
+    std::vector<GPUTensor> targets = {};
+
     for (int i = 0; i < num_gpus; ++i) {
         targets.emplace_back(std::vector<size_t>{per_gpu_batch, HIDDEN_DIM}, Device::cuda(i));
         targets[i].fill(0.3f);
@@ -398,7 +405,8 @@ static void BM_CommCompute_Ratio(benchmark::State& state) {
         
         // Backward pass (compute)
         compute_start = std::chrono::high_resolution_clock::now();
-        std::vector<GPUTensor> grad_outputs;
+        std::vector<GPUTensor> grad_outputs = {};
+
         for (size_t i = 0; i < outputs.size(); ++i) {
             grad_outputs.push_back(outputs[i] - targets[i]);
         }

@@ -74,7 +74,7 @@ bool VRAMSecureClear::secureClearCUDA(void* ptr, size_t size_bytes, const Config
             uint8_t expected = PATTERNS[(config.num_passes - 1) % 
                                        (sizeof(PATTERNS) / sizeof(PATTERNS[0]))];
             bool all_cleared = true;
-            for (size_t i = 0; i < verify_buffer.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(verify_buffer.size()); ++i) {
                 if (verify_buffer[i] != expected) {
                     all_cleared = false;
                     break;
@@ -145,7 +145,7 @@ bool VRAMSecureClear::secureClearHIP(void* ptr, size_t size_bytes, const Config&
             uint8_t expected = PATTERNS[(config.num_passes - 1) % 
                                        (sizeof(PATTERNS) / sizeof(PATTERNS[0]))];
             bool all_cleared = true;
-            for (size_t i = 0; i < verify_buffer.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(verify_buffer.size()); ++i) {
                 if (verify_buffer[i] != expected) {
                     all_cleared = false;
                     break;

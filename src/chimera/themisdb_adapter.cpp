@@ -132,7 +132,7 @@ Result<RelationalTable> ThemisDBAdapter::execute_query(
         const auto& json_result = res.value();
         if (json_result.contains("results") && json_result["results"].is_array()) {
             for (const auto& row_json : json_result["results"]) {
-                RelationalRow row;
+                RelationalRow row = {};
                 if (row_json.is_object()) {
                     for (const auto& [col, val] : row_json.items()) {
                         if (std::find(table.column_names.begin(),
@@ -232,7 +232,7 @@ Result<size_t> ThemisDBAdapter::batch_insert(
         auto& store = table_store_[table_name];
         store.insert(store.end(), rows.begin(), rows.end());
     }
-    return Result<size_t>::ok(rows.size());
+    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(rows.size())));
 }
 
 Result<QueryStatistics> ThemisDBAdapter::get_query_statistics() const {
@@ -279,12 +279,12 @@ Result<size_t> ThemisDBAdapter::batch_insert_vectors(
     {
         std::unique_lock<std::mutex> lock(store_mutex_);
         auto& store = vector_store_[collection];
-        store.reserve(store.size() + vectors.size());
+        store.reserve(static_cast<int>(store.size()) + static_cast<int>(vectors.size()) );
         for (const auto& v : vectors) {
             store.emplace_back(generate_id(), v);
         }
     }
-    return Result<size_t>::ok(vectors.size());
+    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(vectors.size())));
 }
 
 Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
@@ -353,13 +353,13 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
     std::vector<std::pair<size_t, double>> scored;
     scored.reserve(store.size());
 
-    for (size_t i = 0; i < store.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(store.size()); ++i) {
         const auto& vdata = store[i].second.data;
-        if (vdata.size() != qdata.size() || qdata.empty()) {
+        if (static_cast<int>(vdata.size()) != static_cast<int>(qdata.size()) || qdata.empty()) {
             continue;
         }
         double dot = 0.0, norm_q = 0.0, norm_v = 0.0;
-        for (size_t d = 0; d < qdata.size(); ++d) {
+        for (size_t d = 0; d <static_cast<int>(qdata.size()); ++d) {
             dot    += static_cast<double>(qdata[d]) * static_cast<double>(vdata[d]);
             norm_q += static_cast<double>(qdata[d]) * static_cast<double>(qdata[d]);
             norm_v += static_cast<double>(vdata[d]) * static_cast<double>(vdata[d]);
@@ -371,7 +371,7 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
     }
 
     // Partial sort to obtain top-k results.
-    const size_t result_k = std::min(k, scored.size());
+    const size_t result_k = std::min(k,static_cast<int>(scored.size()));
     std::partial_sort(scored.begin(),
                       scored.begin() + static_cast<ptrdiff_t>(result_k),
                       scored.end(),
@@ -467,7 +467,7 @@ Result<GraphPath> ThemisDBAdapter::shortest_path(
         // unconstrained Dijkstra overload which is slightly more efficient.
         GraphIndexManager::PathResult path_result;
         GraphIndexManager::Status status;
-        if (max_depth != 10U) {
+        if (max_depth != 10) {
             GraphIndexManager::PathConstraints constraints;
             constraints.max_edge_count = static_cast<int>(max_depth);
             std::tie(status, path_result) =
@@ -543,7 +543,9 @@ Result<GraphPath> ThemisDBAdapter::shortest_path(
             bfs_queue.pop();
 
             auto adj_it = adj_out_.find(cur);
-            if (adj_it == adj_out_.end()) continue;
+            if (adj_it == adj_out_.end()) {
+              continue;
+            }
 
             for (const auto& [eid, nxt] : adj_it->second) {
                 if (parent.count(nxt)) continue; // already visited
@@ -563,7 +565,8 @@ Result<GraphPath> ThemisDBAdapter::shortest_path(
 
     // Reconstruct path from target back to source.
     std::vector<std::string> node_seq;
-    std::vector<std::string> edge_seq;
+    std::vector<std::string> edge_seq = {};
+
     for (std::string cur = target_id; !cur.empty(); cur = parent.at(cur)) {
         node_seq.push_back(cur);
         auto eit = via_edge.find(cur);
@@ -618,7 +621,7 @@ Result<std::vector<GraphNode>> ThemisDBAdapter::traverse(
         std::unordered_set<std::string> seen_ids;
         std::vector<GraphNode> nodes;
 
-        auto append_bfs_results = [&](const std::vector<std::string>& bfs_result) {
+        auto append_bfs_results = [&]([[maybe_unused]] const std::vector<std::string>& bfs_result) {
             for (const auto& nid : bfs_result) {
                 if (!seen_ids.insert(nid).second) continue; // already added
                 auto it = graph_nodes_.find(nid);
@@ -687,18 +690,26 @@ Result<std::vector<GraphNode>> ThemisDBAdapter::traverse(
             visited_nodes.push_back(nit->second);
         }
 
-        if (cur_depth >= max_depth) continue;
+        if (cur_depth >= max_depth) {
+          continue;
+        }
 
         auto adj_it = adj_out_.find(cur_id);
-        if (adj_it == adj_out_.end()) continue;
+        if (adj_it == adj_out_.end()) {
+          continue;
+        }
 
         for (const auto& [eid, nxt_id] : adj_it->second) {
-            if (visited.count(nxt_id)) continue;
+            if (visited.count(nxt_id)) {
+              continue;
+            }
 
             // Apply edge-label filter when labels are provided.
             if (!edge_labels.empty()) {
                 auto eit = graph_edges_.find(eid);
-                if (eit == graph_edges_.end()) continue;
+                if (eit == graph_edges_.end()) {
+                  continue;
+                }
                 const auto& lbl = eit->second.label;
                 if (std::find(edge_labels.begin(),
                               edge_labels.end(), lbl)
@@ -773,7 +784,7 @@ Result<size_t> ThemisDBAdapter::batch_insert_documents(
             col[id]         = std::move(stored);
         }
     }
-    return Result<size_t>::ok(docs.size());
+    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(docs.size())));
 }
 
 Result<std::vector<Document>> ThemisDBAdapter::find_documents(
@@ -796,7 +807,9 @@ Result<std::vector<Document>> ThemisDBAdapter::find_documents(
     }
 
     for (const auto& [_id, doc] : col_it->second) {
-        if (matched.size() >= limit) break;
+        if (static_cast<int>(matched.size()) > = limit) {
+          break;
+        }
 
         bool match = true;
         for (const auto& [key, expected] : filter) {
@@ -864,7 +877,7 @@ Result<std::string> ThemisDBAdapter::begin_transaction(
     }
     std::lock_guard<std::mutex> lock(txn_mutex_);
     ++next_txn_id_;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "txn_" << next_txn_id_;
     const std::string txn_id = oss.str();
 
@@ -1161,19 +1174,19 @@ Result<SystemMetrics> ThemisDBAdapter::get_metrics() const {
 bool ThemisDBAdapter::has_capability(Capability cap) const {
     switch (cap) {
         case Capability::RELATIONAL_QUERIES:
-        case Capability::VECTOR_SEARCH:
-        case Capability::GRAPH_TRAVERSAL:
-        case Capability::DOCUMENT_STORE:
-        case Capability::FULL_TEXT_SEARCH:
-        case Capability::TRANSACTIONS:
-        case Capability::DISTRIBUTED_QUERIES:
-        case Capability::GEOSPATIAL_QUERIES:
-        case Capability::TIME_SERIES:
-        case Capability::BATCH_OPERATIONS:
-        case Capability::SECONDARY_INDEXES:
-        case Capability::ASYNC_OPERATIONS:
-        case Capability::STREAMING_RESULTS:
-        case Capability::PREPARED_STATEMENTS:
+        [[fallthrough]];\n        case Capability::VECTOR_SEARCH:
+        [[fallthrough]];\n        case Capability::GRAPH_TRAVERSAL:
+        [[fallthrough]];\n        case Capability::DOCUMENT_STORE:
+        [[fallthrough]];\n        case Capability::FULL_TEXT_SEARCH:
+        [[fallthrough]];\n        case Capability::TRANSACTIONS:
+        [[fallthrough]];\n        case Capability::DISTRIBUTED_QUERIES:
+        [[fallthrough]];\n        case Capability::GEOSPATIAL_QUERIES:
+        [[fallthrough]];\n        case Capability::TIME_SERIES:
+        [[fallthrough]];\n        case Capability::BATCH_OPERATIONS:
+        [[fallthrough]];\n        case Capability::SECONDARY_INDEXES:
+        [[fallthrough]];\n        case Capability::ASYNC_OPERATIONS:
+        [[fallthrough]];\n        case Capability::STREAMING_RESULTS:
+        [[fallthrough]];\n        case Capability::PREPARED_STATEMENTS:
             return true;
         case Capability::CONNECTION_POOLING:
             // Resolved: returns true when a connection-pool provider has been
@@ -1369,7 +1382,7 @@ std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
                     ErrorCode::TIMEOUT, "Async operation cancelled: " + op_id);
             }
 
-            if (progress_callback) {
+            if ([[maybe_unused]] progress_callback) {
                 // Drive the insert in chunks to report incremental progress.
                 // A single preallocated buffer is reused across all chunks to
                 // avoid repeated heap allocations.
@@ -1378,14 +1391,14 @@ std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
                 std::vector<RelationalRow> chunk;
                 chunk.reserve(kChunkSize);
 
-                for (size_t offset = 0; offset < rows.size(); offset += kChunkSize) {
+                for (size_t offset = 0; offset <static_cast<int>(rows.size()); offset += kChunkSize) {
                     if (token && token->load(std::memory_order_relaxed)) {
                         return Result<size_t>::err(
                             ErrorCode::TIMEOUT,
                             "Async operation cancelled mid-batch: " + op_id);
                     }
 
-                    const size_t end = std::min(offset + kChunkSize, rows.size());
+                    const size_t end = std::min(offset + kChunkSize,static_cast<int>(rows.size()));
                     chunk.assign(
                         rows.begin() + static_cast<std::ptrdiff_t>(offset),
                         rows.begin() + static_cast<std::ptrdiff_t>(end));
@@ -1395,7 +1408,7 @@ std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
                         return chunk_result;
                     }
                     total_inserted += chunk_result.value.value_or(0);
-                    progress_callback(total_inserted);
+                    progress_callback([[maybe_unused]] total_inserted);
                 }
                 return Result<size_t>::ok(total_inserted);
             }
@@ -1524,7 +1537,8 @@ Result<bool> ThemisDBAdapter::unprepare(const std::string& statement_id) {
 
 Result<std::vector<std::string>> ThemisDBAdapter::list_prepared() {
     std::lock_guard<std::mutex> lk(prepared_mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(prepared_queries_.size());
     for (const auto& kv : prepared_queries_) {
         ids.push_back(kv.first);
@@ -1545,7 +1559,7 @@ ThemisDBResultStream::ThemisDBResultStream(
 {}
 
 bool ThemisDBResultStream::has_more() const {
-    return !closed_ && cursor_ < table_.rows.size();
+    return static_cast<bool>(!closed_  && static_cast<size_t>(cursor_) < static_cast<int>(table_.rows.size()));
 }
 
 Result<std::vector<RelationalRow>> ThemisDBResultStream::next_batch(
@@ -1563,7 +1577,7 @@ Result<std::vector<RelationalRow>> ThemisDBResultStream::next_batch(
         ? config_.default_batch_size
         : batch_size;
 
-    const size_t end = std::min(cursor_ + effective, table_.rows.size());
+    const size_t end = std::min(cursor_ + effective,static_cast<int>(table_.rows.size()));
     std::vector<RelationalRow> batch(
         table_.rows.begin() + static_cast<std::ptrdiff_t>(cursor_),
         table_.rows.begin() + static_cast<std::ptrdiff_t>(end));
@@ -1576,7 +1590,7 @@ size_t ThemisDBResultStream::position() const {
 }
 
 std::optional<size_t> ThemisDBResultStream::total_size() const {
-    return table_.rows.size();
+    return static_cast<int>(table_.rows.size());
 }
 
 Result<bool> ThemisDBResultStream::close() {
@@ -1665,7 +1679,7 @@ Result<bool> ThemisDBPreparedStatement::reset() {
 
 Result<QueryStatistics> ThemisDBPreparedStatement::get_statistics() const {
     std::lock_guard<std::mutex> lk(stats_mutex_);
-    QueryStatistics stats;
+    QueryStatistics stats = {};
     if (exec_count_ > 0) {
         // Round to nearest microsecond to avoid systematic truncation bias.
         const int64_t count    = total_exec_time_.count();
@@ -1687,7 +1701,7 @@ std::string ThemisDBPreparedStatement::apply_named_params() const {
     std::string q = query_;
     for (const auto& kv : named_params_) {
         const std::string token = "@" + kv.first;
-        std::string replacement;
+        std::string replacement = {};
         std::visit([&replacement](const auto& v) {
             using T = std::decay_t<decltype(v)>;
             if constexpr (std::is_same_v<T, std::monostate>) {
@@ -1702,10 +1716,12 @@ std::string ThemisDBPreparedStatement::apply_named_params() const {
                 // Use SQL standard single-quoted string literals.
                 // Escape backslashes first, then single quotes, so that the
                 // resulting literal cannot be terminated early by injected SQL.
-                std::string escaped;
-                escaped.reserve(v.size() + 2);
+                std::string escaped = {};
+                escaped.reserve(static_cast<int>(v.size()) + 2);
                 for (char c : v) {
-                    if (c == '\\') escaped += "\\\\";
+                    if (c == '\\') {
+                      escaped += "\\\\";
+                    }
                     else if (c == '\'') escaped += "\\'";
                     else escaped += c;
                 }
@@ -1717,7 +1733,7 @@ std::string ThemisDBPreparedStatement::apply_named_params() const {
 
         size_t pos = 0;
         while ((pos = q.find(token, pos)) != std::string::npos) {
-            q.replace(pos, token.size(), replacement);
+            q.replace(pos,static_cast<int>(token.size()), replacement);
             pos += replacement.size();
         }
     }

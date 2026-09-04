@@ -245,7 +245,7 @@ bool ModuleSignatureVerifier::verifyGPGSignature(
 
     // Drain the pipe.
     char buf[kGPGReadBufSize];
-    std::string output;
+    std::string output = {};
     ssize_t n;
     while ((n = read(pipefd[0], buf, sizeof(buf) - 1)) > 0) {
         buf[n] = '\0';
@@ -262,10 +262,10 @@ bool ModuleSignatureVerifier::verifyGPGSignature(
         const std::string marker = "from \"";
         std::size_t pos = output.find(marker);
         if (pos != std::string::npos) {
-            std::size_t end = output.find('"', pos + marker.size());
+            std::size_t end = output.find('"', pos + static_cast<int>(marker.size()) );
             if (end != std::string::npos) {
-                signerInfo = output.substr(pos + marker.size(),
-                                           end - pos - marker.size());
+                signerInfo = output.substr(pos + static_cast<int>(marker.size()) ,
+                                           end - pos - static_cast<int>(marker.size()) );
             }
         }
         spdlog::info("ModuleSignatureVerifier: GPG OK for '{}' (signer: {})",

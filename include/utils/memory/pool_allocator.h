@@ -93,7 +93,9 @@ struct AllocationStats {
     
     double getSuccessRate() const {
         uint64_t total = total_allocations.load();
-        if (total == 0) return 1.0;
+        if (total == 0) {
+          return 1.0;
+        }
         uint64_t failures = allocation_failures.load();
         return 1.0 - (static_cast<double>(failures) / total);
     }
@@ -307,7 +309,7 @@ public:
      * @brief Configuration for pool allocator
      */
     struct Config {
-        size_t buddy_pool_size;
+        size_t buddy_pool_size = 0;
         size_t buddy_min_block;
         
         // Common slab sizes (powers of 2)

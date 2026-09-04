@@ -79,10 +79,10 @@ int main(){
         } else {
             int r = EVP_DigestSignInit(mctx, nullptr, EVP_sha256(), nullptr, pkey);
             std::cerr<<"EVP_DigestSignInit returned "<<r<<"\n";
-            if (r != 1) ERR_print_errors_fp(stderr);
+            if (r != 1) {
             int s = X509_sign_ctx(x, mctx);
             std::cerr<<"X509_sign_ctx returned "<<s<<"\n";
-            if (s != 1) ERR_print_errors_fp(stderr);
+            if (s != 1) {
             EVP_MD_CTX_free(mctx);
         }
 

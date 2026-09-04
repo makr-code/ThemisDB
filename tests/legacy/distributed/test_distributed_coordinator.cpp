@@ -189,7 +189,7 @@ TEST_F(DistributedCoordinatorTest, TaskExecutorCallback) {
     coordinator.becomeLeader();
     
     bool task_executed = false;
-    std::string executed_task_id;
+    std::string executed_task_id = {};
     
     coordinator.setTaskExecutor([&task_executed, &executed_task_id](
         const DistributedCoordinator::CoordinatorTask& task) -> bool {
@@ -219,7 +219,7 @@ TEST_F(DistributedCoordinatorTest, LeaderElectedCallback) {
     DistributedCoordinator coordinator("shard3", topology_, gossip_mgr_);
     
     bool callback_invoked = false;
-    std::string elected_leader;
+    std::string elected_leader = {};
     
     coordinator.setLeaderElectedCallback([&callback_invoked, &elected_leader](
         const std::string& leader_id) {

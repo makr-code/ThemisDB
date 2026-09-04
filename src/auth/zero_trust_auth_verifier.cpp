@@ -215,7 +215,7 @@ void ZeroTrustAuthVerifier::stopSessionMonitoring(const std::string& session_id)
 
 size_t ZeroTrustAuthVerifier::monitoredSessionCount() const {
     std::lock_guard<std::mutex> lock(monitor_mutex_);
-    return monitored_sessions_.size();
+    return static_cast<int>(monitored_sessions_.size());
 }
 
 // ---------------------------------------------------------------------------

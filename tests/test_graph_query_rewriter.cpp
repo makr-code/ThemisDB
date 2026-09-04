@@ -221,8 +221,12 @@ TEST_F(GraphQueryRewriterTest, CSE_DetectsIdenticalTraversals) {
     std::function<void(const json&)> count = [&](const json& n) {
         if (n.is_object()) {
             auto it = n.find("type");
-            if (it != n.end() && it->get<std::string>() == "ref") ++ref_count;
-            for (const auto& [k, v] : n.items()) count(v);
+            if (it != n.end() && it->get<std::string>() == "ref") {
+              ++ref_count;
+            }
+            for (const auto& [k, v] : n.items()) {
+              count(v);
+            }
         }
     };
     count(rewritten);
@@ -241,8 +245,12 @@ TEST_F(GraphQueryRewriterTest, CSE_DistinctTraversalsNotAffected) {
     std::function<void(const json&)> count = [&](const json& n) {
         if (n.is_object()) {
             auto it = n.find("type");
-            if (it != n.end() && it->get<std::string>() == "ref") ++ref_count;
-            for (const auto& [k, v] : n.items()) count(v);
+            if (it != n.end() && it->get<std::string>() == "ref") {
+              ++ref_count;
+            }
+            for (const auto& [k, v] : n.items()) {
+              count(v);
+            }
         }
     };
     count(rewritten);
@@ -265,8 +273,12 @@ TEST_F(GraphQueryRewriterTest, CSE_WrapsInLetScope) {
                     has_cse_marker = true;
                 }
             }
-            if (n.contains("cse_alias")) has_cse_marker = true;
-            for (const auto& [k, v] : n.items()) search(v);
+            if (n.contains("cse_alias")) {
+              has_cse_marker = true;
+            }
+            for (const auto& [k, v] : n.items()) {
+              search(v);
+            }
         }
     };
     search(rewritten);
@@ -475,7 +487,8 @@ TEST_F(GraphQueryRewriterTest, DEC_EachSubqueryHasUniqueStartVertex) {
     auto [rewritten, stats] = rewriter_.rewrite(plan);
 
     ASSERT_TRUE(rewritten.contains("subqueries"));
-    std::vector<std::string> starts;
+    std::vector<std::string> starts = {};
+
     for (const auto& sq : rewritten["subqueries"]) {
         if (sq.contains("start_vertex")) {
             starts.push_back(sq["start_vertex"].get<std::string>());

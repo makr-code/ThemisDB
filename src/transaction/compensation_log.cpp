@@ -34,8 +34,8 @@ void CompensationLog::recordCompensationSuccess(
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(step_name);
-    if (it != entries_.end() && sequence_number <= static_cast<uint32_t>(it->second.size())) {
-        it->second[sequence_number - 1].succeeded = true;
+    if (it != entries_.end()  && static_cast<size_t>(sequence_number) < = static_cast<uint32_t>(it-> static_cast<int>(second.size()))) {
+        it->second[static_cast<int>(sequence_number - 1)].succeeded = true;
     }
 }
 
@@ -46,9 +46,9 @@ void CompensationLog::recordCompensationFailure(
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(step_name);
-    if (it != entries_.end() && sequence_number <= static_cast<uint32_t>(it->second.size())) {
-        it->second[sequence_number - 1].succeeded = false;
-        it->second[sequence_number - 1].error_detail = error_detail;
+    if (it != entries_.end()  && static_cast<size_t>(sequence_number) < = static_cast<uint32_t>(it-> static_cast<int>(second.size()))) {
+        it->second[static_cast<int>(sequence_number - 1)].succeeded = false;
+        it->second[static_cast<int>(sequence_number - 1)].error_detail = error_detail;
     }
 }
 
@@ -56,10 +56,14 @@ bool CompensationLog::hasSucceeded(const std::string& step_name) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(step_name);
-    if (it == entries_.end()) return false;
+    if (it == entries_.end()) {
+      return false;
+    }
 
     for (const auto& entry : it->second) {
-        if (entry.succeeded) return true;
+        if (entry.succeeded) {
+          return true;
+        }
     }
     return false;
 }
@@ -67,7 +71,8 @@ bool CompensationLog::hasSucceeded(const std::string& step_name) const {
 std::vector<CompensationLogEntry> CompensationLog::getEntries() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<CompensationLogEntry> result;
+    std::vector<CompensationLogEntry> result = {};
+
     for (const auto& [step_name, entries] : entries_) {
         for (const auto& entry : entries) {
             result.push_back(entry);

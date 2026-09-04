@@ -34,7 +34,8 @@ static constexpr uint32_t kSeed = 42;
 
 TEST(MaintenanceContractHardening, MTN01_ErrorCodeUniqueness) {
     // All non-zero error codes must be distinct.
-    std::set<int32_t> seen;
+    std::set<int32_t> seen = {};
+
     const int32_t codes[] = {
         static_cast<int32_t>(MaintenanceError::kScheduleNotFound),
         static_cast<int32_t>(MaintenanceError::kHandlerNotRegistered),

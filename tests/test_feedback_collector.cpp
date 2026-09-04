@@ -401,7 +401,7 @@ TEST(FeedbackCollectorCrossShardTest, FC_CSS_02_RecordFeedback_NoSync_LocalRecor
     FeedbackCollector collector; // no setCrossShardSync / setEmbeddingModel
 
     // Must not throw
-    std::string id;
+    std::string id = {};
     EXPECT_NO_THROW(
         id = collector.recordFeedback("p1", "query", "response",
                                       FeedbackType::USER_POSITIVE));

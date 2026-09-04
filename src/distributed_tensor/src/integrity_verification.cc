@@ -81,9 +81,13 @@ namespace {
 
 bool ContentHash::isValid() const {
     // SHA-256 produces 32 bytes = 64 hex characters (lowercase)
-    if (value.size() != 64) return false;
+    if (value.size() != 64) {
+      return false;
+    }
     for (char c : value) {
-        if (!isLowercaseHexCharacter(static_cast<unsigned char>(c))) return false;
+        if (!isLowercaseHexCharacter(static_cast<unsigned char>(c))) {
+          return false;
+        }
     }
     return true;
 }
@@ -147,7 +151,7 @@ bool MerkleProof::verify(const std::string& expected_root) const {
         }
 
         // Concatenate hashes in the correct order (left sibling first, then right)
-        std::string concat;
+        std::string concat = {};
         if (component.is_left) {
             concat = component.sibling_hash + current_hash;
         } else {
@@ -307,7 +311,7 @@ std::optional<VerificationReceipt> VerificationReceipt::fromJSON(const json& j) 
 
 VerificationReceipt ReceiptChain::appendReceipt(VerificationReceipt receipt) {
     // Determine parent receipt hash
-    std::string parent_hash;
+    std::string parent_hash = {};
     if (!receipts_.empty()) {
         parent_hash = receipts_.back().receipt_hash;
     }
@@ -332,12 +336,16 @@ std::vector<VerificationReceipt> ReceiptChain::getAllReceipts() const {
 }
 
 std::optional<VerificationReceipt> ReceiptChain::getHeadReceipt() const {
-    if (receipts_.empty()) return std::nullopt;
+    if (receipts_.empty()) {
+      return std::nullopt;
+    }
     return receipts_.back();
 }
 
 std::optional<VerificationReceipt> ReceiptChain::getGenesisReceipt() const {
-    if (receipts_.empty()) return std::nullopt;
+    if (receipts_.empty()) {
+      return std::nullopt;
+    }
     return receipts_.front();
 }
 
@@ -354,7 +362,7 @@ bool ReceiptChain::verifyChainIntegrity() const {
     }
 
     // Verify entire chain linkage
-    std::string expected_previous;
+    std::string expected_previous = {};
     for (size_t i = 0; i < receipts_.size(); ++i) {
         const auto& receipt = receipts_[i];
 
@@ -463,11 +471,21 @@ std::string verificationStateToString(VerificationState state) {
 
 std::optional<VerificationState> stringToVerificationState(
     const std::string& s) {
-    if (s == "UNVERIFIED") return VerificationState::UNVERIFIED;
-    if (s == "VERIFIED") return VerificationState::VERIFIED;
-    if (s == "VERIFIED_FRAGMENTS") return VerificationState::VERIFIED_FRAGMENTS;
-    if (s == "CORRUPT") return VerificationState::CORRUPT;
-    if (s == "STALE") return VerificationState::STALE;
+    if (s == "UNVERIFIED") {
+      return VerificationState::UNVERIFIED;
+    }
+    if (s == "VERIFIED") {
+      return VerificationState::VERIFIED;
+    }
+    if (s == "VERIFIED_FRAGMENTS") {
+      return VerificationState::VERIFIED_FRAGMENTS;
+    }
+    if (s == "CORRUPT") {
+      return VerificationState::CORRUPT;
+    }
+    if (s == "STALE") {
+      return VerificationState::STALE;
+    }
     return std::nullopt;
 }
 
@@ -566,7 +584,7 @@ VerificationResult verifyArtifactIntegrity(
     
     // Step 6: Provenance verification if hook provided
     if (provenance_hook && result.state != VerificationState::CORRUPT) {
-        std::string receipt_lineage_hash;
+        std::string receipt_lineage_hash = {};
         if (receipt_chain.has_value()) {
             const auto head_receipt = receipt_chain->getHeadReceipt();
             if (head_receipt.has_value()) {
@@ -615,7 +633,7 @@ VerificationResult detectReceiptChainTampering(const ReceiptChain& chain) {
     }
     
     // Verify entire chain linkage
-    std::string expected_previous;
+    std::string expected_previous = {};
     for (size_t i = 0; i < all_receipts.size(); ++i) {
         const auto& receipt = all_receipts[i];
         
@@ -861,7 +879,7 @@ std::string computeSHA256(std::string_view data) {
     SHA256_Final(hash, &sha256);
 
     // Convert to hex string (lowercase)
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0')
             << static_cast<unsigned int>(hash[i]);
@@ -871,7 +889,9 @@ std::string computeSHA256(std::string_view data) {
 }
 
 std::string computeSHA256(const char* data) {
-    if (data == nullptr) return std::string();
+    if (data == nullptr) {
+      return std::string();
+    }
     return computeSHA256(std::string_view(data));
 }
 
@@ -889,10 +909,14 @@ std::string computeJSONHash(const json& j) {
 
 bool isValidSHA256Hex(std::string_view hex_str) {
     // SHA-256 produces 32 bytes = 64 hex characters
-    if (hex_str.size() != 64) return false;
+    if (hex_str.size() != 64) {
+      return false;
+    }
 
     for (char c : hex_str) {
-        if (!isLowercaseHexCharacter(static_cast<unsigned char>(c))) return false;
+        if (!isLowercaseHexCharacter(static_cast<unsigned char>(c))) {
+          return false;
+        }
     }
 
     return true;

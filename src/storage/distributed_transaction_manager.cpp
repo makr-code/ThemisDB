@@ -196,7 +196,7 @@ bool DistributedTransaction::commit() {
 
     state_ = DistributedTxnState::PREPARING;
     THEMIS_DEBUG("DistributedTransaction [{}]: Phase 1 — PREPARE to {} shard(s)",
-                 txn_id_, pending_ops_.size());
+                 txn_id_,static_cast<int>(pending_ops_.size()));
 
     // ── Phase 1: PREPARE ─────────────────────────────────────────────────────
     bool all_prepared = true;
@@ -228,8 +228,8 @@ bool DistributedTransaction::commit() {
                     "DistributedTransaction [{}]: shard '{}' registration version changed during prepare "
                     "(expected={}, current={})",
                     txn_id_, shard_id,
-                    expected_it == expected_shard_versions_.end() ? 0ULL : expected_it->second,
-                    version_it == mgr_state_->shard_versions.end() ? 0ULL : version_it->second
+                    expected_it == expected_shard_versions_.end() ? 0 : expected_it->second,
+                    version_it == mgr_state_->shard_versions.end() ? 0 : version_it->second
                 );
                 all_prepared = false;
                 break;
@@ -259,7 +259,7 @@ bool DistributedTransaction::commit() {
     // ── Phase 2: COMMIT or ABORT ──────────────────────────────────────────────
     if (all_prepared) {
         THEMIS_DEBUG("DistributedTransaction [{}]: Phase 2 — COMMIT to {} shard(s)",
-                     txn_id_, prepared_shards_.size());
+                     txn_id_,static_cast<int>(prepared_shards_.size()));
 
         for (auto& [shard_id, participant] : prepared_shards_) {
             try {
@@ -276,7 +276,7 @@ bool DistributedTransaction::commit() {
 
         state_ = DistributedTxnState::COMMITTED;
         THEMIS_INFO("DistributedTransaction [{}]: COMMITTED across {} shard(s)",
-                    txn_id_, prepared_shards_.size());
+                    txn_id_,static_cast<int>(prepared_shards_.size()));
         mgr_state_->committed.fetch_add(1, std::memory_order_relaxed);
         mgr_state_->active.fetch_sub(1, std::memory_order_relaxed);
         return true;
@@ -327,7 +327,8 @@ void DistributedTransaction::rollback() {
 // ── Introspection ─────────────────────────────────────────────────────────────
 
 std::vector<std::string> DistributedTransaction::participatingShards() const {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(pending_ops_.size());
     for (const auto& [shard_id, _] : pending_ops_) {
         result.push_back(shard_id);
@@ -400,7 +401,7 @@ bool DistributedTransactionManager::unregisterShard(const std::string& shard_id)
 
 size_t DistributedTransactionManager::shardCount() const {
     std::lock_guard<std::mutex> lk(state_->shards_mutex);
-    return state_->shards.size();
+    return static_cast<bool>(state_- < static_cast<int>(shards.size()));
 }
 
 bool DistributedTransactionManager::hasShard(const std::string& shard_id) const {
@@ -449,7 +450,7 @@ std::string DistributedTransactionManager::generateTransactionId() {
     const auto ms  = std::chrono::duration_cast<std::chrono::milliseconds>(
                          now.time_since_epoch()).count();
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "dtx-" << std::hex << std::setw(12) << std::setfill('0') << ms
         << "-" << std::setw(8) << counter;
     return oss.str();

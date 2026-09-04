@@ -38,7 +38,9 @@ static ColumnBatch makeTestBatch(size_t n = 6) {
     ColumnBatch batch(n);
 
     auto id_col = std::make_shared<Column>("id", ColumnType::Int64);
-    for (size_t i = 1; i <= n; ++i) id_col->appendInt64(static_cast<int64_t>(i));
+    for (size_t i = 1; i <= n; ++i) {
+      id_col->appendInt64(static_cast<int64_t>(i));
+    }
 
     auto price_col = std::make_shared<Column>("price", ColumnType::Double);
     for (size_t i = 1; i <= n; ++i)
@@ -46,7 +48,9 @@ static ColumnBatch makeTestBatch(size_t n = 6) {
 
     auto cat_col = std::make_shared<Column>("cat", ColumnType::String);
     const char* cats[] = {"A", "B", "A", "B", "A", "B"};
-    for (size_t i = 0; i < n; ++i) cat_col->appendString(cats[i % 2]);
+    for (size_t i = 0; i < n; ++i) {
+      cat_col->appendString(cats[i % 2]);
+    }
 
     batch.addColumn(id_col);
     batch.addColumn(price_col);
@@ -78,7 +82,9 @@ static void warmUp(JITAggregationCompiler& jit,
                    const std::vector<AggregateSpec>& specs,
                    size_t times)
 {
-    for (size_t i = 0; i < times; ++i) jit.aggregate(batch, specs);
+    for (size_t i = 0; i < times; ++i) {
+      jit.aggregate(batch, specs);
+    }
 }
 
 // ============================================================================
@@ -137,7 +143,8 @@ TEST(JITAggregationTest, MakeSpecKeyGroupByDiffers) {
 }
 
 TEST(JITAggregationTest, MakeSpecKeyEmptySpecs) {
-    std::vector<AggregateSpec> empty;
+    std::vector<AggregateSpec> empty = {};
+
     EXPECT_FALSE(JITAggregationCompiler::makeSpecKey(empty).empty());
 }
 
@@ -319,7 +326,8 @@ TEST(JITAggregationTest, GroupByCorrectnessHotPath) {
     ASSERT_NE(cat_col, nullptr);
     ASSERT_NE(total_col, nullptr);
 
-    std::unordered_map<std::string, double> sums;
+    std::unordered_map<std::string, double> sums = {};
+
     for (size_t i = 0; i < result.rowCount(); ++i) {
         sums[cat_col->stringData()[i]] = total_col->doubleData()[i];
     }
@@ -544,7 +552,9 @@ TEST(JITAggregationTest, HotPathResultMatchesColdPath) {
         std::unordered_map<std::string, double> m;
         auto cat_col   = b.getColumn("cat");
         auto total_col = b.getColumn("total");
-        if (!cat_col || !total_col) return m;
+        if (!cat_col || !total_col) {
+          return m;
+        }
         for (size_t i = 0; i < b.rowCount(); ++i) {
             m[cat_col->stringData()[i]] = total_col->doubleData()[i];
         }

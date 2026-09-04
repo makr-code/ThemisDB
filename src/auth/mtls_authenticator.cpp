@@ -232,7 +232,9 @@ MTLSClaims MTLSAuthenticator::authenticate(const std::string &cert_pem) {
     // Step 5: runtime revocation set
     std::string serial_hex = serialToHex(const_cast<ASN1_INTEGER *>(X509_get0_serialNumber(cert.get())));
     if (config_.check_revocation && revoked_serials_.count(serial_hex)) {
-        if (audit_logger_) audit_logger_->logMTLSFailure("certificate_revoked:" + serial_hex);
+        if (audit_logger_) {
+          audit_logger_->logMTLSFailure("certificate_revoked:" + serial_hex);
+        }
         throw AuthException(AuthError(AuthErrorCode::MTLS_CERT_REVOKED, "Certificate has been revoked",
                                       "Certificate serial " + serial_hex + " is in the runtime revocation list"));
     }
@@ -251,7 +253,9 @@ MTLSClaims MTLSAuthenticator::authenticate(const std::string &cert_pem) {
             }
             EXTENDED_KEY_USAGE_free(eku);
             if (!found_client_auth) {
-                if (audit_logger_) audit_logger_->logMTLSFailure("missing_id-kp-clientAuth_EKU");
+                if (audit_logger_) {
+                  audit_logger_->logMTLSFailure("missing_id-kp-clientAuth_EKU");
+                }
                 throw AuthException(AuthError(AuthErrorCode::MTLS_CERT_INVALID,
                                               "Certificate missing required Extended Key Usage",
                                               "Certificate does not have id-kp-clientAuth EKU"));
@@ -304,7 +308,9 @@ MTLSClaims MTLSAuthenticator::authenticate(const std::string &cert_pem) {
     }
 
     spdlog::debug("MTLSAuthenticator: authenticated principal='{}' serial={}", claims.principal, claims.serial_number);
-    if (audit_logger_) audit_logger_->logMTLSSuccess(claims.principal, claims.serial_number);
+    if (audit_logger_) {
+      audit_logger_->logMTLSSuccess(claims.principal, claims.serial_number);
+    }
     return claims;
 }
 
@@ -364,7 +370,7 @@ bool MTLSAuthenticator::isRevoked(const std::string &serial_hex) const {
 
 size_t MTLSAuthenticator::revokedCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return revoked_serials_.size();
+    return static_cast<int>(revoked_serials_.size());
 }
 
 // ============================================================================
@@ -468,7 +474,7 @@ std::string MTLSAuthenticator::computeFingerprint(void *x509_ptr) {
         return {};
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::setw(2) << static_cast<int>(digest[i]);
@@ -478,7 +484,8 @@ std::string MTLSAuthenticator::computeFingerprint(void *x509_ptr) {
 
 std::vector<std::string> MTLSAuthenticator::extractSANs(void *x509_ptr, int san_type) {
     X509 *cert = static_cast<X509 *>(x509_ptr);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     if (!cert) {
         return result;
     }
@@ -506,12 +513,12 @@ std::vector<std::string> MTLSAuthenticator::extractSANs(void *x509_ptr, int san_
             const unsigned char *data = ASN1_STRING_get0_data(gn->d.iPAddress);
             const int len             = ASN1_STRING_length(gn->d.iPAddress);
             if (data && len == 4) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << static_cast<int>(data[0]) << '.' << static_cast<int>(data[1]) << '.' << static_cast<int>(data[2])
                     << '.' << static_cast<int>(data[3]);
                 result.push_back(oss.str());
             } else if (data && len == 16) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << std::hex;
                 for (int b = 0; b < 16; b += 2) {
                     if (b > 0) {

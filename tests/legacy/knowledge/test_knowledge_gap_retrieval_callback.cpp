@@ -107,8 +107,12 @@ TEST_F(KnowledgeGapRetrievalCallbackTest, NewDocumentsMergedWithDeduplication) {
     int count_init1 = 0;
     bool found_new1 = false;
     for (const auto& d : initial) {
-        if (d.id == "init-1") ++count_init1;
-        if (d.id == "new-1")  found_new1 = true;
+        if (d.id == "init-1") {
+          ++count_init1;
+        }
+        if (d.id == "new-1") {
+          found_new1 = true;
+        }
     }
     EXPECT_EQ(count_init1, 1) << "Duplicate document must not be added twice";
     EXPECT_TRUE(found_new1)   << "New document from callback must be present";

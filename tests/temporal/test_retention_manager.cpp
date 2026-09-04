@@ -337,7 +337,9 @@ TEST_F(RetentionManagerTest, StorageBased_OverLimit_DeletesOldestFirst) {
     // the ones that were removed.
     auto after = t.getHistory("k1");
     for (const auto& remaining : after) {
-        if (remaining.isCurrent()) continue;
+        if (remaining.isCurrent()) {
+          continue;
+        }
         // Every remaining non-current version must have a sys_start newer than
         // the oldest entry in 'before' that we expect to have been deleted.
         // before[0] is the oldest historical version; it must be gone.

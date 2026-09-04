@@ -101,7 +101,7 @@ public:
      * Statistics for adaptive routing
      */
     struct IterationStats {
-        uint32_t iteration_number;
+        uint32_t iteration_number = 0;
         uint32_t shards_queried;
         uint32_t results_received;
         uint64_t iteration_time_ms;

@@ -111,7 +111,8 @@ TEST_F(CDCProductionFixesTest, AtomicSequenceGenerationUnderConcurrency) {
     }
     
     // Collect all sequences
-    std::set<uint64_t> all_sequences;
+    std::set<uint64_t> all_sequences = {};
+
     for (const auto& thread_seqs : thread_sequences) {
         for (uint64_t seq : thread_seqs) {
             all_sequences.insert(seq);
@@ -380,7 +381,8 @@ TEST_F(CDCProductionFixesTest, StressTestConcurrentSequenceGeneration) {
     EXPECT_EQ(error_count.load(), 0) << "Errors occurred during stress test";
     
     // Verify all sequences are unique
-    std::set<uint64_t> unique_sequences;
+    std::set<uint64_t> unique_sequences = {};
+
     for (const auto& seqs : all_sequences) {
         for (uint64_t seq : seqs) {
             unique_sequences.insert(seq);

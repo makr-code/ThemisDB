@@ -162,7 +162,7 @@ enforcement:
 )");
     touchFile(yaml_path_);
 
-    std::string err;
+    std::string err = {};
     ASSERT_TRUE(pe.reloadIfChanged(&err)) << err;
 
     // Old classification updated
@@ -254,7 +254,7 @@ enforcement:
     fs::remove(yaml_path_);
 
     // Verify that reloadIfChanged() handles a missing file gracefully without throwing.
-    std::string err;
+    std::string err = {};
     bool result = pe.reloadIfChanged(&err);
     // Either true (mtime unchanged in cache, no reload attempted) or false
     // (stat failed).  The important thing is it does not throw.
@@ -398,7 +398,7 @@ enforcement:
 )");
     touchFile(yaml_path_);
 
-    std::string err;
+    std::string err = {};
     const bool ok = pe.reloadIfChanged(&err);
     ASSERT_TRUE(ok) << err;
 
@@ -460,7 +460,7 @@ enforcement:
 )");
     touchFile(yaml_path_);
 
-    std::string err;
+    std::string err = {};
     const bool ok = pe.reloadIfChanged(&err);
     ASSERT_TRUE(ok) << err;
 

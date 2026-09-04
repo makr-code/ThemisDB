@@ -27,7 +27,7 @@ namespace auth {
  */
 struct HTTPAuthResponse {
     int status_code{0};
-    std::string body;
+    std::string body = {};
     bool success{false};
     std::string error_message;
     

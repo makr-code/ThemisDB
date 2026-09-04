@@ -40,7 +40,9 @@ protected:
     }
 
     void TearDown() override {
-        if (engine_) engine_->close();
+        if (engine_) {
+          engine_->close();
+        }
         fs::remove_all(db_path_);
     }
 
@@ -52,7 +54,7 @@ protected:
         }
     }
 
-    std::string                    db_path_;
+    std::string                    db_path_ = {};
     std::shared_ptr<StorageEngine> engine_;
 };
 
@@ -124,7 +126,9 @@ TEST_F(StorageEngineProdTest, ScanRange_InOrder) {
     ASSERT_EQ(keys.size(), 5u);
     for (size_t i = 0; i < keys.size(); ++i) {
         // Keys must arrive in sorted (ascending) order.
-        if (i > 0) EXPECT_GT(keys[i], keys[i - 1]);
+        if (i > 0) {
+          EXPECT_GT(keys[i], keys[i - 1]);
+        }
     }
 }
 

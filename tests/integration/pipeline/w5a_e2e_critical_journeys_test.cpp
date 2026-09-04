@@ -114,7 +114,7 @@ public:
 
     struct RagResult {
         bool ok{false};
-        std::string answer;
+        std::string answer = {};
         float score{0.0F};
         std::string error;
     };

@@ -54,10 +54,12 @@ TEST(UpdatesPerformanceBatch4, UP_PER_01_StringConcatPerformance) {
     // Bad pattern: string += in loop (O(n²))
     auto bad_concat = [](size_t n) {
         auto start = std::chrono::high_resolution_clock::now();
-        std::string result;
+        std::string result = {};
         for (size_t i = 0; i < n; ++i) {
             result += "col_" + std::to_string(i);
-            if (i + 1 < n) result += ", ";
+            if (i + 1 < n) {
+              result += ", ";
+            }
         }
         auto end = std::chrono::high_resolution_clock::now();
         return std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -66,10 +68,12 @@ TEST(UpdatesPerformanceBatch4, UP_PER_01_StringConcatPerformance) {
     // Good pattern: ostringstream (O(n))
     auto good_concat = [](size_t n) {
         auto start = std::chrono::high_resolution_clock::now();
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (size_t i = 0; i < n; ++i) {
             oss << "col_" << i;
-            if (i + 1 < n) oss << ", ";
+            if (i + 1 < n) {
+              oss << ", ";
+            }
         }
         std::string result = oss.str();
         auto end = std::chrono::high_resolution_clock::now();
@@ -94,10 +98,12 @@ TEST(UpdatesPerformanceBatch4, UP_PER_02_WebhookStringBuilding) {
     std::vector<std::string> files = {"file1.txt", "file2.txt", "file3.txt"};
     
     // Use ostringstream pattern
-    std::ostringstream files_stream;
+    std::ostringstream files_stream = {};
     bool first = true;
     for (const auto& f : files) {
-        if (!first) files_stream << "\n";
+        if (!first) {
+          files_stream << "\n";
+        }
         files_stream << f;
         first = false;
     }
@@ -123,9 +129,11 @@ TEST(UpdatesPerformanceBatch4, UP_PER_03_LargeStringConcat) {
     }
     
     auto start = std::chrono::high_resolution_clock::now();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (size_t i = 0; i < items.size(); ++i) {
-        if (i > 0) oss << ",";
+        if (i > 0) {
+          oss << ",";
+        }
         oss << items[i];
     }
     std::string result = oss.str();
@@ -149,7 +157,7 @@ TEST(UpdatesPerformanceBatch4, UP_PER_04_MessageBuilding) {
     size_t num_columns = 42;
     
     // Use efficient string building
-    std::ostringstream msg_stream;
+    std::ostringstream msg_stream = {};
     msg_stream << "in-place additive migration: added " << num_columns << " column(s)";
     std::string message = msg_stream.str();
     
@@ -164,9 +172,11 @@ TEST(UpdatesPerformanceBatch4, UP_PER_04_MessageBuilding) {
 TEST(UpdatesPerformanceBatch4, UP_PER_05_ColumnListBuilding) {
     std::vector<std::string> added_columns = {"col_a", "col_b", "col_c", "col_d"};
     
-    std::ostringstream cols_stream;
+    std::ostringstream cols_stream = {};
     for (size_t i = 0; i < added_columns.size(); ++i) {
-        if (i > 0) cols_stream << ", ";
+        if (i > 0) {
+          cols_stream << ", ";
+        }
         cols_stream << added_columns[i];
     }
     std::string cols_str = cols_stream.str();
@@ -180,13 +190,14 @@ TEST(UpdatesPerformanceBatch4, UP_PER_05_ColumnListBuilding) {
  * (it should be the same or faster for reasonable data sizes)
  */
 TEST(UpdatesPerformanceBatch4, UP_PER_06_NoRegression) {
-    std::vector<std::string> data;
+    std::vector<std::string> data = {};
+
     for (int i = 0; i < 500; ++i) {
         data.push_back("data_" + std::to_string(i));
     }
     
     auto start = std::chrono::high_resolution_clock::now();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (const auto& item : data) {
         oss << item << "|";
     }
@@ -240,7 +251,8 @@ TEST(UpdatesPerformanceBatch4, UP_PER_08_UnorderedSetMembership) {
  * Test UP-PER-09: Property map performance for schema comparison
  */
 TEST(UpdatesPerformanceBatch4, UP_PER_09_SchemaPropMapPerf) {
-    std::unordered_map<std::string, const char*> from_props;
+    std::unordered_map<std::string, const char*> from_props = {};
+
     for (int i = 0; i < 100; ++i) {
         from_props["prop_" + std::to_string(i)] = "type";
     }
@@ -333,8 +345,8 @@ TEST(UpdatesPerformanceBatch4, UP_PER_13_CurlTimeoutSettings) {
  * Verifies cv.wait_for pattern with timeout
  */
 TEST(UpdatesPerformanceBatch4, UP_PER_14_CondVarTimeout) {
-    std::condition_variable cv;
-    std::mutex mutex;
+    std::condition_variable cv = {};
+    std::mutex mutex = {};
     bool flag = false;
     
     auto start = std::chrono::high_resolution_clock::now();
@@ -419,7 +431,7 @@ TEST(UpdatesPerformanceBatch4, UP_PER_17_StageCompleteCallbackSafety) {
  * Tests rollback callback safety pattern
  */
 TEST(UpdatesPerformanceBatch4, UP_PER_18_RollbackCallbackSafety) {
-    std::string rollback_reason;
+    std::string rollback_reason = {};
     
     auto rollback_callback = [&](const std::string& reason) {
         rollback_reason = reason;
@@ -489,7 +501,7 @@ TEST(UpdatesPerformanceBatch4, UP_PER_20_GenericCatchRationale) {
  * Verifies exceptions can be captured and logged
  */
 TEST(UpdatesPerformanceBatch4, UP_PER_21_ExceptionLoggingPattern) {
-    std::string logged_error;
+    std::string logged_error = {};
     
     try {
         throw std::runtime_error("test error message");
@@ -513,7 +525,7 @@ TEST(UpdatesPerformanceBatch4, UP_PER_21_ExceptionLoggingPattern) {
  * Verifies structured output pattern
  */
 TEST(UpdatesPerformanceBatch4, UP_PER_22_StructuredLogging) {
-    std::ostringstream log_stream;
+    std::ostringstream log_stream = {};
     
     // Instead of printf("version: %d.%d.%d\n", maj, min, pat);
     log_stream << "version: " << 1 << "." << 4 << "." << 0;
@@ -542,7 +554,7 @@ TEST(UpdatesPerformanceBatch4, UP_PER_23_VersionFormatting) {
  * Test UP-PER-24: Logging with multiple fields
  */
 TEST(UpdatesPerformanceBatch4, UP_PER_24_MultiFieldLogging) {
-    std::ostringstream log_entry;
+    std::ostringstream log_entry = {};
     std::string timestamp = "2026-08-14T18:21:46Z";
     std::string event = "migration_complete";
     int count = 42;
@@ -562,15 +574,17 @@ TEST(UpdatesPerformanceBatch4, UP_PER_25_IntegrationNoRegression) {
     auto start = std::chrono::high_resolution_clock::now();
     
     // Simulate typical updates module operation
-    std::unordered_map<std::string, std::string> props;
+    std::unordered_map<std::string, std::string> props = {};
+
     for (int i = 0; i < 100; ++i) {
         props["prop_" + std::to_string(i)] = "value_" + std::to_string(i);
     }
     
-    std::ostringstream message;
+    std::ostringstream message = {};
     message << "Processing " << props.size() << " properties";
     
-    std::vector<std::string> results;
+    std::vector<std::string> results = {};
+
     for (const auto& [k, v] : props) {
         results.push_back(k);
     }

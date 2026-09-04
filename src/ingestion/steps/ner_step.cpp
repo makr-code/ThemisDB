@@ -34,18 +34,28 @@ namespace {
 
 /// Map entity-type string (from config) to EntityType enum.
 EntityType entityTypeFromString(const std::string& s) {
-    if (s == "PER" || s == "PERSON")   return EntityType::PERSON;
-    if (s == "ORG")                    return EntityType::ORGANIZATION;
-    if (s == "LOC" || s == "LOCATION") return EntityType::LOCATION;
-    if (s == "DATE")                   return EntityType::DATE;
-    if (s == "LAW")                    return EntityType::LEGAL_NORM_REFERENCE;
+    if (s == "PER" || s == "PERSON") {
+      return EntityType::PERSON;
+    }
+    if (s == "ORG") {
+      return EntityType::ORGANIZATION;
+    }
+    if (s == "LOC" || s == "LOCATION") {
+      return EntityType::LOCATION;
+    }
+    if (s == "DATE") {
+      return EntityType::DATE;
+    }
+    if (s == "LAW") {
+      return EntityType::LEGAL_NORM_REFERENCE;
+    }
     return EntityType::UNKNOWN;
 }
 
 /// Build a German-locale set of regex-based NER rules.
 /// Returns matches as {text, entity_type_string} pairs.
 struct RegexMatch {
-    std::string text;
+    std::string text = {};
     std::string etype;
     std::size_t offset;
 };
@@ -54,7 +64,7 @@ std::vector<RegexMatch> runGermanRegexNer(const std::string& text,
                                           const std::vector<std::string>& requested_types) {
     std::vector<RegexMatch> results;
 
-    auto wants = [&](const std::string& t) {
+    auto wants = [&]([[maybe_unused]] const std::string& t) {
         return requested_types.empty()
                || std::find(requested_types.begin(), requested_types.end(), t)
                   != requested_types.end();
@@ -105,13 +115,17 @@ std::vector<RegexMatch> parseNerJson(const std::string& json_str) {
     std::vector<RegexMatch> out;
     try {
         auto arr = json::parse(json_str);
-        if (!arr.is_array()) return out;
+        if (!arr.is_array()) {
+          return out;
+        }
         for (const auto& item : arr) {
             RegexMatch m;
             m.text   = item.value("text",   "");
             m.etype  = item.value("type",   "UNKNOWN");
             m.offset = static_cast<std::size_t>(item.value("offset", 0));
-            if (!m.text.empty()) out.push_back(std::move(m));
+            if (!m.text.empty()) {
+              out.push_back(std::move(m));
+            }
         }
     } catch (...) {}
     return out;
@@ -121,9 +135,13 @@ std::vector<RegexMatch> parseNerJson(const std::string& json_str) {
 std::string buildNerPrompt(const std::string& text,
                             const std::string& language,
                             const std::vector<std::string>& types) {
-    std::string type_list;
-    for (const auto& t : types) type_list += t + ", ";
-    if (type_list.size() > 2) type_list.resize(type_list.size() - 2);
+    std::string type_list = {};
+    for (const auto& t : types) {
+      type_list += t + ", ";
+    }
+    if (static_cast<int>(type_list.size()) > 2) {
+      type_list.resize(static_cast<int>(type_list.size()) - 2);
+    }
 
     return "Extract named entities from the following " + language
            + " text. Return a JSON array with objects containing "
@@ -166,7 +184,7 @@ public:
     const char* getName()    const override { return "builtin.ner_de"; }
     const char* getVersion() const override { return "0.0.1"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(const char*) override { return true; }
+    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 
@@ -177,13 +195,14 @@ public:
         backend_ = std::move(b);
     }
 
-    Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {
+    Result<void> execute(ExtractionContext& [[maybe_unused]] ctx, cons[[maybe_unused]] t StepConfig& [[maybe_unused]] cfg) override {
         if (!ctx.hasText() && !ctx.hasChunks()) return {};
 
         const json& config_json = cfg.config.is_object() ? cfg.config : json::object();
 
         // Config
-        std::vector<std::string> requested_types;
+        std::vector<std::string> requested_types = {};
+
         if (config_json.contains("entity_types") && config_json["entity_types"].is_array()) {
             for (const auto& t : config_json["entity_types"])
                 requested_types.push_back(t.get<std::string>());
@@ -231,7 +250,7 @@ public:
         if (ctx.text_language.empty() && !lang.empty())
             ctx.text_language = lang;
 
-        const std::size_t added = ctx.entities.size() - prior_count;
+        const std::size_t added = static_cast<int>(ctx.entities.size()) - prior_count;
         if (added == 0) {
             ctx.warnings.push_back(
                 "builtin.ner_de: no entities extracted from text");
@@ -248,7 +267,9 @@ private:
                       const std::string& section_ref,
                       double confidence,
                       const std::string& source_tag) const {
-        if (text.empty()) return;
+        if (text.empty()) {
+          return;
+        }
 
         BaseEntity ent;
         ent.entity_type    = entityTypeFromString(etype_str);

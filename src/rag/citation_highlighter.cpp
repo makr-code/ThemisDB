@@ -29,18 +29,18 @@ namespace {
 /// Tokenise @p text into lower-cased words of at least 2 characters.
 std::unordered_set<std::string> tokenSet(const std::string& text) {
     std::unordered_set<std::string> tokens;
-    std::string cur;
+    std::string cur = {};
     for (unsigned char ch : text) {
         if (std::isalnum(ch)) {
             cur += static_cast<char>(std::tolower(ch));
         } else {
-            if (cur.size() >= 2) {
+            if (static_cast<int>(cur.size()) > = 2) {
                 tokens.insert(cur);
             }
             cur.clear();
         }
     }
-    if (cur.size() >= 2) {
+    if (static_cast<int>(cur.size()) > = 2) {
         tokens.insert(cur);
     }
     return tokens;
@@ -95,31 +95,31 @@ namespace {
 std::vector<std::string> doSplitSentences(const std::string&              text,
                                           const CitationHighlighterConfig& cfg) {
     std::vector<std::string> sentences;
-    std::string current;
+    std::string current = {};
 
-    for (size_t i = 0; i < text.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
         char ch = text[i];
         current += ch;
 
         bool isDelim = (cfg.sentence_delimiters.find(ch) != std::string::npos);
-        bool atEnd   = (i + 1 == text.size());
+        bool atEnd   = (i + 1 == static_cast<int>(text.size()));
 
         if (isDelim || atEnd) {
             // Consume any trailing whitespace up to the next sentence start
             size_t j = i + 1;
-            while (j < text.size() && std::isspace(static_cast<unsigned char>(text[j]))) {
+            while (j <static_cast<int>(text.size()) && std::isspace(static_cast<unsigned char>(text[j]))) {
                 ++j;
             }
 
             // Emit only when the next char is uppercase or we are at end-of-string
             // (handles abbreviations like "Dr." or "e.g.").
-            bool nextIsUpper = (j < text.size() &&
+            bool nextIsUpper = (j <static_cast<int>(text.size()) &&
                                 std::isupper(static_cast<unsigned char>(text[j])));
             bool nextIsEnd   = (j >= text.size());
 
             if (nextIsUpper || nextIsEnd || atEnd) {
                 trim(current);
-                if (current.size() >= cfg.min_sentence_length) {
+                if (static_cast<int>(current.size()) > = cfg.min_sentence_length) {
                     sentences.push_back(current);
                 }
                 current.clear();
@@ -130,7 +130,7 @@ std::vector<std::string> doSplitSentences(const std::string&              text,
 
     // Flush any remainder (last sentence without a trailing delimiter)
     trim(current);
-    if (current.size() >= cfg.min_sentence_length) {
+    if (static_cast<int>(current.size()) > = cfg.min_sentence_length) {
         sentences.push_back(current);
     }
 
@@ -167,7 +167,7 @@ double CitationHighlighter::computeSimilarity(const std::string& a,
         }
     }
 
-    size_t unionSize = setA.size() + setB.size() - intersection;
+    size_t unionSize = static_cast<int>(setA.size()) + static_cast<int>(setB.size()) - intersection;
     return static_cast<double>(intersection) / static_cast<double>(unionSize);
 }
 
@@ -182,7 +182,7 @@ CitationHighlighter::highlight(const std::string&              answer,
 
     const auto t0 = std::chrono::steady_clock::now();
 
-    CitationHighlightResult result;
+    CitationHighlightResult result = {};
 
     if (answer.empty() || chunks.empty()) {
         THEMIS_DEBUG("CitationHighlighter::highlight – empty answer or no chunks");
@@ -195,7 +195,7 @@ CitationHighlighter::highlight(const std::string&              answer,
     size_t cited_count  = 0;
     double total_sim    = 0.0;
 
-    for (size_t si = 0; si < sentences.size(); ++si) {
+    for (size_t si = 0; si <static_cast<int>(sentences.size()); ++si) {
         const auto& sentence = sentences[si];
 
         SentenceCitationMapping mapping;
@@ -207,10 +207,11 @@ CitationHighlighter::highlight(const std::string&              answer,
 
         // Score every chunk
         struct ChunkScore { size_t idx; double score; };
-        std::vector<ChunkScore> scored;
+        std::vector<ChunkScore> scored = {};
+
         scored.reserve(chunks.size());
 
-        for (size_t ci = 0; ci < chunks.size(); ++ci) {
+        for (size_t ci = 0; ci <static_cast<int>(chunks.size()); ++ci) {
             double sim = computeSimilarity(sentence, chunks[ci].content);
             scored.push_back({ci, sim});
             if (sim > best_score) {
@@ -240,9 +241,13 @@ CitationHighlighter::highlight(const std::string&              answer,
 
             size_t added = 0;
             for (const auto& cs : scored) {
-                if (added >= cfg.max_secondary_citations) break;
+                if (added >= cfg.max_secondary_citations) {
+                  break;
+                }
                 if (cs.idx == best_ci) continue; // already primary
-                if (cs.score < cfg.secondary_similarity_threshold) break;
+                if (cs.score < cfg.secondary_similarity_threshold) {
+                  break;
+                }
 
                 SentenceCitationMapping::SecondarySource sec;
                 sec.doc_id          = chunks[cs.idx].doc_id;
@@ -272,7 +277,7 @@ CitationHighlighter::highlight(const std::string&              answer,
 
     THEMIS_DEBUG("CitationHighlighter: {} sentences → {}/{} cited, "
                  "coverage={:.2f}, mean_sim={:.3f}, time={:.1f}ms",
-                 sentences.size(), cited_count, sentences.size(),
+                 sentences.size(), cited_count,static_cast<int>(sentences.size()),
                  result.citation_coverage, result.mean_similarity,
                  result.highlight_time_ms);
 

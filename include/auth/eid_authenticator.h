@@ -147,7 +147,9 @@ struct EIDIdentity {
      */
     std::optional<std::string> getAttribute(EIDAttributeType type) const {
         for (const auto& a : attributes) {
-            if (a.type == type) return a.value;
+            if (a.type == type) {
+              return a.value;
+            }
         }
         return std::nullopt;
     }
@@ -158,9 +160,15 @@ struct EIDIdentity {
     std::string fullName() const {
         auto given  = getAttribute(EIDAttributeType::GIVEN_NAMES);
         auto family = getAttribute(EIDAttributeType::FAMILY_NAMES);
-        if (!given && !family) return "";
-        if (!given)  return *family;
-        if (!family) return *given;
+        if (!given && !family) {
+          return "";
+        }
+        if (!given) {
+          return *family;
+        }
+        if (!family) {
+          return *given;
+        }
         return *given + " " + *family;
     }
 };
@@ -430,9 +438,15 @@ public:
     // ── IEIDAuthenticator ─────────────────────────────────────────────────────
 
     bool initialize(const EIDAuthConfig& config) override {
-        if (!config.enabled) return false;
-        if (config.eid_server_url.empty()) return false;
-        if (config.terminal_certificate.empty()) return false;
+        if (!config.enabled) {
+          return false;
+        }
+        if (config.eid_server_url.empty()) {
+          return false;
+        }
+        if (config.terminal_certificate.empty()) {
+          return false;
+        }
         std::unique_lock<std::mutex> lk(mutex_);
         config_      = config;
         initialized_ = true;

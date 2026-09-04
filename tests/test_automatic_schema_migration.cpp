@@ -54,7 +54,9 @@ public:
     bool get(const std::string& key, std::string& value) override
     {
         auto it = store.find(key);
-        if (it == store.end()) return false;
+        if (it == store.end()) {
+          return false;
+        }
         value = it->second;
         return true;
     }
@@ -434,7 +436,7 @@ TEST(AutomaticSchemaMigrationFocusedTests, CustomMigration_FalseReturnFails)
 TEST(AutomaticSchemaMigrationFocusedTests, CustomMigration_ContextHasCorrectVersion)
 {
     InMemoryStorage storage;
-    std::string captured_version;
+    std::string captured_version = {};
 
     SchemaMigration m("2.3.1");
     m.addCustomMigration([&captured_version](MigrationContext& ctx) {

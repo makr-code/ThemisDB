@@ -53,20 +53,25 @@ std::string PromptContextValue::toString() const {
         case SlotType::STRING:
             return str_val;
         case SlotType::LIST: {
-            std::ostringstream oss;
-            for (std::size_t i = 0; i < list_val.size(); ++i) {
-                if (i > 0) oss << '\n';
+            std::ostringstream oss = {};
+            for (std::size_t i = 0; i <static_cast<int>(list_val.size()); ++i) {
+                if (i > 0) {
+                  oss << '\n';
+                }
                 oss << list_val[i];
             }
             return oss.str();
         }
         case SlotType::DOCUMENT_CHUNK: {
-            std::ostringstream oss;
-            for (std::size_t i = 0; i < chunks.size(); ++i) {
-                if (i > 0) oss << '\n';
+            std::ostringstream oss = {};
+            for (std::size_t i = 0; i <static_cast<int>(chunks.size()); ++i) {
+                if (i > 0) {
+                  oss << '\n';
+                }
                 oss << chunks[i].first;
             }
             return oss.str();
+        default: break;
         }
     }
     return {}; // unreachable
@@ -80,6 +85,7 @@ bool PromptContextValue::asBool() const {
             return !list_val.empty();
         case SlotType::DOCUMENT_CHUNK:
             return !chunks.empty();
+        default: break;
     }
     return false;
 }
@@ -124,8 +130,8 @@ struct Token {
 static std::vector<Token> lex(const std::string& src) {
     std::vector<Token> tokens;
     std::size_t        pos = 0;
-    const std::size_t  len = src.size();
-    std::string        text_buf;
+    const std::size_t len = src.size();
+    std::string        text_buf = {};
 
     auto flush_text = [&]() {
         if (!text_buf.empty()) {
@@ -229,7 +235,7 @@ static std::vector<detail::ASTNodePtr> parse(
 {
     std::vector<detail::ASTNodePtr> nodes;
 
-    while (idx < tokens.size()) {
+    while (static_cast<size_t>(idx) <static_cast<int>(tokens.size())) {
         const Token& tok = tokens[idx];
 
         switch (tok.kind) {
@@ -268,7 +274,7 @@ static std::vector<detail::ASTNodePtr> parse(
                 node->children = parse(tokens, idx, slot_index,
                                        /*inside_if=*/true, inside_for);
                 // If we stopped at ELSE, parse the else-branch
-                if (idx < tokens.size() && tokens[idx].kind == TokenKind::ELSE) {
+                if (idx <static_cast<int>(tokens.size()) && tokens[idx].kind == TokenKind::ELSE) {
                     ++idx; // consume ELSE
                     node->else_children = parse(tokens, idx, slot_index,
                                                 /*inside_if=*/true, inside_for);
@@ -321,6 +327,7 @@ static std::vector<detail::ASTNodePtr> parse(
                         "Unexpected {% endfor %} outside {% for %}");
                 }
                 return nodes;
+            default: break;
         }
     }
 
@@ -407,6 +414,7 @@ static void renderNodes(
                                 val.str_val, out);
                 }
                 break;
+            default: break;
             }
         }
     }
@@ -430,7 +438,9 @@ static void validateNodes(
 
                 case detail::ASTNode::Kind::SLOT: {
                     const std::string& name = node->text;
-                    if (!item_var.empty() && name == item_var) break;
+                    if (!item_var.empty() && name == item_var) {
+                      break;
+                    }
                     if (node->required && ctx.find(name) == ctx.end()) {
                         errors.push_back("Missing required slot: " + name);
                     }
@@ -449,6 +459,7 @@ static void validateNodes(
                     // Validate body with a synthetic item_var
                     validateNodes(node->children, ctx, node->name, errors);
                     break;
+                default: break;
                 }
             }
         } catch (...) {
@@ -473,7 +484,7 @@ const std::vector<SlotDefinition>& CompiledPromptTemplate::slots() const noexcep
 }
 
 std::string CompiledPromptTemplate::render(const PromptContext& ctx) const {
-    std::ostringstream out;
+    std::ostringstream out = {};
     renderNodes(ast_, ctx, /*item_var=*/"", /*item_val=*/"", out);
     return out.str();
 }
@@ -505,7 +516,8 @@ CompiledPromptTemplate PromptTemplateCompiler::compile(
     const std::vector<SlotDefinition>& declared_slots) const
 {
     // Build slot index from declarations
-    std::unordered_map<std::string, SlotDefinition> slot_index;
+    std::unordered_map<std::string, SlotDefinition> slot_index = {};
+
     for (const auto& sd : declared_slots) {
         slot_index[sd.name] = sd;
     }
@@ -518,7 +530,7 @@ CompiledPromptTemplate PromptTemplateCompiler::compile(
     auto ast = parse(tokens, idx,  slot_index,
                      /*inside_if=*/false, /*inside_for=*/false);
 
-    if (idx != tokens.size()) {
+    if (idx != static_cast<int>(tokens.size())) {
         throw PromptTemplateCompileError(
             "Unexpected token '" + tokens[idx].value +
             "' at index " + std::to_string(idx));
@@ -527,7 +539,7 @@ CompiledPromptTemplate PromptTemplateCompiler::compile(
     // Collect all slot names referenced in SLOT nodes (implicit declarations)
     // so that undeclared slots get STRING defaults.
     std::function<void(const std::vector<detail::ASTNodePtr>&)> collect_slots;
-    collect_slots = [&](const std::vector<detail::ASTNodePtr>& nodes) {
+    collect_slots = [&]([[maybe_unused]] const std::vector<detail::ASTNodePtr>& nodes) {
         for (const auto& n : nodes) {
             if (n->kind == detail::ASTNode::Kind::SLOT) {
                 if (slot_index.find(n->text) == slot_index.end()) {
@@ -548,7 +560,7 @@ CompiledPromptTemplate PromptTemplateCompiler::compile(
     std::vector<SlotDefinition> final_slots = declared_slots;
     for (const auto& [name, sd] : slot_index) {
         if (std::find_if(final_slots.begin(), final_slots.end(),
-                [&](const SlotDefinition& s) { return s.name == name; })
+                [&]([[maybe_unused]] const SlotDefinition& s) { return s.name == name; })
             == final_slots.end()) {
             final_slots.push_back(sd);
         }

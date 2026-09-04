@@ -483,7 +483,8 @@ TEST_F(ChangefeedCoreTest, ListEventsEmptyEventTypesReturnsAll) {
 }
 
 TEST_F(ChangefeedCoreTest, ListEventsWithFromSequenceAndLimit) {
-    std::vector<uint64_t> seqs;
+    std::vector<uint64_t> seqs = {};
+
     for (int i = 0; i < 8; i++) {
         auto ev = feed_->recordEvent(makePut("ev_" + std::to_string(i)));
         seqs.push_back(ev.sequence);
@@ -502,7 +503,8 @@ TEST_F(ChangefeedCoreTest, ListEventsWithFromSequenceAndLimit) {
 // ListOptions::to_sequence (inclusive upper bound) must stop iteration before
 // events beyond the requested ceiling are returned.
 TEST_F(ChangefeedCoreTest, ListEventsWithToSequenceBound) {
-    std::vector<uint64_t> seqs;
+    std::vector<uint64_t> seqs = {};
+
     for (int i = 0; i < 6; i++) {
         auto ev = feed_->recordEvent(makePut("bound_ev_" + std::to_string(i)));
         seqs.push_back(ev.sequence);
@@ -523,7 +525,8 @@ TEST_F(ChangefeedCoreTest, ListEventsWithToSequenceBound) {
 // to_sequence == 0 means "no upper bound" — all events from from_sequence onward
 // should be returned (up to the limit).
 TEST_F(ChangefeedCoreTest, ListEventsToSequenceZeroMeansUnbounded) {
-    std::vector<uint64_t> seqs;
+    std::vector<uint64_t> seqs = {};
+
     for (int i = 0; i < 4; i++) {
         auto ev = feed_->recordEvent(makePut("unb_ev_" + std::to_string(i)));
         seqs.push_back(ev.sequence);
@@ -681,7 +684,7 @@ TEST_F(ChangefeedCoreTest, ConcurrentSubscribeAndRecordIsThreadSafe) {
 
     std::vector<std::thread> threads;
     std::vector<Changefeed::SubscriptionHandle> handles;
-    std::mutex handles_mutex;
+    std::mutex handles_mutex = {};
 
     // Spawn threads that subscribe and record simultaneously
     for (int t = 0; t < num_threads; t++) {

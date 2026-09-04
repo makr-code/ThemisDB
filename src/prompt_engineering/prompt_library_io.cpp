@@ -35,7 +35,7 @@ namespace prompt_engineering {
 namespace {
 
 std::string toHex16(std::uint64_t v) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setw(16) << std::setfill('0') << v;
     return ss.str();
 }
@@ -151,14 +151,15 @@ PromptLibraryBundle PromptLibraryBundle::fromJson(const nlohmann::json& j) {
 std::string PromptLibraryIO::computeChecksum(
         const PromptLibraryBundle& bundle) {
     // Collect canonical JSON strings, sort by id for determinism.
-    std::vector<std::string> parts;
+    std::vector<std::string> parts = {};
+
     parts.reserve(bundle.templates.size());
     for (const auto& t : bundle.templates) {
         parts.push_back(t.toJson().dump());
     }
     std::sort(parts.begin(), parts.end());
 
-    std::string concat;
+    std::string concat = {};
     for (const auto& p : parts) { concat += p; }
 
     return toHex16(themis::hash::fnv1a64(concat));
@@ -331,7 +332,8 @@ ImportResult PromptLibraryIO::importFromFile(const std::string&   path,
             (std::istreambuf_iterator<char>(ifs)),
             std::istreambuf_iterator<char>());
 
-        std::optional<PromptLibraryBundle> opt;
+        std::optional<PromptLibraryBundle> opt = {};
+
         if (isYamlPath(path)) {
             opt = importFromYaml(content);
         } else {

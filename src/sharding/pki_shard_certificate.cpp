@@ -37,14 +37,16 @@ namespace {
             return std::nullopt;
         }
         
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << file.rdbuf();
         return ss.str();
     }
     
     // Helper: Convert ASN1_TIME to ISO 8601 string
     std::string asn1TimeToString(const ASN1_TIME* time) {
-        if (!time) return "";
+        if (!time) {
+          return "";
+        }
         
         auto bio = themis::utils::BIOPtr(BIO_new(BIO_s_mem()));
         ASN1_TIME_print(bio.get(), time);
@@ -82,9 +84,9 @@ namespace {
 
     std::optional<time_t> parseAsn1PrintedTime(const std::string& value) {
         std::istringstream input(value);
-        std::string month;
-        std::string time_of_day;
-        std::string timezone;
+        std::string month = {};
+        std::string time_of_day = {};
+        std::string timezone = {};
         int day = 0;
         int year = 0;
 
@@ -308,7 +310,9 @@ bool PKIShardCertificate::isRevoked(const std::string& serial_number, const std:
             }
         }
         
-        if (found) break;
+        if (found) {
+          break;
+        }
     }
     
     return found;
@@ -362,7 +366,9 @@ bool PKIShardCertificate::parseCustomExtensions(void* x509_cert_ptr, ShardCertif
         std::string shard_name = info.subject_cn.substr(0, dot_pos);
         // Replace dash with underscore
         for (char& c : shard_name) {
-            if (c == '-') c = '_';
+            if (c == '-') {
+              c = '_';
+            }
         }
         info.shard_id = shard_name;
     }

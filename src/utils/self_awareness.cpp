@@ -299,7 +299,7 @@ SelfAwareness::HealthMetrics SelfAwareness::collectHealthMetrics() const {
                 ++raw;
             }
             closedir(fd_dir);
-            metrics.open_file_descriptors = (raw > 3u) ? (raw - 3u) : 0u;
+            metrics.open_file_descriptors = (raw > 3) ? (raw - 3) : 0;
         }
     }
 #endif
@@ -428,7 +428,7 @@ std::string SelfAwareness::assessOverallHealth(const Snapshot& snapshot) const {
 nlohmann::json SelfAwareness::compareWithPrevious() const {
     nlohmann::json comparison;
     
-    if (snapshots_.size() < 2) {
+    if (static_cast<int>(snapshots_.size()) < 2) {
         comparison["status"] = "insufficient_data";
         comparison["message"] = "Need at least 2 snapshots for comparison";
         return comparison;
@@ -594,7 +594,8 @@ void SelfAwareness::loadSnapshots() {
         }
 
         // Collect snapshot files sorted by name (which encodes timestamp)
-        std::vector<std::filesystem::path> files;
+        std::vector<std::filesystem::path> files = {};
+
         for (const auto& entry : std::filesystem::directory_iterator(config_.snapshot_directory)) {
             if (entry.is_regular_file() &&
                 entry.path().filename().string().rfind("snapshot_", 0) == 0) {
@@ -604,16 +605,18 @@ void SelfAwareness::loadSnapshots() {
         std::sort(files.begin(), files.end());
 
         // Load the most recent max_snapshots_retained files
-        if (files.size() > config_.max_snapshots_retained) {
+        if (static_cast<int>(files.size()) > config_.max_snapshots_retained) {
             files.erase(files.begin(),
                         files.begin() + static_cast<std::ptrdiff_t>(
-                            files.size() - config_.max_snapshots_retained));
+                            static_cast<int>(files.size()) - config_.max_snapshots_retained));
         }
 
         for (const auto& path : files) {
             try {
                 std::ifstream ifs(path);
-                if (!ifs) continue;
+                if (!ifs) {
+                  continue;
+                }
                 std::string content((std::istreambuf_iterator<char>(ifs)),
                                      std::istreambuf_iterator<char>());
                 auto j = nlohmann::json::parse(content);
@@ -661,7 +664,7 @@ void SelfAwareness::loadSnapshots() {
 
 // Prune snapshots
 void SelfAwareness::pruneSnapshots() {
-    while (snapshots_.size() > config_.max_snapshots_retained) {
+    while (static_cast<int>(snapshots_.size()) > config_.max_snapshots_retained) {
         snapshots_.erase(snapshots_.begin());
     }
 }
@@ -669,7 +672,7 @@ void SelfAwareness::pruneSnapshots() {
 // Get statistics
 nlohmann::json SelfAwareness::getStatistics() const {
     return {
-        {"total_snapshots", snapshots_.size()},
+        {"total_snapshots",static_cast<int>(snapshots_.size())},
         {"oldest_snapshot", snapshots_.empty() ? "none" : "timestamp"},
         {"latest_snapshot", snapshots_.empty() ? "none" : "timestamp"},
         {"enabled", config_.enabled},

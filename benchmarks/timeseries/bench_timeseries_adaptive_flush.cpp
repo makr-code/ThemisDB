@@ -56,7 +56,9 @@ public:
         auto ns = std::chrono::high_resolution_clock::now().time_since_epoch().count();
         db_path_ = "/tmp/bench_adaptive_flush_" + std::to_string(ns);
 
-        if (fs::exists(db_path_)) fs::remove_all(db_path_);
+        if (fs::exists(db_path_)) {
+          fs::remove_all(db_path_);
+        }
 
         RocksDBWrapper::Config db_cfg;
         db_cfg.db_path              = db_path_;
@@ -93,14 +95,22 @@ public:
     }
 
     void TearDown(const ::benchmark::State& state) override {
-        if (state.thread_index() != 0) return;
-        if (buffer_) buffer_->stop();
+        if (state.thread_index() != 0) {
+          return;
+        }
+        if (buffer_) {
+          buffer_->stop();
+        }
         buffer_.reset();
         tsstore_.reset();
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
         db_.reset();
-        std::error_code ec;
-        if (fs::exists(db_path_)) fs::remove_all(db_path_, ec);
+        std::error_code ec = {};
+        if (fs::exists(db_path_)) {
+          fs::remove_all(db_path_, ec);
+        }
         setup_done_.store(false, std::memory_order_release);
     }
 
@@ -256,7 +266,9 @@ BENCHMARK_DEFINE_F(AdaptiveFlushFixture, P99Latency)(benchmark::State& state) {
     state.ResumeTiming();
 
     auto pct = [&](double p) -> double {
-        if (latencies_us.empty()) return 0.0;
+        if (latencies_us.empty()) {
+          return 0.0;
+        }
         size_t idx = static_cast<size_t>(std::ceil(p / 100.0 * latencies_us.size())) - 1;
         idx = std::min(idx, latencies_us.size() - 1);
         return latencies_us[idx];

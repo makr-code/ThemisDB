@@ -84,18 +84,20 @@ public:
             return false;
         }
         
-        std::string line;
+        std::string line = {};
         size_t line_count = 0;
         
         while (std::getline(file, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             
             std::istringstream iss(line);
-            std::string word;
+            std::string word = {};
             iss >> word;
             
             std::vector<float> embedding;
-            float value;
+            float value = 0;
             while (iss >> value) {
                 embedding.push_back(value);
             }
@@ -106,7 +108,9 @@ public:
             }
             
             // Limit to first 100k embeddings for memory efficiency
-            if (line_count >= 100000) break;
+            if (line_count >= 100000) {
+              break;
+            }
         }
         
         file.close();
@@ -145,9 +149,9 @@ public:
                 const auto& male_emb = male_it->second;
                 const auto& female_emb = female_it->second;
                 
-                if (male_emb.size() == female_emb.size()) {
+                if (static_cast<int>(male_emb.size()) == static_cast<int>(female_emb.size())) {
                     std::vector<float> diff(male_emb.size());
-                    for (size_t i = 0; i < male_emb.size(); ++i) {
+                    for (size_t i = 0; i <static_cast<int>(male_emb.size()); ++i) {
                         diff[i] = male_emb[i] - female_emb[i];
                     }
                     difference_vectors.push_back(diff);
@@ -159,7 +163,7 @@ public:
         if (!difference_vectors.empty()) {
             gender_bias_vector.resize(difference_vectors[0].size(), 0.0f);
             for (const auto& diff : difference_vectors) {
-                for (size_t i = 0; i < diff.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(diff.size()); ++i) {
                     gender_bias_vector[i] += diff[i];
                 }
             }
@@ -195,9 +199,9 @@ public:
                 const auto& low_emb = low_it->second;
                 const auto& high_emb = high_it->second;
                 
-                if (low_emb.size() == high_emb.size()) {
+                if (static_cast<int>(low_emb.size()) == static_cast<int>(high_emb.size())) {
                     std::vector<float> diff(low_emb.size());
-                    for (size_t i = 0; i < low_emb.size(); ++i) {
+                    for (size_t i = 0; i <static_cast<int>(low_emb.size()); ++i) {
                         diff[i] = low_emb[i] - high_emb[i];
                     }
                     difference_vectors.push_back(diff);
@@ -208,7 +212,7 @@ public:
         if (!difference_vectors.empty()) {
             occupational_bias_vector.resize(difference_vectors[0].size(), 0.0f);
             for (const auto& diff : difference_vectors) {
-                for (size_t i = 0; i < diff.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(diff.size()); ++i) {
                     occupational_bias_vector[i] += diff[i];
                 }
             }
@@ -242,11 +246,11 @@ public:
             }
             const auto& lhs = left_it->second;
             const auto& rhs = right_it->second;
-            if (lhs.size() != rhs.size()) {
+            if (static_cast<int>(lhs.size()) != static_cast<int>(rhs.size())) {
                 continue;
             }
             std::vector<float> diff(lhs.size(), 0.0f);
-            for (size_t i = 0; i < lhs.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(lhs.size()); ++i) {
                 diff[i] = lhs[i] - rhs[i];
             }
             difference_vectors.push_back(std::move(diff));
@@ -255,7 +259,7 @@ public:
         if (!difference_vectors.empty()) {
             ethnicity_bias_vector.assign(difference_vectors[0].size(), 0.0f);
             for (const auto& diff : difference_vectors) {
-                for (size_t i = 0; i < diff.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(diff.size()); ++i) {
                     ethnicity_bias_vector[i] += diff[i];
                 }
             }
@@ -278,13 +282,13 @@ public:
         }
         
         const auto& word_emb = it->second;
-        if (word_emb.size() != bias_vector.size()) {
+        if (static_cast<int>(word_emb.size()) != static_cast<int>(bias_vector.size())) {
             return 0.0;
         }
         
         // Compute dot product (projection onto bias vector)
         double projection = 0.0;
-        for (size_t i = 0; i < word_emb.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(word_emb.size()); ++i) {
             projection += static_cast<double>(word_emb[i]) *
                           static_cast<double>(bias_vector[i]);
         }
@@ -381,7 +385,7 @@ judge::BiasScore FairnessDetector::detectBias(const std::string& document) {
     try {
         // Tokenize document into words
         std::vector<std::string> words;
-        std::string word;
+        std::string word = {};
         for (char c : document) {
             if (std::isalnum(c)) {
                 word += c;
@@ -502,9 +506,10 @@ std::vector<judge::BiasScore> FairnessDetector::detectBiasBatch(
         throw std::runtime_error("FairnessDetector not initialized");
     }
 
-    THEMIS_DEBUG("Batch bias detection for {} documents", documents.size());
+    THEMIS_DEBUG("Batch bias detection for {} documents",static_cast<int>(documents.size()));
     
-    std::vector<judge::BiasScore> results;
+    std::vector<judge::BiasScore> results = {};
+
     results.reserve(documents.size());
     
     for (const auto& doc : documents) {
@@ -533,7 +538,7 @@ FairnessDetector::filterByBiasThreshold(const std::vector<std::string>& document
     }
     
     THEMIS_INFO("Filtered {} documents by bias threshold {}: {} passed",
-               documents.size(), config_.bias_threshold, filtered.size());
+               documents.size(), config_.bias_threshold,static_cast<int>(filtered.size()));
     
     return filtered;
 }
@@ -544,7 +549,7 @@ const FairnessDetectorConfig& FairnessDetector::getConfig() const {
     return config_;
 }
 
-void FairnessDetector::setBiasThreshold(double threshold) {
+void FairnessDetector::setBiasThreshold([[maybe_unused]] double threshold) {
     config_.bias_threshold = std::clamp(threshold, 0.0, 1.0);
 }
 

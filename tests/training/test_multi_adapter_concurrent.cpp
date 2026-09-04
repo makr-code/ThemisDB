@@ -126,7 +126,8 @@ TEST_F(MultiAdapterConcurrentTest, AdapterState_Independent) {
     }
 
     // Verify all adapters have different weights
-    std::vector<float> first_B_values;
+    std::vector<float> first_B_values = {};
+
     for (int i = 0; i < NUM_ADAPTERS; ++i) {
         const auto& w = adapters[i]->getWeights("query");
         EXPECT_FALSE(w.B.empty());

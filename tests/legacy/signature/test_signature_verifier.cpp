@@ -82,7 +82,7 @@ protected:
         if (!file.is_open()) {
             return "";
         }
-        std::stringstream buffer;
+        std::stringstream buffer = {};
         buffer << file.rdbuf();
         return buffer.str();
     }

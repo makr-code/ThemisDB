@@ -58,7 +58,9 @@ public:
     {}
 
     std::size_t estimate(const std::string& text) const override {
-        if (text.empty()) return 0;
+        if (text.empty()) {
+          return 0;
+        }
         return (text.size() + chars_per_token_ - 1) / chars_per_token_;
     }
 
@@ -105,7 +107,9 @@ public:
     {}
 
     std::size_t estimate(const std::string& text) const override {
-        if (text.empty()) return 0;
+        if (text.empty()) {
+          return 0;
+        }
         if (tokenize_fn_) {
             return tokenize_fn_(text);
         }

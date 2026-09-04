@@ -184,7 +184,8 @@ public:
                                          size_t top_k) const {
         const size_t head_index = entity_index_.at(head);
         const size_t relation_index = relation_index_.at(relation);
-        std::vector<LinkPrediction> predictions;
+        std::vector<LinkPrediction> predictions = {};
+
         predictions.reserve(entity_names_.size());
         for (size_t entity_index = 0; entity_index < entity_names_.size(); ++entity_index) {
             predictions.push_back({
@@ -201,7 +202,8 @@ public:
                                          size_t top_k) const {
         const size_t relation_index = relation_index_.at(relation);
         const size_t tail_index = entity_index_.at(tail);
-        std::vector<LinkPrediction> predictions;
+        std::vector<LinkPrediction> predictions = {};
+
         predictions.reserve(entity_names_.size());
         for (size_t entity_index = 0; entity_index < entity_names_.size(); ++entity_index) {
             predictions.push_back({
@@ -278,7 +280,7 @@ EvalMetrics evaluatePredictions(const std::vector<KGTriple>& triples,
         accumulate_ranks(rank_head(triple.relation, triple.tail), triple.head);
     }
 
-    EvalMetrics metrics;
+    EvalMetrics metrics = {};
     if (query_count > 0) {
         metrics.mrr = reciprocal_rank_sum / static_cast<double>(query_count);
         metrics.hits_at_10 = static_cast<double>(hits_at_10) /

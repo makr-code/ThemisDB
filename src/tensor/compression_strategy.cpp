@@ -29,7 +29,7 @@ CompressionResult TTDecompositionStrategy::compress(
 
     (void)mode_sizes;
 
-    CompressionResult result;
+    CompressionResult result = {};
     if (!data || dim == 0) {
         result.success = false;
         result.error_message = "Invalid input data";
@@ -81,7 +81,9 @@ float TTDecompositionStrategy::estimateRatio(
     (void)data;
     (void)dim;
     (void)config;
-    if (!data || dim == 0) return 1.0f;
+    if (!data || dim == 0) {
+      return 1.0f;
+    }
     
     // Estimate based on dimension and epsilon
     float base_ratio = std::max(1.5f, std::log(static_cast<float>(dim)));
@@ -93,7 +95,7 @@ float TTDecompositionStrategy::estimateRatio(
 // QuantizationStrategy implementation
 // ============================================================================
 
-QuantizationStrategy::QuantizationStrategy(uint8_t bits) : bits_(bits) {}
+QuantizationStrategy::QuantizationStrategy([[maybe_unused]] uint8_t bits) : bits_(bits) {}
 
 std::string QuantizationStrategy::name() const noexcept {
     return "QUANTIZE_INT" + std::to_string(static_cast<int>(bits_));
@@ -108,7 +110,7 @@ CompressionResult QuantizationStrategy::compress(
     (void)config;
     (void)mode_sizes;
 
-    CompressionResult result;
+    CompressionResult result = {};
     if (!data || dim == 0 || bits_ == 0) {
         result.success = false;
         result.error_message = "Invalid quantization parameters";
@@ -150,7 +152,9 @@ float QuantizationStrategy::estimateRatio(
     (void)data;
     (void)dim;
     (void)config;
-    if (bits_ == 0) return 1.0f;
+    if (bits_ == 0) {
+      return 1.0f;
+    }
     return (sizeof(float) * 8.0f) / bits_;
 }
 
@@ -158,7 +162,7 @@ float QuantizationStrategy::estimateRatio(
 // SamplingStrategy implementation
 // ============================================================================
 
-SamplingStrategy::SamplingStrategy(float ratio) : ratio_(std::max(0.0f, std::min(1.0f, ratio))) {}
+SamplingStrategy::SamplingStrategy([[maybe_unused]] float ratio) : ratio_(std::max(0.0f, std::min(1.0f, ratio))) {}
 
 std::string SamplingStrategy::name() const noexcept {
     return "SAMPLING";
@@ -173,7 +177,7 @@ CompressionResult SamplingStrategy::compress(
     (void)config;
     (void)mode_sizes;
 
-    CompressionResult result;
+    CompressionResult result = {};
     if (!data || dim == 0 || ratio_ <= 0.0f) {
         result.success = false;
         result.error_message = "Invalid sampling parameters";
@@ -216,7 +220,9 @@ float SamplingStrategy::estimateRatio(
     (void)data;
     (void)dim;
     (void)config;
-    if (ratio_ <= 0.0f) return 1.0f;
+    if (ratio_ <= 0.0f) {
+      return 1.0f;
+    }
     return 1.0f / ratio_;
 }
 
@@ -224,7 +230,7 @@ float SamplingStrategy::estimateRatio(
 // HashingStrategy implementation
 // ============================================================================
 
-HashingStrategy::HashingStrategy(uint8_t bits) : bits_(bits) {}
+HashingStrategy::HashingStrategy([[maybe_unused]] uint8_t bits) : bits_(bits) {}
 
 std::string HashingStrategy::name() const noexcept {
     return "HASHING";
@@ -239,7 +245,7 @@ CompressionResult HashingStrategy::compress(
     (void)config;
     (void)mode_sizes;
 
-    CompressionResult result;
+    CompressionResult result = {};
     if (!data || dim == 0 || bits_ == 0) {
         result.success = false;
         result.error_message = "Invalid hashing parameters";
@@ -281,7 +287,9 @@ float HashingStrategy::estimateRatio(
     (void)data;
     (void)dim;
     (void)config;
-    if (bits_ == 0) return 1.0f;
+    if (bits_ == 0) {
+      return 1.0f;
+    }
     return (dim * sizeof(float) * 8.0f) / bits_;
 }
 
@@ -296,7 +304,9 @@ std::unique_ptr<ICompressionStrategy> CompressionFactory::create(
         return std::make_unique<TTDecompositionStrategy>();
     } else if (strategy_name.find("QUANTIZE") == 0) {
         uint8_t bits = 8;  // Default
-        if (strategy_name.find("INT16") != std::string::npos) bits = 16;
+        if (strategy_name.find("INT16") != std::string::npos) {
+          bits = 16;
+        }
         else if (strategy_name.find("INT32") != std::string::npos) bits = 32;
         return std::make_unique<QuantizationStrategy>(bits);
     } else if (strategy_name == "SAMPLING") {

@@ -37,7 +37,7 @@ namespace {
 static std::string b64url(const std::vector<uint8_t>& in) {
     static const char* tbl =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string b64;
+    std::string b64 = {};
     b64.reserve(((in.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= in.size()) {
@@ -56,7 +56,9 @@ static std::string b64url(const std::vector<uint8_t>& in) {
         b64.push_back(tbl[(n>>6)&63]);  b64.push_back('=');
     }
     for (char& c : b64) { if (c=='+') c='-'; else if (c=='/') c='_'; }
-    while (!b64.empty() && b64.back()=='=') b64.pop_back();
+    while (!b64.empty() && b64.back()=='=') {
+      b64.pop_back();
+    }
     return b64;
 }
 
@@ -314,7 +316,7 @@ TEST_F(JtiRevocationTest, NoBlacklistAttached_TokenWithJtiAlwaysAccepted) {
 
 TEST_F(JtiRevocationTest, RevocationCallbackFiredOnRevoke) {
     // Attach a callback to the blacklist that records every notified JTI.
-    std::string notified_jti;
+    std::string notified_jti = {};
     blacklist_.setOnRevokeCallback([&notified_jti](const std::string& jti) {
         notified_jti = jti;
     });

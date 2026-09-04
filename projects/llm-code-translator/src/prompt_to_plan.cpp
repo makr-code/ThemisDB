@@ -85,7 +85,7 @@ std::string PromptToPlanTranslator::buildPrompt(
     const std::string& user_prompt,
     const std::string& schema_context
 ) {
-    std::ostringstream prompt;
+    std::ostringstream prompt = {};
     
     prompt << "You are an AI that translates natural language queries into execution plans.\n";
     prompt << "Generate a JSON execution plan for the given query.\n\n";
@@ -123,7 +123,7 @@ ExecutionPlan PromptToPlanTranslator::parseLLMOutput(
 ) {
     // Extract JSON from output (may contain explanation text)
     std::regex json_regex(R"(\{[\s\S]*\})");
-    std::smatch match;
+    std::smatch match = {};
     
     std::string json_str = llm_output;
     if (std::regex_search(llm_output, match, json_regex)) {
@@ -165,7 +165,7 @@ ExecutionPlan PromptToPlanTranslator::translate(
             
             // Validate if enabled
             if (config_.validate_plans) {
-                std::string error_msg;
+                std::string error_msg = {};
                 if (!plan.validate(&error_msg)) {
                     throw std::runtime_error("Plan validation failed: " + error_msg);
                 }
@@ -218,7 +218,7 @@ std::vector<ExecutionPlan> PromptToPlanTranslator::translateMultiple(
             
             // Validate if enabled
             if (config_.validate_plans) {
-                std::string error_msg;
+                std::string error_msg = {};
                 if (!plan.validate(&error_msg)) {
                     continue;  // Skip invalid plans
                 }

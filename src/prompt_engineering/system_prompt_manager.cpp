@@ -62,11 +62,21 @@ std::string SystemPromptManager::roleToString(Role role) {
 }
 
 Role SystemPromptManager::stringToRole(const std::string& role_str) {
-    if (role_str == "USER")      return Role::USER;
-    if (role_str == "ASSISTANT") return Role::ASSISTANT;
-    if (role_str == "ADMIN")     return Role::ADMIN;
-    if (role_str == "SYSTEM")    return Role::SYSTEM;
-    if (role_str == "CUSTOM")    return Role::CUSTOM;
+    if (role_str == "USER") {
+      return Role::USER;
+    }
+    if (role_str == "ASSISTANT") {
+      return Role::ASSISTANT;
+    }
+    if (role_str == "ADMIN") {
+      return Role::ADMIN;
+    }
+    if (role_str == "SYSTEM") {
+      return Role::SYSTEM;
+    }
+    if (role_str == "CUSTOM") {
+      return Role::CUSTOM;
+    }
     return Role::DEFAULT;
 }
 
@@ -83,7 +93,7 @@ std::string SystemPromptManager::injectContext(
         const std::string placeholder = "{" + key + "}";
         size_t pos = 0;
         while ((pos = result.find(placeholder, pos)) != std::string::npos) {
-            result.replace(pos, placeholder.size(), value);
+            result.replace(pos,static_cast<int>(placeholder.size()), value);
             pos += value.size();
         }
     }
@@ -189,7 +199,8 @@ bool SystemPromptManager::removeCustomPrompt(const std::string& role_name) {
 
 std::vector<SystemPrompt> SystemPromptManager::listPrompts() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<SystemPrompt> result;
+    std::vector<SystemPrompt> result = {};
+
     result.reserve(prompts_.size());
     for (const auto& [key, sp] : prompts_) {
         result.push_back(sp);

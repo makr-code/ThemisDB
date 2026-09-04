@@ -27,9 +27,9 @@ namespace content {
 
 std::string VersionManager::computeHash(const std::string& data) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(data.data()), data.size(), digest);
+    SHA256(reinterpret_cast<const unsigned char*>(data.data()),static_cast<int>(data.size()), digest);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0')
             << static_cast<int>(digest[i]);
@@ -45,7 +45,7 @@ std::string VersionManager::computeDelta(const std::string& old_content,
     auto split_lines = [](const std::string& text) {
         std::vector<std::string> lines;
         std::istringstream ss(text);
-        std::string line;
+        std::string line = {};
         while (std::getline(ss, line)) {
             lines.push_back(line);
         }
@@ -55,20 +55,20 @@ std::string VersionManager::computeDelta(const std::string& old_content,
     std::vector<std::string> old_lines = split_lines(old_content);
     std::vector<std::string> new_lines = split_lines(new_content);
 
-    std::ostringstream delta;
+    std::ostringstream delta = {};
 
     // Simple O(n*m) LCS-based diff for small files; for large content in
     // production this would be replaced by a proper diff algorithm.
     size_t oi = 0;
     size_t ni = 0;
-    while (oi < old_lines.size() && ni < new_lines.size()) {
+    while (oi <static_cast<int>(old_lines.size())  && static_cast<size_t>(ni) <static_cast<int>(new_lines.size())) {
         if (old_lines[oi] == new_lines[ni]) {
             ++oi;
             ++ni;
         } else {
             // Scan ahead for the next common line (greedy LCS approximation)
             bool found = false;
-            for (size_t look = ni + 1; look < new_lines.size() && look < ni + 8; ++look) {
+            for (size_t look = ni + 1; look <static_cast<int>(new_lines.size()) && look < ni + 8; ++look) {
                 if (old_lines[oi] == new_lines[look]) {
                     for (size_t k = ni; k < look; ++k) {
                         delta << '+' << new_lines[k] << '\n';
@@ -86,10 +86,10 @@ std::string VersionManager::computeDelta(const std::string& old_content,
             }
         }
     }
-    while (oi < old_lines.size()) {
+    while (static_cast<size_t>(oi) <static_cast<int>(old_lines.size())) {
         delta << '-' << old_lines[oi++] << '\n';
     }
-    while (ni < new_lines.size()) {
+    while (static_cast<size_t>(ni) <static_cast<int>(new_lines.size())) {
         delta << '+' << new_lines[ni++] << '\n';
     }
 

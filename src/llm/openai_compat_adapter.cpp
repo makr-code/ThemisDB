@@ -33,12 +33,12 @@ int64_t nowUnix() {
 }
 
 /// Generate a short hex random suffix for completion IDs.
-std::string randomHex(size_t bytes = 12) {
-    std::random_device rd;
+std::string randomHex([[maybe_unused]] size_t bytes = 12) {
+    std::random_device rd = {};
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dist;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     while (bytes > 0) {
         uint64_t val = dist(gen);
         size_t chunk = std::min(bytes, size_t{8});
@@ -82,7 +82,7 @@ OpenAICompatAdapter::parseRequest(const json& body) {
     }
 
     std::optional<std::string> system_prompt;
-    std::string prompt;
+    std::string prompt = {};
     std::string err = extractPrompts(messages, system_prompt, prompt);
     if (!err.empty()) {
         return err;
@@ -140,7 +140,9 @@ OpenAICompatAdapter::parseRequest(const json& body) {
     //   [{"type":"function","function":{"name":"...","description":"...","parameters":{...}}}]
     if (body.contains("tools") && body["tools"].is_array()) {
         for (const auto& tool_obj : body["tools"]) {
-            if (!tool_obj.is_object()) continue;
+            if (!tool_obj.is_object()) {
+              continue;
+            }
 
             // Unwrap the optional "function" wrapper
             const json* fn = nullptr;
@@ -150,7 +152,7 @@ OpenAICompatAdapter::parseRequest(const json& body) {
                 fn = &tool_obj;
             }
 
-            ToolDefinition td;
+            ToolDefinition td = {};
             if (fn->contains("name") && (*fn)["name"].is_string()) {
                 td.name = (*fn)["name"].get<std::string>();
             }
@@ -195,7 +197,7 @@ json OpenAICompatAdapter::buildResponse(
         message["content"] = nullptr;  // OpenAI spec: null when tool_calls present
 
         json tool_calls_arr = json::array();
-        for (size_t i = 0; i < response.tool_calls.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(response.tool_calls.size()); ++i) {
             const auto& tc = response.tool_calls[i];
             tool_calls_arr.push_back({
                 {"id",   "call_" + randomHex(8)},
@@ -243,7 +245,9 @@ std::string OpenAICompatAdapter::buildStreamChunk(
     const std::string& model_id,
     int64_t created) {
 
-    if (created == 0) created = nowUnix();
+    if (created == 0) {
+      created = nowUnix();
+    }
 
     json chunk{
         {"id",      completion_id},
@@ -269,7 +273,9 @@ std::string OpenAICompatAdapter::buildStreamFinalChunk(
     const std::string& model_id,
     int64_t created) {
 
-    if (created == 0) created = nowUnix();
+    if (created == 0) {
+      created = nowUnix();
+    }
 
     json chunk{
         {"id",      completion_id},
@@ -325,7 +331,7 @@ std::string OpenAICompatAdapter::extractPrompts(
     // The first "system" role becomes system_prompt; all subsequent messages
     // are formatted into the prompt using a simple Human/Assistant convention
     // that works across the chat templates already used by the engine.
-    std::ostringstream conv;
+    std::ostringstream conv = {};
     bool first_non_system = true;
 
     for (const auto& msg : messages) {
@@ -342,7 +348,7 @@ std::string OpenAICompatAdapter::extractPrompts(
         const std::string role = msg["role"].get<std::string>();
 
         // Content can be a string or an array of content parts (vision etc.)
-        std::string content_text;
+        std::string content_text = {};
         const auto& content = msg["content"];
         if (content.is_string()) {
             content_text = content.get<std::string>();

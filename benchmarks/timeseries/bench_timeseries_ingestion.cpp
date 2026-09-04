@@ -25,7 +25,7 @@ public:
         tls_test_db_path_ = std::string("C:\\tmp\\bench_ts_") +
             std::to_string(state.thread_index()) + "_" +
             std::to_string(now);
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(tls_test_db_path_, ec);
         std::filesystem::create_directories(tls_test_db_path_);
         
@@ -52,7 +52,7 @@ public:
         tls_db_.reset();
         
         // Clean up test database
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(tls_test_db_path_, ec);
         tls_test_db_path_.clear();
     }
@@ -165,7 +165,8 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, MultipleMetrics)(benchmark::State
     const int num_entities = state.range(0);
     
     std::vector<std::string> metrics = {"cpu", "memory", "disk_io", "network_in", "network_out"};
-    std::vector<std::string> entities;
+    std::vector<std::string> entities = {};
+
     for (int i = 0; i < num_entities; i++) {
         entities.push_back("server_" + std::to_string(i));
     }
@@ -503,7 +504,7 @@ static void BM_DownsamplingThroughput(benchmark::State& state) {
             int64_t bucket_count = 0;
             for (int64_t ts_ms = from_ms; ts_ms <= to_ms; ts_ms += 1000) {
                 std::string key = "ts:req_rate:ds_server:" + std::to_string(ts_ms);
-                std::string val;
+                std::string val = {};
                 if (db.get(key, val) && val.size() == sizeof(double)) {
                     double v = 0.0;
                     std::memcpy(&v, val.data(), sizeof(double));

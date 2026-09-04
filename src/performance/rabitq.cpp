@@ -29,11 +29,11 @@ static bool is_rabitq_hardware_supported() {
 }
 
 /// Validate dimension and hardware before any allocation; returns dimension on success.
-static size_t validate_rabitq_dimension(size_t dimension) {
+static size_t validate_rabitq_dimension([[maybe_unused]] size_t dimension) {
     if (dimension == 0) {
         throw std::runtime_error("RaBitQ: dimension must be positive");
     }
-    if (dimension > (1ULL << 20)) {  // 1M dimensions max
+    if (dimension > (1 << 20)) {  // 1M dimensions max
         throw std::runtime_error("RaBitQ: dimension exceeds maximum (1M)");
     }
     if (!is_rabitq_hardware_supported()) {
@@ -58,11 +58,13 @@ RaBitQEncoder::RaBitQEncoder(size_t dimension)
 }
 
 void RaBitQEncoder::train(const std::vector<std::vector<float>>& training_data) {
-    if (training_data.empty()) return;
+    if (training_data.empty()) {
+      return;
+    }
     
     // Validate training data consistency
     for (const auto& vec : training_data) {
-        if (vec.size() != dimension_) {
+        if (static_cast<int>(vec.size()) != dimension_) {
             throw std::runtime_error(
                 "RaBitQ: Training data vector dimension mismatch"
             );
@@ -96,7 +98,7 @@ void RaBitQEncoder::train(const std::vector<std::vector<float>>& training_data) 
 
 RaBitQVector RaBitQEncoder::encode(const std::vector<float>& vec) const {
     // Validate input dimension
-    if (vec.size() != dimension_) {
+    if (static_cast<int>(vec.size()) != dimension_) {
         throw std::runtime_error(
             "RaBitQ: Vector dimension mismatch (expected " + std::to_string(dimension_) + 
             ", got " + std::to_string(vec.size()) + ")"
@@ -105,7 +107,7 @@ RaBitQVector RaBitQEncoder::encode(const std::vector<float>& vec) const {
     
     RaBitQVector result(vec.size());
     
-    for (size_t i = 0; i < vec.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(vec.size()); i++) {
         uint8_t quantized = quantize_value(vec[i], i);
         result.set(i, quantized);
     }
@@ -138,7 +140,7 @@ float RaBitQEncoder::compute_distance(const RaBitQVector& a, const RaBitQVector&
 float RaBitQEncoder::asymmetric_distance(const std::vector<float>& query, const RaBitQVector& db_vector) const {
     // Query is full precision, database vector is quantized
     float dist = 0.0f;
-    for (size_t i = 0; i < query.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(query.size()); i++) {
         float db_val = dequantize_value(db_vector.get(i), i);
         float diff = query[i] - db_val;
         dist += diff * diff;
@@ -152,7 +154,9 @@ uint8_t RaBitQEncoder::quantize_value(float value, size_t dim) const {
     
     // Quantize to 2 bits (4 levels)
     const auto& thresh = thresholds_[dim];
-    if (normalized < thresh[0]) return 0;
+    if (normalized < thresh[0]) {
+      return 0;
+    }
     else if (normalized < thresh[1]) return 1;
     else if (normalized < thresh[2]) return 2;
     else return 3;
@@ -160,7 +164,7 @@ uint8_t RaBitQEncoder::quantize_value(float value, size_t dim) const {
 
 float RaBitQEncoder::dequantize_value(uint8_t quantized, size_t dim) const {
     // Map 2-bit value back to float (use bin centers)
-    float normalized;
+    float normalized = {};
     const auto& thresh = thresholds_[dim];
     
     switch (quantized) {
@@ -207,10 +211,10 @@ std::vector<RaBitQIndex::SearchResult> RaBitQIndex::linear_scan(const std::vecto
     std::priority_queue<SearchResult, std::vector<SearchResult>, decltype(cmp)> heap(cmp);
     
     // Compute distances to all vectors
-    for (size_t i = 0; i < vectors_.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(vectors_.size()); i++) {
         float dist = encoder_->asymmetric_distance(query, vectors_[i]);
         
-        if (heap.size() < static_cast<size_t>(k)) {
+        if (static_cast<int>(heap.size()) < static_cast<size_t>(k)) {
             heap.push({ids_[i], dist});
         } else if (dist < heap.top().distance) {
             heap.pop();
@@ -219,7 +223,8 @@ std::vector<RaBitQIndex::SearchResult> RaBitQIndex::linear_scan(const std::vecto
     }
     
     // Extract results and sort by distance
-    std::vector<SearchResult> results;
+    std::vector<SearchResult> results = {};
+
     results.reserve(heap.size());
     while (!heap.empty()) {
         results.push_back(heap.top());
@@ -256,7 +261,7 @@ ProductQuantizer::ProductQuantizer(size_t dimension, size_t num_subvectors)
 }
 
 std::vector<std::vector<float>> ProductQuantizer::split_vector(const std::vector<float>& vec) const {
-    if (vec.size() != dimension_) {
+    if (static_cast<int>(vec.size()) != dimension_) {
         throw std::invalid_argument("Vector dimension mismatch in ProductQuantizer::split_vector");
     }
 
@@ -276,7 +281,7 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
 
     // Avoid overfitting tiny training sets by capping centroids with a
     // sample-dependent bound instead of blindly using up to n centroids.
-    const size_t k_upper = std::min(static_cast<size_t>(256), training_data.size());
+    const size_t k_upper = std::min(static_cast<size_t>(256),static_cast<int>(training_data.size()));
     const size_t suggested_k = static_cast<size_t>(
         std::max(1.0, std::sqrt(static_cast<double>(training_data.size())) * 2.0));
     const size_t adaptive_k = std::max(static_cast<size_t>(1), std::min(k_upper, suggested_k));
@@ -298,12 +303,12 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
         const size_t n = subvec_data.size();
 
         // --- k-means++ initialisation ---
-        std::mt19937 rng(static_cast<uint32_t>(sq * 1337u + 42u));
-        std::uniform_int_distribution<size_t> uniform(0, n - 1);
+        std::mt19937 rng(static_cast<uint32_t>(sq * 1337 + 42));
+        std::uniform_int_distribution<uint64_t> uniform(0, n - 1);
 
         std::vector<std::vector<float>> centroids;
         centroids.reserve(k);
-        centroids.push_back(subvec_data[uniform(rng)]);
+        centroids.push_back(subvec_data[static_cast<size_t>(uniform(rng))]);
 
         for (size_t ci = 1; ci < k; ++ci) {
             // For each sample compute D^2 distance to the nearest existing centroid.
@@ -320,8 +325,8 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
                 }
                 d2[i] = min_d2;
             }
-            std::discrete_distribution<size_t> weighted(d2.begin(), d2.end());
-            centroids.push_back(subvec_data[weighted(rng)]);
+            std::discrete_distribution<uint64_t> weighted(d2.begin(), d2.end());
+            centroids.push_back(subvec_data[static_cast<size_t>(weighted(rng))]);
         }
 
         // --- k-means Lloyd iterations (max 25) ---
@@ -372,7 +377,7 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
                     max_shift = std::max(max_shift, shift);
                 } else {
                     // Empty cluster: reinitialize to a random sample
-                    new_centroids[ci] = subvec_data[uniform(rng)];
+                    new_centroids[ci] = subvec_data[static_cast<size_t>(uniform(rng))];
                 }
             }
 
@@ -389,12 +394,12 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
 }
 
 std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vec) const {
-    if (vec.size() != dimension_) {
+    if (static_cast<int>(vec.size()) != dimension_) {
         throw std::invalid_argument("Vector dimension mismatch in ProductQuantizer::encode");
     }
 
     // Preserve deterministic no-op behavior before train() populated codebooks.
-    if (codebooks_.size() != num_subvectors_) {
+    if (static_cast<int>(codebooks_.size()) != num_subvectors_) {
         return std::vector<uint8_t>(num_subvectors_, 0);
     }
 
@@ -413,7 +418,7 @@ std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vec) con
         float min_dist = std::numeric_limits<float>::max();
         uint8_t best = 0;
 
-        for (size_t ci = 0; ci < codebook.size(); ++ci) {
+        for (size_t ci = 0; ci <static_cast<int>(codebook.size()); ++ci) {
             float dist = 0.0f;
             for (size_t dim = 0; dim < subvector_dimension_; ++dim) {
                 float diff = subvec[dim] - codebook[ci][dim];

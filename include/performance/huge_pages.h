@@ -57,7 +57,9 @@ inline bool huge_pages_available() {
     #ifdef __linux__
     // Check if /proc/meminfo shows huge pages
     FILE* fp = fopen("/proc/meminfo", "r");
-    if (!fp) return false;
+    if (!fp) {
+      return false;
+    }
     
     char line[256];
     bool has_huge_pages = false;
@@ -173,7 +175,9 @@ inline void* allocate_huge_pages([[maybe_unused]] size_t size) {
  * @param size Size of the allocation
  */
 inline void deallocate_huge_pages(void* ptr, [[maybe_unused]] size_t size) {
-    if (!ptr) return;
+    if (!ptr) {
+      return;
+    }
     
     #ifdef THEMIS_USE_HUGE_PAGES
     

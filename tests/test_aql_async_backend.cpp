@@ -60,7 +60,9 @@ public:
 
     // ── Inference ───────────────────────────────────────────────
     InferenceResponse generate(const InferenceRequest& /*req*/) override {
-        if (should_throw_infer) throw std::runtime_error(throw_message);
+        if (should_throw_infer) {
+          throw std::runtime_error(throw_message);
+        }
         InferenceResponse resp;
         resp.text = infer_response_text;
         return resp;
@@ -72,7 +74,9 @@ public:
     }
 
     std::vector<float> embed(const std::string& /*text*/) override {
-        if (should_throw_embed) throw std::runtime_error(throw_message);
+        if (should_throw_embed) {
+          throw std::runtime_error(throw_message);
+        }
         return embed_response;
     }
 

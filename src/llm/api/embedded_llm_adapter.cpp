@@ -14,13 +14,17 @@ bool EmbeddedLLM::isReady() const {
 
 std::string EmbeddedLLM::generate(const std::string& prompt, int max_tokens) {
     auto impl = createEmbeddedLLM();
-    if (!impl) return std::string();
+    if (!impl) {
+      return std::string();
+    }
     return impl->generateWithParams(prompt, 0.7f, 0.9f, max_tokens);
 }
 
 std::string EmbeddedLLM::generateWithParams(const std::string& prompt, float temperature, float top_p, int max_tokens) {
     auto impl = createEmbeddedLLM();
-    if (!impl) return std::string();
+    if (!impl) {
+      return std::string();
+    }
     return impl->generateWithParams(prompt, temperature, top_p, max_tokens);
 }
 
@@ -41,25 +45,31 @@ std::vector<std::vector<float>> EmbeddedLLM::embedBatch(const std::vector<std::s
 
 std::string EmbeddedLLM::generateStreaming(const std::string& prompt, std::function<void(const std::string&)> callback, int max_tokens) {
     auto impl = createEmbeddedLLM();
-    if (!impl) return std::string();
+    if (!impl) {
+      return std::string();
+    }
     (void)max_tokens;
-    std::string out;
-    impl->generateStreaming(prompt, [&](const std::string& token){
+    std::string out = {};
+    impl->generateStreaming(prompt, [&]([[maybe_unused]] const std::string& token){
         out += token;
-        callback(token);
+        callback([[maybe_unused]] token);
     });
     return out;
 }
 
 json EmbeddedLLM::generateAsMCP(const std::string& prompt, int max_tokens) {
     auto impl = createEmbeddedLLM();
-    if (!impl) return json::object();
+    if (!impl) {
+      return json::object();
+    }
     return impl->generateAsMCP(prompt, max_tokens);
 }
 
 json EmbeddedLLM::generateAsJsonMarkdown(const std::string& prompt, int max_tokens) {
     auto impl = createEmbeddedLLM();
-    if (!impl) return json::object();
+    if (!impl) {
+      return json::object();
+    }
     return impl->generateAsJsonMarkdown(prompt, max_tokens);
 }
 
@@ -95,7 +105,9 @@ void EmbeddedLLM::setEmbedFn(EmbedFn fn) {
 
 void EmbeddedLLM::clearCache() {
     auto impl = createEmbeddedLLM();
-    if (impl) impl->clearCache();
+    if (impl) {
+      impl->clearCache();
+    }
 }
 
 std::string EmbeddedLLM::getModelInfo() const {

@@ -103,9 +103,13 @@ public:
     }
 
     NetworkErrorCode validate(const std::string& token) const {
-        if (token.empty()) return NetworkErrorCode::AUTH_REQUIRED;
+        if (token.empty()) {
+          return NetworkErrorCode::AUTH_REQUIRED;
+        }
         auto it = sessions_.find(token);
-        if (it == sessions_.end()) return NetworkErrorCode::SESSION_EXPIRED;
+        if (it == sessions_.end()) {
+          return NetworkErrorCode::SESSION_EXPIRED;
+        }
         return NetworkErrorCode::OK;
     }
 
@@ -289,12 +293,16 @@ BENCHMARK(BM_NRG04_WebSocketFrameDispatch)
 static void BM_NRG05_ConnectionAccept(benchmark::State& state) {
     BenchConnectionAcceptor acceptor;
     for (int i = 0; i < kWarmupIterations; ++i) {
-        if (acceptor.accept() == NetworkErrorCode::OK) acceptor.release();
+        if (acceptor.accept() == NetworkErrorCode::OK) {
+          acceptor.release();
+        }
     }
     for (auto _ : state) {
         auto code = acceptor.accept();
         benchmark::DoNotOptimize(code);
-        if (code == NetworkErrorCode::OK) acceptor.release();
+        if (code == NetworkErrorCode::OK) {
+          acceptor.release();
+        }
     }
     state.SetLabel("NRG-05: GATE p99 <= 1 ms | mock connection accept");
 }

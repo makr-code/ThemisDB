@@ -103,7 +103,7 @@ SignatureVerificationResult RSA_SHA256_Verifier::verify(
         
         // 4. Compute SHA-256 hash of data
         std::vector<uint8_t> hash(SHA256_DIGEST_LENGTH);
-        SHA256(data.data(), data.size(), hash.data());
+        SHA256(data.data(),static_cast<int>(data.size()), hash.data());
         
         // 5. Verify signature using EVP API
         std::unique_ptr<EVP_PKEY_CTX, decltype(&EVP_PKEY_CTX_free)> ctx(
@@ -546,7 +546,7 @@ X509_CRL* CRLChecker::downloadAndParseCRL() const {
         return nullptr;
     }
 
-    std::string raw;
+    std::string raw = {};
     CURL* curl = curl_easy_init();
     if (!curl) {
         spdlog::error("CRLChecker: curl_easy_init() failed");
@@ -758,7 +758,7 @@ SignatureVerificationResult ECDSA_SHA256_Verifier::verify(
         
         // 5. Compute SHA-256 hash of data
         std::vector<uint8_t> hash(SHA256_DIGEST_LENGTH);
-        SHA256(data.data(), data.size(), hash.data());
+        SHA256(data.data(),static_cast<int>(data.size()), hash.data());
         
         // 6. Convert signature to DER format if needed
         auto der_signature = convertSignatureToDER(signature);
@@ -902,10 +902,14 @@ ECDSA_SHA256_Verifier::extractPublicKey(X509* cert) {
 }
 
 bool ECDSA_SHA256_Verifier::validateECCurve(X509* cert) {
-    if (!cert) return false;
+    if (!cert) {
+      return false;
+    }
     
     EVP_PKEY* pkey = X509_get_pubkey(cert);
-    if (!pkey) return false;
+    if (!pkey) {
+      return false;
+    }
     
     // Get EC key structure
     const EC_KEY* ec_key = EVP_PKEY_get0_EC_KEY(pkey);
@@ -959,11 +963,15 @@ std::vector<uint8_t> ECDSA_SHA256_Verifier::convertSignatureToDER(
     auto encodeDERInt = [](const uint8_t* val, size_t len) -> std::vector<uint8_t> {
         // Skip leading zero bytes (but keep at least one byte)
         size_t start = 0;
-        while (start < len - 1 && val[start] == 0x00) ++start;
+        while (start < len - 1 && val[start] == 0x00) {
+          ++start;
+        }
 
         std::vector<uint8_t> bytes(val + start, val + len);
         // If the high bit is set, prepend a 0x00 padding byte to keep sign positive
-        if (bytes[0] & 0x80) bytes.insert(bytes.begin(), 0x00);
+        if (bytes[0] & 0x80) {
+          bytes.insert(bytes.begin(), 0x00);
+        }
 
         std::vector<uint8_t> der;
         der.push_back(0x02);  // INTEGER tag
@@ -975,7 +983,7 @@ std::vector<uint8_t> ECDSA_SHA256_Verifier::convertSignatureToDER(
     auto r_der = encodeDERInt(r_ptr, half);
     auto s_der = encodeDERInt(s_ptr, half);
 
-    const size_t payload_len = r_der.size() + s_der.size();
+    const size_t payload_len = static_cast<int>(r_der.size()) + static_cast<int>(s_der.size()) ;
     std::vector<uint8_t> result;
     result.reserve(2 + payload_len);
     result.push_back(0x30);  // SEQUENCE tag
@@ -984,7 +992,7 @@ std::vector<uint8_t> ECDSA_SHA256_Verifier::convertSignatureToDER(
     result.insert(result.end(), s_der.begin(), s_der.end());
 
     spdlog::debug("ECDSA_SHA256_Verifier: converted {}-byte r||s to {}-byte DER",
-                  sz, result.size());
+                  sz,static_cast<int>(result.size()));
     return result;
 }
 
@@ -1055,7 +1063,7 @@ SignatureVerificationResult ECDSA_SHA384_Verifier::verify(
         
         // 5. Compute SHA-384 hash of data
         std::vector<uint8_t> hash(SHA384_DIGEST_LENGTH);
-        SHA384(data.data(), data.size(), hash.data());
+        SHA384(data.data(),static_cast<int>(data.size()), hash.data());
         
         // 6. Convert signature to DER format if needed
         auto der_signature = convertSignatureToDER(signature);
@@ -1199,10 +1207,14 @@ ECDSA_SHA384_Verifier::extractPublicKey(X509* cert) {
 }
 
 bool ECDSA_SHA384_Verifier::validateECCurve(X509* cert) {
-    if (!cert) return false;
+    if (!cert) {
+      return false;
+    }
     
     EVP_PKEY* pkey = X509_get_pubkey(cert);
-    if (!pkey) return false;
+    if (!pkey) {
+      return false;
+    }
     
     const EC_KEY* ec_key = EVP_PKEY_get0_EC_KEY(pkey);
     if (!ec_key) {
@@ -1249,9 +1261,13 @@ std::vector<uint8_t> ECDSA_SHA384_Verifier::convertSignatureToDER(
 
     auto encodeDERInt = [](const uint8_t* val, size_t len) -> std::vector<uint8_t> {
         size_t start = 0;
-        while (start < len - 1 && val[start] == 0x00) ++start;
+        while (start < len - 1 && val[start] == 0x00) {
+          ++start;
+        }
         std::vector<uint8_t> bytes(val + start, val + len);
-        if (bytes[0] & 0x80) bytes.insert(bytes.begin(), 0x00);
+        if (bytes[0] & 0x80) {
+          bytes.insert(bytes.begin(), 0x00);
+        }
         std::vector<uint8_t> der;
         der.push_back(0x02);
         der.push_back(static_cast<uint8_t>(bytes.size()));
@@ -1261,7 +1277,7 @@ std::vector<uint8_t> ECDSA_SHA384_Verifier::convertSignatureToDER(
 
     auto r_der = encodeDERInt(r_ptr, half);
     auto s_der = encodeDERInt(s_ptr, half);
-    const size_t payload_len = r_der.size() + s_der.size();
+    const size_t payload_len = static_cast<int>(r_der.size()) + static_cast<int>(s_der.size()) ;
 
     std::vector<uint8_t> result;
     result.reserve(2 + payload_len);
@@ -1271,7 +1287,7 @@ std::vector<uint8_t> ECDSA_SHA384_Verifier::convertSignatureToDER(
     result.insert(result.end(), s_der.begin(), s_der.end());
 
     spdlog::debug("ECDSA_SHA384_Verifier: converted {}-byte r||s to {}-byte DER",
-                  sz, result.size());
+                  sz,static_cast<int>(result.size()));
     return result;
 }
 

@@ -25,13 +25,21 @@ namespace observability {
 
 double AdvancedMetrics::computeQuantile(const std::vector<double>& sorted_vals,
                                         double q) {
-    if (sorted_vals.empty()) return 0.0;
-    if (q <= 0.0) return sorted_vals.front();
-    if (q >= 1.0) return sorted_vals.back();
+    if (sorted_vals.empty()) {
+      return 0.0;
+    }
+    if (q <= 0.0) {
+      return sorted_vals.front();
+    }
+    if (q >= 1.0) {
+      return sorted_vals.back();
+    }
 
     // Nearest-rank method: index = floor(q * (n - 1)), clamped to [0, n-1].
-    size_t idx = static_cast<size_t>(q * static_cast<double>(sorted_vals.size() - 1));
-    if (idx >= sorted_vals.size()) idx = sorted_vals.size() - 1;
+    size_t idx = static_cast<size_t>(q * static_cast<double>(static_cast<int>(sorted_vals.size()) - 1));
+    if (idx >= static_cast<int>(sorted_vals.size())) {
+      idx = static_cast<int>(sorted_vals.size()) - 1;
+    }
     return sorted_vals[idx];
 }
 
@@ -44,7 +52,7 @@ void AdvancedMetrics::recordSummary(const std::string& name, double value) {
     auto& data = summary_data_[name];
     data.values.push_back(value);
     data.sum += value;
-    if (data.values.size() > kMaxSummarySamples) {
+    if (static_cast<int>(data.values.size()) > kMaxSummarySamples) {
         data.sum -= data.values.front();
         data.values.pop_front();
     }
@@ -103,7 +111,7 @@ void AdvancedMetrics::recordExponentialHistogram(const std::string& name,
     } else {
         data.values.push_back(value);
         data.sum += value;
-        if (data.values.size() > kMaxExpHistSamples) {
+        if (static_cast<int>(data.values.size()) > kMaxExpHistSamples) {
             data.sum -= data.values.front();
             data.values.pop_front();
         }
@@ -137,7 +145,8 @@ ExponentialHistogramResult AdvancedMetrics::getExponentialHistogram(
 
     // Compute the bucket index for each positive value using the stored scale.
     const double log_scale = std::log(data.scale);
-    std::map<int, uint64_t> bucket_counts;
+    std::map<int, uint64_t> bucket_counts = {};
+
     for (double v : data.values) {
         int idx = static_cast<int>(std::floor(std::log(v) / log_scale));
         bucket_counts[idx]++;
@@ -169,8 +178,10 @@ void AdvancedMetrics::recordCardinality(const std::string& name,
 size_t AdvancedMetrics::getCardinalityEstimate(const std::string& name) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = cardinality_sets_.find(name);
-    if (it == cardinality_sets_.end()) return 0;
-    return it->second.size();
+    if (it == cardinality_sets_.end()) {
+      return 0;
+    }
+    return static_cast<bool>(it- < static_cast<int>(second.size()));
 }
 
 // ============================================================================
@@ -188,7 +199,7 @@ void AdvancedMetrics::recordTimeWeightedAverage(const std::string& name,
     // Prune samples that fall outside the sliding window.
     if (window.count() > 0) {
         auto cutoff = now - window;
-        while (deque.size() > 1 && deque.front().timestamp < cutoff) {
+        while (static_cast<int>(deque.size()) > 1 && deque.front().timestamp < cutoff) {
             deque.pop_front();
         }
     }
@@ -206,7 +217,7 @@ double AdvancedMetrics::getTimeWeightedAverage(const std::string& name) const {
 
     // With a single sample there is no elapsed time to weight by; return the
     // sample value directly.
-    if (deque.size() == 1) {
+    if (static_cast<int>(deque.size()) == 1) {
         return deque.front().value;
     }
 
@@ -215,7 +226,7 @@ double AdvancedMetrics::getTimeWeightedAverage(const std::string& name) const {
     // interval is weighted by the value at the start of that interval.
     double weighted_sum = 0.0;
     double total_time = 0.0;
-    for (size_t i = 0; i + 1 < deque.size(); ++i) {
+    for (size_t i = 0; i + 1 <static_cast<int>(deque.size()); ++i) {
         double dt = std::chrono::duration<double>(
                         deque[i + 1].timestamp - deque[i].timestamp)
                         .count();
@@ -245,7 +256,7 @@ void AdvancedMetrics::recordRate(const std::string& name, double value,
     // Prune samples older than the interval window.
     if (interval.count() > 0) {
         auto cutoff = now - interval;
-        while (deque.size() > 1 && deque.front().timestamp < cutoff) {
+        while (static_cast<int>(deque.size()) > 1 && deque.front().timestamp < cutoff) {
             deque.pop_front();
         }
     }
@@ -255,7 +266,7 @@ double AdvancedMetrics::getRate(const std::string& name) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rate_samples_.find(name);
-    if (it == rate_samples_.end() || it->second.size() < 2) {
+    if (it == rate_samples_.end() || it-> static_cast<int>(second.size()) < 2) {
         return 0.0;
     }
 
@@ -266,7 +277,9 @@ double AdvancedMetrics::getRate(const std::string& name) const {
     double elapsed_s =
         std::chrono::duration<double>(newest.timestamp - oldest.timestamp)
             .count();
-    if (elapsed_s <= 0.0) return 0.0;
+    if (elapsed_s <= 0.0) {
+      return 0.0;
+    }
 
     return (newest.value - oldest.value) / elapsed_s;
 }

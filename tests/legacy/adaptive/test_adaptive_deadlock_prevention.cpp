@@ -230,7 +230,8 @@ TEST_F(DeadlockPredictorTest, ActiveTransactionsInflateProbability) {
     predictor_.recordTransaction(1, {"k1", "k2"}, 100us);
     predictor_.recordDeadlock({"k1", "k2"});
 
-    std::set<DeadlockPredictor::TransactionId> none;
+    std::set<DeadlockPredictor::TransactionId> none = {};
+
     std::set<DeadlockPredictor::TransactionId> many = {10, 11, 12, 13, 14,
                                                        15, 16, 17, 18, 19};
     double prob_none = predictor_.predictDeadlockProbability({"k1", "k2"}, none);
@@ -411,7 +412,8 @@ TEST_F(AdaptiveDeadlockIntegrationTest, PredictProbabilityUsesActiveTransactionC
     txn_mgr_->setDeadlockPredictor(&predictor_);
 
     // Start several transactions to increase active-load factor.
-    std::vector<TransactionManager::TransactionId> ids;
+    std::vector<TransactionManager::TransactionId> ids = {};
+
     for (int i = 0; i < 5; ++i) {
         ids.push_back(txn_mgr_->beginTransaction());
     }

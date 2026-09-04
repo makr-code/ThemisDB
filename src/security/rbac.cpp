@@ -143,7 +143,7 @@ RBAC::RBAC(const RBACConfig& config) : config_(config) {
         for (const auto& role : getBuiltinRoles()) {
             roles_[role.name] = role;
         }
-        THEMIS_INFO("Loaded {} built-in roles", roles_.size());
+        THEMIS_INFO("Loaded {} built-in roles",static_cast<int>(roles_.size()));
     }
     
     // Load custom roles from config file
@@ -209,7 +209,8 @@ bool RBAC::loadFromJson(const nlohmann::json& j) {
     }
     
     // Clear existing custom roles (keep built-in)
-    std::unordered_map<std::string, Role> builtin_backup;
+    std::unordered_map<std::string, Role> builtin_backup = {};
+
     if (config_.use_builtin_roles) {
         for (const auto& br : getBuiltinRoles()) {
             builtin_backup[br.name] = br;
@@ -266,7 +267,7 @@ bool RBAC::saveConfig(const std::string& path) {
 void RBAC::addRole(const Role& role) {
     std::lock_guard<std::mutex> lock(mutex_);
     roles_[role.name] = role;
-    THEMIS_INFO("Added role '{}' with {} permissions", role.name, role.permissions.size());
+    THEMIS_INFO("Added role '{}' with {} permissions", role.name,static_cast<int>(role.permissions.size()));
 }
 
 void RBAC::removeRole(const std::string& role_name) {
@@ -286,7 +287,8 @@ std::optional<Role> RBAC::getRole(const std::string& role_name) const {
 
 std::vector<std::string> RBAC::listRoles() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(roles_.size());
     for (const auto& [name, _] : roles_) {
         names.push_back(name);
@@ -312,10 +314,10 @@ bool RBAC::checkPermission(
     }
 
     // Runtime license gate: RBAC is an Enterprise/Hyperscaler feature.
-    // [RB-1] Grace period: a transient license server outage must not immediately
+    // [static_cast<int>(RB - 1)] Grace period: a transient license server outage must not immediately
     // lock out all users. If the last successful check is within the grace window,
     // allow access and log a warning. Update the timestamp on every success.
-    std::string license_error;
+    std::string license_error = {};
     if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("rbac", license_error)) {
         const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now().time_since_epoch()).count();
@@ -553,7 +555,8 @@ std::vector<std::string> UserRoleStore::getUserRoles(const std::string& user_id)
 std::vector<std::string> UserRoleStore::getRoleUsers(const std::string& role) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> users;
+    std::vector<std::string> users = {};
+
     for (const auto& [user_id, user] : users_) {
         if (std::find(user.roles.begin(), user.roles.end(), role) != user.roles.end()) {
             users.push_back(user_id);
@@ -582,7 +585,7 @@ bool UserRoleStore::load(const std::string& path) {
             }
         }
         
-        THEMIS_INFO("Loaded {} users from {}", users_.size(), path);
+        THEMIS_INFO("Loaded {} users from {}",static_cast<int>(users_.size()), path);
         return true;
         
     } catch (const std::exception& e) {
@@ -605,7 +608,7 @@ bool UserRoleStore::save(const std::string& path) {
         std::ofstream ofs(path);
         ofs << j.dump(2);
         
-        THEMIS_INFO("Saved {} users to {}", users_.size(), path);
+        THEMIS_INFO("Saved {} users to {}",static_cast<int>(users_.size()), path);
         return true;
         
     } catch (const std::exception& e) {
@@ -627,7 +630,7 @@ std::optional<User> UserRoleStore::getUser(const std::string& user_id) const {
 void UserRoleStore::setUser(const User& user) {
     std::lock_guard<std::mutex> lock(mutex_);
     users_[user.user_id] = user;
-    THEMIS_INFO("Set user '{}' with {} roles", user.user_id, user.roles.size());
+    THEMIS_INFO("Set user '{}' with {} roles", user.user_id,static_cast<int>(user.roles.size()));
 }
 
 } // namespace security

@@ -140,7 +140,9 @@ public:
     bool isModelLoaded() const override { return loaded_; }
 
     std::optional<ModelInfo> getModelInfo() const override {
-        if (!loaded_) return std::nullopt;
+        if (!loaded_) {
+          return std::nullopt;
+        }
         ModelInfo info{};
         info.model_id  = "p5-mock";
         info.is_loaded = true;
@@ -204,7 +206,9 @@ protected:
     }
 
     void TearDown() override {
-        if (engine_) engine_->shutdown();
+        if (engine_) {
+          engine_->shutdown();
+        }
     }
 
     std::shared_ptr<P5MockPlugin>      plugin_;
@@ -430,7 +434,9 @@ TEST(EXSHardeningTest_Standalone, EXS08_ConcurrentException_IsolatedToOneThread)
             req.prompt     = "normal-" + std::to_string(i);
             req.request_id = "ok-" + std::to_string(i);
             auto resp = ok_engine.submit(req).get();
-            if (resp.success) success_count.fetch_add(1, std::memory_order_relaxed);
+            if (resp.success) {
+              success_count.fetch_add(1, std::memory_order_relaxed);
+            }
         });
     }
 
@@ -444,7 +450,9 @@ TEST(EXSHardeningTest_Standalone, EXS08_ConcurrentException_IsolatedToOneThread)
         EXPECT_FALSE(resp.success);
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(success_count.load(), kThreads)
         << "All normal-path threads must succeed despite exception in isolated engine";
@@ -463,7 +471,7 @@ TEST(EXSHardeningTest_Standalone, EXS08_ConcurrentException_IsolatedToOneThread)
 namespace {
 /// Minimal RAII model handle demonstrating move-only semantics.
 struct ModelHandle {
-    std::string model_id;
+    std::string model_id = {};
     bool        valid{false};
 
     explicit ModelHandle(std::string id) : model_id(std::move(id)), valid(true) {}
@@ -634,7 +642,9 @@ TEST(EXSHardeningTest_Standalone, EXS14_PromptPolicy_ConcurrentEval_Safe) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(passed.load(), kReaders * kRequests);
 }
 
@@ -1036,14 +1046,20 @@ TEST(EXSHardeningTest_Standalone, EXS28_ExceptionSafetyGate_ScoreIs1_0) {
     {
         const auto base = g_sim_alloc_net.load();
         { SimAllocGuard g(1); (void)g; }
-        if (g_sim_alloc_net.load() == base) ++checks_passed;
+        if (g_sim_alloc_net.load() == base) {
+          ++checks_passed;
+        }
     }
 
     // Check 2: Move-only type trait
-    if (!std::is_copy_constructible<ModelHandle>::value) ++checks_passed;
+    if (!std::is_copy_constructible<ModelHandle>::value) {
+      ++checks_passed;
+    }
 
     // Check 3: noexcept propagation
-    if (noexcept(safeTokenCount(0u, 0u))) ++checks_passed;
+    if (noexcept(safeTokenCount(0u, 0u))) {
+      ++checks_passed;
+    }
 
     // Check 4: PromptPolicy invalid regex throws at config time
     {
@@ -1054,7 +1070,9 @@ TEST(EXSHardeningTest_Standalone, EXS28_ExceptionSafetyGate_ScoreIs1_0) {
         } catch (const std::invalid_argument&) {
             threw = true;
         }
-        if (threw && policy.ruleCount() == 0u) ++checks_passed;
+        if (threw && policy.ruleCount() == 0u) {
+          ++checks_passed;
+        }
     }
 
     // Check 5: TokenQuotaManager double-limit stability
@@ -1063,7 +1081,9 @@ TEST(EXSHardeningTest_Standalone, EXS28_ExceptionSafetyGate_ScoreIs1_0) {
         tqm.setQuota("gate-user", "gate-model", 100);
         tqm.setQuota("gate-user", "gate-model", 100);  // idempotent set
         auto lim = tqm.getLimit("gate-user", "gate-model");
-        if (lim.has_value() && *lim == 100u) ++checks_passed;
+        if (lim.has_value() && *lim == 100u) {
+          ++checks_passed;
+        }
     }
 
     const double gate_score =
@@ -1250,7 +1270,8 @@ TEST_F(MEMHardeningTest, MEM07_KVCacheRelease_OnSessionEnd) {
 TEST_F(MEMHardeningTest, MEM08_BatchSchedulerQueue_ClearedOnShutdown) {
     {
         // Simulate scheduler request queue entries
-        std::vector<SimAllocGuard> request_queue;
+        std::vector<SimAllocGuard> request_queue = {};
+
         for (int i = 0; i < 5; ++i) {
             request_queue.emplace_back(64);
         }
@@ -1373,7 +1394,9 @@ TEST_F(MEMHardeningTest, MEM13_ConcurrentModelLoads_NoAllocationGrowth) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(g_sim_alloc_net.load(), baseline_)
         << "Concurrent model loads must show zero net allocation growth";
@@ -1417,7 +1440,9 @@ TEST_F(MEMHardeningTest, MEM15_1000CycleStress_WithinBudget) {
     for (int c = 0; c < kCycles; ++c) {
         SimAllocGuard g(50);  // 50 units per cycle, freed immediately
         const auto net = g_sim_alloc_net.load() - baseline_;
-        if (net > peak_net) peak_net = net;
+        if (net > peak_net) {
+          peak_net = net;
+        }
     }
 
     EXPECT_LE(peak_net, kBudget)
@@ -1602,7 +1627,8 @@ TEST_F(MEMHardeningTest, MEM21_SharedModelRefCount_ReachesZeroOnLastRelease) {
  */
 TEST_F(MEMHardeningTest, MEM22_ClientPool_FreesConnectionsOnDestroy) {
     {
-        std::vector<SimAllocGuard> connection_pool;
+        std::vector<SimAllocGuard> connection_pool = {};
+
         for (int i = 0; i < 4; ++i) {
             connection_pool.emplace_back(128);  // 128 units per connection
         }
@@ -1643,7 +1669,8 @@ TEST_F(MEMHardeningTest, MEM23_EmbeddingCacheEviction_TriggersValueDeleter) {
     };
 
     {
-        std::vector<CacheEntry> emb_cache;
+        std::vector<CacheEntry> emb_cache = {};
+
         for (int i = 0; i < 3; ++i) {
             emb_cache.emplace_back(256, value_deleter);
         }
@@ -1671,17 +1698,24 @@ TEST_F(MEMHardeningTest, MEM24_MemoryGate_ScoreIs1_0) {
     {
         const auto snap = g_sim_alloc_net.load();
         { SimAllocGuard g(1); (void)g; }
-        if (g_sim_alloc_net.load() == snap) ++checks_passed;
+        if (g_sim_alloc_net.load() == snap) {
+          ++checks_passed;
+        }
     }
 
     // Check 2: Vector of guards cleared → net zero
     {
         const auto snap = g_sim_alloc_net.load();
         {
-            std::vector<SimAllocGuard> v;
-            for (int i = 0; i < 4; ++i) v.emplace_back(10);
+            std::vector<SimAllocGuard> v = {};
+
+            for (int i = 0; i < 4; ++i) {
+              v.emplace_back(10);
+            }
         }
-        if (g_sim_alloc_net.load() == snap) ++checks_passed;
+        if (g_sim_alloc_net.load() == snap) {
+          ++checks_passed;
+        }
     }
 
     // Check 3: Optional guard released → net zero
@@ -1690,7 +1724,9 @@ TEST_F(MEMHardeningTest, MEM24_MemoryGate_ScoreIs1_0) {
         std::optional<SimAllocGuard> opt;
         opt.emplace(100);
         opt.reset();
-        if (g_sim_alloc_net.load() == snap) ++checks_passed;
+        if (g_sim_alloc_net.load() == snap) {
+          ++checks_passed;
+        }
     }
 
     // Check 4: Quota manager removeQuota → no lingering usage
@@ -1699,7 +1735,9 @@ TEST_F(MEMHardeningTest, MEM24_MemoryGate_ScoreIs1_0) {
         tqm.setQuota("gate-u", "gate-m", 500);
         tqm.consume("gate-u", "gate-m", 200);
         tqm.removeQuota("gate-u", "gate-m");
-        if (tqm.currentUsage("gate-u", "gate-m") == 0u) ++checks_passed;
+        if (tqm.currentUsage("gate-u", "gate-m") == 0u) {
+          ++checks_passed;
+        }
     }
 
     // Check 5: Move of SimAllocGuard does not double-decrement
@@ -1710,7 +1748,9 @@ TEST_F(MEMHardeningTest, MEM24_MemoryGate_ScoreIs1_0) {
             SimAllocGuard b(std::move(a));  // a invalidated
             // b destructor fires; a's destructor is a no-op
         }
-        if (g_sim_alloc_net.load() == snap) ++checks_passed;
+        if (g_sim_alloc_net.load() == snap) {
+          ++checks_passed;
+        }
     }
 
     const double gate_score =

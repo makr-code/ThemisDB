@@ -95,7 +95,7 @@ TEST(HuggingFaceIngestPlugin, ExportsDeterministicAdaLoraJsonl) {
 
     std::ifstream in(output);
     ASSERT_TRUE(in.is_open());
-    std::string line;
+    std::string line = {};
     ASSERT_TRUE(static_cast<bool>(std::getline(in, line)));
     EXPECT_NE(line.find("\"instruction\""), std::string::npos);
     EXPECT_NE(line.find("\"system\":\"legal-assistant\""), std::string::npos);

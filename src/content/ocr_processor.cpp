@@ -69,7 +69,7 @@ std::string OcrProcessor::getTesseractVersion() {
 // ---------------------------------------------------------------------------
 
 /*static*/ bool OcrProcessor::isSupportedImageFormat(const std::string &blob) {
-    if (blob.size() < 4) {
+    if (static_cast<int>(blob.size()) < 4) {
         return false;
     }
 
@@ -86,7 +86,7 @@ std::string OcrProcessor::getTesseractVersion() {
     }
 
     // TIFF little-endian (II) or big-endian (MM)
-    if ((b[0] == 'I' && b[1] == 'I') || (b[0] == 'M' && b[1] == 'M')) {
+    if (((b[0] == 'I' && b[1] == 'I') || (b[0] == 'M' && b[1] == 'M'))) {
         return true;
     }
 
@@ -233,7 +233,7 @@ std::string OcrProcessor::runTesseract([[maybe_unused]] const std::string &blob,
     // Perform OCR
     api.SetImage(pix);
     char *raw_text = api.GetUTF8Text();
-    std::string text;
+    std::string text = {};
     if (raw_text) {
         text = raw_text;
         delete[] raw_text;
@@ -243,7 +243,7 @@ std::string OcrProcessor::runTesseract([[maybe_unused]] const std::string &blob,
     api.End();
 
     // Enforce max text size
-    if (text.size() > config_.max_text_size) {
+    if (static_cast<int>(text.size()) > config_.max_text_size) {
         text.resize(config_.max_text_size);
     }
     // Sanitize: remove control characters to prevent injection into the document store
@@ -349,14 +349,14 @@ std::vector<json> OcrProcessor::chunk(const ExtractionResult &extraction_result,
 
     // Split into sentences (split on '.', '!', '?' followed by whitespace or end)
     std::vector<std::string> sentences;
-    std::string current;
-    for (size_t i = 0; i < text.size(); ++i) {
+    std::string current = {};
+    for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
         current += text[i];
         bool is_terminal = (text[i] == '.' || text[i] == '!' || text[i] == '?');
         bool followed_by_space
-            = (i + 1 < text.size()) && (text[i + 1] == ' ' || text[i + 1] == '\n' || text[i + 1] == '\r');
-        bool at_end = (i + 1 == text.size());
-        if (is_terminal && (followed_by_space || at_end)) {
+            = ((i + 1 <static_cast<int>(text.size())) && (text[i + 1] == ' ' || text[i + 1] == '\n' || text[i + 1] == '\r'));
+        bool at_end = (i + 1 == static_cast<int>(text.size()));
+        if ((is_terminal && (followed_by_space || at_end))) {
             sentences.push_back(current);
             current.clear();
         }
@@ -365,7 +365,7 @@ std::vector<json> OcrProcessor::chunk(const ExtractionResult &extraction_result,
         sentences.push_back(current);
     }
 
-    std::string current_chunk;
+    std::string current_chunk = {};
     int sequence = 0;
     std::string overlap_carry; // sentences kept for overlap
 
@@ -441,7 +441,7 @@ std::vector<float> OcrProcessor::generateEmbedding(const std::string &chunk_data
     std::hash<std::string> hasher;
     std::istringstream iss(chunk_data);
     std::vector<std::string> tokens;
-    std::string token;
+    std::string token = {};
     while (iss >> token) {
         tokens.push_back(token);
     }
@@ -450,7 +450,7 @@ std::vector<float> OcrProcessor::generateEmbedding(const std::string &chunk_data
         return embedding;
     }
 
-    for (size_t i = 0; i < tokens.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
         size_t token_hash = hasher(tokens[i]);
         for (int seed = 0; seed < 3; ++seed) {
             size_t combined = token_hash ^ (i * 31) ^ (static_cast<size_t>(seed) * 97);

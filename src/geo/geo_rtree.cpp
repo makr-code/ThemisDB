@@ -66,7 +66,8 @@ struct GeoRTree::Impl {
 
     void bulkLoad(const std::vector<std::pair<std::string, GeometryInfo>>& entries) {
         // Build value range for bulk constructor (STR packing)
-        std::vector<RtreeValue> values;
+        std::vector<RtreeValue> values = {};
+
         values.reserve(entries.size());
         for (const auto& [key, geom] : entries) {
             values.emplace_back(geometryBox(geom), key);
@@ -85,11 +86,12 @@ struct GeoRTree::Impl {
 
     void clear() { tree.clear(); }
 
-    std::size_t size() const { return tree.size(); }
+    std::size_t size() const { return static_cast<int>(tree.size()); }
 
     std::vector<std::string> intersects(const MBR& query_bbox) const {
         BgBox qbox = toBox(query_bbox);
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         result.reserve(tree.size()); // worst-case: all entries match
         for (auto it = tree.qbegin(bgi::intersects(qbox)); it != tree.qend(); ++it) {
             result.push_back(it->second);
@@ -102,7 +104,8 @@ struct GeoRTree::Impl {
         // We query with a degenerate box (point) and check containment.
         BgPoint qpt(x, y);
         BgBox   qbox(qpt, qpt);  // zero-area box at the query point
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         result.reserve(tree.size()); // worst-case: all entries contain point
         for (auto it = tree.qbegin(bgi::intersects(qbox)); it != tree.qend(); ++it) {
             // The candidate MBR intersects the point; now verify containment.
@@ -126,7 +129,7 @@ struct GeoRTree::Impl {
 
 struct Entry {
     MBR     mbr;
-    std::string key;
+    std::string key = {};
 };
 
 struct GeoRTree::Impl {
@@ -159,10 +162,11 @@ struct GeoRTree::Impl {
 
     void clear() { entries.clear(); }
 
-    std::size_t size() const { return entries.size(); }
+    std::size_t size() const { return static_cast<int>(entries.size()); }
 
     std::vector<std::string> intersects(const MBR& query_bbox) const {
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         result.reserve(entries.size()); // worst-case: all entries match
         for (const auto& e : entries) {
             if (e.mbr.intersects(query_bbox)) {
@@ -173,7 +177,8 @@ struct GeoRTree::Impl {
     }
 
     std::vector<std::string> contains(double x, double y) const {
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         result.reserve(entries.size()); // worst-case: all entries contain point
         for (const auto& e : entries) {
             if (e.mbr.contains(x, y)) {

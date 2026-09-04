@@ -313,7 +313,7 @@ private:
  * @brief Characteristics of a field used to select the optimal match strategy.
  */
 struct FieldCharacteristics {
-    std::string name;
+    std::string name = {};
     std::string type;            ///< "email", "phone", "name", "numeric", "text", "id"
     double      uniqueness_ratio = 0.0;  ///< 0.0–1.0: fraction of distinct values in collection
     bool        is_primary_key   = false;

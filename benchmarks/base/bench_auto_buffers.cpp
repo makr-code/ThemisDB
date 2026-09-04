@@ -13,7 +13,7 @@
 
 static void BM_VectorOperations_RandomAccess(benchmark::State& state) {
     std::vector<float> vec(state.range(0));
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, state.range(0) - 1);
     
@@ -69,7 +69,7 @@ static void BM_StringOperations_Concatenation(benchmark::State& state) {
     std::string base = "benchmark_entity_";
     
     for (auto _ : state) {
-        std::string result;
+        std::string result = {};
         for (int i = 0; i < state.range(0); ++i) {
             result = base + std::to_string(i);
             benchmark::DoNotOptimize(result);
@@ -93,12 +93,13 @@ BENCHMARK(BM_MapOperations_Insert)
     ->Range(100, 10000);
 
 static void BM_MapOperations_Lookup(benchmark::State& state) {
-    std::map<std::string, double> data;
+    std::map<std::string, double> data = {};
+
     for (int i = 0; i < 1000; ++i) {
         data["key_" + std::to_string(i)] = i * 1.5;
     }
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, 999);
     

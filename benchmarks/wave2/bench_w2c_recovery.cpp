@@ -89,11 +89,17 @@ std::unique_ptr<RocksDBWrapper> openDb(const std::string& path, bool wal) {
 std::vector<float> randomVec(int dim, std::mt19937& rng) {
     std::uniform_real_distribution<float> dis(-1.f, 1.f);
     std::vector<float> v(static_cast<std::size_t>(dim));
-    for (auto& x : v) x = dis(rng);
+    for (auto& x : v) {
+      x = dis(rng);
+    }
     float sq = 0.f;
-    for (float x : v) sq += x * x;
+    for (float x : v) {
+      sq += x * x;
+    }
     float inv = 1.f / std::sqrt(std::max(sq, 1e-12f));
-    for (auto& x : v) x *= inv;
+    for (auto& x : v) {
+      x *= inv;
+    }
     return v;
 }
 
@@ -134,7 +140,7 @@ static void BM_W2C_ColdRead(benchmark::State& state) {
 
         // Timed: cold read
         std::string key = "k_" + std::to_string(keyDist(rng));
-        std::string out;
+        std::string out = {};
         bool found = db->get(key, out);
         benchmark::DoNotOptimize(found);
         benchmark::DoNotOptimize(out);
@@ -182,7 +188,7 @@ public:
         }
         // Warm the block cache
         for (int i = 0; i < kWarmupReads; ++i) {
-            std::string out;
+            std::string out = {};
             db_->get("k_" + std::to_string(i % kWarmKeys), out);
         }
     }
@@ -210,7 +216,7 @@ BENCHMARK_DEFINE_F(W2C_WarmReadFixture, WarmRead)(benchmark::State& state) {
 
     for (auto _ : state) {
         std::string key = "k_" + std::to_string(keyDist(rng));
-        std::string out;
+        std::string out = {};
         bool found = db_->get(key, out);
         benchmark::DoNotOptimize(found);
         benchmark::DoNotOptimize(out);
@@ -250,7 +256,8 @@ static void BM_W2C_ReopenLatency_NoWAL(benchmark::State& state) {
         db->close();
     }
 
-    std::unique_ptr<RocksDBWrapper> db;
+    std::unique_ptr<RocksDBWrapper> db = {};
+
     for (auto _ : state) {
         // Timed: full close + reopen round-trip
         if (db) { db->close(); db.reset(); }
@@ -300,7 +307,7 @@ static void BM_W2C_WalReplayRead(benchmark::State& state) {
 
         // Timed: reopen (WAL replay) + first read
         auto db = openDb(dbPath, /*wal=*/true);
-        std::string out;
+        std::string out = {};
         bool found = db->get("wal_0", out);
         benchmark::DoNotOptimize(found);
         benchmark::DoNotOptimize(out);

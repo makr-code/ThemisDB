@@ -16,7 +16,7 @@ namespace distributed_tensor {
 static std::string get_iso8601_timestamp() noexcept {
   auto now = std::chrono::system_clock::now();
   auto time = std::chrono::system_clock::to_time_t(now);
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << std::put_time(std::gmtime(&time), "%Y-%m-%dT%H:%M:%SZ");
   return oss.str();
 }
@@ -28,7 +28,7 @@ static std::string generate_job_id() noexcept {
   auto micros =
       std::chrono::duration_cast<std::chrono::microseconds>(now).count();
 
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << "recovery_job_" << std::hex << micros;
   return oss.str();
 }
@@ -196,7 +196,8 @@ bool DefaultRecoveryManager::cancel_recovery_job(
 
 std::vector<RecoveryJob> DefaultRecoveryManager::list_active_recovery_jobs()
     const noexcept {
-  std::vector<RecoveryJob> active_jobs;
+  std::vector<RecoveryJob> active_jobs = {};
+
   for (const auto& [job_id, job] : recovery_jobs_) {
     if (job.status == RecoveryJobStatus::QUEUED ||
         job.status == RecoveryJobStatus::RUNNING) {

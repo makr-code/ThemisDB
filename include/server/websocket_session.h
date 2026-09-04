@@ -140,8 +140,12 @@ public:
      * /v2/cdc/stream sessions that have at least one active named subscription.
      */
     bool isSubscribedToCDC() const {
-        if (cdc_subscribed_) return true;
-        if (cdc_stream_handler_) return cdc_stream_handler_->hasSubscriptions();
+        if (cdc_subscribed_) {
+          return true;
+        }
+        if (cdc_stream_handler_) {
+          return cdc_stream_handler_->hasSubscriptions();
+        }
         return false;
     }
     
@@ -154,7 +158,7 @@ public:
      * @brief Get CDC subscription details
      */
     struct CDCSubscription {
-        uint64_t from_sequence;
+        uint64_t from_sequence = 0;
         std::string key_prefix;
         uint64_t last_sent_sequence;
         std::set<Changefeed::ChangeEventType> event_types;

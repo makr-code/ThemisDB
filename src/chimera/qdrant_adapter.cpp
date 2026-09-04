@@ -124,7 +124,7 @@ Result<size_t> QdrantAdapter::batch_insert(
 }
 
 Result<QueryStatistics> QdrantAdapter::get_query_statistics() const {
-    QueryStatistics stats;
+    QueryStatistics stats = {};
     return Result<QueryStatistics>::ok(std::move(stats));
 }
 
@@ -175,7 +175,7 @@ Result<size_t> QdrantAdapter::batch_insert_vectors(
         }
     }
 
-    return Result<size_t>::ok(vectors.size());
+    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(vectors.size())));
 }
 
 Result<std::vector<std::pair<Vector, double>>> QdrantAdapter::search_vectors(
@@ -500,7 +500,7 @@ Result<BatchStatistics> QdrantAdapter::flush() {
 
 size_t QdrantAdapter::get_pending_count() const {
     std::unique_lock<std::mutex> lock(batch_mutex_);
-    return vector_queue_.size();
+    return static_cast<int>(vector_queue_.size());
 }
 
 Result<bool> QdrantAdapter::set_batch_config(const BatchConfig& config) {

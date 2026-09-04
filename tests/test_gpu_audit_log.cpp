@@ -176,7 +176,9 @@ TEST(GPUAuditLogTest, ConcurrentWrites_NoDataRace) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(log.totalRecorded(),
               static_cast<uint64_t>(THREADS * OPS_PER_THREAD));

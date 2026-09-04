@@ -35,7 +35,7 @@ protected:
     // Helper: Create a simple ZIP file (mock)
     std::string createMockZipBlob() {
         // ZIP local file header signature: PK\x03\x04
-        std::string blob;
+        std::string blob = {};
         blob.push_back(0x50);  // P
         blob.push_back(0x4B);  // K
         blob.push_back(0x03);
@@ -72,7 +72,7 @@ TEST_F(ArchiveProcessorTest, DetectFormatFromFilename) {
 }
 
 TEST_F(ArchiveProcessorTest, DetectFormatEmptyBlobReturnsUnknown) {
-    std::string empty_blob;
+    std::string empty_blob = {};
     
     // Empty blobs must return UNKNOWN regardless of filename extension
     // This prevents false positives and improves security validation
@@ -205,7 +205,7 @@ TEST_F(ArchiveProcessorTest, CompressionRatioCheck) {
     metadata.total_compressed_size = 100;
     metadata.total_uncompressed_size = 2000;  // 20:1 ratio - should fail
     
-    std::string error;
+    std::string error = {};
     bool valid = processor.validateArchive(metadata, error);
     
     EXPECT_FALSE(valid);
@@ -224,7 +224,7 @@ TEST_F(ArchiveProcessorTest, TotalSizeLimit) {
     metadata.total_uncompressed_size = 2048;  // 2 KB - should fail
     metadata.total_compressed_size = 100;
     
-    std::string error;
+    std::string error = {};
     bool valid = processor.validateArchive(metadata, error);
     
     EXPECT_FALSE(valid);
@@ -244,7 +244,7 @@ TEST_F(ArchiveProcessorTest, FileCountLimit) {
     metadata.total_compressed_size = 100;
     metadata.total_uncompressed_size = 1000;
     
-    std::string error;
+    std::string error = {};
     bool valid = processor.validateArchive(metadata, error);
     
     EXPECT_FALSE(valid);
@@ -423,7 +423,7 @@ TEST_F(ArchiveProcessorTest, SecurityManagerBlocksZipBombRatioViaConfig) {
     metadata.file_count = 1;
 
     // validateArchive passes (internal limit is 10000), but security manager blocks
-    std::string err;
+    std::string err = {};
     EXPECT_TRUE(processor.validateArchive(metadata, err));  // internal check passes
 
     // We cannot call process() without a real archive blob, so test the security

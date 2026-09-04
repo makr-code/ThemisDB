@@ -166,7 +166,7 @@ public:
             cudaMemcpy(d_q, queries, qBytes, cudaMemcpyHostToDevice);
             cudaMemcpy(d_v, vectors, vBytes, cudaMemcpyHostToDevice);
 
-            cudaError_t err;
+            cudaError_t err = {};
             if (precision_ == CudaPluginPrecision::FP16) {
                 err = launchFP16L2DistanceKernel(d_q, d_v, d_out,
                                                  static_cast<int>(numQueries),

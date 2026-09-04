@@ -146,7 +146,8 @@ BENCHMARK_REGISTER_F(GraphOptimizationFixture, GRG02_ExplainPlan)
 
 BENCHMARK_DEFINE_F(GraphOptimizationFixture, GRG03_ResolveConstraints)
 (benchmark::State& state) {
-    std::vector<QueryConstraint> constraints;
+    std::vector<QueryConstraint> constraints = {};
+
     for (int i = 0; i < 10; ++i) {
         QueryConstraint c;
         c.property = "prop_" + std::to_string(i);

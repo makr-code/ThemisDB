@@ -50,7 +50,7 @@ enum class HashAlgorithm {
 /// pinpoints corrupted blocks.
 struct MerkleTreeNode {
   /// Hash value of this node.
-  std::string hash;
+  std::string hash = {};
 
   /// Level in the tree (0 = leaf, higher = internal nodes).
   uint32_t level = 0;

@@ -32,7 +32,7 @@ public:
     {
         ingestion::FormatExtractResult out;
         try {
-            std::string blob(reinterpret_cast<const char*>(data.data()), data.size());
+            std::string blob(reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()));
 
             // Detect the specific archive sub-format using the static helper
             ArchiveFormat fmt = ArchiveProcessor::detectFormat(blob, filename_hint);

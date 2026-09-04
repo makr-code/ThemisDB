@@ -48,7 +48,7 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
             params.M = std::max(8, params.M - 6);  // Optimize for bulk loading
             break;
         case WorkloadType::MIXED:
-        default:
+        [[fallthrough]];\n        default:
             // Keep default M
             break;
     }
@@ -74,7 +74,7 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
             params.ef_construction = static_cast<int>(params.ef_construction * 0.6);
             break;
         case WorkloadType::MIXED:
-        default:
+        [[fallthrough]];\n        default:
             // Keep default ef_construction
             break;
     }
@@ -97,7 +97,7 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
             // ef_search less relevant for batch insert
             break;
         case WorkloadType::MIXED:
-        default:
+        [[fallthrough]];\n        default:
             // Keep default ef_search
             break;
     }
@@ -161,7 +161,7 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getWorkloadOptimizedP
             profile = PerformanceProfile::LATENCY_OPTIMIZED;  // Fast inserts
             break;
         case WorkloadType::MIXED:
-        default:
+        [[fallthrough]];\n        default:
             profile = PerformanceProfile::BALANCED;
             break;
     }
@@ -169,7 +169,7 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getWorkloadOptimizedP
     return getRecommendedParams(dataset_size, dimension, profile, workload);
 }
 
-int HnswProductionDefaults::getRecommendedM(size_t dataset_size) {
+int HnswProductionDefaults::getRecommendedM([[maybe_unused]] size_t dataset_size) {
     // Based on HNSW paper and production experience
     // Smaller M for small datasets (faster build, less memory)
     // Larger M for large datasets (better connectivity, higher recall)
@@ -322,9 +322,9 @@ bool HnswProductionDefaults::validateParams(
     // Warn about memory usage for large datasets with high M
     if (dataset_size > LARGE_DATASET && params.M > 32) {
         size_t estimated_mem = estimateMemoryUsage(params, dataset_size, 768);
-        if (estimated_mem > 100ULL * 1024 * 1024 * 1024) {  // 100 GB
+        if (estimated_mem > 100 * 1024 * 1024 * 1024) {  // 100 GB
             spdlog::warn("HNSW: Estimated memory usage {} GB may be excessive", 
-                        estimated_mem / (1024ULL * 1024 * 1024));
+                        estimated_mem / (1024 * 1024 * 1024));
         }
     }
     

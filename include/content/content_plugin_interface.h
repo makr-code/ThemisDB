@@ -409,7 +409,9 @@ using GetVersionFunc = const char* (*)();
  * @brief Simple token counter (whitespace-based)
  */
 inline int countTokens(const std::string& text) {
-    if (text.empty()) return 0;
+    if (text.empty()) {
+      return 0;
+    }
     
     int count = 0;
     bool in_token = false;
@@ -425,7 +427,9 @@ inline int countTokens(const std::string& text) {
         }
     }
     
-    if (in_token) count++;
+    if (in_token) {
+      count++;
+    }
     return count;
 }
 
@@ -434,7 +438,7 @@ inline int countTokens(const std::string& text) {
  */
 inline std::vector<std::string> splitSentences(const std::string& text) {
     std::vector<std::string> sentences;
-    std::string current;
+    std::string current = {};
     
     for (size_t i = 0; i < text.size(); ++i) {
         current += text[i];

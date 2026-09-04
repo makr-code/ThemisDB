@@ -46,7 +46,9 @@ protected:
                                 long serial_number = 42,
                                 const char* cn = "ThemisDB Test Cert") {
         EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, nullptr);
-        if (!ctx) return false;
+        if (!ctx) {
+          return false;
+        }
         if (EVP_PKEY_keygen_init(ctx) <= 0 ||
             EVP_PKEY_CTX_set_rsa_keygen_bits(ctx, 2048) <= 0 ||
             EVP_PKEY_keygen(ctx, out_pkey) <= 0) {
@@ -90,7 +92,9 @@ protected:
     void generateSelfSignedCert() {
         EVP_PKEY* pkey = nullptr;
         X509*     cert = nullptr;
-        if (!makeKeyAndCert(&pkey, &cert, 1)) return;
+        if (!makeKeyAndCert(&pkey, &cert, 1)) {
+          return;
+        }
         plain_cert_pem_ = certToPEM(cert);
         X509_free(cert);
         EVP_PKEY_free(pkey);
@@ -102,7 +106,9 @@ protected:
     void generateCertWithCRLExtension() {
         EVP_PKEY* pkey = nullptr;
         X509*     cert = nullptr;
-        if (!makeKeyAndCert(&pkey, &cert, 2)) return;
+        if (!makeKeyAndCert(&pkey, &cert, 2)) {
+          return;
+        }
 
         // Add cRLDistributionPoints extension with a bogus local URL
         // (127.0.0.1:19999 is almost certainly not listening in CI).
@@ -133,7 +139,9 @@ protected:
     void generateCertWithOCSPExtension() {
         EVP_PKEY* pkey = nullptr;
         X509*     cert = nullptr;
-        if (!makeKeyAndCert(&pkey, &cert, 3)) return;
+        if (!makeKeyAndCert(&pkey, &cert, 3)) {
+          return;
+        }
 
         X509V3_CTX v3ctx;
         X509V3_set_ctx_nodb(&v3ctx);

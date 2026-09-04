@@ -329,7 +329,9 @@ std::optional<ParticipantTxnState>
 TwoPhaseCommitParticipant::getTransactionState(const std::string& transaction_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = transactions_.find(transaction_id);
-    if (it == transactions_.end()) return std::nullopt;
+    if (it == transactions_.end()) {
+      return std::nullopt;
+    }
     return it->second.state;
 }
 
@@ -343,7 +345,9 @@ size_t TwoPhaseCommitParticipant::abortTimedOutTransactions() {
     size_t count = 0;
 
     for (auto& [txn_id, txn] : transactions_) {
-        if (txn.state != ParticipantTxnState::PREPARED) continue;
+        if (txn.state != ParticipantTxnState::PREPARED) {
+          continue;
+        }
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
             now - txn.prepared_at
         );
@@ -376,7 +380,9 @@ size_t TwoPhaseCommitParticipant::abortTimedOutTransactions() {
  * @return Count of in-doubt PREPARED transactions after replay.
  */
 size_t TwoPhaseCommitParticipant::recoverFromWAL() {
-    if (!wal_) return 0;
+    if (!wal_) {
+      return 0;
+    }
 
     THEMIS_INFO("2PC participant [{}] recovering from WAL…", shard_id_);
 
@@ -385,7 +391,9 @@ size_t TwoPhaseCommitParticipant::recoverFromWAL() {
     try {
         LSN oldest = wal_->getOldestLSN();
         LSN current = wal_->getCurrentLSN();
-        if (oldest > current) return 0;
+        if (oldest > current) {
+          return 0;
+        }
 
         auto entries = wal_->readRange(oldest, current);
 
@@ -394,7 +402,9 @@ size_t TwoPhaseCommitParticipant::recoverFromWAL() {
         // materializing minimal terminal records so idempotent follow-up RPCs
         // can still be answered consistently.
         for (const auto& entry : entries) {
-            if (entry.transaction_id.empty()) continue;
+            if (entry.transaction_id.empty()) {
+              continue;
+            }
 
             const std::string& txn_id = entry.transaction_id;
 

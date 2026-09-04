@@ -117,7 +117,7 @@ Result<std::vector<UserRegistrationData>> ArrowUserRegistrationPlugin::syncUsers
         }
     }
 
-    THEMIS_INFO("Arrow plugin: Synced {} users", users.size());
+    THEMIS_INFO("Arrow plugin: Synced {} users",static_cast<int>(users.size()));
     return themis::Ok(std::move(users));
 #else
     return themis::Err<std::vector<UserRegistrationData>>(
@@ -179,7 +179,8 @@ Result<size_t> ArrowUserRegistrationPlugin::bulkSyncFromArrow(
     auto password_col = std::static_pointer_cast<arrow::StringArray>(batch.column(password_idx));
 
     std::shared_ptr<arrow::StringArray> roles_col;
-    std::shared_ptr<arrow::StringArray> email_col;
+    std::shared_ptr<arrow::StringArray> email_col = {};
+
     if (roles_idx >= 0) {
         roles_col = std::static_pointer_cast<arrow::StringArray>(batch.column(roles_idx));
     }
@@ -198,7 +199,7 @@ Result<size_t> ArrowUserRegistrationPlugin::bulkSyncFromArrow(
 
         if (roles_col && !roles_col->IsNull(i)) {
             std::string roles_str = roles_col->GetString(i);
-            std::string role;
+            std::string role = {};
             for (char c : roles_str) {
                 if (c == ',') {
                     if (!role.empty()) {
@@ -259,7 +260,7 @@ std::string ArrowUserRegistrationPlugin::hashPassword(const std::string& passwor
     EVP_DigestUpdate(mdctx.get(), password.c_str(), password.length());
     EVP_DigestFinal_ex(mdctx.get(), hash, &hash_len);
 
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (unsigned int i = 0; i < hash_len; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }

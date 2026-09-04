@@ -34,7 +34,7 @@ double jaccardSimilarity(const std::string& a, const std::string& b) {
     auto tokenize = [](const std::string& text) {
         std::unordered_set<std::string> tokens;
         std::istringstream stream(text);
-        std::string word;
+        std::string word = {};
         while (stream >> word) {
             // Lowercase
             std::transform(word.begin(), word.end(), word.begin(), ::tolower);
@@ -46,14 +46,20 @@ double jaccardSimilarity(const std::string& a, const std::string& b) {
     auto ta = tokenize(a);
     auto tb = tokenize(b);
 
-    if (ta.empty() && tb.empty()) return 1.0;
-    if (ta.empty() || tb.empty()) return 0.0;
+    if (ta.empty() && tb.empty()) {
+      return 1.0;
+    }
+    if (ta.empty() || tb.empty()) {
+      return 0.0;
+    }
 
     size_t intersection = 0;
     for (const auto& t : ta) {
-        if (tb.count(t)) ++intersection;
+        if (tb.count(t)) {
+          ++intersection;
+        }
     }
-    const size_t unionSize = ta.size() + tb.size() - intersection;
+    const size_t unionSize = static_cast<int>(ta.size()) + static_cast<int>(tb.size()) - intersection;
     return unionSize == 0 ? 0.0 : static_cast<double>(intersection) / static_cast<double>(unionSize);
 }
 
@@ -69,7 +75,9 @@ ContextWindowFiller::ContextWindowFiller(size_t max_tokens, double chars_per_tok
 }
 
 size_t ContextWindowFiller::estimateTokens(const std::string& text) const {
-    if (text.empty()) return 0;
+    if (text.empty()) {
+      return 0;
+    }
     // Use pre-computed count if the caller set it to non-zero, otherwise
     // estimate from character count.
     const double estimated = static_cast<double>(text.size()) / chars_per_token_;
@@ -96,7 +104,7 @@ bool ContextWindowFiller::tryAdd(const StreamedDocument& doc) {
     return true;
 }
 
-bool ContextWindowFiller::hasCapacity(size_t min_tokens) const {
+bool ContextWindowFiller::hasCapacity([[maybe_unused]] size_t min_tokens) const {
     return (max_tokens_ >= tokens_used_) &&
            (max_tokens_ - tokens_used_ >= min_tokens);
 }
@@ -145,7 +153,9 @@ struct StreamingRetriever::Impl {
      */
     bool isDuplicate(const StreamedDocument& candidate,
                      const std::vector<StreamedDocument>& selected) const {
-        if (!config.enable_mmr_deduplication) return false;
+        if (!config.enable_mmr_deduplication) {
+          return false;
+        }
         for (const auto& doc : selected) {
             if (jaccardSimilarity(candidate.content, doc.content) >=
                 config.mmr_similarity_threshold) {
@@ -172,18 +182,18 @@ StreamingRetriever::StreamingRetriever(const StreamingRetrieverConfig& config)
 
 StreamingRetriever::~StreamingRetriever() = default;
 
-void StreamingRetriever::setDocumentAcceptedCallback(DocumentAcceptedCallback cb) {
-    std::lock_guard<std::mutex> lock(impl_->callback_mutex);
+void StreamingRetriever::setDocumentAcceptedCallback([[maybe_unused]] DocumentAcceptedCallback cb) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
     impl_->on_accepted = std::move(cb);
 }
 
-void StreamingRetriever::setDocumentSkippedCallback(DocumentSkippedCallback cb) {
-    std::lock_guard<std::mutex> lock(impl_->callback_mutex);
+void StreamingRetriever::setDocumentSkippedCallback([[maybe_unused]] DocumentSkippedCallback cb) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
     impl_->on_skipped = std::move(cb);
 }
 
-void StreamingRetriever::setWindowFullCallback(WindowFullCallback cb) {
-    std::lock_guard<std::mutex> lock(impl_->callback_mutex);
+void StreamingRetriever::setWindowFullCallback([[maybe_unused]] WindowFullCallback cb) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
     impl_->on_window_full = std::move(cb);
 }
 
@@ -211,7 +221,7 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
     impl_->cancel_requested.store(false, std::memory_order_relaxed);
 
     THEMIS_INFO("StreamingRetriever::stream started: query='{}', candidates={}",
-                query, candidates.size());
+                query,static_cast<int>(candidates.size()));
 
     StreamingResult result{};
     result.documents_considered = candidates.size();
@@ -230,14 +240,14 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
                     return d.relevance_score < threshold;
                 }),
             candidates.end());
-        THEMIS_DEBUG("After relevance filter: {} candidates remain", candidates.size());
+        THEMIS_DEBUG("After relevance filter: {} candidates remain",static_cast<int>(candidates.size()));
     }
 
     // ------------------------------------------------------------------
     // 2. Cap number of documents to consider
     // ------------------------------------------------------------------
     if (impl_->config.max_documents_to_consider > 0 &&
-        candidates.size() > impl_->config.max_documents_to_consider) {
+        static_cast<int>(candidates.size()) > impl_->config.max_documents_to_consider) {
         candidates.resize(impl_->config.max_documents_to_consider);
     }
 
@@ -271,7 +281,7 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
                             result.documents_added, filler.snapshot().total_tokens_used);
                 WindowFullCallback cb;
                 {
-                    std::lock_guard<std::mutex> lock(impl_->callback_mutex);
+                    std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
                     cb = impl_->on_window_full;
                 }
                 if (cb) {
@@ -289,7 +299,7 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
             result.skipped_documents.push_back(doc);
             DocumentSkippedCallback cb;
             {
-                std::lock_guard<std::mutex> lock(impl_->callback_mutex);
+                std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
                 cb = impl_->on_skipped;
             }
             if (cb) {
@@ -306,7 +316,7 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
                          filler.snapshot().total_tokens_used);
             DocumentAcceptedCallback cb;
             {
-                std::lock_guard<std::mutex> lock(impl_->callback_mutex);
+                std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
                 cb = impl_->on_accepted;
             }
             if (cb) {
@@ -319,7 +329,7 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
             result.skipped_documents.push_back(doc);
             DocumentSkippedCallback cb;
             {
-                std::lock_guard<std::mutex> lock(impl_->callback_mutex);
+                std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
                 cb = impl_->on_skipped;
             }
             if (cb) {

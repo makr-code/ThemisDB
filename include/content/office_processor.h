@@ -44,7 +44,7 @@ enum class OfficeDocumentType {
  * @brief Word Document Structure
  */
 struct WordDocumentInfo {
-    std::string text;
+    std::string text = {};
     std::vector<std::string> paragraphs;
     std::vector<std::string> headings;
     std::vector<std::pair<std::string, std::string>> comments;  // author, text

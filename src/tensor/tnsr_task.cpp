@@ -119,7 +119,7 @@ TNSRReport TNSRTask::run(
         // Skip HISS for structurally trivial trains where topology search is
         // unlikely to produce meaningful non-chain mutations.
         const bool trivial_topology =
-            (recompressed.cores.size() < 3U) || (recompressed.maxRank() < 2U);
+            ( static_cast<int>(recompressed.cores.size()) < 3) || (recompressed.maxRank() < 2);
         if (trivial_topology) {
             ++report.topology_search_skipped_keys;
         } else {
@@ -130,9 +130,13 @@ TNSRReport TNSRTask::run(
             TensorNetworkGraph tng = hiss_engine_.search(recompressed, cfg.hiss_config);
             std::size_t topo_changes_this_key = 0;
             for (const auto& edge : tng.edges()) {
-                if (topo_changes_this_key >= cfg.max_topology_changes_per_run) break;
+                if (topo_changes_this_key >= cfg.max_topology_changes_per_run) {
+                  break;
+                }
                 // Skip chain edges; only propose "reshaped" / "clustered" ones.
-                if (edge.topology == "chain") continue;
+                if (edge.topology == "chain") {
+                  continue;
+                }
                 // rerouteEdge is idempotent and harmless on the in-memory graph.
                 const bool rerouted = tng.rerouteEdge(edge.from, edge.to, edge.topology);
                 if (!rerouted) {

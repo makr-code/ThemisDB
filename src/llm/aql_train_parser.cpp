@@ -31,7 +31,7 @@ namespace {
 
 /// Lower-case a copy of @p s.
 std::string toLower(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     std::transform(s.begin(), s.end(), std::back_inserter(out),
                    [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
@@ -43,10 +43,10 @@ std::string toLower(const std::string& s) {
 
 /// Strip surrounding single or double quotes from a token.
 std::string stripQuotes(const std::string& s) {
-    if (s.size() >= 2 &&
+    if ((static_cast<int>(s.size()) >= 2 &&
         ((s.front() == '\'' && s.back() == '\'') ||
-         (s.front() == '"'  && s.back() == '"'))) {
-        return s.substr(1, s.size() - 2);
+         (s.front() == '"'  && s.back() == '"')))) {
+        return s.substr(1, static_cast<int>(s.size()) - 2);
     }
     return s;
 }
@@ -55,7 +55,9 @@ std::string stripQuotes(const std::string& s) {
  * @brief Case-insensitive string comparison.
  */
 bool iequal(const std::string& a, const std::string& b) {
-    if (a.size() != b.size()) return false;
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+      return false;
+    }
     return std::equal(a.begin(), a.end(), b.begin(),
                       [](unsigned char x, unsigned char y){
                           return std::tolower(x) == std::tolower(y);
@@ -66,7 +68,7 @@ int parseIntegerValue(const std::string& value, const char* field_name) {
     try {
         std::size_t parsed_chars = 0;
         const long long parsed = std::stoll(value, &parsed_chars);
-        if (parsed_chars != value.size()) {
+        if (parsed_chars != static_cast<int>(value.size())) {
             throw std::invalid_argument("trailing characters");
         }
         if (parsed < std::numeric_limits<int>::min() ||
@@ -89,7 +91,7 @@ double parseDoubleValue(const std::string& value, const char* field_name) {
     try {
         std::size_t parsed_chars = 0;
         const double parsed = std::stod(value, &parsed_chars);
-        if (parsed_chars != value.size() || !std::isfinite(parsed)) {
+        if (parsed_chars != static_cast<int>(value.size()) || !std::isfinite(parsed)) {
             throw std::invalid_argument("invalid floating value");
         }
         return parsed;
@@ -114,11 +116,13 @@ std::string::size_type findKeyword(const std::string& s, const std::string& keyw
     std::string::size_type pos = 0;
     while ((pos = lower_s.find(lower_kw, pos)) != std::string::npos) {
         // Check left boundary
-        bool left_ok  = (pos == 0) || !std::isalnum(static_cast<unsigned char>(s[pos - 1]));
+        bool left_ok  = (pos == 0) || !std::isalnum(static_cast<unsigned char>(s[static_cast<int>(pos - 1)]));
         // Check right boundary
-        bool right_ok = ((pos + lower_kw.size()) >= s.size()) ||
-                        !std::isalnum(static_cast<unsigned char>(s[pos + lower_kw.size()]));
-        if (left_ok && right_ok) return pos;
+        bool right_ok = ((pos + static_cast<int>(lower_kw.size()) ) >= s.size()) ||
+                        !std::isalnum(static_cast<unsigned char>(s[pos + static_cast<int>(lower_kw.size()) ]));
+        if (left_ok && right_ok) {
+          return pos;
+        }
         pos += lower_kw.size();
     }
     return std::string::npos;
@@ -159,28 +163,68 @@ nlohmann::json TrainStatementConfig::toJSON() const {
 
 TrainStatementConfig TrainStatementConfig::fromJSON(const nlohmann::json& j) {
     try {
-        TrainStatementConfig cfg;
-        if (j.contains("base_model_name"))   cfg.base_model_name   = j["base_model_name"].get<std::string>();
-        if (j.contains("sign_adapter"))      cfg.sign_adapter       = j["sign_adapter"].get<bool>();
-        if (j.contains("adapter_version"))   cfg.adapter_version    = j["adapter_version"].get<std::string>();
-        if (j.contains("compress_manifest")) cfg.compress_manifest  = j["compress_manifest"].get<bool>();
-        if (j.contains("embed_safetensors")) cfg.embed_safetensors  = j["embed_safetensors"].get<bool>();
-        if (j.contains("validation_split"))  cfg.validation_split   = j["validation_split"].get<double>();
-        if (j.contains("shuffle"))           cfg.shuffle            = j["shuffle"].get<bool>();
-        if (j.contains("random_seed"))       cfg.random_seed        = j["random_seed"].get<int>();
-        if (j.contains("custom_metadata"))   cfg.custom_metadata    = j["custom_metadata"].get<std::map<std::string,std::string>>();
-        if (j.contains("quantization_type")) cfg.quantization_type  = static_cast<GGUFSTConfig::QuantizationType>(j["quantization_type"].get<int>());
-        if (j.contains("size_mode"))         cfg.size_mode          = static_cast<GGUFSTConfig::SizeMode>(j["size_mode"].get<int>());
+        TrainStatementConfig cfg = {};
+        if (j.contains("base_model_name")) {
+          cfg.base_model_name   = j["base_model_name"].get<std::string>();
+        }
+        if (j.contains("sign_adapter")) {
+          cfg.sign_adapter       = j["sign_adapter"].get<bool>();
+        }
+        if (j.contains("adapter_version")) {
+          cfg.adapter_version    = j["adapter_version"].get<std::string>();
+        }
+        if (j.contains("compress_manifest")) {
+          cfg.compress_manifest  = j["compress_manifest"].get<bool>();
+        }
+        if (j.contains("embed_safetensors")) {
+          cfg.embed_safetensors  = j["embed_safetensors"].get<bool>();
+        }
+        if (j.contains("validation_split")) {
+          cfg.validation_split   = j["validation_split"].get<double>();
+        }
+        if (j.contains("shuffle")) {
+          cfg.shuffle            = j["shuffle"].get<bool>();
+        }
+        if (j.contains("random_seed")) {
+          cfg.random_seed        = j["random_seed"].get<int>();
+        }
+        if (j.contains("custom_metadata")) {
+          cfg.custom_metadata    = j["custom_metadata"].get<std::map<std::string,std::string>>();
+        }
+        if (j.contains("quantization_type")) {
+          cfg.quantization_type  = static_cast<GGUFSTConfig::QuantizationType>(j["quantization_type"].get<int>());
+        }
+        if (j.contains("size_mode")) {
+          cfg.size_mode          = static_cast<GGUFSTConfig::SizeMode>(j["size_mode"].get<int>());
+        }
         // Base
-        if (j.contains("dataset_name"))      cfg.dataset_name       = j["dataset_name"].get<std::string>();
-        if (j.contains("epochs"))            cfg.epochs             = j["epochs"].get<int>();
-        if (j.contains("learning_rate"))     cfg.learning_rate      = j["learning_rate"].get<double>();
-        if (j.contains("lora_rank"))         cfg.lora_rank          = j["lora_rank"].get<int>();
-        if (j.contains("lora_alpha"))        cfg.lora_alpha         = j["lora_alpha"].get<double>();
-        if (j.contains("lora_dropout"))      cfg.lora_dropout       = j["lora_dropout"].get<double>();
-        if (j.contains("batch_size"))        cfg.batch_size         = j["batch_size"].get<int>();
-        if (j.contains("max_seq_length"))    cfg.max_seq_length     = j["max_seq_length"].get<int>();
-        if (j.contains("optimizer"))         cfg.optimizer          = j["optimizer"].get<std::string>();
+        if (j.contains("dataset_name")) {
+          cfg.dataset_name       = j["dataset_name"].get<std::string>();
+        }
+        if (j.contains("epochs")) {
+          cfg.epochs             = j["epochs"].get<int>();
+        }
+        if (j.contains("learning_rate")) {
+          cfg.learning_rate      = j["learning_rate"].get<double>();
+        }
+        if (j.contains("lora_rank")) {
+          cfg.lora_rank          = j["lora_rank"].get<int>();
+        }
+        if (j.contains("lora_alpha")) {
+          cfg.lora_alpha         = j["lora_alpha"].get<double>();
+        }
+        if (j.contains("lora_dropout")) {
+          cfg.lora_dropout       = j["lora_dropout"].get<double>();
+        }
+        if (j.contains("batch_size")) {
+          cfg.batch_size         = j["batch_size"].get<int>();
+        }
+        if (j.contains("max_seq_length")) {
+          cfg.max_seq_length     = j["max_seq_length"].get<int>();
+        }
+        if (j.contains("optimizer")) {
+          cfg.optimizer          = j["optimizer"].get<std::string>();
+        }
         return cfg;
     } catch (const nlohmann::json::exception& ex) {
         throw std::invalid_argument(
@@ -203,11 +247,19 @@ nlohmann::json GraphContextConfig::toJSON() const {
 
 GraphContextConfig GraphContextConfig::fromJSON(const nlohmann::json& j) {
     try {
-        GraphContextConfig cfg;
-        if (j.contains("relationships")) cfg.relationships = j["relationships"].get<std::vector<std::string>>();
-        if (j.contains("max_depth"))     cfg.max_depth     = j["max_depth"].get<int>();
-        if (j.contains("direction"))     cfg.direction     = j["direction"].get<std::string>();
-        if (j.contains("max_nodes"))     cfg.max_nodes     = j["max_nodes"].get<int>();
+        GraphContextConfig cfg = {};
+        if (j.contains("relationships")) {
+          cfg.relationships = j["relationships"].get<std::vector<std::string>>();
+        }
+        if (j.contains("max_depth")) {
+          cfg.max_depth     = j["max_depth"].get<int>();
+        }
+        if (j.contains("direction")) {
+          cfg.direction     = j["direction"].get<std::string>();
+        }
+        if (j.contains("max_nodes")) {
+          cfg.max_nodes     = j["max_nodes"].get<int>();
+        }
         return cfg;
     } catch (const nlohmann::json::exception& ex) {
         throw std::invalid_argument(
@@ -230,11 +282,19 @@ nlohmann::json VectorSimilarityConfig::toJSON() const {
 
 VectorSimilarityConfig VectorSimilarityConfig::fromJSON(const nlohmann::json& j) {
     try {
-        VectorSimilarityConfig cfg;
-        if (j.contains("field"))     cfg.field     = j["field"].get<std::string>();
-        if (j.contains("threshold")) cfg.threshold = j["threshold"].get<double>();
-        if (j.contains("top_k"))     cfg.top_k     = j["top_k"].get<int>();
-        if (j.contains("metric"))    cfg.metric    = j["metric"].get<std::string>();
+        VectorSimilarityConfig cfg = {};
+        if (j.contains("field")) {
+          cfg.field     = j["field"].get<std::string>();
+        }
+        if (j.contains("threshold")) {
+          cfg.threshold = j["threshold"].get<double>();
+        }
+        if (j.contains("top_k")) {
+          cfg.top_k     = j["top_k"].get<int>();
+        }
+        if (j.contains("metric")) {
+          cfg.metric    = j["metric"].get<std::string>();
+        }
         return cfg;
     } catch (const nlohmann::json::exception& ex) {
         throw std::invalid_argument(
@@ -257,11 +317,19 @@ nlohmann::json RelationalJoinConfig::toJSON() const {
 
 RelationalJoinConfig RelationalJoinConfig::fromJSON(const nlohmann::json& j) {
     try {
-        RelationalJoinConfig cfg;
-        if (j.contains("collection"))    cfg.collection    = j["collection"].get<std::string>();
-        if (j.contains("local_field"))   cfg.local_field   = j["local_field"].get<std::string>();
-        if (j.contains("foreign_field")) cfg.foreign_field = j["foreign_field"].get<std::string>();
-        if (j.contains("join_type"))     cfg.join_type     = j["join_type"].get<std::string>();
+        RelationalJoinConfig cfg = {};
+        if (j.contains("collection")) {
+          cfg.collection    = j["collection"].get<std::string>();
+        }
+        if (j.contains("local_field")) {
+          cfg.local_field   = j["local_field"].get<std::string>();
+        }
+        if (j.contains("foreign_field")) {
+          cfg.foreign_field = j["foreign_field"].get<std::string>();
+        }
+        if (j.contains("join_type")) {
+          cfg.join_type     = j["join_type"].get<std::string>();
+        }
         return cfg;
     } catch (const nlohmann::json::exception& ex) {
         throw std::invalid_argument(
@@ -275,18 +343,28 @@ RelationalJoinConfig RelationalJoinConfig::fromJSON(const nlohmann::json& j) {
 
 nlohmann::json MultiModelEnrichment::toJSON() const {
     nlohmann::json j;
-    if (graph_context)    j["graph_context"]    = graph_context->toJSON();
-    if (vector_similarity) j["vector_similarity"] = vector_similarity->toJSON();
+    if (graph_context) {
+      j["graph_context"]    = graph_context->toJSON();
+    }
+    if (vector_similarity) {
+      j["vector_similarity"] = vector_similarity->toJSON();
+    }
     nlohmann::json joins = nlohmann::json::array();
-    for (const auto& jc : relational_joins) joins.push_back(jc.toJSON());
+    for (const auto& jc : relational_joins) {
+      joins.push_back(jc.toJSON());
+    }
     j["relational_joins"] = joins;
     return j;
 }
 
 MultiModelEnrichment MultiModelEnrichment::fromJSON(const nlohmann::json& j) {
-    MultiModelEnrichment e;
-    if (j.contains("graph_context"))     e.graph_context     = GraphContextConfig::fromJSON(j["graph_context"]);
-    if (j.contains("vector_similarity")) e.vector_similarity = VectorSimilarityConfig::fromJSON(j["vector_similarity"]);
+    MultiModelEnrichment e = {};
+    if (j.contains("graph_context")) {
+      e.graph_context     = GraphContextConfig::fromJSON(j["graph_context"]);
+    }
+    if (j.contains("vector_similarity")) {
+      e.vector_similarity = VectorSimilarityConfig::fromJSON(j["vector_similarity"]);
+    }
     if (j.contains("relational_joins") && j["relational_joins"].is_array()) {
         for (const auto& jc : j["relational_joins"]) {
             e.relational_joins.push_back(RelationalJoinConfig::fromJSON(jc));
@@ -311,12 +389,22 @@ nlohmann::json AQLDistributedTrainingConfig::toJSON() const {
 
 AQLDistributedTrainingConfig AQLDistributedTrainingConfig::fromJSON(const nlohmann::json& j) {
     try {
-        AQLDistributedTrainingConfig cfg;
-        if (j.contains("enabled"))            cfg.enabled            = j["enabled"].get<bool>();
-        if (j.contains("sync_strategy"))      cfg.sync_strategy      = j["sync_strategy"].get<std::string>();
-        if (j.contains("coordinator_shard"))  cfg.coordinator_shard  = j["coordinator_shard"].get<std::string>();
-        if (j.contains("participant_shards")) cfg.participant_shards = j["participant_shards"].get<std::vector<std::string>>();
-        if (j.contains("sync_frequency"))     cfg.sync_frequency     = j["sync_frequency"].get<int>();
+        AQLDistributedTrainingConfig cfg = {};
+        if (j.contains("enabled")) {
+          cfg.enabled            = j["enabled"].get<bool>();
+        }
+        if (j.contains("sync_strategy")) {
+          cfg.sync_strategy      = j["sync_strategy"].get<std::string>();
+        }
+        if (j.contains("coordinator_shard")) {
+          cfg.coordinator_shard  = j["coordinator_shard"].get<std::string>();
+        }
+        if (j.contains("participant_shards")) {
+          cfg.participant_shards = j["participant_shards"].get<std::vector<std::string>>();
+        }
+        if (j.contains("sync_frequency")) {
+          cfg.sync_frequency     = j["sync_frequency"].get<int>();
+        }
         return cfg;
     } catch (const nlohmann::json::exception& ex) {
         throw std::invalid_argument(
@@ -341,13 +429,25 @@ nlohmann::json TrainAdapterStmt::toJSON() const {
 
 TrainAdapterStmt TrainAdapterStmt::fromJSON(const nlohmann::json& j) {
     try {
-        TrainAdapterStmt s;
-        if (j.contains("adapter_id"))        s.adapter_id        = j["adapter_id"].get<std::string>();
-        if (j.contains("source_collection")) s.source_collection = j["source_collection"].get<std::string>();
-        if (j.contains("enrichment"))        s.enrichment        = MultiModelEnrichment::fromJSON(j["enrichment"]);
-        if (j.contains("config"))            s.config            = TrainStatementConfig::fromJSON(j["config"]);
-        if (j.contains("distributed"))       s.distributed       = AQLDistributedTrainingConfig::fromJSON(j["distributed"]);
-        if (j.contains("output_path"))       s.output_path       = j["output_path"].get<std::string>();
+        TrainAdapterStmt s = {};
+        if (j.contains("adapter_id")) {
+          s.adapter_id        = j["adapter_id"].get<std::string>();
+        }
+        if (j.contains("source_collection")) {
+          s.source_collection = j["source_collection"].get<std::string>();
+        }
+        if (j.contains("enrichment")) {
+          s.enrichment        = MultiModelEnrichment::fromJSON(j["enrichment"]);
+        }
+        if (j.contains("config")) {
+          s.config            = TrainStatementConfig::fromJSON(j["config"]);
+        }
+        if (j.contains("distributed")) {
+          s.distributed       = AQLDistributedTrainingConfig::fromJSON(j["distributed"]);
+        }
+        if (j.contains("output_path")) {
+          s.output_path       = j["output_path"].get<std::string>();
+        }
         return s;
     } catch (const nlohmann::json::exception& ex) {
         throw std::invalid_argument(
@@ -367,12 +467,22 @@ nlohmann::json DeployAdapterStmt::toJSON() const {
 
 DeployAdapterStmt DeployAdapterStmt::fromJSON(const nlohmann::json& j) {
     try {
-        DeployAdapterStmt s;
-        if (j.contains("adapter_id"))             s.adapter_id             = j["adapter_id"].get<std::string>();
-        if (j.contains("target_shards"))          s.target_shards          = j["target_shards"].get<std::vector<std::string>>();
-        if (j.contains("strategy"))               s.strategy               = j["strategy"].get<std::string>();
-        if (j.contains("validate_compatibility")) s.validate_compatibility = j["validate_compatibility"].get<bool>();
-        if (j.contains("verify_signature"))       s.verify_signature       = j["verify_signature"].get<bool>();
+        DeployAdapterStmt s = {};
+        if (j.contains("adapter_id")) {
+          s.adapter_id             = j["adapter_id"].get<std::string>();
+        }
+        if (j.contains("target_shards")) {
+          s.target_shards          = j["target_shards"].get<std::vector<std::string>>();
+        }
+        if (j.contains("strategy")) {
+          s.strategy               = j["strategy"].get<std::string>();
+        }
+        if (j.contains("validate_compatibility")) {
+          s.validate_compatibility = j["validate_compatibility"].get<bool>();
+        }
+        if (j.contains("verify_signature")) {
+          s.verify_signature       = j["verify_signature"].get<bool>();
+        }
         return s;
     } catch (const nlohmann::json::exception& ex) {
         throw std::invalid_argument(
@@ -391,11 +501,19 @@ nlohmann::json VerifyAdapterStmt::toJSON() const {
 
 VerifyAdapterStmt VerifyAdapterStmt::fromJSON(const nlohmann::json& j) {
     try {
-        VerifyAdapterStmt s;
-        if (j.contains("adapter_id"))              s.adapter_id              = j["adapter_id"].get<std::string>();
-        if (j.contains("check_signature"))         s.check_signature         = j["check_signature"].get<bool>();
-        if (j.contains("check_manifest"))          s.check_manifest          = j["check_manifest"].get<bool>();
-        if (j.contains("check_safetensors_match")) s.check_safetensors_match = j["check_safetensors_match"].get<bool>();
+        VerifyAdapterStmt s = {};
+        if (j.contains("adapter_id")) {
+          s.adapter_id              = j["adapter_id"].get<std::string>();
+        }
+        if (j.contains("check_signature")) {
+          s.check_signature         = j["check_signature"].get<bool>();
+        }
+        if (j.contains("check_manifest")) {
+          s.check_manifest          = j["check_manifest"].get<bool>();
+        }
+        if (j.contains("check_safetensors_match")) {
+          s.check_safetensors_match = j["check_safetensors_match"].get<bool>();
+        }
         return s;
     } catch (const nlohmann::json::exception& ex) {
         throw std::invalid_argument(
@@ -405,8 +523,12 @@ VerifyAdapterStmt VerifyAdapterStmt::fromJSON(const nlohmann::json& j) {
 
 nlohmann::json ListAdaptersStmt::toJSON() const {
     nlohmann::json j;
-    if (base_model) j["base_model"] = *base_model;
-    if (domain)     j["domain"]     = *domain;
+    if (base_model) {
+      j["base_model"] = *base_model;
+    }
+    if (domain) {
+      j["domain"]     = *domain;
+    }
     j["order_by"]   = order_by;
     j["descending"] = descending;
     j["limit"]      = limit;
@@ -415,12 +537,22 @@ nlohmann::json ListAdaptersStmt::toJSON() const {
 
 ListAdaptersStmt ListAdaptersStmt::fromJSON(const nlohmann::json& j) {
     try {
-        ListAdaptersStmt s;
-        if (j.contains("base_model")) s.base_model = j["base_model"].get<std::string>();
-        if (j.contains("domain"))     s.domain     = j["domain"].get<std::string>();
-        if (j.contains("order_by"))   s.order_by   = j["order_by"].get<std::string>();
-        if (j.contains("descending")) s.descending = j["descending"].get<bool>();
-        if (j.contains("limit"))      s.limit      = j["limit"].get<int>();
+        ListAdaptersStmt s = {};
+        if (j.contains("base_model")) {
+          s.base_model = j["base_model"].get<std::string>();
+        }
+        if (j.contains("domain")) {
+          s.domain     = j["domain"].get<std::string>();
+        }
+        if (j.contains("order_by")) {
+          s.order_by   = j["order_by"].get<std::string>();
+        }
+        if (j.contains("descending")) {
+          s.descending = j["descending"].get<bool>();
+        }
+        if (j.contains("limit")) {
+          s.limit      = j["limit"].get<int>();
+        }
         return s;
     } catch (const nlohmann::json::exception& ex) {
         throw std::invalid_argument(
@@ -435,7 +567,7 @@ ListAdaptersStmt ListAdaptersStmt::fromJSON(const nlohmann::json& j) {
 std::vector<std::string> AQLTrainParser::tokenize(const std::string& input) {
     std::vector<std::string> tokens;
     std::istringstream iss(input);
-    std::string token;
+    std::string token = {};
     while (iss >> token) {
         tokens.push_back(token);
     }
@@ -450,7 +582,7 @@ std::string AQLTrainParser::extractClause(
     if (pos == std::string::npos) return {};
 
     // Skip the keyword itself
-    const std::string rest = input.substr(pos + keyword.size());
+    const std::string rest = input.substr(pos + static_cast<int>(keyword.size()) );
 
     // Return everything until the next recognised top-level keyword
     static const std::vector<std::string> kTopKeywords = {
@@ -475,7 +607,7 @@ std::map<std::string, std::string> AQLTrainParser::parseKeyValuePairs(
     size_t pos = 0;
     const size_t n = input.size();
 
-    auto skipWhitespace = [&](size_t& i) {
+    auto skipWhitespace = [&]([[maybe_unused]] size_t& i) {
         while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) {
             ++i;
         }
@@ -483,7 +615,7 @@ std::map<std::string, std::string> AQLTrainParser::parseKeyValuePairs(
 
     while (pos < n) {
         skipWhitespace(pos);
-        if (pos < n && (input[pos] == ',' || input[pos] == '{' || input[pos] == '}')) {
+        if ((pos < n && (input[pos] == ',' || input[pos] == '{' || input[pos] == '}'))) {
             ++pos;
             continue;
         }
@@ -507,14 +639,14 @@ std::map<std::string, std::string> AQLTrainParser::parseKeyValuePairs(
 
         std::string key = toLower(input.substr(keyStart, pos - keyStart));
         skipWhitespace(pos);
-        if (pos >= n || (input[pos] != '=' && input[pos] != ':')) {
+        if ((pos >= n || (input[pos] != '=' && input[pos] != ':'))) {
             continue;
         }
         ++pos;
         skipWhitespace(pos);
 
-        std::string value;
-        if (pos < n && (input[pos] == '\'' || input[pos] == '"')) {
+        std::string value = {};
+        if ((pos < n && (input[pos] == '\'' || input[pos] == '"'))) {
             const char quote = input[pos++];
             const size_t valueStart = pos;
             while (pos < n && input[pos] != quote) {
@@ -548,7 +680,7 @@ void AQLTrainParser::validateAdapterName(const std::string& name) {
                 "AQLTrainParser: invalid character in adapter name: '" + std::string(1, c) + "'");
         }
     }
-    if (name.size() > 128) {
+    if (static_cast<int>(name.size()) > 128) {
         throw std::invalid_argument("AQLTrainParser: adapter name exceeds 128 characters");
     }
 }
@@ -599,7 +731,7 @@ TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with
         } catch (const nlohmann::json::parse_error&) {
             // JSON syntax error — fall through to key-value parsing
             if (content.front() == '{' && content.back() == '}') {
-                content = themis::utils::trim(content.substr(1, content.size() - 2));
+                content = themis::utils::trim(content.substr(1, static_cast<int>(content.size()) - 2));
             }
         }
     }
@@ -607,22 +739,54 @@ TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with
     // Key-value pair parsing
     auto kv = parseKeyValuePairs(content);
 
-    if (kv.count("base_model"))     cfg.base_model_name  = kv["base_model"];
-    if (kv.count("epochs"))         cfg.epochs           = parseIntegerValue(kv["epochs"], "epochs");
-    if (kv.count("learning_rate"))  cfg.learning_rate    = parseDoubleValue(kv["learning_rate"], "learning_rate");
-    if (kv.count("rank"))           cfg.lora_rank        = parseIntegerValue(kv["rank"], "rank");
-    if (kv.count("lora_rank"))      cfg.lora_rank        = parseIntegerValue(kv["lora_rank"], "lora_rank");
-    if (kv.count("alpha"))          cfg.lora_alpha       = parseDoubleValue(kv["alpha"], "alpha");
-    if (kv.count("lora_alpha"))     cfg.lora_alpha       = parseDoubleValue(kv["lora_alpha"], "lora_alpha");
-    if (kv.count("batch_size"))     cfg.batch_size       = parseIntegerValue(kv["batch_size"], "batch_size");
-    if (kv.count("optimizer"))      cfg.optimizer        = kv["optimizer"];
-    if (kv.count("sign_adapter"))   cfg.sign_adapter     = iequal(kv["sign_adapter"], "true");
-    if (kv.count("version"))          cfg.adapter_version  = kv["version"];
-    if (kv.count("dropout"))          cfg.lora_dropout     = parseDoubleValue(kv["dropout"], "dropout");
-    if (kv.count("lora_dropout"))     cfg.lora_dropout     = parseDoubleValue(kv["lora_dropout"], "lora_dropout");
-    if (kv.count("validation_split")) cfg.validation_split = parseDoubleValue(kv["validation_split"], "validation_split");
-    if (kv.count("max_seq_length"))   cfg.max_seq_length   = parseIntegerValue(kv["max_seq_length"], "max_seq_length");
-    if (kv.count("seq_length"))       cfg.max_seq_length   = parseIntegerValue(kv["seq_length"], "seq_length");
+    if (kv.count("base_model")) {
+      cfg.base_model_name  = kv["base_model"];
+    }
+    if (kv.count("epochs")) {
+      cfg.epochs           = parseIntegerValue(kv["epochs"], "epochs");
+    }
+    if (kv.count("learning_rate")) {
+      cfg.learning_rate    = parseDoubleValue(kv["learning_rate"], "learning_rate");
+    }
+    if (kv.count("rank")) {
+      cfg.lora_rank        = parseIntegerValue(kv["rank"], "rank");
+    }
+    if (kv.count("lora_rank")) {
+      cfg.lora_rank        = parseIntegerValue(kv["lora_rank"], "lora_rank");
+    }
+    if (kv.count("alpha")) {
+      cfg.lora_alpha       = parseDoubleValue(kv["alpha"], "alpha");
+    }
+    if (kv.count("lora_alpha")) {
+      cfg.lora_alpha       = parseDoubleValue(kv["lora_alpha"], "lora_alpha");
+    }
+    if (kv.count("batch_size")) {
+      cfg.batch_size       = parseIntegerValue(kv["batch_size"], "batch_size");
+    }
+    if (kv.count("optimizer")) {
+      cfg.optimizer        = kv["optimizer"];
+    }
+    if (kv.count("sign_adapter")) {
+      cfg.sign_adapter     = iequal(kv["sign_adapter"], "true");
+    }
+    if (kv.count("version")) {
+      cfg.adapter_version  = kv["version"];
+    }
+    if (kv.count("dropout")) {
+      cfg.lora_dropout     = parseDoubleValue(kv["dropout"], "dropout");
+    }
+    if (kv.count("lora_dropout")) {
+      cfg.lora_dropout     = parseDoubleValue(kv["lora_dropout"], "lora_dropout");
+    }
+    if (kv.count("validation_split")) {
+      cfg.validation_split = parseDoubleValue(kv["validation_split"], "validation_split");
+    }
+    if (kv.count("max_seq_length")) {
+      cfg.max_seq_length   = parseIntegerValue(kv["max_seq_length"], "max_seq_length");
+    }
+    if (kv.count("seq_length")) {
+      cfg.max_seq_length   = parseIntegerValue(kv["seq_length"], "seq_length");
+    }
 
     return cfg;
 }
@@ -630,15 +794,21 @@ TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with
 GraphContextConfig AQLTrainParser::parseGraphContext(const std::string& args) {
     GraphContextConfig cfg;
     auto kv = parseKeyValuePairs(args);
-    if (kv.count("max_depth"))  cfg.max_depth  = parseIntegerValue(kv["max_depth"], "max_depth");
-    if (kv.count("direction"))  cfg.direction  = kv["direction"];
-    if (kv.count("max_nodes"))  cfg.max_nodes  = parseIntegerValue(kv["max_nodes"], "max_nodes");
+    if (kv.count("max_depth")) {
+      cfg.max_depth  = parseIntegerValue(kv["max_depth"], "max_depth");
+    }
+    if (kv.count("direction")) {
+      cfg.direction  = kv["direction"];
+    }
+    if (kv.count("max_nodes")) {
+      cfg.max_nodes  = parseIntegerValue(kv["max_nodes"], "max_nodes");
+    }
     // Parse relationships: relationships = ['REL1', 'REL2']
     static const std::regex rel_re(R"(\[([^\]]*)\])");
-    std::smatch m;
+    std::smatch m = {};
     if (std::regex_search(args, m, rel_re)) {
         std::istringstream iss(m[1].str());
-        std::string rel;
+        std::string rel = {};
         while (std::getline(iss, rel, ',')) {
             cfg.relationships.push_back(stripQuotes(themis::utils::trim(rel)));
         }
@@ -655,10 +825,18 @@ GraphContextConfig AQLTrainParser::parseGraphContext(const std::string& args) {
 VectorSimilarityConfig AQLTrainParser::parseVectorSimilarity(const std::string& args) {
     VectorSimilarityConfig cfg;
     auto kv = parseKeyValuePairs(args);
-    if (kv.count("field"))     cfg.field     = kv["field"];
-    if (kv.count("threshold")) cfg.threshold = parseDoubleValue(kv["threshold"], "threshold");
-    if (kv.count("top_k"))     cfg.top_k     = parseIntegerValue(kv["top_k"], "top_k");
-    if (kv.count("metric"))    cfg.metric    = kv["metric"];
+    if (kv.count("field")) {
+      cfg.field     = kv["field"];
+    }
+    if (kv.count("threshold")) {
+      cfg.threshold = parseDoubleValue(kv["threshold"], "threshold");
+    }
+    if (kv.count("top_k")) {
+      cfg.top_k     = parseIntegerValue(kv["top_k"], "top_k");
+    }
+    if (kv.count("metric")) {
+      cfg.metric    = kv["metric"];
+    }
     if (cfg.top_k < 1) {
         throw std::invalid_argument("AQLTrainParser: top_k must be >= 1");
     }
@@ -671,10 +849,18 @@ VectorSimilarityConfig AQLTrainParser::parseVectorSimilarity(const std::string& 
 RelationalJoinConfig AQLTrainParser::parseRelationalJoin(const std::string& args) {
     RelationalJoinConfig cfg;
     auto kv = parseKeyValuePairs(args);
-    if (kv.count("collection"))    cfg.collection    = kv["collection"];
-    if (kv.count("local_field"))   cfg.local_field   = kv["local_field"];
-    if (kv.count("foreign_field")) cfg.foreign_field = kv["foreign_field"];
-    if (kv.count("join_type"))     cfg.join_type     = kv["join_type"];
+    if (kv.count("collection")) {
+      cfg.collection    = kv["collection"];
+    }
+    if (kv.count("local_field")) {
+      cfg.local_field   = kv["local_field"];
+    }
+    if (kv.count("foreign_field")) {
+      cfg.foreign_field = kv["foreign_field"];
+    }
+    if (kv.count("join_type")) {
+      cfg.join_type     = kv["join_type"];
+    }
     return cfg;
 }
 
@@ -685,7 +871,7 @@ MultiModelEnrichment AQLTrainParser::parseEnrichment(const std::string& using_cl
     // USING GRAPH_CONTEXT(...)
     {
         static const std::regex gc_re(R"(GRAPH_CONTEXT\s*\(([^)]*)\))", std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         std::string tmp = using_clauses;
         if (std::regex_search(tmp, m, gc_re)) {
             e.graph_context = parseGraphContext(m[1].str());
@@ -695,7 +881,7 @@ MultiModelEnrichment AQLTrainParser::parseEnrichment(const std::string& using_cl
     // USING VECTOR_SIMILARITY(...)
     {
         static const std::regex vs_re(R"(VECTOR_SIMILARITY\s*\(([^)]*)\))", std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         std::string tmp = using_clauses;
         if (std::regex_search(tmp, m, vs_re)) {
             e.vector_similarity = parseVectorSimilarity(m[1].str());
@@ -716,14 +902,16 @@ MultiModelEnrichment AQLTrainParser::parseEnrichment(const std::string& using_cl
 }
 
 AQLDistributedTrainingConfig AQLTrainParser::parseDistributed(const std::string& aql) {
-    AQLDistributedTrainingConfig cfg;
-    if (findKeyword(aql, "DISTRIBUTED") == std::string::npos) return cfg;
+    AQLDistributedTrainingConfig cfg = {};
+    if (findKeyword(aql, "DISTRIBUTED") == std::string::npos) {
+      return cfg;
+    }
     cfg.enabled = true;
 
     // COORDINATOR '<shard>'
     {
         static const std::regex coord_re(R"(COORDINATOR\s+'([^']+)')", std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         std::string tmp = aql;
         if (std::regex_search(tmp, m, coord_re)) {
             cfg.coordinator_shard = m[1].str();
@@ -733,7 +921,7 @@ AQLDistributedTrainingConfig AQLTrainParser::parseDistributed(const std::string&
     // SHARDS '<s1>', '<s2>', ...
     {
         static const std::regex shards_re(R"(SHARDS\s+((?:'[^']+'(?:\s*,\s*)?)+))", std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         std::string tmp = aql;
         if (std::regex_search(tmp, m, shards_re)) {
             static const std::regex shard_re(R"('([^']+)')");
@@ -757,10 +945,18 @@ AQLTrainParser::StatementType AQLTrainParser::detectStatementType(
     const std::string& aql
 ) const {
     const std::string lower = toLower(themis::utils::trim(aql));
-    if (lower.find("train adapter") != std::string::npos) return StatementType::TRAIN_ADAPTER;
-    if (lower.find("deploy adapter") != std::string::npos) return StatementType::DEPLOY_ADAPTER;
-    if (lower.find("verify adapter") != std::string::npos) return StatementType::VERIFY_ADAPTER;
-    if (lower.find("list adapters")  != std::string::npos) return StatementType::LIST_ADAPTERS;
+    if (lower.find("train adapter") != std::string::npos) {
+      return StatementType::TRAIN_ADAPTER;
+    }
+    if (lower.find("deploy adapter") != std::string::npos) {
+      return StatementType::DEPLOY_ADAPTER;
+    }
+    if (lower.find("verify adapter") != std::string::npos) {
+      return StatementType::VERIFY_ADAPTER;
+    }
+    if (lower.find("list adapters")  != std::string::npos) {
+      return StatementType::LIST_ADAPTERS;
+    }
     return StatementType::UNKNOWN;
 }
 
@@ -775,7 +971,7 @@ std::shared_ptr<TrainAdapterStmt> AQLTrainParser::parseTrainAdapter(
         static const std::regex id_re(
             R"(TRAIN\s+ADAPTER\s+['"]?(\S+?)['"]?\s+FROM)",
             std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         if (!std::regex_search(aql, m, id_re)) {
             throw std::invalid_argument(
                 "AQLTrainParser: expected 'TRAIN ADAPTER <id> FROM' in: " + aql);
@@ -793,7 +989,9 @@ std::shared_ptr<TrainAdapterStmt> AQLTrainParser::parseTrainAdapter(
                 "AQLTrainParser: missing FROM clause in: " + aql);
         }
         auto tokens = tokenize(from_clause);
-        if (!tokens.empty()) stmt->source_collection = tokens[0];
+        if (!tokens.empty()) {
+          stmt->source_collection = tokens[0];
+        }
     }
 
     // ── enrichment (USING clauses) ─────────────────────────────────────────
@@ -846,7 +1044,7 @@ std::shared_ptr<DeployAdapterStmt> AQLTrainParser::parseDeployAdapter(
         static const std::regex id_re(
             R"(DEPLOY\s+ADAPTER\s+['"]?(\S+?)['"]?\s+TO)",
             std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         if (!std::regex_search(aql, m, id_re)) {
             throw std::invalid_argument(
                 "AQLTrainParser: expected 'DEPLOY ADAPTER <id> TO' in: " + aql);
@@ -863,7 +1061,9 @@ std::shared_ptr<DeployAdapterStmt> AQLTrainParser::parseDeployAdapter(
         if (pos_to != std::string::npos) {
             to_section = to_section.substr(pos_to);
             auto pos_with = findKeyword(to_section, "WITH");
-            if (pos_with != std::string::npos) to_section = to_section.substr(0, pos_with);
+            if (pos_with != std::string::npos) {
+              to_section = to_section.substr(0, pos_with);
+            }
         }
         auto it  = std::sregex_iterator(to_section.begin(), to_section.end(), shard_re);
         auto end = std::sregex_iterator{};
@@ -875,9 +1075,15 @@ std::shared_ptr<DeployAdapterStmt> AQLTrainParser::parseDeployAdapter(
     // Optional WITH clause
     {
         auto kv = parseKeyValuePairs(extractClause(aql, "WITH"));
-        if (kv.count("strategy"))               stmt->strategy              = kv["strategy"];
-        if (kv.count("validate_compatibility")) stmt->validate_compatibility = iequal(kv["validate_compatibility"], "true");
-        if (kv.count("verify_signature"))       stmt->verify_signature       = iequal(kv["verify_signature"], "true");
+        if (kv.count("strategy")) {
+          stmt->strategy              = kv["strategy"];
+        }
+        if (kv.count("validate_compatibility")) {
+          stmt->validate_compatibility = iequal(kv["validate_compatibility"], "true");
+        }
+        if (kv.count("verify_signature")) {
+          stmt->verify_signature       = iequal(kv["verify_signature"], "true");
+        }
     }
 
     if (stmt->target_shards.empty()) {
@@ -897,7 +1103,7 @@ std::shared_ptr<VerifyAdapterStmt> AQLTrainParser::parseVerifyAdapter(
         static const std::regex id_re(
             R"(VERIFY\s+ADAPTER\s+['"]?(\S+?)['"]?(?:\s|$))",
             std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         if (!std::regex_search(aql, m, id_re)) {
             throw std::invalid_argument(
                 "AQLTrainParser: expected 'VERIFY ADAPTER <id>' in: " + aql);
@@ -908,9 +1114,15 @@ std::shared_ptr<VerifyAdapterStmt> AQLTrainParser::parseVerifyAdapter(
 
     // Parse CHECK flags
     const std::string lower = toLower(aql);
-    if (lower.find("signature")         != std::string::npos) stmt->check_signature         = true;
-    if (lower.find("manifest")          != std::string::npos) stmt->check_manifest          = true;
-    if (lower.find("safetensors_match") != std::string::npos) stmt->check_safetensors_match = true;
+    if (lower.find("signature")         != std::string::npos) {
+      stmt->check_signature         = true;
+    }
+    if (lower.find("manifest")          != std::string::npos) {
+      stmt->check_manifest          = true;
+    }
+    if (lower.find("safetensors_match") != std::string::npos) {
+      stmt->check_safetensors_match = true;
+    }
 
     return stmt;
 }
@@ -924,8 +1136,12 @@ std::shared_ptr<ListAdaptersStmt> AQLTrainParser::parseListAdapters(
     {
         std::string where_clause = extractClause(aql, "WHERE");
         auto kv = parseKeyValuePairs(where_clause);
-        if (kv.count("base_model")) stmt->base_model = kv["base_model"];
-        if (kv.count("domain"))     stmt->domain     = kv["domain"];
+        if (kv.count("base_model")) {
+          stmt->base_model = kv["base_model"];
+        }
+        if (kv.count("domain")) {
+          stmt->domain     = kv["domain"];
+        }
     }
 
     // ORDER BY field [ASC|DESC]
@@ -935,8 +1151,12 @@ std::shared_ptr<ListAdaptersStmt> AQLTrainParser::parseListAdapters(
             static const std::size_t kOrderByLen = std::string_view{"ORDER BY"}.size();
             std::string rest = themis::utils::trim(aql.substr(pos_order + kOrderByLen));
             auto tokens = tokenize(rest);
-            if (!tokens.empty()) stmt->order_by = tokens[0];
-            if (tokens.size() >= 2 && iequal(tokens[1], "ASC")) stmt->descending = false;
+            if (!tokens.empty()) {
+              stmt->order_by = tokens[0];
+            }
+            if (static_cast<int>(tokens.size()) > = 2 && iequal(tokens[1], "ASC")) {
+              stmt->descending = false;
+            }
         }
     }
 
@@ -990,19 +1210,19 @@ TrainingQueryBuilder& TrainingQueryBuilder::baseModel(const std::string& model) 
     stmt_.config.base_model_name = model; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::loraRank(int rank) {
+TrainingQueryBuilder& TrainingQueryBuilder::loraRank([[maybe_unused]] int rank) {
     stmt_.config.lora_rank = rank; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::epochs(int n) {
+TrainingQueryBuilder& TrainingQueryBuilder::epochs([[maybe_unused]] int n) {
     stmt_.config.epochs = n; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::batchSize(int size) {
+TrainingQueryBuilder& TrainingQueryBuilder::batchSize([[maybe_unused]] int size) {
     stmt_.config.batch_size = size; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::learningRate(double lr) {
+TrainingQueryBuilder& TrainingQueryBuilder::learningRate([[maybe_unused]] double lr) {
     stmt_.config.learning_rate = lr; return *this;
 }
 
@@ -1014,7 +1234,7 @@ TrainingQueryBuilder& TrainingQueryBuilder::sizeMode(GGUFSTConfig::SizeMode m) {
     stmt_.config.size_mode = m; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::signAdapter(bool sign) {
+TrainingQueryBuilder& TrainingQueryBuilder::signAdapter([[maybe_unused]] bool sign) {
     stmt_.config.sign_adapter = sign; return *this;
 }
 
@@ -1031,7 +1251,7 @@ std::shared_ptr<TrainAdapterStmt> TrainingQueryBuilder::build() {
 }
 
 std::string TrainingQueryBuilder::toAQL() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "TRAIN ADAPTER '" << stmt_.adapter_id << "'\n"
         << "  FROM " << stmt_.source_collection;
 

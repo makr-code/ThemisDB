@@ -339,7 +339,9 @@ TEST_F(WASMKernelSandboxTest, ConcurrentExecute_NoDataRace) {
     auto worker = [&]() {
         for (int i = 0; i < OPS; ++i) {
             auto r = sandbox.execute("ck", blob);
-            if (r.ok()) ok_count.fetch_add(1, std::memory_order_relaxed);
+            if (r.ok()) {
+              ok_count.fetch_add(1, std::memory_order_relaxed);
+            }
         }
     };
 
@@ -348,7 +350,9 @@ TEST_F(WASMKernelSandboxTest, ConcurrentExecute_NoDataRace) {
     for (int t = 0; t < THREADS; ++t) {
         threads.emplace_back(worker);
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(ok_count.load(), THREADS * OPS);
     EXPECT_EQ(sandbox.getStats().total_submitted,

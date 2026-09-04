@@ -104,7 +104,7 @@ bool ThreadPool::submit(std::shared_ptr<Task> task, std::chrono::milliseconds ti
     
     // Wait for space in queue with timeout
     bool space = cv_.wait_for(lock, timeout, [this]() {
-        return task_queue_.size() < config_.queue_size;
+        return static_cast<int>(task_queue_.size()) < config_.queue_size;
     });
     
     if (!space) {
@@ -152,7 +152,7 @@ ThreadPool::Statistics ThreadPool::getStatistics() const {
     
     Statistics stats;
     stats.active_threads = active_threads_.load();
-    stats.idle_threads = workers_.size() - stats.active_threads;
+    stats.idle_threads = static_cast<int>(workers_.size()) - stats.active_threads;
     stats.queued_tasks = task_queue_.size();
     stats.total_executed = total_executed_.load();
     stats.total_failed = total_failed_.load();

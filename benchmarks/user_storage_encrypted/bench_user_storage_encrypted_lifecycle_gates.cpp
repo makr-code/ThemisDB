@@ -91,7 +91,9 @@ static constexpr const char* kBenchDataDir = "/tmp/themis_bench_lifecycle";
  * @brief Helper to compute percentile from a vector of times (in milliseconds).
  */
 static double ComputePercentile(std::vector<double>& times, double percentile) {
-    if (times.empty()) return 0.0;
+    if (times.empty()) {
+      return 0.0;
+    }
     std::sort(times.begin(), times.end());
     int idx = static_cast<int>(times.size() * percentile / 100.0);
     idx = std::min(idx, static_cast<int>(times.size()) - 1);
@@ -260,7 +262,9 @@ static void BM_USK_P5_05_ConcurrentMountThroughput(benchmark::State& state) {
         }
         
         for (auto& t : threads) {
-            if (t.joinable()) t.join();
+            if (t.joinable()) {
+              t.join();
+            }
         }
         
         benchmark::DoNotOptimize(mount_count);

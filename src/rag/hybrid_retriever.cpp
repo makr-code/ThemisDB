@@ -29,7 +29,9 @@ namespace {
 
 /// Normalise scores in-place to [0, 1].  No-op when all values are equal.
 void normaliseScores(std::vector<double>& scores) {
-    if (scores.empty()) return;
+    if (scores.empty()) {
+      return;
+    }
 
     const auto [min_it, max_it] =
         std::minmax_element(scores.begin(), scores.end());
@@ -51,7 +53,7 @@ double cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b
         return 0.0;
     }
 
-    const size_t dim = std::min(a.size(), b.size());
+    const size_t dim = std::min(a.size(),static_cast<int>(b.size()));
     double dot = 0.0;
     double norm_a = 0.0;
     double norm_b = 0.0;
@@ -125,7 +127,7 @@ HybridFusionResult HybridRetriever::fuse(
 ) const {
     THEMIS_DEBUG("HybridRetriever::fuse: bm25={}, vector={}, use_rrf={}, "
                  "bm25_w={:.2f}, vec_w={:.2f}, rrf_k={:.0f}, top_k={}",
-                 bm25_candidates.size(), vector_candidates.size(),
+                 bm25_candidates.size(),static_cast<int>(vector_candidates.size()),
                  config_.use_rrf, config_.bm25_weight, config_.vector_weight,
                  config_.rrf_k, config_.top_k);
 
@@ -153,7 +155,8 @@ HybridFusionResult HybridRetriever::retrieveWithVectorizer(
     }
 
     const auto query_embedding = vectorizer_->encodeQuery(query);
-    std::vector<judge::RetrievedDocument> vector_candidates;
+    std::vector<judge::RetrievedDocument> vector_candidates = {};
+
     vector_candidates.reserve(bm25_candidates.size());
 
     for (const auto& doc : bm25_candidates) {
@@ -190,11 +193,12 @@ HybridFusionResult HybridRetriever::fuseRRF(
         judge::RetrievedDocument doc;
         HybridScore              score;
     };
-    std::unordered_map<std::string, DocData> doc_map;
-    doc_map.reserve(bm25_candidates.size() + vector_candidates.size());
+    std::unordered_map<std::string, DocData> doc_map = {};
+
+    doc_map.reserve(static_cast<int>(bm25_candidates.size()) + static_cast<int>(vector_candidates.size()) );
 
     // Process BM25 list in the order provided (assumed sorted descending).
-    for (size_t i = 0; i < bm25_candidates.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(bm25_candidates.size()); ++i) {
         const auto& src = bm25_candidates[i];
         auto& entry = doc_map[src.id];
         if (entry.doc.id.empty()) {
@@ -209,7 +213,7 @@ HybridFusionResult HybridRetriever::fuseRRF(
     }
 
     // Process vector list.
-    for (size_t i = 0; i < vector_candidates.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(vector_candidates.size()); ++i) {
         const auto& src = vector_candidates[i];
         auto& entry = doc_map[src.id];
         if (entry.doc.id.empty()) {
@@ -224,7 +228,8 @@ HybridFusionResult HybridRetriever::fuseRRF(
     }
 
     // Collect and sort by descending hybrid score.
-    std::vector<DocData> entries;
+    std::vector<DocData> entries = {};
+
     entries.reserve(doc_map.size());
     for (auto& [_, data] : doc_map) {
         entries.push_back(std::move(data));
@@ -235,7 +240,7 @@ HybridFusionResult HybridRetriever::fuseRRF(
         });
 
     // Apply top_k truncation.
-    if (config_.top_k > 0 && entries.size() > config_.top_k) {
+    if (config_.top_k > 0 && static_cast<int>(entries.size()) > config_.top_k) {
         entries.resize(config_.top_k);
     }
 
@@ -253,7 +258,7 @@ HybridFusionResult HybridRetriever::fuseRRF(
     }
 
     THEMIS_INFO("HybridRetriever (RRF): {} candidates → {} results",
-                result.total_candidates, result.documents.size());
+                result.total_candidates,static_cast<int>(result.documents.size()));
     return result;
 }
 
@@ -269,25 +274,28 @@ HybridFusionResult HybridRetriever::fuseLinear(
         judge::RetrievedDocument doc;
         HybridScore              score;
     };
-    std::unordered_map<std::string, DocData> doc_map;
-    doc_map.reserve(bm25_candidates.size() + vector_candidates.size());
+    std::unordered_map<std::string, DocData> doc_map = {};
+
+    doc_map.reserve(static_cast<int>(bm25_candidates.size()) + static_cast<int>(vector_candidates.size()) );
 
     // Collect raw BM25 scores for optional normalisation.
-    std::vector<double> bm25_raw;
+    std::vector<double> bm25_raw = {};
+
     bm25_raw.reserve(bm25_candidates.size());
     for (const auto& src : bm25_candidates) {
         bm25_raw.push_back(src.similarity_score);
     }
     if (config_.normalize_scores) { normaliseScores(bm25_raw); }
 
-    std::vector<double> vec_raw;
+    std::vector<double> vec_raw = {};
+
     vec_raw.reserve(vector_candidates.size());
     for (const auto& src : vector_candidates) {
         vec_raw.push_back(src.similarity_score);
     }
     if (config_.normalize_scores) { normaliseScores(vec_raw); }
 
-    for (size_t i = 0; i < bm25_candidates.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(bm25_candidates.size()); ++i) {
         const auto& src = bm25_candidates[i];
         auto& entry = doc_map[src.id];
         if (entry.doc.id.empty()) { entry.doc = src; }
@@ -297,7 +305,7 @@ HybridFusionResult HybridRetriever::fuseLinear(
         entry.score.hybrid_score += config_.bm25_weight * bm25_raw[i];
     }
 
-    for (size_t i = 0; i < vector_candidates.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(vector_candidates.size()); ++i) {
         const auto& src = vector_candidates[i];
         auto& entry = doc_map[src.id];
         if (entry.doc.id.empty()) { entry.doc = src; }
@@ -307,7 +315,8 @@ HybridFusionResult HybridRetriever::fuseLinear(
         entry.score.hybrid_score += config_.vector_weight * vec_raw[i];
     }
 
-    std::vector<DocData> entries;
+    std::vector<DocData> entries = {};
+
     entries.reserve(doc_map.size());
     for (auto& [_, data] : doc_map) {
         entries.push_back(std::move(data));
@@ -317,7 +326,7 @@ HybridFusionResult HybridRetriever::fuseLinear(
             return a.score.hybrid_score > b.score.hybrid_score;
         });
 
-    if (config_.top_k > 0 && entries.size() > config_.top_k) {
+    if (config_.top_k > 0 && static_cast<int>(entries.size()) > config_.top_k) {
         entries.resize(config_.top_k);
     }
 
@@ -334,7 +343,7 @@ HybridFusionResult HybridRetriever::fuseLinear(
     }
 
     THEMIS_INFO("HybridRetriever (Linear): {} candidates → {} results",
-                result.total_candidates, result.documents.size());
+                result.total_candidates,static_cast<int>(result.documents.size()));
     return result;
 }
 
@@ -342,7 +351,7 @@ HybridFusionResult HybridRetriever::fuseLinear(
 // HybridRetrieverFactory
 // ---------------------------------------------------------------------------
 
-HybridRetriever HybridRetrieverFactory::createBalanced(size_t top_k) {
+HybridRetriever HybridRetrieverFactory::createBalanced([[maybe_unused]] size_t top_k) {
     HybridRetrieverConfig cfg;
     cfg.bm25_weight   = 0.5;
     cfg.vector_weight = 0.5;
@@ -352,7 +361,7 @@ HybridRetriever HybridRetrieverFactory::createBalanced(size_t top_k) {
     return HybridRetriever(cfg);
 }
 
-HybridRetriever HybridRetrieverFactory::createSemanticFocused(size_t top_k) {
+HybridRetriever HybridRetrieverFactory::createSemanticFocused([[maybe_unused]] size_t top_k) {
     HybridRetrieverConfig cfg;
     cfg.bm25_weight   = 0.3;
     cfg.vector_weight = 0.7;
@@ -362,7 +371,7 @@ HybridRetriever HybridRetrieverFactory::createSemanticFocused(size_t top_k) {
     return HybridRetriever(cfg);
 }
 
-HybridRetriever HybridRetrieverFactory::createKeywordFocused(size_t top_k) {
+HybridRetriever HybridRetrieverFactory::createKeywordFocused([[maybe_unused]] size_t top_k) {
     HybridRetrieverConfig cfg;
     cfg.bm25_weight   = 0.7;
     cfg.vector_weight = 0.3;

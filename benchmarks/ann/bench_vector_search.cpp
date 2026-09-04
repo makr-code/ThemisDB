@@ -28,25 +28,31 @@ public:
     explicit ScopedPathCleanup(std::string path) : path_(std::move(path)) {}
 
     ~ScopedPathCleanup() {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(path_, ec);
     }
 
 private:
-    std::string path_;
+    std::string path_ = {};
 };
 
 struct VecUtil {
     static std::vector<float> randomVec(int dim, std::mt19937& rng, bool normalize = true) {
         std::uniform_real_distribution<float> dist(0.0f, 1.0f);
         std::vector<float> v(dim);
-        for (int i = 0; i < dim; ++i) v[i] = dist(rng);
+        for (int i = 0; i < dim; ++i) {
+          v[i] = dist(rng);
+        }
         if (normalize) {
             // L2-Normalisieren für COSINE stabilere Werte
             float s = 0.0f;
-            for (float x : v) s += x * x;
+            for (float x : v) {
+              s += x * x;
+            }
             s = std::sqrt(std::max(s, 1e-12f));
-            for (float& x : v) x /= s;
+            for (float& x : v) {
+              x /= s;
+            }
         }
         return v;
     }
@@ -74,7 +80,7 @@ ExactCaseEnv buildExactCaseEnv(
                    (std::string("themis_bench_vec_exact_") + name_suffix + "_" +
                     std::to_string(ts)))
                       .string();
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(env.db_path, ec);
 
     RocksDBWrapper::Config cfg;
@@ -126,7 +132,9 @@ struct SearchEnv {
     }
 
     void initOnce() {
-        if (ready) return;
+        if (ready) {
+          return;
+        }
         // Use the OS temp directory so the path is valid regardless of the
         // working directory. Tick-count suffix avoids collisions across
         // concurrent/repeated runs.
@@ -140,11 +148,15 @@ struct SearchEnv {
         RocksDBWrapper::Config cfg; cfg.db_path = db_path; cfg.memtable_size_mb = 128; cfg.block_cache_size_mb = 256;
         cfg.compression_default = "lz4"; cfg.compression_bottommost = "zstd";
         db = std::make_shared<RocksDBWrapper>(cfg);
-        if (!db->open()) throw std::runtime_error("Failed to open RocksDB for vector benchmark");
+        if (!db->open()) {
+          throw std::runtime_error("Failed to open RocksDB for vector benchmark");
+        }
 
         vix = std::make_shared<VectorIndexManager>(*db);
         auto st = vix->init("chunks", dim, VectorIndexManager::Metric::COSINE, /*M*/16, /*efC*/200, /*ef*/64);
-        if (!st.ok) throw std::runtime_error("VectorIndex init failed: " + st.message);
+        if (!st.ok) {
+          throw std::runtime_error("VectorIndex init failed: " + st.message);
+        }
 
         // Datensatz generieren und einfügen
         dataset.reserve(N);
@@ -155,7 +167,9 @@ struct SearchEnv {
             BaseEntity e("v_" + padInt(i));
             e.setField("embedding", themis::Value{vec});
             auto rst = vix->addEntity(e);
-            if (!rst.ok) throw std::runtime_error("addEntity failed at i=" + std::to_string(i));
+            if (!rst.ok) {
+              throw std::runtime_error("addEntity failed at i=" + std::to_string(i));
+            }
         }
 
         ready = true;
@@ -267,7 +281,7 @@ static void BM_L2Distance_1000_512(benchmark::State& state) {
     state.counters["qps"] = benchmark::Counter(static_cast<double>(queries), benchmark::Counter::kIsRate);
 
     env.db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(env.db_path, ec);
 }
 
@@ -304,7 +318,7 @@ static void BM_CosineDistance_1000_512(benchmark::State& state) {
     state.counters["qps"] = benchmark::Counter(static_cast<double>(queries), benchmark::Counter::kIsRate);
 
     env.db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(env.db_path, ec);
 }
 
@@ -343,7 +357,7 @@ static void BM_TopK_5000_50(benchmark::State& state) {
     state.counters["qps"] = benchmark::Counter(static_cast<double>(queries), benchmark::Counter::kIsRate);
 
     env.db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(env.db_path, ec);
 }
 

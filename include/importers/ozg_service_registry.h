@@ -272,15 +272,20 @@ public:
     std::optional<OZGServiceEntry> findById(std::string_view id) const override {
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = entries_.find(std::string(id));
-        if (it == entries_.end()) return std::nullopt;
+        if (it == entries_.end()) {
+          return std::nullopt;
+        }
         return it->second;
     }
 
     std::vector<OZGServiceEntry> findByStatus(OZGServiceStatus status) const override {
         std::unique_lock<std::mutex> lk(mutex_);
-        std::vector<OZGServiceEntry> result;
+        std::vector<OZGServiceEntry> result = {};
+
         for (const auto& [id, e] : entries_) {
-            if (e.status == status) result.push_back(e);
+            if (e.status == status) {
+              result.push_back(e);
+            }
         }
         return result;
     }
@@ -311,9 +316,12 @@ public:
 
     std::vector<OZGServiceEntry> all() const override {
         std::unique_lock<std::mutex> lk(mutex_);
-        std::vector<OZGServiceEntry> result;
+        std::vector<OZGServiceEntry> result = {};
+
         result.reserve(entries_.size());
-        for (const auto& [id, e] : entries_) result.push_back(e);
+        for (const auto& [id, e] : entries_) {
+          result.push_back(e);
+        }
         return result;
     }
 

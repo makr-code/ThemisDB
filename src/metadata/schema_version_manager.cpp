@@ -259,18 +259,26 @@ VersionResult<json> SchemaVersionManager::diffVersions(
     uint64_t version_b) const
 {
     auto r_a = getVersion(table_name, version_a);
-    if (!r_a.ok) return VersionResult<json>::failure(r_a.error, r_a.error_message);
+    if (!r_a.ok) {
+      return VersionResult<json>::failure(r_a.error, r_a.error_message);
+    }
 
     auto r_b = getVersion(table_name, version_b);
-    if (!r_b.ok) return VersionResult<json>::failure(r_b.error, r_b.error_message);
+    if (!r_b.ok) {
+      return VersionResult<json>::failure(r_b.error, r_b.error_message);
+    }
 
     const auto& schema_a = r_a.value.snapshot;
     const auto& schema_b = r_b.value.snapshot;
 
     // Build property maps for comparison
     std::map<std::string, SchemaManager::PropertyInfo> props_a, props_b;
-    for (const auto& p : schema_a.properties) props_a[p.name] = p;
-    for (const auto& p : schema_b.properties) props_b[p.name] = p;
+    for (const auto& p : schema_a.properties) {
+      props_a[p.name] = p;
+    }
+    for (const auto& p : schema_b.properties) {
+      props_b[p.name] = p;
+    }
 
     json added   = json::array();
     json removed = json::array();
@@ -313,7 +321,9 @@ VersionResult<json> SchemaVersionManager::diffVersions(
 json SchemaVersionManager::historyToJSON(std::string_view table_name) const {
     auto r = getChangeHistory(table_name);
     json arr = json::array();
-    if (!r.ok) return arr;
+    if (!r.ok) {
+      return arr;
+    }
     for (const auto& change : r.value) {
         arr.push_back(change.toJSON());
     }
@@ -328,7 +338,7 @@ std::string SchemaVersionManager::versionKey(
     std::string_view table_name, uint64_t version)
 {
     // Zero-padded 10-digit version for lexicographic ordering
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "config:schema_version:"
         << table_name << ":"
         << std::setw(10) << std::setfill('0') << version;
@@ -427,7 +437,8 @@ VersionResult<bool> SchemaVersionManager::validateMigration(
     }
 
     // 3. Column names must be unique within the new schema
-    std::set<std::string> seen_columns;
+    std::set<std::string> seen_columns = {};
+
     for (const auto& col : new_schema.properties) {
         if (col.name.empty()) {
             return VersionResult<bool>::failure(
@@ -448,10 +459,10 @@ VersionResult<bool> SchemaVersionManager::validateMigration(
         if (current_change.has_value()) {
             const auto& existing = current_change->snapshot;
             if (existing.name == new_schema.name &&
-                existing.properties.size() == new_schema.properties.size())
+                static_cast<int>(existing.properties.size()) == static_cast<int>(new_schema.properties.size()))
             {
                 bool identical = true;
-                for (size_t i = 0; i < existing.properties.size() && identical; ++i) {
+                for (size_t i = 0; i <static_cast<int>(existing.properties.size()) && identical; ++i) {
                     if (existing.properties[i].name != new_schema.properties[i].name ||
                         existing.properties[i].type != new_schema.properties[i].type) {
                         identical = false;
@@ -468,7 +479,7 @@ VersionResult<bool> SchemaVersionManager::validateMigration(
     }
 
     spdlog::info("SchemaVersionManager: dry-run validation passed for table '{}' ({} columns)",
-                 table_name, new_schema.properties.size());
+                 table_name,static_cast<int>(new_schema.properties.size()));
     return VersionResult<bool>::success(true);
 }
 
@@ -478,12 +489,24 @@ VersionResult<bool> SchemaVersionManager::validateMigration(
 
 /// Map a ThemisDB property type string to a SQL column type.
 static std::string toSqlType(const std::string& themis_type) {
-    if (themis_type == "string")  return "VARCHAR";
-    if (themis_type == "integer") return "INTEGER";
-    if (themis_type == "double")  return "DOUBLE PRECISION";
-    if (themis_type == "boolean") return "BOOLEAN";
-    if (themis_type == "vector")  return "VECTOR";
-    if (themis_type == "binary")  return "BYTEA";
+    if (themis_type == "string") {
+      return "VARCHAR";
+    }
+    if (themis_type == "integer") {
+      return "INTEGER";
+    }
+    if (themis_type == "double") {
+      return "DOUBLE PRECISION";
+    }
+    if (themis_type == "boolean") {
+      return "BOOLEAN";
+    }
+    if (themis_type == "vector") {
+      return "VECTOR";
+    }
+    if (themis_type == "binary") {
+      return "BYTEA";
+    }
     return "TEXT";
 }
 
@@ -500,7 +523,7 @@ VersionResult<std::string> SchemaVersionManager::generateMigrationScript(
 
     const json& diff  = diff_result.value;
     const std::string tbl = std::string(table_name);
-    std::ostringstream script;
+    std::ostringstream script = {};
 
     script << "-- Migration: " << tbl
            << " from version " << version_from

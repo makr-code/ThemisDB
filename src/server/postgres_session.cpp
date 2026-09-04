@@ -32,8 +32,8 @@ namespace {
     // Helper function to escape SQL string literals
     // HIGH-GAP FIX: string_concat_loop — use push_back/append instead of += to avoid temp copies
     std::string escapeSQLString(const std::string& input) {
-        std::string result;
-        result.reserve(input.size() + 10);
+        std::string result = {};
+        result.reserve(static_cast<int>(input.size()) + 10);
         
         for (char c : input) {
             if (c == '\'') {
@@ -55,7 +55,7 @@ namespace {
     
     bool containsControlCharacters(const std::string& input) {
         return std::any_of(input.begin(), input.end(), [](unsigned char c) {
-            return c == '\0' || (std::iscntrl(c) && c != '\t' && c != '\n' && c != '\r');
+            return (c == '\0' || (std::iscntrl(c) && c != '\t' && c != '\n' && c != '\r'));
         });
     }
 
@@ -77,8 +77,8 @@ namespace {
         for (const auto& [placeholder, value] : replacements) {
             size_t pos = 0;
             while ((pos = query.find(placeholder, pos)) != std::string::npos) {
-                const size_t next = pos + placeholder.size();
-                const bool digit_continuation = next < query.size() &&
+                const size_t next = pos + static_cast<int>(placeholder.size()) ;
+                const bool digit_continuation = next <static_cast<int>(query.size()) &&
                     std::isdigit(static_cast<unsigned char>(query[next]));
                 if (digit_continuation) {
                     pos = next;
@@ -104,7 +104,7 @@ namespace {
         if (isIntegerOid(paramType)) {
             int64_t value = 0;
             const auto* begin = param.data();
-            const auto* end = begin + param.size();
+            const auto* end = begin + static_cast<int>(param.size()) ;
             const auto result = std::from_chars(begin, end, value);
             if (result.ec != std::errc{} || result.ptr != end) {
                 throw std::runtime_error("invalid integer bound parameter");
@@ -116,7 +116,7 @@ namespace {
             char* parse_end = nullptr;
             const auto numeric = std::strtod(param.c_str(), &parse_end);
             static_cast<void>(numeric);
-            if (parse_end == nullptr || parse_end != param.c_str() + param.size()) {
+            if (parse_end == nullptr || parse_end != param.c_str() + static_cast<int>(param.size()) ) {
                 throw std::runtime_error("invalid floating-point bound parameter");
             }
             return param;
@@ -212,7 +212,7 @@ void PostgresSession::armReadTimeout() {
             stop();
         } catch (...) {
             THEMIS_WARN("postgres_session: unhandled exception caught");
-            logCurrentException("Read-timeout handler error");
+            logCurrentException([[maybe_unused]] "Read-timeout handler error");
             stop();
         }
     });
@@ -235,7 +235,7 @@ void PostgresSession::armWriteTimeout() {
             stop();
         } catch (...) {
             THEMIS_WARN("postgres_session: unhandled exception caught");
-            logCurrentException("Write-timeout handler error");
+            logCurrentException([[maybe_unused]] "Write-timeout handler error");
             stop();
         }
     });
@@ -253,7 +253,7 @@ char PostgresSession::currentTransactionStatus() const {
         case TransactionState::FAILED:
             return 'E';
         case TransactionState::IDLE:
-        default:
+        [[fallthrough]];\n        default:
             return 'I';
     }
 }
@@ -277,8 +277,12 @@ void PostgresSession::handleStartupMessage(int32_t protocolVersion,
     auto dbIt = params.find("database");
     auto userIt = params.find("user");
     
-    if (dbIt != params.end()) databaseName_ = dbIt->second;
-    if (userIt != params.end()) userName_ = userIt->second;
+    if (dbIt != params.end()) {
+      databaseName_ = dbIt->second;
+    }
+    if (userIt != params.end()) {
+      userName_ = userIt->second;
+    }
     
     // Validate that user and database are provided
     if (userName_.empty()) {
@@ -337,7 +341,7 @@ void PostgresSession::handleQuery(const std::string& query) {
     }
     
     // Create uppercase version only when needed (HIGH-GAP FIX: defer copy)
-    std::string upperQuery;
+    std::string upperQuery = {};
     upperQuery.reserve(trimmed.size());
     std::transform(trimmed.begin(), trimmed.end(), std::back_inserter(upperQuery), ::toupper);
     
@@ -412,13 +416,13 @@ void PostgresSession::handleQuery(const std::string& query) {
         // COPY FROM STDIN or COPY TO STDOUT
         if (upperQuery.find("FROM STDIN") != std::string::npos) {
             // COPY table FROM STDIN — extract table name from between COPY and (
-            std::string copyTableName;
+            std::string copyTableName = {};
             {
                 // Original (non-uppercased) query for accurate table name
                 constexpr size_t kCopyPrefixLen = sizeof("COPY ") - 1; // 5 chars
                 std::string q = query;
                 size_t start = kCopyPrefixLen;
-                while (start < q.size() && q[start] == ' ') { ++start; }
+                while (start <static_cast<int>(q.size()) && q[start] == ' ') { ++start; }
                 // Find end: first of '(' (column list), whitespace, or end-of-string
                 size_t end = q.find_first_of(" (", start);
                 if (end == std::string::npos) { end = q.size(); }
@@ -514,7 +518,7 @@ void PostgresSession::handleBind(const std::string& portal, const std::string& s
         preparedStmt = stmtIt->second;
     }
     // Validate parameter count
-    if (!preparedStmt.paramTypes.empty() && params.size() != preparedStmt.paramTypes.size()) {
+    if (!preparedStmt.paramTypes.empty() && static_cast<int>(params.size()) != static_cast<int>(preparedStmt.paramTypes.size())) {
         sendErrorResponse("ERROR", "08P01", 
             "Parameter count mismatch: expected " + std::to_string(preparedStmt.paramTypes.size()) +
             ", got " + std::to_string(params.size()));
@@ -564,13 +568,13 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
         // Replace $1, $2, etc. using typed, placeholder-safe literal binding.
         std::vector<std::pair<std::string, std::string>> replacements;
         replacements.reserve(params.size());
-        for (size_t i = 0; i < params.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(params.size()); ++i) {
             std::string placeholder = "$" + std::to_string(i + 1);
-            int32_t paramType = (i < paramTypes.size()) ? paramTypes[i] : 25; // default to text
+            int32_t paramType = (i <static_cast<int>(paramTypes.size())) ? paramTypes[i] : 25; // default to text
             replacements.emplace_back(std::move(placeholder), bindParameterValue(params[i], paramType));
         }
         std::sort(replacements.begin(), replacements.end(),
-                  [](const auto& lhs, const auto& rhs) { return lhs.first.size() > rhs.first.size(); });
+                  [](const auto& lhs, const auto& rhs) { return static_cast<bool>( static_cast<int>(lhs.first.size()) < static_cast<int>(rhs.first.size())); });
         query = replaceAllPlaceholders(std::move(query), replacements);
         
         // If this is the first execution, fetch and cache results
@@ -617,7 +621,8 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
                 if (upperQuery.find("SELECT") == 0) {
                     // Execute via AQLParser + QueryEngine
                     QueryInfo info = parseSelectQuery(query);
-                    std::vector<FieldDescription> fields;
+                    std::vector<FieldDescription> fields = {};
+
                     for (const auto& col : info.selectColumns) {
                         if (col == "*") {
                             fields.push_back({"?column?", 0, 0, 25, -1, -1, 0});
@@ -668,7 +673,8 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
                                         // Project columns from entity JSON
                                         nlohmann::json doc = nlohmann::json::parse(
                                             entity.toJson());
-                                        std::vector<std::string> row_vals;
+                                        std::vector<std::string> row_vals = {};
+
                                         for (const auto& f : fields) {
                                             if (doc.contains(f.name)) {
                                                 const auto& v = doc[f.name];
@@ -730,7 +736,7 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
         // Result streaming: Send cached results up to maxRows
         if (maxRows == 0) {
             // maxRows == 0 means no limit, send all remaining rows
-            maxRows = portalData.cachedResults.size() - portalData.currentRow;
+            maxRows = static_cast<int>(portalData.cachedResults.size()) - portalData.currentRow;
         }
         
         size_t rowsToSend = std::min(static_cast<size_t>(maxRows), 
@@ -791,7 +797,8 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
                 QueryInfo info = parseSelectQuery(query);
                 
                 // Build field descriptions
-                std::vector<FieldDescription> fields;
+                std::vector<FieldDescription> fields = {};
+
                 for (const auto& col : info.selectColumns) {
                     if (col == "*") {
                         // Generic field for SELECT *
@@ -855,7 +862,8 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
             
             if (upperQuery.find("SELECT") == 0) {
                 QueryInfo info = parseSelectQuery(query);
-                std::vector<FieldDescription> fields;
+                std::vector<FieldDescription> fields = {};
+
                 for (const auto& col : info.selectColumns) {
                     if (col == "*") {
                         fields.push_back({"?column?", 0, 0, 25, -1, -1, 0});
@@ -938,7 +946,7 @@ void PostgresSession::handleCopyData(const std::vector<uint8_t>& data) {
     
     // Split by newlines to get individual rows
     std::istringstream stream(dataStr);
-    std::string line;
+    std::string line = {};
     while (std::getline(stream, line)) {
         if (!line.empty()) {
             std::lock_guard<std::mutex> lock(copyMutex_);
@@ -960,7 +968,7 @@ void PostgresSession::handleCopyDone() {
     size_t rowsInserted = 0;
     
     std::vector<std::string> copyBuffer;
-    std::string copyTableName;
+    std::string copyTableName = {};
     {
         std::lock_guard<std::mutex> lock(copyMutex_);
         copyBuffer = copyBuffer_;
@@ -978,7 +986,7 @@ void PostgresSession::handleCopyDone() {
                 size_t pos = 0;
                 const size_t len = row.size();
                 while (pos <= len) {
-                    std::string field;
+                    std::string field = {};
                     if (pos < len && row[pos] == '"') {
                         // Quoted field
                         ++pos;
@@ -996,11 +1004,15 @@ void PostgresSession::handleCopyDone() {
                             }
                         }
                         // Skip optional comma after closing quote
-                        if (pos < len && row[pos] == ',') ++pos;
+                        if (pos < len && row[pos] == ',') {
+                          ++pos;
+                        }
                     } else {
                         // Unquoted field — read until comma or end
                         size_t start = pos;
-                        while (pos < len && row[pos] != ',') ++pos;
+                        while (pos < len && row[pos] != ',') {
+                          ++pos;
+                        }
                         field = row.substr(start, pos - start);
                         // Trim surrounding whitespace
                         auto ltrim = field.find_first_not_of(" \t");
@@ -1015,11 +1027,13 @@ void PostgresSession::handleCopyDone() {
                     fields.push_back(field);
                 }
             }
-            if (fields.empty()) continue;
+            if (fields.empty()) {
+              continue;
+            }
 
             // Build JSON document: {col0: "v0", col1: "v1", ...}
             nlohmann::json doc;
-            for (size_t i = 0; i < fields.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(fields.size()); ++i) {
                 doc["col" + std::to_string(i)] = fields[i];
             }
 
@@ -1083,8 +1097,9 @@ void PostgresSession::sendAuthenticationOk() {
 }
 
 void PostgresSession::sendParameterStatus(const std::string& name, const std::string& value) {
-    std::vector<uint8_t> payload;
-    payload.reserve(name.size() + value.size() + 2);  // name + null + value + null
+    std::vector<uint8_t> payload = {};
+
+    payload.reserve(static_cast<int>(name.size()) + static_cast<int>(value.size()) + 2);  // name + null + value + null
     payload.insert(payload.end(), name.begin(), name.end());
     payload.push_back(0);
     payload.insert(payload.end(), value.begin(), value.end());
@@ -1116,7 +1131,7 @@ void PostgresSession::sendRowDescription(const std::vector<FieldDescription>& fi
     
     // Estimate size: 2 bytes for count + (avg_field_name_size + 19 bytes) per field
     // Average field name is ~15 chars, so ~34 bytes per field + 2 for header
-    payload.reserve(2 + fields.size() * 34);
+    payload.reserve(2 + static_cast<int>(fields.size()) * 34);
     
     // Field count
     uint16_t fieldCount = fields.size();
@@ -1398,10 +1413,12 @@ void PostgresSession::doRead() {
                 offset = 8;
                 while (offset < static_cast<size_t>(length) && buffer_[offset] != 0) {
                     std::string key(buffer_.data() + offset);
-                    offset += key.size() + 1;
-                    if (offset >= static_cast<size_t>(length)) break;
+                    offset += static_cast<int>(key.size()) + 1;
+                    if (offset >= static_cast<size_t>(length)) {
+                      break;
+                    }
                     std::string value(buffer_.data() + offset);
-                    offset += value.size() + 1;
+                    offset += static_cast<int>(value.size()) + 1;
                     params[key] = value;
                 }
                 
@@ -1428,12 +1445,13 @@ void PostgresSession::doRead() {
                     }
                     case 'P': { // Parse
                         std::string stmtName(buffer_.data() + offset);
-                        offset += stmtName.size() + 1;
+                        offset += static_cast<int>(stmtName.size()) + 1;
                         std::string query(buffer_.data() + offset);
-                        offset += query.size() + 1;
+                        offset += static_cast<int>(query.size()) + 1;
                         
                         // Parse parameter types
-                        std::vector<int32_t> paramTypes;
+                        std::vector<int32_t> paramTypes = {};
+
                         if (offset + 2 <= bytes_transferred) {
                             uint16_t numParams = (static_cast<uint8_t>(buffer_[offset]) << 8) | 
                                                static_cast<uint8_t>(buffer_[offset + 1]);
@@ -1454,12 +1472,13 @@ void PostgresSession::doRead() {
                     }
                     case 'B': { // Bind
                         std::string portalName(buffer_.data() + offset);
-                        offset += portalName.size() + 1;
+                        offset += static_cast<int>(portalName.size()) + 1;
                         std::string stmtName(buffer_.data() + offset);
-                        offset += stmtName.size() + 1;
+                        offset += static_cast<int>(stmtName.size()) + 1;
                         
                         // Parse parameter format codes
-                        std::vector<int16_t> paramFormats;
+                        std::vector<int16_t> paramFormats = {};
+
                         if (offset + 2 <= bytes_transferred) {
                             uint16_t numFormats = (static_cast<uint8_t>(buffer_[offset]) << 8) | 
                                                 static_cast<uint8_t>(buffer_[offset + 1]);
@@ -1474,7 +1493,8 @@ void PostgresSession::doRead() {
                         }
                         
                         // Parse parameter values
-                        std::vector<std::string> params;
+                        std::vector<std::string> params = {};
+
                         if (offset + 2 <= bytes_transferred) {
                             uint16_t numParams = (static_cast<uint8_t>(buffer_[offset]) << 8) | 
                                                static_cast<uint8_t>(buffer_[offset + 1]);
@@ -1510,7 +1530,7 @@ void PostgresSession::doRead() {
                             break;
                         }
                         std::string portalName(buffer_.data() + offset);
-                        offset += portalName.size() + 1;
+                        offset += static_cast<int>(portalName.size()) + 1;
                         // Guard: need 4 bytes for the maxRows int32.
                         if (offset + 4 > bytes_transferred) {
                             sendErrorResponse("ERROR", "08P01", "Malformed Execute message: missing maxRows field");
@@ -1623,7 +1643,7 @@ void PostgresSession::doWrite() {
                 stop();
             } catch (...) {
                 THEMIS_WARN("postgres_session: unhandled exception caught");
-                logCurrentException("Write completion handler error");
+                logCurrentException([[maybe_unused]] "Write completion handler error");
                 stop();
             }
         });
@@ -1637,7 +1657,7 @@ void PostgresSession::writeMessage(char type, const std::vector<uint8_t>& payloa
     std::vector<uint8_t> message;
     message.push_back(type);
     
-    int32_t length = payload.size() + 4;
+    int32_t length = static_cast<int>(payload.size()) + 4;
     message.push_back((length >> 24) & 0xFF);
     message.push_back((length >> 16) & 0xFF);
     message.push_back((length >> 8) & 0xFF);
@@ -1903,7 +1923,9 @@ PostgresSession::QueryInfo PostgresSession::parseSelectQuery(const std::string& 
     size_t joinPos = upperQuery.find("JOIN", fromPos);
     
     size_t tableEnd = std::string::npos;
-    if (wherePos != std::string::npos) tableEnd = wherePos;
+    if (wherePos != std::string::npos) {
+      tableEnd = wherePos;
+    }
     else if (joinPos != std::string::npos) tableEnd = joinPos;
     else if (groupPos != std::string::npos) tableEnd = groupPos;
     else if (orderPos != std::string::npos) tableEnd = orderPos;
@@ -1918,7 +1940,9 @@ PostgresSession::QueryInfo PostgresSession::parseSelectQuery(const std::string& 
     // Extract WHERE clause
     if (wherePos != std::string::npos) {
         size_t whereEnd = std::string::npos;
-        if (groupPos != std::string::npos && groupPos > wherePos) whereEnd = groupPos;
+        if (groupPos != std::string::npos && groupPos > wherePos) {
+          whereEnd = groupPos;
+        }
         else if (orderPos != std::string::npos && orderPos > wherePos) whereEnd = orderPos;
         else if (limitPos != std::string::npos && limitPos > wherePos) whereEnd = limitPos;
         else whereEnd = query.size();
@@ -1939,7 +1963,9 @@ PostgresSession::QueryInfo PostgresSession::parseSelectQuery(const std::string& 
     // Extract GROUP BY
     if (groupPos != std::string::npos) {
         size_t groupEnd = std::string::npos;
-        if (orderPos != std::string::npos && orderPos > groupPos) groupEnd = orderPos;
+        if (orderPos != std::string::npos && orderPos > groupPos) {
+          groupEnd = orderPos;
+        }
         else if (limitPos != std::string::npos && limitPos > groupPos) groupEnd = limitPos;
         else groupEnd = query.size();
         
@@ -1997,13 +2023,15 @@ std::string PostgresSession::buildCypherFromSelect(const QueryInfo& info) {
     
     // Build RETURN clause
     // PHASE2-OPTIMIZATION: string_concat_loop — use ostringstream to avoid O(n²) allocations
-    std::ostringstream return_clause_oss;
+    std::ostringstream return_clause_oss = {};
     return_clause_oss << " RETURN ";
     
     if (!info.aggregates.empty()) {
         // Handle aggregates
-        for (size_t i = 0; i < info.aggregates.size(); ++i) {
-            if (i > 0) return_clause_oss << ", ";
+        for (size_t i = 0; i <static_cast<int>(info.aggregates.size()); ++i) {
+            if (i > 0) {
+              return_clause_oss << ", ";
+            }
             
             std::string agg = info.aggregates[i];
             // Convert SQL aggregate to Cypher (e.g., COUNT(*) -> count(n))
@@ -2037,12 +2065,14 @@ std::string PostgresSession::buildCypherFromSelect(const QueryInfo& info) {
                 return_clause_oss << "max(n." << col << ")";
             }
         }
-    } else if (info.selectColumns.size() == 1 && info.selectColumns[0] == "*") {
+    } else if (static_cast<int>(info.selectColumns.size()) == 1 && info.selectColumns[0] == "*") {
         return_clause_oss << "n";
     } else {
         // Regular columns
-        for (size_t i = 0; i < info.selectColumns.size(); ++i) {
-            if (i > 0) return_clause_oss << ", ";
+        for (size_t i = 0; i <static_cast<int>(info.selectColumns.size()); ++i) {
+            if (i > 0) {
+              return_clause_oss << ", ";
+            }
             std::string_view col = info.selectColumns[i];
             if (col == "*") {
                 return_clause_oss << "n";
@@ -2086,10 +2116,12 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     
     // Extract table name
     size_t tableStart = intoPos + 4;
-    while (tableStart < query.size() && std::isspace(query[tableStart])) tableStart++;
+    while (tableStart <static_cast<int>(query.size()) && std::isspace(query[tableStart])) {
+      tableStart++;
+    }
     
     size_t tableEnd = tableStart;
-    while (tableEnd < query.size() && !std::isspace(query[tableEnd]) && query[tableEnd] != '(') tableEnd++;
+    while (tableEnd <static_cast<int>(query.size()) && !std::isspace(query[tableEnd]) && query[tableEnd] != '(') tableEnd++;
     
     std::string tableName = query.substr(tableStart, tableEnd - tableStart);
     
@@ -2103,9 +2135,11 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     std::string colsList = query.substr(colsStart + 1, colsEnd - colsStart - 1);
     std::vector<std::string> columns;
     size_t pos = 0;
-    while (pos < colsList.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(colsList.size())) {
         size_t commaPos = colsList.find(',', pos);
-        if (commaPos == std::string::npos) commaPos = colsList.size();
+        if (commaPos == std::string::npos) {
+          commaPos = colsList.size();
+        }
         
         std::string col = colsList.substr(pos, commaPos - pos);
         col.erase(0, col.find_first_not_of(" \t"));
@@ -2131,7 +2165,7 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     std::vector<std::string> values;
     pos = 0;
     bool inQuote = false;
-    std::string currentValue;
+    std::string currentValue = {};
     char prevChar = '\0';
     
     for (char c : valsList) {
@@ -2162,8 +2196,10 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     
     // Build Cypher CREATE statement
     std::string cypher = "CREATE (n:" + tableName + " {";
-    for (size_t i = 0; i < columns.size() && i < values.size(); ++i) {
-        if (i > 0) cypher += ", ";
+    for (size_t i = 0; i <static_cast<int>(columns.size())  && static_cast<size_t>(i) <static_cast<int>(values.size()); ++i) {
+        if (i > 0) {
+          cypher += ", ";
+        }
         cypher += columns[i] + ": " + values[i];
     }
     cypher += "})";
@@ -2232,21 +2268,21 @@ std::string PostgresSession::parseUpdateQuery(const std::string& query) {
     std::vector<std::string> assignments;
     size_t start = 0;
     bool inQuote = false;
-    for (size_t i = 0; i < cypherSetClause.size(); ++i) {
-        if (cypherSetClause[i] == '\'' && (i == 0 || cypherSetClause[i-1] != '\\')) {
+    for (size_t i = 0; i <static_cast<int>(cypherSetClause.size()); ++i) {
+        if ((cypherSetClause[i] == '\'' && (i == 0 || cypherSetClause[static_cast<int>(i - 1)] != '\\'))) {
             inQuote = !inQuote;
         } else if (cypherSetClause[i] == ',' && !inQuote) {
             assignments.push_back(cypherSetClause.substr(start, i - start));
             start = i + 1;
         }
     }
-    if (start < cypherSetClause.size()) {
+    if (static_cast<int>(cypherSetClause.size()) > start) {
         assignments.push_back(cypherSetClause.substr(start));
     }
     
     // Process each assignment
     cypherSetClause.clear();
-    for (size_t i = 0; i < assignments.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(assignments.size()); ++i) {
         std::string assignment = assignments[i];
         assignment.erase(0, assignment.find_first_not_of(" \t"));
         
@@ -2267,7 +2303,9 @@ std::string PostgresSession::parseUpdateQuery(const std::string& query) {
             assignment = lhs + rhs;
         }
         
-        if (i > 0) cypherSetClause += ", ";
+        if (i > 0) {
+          cypherSetClause += ", ";
+        }
         cypherSetClause += assignment;
     }
     
@@ -2292,7 +2330,9 @@ std::string PostgresSession::parseDeleteQuery(const std::string& query) {
     
     // Extract table name
     size_t tableStart = fromPos + 4;
-    while (tableStart < query.size() && std::isspace(query[tableStart])) tableStart++;
+    while (tableStart <static_cast<int>(query.size()) && std::isspace(query[tableStart])) {
+      tableStart++;
+    }
     
     size_t tableEnd = (wherePos != std::string::npos) ? wherePos : query.size();
     std::string tableName = query.substr(tableStart, tableEnd - tableStart);

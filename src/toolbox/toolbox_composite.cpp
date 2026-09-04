@@ -35,8 +35,8 @@ std::shared_ptr<IngestionToolbox> ToolboxComposite::resolve(
     const std::string& mime) const
 {
     for (const auto& [prefix, toolbox] : routes_) {
-        if (mime.size() >= prefix.size() &&
-            mime.compare(0, prefix.size(), prefix) == 0)
+        if (static_cast<int>(mime.size()) > = prefix.size() &&
+            mime.compare(0,static_cast<int>(prefix.size()), prefix) == 0)
         {
             return toolbox;
         }

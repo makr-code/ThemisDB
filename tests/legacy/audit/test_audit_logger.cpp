@@ -36,7 +36,7 @@ protected:
     std::shared_ptr<MockKeyProvider> key_provider_;
     std::shared_ptr<FieldEncryption> enc_;
     std::shared_ptr<VCCPKIClient> pki_;
-    std::string log_path_;
+    std::string log_path_ = {};
 };
 
 TEST_F(AuditLoggerTest, EncryptThenSignFlow) {
@@ -65,7 +65,7 @@ TEST_F(AuditLoggerTest, EncryptThenSignFlow) {
     ASSERT_TRUE(std::filesystem::exists(log_path_));
     
     std::ifstream ifs(log_path_);
-    std::string line;
+    std::string line = {};
     ASSERT_TRUE(std::getline(ifs, line));
     
     auto record = nlohmann::json::parse(line);
@@ -99,7 +99,7 @@ TEST_F(AuditLoggerTest, PlaintextSignFlow) {
     ASSERT_TRUE(std::filesystem::exists(log_path_));
     
     std::ifstream ifs(log_path_);
-    std::string line;
+    std::string line = {};
     ASSERT_TRUE(std::getline(ifs, line));
     
     auto record = nlohmann::json::parse(line);
@@ -148,7 +148,7 @@ TEST_F(AuditLoggerTest, MultipleEvents) {
     // Verify 5 lines in log file
     std::ifstream ifs(log_path_);
     int count = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(ifs, line)) {
         auto record = nlohmann::json::parse(line);
         EXPECT_TRUE(record.contains("ts"));
@@ -237,7 +237,7 @@ TEST_F(AuditLoggerTest, ArchiveOldEntries) {
     
     // Verify archive file exists and contains the old entry
     ASSERT_TRUE(std::filesystem::exists(archive_path));
-    std::string line;
+    std::string line = {};
     {
         std::ifstream archive_ifs(archive_path);
         ASSERT_TRUE(std::getline(archive_ifs, line));
@@ -307,7 +307,7 @@ TEST_F(AuditLoggerTest, PurgeOldEntries) {
     
     // Verify main log only contains recent entry
     std::ifstream main_ifs(log_path_);
-    std::string line;
+    std::string line = {};
     int main_count = 0;
     while (std::getline(main_ifs, line)) {
         if (!line.empty()) {
@@ -421,8 +421,10 @@ TEST_F(AuditLoggerTest, SecondaryLogPathMirror) {
     auto countLines = [](const std::string& path) {
         std::ifstream ifs(path);
         int n = 0;
-        std::string line;
-        while (std::getline(ifs, line)) if (!line.empty()) ++n;
+        std::string line = {};
+        while (std::getline(ifs, line)) {
+          if (!line.empty()) ++n;
+        }
         return n;
     };
 
@@ -433,8 +435,10 @@ TEST_F(AuditLoggerTest, SecondaryLogPathMirror) {
     auto readLines = [](const std::string& path) {
         std::vector<std::string> lines;
         std::ifstream ifs(path);
-        std::string line;
-        while (std::getline(ifs, line)) if (!line.empty()) lines.push_back(line);
+        std::string line = {};
+        while (std::getline(ifs, line)) {
+          if (!line.empty()) lines.push_back(line);
+        }
         return lines;
     };
 

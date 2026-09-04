@@ -246,7 +246,8 @@ TEST_F(FederatedTensorSummariesTest, FS_06_MergingShardResults) {
     // Verify: shard-level summaries exist and merged output is deduplicated + top-k bounded
     ASSERT_EQ(federated.shard_summaries.size(), context.shard_scope_ids.size());
     ASSERT_EQ(federated.merged_similar_adapters.size(), context.top_k);
-    std::unordered_set<std::string> unique_adapter_keys;
+    std::unordered_set<std::string> unique_adapter_keys = {};
+
     for (const auto& candidate : federated.merged_similar_adapters) {
         unique_adapter_keys.insert(candidate.adapter_key);
     }

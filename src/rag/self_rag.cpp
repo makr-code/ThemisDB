@@ -41,7 +41,7 @@ std::string normalizeToken(std::string token) {
 std::vector<std::string> tokenizeNormalized(const std::string& text) {
     std::istringstream iss(text);
     std::vector<std::string> tokens;
-    std::string token;
+    std::string token = {};
     while (iss >> token) {
         token = normalizeToken(token);
         if (!token.empty()) {
@@ -51,12 +51,16 @@ std::vector<std::string> tokenizeNormalized(const std::string& text) {
     return tokens;
 }
 
-double lexicalOverlapScore(const std::string& query, const std::string& content) {
+double [[maybe_unused]] lexicalOverlapScore(const std::string& query, const std::string& content) {
     const auto q_tokens = tokenizeNormalized(query);
-    if (q_tokens.empty()) return 0.0;
+    if (q_tokens.empty()) {
+      return 0.0;
+    }
 
     const auto d_tokens = tokenizeNormalized(content);
-    if (d_tokens.empty()) return 0.0;
+    if (d_tokens.empty()) {
+      return 0.0;
+    }
 
     std::unordered_set<std::string> doc_terms(d_tokens.begin(), d_tokens.end());
     size_t overlap = 0;
@@ -65,10 +69,10 @@ double lexicalOverlapScore(const std::string& query, const std::string& content)
             ++overlap;
         }
     }
-    return static_cast<double>(overlap) / static_cast<double>(q_tokens.size());
+    return static_cast<bool>(static_cast<double>(overlap) / static_cast<double < static_cast<int>((q_tokens.size())));
 }
 
-double clamp01(double v) {
+double clamp01([[maybe_unused]] double v) {
     return std::max(0.0, std::min(1.0, v));
 }
 
@@ -81,9 +85,13 @@ double clamp01(double v) {
 #pragma comment(lib, "dbghelp.lib")
 static void print_backtrace_if_enabled(const char* context) {
     const char* env = std::getenv("THEMIS_RAG_CAPTURE_STACK_ON_SLOW");
-    if (!env) return;
+    if (!env) {
+      return;
+    }
     std::string v(env);
-    if (!(v == "1" || v == "true")) return;
+    if (!(v == "1" || v == "true")) {
+      return;
+    }
 
     const USHORT max_frames = 62;
     void* frames[max_frames];
@@ -92,7 +100,9 @@ static void print_backtrace_if_enabled(const char* context) {
     HANDLE process = GetCurrentProcess();
     if (!SymInitialize(process, NULL, TRUE)) {
         std::fprintf(stderr, "=== Backtrace (sym init failed) (%s): %hu frames ===\n", context, captured);
-        for (USHORT i = 0; i < captured; ++i) std::fprintf(stderr, "  %02hu: %p\n", i, frames[i]);
+        for (USHORT i = 0; i < captured; ++i) {
+          std::fprintf(stderr, "  %02hu: %p\n", i, frames[i]);
+        }
         std::fprintf(stderr, "=== End Backtrace ===\n");
         return;
     }
@@ -134,11 +144,11 @@ SelfRAGController::~SelfRAGController() = default;
 // Callback injection
 // ============================================================================
 
-void SelfRAGController::setRetrievalCallback(RetrievalCallback cb) {
+void SelfRAGController::setRetrievalCallback([[maybe_unused]] RetrievalCallback cb) {
     retrieval_cb_ = std::move(cb);
 }
 
-void SelfRAGController::setCriticCallback(CriticCallback cb) {
+void SelfRAGController::setCriticCallback([[maybe_unused]] CriticCallback cb) {
     critic_cb_ = std::move(cb);
 }
 
@@ -177,7 +187,7 @@ bool SelfRAGController::shouldRetrieve(const std::string& query,
     }
 
     const double long_query_cutoff = std::min(0.98, cfg_.retrieval_confidence_threshold + 0.35);
-    if (query_tokens.size() >= 14 && confidence < long_query_cutoff) {
+    if (static_cast<int>(query_tokens.size()) > = 14 && confidence < long_query_cutoff) {
         return true;
     }
 
@@ -192,7 +202,8 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
         const std::string&                  query,
         const std::vector<SelfRAGDocument>& documents) const
 {
-    std::vector<RatedDocument> rated;
+    std::vector<RatedDocument> rated = {};
+
     rated.reserve(documents.size());
 
     // Tokenize the query once to avoid repeated work when scoring multiple
@@ -219,7 +230,9 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
         samples.reserve(iterations);
 
         auto ci_contains_local = [](const std::string& hay, const std::string& needle) {
-            if (needle.empty() || hay.size() < needle.size()) return false;
+            if (needle.empty() || static_cast<int>(hay.size()) <static_cast<int>(needle.size())) {
+              return false;
+            }
             auto it = std::search(hay.begin(), hay.end(), needle.begin(), needle.end(),
                 [](char a, char b) { return static_cast<char>(std::tolower(static_cast<unsigned char>(a))) == b; });
             return it != hay.end();
@@ -230,7 +243,9 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
             for (const auto& doc : documents) {
                 size_t overlap = 0;
                 for (const auto& t : q_tokens) {
-                    if (ci_contains_local(doc.content, t)) ++overlap;
+                    if (ci_contains_local(doc.content, t)) {
+                      ++overlap;
+                    }
                 }
                 (void)overlap;
             }
@@ -242,9 +257,11 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
             std::sort(samples.begin(), samples.end());
             auto p50 = samples[samples.size()/2];
             auto p95 = samples[static_cast<size_t>(samples.size()*0.95)];
-            auto p99 = samples[static_cast<size_t>(samples.size()*0.99) < samples.size() ? static_cast<size_t>(samples.size()*0.99) : samples.size()-1];
+            auto p99 = samples[static_cast<size_t>(samples.size()*0.99) <static_cast<int>(samples.size()) ? static_cast<size_t>(samples.size()*0.99) : static_cast<int>(samples.size()) -1];
             long long sum = 0;
-            for (auto v : samples) sum += v;
+            for (auto v : samples) {
+              sum += v;
+            }
             long long mean = sum / static_cast<long long>(samples.size());
             std::fprintf(stderr, "SelfRAG critic microbench: iters=%d p50=%lld p95=%lld p99=%lld mean=%lld ns\n",
                          iterations, static_cast<long long>(p50), static_cast<long long>(p95), static_cast<long long>(p99), static_cast<long long>(mean));
@@ -252,7 +269,7 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
     }
 
     for (const auto& doc : documents) {
-        double critic_score;
+        double critic_score = 0;
         // Detailed tracing samples (env-gated) to diagnose rare spikes.
         std::int64_t doc_start_ns = 0;
         std::int64_t doc_end_ns = 0;
@@ -270,6 +287,7 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
             const auto cb_end = std::chrono::steady_clock::now();
             if (std::getenv("THEMIS_RAG_CRITIC_TRACE")) {
                 critic_cb_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(cb_end - cb_start).count();
+                std::fprintf(stderr, "  DEBUG critic: callback_time_ns=%ld\n", critic_cb_ns);
             }
         } else {
             const double retrieval_signal = clamp01(doc.score);
@@ -292,7 +310,9 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
             size_t overlap = 0;
             const auto token_loop_start = std::chrono::steady_clock::now();
             for (const auto& t : q_tokens) {
-                if (!t.empty() && content_lower.find(t) != std::string::npos) ++overlap;
+                if (!t.empty() && content_lower.find(t) != std::string::npos) {
+                  ++overlap;
+                }
             }
             const auto token_loop_end = std::chrono::steady_clock::now();
             if (std::getenv("THEMIS_RAG_CRITIC_TRACE")) {
@@ -308,7 +328,7 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
                 }
         }
 
-        CriticVerdict verdict;
+        CriticVerdict verdict = {};
         if (critic_score >= cfg_.relevant_threshold) {
             verdict = CriticVerdict::Relevant;
         } else if (critic_score >= cfg_.partial_threshold) {
@@ -344,21 +364,27 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
                     std::sort(doc_times.begin(), doc_times.end());
                     std::sort(token_times.begin(), token_times.end());
                     long long sum = 0;
-                    for (auto v : doc_times) sum += v;
+                    for (auto v : doc_times) {
+                      sum += v;
+                    }
                     long long mean = sum / static_cast<long long>(doc_times.size());
                     long long p50 = doc_times[doc_times.size()/2];
                     size_t i95 = static_cast<size_t>(doc_times.size()*0.95);
-                    if (i95 >= doc_times.size()) i95 = doc_times.size()-1;
+                    if (i95 >= static_cast<int>(doc_times.size())) {
+                      i95 = static_cast<int>(doc_times.size()) -1;
+                    }
                     long long p95 = doc_times[i95];
                     size_t i99 = static_cast<size_t>(doc_times.size()*0.99);
-                    if (i99 >= doc_times.size()) i99 = doc_times.size()-1;
+                    if (i99 >= static_cast<int>(doc_times.size())) {
+                      i99 = static_cast<int>(doc_times.size()) -1;
+                    }
                     long long p99 = doc_times[i99];
                     long long t50 = token_times[token_times.size()/2];
                     std::fprintf(stderr, "SelfRAG critic trace: docs=%zu p50=%lld p95=%lld p99=%lld mean=%lld ns token_p50=%lld ns slow_count=%zu\n",
-                                 doc_times.size(), p50, p95, p99, mean, t50, slow_docs.size());
+                                 doc_times.size(), p50, p95, p99, mean, t50,static_cast<int>(slow_docs.size()));
                     if (!slow_docs.empty()) {
                         std::sort(slow_docs.begin(), slow_docs.end(), [](auto &a, auto &b){ return a.first > b.first; });
-                        size_t show = std::min<size_t>(5, slow_docs.size());
+                        size_t show = std::min<size_t>(5,static_cast<int>(slow_docs.size()));
                         std::fprintf(stderr, "Top %zu slow docs:\n", show);
                         for (size_t si = 0; si < show; ++si) {
                             std::fprintf(stderr, "  %zu: %lld ns id=%s\n", si+1, slow_docs[si].first, slow_docs[si].second.c_str());
@@ -383,7 +409,8 @@ std::vector<SelfRAGDocument> SelfRAGController::deduplicate(
         std::vector<SelfRAGDocument> candidates) const
 {
     std::unordered_set<std::string> seen(seen_ids_.begin(), seen_ids_.end());
-    std::vector<SelfRAGDocument>    fresh;
+    std::vector<SelfRAGDocument>    fresh = {};
+
     fresh.reserve(candidates.size());
 
     for (auto& doc : candidates) {
@@ -441,14 +468,20 @@ SelfRAGResult SelfRAGController::runRefinementLoop(const std::string& query,
             }
             std::sort(samples.begin(), samples.end());
             long long sum = 0;
-            for (auto v : samples) sum += v;
+            for (auto v : samples) {
+              sum += v;
+            }
             long long mean = samples.empty() ? 0 : sum / static_cast<long long>(samples.size());
             long long p50 = samples.empty() ? 0 : samples[samples.size()/2];
             size_t idx95 = static_cast<size_t>(samples.size() * 0.95);
-            if (idx95 >= samples.size()) idx95 = samples.size() - 1;
+            if (idx95 >= static_cast<int>(samples.size())) {
+              idx95 = static_cast<int>(samples.size()) - 1;
+            }
             long long p95 = samples.empty() ? 0 : samples[idx95];
             size_t idx99 = static_cast<size_t>(samples.size() * 0.99);
-            if (idx99 >= samples.size()) idx99 = samples.size() - 1;
+            if (idx99 >= static_cast<int>(samples.size())) {
+              idx99 = static_cast<int>(samples.size()) - 1;
+            }
             long long p99 = samples.empty() ? 0 : samples[idx99];
             std::fprintf(stderr, "SelfRAG retrieval microbench: iters=%d p50=%lld p95=%lld p99=%lld mean=%lld ns\n",
                          iterations,

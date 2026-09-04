@@ -135,7 +135,7 @@ PropertyGraphManager::Status GraphAutoBuffer::addNode(const BaseEntity& node,
         // Check if this buffer needs immediate flush
         if (buffer.node_count >= config_.max_nodes_per_buffer) {
             THEMIS_DEBUG("Node buffer size threshold reached for {}, flushing {} operations",
-                        gid, buffer.operations.size());
+                        gid,static_cast<int>(buffer.operations.size()));
             
             size_t flushed = flushBuffer(gid, buffer);
             stats_.size_triggered_flush++;
@@ -194,7 +194,7 @@ PropertyGraphManager::Status GraphAutoBuffer::addEdge(const BaseEntity& edge,
         // Check if this buffer needs immediate flush
         if (buffer.edge_count >= config_.max_edges_per_buffer) {
             THEMIS_DEBUG("Edge buffer size threshold reached for {}, flushing {} operations",
-                        gid, buffer.operations.size());
+                        gid,static_cast<int>(buffer.operations.size()));
             
             size_t flushed = flushBuffer(gid, buffer);
             stats_.size_triggered_flush++;
@@ -226,7 +226,7 @@ size_t GraphAutoBuffer::flushFor(const std::string& graph_id) {
     return flushBuffer(graph_id, it->second);
 }
 
-size_t GraphAutoBuffer::flushInternal(bool lock_held) {
+size_t GraphAutoBuffer::flushInternal([[maybe_unused]] bool lock_held) {
     auto span = Tracer::startSpan("GraphAutoBuffer.flush");
     
     std::unique_lock<std::timed_mutex> lock(buffers_mutex_, std::defer_lock);
@@ -257,7 +257,7 @@ size_t GraphAutoBuffer::flushInternal(bool lock_held) {
     stats_.last_flush_time = std::chrono::steady_clock::now();
     
     THEMIS_DEBUG("Flushed {} total operations from {} graphs", 
-                 total_flushed, buffers_.size());
+                 total_flushed,static_cast<int>(buffers_.size()));
     
     return total_flushed;
 }

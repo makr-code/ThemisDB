@@ -27,14 +27,18 @@ namespace utils {
 
 // m = ceil( -n * ln(p) / (ln(2))^2 )
 size_t BloomFilter::optimalBits(size_t n, double p) {
-    if (n == 0) return 64;
+    if (n == 0) {
+      return 64;
+    }
     const double ln2 = std::log(2.0);
     return static_cast<size_t>(std::ceil(-static_cast<double>(n) * std::log(p) / (ln2 * ln2)));
 }
 
 // k = ceil( (m/n) * ln(2) )
 size_t BloomFilter::optimalHashCount(size_t bits, size_t n) {
-    if (n == 0) return 1;
+    if (n == 0) {
+      return 1;
+    }
     size_t k = static_cast<size_t>(std::ceil(static_cast<double>(bits) / static_cast<double>(n) * std::log(2.0)));
     return std::max<size_t>(1, k);
 }

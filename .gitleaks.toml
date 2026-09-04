@@ -165,6 +165,9 @@ paths = [
   '''docs/.*''',
   # AI-generated developer wiki context files (machine-generated, not real secrets)
   '''ai_context/.*''',
+  # Workflow policy files may intentionally contain secret-signature regex literals for detection gates
+  '''\.github/workflows/ci-pr-gates\.yml$''',
+  '''\.github/workflows/gate-pr-core\.yml$''',
   # Go test files use _test.go naming convention
   '''.*_test\.(go|py|rb|js|ts)$''',
   # AI-generated module gap analysis docs contain code snippets as examples

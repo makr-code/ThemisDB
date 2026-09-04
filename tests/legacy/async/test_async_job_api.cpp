@@ -326,12 +326,14 @@ TEST_F(AsyncJobApiHandlerTest, GetStatusEventuallyCompleted) {
 
     // Poll until completed (max 2 s)
     auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
-    std::string status_str;
+    std::string status_str = {};
     while (std::chrono::steady_clock::now() < deadline) {
         auto res  = handler.handleGetStatus(make_status_req(job_id));
         auto body = json::parse(res.body());
         status_str = body["status"].get<std::string>();
-        if (status_str == "completed" || status_str == "failed") break;
+        if (status_str == "completed" || status_str == "failed") {
+          break;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
@@ -356,12 +358,14 @@ TEST_F(AsyncJobApiHandlerTest, GetStatusFailed) {
     auto job_id = json::parse(sub.body())["job_id"].get<std::string>();
 
     auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
-    std::string status_str;
+    std::string status_str = {};
     while (std::chrono::steady_clock::now() < deadline) {
         auto res  = handler.handleGetStatus(make_status_req(job_id));
         auto body = json::parse(res.body());
         status_str = body["status"].get<std::string>();
-        if (status_str == "completed" || status_str == "failed") break;
+        if (status_str == "completed" || status_str == "failed") {
+          break;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
@@ -463,7 +467,8 @@ TEST_F(AsyncJobApiHandlerTest, MultipleConcurrentJobs) {
     AsyncJobApiHandler handler{instant_ok_executor()};
 
     constexpr int kJobs = 5;
-    std::vector<std::string> job_ids;
+    std::vector<std::string> job_ids = {};
+
     for (int i = 0; i < kJobs; ++i) {
         auto sub = handler.handleSubmit(
             make_submit_req({{"query", "FOR x IN c RETURN x"}}));
@@ -478,7 +483,9 @@ TEST_F(AsyncJobApiHandlerTest, MultipleConcurrentJobs) {
             auto res  = handler.handleGetStatus(make_status_req(jid));
             auto body = json::parse(res.body());
             auto st   = body["status"].get<std::string>();
-            if (st == "completed" || st == "failed" || st == "cancelled") break;
+            if (st == "completed" || st == "failed" || st == "cancelled") {
+              break;
+            }
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
         auto res  = handler.handleGetStatus(make_status_req(jid));

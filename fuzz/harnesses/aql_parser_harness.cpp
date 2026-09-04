@@ -53,7 +53,7 @@ namespace aql {
  * @brief Parse result structure
  */
 struct ParseResult {
-    bool success;
+    bool success = 0;
     std::string error_message;
     int error_position;
 };

@@ -41,7 +41,7 @@ public:
      * @return Prometheus-formatted metrics string
      */
     static std::string exportMetrics(const HSMProvider& hsm, uint64_t warnings_count = 0) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         
         // HSM security stub active gauge
         oss << "# HELP hsm_security_stub_active Indicates if HSM stub provider is active (0=secure, 1=stub)\n";
@@ -142,7 +142,7 @@ public:
      * Useful for REST API endpoints
      */
     static std::string exportJSON(const HSMProvider& hsm, uint64_t warnings_count = 0) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         auto stats = hsm.getStats();
         
         oss << "{\n";

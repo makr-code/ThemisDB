@@ -297,7 +297,9 @@ TEST(EvaluationCacheTest, ConcurrentPutGet) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // No crash and statistics are consistent
     auto stats = cache.getStatistics();

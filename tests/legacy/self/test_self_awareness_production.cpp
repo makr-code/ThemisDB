@@ -165,7 +165,9 @@ TEST(SelfAwarenessProduction, PersistSnapshotWritesFile) {
     // At least one file should be created in the directory
     size_t file_count = 0;
     for (const auto& entry : std::filesystem::directory_iterator(dir)) {
-        if (entry.is_regular_file()) ++file_count;
+        if (entry.is_regular_file()) {
+          ++file_count;
+        }
     }
     EXPECT_GE(file_count, 1u);
 

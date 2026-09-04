@@ -79,7 +79,7 @@ static constexpr std::size_t kLargeValueBytes = 16'384;
 namespace {
 
 void RemoveAll(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(path, ec);
 }
 
@@ -118,14 +118,14 @@ public:
     }
 
 private:
-    std::mt19937_64 rng_;
+    std::mt19937_64 rng_ = {};
 };
 
 /// Run @p ops reads against @p db picking keys from [0, @p upper_bound).
 static void DoReads(RocksDBWrapper& db, int ops, int upper_bound, uint64_t seed) {
     KeyGenerator kg(seed);
     for (int i = 0; i < ops; ++i) {
-        std::string val;
+        std::string val = {};
         benchmark::DoNotOptimize(db.get(kg.Next(upper_bound), val));
     }
 }
@@ -151,7 +151,9 @@ public:
         db_path_ = UniqueDbPath("sok01");
         RemoveAll(db_path_);
         db_ = std::make_unique<RocksDBWrapper>(SoakConfig(db_path_));
-        if (!db_->open()) throw std::runtime_error("W7B SOK-01: open failed");
+        if (!db_->open()) {
+          throw std::runtime_error("W7B SOK-01: open failed");
+        }
         for (int i = 0; i < kSoakRecordCount; ++i) {
             db_->put("r_" + std::to_string(i), "v_" + std::to_string(i));
         }
@@ -162,7 +164,7 @@ public:
         RemoveAll(db_path_);
     }
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -194,7 +196,9 @@ public:
         db_path_ = UniqueDbPath("sok02");
         RemoveAll(db_path_);
         db_ = std::make_unique<RocksDBWrapper>(SoakConfig(db_path_));
-        if (!db_->open()) throw std::runtime_error("W7B SOK-02: open failed");
+        if (!db_->open()) {
+          throw std::runtime_error("W7B SOK-02: open failed");
+        }
         DoWrites(*db_, kSoakWarmup, kSoakRecordCount * 2, kW7CanonicalSeed + 200);
     }
     void TearDown(const ::benchmark::State&) override {
@@ -202,7 +206,7 @@ public:
         RemoveAll(db_path_);
     }
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -234,7 +238,9 @@ public:
         db_path_ = UniqueDbPath("sok03");
         RemoveAll(db_path_);
         db_ = std::make_unique<RocksDBWrapper>(SoakConfig(db_path_));
-        if (!db_->open()) throw std::runtime_error("W7B SOK-03: open failed");
+        if (!db_->open()) {
+          throw std::runtime_error("W7B SOK-03: open failed");
+        }
         for (int i = 0; i < kSoakRecordCount; ++i) {
             db_->put("r_" + std::to_string(i), "v_" + std::to_string(i));
         }
@@ -245,7 +251,7 @@ public:
         RemoveAll(db_path_);
     }
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -310,7 +316,9 @@ public:
         db_path_ = UniqueDbPath("sok05");
         RemoveAll(db_path_);
         db_ = std::make_unique<RocksDBWrapper>(SoakConfig(db_path_));
-        if (!db_->open()) throw std::runtime_error("W7B SOK-05: open failed");
+        if (!db_->open()) {
+          throw std::runtime_error("W7B SOK-05: open failed");
+        }
         DoWrites(*db_, kSoakWarmup, kSoakRecordCount * 4, kW7CanonicalSeed + 500);
     }
     void TearDown(const ::benchmark::State&) override {
@@ -335,7 +343,7 @@ BENCHMARK_F(WriteHeavySoakFixture, SOK05_WriteHeavySoakAccumulationGuard)(benchm
         KeyGenerator kg(kW7CanonicalSeed + 500 + static_cast<uint64_t>(seg));
         for (int i = 0; i < kOpsPerSegment; ++i) {
             if (mix(mix_rng) < 10) {
-                std::string val;
+                std::string val = {};
                 benchmark::DoNotOptimize(db_->get(kg.Next(kSoakRecordCount), val));
             } else {
                 db_->put(kg.Next(kSoakRecordCount * 4), "whs_" + std::to_string(w_ctr++));
@@ -361,7 +369,9 @@ public:
         db_path_ = UniqueDbPath("sok06");
         RemoveAll(db_path_);
         db_ = std::make_unique<RocksDBWrapper>(SoakConfig(db_path_));
-        if (!db_->open()) throw std::runtime_error("W7B SOK-06: open failed");
+        if (!db_->open()) {
+          throw std::runtime_error("W7B SOK-06: open failed");
+        }
         for (int i = 0; i < kSoakRecordCount; ++i) {
             db_->put("r_" + std::to_string(i), "v_" + std::to_string(i));
         }
@@ -371,7 +381,7 @@ public:
         RemoveAll(db_path_);
     }
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -389,7 +399,7 @@ BENCHMARK_F(MixedOLTPSoakFixture, SOK06_MixedOLTPSoakStability)(benchmark::State
             if (mix(mix_rng) < 40) {
                 db_->put(kg.Next(kSoakRecordCount * 2), "mx_" + std::to_string(w_ctr++));
             } else {
-                std::string val;
+                std::string val = {};
                 benchmark::DoNotOptimize(db_->get(kg.Next(kSoakRecordCount), val));
             }
         }
@@ -413,7 +423,9 @@ public:
         db_path_ = UniqueDbPath("sok07");
         RemoveAll(db_path_);
         db_ = std::make_unique<RocksDBWrapper>(SoakConfig(db_path_));
-        if (!db_->open()) throw std::runtime_error("W7B SOK-07: open failed");
+        if (!db_->open()) {
+          throw std::runtime_error("W7B SOK-07: open failed");
+        }
         for (int i = 0; i < kSoakRecordCount; ++i) {
             db_->put("r_" + std::to_string(i), "v_" + std::to_string(i));
         }
@@ -423,7 +435,7 @@ public:
         RemoveAll(db_path_);
     }
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -444,12 +456,14 @@ BENCHMARK_F(ConcurrentReaderSoakFixture, SOK07_ConcurrentReaderSoak)(benchmark::
                                 static_cast<uint64_t>(t) * 1000 +
                                 static_cast<uint64_t>(seg));
                 for (int i = 0; i < kOpsPerThread; ++i) {
-                    std::string val;
+                    std::string val = {};
                     db_->get(kg.Next(kSoakRecordCount), val);
                 }
             });
         }
-        for (auto& th : threads) th.join();
+        for (auto& th : threads) {
+          th.join();
+        }
     }
     state.SetItemsProcessed(
         static_cast<int64_t>(state.iterations()) * kOpsPerSegment);
@@ -470,7 +484,9 @@ public:
         db_path_ = UniqueDbPath("sok08");
         RemoveAll(db_path_);
         db_ = std::make_unique<RocksDBWrapper>(SoakConfig(db_path_));
-        if (!db_->open()) throw std::runtime_error("W7B SOK-08: open failed");
+        if (!db_->open()) {
+          throw std::runtime_error("W7B SOK-08: open failed");
+        }
         // Pre-load with large values
         KeyGenerator kg(kW7CanonicalSeed + 800);
         for (int i = 0; i < 5'000; ++i) {
@@ -482,7 +498,7 @@ public:
         RemoveAll(db_path_);
     }
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 

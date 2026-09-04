@@ -57,7 +57,7 @@ static constexpr uint32_t kGatewayResilienceSeed = 1337U;
 /// Cluster quorum state.  Models the minimum quorum logic of DistributedGateway.
 /// majority = floor(cluster_size / 2) + 1
 struct FakeClusterQuorum {
-    int cluster_size;
+    int cluster_size = 0;
     std::atomic<int> live_nodes;
 
     explicit FakeClusterQuorum(int size) : cluster_size(size), live_nodes(size) {}
@@ -114,10 +114,14 @@ public:
     }
 
     void simulateNodeLoss(int count) {
-        for (int i = 0; i < count; ++i) quorum_.removeNode();
+        for (int i = 0; i < count; ++i) {
+          quorum_.removeNode();
+        }
     }
     void simulateNodeRejoin(int count) {
-        for (int i = 0; i < count; ++i) quorum_.addNode();
+        for (int i = 0; i < count; ++i) {
+          quorum_.addNode();
+        }
     }
     void simulateSplitBrain(PartitionHalf half) noexcept {
         partition_half_ = half;
@@ -341,7 +345,8 @@ TEST(ServerGatewayResilience, SGR11_LeaderChurnRoutingTableConsistent) {
     StubGateway gw(3);
 
     // Simulate 3 rapid successive leader elections
-    std::vector<std::string> elected_leaders;
+    std::vector<std::string> elected_leaders = {};
+
     for (uint32_t round = 0; round < 3; ++round) {
         std::string leader = gw.simulateLeaderElection(round);
         EXPECT_FALSE(leader.empty())

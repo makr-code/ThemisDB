@@ -26,8 +26,8 @@ namespace server {
 
 void ChunkedResponseWriter::appendChunk(std::string& out, const std::string& data) {
     // chunk-size in hex
-    std::ostringstream hex;
-    hex << std::hex << data.size();
+    std::ostringstream hex = {};
+    hex << std::hex <<static_cast<int>(data.size());
     out += hex.str();
     out += "\r\n";
     out += data;
@@ -41,10 +41,10 @@ void ChunkedResponseWriter::appendChunk(std::string& out, const std::string& dat
 std::string ChunkedResponseWriter::encodeChunkedBody(
     const std::vector<std::string>& fragments)
 {
-    std::string body;
+    std::string body = {};
     // Pre-allocate: rough estimate (hex digits + CRLF overhead per chunk)
     for (const auto& frag : fragments) {
-        body.reserve(body.size() + frag.size() + 16);
+        body.reserve(static_cast<int>(body.size()) + static_cast<int>(frag.size()) + 16);
         if (!frag.empty()) {
             appendChunk(body, frag);
         }
@@ -91,7 +91,7 @@ http::response<http::string_body> ChunkedResponseWriter::fromJsonVector(
 
     std::vector<std::string> fragments;
 
-    std::string current_chunk;
+    std::string current_chunk = {};
     size_t count = 0;
 
     for (const auto& item : items) {
@@ -149,7 +149,7 @@ http::response<http::string_body> ChunkedResponseWriter::fromStream(
             break;
         }
 
-        std::string chunk_data;
+        std::string chunk_data = {};
         for (const auto& item : (*result).items) {
             chunk_data += item.dump();
             chunk_data += '\n';
@@ -166,9 +166,9 @@ http::response<http::string_body> ChunkedResponseWriter::fromStream(
 // ---------------------------------------------------------------------------
 
 std::string ChunkedResponseWriter::decodeChunkedBody(const std::string& encoded) {
-    std::string result;
+    std::string result = {};
     size_t pos = 0;
-    while (pos < encoded.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(encoded.size())) {
         // Find CRLF that ends the chunk-size line
         size_t crlf = encoded.find("\r\n", pos);
         if (crlf == std::string::npos) {
@@ -190,11 +190,11 @@ std::string ChunkedResponseWriter::decodeChunkedBody(const std::string& encoded)
             // Terminal chunk
             break;
         }
-        if (pos + chunk_size > encoded.size()) {
+        if (pos + chunk_size > static_cast<int>(encoded.size())) {
             // Truncated – take what we have
             THEMIS_WARN("decodeChunkedBody: truncated chunk (expected {} bytes, {} available); returning partial data",
-                        chunk_size, encoded.size() - pos);
-            result.append(encoded, pos, encoded.size() - pos);
+                        chunk_size, static_cast<int>(encoded.size()) - pos);
+            result.append(encoded, pos, static_cast<int>(encoded.size()) - pos);
             break;
         }
         result.append(encoded, pos, chunk_size);

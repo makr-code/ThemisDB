@@ -155,8 +155,12 @@ TEST_F(ExplanationGeneratorTest, IdentifyCommonKeywords) {
     bool found_france = false;
     for (const auto& term : terms) {
         std::string t = term.get<std::string>();
-        if (t == "capital") found_capital = true;
-        if (t == "france") found_france = true;
+        if (t == "capital") {
+          found_capital = true;
+        }
+        if (t == "france") {
+          found_france = true;
+        }
     }
     EXPECT_TRUE(found_capital || found_france);
 }

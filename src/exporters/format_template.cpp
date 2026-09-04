@@ -244,7 +244,8 @@ TemplateValidationResult validateTemplate(FormatTemplateType type, const FormatT
 
     for (const auto &entity : sample) {
         ++result.entities_checked;
-        std::vector<std::string> entity_missing;
+        std::vector<std::string> entity_missing = {};
+
         if (!tpl->validateFields(entity, mapping, &entity_missing)) {
             ++result.entities_failed;
             for (const auto &f : entity_missing) {

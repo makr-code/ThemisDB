@@ -26,7 +26,7 @@ public:
 
 static std::string b64_encode(const std::vector<uint8_t>& data) {
     static const char* chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
+    std::string out = {};
     int val=0, valb=-6;
     for (uint8_t c : data) {
         val = (val<<8) + c;
@@ -36,8 +36,12 @@ static std::string b64_encode(const std::vector<uint8_t>& data) {
             valb -= 6;
         }
     }
-    if (valb>-6) out.push_back(chars[((val<<8)>>(valb+8))&0x3F]);
-    while (out.size()%4) out.push_back('=');
+    if (valb>-6) {
+      out.push_back(chars[((val<<8)>>(valb+8))&0x3F]);
+    }
+    while (out.size()%4) {
+      out.push_back('=');
+    }
     return out;
 }
 

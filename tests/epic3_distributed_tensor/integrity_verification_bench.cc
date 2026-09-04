@@ -26,7 +26,7 @@ namespace distributed_tensor {
 // ============================================================================
 
 static std::string createPayload(size_t size) {
-    std::string payload;
+    std::string payload = {};
     payload.reserve(size);
     for (size_t i = 0; i < size; ++i) {
         payload.push_back(static_cast<char>(i % 256));

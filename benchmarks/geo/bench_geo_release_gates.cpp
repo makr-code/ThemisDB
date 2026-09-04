@@ -119,7 +119,9 @@ public:
         std::vector<int> out;
         out.reserve(64);
         for (const auto& f : features_) {
-            if (f.bbox.overlaps(q)) out.push_back(f.id);
+            if (f.bbox.overlaps(q)) {
+              out.push_back(f.id);
+            }
         }
         return out;
     }
@@ -141,20 +143,34 @@ static double haversine(Point a, Point b) {
 // Minimal GeoJSON point parser (no nlohmann::json dependency).
 // Expects exactly: {"type":"Point","coordinates":[lon,lat]}
 static GeoErrorCode parseGeoJsonPoint(const std::string& json, Point& out) {
-    if (json.empty() || json.size() > 1024) return GeoErrorCode::GEOMETRY_INVALID;
+    if (json.empty() || json.size() > 1024) {
+      return GeoErrorCode::GEOMETRY_INVALID;
+    }
     // Find coordinates array (minimal, deterministic parse).
     auto pos = json.find("\"coordinates\"");
-    if (pos == std::string::npos) return GeoErrorCode::GEOMETRY_INVALID;
+    if (pos == std::string::npos) {
+      return GeoErrorCode::GEOMETRY_INVALID;
+    }
     auto bracket = json.find('[', pos);
-    if (bracket == std::string::npos) return GeoErrorCode::GEOMETRY_INVALID;
+    if (bracket == std::string::npos) {
+      return GeoErrorCode::GEOMETRY_INVALID;
+    }
     std::size_t start = bracket + 1;
     char* endptr = nullptr;
     double lon = std::strtod(json.c_str() + start, &endptr);
-    if (endptr == json.c_str() + start) return GeoErrorCode::GEOMETRY_INVALID;
-    while (*endptr == ' ' || *endptr == ',') ++endptr;
+    if (endptr == json.c_str() + start) {
+      return GeoErrorCode::GEOMETRY_INVALID;
+    }
+    while (*endptr == ' ' || *endptr == ',') {
+      ++endptr;
+    }
     double lat = std::strtod(endptr, &endptr);
-    if (lon < kWgs84LonMin || lon > kWgs84LonMax) return GeoErrorCode::COORDINATE_OUT_OF_BOUNDS;
-    if (lat < kWgs84LatMin || lat > kWgs84LatMax) return GeoErrorCode::COORDINATE_OUT_OF_BOUNDS;
+    if (lon < kWgs84LonMin || lon > kWgs84LonMax) {
+      return GeoErrorCode::COORDINATE_OUT_OF_BOUNDS;
+    }
+    if (lat < kWgs84LatMin || lat > kWgs84LatMax) {
+      return GeoErrorCode::COORDINATE_OUT_OF_BOUNDS;
+    }
     out = {lon, lat};
     return GeoErrorCode::OK;
 }
@@ -239,12 +255,16 @@ static void BM_GRG01_PointInPolygon(benchmark::State& state) {
     const auto& polys = bench1kPolygons();
     Point query{0.0, 0.0};
     for (int i = 0; i < kWarmupIterations; ++i) {
-        for (const auto& p : polys) (void)pointInPolygon(query, p);
+        for (const auto& p : polys) {
+          (void)pointInPolygon(query, p);
+        }
     }
     for (auto _ : state) {
         int hits = 0;
         for (const auto& p : polys) {
-            if (pointInPolygon(query, p)) ++hits;
+            if (pointInPolygon(query, p)) {
+              ++hits;
+            }
         }
         benchmark::DoNotOptimize(hits);
     }
@@ -352,7 +372,9 @@ static void BM_GRG05_SpatialJoin(benchmark::State& state) {
     for (int i = 0; i < kWarmupIterations / 10; ++i) {
         int hits = 0;
         for (const auto& a : A) for (const auto& b : B)
-            if (a.bbox.overlaps(b.bbox)) ++hits;
+            if (a.bbox.overlaps(b.bbox)) {
+              ++hits;
+            }
         benchmark::DoNotOptimize(hits);
     }
 
@@ -360,7 +382,9 @@ static void BM_GRG05_SpatialJoin(benchmark::State& state) {
         int hits = 0;
         for (const auto& a : A) {
             for (const auto& b : B) {
-                if (a.bbox.overlaps(b.bbox)) ++hits;
+                if (a.bbox.overlaps(b.bbox)) {
+                  ++hits;
+                }
             }
         }
         benchmark::DoNotOptimize(hits);

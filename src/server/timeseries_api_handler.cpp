@@ -41,12 +41,12 @@ TimeSeriesApiHandler::TimeSeriesApiHandler(
     // handleAggregatesGet() returns live aggregate names instead of the
     // built-in fallback {min,max,avg,sum,count}.  The DI root that calls
     // this constructor should call:
-    //   handler->setAggregatesProvider([engine]{ return engine->listAggregates(); });
+    //   handler->setAggregatesProvider([[maybe_unused]] [engine]{ return engine->listAggregates(); });
     // where `engine` is an injected ContinuousAggMaterializationEngine.
     // See handleAggregatesGet() and AggregatesFn in timeseries_api_handler.h.
 }
 
-void TimeSeriesApiHandler::setRetentionPoliciesProviderFn(RetentionPoliciesProviderFn fn) {
+void TimeSeriesApiHandler::setRetentionPoliciesProviderFn([[maybe_unused]] RetentionPoliciesProviderFn fn) {
     std::lock_guard<std::mutex> lock(retentionPoliciesMutex_);
     retentionPoliciesFn_ = std::move(fn);
 }
@@ -161,7 +161,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleQuery(
         
         nlohmann::json response = {
             {"metric", metric},
-            {"count", points.size()},
+            {"count",static_cast<int>(points.size())},
             {"data", nlohmann::json::array()}
         };
         
@@ -453,7 +453,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
             storage_->scanPrefix("wm:cagg:", [&materialized](std::string_view key, std::string_view value) {
                 const std::string key_str(key);
                 constexpr std::string_view kPrefix = "wm:cagg:";
-                if (key_str.rfind(kPrefix, 0) == 0 && key_str.size() > kPrefix.size()) {
+                if (key_str.rfind(kPrefix, 0) == 0 && static_cast<int>(key_str.size()) > static_cast<int>(kPrefix.size())) {
                     materialized.push_back({
                         {"aggregate_id", key_str.substr(kPrefix.size())},
                         {"watermark_ms", std::string(value)}
@@ -475,7 +475,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
         nlohmann::json response = {
             {"aggregates", functions},
             {"materialized_aggregates", materialized},
-            {"materialized_count", materialized.size()},
+            {"materialized_count",static_cast<int>(materialized.size())},
             {"source", aggregate_source},
             {"degraded_mode", degraded_mode}
         };
@@ -553,7 +553,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
 
         nlohmann::json response = {
             {"policies", policies},
-            {"policy_count", policies.size()},
+            {"policy_count",static_cast<int>(policies.size())},
             {"source", policy_source},
             {"degraded_mode", degraded_mode}
         };
@@ -673,9 +673,9 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePrometheusRemoteWr
         themis::Result<themis::timeseries::PromWriteRequest> decode_result =
             (content_encoding == "identity")
             ? themis::timeseries::PromWriteRequest::decode(
-                reinterpret_cast<const uint8_t*>(body.data()), body.size())
+                reinterpret_cast<const uint8_t*>(body.data()),static_cast<int>(body.size()))
             : themis::timeseries::PromWriteRequest::decodeSnappy(
-                reinterpret_cast<const uint8_t*>(body.data()), body.size());
+                reinterpret_cast<const uint8_t*>(body.data()),static_cast<int>(body.size()));
 
         if (!decode_result) {
             span.setStatus(false, "decode_failed");
@@ -702,16 +702,20 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePrometheusRemoteWr
 
             // Build a tags object from all non-__name__ labels
             nlohmann::json tags = nlohmann::json::object();
-            std::string entity;
+            std::string entity = {};
             for (const auto& label : ts.labels) {
-                if (label.name == "__name__") continue;
+                if (label.name == "__name__") {
+                  continue;
+                }
                 if (label.name == "instance") {
                     entity = label.value;
                 }
                 tags[label.name] = label.value;
             }
             // Fall back to "default" entity when no 'instance' label present
-            if (entity.empty()) entity = "default";
+            if (entity.empty()) {
+              entity = "default";
+            }
 
             for (const auto& sample : ts.samples) {
                 TSStore::DataPoint dp;

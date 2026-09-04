@@ -30,7 +30,7 @@ namespace temporal {
 // ============================================================================
 
 // Three independent Murmur3-style finalizer hash functions.
-uint64_t BloomFilter::h1(uint64_t x) noexcept {
+uint64_t BloomFilter::h1([[maybe_unused]] uint64_t x) noexcept {
     x ^= x >> 33;
     x *= 0xff51afd7ed558ccdULL;
     x ^= x >> 33;
@@ -39,14 +39,14 @@ uint64_t BloomFilter::h1(uint64_t x) noexcept {
     return x;
 }
 
-uint64_t BloomFilter::h2(uint64_t x) noexcept {
+uint64_t BloomFilter::h2([[maybe_unused]] uint64_t x) noexcept {
     x = ((x >> 16) ^ x) * 0x45d9f3b37197344dULL;
     x = ((x >> 16) ^ x) * 0x45d9f3bULL;
     x = (x >> 16) ^ x;
     return x;
 }
 
-uint64_t BloomFilter::h3(uint64_t x) noexcept {
+uint64_t BloomFilter::h3([[maybe_unused]] uint64_t x) noexcept {
     x = ~x + (x << 21);
     x ^= x >> 24;
     x += (x << 3) + (x << 8);
@@ -59,18 +59,20 @@ uint64_t BloomFilter::h3(uint64_t x) noexcept {
 
 BloomFilter::BloomFilter(size_t expected_elements, size_t bits_per_elem) {
     num_bits_ = expected_elements * bits_per_elem;
-    if (num_bits_ == 0) num_bits_ = 64;
-    bits_.assign((num_bits_ + 63) / 64, 0ULL);
+    if (num_bits_ == 0) {
+      num_bits_ = 64;
+    }
+    bits_.assign((num_bits_ + 63) / 64, 0);
 }
 
-void BloomFilter::setBit(size_t idx) noexcept {
+void BloomFilter::setBit([[maybe_unused]] size_t idx) noexcept {
     idx %= num_bits_;
-    bits_[idx / 64] |= (1ULL << (idx % 64));
+    bits_[idx / 64] |= (1 << (idx % 64));
 }
 
-bool BloomFilter::testBit(size_t idx) const noexcept {
+bool BloomFilter::testBit([[maybe_unused]] size_t idx) const noexcept {
     idx %= num_bits_;
-    return (bits_[idx / 64] >> (idx % 64)) & 1ULL;
+    return (bits_[idx / 64] >> (idx % 64)) & 1;
 }
 
 void BloomFilter::add(int64_t value) noexcept {
@@ -165,7 +167,7 @@ bool TemporalTierManager::insert(const std::string& table_name,
     if (decision == TierDecision::FLUSH_WARM_TO_COLD) {
         flushWarmToColdLocked(table_name, doc.key, warm_blocks);
         // Also flush hot → warm if still over limit
-        if (hot_map.size() > policy_.hot_max_versions_per_key) {
+        if (static_cast<int>(hot_map.size()) > policy_.hot_max_versions_per_key) {
             flushHotToWarmLocked(table_name, doc.key, hot_map, warm_blocks);
         }
     } else if (decision == TierDecision::FLUSH_HOT_TO_WARM) {
@@ -213,12 +215,16 @@ TemporalTierManager::getAsOf(const std::string& table_name,
                 const auto& blocks = kit->second;
                 for (auto bit = blocks.rbegin(); bit != blocks.rend(); ++bit) {
                     // Range prune: as_of must be within [min_start, max_end)
-                    if (as_of < bit->min_start) continue;
+                    if (as_of < bit->min_start) {
+                      continue;
+                    }
                     if (as_of >= bit->max_end && bit->max_end != kMaxTimestamp)
                         continue;
 
                     auto result = searchBlock(*bit, as_of);
-                    if (result) return result;
+                    if (result) {
+                      return result;
+                    }
                 }
             }
         }
@@ -297,8 +303,12 @@ TemporalTierManager::getHistoryInRange(const std::string& table_name,
             auto kit = tit->second.find(doc_key);
             if (kit != tit->second.end()) {
                 for (const auto& block : kit->second) {
-                    if (block.min_start >= range.end) break;
-                    if (block.max_end <= range.start) continue;
+                    if (block.min_start >= range.end) {
+                      break;
+                    }
+                    if (block.max_end <= range.start) {
+                      continue;
+                    }
                     auto bv = rangeFromBlock(block, range);
                     result.insert(result.end(),
                                   std::make_move_iterator(bv.begin()),
@@ -315,8 +325,12 @@ TemporalTierManager::getHistoryInRange(const std::string& table_name,
             auto kit = tit->second.find(doc_key);
             if (kit != tit->second.end()) {
                 for (const auto& [ts, doc] : kit->second) {
-                    if (ts >= range.end) break;
-                    if (doc.sys_time.overlaps(range)) result.push_back(doc);
+                    if (ts >= range.end) {
+                      break;
+                    }
+                    if (doc.sys_time.overlaps(range)) {
+                      result.push_back(doc);
+                    }
                 }
             }
         }
@@ -353,9 +367,12 @@ size_t TemporalTierManager::compactTable(const std::string& table_name) {
     size_t total = 0;
 
     // Collect all keys in the table
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     if (auto tit = hot_.find(table_name); tit != hot_.end())
-        for (const auto& [k, _] : tit->second) keys.push_back(k);
+        for (const auto& [k, _] : tit->second) {
+          keys.push_back(k);
+        }
     if (auto tit = warm_.find(table_name); tit != warm_.end())
         for (const auto& [k, _] : tit->second) {
             if (std::find(keys.begin(), keys.end(), k) == keys.end())
@@ -403,7 +420,9 @@ void TemporalTierManager::startCompactionWorker() {
 void TemporalTierManager::stopCompactionWorker() {
     compact_stop_ = true;
     compact_cv_.notify_all();
-    if (compact_thread_.joinable()) compact_thread_.join();
+    if (compact_thread_.joinable()) {
+      compact_thread_.join();
+    }
 }
 
 void TemporalTierManager::compactionLoop() {
@@ -413,20 +432,26 @@ void TemporalTierManager::compactionLoop() {
             compact_cv_.wait_for(lk, policy_.compact_interval,
                                  [this] { return compact_stop_.load(); });
         }
-        if (compact_stop_) break;
+        if (compact_stop_) {
+          break;
+        }
 
         // Compact all known tables
         std::vector<std::string> tables;
         {
             std::shared_lock lk(mutex_);
-            for (const auto& [t, _] : hot_)  tables.push_back(t);
+            for (const auto& [t, _] : hot_) {
+              tables.push_back(t);
+            }
             for (const auto& [t, _] : warm_) {
                 if (std::find(tables.begin(), tables.end(), t) == tables.end())
                     tables.push_back(t);
             }
         }
         for (const auto& t : tables) {
-            if (!compact_stop_) compactTable(t);
+            if (!compact_stop_) {
+              compactTable(t);
+            }
         }
     }
 }
@@ -439,15 +464,15 @@ TemporalTierManager::KeyTierStats
 TemporalTierManager::keyStats(const std::string& table_name,
                                const std::string& doc_key) const {
     std::shared_lock lk(mutex_);
-    KeyTierStats s;
+    KeyTierStats s = {};
 
     if (auto tit = hot_.find(table_name); tit != hot_.end())
         if (auto kit = tit->second.find(doc_key); kit != tit->second.end())
-            s.hot_versions = kit->second.size();
+            s.hot_versions = kit-> static_cast<int>(second.size());
 
     if (auto tit = warm_.find(table_name); tit != warm_.end()) {
         if (auto kit = tit->second.find(doc_key); kit != tit->second.end()) {
-            s.warm_blocks = kit->second.size();
+            s.warm_blocks = kit-> static_cast<int>(second.size());
             for (const auto& b : kit->second) {
                 s.warm_versions += b.version_count;
                 s.warm_bytes    += b.approx_bytes;
@@ -512,7 +537,7 @@ TemporalTierManager::makeContext(const std::string& table_name,
 
     if (auto tit = hot_.find(table_name); tit != hot_.end()) {
         if (auto kit = tit->second.find(doc_key); kit != tit->second.end()) {
-            ctx.hot_version_count = kit->second.size();
+            ctx.hot_version_count = kit-> static_cast<int>(second.size());
             if (!kit->second.empty())
                 ctx.oldest_hot_sys_start = kit->second.begin()->first;
         }
@@ -520,7 +545,7 @@ TemporalTierManager::makeContext(const std::string& table_name,
 
     if (auto tit = warm_.find(table_name); tit != warm_.end()) {
         if (auto kit = tit->second.find(doc_key); kit != tit->second.end()) {
-            ctx.warm_block_count = kit->second.size();
+            ctx.warm_block_count = kit-> static_cast<int>(second.size());
             for (const auto& b : kit->second) {
                 ctx.warm_versions_for_key += b.version_count;
                 ctx.warm_bytes_for_key    += b.approx_bytes;
@@ -541,13 +566,17 @@ size_t TemporalTierManager::flushHotToWarmLocked(
     HotMap&            hot_map,
     WarmBlocks&        warm_blocks) {
 
-    if (hot_map.empty()) return 0;
+    if (hot_map.empty()) {
+      return 0;
+    }
 
     // How many versions to move: everything beyond hot_max
     const size_t keep = policy_.hot_max_versions_per_key;
-    if (hot_map.size() <= keep) return 0;
+    if (static_cast<int>(hot_map.size()) <= keep) {
+      return 0;
+    }
 
-    const size_t to_move = hot_map.size() - keep;
+    const size_t to_move = static_cast<int>(hot_map.size()) - keep;
 
     // Collect oldest `to_move` versions (the front of the sorted map)
     std::vector<VersionedDocument> batch;
@@ -561,8 +590,8 @@ size_t TemporalTierManager::flushHotToWarmLocked(
     // Split into warm_block_size chunks and create VersionBlocks
     const size_t block_size = policy_.warm_block_size > 0
                             ? policy_.warm_block_size : 50;
-    for (size_t offset = 0; offset < batch.size(); offset += block_size) {
-        const size_t end = std::min(offset + block_size, batch.size());
+    for (size_t offset = 0; offset <static_cast<int>(batch.size()); offset += block_size) {
+        const size_t end = std::min(offset + block_size,static_cast<int>(batch.size()));
         std::vector<VersionedDocument> chunk(
             std::make_move_iterator(batch.begin() + static_cast<ptrdiff_t>(offset)),
             std::make_move_iterator(batch.begin() + static_cast<ptrdiff_t>(end)));
@@ -580,7 +609,9 @@ size_t TemporalTierManager::flushWarmToColdLocked(
     [[maybe_unused]] const std::string& doc_key,
     WarmBlocks&        warm_blocks) {
 
-    if (warm_blocks.empty()) return 0;
+    if (warm_blocks.empty()) {
+      return 0;
+    }
 
     // Flush oldest block (front of vector — ascending min_start order)
     VersionBlock& oldest = warm_blocks.front();
@@ -595,7 +626,9 @@ size_t TemporalTierManager::flushWarmToColdLocked(
             doc.sys_time    = TimeRange::fromJson(j.at("sys_time"));
             doc.valid_time  = TimeRange::fromJson(j.at("valid_time"));
             doc.modified_by = j.value("modified_by", std::string{});
-            if (cold_->store(table_name, doc)) ++moved;
+            if (cold_->store(table_name, doc)) {
+              ++moved;
+            }
         } catch (const nlohmann::json::exception&) {}
     }
 
@@ -620,7 +653,7 @@ VersionBlock TemporalTierManager::makeBlock(
     VersionBlock blk;
     blk.doc_key       = doc_key;
     blk.version_count = versions.size();
-    blk.bloom         = BloomFilter(versions.size() + 1);
+    blk.bloom         = BloomFilter(static_cast<int>(versions.size()) + 1);
     blk.entries.reserve(versions.size());
 
     uint64_t total_bytes = 0;
@@ -651,7 +684,8 @@ TemporalTierManager::searchBlock(const VersionBlock& block, Timestamp as_of) {
     //
     // Simple O(k) scan for correctness; can be optimised with a separate
     // sys_start array if block sizes grow large.
-    std::optional<VersionedDocument> result;
+    std::optional<VersionedDocument> result = {};
+
     for (const auto& entry_str : block.entries) {
         try {
             auto j = nlohmann::json::parse(entry_str);
@@ -695,12 +729,15 @@ TemporalTierManager::allFromBlock(const VersionBlock& block) {
 std::vector<VersionedDocument>
 TemporalTierManager::rangeFromBlock(const VersionBlock& block,
                                      const TimeRange& range) {
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (const auto& entry_str : block.entries) {
         try {
             auto j = nlohmann::json::parse(entry_str);
             TimeRange sys_time = TimeRange::fromJson(j.at("sys_time"));
-            if (sys_time.start >= range.end) break;
+            if (sys_time.start >= range.end) {
+              break;
+            }
             if (sys_time.overlaps(range)) {
                 VersionedDocument doc;
                 doc.key         = j.at("key").get<std::string>();

@@ -68,7 +68,7 @@ public:
     }
 
     bool isHealthy() const {
-        return state_ == State::LEADER || (state_ == State::FOLLOWER && lag_ms_ < 10000);
+        return (state_ == (State::LEADER || (state_ == State::FOLLOWER && lag_ms_ < 10000)));
     }
 
     void simulateWALShip(int wal_entry_count) {

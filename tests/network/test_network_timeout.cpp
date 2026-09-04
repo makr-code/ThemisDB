@@ -134,7 +134,7 @@ TEST_F(SocketTimeoutManagerTest, AlertCallback) {
     
     int alert_count = 0;
     SocketHealthState last_state = SocketHealthState::HEALTHY;
-    std::string last_message;
+    std::string last_message = {};
     
     manager.setAlertCallback([&](SocketHealthState state, const std::string& message) {
         alert_count++;

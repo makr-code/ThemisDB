@@ -12,7 +12,9 @@ TEST(GorillaCodecTest, RoundtripBasic) {
         series.emplace_back(t0 + i * 1000, std::sin(i * 0.01));
     }
     GorillaEncoder enc;
-    for (auto& p : series) enc.add(p.first, p.second);
+    for (auto& p : series) {
+      enc.add(p.first, p.second);
+    }
     auto bytes = enc.finish();
     ASSERT_GT(bytes.size(), 0u);
     // Debug: print first few bytes to help diagnose encoding
@@ -43,7 +45,9 @@ TEST(GorillaCodecTest, CompressionMonotonic) {
         series.emplace_back(t0 + i * 1000, i * 0.001);
     }
     GorillaEncoder enc;
-    for (auto& p : series) enc.add(p.first, p.second);
+    for (auto& p : series) {
+      enc.add(p.first, p.second);
+    }
     auto bytes = enc.finish();
     // Uncompressed: 16 bytes per point = 32KB
     // Our simplified implementation (always writing new headers) achieves ~8.7 bytes/point

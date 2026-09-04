@@ -149,13 +149,13 @@ uint32_t DirectXDescriptors::create_srv(ID3D12Resource* resource,
     return descriptor_index;
 }
 
-D3D12_CPU_DESCRIPTOR_HANDLE DirectXDescriptors::get_cpu_handle(uint32_t index) const {
+D3D12_CPU_DESCRIPTOR_HANDLE DirectXDescriptors::get_cpu_handle([[maybe_unused]] uint32_t index) const {
     D3D12_CPU_DESCRIPTOR_HANDLE handle = cpu_heap_start_;
     handle.ptr += index * descriptor_increment_size_;
     return handle;
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE DirectXDescriptors::get_gpu_handle(uint32_t index) const {
+D3D12_GPU_DESCRIPTOR_HANDLE DirectXDescriptors::get_gpu_handle([[maybe_unused]] uint32_t index) const {
     D3D12_GPU_DESCRIPTOR_HANDLE handle = gpu_heap_start_;
     handle.ptr += index * descriptor_increment_size_;
     return handle;

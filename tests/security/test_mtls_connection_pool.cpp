@@ -444,7 +444,7 @@ TEST(EndpointConnectionPoolTest, V2F02_FactoryReceivesCorrectEndpoint) {
     cfg.min_connections = 0;
     cfg.max_connections = 2;
     
-    std::string captured_endpoint;
+    std::string captured_endpoint = {};
     auto capture_factory = [&](const std::string& ep)
         -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {
         captured_endpoint = ep;

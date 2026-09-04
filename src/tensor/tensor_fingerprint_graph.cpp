@@ -65,23 +65,29 @@ TensorFingerprintGraph::columnMeans(const std::vector<float>& data,
         }
     }
     const float inv = 1.0f / static_cast<float>(n_rows);
-    for (float& v : means) v *= inv;
+    for (float& v : means) {
+      v *= inv;
+    }
     return means;
 }
 
 float TensorFingerprintGraph::cosineSimilarity(const std::vector<float>& a,
                                                 const std::vector<float>& b) noexcept {
-    if (a.size() != b.size() || a.empty()) return 0.0f;
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
+      return 0.0f;
+    }
 
     float dot   = 0.0f;
     float norm_a = 0.0f;
     float norm_b = 0.0f;
-    for (std::size_t i = 0; i < a.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         dot    += a[i] * b[i];
         norm_a += a[i] * a[i];
         norm_b += b[i] * b[i];
     }
-    if (norm_a < 1e-12f || norm_b < 1e-12f) return 0.0f;
+    if (norm_a < 1e-12f || norm_b < 1e-12f) {
+      return 0.0f;
+    }
     return dot / (std::sqrt(norm_a) * std::sqrt(norm_b));
 }
 
@@ -90,10 +96,14 @@ float TensorFingerprintGraph::cosineSimilarityZeroPadded(
         float                     a_sq_norm,
         const std::vector<float>& b,
         float                     b_sq_norm) noexcept {
-    if (a.empty() || b.empty()) return 0.0f;
-    if (a_sq_norm < 1e-12f || b_sq_norm < 1e-12f) return 0.0f;
+    if (a.empty() || b.empty()) {
+      return 0.0f;
+    }
+    if (a_sq_norm < 1e-12f || b_sq_norm < 1e-12f) {
+      return 0.0f;
+    }
 
-    const std::size_t overlap = std::min(a.size(), b.size());
+    const std::size_t overlap = std::min(a.size(),static_cast<int>(b.size()));
     float dot = 0.0f;
     for (std::size_t i = 0; i < overlap; ++i) {
         dot += a[i] * b[i];
@@ -111,7 +121,9 @@ bool TensorFingerprintGraph::addAdapter(const std::string&        adapter_key,
                                          const std::string&        domain,
                                          const std::string&        base_model_id,
                                          const std::string&        tenant_id) {
-    if (train.cores.empty()) return false;
+    if (train.cores.empty()) {
+      return false;
+    }
 
     const auto& G0 = train.cores[0];
     // G0 layout: r_left × n × r_right, stored row-major.
@@ -127,11 +139,15 @@ bool TensorFingerprintGraph::addAdapter(const std::string&        adapter_key,
     }
 
     float fp_sq_norm = 0.0f;
-    for (float v : fp) fp_sq_norm += v * v;
+    for (float v : fp) {
+      fp_sq_norm += v * v;
+    }
 
     // Frobenius norm of the first core data.
     float norm = 0.0f;
-    for (float v : G0.data) norm += v * v;
+    for (float v : G0.data) {
+      norm += v * v;
+    }
     norm = std::sqrt(norm);
 
     FingerprintEntry entry;
@@ -190,7 +206,9 @@ TensorFingerprintGraph::findSimilarByFingerprint(
 
     std::vector<SimilarityResult> results;
     float query_sq_norm = 0.0f;
-    for (float v : fingerprint) query_sq_norm += v * v;
+    for (float v : fingerprint) {
+      query_sq_norm += v * v;
+    }
     std::size_t comparisons = 0;
 
     {
@@ -198,8 +216,12 @@ TensorFingerprintGraph::findSimilarByFingerprint(
         results.reserve(entries_.size());
 
         for (const auto& [key, ent] : entries_) {
-            if (!tenant_id.empty() && ent.tenant_id != tenant_id) continue;
-            if (ent.fingerprint.empty()) continue;
+            if (!tenant_id.empty() && ent.tenant_id != tenant_id) {
+              continue;
+            }
+            if (ent.fingerprint.empty()) {
+              continue;
+            }
 
             const float sim = cosineSimilarityZeroPadded(
                 fingerprint,
@@ -222,7 +244,9 @@ TensorFingerprintGraph::findSimilarByFingerprint(
               [](const SimilarityResult& a, const SimilarityResult& b) {
                   return a.score > b.score;
               });
-    if (results.size() > k) results.resize(k);
+    if (static_cast<int>(results.size()) > k) {
+      results.resize(k);
+    }
 
     {
         std::unique_lock slock(stats_mutex_);
@@ -259,9 +283,11 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
                 storage::TensorTrainDecomposer::innerProduct(query_train, query_train);
         }
 
-        candidates.reserve(entries_.size() > 0 ? entries_.size() - 1 : 0);
+        candidates.reserve(static_cast<int>(entries_.size()) > 0 ? static_cast<int>(entries_.size()) - 1 : 0);
         for (const auto& [key, entry] : entries_) {
-            if (key == query_key) continue;
+            if (key == query_key) {
+              continue;
+            }
             candidates.emplace_back(key, entry);
         }
     }
@@ -276,7 +302,8 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
 
     const auto exact_similarity_fn = getExactSimilarityFn();
 
-    std::vector<SimilarityResult> results;
+    std::vector<SimilarityResult> results = {};
+
     results.reserve(candidates.size());
     std::size_t comparisons = 0;
     if (exact_similarity_fn) {
@@ -371,7 +398,9 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
               [](const SimilarityResult& a, const SimilarityResult& b) {
                   return a.score > b.score;
               });
-    if (results.size() > k) results.resize(k);
+    if (static_cast<int>(results.size()) > k) {
+      results.resize(k);
+    }
 
     {
         std::unique_lock slock(stats_mutex_);
@@ -390,20 +419,25 @@ std::optional<FingerprintEntry>
 TensorFingerprintGraph::entry(const std::string& adapter_key) const {
     std::shared_lock lock(mutex_);
     auto it = entries_.find(adapter_key);
-    if (it == entries_.end()) return std::nullopt;
+    if (it == entries_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
 std::size_t TensorFingerprintGraph::size() const noexcept {
     std::shared_lock lock(mutex_);
-    return entries_.size();
+    return static_cast<int>(entries_.size());
 }
 
 std::vector<std::string> TensorFingerprintGraph::adapterKeys() const {
     std::shared_lock lock(mutex_);
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     keys.reserve(entries_.size());
-    for (const auto& [k, _] : entries_) keys.push_back(k);
+    for (const auto& [k, _] : entries_) {
+      keys.push_back(k);
+    }
     std::sort(keys.begin(), keys.end());
     return keys;
 }

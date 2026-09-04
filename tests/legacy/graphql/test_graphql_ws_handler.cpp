@@ -67,7 +67,8 @@ protected:
     // Convenience: send a frame and return parsed responses.
     std::vector<json> send(const json& msg) {
         auto frames = handler->handleFrame(msg.dump());
-        std::vector<json> results;
+        std::vector<json> results = {};
+
         for (auto& f : frames) {
             results.push_back(json::parse(f));
         }

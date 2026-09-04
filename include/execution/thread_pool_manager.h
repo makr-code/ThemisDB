@@ -180,7 +180,9 @@ private:
         // Try to steal one item from the back.
         bool trySteal(WorkItem& out) {
             std::lock_guard<std::mutex> lk(lock);
-            if (items.empty()) return false;
+            if (items.empty()) {
+              return false;
+            }
             out = std::move(items.back());
             items.pop_back();
             return true;

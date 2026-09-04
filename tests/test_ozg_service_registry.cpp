@@ -316,7 +316,9 @@ TEST_F(OZGServiceRegistryTest, ConcurrentRegisterIsThreadSafe) {
             } catch (...) {}
         }));
     }
-    for (auto& f : futs) f.get();
+    for (auto& f : futs) {
+      f.get();
+    }
     EXPECT_LE(registry_.size(), static_cast<std::size_t>(N));
 }
 
@@ -336,7 +338,9 @@ TEST_F(OZGServiceRegistryTest, ConcurrentReadWriteIsThreadSafe) {
             }
         }));
     }
-    for (auto& f : futs) f.get();
+    for (auto& f : futs) {
+      f.get();
+    }
 }
 
 // ── AC-OZG-28 ────────────────────────────────────────────────────────────────

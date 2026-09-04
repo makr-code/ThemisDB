@@ -135,7 +135,7 @@ TEST_F(CrossShardFeedbackSyncTest, PublishFeedbackDispatchesGossipMessage) {
 TEST_F(CrossShardFeedbackSyncTest, HandleInboundSummaryInvokesCallback) {
     CrossShardFeedbackSync sync(cfg_, "shard-002", make_gossip_fn());
 
-    std::string received_id;
+    std::string received_id = {};
     sync.setFeedbackCallback([&](const FeedbackSummary& s) {
         received_id = s.summary_id;
     });

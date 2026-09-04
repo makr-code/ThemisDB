@@ -57,8 +57,8 @@ public:
 private:
     friend class VectorIndexManagerSafety;
     
-    uint32_t index_id_;
-    uint64_t generation_;
+    uint32_t index_id_ = {};
+    uint64_t generation_ = {};
     class VectorIndexManagerSafety* manager_;
     
     VectorIndexHandle(uint32_t id, uint64_t gen, VectorIndexManagerSafety* mgr)
@@ -150,7 +150,7 @@ public:
 
 private:
     struct IndexMetadata {
-        uint32_t id;
+        uint32_t id = 0;
         std::string name;
         uint32_t dimension;
         std::shared_ptr<VectorIndexData> data;

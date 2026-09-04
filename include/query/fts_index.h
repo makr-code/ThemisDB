@@ -27,7 +27,7 @@ namespace themis::query::fts {
 
 // Document metadata
 struct DocumentMetadata {
-  uint64_t doc_id;                 ///< Document identifier
+  uint64_t doc_id = 0;                 ///< Document identifier
   uint32_t length_tokens;          ///< Document length in tokens
   float avg_term_freq;             ///< Average term frequency in document
   std::string language;            ///< Document language ("en", "de", etc.)
@@ -35,7 +35,7 @@ struct DocumentMetadata {
 
 // Posting list entry: (doc_id, term_freq, positions)
 struct PostingListEntry {
-  uint64_t doc_id;                 ///< Document identifier
+  uint64_t doc_id = 0;                 ///< Document identifier
   uint32_t term_freq;              ///< Raw term frequency in document
   std::vector<uint32_t> positions; ///< Byte offsets of term occurrences
 };

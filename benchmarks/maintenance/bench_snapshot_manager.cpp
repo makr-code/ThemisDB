@@ -64,7 +64,7 @@ public:
     }
     
 protected:
-    std::string test_db_path_;
+    std::string test_db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<Changefeed> changefeed_;
     std::unique_ptr<SnapshotManager> snapshot_manager_;

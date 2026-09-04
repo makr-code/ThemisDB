@@ -37,7 +37,7 @@ BranchManager::Branch BranchManager::Branch::fromJson(const json& j) {
     Branch branch;
     branch.branch_name = j.value("branch_name", "");
     branch.parent_branch = j.value("parent_branch", "");
-    branch.creation_sequence = j.value("creation_sequence", 0ULL);
+    branch.creation_sequence = j.value("creation_sequence", 0);
     branch.creation_timestamp_ms = j.value("creation_timestamp_ms", 0LL);
     branch.description = j.value("description", "");
     branch.created_by = j.value("created_by", "system");
@@ -259,7 +259,7 @@ std::vector<BranchManager::Branch> BranchManager::listBranches(
     }
     
     // Apply limit
-    if (limit > 0 && branches.size() > limit) {
+    if (limit > 0 && static_cast<int>(branches.size()) > limit) {
         branches.resize(limit);
     }
     
@@ -453,7 +453,7 @@ MergeEngine::MergeResult BranchManager::previewBranchMerge(
     uint64_t source_seq = source->creation_sequence;
     uint64_t target_seq = target->creation_sequence;
 
-    uint64_t base_seq;
+    uint64_t base_seq = 0;
     if (!base_branch.empty()) {
         auto base = getBranch(base_branch);
         if (!base.has_value()) {
@@ -497,7 +497,7 @@ MergeEngine::MergeResult BranchManager::resolveAndMergeBranches(
     uint64_t source_seq = source->creation_sequence;
     uint64_t target_seq = target->creation_sequence;
 
-    uint64_t base_seq;
+    uint64_t base_seq = 0;
     if (!base_branch.empty()) {
         auto base = getBranch(base_branch);
         if (!base.has_value()) {
@@ -525,7 +525,7 @@ MergeEngine::MergeResult BranchManager::resolveAndMergeBranches(
         hist.event_type   = "merged_from";
         hist.branch_name  = target_branch;
         hist.details      = fmt::format("Merged from '{}' with {} manual resolution(s)",
-                                        source_branch, resolutions.size());
+                                        source_branch,static_cast<int>(resolutions.size()));
         hist.performed_by = "system";
         hist.timestamp_ms = now_ms;
         hist.sequence     = result.result_sequence;
@@ -812,19 +812,25 @@ BranchManager::getBranchHistory(const std::string& branch_name,
     std::string prefix = std::string(BRANCH_HIST_PREFIX) + branch_name + ":";
 
     auto it_result = db_.newSafeIterator();
-    if (!it_result) return result;
+    if (!it_result) {
+      return result;
+    }
 
     auto& it = it_result.value();
     for (it.Seek(prefix); it.Valid(); it.Next()) {
         std::string key(it.key());
-        if (key.find(prefix) != 0) break;
+        if (key.find(prefix) != 0) {
+          break;
+        }
 
         std::string vs(it.value());
         std::vector<uint8_t> data(vs.begin(), vs.end());
         auto entry = deserializeHistory(data);
         if (entry.has_value()) {
             result.push_back(*entry);
-            if (limit > 0 && result.size() >= limit) break;
+            if (limit > 0 && static_cast<int>(result.size()) >= limit) {
+              break;
+            }
         }
     }
     return result;
@@ -847,23 +853,31 @@ size_t BranchManager::pruneMergedBranches() {
     std::vector<Branch> candidates;
 
     auto it_result = db_.newSafeIterator();
-    if (!it_result) return 0;
+    if (!it_result) {
+      return 0;
+    }
 
     auto& it = it_result.value();
     for (it.Seek(BRANCH_PREFIX); it.Valid(); it.Next()) {
         std::string key(it.key());
-        if (key.find(BRANCH_PREFIX) != 0 || key == ACTIVE_BRANCH_KEY) continue;
+        if (key.find(BRANCH_PREFIX) != 0 || key == ACTIVE_BRANCH_KEY) {
+          continue;
+        }
 
         std::string vs(it.value());
         std::vector<uint8_t> data(vs.begin(), vs.end());
         auto branch = deserialize(data);
-        if (!branch.has_value()) continue;
+        if (!branch.has_value()) {
+          continue;
+        }
 
         // Skip protected names
         if (gc_policy_.protect_default &&
             branch->branch_name == std::string(DEFAULT_BRANCH)) continue;
         // Skip the currently active branch
-        if (branch->branch_name == active_branch_) continue;
+        if (branch->branch_name == active_branch_) {
+          continue;
+        }
 
         bool age_ok = (gc_policy_.max_age_ms <= 0) ||
                       (now_ms > branch->creation_timestamp_ms &&

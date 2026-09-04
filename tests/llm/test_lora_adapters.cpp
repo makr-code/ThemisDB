@@ -103,7 +103,8 @@ TEST_F(LoRAAdapterTest, Loading_BasicLoad) {
  * - No conflicts between adapters
  */
 TEST_F(LoRAAdapterTest, Loading_MultipleAdapters) {
-    std::vector<std::string> adapters;
+    std::vector<std::string> adapters = {};
+
     for (int i = 0; i < 5; ++i) {
         adapters.push_back(createMockAdapter("adapter_" + std::to_string(i)));
     }
@@ -247,7 +248,8 @@ TEST_F(LoRAAdapterTest, Switching_BetweenAdapters) {
  * - Performance remains stable
  */
 TEST_F(LoRAAdapterTest, Switching_RapidSwitching) {
-    std::vector<std::string> adapters;
+    std::vector<std::string> adapters = {};
+
     for (int i = 0; i < 3; ++i) {
         adapters.push_back(createMockAdapter("rapid_" + std::to_string(i)));
     }
@@ -326,7 +328,8 @@ TEST_F(LoRAAdapterTest, Concurrent_MultipleAccess) {
  * - State remains consistent
  */
 TEST_F(LoRAAdapterTest, Concurrent_LoadUnload) {
-    std::vector<std::string> adapters;
+    std::vector<std::string> adapters = {};
+
     for (int i = 0; i < 5; ++i) {
         adapters.push_back(createMockAdapter("concurrent_" + std::to_string(i)));
     }
@@ -549,7 +552,8 @@ TEST_F(LoRAAdapterTest, Performance_SwitchingLatency) {
 TEST_F(LoRAAdapterTest, Performance_MemoryFootprint) {
     test::MemoryUsageTracker memory;
     
-    std::vector<std::string> adapters;
+    std::vector<std::string> adapters = {};
+
     for (int i = 0; i < 5; ++i) {
         adapters.push_back(createMockAdapter("mem_" + std::to_string(i), 5 * 1024));
     }

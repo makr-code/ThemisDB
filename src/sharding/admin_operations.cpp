@@ -49,7 +49,7 @@ bool AdminOperations::initialize() {
     );
     
     admin_api_.registerRebalanceHandler(
-        [this](const nlohmann::json& body) { return handleRebalanceRequest(body); }
+        [this]([[maybe_unused]] const nlohmann::json& body) { return handleRebalanceRequest(body); }
     );
     
     admin_api_.registerHealthHandler(
@@ -155,7 +155,7 @@ std::string AdminOperations::triggerRebalance() {
         now.time_since_epoch()
     ).count();
 
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "rebalance_" << timestamp;
     std::string operation_id = ss.str();
 
@@ -195,7 +195,7 @@ nlohmann::json AdminOperations::getRebalanceStatus(
 #else
         gmtime_r(&t, &tm_buf);
 #endif
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::put_time(&tm_buf, "%Y-%m-%dT%H:%M:%SZ");
         return oss.str();
     };
@@ -303,7 +303,7 @@ nlohmann::json AdminOperations::handleTopologyRequest(const nlohmann::json& body
     return getTopology();
 }
 
-nlohmann::json AdminOperations::handleRebalanceRequest(const nlohmann::json& body) {
+nlohmann::json AdminOperations::handleRebalanceRequest([[maybe_unused]] const nlohmann::json& body) {
     if (body.contains("action")) {
         std::string action = body["action"];
         

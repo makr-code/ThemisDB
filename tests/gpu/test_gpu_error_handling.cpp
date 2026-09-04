@@ -403,7 +403,8 @@ TEST_F(IntegrationTest, MultipleGuards_CanCoexist) {
 TEST_F(IntegrationTest, Handler_ThreadSafe_ConcurrentLogCalls) {
   auto handler = GPUErrorHandler::Create();
   
-  std::vector<std::thread> threads;
+  std::vector<std::thread> threads = {};
+
   for (int i = 0; i < 4; ++i) {
     threads.emplace_back([handler, i]() {
       for (int j = 0; j < 10; ++j) {

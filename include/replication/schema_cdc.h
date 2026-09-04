@@ -165,7 +165,7 @@ private:
     std::unordered_map<std::string, uint32_t> registered_;
 
     struct Subscription {
-        uint64_t       id;
+        uint64_t       id = 0;
         std::string    collection;  // empty = all
         EncodedCallback callback;
     };

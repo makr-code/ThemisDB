@@ -297,7 +297,7 @@ TEST_F(PredictiveDetectorTest, AlertCallback) {
     config.enabled = true;
     config.enable_alerts = true;
     
-    std::string last_alert;
+    std::string last_alert = {};
     config.alert_callback = [&last_alert](const std::string& msg) {
         last_alert = msg;
     };
@@ -403,7 +403,8 @@ TEST_F(PredictiveDetectorTest, ConcurrentPredictions) {
     }
     
     // Make concurrent predictions
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 5; ++i) {
         threads.emplace_back([&detector, i]() {
             auto prediction = detector.predictShard("shard_00" + std::to_string(i));

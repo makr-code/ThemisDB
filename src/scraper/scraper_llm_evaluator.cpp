@@ -49,11 +49,13 @@ bool ScraperLLMEvaluator::isLlmAvailable() const {
         const std::string& text,
         const GapContext&  gap) {
     // Truncate to ~3000 chars to stay within context window
-    const std::string snippet = (text.size() > 3000) ? text.substr(0, 3000) + "…" : text;
+    const std::string snippet = (static_cast<int>(text.size()) > 3000) ? text.substr(0, 3000) + "…" : text;
 
-    std::ostringstream keywords_str;
-    for (std::size_t i = 0; i < gap.keywords.size(); ++i) {
-        if (i > 0) keywords_str << ", ";
+    std::ostringstream keywords_str = {};
+    for (std::size_t i = 0; i <static_cast<int>(gap.keywords.size()); ++i) {
+        if (i > 0) {
+          keywords_str << ", ";
+        }
         keywords_str << gap.keywords[i];
     }
 
@@ -112,7 +114,9 @@ bool ScraperLLMEvaluator::isLlmAvailable() const {
             result.discard_reason = j["discard_reason"].get<std::string>();
         if (j.contains("key_entities") && j["key_entities"].is_array()) {
             for (const auto& e : j["key_entities"]) {
-                if (e.is_string()) result.key_entities.push_back(e.get<std::string>());
+                if (e.is_string()) {
+                  result.key_entities.push_back(e.get<std::string>());
+                }
             }
         }
     } catch (const json::parse_error& e) {
@@ -133,7 +137,7 @@ bool ScraperLLMEvaluator::isLlmAvailable() const {
         const std::string& text,
         const GapContext&  gap,
         double             threshold) {
-    EvaluationResult result;
+    EvaluationResult result = {};
 
     if (text.empty()) {
         result.discard_reason  = "Empty text";

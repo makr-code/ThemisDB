@@ -176,7 +176,7 @@ private:
     ErrorCode code_;
     ErrorSeverity severity_;
     std::string message_;
-    std::string context_;
+    std::string context_ = {};
     
     static std::string formatMessage(ErrorCode code, 
                                      ErrorSeverity severity,

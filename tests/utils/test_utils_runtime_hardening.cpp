@@ -140,7 +140,9 @@ TEST(RuntimeHardening, RateLimiterConcurrencySafe) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // Total attempts = 400; successes + failures must equal 400
     EXPECT_EQ(successes.load() + failures.load(), 400)

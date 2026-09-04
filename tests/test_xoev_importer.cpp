@@ -313,7 +313,9 @@ TEST_F(XOEVImporterTest, ConcurrentImportIsThreadSafe) {
                 XOEVStandard::XMELD);
         }));
     }
-    for (auto& f : futs) f.get();
+    for (auto& f : futs) {
+      f.get();
+    }
     // All records should have been stored (no assertions on exact count due to
     // duplicate-key collisions, but no crashes / data races).
     EXPECT_GE(importer_.storedRecords().size(), 1u);
@@ -350,7 +352,8 @@ TEST_F(XOEVImporterTest, PolymorphicUsageViaInterface) {
 
 TEST_F(XOEVImporterTest, RoundTripExportThenImportPreservesRecordCount) {
     // Build initial records.
-    std::vector<XOEVRecord> original;
+    std::vector<XOEVRecord> original = {};
+
     for (int i = 0; i < 5; ++i) {
         XOEVRecord r;
         r.id       = "RT" + std::to_string(i);

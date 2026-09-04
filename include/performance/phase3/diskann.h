@@ -105,7 +105,7 @@ public:
     
     // Get statistics
     struct Stats {
-        size_t num_vectors;
+        size_t num_vectors = 0;
         size_t graph_edges;
         size_t cache_hits;
         size_t cache_misses;
