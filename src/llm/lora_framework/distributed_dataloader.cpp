@@ -29,7 +29,7 @@ DistributedDataLoader::DistributedDataLoader(
       shuffle_(shuffle), drop_last_(drop_last) {
     
     // Calculate per-GPU batch size
-    batch_size_per_gpu_ = (batch_size + ctx_.num_gpus() - 1) / ctx_.num_gpus();
+    batch_size_per_gpu_ = (batch_size + static_cast<size_t>(ctx_.num_gpus()) - 1) / static_cast<size_t>(ctx_.num_gpus());
     
     // Calculate number of batches
     size_t dataset_size = dataset_.size();
