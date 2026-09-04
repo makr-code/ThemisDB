@@ -1952,7 +1952,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		auto [x2,y2] = *p2;
 		double dx=x2-x1, dy=y2-y1; double distance = std::sqrt(dx*dx+dy*dy);
 		auto looksLikeDegrees = [](double lon, double lat) { return lon >= -180.0 && lon <= 180.0 && lat >= -90.0 && lat <= 90.0; };
-		if (looksLikeDegrees(x1, y1) && looksLikeDegrees(x2, y2) && (std::abs(dx) > 5.0 || std::abs(dy) > 5.0)) {
+		if ((looksLikeDegrees(x1, y1) && looksLikeDegrees(x2, y2)) && (std::abs(dx) > 5.0 || std::abs(dy) > 5.0)) {
 			constexpr double kEarthRadiusKm = 6371.0;
 			auto deg2rad = []([[maybe_unused]] double d){ return d * std::numbers::pi_v<double> / 180.0; };
 			double lat1 = deg2rad(y1), lon1 = deg2rad(x1); double lat2 = deg2rad(y2), lon2 = deg2rad(x2);
@@ -2231,7 +2231,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			if (t=="Point" && c.is_array() && static_cast<int>(c.size())>=3) {
 			  return Ok(nlohmann::json(true));
 			}
-			if ((t=="LineString"||t=="MultiPoint") && c.is_array() && !c.empty() && c[0].is_array() && c[0].size()>=3) {
+			if (((t=="LineString" || t=="MultiPoint")) && c.is_array() && !c.empty() && c[0].is_array() && c[0].size()>=3) {
 			  return Ok(nlohmann::json(true));
 			}
 			if (t=="Polygon" && c.is_array() && !c.empty() && c[0].is_array() && !c[0].empty() && c[0][0].is_array() && c[0][0].size()>=3) {
@@ -2277,7 +2277,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		if (t=="Point" && coords.is_array() && static_cast<int>(coords.size())>=3) {
 			return Ok(nlohmann::json(coords[2]));
 		}
-		if ((t=="LineString"||t=="MultiPoint") && coords.is_array()) {
+		if (((t=="LineString" || t=="MultiPoint")) && coords.is_array()) {
 			for (const auto& pt : coords) {
 			  if (pt.is_array() && static_cast<int>(pt.size())>=3) upd(pt[2].get<double>());
 			}
@@ -2489,8 +2489,8 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		}
 		std::string t=g["type"]; const auto& c=g["coordinates"]; auto inRange=[&]([[maybe_unused]] double z){ return z>=zmin && z<=zmax; };
 		if (t=="Point") { if (c.is_array() && static_cast<int>(c.size())>=3) return Ok(nlohmann::json(inRange(c[2].get<double>()))); return Ok(nlohmann::json(false)); }
-		if (t=="LineString"||t=="MultiPoint") { if (c.is_array()) { for (const auto& pt : c) if (pt.is_array() && static_cast<int>(pt.size())>=3 && inRange(pt[2].get<double>())) return Ok(nlohmann::json(true)); } return Ok(nlohmann::json(false)); }
-		if (t=="Polygon"||t=="MultiLineString") { if (c.is_array()) { for (const auto& ring : c) if (ring.is_array()) for (const auto& pt : ring) if (pt.is_array() && static_cast<int>(pt.size())>=3 && inRange(pt[2].get<double>())) return Ok(nlohmann::json(true)); } return Ok(nlohmann::json(false)); }
+		if ((t=="LineString" || t=="MultiPoint")) { if (c.is_array()) { for (const auto& pt : c) if (pt.is_array() && static_cast<int>(pt.size())>=3 && inRange(pt[2].get<double>())) return Ok(nlohmann::json(true)); } return Ok(nlohmann::json(false)); }
+		if ((t=="Polygon" || t=="MultiLineString")) { if (c.is_array()) { for (const auto& ring : c) if (ring.is_array()) for (const auto& pt : ring) if (pt.is_array() && static_cast<int>(pt.size())>=3 && inRange(pt[2].get<double>())) return Ok(nlohmann::json(true)); } return Ok(nlohmann::json(false)); }
 		return Ok(nlohmann::json(false));
 	}
 
@@ -2871,13 +2871,13 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 			}
 			if (r.lower.has_value()) {
 				int cmp = compareValues(*v, *r.lower);
-				if (cmp < 0 || (cmp == 0 && !r.includeLower)) {
+				if ((cmp < 0) || ((cmp == 0) && (!r.includeLower))) {
 				  return false;
 				}
 			}
 			if (r.upper.has_value()) {
 				int cmp = compareValues(*v, *r.upper);
-				if (cmp > 0 || (cmp == 0 && !r.includeUpper)) {
+				if ((cmp > 0) || ((cmp == 0) && (!r.includeUpper))) {
 				  return false;
 				}
 			}
@@ -4795,7 +4795,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				continue;
 			}
 			// Range via RangeIndex
-			if ((bin->op == query::BinaryOperator::Gt || bin->op == query::BinaryOperator::Gte || bin->op == query::BinaryOperator::Lt || bin->op == query::BinaryOperator::Lte) && secIdx_->hasRangeIndex(q.table, fa->field)) {
+			if (((bin->op == query::BinaryOperator::Gt || bin->op == query::BinaryOperator::Gte || bin->op == query::BinaryOperator::Lt || bin->op == query::BinaryOperator::Lte)) && secIdx_->hasRangeIndex(q.table, fa->field)) {
 				auto &acc = rangeMap[fa->field];
 				if (bin->op == query::BinaryOperator::Gt) { acc.lower = value; acc.includeLower=false; }
 				else if (bin->op == query::BinaryOperator::Gte) { acc.lower = value; acc.includeLower=true; }

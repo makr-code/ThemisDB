@@ -1743,7 +1743,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
     //   uint32_t dataoff;   // file offset of signature blob
     //   uint32_t datasize;  // byte size of signature blob
     // -----------------------------------------------------------------------
-    else if ((header[0] == 0xFE && header[1] == 0xED && header[2] == 0xFA && (header[3] == 0xCE || header[3] == 0xCF))
+    else if (((header[0] == 0xFE && header[1] == 0xED && header[2] == 0xFA && (header[3] == 0xCE || header[3] == 0xCF)))
              || (header[0] == 0xCF && header[1] == 0xFA && header[2] == 0xED && header[3] == 0xFE)
              || (header[0] == 0xCE && header[1] == 0xFA && header[2] == 0xED && header[3] == 0xFE)) {
         // Determine byte order and bitness from magic bytes.
@@ -1888,7 +1888,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedSignature(const std::string &plug
         }
     }
     // Check for Mach-O format (macOS dylib)
-    else if ((header[0] == 0xFE && header[1] == 0xED && header[2] == 0xFA && (header[3] == 0xCE || header[3] == 0xCF))
+    else if (((header[0] == 0xFE && header[1] == 0xED && header[2] == 0xFA && (header[3] == 0xCE || header[3] == 0xCF)))
              || (header[0] == 0xCF && header[1] == 0xFA && header[2] == 0xED && header[3] == 0xFE)
              || (header[0] == 0xCE && header[1] == 0xFA && header[2] == 0xED && header[3] == 0xFE)) {
         // Mach-O format (macOS): LC_CODE_SIGNATURE parsing not supported on this platform.

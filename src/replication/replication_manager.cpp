@@ -2198,7 +2198,7 @@ int64_t LWWConflictResolver::extractTimestamp(const std::string& json_doc) {
     }
     // Skip past key, colon, and optional whitespace
     pos += key.size();
-    while (pos <static_cast<int>(json_doc.size()) && (json_doc[pos] == ' ' || json_doc[pos] == ':')) {
+    while ((pos < static_cast<int>(json_doc.size())) && (json_doc[pos] == ' ' || json_doc[pos] == ':')) {
         ++pos;
     }
     if (pos >= static_cast<int>(json_doc.size())) {
@@ -2302,7 +2302,7 @@ std::string CRDTConflictResolver::resolve(
             
             // Skip past colon and whitespace
             size_t vp = kend + 1;
-            while (vp <static_cast<int>(doc.size()) && (doc[vp] == ' ' || doc[vp] == ':')) {
+            while ((vp < static_cast<int>(doc.size())) && (doc[vp] == ' ' || doc[vp] == ':')) {
               ++vp;
             }
             
@@ -2351,7 +2351,7 @@ std::string CRDTConflictResolver::resolve(
             while ((pos = merged.find(search, pos)) != std::string::npos) {
                 // Skip to value
                 size_t vp = pos + static_cast<int>(search.size()) ;
-                while (vp <static_cast<int>(merged.size()) && (merged[vp] == ' ' || merged[vp] == ':')) {
+                while ((vp < static_cast<int>(merged.size())) && (merged[vp] == ' ' || merged[vp] == ':')) {
                   ++vp;
                 }
                 
@@ -2615,7 +2615,7 @@ VectorClock VectorClock::fromJson(const std::string& json) {
 
         // Skip ':' and whitespace
         size_t vp = kend + 1;
-        while (vp <static_cast<int>(json.size()) && (json[vp] == ' ' || json[vp] == ':')) {
+        while ((vp < static_cast<int>(json.size())) && (json[vp] == ' ' || json[vp] == ':')) {
           ++vp;
         }
 
@@ -2875,7 +2875,7 @@ static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
         }
         std::string key = doc.substr(ks + 1, ke - ks - 1);
         size_t vp = ke + 1;
-        while (vp <static_cast<int>(doc.size()) && (doc[vp] == ' ' || doc[vp] == ':')) {
+        while ((vp < static_cast<int>(doc.size())) && (doc[vp] == ' ' || doc[vp] == ':')) {
           ++vp;
         }
         if (vp <static_cast<int>(doc.size()) &&
@@ -2906,7 +2906,7 @@ static std::string extractSubObject(const std::string& doc, const std::string& k
       return "";
     }
     pos += search.size();
-    while (pos <static_cast<int>(doc.size()) && (doc[pos] == ' ' || doc[pos] == ':')) {
+    while ((pos < static_cast<int>(doc.size())) && (doc[pos] == ' ' || doc[pos] == ':')) {
       ++pos;
     }
     if (pos >= doc.size() || doc[pos] != '{') return "";
@@ -2964,7 +2964,7 @@ static std::string extractSubArray(const std::string& doc, const std::string& ke
       return "";
     }
     pos += search.size();
-    while (pos <static_cast<int>(doc.size()) && (doc[pos] == ' ' || doc[pos] == ':')) {
+    while ((pos < static_cast<int>(doc.size())) && (doc[pos] == ' ' || doc[pos] == ':')) {
       ++pos;
     }
     if (pos >= doc.size() || doc[pos] != '[') {
@@ -3281,7 +3281,7 @@ std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes)
                 auto kp = obj.find("\"del\"");
                 if (kp != std::string::npos) {
                     auto vp = kp + 5;
-                    while (vp <static_cast<int>(obj.size()) && (obj[vp] == ' ' || obj[vp] == ':')) {
+                    while ((vp < static_cast<int>(obj.size())) && (obj[vp] == ' ' || obj[vp] == ':')) {
                       ++vp;
                     }
                     elem.deleted = (obj.substr(vp, 4) == "true");
@@ -6847,7 +6847,7 @@ bool BidirectionalReplicationManager::applyRemoteWrite(const BidiWriteEntry& ent
         return false;
     }
 
-    if (config_.track_origin && (entry.origin_node.empty() || entry.origin_seq == 0)) {
+    if ((config_.track_origin) && (entry.origin_node.empty() || entry.origin_seq == 0)) {
         return false;
     }
 
