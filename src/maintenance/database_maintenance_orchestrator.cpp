@@ -1478,7 +1478,7 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
         taskIndex[static_cast<int>(entry.tasks[i])] = i;
     }
 
-    auto getIndex = [&](MaintenanceTaskType t) -> std::size_t {
+    auto getIndex = [&]([[maybe_unused]] MaintenanceTaskType t) -> std::size_t {
         auto it = taskIndex.find(static_cast<int>(t));
         return it != taskIndex.end() ? it->second : SIZE_MAX;
     };

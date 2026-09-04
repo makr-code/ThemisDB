@@ -457,7 +457,7 @@ std::vector<WikiChunk> WikiIndexStore::evaluateQuery(
         // ── Recall@k ────────────────────────────────────────────────────────
         // For each k: count how many of the top-k returned results have a
         // doc_id in the ground-truth set, normalised by ground-truth size.
-        auto recall_at = [&](int k) -> double {
+        auto recall_at = [&]([[maybe_unused]] int k) -> double {
             const int n = std::min(k, static_cast<int>(results.size()));
             int hits = 0;
             for (int i = 0; i < n; ++i) {

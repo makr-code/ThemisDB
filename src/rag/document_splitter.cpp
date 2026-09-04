@@ -256,7 +256,7 @@ DocumentSplitter::Impl::splitSentence(const std::string& text,
     size_t current_tokens = 0;
     size_t chunk_start_offset = sentences.front().second;
 
-    auto flush = [&](size_t end_offset) {
+    auto flush = [&]([[maybe_unused]] size_t end_offset) {
         if (current.empty()) return;
         const size_t tok = estimateTokenCount(current, config.chars_per_token);
         if (tok >= config.min_chunk_size || config.min_chunk_size == 0) {

@@ -171,7 +171,7 @@ DetectedLanguage LanguageDetector::detect(std::string_view text) const {
     ScriptCounts sc    = countScriptBytes(text);
     size_t total_chars = text.size();
 
-    auto scriptFraction = [&](size_t count) -> float {
+    auto scriptFraction = [&]([[maybe_unused]] size_t count) -> float {
         return (total_chars > 0) ? static_cast<float>(count) / static_cast<float>(total_chars) : 0.0f;
     };
 

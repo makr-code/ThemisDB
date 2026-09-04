@@ -655,7 +655,7 @@ ProcessPatternMatcher::loadAdministrativeModels() {
         return {Status::OK(), model_cache_};
     }
 
-    auto add = [&](ProcessPattern p) { model_cache_[p.id] = std::move(p); };
+    auto add = [&]([[maybe_unused]] ProcessPattern p) { model_cache_[p.id] = std::move(p); };
 
     // ── Bauantragsverfahren (Building Permit) ───────────────────────────────
     {

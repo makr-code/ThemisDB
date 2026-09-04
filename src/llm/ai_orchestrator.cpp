@@ -1049,7 +1049,7 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
     if (mode.retrieval.enabled) {
         // Filter by threshold
         docs.erase(std::remove_if(docs.begin(), docs.end(),
-            [&](const RAGContext::Document& d) {
+            [&]([[maybe_unused]] const RAGContext::Document& d) {
                 return d.relevance_score < mode.retrieval.threshold;
             }), docs.end());
 

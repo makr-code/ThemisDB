@@ -264,7 +264,7 @@ void TensorFingerprintGraph::insert(const std::string &tensor_id, const TTTrain 
                 for (const auto &e : ait->second) {
                     auto &nadj = adj_[e.to];
                     nadj.erase(
-                        std::remove_if(nadj.begin(), nadj.end(), [&](const Edge &ne) { return ne.to == tensor_id; }),
+                        std::remove_if(nadj.begin(), nadj.end(), [&]([[maybe_unused]] const Edge &ne) { return ne.to == tensor_id; }),
                         nadj.end());
                     edge_count_.fetch_sub(1, std::memory_order_relaxed);
                 }
@@ -390,7 +390,7 @@ bool TensorFingerprintGraph::remove(const std::string &tensor_id) {
         if (ait != adj_.end()) {
             for (const auto &e : ait->second) {
                 auto &nadj = adj_[e.to];
-                nadj.erase(std::remove_if(nadj.begin(), nadj.end(), [&](const Edge &ne) { return ne.to == tensor_id; }),
+                nadj.erase(std::remove_if(nadj.begin(), nadj.end(), [&]([[maybe_unused]] const Edge &ne) { return ne.to == tensor_id; }),
                            nadj.end());
                 edge_count_.fetch_sub(1, std::memory_order_relaxed);
             }
@@ -701,7 +701,7 @@ void TensorFingerprintGraph::upsertPersistedNode(const PersistedFingerprintNode 
             for (const auto &edge : adj_it->second) {
                 auto &reverse = adj_[edge.to];
                 reverse.erase(std::remove_if(reverse.begin(), reverse.end(),
-                                             [&](const Edge &existing) { return existing.to == tensor_id; }),
+                                             [&]([[maybe_unused]] const Edge &existing) { return existing.to == tensor_id; }),
                               reverse.end());
                 edge_count_.fetch_sub(1, std::memory_order_relaxed);
             }

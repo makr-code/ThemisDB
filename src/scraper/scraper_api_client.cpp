@@ -126,7 +126,7 @@ std::string HttpScraperApiClient::buildBody(
     try {
         const json j = json::parse(json_text);
         std::ostringstream out;
-        std::function<void(const json&)> walk = [&](const json& v) {
+        std::function<void(const json&)> walk = [&]([[maybe_unused]] const json& v) {
             if (v.is_string()) { out << v.get<std::string>() << ' '; }
             else if (v.is_number()) { out << v.dump() << ' '; }
             else if (v.is_array()) { for (const auto& e : v) walk(e); }

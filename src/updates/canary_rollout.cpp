@@ -661,7 +661,7 @@ LatencyStats CanaryDeployment::computeLatencyStats() const {
     stats.sample_count = sorted.size();
     const size_t n = sorted.size();
 
-    auto percentile = [&](double p) -> std::chrono::microseconds {
+    auto percentile = [&]([[maybe_unused]] double p) -> std::chrono::microseconds {
         // Nearest-rank method: index = ceil(p/100 * n) - 1 (0-based).
         // Guard against underflow from size_t subtraction: ensure n >= 1 (checked above).
         const auto rank = static_cast<size_t>(

@@ -1184,7 +1184,7 @@ public:
         const fs::path root(config.location);
         if (!fs::exists(root)) return preview;
 
-        auto addDoc = [&](const fs::path& p) {
+        auto addDoc = [&]([[maybe_unused]] const fs::path& p) {
             std::ifstream f(p, std::ios::binary);
             if (!f) return;
             std::string content{std::istreambuf_iterator<char>(f),

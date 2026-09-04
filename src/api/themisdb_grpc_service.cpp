@@ -1356,7 +1356,7 @@ private:
                                 if (clause.has_numeric_set) {
                                     const bool matches_numeric_set = has_numeric_candidate &&
                                         std::any_of(clause.numeric_set.begin(), clause.numeric_set.end(),
-                                                    [&](double item) {
+                                                    [&]([[maybe_unused]] double item) {
                                                         return nearlyEqual(numeric_candidate, item);
                                                     });
                                     if (!matches_numeric_set) {
@@ -1524,7 +1524,7 @@ private:
                             if (clause.has_numeric_set) {
                                 const bool matches_numeric_set = has_numeric_candidate &&
                                     std::any_of(clause.numeric_set.begin(), clause.numeric_set.end(),
-                                                [&](double item) {
+                                                [&]([[maybe_unused]] double item) {
                                                     return nearlyEqual(numeric_candidate, item);
                                                 });
                                 if (!matches_numeric_set) {
@@ -1628,7 +1628,7 @@ private:
                                     "storage backend not wired into this service instance");
             }
 
-            auto maybeAttachDoc = [&](SearchHit* hit) {
+            auto maybeAttachDoc = [&]([[maybe_unused]] SearchHit* hit) {
                 if (!req->fetch_docs() || !hit || !db_) {
                     return;
                 }

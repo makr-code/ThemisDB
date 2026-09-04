@@ -271,7 +271,7 @@ EventLog buildEventLogFromScanner(const FunctionContext& ctx,
     EventLog log;
     std::unordered_map<std::string, std::vector<ProcessEvent>> events_by_case;
 
-    const auto docs = ctx.scanCollection(collection, [&](const json& doc) {
+    const auto docs = ctx.scanCollection(collection, [&]([[maybe_unused]] const json& doc) {
         const auto case_id_it = doc.find(config.case_id_field);
         const auto activity_it = doc.find(config.activity_field);
         const auto ts_it = doc.find(config.timestamp_field);

@@ -316,7 +316,7 @@ std::vector<FinalLayerCompatibilityRow> FinalLayerOrchestrator::buildCompatibili
         return rows;
     }
 
-    auto add_row = [&](const std::string& adapter_id) {
+    auto add_row = [&]([[maybe_unused]] const std::string& adapter_id) {
         if (adapter_id.empty()) {
             return;
         }

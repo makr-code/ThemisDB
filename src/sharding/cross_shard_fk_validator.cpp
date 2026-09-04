@@ -69,7 +69,7 @@ void CrossShardForeignKeyValidator::registerConstraint(
     // Replace if a constraint with the same name already exists.
     auto it = std::find_if(
         constraints_.begin(), constraints_.end(),
-        [&](const CrossShardFKConstraint& c) { return c.name == constraint.name; });
+        [&]([[maybe_unused]] const CrossShardFKConstraint& c) { return c.name == constraint.name; });
     if (it != constraints_.end()) {
         *it = constraint;
         spdlog::debug("CrossShardFKValidator: replaced constraint '{}'", constraint.name);
@@ -86,7 +86,7 @@ void CrossShardForeignKeyValidator::removeConstraint(
     auto before = constraints_.size();
     constraints_.erase(
         std::remove_if(constraints_.begin(), constraints_.end(),
-            [&](const CrossShardFKConstraint& c) { return c.name == constraint_name; }),
+            [&]([[maybe_unused]] const CrossShardFKConstraint& c) { return c.name == constraint_name; }),
         constraints_.end());
     if (constraints_.size() < before) {
         spdlog::debug("CrossShardFKValidator: removed constraint '{}'", constraint_name);

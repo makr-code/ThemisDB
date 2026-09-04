@@ -789,7 +789,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
                 return col_oss.str();
             };
-            auto literalToString = [&](const LiteralValue& value)->std::string{
+            auto literalToString = [&]([[maybe_unused]] const LiteralValue& value)->std::string{
                 return std::visit([](auto&& arg)->std::string{
                     using T = std::decay_t<decltype(arg)>;
                     if constexpr (std::is_same_v<T, std::nullptr_t>) return std::string("null");
@@ -802,7 +802,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             };
             std::optional<std::pair<std::string,std::string>> joinCols; std::vector<PredicateEq> eq1, eq2; std::vector<PredicateRange> r1, r2;
             std::function<void(const std::shared_ptr<Expression>&)> collectPreds;
-            collectPreds = [&](const std::shared_ptr<Expression>& e){
+            collectPreds = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e){
                 if (!e) return;
                 if (e->getType() != ASTNodeType::BinaryOp) return;
                 auto bin = std::static_pointer_cast<BinaryOpExpr>(e);
@@ -887,7 +887,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             using namespace themis::query;
             // Helfer: löse Ausdruck zu einer Feldspalte der Loop-Variable auf, ggf. via LET-Variable
             std::function<std::optional<std::string>(const std::shared_ptr<Expression>&)> resolveToLoopField;
-            resolveToLoopField = [&](const std::shared_ptr<Expression>& e)->std::optional<std::string> {
+            resolveToLoopField = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e)->std::optional<std::string> {
                 if (!e) return std::nullopt;
                 if (auto* fa = dynamic_cast<FieldAccessExpr*>(e.get())) {
                     // Sammle Feldpfad und prüfe Root-Variable
@@ -918,7 +918,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::vector<themis::PredicateEq> eqPreds;
             bool unsupported = false;
             // Lokale Literal-zu-String Konvertierung (wie im Übersetzer)
-            auto litToString = [&](const themis::query::LiteralValue& value)->std::string{
+            auto litToString = [&]([[maybe_unused]] const themis::query::LiteralValue& value)->std::string{
                 return std::visit([](auto&& arg)->std::string{
                     using T = std::decay_t<decltype(arg)>;
                     if constexpr (std::is_same_v<T, std::nullptr_t>) return std::string("null");
@@ -930,7 +930,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }, value);
             };
             std::function<void(const std::shared_ptr<Expression>&)> visit;
-            visit = [&](const std::shared_ptr<Expression>& ex){
+            visit = [&]([[maybe_unused]] const std::shared_ptr<Expression>& ex){
                 if (!ex || unsupported) return;
                 if (auto* be = dynamic_cast<BinaryOpExpr*>(ex.get())) {
                     if (be->op == BinaryOperator::And) { visit(be->left); visit(be->right); return; }
@@ -992,7 +992,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         static constexpr double kFilterRangeSelectivity = 0.3;
         static constexpr double kSortSelectivity        = 1.0;
 
-        auto recordFromConjunct = [&](const themis::ConjunctiveQuery& cq) {
+        auto recordFromConjunct = [&]([[maybe_unused]] const themis::ConjunctiveQuery& cq) {
             for (const auto& p : cq.predicates) {
                 index_recommender->recordAccess(cq.table, p.column,
                    metadata::IndexRecommender::AccessType::FILTER, kFilterEqSelectivity);
@@ -1111,7 +1111,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     return false;
                 };
                 // Portable conversions between tm and time_t (UTC)
-                auto portable_mkgmtime = [&](const std::tm* tmin)->time_t {
+                auto portable_mkgmtime = [&]([[maybe_unused]] const std::tm* tmin)->time_t {
 #ifdef _WIN32
                     return _mkgmtime(const_cast<std::tm*>(tmin));
 #else
@@ -1125,7 +1125,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     gmtime_r(t, out);
 #endif
                 };
-                auto tmToDateStr = [&](const std::tm& tm)->std::string{
+                auto tmToDateStr = [&]([[maybe_unused]] const std::tm& tm)->std::string{
                     char buf[32]; std::snprintf(buf, sizeof(buf), "%04d-%02d-%02d", tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday); return std::string(buf);
                 };
                 if (name == "date_trunc") {
@@ -1184,7 +1184,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
                     // Falls es ein XOR ist, versuchen wir links und rechts je als SimplePred zu parsen
                     if (be->op == BinaryOperator::Xor) {
-                        auto mapOpInner = [&](BinaryOperator bop)->std::optional<SimplePred::Op> {
+                        auto mapOpInner = [&]([[maybe_unused]] BinaryOperator bop)->std::optional<SimplePred::Op> {
                             switch (bop) {
                                 case BinaryOperator::Eq:  return SimplePred::Op::Eq;
                                 case BinaryOperator::Neq: return SimplePred::Op::Neq;
@@ -1220,7 +1220,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 nlohmann::json leftLit;
                                 bool hasLeft = evalExprToLiteral(be2->left, leftLit);
                                 if (hasLeft && parseSide(be2->right, var, field)) {
-                                    auto invert = [&](SimplePred::Op o){
+                                    auto invert = [&]([[maybe_unused]] SimplePred::Op o){
                                         switch (o) {
                                             case SimplePred::Op::Lt:  return SimplePred::Op::Gt;
                                             case SimplePred::Op::Lte: return SimplePred::Op::Gte;
@@ -1242,7 +1242,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         // XOR-Filter als Ganzes sind verarbeitet; nicht in einfache Pr�dikate aufnehmen
                         continue;
                     }
-                    auto mapOp = [&](BinaryOperator bop)->std::optional<SimplePred::Op> {
+                    auto mapOp = [&]([[maybe_unused]] BinaryOperator bop)->std::optional<SimplePred::Op> {
                         switch (bop) {
                             case BinaryOperator::Eq:  return SimplePred::Op::Eq;
                             case BinaryOperator::Neq: return SimplePred::Op::Neq;
@@ -1285,7 +1285,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             if (parseSide(be->right, var, field)) {
                                 lit = leftLit; 
                                 // Operator invertieren (literal OP field) -> (field OP' literal)
-                                auto invert = [&](SimplePred::Op o){
+                                auto invert = [&]([[maybe_unused]] SimplePred::Op o){
                                     switch (o) {
                                         case SimplePred::Op::Lt:  return SimplePred::Op::Gt;
                                         case SimplePred::Op::Lte: return SimplePred::Op::Gte;
@@ -1492,7 +1492,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             if (v->name.empty()) return false;
                             var = v->name.front(); field = fa->field; return true;
                         };
-                        auto mapOp = [&](BinaryOperator bop)->std::optional<SimplePred::Op>{
+                        auto mapOp = [&]([[maybe_unused]] BinaryOperator bop)->std::optional<SimplePred::Op>{
                             switch (bop) {
                                 case BinaryOperator::Eq: return SimplePred::Op::Eq;
                                 case BinaryOperator::Neq: return SimplePred::Op::Neq;
@@ -1519,7 +1519,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             // links Literal/Funktion
                             if (!evalExprToLiteral(std::shared_ptr<Expression>(const_cast<Expression*>(left), [](Expression*){}), lit)) return false;
                             // invertiere Operator
-                            auto invert = [&](SimplePred::Op o){
+                            auto invert = [&]([[maybe_unused]] SimplePred::Op o){
                                 switch (o) {
                                     case SimplePred::Op::Lt: return SimplePred::Op::Gt;
                                     case SimplePred::Op::Lte: return SimplePred::Op::Gte;
@@ -1690,7 +1690,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             }
                             return col_oss.str();
                         };
-                        auto literalToString = [&](const LiteralValue& value)->std::string{
+                        auto literalToString = [&]([[maybe_unused]] const LiteralValue& value)->std::string{
                             return std::visit([](auto&& arg)->std::string{
                                 using T = std::decay_t<decltype(arg)>;
                                 if constexpr (std::is_same_v<T, std::nullptr_t>) return std::string("null");
@@ -1706,7 +1706,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         std::optional<std::pair<std::string,std::string>> joinCols; // (col1, col2)
                         std::vector<PredicateEq> eq1, eq2; std::vector<PredicateRange> r1, r2;
                         std::function<void(const std::shared_ptr<Expression>&)> collectPreds;
-                        collectPreds = [&](const std::shared_ptr<Expression>& e){
+                        collectPreds = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e){
                             if (!e) return;
                             if (e->getType() == ASTNodeType::BinaryOp) {
                                 auto bin = std::static_pointer_cast<BinaryOpExpr>(e);
@@ -1899,7 +1899,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             }
 
             [[maybe_unused]]
-            auto evalV = [&](const std::string& pk)->bool{
+            auto evalV = [&]([[maybe_unused]] const std::string& pk)->bool{
                 for (const auto& p : preds) {
                     if (p.var != 'v') continue;
                     if (p.field == "_key") { // direkte PK-Vergleiche
@@ -1999,7 +1999,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::vector<std::string> resultEdgeIds;
             std::vector<std::string> resultTerminalVertices; // f�r Pfadrekonstruktion
 
-            auto withinDepth = [&](int depth){ return depth >= t.minDepth && depth <= t.maxDepth; };
+            auto withinDepth = [&]([[maybe_unused]] int depth){ return depth >= t.minDepth && depth <= t.maxDepth; };
 
             auto bfsSpan = Tracer::startSpan("aql.traversal.bfs");
             bfsSpan.setAttribute("traversal.max_frontier_size_limit", static_cast<int64_t>(max_frontier_size));
@@ -2072,7 +2072,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
                 if (depth == t.maxDepth) continue;
 
-                auto enqueueOut = [&](const std::vector<themis::GraphIndexManager::AdjacencyInfo>& adj){
+                auto enqueueOut = [&]([[maybe_unused]] const std::vector<themis::GraphIndexManager::AdjacencyInfo>& adj){
                     for (const auto& a : adj) {
                         const std::string& nb = a.targetPk;
                         edgesExpanded++;
@@ -2092,7 +2092,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         }
                     }
                 };
-                auto enqueueIn = [&](const std::vector<themis::GraphIndexManager::AdjacencyInfo>& adj){
+                auto enqueueIn = [&]([[maybe_unused]] const std::vector<themis::GraphIndexManager::AdjacencyInfo>& adj){
                     for (const auto& a : adj) {
                         const std::string& nb = a.targetPk; // bei inAdjacency ist targetPk = fromPk
                         edgesExpanded++;
@@ -2465,13 +2465,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 // Simple recursive eval supporting Variable, FieldAccess, Literal, ObjectConstruct
                                 std::map<std::string, nlohmann::json> letValues;
                                 std::function<nlohmann::json(const std::shared_ptr<themis::query::Expression>&)> evalExpr;
-                                evalExpr = [&](const std::shared_ptr<themis::query::Expression>& e) -> nlohmann::json {
+                                evalExpr = [&]([[maybe_unused]] const std::shared_ptr<themis::query::Expression>& e) -> nlohmann::json {
                                     using namespace themis::query;
                                     if (!e) return nullptr;
                                     switch (e->getType()) {
                                         case ASTNodeType::Literal: {
                                             auto lit = std::static_pointer_cast<LiteralExpr>(e);
-                                            nlohmann::json j; std::visit([&](auto&& arg){ j = arg; }, lit->value); return j;
+                                            nlohmann::json j; std::visit([&]([[maybe_unused]] auto&& arg){ j = arg; }, lit->value); return j;
                                         }
                                         case ASTNodeType::Variable: {
                                             auto v = std::static_pointer_cast<VariableExpr>(e);
@@ -2872,7 +2872,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             collectSpan.setAttribute("collect.aggregates_count", static_cast<int64_t>(collect.aggregations.size()));
 
             // Extrahiere aus einem FieldAccess-Ausdruck die Feld-Pfad-Notation (z.B. doc.city -> "city", doc.addr.city -> "addr.city")
-            auto extractColumn = [&](const std::shared_ptr<themis::query::Expression>& expr)->std::string {
+            auto extractColumn = [&]([[maybe_unused]] const std::shared_ptr<themis::query::Expression>& expr)->std::string {
                 auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
                 if (!fa) return std::string();
                 std::vector<std::string> parts;
@@ -2916,7 +2916,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             struct AggState { uint64_t cnt=0; double sum=0.0; double min=std::numeric_limits<double>::infinity(); double max=-std::numeric_limits<double>::infinity(); };
             std::unordered_map<std::string, std::unordered_map<std::string, AggState>> acc;
 
-            auto toGroupKey = [&](const themis::BaseEntity& e)->std::string{
+            auto toGroupKey = [&]([[maybe_unused]] const themis::BaseEntity& e)->std::string{
                 if (groupColumn.empty()) return std::string("__all__");
                 auto v = e.getFieldAsString(groupColumn);
                 return v.value_or(std::string(""));
@@ -3227,7 +3227,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         auto it = fulltextScoreByPk.find(ent.getPrimaryKey());
                         if (it != fulltextScoreByPk.end()) return it->second; else return 0.0; // default 0.0 when not present
                     }
-                    auto evalArg = [&](size_t i)->nlohmann::json{ return (i<fc->arguments.size()) ? evalExpr(fc->arguments[i], ent, env) : nlohmann::json(); };
+                    auto evalArg = [&]([[maybe_unused]] size_t i)->nlohmann::json{ return (i<fc->arguments.size()) ? evalExpr(fc->arguments[i], ent, env) : nlohmann::json(); };
                     if (name == "concat") {
                         std::string out;
                         for (const auto& arg : fc->arguments) {
@@ -3703,7 +3703,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
     if (qpos != std::string::npos) {
         std::string qs = target.substr(qpos + 1);
         // Parse 'q' parameter (URL-encoded AQL query)
-        auto extract = [&](const std::string& key) -> std::string {
+        auto extract = [&]([[maybe_unused]] const std::string& key) -> std::string {
             std::string prefix = key + "=";
             auto pos = qs.find(prefix);
             if (pos == std::string::npos) return {};

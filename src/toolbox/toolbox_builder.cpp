@@ -164,7 +164,7 @@ std::shared_ptr<IngestionToolbox> ToolboxBuilder::build() {
 
     // Helper: determine which category an extractor belongs to based on its
     // supportedMimeTypes() and register the correct builtin step.
-    auto registerFormatStep = [&](std::shared_ptr<ingestion::IFormatExtractor> ext) {
+    auto registerFormatStep = [&]([[maybe_unused]] std::shared_ptr<ingestion::IFormatExtractor> ext) {
         const auto& mimes = ext->supportedMimeTypes();
         if (mimes.empty()) return;
 

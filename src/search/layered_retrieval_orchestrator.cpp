@@ -208,12 +208,12 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
 
     std::size_t layers_started = 0;
 
-    const auto add_record = [&](LayerDecisionRecord record) {
+    const auto add_record = [&]([[maybe_unused]] LayerDecisionRecord record) {
         result.layer_latencies[record.layer_name] = record.latency_ms;
         result.routing_decisions.push_back(std::move(record));
     };
 
-    const auto guardrail_blocks_layer = [&](const std::string& layer_name) -> bool {
+    const auto guardrail_blocks_layer = [&]([[maybe_unused]] const std::string& layer_name) -> bool {
         if (!config_.guardrails.enabled) {
             return false;
         }

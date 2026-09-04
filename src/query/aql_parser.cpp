@@ -2264,7 +2264,7 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
     }
 
     // Peek helper — returns empty string when out of range
-    auto tok = [&](size_t idx) -> const std::string& {
+    auto tok = [&]([[maybe_unused]] size_t idx) -> const std::string& {
         static const std::string empty;
         return idx < tokens.size() ? tokens[idx] : empty;
     };
@@ -2583,15 +2583,15 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
     if (tokens.empty()) return make_err("Empty Schema DDL statement");
 
     // Bounds-safe token accessors
-    auto tok_up = [&](size_t idx) -> const std::string& {
+    auto tok_up = [&]([[maybe_unused]] size_t idx) -> const std::string& {
         static const std::string empty;
         return idx < tokens.size() ? tokens[idx].upper : empty;
     };
-    auto tok_orig = [&](size_t idx) -> const std::string& {
+    auto tok_orig = [&]([[maybe_unused]] size_t idx) -> const std::string& {
         static const std::string empty;
         return idx < tokens.size() ? tokens[idx].original : empty;
     };
-    auto tok_start = [&](size_t idx) -> size_t {
+    auto tok_start = [&]([[maybe_unused]] size_t idx) -> size_t {
         return idx < tokens.size() ? tokens[idx].start : trimmed.size();
     };
 

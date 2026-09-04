@@ -471,7 +471,7 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
     std::string full_transcript;
     std::mutex transcript_mutex;
 
-    auto on_segment = [&](const content::TranscriptionSegment& seg) {
+    auto on_segment = [&]([[maybe_unused]] const content::TranscriptionSegment& seg) {
         {
             std::lock_guard<std::mutex> lock(transcript_mutex);
             if (!full_transcript.empty()) {

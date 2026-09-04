@@ -566,7 +566,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
     for (const auto &row : out_rows) {
         for (size_t i = 0; i < n_probe_cols && probe_types[i] == ColumnType::Null; ++i) {
             std::visit(
-                [&](auto &&v) {
+                [&]([[maybe_unused]] auto &&v) {
                     using T = std::decay_t<decltype(v)>;
                     if constexpr (std::is_same_v<T, int64_t>) {
                         probe_types[i] = ColumnType::Int64;
@@ -582,7 +582,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
         }
         for (size_t i = 0; i < n_build_out && build_types[i] == ColumnType::Null; ++i) {
             std::visit(
-                [&](auto &&v) {
+                [&]([[maybe_unused]] auto &&v) {
                     using T = std::decay_t<decltype(v)>;
                     if constexpr (std::is_same_v<T, int64_t>) {
                         build_types[i] = ColumnType::Int64;
@@ -612,7 +612,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
 
     auto appendVal = [](Column &col, const ColumnValue &v) {
         std::visit(
-            [&](auto &&arg) {
+            [&]([[maybe_unused]] auto &&arg) {
                 using T = std::decay_t<decltype(arg)>;
                 if constexpr (std::is_same_v<T, std::nullptr_t>) {
                     col.appendNull();

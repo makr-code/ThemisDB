@@ -145,7 +145,7 @@ int64_t GeoOperatorDiagnostics::nowNs() noexcept {
 GeoIncidentSeverity GeoOperatorDiagnostics::severityFromId(
         std::string_view id) noexcept {
     // Convention: suffix determines severity.
-    auto has_suffix = [&](std::string_view suffix) {
+    auto has_suffix = [&]([[maybe_unused]] std::string_view suffix) {
         return id.size() >= suffix.size() &&
                id.substr(id.size() - suffix.size()) == suffix;
     };

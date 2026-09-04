@@ -325,7 +325,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
         
         bool timed_out = false;
         bool connect_completed = false;
-        timer.async_wait([&](const boost::system::error_code& error) {
+        timer.async_wait([&]([[maybe_unused]] const boost::system::error_code& error) {
             if (!error && !connect_completed) {
                 timed_out = true;
                 boost::system::error_code close_ec;
@@ -385,7 +385,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
             
             timed_out = false;
             bool handshake_completed = false;
-            timer.async_wait([&](const boost::system::error_code& error) {
+            timer.async_wait([&]([[maybe_unused]] const boost::system::error_code& error) {
                 if (!error && !handshake_completed) {
                     timed_out = true;
                     boost::system::error_code shutdown_ec;
@@ -396,7 +396,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
             
             ec.clear();
             ssl_stream->async_handshake(ssl::stream_base::client,
-                [&](const boost::system::error_code& error) {
+                [&]([[maybe_unused]] const boost::system::error_code& error) {
                     handshake_completed = true;
                     ec = error;
                     timer.cancel();

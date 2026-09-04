@@ -46,7 +46,7 @@ void LoRAPatternClassifier::registerAdapterDomain(AdapterDomain domain) {
     std::lock_guard<std::mutex> lock(mutex_);
     // Overwrite existing entry with same adapter_id.
     auto it = std::find_if(domains_.begin(), domains_.end(),
-                           [&](const AdapterDomain &d) { return d.adapter_id == domain.adapter_id; });
+                           [&]([[maybe_unused]] const AdapterDomain &d) { return d.adapter_id == domain.adapter_id; });
     if (it != domains_.end()) {
         *it = std::move(domain);
     } else {
@@ -79,7 +79,7 @@ void LoRAPatternClassifier::registerAdapterDomain(AdapterDomain domain) {
             }
             oss << k << "=";
             std::visit(
-                [&](const auto &val) {
+                [&]([[maybe_unused]] const auto &val) {
                     using T = std::decay_t<decltype(val)>;
                     if constexpr (std::is_same_v<T, std::monostate>) {
                         oss << "null";
@@ -165,7 +165,7 @@ PatternResult LoRAPatternClassifier::automlFallback(const std::vector<DataPoint>
     std::string inferred_label = "unknown";
     if (!adapter_id.empty()) {
         const auto it = std::find_if(domains_.begin(), domains_.end(),
-                                     [&](const AdapterDomain &d) { return d.adapter_id == adapter_id; });
+                                     [&]([[maybe_unused]] const AdapterDomain &d) { return d.adapter_id == adapter_id; });
         if (it != domains_.end() && !it->domain.empty()) {
             inferred_label = it->domain;
         }

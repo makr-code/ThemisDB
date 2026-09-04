@@ -285,7 +285,7 @@ public:
         }
 
         // OAuth 2.0 configuration from options
-        auto opt = [&](const std::string& k) -> std::string {
+        auto opt = [&]([[maybe_unused]] const std::string& k) -> std::string {
             auto oit = config.options.find(k);
             return (oit != config.options.end()) ? oit->second : "";
         };

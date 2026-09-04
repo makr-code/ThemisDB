@@ -803,7 +803,7 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
     auto qpos = target.find('?');
     if (qpos != std::string::npos) {
         std::string qs = target.substr(qpos + 1);
-        auto extract = [&](const std::string& key) -> std::string {
+        auto extract = [&]([[maybe_unused]] const std::string& key) -> std::string {
             std::string prefix = key + "=";
             auto pos = qs.find(prefix);
             if (pos == std::string::npos) return {};

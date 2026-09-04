@@ -306,7 +306,7 @@ std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& m
         
         // Update registry (filesystem fallback)
         auto it = std::find_if(model_registry_.begin(), model_registry_.end(),
-                               [&](const ModelStatus& s) { return s.model_id == model_id; });
+                               [&]([[maybe_unused]] const ModelStatus& s) { return s.model_id == model_id; });
         
         if (it != model_registry_.end()) {
             *it = status;
@@ -436,7 +436,7 @@ bool LLMDeploymentPlugin::loadModel(const std::string& model_id, ILLMPlugin* llm
     if (llm_plugin->loadModel(status->model_path, config)) {
         // Update status
         auto it = std::find_if(model_registry_.begin(), model_registry_.end(),
-                               [&](const ModelStatus& s) { return s.model_id == model_id; });
+                               [&]([[maybe_unused]] const ModelStatus& s) { return s.model_id == model_id; });
         if (it != model_registry_.end()) {
             it->is_loaded = true;
             it->last_used_at = std::chrono::system_clock::now();
@@ -476,7 +476,7 @@ std::vector<ModelStatus> LLMDeploymentPlugin::listCachedModels() {
 
 std::optional<ModelStatus> LLMDeploymentPlugin::getModelStatus(const std::string& model_id) {
     auto it = std::find_if(model_registry_.begin(), model_registry_.end(),
-                           [&](const ModelStatus& s) { return s.model_id == model_id; });
+                           [&]([[maybe_unused]] const ModelStatus& s) { return s.model_id == model_id; });
     
     if (it != model_registry_.end()) {
         return *it;
@@ -565,7 +565,7 @@ bool LLMDeploymentPlugin::removeModel(const std::string& model_id, bool force) {
         // Remove from registry
         model_registry_.erase(
             std::remove_if(model_registry_.begin(), model_registry_.end(),
-                          [&](const ModelStatus& s) { return s.model_id == model_id; }),
+                          [&]([[maybe_unused]] const ModelStatus& s) { return s.model_id == model_id; }),
             model_registry_.end()
         );
         

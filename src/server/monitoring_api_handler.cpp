@@ -621,7 +621,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         }
         json r = rdb.contains("rocksdb") ? rdb["rocksdb"] : json::object();
 
-        auto get_u64 = [&](const char* k) -> uint64_t {
+        auto get_u64 = [&]([[maybe_unused]] const char* k) -> uint64_t {
             if (r.contains(k) && r[k].is_number_unsigned()) return r[k].get<uint64_t>();
             if (r.contains(k) && r[k].is_number_integer()) return static_cast<uint64_t>(r[k].get<int64_t>());
             return 0ull;
@@ -1517,7 +1517,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityProve
             if (start_ts_ms.has_value()) {
                 records.erase(
                     std::remove_if(records.begin(), records.end(),
-                                   [&](const observability::ProvenanceStepRecord& rec) {
+                                   [&]([[maybe_unused]] const observability::ProvenanceStepRecord& rec) {
                                        return rec.timestamp_ms < *start_ts_ms ||
                                               rec.timestamp_ms > *end_ts_ms;
                                    }),

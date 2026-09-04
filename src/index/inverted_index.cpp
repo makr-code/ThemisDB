@@ -202,7 +202,7 @@ std::vector<std::string> InvertedIndex::tokenize(std::string_view text,
         auto sw   = utils::Stopwords::merge(base, config.stopwords);
         tokens.erase(
             std::remove_if(tokens.begin(), tokens.end(),
-                           [&](const std::string& t) { return sw.count(t) > 0; }),
+                           [&]([[maybe_unused]] const std::string& t) { return sw.count(t) > 0; }),
             tokens.end());
     }
 

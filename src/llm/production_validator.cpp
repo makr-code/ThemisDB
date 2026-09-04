@@ -599,7 +599,7 @@ ProductionValidator::ValidationResult ProductionValidator::runLoadTest() {
         for (double v : latencies) sum += v;
         result.avg_latency_ms = sum / static_cast<double>(latencies.size());
         // Use consistent ceil-based percentile for p50, p95, p99
-        auto pct_idx = [&](double p) -> size_t {
+        auto pct_idx = [&]([[maybe_unused]] double p) -> size_t {
             size_t n   = latencies.size();
             size_t idx = static_cast<size_t>(std::ceil(n * p));
             return std::min(idx, n) - 1;  // clamp to valid range

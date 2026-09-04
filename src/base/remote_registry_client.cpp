@@ -620,7 +620,7 @@ std::string RemoteRegistryClient::httpGet(const std::string &url) {
     const auto request_start = std::chrono::steady_clock::now();
 
     // Lambda to persist stats on every return/throw path.
-    auto update_stats = [&](const std::string &error) {
+    auto update_stats = [&]([[maybe_unused]] const std::string &error) {
         std::lock_guard<std::mutex> lock(stats_mutex_);
         last_stats_.attempts   = attempts_made;
         last_stats_.last_error = error;
@@ -752,7 +752,7 @@ bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::stri
     // Track wall-clock time to enforce max_total_retry_time_ms.
     const auto request_start = std::chrono::steady_clock::now();
 
-    auto update_stats = [&](const std::string &error) {
+    auto update_stats = [&]([[maybe_unused]] const std::string &error) {
         std::lock_guard<std::mutex> lock(stats_mutex_);
         last_stats_.attempts   = attempts_made;
         last_stats_.last_error = error;

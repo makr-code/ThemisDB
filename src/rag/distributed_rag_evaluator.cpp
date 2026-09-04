@@ -307,7 +307,7 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
         const size_t            n       = results.size();
         const size_t            half    = n / 2;
 
-        auto majorityScore = [&](auto field_fn) -> double {
+        auto majorityScore = [&]([[maybe_unused]] auto field_fn) -> double {
             size_t pass = 0;
             for (const auto& r : results) {
                 if (field_fn(r) >= 0.5) { ++pass; }

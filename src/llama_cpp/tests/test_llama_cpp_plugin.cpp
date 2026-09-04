@@ -149,7 +149,7 @@ TEST(LlamaCppPluginFocusedTests, E4_GenerateRAGHonoursExplicitContextOverrideFor
     p.loadModel("", {});
 
     int observed_max_tokens = -1;
-    p.setGenerateFn([&](const InferenceRequest& request) {
+    p.setGenerateFn([&]([[maybe_unused]] const InferenceRequest& request) {
         observed_max_tokens = request.max_tokens;
         InferenceResponse response;
         response.success = true;
@@ -601,7 +601,7 @@ TEST(LlamaCppPluginFocusedTests, P3_ConcurrentLoraRegistryAndGenerate) {
     // No deadlock or crash is expected.
     std::atomic<int> generate_ok{0};
 
-    auto lora_writer = [&](int id) {
+    auto lora_writer = [&]([[maybe_unused]] int id) {
         const std::string path = "/stub/lora_" + std::to_string(id) + ".bin";
         const std::string name = "lora_" + std::to_string(id);
         plugin.loadLoRA(name, path, 1.0f);
@@ -642,7 +642,7 @@ TEST(LlamaCppPluginFocusedTests, Q1_EmbedFn_InjectedFnCalled) {
     plugin.loadModel("", {});
 
     bool called = false;
-    plugin.setEmbedFn([&](const std::string& text) -> std::vector<float> {
+    plugin.setEmbedFn([&]([[maybe_unused]] const std::string& text) -> std::vector<float> {
         called = true;
         EXPECT_EQ(text, "hello");
         return std::vector<float>(128, 1.0f);
@@ -710,7 +710,7 @@ TEST(LlamaCppPluginFocusedTests, R1_GenerateFn_InjectedFnCalled) {
     plugin.loadModel("", {});
 
     bool called = false;
-    plugin.setGenerateFn([&](const InferenceRequest& request) {
+    plugin.setGenerateFn([&]([[maybe_unused]] const InferenceRequest& request) {
         called = true;
         EXPECT_EQ(request.prompt, "bridge");
         InferenceResponse response;
@@ -814,7 +814,7 @@ TEST(LlamaCppPluginFocusedTests, T1_CancellationToken_PreCancelledRejectsRequest
     plugin.loadModel("", {});
     // Wire a bridge so the test can verify the path never reaches generation.
     bool bridge_called = false;
-    plugin.setGenerateFn([&](const InferenceRequest&) -> InferenceResponse {
+    plugin.setGenerateFn([&]([[maybe_unused]] const InferenceRequest&) -> InferenceResponse {
         bridge_called = true;
         InferenceResponse r;
         r.success = true;

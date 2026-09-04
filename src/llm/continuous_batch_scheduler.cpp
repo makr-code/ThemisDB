@@ -168,7 +168,7 @@ bool ContinuousBatchScheduler::cancelRequest(const std::string& request_id) {
     // Remove from active list if present
     active_requests_.erase(
         std::remove_if(active_requests_.begin(), active_requests_.end(),
-                      [&](const auto& r) { return r->request_id == request_id; }),
+                      [&]([[maybe_unused]] const auto& r) { return r->request_id == request_id; }),
         active_requests_.end()
     );
     

@@ -2643,7 +2643,7 @@ MMWriteEntry LastWriteWinsResolver::resolve(
 
     // Enrich conflict winner with merged causality from all conflicting writes
     // This preserves the causal history needed for eventual consistency
-    auto enrich_winner_with_causality = [&](const MMWriteEntry& winner) {
+    auto enrich_winner_with_causality = [&]([[maybe_unused]] const MMWriteEntry& winner) {
         // BATCH C ANNOTATION: Causality Lattice Construction
         // This lambda enriches the winner with merged causality metadata:
         // - merged_clock: Lattice join of all vector clocks. Represents the frontier
@@ -5344,7 +5344,7 @@ ReplicationBenchmark::BenchmarkResult ReplicationBenchmark::run() {
 
     // Compute percentiles
     std::sort(latencies_us.begin(), latencies_us.end());
-    auto pct = [&](double p) -> int64_t {
+    auto pct = [&]([[maybe_unused]] double p) -> int64_t {
         if (latencies_us.empty()) return 0;
         size_t idx = static_cast<size_t>(
             p / 100.0 * static_cast<double>(latencies_us.size() - 1));

@@ -149,7 +149,7 @@ void RateLimiter::recordRejectionForAdaptive(const std::string& ip) {
     auto window = std::chrono::seconds(config_.adaptive_window_seconds);
     entry.rejection_times.erase(
         std::remove_if(entry.rejection_times.begin(), entry.rejection_times.end(),
-                       [&](const auto& t){ return (now - t) > window; }),
+                       [&]([[maybe_unused]] const auto& t){ return (now - t) > window; }),
         entry.rejection_times.end());
 
     entry.rejection_times.push_back(now);

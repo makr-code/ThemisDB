@@ -146,7 +146,7 @@ void ModelRouter::addRule(const RoutingRule& rule) {
 bool ModelRouter::removeRule(const std::string& rule_id) {
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = std::find_if(rules_.begin(), rules_.end(),
-        [&](const CompiledRule& cr) { return cr.rule.id == rule_id; });
+        [&]([[maybe_unused]] const CompiledRule& cr) { return cr.rule.id == rule_id; });
     if (it == rules_.end()) return false;
     rules_.erase(it);
     spdlog::debug("ModelRouter: removed rule '{}'", rule_id);

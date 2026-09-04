@@ -631,7 +631,7 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
             if (!doc.contains("id")) return true;
             auto r = ProcessModelRecord::fromDocument(doc);
 
-            auto match_field = [&](const std::string& field) {
+            auto match_field = [&]([[maybe_unused]] const std::string& field) {
                 std::string f_lower = field;
                 std::transform(f_lower.begin(), f_lower.end(), f_lower.begin(), ::tolower);
                 return f_lower.find(q_lower) != std::string::npos;

@@ -332,7 +332,7 @@ void ConfigFileWatcher::watchLoopInotify() {
     std::map<int, std::string> wd_to_path;
 
     // Helper: add a watch on a single directory
-    auto add_watch = [&](const std::string &dir) {
+    auto add_watch = [&]([[maybe_unused]] const std::string &dir) {
         int wd = inotify_add_watch(ifd, dir.c_str(),
                                    IN_CLOSE_WRITE | IN_MOVED_TO | IN_CREATE | IN_DELETE | IN_MODIFY | IN_DONT_FOLLOW);
         if (wd == -1) {
@@ -469,7 +469,7 @@ void ConfigFileWatcher::watchLoopKqueue() {
     std::map<int, std::string> fd_to_path;
     std::set<std::string> registered_paths;
 
-    auto register_path = [&](const std::string &path) {
+    auto register_path = [&]([[maybe_unused]] const std::string &path) {
         if (registered_paths.count(path))
             return; // already registered
         int fd = ::open(path.c_str(), O_RDONLY | O_EVTONLY | O_CLOEXEC);

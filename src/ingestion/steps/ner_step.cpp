@@ -54,7 +54,7 @@ std::vector<RegexMatch> runGermanRegexNer(const std::string& text,
                                           const std::vector<std::string>& requested_types) {
     std::vector<RegexMatch> results;
 
-    auto wants = [&](const std::string& t) {
+    auto wants = [&]([[maybe_unused]] const std::string& t) {
         return requested_types.empty()
                || std::find(requested_types.begin(), requested_types.end(), t)
                   != requested_types.end();

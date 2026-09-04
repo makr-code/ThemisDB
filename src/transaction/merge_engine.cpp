@@ -326,7 +326,7 @@ MergeEngine::MergeResult MergeEngine::merge(
         conflict_keys.insert(conflict.key);
     }
     
-    auto addNonConflictingChanges = [&](const std::vector<analytics::DiffEngine::Change>& changes) {
+    auto addNonConflictingChanges = [&]([[maybe_unused]] const std::vector<analytics::DiffEngine::Change>& changes) {
         for (const auto& change : changes) {
             if (conflict_keys.find(change.key) == conflict_keys.end()) {
                 result.changes_applied.push_back(change);

@@ -151,7 +151,7 @@ AdaptiveImportOptimizer::PredictedMetrics AdaptiveImportOptimizer::PerformancePr
     for (const auto &table_name : plan.import_order) {
         // Find schema
         auto sit = std::find_if(schemas.begin(), schemas.end(),
-                                [&](const InferenceTableSchema &s) { return s.name == table_name; });
+                                [&]([[maybe_unused]] const InferenceTableSchema &s) { return s.name == table_name; });
         if (sit == schemas.end()) {
             continue;
         }

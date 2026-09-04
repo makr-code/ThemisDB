@@ -843,7 +843,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     bool custom_loader_success = false;
     std::vector<int> attempted_gpu_layers;
 
-    auto loadModelWithGpuFallback = [&](const char* stage) -> llama_model* {
+    auto loadModelWithGpuFallback = [&]([[maybe_unused]] const char* stage) -> llama_model* {
         std::vector<int> candidates;
         if (requested_gpu_layers > 0) {
             candidates.push_back(requested_gpu_layers);

@@ -178,7 +178,7 @@ void GovSourceCatalog::loadFromYaml(const std::string& yaml_content) {
 // ============================================================================
 
 void GovSourceCatalog::populateBuiltinBund() {
-    auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };
+    auto add = [&]([[maybe_unused]] GovDataSource s) { sources_.push_back(std::move(s)); };
 
     {
         GovDataSource s;
@@ -281,7 +281,7 @@ void GovSourceCatalog::populateBuiltinBund() {
 // ============================================================================
 
 void GovSourceCatalog::populateBuiltinBundeslaender() {
-    auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };
+    auto add = [&]([[maybe_unused]] GovDataSource s) { sources_.push_back(std::move(s)); };
 
     struct LandEntry {
         std::string id, name, iso, base_url, search_url, search_param,
@@ -391,7 +391,7 @@ void GovSourceCatalog::populateBuiltinBundeslaender() {
 // ============================================================================
 
 void GovSourceCatalog::populateBuiltinEU() {
-    auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };
+    auto add = [&]([[maybe_unused]] GovDataSource s) { sources_.push_back(std::move(s)); };
 
     {
         GovDataSource s;

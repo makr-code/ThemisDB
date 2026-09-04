@@ -1043,7 +1043,7 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
         // Collect all bound variables (for RETURN * expansion)
         // ----------------------------------------------------------------
         std::vector<std::string> all_vars;
-        auto addVar = [&](const std::string& v) {
+        auto addVar = [&]([[maybe_unused]] const std::string& v) {
             if (!v.empty() &&
                 std::find(all_vars.begin(), all_vars.end(), v) == all_vars.end())
                 all_vars.push_back(v);

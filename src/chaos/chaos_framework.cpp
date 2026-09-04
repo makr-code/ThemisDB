@@ -248,7 +248,7 @@ void ChaosScheduler::runLoop() {
         std::vector<FaultSpec> to_fire;
         {
             std::lock_guard<std::mutex> lock(sched_mutex_);
-            auto new_end = std::remove_if(pending_.begin(), pending_.end(), [&](const ChaosScheduleEntry &e) {
+            auto new_end = std::remove_if(pending_.begin(), pending_.end(), [&]([[maybe_unused]] const ChaosScheduleEntry &e) {
                 if (e.trigger_at <= now) {
                     to_fire.push_back(e.fault);
                     return true;

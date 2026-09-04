@@ -475,7 +475,7 @@ std::map<std::string, std::string> AQLTrainParser::parseKeyValuePairs(
     size_t pos = 0;
     const size_t n = input.size();
 
-    auto skipWhitespace = [&](size_t& i) {
+    auto skipWhitespace = [&]([[maybe_unused]] size_t& i) {
         while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) {
             ++i;
         }

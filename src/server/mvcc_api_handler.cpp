@@ -234,7 +234,7 @@ void MvccApiHandler::handleListVersions(const httplib::Request& req,
 
     try {
         json versions_array = json::array();
-        store_->scanVersions(key, [&](const MVCCStore::VersionEntry& entry) {
+        store_->scanVersions(key, [&]([[maybe_unused]] const MVCCStore::VersionEntry& entry) {
             json v;
             v["timestamp"] = entry.timestamp.value;
             v["value"]     = valueToString(entry.value);

@@ -1756,7 +1756,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             return static_cast<uint32_t>(p[0]) | (static_cast<uint32_t>(p[1]) << 8)
                    | (static_cast<uint32_t>(p[2]) << 16) | (static_cast<uint32_t>(p[3]) << 24);
         };
-        auto readU32 = [&](const uint8_t *p) -> uint32_t { return macho_be ? readU32be(p) : readU32le(p); };
+        auto readU32 = [&]([[maybe_unused]] const uint8_t *p) -> uint32_t { return macho_be ? readU32be(p) : readU32le(p); };
 
         // mach_header layout (32-bit): magic(4)+cputype(4)+cpusubtype(4)+
         //   filetype(4)+ncmds(4)+sizeofcmds(4)+flags(4) = 28 bytes.

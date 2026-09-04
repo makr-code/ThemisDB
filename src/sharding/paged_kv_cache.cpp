@@ -137,7 +137,7 @@ std::optional<uint32_t> PagedKVCache::allocateBlock(int64_t request_id, uint32_t
     }
 
     const uint32_t actual_token_count = std::min(token_count, config_.block_size);
-    auto initialize_block = [&](uint32_t block_id) -> std::optional<uint32_t> {
+    auto initialize_block = [&]([[maybe_unused]] uint32_t block_id) -> std::optional<uint32_t> {
         KVCacheBlock block;
         block.block_id = block_id;
         block.request_id = static_cast<uint32_t>(request_id);

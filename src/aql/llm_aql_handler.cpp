@@ -415,7 +415,7 @@ static std::unordered_set<std::string> extractReferencedCollectionsForAccessChec
     const std::string& aql_query)
 {
     std::unordered_set<std::string> collections;
-    const auto addMatches = [&](const std::regex& pattern) {
+    const auto addMatches = [&]([[maybe_unused]] const std::regex& pattern) {
         auto begin = std::sregex_iterator(aql_query.begin(), aql_query.end(), pattern);
         const auto end = std::sregex_iterator{};
         for (auto it = begin; it != end; ++it) {
@@ -784,7 +784,7 @@ std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::st
         }
 
         // Execute with timeout and cooperative cancellation propagated to streaming callbacks.
-        auto result = impl_->timeout_manager_.executeInferWithCancelToken([&](auto cancel_token) {
+        auto result = impl_->timeout_manager_.executeInferWithCancelToken([&]([[maybe_unused]] auto cancel_token) {
             return impl_->retry_policy_.executeWithRetry(
                 [&]() {
                     auto &plugin_mgr = impl_->getPluginManager();
@@ -1102,7 +1102,7 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
         }
 
         // Execute with timeout and cooperative cancellation propagated to streaming callbacks.
-        auto result = impl_->timeout_manager_.executeRAGWithCancelToken([&](auto cancel_token) {
+        auto result = impl_->timeout_manager_.executeRAGWithCancelToken([&]([[maybe_unused]] auto cancel_token) {
             return impl_->retry_policy_.executeWithRetry(
                 [&]() {
                     auto &plugin_mgr = impl_->getPluginManager();

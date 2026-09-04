@@ -359,7 +359,7 @@ void MaterializedView::applyDelete_locked(const nlohmann::json& row) {
         // Fast path: remove by primary key.
         rows_.erase(
             std::remove_if(rows_.begin(), rows_.end(),
-                           [&](const nlohmann::json& r) {
+                           [&]([[maybe_unused]] const nlohmann::json& r) {
                                return sameKey(r, row);
                            }),
             rows_.end());
@@ -367,7 +367,7 @@ void MaterializedView::applyDelete_locked(const nlohmann::json& row) {
         // Fallback: full equality check.
         rows_.erase(
             std::remove_if(rows_.begin(), rows_.end(),
-                           [&](const nlohmann::json& r) {
+                           [&]([[maybe_unused]] const nlohmann::json& r) {
                                return r == row;
                            }),
             rows_.end());

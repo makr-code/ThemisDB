@@ -211,7 +211,7 @@ DebeziumCDCImporter::CDCEvent DebeziumCDCImporter::parseDebeziumEnvelope(
 bool DebeziumCDCImporter::tableAllowed(const std::string& table) const {
     if (config_.table_filter.empty()) return true;
     return std::any_of(config_.table_filter.begin(), config_.table_filter.end(),
-                       [&](const std::string& f) {
+                       [&]([[maybe_unused]] const std::string& f) {
                            return table.find(f) != std::string::npos;
                        });
 }
@@ -235,7 +235,7 @@ ImportStats DebeziumCDCImporter::importData(
     // stream result directly so callers (and tests) observe connector
     // unavailability correctly.
     return streamEvents(options,
-        [&](const CDCEvent& event) -> bool {
+        [&]([[maybe_unused]] const CDCEvent& event) -> bool {
             if (cancelled_.load(std::memory_order_relaxed)) return false;
 
             ++stats.total_records;

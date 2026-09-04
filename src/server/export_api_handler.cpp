@@ -170,7 +170,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
             // Build a set of field→value filters from the request parameters
             // (mirrors the conditions built by buildAqlQuery)
             std::vector<std::pair<std::string, std::string>> filters;
-            auto add_filter = [&](const char* field) {
+            auto add_filter = [&]([[maybe_unused]] const char* field) {
                 if (request_json.contains(field) && request_json[field].is_string()) {
                     filters.emplace_back(field, request_json[field].get<std::string>());
                 }

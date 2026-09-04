@@ -322,7 +322,7 @@ std::string StreamingExporter::formatEntity(const BaseEntity &entity, const Expo
 
         // Serialise the variant value to JSON
         std::visit(
-            [&](const auto &v) {
+            [&]([[maybe_unused]] const auto &v) {
                 using T = std::decay_t<decltype(v)>;
                 if constexpr (std::is_same_v<T, std::monostate>) {
                     j[key] = nullptr;

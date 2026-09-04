@@ -279,7 +279,7 @@ json EthicsGetArgumentsFunction::execute(
         }
     }
 
-    const auto matches = ctx.scanCollection("ethics_arguments", [&](const json& doc) {
+    const auto matches = ctx.scanCollection("ethics_arguments", [&]([[maybe_unused]] const json& doc) {
         const auto doc_school = toLowerAscii(doc.value("philosophy_school", std::string{}));
         if (doc_school != philosophy) {
             return false;

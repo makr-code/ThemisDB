@@ -1387,7 +1387,7 @@ std::vector<uint8_t> ColumnSegment::serialize() const {
     serialized.push_back(static_cast<uint8_t>(metadata_.codec));
 
     // Sizes
-    auto append_uint64 = [&](uint64_t val) {
+    auto append_uint64 = [&]([[maybe_unused]] uint64_t val) {
         const uint8_t* bytes = reinterpret_cast<const uint8_t*>(&val);
         serialized.insert(serialized.end(), bytes, bytes + sizeof(uint64_t));
     };

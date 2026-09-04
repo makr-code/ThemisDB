@@ -972,7 +972,7 @@ int main(int argc, char* argv[]) {
         const auto& config_path = command_line_options.config_path;
         
         // Load config (JSON or YAML) if provided or in default locations
-        auto load_config = [&](const std::string& path) -> std::optional<json> {
+        auto load_config = [&]([[maybe_unused]] const std::string& path) -> std::optional<json> {
             try {
                 auto ends_with = [](const std::string& s, const std::string& suffix){
                     return s.size() >= suffix.size() && s.compare(s.size()-suffix.size(), suffix.size(), suffix) == 0;
@@ -984,7 +984,7 @@ int main(int argc, char* argv[]) {
                     }
                     YAML::Node root = YAML::LoadFile(path);
                     // recursive conversion YAML -> JSON
-                    std::function<json(const YAML::Node&)> to_json = [&](const YAML::Node& n) -> json {
+                    std::function<json(const YAML::Node&)> to_json = [&]([[maybe_unused]] const YAML::Node& n) -> json {
                         if (!n) return nullptr;
                         if (n.IsScalar()) {
                             // Try boolean

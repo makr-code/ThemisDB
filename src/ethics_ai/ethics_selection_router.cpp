@@ -215,7 +215,7 @@ std::set<std::string> EthicsSelectionRouter::Impl::stage1(
 {
     std::set<std::string> candidates;
 
-    auto addClassSchools = [&](const std::string& cls) {
+    auto addClassSchools = [&]([[maybe_unused]] const std::string& cls) {
         auto it = taxonomy_map.find(cls);
         if (it != taxonomy_map.end()) {
             for (const auto& sid : it->second) candidates.insert(sid);

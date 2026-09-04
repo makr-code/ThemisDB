@@ -183,7 +183,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
     std::vector<Row> left  = op.left_rows;
     std::vector<Row> right = op.right_rows;
 
-    auto keyFn = [&](size_t col) {
+    auto keyFn = [&]([[maybe_unused]] size_t col) {
         return [col](const Row& a, const Row& b) {
             if (col >= a.size() || col >= b.size()) return false;
             return a[col] < b[col];

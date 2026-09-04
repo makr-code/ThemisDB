@@ -1642,7 +1642,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
 
     // Metrik beachten: COSINE liefert distance = 1 - cosine → similarity = 1 - d
     auto metric = vector_index_ ? vector_index_->getMetric() : VectorIndexManager::Metric::COSINE;
-    auto toSim = [&](float distance) -> double {
+    auto toSim = [&]([[maybe_unused]] float distance) -> double {
         if (metric == VectorIndexManager::Metric::COSINE) return 1.0 - static_cast<double>(distance);
         // L2: invertiert, grob normalisiert
         return -static_cast<double>(distance);
@@ -1694,7 +1694,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
         std::vector<std::string> allow = buildChunkWhitelist(*storage_, filters);
         if (!allow.empty()) {
             std::unordered_set<std::string> allowed(allow.begin(), allow.end());
-            out.erase(std::remove_if(out.begin(), out.end(), [&](const auto& p){ return allowed.find(p.first) == allowed.end(); }), out.end());
+            out.erase(std::remove_if(out.begin(), out.end(), [&]([[maybe_unused]] const auto& p){ return allowed.find(p.first) == allowed.end(); }), out.end());
         }
     } catch (...) {
     }
@@ -2307,7 +2307,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                 std::string extraction_error;
                 int extraction_attempts = 0;
                 bool extraction_ok = executeWithRetry(
-                    [&](std::string& err) -> bool {
+                    [&]([[maybe_unused]] std::string& err) -> bool {
                         chunks_json = json::array();
                         HtmlProcessor retry_html_proc;
                         ContentType retry_ct;
@@ -2386,7 +2386,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                 std::string extraction_error;
                 int extraction_attempts = 0;
                 bool extraction_ok = executeWithRetry(
-                    [&](std::string& err) -> bool {
+                    [&]([[maybe_unused]] std::string& err) -> bool {
                         chunks_json = json::array();
                         MarkdownProcessor retry_md_proc;
                         ContentType retry_ct;
@@ -2538,7 +2538,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         std::string storage_error;
         int storage_attempts = 0;
         bool stored = executeWithRetry(
-            [&](std::string& err) -> bool {
+            [&]([[maybe_unused]] std::string& err) -> bool {
                 auto status = importContent(spec, blob, user_context);
                 if (!status.ok) { err = status.message; return false; }
                 return true;
@@ -2786,7 +2786,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
     }
 
     // --- Helper: store one text segment as a chunk ---
-    auto storeTextChunk = [&](const std::string& text) {
+    auto storeTextChunk = [&]([[maybe_unused]] const std::string& text) {
         if (text.empty()) return;
         updateHash(text);
         if (!stream_stage_cfg.chunking.enabled) return;
@@ -2843,7 +2843,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
 
     // --- Helper: split carry buffer into text segments ---
     std::string carry;  // incomplete segment carried over between read iterations
-    auto flushCarry = [&](bool force) {
+    auto flushCarry = [&]([[maybe_unused]] bool force) {
         size_t pos = 0;
         while (pos < carry.size()) {
             size_t remaining = carry.size() - pos;

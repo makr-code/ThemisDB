@@ -234,7 +234,7 @@ public:
                 const auto& json = *result;
                 // Parse the traversal result into a flat list; build a two-level
                 // tree (model → samples → documents) from the returned nodes.
-                auto parseNodes = [&](const nlohmann::json& arr) {
+                auto parseNodes = [&]([[maybe_unused]] const nlohmann::json& arr) {
                     for (const auto& item : arr) {
                         if (!item.is_object()) continue;
                         LineageNode node;

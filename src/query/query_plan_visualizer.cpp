@@ -125,7 +125,7 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
 
     // Accumulate total cost bottom-up (simple sum for estimation)
     double total_cost = 0.0;
-    std::function<void(QueryPlanNode&)> accumulate_cost = [&](QueryPlanNode& n) {
+    std::function<void(QueryPlanNode&)> accumulate_cost = [&]([[maybe_unused]] QueryPlanNode& n) {
         for (auto& child : n.children) {
             accumulate_cost(*child);
             total_cost += child->estimated_cost;

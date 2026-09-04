@@ -100,7 +100,7 @@ bool WakeWordDetector::addWakeWord(const WakeWordID& id, const std::string& phra
 bool WakeWordDetector::removeWakeWord(const WakeWordID& id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = std::find_if(wake_words_.begin(), wake_words_.end(),
-                           [&](const WakeWord& w) { return w.id == id; });
+                           [&]([[maybe_unused]] const WakeWord& w) { return w.id == id; });
     if (it == wake_words_.end()) {
         return false;
     }

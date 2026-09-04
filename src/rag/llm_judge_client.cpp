@@ -89,7 +89,7 @@ std::vector<fs::path> resolveLocalModelPaths(const std::string& model_name) {
     std::vector<fs::path> candidates;
     std::unordered_set<std::string> seen;
 
-    const auto push_unique_if_model = [&](const fs::path& path) {
+    const auto push_unique_if_model = [&]([[maybe_unused]] const fs::path& path) {
         if (!isModelFile(path)) {
             return;
         }

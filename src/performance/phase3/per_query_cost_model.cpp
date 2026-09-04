@@ -320,7 +320,7 @@ PerQueryCostModel::Stats PerQueryCostModel::getStats() const {
 
     // Percentiles
     std::sort(times_ms.begin(), times_ms.end());
-    auto percentile = [&](double pct) -> double {
+    auto percentile = [&]([[maybe_unused]] double pct) -> double {
         if (times_ms.empty()) return 0.0;
         size_t idx = static_cast<size_t>(pct * static_cast<double>(times_ms.size() - 1));
         return times_ms[idx];

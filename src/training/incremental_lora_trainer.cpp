@@ -1413,7 +1413,7 @@ public:
             return;
         }
 
-        auto writeMatrix = [&](const llm::lora::Tensor& t) {
+        auto writeMatrix = [&]([[maybe_unused]] const llm::lora::Tensor& t) {
             if (t.shape().size() < 2) return;
             const size_t rows = t.shape()[0];
             const size_t cols = t.shape()[1];

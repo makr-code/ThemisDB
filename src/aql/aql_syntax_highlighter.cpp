@@ -109,7 +109,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         return c;
     };
     auto peek
-        = [&](std::size_t offset = 0) -> char { return (pos + offset < code.size()) ? code[pos + offset] : '\0'; };
+        = [&]([[maybe_unused]] std::size_t offset = 0) -> char { return (pos + offset < code.size()) ? code[pos + offset] : '\0'; };
 
     while (pos < code.size()) {
         // Skip whitespace (preserve for faithful reconstruction)
@@ -417,7 +417,7 @@ HighlightedResponse AQLSyntaxHighlighter::formatLLMResponse(const std::string &l
     const std::size_t len = llm_response.size();
 
     // Helper: find ```  possibly followed by "aql" on the same line
-    auto findFence = [&](std::size_t start) -> std::size_t { return llm_response.find("```", start); };
+    auto findFence = [&]([[maybe_unused]] std::size_t start) -> std::size_t { return llm_response.find("```", start); };
 
     while (pos < len) {
         std::size_t fence_open = findFence(pos);

@@ -738,7 +738,7 @@ void PatternMatcher::pruneExpiredMatches() {
     for (auto &[key, matches] : partial_matches_) {
         auto &vec = matches;
         vec.erase(std::remove_if(vec.begin(), vec.end(),
-                                 [&](const PartialMatch &pm) {
+                                 [&]([[maybe_unused]] const PartialMatch &pm) {
                                      return std::chrono::duration_cast<std::chrono::milliseconds>(now - pm.start_time)
                                             > config_.within;
                                  }),

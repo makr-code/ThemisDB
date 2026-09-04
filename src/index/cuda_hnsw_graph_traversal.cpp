@@ -162,7 +162,7 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
     std::priority_queue<QEl> results;
     std::vector<bool> visited(bottom.num_nodes, false);
 
-    auto enqueue = [&](int32_t node_id) {
+    auto enqueue = [&]([[maybe_unused]] int32_t node_id) {
         float d = computeDistance(query,
                                   flat_vectors.data() + static_cast<size_t>(node_id) * dim,
                                   dim, metric);

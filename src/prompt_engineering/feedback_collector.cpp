@@ -117,7 +117,7 @@ std::string FeedbackEntry::computeChecksum() const {
     // FNV-1a 64-bit hash over key audit fields: id, prompt_id, type, query, severity, timestamp
     // This provides a lightweight audit trail without external crypto dependencies.
     uint64_t hash = 14695981039346656037ULL;
-    auto fnv_update = [&](const std::string& s) {
+    auto fnv_update = [&]([[maybe_unused]] const std::string& s) {
         for (unsigned char c : s) {
             hash ^= c;
             hash *= 1099511628211ULL;
@@ -434,7 +434,7 @@ size_t FeedbackCollector::pruneOldFeedback(
     
     for (auto& [prompt_id, entries] : feedback_) {
         auto it = std::remove_if(entries.begin(), entries.end(),
-            [&](const FeedbackEntry& entry) {
+            [&]([[maybe_unused]] const FeedbackEntry& entry) {
                 return entry.timestamp < older_than;
             });
         
@@ -798,7 +798,7 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
         "can","as","if","so","than","then","there","also","just","more","all"
     };
 
-    auto tokenise = [&](const std::string& text) {
+    auto tokenise = [&]([[maybe_unused]] const std::string& text) {
         std::vector<std::string> tokens;
         std::string cur;
         for (unsigned char c : text) {
@@ -839,7 +839,7 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
     // --- Step 3: for each entry compute its most discriminative keyword ---
     // Score = TF * log(N / DF + 1).  The keyword with the highest score
     // becomes the representative for the pattern.
-    auto best_keyword = [&](size_t entry_idx) -> std::string {
+    auto best_keyword = [&]([[maybe_unused]] size_t entry_idx) -> std::string {
         const auto& tokens = per_entry_tokens[entry_idx];
         if (tokens.empty()) return "[empty]";
 

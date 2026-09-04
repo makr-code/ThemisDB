@@ -297,7 +297,7 @@ size_t SystemVersionedTable::purgeHistoricalVersions(
 
     versions.erase(
         std::remove_if(versions.begin(), versions.end(),
-                       [&](const VersionedDocument& v) {
+                       [&]([[maybe_unused]] const VersionedDocument& v) {
                            // Never remove the current (open-ended) version
                            if (v.isCurrent()) return false;
                            return predicate(v);
@@ -369,7 +369,7 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
 
     versions.erase(
         std::remove_if(versions.begin(), versions.end(),
-                       [&](const VersionedDocument& v) {
+                       [&]([[maybe_unused]] const VersionedDocument& v) {
                            if (v.isCurrent()) return false;
                            for (const auto* p : to_delete_ptrs) {
                                if (p == &v) return true;

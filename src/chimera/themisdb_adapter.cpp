@@ -618,7 +618,7 @@ Result<std::vector<GraphNode>> ThemisDBAdapter::traverse(
         std::unordered_set<std::string> seen_ids;
         std::vector<GraphNode> nodes;
 
-        auto append_bfs_results = [&](const std::vector<std::string>& bfs_result) {
+        auto append_bfs_results = [&]([[maybe_unused]] const std::vector<std::string>& bfs_result) {
             for (const auto& nid : bfs_result) {
                 if (!seen_ids.insert(nid).second) continue; // already added
                 auto it = graph_nodes_.find(nid);

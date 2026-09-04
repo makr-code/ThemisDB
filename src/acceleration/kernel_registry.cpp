@@ -117,7 +117,7 @@ GeoKernelDispatch KernelRegistry::lookupGeoWithFallback(BackendType primary) con
 std::vector<BackendType> KernelRegistry::registeredBackends() const {
     std::vector<BackendType> result;
 
-    auto addIfAbsent = [&](BackendType t) {
+    auto addIfAbsent = [&]([[maybe_unused]] BackendType t) {
         for (const auto b : result) {
             if (b == t) return;
         }

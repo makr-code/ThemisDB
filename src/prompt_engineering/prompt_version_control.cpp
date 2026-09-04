@@ -489,7 +489,7 @@ MergeResult PromptVersionControl::merge(
     // on corrupted data where the parent chain contains a cycle.
     static constexpr size_t MAX_ANCESTOR_DEPTH = 10000;
 
-    auto collect_ancestors = [&](const std::string& start_id) {
+    auto collect_ancestors = [&]([[maybe_unused]] const std::string& start_id) {
         // Ordered list (most recent first) so we prefer the closest ancestor.
         std::vector<std::string> ancestors;
         std::unordered_set<std::string> visited;  // cycle guard

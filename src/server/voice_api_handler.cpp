@@ -777,7 +777,7 @@ http::response<http::string_body> VoiceApiHandler::handleStreamCommand(
     json segments_json = json::array();
     std::string full_transcript;
 
-    auto on_segment = [&](const content::TranscriptionSegment& seg) {
+    auto on_segment = [&]([[maybe_unused]] const content::TranscriptionSegment& seg) {
         json seg_obj;
         seg_obj["text"]       = seg.text;
         seg_obj["start_ms"]   = seg.start_ms;

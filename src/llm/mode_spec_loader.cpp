@@ -292,12 +292,12 @@ ModePack ModeSpecLoader::loadFromString(const std::string& yaml_text,
 
 ValidationResult ModeSpecLoader::validate(const ModePack& pack) {
     ValidationResult res;
-    auto err = [&](const std::string& msg) {
+    auto err = [&]([[maybe_unused]] const std::string& msg) {
         res.ok = false;
         res.errors.push_back(msg);
         spdlog::error("[AIOrchestrator] Validation error: {}", msg);
     };
-    auto warn = [&](const std::string& msg) {
+    auto warn = [&]([[maybe_unused]] const std::string& msg) {
         res.warnings.push_back(msg);
         spdlog::warn("[AIOrchestrator] Validation warning: {}", msg);
     };

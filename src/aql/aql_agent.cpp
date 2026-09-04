@@ -230,7 +230,7 @@ class ReActAgent::Impl {
         ReasoningStep step;
 
         // Extract Thought:
-        auto extract_field = [&](const std::string &field_prefix) -> std::string {
+        auto extract_field = [&]([[maybe_unused]] const std::string &field_prefix) -> std::string {
             auto pos = response.find(field_prefix);
             if (pos == std::string::npos) {
                 return "";

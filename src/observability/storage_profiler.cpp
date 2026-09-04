@@ -128,7 +128,7 @@ public:
         auto now = std::chrono::system_clock::now();
         rocksdb_stats_history.erase(
             std::remove_if(rocksdb_stats_history.begin(), rocksdb_stats_history.end(),
-                [&](const RocksDBStats& stats) {
+                [&]([[maybe_unused]] const RocksDBStats& stats) {
                     auto age = std::chrono::duration_cast<std::chrono::seconds>(
                         now - stats.timestamp);
                     return age > config.retention_duration;

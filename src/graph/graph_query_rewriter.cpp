@@ -257,7 +257,7 @@ std::string GraphQueryRewriter::explainRewrites(const nlohmann::json &original, 
 
     // Count prune conditions added
     size_t orig_prune = 0, new_prune = 0;
-    countNodes(original, [&](const nlohmann::json &n) {
+    countNodes(original, [&]([[maybe_unused]] const nlohmann::json &n) {
         if (!n.is_object()) {
             return false;
         }
@@ -267,7 +267,7 @@ std::string GraphQueryRewriter::explainRewrites(const nlohmann::json &original, 
         }
         return false;
     });
-    countNodes(rewritten, [&](const nlohmann::json &n) {
+    countNodes(rewritten, [&]([[maybe_unused]] const nlohmann::json &n) {
         if (!n.is_object()) {
             return false;
         }
@@ -293,7 +293,7 @@ std::string GraphQueryRewriter::explainRewrites(const nlohmann::json &original, 
 
     // Check join reordering
     bool join_reordered = false;
-    countNodes(rewritten, [&](const nlohmann::json &n) {
+    countNodes(rewritten, [&]([[maybe_unused]] const nlohmann::json &n) {
         if (!hasType(n, "traversal_join")) {
             return false;
         }
@@ -354,7 +354,7 @@ double GraphQueryRewriter::estimateSpeedup(const nlohmann::json &original, const
     // Predicate pushdown / prune early: each prune condition reduces the
     // effective search space by ~30 % on average.
     size_t orig_prune = 0, new_prune = 0;
-    countNodes(original, [&](const nlohmann::json &n) {
+    countNodes(original, [&]([[maybe_unused]] const nlohmann::json &n) {
         if (!n.is_object()) {
             return false;
         }
@@ -364,7 +364,7 @@ double GraphQueryRewriter::estimateSpeedup(const nlohmann::json &original, const
         }
         return false;
     });
-    countNodes(rewritten, [&](const nlohmann::json &n) {
+    countNodes(rewritten, [&]([[maybe_unused]] const nlohmann::json &n) {
         if (!n.is_object()) {
             return false;
         }
@@ -445,7 +445,7 @@ size_t GraphQueryRewriter::applyPredicatePushdown(nlohmann::json &plan) {
 
     // ── Pass 1: For graph_traversal nodes, promote vertex_filters to
     //            prune_conditions so they are applied during traversal.
-    auto promoteFilters = [&](nlohmann::json &node) {
+    auto promoteFilters = [&]([[maybe_unused]] nlohmann::json &node) {
         if (!hasType(node, "graph_traversal")) {
             return;
         }
@@ -482,7 +482,7 @@ size_t GraphQueryRewriter::applyPredicatePushdown(nlohmann::json &plan) {
 
     // ── Pass 2: For filter_scan nodes whose filter can be applied at the
     //            traversal level, push the filter into the child traversal.
-    auto pushFilterScan = [&](nlohmann::json &node) {
+    auto pushFilterScan = [&]([[maybe_unused]] nlohmann::json &node) {
         if (!hasType(node, "filter_scan")) {
             return;
         }
@@ -533,7 +533,7 @@ size_t GraphQueryRewriter::applyCommonSubexpressionElimination(nlohmann::json &p
     // Collect all graph_traversal sub-expressions and their occurrence count.
     std::unordered_map<std::string, size_t> seen;
 
-    std::function<void(const nlohmann::json &)> collect = [&](const nlohmann::json &n) {
+    std::function<void(const nlohmann::json &)> collect = [&]([[maybe_unused]] const nlohmann::json &n) {
         if (!n.is_object()) {
             return;
         }
@@ -568,7 +568,7 @@ size_t GraphQueryRewriter::applyCommonSubexpressionElimination(nlohmann::json &p
     std::unordered_map<std::string, size_t> occurrence;
     size_t changes = 0;
 
-    std::function<void(nlohmann::json &)> replace = [&](nlohmann::json &n) {
+    std::function<void(nlohmann::json &)> replace = [&]([[maybe_unused]] nlohmann::json &n) {
         if (!n.is_object()) {
             return;
         }
@@ -657,7 +657,7 @@ size_t GraphQueryRewriter::applyCommonSubexpressionElimination(nlohmann::json &p
 size_t GraphQueryRewriter::applyJoinReordering(nlohmann::json &plan) {
     size_t changes = 0;
 
-    auto reorder = [&](nlohmann::json &node) {
+    auto reorder = [&]([[maybe_unused]] nlohmann::json &node) {
         if (!hasType(node, "traversal_join")) {
             return;
         }
@@ -691,7 +691,7 @@ size_t GraphQueryRewriter::applyJoinReordering(nlohmann::json &plan) {
 size_t GraphQueryRewriter::applyMaterializedView(nlohmann::json &plan, bool aggressive) {
     // First pass: count occurrences of each graph_traversal fingerprint.
     std::unordered_map<std::string, size_t> occurrence;
-    countNodes(plan, [&](const nlohmann::json &n) {
+    countNodes(plan, [&]([[maybe_unused]] const nlohmann::json &n) {
         if (hasType(n, "graph_traversal")) {
             // Build fingerprint from graph_id + direction + depth (ignore start vertex)
             nlohmann::json fp;
@@ -718,7 +718,7 @@ size_t GraphQueryRewriter::applyMaterializedView(nlohmann::json &plan, bool aggr
 
     size_t changes = 0;
 
-    auto tagForMaterialization = [&](nlohmann::json &node) {
+    auto tagForMaterialization = [&]([[maybe_unused]] nlohmann::json &node) {
         if (!hasType(node, "graph_traversal")) {
             return;
         }
@@ -778,7 +778,7 @@ size_t GraphQueryRewriter::applyMaterializedView(nlohmann::json &plan, bool aggr
 size_t GraphQueryRewriter::applyQueryDecomposition(nlohmann::json &plan) {
     size_t changes = 0;
 
-    auto decompose = [&](nlohmann::json &node) {
+    auto decompose = [&]([[maybe_unused]] nlohmann::json &node) {
         if (!hasType(node, "multi_traversal")) {
             return;
         }
@@ -798,7 +798,7 @@ size_t GraphQueryRewriter::applyQueryDecomposition(nlohmann::json &plan) {
             nlohmann::json sub;
             sub["type"] = "graph_traversal";
             // Copy shared fields from the multi_traversal node
-            auto copy_field = [&](const std::string &key) {
+            auto copy_field = [&]([[maybe_unused]] const std::string &key) {
                 auto it = node.find(key);
                 if (it != node.end()) {
                     sub[key] = *it;

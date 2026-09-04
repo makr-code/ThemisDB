@@ -234,7 +234,7 @@ RAGContextEngine::traverseArgumentChain(const std::string &start_argument_id, si
 
         auto arg_result = store_->getArgument(current_id);
         if (auto *arg = std::get_if<EthicalArgument>(&arg_result)) {
-            auto visit_list = [&](const std::vector<std::string> &ids) {
+            auto visit_list = [&]([[maybe_unused]] const std::vector<std::string> &ids) {
                 for (const auto &nid : ids) {
                     if (visited.insert(nid).second) {
                         visited_order.push_back(nid);

@@ -82,7 +82,7 @@ bool manifestAllowsCurrentEdition(const PluginManifest& manifest) {
     }
     const auto current = normalizeEditionName(std::string(edition::EDITION_STRING));
     return std::any_of(manifest.allowed_editions.begin(), manifest.allowed_editions.end(),
-                       [&](const std::string& allowed) {
+                       [&]([[maybe_unused]] const std::string& allowed) {
                            return normalizeEditionName(allowed) == current;
                        });
 }
@@ -2331,7 +2331,7 @@ ManifestErrorCode PluginManager::validateManifestEditionRestrictions(
         bool edition_allowed = std::any_of(
             manifest.allowed_editions.begin(),
             manifest.allowed_editions.end(),
-            [&](const std::string& allowed) {
+            [&]([[maybe_unused]] const std::string& allowed) {
                 return normalizeEditionName(allowed) == current;
             }
         );

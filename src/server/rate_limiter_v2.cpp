@@ -242,7 +242,7 @@ bool TokenBucketRateLimiter::redisConnect() {
     tv.tv_usec = (config_.redis.timeout_ms % 1000) * 1000;
 
     // Helper: connect one slot, load Lua script, return true on success.
-    auto connectSlot = [&](RedisConnectionPool::Slot& slot) -> bool {
+    auto connectSlot = [&]([[maybe_unused]] RedisConnectionPool::Slot& slot) -> bool {
         if (slot.ctx && !slot.ctx->err) return true;  // Already healthy.
         if (slot.ctx) { redisFree(slot.ctx); slot.ctx = nullptr; }
 

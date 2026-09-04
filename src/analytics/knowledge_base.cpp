@@ -188,7 +188,7 @@ void KnowledgeBase::clearFacts() {
 
 void KnowledgeBase::addRule(HornClause rule) {
     // Remove previous rule with the same id if present.
-    auto it = std::find_if(rules_.begin(), rules_.end(), [&](const HornClause &r) { return r.id == rule.id; });
+    auto it = std::find_if(rules_.begin(), rules_.end(), [&]([[maybe_unused]] const HornClause &r) { return r.id == rule.id; });
     if (it != rules_.end()) {
         rules_.erase(it);
     }
@@ -196,7 +196,7 @@ void KnowledgeBase::addRule(HornClause rule) {
 }
 
 bool KnowledgeBase::removeRule(const std::string &rule_id) {
-    const auto it = std::find_if(rules_.begin(), rules_.end(), [&](const HornClause &r) { return r.id == rule_id; });
+    const auto it = std::find_if(rules_.begin(), rules_.end(), [&]([[maybe_unused]] const HornClause &r) { return r.id == rule_id; });
     if (it == rules_.end()) {
         return false;
     }

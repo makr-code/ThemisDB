@@ -768,7 +768,7 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
     //   $<n>\r\n <channel>\r\n
     //   $<n>\r\n <payload>\r\n   (or :<count> for subscribe reply)
 
-    auto readBulkString = [&](std::string &out) -> bool {
+    auto readBulkString = [&]([[maybe_unused]] std::string &out) -> bool {
         std::string line;
         if (!readLine(fd, line))
             return false;

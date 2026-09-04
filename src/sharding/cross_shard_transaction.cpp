@@ -90,7 +90,7 @@ std::vector<std::unordered_set<std::string>> collectCycles(
     int next_index = 0;
 
     std::function<void(const std::string&)> strong_connect =
-        [&](const std::string& node) {
+        [&]([[maybe_unused]] const std::string& node) {
         index[node] = next_index;
         lowlink[node] = next_index;
         ++next_index;
@@ -3311,7 +3311,7 @@ bool PercolatorCoordinator::execute(
 
     // Helper: acquire a lock on one shard with retry/backoff honoring
     // config_.max_retries and config_.lock_timeout.
-    auto acquire_lock = [&](const std::string& shard_id) -> bool {
+    auto acquire_lock = [&]([[maybe_unused]] const std::string& shard_id) -> bool {
         for (uint32_t attempt = 0; attempt <= config_.max_retries; ++attempt) {
             if (attempt > 0) {
                 // Exponential backoff capped at lock_timeout.

@@ -899,7 +899,7 @@ std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(const std::vecto
     // Step 1: Extract an L2-normalised acoustic feature vector for each
     //         segment by analysing the corresponding PCM audio window.
     // -----------------------------------------------------------------------
-    auto extractFeatures = [&](const TranscriptionSegment &seg) -> std::vector<float> {
+    auto extractFeatures = [&]([[maybe_unused]] const TranscriptionSegment &seg) -> std::vector<float> {
         int64_t s0 = std::max(int64_t(0), seg.start_ms * SAMPLE_RATE / 1000);
         int64_t s1 = std::min(static_cast<int64_t>(pcm_data.size()), seg.end_ms * SAMPLE_RATE / 1000);
 

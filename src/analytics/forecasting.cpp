@@ -2354,19 +2354,19 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
     // Sentinel returned when a key is missing; declared in outer scope to
     // avoid questions about concurrent initialisation inside the lambda.
     const std::string kEmpty;
-    auto readS = [&](const std::string &key) -> const std::string & {
+    auto readS = [&]([[maybe_unused]] const std::string &key) -> const std::string & {
         auto it = kv.find(key);
         return (it != kv.end()) ? it->second : kEmpty;
     };
-    auto readD = [&](const std::string &key) -> double {
+    auto readD = [&]([[maybe_unused]] const std::string &key) -> double {
         const auto &v = readS(key);
         return v.empty() ? 0.0 : std::stod(v);
     };
-    auto readI = [&](const std::string &key) -> int {
+    auto readI = [&]([[maybe_unused]] const std::string &key) -> int {
         const auto &v = readS(key);
         return v.empty() ? 0 : std::stoi(v);
     };
-    auto readL = [&](const std::string &key) -> int64_t {
+    auto readL = [&]([[maybe_unused]] const std::string &key) -> int64_t {
         const auto &v = readS(key);
         return v.empty() ? int64_t{0} : static_cast<int64_t>(std::stoll(v));
     };

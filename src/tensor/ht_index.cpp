@@ -42,7 +42,7 @@ void FlatHTIndex::add(const std::string& id, HTTrain train) {
 bool FlatHTIndex::remove(const std::string& id) {
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = std::find_if(entries_.begin(), entries_.end(),
-                           [&](const Entry& e) { return e.id == id; });
+                           [&]([[maybe_unused]] const Entry& e) { return e.id == id; });
     if (it == entries_.end()) return false;
     entries_.erase(it);
     return true;

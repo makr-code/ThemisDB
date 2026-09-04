@@ -182,7 +182,7 @@ bool KnowledgeGraphReasoner::addRule(Rule rule) {
     }
     std::unique_lock lock(rules_mutex_);
     // Remove any existing rule with the same id.
-    auto it = std::find_if(rules_.begin(), rules_.end(), [&](const Rule &r) { return r.id == rule.id; });
+    auto it = std::find_if(rules_.begin(), rules_.end(), [&]([[maybe_unused]] const Rule &r) { return r.id == rule.id; });
     if (it != rules_.end()) {
         *it = std::move(rule);
     } else {
@@ -252,7 +252,7 @@ void KnowledgeGraphReasoner::clearFacts() {
 }
 
 /*static*/ Triple KnowledgeGraphReasoner::ground(const Triple &pattern, const Bindings &bindings) {
-    auto resolve = [&](const std::string &s) -> std::string {
+    auto resolve = [&]([[maybe_unused]] const std::string &s) -> std::string {
         if (!s.empty() && s[0] == '?') {
             auto it = bindings.find(s);
             if (it != bindings.end()) {
@@ -494,7 +494,7 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain &chain, std::string_v
         }
     }
 
-    const auto lookupRuleConfig = [&](const InferenceEdge &edge) -> const RuleLoRAConfig * {
+    const auto lookupRuleConfig = [&]([[maybe_unused]] const InferenceEdge &edge) -> const RuleLoRAConfig * {
         if (const auto it = rule_cfg_by_id.find(edge.rule_id); it != rule_cfg_by_id.end()) {
             return &it->second;
         }
@@ -555,7 +555,7 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain &chain, std::string_v
 
     // Filter out edges whose score falls below the rule's minimum threshold.
     chain.edges.erase(std::remove_if(chain.edges.begin(), chain.edges.end(),
-                                     [&](const InferenceEdge &e) {
+                                     [&]([[maybe_unused]] const InferenceEdge &e) {
                                          const RuleLoRAConfig *cfg = lookupRuleConfig(e);
                                          if (cfg == nullptr) {
                                              return false;

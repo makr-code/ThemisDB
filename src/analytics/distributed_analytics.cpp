@@ -470,7 +470,7 @@ void DistributedAnalyticsSharding::addShard(const std::string &shard_id, std::sh
 void DistributedAnalyticsSharding::removeShard(const std::string &shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     shards_.erase(
-        std::remove_if(shards_.begin(), shards_.end(), [&](const ShardEntry &e) { return e.shard_id == shard_id; }),
+        std::remove_if(shards_.begin(), shards_.end(), [&]([[maybe_unused]] const ShardEntry &e) { return e.shard_id == shard_id; }),
         shards_.end());
 }
 

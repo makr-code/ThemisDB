@@ -1511,7 +1511,7 @@ HttpServer::HttpServer(
                 "config/retention_policies.yaml"
             };
 
-            auto try_find_in_ancestors = [&](const std::filesystem::path& start) -> std::optional<std::string> {
+            auto try_find_in_ancestors = [&]([[maybe_unused]] const std::filesystem::path& start) -> std::optional<std::string> {
                 std::filesystem::path p = start;
                 for (int i = 0; i < 8 && !p.empty(); ++i) {
                     for (const auto& c : candidates) {
@@ -3980,7 +3980,7 @@ http::response<http::string_body> HttpServer::routeRequest(
     {
         // Helper: extract and validate a path segment after a known prefix.
         // Returns a 400 response if the segment is invalid; otherwise continues.
-        auto checkSegment = [&](const std::string& prefix) -> std::optional<http::response<http::string_body>> {
+        auto checkSegment = [&]([[maybe_unused]] const std::string& prefix) -> std::optional<http::response<http::string_body>> {
             if (path_only.rfind(prefix, 0) == 0 && validator_) {
                 std::string segment = path_only.substr(prefix.size());
                 // Strip any trailing sub-path (e.g., /versions) for the check
@@ -10614,7 +10614,7 @@ http::response<http::string_body> HttpServer::handlePiiListMappings(
     std::string target = std::string(req.target());
     auto qpos = target.find('?');
     std::string query = (qpos == std::string::npos) ? std::string() : target.substr(qpos + 1);
-    auto getParam = [&](const std::string& key) -> std::string {
+    auto getParam = [&]([[maybe_unused]] const std::string& key) -> std::string {
         auto pos = query.find(key + "=");
         if (pos == std::string::npos) return {};
         auto val = query.substr(pos + key.size() + 1);
@@ -10700,7 +10700,7 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
     std::string target = std::string(req.target());
     auto qpos = target.find('?');
     std::string query = (qpos == std::string::npos) ? std::string() : target.substr(qpos + 1);
-    auto getParam = [&](const std::string& key) -> std::string {
+    auto getParam = [&]([[maybe_unused]] const std::string& key) -> std::string {
         auto pos = query.find(key + "=");
         if (pos == std::string::npos) return {};
         auto val = query.substr(pos + key.size() + 1);
@@ -12139,7 +12139,7 @@ void HttpServer::applyGovernanceHeaders(
         origin = std::string(it->value());
     }
 
-    auto set_cors_common = [&](const std::string& allow_origin) {
+    auto set_cors_common = [&]([[maybe_unused]] const std::string& allow_origin) {
         res.set("Access-Control-Allow-Origin", allow_origin);
         // Preserve existing Vary if already set (e.g., by preflight)
         if (res.find(http::field::vary) == res.end()) {

@@ -174,7 +174,7 @@ std::vector<std::string> extractTargetStr(const std::vector<DataPoint> &data, co
             continue;
         }
         std::visit(
-            [&](const auto &v) {
+            [&]([[maybe_unused]] const auto &v) {
                 using T = std::decay_t<decltype(v)>;
                 if constexpr (std::is_same_v<T, std::string>) {
                     out.push_back(v);
@@ -204,7 +204,7 @@ std::vector<double> extractTargetNum(const std::vector<DataPoint> &data, const s
             continue;
         }
         std::visit(
-            [&](const auto &v) {
+            [&]([[maybe_unused]] const auto &v) {
                 using T = std::decay_t<decltype(v)>;
                 if constexpr (std::is_same_v<T, double>) {
                     out.push_back(v);
@@ -645,7 +645,7 @@ struct DecisionTree {
             return vp - vl - vr;
         }
         // Gini impurity reduction
-        auto gini = [&](const std::vector<size_t> &s) {
+        auto gini = [&]([[maybe_unused]] const std::vector<size_t> &s) {
             std::map<int, int> cnt;
             for (size_t i : s) {
                 cnt[y_cls[i]]++;
@@ -1723,7 +1723,7 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
     js << std::setprecision(std::numeric_limits<double>::max_digits10);
 
     // ---- helper lambdas ---------------------------------------------------
-    auto jStr = [&](const std::string &s) {
+    auto jStr = [&]([[maybe_unused]] const std::string &s) {
         // Minimal JSON string escaping
         std::string out = "\"";
         for (char c : s) {

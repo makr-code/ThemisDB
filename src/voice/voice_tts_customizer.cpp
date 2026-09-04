@@ -176,7 +176,7 @@ SSMLResult VoiceTTSCustomizer::parseSSML(const std::string& ssml_text) const {
 
         ProsodyConfig seg;
         // Extract rate attribute
-        auto extractAttr = [&](const std::string& attr) -> std::string {
+        auto extractAttr = [&]([[maybe_unused]] const std::string& attr) -> std::string {
             size_t a = tag.find(attr + "=\"");
             if (a == std::string::npos) return {};
             size_t vs = a + attr.size() + 2;

@@ -477,7 +477,7 @@ ImportStats ElasticsearchImporter::importData(
         return stats;
     }
 
-    auto processPage = [&](const std::vector<json>& page) {
+    auto processPage = [&]([[maybe_unused]] const std::vector<json>& page) {
         for (const auto& doc : page) {
             if (cancelled_.load(std::memory_order_relaxed)) break;
             ++stats.total_records;

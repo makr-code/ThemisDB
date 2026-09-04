@@ -302,7 +302,7 @@ bool PolicyEngine::isCcpaOptedOut(const std::string &subject_id) const {
 
 PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std::string> &headers,
                                       const std::string &route) const {
-    auto get = [&](const char *key) -> std::string {
+    auto get = [&]([[maybe_unused]] const char *key) -> std::string {
         auto it = headers.find(key);
         if (it != headers.end()) {
             return it->second;
@@ -472,7 +472,7 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest &request
     const auto &headers = request.headers;
     const auto &route   = request.route;
 
-    auto get = [&](const char *key) -> std::string {
+    auto get = [&]([[maybe_unused]] const char *key) -> std::string {
         auto it = headers.find(key);
         if (it != headers.end()) {
             return it->second;

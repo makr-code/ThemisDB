@@ -24,8 +24,8 @@ namespace {
 
 std::string trim(std::string value) {
     auto is_space = [](unsigned char c) { return std::isspace(c) != 0; };
-    value.erase(value.begin(), std::find_if(value.begin(), value.end(), [&](unsigned char c) { return !is_space(c); }));
-    value.erase(std::find_if(value.rbegin(), value.rend(), [&](unsigned char c) { return !is_space(c); }).base(), value.end());
+    value.erase(value.begin(), std::find_if(value.begin(), value.end(), [&]([[maybe_unused]] unsigned char c) { return !is_space(c); }));
+    value.erase(std::find_if(value.rbegin(), value.rend(), [&]([[maybe_unused]] unsigned char c) { return !is_space(c); }).base(), value.end());
     return value;
 }
 

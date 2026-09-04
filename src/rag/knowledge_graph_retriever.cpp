@@ -134,7 +134,7 @@ bool KnowledgeGraph::removeNode(const std::string& node_id) {
     for (auto& [src, edges] : impl_->adj) {
         const size_t before = edges.size();
         edges.erase(std::remove_if(edges.begin(), edges.end(),
-                        [&](const KGEdge& e) { return e.to_id == node_id; }),
+                        [&]([[maybe_unused]] const KGEdge& e) { return e.to_id == node_id; }),
                     edges.end());
         impl_->edge_count -= (before - edges.size());
     }
@@ -193,7 +193,7 @@ bool KnowledgeGraph::removeEdge(const std::string& from_id,
     auto& edges = it->second;
     const size_t before = edges.size();
     edges.erase(std::remove_if(edges.begin(), edges.end(),
-                    [&](const KGEdge& e) {
+                    [&]([[maybe_unused]] const KGEdge& e) {
                         return e.to_id == to_id && e.relation == relation;
                     }),
                 edges.end());

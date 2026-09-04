@@ -163,7 +163,7 @@ bool LlamaCppPlugin::loadLoRA(const std::string& lora_id,
     std::lock_guard<std::mutex> lock(mutex_);
     // Remove existing entry with same id
     loras_.erase(std::remove_if(loras_.begin(), loras_.end(),
-                                [&](const LoRAEntry& e){ return e.id == lora_id; }),
+                                [&]([[maybe_unused]] const LoRAEntry& e){ return e.id == lora_id; }),
                  loras_.end());
     loras_.push_back({lora_id, lora_path, scale});
     return true;
@@ -173,7 +173,7 @@ bool LlamaCppPlugin::unloadLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     const auto before = loras_.size();
     loras_.erase(std::remove_if(loras_.begin(), loras_.end(),
-                                [&](const LoRAEntry& e){ return e.id == lora_id; }),
+                                [&]([[maybe_unused]] const LoRAEntry& e){ return e.id == lora_id; }),
                  loras_.end());
     return loras_.size() < before;
 }

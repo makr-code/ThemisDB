@@ -114,7 +114,7 @@ Result<void> Alertmanager::testConnection() {
 std::optional<Alert> Alertmanager::findActiveAlertById(const std::string& alert_id) const {
     std::lock_guard<std::mutex> lock(active_alerts_mutex_);
     auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
-                           [&](const Alert& alert) { return alert.alert_id == alert_id; });
+                           [&]([[maybe_unused]] const Alert& alert) { return alert.alert_id == alert_id; });
     if (it == active_alerts_.end()) {
         return std::nullopt;
     }
@@ -124,7 +124,7 @@ std::optional<Alert> Alertmanager::findActiveAlertById(const std::string& alert_
 void Alertmanager::upsertActiveAlert(const Alert& alert) {
     std::lock_guard<std::mutex> lock(active_alerts_mutex_);
     auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
-                           [&](const Alert& existing) { return existing.alert_id == alert.alert_id; });
+                           [&]([[maybe_unused]] const Alert& existing) { return existing.alert_id == alert.alert_id; });
     if (it == active_alerts_.end()) {
         active_alerts_.push_back(alert);
     } else {
@@ -135,7 +135,7 @@ void Alertmanager::upsertActiveAlert(const Alert& alert) {
 bool Alertmanager::removeActiveAlertById(const std::string& alert_id, Alert* removed) {
     std::lock_guard<std::mutex> lock(active_alerts_mutex_);
     auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
-                           [&](const Alert& alert) { return alert.alert_id == alert_id; });
+                           [&]([[maybe_unused]] const Alert& alert) { return alert.alert_id == alert_id; });
     if (it == active_alerts_.end()) {
         return false;
     }

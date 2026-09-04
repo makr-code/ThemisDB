@@ -1020,7 +1020,7 @@ loadJournalWithLegacyFallback(const std::shared_ptr<themis::storage::TensorNetwo
         return JournalLoadStatus::Missing;
     }
 
-    const auto try_load_key = [&](const std::string &key) -> JournalLoadStatus {
+    const auto try_load_key = [&]([[maybe_unused]] const std::string &key) -> JournalLoadStatus {
         const auto payload = storage->getRawMetadata(key);
         if (!payload || payload->empty()) {
             return JournalLoadStatus::Missing;

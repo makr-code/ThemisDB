@@ -136,7 +136,7 @@ Frontier LigraProcessor::process_edges(
             atomic_dense[i].store(false, std::memory_order_relaxed);
         }
         
-        process_vertices(frontier, [&](NodeID src) {
+        process_vertices(frontier, [&]([[maybe_unused]] NodeID src) {
             if (src >= adj_list.size()) return;
             
             for (NodeID dst : adj_list[src]) {

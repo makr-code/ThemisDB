@@ -254,7 +254,7 @@ public:
         arena_->execute([&] {
             tbb::parallel_for(
                 tbb::blocked_range<size_t>(0, numQueries, 16), // grain_size=16
-                [&](const tbb::blocked_range<size_t>& range) {
+                [&]([[maybe_unused]] const tbb::blocked_range<size_t>& range) {
                     for (size_t q = range.begin(); q != range.end(); ++q) {
                         const float* query = queries + q * dim;
                         for (size_t v = 0; v < numVectors; ++v) {
@@ -297,7 +297,7 @@ public:
         arena_->execute([&] {
             tbb::parallel_for(
                 tbb::blocked_range<size_t>(0, numQueries),
-                [&](const tbb::blocked_range<size_t>& range) {
+                [&]([[maybe_unused]] const tbb::blocked_range<size_t>& range) {
                     for (size_t q = range.begin(); q != range.end(); ++q) {
                         const float* query = queries + q * dim;
                         
@@ -364,7 +364,7 @@ public:
         arena_->execute([&] {
             tbb::parallel_for(
                 tbb::blocked_range<size_t>(0, count, 256),
-                [&](const tbb::blocked_range<size_t>& range) {
+                [&]([[maybe_unused]] const tbb::blocked_range<size_t>& range) {
                     for (size_t i = range.begin(); i != range.end(); ++i) {
                         double dist = useHaversine 
                             ? haversineDistance(latitudes1[i], longitudes1[i], 
@@ -392,7 +392,7 @@ public:
         arena_->execute([&] {
             tbb::parallel_for(
                 tbb::blocked_range<size_t>(0, numPoints, 64),
-                [&](const tbb::blocked_range<size_t>& range) {
+                [&]([[maybe_unused]] const tbb::blocked_range<size_t>& range) {
                     for (size_t p = range.begin(); p != range.end(); ++p) {
                         double testLat = pointLats[p];
                         double testLon = pointLons[p];

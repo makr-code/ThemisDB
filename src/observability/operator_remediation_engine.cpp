@@ -526,7 +526,7 @@ public:
     bool resolveHint(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] hint_id) override {
         std::unique_lock<std::shared_mutex> lock(hints_mutex_);
         auto it = std::find_if(active_hints_.begin(), active_hints_.end(),
-                              [&](const std::shared_ptr<RemediationHint>& h) {
+                              [&]([[maybe_unused]] const std::shared_ptr<RemediationHint>& h) {
                                   return h->hintId() == hint_id;
                               });
 

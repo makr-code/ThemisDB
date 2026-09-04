@@ -685,7 +685,7 @@ void ShardRepairEngine::executeRepairJob(RepairJob& job) {
         // Filter to the requested shard
         shards_to_repair.erase(
             std::remove_if(shards_to_repair.begin(), shards_to_repair.end(),
-                           [&](const ShardInfo& s) { return s.shard_id != job.shard_id; }),
+                           [&]([[maybe_unused]] const ShardInfo& s) { return s.shard_id != job.shard_id; }),
             shards_to_repair.end());
     }
 

@@ -460,11 +460,11 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
             return false;
         }
 
-        auto write64 = [&](uint64_t v) -> bool {
+        auto write64 = [&]([[maybe_unused]] uint64_t v) -> bool {
             file.write(reinterpret_cast<const char*>(&v), sizeof(v));
             return file.good();
         };
-        auto write32 = [&](uint32_t v) -> bool {
+        auto write32 = [&]([[maybe_unused]] uint32_t v) -> bool {
             file.write(reinterpret_cast<const char*>(&v), sizeof(v));
             return file.good();
         };
@@ -588,7 +588,7 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot(uint64_t snapshot_
         }
 
         // Helper lambdas that check stream state after every read
-        auto read64 = [&](const char* field) -> std::optional<uint64_t> {
+        auto read64 = [&]([[maybe_unused]] const char* field) -> std::optional<uint64_t> {
             uint64_t v = 0;
             file.read(reinterpret_cast<char*>(&v), sizeof(v));
             if (!file.good() || file.gcount() != static_cast<std::streamsize>(sizeof(v))) {
@@ -597,7 +597,7 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot(uint64_t snapshot_
             }
             return v;
         };
-        auto read32 = [&](const char* field) -> std::optional<uint32_t> {
+        auto read32 = [&]([[maybe_unused]] const char* field) -> std::optional<uint32_t> {
             uint32_t v = 0;
             file.read(reinterpret_cast<char*>(&v), sizeof(v));
             if (!file.good() || file.gcount() != static_cast<std::streamsize>(sizeof(v))) {

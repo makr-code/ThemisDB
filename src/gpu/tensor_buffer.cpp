@@ -287,7 +287,7 @@ GPUTensorBuffer GPUTensorBuffer::deserialize(const std::vector<uint8_t> &bytes) 
         const uint8_t *p   = bytes.data();
         const uint8_t *end = p + bytes.size();
 
-        auto need = [&](size_t n) {
+        auto need = [&]([[maybe_unused]] size_t n) {
             if (p + n > end) {
                 throw std::runtime_error("GPUTensorBuffer::deserialize: truncated data");
             }

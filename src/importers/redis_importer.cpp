@@ -318,7 +318,7 @@ ImportStats RedisImporter::importData(
               start_time + std::chrono::milliseconds(options.deadline_ms))
         : std::nullopt;
 
-    auto sendCmd = [&](const std::vector<std::string>& cmd) -> std::string {
+    auto sendCmd = [&]([[maybe_unused]] const std::vector<std::string>& cmd) -> std::string {
         if (mock_command_fn_) return mock_command_fn_(cmd);
 #ifdef THEMIS_ENABLE_REDIS
         return ""; // Placeholder for real hiredis call.
@@ -452,7 +452,7 @@ void RedisImporter::cancel() {
 json RedisImporter::getSourceSchema(const std::string& source_path) {
     (void)source_path;
 
-    auto sendCmd = [&](const std::vector<std::string>& cmd) -> std::string {
+    auto sendCmd = [&]([[maybe_unused]] const std::vector<std::string>& cmd) -> std::string {
         if (mock_command_fn_) return mock_command_fn_(cmd);
 #ifdef THEMIS_ENABLE_REDIS
         return "";

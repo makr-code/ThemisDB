@@ -421,7 +421,7 @@ std::optional<ConstraintViolation> SchemaConstraints::checkCheck(
         // Try to get a numeric value from the column value
         double val_num = 0.0;
         bool val_ok = false;
-        std::visit([&](const auto& v) {
+        std::visit([&]([[maybe_unused]] const auto& v) {
             using T = std::decay_t<decltype(v)>;
             if constexpr (std::is_same_v<T, int64_t>) {
                 val_num = static_cast<double>(v);

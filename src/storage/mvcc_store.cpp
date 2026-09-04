@@ -303,7 +303,7 @@ uint64_t MVCCStore::gcVersionsBefore(
 
 uint64_t MVCCStore::gcAllBefore(HLCTimestamp min_ts, GCOptions opts) {
     std::vector<std::string> base_keys;
-    scanBaseKeys([&](std::string_view bk) -> bool {
+    scanBaseKeys([&]([[maybe_unused]] std::string_view bk) -> bool {
         base_keys.emplace_back(bk);
         return true;
     });

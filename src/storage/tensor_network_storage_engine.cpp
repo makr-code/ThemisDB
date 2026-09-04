@@ -62,7 +62,7 @@ std::optional<std::size_t> tryParseVersionSuffix(const std::string& key) {
 
 std::size_t TensorFieldKeyHash::operator()(const TensorFieldKey& k) const noexcept {
     std::size_t h = 0xcbf29ce484222325ULL;
-    auto mix = [&](const std::string& s) {
+    auto mix = [&]([[maybe_unused]] const std::string& s) {
         // lock_in_loop scanner alert (line 32): this is a purely local FNV-1a
         // hash loop with no mutex, no shared state, and no lock acquisition —
         // false positive; the scanner misidentifies the loop body as a lock scope.

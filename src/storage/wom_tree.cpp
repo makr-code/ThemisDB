@@ -498,7 +498,7 @@ struct WomTree::Impl {
         auto& buf = node.buffer;
         size_t freed = 0;
         buf.erase(std::remove_if(buf.begin(), buf.end(),
-                                 [&](const Op& op) {
+                                 [&]([[maybe_unused]] const Op& op) {
                                      if (op.key == key) {
                                          freed += op.byteSize();
                                          return true;

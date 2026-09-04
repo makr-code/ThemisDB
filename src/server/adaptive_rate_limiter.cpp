@@ -127,7 +127,7 @@ void AdaptiveRateLimiter::pruneAndAdapt(TenantState& state)
 
     state.window.erase(
         std::remove_if(state.window.begin(), state.window.end(),
-                       [&](const TimedSample& s){ return s.ts < cutoff; }),
+                       [&]([[maybe_unused]] const TimedSample& s){ return s.ts < cutoff; }),
         state.window.end());
 
     // Don't adapt until we have enough samples.

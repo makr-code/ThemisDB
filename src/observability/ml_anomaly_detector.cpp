@@ -93,7 +93,7 @@ std::vector<int> MLAnomalyDetector::dbscanLabels(
     int label           = 0;
     std::vector<int> labels(values.size(), UNVISITED);
 
-    auto regionQuery = [&](size_t idx) {
+    auto regionQuery = [&]([[maybe_unused]] size_t idx) {
         std::vector<size_t> neighbours;
         for (size_t j = 0; j < values.size(); ++j) {
             if (std::fabs(values[j] - values[idx]) <= cfg_.dbscan_eps) {

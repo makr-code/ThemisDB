@@ -962,7 +962,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetDiff(
         table_name = table_name.substr(0, qpos);
 
         // Very simple query string parser
-        auto parse_param = [&](const std::string& name) -> uint64_t {
+        auto parse_param = [&]([[maybe_unused]] const std::string& name) -> uint64_t {
             std::string key = name + "=";
             auto pos = query.find(key);
             if (pos == std::string::npos) return 0;

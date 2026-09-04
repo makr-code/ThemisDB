@@ -977,7 +977,7 @@ bool AutoFailoverManager::checkAndApplyGcGrace(const std::string& node_id) {
     const auto window_start = now - cfg.gc_grace_window;
     recent_failure_timestamps_.erase(
         std::remove_if(recent_failure_timestamps_.begin(), recent_failure_timestamps_.end(),
-            [&](const auto& ts) { return ts < window_start; }),
+            [&]([[maybe_unused]] const auto& ts) { return ts < window_start; }),
         recent_failure_timestamps_.end());
     if (recent_failure_timestamps_.size() >= cfg.gc_grace_failure_count) {
         gc_grace_expiry_ = now + cfg.gc_grace_period;

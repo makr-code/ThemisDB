@@ -546,7 +546,7 @@ std::vector<json> MarkdownProcessor::chunk(
     std::string current_chunk;
     int current_tokens = 0;
 
-    auto flushChunk = [&](const std::string& text_chunk) {
+    auto flushChunk = [&]([[maybe_unused]] const std::string& text_chunk) {
         if (text_chunk.empty()) return;
         json c = json::object();
         c["seq_num"]     = seq++;

@@ -2368,7 +2368,7 @@ ReadResult RedundancyStrategy::readGeoMirror(
             geo.failed_regions.begin(), geo.failed_regions.end());
         candidates.erase(
             std::remove_if(candidates.begin(), candidates.end(),
-                [&](const std::string& sid) {
+                [&]([[maybe_unused]] const std::string& sid) {
                     auto info = topology.getShard(sid);
                     return info && read_failed_set.count(info->region);
                 }),
@@ -2428,7 +2428,7 @@ ReadResult RedundancyStrategy::readGeoMirror(
         std::vector<std::string> ordered = candidates;
         if (!geo.local_region.empty()) {
             std::stable_partition(ordered.begin(), ordered.end(),
-                [&](const std::string& sid) {
+                [&]([[maybe_unused]] const std::string& sid) {
                     auto info = topology.getShard(sid);
                     return info && info->region == geo.local_region;
                 });

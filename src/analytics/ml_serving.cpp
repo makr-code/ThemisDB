@@ -542,7 +542,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
                 t.name = name;
                 if (val.is_array()) {
                     // Flatten potentially nested arrays to 1-D float vector
-                    std::function<void(const json &)> flatten = [&](const json &node) {
+                    std::function<void(const json &)> flatten = [&]([[maybe_unused]] const json &node) {
                         if (node.is_array()) {
                             for (const auto &elem : node)
                                 flatten(elem);

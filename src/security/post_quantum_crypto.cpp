@@ -168,7 +168,7 @@ static std::vector<uint8_t> aes256gcm_encrypt(
     std::vector<uint8_t> ct(plaintext.size() + 32);
     int len = 0, ct_len = 0;
 
-    auto fail = [&](const char* where) {
+    auto fail = [&]([[maybe_unused]] const char* where) {
         throw std::runtime_error(std::string("aes256gcm_encrypt: ") + where + ": " + ossl_error());
     };
 
@@ -209,7 +209,7 @@ static std::vector<uint8_t> aes256gcm_decrypt(
     std::vector<uint8_t> pt(ciphertext.size() + 32);
     int len = 0, pt_len = 0;
 
-    auto fail = [&](const char* where) {
+    auto fail = [&]([[maybe_unused]] const char* where) {
         throw std::runtime_error(std::string("aes256gcm_decrypt: ") + where + ": " + ossl_error());
     };
 

@@ -605,7 +605,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
         // Helper: resolve a string-wrapped GeoJSON node.
         std::function<nlohmann::json(const nlohmann::json&)> resolveJson =
-            [&](const nlohmann::json& v) -> nlohmann::json {
+            [&]([[maybe_unused]] const nlohmann::json& v) -> nlohmann::json {
             if (v.is_string()) {
                 try { return nlohmann::json::parse(v.get<std::string>()); }
                 catch (...) {}
@@ -614,7 +614,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         };
 
         // Extract a 2D point from a GeoJSON Point or [x,y] array.
-        auto extractPoint = [&](const nlohmann::json& raw) -> std::pair<double, double> {
+        auto extractPoint = [&]([[maybe_unused]] const nlohmann::json& raw) -> std::pair<double, double> {
             const auto j = resolveJson(raw);
             if (j.is_object() && j.contains("type") && j["type"] == "Point") {
                 if (j.contains("coordinates") && j["coordinates"].size() >= 2)
@@ -1334,7 +1334,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         std::string type = geom["type"];
         const auto& coords = geom["coordinates"];
 
-        auto inRange = [&](double z){ return z >= zmin && z <= zmax; };
+        auto inRange = [&]([[maybe_unused]] double z){ return z >= zmin && z <= zmax; };
 
         if (type == "Point") {
             if (coords.is_array() && coords.size() >= 3) {

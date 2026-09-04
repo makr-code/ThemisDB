@@ -215,7 +215,7 @@ bool TransactionManager::detectDeadlockCycle(std::vector<TransactionId>& cycle) 
     std::unordered_set<TransactionId> rec_stack;
     std::vector<TransactionId> path;
     
-    std::function<bool(TransactionId)> dfs = [&](TransactionId node) -> bool {
+    std::function<bool(TransactionId)> dfs = [&]([[maybe_unused]] TransactionId node) -> bool {
         visited.insert(node);
         rec_stack.insert(node);
         path.push_back(node);

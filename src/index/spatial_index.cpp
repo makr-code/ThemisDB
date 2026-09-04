@@ -762,7 +762,7 @@ SpatialIndexManager::Status SpatialIndexManager::removeBatch(
         auto entries = parseSidecarList(s);
         entries.erase(
             std::remove_if(entries.begin(), entries.end(),
-                [&](const SidecarEntry& e) { return e.primary_key == primary_key; }),
+                [&]([[maybe_unused]] const SidecarEntry& e) { return e.primary_key == primary_key; }),
             entries.end());
 
         if (entries.empty()) {
@@ -837,7 +837,7 @@ SpatialIndexManager::Status SpatialIndexManager::remove(
     // Remove matching entry
     entries.erase(
         std::remove_if(entries.begin(), entries.end(),
-            [&](const SidecarEntry& e) { return e.primary_key == primary_key; }),
+            [&]([[maybe_unused]] const SidecarEntry& e) { return e.primary_key == primary_key; }),
         entries.end()
     );
     

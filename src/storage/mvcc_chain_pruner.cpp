@@ -58,7 +58,7 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneKey(
     // copy_overhead scanner alert: all_versions is populated inside a
     // scanVersions callback; the total version count is not known before the
     // scan completes, so reserve() is not applicable here.
-    mvcc_->scanVersions(key, [&](const MVCCStore::VersionEntry& e) -> bool {
+    mvcc_->scanVersions(key, [&]([[maybe_unused]] const MVCCStore::VersionEntry& e) -> bool {
         all_versions.push_back({e.timestamp, e.value});
         return true;  // ascending order guaranteed by MVCCStore
     });
@@ -143,7 +143,7 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneAll(
 ) {
     PruneStats total;
 
-    mvcc_->scanBaseKeys([&](std::string_view base_key) -> bool {
+    mvcc_->scanBaseKeys([&]([[maybe_unused]] std::string_view base_key) -> bool {
         total += pruneKey(base_key, gc_horizon, config);
         return true;
     });

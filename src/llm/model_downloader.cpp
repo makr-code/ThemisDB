@@ -674,7 +674,7 @@ std::optional<ModelDownloadConfig> loadModelConfigFromYAML(
             return std::nullopt;
         }
 
-        auto apply_model_node = [&](const YAML::Node& model) -> std::optional<ModelDownloadConfig> {
+        auto apply_model_node = [&]([[maybe_unused]] const YAML::Node& model) -> std::optional<ModelDownloadConfig> {
             if (!model || !model.IsMap()) {
                 return std::nullopt;
             }

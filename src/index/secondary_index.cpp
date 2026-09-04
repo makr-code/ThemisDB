@@ -3034,7 +3034,7 @@ std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text, 
 	if (config.stopwords_enabled) {
 		auto base = utils::Stopwords::defaults(config.language);
 		auto sw = utils::Stopwords::merge(base, config.stopwords);
-		tokens.erase(std::remove_if(tokens.begin(), tokens.end(), [&](const std::string& t){
+		tokens.erase(std::remove_if(tokens.begin(), tokens.end(), [&]([[maybe_unused]] const std::string& t){
 			return sw.find(t) != sw.end();
 		}), tokens.end());
 	}
@@ -3059,7 +3059,7 @@ std::vector<SecondaryIndexManager::IndexStats> SecondaryIndexManager::getAllInde
 	std::unordered_set<std::string> processedColumns;
 	
 	// Scan all meta-key prefixes and collect unique table:column combinations
-	auto scanMetaPrefix = [&](const std::string& metaPrefix) {
+	auto scanMetaPrefix = [&]([[maybe_unused]] const std::string& metaPrefix) {
 		std::string prefix = metaPrefix + table + ":";
 		db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*val*/) {
 			// Extract column from key (format: "prefix:table:column")
@@ -3648,7 +3648,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 	stats.unique = false;
 
 	// Helper to read meta value using RocksDBWrapper::get()
-	auto readMeta = [&](const std::string& key)->std::optional<std::string> {
+	auto readMeta = [&]([[maybe_unused]] const std::string& key)->std::optional<std::string> {
 		auto opt = db_.get(key);
 		if (!opt) return std::nullopt;
 		return std::string(opt->begin(), opt->end());
@@ -3820,7 +3820,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 void SecondaryIndexManager::reindexTable(const std::string& table) {
 	std::unordered_set<std::string> columns;
 	
-	auto scanMetaPrefix = [&](const std::string& metaPrefix) {
+	auto scanMetaPrefix = [&]([[maybe_unused]] const std::string& metaPrefix) {
 		std::string prefix = metaPrefix + table + ":";
 		db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*val*/) {
 			std::string keyStr(key);

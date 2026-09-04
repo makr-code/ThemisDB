@@ -145,7 +145,7 @@ void computeQuartiles(const std::vector<double> &sorted, double &q1, double &q3)
         q1 = q3 = 0.0;
         return;
     }
-    auto lerp = [&](double pos) -> double {
+    auto lerp = [&]([[maybe_unused]] double pos) -> double {
         size_t lo   = static_cast<size_t>(pos);
         double frac = pos - static_cast<double>(lo);
         if (lo + 1 >= n) {
@@ -1076,7 +1076,7 @@ AnomalyDetector AnomalyDetector::deserialize(const std::string &data) {
         return parts;
     };
 
-    auto toDoubleVec = [&](const std::string &s) -> std::vector<double> {
+    auto toDoubleVec = [&]([[maybe_unused]] const std::string &s) -> std::vector<double> {
         std::vector<double> v;
         for (const auto& t : splitComma(s)) {
             try { v.push_back(std::stod(t)); } catch (...) {}

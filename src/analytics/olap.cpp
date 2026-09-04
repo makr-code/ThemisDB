@@ -1817,7 +1817,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
             return "";
         };
 
-        auto passesFilters = [&](const OLAPResult::Row &row) -> bool {
+        auto passesFilters = [&]([[maybe_unused]] const OLAPResult::Row &row) -> bool {
             for (size_t fi = 0; fi < filters.size(); ++fi) {
                 const auto &f = filters[fi];
                 auto it      = row.values.find(f.field);
@@ -2021,7 +2021,7 @@ bool OLAPEngine::exportToParquet(const OLAPResult &result, const std::string &pa
                 auto it = row.values.find(col_name);
                 if (it != row.values.end()) {
                     std::visit(
-                        [&](const auto &val) {
+                        [&]([[maybe_unused]] const auto &val) {
                             using T = std::decay_t<decltype(val)>;
                             if constexpr (std::is_same_v<T, bool>) {
                                 arrow_type = arrow::Type::BOOL;

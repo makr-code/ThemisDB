@@ -363,7 +363,7 @@ std::string IncrementalExporter::formatEntity(const BaseEntity& entity,
             if (excluded) { continue; }
         }
 
-        std::visit([&](const auto& v) {
+        std::visit([&]([[maybe_unused]] const auto& v) {
             using T = std::decay_t<decltype(v)>;
             if constexpr (std::is_same_v<T, std::monostate>) {
                 j[key] = nullptr;

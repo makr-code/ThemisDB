@@ -119,7 +119,7 @@ void SimpleAdversarialTester::setDetectorFn(DetectorFn fn) {
 
 void SimpleAdversarialTester::addTestCase(AdversarialTestCase test_case) {
     const auto it = std::find_if(cases_.begin(), cases_.end(),
-                                  [&](const AdversarialTestCase& c) {
+                                  [&]([[maybe_unused]] const AdversarialTestCase& c) {
                                       return c.id == test_case.id;
                                   });
     if (it != cases_.end()) {
@@ -191,7 +191,7 @@ void SimpleAdversarialTester::loadDefaultTestSuite() {
     for (const auto& tc : kDefaultCases) {
         // Skip if already registered (idempotent)
         const auto it = std::find_if(cases_.begin(), cases_.end(),
-                                      [&](const AdversarialTestCase& c) {
+                                      [&]([[maybe_unused]] const AdversarialTestCase& c) {
                                           return c.id == tc.id;
                                       });
         if (it == cases_.end()) {
@@ -206,7 +206,7 @@ void SimpleAdversarialTester::loadDefaultTestSuite() {
 
 AdversarialTestResult SimpleAdversarialTester::runOne(const std::string& id) const {
     const auto it = std::find_if(cases_.begin(), cases_.end(),
-                                  [&](const AdversarialTestCase& c) {
+                                  [&]([[maybe_unused]] const AdversarialTestCase& c) {
                                       return c.id == id;
                                   });
     if (it == cases_.end()) {

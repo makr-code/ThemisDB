@@ -106,7 +106,7 @@ SearchMetrics SearchAnalytics::computeMetrics() const {
     // Percentiles
     std::vector<double> sorted_lat = latencies;
     std::sort(sorted_lat.begin(), sorted_lat.end());
-    auto percentile = [&](double p) -> double {
+    auto percentile = [&]([[maybe_unused]] double p) -> double {
         size_t idx = static_cast<size_t>(p * static_cast<double>(sorted_lat.size() - 1));
         return sorted_lat[idx];
     };

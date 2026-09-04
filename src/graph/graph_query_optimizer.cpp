@@ -1857,7 +1857,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     size_t vf2_iteration_count = 0;
     bool vf2_limit_exceeded = false;
 
-    std::function<void(size_t)> backtrack = [&](size_t depth) {
+    std::function<void(size_t)> backtrack = [&]([[maybe_unused]] size_t depth) {
         if (timedOut()) { local_stats.early_terminated = true; return; }
         if (local_stats.early_terminated) return;
         if (depth == n_pattern) {

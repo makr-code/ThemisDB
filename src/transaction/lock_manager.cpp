@@ -267,7 +267,7 @@ LockManager::LockResult LockManager::upgradeLock(
                 // (i.e., it is truly a mutual upgrade, not an ordinary acquire).
                 bool is_upgrade_waiter = std::any_of(
                     entry.holders.begin(), entry.holders.end(),
-                    [&](const LockEntry& e) { return e.holder == waiter->txn_id; });
+                    [&]([[maybe_unused]] const LockEntry& e) { return e.holder == waiter->txn_id; });
                 if (is_upgrade_waiter) {
                     THEMIS_WARN(
                         "[TXLOCK] Mutual upgrade deadlock detected for key={}, tx_a={}, tx_b={}: "

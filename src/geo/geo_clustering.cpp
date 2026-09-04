@@ -180,7 +180,7 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
     const bool use_gpu_adj = !gpu_adj.empty();
 
     // Returns the indices of all valid points within epsilon_m of point i.
-    auto regionQuery = [&](std::size_t i) -> std::vector<std::size_t> {
+    auto regionQuery = [&]([[maybe_unused]] std::size_t i) -> std::vector<std::size_t> {
         std::vector<std::size_t> neighbours;
         if (use_gpu_adj) {
             const uint8_t *row = gpu_adj.data() + i * n;

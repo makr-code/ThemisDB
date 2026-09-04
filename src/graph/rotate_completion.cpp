@@ -335,7 +335,7 @@ public:
                             }
                         }
 
-                        auto renormalize_entity = [&](size_t e_idx) {
+                        auto renormalize_entity = [&]([[maybe_unused]] size_t e_idx) {
                             float norm2 = 0.0f;
                             for (size_t kk = 0; kk < d; ++kk) {
                                 float re = entity_re_[e_idx * d + kk];

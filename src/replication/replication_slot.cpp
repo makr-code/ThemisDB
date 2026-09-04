@@ -287,7 +287,7 @@ void ReplicationSlot::loadState()
 
     std::string line;
     while (std::getline(ifs, line)) {
-        auto extract = [&](const std::string& key) -> std::string {
+        auto extract = [&]([[maybe_unused]] const std::string& key) -> std::string {
             const std::string search = "\"" + key + "\": ";
             auto pos = line.find(search);
             if (pos == std::string::npos) return "";

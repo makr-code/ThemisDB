@@ -653,7 +653,7 @@ static BatchBody buildBatchBody(const std::vector<BaseEntity> &entities, const s
         int32_t offset_cursor = 0;
         std::vector<uint8_t> offsets_buf;
         offsets_buf.reserve((vals.size() + 1) * 4);
-        auto append_i32 = [&](int32_t v) {
+        auto append_i32 = [&]([[maybe_unused]] int32_t v) {
             uint32_t u = static_cast<uint32_t>(v);
             offsets_buf.push_back(static_cast<uint8_t>(u & 0xFF));
             offsets_buf.push_back(static_cast<uint8_t>((u >> 8) & 0xFF));

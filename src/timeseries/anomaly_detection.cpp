@@ -100,7 +100,7 @@ std::vector<AnomalyPoint> IQRDetector::detect(
     const size_t n = vals.size();
 
     // Q1 and Q3 via linear interpolation
-    auto percentile = [&](double frac) -> double {
+    auto percentile = [&]([[maybe_unused]] double frac) -> double {
         if (n == 1) return vals[0];
         double pos   = frac * static_cast<double>(n - 1);
         size_t lo    = static_cast<size_t>(pos);

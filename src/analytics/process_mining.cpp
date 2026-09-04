@@ -1078,7 +1078,7 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
 
                 // Remove old edges from activity to targets and add new ones
                 process.edges.erase(std::remove_if(process.edges.begin(), process.edges.end(),
-                                                   [&](const DiscoveredProcess::Edge &e) {
+                                                   [&]([[maybe_unused]] const DiscoveredProcess::Edge &e) {
                                                        return e.from == actNode && targetNodes.count(e.to) > 0;
                                                    }),
                                     process.edges.end());
@@ -1152,7 +1152,7 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
 
                 // Remove old edges from sources to activity
                 process.edges.erase(std::remove_if(process.edges.begin(), process.edges.end(),
-                                                   [&](const DiscoveredProcess::Edge &e) {
+                                                   [&]([[maybe_unused]] const DiscoveredProcess::Edge &e) {
                                                        return e.to == actNode && sourceNodes.count(e.from) > 0;
                                                    }),
                                     process.edges.end());
@@ -1370,7 +1370,7 @@ std::vector<std::set<std::string>> findComponents(const SubDFG &dfg) {
         parent[a] = a;
     }
 
-    std::function<std::string(const std::string &)> find = [&](const std::string &x) -> std::string {
+    std::function<std::string(const std::string &)> find = [&]([[maybe_unused]] const std::string &x) -> std::string {
         if (parent[x] != x) {
             parent[x] = find(parent[x]);
         }

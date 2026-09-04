@@ -56,7 +56,7 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
         if (ends_with(path, ".yaml") || ends_with(path, ".yml")) {
             // YAML parsing
             YAML::Node root = YAML::LoadFile(path);
-            auto parse_policy_node = [&](const YAML::Node& n) -> std::optional<Policy> {
+            auto parse_policy_node = [&]([[maybe_unused]] const YAML::Node& n) -> std::optional<Policy> {
                 try {
                     Policy p;
                     if (n["id"]) p.id = n["id"].as<std::string>("");
@@ -232,7 +232,7 @@ bool PolicyEngine::removePolicy(const std::string& id) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto size_before = policies_.size();
         policies_.erase(std::remove_if(policies_.begin(), policies_.end(),
-                                       [&](const Policy& p){ return p.id == id; }),
+                                       [&]([[maybe_unused]] const Policy& p){ return p.id == id; }),
                         policies_.end());
         removed = policies_.size() != size_before;
         logger  = audit_logger_;
