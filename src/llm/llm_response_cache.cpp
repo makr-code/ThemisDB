@@ -204,7 +204,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         stats_.avg_lookup_time_ms = (stats_.avg_lookup_time_ms * (stats_.hits + stats_.misses - 1) + 
-                                      duration.count() / 1000.0) / (stats_.hits + stats_.misses);
+                                      duration.count() / 1000.0) / static_cast<double>(stats_.hits + stats_.misses);
         if (metrics_collector_) metrics_collector_->recordCacheHit(cache_name_);
         return exact_it->second.response;
     }
@@ -249,7 +249,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
                         size_t total_ops = stats_.hits.load(std::memory_order_relaxed) + 
                                           stats_.misses.load(std::memory_order_relaxed);
                         double new_avg = (stats_.avg_lookup_time_ms.load(std::memory_order_relaxed) * (total_ops - 1) + 
-                                         duration.count() / 1000.0) / total_ops;
+                                         duration.count() / 1000.0) / static_cast<double>(total_ops);
                         stats_.avg_lookup_time_ms.store(new_avg, std::memory_order_relaxed);
                         
                         // Record cache hit
@@ -338,7 +338,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         stats_.avg_lookup_time_ms = (stats_.avg_lookup_time_ms * (stats_.hits + stats_.misses - 1) + 
-                                      duration.count() / 1000.0) / (stats_.hits + stats_.misses);
+                                      duration.count() / 1000.0) / static_cast<double>(stats_.hits + stats_.misses);
         if (metrics_collector_) metrics_collector_->recordCacheHit(cache_name_);
         return best_response;
     }
@@ -352,7 +352,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
     size_t total_ops = stats_.hits.load(std::memory_order_relaxed) + 
                       stats_.misses.load(std::memory_order_relaxed);
     double new_avg = (stats_.avg_lookup_time_ms.load(std::memory_order_relaxed) * (total_ops - 1) + 
-                     duration.count() / 1000.0) / total_ops;
+                     duration.count() / 1000.0) / static_cast<double>(total_ops);
     stats_.avg_lookup_time_ms.store(new_avg, std::memory_order_relaxed);
     
     // Record cache miss
