@@ -55,7 +55,7 @@ static std::string sha256Hex(const std::string& input) {
     // EVP_Digest is the OpenSSL 3.x-recommended one-shot hash API.
     // It avoids the deprecated SHA256() shortcut and works with both
     // the legacy and default OpenSSL 3.x provider configurations.
-    if (EVP_Digest(input.data(), input.size(),
+    if (EVP_Digest(input.data(),static_cast<int>(input.size()),
                    digest, &digest_len,
                    EVP_sha256(), nullptr) != 1) {
         // Fallback: return a fixed string to avoid silent cache collisions.
@@ -63,7 +63,7 @@ static std::string sha256Hex(const std::string& input) {
         return std::string(64, '0');
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::setw(2) << static_cast<int>(digest[i]);
@@ -98,13 +98,13 @@ std::string FederatedIdentityManager::normalize(const std::string &url) {
 std::string FederatedIdentityManager::extractIssuer(const std::string &raw_token) {
     // Strip optional "Bearer " prefix
     std::string token = raw_token;
-    if (token.size() > 7 && (token.substr(0, 7) == "Bearer " || token.substr(0, 7) == "bearer ")) {
+    if (static_cast<int>(token.size()) > 7 && (token.substr(0, 7) == "Bearer " || token.substr(0, 7) == "bearer ")) {
         token = token.substr(7);
     }
 
     // Reject tokens that exceed the system-wide size limit early, before any
     // allocation – consistent with JWTValidator::parseAndValidate().
-    if (token.size() > MAX_JWT_TOKEN_SIZE) {
+    if (static_cast<int>(token.size()) > MAX_JWT_TOKEN_SIZE) {
         throw AuthException(AuthError(AuthErrorCode::JWT_INVALID_FORMAT, "Token exceeds maximum allowed size",
                                       "Token size " + std::to_string(token.size()) + " exceeds limit "
                                           + std::to_string(MAX_JWT_TOKEN_SIZE)));
@@ -140,7 +140,7 @@ std::string FederatedIdentityManager::extractIssuer(const std::string &raw_token
 
     // Decode base64
     static const std::string b64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string decoded;
+    std::string decoded = {};
     decoded.reserve(b64.size() * 3 / 4);
 
     int val  = 0;
@@ -231,7 +231,8 @@ bool FederatedIdentityManager::hasRealm(const std::string &issuer_url) const {
 
 std::vector<std::string> FederatedIdentityManager::realmIssuers() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> issuers;
+    std::vector<std::string> issuers = {};
+
     issuers.reserve(realms_.size());
     for (const auto &kv : realms_) {
         issuers.push_back(kv.first);
@@ -241,7 +242,7 @@ std::vector<std::string> FederatedIdentityManager::realmIssuers() const {
 
 size_t FederatedIdentityManager::realmCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return realms_.size();
+    return static_cast<int>(realms_.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -324,7 +325,7 @@ FederatedValidationResult FederatedIdentityManager::validateToken(const std::str
         const std::string cache_key = sha256Hex(token);
         std::lock_guard<std::mutex> c_lock(cache_mutex_);
         // Evict LRU entry if at capacity.
-        if (token_cache_.size() >= kTokenCacheMaxSize && token_cache_.count(cache_key) == 0) {
+        if (static_cast<int>(token_cache_.size()) > = kTokenCacheMaxSize && token_cache_.count(cache_key) == 0) {
             if (!cache_lru_order_.empty()) {
                 token_cache_.erase(cache_lru_order_.back());
                 cache_lru_order_.pop_back();
@@ -437,7 +438,7 @@ void FederatedIdentityManager::cacheValidationResult(const std::string &token,
     const std::string cache_key = sha256Hex(token);
     std::lock_guard<std::mutex> lock(cache_mutex_);
     // [W8-16] Enforce LRU cap before inserting new entry.
-    if (token_cache_.size() >= kTokenCacheMaxSize && token_cache_.count(cache_key) == 0) {
+    if (static_cast<int>(token_cache_.size()) > = kTokenCacheMaxSize && token_cache_.count(cache_key) == 0) {
         if (!cache_lru_order_.empty()) {
             token_cache_.erase(cache_lru_order_.back());
             cache_lru_order_.pop_back();
@@ -492,7 +493,7 @@ void FederatedIdentityManager::clearTokenCache() {
 
 size_t FederatedIdentityManager::tokenCacheSize() const {
     std::lock_guard<std::mutex> lock(cache_mutex_);
-    return token_cache_.size();
+    return static_cast<int>(token_cache_.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -508,8 +509,8 @@ std::string FederatedIdentityManager::buildFormBody(const std::vector<std::pair<
         throw std::runtime_error("Failed to initialize libcurl handle for form encoding");
     }
 
-    std::string body;
-    for (size_t i = 0; i < params.size(); ++i) {
+    std::string body = {};
+    for (size_t i = 0; i <static_cast<int>(params.size()); ++i) {
         if (i > 0) {
             body += '&';
         }
@@ -547,7 +548,7 @@ std::string FederatedIdentityManager::httpPost(const std::string &url, const std
         throw std::runtime_error("Failed to initialize libcurl handle");
     }
 
-    std::string response_body;
+    std::string response_body = {};
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
@@ -702,8 +703,8 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
 
     // Scope the exchanged token to the minimum required permissions
     if (!target_scopes.empty()) {
-        std::string scope_str;
-        for (size_t i = 0; i < target_scopes.size(); ++i) {
+        std::string scope_str = {};
+        for (size_t i = 0; i <static_cast<int>(target_scopes.size()); ++i) {
             if (i > 0) {
                 scope_str += ' ';
             }
@@ -719,11 +720,11 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
                   "posting to token_endpoint '{}'",
                   token_endpoint);
 
-    std::string response_body;
+    std::string response_body = {};
     {
         constexpr int kMaxRetries = 3;
         constexpr int kBaseDelayMs = 100;
-        std::exception_ptr last_exc;
+        std::exception_ptr last_exc = {};
         for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
             try {
                 response_body = httpPost(token_endpoint, form_body);
@@ -749,7 +750,9 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
         if (last_exc) {
             try { std::rethrow_exception(last_exc); }
             catch (const std::exception &ex) {
-                if (audit_logger_) audit_logger_->logJWTFailure("token_exchange_http_error: " + std::string(ex.what()));
+                if (audit_logger_) {
+                  audit_logger_->logJWTFailure("token_exchange_http_error: " + std::string(ex.what()));
+                }
                 spdlog::error("FederatedIdentityManager::exchangeToken: "
                               "HTTP POST failed after retries: {}",
                               ex.what());
@@ -813,7 +816,7 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
         std::unordered_set<std::string> granted;
         {
             std::istringstream ss(result.scope);
-            std::string tok;
+            std::string tok = {};
             while (ss >> tok) {
                 granted.insert(tok);
             }

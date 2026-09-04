@@ -486,7 +486,9 @@ TEST_F(TaskSchedulerTest, RetryPolicyNoneIsEquivalentToZeroRetries) {
 TEST_F(TaskSchedulerTest, RetryPolicyFixedDelay) {
     std::atomic<int> call_count{0};
     scheduler_->registerFunction("fixed_delay_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        if (++call_count < 3) throw std::runtime_error("not yet");
+        if (++call_count < 3) {
+          throw std::runtime_error("not yet");
+        }
         return nlohmann::json{{"ok", true}};
     });
 
@@ -518,7 +520,9 @@ TEST_F(TaskSchedulerTest, RetryPolicyFixedDelay) {
 TEST_F(TaskSchedulerTest, RetryPolicyLinearBackoff) {
     std::atomic<int> call_count{0};
     scheduler_->registerFunction("linear_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        if (++call_count < 2) throw std::runtime_error("first fail");
+        if (++call_count < 2) {
+          throw std::runtime_error("first fail");
+        }
         return nlohmann::json{{"ok", true}};
     });
 
@@ -545,7 +549,9 @@ TEST_F(TaskSchedulerTest, RetryPolicyLinearBackoff) {
 TEST_F(TaskSchedulerTest, RetryPolicyJitterBackoff) {
     std::atomic<int> call_count{0};
     scheduler_->registerFunction("jitter_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        if (++call_count < 2) throw std::runtime_error("first fail");
+        if (++call_count < 2) {
+          throw std::runtime_error("first fail");
+        }
         return nlohmann::json{{"ok", true}};
     });
 
@@ -606,7 +612,9 @@ TEST_F(TaskSchedulerTest, RetryPolicyConditionalShouldRetry) {
 TEST_F(TaskSchedulerTest, RetryPolicyLegacyMaxRetriesStillWorks) {
     std::atomic<int> call_count{0};
     scheduler_->registerFunction("legacy_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        if (++call_count < 2) throw std::runtime_error("first fail");
+        if (++call_count < 2) {
+          throw std::runtime_error("first fail");
+        }
         return nlohmann::json{{"ok", true}};
     });
 
@@ -627,7 +635,9 @@ TEST_F(TaskSchedulerTest, RetryPolicyLegacyMaxRetriesStillWorks) {
 TEST_F(TaskSchedulerTest, RetryPolicyExponentialBackoff) {
     std::atomic<int> call_count{0};
     scheduler_->registerFunction("exp_backoff_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        if (++call_count < 3) throw std::runtime_error("transient error");
+        if (++call_count < 3) {
+          throw std::runtime_error("transient error");
+        }
         return nlohmann::json{{"ok", true}};
     });
 
@@ -707,7 +717,9 @@ TEST_F(TaskSchedulerTest, RetryPolicyPersistedAndRestoredFromDisk) {
 TEST_F(TaskSchedulerTest, RetryPolicyFibonacciBackoff) {
     std::atomic<int> call_count{0};
     scheduler_->registerFunction("fib_backoff_fn", [&](const nlohmann::json&) -> nlohmann::json {
-        if (++call_count < 4) throw std::runtime_error("transient error");
+        if (++call_count < 4) {
+          throw std::runtime_error("transient error");
+        }
         return nlohmann::json{{"ok", true}};
     });
 
@@ -1019,7 +1031,9 @@ TEST_F(TaskSchedulerTest, ErrorCategoryResetToNoneOnSubsequentSuccess) {
     int call = 0;
     scheduler_->registerFunction("flaky_fn",
         [&call](const nlohmann::json&) -> nlohmann::json {
-            if (call++ == 0) throw std::runtime_error("temporary blip");
+            if (call++ == 0) {
+              throw std::runtime_error("temporary blip");
+            }
             return {};
         });
     ScheduledTask task;
@@ -1153,7 +1167,7 @@ TEST_F(TaskSchedulerTest, DAG_ConditionalSkipPropagatesTransitively) {
     // A → B (condition: false) → C
     // B is condition-skipped, C should be condition-skipped transitively.
     std::vector<std::string> log;
-    std::mutex mu;
+    std::mutex mu = {};
 
     // Register root task A inline (no branch_condition)
     scheduler_->registerFunction("cs_a_fn", [&log, &mu](const nlohmann::json&) -> nlohmann::json {
@@ -1226,7 +1240,7 @@ TEST_F(TaskSchedulerTest, DAG_UnknownTaskIdThrows) {
 
 TEST_F(TaskSchedulerTest, DAG_SingleTask) {
     std::vector<std::string> order;
-    std::mutex mu;
+    std::mutex mu = {};
     registerOrderTask(scheduler_.get(), "solo", {}, order, mu);
 
     auto res = scheduler_->executeDAG({"solo"});
@@ -1240,7 +1254,7 @@ TEST_F(TaskSchedulerTest, DAG_SingleTask) {
 TEST_F(TaskSchedulerTest, DAG_LinearChainRespectsDependencyOrder) {
     // a -> b -> c   (b depends on a; c depends on b)
     std::vector<std::string> order;
-    std::mutex mu;
+    std::mutex mu = {};
     registerOrderTask(scheduler_.get(), "dag_a", {}, order, mu);
     registerOrderTask(scheduler_.get(), "dag_b", {"dag_a"}, order, mu);
     registerOrderTask(scheduler_.get(), "dag_c", {"dag_b"}, order, mu);
@@ -1261,7 +1275,7 @@ TEST_F(TaskSchedulerTest, DAG_LinearChainRespectsDependencyOrder) {
 TEST_F(TaskSchedulerTest, DAG_ParallelIndependentTasksAllSucceed) {
     // p1, p2, p3 have no dependencies – all run independently
     std::vector<std::string> order;
-    std::mutex mu;
+    std::mutex mu = {};
     registerOrderTask(scheduler_.get(), "par1", {}, order, mu);
     registerOrderTask(scheduler_.get(), "par2", {}, order, mu);
     registerOrderTask(scheduler_.get(), "par3", {}, order, mu);
@@ -1342,7 +1356,7 @@ TEST_F(TaskSchedulerTest, DAG_CycleDetectionThrows) {
 TEST_F(TaskSchedulerTest, DAG_DependencyOutsideSetIsIgnored) {
     // task_x depends on task_y, but only task_x is in the execution set
     std::vector<std::string> order;
-    std::mutex mu;
+    std::mutex mu = {};
     registerOrderTask(scheduler_.get(), "only_x", {"nonexistent_y"}, order, mu);
 
     // Should not throw and should succeed (out-of-set dep is silently ignored)

@@ -42,7 +42,9 @@ std::string makeErrorJson(const std::string& error,
                           const std::string& description = "") {
     json j;
     j["error"] = error;
-    if (!description.empty()) j["error_description"] = description;
+    if (!description.empty()) {
+      j["error_description"] = description;
+    }
     return j.dump();
 }
 
@@ -242,7 +244,7 @@ TEST(OAuthPKCEFlowTest, ExchangeCode_Success) {
 }
 
 TEST(OAuthPKCEFlowTest, ExchangeCode_PostsToTokenEndpoint) {
-    std::string captured_url;
+    std::string captured_url = {};
     OAuthPKCEFlow flow(makeConfig());
     flow.setHttpPostForTesting([&captured_url](const std::string& url,
                                                const std::string&) {
@@ -255,7 +257,7 @@ TEST(OAuthPKCEFlowTest, ExchangeCode_PostsToTokenEndpoint) {
 }
 
 TEST(OAuthPKCEFlowTest, ExchangeCode_BodyContainsRequiredParams) {
-    std::string captured_body;
+    std::string captured_body = {};
     OAuthPKCEFlow flow(makeConfig());
     flow.setHttpPostForTesting([&captured_body](const std::string&,
                                                 const std::string& body) {

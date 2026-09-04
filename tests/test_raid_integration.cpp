@@ -254,7 +254,8 @@ TEST_F(RAIDIntegrationTest, RAID5_RecoveryFromMultipleFailures) {
     ASSERT_TRUE(writeResult.success);
     
     // Fail 2 shards (should still be recoverable with 4+2)
-    std::vector<std::string> failed_shards;
+    std::vector<std::string> failed_shards = {};
+
     for (size_t i = 0; i < std::min(size_t(2), writeResult.written_shards.size()); ++i) {
         env.failShard(writeResult.written_shards[i]);
         failed_shards.push_back(writeResult.written_shards[i]);

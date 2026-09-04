@@ -67,7 +67,7 @@ bool hasUsableSchemaPayload(const json& schema) {
 // Schema bridge setters (stub #294)
 // ============================================================================
 
-void ImportApiHandler::setSchemaInspectorFn(SchemaInspectorFn fn) {
+void ImportApiHandler::setSchemaInspectorFn([[maybe_unused]] SchemaInspectorFn fn) {
     schemaInspectorFn_ = std::move(fn);
 }
 
@@ -75,7 +75,7 @@ void ImportApiHandler::clearSchemaInspectorFn() {
     schemaInspectorFn_ = nullptr;
 }
 
-void ImportApiHandler::setSchemaValidatorFn(SchemaValidatorFn fn) {
+void ImportApiHandler::setSchemaValidatorFn([[maybe_unused]] SchemaValidatorFn fn) {
     schemaValidatorFn_ = std::move(fn);
 }
 
@@ -98,7 +98,7 @@ ImportApiHandler::ImportApiHandler(
 // Route registration
 // ============================================================================
 
-void ImportApiHandler::registerRoutes(httplib::Server& server) {
+void ImportApiHandler::registerRoutes([[maybe_unused]] httplib::Server& server) {
     // POST /api/v1/import/postgresql – start async import
     server.Post("/api/v1/import/postgresql",
         [this](const httplib::Request& req, httplib::Response& res) {
@@ -189,7 +189,7 @@ void ImportApiHandler::handleStartImport(const httplib::Request& req,
     }
     const std::string source_path = body["source_path"].get<std::string>();
 
-    ImportOptions opts;
+    ImportOptions opts = {};
     if (body.contains("options") && body["options"].is_object()) {
         opts = optionsFromJson(body["options"]);
     }
@@ -232,7 +232,7 @@ void ImportApiHandler::handleStartMySQLImport(const httplib::Request& req,
     }
     const std::string source_path = body["source_path"].get<std::string>();
 
-    ImportOptions opts;
+    ImportOptions opts = {};
     if (body.contains("options") && body["options"].is_object()) {
         opts = optionsFromJson(body["options"]);
     }
@@ -294,7 +294,7 @@ void ImportApiHandler::handleStartS3Import(const httplib::Request& req,
         }
     }
 
-    ImportOptions opts;
+    ImportOptions opts = {};
     if (body.contains("options") && body["options"].is_object()) {
         opts = optionsFromJson(body["options"]);
     }
@@ -415,12 +415,12 @@ void ImportApiHandler::handleImportWizard(const httplib::Request& /*req*/,
 // Helpers
 // ============================================================================
 
-json ImportApiHandler::parseRequestBody(const std::string& body) {
+json ImportApiHandler::parseRequestBody([[maybe_unused]] const std::string& body) {
     return json::parse(body);
 }
 
-ImportOptions ImportApiHandler::optionsFromJson(const json& j) {
-    ImportOptions opts;
+ImportOptions ImportApiHandler::optionsFromJson([[maybe_unused]] const json& j) {
+    ImportOptions opts = {};
     if (j.contains("dry_run") && j["dry_run"].is_boolean())
         opts.dry_run = j["dry_run"].get<bool>();
     if (j.contains("continue_on_error") && j["continue_on_error"].is_boolean())
@@ -447,11 +447,15 @@ ImportOptions ImportApiHandler::optionsFromJson(const json& j) {
         opts.skip_duplicates = j["skip_duplicates"].get<bool>();
     if (j.contains("include_tables") && j["include_tables"].is_array()) {
         for (auto& t : j["include_tables"])
-            if (t.is_string()) opts.include_tables.push_back(t.get<std::string>());
+            if (t.is_string()) {
+              opts.include_tables.push_back(t.get<std::string>());
+            }
     }
     if (j.contains("exclude_tables") && j["exclude_tables"].is_array()) {
         for (auto& t : j["exclude_tables"])
-            if (t.is_string()) opts.exclude_tables.push_back(t.get<std::string>());
+            if (t.is_string()) {
+              opts.exclude_tables.push_back(t.get<std::string>());
+            }
     }
     if (j.contains("max_row_size_bytes") && j["max_row_size_bytes"].is_number_unsigned())
         opts.max_row_size_bytes = j["max_row_size_bytes"].get<size_t>();
@@ -463,7 +467,9 @@ ImportOptions ImportApiHandler::optionsFromJson(const json& j) {
         opts.checkpoint_file = j["checkpoint_file"].get<std::string>();
     if (j.contains("type_overrides") && j["type_overrides"].is_object()) {
         for (auto& [k, v] : j["type_overrides"].items())
-            if (v.is_string()) opts.type_overrides[k] = v.get<std::string>();
+            if (v.is_string()) {
+              opts.type_overrides[k] = v.get<std::string>();
+            }
     }
     // v2.0: relationship options
     if (j.contains("preserve_relationships") && j["preserve_relationships"].is_boolean())
@@ -607,9 +613,13 @@ void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
 
     if (schema.contains("structured_errors") && schema["structured_errors"].is_array()) {
         for (const auto& entry : schema["structured_errors"]) {
-            if (!entry.is_object()) continue;
+            if (!entry.is_object()) {
+              continue;
+            }
             const std::string message = entry.value("message", std::string{});
-            if (message.empty()) continue;
+            if (message.empty()) {
+              continue;
+            }
             const int severity = entry.value("severity", static_cast<int>(importers::ImportErrorSeverity::ERROR));
             if (severity == static_cast<int>(importers::ImportErrorSeverity::WARNING)) {
                 warn_arr.push_back(message);
@@ -660,7 +670,9 @@ void ImportApiHandler::handleUpdateRelationships(const httplib::Request& req,
     // Validate each relationship entry has required fields
     json validated = json::array();
     for (const auto& entry : body) {
-        if (!entry.is_object()) continue;
+        if (!entry.is_object()) {
+          continue;
+        }
         if (!entry.contains("source_table") || !entry.contains("target_table")) {
             jsonError(res, 400,
                       "Each relationship must have 'source_table' and 'target_table'");
@@ -679,7 +691,7 @@ void ImportApiHandler::handleUpdateRelationships(const httplib::Request& req,
 
     jsonOk(res, json{
         {"job_id", job_id},
-        {"relationships_configured", validated.size()}
+        {"relationships_configured",static_cast<int>(validated.size())}
     });
 }
 

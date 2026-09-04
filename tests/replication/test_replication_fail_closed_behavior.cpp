@@ -15,7 +15,9 @@ struct StubWAL {
     std::vector<std::string> entries;
 
     bool append(const std::string& entry) {
-        if (fail_append) return false;
+        if (fail_append) {
+          return false;
+        }
         entries.push_back(entry);
         return true;
     }

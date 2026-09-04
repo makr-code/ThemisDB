@@ -116,13 +116,15 @@ public:
      * @brief Cache statistics
      */
     struct Statistics {
-        size_t current_size;
-        size_t hits;
-        size_t misses;
+        size_t current_size = 0;
+        size_t hits = {};
+        size_t misses = {};
         
         double hit_ratio() const {
             size_t total = hits + misses;
-            if (total == 0) return 0.0;
+            if (total == 0) {
+              return 0.0;
+            }
             return static_cast<double>(hits) / static_cast<double>(total);
         }
     };

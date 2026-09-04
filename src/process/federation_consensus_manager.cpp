@@ -383,7 +383,7 @@ uint64_t FederationConsensusManagerImpl::AppendEntry(const std::string& data) {
 
   utils::Logger::Debug(
       "AppendEntry: leader=%s, term=%llu, index=%llu, data_size=%zu",
-      node_id_.c_str(), current_term_, entry.index, data.size());
+      node_id_.c_str(), current_term_, entry.index,static_cast<int>(data.size()));
 
   return entry.index;
 }
@@ -517,7 +517,7 @@ void FederationConsensusManagerImpl::BecomeLeader() {
                       current_term_);
 }
 
-void FederationConsensusManagerImpl::BecomeFollower(uint64_t new_term) {
+void FederationConsensusManagerImpl::BecomeFollower([[maybe_unused]] uint64_t new_term) {
   if (new_term > current_term_) {
     current_term_ = new_term;
     voted_for_ = "";
@@ -539,10 +539,10 @@ void FederationConsensusManagerImpl::ReplicateLogEntries() {
 
 const ConsensusLogEntry* FederationConsensusManagerImpl::GetLogEntry(
     uint64_t index) const {
-  if (index == 0 || index > log_.size()) {
+  if (index == 0 || index > static_cast<int>(log_.size())) {
     return nullptr;
   }
-  return &log_[index - 1];  // Log is 1-indexed
+  return &log_[static_cast<int>(index - 1)];  // Log is 1-indexed
 }
 
 // ============================================================================
@@ -587,7 +587,8 @@ bool FederationConsensusManager::AppendEntries(
     const std::string& leader_id, uint64_t leader_term,
     uint64_t prev_log_index, uint64_t prev_log_term,
     const std::vector<std::string>& entries, uint64_t leader_commit) {
-  std::vector<ConsensusLogEntry> log_entries;
+  std::vector<ConsensusLogEntry> log_entries = {};
+
   for (const auto& data : entries) {
     ConsensusLogEntry entry;
     entry.data = data;

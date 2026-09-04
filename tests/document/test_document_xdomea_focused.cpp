@@ -367,8 +367,12 @@ TEST_F(XDOMEAImportTest, XI03_MultiObjectTypeParsing)
     bool foundAkte = false;
     bool foundDoc  = false;
     for (const auto& d : result.documents) {
-        if (d.object_type == XDOMEAObjectType::AKTE)     foundAkte = true;
-        if (d.object_type == XDOMEAObjectType::DOKUMENT) foundDoc  = true;
+        if (d.object_type == XDOMEAObjectType::AKTE) {
+          foundAkte = true;
+        }
+        if (d.object_type == XDOMEAObjectType::DOKUMENT) {
+          foundDoc  = true;
+        }
     }
     EXPECT_TRUE(foundAkte) << "Expected an AKTE object in parsed result";
     EXPECT_TRUE(foundDoc)  << "Expected a DOKUMENT object in parsed result";

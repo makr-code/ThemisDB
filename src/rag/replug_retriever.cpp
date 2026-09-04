@@ -31,10 +31,10 @@ namespace {
 std::unordered_set<std::string> tokenise(const std::string& text) {
     std::unordered_set<std::string> tokens;
     std::istringstream ss(text);
-    std::string word;
+    std::string word = {};
     while (ss >> word) {
         // Lower-case and strip trailing punctuation.
-        std::string lower;
+        std::string lower = {};
         lower.reserve(word.size());
         for (char c : word) {
             if (std::isalnum(static_cast<unsigned char>(c))) {
@@ -61,7 +61,7 @@ double jaccardSimilarity(const std::unordered_set<std::string>& a,
             ++intersection;
         }
     }
-    const size_t union_size = a.size() + b.size() - intersection;
+    const size_t union_size = static_cast<int>(a.size()) + static_cast<int>(b.size()) - intersection;
     return union_size == 0 ? 0.0
                            : static_cast<double>(intersection) /
                                  static_cast<double>(union_size);
@@ -208,7 +208,8 @@ std::vector<double> ReplugRetriever::computeKLGradients(
 std::vector<double> ReplugRetriever::computeLLMScores(
     const std::string&                           query,
     const std::vector<judge::RetrievedDocument>& candidates) const {
-    std::vector<double> raw;
+    std::vector<double> raw = {};
+
     raw.reserve(candidates.size());
     for (const auto& doc : candidates) {
         raw.push_back(scorer_->score(query, doc.content));
@@ -228,7 +229,8 @@ ReplugFusionResult ReplugRetriever::fuse(
     }
 
     // ── Step 1: filter by min_retrieval_score ──────────────────────────────
-    std::vector<judge::RetrievedDocument> filtered;
+    std::vector<judge::RetrievedDocument> filtered = {};
+
     filtered.reserve(candidates.size());
     for (const auto& doc : candidates) {
         if (doc.similarity_score >= config_.min_retrieval_score) {
@@ -240,7 +242,8 @@ ReplugFusionResult ReplugRetriever::fuse(
     }
 
     // ── Step 2: collect and normalise retrieval scores ─────────────────────
-    std::vector<double> ret_scores;
+    std::vector<double> ret_scores = {};
+
     ret_scores.reserve(filtered.size());
     for (const auto& doc : filtered) {
         // Apply per-document learned weight (REPLUG-LSR).
@@ -277,9 +280,10 @@ ReplugFusionResult ReplugRetriever::fuse(
 
     // ── Step 6: interpolate ────────────────────────────────────────────────
     const double lam = config_.llm_weight;
-    std::vector<double> fused;
+    std::vector<double> fused = {};
+
     fused.reserve(filtered.size());
-    for (size_t i = 0; i < filtered.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(filtered.size()); ++i) {
         fused.push_back((1.0 - lam) * ret_scores[i] + lam * llm_probs[i]);
     }
 
@@ -294,7 +298,7 @@ ReplugFusionResult ReplugRetriever::fuse(
     // ── Step 8: apply top_k and build output ─────────────────────────────
     const size_t limit =
         (config_.top_k == 0 || config_.top_k >= indices.size())
-            ? indices.size()
+            ?static_cast<int>(indices.size())
             : config_.top_k;
 
     result.documents.reserve(limit);
@@ -316,7 +320,7 @@ ReplugFusionResult ReplugRetriever::fuse(
     }
 
     THEMIS_DEBUG("ReplugRetriever::fuse: candidates={} filtered={} returned={}",
-                 candidates.size(), filtered.size(), result.documents.size());
+                 candidates.size(),static_cast<int>(filtered.size()),static_cast<int>(result.documents.size()));
 
     return result;
 }

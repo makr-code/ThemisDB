@@ -267,7 +267,9 @@ TEST_F(BatchNLToAQLTranslationTest, ParallelExecution_ResultsAreOrderedLikeReque
             // The response embeds the message content so callers can verify
             // ordering (the content comes from the user turn of the chat).
             for (const auto& m : msgs) {
-                if (m.role == "user") return "FOR x IN " + m.content + " RETURN x";
+                if (m.role == "user") {
+                  return "FOR x IN " + m.content + " RETURN x";
+                }
             }
             return "FOR x IN col RETURN x";
         }

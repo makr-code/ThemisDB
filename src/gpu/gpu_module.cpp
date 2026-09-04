@@ -243,10 +243,10 @@ GPUSafeFail::HealthStatus GPUModule::getSafeFailStatus() const {
     return safe_fail_.getStatus();
 }
 
-std::vector<GPUAuditLog::Event> GPUModule::getAuditLog(size_t last_n) const {
+std::vector<GPUAuditLog::Event> GPUModule::getAuditLog([[maybe_unused]] size_t last_n) const {
     auto all = audit_log_.snapshot();
-    if (all.size() > last_n) {
-        all.erase(all.begin(), all.begin() + static_cast<ptrdiff_t>(all.size() - last_n));
+    if (static_cast<int>(all.size()) > last_n) {
+        all.erase(all.begin(), all.begin() + static_cast<ptrdiff_t>(static_cast<int>(all.size()) - last_n));
     }
     return all;
 }

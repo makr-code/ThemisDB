@@ -94,7 +94,7 @@ public:
 
 private:
     T* ptr_;
-    size_t size_;
+    size_t size_ = 0;
 };
 
 /// Simple span implementation for bounds-checked access
@@ -511,7 +511,7 @@ TEST_F(MemorySafetyTest, MS_19_RAIIPreventUseAfterFree) {
     // Gap: memory_lifecycle (RAII ownership)
     // Setup: RAII object
     struct Resource {
-        int value;
+        int value = 0;
         explicit Resource(int v = 0) : value(v) {}
     };
 

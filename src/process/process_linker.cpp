@@ -56,14 +56,30 @@ std::string_view toString(ProcessLinkType t) {
 }
 
 ProcessLinkType processLinkTypeFromString(std::string_view s) {
-    if (s == "HAS_DOCUMENT")      return ProcessLinkType::HAS_DOCUMENT;
-    if (s == "HAS_METADATA")      return ProcessLinkType::HAS_METADATA;
-    if (s == "REQUIRES_DOCUMENT") return ProcessLinkType::REQUIRES_DOCUMENT;
-    if (s == "IS_INSTANCE_OF")    return ProcessLinkType::IS_INSTANCE_OF;
-    if (s == "SUB_PROCESS")       return ProcessLinkType::SUB_PROCESS;
-    if (s == "CROSS_REFERENCE")   return ProcessLinkType::CROSS_REFERENCE;
-    if (s == "TRIGGERS")          return ProcessLinkType::TRIGGERS;
-    if (s == "EVIDENCE_FOR")      return ProcessLinkType::EVIDENCE_FOR;
+    if (s == "HAS_DOCUMENT") {
+      return ProcessLinkType::HAS_DOCUMENT;
+    }
+    if (s == "HAS_METADATA") {
+      return ProcessLinkType::HAS_METADATA;
+    }
+    if (s == "REQUIRES_DOCUMENT") {
+      return ProcessLinkType::REQUIRES_DOCUMENT;
+    }
+    if (s == "IS_INSTANCE_OF") {
+      return ProcessLinkType::IS_INSTANCE_OF;
+    }
+    if (s == "SUB_PROCESS") {
+      return ProcessLinkType::SUB_PROCESS;
+    }
+    if (s == "CROSS_REFERENCE") {
+      return ProcessLinkType::CROSS_REFERENCE;
+    }
+    if (s == "TRIGGERS") {
+      return ProcessLinkType::TRIGGERS;
+    }
+    if (s == "EVIDENCE_FOR") {
+      return ProcessLinkType::EVIDENCE_FOR;
+    }
     return ProcessLinkType::HAS_DOCUMENT;
 }
 
@@ -224,12 +240,12 @@ bool ProcessLinker::detachObject(std::string_view attachment_id) {
     // attachment_id format: "attach:<instance_id>:<object_id>"
     // Reconstruct the RocksDB primary key: "proc:attach:<instance_id>:<object_id>"
     std::string sid(attachment_id);
-    if (sid.size() > 7 && sid.substr(0, 7) == "attach:") {
+    if (static_cast<int>(sid.size()) > 7 && sid.substr(0, 7) == "attach:") {
         sid = "proc:" + sid;
     }
 
     // Read the attachment document to extract fields needed for index cleanup.
-    std::string existing;
+    std::string existing = {};
     if (!db_.get(sid, existing)) {
         SPDLOG_WARN("[process_linker] detachObject: attachment key '{}' not found", sid);
         return false;
@@ -275,7 +291,9 @@ std::vector<ProcessAttachment> ProcessLinker::getAttachments(
     db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {
         try {
             auto doc = json::parse(value);
-            if (doc.value("deleted", false)) return true;
+            if (doc.value("deleted", false)) {
+              return true;
+            }
             auto att = ProcessAttachment::fromDocument(doc);
             if (!filter_type.has_value() || att.link_type == *filter_type) {
                 results.push_back(std::move(att));
@@ -298,7 +316,8 @@ std::vector<ProcessAttachment> ProcessLinker::getNodeAttachments(
     std::string_view node_id) const
 {
     auto all = getAttachments(instance_id);
-    std::vector<ProcessAttachment> result;
+    std::vector<ProcessAttachment> result = {};
+
     for (auto& att : all) {
         if (att.node_id.has_value() && *att.node_id == node_id) {
             result.push_back(std::move(att));
@@ -326,7 +345,7 @@ std::vector<std::string> ProcessLinker::findInstancesWithObject(
 
     db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) -> bool {
         // The instance_id is the suffix after the prefix.
-        if (key.size() > prefix.size()) {
+        if (static_cast<int>(key.size()) > static_cast<int>(prefix.size())) {
             instances.emplace_back(key.substr(prefix.size()));
         }
         return true;
@@ -412,7 +431,9 @@ std::vector<ProcessLink> ProcessLinker::getLinks(
     db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {
         try {
             auto doc = json::parse(value);
-            if (doc.value("deleted", false)) return true;
+            if (doc.value("deleted", false)) {
+              return true;
+            }
             auto lnk = ProcessLink::fromDocument(doc);
             if (!filter_type.has_value() || lnk.link_type == *filter_type) {
                 results.push_back(std::move(lnk));
@@ -498,7 +519,8 @@ std::vector<std::string> ProcessLinker::getMissingDocuments(
 
     // Collect already-attached doc types for this instance+node
     auto node_atts = getNodeAttachments(instance_id, node_id);
-    std::unordered_set<std::string> present_types;
+    std::unordered_set<std::string> present_types = {};
+
     present_types.reserve(node_atts.size());
     for (const auto& att : node_atts) {
         // The attached_by convention: metadata["doc_type"] carries the type
@@ -508,10 +530,13 @@ std::vector<std::string> ProcessLinker::getMissingDocuments(
     }
 
     // Cross-reference
-    std::vector<std::string> missing;
+    std::vector<std::string> missing = {};
+
     missing.reserve(required.size());
     for (const auto& req : required) {
-        if (!req.value("mandatory", false)) continue;
+        if (!req.value("mandatory", false)) {
+          continue;
+        }
         std::string dtype = req.value("doc_type", "");
         if (!dtype.empty() && present_types.find(dtype) == present_types.end()) {
             missing.push_back(dtype);
@@ -627,7 +652,7 @@ void ProcessLinker::LinkOperationGuard::recordModification(std::string_view key)
         std::chrono::system_clock::now().time_since_epoch()
     ).count();
 
-    std::string prior_value;
+    std::string prior_value = {};
     const bool existed_before = linker_.db_.get(key, prior_value);
 
     ConflictRecord record{
@@ -652,7 +677,7 @@ bool ProcessLinker::detectLinkingConflict_(
     std::shared_lock<std::shared_mutex> lock(link_state_lock_);
     
     // Try to read the current value to detect if it's been modified
-    std::string current_value;
+    std::string current_value = {};
     if (!db_.get(key, current_value)) {
         // Key doesn't exist; conflict only if we expected a version
         return expected_version.has_value();
@@ -674,7 +699,7 @@ bool ProcessLinker::detectLinkingConflict_(
     return false;
 }
 
-void ProcessLinker::rollbackLinkOperation_(uint64_t operation_id) {
+void ProcessLinker::rollbackLinkOperation_([[maybe_unused]] uint64_t operation_id) {
     std::unique_lock<std::shared_mutex> lock(link_state_lock_);
 
     auto it = rollback_records_.find(operation_id);
@@ -808,7 +833,7 @@ std::pair<int32_t, std::string> ProcessLinker::cleanupOrphanedLinks(
         
         // Find the link first to get its components
         bool found = false;
-        std::string link_key_to_delete;
+        std::string link_key_to_delete = {};
         
         db_.scanPrefix("proc:link:", [&]([[maybe_unused]] std::string_view key, std::string_view value) -> bool {
             try {
@@ -824,7 +849,7 @@ std::pair<int32_t, std::string> ProcessLinker::cleanupOrphanedLinks(
                 // Log and create diagnostic for corrupted link document
                 SPDLOG_WARN("[process_linker] cleanupOrphanedLinks: JSON parse error while scanning: {}", e.what());
                 DiagnosticContext ctx;
-                ctx.recordResourceMetric("target_link_id", link_id.size());
+                ctx.recordResourceMetric("target_link_id",static_cast<int>(link_id.size()));
                 ctx.setRemediationSuggestion("A stored link document could not be parsed as JSON during cleanup. "
                                             "This indicates data corruption. Check database integrity.");
                 auto incident = ProcessDiagnostics::createLinkingIncident(

@@ -15,7 +15,7 @@ namespace distributed_tensor {
 static std::string get_iso8601_timestamp() noexcept {
   auto now = std::chrono::system_clock::now();
   auto time = std::chrono::system_clock::to_time_t(now);
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << std::put_time(std::gmtime(&time), "%Y-%m-%dT%H:%M:%SZ");
   return oss.str();
 }
@@ -30,7 +30,7 @@ static std::string simple_sha256_hash(const std::string& input) noexcept {
     hash *= 0x100000001B3ULL; // FNV-1a prime
   }
 
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << std::hex << std::setfill('0') << std::setw(64) << hash;
   std::string result = oss.str();
 

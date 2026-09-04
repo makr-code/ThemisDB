@@ -40,7 +40,7 @@ using json = nlohmann::json;
 
 /// Histogram bucket for value distribution analysis
 struct HistogramBucket {
-    double lower_bound;     ///< Lower bound (inclusive)
+    double lower_bound = 0;     ///< Lower bound (inclusive)
     double upper_bound;     ///< Upper bound (exclusive)
     size_t frequency;       ///< Number of values in this bucket
 
@@ -103,7 +103,9 @@ struct ColumnStats {
                 matching_freq += static_cast<double>(b.frequency) * overlap_frac;
             }
         }
-        if (total_freq <= 0.0) return selectivity;
+        if (total_freq <= 0.0) {
+          return selectivity;
+        }
         return std::max(0.0, std::min(1.0, matching_freq / total_freq));
     }
 };

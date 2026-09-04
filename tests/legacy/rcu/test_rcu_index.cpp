@@ -71,7 +71,7 @@ TEST(RCUHashTableTest, BasicOperations) {
     EXPECT_FALSE(table.empty());
     
     // Test lookup
-    int value;
+    int value = {};
     EXPECT_TRUE(table.lookup("key1", value));
     EXPECT_EQ(value, 100);
     
@@ -85,7 +85,7 @@ TEST(RCUHashTableTest, UpdateExisting) {
     // Insert initial value
     table.insert("key1", 100);
     
-    int value;
+    int value = {};
     EXPECT_TRUE(table.lookup("key1", value));
     EXPECT_EQ(value, 100);
     
@@ -125,7 +125,7 @@ TEST(RCUHashTableTest, MultipleKeys) {
     
     // Verify all keys
     for (int i = 0; i < 100; ++i) {
-        int value;
+        int value = 0;
         EXPECT_TRUE(table.lookup("key" + std::to_string(i), value));
         EXPECT_EQ(value, i);
     }
@@ -146,7 +146,7 @@ TEST(RCUHashTableTest, ConcurrentReads) {
     for (int t = 0; t < 4; ++t) {
         readers.emplace_back([&table, &successful_reads]() {
             for (int i = 0; i < 1000; ++i) {
-                int value;
+                int value = 0;
                 if (table.lookup(i, value)) {
                     if (value == i * 2) {
                         successful_reads.fetch_add(1);
@@ -178,11 +178,12 @@ TEST(RCUHashTableTest, ConcurrentReadWrite) {
     std::atomic<size_t> write_count{0};
     
     // Reader threads
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 3; ++t) {
         threads.emplace_back([&]() {
             while (!stop.load()) {
-                int value;
+                int value = 0;
                 for (int i = 0; i < 100; ++i) {
                     if (table.lookup(i, value)) {
                         read_count.fetch_add(1);
@@ -230,7 +231,7 @@ TEST(RCUHashTableTest, StressTest) {
                 if (i % 3 == 0) {
                     table.insert(key, key * 2);
                 } else {
-                    int value;
+                    int value = 0;
                     table.lookup(key, value);
                 }
                 operations.fetch_add(1);
@@ -259,7 +260,7 @@ TEST(RCUHashTableTest, PerformanceBenchmark) {
     auto start = std::chrono::high_resolution_clock::now();
     
     for (int i = 0; i < 100000; ++i) {
-        int value;
+        int value = 0;
         table.lookup(i % 10000, value);
     }
     

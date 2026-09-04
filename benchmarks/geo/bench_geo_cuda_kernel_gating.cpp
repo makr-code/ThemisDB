@@ -98,7 +98,7 @@ BENCHMARK_F(GeoGpuGatingFixture, GATE_A_06_01_Haversine_SmallBatch)(
 BENCHMARK_F(GeoGpuGatingFixture, GATE_A_06_01_Haversine_LargeBatch)(
     benchmark::State& state) {
     
-    GeoBackendDispatcher dispatcher;
+    GeoBackendDispatcher dispatcher = {};
     
     if (!dispatcher.isCudaAvailable()) {
         state.SkipWithMessage("CUDA not available");
@@ -125,7 +125,7 @@ BENCHMARK_F(GeoGpuGatingFixture, GATE_A_06_01_Haversine_LargeBatch)(
 BENCHMARK_F(GeoGpuGatingFixture, GATE_A_06_02_PointInPolygon)(
     benchmark::State& state) {
     
-    GeoBackendDispatcher dispatcher;
+    GeoBackendDispatcher dispatcher = {};
     
     if (!dispatcher.isCudaAvailable()) {
         state.SkipWithMessage("CUDA not available");
@@ -154,7 +154,7 @@ BENCHMARK_F(GeoGpuGatingFixture, GATE_A_06_02_PointInPolygon)(
 BENCHMARK_F(GeoGpuGatingFixture, GATE_A_07_01_Vincenty_SmallBatch)(
     benchmark::State& state) {
     
-    GeoBackendDispatcher dispatcher;
+    GeoBackendDispatcher dispatcher = {};
     
     if (!dispatcher.isCudaAvailable()) {
         state.SkipWithMessage("CUDA not available");
@@ -178,7 +178,7 @@ BENCHMARK_F(GeoGpuGatingFixture, GATE_A_07_01_Vincenty_SmallBatch)(
 BENCHMARK_F(GeoGpuGatingFixture, GATE_A_07_01_Vincenty_LargeBatch)(
     benchmark::State& state) {
     
-    GeoBackendDispatcher dispatcher;
+    GeoBackendDispatcher dispatcher = {};
     
     if (!dispatcher.isCudaAvailable()) {
         state.SkipWithMessage("CUDA not available");

@@ -79,7 +79,7 @@ TEST_F(HotReloadEngineExceptionSafetyTest, ConcurrentHashCalculations) {
     // RAII wrapper ensures each thread's EVP_MD_CTX is properly managed
     std::vector<std::thread> threads;
     std::vector<std::string> results(5);
-    std::mutex results_mutex;
+    std::mutex results_mutex = {};
     
     for (int i = 0; i < 5; ++i) {
         threads.emplace_back([&, i]() {

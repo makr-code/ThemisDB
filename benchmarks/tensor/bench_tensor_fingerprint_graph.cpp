@@ -62,7 +62,9 @@ TTTrain makeSyntheticTrain(std::mt19937& rng,
         core.n       = mode_n;
         core.r_right = 1;
         core.data.resize(mode_n);
-        for (auto& v : core.data) v = dist(rng);
+        for (auto& v : core.data) {
+          v = dist(rng);
+        }
         train.cores.push_back(std::move(core));
     }
     return train;
@@ -279,7 +281,9 @@ static void BM_TFG_ConcurrentReads(benchmark::State& state)
                 benchmark::DoNotOptimize(results.size());
             });
         }
-        for (auto& th : threads) th.join();
+        for (auto& th : threads) {
+          th.join();
+        }
     }
 
     state.SetLabel("readers=" + std::to_string(n_readers));

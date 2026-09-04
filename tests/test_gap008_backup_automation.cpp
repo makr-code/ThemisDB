@@ -29,7 +29,7 @@ protected:
         db_path_ = "./data/gap008_backup_test";
         
         // Clean up from previous runs
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(db_path_, ec);
         
         // Create database wrapper
@@ -47,7 +47,7 @@ protected:
         db_wrapper_.reset();
         
         // Clean up test data
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(db_path_, ec);
     }
     
@@ -132,7 +132,7 @@ TEST_F(GAP008BackupAutomationTest, CancelScheduledBackupSucceeds) {
 }
 
 TEST_F(GAP008BackupAutomationTest, ScheduledBackupsTriggerBackupExecution) {
-    std::error_code ec;
+    std::error_code ec = {};
     std::string backup_dir = "./data/gap008_scheduler_backups";
     std::filesystem::remove_all(backup_dir, ec);
 
@@ -169,7 +169,7 @@ TEST_F(GAP008BackupAutomationTest, ListScheduledBackupsReturnsEmpty) {
 TEST_F(GAP008BackupAutomationTest, UploadToCloudRejectsInvalidUri) {
     // Create directory so the local-path check passes
     std::string local_path = "./data/gap008_uri_test";
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(local_path, ec);
     ASSERT_FALSE(ec);
 
@@ -195,7 +195,7 @@ TEST_F(GAP008BackupAutomationTest, UploadToCloudRejectsInvalidUri) {
 TEST_F(GAP008BackupAutomationTest, UploadToCloudReturnsNotAvailable) {
     // Create the backup directory explicitly so the local-path check passes
     std::string local_path = "./data/gap008_cloud_test_backup";
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(local_path, ec);
     ASSERT_FALSE(ec) << "Could not create test backup directory: " << ec.message();
 
@@ -225,7 +225,7 @@ TEST_F(GAP008BackupAutomationTest, UploadToCloudReturnsNotAvailable) {
 TEST_F(GAP008BackupAutomationTest, UploadToLocalMirrorCopiesBackupTree) {
     std::string local_path = "./data/gap008_local_backup";
     std::string mirror_path = "./data/gap008_local_mirror";
-    std::error_code ec;
+    std::error_code ec = {};
 
     std::filesystem::remove_all(local_path, ec);
     std::filesystem::remove_all(mirror_path, ec);
@@ -260,7 +260,7 @@ TEST_F(GAP008BackupAutomationTest, UploadToLocalMirrorCopiesBackupTree) {
 
 TEST_F(GAP008BackupAutomationTest, UploadToLocalMirrorRejectsRelativeFileUri) {
     std::string local_path = "./data/gap008_local_backup_uri_validation";
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(local_path, ec);
     std::filesystem::create_directories(local_path, ec);
     ASSERT_FALSE(ec);
@@ -329,14 +329,14 @@ TEST_F(GAP008BackupAutomationTest, RestoreFromCloudReturnsNotAvailable) {
     }
 
     // Cleanup
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all("./data/gap008_restore_path", ec);
 }
 
 TEST_F(GAP008BackupAutomationTest, RestoreFromLocalMirrorCopiesBackupTree) {
     std::string local_source = "./data/gap008_local_source";
     std::string restore_path = "./data/gap008_local_restore";
-    std::error_code ec;
+    std::error_code ec = {};
 
     std::filesystem::remove_all(local_source, ec);
     std::filesystem::remove_all(restore_path, ec);
@@ -381,7 +381,7 @@ TEST_F(GAP008BackupAutomationTest, RestoreFromLocalMirrorRejectsRelativeFileUri)
 
     EXPECT_FALSE(result.has_value());
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all("./data/gap008_local_restore_relative", ec);
 }
 

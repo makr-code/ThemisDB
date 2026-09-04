@@ -128,7 +128,9 @@ protected:
     }
 
     static long long percentile(std::vector<long long> v, int pct) {
-        if (v.empty()) return 0;
+        if (v.empty()) {
+          return 0;
+        }
         std::sort(v.begin(), v.end());
         size_t idx = static_cast<size_t>(
             std::ceil(pct / 100.0 * static_cast<double>(v.size()))) - 1;
@@ -183,7 +185,9 @@ TEST_F(SchedulerBenchmark, ScheduleBatch_LatencyWith64WaitingRequests) {
 
         for (size_t i = 0; i < N; ++i) {
             auto id = scheduler->submitRequest(makeRequest(16, 8));
-            if (!id.empty()) ids.push_back(std::move(id));
+            if (!id.empty()) {
+              ids.push_back(std::move(id));
+            }
         }
 
         auto t0    = Clock::now();
@@ -233,10 +237,13 @@ TEST_F(SchedulerBenchmark, RejectionLatency_QueueFull) {
     sched->start();
 
     // Fill the queue
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < 4; ++i) {
         auto id = sched->submitRequest(makeRequest(16, 8));
-        if (!id.empty()) ids.push_back(std::move(id));
+        if (!id.empty()) {
+          ids.push_back(std::move(id));
+        }
     }
 
     // Measure rejection latency over 1 000 overflow attempts
@@ -263,7 +270,9 @@ TEST_F(SchedulerBenchmark, RejectionLatency_QueueFull) {
     // SLA gate: rejection must be < 50 µs p99
     EXPECT_LT(p99, 50LL) << "Rejection p99 exceeded 50us SLA";
 
-    for (const auto& id : ids) sched->cancelRequest(id);
+    for (const auto& id : ids) {
+      sched->cancelRequest(id);
+    }
     sched->stop();
 }
 
@@ -293,13 +302,17 @@ TEST_F(SchedulerBenchmark, QuotaRejectionThroughput) {
             auto t1 = Clock::now();
             durations_us.push_back(
                 std::chrono::duration_cast<Micros>(t1 - t0).count());
-            if (!id.empty()) scheduler->cancelRequest(id);
+            if (!id.empty()) {
+              scheduler->cancelRequest(id);
+            }
         }
     }
 
     const auto p99 = percentile(durations_us, 99);
     long long mean_us = 0;
-    for (auto d : durations_us) mean_us += d;
+    for (auto d : durations_us) {
+      mean_us += d;
+    }
     mean_us /= static_cast<long long>(durations_us.size());
 
     printf("[Bench] quota rejection %zux: mean=%lldus  p99=%lldus\n",
@@ -317,10 +330,13 @@ TEST_F(SchedulerBenchmark, QuotaRejectionThroughput) {
 
 TEST_F(SchedulerBenchmark, GetStats_CallCostUnderLoad) {
     constexpr size_t N_REQUESTS = 32;
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < N_REQUESTS; ++i) {
         auto id = scheduler->submitRequest(makeRequest(16, 8));
-        if (!id.empty()) ids.push_back(std::move(id));
+        if (!id.empty()) {
+          ids.push_back(std::move(id));
+        }
     }
 
     constexpr size_t N_CALLS = 10000;
@@ -340,5 +356,7 @@ TEST_F(SchedulerBenchmark, GetStats_CallCostUnderLoad) {
     // SLA gate: getStats() should be < 10 µs per call even under mutex
         EXPECT_LT(per_call_ns, 10000LL) << "getStats() per-call cost > 10us";
 
-    for (const auto& id : ids) scheduler->cancelRequest(id);
+    for (const auto& id : ids) {
+      scheduler->cancelRequest(id);
+    }
 }

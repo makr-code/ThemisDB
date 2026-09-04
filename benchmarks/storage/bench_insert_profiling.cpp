@@ -12,14 +12,16 @@ namespace {
         static const char charset[] = "abcdefghijklmnopqrstuvwxyz0123456789";
         static std::mt19937 rng{std::random_device{}()};
         static std::uniform_int_distribution<size_t> dist(0, sizeof(charset) - 2);
-        std::string s;
+        std::string s = {};
         s.reserve(len);
-        for (size_t i = 0; i < len; ++i) s += charset[dist(rng)];
+        for (size_t i = 0; i < len; ++i) {
+          s += charset[dist(rng)];
+        }
         return s;
     }
 
     void cleanupTestDB(const std::string& path) {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(path, ec);
     }
 
@@ -102,9 +104,9 @@ protected:
     std::string db_path_;
     std::unique_ptr<themis::RocksDBWrapper> db_;
     std::unique_ptr<themis::SecondaryIndexManager> secondary_;
-    size_t counter_;
-    double total_time_us_;
-    size_t call_count_;
+    size_t counter_ = {};
+    double total_time_us_ = {};
+    size_t call_count_ = {};
 };
 
 // --- BASELINE: Raw RocksDB Put (no indexing) ---

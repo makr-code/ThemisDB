@@ -51,14 +51,14 @@ static void wgs84ToEcef(double lon_deg, double lat_deg,
 
 /// Convert ECEF chord distance (unit sphere) to approximate geodesic metres.
 /// chord = 2 × sin(angle/2), so angle = 2 × arcsin(chord/2).
-static double chordToDistanceM(float chord) noexcept {
+static double chordToDistanceM([[maybe_unused]] float chord) noexcept {
     const double half_chord = static_cast<double>(chord) * 0.5;
     const double clamped    = std::min(1.0, std::max(0.0, half_chord));
     return kEarthR_m * 2.0 * std::asin(clamped);
 }
 
 /// Convert a radius in metres to an ECEF unit-sphere chord distance squared.
-static float radiusToChordSq(double radius_m) noexcept {
+static float radiusToChordSq([[maybe_unused]] double radius_m) noexcept {
     const double angle    = radius_m / kEarthR_m;
     const double chord    = 2.0 * std::sin(angle * 0.5);
     return static_cast<float>(chord * chord);
@@ -99,9 +99,11 @@ struct GeoFaissKnn::Impl {
         ecef_data.clear();
         ecef_data.reserve(dataset.size() * static_cast<std::size_t>(kDim)); // upper bound; shrinks after filtering
 
-        for (std::size_t i = 0; i < dataset.size(); ++i) {
+        for (std::size_t i = 0; i <static_cast<int>(dataset.size()); ++i) {
             const auto& g = dataset[i];
-            if (!g.isPoint() || g.coords.empty()) continue;
+            if (!g.isPoint() || g.coords.empty()) {
+              continue;
+            }
             float x, y, z;
             wgs84ToEcef(g.coords[0].x, g.coords[0].y, x, y, z);
             ecef_data.push_back(x);
@@ -156,9 +158,14 @@ struct GeoFaissKnn::Impl {
 
     std::vector<GeoKnnResult> knnSearch(const GeometryInfo& query,
                                         std::size_t k) const {
-        std::vector<GeoKnnResult> results;
-        if (!built || indexed_count == 0) return results;
-        if (!query.isPoint() || query.coords.empty()) return results;
+        std::vector<GeoKnnResult> results = {};
+
+        if (!built || indexed_count == 0) {
+          return results;
+        }
+        if (!query.isPoint() || query.coords.empty()) {
+          return results;
+        }
 
         float qx, qy, qz;
         wgs84ToEcef(query.coords[0].x, query.coords[0].y, qx, qy, qz);
@@ -192,9 +199,13 @@ struct GeoFaissKnn::Impl {
 
         results.reserve(keff);
         for (std::size_t i = 0; i < keff; ++i) {
-            if (idx[i] < 0) continue;
+            if (idx[i] < 0) {
+              continue;
+            }
             const auto fi = static_cast<std::size_t>(idx[i]);
-            if (fi >= dataset_map.size()) continue;
+            if (fi >= static_cast<int>(dataset_map.size())) {
+              continue;
+            }
             GeoKnnResult r;
             r.index  = dataset_map[fi];
             r.dist_m = chordToDistanceM(std::sqrt(dists[i]));
@@ -238,12 +249,15 @@ struct GeoFaissKnn::Impl {
                                      ? indexed_count : max_results * 4;
         auto candidates = knnSearch(query, search_k);
 
-        std::vector<GeoKnnResult> results;
+        std::vector<GeoKnnResult> results = {};
+
         results.reserve(candidates.size());
         for (const auto& c : candidates) {
             if (c.dist_m > radius_m) break; // sorted ascending
             results.push_back(c);
-            if (max_results > 0 && results.size() >= max_results) break;
+            if (max_results > 0 && static_cast<int>(results.size()) >= max_results) {
+              break;
+            }
         }
         return results;
     }
@@ -283,7 +297,9 @@ std::size_t GeoFaissKnn::size() const noexcept {
 }
 
 const char* GeoFaissKnn::getBackendName() const noexcept {
-    if (!impl_ || !impl_->built) return "not_built";
+    if (!impl_ || !impl_->built) {
+      return "not_built";
+    }
     return impl_->use_gpu ? "faiss_gpu" : "faiss_cpu";
 }
 

@@ -169,7 +169,9 @@ public:
          * Returns 0.0 if no user bytes have been written yet.
          */
         double writeAmplification() const noexcept {
-            if (user_bytes_written == 0) return 0.0;
+            if (user_bytes_written == 0) {
+              return 0.0;
+            }
             return static_cast<double>(internal_bytes_written) /
                    static_cast<double>(user_bytes_written);
         }
@@ -182,7 +184,9 @@ public:
          * write-heavy workloads.
          */
         double readHitRatio() const noexcept {
-            if (total_gets == 0) return 0.0;
+            if (total_gets == 0) {
+              return 0.0;
+            }
             return static_cast<double>(get_hits) /
                    static_cast<double>(total_gets);
         }

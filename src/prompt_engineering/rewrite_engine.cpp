@@ -100,7 +100,8 @@ public:
     std::vector<std::string> list_rules() const override {
         std::shared_lock lock(rule_lock_);
 
-        std::vector<std::string> rule_ids;
+        std::vector<std::string> rule_ids = {};
+
         for (const auto& rule : rules_) {
             rule_ids.push_back(rule->rule_id());
         }
@@ -135,7 +136,7 @@ public:
             }
         }
 
-        logger->info("Loaded {} YAML rules from {}", new_rules.size(), yaml_path);
+        logger->info("Loaded {} YAML rules from {}",static_cast<int>(new_rules.size()), yaml_path);
         return true;
     }
 
@@ -259,7 +260,7 @@ public:
                     result.rules_matched++;
                     stats_.total_rules_applied++;
 
-                    if (ctx.trace_enabled && result.traces.size() < ctx.max_trace_entries) {
+                    if (ctx.trace_enabled && static_cast<int>(result.traces.size()) < ctx.max_trace_entries) {
                         result.traces.push_back(trace);
                     }
 

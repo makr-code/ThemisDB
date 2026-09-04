@@ -55,7 +55,7 @@ void GunrockProcessor::load_graph(const std::vector<std::vector<NodeID>>& adj_li
         for (NodeID neighbor : neighbors) {
             impl_->column_indices.push_back(neighbor);
         }
-        impl_->row_offsets.push_back(impl_->column_indices.size());
+        impl_->row_offsets.push_back(impl_-> static_cast<int>(column_indices.size()));
     }
 }
 
@@ -125,7 +125,9 @@ std::vector<double> GunrockProcessor::gpu_pagerank(int num_iterations, double da
         
         // Add contributions from incoming edges
         for (size_t src = 0; src < n; ++src) {
-            if (out_degree[src] == 0) continue;
+            if (out_degree[src] == 0) {
+              continue;
+            }
             
             double contribution = damping * ranks[src] / out_degree[src];
             for (NodeID dst : impl_->adj_list[src]) {

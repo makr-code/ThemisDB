@@ -35,7 +35,9 @@ public:
     bool isRecordedVoice(const std::vector<uint8_t>& audio) {
         // Simple heuristic: recordings often have digital artifacts
         // Check for repeated patterns (compression artifacts)
-        if (audio.size() < 1000) return false;
+        if (audio.size() < 1000) {
+          return false;
+        }
         
         // Count repeating byte patterns
         int repeat_count = 0;
@@ -396,7 +398,8 @@ TEST_F(SpoofingAdversarialFixture, SpeedUpAudio) {
     auto audio = createLiveAudio();
     
     // Speed up (shorter duration, same content)
-    std::vector<uint8_t> sped_up;
+    std::vector<uint8_t> sped_up = {};
+
     for (size_t i = 0; i < audio.size(); i += 2) {
         sped_up.push_back(audio[i]);
     }

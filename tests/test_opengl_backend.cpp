@@ -139,15 +139,21 @@ TEST_F(OpenGLComputeTest, L2Distance_KnownValues) {
     auto dist = backend_.computeDistances(q.data(), 1, 3, v.data(), 3, true);
     ASSERT_EQ(dist.size(), 3u);
     // Each distance from origin to a unit-axis vector is 1.0 (squared L2)
-    for (float d : dist) EXPECT_NEAR(d, 1.f, 1e-5f);
+    for (float d : dist) {
+      EXPECT_NEAR(d, 1.f, 1e-5f);
+    }
 }
 
 TEST_F(OpenGLComputeTest, L2Distance_MultipleQueries_MatchesReference) {
     const int nq = 4, nv = 5, dim = 3;
     std::vector<float> queries(nq * dim), vectors(nv * dim);
     // Fill with deterministic values
-    for (int i = 0; i < nq * dim; ++i) queries[i] = static_cast<float>(i % 7) * 0.3f;
-    for (int i = 0; i < nv * dim; ++i) vectors[i] = static_cast<float>(i % 5) * 0.5f;
+    for (int i = 0; i < nq * dim; ++i) {
+      queries[i] = static_cast<float>(i % 7) * 0.3f;
+    }
+    for (int i = 0; i < nv * dim; ++i) {
+      vectors[i] = static_cast<float>(i % 5) * 0.5f;
+    }
 
     auto dist = backend_.computeDistances(
         queries.data(), nq, dim, vectors.data(), nv, true);
@@ -180,8 +186,12 @@ TEST_F(OpenGLComputeTest, CosineDistance_OrthogonalVectors_IsOne) {
 TEST_F(OpenGLComputeTest, CosineDistance_MultipleQueries_MatchesReference) {
     const int nq = 3, nv = 4, dim = 4;
     std::vector<float> queries(nq * dim), vectors(nv * dim);
-    for (int i = 0; i < nq * dim; ++i) queries[i] = static_cast<float>((i * 3 + 1) % 9) + 0.1f;
-    for (int i = 0; i < nv * dim; ++i) vectors[i] = static_cast<float>((i * 2 + 3) % 7) + 0.2f;
+    for (int i = 0; i < nq * dim; ++i) {
+      queries[i] = static_cast<float>((i * 3 + 1) % 9) + 0.1f;
+    }
+    for (int i = 0; i < nv * dim; ++i) {
+      vectors[i] = static_cast<float>((i * 2 + 3) % 7) + 0.2f;
+    }
 
     auto dist = backend_.computeDistances(
         queries.data(), nq, dim, vectors.data(), nv, false);
@@ -337,7 +347,9 @@ TEST_F(OpenGLComputeTest, LargeBatch_DoesNotCrash) {
     auto knn = backend_.batchKnnSearch(
         queries.data(), nq, dim, vectors.data(), nv, 10, true);
     ASSERT_EQ(knn.size(), nq);
-    for (const auto& row : knn) EXPECT_EQ(row.size(), 10u);
+    for (const auto& row : knn) {
+      EXPECT_EQ(row.size(), 10u);
+    }
 }
 
 #endif  // THEMIS_ENABLE_OPENGL
@@ -649,7 +661,9 @@ TEST_F(OpenGLGraphComputeTest, BFS_ChainGraph_Depth2_Reachable) {
     EXPECT_GE(res[0].size(), 1u);
     // 0 must be in result
     bool found0 = false;
-    for (auto v : res[0]) if (v == 0u) found0 = true;
+    for (auto v : res[0]) {
+      if (v == 0u) found0 = true;
+    }
     EXPECT_TRUE(found0);
 }
 

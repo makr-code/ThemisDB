@@ -220,7 +220,9 @@ TEST(LookupDecoderTest, LKD18_ConcurrentAccess) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // No crash / deadlock → pass
     SUCCEED();

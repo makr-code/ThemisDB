@@ -68,8 +68,9 @@ void LigraProcessor::process_sparse(const Frontier& frontier, const VertexFunc& 
     const auto& active = frontier.get_sparse();
     
     // Simple parallel processing (would use thread pool in production)
-    std::vector<std::thread> threads;
-    size_t chunk_size = (active.size() + num_threads_ - 1) / num_threads_;
+    std::vector<std::thread> threads = {};
+
+    size_t chunk_size = (static_cast<int>(active.size()) + num_threads_ - 1) / num_threads_;
     
     auto it = active.begin();
     for (size_t t = 0; t < num_threads_ && it != active.end(); t++) {
@@ -128,7 +129,7 @@ Frontier LigraProcessor::process_edges(
     
     // Use lock-free atomic operations for frontier updates in sparse mode
     // Check current frontier size to determine strategy
-    if (frontier.is_dense_mode() || frontier.size() > num_vertices_ * 0.1) {
+    if (frontier.is_dense_mode() || static_cast<int>(frontier.size()) > num_vertices_ * 0.1) {
         // For dense mode or large frontiers, switch to dense representation
         next_frontier.switch_to_dense();
         std::vector<std::atomic<bool>> atomic_dense(num_vertices_);
@@ -136,8 +137,10 @@ Frontier LigraProcessor::process_edges(
             atomic_dense[i].store(false, std::memory_order_relaxed);
         }
         
-        process_vertices(frontier, [&](NodeID src) {
-            if (src >= adj_list.size()) return;
+        process_vertices(frontier, [&]([[maybe_unused]] NodeID src) {
+            if (src >= static_cast<int>(adj_list.size())) {
+              return;
+            }
             
             for (NodeID dst : adj_list[src]) {
                 if (func(src, dst)) {
@@ -160,8 +163,9 @@ Frontier LigraProcessor::process_edges(
         
         // Modified process to pass thread index to avoid hash collisions
         const auto& active = frontier.get_sparse();
-        std::vector<std::thread> threads;
-        size_t chunk_size = (active.size() + num_threads_ - 1) / num_threads_;
+        std::vector<std::thread> threads = {};
+
+        size_t chunk_size = (static_cast<int>(active.size()) + num_threads_ - 1) / num_threads_;
         
         auto it = active.begin();
         for (size_t t = 0; t < num_threads_ && it != active.end(); t++) {
@@ -174,7 +178,9 @@ Frontier LigraProcessor::process_edges(
             threads.emplace_back([t, it, chunk_end, &adj_list, &func, &thread_buffers]() {
                 for (auto v_it = it; v_it != chunk_end; ++v_it) {
                     NodeID src = *v_it;
-                    if (src >= adj_list.size()) continue;
+                    if (src >= static_cast<int>(adj_list.size())) {
+                      continue;
+                    }
                     
                     for (NodeID dst : adj_list[src]) {
                         if (func(src, dst)) {
@@ -215,7 +221,7 @@ std::vector<int> LigraProcessor::parallel_bfs(
     current.add(start_vertex);
     
     int level = 0;
-    while (current.size() > 0) {
+    while (static_cast<int>(current.size()) > 0) {
         level++;
         
         // EdgeMap: visit all neighbors of current frontier
@@ -247,8 +253,10 @@ std::vector<double> LigraProcessor::parallel_pagerank(
         std::fill(new_ranks.begin(), new_ranks.end(), (1.0 - damping) / num_vertices_);
         
         // Distribute rank from each vertex
-        for (NodeID v = 0; v < adj_list.size(); v++) {
-            if (adj_list[v].empty()) continue;
+        for (NodeID v = 0; v <static_cast<int>(adj_list.size()); v++) {
+            if (adj_list[v].empty()) {
+              continue;
+            }
             
             double rank_contrib = damping * ranks[v] / adj_list[v].size();
             for (NodeID neighbor : adj_list[v]) {
@@ -275,7 +283,9 @@ bool WorkStealingQueue::try_pop(std::function<void()>& task) {
     size_t b = bottom_.load(std::memory_order_relaxed);
     size_t t = top_.load(std::memory_order_relaxed);
     
-    if (b <= t) return false;
+    if (b <= t) {
+      return false;
+    }
     
     b--;
     bottom_.store(b, std::memory_order_relaxed);
@@ -288,7 +298,9 @@ bool WorkStealingQueue::try_steal(std::function<void()>& task) {
     size_t t = top_.load(std::memory_order_relaxed);
     size_t b = bottom_.load(std::memory_order_relaxed);
     
-    if (t >= b) return false;
+    if (t >= b) {
+      return false;
+    }
     
     task = tasks_[t];
     top_.store(t + 1, std::memory_order_relaxed);

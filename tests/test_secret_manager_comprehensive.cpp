@@ -361,7 +361,9 @@ TEST(SecretManager, ConcurrentStoreAndRotate) {
             } catch (...) { /* might fail if racing */ }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // After all rotations there must be exactly one ACTIVE version
     auto secret = sm.getSecret("shared");
@@ -384,5 +386,7 @@ TEST(SecretManager, ConcurrentReadsAreSafe) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 }

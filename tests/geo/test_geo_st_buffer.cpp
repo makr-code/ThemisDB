@@ -22,7 +22,8 @@ static GeometryInfo makePoint(double x, double y) {
 static GeometryInfo makeClosedPolygon(
         std::initializer_list<std::pair<double, double>> pts) {
     GeometryInfo g(GeometryType::Polygon);
-    std::vector<Coordinate> ring;
+    std::vector<Coordinate> ring = {};
+
     for (const auto& p : pts) ring.push_back({p.first, p.second});
     ring.push_back(ring[0]); // close the ring
     g.rings.push_back(ring);
@@ -33,12 +34,18 @@ static GeometryInfo makeClosedPolygon(
 /// distance from centre converted to metres).
 static double approxRadiusM(const GeometryInfo& buffered,
                              double cx, double cy) {
-    if (buffered.rings.empty()) return 0.0;
+    if (buffered.rings.empty()) {
+      return 0.0;
+    }
     const auto& ring = buffered.rings[0];
-    if (ring.size() < 2) return 0.0;
+    if (ring.size() < 2) {
+      return 0.0;
+    }
     double sum = 0.0;
     std::size_t n = ring.size() - 1; // last vertex == first (closed ring)
-    if (n == 0) return 0.0;
+    if (n == 0) {
+      return 0.0;
+    }
     const double lat_rad = cy * kPi / 180.0;
     const double m_per_lat_deg = 111320.0;
     const double m_per_lon_deg = 111320.0 * std::cos(lat_rad);
@@ -53,7 +60,9 @@ static double approxRadiusM(const GeometryInfo& buffered,
 /// Compute the approximate 2-D area of the polygon ring in geographic degrees²
 /// using the Shoelace formula.
 static double ringAreaDeg2(const std::vector<Coordinate>& ring) {
-    if (ring.size() < 3) return 0.0;
+    if (ring.size() < 3) {
+      return 0.0;
+    }
     double area = 0.0;
     std::size_t n = ring.size();
     for (std::size_t i = 0, j = n - 1; i < n; j = i++) {

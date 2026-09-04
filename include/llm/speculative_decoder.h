@@ -172,7 +172,7 @@ public:
 
 private:
     Config     config_;
-    std::mt19937 rng_;
+    std::mt19937 rng_ = {};
 
     // Single mutex protecting all mutable state (rng_ and stats_).
     // Taken for the entirety of verify() so that concurrent callers

@@ -63,7 +63,7 @@ struct FaithfulnessEvaluator::Impl {
         // Simple heuristic: check for key terms
         std::istringstream claim_stream(claim_lower);
         std::vector<std::string> claim_words;
-        std::string word;
+        std::string word = {};
         while (claim_stream >> word) {
             if (word.length() > 3) {  // Skip short words
                 claim_words.push_back(word);
@@ -143,7 +143,7 @@ std::vector<Claim> FaithfulnessEvaluator::extractClaims(const std::string& answe
             auto json_resp = nlohmann::json::parse(response);
             if (json_resp.contains("claims") && json_resp["claims"].is_array()) {
                 for (const auto& item : json_resp["claims"]) {
-                    if (item.is_string() && claims.size() < impl_->config.max_claims_to_extract) {
+                    if (item.is_string() && static_cast<int>(claims.size()) < impl_->config.max_claims_to_extract) {
                         std::string text = item.get<std::string>();
                         if (!text.empty()) {
                             Claim claim;
@@ -155,7 +155,7 @@ std::vector<Claim> FaithfulnessEvaluator::extractClaims(const std::string& answe
                         }
                     }
                 }
-                THEMIS_DEBUG("LLM extracted {} claims", claims.size());
+                THEMIS_DEBUG("LLM extracted {} claims",static_cast<int>(claims.size()));
                 return claims;
             }
         } catch (const std::exception& e) {
@@ -169,7 +169,7 @@ std::vector<Claim> FaithfulnessEvaluator::extractClaims(const std::string& answe
     auto sentences_begin = std::sregex_iterator(answer.begin(), answer.end(), sentence_regex);
     auto sentences_end = std::sregex_iterator();
     
-    for (auto it = sentences_begin; it != sentences_end && claims.size() < impl_->config.max_claims_to_extract; ++it) {
+    for (auto it = sentences_begin; it != sentences_end && static_cast<int>(claims.size()) < impl_->config.max_claims_to_extract; ++it) {
         Claim claim;
         claim.text = it->str();
         claim.category = "factual";
@@ -178,7 +178,7 @@ std::vector<Claim> FaithfulnessEvaluator::extractClaims(const std::string& answe
         claims.push_back(claim);
     }
     
-    THEMIS_DEBUG("Extracted {} claims from answer", claims.size());
+    THEMIS_DEBUG("Extracted {} claims from answer",static_cast<int>(claims.size()));
     return claims;
 }
 
@@ -262,7 +262,7 @@ std::vector<Citation> FaithfulnessEvaluator::verifyCitations(
         }
     }
     
-    THEMIS_DEBUG("Verified {} citations", citations.size());
+    THEMIS_DEBUG("Verified {} citations",static_cast<int>(citations.size()));
     return citations;
 }
 
@@ -327,7 +327,7 @@ FaithfulnessResult FaithfulnessEvaluator::evaluate(
     result.faithfulness_score = claim_support_ratio * 0.8 + result.citation_quality_score * 0.2;
     
     // Generate explanation
-    std::ostringstream explanation;
+    std::ostringstream explanation = {};
     explanation << "Faithfulness Score: " << result.faithfulness_score << "\n";
     explanation << "Claims: " << result.supported_claims_count << "/" << result.total_claims_count << " supported\n";
     explanation << "Citation Quality: " << result.citation_quality_score << "\n";

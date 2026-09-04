@@ -44,11 +44,21 @@ const char* statusToString(AdapterMetadata::Status status) {
 }
 
 AdapterMetadata::Status statusFromString(const std::string& status) {
-    if (status == "TRAINING") return AdapterMetadata::Status::TRAINING;
-    if (status == "TRAINED") return AdapterMetadata::Status::TRAINED;
-    if (status == "DEPLOYED") return AdapterMetadata::Status::DEPLOYED;
-    if (status == "DEPRECATED") return AdapterMetadata::Status::DEPRECATED;
-    if (status == "FAILED") return AdapterMetadata::Status::FAILED;
+    if (status == "TRAINING") {
+      return AdapterMetadata::Status::TRAINING;
+    }
+    if (status == "TRAINED") {
+      return AdapterMetadata::Status::TRAINED;
+    }
+    if (status == "DEPLOYED") {
+      return AdapterMetadata::Status::DEPLOYED;
+    }
+    if (status == "DEPRECATED") {
+      return AdapterMetadata::Status::DEPRECATED;
+    }
+    if (status == "FAILED") {
+      return AdapterMetadata::Status::FAILED;
+    }
     return AdapterMetadata::Status::TRAINED;
 }
 
@@ -241,8 +251,9 @@ bool AdapterRegistry::deleteAdapter(const std::string& adapter_id) {
 
 std::vector<AdapterMetadata> AdapterRegistry::listAdapters() {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
-    std::vector<AdapterMetadata> result;
-    result.reserve(impl_->adapters.size());
+    std::vector<AdapterMetadata> result = {};
+
+    result.reserve(impl_-> static_cast<int>(adapters.size()));
     for (const auto& [id, meta] : impl_->adapters) {
         result.push_back(meta);
     }
@@ -253,7 +264,8 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByBaseModel(
     const std::string& base_model
 ) {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
-    std::vector<AdapterMetadata> result;
+    std::vector<AdapterMetadata> result = {};
+
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.base_model_name == base_model) {
             result.push_back(meta);
@@ -266,7 +278,8 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByDomain(
     const std::string& domain
 ) {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
-    std::vector<AdapterMetadata> result;
+    std::vector<AdapterMetadata> result = {};
+
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.domain == domain) {
             result.push_back(meta);
@@ -277,7 +290,8 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByDomain(
 
 std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByRole(AdapterRole role) {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
-    std::vector<AdapterMetadata> result;
+    std::vector<AdapterMetadata> result = {};
+
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.role == role) {
             result.push_back(meta);
@@ -302,7 +316,8 @@ std::optional<AdapterMetadata> AdapterRegistry::findDraftAdapterForFamily(
 
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
 
-    std::optional<AdapterMetadata> best;
+    std::optional<AdapterMetadata> best = {};
+
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.role != AdapterRole::DRAFT) {
             continue;
@@ -427,7 +442,7 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
 
         // BATCH 2: RAII wrapper for EVP_MD_CTX - automatically freed at scope exit
         ScopedEVPContext ctx(EVP_MD_CTX_new());
-        std::string signature_bytes;
+        std::string signature_bytes = {};
         bool sign_ok = false;
 
         if (ctx && EVP_DigestSignInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) == 1) {
@@ -458,7 +473,7 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
 
         // Hex-encode the raw signature bytes for storage
         static constexpr char hex[] = "0123456789abcdef";
-        std::string hex_sig;
+        std::string hex_sig = {};
         hex_sig.reserve(signature_bytes.size() * 2);
         for (unsigned char c : signature_bytes) {
             hex_sig += hex[(c >> 4) & 0xf];
@@ -549,7 +564,8 @@ std::vector<AdapterMetadata> AdapterRegistry::listVersions(
     // Same delimiter-aware prefix check used in getVersion().
     std::string prefix = adapter_base_id + ":";
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
-    std::vector<AdapterMetadata> versions;
+    std::vector<AdapterMetadata> versions = {};
+
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.adapter_id == adapter_base_id || meta.adapter_id.rfind(prefix, 0) == 0) {
             versions.push_back(meta);
@@ -574,11 +590,21 @@ std::vector<AdapterMetadata> AdapterRegistry::searchAdapters(
     std::vector<AdapterMetadata> result;
 
     for (const auto& [id, meta] : impl_->adapters) {
-        if (criteria.base_model && meta.base_model_name != *criteria.base_model) continue;
-        if (criteria.domain     && meta.domain          != *criteria.domain)     continue;
-        if (criteria.task_type  && meta.task_type        != *criteria.task_type)  continue;
-        if (criteria.language   && meta.language         != *criteria.language)   continue;
-        if (criteria.status     && meta.status           != *criteria.status)     continue;
+        if (criteria.base_model && meta.base_model_name != *criteria.base_model) {
+          continue;
+        }
+        if (criteria.domain     && meta.domain          != *criteria.domain) {
+          continue;
+        }
+        if (criteria.task_type  && meta.task_type        != *criteria.task_type) {
+          continue;
+        }
+        if (criteria.language   && meta.language         != *criteria.language) {
+          continue;
+        }
+        if (criteria.status     && meta.status           != *criteria.status) {
+          continue;
+        }
         result.push_back(meta);
     }
     return result;
@@ -591,11 +617,12 @@ std::vector<AdapterMetadata> AdapterRegistry::searchAdapters(
 AdapterRegistry::RegistryStats AdapterRegistry::getStats() const {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     RegistryStats stats;
-    stats.total_adapters = impl_->adapters.size();
-    stats.signed_adapters = impl_->signatures.size();
+    stats.total_adapters = impl_-> static_cast<int>(adapters.size());
+    stats.signed_adapters = impl_-> static_cast<int>(signatures.size());
 
     std::unordered_map<std::string, size_t> by_model;
-    std::unordered_map<std::string, size_t> by_domain;
+    std::unordered_map<std::string, size_t> by_domain = {};
+
     for (const auto& [id, meta] : impl_->adapters) {
         by_model[meta.base_model_name]++;
         by_domain[meta.domain]++;
@@ -687,7 +714,7 @@ bool AdapterRegistry::hotLoad(
         callbacks = impl_->hot_load_callbacks;
     }
 
-    for (const auto& cb : callbacks) {
+    for ([[maybe_unused]] const auto& cb : callbacks) {
         if (cb) {
             cb(adapter_id, weights_path, scale);
         }
@@ -698,15 +725,15 @@ bool AdapterRegistry::hotLoad(
     return true;
 }
 
-void AdapterRegistry::addHotLoadObserver(HotLoadCallback callback) {
-    if (!callback) {
-        spdlog::warn("AdapterRegistry::addHotLoadObserver: null callback ignored");
+void AdapterRegistry::addHotLoadObserver([[maybe_unused]] HotLoadCallback callback) {
+    if ([[maybe_unused]] !callback) {
+        spdlog::warn([[maybe_unused]] "AdapterRegistry::addHotLoadObserver: null callback ignored");
         return;
     }
     std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
-    impl_->hot_load_callbacks.push_back(std::move(callback));
+    impl_->hot_load_callbacks.push_back([[maybe_unused]] std::move(callback));
     spdlog::debug("AdapterRegistry: hot-load observer registered (total: {})",
-                  impl_->hot_load_callbacks.size());
+                  impl_-> static_cast<int>(hot_load_callbacks.size()));
 }
 
 } // namespace llm

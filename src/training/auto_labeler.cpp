@@ -103,20 +103,21 @@ public:
         // Initialize the ModalityDetector for multi-modal document extraction.
         // Dispatches to TextClauseExtractor, TableExtractor, CitationExtractor,
         // and (when THEMIS_ENABLE_OCR is set) OCRExtractor.
-        ModalityParserConfig modality_cfg;
+        ModalityParserConfig modality_cfg = ModalityParserConfig();
         modality_cfg.language_code = config_.language_code;
         modality_detector_ = std::make_unique<ModalityDetector>(modality_cfg);
     }
 
     ~Impl() = default;
 
-    LabelingStats labelAll(LabelingCallback callback) {
-        LabelingStats stats;
+    LabelingStats labelAll([[maybe_unused]] LabelingCallback callback) {
+        LabelingStats stats = LabelingStats();
         auto start_time = std::chrono::steady_clock::now();
 
         // Fetch document IDs from the source collection via AQL when a query
         // engine is wired in; fall back to an empty list in offline/test mode.
-        std::vector<std::string> document_ids;
+        std::vector<std::string> document_ids = {};
+
         if (query_engine_) {
             auto query = buildQuery(aql_templates::FETCH_ALL_DOCUMENTS,
                                     {{"@source_collection", config_.source_collection}});
@@ -141,7 +142,7 @@ public:
                 }
 
                 // Flush batch when it reaches batch_size
-                if (batch.size() >= config_.batch_size) {
+                if (static_cast<int>(batch.size()) > = config_.batch_size) {
                     persistSampleBatch(batch);
                     batch.clear();
                     batch.reserve(config_.batch_size);
@@ -151,8 +152,8 @@ public:
                 processed++;
                 total_processed_.fetch_add(1, std::memory_order_relaxed);
 
-                if (callback && processed % 10 == 0) {
-                    callback(processed, document_ids.size(),
+                if ([[maybe_unused]] callback && processed % 10 == 0) {
+                    callback(processed,static_cast<int>(document_ids.size()),
                              "Processing document " + doc_id);
                 }
             } catch (...) {
@@ -309,7 +310,7 @@ public:
     }
 
     LabelingStats labelQuery(const std::string& aql_query, LabelingCallback callback) {
-        LabelingStats stats;
+        LabelingStats stats = LabelingStats();
         auto start_time = std::chrono::steady_clock::now();
 
         if (aql_query.empty() || !isReadOnlyAqlQuery(aql_query)) {
@@ -319,7 +320,8 @@ public:
         // Execute the provided AQL query to get document IDs.
         // When a query engine is available, run the query against the DB;
         // otherwise fall back to an empty list (offline/test mode).
-        std::vector<std::string> document_ids;
+        std::vector<std::string> document_ids = {};
+
         if (query_engine_) {
             document_ids = executeAqlQuery(aql_query);
         }
@@ -337,7 +339,7 @@ public:
                     batch.push_back(std::move(sample));
                 }
 
-                if (batch.size() >= config_.batch_size) {
+                if (static_cast<int>(batch.size()) > = config_.batch_size) {
                     persistSampleBatch(batch);
                     batch.clear();
                     batch.reserve(config_.batch_size);
@@ -347,8 +349,8 @@ public:
                 processed++;
                 total_processed_.fetch_add(1, std::memory_order_relaxed);
 
-                if (callback && processed % 10 == 0) {
-                    callback(processed, document_ids.size(),
+                if ([[maybe_unused]] callback && processed % 10 == 0) {
+                    callback(processed,static_cast<int>(document_ids.size()),
                              "Labeled document " + doc_id);
                 }
             } catch (...) {
@@ -432,7 +434,7 @@ private:
         if (!query_engine_) {
             return {};
         }
-        ConjunctiveQuery query;
+        ConjunctiveQuery query = ConjunctiveQuery();
         query.table = config_.source_collection;
         auto result = query_engine_->executeAndEntitiesWithFallback(query, true);
         if (!result) {
@@ -454,7 +456,8 @@ private:
     }
 
     std::vector<std::string> tryDirectKeyQueryFallback(const std::string& aql) const {
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         if (!query_engine_) {
             return ids;
         }
@@ -463,7 +466,7 @@ private:
             R"(^\s*FOR\s+(\w+)\s+IN\s+(\w+)\s*(?:FILTER\s+\1\.(\w+)\s*==\s*['\"]([^'\"]+)['\"]\s*)?RETURN\s+\1\._key\s*$)",
             std::regex::icase);
 
-        std::smatch match;
+        std::smatch match = {};
         if (!std::regex_match(aql, match, simple_key_query)) {
             return ids;
         }
@@ -494,7 +497,8 @@ private:
     // from the "results" array of the JSON response envelope.
     // Returns an empty vector when no engine is available or the query fails.
     std::vector<std::string> executeAqlQuery(const std::string& aql) const {
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         if (!query_engine_ || !isReadOnlyAqlQuery(aql)) {
             return ids;
         }
@@ -532,7 +536,7 @@ private:
     // Falls back to a representative German legal text in offline / test mode.
     std::string fetchDocumentText(const std::string& document_id) const {
         if (query_engine_ && !document_id.empty()) {
-            std::string safe_id;
+            std::string safe_id = {};
             safe_id.reserve(document_id.size());
             for (char c : document_id) {
                 switch (c) {
@@ -601,7 +605,8 @@ private:
     }
 
     std::vector<analytics::LegalModality> extractFallbackModalities(const std::string& text) const {
-        std::vector<analytics::LegalModality> modalities;
+        std::vector<analytics::LegalModality> modalities = {};
+
         if (text.empty()) {
             return modalities;
         }
@@ -703,7 +708,7 @@ private:
             std::string token = "@" + placeholder;
             size_t pos = 0;
             while ((pos = query.find(token, pos)) != std::string::npos) {
-                query.replace(pos, token.size(), value);
+                query.replace(pos,static_cast<int>(token.size()), value);
                 pos += value.size();
             }
         }
@@ -715,7 +720,7 @@ private:
             return false;
         }
 
-        std::string normalized;
+        std::string normalized = {};
         normalized.reserve(aql.size());
         for (unsigned char c : aql) {
             normalized.push_back(static_cast<char>(std::toupper(c)));
@@ -762,7 +767,7 @@ private:
     TrainingSample createSampleFromModality(const std::string& document_id,
                                             const std::string& text,
                                             const analytics::LegalModality& modality) const {
-        TrainingSample sample;
+        TrainingSample sample = TrainingSample();
         sample.source_id = document_id;
         sample.category = modality.category;
         sample.confidence = modality.strength;
@@ -778,7 +783,7 @@ private:
                       + ", Interpretation: " + modality.interpretation;
 
         // Phase 2: Metadata with NLP provenance
-        std::ostringstream meta;
+        std::ostringstream meta = {};
         meta << "{\"verb\":\"" << modality.verb
              << "\",\"position\":" << modality.position
              << ",\"auto_labeled\":true}";
@@ -802,8 +807,8 @@ void LegalAutoLabeler::registerDocument(const std::string& document_id,
     impl_->registerDocument(document_id, text);
 }
 
-LabelingStats LegalAutoLabeler::labelAll(LabelingCallback callback) {
-    return impl_->labelAll(callback);
+LabelingStats LegalAutoLabeler::labelAll([[maybe_unused]] LabelingCallback callback) {
+    return impl_->labelAll([[maybe_unused]] callback);
 }
 
 std::vector<TrainingSample> LegalAutoLabeler::labelDocument(const std::string& document_id) {
@@ -815,7 +820,7 @@ LabelingStats LegalAutoLabeler::labelQuery(const std::string& aql_query,
     return impl_->labelQuery(aql_query, callback);
 }
 
-std::vector<TrainingSample> LegalAutoLabeler::getLowConfidenceSamples(float min_confidence) {
+std::vector<TrainingSample> LegalAutoLabeler::getLowConfidenceSamples([[maybe_unused]] float min_confidence) {
     return impl_->getLowConfidenceSamples(min_confidence);
 }
 

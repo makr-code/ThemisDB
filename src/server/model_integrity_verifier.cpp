@@ -72,7 +72,7 @@ std::string ModelIntegrityVerifier::computeSha256(const std::string& path) {
         return {};
     }
 
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
         hex << std::setw(2) << static_cast<unsigned int>(digest[i]);
@@ -90,12 +90,12 @@ bool ModelIntegrityVerifier::verifyModel(const std::string& path,
         return false;
     }
     // Constant-time string comparison to prevent timing side-channels on hash
-    if (actual.size() != expected_sha256.size()) {
+    if (static_cast<int>(actual.size()) != static_cast<int>(expected_sha256.size())) {
         return false;
     }
     // Use OpenSSL CRYPTO_memcmp for timing-safe comparison
     // (both strings are hex, same length if SHA-256)
-    return (CRYPTO_memcmp(actual.c_str(), expected_sha256.c_str(), actual.size()) == 0);
+    return (CRYPTO_memcmp(actual.c_str(), expected_sha256.c_str(),static_cast<int>(actual.size())) == 0);
 }
 
 bool ModelIntegrityVerifier::loadManifest(const std::string& manifest_path) {
@@ -119,7 +119,8 @@ bool ModelIntegrityVerifier::loadManifest(const std::string& manifest_path) {
         return false;
     }
 
-    std::unordered_map<std::string, std::string> new_hashes;
+    std::unordered_map<std::string, std::string> new_hashes = {};
+
     for (const auto& [model_id, model_info] : j["models"].items()) {
         if (!model_info.contains("sha256") || !model_info["sha256"].is_string()) {
             THEMIS_WARN("ModelIntegrityVerifier: model '{}' has no valid sha256 field", model_id);

@@ -23,7 +23,7 @@ static std::string makeTempPath(const std::string& tag) {
 }
 
 struct TSStoreFixture : ::testing::Test {
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<RocksDBWrapper> db;
     std::unique_ptr<TSStore> store;
     int64_t base = 1700000000000LL;
@@ -166,7 +166,9 @@ TEST_F(TSStoreFixture, EntityFilterIsolatesCorrectEntity) {
     auto r = store->query(q);
     ASSERT_TRUE(r.has_value());
     ASSERT_EQ(r->size(), 2u);
-    for (const auto& pt : *r) EXPECT_EQ(pt.entity, "host1");
+    for (const auto& pt : *r) {
+      EXPECT_EQ(pt.entity, "host1");
+    }
 }
 
 // ─── Tag filter ───────────────────────────────────────────────────────────────
@@ -186,7 +188,9 @@ TEST_F(TSStoreFixture, TagFilterMatchesCorrectPoints) {
     auto r = store->query(q);
     ASSERT_TRUE(r.has_value());
     ASSERT_EQ(r->size(), 2u);
-    for (const auto& pt : *r) EXPECT_EQ(pt.tags["env"], "prod");
+    for (const auto& pt : *r) {
+      EXPECT_EQ(pt.tags["env"], "prod");
+    }
 }
 
 // ─── Limit ────────────────────────────────────────────────────────────────────
@@ -333,7 +337,8 @@ TEST_F(TSStoreFixture, GetStatsReflectsInsertedPoints) {
 // ─── putDataPoints batch (no compression) ────────────────────────────────────
 
 TEST_F(TSStoreFixture, PutDataPointsBatchAllWritten) {
-    std::vector<TSStore::DataPoint> pts;
+    std::vector<TSStore::DataPoint> pts = {};
+
     for (int i = 0; i < 5; ++i) {
         pts.push_back(makePoint("batch", "h", base + i * 1000, static_cast<double>(i)));
     }

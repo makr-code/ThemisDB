@@ -106,7 +106,8 @@ TEST_F(ParallelTraversalTest, MultiSourceBFS_NoDuplicates) {
     ASSERT_TRUE(result.has_value());
 
     const auto& visited = result->visited_vertices;
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& v : visited) {
         EXPECT_TRUE(seen.insert(v).second) << "Duplicate vertex: " << v;
     }
@@ -291,7 +292,8 @@ TEST_F(ParallelTraversalTest, MultiSourceDFS_NoDuplicates) {
     ASSERT_TRUE(result.has_value());
 
     const auto& visited = result->visited_vertices;
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& v : visited) {
         EXPECT_TRUE(seen.insert(v).second) << "Duplicate vertex in DFS result: " << v;
     }
@@ -424,7 +426,8 @@ TEST_F(ParallelTraversalTest, MultiSourceBFS_FanOutThreshold_NoDuplicates) {
     ASSERT_TRUE(result.has_value());
 
     const auto& visited = result->visited_vertices;
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& v : visited) {
         EXPECT_TRUE(seen.insert(v).second) << "Duplicate vertex with fan-out expansion: " << v;
     }

@@ -84,7 +84,7 @@ public:
         }
         
         // Determine compression method
-        LosslessCompressionMethod method;
+        LosslessCompressionMethod method = {};
         
         if (config.mode == "auto") {
             method = AdaptiveCompressor::selectMethod(vec, config.sparse_threshold);
@@ -126,7 +126,8 @@ public:
                 
                 case LosslessCompressionMethod::DELTA_VARINT: {
                     // Convert to integers with range validation
-                    std::vector<int32_t> int_vec;
+                    std::vector<int32_t> int_vec = {};
+
                     int_vec.reserve(vec.size());
                     for (float f : vec) {
                         // Validate range to prevent overflow
@@ -202,7 +203,9 @@ public:
         try {
             if (method == "sparse_csr") {
                 auto it = fields.find("embedding_csr");
-                if (it == fields.end()) return std::nullopt;
+                if (it == fields.end()) {
+                  return std::nullopt;
+                }
                 
                 auto& bytes = std::get<std::vector<uint8_t>>(it->second);
                 auto sparse = SparseVectorCSR::deserialize(bytes);
@@ -210,12 +213,15 @@ public:
                 
             } else if (method == "delta_varint") {
                 auto it = fields.find("embedding_varint");
-                if (it == fields.end()) return std::nullopt;
+                if (it == fields.end()) {
+                  return std::nullopt;
+                }
                 
                 auto& bytes = std::get<std::vector<uint8_t>>(it->second);
                 auto int_vec = VarIntCodec::decompress_delta(bytes);
                 
-                std::vector<float> result;
+                std::vector<float> result = {};
+
                 result.reserve(int_vec.size());
                 for (int32_t i : int_vec) {
                     result.push_back(static_cast<float>(i));
@@ -225,7 +231,9 @@ public:
             } else if (method == "dictionary") {
                 auto dict_it = fields.find("embedding_dict");
                 auto indices_it = fields.find("embedding_dict_indices");
-                if (dict_it == fields.end() || indices_it == fields.end()) return std::nullopt;
+                if (dict_it == fields.end() || indices_it == fields.end()) {
+                  return std::nullopt;
+                }
                 
                 auto& dict_bytes = std::get<std::vector<uint8_t>>(dict_it->second);
                 auto& indices_bytes = std::get<std::vector<uint8_t>>(indices_it->second);

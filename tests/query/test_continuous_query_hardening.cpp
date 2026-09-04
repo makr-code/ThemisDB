@@ -170,7 +170,9 @@ private:
         
         std::optional<CQResult> next(std::chrono::milliseconds /*timeout*/) override {
             std::lock_guard<std::mutex> lock(queue_mutex_);
-            if (queue_.empty() || cancelled_) return std::nullopt;
+            if (queue_.empty() || cancelled_) {
+              return std::nullopt;
+            }
             
             auto item = queue_.front();
             queue_.pop_front();
@@ -446,15 +448,17 @@ class MockPersistenceManager {
 public:
     /// Simulate checkpoint: capture current state
     struct Checkpoint {
-        std::string query_name;
+        std::string query_name = {};
         std::vector<std::string> buffered_results;
         int64_t last_watermark_us;
-        size_t checkpoint_id;
+        size_t checkpoint_id = {};
     };
     
     std::optional<Checkpoint> lastCheckpoint() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (checkpoints_.empty()) return std::nullopt;
+        if (checkpoints_.empty()) {
+          return std::nullopt;
+        }
         return checkpoints_.back();
     }
     

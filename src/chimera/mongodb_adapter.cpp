@@ -112,7 +112,7 @@ Result<RelationalTable> MongoDBAdapter::execute_query(
 #ifdef THEMIS_CHIMERA_MONGO
     // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
     // TODO: Translate AQL to MongoDB aggregation pipeline and execute
-    RelationalTable table;
+    RelationalTable table = {};
     return Result<RelationalTable>::ok(std::move(table));
 #else
     return Result<RelationalTable>::err(
@@ -161,7 +161,7 @@ Result<size_t> MongoDBAdapter::batch_insert(
 #ifdef THEMIS_CHIMERA_MONGO
     // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
     // TODO: Batch insert documents into collection via bulk_write
-    return Result<size_t>::ok(rows.size());
+    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(rows.size())));
 #else
     return Result<size_t>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -334,7 +334,7 @@ Result<size_t> MongoDBAdapter::batch_insert_documents(
 #ifdef THEMIS_CHIMERA_MONGO
     // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
     // TODO: Batch insert BSON documents via insert_many
-    return Result<size_t>::ok(docs.size());
+    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(docs.size())));
 #else
     return Result<size_t>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -721,7 +721,7 @@ Result<BatchStatistics> MongoDBAdapter::flush() {
 
 size_t MongoDBAdapter::get_pending_count() const {
     std::unique_lock<std::mutex> lock(batch_mutex_);
-    return batch_queue_.size();
+    return static_cast<int>(batch_queue_.size());
 }
 
 Result<bool> MongoDBAdapter::set_batch_config(const BatchConfig& config) {

@@ -253,7 +253,7 @@ private:
     };
 
     struct EventHandlerEntry {
-        uint32_t id;
+        uint32_t id = 0;
         EventHandler handler;
     };
 

@@ -115,14 +115,14 @@ public:
     
     // Search for k nearest neighbors
     struct SearchResult {
-        uint64_t id;
+        uint64_t id = 0;
         float distance;
     };
     std::vector<SearchResult> search(const std::vector<float>& query, int k) const;
     
     // Get memory usage statistics
     struct MemoryStats {
-        size_t uncompressed_bytes;  // Original float32 size
+        size_t uncompressed_bytes = 0;  // Original float32 size
         size_t compressed_bytes;    // 2-bit quantized size
         double compression_ratio;
     };

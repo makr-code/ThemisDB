@@ -69,7 +69,9 @@ public:
     FileRaii(FileRaii&& other) noexcept : fp_(other.release()) {}
     FileRaii& operator=(FileRaii&& other) noexcept {
         if (this != &other) {
-            if (fp_) fclose(fp_);
+            if (fp_) {
+              fclose(fp_);
+            }
             fp_ = other.release();
         }
         return *this;
@@ -108,7 +110,9 @@ public:
     CurlRaii(CurlRaii&& other) noexcept : curl_(other.release()) {}
     CurlRaii& operator=(CurlRaii&& other) noexcept {
         if (this != &other) {
-            if (curl_) curl_easy_cleanup(curl_);
+            if (curl_) {
+              curl_easy_cleanup(curl_);
+            }
             curl_ = other.release();
         }
         return *this;
@@ -132,7 +136,7 @@ private:
 
 ParallelDownloader::ParallelDownloader()
     : concurrency_(static_cast<size_t>(
-          std::max(1u, std::thread::hardware_concurrency())))
+          std::max(1, std::thread::hardware_concurrency())))
     , bandwidth_limit_bps_(0)
     , connect_timeout_s_(10)
     , transfer_timeout_s_(30)
@@ -150,7 +154,7 @@ ParallelDownloader::~ParallelDownloader() = default;
 // Configuration
 // ============================================================================
 
-void ParallelDownloader::setConcurrency(size_t n) {
+void ParallelDownloader::setConcurrency([[maybe_unused]] size_t n) {
     if (n == 0) {
         throw std::invalid_argument("ParallelDownloader::setConcurrency: n must be >= 1");
     }
@@ -161,7 +165,7 @@ size_t ParallelDownloader::getConcurrency() const noexcept {
     return concurrency_;
 }
 
-void ParallelDownloader::setBandwidthLimit(uint64_t bytes_per_second) {
+void ParallelDownloader::setBandwidthLimit([[maybe_unused]] uint64_t bytes_per_second) {
     bandwidth_limit_bps_ = bytes_per_second;
     if (bytes_per_second > 0) {
         // Pre-fill bucket with one 100 ms slice
@@ -185,7 +189,7 @@ void ParallelDownloader::setTransferTimeoutSeconds(long seconds) {
 void ParallelDownloader::setProgressCallback(
     std::function<void(size_t, uint64_t, uint64_t, const std::string&)> callback)
 {
-    progress_cb_ = std::move(callback);
+    progress_cb_ = std::move([[maybe_unused]] callback);
 }
 
 void ParallelDownloader::setFetchFunction(FetchFn fn) {
@@ -200,8 +204,10 @@ DownloadBatchStats ParallelDownloader::lastBatchStats() const noexcept {
 // Bandwidth throttle helpers (token-bucket)
 // ============================================================================
 
-void ParallelDownloader::refillTokens(uint64_t /*bytes_needed*/) const {
-    if (bandwidth_limit_bps_ == 0) return;
+void ParallelDownloader::refillTokens([[maybe_unused]] uint64_t /*bytes_needed*/) const {
+    if (bandwidth_limit_bps_ == 0) {
+      return;
+    }
 
     const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                             std::chrono::steady_clock::now().time_since_epoch())
@@ -220,11 +226,11 @@ void ParallelDownloader::refillTokens(uint64_t /*bytes_needed*/) const {
             return;
         }
         const uint64_t new_tokens =
-            (bandwidth_limit_bps_ * static_cast<uint64_t>(elapsed_ms)) / 1000ULL;
+            (bandwidth_limit_bps_ * static_cast<uint64_t>(elapsed_ms)) / 1000;
         // Cap at 2× the per-100ms slice to avoid burst accumulation
         const uint64_t max_tokens = bandwidth_limit_bps_ / 5;
         uint64_t current = token_bucket_.load(std::memory_order_relaxed);
-        uint64_t refilled;
+        uint64_t refilled = 0;
         do {
             refilled = std::min(current + new_tokens, max_tokens);
         } while (!token_bucket_.compare_exchange_weak(
@@ -233,8 +239,10 @@ void ParallelDownloader::refillTokens(uint64_t /*bytes_needed*/) const {
     }
 }
 
-void ParallelDownloader::consumeBandwidth(uint64_t bytes) const {
-    if (bandwidth_limit_bps_ == 0) return;
+void ParallelDownloader::consumeBandwidth([[maybe_unused]] uint64_t bytes) const {
+    if (bandwidth_limit_bps_ == 0) {
+      return;
+    }
 
     while (true) {
         refillTokens(bytes);
@@ -256,7 +264,7 @@ void ParallelDownloader::consumeBandwidth(uint64_t bytes) const {
         const uint64_t deficit = bytes - avail;
         const auto sleep_ms =
             std::chrono::milliseconds(
-                static_cast<long>(deficit * 1000ULL / bandwidth_limit_bps_) + 1);
+                static_cast<long>(deficit * 1000 / bandwidth_limit_bps_) + 1);
         std::this_thread::sleep_for(sleep_ms);
     }
 }
@@ -266,9 +274,11 @@ void ParallelDownloader::consumeBandwidth(uint64_t bytes) const {
 // ============================================================================
 
 uint64_t ParallelDownloader::resumeOffset(const std::string& dest) const {
-    std::error_code ec;
+    std::error_code ec = {};
     const auto sz = fs::file_size(dest, ec);
-    if (ec || sz == static_cast<std::uintmax_t>(-1)) return 0;
+    if (ec || sz == static_cast<std::uintmax_t>(-1)) {
+      return 0;
+    }
     return static_cast<uint64_t>(sz);
 }
 
@@ -298,7 +308,9 @@ public:
     EvpMdCtxRaii(EvpMdCtxRaii&& other) noexcept : ctx_(other.release()) {}
     EvpMdCtxRaii& operator=(EvpMdCtxRaii&& other) noexcept {
         if (this != &other) {
-            if (ctx_) EVP_MD_CTX_free(ctx_);
+            if (ctx_) {
+              EVP_MD_CTX_free(ctx_);
+            }
             ctx_ = other.release();
         }
         return *this;
@@ -353,7 +365,7 @@ std::string ParallelDownloader::computeSha256(const std::string& path) {
     EVP_DigestFinal_ex(ctx, digest, &digest_len);
     // RAII cleanup happens automatically on scope exit
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::setw(2) << static_cast<int>(digest[i]);
@@ -385,8 +397,12 @@ bool ParallelDownloader::defaultFetch(
     static_cast<void>(out_total);
     static_cast<void>(out_error);
 
-    if (out_bytes)  *out_bytes  = 0;
-    if (out_total)  *out_total  = 0;
+    if (out_bytes) {
+      *out_bytes  = 0;
+    }
+    if (out_total) {
+      *out_total  = 0;
+    }
 
 #ifdef THEMIS_ENABLE_CURL
     // ── libcurl-backed HTTP/HTTPS fetch with optional byte-range resume ────
@@ -405,19 +421,23 @@ bool ParallelDownloader::defaultFetch(
     const char* open_mode = (resume_offset > 0) ? "ab" : "wb";
     FileRaii fp(fopen(dest.c_str(), open_mode));
     if (!fp.get()) {
-        if (out_error) *out_error = "Failed to open destination file: " + dest;
+        if (out_error) {
+          *out_error = "Failed to open destination file: " + dest;
+        }
         return false;
     }
 
     CurlRaii curl(curl_easy_init());
     if (!curl.get()) {
-        if (out_error) *out_error = "curl_easy_init() failed";
+        if (out_error) {
+          *out_error = "curl_easy_init() failed";
+        }
         return false;
     }
 
     WriteCtx ctx{fp.get()};
     curl_easy_setopt(curl.get(), CURLOPT_URL,             url.c_str());
-    curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION,   static_cast<curl_write_callback>(write_cb));
+    curl_easy_setopt([[maybe_unused]] curl.get(), CURLOPT_WRITEFUNCTION,   static_cast<curl_write_callback>(write_cb));
     curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA,       &ctx);
     curl_easy_setopt(curl.get(), CURLOPT_FOLLOWLOCATION,  1L);
     curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT,  connect_timeout_s);
@@ -437,12 +457,16 @@ bool ParallelDownloader::defaultFetch(
     // Resources automatically cleaned up by RAII destructors
     
     if (res != CURLE_OK) {
-        if (out_error) *out_error = std::string("curl error: ") + curl_easy_strerror(res);
+        if (out_error) {
+          *out_error = std::string("curl error: ") + curl_easy_strerror(res);
+        }
         fs::remove(dest);
         return false;
     }
 
-    if (out_bytes) *out_bytes = ctx.written;
+    if (out_bytes) {
+      *out_bytes = ctx.written;
+    }
     if (out_total) *out_total = (cl >= 0) ? static_cast<uint64_t>(cl) + resume_offset
                                            : ctx.written + resume_offset;
     return true;
@@ -474,7 +498,7 @@ DownloadResult ParallelDownloader::executeTask(
     {
         const fs::path dest_dir = fs::path(task.dest).parent_path();
         if (!dest_dir.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::create_directories(dest_dir, ec);
             if (ec) {
                 result.error_message =
@@ -515,7 +539,9 @@ DownloadResult ParallelDownloader::executeTask(
     for (int attempt = 0; attempt <= task.max_retries; ++attempt) {
         if (attempt > 0) {
             LOG_DEBUG("ParallelDownloader: retry {}/{} for {}", attempt, task.max_retries, task.url);
-            if (!backoff.wait()) break;
+            if (!backoff.wait()) {
+              break;
+            }
         }
 
         uint64_t    bytes_this_call = 0;
@@ -579,7 +605,7 @@ DownloadResult ParallelDownloader::executeTask(
                 ": expected " + task.expected_hash +
                 ", got " + actual_hash;
             // Remove the corrupt file so a future attempt starts fresh
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove(task.dest, ec);
             result.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - t0);
@@ -620,14 +646,15 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
     // Build a priority queue of (priority, original_index)
     // Higher priority → processed first.
     using Entry = std::pair<int, size_t>;  // (priority, index)
-    std::priority_queue<Entry> pq;
+    std::priority_queue<Entry> pq = {};
+
     for (size_t i = 0; i < n; ++i) {
         pq.emplace(tasks[i].priority, i);
     }
 
     // Shared state for the worker pool
-    std::mutex              queue_mutex;
-    std::condition_variable cv;
+    std::mutex              queue_mutex = {};
+    std::condition_variable cv = {};
     bool                    all_queued = false;
 
     // Launch up to concurrency_ workers
@@ -648,11 +675,15 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
                     LOG_DEBUG("ParallelDownloader: worker timeout waiting for task");
                     continue;  // Timeout but more work might arrive
                 }
-                if (pq.empty()) break;
+                if (pq.empty()) {
+                  break;
+                }
                 idx = pq.top().second;
                 pq.pop();
             }
-            if (idx == SIZE_MAX) break;
+            if (idx == SIZE_MAX) {
+              break;
+            }
 
             results[idx] = executeTask(idx, tasks[idx]);
         }
@@ -693,7 +724,9 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
         } else {
             ++stats.failed;
         }
-        if (r.was_resumed) ++stats.resumed;
+        if (r.was_resumed) {
+          ++stats.resumed;
+        }
     }
     last_stats_ = stats;
 

@@ -236,9 +236,15 @@ struct TensorArtifactFreshness {
         uint64_t max_age_ms,
         double   min_residual = 0.95) const noexcept
     {
-        if (rebuild_in_progress) return false;
-        if (artifact_age_ms >= max_age_ms) return false;
-        if (residual_threshold < min_residual) return false;
+        if (rebuild_in_progress) {
+          return false;
+        }
+        if (artifact_age_ms >= max_age_ms) {
+          return false;
+        }
+        if (residual_threshold < min_residual) {
+          return false;
+        }
         return true;
     }
 
@@ -254,9 +260,15 @@ struct TensorArtifactFreshness {
         uint64_t max_age_ms,
         double   min_residual = 0.95) const noexcept
     {
-        if (rebuild_in_progress)                return FallbackReason::TensorRebuildInProgress;
-        if (artifact_age_ms >= max_age_ms)      return FallbackReason::TensorArtifactStale;
-        if (residual_threshold < min_residual)  return FallbackReason::TensorResidualLow;
+        if (rebuild_in_progress) {
+          return FallbackReason::TensorRebuildInProgress;
+        }
+        if (artifact_age_ms >= max_age_ms) {
+          return FallbackReason::TensorArtifactStale;
+        }
+        if (residual_threshold < min_residual) {
+          return FallbackReason::TensorResidualLow;
+        }
         return FallbackReason::None;
     }
 };
@@ -313,7 +325,9 @@ struct ExecutionEligibility {
      * `force_cpu` overrides all categories to false.
      */
     [[nodiscard]] bool isGpuEligible(KernelCategory category) const noexcept {
-        if (force_cpu) return false;
+        if (force_cpu) {
+          return false;
+        }
         switch (category) {
             case KernelCategory::C:
                 return false; // Never GPU

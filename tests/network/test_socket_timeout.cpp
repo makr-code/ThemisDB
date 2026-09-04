@@ -106,7 +106,9 @@ TEST(SocketTimeoutTimer, TimerFiresAfterExpiry) {
     std::atomic<bool> fired{false};
     timer.expires_after(std::chrono::milliseconds(10));
     timer.async_wait([&fired](const boost::system::error_code& ec) {
-        if (!ec) fired.store(true);
+        if (!ec) {
+          fired.store(true);
+        }
     });
 
     ioc.run_for(std::chrono::milliseconds(100));
@@ -121,7 +123,9 @@ TEST(SocketTimeoutTimer, CancelledTimerDoesNotFire) {
     std::atomic<bool> fired{false};
     timer.expires_after(std::chrono::milliseconds(50));
     timer.async_wait([&fired](const boost::system::error_code& ec) {
-        if (!ec) fired.store(true);
+        if (!ec) {
+          fired.store(true);
+        }
         // ec == operation_aborted when cancelled → fired stays false
     });
 
@@ -141,12 +145,16 @@ TEST(SocketTimeoutTimer, RearmedTimerFiresOnlyOnce) {
     // Arm, then re-arm (expires_after cancels the previous wait)
     timer.expires_after(std::chrono::milliseconds(50));
     timer.async_wait([&fire_count](const boost::system::error_code& ec) {
-        if (!ec) fire_count.fetch_add(1);
+        if (!ec) {
+          fire_count.fetch_add(1);
+        }
     });
 
     timer.expires_after(std::chrono::milliseconds(10)); // re-arms, first wait gets aborted
     timer.async_wait([&fire_count](const boost::system::error_code& ec) {
-        if (!ec) fire_count.fetch_add(1);
+        if (!ec) {
+          fire_count.fetch_add(1);
+        }
     });
 
     ioc.run_for(std::chrono::milliseconds(200));
@@ -167,7 +175,9 @@ TEST(SocketTimeoutTimer, ZeroTimeoutMeansNoTimerIsArmed) {
     if (timeout_ms > 0) {
         timer.expires_after(std::chrono::milliseconds(timeout_ms));
         timer.async_wait([&fired](const boost::system::error_code& ec) {
-            if (!ec) fired.store(true);
+            if (!ec) {
+              fired.store(true);
+            }
         });
     }
 
@@ -186,7 +196,9 @@ TEST(SocketTimeoutTimer, TimerWithVeryShortTimeoutFiresBeforeLongRead) {
 
     timeout_timer.expires_after(std::chrono::milliseconds(20));
     timeout_timer.async_wait([&timed_out](const boost::system::error_code& ec) {
-        if (!ec) timed_out.store(true);
+        if (!ec) {
+          timed_out.store(true);
+        }
     });
 
     // Simulate a slow read that would complete after the timeout
@@ -272,7 +284,8 @@ TEST(W1S02AtomicTimeout, ConcurrentHotReloadAndArmDoNotDataRace) {
     std::atomic<bool> stop{false};
 
     std::vector<std::thread> writers;
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int i = 0; i < 4; ++i) {
         writers.emplace_back([&hot_ms, &stop, i]() {
             while (!stop.load(std::memory_order_relaxed)) {
@@ -290,8 +303,12 @@ TEST(W1S02AtomicTimeout, ConcurrentHotReloadAndArmDoNotDataRace) {
 
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
     stop.store(true, std::memory_order_release);
-    for (auto& t : writers) t.join();
-    for (auto& t : readers) t.join();
+    for (auto& t : writers) {
+      t.join();
+    }
+    for (auto& t : readers) {
+      t.join();
+    }
     SUCCEED(); // no TSAN / UB detected
 }
 
@@ -412,12 +429,16 @@ TEST(W1S02WriteTimeout, StalledWriteTriggersTimeout) {
 
     io_timeout.expires_after(std::chrono::milliseconds(20));
     io_timeout.async_wait([&timed_out](const boost::system::error_code& ec) {
-        if (!ec) timed_out.store(true);
+        if (!ec) {
+          timed_out.store(true);
+        }
     });
 
     simulated_write->expires_after(std::chrono::milliseconds(100));
     simulated_write->async_wait([&write_done](const boost::system::error_code& ec) {
-        if (!ec) write_done.store(true);
+        if (!ec) {
+          write_done.store(true);
+        }
     });
 
     ioc.run_for(std::chrono::milliseconds(200));
@@ -436,7 +457,9 @@ TEST(W1S02WriteTimeout, CompletedWriteCancelsTimeout) {
 
     io_timeout.expires_after(std::chrono::milliseconds(100));
     io_timeout.async_wait([&timed_out](const boost::system::error_code& ec) {
-        if (!ec) timed_out.store(true);
+        if (!ec) {
+          timed_out.store(true);
+        }
     });
 
     simulated_write->expires_after(std::chrono::milliseconds(10));
@@ -463,12 +486,16 @@ TEST(W1S02ShutdownTimeout, StalledShutdownTriggersTimeout) {
 
     io_timeout.expires_after(std::chrono::milliseconds(20));
     io_timeout.async_wait([&timed_out](const boost::system::error_code& ec) {
-        if (!ec) timed_out.store(true);
+        if (!ec) {
+          timed_out.store(true);
+        }
     });
 
     simulated_shutdown->expires_after(std::chrono::milliseconds(100));
     simulated_shutdown->async_wait([&shutdown_done](const boost::system::error_code& ec) {
-        if (!ec) shutdown_done.store(true);
+        if (!ec) {
+          shutdown_done.store(true);
+        }
     });
 
     ioc.run_for(std::chrono::milliseconds(200));

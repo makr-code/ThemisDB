@@ -72,7 +72,7 @@ constexpr double kEpsilon = 1e-9;
 
 /// Ray-casting point-in-polygon (closed outer ring).
 static bool pointInRing(double px, double py, const std::vector<Coordinate> &ring) {
-    if (ring.size() < 3) {
+    if (static_cast<int>(ring.size()) < 3) {
         return false;
     }
     bool inside   = false;
@@ -225,11 +225,11 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // predicate otherwise.  All metrics, audit events, and fallback paths
     // are instrumented so that operators can observe behaviour.
     // ------------------------------------------------------------------
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
         const auto t0 = std::chrono::steady_clock::now();
         ++batch_calls_;
         SpatialBatchResults out;
-        out.mask.assign(in.count, 0u);
+        out.mask.assign(in.count, 0);
 
         if (in.count == 0) {
             return out;
@@ -237,14 +237,14 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
 
         // Attempt GPU kernel dispatch for the common point-in-polygon pattern.
         const bool have_geoms = !in.geoms_a.empty() && !in.geoms_b.empty();
-        const std::size_t n   = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
+        const std::size_t n   = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
 
         if (have_geoms && n >= cfg_.gpu_batch_threshold && gpu_device_present_ && active_device_.is_healthy
             && safe_fail_.shouldAttemptGPU() && kernel_dispatcher_.isAvailable() && isAllPointsVsPolygon(in, n)) {
             auto gpu_result = tryGpuContainmentDispatch(in, n);
             if (gpu_result.dispatched) {
                 safe_fail_.recordSuccess();
-                const std::size_t m = std::min(out.mask.size(), gpu_result.mask.size());
+                const std::size_t m = std::min(out.mask.size(),static_cast<int>(gpu_result.mask.size()));
                 for (std::size_t i = 0; i < m; ++i) {
                     out.mask[i] = gpu_result.mask[i];
                 }
@@ -287,20 +287,20 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         }
 
         // CPU exact-intersection fallback.
-        if (have_geoms && (in.geoms_a.size() != in.count || in.geoms_b.size() != in.count)) {
+        if (have_geoms && (static_cast<int>(in.geoms_a.size()) != in.count || static_cast<int>(in.geoms_b.size()) != in.count)) {
             THEMIS_WARN("GPU spatial batchIntersects: geometry vector sizes ({},{}) "
                         "do not match count ({}); processing {} pairs",
-                        in.geoms_a.size(), in.geoms_b.size(), in.count,
-                        std::min({in.count, in.geoms_a.size(), in.geoms_b.size()}));
+                        in.geoms_a.size(),static_cast<int>(in.geoms_b.size()), in.count,
+                        std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())}));
         }
-        const std::size_t n_cpu = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
+        const std::size_t n_cpu = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
         for (std::size_t i = 0; i < n_cpu; ++i) {
             try {
-                out.mask[i] = computeExactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+                out.mask[i] = computeExactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1 : 0;
             } catch (const std::exception &e) {
                 ++exact_errors_;
                 THEMIS_WARN("GPU spatial batchIntersects[{}] error: {}", i, e.what());
-                out.mask[i] = 0u;
+                out.mask[i] = 0;
             }
         }
 
@@ -319,7 +319,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // batchIntersects.  We still record fallback metrics so that when a
     // GPU kernel is eventually wired in the counters start from 0.
     // ------------------------------------------------------------------
-    bool exactIntersects(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
         ++exact_calls_;
         try {
             bool result = computeExactIntersects(g1, g2);
@@ -400,13 +400,13 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
 
         // Point × LineString  (is point on any segment?)
         if (g1.isPoint() && g2.isLineString()) {
-            if (g1.coords.empty() || g2.coords.size() < 2) {
+            if (g1.coords.empty() || static_cast<int>(g2.coords.size()) < 2) {
                 return false;
             }
             const auto &ls = g2.coords;
             double px = g1.coords[0].x, py = g1.coords[0].y;
-            for (std::size_t i = 1; i < ls.size(); ++i) {
-                if (segmentsIntersect(px, py, px, py, ls[i - 1].x, ls[i - 1].y, ls[i].x, ls[i].y)) {
+            for (std::size_t i = 1; i <static_cast<int>(ls.size()); ++i) {
+                if (segmentsIntersect(px, py, px, py, ls[static_cast<int>(i - 1)].x, ls[static_cast<int>(i - 1)].y, ls[i].x, ls[i].y)) {
                     return true;
                 }
             }
@@ -420,9 +420,9 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         if (g1.isLineString() && g2.isLineString()) {
             const auto &ls1 = g1.coords;
             const auto &ls2 = g2.coords;
-            for (std::size_t i = 1; i < ls1.size(); ++i) {
-                for (std::size_t j = 1; j < ls2.size(); ++j) {
-                    if (segmentsIntersect(ls1[i - 1].x, ls1[i - 1].y, ls1[i].x, ls1[i].y, ls2[j - 1].x, ls2[j - 1].y,
+            for (std::size_t i = 1; i <static_cast<int>(ls1.size()); ++i) {
+                for (std::size_t j = 1; j <static_cast<int>(ls2.size()); ++j) {
+                    if (segmentsIntersect(ls1[static_cast<int>(i - 1)].x, ls1[static_cast<int>(i - 1)].y, ls1[i].x, ls1[i].y, ls2[static_cast<int>(j - 1)].x, ls2[static_cast<int>(j - 1)].y,
                                           ls2[j].x, ls2[j].y)) {
                         return true;
                     }
@@ -442,9 +442,9 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
                 }
             }
             // Any segment crosses a polygon edge?
-            for (std::size_t i = 1; i < ls.size(); ++i) {
-                for (std::size_t k = 0, l = ring.size() - 1; k < ring.size(); l = k++) {
-                    if (segmentsIntersect(ls[i - 1].x, ls[i - 1].y, ls[i].x, ls[i].y, ring[l].x, ring[l].y, ring[k].x,
+            for (std::size_t i = 1; i <static_cast<int>(ls.size()); ++i) {
+                for (std::size_t k = 0, l = static_cast<int>(ring.size()) - 1; k <static_cast<int>(ring.size()); l = k++) {
+                    if (segmentsIntersect(ls[static_cast<int>(i - 1)].x, ls[static_cast<int>(i - 1)].y, ls[i].x, ls[i].y, ring[l].x, ring[l].y, ring[k].x,
                                           ring[k].y)) {
                         return true;
                     }
@@ -508,7 +508,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // This implementation falls back to the CPU exact backend and records
     // the fallback in the audit log.
     // ------------------------------------------------------------------
-    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points) override {
+    GeometryInfo stBuffer(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom, doubl[[maybe_unused]] e distance_[[maybe_unused]] m, in[[maybe_unused]] t arc_point[[maybe_unused]] s) override {
         audit_log_.recordFallbackToCPU("stBuffer: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_buffer_cpu_fallback");
         return getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
@@ -520,13 +520,13 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // CUDA kernel dispatch for set-operations is deferred to a future
     // release.  Both operations fall back to the CPU exact backend.
     // ------------------------------------------------------------------
-    GeometryInfo stUnion(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    GeometryInfo stUnion(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom2) override {
         audit_log_.recordFallbackToCPU("stUnion: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_cpu_fallback");
         return getCpuExactBackend()->stUnion(geom1, geom2);
     }
 
-    GeometryInfo stDifference(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    GeometryInfo stDifference(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom2) override {
         audit_log_.recordFallbackToCPU("stDifference: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_cpu_fallback");
         return getCpuExactBackend()->stDifference(geom1, geom2);
@@ -538,7 +538,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // CUDA kernel dispatch for geodesic distance is deferred to a future
     // release.  Delegates to the CPU exact backend (Vincenty WGS-84).
     // ------------------------------------------------------------------
-    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
+    double geodesicDistance(doubl[[maybe_unused]] e la[[maybe_unused]] t1, doubl[[maybe_unused]] e lo[[maybe_unused]] n1, doubl[[maybe_unused]] e la[[maybe_unused]] t2, doubl[[maybe_unused]] e lo[[maybe_unused]] n2) const override {
         return getCpuExactBackend()->geodesicDistance(lat1, lon1, lat2, lon2);
     }
 
@@ -601,7 +601,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     /// Returns true if the batch is all Points vs the same Polygon — the
     /// pattern that maps directly to the GPU containment kernel.
     static bool isAllPointsVsPolygon(const SpatialBatchInputs &in, std::size_t n) noexcept {
-        if (n == 0 || in.geoms_a.size() < n || in.geoms_b.size() < n) {
+        if (n == 0 || static_cast<int>(in.geoms_a.size()) < n || static_cast<int>(in.geoms_b.size()) < n) {
             return false;
         }
         if (!in.geoms_b[0].isPolygon()) {
@@ -637,10 +637,11 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         // Interleaved format: [lat0=x, lon0=y, lat1=x, lon1=y, ...] matching the
         // pointInPolygonKernel's polygon_coords convention.
         const auto &poly_ring = outerRing(in.geoms_b[0]);
-        if (poly_ring.size() < 3) {
+        if (static_cast<int>(poly_ring.size()) < 3) {
             return GpuKernelDispatcher::ContainmentResult{};
         }
-        std::vector<double> poly_coords;
+        std::vector<double> poly_coords = {};
+
         poly_coords.reserve(poly_ring.size() * 2);
         for (const auto &v : poly_ring) {
             poly_coords.push_back(v.x);
@@ -680,10 +681,10 @@ ISpatialComputeBackend *getGpuSpatialBackend() {
 std::string getGpuSpatialBackendStatsJson() {
     const auto s = getGpuSpatialBackendInstance().getStats();
     // Hand-rolled JSON to avoid a nlohmann/json dependency in this TU.
-    auto boolStr = [](bool v) -> const char * { return v ? "true" : "false"; };
+    auto boolStr = []([[maybe_unused]] bool v) -> const char * { return v ? "true" : "false"; };
     auto escStr  = [](const std::string &v) -> std::string {
-        std::string out;
-        out.reserve(v.size() + 2);
+        std::string out = {};
+        out.reserve(static_cast<int>(v.size()) + 2);
         // Each append is a single-character O(1) operation; the loop is O(n)
         // overall. An std::ostringstream would add overhead without benefit here.
         // Wave D-Logging-1: scanner string_concat_loop findings on the two

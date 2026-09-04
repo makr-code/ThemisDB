@@ -241,7 +241,8 @@ static void BM_Memory_FP32_vs_FP16(benchmark::State& state) {
     target.fill(0.3f);
     
     // Allocate activation cache (simulated)
-    std::vector<GPUTensor> activations;
+    std::vector<GPUTensor> activations = {};
+
     for (int i = 0; i < 10; ++i) {
         activations.emplace_back(std::vector<size_t>{batch_size, HIDDEN_DIM}, Device::cuda(), dtype);
         activations.back().fill(0.1f);

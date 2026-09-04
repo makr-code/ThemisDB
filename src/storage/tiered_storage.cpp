@@ -72,7 +72,7 @@ std::unordered_map<std::string, AccessTracker::Entry> AccessTracker::snapshot() 
 
 std::size_t AccessTracker::size() const {
     std::shared_lock lock(mutex_);
-    return entries_.size();
+    return static_cast<int>(entries_.size());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -83,7 +83,9 @@ namespace {
 
 // Replace characters that are unsafe for filenames and reject path traversal sequences.
 std::string sanitizeKey(const std::string& key) {
-    if (key.empty()) return "_empty_";
+    if (key.empty()) {
+      return "_empty_";
+    }
 
     // Reject keys that could escape tier directories
     // uncaught_exception scanner alerts (lines 85, 94): sanitizeKey throws
@@ -101,9 +103,11 @@ std::string sanitizeKey(const std::string& key) {
     if (trimmed == ".") {
         throw std::invalid_argument("Key is a current-directory reference: " + key);
     }
-    if (trimmed.empty()) return "_";
+    if (trimmed.empty()) {
+      return "_";
+    }
 
-    std::string safe;
+    std::string safe = {};
     safe.reserve(trimmed.size());
     for (char c : trimmed) {
         safe += (c == '/' || c == '\\' || c == ':' || c == '*' ||
@@ -111,7 +115,9 @@ std::string sanitizeKey(const std::string& key) {
                     ? '_'
                     : c;
     }
-    if (safe.empty()) safe = "_";
+    if (safe.empty()) {
+      safe = "_";
+    }
     return safe;
 }
 
@@ -196,8 +202,10 @@ std::string TieredStorageManager::readFromTier(const std::string& key,
 bool TieredStorageManager::deleteFromTier(const std::string& key,
                                            StorageTierLevel tier) {
     const std::string path = keyFilePath(key, tier);
-    if (!fs::exists(path)) return false;
-    std::error_code ec;
+    if (!fs::exists(path)) {
+      return false;
+    }
+    std::error_code ec = {};
     fs::remove(path, ec);
     if (ec) {
         THEMIS_WARN("TieredStorage: failed to delete '{}': {}", path, ec.message());
@@ -289,20 +297,32 @@ std::string TieredStorageManager::get(const std::string& key) {
 bool TieredStorageManager::del(const std::string& key) {
     bool found = false;
     for (auto tier : {StorageTierLevel::HOT, StorageTierLevel::WARM, StorageTierLevel::COLD}) {
-        if (deleteFromTier(key, tier)) found = true;
+        if (deleteFromTier(key, tier)) {
+          found = true;
+        }
     }
-    if (found) tracker_.remove(key);
+    if (found) {
+      tracker_.remove(key);
+    }
     return found;
 }
 
 StorageTierLevel TieredStorageManager::tierOf(const std::string& key) const {
     auto snap = tracker_.snapshot();
     auto it = snap.find(key);
-    if (it != snap.end()) return it->second.tier;
+    if (it != snap.end()) {
+      return it->second.tier;
+    }
     // Fall back to scanning actual tier directories
-    if (existsInTier(key, StorageTierLevel::HOT))  return StorageTierLevel::HOT;
-    if (existsInTier(key, StorageTierLevel::WARM)) return StorageTierLevel::WARM;
-    if (existsInTier(key, StorageTierLevel::COLD)) return StorageTierLevel::COLD;
+    if (existsInTier(key, StorageTierLevel::HOT)) {
+      return StorageTierLevel::HOT;
+    }
+    if (existsInTier(key, StorageTierLevel::WARM)) {
+      return StorageTierLevel::WARM;
+    }
+    if (existsInTier(key, StorageTierLevel::COLD)) {
+      return StorageTierLevel::COLD;
+    }
     return StorageTierLevel::HOT;
 }
 
@@ -360,7 +380,9 @@ uint32_t TieredStorageManager::runMigrationCycle() {
     const uint32_t limit = config_.max_migrations_per_cycle;
 
     for (auto& [key, entry] : entries) {
-        if (limit > 0 && migrated >= limit) break;
+        if (limit > 0 && migrated >= limit) {
+          break;
+        }
 
         // ── Size-based policy (checked first, overrides tier-based rules) ──
         if (config_.large_blob_bytes > 0 && entry.tier != config_.large_blob_tier) {
@@ -450,7 +472,9 @@ void TieredStorageManager::workerLoop() {
             std::chrono::seconds(config_.migration_check_interval_secs),
             [this] { return !worker_running_.load(std::memory_order_relaxed); });
 
-        if (!worker_running_.load(std::memory_order_relaxed)) break;
+        if (!worker_running_.load(std::memory_order_relaxed)) {
+          break;
+        }
         lock.unlock();
 
         try {
@@ -513,8 +537,8 @@ void TieredStorageManager::emitPromotionEvent(const std::string& key,
                                              access_model::TierLevel from_tier,
                                              uint64_t access_count,
                                              int64_t access_window_secs) {
-    std::lock_guard<std::mutex> lock(promotion_listener_mutex_);
-    if (!promotion_listener_) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] promotion_listener_mutex_);
+    if ([[maybe_unused]] !promotion_listener_) {
         return;  // No listener registered
     }
 
@@ -527,13 +551,13 @@ void TieredStorageManager::emitPromotionEvent(const std::string& key,
 // BLOCK 3: Storage Module Integration — AccessCoordinator Listener
 // ─────────────────────────────────────────────────────────────────────────────
 
-void TieredStorageManager::setPromotionListener(access_model::PromotionListener* listener) noexcept {
-    std::lock_guard<std::mutex> lock(promotion_listener_mutex_);
+void TieredStorageManager::setPromotionListener([[maybe_unused]] access_model::PromotionListener* listener) noexcept {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] promotion_listener_mutex_);
     promotion_listener_ = listener;
-    if (promotion_listener_) {
-        THEMIS_INFO("TieredStorageManager: promotion listener registered for AccessCoordinator");
+    if ([[maybe_unused]] promotion_listener_) {
+        THEMIS_INFO([[maybe_unused]] "TieredStorageManager: promotion listener registered for AccessCoordinator");
     } else {
-        THEMIS_INFO("TieredStorageManager: promotion listener unregistered");
+        THEMIS_INFO([[maybe_unused]] "TieredStorageManager: promotion listener unregistered");
     }
 }
 

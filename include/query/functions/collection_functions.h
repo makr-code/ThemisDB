@@ -58,7 +58,9 @@ namespace functions {
  * @brief Helper to detect and parse JSON strings
  */
 inline bool tryParseJson(const std::string& str, nlohmann::json& out) {
-    if (str.empty()) return false;
+    if (str.empty()) {
+      return false;
+    }
     
     // Check if it looks like JSON (starts with [ or {)
     char first = str[0];
@@ -199,13 +201,19 @@ public:
     
     void validateArgs(const std::vector<nlohmann::json>& args) const override {
         // Empty is OK
-        if (args.empty()) return;
+        if (args.empty()) {
+          return;
+        }
         
         // Single string argument - will try JSON parse
-        if (args.size() == 1 && args[0].is_string()) return;
+        if (args.size() == 1 && args[0].is_string()) {
+          return;
+        }
         
         // Single object argument - will return as-is
-        if (args.size() == 1 && args[0].is_object()) return;
+        if (args.size() == 1 && args[0].is_object()) {
+          return;
+        }
         
         // Otherwise must be even number of args (key-value pairs)
         if (args.size() % 2 != 0) {
@@ -426,14 +434,30 @@ public:
                            const FunctionContext&) const override {
         const auto& val = args[0];
         
-        if (val.is_null()) return "null";
-        if (val.is_boolean()) return "boolean";
-        if (val.is_number_integer()) return "integer";
-        if (val.is_number_float()) return "number";
-        if (val.is_number()) return "number";
-        if (val.is_string()) return "string";
-        if (val.is_array()) return "array";
-        if (val.is_object()) return "object";
+        if (val.is_null()) {
+          return "null";
+        }
+        if (val.is_boolean()) {
+          return "boolean";
+        }
+        if (val.is_number_integer()) {
+          return "integer";
+        }
+        if (val.is_number_float()) {
+          return "number";
+        }
+        if (val.is_number()) {
+          return "number";
+        }
+        if (val.is_string()) {
+          return "string";
+        }
+        if (val.is_array()) {
+          return "array";
+        }
+        if (val.is_object()) {
+          return "object";
+        }
         
         return "unknown";
     }
@@ -1134,7 +1158,7 @@ public:
         if (args[0].is_array()) {
             for (const auto& entry : args[0]) {
                 if (entry.is_array() && entry.size() >= 2) {
-                    std::string key;
+                    std::string key = {};
                     if (entry[0].is_string()) {
                         key = entry[0].get<std::string>();
                     } else {
@@ -1211,30 +1235,48 @@ public:
     void validateArgs(const std::vector<nlohmann::json>&) const override {}
     
     static bool isTruthy(const nlohmann::json& val) {
-        if (val.is_null()) return false;
-        if (val.is_boolean()) return val.get<bool>();
-        if (val.is_number()) return val.get<double>() != 0;
-        if (val.is_string()) return !val.get<std::string>().empty();
-        if (val.is_array()) return !val.empty();
-        if (val.is_object()) return !val.empty();
+        if (val.is_null()) {
+          return false;
+        }
+        if (val.is_boolean()) {
+          return val.get<bool>();
+        }
+        if (val.is_number()) {
+          return val.get<double>() != 0;
+        }
+        if (val.is_string()) {
+          return !val.get<std::string>().empty();
+        }
+        if (val.is_array()) {
+          return !val.empty();
+        }
+        if (val.is_object()) {
+          return !val.empty();
+        }
         return false;
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
-        if (args.empty()) return true;
+        if (args.empty()) {
+          return true;
+        }
         
         // Single array argument - test all elements
         if (args.size() == 1 && args[0].is_array()) {
             for (const auto& elem : args[0]) {
-                if (!isTruthy(elem)) return false;
+                if (!isTruthy(elem)) {
+                  return false;
+                }
             }
             return true;
         }
         
         // Multiple arguments
         for (const auto& arg : args) {
-            if (!isTruthy(arg)) return false;
+            if (!isTruthy(arg)) {
+              return false;
+            }
         }
         return true;
     }
@@ -1276,19 +1318,25 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
-        if (args.empty()) return false;
+        if (args.empty()) {
+          return false;
+        }
         
         // Single array argument
         if (args.size() == 1 && args[0].is_array()) {
             for (const auto& elem : args[0]) {
-                if (AndFunction::isTruthy(elem)) return true;
+                if (AndFunction::isTruthy(elem)) {
+                  return true;
+                }
             }
             return false;
         }
         
         // Multiple arguments
         for (const auto& arg : args) {
-            if (AndFunction::isTruthy(arg)) return true;
+            if (AndFunction::isTruthy(arg)) {
+              return true;
+            }
         }
         return false;
     }
@@ -1387,12 +1435,16 @@ public:
         // Single array argument
         if (args.size() == 1 && args[0].is_array()) {
             for (const auto& elem : args[0]) {
-                if (AndFunction::isTruthy(elem)) trueCount++;
+                if (AndFunction::isTruthy(elem)) {
+                  trueCount++;
+                }
             }
         } else {
             // Multiple arguments
             for (const auto& arg : args) {
-                if (AndFunction::isTruthy(arg)) trueCount++;
+                if (AndFunction::isTruthy(arg)) {
+                  trueCount++;
+                }
             }
         }
         
@@ -1523,7 +1575,9 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
-        if (args.size() < 2) return nullptr;
+        if (args.size() < 2) {
+          return nullptr;
+        }
         
         const auto& expr = args[0];
         
@@ -1577,7 +1631,9 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
-        if (args.size() < 2) return nullptr;
+        if (args.size() < 2) {
+          return nullptr;
+        }
         
         int64_t index = args[0].get<int64_t>();
         
@@ -1750,7 +1806,9 @@ public:
                            const FunctionContext&) const override {
         const auto& arr = args[0];
         for (const auto& elem : arr) {
-            if (!AndFunction::isTruthy(elem)) return false;
+            if (!AndFunction::isTruthy(elem)) {
+              return false;
+            }
         }
         return true;
     }
@@ -1786,7 +1844,9 @@ public:
                            const FunctionContext&) const override {
         const auto& arr = args[0];
         for (const auto& elem : arr) {
-            if (AndFunction::isTruthy(elem)) return true;
+            if (AndFunction::isTruthy(elem)) {
+              return true;
+            }
         }
         return false;
     }
@@ -1820,7 +1880,9 @@ public:
                            const FunctionContext&) const override {
         const auto& arr = args[0];
         for (const auto& elem : arr) {
-            if (AndFunction::isTruthy(elem)) return false;
+            if (AndFunction::isTruthy(elem)) {
+              return false;
+            }
         }
         return true;
     }
@@ -1865,12 +1927,16 @@ public:
             // Count specific value
             const auto& value = args[1];
             for (const auto& elem : arr) {
-                if (elem == value) count++;
+                if (elem == value) {
+                  count++;
+                }
             }
         } else {
             // Count truthy elements
             for (const auto& elem : arr) {
-                if (AndFunction::isTruthy(elem)) count++;
+                if (AndFunction::isTruthy(elem)) {
+                  count++;
+                }
             }
         }
         

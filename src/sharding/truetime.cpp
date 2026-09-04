@@ -152,12 +152,12 @@ bool TrueTime::syncNow() {
 
 /** @brief Return JSON stats snapshot for diagnostics/monitoring. */
 std::string TrueTime::getStats() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{"
         << "\"uncertainty_us\": " << (uncertainty_ns_.load() / 1000) << ", "
         << "\"drift_us\": " << (drift_ns_.load() / 1000) << ", "
         << "\"last_sync_ns\": " << last_sync_ns_.load() << ", "
-        << "\"ntp_servers\": " << config_.ntp_servers.size()
+        << "\"ntp_servers\": " <<static_cast<int>(config_.ntp_servers.size())
         << "}";
     return oss.str();
 }
@@ -201,7 +201,8 @@ bool TrueTime::performSync() {
         return true;
     }
     
-    std::vector<int64_t> offsets;
+    std::vector<int64_t> offsets = {};
+
     offsets.reserve(config_.ntp_servers.size());
     
     // Query all NTP servers
@@ -398,7 +399,7 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         // NTP_EPOCH_OFFSET = Number of seconds between NTP epoch (1900-01-01) and Unix epoch (1970-01-01)
         // Calculated as: 70 years * 365.25 days/year * 24 hours/day * 3600 seconds/hour = 2,208,988,800 seconds
         // This accounts for 17 leap years between 1900 and 1970
-        const uint64_t NTP_EPOCH_OFFSET = 2208988800ULL;
+        const uint64_t NTP_EPOCH_OFFSET = 2208988800;
         
         uint64_t t2_s = ntohl(packet.rxTm_s);
         uint64_t t2_f = ntohl(packet.rxTm_f);
@@ -413,13 +414,13 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         
         // Convert NTP timestamps to nanoseconds since Unix epoch
         int64_t t2_ns = static_cast<int64_t>(
-            ((t2_s - NTP_EPOCH_OFFSET) * 1000000000ULL) +
-            ((t2_f * 1000000000ULL) >> 32)
+            ((t2_s - NTP_EPOCH_OFFSET) * 1000000000) +
+            ((t2_f * 1000000000) >> 32)
         );
         
         int64_t t3_ns = static_cast<int64_t>(
-            ((t3_s - NTP_EPOCH_OFFSET) * 1000000000ULL) +
-            ((t3_f * 1000000000ULL) >> 32)
+            ((t3_s - NTP_EPOCH_OFFSET) * 1000000000) +
+            ((t3_f * 1000000000) >> 32)
         );
         
         // Calculate offset using the standard NTP formula:

@@ -227,7 +227,9 @@ BENCHMARK_F(HotReloadBenchFixture, ConcurrentReloads)(benchmark::State& state) {
         state.ResumeTiming();
 
         start_flag.store(true, std::memory_order_release);
-        for (auto& th : threads) th.join();
+        for (auto& th : threads) {
+          th.join();
+        }
         start_flag.store(false, std::memory_order_release);
     }
 

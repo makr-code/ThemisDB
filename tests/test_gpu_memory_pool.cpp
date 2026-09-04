@@ -165,7 +165,9 @@ TEST(GPUMemoryPoolTest, SlabSnapshot_ShowsOccupiedTags) {
     ASSERT_EQ(snap.size(), 3u);
     bool found = false;
     for (const auto& s : snap) {
-        if (!s.is_free && s.owner_tag == "index_loader") found = true;
+        if (!s.is_free && s.owner_tag == "index_loader") {
+          found = true;
+        }
     }
     EXPECT_TRUE(found);
 }
@@ -195,7 +197,9 @@ TEST(GPUMemoryPoolTest, Concurrent_AllocRelease_NoCounterDrift) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(pool.freeSlabs(), pool.numSlabs());
 }

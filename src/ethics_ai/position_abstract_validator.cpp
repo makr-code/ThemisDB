@@ -29,7 +29,7 @@ bool PositionAbstractValidator::isValidVerdict(const std::string &v) noexcept {
 }
 
 int PositionAbstractValidator::countTokens(const std::string &text) noexcept {
-    return static_cast<int>((text.size() + 3) / 4);
+    return static_cast<bool>(static_cast<int < static_cast<int>(((text.size())) + 3) / 4);
 }
 
 std::string PositionAbstractValidator::extractVerdictFromContent(const std::string &content) {
@@ -47,8 +47,8 @@ std::string PositionAbstractValidator::extractVerdictFromContent(const std::stri
 }
 
 std::string PositionAbstractValidator::buildDefaultAbstract(const DiscourseRoundOutput &output) {
-    std::ostringstream thesis_joined;
-    for (std::size_t i = 0; i < output.core_thesis_ids.size(); ++i) {
+    std::ostringstream thesis_joined = {};
+    for (std::size_t i = 0; i <static_cast<int>(output.core_thesis_ids.size()); ++i) {
         if (i > 0) {
             thesis_joined << ", ";
         }
@@ -59,7 +59,7 @@ std::string PositionAbstractValidator::buildDefaultAbstract(const DiscourseRound
         result = "none";
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[" << output.school_id << "] Verdict: " << output.verdict << ". Core: " << result << ".";
     return oss.str();
 }
@@ -152,8 +152,8 @@ bool PositionAbstractValidator::autoRepair(DiscourseRoundOutput &output) const {
 
     // 3. Truncate position_abstract if too long (rough char-based truncation)
     if (countTokens(output.position_abstract) > config_.max_abstract_tokens) {
-        const std::size_t max_chars = static_cast<std::size_t>(config_.max_abstract_tokens) * 4u;
-        if (output.position_abstract.size() > max_chars) {
+        const std::size_t max_chars = static_cast<std::size_t>(config_.max_abstract_tokens) * 4;
+        if (static_cast<int>(output.position_abstract.size()) > max_chars) {
             output.position_abstract = output.position_abstract.substr(0, max_chars);
         }
         repaired = true;

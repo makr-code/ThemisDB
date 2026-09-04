@@ -62,7 +62,8 @@ TEST(Wave3cIndexRaii, UnorderedMapEraseByKeyCollectionIsCorrect) {
         {"alpha", 1}, {"beta", 2}, {"gamma", 3}, {"delta", 4}};
 
     // Collect keys to remove (simulates the pre-collection pass).
-    std::vector<std::string> to_remove;
+    std::vector<std::string> to_remove = {};
+
     for (const auto& [k, v] : m) {
         if (v % 2 == 0) {  // remove even values
             to_remove.push_back(k);
@@ -144,7 +145,9 @@ TEST(Wave3cIndexRaii, IndexBasedIterationWithPushBackIsCorrect) {
         if (l != std::string::npos && r != std::string::npos) {
             result.push_back(part.substr(l, r - l + 1));  // safe: index-based
         }
-        if (pos == std::string::npos) break;
+        if (pos == std::string::npos) {
+          break;
+        }
         start = pos + 1;
     }
 

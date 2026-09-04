@@ -89,7 +89,7 @@ TEST(HipAnnKernels, Backend_TypeIsHIP) {
 // =============================================================================
 
 TEST(HipAnnKernels, ComputeDistances_NullQueryReturnsEmpty) {
-    HIPVectorBackend backend;
+    HIPVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
@@ -100,7 +100,7 @@ TEST(HipAnnKernels, ComputeDistances_NullQueryReturnsEmpty) {
 }
 
 TEST(HipAnnKernels, ComputeDistances_ZeroDimReturnsEmpty) {
-    HIPVectorBackend backend;
+    HIPVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
@@ -112,7 +112,7 @@ TEST(HipAnnKernels, ComputeDistances_ZeroDimReturnsEmpty) {
 }
 
 TEST(HipAnnKernels, BatchKnnSearch_ZeroKReturnsEmptyNeighbours) {
-    HIPVectorBackend backend;
+    HIPVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
@@ -130,7 +130,7 @@ TEST(HipAnnKernels, BatchKnnSearch_ZeroKReturnsEmptyNeighbours) {
 // =============================================================================
 
 TEST(HipAnnKernels, L2Distance_CorrectValues_OnDevice) {
-    HIPVectorBackend backend;
+    HIPVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
@@ -161,7 +161,7 @@ TEST(HipAnnKernels, L2Distance_CorrectValues_OnDevice) {
 }
 
 TEST(HipAnnKernels, BatchKnnSearch_ReturnsTopKNeighbors) {
-    HIPVectorBackend backend;
+    HIPVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
@@ -190,7 +190,7 @@ TEST(HipAnnKernels, BatchKnnSearch_ReturnsTopKNeighbors) {
 }
 
 TEST(HipAnnKernels, DeviceInfo_WhenInitialized_IsPopulated) {
-    HIPVectorBackend backend;
+    HIPVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
@@ -238,7 +238,7 @@ TEST(HipGeoBackend, GeoDispatch_AllSlotsPopulated) {
 // =============================================================================
 
 TEST(HipGeoBackend, BatchDistances_ZeroCountReturnsEmpty) {
-    HIPGeoBackend backend;
+    HIPGeoBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
@@ -248,7 +248,7 @@ TEST(HipGeoBackend, BatchDistances_ZeroCountReturnsEmpty) {
 }
 
 TEST(HipGeoBackend, BatchPointInPolygon_ZeroPointsReturnsEmpty) {
-    HIPGeoBackend backend;
+    HIPGeoBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
@@ -258,7 +258,7 @@ TEST(HipGeoBackend, BatchPointInPolygon_ZeroPointsReturnsEmpty) {
 }
 
 TEST(HipGeoBackend, BatchDistances_HaversineKnownPair) {
-    HIPGeoBackend backend;
+    HIPGeoBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
@@ -279,7 +279,7 @@ TEST(HipGeoBackend, BatchDistances_HaversineKnownPair) {
 }
 
 TEST(HipGeoBackend, BatchPointInPolygon_InsideAndOutside) {
-    HIPGeoBackend backend;
+    HIPGeoBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }

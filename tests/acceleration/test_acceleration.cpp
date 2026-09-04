@@ -763,7 +763,7 @@ TEST(CUDAGraphBackendTest, GetCapabilities_SupportsGraphOps) {
 
 TEST(CUDAGraphBackendTest, Initialize_FailsWithoutHardware) {
 #ifdef THEMIS_ENABLE_CUDA
-    CUDAGraphBackend backend;
+    CUDAGraphBackend backend = {};
     if (backend.isAvailable()) {
         GTEST_SKIP() << "capability:no_cuda_device_path_exercisable=false;reason=cuda_hardware_present";
     }
@@ -836,7 +836,7 @@ TEST(CUDAGraphBackendTest, BatchBFS_WithHardware_StartVertexAlwaysVisited) {
     // If a CUDA GPU is available and the backend initialises successfully,
     // every start vertex must appear in the corresponding BFS result.
 #ifdef THEMIS_ENABLE_CUDA
-    CUDAGraphBackend backend;
+    CUDAGraphBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -874,7 +874,7 @@ TEST(CUDAGraphBackendTest, BatchShortestPath_WithHardware_LinearChain) {
     // On a linear chain 0→1→2→3 with unit weights, the shortest path from
     // vertex 0 to vertex 3 must be [0, 1, 2, 3].
 #ifdef THEMIS_ENABLE_CUDA
-    CUDAGraphBackend backend;
+    CUDAGraphBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -907,7 +907,7 @@ TEST(CUDAGraphBackendTest, BatchBFS_WithHardware_GraphCaptureReusesSameResults) 
     // Calling batchBFS twice with the same shape must produce identical results
     // (graph cache replay must be functionally equivalent to first capture).
 #ifdef THEMIS_ENABLE_CUDA
-    CUDAGraphBackend backend;
+    CUDAGraphBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }

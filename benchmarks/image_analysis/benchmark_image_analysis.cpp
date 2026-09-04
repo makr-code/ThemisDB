@@ -102,7 +102,8 @@ public:
     std::vector<EmbeddingResult> generateEmbeddingBatch(
         const std::vector<std::vector<uint8_t>>& images
     ) override {
-        std::vector<EmbeddingResult> results;
+        std::vector<EmbeddingResult> results = {};
+
         results.reserve(images.size());
         for (const auto& img : images) {
             results.push_back(generateEmbedding(img));

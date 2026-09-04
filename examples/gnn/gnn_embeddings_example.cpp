@@ -176,7 +176,9 @@ void demonstrateEmbeddingGeneration(
         std::cout << "    First 5 values: [";
         for (size_t i = 0; i < std::min<size_t>(5, emb_info.embedding.size()); ++i) {
             std::cout << emb_info.embedding[i];
-            if (i < 4) std::cout << ", ";
+            if (i < 4) {
+              std::cout << ", ";
+            }
         }
         std::cout << ", ...]" << std::endl;
     }

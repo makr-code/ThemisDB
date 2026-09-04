@@ -37,12 +37,14 @@ namespace fs = std::filesystem;
 size_t MigrationTestResult::passedCount() const {
     size_t n = 0;
     for (const auto& r : test_results)
-        if (r.passed) ++n;
+        if (r.passed) {
+          ++n;
+        }
     return n;
 }
 
 size_t MigrationTestResult::failedCount() const {
-    return test_results.size() - passedCount();
+    return static_cast<int>(test_results.size()) - passedCount();
 }
 
 // ============================================================================
@@ -61,7 +63,7 @@ void SchemaMigrationTester::addTestCase(MigrationTestCase tc) {
 
 std::string SchemaMigrationTester::makeStagingPath() const {
     auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << config_.staging_directory << "/staging_" << now;
     return oss.str();
 }
@@ -159,7 +161,7 @@ MigrationTestResult SchemaMigrationTester::testMigration(
 
     result.success = true;
     LOG_INFO("Schema migration staging tests passed for table '{}' ({} tests)",
-             table_name, result.test_results.size());
+             table_name,static_cast<int>(result.test_results.size()));
     return result;
 }
 
@@ -188,7 +190,7 @@ bool SchemaMigrationTester::runBuiltinTests(
     // 1. No duplicate column names in to_schema (early, clear error before validateMigration)
     {
         std::set<std::string> seen;
-        std::string dup;
+        std::string dup = {};
         for (const auto& p : to_schema.properties) {
             if (!seen.insert(p.name).second) { dup = p.name; break; }
         }

@@ -208,7 +208,7 @@ public:
         }
 
         // Find a hit belonging to this tenant
-        std::string context;
+        std::string context = {};
         bool tenant_hit = false;
         for (const auto& hit : hits) {
             if (hit.rfind(tenant_id + "::", 0) != 0U) {

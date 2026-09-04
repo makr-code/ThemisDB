@@ -221,7 +221,9 @@ public:
                 for (size_t i = 0; i < kBucketCount; ++i) {
                     total += counts[i].load(std::memory_order_relaxed);
                 }
-                if (total == 0) return 0.0;
+                if (total == 0) {
+                  return 0.0;
+                }
 
                 const uint64_t target = static_cast<uint64_t>(p * static_cast<double>(total));
                 uint64_t cumulative = 0;
@@ -233,7 +235,9 @@ public:
                                            : static_cast<double>(kBounds[i - 1]);
                         const double upper = (i < 9) ? static_cast<double>(kBounds[i])
                                            : static_cast<double>(kBounds[8]) * 2.0;
-                        if (bc == 0) return lower;
+                        if (bc == 0) {
+                          return lower;
+                        }
                         const double frac =
                             static_cast<double>(target - cumulative) /
                             static_cast<double>(bc);
@@ -277,7 +281,9 @@ public:
 
         /// Returns true if the query is within the rate budget, false otherwise.
         bool allowQuery() {
-            if (max_qps == 0) return true;
+            if (max_qps == 0) {
+              return true;
+            }
 
             const uint64_t now_s = static_cast<uint64_t>(
                 std::chrono::duration_cast<std::chrono::seconds>(

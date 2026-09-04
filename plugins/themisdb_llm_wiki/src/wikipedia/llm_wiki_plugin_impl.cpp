@@ -77,7 +77,9 @@ uint64_t fnv1a64(std::string_view data) noexcept {
  * @return      Normalised float vector of length `dim`.
  */
 std::vector<float> hashEmbed(const std::string& text, int dim) {
-    if (dim <= 0) dim = 128;
+    if (dim <= 0) {
+      dim = 128;
+    }
     std::vector<float> vec(static_cast<std::size_t>(dim), 0.0f);
 
     static const std::regex tok_re("[A-Za-z0-9_\\-]+");
@@ -96,10 +98,14 @@ std::vector<float> hashEmbed(const std::string& text, int dim) {
 
     // L2-normalise
     float norm = 0.0f;
-    for (float v : vec) norm += v * v;
+    for (float v : vec) {
+      norm += v * v;
+    }
     norm = std::sqrt(norm);
     if (norm > 1e-9f) {
-        for (float& v : vec) v /= norm;
+        for (float& v : vec) {
+          v /= norm;
+        }
     }
     return vec;
 }
@@ -127,11 +133,15 @@ static const std::vector<std::string_view> UNSAFE_PATTERNS = {
  */
 bool containsUnsafePattern(const std::string& text) {
     // Build a lower-case copy once
-    std::string lower;
+    std::string lower = {};
     lower.reserve(text.size());
-    for (unsigned char c : text) lower += static_cast<char>(std::tolower(c));
+    for (unsigned char c : text) {
+      lower += static_cast<char>(std::tolower(c));
+    }
     for (std::string_view pattern : UNSAFE_PATTERNS) {
-        if (lower.find(pattern) != std::string::npos) return true;
+        if (lower.find(pattern) != std::string::npos) {
+          return true;
+        }
     }
     return false;
 }
@@ -149,7 +159,9 @@ bool containsUnsafePattern(const std::string& text) {
  * @return      True if the file matches.
  */
 bool matchGlob(const std::filesystem::path& path, const std::string& glob) {
-    if (glob.empty() || glob == "*") return true;
+    if (glob.empty() || glob == "*") {
+      return true;
+    }
     if (glob.size() > 2 && glob[0] == '*' && glob[1] == '.') {
         std::string ext = glob.substr(1); // ".md"
         return path.extension().string() == ext;
@@ -190,7 +202,9 @@ void LLMWikiPluginImpl::shutdown() noexcept {
 
 #ifdef THEMISDB_WIKI_PHASE_B
         if (phase_b_active_) {
-            if (wiki_store_) wiki_store_->flush();
+            if (wiki_store_) {
+              wiki_store_->flush();
+            }
             wiki_store_.reset();
             llm_b_.reset();
             vim_.reset();
@@ -332,10 +346,12 @@ Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
 // ═════════════════════════════════════════════════════════════════════════════
 
 void LLMWikiPluginImpl::persistJsonIndex_locked() {
-    if (json_index_path_.empty()) return;
+    if (json_index_path_.empty()) {
+      return;
+    }
 
     namespace fs = std::filesystem;
-    std::error_code ec;
+    std::error_code ec = {};
     fs::create_directories(fs::path(json_index_path_).parent_path(), ec);
 
     nlohmann::json arr = nlohmann::json::array();
@@ -408,7 +424,9 @@ std::vector<themis::llm::WikiChunk> LLMWikiPluginImpl::inMemoryBm25(
 
         int matches = 0;
         for (const auto& qt : query_tokens) {
-            if (tf.count(qt)) matches++;
+            if (tf.count(qt)) {
+              matches++;
+            }
         }
 
         if (matches > 0) {
@@ -422,12 +440,17 @@ std::vector<themis::llm::WikiChunk> LLMWikiPluginImpl::inMemoryBm25(
     std::sort(scored.begin(), scored.end(),
               [](const auto& a, const auto& b){ return a.first > b.first; });
 
-    std::vector<themis::llm::WikiChunk> results;
+    std::vector<themis::llm::WikiChunk> results = {};
+
     results.reserve(std::min<std::size_t>(scored.size(),
                                           static_cast<std::size_t>(top_k > 0 ? top_k : scored.size())));
     for (const auto& [score, idx] : scored) {
-        if (score < min_score) break;
-        if (top_k > 0 && static_cast<int>(results.size()) >= top_k) break;
+        if (score < min_score) {
+          break;
+        }
+        if (top_k > 0 && static_cast<int>(results.size()) >= top_k) {
+          break;
+        }
         themis::llm::WikiChunk c = chunks_[idx];
         c.score = score;
         results.push_back(std::move(c));
@@ -443,7 +466,7 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
     const std::string&       source_path,
     const WikiIngestOptions& opts)
 {
-    WikiIngestResult result;
+    WikiIngestResult result = {};
     if (!initialized_.load()) {
         spdlog::warn("[llm_wiki] ingest() called before initialize()");
         return result;
@@ -455,20 +478,26 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
     // ── Collect files ──────────────────────────────────────────────────────────
     std::vector<fs::path> files;
     {
-        std::error_code ec;
+        std::error_code ec = {};
         if (fs::is_regular_file(source_path, ec)) {
             files.push_back(source_path);
         } else if (fs::is_directory(source_path, ec)) {
             auto collector = [&](const fs::path& p) {
-                if (matchGlob(p, opts.file_glob)) files.push_back(p);
+                if (matchGlob(p, opts.file_glob)) {
+                  files.push_back(p);
+                }
             };
             if (opts.recursive) {
                 for (const auto& entry : fs::recursive_directory_iterator(source_path, ec)) {
-                    if (entry.is_regular_file()) collector(entry.path());
+                    if (entry.is_regular_file()) {
+                      collector(entry.path());
+                    }
                 }
             } else {
                 for (const auto& entry : fs::directory_iterator(source_path, ec)) {
-                    if (entry.is_regular_file()) collector(entry.path());
+                    if (entry.is_regular_file()) {
+                      collector(entry.path());
+                    }
                 }
             }
         } else {
@@ -481,7 +510,8 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
     }
 
     // ── Build skip-existing set ────────────────────────────────────────────────
-    std::unordered_set<std::string> existing_sources;
+    std::unordered_set<std::string> existing_sources = {};
+
     if (opts.skip_existing) {
         std::shared_lock<std::shared_mutex> lock(mutex_);
         for (const auto& c : chunks_) {
@@ -497,13 +527,15 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
         if (opts.skip_existing && existing_sources.count(path_str)) {
             std::shared_lock<std::shared_mutex> lock(mutex_);
             for (const auto& c : chunks_) {
-                if (c.source_path == path_str) result.chunks_skipped++;
+                if (c.source_path == path_str) {
+                  result.chunks_skipped++;
+                }
             }
             continue;
         }
 
         // File size guard (> 50 MB)
-        std::error_code size_ec;
+        std::error_code size_ec = {};
         const auto fsize = fs::file_size(file_path, size_ec);
         if (!size_ec && fsize > 50ULL * 1024ULL * 1024ULL) {
             spdlog::warn("[llm_wiki] Skipping file exceeding 50 MB limit: {}", path_str);
@@ -513,7 +545,7 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
         }
 
         // Read file content
-        std::string content;
+        std::string content = {};
         {
             std::ifstream ifs(file_path);
             if (!ifs.is_open()) {
@@ -592,7 +624,7 @@ WikiQueryResult LLMWikiPluginImpl::query(
     const std::string&      query_text,
     const WikiQueryOptions& opts)
 {
-    WikiQueryResult result;
+    WikiQueryResult result = {};
     if (!initialized_.load()) {
         spdlog::warn("[llm_wiki] query() called before initialize()");
         return result;
@@ -654,7 +686,9 @@ WikiQueryResult LLMWikiPluginImpl::query(
 // ═════════════════════════════════════════════════════════════════════════════
 
 Status LLMWikiPluginImpl::wikiInit(const std::string& workspace_root) {
-    if (!initialized_.load()) return Status::NotInitialized();
+    if (!initialized_.load()) {
+      return Status::NotInitialized();
+    }
 
     std::unique_lock<std::shared_mutex> lock(mutex_);
 
@@ -677,7 +711,7 @@ WikiIngestResult LLMWikiPluginImpl::wikiIngest(
     const std::string&       source_path,
     const WikiIngestOptions& opts)
 {
-    WikiIngestResult result;
+    WikiIngestResult result = {};
     if (!initialized_.load()) {
         result.errors++;
         result.failed_files.push_back(source_path);
@@ -691,7 +725,7 @@ WikiIngestResult LLMWikiPluginImpl::wikiIngest(
     }
 
     // Split source file into chunks
-    std::string content;
+    std::string content = {};
     {
         std::ifstream ifs(source_path);
         if (!ifs.is_open()) {
@@ -718,9 +752,13 @@ WikiIngestResult LLMWikiPluginImpl::wikiIngest(
         } else
 #endif
         {
-            for (auto& c : file_chunks) chunks_.push_back(c);
+            for (auto& c : file_chunks) {
+              chunks_.push_back(c);
+            }
         }
-        if (!json_index_path_.empty()) persistJsonIndex_locked();
+        if (!json_index_path_.empty()) {
+          persistJsonIndex_locked();
+        }
     }
 
     // Orchestrate workspace file-system operations
@@ -731,7 +769,7 @@ WikiQueryResult LLMWikiPluginImpl::wikiQuery(
     const std::string&      query_text,
     const WikiQueryOptions& opts)
 {
-    WikiQueryResult result;
+    WikiQueryResult result = {};
     if (!initialized_.load()) {
         spdlog::warn("[llm_wiki] wikiQuery() called before initialize()");
         return result;
@@ -789,7 +827,7 @@ WikiIngestResult LLMWikiPluginImpl::ingestWikipediaDump(
     const std::string&          dump_path,
     const WikiDumpIngestOptions& opts)
 {
-    WikiIngestResult result;
+    WikiIngestResult result = {};
 
     if (!initialized_.load()) {
         result.errors++;
@@ -865,8 +903,11 @@ WikiWorkspaceStats LLMWikiPluginImpl::stats(const std::string& workspace_root) {
     {
         std::shared_lock<std::shared_mutex> lock(mutex_);
         s.total_chunks = static_cast<int>(chunks_.size());
-        std::unordered_set<std::string> paths;
-        for (const auto& c : chunks_) paths.insert(c.source_path);
+        std::unordered_set<std::string> paths = {};
+
+        for (const auto& c : chunks_) {
+          paths.insert(c.source_path);
+        }
         s.total_docs = static_cast<int>(paths.size());
     }
 

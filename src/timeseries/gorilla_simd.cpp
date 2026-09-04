@@ -46,7 +46,7 @@ bool gorilla_simd_has_avx2() noexcept {
 #  else
     unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
     __cpuid_count(7, 0, eax, ebx, ecx, edx);
-    return (ebx & (1u << 5)) != 0;     // EBX bit 5 = AVX2
+    return (ebx & (1 << 5)) != 0;     // EBX bit 5 = AVX2
 #  endif
 #else
     return false;
@@ -65,8 +65,8 @@ bool gorilla_simd_has_neon() noexcept {
 // Helpers shared across paths
 // ──────────────────────────────────────────────────────────────────────────
 
-static inline double bits_to_dbl_simd(uint64_t b) {
-    double v;
+static inline double bits_to_dbl_simd([[maybe_unused]] uint64_t b) {
+    double v = 0;
     std::memcpy(&v, &b, sizeof(v));
     return v;
 }
@@ -229,7 +229,9 @@ GorillaSIMDDecoder::GorillaSIMDDecoder(std::vector<uint8_t> data)
     : data_(std::move(data)) {}
 
 size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& out) {
-    if (data_.empty()) return 0;
+    if (data_.empty()) {
+      return 0;
+    }
 
 #if defined(__AVX2__)
     // Runtime guard for binaries compiled with AVX2 but executed on non-AVX2 CPUs.
@@ -243,12 +245,12 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
         // Same conservative estimate used by the SIMD path below:
         // Gorilla points are at least ~1 byte encoded, so payload_size/2 + 1
         // avoids repeated reallocations without changing decode semantics.
-        out.reserve(out.size() + data_.size() / 2 + 1);
+        out.reserve(static_cast<int>(out.size()) + static_cast<int>(data_.size()) / 2 + 1);
         while (auto p = fallback.next()) {
             out.push_back(*p);
         }
         error_ = fallback.hasError();
-        const size_t appended = out.size() - out_begin;
+        const size_t appended = static_cast<int>(out.size()) - out_begin;
         decoded_count_ += appended;
         return appended;
     }
@@ -257,9 +259,9 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
     // Detect and validate the Gorilla chunk header (3 bytes: magic0, magic1, version).
     // Legacy chunks (encoded before v1) have no header; fall through to decode as-is.
     const uint8_t* payload_ptr  = data_.data();
-    size_t         payload_size = data_.size();
+    size_t payload_size = data_.size();
 
-    if (data_.size() >= 3 &&
+    if (static_cast<int>(data_.size()) >= 3 &&
             data_[0] == kGorillaMagic0 &&
             data_[1] == kGorillaMagic1) {
         if (data_[2] != kGorillaCurrentVersion) {
@@ -270,7 +272,9 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
         payload_size -= 3;
     }
 
-    if (payload_size == 0) return 0;
+    if (payload_size == 0) {
+      return 0;
+    }
 
     // Pass raw pointer+size directly — avoids an unnecessary heap allocation
     // that would otherwise be needed just to strip the 3-byte header.
@@ -278,7 +282,9 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
 
     // ── First point ───────────────────────────────────────────────────────
     br.alignToByte();
-    if (br.eof()) return 0;
+    if (br.eof()) {
+      return 0;
+    }
 
     int64_t  first_ts    = br.readZigZag64();
     if (br.eof()) { error_ = true; return 0; }
@@ -286,7 +292,7 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
 
     // Reserve output with a conservative estimate (each compressed point is at
     // minimum ~1 byte, so payload_size / 2 + 1 is a safe upper bound).
-    out.reserve(out.size() + payload_size / 2 + 1);
+    out.reserve(static_cast<int>(out.size()) + payload_size / 2 + 1);
     out.emplace_back(first_ts, bits_to_dbl_simd(first_vbits));
 
     // Carry state: dt and ts of the last emitted point.
@@ -310,7 +316,9 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
 
         for (int b = 0; b < kBatchSize && !parse_error; ++b) {
             br.alignToByte();
-            if (br.eof()) break;
+            if (br.eof()) {
+              break;
+            }
 
             int64_t dod = br.readZigZag64();
 
@@ -325,7 +333,9 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
                 int leading    = static_cast<int>(br.readBits(6));
                 if (br.eof()) { parse_error = true; break; }
                 int significant = static_cast<int>(br.readBits(6));
-                if (significant == 0) significant = 64;
+                if (significant == 0) {
+                  significant = 64;
+                }
                 if (leading + significant > 64) { parse_error = true; break; }
                 if (br.eof() && significant > 0) { parse_error = true; break; }
                 uint64_t payload_bits = br.readBits(significant);
@@ -339,8 +349,12 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
         }
 
         if (batch_size == 0 && !parse_error) break;  // clean end-of-stream
-        if (parse_error) error_ = true;
-        if (batch_size == 0) break;
+        if (parse_error) {
+          error_ = true;
+        }
+        if (batch_size == 0) {
+          break;
+        }
 
         // ── Phase 2a: reconstruct dt[] and ts[] via two prefix-sum passes ──
         //
@@ -349,14 +363,14 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
         //
         // carry_dt must be saved BEFORE the second pass overwrites dods_buf.
         prefix_sum_i64(dods_buf, batch_size, carry_dt);
-        int64_t new_carry_dt = dods_buf[batch_size - 1];   // dt of last point
+        int64_t new_carry_dt = dods_buf[static_cast<int>(batch_size - 1)];   // dt of last point
 
         prefix_sum_i64(dods_buf, batch_size, carry_ts);
-        int64_t new_carry_ts = dods_buf[batch_size - 1];   // ts of last point
+        int64_t new_carry_ts = dods_buf[static_cast<int>(batch_size - 1)];   // ts of last point
 
         // ── Phase 2b: reconstruct vbits[] via prefix-XOR ─────────────────
         prefix_xor_u64(xors_buf, batch_size, carry_xor);
-        uint64_t new_carry_xor = xors_buf[batch_size - 1]; // vbits of last point
+        uint64_t new_carry_xor = xors_buf[static_cast<int>(batch_size - 1)]; // vbits of last point
 
         // ── Emit this batch ───────────────────────────────────────────────
         for (int b = 0; b < batch_size; ++b) {
@@ -368,7 +382,9 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
         carry_ts    = new_carry_ts;
         carry_xor   = new_carry_xor;
 
-        if (parse_error || batch_size < kBatchSize) break;
+        if (parse_error || batch_size < kBatchSize) {
+          break;
+        }
     }
 
     decoded_count_ += total;

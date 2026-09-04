@@ -300,7 +300,7 @@ public:
             throw std::runtime_error("Copy size exceeds allocated size");
         }
         
-        hipError_t err;
+        hipError_t err = {};
         if (stream) {
             err = hipMemcpyAsync(ptr_, host, size, hipMemcpyHostToDevice, stream);
         } else {
@@ -328,7 +328,7 @@ public:
             throw std::runtime_error("Copy size exceeds allocated size");
         }
         
-        hipError_t err;
+        hipError_t err = {};
         if (stream) {
             err = hipMemcpyAsync(host, ptr_, size, hipMemcpyDeviceToHost, stream);
         } else {

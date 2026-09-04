@@ -329,7 +329,7 @@ TEST_F(LoRACheckpointManagerTest, Manifest_PersistedAcrossInstances) {
     CheckpointManifestEntry meta;
     meta.adapter_version = "v1";
     meta.epoch = 5;
-    std::string saved_sha256;
+    std::string saved_sha256 = {};
 
     {
         LoRACheckpointManager mgr(cfg_);

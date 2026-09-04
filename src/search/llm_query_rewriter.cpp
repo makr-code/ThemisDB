@@ -94,7 +94,7 @@ RewrittenQuery LlmQueryRewriter::rewrite(const std::string& query) const {
         result.rewrites = std::move(parsed);
 
         THEMIS_DEBUG("LlmQueryRewriter::rewrite('{}') -> {} rewrites",
-                     query, result.rewrites.size());
+                     query,static_cast<int>(result.rewrites.size()));
     } catch (const std::exception& e) {
         THEMIS_WARN("LlmQueryRewriter: backend error: {} — falling back to original query",
                     e.what());
@@ -151,7 +151,8 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
     const std::string& llm_output,
     const std::string& original) const {
 
-    std::vector<std::string> rewrites;
+    std::vector<std::string> rewrites = {};
+
     if (llm_output.empty()) {
         if (config_.fallback_to_original) {
             rewrites.push_back(original);
@@ -160,35 +161,41 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
     }
 
     std::istringstream iss(llm_output);
-    std::string line;
+    std::string line = {};
 
     while (std::getline(iss, line)) {
         // Strip leading/trailing whitespace
         size_t start = line.find_first_not_of(" \t\r\n");
-        if (start == std::string::npos) continue;
+        if (start == std::string::npos) {
+          continue;
+        }
         line = line.substr(start);
         size_t end = line.find_last_not_of(" \t\r\n");
         if (end != std::string::npos) {
             line = line.substr(0, end + 1);
         }
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
 
         // Strip leading number and period/dot, e.g. "1. " or "1) "
         size_t i = 0;
-        while (i < line.size() && std::isdigit(static_cast<unsigned char>(line[i]))) {
+        while (i <static_cast<int>(line.size()) && std::isdigit(static_cast<unsigned char>(line[i]))) {
             ++i;
         }
-        if (i > 0 && i < line.size() &&
+        if (i > 0  && static_cast<size_t>(i) <static_cast<int>(line.size()) &&
             (line[i] == '.' || line[i] == ')' || line[i] == ':')) {
             ++i; // skip separator
-            while (i < line.size() && line[i] == ' ') ++i; // skip space(s)
+            while (i <static_cast<int>(line.size()) && line[i] == ' ') ++i; // skip space(s)
             line = line.substr(i);
         }
 
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
 
         // Enforce length limit
-        if (line.size() > config_.max_rewrite_length) {
+        if (static_cast<int>(line.size()) > config_.max_rewrite_length) {
             continue;
         }
 
@@ -202,7 +209,9 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
         };
         const std::string line_lower = lower(line);
         const std::string orig_lower = lower(original);
-        if (line_lower == orig_lower) continue;
+        if (line_lower == orig_lower) {
+          continue;
+        }
 
         bool duplicate = false;
         for (const auto& existing : rewrites) {
@@ -211,10 +220,14 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
                 break;
             }
         }
-        if (duplicate) continue;
+        if (duplicate) {
+          continue;
+        }
 
         rewrites.push_back(line);
-        if (rewrites.size() >= config_.num_rewrites) break;
+        if (static_cast<int>(rewrites.size()) > = config_.num_rewrites) {
+          break;
+        }
     }
 
     // Fallback: if the LLM produced nothing usable, return the original
@@ -236,9 +249,9 @@ float LlmQueryRewriter::jaccardTokenOverlap(const std::string& a,
     auto tokenise = [](const std::string& s) -> std::unordered_set<std::string> {
         std::unordered_set<std::string> tokens;
         std::istringstream iss(s);
-        std::string tok;
+        std::string tok = {};
         while (iss >> tok) {
-            std::string lc;
+            std::string lc = {};
             lc.reserve(tok.size());
             for (char c : tok) {
                 lc += static_cast<char>(
@@ -252,22 +265,29 @@ float LlmQueryRewriter::jaccardTokenOverlap(const std::string& a,
     const auto ta = tokenise(a);
     const auto tb = tokenise(b);
 
-    if (ta.empty() && tb.empty()) return 1.0f;
-    if (ta.empty() || tb.empty()) return 0.0f;
+    if (ta.empty() && tb.empty()) {
+      return 1.0f;
+    }
+    if (ta.empty() || tb.empty()) {
+      return 0.0f;
+    }
 
     size_t intersection = 0;
     for (const auto& tok : ta) {
-        if (tb.count(tok)) ++intersection;
+        if (tb.count(tok)) {
+          ++intersection;
+        }
     }
     // |A ∪ B| = |A| + |B| - |A ∩ B|
-    const size_t union_size = ta.size() + tb.size() - intersection;
+    const size_t union_size = static_cast<int>(ta.size()) + static_cast<int>(tb.size()) - intersection;
     return static_cast<float>(intersection) / static_cast<float>(union_size);
 }
 
 bool LlmQueryRewriter::applyOverlapFilter(std::vector<std::string>& rewrites,
                                            const std::string& original) const
 {
-    std::vector<std::string> kept;
+    std::vector<std::string> kept = {};
+
     kept.reserve(rewrites.size());
     for (auto& r : rewrites) {
         const float overlap = jaccardTokenOverlap(r, original);

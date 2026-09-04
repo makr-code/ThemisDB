@@ -104,7 +104,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
 
                 THEMIS_DEBUG("DistributedHybridSearch: local shard '{}' "
                              "returned {} results in {} ms",
-                             local.shard_id, local.results.size(),
+                             local.shard_id,static_cast<int>(local.results.size()),
                              local.execution_time_ms);
             } catch (const std::exception& e) {
                 local.success = false;
@@ -129,7 +129,8 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
             auto healthy_shards = resolver_->getHealthyShards();
 
             // Collect remote shards (exclude the local one)
-            std::vector<themis::sharding::ShardInfo> remote_shards;
+            std::vector<themis::sharding::ShardInfo> remote_shards = {};
+
             remote_shards.reserve(healthy_shards.size());
             for (const auto& shard : healthy_shards) {
                 if (shard.shard_id != config_.local_shard_id) {
@@ -138,14 +139,14 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
             }
 
             const size_t max_concurrent = std::min(
-                config_.max_concurrent_shards, remote_shards.size());
+                config_.max_concurrent_shards,static_cast<int>(remote_shards.size()));
 
             for (size_t batch_start = 0;
-                 batch_start < remote_shards.size();
+                 batch_start <static_cast<int>(remote_shards.size());
                  batch_start += max_concurrent) {
 
                 const size_t batch_end = std::min(
-                    batch_start + max_concurrent, remote_shards.size());
+                    batch_start + max_concurrent,static_cast<int>(remote_shards.size()));
 
                 std::vector<std::future<ShardSearchResult>> futures;
                 futures.reserve(batch_end - batch_start);
@@ -164,7 +165,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
                 const auto timeout =
                     std::chrono::milliseconds(config_.shard_timeout_ms);
 
-                for (size_t i = 0; i < futures.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
                     const auto& shard = remote_shards[batch_start + i];
                     try {
                         if (futures[i].wait_for(timeout) ==
@@ -231,7 +232,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
 
     if (n_failed > 0) {
         THEMIS_WARN("DistributedHybridSearch: {}/{} shards failed",
-                    n_failed, shard_results.size());
+                    n_failed,static_cast<int>(shard_results.size()));
     }
 
     // Abort if any shard failed and skip_failed_shards is false
@@ -263,24 +264,29 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults(
         double best_vector = 0.0;
         int    best_bm25_rank   = -1;
         int    best_vector_rank = -1;
-        std::string content;
+        std::string content = {};
         size_t appearance_count = 0; ///< Track high-overlap variance
     };
 
-    std::unordered_map<std::string, Accum> doc_map;
+    std::unordered_map<std::string, Accum> doc_map = {};
+
     doc_map.reserve(config_.k * shard_results.size());
 
     size_t successful_shards = 0;
     for (const auto& sr : shard_results) {
-        if (sr.success) ++successful_shards;
+        if (sr.success) {
+          ++successful_shards;
+        }
         
         if (!sr.success && config_.skip_failed_shards) {
             continue;
         }
 
-        for (size_t rank = 0; rank < sr.results.size(); ++rank) {
+        for (size_t rank = 0; rank <static_cast<int>(sr.results.size()); ++rank) {
             const auto& r = sr.results[rank];
-            if (r.document_id.empty()) continue;
+            if (r.document_id.empty()) {
+              continue;
+            }
 
             auto& acc = doc_map[r.document_id];
             acc.appearance_count++;
@@ -304,7 +310,8 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults(
     }
 
     // Build result vector
-    std::vector<HybridSearch::Result> merged;
+    std::vector<HybridSearch::Result> merged = {};
+
     merged.reserve(doc_map.size());
     
     // Track high-overlap variance: documents appearing in many shards
@@ -334,14 +341,14 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults(
 
     // Phase 2: Track merge underflow (insufficient candidates)
     bool merge_underflow = false;
-    if (merged.size() < config_.k) {
+    if (static_cast<int>(merged.size()) < config_.k) {
         merge_underflow = true;
         THEMIS_WARN("DistributedHybridSearch: merge underflow "
                     "(expected {} results, got {})",
-                    config_.k, merged.size());
+                    config_.k,static_cast<int>(merged.size()));
     }
     
-    if (merged.size() > config_.k) {
+    if (static_cast<int>(merged.size()) > config_.k) {
         merged.resize(config_.k);
     }
 
@@ -353,7 +360,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults(
 
     THEMIS_INFO("DistributedHybridSearch: merged {} shards -> {} results "
                 "(underflow={}, high_overlap={})",
-                shard_results.size(), merged.size(),
+                shard_results.size(),static_cast<int>(merged.size()),
                 merge_underflow, stats ? stats->high_overlap_variance : false);
 
     return merged;
@@ -406,7 +413,7 @@ DistributedHybridSearch::searchRemoteShard(
         THEMIS_DEBUG(
             "DistributedHybridSearch: shard '{}' returned {} results "
             "in {} ms",
-            shard.shard_id, result.results.size(),
+            shard.shard_id,static_cast<int>(result.results.size()),
             result.execution_time_ms);
 
     } catch (const std::exception& e) {
@@ -446,7 +453,9 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::parseShardResponse(
 
     results.reserve(arr->size());
     for (const auto& item : *arr) {
-        if (!item.is_object()) continue;
+        if (!item.is_object()) {
+          continue;
+        }
 
         HybridSearch::Result r;
         if (item.contains("document_id") && item["document_id"].is_string()) {

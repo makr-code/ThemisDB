@@ -208,7 +208,7 @@ RewriteResult GeospatialQueryRewriter::applyRedundantPredicateElimination(Execut
     
     auto spatialPredicates = extractSpatialPredicates(plan);
     
-    if (spatialPredicates.size() < 2) {
+    if (static_cast<int>(spatialPredicates.size()) < 2) {
         result.reason = "Less than 2 spatial predicates (no redundancy possible)";
         return result;
     }
@@ -217,8 +217,12 @@ RewriteResult GeospatialQueryRewriter::applyRedundantPredicateElimination(Execut
     bool hasDistance = false;
     
     for (const auto& pred : spatialPredicates) {
-        if (pred.find("ST_CONTAINS") != std::string::npos) hasContains = true;
-        if (pred.find("ST_DISTANCE") != std::string::npos) hasDistance = true;
+        if (pred.find("ST_CONTAINS") != std::string::npos) {
+          hasContains = true;
+        }
+        if (pred.find("ST_DISTANCE") != std::string::npos) {
+          hasDistance = true;
+        }
     }
     
     // If both present, containment might make distance redundant
@@ -301,7 +305,9 @@ double GeospatialQueryRewriter::estimateCostReduction(
     double costBefore) {
     
     // Heuristic: cost reduction depends on rows affected
-    if (affectedRows == 0) return 0.0;
+    if (affectedRows == 0) {
+      return 0.0;
+    }
     
     if (transformation == "IndexPathReordering") {
         return 0.15;  // 15% typical reduction

@@ -29,7 +29,8 @@ TEST(PerformanceAllocatorTest, BasicAllocation) {
 
 TEST(PerformanceAllocatorTest, MultipleAllocations) {
     // Test multiple allocations
-    std::vector<void*> ptrs;
+    std::vector<void*> ptrs = {};
+
     for (int i = 0; i < 100; ++i) {
         void* ptr = allocate(128);
         ASSERT_NE(ptr, nullptr);

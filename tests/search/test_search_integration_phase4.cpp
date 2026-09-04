@@ -83,7 +83,9 @@ TEST_F(SearchIntegrationPhase4Test, INT_01_DistributedHybridWithAnalytics) {
   EXPECT_EQ(search.component_timings_ms.size(), 4);
   
   int total = 0;
-  for (auto timing : search.component_timings_ms) total += timing;
+  for (auto timing : search.component_timings_ms) {
+    total += timing;
+  }
   EXPECT_LE(total, 260);  // Allows for merge overhead
 }
 
@@ -95,7 +97,7 @@ TEST_F(SearchIntegrationPhase4Test, INT_02_DistributedFailureAnalyticsReporting)
     int shards_queried = 0;
     int shards_failed = 0;
     std::vector<std::string> failed_shards;
-    std::string primary_error;
+    std::string primary_error = {};
     bool error_reported = false;
     
     void record_failure(const std::string& shard, const std::string& error) {
@@ -201,7 +203,8 @@ TEST_F(SearchIntegrationPhase4Test, INT_04_FederatedSearchPartialFailure) {
     }
     
     void add_backend_success(const std::string& backend, int count) {
-      std::vector<HybridSearch::Result> res;
+      std::vector<HybridSearch::Result> res = {};
+
       for (int i = 0; i < count; ++i) {
         HybridSearch::Result r;
         r.document_id = backend + "_doc_" + std::to_string(i);
@@ -377,7 +380,9 @@ TEST_F(SearchIntegrationPhase4Test, INT_08_StreamingBackpressureFlowControl) {
     }
     
     bool consume_result() {
-      if (buffer.empty()) return false;
+      if (buffer.empty()) {
+        return false;
+      }
       buffer.erase(buffer.begin());
       items_consumed++;
       backpressure_active = false;
@@ -449,9 +454,9 @@ TEST_F(SearchIntegrationPhase4Test, INT_09_ErrorPropagationPipeline) {
 // ============================================================================
 TEST_F(SearchIntegrationPhase4Test, INT_10_GracefulDegradationFallback) {
   struct DegradationChain {
-    std::string query;
+    std::string query = {};
     std::vector<HybridSearch::Result> results;
-    std::string execution_path;
+    std::string execution_path = {};
     
     void execute() {
       // Try hybrid (primary)
@@ -686,7 +691,9 @@ TEST_F(SearchIntegrationPhase4Test, INT_16_FullSystemRecoveryCascading) {
     
     bool all_healthy() {
       for (bool h : component_health) {
-        if (!h) return false;
+        if (!h) {
+          return false;
+        }
       }
       return true;
     }

@@ -155,7 +155,7 @@ std::string DistributedTransactionCoordinator::beginTransaction(
     }
     
     THEMIS_DEBUG("Began distributed transaction {} with {} shards, isolation={}",
-                txn_id, shard_ids.size(),
+                txn_id,static_cast<int>(shard_ids.size()),
                 isolation_level == DistributedIsolationLevel::SERIALIZABLE
                     ? "SERIALIZABLE" : "SNAPSHOT_ISOLATION");
     
@@ -603,7 +603,7 @@ nlohmann::json DistributedTransactionCoordinator::getStatistics() const {
         {"committed_transactions", committed_transactions_.load()},
         {"aborted_transactions", aborted_transactions_.load()},
         {"readonly_transactions", readonly_transactions_.load()},
-        {"active_transactions", transactions_.size()}
+        {"active_transactions",static_cast<int>(transactions_.size())}
     };
 }
 
@@ -654,7 +654,7 @@ DistributedTransactionCoordinator::getRecoverableTransactions() const {
                 info.decision_commit = false;
                 break;
             case TransactionState::COMMITTED:
-            case TransactionState::ABORTED:
+            [[fallthrough]];\n            case TransactionState::ABORTED:
                 info.state = themis::transaction::RecoverableTwoPhaseState::COMPLETED;
                 break;
         }
@@ -694,7 +694,7 @@ bool DistributedTransactionCoordinator::preparePhase(DistributedTransaction& txn
     futures.reserve(txn.participants.size());
     
     std::atomic<bool> all_prepared{true};
-    std::mutex error_mutex;
+    std::mutex error_mutex = {};
     std::vector<std::string> error_details;
 
     // Phase 1: Launch all prepare tasks in parallel
@@ -758,7 +758,7 @@ bool DistributedTransactionCoordinator::commitPhase(DistributedTransaction& txn)
     futures.reserve(txn.participants.size());
     
     std::atomic<bool> all_committed{true};
-    std::mutex error_mutex;
+    std::mutex error_mutex = {};
     std::vector<std::string> error_details;
 
     // Phase 1: Launch all commit tasks in parallel
@@ -935,7 +935,7 @@ std::string DistributedTransactionCoordinator::generateTransactionId() {
     static std::mt19937_64 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "txn-" << std::hex << std::setfill('0') << std::setw(16) << dis(gen);
     return oss.str();
 }
@@ -961,9 +961,9 @@ void DistributedTransactionCoordinator::cleanupOldTransactions() {
 }
 
 /** @brief Compute capped exponential backoff delay for retry attempt. */
-uint64_t DistributedTransactionCoordinator::calculateBackoffDelay(uint32_t retry_count) const {
+uint64_t DistributedTransactionCoordinator::calculateBackoffDelay([[maybe_unused]] uint32_t retry_count) const {
     // Exponential backoff: base_ms * 2^retry_count, capped at max_backoff_ms
-    uint64_t delay = config_.retry_backoff_base_ms * (1ULL << retry_count);
+    uint64_t delay = config_.retry_backoff_base_ms * (1 << retry_count);
     return std::min(delay, config_.max_backoff_ms);
 }
 
@@ -1215,7 +1215,7 @@ size_t DistributedTransactionCoordinator::recoverTransactions() {
         
         std::vector<WALEntry> entries = wal_manager_->readRange(oldest_lsn, current_lsn);
         
-        THEMIS_INFO("Found {} WAL entries to process", entries.size());
+        THEMIS_INFO("Found {} WAL entries to process",static_cast<int>(entries.size()));
 
         const auto recovered =
             themis::transaction::TwoPhaseCommitWALRecovery::reconstruct(entries);
@@ -1384,7 +1384,7 @@ bool DistributedTransactionCoordinator::percolatorCommit(DistributedTransaction&
 
     std::vector<std::thread> threads;
     std::atomic<bool> all_committed{true};
-    std::mutex error_mutex;
+    std::mutex error_mutex = {};
     std::vector<std::string> error_details;
 
     for (auto& participant : txn.participants) {

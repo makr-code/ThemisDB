@@ -108,9 +108,10 @@ public:
         GpuCompressionAlgorithm algorithm,
         const GpuCompressionConfig& cfg)
     {
-        std::vector<GpuCompressionResult> results;
+        std::vector<GpuCompressionResult> results = {};
+
         results.reserve(ptrs.size());
-        for (size_t i = 0; i < ptrs.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(ptrs.size()); ++i) {
             results.push_back(compress(ptrs[i], sizes[i], algorithm, cfg));
         }
         return results;
@@ -151,13 +152,15 @@ static void write_le64(uint8_t* dst, uint64_t val) {
 /// Read a little-endian uint64_t from @p src.
 static uint64_t read_le64(const uint8_t* src) {
     uint64_t val = 0;
-    for (int i = 0; i < 8; ++i) val |= static_cast<uint64_t>(src[i]) << (8 * i);
+    for (int i = 0; i < 8; ++i) {
+      val |= static_cast<uint64_t>(src[i]) << (8 * i);
+    }
     return val;
 }
 
 /// Returns true if @p data starts with the GPU container magic bytes.
 static bool has_gpu_magic(const std::vector<uint8_t>& data) {
-    return data.size() >= kGpuMagicSize &&
+    return static_cast<int>(data.size()) >= kGpuMagicSize &&
            memcmp(data.data(), kGpuMagic, kGpuMagicSize) == 0;
 }
 
@@ -171,18 +174,26 @@ static bool parse_gpu_container(
 {
     // prompt_injection scanner alert: `compressed` is a binary transport buffer
     // (GPU container bytes), never interpreted as prompt/template text.
-    if (!has_gpu_magic(compressed)) return false;
+    if (!has_gpu_magic(compressed)) {
+      return false;
+    }
     const uint8_t* p   = compressed.data() + kGpuMagicSize;
-    const uint8_t* end = compressed.data() + compressed.size();
+    const uint8_t* end = compressed.data() + static_cast<int>(compressed.size()) ;
 
-    if (p + 16 > end) return false;
+    if (p + 16 > end) {
+      return false;
+    }
     out_n_chunks  = read_le64(p); p += 8;
     out_orig_size = read_le64(p); p += 8;
 
     // Sanity cap: 64 M chunks would be > 512 MB of header alone
-    static constexpr uint64_t kMaxChunks = 64u * 1024 * 1024;
-    if (out_n_chunks == 0 || out_n_chunks > kMaxChunks) return false;
-    if (p + out_n_chunks * 8 > end) return false;
+    static constexpr uint64_t kMaxChunks = 64 * 1024 * 1024;
+    if (out_n_chunks == 0 || out_n_chunks > kMaxChunks) {
+      return false;
+    }
+    if (p + out_n_chunks * 8 > end) {
+      return false;
+    }
 
     out_chunk_sizes.resize(static_cast<size_t>(out_n_chunks));
     for (uint64_t i = 0; i < out_n_chunks; ++i) {
@@ -200,7 +211,7 @@ static bool parse_gpu_container(
     uint64_t orig_size,
     const std::vector<uint64_t>& chunk_sizes)
 {
-    out.resize(kGpuMagicSize + 8 + 8 + chunk_sizes.size() * 8);
+    out.resize(kGpuMagicSize + 8 + 8 + static_cast<int>(chunk_sizes.size()) * 8);
     uint8_t* p = out.data();
     memcpy(p, kGpuMagic, kGpuMagicSize); p += kGpuMagicSize;
     write_le64(p, n_chunks);  p += 8;
@@ -325,6 +336,7 @@ public:
                     static_cast<uint8_t*>(d_in), size, cfg, result,
                     NvcompAlgo::LZ4);
                 break;
+            default: break;
         }
 
         // use_after_free_gpu scanner alert: nvcomp_compress_chunked waits for
@@ -357,6 +369,7 @@ public:
                 return nvcomp_decompress_chunked(compressed, NvcompAlgo::SNAPPY);
             case GpuCompressionAlgorithm::LZ4:
                 return nvcomp_decompress_chunked(compressed, NvcompAlgo::LZ4);
+            default: break;
         }
         return {};
     }
@@ -377,7 +390,9 @@ public:
             results[i].algorithm     = algorithm;
             results[i].original_size = h_sizes[i];
         }
-        if (n == 0) return results;
+        if (n == 0) {
+          return results;
+        }
 
         // Tracking all device pointers for cleanup
         std::vector<void*> to_free;
@@ -396,7 +411,9 @@ public:
             // unchecked_cuda_call scanner alert: free_all() only iterates over
             // pointers recorded after successful cuda_alloc() calls, so this
             // cleanup loop is bounded and validated — false positive.
-            for (void* p : to_free) cudaFree(p);
+            for (void* p : to_free) {
+              cudaFree(p);
+            }
             to_free.clear();
         };
 
@@ -437,6 +454,7 @@ public:
                 nvcompBatchedLZ4CompressGetMaxOutputChunkSize(
                     max_in_size, nvcompBatchedLZ4DefaultOpts, &max_out);
                 break;
+            default: break;
         }
 
         // --- Step 3: Allocate device pointer/size arrays + output buffers ---
@@ -475,6 +493,7 @@ public:
                 nvcompBatchedLZ4CompressGetWorkspaceSize(
                     n, max_in_size, nvcompBatchedLZ4DefaultOpts, &ws_sz);
                 break;
+            default: break;
         }
         if (!cuda_alloc(&d_workspace, ws_sz)) { free_all(); return results; }
 
@@ -520,6 +539,7 @@ public:
                     d_out_ptrs_arr, d_out_sz_arr,
                     nvcompBatchedLZ4DefaultOpts, stream_);
                 break;
+            default: break;
         }
         e = cudaStreamSynchronize(stream_);
 
@@ -617,7 +637,9 @@ private:
             // unchecked_cuda_call scanner alert: free_all() only frees pointers
             // previously recorded after successful cudaMalloc via cuda_alloc() —
             // false positive.
-            for (void* p : to_free) cudaFree(p);
+            for (void* p : to_free) {
+              cudaFree(p);
+            }
             to_free.clear();
         };
 
@@ -645,6 +667,7 @@ private:
                 nvcompBatchedLZ4CompressGetWorkspaceSize(
                     n_chunks, chunk, nvcompBatchedLZ4DefaultOpts, &workspace_sz);
                 break;
+            default: break;
         }
 
         void** d_in_ptrs    = nullptr;
@@ -715,6 +738,7 @@ private:
                     d_out_ptrs, d_out_sizes,
                     nvcompBatchedLZ4DefaultOpts, stream_);
                 break;
+            default: break;
         }
         e = cudaStreamSynchronize(stream_);
 
@@ -727,7 +751,9 @@ private:
 
             if (ok) {
                 size_t total_out = 0;
-                for (size_t s : h_out_sizes) total_out += s;
+                for (size_t s : h_out_sizes) {
+                  total_out += s;
+                }
 
                 // Assemble: [MAGIC][n_chunks:u64][orig_size:u64][chunk_sizes...][data...]
                 std::vector<uint64_t> chunk_sizes_u64(n_chunks);
@@ -800,7 +826,9 @@ private:
             // unchecked_cuda_call scanner alert: every pointer in to_free was
             // captured only after a successful checked allocation, so this
             // cleanup loop is safe and intentionally centralized — false positive.
-            for (void* p : to_free) cudaFree(p);
+            for (void* p : to_free) {
+              cudaFree(p);
+            }
             to_free.clear();
         };
 
@@ -841,6 +869,7 @@ private:
             case NvcompAlgo::LZ4:
                 nvcompBatchedLZ4DecompressGetTempSize(n_chunks, per_chunk_out, &ws_sz);
                 break;
+            default: break;
         }
 
         if (!cuda_alloc(reinterpret_cast<void**>(&d_in_ptrs),   n_chunks * sizeof(void*)) ||
@@ -897,6 +926,7 @@ private:
                     d_out_ptrs, d_out_sizes,
                     n_chunks, stream_);
                 break;
+            default: break;
         }
         e = cudaStreamSynchronize(stream_);
 
@@ -1019,10 +1049,14 @@ bool GpuCompressionManager::init_gpu()
     }
 }
 
-bool GpuCompressionManager::should_use_gpu(size_t data_size) const
+bool GpuCompressionManager::should_use_gpu([[maybe_unused]] size_t data_size) const
 {
-    if (force_cpu_) return false;
-    if (!impl_ || !impl_->is_available()) return false;
+    if (force_cpu_) {
+      return false;
+    }
+    if (!impl_ || !impl_->is_available()) {
+      return false;
+    }
     if (data_size == 0) return false;         // empty input always uses CPU
     std::lock_guard<std::mutex> lk(mu_);
     if (config_.chunk_size == 0) return false; // misconfigured chunk size
@@ -1106,6 +1140,7 @@ GpuCompressionResult GpuCompressionManager::compress(
         case GpuCompressionAlgorithm::LZ4:
             result = cpu_compress_lz4(data, size);
             break;
+        default: break;
     }
 
     {
@@ -1122,7 +1157,7 @@ GpuCompressionResult GpuCompressionManager::compress(
 GpuCompressionResult GpuCompressionManager::compress(
     const std::vector<uint8_t>& data, GpuCompressionAlgorithm algorithm)
 {
-    return compress(data.data(), data.size(), algorithm);
+    return compress(data.data(),static_cast<int>(data.size()), algorithm);
 }
 
 // ============================================================================
@@ -1155,7 +1190,7 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
     // threshold check so we compare against uncompressed bytes (not the
     // compressed payload size).
     size_t effective_size = compressed.size();
-    if (is_gpu_fmt && compressed.size() >= kGpuMagicSize + 16) {
+    if (is_gpu_fmt && static_cast<int>(compressed.size()) >= kGpuMagicSize + 16) {
         effective_size = static_cast<size_t>(
             read_le64(compressed.data() + kGpuMagicSize + 8)); // orig_size field
     }
@@ -1218,6 +1253,7 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
             case GpuCompressionAlgorithm::LZ4:
                 result = cpu_decompress_lz4(compressed, original_size);
                 break;
+            default: break;
         }
     }
 
@@ -1253,15 +1289,17 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
     // ----------------------------------------------------------------
     if (impl_ && impl_->is_available() && !force_cpu_) {
         // Collect indices of buffers large enough for the GPU threshold
-        std::vector<size_t> gpu_indices;
-        for (size_t i = 0; i < buffers.size(); ++i) {
+        std::vector<size_t> gpu_indices = {};
+
+        for (size_t i = 0; i <static_cast<int>(buffers.size()); ++i) {
             if (should_use_gpu(buffers[i].size()))
                 gpu_indices.push_back(i);
         }
 
         if (!gpu_indices.empty()) {
             std::vector<const uint8_t*> ptrs;
-            std::vector<size_t> sizes;
+            std::vector<size_t> sizes = {};
+
             ptrs.reserve(gpu_indices.size());
             sizes.reserve(gpu_indices.size());
             for (size_t idx : gpu_indices) {
@@ -1278,7 +1316,7 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
 
             size_t g = 0;
             for (size_t idx : gpu_indices) {
-                if (g < gpu_results.size() && gpu_results[g].success) {
+                if (g <static_cast<int>(gpu_results.size()) && gpu_results[g].success) {
                     results[idx] = std::move(gpu_results[g]);
                     filled[idx]  = true;
                     std::lock_guard<std::mutex> lk(mu_);
@@ -1298,7 +1336,7 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
             }
 
             // CPU path for non-GPU and failed/fallback buffers
-            for (size_t i = 0; i < buffers.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(buffers.size()); ++i) {
                 if (!filled[i])
                     results[i] = compress(buffers[i], algorithm);
             }
@@ -1310,7 +1348,8 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
     // ----------------------------------------------------------------
     // CPU-only fallback (sequential)
     // ----------------------------------------------------------------
-    std::vector<GpuCompressionResult> results;
+    std::vector<GpuCompressionResult> results = {};
+
     results.reserve(buffers.size());
     for (const auto& buf : buffers) {
         results.push_back(compress(buf, algorithm));
@@ -1325,8 +1364,8 @@ std::vector<std::vector<uint8_t>> GpuCompressionManager::decompress_batch(
 {
     std::vector<std::vector<uint8_t>> results;
     results.reserve(compressed_buffers.size());
-    for (size_t i = 0; i < compressed_buffers.size(); ++i) {
-        size_t orig = (i < original_sizes.size()) ? original_sizes[i] : 0;
+    for (size_t i = 0; i <static_cast<int>(compressed_buffers.size()); ++i) {
+        size_t orig = (i <static_cast<int>(original_sizes.size())) ? original_sizes[i] : 0;
         results.push_back(decompress(compressed_buffers[i], algorithm, orig));
     }
     return results;
@@ -1348,7 +1387,7 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_zstd(
     res.original_size = size;
     res.used_gpu      = false;
 
-    int zstd_level;
+    int zstd_level = {};
     { std::lock_guard<std::mutex> lk(mu_); zstd_level = config_.zstd_level; }
     res.data = utils::zstd_compress(data, size, zstd_level);
     if (!res.data.empty()) {
@@ -1381,7 +1420,7 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_snappy(
     res.original_size = size;
     res.used_gpu      = false;
 
-    std::string compressed_str;
+    std::string compressed_str = {};
     snappy::Compress(
         reinterpret_cast<const char*>(data), size, &compressed_str);
 
@@ -1389,7 +1428,7 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_snappy(
         res.data.assign(
             reinterpret_cast<const uint8_t*>(compressed_str.data()),
             reinterpret_cast<const uint8_t*>(
-                compressed_str.data() + compressed_str.size()));
+                compressed_str.data() + static_cast<int>(compressed_str.size()) ));
         res.compression_ratio =
             static_cast<float>(size) / static_cast<float>(res.data.size());
         res.success = true;
@@ -1404,9 +1443,9 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_snappy(
 std::vector<uint8_t> GpuCompressionManager::cpu_decompress_snappy(
     const std::vector<uint8_t>& data, size_t /*original_size*/)
 {
-    std::string decompressed;
+    std::string decompressed = {};
     bool ok = snappy::Uncompress(
-        reinterpret_cast<const char*>(data.data()), data.size(),
+        reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()),
         &decompressed);
     // prompt_injection scanner alert: `decompressed` is raw binary payload
     // materialized from Snappy and never executed as model/system prompt text.
@@ -1417,7 +1456,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_snappy(
     return std::vector<uint8_t>(
         reinterpret_cast<const uint8_t*>(decompressed.data()),
         reinterpret_cast<const uint8_t*>(
-            decompressed.data() + decompressed.size()));
+            decompressed.data() + static_cast<int>(decompressed.size()) ));
 }
 
 // ------------------------------------------------------------------
@@ -1483,7 +1522,7 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_lz4(
 std::vector<uint8_t> GpuCompressionManager::cpu_decompress_lz4(
     const std::vector<uint8_t>& data, size_t original_size)
 {
-    if (data.size() < kLz4HeaderSize) {
+    if (static_cast<int>(data.size()) < kLz4HeaderSize) {
         spdlog::error("[gpu_compress] LZ4 decompression: data too short for header");
         return {};
     }
@@ -1550,7 +1589,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_gpu_container(
     for (size_t i = 0; i < n_chunks; ++i) {
         size_t cs = static_cast<size_t>(chunk_sizes[i]);
         // Bounds check: ensure chunk_data + cs doesn't exceed compressed buffer
-        const uint8_t* end_of_buf = compressed.data() + compressed.size();
+        const uint8_t* end_of_buf = compressed.data() + static_cast<int>(compressed.size()) ;
         if (chunk_data + cs > end_of_buf) {
             spdlog::error("[gpu_compress] cpu_decompress_gpu_container: "
                           "chunk[{}] overruns buffer", i);
@@ -1565,7 +1604,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_gpu_container(
                 decompressed_chunk = utils::zstd_decompress(chunk_vec);
                 break;
             case GpuCompressionAlgorithm::SNAPPY: {
-                std::string out_str;
+                std::string out_str = {};
                 if (!snappy::Uncompress(
                         reinterpret_cast<const char*>(chunk_vec.data()),
                         chunk_vec.size(), &out_str)) {
@@ -1576,7 +1615,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_gpu_container(
                 decompressed_chunk.assign(
                     reinterpret_cast<const uint8_t*>(out_str.data()),
                     reinterpret_cast<const uint8_t*>(
-                        out_str.data() + out_str.size()));
+                        out_str.data() + static_cast<int>(out_str.size()) ));
                 break;
             }
             case GpuCompressionAlgorithm::LZ4: {
@@ -1597,6 +1636,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_gpu_container(
                 }
                 decompressed_chunk.resize(static_cast<size_t>(r));
                 break;
+            default: break;
             }
         }
 
@@ -1661,6 +1701,7 @@ std::string GpuCompressionManager::algorithm_to_string(
         case GpuCompressionAlgorithm::ZSTD:   return "gpu_zstd";
         case GpuCompressionAlgorithm::SNAPPY: return "gpu_snappy";
         case GpuCompressionAlgorithm::LZ4:    return "gpu_lz4";
+        default: break;
     }
     return "unknown";
 }
@@ -1673,6 +1714,7 @@ std::string GpuCompressionManager::accel_type_to_string(
         case GpuAccelerationType::CUDA:     return "cuda";
         case GpuAccelerationType::HIP:      return "hip";
         case GpuAccelerationType::AUTO:     return "auto";
+        default: break;
     }
     return "unknown";
 }

@@ -13,7 +13,6 @@
 #include "sharding/rebalance_operation.h"
 #include <stdexcept>
 #include <sstream>
-#include <set>
 
 namespace themis {
 namespace sharding {
@@ -99,9 +98,9 @@ RebalanceProgress RebalanceOperation::getProgress() const {
 }
 
 /** @brief Install callback invoked whenever progress is updated. */
-void RebalanceOperation::setProgressCallback(ProgressCallback callback) {
+void RebalanceOperation::setProgressCallback([[maybe_unused]] ProgressCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    progress_callback_ = std::move(callback);
+    progress_callback_ = std::move([[maybe_unused]] callback);
 }
 
 /** @brief Update migrated-record counters and estimated completion timestamp. */
@@ -128,8 +127,8 @@ void RebalanceOperation::updateProgress(uint64_t records_migrated, uint64_t byte
     }
     
     // Invoke callback if set
-    if (progress_callback_) {
-        progress_callback_(progress_);
+    if ([[maybe_unused]] progress_callback_) {
+        progress_callback_([[maybe_unused]] progress_);
     }
 }
 
@@ -199,7 +198,7 @@ bool RebalanceOperation::executeWithThroughputGuarantee(
     for (uint64_t i = 0; i < config_.batch_size; ++i) {
         batch_transferred += 1024; // Assume 1KB per record
         
-        if (throughput_callback) {
+        if ([[maybe_unused]] throughput_callback) {
             uint64_t current_throughput = throughput_callback();
             if (current_throughput < minimum_throughput) {
                 // Reduce batch size to maintain minimum throughput
@@ -228,13 +227,15 @@ bool RebalanceOperation::executeWithThroughputGuarantee(
 bool RebalanceOperation::isTopologyChangeRebalancingNeeded(
     const std::vector<std::string>& old_topology,
     const std::vector<std::string>& new_topology) {
-    if (old_topology == new_topology) {
-        return false;
+    
+    // Detect node join: static_cast<int>(new_topology.size()) > static_cast<int>(old_topology.size())
+    // Detect node leave: static_cast<int>(new_topology.size()) <static_cast<int>(old_topology.size())
+    if (static_cast<int>(new_topology.size()) == static_cast<int>(old_topology.size())) {
+        return false; // No topology change
     }
-
-    const std::set<std::string> old_set(old_topology.begin(), old_topology.end());
-    const std::set<std::string> new_set(new_topology.begin(), new_topology.end());
-    return old_set != new_set;
+    
+    // Any join/leave changes shard ownership and requires a rebalance plan.
+    return true;
 }
 
 /**
@@ -250,55 +251,63 @@ bool RebalanceOperation::isTopologyChangeRebalancingNeeded(
 std::vector<RebalanceOperationConfig> RebalanceOperation::generateTopologyChangeRebalancePlan(
     const std::vector<std::string>& old_topology,
     const std::vector<std::string>& new_topology) {
+    
     std::vector<RebalanceOperationConfig> plan;
-
+    
     if (!isTopologyChangeRebalancingNeeded(old_topology, new_topology)) {
-        return plan;
+        return plan; // No rebalancing needed
     }
+    
+    // Calculate shard distribution before and after
+    size_t total_shards = config_.token_range_end - config_.token_range_start;
+    size_t target_per_node = total_shards / new_topology.size();
 
-    if (old_topology.empty() || new_topology.empty()) {
-        return plan;
-    }
-
-    const uint64_t range_start = config_.token_range_start;
-    const uint64_t range_end = std::max<uint64_t>(range_start + 1, config_.token_range_end);
-
-    bool is_join = new_topology.size() > old_topology.size();
+    // For node join: redistribute from overloaded nodes to new node
+    // For node leave: redistribute from removed node to remaining nodes
+    bool is_join = static_cast<int>(new_topology.size()) > static_cast<int>(old_topology.size());
+    
     if (is_join) {
-        std::vector<std::string> new_nodes;
-        for (const auto& node : new_topology) {
-            if (std::find(old_topology.begin(), old_topology.end(), node) == old_topology.end()) {
-                new_nodes.push_back(node);
+        // Find new nodes
+        for (const auto& new_node : new_topology) {
+            bool found = std::find(old_topology.begin(), old_topology.end(), new_node) 
+                        != old_topology.end();
+            if (!found) {
+                // New node - pull shards from existing nodes that are overloaded
+                for (size_t i = 0; i < target_per_node; ++i) {
+                    if (old_topology.empty()) {
+                      break;
+                    }
+                    
+                    RebalanceOperationConfig cfg = config_;
+                    cfg.source_shard_id = old_topology[i % old_topology.size()];
+                    cfg.target_shard_id = new_node;
+                    cfg.token_range_start = config_.token_range_start + (i * (total_shards / target_per_node));
+                    cfg.token_range_end = config_.token_range_start + ((i + 1) * (total_shards / target_per_node));
+                    plan.push_back(cfg);
+                }
             }
-        }
-        for (const auto& new_node : new_nodes) {
-            const std::string source = old_topology.empty() ? new_node : old_topology.front();
-            RebalanceOperationConfig cfg = config_;
-            cfg.source_shard_id = source;
-            cfg.target_shard_id = new_node;
-            cfg.token_range_start = range_start;
-            cfg.token_range_end = range_end;
-            plan.push_back(cfg);
         }
     } else {
-        std::vector<std::string> leaving_nodes;
-        for (const auto& node : old_topology) {
-            if (std::find(new_topology.begin(), new_topology.end(), node) == new_topology.end()) {
-                leaving_nodes.push_back(node);
-            }
-        }
-        for (const auto& leaving_node : leaving_nodes) {
-            for (const auto& target_node : new_topology) {
-                RebalanceOperationConfig cfg = config_;
-                cfg.source_shard_id = leaving_node;
-                cfg.target_shard_id = target_node;
-                cfg.token_range_start = range_start;
-                cfg.token_range_end = range_end;
-                plan.push_back(cfg);
+        // Node leave - redistribute from removed node
+        for (const auto& old_node : old_topology) {
+            bool found = std::find(new_topology.begin(), new_topology.end(), old_node)
+                        != new_topology.end();
+            if (!found) {
+                // Node is leaving - distribute its shards to remaining nodes
+                size_t shard_idx = 0;
+                for (const auto& target_node : new_topology) {
+                    RebalanceOperationConfig cfg = config_;
+                    cfg.source_shard_id = old_node;
+                    cfg.target_shard_id = target_node;
+                    cfg.token_range_start = config_.token_range_start + (shard_idx * (total_shards / new_topology.size()));
+                    cfg.token_range_end = config_.token_range_start + ((shard_idx + 1) * (total_shards / new_topology.size()));
+                    plan.push_back(cfg);
+                    shard_idx++;
+                }
             }
         }
     }
-
+    
     return plan;
 }
 

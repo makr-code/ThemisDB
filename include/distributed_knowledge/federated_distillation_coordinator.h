@@ -66,7 +66,7 @@ struct SoftLabel {
 // ─────────────────────────────────────────────────────────────────────────────
 
 struct DistillationRound {
-    uint64_t                 round;          ///< Monotonic round counter
+    uint64_t                 round = 0;          ///< Monotonic round counter
     std::string              teacher_id;     ///< Teacher model identifier
     std::vector<SoftLabel>   labels;         ///< DP-protected soft labels
     double                   epsilon_spent;  ///< DP budget spent this round
@@ -75,7 +75,9 @@ struct DistillationRound {
 
     [[nodiscard]] nlohmann::json toJson() const {
         nlohmann::json js_labels = nlohmann::json::array();
-        for (const auto& l : labels) js_labels.push_back(l.toJson());
+        for (const auto& l : labels) {
+          js_labels.push_back(l.toJson());
+        }
         return {{"round",         round},
                 {"teacher_id",    teacher_id},
                 {"labels",        js_labels},

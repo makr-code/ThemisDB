@@ -205,15 +205,19 @@ static void writeSQLiteTable(std::ostream& out, const std::string& tname,
 /// Create a temporary SQL file with the given content; return its path.
 /// Caller owns the file and must delete it when done.
 static std::string writeTempSqlFile(const std::string& content) {
-    std::error_code ec;
+    std::error_code ec = {};
     const auto tmp_dir = std::filesystem::temp_directory_path(ec);
-    if (ec) return "";
+    if (ec) {
+      return "";
+    }
 
     const auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
     const auto path = tmp_dir / ("bench_importer_" + std::to_string(now) + ".sql");
 
     std::ofstream out(path, std::ios::binary | std::ios::trunc);
-    if (!out.is_open()) return "";
+    if (!out.is_open()) {
+      return "";
+    }
     out.write(content.data(), static_cast<std::streamsize>(content.size()));
     out.close();
 
@@ -255,11 +259,13 @@ static double runBench(const std::string& sql_file, bool dry_run,
     // A minimal CSV-style parser for the synthetic COPY data is sufficient.
 
     std::ifstream f(sql_file);
-    if (!f) return -1.0;
+    if (!f) {
+      return -1.0;
+    }
 
     auto t0 = std::chrono::steady_clock::now();
 
-    std::string line;
+    std::string line = {};
     size_t records    = 0;
     size_t byte_count = 0;
     bool in_copy      = false;
@@ -273,26 +279,32 @@ static double runBench(const std::string& sql_file, bool dry_run,
                 continue;
             }
             if (line.find("INSERT INTO") != std::string::npos) {
-                if (!dry_run) ++records;
+                if (!dry_run) {
+                  ++records;
+                }
             }
         } else {
             if (line == "\\." || line.rfind("\\.", 0) == 0) {
                 in_copy = false;
                 continue;
             }
-            if (!dry_run) ++records;
+            if (!dry_run) {
+              ++records;
+            }
         }
     }
 
     auto t1 = std::chrono::steady_clock::now();
     (void)records;
-    if (bytes_out) *bytes_out = static_cast<double>(byte_count);
+    if (bytes_out) {
+      *bytes_out = static_cast<double>(byte_count);
+    }
     return std::chrono::duration<double>(t1 - t0).count();
 }
 
 static BenchResult runScenario(const BenchConfig& cfg) {
     // Build synthetic SQL
-    std::ostringstream out;
+    std::ostringstream out = {};
     writeDumpHeader(out);
 
     size_t rows_per_table_copy   = cfg.copy_rows   / cfg.num_tables;
@@ -311,7 +323,7 @@ static BenchResult runScenario(const BenchConfig& cfg) {
 
     double bytes   = 0.0;
     double elapsed = runBench(tmp, cfg.dry_run, &bytes);
-    std::error_code rm_ec;
+    std::error_code rm_ec = {};
     std::filesystem::remove(tmp, rm_ec);
 
     size_t total_rows = cfg.copy_rows + cfg.insert_rows;
@@ -335,29 +347,35 @@ static void printResult(const BenchResult& r) {
 static double runSQLiteBench(const std::string& sql_file, bool dry_run,
                               double* bytes_out = nullptr) {
     std::ifstream f(sql_file);
-    if (!f) return -1.0;
+    if (!f) {
+      return -1.0;
+    }
 
     auto t0 = std::chrono::steady_clock::now();
 
-    std::string line;
+    std::string line = {};
     size_t records    = 0;
     size_t byte_count = 0;
 
     while (std::getline(f, line)) {
         byte_count += line.size() + 1;
         if (line.find("INSERT INTO") != std::string::npos) {
-            if (!dry_run) ++records;
+            if (!dry_run) {
+              ++records;
+            }
         }
     }
 
     auto t1 = std::chrono::steady_clock::now();
     (void)records;
-    if (bytes_out) *bytes_out = static_cast<double>(byte_count);
+    if (bytes_out) {
+      *bytes_out = static_cast<double>(byte_count);
+    }
     return std::chrono::duration<double>(t1 - t0).count();
 }
 
 static BenchResult runSQLiteScenario(const BenchConfig& cfg) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     writeSQLiteDumpHeader(out);
 
     size_t rows_per_table = cfg.insert_rows / cfg.num_tables;
@@ -376,7 +394,7 @@ static BenchResult runSQLiteScenario(const BenchConfig& cfg) {
 
     double bytes   = 0.0;
     double elapsed = runSQLiteBench(tmp, cfg.dry_run, &bytes);
-    std::error_code rm_ec;
+    std::error_code rm_ec = {};
     std::filesystem::remove(tmp, rm_ec);
 
     double rps  = (elapsed > 0.0)
@@ -434,22 +452,28 @@ static void writeMongoJsonArray(std::ostream& out, size_t num_docs) {
             << ",\"score\":" << (static_cast<double>(i) * 1.25)
             << ",\"created\":\"2025-01-01T00:00:00Z\""
             << ",\"meta\":{\"src\":\"bench\",\"batch\":" << (i / 1000 + 1) << "}}";
-        if (i < num_docs) out << ",\n";
+        if (i < num_docs) {
+          out << ",\n";
+        }
     }
     out << "\n]\n";
 }
 
 /// Create a temporary JSON file; returns its path.
 static std::string writeTempJsonFile(const std::string& content) {
-    std::error_code ec;
+    std::error_code ec = {};
     const auto tmp_dir = std::filesystem::temp_directory_path(ec);
-    if (ec) return "";
+    if (ec) {
+      return "";
+    }
 
     const auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
     const auto path = tmp_dir / ("bench_mongo_" + std::to_string(now) + ".json");
 
     std::ofstream out(path, std::ios::binary | std::ios::trunc);
-    if (!out.is_open()) return "";
+    if (!out.is_open()) {
+      return "";
+    }
     out.write(content.data(), static_cast<std::streamsize>(content.size()));
     out.close();
 
@@ -465,7 +489,9 @@ static std::string writeTempJsonFile(const std::string& content) {
 static double runMongoBench(const std::string& json_file, bool dry_run,
                              bool is_json_array, double* bytes_out = nullptr) {
     std::ifstream f(json_file);
-    if (!f) return -1.0;
+    if (!f) {
+      return -1.0;
+    }
 
     auto t0 = std::chrono::steady_clock::now();
 
@@ -474,34 +500,40 @@ static double runMongoBench(const std::string& json_file, bool dry_run,
 
     if (is_json_array) {
         // Count lines that start with '{' inside the JSON array.
-        std::string line;
+        std::string line = {};
         while (std::getline(f, line)) {
             byte_count += line.size() + 1;
             size_t first = line.find_first_not_of(" \t\r\n");
             if (first != std::string::npos && line[first] == '{') {
-                if (!dry_run) ++records;
+                if (!dry_run) {
+                  ++records;
+                }
             }
         }
     } else {
         // NDJSON: count non-empty lines that start with '{'.
-        std::string line;
+        std::string line = {};
         while (std::getline(f, line)) {
             byte_count += line.size() + 1;
             size_t first = line.find_first_not_of(" \t\r\n");
             if (first != std::string::npos && line[first] == '{') {
-                if (!dry_run) ++records;
+                if (!dry_run) {
+                  ++records;
+                }
             }
         }
     }
 
     auto t1 = std::chrono::steady_clock::now();
     (void)records;
-    if (bytes_out) *bytes_out = static_cast<double>(byte_count);
+    if (bytes_out) {
+      *bytes_out = static_cast<double>(byte_count);
+    }
     return std::chrono::duration<double>(t1 - t0).count();
 }
 
 struct MongoBenchConfig {
-    std::string label;
+    std::string label = {};
     size_t      num_docs    = 0;
     bool        json_array  = false;  ///< true = JSON array, false = NDJSON
     bool        bson_types  = false;  ///< true = include BSON extended JSON wrappers
@@ -509,7 +541,7 @@ struct MongoBenchConfig {
 };
 
 static BenchResult runMongoScenario(const MongoBenchConfig& cfg) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     if (cfg.json_array) {
         writeMongoJsonArray(out, cfg.num_docs);
     } else {
@@ -524,7 +556,7 @@ static BenchResult runMongoScenario(const MongoBenchConfig& cfg) {
 
     double bytes   = 0.0;
     double elapsed = runMongoBench(tmp, cfg.dry_run, cfg.json_array, &bytes);
-    std::error_code rm_ec;
+    std::error_code rm_ec = {};
     std::filesystem::remove(tmp, rm_ec);
 
     double rps  = (elapsed > 0.0)
@@ -597,11 +629,13 @@ static void writeMySQLTable(std::ostream& out, const std::string& tname,
 static double runMySQLBench(const std::string& sql_file, bool dry_run,
                              double* bytes_out = nullptr) {
     std::ifstream f(sql_file);
-    if (!f) return -1.0;
+    if (!f) {
+      return -1.0;
+    }
 
     auto t0 = std::chrono::steady_clock::now();
 
-    std::string line;
+    std::string line = {};
     size_t records    = 0;
     size_t byte_count = 0;
     static constexpr std::string_view kInsertPrefix = "INSERT INTO";
@@ -611,18 +645,22 @@ static double runMySQLBench(const std::string& sql_file, bool dry_run,
         // MySQL dump lines starting with "INSERT INTO" are data rows.
         if (line.size() >= kInsertPrefix.size() &&
             line.compare(0, kInsertPrefix.size(), kInsertPrefix) == 0) {
-            if (!dry_run) ++records;
+            if (!dry_run) {
+              ++records;
+            }
         }
     }
 
     auto t1 = std::chrono::steady_clock::now();
     (void)records;
-    if (bytes_out) *bytes_out = static_cast<double>(byte_count);
+    if (bytes_out) {
+      *bytes_out = static_cast<double>(byte_count);
+    }
     return std::chrono::duration<double>(t1 - t0).count();
 }
 
 static BenchResult runMySQLScenario(const MySQLBenchConfig& cfg) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     writeMySQLDumpHeader(out);
 
     size_t rows_per_table = cfg.num_rows / std::max<size_t>(1, cfg.num_tables);
@@ -638,7 +676,7 @@ static BenchResult runMySQLScenario(const MySQLBenchConfig& cfg) {
 
     double bytes   = 0.0;
     double elapsed = runMySQLBench(tmp, cfg.dry_run, &bytes);
-    std::error_code rm_ec;
+    std::error_code rm_ec = {};
     std::filesystem::remove(tmp, rm_ec);
 
     double rps  = (elapsed > 0.0) ? static_cast<double>(cfg.num_rows) / elapsed : 0.0;
@@ -675,7 +713,7 @@ static std::string makeSyntheticKafkaJson(size_t payload_bytes) {
 
 /// Build a 5-byte Confluent Avro magic-byte prefix + JSON body.
 static std::string makeAvroWrappedPayload(size_t payload_bytes) {
-    std::string avro;
+    std::string avro = {};
     avro += '\x00';
     avro += '\x00'; avro += '\x00'; avro += '\x00'; avro += '\x02'; // schema-ID = 2
     avro += makeSyntheticKafkaJson(payload_bytes);
@@ -821,7 +859,7 @@ static BenchResult runConflictBench(const ConflictBenchConfig& cfg) {
 int main(int argc, char** argv) {
     size_t iterations = 1;
     bool   csv_out    = false;
-    std::string csv_path;
+    std::string csv_path = {};
 
     for (int i = 1; i < argc; ++i) {
         if (std::strcmp(argv[i], "--iterations") == 0 && i + 1 < argc) {
@@ -872,7 +910,9 @@ int main(int argc, char** argv) {
         BenchResult fastest{cfg.label, 0, 1e30, 0.0, 0.0, 0.0};
         for (size_t it = 0; it < iterations; ++it) {
             BenchResult r = runScenario(cfg);
-            if (r.elapsed_sec < fastest.elapsed_sec) fastest = r;
+            if (r.elapsed_sec < fastest.elapsed_sec) {
+              fastest = r;
+            }
         }
         printResult(fastest);
         best.push_back(fastest);
@@ -883,7 +923,9 @@ int main(int argc, char** argv) {
         BenchResult fastest{cfg.label, 0, 1e30, 0.0, 0.0, 0.0};
         for (size_t it = 0; it < iterations; ++it) {
             BenchResult r = runSQLiteScenario(cfg);
-            if (r.elapsed_sec < fastest.elapsed_sec) fastest = r;
+            if (r.elapsed_sec < fastest.elapsed_sec) {
+              fastest = r;
+            }
         }
         printResult(fastest);
         best.push_back(fastest);
@@ -895,7 +937,9 @@ int main(int argc, char** argv) {
         BenchResult fastest{cfg.label, 0, 1e30, 0.0, 0.0, 0.0};
         for (size_t it = 0; it < iterations; ++it) {
             BenchResult r = runMongoScenario(cfg);
-            if (r.elapsed_sec < fastest.elapsed_sec) fastest = r;
+            if (r.elapsed_sec < fastest.elapsed_sec) {
+              fastest = r;
+            }
         }
         printResult(fastest);
         // Throughput assertion for the primary NDJSON 100k scenario (2 KB avg docs).
@@ -927,7 +971,9 @@ int main(int argc, char** argv) {
         BenchResult fastest{cfg.label, 0, 1e30, 0.0, 0.0, 0.0};
         for (size_t it = 0; it < iterations; ++it) {
             BenchResult r = runMySQLScenario(cfg);
-            if (r.elapsed_sec < fastest.elapsed_sec) fastest = r;
+            if (r.elapsed_sec < fastest.elapsed_sec) {
+              fastest = r;
+            }
         }
         printResult(fastest);
         // AC assertion: >= 50 000 rows/sec for the 1M-row scenario (stress test).
@@ -956,7 +1002,9 @@ int main(int argc, char** argv) {
         BenchResult fastest{cfg.label, 0, 1e30, 0.0, 0.0, 0.0};
         for (size_t it = 0; it < iterations; ++it) {
             BenchResult r = runKafkaBench(cfg);
-            if (r.elapsed_sec < fastest.elapsed_sec) fastest = r;
+            if (r.elapsed_sec < fastest.elapsed_sec) {
+              fastest = r;
+            }
         }
         printResult(fastest);
         // AC-8: verify >= 100 000 msg/sec for the throughput scenario.
@@ -1024,12 +1072,15 @@ int main(int argc, char** argv) {
     std::printf("  AC-5 target: SKIP/OVERWRITE overhead <= 5 %% of baseline (10-field docs)\n");
     std::printf("  AC-6 target: MERGE overhead <= 15 %% vs OVERWRITE (same field count, <=100 fields)\n");
 
-    std::vector<BenchResult> conflict_results;
+    std::vector<BenchResult> conflict_results = {};
+
     for (const auto& cfg : conflict_scenarios) {
         BenchResult fastest{cfg.label, 0, 1e30, 0.0, 0.0, 0.0};
         for (size_t it = 0; it < iterations; ++it) {
             BenchResult r = runConflictBench(cfg);
-            if (r.elapsed_sec < fastest.elapsed_sec) fastest = r;
+            if (r.elapsed_sec < fastest.elapsed_sec) {
+              fastest = r;
+            }
         }
         printResult(fastest);
         conflict_results.push_back(fastest);

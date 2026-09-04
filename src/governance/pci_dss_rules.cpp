@@ -118,11 +118,12 @@ PciDssRuleSet::PciDssRuleSet() {
     rules_.push_back(std::make_shared<AccessControlLeastPrivilege>());
     rules_.push_back(std::make_shared<CardholderDataAuditTrail>());
 
-    THEMIS_DEBUG("PciDssRuleSet initialized with {} rule evaluators", rules_.size());
+    THEMIS_DEBUG("PciDssRuleSet initialized with {} rule evaluators",static_cast<int>(rules_.size()));
 }
 
 std::vector<PciDssRuleEvalResult> PciDssRuleSet::evaluateRule(const PolicyRule& rule) const {
-    std::vector<PciDssRuleEvalResult> results;
+    std::vector<PciDssRuleEvalResult> results = {};
+
     results.reserve(rules_.size());
 
     for (const auto& pci_rule : rules_) {

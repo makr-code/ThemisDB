@@ -277,8 +277,8 @@ TEST(CacheCoordinatorDegradation, CCD06_PublishEntryReachesLocalSubscribers) {
     CacheReplicationCoordinator publisher(nullptr, bus);
     CacheReplicationCoordinator subscriber(nullptr, bus);
 
-    std::mutex callback_mutex;
-    std::condition_variable callback_cv;
+    std::mutex callback_mutex = {};
+    std::condition_variable callback_cv = {};
     bool received = false;
     ReplicationMessage observed{};
 

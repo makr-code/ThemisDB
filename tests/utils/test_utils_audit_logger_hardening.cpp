@@ -120,15 +120,19 @@ TEST(AuditLoggerHardening, ConcurrentWritersNoDataRace) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Count lines – each event becomes at least one JSON line
     std::ifstream f(log_path);
     ASSERT_TRUE(f.is_open());
     int line_count = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
-        if (!line.empty()) ++line_count;
+        if (!line.empty()) {
+          ++line_count;
+        }
     }
     EXPECT_EQ(line_count, kThreads * kEventsPerThread);
 

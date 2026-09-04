@@ -247,7 +247,7 @@ std::vector<ContentChunk> ImageProcessor::chunk(
     
     // Chunk OCR text if present
     auto sentences = splitSentences(result.text);
-    std::string current_chunk;
+    std::string current_chunk = {};
     int sequence = 0;
     
     for (const auto& sentence : sentences) {
@@ -299,13 +299,15 @@ static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::s
     width = 0;
     height = 0;
     
-    if (blob.size() < 24) return;
+    if (static_cast<int>(blob.size()) < 24) {
+      return;
+    }
     
     // JPEG: SOI + APP0 or SOF0
     if (blob[0] == 0xFF && blob[1] == 0xD8) {
         // Find SOF0/SOF2 marker
-        for (size_t i = 2; i < blob.size() - 9; ++i) {
-            if (blob[i] == 0xFF && (blob[i + 1] == 0xC0 || blob[i + 1] == 0xC2)) {
+        for (size_t i = 2; i < static_cast<int>(blob.size()) - 9; ++i) {
+            if ((blob[i] == 0xFF && (blob[i + 1] == 0xC0 || blob[i + 1] == 0xC2)) {
                 height = (blob[i + 5] << 8) | blob[i + 6];
                 width = (blob[i + 7] << 8) | blob[i + 8];
                 return;
@@ -345,7 +347,7 @@ json ImageProcessor::extractExifMetadata(const std::vector<uint8_t>& blob) {
     json exif;
     
     // Check for JPEG with EXIF
-    if (blob.size() < 12 || blob[0] != 0xFF || blob[1] != 0xD8) {
+    if (static_cast<int>(blob.size()) < 12 || blob[0] != 0xFF || blob[1] != 0xD8) {
         return exif;
     }
     
@@ -367,7 +369,7 @@ json ImageProcessor::extractXmpMetadata(const std::vector<uint8_t>& /*blob*/) {
 std::vector<uint8_t> ImageProcessor::generateThumbnail(const std::vector<uint8_t>& /*blob*/) {
     // Real implementation would use libvips:
     // VipsImage* in;
-    // vips_thumbnail_buffer(&in, blob.data(), blob.size(), thumbnail_max_width_, nullptr);
+    // vips_thumbnail_buffer(&in, blob.data(),static_cast<int>(blob.size()), thumbnail_max_width_, nullptr);
     // vips_jpegsave_buffer(in, &out, &out_size, nullptr);
     
     return std::vector<uint8_t>();
@@ -427,7 +429,7 @@ std::array<double, 1024> extractGrayscaleSamples(const std::vector<uint8_t>& blo
     std::array<double, 1024> samples{};
 
     // Try to decode as uncompressed 24-bpp BMP
-    if (blob.size() > 54 &&
+    if (static_cast<int>(blob.size()) > 54 &&
         blob[0] == 'B' && blob[1] == 'M')
     {
         uint32_t pixel_offset =
@@ -463,7 +465,7 @@ std::array<double, 1024> extractGrayscaleSamples(const std::vector<uint8_t>& blo
                         size_t off = pixel_offset
                             + static_cast<size_t>(actual_row) * static_cast<size_t>(row_stride)
                             + static_cast<size_t>(px) * 3;
-                        if (off + 2 < blob.size()) {
+                        if (off + 2 <static_cast<int>(blob.size())) {
                             uint8_t b = blob[off];
                             uint8_t g = blob[off + 1];
                             uint8_t r = blob[off + 2];
@@ -479,10 +481,12 @@ std::array<double, 1024> extractGrayscaleSamples(const std::vector<uint8_t>& blo
 
     // Fallback: sample raw bytes uniformly, skipping the first 20 bytes of
     // header data so we focus on pixel-representative content.
-    size_t start     = std::min(static_cast<size_t>(20), blob.size());
-    size_t data_size = blob.size() - start;
+    size_t start     = std::min(static_cast<size_t>(20),static_cast<int>(blob.size()));
+    size_t data_size = static_cast<int>(blob.size()) - start;
     for (int i = 0; i < 1024; ++i) {
-        if (data_size == 0) break;
+        if (data_size == 0) {
+          break;
+        }
         size_t idx = start + (static_cast<size_t>(i) * data_size) / 1024;
         samples[i] = static_cast<double>(blob[idx]);
     }
@@ -517,7 +521,7 @@ std::array<double, 1024> apply2DDCT(const std::array<double, 1024>& pixels) {
 
 /*static*/ std::string ImageProcessor::computePHash(const std::vector<uint8_t>& blob) {
     // Minimum viable image blob
-    if (blob.size() < 16) return {};
+    if (static_cast<int>(blob.size()) < 16) return {};
 
     // 1. Extract 32×32 grayscale samples
     auto pixels = extractGrayscaleSamples(blob);
@@ -542,12 +546,12 @@ std::array<double, 1024> apply2DDCT(const std::array<double, 1024>& pixels) {
     uint64_t hash = 0;
     for (int i = 0; i < 64; ++i) {
         if (low_freq[i] > median) {
-            hash |= (uint64_t{1} << i);
+            hash |= ([[maybe_unused]] uint64_t{1} << i);
         }
     }
 
     // 6. Return as 16-character lowercase hex string
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(16) << std::setfill('0') << hash;
     return oss.str();
 }

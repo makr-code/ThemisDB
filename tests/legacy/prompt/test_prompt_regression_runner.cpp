@@ -60,7 +60,8 @@ std::vector<RegressionFixture> makeFixtures(
     const std::string& prompt_text     = "What is 2+2?",
     const std::string& expected_output = "four",
     const std::string& source          = "golden") {
-    std::vector<RegressionFixture> out;
+    std::vector<RegressionFixture> out = {};
+
     for (std::size_t i = 0; i < n; ++i) {
         RegressionFixture f;
         f.template_id     = template_id;

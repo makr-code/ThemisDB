@@ -51,7 +51,9 @@ protected:
 
         // Start server
         const std::string db_path = "data/themis_policy_export_test";
-        if (std::filesystem::exists(db_path)) std::filesystem::remove_all(db_path);
+        if (std::filesystem::exists(db_path)) {
+          std::filesystem::remove_all(db_path);
+        }
         themis::RocksDBWrapper::Config cfg;
         cfg.db_path = db_path;
         cfg.memtable_size_mb = 64;
@@ -80,10 +82,16 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
-        if (storage_) storage_->close();
+        if (server_) {
+          server_->stop();
+        }
+        if (storage_) {
+          storage_->close();
+        }
         const std::string db_path = "data/themis_policy_export_test";
-        if (std::filesystem::exists(db_path)) std::filesystem::remove_all(db_path);
+        if (std::filesystem::exists(db_path)) {
+          std::filesystem::remove_all(db_path);
+        }
     }
 
     http::response<http::string_body> get_with_headers(
@@ -99,7 +107,9 @@ protected:
 
         http::request<http::string_body> req{http::verb::get, target, 11};
         req.set(http::field::host, "127.0.0.1");
-        for (const auto& [k, v] : headers) req.set(k, v);
+        for (const auto& [k, v] : headers) {
+          req.set(k, v);
+        }
 
         http::write(stream, req);
 

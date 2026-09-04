@@ -361,7 +361,9 @@ TEST(StreamingJoinTest, SJ15_HashJoinSelectProjection) {
     // "id" should appear once (not duplicated).
     size_t id_count = 0;
     for (size_t i = 0; i < result.columnCount(); ++i) {
-        if (result.getColumnAt(i)->name() == "id") ++id_count;
+        if (result.getColumnAt(i)->name() == "id") {
+          ++id_count;
+        }
     }
     EXPECT_EQ(id_count, 1u);
 }

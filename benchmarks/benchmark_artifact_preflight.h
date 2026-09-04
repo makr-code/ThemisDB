@@ -109,7 +109,7 @@ static constexpr const char* kRepoLocalModelsDir = "models";
  * Returns the repository-local model directory when running from repo root.
  */
 inline std::string repoLocalModelDir() {
-    std::error_code ec;
+    std::error_code ec = {};
     const auto local = std::filesystem::current_path(ec) / kRepoLocalModelsDir;
     if (ec) {
         return "";
@@ -145,7 +145,9 @@ inline std::string modelBaseDir() {
  */
 inline bool stubModelsEnabled() {
     const char* env = std::getenv("THEMIS_LLM_STUB_MODELS");
-    if (!env || *env == '\0') return false;
+    if (!env || *env == '\0') {
+      return false;
+    }
     std::string val(env);
     std::transform(val.begin(), val.end(), val.begin(),
                    [](unsigned char c) { return static_cast<char>(std::toupper(c)); });

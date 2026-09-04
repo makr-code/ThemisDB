@@ -196,9 +196,13 @@ public:
                 std::string_view  resource) {
         std::unique_lock<std::mutex> lk(mutex_);
         auto p_it = rules_.find(std::string(principal));
-        if (p_it == rules_.end()) return;
+        if (p_it == rules_.end()) {
+          return;
+        }
         auto o_it = p_it->second.find(op);
-        if (o_it == p_it->second.end()) return;
+        if (o_it == p_it->second.end()) {
+          return;
+        }
         o_it->second.erase(std::string(resource));
     }
 
@@ -234,7 +238,9 @@ private:
                         MetadataOperation op,
                         std::string_view  resource) const {
         auto p_it = rules_.find(std::string(principal));
-        if (p_it == rules_.end()) return false;
+        if (p_it == rules_.end()) {
+          return false;
+        }
 
         // ADMIN implies all operations on all resources.
         auto admin_it = p_it->second.find(MetadataOperation::ADMIN);
@@ -247,7 +253,9 @@ private:
 
         // Check the specific requested operation.
         auto o_it = p_it->second.find(op);
-        if (o_it == p_it->second.end()) return false;
+        if (o_it == p_it->second.end()) {
+          return false;
+        }
 
         // Wildcard resource or exact resource match.
         return o_it->second.count("*") > 0 ||

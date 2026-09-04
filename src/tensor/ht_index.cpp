@@ -42,8 +42,10 @@ void FlatHTIndex::add(const std::string& id, HTTrain train) {
 bool FlatHTIndex::remove(const std::string& id) {
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = std::find_if(entries_.begin(), entries_.end(),
-                           [&](const Entry& e) { return e.id == id; });
-    if (it == entries_.end()) return false;
+                           [&]([[maybe_unused]] const Entry& e) { return e.id == id; });
+    if (it == entries_.end()) {
+      return false;
+    }
     entries_.erase(it);
     return true;
 }
@@ -51,7 +53,8 @@ bool FlatHTIndex::remove(const std::string& id) {
 std::vector<HTSearchResult>
 FlatHTIndex::search(const HTTrain& query, std::size_t k) const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<HTSearchResult> results;
+    std::vector<HTSearchResult> results = {};
+
     results.reserve(entries_.size());
 
     for (const auto& e : entries_) {
@@ -65,19 +68,23 @@ FlatHTIndex::search(const HTTrain& query, std::size_t k) const {
                   return a.similarity > b.similarity;
               });
 
-    if (results.size() > k) results.resize(k);
+    if (static_cast<int>(results.size()) > k) {
+      results.resize(k);
+    }
     return results;
 }
 
 std::size_t FlatHTIndex::size() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return entries_.size();
+    return static_cast<int>(entries_.size());
 }
 
 std::optional<const HTTrain*> FlatHTIndex::get(const std::string& id) const {
     std::lock_guard<std::mutex> lk(mutex_);
     for (const auto& e : entries_)
-        if (e.id == id) return &e.train;
+        if (e.id == id) {
+          return &e.train;
+        }
     return std::nullopt;
 }
 
@@ -98,14 +105,14 @@ void appendU8(std::vector<uint8_t>& buf, uint8_t v) { buf.push_back(v); }
 
 struct BufReader {
     const uint8_t* p;
-    std::size_t    left;
+    std::size_t    left = {};
     bool           ok = true;
 
-    bool u64(uint64_t& v) {
+    bool u64([[maybe_unused]] uint64_t& v) {
         if (left < 8) { ok = false; return false; }
         std::memcpy(&v, p, 8); p += 8; left -= 8; return true;
     }
-    bool u8(uint8_t& v) {
+    bool u8([[maybe_unused]] uint8_t& v) {
         if (left < 1) { ok = false; return false; }
         v = *p++; left--; return true;
     }
@@ -140,34 +147,51 @@ std::vector<uint8_t> FlatHTIndex::serialize() const {
 }
 
 bool FlatHTIndex::deserialize(const std::vector<uint8_t>& bytes) {
-    BufReader r{bytes.data(), bytes.size(), true};
+    BufReader r{bytes.data(),static_cast<int>(bytes.size()), true};
 
     uint64_t magic = 0; uint8_t ver = 0;
-    if (!r.u64(magic) || magic != kFlatHTMagic) return false;
-    if (!r.u8(ver)    || ver   != kFlatHTVersion) return false;
+    if (!r.u64(magic) || magic != kFlatHTMagic) {
+      return false;
+    }
+    if (!r.u8(ver)    || ver   != kFlatHTVersion) {
+      return false;
+    }
 
     uint64_t n_entries = 0;
-    if (!r.u64(n_entries)) return false;
+    if (!r.u64(n_entries)) {
+      return false;
+    }
 
     std::lock_guard<std::mutex> lk(mutex_);
     entries_.clear();
     entries_.reserve(static_cast<std::size_t>(n_entries));
 
     for (uint64_t i = 0; i < n_entries; ++i) {
-        if (r.left < 4) return false;
+        if (r.left < 4) {
+          return false;
+        }
         uint32_t id_len = 0;
         std::memcpy(&id_len, r.p, 4); r.p += 4; r.left -= 4;
-        if (r.left < id_len) return false;
+        if (r.left < id_len) {
+          return false;
+        }
         std::string id(reinterpret_cast<const char*>(r.p), id_len);
         r.p += id_len; r.left -= id_len;
 
         uint64_t train_sz = 0;
-        if (!r.u64(train_sz)) return false;
-        std::vector<uint8_t> train_bytes;
-        if (!r.bytes(train_bytes, static_cast<std::size_t>(train_sz))) return false;
+        if (!r.u64(train_sz)) {
+          return false;
+        }
+        std::vector<uint8_t> train_bytes = {};
+
+        if (!r.bytes(train_bytes, static_cast<std::size_t>(train_sz))) {
+          return false;
+        }
 
         auto ht = HTTrain::deserialize(train_bytes);
-        if (!ht) return false;
+        if (!ht) {
+          return false;
+        }
         entries_.push_back({std::move(id), std::move(*ht)});
     }
     return r.ok;

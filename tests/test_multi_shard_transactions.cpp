@@ -135,7 +135,8 @@ TEST(MultiShardTransactionTest, BasicTwoPhaseCommit) {
     std::string tx_id = "tx_001";
     
     // Phase 1: Prepare
-    std::vector<bool> prepare_results;
+    std::vector<bool> prepare_results = {};
+
     for (auto& shard : shards) {
         bool result = shard.prepare(tx_id);
         prepare_results.push_back(result);
@@ -147,7 +148,8 @@ TEST(MultiShardTransactionTest, BasicTwoPhaseCommit) {
     }
     
     // Phase 2: Commit
-    std::vector<bool> commit_results;
+    std::vector<bool> commit_results = {};
+
     for (auto& shard : shards) {
         bool result = shard.commit(tx_id);
         commit_results.push_back(result);
@@ -183,7 +185,8 @@ TEST(MultiShardTransactionTest, RollbackOnPrepareFailure) {
     shards[2].prepare("other_tx");
     
     // Phase 1: Prepare all shards
-    std::vector<bool> prepare_results;
+    std::vector<bool> prepare_results = {};
+
     for (auto& shard : shards) {
         bool result = shard.prepare(tx_id);
         prepare_results.push_back(result);
@@ -236,7 +239,7 @@ TEST(MultiShardTransactionTest, ConcurrentTransactions) {
             std::string tx_id = "tx_" + std::to_string(tx);
             
             // Select random subset of shards
-            std::random_device rd;
+            std::random_device rd = {};
             std::mt19937 gen(rd());
             std::uniform_int_distribution<> dis(0, static_cast<int>(shards.size() - 1));
             
@@ -255,8 +258,12 @@ TEST(MultiShardTransactionTest, ConcurrentTransactions) {
                 successful_tx.fetch_add(1);
             } else {
                 // Rollback
-                if (prep1) shards[shard1].abort(tx_id);
-                if (prep2) shards[shard2].abort(tx_id);
+                if (prep1) {
+                  shards[shard1].abort(tx_id);
+                }
+                if (prep2) {
+                  shards[shard2].abort(tx_id);
+                }
                 failed_tx.fetch_add(1);
             }
             
@@ -283,7 +290,7 @@ TEST(MultiShardTransactionTest, CrossShardReadConsistency) {
     constexpr int NUM_SHARDS = 3;
     
     struct ShardData {
-        std::mutex mutex;
+        std::mutex mutex = {};
         std::map<std::string, int> data;
         uint64_t version = 0;
     };
@@ -410,7 +417,8 @@ TEST(MultiShardTransactionTest, ParticipantTimeoutHandling) {
     }
     
     // Wait for results with timeout
-    std::vector<bool> results;
+    std::vector<bool> results = {};
+
     for (auto& future : prepare_futures) {
         auto status = future.wait_for(std::chrono::milliseconds(TIMEOUT_MS));
         
@@ -520,7 +528,7 @@ TEST(MultiShardTransactionTest, CrossShardIsolation) {
     constexpr int NUM_SHARDS = 3;
     
     struct VersionedShard {
-        std::mutex mutex;
+        std::mutex mutex = {};
         std::map<std::string, int> data;
         uint64_t read_version = 1;
         uint64_t write_version = 1;
@@ -738,8 +746,12 @@ TEST(MultiShardTransactionTest, PercolatorPrepareAbortOnConflict) {
 
     // Simulate coordinator abort logic: abort all tx_b participants that prepared.
     if (!prep_b_shard0 || !prep_b_shard1) {
-        if (prep_b_shard0) shards[0].abort(tx_b);
-        if (prep_b_shard1) shards[1].abort(tx_b);
+        if (prep_b_shard0) {
+          shards[0].abort(tx_b);
+        }
+        if (prep_b_shard1) {
+          shards[1].abort(tx_b);
+        }
     }
 
     // Tx-A must still be in PREPARED state (unaffected by Tx-B conflict).

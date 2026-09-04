@@ -103,7 +103,8 @@ struct CompressedBatch {
      */
     std::vector<uint8_t> serialize() const {
         constexpr size_t kHeaderSize = 4 + 1 + 1 + 4 + 4; // 14 bytes
-        std::vector<uint8_t> out;
+        std::vector<uint8_t> out = {};
+
         out.reserve(kHeaderSize + payload.size());
 
         // magic
@@ -303,7 +304,7 @@ public:
     std::vector<Changefeed::ChangeEvent> decompress(const CompressedBatch& batch) {
         stats_batches_decompressed_.fetch_add(1, std::memory_order_relaxed);
 
-        std::string json_str;
+        std::string json_str = {};
 
         if (batch.algorithm == StreamCompressionAlgorithm::ZSTD) {
             auto decompressed = utils::zstd_decompress(batch.payload);

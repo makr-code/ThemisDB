@@ -217,7 +217,7 @@ struct DebateInitialization {
  * Contains evaluation metrics across 5 key dimensions.
  */
 struct EthicsEvaluationResult {
-    double overall_score;               ///< Overall score (0.0-1.0)
+    double overall_score = 0;               ///< Overall score (0.0-1.0)
     double decision_quality_score;      ///< Decision quality dimension
     double consistency_score;           ///< Consistency dimension
     double fairness_score;              ///< Fairness dimension
@@ -239,9 +239,9 @@ struct EthicsEvaluationResult {
  * @brief Status/Error type for operations
  */
 struct Status {
-    bool ok;
-    std::string message;
-    int code;
+    bool ok = 0;
+    std::string message = {};
+    int code = {};
     
     Status() : ok(true), code(0) {}
     Status(bool ok_, const std::string& msg = "", int code_ = 0) 
@@ -606,9 +606,15 @@ struct MetaVerdict {
  */
 [[nodiscard]] constexpr MetaVerdict::ConvergenceVerdict
 MetaVerdictThreshold(double score) noexcept {
-    if (score > 0.75) return MetaVerdict::ConvergenceVerdict::CLEAR_CONSENSUS;
-    if (score > 0.60) return MetaVerdict::ConvergenceVerdict::TENDENCY;
-    if (score > 0.40) return MetaVerdict::ConvergenceVerdict::CONTESTED;
+    if (score > 0.75) {
+      return MetaVerdict::ConvergenceVerdict::CLEAR_CONSENSUS;
+    }
+    if (score > 0.60) {
+      return MetaVerdict::ConvergenceVerdict::TENDENCY;
+    }
+    if (score > 0.40) {
+      return MetaVerdict::ConvergenceVerdict::CONTESTED;
+    }
     return MetaVerdict::ConvergenceVerdict::DISSENT;
 }
 
@@ -839,7 +845,8 @@ struct ClusterAssignment {
 
     /// Return all school IDs assigned to `cluster_index`.
     [[nodiscard]] std::vector<std::string> schoolsInCluster(std::size_t cluster_index) const {
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         for (const auto& [school, idx] : school_to_cluster) {
             if (idx == cluster_index) { result.push_back(school); }
         }
@@ -1014,8 +1021,12 @@ public:
             if (it != adapters_.end()) { factor = it->second; }
         }
         const double corrected = factor * raw_score;
-        if (corrected < 0.0) return 0.0;
-        if (corrected > 1.0) return 1.0;
+        if (corrected < 0.0) {
+          return 0.0;
+        }
+        if (corrected > 1.0) {
+          return 1.0;
+        }
         return corrected;
     }
 

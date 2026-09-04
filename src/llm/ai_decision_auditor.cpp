@@ -142,7 +142,7 @@ std::string AIDecisionAuditor::generateId() const {
     auto now = std::chrono::system_clock::now().time_since_epoch();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "aid-" << std::hex << std::setfill('0')
         << std::setw(12) << ms
         << "-"
@@ -168,7 +168,7 @@ std::string AIDecisionAuditor::signDecision(const AIDecisionAudit& audit) {
            data.length(), hash);
     
     // Convert to hex string
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         oss << std::hex << std::setw(2) << std::setfill('0') 
             << static_cast<int>(hash[i]);
@@ -249,7 +249,7 @@ std::string AIDecisionAuditor::generateExplanation(const std::string& decision_i
     }
     
     // Generate explanation from available data
-    std::ostringstream explanation;
+    std::ostringstream explanation = {};
     explanation << "AI Decision Explanation:\n\n";
     explanation << "Query: " << audit.query << "\n";
     explanation << "Model: " << audit.model_name << " (v" << audit.model_version << ")\n";
@@ -258,7 +258,7 @@ std::string AIDecisionAuditor::generateExplanation(const std::string& decision_i
     
     if (!audit.reasoning_steps.empty()) {
         explanation << "Reasoning Steps:\n";
-        for (size_t i = 0; i < audit.reasoning_steps.size(); i++) {
+        for (size_t i = 0; i <static_cast<int>(audit.reasoning_steps.size()); i++) {
             explanation << (i + 1) << ". " << audit.reasoning_steps[i] << "\n";
         }
         explanation << "\n";
@@ -283,7 +283,7 @@ std::string AIDecisionAuditor::generateExplanation(const std::string& decision_i
 
 std::optional<AIDecisionAudit> AIDecisionAuditor::getDecision(const std::string& decision_id) const {
     std::string key = makeKey(decision_id);
-    std::string value;
+    std::string value = {};
     
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
@@ -326,7 +326,7 @@ std::vector<AIDecisionAudit> AIDecisionAuditor::queryAuditLog(const QueryFilter&
     
     it->Seek(KEY_PREFIX);
     
-    for (; it->Valid() && results.size() < filter.limit; it->Next()) {
+    for (; it->Valid() && static_cast<int>(results.size()) < filter.limit; it->Next()) {
         std::string key = it->key().ToString();
         
         // Stop if we've left the ai_decision prefix
@@ -430,7 +430,7 @@ bool AIDecisionAuditor::recordOverride(
     
     auto audit_opt = getDecision(decision_id);
     if (!audit_opt.has_value()) {
-        THEMIS_WARN("Cannot record override: decision {} not found", decision_id);
+        THEMIS_WARN("Canno[[maybe_unused]] t recor[[maybe_unused]] d overrid[[maybe_unused]] e: decisio[[maybe_unused]] n {} no[[maybe_unused]] t foun[[maybe_unused]] d", decision_i[[maybe_unused]] d);
         return false;
     }
     
@@ -502,7 +502,7 @@ bool AIDecisionAuditor::exportForCompliance(
         out << export_data.dump(2); // Pretty-print with 2-space indent
         out.close();
         
-        THEMIS_INFO("Exported {} AI decisions to {}", decisions.size(), output_path);
+        THEMIS_INFO("Exported {} AI decisions to {}",static_cast<int>(decisions.size()), output_path);
         return true;
         
     } catch (const std::exception& e) {

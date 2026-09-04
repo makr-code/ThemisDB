@@ -37,7 +37,9 @@ std::vector<uint8_t> make_random(size_t n, uint32_t seed = 42) {
     std::mt19937 rng(seed);
     std::uniform_int_distribution<int> dist(0, 255);
     std::vector<uint8_t> v(n);
-    for (auto& b : v) b = static_cast<uint8_t>(dist(rng));
+    for (auto& b : v) {
+      b = static_cast<uint8_t>(dist(rng));
+    }
     return v;
 }
 

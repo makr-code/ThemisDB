@@ -113,7 +113,7 @@ public:
     
     // Get statistics
     struct Stats {
-        uint64_t inline_values;
+        uint64_t inline_values = 0;
         uint64_t separated_values;
         uint64_t value_log_size;
     };

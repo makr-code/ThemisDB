@@ -46,7 +46,7 @@ struct TempDirCleanup {
     std::filesystem::path path;
 
     ~TempDirCleanup() noexcept {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(path, ec);
     }
 };

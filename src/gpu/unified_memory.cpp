@@ -413,7 +413,7 @@ std::vector<GPUUnifiedMemoryAllocator::AllocationRecord> GPUUnifiedMemoryAllocat
 uint64_t GPUUnifiedMemoryAllocator::getTenantBytes(const std::string &tenant_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenant_bytes_.find(tenant_id);
-    return (it != tenant_bytes_.end()) ? it->second : 0u;
+    return (it != tenant_bytes_.end()) ? it->second : 0;
 }
 
 // ============================================================================

@@ -131,17 +131,17 @@ class ApplicationCustomStrategy : public IConflictResolutionStrategy {
  public:
   explicit ApplicationCustomStrategy(
       std::shared_ptr<ProcessConflictResolverCallback> callback)
-      : callback_(callback), fallback_(std::make_unique<LastWriteWinsStrategy>()) {}
+      : callback_([[maybe_unused]] callback), fallback_(std::make_unique<LastWriteWinsStrategy>()) {}
 
   std::string ResolveConflict(const ConflictMetadata& metadata) override {
-    if (!callback_) {
+    if ([[maybe_unused]] !callback_) {
       return fallback_->ResolveConflict(metadata);
     }
 
     try {
       // Call application callback with timeout
       auto future = std::async(std::launch::async, [this, &metadata]() {
-        return callback_->Resolve(metadata);
+        return callback_->Resolve([[maybe_unused]] metadata);
       });
 
       const auto kTimeoutMs = std::chrono::milliseconds(5000);
@@ -235,7 +235,7 @@ class ProcessConflictResolverImpl {
    * @param resolver Callback implementing ProcessConflictResolver interface
    * @thread_safe Acquires resolver_mutex_
    */
-  void RegisterResolver(std::shared_ptr<ProcessConflictResolverCallback> resolver);
+  void RegisterResolver([[maybe_unused]] std::shared_ptr<ProcessConflictResolverCallback> resolver);
 
   /**
    * @brief Detect conflicts in a batch of model versions.
@@ -273,7 +273,7 @@ class ProcessConflictResolverImpl {
     } else if (strategy_name == "FWW") {
       return std::make_unique<FirstWriteWinsStrategy>();
     } else if (strategy_name == "custom") {
-      return std::make_unique<ApplicationCustomStrategy>(callback);
+      return std::make_unique<ApplicationCustomStrategy>([[maybe_unused]] callback);
     }
     // Default to LWW
     return std::make_unique<LastWriteWinsStrategy>();
@@ -356,7 +356,7 @@ void ProcessConflictResolverImpl::RegisterResolver(
   std::lock_guard<std::mutex> lock(resolver_mutex_);
   callback_ = resolver;
   strategy_ = CreateStrategy("custom", resolver);
-  utils::Logger::Info("Conflict resolver callback registered");
+  utils::Logger::Info([[maybe_unused]] "Conflict resolver callback registered");
 }
 
 std::vector<ConflictInfo> ProcessConflictResolverImpl::DetectConflictsBatch(
@@ -366,7 +366,7 @@ std::vector<ConflictInfo> ProcessConflictResolverImpl::DetectConflictsBatch(
   std::lock_guard<std::mutex> lock(resolver_mutex_);
 
   for (const auto& [model_id, version_ids] : versions) {
-    if (version_ids.size() > 1) {
+    if (static_cast<int>(version_ids.size()) > 1) {
       ConflictInfo conflict;
       conflict.model_id = model_id;
       conflict.version_ids = version_ids;

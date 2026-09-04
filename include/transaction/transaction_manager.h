@@ -64,7 +64,7 @@ public:
         /// individual ConflictRecord ID.  When a ConflictSet is also created,
         /// this field holds the conflict_set_id for backwards compatibility with
         /// callers that only inspect conflict_id.
-        std::string conflict_id;
+        std::string conflict_id = {};
         /// ID of the ConflictSet that groups all per-key ConflictRecord artifacts
         /// for this failed commit.  Use ConflictManager::getConflictSet() to
         /// retrieve the full list of affected keys and individual conflict IDs.
@@ -159,7 +159,9 @@ public:
          */
         bool isTimedOut() const {
             uint64_t tms = timeout_ms_.load(std::memory_order_relaxed);
-            if (tms == 0) return false;
+            if (tms == 0) {
+              return false;
+            }
             return getDurationMs() >= tms;
         }
 
@@ -557,7 +559,7 @@ public:
         void captureDuration() noexcept;
 
         struct SavepointEntry {
-            std::string name;
+            std::string name = {};
             size_t saga_step_count{0}; ///< SAGA step count at the time the savepoint was created
         };
         std::vector<SavepointEntry> savepoints_; ///< named savepoints in creation order
@@ -579,7 +581,9 @@ public:
          * per-tenant namespace.
          */
         std::string makeNamespacedTable(std::string_view table) const {
-            if (tenant_id_.empty()) return std::string(table);
+            if (tenant_id_.empty()) {
+              return std::string(table);
+            }
             return "tenant:" + tenant_id_ + ":" + std::string(table);
         }
 
@@ -591,7 +595,9 @@ public:
          * Used to physically isolate MVCC keys between tenants.
          */
         std::string makeNamespacedKey(std::string_view key) const {
-            if (tenant_id_.empty()) return std::string(key);
+            if (tenant_id_.empty()) {
+              return std::string(key);
+            }
             return "tenant:" + tenant_id_ + ":" + std::string(key);
         }
 
@@ -738,7 +744,7 @@ public:
     
     // Statistics
     struct Stats {
-        uint64_t total_begun;
+        uint64_t total_begun = 0;
         uint64_t total_committed;
         uint64_t total_aborted;
         uint64_t total_timed_out;  ///< Transactions rolled back due to timeout
@@ -1186,7 +1192,7 @@ public:
         TransactionId other_txn_id{0};
 
         /// The storage key that triggered the conflict.
-        std::string key;
+        std::string key = {};
 
         /// Human-readable description of the conflict kind.
         ///  "read-write"  – this transaction's read range overlaps a write by

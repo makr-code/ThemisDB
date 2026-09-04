@@ -41,17 +41,39 @@ std::string transactionStateToString(TransactionState state) {
 
 /** @brief Parse transaction state enum from persisted string token. */
 TransactionState transactionStateFromString(const std::string& str) {
-    if (str == "INITIATED") return TransactionState::INITIATED;
-    if (str == "PREPARING") return TransactionState::PREPARING;
-    if (str == "PREPARED") return TransactionState::PREPARED;
-    if (str == "PRE_COMMITTING") return TransactionState::PRE_COMMITTING;
-    if (str == "PRE_COMMITTED") return TransactionState::PRE_COMMITTED;
-    if (str == "COMMITTING") return TransactionState::COMMITTING;
-    if (str == "COMMITTED") return TransactionState::COMMITTED;
-    if (str == "ABORTING") return TransactionState::ABORTING;
-    if (str == "ABORTED") return TransactionState::ABORTED;
-    if (str == "COMPENSATING") return TransactionState::COMPENSATING;
-    if (str == "COMPENSATED") return TransactionState::COMPENSATED;
+    if (str == "INITIATED") {
+      return TransactionState::INITIATED;
+    }
+    if (str == "PREPARING") {
+      return TransactionState::PREPARING;
+    }
+    if (str == "PREPARED") {
+      return TransactionState::PREPARED;
+    }
+    if (str == "PRE_COMMITTING") {
+      return TransactionState::PRE_COMMITTING;
+    }
+    if (str == "PRE_COMMITTED") {
+      return TransactionState::PRE_COMMITTED;
+    }
+    if (str == "COMMITTING") {
+      return TransactionState::COMMITTING;
+    }
+    if (str == "COMMITTED") {
+      return TransactionState::COMMITTED;
+    }
+    if (str == "ABORTING") {
+      return TransactionState::ABORTING;
+    }
+    if (str == "ABORTED") {
+      return TransactionState::ABORTED;
+    }
+    if (str == "COMPENSATING") {
+      return TransactionState::COMPENSATING;
+    }
+    if (str == "COMPENSATED") {
+      return TransactionState::COMPENSATED;
+    }
     return TransactionState::INITIATED;
 }
 
@@ -69,11 +91,21 @@ std::string transactionProtocolToString(TransactionProtocol protocol) {
 
 /** @brief Parse transaction protocol enum from persisted string token. */
 TransactionProtocol transactionProtocolFromString(const std::string& str) {
-    if (str == "TWO_PHASE_COMMIT") return TransactionProtocol::TWO_PHASE_COMMIT;
-    if (str == "THREE_PHASE_COMMIT") return TransactionProtocol::THREE_PHASE_COMMIT;
-    if (str == "SAGA") return TransactionProtocol::SAGA;
-    if (str == "PERCOLATOR") return TransactionProtocol::PERCOLATOR;
-    if (str == "CALVIN") return TransactionProtocol::CALVIN;
+    if (str == "TWO_PHASE_COMMIT") {
+      return TransactionProtocol::TWO_PHASE_COMMIT;
+    }
+    if (str == "THREE_PHASE_COMMIT") {
+      return TransactionProtocol::THREE_PHASE_COMMIT;
+    }
+    if (str == "SAGA") {
+      return TransactionProtocol::SAGA;
+    }
+    if (str == "PERCOLATOR") {
+      return TransactionProtocol::PERCOLATOR;
+    }
+    if (str == "CALVIN") {
+      return TransactionProtocol::CALVIN;
+    }
     return TransactionProtocol::TWO_PHASE_COMMIT;
 }
 
@@ -234,7 +266,7 @@ TransactionSnapshotManager::TransactionSnapshotManager(
 }
 
 /** @brief Compose snapshot filepath from directory and snapshot id. */
-std::string TransactionSnapshotManager::getSnapshotPath(uint64_t snapshot_id) const {
+std::string TransactionSnapshotManager::getSnapshotPath([[maybe_unused]] uint64_t snapshot_id) const {
     return snapshot_directory_ + "/transaction_snapshot_" + std::to_string(snapshot_id) + ".json";
 }
 
@@ -245,7 +277,7 @@ std::string TransactionSnapshotManager::calculateChecksum(const nlohmann::json& 
     SHA256(reinterpret_cast<const unsigned char*>(json_str.c_str()), 
            json_str.length(), hash);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
@@ -365,7 +397,7 @@ std::optional<TransactionSnapshot> TransactionSnapshotManager::loadLatestSnapsho
 }
 
 /** @brief Load snapshot by explicit snapshot id. */
-std::optional<TransactionSnapshot> TransactionSnapshotManager::loadSnapshot(uint64_t snapshot_id) {
+std::optional<TransactionSnapshot> TransactionSnapshotManager::loadSnapshot([[maybe_unused]] uint64_t snapshot_id) {
     std::string filepath = getSnapshotPath(snapshot_id);
     return loadSnapshotFromFile(filepath);
 }
@@ -407,7 +439,7 @@ std::vector<uint64_t> TransactionSnapshotManager::listSnapshots() {
 }
 
 /** @brief Delete snapshot file by id. */
-bool TransactionSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
+bool TransactionSnapshotManager::deleteSnapshot([[maybe_unused]] uint64_t snapshot_id) {
     try {
         std::string filepath = getSnapshotPath(snapshot_id);
         if (std::filesystem::exists(filepath)) {
@@ -426,13 +458,13 @@ bool TransactionSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
 void TransactionSnapshotManager::cleanupOldSnapshots() {
     auto snapshots = listSnapshots();
     
-    if (snapshots.size() <= max_snapshots_) {
+    if (static_cast<int>(snapshots.size()) <= max_snapshots_) {
         return;
     }
     
     // Delete oldest snapshots (they're at the end of the sorted list)
-    size_t to_delete = snapshots.size() - max_snapshots_;
-    for (size_t i = snapshots.size() - to_delete; i < snapshots.size(); i++) {
+    size_t to_delete = static_cast<int>(snapshots.size()) - max_snapshots_;
+    for (size_t i = static_cast<int>(snapshots.size()) - to_delete; i <static_cast<int>(snapshots.size()); i++) {
         deleteSnapshot(snapshots[i]);
     }
     

@@ -24,8 +24,8 @@ public:
     const std::string& name() const { return name_; }
     
 private:
-    uint32_t id_;
-    std::string name_;
+    uint32_t id_ = {};
+    std::string name_ = {};
 };
 
 // ============================================================================
@@ -33,7 +33,9 @@ private:
 // ============================================================================
 
 bool PartitionHandle::isValid() const {
-    if (!manager_) return false;
+    if (!manager_) {
+      return false;
+    }
     return manager_->CurrentEpoch(partition_id_) == epoch_;
 }
 
@@ -69,7 +71,7 @@ PartitionHandle PartitionManager::AddPartition(const std::string& name) {
     return PartitionHandle(id, epoch, this);
 }
 
-bool PartitionManager::RemovePartition(uint32_t partition_id) {
+bool PartitionManager::RemovePartition([[maybe_unused]] uint32_t partition_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = partitions_.find(partition_id);
@@ -117,7 +119,7 @@ void PartitionManager::RebuildPartitions() {
         THEMIS_DEBUG("Rebuilt partition: id={}, name={}, epoch={}", id, name, new_epoch);
     }
     
-    THEMIS_INFO("Rebuilt {} partitions with epoch invalidation", partition_list.size());
+    THEMIS_INFO("Rebuilt {} partitions with epoch invalidation",static_cast<int>(partition_list.size()));
 }
 
 void PartitionManager::CompactPartitions() {
@@ -131,7 +133,8 @@ void PartitionManager::CompactPartitions() {
     
     try {
         // Collect partition IDs to compact
-        std::vector<uint32_t> partition_ids;
+        std::vector<uint32_t> partition_ids = {};
+
         for (const auto& [id, metadata] : partitions_) {
             // Bounds check: verify ID is within valid range
             if (id > 0 && id < next_id_) {
@@ -161,7 +164,7 @@ void PartitionManager::CompactPartitions() {
         // Replace partitions with compacted version
         partitions_ = std::move(compacted);
         
-        THEMIS_INFO("Compaction complete: {} partitions", partitions_.size());
+        THEMIS_INFO("Compaction complete: {} partitions",static_cast<int>(partitions_.size()));
     }
     catch (const std::exception& e) {
         THEMIS_ERROR("CompactPartitions failed: {}", e.what());
@@ -169,7 +172,7 @@ void PartitionManager::CompactPartitions() {
     }
 }
 
-uint64_t PartitionManager::CurrentEpoch(uint32_t partition_id) const {
+uint64_t PartitionManager::CurrentEpoch([[maybe_unused]] uint32_t partition_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = epoch_counters_.find(partition_id);
@@ -180,7 +183,7 @@ uint64_t PartitionManager::CurrentEpoch(uint32_t partition_id) const {
     return it->second;
 }
 
-std::shared_ptr<PartitionData> PartitionManager::GetPartitionById(uint32_t partition_id) {
+std::shared_ptr<PartitionData> PartitionManager::GetPartitionById([[maybe_unused]] uint32_t partition_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = partitions_.find(partition_id);
@@ -212,7 +215,8 @@ std::shared_ptr<PartitionData> PartitionManager::GetPartitionByHandle(const Part
 std::vector<uint32_t> PartitionManager::GetPartitionIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<uint32_t> ids;
+    std::vector<uint32_t> ids = {};
+
     for (const auto& [id, metadata] : partitions_) {
         ids.push_back(id);
     }
@@ -222,7 +226,7 @@ std::vector<uint32_t> PartitionManager::GetPartitionIds() const {
 
 size_t PartitionManager::GetPartitionCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return partitions_.size();
+    return static_cast<int>(partitions_.size());
 }
 
 } // namespace themis

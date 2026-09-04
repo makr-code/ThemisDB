@@ -40,7 +40,9 @@ __kernel void computeL2Distance(
     size_t q = get_global_id(0);
     size_t v = get_global_id(1);
     
-    if (q >= numQueries || v >= numVectors) return;
+    if (q >= numQueries || v >= numVectors) {
+      return;
+    }
     
     float sum = 0.0f;
     for (unsigned int d = 0; d < dimension; d++) {
@@ -63,7 +65,9 @@ __kernel void computeCosineDistance(
     size_t q = get_global_id(0);
     size_t v = get_global_id(1);
     
-    if (q >= numQueries || v >= numVectors) return;
+    if (q >= numQueries || v >= numVectors) {
+      return;
+    }
     
     float dotProduct = 0.0f;
     float normQ = 0.0f;
@@ -202,8 +206,8 @@ bool OpenCLVectorBackend::initialize() {
         program_.build(1, &device_);
     } catch (const std::exception& e) {
         // Get detailed build log
-        std::string buildLog;
-        size_t logSize;
+        std::string buildLog = {};
+        size_t logSize = 0;
         if (clGetProgramBuildInfo(program_.get(), device_, CL_PROGRAM_BUILD_LOG, 0, nullptr, &logSize) == CL_SUCCESS && logSize > 0) {
             std::vector<char> log(logSize);
             clGetProgramBuildInfo(program_.get(), device_, CL_PROGRAM_BUILD_LOG, logSize, log.data(), nullptr);

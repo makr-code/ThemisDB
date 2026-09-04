@@ -38,7 +38,8 @@ struct GraphQLQuery {
 struct GraphQLResult {
     std::string data_json;
     std::vector<std::map<std::string, std::string>> errors;
-    std::map<std::string, std::string> extensions;
+    std::map<std::string, std::string> extensions = {};
+
     bool has_errors() const { return !errors.empty(); }
 };
 

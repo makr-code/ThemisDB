@@ -133,11 +133,12 @@ HipaaRuleSet::HipaaRuleSet() {
     rules_.push_back(std::make_shared<HipaaTransmissionSecurity>());
     rules_.push_back(std::make_shared<HipaaRetention>());
 
-    THEMIS_DEBUG("HipaaRuleSet initialized with {} rule evaluators", rules_.size());
+    THEMIS_DEBUG("HipaaRuleSet initialized with {} rule evaluators",static_cast<int>(rules_.size()));
 }
 
 std::vector<HipaaRuleEvalResult> HipaaRuleSet::evaluateRule(const PolicyRule& rule) const {
-    std::vector<HipaaRuleEvalResult> results;
+    std::vector<HipaaRuleEvalResult> results = {};
+
     results.reserve(rules_.size());
 
     for (const auto& hipaa_rule : rules_) {

@@ -41,11 +41,21 @@ std::string ArtifactLifecyclePolicy::stateToString(LifecycleState state) {
 
 std::optional<LifecycleState> ArtifactLifecyclePolicy::stringToState(
     const std::string& state_str) {
-  if (state_str == "READY"  || state_str == "ACTIVE") return LifecycleState::READY;
-  if (state_str == "STALE")       return LifecycleState::STALE;
-  if (state_str == "INVALIDATED") return LifecycleState::INVALIDATED;
-  if (state_str == "REBUILDING")  return LifecycleState::REBUILDING;
-  if (state_str == "FAILED")      return LifecycleState::FAILED;
+  if (state_str == "READY"  || state_str == "ACTIVE") {
+    return LifecycleState::READY;
+  }
+  if (state_str == "STALE") {
+    return LifecycleState::STALE;
+  }
+  if (state_str == "INVALIDATED") {
+    return LifecycleState::INVALIDATED;
+  }
+  if (state_str == "REBUILDING") {
+    return LifecycleState::REBUILDING;
+  }
+  if (state_str == "FAILED") {
+    return LifecycleState::FAILED;
+  }
   return std::nullopt;
 }
 
@@ -81,9 +91,15 @@ std::string ArtifactClassifier::classToString(ArtifactClass klass) {
 
 std::optional<ArtifactClass> ArtifactClassifier::stringToClass(
     const std::string& class_str) {
-  if (class_str == "SOURCE_OF_TRUTH") return ArtifactClass::SOURCE_OF_TRUTH;
-  if (class_str == "DERIVED")         return ArtifactClass::DERIVED;
-  if (class_str == "EPHEMERAL")       return ArtifactClass::EPHEMERAL;
+  if (class_str == "SOURCE_OF_TRUTH") {
+    return ArtifactClass::SOURCE_OF_TRUTH;
+  }
+  if (class_str == "DERIVED") {
+    return ArtifactClass::DERIVED;
+  }
+  if (class_str == "EPHEMERAL") {
+    return ArtifactClass::EPHEMERAL;
+  }
   return std::nullopt;
 }
 
@@ -97,8 +113,12 @@ std::string ArtifactClassifier::semanticToString(TruthSemantic semantic) {
 
 std::optional<TruthSemantic> ArtifactClassifier::stringToSemantic(
     const std::string& semantic_str) {
-  if (semantic_str == "ADVISORY_ONLY") return TruthSemantic::ADVISORY_ONLY;
-  if (semantic_str == "GROUND_TRUTH")  return TruthSemantic::GROUND_TRUTH;
+  if (semantic_str == "ADVISORY_ONLY") {
+    return TruthSemantic::ADVISORY_ONLY;
+  }
+  if (semantic_str == "GROUND_TRUTH") {
+    return TruthSemantic::GROUND_TRUTH;
+  }
   return std::nullopt;
 }
 
@@ -118,10 +138,18 @@ std::string RebuildStateUtils::stateToString(RebuildState state) {
 
 std::optional<RebuildState> RebuildStateUtils::stringToState(
     const std::string& state_str) {
-  if (state_str == "PRISTINE")         return RebuildState::PRISTINE;
-  if (state_str == "PATCHED")          return RebuildState::PATCHED;
-  if (state_str == "PARTIAL_REFITTED") return RebuildState::PARTIAL_REFITTED;
-  if (state_str == "REBUILT")          return RebuildState::REBUILT;
+  if (state_str == "PRISTINE") {
+    return RebuildState::PRISTINE;
+  }
+  if (state_str == "PATCHED") {
+    return RebuildState::PATCHED;
+  }
+  if (state_str == "PARTIAL_REFITTED") {
+    return RebuildState::PARTIAL_REFITTED;
+  }
+  if (state_str == "REBUILT") {
+    return RebuildState::REBUILT;
+  }
   return std::nullopt;
 }
 
@@ -140,9 +168,15 @@ std::string UpdateModeUtils::modeToString(UpdateMode mode) {
 
 std::optional<UpdateMode> UpdateModeUtils::stringToMode(
     const std::string& mode_str) {
-  if (mode_str == "patch")         return UpdateMode::PATCH;
-  if (mode_str == "partial_refit") return UpdateMode::PARTIAL_REFIT;
-  if (mode_str == "rebuild")       return UpdateMode::REBUILD;
+  if (mode_str == "patch") {
+    return UpdateMode::PATCH;
+  }
+  if (mode_str == "partial_refit") {
+    return UpdateMode::PARTIAL_REFIT;
+  }
+  if (mode_str == "rebuild") {
+    return UpdateMode::REBUILD;
+  }
   return std::nullopt;
 }
 
@@ -166,14 +200,30 @@ std::string InvalidationReasonUtils::reasonToString(InvalidationReason reason) {
 
 std::optional<InvalidationReason> InvalidationReasonUtils::stringToReason(
     const std::string& reason_str) {
-  if (reason_str == "UNKNOWN")                  return InvalidationReason::UNKNOWN;
-  if (reason_str == "INTEGRITY_CHECK_FAILED")   return InvalidationReason::INTEGRITY_CHECK_FAILED;
-  if (reason_str == "STALENESS_EXCEEDED")       return InvalidationReason::STALENESS_EXCEEDED;
-  if (reason_str == "SOURCE_INVALIDATED")       return InvalidationReason::SOURCE_INVALIDATED;
-  if (reason_str == "SOURCE_LINEAGE_CORRUPTED") return InvalidationReason::SOURCE_LINEAGE_CORRUPTED;
-  if (reason_str == "POLICY_VIOLATION")         return InvalidationReason::POLICY_VIOLATION;
-  if (reason_str == "ADMIN_REQUESTED")          return InvalidationReason::ADMIN_REQUESTED;
-  if (reason_str == "SHARD_UNAVAILABLE")        return InvalidationReason::SHARD_UNAVAILABLE;
+  if (reason_str == "UNKNOWN") {
+    return InvalidationReason::UNKNOWN;
+  }
+  if (reason_str == "INTEGRITY_CHECK_FAILED") {
+    return InvalidationReason::INTEGRITY_CHECK_FAILED;
+  }
+  if (reason_str == "STALENESS_EXCEEDED") {
+    return InvalidationReason::STALENESS_EXCEEDED;
+  }
+  if (reason_str == "SOURCE_INVALIDATED") {
+    return InvalidationReason::SOURCE_INVALIDATED;
+  }
+  if (reason_str == "SOURCE_LINEAGE_CORRUPTED") {
+    return InvalidationReason::SOURCE_LINEAGE_CORRUPTED;
+  }
+  if (reason_str == "POLICY_VIOLATION") {
+    return InvalidationReason::POLICY_VIOLATION;
+  }
+  if (reason_str == "ADMIN_REQUESTED") {
+    return InvalidationReason::ADMIN_REQUESTED;
+  }
+  if (reason_str == "SHARD_UNAVAILABLE") {
+    return InvalidationReason::SHARD_UNAVAILABLE;
+  }
   return std::nullopt;
 }
 
@@ -269,8 +319,12 @@ double ArtifactManifest::getFreshnessScore(int64_t now_unix_sec) const {
   }
 
   int64_t age_sec = now_unix_sec - last_verified_unix_sec;
-  if (age_sec < 0) age_sec = 0;
-  if (age_sec > staleness_threshold_sec) age_sec = staleness_threshold_sec;
+  if (age_sec < 0) {
+    age_sec = 0;
+  }
+  if (age_sec > staleness_threshold_sec) {
+    age_sec = staleness_threshold_sec;
+  }
 
   return 1.0 - static_cast<double>(age_sec) / static_cast<double>(staleness_threshold_sec);
 }
@@ -302,7 +356,7 @@ bool ArtifactManifest::isCorrupted() const {
   const std::string serialized = j.dump();
   const std::size_t hash_val   = std::hash<std::string>{}(serialized);
 
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << std::hex << hash_val;
   return oss.str() != manifest_hash;
 }
@@ -382,15 +436,21 @@ std::optional<ArtifactManifest> ArtifactManifest::fromJSON(
       manifest.artifact_id = j["artifact_id"].get<std::string>();
     if (j.contains("artifact_class")) {
       auto ac = ArtifactClassifier::stringToClass(j["artifact_class"].get<std::string>());
-      if (ac) manifest.artifact_class = *ac;
+      if (ac) {
+        manifest.artifact_class = *ac;
+      }
     }
     if (j.contains("truth_semantic")) {
       auto ts = ArtifactClassifier::stringToSemantic(j["truth_semantic"].get<std::string>());
-      if (ts) manifest.truth_semantic = *ts;
+      if (ts) {
+        manifest.truth_semantic = *ts;
+      }
     }
     if (j.contains("lifecycle_state")) {
       auto ls = ArtifactLifecyclePolicy::stringToState(j["lifecycle_state"].get<std::string>());
-      if (ls) manifest.lifecycle_state = *ls;
+      if (ls) {
+        manifest.lifecycle_state = *ls;
+      }
     }
 
     // Versioning & Integrity
@@ -434,15 +494,21 @@ std::optional<ArtifactManifest> ArtifactManifest::fromJSON(
     // Rebuild & Update Tracking
     if (j.contains("rebuild_state")) {
       auto rs = RebuildStateUtils::stringToState(j["rebuild_state"].get<std::string>());
-      if (rs) manifest.rebuild_state = *rs;
+      if (rs) {
+        manifest.rebuild_state = *rs;
+      }
     }
     if (j.contains("update_mode")) {
       auto um = UpdateModeUtils::stringToMode(j["update_mode"].get<std::string>());
-      if (um) manifest.update_mode = *um;
+      if (um) {
+        manifest.update_mode = *um;
+      }
     }
     if (j.contains("invalidation_reason")) {
       auto ir = InvalidationReasonUtils::stringToReason(j["invalidation_reason"].get<std::string>());
-      if (ir) manifest.invalidation_reason = *ir;
+      if (ir) {
+        manifest.invalidation_reason = *ir;
+      }
     }
 
     // Provenance & Reconstruction
@@ -492,7 +558,7 @@ std::optional<ArtifactManifest> ArtifactManifest::fromJSON(
 }
 
 std::string ArtifactManifest::toYAML() const {
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << "# ArtifactManifest\n";
   oss << "artifact_id: "           << artifact_id << "\n";
   oss << "version: "               << version << "\n";
@@ -528,7 +594,7 @@ std::optional<ArtifactManifest> ArtifactManifest::fromYAML(
   // Parse simple "key: value" YAML line-by-line into a JSON object
   json j;
   std::istringstream iss(yaml_str);
-  std::string line;
+  std::string line = {};
   const auto isWhitespace = [](char c) noexcept {
     return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v';
   };
@@ -584,9 +650,13 @@ std::optional<ArtifactManifest> ArtifactManifest::fromYAML(
   };
 
   while (std::getline(iss, line)) {
-    if (line.empty() || line[0] == '#') continue;
+    if (line.empty() || line[0] == '#') {
+      continue;
+    }
     const std::size_t colon = line.find(':');
-    if (colon == std::string::npos) continue;
+    if (colon == std::string::npos) {
+      continue;
+    }
 
     std::string key   = line.substr(0, colon);
     std::string value = line.substr(colon + 1);

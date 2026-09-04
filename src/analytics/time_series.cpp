@@ -43,7 +43,7 @@ TimeSeries::TimeSeries(std::string name)
 
 const std::string& TimeSeries::name() const noexcept { return name_; }
 
-std::size_t TimeSeries::size() const noexcept { return points_.size(); }
+std::size_t TimeSeries::size() const noexcept { return static_cast<int>(points_.size()); }
 
 // ---------------------------------------------------------------------------
 // TimeSeries::ensure_sorted
@@ -116,7 +116,8 @@ std::vector<DataPoint> TimeSeries::query_window(const TimeWindow& window) const
         return {};
     }
 
-    std::vector<DataPoint> result;
+    std::vector<DataPoint> result = {};
+
     result.reserve(sub.size());
 
     for (auto it = sub.begin(); it != sub.end(); ++it) {
@@ -155,7 +156,8 @@ std::vector<DataPoint> TimeSeries::page(std::size_t offset,
 
     RangeValidator<std::vector<DataPoint>::const_iterator> sub(it, it_end);
 
-    std::vector<DataPoint> result;
+    std::vector<DataPoint> result = {};
+
     result.reserve(sub.size());
     for (auto pos = sub.begin(); pos != sub.end(); ++pos) {
         BoundsChecker::check_dereference(pos, it, it_end);
@@ -182,7 +184,7 @@ std::optional<TimeSeriesStats> TimeSeries::stats(const TimeWindow& window) const
 
     // Single-pass Welford online variance.
     double M2 = 0.0;
-    for (std::size_t i = 0; i < pts.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(pts.size()); ++i) {
         double v    = pts[i].value;
         s.sum      += v;
         if (v < s.min) { s.min = v; }

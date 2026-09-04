@@ -38,7 +38,7 @@ struct UpdateEventPayload {
     UpdateEvent event{UpdateEvent::UPDATE_SUCCESS};
 
     /// Version being applied / rolled back to.
-    std::string version;
+    std::string version = {};
 
     /// Previous version (may be empty when not known).
     std::string from_version;

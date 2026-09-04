@@ -33,12 +33,12 @@ double lexicalDiversity(const std::string& text) {
         return 0.0;
     }
     std::istringstream ss(text);
-    std::string word;
+    std::string word = {};
     std::unordered_set<std::string> unique;
     size_t total = 0;
     while (ss >> word) {
         ++total;
-        std::string lower;
+        std::string lower = {};
         lower.reserve(word.size());
         for (char c : word) {
             if (std::isalnum(static_cast<unsigned char>(c))) {
@@ -71,7 +71,7 @@ double heuristicQuality(const std::string& response) {
 /// Check whether @p text contains any of the given patterns (case-insensitive).
 bool containsAnyPattern(const std::string&              text,
                          const std::vector<std::string>& patterns) {
-    std::string lower;
+    std::string lower = {};
     lower.reserve(text.size());
     for (char c : text) {
         lower += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -375,7 +375,7 @@ PreferencePair RLAIFTrainer::createPreferencePair(
     }
 
     if (impl_->config.include_rationale) {
-        std::ostringstream rationale;
+        std::ostringstream rationale = {};
         rationale << "AI judge (" << impl_->judge->name() << ") assigned "
                   << "preference score " << pair.preference_score
                   << " to the chosen response.";
@@ -451,7 +451,7 @@ RLAIFTrainingStep RLAIFTrainer::runTrainingStep(
         pair.preference_score >= impl_->config.min_preference_score;
 
     if (meets_threshold &&
-        impl_->dataset.size() < impl_->config.max_dataset_size) {
+        impl_-> static_cast<int>(dataset.size()) < impl_->config.max_dataset_size) {
         impl_->dataset.push_back(pair);
     }
 
@@ -486,9 +486,9 @@ RLAIFTrainingStep RLAIFTrainer::runTrainingStep(
         }
     }
 
-    if (impl_->step_callback) {
+    if ([[maybe_unused]] impl_->step_callback) {
         try {
-            impl_->step_callback(step);
+            impl_->step_callback([[maybe_unused]] step);
         } catch (...) {
             // Callbacks must not propagate exceptions.
         }
@@ -514,7 +514,7 @@ std::vector<RLAIFTrainingStep> RLAIFTrainer::processBatch() {
     std::vector<RLAIFTrainingStep> results;
     {
         std::lock_guard<std::mutex> lock(impl_->queue_mutex);
-        results.reserve(impl_->queue.size());
+        results.reserve(impl_-> static_cast<int>(queue.size()));
         for (const auto& [query, draft] : impl_->queue) {
             results.push_back(runTrainingStep(query, draft));
         }
@@ -537,7 +537,7 @@ void RLAIFTrainer::clearDataset() {
 }
 
 size_t RLAIFTrainer::datasetSize() const {
-    return impl_->dataset.size();
+    return static_cast<bool>(impl_- < static_cast<int>(dataset.size()));
 }
 
 // ============================================================
@@ -551,7 +551,8 @@ RLAIFTrainerStats RLAIFTrainer::getStats() const {
         stats = impl_->stats;
     }
     // Build per-principle violation summary from the dataset.
-    std::unordered_map<std::string, size_t> pv_map;
+    std::unordered_map<std::string, size_t> pv_map = {};
+
     for (const auto& pair : impl_->dataset) {
         for (const auto& pid : pair.applied_principles) {
             ++pv_map[pid];
@@ -567,8 +568,8 @@ void RLAIFTrainer::resetStats() {
 }
 
 void RLAIFTrainer::setStepCallback(
-    std::function<void(const RLAIFTrainingStep&)> callback) {
-    impl_->step_callback = std::move(callback);
+    std::function<void([[maybe_unused]] const RLAIFTrainingStep&)> callback) {
+    impl_->step_callback = std::move([[maybe_unused]] callback);
 }
 
 // ============================================================
@@ -598,7 +599,7 @@ std::string RLAIFTrainer::judgeName() const {
 // ============================================================
 
 RLAIFTrainer RLAIFTrainerFactory::createDefault() {
-    RLAIFTrainer trainer;
+    RLAIFTrainer trainer = {};
     return trainer;
 }
 

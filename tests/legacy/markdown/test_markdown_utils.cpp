@@ -64,7 +64,7 @@ TEST(MarkdownUtilsTest, StripFencesOnlyFences) {
 
 TEST(MarkdownUtilsTest, StripFencesExtractLanguageTag) {
     std::string input = "```sql\nselect * from table\n```";
-    std::string language_tag;
+    std::string language_tag = {};
     std::string result = stripMarkdownFences(input, &language_tag);
     EXPECT_EQ(result, "select * from table");
     EXPECT_EQ(language_tag, "sql");
@@ -72,7 +72,7 @@ TEST(MarkdownUtilsTest, StripFencesExtractLanguageTag) {
 
 TEST(MarkdownUtilsTest, StripFencesExtractJsonTag) {
     std::string input = "```json\n{\"key\": \"value\"}\n```";
-    std::string language_tag;
+    std::string language_tag = {};
     std::string result = stripMarkdownFences(input, &language_tag);
     EXPECT_EQ(result, "{\"key\": \"value\"}");
     EXPECT_EQ(language_tag, "json");
@@ -80,7 +80,7 @@ TEST(MarkdownUtilsTest, StripFencesExtractJsonTag) {
 
 TEST(MarkdownUtilsTest, StripFencesNoLanguageTag) {
     std::string input = "```\nselect * from table\n```";
-    std::string language_tag;
+    std::string language_tag = {};
     std::string result = stripMarkdownFences(input, &language_tag);
     EXPECT_EQ(result, "select * from table");
     EXPECT_EQ(language_tag, "");

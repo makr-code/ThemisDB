@@ -141,26 +141,45 @@ static std::string tableTypeSQL(const std::string& type) {
 
 // Map SchemaManager property type to SQL data type string
 static std::string mapDataType(const std::string& prop_type) {
-    if (prop_type == "integer")  return "BIGINT";
-    if (prop_type == "double")   return "DOUBLE";
-    if (prop_type == "boolean")  return "BOOLEAN";
-    if (prop_type == "binary")   return "BLOB";
-    if (prop_type == "vector")   return "ARRAY";
-    if (prop_type == "null")     return "NULL";
+    if (prop_type == "integer") {
+      return "BIGINT";
+    }
+    if (prop_type == "double") {
+      return "DOUBLE";
+    }
+    if (prop_type == "boolean") {
+      return "BOOLEAN";
+    }
+    if (prop_type == "binary") {
+      return "BLOB";
+    }
+    if (prop_type == "vector") {
+      return "ARRAY";
+    }
+    if (prop_type == "null") {
+      return "NULL";
+    }
     return "VARCHAR";  // string and unknown default
 }
 
 // Map index type to SQL INDEX_TYPE string
 static std::string mapIndexType(const std::string& idx_type) {
-    if (idx_type == "range")    return "BTREE";
-    if (idx_type == "geo")      return "SPATIAL";
-    if (idx_type == "fulltext") return "FULLTEXT";
+    if (idx_type == "range") {
+      return "BTREE";
+    }
+    if (idx_type == "geo") {
+      return "SPATIAL";
+    }
+    if (idx_type == "fulltext") {
+      return "FULLTEXT";
+    }
     return "HASH";
 }
 
 std::vector<ISTable> InformationSchema::getTables() const {
     auto tables = schema_mgr_.getAllTables();
-    std::vector<ISTable> result;
+    std::vector<ISTable> result = {};
+
     result.reserve(tables.size());
 
     for (const auto& t : tables) {

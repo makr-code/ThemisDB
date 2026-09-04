@@ -15,7 +15,7 @@ using json = nlohmann::json;
 
 namespace themis::llm {
 
-InMemorySSMStateStore::InMemorySSMStateStore(size_t max_snapshots_per_session)
+InMemorySSMStateStore::InMemorySSMStateStore([[maybe_unused]] size_t max_snapshots_per_session)
     : max_snapshots_per_session_(max_snapshots_per_session) {}
 
 bool InMemorySSMStateStore::checkpoint(const std::string& session_id,
@@ -38,7 +38,7 @@ bool InMemorySSMStateStore::checkpoint(const std::string& session_id,
     snapshots.push_back(snapshot);
 
     // Keep only most recent N snapshots
-    if (snapshots.size() > max_snapshots_per_session_) {
+    if (static_cast<int>(snapshots.size()) > max_snapshots_per_session_) {
         // Sort by HLC timestamp (ascending) and remove oldest
         std::sort(snapshots.begin(), snapshots.end(),
                   [](const SSMStateSnapshot& a, const SSMStateSnapshot& b) {
@@ -92,7 +92,7 @@ bool InMemorySSMStateStore::invalidate(const std::string& session_id) {
     return true;
 }
 
-uint64_t InMemorySSMStateStore::compact(uint64_t retention_window_ms) {
+uint64_t InMemorySSMStateStore::compact([[maybe_unused]] uint64_t retention_window_ms) {
     std::lock_guard<std::mutex> lock(mu_);
 
     uint64_t deleted_count = 0;

@@ -48,7 +48,7 @@ RetryStatistics TransactionRetryManager::getStatistics() const {
 }
 
 CircuitState TransactionRetryManager::getCircuitState() const {
-    std::string alert_message;
+    std::string alert_message = {};
     bool state_changed = false;
     CircuitState current_state;
     {
@@ -82,9 +82,9 @@ void TransactionRetryManager::resetStatistics() {
     stats_ = RetryStatistics();
 }
 
-void TransactionRetryManager::setAlertCallback(AlertCallback callback) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
-    alert_callback_ = std::move(callback);
+void TransactionRetryManager::setAlertCallback([[maybe_unused]] AlertCallback callback) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+    alert_callback_ = std::move([[maybe_unused]] callback);
 }
 
 ErrorType TransactionRetryManager::classifyError(const std::string& error_message) {
@@ -168,20 +168,20 @@ bool TransactionRetryManager::isRetryable(ErrorType error_type) {
     switch (error_type) {
         // Retryable
         case ErrorType::WRITE_CONFLICT:
-        case ErrorType::TIMEOUT:
-        case ErrorType::NETWORK_ERROR:
-        case ErrorType::RESOURCE_EXHAUSTED:
-        case ErrorType::SERVICE_UNAVAILABLE:
+        [[fallthrough]];\n        case ErrorType::TIMEOUT:
+        [[fallthrough]];\n        case ErrorType::NETWORK_ERROR:
+        [[fallthrough]];\n        case ErrorType::RESOURCE_EXHAUSTED:
+        [[fallthrough]];\n        case ErrorType::SERVICE_UNAVAILABLE:
             return true;
         
         // Non-retryable
         case ErrorType::CONSTRAINT_VIOLATION:
-        case ErrorType::INVALID_ARGUMENT:
-        case ErrorType::NOT_FOUND:
-        case ErrorType::PERMISSION_DENIED:
-        case ErrorType::DATA_CORRUPTION:
-        case ErrorType::UNKNOWN:
-        default:
+        [[fallthrough]];\n        case ErrorType::INVALID_ARGUMENT:
+        [[fallthrough]];\n        case ErrorType::NOT_FOUND:
+        [[fallthrough]];\n        case ErrorType::PERMISSION_DENIED:
+        [[fallthrough]];\n        case ErrorType::DATA_CORRUPTION:
+        [[fallthrough]];\n        case ErrorType::UNKNOWN:
+        [[fallthrough]];\n        default:
             return false;
     }
 }
@@ -218,14 +218,19 @@ uint32_t TransactionRetryManager::calculateDelay(size_t attempt, const RetryPoli
             }
             break;
         }
-        
+         
         case BackoffStrategy::LINEAR:
             // delay = base * (attempt + 1)
             delay = base_delay * static_cast<uint32_t>(attempt + 1);
             break;
-        
+         
         case BackoffStrategy::FIXED:
             // delay = base (constant)
+            delay = base_delay;
+            break;
+         
+        default:
+            // Unknown strategy, use FIXED
             delay = base_delay;
             break;
     }
@@ -248,7 +253,7 @@ void TransactionRetryManager::recordSuccess() {
         return;
     }
 
-    std::string alert_message;
+    std::string alert_message = {};
     bool state_changed = false;
     {
         std::lock_guard<std::mutex> lock(circuit_mutex_);
@@ -272,7 +277,7 @@ void TransactionRetryManager::recordFailure() {
         return;
     }
 
-    std::string alert_message;
+    std::string alert_message = {};
     bool state_changed = false;
     CircuitState new_state = CircuitState::HEALTHY;
     {
@@ -301,9 +306,9 @@ void TransactionRetryManager::recordFailure() {
 }
 
 bool TransactionRetryManager::isCircuitOpen() const {
-    std::string alert_message;
+    std::string alert_message = {};
     bool state_changed = false;
-    bool open;
+    bool open = {};
     {
         std::lock_guard<std::mutex> lock(circuit_mutex_);
 
@@ -354,7 +359,7 @@ bool TransactionRetryManager::transitionCircuitState(CircuitState new_state, std
         }
     };
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Circuit breaker state transition: "
         << state_to_string(old_state) << " -> " << state_to_string(new_state)
         << " (consecutive_failures: " << consecutive_failures_ << ")";
@@ -365,11 +370,11 @@ bool TransactionRetryManager::transitionCircuitState(CircuitState new_state, std
 void TransactionRetryManager::invokeAlertCallback(CircuitState state, const std::string& message) const {
     AlertCallback callback;
     {
-        std::lock_guard<std::mutex> lock(callback_mutex_);
+        std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
         callback = alert_callback_;
     }
 
-    if (callback) {
+    if ([[maybe_unused]] callback) {
         try {
             callback(state, message);
         } catch (...) {

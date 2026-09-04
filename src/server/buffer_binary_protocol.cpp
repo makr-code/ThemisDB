@@ -43,7 +43,7 @@ BufferBinaryProtocolHandler::~BufferBinaryProtocolHandler() {
 
 void BufferBinaryProtocolHandler::start() {
     if (running_) {
-        THEMIS_WARN("BufferBinaryProtocolHandler already running");
+        THEMIS_WARN([[maybe_unused]] "BufferBinaryProtocolHandler already running");
         return;
     }
     
@@ -76,7 +76,7 @@ void BufferBinaryProtocolHandler::start() {
     graph_buffer_->start();
     
     running_ = true;
-    THEMIS_INFO("BufferBinaryProtocolHandler started");
+    THEMIS_INFO([[maybe_unused]] "BufferBinaryProtocolHandler started");
 }
 
 void BufferBinaryProtocolHandler::stop() {
@@ -96,7 +96,7 @@ void BufferBinaryProtocolHandler::stop() {
     }
     
     running_ = false;
-    THEMIS_INFO("BufferBinaryProtocolHandler stopped");
+    THEMIS_INFO([[maybe_unused]] "BufferBinaryProtocolHandler stopped");
 }
 
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleMessage(
@@ -205,7 +205,7 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleTSPutBufferedBatch(
         packer.pack("buffered_count");
         packer.pack(buffered_count);
         
-        std::vector<uint8_t> response_payload(sbuf.data(), sbuf.data() + sbuf.size());
+        std::vector<uint8_t> response_payload(sbuf.data(), sbuf.data() + static_cast<int>(sbuf.size()) );
         return createResponse(STATUS_SUCCESS, response_payload);
     } catch (const std::exception& e) {
         return createErrorResponse(STATUS_MALFORMED_PAYLOAD, e.what());
@@ -361,7 +361,7 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleBufferStats(
         packer.pack("current_buffer_size");
         packer.pack(graph_stats.current_buffer_size);
         
-        std::vector<uint8_t> response_payload(sbuf.data(), sbuf.data() + sbuf.size());
+        std::vector<uint8_t> response_payload(sbuf.data(), sbuf.data() + static_cast<int>(sbuf.size()) );
         return createResponse(STATUS_SUCCESS, response_payload);
     } catch (const std::exception& e) {
         return createErrorResponse(STATUS_PROCESSING_ERROR, e.what());
@@ -403,7 +403,7 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleBufferFlush(
         packer.pack("flushed_count");
         packer.pack(total_flushed);
         
-        std::vector<uint8_t> response_payload(sbuf.data(), sbuf.data() + sbuf.size());
+        std::vector<uint8_t> response_payload(sbuf.data(), sbuf.data() + static_cast<int>(sbuf.size()) );
         return createResponse(STATUS_SUCCESS, response_payload);
     } catch (const std::exception& e) {
         return createErrorResponse(STATUS_MALFORMED_PAYLOAD, e.what());

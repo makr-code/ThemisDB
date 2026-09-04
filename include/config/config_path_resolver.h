@@ -283,8 +283,8 @@ public:
      * values are actually in use.
      */
     struct CacheConfig {
-        size_t capacity;
-        int    ttl_seconds;
+        size_t capacity = 0;
+        int    ttl_seconds = {};
     };
 
     /**

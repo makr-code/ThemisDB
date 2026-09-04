@@ -648,8 +648,12 @@ public:
         int64_t d1 = args[0].get<int64_t>();
         int64_t d2 = args[1].get<int64_t>();
         
-        if (d1 < d2) return -1;
-        if (d1 > d2) return 1;
+        if (d1 < d2) {
+          return -1;
+        }
+        if (d1 > d2) {
+          return 1;
+        }
         return 0;
     }
 };
@@ -764,7 +768,7 @@ private:
         std::time_t seconds = static_cast<std::time_t>(ms / 1000);
         std::tm* tm = std::gmtime(&seconds);
         
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << std::put_time(tm, "%Y-%m-%dT%H:%M:%SZ");
         return ss.str();
     }
@@ -1075,7 +1079,7 @@ public:
             -args[1].get<int64_t>(),
             args[2]
         };
-        DateAddFunction add;
+        DateAddFunction add = {};
         return add.execute(addArgs, FunctionContext());
     }
 };
@@ -1217,7 +1221,7 @@ public:
         std::time_t seconds = static_cast<std::time_t>(ts / 1000);
         std::tm* tm = std::gmtime(&seconds);
         
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << std::put_time(tm, format.c_str());
         return ss.str();
     }
@@ -1552,7 +1556,8 @@ public:
         }
         
         // Build holiday set
-        std::set<int64_t> holidays;
+        std::set<int64_t> holidays = {};
+
         if (args.size() > 2 && args[2].is_array()) {
             for (const auto& h : args[2]) {
                 // Normalize to day start
@@ -1618,7 +1623,8 @@ public:
         int64_t workdays = args[1].get<int64_t>();
         
         // Build holiday set
-        std::set<int64_t> holidays;
+        std::set<int64_t> holidays = {};
+
         if (args.size() > 2 && args[2].is_array()) {
             for (const auto& h : args[2]) {
                 int64_t dayMs = (h.get<int64_t>() / (24 * 60 * 60 * 1000)) * (24 * 60 * 60 * 1000);
@@ -1882,7 +1888,9 @@ public:
         // February in leap year
         if (month == 2) {
             bool isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-            if (isLeap) days = 29;
+            if (isLeap) {
+              days = 29;
+            }
         }
         
         return days;
@@ -1924,7 +1932,9 @@ public:
         // Calculate days to subtract
         int currentDay = tm->tm_wday;
         int diff = currentDay - startDay;
-        if (diff < 0) diff += 7;
+        if (diff < 0) {
+          diff += 7;
+        }
         
         // Set to start of day
         tm->tm_hour = 0;
@@ -1971,7 +1981,9 @@ public:
         int days = daysPerMonth[month - 1];
         if (month == 2) {
             bool isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-            if (isLeap) days = 29;
+            if (isLeap) {
+              days = 29;
+            }
         }
         
         tm->tm_mday = days;

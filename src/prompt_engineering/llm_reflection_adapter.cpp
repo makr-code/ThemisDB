@@ -49,7 +49,9 @@ std::string ILLMProviderReflectionAdapter::revise(
     const std::string& original_prompt,
     const std::string& response,
     const std::string& critique) const {
-    if (!llm_) return response;
+    if (!llm_) {
+      return response;
+    }
     const SelfAwareContext ctx = SelfAwareContext::fromResponse(response);
     const std::string revision_prompt =
         builder_.buildRevisionPrompt(original_prompt, response, critique, ctx);
@@ -95,13 +97,19 @@ bool ILLMProviderReflectionAdapter::hasScorer() const noexcept {
 
 double ILLMProviderReflectionAdapter::heuristicScore(
     const std::string& response) const {
-    if (response.empty()) return 0.0;
+    if (response.empty()) {
+      return 0.0;
+    }
 
     double score = 0.5;
 
     const size_t len = response.size();
-    if (len > 200) score += 0.1;
-    if (len > 500) score += 0.1;
+    if (len > 200) {
+      score += 0.1;
+    }
+    if (len > 500) {
+      score += 0.1;
+    }
 
     // Structural rewards.
     auto lower = response;

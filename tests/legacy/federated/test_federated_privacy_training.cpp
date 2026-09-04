@@ -252,7 +252,8 @@ TEST(FederatedPrivacyTraining, FEDERATED10_CommunicationRoundWithinBudget) {
     FederatedImportCoordinator::DifferentialPrivacyManager dp;
 
     // Build a realistic round: 10 participants, 50 gradient statistics each.
-    std::vector<FederatedImportCoordinator::FederatedAggregator::ParticipantUpdate> updates;
+    std::vector<FederatedImportCoordinator::FederatedAggregator::ParticipantUpdate> updates = {};
+
     for (int i = 0; i < 10; ++i) {
         json stats;
         for (int g = 0; g < 50; ++g) {
@@ -291,8 +292,8 @@ TEST(FederatedPrivacyTraining, FEDERATEDBENCH01_TenNodeConvergenceVsCentralized)
     FederatedImportCoordinator::FederatedAggregator aggregator;
 
     struct Sample {
-        double x;
-        double y;
+        double x = 0;
+        double y = {};
     };
 
     // Deterministic synthetic regression data: y = 2x + 1.

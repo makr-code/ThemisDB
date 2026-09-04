@@ -46,7 +46,7 @@ static BaseEntity makeEntity(const std::string& pk, const std::vector<float>& em
 struct IncrementalReindexFixture : ::testing::Test {
     static constexpr int kDim = 8;
 
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<RocksDBWrapper>    db;
     std::unique_ptr<VectorIndexManager> vim;
 
@@ -227,7 +227,7 @@ namespace {
 struct MaintenanceFixture : ::testing::Test {
     static constexpr int kDim = 8;
 
-    std::string db_path;
+    std::string db_path = {};
     std::shared_ptr<RocksDBWrapper>          db;   // shared for IndexMaintenanceManager
     std::shared_ptr<VectorIndexManager>      vim;
     std::unique_ptr<IndexMaintenanceManager> maint;

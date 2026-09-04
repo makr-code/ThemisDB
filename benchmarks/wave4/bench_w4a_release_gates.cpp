@@ -351,7 +351,9 @@ static void BM_W4A_06_MixedConcurrent(benchmark::State& state) {
             });
         }
 
-        for (auto& th : threads) th.join();
+        for (auto& th : threads) {
+          th.join();
+        }
     }
 
     state.SetItemsProcessed(total_ops.load());

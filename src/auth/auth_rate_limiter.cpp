@@ -434,7 +434,7 @@ bool AuthRateLimiter::unlockAccount(const std::string &user_id) {
 
 uint32_t AuthRateLimiter::getRetryAfter(const std::string &ip_address) const {
     std::shared_ptr<IRateLimiterBackend> backend;
-    size_t max_per_min;
+    size_t max_per_min = {};
     {
         std::shared_lock<std::shared_mutex> lock(stats_mutex_);
         backend     = backend_;
@@ -454,13 +454,13 @@ bool AuthRateLimiter::isWhitelisted(const std::string &ip_address) const {
     return ip_rate_limiter_->isWhitelisted(ip_address);
 }
 
-void AuthRateLimiter::setAnomalyCallback(AuthAnomalyCallback callback) {
-    std::unique_lock<std::shared_mutex> lock(callback_mutex_);
-    anomaly_callback_ = std::move(callback);
+void AuthRateLimiter::setAnomalyCallback([[maybe_unused]] AuthAnomalyCallback callback) {
+    std::unique_lock<std::shared_mutex> lock([[maybe_unused]] callback_mutex_);
+    anomaly_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void AuthRateLimiter::setAuditLogger(utils::AuditLogger *logger) {
-    std::unique_lock<std::shared_mutex> lock(callback_mutex_);
+    std::unique_lock<std::shared_mutex> lock([[maybe_unused]] callback_mutex_);
     audit_logger_ = logger;
 }
 
@@ -470,7 +470,7 @@ void AuthRateLimiter::setBackend(std::shared_ptr<IRateLimiterBackend> backend) {
 }
 
 void AuthRateLimiter::setMetrics(AuthMetrics *metrics) {
-    std::unique_lock<std::shared_mutex> lock(callback_mutex_);
+    std::unique_lock<std::shared_mutex> lock([[maybe_unused]] callback_mutex_);
     metrics_ = metrics;
 }
 
@@ -512,7 +512,7 @@ static std::string outcomeToString(CredentialStuffingOutcome outcome) {
     }
 }
 
-/*static*/ CredentialStuffingOutcome AuthRateLimiter::outcomeFromBreachCount(uint32_t count) {
+/*static*/ CredentialStuffingOutcome AuthRateLimiter::outcomeFromBreachCount([[maybe_unused]] uint32_t count) {
     if (count >= 3) {
         return CredentialStuffingOutcome::ACCOUNT_LOCKED_24H;
     }
@@ -651,7 +651,7 @@ void AuthRateLimiter::fireAuthAnomaly(AuthAnomalyEvent::Type type, const std::st
     utils::AuditLogger *al = nullptr;
     AuthMetrics *met       = nullptr;
     {
-        std::shared_lock<std::shared_mutex> lock(callback_mutex_);
+        std::shared_lock<std::shared_mutex> lock([[maybe_unused]] callback_mutex_);
         cb  = anomaly_callback_;
         al  = audit_logger_;
         met = metrics_;
@@ -660,7 +660,7 @@ void AuthRateLimiter::fireAuthAnomaly(AuthAnomalyEvent::Type type, const std::st
         AuthAnomalyEvent ev{type, ip, user_id, detail, std::chrono::system_clock::now(), cs_outcome};
         cb(ev);
     }
-    if (met && type == AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED) {
+    if ([[maybe_unused]] met && type == AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED) {
         met->recordCredentialStuffingAttempt(user_id, ip, outcomeToString(cs_outcome));
     }
     if (al) {
@@ -709,7 +709,7 @@ bool AuthRateLimiter::trackCredentialStuffing(const std::string &ip, const std::
     entry.attempt_times.push_back(now);
     entry.usernames.insert(user_id);
 
-    if (!entry.alerted && entry.usernames.size() >= cfg.credential_stuffing_user_threshold) {
+    if (!entry.alerted && static_cast<int>(entry.usernames.size()) >= cfg.credential_stuffing_user_threshold) {
         entry.alerted = true;
         // Caller fires the anomaly event outside the lock.
         return true;
@@ -791,7 +791,7 @@ void AuthRateLimiter::cleanup() {
     lockout_manager_->cleanup();
 
     // Prune stale credential-stuffing state for IPs whose rolling window has expired.
-    size_t stuffing_window_secs;
+    size_t stuffing_window_secs = {};
     {
         std::shared_lock<std::shared_mutex> lock(stats_mutex_);
         stuffing_window_secs = config_.credential_stuffing_window_seconds;

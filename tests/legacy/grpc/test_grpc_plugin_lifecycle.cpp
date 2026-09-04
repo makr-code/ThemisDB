@@ -215,7 +215,9 @@ TEST(GRPCServerTest, TLSWithBadCertPathThrowsOnStart) {
         started = false;
     }
     EXPECT_FALSE(started);
-    if (server.isRunning()) server.stop();
+    if (server.isRunning()) {
+      server.stop();
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

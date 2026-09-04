@@ -160,7 +160,7 @@ TEST_F(AuditExportStressTest, AtomicityUnderConcurrentExports) {
     const int exports_per_thread = 10;
     std::vector<std::thread> threads;
     std::vector<std::string> exported_paths;
-    std::mutex paths_mu;
+    std::mutex paths_mu = {};
 
     for (int t = 0; t < num_threads; ++t) {
         threads.emplace_back([this, t, &paths_mu, &exported_paths]() {

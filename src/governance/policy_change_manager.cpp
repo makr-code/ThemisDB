@@ -31,7 +31,7 @@ nlohmann::json PolicyDependency::toJson() const {
 }
 
 PolicyDependency PolicyDependency::fromJson(const nlohmann::json& j) {
-    PolicyDependency d;
+    PolicyDependency d = {};
     if (j.contains("dependent_rule_id")) {
         d.dependent_rule_id = j["dependent_rule_id"].get<std::string>();
     }
@@ -68,7 +68,7 @@ nlohmann::json RollbackSafetyReport::toJson() const {
 }
 
 RollbackSafetyReport RollbackSafetyReport::fromJson(const nlohmann::json& j) {
-    RollbackSafetyReport r;
+    RollbackSafetyReport r = {};
     if (j.contains("rule_id")) {
         r.rule_id = j["rule_id"].get<std::string>();
     }
@@ -117,7 +117,7 @@ nlohmann::json RollbackOperation::toJson() const {
 }
 
 RollbackOperation RollbackOperation::fromJson(const nlohmann::json& j) {
-    RollbackOperation o;
+    RollbackOperation o = {};
     if (j.contains("operation_id")) {
         o.operation_id = j["operation_id"].get<std::string>();
     }
@@ -248,7 +248,7 @@ RollbackSafetyReport PolicyChangeManager::checkRollbackSafety(
     if (!affected.empty()) {
         report.safety_level = RollbackSafetyLevel::WARNING;
         report.warnings.push_back(
-            fmt::format("{} rules depend on this policy", affected.size())
+            fmt::format("{} rules depend on this policy",static_cast<int>(affected.size()))
         );
     }
     
@@ -580,7 +580,7 @@ bool PolicyChangeManager::hasCircularDependency(const std::string& rule_id) cons
     std::unordered_set<std::string> visited;
     std::unordered_set<std::string> rec_stack;
     
-    std::function<bool(const std::string&)> hasCycle = [&](const std::string& node) -> bool {
+    std::function<bool(const std::string&)> hasCycle = [&]([[maybe_unused]] const std::string& node) -> bool {
         visited.insert(node);
         rec_stack.insert(node);
         

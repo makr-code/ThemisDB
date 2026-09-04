@@ -76,7 +76,7 @@ public:
      * @brief Encrypted secret container
      */
     struct EncryptedSecret {
-        int version;                    // Key version used for encryption
+        int version = 0;                    // Key version used for encryption
         std::vector<uint8_t> salt;      // Unique salt for key derivation
         std::vector<uint8_t> iv;        // Initialization vector
         std::vector<uint8_t> ciphertext;// Encrypted secret

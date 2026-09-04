@@ -46,7 +46,9 @@ struct CollectedEvents {
     bool hasType(AnomalyEvent::Type t) const {
         std::lock_guard<std::mutex> l(mtx);
         for (const auto& e : events)
-            if (e.type == t) return true;
+            if (e.type == t) {
+              return true;
+            }
         return false;
     }
 };
@@ -199,7 +201,9 @@ TEST_F(AdaptiveAnomalyTest, AdaptiveEventContainsCorrectIP) {
     });
 
     const std::string ip = "172.16.0.42";
-    for (int i = 0; i < 10; i++) rl.allowRequest(ip);
+    for (int i = 0; i < 10; i++) {
+      rl.allowRequest(ip);
+    }
 
     if (collected.size() > 0) {
         EXPECT_EQ(collected.at(0).ip, ip);
@@ -212,11 +216,15 @@ TEST_F(AdaptiveAnomalyTest, PenaltyFiredOnlyOnce) {
     RateLimiter rl(cfg);
     std::atomic<int> count{0};
     rl.setAnomalyCallback([&](const AnomalyEvent& ev) {
-        if (ev.type == AnomalyEvent::Type::ADAPTIVE_THROTTLE_TRIGGERED) count++;
+        if (ev.type == AnomalyEvent::Type::ADAPTIVE_THROTTLE_TRIGGERED) {
+          count++;
+        }
     });
 
     const std::string ip = "192.168.1.1";
-    for (int i = 0; i < 20; i++) rl.allowRequest(ip);
+    for (int i = 0; i < 20; i++) {
+      rl.allowRequest(ip);
+    }
 
     // The penalty should only be recorded the first time it activates
     EXPECT_LE(count.load(), 1)
@@ -228,10 +236,14 @@ TEST_F(AdaptiveAnomalyTest, NoAdaptiveEventWhenDisabled) {
     RateLimiter rl(cfg);
     std::atomic<int> count{0};
     rl.setAnomalyCallback([&](const AnomalyEvent& ev) {
-        if (ev.type == AnomalyEvent::Type::ADAPTIVE_THROTTLE_TRIGGERED) count++;
+        if (ev.type == AnomalyEvent::Type::ADAPTIVE_THROTTLE_TRIGGERED) {
+          count++;
+        }
     });
 
-    for (int i = 0; i < 20; i++) rl.allowRequest("10.1.2.3");
+    for (int i = 0; i < 20; i++) {
+      rl.allowRequest("10.1.2.3");
+    }
 
     EXPECT_EQ(count.load(), 0);
 }
@@ -247,7 +259,9 @@ TEST(AnomalyCallbackThreadSafetyTest, ConcurrentBlacklistingDoesNotCrash) {
 
     std::atomic<int> count{0};
     rl.setAnomalyCallback([&](const AnomalyEvent& ev) {
-        if (ev.type == AnomalyEvent::Type::IP_BLACKLISTED) count++;
+        if (ev.type == AnomalyEvent::Type::IP_BLACKLISTED) {
+          count++;
+        }
     });
 
     constexpr int kThreads = 8;
@@ -262,7 +276,9 @@ TEST(AnomalyCallbackThreadSafetyTest, ConcurrentBlacklistingDoesNotCrash) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(count.load(), kThreads * kIpsPerThread);
 }

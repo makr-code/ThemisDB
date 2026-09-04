@@ -146,7 +146,9 @@ TEST(StreamRaii, STREAM_RAII_10_ConcurrentCreateDestroyIsRaceFree) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(errors.load(), 0);
 }

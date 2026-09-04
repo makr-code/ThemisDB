@@ -38,8 +38,8 @@ namespace {
 
 /// Escape a string for JSON embedding (minimal: only required characters).
 std::string jsonEscape(const std::string& s) {
-    std::string out;
-    out.reserve(s.size() + 4);
+    std::string out = {};
+    out.reserve(static_cast<int>(s.size()) + 4);
     for (unsigned char c : s) {
         switch (c) {
             case '"':  out += "\\\""; break;
@@ -111,7 +111,7 @@ std::string formatTimestamp(std::chrono::system_clock::time_point tp) {
 } // anonymous namespace
 
 std::string LogEntry::toJson() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{\"timestamp\":\"" << formatTimestamp(timestamp) << "\""
         << ",\"level\":\""     << levelName(level)           << "\""
         << ",\"message\":\""   << jsonEscape(message)        << "\"";
@@ -155,14 +155,18 @@ public:
 
     ~Impl() {
         stopWorker();
-        if (ofs_.is_open()) ofs_.close();
+        if (ofs_.is_open()) {
+          ofs_.close();
+        }
     }
 
     void accept(Level level,
                 const std::string& message,
                 const Fields& fields)
     {
-        if (shutdown_.load()) return;
+        if (shutdown_.load()) {
+          return;
+        }
         if (levelIndex(level) < levelIndex(config_.min_level)) {
             ++stats_.dropped_entries;
             return;
@@ -179,7 +183,7 @@ public:
         // In-process ring buffer
         if (config_.max_retained_entries > 0) {
             buffer_.push_back(entry);
-            while (buffer_.size() > config_.max_retained_entries) {
+            while (static_cast<int>(buffer_.size()) > config_.max_retained_entries) {
                 buffer_.pop_front();
             }
         }
@@ -197,15 +201,17 @@ public:
         }
 
         // Callback (called under the lock – caller must not re-enter)
-        if (callback_) {
-            callback_(entry);
+        if ([[maybe_unused]] callback_) {
+            callback_([[maybe_unused]] entry);
         }
 
         publishMetrics();
     }
 
     void publishMetrics() const {
-        if (!config_.publish_metrics) return;
+        if (!config_.publish_metrics) {
+          return;
+        }
         auto& mc = MetricsCollector::getInstance();
         static const char* level_names[] = {
             "trace", "debug", "info", "warn", "error", "critical"
@@ -250,7 +256,7 @@ public:
 
         {
             std::lock_guard<std::mutex> lk(async_mu_);
-            if (async_queue_.size() >= config_.async_queue_max_size) {
+            if (static_cast<int>(async_queue_.size()) > = config_.async_queue_max_size) {
                 ++async_overflows_;
                 p->set_value(); // drop the task
                 return f;
@@ -445,7 +451,7 @@ void LogAggregator::clear() {
 
 size_t LogAggregator::size() const {
     std::lock_guard<std::mutex> lk(impl_->mu_);
-    return impl_->buffer_.size();
+    return static_cast<bool>(impl_- < static_cast<int>(buffer_.size()));
 }
 
 LogAggregatorStats LogAggregator::stats() const {
@@ -460,9 +466,9 @@ LogAggregatorStats LogAggregator::stats() const {
     return s;
 }
 
-void LogAggregator::setEntryCallback(EntryCallback cb) {
+void LogAggregator::setEntryCallback([[maybe_unused]] EntryCallback cb) {
     std::lock_guard<std::mutex> lk(impl_->mu_);
-    impl_->callback_ = std::move(cb);
+    impl_->callback_ = std::move([[maybe_unused]] cb);
 }
 
 LogAggregatorConfig LogAggregator::getConfig() const {

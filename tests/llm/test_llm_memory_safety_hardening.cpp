@@ -61,7 +61,9 @@ class GPUMemoryPool {
     ~GPUAllocation() {
       if (!is_freed_) {
         // Auto-free GPU memory in destructor
-        if (pool_) pool_->free(size_);
+        if (pool_) {
+          pool_->free(size_);
+        }
         is_freed_ = true;
       }
     }
@@ -69,7 +71,7 @@ class GPUMemoryPool {
     size_t getSize() const { return size_; }
    
    private:
-    size_t size_;
+    size_t size_ = {};
     GPUMemoryPool* pool_;
     std::atomic<bool> is_freed_;
   };
@@ -288,7 +290,9 @@ class MovableResource {
   
   MovableResource& operator=(MovableResource&& other) noexcept {
     if (this != &other) {
-      if (data_) delete data_;
+      if (data_) {
+        delete data_;
+      }
       data_ = other.data_;
       other.data_ = nullptr;
     }
@@ -412,7 +416,8 @@ TEST(MemorySafetyHardening, MEM_10_CacheEvictionLockContention) {
 TEST(MemorySafetyHardening, MEM_11_ConcurrentAllocationDeallocation) {
   GPUMemoryPool pool;
   
-  std::vector<std::thread> threads;
+  std::vector<std::thread> threads = {};
+
   for (int i = 0; i < 5; ++i) {
     threads.emplace_back([&pool]() {
       auto alloc = pool.allocate(512);
@@ -796,7 +801,9 @@ TEST(MemorySafetyHardening, EXS_06_StrongExceptionGuarantee) {
   struct Model {
     int state = 0;
     void loadState(int newState) {
-      if (newState < 0) throw std::invalid_argument("Invalid state");
+      if (newState < 0) {
+        throw std::invalid_argument("Invalid state");
+      }
       state = newState;  // Only modified if no exception
     }
   };
@@ -841,12 +848,16 @@ TEST(MemorySafetyHardening, EXS_08_AdapterSequence) {
     bool loaded = false;
     
     void load() {
-      if (loaded) throw std::runtime_error("Already loaded");
+      if (loaded) {
+        throw std::runtime_error("Already loaded");
+      }
       loaded = true;
     }
     
     void unload() {
-      if (!loaded) throw std::runtime_error("Not loaded");
+      if (!loaded) {
+        throw std::runtime_error("Not loaded");
+      }
       loaded = false;
     }
   };
@@ -964,7 +975,7 @@ TEST(MemorySafetyHardening, EXS_14_ShutdownUnderException) {
 // EXS-15: Concurrent Load Operations Exception Safety
 TEST(MemorySafetyHardening, EXS_15_ConcurrentLoadExceptionSafety) {
   struct ThreadSafeModel {
-    std::mutex mutex;
+    std::mutex mutex = {};
     bool loaded = false;
     
     void load() {
@@ -987,7 +998,9 @@ TEST(MemorySafetyHardening, EXS_16_ParameterUpdateRollback) {
     void updateVersion(int newVersion) {
       int oldVersion = version;
       try {
-        if (newVersion < 0) throw std::invalid_argument("Invalid");
+        if (newVersion < 0) {
+          throw std::invalid_argument("Invalid");
+        }
         version = newVersion;
       } catch (...) {
         version = oldVersion;
@@ -1071,7 +1084,9 @@ TEST(MemorySafetyHardening, EXS_21_LoadWithValidation) {
     int version = 0;
     
     void loadVersion(int v) {
-      if (v < 0) throw std::invalid_argument("Bad version");
+      if (v < 0) {
+        throw std::invalid_argument("Bad version");
+      }
       version = v;
     }
   };
@@ -1104,7 +1119,9 @@ TEST(MemorySafetyHardening, EXS_23_StateAfterFailedInit) {
     
     void init() {
       initialized = true;
-      if (true) throw std::runtime_error("Init failed");
+      if (true) {
+        throw std::runtime_error("Init failed");
+      }
     }
   };
   
@@ -1120,7 +1137,7 @@ TEST(MemorySafetyHardening, EXS_23_StateAfterFailedInit) {
 // EXS-24: Concurrent Model Access with Exception
 TEST(MemorySafetyHardening, EXS_24_ConcurrentAccessException) {
   struct Model {
-    std::mutex mu;
+    std::mutex mu = {};
     int value = 0;
     
     void set(int v) {
@@ -1146,13 +1163,17 @@ TEST(MemorySafetyHardening, EXS_25_CompleteLifecycleExceptionSafety) {
     std::unique_ptr<int> data;
     
     void load() {
-      if (loaded) throw std::runtime_error("Already loaded");
+      if (loaded) {
+        throw std::runtime_error("Already loaded");
+      }
       data = std::make_unique<int>(42);
       loaded = true;
     }
     
     void unload() {
-      if (!loaded) throw std::runtime_error("Not loaded");
+      if (!loaded) {
+        throw std::runtime_error("Not loaded");
+      }
       data.reset();
       loaded = false;
     }

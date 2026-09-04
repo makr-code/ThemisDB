@@ -46,7 +46,7 @@ LoRARopeAdapter LoRARopeAdapter::createRandom(
     adapter.scaling = 1.0f;
     
     // Initialize random number generator with small random values
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::normal_distribution<double> dist(0.0, LORA_INIT_STD_DEV);
     
@@ -146,7 +146,8 @@ bool LoRARopeAdapterRegistry::hasAdapter(const std::string& name) const {
 std::vector<std::string> LoRARopeAdapterRegistry::listAdapters() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(adapters_.size());
     
     for (const auto& [name, _] : adapters_) {
@@ -174,7 +175,7 @@ void LoRARopeAdapterRegistry::clear() {
 
 size_t LoRARopeAdapterRegistry::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return adapters_.size();
+    return static_cast<int>(adapters_.size());
 }
 
 // ============================================================================
@@ -221,7 +222,7 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapter(
     // Step 1: features @ A^T -> intermediate (size = rank)
     std::vector<double> intermediate(adapter.rank, 0.0);
     for (size_t r = 0; r < adapter.rank; ++r) {
-        for (size_t i = 0; i < features.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(features.size()); ++i) {
             intermediate[r] += features[i] * adapter.matrix_A[r][i];
         }
     }
@@ -247,7 +248,9 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapter(
         size_t idx_0 = pair_idx * 2;
         size_t idx_1 = pair_idx * 2 + 1;
         
-        if (idx_1 >= rotated.size()) break;
+        if (idx_1 >= static_cast<int>(rotated.size())) {
+          break;
+        }
         
         // Compute additional rotation from LoRA delta
         double delta_theta = delta_features[pair_idx] * static_cast<double>(position);
@@ -269,14 +272,14 @@ std::vector<std::vector<float>> LoRARotaryEmbedding::rotateBatchWithAdapter(
     const std::vector<size_t>& positions,
     const std::string& adapter_name
 ) const {
-    if (embeddings.size() != positions.size()) {
+    if (static_cast<int>(embeddings.size()) != static_cast<int>(positions.size())) {
         throw std::invalid_argument("Embeddings and positions size mismatch");
     }
     
     std::vector<std::vector<float>> results;
     results.reserve(embeddings.size());
     
-    for (size_t i = 0; i < embeddings.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(embeddings.size()); ++i) {
         results.push_back(rotateWithAdapter(embeddings[i], positions[i], adapter_name));
     }
     
@@ -321,7 +324,7 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapterBlend(
         return rotate(embedding, position);  // No adapters, return base rotation
     }
     
-    if (adapter_names.size() != weights.size()) {
+    if (static_cast<int>(adapter_names.size()) != static_cast<int>(weights.size())) {
         throw std::invalid_argument("Adapter names and weights size mismatch");
     }
     
@@ -343,11 +346,13 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapterBlend(
     
     // Weighted average of all adapter rotations
     // Note: adapter rotations already include base rotation, so we blend them directly
-    for (size_t i = 0; i < adapter_names.size(); ++i) {
-        if (normalized_weights[i] <= 0.0f) continue;
+    for (size_t i = 0; i <static_cast<int>(adapter_names.size()); ++i) {
+        if (normalized_weights[i] <= 0.0f) {
+          continue;
+        }
         
         auto adapter_rotation = (i == 0) ? first_rotation : rotateWithAdapter(embedding, position, adapter_names[i]);
-        for (size_t j = 0; j < result.size(); ++j) {
+        for (size_t j = 0; j <static_cast<int>(result.size()); ++j) {
             result[j] += normalized_weights[i] * adapter_rotation[j];
         }
     }
@@ -359,7 +364,7 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapterBlend(
 // Private Helper Methods
 // ============================================================================
 
-std::vector<double> LoRARotaryEmbedding::extractRotationFeatures(size_t position) const {
+std::vector<double> LoRARotaryEmbedding::extractRotationFeatures([[maybe_unused]] size_t position) const {
     // Create a feature vector based on position and base theta values
     // This serves as input to the LoRA matrices
     std::vector<double> features(getConfig().num_rotation_pairs);

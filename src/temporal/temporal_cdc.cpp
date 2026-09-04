@@ -51,10 +51,18 @@ std::string TemporalCDC::changeTypeName(ChangeType ct) {
 }
 
 ChangeType TemporalCDC::changeTypeFromString(const std::string& s) {
-    if (s == "INSERT")          return ChangeType::INSERT;
-    if (s == "UPDATE")          return ChangeType::UPDATE;
-    if (s == "DELETE")          return ChangeType::DELETE;
-    if (s == "VERSION_CREATED") return ChangeType::VERSION_CREATED;
+    if (s == "INSERT") {
+      return ChangeType::INSERT;
+    }
+    if (s == "UPDATE") {
+      return ChangeType::UPDATE;
+    }
+    if (s == "DELETE") {
+      return ChangeType::DELETE;
+    }
+    if (s == "VERSION_CREATED") {
+      return ChangeType::VERSION_CREATED;
+    }
     throw std::invalid_argument("Unknown ChangeType: " + s);
 }
 
@@ -72,7 +80,7 @@ nlohmann::json ChangeEvent::toJson() const {
     return j;
 }
 
-ChangeEvent ChangeEvent::fromJson(const nlohmann::json& j) {
+ChangeEvent ChangeEvent::fromJson([[maybe_unused]] const nlohmann::json& j) {
     ChangeEvent ev;
     ev.type             = TemporalCDC::changeTypeFromString(j.at("type").get<std::string>());
     ev.table_name       = j.at("table_name").get<std::string>();
@@ -102,10 +110,10 @@ TemporalCDC::TemporalCDC(size_t max_log_size, OverflowPolicy policy)
 
 std::string TemporalCDC::subscribeToChanges(
     const std::string& table_name,
-    std::function<void(const ChangeEvent&)> callback) {
+    std::function<void([[maybe_unused]] const ChangeEvent&)> callback) {
 
-    if (!callback) {
-        throw std::invalid_argument("TemporalCDC::subscribeToChanges: callback must not be null");
+    if ([[maybe_unused]] !callback) {
+        throw std::invalid_argument([[maybe_unused]] "TemporalCDC::subscribeToChanges: callback must not be null");
     }
 
     const uint64_t id = next_sub_id_.fetch_add(1, std::memory_order_relaxed);
@@ -123,14 +131,14 @@ bool TemporalCDC::unsubscribe(const std::string& sub_id) {
 
 size_t TemporalCDC::subscriptionCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return subscriptions_.size();
+    return static_cast<int>(subscriptions_.size());
 }
 
 // ============================================================================
 // Event publication
 // ============================================================================
 
-void TemporalCDC::publishEvent(const ChangeEvent& event) {
+void TemporalCDC::publishEvent([[maybe_unused]] const ChangeEvent& event) {
     // Snapshot subscriptions under lock, then dispatch outside lock to avoid
     // holding the mutex during user-supplied callback execution.
     std::vector<std::function<void(const ChangeEvent&)>> callbacks_to_invoke;
@@ -139,7 +147,7 @@ void TemporalCDC::publishEvent(const ChangeEvent& event) {
         std::lock_guard<std::mutex> lk(mutex_);
 
         // Append to ring-buffer log, applying the overflow policy when full
-        if (log_.size() >= max_log_size_) {
+        if (static_cast<int>(log_.size()) > = max_log_size_) {
             // Evict oldest event (front of deque-like buffer) — OVERWRITE policy
             if (overflow_policy_ == OverflowPolicy::DROP) {
                 // DROP: discard the new event, count it
@@ -152,12 +160,12 @@ void TemporalCDC::publishEvent(const ChangeEvent& event) {
             log_.erase(log_.begin());
             overflow_count_.fetch_add(1, std::memory_order_relaxed);
         }
-        log_.push_back(event);
+        log_.push_back([[maybe_unused]] event);
 
         // Collect matching subscribers
         for (const auto& [id, sub] : subscriptions_) {
-            if (sub.table_filter.empty() || sub.table_filter == event.table_name) {
-                callbacks_to_invoke.push_back(sub.callback);
+            if ([[maybe_unused]] sub.table_filter.empty() || sub.table_filter == event.table_name) {
+                callbacks_to_invoke.push_back([[maybe_unused]] sub.callback);
             }
         }
     }
@@ -165,8 +173,8 @@ void TemporalCDC::publishEvent(const ChangeEvent& event) {
     total_published_.fetch_add(1, std::memory_order_relaxed);
 
     // Invoke callbacks outside the lock
-    for (const auto& cb : callbacks_to_invoke) {
-        cb(event);
+    for ([[maybe_unused]] const auto& cb : callbacks_to_invoke) {
+        cb([[maybe_unused]] event);
     }
 }
 
@@ -180,7 +188,8 @@ std::vector<ChangeEvent> TemporalCDC::replayChanges(
 
     std::lock_guard<std::mutex> lk(mutex_);
 
-    std::vector<ChangeEvent> result;
+    std::vector<ChangeEvent> result = {};
+
     for (const auto& ev : log_) {
         if (!table_name.empty() && ev.table_name != table_name) {
             continue;
@@ -199,7 +208,7 @@ std::vector<ChangeEvent> TemporalCDC::replayChanges(
 
 size_t TemporalCDC::logSize() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return log_.size();
+    return static_cast<int>(log_.size());
 }
 
 uint64_t TemporalCDC::totalPublished() const noexcept {
@@ -289,10 +298,18 @@ bool validateSegmentHeaderFile(std::FILE* fd) {
     uint64_t seq = 0;
     uint64_t created = 0;
 
-    if (std::fread(&magic, 4, 1, fd) != 1) return false;
-    if (std::fread(&version, 2, 1, fd) != 1) return false;
-    if (std::fread(&seq, 8, 1, fd) != 1) return false;
-    if (std::fread(&created, 8, 1, fd) != 1) return false;
+    if (std::fread(&magic, 4, 1, fd) != 1) {
+      return false;
+    }
+    if (std::fread(&version, 2, 1, fd) != 1) {
+      return false;
+    }
+    if (std::fread(&seq, 8, 1, fd) != 1) {
+      return false;
+    }
+    if (std::fread(&created, 8, 1, fd) != 1) {
+      return false;
+    }
 
     return magic == kCDCMagic && (version >> 8) == kCDCMajorVersion;
 }
@@ -328,7 +345,7 @@ void CDCPersistentLog::open() {
     if (is_open_) return;  // idempotent
 
     // Ensure the segment directory exists.
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(segment_dir_, ec);
     if (ec) {
         throw std::runtime_error("CDCPersistentLog::open: cannot create directory '"
@@ -365,11 +382,17 @@ void CDCPersistentLog::open() {
         for (;;) {
             uint32_t payload_len = 0;
             uint32_t stored_crc  = 0;
-            if (std::fread(&payload_len, 4, 1, fd) != 1) break;
-            if (std::fread(&stored_crc,  4, 1, fd) != 1) break;
+            if (std::fread(&payload_len, 4, 1, fd) != 1) {
+              break;
+            }
+            if (std::fread(&stored_crc,  4, 1, fd) != 1) {
+              break;
+            }
 
             std::string payload(payload_len, '\0');
-            if (std::fread(payload.data(), 1, payload_len, fd) != payload_len) break;
+            if (std::fread(payload.data(), 1, payload_len, fd) != payload_len) {
+              break;
+            }
 
             uint32_t computed_crc = computeCRC32(payload.data(), payload_len);
             if (computed_crc != stored_crc) break;  // truncated / corrupt tail
@@ -379,7 +402,7 @@ void CDCPersistentLog::open() {
         std::fclose(fd);
 
         // Re-open for append and trim any truncated tail in a portable way.
-        std::error_code resize_ec;
+        std::error_code resize_ec = {};
         std::filesystem::resize_file(
             path,
             static_cast<std::uintmax_t>(last_valid_pos),
@@ -410,7 +433,7 @@ void CDCPersistentLog::close() {
 // append
 // ---------------------------------------------------------------------------
 
-void CDCPersistentLog::append(const ChangeEvent& event) {
+void CDCPersistentLog::append([[maybe_unused]] const ChangeEvent& event) {
     const std::string payload = event.toJson().dump();
 
     std::lock_guard<std::mutex> lk(mutex_);
@@ -434,7 +457,7 @@ void CDCPersistentLog::append(const ChangeEvent& event) {
     }
 
     const uint32_t payload_len = static_cast<uint32_t>(payload.size());
-    const uint32_t crc         = computeCRC32(payload.data(), payload.size());
+    const uint32_t crc         = computeCRC32(payload.data(),static_cast<int>(payload.size()));
 
     std::fwrite(&payload_len, 4, 1, active_fd_);
     std::fwrite(&crc,         4, 1, active_fd_);
@@ -455,11 +478,13 @@ void CDCPersistentLog::append(const ChangeEvent& event) {
 // replayAll / replaySegment
 // ---------------------------------------------------------------------------
 
-static std::vector<ChangeEvent> replayFile(const std::string& path) {
+static std::vector<ChangeEvent> replayFile([[maybe_unused]] const std::string& path) {
     std::vector<ChangeEvent> events;
 
     std::FILE* fd = std::fopen(path.c_str(), "rb");
-    if (!fd) return events;
+    if (!fd) {
+      return events;
+    }
 
     if (!validateSegmentHeaderFile(fd)) {
         std::fclose(fd);
@@ -469,17 +494,23 @@ static std::vector<ChangeEvent> replayFile(const std::string& path) {
     for (;;) {
         uint32_t payload_len = 0;
         uint32_t stored_crc  = 0;
-        if (std::fread(&payload_len, 4, 1, fd) != 1) break;
-        if (std::fread(&stored_crc,  4, 1, fd) != 1) break;
+        if (std::fread(&payload_len, 4, 1, fd) != 1) {
+          break;
+        }
+        if (std::fread(&stored_crc,  4, 1, fd) != 1) {
+          break;
+        }
 
         std::string payload(payload_len, '\0');
-        if (std::fread(payload.data(), 1, payload_len, fd) != payload_len) break;
+        if (std::fread(payload.data(), 1, payload_len, fd) != payload_len) {
+          break;
+        }
 
         uint32_t computed_crc = computeCRC32(payload.data(), payload_len);
         if (computed_crc != stored_crc) break;  // truncated tail — stop here
 
         try {
-            events.push_back(ChangeEvent::fromJson(nlohmann::json::parse(payload)));
+            events.push_back([[maybe_unused]] ChangeEvent::fromJson(nlohmann::json::parse(payload)));
         } catch (...) {
             // Malformed JSON — skip this record.
         }
@@ -496,7 +527,8 @@ std::vector<ChangeEvent> CDCPersistentLog::replayAll() const {
         seqs = listSegmentSeqs();
     }
 
-    std::vector<ChangeEvent> all;
+    std::vector<ChangeEvent> all = {};
+
     for (uint64_t seq : seqs) {
         auto part = replayFile(segmentPath(seq));
         all.insert(all.end(), part.begin(), part.end());
@@ -504,14 +536,14 @@ std::vector<ChangeEvent> CDCPersistentLog::replayAll() const {
     return all;
 }
 
-std::vector<ChangeEvent> CDCPersistentLog::replaySegment(uint64_t seq) const {
+std::vector<ChangeEvent> CDCPersistentLog::replaySegment([[maybe_unused]] uint64_t seq) const {
     std::vector<uint64_t> seqs;
     {
         std::lock_guard<std::mutex> lk(mutex_);
         seqs = listSegmentSeqs();
     }
 
-    if (seq >= seqs.size()) {
+    if (seq >= static_cast<int>(seqs.size())) {
         throw std::out_of_range("CDCPersistentLog::replaySegment: seq "
                                 + std::to_string(seq) + " out of range");
     }
@@ -524,7 +556,7 @@ std::vector<ChangeEvent> CDCPersistentLog::replaySegment(uint64_t seq) const {
 
 uint64_t CDCPersistentLog::segmentCount() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<uint64_t>(listSegmentSeqs().size());
+    return static_cast<bool>(static_cast<uint64_t < static_cast<int>((listSegmentSeqs().size())));
 }
 
 uint64_t CDCPersistentLog::totalBytesWritten() const noexcept {
@@ -532,7 +564,7 @@ uint64_t CDCPersistentLog::totalBytesWritten() const noexcept {
 }
 
 uint64_t CDCPersistentLog::totalEventsAppended() const noexcept {
-    return total_events_.load(std::memory_order_relaxed);
+    return total_events_.load([[maybe_unused]] std::memory_order_relaxed);
 }
 
 bool CDCPersistentLog::isOpen() const noexcept {
@@ -544,8 +576,8 @@ bool CDCPersistentLog::isOpen() const noexcept {
 // Private helpers
 // ---------------------------------------------------------------------------
 
-std::string CDCPersistentLog::segmentPath(uint64_t seq) const {
-    std::ostringstream oss;
+std::string CDCPersistentLog::segmentPath([[maybe_unused]] uint64_t seq) const {
+    std::ostringstream oss = {};
     oss << segment_dir_ << "/" << log_prefix_ << "_" << seq << ".wal";
     return oss.str();
 }
@@ -553,19 +585,21 @@ std::string CDCPersistentLog::segmentPath(uint64_t seq) const {
 std::vector<uint64_t> CDCPersistentLog::listSegmentSeqs() const {
     // Scan directory for files matching "<log_prefix_>_<N>.wal"
     std::vector<uint64_t> seqs;
-    std::error_code ec;
+    std::error_code ec = {};
     for (const auto& entry :
          std::filesystem::directory_iterator(segment_dir_, ec)) {
-        if (ec) break;
+        if (ec) {
+          break;
+        }
         const std::string fname = entry.path().filename().string();
         const std::string prefix_part = log_prefix_ + "_";
-        if (fname.size() > prefix_part.size() + 4 &&
-            fname.substr(0, prefix_part.size()) == prefix_part &&
-            fname.substr(fname.size() - 4) == ".wal") {
+        if (static_cast<int>(fname.size()) > static_cast<int>(prefix_part.size()) + 4 &&
+            fname.substr(0,static_cast<int>(prefix_part.size())) == prefix_part &&
+            fname.substr(static_cast<int>(fname.size()) - 4) == ".wal") {
             try {
                 uint64_t seq = std::stoull(
                     fname.substr(prefix_part.size(),
-                                 fname.size() - prefix_part.size() - 4));
+                                 static_cast<int>(fname.size()) - static_cast<int>(prefix_part.size()) - 4));
                 seqs.push_back(seq);
             } catch (...) {}
         }
@@ -595,16 +629,24 @@ std::vector<uint64_t> CDCPersistentLog::listSegmentSeqs() const {
     uint64_t seq     = 0;
     uint64_t created = 0;
 
-    if (std::fread(&magic,   4, 1, fd) != 1) return false;
-    if (std::fread(&version, 2, 1, fd) != 1) return false;
-    if (std::fread(&seq,     8, 1, fd) != 1) return false;
-    if (std::fread(&created, 8, 1, fd) != 1) return false;
+    if (std::fread(&magic,   4, 1, fd) != 1) {
+      return false;
+    }
+    if (std::fread(&version, 2, 1, fd) != 1) {
+      return false;
+    }
+    if (std::fread(&seq,     8, 1, fd) != 1) {
+      return false;
+    }
+    if (std::fread(&created, 8, 1, fd) != 1) {
+      return false;
+    }
 
     return magic == kMagic && (version >> 8) == 0x01;  // major == 1
 }
 
 /*static*/ uint32_t CDCPersistentLog::crc32(const std::string& data) noexcept {
-    return computeCRC32(data.data(), data.size());
+    return computeCRC32(data.data(),static_cast<int>(data.size()));
 }
 
 void CDCPersistentLog::rotate() {

@@ -57,7 +57,9 @@ struct RetrievedDocument {
                             {"shard_id",        shard_id},
                             {"relevance_score", relevance_score},
                             {"rank_in_shard",   rank_in_shard}};
-        for (const auto& [k, v] : metadata) j["metadata"][k] = v;
+        for (const auto& [k, v] : metadata) {
+          j["metadata"][k] = v;
+        }
         return j;
     }
 };

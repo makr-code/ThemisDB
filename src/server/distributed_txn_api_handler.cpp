@@ -73,7 +73,7 @@ DistributedTxnApiHandler::DistributedTxnApiHandler(
 // ─────────────────────────────────────────────────────────────────────────────
 
 http::response<http::string_body>
-DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& req) {
+DistributedTxnApiHandler::handleBegin([[maybe_unused]] const http::request<http::string_body>& req) {
     try {
     auto span = Tracer::startSpan("handleBegin");
         auto body = json::parse(req.body());
@@ -83,7 +83,8 @@ DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& re
                          "Missing or invalid 'shards' array", req);
         }
 
-        std::vector<std::string> shard_ids;
+        std::vector<std::string> shard_ids = {};
+
         shard_ids.reserve(body["shards"].size());
         for (const auto& s : body["shards"]) {
             if (!s.is_string()) {
@@ -145,7 +146,7 @@ DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& re
 // ─────────────────────────────────────────────────────────────────────────────
 
 http::response<http::string_body>
-DistributedTxnApiHandler::handleOperation(const http::request<http::string_body>& req) {
+DistributedTxnApiHandler::handleOperation([[maybe_unused]] const http::request<http::string_body>& req) {
     try {
     auto span = Tracer::startSpan("handleOperation");
         auto body = json::parse(req.body());
@@ -192,7 +193,7 @@ DistributedTxnApiHandler::handleOperation(const http::request<http::string_body>
 // ─────────────────────────────────────────────────────────────────────────────
 
 http::response<http::string_body>
-DistributedTxnApiHandler::handleCommit(const http::request<http::string_body>& req) {
+DistributedTxnApiHandler::handleCommit([[maybe_unused]] const http::request<http::string_body>& req) {
     try {
     auto span = Tracer::startSpan("handleCommit");
         auto body = json::parse(req.body());
@@ -229,7 +230,7 @@ DistributedTxnApiHandler::handleCommit(const http::request<http::string_body>& r
 // ─────────────────────────────────────────────────────────────────────────────
 
 http::response<http::string_body>
-DistributedTxnApiHandler::handleAbort(const http::request<http::string_body>& req) {
+DistributedTxnApiHandler::handleAbort([[maybe_unused]] const http::request<http::string_body>& req) {
     try {
     auto span = Tracer::startSpan("handleAbort");
         auto body = json::parse(req.body());
@@ -260,9 +261,9 @@ DistributedTxnApiHandler::handleAbort(const http::request<http::string_body>& re
 // ─────────────────────────────────────────────────────────────────────────────
 
 http::response<http::string_body>
-DistributedTxnApiHandler::handleReadOnly(const http::request<http::string_body>& req) {
+DistributedTxnApiHandler::handleReadOnly([[maybe_unused]] const http::request<http::string_body>& req) {
     try {
-    auto span = Tracer::startSpan("handleReadOnly");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleReadOnly");
         auto body = json::parse(req.body());
 
         if (!body.contains("shards") || !body["shards"].is_array()) {
@@ -270,7 +271,8 @@ DistributedTxnApiHandler::handleReadOnly(const http::request<http::string_body>&
                          "Missing or invalid 'shards' array", req);
         }
 
-        std::vector<std::string> shard_ids;
+        std::vector<std::string> shard_ids = {};
+
         for (const auto& s : body["shards"]) {
             if (!s.is_string()) {
                 return error(http::status::bad_request,
@@ -304,13 +306,13 @@ DistributedTxnApiHandler::handleReadOnly(const http::request<http::string_body>&
 // ─────────────────────────────────────────────────────────────────────────────
 
 http::response<http::string_body>
-DistributedTxnApiHandler::handleStatus(const http::request<http::string_body>& req) {
+DistributedTxnApiHandler::handleStatus([[maybe_unused]] const http::request<http::string_body>& req) {
     try {
     auto span = Tracer::startSpan("handleStatus");
         // Extract transaction ID from the URL path: /dtxn/status/{txn_id}
         std::string_view path  = req.target();
         const std::string_view prefix = "/dtxn/status/";
-        if (path.size() <= prefix.size()) {
+        if (static_cast<int>(path.size()) <= prefix.size()) {
             return error(http::status::bad_request,
                          "Missing transaction ID in path", req);
         }
@@ -342,7 +344,7 @@ DistributedTxnApiHandler::handleStatus(const http::request<http::string_body>& r
 // ─────────────────────────────────────────────────────────────────────────────
 
 http::response<http::string_body>
-DistributedTxnApiHandler::handleStats(const http::request<http::string_body>& req) {
+DistributedTxnApiHandler::handleStats([[maybe_unused]] const http::request<http::string_body>& req) {
     try {
     auto span = Tracer::startSpan("handleStats");
         return ok(coordinator_->getStatistics(), req);
@@ -383,7 +385,7 @@ DistributedTxnApiHandler::error(http::status        status,
 }
 
 std::string
-DistributedTxnApiHandler::stateToString(sharding::TransactionState state) {
+DistributedTxnApiHandler::stateToString([[maybe_unused]] sharding::TransactionState state) {
     using TS = sharding::TransactionState;
     switch (state) {
         case TS::ACTIVE:     return "ACTIVE";

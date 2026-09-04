@@ -213,7 +213,9 @@ public:
         : table_(std::move(table)), records_(std::move(records)) {}
 
     CursorStatus next(ImportBatch& batch) override {
-        if (closed_) return CursorStatus::ERROR;
+        if (closed_) {
+          return CursorStatus::ERROR;
+        }
         if (cursor_ >= records_.size()) {
             batch = {};
             return CursorStatus::END_OF_STREAM;
@@ -345,10 +347,14 @@ TEST(ConflictResolverInterfaceTest, ConcurrentResolveCalls) {
             json a = {{"x", 1}};
             json b = {{"x", 2}};
             auto r = resolver.resolve(a, b);
-            if (r.resolution == ConflictResolution::REPLACE_WITH_INCOMING) ++ok_count;
+            if (r.resolution == ConflictResolution::REPLACE_WITH_INCOMING) {
+              ++ok_count;
+            }
         }));
     }
-    for (auto& f : futures) f.get();
+    for (auto& f : futures) {
+      f.get();
+    }
     EXPECT_EQ(kThreads, ok_count.load());
 }
 

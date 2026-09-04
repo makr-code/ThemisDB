@@ -61,7 +61,9 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
+        if (server_) {
+          server_->stop();
+        }
         storage_->close();
     }
 
@@ -210,7 +212,8 @@ TEST_F(HttpAqlApiTest, AqlEquality_FilterCityBerlin_ReturnsAlice) {
     ASSERT_TRUE(body["entities"].is_array());
     ASSERT_EQ(body["entities"].size(), 2);
     // Entities are JSON strings
-    std::set<std::string> names;
+    std::set<std::string> names = {};
+
     for (const auto& s : body["entities"]) {
         auto ent = json::parse(s.get<std::string>());
         names.insert(ent["name"].get<std::string>());
@@ -231,7 +234,8 @@ TEST_F(HttpAqlApiTest, AqlRange_FilterAgeGreater18_ReturnsMultiple) {
     // Should return all users except Bob (17), so 14 users
     ASSERT_EQ(body["count"], 14);
     ASSERT_TRUE(body["entities"].is_array());
-    std::set<std::string> names;
+    std::set<std::string> names = {};
+
     for (const auto& s : body["entities"]) {
         auto ent = json::parse(s.get<std::string>());
         names.insert(ent["name"].get<std::string>());
@@ -439,7 +443,9 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
+        if (server_) {
+          server_->stop();
+        }
         storage_->close();
     }
 
@@ -454,7 +460,9 @@ protected:
             themis::BaseEntity::fromFields("a2", themis::BaseEntity::FieldMap{{"name","Same"},{"age","21"},{"city","X"}}),
             themis::BaseEntity::fromFields("a3", themis::BaseEntity::FieldMap{{"name","Same"},{"age","22"},{"city","X"}})
         };
-        for (const auto& e : ties) ASSERT_TRUE(secondary_index_->put("users_ties", e).ok);
+        for (const auto& e : ties) {
+          ASSERT_TRUE(secondary_index_->put("users_ties", e).ok);
+        }
 
         // Insert data for DESC tests
         std::vector<themis::BaseEntity> descs = {
@@ -462,7 +470,9 @@ protected:
             themis::BaseEntity::fromFields("d2", themis::BaseEntity::FieldMap{{"name","D2"},{"age","20"},{"city","Y"}}),
             themis::BaseEntity::fromFields("d3", themis::BaseEntity::FieldMap{{"name","D3"},{"age","30"},{"city","Y"}})
         };
-        for (const auto& e : descs) ASSERT_TRUE(secondary_index_->put("users_desc", e).ok);
+        for (const auto& e : descs) {
+          ASSERT_TRUE(secondary_index_->put("users_desc", e).ok);
+        }
     }
 
     http::response<http::string_body> post(const std::string& target, const json& body) {

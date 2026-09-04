@@ -31,7 +31,7 @@ FederationAdminHandler::FederationAdminHandler(
     , merger_(std::move(merger))
 {
     if (!coordinator_) {
-        throw std::invalid_argument("FederationAdminHandler: coordinator must not be null");
+        throw std::invalid_argument([[maybe_unused]] "FederationAdminHandler: coordinator must not be null");
     }
 }
 
@@ -76,7 +76,7 @@ nlohmann::json FederationAdminHandler::getRagStats() const {
  *                  are accepted for API compatibility but not yet interpreted here.
  * @return JSON object describing the triggered round.
  */
-nlohmann::json FederationAdminHandler::triggerRound(const std::string& algorithm) {
+nlohmann::json FederationAdminHandler::triggerRound([[maybe_unused]] const std::string& algorithm) {
     (void)algorithm;
 
     // verifyPrivacyBudget() is also checked inside triggerAggregation(); we

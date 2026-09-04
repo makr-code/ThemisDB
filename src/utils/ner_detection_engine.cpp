@@ -93,7 +93,7 @@ bool NERDetectionEngine::initialize(const nlohmann::json& config) {
 
         spdlog::info("NERDetectionEngine: Initialized (model_available={}, honorifics={}, org_suffixes={}, "
                      "location_prepositions={})",
-                     model_available_, honorifics_.size(), org_suffixes_.size(), location_prepositions_.size());
+                     model_available_,static_cast<int>(honorifics_.size()),static_cast<int>(org_suffixes_.size()),static_cast<int>(location_prepositions_.size()));
         return true;
 
     } catch (const std::exception& e) {
@@ -455,7 +455,9 @@ void NERDetectionEngine::detectPersonNames(
         }
 
         double confidence = (name_end - name_start >= 2) ? 0.92 : 0.80;
-        if (confidence < min_confidence_) continue;
+        if (confidence < min_confidence_) {
+          continue;
+        }
 
         // Span includes the honorific prefix
         out.push_back(makeSpan(tokens, i, name_end - 1, PIIType::PERSON_NAME,
@@ -484,7 +486,9 @@ void NERDetectionEngine::detectOrganizations(
                           org_suffixes_.count(stripped)   > 0 ||
                           org_suffixes_.count(with_period) > 0);
 
-        if (!is_suffix) continue;
+        if (!is_suffix) {
+          continue;
+        }
 
         // Look backwards for capitalised name tokens (1–4 words)
         size_t org_start = i;
@@ -492,24 +496,32 @@ void NERDetectionEngine::detectOrganizations(
         size_t window = 0;
 
         while (window < 4 && look < n) { // look < n guards unsigned underflow
-            if (!isCapitalized(tokens[look].text)) break;
+            if (!isCapitalized(tokens[look].text)) {
+              break;
+            }
             org_start = look;
             ++window;
-            if (look == 0) break;
+            if (look == 0) {
+              break;
+            }
             --look;
         }
 
         if (org_start == i) {
             // No capitalised prefix found; still emit with lower confidence
             double conf = 0.65;
-            if (conf < min_confidence_) continue;
+            if (conf < min_confidence_) {
+              continue;
+            }
             out.push_back(makeSpan(tokens, i, i, PIIType::ORGANIZATION,
                                    conf, "ORG_SUFFIX_ONLY"));
             continue;
         }
 
         double confidence = (window >= 2) ? 0.88 : 0.75;
-        if (confidence < min_confidence_) continue;
+        if (confidence < min_confidence_) {
+          continue;
+        }
 
         out.push_back(makeSpan(tokens, org_start, i, PIIType::ORGANIZATION,
                                confidence, "ORG_SUFFIX_WITH_PREFIX"));
@@ -531,7 +543,9 @@ void NERDetectionEngine::detectLocations(
             stripped.pop_back();
         }
 
-        if (location_prepositions_.count(stripped) == 0) continue;
+        if (location_prepositions_.count(stripped) == 0) {
+          continue;
+        }
 
         // Collect following capitalised tokens (1–3 words)
         size_t loc_start = i + 1;
@@ -539,14 +553,20 @@ void NERDetectionEngine::detectLocations(
 
         while (loc_end < n && (loc_end - loc_start) < 3) {
             const std::string& word = tokens[loc_end].text;
-            if (word.empty() || !isCapitalized(word)) break;
+            if (word.empty() || !isCapitalized(word)) {
+              break;
+            }
             ++loc_end;
         }
 
-        if (loc_end == loc_start) continue;
+        if (loc_end == loc_start) {
+          continue;
+        }
 
         double confidence = (loc_end - loc_start >= 2) ? 0.82 : 0.72;
-        if (confidence < min_confidence_) continue;
+        if (confidence < min_confidence_) {
+          continue;
+        }
 
         out.push_back(makeSpan(tokens, loc_start, loc_end - 1,
                                PIIType::LOCATION, confidence, "LOCATION_PREPOSITION"));
@@ -558,7 +578,9 @@ void NERDetectionEngine::detectLocations(
 // ============================================================================
 
 bool NERDetectionEngine::isCapitalized(const std::string& word) {
-    if (word.empty()) return false;
+    if (word.empty()) {
+      return false;
+    }
     // First alphabetic character must be uppercase
     for (unsigned char c : word) {
         if (std::isalpha(c)) {
@@ -592,12 +614,14 @@ PIIFinding NERDetectionEngine::makeSpan(
 
     // end_offset = offset after the last character of the last token
     const Token& last_tok = tokens[last];
-    f.end_offset = last_tok.offset + last_tok.text.size();
+    f.end_offset = last_tok.offset + static_cast<int>(last_tok.text.size()) ;
 
     // Build value by joining tokens
-    std::string value;
+    std::string value = {};
     for (size_t i = first; i <= last; ++i) {
-        if (i > first) value += ' ';
+        if (i > first) {
+          value += ' ';
+        }
         value += tokens[i].text;
     }
     f.value = std::move(value);

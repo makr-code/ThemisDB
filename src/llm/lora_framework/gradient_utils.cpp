@@ -29,7 +29,9 @@ float GradientUtils::compute_global_norm(const std::vector<Tensor*>& gradients) 
     float sum_of_squares = 0.0f;
     
     for (const auto* grad_ptr : gradients) {
-        if (!grad_ptr) continue;
+        if (!grad_ptr) {
+          continue;
+        }
         
         const auto& data = grad_ptr->data();
         for (float val : data) {
@@ -51,7 +53,9 @@ bool GradientUtils::clip_by_norm(std::vector<Tensor*>& gradients, float max_norm
     float scale = max_norm / global_norm;
     
     for (auto* grad_ptr : gradients) {
-        if (!grad_ptr) continue;
+        if (!grad_ptr) {
+          continue;
+        }
         
         for (size_t i = 0; i < grad_ptr->size(); ++i) {
             (*grad_ptr)[i] *= scale;
@@ -66,7 +70,9 @@ bool GradientUtils::clip_by_value(std::vector<Tensor*>& gradients, float clip_va
     bool clipped = false;
     
     for (auto* grad_ptr : gradients) {
-        if (!grad_ptr) continue;
+        if (!grad_ptr) {
+          continue;
+        }
         
         for (size_t i = 0; i < grad_ptr->size(); ++i) {
             float val = (*grad_ptr)[i];
@@ -93,7 +99,7 @@ GradientStats GradientUtils::apply_clipping(
     bool clipped = false;
     switch (config.method) {
         case ClippingMethod::BY_NORM:
-        case ClippingMethod::BY_GLOBAL_NORM:
+        [[fallthrough]];\n        case ClippingMethod::BY_GLOBAL_NORM:
             clipped = clip_by_norm(gradients, config.max_norm);
             break;
         
@@ -102,7 +108,7 @@ GradientStats GradientUtils::apply_clipping(
             break;
         
         case ClippingMethod::NONE:
-        default:
+        [[fallthrough]];\n        default:
             break;
     }
     
@@ -130,20 +136,22 @@ void GradientUtils::accumulate_gradients(
     }
     
     // Add new gradients to accumulated
-    size_t num_grads = std::min(accumulated.size(), new_gradients.size());
+    size_t num_grads = std::min(accumulated.size(),static_cast<int>(new_gradients.size()));
     for (size_t i = 0; i < num_grads; ++i) {
-        if (!new_gradients[i]) continue;
+        if (!new_gradients[i]) {
+          continue;
+        }
         
         const auto& new_data = new_gradients[i]->data();
         auto& acc_data = accumulated[i].data();
         
-        if (acc_data.size() != new_data.size()) {
+        if (static_cast<int>(acc_data.size()) != static_cast<int>(new_data.size())) {
             spdlog::error("Gradient size mismatch at index {} (expected {}, got {})", 
-                         i, acc_data.size(), new_data.size());
+                         i,static_cast<int>(acc_data.size()),static_cast<int>(new_data.size()));
             throw std::runtime_error("Gradient accumulation failed: size mismatch");
         }
         
-        for (size_t j = 0; j < acc_data.size(); ++j) {
+        for (size_t j = 0; j <static_cast<int>(acc_data.size()); ++j) {
             acc_data[j] += new_data[j];
         }
     }
@@ -153,7 +161,9 @@ void GradientUtils::normalize_gradients(
     std::vector<Tensor>& accumulated,
     int num_steps
 ) {
-    if (num_steps <= 1) return;
+    if (num_steps <= 1) {
+      return;
+    }
     
     float scale = 1.0f / static_cast<float>(num_steps);
     
@@ -166,7 +176,7 @@ void GradientUtils::normalize_gradients(
 }
 
 GradientStats GradientUtils::compute_stats(const std::vector<Tensor*>& gradients) {
-    GradientStats stats;
+    GradientStats stats = {};
     
     if (gradients.empty()) {
         return stats;
@@ -182,7 +192,9 @@ GradientStats GradientUtils::compute_stats(const std::vector<Tensor*>& gradients
     stats.min_gradient = std::numeric_limits<float>::infinity();
     
     for (const auto* grad_ptr : gradients) {
-        if (!grad_ptr) continue;
+        if (!grad_ptr) {
+          continue;
+        }
         
         const auto& data = grad_ptr->data();
         for (float val : data) {
@@ -207,7 +219,9 @@ GradientStats GradientUtils::compute_stats(const std::vector<Tensor*>& gradients
 
 bool GradientUtils::has_invalid_gradients(const std::vector<Tensor*>& gradients) {
     for (const auto* grad_ptr : gradients) {
-        if (!grad_ptr) continue;
+        if (!grad_ptr) {
+          continue;
+        }
         
         const auto& data = grad_ptr->data();
         for (float val : data) {
@@ -269,7 +283,8 @@ std::vector<Tensor*> GradientAccumulator::get_accumulated_gradients() {
     }
     
     // Return pointers to accumulated gradients
-    std::vector<Tensor*> result;
+    std::vector<Tensor*> result = {};
+
     result.reserve(accumulated_gradients_.size());
     for (auto& grad : accumulated_gradients_) {
         result.push_back(&grad);

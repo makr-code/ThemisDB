@@ -67,7 +67,9 @@ public:
 
         // Mean
         double sum = 0;
-        for (double lat : sorted) sum += lat;
+        for (double lat : sorted) {
+          sum += lat;
+        }
         stats.mean_us = sum / sorted.size();
 
         // Percentiles
@@ -103,7 +105,7 @@ public:
 
 class DeterministicRNG {
 private:
-    std::mt19937_64 gen_;
+    std::mt19937_64 gen_ = {};
 
 public:
     explicit DeterministicRNG(uint64_t seed = 42) : gen_(seed) {}
@@ -114,7 +116,7 @@ public:
 
     std::string generateString(size_t length) {
         static const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        std::string result;
+        std::string result = {};
         result.reserve(length);
         for (size_t i = 0; i < length; ++i) {
             result += charset[next() % (sizeof(charset) - 1)];
@@ -446,7 +448,9 @@ BENCHMARK_F(LatencyBenchFixture, CacheMissLatency)(benchmark::State& state) {
     int counter = 10000;
     for (auto _ : state) {
         std::string key = "entity:cold_" + std::to_string(counter++);
-        if (counter >= 20000) counter = 10000;
+        if (counter >= 20000) {
+          counter = 10000;
+        }
 
         auto start = high_resolution_clock::now();
         auto value = db_->get(key);

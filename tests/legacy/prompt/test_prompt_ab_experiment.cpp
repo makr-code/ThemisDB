@@ -378,7 +378,7 @@ TEST(PromptABExperimentFrameworkTest, CheckSignificanceIdenticalNoWinner) {
 
 TEST(PromptABExperimentFrameworkTest, AutoPromotionCallbackFired) {
     int callback_count = 0;
-    std::string cb_winner_version;
+    std::string cb_winner_version = {};
     ExperimentVariant cb_variant = ExperimentVariant::CONTROL;
 
     PromptABExperimentFramework fw;

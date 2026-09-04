@@ -58,7 +58,7 @@ nlohmann::json ClassificationApiHandler::listRules() {
             });
         }
         
-        THEMIS_INFO("Classification API: Listed {} classification rules", items.size());
+        THEMIS_INFO("Classification API: Listed {} classification rules",static_cast<int>(items.size()));
         
         return {
             {"items", items},
@@ -75,7 +75,7 @@ nlohmann::json ClassificationApiHandler::listRules() {
     }
 }
 
-nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json& body) {
+nlohmann::json ClassificationApiHandler::testClassification([[maybe_unused]] const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("testClassification");
         if (!pii_detector_) {
@@ -123,7 +123,7 @@ nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json
         }
         
         THEMIS_INFO("Classification API: Tested classification on {} chars, found {} entities -> {}",
-                    text.length(), findings.size(), classification);
+                    text.length(),static_cast<int>(findings.size()), classification);
         
         return {
             {"classification", classification},

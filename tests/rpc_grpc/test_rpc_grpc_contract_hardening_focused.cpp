@@ -33,7 +33,8 @@ static constexpr uint32_t kSeed = 42;
 // ============================================================================
 
 TEST(RpcGrpcContractHardening, RPC01_ErrorCodeUniqueness) {
-    std::set<int32_t> seen;
+    std::set<int32_t> seen = {};
+
     const int32_t codes[] = {
         static_cast<int32_t>(RpcGrpcError::kServerNotRunning),
         static_cast<int32_t>(RpcGrpcError::kServiceRegistration),

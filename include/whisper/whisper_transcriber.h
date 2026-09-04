@@ -243,7 +243,8 @@ public:
     std::string getLastError() const override { return last_error_; }
     std::string getModelId() const override { return model_id_; }
     std::vector<char> serialize() const override {
-        std::vector<char> state;
+        std::vector<char> state = {};
+
         state.reserve(1 + model_id_.size());
         state.push_back(initialized_ ? '\x01' : '\x00');
         state.insert(state.end(), model_id_.begin(), model_id_.end());
@@ -283,11 +284,13 @@ public:
 
 private:
     bool        initialized_ = false;
-    std::string model_id_;
-    std::string last_error_;
+    std::string model_id_ = {};
+    std::string last_error_ = {};
     struct WhisperContextDeleter {
         void operator()(void* ctx) const noexcept {
-            if (ctx) whisper_free(static_cast<whisper_context*>(ctx));
+            if (ctx) {
+              whisper_free(static_cast<whisper_context*>(ctx));
+            }
         }
     };
     std::unique_ptr<void, WhisperContextDeleter> ctx_;  // whisper_context* (opaque to avoid header dep)
@@ -371,7 +374,8 @@ public:
     }
     std::string getModelId() const override { return model_id_; }
     std::vector<char> serialize() const override {
-        std::vector<char> state;
+        std::vector<char> state = {};
+
         state.reserve(1 + model_id_.size());
         state.push_back(initialized_ ? '\x01' : '\x00');
         state.insert(state.end(), model_id_.begin(), model_id_.end());
@@ -492,7 +496,8 @@ public:
 
     std::string getModelId() const override { return model_id_; }
     std::vector<char> serialize() const override {
-        std::vector<char> state;
+        std::vector<char> state = {};
+
         state.reserve(1 + model_id_.size());
         state.push_back(initialized_ ? '\x01' : '\x00');
         state.insert(state.end(), model_id_.begin(), model_id_.end());

@@ -473,7 +473,9 @@ TEST_F(DistributedTracingTest, AdaptiveSamplingFullRateWhenIdle) {
     // A handful of calls must all be sampled (rate << max_spans_per_second)
     int sampled = 0;
     for (int i = 0; i < 10; ++i) {
-        if (strategy.shouldSample()) ++sampled;
+        if (strategy.shouldSample()) {
+          ++sampled;
+        }
     }
     EXPECT_EQ(sampled, 10);
 }
@@ -601,7 +603,9 @@ TEST_F(DistributedTracingTest, AdaptiveSamplingCopiesShareState) {
 
     // Drive the rate up via s1
     auto loop_start = std::chrono::steady_clock::now();
-    for (int i = 0; i < 50000; ++i) s1.shouldSample();
+    for (int i = 0; i < 50000; ++i) {
+      s1.shouldSample();
+    }
 
     auto loop_elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::steady_clock::now() - loop_start).count();

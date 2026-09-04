@@ -241,7 +241,7 @@ void AdaptiveCircuitBreaker::setStateChangeCallback(
     std::function<void(CircuitState, CircuitState)> callback)
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    state_change_cb_ = std::move(callback);
+    state_change_cb_ = std::move([[maybe_unused]] callback);
 }
 
 void AdaptiveCircuitBreaker::reset() {

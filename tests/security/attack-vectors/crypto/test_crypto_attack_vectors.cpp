@@ -53,7 +53,7 @@ using namespace themis::security;
 class CryptoAttackVectorTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        std::string license_error;
+        std::string license_error = {};
         field_encryption_available_ =
             themis::license::RuntimeLicenseGate::instance().isFeatureAllowed("field_encryption", license_error);
         provider_ = std::make_shared<MockKeyProvider>();
@@ -85,7 +85,9 @@ protected:
  *        independently encrypted blobs always produce distinct IVs.
  */
 TEST_F(CryptoAttackVectorTest, IVNonceReuseAttack_DistinctIVsRequired) {
-    if (expectEncryptionUnavailable()) return;
+    if (expectEncryptionUnavailable()) {
+      return;
+    }
     constexpr int kSamples = 50;
     std::set<std::vector<uint8_t>> seen_ivs;
 
@@ -107,7 +109,9 @@ TEST_F(CryptoAttackVectorTest, IVNonceReuseAttack_DistinctIVsRequired) {
  *        data is being stored (deterministic ciphertext leaks metadata).
  */
 TEST_F(CryptoAttackVectorTest, IVReuseAttack_DifferentCiphertextsForSamePlaintext) {
-    if (expectEncryptionUnavailable()) return;
+    if (expectEncryptionUnavailable()) {
+      return;
+    }
     const std::string plaintext = "sensitive database record";
     auto b1 = enc_->encrypt("attack_test_key", plaintext);
     auto b2 = enc_->encrypt("attack_test_key", plaintext);
@@ -132,7 +136,9 @@ TEST_F(CryptoAttackVectorTest, IVReuseAttack_DifferentCiphertextsForSamePlaintex
  *        than returning corrupted plaintext.
  */
 TEST_F(CryptoAttackVectorTest, AuthTagTampering_SingleBitFlip) {
-    if (expectEncryptionUnavailable()) return;
+    if (expectEncryptionUnavailable()) {
+      return;
+    }
     auto blob = enc_->encrypt("attack_test_key", "authenticated message");
     ASSERT_FALSE(blob.tag.empty());
 
@@ -148,7 +154,9 @@ TEST_F(CryptoAttackVectorTest, AuthTagTampering_SingleBitFlip) {
  * @brief Replace the entire GCM tag with zeroes.  The AEAD check must fail.
  */
 TEST_F(CryptoAttackVectorTest, AuthTagTampering_ZeroedTag) {
-    if (expectEncryptionUnavailable()) return;
+    if (expectEncryptionUnavailable()) {
+      return;
+    }
     auto blob = enc_->encrypt("attack_test_key", "zeroed tag test");
 
     auto tampered = blob;
@@ -169,7 +177,9 @@ TEST_F(CryptoAttackVectorTest, AuthTagTampering_ZeroedTag) {
  *        be rejected rather than producing garbled plaintext.
  */
 TEST_F(CryptoAttackVectorTest, CiphertextBitFlip_MiddleOfPayload) {
-    if (expectEncryptionUnavailable()) return;
+    if (expectEncryptionUnavailable()) {
+      return;
+    }
     const std::string plaintext(128, 'A');
     auto blob = enc_->encrypt("attack_test_key", plaintext);
     ASSERT_GE(blob.ciphertext.size(), 64u);
@@ -186,7 +196,9 @@ TEST_F(CryptoAttackVectorTest, CiphertextBitFlip_MiddleOfPayload) {
  *        return a truncated or garbage plaintext.
  */
 TEST_F(CryptoAttackVectorTest, CiphertextTruncation_OneByteShort) {
-    if (expectEncryptionUnavailable()) return;
+    if (expectEncryptionUnavailable()) {
+      return;
+    }
     const std::string plaintext = "truncation test plaintext";
     auto blob = enc_->encrypt("attack_test_key", plaintext);
     ASSERT_FALSE(blob.ciphertext.empty());
@@ -208,7 +220,9 @@ TEST_F(CryptoAttackVectorTest, CiphertextTruncation_OneByteShort) {
  *        must fail; the blob is bound to a specific key_id / key_version pair.
  */
 TEST_F(CryptoAttackVectorTest, KeyConfusion_WrongKeyId) {
-    if (expectEncryptionUnavailable()) return;
+    if (expectEncryptionUnavailable()) {
+      return;
+    }
     provider_->createKey("other_key", 1);
 
     auto blob = enc_->encrypt("attack_test_key", "key confusion payload");
@@ -226,7 +240,9 @@ TEST_F(CryptoAttackVectorTest, KeyConfusion_WrongKeyId) {
  *        own version.
  */
 TEST_F(CryptoAttackVectorTest, KeyConfusion_WrongKeyVersion) {
-    if (expectEncryptionUnavailable()) return;
+    if (expectEncryptionUnavailable()) {
+      return;
+    }
     // Encrypt with v1, then rotate to v2.
     auto blob = enc_->encrypt("attack_test_key", "version confusion payload");
     ASSERT_EQ(blob.key_version, 1u);
@@ -246,7 +262,9 @@ TEST_F(CryptoAttackVectorTest, KeyConfusion_WrongKeyVersion) {
  *        (backward compatibility) while a new blob uses v2.
  */
 TEST_F(CryptoAttackVectorTest, KeyRotation_OldBlobStillDecrypts) {
-    if (expectEncryptionUnavailable()) return;
+    if (expectEncryptionUnavailable()) {
+      return;
+    }
     const std::string plaintext = "data encrypted before rotation";
     auto old_blob = enc_->encrypt("attack_test_key", plaintext);
     ASSERT_EQ(old_blob.key_version, 1u);
@@ -266,7 +284,9 @@ TEST_F(CryptoAttackVectorTest, KeyRotation_OldBlobStillDecrypts) {
  *        round-trip without error.
  */
 TEST_F(CryptoAttackVectorTest, BoundaryValue_EmptyPlaintext) {
-    if (expectEncryptionUnavailable()) return;
+    if (expectEncryptionUnavailable()) {
+      return;
+    }
     EXPECT_NO_THROW({
         auto blob = enc_->encrypt("attack_test_key", "");
         EXPECT_EQ(enc_->decrypt(blob), "");
@@ -278,7 +298,9 @@ TEST_F(CryptoAttackVectorTest, BoundaryValue_EmptyPlaintext) {
  *        Verify no length-dependent overflow or partial-block error.
  */
 TEST_F(CryptoAttackVectorTest, BoundaryValue_LargePlaintext_1MiB) {
-    if (expectEncryptionUnavailable()) return;
+    if (expectEncryptionUnavailable()) {
+      return;
+    }
     const std::string big(1024 * 1024, '\xAB');
     EXPECT_NO_THROW({
         auto blob = enc_->encrypt("attack_test_key", big);
@@ -291,7 +313,9 @@ TEST_F(CryptoAttackVectorTest, BoundaryValue_LargePlaintext_1MiB) {
  *        an empty string by any implicit null-termination logic.
  */
 TEST_F(CryptoAttackVectorTest, BoundaryValue_AllNullBytes) {
-    if (expectEncryptionUnavailable()) return;
+    if (expectEncryptionUnavailable()) {
+      return;
+    }
     const std::string nulls(32, '\x00');
     auto blob = enc_->encrypt("attack_test_key", nulls);
     EXPECT_EQ(enc_->decrypt(blob), nulls);
@@ -357,7 +381,9 @@ TEST(PQCryptoAttackVector, Dilithium_TamperedSignatureRejected) {
 
     // Flip every byte of the signature — should always fail verification.
     std::vector<uint8_t> forged = sig;
-    for (auto& b : forged) b ^= 0xFF;
+    for (auto& b : forged) {
+      b ^= 0xFF;
+    }
 
     EXPECT_FALSE(signer.verify(msg, forged, kp.public_key))
         << "Fully inverted Dilithium signature must not verify";

@@ -37,7 +37,9 @@ static http::response<http::string_body> http_request(
     stream.connect(results);
     http::request<http::string_body> req{method, target, 11};
     req.set(http::field::host, host);
-    for (auto& kv : headers) req.set(kv.first, kv.second);
+    for (auto& kv : headers) {
+      req.set(kv.first, kv.second);
+    }
     if (body) {
         req.set(http::field::content_type, "application/json");
         req.body() = body->dump();
@@ -62,7 +64,9 @@ protected:
     // Diagnostic: print getenv value to verify env visible to server
     {
         const char* v = std::getenv("THEMIS_TOKEN_ADMIN");
-        if (v) std::cerr << "[TEST-DEBUG] THEMIS_TOKEN_ADMIN='" << v << "'\n"; else std::cerr << "[TEST-DEBUG] THEMIS_TOKEN_ADMIN=<null>\n";
+        if (v) {
+          std::cerr << "[TEST-DEBUG] THEMIS_TOKEN_ADMIN='" << v << "'\n"; else std::cerr << "[TEST-DEBUG] THEMIS_TOKEN_ADMIN=<null>\n";
+        }
     }
         // Use an explicit test policies file via env to avoid touching repo config
         try {
@@ -77,7 +81,9 @@ protected:
     #endif
         } catch(...) {}
         const std::string db_path = "data/themis_pii_manager_test";
-        if (std::filesystem::exists(db_path)) std::filesystem::remove_all(db_path);
+        if (std::filesystem::exists(db_path)) {
+          std::filesystem::remove_all(db_path);
+        }
         themis::RocksDBWrapper::Config cfg; cfg.db_path = db_path; cfg.memtable_size_mb = 32; cfg.block_cache_size_mb = 64;
         storage_ = std::make_shared<themis::RocksDBWrapper>(cfg);
         ASSERT_TRUE(storage_->open());
@@ -97,20 +103,28 @@ protected:
 
     void TearDown() override {
         if (server_) { server_->stop(); server_.reset(); }
-        if (storage_) storage_->close();
+        if (storage_) {
+          storage_->close();
+        }
         const std::string db_path = "data/themis_pii_manager_test";
-        if (std::filesystem::exists(db_path)) std::filesystem::remove_all(db_path);
+        if (std::filesystem::exists(db_path)) {
+          std::filesystem::remove_all(db_path);
+        }
         // Restore any backed-up policies file
         try {
             std::filesystem::path cfgdir = std::filesystem::path("config");
             std::filesystem::path policies = cfgdir / "policies.yaml";
             std::filesystem::path bak = cfgdir / "policies.yaml.bak";
             if (std::filesystem::exists(bak)) {
-                if (std::filesystem::exists(policies)) std::filesystem::remove(policies);
+                if (std::filesystem::exists(policies)) {
+                  std::filesystem::remove(policies);
+                }
                 std::filesystem::rename(bak, policies);
             } else {
                 // no backup: remove the test policies file we created
-                if (std::filesystem::exists(policies)) std::filesystem::remove(policies);
+                if (std::filesystem::exists(policies)) {
+                  std::filesystem::remove(policies);
+                }
             }
         } catch (...) {}
     }

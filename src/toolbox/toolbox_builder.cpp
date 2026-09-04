@@ -120,7 +120,8 @@ ToolboxBuilder& ToolboxBuilder::withFormatExtractorFactory(
     }
 
     // Collect one extractor per MIME type, de-duplicating by pointer identity
-    std::set<ingestion::IFormatExtractor*> seen;
+    std::set<ingestion::IFormatExtractor*> seen = {};
+
     for (const auto& mime : factory->registeredMimeTypes()) {
         auto ext = factory->extractorFor(mime);
         if (ext && seen.find(ext.get()) == seen.end()) {
@@ -164,7 +165,7 @@ std::shared_ptr<IngestionToolbox> ToolboxBuilder::build() {
 
     // Helper: determine which category an extractor belongs to based on its
     // supportedMimeTypes() and register the correct builtin step.
-    auto registerFormatStep = [&](std::shared_ptr<ingestion::IFormatExtractor> ext) {
+    auto registerFormatStep = [&]([[maybe_unused]] std::shared_ptr<ingestion::IFormatExtractor> ext) {
         const auto& mimes = ext->supportedMimeTypes();
         if (mimes.empty()) return;
 
@@ -250,7 +251,7 @@ std::shared_ptr<ingestion::IVectorWriter> ToolboxBuilder::vectorWriter() const {
 }
 
 std::size_t ToolboxBuilder::profileCount() const noexcept {
-    return impl_->profile_paths.size();
+    return static_cast<bool>(impl_- < static_cast<int>(profile_paths.size()));
 }
 
 // ── BuiltToolbox special members ─────────────────────────────────────────────

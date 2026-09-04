@@ -30,13 +30,15 @@ static http::request<http::string_body> makeRequest(unsigned version = 11) {
 // Helper: decode RFC 7230 chunked body back to plain text
 // ----------------------------------------------------------------------------
 static std::string decodeChunked(const std::string& body) {
-    std::string result;
+    std::string result = {};
     size_t pos = 0;
     while (pos < body.size()) {
         // Find CRLF after hex size
         size_t crlf = body.find("\r\n", pos);
         EXPECT_NE(crlf, std::string::npos) << "Malformed chunk: missing size CRLF";
-        if (crlf == std::string::npos) break;
+        if (crlf == std::string::npos) {
+          break;
+        }
 
         std::string size_str = body.substr(pos, crlf - pos);
         size_t chunk_size = std::stoul(size_str, nullptr, 16);
@@ -168,7 +170,8 @@ TEST(ChunkedResponseWriterTest, FromJsonVectorChunkBatching) {
     auto req = makeRequest();
 
     // 10 items with chunk_size = 3 → 4 chunks (3+3+3+1)
-    std::vector<json> items;
+    std::vector<json> items = {};
+
     for (int i = 0; i < 10; ++i) {
         items.push_back({{"i", i}});
     }
@@ -181,10 +184,12 @@ TEST(ChunkedResponseWriterTest, FromJsonVectorChunkBatching) {
     // Decode and count NDJSON lines
     std::string decoded = decodeChunked(res.body());
     std::istringstream iss(decoded);
-    std::string line;
+    std::string line = {};
     int line_count = 0;
     while (std::getline(iss, line)) {
-        if (!line.empty()) ++line_count;
+        if (!line.empty()) {
+          ++line_count;
+        }
     }
     EXPECT_EQ(line_count, 10);
 }
@@ -192,7 +197,8 @@ TEST(ChunkedResponseWriterTest, FromJsonVectorChunkBatching) {
 TEST(ChunkedResponseWriterTest, FromJsonVectorMaxItemsLimit) {
     auto req = makeRequest();
 
-    std::vector<json> items;
+    std::vector<json> items = {};
+
     for (int i = 0; i < 20; ++i) {
         items.push_back({{"i", i}});
     }
@@ -205,10 +211,12 @@ TEST(ChunkedResponseWriterTest, FromJsonVectorMaxItemsLimit) {
 
     // Only 5 items should appear
     std::istringstream iss(decoded);
-    std::string line;
+    std::string line = {};
     int line_count = 0;
     while (std::getline(iss, line)) {
-        if (!line.empty()) ++line_count;
+        if (!line.empty()) {
+          ++line_count;
+        }
     }
     EXPECT_EQ(line_count, 5);
 }
@@ -221,7 +229,8 @@ TEST(ChunkedResponseWriterTest, FromStreamBasic) {
     auto req = makeRequest();
 
     // Build a materialized ResultStream<json>
-    std::vector<json> data;
+    std::vector<json> data = {};
+
     for (int i = 0; i < 5; ++i) {
         data.push_back({{"n", i}});
     }
@@ -233,10 +242,12 @@ TEST(ChunkedResponseWriterTest, FromStreamBasic) {
     std::string decoded = decodeChunked(res.body());
 
     std::istringstream iss(decoded);
-    std::string line;
+    std::string line = {};
     int count = 0;
     while (std::getline(iss, line)) {
-        if (!line.empty()) ++count;
+        if (!line.empty()) {
+          ++count;
+        }
     }
     EXPECT_EQ(count, 5);
 }
@@ -256,7 +267,8 @@ TEST(ChunkedResponseWriterTest, FromStreamEmpty) {
 TEST(ChunkedResponseWriterTest, FromStreamMaxItems) {
     auto req = makeRequest();
 
-    std::vector<json> data;
+    std::vector<json> data = {};
+
     for (int i = 0; i < 100; ++i) {
         data.push_back({{"x", i}});
     }
@@ -270,10 +282,12 @@ TEST(ChunkedResponseWriterTest, FromStreamMaxItems) {
     std::string decoded = decodeChunked(res.body());
 
     std::istringstream iss(decoded);
-    std::string line;
+    std::string line = {};
     int count = 0;
     while (std::getline(iss, line)) {
-        if (!line.empty()) ++count;
+        if (!line.empty()) {
+          ++count;
+        }
     }
     EXPECT_EQ(count, 10);
 }
@@ -339,7 +353,8 @@ TEST(ChunkedResponseWriterTest, EncodeDecodeRoundTrip) {
 TEST(ChunkedResponseWriterTest, DecodePreservesContent) {
     // Build via fromJsonVector, then decode – validates the full pipeline
     auto req = makeRequest();
-    std::vector<json> items;
+    std::vector<json> items = {};
+
     for (int i = 0; i < 5; ++i) {
         items.push_back({{"v", i}});
     }
@@ -348,7 +363,7 @@ TEST(ChunkedResponseWriterTest, DecodePreservesContent) {
 
     // Should be 5 NDJSON lines
     std::istringstream iss(decoded);
-    std::string line;
+    std::string line = {};
     int count = 0;
     while (std::getline(iss, line)) {
         if (!line.empty()) {

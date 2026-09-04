@@ -184,7 +184,9 @@ std::vector<ThesisInjection> ContextWindowBudgetManager::selectThesesForRound(
             (std::find(t.activation_rounds.begin(),
                        t.activation_rounds.end(),
                        round_number) != t.activation_rounds.end());
-        if (is_active) active.push_back(&t);
+        if (is_active) {
+          active.push_back(&t);
+        }
         else           inactive.push_back(&t);
     }
 
@@ -200,7 +202,8 @@ std::vector<ThesisInjection> ContextWindowBudgetManager::selectThesesForRound(
         });
 
     // ── Step 3: greedy selection up to available_tokens ──────────────────────
-    std::vector<ThesisInjection> result;
+    std::vector<ThesisInjection> result = {};
+
     result.reserve(profile.typed_theses.size());
 
     int remaining = available_tokens;

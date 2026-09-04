@@ -58,7 +58,9 @@ struct EmbeddingCacheStats {
     size_t memory_bytes = 0;
     
     float hitRate() const {
-        if (total_requests == 0) return 0.0f;
+        if (total_requests == 0) {
+          return 0.0f;
+        }
         return static_cast<float>(cache_hits) / static_cast<float>(total_requests);
     }
 };

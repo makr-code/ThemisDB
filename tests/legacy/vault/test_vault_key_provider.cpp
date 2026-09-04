@@ -65,7 +65,9 @@ protected:
 // ============================================================================
 
 TEST_F(VaultKeyProviderTest, GetKey_ValidKey_ReturnsKeyBytes) {
-    if (!vault_available_) GTEST_SKIP();
+    if (!vault_available_) {
+      GTEST_SKIP();
+    }
     
     // This assumes "test_key" was created in Vault setup
     auto key = provider_->getKey("test_key");
@@ -74,7 +76,9 @@ TEST_F(VaultKeyProviderTest, GetKey_ValidKey_ReturnsKeyBytes) {
 }
 
 TEST_F(VaultKeyProviderTest, GetKey_NonexistentKey_ThrowsException) {
-    if (!vault_available_) GTEST_SKIP();
+    if (!vault_available_) {
+      GTEST_SKIP();
+    }
     
     EXPECT_THROW(
         provider_->getKey("nonexistent_key_12345"),
@@ -83,7 +87,9 @@ TEST_F(VaultKeyProviderTest, GetKey_NonexistentKey_ThrowsException) {
 }
 
 TEST_F(VaultKeyProviderTest, GetKey_Cached_ReturnsSameKey) {
-    if (!vault_available_) GTEST_SKIP();
+    if (!vault_available_) {
+      GTEST_SKIP();
+    }
     
     auto key1 = provider_->getKey("test_key");
     auto key2 = provider_->getKey("test_key");
@@ -97,7 +103,9 @@ TEST_F(VaultKeyProviderTest, GetKey_Cached_ReturnsSameKey) {
 }
 
 TEST_F(VaultKeyProviderTest, ClearCache_ForcesRefetch) {
-    if (!vault_available_) GTEST_SKIP();
+    if (!vault_available_) {
+      GTEST_SKIP();
+    }
     
     auto key1 = provider_->getKey("test_key");
     
@@ -110,7 +118,9 @@ TEST_F(VaultKeyProviderTest, ClearCache_ForcesRefetch) {
 }
 
 TEST_F(VaultKeyProviderTest, GetKeyMetadata_ValidKey_ReturnsMetadata) {
-    if (!vault_available_) GTEST_SKIP();
+    if (!vault_available_) {
+      GTEST_SKIP();
+    }
     
     auto meta = provider_->getKeyMetadata("test_key");
     
@@ -121,7 +131,9 @@ TEST_F(VaultKeyProviderTest, GetKeyMetadata_ValidKey_ReturnsMetadata) {
 }
 
 TEST_F(VaultKeyProviderTest, RotateKey_CreatesNewVersion) {
-    if (!vault_available_) GTEST_SKIP();
+    if (!vault_available_) {
+      GTEST_SKIP();
+    }
     
     // Get current version
     auto meta_before = provider_->getKeyMetadata("test_key");
@@ -142,7 +154,9 @@ TEST_F(VaultKeyProviderTest, RotateKey_CreatesNewVersion) {
 }
 
 TEST_F(VaultKeyProviderTest, ListKeys_ReturnsAllKeys) {
-    if (!vault_available_) GTEST_SKIP();
+    if (!vault_available_) {
+      GTEST_SKIP();
+    }
     
     auto keys = provider_->listKeys();
     
@@ -164,7 +178,9 @@ TEST_F(VaultKeyProviderTest, ListKeys_ReturnsAllKeys) {
 // ============================================================================
 
 TEST_F(VaultKeyProviderTest, CacheHitRate_ImprovesOverTime) {
-    if (!vault_available_) GTEST_SKIP();
+    if (!vault_available_) {
+      GTEST_SKIP();
+    }
     
     provider_->clearCache();
     
@@ -188,7 +204,9 @@ TEST_F(VaultKeyProviderTest, CacheHitRate_ImprovesOverTime) {
 // ============================================================================
 
 TEST_F(VaultKeyProviderTest, Integration_EncryptDecryptWithVault) {
-    if (!vault_available_) GTEST_SKIP();
+    if (!vault_available_) {
+      GTEST_SKIP();
+    }
     
     auto encryption = std::make_shared<FieldEncryption>(provider_);
     EncryptedField<std::string>::setFieldEncryption(encryption);
@@ -201,7 +219,9 @@ TEST_F(VaultKeyProviderTest, Integration_EncryptDecryptWithVault) {
 }
 
 TEST_F(VaultKeyProviderTest, Integration_UserEntity) {
-    if (!vault_available_) GTEST_SKIP();
+    if (!vault_available_) {
+      GTEST_SKIP();
+    }
     
     auto encryption = std::make_shared<FieldEncryption>(provider_);
     EncryptedField<std::string>::setFieldEncryption(encryption);
@@ -236,7 +256,9 @@ TEST_F(VaultKeyProviderTest, Integration_UserEntity) {
 }
 
 TEST_F(VaultKeyProviderTest, Integration_CustomerEntity) {
-    if (!vault_available_) GTEST_SKIP();
+    if (!vault_available_) {
+      GTEST_SKIP();
+    }
     
     auto encryption = std::make_shared<FieldEncryption>(provider_);
     EncryptedField<std::string>::setFieldEncryption(encryption);
@@ -263,7 +285,9 @@ TEST_F(VaultKeyProviderTest, Integration_CustomerEntity) {
 }
 
 TEST_F(VaultKeyProviderTest, Integration_KeyRotation) {
-    if (!vault_available_) GTEST_SKIP();
+    if (!vault_available_) {
+      GTEST_SKIP();
+    }
     
     auto encryption = std::make_shared<FieldEncryption>(provider_);
     EncryptedField<std::string>::setFieldEncryption(encryption);
@@ -377,7 +401,8 @@ TEST_F(EncryptedEntitiesTest, Performance_BulkUserCreation) {
     const int NUM_USERS = 1000;
     auto start = std::chrono::high_resolution_clock::now();
     
-    std::vector<User> users;
+    std::vector<User> users = {};
+
     for (int i = 0; i < NUM_USERS; i++) {
         User user;
         user.id = "user-" + std::to_string(i);

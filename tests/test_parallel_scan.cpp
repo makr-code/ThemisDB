@@ -35,14 +35,17 @@ std::vector<std::string> insertItems(SecondaryIndexManager& idx,
                                      size_t count,
                                      const std::string& match_value,
                                      size_t num_matching) {
-    std::vector<std::string> expected_pks;
+    std::vector<std::string> expected_pks = {};
+
     for (size_t i = 0; i < count; ++i) {
         std::string pk = "item" + std::to_string(i);
         std::string val = (i < num_matching) ? match_value : "other_" + std::to_string(i);
         BaseEntity::FieldMap f{{"value", val}};
         BaseEntity e = BaseEntity::fromFields(pk, f);
         EXPECT_TRUE(idx.put("items", e).ok);
-        if (i < num_matching) expected_pks.push_back(pk);
+        if (i < num_matching) {
+          expected_pks.push_back(pk);
+        }
     }
     return expected_pks;
 }
@@ -173,13 +176,16 @@ TEST(ParallelScanTest, ParallelAndSequentialResultsAgree) {
     const size_t N = scan_cfg.parallel_threshold + 100;
     const size_t NUM_MATCHING = 50;
 
-    std::vector<std::string> expected;
+    std::vector<std::string> expected = {};
+
     for (size_t i = 0; i < N; ++i) {
         std::string pk = "k" + std::to_string(i);
         std::string val = (i < NUM_MATCHING) ? "yes" : "no";
         BaseEntity e = BaseEntity::fromFields(pk, {{"flag", val}});
         ASSERT_TRUE(idx.put("data", e).ok);
-        if (i < NUM_MATCHING) expected.push_back(pk);
+        if (i < NUM_MATCHING) {
+          expected.push_back(pk);
+        }
     }
 
     QueryEngine engine(db, idx);

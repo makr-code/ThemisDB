@@ -370,7 +370,9 @@ TEST(ZeroCopyLoggerTest, ConcurrentLogSV_NoRaceOrCrash) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     SUCCEED(); // Reached here means no crash or heap corruption.
 }
 
@@ -396,7 +398,9 @@ TEST(ZeroCopyLoggerTest, ConcurrentLogStructuredSV_NoRaceOrCrash) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     SUCCEED(); // Reached here means no crash or heap corruption.
 }
 
@@ -515,6 +519,8 @@ TEST(ZeroCopyLoggerTest, ConcurrentSetJsonMode_WhileLogging_NoRaceOrCrash) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     SUCCEED(); // Reached without crash or data race means the atomic fix is effective.
 }

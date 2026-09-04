@@ -210,7 +210,9 @@ public:
 
     void clear() {
         std::unique_lock<std::mutex> lock(mutex_);
-        while (!queue_.empty()) queue_.pop();
+        while (!queue_.empty()) {
+          queue_.pop();
+        }
         current_size_ = 0;
     }
 
@@ -358,9 +360,13 @@ namespace utils {
      * Calculate p95 from a sorted vector of latencies (in nanoseconds).
      */
     inline int64_t calculateP95(const std::vector<int64_t>& latencies) {
-        if (latencies.empty()) return 0;
+        if (latencies.empty()) {
+          return 0;
+        }
         size_t idx = static_cast<size_t>(latencies.size() * 0.95);
-        if (idx >= latencies.size()) idx = latencies.size() - 1;
+        if (idx >= latencies.size()) {
+          idx = latencies.size() - 1;
+        }
         return latencies[idx];
     }
 
@@ -368,9 +374,13 @@ namespace utils {
      * Calculate p99 from a sorted vector of latencies (in nanoseconds).
      */
     inline int64_t calculateP99(const std::vector<int64_t>& latencies) {
-        if (latencies.empty()) return 0;
+        if (latencies.empty()) {
+          return 0;
+        }
         size_t idx = static_cast<size_t>(latencies.size() * 0.99);
-        if (idx >= latencies.size()) idx = latencies.size() - 1;
+        if (idx >= latencies.size()) {
+          idx = latencies.size() - 1;
+        }
         return latencies[idx];
     }
 

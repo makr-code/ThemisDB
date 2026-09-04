@@ -279,6 +279,8 @@ TEST_F(TimeWindowReportTest, ToCSVContainsHeaderAndDataRow) {
     // Two lines: header + data
     size_t line_count = 0;
     for (char c : csv)
-        if (c == '\n') ++line_count;
+        if (c == '\n') {
+          ++line_count;
+        }
     EXPECT_GE(line_count, 2u);
 }

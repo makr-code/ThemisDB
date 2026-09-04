@@ -195,10 +195,12 @@ static std::vector<themis::BaseEntity> loadCollection(const std::string& collect
     if (collection_name.size() > 1 && collection_name[0] == '@') {
         // Pipe mode: "@" prefix means read JSONL from stdin
         const std::string actual_name = collection_name.substr(1);
-        std::string line;
+        std::string line = {};
         size_t idx = 0;
         while (std::getline(std::cin, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             try {
                 entities.push_back(
                     themis::BaseEntity::fromJson("doc_" + std::to_string(idx++), line));
@@ -224,7 +226,7 @@ int main(int argc, char** argv) {
         return 3;
     }
 
-    ExportCliConfig cfg;
+    ExportCliConfig cfg = {};
     if (!parseArgs(argc, argv, cfg)) {
         printUsage(argv[0]);
         return 3;
@@ -240,7 +242,9 @@ int main(int argc, char** argv) {
         // Map name → FormatTemplateType
         FormatTemplateType tpl_type = FormatTemplateType::NONE;
         const std::string& tname = cfg.validate_template;
-        if      (tname == "alpaca")             tpl_type = FormatTemplateType::ALPACA;
+        if      (tname == "alpaca") {
+          tpl_type = FormatTemplateType::ALPACA;
+        }
         else if (tname == "sharegpt")           tpl_type = FormatTemplateType::SHAREGPT;
         else if (tname == "chatml")             tpl_type = FormatTemplateType::CHATML;
         else if (tname == "openai" ||

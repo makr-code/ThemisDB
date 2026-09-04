@@ -84,7 +84,7 @@ struct ScriptCounts {
 
 ScriptCounts countScriptBytes(std::string_view text) {
     ScriptCounts c;
-    for (size_t i = 0; i + 1 < text.size(); ++i) {
+    for (size_t i = 0; i + 1 <static_cast<int>(text.size()); ++i) {
         auto b0 = static_cast<unsigned char>(text[i]);
         auto b1 = static_cast<unsigned char>(text[i + 1]);
 
@@ -94,7 +94,7 @@ ScriptCounts countScriptBytes(std::string_view text) {
         } else if (b0 == 0xD8 || b0 == 0xD9 || b0 == 0xDA || b0 == 0xDB) {
             // Arabic / Arabic Supplement
             ++c.arabic;
-        } else if (i + 2 < text.size()) {
+        } else if (i + 2 <static_cast<int>(text.size())) {
             [[maybe_unused]] auto b2 = static_cast<unsigned char>(text[i + 2]);
             if (b0 == 0xE3 && b1 >= 0x81 && b1 <= 0x83) {
                 // Hiragana (E3 81..) / Katakana (E3 82..)
@@ -111,8 +111,8 @@ ScriptCounts countScriptBytes(std::string_view text) {
 // Convert to lowercase ASCII in-place (leaves non-ASCII bytes unchanged so
 // that script detection still works on the raw bytes).
 std::string toLower(std::string_view text) {
-    std::string lower;
-    lower.reserve(text.size() + 2);
+    std::string lower = {};
+    lower.reserve(static_cast<int>(text.size()) + 2);
     lower += ' '; // sentinel: ensure first word gets a leading space
     for (unsigned char c : text) {
         lower += static_cast<char>((c < 128) ? static_cast<char>(std::tolower(static_cast<int>(c))) : c);
@@ -171,7 +171,7 @@ DetectedLanguage LanguageDetector::detect(std::string_view text) const {
     ScriptCounts sc    = countScriptBytes(text);
     size_t total_chars = text.size();
 
-    auto scriptFraction = [&](size_t count) -> float {
+    auto scriptFraction = [&]([[maybe_unused]] size_t count) -> float {
         return (total_chars > 0) ? static_cast<float>(count) / static_cast<float>(total_chars) : 0.0f;
     };
 

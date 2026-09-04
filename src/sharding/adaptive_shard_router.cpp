@@ -86,7 +86,7 @@ std::string AdaptiveShardRouter::routeByDomain(
 ) const {
     std::lock_guard<std::mutex> lock(domain_scores_mutex_);
 
-    std::string best_shard;
+    std::string best_shard = {};
     double best_delta = std::numeric_limits<double>::lowest();
     uint64_t best_pending = std::numeric_limits<uint64_t>::max();
     int best_freshness_rank = 2;  // 0=fresh, 1=stale, 2=missing
@@ -161,7 +161,7 @@ nlohmann::json AdaptiveShardRouter::executeQuery(const std::string& query) {
         return ShardRouter::executeQuery(query);
     }
     
-    AdaptiveStats stats;
+    AdaptiveStats stats = {};
     return executeAdaptiveQuery(query, stats);
 }
 
@@ -235,7 +235,7 @@ nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
         auto iteration_start = std::chrono::high_resolution_clock::now();
         
         // Select shards for this iteration
-        double threshold = iteration < thresholds.size() ? 
+        double threshold = iteration <static_cast<int>(thresholds.size()) ? 
                           thresholds[iteration] : adaptive_config_.fallback_threshold;
         
         auto shard_ids = selectShardsForIteration(
@@ -286,7 +286,7 @@ nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
         uint64_t elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             execution_current - execution_start).count();
         
-        std::string stop_reason;
+        std::string stop_reason = {};
         if (shouldStop(stats.total_results, previous_result_count, 
                       elapsed_ms, iteration + 1, stop_reason)) {
             stats.stopped_early = true;
@@ -312,7 +312,7 @@ nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
     
     // Calculate iterations saved
     uint32_t potential_iterations = static_cast<uint32_t>(
-        (all_shards.size() + 
+        (static_cast<int>(all_shards.size()) + 
         adaptive_config_.results_per_iteration - 1) / 
         adaptive_config_.results_per_iteration);
     if (potential_iterations > stats.iterations_executed) {
@@ -432,11 +432,12 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
     const std::set<std::string>& already_queried
 ) {
     struct Candidate {
-        std::string shard_id;
+        std::string shard_id = {};
         double score = 0.0;
     };
 
-    std::vector<Candidate> candidates;
+    std::vector<Candidate> candidates = {};
+
     candidates.reserve(match_results.size());
 
     for (const auto& match : match_results) {
@@ -471,11 +472,12 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
         return lhs.shard_id < rhs.shard_id;
     });
 
-    std::vector<std::string> selected;
-    selected.reserve(std::min(max_shards, candidates.size()));
+    std::vector<std::string> selected = {};
+
+    selected.reserve(std::min(max_shards,static_cast<int>(candidates.size())));
     for (const auto& candidate : candidates) {
         selected.push_back(candidate.shard_id);
-        if (selected.size() >= max_shards) {
+        if (static_cast<int>(selected.size()) > = max_shards) {
             break;
         }
     }
@@ -578,7 +580,8 @@ AdaptiveShardRouter::IterationStats AdaptiveShardRouter::calculateIterationStats
     }
     
     // Calculate score statistics for queried shards
-    std::vector<double> scores;
+    std::vector<double> scores = {};
+
     for (const auto& shard_id : shard_ids) {
         for (const auto& match : match_results) {
             if (match.shard_id == shard_id) {

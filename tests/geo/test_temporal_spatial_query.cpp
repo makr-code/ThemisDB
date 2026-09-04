@@ -186,8 +186,12 @@ TEST(AllLocationsAtTime, ReturnsAllEntitiesWithGeometry) {
     EXPECT_EQ(locs.size(), 2u);
     bool has_v1 = false, has_v2 = false;
     for (const auto& [k, g] : locs) {
-        if (k == "v1") has_v1 = true;
-        if (k == "v2") has_v2 = true;
+        if (k == "v1") {
+          has_v1 = true;
+        }
+        if (k == "v2") {
+          has_v2 = true;
+        }
     }
     EXPECT_TRUE(has_v1);
     EXPECT_TRUE(has_v2);
@@ -258,8 +262,12 @@ TEST(EntitiesWithinDistanceAtTime, FindsNearbyEntities) {
     EXPECT_EQ(result.size(), 2u);
     bool has_mitte = false, has_potsdamer = false;
     for (const auto& doc : result) {
-        if (doc.key == "berlin_mitte") has_mitte = true;
-        if (doc.key == "potsdamer_platz") has_potsdamer = true;
+        if (doc.key == "berlin_mitte") {
+          has_mitte = true;
+        }
+        if (doc.key == "potsdamer_platz") {
+          has_potsdamer = true;
+        }
     }
     EXPECT_TRUE(has_mitte);
     EXPECT_TRUE(has_potsdamer);

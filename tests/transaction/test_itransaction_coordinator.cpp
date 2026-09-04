@@ -211,7 +211,8 @@ public:
     }
 
     std::vector<InDoubtTxnDescriptor> getInDoubtTransactions() const override {
-        std::vector<InDoubtTxnDescriptor> result;
+        std::vector<InDoubtTxnDescriptor> result = {};
+
         for (const auto& [id, state] : states_) {
             if (state == TxnLifecycleState::COMPLETED ||
                 state == TxnLifecycleState::FAILED) {

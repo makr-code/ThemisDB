@@ -28,7 +28,9 @@ protected:
 
         while (true) {
             auto p = decoder.next();
-            if (!p.has_value()) break;
+            if (!p.has_value()) {
+              break;
+            }
             output.push_back(*p);
         }
 
@@ -177,7 +179,9 @@ TEST_F(GorillaCodecEdgeCasesTest, HandlesOutOfOrderTimestamps) {
     int count = 0;
     while (true) {
         auto p = decoder.next();
-        if (!p.has_value()) break;
+        if (!p.has_value()) {
+          break;
+        }
         count++;
     }
     
@@ -204,7 +208,9 @@ TEST_F(GorillaCodecEdgeCasesTest, HandlesDuplicateTimestamps) {
     
     while (true) {
         auto p = decoder.next();
-        if (!p.has_value()) break;
+        if (!p.has_value()) {
+          break;
+        }
         output.push_back(*p);
     }
     
@@ -410,7 +416,9 @@ TEST_F(GorillaCodecEdgeCasesTest, CompressesRealisticSensorData) {
     int count = 0;
     while (true) {
         auto p = decoder.next();
-        if (!p.has_value()) break;
+        if (!p.has_value()) {
+          break;
+        }
         count++;
     }
     

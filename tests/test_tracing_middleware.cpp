@@ -63,7 +63,9 @@ TEST_F(TracingMiddlewareTest, GenerateUuidV4_ThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // All UUIDs must be unique
     std::sort(results.begin(), results.end());

@@ -37,7 +37,7 @@ namespace api {
  */
 struct ServiceDescriptor {
     /// Fully-qualified gRPC service name, e.g. "themis.v1.ThemisDB".
-    std::string service_name;
+    std::string service_name = {};
 
     /// Package prefix prepended to `service_name` in the Protobuf namespace.
     std::string package; // e.g. "themis.v1"
@@ -73,7 +73,7 @@ struct GRPCMetadata {
     std::string content_type = "application/grpc";
 
     /// Deadline expressed as ISO-8601 timestamp string (empty = no deadline).
-    std::string deadline;
+    std::string deadline = {};
 
     /// Arbitrary user-defined key/value metadata entries (gRPC custom headers).
     std::unordered_map<std::string, std::string> user_metadata;

@@ -503,9 +503,13 @@ public:
 
         // 3. Cardinality-drift check against the cached statistics snapshot
         for (const auto& [table, cached_card] : entry.statistics_snapshot.table_cardinalities) {
-            if (cached_card == 0) continue;
+            if (cached_card == 0) {
+              continue;
+            }
             auto it = current_stats.table_cardinalities.find(table);
-            if (it == current_stats.table_cardinalities.end()) continue;
+            if (it == current_stats.table_cardinalities.end()) {
+              continue;
+            }
             const double ratio = static_cast<double>(it->second) /
                                  static_cast<double>(cached_card);
             if (ratio > cardinality_drift_factor_ ||

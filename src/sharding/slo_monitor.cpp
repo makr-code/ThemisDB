@@ -59,12 +59,12 @@ void SLOWindow::recordDowntime(std::chrono::milliseconds duration) {
  * @brief Append a latency sample.
  * @param latency_ms Latency value in milliseconds.
  */
-void SLOWindow::recordLatency(double latency_ms) {
+void SLOWindow::recordLatency([[maybe_unused]] double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     latency_samples_.push_back(latency_ms);
     
     // Keep only recent samples
-    if (latency_samples_.size() > max_latency_samples_) {
+    if (static_cast<int>(latency_samples_.size()) > max_latency_samples_) {
         latency_samples_.erase(latency_samples_.begin());
     }
 }
@@ -73,7 +73,7 @@ void SLOWindow::recordLatency(double latency_ms) {
  * @brief Record bytes lost for durability accounting.
  * @param bytes_lost Lost bytes.
  */
-void SLOWindow::recordDataLoss(uint64_t bytes_lost) {
+void SLOWindow::recordDataLoss([[maybe_unused]] uint64_t bytes_lost) {
     total_bytes_lost_.fetch_add(bytes_lost, std::memory_order_relaxed);
 }
 
@@ -81,12 +81,12 @@ void SLOWindow::recordDataLoss(uint64_t bytes_lost) {
  * @brief Append replication lag sample.
  * @param lag_ms Lag value in milliseconds.
  */
-void SLOWindow::recordReplicationLag(double lag_ms) {
+void SLOWindow::recordReplicationLag([[maybe_unused]] double lag_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     replication_lag_samples_.push_back(lag_ms);
     
     // Keep only recent samples
-    if (replication_lag_samples_.size() > max_lag_samples_) {
+    if (static_cast<int>(replication_lag_samples_.size()) > max_lag_samples_) {
         replication_lag_samples_.erase(replication_lag_samples_.begin());
     }
 }
@@ -158,7 +158,7 @@ double SLOWindow::getAvgReplicationLag() const {
  * @param target_availability SLO target in [0,1].
  * @return Remaining budget ratio where 1.0 is full budget remaining.
  */
-double SLOWindow::getErrorBudget(double target_availability) const {
+double SLOWindow::getErrorBudget([[maybe_unused]] double target_availability) const {
     double current_availability = getAvailability();
     double error_budget = 1.0 - target_availability;
     double error_used = 1.0 - current_availability;
@@ -197,7 +197,7 @@ double SLOWindow::calculatePercentile(const std::vector<double>& samples, double
     std::vector<double> sorted = samples;
     std::sort(sorted.begin(), sorted.end());
     
-    size_t index = static_cast<size_t>(percentile * (sorted.size() - 1));
+    size_t index = static_cast<size_t>(percentile * (static_cast<int>(sorted.size()) - 1));
     return sorted[index];
 }
 
@@ -258,7 +258,7 @@ void SLOMonitor::recordReplicationLag(const std::string& shard_id, double lag_ms
 
 /** @brief Record leader-election duration and emit violation alert when exceeded. */
 void SLOMonitor::recordLeaderElection([[maybe_unused]] const std::string& shard_id, double duration_s) {
-    double max_leader_election_time_s;
+    double max_leader_election_time_s = 0;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         max_leader_election_time_s = config_.targets.max_leader_election_time_s;
@@ -310,7 +310,7 @@ bool SLOMonitor::isLatencySLOMet(const std::string& query_type) const {
 /** @brief Check shard durability (data-loss rate) against configured tolerance. */
 bool SLOMonitor::isDurabilitySLOMet(const std::string& shard_id) const {
     std::shared_ptr<SLOWindow> window;
-    double data_loss_tolerance;
+    double data_loss_tolerance = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = shard_windows_.find(shard_id);
@@ -332,7 +332,7 @@ bool SLOMonitor::isDurabilitySLOMet(const std::string& shard_id) const {
 /** @brief Check shard consistency (avg replication lag) against configured cap. */
 bool SLOMonitor::isConsistencySLOMet(const std::string& shard_id) const {
     std::shared_ptr<SLOWindow> window;
-    double max_replication_lag_ms;
+    double max_replication_lag_ms = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = shard_windows_.find(shard_id);
@@ -354,7 +354,7 @@ bool SLOMonitor::isConsistencySLOMet(const std::string& shard_id) const {
 /** @brief Return remaining error budget fraction for one shard. */
 double SLOMonitor::getErrorBudget(const std::string& shard_id) const {
     std::shared_ptr<SLOWindow> window;
-    double availability_target;
+    double availability_target = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = shard_windows_.find(shard_id);
@@ -375,7 +375,7 @@ double SLOMonitor::getErrorBudget(const std::string& shard_id) const {
 /** @brief Return mean remaining error budget across all tracked shards. */
 double SLOMonitor::getGlobalErrorBudget() const {
     std::vector<std::shared_ptr<SLOWindow>> windows;
-    double availability_target;
+    double availability_target = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         if (shard_windows_.empty()) {
@@ -402,7 +402,7 @@ double SLOMonitor::getGlobalErrorBudget() const {
 
 /** @brief Return true when shard's remaining budget crosses exhaustion threshold. */
 bool SLOMonitor::isErrorBudgetExhausted(const std::string& shard_id) const {
-    double alert_threshold;
+    double alert_threshold = 0;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         alert_threshold = config_.alert_threshold;
@@ -427,7 +427,7 @@ std::string SLOMonitor::generateSLOReport() const {
         active_alerts = active_alerts_;
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "=== ThemisDB Sharding SLO Report ===\n\n";
     oss << "Report Time: " << std::chrono::system_clock::now().time_since_epoch().count() << "\n";
@@ -548,7 +548,7 @@ std::string SLOMonitor::generateSLOReportJSON() const {
 /** @brief Return aggregate compliance metrics map for dashboards/tests. */
 std::map<std::string, double> SLOMonitor::getSLOCompliance() const {
     std::map<std::string, std::shared_ptr<SLOWindow>> shard_windows;
-    double availability_target;
+    double availability_target = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         shard_windows = shard_windows_;
@@ -609,7 +609,8 @@ SLOMonitor::RepairProgress SLOMonitor::getRepairProgress(const std::string& job_
 /** @brief List all repair jobs currently not marked completed. */
 std::vector<SLOMonitor::RepairProgress> SLOMonitor::getActiveRepairJobs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<RepairProgress> active;
+    std::vector<RepairProgress> active = {};
+
     for (const auto& [id, prog] : repair_progress_) {
         if (!prog.completed) {
             active.push_back(prog);
@@ -728,7 +729,7 @@ void SLOMonitor::checkAndGenerateAlerts() {
 
 /** @brief Format one SLO violation message line for alert/report output. */
 std::string SLOMonitor::formatSLOViolation(const std::string& slo_name, double actual, double target) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "SLO VIOLATION: " << slo_name 
         << " (actual: " << std::fixed << std::setprecision(4) << actual 
         << ", target: " << target << ")";
@@ -820,14 +821,14 @@ std::string SLOReporter::generateReportFilename() const {
     auto time_t = std::chrono::system_clock::to_time_t(now);
     
     // Use thread-safe localtime
-    std::tm tm;
+    std::tm tm = {};
 #ifdef _WIN32
     localtime_s(&tm, &time_t);
 #else
     localtime_r(&time_t, &tm);
 #endif
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << config_.output_path << "slo_report_"
         << std::put_time(&tm, "%Y%m%d_%H%M%S")
         << ".txt";

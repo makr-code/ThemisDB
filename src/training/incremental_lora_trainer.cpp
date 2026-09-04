@@ -135,7 +135,7 @@ namespace checkpoint {
                                    size_t step,
                                    double loss,
                                    double accuracy) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "version=" << version << "\n"
             << "format_version=" << FORMAT_VERSION << "\n"
             << "epoch=" << epoch << "\n"
@@ -154,37 +154,51 @@ namespace checkpoint {
                        double& accuracy,
                        std::string* error_reason = nullptr) {
         std::istringstream iss(data);
-        std::string line;
+        std::string line = {};
         while (std::getline(iss, line)) {
             auto eq = line.find('=');
-            if (eq == std::string::npos) continue;
+            if (eq == std::string::npos) {
+              continue;
+            }
             std::string key = line.substr(0, eq);
             std::string val = line.substr(eq + 1);
-            if (key == "version") version = val;
+            if (key == "version") {
+              version = val;
+            }
             else if (key == "epoch") {
                 if (!parseSizeTStrict(val, epoch)) {
-                    if (error_reason) *error_reason = "invalid epoch";
+                    if (error_reason) {
+                      *error_reason = "invalid epoch";
+                    }
                     return false;
                 }
             } else if (key == "step") {
                 if (!parseSizeTStrict(val, step)) {
-                    if (error_reason) *error_reason = "invalid step";
+                    if (error_reason) {
+                      *error_reason = "invalid step";
+                    }
                     return false;
                 }
             } else if (key == "loss") {
                 if (!parseDoubleStrict(val, loss)) {
-                    if (error_reason) *error_reason = "invalid loss";
+                    if (error_reason) {
+                      *error_reason = "invalid loss";
+                    }
                     return false;
                 }
             } else if (key == "accuracy") {
                 if (!parseDoubleStrict(val, accuracy)) {
-                    if (error_reason) *error_reason = "invalid accuracy";
+                    if (error_reason) {
+                      *error_reason = "invalid accuracy";
+                    }
                     return false;
                 }
             }
         }
         if (version.empty()) {
-            if (error_reason) *error_reason = "missing version";
+            if (error_reason) {
+              *error_reason = "missing version";
+            }
             return false;
         }
         return true;
@@ -195,7 +209,7 @@ namespace checkpoint {
 // Version registry (Phase 4) – in-memory store for deployed versions
 // ============================================================================
 struct VersionRecord {
-    std::string version;
+    std::string version = {};
     float traffic_split = 0.0f;   ///< 0..1, fraction of traffic routed to this version
     bool is_active = false;
     std::chrono::system_clock::time_point deployed_at;
@@ -225,19 +239,19 @@ public:
         // Fail-closed concurrency guard: train() is not thread-safe.
         // Reject any call that arrives while a training run is already in progress.
         if (training_active_.exchange(true)) {
-            TrainingResult early;
+            TrainingResult early = TrainingResult();
             early.success = false;
             early.error_message = "concurrent train() call rejected";
             THEMIS_ERROR("IncrementalLoRATrainer: concurrent train() call rejected (not thread-safe)");
             return early;
         }
 
-        TrainingResult result;
+        TrainingResult result = TrainingResult();
         auto start_time = std::chrono::steady_clock::now();
 
-        std::string sanitized_collection_name;
-        std::string blocked_rule;
-        std::string blocked_reason;
+        std::string sanitized_collection_name = {};
+        std::string blocked_rule = {};
+        std::string blocked_reason = {};
         if (!sanitizeTrainingPromptLikeText(config_.training_data_collection,
                                             sanitized_collection_name,
                                             &blocked_rule,
@@ -280,7 +294,7 @@ public:
                 double epoch_loss = 0.0;
                 size_t steps_in_epoch = 0;
 
-                size_t n = std::max<size_t>(1, training_data.size());
+                size_t n = std::max<size_t>(1,static_cast<int>(training_data.size()));
                 for (size_t i = 0; i < n; i += std::max<size_t>(1, config_.batch_size)) {
                     // Real LoRA weight manipulation:
                     //   1. Create input/target batch (from training_data or synthetic)
@@ -311,7 +325,7 @@ public:
                     metrics_.step_losses.push_back(step_loss);
                     metrics_.total_steps++;
 
-                    if (callback && steps_in_epoch % 10 == 0) {
+                    if ([[maybe_unused]] callback && steps_in_epoch % 10 == 0) {
                         callback(epoch, steps_in_epoch, step_loss,
                                  "Training epoch " + std::to_string(epoch));
                     }
@@ -327,7 +341,7 @@ public:
 
                 // Record per-epoch metrics
                 auto epoch_end = std::chrono::steady_clock::now();
-                EpochMetrics em;
+                EpochMetrics em = EpochMetrics();
                 em.epoch    = epoch;
                 em.steps    = steps_in_epoch;
                 em.train_loss = avg_loss;
@@ -380,7 +394,7 @@ public:
     // -------------------------------------------------------------------------
     TrainingResult resumeFromCheckpoint(const std::string& checkpoint_path,
                                         TrainingCallback callback) {
-        TrainingResult result;
+        TrainingResult result = TrainingResult();
         auto start_time = std::chrono::steady_clock::now();
 
         if (checkpoint_path.empty()) {
@@ -389,12 +403,12 @@ public:
         } else {
             try {
                 // Phase 5: Load checkpoint metadata
-                std::string version;
+                std::string version = {};
                 size_t resumed_epoch = 0;
                 size_t resumed_step  = 0;
                 double saved_loss    = 0.0;
                 double saved_acc     = 0.0;
-                std::string load_error;
+                std::string load_error = {};
 
                 bool loaded = loadCheckpoint(checkpoint_path, version,
                                              resumed_epoch, resumed_step,
@@ -407,7 +421,7 @@ public:
                         result.error_message += " (" + load_error + ")";
                     }
                 } else {
-                    std::string integrity_error;
+                    std::string integrity_error = {};
                     if (!verifyCheckpointPayloadIntegrity(checkpoint_path,
                                                           version,
                                                           resumed_epoch,
@@ -422,7 +436,7 @@ public:
 #ifdef THEMIS_ENABLE_LLM
                         // Restore LoRA weights from saved checkpoint if available
                         initLoRAComponents();
-                        std::string weight_load_error;
+                        std::string weight_load_error = {};
                         if (!loadCheckpointWeights(checkpoint_path, &weight_load_error)) {
                             result.success = false;
                             result.error_message =
@@ -458,7 +472,7 @@ public:
     // Phase 4: Evaluation
     // -------------------------------------------------------------------------
     TrainingResult evaluate(const std::string& adapter_version) {
-        TrainingResult result;
+        TrainingResult result = TrainingResult();
         auto start_time = std::chrono::steady_clock::now();
         result.version = adapter_version;
 
@@ -506,8 +520,12 @@ public:
     // Phase 4: Deployment and version management
     // -------------------------------------------------------------------------
     bool deployVersion(const std::string& adapter_version, float traffic_split) {
-        if (adapter_version.empty()) return false;
-        if (traffic_split < 0.0f || traffic_split > 1.0f) return false;
+        if (adapter_version.empty()) {
+          return false;
+        }
+        if (traffic_split < 0.0f || traffic_split > 1.0f) {
+          return false;
+        }
         std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
 
         // Phase 4: Traffic-split deployment
@@ -515,7 +533,7 @@ public:
         auto it = version_registry_.find(adapter_version);
         if (it == version_registry_.end()) {
             // Register on-the-fly (version might come from external storage)
-            VersionRecord rec;
+            VersionRecord rec = VersionRecord();
             rec.version       = adapter_version;
             rec.traffic_split = traffic_split;
             rec.is_active     = (traffic_split > 0.0f);
@@ -548,14 +566,16 @@ public:
     }
 
     bool rollbackVersion(const std::string& target_version) {
-        if (target_version.empty()) return false;
+        if (target_version.empty()) {
+          return false;
+        }
         std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
 
         // Phase 4: Rollback – set target to 100% traffic
         auto it = version_registry_.find(target_version);
         if (it == version_registry_.end()) {
             // Allow rollback to an externally-known version
-            VersionRecord rec;
+            VersionRecord rec = VersionRecord();
             rec.version       = target_version;
             rec.traffic_split = 1.0f;
             rec.is_active     = true;
@@ -603,7 +623,9 @@ public:
                 }
             }
         }
-        if (active.empty() || total <= 0.0f) return "";
+        if (active.empty() || total <= 0.0f) {
+          return "";
+        }
 
         // Weighted random draw in [0, total).
         static thread_local std::mt19937 rng{std::random_device{}()};
@@ -613,7 +635,9 @@ public:
         float cumulative = 0.0f;
         for (const auto& [ver, weight] : active) {
             cumulative += weight;
-            if (roll < cumulative) return ver;
+            if (roll < cumulative) {
+              return ver;
+            }
         }
         // Fallback: return the last active version (handles floating-point edge cases).
         return active.back().first;
@@ -623,9 +647,15 @@ public:
     // Phase 3: Hyperparameter API
     // -------------------------------------------------------------------------
     void setHyperparameters(int rank, float alpha, float learning_rate) {
-        if (rank <= 0) throw std::invalid_argument("LoRA rank must be positive");
-        if (alpha <= 0.0f) throw std::invalid_argument("LoRA alpha must be positive");
-        if (learning_rate <= 0.0f) throw std::invalid_argument("Learning rate must be positive");
+        if (rank <= 0) {
+          throw std::invalid_argument("LoRA rank must be positive");
+        }
+        if (alpha <= 0.0f) {
+          throw std::invalid_argument("LoRA alpha must be positive");
+        }
+        if (learning_rate <= 0.0f) {
+          throw std::invalid_argument("Learning rate must be positive");
+        }
 
         config_.rank          = rank;
         config_.alpha         = alpha;
@@ -674,14 +704,14 @@ public:
         shard_id_ = shard_id.empty() ? "default_shard" : shard_id;
     }
 
-    void setFederatedLearningRate(double lr) {
+    void setFederatedLearningRate([[maybe_unused]] double lr) {
         if (lr <= 0.0)
             throw std::invalid_argument("Federated learning rate must be positive");
         federated_lr_ = lr;
     }
 
     themis::distributed_knowledge::EncryptedGradient
-    exportGradient(uint64_t federation_round) {
+    exportGradient([[maybe_unused]] uint64_t federation_round) {
         if (gradient_update_count_ == 0) {
             throw std::runtime_error("no training since last export");
         }
@@ -739,7 +769,7 @@ public:
         std::lock_guard<std::mutex> checkpoint_lock(checkpoint_manager_mutex_);
         // Lazily initialise checkpoint_manager_ for the configured directory.
         if (!checkpoint_manager_) {
-            CheckpointManagerConfig mgr_cfg;
+            CheckpointManagerConfig mgr_cfg = CheckpointManagerConfig();
             mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
             checkpoint_manager_ = std::make_unique<LoRACheckpointManager>(mgr_cfg);
         }
@@ -764,7 +794,7 @@ public:
 
         std::lock_guard<std::mutex> checkpoint_lock(checkpoint_manager_mutex_);
         if (!checkpoint_manager_) {
-            CheckpointManagerConfig mgr_cfg;
+            CheckpointManagerConfig mgr_cfg = CheckpointManagerConfig();
             mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
             checkpoint_manager_ = std::make_unique<LoRACheckpointManager>(mgr_cfg);
         }
@@ -838,7 +868,7 @@ public:
         // to prevent lock-order inversion / deadlock (gap-scanner finding).
         // The failure reason is captured inside router_mutex_, then the registry
         // revert is performed afterward under version_registry_mutex_ alone.
-        std::string router_failure;
+        std::string router_failure = {};
         {
             try {
                 std::lock_guard<std::mutex> lk(router_mutex_);
@@ -886,7 +916,7 @@ public:
         // Propagate to LLM router when available.
         // router_mutex_ and version_registry_mutex_ are NEVER held simultaneously
         // to prevent lock-order inversion / deadlock (gap-scanner finding).
-        std::string router_failure;
+        std::string router_failure = {};
         {
             try {
                 std::lock_guard<std::mutex> lk(router_mutex_);
@@ -1002,7 +1032,9 @@ public:
         // No LLM module: real weight ops unavailable; simulation fallback active.
         return;
 #else
-        if (lora_initialized_) return;
+        if (lora_initialized_) {
+          return;
+        }
 
         const size_t feature_dim = static_cast<size_t>(config_.max_seq_length);
         const size_t rank        = static_cast<size_t>(std::max(1, config_.rank));
@@ -1011,7 +1043,7 @@ public:
 
 #if defined(THEMIS_ENABLE_GPU)
         // Multi-GPU path: requested when num_gpus > 1
-        if (config_.num_gpus > 1 && (config_.device == "cuda" || config_.device == "hip")) {
+        if ((config_.num_gpus > 1 && (config_.device == "cuda" || config_.device == "hip"))) {
             try {
                 multi_gpu_ctx_ = std::make_unique<llm::lora::MultiGPUContext>(
                     config_.num_gpus, config_.gpu_ids);
@@ -1153,15 +1185,17 @@ public:
 
     // Synthetic data seed constants for deterministic but varied per-step batches.
     // These primes avoid seed collisions across steps and batch elements.
-    static constexpr uint32_t kSyntheticSeedBase      = 31337u; ///< Per-step entropy factor
-    static constexpr uint32_t kSyntheticBatchMultiplier =  997u; ///< Per-batch-element offset
+    static constexpr uint32_t kSyntheticSeedBase      = 31337; ///< Per-step entropy factor
+    static constexpr uint32_t kSyntheticBatchMultiplier =  997; ///< Per-batch-element offset
 
     // Encode a text sample as a float feature vector via stable character hashing.
     std::vector<float> encodeSample(const std::string& text, size_t feature_dim) const {
         std::vector<float> vec(feature_dim, 0.0f);
-        if (text.empty()) return vec;
+        if (text.empty()) {
+          return vec;
+        }
 
-        std::string safe_text;
+        std::string safe_text = {};
         if (!sanitizeTrainingPromptLikeText(text, safe_text, nullptr, nullptr)) {
             safe_text = "[BLOCKED_PROMPT]";
         }
@@ -1174,7 +1208,9 @@ public:
         uint32_t seed = static_cast<uint32_t>(h64 ^ (h64 >> 32));
         std::mt19937 gen(seed);
         std::normal_distribution<float> dist(0.0f, 0.1f);
-        for (auto& v : vec) v = dist(gen);
+        for (auto& v : vec) {
+          v = dist(gen);
+        }
         return vec;
     }
 
@@ -1203,14 +1239,18 @@ public:
                 const auto seed_in = static_cast<std::uint64_t>(
                     step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
                 const auto seed_tg = static_cast<std::uint64_t>(
-                    step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
+                    step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1);
                 std::mt19937_64 gen_in(seed_in);
                 std::mt19937_64 gen_tg(seed_tg);
                 std::normal_distribution<float> d(0.0f, 0.1f);
                 input_vec.resize(feature_dim);
                 target_vec.resize(feature_dim);
-                for (auto& v : input_vec)  v = d(gen_in);
-                for (auto& v : target_vec) v = d(gen_tg);
+                for (auto& v : input_vec) {
+                  v = d(gen_in);
+                }
+                for (auto& v : target_vec) {
+                  v = d(gen_tg);
+                }
             }
             for (size_t d = 0; d < feature_dim; ++d) {
                 input [b * feature_dim + d] = input_vec[d];
@@ -1288,12 +1328,16 @@ public:
                 target_vec = encodeSample(training_data[idx].second, feature_dim);
             } else {
                 std::mt19937 gen_in(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
-                std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
+                std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1);
                 std::normal_distribution<float> d(0.0f, 0.1f);
                 input_vec.resize(feature_dim);
                 target_vec.resize(feature_dim);
-                for (auto& v : input_vec)  v = d(gen_in);
-                for (auto& v : target_vec) v = d(gen_tg);
+                for (auto& v : input_vec) {
+                  v = d(gen_in);
+                }
+                for (auto& v : target_vec) {
+                  v = d(gen_tg);
+                }
             }
             for (size_t fd = 0; fd < feature_dim; ++fd) {
                 input_data [b * feature_dim + fd] = input_vec[fd];
@@ -1335,11 +1379,15 @@ public:
                 tg_vec = encodeSample(training_data[idx].second, feature_dim);
             } else {
                 std::mt19937 gen_in(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
-                std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
+                std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1);
                 std::normal_distribution<float> d(0.0f, 0.1f);
                 in_vec.resize(feature_dim); tg_vec.resize(feature_dim);
-                for (auto& v : in_vec)  v = d(gen_in);
-                for (auto& v : tg_vec)  v = d(gen_tg);
+                for (auto& v : in_vec) {
+                  v = d(gen_in);
+                }
+                for (auto& v : tg_vec) {
+                  v = d(gen_tg);
+                }
             }
             for (size_t fd = 0; fd < feature_dim; ++fd) {
                 full_input [b * feature_dim + fd] = in_vec[fd];
@@ -1387,7 +1435,7 @@ public:
 #endif
 #ifdef THEMIS_ENABLE_LLM
         // CPU path: dispatch to QLoRALayer or LoRALayer depending on quantization config
-        if (lora_initialized_ && (lora_layer_ || q_lora_layer_)) {
+        if ((lora_initialized_ && (lora_layer_ || q_lora_layer_))) {
             return runCPUTrainingStep(training_data, batch_offset, step_idx);
         }
 #endif
@@ -1413,8 +1461,10 @@ public:
             return;
         }
 
-        auto writeMatrix = [&](const llm::lora::Tensor& t) {
-            if (t.shape().size() < 2) return;
+        auto writeMatrix = [&]([[maybe_unused]] const llm::lora::Tensor& t) {
+            if (t.shape().size() < 2) {
+              return;
+            }
             const size_t rows = t.shape()[0];
             const size_t cols = t.shape()[1];
             // Validate dimensions fit in uint32 range before writing
@@ -1473,7 +1523,7 @@ public:
         }
 
         try {
-            constexpr size_t kMaxMatrixElements = 64u * 1024u * 1024u;
+            constexpr size_t kMaxMatrixElements = 64 * 1024 * 1024;
             auto readMatrix = [&]() -> llm::lora::Tensor {
                 auto readExact = [&](char* out, std::streamsize bytes, const std::string& field) {
                     f.read(out, bytes);
@@ -1484,7 +1534,7 @@ public:
 
                 uint32_t rows = 0, cols = 0;
                 readExact(reinterpret_cast<char*>(&rows), sizeof(uint32_t), "matrix rows");
-                readExact(reinterpret_cast<char*>(&cols), sizeof(uint32_t), "matrix cols");
+                readExact([[maybe_unused]] reinterpret_cast<char*>(&cols), sizeof(uint32_t), "matrix cols");
                 if (rows == 0 || cols == 0) {
                     throw std::runtime_error("invalid matrix shape in checkpoint payload");
                 }
@@ -1579,7 +1629,7 @@ public:
     }
 
     // Estimate accuracy from loss (Phase 3)
-    static double computeAccuracy(double loss) {
+    static double computeAccuracy([[maybe_unused]] double loss) {
         // Rough sigmoid mapping: acc ≈ 1 / (1 + exp(loss - 1))
         return 1.0 / (1.0 + std::exp(loss - 1.0));
     }
@@ -1642,7 +1692,7 @@ public:
                     mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
                     checkpoint_manager_ = std::make_unique<LoRACheckpointManager>(mgr_cfg);
                 }
-                CheckpointManifestEntry meta;
+                CheckpointManifestEntry meta = CheckpointManifestEntry();
                 meta.adapter_version = version;
                 meta.epoch           = epoch;
                 meta.step            = step;
@@ -1807,12 +1857,12 @@ void IncrementalLoRATrainer::setShardId(const std::string& shard_id) {
     impl_->setShardId(shard_id);
 }
 
-void IncrementalLoRATrainer::setFederatedLearningRate(double lr) {
+void IncrementalLoRATrainer::setFederatedLearningRate([[maybe_unused]] double lr) {
     impl_->setFederatedLearningRate(lr);
 }
 
 themis::distributed_knowledge::EncryptedGradient
-IncrementalLoRATrainer::exportGradient(uint64_t federation_round) {
+IncrementalLoRATrainer::exportGradient([[maybe_unused]] uint64_t federation_round) {
     return impl_->exportGradient(federation_round);
 }
 
@@ -1837,7 +1887,7 @@ std::string IncrementalLoRATrainer::validateTrainingState() const {
 }
 
 std::string IncrementalLoRATrainer::getTrainingDiagnostics() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Training Diagnostics:\n"
         << "  Metrics available: " << (impl_ ? "yes" : "no") << "\n";
     
@@ -1853,7 +1903,7 @@ std::string IncrementalLoRATrainer::getTrainingDiagnostics() const {
 
 std::string IncrementalLoRATrainer::getRecoveryStatus() const {
     if (impl_->checkpointing_enabled_ && impl_->metrics_.total_steps > 0) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Checkpointing enabled (every " << impl_->checkpoint_steps_ << " steps); "
             << impl_->metrics_.total_steps << " steps recorded — checkpoint available for resume";
         return oss.str();

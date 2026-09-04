@@ -140,8 +140,8 @@ TEST_F(SecureTransportClientTest, Lz4CompressionPathSetsCodecAndCompresses) {
         });
 
     const std::string input(4096, 'A');
-    std::string compressed;
-    std::string codec;
+    std::string compressed = {};
+    std::string codec = {};
 
     const bool applied = SecureTransportClientTestAccess::compressData(client, input, compressed, &codec);
     EXPECT_TRUE(applied);
@@ -158,8 +158,8 @@ TEST_F(SecureTransportClientTest, Lz4CompressionFailsClosedWhenBridgeUnavailable
     SecureTransportClientTestAccess::clearLz4CompressFn(client);
 
     const std::string input(4096, 'A');
-    std::string compressed;
-    std::string codec;
+    std::string compressed = {};
+    std::string codec = {};
 
     const bool applied = SecureTransportClientTestAccess::compressData(client, input, compressed, &codec);
     EXPECT_FALSE(applied);

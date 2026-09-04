@@ -122,7 +122,7 @@ public:
 
     BackendResult dispatch(double inputValue) const {
         auto t0 = std::chrono::steady_clock::now();
-        BackendResult r;
+        BackendResult r = {};
 
         if (gpuAvailable_) {
             r.usedBackend = BackendType::GPU;
@@ -149,7 +149,7 @@ private:
 // Mock spatial index (in-memory R-tree stub)
 // ---------------------------------------------------------------------------
 struct IndexEntry {
-    int     id;
+    int     id = 0;
     Point2D point;
 };
 
@@ -163,9 +163,12 @@ public:
     }
 
     std::vector<int> queryBbox(const Bbox& bbox) const {
-        std::vector<int> results;
+        std::vector<int> results = {};
+
         for (const auto& e : entries_) {
-            if (bbox.contains(e.point)) results.push_back(e.id);
+            if (bbox.contains(e.point)) {
+              results.push_back(e.id);
+            }
         }
         return results;
     }
@@ -182,7 +185,7 @@ struct JoinPair { int idA, idB; };
 enum class JoinPredicate { INTERSECTS, CONTAINS };
 
 struct MockGeomWithBbox {
-    int  id;
+    int  id = 0;
     Bbox bbox;
     bool isInvalid{false};
 };
@@ -192,10 +195,14 @@ GeoErrorCode spatialJoin(const std::vector<MockGeomWithBbox>& A,
                          JoinPredicate                         pred,
                          std::vector<JoinPair>&                results) {
     for (const auto& a : A) {
-        if (a.isInvalid) return GeoErrorCode::JOIN_INVALID_INPUT;
+        if (a.isInvalid) {
+          return GeoErrorCode::JOIN_INVALID_INPUT;
+        }
     }
     for (const auto& b : B) {
-        if (b.isInvalid) return GeoErrorCode::JOIN_INVALID_INPUT;
+        if (b.isInvalid) {
+          return GeoErrorCode::JOIN_INVALID_INPUT;
+        }
     }
 
     results.clear();

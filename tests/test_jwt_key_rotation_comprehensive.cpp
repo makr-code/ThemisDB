@@ -293,6 +293,8 @@ TEST(KeyRotationThreadSafetyTest, ConcurrentRotations_NoDataRace) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(errors.load(), 0);
 }

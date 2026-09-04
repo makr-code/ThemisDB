@@ -99,7 +99,8 @@ public:
     }
 
     std::vector<KeyMetadata> listKeys() override {
-        std::vector<KeyMetadata> out;
+        std::vector<KeyMetadata> out = {};
+
         out.reserve(metadata_.size());
         for (const auto& [_, meta] : metadata_) {
             out.push_back(meta);
@@ -270,7 +271,8 @@ TEST_F(EncryptionKeyRotationIntegrationTest, BackgroundReEncryption) {
     // Step 1: Encrypt multiple records with key v1
     auto encryption_service = std::make_unique<FieldEncryption>(key_provider_);
     
-    std::vector<EncryptedBlob> encrypted_records;
+    std::vector<EncryptedBlob> encrypted_records = {};
+
     for (int i = 0; i < 10; ++i) {
         std::string plaintext = "Record " + std::to_string(i);
         auto encrypted = encryption_service->encrypt("test_key", plaintext);

@@ -118,7 +118,8 @@ TEST_F(PageRankFunctionTest, SimpleGraph_DegreeInformation) {
     auto result = function_->execute(args, ctx_);
     
     // Find specific nodes and verify degrees
-    std::map<std::string, json> nodeMap;
+    std::map<std::string, json> nodeMap = {};
+
     for (const auto& node : result) {
         nodeMap[node["node_id"].get<std::string>()] = node;
     }
@@ -281,7 +282,8 @@ TEST_F(PageRankFunctionTest, RankOrdering_SimpleGraph) {
     
     auto result = function_->execute(args, ctx_);
     
-    std::map<std::string, double> ranks;
+    std::map<std::string, double> ranks = {};
+
     for (const auto& node : result) {
         ranks[node["node_id"].get<std::string>()] = node["rank"].get<double>();
     }

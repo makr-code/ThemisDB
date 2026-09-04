@@ -24,7 +24,9 @@ static std::shared_ptr<Expression> makeExpr() {
 
 static bool hasSteType(const MutationExecutionPlan& plan, MutationStepType t) {
     for (const auto& s : plan.steps)
-        if (s.type == t) return true;
+        if (s.type == t) {
+          return true;
+        }
     return false;
 }
 

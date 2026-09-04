@@ -343,7 +343,7 @@ int main(int argc, char* argv[]) {
         std::cout << "\nInitializing ThemisDB...\n";
         
         // Initialize RocksDB
-        RocksDBWrapper db;
+        RocksDBWrapper db = {};
         if (!db.open("/tmp/themisdb_moral_analyzer_example")) {
             std::cerr << "Failed to open database\n";
             return 1;

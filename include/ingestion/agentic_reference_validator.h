@@ -53,8 +53,12 @@ struct LegalReference {
     std::string canonicalId() const {
         std::string id = law_id.empty() ? "" : (law_id + ":");
         id += "§" + section;
-        if (!subsection.empty()) id += ".Abs." + subsection;
-        if (!item.empty())       id += ".Nr." + item;
+        if (!subsection.empty()) {
+          id += ".Abs." + subsection;
+        }
+        if (!item.empty()) {
+          id += ".Nr." + item;
+        }
         return id;
     }
 };

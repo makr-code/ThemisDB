@@ -72,7 +72,7 @@ std::string ShardingMetricsHandler::getSLOMetrics() const {
         return "";
     }
     auto& slo_monitor = *slo_monitor_;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Add SLO metrics in Prometheus format
     oss << "# HELP themisdb_slo_availability Current availability percentage\n";

@@ -82,7 +82,7 @@ bool QueryMaskingPolicy::isEnabled() const
     return config_.enabled;
 }
 
-void QueryMaskingPolicy::setEnabled(bool enabled)
+void QueryMaskingPolicy::setEnabled([[maybe_unused]] bool enabled)
 {
     std::lock_guard<std::mutex> lock(mutex_);
     config_.enabled = enabled;
@@ -235,7 +235,7 @@ std::string QueryMaskingPolicy::maskStringValue(
                           return a.start_offset < b.start_offset;
                       });
 
-            std::string result;
+            std::string result = {};
             result.reserve(value.size());
             size_t pos = 0;
             for (const auto& f : findings) {
@@ -250,8 +250,8 @@ std::string QueryMaskingPolicy::maskStringValue(
                 pos = f.end_offset;
             }
             // Remaining suffix.
-            if (pos < value.size()) {
-                result.append(value, pos, value.size() - pos);
+            if (static_cast<int>(value.size()) > pos) {
+                result.append(value, pos, static_cast<int>(value.size()) - pos);
             }
             return result;
         }

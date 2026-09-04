@@ -58,11 +58,11 @@ ResultStream<T>::ResultStream(
 template<typename T>
 bool ResultStream<T>::hasNext() const {
     if (is_materialized_) {
-        return cursor_.offset < materialized_data_.size();
+        return static_cast<bool>(cursor_.offset  < static_cast<int>(materialized_data_.size()));
     }
     
     // Check if we have buffered data
-    if (buffer_pos_ < buffer_.size()) {
+    if (static_cast<int>(buffer_.size()) > buffer_pos_) {
         return true;
     }
     
@@ -81,13 +81,13 @@ Result<T> ResultStream<T>::next() {
     if (is_materialized_) {
         T item = materialized_data_[cursor_.offset];
         cursor_.offset++;
-        cursor_.has_more = cursor_.offset < materialized_data_.size();
+        cursor_.has_more = cursor_.offset <static_cast<int>(materialized_data_.size());
         stats_.items_read++;
         return item;
     }
     
     // Handle streaming mode
-    if (buffer_pos_ >= buffer_.size()) {
+    if (buffer_pos_ >= static_cast<int>(buffer_.size())) {
         // Need to fill buffer
         auto fill_result = fillBuffer();
         if (!fill_result) {
@@ -111,7 +111,7 @@ Result<T> ResultStream<T>::next() {
 }
 
 template<typename T>
-Result<ResultBatch<T>> ResultStream<T>::nextBatch(size_t batch_size) {
+Result<ResultBatch<T>> ResultStream<T>::nextBatch([[maybe_unused]] size_t batch_size) {
     ResultBatch<T> batch;
     batch.items.reserve(batch_size);
     
@@ -171,7 +171,7 @@ size_t ResultStream<T>::position() const {
 }
 
 template<typename T>
-Result<void> ResultStream<T>::skip(size_t count) {
+Result<void> ResultStream<T>::skip([[maybe_unused]] size_t count) {
     if (count == 0) {
         return OkVoid();
     }
@@ -186,7 +186,7 @@ Result<void> ResultStream<T>::skip(size_t count) {
         }
         
         size_t new_offset = cursor_.offset + count;
-        if (new_offset >= materialized_data_.size()) {
+        if (new_offset >= static_cast<int>(materialized_data_.size())) {
             cursor_.offset = materialized_data_.size();
             cursor_.has_more = false;
         } else {
@@ -246,7 +246,7 @@ Result<void> ResultStream<T>::fillBuffer() {
     
     // Check buffer size and apply backpressure if needed
     if (config_.enable_backpressure && 
-        buffer_.size() >= config_.backpressure_threshold) {
+        static_cast<int>(buffer_.size()) >= config_.backpressure_threshold) {
         stats_.backpressure_active = true;
     }
     
@@ -255,7 +255,7 @@ Result<void> ResultStream<T>::fillBuffer() {
 
 template<typename T>
 bool ResultStream<T>::shouldFillBuffer() const {
-    return buffer_pos_ >= buffer_.size() && cursor_.has_more;
+    return static_cast<bool>(buffer_pos_  < static_cast<int>(= buffer_.size())) && cursor_.has_more;
 }
 
 template<typename T>
@@ -295,7 +295,7 @@ void ResultStream<T>::updateCursor(const T& item) {
         // For other numeric/scalar types the offset-based cursor is sufficient.
     }
 
-    if (buffer_pos_ >= buffer_.size()) {
+    if (buffer_pos_ >= static_cast<int>(buffer_.size())) {
         // Reached end of current buffer
         if (buffer_.empty()) {
             cursor_.has_more = false;

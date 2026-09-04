@@ -48,7 +48,9 @@ struct ModuleHealthSignal {
         j["message"]       = message;
         j["checked_at_ms"] = checked_at_ms;
         nlohmann::json d = nlohmann::json::object();
-        for (auto& [k, v] : details) d[k] = v;
+        for (auto& [k, v] : details) {
+          d[k] = v;
+        }
         j["details"] = d;
         return j;
     }
@@ -96,7 +98,7 @@ struct DispatchOutcome {
     /// @brief Wall-clock latency in microseconds (≥ 0).
     int64_t latency_us = 0;
     /// @brief Human-readable error or diagnostic message (may be empty on SUCCESS).
-    std::string error_message;
+    std::string error_message = {};
 
     nlohmann::json toJson() const {
         nlohmann::json j;
@@ -147,10 +149,14 @@ struct MaintenanceHealthReport {
         j["success_jobs_24h"] = success_jobs_24h;
         j["dispatch_outcome_ring_buffer_capacity"] = dispatch_outcome_ring_buffer_capacity;
         nlohmann::json signals = nlohmann::json::array();
-        for (auto& s : module_signals) signals.push_back(s.toJson());
+        for (auto& s : module_signals) {
+          signals.push_back(s.toJson());
+        }
         j["module_signals"] = signals;
         nlohmann::json outcomes = nlohmann::json::array();
-        for (auto& o : recent_dispatch_outcomes) outcomes.push_back(o.toJson());
+        for (auto& o : recent_dispatch_outcomes) {
+          outcomes.push_back(o.toJson());
+        }
         j["recent_dispatch_outcomes"] = outcomes;
         return j;
     }

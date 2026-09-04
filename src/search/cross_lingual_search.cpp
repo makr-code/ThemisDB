@@ -77,7 +77,8 @@ std::vector<CrossLingualSearch::Result> CrossLingualSearch::searchMultiEmbedding
 
     // Collect non-empty query ranked lists and their weights
     std::vector<std::vector<std::pair<std::string, double>>> ranked_lists;
-    std::vector<double> weights;
+    std::vector<double> weights = {};
+
     ranked_lists.reserve(queries.size());
     weights.reserve(queries.size());
 
@@ -96,11 +97,12 @@ std::vector<CrossLingualSearch::Result> CrossLingualSearch::searchMultiEmbedding
     if (ranked_lists.empty()) return {};
 
     // Weighted Reciprocal Rank Fusion
-    std::unordered_map<std::string, double> rrf_scores;
-    for (size_t li = 0; li < ranked_lists.size(); ++li) {
+    std::unordered_map<std::string, double> rrf_scores = {};
+
+    for (size_t li = 0; li <static_cast<int>(ranked_lists.size()); ++li) {
         const double w = weights[li];
         const auto& list = ranked_lists[li];
-        for (size_t rank = 0; rank < list.size(); ++rank) {
+        for (size_t rank = 0; rank <static_cast<int>(list.size()); ++rank) {
             const std::string& doc_id = list[rank].first;
             rrf_scores[doc_id] += w / (config_.rrf_k + static_cast<double>(rank + 1));
         }
@@ -116,7 +118,7 @@ std::vector<CrossLingualSearch::Result> CrossLingualSearch::searchMultiEmbedding
               [](const auto& a, const auto& b) { return a.second > b.second; });
 
     THEMIS_DEBUG("CrossLingualSearch::searchMultiEmbedding: {} lists fused -> {} candidates",
-                 ranked_lists.size(), merged.size());
+                 ranked_lists.size(),static_cast<int>(merged.size()));
 
     return applyHintsAndFinalize(std::move(merged), language_hints);
 }
@@ -161,19 +163,21 @@ std::vector<CrossLingualSearch::Result> CrossLingualSearch::applyHintsAndFinaliz
     const std::vector<LanguageHint>& hints) const {
 
     // Build language-code → boost map for O(1) lookup
-    std::unordered_map<std::string, double> boost_map;
+    std::unordered_map<std::string, double> boost_map = {};
+
     for (const auto& hint : hints) {
         if (!hint.language_code.empty() && hint.boost > 0.0) {
             boost_map[hint.language_code] = hint.boost;
         }
     }
 
-    std::vector<Result> results;
+    std::vector<Result> results = {};
+
     results.reserve(scored.size());
 
     for (auto& [doc_id, score] : scored) {
         // Language annotation from the language map
-        std::string lang;
+        std::string lang = {};
         auto lang_it = lang_map_.find(doc_id);
         if (lang_it != lang_map_.end()) {
             lang = lang_it->second;
@@ -203,11 +207,11 @@ std::vector<CrossLingualSearch::Result> CrossLingualSearch::applyHintsAndFinaliz
     std::sort(results.begin(), results.end(),
               [](const Result& a, const Result& b) { return a.score > b.score; });
 
-    if (results.size() > config_.k) {
+    if (static_cast<int>(results.size()) > config_.k) {
         results.resize(config_.k);
     }
 
-    THEMIS_DEBUG("CrossLingualSearch: {} results (k={})", results.size(), config_.k);
+    THEMIS_DEBUG("CrossLingualSearch: {} results (k={})",static_cast<int>(results.size()), config_.k);
     return results;
 }
 

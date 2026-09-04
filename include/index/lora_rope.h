@@ -45,18 +45,28 @@ struct LoRARopeAdapter {
     
     /// Validate adapter dimensions
     bool isValid(size_t num_rotation_pairs) const {
-        if (matrix_B.empty() || matrix_A.empty()) return false;
-        if (matrix_B.size() != num_rotation_pairs) return false;
-        if (matrix_A.size() != rank) return false;
+        if (matrix_B.empty() || matrix_A.empty()) {
+          return false;
+        }
+        if (matrix_B.size() != num_rotation_pairs) {
+          return false;
+        }
+        if (matrix_A.size() != rank) {
+          return false;
+        }
         
         // Check B dimensions
         for (const auto& row : matrix_B) {
-            if (row.size() != rank) return false;
+            if (row.size() != rank) {
+              return false;
+            }
         }
         
         // Check A dimensions
         for (const auto& row : matrix_A) {
-            if (row.size() != num_rotation_pairs) return false;
+            if (row.size() != num_rotation_pairs) {
+              return false;
+            }
         }
         
         // Check theta_delta if present

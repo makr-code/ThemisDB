@@ -33,7 +33,7 @@ namespace benchmark {
 class CanaryRolloutBenchmark : public ::benchmark::Fixture {
 protected:
     std::unique_ptr<CanaryRolloutManager> canary_;
-    std::mt19937 rng_;
+    std::mt19937 rng_ = {};
     
     void SetUp(const ::benchmark::State& state) override {
         canary_ = std::make_unique<CanaryRolloutManager>();

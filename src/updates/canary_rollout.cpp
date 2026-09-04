@@ -67,7 +67,7 @@ CanaryRollout::CanaryRollout(std::shared_ptr<HotReloadEngine> engine,
     }
 
     LOG_INFO("CanaryRollout initialised: version={} node={} stages={}",
-             config_.version, config_.node_id, config_.stages.size());
+             config_.version, config_.node_id,static_cast<int>(config_.stages.size()));
 }
 
 // ---------------------------------------------------------------------------
@@ -81,10 +81,10 @@ double CanaryRollout::computeNodeHash() const {
     const std::string key = config_.version + ":" + config_.node_id;
     const std::size_t h = std::hash<std::string>{}(key);
     // Map to (0, 1] – avoid exact 0 so 0% always excludes the node.
-    return static_cast<double>(h % 100000u + 1u) / 100000.0;
+    return static_cast<double>(h % 100000 + 1) / 100000.0;
 }
 
-bool CanaryRollout::isNodeInStage(size_t stage_index) const {
+bool CanaryRollout::isNodeInStage([[maybe_unused]] size_t stage_index) const {
     if (stage_index >= config_.stages.size()) {
         return false;
     }
@@ -206,7 +206,7 @@ ReloadResult CanaryRollout::applyIfIncluded() {
 }
 
 bool CanaryRollout::rollback(const std::string& reason) {
-    std::string rid;
+    std::string rid = {};
     RollbackCallback cb;
 
     {
@@ -257,7 +257,7 @@ void CanaryRollout::reportSuccess() {
 
 void CanaryRollout::reportError() {
     bool trigger_rollback = false;
-    std::string reason;
+    std::string reason = {};
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -318,7 +318,7 @@ CanaryStatus CanaryRollout::status() const {
     s.current_stage = current_stage_;
     s.total_stages = config_.stages.size();
     s.current_percentage =
-        current_stage_ < config_.stages.size()
+        current_stage_ <static_cast<int>(config_.stages.size())
             ? config_.stages[current_stage_].percentage
             : 1.0;
     s.this_node_included = isNodeInStage(current_stage_);
@@ -338,12 +338,12 @@ CanaryStatus CanaryRollout::status() const {
     return s;
 }
 
-void CanaryRollout::setStageCompleteCallback(StageCompleteCallback cb) {
+void CanaryRollout::setStageCompleteCallback([[maybe_unused]] StageCompleteCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     stage_complete_cb_ = std::move(cb);
 }
 
-void CanaryRollout::setRollbackCallback(RollbackCallback cb) {
+void CanaryRollout::setRollbackCallback([[maybe_unused]] RollbackCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_cb_ = std::move(cb);
 }
@@ -411,13 +411,13 @@ void CanaryDeployment::setVersion(const std::string& version) {
 
 void CanaryDeployment::setStages(std::vector<CanaryDeploymentStage> stages) {
     std::lock_guard<std::mutex> lock(mutex_);
-    for (size_t i = 0; i < stages.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(stages.size()); ++i) {
         stages[i].stage_number = i;
     }
     stages_ = std::move(stages);
 }
 
-void CanaryDeployment::setErrorRateThreshold(double threshold) {
+void CanaryDeployment::setErrorRateThreshold([[maybe_unused]] double threshold) {
     std::lock_guard<std::mutex> lock(mutex_);
     error_rate_threshold_ = threshold;
 }
@@ -489,7 +489,7 @@ ReloadResult CanaryDeployment::deploy() {
                 {
                     std::lock_guard<std::mutex> lock(mutex_);
                     cb = stage_complete_cb_;
-                    if (completed_stage < stages_.size()) {
+                    if (static_cast<int>(stages_.size()) > completed_stage) {
                         stage_info = stages_[completed_stage];
                     }
                 }
@@ -499,7 +499,7 @@ ReloadResult CanaryDeployment::deploy() {
                    } catch (...) {
                        // Error Code: 7488 - Never let stage callbacks crash the rollout
                        // Log and silently ignore to ensure deployment continuity
-                       LOG_WARN("CanaryRollout: stage complete callback threw exception; silently caught");
+                       LOG_WARN([[maybe_unused]] "CanaryRollout: stage complete callback threw exception; silently caught");
                    }
                }
            });
@@ -518,7 +518,7 @@ ReloadResult CanaryDeployment::deploy() {
                     } catch (...) {
                         // Error Code: 7489 - Never let rollback callbacks crash the rollout
                         // Log and silently ignore to ensure rollout can proceed
-                        LOG_WARN("CanaryRollout: rollback callback threw exception; silently caught");
+                        LOG_WARN([[maybe_unused]] "CanaryRollout: rollback callback threw exception; silently caught");
                     }
                 }
             });
@@ -542,12 +542,12 @@ ReloadResult CanaryDeployment::deploy() {
 // Callbacks
 // ---------------------------------------------------------------------------
 
-void CanaryDeployment::onStageComplete(StageCompleteCallback cb) {
+void CanaryDeployment::onStageComplete([[maybe_unused]] StageCompleteCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     stage_complete_cb_ = std::move(cb);
 }
 
-void CanaryDeployment::onRollback(RollbackCallback cb) {
+void CanaryDeployment::onRollback([[maybe_unused]] RollbackCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_cb_ = std::move(cb);
 }
@@ -564,7 +564,9 @@ void CanaryDeployment::reportSuccess() {
         std::lock_guard<std::mutex> lock(mutex_);
         r = rollout_.get();
     }
-    if (r) r->reportSuccess();
+    if (r) {
+      r->reportSuccess();
+    }
 }
 
 void CanaryDeployment::reportError() {
@@ -575,13 +577,15 @@ void CanaryDeployment::reportError() {
         std::lock_guard<std::mutex> lock(mutex_);
         r = rollout_.get();
     }
-    if (r) r->reportError();
+    if (r) {
+      r->reportError();
+    }
 }
 
 void CanaryDeployment::reportLatency(std::chrono::microseconds latency) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (latency_samples_us_.size() >= kMaxLatencySamples) {
+        if (static_cast<int>(latency_samples_us_.size()) > = kMaxLatencySamples) {
             latency_samples_us_.pop_front();  // O(1) for deque
         }
         latency_samples_us_.push_back(latency.count());
@@ -590,17 +594,17 @@ void CanaryDeployment::reportLatency(std::chrono::microseconds latency) {
     checkLatencyThreshold();
 }
 
-void CanaryDeployment::reportMemoryUsage(double bytes) {
+void CanaryDeployment::reportMemoryUsage([[maybe_unused]] double bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     memory_bytes_ = bytes;
 }
 
-void CanaryDeployment::reportCpuUsage(double fraction) {
+void CanaryDeployment::reportCpuUsage([[maybe_unused]] double fraction) {
     std::lock_guard<std::mutex> lock(mutex_);
     cpu_fraction_ = fraction;
 }
 
-void CanaryDeployment::reportDiskIO(double bytes_per_sec) {
+void CanaryDeployment::reportDiskIO([[maybe_unused]] double bytes_per_sec) {
     std::lock_guard<std::mutex> lock(mutex_);
     disk_io_bytes_per_sec_ = bytes_per_sec;
 }
@@ -627,7 +631,7 @@ bool CanaryDeployment::isCanaryRequest(const std::string& request_id) const {
     }
     const std::string key = request_id + ab_config_.experiment_id;
     const std::size_t h = std::hash<std::string>{}(key);
-    const double frac = static_cast<double>(h % 100000u) / 100000.0;
+    const double frac = static_cast<double>(h % 100000) / 100000.0;
     return frac < ab_config_.canary_fraction;
 }
 
@@ -649,7 +653,7 @@ bool CanaryDeployment::isNodeInCanaryGroup() const {
 
 LatencyStats CanaryDeployment::computeLatencyStats() const {
     // Caller must hold mutex_.
-    LatencyStats stats;
+    LatencyStats stats = {};
     if (latency_samples_us_.empty()) {
         return stats;
     }
@@ -661,7 +665,7 @@ LatencyStats CanaryDeployment::computeLatencyStats() const {
     stats.sample_count = sorted.size();
     const size_t n = sorted.size();
 
-    auto percentile = [&](double p) -> std::chrono::microseconds {
+    auto percentile = [&]([[maybe_unused]] double p) -> std::chrono::microseconds {
         // Nearest-rank method: index = ceil(p/100 * n) - 1 (0-based).
         // Guard against underflow from size_t subtraction: ensure n >= 1 (checked above).
         const auto rank = static_cast<size_t>(
@@ -722,7 +726,9 @@ bool CanaryDeployment::advanceStage() {
         std::lock_guard<std::mutex> lock(mutex_);
         r = rollout_.get();
     }
-    if (!r) return false;
+    if (!r) {
+      return false;
+    }
     return r->advanceStage();
 }
 
@@ -732,7 +738,9 @@ bool CanaryDeployment::rollback(const std::string& reason) {
         std::lock_guard<std::mutex> lock(mutex_);
         r = rollout_.get();
     }
-    if (!r) return false;
+    if (!r) {
+      return false;
+    }
     return r->rollback(reason);
 }
 

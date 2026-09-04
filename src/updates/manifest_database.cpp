@@ -48,7 +48,7 @@ public:
     ~TempFileRaii() {
         if (!path_.empty()) {
             try {
-                std::error_code ec;
+                std::error_code ec = {};
                 std::filesystem::remove(path_, ec);
                 if (ec) {
                     LOG_WARN("Failed to remove temporary file {}: {}", path_, ec.message());
@@ -71,7 +71,7 @@ public:
         if (this != &other) {
             // Cleanup old path if any
             if (!path_.empty()) {
-                std::error_code ec;
+                std::error_code ec = {};
                 std::filesystem::remove(path_, ec);
             }
             path_ = std::move(other.path_);
@@ -271,7 +271,7 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
             }
             
             // Convert random bytes to hex string
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "themis_";
             for (size_t i = 0; i < sizeof(randomBytes); ++i) {
                 oss << std::hex << std::setw(2) << std::setfill('0') 
@@ -586,7 +586,7 @@ bool ManifestDatabase::deleteManifest(const std::string& version) {
             // Look up the cached local path and remove the file from the filesystem
             auto cached_path = getCachedDownload(version, file.path);
             if (cached_path) {
-                std::error_code ec;
+                std::error_code ec = {};
                 if (std::filesystem::remove(*cached_path, ec)) {
                     LOG_DEBUG("Deleted cached file: {}", *cached_path);
                 } else if (ec) {

@@ -52,14 +52,16 @@ struct AdaLoraTTLayerExport {
 // ============================================================================
 
 struct AdaLoraTTExport {
-    std::string                          adapter_name;
-    std::string                          tenant;
+    std::string                          adapter_name = {};
+    std::string                          tenant = {};
     std::vector<AdaLoraTTLayerExport>    layers;
 
     /// Total active TT-rank (sum across layers).
     std::size_t totalActiveRank() const noexcept {
         std::size_t s = 0;
-        for (const auto& l : layers) s += l.active_rank;
+        for (const auto& l : layers) {
+          s += l.active_rank;
+        }
         return s;
     }
 

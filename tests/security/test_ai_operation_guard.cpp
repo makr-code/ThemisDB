@@ -256,7 +256,7 @@ TEST(AiOperationGuardTest, CriticalInDevelopmentNoBlock) {
 TEST(AiOperationGuardTest, GuardDisabledPassesThrough) {
     auto guard = makeGuard(/*enabled=*/false);
     for (const auto& tool : {"delete_entity", "drop_index", "query"}) {
-        json args;
+        json args = {};
         if (std::string(tool) == "query") {
             args["query"] = "FOR x IN col REMOVE x IN col";
         } else {

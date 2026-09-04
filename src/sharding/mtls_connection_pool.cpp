@@ -165,7 +165,7 @@ std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::getConne
         
         // No idle connections or validation failed
         // Try to create new connection if under limit
-        size_t total_connections = active_connections_.size() + idle_pool_.size();
+        size_t total_connections = static_cast<int>(active_connections_.size()) + static_cast<int>(idle_pool_.size()) ;
         if (total_connections < config_.max_connections) {
             auto new_conn = createNewConnection();
             if (new_conn) {
@@ -215,7 +215,9 @@ std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::getConne
  * @param connection SSL connection to return.  Silently ignores `nullptr`.
  */
 void EndpointConnectionPool::releaseConnection(std::unique_ptr<SSL, SSLDeleter> connection) {
-    if (!connection) return;
+    if (!connection) {
+      return;
+    }
     
     std::unique_lock<std::shared_mutex> lock(pool_mutex_);
     
@@ -223,7 +225,7 @@ void EndpointConnectionPool::releaseConnection(std::unique_ptr<SSL, SSLDeleter> 
     active_connections_.erase(raw_ptr);
     
     // Check if we should keep this connection or discard it
-    size_t total_connections = active_connections_.size() + idle_pool_.size();
+    size_t total_connections = static_cast<int>(active_connections_.size()) + static_cast<int>(idle_pool_.size()) ;
     if (total_connections >= config_.max_connections) {
         // Pool is full, discard this connection
         // Connection will be cleaned up when unique_ptr goes out of scope
@@ -251,7 +253,9 @@ void EndpointConnectionPool::releaseConnection(std::unique_ptr<SSL, SSLDeleter> 
  * @param connection Raw SSL pointer to invalidate.  Silently ignores `nullptr`.
  */
 void EndpointConnectionPool::invalidateConnection(SSL* connection) {
-    if (!connection) return;
+    if (!connection) {
+      return;
+    }
     
     std::unique_lock<std::shared_mutex> lock(pool_mutex_);
     active_connections_.erase(connection);
@@ -404,7 +408,9 @@ std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::createNe
  * @return `true` if @p conn appears valid; `false` if `nullptr`.
  */
 bool EndpointConnectionPool::validateConnection(SSL* conn) {
-    if (!conn) return false;
+    if (!conn) {
+      return false;
+    }
     
     // Note: In production, this would:
     // 1. Check if socket is still connected
@@ -493,7 +499,9 @@ void EndpointConnectionPool::cleanupLoop() {
     while (running_) {
         std::this_thread::sleep_for(config_.health_check_interval);
         
-        if (!running_) break;
+        if (!running_) {
+          break;
+        }
         
         std::unique_lock<std::shared_mutex> lock(pool_mutex_);
         cleanupExpiredConnections();
@@ -569,7 +577,7 @@ std::shared_ptr<EndpointConnectionPool> MTLSConnectionPoolManager::getPool(
     }
     
     // Check global limits
-    if (config_.enable_endpoint_eviction && pools_.size() >= config_.max_endpoints) {
+    if (config_.enable_endpoint_eviction && static_cast<int>(pools_.size()) >= config_.max_endpoints) {
         std::cerr << "Warning: Maximum endpoint pools reached (" 
                   << config_.max_endpoints << ")" << std::endl;
         // In production, we would implement LRU eviction here
@@ -630,7 +638,9 @@ void MTLSConnectionPoolManager::releaseConnection(
     const std::string& endpoint, 
     std::unique_ptr<SSL, SSLDeleter> conn
 ) {
-    if (!conn) return;
+    if (!conn) {
+      return;
+    }
     
     std::shared_lock<std::shared_mutex> lock(pools_mutex_);
     
@@ -696,7 +706,7 @@ void MTLSConnectionPoolManager::onCertificateRotated() {
     std::shared_lock<std::shared_mutex> lock(pools_mutex_);
 
     std::cout << "MTLSConnectionPoolManager: certificate rotated – draining idle "
-              << "connections across " << pools_.size() << " endpoint pools" << std::endl;
+              << "connections across " <<static_cast<int>(pools_.size()) << " endpoint pools" << std::endl;
 
     for (auto& [endpoint, pool] : pools_) {
         // closeAll() drains idle connections while active ones remain open.
@@ -720,7 +730,7 @@ void MTLSConnectionPoolManager::shutdown() {
     std::unique_lock<std::shared_mutex> lock(pools_mutex_);
     
     std::cout << "Shutting down MTLSConnectionPoolManager with " 
-              << pools_.size() << " endpoint pools" << std::endl;
+              <<static_cast<int>(pools_.size()) << " endpoint pools" << std::endl;
     
     // Close all pools
     for (auto& [endpoint, pool] : pools_) {

@@ -55,7 +55,8 @@ bool ExportFormatRegistry::hasFormat(const std::string &format_key) const {
 
 std::vector<std::string> ExportFormatRegistry::registeredFormats() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     keys.reserve(formats_.size());
     for (const auto &[k, _] : formats_) {
         keys.push_back(k);
@@ -140,11 +141,12 @@ void ExportFormatRegistry::loadTemplatesFromJson(const std::string &json_str) {
 
     // --- Pass 1: validate all entries before touching the registry ---
     struct ValidatedEntry {
-        std::string format_key;
+        std::string format_key = {};
         FormatTemplateType ttype;
         FormatTemplateFieldMapping mapping;
     };
-    std::vector<ValidatedEntry> validated;
+    std::vector<ValidatedEntry> validated = {};
+
     validated.reserve(j["templates"].size());
 
     for (const auto &entry : j["templates"]) {
@@ -164,7 +166,7 @@ void ExportFormatRegistry::loadTemplatesFromJson(const std::string &json_str) {
                                         + "'; expected one of: alpaca, sharegpt, chatml, openai_finetuning");
         }
 
-        FormatTemplateFieldMapping mapping;
+        FormatTemplateFieldMapping mapping = {};
 
         if (entry.contains("field_mapping") && entry["field_mapping"].is_object()) {
             const auto &fm = entry["field_mapping"];

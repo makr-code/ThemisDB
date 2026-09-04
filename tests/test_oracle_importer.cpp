@@ -91,7 +91,9 @@ struct ImportOptions {
 
 static std::string toLowerTest(const std::string& s) {
     std::string r = s;
-    for (auto& c : r) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    for (auto& c : r) {
+      c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    }
     return r;
 }
 
@@ -99,60 +101,142 @@ static std::string toLowerTest(const std::string& s) {
 static std::string mapOracleType(const std::string& oracle_type,
                                   const std::map<std::string,std::string>& overrides = {}) {
     auto it = overrides.find(oracle_type);
-    if (it != overrides.end()) return it->second;
+    if (it != overrides.end()) {
+      return it->second;
+    }
 
     std::string base = oracle_type;
     size_t paren = base.find('(');
-    if (paren != std::string::npos) base = base.substr(0, paren);
+    if (paren != std::string::npos) {
+      base = base.substr(0, paren);
+    }
     std::string lower = toLowerTest(base);
     {
         size_t l = lower.find_last_not_of(" \t");
-        if (l != std::string::npos) lower = lower.substr(0, l + 1);
+        if (l != std::string::npos) {
+          lower = lower.substr(0, l + 1);
+        }
     }
 
-    if (lower == "number")          return "double";
-    if (lower == "numeric")         return "double";
-    if (lower == "decimal")         return "double";
-    if (lower == "float")           return "double";
-    if (lower == "binary_float")    return "float";
-    if (lower == "binary_double")   return "double";
-    if (lower == "integer")         return "integer";
-    if (lower == "int")             return "integer";
-    if (lower == "smallint")        return "integer";
-    if (lower == "real")            return "double";
+    if (lower == "number") {
+      return "double";
+    }
+    if (lower == "numeric") {
+      return "double";
+    }
+    if (lower == "decimal") {
+      return "double";
+    }
+    if (lower == "float") {
+      return "double";
+    }
+    if (lower == "binary_float") {
+      return "float";
+    }
+    if (lower == "binary_double") {
+      return "double";
+    }
+    if (lower == "integer") {
+      return "integer";
+    }
+    if (lower == "int") {
+      return "integer";
+    }
+    if (lower == "smallint") {
+      return "integer";
+    }
+    if (lower == "real") {
+      return "double";
+    }
 
-    if (lower == "varchar2")        return "string";
-    if (lower == "varchar")         return "string";
-    if (lower == "char")            return "string";
-    if (lower == "nvarchar2")       return "string";
-    if (lower == "nchar")           return "string";
-    if (lower == "clob")            return "string";
-    if (lower == "nclob")           return "string";
-    if (lower == "long")            return "string";
-    if (lower == "xmltype")         return "string";
-    if (lower == "rowid")           return "string";
-    if (lower == "urowid")          return "string";
+    if (lower == "varchar2") {
+      return "string";
+    }
+    if (lower == "varchar") {
+      return "string";
+    }
+    if (lower == "char") {
+      return "string";
+    }
+    if (lower == "nvarchar2") {
+      return "string";
+    }
+    if (lower == "nchar") {
+      return "string";
+    }
+    if (lower == "clob") {
+      return "string";
+    }
+    if (lower == "nclob") {
+      return "string";
+    }
+    if (lower == "long") {
+      return "string";
+    }
+    if (lower == "xmltype") {
+      return "string";
+    }
+    if (lower == "rowid") {
+      return "string";
+    }
+    if (lower == "urowid") {
+      return "string";
+    }
 
-    if (lower == "blob")            return "binary";
-    if (lower == "raw")             return "binary";
-    if (lower == "long raw")        return "binary";
-    if (lower == "bfile")           return "binary";
+    if (lower == "blob") {
+      return "binary";
+    }
+    if (lower == "raw") {
+      return "binary";
+    }
+    if (lower == "long raw") {
+      return "binary";
+    }
+    if (lower == "bfile") {
+      return "binary";
+    }
 
-    if (lower == "date")            return "datetime";
-    if (lower == "timestamp")       return "datetime";
+    if (lower == "date") {
+      return "datetime";
+    }
+    if (lower == "timestamp") {
+      return "datetime";
+    }
 
-    if (lower.find("interval") != std::string::npos) return "string";
-    if (lower.find("timestamp") != std::string::npos) return "datetime";
+    if (lower.find("interval") != std::string::npos) {
+      return "string";
+    }
+    if (lower.find("timestamp") != std::string::npos) {
+      return "datetime";
+    }
 
-    if (lower.find("char")   != std::string::npos) return "string";
-    if (lower.find("clob")   != std::string::npos) return "string";
-    if (lower.find("number") != std::string::npos) return "double";
-    if (lower.find("float")  != std::string::npos) return "double";
-    if (lower.find("int")    != std::string::npos) return "integer";
-    if (lower.find("date")   != std::string::npos) return "datetime";
-    if (lower.find("time")   != std::string::npos) return "datetime";
-    if (lower.find("blob")   != std::string::npos) return "binary";
-    if (lower.find("raw")    != std::string::npos) return "binary";
+    if (lower.find("char")   != std::string::npos) {
+      return "string";
+    }
+    if (lower.find("clob")   != std::string::npos) {
+      return "string";
+    }
+    if (lower.find("number") != std::string::npos) {
+      return "double";
+    }
+    if (lower.find("float")  != std::string::npos) {
+      return "double";
+    }
+    if (lower.find("int")    != std::string::npos) {
+      return "integer";
+    }
+    if (lower.find("date")   != std::string::npos) {
+      return "datetime";
+    }
+    if (lower.find("time")   != std::string::npos) {
+      return "datetime";
+    }
+    if (lower.find("blob")   != std::string::npos) {
+      return "binary";
+    }
+    if (lower.find("raw")    != std::string::npos) {
+      return "binary";
+    }
 
     return "string";
 }
@@ -162,7 +246,9 @@ static std::string unquoteIdent(const std::string& s) {
     std::string t = s;
     size_t f = t.find_first_not_of(" \t\r\n");
     size_t l = t.find_last_not_of(" \t\r\n");
-    if (f == std::string::npos) return "";
+    if (f == std::string::npos) {
+      return "";
+    }
     t = t.substr(f, l - f + 1);
     if (t.size() >= 2 && t.front() == '"' && t.back() == '"')
         return t.substr(1, t.size() - 2);
@@ -171,13 +257,15 @@ static std::string unquoteIdent(const std::string& s) {
 
 /// Strip Oracle hint comments (/*+ ... */) and block comments (/* ... */).
 static std::string stripOracleComments(const std::string& sql) {
-    std::string result;
+    std::string result = {};
     result.reserve(sql.size());
     size_t i = 0;
     while (i < sql.size()) {
         if (i + 1 < sql.size() && sql[i] == '/' && sql[i + 1] == '*') {
             i += 2;
-            while (i + 1 < sql.size() && !(sql[i] == '*' && sql[i + 1] == '/')) ++i;
+            while (i + 1 < sql.size() && !(sql[i] == '*' && sql[i + 1] == '/')) {
+              ++i;
+            }
             i += 2;
             result += ' ';
         } else {
@@ -200,13 +288,15 @@ static std::vector<std::string> parseInsertValuesTuple(const std::string& tuple_
 
     while (i < n) {
         skipWs();
-        if (i >= n) break;
+        if (i >= n) {
+          break;
+        }
 
         char c = tuple_str[i];
 
         if (c == '\'') {
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 char sc = tuple_str[i];
                 if (sc == '\'' && i + 1 < n && tuple_str[i + 1] == '\'') {
@@ -245,17 +335,23 @@ static std::vector<std::string> parseInsertValuesTuple(const std::string& tuple_
             std::string token = tuple_str.substr(start, i - start);
             size_t tf = token.find_first_not_of(" \t\r\n");
             size_t tl = token.find_last_not_of(" \t\r\n");
-            if (tf == std::string::npos) token.clear();
+            if (tf == std::string::npos) {
+              token.clear();
+            }
             else token = token.substr(tf, tl - tf + 1);
-            std::string upper_tok;
+            std::string upper_tok = {};
             for (char ch : token)
                 upper_tok += static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
-            if (upper_tok == "NULL") token.clear();
+            if (upper_tok == "NULL") {
+              token.clear();
+            }
             result.push_back(token);
         }
 
         skipWs();
-        if (i < n && tuple_str[i] == ',') ++i;
+        if (i < n && tuple_str[i] == ',') {
+          ++i;
+        }
     }
     return result;
 }
@@ -276,17 +372,23 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
     std::regex table_regex(
         R"REGEX(CREATE\s+TABLE\s+(?:(?:"([^"]+)"|(\w+))\.)?(?:"([^"]+)"|(\w+))\s*\()REGEX",
         std::regex_constants::icase);
-    std::smatch match;
-    if (!std::regex_search(sql, match, table_regex)) return false;
+    std::smatch match = {};
+    if (!std::regex_search(sql, match, table_regex)) {
+      return false;
+    }
 
     out.schema_name = match[1].matched ? match[1].str()
                     : match[2].matched ? match[2].str() : "";
     out.name        = match[3].matched ? match[3].str()
                     : match[4].matched ? match[4].str() : "";
-    if (out.name.empty()) return false;
+    if (out.name.empty()) {
+      return false;
+    }
 
     size_t open_pos = sql.find('(', match.position());
-    if (open_pos == std::string::npos) return false;
+    if (open_pos == std::string::npos) {
+      return false;
+    }
 
     int depth = 0;
     bool in_str = false;
@@ -294,7 +396,9 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
     for (size_t k = open_pos; k < sql.size(); ++k) {
         char c = sql[k];
         if (in_str) {
-            if (c == '\'') in_str = false;
+            if (c == '\'') {
+              in_str = false;
+            }
         } else if (c == '\'') {
             in_str = true;
         } else if (c == '(') { ++depth; }
@@ -303,7 +407,9 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             if (depth == 0) { close_pos = k; break; }
         }
     }
-    if (close_pos == std::string::npos) return false;
+    if (close_pos == std::string::npos) {
+      return false;
+    }
 
     std::string cols_str = sql.substr(open_pos + 1, close_pos - open_pos - 1);
 
@@ -314,7 +420,9 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             char c = cols_str[i];
             if (inq) {
                 cur += c;
-                if (c == qc) inq = false;
+                if (c == qc) {
+                  inq = false;
+                }
             } else if (c == '\'' || c == '"') {
                 inq = true; qc = c; cur += c;
             } else if (c == '(') { ++dep; cur += c; }
@@ -322,18 +430,26 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             else if (c == ',' && dep == 0) { col_defs.push_back(cur); cur.clear(); }
             else cur += c;
         }
-        if (!cur.empty()) col_defs.push_back(cur);
+        if (!cur.empty()) {
+          col_defs.push_back(cur);
+        }
     }
 
     for (auto& col_def : col_defs) {
         size_t f = col_def.find_first_not_of(" \t\n\r");
-        if (f == std::string::npos) continue;
+        if (f == std::string::npos) {
+          continue;
+        }
         col_def = col_def.substr(f);
         size_t l = col_def.find_last_not_of(" \t\n\r");
-        if (l != std::string::npos) col_def = col_def.substr(0, l + 1);
-        if (col_def.empty()) continue;
+        if (l != std::string::npos) {
+          col_def = col_def.substr(0, l + 1);
+        }
+        if (col_def.empty()) {
+          continue;
+        }
 
-        std::string up;
+        std::string up = {};
         for (size_t i = 0; i < col_def.size() && i < 25; ++i)
             up += static_cast<char>(std::toupper(static_cast<unsigned char>(col_def[i])));
         if (up.find("PRIMARY")    != std::string::npos ||
@@ -343,24 +459,30 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             up.find("FOREIGN")    != std::string::npos ||
             up.find("SUPPLEMENTAL") != std::string::npos) continue;
 
-        std::string col_name;
+        std::string col_name = {};
         size_t type_start = 0;
         if (!col_def.empty() && col_def[0] == '"') {
             size_t end_dq = col_def.find('"', 1);
-            if (end_dq == std::string::npos) continue;
+            if (end_dq == std::string::npos) {
+              continue;
+            }
             col_name   = col_def.substr(1, end_dq - 1);
             type_start = end_dq + 1;
         } else {
             size_t sp = col_def.find_first_of(" \t");
-            if (sp == std::string::npos) continue;
+            if (sp == std::string::npos) {
+              continue;
+            }
             col_name   = col_def.substr(0, sp);
             type_start = sp;
         }
-        if (col_name.empty()) continue;
+        if (col_name.empty()) {
+          continue;
+        }
         while (type_start < col_def.size() &&
                (col_def[type_start] == ' ' || col_def[type_start] == '\t')) ++type_start;
 
-        std::string col_type;
+        std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
         while (k < col_def.size()) {
@@ -372,7 +494,9 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             else col_type += c;
             ++k;
         }
-        if (col_type.empty()) continue;
+        if (col_type.empty()) {
+          continue;
+        }
         out.columns.push_back(col_name);
         out.column_types[col_name] = col_type;
     }
@@ -625,7 +749,9 @@ TEST(OracleCreateTable, EmptyTableBody) {
     std::string sql = "CREATE TABLE EMPTY_TABLE ();";
     TableSchema schema;
     bool ok = parseCreateTable(sql, schema);
-    if (ok) EXPECT_EQ(schema.name, "EMPTY_TABLE");
+    if (ok) {
+      EXPECT_EQ(schema.name, "EMPTY_TABLE");
+    }
 }
 
 // ===========================================================================
@@ -708,7 +834,7 @@ TEST(OracleInsertValues, AllNullRow) {
 /// Returns true if the file content contains an Oracle dump header.
 static bool looksLikeOracleDump(const std::string& content) {
     std::istringstream ss(content);
-    std::string line;
+    std::string line = {};
     int checked = 0;
     while (std::getline(ss, line) && checked < 100) {
         if (line.find("Oracle")  != std::string::npos ||
@@ -824,7 +950,9 @@ static std::vector<std::vector<std::string>> parseMultiRowInsert(
                (values_payload[pos] == ' ' || values_payload[pos] == '\t' ||
                 values_payload[pos] == ',' || values_payload[pos] == '\r' ||
                 values_payload[pos] == '\n')) ++pos;
-        if (pos >= values_payload.size()) break;
+        if (pos >= values_payload.size()) {
+          break;
+        }
         if (values_payload[pos] != '(') { ++pos; continue; }
 
         size_t tuple_start = pos + 1;
@@ -843,7 +971,9 @@ static std::vector<std::vector<std::string>> parseMultiRowInsert(
             ++k;
         }
         size_t tuple_end = k - 1;
-        if (dep != 0) break;
+        if (dep != 0) {
+          break;
+        }
 
         std::string tuple_str = values_payload.substr(tuple_start, tuple_end - tuple_start);
         rows.push_back(parseInsertValuesTuple(tuple_str));
@@ -1055,9 +1185,9 @@ TEST(OracleIntegration, StreamingCallbackReceivesRows) {
     ASSERT_TRUE(f.is_open());
 
     size_t insert_count = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
-        std::string up;
+        std::string up = {};
         for (size_t i = 0; i < line.size() && i < 10; ++i)
             up += static_cast<char>(std::toupper(static_cast<unsigned char>(line[i])));
         if (up.find("INSERT") != std::string::npos) {

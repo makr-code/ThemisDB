@@ -102,7 +102,8 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleOptimize(
         }
 
         // Trigger optimization
-        std::vector<prompt_engineering::TestCase> test_cases;
+        std::vector<prompt_engineering::TestCase> test_cases = {};
+
         if (body.contains("test_cases")) {
             for (const auto& tc : body["test_cases"]) {
                 prompt_engineering::TestCase test;
@@ -439,7 +440,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetVersions
 http::response<http::string_body> PromptEngineeringApiHandler::handleRollback(
     const http::request<http::string_body>& req
 ) {
-    auto span = Tracer::startSpan("handleRollback");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRollback");
     try {
         if (!orchestrator_) {
             return makeErrorResponse(
@@ -486,7 +487,7 @@ std::string PromptEngineeringApiHandler::extractPathParam(
     const std::string& target,
     const std::string& prefix
 ) {
-    if (target.size() > prefix.size() && target.substr(0, prefix.size()) == prefix) {
+    if (static_cast<int>(target.size()) > static_cast<int>(prefix.size()) && target.substr(0,static_cast<int>(prefix.size())) == prefix) {
         auto param = target.substr(prefix.size());
         // Remove query string if present
         auto query_pos = param.find('?');

@@ -54,14 +54,14 @@ struct ProfileEntry {
 
 // Canonical MIG profiles with their VRAM allocations.
 static const ProfileEntry kProfiles[] = {
-    { "1g.5gb",   5ULL  * 1024 * 1024 * 1024 },
-    { "2g.10gb",  10ULL * 1024 * 1024 * 1024 },
-    { "3g.20gb",  20ULL * 1024 * 1024 * 1024 },
-    { "4g.20gb",  20ULL * 1024 * 1024 * 1024 },
-    { "7g.40gb",  40ULL * 1024 * 1024 * 1024 },
-    { "1g.10gb",  10ULL * 1024 * 1024 * 1024 },
-    { "1g.12gb",  12ULL * 1024 * 1024 * 1024 },
-    { "7g.80gb",  80ULL * 1024 * 1024 * 1024 },
+    { "1g.5gb",   5  * 1024 * 1024 * 1024 },
+    { "2g.10gb",  10 * 1024 * 1024 * 1024 },
+    { "3g.20gb",  20 * 1024 * 1024 * 1024 },
+    { "4g.20gb",  20 * 1024 * 1024 * 1024 },
+    { "7g.40gb",  40 * 1024 * 1024 * 1024 },
+    { "1g.10gb",  10 * 1024 * 1024 * 1024 },
+    { "1g.12gb",  12 * 1024 * 1024 * 1024 },
+    { "7g.80gb",  80 * 1024 * 1024 * 1024 },
 };
 
 static constexpr size_t kProfileCount =
@@ -99,7 +99,7 @@ uint64_t MIGManager::profileMemoryBytes(const std::string& profile) noexcept {
 
 // static
 std::string MIGManager::makeInstanceId(int device_index, int gi_id) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "dev" << device_index << "_gi" << gi_id;
     return oss.str();
 }
@@ -277,7 +277,8 @@ MIGManager::Status MIGManager::unassignFromTenant(const std::string& instance_id
 std::vector<MIGManager::MIGInstance> MIGManager::getInstances() const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<MIGInstance> result;
+    std::vector<MIGInstance> result = {};
+
     result.reserve(instances_.size());
     for (const auto& kv : instances_) {
         result.push_back(kv.second);
@@ -286,10 +287,11 @@ std::vector<MIGManager::MIGInstance> MIGManager::getInstances() const
 }
 
 std::vector<MIGManager::MIGInstance>
-MIGManager::getInstancesForDevice(int device_index) const
+MIGManager::getInstancesForDevice([[maybe_unused]] int device_index) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<MIGInstance> result;
+    std::vector<MIGInstance> result = {};
+
     for (const auto& kv : instances_) {
         if (kv.second.device_index == device_index) {
             result.push_back(kv.second);
@@ -302,7 +304,8 @@ std::vector<MIGManager::MIGInstance>
 MIGManager::getInstancesForTenant(const std::string& tenant_id) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<MIGInstance> result;
+    std::vector<MIGInstance> result = {};
+
     for (const auto& kv : instances_) {
         if (kv.second.tenant_id == tenant_id) {
             result.push_back(kv.second);

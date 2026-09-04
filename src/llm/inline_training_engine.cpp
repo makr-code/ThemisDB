@@ -60,17 +60,37 @@ json OptimizerConfig::toJSON() const {
 }
 
 OptimizerConfig OptimizerConfig::fromJSON(const json& j) {
-    OptimizerConfig cfg;
-    if (j.contains("type"))                  cfg.type = static_cast<OptimizerType>(j["type"].get<int>());
-    if (j.contains("learning_rate"))         cfg.learning_rate = j["learning_rate"].get<float>();
-    if (j.contains("beta1"))                 cfg.beta1 = j["beta1"].get<float>();
-    if (j.contains("beta2"))                 cfg.beta2 = j["beta2"].get<float>();
-    if (j.contains("epsilon"))               cfg.epsilon = j["epsilon"].get<float>();
-    if (j.contains("weight_decay"))          cfg.weight_decay = j["weight_decay"].get<float>();
-    if (j.contains("momentum"))              cfg.momentum = j["momentum"].get<float>();
-    if (j.contains("nesterov"))              cfg.nesterov = j["nesterov"].get<bool>();
-    if (j.contains("use_gradient_clipping")) cfg.use_gradient_clipping = j["use_gradient_clipping"].get<bool>();
-    if (j.contains("max_grad_norm"))         cfg.max_grad_norm = j["max_grad_norm"].get<float>();
+    OptimizerConfig cfg = {};
+    if (j.contains("type")) {
+      cfg.type = static_cast<OptimizerType>(j["type"].get<int>());
+    }
+    if (j.contains("learning_rate")) {
+      cfg.learning_rate = j["learning_rate"].get<float>();
+    }
+    if (j.contains("beta1")) {
+      cfg.beta1 = j["beta1"].get<float>();
+    }
+    if (j.contains("beta2")) {
+      cfg.beta2 = j["beta2"].get<float>();
+    }
+    if (j.contains("epsilon")) {
+      cfg.epsilon = j["epsilon"].get<float>();
+    }
+    if (j.contains("weight_decay")) {
+      cfg.weight_decay = j["weight_decay"].get<float>();
+    }
+    if (j.contains("momentum")) {
+      cfg.momentum = j["momentum"].get<float>();
+    }
+    if (j.contains("nesterov")) {
+      cfg.nesterov = j["nesterov"].get<bool>();
+    }
+    if (j.contains("use_gradient_clipping")) {
+      cfg.use_gradient_clipping = j["use_gradient_clipping"].get<bool>();
+    }
+    if (j.contains("max_grad_norm")) {
+      cfg.max_grad_norm = j["max_grad_norm"].get<float>();
+    }
     return cfg;
 }
 
@@ -90,13 +110,25 @@ json SchedulerConfig::toJSON() const {
 }
 
 SchedulerConfig SchedulerConfig::fromJSON(const json& j) {
-    SchedulerConfig cfg;
-    if (j.contains("type"))         cfg.type = static_cast<SchedulerType>(j["type"].get<int>());
-    if (j.contains("warmup_steps")) cfg.warmup_steps = j["warmup_steps"].get<int>();
-    if (j.contains("min_lr"))       cfg.min_lr = j["min_lr"].get<float>();
-    if (j.contains("max_lr"))       cfg.max_lr = j["max_lr"].get<float>();
-    if (j.contains("total_steps"))  cfg.total_steps = j["total_steps"].get<int>();
-    if (j.contains("power"))        cfg.power = j["power"].get<float>();
+    SchedulerConfig cfg = {};
+    if (j.contains("type")) {
+      cfg.type = static_cast<SchedulerType>(j["type"].get<int>());
+    }
+    if (j.contains("warmup_steps")) {
+      cfg.warmup_steps = j["warmup_steps"].get<int>();
+    }
+    if (j.contains("min_lr")) {
+      cfg.min_lr = j["min_lr"].get<float>();
+    }
+    if (j.contains("max_lr")) {
+      cfg.max_lr = j["max_lr"].get<float>();
+    }
+    if (j.contains("total_steps")) {
+      cfg.total_steps = j["total_steps"].get<int>();
+    }
+    if (j.contains("power")) {
+      cfg.power = j["power"].get<float>();
+    }
     return cfg;
 }
 
@@ -113,8 +145,12 @@ json TrainingMetrics::toJSON() const {
     j["learning_rate"]      = learning_rate;
     j["elapsed_seconds"]    = elapsed_seconds;
     j["samples_per_second"] = samples_per_second;
-    if (perplexity) j["perplexity"] = *perplexity;
-    if (accuracy)   j["accuracy"]   = *accuracy;
+    if (perplexity) {
+      j["perplexity"] = *perplexity;
+    }
+    if (accuracy) {
+      j["accuracy"]   = *accuracy;
+    }
     return j;
 }
 
@@ -133,12 +169,22 @@ json TrainingState::toJSON() const {
 }
 
 TrainingState TrainingState::fromJSON(const json& j) {
-    TrainingState s;
-    if (j.contains("current_epoch"))   s.current_epoch = j["current_epoch"].get<int>();
-    if (j.contains("current_step"))    s.current_step = j["current_step"].get<int>();
-    if (j.contains("best_loss"))       s.best_loss = j["best_loss"].get<float>();
-    if (j.contains("loss_history"))    s.loss_history = j["loss_history"].get<std::vector<float>>();
-    if (j.contains("optimizer_state")) s.optimizer_state = j["optimizer_state"].get<std::vector<uint8_t>>();
+    TrainingState s = {};
+    if (j.contains("current_epoch")) {
+      s.current_epoch = j["current_epoch"].get<int>();
+    }
+    if (j.contains("current_step")) {
+      s.current_step = j["current_step"].get<int>();
+    }
+    if (j.contains("best_loss")) {
+      s.best_loss = j["best_loss"].get<float>();
+    }
+    if (j.contains("loss_history")) {
+      s.loss_history = j["loss_history"].get<std::vector<float>>();
+    }
+    if (j.contains("optimizer_state")) {
+      s.optimizer_state = j["optimizer_state"].get<std::vector<uint8_t>>();
+    }
     return s;
 }
 
@@ -162,27 +208,59 @@ json InlineTrainingConfig::toJSON() const {
     j["max_checkpoints_to_keep"]     = max_checkpoints_to_keep;
     j["optimizer"]                   = optimizer.toJSON();
     j["scheduler"]                   = scheduler.toJSON();
-    if (seed) j["seed"]              = *seed;
+    if (seed) {
+      j["seed"]              = *seed;
+    }
     return j;
 }
 
 InlineTrainingConfig InlineTrainingConfig::fromJSON(const json& j) {
-    InlineTrainingConfig cfg;
-    if (j.contains("epochs"))                      cfg.epochs = j["epochs"].get<int>();
-    if (j.contains("batch_size"))                  cfg.batch_size = j["batch_size"].get<int>();
-    if (j.contains("gradient_accumulation_steps")) cfg.gradient_accumulation_steps = j["gradient_accumulation_steps"].get<int>();
-    if (j.contains("max_steps"))                   cfg.max_steps = j["max_steps"].get<int>();
-    if (j.contains("eval_steps"))                  cfg.eval_steps = j["eval_steps"].get<int>();
-    if (j.contains("save_steps"))                  cfg.save_steps = j["save_steps"].get<int>();
-    if (j.contains("eval_on_start"))               cfg.eval_on_start = j["eval_on_start"].get<bool>();
-    if (j.contains("use_fp16"))                    cfg.use_fp16 = j["use_fp16"].get<bool>();
-    if (j.contains("use_bf16"))                    cfg.use_bf16 = j["use_bf16"].get<bool>();
-    if (j.contains("checkpoint_dir"))              cfg.checkpoint_dir = j["checkpoint_dir"].get<std::string>();
-    if (j.contains("save_optimizer_state"))        cfg.save_optimizer_state = j["save_optimizer_state"].get<bool>();
-    if (j.contains("max_checkpoints_to_keep"))     cfg.max_checkpoints_to_keep = j["max_checkpoints_to_keep"].get<int>();
-    if (j.contains("optimizer"))                   cfg.optimizer = OptimizerConfig::fromJSON(j["optimizer"]);
-    if (j.contains("scheduler"))                   cfg.scheduler = SchedulerConfig::fromJSON(j["scheduler"]);
-    if (j.contains("seed"))                        cfg.seed = j["seed"].get<int>();
+    InlineTrainingConfig cfg = {};
+    if (j.contains("epochs")) {
+      cfg.epochs = j["epochs"].get<int>();
+    }
+    if (j.contains("batch_size")) {
+      cfg.batch_size = j["batch_size"].get<int>();
+    }
+    if (j.contains("gradient_accumulation_steps")) {
+      cfg.gradient_accumulation_steps = j["gradient_accumulation_steps"].get<int>();
+    }
+    if (j.contains("max_steps")) {
+      cfg.max_steps = j["max_steps"].get<int>();
+    }
+    if (j.contains("eval_steps")) {
+      cfg.eval_steps = j["eval_steps"].get<int>();
+    }
+    if (j.contains("save_steps")) {
+      cfg.save_steps = j["save_steps"].get<int>();
+    }
+    if (j.contains("eval_on_start")) {
+      cfg.eval_on_start = j["eval_on_start"].get<bool>();
+    }
+    if (j.contains("use_fp16")) {
+      cfg.use_fp16 = j["use_fp16"].get<bool>();
+    }
+    if (j.contains("use_bf16")) {
+      cfg.use_bf16 = j["use_bf16"].get<bool>();
+    }
+    if (j.contains("checkpoint_dir")) {
+      cfg.checkpoint_dir = j["checkpoint_dir"].get<std::string>();
+    }
+    if (j.contains("save_optimizer_state")) {
+      cfg.save_optimizer_state = j["save_optimizer_state"].get<bool>();
+    }
+    if (j.contains("max_checkpoints_to_keep")) {
+      cfg.max_checkpoints_to_keep = j["max_checkpoints_to_keep"].get<int>();
+    }
+    if (j.contains("optimizer")) {
+      cfg.optimizer = OptimizerConfig::fromJSON(j["optimizer"]);
+    }
+    if (j.contains("scheduler")) {
+      cfg.scheduler = SchedulerConfig::fromJSON(j["scheduler"]);
+    }
+    if (j.contains("seed")) {
+      cfg.seed = j["seed"].get<int>();
+    }
     return cfg;
 }
 
@@ -530,9 +608,11 @@ TrainingResult InlineTrainingEngine::trainLoop(
             const auto& primary_batch = batch_opt->samples;
 
             // Gradient accumulation loop
-            std::vector<float> accumulated_gradients;
+            std::vector<float> accumulated_gradients = {};
+
             for (int acc = 0; acc < cfg.gradient_accumulation_steps; ++acc) {
-                std::optional<TrainingDataIterator::TrainingBatch> sub_opt;
+                std::optional<TrainingDataIterator::TrainingBatch> sub_opt = {};
+
                 if (acc > 0 && impl_->data_iterator->hasNext()) {
                     sub_opt = impl_->data_iterator->getNextBatch();
                 }
@@ -544,7 +624,7 @@ TrainingResult InlineTrainingEngine::trainLoop(
                 if (accumulated_gradients.empty()) {
                     accumulated_gradients = grads;
                 } else {
-                    for (size_t i = 0; i < grads.size() && i < accumulated_gradients.size(); ++i) {
+                    for (size_t i = 0; i <static_cast<int>(grads.size())  && static_cast<size_t>(i) <static_cast<int>(accumulated_gradients.size()); ++i) {
                         accumulated_gradients[i] += grads[i];
                     }
                 }
@@ -562,11 +642,11 @@ TrainingResult InlineTrainingEngine::trainLoop(
             // Wave-B L5: params are retained across steps so optimizer moments
             // and weight-decay accumulate correctly over the full training run.
             if (!accumulated_gradients.empty()) {
-                if (impl_->model_params_.size() != accumulated_gradients.size()) {
+                if (impl_-> static_cast<int>(model_params_.size()) != static_cast<int>(accumulated_gradients.size())) {
                     // Lazy initialisation: small random values in [-0.01, 0.01].
                     impl_->model_params_.resize(accumulated_gradients.size());
                     const float kInitScale = 0.01f;
-                    for (size_t i = 0; i < impl_->model_params_.size(); ++i) {
+                    for (size_t i = 0; i < impl_-> static_cast<int>(model_params_.size()); ++i) {
                         impl_->model_params_[i] =
                             kInitScale * (2.0f * static_cast<float>(i % 17) / 16.0f - 1.0f);
                     }
@@ -632,8 +712,8 @@ TrainingResult InlineTrainingEngine::trainLoop(
             }
 
             // Fire progress callback
-            if (cfg.progress_callback) {
-                cfg.progress_callback(metrics);
+            if ([[maybe_unused]] cfg.progress_callback) {
+                cfg.progress_callback([[maybe_unused]] metrics);
             }
 
             // Periodic evaluation
@@ -672,8 +752,8 @@ TrainingResult InlineTrainingEngine::trainLoop(
                     }
                 }
 
-                if (cfg.checkpoint_callback) {
-                    cfg.checkpoint_callback(ckpt_path);
+                if ([[maybe_unused]] cfg.checkpoint_callback) {
+                    cfg.checkpoint_callback([[maybe_unused]] ckpt_path);
                 }
             }
 
@@ -829,13 +909,13 @@ void InlineTrainingEngine::optimizerStep(
 
     const auto& opt = impl_->config.optimizer;
     const float lr  = getLearningRate(step);
-    const size_t n  = std::min(parameters.size(), gradients.size());
+    const size_t n  = std::min(parameters.size(),static_cast<int>(gradients.size()));
 
     switch (opt.type) {
         case OptimizerType::ADAM:
-        case OptimizerType::ADAM_W: {
+        [[fallthrough]];\n        case OptimizerType::ADAM_W: {
             // Initialise moment vectors on first call
-            if (impl_->m_adam.size() != n) {
+            if (impl_-> static_cast<int>(m_adam.size()) != n) {
                 impl_->m_adam.assign(n, 0.0f);
                 impl_->v_adam.assign(n, 0.0f);
             }
@@ -861,7 +941,7 @@ void InlineTrainingEngine::optimizerStep(
         }
 
         case OptimizerType::SGD: {
-            if (impl_->m_sgd.size() != n) {
+            if (impl_-> static_cast<int>(m_sgd.size()) != n) {
                 impl_->m_sgd.assign(n, 0.0f);
             }
             const float momentum = opt.momentum;
@@ -878,7 +958,7 @@ void InlineTrainingEngine::optimizerStep(
         }
 
         case OptimizerType::ADAGRAD: {
-            if (impl_->v_adam.size() != n) {
+            if (impl_-> static_cast<int>(v_adam.size()) != n) {
                 impl_->v_adam.assign(n, 0.0f);
             }
             for (size_t i = 0; i < n; ++i) {
@@ -889,7 +969,7 @@ void InlineTrainingEngine::optimizerStep(
         }
 
         case OptimizerType::RMSPROP: {
-            if (impl_->v_adam.size() != n) {
+            if (impl_-> static_cast<int>(v_adam.size()) != n) {
                 impl_->v_adam.assign(n, 0.0f);
             }
             const float alpha = 0.99f;  // RMSProp decay
@@ -907,7 +987,7 @@ void InlineTrainingEngine::optimizerStep(
 // Private – getLearningRate
 // ═══════════════════════════════════════════════════════════════════════════
 
-float InlineTrainingEngine::getLearningRate(int step) const {
+float InlineTrainingEngine::getLearningRate([[maybe_unused]] int step) const {
     const auto& sched = impl_->config.scheduler;
     const float max_lr = sched.max_lr;
     const float min_lr = sched.min_lr;
@@ -933,7 +1013,7 @@ float InlineTrainingEngine::getLearningRate(int step) const {
             return max_lr * (1.0f - t) + min_lr * t;
 
         case SchedulerType::COSINE:
-        case SchedulerType::COSINE_WITH_WARMUP:
+        [[fallthrough]];\n        case SchedulerType::COSINE_WITH_WARMUP:
             return min_lr + 0.5f * (max_lr - min_lr) * (1.0f + std::cos(kPi * t));
 
         case SchedulerType::POLYNOMIAL:
@@ -990,7 +1070,7 @@ void InlineTrainingEngine::saveCheckpoint(
 TrainingState InlineTrainingEngine::loadCheckpoint(const std::string& path) {
     // --- Try RocksDB first (when handle is set) ---
     if (checkpoint_db_) {
-        std::string value;
+        std::string value = {};
         rocksdb::Status s = checkpoint_db_->Get(
             rocksdb::ReadOptions(), path, &value);
         if (s.ok()) {
@@ -1008,7 +1088,7 @@ TrainingState InlineTrainingEngine::loadCheckpoint(const std::string& path) {
         throw std::runtime_error("InlineTrainingEngine: checkpoint not found at '" + path + "'");
     }
 
-    json j;
+    json j = {};
     ifs >> j;
     TrainingState state = TrainingState::fromJSON(j);
 

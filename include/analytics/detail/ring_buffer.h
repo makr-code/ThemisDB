@@ -84,7 +84,9 @@ public:
     explicit EventRingBuffer(size_t capacity) {
         // Round capacity up to next power of two (minimum 2).
         size_t cap = 2;
-        while (cap < capacity) cap <<= 1;
+        while (cap < capacity) {
+          cap <<= 1;
+        }
         mask_ = cap - 1;
         // Use a heap array; std::atomic is non-movable so std::vector won't work.
         slots_.reset(new Slot[cap]);

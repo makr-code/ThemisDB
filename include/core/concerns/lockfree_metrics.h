@@ -240,7 +240,7 @@ private:
 
     struct CounterEntry {
         std::atomic<int64_t> value{0};
-        std::string          name;
+        std::string          name = {};
         Labels               labels;
 
         CounterEntry(std::string n, Labels l)
@@ -262,7 +262,7 @@ private:
 
     struct GaugeEntry {
         std::atomic<double> value{0.0};
-        std::string         name;
+        std::string         name = {};
         Labels              labels;
 
         GaugeEntry(std::string n, Labels l)
@@ -318,7 +318,9 @@ private:
 
         bool tryPop(T& out) noexcept {
             const size_t r = read_idx.load(std::memory_order_relaxed);
-            if (r == write_idx.load(std::memory_order_acquire)) return false;
+            if (r == write_idx.load(std::memory_order_acquire)) {
+              return false;
+            }
             out = std::move(buf[r]);
             read_idx.store((r + 1) & (Cap - 1), std::memory_order_release);
             return true;

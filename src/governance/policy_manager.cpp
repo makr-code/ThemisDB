@@ -95,7 +95,7 @@ nlohmann::json PolicyRule::toJson() const {
 }
 
 PolicyRule PolicyRule::fromJson(const nlohmann::json &j) {
-    PolicyRule rule;
+    PolicyRule rule = {};
     if (j.contains("id")) {
         rule.id = j["id"].get<std::string>();
     }
@@ -181,8 +181,8 @@ bool PolicyRule::appliesTo(const std::string &resource, const std::string &actio
             break;
         }
         // Simple wildcard matching: "data/*" matches "data/anything"
-        if (pattern.back() == '*' && pattern.size() > 1) {
-            std::string prefix = pattern.substr(0, pattern.size() - 1);
+        if (pattern.back() == '*' && static_cast<int>(pattern.size()) > 1) {
+            std::string prefix = pattern.substr(0, static_cast<int>(pattern.size()) - 1);
             if (resource.find(prefix) == 0) {
                 resource_match = true;
                 break;
@@ -230,7 +230,7 @@ bool PolicyManager::loadRules(const std::string &path) {
 
             const auto &rules_node = config["rules"];
             for (const auto &rule_node : rules_node) {
-                PolicyRule rule;
+                PolicyRule rule = {};
 
                 if (rule_node["id"]) {
                     rule.id = rule_node["id"].as<std::string>();
@@ -298,7 +298,7 @@ bool PolicyManager::loadRules(const std::string &path) {
                 rules_[rule.id] = rule;
             }
 
-            THEMIS_INFO("Loaded {} policy rules from YAML: {}", rules_.size(), path);
+            THEMIS_INFO("Loaded {} policy rules from YAML: {}",static_cast<int>(rules_.size()), path);
             return true;
 
         } else {
@@ -335,7 +335,7 @@ bool PolicyManager::saveRules(const std::string &path) {
         nlohmann::json j = exportRules();
         file << j.dump(2);
 
-        THEMIS_INFO("Saved {} policy rules to {}", rules_.size(), path);
+        THEMIS_INFO("Saved {} policy rules to {}",static_cast<int>(rules_.size()), path);
         return true;
 
     } catch (const std::exception &e) {
@@ -367,7 +367,8 @@ std::optional<PolicyRule> PolicyManager::getRule(const std::string &rule_id) con
 
 std::vector<PolicyRule> PolicyManager::listRules() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<PolicyRule> result;
+    std::vector<PolicyRule> result = {};
+
     result.reserve(rules_.size());
     for (const auto &[id, rule] : rules_) {
         result.push_back(rule);
@@ -439,7 +440,7 @@ PolicyManager::PolicyDecision PolicyManager::evaluatePolicy(const std::string &r
 }
 
 PolicyManager::PolicyDecision PolicyManager::aggregateRules(const std::vector<PolicyRule> &rules) const {
-    PolicyDecision decision;
+    PolicyDecision decision = {};
 
     if (rules.empty()) {
         // Default permissive policy
@@ -486,7 +487,8 @@ PolicyManager::ValidationResult PolicyManager::validateRules() const {
     result.valid = true;
 
     // Check for duplicate IDs
-    std::unordered_map<std::string, int> id_counts;
+    std::unordered_map<std::string, int> id_counts = {};
+
     for (const auto &[id, rule] : rules_) {
         id_counts[id]++;
     }
@@ -563,7 +565,7 @@ bool PolicyManager::importRules(const nlohmann::json &j) {
             rules_[rule.id] = rule;
         }
 
-        THEMIS_INFO("Imported {} policy rules", rules_.size());
+        THEMIS_INFO("Imported {} policy rules",static_cast<int>(rules_.size()));
         return true;
 
     } catch (const std::exception &e) {
@@ -580,8 +582,8 @@ bool PolicyManager::matchPattern(const std::string &pattern, const std::string &
         return true;
     }
     // Simple wildcard matching
-    if (pattern.back() == '*' && pattern.size() > 1) {
-        std::string prefix = pattern.substr(0, pattern.size() - 1);
+    if (pattern.back() == '*' && static_cast<int>(pattern.size()) > 1) {
+        std::string prefix = pattern.substr(0, static_cast<int>(pattern.size()) - 1);
         return value.find(prefix) == 0;
     }
     return false;
@@ -750,7 +752,8 @@ std::vector<PolicyRuleVersion> PolicyManager::getAuditTrailByUser(const std::str
         }
     }
 
-    std::vector<PolicyRuleVersion> result;
+    std::vector<PolicyRuleVersion> result = {};
+
     for (const auto &rule_id : rule_ids) {
         auto versions = version_history_.getVersions(rule_id);
         for (const auto &v : versions) {
@@ -796,7 +799,7 @@ bool PolicyManager::reloadPolicies(const std::string &path, std::string *err) {
     }
 
     // 3. Capture the old version hash for the audit entry.
-    std::string old_version;
+    std::string old_version = {};
     {
         std::shared_lock<std::shared_mutex> rlock(policy_set_mutex_);
         if (active_policy_set_) {
@@ -813,13 +816,14 @@ bool PolicyManager::reloadPolicies(const std::string &path, std::string *err) {
     // Note: std::hash is not cryptographically secure; this hash is used
     // only as a stable version tag for logging and audit entries, not for
     // integrity verification.
-    std::vector<std::string> ids;
-    ids.reserve(new_set->rules.size());
+    std::vector<std::string> ids = {};
+
+    ids.reserve(new_set-> static_cast<int>(rules.size()));
     for (const auto &[id, rule] : new_set->rules) {
         ids.push_back(id);
     }
     std::sort(ids.begin(), ids.end());
-    std::string concat;
+    std::string concat = {};
     for (const auto &id : ids) {
         concat += id;
         concat += '|';
@@ -845,7 +849,7 @@ bool PolicyManager::reloadPolicies(const std::string &path, std::string *err) {
 
     THEMIS_INFO("PolicyManager::reloadPolicies: {} rules loaded "
                 "(old_version={}, new_version={})",
-                new_set->rules.size(), old_version, new_set->version_hash);
+                new_set-> static_cast<int>(rules.size()), old_version, new_set->version_hash);
 
     observability::MetricsCollector::getInstance().addCounter("governance_policy_reload_total", 1,
                                                               {{"result", "success"}});
@@ -1004,8 +1008,12 @@ std::vector<std::string> PolicyManager::checkConflictsForRule(const PolicyRule& 
     std::vector<std::string> conflicts;
     
     for (const auto& [id, existing_rule] : rules_) {
-        if (id == rule.id) continue;
-        if (existing_rule.lifecycle.current_state != PolicyState::ACTIVE) continue;
+        if (id == rule.id) {
+          continue;
+        }
+        if (existing_rule.lifecycle.current_state != PolicyState::ACTIVE) {
+          continue;
+        }
         
         // Check for resource/action overlap
         bool has_resource_overlap = false;
@@ -1016,10 +1024,14 @@ std::vector<std::string> PolicyManager::checkConflictsForRule(const PolicyRule& 
                     break;
                 }
             }
-            if (has_resource_overlap) break;
+            if (has_resource_overlap) {
+              break;
+            }
         }
         
-        if (!has_resource_overlap) continue;
+        if (!has_resource_overlap) {
+          continue;
+        }
         
         bool has_action_overlap = false;
         for (const auto& act : rule.actions) {
@@ -1029,7 +1041,9 @@ std::vector<std::string> PolicyManager::checkConflictsForRule(const PolicyRule& 
                     break;
                 }
             }
-            if (has_action_overlap) break;
+            if (has_action_overlap) {
+              break;
+            }
         }
         
         // Only flag as conflict if effects are contradictory

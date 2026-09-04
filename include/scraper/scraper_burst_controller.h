@@ -97,7 +97,9 @@ public:
      * @return Value in [0.0, 1.0]: 0.0 = empty, 1.0 = full.
      */
     [[nodiscard]] double burstUtilization() const noexcept {
-        if (max_tokens_ == 0) return 0.0;
+        if (max_tokens_ == 0) {
+          return 0.0;
+        }
         const double ratio = static_cast<double>(
             current_tokens_.load(std::memory_order_relaxed))
             / static_cast<double>(max_tokens_);
@@ -129,7 +131,9 @@ private:
      * through this path.
      */
     void refill() noexcept {
-        if (refill_rate_per_sec_ <= 0.0) return;
+        if (refill_rate_per_sec_ <= 0.0) {
+          return;
+        }
 
         const auto now = std::chrono::steady_clock::now();
 
@@ -137,20 +141,24 @@ private:
         const double elapsed_sec =
             std::chrono::duration<double>(now - last_refill_).count();
 
-        if (elapsed_sec <= 0.0) return;
+        if (elapsed_sec <= 0.0) {
+          return;
+        }
 
         const double tokens_to_add = elapsed_sec * refill_rate_per_sec_;
         const uint32_t added = static_cast<uint32_t>(tokens_to_add);
 
         // Only advance last_refill_ when at least one whole token is earned so
         // that sub-token elapsed time is preserved for the next call.
-        if (added == 0) return;
+        if (added == 0) {
+          return;
+        }
         last_refill_ = now;
 
         // CAS loop: add tokens without clobbering concurrent decrements from
         // tryAcquire().  Saturates at max_tokens_ to prevent over-filling.
         uint32_t current = current_tokens_.load(std::memory_order_acquire);
-        uint32_t updated;
+        uint32_t updated = 0;
         do {
             updated = (added >= max_tokens_ - current) ? max_tokens_
                                                        : current + added;

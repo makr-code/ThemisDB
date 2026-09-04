@@ -99,7 +99,7 @@ static void timedJoin(std::thread &t, int timeout_ms = kShutdownJoinTimeoutMs) n
 // CpuPinner
 // =============================================================================
 
-bool CpuPinner::pinCallerToCore(int core_id) noexcept {
+bool CpuPinner::pinCallerToCore([[maybe_unused]] int core_id) noexcept {
     static_cast<void>(core_id);
 #ifdef __linux__
     if (core_id < 0)
@@ -131,7 +131,7 @@ bool CpuPinner::pinThreadToCore(std::thread &thread, int core_id) noexcept {
 #endif
 }
 
-int CpuPinner::numaNodeForCore(int core_id) noexcept {
+int CpuPinner::numaNodeForCore([[maybe_unused]] int core_id) noexcept {
     static_cast<void>(core_id);
 #ifdef __linux__
     if (core_id < 0)
@@ -175,7 +175,7 @@ int CpuPinner::currentCpu() noexcept {
 #endif
 }
 
-std::vector<int> CpuPinner::coresOnNuma(int numa_node) noexcept {
+std::vector<int> CpuPinner::coresOnNuma([[maybe_unused]] int numa_node) noexcept {
     std::vector<int> result;
     int ncpu = logicalCpuCount();
     for (int i = 0; i < ncpu; ++i) {
@@ -272,7 +272,7 @@ ZeroCopyDmaBuffer::ZeroCopyDmaBuffer(size_t size_bytes, int numa_node) {
 #if defined(THEMIS_ENABLE_NUMA) && defined(__linux__)
         if (numa_node >= 0 && NumaAllocator::isNumaAvailable()) {
             // mbind to preferred node.
-            unsigned long nodemask = (1UL << static_cast<unsigned>(numa_node));
+            unsigned long nodemask = (1 << static_cast<unsigned>(numa_node));
             ::syscall(__NR_mbind, p, aligned, /* MPOL_PREFERRED */ 1, &nodemask, sizeof(nodemask) * 8 + 1,
                       /* MPOL_MF_MOVE */ 2);
         }
@@ -372,10 +372,11 @@ bool DPDKServer::isDpdkAvailable() noexcept {
 }
 
 /*static*/
-std::vector<int> DPDKServer::coresFromMask(uint64_t mask) noexcept {
-    std::vector<int> cores;
+std::vector<int> DPDKServer::coresFromMask([[maybe_unused]] uint64_t mask) noexcept {
+    std::vector<int> cores = {};
+
     for (int i = 0; i < 64; ++i) {
-        if (mask & (1ULL << static_cast<unsigned>(i))) {
+        if (mask & (1 << static_cast<unsigned>(i))) {
             cores.push_back(i);
         }
     }
@@ -429,7 +430,8 @@ bool DPDKServer::start() {
     }
 
     // Convert to char* array.
-    std::vector<char *> eal_argv;
+    std::vector<char *> eal_argv = {};
+
     eal_argv.reserve(eal_arg_strs.size());
     for (auto &s : eal_arg_strs) {
         eal_argv.push_back(const_cast<char *>(s.c_str()));
@@ -594,7 +596,7 @@ void DPDKServer::stop() {
 
 void DPDKServer::pollLoop([[maybe_unused]] int core_id, [[maybe_unused]] int queue_id) {
 #if defined(THEMIS_ENABLE_DPDK)
-    constexpr uint64_t kCyclesPerStatUpdate = 100000000ULL; // ~0.1 s at 1 GHz
+    constexpr uint64_t kCyclesPerStatUpdate = 100000000; // ~0.1 s at 1 GHz
     uint64_t last_stat_cycle                = rte_get_tsc_cycles();
 
     while (running_.load(std::memory_order_relaxed)) {
@@ -668,7 +670,7 @@ bool IoUringServer::isIoUringAvailable() noexcept {
         return true;
     // ENOMEM means available but out of memory right now.
     if (errno == ENOMEM)
-        return true;
+        return true = {};
     return false;
 #else
     return false;
@@ -826,7 +828,7 @@ bool IoUringServer::start() {
     }
 
     if (!setupListenSocket())
-        return false;
+        return false = {};
     if (!setupIoUring()) {
         if (listen_fd_ >= 0) {
 #ifdef __linux__

@@ -109,7 +109,8 @@ public:
      * @brief Get all revisions for a model
      */
     std::vector<ProcessModelRevision> getRevisions(const std::string& model_id) const {
-        std::vector<ProcessModelRevision> result;
+        std::vector<ProcessModelRevision> result = {};
+
         for (const auto& rev : revisions_) {
             if (rev.id == model_id) {
                 result.push_back(rev);
@@ -355,7 +356,8 @@ static void BM_DP03_RollbackBatch(benchmark::State& state) {
         state.PauseTiming();
         store = std::make_unique<RevisionStore>();
 
-        std::vector<std::string> model_ids;
+        std::vector<std::string> model_ids = {};
+
         for (int i = 0; i < num_models; ++i) {
             std::string model_id = "model_" + std::to_string(i);
             model_ids.push_back(model_id);
@@ -399,7 +401,8 @@ static void BM_DP04_TransactionSerialization(benchmark::State& state) {
         serializer = std::make_unique<TransactionSerializer>();
 
         // Generate synthetic transactions
-        std::vector<Transaction> transactions;
+        std::vector<Transaction> transactions = {};
+
         for (int i = 0; i < num_transactions; ++i) {
             Transaction txn;
             txn.txn_id = "txn_" + std::to_string(i);
@@ -422,7 +425,8 @@ static void BM_DP04_TransactionSerialization(benchmark::State& state) {
         state.ResumeTiming();
 
         // Commit all transactions and measure serialization latency
-        std::vector<double> latencies;
+        std::vector<double> latencies = {};
+
         for (const auto& txn : transactions) {
             auto start = std::chrono::high_resolution_clock::now();
             serializer->commitTransaction(txn);
@@ -455,7 +459,8 @@ static void BM_DP05_DeterministicOutputVerification(benchmark::State& state) {
     std::mt19937_64 rng(kCanonicalRngSeed);
     std::uniform_int_distribution<> content_dist(0, 9999);
 
-    std::vector<std::string> model_contents;
+    std::vector<std::string> model_contents = {};
+
     for (int i = 0; i < num_models; ++i) {
         std::string content = "model_" + std::to_string(i) + "_content_" + 
                              std::to_string(content_dist(rng));
@@ -464,7 +469,7 @@ static void BM_DP05_DeterministicOutputVerification(benchmark::State& state) {
 
     for (auto _ : state) {
         state.PauseTiming();
-        std::string first_output;
+        std::string first_output = {};
         state.ResumeTiming();
 
         // First pass: generate output deterministically
@@ -474,7 +479,7 @@ static void BM_DP05_DeterministicOutputVerification(benchmark::State& state) {
         }
 
         state.PauseTiming();
-        std::string second_output;
+        std::string second_output = {};
         state.ResumeTiming();
 
         // Second pass: verify output is identical
@@ -502,7 +507,7 @@ BENCHMARK(BM_DP05_DeterministicOutputVerification)
 struct VersionClock {
     uint64_t logical_clock{0};
     int64_t wall_clock_ms{0};
-    std::string node_id;
+    std::string node_id = {};
 
     void increment() {
         logical_clock++;

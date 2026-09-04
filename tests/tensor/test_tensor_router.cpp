@@ -143,7 +143,9 @@ TEST(TensorRouterRoute, DomainTagTemplateCatalogPromotesLift) {
     hint.domain_tag = "finance";
     // Use random data (low κ → would be KEEP without catalog)
     std::vector<float> rand_data(64);
-    for (std::size_t i = 0; i < 64; ++i) rand_data[i] = static_cast<float>(i % 7);
+    for (std::size_t i = 0; i < 64; ++i) {
+      rand_data[i] = static_cast<float>(i % 7);
+    }
 
     auto d = router.route(rand_data, {8, 8}, hint);
     // Catalog hit should promote to LIFT
@@ -308,7 +310,9 @@ TEST(TensorRouterRoute, TemplateTopologyApplyCallbackFalseFallsBackToHeuristic) 
     themis::storage::TensorRouteHint hint;
     hint.domain_tag = "finance";
     std::vector<float> rand_data(64);
-    for (std::size_t i = 0; i < 64; ++i) rand_data[i] = static_cast<float>(i % 7);
+    for (std::size_t i = 0; i < 64; ++i) {
+      rand_data[i] = static_cast<float>(i % 7);
+    }
 
     const auto d = router.route(rand_data, {8, 8}, hint);
     EXPECT_NE(d, themis::storage::TensorRouteDecision::LIFT);

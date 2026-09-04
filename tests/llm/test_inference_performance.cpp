@@ -74,7 +74,9 @@ protected:
                         break;
                     }
                 }
-                if (model_available_) break;
+                if (model_available_) {
+                  break;
+                }
             }
         }
     }
@@ -85,7 +87,7 @@ protected:
 
     /** Lightweight simulation fallback used by structural-only tests. */
     std::string simulateGeneration(size_t num_tokens) {
-        std::string result;
+        std::string result = {};
         result.reserve(num_tokens * 8);
         for (size_t i = 0; i < num_tokens; ++i) {
             result += "token" + std::to_string(i) + " ";
@@ -118,7 +120,9 @@ protected:
         req.prompt      = prompt;
         req.max_tokens  = max_tokens;
         req.temperature = temperature;
-        if (cb) req.stream_callback = std::move(cb);
+        if (cb) {
+          req.stream_callback = std::move(cb);
+        }
         return plugin.generate(req);
     }
 #endif
@@ -423,7 +427,9 @@ TEST_F(InferencePerformanceTest, Batch_ThroughputMeasurement) {
 
     EXPECT_EQ(outputs.size(), static_cast<size_t>(batch_size));
     for (const auto& resp : outputs) {
-        if (resp.success) throughput.increment(static_cast<size_t>(resp.tokens_generated));
+        if (resp.success) {
+          throughput.increment(static_cast<size_t>(resp.tokens_generated));
+        }
     }
 
     const double tps = throughput.getTokensPerSecond();
@@ -467,7 +473,9 @@ TEST_F(InferencePerformanceTest, Batch_ScalingEfficiency) {
         test::ThroughputCalculator throughput;
         auto outputs = plugin.generateBatch(requests);
         for (const auto& resp : outputs) {
-            if (resp.success) throughput.increment(static_cast<size_t>(resp.tokens_generated));
+            if (resp.success) {
+              throughput.increment(static_cast<size_t>(resp.tokens_generated));
+            }
         }
 
         double tokens_per_sec = throughput.getTokensPerSecond();
@@ -641,7 +649,9 @@ TEST_F(InferencePerformanceTest, Regression_BaselineComparison) {
         req.max_tokens  = 16;
         req.temperature = 0.0f;
         auto resp = plugin.generate(req);
-        if (resp.success) throughput.increment(static_cast<size_t>(resp.tokens_generated));
+        if (resp.success) {
+          throughput.increment(static_cast<size_t>(resp.tokens_generated));
+        }
     }
 
     double current_tokens_per_sec = throughput.getTokensPerSecond();
@@ -689,7 +699,9 @@ TEST_F(InferencePerformanceTest, Regression_ConsistencyCheck) {
         req.max_tokens  = 16;
         req.temperature = 0.0f;
         auto resp = plugin.generate(req);
-        if (resp.success) throughput.increment(static_cast<size_t>(resp.tokens_generated));
+        if (resp.success) {
+          throughput.increment(static_cast<size_t>(resp.tokens_generated));
+        }
         return throughput.getOpsPerSecond();
     };
 
@@ -697,11 +709,15 @@ TEST_F(InferencePerformanceTest, Regression_ConsistencyCheck) {
     for (int run = 0; run < num_runs; ++run) { throughputs.push_back(runOnce()); }
 
     double mean = 0.0;
-    for (double t : throughputs) mean += t;
+    for (double t : throughputs) {
+      mean += t;
+    }
     mean /= num_runs;
 
     double variance = 0.0;
-    for (double t : throughputs) variance += (t - mean) * (t - mean);
+    for (double t : throughputs) {
+      variance += (t - mean) * (t - mean);
+    }
     variance /= num_runs;
     double std_dev = std::sqrt(variance);
 
@@ -744,7 +760,7 @@ TEST_F(InferencePerformanceTest, Concurrent_ThroughputMeasurement) {
     std::atomic<int> completed{0};
     test::ThroughputCalculator throughput;
     std::vector<std::thread> threads;
-    std::mutex tps_mutex;
+    std::mutex tps_mutex = {};
 
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([&, i]() {
@@ -752,7 +768,9 @@ TEST_F(InferencePerformanceTest, Concurrent_ThroughputMeasurement) {
             nlohmann::json cfg;
             cfg["n_ctx"]   = 256;
             cfg["n_batch"] = 64;
-            if (!plugin.loadModel(model_path_, cfg)) return;
+            if (!plugin.loadModel(model_path_, cfg)) {
+              return;
+            }
 
             llm::InferenceRequest req;
             req.prompt      = "Thread test " + std::to_string(i);
@@ -799,7 +817,7 @@ TEST_F(InferencePerformanceTest, Concurrent_Scalability) {
     for (int num_threads : thread_counts) {
         test::ThroughputCalculator throughput;
         std::vector<std::thread> threads;
-        std::mutex tps_mutex;
+        std::mutex tps_mutex = {};
 
         for (int i = 0; i < num_threads; ++i) {
             threads.emplace_back([&, i]() {
@@ -807,7 +825,9 @@ TEST_F(InferencePerformanceTest, Concurrent_Scalability) {
                 nlohmann::json cfg;
                 cfg["n_ctx"]   = 256;
                 cfg["n_batch"] = 64;
-                if (!plugin.loadModel(model_path_, cfg)) return;
+                if (!plugin.loadModel(model_path_, cfg)) {
+                  return;
+                }
 
                 llm::InferenceRequest req;
                 req.prompt      = "Scalability test thread " + std::to_string(i);

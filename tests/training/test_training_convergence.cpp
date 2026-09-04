@@ -100,8 +100,11 @@ TEST(ConfidenceCalibratorConvergence, MultiCategoryProducesOneThresholdPerCatego
     EXPECT_TRUE(result.success);
     EXPECT_EQ(result.thresholds.size(), 3u);
 
-    std::vector<std::string> cats;
-    for (const auto& t : result.thresholds) cats.push_back(t.category);
+    std::vector<std::string> cats = {};
+
+    for (const auto& t : result.thresholds) {
+      cats.push_back(t.category);
+    }
     EXPECT_NE(std::find(cats.begin(), cats.end(), "obligation"),  cats.end());
     EXPECT_NE(std::find(cats.begin(), cats.end(), "permission"),  cats.end());
     EXPECT_NE(std::find(cats.begin(), cats.end(), "prohibition"), cats.end());
@@ -342,7 +345,9 @@ TEST_F(CitationExtractorTest, GermanStatutory_Detected) {
     bool found_statutory = false;
     for (const auto& s : samples) {
         EXPECT_EQ(s.modality, ContentModality::CITATION);
-        if (s.output == "statutory") found_statutory = true;
+        if (s.output == "statutory") {
+          found_statutory = true;
+        }
     }
     EXPECT_TRUE(found_statutory);
 }
@@ -412,9 +417,15 @@ TEST_F(ModalityDetectorParseTest, MixedDocument_ExtractsAllModalities) {
     bool has_table   = false;
     bool has_citation = false;
     for (const auto& s : result.samples) {
-        if (s.modality == ContentModality::TEXT_CLAUSE) has_text = true;
-        if (s.modality == ContentModality::TABLE)       has_table = true;
-        if (s.modality == ContentModality::CITATION)    has_citation = true;
+        if (s.modality == ContentModality::TEXT_CLAUSE) {
+          has_text = true;
+        }
+        if (s.modality == ContentModality::TABLE) {
+          has_table = true;
+        }
+        if (s.modality == ContentModality::CITATION) {
+          has_citation = true;
+        }
     }
     EXPECT_TRUE(has_text    || has_citation); // At least text or citation
     EXPECT_TRUE(has_table);

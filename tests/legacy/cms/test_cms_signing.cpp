@@ -10,7 +10,9 @@ using namespace themis;
 static std::shared_ptr<EVP_PKEY> generate_rsa_key() {
     EVP_PKEY_CTX* pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, nullptr);
     EVP_PKEY* pkey = nullptr;
-    if (!pctx) return nullptr;
+    if (!pctx) {
+      return nullptr;
+    }
     if (EVP_PKEY_keygen_init(pctx) <= 0) { EVP_PKEY_CTX_free(pctx); return nullptr; }
     EVP_PKEY_CTX_set_rsa_keygen_bits(pctx, 2048);
     if (EVP_PKEY_keygen(pctx, &pkey) <= 0) { EVP_PKEY_CTX_free(pctx); return nullptr; }
@@ -20,7 +22,9 @@ static std::shared_ptr<EVP_PKEY> generate_rsa_key() {
 
 static std::shared_ptr<X509> make_self_signed_cert(EVP_PKEY* pkey) {
     X509* x = X509_new();
-    if (!x) return nullptr;
+    if (!x) {
+      return nullptr;
+    }
     ASN1_INTEGER_set(X509_get_serialNumber(x), 1);
     X509_gmtime_adj(X509_get_notBefore(x), 0);
     X509_gmtime_adj(X509_get_notAfter(x), 60*60*24*365);

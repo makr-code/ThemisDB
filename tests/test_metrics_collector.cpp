@@ -792,8 +792,12 @@ TEST_F(MetricsCollectorTest, TSANStress_16ScrapersAnd8Writers) {
     // Release all threads simultaneously for maximum contention.
     go.store(true, std::memory_order_release);
 
-    for (auto& s : scrapers) s.join();
-    for (auto& w : writers)  w.join();
+    for (auto& s : scrapers) {
+      s.join();
+    }
+    for (auto& w : writers) {
+      w.join();
+    }
 
     // All assertions on the main thread.
     EXPECT_FALSE(scraper_saw_empty.load())

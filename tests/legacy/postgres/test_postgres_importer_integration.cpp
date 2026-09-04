@@ -79,37 +79,79 @@ struct ImportOptions {
 static std::string mapType(const std::string& pg,
                             const std::map<std::string,std::string>& ov = {}) {
     auto it = ov.find(pg);
-    if (it != ov.end()) return it->second;
+    if (it != ov.end()) {
+      return it->second;
+    }
     std::string t = pg;
     std::transform(t.begin(), t.end(), t.begin(), ::tolower);
     it = ov.find(t);
-    if (it != ov.end()) return it->second;
-    if (t.back() == ']' || t.find("[]") != std::string::npos) return "array";
-    if (t == "bigserial" || t == "bigint" || t == "int8") return "long";
-    if (t == "smallint" || t == "int2" || t == "smallserial") return "integer";
-    if (t == "integer" || t == "int" || t == "int4" || t == "serial") return "integer";
-    if (t == "real" || t == "float4") return "float";
-    if (t == "double precision" || t == "float8") return "double";
-    if (t == "numeric" || t == "decimal" || t == "money") return "double";
-    if (t == "boolean" || t == "bool") return "boolean";
+    if (it != ov.end()) {
+      return it->second;
+    }
+    if (t.back() == ']' || t.find("[]") != std::string::npos) {
+      return "array";
+    }
+    if (t == "bigserial" || t == "bigint" || t == "int8") {
+      return "long";
+    }
+    if (t == "smallint" || t == "int2" || t == "smallserial") {
+      return "integer";
+    }
+    if (t == "integer" || t == "int" || t == "int4" || t == "serial") {
+      return "integer";
+    }
+    if (t == "real" || t == "float4") {
+      return "float";
+    }
+    if (t == "double precision" || t == "float8") {
+      return "double";
+    }
+    if (t == "numeric" || t == "decimal" || t == "money") {
+      return "double";
+    }
+    if (t == "boolean" || t == "bool") {
+      return "boolean";
+    }
     if (t == "text" || t == "name" || t == "uuid" || t == "inet" || t == "cidr" ||
         t == "macaddr" || t == "xml" || t == "interval" || t == "tsvector") return "string";
-    if (t == "bytea") return "binary";
-    if (t == "json" || t == "jsonb") return "json";
-    if (t == "point" || t == "polygon" || t == "circle" || t == "line") return "geo";
-    if (t == "oid" || t == "xid" || t == "cid") return "integer";
-    if (t.find("char") != std::string::npos || t.find("varchar") != std::string::npos) return "string";
-    if (t.find("timestamp") != std::string::npos) return "datetime";
-    if (t.find("date") != std::string::npos) return "date";
-    if (t.find("time") != std::string::npos) return "time";
-    if (t.find("json") != std::string::npos) return "json";
-    if (t.find("int") != std::string::npos) return "integer";
+    if (t == "bytea") {
+      return "binary";
+    }
+    if (t == "json" || t == "jsonb") {
+      return "json";
+    }
+    if (t == "point" || t == "polygon" || t == "circle" || t == "line") {
+      return "geo";
+    }
+    if (t == "oid" || t == "xid" || t == "cid") {
+      return "integer";
+    }
+    if (t.find("char") != std::string::npos || t.find("varchar") != std::string::npos) {
+      return "string";
+    }
+    if (t.find("timestamp") != std::string::npos) {
+      return "datetime";
+    }
+    if (t.find("date") != std::string::npos) {
+      return "date";
+    }
+    if (t.find("time") != std::string::npos) {
+      return "time";
+    }
+    if (t.find("json") != std::string::npos) {
+      return "json";
+    }
+    if (t.find("int") != std::string::npos) {
+      return "integer";
+    }
     return "string";
 }
 
 static std::string unescapeCopy(const std::string& val) {
-    if (val == "\\N") return "";
-    std::string out;
+    if (val == "\\N") {
+      return "";
+    }
+    std::string out = {};
     for (size_t i = 0; i < val.size(); ++i) {
         if (val[i] == '\\' && i+1 < val.size()) {
             char nx = val[++i];
@@ -142,22 +184,30 @@ static std::vector<std::string> parseCopyRow(const std::string& line) {
 
 static bool parseCreateTable(const std::string& sql, TableSchema& schema) {
     std::regex re(R"(CREATE TABLE\s+(?:(\w+)\.)?(\w+)\s*\()");
-    std::smatch m;
-    if (!std::regex_search(sql, m, re)) return false;
+    std::smatch m = {};
+    if (!std::regex_search(sql, m, re)) {
+      return false;
+    }
     schema.schema_name = m[1].str();
     schema.name        = m[2].str();
-    if (schema.name.empty()) return false;
+    if (schema.name.empty()) {
+      return false;
+    }
 
     size_t start = sql.find('(');
     size_t end   = sql.find_last_of(')');
-    if (start == std::string::npos || end == std::string::npos) return false;
+    if (start == std::string::npos || end == std::string::npos) {
+      return false;
+    }
     std::string cols = sql.substr(start+1, end-start-1);
     std::stringstream ss(cols);
-    std::string col_def;
+    std::string col_def = {};
     while (std::getline(ss, col_def, ',')) {
         col_def.erase(0, col_def.find_first_not_of(" \t\n\r"));
         col_def.erase(col_def.find_last_not_of(" \t\n\r")+1);
-        if (col_def.empty()) continue;
+        if (col_def.empty()) {
+          continue;
+        }
         if (col_def.find("CONSTRAINT") != std::string::npos ||
             col_def.find("PRIMARY KEY") != std::string::npos ||
             col_def.find("FOREIGN KEY") != std::string::npos ||
@@ -183,7 +233,7 @@ struct MiniImporter {
     bool validateSource(const std::string& path, std::vector<std::string>& errors) {
         std::ifstream f(path);
         if (!f) { errors.push_back("cannot open " + path); return false; }
-        std::string line;
+        std::string line = {};
         int checked = 0;
         while (std::getline(f, line) && checked < 100) {
             if (line.find("PostgreSQL database dump") != std::string::npos ||
@@ -201,18 +251,25 @@ struct MiniImporter {
         std::ifstream f(path);
         std::string line, current;
         while (std::getline(f, line)) {
-            if (line.empty() || line[0] == '-') continue;
+            if (line.empty() || line[0] == '-') {
+              continue;
+            }
             current += line + " ";
             if (line.find(';') != std::string::npos) {
                 if (current.find("CREATE TABLE") != std::string::npos) {
-                    TableSchema s;
-                    if (parseCreateTable(current, s)) schemas[s.name] = s;
+                    TableSchema s = {};
+                    if (parseCreateTable(current, s)) {
+                      schemas[s.name] = s;
+                    }
                 }
                 current.clear();
             }
         }
-        std::vector<TableSchema> result;
-        for (auto& [n, s] : schemas) result.push_back(s);
+        std::vector<TableSchema> result = {};
+
+        for (auto& [n, s] : schemas) {
+          result.push_back(s);
+        }
         return result;
     }
 
@@ -229,12 +286,14 @@ struct MiniImporter {
         f.clear(); f.seekg(0);
         std::string line, current;
         while (std::getline(f, line)) {
-            if (line.empty() || (line.size()>=2 && line[0]=='-' && line[1]=='-')) continue;
+            if (line.empty() || (line.size()>=2 && line[0]=='-' && line[1]=='-')) {
+              continue;
+            }
             current += line + " ";
             if (line.find(';') != std::string::npos) {
                 if (current.find("CREATE TABLE") != std::string::npos ||
                     current.find("CREATE SCHEMA") != std::string::npos) {
-                    TableSchema s;
+                    TableSchema s = {};
                     if (parseCreateTable(current, s)) {
                         bool include = opts.include_tables.empty() ||
                             std::find(opts.include_tables.begin(), opts.include_tables.end(), s.name) != opts.include_tables.end();
@@ -247,15 +306,17 @@ struct MiniImporter {
                 } else if (current.find("COPY ") != std::string::npos) {
                     std::regex re(R"(COPY\s+(?:\w+\.)?(\w+)\s*(?:\(([^)]*)\))?\s+FROM\s+stdin)",
                                   std::regex_constants::icase);
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_search(current, m, re)) {
                         std::string tname = m[1].str();
                         bool include = opts.include_tables.empty() ||
                             std::find(opts.include_tables.begin(), opts.include_tables.end(), tname) != opts.include_tables.end();
                         bool exclude = std::find(opts.exclude_tables.begin(), opts.exclude_tables.end(), tname) != opts.exclude_tables.end();
-                        std::string skip_line;
+                        std::string skip_line = {};
                         while (std::getline(f, skip_line)) {
-                            if (skip_line == "\\." || skip_line.rfind("\\.",0)==0) break;
+                            if (skip_line == "\\." || skip_line.rfind("\\.",0)==0) {
+                              break;
+                            }
                             if (!include || exclude) { stats.skipped_records++; continue; }
                             if (opts.max_row_size_bytes > 0 &&
                                 skip_line.size() > opts.max_row_size_bytes) {
@@ -266,7 +327,9 @@ struct MiniImporter {
                                 e.location = "table " + tname;
                                 stats.structured_errors.push_back(e);
                                 stats.failed_records++;
-                                if (!opts.continue_on_error) return stats;
+                                if (!opts.continue_on_error) {
+                                  return stats;
+                                }
                                 continue;
                             }
                             stats.total_records++;
@@ -294,7 +357,9 @@ static std::string fixturePath() {
     if (const char* env = std::getenv("THEMISDB_SOURCE_DIR")) {
         std::string p = std::string(env) + "/tests/fixtures/importers/sample_pg15.sql";
         std::ifstream f(p);
-        if (f) return p;
+        if (f) {
+          return p;
+        }
     }
     // Try paths relative to the current working directory (common build locations)
     const std::vector<std::string> candidates = {
@@ -304,7 +369,9 @@ static std::string fixturePath() {
     };
     for (auto& p : candidates) {
         std::ifstream f(p);
-        if (f) return p;
+        if (f) {
+          return p;
+        }
     }
     return "";
 }
@@ -321,7 +388,7 @@ protected:
             GTEST_SKIP() << "Fixture file not found; skipping integration tests";
         }
     }
-    std::string fixture_path_;
+    std::string fixture_path_ = {};
 };
 
 // --- validateSource ---
@@ -356,8 +423,11 @@ TEST_F(PostgresImporterIntegrationTest, SchemaContainsThreeTables) {
     MiniImporter imp;
     auto schemas = imp.getSourceSchema(fixture_path_);
     EXPECT_EQ(schemas.size(), 3u);
-    std::vector<std::string> names;
-    for (auto& s : schemas) names.push_back(s.name);
+    std::vector<std::string> names = {};
+
+    for (auto& s : schemas) {
+      names.push_back(s.name);
+    }
     EXPECT_NE(std::find(names.begin(), names.end(), "users"),    names.end());
     EXPECT_NE(std::find(names.begin(), names.end(), "products"), names.end());
     EXPECT_NE(std::find(names.begin(), names.end(), "orders"),   names.end());

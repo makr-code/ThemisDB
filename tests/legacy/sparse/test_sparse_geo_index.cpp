@@ -268,7 +268,9 @@ TEST_F(SparseGeoIndexTest, GeoIndex_AutoMaintenance) {
 	// Verify Tokyo ist wirklich weg
 	bool found_tokyo = false;
 	for (const auto& pk : pks3) {
-		if (pk == "tokyo") found_tokyo = true;
+		if (pk == "tokyo") {
+		  found_tokyo = true;
+		}
 	}
 	EXPECT_FALSE(found_tokyo);
 }

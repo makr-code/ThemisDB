@@ -67,7 +67,7 @@ public:
         std::uniform_int_distribution<int> len_dist(60, 120);
         int target_len = len_dist(rng_);
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "FOR doc IN collection";
         oss << " FILTER doc.id == " << (nl_query.size() % 9999);
         oss << " RETURN doc";
@@ -87,7 +87,7 @@ public:
         std::uniform_int_distribution<int> len_dist(200, 400);
         int target_len = len_dist(rng_);
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "FOR user IN users"
             << " FILTER user.active == true"
             << " FOR order IN orders"
@@ -128,8 +128,8 @@ private:
 class MockAQLValidator {
 public:
     struct ValidationResult {
-        bool   valid;
-        std::string error_msg;
+        bool   valid = 0;
+        std::string error_msg = {};
     };
 
     static ValidationResult validateSimple(const std::string& aql) {
@@ -326,7 +326,9 @@ static void BM_AQLValidationBatch(benchmark::State& state) {
         int valid_count = 0;
         for (const auto& q : batch) {
             auto r = MockAQLValidator::validateSimple(q);
-            if (r.valid) ++valid_count;
+            if (r.valid) {
+              ++valid_count;
+            }
         }
         benchmark::DoNotOptimize(valid_count);
     }

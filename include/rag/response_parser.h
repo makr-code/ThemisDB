@@ -22,7 +22,7 @@ namespace themis::rag::judge {
  * @brief Parsed response from LLM judge
  */
 struct ParsedResponse {
-    bool success;
+    bool success = 0;
     std::optional<double> score;
     std::optional<double> confidence;
     std::string reasoning;

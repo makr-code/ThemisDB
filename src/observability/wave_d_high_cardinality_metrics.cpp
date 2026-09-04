@@ -29,7 +29,7 @@ void ShardLatencyHistogram::recordLatency(
     std::unique_lock lock(mutex_);
 
     // Enforce max 1024 unique shards
-    if (shard_latencies_.size() >= kMaxShardCardinality &&
+    if (static_cast<int>(shard_latencies_.size()) >= kMaxShardCardinality &&
         shard_latencies_.find(shard_id) == shard_latencies_.end()) {
         return;  // Silently drop if shard cardinality exceeded
     }
@@ -81,7 +81,7 @@ ShardLatencyHistogram::LatencyQuantiles ShardLatencyHistogram::getQuantiles(
 
 size_t ShardLatencyHistogram::getCardinality() const {
     std::shared_lock lock(mutex_);
-    return shard_latencies_.size();
+    return static_cast<int>(shard_latencies_.size());
 }
 
 void ShardLatencyHistogram::reset() {
@@ -101,7 +101,7 @@ void ReplicaLagTracker::recordLag(const std::string& replica_id, double lag_ms) 
     std::unique_lock lock(mutex_);
 
     // Enforce max 32 replicas
-    if (replica_lags_.size() >= kMaxReplicaCardinality &&
+    if (static_cast<int>(replica_lags_.size()) >= kMaxReplicaCardinality &&
         replica_lags_.find(replica_id) == replica_lags_.end()) {
         return;  // Silently drop if replica cardinality exceeded
     }
@@ -148,7 +148,7 @@ double ReplicaLagTracker::getMaxLag() const {
 
 size_t ReplicaLagTracker::getCardinality() const {
     std::shared_lock lock(mutex_);
-    return replica_lags_.size();
+    return static_cast<int>(replica_lags_.size());
 }
 
 void ReplicaLagTracker::reset() {
@@ -168,7 +168,7 @@ void RetryCounter::recordRetry(const std::string& reason, int64_t count) {
     std::unique_lock lock(mutex_);
 
     // Enforce max 10 unique failure reasons
-    if (retry_counts_.size() >= kMaxReasonCardinality &&
+    if (static_cast<int>(retry_counts_.size()) >= kMaxReasonCardinality &&
         retry_counts_.find(reason) == retry_counts_.end()) {
         return;  // Silently drop if reason cardinality exceeded
     }

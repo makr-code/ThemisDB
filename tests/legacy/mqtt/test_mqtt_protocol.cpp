@@ -175,8 +175,8 @@ TEST(MQTTProtocolTest, MetricsStructure) {
 TEST(MQTTProtocolTest, MQTT5Properties) {
     // Test MQTT 5.0 properties support
     struct MQTT5Properties {
-        std::string content_type;
-        std::string response_topic;
+        std::string content_type = {};
+        std::string response_topic = {};
         std::vector<std::pair<std::string, std::string>> user_properties;
         uint16_t topic_alias = 0;
     };

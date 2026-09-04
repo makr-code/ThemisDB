@@ -25,7 +25,7 @@ std::string formatSchemaContext(const std::vector<CollectionMetadata> &schema) {
         return {};
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Available collections:\n";
 
     for (const auto &col : schema) {

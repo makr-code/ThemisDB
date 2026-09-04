@@ -262,7 +262,7 @@ TEST_F(CoordinatedFirstNodeTest, Apply_DoesNotCallWaitFunc_WhenNoPredecessor) {
 
 TEST_F(CoordinatedFirstNodeTest, Apply_CallsSignalFunc) {
     bool signal_called = false;
-    std::string signalled_node;
+    std::string signalled_node = {};
     bool signalled_ok = false;
     mgr_.setSignalReadyFunc(
         [&](const std::string& id, bool ok) {
@@ -295,7 +295,7 @@ protected:
 };
 
 TEST_F(CoordinatedMiddleNodeTest, Apply_CallsWaitFunc) {
-    std::string waited_for;
+    std::string waited_for = {};
     mgr_.setWaitForPreviousFunc(
         [&](const std::string& id, std::chrono::milliseconds) {
             waited_for = id;

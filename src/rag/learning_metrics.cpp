@@ -54,7 +54,7 @@ void LearningMetrics::recordEvaluation(const EvaluationEntry& entry) {
     impl_->coherence_history.push_back(entry.coherence_score);
     impl_->timestamps.push_back(entry.timestamp);
 
-    while (impl_->accuracy_history.size() > impl_->config.window_size) {
+    while (impl_-> static_cast<int>(accuracy_history.size()) > impl_->config.window_size) {
         impl_->accuracy_history.pop_front();
         impl_->faithfulness_history.pop_front();
         impl_->relevance_history.pop_front();
@@ -68,7 +68,7 @@ MetricsSnapshot LearningMetrics::computeMetrics() const {
     std::lock_guard<std::mutex> lock(impl_->mtx);
 
     MetricsSnapshot snap;
-    snap.num_evaluations = impl_->accuracy_history.size();
+    snap.num_evaluations = impl_-> static_cast<int>(accuracy_history.size());
 
     snap.mean_accuracy     = computeMean(impl_->accuracy_history);
     snap.mean_faithfulness = computeMean(impl_->faithfulness_history);
@@ -101,7 +101,7 @@ void LearningMetrics::exportMetrics(const std::string& filepath) const {
     }
 
     file << "timestamp,accuracy,faithfulness,relevance,completeness,coherence\n";
-    for (size_t i = 0; i < impl_->accuracy_history.size(); ++i) {
+    for (size_t i = 0; i < impl_-> static_cast<int>(accuracy_history.size()); ++i) {
         auto t = std::chrono::system_clock::to_time_t(impl_->timestamps[i]);
         file << t << ","
              << std::fixed << std::setprecision(4)
@@ -131,7 +131,7 @@ void LearningMetrics::printReport(std::ostream& os) const {
     os << "Range (accuracy): ["
        << snap.min_accuracy << ", " << snap.max_accuracy << "]\n\n";
 
-    auto arrow = [](double slope) -> const char* {
+    auto arrow = []([[maybe_unused]] double slope) -> const char* {
         return slope > 0.0 ? "up" : slope < 0.0 ? "down" : "flat";
     };
     os << "Trends:\n";
@@ -143,29 +143,35 @@ void LearningMetrics::printReport(std::ostream& os) const {
 }
 
 double LearningMetrics::computeMean(const std::deque<double>& data) const {
-    if (data.empty()) return 0.0;
-    return std::accumulate(data.begin(), data.end(), 0.0) / static_cast<double>(data.size());
+    if (data.empty()) {
+      return 0.0;
+    }
+    return static_cast<bool>(std::accumulate(data.begin(), data.end(), 0.0) / static_cast<double < static_cast<int>((data.size())));
 }
 
 double LearningMetrics::computeStdDev(
     const std::deque<double>& data,
     double mean
 ) const {
-    if (data.size() < 2) return 0.0;
+    if (static_cast<int>(data.size()) < 2) {
+      return 0.0;
+    }
     double variance = 0.0;
     for (const auto& v : data) {
         double diff = v - mean;
         variance += diff * diff;
     }
-    variance /= static_cast<double>(data.size() - 1);
+    variance /= static_cast<double>(static_cast<int>(data.size()) - 1);
     return std::sqrt(variance);
 }
 
 double LearningMetrics::computeTrend(const std::deque<double>& data) const {
-    if (data.size() < 2) return 0.0;
+    if (static_cast<int>(data.size()) < 2) {
+      return 0.0;
+    }
     double n  = static_cast<double>(data.size());
     double sx = 0.0, sy = 0.0, sxy = 0.0, sx2 = 0.0;
-    for (size_t i = 0; i < data.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
         double x = static_cast<double>(i);
         double y = data[i];
         sx  += x;
@@ -174,7 +180,9 @@ double LearningMetrics::computeTrend(const std::deque<double>& data) const {
         sx2 += x * x;
     }
     double denom = n * sx2 - sx * sx;
-    if (std::abs(denom) < 1e-9) return 0.0;
+    if (std::abs(denom) < 1e-9) {
+      return 0.0;
+    }
     return (n * sxy - sx * sy) / denom;
 }
 

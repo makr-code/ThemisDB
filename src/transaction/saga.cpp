@@ -24,14 +24,14 @@ namespace themis {
 
 Saga::~Saga() {
     if (!compensated_ && !steps_.empty()) {
-        THEMIS_WARN("Saga destructed without compensation - auto-compensating {} steps", steps_.size());
+        THEMIS_WARN("Saga destructed without compensation - auto-compensating {} steps",static_cast<int>(steps_.size()));
         compensate();
     }
 }
 
 void Saga::addStep(std::string operation_name, CompensatingAction compensate) {
     steps_.emplace_back(std::move(operation_name), std::move(compensate));
-    THEMIS_DEBUG("SAGA: Added step '{}' (total steps: {})", steps_.back().operation_name, steps_.size());
+    THEMIS_DEBUG("SAGA: Added step '{}' (total steps: {})", steps_.back().operation_name,static_cast<int>(steps_.size()));
 }
 
 void Saga::compensate() {
@@ -40,7 +40,7 @@ void Saga::compensate() {
         return;
     }
     
-    THEMIS_INFO("SAGA: Compensating {} steps in reverse order", steps_.size());
+    THEMIS_INFO("SAGA: Compensating {} steps in reverse order",static_cast<int>(steps_.size()));
     
     // Execute compensating actions in reverse order
     for (auto it = steps_.rbegin(); it != steps_.rend(); ++it) {
@@ -66,11 +66,11 @@ void Saga::compensate() {
     }
     
     compensated_ = true;
-    THEMIS_INFO("SAGA: Compensation complete ({}/{} steps)", compensatedCount(), steps_.size());
+    THEMIS_INFO("SAGA: Compensation complete ({}/{} steps)", compensatedCount(),static_cast<int>(steps_.size()));
 }
 
 void Saga::clear() {
-    THEMIS_DEBUG("SAGA: Clearing {} steps", steps_.size());
+    THEMIS_DEBUG("SAGA: Clearing {} steps",static_cast<int>(steps_.size()));
     steps_.clear();
     compensated_ = false;
     // Note: metrics_failed_ and metrics_retried_ are intentionally preserved across
@@ -78,10 +78,12 @@ void Saga::clear() {
     // They are only reset by the default constructor (i.e., when a new Saga is created).
 }
 
-void Saga::trimToSize(size_t n) {
-    if (n >= steps_.size()) return;
+void Saga::trimToSize([[maybe_unused]] size_t n) {
+    if (n >= static_cast<int>(steps_.size())) {
+      return;
+    }
     THEMIS_DEBUG("SAGA: Trimming from {} to {} steps (discarding {} steps)",
-                 steps_.size(), n, steps_.size() - n);
+                 steps_.size(), n, static_cast<int>(steps_.size()) - n);
     steps_.erase(steps_.begin() + static_cast<ptrdiff_t>(n), steps_.end());
 }
 
@@ -91,11 +93,12 @@ size_t Saga::compensatedCount() const {
 }
 
 bool Saga::isFullyCompensated() const {
-    return compensated_ && compensatedCount() == steps_.size();
+    return compensated_ && compensatedCount() == static_cast<int>(steps_.size());
 }
 
 std::vector<std::string> Saga::getStepHistory() const {
-    std::vector<std::string> history;
+    std::vector<std::string> history = {};
+
     history.reserve(steps_.size());
     for (const auto& step : steps_) {
         std::string status = step.compensated ? "[COMPENSATED]" : "[ACTIVE]";
@@ -105,7 +108,9 @@ std::vector<std::string> Saga::getStepHistory() const {
 }
 
 int64_t Saga::getDurationMs() const {
-    if (steps_.empty()) return 0;
+    if (steps_.empty()) {
+      return 0;
+    }
     auto now = std::chrono::system_clock::now();
     auto first_step_time = steps_[0].executed_at;
     return std::chrono::duration_cast<std::chrono::milliseconds>(now - first_step_time).count();
@@ -127,7 +132,9 @@ void Saga::compensateWithRetry(int max_retries,
                 steps_.size(), max_retries, backoff_ms.count());
 
     for (auto it = steps_.rbegin(); it != steps_.rend(); ++it) {
-        if (it->compensated) continue;
+        if (it->compensated) {
+          continue;
+        }
 
         bool success = false;
         std::chrono::milliseconds current_backoff = backoff_ms;
@@ -171,7 +178,7 @@ void Saga::compensateWithRetry(int max_retries,
 
     compensated_ = true;
     THEMIS_INFO("SAGA: Retry-compensation complete – {}/{} steps, {} retried, {} failed",
-                compensatedCount(), steps_.size(), metrics_retried_, metrics_failed_);
+                compensatedCount(),static_cast<int>(steps_.size()), metrics_retried_, metrics_failed_);
 }
 
 Saga::Metrics Saga::getMetrics() const {

@@ -38,7 +38,9 @@ namespace Eigen {
         const float& operator()(int i, int j) const { return data_[(size_t)i * cols_ + j]; }
 
         bool isZero() const {
-            for (const auto& v : data_) if (v != 0.0f) return false;
+            for (const auto& v : data_) {
+              if (v != 0.0f) return false;
+            }
             return true;
         }
 
@@ -47,14 +49,16 @@ namespace Eigen {
             MatrixXf m(r, c);
             std::mt19937 rng(42);
             std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
-            for (auto &v : m.data_) v = dist(rng);
+            for (auto &v : m.data_) {
+              v = dist(rng);
+            }
             return m;
         }
 
         // Row proxy to support .row(i).transpose()
         struct RowRef {
             MatrixXf& parent;
-            int r;
+            int r = {};
             VectorXf transpose() const;
         };
 
@@ -89,7 +93,9 @@ namespace Eigen {
             VectorXf v(n);
             std::mt19937 rng(42);
             std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
-            for (auto &x : v.data_) x = dist(rng);
+            for (auto &x : v.data_) {
+              x = dist(rng);
+            }
             return v;
         }
         std::vector<float> data_;
@@ -99,7 +105,9 @@ namespace Eigen {
 
     inline VectorXf MatrixXf::RowRef::transpose() const {
         VectorXf v(parent.cols());
-        for (int j = 0; j < parent.cols(); ++j) v(j) = parent(r, j);
+        for (int j = 0; j < parent.cols(); ++j) {
+          v(j) = parent(r, j);
+        }
         return v;
     }
 
@@ -108,7 +116,9 @@ namespace Eigen {
         VectorXf out(m.rows());
         for (int i = 0; i < m.rows(); ++i) {
             float s = 0.0f;
-            for (int j = 0; j < m.cols(); ++j) s += m(i, j) * v(j);
+            for (int j = 0; j < m.cols(); ++j) {
+              s += m(i, j) * v(j);
+            }
             out(i) = s;
         }
         return out;
@@ -138,7 +148,9 @@ namespace Eigen {
         double& operator()(int i, int j) { return data_[(size_t)i * cols_ + j]; }
         const double& operator()(int i, int j) const { return data_[(size_t)i * cols_ + j]; }
         bool isZero() const {
-            for (const auto& v : data_) if (v != 0.0) return false;
+            for (const auto& v : data_) {
+              if (v != 0.0) return false;
+            }
             return true;
         }
 
@@ -147,16 +159,20 @@ namespace Eigen {
             MatrixXd m(r, c);
             std::mt19937 rng(42);
             std::uniform_real_distribution<double> dist(-1.0, 1.0);
-            for (auto &v : m.data_) v = dist(rng);
+            for (auto &v : m.data_) {
+              v = dist(rng);
+            }
             return m;
         }
 
         struct RowRef {
             MatrixXd& parent;
-            int r;
+            int r = {};
             std::vector<double> transpose() const {
                 std::vector<double> out(parent.cols());
-                for (int j = 0; j < parent.cols(); ++j) out[j] = parent(r, j);
+                for (int j = 0; j < parent.cols(); ++j) {
+                  out[j] = parent(r, j);
+                }
                 return out;
             }
         };
@@ -198,7 +214,9 @@ namespace Eigen {
         VectorXd out(m.rows());
         for (int i = 0; i < m.rows(); ++i) {
             double s = 0.0;
-            for (int j = 0; j < m.cols(); ++j) s += m(i, j) * v(j);
+            for (int j = 0; j < m.cols(); ++j) {
+              s += m(i, j) * v(j);
+            }
             out(i) = s;
         }
         return out;

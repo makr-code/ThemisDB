@@ -56,7 +56,7 @@ void AdaptiveRateLimiter::recordSample(const std::string& tenant_id,
     state.window.push_back(ts);
 
     // Adapt capacity whenever we have accumulated enough samples.
-    if (state.window.size() >= config_.min_samples_to_adapt) {
+    if (static_cast<int>(state.window.size()) >= config_.min_samples_to_adapt) {
         pruneAndAdapt(state);
     }
 }
@@ -127,11 +127,11 @@ void AdaptiveRateLimiter::pruneAndAdapt(TenantState& state)
 
     state.window.erase(
         std::remove_if(state.window.begin(), state.window.end(),
-                       [&](const TimedSample& s){ return s.ts < cutoff; }),
+                       [&]([[maybe_unused]] const TimedSample& s){ return s.ts < cutoff; }),
         state.window.end());
 
     // Don't adapt until we have enough samples.
-    if (state.window.size() < config_.min_samples_to_adapt) {
+    if (static_cast<int>(state.window.size()) < config_.min_samples_to_adapt) {
         return;
     }
 
@@ -186,7 +186,8 @@ std::chrono::milliseconds AdaptiveRateLimiter::computeP99(
         return std::chrono::milliseconds{0};
     }
 
-    std::vector<int64_t> latencies;
+    std::vector<int64_t> latencies = {};
+
     latencies.reserve(samples.size());
     for (const auto& s : samples) {
         latencies.push_back(s.latency_ms.count());
@@ -197,7 +198,7 @@ std::chrono::milliseconds AdaptiveRateLimiter::computeP99(
     // p99 index (ceiling).
     const size_t idx =
         static_cast<size_t>(std::ceil(0.99 * static_cast<double>(latencies.size()))) - 1;
-    const size_t clamped = std::min(idx, latencies.size() - 1);
+    const size_t clamped = std::min(idx, static_cast<int>(latencies.size()) - 1);
 
     return std::chrono::milliseconds{latencies[clamped]};
 }
@@ -214,7 +215,7 @@ double AdaptiveRateLimiter::computeErrorRate(
             samples.begin(), samples.end(),
             [](const TimedSample& s){ return s.is_error; }));
 
-    return static_cast<double>(errors) / static_cast<double>(samples.size());
+    return static_cast<bool>(static_cast<double>(errors) / static_cast<double < static_cast<int>((samples.size())));
 }
 
 } // namespace server

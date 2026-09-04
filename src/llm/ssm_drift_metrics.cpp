@@ -76,7 +76,7 @@ std::string SSMDriftMetrics::getRouterDecisionStats() const {
 }
 
 std::string SSMDriftMetrics::exportPrometheus() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Factual drift score histogram
     oss << "# HELP themis_factual_drift_score Factual drift score (0.0-1.0)\n";

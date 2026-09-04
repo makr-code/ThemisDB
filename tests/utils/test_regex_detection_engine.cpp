@@ -50,7 +50,7 @@ TEST_F(RegexDetectionEngineTest, DetectInTextCompletes) {
 
 TEST_F(RegexDetectionEngineTest, LargeInputWithinTimeout) {
     // Create large input that should still complete within timeout
-    std::string large_text;
+    std::string large_text = {};
     for (int i = 0; i < 10000; ++i) {
         large_text += "user" + std::to_string(i) + "@example.com ";
     }
@@ -246,7 +246,7 @@ TEST_F(RegexDetectionEngineTest, ExcessiveInputSize) {
 }
 
 TEST_F(RegexDetectionEngineTest, EmptyInput) {
-    std::string empty;
+    std::string empty = {};
     
     auto findings = engine.detectInText(empty);
     EXPECT_EQ(findings.size(), 0);

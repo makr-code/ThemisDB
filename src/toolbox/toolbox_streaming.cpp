@@ -27,7 +27,7 @@ void extractEntitiesStream(
     const std::string&    filename,
     const EntityCallback& callback)
 {
-    if (text.empty() || !callback) {
+    if ([[maybe_unused]] text.empty() || !callback) {
         return;
     }
 
@@ -40,7 +40,7 @@ void extractEntitiesStream(
         }
         auto entities = toolbox.extractEntities(chunk, mime, filename);
         for (const auto& entity : entities) {
-            callback(entity);
+            callback([[maybe_unused]] entity);
         }
     }
 }

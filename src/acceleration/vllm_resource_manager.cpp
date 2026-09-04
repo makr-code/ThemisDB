@@ -188,7 +188,7 @@ bool VLLMResourceManager::canUseGPU() {
     if (gpu_util_provider_for_testing_) {
         auto util = gpu_util_provider_for_testing_();
         if (!util.has_value())
-            return false;
+            return false = {};
         return util.value() < 80.0;
     }
 
@@ -226,7 +226,8 @@ bool VLLMResourceManager::canUseGPU() {
             return std::nullopt;
         }));
 
-    std::optional<double> gpu_util;
+    std::optional<double> gpu_util = {};
+
     if (shared_future->wait_for(std::chrono::milliseconds(500)) == std::future_status::ready) {
         gpu_util = shared_future->get();
     } else {
@@ -264,7 +265,7 @@ VLLMResourceManager::SimilarityDispatchResult VLLMResourceManager::dispatchVecto
 
 #ifdef THEMIS_ENABLE_CUDA
     if (canUseGPU()) {
-        CUDAVectorBackend cuda_backend;
+        CUDAVectorBackend cuda_backend = {};
         if (cuda_backend.initialize()) {
             SimilarityDispatchResult gpu_result = runSimilarityDispatch(cuda_backend.populateANNDispatch(), true, queries,
                                                                         num_queries, dim, vectors, num_vectors, top_k, metric);
@@ -307,7 +308,7 @@ size_t VLLMResourceManager::getRecommendedThreadCount(const std::string &operati
 }
 
 VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
-    Stats stats;
+    Stats stats = {};
 
     if (!initialized_) {
         return stats;
@@ -325,7 +326,7 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
         std::ifstream f("/proc/stat");
         if (!f.is_open())
             return false;
-        std::string tag;
+        std::string tag = {};
         uint64_t user, nice, system, idle_val, iowait, irq, softirq, steal;
         f >> tag >> user >> nice >> system >> idle_val >> iowait >> irq >> softirq >> steal;
         if (tag != "cpu")
@@ -387,7 +388,7 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
         std::ifstream mf("/proc/meminfo");
         uint64_t mem_total_kb = 0;
         uint64_t mem_avail_kb = 0;
-        std::string line;
+        std::string line = {};
         while (std::getline(mf, line) && (mem_total_kb == 0 || mem_avail_kb == 0)) {
             if (line.rfind("MemTotal:", 0) == 0) {
                 sscanf(line.c_str(), "MemTotal: %" SCNu64 " kB", &mem_total_kb);
@@ -397,7 +398,7 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
         }
         if (mem_total_kb > 0) {
             uint64_t used_kb      = (mem_total_kb > mem_avail_kb) ? (mem_total_kb - mem_avail_kb) : 0;
-            stats.ram_used_mb     = used_kb / 1024u;
+            stats.ram_used_mb     = used_kb / 1024;
             stats.ram_utilization = 100.0 * static_cast<double>(used_kb) / static_cast<double>(mem_total_kb);
         }
     }
@@ -478,7 +479,7 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
         if (GlobalMemoryStatusEx(&ms)) {
             stats.ram_utilization = static_cast<double>(ms.dwMemoryLoad);
             uint64_t used         = ms.ullTotalPhys - ms.ullAvailPhys;
-            stats.ram_used_mb     = static_cast<size_t>(used / (1024u * 1024u));
+            stats.ram_used_mb     = static_cast<size_t>(used / (1024 * 1024));
         }
     }
 #endif
@@ -548,7 +549,7 @@ bool VLLMResourceManager::initializeNVML() {
     // all devices.
     nvml_device_ = nvml_devices_.empty() ? nullptr : nvml_devices_.front();
 
-    THEMIS_INFO("NVML initialized, monitoring {} GPU device(s)", nvml_devices_.size());
+    THEMIS_INFO("NVML initialized, monitoring {} GPU device(s)",static_cast<int>(nvml_devices_.size()));
     return true;
 #else
     return false; // NVML not available

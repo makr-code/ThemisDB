@@ -56,15 +56,17 @@ PolyglotPersistenceMapper::inferModelFromSchema(
     size_t self_fk = 0;
     for (const auto& fk : schema.foreign_keys) {
         std::string ref_table = fk.second.substr(0, fk.second.find('.'));
-        if (ref_table == schema.name) ++self_fk;
+        if (ref_table == schema.name) {
+          ++self_fk;
+        }
     }
-    if (self_fk >= 2 || schema.foreign_keys.size() >= 3) {
+    if (self_fk >= 2 || static_cast<int>(schema.foreign_keys.size()) >= 3) {
         return DataModel::GRAPH;
     }
 
     // Key-value: exactly one PK and one or two value columns
-    if (schema.primary_keys.size() == 1 &&
-        schema.columns.size() <= 3 &&
+    if (static_cast<int>(schema.primary_keys.size()) == 1 &&
+        static_cast<int>(schema.columns.size()) <= 3 &&
         schema.foreign_keys.empty()) {
         return DataModel::KEYVALUE;
     }
@@ -97,7 +99,8 @@ PolyglotPersistenceMapper::recommendDataModels(
     const std::vector<InferenceTableSchema>& schemas,
     const std::vector<QueryPattern>& observed_queries)
 {
-    std::vector<DataModelMapping> result;
+    std::vector<DataModelMapping> result = {};
+
     result.reserve(schemas.size());
 
     for (const auto& schema : schemas) {
@@ -113,7 +116,7 @@ PolyglotPersistenceMapper::recommendDataModels(
             {"source",  schema.name},
             {"target_model", dataModelToString(mapping.recommended_model)},
             {"pk_columns", schema.primary_keys},
-            {"fk_count",   schema.foreign_keys.size()}
+            {"fk_count",static_cast<int>(schema.foreign_keys.size())}
         };
 
         result.push_back(std::move(mapping));
@@ -157,18 +160,23 @@ PolyglotPersistenceMapper::ModelTransformer::tableToGraph(
     std::vector<GraphEdge> edges;
 
     // Determine which columns are FK columns
-    std::set<std::string> fk_cols;
-    for (const auto& fk : schema.foreign_keys) fk_cols.insert(fk.first);
+    std::set<std::string> fk_cols = {};
+
+    for (const auto& fk : schema.foreign_keys) {
+      fk_cols.insert(fk.first);
+    }
 
     for (const auto& row : rows) {
         // Build node id from primary key
-        std::string node_id;
+        std::string node_id = {};
         for (const auto& pk : schema.primary_keys) {
             if (row.contains(pk)) {
                 node_id += row.at(pk).dump();
             }
         }
-        if (node_id.empty()) node_id = row.dump().substr(0, 16);
+        if (node_id.empty()) {
+          node_id = row.dump().substr(0, 16);
+        }
 
         GraphNode node;
         node.id    = node_id;

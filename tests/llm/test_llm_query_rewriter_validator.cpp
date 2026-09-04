@@ -28,7 +28,7 @@ namespace {
 // Build a backend that returns the given lines as numbered rewrites.
 LlmQueryRewriter::LlmBackend makeBackend(const std::vector<std::string>& rewrites) {
     return [rewrites](const std::string& /*prompt*/) -> std::string {
-        std::string out;
+        std::string out = {};
         for (size_t i = 0; i < rewrites.size(); ++i) {
             out += std::to_string(i + 1) + ". " + rewrites[i] + "\n";
         }

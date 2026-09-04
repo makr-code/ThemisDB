@@ -23,7 +23,7 @@ static std::string makeTempPath(const std::string& tag) {
 }
 
 struct VectorAutoBufferFixture : ::testing::Test {
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<RocksDBWrapper> db;
     std::unique_ptr<VectorIndexManager> vim;
 

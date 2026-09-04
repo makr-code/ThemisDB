@@ -221,8 +221,10 @@ static std::vector<GPUQueryAccelerator::Row> makeAccRows(size_t n) {
 }
 
 static double extractVal(const GPUQueryAccelerator::Row& r) {
-    if (r.data.size() < sizeof(float)) return 0.0;
-    float v;
+    if (r.data.size() < sizeof(float)) {
+      return 0.0;
+    }
+    float v = {};
     std::memcpy(&v, r.data.data(), sizeof(float));
     return static_cast<double>(v);
 }
@@ -405,7 +407,9 @@ TEST(GPUGraphCacheTest, ConcurrentCaptureAndLookupIsSafe) {
         threads.emplace_back([&]() { cache.capture(shape); });
         threads.emplace_back([&]() { cache.lookup(shape); });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(cache.size(), 1u);
 }

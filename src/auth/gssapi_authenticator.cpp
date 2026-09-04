@@ -187,7 +187,7 @@ GSSAPIAuthResult GSSAPIAuthenticator::authenticateToken(const std::string& token
     // For now, assume token is already in binary format or use existing base64 utilities
     std::vector<uint8_t> token_bytes(token.begin(), token.end());
     
-    std::string principal_name;
+    std::string principal_name = {};
     if (!acceptSecurityContext(token_bytes, principal_name)) {
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
@@ -199,8 +199,8 @@ GSSAPIAuthResult GSSAPIAuthenticator::authenticateToken(const std::string& token
     // Map principal to roles
     auto roles = mapPrincipalToRoles(principal_name);
 
-    std::string roles_str;
-    for (size_t i = 0; i < roles.size(); ++i) {
+    std::string roles_str = {};
+    for (size_t i = 0; i <static_cast<int>(roles.size()); ++i) {
         if (i > 0) {
             roles_str += ", ";
         }
@@ -404,7 +404,7 @@ void GSSAPIAuthenticator::cleanup() {
 #ifdef _WIN32
     FreeCredentialsHandle(&server_creds_);
 #elif THEMIS_HAVE_GSSAPI
-    OM_uint32 minor_status;
+    OM_uint32 minor_status = {};
     
     if (context_ != GSS_C_NO_CONTEXT) {
         gss_delete_sec_context(&minor_status, &context_, GSS_C_NO_BUFFER);
@@ -490,7 +490,7 @@ std::string GSSAPIAuthenticator::getGSSAPIError(
     uint32_t minor_status) const {
     (void)major_status;
     (void)minor_status;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "GSSAPI support is unavailable in this build";
     return oss.str();
 }

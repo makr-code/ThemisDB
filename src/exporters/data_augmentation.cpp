@@ -109,7 +109,7 @@ const std::map<std::string, std::vector<std::string>> &DataAugmentationPipeline:
 // ─────────────────────────────────────────────────────────────────────────────
 
 /*static*/ std::string DataAugmentationPipeline::normalizeWhitespace(const std::string &text) {
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
     bool last_was_space = true; // treat leading whitespace as "already had a space"
     for (char c : text) {
@@ -144,7 +144,7 @@ const std::map<std::string, std::vector<std::string>> &DataAugmentationPipeline:
     }
     std::string result = text;
     bool next_upper    = true;
-    for (size_t i = 0; i < result.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(result.size()); ++i) {
         if (next_upper && std::isalpha(static_cast<unsigned char>(result[i]))) {
             result[i]  = static_cast<char>(std::toupper(static_cast<unsigned char>(result[i])));
             next_upper = false;
@@ -172,10 +172,10 @@ std::string DataAugmentationPipeline::replaceSynonyms(const std::string &text, u
     }
 
     // Tokenize the text into word/non-word runs and replace words.
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
-    std::string word;
-    std::string nonword;
+    std::string word = {};
+    std::string nonword = {};
 
     auto flush_word = [&]() {
         if (word.empty()) {
@@ -230,7 +230,8 @@ std::vector<std::string> DataAugmentationPipeline::selectFields(const BaseEntity
         return config_.augment_fields;
     }
     // Default: all string-valued fields.
-    std::vector<std::string> fields;
+    std::vector<std::string> fields = {};
+
     for (const auto &kv : entity.getAllFields()) {
         if (entity.getFieldAsString(kv.first)) {
             fields.push_back(kv.first);

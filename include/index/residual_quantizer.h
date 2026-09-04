@@ -59,7 +59,7 @@ namespace themis {
 class ResidualQuantizer {
 public:
     struct Config {
-        int num_stages;               // Number of residual stages (2-4 typical)
+        int num_stages = 0;               // Number of residual stages (2-4 typical)
         int num_subquantizers;        // PQ subquantizers per stage
         int num_centroids;            // Centroids per subquantizer (8-bit = 256)
         int max_kmeans_iterations;    // K-means iterations per stage

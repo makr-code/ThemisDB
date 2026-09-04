@@ -130,7 +130,7 @@ GeoErrorCode GeoEdgeCaseHandler::validateRing(
         const std::vector<std::pair<double, double>>& ring) const noexcept {
 
     // Minimum 4 points (3 unique + closing point).
-    if (ring.size() < 4) {
+    if (static_cast<int>(ring.size()) < 4) {
         return GeoErrorCode::GEOMETRY_INVALID;
     }
     // Ring must be closed: first == last.
@@ -177,7 +177,7 @@ uint64_t GeoEdgeCaseHandler::fallbackCount() const noexcept {
 }
 
 uint64_t GeoEdgeCaseHandler::driftEventCount() const noexcept {
-    return drift_event_count_.load(std::memory_order_acquire);
+    return drift_event_count_.load([[maybe_unused]] std::memory_order_acquire);
 }
 
 // ============================================================================

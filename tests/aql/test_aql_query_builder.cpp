@@ -340,7 +340,7 @@ TEST_F(AQLQueryBuilderTest, GetCompletionSuggestionsWithoutModel) {
 
 TEST_F(AQLQueryBuilderTest, GetLLMSuggestionWithoutModel) {
     LLMAQLHandler handler;
-    std::string suggestion;
+    std::string suggestion = {};
     EXPECT_NO_THROW({
         suggestion = builder->getLLMSuggestion(handler, "find all active users");
     });
@@ -351,7 +351,7 @@ TEST_F(AQLQueryBuilderTest, GetLLMSuggestionWithoutModel) {
 TEST_F(AQLQueryBuilderTest, GetLLMSuggestionWithSchemaContext) {
     std::string schema = "Collections:\n- users: {name, email, age, active}\n";
     LLMAQLHandler handler;
-    std::string suggestion;
+    std::string suggestion = {};
     EXPECT_NO_THROW({
         suggestion = builder->getLLMSuggestion(
             handler, "find users older than 30", schema

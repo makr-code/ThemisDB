@@ -236,13 +236,13 @@ public:
             auto adapter_ids = storage_service_->listAdapters();
             result.adapters_checked = adapter_ids.size();
             
-            spdlog::info("Starting sync job for {} adapters", adapter_ids.size());
+            spdlog::info("Starting sync job for {} adapters",static_cast<int>(adapter_ids.size()));
             
             // Sync each adapter
             for (const auto& adapter_id : adapter_ids) {
                 try {
                     // Use a scope block to safely release lock during sync
-                    bool success;
+                    bool success = {};
                     {
                         mutex_.unlock();
                         success = syncAdapter(adapter_id);
@@ -271,8 +271,8 @@ public:
                         result.adapters_failed, result.duration.count());
             
             // Notify callback
-            if (sync_callback_) {
-                sync_callback_(result);
+            if ([[maybe_unused]] sync_callback_) {
+                sync_callback_([[maybe_unused]] result);
             }
             
         } catch (const std::exception& e) {
@@ -300,7 +300,8 @@ public:
     std::vector<AdapterSyncStatus> getAllSyncStatus() const {
         std::lock_guard<std::mutex> lock(mutex_);
         
-        std::vector<AdapterSyncStatus> result;
+        std::vector<AdapterSyncStatus> result = {};
+
         result.reserve(sync_status_.size());
         
         for (const auto& [adapter_id, status] : sync_status_) {
@@ -319,7 +320,7 @@ public:
             {"successful_syncs", stats_.successful_syncs},
             {"sync_failures", stats_.sync_failures},
             {"bytes_transferred", stats_.bytes_transferred},
-            {"adapters_tracked", sync_status_.size()},
+            {"adapters_tracked",static_cast<int>(sync_status_.size())},
             {"config", {
                 {"sync_interval_sec", config_.sync_interval.count()},
                 {"replication_factor", config_.replication_factor},
@@ -338,14 +339,15 @@ public:
         // Get all healthy shards from topology
         auto shards = topology_->getHealthyShards();
         
-        std::vector<std::string> peer_ids;
+        std::vector<std::string> peer_ids = {};
+
         peer_ids.reserve(shards.size());
         
         for (const auto& shard : shards) {
             peer_ids.push_back(shard.shard_id);
         }
         
-        spdlog::debug("Discovered {} peer shards", peer_ids.size());
+        spdlog::debug("Discovered {} peer shards",static_cast<int>(peer_ids.size()));
         return peer_ids;
     }
     
@@ -384,7 +386,7 @@ private:
         try {
             // Get peer endpoint from topology
             auto shards = topology_->getHealthyShards();
-            std::string peer_endpoint;
+            std::string peer_endpoint = {};
             
             for (const auto& shard : shards) {
                 if (shard.shard_id == peer_shard_id) {
@@ -447,7 +449,7 @@ private:
             
             // Perform transfer
             spdlog::info("Syncing adapter {} ({} bytes) to peer {} at {}",
-                        adapter_id, weights.data.size(), peer_shard_id, peer_endpoint);
+                        adapter_id,static_cast<int>(weights.data.size()), peer_shard_id, peer_endpoint);
             
             auto result = transport_client_->transfer(
                 peer_endpoint,
@@ -536,11 +538,21 @@ private:
     void recordSyncMetrics(bool success, double duration_seconds, size_t bytes) {
 #ifdef THEMIS_HAS_PROMETHEUS
         if (config_.enable_metrics) {
-            if (sync_total_counter_) sync_total_counter_->Increment();
-            if (success && sync_success_counter_) sync_success_counter_->Increment();
-            if (!success && sync_failures_counter_) sync_failures_counter_->Increment();
-            if (bytes_transferred_counter_) bytes_transferred_counter_->Increment(bytes);
-            if (sync_duration_histogram_) sync_duration_histogram_->Observe(duration_seconds);
+            if (sync_total_counter_) {
+              sync_total_counter_->Increment();
+            }
+            if (success && sync_success_counter_) {
+              sync_success_counter_->Increment();
+            }
+            if (!success && sync_failures_counter_) {
+              sync_failures_counter_->Increment();
+            }
+            if (bytes_transferred_counter_) {
+              bytes_transferred_counter_->Increment(bytes);
+            }
+            if (sync_duration_histogram_) {
+              sync_duration_histogram_->Observe(duration_seconds);
+            }
         }
 #endif
     }
@@ -650,7 +662,7 @@ json AdapterSyncManager::getStats() const {
 }
 
 void AdapterSyncManager::onSyncComplete(std::function<void(const SyncJobResult&)> callback) {
-    impl_->onSyncComplete(callback);
+    impl_->onSyncComplete([[maybe_unused]] callback);
 }
 
 std::vector<std::string> AdapterSyncManager::discoverPeers() const {

@@ -420,7 +420,9 @@ TEST_F(TaskSchedulerApiHandlerTest, RegisterTask_AllTriggerTypes) {
     for (const auto& trigger : std::vector<std::string>{"interval", "cron", "manual"}) {
         nlohmann::json req = makeTaskJson("t_" + trigger);
         req["trigger_type"] = trigger;
-        if (trigger == "cron") req["cron_expression"] = "*/5 * * * *";
+        if (trigger == "cron") {
+          req["cron_expression"] = "*/5 * * * *";
+        }
         auto result = handler_->registerTask(req);
         EXPECT_EQ(result.value("status", ""), "created") << "trigger=" << trigger;
     }
@@ -714,7 +716,9 @@ protected:
                           const std::string& trigger_type = "CRON",
                           const std::string& user_id = "test_user") {
         auto am = scheduler_->getAuditManager();
-        if (!am) return;
+        if (!am) {
+          return;
+        }
         scheduler::TaskAuditEvent ev;
         ev.uuid        = scheduler::generateUUID();
         ev.timestamp   = std::chrono::system_clock::now();
@@ -793,8 +797,12 @@ TEST_F(TaskSchedulerApiHandlerAuditWithLoggingTest, GetExecutionHistory_Paginati
 
     // No overlap by UUID
     std::set<std::string> ids1, ids2;
-    for (const auto& ev : page1["items"]) ids1.insert(ev.value("uuid", ""));
-    for (const auto& ev : page2["items"]) ids2.insert(ev.value("uuid", ""));
+    for (const auto& ev : page1["items"]) {
+      ids1.insert(ev.value("uuid", ""));
+    }
+    for (const auto& ev : page2["items"]) {
+      ids2.insert(ev.value("uuid", ""));
+    }
     for (const auto& u : ids2) {
         EXPECT_EQ(0u, ids1.count(u)) << "Duplicate UUID across pages: " << u;
     }

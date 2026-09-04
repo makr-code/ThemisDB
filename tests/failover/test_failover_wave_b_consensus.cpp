@@ -108,7 +108,8 @@ TEST(ConsensusQuorum, FCS_04_SplitVoteSingleCandidate) {
 
 TEST(ConsensusQuorum, FCS_05_SplitVoteEmptyCandidates) {
     // Implementation contract: empty candidates → return "".
-    std::vector<std::string> candidates;
+    std::vector<std::string> candidates = {};
+
     const std::string result = candidates.empty()
         ? ""
         : *std::min_element(candidates.begin(), candidates.end());

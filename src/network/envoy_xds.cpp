@@ -43,8 +43,8 @@ namespace {
 
 // Escape a string value for embedding in JSON.
 static std::string jsonEscape(const std::string& s) {
-    std::string out;
-    out.reserve(s.size() + 4);
+    std::string out = {};
+    out.reserve(static_cast<int>(s.size()) + 4);
     for (unsigned char c : s) {
         switch (c) {
             case '"':  out += "\\\""; break;
@@ -71,13 +71,13 @@ static std::string extractString(const std::string& json, const std::string& key
     const std::string needle = "\"" + key + "\"";
     const auto pos = json.find(needle);
     if (pos == std::string::npos) return {};
-    auto colon = json.find(':', pos + needle.size());
+    auto colon = json.find(':', pos + static_cast<int>(needle.size()) );
     if (colon == std::string::npos) return {};
     auto q1 = json.find('"', colon + 1);
     if (q1 == std::string::npos) return {};
-    std::string value;
+    std::string value = {};
     bool escape = false;
-    for (std::size_t i = q1 + 1; i < json.size(); ++i) {
+    for (std::size_t i = q1 + 1; i <static_cast<int>(json.size()); ++i) {
         if (escape) {
             switch (json[i]) {
                 case '"': value += '"'; break;
@@ -106,20 +106,20 @@ static std::string extractRawValue(const std::string& json, const std::string& k
     const std::string needle = "\"" + key + "\"";
     const auto pos = json.find(needle);
     if (pos == std::string::npos) return {};
-    auto colon = json.find(':', pos + needle.size());
+    auto colon = json.find(':', pos + static_cast<int>(needle.size()) );
     if (colon == std::string::npos) return {};
     // Skip whitespace
     std::size_t start = colon + 1;
-    while (start < json.size() && (json[start] == ' ' || json[start] == '\t' ||
+    while (start <static_cast<int>(json.size()) && (json[start] == ' ' || json[start] == '\t' ||
                                    json[start] == '\r' || json[start] == '\n')) {
         ++start;
     }
-    if (start >= json.size()) return {};
+    if (start >= static_cast<int>(json.size())) return {};
     const char open = json[start];
     if (open != '[' && open != '{') {
         // Scalar – read until delimiter
         std::size_t end = start;
-        while (end < json.size() && json[end] != ',' && json[end] != '}' &&
+        while (end <static_cast<int>(json.size()) && json[end] != ',' && json[end] != '}' &&
                json[end] != ']' && json[end] != '\n') {
             ++end;
         }
@@ -131,12 +131,14 @@ static std::string extractRawValue(const std::string& json, const std::string& k
     bool in_str = false;
     bool esc = false;
     std::size_t end = start;
-    for (; end < json.size(); ++end) {
+    for (; end <static_cast<int>(json.size()); ++end) {
         const char c = json[end];
         if (esc) { esc = false; continue; }
         if (c == '\\' && in_str) { esc = true; continue; }
         if (c == '"') { in_str = !in_str; continue; }
-        if (in_str) continue;
+        if (in_str) {
+          continue;
+        }
         if (c == open)  { ++depth; }
         else if (c == close) { if (--depth == 0) { ++end; break; } }
     }
@@ -152,18 +154,24 @@ static std::vector<std::string> splitJsonArray(const std::string& array_body) {
     bool esc = false;
     std::size_t item_start = std::string::npos;
 
-    for (std::size_t i = 0; i < array_body.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(array_body.size()); ++i) {
         const char c = array_body[i];
         if (esc) { esc = false; continue; }
         if (c == '\\' && in_str) { esc = true; continue; }
         if (c == '"') {
             in_str = !in_str;
-            if (!in_str && depth == 0) continue;
+            if (!in_str && depth == 0) {
+              continue;
+            }
         }
-        if (in_str) continue;
+        if (in_str) {
+          continue;
+        }
 
         if (c == '{' || c == '[') {
-            if (depth == 0) item_start = i;
+            if (depth == 0) {
+              item_start = i;
+            }
             ++depth;
         } else if (c == '}' || c == ']') {
             --depth;
@@ -178,20 +186,28 @@ static std::vector<std::string> splitJsonArray(const std::string& array_body) {
 
 // Parse a uint16 port from a string; returns 0 on failure.
 static uint16_t parsePort(const std::string& s) {
-    if (s.empty()) return 0;
+    if (s.empty()) {
+      return 0;
+    }
     try {
         const long v = std::stol(s);
-        if (v > 0 && v <= 65535) return static_cast<uint16_t>(v);
+        if (v > 0 && v <= 65535) {
+          return static_cast<uint16_t>(v);
+        }
     } catch (...) {}
     return 0;
 }
 
 // Parse uint32 weight from a string; returns default_val on failure.
 static uint32_t parseWeight(const std::string& s, uint32_t default_val = 100) {
-    if (s.empty()) return default_val;
+    if (s.empty()) {
+      return default_val;
+    }
     try {
         const unsigned long v = std::stoul(s);
-        if (v <= UINT32_MAX) return static_cast<uint32_t>(v);
+        if (v <= UINT32_MAX) {
+          return static_cast<uint32_t>(v);
+        }
     } catch (...) {}
     return default_val;
 }
@@ -253,23 +269,23 @@ void EnvoyXdsClient::stop() {
 // Callback registration
 // ─────────────────────────────────────────────────────────────────────────────
 
-void EnvoyXdsClient::setListenerCallback(ListenerCallback cb) {
-    std::lock_guard<std::mutex> lk(callbacks_mutex_);
-    listener_cb_ = std::move(cb);
+void EnvoyXdsClient::setListenerCallback([[maybe_unused]] ListenerCallback cb) {
+    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+    listener_cb_ = std::move([[maybe_unused]] cb);
 }
 
-void EnvoyXdsClient::setClusterCallback(ClusterCallback cb) {
-    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+void EnvoyXdsClient::setClusterCallback([[maybe_unused]] ClusterCallback cb) {
+    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
     cluster_cb_ = std::move(cb);
 }
 
-void EnvoyXdsClient::setRouteCallback(RouteCallback cb) {
-    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+void EnvoyXdsClient::setRouteCallback([[maybe_unused]] RouteCallback cb) {
+    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
     route_cb_ = std::move(cb);
 }
 
-void EnvoyXdsClient::setEndpointCallback(EndpointCallback cb) {
-    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+void EnvoyXdsClient::setEndpointCallback([[maybe_unused]] EndpointCallback cb) {
+    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
     endpoint_cb_ = std::move(cb);
 }
 
@@ -312,7 +328,7 @@ std::string EnvoyXdsClient::buildDiscoveryRequest(
     const std::string&              nonce,
     const std::vector<std::string>& names) const
 {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "{"
        << "\"node\":{"
        <<   "\"id\":\"" << jsonEscape(config_.node_id) << "\","
@@ -322,7 +338,9 @@ std::string EnvoyXdsClient::buildDiscoveryRequest(
         ss << ",\"metadata\":{";
         bool first = true;
         for (const auto& [k, v] : config_.node_metadata) {
-            if (!first) ss << ',';
+            if (!first) {
+              ss << ',';
+            }
             first = false;
             ss << "\"" << jsonEscape(k) << "\":\"" << jsonEscape(v) << "\"";
         }
@@ -335,8 +353,10 @@ std::string EnvoyXdsClient::buildDiscoveryRequest(
        << "\"response_nonce\":\"" << jsonEscape(nonce) << "\","
        << "\"resource_names\":[";
 
-    for (std::size_t i = 0; i < names.size(); ++i) {
-        if (i > 0) ss << ',';
+    for (std::size_t i = 0; i <static_cast<int>(names.size()); ++i) {
+        if (i > 0) {
+          ss << ',';
+        }
         ss << "\"" << jsonEscape(names[i]) << "\"";
     }
     ss << "]}";
@@ -354,13 +374,17 @@ bool EnvoyXdsClient::parseDiscoveryResponse(const std::string& json_body,
                                             std::string&       out_nonce,
                                             std::string&       out_resources_json)
 {
-    if (json_body.empty()) return false;
+    if (json_body.empty()) {
+      return false;
+    }
 
     const std::string version   = extractString(json_body, "version_info");
     const std::string nonce     = extractString(json_body, "nonce");
     const std::string resources = extractRawValue(json_body, "resources");
 
-    if (version.empty() || resources.empty()) return false;
+    if (version.empty() || resources.empty()) {
+      return false;
+    }
 
     out_version        = version;
     out_nonce          = nonce;
@@ -376,10 +400,13 @@ bool EnvoyXdsClient::parseDiscoveryResponse(const std::string& json_body,
 std::vector<EnvoyXdsClient::ListenerInfo>
 EnvoyXdsClient::parseListeners(const std::string& resources_json)
 {
-    std::vector<ListenerInfo> result;
-    if (resources_json.empty() || resources_json.front() != '[') return result;
+    std::vector<ListenerInfo> result = {};
 
-    const std::string body = resources_json.substr(1, resources_json.size() - 2);
+    if (resources_json.empty() || resources_json.front() != '[') {
+      return result;
+    }
+
+    const std::string body = resources_json.substr(1, static_cast<int>(resources_json.size()) - 2);
     for (const auto& item : splitJsonArray(body)) {
         ListenerInfo info;
         info.name     = extractString(item, "name");
@@ -392,7 +419,9 @@ EnvoyXdsClient::parseListeners(const std::string& resources_json)
                 info.address  = extractString(sa, "address");
                 info.port     = parsePort(extractRawValue(sa, "port_value"));
                 info.protocol = extractString(sa, "protocol");
-                if (info.protocol.empty()) info.protocol = "TCP";
+                if (info.protocol.empty()) {
+                  info.protocol = "TCP";
+                }
             }
         }
 
@@ -411,40 +440,55 @@ EnvoyXdsClient::parseListeners(const std::string& resources_json)
 std::vector<EnvoyXdsClient::ClusterInfo>
 EnvoyXdsClient::parseClusters(const std::string& resources_json)
 {
-    std::vector<ClusterInfo> result;
-    if (resources_json.empty() || resources_json.front() != '[') return result;
+    std::vector<ClusterInfo> result = {};
 
-    const std::string body = resources_json.substr(1, resources_json.size() - 2);
+    if (resources_json.empty() || resources_json.front() != '[') {
+      return result;
+    }
+
+    const std::string body = resources_json.substr(1, static_cast<int>(resources_json.size()) - 2);
     for (const auto& item : splitJsonArray(body)) {
         ClusterInfo info;
         info.name      = extractString(item, "name");
         info.type      = extractString(item, "type");
         info.lb_policy = extractString(item, "lb_policy");
-        if (info.lb_policy.empty()) info.lb_policy = "ROUND_ROBIN";
+        if (info.lb_policy.empty()) {
+          info.lb_policy = "ROUND_ROBIN";
+        }
 
         // Inline static endpoints (load_assignment.endpoints[].lb_endpoints[])
         const std::string la = extractRawValue(item, "load_assignment");
         if (!la.empty()) {
             const std::string eps_arr = extractRawValue(la, "endpoints");
             if (!eps_arr.empty() && eps_arr.front() == '[') {
-                const std::string eps_body = eps_arr.substr(1, eps_arr.size() - 2);
+                const std::string eps_body = eps_arr.substr(1, static_cast<int>(eps_arr.size()) - 2);
                 for (const auto& locality_ep : splitJsonArray(eps_body)) {
                     const std::string lb_eps = extractRawValue(locality_ep, "lb_endpoints");
-                    if (lb_eps.empty() || lb_eps.front() != '[') continue;
-                    const std::string lb_body = lb_eps.substr(1, lb_eps.size() - 2);
+                    if (lb_eps.empty() || lb_eps.front() != '[') {
+                      continue;
+                    }
+                    const std::string lb_body = lb_eps.substr(1, static_cast<int>(lb_eps.size()) - 2);
                     for (const auto& lbep : splitJsonArray(lb_body)) {
                         ClusterEndpoint ep;
                         const std::string ep_addr = extractRawValue(lbep, "endpoint");
-                        if (ep_addr.empty()) continue;
+                        if (ep_addr.empty()) {
+                          continue;
+                        }
                         const std::string addr_obj = extractRawValue(ep_addr, "address");
-                        if (addr_obj.empty()) continue;
+                        if (addr_obj.empty()) {
+                          continue;
+                        }
                         const std::string sa = extractRawValue(addr_obj, "socket_address");
-                        if (sa.empty()) continue;
+                        if (sa.empty()) {
+                          continue;
+                        }
                         ep.address = extractString(sa, "address");
                         ep.port    = parsePort(extractRawValue(sa, "port_value"));
                         ep.weight  = parseWeight(extractRawValue(lbep, "load_balancing_weight"));
                         ep.health_status = extractString(lbep, "health_status");
-                        if (ep.health_status.empty()) ep.health_status = "HEALTHY";
+                        if (ep.health_status.empty()) {
+                          ep.health_status = "HEALTHY";
+                        }
                         if (!ep.address.empty()) {
                             info.endpoints.push_back(std::move(ep));
                         }
@@ -468,34 +512,47 @@ EnvoyXdsClient::parseClusters(const std::string& resources_json)
 std::vector<EnvoyXdsClient::ClusterInfo>
 EnvoyXdsClient::parseEndpoints(const std::string& resources_json)
 {
-    std::vector<ClusterInfo> result;
-    if (resources_json.empty() || resources_json.front() != '[') return result;
+    std::vector<ClusterInfo> result = {};
 
-    const std::string body = resources_json.substr(1, resources_json.size() - 2);
+    if (resources_json.empty() || resources_json.front() != '[') {
+      return result;
+    }
+
+    const std::string body = resources_json.substr(1, static_cast<int>(resources_json.size()) - 2);
     for (const auto& item : splitJsonArray(body)) {
         ClusterInfo info;
         info.name = extractString(item, "cluster_name");
 
         const std::string eps_arr = extractRawValue(item, "endpoints");
         if (!eps_arr.empty() && eps_arr.front() == '[') {
-            const std::string eps_body = eps_arr.substr(1, eps_arr.size() - 2);
+            const std::string eps_body = eps_arr.substr(1, static_cast<int>(eps_arr.size()) - 2);
             for (const auto& locality_ep : splitJsonArray(eps_body)) {
                 const std::string lb_eps = extractRawValue(locality_ep, "lb_endpoints");
-                if (lb_eps.empty() || lb_eps.front() != '[') continue;
-                const std::string lb_body = lb_eps.substr(1, lb_eps.size() - 2);
+                if (lb_eps.empty() || lb_eps.front() != '[') {
+                  continue;
+                }
+                const std::string lb_body = lb_eps.substr(1, static_cast<int>(lb_eps.size()) - 2);
                 for (const auto& lbep : splitJsonArray(lb_body)) {
                     ClusterEndpoint ep;
                     const std::string ep_addr = extractRawValue(lbep, "endpoint");
-                    if (ep_addr.empty()) continue;
+                    if (ep_addr.empty()) {
+                      continue;
+                    }
                     const std::string addr_obj = extractRawValue(ep_addr, "address");
-                    if (addr_obj.empty()) continue;
+                    if (addr_obj.empty()) {
+                      continue;
+                    }
                     const std::string sa = extractRawValue(addr_obj, "socket_address");
-                    if (sa.empty()) continue;
+                    if (sa.empty()) {
+                      continue;
+                    }
                     ep.address = extractString(sa, "address");
                     ep.port    = parsePort(extractRawValue(sa, "port_value"));
                     ep.weight  = parseWeight(extractRawValue(lbep, "load_balancing_weight"));
                     ep.health_status = extractString(lbep, "health_status");
-                    if (ep.health_status.empty()) ep.health_status = "HEALTHY";
+                    if (ep.health_status.empty()) {
+                      ep.health_status = "HEALTHY";
+                    }
                     if (!ep.address.empty()) {
                         info.endpoints.push_back(std::move(ep));
                     }
@@ -518,16 +575,21 @@ EnvoyXdsClient::parseEndpoints(const std::string& resources_json)
 std::vector<EnvoyXdsClient::VirtualHostInfo>
 EnvoyXdsClient::parseRoutes(const std::string& resources_json)
 {
-    std::vector<VirtualHostInfo> result;
-    if (resources_json.empty() || resources_json.front() != '[') return result;
+    std::vector<VirtualHostInfo> result = {};
 
-    const std::string body = resources_json.substr(1, resources_json.size() - 2);
+    if (resources_json.empty() || resources_json.front() != '[') {
+      return result;
+    }
+
+    const std::string body = resources_json.substr(1, static_cast<int>(resources_json.size()) - 2);
     for (const auto& rc : splitJsonArray(body)) {
         // Each resource is a RouteConfiguration with a virtual_hosts array.
-        const std::string vhosts_raw = extractRawValue(rc, "virtual_hosts");
-        if (vhosts_raw.empty() || vhosts_raw.front() != '[') continue;
+        const std::string vhosts_raw = extractRawValue(r[[maybe_unused]] c, "virtual_host[[maybe_unused]] s");
+        if (vhosts_raw.empty() || vhosts_raw.front() != '[') {
+          continue;
+        }
 
-        const std::string vhosts_body = vhosts_raw.substr(1, vhosts_raw.size() - 2);
+        const std::string vhosts_body = vhosts_raw.substr(1, static_cast<int>(vhosts_raw.size()) - 2);
         for (const auto& vh : splitJsonArray(vhosts_body)) {
             VirtualHostInfo info;
             info.name = extractString(vh, "name");
@@ -535,22 +597,26 @@ EnvoyXdsClient::parseRoutes(const std::string& resources_json)
             // Parse domains array
             const std::string domains_raw = extractRawValue(vh, "domains");
             if (!domains_raw.empty() && domains_raw.front() == '[') {
-                const std::string dom_body = domains_raw.substr(1, domains_raw.size() - 2);
+                const std::string dom_body = domains_raw.substr(1, static_cast<int>(domains_raw.size()) - 2);
                 // Simple string-array split: find quoted strings
                 std::size_t pos = 0;
-                while (pos < dom_body.size()) {
+                while (static_cast<size_t>(pos) <static_cast<int>(dom_body.size())) {
                     const auto q1 = dom_body.find('"', pos);
-                    if (q1 == std::string::npos) break;
-                    std::string domain;
+                    if (q1 == std::string::npos) {
+                      break;
+                    }
+                    std::string domain = {};
                     bool esc = false;
                     std::size_t i = q1 + 1;
-                    for (; i < dom_body.size(); ++i) {
+                    for (; i <static_cast<int>(dom_body.size()); ++i) {
                         if (esc) { domain += dom_body[i]; esc = false; continue; }
                         if (dom_body[i] == '\\') { esc = true; continue; }
                         if (dom_body[i] == '"') { ++i; break; }
                         domain += dom_body[i];
                     }
-                    if (!domain.empty()) info.domains.push_back(domain);
+                    if (!domain.empty()) {
+                      info.domains.push_back(domain);
+                    }
                     pos = i;
                 }
             }
@@ -558,7 +624,7 @@ EnvoyXdsClient::parseRoutes(const std::string& resources_json)
             // Parse routes array
             const std::string routes_raw = extractRawValue(vh, "routes");
             if (!routes_raw.empty() && routes_raw.front() == '[') {
-                const std::string routes_body = routes_raw.substr(1, routes_raw.size() - 2);
+                const std::string routes_body = routes_raw.substr(1, static_cast<int>(routes_raw.size()) - 2);
                 for (const auto& rt : splitJsonArray(routes_body)) {
                     RouteInfo route;
 
@@ -719,8 +785,8 @@ void EnvoyXdsClient::pollLoop() {
         bool had_any_update = false;
 
         // ── LDS ────────────────────────────────────────────────────────────
-        if (config_.subscribe_listeners) {
-            std::string res_json;
+        if ([[maybe_unused]] config_.subscribe_listeners) {
+            std::string res_json = {};
             bool err = false;
             const bool updated = pollDiscoveryService(
                 kXdsTypeUrlListener, "/v3/discovery:listeners",
@@ -728,15 +794,21 @@ void EnvoyXdsClient::pollLoop() {
 
             {
                 std::lock_guard<std::mutex> lk(stats_mutex_);
-                if (updated) ++stats_.lds_updates;
-                if (err)     ++stats_.lds_errors;
+                if (updated) {
+                  ++stats_.lds_updates;
+                }
+                if (err) {
+                  ++stats_.lds_errors;
+                }
             }
             if (updated) {
                 had_any_update = true;
                 {
-                    const auto listeners = parseListeners(res_json);
-                    std::lock_guard<std::mutex> lk(callbacks_mutex_);
-                    if (listener_cb_) listener_cb_(listeners);
+                    const auto listeners = parseListeners([[maybe_unused]] res_json);
+                    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+                    if ([[maybe_unused]] listener_cb_) {
+                      listener_cb_(listeners);
+                    }
                 }
                 std::lock_guard<std::mutex> lk(versions_mutex_);
                 lds_version_ = lds_ver;
@@ -746,7 +818,7 @@ void EnvoyXdsClient::pollLoop() {
 
         // ── CDS ────────────────────────────────────────────────────────────
         if (config_.subscribe_clusters) {
-            std::string res_json;
+            std::string res_json = {};
             bool err = false;
             const bool updated = pollDiscoveryService(
                 kXdsTypeUrlCluster, "/v3/discovery:clusters",
@@ -754,15 +826,21 @@ void EnvoyXdsClient::pollLoop() {
 
             {
                 std::lock_guard<std::mutex> lk(stats_mutex_);
-                if (updated) ++stats_.cds_updates;
-                if (err)     ++stats_.cds_errors;
+                if (updated) {
+                  ++stats_.cds_updates;
+                }
+                if (err) {
+                  ++stats_.cds_errors;
+                }
             }
             if (updated) {
                 had_any_update = true;
                 {
                     const auto clusters = parseClusters(res_json);
-                    std::lock_guard<std::mutex> lk(callbacks_mutex_);
-                    if (cluster_cb_) cluster_cb_(clusters);
+                    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+                    if (cluster_cb_) {
+                      cluster_cb_(clusters);
+                    }
                 }
                 std::lock_guard<std::mutex> lk(versions_mutex_);
                 cds_version_ = cds_ver;
@@ -772,7 +850,7 @@ void EnvoyXdsClient::pollLoop() {
 
         // ── EDS ────────────────────────────────────────────────────────────
         if (config_.subscribe_endpoints) {
-            std::string res_json;
+            std::string res_json = {};
             bool err = false;
             const bool updated = pollDiscoveryService(
                 kXdsTypeUrlEndpoint, "/v3/discovery:endpoints",
@@ -780,15 +858,21 @@ void EnvoyXdsClient::pollLoop() {
 
             {
                 std::lock_guard<std::mutex> lk(stats_mutex_);
-                if (updated) ++stats_.eds_updates;
-                if (err)     ++stats_.eds_errors;
+                if (updated) {
+                  ++stats_.eds_updates;
+                }
+                if (err) {
+                  ++stats_.eds_errors;
+                }
             }
             if (updated) {
                 had_any_update = true;
                 {
                     const auto endpoints = parseEndpoints(res_json);
-                    std::lock_guard<std::mutex> lk(callbacks_mutex_);
-                    if (endpoint_cb_) endpoint_cb_(endpoints);
+                    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+                    if (endpoint_cb_) {
+                      endpoint_cb_(endpoints);
+                    }
                 }
                 std::lock_guard<std::mutex> lk(versions_mutex_);
                 eds_version_ = eds_ver;
@@ -798,7 +882,7 @@ void EnvoyXdsClient::pollLoop() {
 
         // ── RDS ────────────────────────────────────────────────────────────
         if (config_.subscribe_routes) {
-            std::string res_json;
+            std::string res_json = {};
             bool err = false;
             const bool updated = pollDiscoveryService(
                 kXdsTypeUrlRoute, "/v3/discovery:routes",
@@ -806,15 +890,21 @@ void EnvoyXdsClient::pollLoop() {
 
             {
                 std::lock_guard<std::mutex> lk(stats_mutex_);
-                if (updated) ++stats_.rds_updates;
-                if (err)     ++stats_.rds_errors;
+                if (updated) {
+                  ++stats_.rds_updates;
+                }
+                if (err) {
+                  ++stats_.rds_errors;
+                }
             }
             if (updated) {
                 had_any_update = true;
                 {
                     const auto routes = parseRoutes(res_json);
-                    std::lock_guard<std::mutex> lk(callbacks_mutex_);
-                    if (route_cb_) route_cb_(routes);
+                    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+                    if (route_cb_) {
+                      route_cb_(routes);
+                    }
                 }
                 std::lock_guard<std::mutex> lk(versions_mutex_);
                 rds_version_ = rds_ver;

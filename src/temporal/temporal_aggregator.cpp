@@ -75,10 +75,16 @@ std::vector<AggregateResult> TemporalAggregator::aggregate(
         Timestamp data_min = kMaxTimestamp;
         Timestamp data_max = kMinTimestamp;
         for (const auto& r : rows) {
-            if (r.sys_time.start < data_min) data_min = r.sys_time.start;
-            if (r.sys_time.start > data_max) data_max = r.sys_time.start;
+            if (r.sys_time.start < data_min) {
+              data_min = r.sys_time.start;
+            }
+            if (r.sys_time.start > data_max) {
+              data_max = r.sys_time.start;
+            }
         }
-        if (from == kMinTimestamp) from = data_min;
+        if (from == kMinTimestamp) {
+          from = data_min;
+        }
         if (to   == kMaxTimestamp) to   = data_max + 1; // exclusive end
     }
 
@@ -156,11 +162,19 @@ TemporalAggregator::aggregateByGroup(
             Timestamp data_min = kMaxTimestamp;
             Timestamp data_max = kMinTimestamp;
             for (const auto& r : all_rows) {
-                if (r.sys_time.start < data_min) data_min = r.sys_time.start;
-                if (r.sys_time.start > data_max) data_max = r.sys_time.start;
+                if (r.sys_time.start < data_min) {
+                  data_min = r.sys_time.start;
+                }
+                if (r.sys_time.start > data_max) {
+                  data_max = r.sys_time.start;
+                }
             }
-            if (eff_from == kMinTimestamp) eff_from = data_min;
-            if (eff_to   == kMaxTimestamp) eff_to   = data_max + 1;
+            if (eff_from == kMinTimestamp) {
+              eff_from = data_min;
+            }
+            if (eff_to   == kMaxTimestamp) {
+              eff_to   = data_max + 1;
+            }
         }
     }
 
@@ -258,7 +272,7 @@ std::vector<AggregateResult> TemporalAggregator::aggregateSnapshots(
 
     for (Timestamp snap = from; snap < to; snap += spec.window_size_ms) {
         // Activate versions whose sys_start ≤ snap (they have arrived by this tick).
-        while (next_to_activate < all_versions.size() &&
+        while (next_to_activate <static_cast<int>(all_versions.size()) &&
                all_versions[next_to_activate].sys_time.start <= snap) {
             active.push_back(&all_versions[next_to_activate++]);
         }
@@ -295,14 +309,18 @@ std::vector<AggregateResult> TemporalAggregator::aggregateSnapshots(
 
         if (snap_need_order && !snap_ordered.empty()) {
             std::sort(snap_ordered.begin(), snap_ordered.end());
-            for (auto& v : snap_ordered) values.push_back(std::get<2>(v));
+            for (auto& v : snap_ordered) {
+              values.push_back(std::get<2>(v));
+            }
         }
 
         if (spec.func == AggregateFunc::COUNT || count > 0) {
             AggregateResult res;
             res.window_start = snap;
             res.window_end   = snap + spec.window_size_ms;
-            if (res.window_end > to) res.window_end = to;
+            if (res.window_end > to) {
+              res.window_end = to;
+            }
             res.record_count = count;
             res.value        = applyFunc(spec.func, values, count);
             results.push_back(res);
@@ -351,7 +369,8 @@ TrendResult TemporalAggregator::analyzeTrend(
     // Build (x, y) vectors: x = window centre relative to period_start (ms),
     // y = aggregated value.
     std::vector<double> xs;
-    std::vector<double> ys;
+    std::vector<double> ys = {};
+
     xs.reserve(windows.size());
     ys.reserve(windows.size());
 
@@ -366,7 +385,7 @@ TrendResult TemporalAggregator::analyzeTrend(
     }
 
     trend.sample_count = xs.size();
-    if (xs.size() < 2) {
+    if (static_cast<int>(xs.size()) < 2) {
         if (!ys.empty()) {
             trend.intercept = ys[0];
         }
@@ -413,14 +432,20 @@ double TemporalAggregator::applyFunc(AggregateFunc func,
         case AggregateFunc::SUM:
             return std::accumulate(values.begin(), values.end(), 0.0);
         case AggregateFunc::AVG:
-            if (values.empty()) return 0.0;
+            if (values.empty()) {
+              return 0.0;
+            }
             return std::accumulate(values.begin(), values.end(), 0.0) /
                    static_cast<double>(values.size());
         case AggregateFunc::MIN:
-            if (values.empty()) return 0.0;
+            if (values.empty()) {
+              return 0.0;
+            }
             return *std::min_element(values.begin(), values.end());
         case AggregateFunc::MAX:
-            if (values.empty()) return 0.0;
+            if (values.empty()) {
+              return 0.0;
+            }
             return *std::max_element(values.begin(), values.end());
         // FIRST_VALUE / LAST_VALUE: caller must supply values sorted ascending
         // by sys_start.  applyFunc sees them as a sorted sequence.
@@ -478,7 +503,9 @@ std::vector<AggregateResult> TemporalAggregator::computeTumbling(
 
         if (need_order && !ordered_vals.empty()) {
             std::sort(ordered_vals.begin(), ordered_vals.end());
-            for (auto& v : ordered_vals) values.push_back(std::get<2>(v));
+            for (auto& v : ordered_vals) {
+              values.push_back(std::get<2>(v));
+            }
         }
 
         if (spec.func == AggregateFunc::COUNT || count > 0) {
@@ -541,7 +568,9 @@ std::vector<AggregateResult> TemporalAggregator::computeSliding(
 
         if (need_order_s && !ordered_vals.empty()) {
             std::sort(ordered_vals.begin(), ordered_vals.end());
-            for (auto& v : ordered_vals) values.push_back(std::get<2>(v));
+            for (auto& v : ordered_vals) {
+              values.push_back(std::get<2>(v));
+            }
         }
 
         if (spec.func == AggregateFunc::COUNT || count > 0) {
@@ -592,7 +621,9 @@ std::vector<AggregateResult> TemporalAggregator::computeSession(
         if (need_order_sess && !cur_ordered.empty()) {
             std::sort(cur_ordered.begin(), cur_ordered.end());
             cur_values.clear();
-            for (auto& v : cur_ordered) cur_values.push_back(std::get<2>(v));
+            for (auto& v : cur_ordered) {
+              cur_values.push_back(std::get<2>(v));
+            }
             cur_ordered.clear();
         }
         AggregateResult res;

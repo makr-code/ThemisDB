@@ -61,14 +61,15 @@ TensorCompressionRoutingAccelerator::computeRoutingScores(
 
     const std::size_t dim = tensor.size();
     for (const auto& route : route_weights) {
-        if (route.size() != dim) {
+        if (static_cast<int>(route.size()) != dim) {
             return {};
         }
     }
 
 #if defined(THEMIS_ENABLE_CUDA) && THEMIS_ENABLE_CUDA
     if (!force_cpu) {
-        std::vector<float> packed;
+        std::vector<float> packed = {};
+
         packed.reserve(route_weights.size() * dim);
         for (const auto& route : route_weights) {
             packed.insert(packed.end(), route.begin(), route.end());
@@ -97,7 +98,8 @@ TensorCompressionRoutingAccelerator::computeRoutingScores(
 std::vector<int8_t>
 TensorCompressionRoutingAccelerator::compressToInt8Cpu(const std::vector<float>& input,
                                                        float scale) const {
-    std::vector<int8_t> out;
+    std::vector<int8_t> out = {};
+
     out.reserve(input.size());
 
     for (const float v : input) {
@@ -114,9 +116,9 @@ TensorCompressionRoutingAccelerator::computeRoutingScoresCpu(
     const std::vector<float>& tensor,
     const std::vector<std::vector<float>>& route_weights) const {
     std::vector<float> scores(route_weights.size(), 0.0f);
-    for (std::size_t r = 0; r < route_weights.size(); ++r) {
+    for (std::size_t r = 0; r <static_cast<int>(route_weights.size()); ++r) {
         float dot = 0.0f;
-        for (std::size_t i = 0; i < tensor.size(); ++i) {
+        for (std::size_t i = 0; i <static_cast<int>(tensor.size()); ++i) {
             dot += tensor[i] * route_weights[r][i];
         }
         scores[r] = dot;

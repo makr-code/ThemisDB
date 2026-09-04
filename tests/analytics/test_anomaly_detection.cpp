@@ -419,7 +419,9 @@ TEST(ExplainTest, IsolationForestContributionsNonZeroForOutlier) {
     // At least one feature should have a non-zero contribution
     bool any_nonzero = false;
     for (const auto& [name, c] : exp.feature_contributions)
-        if (c > 0.0) any_nonzero = true;
+        if (c > 0.0) {
+          any_nonzero = true;
+        }
     EXPECT_TRUE(any_nonzero);
 }
 
@@ -446,7 +448,9 @@ TEST(ExplainTest, LOFContributionsNonZeroForOutlier) {
     EXPECT_EQ(exp.feature_contributions.size(), 2u);
     bool any_nonzero = false;
     for (const auto& [name, c] : exp.feature_contributions)
-        if (c > 0.0) any_nonzero = true;
+        if (c > 0.0) {
+          any_nonzero = true;
+        }
     EXPECT_TRUE(any_nonzero);
 }
 
@@ -588,7 +592,9 @@ TEST(StatsTest, StddevsNonNegative) {
     AnomalyDetector det(AnomalyMethod::Z_SCORE);
     det.train(makeNormalData(50, 2));
     auto stats = det.getStats();
-    for (double sd : stats.feature_stddevs) EXPECT_GE(sd, 0.0);
+    for (double sd : stats.feature_stddevs) {
+      EXPECT_GE(sd, 0.0);
+    }
 }
 
 // ============================================================================
@@ -659,8 +665,11 @@ TEST_F(StreamingTest, ReturnsNulloptDuringWarmup) {
 TEST_F(StreamingTest, ReturnsResultAfterWarmup) {
     StreamingAnomalyDetector sad(cfg_);
     auto data = makeNormalData(60);
-    std::optional<AnomalyResult> last;
-    for (auto& p : data) last = sad.process(p);
+    std::optional<AnomalyResult> last = {};
+
+    for (auto& p : data) {
+      last = sad.process(p);
+    }
     // After 60 points (> auto_train_after=50) should be producing results
     EXPECT_TRUE(last.has_value());
 }
@@ -668,7 +677,9 @@ TEST_F(StreamingTest, ReturnsResultAfterWarmup) {
 TEST_F(StreamingTest, DetectsOutlierAfterWarmup) {
     StreamingAnomalyDetector sad(cfg_);
     // Warm up
-    for (auto& p : makeNormalData(60)) sad.process(p);
+    for (auto& p : makeNormalData(60)) {
+      sad.process(p);
+    }
 
     // Inject clear outlier
     auto outlier = makeOutlier(2, 50.0);
@@ -679,7 +690,9 @@ TEST_F(StreamingTest, DetectsOutlierAfterWarmup) {
 
 TEST_F(StreamingTest, NormalPointNotFlaggedAfterWarmup) {
     StreamingAnomalyDetector sad(cfg_);
-    for (auto& p : makeNormalData(60)) sad.process(p);
+    for (auto& p : makeNormalData(60)) {
+      sad.process(p);
+    }
     auto result = sad.process(makeNormalPoint(2, 0.0));
     ASSERT_TRUE(result.has_value());
     EXPECT_FALSE(result->is_anomaly);
@@ -687,14 +700,18 @@ TEST_F(StreamingTest, NormalPointNotFlaggedAfterWarmup) {
 
 TEST_F(StreamingTest, GetAnomaliesReturnsStoredAnomalies) {
     StreamingAnomalyDetector sad(cfg_);
-    for (auto& p : makeNormalData(60)) sad.process(p);
+    for (auto& p : makeNormalData(60)) {
+      sad.process(p);
+    }
     sad.process(makeOutlier(2, 50.0));
     EXPECT_GE(sad.getAnomalies().size(), 1u);
 }
 
 TEST_F(StreamingTest, ClearAnomaliesResetsHistory) {
     StreamingAnomalyDetector sad(cfg_);
-    for (auto& p : makeNormalData(60)) sad.process(p);
+    for (auto& p : makeNormalData(60)) {
+      sad.process(p);
+    }
     sad.process(makeOutlier(2, 50.0));
     sad.clearAnomalies();
     EXPECT_TRUE(sad.getAnomalies().empty());
@@ -702,35 +719,48 @@ TEST_F(StreamingTest, ClearAnomaliesResetsHistory) {
 
 TEST_F(StreamingTest, WindowStatsTrainedFlagSetAfterWarmup) {
     StreamingAnomalyDetector sad(cfg_);
-    for (auto& p : makeNormalData(60)) sad.process(p);
+    for (auto& p : makeNormalData(60)) {
+      sad.process(p);
+    }
     EXPECT_TRUE(sad.getWindowStats().trained);
 }
 
 TEST_F(StreamingTest, WindowStatsSizeBoundedByConfig) {
     StreamingAnomalyDetector sad(cfg_);
-    for (auto& p : makeNormalData(300)) sad.process(p);
+    for (auto& p : makeNormalData(300)) {
+      sad.process(p);
+    }
     EXPECT_LE(sad.getWindowStats().window_size, cfg_.window_size);
 }
 
 TEST_F(StreamingTest, AnomalyRateIsNonNegative) {
     StreamingAnomalyDetector sad(cfg_);
-    for (auto& p : makeNormalData(60)) sad.process(p);
+    for (auto& p : makeNormalData(60)) {
+      sad.process(p);
+    }
     EXPECT_GE(sad.getWindowStats().anomaly_rate, 0.0);
 }
 
 TEST_F(StreamingTest, ThreadSafety) {
     StreamingAnomalyDetector sad(cfg_);
     // Warm up first
-    for (auto& p : makeNormalData(60)) sad.process(p);
+    for (auto& p : makeNormalData(60)) {
+      sad.process(p);
+    }
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&, t] {
             auto data = makeNormalData(20, 2, 0.0 + t * 0.01);
-            for (auto& p : data) sad.process(p);
+            for (auto& p : data) {
+              sad.process(p);
+            }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     // No crash and stats are coherent
     auto stats = sad.getWindowStats();
     EXPECT_LE(stats.window_size, cfg_.window_size);
@@ -815,7 +845,9 @@ TEST(StreamingConcurrencyStress, EightProducersP99Latency) {
     StreamingAnomalyDetector sad(cfg);
 
     // Warm up synchronously so all threads start with a trained model.
-    for (auto& p : makeNormalData(60)) sad.process(p);
+    for (auto& p : makeNormalData(60)) {
+      sad.process(p);
+    }
 
     constexpr int kThreads       = 8;
     constexpr int kPointsPerThread = 500;   // total 4 000 calls
@@ -840,7 +872,9 @@ TEST(StreamingConcurrencyStress, EightProducersP99Latency) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Collect all latencies and compute P99.
     std::vector<int64_t> all_latencies;

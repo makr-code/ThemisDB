@@ -350,7 +350,8 @@ TEST_F(ExporterHealthTest, ExporterIncidentStatsDoNotFoldMetricScopedMalformedTe
 
 TEST_F(ExporterHealthTest, InvalidLabelCountIsRejectedWithDiagnosticMetric) {
     auto& mc = MetricsCollector::getInstance();
-    std::map<std::string, std::string> labels;
+    std::map<std::string, std::string> labels = {};
+
     for (std::size_t i = 0; i < kMaxMetricLabels + 1; ++i) {
         labels.emplace("label_" + std::to_string(i), "value");
     }

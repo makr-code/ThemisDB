@@ -99,9 +99,13 @@ public:
     }
 
     NetworkErrorCode validate(const std::string& token) const {
-        if (token.empty()) return NetworkErrorCode::AUTH_REQUIRED;
+        if (token.empty()) {
+          return NetworkErrorCode::AUTH_REQUIRED;
+        }
         auto it = sessions_.find(token);
-        if (it == sessions_.end()) return NetworkErrorCode::SESSION_MALFORMED;
+        if (it == sessions_.end()) {
+          return NetworkErrorCode::SESSION_MALFORMED;
+        }
         switch (it->second) {
             case SessionState::ACTIVE:   return NetworkErrorCode::OK;
             case SessionState::EXPIRED:  return NetworkErrorCode::SESSION_EXPIRED;
@@ -128,7 +132,9 @@ public:
             // Fail-closed: when rate-limiter is unavailable, deny (not allow).
             return NetworkErrorCode::RATE_LIMITED;
         }
-        if (++count_ > limit_) return NetworkErrorCode::RATE_LIMITED;
+        if (++count_ > limit_) {
+          return NetworkErrorCode::RATE_LIMITED;
+        }
         return NetworkErrorCode::OK;
     }
 

@@ -72,7 +72,7 @@ std::string ModuleHashVerifier::computeSHA256(const std::string& filePath) {
     }
     EVP_MD_CTX_free(ctx);
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (unsigned int i = 0; i < hashLen; ++i) {
         ss << std::hex << std::setw(2) << std::setfill('0')
            << static_cast<int>(hash[i]);
@@ -219,7 +219,7 @@ ModuleHashVerificationResult ModuleHashVerifier::verifyModule(
 }
 
 size_t ModuleHashVerifier::manifestSize() const {
-    return manifest_.size();
+    return static_cast<int>(manifest_.size());
 }
 
 std::optional<std::string> ModuleHashVerifier::getExpectedHash(

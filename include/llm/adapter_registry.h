@@ -47,8 +47,12 @@ struct AdapterVersion {
     static AdapterVersion fromString(const std::string& version_str);
     
     bool operator<(const AdapterVersion& other) const {
-        if (major != other.major) return major < other.major;
-        if (minor != other.minor) return minor < other.minor;
+        if (major != other.major) {
+          return major < other.major;
+        }
+        if (minor != other.minor) {
+          return minor < other.minor;
+        }
         return patch < other.patch;
     }
     

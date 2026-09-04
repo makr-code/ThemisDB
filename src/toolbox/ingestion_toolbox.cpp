@@ -190,7 +190,7 @@ std::vector<ingestion::BaseEntity> IngestionToolbox::extractEntities(
     const uint64_t latency_ms = static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count());
     const bool success = !entity_set.nodes.empty()
-                         || text.size() < kMinTextSizeForValidation;
+                         || static_cast<int>(text.size()) < kMinTextSizeForValidation;
     recordExtraction(entity_set.nodes.size(), latency_ms, success);
 
     return entity_set.nodes;
@@ -213,8 +213,8 @@ ingestion::BaseEntitySet IngestionToolbox::extractEntitySet(
     const uint64_t latency_ms = static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count());
     const bool success = !entity_set.nodes.empty() || !entity_set.chunks.empty()
-                         || text.size() < kMinTextSizeForValidation;
-    recordExtraction(entity_set.nodes.size() + entity_set.chunks.size(),
+                         || static_cast<int>(text.size()) < kMinTextSizeForValidation;
+    recordExtraction(entity_set.nodes.size() + static_cast<int>(entity_set.chunks.size()) ,
                      latency_ms, success);
 
     return entity_set;
@@ -253,7 +253,9 @@ void IngestionToolbox::recordExtraction(std::size_t entity_count,
 
 std::string IngestionToolbox::getMetricsText() const {
     const uint64_t calls = impl_->extract_calls_total_.load();
-    if (calls == 0) return "";
+    if (calls == 0) {
+      return "";
+    }
 
     const uint64_t errors         = impl_->extract_errors_total_.load();
     const uint64_t empty_results  = impl_->extract_empty_results_.load();
@@ -265,7 +267,7 @@ std::string IngestionToolbox::getMetricsText() const {
     const uint64_t bucket_1000_10000 = impl_->extract_latency_us_bucket_1000_10000_.load();
     const uint64_t bucket_10000_plus = impl_->extract_latency_us_bucket_10000_plus_.load();
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     out << "# HELP toolbox_extract_calls_total Total extractEntities() / extractEntitySet() calls.\n";
     out << "# TYPE toolbox_extract_calls_total counter\n";

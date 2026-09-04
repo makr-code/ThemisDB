@@ -40,7 +40,9 @@ static SourceConfig makeS3Config(const std::string& bucket = "test-bucket",
     cfg.type         = SourceType::OBJECT_STORAGE;
     cfg.location     = bucket;
     cfg.options["provider"] = "s3";
-    if (!prefix.empty()) cfg.options["prefix"] = prefix;
+    if (!prefix.empty()) {
+      cfg.options["prefix"] = prefix;
+    }
     return cfg;
 }
 
@@ -124,7 +126,9 @@ TEST(ObjectStorageConnectorTest, IngestPlainTextObjects) {
     std::vector<std::string> keys = {"doc1.txt", "doc2.txt", "doc3.txt"};
     int list_call = 0;
     conn.setObjectListForTesting([&]() -> std::vector<std::string> {
-        if (list_call++ == 0) return keys;
+        if (list_call++ == 0) {
+          return keys;
+        }
         return {};
     });
     conn.setObjectFetchForTesting([](const std::string& key) -> std::string {

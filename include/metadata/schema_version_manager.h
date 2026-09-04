@@ -33,7 +33,7 @@ using json = nlohmann::json;
 
 /// A single recorded schema change
 struct SchemaChange {
-    uint64_t version;                                   ///< Version number (monotonically increasing)
+    uint64_t version = 0;                                   ///< Version number (monotonically increasing)
     std::string table_name;                             ///< Affected table
     std::string change_type;                            ///< "create", "update", "delete"
     std::string author;                                 ///< Who made the change (empty = system)

@@ -49,7 +49,7 @@ JWKSValidator::ValidationResult JWKSValidator::validate(const nlohmann::json& jw
     const auto& keys = jwks["keys"];
     result.key_count = keys.size();
     
-    for (size_t i = 0; i < keys.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(keys.size()); i++) {
         if (!validateKey(keys[i], i, result)) {
             result.valid = false;
         }
@@ -102,7 +102,7 @@ bool JWKSValidator::validateStructure(const nlohmann::json& jwks, ValidationResu
     }
     
     // Check size limit
-    if (keys.size() > config_.max_keys) {
+    if (static_cast<int>(keys.size()) > config_.max_keys) {
         result.errors.push_back("JWKS contains too many keys (" + 
                                std::to_string(keys.size()) + " > " + 
                                std::to_string(config_.max_keys) + ")");
@@ -285,7 +285,7 @@ bool JWKSValidator::checkDuplicateKids(const nlohmann::json& jwks, ValidationRes
     std::set<std::string> seen_kids;
     const auto& keys = jwks["keys"];
     
-    for (size_t i = 0; i < keys.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(keys.size()); i++) {
         if (keys[i].contains("kid")) {
             std::string kid = keys[i]["kid"].get<std::string>();
             

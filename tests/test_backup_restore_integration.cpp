@@ -71,7 +71,7 @@ protected:
         req.method = "POST"_method;
         req.body = body;
         
-        std::string response;
+        std::string response = {};
         try {
             CURL* curl = curl_easy_init();
             if (curl) {
@@ -110,7 +110,7 @@ protected:
 
     // HTTP helper for GET requests
     std::string httpGet(const std::string& endpoint) {
-        std::string response;
+        std::string response = {};
         try {
             CURL* curl = curl_easy_init();
             if (curl) {
@@ -142,7 +142,8 @@ protected:
 
     // Create test documents
     std::vector<std::string> createTestDocuments(int count) {
-        std::vector<std::string> docIds;
+        std::vector<std::string> docIds = {};
+
         for (int i = 0; i < count; ++i) {
             nlohmann::json doc = {
                 {"name", "Document_" + std::to_string(i)},

@@ -19,7 +19,7 @@ static std::string makeCaggTempPath(const std::string& tag) {
 }
 
 struct ContinuousAggFixture : ::testing::Test {
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<RocksDBWrapper> db;
     std::unique_ptr<TSStore> store;
     int64_t base_ms{1700000000000LL};

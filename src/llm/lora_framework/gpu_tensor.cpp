@@ -188,7 +188,7 @@ void GPUTensor::upload(const float* data, size_t count) {
 }
 
 void GPUTensor::upload(const std::vector<float>& data) {
-    upload(data.data(), data.size());
+    upload(data.data(),static_cast<int>(data.size()));
 }
 
 void GPUTensor::download(float* data, size_t count) const {
@@ -207,7 +207,7 @@ void GPUTensor::download(float* data, size_t count) const {
 
 std::vector<float> GPUTensor::download() const {
     std::vector<float> result(size());
-    download(result.data(), result.size());
+    download(result.data(),static_cast<int>(result.size()));
     return result;
 }
 
@@ -239,7 +239,7 @@ GPUTensor GPUTensor::operator-(const GPUTensor& other) const {
     return dispatch_sub(other);
 }
 
-GPUTensor GPUTensor::operator*(float scalar) const {
+GPUTensor GPUTensor::operator*([[maybe_unused]] float scalar) const {
     return dispatch_mul_scalar(scalar);
 }
 
@@ -256,7 +256,7 @@ GPUTensor GPUTensor::mul(const GPUTensor& other) const {
 }
 
 GPUTensor GPUTensor::matmul(const GPUTensor& other) const {
-    if (shape_.size() != 2 || other.shape_.size() != 2) {
+    if (static_cast<int>(shape_.size()) != 2 || static_cast<int>(other.shape_.size()) != 2) {
         throw std::invalid_argument("matmul requires 2D tensors");
     }
     
@@ -272,14 +272,14 @@ GPUTensor GPUTensor::matmul(const GPUTensor& other) const {
 }
 
 GPUTensor GPUTensor::transpose() const {
-    if (shape_.size() != 2) {
+    if (static_cast<int>(shape_.size()) != 2) {
         throw std::invalid_argument("transpose requires 2D tensor");
     }
     
     return dispatch_transpose();
 }
 
-void GPUTensor::fill(float value) {
+void GPUTensor::fill([[maybe_unused]] float value) {
     if (is_cpu()) {
         std::fill(cpu_data_.begin(), cpu_data_.end(), value);
     } else {
@@ -338,14 +338,14 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
         } else if (target_dtype == DType::FLOAT16) {
             // Convert to FP16 (simulate precision loss)
             result.cpu_data_.resize(cpu_data_.size());
-            for (size_t i = 0; i < cpu_data_.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(cpu_data_.size()); ++i) {
                 uint16_t fp16_bits = fp32_to_fp16_bits(cpu_data_[i]);
                 result.cpu_data_[i] = fp16_bits_to_fp32(fp16_bits);
             }
         } else if (target_dtype == DType::BFLOAT16) {
             // Convert to BF16 (simulate precision loss)
             result.cpu_data_.resize(cpu_data_.size());
-            for (size_t i = 0; i < cpu_data_.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(cpu_data_.size()); ++i) {
                 uint16_t bf16_bits = fp32_to_bf16_bits(cpu_data_[i]);
                 result.cpu_data_[i] = bf16_bits_to_fp32(bf16_bits);
             }
@@ -574,7 +574,7 @@ GPUTensor GPUTensor::dispatch_sub(const GPUTensor& other) const {
     return result;
 }
 
-GPUTensor GPUTensor::dispatch_mul_scalar(float scalar) const {
+GPUTensor GPUTensor::dispatch_mul_scalar([[maybe_unused]] float scalar) const {
     GPUTensor result(shape_, device_, dtype_);
     
     if (is_cpu()) {
@@ -834,10 +834,10 @@ GPUTensor GPUTensor::dispatch_transpose() const {
 // Mixed Precision Support
 // ============================================================================
 
-void GPUTensor::multiply_inplace(float scalar) {
+void GPUTensor::multiply_inplace([[maybe_unused]] float scalar) {
     if (is_cpu()) {
         // CPU implementation
-        for (size_t i = 0; i < cpu_data_.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(cpu_data_.size()); ++i) {
             cpu_data_[i] *= scalar;
         }
     } else {
@@ -866,7 +866,7 @@ void GPUTensor::multiply_inplace(float scalar) {
         
         // Fallback for Vulkan/DirectX: download, multiply, upload
         auto data = download();
-        for (size_t i = 0; i < data.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
             data[i] *= scalar;
         }
         upload(data);
@@ -929,7 +929,7 @@ GPUTensor randn(const std::vector<size_t>& shape, float mean, float std, const D
     size_t total_size = std::accumulate(shape.begin(), shape.end(), 
                                        size_t(1), std::multiplies<size_t>());
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::normal_distribution<float> dist(mean, std);
     
@@ -944,7 +944,7 @@ GPUTensor randn(const std::vector<size_t>& shape, float mean, float std, const D
 }
 
 GPUTensor xavier_uniform(const std::vector<size_t>& shape, const Device& device, DType dtype) {
-    if (shape.size() != 2) {
+    if (static_cast<int>(shape.size()) != 2) {
         throw std::invalid_argument("Xavier init requires 2D tensor");
     }
     
@@ -954,7 +954,7 @@ GPUTensor xavier_uniform(const std::vector<size_t>& shape, const Device& device,
     
     size_t total_size = shape[0] * shape[1];
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dist(-limit, limit);
     
@@ -969,7 +969,7 @@ GPUTensor xavier_uniform(const std::vector<size_t>& shape, const Device& device,
 }
 
 GPUTensor kaiming_uniform(const std::vector<size_t>& shape, float a, const Device& device, DType dtype) {
-    if (shape.size() != 2) {
+    if (static_cast<int>(shape.size()) != 2) {
         throw std::invalid_argument("Kaiming init requires 2D tensor");
     }
     
@@ -980,7 +980,7 @@ GPUTensor kaiming_uniform(const std::vector<size_t>& shape, float a, const Devic
     
     size_t total_size = shape[0] * shape[1];
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dist(-limit, limit);
     
@@ -1011,7 +1011,7 @@ GPUTensor from_legacy_tensor(const Tensor& tensor, const Device& device, DType d
 Tensor to_legacy_tensor(const GPUTensor& gpu_tensor) {
     Tensor result(gpu_tensor.shape());
     auto data = gpu_tensor.cpu_data();
-    if (data.size() == result.size()) {
+    if (static_cast<int>(data.size()) == static_cast<int>(result.size())) {
         std::copy(data.begin(), data.end(), result.data().begin());
     }
     return result;

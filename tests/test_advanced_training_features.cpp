@@ -410,7 +410,7 @@ TEST(IncrementalLoRATrainerCheckpoint, ResumeFromNonexistentPathFails) {
 
 TEST(IncrementalLoRATrainerCheckpoint, ResumeWithManagedCheckpointDirRequiresManifestIntegrity) {
     const std::string ckpt_dir = "/tmp/themis_trainer_integrity_guard";
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(ckpt_dir, ec);
 
     IncrementalTrainingConfig cfg;

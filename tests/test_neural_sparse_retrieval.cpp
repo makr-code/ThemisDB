@@ -26,7 +26,7 @@ using namespace themis;
 /// Simple bag-of-words encoder: splits on spaces, assigns weight 1.0 per token
 static SparseVector bowEncoder(const std::string& text) {
     SparseVector sv;
-    std::string token;
+    std::string token = {};
     for (char c : text) {
         if (c == ' ') {
             if (!token.empty()) { sv[token] += 1.0f; token.clear(); }
@@ -34,7 +34,9 @@ static SparseVector bowEncoder(const std::string& text) {
             token += c;
         }
     }
-    if (!token.empty()) sv[token] += 1.0f;
+    if (!token.empty()) {
+      sv[token] += 1.0f;
+    }
     return sv;
 }
 
@@ -336,16 +338,24 @@ TEST(NeuralSparseNormalizeScores, SingleZeroBecomesZero) {
 
 TEST(NeuralSparseNormalizeScores, AllEqualPositiveBecomesOne) {
     std::vector<NeuralSparseRetrieval::Result> v(3);
-    for (auto& r : v) r.score = 4.0f;
+    for (auto& r : v) {
+      r.score = 4.0f;
+    }
     NeuralSparseRetrieval::normalizeScores(v);
-    for (const auto& r : v) EXPECT_FLOAT_EQ(r.score, 1.0f);
+    for (const auto& r : v) {
+      EXPECT_FLOAT_EQ(r.score, 1.0f);
+    }
 }
 
 TEST(NeuralSparseNormalizeScores, AllEqualZeroBecomesZero) {
     std::vector<NeuralSparseRetrieval::Result> v(2);
-    for (auto& r : v) r.score = 0.0f;
+    for (auto& r : v) {
+      r.score = 0.0f;
+    }
     NeuralSparseRetrieval::normalizeScores(v);
-    for (const auto& r : v) EXPECT_FLOAT_EQ(r.score, 0.0f);
+    for (const auto& r : v) {
+      EXPECT_FLOAT_EQ(r.score, 0.0f);
+    }
 }
 
 TEST(NeuralSparseNormalizeScores, RangeNormalizationIsCorrect) {

@@ -77,7 +77,9 @@ TEST(CompressionStrategyTest, SamplingStrategy) {
     EXPECT_EQ(strategy.name(), "SAMPLING");
 
     float data[100];
-    for (int i = 0; i < 100; ++i) data[i] = i * 0.1f;
+    for (int i = 0; i < 100; ++i) {
+      data[i] = i * 0.1f;
+    }
 
     CompressionConfig config;
     auto result = strategy.compress(data, 100, {}, config);
@@ -91,7 +93,9 @@ TEST(CompressionStrategyTest, HashingStrategy) {
     EXPECT_EQ(strategy.name(), "HASHING");
 
     float data[256];
-    for (int i = 0; i < 256; ++i) data[i] = i * 0.01f;
+    for (int i = 0; i < 256; ++i) {
+      data[i] = i * 0.01f;
+    }
 
     CompressionConfig config;
     auto result = strategy.compress(data, 256, {}, config);

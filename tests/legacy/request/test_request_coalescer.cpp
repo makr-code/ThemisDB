@@ -135,7 +135,9 @@ TEST(RequestCoalescerTest, RC07_ConcurrentCallersFnOnce) {
             });
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // fn() must have been called exactly once.
     EXPECT_EQ(fn_calls.load(), 1);
@@ -171,7 +173,9 @@ TEST(RequestCoalescerTest, RC08_ConcurrentWaitersAllGetFailure) {
             });
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     for (int i = 0; i < N; ++i) {
         ASSERT_NE(results[i], nullptr);
@@ -202,7 +206,9 @@ TEST(RequestCoalescerTest, RC09_IndependentKeysRunConcurrently) {
     // Multiple flights may be running simultaneously.
     EXPECT_GE(running.load(), 1); // at least one started
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -268,7 +274,9 @@ TEST(RequestCoalescerTest, RC14_HighConcurrencyStress) {
 
     RequestCoalescer rc;
     std::array<std::atomic<int>, KEYS> fn_calls{};
-    for (auto& c : fn_calls) c.store(0);
+    for (auto& c : fn_calls) {
+      c.store(0);
+    }
 
     std::vector<std::thread> threads;
     threads.reserve(THREADS);
@@ -289,7 +297,9 @@ TEST(RequestCoalescerTest, RC14_HighConcurrencyStress) {
                   });
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // Each unique key should have been fetched exactly once.
     for (int k = 0; k < KEYS; ++k) {

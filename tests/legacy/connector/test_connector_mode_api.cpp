@@ -105,7 +105,7 @@ std::optional<std::string> loadTextFileLimited(const std::filesystem::path& path
         return std::nullopt;
     }
 
-    std::string content;
+    std::string content = {};
     content.reserve(max_chars);
     char buffer[2048];
     while (in && content.size() < max_chars) {
@@ -142,7 +142,7 @@ std::string buildDocsNdjsonFromDirectory(const std::filesystem::path& docs_dir,
     const std::size_t max_files_safe = max_files > 0 ? static_cast<std::size_t>(max_files) : 1u;
     const std::size_t max_chars_safe = max_chars_per_file > 0 ? static_cast<std::size_t>(max_chars_per_file) : 2048u;
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     std::size_t emitted = 0;
     for (const auto& entry : std::filesystem::recursive_directory_iterator(docs_dir)) {
         if (emitted >= max_files_safe) {
@@ -444,7 +444,9 @@ TEST_F(ConnectorApiLiveTest, EntityCrudRoundTripWorksWhenAuthorized) {
     };
 
     auto create_res = postJson("/entities", create_payload, true);
-    if (!requireAuthOrSkip(create_res, "/entities POST")) return;
+    if (!requireAuthOrSkip(create_res, "/entities POST")) {
+      return;
+    }
     ASSERT_TRUE(create_res->status == 200 || create_res->status == 201) << create_res->body;
 
     auto get_res = get("/entities/" + key, true);
@@ -465,29 +467,39 @@ TEST_F(ConnectorApiLiveTest, EntityCrudRoundTripWorksWhenAuthorized) {
 
 TEST_F(ConnectorApiLiveTest, EntityValidationRejectsMissingKey) {
     auto res = postJson("/entities", json{{"data", {{"name", "missing-key"}}}}, true);
-    if (!requireAuthOrSkip(res, "/entities validation")) return;
+    if (!requireAuthOrSkip(res, "/entities validation")) {
+      return;
+    }
     EXPECT_EQ(res->status, 400) << res->body;
 }
 
 TEST_F(ConnectorApiLiveTest, AqlEndpointHandlesValidAndInvalidQueries) {
     auto valid_res = postJson("/query/aql", json{{"query", "FOR x IN empty_collection RETURN x"}}, true);
-    if (!requireAuthOrSkip(valid_res, "/query/aql valid")) return;
+    if (!requireAuthOrSkip(valid_res, "/query/aql valid")) {
+      return;
+    }
     EXPECT_TRUE(valid_res->status == 200 || valid_res->status == 400) << valid_res->body;
 
     auto invalid_res = postJson("/query/aql", json{{"query", "INVALID SYNTAX %%%"}}, true);
-    if (!requireAuthOrSkip(invalid_res, "/query/aql invalid")) return;
+    if (!requireAuthOrSkip(invalid_res, "/query/aql invalid")) {
+      return;
+    }
     EXPECT_TRUE(invalid_res->status == 200 || invalid_res->status == 400) << invalid_res->body;
 }
 
 TEST_F(ConnectorApiLiveTest, AqlEndpointRejectsMalformedJson) {
     auto res = postRaw("/query/aql", "{invalid json!!!", "application/json", true);
-    if (!requireAuthOrSkip(res, "/query/aql malformed")) return;
+    if (!requireAuthOrSkip(res, "/query/aql malformed")) {
+      return;
+    }
     EXPECT_EQ(res->status, 400) << res->body;
 }
 
 TEST_F(ConnectorApiLiveTest, TransactionLifecycleWorksWhenAuthorized) {
     auto begin_res = postJson("/transaction/begin", json::object(), true);
-    if (!requireAuthOrSkip(begin_res, "/transaction/begin")) return;
+    if (!requireAuthOrSkip(begin_res, "/transaction/begin")) {
+      return;
+    }
     ASSERT_EQ(begin_res->status, 200) << begin_res->body;
 
     json begin_body;
@@ -498,23 +510,31 @@ TEST_F(ConnectorApiLiveTest, TransactionLifecycleWorksWhenAuthorized) {
         "/transaction/rollback",
         json{{"transaction_id", begin_body["transaction_id"]}},
         true);
-    if (!requireAuthOrSkip(rollback_res, "/transaction/rollback")) return;
+    if (!requireAuthOrSkip(rollback_res, "/transaction/rollback")) {
+      return;
+    }
     EXPECT_EQ(rollback_res->status, 200) << rollback_res->body;
 }
 
 TEST_F(ConnectorApiLiveTest, TransactionEndpointsValidateMissingTransactionId) {
     auto commit_res = postJson("/transaction/commit", json::object(), true);
-    if (!requireAuthOrSkip(commit_res, "/transaction/commit validation")) return;
+    if (!requireAuthOrSkip(commit_res, "/transaction/commit validation")) {
+      return;
+    }
     EXPECT_EQ(commit_res->status, 400) << commit_res->body;
 
     auto rollback_res = postJson("/transaction/rollback", json::object(), true);
-    if (!requireAuthOrSkip(rollback_res, "/transaction/rollback validation")) return;
+    if (!requireAuthOrSkip(rollback_res, "/transaction/rollback validation")) {
+      return;
+    }
     EXPECT_EQ(rollback_res->status, 400) << rollback_res->body;
 }
 
 TEST_F(ConnectorApiLiveTest, ConfigEndpointSupportsReadAndRejectsInvalidTimeout) {
     auto get_res = get("/config", true);
-    if (!requireAuthOrSkip(get_res, "/config GET")) return;
+    if (!requireAuthOrSkip(get_res, "/config GET")) {
+      return;
+    }
     ASSERT_EQ(get_res->status, 200) << get_res->body;
 
     json config_body;
@@ -522,7 +542,9 @@ TEST_F(ConnectorApiLiveTest, ConfigEndpointSupportsReadAndRejectsInvalidTimeout)
     EXPECT_TRUE(config_body.is_object());
 
     auto invalid_res = postJson("/config", json{{"request_timeout_ms", 999999}}, true);
-    if (!requireAuthOrSkip(invalid_res, "/config POST")) return;
+    if (!requireAuthOrSkip(invalid_res, "/config POST")) {
+      return;
+    }
     EXPECT_EQ(invalid_res->status, 400) << invalid_res->body;
 }
 
@@ -574,7 +596,9 @@ TEST_F(ConnectorApiLiveTest, IngestWorkspaceDocsAndRunRag) {
     }
 
     auto ingest_res = postNdjsonLlm("/v2/documents", ndjson, true);
-    if (!requireAuthOrSkip(ingest_res, "/v2/documents ingestion")) return;
+    if (!requireAuthOrSkip(ingest_res, "/v2/documents ingestion")) {
+      return;
+    }
     ASSERT_TRUE(ingest_res->status == 200 || ingest_res->status == 207) << ingest_res->body;
 
     json ingest_body;
@@ -855,7 +879,9 @@ TEST_F(ConnectorApiLiveTest, LlmReadyAfterDownloadAndRagSummarizesDocuments) {
 
     {
         auto ingest_res = postNdjsonLlm("/v2/documents", ndjson, true);
-        if (!requireAuthOrSkip(ingest_res, "/v2/documents ingestion")) return;
+        if (!requireAuthOrSkip(ingest_res, "/v2/documents ingestion")) {
+          return;
+        }
         ASSERT_TRUE(ingest_res->status == 200 || ingest_res->status == 207)
             << "Document ingestion failed: " << ingest_res->body;
 

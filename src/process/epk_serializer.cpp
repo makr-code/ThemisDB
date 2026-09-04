@@ -63,11 +63,21 @@ std::string EpkSerializer::epkNodeTypeToLabel_(EPKNodeType t) {
 }
 
 EPKNodeType EpkSerializer::labelToEpkNodeType_(std::string_view label) {
-    if (label == "EVENT"  || label == "Ereignis")       return EPKNodeType::EVENT;
-    if (label == "FUNCTION" || label == "Funktion")     return EPKNodeType::FUNCTION;
-    if (label == "AND")                                  return EPKNodeType::AND_CONNECTOR;
-    if (label == "OR")                                   return EPKNodeType::OR_CONNECTOR;
-    if (label == "XOR")                                  return EPKNodeType::XOR_CONNECTOR;
+    if (label == "EVENT"  || label == "Ereignis") {
+      return EPKNodeType::EVENT;
+    }
+    if (label == "FUNCTION" || label == "Funktion") {
+      return EPKNodeType::FUNCTION;
+    }
+    if (label == "AND") {
+      return EPKNodeType::AND_CONNECTOR;
+    }
+    if (label == "OR") {
+      return EPKNodeType::OR_CONNECTOR;
+    }
+    if (label == "XOR") {
+      return EPKNodeType::XOR_CONNECTOR;
+    }
     if (label == "ORG_UNIT" || label == "Organisationseinheit")
                                                          return EPKNodeType::ORGANIZATIONAL_UNIT;
     if (label == "INFO_OBJ" || label == "Informationsobjekt")
@@ -93,7 +103,7 @@ EpkSerializer::ImportResult EpkSerializer::importText(
     result.process_name = process_name.empty() ? "EPK Process" : std::string(process_name);
 
     // Phase 3: Validate input before parsing
-    constexpr size_t kMaxEpkTextBytes = 10u * 1024u * 1024u;
+    constexpr size_t kMaxEpkTextBytes = 10 * 1024 * 1024;
     if (epk_text.empty()) {
         result.ok      = false;
         result.message = "Empty EPK text";
@@ -106,7 +116,7 @@ EpkSerializer::ImportResult EpkSerializer::importText(
         return result;
     }
 
-    if (epk_text.size() > kMaxEpkTextBytes) {
+    if (static_cast<int>(epk_text.size()) > kMaxEpkTextBytes) {
         result.ok      = false;
         result.message = "EPK text exceeds maximum allowed size (10 MiB)";
         auto incident = ProcessDiagnostics::createResourceIncident(
@@ -120,9 +130,9 @@ EpkSerializer::ImportResult EpkSerializer::importText(
     }
 
     std::istringstream ss{std::string(epk_text)};
-    std::string line;
+    std::string line = {};
     int node_counter = 0;
-    std::string last_node_id;
+    std::string last_node_id = {};
 
     // Parse line-by-line
     // Supported line formats:
@@ -132,7 +142,9 @@ EpkSerializer::ImportResult EpkSerializer::importText(
         // Trim
         line.erase(0, line.find_first_not_of(" \t"));
         line.erase(line.find_last_not_of(" \t\r\n") + 1);
-        if (line.empty() || line[0] == '#') continue;
+        if (line.empty() || line[0] == '#') {
+          continue;
+        }
 
         bool is_edge = false;
         if (line.substr(0, 2) == "->") {
@@ -143,8 +155,10 @@ EpkSerializer::ImportResult EpkSerializer::importText(
 
         // Parse TYPE: "name" or TYPE: name
         std::regex node_re(R"((\w+)\s*:\s*["\']?([^"\'\[\n]+)["\']?\s*(?:\[([^\]]*)\])?)");
-        std::smatch m;
-        if (!std::regex_search(line, m, node_re)) continue;
+        std::smatch m = {};
+        if (!std::regex_search(line, m, node_re)) {
+          continue;
+        }
 
         std::string type_str = m[1].str();
         std::string name_str = m[2].str();
@@ -284,7 +298,7 @@ std::string EpkSerializer::exportText(
     const std::vector<ProcessNodeInfo>& nodes,
     const std::vector<ProcessEdgeInfo>& edges)
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "# EPK: " << process_name << "\n\n";
 
     // Build adjacency for ordered traversal
@@ -294,20 +308,23 @@ std::string EpkSerializer::exportText(
     }
 
     // Build id→node map
-    std::map<std::string, const ProcessNodeInfo*> node_map;
+    std::map<std::string, const ProcessNodeInfo*> node_map = {};
+
     for (const auto& n : nodes) {
         node_map[n.node_id] = &n;
     }
 
     // Find start nodes (no incoming edges)
-    std::unordered_set<std::string> has_incoming;
+    std::unordered_set<std::string> has_incoming = {};
+
     for (const auto& e : edges) {
         has_incoming.insert(e.to_node);
     }
 
     // Emit nodes in BFS order
     std::unordered_set<std::string> visited;
-    std::queue<std::string> q;
+    std::queue<std::string> q = {};
+
     for (const auto& n : nodes) {
         if (has_incoming.find(n.node_id) == has_incoming.end()) {
             q.push(n.node_id);
@@ -320,21 +337,27 @@ std::string EpkSerializer::exportText(
     bool first = true;
     while (!q.empty()) {
         auto id = q.front(); q.pop();
-        if (visited.count(id)) continue;
+        if (visited.count(id)) {
+          continue;
+        }
         visited.insert(id);
 
         auto it = node_map.find(id);
-        if (it == node_map.end()) continue;
+        if (it == node_map.end()) {
+          continue;
+        }
         const auto& n = *it->second;
 
-        std::string type_label;
+        std::string type_label = {};
         if (std::holds_alternative<EPKNodeType>(n.node_type)) {
             type_label = epkNodeTypeToLabel_(std::get<EPKNodeType>(n.node_type));
         } else {
             type_label = "FUNCTION";
         }
 
-        if (!first) out << "-> ";
+        if (!first) {
+          out << "-> ";
+        }
         out << type_label << ": \"" << n.name << "\"";
         if (!n.description.empty()) {
             out << " # " << n.description;

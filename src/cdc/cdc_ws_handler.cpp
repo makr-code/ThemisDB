@@ -25,7 +25,7 @@ using json = nlohmann::json;
 // handleFrame
 // ---------------------------------------------------------------------------
 
-std::vector<json> CdcWebSocketHandler::handleFrame(const json &frame) {
+std::vector<json> CdcWebSocketHandler::handleFrame([[maybe_unused]] const json &frame) {
     std::vector<json> responses;
 
     const std::string action      = frame.value("action", "");
@@ -62,20 +62,20 @@ std::vector<json> CdcWebSocketHandler::handleFrame(const json &frame) {
         }
 
         // Parse optional event_types filter.
-        if (frame.contains("event_types") && frame["event_types"].is_array()) {
-            for (const auto &et : frame["event_types"]) {
+        if ([[maybe_unused]] frame.contains("event_types") && frame["event_types"].is_array()) {
+            for ([[maybe_unused]] const auto &et : frame["event_types"]) {
                 if (!et.is_string()) {
                     continue;
                 }
                 const std::string s = et.get<std::string>();
                 if (s == "PUT") {
-                    sub.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+                    sub.event_types.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_PUT);
                 } else if (s == "DELETE") {
-                    sub.event_types.insert(Changefeed::ChangeEventType::EVENT_DELETE);
+                    sub.event_types.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_DELETE);
                 } else if (s == "TRANSACTION_COMMIT") {
-                    sub.event_types.insert(Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT);
+                    sub.event_types.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT);
                 } else if (s == "TRANSACTION_ROLLBACK") {
-                    sub.event_types.insert(Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK);
+                    sub.event_types.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK);
                 }
             }
         }
@@ -125,7 +125,7 @@ std::vector<json> CdcWebSocketHandler::handleFrame(const json &frame) {
             return responses;
         }
 
-        bool removed;
+        bool removed = {};
         {
             std::lock_guard<std::mutex> lock(mu_);
             removed = subscriptions_.erase(unsub_key) > 0;
@@ -147,7 +147,7 @@ std::vector<json> CdcWebSocketHandler::handleFrame(const json &frame) {
             // the subscribe path where an empty consumer_id also produces "group_id:".
             const std::string ack_key = group_id + ":" + consumer_id;
 
-            std::string matched_key;
+            std::string matched_key = {};
             {
                 std::lock_guard<std::mutex> lock(mu_);
                 // Fast path: exact key match (typical case: one subscription per group).
@@ -241,7 +241,7 @@ std::vector<json> CdcWebSocketHandler::handleFrame(const json &frame) {
 // pollEvents
 // ---------------------------------------------------------------------------
 
-std::vector<json> CdcWebSocketHandler::pollEvents(Changefeed &feed) {
+std::vector<json> CdcWebSocketHandler::pollEvents([[maybe_unused]] Changefeed &feed) {
     std::vector<json> frames;
 
     std::lock_guard<std::mutex> lock(mu_);
@@ -249,11 +249,11 @@ std::vector<json> CdcWebSocketHandler::pollEvents(Changefeed &feed) {
     for (auto &[id, sub] : subscriptions_) {
         // Back-pressure: pause delivery when the pending-ack window is full.
         // Record the cdc_ws_overflow_total metric each time this fires.
-        if (sub.pending_ack.size() >= max_pending_ack_) {
+        if (static_cast<int>(sub.pending_ack.size()) >= max_pending_ack_) {
             ws_overflow_total_.fetch_add(1, std::memory_order_relaxed);
             THEMIS_WARN("CdcWebSocketHandler: subscription '{}' pending_ack full "
                         "({}), pausing delivery (cdc_ws_overflow_total={})",
-                        id, sub.pending_ack.size(), ws_overflow_total_.load(std::memory_order_relaxed));
+                        id,static_cast<int>(sub.pending_ack.size()), ws_overflow_total_.load(std::memory_order_relaxed));
             continue;
         }
 
@@ -264,17 +264,17 @@ std::vector<json> CdcWebSocketHandler::pollEvents(Changefeed &feed) {
         if (!sub.key_prefix.empty()) {
             opts.key_prefix = sub.key_prefix;
         }
-        if (!sub.event_types.empty()) {
+        if ([[maybe_unused]] !sub.event_types.empty()) {
             opts.event_types = sub.event_types;
         }
 
         try {
-            auto events    = feed.listEvents(opts);
+            auto events    = feed.listEvents([[maybe_unused]] opts);
             const auto now = std::chrono::steady_clock::now();
 
-            for (const auto &ev : events) {
+            for ([[maybe_unused]] const auto &ev : events) {
                 // Re-check back-pressure within the batch.
-                if (sub.pending_ack.size() >= max_pending_ack_) {
+                if (static_cast<int>(sub.pending_ack.size()) >= max_pending_ack_) {
                     break;
                 }
 
@@ -307,7 +307,7 @@ std::vector<json> CdcWebSocketHandler::pollEvents(Changefeed &feed) {
                 auto event_frame = buildEventFrame(ev, id);
                 sub.pending_ack.push_back({event_frame, now});
                 sub.last_sent_sequence = ev.sequence;
-                frames.push_back(std::move(event_frame));
+                frames.push_back([[maybe_unused]] std::move(event_frame));
             }
         } catch (const std::exception &e) {
             THEMIS_ERROR("CdcWebSocketHandler: poll error for subscription '{}': {}", id, e.what());

@@ -100,7 +100,7 @@ std::vector<uint8_t> WALEntry::serialize() const {
  * @throws std::runtime_error on truncated/corrupt payload.
  */
 WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
-    if (bytes.size() < 29) {  // Minimum size
+    if (static_cast<int>(bytes.size()) < 29) {  // Minimum size
         throw std::runtime_error("WAL entry too small");
     }
     
@@ -135,14 +135,14 @@ WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
     }
     
     // Transaction ID
-    if (pos + tx_id_len > bytes.size()) {
+    if (pos + tx_id_len > static_cast<int>(bytes.size())) {
         throw std::runtime_error("WAL entry truncated: transaction_id overruns buffer");
     }
     entry.transaction_id = std::string(bytes.begin() + pos, bytes.begin() + pos + tx_id_len);
     pos += tx_id_len;
     
     // Data length
-    if (pos + 4 > bytes.size()) {
+    if (pos + 4 > static_cast<int>(bytes.size())) {
         throw std::runtime_error("WAL entry truncated: missing data_len field");
     }
     uint32_t data_len = 0;
@@ -151,7 +151,7 @@ WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
     }
     
     // Data
-    if (pos + data_len > bytes.size()) {
+    if (pos + data_len > static_cast<int>(bytes.size())) {
         throw std::runtime_error("WAL entry truncated: data overruns buffer");
     }
     std::string data_str(bytes.begin() + pos, bytes.begin() + pos + data_len);
@@ -162,7 +162,7 @@ WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
 
 /** @brief Return serialized byte size of this WAL entry. */
 size_t WALEntry::size() const {
-    return 1 + 8 + 8 + 8 + 4 + transaction_id.size() + 4 + data.dump().size();
+    return 1 + 8 + 8 + 8 + 4 + static_cast<int>(transaction_id.size()) + 4 + data.dump().size();
 }
 
 // ============================================================================
@@ -215,7 +215,7 @@ LSN WALManager::append(const WALEntry& entry) {
     auto bytes = entry_copy.serialize();
     
     // Check if we need to rotate segment
-    if (current_lsn_.offset + bytes.size() > config_.segment_size) {
+    if (current_lsn_.offset + static_cast<int>(bytes.size()) > config_.segment_size) {
         flush();
         rotateSegment();
     }
@@ -232,7 +232,7 @@ LSN WALManager::append(const WALEntry& entry) {
     total_bytes_ += bytes.size();
     
     // Flush if configured or buffer full
-    if (config_.sync_on_write || write_buffer_.size() >= config_.write_buffer_size) {
+    if (config_.sync_on_write || static_cast<int>(write_buffer_.size()) >= config_.write_buffer_size) {
         flush();
     }
     
@@ -285,9 +285,11 @@ std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn,
         
         // Parse entries
         size_t pos = 0;
-        while (pos < buffer.size()) {
+        while (static_cast<size_t>(pos) <static_cast<int>(buffer.size())) {
             // Find entry size (need to peek at header)
-            if (pos + 29 > buffer.size()) break;
+            if (pos + 29 > static_cast<int>(buffer.size())) {
+              break;
+            }
             
             std::vector<uint8_t> entry_bytes(buffer.begin() + pos, buffer.end());
             
@@ -409,7 +411,7 @@ WALManager::Statistics WALManager::getStatistics() const {
 }
 
 /** @brief Open/create active WAL segment file for given segment number. */
-void WALManager::openSegment(uint64_t segment_number) {
+void WALManager::openSegment([[maybe_unused]] uint64_t segment_number) {
     std::string seg_path = getSegmentPath(segment_number);
     
     current_segment_ = std::make_unique<std::fstream>(
@@ -442,8 +444,8 @@ void WALManager::rotateSegment() {
 }
 
 /** @brief Build filesystem path for WAL segment number. */
-std::string WALManager::getSegmentPath(uint64_t segment_number) const {
-    std::ostringstream oss;
+std::string WALManager::getSegmentPath([[maybe_unused]] uint64_t segment_number) const {
+    std::ostringstream oss = {};
     oss << config_.wal_directory << "/wal_" 
         << std::setfill('0') << std::setw(16) << std::hex << segment_number 
         << ".wal";
@@ -459,7 +461,8 @@ void WALManager::loadExistingSegments() {
     }
     
     // Find all WAL segments
-    std::vector<uint64_t> segments;
+    std::vector<uint64_t> segments = {};
+
     for (const auto& entry : fs::directory_iterator(config_.wal_directory)) {
         if (entry.path().extension() == ".wal") {
             std::string filename = entry.path().stem().string();
@@ -509,7 +512,7 @@ void WALManager::cleanupOldSegments() {
         }
     }
     
-    if (segments.size() <= config_.max_segments) {
+    if (static_cast<int>(segments.size()) <= config_.max_segments) {
         return;
     }
     
@@ -517,7 +520,7 @@ void WALManager::cleanupOldSegments() {
     std::sort(segments.begin(), segments.end());
     
     // Remove oldest segments
-    size_t to_remove = segments.size() - config_.max_segments;
+    size_t to_remove = static_cast<int>(segments.size()) - config_.max_segments;
     for (size_t i = 0; i < to_remove; ++i) {
         fs::remove(segments[i].second);
     }

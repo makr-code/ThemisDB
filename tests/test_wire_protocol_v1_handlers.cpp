@@ -396,7 +396,9 @@ TEST(WireProtocolV1VectorSearch, ValidRequestShape) {
 TEST(WireProtocolV1VectorSearch, DefaultKIs10) {
     // When k is omitted the handler defaults to 10.
     size_t k = 0; // simulating missing field
-    if (k == 0) k = 10;
+    if (k == 0) {
+      k = 10;
+    }
     EXPECT_EQ(k, 10u);
 }
 
@@ -995,21 +997,24 @@ TEST(WireProtocolV1EdgeCases, PutValueObjectIsDumped) {
 }
 
 TEST(WireProtocolV1EdgeCases, VectorSearchEmptyVectorRejected) {
-    std::vector<float> query_vector;
+    std::vector<float> query_vector = {};
+
     bool would_reject = query_vector.empty();
     EXPECT_TRUE(would_reject);
 }
 
 TEST(WireProtocolV1EdgeCases, VectorSearchKZeroDefaultsToTen) {
     size_t k = 0;
-    if (k == 0) k = 10;
+    if (k == 0) {
+      k = 10;
+    }
     EXPECT_EQ(k, 10u);
 }
 
 TEST(WireProtocolV1EdgeCases, UnknownOpcodeFormattedAsHex) {
     // Default branch formats unknown opcodes as "0xNN" hex strings.
     uint8_t unknown_opcode = 0xAB;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "0x" << std::uppercase << std::hex
         << static_cast<unsigned>(unknown_opcode);
     EXPECT_EQ(oss.str(), "0xAB");
@@ -1070,8 +1075,12 @@ TEST(WireProtocolV1AuthOpcode, BothOpcodesSameCredentialLogic) {
     // logic must produce the same result regardless of which opcode was used.
     auto authDecide = [](bool require_auth, const std::string& cfg_token,
                          const std::string& presented_token) -> bool {
-        if (!require_auth) return true;
-        if (!cfg_token.empty()) return (presented_token == cfg_token);
+        if (!require_auth) {
+          return true;
+        }
+        if (!cfg_token.empty()) {
+          return (presented_token == cfg_token);
+        }
         return !presented_token.empty();
     };
 
@@ -1237,7 +1246,7 @@ TEST(GeoQueryBridgeTest, SetAndClearBridge) {
 }
 
 TEST(GeoQueryBridgeTest, BridgeReceivesCorrectArguments) {
-    std::string cap_collection;
+    std::string cap_collection = {};
     double cap_lat = -1.0, cap_lon = -1.0, cap_radius = -1.0;
     int cap_limit = -1;
 

@@ -319,7 +319,9 @@ TEST(WorkloadPredictorTest, ConcurrentRecordIsThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Should not crash; count is bounded by history_window (default 60)
     EXPECT_LE(predictor.observation_count(), predictor.config().history_window);
@@ -344,7 +346,9 @@ TEST(WorkloadPredictorTest, ConcurrentPredictIsThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(success_count.load(), kThreads);
 }
 

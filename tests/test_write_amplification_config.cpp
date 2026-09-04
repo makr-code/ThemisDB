@@ -26,12 +26,12 @@ protected:
 
     void TearDown() override {
         if (fs::exists(test_db_path_)) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove_all(test_db_path_, ec);
         }
     }
 
-    std::string test_db_path_;
+    std::string test_db_path_ = {};
 };
 
 // Test 1: Verify v1.5.0 default memtable configuration
@@ -72,7 +72,7 @@ TEST_F(WriteAmplificationConfigTest, OpenWithOptimizedDefaults) {
     
     // Verify basic operations work
     EXPECT_TRUE(wrapper.put("test_key", "test_value"));
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(wrapper.get("test_key", value));
     EXPECT_EQ(value, "test_value");
 }
@@ -115,7 +115,7 @@ TEST_F(WriteAmplificationConfigTest, BackwardCompatibility) {
         << "RocksDB should maintain backward compatibility with old configs";
     
     EXPECT_TRUE(wrapper.put("legacy_key", "legacy_value"));
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(wrapper.get("legacy_key", value));
     EXPECT_EQ(value, "legacy_value");
 }

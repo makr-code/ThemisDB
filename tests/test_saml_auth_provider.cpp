@@ -110,7 +110,7 @@ static std::string buildSAMLResponseB64(
     const std::string not_before     = fmt(anchor + not_before_offset);
     const std::string not_on_or_after = fmt(anchor + not_on_or_after_offset);
 
-    std::ostringstream xml;
+    std::ostringstream xml = {};
     xml << R"(<samlp:Response)"
         << R"( xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol")"
         << R"( xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion")"
@@ -163,7 +163,7 @@ static std::string buildSAMLResponseB64(
     const std::string raw = xml.str();
     static const char* kB64Table =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
+    std::string out = {};
     out.reserve(((raw.size() + 2) / 3) * 4);
     for (std::size_t i = 0; i < raw.size(); i += 3) {
         const unsigned char b0 = static_cast<unsigned char>(raw[i]);

@@ -58,8 +58,8 @@ class CPUVectorBackendTBB : public CPUVectorBackend {
 private:
     std::unique_ptr<tbb::task_arena> arena_;
     std::unique_ptr<tbb::global_control> threadControl_;
-    bool enableSIMD_;
-    int numThreads_;
+    bool enableSIMD_ = {};
+    int numThreads_ = {};
     
 public:
     CPUVectorBackendTBB() : enableSIMD_(true) {
@@ -80,7 +80,7 @@ public:
 #endif
     }
     
-    void setThreadCount(int threads) {
+    void setThreadCount([[maybe_unused]] int threads) {
         numThreads_ = threads;
         threadControl_ = std::make_unique<tbb::global_control>(
             tbb::global_control::max_allowed_parallelism, 
@@ -89,7 +89,7 @@ public:
         arena_ = std::make_unique<tbb::task_arena>(threads);
     }
     
-    void enableSIMD(bool enable) {
+    void enableSIMD([[maybe_unused]] bool enable) {
         enableSIMD_ = enable;
     }
     
@@ -191,7 +191,9 @@ public:
             normA = std::sqrt(normA);
             normB = std::sqrt(normB);
             
-            if (normA < 1e-10f || normB < 1e-10f) return 1.0f;
+            if (normA < 1e-10f || normB < 1e-10f) {
+              return 1.0f;
+            }
             
             float cosine = dotProduct / (normA * normB);
             return 1.0f - cosine;
@@ -224,7 +226,9 @@ public:
             normA = std::sqrt(normA);
             normB = std::sqrt(normB);
             
-            if (normA < 1e-10f || normB < 1e-10f) return 1.0f;
+            if (normA < 1e-10f || normB < 1e-10f) {
+              return 1.0f;
+            }
             
             float cosine = dotProduct / (normA * normB);
             return 1.0f - cosine;
@@ -254,7 +258,7 @@ public:
         arena_->execute([&] {
             tbb::parallel_for(
                 tbb::blocked_range<size_t>(0, numQueries, 16), // grain_size=16
-                [&](const tbb::blocked_range<size_t>& range) {
+                [&]([[maybe_unused]] const tbb::blocked_range<size_t>& range) {
                     for (size_t q = range.begin(); q != range.end(); ++q) {
                         const float* query = queries + q * dim;
                         for (size_t v = 0; v < numVectors; ++v) {
@@ -297,7 +301,7 @@ public:
         arena_->execute([&] {
             tbb::parallel_for(
                 tbb::blocked_range<size_t>(0, numQueries),
-                [&](const tbb::blocked_range<size_t>& range) {
+                [&]([[maybe_unused]] const tbb::blocked_range<size_t>& range) {
                     for (size_t q = range.begin(); q != range.end(); ++q) {
                         const float* query = queries + q * dim;
                         
@@ -314,7 +318,7 @@ public:
                         }
                         
                         // Partial sort to get k nearest
-                        size_t actualK = std::min(k, distances.size());
+                        size_t actualK = std::min(k,static_cast<int>(distances.size()));
                         std::partial_sort(
                             distances.begin(),
                             distances.begin() + actualK,
@@ -364,7 +368,7 @@ public:
         arena_->execute([&] {
             tbb::parallel_for(
                 tbb::blocked_range<size_t>(0, count, 256),
-                [&](const tbb::blocked_range<size_t>& range) {
+                [&]([[maybe_unused]] const tbb::blocked_range<size_t>& range) {
                     for (size_t i = range.begin(); i != range.end(); ++i) {
                         double dist = useHaversine 
                             ? haversineDistance(latitudes1[i], longitudes1[i], 
@@ -392,7 +396,7 @@ public:
         arena_->execute([&] {
             tbb::parallel_for(
                 tbb::blocked_range<size_t>(0, numPoints, 64),
-                [&](const tbb::blocked_range<size_t>& range) {
+                [&]([[maybe_unused]] const tbb::blocked_range<size_t>& range) {
                     for (size_t p = range.begin(); p != range.end(); ++p) {
                         double testLat = pointLats[p];
                         double testLon = pointLons[p];
@@ -433,16 +437,16 @@ public:
 /** @brief TBB fallback implementation that preserves the backend API without TBB headers. */
 class CPUVectorBackendTBB : public CPUVectorBackend {
 private:
-    bool enableSIMD_;
+    bool enableSIMD_ = {};
 
 public:
     CPUVectorBackendTBB() : enableSIMD_(true) {}
 
-    void setThreadCount(int threads) {
+    void setThreadCount([[maybe_unused]] int threads) {
         (void)threads;
     }
 
-    void enableSIMD(bool enable) {
+    void enableSIMD([[maybe_unused]] bool enable) {
         enableSIMD_ = enable;
     }
 

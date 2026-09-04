@@ -83,8 +83,8 @@ struct BenchQuicConnState {
 /// Minimal session-token stub for 0-RTT gate benchmarking.
 struct BenchSessionToken {
     const char* token_id;
-    bool valid;
-    bool replayed;
+    bool valid = {};
+    bool replayed = {};
 };
 
 /// Inline 0-RTT gate decision — mirrors StubZeroRttGate in test file.

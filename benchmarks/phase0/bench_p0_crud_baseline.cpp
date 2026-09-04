@@ -43,8 +43,8 @@ namespace themis::benchmarks::phase0 {
 class BaselineKVStore {
  public:
   struct KeyValue {
-    std::string key;
-    std::string value;
+    std::string key = {};
+    std::string value = {};
   };
 
   BaselineKVStore() : store_(), rng_(kP0CanonicalSeed) {}
@@ -121,14 +121,14 @@ static void BM_P0_InsertHeavy(benchmark::State& state) {
 
   // Warmup phase 2 (warm): Sequential reads to prime cache
   for (int i = 0; i < kP0WarmupWarm; ++i) {
-    std::string dummy;
+    std::string dummy = {};
     store->Read(MakeTestKey(i % kP0WarmupCold), dummy);
   }
 
   // Warmup phase 3 (hot): Random reads to stabilize branch predictor
   std::mt19937_64 rng(kP0CanonicalSeed);
   for (int i = 0; i < kP0WarmupHot; ++i) {
-    std::string dummy;
+    std::string dummy = {};
     size_t key_idx = rng() % kP0WarmupCold;
     store->Read(MakeTestKey(key_idx), dummy);
   }
@@ -142,7 +142,7 @@ static void BM_P0_InsertHeavy(benchmark::State& state) {
       store->Insert(MakeTestKey(op_count), MakeTestValue(op_count));
     } else {
       // Read operation
-      std::string dummy;
+      std::string dummy = {};
       store->Read(MakeTestKey(op_count % (kP0WarmupCold + 100)), dummy);
     }
   }
@@ -165,14 +165,14 @@ static void BM_P0_ReadHeavy(benchmark::State& state) {
 
   // Warmup phase 2 (warm): Sequential reads
   for (int i = 0; i < kP0WarmupWarm; ++i) {
-    std::string dummy;
+    std::string dummy = {};
     store->Read(MakeTestKey(i % kP0WarmupCold), dummy);
   }
 
   // Warmup phase 3 (hot): Random reads
   std::mt19937_64 rng(kP0CanonicalSeed);
   for (int i = 0; i < kP0WarmupHot; ++i) {
-    std::string dummy;
+    std::string dummy = {};
     size_t key_idx = rng() % kP0WarmupCold;
     store->Read(MakeTestKey(key_idx), dummy);
   }
@@ -183,7 +183,7 @@ static void BM_P0_ReadHeavy(benchmark::State& state) {
     op_count++;
     if (rng() < UINT64_MAX * kP0ReadHeavyReadRatio) {
       // Read operation
-      std::string dummy;
+      std::string dummy = {};
       store->Read(MakeTestKey(op_count % kP0WarmupCold), dummy);
     } else {
       // Write operation (insert or update)
@@ -213,14 +213,14 @@ static void BM_P0_UpdateHeavy(benchmark::State& state) {
 
   // Warmup phase 2 (warm): Sequential reads
   for (int i = 0; i < kP0WarmupWarm; ++i) {
-    std::string dummy;
+    std::string dummy = {};
     store->Read(MakeTestKey(i % kP0WarmupCold), dummy);
   }
 
   // Warmup phase 3 (hot): Random reads
   std::mt19937_64 rng(kP0CanonicalSeed);
   for (int i = 0; i < kP0WarmupHot; ++i) {
-    std::string dummy;
+    std::string dummy = {};
     size_t key_idx = rng() % kP0WarmupCold;
     store->Read(MakeTestKey(key_idx), dummy);
   }
@@ -235,7 +235,7 @@ static void BM_P0_UpdateHeavy(benchmark::State& state) {
       store->Update(MakeTestKey(key_idx), MakeTestValue(op_count));
     } else {
       // Read operation
-      std::string dummy;
+      std::string dummy = {};
       store->Read(MakeTestKey(op_count % kP0WarmupCold), dummy);
     }
   }
@@ -258,14 +258,14 @@ static void BM_P0_DeleteHeavy(benchmark::State& state) {
 
   // Warmup phase 2 (warm): Sequential reads
   for (int i = 0; i < kP0WarmupWarm; ++i) {
-    std::string dummy;
+    std::string dummy = {};
     store->Read(MakeTestKey(i % (kP0WarmupCold * 2)), dummy);
   }
 
   // Warmup phase 3 (hot): Random reads
   std::mt19937_64 rng(kP0CanonicalSeed);
   for (int i = 0; i < kP0WarmupHot; ++i) {
-    std::string dummy;
+    std::string dummy = {};
     size_t key_idx = rng() % (kP0WarmupCold * 2);
     store->Read(MakeTestKey(key_idx), dummy);
   }

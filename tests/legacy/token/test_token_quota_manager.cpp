@@ -214,7 +214,9 @@ TEST(TokenQuotaManagerTest, ThreadSafety_ConcurrentConsumeAndCheck) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Just verify no crash and usage is non-zero
     EXPECT_GT(q.currentUsage("shared", "m"), 0u);

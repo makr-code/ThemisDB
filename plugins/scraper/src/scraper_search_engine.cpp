@@ -44,7 +44,7 @@ namespace {
 
 /// Encode a single component for use in a query string.
 std::string urlEncode(const std::string &s) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     for (unsigned char c : s) {
         if (std::isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
             out << c;
@@ -100,7 +100,7 @@ std::string toLower(std::string s) {
 /// Build query string from a map of params + a specific key=value pair.
 std::string buildQueryString(const std::map<std::string, std::string> &fixed, const std::string &search_key,
                              const std::string &search_val, const std::string &page_key, int page) {
-    std::ostringstream qs;
+    std::ostringstream qs = {};
     bool first  = true;
     auto append = [&](const std::string &k, const std::string &v) {
         qs << (first ? "" : "&") << urlEncode(k) << "=" << urlEncode(v);
@@ -158,7 +158,7 @@ std::string buildQueryString(const std::map<std::string, std::string> &fixed, co
 #ifdef THEMIS_ENABLE_PUGIXML
     pugi::xml_document doc;
     doc.load_string(fragment.c_str(), pugi::parse_default | pugi::parse_fragment);
-    std::ostringstream out;
+    std::ostringstream out = {};
     std::function<void(const pugi::xml_node &)> walk = [&](const pugi::xml_node &node) {
         for (const auto &child : node.children()) {
             if (child.type() == pugi::node_pcdata || child.type() == pugi::node_cdata) {
@@ -175,7 +175,7 @@ std::string buildQueryString(const std::map<std::string, std::string> &fixed, co
     return out.str();
 #else
     // Minimal fallback: strip tags
-    std::string out;
+    std::string out = {};
     bool in_tag = false;
     for (char c : fragment) {
         if (c == '<') {
@@ -321,7 +321,8 @@ SearchResultPage HtmlSearchEngine::parseResults(const std::string &html, const s
 
     // Determine XPath from selector hint or try common patterns in order
     const std::vector<std::string> candidates = [&] {
-        std::vector<std::string> v;
+        std::vector<std::string> v = {};
+
         if (!selector.empty()) {
             // Convert simple CSS class selector to XPath
             if (selector.front() == '.') {
@@ -437,7 +438,7 @@ SearchResultPage HtmlSearchEngine::parseResults(const std::string &html, const s
         if (!cnt.empty()) {
             const std::string txt = extractText(cnt.first().node().first_child().value());
             // Extract first number
-            std::string num;
+            std::string num = {};
             for (char c : txt) {
                 if (std::isdigit(c))
                     num += c;

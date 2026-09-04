@@ -81,7 +81,9 @@ IoUringBatchedSender::~IoUringBatchedSender() {
 // ============================================================================
 
 bool IoUringBatchedSender::enqueue(WireProtocolBatcher& batcher) {
-    if (!batcher.pending()) return true;
+    if (!batcher.pending()) {
+      return true;
+    }
 
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
     if (ring_fd_ >= 0) {
@@ -130,9 +132,9 @@ size_t IoUringBatchedSender::submitAndWait() {
         // Step 1: Populate SQEs
         // -----------------------------------------------------------------
         size_t submitted = 0;
-        for (size_t i = 0; i < pending_.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(pending_.size()); ++i) {
             auto& entry = pending_[i];
-            if (enqueueSqe(entry.fd, entry.iovs.data(), entry.iovs.size(),
+            if (enqueueSqe(entry.fd, entry.iovs.data(),static_cast<int>(entry.iovs.size()),
                            static_cast<uint64_t>(i))) {
                 ++submitted;
             }
@@ -209,7 +211,9 @@ size_t IoUringBatchedSender::submitAndWait() {
 bool IoUringBatchedSender::enqueueSqe([[maybe_unused]] int fd, [[maybe_unused]] const ::iovec* iovs,
                                        [[maybe_unused]] size_t iov_cnt, [[maybe_unused]] uint64_t user_data) {
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
-    if (ring_fd_ < 0 || !sqe_base_) return false;
+    if (ring_fd_ < 0 || !sqe_base_) {
+      return false;
+    }
 
     uint32_t tail = *sq_.tail;
     uint32_t next = tail + 1;
@@ -253,22 +257,22 @@ bool IoUringBatchedSender::enqueueSqe([[maybe_unused]] int fd, [[maybe_unused]] 
     int32_t fd_i = fd;
     std::memcpy(sqe + 4, &fd_i, sizeof(fd_i));
     
-    // Write addr at offset 16, size sizeof(uintptr_t)
-    if (16 + sizeof(uintptr_t) > SQE_SIZE) {
+    // Write addr at offset 16, size sizeof([[maybe_unused]] uintptr_t)
+    if ([[maybe_unused]] 16 + sizeof(uintptr_t) > SQE_SIZE) {
         return false;
     }
     auto addr = reinterpret_cast<uintptr_t>(iovs);
     std::memcpy(sqe + 16, &addr, sizeof(addr));
     
     // Write len at offset 24, size 4
-    if (24 + sizeof(uint32_t) > SQE_SIZE) {
+    if ([[maybe_unused]] 24 + sizeof(uint32_t) > SQE_SIZE) {
         return false;
     }
     uint32_t len = static_cast<uint32_t>(iov_cnt);
     std::memcpy(sqe + 24, &len, sizeof(len));
     
     // Write user_data at offset 32, size 8
-    if (32 + sizeof(uint64_t) > SQE_SIZE) {
+    if ([[maybe_unused]] 32 + sizeof(uint64_t) > SQE_SIZE) {
         return false;
     }
     std::memcpy(sqe + 32, &user_data, sizeof(user_data));

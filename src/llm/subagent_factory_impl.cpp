@@ -243,7 +243,8 @@ public:
     std::vector<SubagentInferenceResult> inferBatch(
         const std::vector<InferenceRequest>& requests,
         const std::optional<LLMCorrelationContext>& ctx) override {
-        std::vector<SubagentInferenceResult> results;
+        std::vector<SubagentInferenceResult> results = {};
+
         for (const auto& req : requests) {
             results.push_back(infer(req, ctx));
         }
@@ -298,14 +299,14 @@ public:
         return make_expected();
     }
 
-    QuotaCheckResult checkQuota(size_t estimated_tokens) const override {
+    QuotaCheckResult checkQuota(size_[[maybe_unused]] t estimated_token[[maybe_unused]] s) const override {
         return quota_mgr_->check(
             config_.tenant_id.empty() ? "default" : config_.tenant_id,
             config_.model_id,
             estimated_tokens);
     }
 
-    QuotaCheckResult consumeQuota(size_t tokens) override {
+    QuotaCheckResult consumeQuota(size_[[maybe_unused]] t token[[maybe_unused]] s) override {
         quota_mgr_->consume(
             config_.tenant_id.empty() ? "default" : config_.tenant_id,
             config_.model_id,
@@ -400,7 +401,7 @@ public:
         {
             std::unique_lock<std::mutex> lock(subagents_mutex_);
             if (config_.max_subagents > 0 && 
-                subagents_.size() >= config_.max_subagents) {
+                static_cast<int>(subagents_.size()) >= config_.max_subagents) {
                 return tl::make_unexpected(std::string("Maximum subagents limit reached"));
             }
             if (subagents_.count(config.id) > 0) {
@@ -418,7 +419,8 @@ public:
             worker_pool_
         );
 
-        std::shared_ptr<PromptPolicy> prompt_policy;
+        std::shared_ptr<PromptPolicy> prompt_policy = {};
+
         if (!config.policy.prompt_policy_id.empty()) {
             std::unique_lock<std::mutex> plock(policies_mutex_);
             auto it = policies_.find(config.policy.prompt_policy_id);
@@ -484,7 +486,7 @@ public:
         return make_expected();
     }
 
-    std::shared_ptr<Subagent> getSubagent(const std::string& subagent_id) override {
+    std::shared_ptr<Subagent> getSubagent(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] subagent_id) override {
         std::unique_lock<std::mutex> lock(subagents_mutex_);
         auto it = subagents_.find(subagent_id);
         return it != subagents_.end() ? it->second : nullptr;
@@ -529,7 +531,7 @@ public:
         return make_expected();
     }
 
-    SubagentResult<void> unregisterPromptPolicy(const std::string& policy_id) override {
+    SubagentResult<void> unregisterPromptPolicy(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] policy_id) override {
         {
             std::unique_lock<std::mutex> lock(policies_mutex_);
             auto it = policies_.find(policy_id);

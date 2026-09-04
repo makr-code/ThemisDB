@@ -32,9 +32,9 @@ namespace themis {
 namespace llm {
 
 Grammar::Grammar(const std::string& ebnf_text, const std::string& start_symbol)
-    : ebnf_text_(ebnf_text)
+    : grammar_(nullptr)
+    , ebnf_text_(ebnf_text)
     , start_symbol_(start_symbol)
-    , grammar_(nullptr)
     , error_() {
     
     if (ebnf_text_.empty()) {
@@ -56,9 +56,9 @@ Grammar::Grammar(const std::string& ebnf_text, const std::string& start_symbol)
 Grammar::Grammar(const std::string& ebnf_text,
                  const std::string& start_symbol,
                  const struct llama_model* model)
-    : ebnf_text_(ebnf_text)
+    : grammar_(nullptr)
+    , ebnf_text_(ebnf_text)
     , start_symbol_(start_symbol)
-    , grammar_(nullptr)
     , error_() {
     
     if (ebnf_text_.empty()) {

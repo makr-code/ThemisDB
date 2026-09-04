@@ -459,7 +459,7 @@ public:
     }
     
     static std::string generateDocumentJSON(size_t target_size) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << R"({"id": ")" << generateUUID() << R"(", )";
         oss << R"("timestamp": "2026-01-03T10:00:00Z", )";
         oss << R"("data": ")";
@@ -486,7 +486,7 @@ public:
         uint64_t a = dist(rng);
         uint64_t b = dist(rng);
         
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << std::setfill('0');
         oss << std::setw(8) << (a >> 32);
         oss << "-" << std::setw(4) << ((a >> 16) & 0xFFFF);

@@ -108,7 +108,8 @@ TEST_F(SSMRocksDBStoreTest, MultipleSnapshotsPerSession) {
     std::string session_id = "session_multi";
     
     // Create and checkpoint multiple snapshots
-    std::vector<SSMStateSnapshot> snapshots;
+    std::vector<SSMStateSnapshot> snapshots = {};
+
     for (int i = 0; i < 5; ++i) {
         auto snap = createTestSnapshot(session_id, 1000000000000 + i * 1000, i);
         snapshots.push_back(snap);
@@ -199,7 +200,8 @@ TEST_F(SSMRocksDBStoreTest, ConcurrentCheckpoints) {
 
 TEST_F(SSMRocksDBStoreTest, ConcurrentResumes) {
     // Pre-populate sessions
-    std::vector<std::string> sessions;
+    std::vector<std::string> sessions = {};
+
     for (int i = 0; i < 5; ++i) {
         std::string session = "session_" + std::to_string(i);
         sessions.push_back(session);

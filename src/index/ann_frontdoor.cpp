@@ -53,7 +53,8 @@ namespace {
     const std::vector<std::pair<std::string, std::shared_ptr<IAnnIndex>>>& candidates,
     const AnnFrontdoor::Config& config) {
     if (config.distributed_cost_budget <= 0.0) {
-        std::vector<std::string> all_ids;
+        std::vector<std::string> all_ids = {};
+
         for (const auto& [id, _] : candidates) {
             all_ids.push_back(id);
         }
@@ -63,7 +64,9 @@ namespace {
     std::vector<std::pair<std::string, double>> scored;
     scored.reserve(candidates.size());
     for (const auto& [shard_id, backend] : candidates) {
-        if (!backend) continue;
+        if (!backend) {
+          continue;
+        }
 
         const ShardMetadata meta{shard_id, 1.0, 0.8, 0.9, 0.95};
 
@@ -196,7 +199,7 @@ AnnRetrievalPlan AnnFrontdoor::planRetrieval(
     const bool effective_warm = (plan.effective_tier == IndexTierMeta::Tier::WARM);
     const bool have_scope_backend = !context.scope_id.empty() && backends_.count(context.scope_id);
     const bool have_global_backend = backends_.count("");
-    const bool shard_backends_present = backends_.size() > (have_global_backend ? 1u : 0u);
+    const bool shard_backends_present = static_cast<int>(backends_.size()) > (have_global_backend ? 1 : 0);
 
     if (plan.scope_kind == AnnScopeKind::ShardSummary &&
         context.shard_aware && shard_backends_present) {
@@ -357,8 +360,8 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
             }
         } else {
             const std::size_t fanout_limit = (config_.distributed_max_fanout == 0)
-                ? shard_backends.size()
-                : std::min(config_.distributed_max_fanout, shard_backends.size());
+                ?static_cast<int>(shard_backends.size())
+                : std::min(config_.distributed_max_fanout,static_cast<int>(shard_backends.size()));
             for (std::size_t i = 0; i < fanout_limit; ++i) {
                 execution_backends.push_back(shard_backends[i]);
             }
@@ -372,7 +375,8 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
 
         result.shards_attempted = execution_backends.size();
 
-        std::unordered_map<int64_t, float> best_distance_by_id;
+        std::unordered_map<int64_t, float> best_distance_by_id = {};
+
         for (const auto& [scope, backend] : execution_backends) {
             (void)scope;
             bool success = false;
@@ -399,7 +403,8 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
             }
         }
 
-        std::vector<AnnSearchResult> merged;
+        std::vector<AnnSearchResult> merged = {};
+
         merged.reserve(best_distance_by_id.size());
         for (const auto& [id, distance] : best_distance_by_id) {
             merged.push_back({id, distance});
@@ -460,7 +465,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
     // ------------------------------------------------------------------
     case AnnStrategy::SCANN:
     // fallthrough: both use the global IAnnIndex backend
-    case AnnStrategy::DISKANN: {
+    [[fallthrough]];\n    case AnnStrategy::DISKANN: {
         if (!context.scope_id.empty()) {
             if (auto backend = resolveBackend(context.scope_id); backend) {
                 result.candidates = executeSearch(*backend, query_vector, dim, k);
@@ -483,7 +488,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
 
     // ------------------------------------------------------------------
     case AnnStrategy::FLAT_BRUTE_FORCE:
-    default: {
+    [[fallthrough]];\n    default: {
         // Try scope-specific or global backend first (may itself be brute force)
         if (auto backend = resolveBackend(context.scope_id); backend) {
             result.candidates = executeSearch(*backend, query_vector, dim, k);
@@ -516,7 +521,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
     // Cardinality check: candidates must not exceed the requested top-k.
     // A backend returning more than k results is a contract violation; truncate
     // defensively and log a warning so the issue is visible in production.
-    if (k > 0 && result.candidates.size() > static_cast<std::size_t>(k)) {
+    if (k > 0 && static_cast<int>(result.candidates.size()) > static_cast<std::size_t>(k)) {
         spdlog::warn("[AnnFrontdoor] cardinality violation: backend returned {} candidates "
                      "but top_k={} was requested; truncating (correlation_id={})",
                      result.candidates.size(), k, result.correlation_id);
@@ -535,7 +540,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
                                return !(r.distance >= 0.0f);
                            }),
             result.candidates.end());
-        const std::size_t removed = before_range_filter - result.candidates.size();
+        const std::size_t removed = before_range_filter - static_cast<int>(result.candidates.size()) ;
         if (removed > 0) {
             spdlog::warn("[AnnFrontdoor] range check: removed {} candidate(s) with "
                          "invalid distance (NaN or negative) (correlation_id={})",
@@ -552,7 +557,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
 // ============================================================================
 
 std::size_t AnnFrontdoor::registeredBackendCount() const noexcept {
-    return backends_.size();
+    return static_cast<int>(backends_.size());
 }
 
 const AnnFrontdoor::Config& AnnFrontdoor::config() const noexcept {
@@ -601,7 +606,7 @@ std::vector<AnnSearchResult> AnnFrontdoor::bruteForceSearch(
 std::string AnnFrontdoor::buildRoutingReason(
     AnnStrategy           strategy,
     const AnnQueryContext& context) const {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << annStrategyName(strategy) << " selected";
     ss << " dataset_size=" << context.dataset_size;
     ss << " hot_tier=" << (context.hot_tier ? "true" : "false");

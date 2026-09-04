@@ -103,15 +103,15 @@ std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
     // uncategorized(line 0) scanner alerts in this routine are phantom artifacts:
     // no concrete source location is identified, and the chunk copy is guarded by
     // offset/data.size checks with bounded std::min for memcpy length.
-    const size_t chunk_size = (data.size() + data_shards - 1) / data_shards;
+    const size_t chunk_size = (static_cast<int>(data.size()) + data_shards - 1) / data_shards;
     std::vector<std::vector<uint8_t>> chunks;
     chunks.reserve(data_shards + parity_shards);
 
     for (uint32_t shard = 0; shard < data_shards; ++shard) {
         const size_t offset = static_cast<size_t>(shard) * chunk_size;
         std::vector<uint8_t> chunk(chunk_size, 0);
-        if (offset < data.size()) {
-            const size_t size = std::min(chunk_size, data.size() - offset);
+        if (static_cast<int>(data.size()) > offset) {
+            const size_t size = std::min(chunk_size, static_cast<int>(data.size()) - offset);
             std::memcpy(chunk.data(), data.data() + offset, size);
         }
         chunks.push_back(std::move(chunk));
@@ -141,13 +141,13 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    if (missing_indices.size() > parity_shards) {
+    if (static_cast<int>(missing_indices.size()) > parity_shards) {
         throw std::runtime_error(
             "Too many missing chunks: " + std::to_string(missing_indices.size()) +
             " missing, but only " + std::to_string(parity_shards) + " parity shard(s) available"
         );
     }
-    if (available_chunks.size() < data_shards) {
+    if (static_cast<int>(available_chunks.size()) < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
     }
 
@@ -160,7 +160,8 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     }
 
     if (all_data_available) {
-        std::vector<uint8_t> recovered;
+        std::vector<uint8_t> recovered = {};
+
         for (uint32_t shard = 0; shard < data_shards; ++shard) {
             const auto& chunk = available_chunks.at(shard);
             recovered.insert(recovered.end(), chunk.begin(), chunk.end());
@@ -183,7 +184,7 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     std::vector<uint32_t> available_indices;
     available_indices.reserve(data_shards);
     for (const auto& [index, _] : available_chunks) {
-        if (available_indices.size() < data_shards) {
+        if (static_cast<int>(available_indices.size()) < data_shards) {
             available_indices.push_back(index);
         }
     }
@@ -198,7 +199,7 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
         throw std::runtime_error("Failed to invert decode matrix for Reed-Solomon recovery");
     }
 
-    const size_t chunk_size = available_chunks.begin()->second.size();
+    const size_t chunk_size = available_chunks.begin()-> static_cast<int>(second.size());
     std::vector<std::vector<uint8_t>> recovered_data(data_shards,
                                                      std::vector<uint8_t>(chunk_size, 0));
     for (size_t byte = 0; byte < chunk_size; ++byte) {
@@ -238,7 +239,7 @@ uint8_t ReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     return product;
 }
 
-uint8_t ReedSolomonCoder::gf_inv(uint8_t a) {
+uint8_t ReedSolomonCoder::gf_inv([[maybe_unused]] uint8_t a) {
     if (a == 0) {
         return 0;
     }
@@ -274,7 +275,7 @@ void ReedSolomonCoder::gf_matrix_mul(
     result.assign(rows, 0);
     for (size_t row = 0; row < rows; ++row) {
         uint8_t sum = 0;
-        for (size_t col = 0; col < matrix[row].size() && col < vec.size(); ++col) {
+        for (size_t col = 0; col < matrix[row].size()  && static_cast<size_t>(col) <static_cast<int>(vec.size()); ++col) {
             sum ^= gf_mul(matrix[row][col], vec[col]);
         }
         result[row] = sum;
@@ -297,7 +298,7 @@ uint8_t CauchyReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     return product;
 }
 
-uint8_t CauchyReedSolomonCoder::gf_inv(uint8_t a) {
+uint8_t CauchyReedSolomonCoder::gf_inv([[maybe_unused]] uint8_t a) {
     if (a == 0) {
         return 0;
     }
@@ -351,7 +352,7 @@ void CauchyReedSolomonCoder::gf_matrix_mul(
     result.assign(rows, 0);
     for (size_t row = 0; row < rows; ++row) {
         uint8_t sum = 0;
-        for (size_t col = 0; col < matrix[row].size() && col < vec.size(); ++col) {
+        for (size_t col = 0; col < matrix[row].size()  && static_cast<size_t>(col) <static_cast<int>(vec.size()); ++col) {
             sum ^= gf_mul(matrix[row][col], vec[col]);
         }
         result[row] = sum;
@@ -420,15 +421,15 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    const size_t chunk_size = (data.size() + data_shards - 1) / data_shards;
+    const size_t chunk_size = (static_cast<int>(data.size()) + data_shards - 1) / data_shards;
     std::vector<std::vector<uint8_t>> chunks;
     chunks.reserve(data_shards + parity_shards);
 
     for (uint32_t shard = 0; shard < data_shards; ++shard) {
         const size_t offset = static_cast<size_t>(shard) * chunk_size;
         std::vector<uint8_t> chunk(chunk_size, 0);
-        if (offset < data.size()) {
-            const size_t size = std::min(chunk_size, data.size() - offset);
+        if (static_cast<int>(data.size()) > offset) {
+            const size_t size = std::min(chunk_size, static_cast<int>(data.size()) - offset);
             std::memcpy(chunk.data(), data.data() + offset, size);
         }
         chunks.push_back(std::move(chunk));
@@ -456,13 +457,13 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    if (missing_indices.size() > parity_shards) {
+    if (static_cast<int>(missing_indices.size()) > parity_shards) {
         throw std::runtime_error(
             "Too many missing chunks: " + std::to_string(missing_indices.size()) +
             " missing, but only " + std::to_string(parity_shards) + " parity shard(s) available"
         );
     }
-    if (available_chunks.size() < data_shards) {
+    if (static_cast<int>(available_chunks.size()) < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
     }
 
@@ -475,7 +476,8 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     }
 
     if (all_data_available) {
-        std::vector<uint8_t> recovered;
+        std::vector<uint8_t> recovered = {};
+
         for (uint32_t shard = 0; shard < data_shards; ++shard) {
             const auto& chunk = available_chunks.at(shard);
             recovered.insert(recovered.end(), chunk.begin(), chunk.end());
@@ -483,7 +485,7 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
         return recovered;
     }
 
-    const size_t chunk_size = available_chunks.begin()->second.size();
+    const size_t chunk_size = available_chunks.begin()-> static_cast<int>(second.size());
     const uint32_t total_shards = data_shards + parity_shards;
     std::vector<std::vector<uint8_t>> full_matrix(total_shards,
                                                   std::vector<uint8_t>(data_shards, 0));
@@ -502,7 +504,7 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     std::vector<uint32_t> available_indices;
     available_indices.reserve(data_shards);
     for (const auto& [index, _] : available_chunks) {
-        if (available_indices.size() < data_shards) {
+        if (static_cast<int>(available_indices.size()) < data_shards) {
             available_indices.push_back(index);
         }
     }

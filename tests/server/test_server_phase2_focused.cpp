@@ -51,7 +51,7 @@ public:
     }
     
 private:
-    int id_;
+    int id_ = {};
     static std::atomic<int> next_id_;
 };
 

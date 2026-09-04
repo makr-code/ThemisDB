@@ -36,7 +36,7 @@ private:
 
 std::filesystem::path makeTempWorkspace() {
     auto root = std::filesystem::temp_directory_path() / "themisdb_llm_wiki_provenance_test";
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(root, ec);
     std::filesystem::create_directories(root, ec);
     return root;

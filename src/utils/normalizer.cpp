@@ -21,7 +21,7 @@ static inline bool is2(unsigned char a, unsigned char b, unsigned char x, unsign
 }
 
 std::string Normalizer::normalizeUmlauts(std::string_view text) {
-    std::string out;
+    std::string out = {};
     out.reserve(text.size());
     const unsigned char* p = reinterpret_cast<const unsigned char*>(text.data());
     size_t n = text.size();

@@ -8,7 +8,8 @@ using namespace themis::prompt_engineering;
 // ============================================================================
 
 static std::vector<RetrievedChunk> makeChunks(size_t n = 3) {
-    std::vector<RetrievedChunk> chunks;
+    std::vector<RetrievedChunk> chunks = {};
+
     for (size_t i = 0; i < n; ++i) {
         RetrievedChunk c;
         c.content         = "Content of chunk " + std::to_string(i + 1) + ".";

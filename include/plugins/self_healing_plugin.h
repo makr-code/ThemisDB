@@ -62,7 +62,9 @@ struct PluginDiagnostics {
      * @brief Get error rate (0.0 to 1.0)
      */
     double getErrorRate() const {
-        if (total_requests == 0) return 0.0;
+        if (total_requests == 0) {
+          return 0.0;
+        }
         return static_cast<double>(failed_requests) / total_requests;
     }
     

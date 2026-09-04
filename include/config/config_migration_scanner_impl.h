@@ -82,13 +82,15 @@ inline bool shouldScanFile(const fs::path& p) {
 
 inline std::string formatTimePoint(
         const std::optional<std::chrono::system_clock::time_point>& timestamp) {
-    if (!timestamp.has_value()) return "";
+    if (!timestamp.has_value()) {
+      return "";
+    }
     auto days = std::chrono::floor<std::chrono::days>(*timestamp);
     std::chrono::year_month_day ymd{days};
     auto y = static_cast<int>(ymd.year());
     auto m = static_cast<unsigned>(ymd.month());
     auto d = static_cast<unsigned>(ymd.day());
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << y
         << '-' << (m < 10 ? "0" : "") << m
         << '-' << (d < 10 ? "0" : "") << d;
@@ -100,9 +102,11 @@ inline std::vector<ScanMatch> scanFile(const fs::path& file) {
     std::vector<ScanMatch> matches;
 
     std::ifstream ifs(file);
-    if (!ifs.is_open()) return matches;
+    if (!ifs.is_open()) {
+      return matches;
+    }
 
-    std::string line;
+    std::string line = {};
     int line_num = 0;
     while (std::getline(ifs, line)) {
         ++line_num;
@@ -151,7 +155,9 @@ inline bool fixFile(const fs::path& file,
             }
         }
     }
-    if (replacements.empty()) return true;
+    if (replacements.empty()) {
+      return true;
+    }
 
     // Read original content
     std::ifstream ifs(file, std::ios::binary);
@@ -182,7 +188,7 @@ inline bool fixFile(const fs::path& file,
 
     // Backup
     fs::path backup = fs::path(file.string() + ".bak");
-    std::error_code ec;
+    std::error_code ec = {};
     fs::copy_file(file, backup, fs::copy_options::overwrite_existing, ec);
     if (ec) {
         std::cerr << "[ERROR] Cannot create backup " << backup << ": " << ec.message() << '\n';
@@ -212,7 +218,9 @@ inline void printText(const std::vector<ScanMatch>& matches) {
                   << m.legacy_path << " -> " << m.new_path;
         if (!m.removal_date.empty()) {
             std::cout << " (removal: " << m.removal_date << ')';
-            if (m.removal_due) std::cout << " [OVERDUE]";
+            if (m.removal_due) {
+              std::cout << " [OVERDUE]";
+            }
         }
         if (!m.migration_guide_url.empty()) {
             std::cout << " guide: " << m.migration_guide_url;
@@ -226,9 +234,11 @@ inline void printJson(const std::vector<ScanMatch>& matches) {
     for (std::size_t i = 0; i < matches.size(); ++i) {
         const auto& m = matches[i];
         auto escape = [](const std::string& s) -> std::string {
-            std::string out;
+            std::string out = {};
             for (char c : s) {
-                if (c == '"')  out += "\\\"";
+                if (c == '"') {
+                  out += "\\\"";
+                }
                 else if (c == '\\') out += "\\\\";
                 else           out += c;
             }

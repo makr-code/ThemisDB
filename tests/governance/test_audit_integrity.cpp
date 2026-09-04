@@ -417,7 +417,9 @@ TEST_F(AuditIntegrityTest, TamperDetectionAccuracy_GreaterThan99Percent) {
     // Calculate accuracy
     int detected_tampers = 0;
     for (const auto& incident : incidents) {
-        if (incident.is_critical) detected_tampers++;
+        if (incident.is_critical) {
+          detected_tampers++;
+        }
     }
     
     // Accuracy should be high (in this clean case, 100%)

@@ -42,10 +42,11 @@ std::vector<float> normalizeScores(const std::vector<float>& scores) {
     
     if (range < 1e-6) {
         // All scores are the same, return all 1.0
-        return std::vector<float>(scores.size(), 1.0f);
+        return static_cast<bool>(std::vector<float < static_cast<int>((scores.size())), 1.0f);
     }
     
-    std::vector<float> normalized;
+    std::vector<float> normalized = {};
+
     normalized.reserve(scores.size());
     for (float score : scores) {
         normalized.push_back((score - min_score) / range);
@@ -57,7 +58,7 @@ std::vector<float> normalizeScores(const std::vector<float>& scores) {
 float linearCombination(const std::vector<float>& scores,
                        const std::vector<float>& weights) {
     float sum = 0.0f;
-    for (size_t i = 0; i < scores.size() && i < weights.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(scores.size())  && static_cast<size_t>(i) <static_cast<int>(weights.size()); ++i) {
         sum += scores[i] * weights[i];
     }
     return sum;
@@ -114,7 +115,7 @@ MultiVectorSearch::search(
     // Validate dimensions are consistent
     size_t expected_dim = query.vectors[0].size();
     for (const auto& vec : query.vectors) {
-        if (vec.size() != expected_dim) {
+        if (static_cast<int>(vec.size()) != expected_dim) {
             return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                             "MultiVectorSearch::search - all query vectors must have same dimension");
         }
@@ -141,7 +142,7 @@ MultiVectorSearch::search(
     }
     
     // Validate weights for strategies that need them
-    if (weights.size() != query.vectors.size()) {
+    if (static_cast<int>(weights.size()) != static_cast<int>(query.vectors.size())) {
         return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "Weight count must match query vector count");
     }
@@ -178,7 +179,7 @@ MultiVectorSearch::search(
     for (const auto& results : individual_results) {
         std::unordered_map<std::string, std::pair<float, int>> score_map;
         score_map.reserve(results.size());
-        for (size_t rank = 0; rank < results.size(); ++rank) {
+        for (size_t rank = 0; rank <static_cast<int>(results.size()); ++rank) {
             const auto& result = results[rank];
             score_map[result.pk] = {
                 1.0f / (1.0f + result.distance),
@@ -189,7 +190,8 @@ MultiVectorSearch::search(
     }
     
     // 3. Collect all unique document IDs
-    std::unordered_set<std::string> all_docs;
+    std::unordered_set<std::string> all_docs = {};
+
     for (const auto& results : individual_results) {
         for (const auto& result : results) {
             all_docs.insert(result.pk);
@@ -197,7 +199,8 @@ MultiVectorSearch::search(
     }
     
     // 4. For each document, calculate fused score
-    std::vector<SearchResult> fused_results;
+    std::vector<SearchResult> fused_results = {};
+
     fused_results.reserve(all_docs.size());
     
     for (const auto& doc_id : all_docs) {
@@ -209,11 +212,12 @@ MultiVectorSearch::search(
         // Collect scores and ranks from each query
         // A-2.3: Safe read-only iteration over maps (no mutations during loop)
         std::vector<float> scores;
-        std::vector<int> ranks;
+        std::vector<int> ranks = {};
+
         scores.reserve(individual_results.size());
         ranks.reserve(individual_results.size());
         
-        for (size_t i = 0; i < individual_results.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(individual_results.size()); ++i) {
             const auto& score_map = per_query_scores[i];
             auto it = score_map.find(doc_id);
             if (it != score_map.end()) {
@@ -255,7 +259,9 @@ MultiVectorSearch::search(
                 break;
             case FusionStrategy::AVG_SCORE: {
                 float sum = 0.0f;
-                for (float s : scores) sum += s;
+                for (float s : scores) {
+                  sum += s;
+                }
                 result.fused_score = sum / scores.size();
                 break;
             }
@@ -276,7 +282,7 @@ MultiVectorSearch::search(
               });
     
     // Take only top_k results
-    if (fused_results.size() > static_cast<size_t>(config.top_k)) {
+    if (static_cast<int>(fused_results.size()) > static_cast<size_t>(config.top_k)) {
         fused_results.resize(config.top_k);
     }
     
@@ -316,7 +322,7 @@ MultiVectorSearch::searchMultiField(
     // Create a MultiQuery with the same query vector for each field
     MultiQuery multi_query;
     multi_query.vectors.reserve(field_names.size());
-    for (size_t i = 0; i < field_names.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(field_names.size()); ++i) {
         multi_query.vectors.push_back(query_vector);
     }
     multi_query.field_names = field_names;
@@ -372,7 +378,7 @@ MultiVectorSearch::hybridSearch(
     std::unordered_set<std::string> all_docs;
     std::unordered_map<std::string, std::pair<float, int>> vector_score_by_doc;
     vector_score_by_doc.reserve(vector_results.size());
-    for (size_t rank = 0; rank < vector_results.size(); ++rank) {
+    for (size_t rank = 0; rank <static_cast<int>(vector_results.size()); ++rank) {
         const auto& result = vector_results[rank];
         vector_score_by_doc[result.pk] = {
             1.0f / (1.0f + result.distance),
@@ -387,7 +393,8 @@ MultiVectorSearch::hybridSearch(
     }
     
     // 3. Build result sets for fusion
-    std::vector<SearchResult> fused_results;
+    std::vector<SearchResult> fused_results = {};
+
     fused_results.reserve(all_docs.size());
     
     for (const auto& doc_id : all_docs) {
@@ -458,14 +465,16 @@ MultiVectorSearch::hybridSearch(
                 break;
             case FusionStrategy::AVG_SCORE: {
                 float sum = 0.0f;
-                for (float s : fusion_scores) sum += s;
+                for (float s : fusion_scores) {
+                  sum += s;
+                }
                 result.fused_score = sum / fusion_scores.size();
                 break;
             }
             case FusionStrategy::LEARNED_FUSION:
                 // Learned fusion uses optimized weights (similar to linear combination)
                 // Weights should be pre-computed using optimizeWeights() method
-                if (config.weights.empty() || config.weights.size() != fusion_scores.size()) {
+                if (config.weights.empty() || static_cast<int>(config.weights.size()) != static_cast<int>(fusion_scores.size())) {
                     return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                                     "LEARNED_FUSION requires pre-computed weights from optimizeWeights()");
                 }
@@ -483,7 +492,7 @@ MultiVectorSearch::hybridSearch(
               });
     
     // Take only top_k results
-    if (fused_results.size() > static_cast<size_t>(config.top_k)) {
+    if (static_cast<int>(fused_results.size()) > static_cast<size_t>(config.top_k)) {
         fused_results.resize(config.top_k);
     }
     
@@ -519,7 +528,8 @@ MultiVectorSearch::batchSearch(
                         "MultiVectorSearch::batchSearch - queries cannot be empty");
     }
     
-    std::vector<MultiSearchResult> results;
+    std::vector<MultiSearchResult> results = {};
+
     results.reserve(queries.size());
     
     for (const auto& query : queries) {
@@ -543,7 +553,7 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
                         "MultiVectorSearch::optimizeWeights - queries and relevance_judgments cannot be empty");
     }
     
-    if (queries.size() != relevance_judgments.size()) {
+    if (static_cast<int>(queries.size()) != static_cast<int>(relevance_judgments.size())) {
         return Err<std::vector<float>>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "MultiVectorSearch::optimizeWeights - queries and relevance_judgments must have same size");
     }
@@ -569,7 +579,7 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
             
             // Evaluate this weight configuration
             float total_ndcg = 0.0f;
-            for (size_t q = 0; q < queries.size(); ++q) {
+            for (size_t q = 0; q <static_cast<int>(queries.size()); ++q) {
                 SearchConfig config;
                 config.weights = current_weights;
                 config.top_k = 10;

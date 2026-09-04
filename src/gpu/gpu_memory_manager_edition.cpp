@@ -56,7 +56,7 @@ public:
 
 private:
     GPUMemoryManager* manager_;
-    uint64_t size_;
+    uint64_t size_ = {};
     std::string tenant_id_;
     bool committed_;
 };
@@ -296,7 +296,7 @@ GPUMemoryManager::HintHandle GPUMemoryManager::ReserveHint(uint64_t size_bytes, 
     return {id, size_bytes, tag, tenant_id};
 }
 
-void GPUMemoryManager::CancelHint(uint64_t hint_id) {
+void GPUMemoryManager::CancelHint([[maybe_unused]] uint64_t hint_id) {
     if (hint_id == 0) {
         return;
     }
@@ -314,7 +314,7 @@ void GPUMemoryManager::CancelHint(uint64_t hint_id) {
     }
 }
 
-bool GPUMemoryManager::ConsumeHint(uint64_t hint_id) {
+bool GPUMemoryManager::ConsumeHint([[maybe_unused]] uint64_t hint_id) {
     if (hint_id == 0) {
         return false;
     }
@@ -371,7 +371,7 @@ bool GPUMemoryManager::TryAllocateGPU(uint64_t size_bytes, const std::string &ta
     return TryAllocateUnderLock(size_bytes, tag, tenant_id);
 }
 
-void GPUMemoryManager::DeallocateGPU(uint64_t size_bytes) {
+void GPUMemoryManager::DeallocateGPU([[maybe_unused]] uint64_t size_bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (gpu_memory_allocated_ >= size_bytes) {
         gpu_memory_allocated_ -= size_bytes;
@@ -435,12 +435,12 @@ void GPUMemoryManager::DeallocateGPU(uint64_t size_bytes, const std::string &ten
 // ValidateAllocation
 // ============================================================================
 
-void GPUMemoryManager::ValidateAllocation(uint64_t size_bytes) {
+void GPUMemoryManager::ValidateAllocation([[maybe_unused]] uint64_t size_bytes) {
     const uint64_t max_vram = GetMaxGPUVRAMBytes();
 
     if (size_bytes > max_vram) {
         std::string error = "GPU allocation request (";
-        error += std::to_string(size_bytes / (1024ULL * 1024ULL * 1024ULL));
+        error += std::to_string(size_bytes / (1024 * 1024 * 1024));
         error += "GB) exceeds edition limit (";
         error += std::to_string(GetMaxGPUVRAMGB());
         error += "GB). Edition: ";
@@ -453,9 +453,9 @@ void GPUMemoryManager::ValidateAllocation(uint64_t size_bytes) {
 
     if (new_total > max_vram) {
         std::string error = "GPU memory exhausted. Current usage: ";
-        error += std::to_string(gpu_memory_allocated_ / (1024ULL * 1024ULL * 1024ULL));
+        error += std::to_string(gpu_memory_allocated_ / (1024 * 1024 * 1024));
         error += "GB, requested: ";
-        error += std::to_string(size_bytes / (1024ULL * 1024ULL * 1024ULL));
+        error += std::to_string(size_bytes / (1024 * 1024 * 1024));
         error += "GB, limit: ";
         error += std::to_string(GetMaxGPUVRAMGB());
         error += "GB";
@@ -512,7 +512,8 @@ GPUMemoryManager::TenantStats GPUMemoryManager::GetTenantStats(const std::string
 
 std::vector<GPUMemoryManager::TenantStats> GPUMemoryManager::GetAllTenantStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<TenantStats> result;
+    std::vector<TenantStats> result = {};
+
     result.reserve(tenant_states_.size());
     for (const auto &kv : tenant_states_) {
         TenantStats ts;

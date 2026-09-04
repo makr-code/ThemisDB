@@ -33,7 +33,9 @@ protected:
     }
 
     void TearDown() override {
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
     }
 
     void insertRows(const std::string& table, int count) {
@@ -143,7 +145,9 @@ struct CountingHook : public StatisticsCollector::IMetricsHook {
     std::atomic<int> miss_count{0};
 
     void onCollect(std::string_view, double, size_t, bool success) override {
-        if (success) ++collect_count; else ++error_count;
+        if (success) {
+          ++collect_count; else ++error_count;
+        }
     }
     void onCacheHit(std::string_view) override  { ++hit_count;  }
     void onCacheMiss(std::string_view) override { ++miss_count; }

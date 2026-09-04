@@ -41,7 +41,7 @@ LoRAApiHandler::LoRAApiHandler(
     }
 }
 
-void LoRAApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
+void LoRAApiHandler::configureJWT([[maybe_unused]] const auth::JWTValidatorConfig& config) {
     jwt_validator_ = std::make_unique<auth::JWTValidator>(config);
 }
 
@@ -52,7 +52,7 @@ void LoRAApiHandler::setInferenceEngine(
 
 http::response<http::string_body> LoRAApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
-    auto span = Tracer::startSpan("handleRequest");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRequest");
     
     std::string_view target = req.target();
     auto method = req.method();
@@ -77,7 +77,7 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     
     // Model management endpoints
     if (target == "/api/v1/llm/models" && method == http::verb::post) {
-        return handleRegisterModel(req);
+        return handleRegisterModel([[maybe_unused]] req);
     } else if (target == "/api/v1/llm/models" && method == http::verb::get) {
         return handleListModels(req);
     } else if (target.starts_with("/api/v1/llm/models/") && method == http::verb::get) {
@@ -133,7 +133,7 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     
     // Cross-shard sync endpoint
     else if (target == "/api/v1/lora/receive" && method == http::verb::post) {
-        return handleReceiveAdapter(req);
+        return handleReceiveAdapter([[maybe_unused]] req);
     }
     
     // Health & monitoring endpoints
@@ -156,7 +156,7 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
 
 http::response<http::string_body> LoRAApiHandler::handleRegisterModel(
     const http::request<http::string_body>& req) {
-    auto span = Tracer::startSpan("handleRegisterModel");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRegisterModel");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -164,7 +164,7 @@ http::response<http::string_body> LoRAApiHandler::handleRegisterModel(
     }
     
     try {
-        std::string model_id;
+        std::string model_id = {};
         if (body->contains("model_id")) {
             model_id = body->at("model_id").get<std::string>();
         } else {
@@ -184,8 +184,12 @@ http::response<http::string_body> LoRAApiHandler::handleRegisterModel(
             {"message", "Model registered successfully"}
         };
         
-        if (!architecture.empty()) response_data["architecture"] = architecture;
-        if (!description.empty()) response_data["description"] = description;
+        if (!architecture.empty()) {
+          response_data["architecture"] = architecture;
+        }
+        if (!description.empty()) {
+          response_data["description"] = description;
+        }
         
         return createJsonResponse(response_data, http::status::created);
         
@@ -331,7 +335,7 @@ http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
     auto& orchestrator = *orchestrator_;
     
     try {
-        std::string adapter_id;
+        std::string adapter_id = {};
         if (body->contains("adapter_id")) {
             adapter_id = body->at("adapter_id").get<std::string>();
         } else {
@@ -354,7 +358,8 @@ http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
         }
         
         // Extract hyperparameters
-        std::optional<llm::lora::LoRAHyperparameters> hyperparams;
+        std::optional<llm::lora::LoRAHyperparameters> hyperparams = {};
+
         if (body->contains("rank") || body->contains("alpha")) {
             llm::lora::LoRAHyperparameters params;
             params.rank = body->value("rank", 8);
@@ -563,8 +568,8 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
         std::string_view target = req.target();
         size_t limit = 10;
         size_t offset = 0;
-        std::string base_model_filter;
-        std::string status_filter;
+        std::string base_model_filter = {};
+        std::string status_filter = {};
         
         // Simple query parameter parsing
         size_t query_pos = target.find('?');
@@ -616,7 +621,8 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
         );
         
         // Apply status filter if specified
-        std::vector<llm::lora::AdapterInfo> filtered_adapters;
+        std::vector<llm::lora::AdapterInfo> filtered_adapters = {};
+
         for (const auto& adapter : all_adapters) {
             if (status_filter.empty() ||
                 (status_filter == "ready" && adapter.is_loaded) ||
@@ -626,8 +632,8 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
         }
         
         // Apply pagination
-        size_t start = std::min(offset, filtered_adapters.size());
-        size_t end = std::min(offset + limit, filtered_adapters.size());
+        size_t start = std::min(offset,static_cast<int>(filtered_adapters.size()));
+        size_t end = std::min(offset + limit,static_cast<int>(filtered_adapters.size()));
         
         json adapters = json::array();
         for (size_t i = start; i < end; i++) {
@@ -636,7 +642,7 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
         
         json response_data = {
             {"adapters", adapters},
-            {"total", filtered_adapters.size()},
+            {"total",static_cast<int>(filtered_adapters.size())},
             {"limit", limit},
             {"offset", offset}
         };
@@ -841,7 +847,8 @@ http::response<http::string_body> LoRAApiHandler::handleHotLoadStatus(
     try {
         // Find the most recent loading job for this adapter.
         auto jobs = orchestrator.listJobs();
-        std::optional<llm::lora::LoRAOrchestrator::JobInfo> latest;
+        std::optional<llm::lora::LoRAOrchestrator::JobInfo> latest = {};
+
         for (const auto& job : jobs) {
             if (job.adapter_id == adapter_id &&
                 job.type == llm::lora::LoRAOrchestrator::JobType::Loading) {
@@ -859,7 +866,7 @@ http::response<http::string_body> LoRAApiHandler::handleHotLoadStatus(
             );
         }
 
-        std::string status_str;
+        std::string status_str = {};
         switch (latest->status) {
             case llm::lora::LoRAOrchestrator::JobStatus::Pending:   status_str = "pending";   break;
             case llm::lora::LoRAOrchestrator::JobStatus::Running:   status_str = "loading";   break;
@@ -921,7 +928,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
         // Perform inference using InferenceEngineEnhanced when available.
         auto start_time = std::chrono::steady_clock::now();
 
-        std::string response_text;
+        std::string response_text = {};
         int tokens_used = 0;
 
         if (inference_engine_) {
@@ -1064,13 +1071,13 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAHealth(
 // Helper Methods
 // ═══════════════════════════════════════════════════════════
 
-bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>& req) {
+bool LoRAApiHandler::validateBearerToken([[maybe_unused]] const http::request<http::string_body>& req) {
     const auto auth_header = req[http::field::authorization];
     if (auth_header.empty()) {
         return false;
     }
 
-    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
     if (!token) {
         return false;
     }
@@ -1087,7 +1094,7 @@ bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>&
         // Token is valid
         return true;
     } catch (...) {
-        THEMIS_DEBUG("lora_api_handler: unhandled exception caught");
+        THEMIS_DEBUG([[maybe_unused]] "lora_api_handler: unhandled exception caught");
         // Token validation failed (expired, invalid signature, etc.)
         return false;
     }
@@ -1136,7 +1143,7 @@ std::optional<json> LoRAApiHandler::parseRequestBody(
             return parsed;
         }
     } catch (...) {
-        THEMIS_DEBUG("lora_api_handler: unhandled exception caught");
+        THEMIS_DEBUG([[maybe_unused]] "lora_api_handler: unhandled exception caught");
         return std::nullopt;
     }
     
@@ -1168,7 +1175,7 @@ std::string LoRAApiHandler::extractPathParameter(
 
 http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
     const http::request<http::string_body>& req) {
-    auto span = Tracer::startSpan("handleReceiveAdapter");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleReceiveAdapter");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -1198,7 +1205,7 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
         std::string base_model = metadata_json.at("base_model").get<std::string>();
         
         // Extract and decode base64-encoded data using Cursor::base64Decode.
-        std::string data_str;
+        std::string data_str = {};
         if (body->at("data").is_string()) {
             std::string data_base64 = body->at("data").get<std::string>();
             auto decoded = utils::Cursor::base64Decode(data_base64);
@@ -1215,7 +1222,8 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
         bool compressed = false;
         std::string compression = body->value("compression", "none");
         
-        std::vector<uint8_t> weights_data;
+        std::vector<uint8_t> weights_data = {};
+
         if (compression == "zstd") {
             // Decompress data
             auto decompressed = utils::zstd_decompress(
@@ -1334,7 +1342,7 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
                 {"adapter_id", adapter_id},
                 {"version", version},
                 {"status", "received"},
-                {"bytes_received", weights_data.size()},
+                {"bytes_received",static_cast<int>(weights_data.size())},
                 {"compressed", compressed},
                 {"timestamp", std::chrono::system_clock::now().time_since_epoch().count()}
             };
@@ -1468,7 +1476,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetAuditLog(
     }
     return createJsonResponse(json{
         {"adapter_id", adapter_id},
-        {"count",      entries.size()},
+        {"count",static_cast<int>(entries.size())},
         {"entries",    arr}
     });
 }
@@ -1501,7 +1509,7 @@ http::response<http::string_body> LoRAApiHandler::handleListSnapshots(
     }
     return createJsonResponse(json{
         {"adapter_id", adapter_id},
-        {"count",      snaps.size()},
+        {"count",static_cast<int>(snaps.size())},
         {"snapshots",  arr}
     });
 }

@@ -62,7 +62,7 @@ int AdapterLoadBalancer::selectGPUForAdapter(
         if (free_vram >= vram_bytes && free_vram > max_free_vram) {
             // Check adapter count limit
             auto& adapters = gpu_to_adapters_[gpu_id];
-            if (adapters.size() < config_.max_adapters_per_gpu) {
+            if (static_cast<int>(adapters.size()) < config_.max_adapters_per_gpu) {
                 max_free_vram = free_vram;
                 best_gpu = gpu_id;
             }
@@ -170,7 +170,7 @@ int AdapterLoadBalancer::getAdapterGPU(const std::string& adapter_id) const {
     return -1;
 }
 
-std::vector<std::string> AdapterLoadBalancer::getGPUAdapters(int gpu_device_id) const {
+std::vector<std::string> AdapterLoadBalancer::getGPUAdapters([[maybe_unused]] int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = gpu_to_adapters_.find(gpu_device_id);
@@ -253,7 +253,7 @@ bool AdapterLoadBalancer::rebalance() {
     spdlog::info("Starting adapter load rebalancing");
     
     auto healthy_gpus = memory_manager_->getHealthyGPUs();
-    if (healthy_gpus.size() < 2) {
+    if (static_cast<int>(healthy_gpus.size()) < 2) {
         return false;  // No rebalancing needed with single GPU
     }
     
@@ -280,12 +280,15 @@ bool AdapterLoadBalancer::rebalance() {
     // Migrate adapters from overloaded to underloaded GPUs
     int migrations = 0;
     for (int overloaded_gpu : overloaded_gpus) {
-        if (underloaded_gpus.empty()) break;
+        if (underloaded_gpus.empty()) {
+          break;
+        }
         
         auto& adapters = gpu_to_adapters_[overloaded_gpu];
         
         // Sort by priority (migrate lower priority first) and pinning status
-        std::vector<std::string> candidates;
+        std::vector<std::string> candidates = {};
+
         for (const auto& adapter_id : adapters) {
             auto it = placements_.find(adapter_id);
             if (it != placements_.end() && !it->second.is_pinned) {
@@ -301,7 +304,9 @@ bool AdapterLoadBalancer::rebalance() {
         
         // Migrate candidates
         for (const auto& adapter_id : candidates) {
-            if (underloaded_gpus.empty()) break;
+            if (underloaded_gpus.empty()) {
+              break;
+            }
             
             int target_gpu = underloaded_gpus[0];
             
@@ -441,12 +446,12 @@ AdapterLoadBalancer::LoadBalanceStats AdapterLoadBalancer::getStats() const {
     return stats;
 }
 
-float AdapterLoadBalancer::getGPULoad(int gpu_device_id) const {
+float AdapterLoadBalancer::getGPULoad([[maybe_unused]] int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     return calculateGPULoad(gpu_device_id);
 }
 
-void AdapterLoadBalancer::markGPUUnhealthy(int gpu_device_id) {
+void AdapterLoadBalancer::markGPUUnhealthy([[maybe_unused]] int gpu_device_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     memory_manager_->markGPUUnhealthy(gpu_device_id, "Marked unhealthy by load balancer");
@@ -454,7 +459,7 @@ void AdapterLoadBalancer::markGPUUnhealthy(int gpu_device_id) {
     spdlog::warn("GPU {} marked unhealthy, considering adapter migration", gpu_device_id);
 }
 
-void AdapterLoadBalancer::markGPUHealthy(int gpu_device_id) {
+void AdapterLoadBalancer::markGPUHealthy([[maybe_unused]] int gpu_device_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     memory_manager_->markGPUHealthy(gpu_device_id);
@@ -462,7 +467,7 @@ void AdapterLoadBalancer::markGPUHealthy(int gpu_device_id) {
     spdlog::info("GPU {} marked healthy", gpu_device_id);
 }
 
-bool AdapterLoadBalancer::shouldMigrateFromGPU(int gpu_device_id) const {
+bool AdapterLoadBalancer::shouldMigrateFromGPU([[maybe_unused]] int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     return !memory_manager_->isGPUHealthy(gpu_device_id);
@@ -522,7 +527,7 @@ bool AdapterLoadBalancer::shouldRebalance() const {
     return memory_manager_->needsLoadRebalancing(config_.migration_threshold);
 }
 
-float AdapterLoadBalancer::calculateGPULoad(int gpu_device_id) const {
+float AdapterLoadBalancer::calculateGPULoad([[maybe_unused]] int gpu_device_id) const {
     auto stats = memory_manager_->getGPUStats(gpu_device_id);
     
     if (stats.total_vram_bytes == 0) {
@@ -542,7 +547,7 @@ int AdapterLoadBalancer::findLeastLoadedHealthyGPU() const {
     int best_gpu = healthy_gpus[0];
     float min_load = calculateGPULoad(best_gpu);
     
-    for (size_t i = 1; i < healthy_gpus.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(healthy_gpus.size()); ++i) {
         int gpu_id = healthy_gpus[i];
         float load = calculateGPULoad(gpu_id);
         if (load < min_load) {

@@ -81,7 +81,7 @@ std::vector<OptimizerLogEntry> simulateOptimizerLog() {
 //   confidence = tanh(|Δlatency_ms| / 50.0)
 //   Threshold: 0.85 (≈ |Δlatency| ≥ 50 ms)
 // ---------------------------------------------------------------------------
-double computeOptimizerConfidence(double delta_latency_ms) {
+double computeOptimizerConfidence([[maybe_unused]] double delta_latency_ms) {
     return std::tanh(std::abs(delta_latency_ms) / 50.0);
 }
 
@@ -117,9 +117,9 @@ int main() {
         }
     }
 
-    std::cout << "\n  Accepted " << labeled_samples.size()
-              << " / " << log_entries.size() << " samples\n\n";
-    assert(labeled_samples.size() == 2 && "Expected exactly 2 high-confidence samples");
+    std::cout << "\n  Accepted " <<static_cast<int>(labeled_samples.size())
+              << " / " <<static_cast<int>(log_entries.size()) << " samples\n\n";
+    assert(static_cast<int>(labeled_samples.size()) == 2 && "Expected exactly 2 high-confidence samples");
 
     // -----------------------------------------------------------------------
     // 2. Quality filter via LoRADataSelectionPipeline (dedup, min confidence)
@@ -132,7 +132,7 @@ int main() {
     sel_cfg.dedup_query_window = 100;
     LoRADataSelectionPipeline pipeline(sel_cfg);
     auto filtered = pipeline.filter(labeled_samples);
-    std::cout << "  After dedup + confidence filter: " << filtered.size() << " samples\n\n";
+    std::cout << "  After dedup + confidence filter: " <<static_cast<int>(filtered.size()) << " samples\n\n";
     */
     std::cout << "  [PLANNED — LoRADataSelectionPipeline not yet wired for DATABASE_OPTIMIZER domain]\n\n";
 
@@ -166,7 +166,7 @@ int main() {
     const std::string blob_str(grad.blob.begin(), grad.blob.end());
     assert(blob_str.find("SELECT") == std::string::npos &&
            "Privacy violation: raw query text found in gradient blob");
-    std::cout << "  Exported " << grad.blob.size() << " bytes (AES-256-GCM encrypted)\n\n";
+    std::cout << "  Exported " <<static_cast<int>(grad.blob.size()) << " bytes (AES-256-GCM encrypted)\n\n";
     */
     std::cout << "  [PLANNED — exportGradient() to be implemented in IMPL-A3]\n\n";
 
@@ -186,7 +186,7 @@ int main() {
     // Summary
     // -----------------------------------------------------------------------
     std::cout << "=== Summary ===\n"
-              << "  Labeled samples accepted:  " << labeled_samples.size() << "\n"
+              << "  Labeled samples accepted:  " <<static_cast<int>(labeled_samples.size()) << "\n"
               << "  Training cycle:            [PLANNED — IMPL-A1]\n"
               << "  Gradient export:           [PLANNED — IMPL-A3]\n"
               << "  FedAvg delta applied:      [PLANNED — IMPL-A3]\n"

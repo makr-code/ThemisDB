@@ -225,7 +225,7 @@ class MultiIndexOptimizer {
 public:
     struct IndexCandidate {
         std::string index_name;
-        std::string column;
+        std::string column = {};
         size_t estimated_selectivity = 0;  // Number of rows passing this index
         double access_cost = 0.0;           // Cost to access this index
         bool is_covering = false;           // Does index cover all required columns?

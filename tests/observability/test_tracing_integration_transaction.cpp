@@ -229,7 +229,8 @@ TEST_F(TransactionTracingIntegrationTest, ParentChildSpanLinking) {
     }
     
     // Verify all children have the same trace ID but different span IDs
-    std::set<std::string> span_ids;
+    std::set<std::string> span_ids = {};
+
     for (const auto& child : children) {
         EXPECT_EQ(child->traceId(), parent_span->traceId());
         span_ids.insert(child->spanId());

@@ -91,7 +91,8 @@ static void SRCP_2_DistributedMergeThroughput(benchmark::State& state) {
   
   for (auto _ : state) {
     // Simulate merge operation: collect and sort results
-    std::vector<SearchResult> merged;
+    std::vector<SearchResult> merged = {};
+
     for (const auto& shard : shard_results) {
       merged.insert(merged.end(), shard.begin(), shard.end());
     }
@@ -237,7 +238,8 @@ static void SRCP_ADV_1_MultimodalSearch(benchmark::State& state) {
   
   for (auto _ : state) {
     // Combine text and image results with specialized fusion
-    std::vector<SearchResult> combined;
+    std::vector<SearchResult> combined = {};
+
     combined.reserve(text_results.size() + image_results.size());
     
     // Merge maintaining separate tracks
@@ -293,7 +295,7 @@ static void SRCP_ADV_3_ConcurrentIndexing(benchmark::State& state) {
   BenchmarkFixture fixture;
   auto search_results = fixture.GenerateResults(1000);
   std::atomic<size_t> index_insertions{0};
-  std::mutex index_lock;
+  std::mutex index_lock = {};
   
   std::thread indexer([&]() {
     for (size_t i = 0; i < 100; ++i) {

@@ -46,8 +46,8 @@ static const int B64_DECODE_TABLE[256] = {
 
 // Helper function: Base64 encode
 static std::string base64Encode(const std::string& input) {
-    std::string output;
-    output.reserve(((input.size() + 2) / 3) * 4);
+    std::string output = {};
+    output.reserve(((static_cast<int>(input.size()) + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= input.size()) {
         uint32_t n = (static_cast<uint8_t>(input[i]) << 16) | 
@@ -59,13 +59,13 @@ static std::string base64Encode(const std::string& input) {
         output.push_back(B64_ENCODE_TABLE[n & 63]);
         i += 3;
     }
-    if (i + 1 == input.size()) {
+    if (i + 1 == static_cast<int>(input.size())) {
         uint32_t n = static_cast<uint8_t>(input[i]) << 16;
         output.push_back(B64_ENCODE_TABLE[(n >> 18) & 63]);
         output.push_back(B64_ENCODE_TABLE[(n >> 12) & 63]);
         output.push_back('=');
         output.push_back('=');
-    } else if (i + 2 == input.size()) {
+    } else if (i + 2 == static_cast<int>(input.size())) {
         uint32_t n = (static_cast<uint8_t>(input[i]) << 16) | 
                     (static_cast<uint8_t>(input[i + 1]) << 8);
         output.push_back(B64_ENCODE_TABLE[(n >> 18) & 63]);
@@ -78,12 +78,16 @@ static std::string base64Encode(const std::string& input) {
 
 // Helper function: Base64 decode
 static std::string base64Decode(const std::string& input) {
-    std::string output;
+    std::string output = {};
     int val = 0, valb = -8;
     for (unsigned char c : input) {
-        if (c == '=') break;
+        if (c == '=') {
+          break;
+        }
         int d = B64_DECODE_TABLE[c];
-        if (d == -1) continue;
+        if (d == -1) {
+          continue;
+        }
         val = (val << 6) + d;
         valb += 6;
         if (valb >= 0) {
@@ -143,7 +147,8 @@ std::optional<ShardInfo> ShardTopology::getShard(const std::string& shard_id) co
 std::vector<ShardInfo> ShardTopology::getAllShards() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<ShardInfo> result;
+    std::vector<ShardInfo> result = {};
+
     result.reserve(shards_.size());
     
     for (const auto& [id, info] : shards_) {
@@ -265,7 +270,9 @@ void ShardTopology::loadFromMetadataStore() {
         shards_.clear();
         
         for (const auto& kv : response.body["kvs"]) {
-            if (!kv.contains("value")) continue;
+            if (!kv.contains("value")) {
+              continue;
+            }
             
             // Decode base64 value using shared helper function
             std::string encoded_value = kv["value"].get<std::string>();
@@ -279,8 +286,8 @@ void ShardTopology::loadFromMetadataStore() {
                 shard.primary_endpoint = shard_json.value("primary_endpoint", "");
                 shard.datacenter = shard_json.value("datacenter", "");
                 shard.rack = shard_json.value("rack", "");
-                shard.token_start = shard_json.value("token_start", 0ULL);
-                shard.token_end = shard_json.value("token_end", 0ULL);
+                shard.token_start = shard_json.value("token_start", 0);
+                shard.token_end = shard_json.value("token_end", 0);
                 shard.is_healthy = shard_json.value("is_healthy", true);
                 shard.certificate_serial = shard_json.value("certificate_serial", "");
                 
@@ -399,7 +406,8 @@ void ShardTopology::updateRaftStatus(const std::string& shard_id,
 std::vector<std::string> ShardTopology::getRaftLeaders() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> leaders;
+    std::vector<std::string> leaders = {};
+
     for (const auto& [id, info] : shards_) {
         if (info.isRaftLeader()) {
             leaders.push_back(id);
@@ -412,7 +420,8 @@ std::vector<std::string> ShardTopology::getRaftLeaders() const {
 /** @brief Return all shards assigned to given region string. */
 std::vector<ShardInfo> ShardTopology::getShardsInRegion(const std::string& region) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<ShardInfo> result;
+    std::vector<ShardInfo> result = {};
+
     for (const auto& [id, info] : shards_) {
         if (info.region == region) {
             result.push_back(info);
@@ -424,7 +433,8 @@ std::vector<ShardInfo> ShardTopology::getShardsInRegion(const std::string& regio
 /** @brief Return healthy shards assigned to given region string. */
 std::vector<ShardInfo> ShardTopology::getHealthyShardsInRegion(const std::string& region) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<ShardInfo> result;
+    std::vector<ShardInfo> result = {};
+
     for (const auto& [id, info] : shards_) {
         if (info.region == region && info.is_healthy) {
             result.push_back(info);
@@ -436,7 +446,8 @@ std::vector<ShardInfo> ShardTopology::getHealthyShardsInRegion(const std::string
 /** @brief Return sorted list of distinct non-empty region names. */
 std::vector<std::string> ShardTopology::getRegions() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& [id, info] : shards_) {
         if (!info.region.empty()) {
             seen.insert(info.region);

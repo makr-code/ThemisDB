@@ -230,7 +230,9 @@ public:
 private:
     // Evict the least recently used entry (back of lru_order_). O(1).
     void evictLRU() {
-        if (lru_order_.empty()) return;
+        if (lru_order_.empty()) {
+          return;
+        }
         const std::string& lru_key = lru_order_.back();
         cache_.erase(lru_key);
         lru_order_.pop_back();

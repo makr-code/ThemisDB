@@ -42,9 +42,12 @@ static int countHealthy(const std::vector<ReplicaInfo>& replicas) {
 static std::set<std::string> collectDatacenters(
     const std::vector<ReplicaInfo>& replicas)
 {
-    std::set<std::string> dcs;
+    std::set<std::string> dcs = {};
+
     for (const auto& r : replicas) {
-        if (!r.datacenter.empty()) dcs.insert(r.datacenter);
+        if (!r.datacenter.empty()) {
+          dcs.insert(r.datacenter);
+        }
     }
     return dcs;
 }
@@ -94,7 +97,9 @@ bool ReplicationPolicy::assignPolicy(
     const std::string& policy_name)
 {
     std::lock_guard<std::mutex> lock(policies_mutex_);
-    if (policies_.find(policy_name) == policies_.end()) return false;
+    if (policies_.find(policy_name) == policies_.end()) {
+      return false;
+    }
     assignments_[collection] = policy_name;
     return true;
 }
@@ -104,18 +109,25 @@ ReplicationPolicy::getPolicy(const std::string& collection) const
 {
     std::lock_guard<std::mutex> lock(policies_mutex_);
     const auto asn_it = assignments_.find(collection);
-    if (asn_it == assignments_.end()) return defaultPolicy();
+    if (asn_it == assignments_.end()) {
+      return defaultPolicy();
+    }
     const auto pol_it = policies_.find(asn_it->second);
-    if (pol_it == policies_.end())   return defaultPolicy();
+    if (pol_it == policies_.end()) {
+      return defaultPolicy();
+    }
     return pol_it->second;
 }
 
 std::vector<std::string> ReplicationPolicy::listPolicies() const
 {
     std::lock_guard<std::mutex> lock(policies_mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(policies_.size());
-    for (const auto& kv : policies_) names.push_back(kv.first);
+    for (const auto& kv : policies_) {
+      names.push_back(kv.first);
+    }
     return names;
 }
 

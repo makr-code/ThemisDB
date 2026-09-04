@@ -103,7 +103,7 @@ bool KafkaCDCProducer::start() {
     }
 
     // ── Build librdkafka configuration ──────────────────────────────────────
-    std::string errstr;
+    std::string errstr = {};
     std::unique_ptr<RdKafka::Conf> conf(
         RdKafka::Conf::create(RdKafka::Conf::CONF_GLOBAL));
 
@@ -115,29 +115,45 @@ bool KafkaCDCProducer::start() {
         return true;
     };
 
-    if (!set("bootstrap.servers", config_.brokers)) return false;
-    if (!set("acks", config_.acks)) return false;
+    if (!set("bootstrap.servers", config_.brokers)) {
+      return false;
+    }
+    if (!set("acks", config_.acks)) {
+      return false;
+    }
     if (!set("enable.idempotence",
              config_.enable_idempotence ? "true" : "false")) return false;
-    if (!set("linger.ms", std::to_string(config_.linger_ms))) return false;
+    if (!set("linger.ms", std::to_string(config_.linger_ms))) {
+      return false;
+    }
     if (!set("max.in.flight.requests.per.connection",
              std::to_string(config_.max_in_flight))) return false;
 
     if (!config_.security_protocol.empty()) {
-        if (!set("security.protocol", config_.security_protocol)) return false;
+        if (!set("security.protocol", config_.security_protocol)) {
+          return false;
+        }
     }
     if (!config_.sasl_mechanism.empty()) {
-        if (!set("sasl.mechanism", config_.sasl_mechanism)) return false;
+        if (!set("sasl.mechanism", config_.sasl_mechanism)) {
+          return false;
+        }
     }
     if (!config_.sasl_username.empty()) {
-        if (!set("sasl.username", config_.sasl_username)) return false;
+        if (!set("sasl.username", config_.sasl_username)) {
+          return false;
+        }
     }
     if (!config_.sasl_password.empty()) {
         // Password is set but never logged.
-        if (!set("sasl.password", config_.sasl_password)) return false;
+        if (!set("sasl.password", config_.sasl_password)) {
+          return false;
+        }
     }
     if (!config_.ssl_ca_location.empty()) {
-        if (!set("ssl.ca.location", config_.ssl_ca_location)) return false;
+        if (!set("ssl.ca.location", config_.ssl_ca_location)) {
+          return false;
+        }
     }
 
     // Register delivery-report callback.
@@ -203,7 +219,7 @@ std::string KafkaCDCProducer::topicForEvent(
         return config_.single_topic;
     }
     // Derive collection name from key: "collection:rest-of-key".
-    const auto colon = event.key.find(':');
+    const auto colon = event.key.find([[maybe_unused]] ':');
     const std::string collection =
         (colon != std::string::npos) ? event.key.substr(0, colon) : event.key;
     return config_.topic_prefix + collection;
@@ -218,7 +234,7 @@ RdKafka::Topic* KafkaCDCProducer::getOrCreateTopic(
         return it->second.get();
     }
 
-    std::string errstr;
+    std::string errstr = {};
     std::unique_ptr<RdKafka::Conf> tconf(
         RdKafka::Conf::create(RdKafka::Conf::CONF_TOPIC));
     std::unique_ptr<RdKafka::Topic> topic(
@@ -237,12 +253,12 @@ RdKafka::Topic* KafkaCDCProducer::getOrCreateTopic(
 
 // ── Manual publish ────────────────────────────────────────────────────────────
 
-bool KafkaCDCProducer::publish(const Changefeed::ChangeEvent& event) {
+bool KafkaCDCProducer::publish([[maybe_unused]] const Changefeed::ChangeEvent& event) {
     if (!producer_) {
         return false;
     }
 
-    const std::string topic_name = topicForEvent(event);
+    const std::string topic_name = topicForEvent([[maybe_unused]] event);
     RdKafka::Topic* topic = getOrCreateTopic(topic_name);
     if (!topic) {
         return false;
@@ -250,12 +266,12 @@ bool KafkaCDCProducer::publish(const Changefeed::ChangeEvent& event) {
 
     // Serialise value to UTF-8.
     // Use Debezium envelope format when configured; fall back to native JSON.
-    std::string payload;
+    std::string payload = {};
     if (config_.use_debezium_format) {
         DebeziumFormatter fmt(config_.debezium_config);
         // Pass an empty collection name so the formatter derives it from the
         // event key prefix (consistent with topicForEvent() routing logic).
-        payload = fmt.toJson(event).dump();
+        payload = fmt.toJson([[maybe_unused]] event).dump();
     } else {
         payload = event.toJson().dump();
     }
@@ -287,7 +303,9 @@ bool KafkaCDCProducer::publish(const Changefeed::ChangeEvent& event) {
             THEMIS_WARN("KafkaCDCProducer: produce failed for key='{}': {}",
                         key, RdKafka::err2str(rc));
             ++error_total_;
-            if (metrics_) ++metrics_->kafka_error_total;
+            if (metrics_) {
+              ++metrics_->kafka_error_total;
+            }
             return false;
         }
     }
@@ -316,9 +334,9 @@ void KafkaCDCProducer::pollingThread() {
         opts.limit         = 1000;  // Batch up to 1 000 events per poll cycle.
 
         std::vector<Changefeed::ChangeEvent> events =
-            changefeed_->listEvents(opts);
+            changefeed_->listEvents([[maybe_unused]] opts);
 
-        for (const auto& ev : events) {
+        for ([[maybe_unused]] const auto& ev : events) {
             if (publish(ev)) {
                 last_sequence_.store(ev.sequence, std::memory_order_relaxed);
             }
@@ -329,7 +347,7 @@ void KafkaCDCProducer::pollingThread() {
             producer_->poll(static_cast<int>(config_.poll_interval_ms));
         }
 
-        if (events.empty()) {
+        if ([[maybe_unused]] events.empty()) {
             std::this_thread::sleep_for(interval);
         }
     }

@@ -43,7 +43,7 @@ public:
         // Clean up any existing test database
          const auto unique_id = static_cast<unsigned long long>(
              std::chrono::steady_clock::now().time_since_epoch().count());
-        std::ostringstream suffix;
+        std::ostringstream suffix = {};
         suffix << "bench_transaction_tmp_t"
                << state.thread_index()
              << "_" << unique_id;
@@ -616,7 +616,7 @@ static void BM_TransactionContention(benchmark::State& state) {
     // Setup
     const auto unique_id = static_cast<unsigned long long>(
         std::chrono::steady_clock::now().time_since_epoch().count());
-    std::ostringstream suffix;
+    std::ostringstream suffix = {};
     suffix << "bench_transaction_contention_tmp_t"
            << state.thread_index()
            << "_" << unique_id;
@@ -764,7 +764,8 @@ BENCHMARK_DEFINE_F(TwoPhaseCommitFixture, TwoPhaseCommitLatency)(benchmark::Stat
     shard_ops.push_back("SET bench_key bench_value");
 
     for (auto _ : state) {
-        std::map<std::string, nlohmann::json> ops_per_shard;
+        std::map<std::string, nlohmann::json> ops_per_shard = {};
+
         for (int i = 0; i < num_shards; ++i) {
             ops_per_shard["bench_shard_" + std::to_string(i)] = shard_ops;
         }

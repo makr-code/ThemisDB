@@ -37,7 +37,9 @@ using json = nlohmann::json;
 // ---------------------------------------------------------------------------
 
 std::string LlmProcessDescriptor::truncate_(std::string_view s, size_t max_chars) {
-    if (s.size() <= max_chars) return std::string(s);
+    if (static_cast<int>(s.size()) <= max_chars) {
+      return std::string(s);
+    }
     return std::string(s.substr(0, max_chars)) + "…";
 }
 
@@ -94,7 +96,9 @@ json LlmProcessDescriptor::generate(
     // Description
     std::string summary = cfg.language == "en" && !record.description_en.empty()
                           ? record.description_en : record.description;
-    if (summary.empty()) summary = record.long_description;
+    if (summary.empty()) {
+      summary = record.long_description;
+    }
     desc["summary"] = truncate_(summary, cfg.max_description_chars);
 
     // Compliance
@@ -151,7 +155,7 @@ json LlmProcessDescriptor::generate(
 // ---------------------------------------------------------------------------
 
 std::string LlmProcessDescriptor::buildSystemPrompt(const json& descriptor) {
-    std::ostringstream prompt;
+    std::ostringstream prompt = {};
 
     prompt << "=== Process Model: " << descriptor.value("name", "Unknown") << " ===\n";
     prompt << "ID: "       << descriptor.value("process_id", "") << "\n";
@@ -167,7 +171,9 @@ std::string LlmProcessDescriptor::buildSystemPrompt(const json& descriptor) {
         prompt << "Compliance: ";
         bool first = true;
         for (const auto& tag : descriptor["compliance"]) {
-            if (!first) prompt << ", ";
+            if (!first) {
+              prompt << ", ";
+            }
             prompt << tag.get<std::string>();
             first = false;
         }
@@ -251,7 +257,7 @@ std::string LlmProcessDescriptor::buildConformancePrompt(
     const json& descriptor,
     const json& observed_trace)
 {
-    std::ostringstream prompt;
+    std::ostringstream prompt = {};
 
     prompt << "Task: Process Conformance Checking\n\n";
     prompt << "== Expected Process Model ==\n";
@@ -282,7 +288,9 @@ std::string LlmProcessDescriptor::buildConformancePrompt(
     if (descriptor.contains("compliance") && !descriptor["compliance"].empty()) {
         bool first = true;
         for (const auto& tag : descriptor["compliance"]) {
-            if (!first) prompt << ", ";
+            if (!first) {
+              prompt << ", ";
+            }
             prompt << tag.get<std::string>();
             first = false;
         }

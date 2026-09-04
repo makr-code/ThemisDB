@@ -148,7 +148,8 @@ TEST_F(WikiIndexStorePhase3, WisP301_BatchSize1OneCallPerChunk) {
     cfg.batch_size    = 1;
     auto store = makeStore(cfg);
 
-    std::vector<WikiChunk> chunks;
+    std::vector<WikiChunk> chunks = {};
+
     for (int i = 0; i < 4; ++i) {
         chunks.push_back(makeChunk("c" + std::to_string(i), "text " + std::to_string(i)));
     }
@@ -187,7 +188,8 @@ TEST_F(WikiIndexStorePhase3, WisP302_BatchSize50SingleBatch) {
     cfg.batch_size    = 50;
     auto store = makeStore(cfg);
 
-    std::vector<WikiChunk> chunks;
+    std::vector<WikiChunk> chunks = {};
+
     for (int i = 0; i < 4; ++i) {
         chunks.push_back(makeChunk("c" + std::to_string(i), "text_b" + std::to_string(i)));
     }

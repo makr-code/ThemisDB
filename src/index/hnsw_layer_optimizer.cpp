@@ -28,7 +28,9 @@ HnswLayerOptimizer::HnswLayerOptimizer(const HnswOptimizationConfig& config)
 }
 
 void HnswLayerOptimizer::recordLayerAccess(int layer, int64_t candidates_found, double search_time_ms) {
-    if (!config_.enabled) return;
+    if (!config_.enabled) {
+      return;
+    }
     
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
@@ -43,7 +45,9 @@ void HnswLayerOptimizer::recordLayerAccess(int layer, int64_t candidates_found, 
 
 void HnswLayerOptimizer::recordQueryStats(int entry_layer, int ef_used, int layers_traversed,
                                          size_t k, double total_time_ms) {
-    if (!config_.enabled || !config_.adaptive_layer_selection.enabled) return;
+    if (!config_.enabled || !config_.adaptive_layer_selection.enabled) {
+      return;
+    }
     
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
@@ -58,7 +62,7 @@ void HnswLayerOptimizer::recordQueryStats(int entry_layer, int ef_used, int laye
     recent_queries_.push_back(stats);
     
     // Keep only the most recent queries within the window size
-    while (recent_queries_.size() > config_.adaptive_layer_selection.stats_window_size) {
+    while (static_cast<int>(recent_queries_.size()) > config_.adaptive_layer_selection.stats_window_size) {
         recent_queries_.pop_front();
     }
     
@@ -67,11 +71,15 @@ void HnswLayerOptimizer::recordQueryStats(int entry_layer, int ef_used, int laye
 }
 
 int HnswLayerOptimizer::getOptimalEntryLayer() const {
-    if (!config_.enabled || !config_.adaptive_layer_selection.enabled) return -1;
+    if (!config_.enabled || !config_.adaptive_layer_selection.enabled) {
+      return -1;
+    }
     
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
-    if (recent_queries_.empty() || layer_stats_.empty()) return -1;
+    if (recent_queries_.empty() || layer_stats_.empty()) {
+      return -1;
+    }
     
     // Calculate average efficiency for each entry layer based on recent queries
     std::map<int, std::pair<double, int>> entry_layer_performance;  // layer -> (total_time, count)
@@ -101,12 +109,16 @@ int HnswLayerOptimizer::getOptimalEntryLayer() const {
     return best_layer;
 }
 
-int HnswLayerOptimizer::getOptimalEf(size_t k) const {
-    if (!config_.enabled || !config_.adaptive_layer_selection.enabled) return -1;
+int HnswLayerOptimizer::getOptimalEf([[maybe_unused]] size_t k) const {
+    if (!config_.enabled || !config_.adaptive_layer_selection.enabled) {
+      return -1;
+    }
     
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
-    if (recent_queries_.empty()) return -1;
+    if (recent_queries_.empty()) {
+      return -1;
+    }
     
     // Calculate average performance for different ef values for similar k
     std::map<int, std::pair<double, int>> ef_performance;  // ef -> (total_time, count)
@@ -142,7 +154,9 @@ int HnswLayerOptimizer::getOptimalEf(size_t k) const {
 }
 
 bool HnswLayerOptimizer::shouldPruneLayer(int current_layer, size_t candidate_count, size_t k) const {
-    if (!config_.enabled || !config_.layer_pruning.enabled) return false;
+    if (!config_.enabled || !config_.layer_pruning.enabled) {
+      return false;
+    }
     
     // Prune if we have enough candidates (k * threshold_multiplier)
     size_t threshold = static_cast<size_t>(k * config_.layer_pruning.threshold_multiplier);
@@ -177,7 +191,9 @@ double HnswLayerOptimizer::calculateAdaptiveScore_(int entry_layer, int ef) cons
     // Calculate a score based on historical performance
     // Higher score = better performance
     
-    if (recent_queries_.empty()) return 0.0;
+    if (recent_queries_.empty()) {
+      return 0.0;
+    }
     
     {
         double total_score = 0.0;

@@ -54,7 +54,9 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
+        if (server_) {
+          server_->stop();
+        }
         storage_->close();
         std::filesystem::remove_all("data/themis_http_changefeed_sse_ext_test");
     }
@@ -136,7 +138,9 @@ TEST_F(HttpChangefeedSseExtendedTest, LastEventId_Resume) {
 TEST_F(HttpChangefeedSseExtendedTest, Backpressure_DropsVisibleInMetrics) {
     std::thread producer([&]{ for (int i = 0; i < 2000; ++i) postEntity("bp:" + std::to_string(i), json{{"v", i}}); });
     (void)getRaw("/changefeed/stream?keep_alive=true&max_seconds=2&max_events=5&retry_ms=100");
-    if (producer.joinable()) producer.join();
+    if (producer.joinable()) {
+      producer.join();
+    }
     auto metrics = getRaw("/metrics");
     bool found=false; uint64_t drops=0; std::istringstream iss(metrics); std::string line;
     while (std::getline(iss, line)) {

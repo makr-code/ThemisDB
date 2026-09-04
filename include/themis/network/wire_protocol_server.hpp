@@ -170,7 +170,7 @@ enum class MessageFlags : uint16_t {
 
 #pragma pack(push, 1)
 struct WireFrameHeader {
-    uint32_t magic;           // 0x544D4442 ("TMDB")
+    uint32_t magic = 0;           // 0x544D4442 ("TMDB")
     uint8_t version;          // 0x01
     uint8_t opcode;           // Operation code
     uint16_t flags;           // Message flags

@@ -26,7 +26,8 @@ static GeometryInfo makePoint(double x, double y) {
 static GeometryInfo makeClosedPolygon(
         std::initializer_list<std::pair<double, double>> pts) {
     GeometryInfo g(GeometryType::Polygon);
-    std::vector<Coordinate> ring;
+    std::vector<Coordinate> ring = {};
+
     for (const auto& p : pts) ring.push_back({p.first, p.second});
     ring.push_back(ring[0]); // close the ring
     g.rings.push_back(ring);
@@ -37,7 +38,9 @@ static GeometryInfo makeClosedPolygon(
 /// formula (absolute value of the signed result).
 static double ringArea(const GeometryInfo& g) {
     const auto& rings = g.rings;
-    if (rings.empty()) return 0.0;
+    if (rings.empty()) {
+      return 0.0;
+    }
     const auto& ring = rings[0];
     double area = 0.0;
     const std::size_t n = ring.size();

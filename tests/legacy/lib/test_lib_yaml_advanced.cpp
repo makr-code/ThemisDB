@@ -26,12 +26,12 @@ protected:
 
     void TearDown() override {
         if (fs::exists(test_yaml_dir_)) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove_all(test_yaml_dir_, ec);
         }
     }
 
-    std::string test_yaml_dir_;
+    std::string test_yaml_dir_ = {};
     
     // Helper to write YAML to file
     void writeYAMLFile(const std::string& filename, const std::string& content) {
@@ -372,7 +372,8 @@ features:
     YAML::Node node = YAML::Load(yaml_str);
     YAML::Node features = node["features"];
     
-    std::map<std::string, std::string> feature_map;
+    std::map<std::string, std::string> feature_map = {};
+
     for (YAML::const_iterator it = features.begin(); it != features.end(); ++it) {
         std::string key = it->first.as<std::string>();
         std::string value = it->second.as<std::string>();

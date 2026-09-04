@@ -57,7 +57,9 @@ static void BM_RetryPolicy_BatchAlloc(benchmark::State& state) {
     const int N = static_cast<int>(state.range(0));
     for (auto _ : state) {
         std::vector<RetryPolicy> v(static_cast<size_t>(N));
-        for (auto& p : v) p.maxAttempts = 3;
+        for (auto& p : v) {
+          p.maxAttempts = 3;
+        }
         benchmark::DoNotOptimize(v.data());
     }
     state.SetItemsProcessed(state.iterations() * N);

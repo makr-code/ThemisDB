@@ -205,7 +205,9 @@ TEST_F(TenantTxnTest, GetAllTenantStats_ReturnsAllTenants) {
 
     // Cleanup: rollback the still-open alpha transaction
     auto ids = mgr_->listTenantTransactionIds("alpha");
-    for (auto tid : ids) mgr_->rollbackTransaction(tid);
+    for (auto tid : ids) {
+      mgr_->rollbackTransaction(tid);
+    }
 }
 
 // ── Active count and ID listing ───────────────────────────────────────────────

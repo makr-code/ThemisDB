@@ -64,7 +64,7 @@ public:
             } else {
                 pool_.wasted_bytes_ = 0;
             }
-            if (slab_idx_ < pool_.slabs_.size()) {
+            if (static_cast<int>(pool_.slabs_.size()) > slab_idx_) {
                 pool_.slabs_[slab_idx_].is_free = true;
                 pool_.slabs_[slab_idx_].owner_tag.clear();
                 pool_.slabs_[slab_idx_].request_size = 0;
@@ -85,7 +85,7 @@ private:
     size_t slab_idx_;
     uint64_t delta_alloc_;
     uint64_t delta_waste_;
-    bool committed_;
+    bool committed_ = {};
 };
 
 // ============================================================================
@@ -200,7 +200,7 @@ bool GPUMemoryPool::tryAcquire(uint64_t size_bytes, const std::string &tag, uint
 // release — Phase 3 Exception-Safe Implementation with Better Diagnostics
 // ============================================================================
 
-bool GPUMemoryPool::release(uint64_t offset) {
+bool GPUMemoryPool::release([[maybe_unused]] uint64_t offset) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto logger = spdlog::get("gpu");
@@ -300,7 +300,7 @@ GPUMemoryPool::Stats GPUMemoryPool::getStats() const {
 
 size_t GPUMemoryPool::numSlabs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return slabs_.size();
+    return static_cast<int>(slabs_.size());
 }
 
 size_t GPUMemoryPool::freeSlabs() const {
@@ -327,7 +327,7 @@ std::vector<GPUMemoryPool::Slab> GPUMemoryPool::slabSnapshot() const {
 // defragment
 // ============================================================================
 
-GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
+GPUMemoryPool::DefragResult GPUMemoryPool::defragment([[maybe_unused]] float threshold) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     DefragResult result;

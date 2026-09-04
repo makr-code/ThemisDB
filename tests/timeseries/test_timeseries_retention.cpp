@@ -32,7 +32,7 @@ static int64_t nowMs() {
 }
 
 struct RetentionFixture : ::testing::Test {
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<RocksDBWrapper> db;
     std::unique_ptr<TSStore> store;
 

@@ -22,12 +22,12 @@ protected:
 
     void TearDown() override {
         if (fs::exists(test_db_path_)) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove_all(test_db_path_, ec);
         }
     }
 
-    std::string test_db_path_;
+    std::string test_db_path_ = {};
 };
 
 // Test 1: Basic move construction
@@ -49,7 +49,7 @@ TEST_F(RocksDBWrapperMoveTest, MoveConstruction) {
     
     // New wrapper should work
     EXPECT_TRUE(wrapper2.isOpen());
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(wrapper2.get("key1", value));
     EXPECT_EQ(value, "value1");
     
@@ -82,7 +82,7 @@ TEST_F(RocksDBWrapperMoveTest, MoveAssignment) {
     
     // wrapper2 should now have wrapper1's data
     EXPECT_TRUE(wrapper2.isOpen());
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(wrapper2.get("key1", value));
     EXPECT_EQ(value, "value1");
     
@@ -92,7 +92,7 @@ TEST_F(RocksDBWrapperMoveTest, MoveAssignment) {
     EXPECT_EQ(value, "value3");
     
     // Cleanup
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(cfg1.db_path, ec);
     fs::remove_all(cfg2.db_path, ec);
 }
@@ -112,7 +112,7 @@ TEST_F(RocksDBWrapperMoveTest, SelfAssignment) {
     
     // Should still work
     EXPECT_TRUE(wrapper.isOpen());
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(wrapper.get("key1", value));
     EXPECT_EQ(value, "value1");
 }
@@ -136,7 +136,7 @@ TEST_F(RocksDBWrapperMoveTest, MoveFromClosed) {
     
     // But can open and use
     EXPECT_TRUE(wrapper2.open());
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(wrapper2.get("key1", value));
     EXPECT_EQ(value, "value1");
 }

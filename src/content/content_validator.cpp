@@ -42,7 +42,7 @@ json ContentValidationConfig::toJson() const {
 }
 
 ContentValidationConfig ContentValidationConfig::fromJson(const json &j) {
-    ContentValidationConfig config;
+    ContentValidationConfig config = {};
 
     if (j.contains("max_content_size")) {
         config.max_content_size = j["max_content_size"];
@@ -188,7 +188,7 @@ ContentValidationResult ContentValidator::validate(const std::string &data, cons
 
     // Step 7: Validate against policy
     if (policy_) {
-        auto policy_error = validateWithPolicy(result.mime_type, data.size());
+        auto policy_error = validateWithPolicy(result.mime_type,static_cast<int>(data.size()));
         if (policy_error.failed()) {
             result.error                = policy_error;
             result.error.correlation_id = correlation_id;
@@ -229,7 +229,7 @@ ContentError ContentValidator::validateSize(uint64_t size, const std::string &mi
     }
 
     if (size > max_size) {
-        std::ostringstream msg;
+        std::ostringstream msg = {};
         msg << "Content size (" << size << " bytes) exceeds maximum allowed (" << max_size << " bytes)";
 
         auto err     = ContentError::error(ContentErrorCode::CONTENT_SIZE_EXCEEDED, msg.str());
@@ -241,7 +241,7 @@ ContentError ContentValidator::validateSize(uint64_t size, const std::string &mi
 }
 
 ContentError ContentValidator::validateFormat(const std::string &data, const std::string &expected_mime) {
-    if (data.size() < 4) {
+    if (static_cast<int>(data.size()) < 4) {
         // Too small to check magic bytes reliably
         return ContentError::ok();
     }
@@ -262,7 +262,7 @@ ContentError ContentValidator::validateFilename(const std::string &filename) {
     static constexpr size_t MAX_FILENAME_LENGTH = 4096;
 
     // Check length
-    if (filename.size() > MAX_FILENAME_LENGTH) {
+    if (static_cast<int>(filename.size()) > MAX_FILENAME_LENGTH) {
         return ContentError::error(ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED,
                                    "Filename exceeds maximum allowed length");
     }
@@ -284,10 +284,10 @@ ContentError ContentValidator::validateFilename(const std::string &filename) {
     }
 
     // Check for Windows absolute path ("C:\..." or "\\server\share")
-    if (filename.size() >= 2) {
+    if (static_cast<int>(filename.size()) > = 2) {
         bool is_drive_path
             = (filename[1] == ':')
-              && ((filename[0] >= 'A' && filename[0] <= 'Z') || (filename[0] >= 'a' && filename[0] <= 'z'));
+              && ((filename[0] >= ('A' && filename[0] <= 'Z') || (filename[0] >= 'a' && filename[0] <= 'z')));
         bool is_unc_path = (filename[0] == '\\' && filename[1] == '\\');
         if (is_drive_path || is_unc_path) {
             return ContentError::error(ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED,
@@ -297,7 +297,7 @@ ContentError ContentValidator::validateFilename(const std::string &filename) {
 
     // Check for path traversal sequences using both Unix ("/") and Windows ("\") separators
     // Normalise to forward slashes for uniform traversal detection
-    std::string normalised;
+    std::string normalised = {};
     normalised.reserve(filename.size());
     for (char c : filename) {
         normalised.push_back(c == '\\' ? '/' : c);
@@ -305,7 +305,7 @@ ContentError ContentValidator::validateFilename(const std::string &filename) {
 
     // Split by '/' and inspect each component
     std::istringstream iss(normalised);
-    std::string component;
+    std::string component = {};
     while (std::getline(iss, component, '/')) {
         if (component == "..") {
             return ContentError::error(ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED,
@@ -326,7 +326,7 @@ ContentError ContentValidator::checkTimeout(const std::chrono::steady_clock::tim
     if (elapsed > timeout) {
         stats_.timeouts++;
 
-        std::ostringstream msg;
+        std::ostringstream msg = {};
         msg << "Operation '" << operation_type << "' timed out after " << elapsed.count()
             << " seconds (limit: " << timeout.count() << "s)";
 
@@ -401,7 +401,7 @@ ContentCategory ContentValidator::mimeToCategory(const std::string &mime_type) c
 }
 
 bool ContentValidator::checkMagicBytes(const std::string &data, const std::string &mime_type) const {
-    if (data.size() < 4) {
+    if (static_cast<int>(data.size()) < 4) {
         return true; // Can't check, assume OK
     }
 
@@ -410,7 +410,7 @@ bool ContentValidator::checkMagicBytes(const std::string &data, const std::strin
 
     // PDF
     if (mime_type == "application/pdf") {
-        return data.size() >= 4 && data.substr(0, 4) == "%PDF";
+        return static_cast<int>(data.size()) >= 4 && data.substr(0, 4) == "%PDF";
     }
 
     // PNG
@@ -448,7 +448,7 @@ ContentError ContentValidator::validateWithPolicy(const std::string &mime_type, 
     // Check size against policy
     auto max_size = policy_->getMaxSize(mime_type);
     if (max_size > 0 && size > max_size) {
-        std::ostringstream msg;
+        std::ostringstream msg = {};
         msg << "Content size (" << size << " bytes) exceeds policy limit for " << mime_type << " (" << max_size
             << " bytes)";
 

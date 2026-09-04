@@ -183,7 +183,9 @@ TEST_F(IntelligentPrefetchingFocusedTests, LowConfidencePatternReturnsNoPredicti
     // Threshold set to 0.99 – nearly impossible to reach with 7 random accesses.
     IntelligentPrefetcher p(make_test_config(/*threshold=*/0.99));
     const uint64_t addrs[] = {0x100, 0x500, 0xA00, 0x30, 0xF000, 0x50, 0x7777};
-    for (uint64_t a : addrs) p.record_access(a);
+    for (uint64_t a : addrs) {
+      p.record_access(a);
+    }
 
     auto preds = p.predict_next_accesses(0x7777, 8);
     EXPECT_TRUE(preds.empty());
@@ -205,7 +207,9 @@ TEST_F(IntelligentPrefetchingFocusedTests, PredictionCountCappedByMaxDistance) {
 
 TEST_F(IntelligentPrefetchingFocusedTests, ZeroStrideGivesNoPredictions) {
     // All same address → stride = 0 → no predictions.
-    for (int i = 0; i < 20; ++i) prefetcher_->record_access(0xDEAD);
+    for (int i = 0; i < 20; ++i) {
+      prefetcher_->record_access(0xDEAD);
+    }
     auto preds = prefetcher_->predict_next_accesses(0xDEAD, 8);
     EXPECT_TRUE(preds.empty());
 }
@@ -237,9 +241,12 @@ TEST_F(IntelligentPrefetchingFocusedTests, PrefetchWithHardwarePrefetchEnabled) 
     feed_stride(p, base, 4, 20);
     auto preds = p.predict_next_accesses(base + 20 * 4, 4);
     // Only prefetch addresses within the dummy array.
-    std::vector<uint64_t> safe_preds;
+    std::vector<uint64_t> safe_preds = {};
+
     for (uint64_t a : preds) {
-        if (a >= base && a < base + sizeof(dummy)) safe_preds.push_back(a);
+        if (a >= base && a < base + sizeof(dummy)) {
+          safe_preds.push_back(a);
+        }
     }
     EXPECT_NO_THROW(p.prefetch_predicted(safe_preds));
 }
@@ -300,7 +307,9 @@ TEST_F(IntelligentPrefetchingFocusedTests, AccuracyComputedCorrectly) {
     auto preds = prefetcher_->predict_next_accesses(current, 4);
     ASSERT_FALSE(preds.empty());
     prefetcher_->prefetch_predicted(preds);
-    for (uint64_t a : preds) prefetcher_->record_access(a);
+    for (uint64_t a : preds) {
+      prefetcher_->record_access(a);
+    }
 
     auto stats = prefetcher_->get_stats();
     // With all prefetched addresses actually accessed, accuracy should be > 0.
@@ -315,7 +324,9 @@ TEST_F(IntelligentPrefetchingFocusedTests, CoverageComputedCorrectly) {
     auto preds = prefetcher_->predict_next_accesses(current, 4);
     if (!preds.empty()) {
         prefetcher_->prefetch_predicted(preds);
-        for (uint64_t a : preds) prefetcher_->record_access(a);
+        for (uint64_t a : preds) {
+          prefetcher_->record_access(a);
+        }
     }
 
     auto stats = prefetcher_->get_stats();
@@ -334,7 +345,9 @@ TEST_F(IntelligentPrefetchingFocusedTests, StatsAccuracyZeroWhenNoPrefetches) {
 TEST_F(IntelligentPrefetchingFocusedTests, ResetStatsClearsCounters) {
     feed_stride(*prefetcher_, 0x11000, 64, 20);
     auto preds = prefetcher_->predict_next_accesses(0x11000 + 20 * 64, 4);
-    if (!preds.empty()) prefetcher_->prefetch_predicted(preds);
+    if (!preds.empty()) {
+      prefetcher_->prefetch_predicted(preds);
+    }
 
     prefetcher_->reset_stats();
     auto stats = prefetcher_->get_stats();
@@ -383,7 +396,8 @@ TEST_F(IntelligentPrefetchingFocusedTests, ConcurrentAccessIsSafe) {
     // Minimal thread-safety smoke test.
     IntelligentPrefetcher p(make_test_config());
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&p, t]() {
             for (int i = 0; i < 50; ++i) {
@@ -392,7 +406,9 @@ TEST_F(IntelligentPrefetchingFocusedTests, ConcurrentAccessIsSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_NO_THROW(p.get_stats());
     EXPECT_NO_THROW(p.current_pattern());

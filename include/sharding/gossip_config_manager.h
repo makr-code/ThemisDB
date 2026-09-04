@@ -335,7 +335,7 @@ public:
      * Get statistics for monitoring
      */
     struct Statistics {
-        uint64_t gossip_rounds;
+        uint64_t gossip_rounds = 0;
         uint64_t messages_sent;
         uint64_t messages_received;
         uint64_t config_updates_sent;

@@ -92,7 +92,7 @@ struct ShardFreshnessRecord {
     bool exact_fetch_pending = false;
 
     /// Error message from last refresh attempt (empty if last refresh succeeded).
-    std::string last_refresh_error;
+    std::string last_refresh_error = {};
 
     /**
      * @brief Check whether the record has expired given a reference time.
@@ -240,7 +240,7 @@ struct ExactFetchResult {
     std::vector<uint8_t> fragment_data;
 
     /// SHA-256 hex digest of `fragment_data` (empty if fetch failed).
-    std::string content_hash;
+    std::string content_hash = {};
 
     /// Epoch-milliseconds when the fragment was fetched.
     int64_t fetched_at_ms = 0;

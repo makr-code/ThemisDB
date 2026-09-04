@@ -58,7 +58,7 @@ struct Dependency {
  */
 struct UpdateStep {
     /// Package to update (e.g. "themis-storage")
-    std::string package;
+    std::string package = {};
 
     /// Currently installed version, or "" if the package was not installed
     /// (i.e. it was backfilled).

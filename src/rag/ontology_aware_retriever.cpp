@@ -111,12 +111,14 @@ OntologyAwareRetriever::expandConcept(const std::string& concept_id) const {
     std::unordered_set<std::string> visited = {concept_id};
 
     while (!queue.empty() &&
-           expanded.size() < config_.max_superclass_expansion + 1) {
+           static_cast<int>(expanded.size()) < config_.max_superclass_expansion + 1) {
         const std::string current = queue.back();
         queue.pop_back();
 
         const auto* node = ontology_.getConcept(current);
-        if (!node) continue;
+        if (!node) {
+          continue;
+        }
 
         for (const auto& parent : node->parents) {
             if (visited.insert(parent).second) {
@@ -180,7 +182,9 @@ OntologyRetrievalResult OntologyAwareRetriever::retrieve(
 
     // ── Step 2: ontology expansion of linked concepts ────────────────────────
     for (const auto& link : result.query_entity_links) {
-        if (!link.is_linked) continue;
+        if (!link.is_linked) {
+          continue;
+        }
 
         // Map entity type to ontology concept name for expansion.
         const std::string concept_name = entityTypeName(link.entity.type);
@@ -198,9 +202,12 @@ OntologyRetrievalResult OntologyAwareRetriever::retrieve(
         for (auto& aug_doc : result.documents) {
             double penalty = 0.0;
             for (const auto& doc_link : aug_doc.entity_links) {
-                if (!doc_link.is_linked) continue;
+                if (!doc_link.is_linked) {
+                  continue;
+                }
                 // Get all outgoing edges from this node and check axioms.
-                std::vector<kg::KGEdge> out_edges;
+                std::vector<kg::KGEdge> out_edges = {};
+
                 if (graph_iface_) {
                     out_edges = graph_iface_->outEdges(doc_link.node_id);
                 } else if (raw_graph_) {
@@ -212,15 +219,25 @@ OntologyRetrievalResult OntologyAwareRetriever::retrieve(
                     if (graph_iface_) {
                         auto s = graph_iface_->findNode(edge.from_id);
                         auto t = graph_iface_->findNode(edge.to_id);
-                        if (s) src_node = &(*s);
-                        if (t) tgt_node = &(*t);
+                        if (s) {
+                          src_node = &(*s);
+                        }
+                        if (t) {
+                          tgt_node = &(*t);
+                        }
                     } else if (raw_graph_) {
                         auto src = raw_graph_->findNode(edge.from_id);
                         auto tgt = raw_graph_->findNode(edge.to_id);
-                        if (src) src_node = src;
-                        if (tgt) tgt_node = tgt;
+                        if (src) {
+                          src_node = src;
+                        }
+                        if (tgt) {
+                          tgt_node = tgt;
+                        }
                     }
-                    if (!src_node || !tgt_node) continue;
+                    if (!src_node || !tgt_node) {
+                      continue;
+                    }
 
                     const std::string src_type = entityTypeName(src_node->type);
                     const std::string tgt_type = entityTypeName(tgt_node->type);

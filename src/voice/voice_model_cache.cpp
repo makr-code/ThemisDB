@@ -88,7 +88,9 @@ std::optional<CachedModel> VoiceModelCache::get(
         size_t freed = 0;
         while (freed < needed) {
             size_t before = current_memory_bytes_;
-            if (!evictLRUOne()) break;
+            if (!evictLRUOne()) {
+              break;
+            }
             // current_memory_bytes_ is only decremented inside evictLRUOne() while the
             // same mutex is held, so before >= current_memory_bytes_ is guaranteed here.
             freed += before - current_memory_bytes_;
@@ -96,8 +98,10 @@ std::optional<CachedModel> VoiceModelCache::get(
     }
 
     // Enforce model count limit
-    while (models_.size() >= config_.max_models) {
-        if (!evictLRUOne()) break;
+    while (static_cast<int>(models_.size()) >= config_.max_models) {
+        if (!evictLRUOne()) {
+          break;
+        }
     }
 
     // Insert
@@ -122,14 +126,18 @@ bool VoiceModelCache::insert(const CachedModel& model) {
     }
 
     // Enforce count limit
-    while (models_.size() >= config_.max_models) {
-        if (!evictLRUOne()) break;
+    while (static_cast<int>(models_.size()) >= config_.max_models) {
+        if (!evictLRUOne()) {
+          break;
+        }
     }
 
     // Enforce memory limit
     if (model.memory_bytes > 0) {
         while (current_memory_bytes_ + model.memory_bytes > config_.max_memory_bytes) {
-            if (!evictLRUOne()) break;
+            if (!evictLRUOne()) {
+              break;
+            }
         }
     }
 
@@ -144,7 +152,9 @@ bool VoiceModelCache::evict(const std::string& model_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = models_.find(model_id);
-    if (it == models_.end()) return false;
+    if (it == models_.end()) {
+      return false;
+    }
 
     // Call unloader if available
     auto unloader_it = unloaders_.find(it->second.model_type);
@@ -168,7 +178,9 @@ bool VoiceModelCache::evict(const std::string& model_id) {
 bool VoiceModelCache::pin(const std::string& model_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = models_.find(model_id);
-    if (it == models_.end()) return false;
+    if (it == models_.end()) {
+      return false;
+    }
     it->second.is_pinned = true;
     return true;
 }
@@ -176,18 +188,22 @@ bool VoiceModelCache::pin(const std::string& model_id) {
 bool VoiceModelCache::unpin(const std::string& model_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = models_.find(model_id);
-    if (it == models_.end()) return false;
+    if (it == models_.end()) {
+      return false;
+    }
     it->second.is_pinned = false;
     return true;
 }
 
-size_t VoiceModelCache::evictToFree(size_t memory_needed) {
+size_t VoiceModelCache::evictToFree([[maybe_unused]] size_t memory_needed) {
     std::lock_guard<std::mutex> lock(mutex_);
     size_t freed = 0;
     while (freed < memory_needed) {
         // Find least recently used non-pinned model
         size_t before = current_memory_bytes_;
-        if (!evictLRUOne()) break;
+        if (!evictLRUOne()) {
+          break;
+        }
         freed += before - current_memory_bytes_;
     }
     return freed;
@@ -225,7 +241,9 @@ ModelCacheStats VoiceModelCache::getStats() const {
     stats.hit_rate = (total_requests > 0) ? static_cast<double>(cache_hits_) / static_cast<double>(total_requests) : 0.0;
 
     for (const auto& [id, model] : models_) {
-        if (model.is_pinned) ++stats.pinned_models;
+        if (model.is_pinned) {
+          ++stats.pinned_models;
+        }
     }
 
     return stats;
@@ -297,15 +315,23 @@ int64_t VoiceModelCache::nowMs() const {
 }
 
 bool VoiceModelCache::isSafeModelPath(const std::string& path) {
-    if (path.empty()) return false;
+    if (path.empty()) {
+      return false;
+    }
     // Reject path traversal sequences
-    if (path.find("..") != std::string::npos) return false;
+    if (path.find("..") != std::string::npos) {
+      return false;
+    }
     // Reject null bytes
-    if (path.find('\0') != std::string::npos) return false;
+    if (path.find('\0') != std::string::npos) {
+      return false;
+    }
     // Reject shell metacharacters that could be used in injection attacks
     static const std::string kForbiddenChars = ";|&$`!{}()\\";
     for (unsigned char c : path) {
-        if (kForbiddenChars.find(static_cast<char>(c)) != std::string::npos) return false;
+        if (kForbiddenChars.find(static_cast<char>(c)) != std::string::npos) {
+          return false;
+        }
     }
     return true;
 }

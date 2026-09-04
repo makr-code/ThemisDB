@@ -153,7 +153,9 @@ BENCHMARK_DEFINE_F(CdcPipelineBenchFixture, AcknowledgeEvents)(benchmark::State&
 
     uint64_t max_seq = 0;
     for (const auto& e : events) {
-        if (e.sequence > max_seq) max_seq = e.sequence;
+        if (e.sequence > max_seq) {
+          max_seq = e.sequence;
+        }
     }
 
     for (auto _ : state) {

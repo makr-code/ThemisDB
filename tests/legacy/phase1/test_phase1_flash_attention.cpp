@@ -45,7 +45,7 @@ std::string getTestModelPath() {
 }
 
 std::string compiledBackendSummary() {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "cuda=";
 #ifdef THEMIS_ENABLE_CUDA
     oss << "1";
@@ -276,7 +276,9 @@ TEST(FlashAttentionAcceptanceCriteria, AllCriteriaMet) {
     bool all_passed = true;
     for (const auto& c : criteria) {
         EXPECT_TRUE(c.passed) << c.criterion << " FAILED - Target: " << c.target << ", Actual: " << c.actual;
-        if (!c.passed) all_passed = false;
+        if (!c.passed) {
+          all_passed = false;
+        }
     }
     
     EXPECT_TRUE(all_passed) << "Some Flash Attention acceptance criteria not met";

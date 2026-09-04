@@ -49,8 +49,8 @@ std::string encodeValue(const ColumnValue &v) {
                 return std::string(buf, 9);
             } else {
                 // std::string
-                std::string s;
-                s.reserve(2 + arg.size());
+                std::string s = {};
+                s.reserve(2 + static_cast<int>(arg.size()) );
                 s += 'S';
                 s += arg;
                 s += '\x01'; // terminator
@@ -74,7 +74,7 @@ size_t findColumnIndex(const ColumnBatch &batch, const std::string &name) {
 /// Make a composite key from given columns at a specific row.
 std::string makeCompositeKey(const std::vector<std::shared_ptr<Column>> &cols, const std::vector<size_t> &key_indices,
                              size_t row) {
-    std::string key;
+    std::string key = {};
     key.reserve(key_indices.size() * 10);
     for (size_t ki : key_indices) {
         key += encodeValue(cols[ki]->get(row));
@@ -160,11 +160,12 @@ bool HashJoin::addBuildBatch(const ColumnBatch &batch) {
     }
 
     // Resolve key indices in src_cols.
-    std::vector<size_t> key_indices;
+    std::vector<size_t> key_indices = {};
+
     key_indices.reserve(cfg_.join_keys.size());
     for (const auto &kn : cfg_.join_keys) {
         bool found = false;
-        for (size_t i = 0; i < build_column_names_.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(build_column_names_.size()); ++i) {
             if (build_column_names_[i] == kn) {
                 key_indices.push_back(i);
                 found = true;
@@ -183,7 +184,7 @@ bool HashJoin::addBuildBatch(const ColumnBatch &batch) {
         auto key = makeCompositeKey(src_cols, key_indices, r);
         hash_table_[key].push_back(build_row_count_);
 
-        for (size_t ci = 0; ci < build_columns_.size(); ++ci) {
+        for (size_t ci = 0; ci <static_cast<int>(build_columns_.size()); ++ci) {
             appendRow(*build_columns_[ci], *src_cols[ci], r);
         }
         ++build_row_count_;
@@ -194,7 +195,8 @@ bool HashJoin::addBuildBatch(const ColumnBatch &batch) {
 ColumnBatch HashJoin::probe(const ColumnBatch &probe_batch) {
     // Determine probe columns to project.
     std::vector<std::shared_ptr<Column>> probe_cols;
-    std::vector<std::string> probe_col_names;
+    std::vector<std::string> probe_col_names = {};
+
     if (cfg_.probe_select.empty()) {
         probe_cols.reserve(probe_batch.columnCount());
         for (size_t i = 0; i < probe_batch.columnCount(); ++i) {
@@ -214,11 +216,12 @@ ColumnBatch HashJoin::probe(const ColumnBatch &probe_batch) {
     }
 
     // Resolve probe key indices.
-    std::vector<size_t> probe_key_indices;
+    std::vector<size_t> probe_key_indices = {};
+
     probe_key_indices.reserve(cfg_.join_keys.size());
     for (const auto &kn : cfg_.join_keys) {
         bool found = false;
-        for (size_t i = 0; i < probe_col_names.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(probe_col_names.size()); ++i) {
             if (probe_col_names[i] == kn) {
                 probe_key_indices.push_back(i);
                 found = true;
@@ -231,8 +234,9 @@ ColumnBatch HashJoin::probe(const ColumnBatch &probe_batch) {
     }
 
     // Build output schema: probe columns + build columns (excluding dup keys).
-    std::vector<std::string> build_non_key_names;
-    for (size_t ci = 0; ci < build_column_names_.size(); ++ci) {
+    std::vector<std::string> build_non_key_names = {};
+
+    for (size_t ci = 0; ci <static_cast<int>(build_column_names_.size()); ++ci) {
         const auto &n = build_column_names_[ci];
         bool is_key   = false;
         for (const auto &kn : cfg_.join_keys) {
@@ -248,7 +252,7 @@ ColumnBatch HashJoin::probe(const ColumnBatch &probe_batch) {
 
     // Create output columns.
     std::vector<std::shared_ptr<Column>> out_cols;
-    out_cols.reserve(probe_cols.size() + build_non_key_names.size());
+    out_cols.reserve(static_cast<int>(probe_cols.size()) + static_cast<int>(build_non_key_names.size()) );
     for (const auto &c : probe_cols) {
         out_cols.push_back(std::make_shared<Column>(c->name(), c->type()));
     }
@@ -272,7 +276,7 @@ ColumnBatch HashJoin::probe(const ColumnBatch &probe_batch) {
                 for (size_t ci = 0; ci < n_probe_cols; ++ci) {
                     appendRow(*out_cols[ci], *probe_cols[ci], r);
                 }
-                for (size_t ci = n_probe_cols; ci < out_cols.size(); ++ci) {
+                for (size_t ci = n_probe_cols; ci <static_cast<int>(out_cols.size()); ++ci) {
                     out_cols[ci]->appendNull();
                 }
                 ++out_row_count;
@@ -353,7 +357,8 @@ void IntervalJoin::addBuildBatch(const ColumnBatch &batch) {
 
     for (size_t r = 0; r < batch.rowCount(); ++r) {
         int64_t ts = time_col.int64Data()[r];
-        std::vector<ColumnValue> vals;
+        std::vector<ColumnValue> vals = {};
+
         vals.reserve(build_col_names_.size());
         for (const auto &n : build_col_names_) {
             auto c = batch.getColumn(n);
@@ -368,7 +373,7 @@ void IntervalJoin::addBuildBatch(const ColumnBatch &batch) {
 }
 
 size_t IntervalJoin::buildSideSize() const noexcept {
-    return build_buffer_.size();
+    return static_cast<int>(build_buffer_.size());
 }
 
 void IntervalJoin::sortBuildBuffer() {
@@ -402,7 +407,8 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
 
     // Determine probe columns.
     std::vector<std::shared_ptr<Column>> probe_cols;
-    std::vector<std::string> probe_col_names;
+    std::vector<std::string> probe_col_names = {};
+
     if (cfg_.probe_select.empty()) {
         for (size_t i = 0; i < probe_batch.columnCount(); ++i) {
             probe_cols.push_back(probe_batch.getColumnAt(i));
@@ -424,7 +430,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
     for (const auto &kn : cfg_.join_keys) {
         // Probe side.
         bool found = false;
-        for (size_t i = 0; i < probe_col_names.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(probe_col_names.size()); ++i) {
             if (probe_col_names[i] == kn) {
                 probe_key_indices.push_back(i);
                 found = true;
@@ -437,7 +443,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
 
         // Build side.
         found = false;
-        for (size_t i = 0; i < build_col_names_.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(build_col_names_.size()); ++i) {
             if (build_col_names_[i] == kn) {
                 build_key_indices.push_back(i);
                 found = true;
@@ -451,8 +457,9 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
 
     // Determine which build columns to output (excluding key duplicates).
     std::vector<size_t> build_output_indices;
-    std::vector<std::string> build_output_names;
-    for (size_t i = 0; i < build_col_names_.size(); ++i) {
+    std::vector<std::string> build_output_names = {};
+
+    for (size_t i = 0; i <static_cast<int>(build_col_names_.size()); ++i) {
         const auto &n = build_col_names_[i];
         bool is_key   = false;
         for (const auto &kn : cfg_.join_keys) {
@@ -470,7 +477,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
     // Create output columns (probe first, then non-key build columns).
     // We need the types for build columns — infer from first build row if available.
     std::vector<std::shared_ptr<Column>> out_cols;
-    out_cols.reserve(probe_cols.size() + build_output_names.size());
+    out_cols.reserve(static_cast<int>(probe_cols.size()) + static_cast<int>(build_output_names.size()) );
     for (const auto &c : probe_cols) {
         out_cols.push_back(std::make_shared<Column>(c->name(), c->type()));
     }
@@ -478,8 +485,8 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
     // Use Int64 as default; actual appending uses appendNull / correct typed append via ColumnValue.
     // We'll accumulate output rows as ColumnValue vectors and materialise at end.
 
-    const size_t n_probe_cols   = probe_cols.size();
-    const size_t n_build_out    = build_output_names.size();
+    const size_t n_probe_cols = probe_cols.size();
+    const size_t n_build_out = build_output_names.size();
     const auto &probe_time_data = probe_batch.getColumnAt(probe_time_idx)->int64Data();
 
     // Collect output rows as variant vectors.
@@ -511,7 +518,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
         }
 
         // Build composite probe key.
-        std::string probe_key;
+        std::string probe_key = {};
         for (size_t ki : probe_key_indices) {
             probe_key += encodeValue(probe_vals[ki]);
             probe_key += '\xFF';
@@ -521,7 +528,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
         for (auto it = it_lo; it != build_buffer_.end() && it->timestamp_ms <= hi; ++it) {
             // Check join keys.
             if (!cfg_.join_keys.empty()) {
-                std::string build_key;
+                std::string build_key = {};
                 for (size_t ki : build_key_indices) {
                     build_key += encodeValue(it->values[ki]);
                     build_key += '\xFF';
@@ -566,7 +573,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
     for (const auto &row : out_rows) {
         for (size_t i = 0; i < n_probe_cols && probe_types[i] == ColumnType::Null; ++i) {
             std::visit(
-                [&](auto &&v) {
+                [&]([[maybe_unused]] auto &&v) {
                     using T = std::decay_t<decltype(v)>;
                     if constexpr (std::is_same_v<T, int64_t>) {
                         probe_types[i] = ColumnType::Int64;
@@ -582,7 +589,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
         }
         for (size_t i = 0; i < n_build_out && build_types[i] == ColumnType::Null; ++i) {
             std::visit(
-                [&](auto &&v) {
+                [&]([[maybe_unused]] auto &&v) {
                     using T = std::decay_t<decltype(v)>;
                     if constexpr (std::is_same_v<T, int64_t>) {
                         build_types[i] = ColumnType::Int64;
@@ -612,7 +619,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
 
     auto appendVal = [](Column &col, const ColumnValue &v) {
         std::visit(
-            [&](auto &&arg) {
+            [&]([[maybe_unused]] auto &&arg) {
                 using T = std::decay_t<decltype(arg)>;
                 if constexpr (std::is_same_v<T, std::nullptr_t>) {
                     col.appendNull();

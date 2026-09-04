@@ -67,7 +67,9 @@ public:
         : conf_(other.release()) {}
     RDKafkaConfWrapper& operator=(RDKafkaConfWrapper&& other) noexcept {
         if (this != &other) {
-            if (conf_) rd_kafka_conf_destroy(conf_);
+            if (conf_) {
+              rd_kafka_conf_destroy(conf_);
+            }
             conf_ = other.release();
         }
         return *this;
@@ -135,7 +137,7 @@ private:
 /// RAII wrapper for rd_kafka_topic_partition_list_t with exception-safe cleanup
 class RDKafkaTopicPartitionListWrapper {
 public:
-    explicit RDKafkaTopicPartitionListWrapper(int size) 
+    explicit RDKafkaTopicPartitionListWrapper([[maybe_unused]] int size) 
         : tpl_(rd_kafka_topic_partition_list_new(size)) {}
     
     ~RDKafkaTopicPartitionListWrapper() {
@@ -151,7 +153,9 @@ public:
         : tpl_(other.release()) {}
     RDKafkaTopicPartitionListWrapper& operator=(RDKafkaTopicPartitionListWrapper&& other) noexcept {
         if (this != &other) {
-            if (tpl_) rd_kafka_topic_partition_list_destroy(tpl_);
+            if (tpl_) {
+              rd_kafka_topic_partition_list_destroy(tpl_);
+            }
             tpl_ = other.release();
         }
         return *this;
@@ -178,7 +182,9 @@ private:
 [[maybe_unused]] static ImportErrorCode mapKafkaErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error mapping for Kafka
     const auto msg_lower = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
         return s;
     };
     std::string lower_msg = msg_lower(error_msg);
@@ -205,12 +211,16 @@ private:
 struct KafkaStreamPosition {
     int64_t last_committed_offset = -1;
     size_t messages_in_current_batch = 0;
-    std::string checkpoint_file;
+    std::string checkpoint_file = {};
     
     bool loadFromCheckpoint() {
-        if (checkpoint_file.empty()) return false;
+        if (checkpoint_file.empty()) {
+          return false;
+        }
         std::ifstream f(checkpoint_file);
-        if (!f) return false;
+        if (!f) {
+          return false;
+        }
         try {
             std::string content((std::istreambuf_iterator<char>(f)),
                                std::istreambuf_iterator<char>());
@@ -226,9 +236,13 @@ struct KafkaStreamPosition {
     }
     
     void saveToCheckpoint() {
-        if (checkpoint_file.empty()) return;
+        if (checkpoint_file.empty()) {
+          return;
+        }
         std::ofstream f(checkpoint_file, std::ios::trunc);
-        if (!f) return;
+        if (!f) {
+          return;
+        }
         try {
             auto doc = nlohmann::json::object();
             doc["offset"] = last_committed_offset;
@@ -359,7 +373,9 @@ bool KafkaImporter::validateSource(const std::string& source_path,
     rd_kafka_resp_err_t err = rd_kafka_metadata(rk, 1, nullptr, &meta,
                                                 poll_timeout_ms_);
     bool ok = (err == RD_KAFKA_RESP_ERR_NO_ERROR);
-    if (meta) rd_kafka_metadata_destroy(meta);
+    if (meta) {
+      rd_kafka_metadata_destroy(meta);
+    }
     rd_kafka_destroy(rk);
 
     if (!ok) {
@@ -399,7 +415,9 @@ ImportStats KafkaImporter::importData(
         return stats;
     }
 
-    if (brokers.empty()) brokers = default_brokers_;
+    if (brokers.empty()) {
+      brokers = default_brokers_;
+    }
 
     if (brokers.empty() && !message_fn_) {
         addError(stats, ImportErrorCode::FILE_NOT_FOUND,
@@ -556,14 +574,16 @@ bool KafkaImporter::parseKafkaUrl(const std::string& url,
     brokers.clear();
     topic.clear();
 
-    if (url.empty()) return false;
+    if (url.empty()) {
+      return false;
+    }
 
     const std::string prefix = "kafka://";
-    if (url.substr(0, prefix.size()) == prefix) {
+    if (url.substr(0,static_cast<int>(prefix.size())) == prefix) {
         // Format: kafka://broker:9092/topic  or kafka://b1,b2/topic
         std::string rest = url.substr(prefix.size());
         auto slash_pos = rest.rfind('/');
-        if (slash_pos == std::string::npos || slash_pos == rest.size() - 1) {
+        if (slash_pos == std::string::npos || slash_pos == static_cast<int>(rest.size()) - 1) {
             // No topic after the slash, or slash is last char.
             return false;
         }
@@ -592,7 +612,9 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
     
     try {
         while (!cancelled_.load() && !abort_requested) {
-            if (max_messages_ > 0 && consumed >= max_messages_) break;
+            if (max_messages_ > 0 && consumed >= max_messages_) {
+              break;
+            }
 
             // PHASE-2-HARDENING: Check if buffer is full
             if (buffer_size >= max_buffer_messages_) {
@@ -617,18 +639,24 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
             }
 
             auto batch = message_fn_();
-            if (batch.empty()) break;
+            if (batch.empty()) {
+              break;
+            }
 
             for (auto& payload : batch) {
-                if (cancelled_.load() || abort_requested) break;
-                if (max_messages_ > 0 && consumed >= max_messages_) break;
+                if (cancelled_.load() || abort_requested) {
+                  break;
+                }
+                if (max_messages_ > 0 && consumed >= max_messages_) {
+                  break;
+                }
 
                 // PHASE-2-HARDENING: Track buffer size
                 buffer_size++;
                 ++stats.total_records;
 
                 if (options.max_row_size_bytes > 0 &&
-                    payload.size() > options.max_row_size_bytes) {
+                    static_cast<int>(payload.size()) > options.max_row_size_bytes) {
                     addError(stats, ImportErrorCode::ROW_TOO_LARGE,
                              ImportErrorSeverity::WARNING,
                              "Message exceeds max_row_size_bytes limit",
@@ -648,12 +676,12 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
                 }
 
                 if (!options.dry_run) {
-                    if (options.streaming_row_callback) {
+                    if ([[maybe_unused]] options.streaming_row_callback) {
                         bool cont = options.streaming_row_callback(topic, entity);
                         ++stats.imported_records;
                         buffer_size--;  // Message processed, drain buffer
                         if (!cont) {
-                            THEMIS_INFO("Kafka Importer: streaming callback requested abort");
+                            THEMIS_INFO([[maybe_unused]] "Kafka Importer: streaming callback requested abort");
                             abort_requested = true;
                             break;
                         }
@@ -828,7 +856,9 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
 
         try {
             while (!cancelled_.load()) {
-                if (max_messages_ > 0 && consumed >= max_messages_) break;
+                if (max_messages_ > 0 && consumed >= max_messages_) {
+                  break;
+                }
 
                 // PHASE-2-HARDENING: Check if buffer is full
                 if (buffer_size >= max_buffer_messages_) {
@@ -856,7 +886,9 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                     rd_kafka_consumer_poll(rk, poll_timeout_ms_);
 
                 if (!msg) {
-                    if (++consecutive_timeouts >= kMaxTimeouts) break;
+                    if (++consecutive_timeouts >= kMaxTimeouts) {
+                      break;
+                    }
                     continue;
                 }
                 consecutive_timeouts = 0;
@@ -888,7 +920,7 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                 stream_pos.last_committed_offset = msg->offset;
 
                 if (options.max_row_size_bytes > 0 &&
-                    payload.size() > options.max_row_size_bytes) {
+                    static_cast<int>(payload.size()) > options.max_row_size_bytes) {
                     addError(stats, ImportErrorCode::ROW_TOO_LARGE,
                              ImportErrorSeverity::WARNING,
                              "Message exceeds max_row_size_bytes limit",
@@ -911,13 +943,13 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                 }
 
                 if (!options.dry_run) {
-                    if (options.streaming_row_callback) {
+                    if ([[maybe_unused]] options.streaming_row_callback) {
                         bool cont = options.streaming_row_callback(topic, entity);
                         ++stats.imported_records;
                         buffer_size--;  // Message processed, drain buffer
                         if (!cont) {
                             rd_kafka_message_destroy(msg);
-                            THEMIS_INFO("Kafka Importer: streaming callback requested abort");
+                            THEMIS_INFO([[maybe_unused]] "Kafka Importer: streaming callback requested abort");
                             break;
                         }
                     } else {
@@ -974,14 +1006,18 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
 // ============================================================================
 
 json KafkaImporter::extractEntity(const std::string& payload) const {
-    if (payload.empty()) return json(nullptr);
+    if (payload.empty()) {
+      return json(nullptr);
+    }
 
     if (message_format_ == "avro") {
         // Confluent wire format: magic byte (0x00) + 4-byte schema ID + JSON/bytes
-        if (payload.size() > 5 &&
+        if (static_cast<int>(payload.size()) > 5 &&
             static_cast<unsigned char>(payload[0]) == 0x00) {
             std::string content = payload.substr(5);
-            if (content.empty()) return json(nullptr);
+            if (content.empty()) {
+              return json(nullptr);
+            }
             try {
                 return json::parse(content);
             } catch (...) {
@@ -1036,7 +1072,7 @@ void KafkaImporter::emitMetric(const ImportOptions& options,
                                 const std::string& metric,
                                 const std::map<std::string, std::string>& labels,
                                 double value) const {
-    if (options.metrics_callback) {
+    if ([[maybe_unused]] options.metrics_callback) {
         options.metrics_callback(metric, labels, value);
     }
 }
@@ -1045,7 +1081,7 @@ void KafkaImporter::emitSpan(const ImportOptions& options,
                               const std::string& operation,
                               const std::map<std::string, std::string>& attributes,
                               double duration_seconds) const {
-    if (options.tracing_callback) {
+    if ([[maybe_unused]] options.tracing_callback) {
         options.tracing_callback(operation, attributes, duration_seconds);
     }
 }
@@ -1054,7 +1090,7 @@ void KafkaImporter::reportProgress(ProgressCallback& callback,
                                     const std::string& stage,
                                     size_t current,
                                     size_t total) {
-    if (callback) {
+    if ([[maybe_unused]] callback) {
         callback(stage, current, total);
     }
 }
@@ -1079,7 +1115,9 @@ bool KafkaImporterPlugin::initialize(const char* config_json) {
 }
 
 void KafkaImporterPlugin::shutdown() {
-    if (importer_) importer_->cancel();
+    if (importer_) {
+      importer_->cancel();
+    }
 }
 
 } // namespace importers

@@ -116,11 +116,19 @@ enum class LwwDecision : int {
 [[nodiscard]] inline LwwDecision resolveLww(
         std::int64_t local_ts, std::int64_t remote_ts,
         const std::string& local_node, const std::string& remote_node) noexcept {
-    if (local_ts > remote_ts)  return LwwDecision::LocalWins;
-    if (remote_ts > local_ts)  return LwwDecision::RemoteWins;
+    if (local_ts > remote_ts) {
+      return LwwDecision::LocalWins;
+    }
+    if (remote_ts > local_ts) {
+      return LwwDecision::RemoteWins;
+    }
     // Tie-break: lexicographically larger node-ID wins.
-    if (local_node > remote_node) return LwwDecision::LocalWins;
-    if (remote_node > local_node) return LwwDecision::RemoteWins;
+    if (local_node > remote_node) {
+      return LwwDecision::LocalWins;
+    }
+    if (remote_node > local_node) {
+      return LwwDecision::RemoteWins;
+    }
     return LwwDecision::Identical;
 }
 

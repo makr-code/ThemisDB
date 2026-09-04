@@ -28,8 +28,8 @@ using json = nlohmann::json;
 
 /// Capture URL + body of the most-recent HTTP POST.
 struct CapturedPost {
-    std::string url;
-    std::string body;
+    std::string url = {};
+    std::string body = {};
     bool        called{false};
 };
 

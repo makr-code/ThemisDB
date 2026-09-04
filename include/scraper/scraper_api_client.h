@@ -34,7 +34,7 @@ namespace scraper {
  *  - React SPA backends that expose /api/\* routes
  */
 struct ApiEndpointConfig {
-    std::string url;
+    std::string url = {};
     std::string method       = "GET";   ///< "GET" or "POST"
 
     /// Pagination style: "page" | "cursor" | "offset" | "none"

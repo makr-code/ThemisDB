@@ -40,7 +40,9 @@ static std::map<std::string, std::string> headersWithTraceparent(
         const std::string& ts   = "") {
     std::map<std::string, std::string> h;
     h["traceparent"] = tp;
-    if (!ts.empty()) h["tracestate"] = ts;
+    if (!ts.empty()) {
+      h["tracestate"] = ts;
+    }
     return h;
 }
 
@@ -120,7 +122,9 @@ TEST(OtelPropagationTest, StartSpanFromHeadersOnOpenCircuitReturnsInvalidSpan) {
 
     OpenTelemetryTracerAdapter adapter(cfg);
     // Trip the circuit
-    for (int i = 0; i < 3; ++i) adapter.startSpan("trip-" + std::to_string(i));
+    for (int i = 0; i < 3; ++i) {
+      adapter.startSpan("trip-" + std::to_string(i));
+    }
     ASSERT_EQ(adapter.circuitBreakerState(), CircuitBreaker::State::OPEN);
 
     auto headers = headersWithTraceparent();

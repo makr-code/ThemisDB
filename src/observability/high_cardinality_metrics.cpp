@@ -94,7 +94,7 @@ public:
         return count;
     }
 
-    CardinalityLimit getCardinalityLimit(const std::string& metric_name) override {
+    CardinalityLimit getCardinalityLimit(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] metric_name) override {
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
         if (it != metrics_.end() && it->second) {
@@ -134,7 +134,7 @@ public:
         }
 
         // Check if accepting this new label set would exceed the limit
-        return state->label_sets.size() < state->limit.max_series;
+        return static_cast<bool>(state- < static_cast<int>(label_sets.size())) < state->limit.max_series;
     }
 
     std::map<std::string, std::string> recordLabelSet(
@@ -177,7 +177,7 @@ public:
         }
 
         // Check if we can accept a new label set
-        if (state->label_sets.size() >= state->limit.max_series) {
+        if (state-> static_cast<int>(label_sets.size()) >= state->limit.max_series) {
             // Cardinality limit exceeded, apply fallback strategy
             switch (state->limit.policy) {
                 case CardinalityExceededPolicy::DROP_NEW_SETS: {
@@ -226,25 +226,25 @@ public:
         return state->fallback_strategy->apply(original_labels);
     }
 
-    CardinalityStats getCardinalityStats(const std::string& metric_name) override {
+    CardinalityStats getCardinalityStats(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] metric_name) override {
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
-        CardinalityStats stats;
+        CardinalityStats stats = {};
 
         if (it != metrics_.end() && it->second) {
             const auto& state = it->second;
             std::shared_lock<std::shared_mutex> state_lock(state->state_mutex);
 
-            stats.current_series_count = state->label_sets.size();
+            stats.current_series_count = state-> static_cast<int>(label_sets.size());
             stats.limit = state->limit.max_series;
             stats.rejected_sets_total = state->rejected_sets;
             stats.aggregated_sets_total = state->aggregated_sets;
             stats.last_updated_ns = state->last_updated_ns;
-            stats.at_limit = state->label_sets.size() >= state->limit.max_series;
+            stats.at_limit = state-> static_cast<int>(label_sets.size()) >= state->limit.max_series;
             // Guard against divide-by-zero when max_series has not been set (== 0).
             stats.utilization_percent = (state->limit.max_series > 0)
-                ? 100.0 * static_cast<double>(state->label_sets.size()) /
+                ? 100.0 * static_cast<double>(state-> static_cast<int>(label_sets.size())) /
                       static_cast<double>(state->limit.max_series)
                 : 0.0;
         }
@@ -268,7 +268,8 @@ public:
             }
         }
 
-        std::map<std::string, CardinalityStats> result;
+        std::map<std::string, CardinalityStats> result = {};
+
         for (const auto& metric_name : names) {
             result[metric_name] = getCardinalityStats(metric_name);
         }
@@ -296,7 +297,7 @@ public:
         return true;
     }
 
-    bool resetMetricCardinality(const std::string& metric_name) override {
+    bool resetMetricCardinality(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] metric_name) override {
         std::unique_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
@@ -319,7 +320,7 @@ public:
         metrics_.clear();
     }
 
-    bool setTrackingEnabled(const std::string& metric_name, bool enabled) override {
+    bool setTrackingEnabled(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] metric_name, boo[[maybe_unused]] l enable[[maybe_unused]] d) override {
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
@@ -333,7 +334,7 @@ public:
         return true;
     }
 
-    bool isTrackingEnabled(const std::string& metric_name) override {
+    bool isTrackingEnabled(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] metric_name) override {
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 

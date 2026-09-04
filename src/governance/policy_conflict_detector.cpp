@@ -117,7 +117,7 @@ std::vector<PolicyConflict> PolicyConflictDetector::detectAllConflicts(
     }
     
     total_detections_++;
-    THEMIS_INFO("Conflict detection completed: {} conflicts found", all_conflicts.size());
+    THEMIS_INFO("Conflict detection completed: {} conflicts found",static_cast<int>(all_conflicts.size()));
     
     return all_conflicts;
 }
@@ -129,8 +129,8 @@ std::vector<PolicyConflict> PolicyConflictDetector::detectPermitDenyConflicts(
     auto rules = policy_mgr.listRules();
     
     // O(n²) comparison of all rule pairs
-    for (size_t i = 0; i < rules.size(); ++i) {
-        for (size_t j = i + 1; j < rules.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(rules.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(rules.size()); ++j) {
             auto conflict = checkRuleConflict(rules[i], rules[j]);
             if (conflict) {
                 conflicts.push_back(conflict.value());
@@ -147,8 +147,8 @@ std::vector<PolicyConflict> PolicyConflictDetector::detectOverlappingConflicts(
     std::vector<PolicyConflict> conflicts;
     auto rules = policy_mgr.listRules();
     
-    for (size_t i = 0; i < rules.size(); ++i) {
-        for (size_t j = i + 1; j < rules.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(rules.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(rules.size()); ++j) {
             const auto& rule1 = rules[i];
             const auto& rule2 = rules[j];
             
@@ -159,8 +159,12 @@ std::vector<PolicyConflict> PolicyConflictDetector::detectOverlappingConflicts(
             // Simple wildcard matching
             auto matches_pattern = [](const std::string& pattern, 
                                      const std::string& text) -> bool {
-                if (pattern == "*") return true;
-                if (pattern.empty()) return false;
+                if (pattern == "*") {
+                  return true;
+                }
+                if (pattern.empty()) {
+                  return false;
+                }
                 if (pattern.back() == '*') {
                     return text.substr(0, pattern.length() - 1) == pattern.substr(0, pattern.length() - 1);
                 }
@@ -174,7 +178,9 @@ std::vector<PolicyConflict> PolicyConflictDetector::detectOverlappingConflicts(
                         break;
                     }
                 }
-                if (resources_overlap) break;
+                if (resources_overlap) {
+                  break;
+                }
             }
             
             for (const auto& act1 : rule1.actions) {
@@ -184,7 +190,9 @@ std::vector<PolicyConflict> PolicyConflictDetector::detectOverlappingConflicts(
                         break;
                     }
                 }
-                if (actions_overlap) break;
+                if (actions_overlap) {
+                  break;
+                }
             }
             
             // If overlap but not contradictory, it's an overlapping conflict
@@ -300,7 +308,9 @@ PrecedenceEvaluation PolicyConflictDetector::evaluateRulePrecedence(
     // Find which rules this overrides and which override it
     auto all_rules = policy_mgr.listRules();
     for (const auto& other : all_rules) {
-        if (other.id == rule_id) continue;
+        if (other.id == rule_id) {
+          continue;
+        }
         
         // Same resource/action scope?
         bool scope_overlap = !rule.resources.empty() && !other.resources.empty();
@@ -311,7 +321,9 @@ PrecedenceEvaluation PolicyConflictDetector::evaluateRulePrecedence(
                     break;
                 }
             }
-            if (scope_overlap) break;
+            if (scope_overlap) {
+              break;
+            }
         }
         
         if (scope_overlap) {
@@ -324,7 +336,7 @@ PrecedenceEvaluation PolicyConflictDetector::evaluateRulePrecedence(
         }
     }
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Priority=" << priority_component 
         << " DenyBonus=" << (is_deny_rule ? 50 : 0)
         << " SpecificityBonus=" << specificity_bonus
@@ -604,8 +616,12 @@ bool PolicyConflictDetector::rulesMatch(const PolicyRule& rule1, const PolicyRul
     
     auto matches_pattern = [](const std::string& pattern, 
                              const std::string& text) -> bool {
-        if (pattern == "*" || text == "*") return true;
-        if (pattern.empty() || text.empty()) return false;
+        if (pattern == "*" || text == "*") {
+          return true;
+        }
+        if (pattern.empty() || text.empty()) {
+          return false;
+        }
         if (pattern.back() == '*') {
             return text.substr(0, pattern.length() - 1) == pattern.substr(0, pattern.length() - 1);
         }
@@ -621,10 +637,14 @@ bool PolicyConflictDetector::rulesMatch(const PolicyRule& rule1, const PolicyRul
                 break;
             }
         }
-        if (resources_match) break;
+        if (resources_match) {
+          break;
+        }
     }
     
-    if (!resources_match) return false;
+    if (!resources_match) {
+      return false;
+    }
     
     // Check actions
     bool actions_match = false;
@@ -635,7 +655,9 @@ bool PolicyConflictDetector::rulesMatch(const PolicyRule& rule1, const PolicyRul
                 break;
             }
         }
-        if (actions_match) break;
+        if (actions_match) {
+          break;
+        }
     }
     
     return actions_match;
@@ -679,7 +701,7 @@ std::string PolicyConflictDetector::generateConflictId(
     const std::vector<std::string>& rule_ids,
     ConflictType conflict_type) const {
     
-    std::string type_str;
+    std::string type_str = {};
     switch (conflict_type) {
         case ConflictType::PERMIT_DENY: type_str = "PD"; break;
         case ConflictType::OVERLAPPING: type_str = "OV"; break;

@@ -91,7 +91,7 @@ Result<void> CompactionManager::compactAll() {
 // Tombstone tracking
 // ──────────────────────────────────────────────────────────────────────────────
 
-void CompactionManager::recordDeletions(uint64_t count) {
+void CompactionManager::recordDeletions([[maybe_unused]] uint64_t count) {
     tombstones_.fetch_add(count, std::memory_order_relaxed);
 }
 
@@ -153,7 +153,9 @@ void CompactionManager::backgroundLoop() {
                         [this] { return bg_stop_.load(std::memory_order_relaxed); });
         lock.unlock();
 
-        if (bg_stop_.load(std::memory_order_relaxed)) break;
+        if (bg_stop_.load(std::memory_order_relaxed)) {
+          break;
+        }
 
         // Run GC (non-forced: honours tombstone threshold).
         (void)runGC(false);
@@ -226,7 +228,7 @@ CompactionManager::Stats CompactionManager::stats() const {
                 R"(L(\d+)\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+))");
 
             std::istringstream ss(s.rocksdb_stats);
-            std::string line;
+            std::string line = {};
             double total_write_gb = 0.0;
             double flush_gb       = 0.0;
             bool in_compaction_section = false;
@@ -235,9 +237,11 @@ CompactionManager::Stats CompactionManager::stats() const {
                 if (line.find("Compaction Stats") != std::string::npos) {
                     in_compaction_section = true;
                 }
-                if (!in_compaction_section) continue;
+                if (!in_compaction_section) {
+                  continue;
+                }
 
-                std::smatch m;
+                std::smatch m = {};
                 if (std::regex_search(line, m, level_line_re)) {
                     try {
                         int    level     = std::stoi(m[1].str());

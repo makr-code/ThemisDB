@@ -30,8 +30,8 @@ static bool isVariable(const std::string &s) {
 }
 
 static std::string jsonEscape(const std::string &s) {
-    std::string out;
-    out.reserve(s.size() + 4);
+    std::string out = {};
+    out.reserve(static_cast<int>(s.size()) + 4);
     for (char c : s) {
         if (c == '"') {
             out += "\\\"";
@@ -49,7 +49,7 @@ static std::string jsonEscape(const std::string &s) {
 }
 
 static std::string factToJson(const Fact &f) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{"
         << "\"id\":\"" << jsonEscape(f.id) << "\","
         << "\"subject\":\"" << jsonEscape(f.subject) << "\","
@@ -60,7 +60,7 @@ static std::string factToJson(const Fact &f) {
 }
 
 static std::string proofStepToJson(const ProofStep &ps) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{\"rule_id\":\"" << jsonEscape(ps.rule_id) << "\","
         << "\"matched_facts\":[";
     bool first = true;
@@ -140,7 +140,7 @@ bool ExpertSystemEngine::factExists(const std::string &s, const std::string &p, 
 
 bool ExpertSystemEngine::matchConditionsRec(const std::vector<TriplePattern> &conditions, std::size_t cond_idx,
                                             const std::vector<Fact> &all_facts, Bindings &bindings) const {
-    if (cond_idx == conditions.size()) {
+    if (cond_idx == static_cast<int>(conditions.size())) {
         return true;
     }
 
@@ -184,7 +184,7 @@ bool ExpertSystemEngine::matchConditionsRec(const std::vector<TriplePattern> &co
 
 std::optional<ExpertSystemEngine::Bindings>
 ExpertSystemEngine::matchConditions(const HornClause &rule, const std::vector<Fact> &all_facts) const {
-    Bindings bindings;
+    Bindings bindings = {};
     if (matchConditionsRec(rule.conditions, 0, all_facts, bindings)) {
         return bindings;
     }
@@ -198,7 +198,7 @@ ExpertSystemEngine::matchConditions(const HornClause &rule, const std::vector<Fa
 void ExpertSystemEngine::matchAllBindingsRec(const std::vector<TriplePattern> &conditions, std::size_t cond_idx,
                                              const std::vector<Fact> &all_facts, Bindings &current,
                                              std::vector<Bindings> &results) const {
-    if (cond_idx == conditions.size()) {
+    if (cond_idx == static_cast<int>(conditions.size())) {
         results.push_back(current);
         return;
     }
@@ -312,7 +312,8 @@ int ExpertSystemEngine::forwardChain(int max_cycles) {
             const auto all_bindings = matchAllConditions(rule, all_facts);
             for (const auto &bindings : all_bindings) {
                 // Gather matched facts for ML scoring.
-                std::vector<Fact> matched;
+                std::vector<Fact> matched = {};
+
                 for (const auto &cond : rule.conditions) {
                     const auto s = applyBinding(cond.subject, bindings);
                     const auto p = applyBinding(cond.predicate, bindings);
@@ -327,7 +328,7 @@ int ExpertSystemEngine::forwardChain(int max_cycles) {
 
                 // ML confidence gate — release lock to avoid re-entrancy deadlock.
                 double conf = 1.0;
-                if (scorer_fn_snap || (scorer_snap && rule.ml_confidence_threshold > 0.0)) {
+                if ((scorer_fn_snap || (scorer_snap && rule.ml_confidence_threshold > 0.0)) {
                     lock.unlock();
                     conf = mlConfidenceNoLock(scorer_snap, scorer_fn_snap, model_name_snap, model_ver_snap, rule,
                                               matched);
@@ -497,7 +498,7 @@ std::string ExpertSystemEngine::explain(const std::string &fact_id) const {
         return "[]";
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[";
     bool first = true;
     for (const auto &step : it->second) {

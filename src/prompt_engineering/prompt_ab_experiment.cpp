@@ -146,19 +146,19 @@ std::uint32_t PromptABExperimentFramework::murmur3_32(
     const auto* blocks =
         reinterpret_cast<const std::uint32_t*>(data);
     for (std::size_t i = 0; i < nblocks; ++i) {
-        std::uint32_t k1;
+        std::uint32_t k1 = {};
         std::memcpy(&k1, blocks + i, sizeof(k1));
         k1 *= c1;
         k1 = (k1 << 15) | (k1 >> 17);
         k1 *= c2;
         h1 ^= k1;
         h1 = (h1 << 13) | (h1 >> 19);
-        h1 = h1 * 5u + 0xe6546b64u;
+        h1 = h1 * 5 + 0xe6546b64u;
     }
 
     const auto* tail = data + nblocks * 4;
     std::uint32_t k1 = 0;
-    switch (n & 3u) {
+    switch (n & 3) {
         case 3: k1 ^= static_cast<std::uint32_t>(tail[2]) << 16; [[fallthrough]];
         case 2: k1 ^= static_cast<std::uint32_t>(tail[1]) <<  8; [[fallthrough]];
         case 1: k1 ^= static_cast<std::uint32_t>(tail[0]);
@@ -278,7 +278,7 @@ double PromptABExperimentFramework::welchPValue(
 // Unique ID generator (sequential suffix for determinism in tests).
 std::string PromptABExperimentFramework::generateId() {
     static std::atomic<std::uint64_t> counter{1};
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "exp-" << counter.fetch_add(1, std::memory_order_relaxed);
     return ss.str();
 }
@@ -324,7 +324,8 @@ std::optional<PromptExperiment> PromptABExperimentFramework::getExperiment(
 
 std::vector<PromptExperiment> PromptABExperimentFramework::listExperiments() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<PromptExperiment> out;
+    std::vector<PromptExperiment> out = {};
+
     out.reserve(experiments_.size());
     for (const auto& [id, exp] : experiments_) {
         out.push_back(exp);
@@ -346,7 +347,7 @@ ExperimentVariant PromptABExperimentFramework::assignVariant(
     }
     const int split_pct = it->second.split_pct;
     const std::uint32_t h = murmur3_32(context.request_id);
-    return (static_cast<int>(h % 100u) < split_pct)
+    return (static_cast<int>(h % 100) < split_pct)
            ? ExperimentVariant::TREATMENT
            : ExperimentVariant::CONTROL;
 }
@@ -393,8 +394,8 @@ bool PromptABExperimentFramework::recordOutcome(
     // declared are still retained for summaries and audit trails.
     const std::size_t min = it->second.min_samples;
     if (status == ExperimentStatus::RUNNING &&
-        store.control.size()   >= min &&
-        store.treatment.size() >= min) {
+        static_cast<int>(store.control.size()) >= min &&
+        static_cast<int>(store.treatment.size()) >= min) {
         checkSignificanceLocked(experiment_id);
     }
 
@@ -414,7 +415,7 @@ bool PromptABExperimentFramework::checkSignificanceLocked(
         return false;
     }
     const auto& store = scores_.at(experiment_id);
-    if (store.control.size() < 2 || store.treatment.size() < 2) {
+    if (static_cast<int>(store.control.size()) < 2 || static_cast<int>(store.treatment.size()) < 2) {
         return false;
     }
 
@@ -444,7 +445,7 @@ bool PromptABExperimentFramework::checkSignificanceLocked(
     eit->second.stopped_at = std::chrono::system_clock::now();
 
     // Fire winner callback (outside the critical path; capture by value).
-    if (winner_callback_) {
+    if ([[maybe_unused]] winner_callback_) {
         const std::string wid =
             (winner == ExperimentVariant::TREATMENT)
             ? eit->second.treatment_version_id
@@ -527,7 +528,7 @@ std::optional<ExperimentSummary> PromptABExperimentFramework::getSummary(
                 s.mean_control_score * 100.0;
         }
 
-        if (store.control.size() >= 2 && store.treatment.size() >= 2) {
+        if (static_cast<int>(store.control.size()) >= 2 && static_cast<int>(store.treatment.size()) >= 2) {
             s.p_value    = welchPValue(store.control, store.treatment);
             const double alpha = 1.0 - eit->second.confidence_level;
             s.significant = (s.p_value < alpha);
@@ -562,9 +563,9 @@ std::vector<ExperimentOutcome> PromptABExperimentFramework::getOutcomes(
 // Callbacks
 // ============================================================================
 
-void PromptABExperimentFramework::setWinnerCallback(WinnerCallback cb) {
+void PromptABExperimentFramework::setWinnerCallback([[maybe_unused]] WinnerCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
-    winner_callback_ = std::move(cb);
+    winner_callback_ = std::move([[maybe_unused]] cb);
 }
 
 // ============================================================================
@@ -574,14 +575,14 @@ void PromptABExperimentFramework::setWinnerCallback(WinnerCallback cb) {
 uint32_t SimplePromptABFramework::fnv1a32(const std::string& user_id,
                                            const std::string& key) noexcept {
     // FNV-1a-32 over (user_id + NUL + key)
-    constexpr uint32_t FNV_OFFSET = 2166136261u;
-    constexpr uint32_t FNV_PRIME  = 16777619u;
+    constexpr uint32_t FNV_OFFSET = 2166136261;
+    constexpr uint32_t FNV_PRIME  = 16777619;
     uint32_t hash = FNV_OFFSET;
     for (unsigned char c : user_id) {
         hash ^= c;
         hash *= FNV_PRIME;
     }
-    hash ^= 0u;
+    hash ^= 0;
     hash *= FNV_PRIME;
     for (unsigned char c : key) {
         hash ^= c;
@@ -620,11 +621,11 @@ ABVariant SimplePromptABFramework::assignVariant(const UserId&        user_id,
         if (exp.key != key || !exp.active || exp.variants.empty()) {
             continue;
         }
-        if (exp.variants.size() == 1) {
+        if (static_cast<int>(exp.variants.size()) == 1) {
             return exp.variants[0];
         }
         // Use FNV-1a hash modulo 100 for traffic split.
-        const uint32_t bucket = fnv1a32(user_id, key) % 100u;
+        const uint32_t bucket = fnv1a32(user_id, key) % 100;
         double cumulative = 0.0;
         for (const auto& v : exp.variants) {
             cumulative += v.trafficWeight * 100.0;

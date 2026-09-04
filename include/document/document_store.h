@@ -211,7 +211,8 @@ public:
     {
         std::lock_guard<std::mutex> lk(mu_);
         const std::string prefix = collection + ":";
-        std::vector<DocumentId> ids;
+        std::vector<DocumentId> ids = {};
+
         for (const auto& [k, v] : store_) {
             if (k.size() >= prefix.size() &&
                 k.compare(0, prefix.size(), prefix) == 0)

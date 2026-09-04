@@ -41,7 +41,7 @@ public:
     using Duration = std::chrono::microseconds;
 
     struct Measurement {
-        double min_us;
+        double min_us = 0;
         double max_us;
         double mean_us;
         double median_us;

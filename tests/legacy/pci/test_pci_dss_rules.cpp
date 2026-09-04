@@ -351,8 +351,12 @@ TEST_F(PciDssRuleSetTest, GdprConflictWhenExportAllowedWithoutEncryption) {
     // Should flag both PCI-DSS and GDPR in the conflict description
     bool found_pci = false, found_gdpr = false;
     for (const auto& c : conflicts) {
-        if (c.find("PCI-DSS") != std::string::npos) found_pci = true;
-        if (c.find("GDPR")    != std::string::npos) found_gdpr = true;
+        if (c.find("PCI-DSS") != std::string::npos) {
+          found_pci = true;
+        }
+        if (c.find("GDPR")    != std::string::npos) {
+          found_gdpr = true;
+        }
     }
     EXPECT_TRUE(found_pci);
     EXPECT_TRUE(found_gdpr);

@@ -45,7 +45,9 @@ static std::vector<float> makeRandomVectors(size_t n, size_t dim, int seed = 0) 
     std::mt19937 rng(static_cast<unsigned>(seed));
     std::normal_distribution<float> dist(0.f, 1.f);
     std::vector<float> v(n * dim);
-    for (auto& x : v) x = dist(rng);
+    for (auto& x : v) {
+      x = dist(rng);
+    }
     return v;
 }
 
@@ -165,7 +167,9 @@ protected:
     }
 
     void TearDown() override {
-        if (backend_) backend_->shutdown();
+        if (backend_) {
+          backend_->shutdown();
+        }
     }
 
     std::unique_ptr<VulkanVectorBackend> backend_;

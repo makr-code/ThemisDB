@@ -199,7 +199,9 @@ public:
 
     bool addSource(const CollectionId& id, Changefeed* feed) override {
         std::unique_lock<std::mutex> lk(mutex_);
-        if (sources_.count(id)) return false;
+        if (sources_.count(id)) {
+          return false;
+        }
         sources_[id] = feed;
         return true;
     }
@@ -221,16 +223,21 @@ public:
             snapshot = sources_;
         }
 
-        std::vector<FanInEvent> merged;
+        std::vector<FanInEvent> merged = {};
+
         for (const auto& [id, feed] : snapshot) {
-            if (!feed) continue;
+            if (!feed) {
+              continue;
+            }
             // Restrict to requested collections if specified.
             if (!collections.empty()) {
                 bool found = false;
                 for (const auto& c : collections) {
                     if (c == id) { found = true; break; }
                 }
-                if (!found) continue;
+                if (!found) {
+                  continue;
+                }
             }
 
             Changefeed::ListOptions opts;
@@ -247,7 +254,9 @@ public:
 
         {
             std::unique_lock<std::mutex> lk(mutex_);
-            if (policy_) policy_->merge(merged);
+            if (policy_) {
+              policy_->merge(merged);
+            }
         }
 
         if (limit && merged.size() > limit) {
@@ -263,9 +272,12 @@ public:
 
     std::vector<CollectionId> sourceIds() const override {
         std::unique_lock<std::mutex> lk(mutex_);
-        std::vector<CollectionId> ids;
+        std::vector<CollectionId> ids = {};
+
         ids.reserve(sources_.size());
-        for (const auto& [id, _] : sources_) ids.push_back(id);
+        for (const auto& [id, _] : sources_) {
+          ids.push_back(id);
+        }
         return ids;
     }
 

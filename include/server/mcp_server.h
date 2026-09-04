@@ -552,7 +552,7 @@ private:
     void schedulePing();
     
     struct SessionData {
-        bool is_active;
+        bool is_active = 0;
         std::queue<std::string> pending_messages;
     };
 

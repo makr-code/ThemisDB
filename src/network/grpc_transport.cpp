@@ -47,7 +47,7 @@ GrpcTransport::~GrpcTransport() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /* static */
-bool GrpcTransport::isValidPort(uint16_t port) {
+bool GrpcTransport::isValidPort([[maybe_unused]] uint16_t port) {
     // Reject port 0 and well-known HTTP/HTTPS ports.
     if (port == 0 || port == 80 || port == 443) {
         return false;
@@ -80,7 +80,7 @@ std::string GrpcTransport::loadFile(const std::string& path) {
     if (!file) {
         throw std::runtime_error("GrpcTransport: cannot open file: " + path);
     }
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << file.rdbuf();
     return ss.str();
 }

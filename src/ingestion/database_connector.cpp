@@ -46,7 +46,7 @@ namespace {
 
 struct JdbcUrl {
     std::string subprotocol; ///< e.g. "postgresql", "mysql", "sqlserver", "sqlite"
-    std::string host;
+    std::string host = {};
     int         port = 0;
     std::string database;
     std::string raw; ///< original location string
@@ -60,8 +60,8 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
 
     // Must start with "jdbc:"
     const std::string prefix = "jdbc:";
-    if (url.size() <= prefix.size() ||
-        url.substr(0, prefix.size()) != prefix) {
+    if (static_cast<int>(url.size()) <= prefix.size() ||
+        url.substr(0,static_cast<int>(prefix.size())) != prefix) {
         return result;
     }
 
@@ -69,7 +69,9 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
 
     // Extract subprotocol (everything before first ':')
     auto colon = rest.find(':');
-    if (colon == std::string::npos) return result;
+    if (colon == std::string::npos) {
+      return result;
+    }
     result.subprotocol = rest.substr(0, colon);
 
     // Convert to lowercase for comparison
@@ -82,7 +84,7 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
     // SQLite uses a file path, not a host/port
     if (result.subprotocol == "sqlite") {
         // jdbc:sqlite:/path/to/file.db  → database = /path/to/file.db
-        if (after_sub.size() >= 2 && after_sub[0] == '/' && after_sub[1] == '/') {
+        if (static_cast<int>(after_sub.size()) > = 2 && after_sub[0] == '/' && after_sub[1] == '/') {
             after_sub = after_sub.substr(2);
         }
         result.database = after_sub;
@@ -90,14 +92,14 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
     }
 
     // Strip leading "//"
-    if (after_sub.size() >= 2 && after_sub[0] == '/' && after_sub[1] == '/') {
+    if (static_cast<int>(after_sub.size()) > = 2 && after_sub[0] == '/' && after_sub[1] == '/') {
         after_sub = after_sub.substr(2);
     }
 
     // SQL Server uses semicolons: "host:port;databaseName=db"
     // Generic: "host:port/db" or "host/db"
-    std::string host_part;
-    std::string db_part;
+    std::string host_part = {};
+    std::string db_part = {};
 
     auto semicolon = after_sub.find(';');
     if (semicolon != std::string::npos) {
@@ -108,7 +110,7 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
         const std::string dbkey = "databaseName=";
         auto pos = params.find(dbkey);
         if (pos != std::string::npos) {
-            std::string val = params.substr(pos + dbkey.size());
+            std::string val = params.substr(pos + static_cast<int>(dbkey.size()) );
             auto semi2 = val.find(';');
             db_part = (semi2 != std::string::npos) ? val.substr(0, semi2) : val;
         }
@@ -144,7 +146,7 @@ static std::string buildOdbcConnectionString(
         int timeout_s) {
 
     // Default driver names per subprotocol
-    std::string driver;
+    std::string driver = {};
     if (!driver_override.empty()) {
         driver = driver_override;
     } else if (jdbc.subprotocol == "postgresql") {
@@ -161,20 +163,30 @@ static std::string buildOdbcConnectionString(
         driver = jdbc.subprotocol; // pass-through
     }
 
-    std::ostringstream cs;
+    std::ostringstream cs = {};
     cs << "DRIVER={" << driver << "};";
 
     if (jdbc.subprotocol == "sqlite") {
         cs << "Database=" << jdbc.database << ";";
     } else {
-        if (!jdbc.host.empty()) cs << "SERVER=" << jdbc.host << ";";
-        if (jdbc.port > 0)      cs << "PORT=" << jdbc.port << ";";
-        if (!jdbc.database.empty()) cs << "DATABASE=" << jdbc.database << ";";
+        if (!jdbc.host.empty()) {
+          cs << "SERVER=" << jdbc.host << ";";
+        }
+        if (jdbc.port > 0) {
+          cs << "PORT=" << jdbc.port << ";";
+        }
+        if (!jdbc.database.empty()) {
+          cs << "DATABASE=" << jdbc.database << ";";
+        }
     }
 
-    if (!username.empty()) cs << "UID=" << username << ";";
+    if (!username.empty()) {
+      cs << "UID=" << username << ";";
+    }
     if (!password.empty()) cs << "PWD=" << password << ";";  // gitleaks:allow
-    if (timeout_s > 0)     cs << "TIMEOUT=" << timeout_s << ";";
+    if (timeout_s > 0) {
+      cs << "TIMEOUT=" << timeout_s << ";";
+    }
 
     return cs.str();
 }
@@ -190,13 +202,15 @@ static std::string buildOdbcConnectionString(
                               return std::tolower(static_cast<unsigned char>(a))
                                   == std::tolower(static_cast<unsigned char>(b));
                           });
-    if (it == cs.end()) return cs;
+    if (it == cs.end()) {
+      return cs;
+    }
 
     std::string result = cs;
-    std::size_t pos = static_cast<std::size_t>(it - cs.begin()) + target.size();
+    std::size_t pos = static_cast<std::size_t>(it - cs.begin()) + static_cast<int>(target.size()) ;
     auto end = result.find(';', pos);
     if (end == std::string::npos) {
-        result.replace(pos, result.size() - pos, "***");
+        result.replace(pos, static_cast<int>(result.size()) - pos, "***");
     } else {
         result.replace(pos, end - pos, "***");
     }
@@ -205,16 +219,18 @@ static std::string buildOdbcConnectionString(
 
 /// Serialize a DbRow to a minimal JSON object (no external dependencies).
 static std::string rowToJson(const DatabaseConnector::DbRow& row) {
-    std::ostringstream js;
+    std::ostringstream js = {};
     js << '{';
     bool first = true;
     for (const auto& kv : row) {
-        if (!first) js << ',';
+        if (!first) {
+          js << ',';
+        }
         first = false;
         // Simple JSON string escaping
         auto escape = [](const std::string& s) -> std::string {
-            std::string out;
-            out.reserve(s.size() + 4);
+            std::string out = {};
+            out.reserve(static_cast<int>(s.size()) + 4);
             for (unsigned char c : s) {
                 if (c == '"')  { out += "\\\""; }
                 else if (c == '\\') { out += "\\\\"; }
@@ -239,11 +255,13 @@ static std::string rowToText(const DatabaseConnector::DbRow& row,
     if (text_columns.empty()) {
         return rowToJson(row);
     }
-    std::string text;
+    std::string text = {};
     for (const auto& col : text_columns) {
         auto it = row.find(col);
         if (it != row.end() && !it->second.empty()) {
-            if (!text.empty()) text += ' ';
+            if (!text.empty()) {
+              text += ' ';
+            }
             text += it->second;
         }
     }
@@ -254,7 +272,7 @@ static std::string rowToText(const DatabaseConnector::DbRow& row,
 static std::vector<std::string> splitComma(const std::string& s) {
     std::vector<std::string> result;
     std::istringstream ss(s);
-    std::string token;
+    std::string token = {};
     while (std::getline(ss, token, ',')) {
         // trim whitespace
         auto b = token.find_first_not_of(" \t");
@@ -279,7 +297,9 @@ public:
     ~Impl() = default;
 
     bool initialize(const SourceConfig& config) {
-        if (config.type != SourceType::DATABASE) return false;
+        if (config.type != SourceType::DATABASE) {
+          return false;
+        }
         config_ = config;
 
         auto opt = [&](const std::string& k, const std::string& def) {
@@ -300,7 +320,9 @@ public:
 
         try { batch_size_ = static_cast<size_t>(std::stoull(opt("batch_size", "500"))); }
         catch (...) { batch_size_ = 500; }
-        if (batch_size_ == 0) batch_size_ = 500;
+        if (batch_size_ == 0) {
+          batch_size_ = 500;
+        }
 
         try { max_rows_ = static_cast<size_t>(std::stoull(opt("max_rows", "0"))); }
         catch (...) { max_rows_ = 0; }
@@ -353,7 +375,9 @@ public:
             SQL_DRIVER_NOPROMPT);
 
         bool ok = (rc == SQL_SUCCESS || rc == SQL_SUCCESS_WITH_INFO);
-        if (ok) SQLDisconnect(hdbc);
+        if (ok) {
+          SQLDisconnect(hdbc);
+        }
         SQLFreeHandle(SQL_HANDLE_DBC, hdbc);
         SQLFreeHandle(SQL_HANDLE_ENV, henv);
         return ok;
@@ -373,7 +397,9 @@ public:
         SQLHSTMT hstmt = SQL_NULL_HSTMT;
         size_t count = 0;
 
-        if (!openConnection(henv, hdbc)) return 0;
+        if (!openConnection(henv, hdbc)) {
+          return 0;
+        }
         if (SQLAllocHandle(SQL_HANDLE_STMT, hdbc, &hstmt) != SQL_SUCCESS) {
             closeConnection(hdbc, henv);
             return 0;
@@ -462,13 +488,19 @@ private:
         size_t fetched = 0;
         try {
             while (true) {
-                if (max_rows_ > 0 && fetched >= max_rows_) break;
+                if (max_rows_ > 0 && fetched >= max_rows_) {
+                  break;
+                }
 
                 auto batch = row_fetch_fn_();
-                if (batch.empty()) break;
+                if (batch.empty()) {
+                  break;
+                }
 
                 for (const auto& row : batch) {
-                    if (max_rows_ > 0 && fetched >= max_rows_) break;
+                    if (max_rows_ > 0 && fetched >= max_rows_) {
+                      break;
+                    }
 
                     std::string text = rowToText(row, text_columns_);
                     std::string json = rowToJson(row);
@@ -485,7 +517,7 @@ private:
                     ++fetched;
                 }
 
-                if (progress_callback) {
+                if ([[maybe_unused]] progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0, // total unknown
@@ -618,10 +650,14 @@ private:
 
         try {
             while (true) {
-                if (max_rows_ > 0 && fetched >= max_rows_) break;
+                if (max_rows_ > 0 && fetched >= max_rows_) {
+                  break;
+                }
 
                 rc = SQLFetch(hstmt);
-                if (rc == SQL_NO_DATA) break;
+                if (rc == SQL_NO_DATA) {
+                  break;
+                }
                 if (rc != SQL_SUCCESS && rc != SQL_SUCCESS_WITH_INFO) {
                     stats.addError(IngestionErrorCode::PROCESSING_FAILED,
                                    IngestionErrorSeverity::WARNING,
@@ -633,7 +669,7 @@ private:
 
                 DbRow row;
                 for (SQLSMALLINT i = 1; i <= col_count; ++i) {
-                    std::string cell_value;
+                    std::string cell_value = {};
                     SQLCHAR buf[buf_size];
                     SQLLEN ind = 0;
                     SQLRETURN grc = SQLGetData(hstmt, i, SQL_C_CHAR,
@@ -669,7 +705,7 @@ private:
                 ++fetched;
 
                 // Invoke progress callback once per batch
-                if (fetched % batch_size_ == 0 && progress_callback) {
+                if ([[maybe_unused]] fetched % batch_size_ == 0 && progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0,

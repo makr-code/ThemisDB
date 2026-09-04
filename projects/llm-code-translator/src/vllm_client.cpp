@@ -237,7 +237,7 @@ bool VLLMClient::healthCheck() {
             return false;
         }
         
-        std::string response_string;
+        std::string response_string = {};
         std::string url = config_.base_url + "/health";
         
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());

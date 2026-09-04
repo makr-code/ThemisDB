@@ -46,10 +46,10 @@ using namespace themis::rag::judge;
 std::string getCurrentTimestamp() {
     auto now = std::chrono::system_clock::now();
     auto time_t_now = std::chrono::system_clock::to_time_t(now);
-    std::tm tm_now;
+    std::tm tm_now = {};
     localtime_r(&time_t_now, &tm_now);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm_now, "%Y-%m-%dT%H:%M:%S");
     return oss.str();
 }

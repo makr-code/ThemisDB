@@ -73,7 +73,7 @@ void PostgreSQLCDC::LogicalDecoder::subscribeToChanges(
     }
 }
 
-void PostgreSQLCDC::LogicalDecoder::confirmLSN(uint64_t lsn) {
+void PostgreSQLCDC::LogicalDecoder::confirmLSN([[maybe_unused]] uint64_t lsn) {
     last_confirmed_lsn_ = lsn;
 }
 

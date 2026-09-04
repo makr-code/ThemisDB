@@ -117,7 +117,7 @@ std::string TSStore::makeKey(const std::string& metric,
                                      int64_t timestamp_ms) const {
     // Format: "ts:{metric}:{entity}:{timestamp_ms_padded}"
     // Zero-pad timestamp for lexicographic ordering
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << KEY_PREFIX << metric << ":" << entity << ":" 
         << std::setw(20) << std::setfill('0') << timestamp_ms;
     return oss.str();
@@ -132,10 +132,14 @@ TSStore::parseKeyInternal(const std::string& key) const {
     
     size_t pos1 = strlen(KEY_PREFIX);
     size_t pos2 = key.find(':', pos1);
-    if (pos2 == std::string::npos) return std::nullopt;
+    if (pos2 == std::string::npos) {
+      return std::nullopt;
+    }
     
     size_t pos3 = key.find(':', pos2 + 1);
-    if (pos3 == std::string::npos) return std::nullopt;
+    if (pos3 == std::string::npos) {
+      return std::nullopt;
+    }
     
     KeyComponents comp;
     comp.metric = key.substr(pos1, pos2 - pos1);
@@ -220,7 +224,9 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
         int result = checkAndUpdateWatermarkLocked(wm_key, point.timestamp_ms);
         if (result < 0) {
             ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
-            if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/true);
+            if (metrics_) {
+              metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/true);
+            }
             span.recordError("Data point outside late-arrival window");
             return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
                 fmt::format("Data point timestamp {} is outside the late-arrival window "
@@ -229,7 +235,9 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
         }
         if (result > 0) {
             ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
-            if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/false);
+            if (metrics_) {
+              metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/false);
+            }
             THEMIS_DEBUG("Out-of-order write accepted: metric={}, ts={}",
                          point.metric, point.timestamp_ms);
         }
@@ -331,7 +339,9 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                     int r = checkAndUpdateWatermarkLocked(group_key, p.timestamp_ms);
                     if (r < 0) {
                         ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
-                        if (metrics_) metrics_->recordOutOfOrderWrite(p.metric, /*rejected=*/true);
+                        if (metrics_) {
+                          metrics_->recordOutOfOrderWrite(p.metric, /*rejected=*/true);
+                        }
                         span.recordError("Data point outside late-arrival window");
                         return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
                             fmt::format("Data point timestamp {} is outside the late-arrival window "
@@ -340,14 +350,17 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                     }
                     if (r > 0) {
                         ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
-                        if (metrics_) metrics_->recordOutOfOrderWrite(p.metric, /*rejected=*/false);
+                        if (metrics_) {
+                          metrics_->recordOutOfOrderWrite(p.metric, /*rejected=*/false);
+                        }
                     }
                 }
             }
             
             // Extract timestamps and values
             std::vector<int64_t> timestamps;
-            std::vector<double> values;
+            std::vector<double> values = {};
+
             timestamps.reserve(group_points.size());
             values.reserve(group_points.size());
             
@@ -359,7 +372,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
             // Compress with Gorilla
             try {
                 GorillaEncoder encoder;
-                for (size_t i = 0; i < timestamps.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(timestamps.size()); ++i) {
                     encoder.add(timestamps[i], values[i]);
                 }
                 std::vector<uint8_t> compressed = encoder.finish();
@@ -413,7 +426,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                 // Record compression metrics
                 if (metrics_) {
                     size_t uncompressed_size = group_points.size() * (sizeof(int64_t) + sizeof(double));
-                    metrics_->recordCompression(group_points.front().metric, uncompressed_size, compressed.size());
+                    metrics_->recordCompression(group_points.front().metric, uncompressed_size,static_cast<int>(compressed.size()));
                 }
                 
             } catch (const std::exception& e) {
@@ -436,7 +449,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
         }
         
         THEMIS_INFO("Wrote Gorilla-compressed batch of {} data points ({} chunks)", 
-            points.size(), grouped.size());
+            points.size(),static_cast<int>(grouped.size()));
         return OkVoid();
     }
     
@@ -459,7 +472,9 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
             int r = checkAndUpdateWatermarkLocked(wm_key, point.timestamp_ms);
             if (r < 0) {
                 ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
-                if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/true);
+                if (metrics_) {
+                  metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/true);
+                }
                 return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
                     fmt::format("Data point timestamp {} is outside the late-arrival window "
                                 "(window={}ms)",
@@ -467,7 +482,9 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
             }
             if (r > 0) {
                 ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
-                if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/false);
+                if (metrics_) {
+                  metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/false);
+                }
             }
         }
         
@@ -488,12 +505,12 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
         std::chrono::steady_clock::now() - start_time).count();
     
     if (!s.ok()) {
-        THEMIS_ERROR("Failed to write batch of {} data points: {}", points.size(), s.ToString());
+        THEMIS_ERROR("Failed to write batch of {} data points: {}",static_cast<int>(points.size()), s.ToString());
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
-                       fmt::format("Failed to write batch of {} data points: {}", points.size(), s.ToString()));
+                       fmt::format("Failed to write batch of {} data points: {}",static_cast<int>(points.size()), s.ToString()));
     }
     
-    THEMIS_INFO("Wrote batch of {} data points (raw)", points.size());
+    THEMIS_INFO("Wrote batch of {} data points (raw)",static_cast<int>(points.size()));
     return OkVoid();
 }
 
@@ -502,7 +519,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
     span.setAttribute("batch_size", static_cast<int64_t>(rows.size()));
     auto start_time = std::chrono::steady_clock::now();
 
-    BatchWriteResult result;
+    BatchWriteResult result = {};
     if (rows.empty()) {
         return Ok(result);
     }
@@ -514,7 +531,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
         groups.reserve(rows.size());
 
         // Validate and group
-        for (size_t i = 0; i < rows.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(rows.size()); ++i) {
             const auto& row = rows[i];
             if (row.metric.empty() || row.entity.empty()) {
                 result.row_errors.emplace_back(i, "metric and entity cannot be empty");
@@ -523,12 +540,14 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
             }
             // Late-arrival / out-of-order check
             if (config_.late_arrival_window_ms > 0) {
-                std::string wm_key; wm_key.reserve(row.metric.size() + 1 + row.entity.size()); wm_key.append(row.metric).append(":").append(row.entity);
+                std::string wm_key; wm_key.reserve(row.metric.size() + 1 + static_cast<int>(row.entity.size()) ); wm_key.append(row.metric).append(":").append(row.entity);
                 std::lock_guard<std::mutex> lock(watermark_mutex_);
                 int r = checkAndUpdateWatermarkLocked(wm_key, row.timestamp_ms);
                 if (r < 0) {
                     ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
-                    if (metrics_) metrics_->recordOutOfOrderWrite(std::string(row.metric), true);
+                    if (metrics_) {
+                      metrics_->recordOutOfOrderWrite(std::string(row.metric), true);
+                    }
                     result.row_errors.emplace_back(i,
                         "timestamp outside late-arrival window");
                     ++result.failed_count;
@@ -536,10 +555,12 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                 }
                 if (r > 0) {
                     ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
-                    if (metrics_) metrics_->recordOutOfOrderWrite(std::string(row.metric), false);
+                    if (metrics_) {
+                      metrics_->recordOutOfOrderWrite(std::string(row.metric), false);
+                    }
                 }
             }
-            std::string gk; gk.reserve(row.metric.size() + 1 + row.entity.size()); gk.append(row.metric).append(":").append(row.entity);
+            std::string gk; gk.reserve(row.metric.size() + 1 + static_cast<int>(row.entity.size()) ); gk.append(row.metric).append(":").append(row.entity);
             groups[gk].push_back(i);
         }
 
@@ -553,7 +574,8 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                 });
 
             std::vector<int64_t> timestamps;
-            std::vector<double>  values;
+            std::vector<double>  values = {};
+
             timestamps.reserve(indices.size());
             values.reserve(indices.size());
             for (size_t idx : indices) {
@@ -563,20 +585,20 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
 
             try {
                 GorillaEncoder encoder;
-                for (size_t j = 0; j < timestamps.size(); ++j) {
+                for (size_t j = 0; j <static_cast<int>(timestamps.size()); ++j) {
                     encoder.add(timestamps[j], values[j]);
                 }
                 std::vector<uint8_t> compressed = encoder.finish();
 
                 const auto& first_row = rows[indices.front()];
-                std::string chunk_key;
+                std::string chunk_key = {};
                 {
                     const std::string ts_front = std::to_string(timestamps.front());
                     const std::string ts_back  = std::to_string(timestamps.back());
                     chunk_key.reserve(std::strlen(GORILLA_CHUNK_PREFIX) +
                                       first_row.metric.size() + 1 +
                                       first_row.entity.size() + 1 +
-                                      ts_front.size() + 1 + ts_back.size());
+                                      static_cast<int>(ts_front.size()) + 1 + static_cast<int>(ts_back.size()) );
                     chunk_key.append(GORILLA_CHUNK_PREFIX)
                              .append(first_row.metric).append(":")
                              .append(first_row.entity).append(":")
@@ -589,8 +611,8 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                 chunk_meta["count"]       = indices.size();
 
                 if (enc_chunk_store_) {
-                    std::string series_id;
-                    series_id.reserve(first_row.metric.size() + 1 + first_row.entity.size());
+                    std::string series_id = {};
+                    series_id.reserve(first_row.metric.size() + 1 + static_cast<int>(first_row.entity.size()) );
                     series_id.append(first_row.metric).append(":").append(first_row.entity);
                     std::string chunk_range = "[" + std::to_string(timestamps.front()) +
                                               "," + std::to_string(timestamps.back()) + "]";
@@ -613,7 +635,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                 if (metrics_) {
                     size_t uncompressed = indices.size() * (sizeof(int64_t) + sizeof(double));
                     metrics_->recordCompression(std::string(first_row.metric),
-                                                uncompressed, compressed.size());
+                                                uncompressed,static_cast<int>(compressed.size()));
                 }
             } catch (const std::exception& e) {
                 // Mark all rows in this group as failed
@@ -632,7 +654,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                 std::string("putBatch WriteBatch failed: ") + s.ToString());
         }
 
-        result.ok_count = rows.size() - result.failed_count;
+        result.ok_count = static_cast<int>(rows.size()) - result.failed_count;
         auto latency_ms = std::chrono::duration<double, std::milli>(
             std::chrono::steady_clock::now() - start_time).count();
         THEMIS_INFO("putBatch (Gorilla): {} ok / {} failed in {:.2f} ms",
@@ -643,7 +665,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
     // No-compression path — raw key-value entries per row in a single WriteBatch.
     rocksdb::WriteBatch batch;
 
-    for (size_t i = 0; i < rows.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(rows.size()); ++i) {
         const auto& row = rows[i];
         if (row.metric.empty() || row.entity.empty()) {
             result.row_errors.emplace_back(i, "metric and entity cannot be empty");
@@ -652,19 +674,23 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
         }
 
         if (config_.late_arrival_window_ms > 0) {
-            std::string wm_key; wm_key.reserve(row.metric.size() + 1 + row.entity.size()); wm_key.append(row.metric).append(":").append(row.entity);
+            std::string wm_key; wm_key.reserve(row.metric.size() + 1 + static_cast<int>(row.entity.size()) ); wm_key.append(row.metric).append(":").append(row.entity);
             std::lock_guard<std::mutex> lock(watermark_mutex_);
             int r = checkAndUpdateWatermarkLocked(wm_key, row.timestamp_ms);
             if (r < 0) {
                 ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
-                if (metrics_) metrics_->recordOutOfOrderWrite(std::string(row.metric), true);
+                if (metrics_) {
+                  metrics_->recordOutOfOrderWrite(std::string(row.metric), true);
+                }
                 result.row_errors.emplace_back(i, "timestamp outside late-arrival window");
                 ++result.failed_count;
                 continue;
             }
             if (r > 0) {
                 ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
-                if (metrics_) metrics_->recordOutOfOrderWrite(std::string(row.metric), false);
+                if (metrics_) {
+                  metrics_->recordOutOfOrderWrite(std::string(row.metric), false);
+                }
             }
         }
 
@@ -691,7 +717,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
             std::string("putBatch WriteBatch failed: ") + s.ToString());
     }
 
-    result.ok_count = rows.size() - result.failed_count;
+    result.ok_count = static_cast<int>(rows.size()) - result.failed_count;
     auto latency_ms = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - start_time).count();
     THEMIS_INFO("putBatch (raw): {} ok / {} failed in {:.2f} ms",
@@ -748,11 +774,13 @@ TSStore::query(const QueryOptions& options) const {
         while (it->Valid() && count < options.limit) {
             std::string key = it->key().ToString();
             
-            if (key > end_key) break;
+            if (key > end_key) {
+              break;
+            }
             
             if (!options.entity.has_value()) {
                 std::string expected_prefix = KEY_PREFIX + options.metric + ":";
-                if (key.compare(0, expected_prefix.size(), expected_prefix) != 0) {
+                if (key.compare(0,static_cast<int>(expected_prefix.size()), expected_prefix) != 0) {
                     break;
                 }
             }
@@ -792,7 +820,9 @@ TSStore::query(const QueryOptions& options) const {
         while (it->Valid() && count < options.limit) {
             std::string key = it->key().ToString();
             
-            if (key > end_key) break;
+            if (key > end_key) {
+              break;
+            }
             
             try {
                 nlohmann::json chunk_meta = nlohmann::json::parse(it->value().ToString());
@@ -826,7 +856,8 @@ TSStore::query(const QueryOptions& options) const {
                         " cannot be decrypted: no EncryptedChunkStore attached");
                 }
 
-                std::vector<uint8_t> raw_data;
+                std::vector<uint8_t> raw_data = {};
+
                 if (chunk_meta.contains("data") && chunk_meta["data"].is_binary()) {
                     raw_data = chunk_meta["data"].get<std::vector<uint8_t>>();
                 } else if (chunk_meta.contains("data") && chunk_meta["data"].is_array()) {
@@ -843,7 +874,7 @@ TSStore::query(const QueryOptions& options) const {
 
                 if (is_encrypted) {
                     size_t pos4 = key.find(':', pos3 + 1);
-                    std::string chunk_range;
+                    std::string chunk_range = {};
                     if (pos4 == std::string::npos) {
                         // Malformed chunk key — log a warning and skip.
                         THEMIS_WARN("Malformed encrypted chunk key (missing last_ts): {}", key);
@@ -886,7 +917,9 @@ TSStore::query(const QueryOptions& options) const {
                     if (matchesTagFilter(dp, options.tag_filter)) {
                         results.push_back(dp);
                         count++;
-                        if (count >= options.limit) break;
+                        if (count >= options.limit) {
+                          break;
+                        }
                     }
                 }
                 
@@ -913,7 +946,7 @@ TSStore::query(const QueryOptions& options) const {
         std::chrono::steady_clock::now() - start_time).count();
     [[maybe_unused]] int64_t time_range = options.to_timestamp_ms - options.from_timestamp_ms;
     
-    THEMIS_DEBUG("Query returned {} data points for metric={}", results.size(), options.metric);
+    THEMIS_DEBUG("Query returned {} data points for metric={}",static_cast<int>(results.size()), options.metric);
     return Ok(std::move(results));
 }
 
@@ -1070,7 +1103,7 @@ TSStore::Stats TSStore::getStats() const {
             unique_metrics.insert(comp->metric);
             oldest_ts = std::min(oldest_ts, comp->timestamp_ms);
             newest_ts = std::max(newest_ts, comp->timestamp_ms);
-            total_size += key.size() + it->value().size();
+            total_size += static_cast<int>(key.size()) + it->value().size();
             stats.total_data_points++;
         }
         
@@ -1169,15 +1202,20 @@ size_t TSStore::deleteOldData(int64_t before_timestamp_ms) {
 }
 
 size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before_timestamp_ms) {
-    if (metric.empty()) return 0;
+    if (metric.empty()) {
+      return 0;
+    }
     auto start_time = std::chrono::steady_clock::now();
     size_t deleted_count = 0;
     rocksdb::ReadOptions read_opts;
-    std::unique_ptr<rocksdb::Iterator> it;
-    if (cf_) it.reset(db_->NewIterator(read_opts, cf_)); else it.reset(db_->NewIterator(read_opts));
+    std::unique_ptr<rocksdb::Iterator> it = {};
+
+    if (cf_) {
+      it.reset(db_->NewIterator(read_opts, cf_)); else it.reset(db_->NewIterator(read_opts));
+    }
 
     std::string prefix = KEY_PREFIX + metric + ":";
-    std::string end_key;
+    std::string end_key = {};
     {
         // end_key as first key with timestamp >= cutoff for any entity; we'll check entities in loop
         // We will iterate all keys with metric prefix and delete those with timestamp < cutoff
@@ -1187,10 +1225,14 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
     it->Seek(prefix);
     while (it->Valid()) {
         std::string key = it->key().ToString();
-        if (key.compare(0, prefix.size(), prefix) != 0) break;
+        if (key.compare(0,static_cast<int>(prefix.size()), prefix) != 0) {
+          break;
+        }
         auto comp = parseKeyInternal(key);
         if (comp.has_value() && comp->metric == metric && comp->timestamp_ms < before_timestamp_ms) {
-            if (cf_) batch.Delete(cf_, key); else batch.Delete(key);
+            if (cf_) {
+              batch.Delete(cf_, key); else batch.Delete(key);
+            }
             deleted_count++;
         }
         it->Next();
@@ -1237,7 +1279,7 @@ Result<void> TSStore::deleteMetric(const std::string& metric) {
     while (it->Valid()) {
         std::string key = it->key().ToString();
         
-        if (key.compare(0, prefix.size(), prefix) != 0) {
+        if (key.compare(0,static_cast<int>(prefix.size()), prefix) != 0) {
             break;
         }
         
@@ -1326,7 +1368,7 @@ Result<void> TSStore::putSystemMeta(const std::string& key, const std::string& v
 
 Result<std::optional<std::string>> TSStore::getSystemMeta(const std::string& key) const {
     std::string full_key = std::string(SYS_META_PREFIX) + key;
-    std::string value;
+    std::string value = {};
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
     if (cf_) {

@@ -53,7 +53,7 @@ DistributedRAGEvaluator::DistributedRAGEvaluator(
     }
     THEMIS_INFO("DistributedRAGEvaluator initialised with {} judge(s), "
                 "aggregation={}",
-                impl_->workers.size(),
+                impl_-> static_cast<int>(workers.size()),
                 static_cast<int>(config.aggregation));
 }
 
@@ -68,7 +68,7 @@ DistributedRAGEvaluator::evaluate(const judge::EvaluationInput& input)
 {
     const auto wall_start = std::chrono::steady_clock::now();
 
-    const size_t n = impl_->workers.size();
+    const size_t n = impl_-> static_cast<int>(workers.size());
     const size_t max_parallel = (impl_->config.max_parallel_judges == 0)
                                  ? n
                                  : impl_->config.max_parallel_judges;
@@ -100,8 +100,8 @@ DistributedRAGEvaluator::evaluate(const judge::EvaluationInput& input)
     // valid references (only possible when per_judge_timeout > 0).
     struct SemState {
         std::atomic<size_t>     running{0};
-        std::mutex              mtx;
-        std::condition_variable cv;
+        std::mutex              mtx = {};
+        std::condition_variable cv = {};
     };
     auto sem = std::make_shared<SemState>();
 
@@ -266,7 +266,7 @@ DistributedEvaluatorConfig DistributedRAGEvaluator::getConfig() const
 
 size_t DistributedRAGEvaluator::judgeCount() const
 {
-    return impl_->workers.size();
+    return static_cast<bool>(impl_- < static_cast<int>(workers.size()));
 }
 
 uint64_t DistributedRAGEvaluator::totalEvaluations() const
@@ -286,7 +286,7 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
     if (results.empty()) {
         return judge::EvaluationResult{};
     }
-    if (results.size() == 1) {
+    if (static_cast<int>(results.size()) == 1) {
         return results[0];
     }
 
@@ -304,10 +304,10 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
     if (strategy == AggregationStrategy::MAJORITY_VOTING) {
         // Each dimension is binarised at 0.5; majority determines the aggregate.
         judge::EvaluationResult out{};
-        const size_t            n       = results.size();
+        const size_t n = results.size();
         const size_t            half    = n / 2;
 
-        auto majorityScore = [&](auto field_fn) -> double {
+        auto majorityScore = [&]([[maybe_unused]] auto field_fn) -> double {
             size_t pass = 0;
             for (const auto& r : results) {
                 if (field_fn(r) >= 0.5) { ++pass; }
@@ -328,7 +328,7 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
     const bool use_weights = (strategy == AggregationStrategy::WEIGHTED_MEAN);
 
     double total_w = 0.0;
-    for (size_t i = 0; i < results.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(results.size()); ++i) {
         total_w += use_weights ? weights[i] : 1.0;
     }
     if (total_w < std::numeric_limits<double>::epsilon()) { total_w = 1.0; }
@@ -336,7 +336,7 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
     judge::EvaluationResult out{};
     out.judge_model = "distributed-aggregate";
 
-    for (size_t i = 0; i < results.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(results.size()); ++i) {
         const double w = (use_weights ? weights[i] : 1.0) / total_w;
         const auto&  r = results[i];
 
@@ -381,7 +381,7 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
 double DistributedRAGEvaluator::computeAgreement(
     const std::vector<judge::EvaluationResult>& results)
 {
-    if (results.size() <= 1) { return 1.0; }
+    if (static_cast<int>(results.size()) <= 1) { return 1.0; }
 
     // Agreement = 1 - normalised standard deviation of overall_score
     double sum  = 0.0;

@@ -157,7 +157,9 @@ public:
     template<typename It>
     bool build(It begin, It end) {
         for (auto it = begin; it != end; ++it) {
-            if (!addBuildBatch(*it)) return false;
+            if (!addBuildBatch(*it)) {
+              return false;
+            }
         }
         return true;
     }

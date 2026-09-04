@@ -30,7 +30,7 @@ struct HSMStartupPolicyResult {
     bool         explicit_stub_opt_in{false};
     bool         hsm_config_present{false};
     std::string  config_source;
-    std::string  error;
+    std::string  error = {};
 
     [[nodiscard]] bool ok() const noexcept { return error.empty(); }
 };
@@ -53,9 +53,9 @@ struct [[nodiscard]] HSMRuntimeSecurityDecision {
     /// True when the active runtime provider is the software stub.
     bool runtime_stub_active{true};
     /// Stable security class string (e.g. HSM-HARDENED-PKCS11, HSM-DEGRADED-EXPLICIT-STUB).
-    std::string security_classification;
+    std::string security_classification = {};
     /// Human-readable audit trail message for logs/audit sinks.
-    std::string audit_event;
+    std::string audit_event = {};
 };
 
 [[nodiscard]] inline bool isHSMStubOptInEnabled(int argc, char* argv[]) {

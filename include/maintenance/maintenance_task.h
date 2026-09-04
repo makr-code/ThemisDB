@@ -87,25 +87,63 @@ inline std::string taskTypeToString(MaintenanceTaskType t) {
 /// Parse a MaintenanceTaskType from its string representation.
 /// Returns MaintenanceTaskType::METRICS_COLLECTION if not recognized.
 inline MaintenanceTaskType taskTypeFromString(const std::string& s) {
-    if (s == "metrics_collection")         return MaintenanceTaskType::METRICS_COLLECTION;
-    if (s == "fragmentation_monitoring")   return MaintenanceTaskType::FRAGMENTATION_MONITORING;
-    if (s == "quota_check")                return MaintenanceTaskType::QUOTA_CHECK;
-    if (s == "consistency_check")          return MaintenanceTaskType::CONSISTENCY_CHECK;
-    if (s == "replica_validation")         return MaintenanceTaskType::REPLICA_VALIDATION;
-    if (s == "performance_analysis")       return MaintenanceTaskType::PERFORMANCE_ANALYSIS;
-    if (s == "mvcc_cleanup")               return MaintenanceTaskType::MVCC_CLEANUP;
-    if (s == "full_checkdb")               return MaintenanceTaskType::FULL_CHECKDB;
-    if (s == "backup_verification")        return MaintenanceTaskType::BACKUP_VERIFICATION;
-    if (s == "capacity_trend_analysis")    return MaintenanceTaskType::CAPACITY_TREND_ANALYSIS;
-    if (s == "index_fragmentation_report") return MaintenanceTaskType::INDEX_FRAGMENTATION_REPORT;
-    if (s == "disaster_recovery_drill")    return MaintenanceTaskType::DISASTER_RECOVERY_DRILL;
-    if (s == "baseline_update")            return MaintenanceTaskType::BASELINE_UPDATE;
-    if (s == "index_rebuild")              return MaintenanceTaskType::INDEX_REBUILD;
-    if (s == "index_reorganize")           return MaintenanceTaskType::INDEX_REORGANIZE;
-    if (s == "statistics_update")          return MaintenanceTaskType::STATISTICS_UPDATE;
-    if (s == "storage_compaction")         return MaintenanceTaskType::STORAGE_COMPACTION;
-    if (s == "orphan_cleanup")             return MaintenanceTaskType::ORPHAN_CLEANUP;
-    if (s == "vector_reindex")             return MaintenanceTaskType::VECTOR_REINDEX;
+    if (s == "metrics_collection") {
+      return MaintenanceTaskType::METRICS_COLLECTION;
+    }
+    if (s == "fragmentation_monitoring") {
+      return MaintenanceTaskType::FRAGMENTATION_MONITORING;
+    }
+    if (s == "quota_check") {
+      return MaintenanceTaskType::QUOTA_CHECK;
+    }
+    if (s == "consistency_check") {
+      return MaintenanceTaskType::CONSISTENCY_CHECK;
+    }
+    if (s == "replica_validation") {
+      return MaintenanceTaskType::REPLICA_VALIDATION;
+    }
+    if (s == "performance_analysis") {
+      return MaintenanceTaskType::PERFORMANCE_ANALYSIS;
+    }
+    if (s == "mvcc_cleanup") {
+      return MaintenanceTaskType::MVCC_CLEANUP;
+    }
+    if (s == "full_checkdb") {
+      return MaintenanceTaskType::FULL_CHECKDB;
+    }
+    if (s == "backup_verification") {
+      return MaintenanceTaskType::BACKUP_VERIFICATION;
+    }
+    if (s == "capacity_trend_analysis") {
+      return MaintenanceTaskType::CAPACITY_TREND_ANALYSIS;
+    }
+    if (s == "index_fragmentation_report") {
+      return MaintenanceTaskType::INDEX_FRAGMENTATION_REPORT;
+    }
+    if (s == "disaster_recovery_drill") {
+      return MaintenanceTaskType::DISASTER_RECOVERY_DRILL;
+    }
+    if (s == "baseline_update") {
+      return MaintenanceTaskType::BASELINE_UPDATE;
+    }
+    if (s == "index_rebuild") {
+      return MaintenanceTaskType::INDEX_REBUILD;
+    }
+    if (s == "index_reorganize") {
+      return MaintenanceTaskType::INDEX_REORGANIZE;
+    }
+    if (s == "statistics_update") {
+      return MaintenanceTaskType::STATISTICS_UPDATE;
+    }
+    if (s == "storage_compaction") {
+      return MaintenanceTaskType::STORAGE_COMPACTION;
+    }
+    if (s == "orphan_cleanup") {
+      return MaintenanceTaskType::ORPHAN_CLEANUP;
+    }
+    if (s == "vector_reindex") {
+      return MaintenanceTaskType::VECTOR_REINDEX;
+    }
     return MaintenanceTaskType::METRICS_COLLECTION;
 }
 

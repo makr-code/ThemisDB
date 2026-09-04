@@ -26,7 +26,9 @@ static uint32_t count_severity(const ApiSecurityAuditReport& report,
 {
     uint32_t n = 0;
     for (const auto& f : report.findings) {
-        if (f.severity == severity) ++n;
+        if (f.severity == severity) {
+          ++n;
+        }
     }
     return n;
 }

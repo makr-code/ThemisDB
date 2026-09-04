@@ -35,8 +35,8 @@ using namespace themis::security;
 
 class HSMProviderTest : public ::testing::Test {
 protected:
-    std::string hsm_library_path;
-    std::string hsm_pin;
+    std::string hsm_library_path = {};
+    std::string hsm_pin = {};
     uint32_t hsm_slot = 0;
     
     void SetUp() override {
@@ -172,7 +172,9 @@ TEST_F(HSMProviderTest, GenerateKeyPairNotImplemented) {
 TEST_F(HSMProviderTest, HSMPKIClientIntegrationBasic) {
     HSMConfig config = createTestConfig();
     HSMPKIClient client(config);
-    if(!client.isReady()) GTEST_SKIP() << "Not ready";
+    if(!client.isReady()) {
+      GTEST_SKIP() << "Not ready";
+    }
     std::vector<uint8_t> data = {'D','a','t','a'};
     auto sig = client.sign(data);
     EXPECT_TRUE(sig.success);
@@ -484,15 +486,17 @@ bool unsetEnvVar(const std::string& name) {
 } // namespace
 
 struct HsmProviderEnvGuard {
-    std::string name;
-    std::string previous;
+    std::string name = {};
+    std::string previous = {};
     bool had_previous{false};
 
     HsmProviderEnvGuard(const std::string& var_name, const std::string& value)
         : name(var_name) {
         const char* existing = std::getenv(name.c_str());
         had_previous = (existing != nullptr);
-        if (had_previous) previous = existing;
+        if (had_previous) {
+          previous = existing;
+        }
         (void)setEnvVar(name, value);
     }
 
@@ -506,14 +510,16 @@ struct HsmProviderEnvGuard {
 };
 
 struct HsmProviderEnvUnsetGuard {
-    std::string name;
-    std::string previous;
+    std::string name = {};
+    std::string previous = {};
     bool had_previous{false};
 
     explicit HsmProviderEnvUnsetGuard(const std::string& var_name) : name(var_name) {
         const char* existing = std::getenv(name.c_str());
         had_previous = (existing != nullptr);
-        if (had_previous) previous = existing;
+        if (had_previous) {
+          previous = existing;
+        }
         (void)unsetEnvVar(name);
     }
 

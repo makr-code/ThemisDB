@@ -19,7 +19,7 @@ TEST_F(LIRSCacheTest, BasicPutAndGet) {
     cache->put(1, "value1");
     cache->put(2, "value2");
     
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(cache->get(1, value));
     EXPECT_EQ(value, "value1");
     
@@ -40,7 +40,7 @@ TEST_F(LIRSCacheTest, Update) {
     cache->put(1, "value1");
     cache->put(1, "value2");
     
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(cache->get(1, value));
     EXPECT_EQ(value, "value2");
     EXPECT_EQ(cache->size(), 1);
@@ -83,7 +83,7 @@ TEST_F(LIRSCacheTest, Eviction) {
     }
     
     // Access some entries to make them hot (LIR)
-    std::string value;
+    std::string value = {};
     for (int i = 0; i < 5; i++) {
         cache->get(i, value);
     }
@@ -106,7 +106,7 @@ TEST_F(LIRSCacheTest, ScanResistance) {
     }
     
     // Access some entries multiple times (make them hot)
-    std::string value;
+    std::string value = {};
     for (int iter = 0; iter < 3; iter++) {
         for (int i = 0; i < 5; i++) {
             cache->get(i, value);
@@ -139,7 +139,7 @@ TEST_F(LIRSCacheTest, HitRateTracking) {
     cache->put(1, "value1");
     cache->put(2, "value2");
     
-    std::string value;
+    std::string value = {};
     
     // Hits
     cache->get(1, value);
@@ -159,7 +159,7 @@ TEST_F(LIRSCacheTest, Clear) {
     cache->put(1, "value1");
     cache->put(2, "value2");
     
-    std::string value;
+    std::string value = {};
     cache->get(1, value);
     
     EXPECT_EQ(cache->size(), 2);
@@ -186,7 +186,7 @@ TEST_F(LIRSCacheTest, ThreadSafety) {
                     int key = (t * ops_per_thread + i) % 50;  // Reduziert von 100
                     cache->put(key, "value" + std::to_string(key));
                     
-                    std::string value;
+                    std::string value = {};
                     cache->get(key, value);
                 } catch (const std::exception&) {
                     // Silently ignore exceptions in stress test

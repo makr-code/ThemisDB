@@ -35,7 +35,9 @@ protected:
 
         // Wire GPU backend (CPU fallback always available)
         auto* gpu_backend = geo::getGpuSpatialBackend();
-        if (gpu_backend) spatialIdx->setExactBackend(gpu_backend);
+        if (gpu_backend) {
+          spatialIdx->setExactBackend(gpu_backend);
+        }
 
         engine = std::make_unique<QueryEngine>(*db, *secIdx, *graphIdx, vectorIdx.get(), spatialIdx.get());
 

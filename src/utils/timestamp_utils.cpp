@@ -33,7 +33,7 @@ namespace {
 // width is caller-controlled (max 4 for a 4-digit year) so overflow is not
 // possible for valid timestamps; we still guard against non-digit characters.
 int parseField(const std::string& s, size_t& pos, size_t width) {
-    if (pos + width > s.size()) {
+    if (pos + width > static_cast<int>(s.size())) {
         throw std::invalid_argument("TimestampUtils::parse: unexpected end of string");
     }
     if (width > 9) {
@@ -133,23 +133,27 @@ std::chrono::system_clock::time_point TimestampUtils::parse(const std::string& s
 
     // Optional fractional seconds
     int ms = 0;
-    if (pos < s.size() && s[pos] == '.') {
+    if (pos <static_cast<int>(s.size()) && s[pos] == '.') {
         ++pos;
         // Collect up to 3 digits; shorter fractions are left-padded with zeros.
         int digits = 0;
-        while (pos < s.size() && s[pos] >= '0' && s[pos] <= '9' && digits < 3) {
+        while (pos <static_cast<int>(s.size()) && s[pos] >= '0' && s[pos] <= '9' && digits < 3) {
             ms = ms * 10 + (s[pos] - '0');
             ++pos;
             ++digits;
         }
         // Skip remaining sub-millisecond digits
-        while (pos < s.size() && s[pos] >= '0' && s[pos] <= '9') ++pos;
-        for (; digits < 3; ++digits) ms *= 10;
+        while (pos <static_cast<int>(s.size()) && s[pos] >= '0' && s[pos] <= '9') {
+          ++pos;
+        }
+        for (; digits < 3; ++digits) {
+          ms *= 10;
+        }
     }
 
     // Timezone
     int offset_sec = 0;
-    if (pos < s.size()) {
+    if (static_cast<int>(s.size()) > pos) {
         char tz = s[pos];
         if (tz == 'Z') {
             ++pos;
@@ -165,7 +169,7 @@ std::chrono::system_clock::time_point TimestampUtils::parse(const std::string& s
         }
     }
 
-    if (pos != s.size()) {
+    if (pos != static_cast<int>(s.size())) {
         throw std::invalid_argument("TimestampUtils::parse: trailing characters in timestamp");
     }
 
@@ -198,7 +202,7 @@ std::chrono::system_clock::time_point TimestampUtils::parse(const std::string& s
 // now
 // ---------------------------------------------------------------------------
 
-std::string TimestampUtils::now(bool include_ms) {
+std::string TimestampUtils::now([[maybe_unused]] bool include_ms) {
     return format(std::chrono::system_clock::now(), include_ms);
 }
 
@@ -210,7 +214,9 @@ std::string TimestampUtils::formatDuration(std::chrono::nanoseconds ns) {
     using namespace std::chrono;
 
     bool negative = ns.count() < 0;
-    if (negative) ns = -ns;
+    if (negative) {
+      ns = -ns;
+    }
 
     auto total_ms  = duration_cast<milliseconds>(ns);
     auto total_sec = duration_cast<seconds>(total_ms);
@@ -219,17 +225,23 @@ std::string TimestampUtils::formatDuration(std::chrono::nanoseconds ns) {
     auto s         = total_sec - h - m;
     auto ms_part   = total_ms - duration_cast<milliseconds>(total_sec);
 
-    std::ostringstream oss;
-    if (negative) oss << '-';
+    std::ostringstream oss = {};
+    if (negative) {
+      oss << '-';
+    }
 
     bool any = false;
     if (h.count() > 0) { oss << h.count() << 'h'; any = true; }
     if (m.count() > 0 || any) {
-        if (any) oss << ' ';
+        if (any) {
+          oss << ' ';
+        }
         oss << m.count() << 'm';
         any = true;
     }
-    if (any) oss << ' ';
+    if (any) {
+      oss << ' ';
+    }
 
     // Seconds with millisecond fraction
     oss << s.count();

@@ -21,7 +21,7 @@ protected:
             ("themis_graph_optimizer_test_" +
              std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()))
             ).string();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_db_path_, ec);
         
         themis::RocksDBWrapper::Config config;
@@ -45,7 +45,7 @@ protected:
         optimizer_.reset();
         graph_mgr_.reset();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_db_path_, ec);
     }
 
@@ -910,7 +910,7 @@ namespace bhttp = beast::http;
 
 class GraphApiHandlerMetricsTest : public ::testing::Test {
 protected:
-    std::string test_db_path_;
+    std::string test_db_path_ = {};
     std::unique_ptr<themis::RocksDBWrapper> db_;
     std::shared_ptr<themis::GraphIndexManager> graph_mgr_;
     std::unique_ptr<themis::server::GraphApiHandler> handler_;
@@ -2960,7 +2960,8 @@ TEST_F(GraphQueryOptimizerTest, StreamBFS_IteratesAllNodes) {
     ASSERT_TRUE(stream_result.has_value());
     auto& stream = *stream_result;
 
-    std::vector<std::string> nodes;
+    std::vector<std::string> nodes = {};
+
     while (stream->hasNext()) {
         auto item = stream->next();
         ASSERT_TRUE(item.has_value());
@@ -3013,7 +3014,8 @@ TEST_F(GraphQueryOptimizerTest, StreamBFS_MatchesExecuteBFS) {
     ASSERT_TRUE(stream_result.has_value());
     auto& stream = *stream_result;
 
-    std::vector<std::string> streamed;
+    std::vector<std::string> streamed = {};
+
     while (stream->hasNext()) {
         auto item = stream->next();
         ASSERT_TRUE(item.has_value());
@@ -3040,7 +3042,8 @@ TEST_F(GraphQueryOptimizerTest, StreamDFS_MatchesExecuteDFS) {
     ASSERT_TRUE(stream_result.has_value());
     auto& stream = *stream_result;
 
-    std::vector<std::string> streamed;
+    std::vector<std::string> streamed = {};
+
     while (stream->hasNext()) {
         auto item = stream->next();
         ASSERT_TRUE(item.has_value());
@@ -3083,7 +3086,8 @@ TEST_F(GraphQueryOptimizerTest, StreamBFS_WithConstraints_MaxResults) {
     ASSERT_TRUE(stream_result.has_value());
     auto& stream = *stream_result;
 
-    std::vector<std::string> nodes;
+    std::vector<std::string> nodes = {};
+
     while (stream->hasNext()) {
         auto item = stream->next();
         ASSERT_TRUE(item.has_value());
@@ -3301,7 +3305,7 @@ protected:
             ("themis_graph_analytics_integration_test_" +
              std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()))
             ).string();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_db_path_, ec);
 
         themis::RocksDBWrapper::Config config;
@@ -3341,7 +3345,7 @@ protected:
         optimizer_.reset();
         graph_mgr_.reset();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_db_path_, ec);
     }
 
@@ -3729,7 +3733,8 @@ TEST_F(GraphQueryOptimizerTest, FindConstrainedPaths_WithRequireUniqueNodes_NoDu
     auto res = pc.findConstrainedPaths("A", "D", 10);
     ASSERT_TRUE(res.has_value());
     for (const auto& path : res.value()) {
-        std::unordered_set<std::string> seen;
+        std::unordered_set<std::string> seen = {};
+
         for (const auto& n : path.nodes) {
             EXPECT_EQ(seen.count(n), 0u) << "Duplicate node found: " << n;
             seen.insert(n);
@@ -3744,7 +3749,8 @@ TEST_F(GraphQueryOptimizerTest, FindConstrainedPaths_WithRequireAcyclic_NoDuplic
     auto res = pc.findConstrainedPaths("A", "D", 10);
     ASSERT_TRUE(res.has_value());
     for (const auto& path : res.value()) {
-        std::unordered_set<std::string> seen;
+        std::unordered_set<std::string> seen = {};
+
         for (const auto& n : path.nodes) {
             EXPECT_EQ(seen.count(n), 0u) << "Duplicate node found: " << n;
             seen.insert(n);
@@ -3786,7 +3792,8 @@ TEST_F(GraphQueryOptimizerTest, FindConstrainedPaths_WithRequireUniqueEdges_NoDu
     auto res = pc.findConstrainedPaths("A", "D", 10);
     ASSERT_TRUE(res.has_value());
     for (const auto& path : res.value()) {
-        std::unordered_set<std::string> seen;
+        std::unordered_set<std::string> seen = {};
+
         for (const auto& e : path.edges) {
             EXPECT_EQ(seen.count(e), 0u) << "Duplicate edge found: " << e;
             seen.insert(e);

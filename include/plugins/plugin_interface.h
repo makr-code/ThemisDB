@@ -448,13 +448,27 @@ public:
     static bool checkCapability(const std::string& name,
                                 const PluginCapabilities& caps)
     {
-        if (name == "streaming")            return caps.supports_streaming;
-        if (name == "batching")             return caps.supports_batching;
-        if (name == "transactions")         return caps.supports_transactions;
-        if (name == "thread_safe")          return caps.thread_safe;
-        if (name == "gpu_accelerated")      return caps.gpu_accelerated;
-        if (name == "provides_vram_policy") return caps.provides_vram_policy;
-        if (name == "provides_shard_policy") return caps.provides_shard_policy;
+        if (name == "streaming") {
+          return caps.supports_streaming;
+        }
+        if (name == "batching") {
+          return caps.supports_batching;
+        }
+        if (name == "transactions") {
+          return caps.supports_transactions;
+        }
+        if (name == "thread_safe") {
+          return caps.thread_safe;
+        }
+        if (name == "gpu_accelerated") {
+          return caps.gpu_accelerated;
+        }
+        if (name == "provides_vram_policy") {
+          return caps.provides_vram_policy;
+        }
+        if (name == "provides_shard_policy") {
+          return caps.provides_shard_policy;
+        }
         return false;
     }
 
@@ -649,7 +663,7 @@ public:
      * @return   ValidationResult with valid=true on success, or a list of errors.
      */
     static ValidationResult validate(const json& j) {
-        ValidationResult result;
+        ValidationResult result = {};
 
         if (!j.is_object()) {
             result.errors.push_back("Manifest root must be a JSON object");
@@ -879,7 +893,9 @@ public:
 
         // Resolve type string
         const std::string type_str = j.value("type", "custom");
-        if      (type_str == "compute_backend") m.type = PluginType::COMPUTE_BACKEND;
+        if      (type_str == "compute_backend") {
+          m.type = PluginType::COMPUTE_BACKEND;
+        }
         else if (type_str == "blob_storage")    m.type = PluginType::BLOB_STORAGE;
         else if (type_str == "importer")        m.type = PluginType::IMPORTER;
         else if (type_str == "exporter")        m.type = PluginType::EXPORTER;
@@ -986,7 +1002,9 @@ private:
     static void checkOptionalString(const json& j, const std::string& field,
                                     std::size_t /*min_len*/, std::size_t max_len,
                                     ValidationResult& out) {
-        if (!j.contains(field)) return;
+        if (!j.contains(field)) {
+          return;
+        }
         if (!j[field].is_string()) {
             out.errors.push_back("Field '" + field + "' must be a string");
             return;

@@ -105,7 +105,8 @@ TEST_F(QueryOptimizerThreadSafetyTest, ConcurrentCounterUpdates_HighContention_C
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back(test_thread, i);
     }
@@ -161,7 +162,8 @@ TEST_F(QueryOptimizerThreadSafetyTest, ConcurrentPutAndGet_MixedWorkload_NoCrash
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back(thread_func, i);
     }
@@ -320,7 +322,8 @@ TEST_F(QueryOptimizerThreadSafetyTest, StatsDriftDetection_ConcurrentUpdates_Acc
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back(stats_drift_thread, i);
     }
@@ -359,7 +362,8 @@ TEST_F(QueryOptimizerThreadSafetyTest, CacheMemoryTracking_ConcurrentPutEvict_Co
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back(put_thread, i);
     }

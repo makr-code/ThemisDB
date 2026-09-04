@@ -103,7 +103,7 @@ public:
      */
     struct CompiledRule {
         PolicyRule rule;
-        std::regex  regex;
+        std::regex  regex = {};
     };
 
     /**

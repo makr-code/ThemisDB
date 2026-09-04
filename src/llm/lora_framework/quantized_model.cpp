@@ -116,7 +116,8 @@ Tensor QuantizedModel::dequantize_layer(const std::string& layer_name) const {
 }
 
 std::vector<std::string> QuantizedModel::layer_names() const {
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(layers_.size());
     for (const auto& pair : layers_) {
         names.push_back(pair.first);
@@ -261,7 +262,7 @@ size_t estimate_memory_usage(size_t num_parameters,
     }
     
     // Block parameters
-    size_t block_bytes;
+    size_t block_bytes = 0;
     if (use_double_quant) {
         // 2 uint8 per block + 2 global floats
         block_bytes = num_blocks * 2 + 2 * sizeof(float);
@@ -304,7 +305,7 @@ QuantizedModel convert_to_quantized(
     
     QuantizedModel model(config);
     
-    spdlog::info("Converting model to quantized format: {} layers", model_weights.size());
+    spdlog::info("Converting model to quantized format: {} layers",static_cast<int>(model_weights.size()));
     
     for (const auto& pair : model_weights) {
         model.add_layer(pair.first, pair.second);
@@ -329,10 +330,10 @@ QuantizedModel load_from_gguf(
     
     const auto& metadata = loader.getMetadata();
     spdlog::info("GGUF version: {}, architecture: {}, tensors: {}",
-                 metadata.version, metadata.architecture, metadata.tensors.size());
+                 metadata.version, metadata.architecture,static_cast<int>(metadata.tensors.size()));
     
     // Determine quantization config
-    QuantizedModelConfig model_config;
+    QuantizedModelConfig model_config = {};
     if (config) {
         model_config = *config;
     } else {
@@ -372,7 +373,8 @@ QuantizedModel load_from_gguf(
             if (tensor_info.type == llm::GGMLType::F16 || 
                 tensor_info.type == llm::GGMLType::F32) {
                 // Full precision - convert to FP32 and quantize via normal path
-                std::vector<float> fp32_data;
+                std::vector<float> fp32_data = {};
+
                 if (tensor_info.type == llm::GGMLType::F16) {
                     fp32_data = GGUFConverter::convertF16(tensor_data, tensor_info);
                 } else {
@@ -380,7 +382,8 @@ QuantizedModel load_from_gguf(
                 }
                 
                 // Create Tensor and add to model
-                std::vector<size_t> shape;
+                std::vector<size_t> shape = {};
+
                 for (auto dim : tensor_info.shape) {
                     shape.push_back(static_cast<size_t>(dim));
                 }

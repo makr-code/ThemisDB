@@ -568,7 +568,8 @@ TEST_F(ContinuousLearningOrchestratorTest, OptimizedParamsThreadSafe) {
     });
 
     // Reader threads: read optimized params concurrently
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int t = 0; t < 3; ++t) {
         readers.emplace_back([this, &done]() {
             while (!done) {
@@ -580,7 +581,9 @@ TEST_F(ContinuousLearningOrchestratorTest, OptimizedParamsThreadSafe) {
     }
 
     writer.join();
-    for (auto& r : readers) r.join();
+    for (auto& r : readers) {
+      r.join();
+    }
 
     SUCCEED();
 }

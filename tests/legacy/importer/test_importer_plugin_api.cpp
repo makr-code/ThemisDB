@@ -648,13 +648,19 @@ static int testV1Validate(void* /*p*/, const char* src,
 static int testV1Import(void* p, const char* /*src*/, const char* /*opts*/,
                         uint64_t* imported, uint64_t* failed) {
     auto* state = static_cast<TestPluginState*>(p);
-    if (imported) *imported = state->import_rc == 0 ? state->import_records : 0;
-    if (failed)   *failed   = state->import_rc == 0 ? 0 : state->import_records;
+    if (imported) {
+      *imported = state->import_rc == 0 ? state->import_records : 0;
+    }
+    if (failed) {
+      *failed   = state->import_rc == 0 ? 0 : state->import_records;
+    }
     return state->import_rc;
 }
 static const char* testV1Schema(void* p, const char* /*src*/) {
     auto* state = static_cast<TestPluginState*>(p);
-    if (state->schema_json.empty()) return nullptr;
+    if (state->schema_json.empty()) {
+      return nullptr;
+    }
     return state->schema_json.c_str();
 }
 static void testV1Cancel(void* p) {
@@ -871,7 +877,9 @@ TEST_F(V1AdapterTest, SandboxAllocatorRejectsAllocationsBeyondLimit) {
                 // Try to allocate 1 MiB — exceeds the 10-byte limit
                 void* p = alloc->alloc(1024 * 1024, alloc->user_data);
                 gOomState.alloc_failed_as_expected = (p == nullptr);
-                if (p && alloc->free) alloc->free(p, alloc->user_data);
+                if (p && alloc->free) {
+                  alloc->free(p, alloc->user_data);
+                }
             }
             return new OomCheckState{};
         },

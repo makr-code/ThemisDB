@@ -33,7 +33,7 @@ namespace {
 static std::string b64url(const std::vector<uint8_t>& in) {
     static const char* tbl =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string b64;
+    std::string b64 = {};
     b64.reserve(((in.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= in.size()) {
@@ -52,7 +52,9 @@ static std::string b64url(const std::vector<uint8_t>& in) {
         b64.push_back(tbl[(n>> 6)&63]); b64.push_back('=');
     }
     for (char& c : b64) { if (c=='+') c='-'; else if (c=='/') c='_'; }
-    while (!b64.empty() && b64.back()=='=') b64.pop_back();
+    while (!b64.empty() && b64.back()=='=') {
+      b64.pop_back();
+    }
     return b64;
 }
 
@@ -72,7 +74,9 @@ struct Ed25519Fixture {
     Ed25519Fixture() {
         // Generate Ed25519 key pair
         EVP_PKEY_CTX* kctx = EVP_PKEY_CTX_new_id(EVP_PKEY_ED25519, nullptr);
-        if (!kctx) throw std::runtime_error("EVP_PKEY_CTX_new_id failed");
+        if (!kctx) {
+          throw std::runtime_error("EVP_PKEY_CTX_new_id failed");
+        }
         if (EVP_PKEY_keygen_init(kctx) != 1 ||
             EVP_PKEY_keygen(kctx, &priv_pkey) != 1) {
             EVP_PKEY_CTX_free(kctx);
@@ -90,7 +94,9 @@ struct Ed25519Fixture {
         // Build a public-only EVP_PKEY for reference
         pub_pkey = EVP_PKEY_new_raw_public_key(
             EVP_PKEY_ED25519, nullptr, pub_bytes.data(), pub_bytes.size());
-        if (!pub_pkey) throw std::runtime_error("pub EVP_PKEY creation failed");
+        if (!pub_pkey) {
+          throw std::runtime_error("pub EVP_PKEY creation failed");
+        }
     }
 
     ~Ed25519Fixture() {
@@ -111,7 +117,9 @@ struct Ed25519Fixture {
     /// Sign a string (header_payload) and return the raw 64-byte signature
     std::vector<uint8_t> sign(const std::string& msg) const {
         EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-        if (!ctx) throw std::runtime_error("EVP_MD_CTX_new failed");
+        if (!ctx) {
+          throw std::runtime_error("EVP_MD_CTX_new failed");
+        }
         if (EVP_DigestSignInit(ctx, nullptr, nullptr, nullptr, priv_pkey) != 1) {
             EVP_MD_CTX_free(ctx);
             throw std::runtime_error("EVP_DigestSignInit failed");

@@ -11,7 +11,7 @@ using namespace themis::auth;
 // Helper: base64url encode
 static std::string b64url(const std::vector<uint8_t>& in) {
     static const char* tbl = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string b64;
+    std::string b64 = {};
     b64.reserve(((in.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= in.size()) {
@@ -34,7 +34,9 @@ static std::string b64url(const std::vector<uint8_t>& in) {
     }
     // Convert to URL form and strip padding
     for (char& c : b64) {
-        if (c == '+') c = '-';
+        if (c == '+') {
+          c = '-';
+        }
         else if (c == '/') c = '_';
     }
     // Remove padding characters for base64url
@@ -52,30 +54,44 @@ struct RSAFixture {
 
     RSAFixture() {
         bn = BN_new();
-        if (!bn) throw std::runtime_error("BN_new failed");
-        if (BN_set_word(bn, RSA_F4) != 1) throw std::runtime_error("BN_set_word failed");
+        if (!bn) {
+          throw std::runtime_error("BN_new failed");
+        }
+        if (BN_set_word(bn, RSA_F4) != 1) {
+          throw std::runtime_error("BN_set_word failed");
+        }
         rsa = RSA_new();
-        if (!rsa) throw std::runtime_error("RSA_new failed");
+        if (!rsa) {
+          throw std::runtime_error("RSA_new failed");
+        }
         if (RSA_generate_key_ex(rsa, 2048, bn, nullptr) != 1) {
             throw std::runtime_error("RSA_generate_key_ex failed");
         }
         pkey = EVP_PKEY_new();
-        if (!pkey) throw std::runtime_error("EVP_PKEY_new failed");
+        if (!pkey) {
+          throw std::runtime_error("EVP_PKEY_new failed");
+        }
         if (EVP_PKEY_assign_RSA(pkey, rsa) != 1) {
             throw std::runtime_error("EVP_PKEY_assign_RSA failed");
         }
     }
 
     ~RSAFixture() {
-        if (pkey) EVP_PKEY_free(pkey);
-        if (bn) BN_free(bn);
+        if (pkey) {
+          EVP_PKEY_free(pkey);
+        }
+        if (bn) {
+          BN_free(bn);
+        }
     }
 };
 
 // Helper: sign using EVP_DigestSign
 static std::string sign_RS256(EVP_PKEY* pkey, const std::string& header_payload) {
     EVP_MD_CTX* mctx = EVP_MD_CTX_new();
-    if (!mctx) throw std::runtime_error("EVP_MD_CTX_new failed");
+    if (!mctx) {
+      throw std::runtime_error("EVP_MD_CTX_new failed");
+    }
     size_t siglen = 0;
     if (EVP_DigestSignInit(mctx, nullptr, EVP_sha256(), nullptr, pkey) <= 0)
         throw std::runtime_error("EVP_DigestSignInit failed");
@@ -123,7 +139,7 @@ class JWTValidationTest : public ::testing::Test {
 protected:
     std::unique_ptr<RSAFixture> rsa_fixture_;
     std::unique_ptr<JWTValidator> validator_;
-    std::string kid_;
+    std::string kid_ = {};
     
     void SetUp() override {
         rsa_fixture_ = std::make_unique<RSAFixture>();
@@ -361,7 +377,7 @@ class KidRevocationTest : public ::testing::Test {
 protected:
     std::unique_ptr<RSAFixture> rsa_fixture_;
     std::unique_ptr<JWTValidator> validator_;
-    std::string kid_;
+    std::string kid_ = {};
     
     void SetUp() override {
         rsa_fixture_ = std::make_unique<RSAFixture>();

@@ -186,7 +186,7 @@ public:
 
 private:
     struct ClientBudget {
-        size_t remaining;
+        size_t remaining = 0;
         std::chrono::steady_clock::time_point window_start;
 
         explicit ClientBudget(size_t budget)

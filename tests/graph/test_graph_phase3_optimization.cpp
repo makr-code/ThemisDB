@@ -140,9 +140,12 @@ public:
     /// @brief Invalidate all plans whose hash starts with @p prefix.
     size_t invalidatePrefix(const std::string& prefix) {
         std::lock_guard<std::mutex> lk(mu_);
-        std::vector<std::string> to_remove;
+        std::vector<std::string> to_remove = {};
+
         for (auto& [k, _] : plans_)
-            if (k.rfind(prefix, 0) == 0) to_remove.push_back(k);
+            if (k.rfind(prefix, 0) == 0) {
+              to_remove.push_back(k);
+            }
         for (const auto& k : to_remove) {
             order_.erase(index_.at(k));
             index_.erase(k);
@@ -183,14 +186,18 @@ public:
 
     /// @brief BFS cost: O(V + E) but visits at most (branching^depth) nodes.
     static double bfsCost(const GraphStats& g) {
-        if (g.vertex_count == 0) return 0.0;
+        if (g.vertex_count == 0) {
+          return 0.0;
+        }
         return static_cast<double>(g.vertex_count) +
                static_cast<double>(g.edge_count) * 0.5;
     }
 
     /// @brief DFS cost: cheaper on deep sparse graphs.
     static double dfsCost(const GraphStats& g) {
-        if (g.vertex_count == 0) return 0.0;
+        if (g.vertex_count == 0) {
+          return 0.0;
+        }
         const double depth_factor = g.max_depth > 0
             ? static_cast<double>(g.max_depth) * 1.2 : 1.0;
         return static_cast<double>(g.vertex_count) * 0.4 * depth_factor;
@@ -198,7 +205,9 @@ public:
 
     /// @brief Dijkstra cost: O((V+E)*log V).
     static double dijkstraCost(const GraphStats& g) {
-        if (g.vertex_count == 0) return 0.0;
+        if (g.vertex_count == 0) {
+          return 0.0;
+        }
         const double logV = g.vertex_count > 1
             ? std::log2(static_cast<double>(g.vertex_count)) : 1.0;
         return (static_cast<double>(g.vertex_count) +
@@ -217,9 +226,15 @@ public:
         const double dijk = dijkstraCost(g);
         const double as   = astarCost(g);
         const double best = std::min({bfs, dfs, dijk, as});
-        if (best == as)   return "ASTAR";
-        if (best == bfs)  return "BFS";
-        if (best == dfs)  return "DFS";
+        if (best == as) {
+          return "ASTAR";
+        }
+        if (best == bfs) {
+          return "BFS";
+        }
+        if (best == dfs) {
+          return "DFS";
+        }
         return "DIJKSTRA";
     }
 
@@ -360,23 +375,29 @@ TEST_F(PlanCacheTest, QPC_10_InvalidationNoMatchLeavesIntact) {
 TEST_F(PlanCacheTest, QPC_11_ConcurrentReadsNoCorruption) {
     cache.put(makePlan("shared", "BFS", 7.0));
     std::atomic<int> success_count{0};
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int i = 0; i < 8; ++i) {
         readers.emplace_back([&] {
             for (int j = 0; j < 100; ++j) {
                 auto r = cache.get("shared");
-                if (r.has_value() && r->algorithm == "BFS") ++success_count;
+                if (r.has_value() && r->algorithm == "BFS") {
+                  ++success_count;
+                }
             }
         });
     }
-    for (auto& t : readers) t.join();
+    for (auto& t : readers) {
+      t.join();
+    }
     EXPECT_EQ(success_count.load(), 8 * 100);
 }
 
 // QPC-12: concurrent writes serialize correctly — final size equals capacity
 TEST_F(PlanCacheTest, QPC_12_ConcurrentWritesSerialize) {
     qpc::QueryPlanCache big_cache{50};
-    std::vector<std::thread> writers;
+    std::vector<std::thread> writers = {};
+
     for (int t = 0; t < 4; ++t) {
         writers.emplace_back([&, t] {
             for (int i = 0; i < 20; ++i) {
@@ -385,7 +406,9 @@ TEST_F(PlanCacheTest, QPC_12_ConcurrentWritesSerialize) {
             }
         });
     }
-    for (auto& w : writers) w.join();
+    for (auto& w : writers) {
+      w.join();
+    }
     EXPECT_LE(big_cache.size(), 50u) << "Size must not exceed capacity";
 }
 
@@ -417,7 +440,9 @@ TEST_F(PlanCacheTest, QPC_15_WarmupRestoresHitRatio) {
     // Query all 20 — expect 100% hit
     int hits = 0;
     for (int i = 0; i < 20; ++i)
-        if (wc.get("warm_" + std::to_string(i)).has_value()) ++hits;
+        if (wc.get("warm_" + std::to_string(i)).has_value()) {
+          ++hits;
+        }
     EXPECT_EQ(hits, 20) << "All warmed-up plans must be retrievable";
 }
 
@@ -479,7 +504,9 @@ TEST_F(PlanCacheTest, QPC_20_HitRatioAbove80Pct) {
     for (int i = 0; i < total; ++i) {
         const bool is_hot = (rng() % 100) < 80;
         const std::string key = "q" + std::to_string(is_hot ? hot(rng) : cold(rng));
-        if (ycsb_cache.get(key).has_value()) ++hits;
+        if (ycsb_cache.get(key).has_value()) {
+          ++hits;
+        }
     }
     const double ratio = static_cast<double>(hits) / total;
     EXPECT_GE(ratio, 0.75) << "Expected >= 75% hit ratio with 80/20 YCSB pattern, got "
@@ -535,7 +562,8 @@ TEST_F(PlanCacheTest, QPC_25_DifferentQueriesDoNotSharePlan) {
 TEST_F(PlanCacheTest, QPC_26_ConcurrentStressNoDeadlock) {
     qpc::QueryPlanCache stress_cache{16};
     std::atomic<bool> stop{false};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&, t] {
             std::mt19937 rng(kCanonicalSeed + static_cast<uint32_t>(t));
@@ -548,7 +576,9 @@ TEST_F(PlanCacheTest, QPC_26_ConcurrentStressNoDeadlock) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     // If we reach here without deadlock/crash the test passes
     EXPECT_LE(stress_cache.size(), 16u);
 }
@@ -724,7 +754,9 @@ private:
     size_t countTier(CacheTier t) const {
         size_t n = 0;
         for (const auto& [k, e] : entries_)
-            if (e.tier == t) ++n;
+            if (e.tier == t) {
+              ++n;
+            }
         return n;
     }
 
@@ -738,7 +770,9 @@ private:
     }
 
     void maybePromote(CacheEntry& e) {
-        if (e.tier == CacheTier::HOT) return;
+        if (e.tier == CacheTier::HOT) {
+          return;
+        }
         CacheTier target = (e.tier == CacheTier::COLD) ? CacheTier::WARM : CacheTier::HOT;
         if (e.access_count >= 3) {
             tierCount(e.tier)--;
@@ -751,9 +785,11 @@ private:
 
     /// @brief Demote the lowest-scoring entry in @p tier to the next tier or evict.
     void enforceCapacity(CacheTier tier) {
-        if (tierCount(tier) <= capacityFor(tier)) return;
+        if (tierCount(tier) <= capacityFor(tier)) {
+          return;
+        }
         // Find lowest-score entry in this tier
-        std::string worst_key;
+        std::string worst_key = {};
         double worst_score = std::numeric_limits<double>::max();
         for (auto& [k, e] : entries_) {
             if (e.tier == tier && e.score < worst_score) {
@@ -761,7 +797,9 @@ private:
                 worst_key   = k;
             }
         }
-        if (worst_key.empty()) return;
+        if (worst_key.empty()) {
+          return;
+        }
         auto& victim = entries_.at(worst_key);
         if (tier == CacheTier::HOT) {
             tierCount(CacheTier::HOT)--;
@@ -838,7 +876,9 @@ TEST_F(MultiTierTest, CEM_04_RepeatedAccessPromotesFromColdToWarm) {
 TEST_F(MultiTierTest, CEM_05_WarmEntryPromotesToHot) {
     cache.put("hot_candidate", "v");
     // 3 accesses → promote COLD→WARM; then 3 more → WARM→HOT
-    for (int i = 0; i < 6; ++i) cache.get("hot_candidate");
+    for (int i = 0; i < 6; ++i) {
+      cache.get("hot_candidate");
+    }
     EXPECT_EQ(cache.tierSize(cem::CacheTier::HOT), 1u);
 }
 
@@ -847,7 +887,9 @@ TEST_F(MultiTierTest, CEM_06_HotTierBounded) {
     // Insert 8 entries and access each 6 times (should fill HOT, then demote)
     for (int i = 0; i < 8; ++i) {
         cache.put("h" + std::to_string(i), "v");
-        for (int j = 0; j < 6; ++j) cache.get("h" + std::to_string(i));
+        for (int j = 0; j < 6; ++j) {
+          cache.get("h" + std::to_string(i));
+        }
     }
     EXPECT_LE(cache.tierSize(cem::CacheTier::HOT), 4u)
         << "HOT tier must not exceed capacity 4";
@@ -874,7 +916,9 @@ TEST_F(MultiTierTest, CEM_08_UpdateDoesNotDuplicate) {
 TEST_F(MultiTierTest, CEM_09_ScoreIncreasesWithFrequency) {
     cache.put("freq", "v");
     // Each get() call increments access_count → score grows
-    for (int i = 0; i < 10; ++i) cache.get("freq");
+    for (int i = 0; i < 10; ++i) {
+      cache.get("freq");
+    }
     // If score had not grown, entry would have been demoted/evicted by now
     EXPECT_EQ(cache.get("freq"), "v") << "High-frequency entry must still be accessible";
 }
@@ -909,7 +953,9 @@ TEST_F(MultiTierTest, CEM_12_EmptyCacheZeroHitRatio) {
 TEST_F(MultiTierTest, CEM_13_DemotionFromHotIncreasesWarm) {
     for (int i = 0; i < 5; ++i) {
         cache.put("h" + std::to_string(i), "v");
-        for (int j = 0; j < 6; ++j) cache.get("h" + std::to_string(i));
+        for (int j = 0; j < 6; ++j) {
+          cache.get("h" + std::to_string(i));
+        }
     }
     EXPECT_GE(cache.metrics().demotions, 1u)
         << "At least one demotion expected when HOT overflows";
@@ -921,7 +967,9 @@ TEST_F(MultiTierTest, CEM_14_DemotionChainHotToWarmToCold) {
     // Fill HOT+WARM tiers, then demote chain
     for (int i = 0; i < 13; ++i) {
         cache.put("d" + std::to_string(i), "v");
-        for (int j = 0; j < 6; ++j) cache.get("d" + std::to_string(i));
+        for (int j = 0; j < 6; ++j) {
+          cache.get("d" + std::to_string(i));
+        }
     }
     // Overflow in HOT→WARM→COLD cascade; check no size invariant broken
     EXPECT_LE(cache.tierSize(cem::CacheTier::HOT),  4u);
@@ -930,7 +978,8 @@ TEST_F(MultiTierTest, CEM_14_DemotionChainHotToWarmToCold) {
 
 // CEM-15: concurrent puts and gets do not corrupt tier counts
 TEST_F(MultiTierTest, CEM_15_ConcurrentOpsNoCorruption) {
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&, t] {
             for (int i = 0; i < 50; ++i) {
@@ -940,7 +989,9 @@ TEST_F(MultiTierTest, CEM_15_ConcurrentOpsNoCorruption) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     // Tier invariants: sizes within bounds
     EXPECT_LE(cache.tierSize(cem::CacheTier::HOT),  4u);
     EXPECT_LE(cache.tierSize(cem::CacheTier::WARM),  8u);
@@ -959,7 +1010,9 @@ TEST_F(MultiTierTest, CEM_16_MemoryBoundedUnderInsertPressure) {
 TEST_F(MultiTierTest, CEM_17_HotEntriesLowerEvictionRate) {
     // Frequently accessed entries should survive longer
     cache.put("survivor", "v");
-    for (int i = 0; i < 6; ++i) cache.get("survivor");
+    for (int i = 0; i < 6; ++i) {
+      cache.get("survivor");
+    }
     // Fill with fresh cold entries
     for (int i = 0; i < 30; ++i)
         cache.put("filler_" + std::to_string(i), "v");
@@ -992,7 +1045,9 @@ TEST_F(MultiTierTest, CEM_20_RarelyAccessedEntryDemoted) {
     cache.get("rare");
     for (int i = 0; i < 10; ++i) {
         cache.put("freq_" + std::to_string(i), "v");
-        for (int j = 0; j < 6; ++j) cache.get("freq_" + std::to_string(i));
+        for (int j = 0; j < 6; ++j) {
+          cache.get("freq_" + std::to_string(i));
+        }
     }
     // Rare entry should have been demoted or evicted, not in HOT tier
     EXPECT_EQ(cache.tierSize(cem::CacheTier::HOT), 4u)
@@ -1006,7 +1061,9 @@ TEST_F(MultiTierTest, CEM_21_HitRatioAbove85PctHotWorkload) {
         cache.put("z" + std::to_string(i), "v");
     // Warm top-8 keys heavily
     for (int round = 0; round < 5; ++round)
-        for (int i = 0; i < 8; ++i) cache.get("z" + std::to_string(i));
+        for (int i = 0; i < 8; ++i) {
+          cache.get("z" + std::to_string(i));
+        }
     // Access pattern: 90% from top-8 keys
     std::mt19937 rng(kCanonicalSeed);
     int hits = 0;
@@ -1016,7 +1073,9 @@ TEST_F(MultiTierTest, CEM_21_HitRatioAbove85PctHotWorkload) {
         const std::string key = hot
             ? "z" + std::to_string(rng() % 8)
             : "z" + std::to_string(rng() % 28);
-        if (!cache.get(key).empty()) ++hits;
+        if (!cache.get(key).empty()) {
+          ++hits;
+        }
     }
     const double ratio = static_cast<double>(hits) / queries;
     EXPECT_GE(ratio, 0.80) << "Expected >= 80% hit ratio on hot workload, got " << ratio;
@@ -1034,7 +1093,9 @@ TEST_F(MultiTierTest, CEM_22_EvictionNonBlocking) {
 // CEM-23: cache correctly handles value update without tier reset
 TEST_F(MultiTierTest, CEM_23_ValueUpdatePreservesTier) {
     cache.put("upd", "old");
-    for (int i = 0; i < 6; ++i) cache.get("upd");
+    for (int i = 0; i < 6; ++i) {
+      cache.get("upd");
+    }
     const size_t hot_before = cache.tierSize(cem::CacheTier::HOT);
     cache.put("upd", "new");
     EXPECT_EQ(cache.get("upd"), "new");
@@ -1068,7 +1129,9 @@ TEST_F(MultiTierTest, CEM_26_ColdTierBoundedRapidInserts) {
 TEST_F(MultiTierTest, CEM_27_PromotionsDemotionsConsistent) {
     for (int i = 0; i < 20; ++i) {
         cache.put("td_" + std::to_string(i), "v");
-        for (int j = 0; j < 4; ++j) cache.get("td_" + std::to_string(i));
+        for (int j = 0; j < 4; ++j) {
+          cache.get("td_" + std::to_string(i));
+        }
     }
     const auto m = cache.metrics();
     // demotions triggered by HOT/WARM overflow are >= 0
@@ -1079,18 +1142,23 @@ TEST_F(MultiTierTest, CEM_27_PromotionsDemotionsConsistent) {
 // CEM-28: cache is thread-safe under high concurrent read-write load
 TEST_F(MultiTierTest, CEM_28_ThreadSafeHighLoad) {
     std::atomic<bool> stop{false};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 8; ++t) {
         threads.emplace_back([&, t] {
             std::mt19937 rng(kCanonicalSeed + static_cast<uint32_t>(t));
             for (int i = 0; i < 100; ++i) {
                 const std::string k = "hl_" + std::to_string(rng() % 30);
-                if (rng() % 2) cache.put(k, "v");
+                if (rng() % 2) {
+                  cache.put(k, "v");
+                }
                 else            cache.get(k);
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_LE(cache.totalSize(), 4u + 8u + 16u);
 }
 
@@ -1123,7 +1191,9 @@ TEST_F(MultiTierTest, CEM_30_GetAfterFullEviction) {
 TEST_F(MultiTierTest, CEM_31_TierPromotionCorrectPath) {
     cache.put("skip", "v");
     // 3 gets: COLD→WARM; 3 more gets: WARM→HOT
-    for (int i = 0; i < 6; ++i) cache.get("skip");
+    for (int i = 0; i < 6; ++i) {
+      cache.get("skip");
+    }
     // Entry is expected to be in HOT tier
     EXPECT_GE(cache.tierSize(cem::CacheTier::HOT), 1u);
 }
@@ -1133,7 +1203,9 @@ TEST_F(MultiTierTest, CEM_32_InvariantGateTierSizesInBounds) {
     std::mt19937 rng(kCanonicalSeed);
     for (int i = 0; i < 80; ++i) {
         const std::string k = "ig_" + std::to_string(rng() % 25);
-        if (rng() % 3) cache.put(k, "v");
+        if (rng() % 3) {
+          cache.put(k, "v");
+        }
         else            cache.get(k);
     }
     EXPECT_LE(cache.tierSize(cem::CacheTier::HOT),  4u);
@@ -1212,7 +1284,9 @@ public:
     /// @brief Release a previously acquired connection back to the pool.
     void release(int id) {
         std::lock_guard<std::mutex> lk(mu_);
-        if (id < 0) return;
+        if (id < 0) {
+          return;
+        }
         available_.push_back(id);
         ++metrics_.released;
         cv_.notify_one();
@@ -1255,13 +1329,17 @@ public:
             stop_ = true;
         }
         cv_.notify_all();
-        for (auto& w : workers_) w.join();
+        for (auto& w : workers_) {
+          w.join();
+        }
     }
 
     /// @brief Submit a task. Returns false if queue is full (backpressure).
     bool submit(std::function<void()> task) {
         std::lock_guard<std::mutex> lk(mu_);
-        if (queue_.size() >= max_queue_) return false;
+        if (queue_.size() >= max_queue_) {
+          return false;
+        }
         queue_.push(std::move(task));
         cv_.notify_one();
         return true;
@@ -1285,7 +1363,9 @@ private:
             {
                 std::unique_lock<std::mutex> lk(mu_);
                 cv_.wait(lk, [this] { return stop_ || !queue_.empty(); });
-                if (stop_ && queue_.empty()) return;
+                if (stop_ && queue_.empty()) {
+                  return;
+                }
                 task = std::move(queue_.front());
                 queue_.pop();
                 ++active_tasks_;
@@ -1350,7 +1430,9 @@ public:
 
     /// @brief Return a buffer back to the pool (nullptr is silently ignored).
     void free(std::vector<uint8_t>* buf, size_t size) {
-        if (!buf) return;
+        if (!buf) {
+          return;
+        }
         const size_t cls = classFor(size);
         std::lock_guard<std::mutex> lk(mu_);
         ++metrics_.frees;
@@ -1373,7 +1455,9 @@ public:
 private:
     static size_t classFor(size_t size) {
         for (size_t i = 0; i < kNumClasses; ++i)
-            if (size <= kClasses[i]) return i;
+            if (size <= kClasses[i]) {
+              return i;
+            }
         return kNumClasses;
     }
 
@@ -1429,13 +1513,18 @@ TEST_F(ConnectionPoolTest, RES_04_ScaleUpBelowMax) {
 
 // RES-05: pool does not exceed max_size
 TEST_F(ConnectionPoolTest, RES_05_DoesNotExceedMaxSize) {
-    std::vector<int> ids;
+    std::vector<int> ids = {};
+
     for (size_t i = 0; i < 8; ++i) {
         const int id = pool.acquire();
-        if (id >= 0) ids.push_back(id);
+        if (id >= 0) {
+          ids.push_back(id);
+        }
     }
     EXPECT_LE(pool.currentSize(), 8u);
-    for (const int id : ids) pool.release(id);
+    for (const int id : ids) {
+      pool.release(id);
+    }
 }
 
 // RES-06: acquire times out when pool exhausted
@@ -1453,9 +1542,14 @@ TEST_F(ConnectionPoolTest, RES_06_TimeoutWhenExhausted) {
 
 // RES-07: acquire/release pairs balance correctly (acquired == released)
 TEST_F(ConnectionPoolTest, RES_07_AcquireReleasePairsBalance) {
-    std::vector<int> ids;
-    for (int i = 0; i < 5; ++i) ids.push_back(pool.acquire());
-    for (const int id : ids) pool.release(id);
+    std::vector<int> ids = {};
+
+    for (int i = 0; i < 5; ++i) {
+      ids.push_back(pool.acquire());
+    }
+    for (const int id : ids) {
+      pool.release(id);
+    }
     const auto m = pool.metrics();
     EXPECT_EQ(m.acquired, m.released);
 }
@@ -1463,10 +1557,15 @@ TEST_F(ConnectionPoolTest, RES_07_AcquireReleasePairsBalance) {
 // RES-08: peak_size tracks high-water mark
 TEST_F(ConnectionPoolTest, RES_08_PeakSizeTracksHighWaterMark) {
     // Acquire enough to exceed min_size
-    std::vector<int> ids;
-    for (int i = 0; i < 6; ++i) ids.push_back(pool.acquire());
+    std::vector<int> ids = {};
+
+    for (int i = 0; i < 6; ++i) {
+      ids.push_back(pool.acquire());
+    }
     EXPECT_GE(pool.metrics().peak_size, 6u);
-    for (const int id : ids) if (id >= 0) pool.release(id);
+    for (const int id : ids) {
+      if (id >= 0) pool.release(id);
+    }
 }
 
 // RES-09: concurrent acquires from multiple threads all get valid IDs
@@ -1475,8 +1574,9 @@ TEST_F(ConnectionPoolTest, RES_09_ConcurrentAcquiresAllValid) {
     res::ConnectionPool big{big_cfg};
     std::atomic<int> valid_count{0};
     std::vector<std::thread> threads;
-    std::mutex id_mu;
-    std::vector<int> acquired_ids;
+    std::mutex id_mu = {};
+    std::vector<int> acquired_ids = {};
+
     for (int t = 0; t < 8; ++t) {
         threads.emplace_back([&] {
             const int id = big.acquire();
@@ -1487,8 +1587,12 @@ TEST_F(ConnectionPoolTest, RES_09_ConcurrentAcquiresAllValid) {
             }
         });
     }
-    for (auto& th : threads) th.join();
-    for (const int id : acquired_ids) big.release(id);
+    for (auto& th : threads) {
+      th.join();
+    }
+    for (const int id : acquired_ids) {
+      big.release(id);
+    }
     EXPECT_EQ(valid_count.load(), 8);
 }
 
@@ -1571,14 +1675,17 @@ TEST(ThreadPoolTest, RES_16_ExceptionInTaskDoesNotCrashPool) {
 TEST(ThreadPoolTest, RES_17_ConcurrentSubmissionsNoLoss) {
     res::ThreadPool tp{4, 256};
     std::atomic<int> total{0};
-    std::vector<std::thread> producers;
+    std::vector<std::thread> producers = {};
+
     for (int p = 0; p < 4; ++p) {
         producers.emplace_back([&] {
             for (int i = 0; i < 20; ++i)
                 tp.submit([&] { ++total; });
         });
     }
-    for (auto& p : producers) p.join();
+    for (auto& p : producers) {
+      p.join();
+    }
     tp.waitUntilEmpty();
     EXPECT_EQ(total.load(), 80);
 }
@@ -1638,8 +1745,12 @@ TEST(BufferPoolTest, RES_23_ReuseRateAbove90PctAfterWarmup) {
     res::BufferPool bp;
     // Prime the slab with 10 buffers
     std::vector<std::vector<uint8_t>*> bufs;
-    for (int i = 0; i < 10; ++i) bufs.push_back(bp.alloc(128));
-    for (auto* b : bufs) bp.free(b, 128);
+    for (int i = 0; i < 10; ++i) {
+      bufs.push_back(bp.alloc(128));
+    }
+    for (auto* b : bufs) {
+      bp.free(b, 128);
+    }
     // Now alloc/free 50 more times — should all reuse
     for (int i = 0; i < 50; ++i) {
         auto* b = bp.alloc(128);
@@ -1661,16 +1772,21 @@ TEST(BufferPoolTest, RES_24_MetricsTrackAllocsAndFrees) {
 // RES-25: concurrent alloc/free from multiple threads is safe
 TEST(BufferPoolTest, RES_25_ConcurrentAllocFreeSafe) {
     res::BufferPool bp;
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&] {
             for (int i = 0; i < 50; ++i) {
                 auto* b = bp.alloc(256);
-                if (b) bp.free(b, 256);
+                if (b) {
+                  bp.free(b, 256);
+                }
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_GE(bp.metrics().allocations, 1u);
 }
 
@@ -1680,8 +1796,9 @@ TEST_F(ConnectionPoolTest, RES_26_SaturationStressBounds) {
     res::ConnectionPool sat{sat_cfg};
     std::atomic<int> acquired_count{0};
     std::vector<std::thread> threads;
-    std::mutex vec_mu;
-    std::vector<int> ids;
+    std::mutex vec_mu = {};
+    std::vector<int> ids = {};
+
     for (int t = 0; t < 10; ++t) {
         threads.emplace_back([&] {
             const int id = sat.acquire();
@@ -1695,8 +1812,12 @@ TEST_F(ConnectionPoolTest, RES_26_SaturationStressBounds) {
             }
         });
     }
-    for (auto& th : threads) th.join();
-    for (const int id : ids) sat.release(id);
+    for (auto& th : threads) {
+      th.join();
+    }
+    for (const int id : ids) {
+      sat.release(id);
+    }
     EXPECT_LE(sat.currentSize(), 8u);
     EXPECT_LE(sat.metrics().peak_size, 8u);
 }
@@ -1796,7 +1917,9 @@ TEST(ResourcePoolInvariantGate, RES_36_InvariantGate) {
     // Buffer pool: 50 alloc/free cycles
     for (int i = 0; i < 50; ++i) {
         auto* b = bp.alloc(512);
-        if (b) bp.free(b, 512);
+        if (b) {
+          bp.free(b, 512);
+        }
     }
     EXPECT_GE(bp.reuseRate(), 0.80);
     // Connection pool: 10 acquire/release cycles
@@ -1844,7 +1967,9 @@ public:
         if (shards_.empty()) return {};
         const auto* best = &shards_[0];
         for (const auto& s : shards_)
-            if (s.loadScore() < best->loadScore()) best = &s;
+            if (s.loadScore() < best->loadScore()) {
+              best = &s;
+            }
         return best->shard_id;
     }
 
@@ -1861,9 +1986,13 @@ public:
 
     double latencyVariance() const {
         std::lock_guard<std::mutex> lk(mu_);
-        if (shards_.empty()) return 0.0;
+        if (shards_.empty()) {
+          return 0.0;
+        }
         double mean = 0.0;
-        for (const auto& s : shards_) mean += s.response_time_p99_ms;
+        for (const auto& s : shards_) {
+          mean += s.response_time_p99_ms;
+        }
         mean /= static_cast<double>(shards_.size());
         double var = 0.0;
         for (const auto& s : shards_) {
@@ -1887,7 +2016,9 @@ struct ScheduledQuery {
     std::chrono::steady_clock::time_point deadline;
     bool operator>(const ScheduledQuery& o) const {
         // Higher priority number = lower urgency; use deadline for tie-breaking
-        if (priority != o.priority) return priority > o.priority;
+        if (priority != o.priority) {
+          return priority > o.priority;
+        }
         return deadline > o.deadline;
     }
 };
@@ -1953,7 +2084,8 @@ protected:
                                                double cpu = 10.0,
                                                int pending = 0,
                                                double rt = 20.0) {
-        std::vector<lbs::ShardMetrics> shards;
+        std::vector<lbs::ShardMetrics> shards = {};
+
         for (int i = 0; i < count; ++i)
             shards.push_back({"shard" + std::to_string(i), cpu, pending, rt});
         return shards;
@@ -2100,7 +2232,8 @@ TEST_F(LoadBalancerTest, LBS_14_HighVarianceSkewedLoad) {
 TEST_F(LoadBalancerTest, LBS_15_ConcurrentEnqueueNoLoss) {
     lbs::LoadAwareShardSelector sel(makeShards(4));
     lbs::QueryScheduler sched(&sel);
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&, t] {
             for (int i = 0; i < 25; ++i)
@@ -2108,7 +2241,9 @@ TEST_F(LoadBalancerTest, LBS_15_ConcurrentEnqueueNoLoss) {
                                 std::chrono::steady_clock::now() + 1s});
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(sched.pendingCount(), 100u);
 }
 
@@ -2118,7 +2253,9 @@ TEST_F(LoadBalancerTest, LBS_16_FullQueueDrains) {
     lbs::QueryScheduler sched(&sel);
     for (int i = 0; i < 20; ++i)
         sched.enqueue({i, i % 10 + 1, std::chrono::steady_clock::now() + 1s});
-    for (int i = 0; i < 20; ++i) sched.dispatchNext();
+    for (int i = 0; i < 20; ++i) {
+      sched.dispatchNext();
+    }
     EXPECT_EQ(sched.pendingCount(), 0u);
     EXPECT_EQ(sched.metrics().dispatched, 20u);
 }
@@ -2169,7 +2306,9 @@ TEST_F(LoadBalancerTest, LBS_21_SlaComplianceAbove99Pct) {
     const int total = 100;
     for (int i = 0; i < total; ++i)
         sched.enqueue({i, 1, std::chrono::steady_clock::now() + 30s});
-    for (int i = 0; i < total; ++i) sched.dispatchNext(30s);
+    for (int i = 0; i < total; ++i) {
+      sched.dispatchNext(30s);
+    }
     const double sla_rate = static_cast<double>(sched.metrics().sla_met) / total;
     EXPECT_GE(sla_rate, 0.99);
 }
@@ -2200,7 +2339,9 @@ TEST_F(LoadBalancerTest, LBS_24_InvariantGateDispatchedEqualsSlaSumm) {
     lbs::QueryScheduler sched(&sel);
     for (int i = 0; i < 20; ++i)
         sched.enqueue({i, (i % 5) + 1, std::chrono::steady_clock::now() + 1s});
-    for (int i = 0; i < 20; ++i) sched.dispatchNext();
+    for (int i = 0; i < 20; ++i) {
+      sched.dispatchNext();
+    }
     const auto m = sched.metrics();
     EXPECT_EQ(m.dispatched, m.sla_met + m.sla_violated)
         << "dispatched must equal sla_met + sla_violated";

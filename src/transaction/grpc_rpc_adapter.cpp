@@ -260,7 +260,7 @@ DistributedTransactionManager::RpcPhase2Fn GrpcRpcPhase2Adapter::make(
 
             grpc::Status status;
             bool         remote_success = false;
-            std::string  remote_error;
+            std::string  remote_error = {};
 
             if (do_commit) {
                 themis::core::CommitTransactionRequest req;

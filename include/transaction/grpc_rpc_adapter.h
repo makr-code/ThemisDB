@@ -67,7 +67,7 @@ struct MtlsConfig {
     /// PEM-encoded root CA certificate used to verify the server's certificate.
     std::string ca_cert_pem;
     /// PEM-encoded client certificate presented to the server.
-    std::string client_cert_pem;
+    std::string client_cert_pem = {};
     /// PEM-encoded client private key corresponding to @p client_cert_pem.
     std::string client_key_pem;
     /**

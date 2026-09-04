@@ -71,7 +71,8 @@ struct WikiQueryOptions {
 struct WikiIngestResult {
     int total_files = 0;
     int total_chunks = 0;
-    std::vector<std::string> failed_files;
+    std::vector<std::string> failed_files = {};
+
     bool ok() const { return failed_files.empty(); }
 };
 
@@ -115,7 +116,9 @@ class InMemoryWikiPlugin {
         : initialized_(false), enterprise_(enterprise_edition) {}
 
     Status initialize(const std::string& /*config_json*/) {
-        if (initialized_) return Status::Error("already initialized");
+        if (initialized_) {
+          return Status::Error("already initialized");
+        }
         initialized_ = true;
         return Status::Ok();
     }
@@ -185,7 +188,9 @@ class InMemoryWikiPlugin {
             return Status::PermissionDenied(
                 "Wikipedia ingestion requires enterprise edition");
         }
-        if (!initialized_) return Status::NotInitialized();
+        if (!initialized_) {
+          return Status::NotInitialized();
+        }
         return Status::Ok();
     }
 
@@ -390,13 +395,19 @@ TEST_F(LLMWikiPhaseBIntegrationTest, LwpInt03a_ConcurrentQuerySafety) {
             WikiQueryOptions qopts;
             qopts.top_k = 3;
             auto qr = plugin_->query("content doc" + std::to_string(i % 3), qopts);
-            if (qr.query_flagged_for_prompt_injection) ++errors;
+            if (qr.query_flagged_for_prompt_injection) {
+              ++errors;
+            }
             for (const auto& c : qr.candidates) {
-                if (c.score < 0.0f) ++errors;
+                if (c.score < 0.0f) {
+                  ++errors;
+                }
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(errors.load(), 0)
         << "LWP-INT-03a: Concurrent queries must not produce errors or negative scores";
@@ -417,7 +428,9 @@ TEST_F(LLMWikiPhaseBIntegrationTest, LwpInt03b_ConcurrentIngestAndQuerySafe) {
             WikiIngestOptions iopts;
             iopts.skip_existing = true;
             auto ir = plugin_->ingest("/wiki/" + std::to_string(i), iopts);
-            if (!ir.ok()) ++errors;
+            if (!ir.ok()) {
+              ++errors;
+            }
         });
     }
     for (int i = 0; i < 4; ++i) {
@@ -428,7 +441,9 @@ TEST_F(LLMWikiPhaseBIntegrationTest, LwpInt03b_ConcurrentIngestAndQuerySafe) {
             (void)qr;  // result may be empty during concurrent ingest — that's fine
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(errors.load(), 0)
         << "LWP-INT-03b: Concurrent ingest+query must not produce errors";

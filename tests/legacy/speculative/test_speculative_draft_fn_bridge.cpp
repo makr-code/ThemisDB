@@ -262,7 +262,9 @@ TEST(SdDraftFnBridge, SD_DFT_03_ThreadSafetyUnderConcurrentCalls) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(errors.load(), 0) << "No errors expected under concurrent access";
     EXPECT_EQ(call_count.load(), kThreads)
@@ -301,7 +303,9 @@ TEST(SpecTlBridge, SPEC_TL_01_InjectedTargetLogitsFnUsed) {
             std::vector<std::vector<float>> mat(K + 1,
                 std::vector<float>(vocab_size, -5.0f));
             // Peak at token 0 on every row → high acceptance rate.
-            for (auto& row : mat) row[0] = 5.0f;
+            for (auto& row : mat) {
+              row[0] = 5.0f;
+            }
             return mat;
         });
 

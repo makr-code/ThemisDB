@@ -164,7 +164,7 @@ struct ModelVersion {
     int64_t timestamp_ns = 0;
 
     /// Serialized model content (BPMN/CMMN XML or JSON)
-    std::string model_content;
+    std::string model_content = {};
 
     /// Cryptographic hash of model_content (for integrity)
     std::string content_hash;

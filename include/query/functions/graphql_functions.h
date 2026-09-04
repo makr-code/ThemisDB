@@ -205,7 +205,9 @@ public:
         // ── 5. Build return value ─────────────────────────────────────────
         if (exec_result.hasErrors()) {
             nlohmann::json result = graphql::gqlValueToJson(exec_result.data);
-            if (result.is_null()) result = nlohmann::json::object();
+            if (result.is_null()) {
+              result = nlohmann::json::object();
+            }
             nlohmann::json errors = nlohmann::json::array();
             for (const auto& me : exec_result.errors) {
                 errors.push_back({ {"message", me.message},

@@ -38,7 +38,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 

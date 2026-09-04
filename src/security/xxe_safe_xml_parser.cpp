@@ -21,7 +21,7 @@ namespace security {
 
 namespace {
 
-constexpr std::size_t kMaxXmlBlobSize = 256ULL * 1024ULL * 1024ULL;
+constexpr std::size_t kMaxXmlBlobSize = 256 * 1024 * 1024;
 constexpr int kMaxXmlDepth = 1024;
 
 std::string toLowerAscii(std::string value) {
@@ -36,7 +36,7 @@ std::string toLowerAscii(std::string value) {
 XxeSafeXmlParseResult parseXmlSafe(const std::string& xml_content,
                                    const std::string& source_hint,
                                    bool /*allow_external_entities*/) {
-    XxeSafeXmlParseResult result;
+    XxeSafeXmlParseResult result = {};
 
     if (xml_content.empty()) {
         result.error_message = "XML content is empty";
@@ -44,9 +44,9 @@ XxeSafeXmlParseResult parseXmlSafe(const std::string& xml_content,
         return result;
     }
 
-    if (xml_content.size() > kMaxXmlBlobSize) {
+    if (static_cast<int>(xml_content.size()) > kMaxXmlBlobSize) {
         result.error_message = "XML content exceeds maximum size";
-        THEMIS_ERROR("XXE-safe parser: oversized XML ({} bytes) from {}", xml_content.size(), source_hint);
+        THEMIS_ERROR("XXE-safe parser: oversized XML ({} bytes) from {}",static_cast<int>(xml_content.size()), source_hint);
         return result;
     }
 

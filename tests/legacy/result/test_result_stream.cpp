@@ -44,7 +44,8 @@ TEST_F(ResultStreamTest, CreateStreamFromVector) {
 TEST_F(ResultStreamTest, IterateThroughAllItems) {
     auto stream = createKeyStream(test_keys_);
     
-    std::vector<std::string> results;
+    std::vector<std::string> results = {};
+
     while (stream->hasNext()) {
         auto result = stream->next();
         ASSERT_TRUE(result.has_value()) << result.error().message();
@@ -383,7 +384,8 @@ TEST_F(ResultStreamTest, StreamWithDuplicates) {
     std::vector<std::string> with_dupes = {"a", "b", "a", "c", "b", "a"};
     auto stream = createKeyStream(with_dupes);
     
-    std::vector<std::string> results;
+    std::vector<std::string> results = {};
+
     while (stream->hasNext()) {
         auto result = stream->next();
         ASSERT_TRUE(result.has_value());
@@ -437,7 +439,8 @@ TEST_F(ResultStreamTest, CustomDataSource) {
     auto stream = createStream<std::string>(data_source);
     
     // Fetch all items
-    std::vector<std::string> all_items;
+    std::vector<std::string> all_items = {};
+
     while (stream->hasNext()) {
         auto result = stream->next();
         if (result) {

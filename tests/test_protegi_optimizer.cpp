@@ -6,7 +6,8 @@ using namespace themis::prompt_engineering;
 static const std::string kInitialPrompt = "Classify the sentiment of the text.";
 
 static std::vector<TestCase> makeCases(size_t n = 10) {
-    std::vector<TestCase> cases;
+    std::vector<TestCase> cases = {};
+
     for (size_t i = 0; i < n; ++i) {
         cases.push_back({"input " + std::to_string(i), "expected " + std::to_string(i), {}});
     }

@@ -22,7 +22,7 @@ namespace tensor {
 static std::string getCurrentTimestamp() {
     auto now = std::chrono::system_clock::now();
     auto time_t_now = std::chrono::system_clock::to_time_t(now);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(std::gmtime(&time_t_now), "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -31,8 +31,8 @@ static std::string getCurrentTimestamp() {
 // TensorErrorHandler implementation
 // ============================================================================
 
-void TensorErrorHandler::setErrorCallback(ErrorCallback callback) {
-    error_callback_ = std::move(callback);
+void TensorErrorHandler::setErrorCallback([[maybe_unused]] ErrorCallback callback) {
+    error_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void TensorErrorHandler::registerRecoveryFn(
@@ -88,7 +88,7 @@ RoutingDecision TensorErrorHandler::handleRoutingFailure(
 
 void TensorErrorHandler::logError(const ErrorContext& context) const noexcept {
     try {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "[" << context.timestamp << "] TENSOR_ERROR"
             << " operation=" << context.operation
             << " code=" << context.error_code
@@ -100,8 +100,8 @@ void TensorErrorHandler::logError(const ErrorContext& context) const noexcept {
         std::cerr << oss.str() << std::endl;
 
         // Call registered callback
-        if (error_callback_) {
-            error_callback_(context);
+        if ([[maybe_unused]] error_callback_) {
+            error_callback_([[maybe_unused]] context);
         }
     } catch (...) {
         // Ignore exceptions during error logging
@@ -149,14 +149,14 @@ CompressionGuard::CompressionGuard(
     std::shared_ptr<ICompressionStrategy> strategy,
     std::shared_ptr<TensorErrorHandler>   error_handler)
     : strategy_(std::move(strategy)),
-      error_handler_(std::move(error_handler)) {
+      error_handler_([[maybe_unused]] std::move(error_handler)) {
 
     result_.success = false;
     result_.error_message = "Not executed";
 }
 
 CompressionGuard::~CompressionGuard() {
-    if (error_handler_) {
+    if ([[maybe_unused]] error_handler_) {
         error_handler_->recordOperation(
             strategy_ ? strategy_->name() : "UNKNOWN",
             result_.success,
@@ -186,14 +186,14 @@ CompressionResult CompressionGuard::execute(
         result_.success = false;
         result_.error_message = std::string("Exception: ") + e.what();
         
-        if (error_handler_) {
+        if ([[maybe_unused]] error_handler_) {
             ErrorContext ctx;
             ctx.operation = "COMPRESSION";
             ctx.error_code = -1;
             ctx.error_message = result_.error_message;
             ctx.timestamp = getCurrentTimestamp();
             ctx.is_recoverable = true;
-            error_handler_->logError(ctx);
+            error_handler_->logError([[maybe_unused]] ctx);
         }
         
         return result_;
@@ -222,14 +222,14 @@ RoutingGuard::RoutingGuard(
     std::shared_ptr<IRoutingStrategy>     strategy,
     std::shared_ptr<TensorErrorHandler>   error_handler)
     : strategy_(std::move(strategy)),
-      error_handler_(std::move(error_handler)) {
+      error_handler_([[maybe_unused]] std::move(error_handler)) {
 
     result_.confidence = 0.0f;
     result_.reason = "Not executed";
 }
 
 RoutingGuard::~RoutingGuard() {
-    if (error_handler_) {
+    if ([[maybe_unused]] error_handler_) {
         error_handler_->recordOperation(
             strategy_ ? strategy_->name() : "ROUTING",
             result_.confidence > 0.0f,
@@ -263,14 +263,14 @@ RoutingDecision RoutingGuard::execute(
         result_.confidence = 0.0f;
         result_.reason = std::string("Exception: ") + e.what();
 
-        if (error_handler_) {
+        if ([[maybe_unused]] error_handler_) {
             ErrorContext ctx;
             ctx.operation = "ROUTING";
             ctx.error_code = -1;
             ctx.error_message = result_.reason;
             ctx.timestamp = getCurrentTimestamp();
             ctx.is_recoverable = true;
-            error_handler_->logError(ctx);
+            error_handler_->logError([[maybe_unused]] ctx);
         }
 
         return result_;
@@ -355,7 +355,9 @@ CompressionResult FallbackCompressionStrategy::trySequentially(
 
     for (const auto& strategy_name : strategies) {
         auto strategy = CompressionFactory::create(strategy_name);
-        if (!strategy) continue;
+        if (!strategy) {
+          continue;
+        }
 
         try {
             auto result = strategy->compress(data, dim, mode_sizes, config);
@@ -472,7 +474,7 @@ void ResilienceMonitor::recordResult(
     }
 }
 
-bool ResilienceMonitor::isHealthy(float min_success_rate) const noexcept {
+bool ResilienceMonitor::isHealthy([[maybe_unused]] float min_success_rate) const noexcept {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     return metrics_.success_rate >= min_success_rate;
 }

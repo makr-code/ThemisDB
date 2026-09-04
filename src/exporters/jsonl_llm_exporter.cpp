@@ -117,7 +117,8 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
     }
 
     // P1: Initialize PII detector if enabled
-    std::unique_ptr<PIIDetector> pii_detector;
+    std::unique_ptr<PIIDetector> pii_detector = {};
+
     if (config_.pii_config.enable_detection) {
         PIIDetector::Config pii_config;
         pii_config.detect_email       = config_.pii_config.detect_email;
@@ -156,7 +157,8 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
         StreamWriter writer(writer_config);
 
         // AQL predicate filter (compiled once, reused per entity)
-        std::unique_ptr<AqlPredicateFilter> aql_filter;
+        std::unique_ptr<AqlPredicateFilter> aql_filter = {};
+
         if (!options.filter_expression.empty()) {
             aql_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);
         }
@@ -199,7 +201,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                 double weight = calculateWeight(entity);
 
                 // Format based on style or named template
-                std::string line;
+                std::string line = {};
                 if (format_template_) {
                     line = formatWithTemplate(entity, weight, options);
                 } else {
@@ -243,7 +245,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
 
                 // Schema validation (Outlines open-source integration)
                 if (config_.structured_gen.enable_schema_validation) {
-                    std::string validation_error;
+                    std::string validation_error = {};
                     bool validation_passed = validateAgainstSchema(line, &validation_error);
                     metrics_->recordSchemaValidation(validation_passed);
 
@@ -299,7 +301,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                 stats.exported_entities++;
 
                 // Progress reporting with duration and ETA
-                if (options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
+                if ([[maybe_unused]] options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
                     auto now       = std::chrono::steady_clock::now();
                     stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time);
                     if (total_count > 0 && stats.exported_entities < total_count) {
@@ -309,7 +311,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                     } else {
                         stats.estimated_eta_seconds = 0.0;
                     }
-                    options.progress_callback(stats);
+                    options.progress_callback([[maybe_unused]] stats);
                 }
 
             } catch (const ExporterException &e) {
@@ -319,7 +321,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                 stats.errors.push_back(error_msg);
                 metrics_->recordError("exporter_exception");
 
-                if (stats.errors.size() >= options.max_errors) {
+                if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
                     THEMIS_ERROR("Max errors reached, stopping export");
                     break;
                 }
@@ -332,7 +334,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                 stats.errors.push_back("Entity " + entity.getPrimaryKey() + ": " + e.what());
                 metrics_->recordError("generic_exception");
 
-                if (stats.errors.size() >= options.max_errors) {
+                if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
                     THEMIS_ERROR("Max errors reached, stopping export");
                     break;
                 }
@@ -379,7 +381,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
             try {
                 ExportEncryptor encryptor(*options.encryption_config);
                 const size_t enc_bytes = encryptor.encryptFile(options.output_path, enc_tmp);
-                std::error_code rename_ec;
+                std::error_code rename_ec = {};
                 std::filesystem::rename(enc_tmp, options.output_path, rename_ec);
                 if (rename_ec) {
                     std::filesystem::remove(enc_tmp);
@@ -393,7 +395,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                 }
             } catch (const ExportIOException &e) {
                 // FIXED: Properly handle and rethrow IO exceptions
-                std::error_code ec;
+                std::error_code ec = {};
                 std::filesystem::remove(enc_tmp, ec);
                 stats.errors.push_back("[" + std::to_string(static_cast<int>(e.getErrorCode())) + "] " + e.what()
                                        + " (file: " + e.getFilePath() + ")");
@@ -401,7 +403,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                 return stats;  // Return stats instead of throwing
             } catch (const std::exception &e) {
                 // FIXED: Catch any other exceptions from encryption
-                std::error_code ec;
+                std::error_code ec = {};
                 std::filesystem::remove(enc_tmp, ec);
                 stats.errors.push_back("Encryption failed: " + std::string(e.what()));
                 metrics_->recordError("encryption_exception");
@@ -727,7 +729,7 @@ bool JSONLLLMExporter::passesQualityFilter(const BaseEntity &entity) {
     // Alpaca (completion format): uses the dedicated output field.
     // ShareGPT / ChatML / OpenAI fine-tuning (conversation format): uses the assistant field.
     // The style-based path is unchanged for backward compatibility.
-    std::string output_field;
+    std::string output_field = {};
     if (config_.format_template_type != FormatTemplateType::NONE) {
         if (config_.format_template_type == FormatTemplateType::ALPACA) {
             output_field = config_.template_field_mapping.output_field;
@@ -753,7 +755,7 @@ bool JSONLLLMExporter::passesQualityFilter(const BaseEntity &entity) {
     auto output = entity.getFieldAsString(output_field);
 
     // Skip empty outputs
-    if (quality.skip_empty_outputs && (!output || output->empty())) {
+    if ((quality.skip_empty_outputs && (!output || output->empty())) {
         return false;
     }
 
@@ -1095,9 +1097,9 @@ std::string JSONLLLMExporter::getQualityMetricsReport() const {
         if (!runtime_metrics_.validation_errors.empty() && config_.structured_gen.log_validation_errors) {
             // Show only last 10 errors to avoid huge reports
             size_t start
-                = runtime_metrics_.validation_errors.size() > 10 ? runtime_metrics_.validation_errors.size() - 10 : 0;
+                = static_cast<int>(runtime_metrics_.validation_errors.size()) > 10 ?static_cast<int>(runtime_metrics_.validation_errors.size()) - 10 : 0;
             j["schema_validation"]["recent_errors"] = json::array();
-            for (size_t i = start; i < runtime_metrics_.validation_errors.size(); ++i) {
+            for (size_t i = start; i <static_cast<int>(runtime_metrics_.validation_errors.size()); ++i) {
                 j["schema_validation"]["recent_errors"].push_back(runtime_metrics_.validation_errors[i]);
             }
         }

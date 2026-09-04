@@ -89,7 +89,7 @@ void HallucinationDashboard::recordEntry(HallucinationEntry entry) {
         ++impl_->total_recorded;
 
         // Enforce rolling window
-        while (impl_->window.size() > config_.window_size) {
+        while (impl_-> static_cast<int>(window.size()) > config_.window_size) {
             impl_->window.pop_front();
             impl_->faithfulness_history.pop_front();
         }
@@ -99,10 +99,12 @@ void HallucinationDashboard::recordEntry(HallucinationEntry entry) {
         if (!impl_->window.empty()) {
             size_t hall_count = 0;
             for (const auto& e : impl_->window) {
-                if (e.is_hallucination) ++hall_count;
+                if (e.is_hallucination) {
+                  ++hall_count;
+                }
             }
             rate = static_cast<double>(hall_count) /
-                   static_cast<double>(impl_->window.size());
+                   static_cast<double>(impl_-> static_cast<int>(window.size()));
         }
     }
 
@@ -121,12 +123,16 @@ void HallucinationDashboard::recordEntry(HallucinationEntry entry) {
 
 double HallucinationDashboard::hallucinationRate() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (impl_->window.empty()) return 0.0;
+    if (impl_->window.empty()) {
+      return 0.0;
+    }
     size_t count = 0;
     for (const auto& e : impl_->window) {
-        if (e.is_hallucination) ++count;
+        if (e.is_hallucination) {
+          ++count;
+        }
     }
-    return static_cast<double>(count) / static_cast<double>(impl_->window.size());
+    return static_cast<bool>(static_cast<double>(count) / static_cast<double>(impl_- < static_cast<int>(window.size())));
 }
 
 DashboardSnapshot HallucinationDashboard::snapshot() const {
@@ -134,12 +140,16 @@ DashboardSnapshot HallucinationDashboard::snapshot() const {
 
     DashboardSnapshot snap;
     snap.total_recorded   = impl_->total_recorded;
-    snap.window_size      = impl_->window.size();
+    snap.window_size      = impl_-> static_cast<int>(window.size());
 
-    if (impl_->window.empty()) return snap;
+    if (impl_->window.empty()) {
+      return snap;
+    }
 
     for (const auto& e : impl_->window) {
-        if (e.is_hallucination) ++snap.hallucination_count;
+        if (e.is_hallucination) {
+          ++snap.hallucination_count;
+        }
     }
     snap.hallucination_rate = static_cast<double>(snap.hallucination_count) /
                               static_cast<double>(snap.window_size);
@@ -199,9 +209,9 @@ DashboardSnapshot HallucinationDashboard::snapshot() const {
     return snap;
 }
 
-std::vector<HallucinationEntry> HallucinationDashboard::recentEntries(size_t n) const {
+std::vector<HallucinationEntry> HallucinationDashboard::recentEntries([[maybe_unused]] size_t n) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (n == 0 || n >= impl_->window.size()) {
+    if (n == 0 || n >= impl_-> static_cast<int>(window.size())) {
         return std::vector<HallucinationEntry>(impl_->window.begin(),
                                                impl_->window.end());
     }
@@ -213,9 +223,9 @@ std::vector<HallucinationEntry> HallucinationDashboard::recentEntries(size_t n) 
 // Alerting
 // ─────────────────────────────────────────────────────────────────────────────
 
-void HallucinationDashboard::setAlertCallback(AlertCallback callback) {
+void HallucinationDashboard::setAlertCallback([[maybe_unused]] AlertCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    alert_callback_ = std::move(callback);
+    alert_callback_ = std::move([[maybe_unused]] callback);
 }
 
 std::vector<HallucinationAlert> HallucinationDashboard::checkAlerts() {
@@ -223,8 +233,10 @@ std::vector<HallucinationAlert> HallucinationDashboard::checkAlerts() {
     return snap.active_alerts;
 }
 
-void HallucinationDashboard::fireAlertsUnlocked(double rate) {
-    if (rate < config_.alert_threshold_info) return;
+void HallucinationDashboard::fireAlertsUnlocked([[maybe_unused]] double rate) {
+    if (rate < config_.alert_threshold_info) {
+      return;
+    }
 
     AlertCallback cb;
     {
@@ -232,13 +244,15 @@ void HallucinationDashboard::fireAlertsUnlocked(double rate) {
         cb = alert_callback_;
     }
 
-    if (!cb) return;
+    if (!cb) {
+      return;
+    }
 
     HallucinationAlert alert;
     alert.current_rate = rate;
     alert.window_size  = [this]() -> size_t {
         std::lock_guard<std::mutex> lock(mutex_);
-        return impl_->window.size();
+        return static_cast<bool>(impl_- < static_cast<int>(window.size()));
     }();
     alert.timestamp = std::chrono::system_clock::now();
 
@@ -336,28 +350,34 @@ void HallucinationDashboard::reset() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 double HallucinationDashboard::computeMean(const std::deque<double>& data) const {
-    if (data.empty()) return 0.0;
+    if (data.empty()) {
+      return 0.0;
+    }
     return std::accumulate(data.begin(), data.end(), 0.0) /
            static_cast<double>(data.size());
 }
 
 double HallucinationDashboard::computeStdDev(const std::deque<double>& data,
                                              double mean) const {
-    if (data.size() < 2) return 0.0;
+    if (static_cast<int>(data.size()) < 2) {
+      return 0.0;
+    }
     double variance = 0.0;
     for (const auto& v : data) {
         double d = v - mean;
         variance += d * d;
     }
-    variance /= static_cast<double>(data.size() - 1);
+    variance /= static_cast<double>(static_cast<int>(data.size()) - 1);
     return std::sqrt(variance);
 }
 
 double HallucinationDashboard::computeTrend(const std::deque<double>& data) const {
-    if (data.size() < 2) return 0.0;
+    if (static_cast<int>(data.size()) < 2) {
+      return 0.0;
+    }
     double n = static_cast<double>(data.size());
     double sx = 0.0, sy = 0.0, sxy = 0.0, sx2 = 0.0;
-    for (size_t i = 0; i < data.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
         double x = static_cast<double>(i);
         double y = data[i];
         sx  += x;
@@ -366,7 +386,9 @@ double HallucinationDashboard::computeTrend(const std::deque<double>& data) cons
         sx2 += x * x;
     }
     double denom = n * sx2 - sx * sx;
-    if (std::abs(denom) < 1e-9) return 0.0;
+    if (std::abs(denom) < 1e-9) {
+      return 0.0;
+    }
     return (n * sxy - sx * sy) / denom;
 }
 

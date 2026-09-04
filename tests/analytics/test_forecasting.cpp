@@ -238,7 +238,9 @@ TEST(LinearRegressionTest, TimestampsAreMonotonicallyIncreasing) {
 
 TEST(LinearRegressionTest, FlatSeriesNearZeroSlope) {
     TimeSeries ts;
-    for (int i = 0; i < 20; ++i) ts.push(static_cast<int64_t>(i) * 1000, 5.0);
+    for (int i = 0; i < 20; ++i) {
+      ts.push(static_cast<int64_t>(i) * 1000, 5.0);
+    }
     ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
     model.fit(ts);
     auto forecast = model.predict(5);
@@ -644,7 +646,9 @@ static TimeSeries makeAR1Series(int n, double phi = 0.8,
 
 static double scalarMean(const std::vector<double>& v) {
     double s = 0.0;
-    for (double x : v) s += x;
+    for (double x : v) {
+      s += x;
+    }
     return s / static_cast<double>(v.size());
 }
 
@@ -713,7 +717,9 @@ static double scalarARIMAForecast1(const std::vector<double>& y, int p) {
     size_t n = y.size();
 
     std::vector<double> yc(n);
-    for (size_t i = 0; i < n; ++i) yc[i] = y[i] - mean_y;
+    for (size_t i = 0; i < n; ++i) {
+      yc[i] = y[i] - mean_y;
+    }
 
     std::vector<double> phi = scalarYuleWalker(yc, p);
     size_t ap = phi.size();
@@ -809,7 +815,9 @@ TEST(SIMDParityTest, ARIMA_AR2_ScalarVsSIMD) {
 // must return AR coefficients = 0 and a finite (mean) forecast.
 TEST(SIMDParityTest, ARIMA_FlatSeries_NoNaN) {
     TimeSeries ts;
-    for (int i = 0; i < 50; ++i) ts.push(static_cast<int64_t>(i) * 1000LL, 0.0);
+    for (int i = 0; i < 50; ++i) {
+      ts.push(static_cast<int64_t>(i) * 1000LL, 0.0);
+    }
     std::vector<double> y = ts.values();
 
     // Scalar reference: mean is 0, phi = 0, forecast = 0.
@@ -842,7 +850,8 @@ TEST(SIMDParityTest, ARIMA_FlatSeries_NoNaN) {
 
 TEST(ForecastingBatchStreamingTests, PredictBatch_ReturnsCorrectShape) {
     // 3 series, 20 steps each
-    std::vector<TimeSeries> batch;
+    std::vector<TimeSeries> batch = {};
+
     for (int s = 0; s < 3; ++s) {
         batch.push_back(makeLinearSeries(30, /*slope=*/static_cast<double>(s + 1)));
     }
@@ -895,7 +904,8 @@ TEST(ForecastingBatchStreamingTests, PredictBatch_EmptyBatch_ReturnsEmpty) {
 }
 
 TEST(ForecastingBatchStreamingTests, PredictBatch_AllMethods) {
-    std::vector<TimeSeries> batch;
+    std::vector<TimeSeries> batch = {};
+
     for (int i = 0; i < 3; ++i)
         batch.push_back(makeSeasonalSeries(40, 4, 0.5));
 

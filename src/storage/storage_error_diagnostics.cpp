@@ -43,7 +43,9 @@ namespace storage {
 static std::shared_ptr<spdlog::logger> auditLogger() noexcept {
     static const char* kName = "storage.audit";
     auto existing = spdlog::get(kName);
-    if (existing) return existing;
+    if (existing) {
+      return existing;
+    }
     try {
         auto logger = spdlog::stderr_color_mt(kName);
         logger->set_pattern("[%Y-%m-%dT%H:%M:%SZ] [storage.audit] %v");

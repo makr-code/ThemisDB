@@ -48,7 +48,7 @@ struct TempDir {
     }
 
     ~TempDir() {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(path, ec);
     }
 

@@ -72,7 +72,9 @@ public:
     void unloadModel()              override { loaded_ = false; }
     bool isModelLoaded() const      override { return loaded_; }
     std::optional<ModelInfo> getModelInfo() const override {
-        if (!loaded_) return std::nullopt;
+        if (!loaded_) {
+          return std::nullopt;
+        }
         ModelInfo info{};
         info.model_id  = "w10d-mock-draft";
         info.is_loaded = true;

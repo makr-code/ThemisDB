@@ -50,16 +50,24 @@ namespace themis::analytics::detail {
  * @return      The interpolated p-th percentile, or 0.0 if @p vals is empty.
  */
 inline double computePercentile(const std::vector<double>& vals, double p) {
-    if (vals.empty()) return 0.0;
+    if (vals.empty()) {
+      return 0.0;
+    }
     // Local scratch copy – the only allocation; avoids modifying caller's data.
     std::vector<double> scratch(vals.begin(), vals.end());
     std::sort(scratch.begin(), scratch.end());
-    if (p <= 0.0) return scratch.front();
-    if (p >= 100.0) return scratch.back();
+    if (p <= 0.0) {
+      return scratch.front();
+    }
+    if (p >= 100.0) {
+      return scratch.back();
+    }
     const double idx = (p / 100.0) * static_cast<double>(scratch.size() - 1);
     const size_t lo  = static_cast<size_t>(idx);
     const size_t hi  = lo + 1;
-    if (hi >= scratch.size()) return scratch.back();
+    if (hi >= scratch.size()) {
+      return scratch.back();
+    }
     const double frac = idx - static_cast<double>(lo);
     return scratch[lo] + frac * (scratch[hi] - scratch[lo]);
 }
@@ -69,15 +77,23 @@ inline double computePercentile(const std::vector<double>& vals, double p) {
  * (e.g. a raw array, std::array, or a sub-range of a vector).
  */
 inline double computePercentile(std::span<const double> vals, double p) {
-    if (vals.empty()) return 0.0;
+    if (vals.empty()) {
+      return 0.0;
+    }
     std::vector<double> scratch(vals.begin(), vals.end());
     std::sort(scratch.begin(), scratch.end());
-    if (p <= 0.0) return scratch.front();
-    if (p >= 100.0) return scratch.back();
+    if (p <= 0.0) {
+      return scratch.front();
+    }
+    if (p >= 100.0) {
+      return scratch.back();
+    }
     const double idx = (p / 100.0) * static_cast<double>(scratch.size() - 1);
     const size_t lo  = static_cast<size_t>(idx);
     const size_t hi  = lo + 1;
-    if (hi >= scratch.size()) return scratch.back();
+    if (hi >= scratch.size()) {
+      return scratch.back();
+    }
     const double frac = idx - static_cast<double>(lo);
     return scratch[lo] + frac * (scratch[hi] - scratch[lo]);
 }

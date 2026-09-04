@@ -39,24 +39,32 @@ static uint32_t ht_crc32(const void* data, size_t len) {
         std::array<uint32_t, 256> t{};
         for (uint32_t i = 0; i < 256; ++i) {
             uint32_t c = i;
-            for (int k = 0; k < 8; ++k) c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+            for (int k = 0; k < 8; ++k) {
+              c = (c & 1) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+            }
             t[i] = c;
         }
         return t;
     }();
     uint32_t crc = 0xFFFFFFFFu;
     const auto* p = static_cast<const uint8_t*>(data);
-    for (size_t i = 0; i < len; ++i) crc = table[(crc ^ p[i]) & 0xFF] ^ (crc >> 8);
+    for (size_t i = 0; i < len; ++i) {
+      crc = table[(crc ^ p[i]) & 0xFF] ^ (crc >> 8);
+    }
     return ~crc;
 }
 
 static void appendCrc32(std::vector<uint8_t>& buf) {
-    uint32_t crc = ht_crc32(buf.data(), buf.size());
-    for (int i = 0; i < 4; ++i) buf.push_back(static_cast<uint8_t>(crc >> (8 * i)));
+    uint32_t crc = ht_crc32(buf.data(),static_cast<int>(buf.size()));
+    for (int i = 0; i < 4; ++i) {
+      buf.push_back(static_cast<uint8_t>(crc >> (8 * i)));
+    }
 }
 
 std::size_t nodeTotal(const HTNode* n) noexcept {
-    if (!n) return 0;
+    if (!n) {
+      return 0;
+    }
     std::size_t s = n->numParams();
     if (!n->is_leaf) {
         s += nodeTotal(n->left.get());
@@ -66,7 +74,9 @@ std::size_t nodeTotal(const HTNode* n) noexcept {
 }
 
 std::unique_ptr<HTNode> cloneNode(const HTNode* src) {
-    if (!src) return nullptr;
+    if (!src) {
+      return nullptr;
+    }
     auto dst = std::make_unique<HTNode>();
     dst->is_leaf     = src->is_leaf;
     dst->mode_index  = src->mode_index;
@@ -134,7 +144,7 @@ std::vector<float> expandNode(const HTNode& node) {
     std::size_t r_right = node.r_right;
     std::size_t r_out   = node.rank;
 
-    std::size_t N_left  = F_left.size()  / r_left;
+    std::size_t N_left = F_left.size()  / r_left;
     std::size_t N_right = F_right.size() / r_right;
 
     // Result: shape [N_left * N_right, r_out]
@@ -152,7 +162,9 @@ std::vector<float> expandNode(const HTNode& node) {
                     // (multiplying by 0.0 cannot contribute to val).  This is
                     // a discrete sentinel check, not a precision-sensitive
                     // arithmetic comparison — false positive.
-                    if (fl == 0.0f) continue;
+                    if (fl == 0.0f) {
+                      continue;
+                    }
                     for (std::size_t r = 0; r < r_right; ++r) {
                         val += node.atB(l, r, ao) * fl * F_right[ir * r_right + r];
                     }
@@ -234,9 +246,9 @@ void writeF64(std::vector<uint8_t>& buf, double v) {
 }
 
 void writeFloats(std::vector<uint8_t>& buf, const std::vector<float>& v) {
-    writeU64(buf, v.size());
+    writeU64(buf,static_cast<int>(v.size()));
     const uint8_t* p = reinterpret_cast<const uint8_t*>(v.data());
-    buf.insert(buf.end(), p, p + v.size() * sizeof(float));
+    buf.insert(buf.end(), p, p + static_cast<int>(v.size()) * sizeof(float));
 }
 
 void serializeNode(std::vector<uint8_t>& buf, const HTNode* node) {
@@ -258,14 +270,14 @@ void serializeNode(std::vector<uint8_t>& buf, const HTNode* node) {
 
 struct Reader {
     const uint8_t* p;
-    std::size_t    left;
+    std::size_t    left = {};
     bool           ok = true;
 
-    bool readU64(uint64_t& v) {
+    bool readU64([[maybe_unused]] uint64_t& v) {
         if (left < 8) { ok = false; return false; }
         std::memcpy(&v, p, 8); p += 8; left -= 8; return true;
     }
-    bool readU8(uint8_t& v) {
+    bool readU8([[maybe_unused]] uint8_t& v) {
         if (left < 1) { ok = false; return false; }
         v = *p++; left--; return true;
     }
@@ -275,7 +287,9 @@ struct Reader {
     }
     bool readFloats(std::vector<float>& v) {
         uint64_t n = 0;
-        if (!readU64(n)) return false;
+        if (!readU64(n)) {
+          return false;
+        }
         if (left < n * sizeof(float)) { ok = false; return false; }
         v.resize(n);
         std::memcpy(v.data(), p, n * sizeof(float));
@@ -293,33 +307,51 @@ std::unique_ptr<HTNode> deserializeNode(Reader& r) {
     // blob before reaching this function.  The scanner cannot follow the call
     // chain to observe the outer integrity check — false positive.
     uint8_t tag = 0;
-    if (!r.readU8(tag)) return nullptr;
-    if (tag == 0xFF) return nullptr;
+    if (!r.readU8(tag)) {
+      return nullptr;
+    }
+    if (tag == 0xFF) {
+      return nullptr;
+    }
 
     auto node = std::make_unique<HTNode>();
     uint64_t rank_u = 0;
-    if (!r.readU64(rank_u)) return nullptr;
+    if (!r.readU64(rank_u)) {
+      return nullptr;
+    }
     node->rank = static_cast<std::size_t>(rank_u);
 
     if (tag == 1) {
         node->is_leaf = true;
         uint64_t mi = 0, nk = 0;
-        if (!r.readU64(mi)) return nullptr;
-        if (!r.readU64(nk)) return nullptr;
+        if (!r.readU64(mi)) {
+          return nullptr;
+        }
+        if (!r.readU64(nk)) {
+          return nullptr;
+        }
         node->mode_index = static_cast<std::size_t>(mi);
         node->n_k        = static_cast<std::size_t>(nk);
-        if (!r.readFloats(node->U)) return nullptr;
+        if (!r.readFloats(node->U)) {
+          return nullptr;
+        }
         // null_dereference scanner alert (this line and node->B below): node
         // is created by make_unique above and is valid; node->U / node->B are
         // std::vector members (never null) — false positive.
     } else {
         node->is_leaf = false;
         uint64_t rl = 0, rr = 0;
-        if (!r.readU64(rl)) return nullptr;
-        if (!r.readU64(rr)) return nullptr;
+        if (!r.readU64(rl)) {
+          return nullptr;
+        }
+        if (!r.readU64(rr)) {
+          return nullptr;
+        }
         node->r_left  = static_cast<std::size_t>(rl);
         node->r_right = static_cast<std::size_t>(rr);
-        if (!r.readFloats(node->B)) return nullptr;
+        if (!r.readFloats(node->B)) {
+          return nullptr;
+        }
         node->left  = deserializeNode(r);
         node->right = deserializeNode(r);
     }
@@ -333,7 +365,9 @@ std::vector<uint8_t> HTTrain::serialize() const {
     writeU64(buf, kHTMagic);
     writeU8(buf, kHTVersion);
     writeU64(buf, static_cast<uint64_t>(shape.size()));
-    for (auto s : shape) writeU64(buf, static_cast<uint64_t>(s));
+    for (auto s : shape) {
+      writeU64(buf, static_cast<uint64_t>(s));
+    }
     writeU64(buf, static_cast<uint64_t>(max_rank));
     writeF64(buf, achieved_eps);
     writeF64(buf, original_norm);
@@ -351,7 +385,7 @@ std::optional<HTTrain> HTTrain::deserialize(const std::vector<uint8_t>& bytes) {
     // Verify trailing CRC32 (4 bytes) if present.  Legacy blobs without a
     // CRC trailer are still accepted when the CRC does not match (fall-through).
     const uint8_t* data  = bytes.data();
-    size_t         size  = bytes.size();
+    size_t size = bytes.size();
     constexpr size_t kCrcSize = 4;
     if (size >= kCrcSize) {
         const size_t payload_size = size - kCrcSize;
@@ -367,28 +401,44 @@ std::optional<HTTrain> HTTrain::deserialize(const std::vector<uint8_t>& bytes) {
 
     Reader r{data, size, true};
     uint64_t magic = 0;
-    if (!r.readU64(magic) || magic != kHTMagic) return std::nullopt;
+    if (!r.readU64(magic) || magic != kHTMagic) {
+      return std::nullopt;
+    }
     uint8_t ver = 0;
-    if (!r.readU8(ver) || ver != kHTVersion) return std::nullopt;
+    if (!r.readU8(ver) || ver != kHTVersion) {
+      return std::nullopt;
+    }
 
     uint64_t d = 0;
-    if (!r.readU64(d)) return std::nullopt;
+    if (!r.readU64(d)) {
+      return std::nullopt;
+    }
 
     HTTrain ht;
     ht.shape.resize(static_cast<std::size_t>(d));
     for (auto& s : ht.shape) {
         uint64_t v = 0;
-        if (!r.readU64(v)) return std::nullopt;
+        if (!r.readU64(v)) {
+          return std::nullopt;
+        }
         s = static_cast<std::size_t>(v);
     }
     uint64_t mr = 0;
-    if (!r.readU64(mr)) return std::nullopt;
+    if (!r.readU64(mr)) {
+      return std::nullopt;
+    }
     ht.max_rank = static_cast<std::size_t>(mr);
-    if (!r.readF64(ht.achieved_eps))  return std::nullopt;
-    if (!r.readF64(ht.original_norm)) return std::nullopt;
+    if (!r.readF64(ht.achieved_eps)) {
+      return std::nullopt;
+    }
+    if (!r.readF64(ht.original_norm)) {
+      return std::nullopt;
+    }
 
     ht.root = deserializeNode(r);
-    if (!r.ok || !ht.root) return std::nullopt;
+    if (!r.ok || !ht.root) {
+      return std::nullopt;
+    }
     return ht;
 }
 
@@ -483,9 +533,13 @@ std::vector<double> HTContractionEngine::computeGram(
 }
 
 double HTContractionEngine::innerProduct(const HTTrain& A, const HTTrain& B) {
-    if (!A.root || !B.root) return 0.0;
+    if (!A.root || !B.root) {
+      return 0.0;
+    }
     auto G = gramNode(*A.root, *B.root);
-    if (G.empty()) return 0.0;
+    if (G.empty()) {
+      return 0.0;
+    }
     // Root has rank == 1 for both; G is [1 × 1]
     return G[0];
 }
@@ -497,7 +551,9 @@ double HTContractionEngine::frobeniusNorm(const HTTrain& A) {
 double HTContractionEngine::cosineSimilarity(const HTTrain& A, const HTTrain& B) {
     double na = frobeniusNorm(A);
     double nb = frobeniusNorm(B);
-    if (na < 1e-15 || nb < 1e-15) return 0.0;
+    if (na < 1e-15 || nb < 1e-15) {
+      return 0.0;
+    }
     return innerProduct(A, B) / (na * nb);
 }
 
@@ -522,12 +578,14 @@ std::vector<float> HierarchicalTuckerDecomposer::modeKUnfolding(
 {
     std::size_t d = shape.size();
     std::size_t nk = shape[mode_k];
-    std::size_t N  = data.size();
+    std::size_t N = data.size();
     std::size_t N_other = N / nk;  // n_cols
 
     // stride of mode k in row-major layout
     std::size_t stride_k = 1;
-    for (std::size_t m = mode_k + 1; m < d; ++m) stride_k *= shape[m];
+    for (std::size_t m = mode_k + 1; m < d; ++m) {
+      stride_k *= shape[m];
+    }
     std::size_t outer_k = N / (nk * stride_k);
 
     // T_(k)[j, s] where j = mode-k index, s = combined other-mode index
@@ -564,7 +622,9 @@ std::vector<float> HierarchicalTuckerDecomposer::modeKProduct(
 
     // stride / outer dimensions around mode k
     std::size_t stride_k = 1;
-    for (std::size_t m = mode_k + 1; m < d; ++m) stride_k *= shape[m];
+    for (std::size_t m = mode_k + 1; m < d; ++m) {
+      stride_k *= shape[m];
+    }
     std::size_t outer_k = N / (n_k * stride_k);
 
     // Result: same shape with shape[mode_k] replaced by r
@@ -720,8 +780,12 @@ HierarchicalTuckerDecomposer::buildHTNode(
 
     // Compute n_left and n_right (products of physical dims)
     std::size_t n_left = 1, n_right = 1;
-    for (std::size_t k = 0; k < M - L; ++k)  n_left  *= core_shape[k];
-    for (std::size_t k = M - L; k < d_sub; ++k) n_right *= core_shape[k];
+    for (std::size_t k = 0; k < M - L; ++k) {
+      n_left  *= core_shape[k];
+    }
+    for (std::size_t k = M - L; k < d_sub; ++k) {
+      n_right *= core_shape[k];
+    }
 
     // SVD-1: core_mat[i_left, (i_right * r_out + gamma_out)]
     //        shape: [n_left, n_right * r_out]
@@ -815,22 +879,28 @@ HierarchicalTuckerDecomposer::decompose(
     const std::vector<std::size_t>& shape) const
 {
     std::size_t d = shape.size();
-    if (d < 2) throw std::invalid_argument("HTDecomposer: need at least 2 modes");
+    if (d < 2) {
+      throw std::invalid_argument("HTDecomposer: need at least 2 modes");
+    }
 
     std::size_t N = 1;
     for (auto s : shape) {
-        if (s == 0) throw std::invalid_argument("HTDecomposer: mode size 0 is invalid");
+        if (s == 0) {
+          throw std::invalid_argument("HTDecomposer: mode size 0 is invalid");
+        }
         N *= s;
     }
-    if (data.size() != N)
-        throw std::invalid_argument("HTDecomposer: data.size() != product of shape");
+    if (static_cast<int>(data.size()) != N)
+        throw std::invalid_argument("HTDecomposer: static_cast<int>(data.size()) != product of shape");
 
     // ── Step 1: HOSVD — compute mode-k SVDs for leaf bases ────────────────────
     std::vector<std::vector<float>> U_cache(d);  // U_cache[k] ∈ [n_k × r_k]
     std::vector<std::size_t>        ranks(d);
 
     double total_sq = 0.0;
-    for (float v : data) total_sq += static_cast<double>(v) * v;
+    for (float v : data) {
+      total_sq += static_cast<double>(v) * v;
+    }
     double orig_norm = std::sqrt(total_sq);
 
     // Global delta for leaf SVDs: eps * ||T|| / sqrt(d)
@@ -868,7 +938,9 @@ HierarchicalTuckerDecomposer::decompose(
             std::vector<float>       Y   = data;
             std::vector<std::size_t> Ysh = shape;
             for (std::size_t l = 0; l < d; ++l) {
-                if (l == k) continue;
+                if (l == k) {
+                  continue;
+                }
                 Y      = modeKProduct(Y, Ysh, l, U_cache[l], Ysh[l], ranks[l]);
                 Ysh[l] = ranks[l];
             }
@@ -876,7 +948,9 @@ HierarchicalTuckerDecomposer::decompose(
             std::size_t nk      = shape[k];   // Ysh[k] = shape[k] (untouched)
             std::size_t n_other = 1;
             for (std::size_t l = 0; l < d; ++l)
-                if (l != k) n_other *= Ysh[l];
+                if (l != k) {
+                  n_other *= Ysh[l];
+                }
             auto Yk = modeKUnfolding(Y, Ysh, k);   // [nk × n_other]
 
             std::vector<float> U_new, S_new, Vt_new;
@@ -898,9 +972,13 @@ HierarchicalTuckerDecomposer::decompose(
 
         if (orig_norm > 0.0) {
             double G_sq = 0.0;
-            for (float v : G) G_sq += static_cast<double>(v) * v;
+            for (float v : G) {
+              G_sq += static_cast<double>(v) * v;
+            }
             double achieved = std::sqrt(std::max(0.0, total_sq - G_sq)) / orig_norm;
-            if (achieved <= cfg_.eps) break;
+            if (achieved <= cfg_.eps) {
+              break;
+            }
         } else {
             break;  // Zero tensor: trivially converged
         }
@@ -925,7 +1003,9 @@ HierarchicalTuckerDecomposer::decompose(
 
         // Compute initial core norm for convergence tracking
         double prev_core_norm = 0.0;
-        for (float v : G) prev_core_norm += static_cast<double>(v) * v;
+        for (float v : G) {
+          prev_core_norm += static_cast<double>(v) * v;
+        }
         prev_core_norm = std::sqrt(prev_core_norm);
 
         for (std::size_t iter = 0; iter < max_iter; ++iter) {
@@ -935,7 +1015,9 @@ HierarchicalTuckerDecomposer::decompose(
                 std::vector<float>       Gk      = data;
                 std::vector<std::size_t> Gk_shape = shape;
                 for (std::size_t j = 0; j < d; ++j) {
-                    if (j == k) continue;
+                    if (j == k) {
+                      continue;
+                    }
                     Gk       = modeKProduct(Gk, Gk_shape, j, U_cache[j], Gk_shape[j], ranks[j]);
                     Gk_shape[j] = ranks[j];
                 }
@@ -945,7 +1027,9 @@ HierarchicalTuckerDecomposer::decompose(
                 const std::size_t nk      = shape[k];
                 std::size_t       n_other = 1;
                 for (std::size_t j = 0; j < d; ++j)
-                    if (j != k) n_other *= Gk_shape[j];
+                    if (j != k) {
+                      n_other *= Gk_shape[j];
+                    }
 
                 // Truncated SVD → new U_k
                 std::vector<float> U_new, S_new, Vt_new;
@@ -967,7 +1051,9 @@ HierarchicalTuckerDecomposer::decompose(
 
             // Check convergence
             double core_norm = 0.0;
-            for (float v : G) core_norm += static_cast<double>(v) * v;
+            for (float v : G) {
+              core_norm += static_cast<double>(v) * v;
+            }
             core_norm = std::sqrt(core_norm);
 
             const double rel_change =
@@ -975,7 +1061,9 @@ HierarchicalTuckerDecomposer::decompose(
                     ? std::abs(core_norm - prev_core_norm) / prev_core_norm
                     : core_norm;
 
-            if (rel_change < tol) break;
+            if (rel_change < tol) {
+              break;
+            }
             prev_core_norm = core_norm;
         }
     }
@@ -1009,7 +1097,9 @@ HierarchicalTuckerDecomposer::decompose(
     }
 
     std::size_t max_rank_used = 0;
-    for (std::size_t r : ranks) max_rank_used = std::max(max_rank_used, r);
+    for (std::size_t r : ranks) {
+      max_rank_used = std::max(max_rank_used, r);
+    }
 
     Stats stats;
     stats.num_modes      = d;

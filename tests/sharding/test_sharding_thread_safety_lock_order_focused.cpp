@@ -113,7 +113,9 @@ public:
     std::optional<uint64_t> propose(const std::string& /*op*/) {
         if (slow_ms_ > 0)
             std::this_thread::sleep_for(std::chrono::milliseconds(slow_ms_));
-        if (fail_propose_) return std::nullopt;
+        if (fail_propose_) {
+          return std::nullopt;
+        }
         return ++next_index_;
     }
 
@@ -122,7 +124,9 @@ public:
                        std::chrono::milliseconds timeout = std::chrono::milliseconds(100)) {
         if (slow_ms_ > 0)
             std::this_thread::sleep_for(std::chrono::milliseconds(slow_ms_));
-        if (fail_commit_) return false;
+        if (fail_commit_) {
+          return false;
+        }
         // Quick simulated commit
         (void)timeout;
         return true;
@@ -208,7 +212,9 @@ TEST(ThreadSafetyTests, TSO01_ConcurrentWritesSameShard) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(mgr.totalWrites(), static_cast<uint64_t>(kThreads * kOpsEach));
 }
@@ -217,7 +223,8 @@ TEST(ThreadSafetyTests, TSO02_ConcurrentWritesDifferentKeys) {
     StubReplicaConsistency mgr;
     constexpr int kThreads = 6;
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&mgr, t]() {
             const std::string key = "key-" + std::to_string(t);
@@ -226,7 +233,9 @@ TEST(ThreadSafetyTests, TSO02_ConcurrentWritesDifferentKeys) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(mgr.totalWrites(), static_cast<uint64_t>(kThreads * 30));
     for (int t = 0; t < kThreads; ++t) {
@@ -240,7 +249,8 @@ TEST(ThreadSafetyTests, TSO03_ConcurrentReadsDontRace) {
     mgr.recordWrite("k", "initial", "n0");
 
     std::atomic<int> read_count{0};
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int i = 0; i < 10; ++i) {
         readers.emplace_back([&]() {
             auto h = mgr.getHistory("k");
@@ -248,7 +258,9 @@ TEST(ThreadSafetyTests, TSO03_ConcurrentReadsDontRace) {
             ++read_count;
         });
     }
-    for (auto& th : readers) th.join();
+    for (auto& th : readers) {
+      th.join();
+    }
     EXPECT_EQ(read_count.load(), 10);
 }
 
@@ -265,7 +277,8 @@ TEST(ThreadSafetyTests, TSO04_ConcurrentReadWriteMixed) {
     });
 
     // Reader threads
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int r = 0; r < 4; ++r) {
         readers.emplace_back([&]() {
             while (!stop.load()) {
@@ -277,7 +290,9 @@ TEST(ThreadSafetyTests, TSO04_ConcurrentReadWriteMixed) {
     }
 
     writer.join();
-    for (auto& th : readers) th.join();
+    for (auto& th : readers) {
+      th.join();
+    }
 
     EXPECT_GE(mgr.totalWrites(), 200u);
 }
@@ -320,7 +335,8 @@ TEST(ThreadSafetyTests, TSO06_AtomicCounterIncrements) {
     constexpr int kThreads = 8;
     constexpr int kOps     = 100;
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&state, t]() {
             for (int i = 0; i < kOps; ++i) {
@@ -328,7 +344,9 @@ TEST(ThreadSafetyTests, TSO06_AtomicCounterIncrements) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(state.op_counter.load(), static_cast<uint64_t>(kThreads * kOps));
 }
@@ -338,7 +356,8 @@ TEST(ThreadSafetyTests, TSO07_ConcurrentAuditLogAppend) {
     constexpr int kThreads = 6;
     constexpr int kLogs    = 20;
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&state, t]() {
             for (int i = 0; i < kLogs; ++i) {
@@ -346,7 +365,9 @@ TEST(ThreadSafetyTests, TSO07_ConcurrentAuditLogAppend) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(state.auditSize(), static_cast<size_t>(kThreads * kLogs));
 }
@@ -355,7 +376,8 @@ TEST(ThreadSafetyTests, TSO08_ConcurrentStateAndAuditViaScoped) {
     StubOrchestratorState state;
     constexpr int kThreads = 4;
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&state, t]() {
             for (int i = 0; i < 30; ++i) {
@@ -364,7 +386,9 @@ TEST(ThreadSafetyTests, TSO08_ConcurrentStateAndAuditViaScoped) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // State count and audit log should both reflect all kThreads*30 writes
     EXPECT_EQ(state.op_counter.load(), static_cast<uint64_t>(kThreads * 30));
@@ -380,7 +404,9 @@ static bool tryLockWithin(std::mutex& m,
                           std::chrono::milliseconds deadline = std::chrono::milliseconds(200)) {
     auto end = std::chrono::steady_clock::now() + deadline;
     while (std::chrono::steady_clock::now() < end) {
-        if (m.try_lock()) return true;
+        if (m.try_lock()) {
+          return true;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
     return false;
@@ -501,7 +527,7 @@ TEST(LockOrderingTests, LKO05_RaftHierarchy_StateBeforeCallbacks_NoDeadlock) {
 TEST(LockOrderingTests, LKO06_SingleMutexReEntryPrevented) {
     // Verify that our locked variants don't attempt to re-acquire the same
     // mutex (which would deadlock on std::mutex).  Simulate with try_lock.
-    std::mutex m;
+    std::mutex m = {};
     bool second_acquire_succeeded = false;
 
     {
@@ -578,7 +604,9 @@ TEST(ConsensusCoordinationTests, CCR05_QuorumLossDetectedFromNullConsensus) {
     int success_count = 0;
     for (int i = 0; i < 5; ++i) {
         auto idx = quorum_lost.propose("op-" + std::to_string(i));
-        if (idx.has_value()) ++success_count;
+        if (idx.has_value()) {
+          ++success_count;
+        }
     }
 
     EXPECT_EQ(success_count, 0) << "All proposals must fail when quorum is lost";
@@ -589,14 +617,17 @@ TEST(ConsensusCoordinationTests, CCR06_RetryOnTransientFailure) {
     StubConsensus consensus;
     consensus.setFailPropose(true);  // first attempt will fail
 
-    std::optional<uint64_t> idx;
+    std::optional<uint64_t> idx = {};
+
     for (int attempt = 0; attempt < 3; ++attempt) {
         if (attempt == 1) {
             // Simulate recovery: clear the transient fault
             consensus.setFailPropose(false);
         }
         idx = consensus.propose("op");
-        if (idx.has_value()) break;
+        if (idx.has_value()) {
+          break;
+        }
     }
 
     EXPECT_TRUE(idx.has_value())

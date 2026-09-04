@@ -182,7 +182,7 @@ struct Value {
  * @brief GraphQL Field Selection
  */
 struct Field {
-    std::string name;
+    std::string name = {};
     std::string alias;  // Optional alias
     std::unordered_map<std::string, std::shared_ptr<Value>> arguments;
     std::vector<Field> selections;  // Nested selections
@@ -243,7 +243,7 @@ struct Document {
  * @brief GraphQL Parse Error
  */
 struct ParseError {
-    std::string message;
+    std::string message = {};
     size_t line = 0;
     size_t column = 0;
     
@@ -419,7 +419,7 @@ struct ExecutionContext {
  */
 struct MaskedError {
     std::string message;
-    std::string code;
+    std::string code = {};
     std::vector<std::string> path;  // Path to the field that caused the error
     
     // Mask an internal error for client exposure
@@ -454,7 +454,9 @@ struct MaskedError {
         if (!path.empty()) {
             result += " at path: ";
             for (size_t i = 0; i < path.size(); ++i) {
-                if (i > 0) result += ".";
+                if (i > 0) {
+                  result += ".";
+                }
                 result += path[i];
             }
         }

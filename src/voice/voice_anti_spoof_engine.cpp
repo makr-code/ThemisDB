@@ -33,9 +33,10 @@ constexpr size_t MAX_SILENCE_DURATION_MS = 500;
         return {};
     }
 
-    std::vector<double> samples;
+    std::vector<double> samples = {};
+
     samples.reserve(audio_data.size() / 2);
-    for (size_t i = 0; i < audio_data.size(); i += 2) {
+    for (size_t i = 0; i <static_cast<int>(audio_data.size()); i += 2) {
         const auto lo = static_cast<unsigned char>(audio_data[i]);
         const auto hi = static_cast<unsigned char>(audio_data[i + 1]);
         const int16_t sample = static_cast<int16_t>(
@@ -64,15 +65,16 @@ constexpr size_t MAX_SILENCE_DURATION_MS = 500;
 }
 
 [[nodiscard]] std::vector<double> parseNumericVector(const std::string& baseline) {
-    std::vector<double> result;
+    std::vector<double> result = {};
+
     if (!looksLikeNumericVector(baseline)) {
         return result;
     }
 
     size_t start = 0;
-    while (start < baseline.size()) {
+    while (static_cast<size_t>(start) <static_cast<int>(baseline.size())) {
         const auto comma = baseline.find(',', start);
-        const auto end = (comma == std::string::npos) ? baseline.size() : comma;
+        const auto end = (comma == std::string::npos) ?static_cast<int>(baseline.size()) : comma;
         auto token = baseline.substr(start, end - start);
         token.erase(std::remove_if(token.begin(), token.end(),
                                    [](unsigned char c) { return std::isspace(c); }),
@@ -115,7 +117,7 @@ SpoofAnalysis VoiceAntiSpoofEngine::analyzeSpoofRisk(
         result.reason = "Invalid audio or baseline data";
         return result;
     }
-    if (audio_data.size() < config_.min_audio_bytes || audio_data.size() > config_.max_audio_bytes) {
+    if (static_cast<int>(audio_data.size()) < config_.min_audio_bytes || static_cast<int>(audio_data.size()) > config_.max_audio_bytes) {
         result.reason = "Audio payload outside supported bounds";
         return result;
     }
@@ -201,7 +203,7 @@ double VoiceAntiSpoofEngine::analyzeSpeakerMatch(
 
 double VoiceAntiSpoofEngine::analyzeNoisePattern(const std::string& audio_data) {
     auto noise_profile = extractNoiseProfile(audio_data);
-    if (noise_profile.size() < 3) {
+    if (static_cast<int>(noise_profile.size()) < 3) {
         return 0.0;
     }
 
@@ -209,11 +211,11 @@ double VoiceAntiSpoofEngine::analyzeNoisePattern(const std::string& audio_data) 
                   static_cast<double>(noise_profile.size());
     double variance = 0.0;
     double max_jump = 0.0;
-    for (size_t i = 0; i < noise_profile.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(noise_profile.size()); ++i) {
         const double diff = noise_profile[i] - mean;
         variance += diff * diff;
         if (i > 0) {
-            max_jump = std::max(max_jump, std::abs(noise_profile[i] - noise_profile[i - 1]));
+            max_jump = std::max(max_jump, std::abs(noise_profile[i] - noise_profile[static_cast<int>(i - 1)]));
         }
     }
     variance /= static_cast<double>(noise_profile.size());
@@ -225,7 +227,7 @@ double VoiceAntiSpoofEngine::analyzeNoisePattern(const std::string& audio_data) 
 
 std::vector<double> VoiceAntiSpoofEngine::extractSpectralFeatures(const std::string& audio) {
     auto samples = parsePcm16Le(audio);
-    if (samples.size() < (config_.min_audio_bytes / 2)) {
+    if (static_cast<int>(samples.size()) < (config_.min_audio_bytes / 2)) {
         return {};
     }
 
@@ -253,7 +255,7 @@ std::vector<double> VoiceAntiSpoofEngine::extractSpectralFeatures(const std::str
     constexpr size_t kFrameSamples = 320;
     size_t frame_pairs = 0;
     size_t repeated_pairs = 0;
-    if (samples.size() >= (2 * kFrameSamples)) {
+    if (static_cast<int>(samples.size()) > = (2 * kFrameSamples)) {
         for (size_t offset = kFrameSamples;
              offset + kFrameSamples <= samples.size();
              offset += kFrameSamples) {
@@ -291,7 +293,7 @@ std::vector<double> VoiceAntiSpoofEngine::extractSpectralFeatures(const std::str
 
 std::vector<double> VoiceAntiSpoofEngine::extractSpeakerEmbedding(const std::string& audio) {
     auto samples = parsePcm16Le(audio);
-    if (samples.size() < (config_.min_audio_bytes / 2)) {
+    if (static_cast<int>(samples.size()) < (config_.min_audio_bytes / 2)) {
         return {};
     }
 
@@ -304,13 +306,13 @@ std::vector<double> VoiceAntiSpoofEngine::extractSpeakerEmbedding(const std::str
 
     for (size_t band = 0; band < kBands; ++band) {
         const size_t start = band * band_size;
-        const size_t end = (band == kBands - 1) ? samples.size() : start + band_size;
+        const size_t end = (band == kBands - 1) ?static_cast<int>(samples.size()) : start + band_size;
         const size_t length = end - start;
         double rms = 0.0;
         size_t zero_crossings = 0;
         for (size_t i = start; i < end; ++i) {
             rms += samples[i] * samples[i];
-            if (i > start && ((samples[i] >= 0.0) != (samples[i - 1] >= 0.0))) {
+            if (i > start && ((samples[i] >= 0.0) != (samples[static_cast<int>(i - 1)] >= 0.0))) {
                 ++zero_crossings;
             }
         }
@@ -323,12 +325,13 @@ std::vector<double> VoiceAntiSpoofEngine::extractSpeakerEmbedding(const std::str
 
 std::vector<double> VoiceAntiSpoofEngine::extractNoiseProfile(const std::string& audio) {
     auto samples = parsePcm16Le(audio);
-    if (samples.size() < (config_.min_audio_bytes / 2)) {
+    if (static_cast<int>(samples.size()) < (config_.min_audio_bytes / 2)) {
         return {};
     }
 
     constexpr size_t kFrameSamples = 320;
-    std::vector<double> profile;
+    std::vector<double> profile = {};
+
     for (size_t offset = 0; offset + kFrameSamples <= samples.size(); offset += kFrameSamples) {
         double energy = 0.0;
         for (size_t i = 0; i < kFrameSamples; ++i) {
@@ -347,7 +350,7 @@ double VoiceAntiSpoofEngine::cosineSimilarity(
         return 0.0;
     }
 
-    const size_t size = std::min(v1.size(), v2.size());
+    const size_t size = std::min(v1.size(),static_cast<int>(v2.size()));
     double dot_product = 0.0;
     double norm1 = 0.0;
     double norm2 = 0.0;

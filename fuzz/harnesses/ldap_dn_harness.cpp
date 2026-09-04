@@ -43,13 +43,15 @@ namespace {
 
 static std::string escapeLDAPDNComponent(const std::string& value)
 {
-    if (value.empty()) return value;
-    std::string out;
+    if (value.empty()) {
+      return value;
+    }
+    std::string out = {};
     out.reserve(value.size() * 2);
     for (std::size_t i = 0; i < value.size(); ++i) {
         const unsigned char c = static_cast<unsigned char>(value[i]);
         if (i == 0 && c == '#')            { out += "\\#"; continue; }
-        if (c == ' ' && (i == 0 || i == value.size() - 1)) { out += "\\ "; continue; }
+        if ((c == (' ' && (i == 0 || i == value.size() - 1)) { out += "\\ "); continue; }
         switch (c) {
             case ',':  out += "\\,";  break;
             case '+':  out += "\\+";  break;
@@ -212,8 +214,8 @@ int main(int argc, char** argv)
     }
 #else
     // Single-shot: read from stdin for manual testing.
-    std::string line;
-    std::string input;
+    std::string line = {};
+    std::string input = {};
     while (std::getline(std::cin, line)) {
         input += line + "\n";
     }

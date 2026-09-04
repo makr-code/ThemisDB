@@ -30,7 +30,7 @@ namespace {
 /// Write @p content to a unique temporary file and return its path.
 std::string writeTempFile(const std::string& content,
                           const std::string& suffix = ".so") {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::this_thread::get_id();
     const auto path =
         std::filesystem::temp_directory_path() /
@@ -98,7 +98,7 @@ TEST(ModuleSignatureVerifier, VerifySignatureResultHasErrorOnFailure) {
 TEST(ModuleSignatureVerifier, VerifyGPGNoSignatureFile) {
     // File exists but has no .asc/.sig/.gpg companion → failure.
     const std::string path = writeTempFile("module binary content", "no_sig.so");
-    std::string signerInfo;
+    std::string signerInfo = {};
 
     const bool ok = ModuleSignatureVerifier::verifyGPGSignature(
         path, /*signaturePath=*/"", signerInfo);
@@ -112,7 +112,7 @@ TEST(ModuleSignatureVerifier, VerifyGPGNoSignatureFile) {
 TEST(ModuleSignatureVerifier, VerifyGPGExplicitNonExistentSigPath) {
     const std::string modPath = writeTempFile("module data", "explicit.so");
     const std::string sigPath = modPath + ".asc";  // does not exist
-    std::string signerInfo;
+    std::string signerInfo = {};
 
     // Provide explicit non-existent sig path; gpg should fail.
     const bool ok = ModuleSignatureVerifier::verifyGPGSignature(
@@ -187,7 +187,7 @@ TEST(ModuleSignatureVerifier, VerifySignatureAutoDetectAscExtension) {
 TEST(ModuleSignatureVerifier, VerifyAuthenticodeUnsignedFile) {
     // A plain text file has no Authenticode signature → false.
     const std::string path = writeTempFile("unsigned content", ".dll");
-    std::string signerInfo;
+    std::string signerInfo = {};
 
     const bool ok = ModuleSignatureVerifier::verifyAuthenticodeSignature(
         path, signerInfo);

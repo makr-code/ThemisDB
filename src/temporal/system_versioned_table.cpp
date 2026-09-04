@@ -237,7 +237,8 @@ std::vector<VersionedDocument> SystemVersionedTable::getHistoryInRange(
         return {};
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (const auto& v : it->second) {
         if (v.sys_time.overlaps(range)) {
             result.push_back(v);
@@ -250,7 +251,8 @@ std::vector<VersionedDocument> SystemVersionedTable::scan(
     Timestamp as_of) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (const auto& [key, versions] : rows_) {
         for (const auto& v : versions) {
             if (as_of == kMaxTimestamp) {
@@ -273,7 +275,8 @@ std::vector<VersionedDocument> SystemVersionedTable::scan(
 
 std::vector<std::string> SystemVersionedTable::getAllKeys() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     keys.reserve(rows_.size());
     for (const auto& [k, _] : rows_) {
         keys.push_back(k);
@@ -297,14 +300,16 @@ size_t SystemVersionedTable::purgeHistoricalVersions(
 
     versions.erase(
         std::remove_if(versions.begin(), versions.end(),
-                       [&](const VersionedDocument& v) {
+                       [&]([[maybe_unused]] const VersionedDocument& v) {
                            // Never remove the current (open-ended) version
-                           if (v.isCurrent()) return false;
+                           if (v.isCurrent()) {
+                             return false;
+                           }
                            return predicate(v);
                        }),
         versions.end());
 
-    return before - versions.size();
+    return before - static_cast<int>(versions.size()) ;
 }
 
 size_t SystemVersionedTable::purgeHistoricalVersions(
@@ -341,14 +346,15 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
     auto& versions = it->second;
 
     // Collect pointers to historical (closed) versions
-    std::vector<VersionedDocument*> historical;
+    std::vector<VersionedDocument*> historical = {};
+
     for (auto& v : versions) {
         if (!v.isCurrent()) {
             historical.push_back(&v);
         }
     }
 
-    if (historical.size() <= keep_latest_n) {
+    if (static_cast<int>(historical.size()) <= keep_latest_n) {
         return 0;
     }
 
@@ -359,9 +365,10 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
               });
 
     // Collect raw pointers of the entries to delete (the oldest ones)
-    std::vector<const VersionedDocument*> to_delete_ptrs;
-    to_delete_ptrs.reserve(historical.size() - keep_latest_n);
-    for (size_t i = keep_latest_n; i < historical.size(); ++i) {
+    std::vector<const VersionedDocument*> to_delete_ptrs = {};
+
+    to_delete_ptrs.reserve(static_cast<int>(historical.size()) - keep_latest_n);
+    for (size_t i = keep_latest_n; i <static_cast<int>(historical.size()); ++i) {
         to_delete_ptrs.push_back(historical[i]);
     }
 
@@ -369,16 +376,20 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
 
     versions.erase(
         std::remove_if(versions.begin(), versions.end(),
-                       [&](const VersionedDocument& v) {
-                           if (v.isCurrent()) return false;
+                       [&]([[maybe_unused]] const VersionedDocument& v) {
+                           if (v.isCurrent()) {
+                             return false;
+                           }
                            for (const auto* p : to_delete_ptrs) {
-                               if (p == &v) return true;
+                               if (p == &v) {
+                                 return true;
+                               }
                            }
                            return false;
                        }),
         versions.end());
 
-    return before - versions.size();
+    return before - static_cast<int>(versions.size()) ;
 }
 
 // ============================================================================
@@ -387,7 +398,7 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
 
 size_t SystemVersionedTable::keyCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return rows_.size();
+    return static_cast<int>(rows_.size());
 }
 
 size_t SystemVersionedTable::versionCount() const {
@@ -417,7 +428,7 @@ nlohmann::json SystemVersionedTable::getStatistics() const {
     nlohmann::json stats = {
         {"table_name",       table_name_},
         {"history_table",    config_.history_table_name},
-        {"key_count",        rows_.size()},
+        {"key_count",static_cast<int>(rows_.size())},
         {"current_rows",     current_count},
         {"historical_rows",  historical_count},
         {"total_versions",   current_count + historical_count},

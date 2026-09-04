@@ -44,7 +44,8 @@ public:
             return {};
         }
 
-        std::vector<AnnSearchResult> scored;
+        std::vector<AnnSearchResult> scored = {};
+
         scored.reserve(entries_.size());
         for (const auto& e : entries_) {
             if (e.values.size() != dim) {

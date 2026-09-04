@@ -64,9 +64,15 @@ const char* CollaborationManager::permissionToString(Permission p) noexcept {
 std::optional<Permission> CollaborationManager::permissionFromString(
     const std::string& s) noexcept
 {
-    if (s == kPermissionRead)  return Permission::READ;
-    if (s == kPermissionWrite) return Permission::WRITE;
-    if (s == kPermissionAdmin) return Permission::ADMIN;
+    if (s == kPermissionRead) {
+      return Permission::READ;
+    }
+    if (s == kPermissionWrite) {
+      return Permission::WRITE;
+    }
+    if (s == kPermissionAdmin) {
+      return Permission::ADMIN;
+    }
     return std::nullopt;
 }
 
@@ -113,16 +119,18 @@ std::optional<Permission> CollaborationManager::getUserPermission(
     const std::string& user_id) const
 {
     const std::string key = "collab_share:" + project_id + ":" + user_id;
-    std::string val;
-    if (!storage_->get(key, val)) return std::nullopt;
+    std::string val = {};
+    if (!storage_->get(key, val)) {
+      return std::nullopt;
+    }
     return permissionFromString(val);
 }
 
 // ── Event subscriptions ───────────────────────────────────────────────────────
 
-void CollaborationManager::subscribe(ProjectEventCallback callback) {
+void CollaborationManager::subscribe([[maybe_unused]] ProjectEventCallback callback) {
     std::unique_lock lock(subscribers_mutex_);
-    subscribers_.push_back(std::move(callback));
+    subscribers_.push_back([[maybe_unused]] std::move(callback));
 }
 
 void CollaborationManager::unsubscribeAll() {
@@ -220,7 +228,8 @@ std::vector<Change> CollaborationManager::getChanges(
     int64_t            since_timestamp) const
 {
     std::shared_lock lock(log_mutex_);
-    std::vector<Change> result;
+    std::vector<Change> result = {};
+
     for (const auto& c : change_log_) {
         if (c.project_id == project_id &&
             c.timestamp  >= since_timestamp)
@@ -244,7 +253,7 @@ void CollaborationManager::notifyChange(const Change& change) {
     {
         std::unique_lock lock(log_mutex_);
         change_log_.push_back(change);
-        if (change_log_.size() > kMaxLogEntries)
+        if (static_cast<int>(change_log_.size()) > kMaxLogEntries)
             change_log_.erase(change_log_.begin());
     }
 

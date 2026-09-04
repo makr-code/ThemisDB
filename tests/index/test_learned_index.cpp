@@ -39,8 +39,11 @@ static std::vector<T> makeSorted(size_t n, T start = T{0}, T step = T{1}) {
 static std::vector<int64_t> randomSortedI64(size_t n, unsigned seed = 42) {
     std::mt19937_64 rng(seed);
     std::uniform_int_distribution<int64_t> dist(0, static_cast<int64_t>(n) * 10);
-    std::set<int64_t> s;
-    while (s.size() < n) s.insert(dist(rng));
+    std::set<int64_t> s = {};
+
+    while (s.size() < n) {
+      s.insert(dist(rng));
+    }
     return {s.begin(), s.end()};
 }
 
@@ -172,7 +175,9 @@ TEST(LearnedIndexU64, LookupAllKeys) {
 TEST(LearnedIndexF64, LookupAllKeys) {
     const size_t N = 200;
     std::vector<double> keys(N);
-    for (size_t i = 0; i < N; ++i) keys[i] = static_cast<double>(i) * 0.5;
+    for (size_t i = 0; i < N; ++i) {
+      keys[i] = static_cast<double>(i) * 0.5;
+    }
 
     LearnedIndex<double> idx;
     ASSERT_TRUE(idx.train(keys).ok);
@@ -187,7 +192,9 @@ TEST(LearnedIndexF64, LookupAllKeys) {
 TEST(LearnedIndexF32, LookupAllKeys) {
     const size_t N = 200;
     std::vector<float> keys(N);
-    for (size_t i = 0; i < N; ++i) keys[i] = static_cast<float>(i) * 0.25f;
+    for (size_t i = 0; i < N; ++i) {
+      keys[i] = static_cast<float>(i) * 0.25f;
+    }
 
     LearnedIndex<float> idx;
     ASSERT_TRUE(idx.train(keys).ok);
@@ -362,7 +369,9 @@ TEST(LearnedIndexI64, DeserialiseOverflowNe) {
     // pass if the guard were absent.
     // Serialisation header: 4 (magic) + 8*4 (fields) + 16 (root) = 52 bytes.
     // Overflowed ne*16+2 = 34 bytes → attacker needs ≥ 52+34 = 86 bytes.
-    if (buf.size() < 86u) buf.resize(86u, 0u);
+    if (buf.size() < 86u) {
+      buf.resize(86u, 0u);
+    }
 
     LearnedIndexI64 victim;
     EXPECT_FALSE(victim.deserialize(buf))
@@ -399,7 +408,9 @@ TEST(LearnedIndexI64, LargeScale_AllFound) {
     size_t found = 0;
     for (size_t i = 0; i < N; ++i) {
         auto pos = idx.lookupKey(keys[i], keys);
-        if (pos.has_value() && keys[*pos] == keys[i]) ++found;
+        if (pos.has_value() && keys[*pos] == keys[i]) {
+          ++found;
+        }
     }
     // All keys must be found
     EXPECT_EQ(found, N);

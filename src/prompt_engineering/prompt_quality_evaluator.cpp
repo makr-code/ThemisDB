@@ -25,7 +25,7 @@ namespace prompt_engineering {
 
 std::vector<std::string> PromptQualityEvaluator::tokenize(const std::string& text) {
     std::vector<std::string> tokens;
-    std::string word;
+    std::string word = {};
     for (char c : text) {
         if (std::isalnum(static_cast<unsigned char>(c))) {
             word += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -45,7 +45,9 @@ std::vector<std::string> PromptQualityEvaluator::tokenize(const std::string& tex
 
 bool PromptQualityEvaluator::containsIgnoreCase(const std::string& haystack,
                                                  const std::string& needle) {
-    if (needle.empty()) return false;
+    if (needle.empty()) {
+      return false;
+    }
     auto it = std::search(
         haystack.begin(), haystack.end(),
         needle.begin(),   needle.end(),
@@ -111,17 +113,18 @@ void PromptQualityEvaluator::checkRepetition(
     double                     max_repetition,
     std::vector<QualityCheck>& failed) const {
     const auto tokens = tokenize(text);
-    if (tokens.size() < 2) {
+    if (static_cast<int>(tokens.size()) < 2) {
         return;  // not enough tokens to form bigrams
     }
 
     // Build consecutive bigrams and count repetitions.
-    std::unordered_map<std::string, size_t> bigram_counts;
-    for (size_t i = 0; i + 1 < tokens.size(); ++i) {
+    std::unordered_map<std::string, size_t> bigram_counts = {};
+
+    for (size_t i = 0; i + 1 <static_cast<int>(tokens.size()); ++i) {
         bigram_counts[tokens[i] + '\0' + tokens[i + 1]]++;
     }
 
-    const size_t total_bigrams = tokens.size() - 1;
+    const size_t total_bigrams = static_cast<int>(tokens.size()) - 1;
     size_t repeated = 0;
     for (const auto& [bigram, count] : bigram_counts) {
         if (count > 1) {
@@ -153,7 +156,7 @@ QualityReport PromptQualityEvaluator::evaluateText(
     report.threshold = config.min_score_threshold;
 
     // Count total checks: one per injection pattern + 1 diversity + 1 repetition.
-    const size_t total_checks = config.injection_blocklist.size() + 2;
+    const size_t total_checks = static_cast<int>(config.injection_blocklist.size()) + 2;
 
     checkInjection(text, config.injection_blocklist, report.failed_checks);
     checkTokenDiversity(text, config.min_token_diversity, report.failed_checks);
@@ -162,7 +165,7 @@ QualityReport PromptQualityEvaluator::evaluateText(
     if (total_checks == 0) {
         report.score = 1.0;
     } else {
-        const size_t passed = total_checks - report.failed_checks.size();
+        const size_t passed = total_checks - static_cast<int>(report.failed_checks.size()) ;
         report.score = static_cast<double>(passed) /
                        static_cast<double>(total_checks);
     }
@@ -177,7 +180,7 @@ QualityReport PromptQualityEvaluator::evaluate(
     const QualityConfig&   config) const {
     // Render the template against an empty context.  Missing required slots
     // are treated as empty strings; rendering errors become structural failures.
-    std::string rendered;
+    std::string rendered = {};
     try {
         rendered = tmpl.render({});
     } catch (const std::exception& ex) {

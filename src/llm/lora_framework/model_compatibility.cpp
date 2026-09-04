@@ -56,11 +56,21 @@ ModelFormat ModelMetadata::string_to_format(const std::string& str) {
     std::string lower = str;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
     
-    if (lower == "gguf") return ModelFormat::GGUF;
-    if (lower == "safetensors") return ModelFormat::SAFETENSORS;
-    if (lower == "pytorch" || lower == "pt" || lower == "pth") return ModelFormat::PYTORCH;
-    if (lower == "onnx") return ModelFormat::ONNX;
-    if (lower == "tensorflow") return ModelFormat::TENSORFLOW;
+    if (lower == "gguf") {
+      return ModelFormat::GGUF;
+    }
+    if (lower == "safetensors") {
+      return ModelFormat::SAFETENSORS;
+    }
+    if (lower == "pytorch" || lower == "pt" || lower == "pth") {
+      return ModelFormat::PYTORCH;
+    }
+    if (lower == "onnx") {
+      return ModelFormat::ONNX;
+    }
+    if (lower == "tensorflow") {
+      return ModelFormat::TENSORFLOW;
+    }
     
     return ModelFormat::UNKNOWN;
 }
@@ -69,20 +79,36 @@ ModelArchitecture ModelMetadata::string_to_architecture(const std::string& str) 
     std::string lower = str;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
     
-    if (lower.find("llama") != std::string::npos) return ModelArchitecture::LLAMA;
-    if (lower.find("mistral") != std::string::npos) return ModelArchitecture::MISTRAL;
-    if (lower.find("mixtral") != std::string::npos) return ModelArchitecture::MIXTRAL;
+    if (lower.find("llama") != std::string::npos) {
+      return ModelArchitecture::LLAMA;
+    }
+    if (lower.find("mistral") != std::string::npos) {
+      return ModelArchitecture::MISTRAL;
+    }
+    if (lower.find("mixtral") != std::string::npos) {
+      return ModelArchitecture::MIXTRAL;
+    }
     if (lower.find("gpt-2") != std::string::npos || lower.find("gpt2") != std::string::npos) 
         return ModelArchitecture::GPT2;
     if (lower.find("gpt-j") != std::string::npos || lower.find("gptj") != std::string::npos) 
         return ModelArchitecture::GPTJ;
     if (lower.find("gpt-neox") != std::string::npos || lower.find("gptneox") != std::string::npos) 
         return ModelArchitecture::GPTNEOX;
-    if (lower.find("mpt") != std::string::npos) return ModelArchitecture::MPT;
-    if (lower.find("falcon") != std::string::npos) return ModelArchitecture::FALCON;
-    if (lower.find("baichuan") != std::string::npos) return ModelArchitecture::BAICHUAN;
-    if (lower.find("qwen") != std::string::npos) return ModelArchitecture::QWEN;
-    if (lower.find("stablelm") != std::string::npos) return ModelArchitecture::STABLELM;
+    if (lower.find("mpt") != std::string::npos) {
+      return ModelArchitecture::MPT;
+    }
+    if (lower.find("falcon") != std::string::npos) {
+      return ModelArchitecture::FALCON;
+    }
+    if (lower.find("baichuan") != std::string::npos) {
+      return ModelArchitecture::BAICHUAN;
+    }
+    if (lower.find("qwen") != std::string::npos) {
+      return ModelArchitecture::QWEN;
+    }
+    if (lower.find("stablelm") != std::string::npos) {
+      return ModelArchitecture::STABLELM;
+    }
     
     return ModelArchitecture::UNKNOWN;
 }
@@ -223,7 +249,7 @@ std::optional<ModelMetadata> ModelCompatibilityChecker::read_safetensors_metadat
     }
     
     // SafeTensors format: 8-byte header size, then JSON metadata
-    uint64_t header_size;
+    uint64_t header_size = {};
     file.read(reinterpret_cast<char*>(&header_size), 8);
     
     if (header_size > 0 && header_size < 1000000) {  // Sanity check
@@ -404,12 +430,12 @@ std::vector<std::string> ModelCompatibilityChecker::get_recommended_target_modul
 ) {
     switch (architecture) {
         case ModelArchitecture::LLAMA:
-        case ModelArchitecture::MISTRAL:
-        case ModelArchitecture::MIXTRAL:
+        [[fallthrough]];\n        case ModelArchitecture::MISTRAL:
+        [[fallthrough]];\n        case ModelArchitecture::MIXTRAL:
             return {"q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "up_proj", "down_proj"};
         
         case ModelArchitecture::GPT2:
-        case ModelArchitecture::GPTJ:
+        [[fallthrough]];\n        case ModelArchitecture::GPTJ:
             return {"c_attn", "c_proj", "c_fc"};
         
         case ModelArchitecture::GPTNEOX:
@@ -440,7 +466,7 @@ size_t ModelCompatibilityChecker::estimate_memory_requirements(
         num_parameters = 12 * metadata.hidden_size * metadata.hidden_size * metadata.num_layers;
     } else {
         // Default to 7B parameters
-        num_parameters = 7000000000ULL;
+        num_parameters = 7000000000;
     }
     
     // Apply quantization reduction

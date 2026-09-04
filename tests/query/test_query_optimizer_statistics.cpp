@@ -71,7 +71,9 @@ protected:
     void TearDown() override {
         stats_col_.reset();
         sec_idx_.reset();
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
     }
 
     // Populate the "orders" table with `total` rows.  `selective_count` of them
@@ -476,7 +478,9 @@ TEST_F(QueryOptimizerStatisticsTest, OptimizePlanLatencyWithin5msFor10Predicates
         optimizer.chooseOrderForAndQuery(q);
         auto t1 = std::chrono::steady_clock::now();
         double ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
-        if (ms > max_ms) max_ms = ms;
+        if (ms > max_ms) {
+          max_ms = ms;
+        }
     }
 
     EXPECT_LE(max_ms, 5.0)

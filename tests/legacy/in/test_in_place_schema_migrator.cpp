@@ -54,7 +54,7 @@ static SchemaManager::TableSchema makeSchema(
 
 class InPlaceSchemaMigratorTest : public ::testing::Test {
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
 
     std::unique_ptr<RocksDBWrapper>       db_;
     std::unique_ptr<SecondaryIndexManager> idx_;
@@ -189,8 +189,12 @@ TEST_F(InPlaceSchemaMigratorTest, Apply_UpdatesSchemaManager) {
 
     bool price_found = false, sku_found = false;
     for (const auto& p : tbl->properties) {
-        if (p.name == "price") price_found = true;
-        if (p.name == "sku")   sku_found   = true;
+        if (p.name == "price") {
+          price_found = true;
+        }
+        if (p.name == "sku") {
+          sku_found   = true;
+        }
     }
     EXPECT_TRUE(price_found);
     EXPECT_TRUE(sku_found);
@@ -231,8 +235,12 @@ TEST_F(InPlaceSchemaMigratorTest, Apply_AddedColumnsListIsCorrect) {
     // Both "payload" and "ts" should be reported as added
     bool has_payload = false, has_ts = false;
     for (const auto& col : result.added_columns) {
-        if (col == "payload") has_payload = true;
-        if (col == "ts")      has_ts      = true;
+        if (col == "payload") {
+          has_payload = true;
+        }
+        if (col == "ts") {
+          has_ts      = true;
+        }
     }
     EXPECT_TRUE(has_payload);
     EXPECT_TRUE(has_ts);
@@ -391,8 +399,11 @@ TEST_F(InPlaceSchemaMigratorTest, Apply_SequentialMigrations_AllColumnsPresent) 
     ASSERT_TRUE(tbl.has_value());
     ASSERT_EQ(tbl->properties.size(), 4u);
 
-    std::set<std::string> col_names;
-    for (const auto& p : tbl->properties) col_names.insert(p.name);
+    std::set<std::string> col_names = {};
+
+    for (const auto& p : tbl->properties) {
+      col_names.insert(p.name);
+    }
     EXPECT_TRUE(col_names.count("id"));
     EXPECT_TRUE(col_names.count("name"));
     EXPECT_TRUE(col_names.count("email"));

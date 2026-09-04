@@ -55,7 +55,9 @@ TEST_F(AdaptiveRateLimiterTest, MetricsTrackAllowedAndRejected) {
 
 TEST_F(AdaptiveRateLimiterTest, ResetRestoresCapacity) {
     AdaptiveRateLimiter limiter(makeCfg(3));
-    for (int i = 0; i < 3; ++i) limiter.allowRequest("");
+    for (int i = 0; i < 3; ++i) {
+      limiter.allowRequest("");
+    }
     EXPECT_FALSE(limiter.allowRequest(""));
 
     limiter.reset();

@@ -228,7 +228,7 @@ TEST_F(RPCBatchOperationsTest, BatchPutIsAtomicOnCommit) {
     // All items must exist after commit
     for (int i = 0; i < n; ++i) {
         std::string key = "atomic:Obj:obj-" + std::to_string(i);
-        std::string val;
+        std::string val = {};
         EXPECT_TRUE(db_->get(key, val)) << "Key " << key << " should exist";
     }
 }
@@ -308,14 +308,14 @@ TEST_F(RPCBatchOperationsTest, BatchDeletePartialSetLeavesRemainder) {
     // Odd-indexed items must still exist
     for (int i : {1, 3}) {
         std::string key = "mixed:E:e-" + std::to_string(i);
-        std::string val;
+        std::string val = {};
         EXPECT_TRUE(db_->get(key, val)) << key << " should still exist";
     }
 
     // Even-indexed items must be gone
     for (int i : {0, 2}) {
         std::string key = "mixed:E:e-" + std::to_string(i);
-        std::string val;
+        std::string val = {};
         EXPECT_FALSE(db_->get(key, val)) << key << " should have been deleted";
     }
 }
@@ -345,7 +345,7 @@ TEST_F(RPCBatchOperationsTest, BatchUpdateMergesFields) {
     EXPECT_EQ(resp["result"]["count"].get<int>(), 1);
 
     // Read back and verify merge
-    std::string raw;
+    std::string raw = {};
     ASSERT_TRUE(db_->get("upd:T:t1", raw));
     auto entity = json::parse(raw);
     EXPECT_EQ(entity["a"].get<int>(), 1);    // unchanged
@@ -903,7 +903,7 @@ TEST_F(RPCBatchOperationsTest, DeleteInternalHonorsExpiredDeadlineDuringCascadeS
     EXPECT_EQ(resp["error"]["code"].get<int>(),
               static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
 
-    std::string persisted_value;
+    std::string persisted_value = {};
     EXPECT_TRUE(db_->get("cascade_timeout:Node:root", persisted_value));
     EXPECT_TRUE(db_->get("cascade_timeout:Node:child-0", persisted_value));
 }
@@ -926,7 +926,7 @@ TEST_F(RPCBatchOperationsTest, UpdateEntityInternalHonorsExpiredDeadline) {
     EXPECT_EQ(resp["error"]["code"].get<int>(),
               static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
 
-    std::string persisted_value;
+    std::string persisted_value = {};
     ASSERT_TRUE(db_->get("update_timeout:Doc:doc-1", persisted_value));
     auto persisted = json::parse(persisted_value);
     EXPECT_EQ(persisted.value("title", ""), "before");
@@ -966,7 +966,7 @@ TEST_F(RPCBatchOperationsTest, PutInternalHonorsExpiredDeadline) {
               static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
 
     // Verify the entity was not written
-    std::string val;
+    std::string val = {};
     EXPECT_FALSE(db_->get("dl_put:E:e-1", val));
 }
 
@@ -985,7 +985,7 @@ TEST_F(RPCBatchOperationsTest, InsertInternalHonorsExpiredDeadline) {
               static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
 
     // Verify the entity was not written
-    std::string val;
+    std::string val = {};
     EXPECT_FALSE(db_->get("dl_insert:E:e-1", val));
 }
 
@@ -1062,7 +1062,7 @@ TEST_F(RPCBatchOperationsTest, CreateIndexInternalHonorsExpiredDeadline) {
               static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
 
     // Verify the index metadata was not written
-    std::string val;
+    std::string val = {};
     EXPECT_FALSE(db_->get("_idx_meta:dl_idx:dl_idx_name_idx", val));
 }
 
@@ -1084,7 +1084,7 @@ TEST_F(RPCBatchOperationsTest, DropIndexInternalHonorsExpiredDeadline) {
               static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
 
     // Verify the index metadata was not deleted
-    std::string val;
+    std::string val = {};
     EXPECT_TRUE(db_->get("_idx_meta:dl_drop_idx:dl_drop_idx_name_idx", val));
 }
 

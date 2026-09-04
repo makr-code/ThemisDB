@@ -115,7 +115,9 @@ TEST(BackendRegistryThreadSafety, ConcurrentGetBestVector_WhileRegister_NoCrash)
     });
 
     writer.join();
-    for (auto& t : readers) t.join();
+    for (auto& t : readers) {
+      t.join();
+    }
 
     // CPU backend is always present; at least one read must have succeeded.
     EXPECT_GT(ok.load(), 0);
@@ -149,7 +151,9 @@ TEST(BackendRegistryThreadSafety, ConcurrentGetBestVectorBackend_NoCrash) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_GT(ok.load(), 0);
 }
@@ -181,7 +185,9 @@ TEST(BackendRegistryThreadSafety, IsRuntimeInitialized_ConcurrentReads_NoCrash) 
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(true_count.load(), kThreads);
 }
@@ -234,6 +240,8 @@ TEST(BackendRegistryThreadSafety, ConcurrentGetSelectedVector_WhileRegister_NoCr
     });
 
     writer.join();
-    for (auto& t : readers) t.join();
+    for (auto& t : readers) {
+      t.join();
+    }
     SUCCEED();
 }

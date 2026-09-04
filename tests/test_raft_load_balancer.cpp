@@ -73,7 +73,9 @@ TEST_F(RaftLoadBalancerTest, AC1_LeaderElectionAfterStart) {
     // Allow the Raft loop to elect a leader (tiny timeout)
     auto deadline = std::chrono::steady_clock::now() + 500ms;
     while (std::chrono::steady_clock::now() < deadline) {
-        if (lb.isLeader()) break;
+        if (lb.isLeader()) {
+          break;
+        }
         std::this_thread::sleep_for(5ms);
     }
 
@@ -128,7 +130,9 @@ TEST_F(RaftLoadBalancerTest, AC2_UnhealthyBackendExcludedAfterThreshold) {
                 bad_unhealthy = true;
             }
         }
-        if (bad_unhealthy) break;
+        if (bad_unhealthy) {
+          break;
+        }
         std::this_thread::sleep_for(5ms);
     }
 
@@ -163,11 +167,14 @@ TEST_F(RaftLoadBalancerTest, AC3_HealthBasedRoutingSkipsUnhealthy) {
                 done = false;
             }
         }
-        if (done) break;
+        if (done) {
+          break;
+        }
         std::this_thread::sleep_for(5ms);
     }
 
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (int i = 0; i < 30; ++i) {
         seen.insert(lb.selectBackend());
     }
@@ -190,7 +197,9 @@ TEST_F(RaftLoadBalancerTest, AC13_RecoveryReAddsBackend) {
     lb.addBackend("fragile:8766");
     lb.addBackend("stable:8766");
     lb.setHealthCheckFn([&](const RaftLoadBalancer::Backend& b) -> bool {
-        if (b.address == "fragile:8766") return backend_healthy.load();
+        if (b.address == "fragile:8766") {
+          return backend_healthy.load();
+        }
         return true;
     });
     lb.start();
@@ -200,9 +209,13 @@ TEST_F(RaftLoadBalancerTest, AC13_RecoveryReAddsBackend) {
     while (std::chrono::steady_clock::now() < deadline) {
         bool unhealthy = false;
         for (auto* b : lb.getBackends()) {
-            if (b->address == "fragile:8766" && !b->healthy) unhealthy = true;
+            if (b->address == "fragile:8766" && !b->healthy) {
+              unhealthy = true;
+            }
         }
-        if (unhealthy) break;
+        if (unhealthy) {
+          break;
+        }
         std::this_thread::sleep_for(5ms);
     }
 
@@ -214,15 +227,21 @@ TEST_F(RaftLoadBalancerTest, AC13_RecoveryReAddsBackend) {
     while (std::chrono::steady_clock::now() < deadline) {
         bool healthy = false;
         for (auto* b : lb.getBackends()) {
-            if (b->address == "fragile:8766" && b->healthy) healthy = true;
+            if (b->address == "fragile:8766" && b->healthy) {
+              healthy = true;
+            }
         }
-        if (healthy) break;
+        if (healthy) {
+          break;
+        }
         std::this_thread::sleep_for(5ms);
     }
 
     bool found_healthy = false;
     for (auto* b : lb.getBackends()) {
-        if (b->address == "fragile:8766" && b->healthy) found_healthy = true;
+        if (b->address == "fragile:8766" && b->healthy) {
+          found_healthy = true;
+        }
     }
     EXPECT_TRUE(found_healthy) << "Recovered backend should be re-admitted";
 
@@ -244,7 +263,8 @@ TEST_F(RaftLoadBalancerTest, AC4_UpdateWeightChangesRouting) {
 
     lb.updateWeight("w1:8766", 3.0);
 
-    std::unordered_map<std::string, int> counts;
+    std::unordered_map<std::string, int> counts = {};
+
     for (int i = 0; i < 40; ++i) {
         ++counts[lb.selectBackend()];
     }
@@ -297,7 +317,8 @@ TEST_F(RaftLoadBalancerTest, AC5_PrefersLocalDatacenter) {
     lb.addBackend("west2:8766", 1.0, "dc-west");
     lb.addBackend("east1:8766", 1.0, "dc-east");
 
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (int i = 0; i < 20; ++i) {
         seen.insert(lb.selectBackend());
     }
@@ -329,9 +350,13 @@ TEST_F(RaftLoadBalancerTest, AC5_FallsBackToRemoteWhenLocalUnhealthy) {
     while (std::chrono::steady_clock::now() < deadline) {
         bool unhealthy = false;
         for (auto* b : lb.getBackends()) {
-            if (b->address == "west1:8766" && !b->healthy) unhealthy = true;
+            if (b->address == "west1:8766" && !b->healthy) {
+              unhealthy = true;
+            }
         }
-        if (unhealthy) break;
+        if (unhealthy) {
+          break;
+        }
         std::this_thread::sleep_for(5ms);
     }
 
@@ -420,7 +445,8 @@ TEST_F(RaftLoadBalancerTest, AC8_WeightedRoundRobinFavoursHeavierBackend) {
     lb.addBackend("wh:8766", 4.0);  // heavy
     lb.addBackend("wl:8766", 1.0);  // light
 
-    std::unordered_map<std::string, int> counts;
+    std::unordered_map<std::string, int> counts = {};
+
     for (int i = 0; i < 40; ++i) {
         ++counts[lb.selectBackend()];
     }
@@ -455,9 +481,13 @@ TEST_F(RaftLoadBalancerTest, AC9_HealthBasedOnlyRoutesToHealthy) {
     while (std::chrono::steady_clock::now() < deadline) {
         bool done = true;
         for (auto* b : lb2.getBackends()) {
-            if (b->address == "hb_bad:8766" && b->healthy) done = false;
+            if (b->address == "hb_bad:8766" && b->healthy) {
+              done = false;
+            }
         }
-        if (done) break;
+        if (done) {
+          break;
+        }
         std::this_thread::sleep_for(5ms);
     }
 
@@ -495,7 +525,8 @@ TEST_F(RaftLoadBalancerTest, AC10_ConsistentHashDifferentKeysDifferentBackends) 
     lb.addBackend("ch2:8766");
     lb.addBackend("ch3:8766");
 
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (int i = 0; i < 100; ++i) {
         seen.insert(lb.selectBackend("key-" + std::to_string(i)));
     }

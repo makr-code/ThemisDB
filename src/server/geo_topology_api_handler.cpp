@@ -95,7 +95,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyGet(
 
         json response_body = {
             {"shards", result},
-            {"total",  shards.size()}
+            {"total",static_cast<int>(shards.size())}
         };
         return makeResponse(http::status::ok, response_body.dump(), req);
 
@@ -112,7 +112,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyGet(
 http::response<http::string_body> GeoTopologyApiHandler::handleRegionsGet(
     const http::request<http::string_body>& req)
 {
-    auto span = Tracer::startSpan("handleRegionsGet");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRegionsGet");
     if (!shard_topology_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard topology not available", req);
@@ -138,8 +138,8 @@ http::response<http::string_body> GeoTopologyApiHandler::handleRegionsGet(
 
             json entry = {
                 {"region",         region},
-                {"total_shards",   all_shards.size()},
-                {"healthy_shards", healthy_shards.size()},
+                {"total_shards",static_cast<int>(all_shards.size())},
+                {"healthy_shards",static_cast<int>(healthy_shards.size())},
                 {"has_majority_quorum", has_quorum},
                 {"zones",          zones_arr}
             };
@@ -148,7 +148,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleRegionsGet(
 
         json response_body = {
             {"regions",       result},
-            {"total_regions", regions.size()}
+            {"total_regions",static_cast<int>(regions.size())}
         };
         return makeResponse(http::status::ok, response_body.dump(), req);
 
@@ -184,7 +184,9 @@ http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
             const auto all    = shard_topology_->getShardsInRegion(region);
             const auto health = shard_topology_->getHealthyShardsInRegion(region);
 
-            if (all.empty()) continue;
+            if (all.empty()) {
+              continue;
+            }
 
             const double ratio = static_cast<double>(health.size()) /
                                  static_cast<double>(all.size());
@@ -195,8 +197,8 @@ http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
                 degraded_regions.push_back({
                     {"region", region},
                     {"healthy_fraction", ratio},
-                    {"healthy_shards", health.size()},
-                    {"total_shards", all.size()}
+                    {"healthy_shards",static_cast<int>(health.size())},
+                    {"total_shards",static_cast<int>(all.size())}
                 });
             } else {
                 healthy_regions.push_back(region);
@@ -204,7 +206,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
         }
 
         // Determine overall status
-        std::string overall_status;
+        std::string overall_status = {};
         if (!failed_regions.empty()) {
             overall_status = "degraded";
         } else if (!degraded_regions.empty()) {
@@ -215,9 +217,9 @@ http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
 
         json response_body = {
             {"overall_status",   overall_status},
-            {"total_shards",     all_shards.size()},
-            {"healthy_shards",   healthy_all.size()},
-            {"total_regions",    regions.size()},
+            {"total_shards",static_cast<int>(all_shards.size())},
+            {"healthy_shards",static_cast<int>(healthy_all.size())},
+            {"total_regions",static_cast<int>(regions.size())},
             {"healthy_regions",  healthy_regions},
             {"degraded_regions", degraded_regions},
             {"failed_regions",   failed_regions}
@@ -377,7 +379,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
         const auto& geo   = config.geo_replication;
 
         // Replication mode string
-        std::string repl_mode;
+        std::string repl_mode = {};
         switch (geo.replication_mode) {
             case sharding::GeoReplicationConfig::ReplicationMode::SYNC:
                 repl_mode = "sync"; break;
@@ -388,7 +390,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
         }
 
         // Redundancy mode string
-        std::string mode_str;
+        std::string mode_str = {};
         switch (config.mode) {
             case sharding::RedundancyMode::GEO_MIRROR:    mode_str = "geo_mirror";    break;
             case sharding::RedundancyMode::MIRROR:        mode_str = "mirror";        break;
@@ -550,9 +552,13 @@ std::string GeoTopologyApiHandler::extractTrailingSegment(
     auto qpos = path.find('?');
     const std::string clean = (qpos != std::string::npos) ? path.substr(0, qpos) : path;
 
-    if (clean.rfind(prefix, 0) != 0) return "";
+    if (clean.rfind(prefix, 0) != 0) {
+      return "";
+    }
     const std::string trailing = clean.substr(prefix.size());
-    if (trailing.empty()) return "";
+    if (trailing.empty()) {
+      return "";
+    }
     return trailing;
 }
 

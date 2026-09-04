@@ -83,7 +83,9 @@ TEST(MaintenanceEndurance, MTN_ENDURANCE_01_TenThousandCyclesNoLeaks) {
         try {
             auto j  = e.toJson();
             auto e2 = MaintenanceScheduleEntry::fromJson(j);
-            if (e2.id != id || e2.name != e.name) ++errors;
+            if (e2.id != id || e2.name != e.name) {
+              ++errors;
+            }
         } catch (...) {
             ++errors;
         }

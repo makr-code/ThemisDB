@@ -70,12 +70,16 @@ public:
 
     bool deallocate(const MemoryBlock& block) override {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (!initialized_) return false;
+        if (!initialized_) {
+          return false;
+        }
         
         auto it = std::find_if(allocations_.begin(), allocations_.end(),
             [&](const MemoryBlock& b) { return b.ptr == block.ptr; });
         
-        if (it == allocations_.end()) return false;
+        if (it == allocations_.end()) {
+          return false;
+        }
         
         allocated_memory_ -= it->size;
         allocations_.erase(it);
@@ -135,8 +139,8 @@ public:
 class GPUBackendStub : public GPUBackend {
 private:
     GPUBackendType type_;
-    bool available_;
-    int device_count_;
+    bool available_ = 0;
+    int device_count_ = 0;
 
 public:
     GPUBackendStub(GPUBackendType type, bool available = true, int device_count = 1)
@@ -398,7 +402,9 @@ TEST_F(GPUBackendTest, NoAvailableBackends_HandledGracefully) {
     // Make all backends unavailable
     for (auto& backend : backends_) {
         auto* stub = dynamic_cast<GPUBackendStub*>(backend.get());
-        if (stub) stub->setAvailable(false);
+        if (stub) {
+          stub->setAvailable(false);
+        }
     }
     
     GPUBackend* selected = nullptr;
@@ -483,7 +489,8 @@ TEST(GPUErrorHandling, ExtremeFragmentation_Handled) {
     manager.initialize(0);
     
     // Allocate many small blocks to fragment memory
-    std::vector<GPUMemoryManager::MemoryBlock> blocks;
+    std::vector<GPUMemoryManager::MemoryBlock> blocks = {};
+
     for (int i = 0; i < 1000; ++i) {
         auto block = manager.allocate(1024); // 1KB each
         if (block.ptr != nullptr) {

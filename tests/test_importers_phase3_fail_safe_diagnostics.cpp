@@ -533,7 +533,8 @@ TEST_F(Phase3ErrorHandlingTest, IMSH06_RemediationDeduplication) {
     };
     
     // Deduplicate while counting frequency
-    std::map<std::string, uint32_t> step_counts;
+    std::map<std::string, uint32_t> step_counts = {};
+
     for (const auto& step : all_steps) {
         step_counts[step]++;
     }

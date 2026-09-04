@@ -58,7 +58,7 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneKey(
     // copy_overhead scanner alert: all_versions is populated inside a
     // scanVersions callback; the total version count is not known before the
     // scan completes, so reserve() is not applicable here.
-    mvcc_->scanVersions(key, [&](const MVCCStore::VersionEntry& e) -> bool {
+    mvcc_->scanVersions(key, [&]([[maybe_unused]] const MVCCStore::VersionEntry& e) -> bool {
         all_versions.push_back({e.timestamp, e.value});
         return true;  // ascending order guaranteed by MVCCStore
     });
@@ -71,9 +71,9 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneKey(
     // 2. Determine how many versions may be pruned.
     //    Candidates: ts < gc_horizon AND not among the newest min_versions_to_keep.
     const uint32_t min_keep =
-        (config.min_versions_to_keep > 0) ? config.min_versions_to_keep : 1u;
+        (config.min_versions_to_keep > 0) ? config.min_versions_to_keep : 1;
     const uint64_t max_deletable =
-        (total > min_keep) ? static_cast<uint64_t>(total - min_keep) : 0ULL;
+        (total > min_keep) ? static_cast<uint64_t>(total - min_keep) : 0;
 
     // Count how many versions are strictly below the horizon.
     uint64_t eligible = 0;
@@ -143,7 +143,7 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneAll(
 ) {
     PruneStats total;
 
-    mvcc_->scanBaseKeys([&](std::string_view base_key) -> bool {
+    mvcc_->scanBaseKeys([&]([[maybe_unused]] std::string_view base_key) -> bool {
         total += pruneKey(base_key, gc_horizon, config);
         return true;
     });
@@ -185,14 +185,14 @@ themisdb::temporal::Document MVCCChainPruner::valueToDocument(
     if (!raw.empty()) {
         const auto* cbegin = reinterpret_cast<const char*>(raw.data());
         try {
-            return nlohmann::json::parse(cbegin, cbegin + raw.size());
+            return nlohmann::json::parse(cbegin, cbegin + static_cast<int>(raw.size()) );
         } catch (const nlohmann::json::exception&) {
             // Fall through: encode as hex string.
         }
     }
 
     // Hex-encode non-JSON bytes for lossless round-trip.
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex << std::setfill('0');
     for (const auto b : raw) {
         hex << std::setw(2) << static_cast<unsigned>(b);

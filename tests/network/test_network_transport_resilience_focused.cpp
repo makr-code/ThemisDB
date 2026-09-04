@@ -100,8 +100,12 @@ public:
 
     std::optional<std::chrono::milliseconds>
     nextDelay(WireErrorClass ec) noexcept {
-        if (ec == WireErrorClass::kPermanent) return std::nullopt;
-        if (attempt_ >= policy_.max_attempts)  return std::nullopt;
+        if (ec == WireErrorClass::kPermanent) {
+          return std::nullopt;
+        }
+        if (attempt_ >= policy_.max_attempts) {
+          return std::nullopt;
+        }
         auto delay = std::min(
             policy_.base_delay_ms * (1u << attempt_),
             policy_.max_delay_ms);
@@ -160,7 +164,9 @@ public:
     explicit MockQueueGate(int capacity) : capacity_(capacity), depth_(0) {}
 
     NetworkErrorCode admit() noexcept {
-        if (depth_ >= capacity_) return NetworkErrorCode::BACKPRESSURE_EXCEEDED;
+        if (depth_ >= capacity_) {
+          return NetworkErrorCode::BACKPRESSURE_EXCEEDED;
+        }
         ++depth_;
         return NetworkErrorCode::OK;
     }
@@ -222,7 +228,9 @@ TEST(NetworkTransportResilience, NTR01_BindListenPolicyExhaustsAttempts) {
     int attempts = 0;
     do {
         delay = ctx.nextDelay(WireErrorClass::kTransient);
-        if (delay) ++attempts;
+        if (delay) {
+          ++attempts;
+        }
     } while (delay.has_value());
 
     EXPECT_EQ(attempts, static_cast<int>(policy.max_attempts))
@@ -248,7 +256,9 @@ TEST(NetworkTransportResilience, NTR02_ConnectionIODelaysBoundedAndNonDecreasing
 
     for (;;) {
         auto d = ctx.nextDelay(WireErrorClass::kTransient);
-        if (!d) break;
+        if (!d) {
+          break;
+        }
         delays.push_back(d->count());
     }
 
@@ -298,7 +308,9 @@ TEST(NetworkTransportResilience, NTR04_DrainCycleRestoresAdmission) {
     MockQueueGate gate(kCapacity);
 
     // Fill, confirm full.
-    for (int i = 0; i < kCapacity; ++i) gate.admit();
+    for (int i = 0; i < kCapacity; ++i) {
+      gate.admit();
+    }
     EXPECT_EQ(gate.admit(), NetworkErrorCode::BACKPRESSURE_EXCEEDED);
 
     // Drain.

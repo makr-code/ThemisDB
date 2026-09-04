@@ -40,7 +40,8 @@ inline std::vector<knowledge_gap::RetrievedDocument> convertToRetrievedDocuments
     RocksDBWrapper& db,
     VectorIndexManager::Metric metric = VectorIndexManager::Metric::COSINE
 ) {
-    std::vector<knowledge_gap::RetrievedDocument> documents;
+    std::vector<knowledge_gap::RetrievedDocument> documents = {};
+
     documents.reserve(search_results.size());
     
     for (const auto& result : search_results) {

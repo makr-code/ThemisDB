@@ -16,7 +16,7 @@ namespace distributed_tensor {
 static std::string get_iso8601_timestamp() noexcept {
   auto now = std::chrono::system_clock::now();
   auto time = std::chrono::system_clock::to_time_t(now);
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << std::put_time(std::gmtime(&time), "%Y-%m-%dT%H:%M:%SZ");
   return oss.str();
 }
@@ -148,7 +148,8 @@ bool DefaultShardPlacementStrategy::validate_placement(
   // For cross-zone replication, verify shards are on different zones.
   if (constraints == PlacementConstraint::CROSS_ZONE_REPLICATION &&
       plan.shard_placements.size() > 1) {
-    std::vector<std::string> node_ids;
+    std::vector<std::string> node_ids = {};
+
     node_ids.reserve(plan.shard_placements.size());
     for (const auto& shard : plan.shard_placements) {
       node_ids.push_back(shard.node_id);

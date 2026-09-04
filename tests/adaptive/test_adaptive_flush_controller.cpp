@@ -38,7 +38,7 @@ static std::string makeTempPath(const std::string& tag) {
 }
 
 struct AFCFixture : ::testing::Test {
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<RocksDBWrapper> db;
     std::unique_ptr<TSStore> tsstore;
 
@@ -58,7 +58,7 @@ struct AFCFixture : ::testing::Test {
             db->close();
         }
         db.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(db_path, ec);
     }
 
@@ -250,7 +250,8 @@ TEST_F(AFCFixture, AddBatchRejectsInvalidPoint) {
 TEST_F(AFCFixture, AddBatchAcceptsAllValidPoints) {
     AdaptiveFlushController afc(tsstore.get(), quietConfig());
 
-    std::vector<TSStore::DataPoint> batch;
+    std::vector<TSStore::DataPoint> batch = {};
+
     for (int i = 0; i < 10; ++i) {
         batch.push_back(makePoint("cpu", "s1", static_cast<double>(i),
                                   1700000000000LL + i));
@@ -594,7 +595,8 @@ TEST_F(AFCFixture, MetricsOverdueFlushCounterUpdated) {
 TEST_F(AFCFixture, AddBatchAndFlushUpdatesAllStats) {
     AdaptiveFlushController afc(tsstore.get(), quietConfig());
 
-    std::vector<TSStore::DataPoint> batch;
+    std::vector<TSStore::DataPoint> batch = {};
+
     for (int i = 0; i < 15; ++i) {
         batch.push_back(makePoint("batch", "s1", static_cast<double>(i),
                                   1700000000000LL + i));

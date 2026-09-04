@@ -181,7 +181,8 @@ AggregateScheduler::Stats AggregateScheduler::getStats() const {
 std::vector<AggregateScheduler::ScheduledAggregate> AggregateScheduler::listAggregates() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<ScheduledAggregate> result;
+    std::vector<ScheduledAggregate> result = {};
+
     result.reserve(aggregates_.size());
     
     for (const auto& [id, agg] : aggregates_) {
@@ -361,7 +362,7 @@ int64_t AggregateScheduler::getCurrentTimeMs() const {
 }
 
 std::string AggregateScheduler::generateAggregateId(const AggConfig& config) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << config.metric;
     if (config.entity.has_value()) {
         oss << ":" << *config.entity;

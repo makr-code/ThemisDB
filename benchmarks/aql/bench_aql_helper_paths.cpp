@@ -47,9 +47,9 @@ static constexpr uint64_t kW7CanonicalSeed = 42;
 class MockConfidenceScorer {
 public:
     struct ScoreResult {
-        float   confidence;      // [0.0, 1.0]
-        int     matching_tokens;
-        int     total_nl_tokens;
+        float   confidence = 0;      // [0.0, 1.0]
+        int     matching_tokens = {};
+        int     total_nl_tokens = {};
     };
 
     static ScoreResult score(const std::string& nl_query, const std::string& aql_query) {
@@ -72,7 +72,7 @@ public:
 private:
     static std::vector<std::string> tokenize(const std::string& s) {
         std::vector<std::string> tokens;
-        std::string cur;
+        std::string cur = {};
         for (char c : s) {
             if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {
                 cur += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -80,7 +80,9 @@ private:
                 if (!cur.empty()) { tokens.push_back(cur); cur.clear(); }
             }
         }
-        if (!cur.empty()) tokens.push_back(cur);
+        if (!cur.empty()) {
+          tokens.push_back(cur);
+        }
         return tokens;
     }
 };
@@ -119,7 +121,8 @@ public:
 
     RetrievalResult retrieveTopK(const std::string& nl_query, int k) const {
         struct Candidate { std::size_t idx; float score; };
-        std::vector<Candidate> candidates;
+        std::vector<Candidate> candidates = {};
+
         candidates.reserve(examples_.size());
 
         for (std::size_t i = 0; i < examples_.size(); ++i) {
@@ -143,12 +146,18 @@ private:
     static float jaccardScore(const std::string& a, const std::string& b) {
         auto ta = tokenSet(a);
         auto tb = tokenSet(b);
-        if (ta.empty() && tb.empty()) return 1.0f;
-        if (ta.empty() || tb.empty()) return 0.0f;
+        if (ta.empty() && tb.empty()) {
+          return 1.0f;
+        }
+        if (ta.empty() || tb.empty()) {
+          return 0.0f;
+        }
 
         int intersection = 0;
         for (const auto& t : ta) {
-            if (std::find(tb.begin(), tb.end(), t) != tb.end()) ++intersection;
+            if (std::find(tb.begin(), tb.end(), t) != tb.end()) {
+              ++intersection;
+            }
         }
         int union_size = static_cast<int>(ta.size() + tb.size()) - intersection;
         return static_cast<float>(intersection) / static_cast<float>(union_size);
@@ -156,7 +165,7 @@ private:
 
     static std::vector<std::string> tokenSet(const std::string& s) {
         std::vector<std::string> tokens;
-        std::string cur;
+        std::string cur = {};
         for (char c : s) {
             if (std::isalnum(static_cast<unsigned char>(c))) {
                 cur += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -185,14 +194,15 @@ private:
 class MockAQLHighlighter {
 public:
     struct Annotation {
-        int         line;
-        int         col;
-        std::string message;
+        int         line = 0;
+        int         col = {};
+        std::string message = {};
     };
 
     /// Annotate a simple AQL string — returns warnings for suspicious patterns
     static std::vector<Annotation> annotate(const std::string& aql) {
-        std::vector<Annotation> annotations;
+        std::vector<Annotation> annotations = {};
+
         // Check for missing FILTER on non-trivial queries
         if (aql.find("FOR") != std::string::npos &&
             aql.find("FILTER") == std::string::npos &&

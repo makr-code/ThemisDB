@@ -39,13 +39,13 @@ class EthicsAiPipelineTest : public ::testing::Test {
 protected:
     void SetUp() override {
         tmp_dir_ = std::filesystem::temp_directory_path() / "themis_ethics_ai_pipeline_test";
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(tmp_dir_, ec);
         std::filesystem::create_directories(tmp_dir_, ec);
     }
 
     void TearDown() override {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(tmp_dir_, ec);
     }
 
@@ -179,7 +179,9 @@ TEST(EthicsEvaluatorComputeConfidenceTest, CC01_EmptyArgumentsReturnsDefault) {
 // CC-02: All WEAK arguments produce confidence < 0.5 (score = 0.25 each).
 TEST(EthicsEvaluatorComputeConfidenceTest, CC02_AllWeakProducesLowConfidence) {
     std::vector<EthicalArgument> args(3);
-    for (auto& a : args) a.strength = ArgumentStrength::WEAK;
+    for (auto& a : args) {
+      a.strength = ArgumentStrength::WEAK;
+    }
     double conf = EthicsEvaluator::computeConfidence(args);
     EXPECT_NEAR(conf, 0.25, 1e-9);
 }
@@ -187,7 +189,9 @@ TEST(EthicsEvaluatorComputeConfidenceTest, CC02_AllWeakProducesLowConfidence) {
 // CC-03: All STRONG arguments produce confidence of 0.75.
 TEST(EthicsEvaluatorComputeConfidenceTest, CC03_AllStrongProducesHighConfidence) {
     std::vector<EthicalArgument> args(4);
-    for (auto& a : args) a.strength = ArgumentStrength::STRONG;
+    for (auto& a : args) {
+      a.strength = ArgumentStrength::STRONG;
+    }
     double conf = EthicsEvaluator::computeConfidence(args);
     EXPECT_NEAR(conf, 0.75, 1e-9);
 }
@@ -195,7 +199,9 @@ TEST(EthicsEvaluatorComputeConfidenceTest, CC03_AllStrongProducesHighConfidence)
 // CC-04: All DECISIVE arguments produce maximum confidence of 1.0.
 TEST(EthicsEvaluatorComputeConfidenceTest, CC04_AllDecisiveProducesMaxConfidence) {
     std::vector<EthicalArgument> args(2);
-    for (auto& a : args) a.strength = ArgumentStrength::DECISIVE;
+    for (auto& a : args) {
+      a.strength = ArgumentStrength::DECISIVE;
+    }
     double conf = EthicsEvaluator::computeConfidence(args);
     EXPECT_NEAR(conf, 1.0, 1e-9);
 }

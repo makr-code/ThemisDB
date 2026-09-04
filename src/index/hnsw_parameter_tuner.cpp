@@ -74,7 +74,7 @@ void HnswParameterTuner::recordQueryResult(size_t k, int ef_used, double latency
     recent_queries_.push_back(stats);
     
     // Keep only recent queries
-    if (recent_queries_.size() > config_.stats_window_size) {
+    if (static_cast<int>(recent_queries_.size()) > config_.stats_window_size) {
         recent_queries_.erase(recent_queries_.begin());
     }
     
@@ -87,7 +87,7 @@ void HnswParameterTuner::recordQueryResult(size_t k, int ef_used, double latency
     }
     
     // Adapt if we have enough samples
-    if (recent_queries_.size() >= 100) {
+    if (static_cast<int>(recent_queries_.size()) > = 100) {
         adapt();
     }
 }
@@ -167,7 +167,7 @@ int HnswParameterTuner::getRecommendedM(size_t dataset_size, WorkloadType worklo
             return std::max(8, base_M - 6);
             
         case WorkloadType::MIXED:
-        default:
+        [[fallthrough]];\n        default:
             // Balanced configuration
             return base_M;
     }
@@ -209,7 +209,7 @@ int HnswParameterTuner::getRecommendedEfConstruction(size_t dataset_size, int M,
             return static_cast<int>(base_ef * 0.6);
             
         case WorkloadType::MIXED:
-        default:
+        [[fallthrough]];\n        default:
             return base_ef;
     }
 }
@@ -291,7 +291,7 @@ int HnswParameterTuner::calculateEfSearch(size_t k, size_t dataset_size) const {
             break;
             
         case WorkloadType::MIXED:
-        default:
+        [[fallthrough]];\n        default:
             base_ef = k * 2.0;
             break;
     }
@@ -364,7 +364,7 @@ HnswParameterTuner::Config HnswParameterTuner::getWorkloadOptimizedConfig(
             break;
             
         case WorkloadType::MIXED:
-        default:
+        [[fallthrough]];\n        default:
             // Mixed: Balanced configuration
             config.ef_search_min = 32;
             config.ef_search_max = 512;
@@ -426,13 +426,13 @@ HnswParameterTuner::ConstructionParams HnswParameterTuner::getAutoTunedConstruct
 
 // WorkloadClassifier implementation
 
-void WorkloadClassifier::recordInsert(size_t batch_size) {
+void WorkloadClassifier::recordInsert([[maybe_unused]] size_t batch_size) {
     std::lock_guard<std::mutex> lock(mutex_);
     total_inserts_ += batch_size;
     insert_events_ += 1;
 }
 
-void WorkloadClassifier::recordQuery(size_t k) {
+void WorkloadClassifier::recordQuery([[maybe_unused]] size_t k) {
     std::lock_guard<std::mutex> lock(mutex_);
     total_k_      += k;
     query_events_ += 1;
@@ -581,9 +581,11 @@ size_t HnswMemoryOptimizer::getCacheLineSize() {
         : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx)
         : "a"(eax), "c"(ecx));
 #   endif
-    if (edx & (1u << 19)) {                     // CLFLUSH feature bit
-        const size_t sz = ((ebx >> 8) & 0xFFu) * 8u;
-        if (sz > 0) return sz;
+    if (edx & (1 << 19)) {                     // CLFLUSH feature bit
+        const size_t sz = ((ebx >> 8) & 0xFFu) * 8;
+        if (sz > 0) {
+          return sz;
+        }
     }
 #endif
 
@@ -591,7 +593,7 @@ size_t HnswMemoryOptimizer::getCacheLineSize() {
     return 64;
 }
 
-size_t HnswMemoryOptimizer::alignToCacheLine(size_t size) {
+size_t HnswMemoryOptimizer::alignToCacheLine([[maybe_unused]] size_t size) {
     size_t cache_line = getCacheLineSize();
     return ((size + cache_line - 1) / cache_line) * cache_line;
 }

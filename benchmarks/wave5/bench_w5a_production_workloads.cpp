@@ -87,14 +87,18 @@ public:
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         std::uniform_int_distribution<std::size_t> d(0, kAlpha.size() - 1);
         std::string s(len, ' ');
-        for (auto& c : s) c = kAlpha[d(eng_)];
+        for (auto& c : s) {
+          c = kAlpha[d(eng_)];
+        }
         return s;
     }
 
     std::vector<float> vec(std::size_t dim = kVectorDim) {
         std::uniform_real_distribution<float> d(-1.0f, 1.0f);
         std::vector<float> v(dim);
-        for (auto& x : v) x = d(eng_);
+        for (auto& x : v) {
+          x = d(eng_);
+        }
         return v;
     }
 
@@ -164,7 +168,7 @@ public:
         idx_.reset();
         db_->close();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(dbPath_, ec);
     }
 
@@ -300,7 +304,7 @@ public:
             db_->close();
             db_.reset();
         }
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(dbPath_, ec);
     }
 
@@ -409,7 +413,7 @@ public:
             db_->close();
             db_.reset();
         }
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(dbPath_, ec);
     }
 
@@ -506,7 +510,7 @@ static void BM_W5A_BatchIngest_Sustained(benchmark::State& state) {
     state.SetLabel("batch ingest, " + std::to_string(batchSize) + " rec/batch");
 
     db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(dbPath, ec);
 }
 BENCHMARK(BM_W5A_BatchIngest_Sustained)

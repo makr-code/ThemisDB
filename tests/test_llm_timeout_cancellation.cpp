@@ -78,7 +78,7 @@ public:
     bool isModelLoaded() const override { return true; }
 
     InferenceResponse generate(const InferenceRequest& request) override {
-        std::string full;
+        std::string full = {};
         for (int i = 0; i < num_tokens_; ++i) {
             std::this_thread::sleep_for(std::chrono::milliseconds(token_delay_ms_));
             std::string tok = "tok" + std::to_string(i) + " ";
@@ -530,7 +530,7 @@ protected:
 
     void TearDown() override {
         if (!cache_dir_.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove_all(cache_dir_, ec);
         }
     }

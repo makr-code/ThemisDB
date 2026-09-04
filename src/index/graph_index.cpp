@@ -37,13 +37,19 @@ std::optional<int64_t> parseTemporalFieldForEdge(const BaseEntity& edge,
                                                  std::string_view edge_id,
                                                  std::string_view context) {
 	auto as_int = edge.getFieldAsInt(field);
-	if (as_int.has_value()) return as_int;
+	if (as_int.has_value()) {
+	  return as_int;
+	}
 	auto as_str = edge.getFieldAsString(field);
-	if (!as_str.has_value()) return std::nullopt;
+	if (!as_str.has_value()) {
+	  return std::nullopt;
+	}
 	try {
 		size_t pos = 0;
 		int64_t parsed = std::stoll(*as_str, &pos, 10);
-		if (pos == as_str->size()) return parsed;
+		if (pos == as_str->size()) {
+		  return parsed;
+		}
 	} catch (const std::exception& e) {
 		THEMIS_DEBUG("{}: invalid temporal field '{}' on edge {}: {}", context, field, edge_id, e.what());
 	} catch (...) {
@@ -83,7 +89,9 @@ std::shared_ptr<IExpressionEvaluator> GraphIndexManager::getExpressionEvaluator(
 // Helper: Log audit event if audit logger is configured
 void GraphIndexManager::logAuditEvent_(const std::string& event_type, const std::string& resource,
                                        const std::string& operation, size_t count, int depth) const {
-	if (!audit_logger_) return;
+	if (!audit_logger_) {
+	  return;
+	}
 	
 	try {
 		nlohmann::json details = {
@@ -125,7 +133,9 @@ std::unique_ptr<RocksDBWrapper::WriteBatchWrapper> GraphIndexManager::createWrit
 }
 
 GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
-	if (!db_.isOpen()) return Status::Error("addEdge: Datenbank ist nicht geöffnet");
+	if (!db_.isOpen()) {
+	  return Status::Error("addEdge: Datenbank ist nicht geöffnet");
+	}
 
 	auto eidOpt = edge.getFieldAsString("id");
 	auto fromOpt = edge.getFieldAsString("_from");
@@ -154,16 +164,24 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
 	[[maybe_unused]] const std::string& to = *toOpt;
 
 	auto batch = db_.createWriteBatch();
-	if (!batch) return Status::Error("addEdge: Konnte WriteBatch nicht erstellen");
+	if (!batch) {
+	  return Status::Error("addEdge: Konnte WriteBatch nicht erstellen");
+	}
 	auto st = addEdge(edge, *batch);
 	if (!st.ok) { batch->rollback(); return st; }
-	if (!batch->commit()) return Status::Error("addEdge: Commit des Batches fehlgeschlagen");
+	if (!batch->commit()) {
+	  return Status::Error("addEdge: Commit des Batches fehlgeschlagen");
+	}
 	return Status::OK();
 }
 
 GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId) {
-	if (!db_.isOpen()) return Status::Error("deleteEdge: Datenbank ist nicht geöffnet");
-	if (edgeId.empty()) return Status::Error("deleteEdge: edgeId darf nicht leer sein");
+	if (!db_.isOpen()) {
+	  return Status::Error("deleteEdge: Datenbank ist nicht geöffnet");
+	}
+	if (edgeId.empty()) {
+	  return Status::Error("deleteEdge: edgeId darf nicht leer sein");
+	}
 
 	// Edge laden, um _from/_to zu ermitteln
 	const std::string edgeKey = KeySchema::makeGraphEdgeKey(edgeId);
@@ -183,10 +201,14 @@ GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId)
 	}
 
 	auto batch = db_.createWriteBatch();
-	if (!batch) return Status::Error("deleteEdge: Konnte WriteBatch nicht erstellen");
+	if (!batch) {
+	  return Status::Error("deleteEdge: Konnte WriteBatch nicht erstellen");
+	}
 	auto st = deleteEdge(edgeId, *batch);
 	if (!st.ok) { batch->rollback(); return st; }
-	if (!batch->commit()) return Status::Error("deleteEdge: Commit des Batches fehlgeschlagen");
+	if (!batch->commit()) {
+	  return Status::Error("deleteEdge: Commit des Batches fehlgeschlagen");
+	}
 	return Status::OK();
 }
 
@@ -198,7 +220,9 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	auto eidOpt = edge.getFieldAsString("id");
 	auto fromOpt = edge.getFieldAsString("_from");
 	auto toOpt = edge.getFieldAsString("_to");
-	if (!eidOpt || !fromOpt || !toOpt) return Status::Error("addEdge(tx): Felder 'id', '_from', '_to' fehlen");
+	if (!eidOpt || !fromOpt || !toOpt) {
+	  return Status::Error("addEdge(tx): Felder 'id', '_from', '_to' fehlen");
+	}
 	
 	// QW-45 Guard: Fail-closed validation for empty _from/_to fields
 	if (fromOpt->empty()) {
@@ -232,9 +256,11 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 						// Iterating j by index ensures encryptList.push_back() cannot
 						// invalidate any active iterator even if the same container were
 						// involved (they are distinct here, but the pattern is consistent).
-						for (size_t ji = 0; ji < j.size(); ++ji) {
+						for (size_t ji = 0; ji <static_cast<int>(j.size()); ++ji) {
 							const auto& jv = j[ji];
-							if (jv.is_string()) encryptList.push_back(jv.get<std::string>());
+							if (jv.is_string()) {
+							  encryptList.push_back(jv.get<std::string>());
+							}
 						}
 					}
 				} catch (const std::exception& e) {
@@ -247,14 +273,18 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					// Wave-B I3: iterator-safety fix — index-based loop prevents invalidation.
 					// `start` is a byte offset into string `s`; encryptList.push_back()
 					// operates on a separate vector and cannot invalidate this iteration.
-					while (start < s.size()) {
+					while (static_cast<size_t>(start) <static_cast<int>(s.size())) {
 						auto pos = s.find(',', start);
 						std::string part = (pos == std::string::npos) ? s.substr(start) : s.substr(start, pos - start);
 						// trim
 						auto l = part.find_first_not_of(" \t\n\r");
 						auto r = part.find_last_not_of(" \t\n\r");
-						if (l != std::string::npos && r != std::string::npos) encryptList.push_back(part.substr(l, r - l + 1));
-						if (pos == std::string::npos) break;
+						if (l != std::string::npos && r != std::string::npos) {
+						  encryptList.push_back(part.substr(l, r - l + 1));
+						}
+						if (pos == std::string::npos) {
+						  break;
+						}
 						start = pos + 1;
 					}
 				}
@@ -281,7 +311,9 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 
 			// Perform encryption for listed fields
 			for (const auto& fld : encryptList) {
-				if (!edge.hasField(fld)) continue;
+				if (!edge.hasField(fld)) {
+				  continue;
+				}
 				if (fld == "_weight") {
 					// Prefer numeric weight
 					if (auto wOpt = edge.getFieldAsDouble("_weight"); wOpt) {
@@ -346,10 +378,14 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 }
 
 GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId, RocksDBWrapper::WriteBatchWrapper& batch) {
-	if (edgeId.empty()) return Status::Error("deleteEdge(tx): edgeId leer");
+	if (edgeId.empty()) {
+	  return Status::Error("deleteEdge(tx): edgeId leer");
+	}
 	const std::string edgeKey = KeySchema::makeGraphEdgeKey(edgeId);
 	auto blob = db_.get(edgeKey);
-	if (!blob) return Status::OK();
+	if (!blob) {
+	  return Status::OK();
+	}
 	BaseEntity e = BaseEntity::deserialize(std::string(edgeId), *blob);
 	auto fromOpt = e.getFieldAsString("_from");
 	auto toOpt = e.getFieldAsString("_to");
@@ -384,7 +420,7 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 		std::vector<std::string> result;
 		auto it = outEdges_.find(std::string(fromPk));
 		if (it != outEdges_.end()) {
-			result.reserve(it->second.size());
+			result.reserve(it-> static_cast<int>(second.size()));
 			for (const auto& adj : it->second) {
 				result.push_back(adj.targetPk);
 			}
@@ -401,8 +437,8 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 	});
 	
 	// Phase 1: Audit log for bulk node access (threshold: 100+ neighbors)
-	if (result.size() >= 100) {
-		logAuditEvent_("BULK_NODE_ACCESS", std::string(fromPk), "outNeighbors", result.size(), 0);
+	if (static_cast<int>(result.size()) > = 100) {
+		logAuditEvent_("BULK_NODE_ACCESS", std::string(fromPk), "outNeighbors",static_cast<int>(result.size()), 0);
 	}
 	
 	return {Status::OK(), std::move(result)};
@@ -419,7 +455,7 @@ GraphIndexManager::inNeighbors(std::string_view toPk) const {
 		std::vector<std::string> result;
 		auto it = inEdges_.find(std::string(toPk));
 		if (it != inEdges_.end()) {
-			result.reserve(it->second.size());
+			result.reserve(it-> static_cast<int>(second.size()));
 			for (const auto& adj : it->second) {
 				result.push_back(adj.targetPk);
 			}
@@ -519,7 +555,9 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 			q.pop();
 
 			order.push_back(node);
-			if (depth == maxDepth) continue;
+			if (depth == maxDepth) {
+			  continue;
+			}
 
    // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
@@ -543,7 +581,9 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 		q.pop();
 
 		order.push_back(node);
-		if (depth == maxDepth) continue;
+		if (depth == maxDepth) {
+		  continue;
+		}
 
 		const std::string prefix = std::string("graph:out:");
 		db_.scanPrefix(prefix, [&](std::string_view key, std::string_view val){
@@ -552,13 +592,19 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 			// - graph:out:<fromPk>:<edgeId>
 			std::string keyStr(key);
 			size_t lastColon = keyStr.rfind(':');
-			if (lastColon == std::string::npos) return true;
+			if (lastColon == std::string::npos) {
+			  return true;
+			}
 			const size_t prefixLen = std::string("graph:out:").size();
-			if (keyStr.size() <= prefixLen) return true;
+			if (static_cast<int>(keyStr.size()) <= prefixLen) {
+			  return true;
+			}
 			std::string middle = keyStr.substr(prefixLen, lastColon - prefixLen);
 			size_t innerColon = middle.rfind(':');
 			std::string fromPk = (innerColon == std::string::npos) ? middle : middle.substr(innerColon + 1);
-			if (fromPk != node) return true;
+			if (fromPk != node) {
+			  return true;
+			}
 
 			std::string neigh(val);
 			if (!visited.count(neigh)) {
@@ -570,7 +616,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 	}
 	
 	// Phase 1: Audit log for graph traversal
-	logAuditEvent_("GRAPH_TRAVERSAL", std::string(startPk), "bfs", order.size(), maxDepth);
+	logAuditEvent_("GRAPH_TRAVERSAL", std::string(startPk), "bfs",static_cast<int>(order.size()), maxDepth);
 	
 	return {Status::OK(), std::move(order)};
 }
@@ -599,7 +645,9 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 			q.pop();
 
 			order.push_back(node);
-			if (depth == maxDepth) continue;
+			if (depth == maxDepth) {
+			  continue;
+			}
 
    // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
@@ -607,7 +655,9 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
 					// Filter by graph and edge type
-					if (!graphFilter.empty() && adj.graphId != graphFilter) continue;
+					if (!graphFilter.empty() && adj.graphId != graphFilter) {
+					  continue;
+					}
 					std::string edgeType = getEdgeType_(adj.graphId, adj.edgeId);
 					if (!typeFilter.empty() && edgeType != typeFilter) {
 						continue; // Skip edges with different type
@@ -629,7 +679,9 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 		q.pop();
 
 		order.push_back(node);
-		if (depth == maxDepth) continue;
+		if (depth == maxDepth) {
+		  continue;
+		}
 
 		if (graphFilter.empty()) {
 			// graph_id required for on-disk scan in multi-graph mode
@@ -639,7 +691,9 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 		db_.scanPrefix(prefix, [&](std::string_view key, std::string_view val){
 			// Extract edgeId from key
 			std::string gid, from, edgeId;
-			if (!parseOutKey_(key, gid, from, edgeId)) return true;
+			if (!parseOutKey_(key, gid, from, edgeId)) {
+			  return true;
+			}
 
 			// Filter by edge type
 			std::string edgeType = getEdgeType_(gid, edgeId);
@@ -663,7 +717,9 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 // ────────────────────────────────────────────────────────────────────────────
 
 GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
-	if (!db_.isOpen()) return Status::Error("rebuildTopology: Datenbank ist nicht geöffnet");
+	if (!db_.isOpen()) {
+	  return Status::Error("rebuildTopology: Datenbank ist nicht geöffnet");
+	}
 
 	// LOCK: Tier 1 (Global topology protection) — Phase 3 A-5
 	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
@@ -683,7 +739,9 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 		std::string graphId, fromPk, edgeId;
 		const std::string keyStr(key);
 		const size_t lastColon = keyStr.rfind(':');
-		if (lastColon == std::string::npos) return true;
+		if (lastColon == std::string::npos) {
+		  return true;
+		}
 		edgeId = keyStr.substr(lastColon + 1);
 		// W5: Use db_ from outer scope through this - limited to data access only
 		if (auto blob = db_.get(KeySchema::makeGraphEdgeKey(edgeId)); blob.has_value()) {
@@ -691,7 +749,9 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 			fromPk = edge.getFieldAsString("_from").value_or("");
 			graphId = edge.getFieldAsString("_graph").value_or("");
 		}
-		if (fromPk.empty() && !parseOutKey_(key, graphId, fromPk, edgeId)) return true;
+		if (fromPk.empty() && !parseOutKey_(key, graphId, fromPk, edgeId)) {
+		  return true;
+		}
 		std::string toPk(val);
 		// W5: Add to local container, not member; update after scan completes
 		local_out_edges[fromPk].push_back({edgeId, toPk, graphId});
@@ -706,7 +766,9 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 		std::string graphId, toPk, edgeId;
 		const std::string keyStr(key);
 		const size_t lastColon = keyStr.rfind(':');
-		if (lastColon == std::string::npos) return true;
+		if (lastColon == std::string::npos) {
+		  return true;
+		}
 		edgeId = keyStr.substr(lastColon + 1);
 		// W5: Use db_ from outer scope through this - limited to data access only
 		if (auto blob = db_.get(KeySchema::makeGraphEdgeKey(edgeId)); blob.has_value()) {
@@ -714,7 +776,9 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 			toPk = edge.getFieldAsString("_to").value_or("");
 			graphId = edge.getFieldAsString("_graph").value_or("");
 		}
-		if (toPk.empty() && !parseInKey_(key, graphId, toPk, edgeId)) return true;
+		if (toPk.empty() && !parseInKey_(key, graphId, toPk, edgeId)) {
+		  return true;
+		}
 		std::string fromPk(val);
 		// W5: Add to local container, not member; update after scan completes
 		local_in_edges[toPk].push_back({edgeId, fromPk, graphId});
@@ -754,7 +818,9 @@ void GraphIndexManager::removeEdgeFromTopologyUnlocked_(const std::string& edgeI
 		vec.erase(std::remove_if(vec.begin(), vec.end(),
 			[&edgeId](const AdjacencyInfo& info) { return info.edgeId == edgeId; }),
 			vec.end());
-		if (vec.empty()) outEdges_.erase(outIt);
+		if (vec.empty()) {
+		  outEdges_.erase(outIt);
+		}
 	}
 
 	// Remove from inEdges_
@@ -764,17 +830,24 @@ void GraphIndexManager::removeEdgeFromTopologyUnlocked_(const std::string& edgeI
 		vec.erase(std::remove_if(vec.begin(), vec.end(),
 			[&edgeId](const AdjacencyInfo& info) { return info.edgeId == edgeId; }),
 			vec.end());
-		if (vec.empty()) inEdges_.erase(inIt);
+		if (vec.empty()) {
+		  inEdges_.erase(inIt);
+		}
 	}
 }
 
 size_t GraphIndexManager::getTopologyNodeCount() const {
  // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
-	std::unordered_set<std::string> nodes;
-	for (const auto& [node, _] : outEdges_) nodes.insert(node);
-	for (const auto& [node, _] : inEdges_) nodes.insert(node);
-	return nodes.size();
+	std::unordered_set<std::string> nodes = {};
+
+	for (const auto& [node, _] : outEdges_) {
+	  nodes.insert(node);
+	}
+	for (const auto& [node, _] : inEdges_) {
+	  nodes.insert(node);
+	}
+	return static_cast<int>(nodes.size());
 }
 
 std::pair<GraphIndexManager::Status, std::vector<std::string>>
@@ -784,9 +857,14 @@ GraphIndexManager::allVertices() const {
 		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
 			// Fast path: in-memory topology is populated.
-			std::unordered_set<std::string> seen;
-			for (const auto& [v, _] : outEdges_) seen.insert(v);
-			for (const auto& [v, _] : inEdges_)  seen.insert(v);
+			std::unordered_set<std::string> seen = {};
+
+			for (const auto& [v, _] : outEdges_) {
+			  seen.insert(v);
+			}
+			for (const auto& [v, _] : inEdges_) {
+			  seen.insert(v);
+			}
 			return {Status::OK(), std::vector<std::string>(seen.begin(), seen.end())};
 		}
 	}
@@ -802,9 +880,11 @@ GraphIndexManager::allVertices() const {
 		//   strip "graph:out:" prefix, then split on ':'
 		const std::string_view tail = key.substr(kOutPrefix.size());
 		const size_t first = tail.find(':');
-		if (first == std::string_view::npos) return true;
+		if (first == std::string_view::npos) {
+		  return true;
+		}
 		const size_t last  = tail.rfind(':');
-		std::string fromPk;
+		std::string fromPk = {};
 		if (last == first) {
 			// LEGACY PATH (requires human approval — INDEX-AUD-GI-03): pre-v2.0 key format without graphId segment
 			// Reason: RocksDB keys written before v2.0 lack the graphId segment; must read both formats.
@@ -816,21 +896,27 @@ GraphIndexManager::allVertices() const {
 		} else {
 			fromPk = std::string(tail.substr(first + 1, last - first - 1));
 		}
-		if (!fromPk.empty()) seen.insert(std::move(fromPk));
+		if (!fromPk.empty()) {
+		  seen.insert(std::move(fromPk));
+		}
 		return true;
 	});
 	db_.scanPrefix(std::string(kInPrefix), [&seen, kInPrefix](std::string_view key, std::string_view /*val*/) {
 		const std::string_view tail = key.substr(kInPrefix.size());
 		const size_t first = tail.find(':');
-		if (first == std::string_view::npos) return true;
+		if (first == std::string_view::npos) {
+		  return true;
+		}
 		const size_t last  = tail.rfind(':');
-		std::string toPk;
+		std::string toPk = {};
 		if (last == first) {
 			toPk = std::string(tail.substr(0, first));
 		} else {
 			toPk = std::string(tail.substr(first + 1, last - first - 1));
 		}
-		if (!toPk.empty()) seen.insert(std::move(toPk));
+		if (!toPk.empty()) {
+		  seen.insert(std::move(toPk));
+		}
 		return true;
 	});
 	return {Status::OK(), std::vector<std::string>(seen.begin(), seen.end())};
@@ -849,9 +935,14 @@ size_t GraphIndexManager::getTopologyEdgeCount() const {
 std::vector<std::string> GraphIndexManager::getAllVertices() const {
  // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
-	std::unordered_set<std::string> nodes;
-	for (const auto& [node, _] : outEdges_) nodes.insert(node);
-	for (const auto& [node, _] : inEdges_) nodes.insert(node);
+	std::unordered_set<std::string> nodes = {};
+
+	for (const auto& [node, _] : outEdges_) {
+	  nodes.insert(node);
+	}
+	for (const auto& [node, _] : inEdges_) {
+	  nodes.insert(node);
+	}
 	return {nodes.begin(), nodes.end()};
 }
 
@@ -871,7 +962,9 @@ double GraphIndexManager::getEdgeWeight_(std::string_view graphId, std::string_v
 
 	BaseEntity edge = BaseEntity::deserialize(std::string(edgeId), *blob);
 	// Prefer numeric representation
-	if (auto weightOpt = edge.getFieldAsDouble("_weight"); weightOpt) return *weightOpt;
+	if (auto weightOpt = edge.getFieldAsDouble("_weight"); weightOpt) {
+	  return *weightOpt;
+	}
 
 	// If stored as string it might be either a plain number or an encrypted blob
 	if (auto wstrOpt = edge.getFieldAsString("_weight"); wstrOpt) {
@@ -930,7 +1023,9 @@ double GraphIndexManager::getEdgeWeight(std::string_view graphId, std::string_vi
 	std::string attrName = std::string(weightAttribute);
 	
 	// Prefer numeric representation
-	if (auto weightOpt = edge.getFieldAsDouble(attrName); weightOpt) return *weightOpt;
+	if (auto weightOpt = edge.getFieldAsDouble(attrName); weightOpt) {
+	  return *weightOpt;
+	}
 
 	// If stored as string it might be either a plain number or an encrypted blob
 	if (auto wstrOpt = edge.getFieldAsString(attrName); wstrOpt) {
@@ -990,13 +1085,19 @@ std::optional<std::string> GraphIndexManager::getEdgeField(
 					const std::string edgeKeyWithGid =
 						std::string("edge:") + adj.graphId + ":" + std::string(edgeId);
 					blob = db_.get(edgeKeyWithGid);
-					if (blob.has_value()) break;
+					if (blob.has_value()) {
+					  break;
+					}
 				}
 			}
-			if (blob.has_value()) break;
+			if (blob.has_value()) {
+			  break;
+			}
 		}
 	}
-	if (!blob.has_value()) return std::nullopt;
+	if (!blob.has_value()) {
+	  return std::nullopt;
+	}
 
 	BaseEntity edge = BaseEntity::deserialize(std::string(edgeId), *blob);
 	return edge.getFieldAsString(fieldName);
@@ -1006,7 +1107,9 @@ std::optional<std::string> GraphIndexManager::getNodeField(
 	std::string_view vertexId, std::string_view fieldName) const {
 	const std::string nodeKey = KeySchema::makeGraphNodeKey(vertexId);
 	auto blob = db_.get(nodeKey);
-	if (!blob.has_value()) return std::nullopt;
+	if (!blob.has_value()) {
+	  return std::nullopt;
+	}
 	BaseEntity vertex = BaseEntity::deserialize(std::string(vertexId), *blob);
 	return vertex.getFieldAsString(fieldName);
 }
@@ -1044,10 +1147,14 @@ std::string GraphIndexManager::getEdgeType_(std::string_view graphId, std::strin
 
 bool GraphIndexManager::parseOutKey_(std::string_view key, std::string& graphId, std::string& fromPk, std::string& edgeId) {
 	// Expect: graph:out:<graph_id>:<fromPk>:<edgeId>
-	if (key.rfind("graph:out:", 0) != 0) return false;
+	if (key.rfind("graph:out:", 0) != 0) {
+	  return false;
+	}
 	std::string s(key.substr(10)); // after prefix
 	size_t first = s.find(':');
-	if (first == std::string::npos) return false;
+	if (first == std::string::npos) {
+	  return false;
+	}
 	size_t last = s.rfind(':');
 	// Support two formats:
 	// - graph:out:<graphId>:<fromPk>:<edgeId>
@@ -1072,10 +1179,14 @@ bool GraphIndexManager::parseOutKey_(std::string_view key, std::string& graphId,
 
 bool GraphIndexManager::parseInKey_(std::string_view key, std::string& graphId, std::string& toPk, std::string& edgeId) {
 	// Expect: graph:in:<graph_id>:<toPk>:<edgeId>
-	if (key.rfind("graph:in:", 0) != 0) return false;
+	if (key.rfind("graph:in:", 0) != 0) {
+	  return false;
+	}
 	std::string s(key.substr(9)); // after prefix
 	size_t first = s.find(':');
-	if (first == std::string::npos) return false;
+	if (first == std::string::npos) {
+	  return false;
+	}
 	size_t last = s.rfind(':');
 	// LEGACY PATH (requires human approval — INDEX-AUD-GI-03): Support two formats
 	// Reason: RocksDB in-keys written before v2.0 lack graphId segment; must support both.
@@ -1121,14 +1232,19 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 		auto [cost, node] = pq.top();
 		pq.pop();
 
-		if (visited.count(node)) continue;
+		if (visited.count(node)) {
+		  continue;
+		}
 		visited.insert(node);
 
 		// Ziel erreicht?
-		if (node == target) break;
+		if (node == target) {
+		  break;
+		}
 
 		// Nachbarn holen (In-Memory falls verfügbar)
-		std::vector<std::string> neighbors;
+		std::vector<std::string> neighbors = {};
+
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
    // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
@@ -1155,17 +1271,25 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 				// Robust parse (support optional graphId segment)
 				std::string keyStr(key);
 				size_t lastColon = keyStr.rfind(':');
-				if (lastColon == std::string::npos) return true;
+				if (lastColon == std::string::npos) {
+				  return true;
+				}
 				const size_t prefixLen = std::string("graph:out:").size();
-				if (keyStr.size() <= prefixLen) return true;
+				if (static_cast<int>(keyStr.size()) <= prefixLen) {
+				  return true;
+				}
 				std::string middle = keyStr.substr(prefixLen, lastColon - prefixLen);
 				size_t innerColon = middle.rfind(':');
 				std::string fromPk = (innerColon == std::string::npos) ? middle : middle.substr(innerColon + 1);
-				if (fromPk != node) return true;
+				if (fromPk != node) {
+				  return true;
+				}
 
 				std::string edgeId = keyStr.substr(lastColon + 1);
-				std::string graphId;
-				if (innerColon == std::string::npos) graphId.clear();
+				std::string graphId = {};
+				if (innerColon == std::string::npos) {
+				  graphId.clear();
+				}
 				else graphId = middle.substr(0, innerColon);
 
 				std::string neighbor(val);
@@ -1195,7 +1319,9 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 	while (current != start) {
 		path.push_back(current);
 		auto it = prev.find(current);
-		if (it == prev.end()) break;
+		if (it == prev.end()) {
+		  break;
+		}
 		current = it->second;
 	}
 	path.push_back(start);
@@ -1234,11 +1360,15 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk,
 		auto [cost, node] = pq.top();
 		pq.pop();
 
-		if (visited.count(node)) continue;
+		if (visited.count(node)) {
+		  continue;
+		}
 		visited.insert(node);
 
 		// Ziel erreicht?
-		if (node == target) break;
+		if (node == target) {
+		  break;
+		}
 
 		// Nachbarn holen (In-Memory falls verfügbar)
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
@@ -1248,7 +1378,9 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk,
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
 					// Filter by graph and edge type
-					if (!graphFilter.empty() && adj.graphId != graphFilter) continue;
+					if (!graphFilter.empty() && adj.graphId != graphFilter) {
+					  continue;
+					}
 					std::string edgeType = getEdgeType_(adj.graphId, adj.edgeId);
 					if (!typeFilter.empty() && edgeType != typeFilter) {
 						continue; // Skip edges with different type
@@ -1273,7 +1405,9 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk,
 			const std::string prefix = std::string("graph:out:") + graphFilter + ":" + std::string(node) + ":";
 			db_.scanPrefix(prefix, [&](std::string_view key, std::string_view val) {
 				std::string gid, from, edgeId;
-				if (!parseOutKey_(key, gid, from, edgeId)) return true;
+				if (!parseOutKey_(key, gid, from, edgeId)) {
+				  return true;
+				}
 
 				// Filter by edge type
 				std::string edgeType = getEdgeType_(gid, edgeId);
@@ -1308,7 +1442,9 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk,
 	while (current != start) {
 		path.push_back(current);
 		auto it = prev.find(current);
-		if (it == prev.end()) break;
+		if (it == prev.end()) {
+		  break;
+		}
 		current = it->second;
 	}
 	path.push_back(start);
@@ -1349,11 +1485,15 @@ GraphIndexManager::aStar(std::string_view startPk, std::string_view targetPk, He
 		auto [_, node] = pq.top();
 		pq.pop();
 
-		if (visited.count(node)) continue;
+		if (visited.count(node)) {
+		  continue;
+		}
 		visited.insert(node);
 
 		// Ziel erreicht?
-		if (node == target) break;
+		if (node == target) {
+		  break;
+		}
 
 		// Nachbarn holen
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
@@ -1363,7 +1503,9 @@ GraphIndexManager::aStar(std::string_view startPk, std::string_view targetPk, He
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
 					// Non-typed A*: traverse all graphs
-					if (visited.count(adj.targetPk)) continue;
+					if (visited.count(adj.targetPk)) {
+					  continue;
+					}
 
 					double weight = getEdgeWeight_(adj.graphId, adj.edgeId);
 					double tentative_g = g_score[node] + weight;
@@ -1382,11 +1524,17 @@ GraphIndexManager::aStar(std::string_view startPk, std::string_view targetPk, He
 			db_.scanPrefix(prefix, [&](std::string_view key, std::string_view val) {
 				// Parse key to check if it belongs to this node
 				std::string graphId, fromPk, edgeId;
-				if (!parseOutKey_(key, graphId, fromPk, edgeId)) return true;
-				if (fromPk != node) return true;
+				if (!parseOutKey_(key, graphId, fromPk, edgeId)) {
+				  return true;
+				}
+				if (fromPk != node) {
+				  return true;
+				}
 				
 				std::string neighbor(val);
-				if (visited.count(neighbor)) return true;
+				if (visited.count(neighbor)) {
+				  return true;
+				}
 
 				double weight = getEdgeWeight_(graphId, edgeId);
 				double tentative_g = g_score[node] + weight;
@@ -1415,7 +1563,9 @@ GraphIndexManager::aStar(std::string_view startPk, std::string_view targetPk, He
 	while (current != start) {
 		path.push_back(current);
 		auto it = prev.find(current);
-		if (it == prev.end()) break;
+		if (it == prev.end()) {
+		  break;
+		}
 		current = it->second;
 	}
 	path.push_back(start);
@@ -1430,12 +1580,16 @@ GraphIndexManager::aStar(std::string_view startPk, std::string_view targetPk, He
 // ============================================================================
 
 GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, RocksDBWrapper::TransactionWrapper& txn) {
-	if (!txn.isActive()) return Status::Error("addEdge(mvcc): Transaction ist nicht aktiv");
+	if (!txn.isActive()) {
+	  return Status::Error("addEdge(mvcc): Transaction ist nicht aktiv");
+	}
 	
 	auto eidOpt = edge.getFieldAsString("id");
 	auto fromOpt = edge.getFieldAsString("_from");
 	auto toOpt = edge.getFieldAsString("_to");
-	if (!eidOpt || !fromOpt || !toOpt) return Status::Error("addEdge(mvcc): Felder 'id', '_from', '_to' fehlen");
+	if (!eidOpt || !fromOpt || !toOpt) {
+	  return Status::Error("addEdge(mvcc): Felder 'id', '_from', '_to' fehlen");
+	}
 	
 	// QW-45 Guard: Fail-closed validation for empty _from/_to fields
 	if (fromOpt->empty()) {
@@ -1468,7 +1622,9 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 				try {
 					auto j = nlohmann::json::parse(*encOpt);
 					if (j.is_array()) {
-						for (const auto& v : j) if (v.is_string()) encryptList.push_back(v.get<std::string>());
+						for (const auto& v : j) {
+						  if (v.is_string()) encryptList.push_back(v.get<std::string>());
+						}
 					}
 				} catch (const std::exception& e) {
 					THEMIS_DEBUG("addEdge(mvcc): failed to parse encrypt_fields JSON, using CSV fallback: {}", e.what());
@@ -1477,14 +1633,18 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					// Fallback: comma-separated
 					std::string s = *encOpt;
 					size_t start = 0;
-					while (start < s.size()) {
+					while (static_cast<size_t>(start) <static_cast<int>(s.size())) {
 						auto pos = s.find(',', start);
 						std::string part = (pos == std::string::npos) ? s.substr(start) : s.substr(start, pos - start);
 						// trim
 						auto l = part.find_first_not_of(" \t\n\r");
 						auto r = part.find_last_not_of(" \t\n\r");
-						if (l != std::string::npos && r != std::string::npos) encryptList.push_back(part.substr(l, r - l + 1));
-						if (pos == std::string::npos) break;
+						if (l != std::string::npos && r != std::string::npos) {
+						  encryptList.push_back(part.substr(l, r - l + 1));
+						}
+						if (pos == std::string::npos) {
+						  break;
+						}
 						start = pos + 1;
 					}
 				}
@@ -1509,7 +1669,9 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 
 			// Perform encryption for listed fields
 			for (const auto& fld : encryptList) {
-				if (!edge.hasField(fld)) continue;
+				if (!edge.hasField(fld)) {
+				  continue;
+				}
 				if (fld == "_weight") {
 					// Prefer numeric weight
 					if (auto wOpt = edge.getFieldAsDouble("_weight"); wOpt) {
@@ -1575,14 +1737,20 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 }
 
 GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId, RocksDBWrapper::TransactionWrapper& txn) {
-	if (!txn.isActive()) return Status::Error("deleteEdge(mvcc): Transaction ist nicht aktiv");
-	if (edgeId.empty()) return Status::Error("deleteEdge(mvcc): edgeId leer");
+	if (!txn.isActive()) {
+	  return Status::Error("deleteEdge(mvcc): Transaction ist nicht aktiv");
+	}
+	if (edgeId.empty()) {
+	  return Status::Error("deleteEdge(mvcc): edgeId leer");
+	}
 	
 	const std::string edgeKey = KeySchema::makeGraphEdgeKey(edgeId);
 	
 	// Read edge from MVCC snapshot
 	auto blob = txn.get(edgeKey);
-	if (!blob) return Status::OK();
+	if (!blob) {
+	  return Status::OK();
+	}
 	
 	BaseEntity e = BaseEntity::deserialize(std::string(edgeId), *blob);
 	auto fromOpt = e.getFieldAsString("_from");
@@ -1631,17 +1799,23 @@ GraphIndexManager::bfsAtTime(std::string_view startPk, int64_t timestamp_ms, int
 		q.pop();
 		order.push_back(node);
 
-		if (depth >= maxDepth) continue;
+		if (depth >= maxDepth) {
+		  continue;
+		}
 
 		// Get outgoing edges with adjacency info
 		auto [st, adj] = outAdjacency(node);
-		if (!st.ok) continue;
+		if (!st.ok) {
+		  continue;
+		}
 
 		for (const auto& info : adj) {
 			// Load edge to check temporal validity
 			std::string edgeKey = KeySchema::makeGraphEdgeKey(info.edgeId);
 			auto blob = db_.get(edgeKey);
-			if (!blob) continue;
+			if (!blob) {
+			  continue;
+			}
 
 			BaseEntity edge = BaseEntity::deserialize(info.edgeId, *blob);
 			
@@ -1662,7 +1836,7 @@ GraphIndexManager::bfsAtTime(std::string_view startPk, int64_t timestamp_ms, int
 	}
 	
 	// Phase 1: Audit log for temporal query
-	logAuditEvent_("TEMPORAL_QUERY", std::string(startPk), "bfsAtTime", order.size(), maxDepth);
+	logAuditEvent_("TEMPORAL_QUERY", std::string(startPk), "bfsAtTime",static_cast<int>(order.size()), maxDepth);
 
 	return {Status::OK(), std::move(order)};
 }
@@ -1692,17 +1866,25 @@ GraphIndexManager::dijkstraAtTime(std::string_view startPk, std::string_view tar
 		auto [d, u] = pq.top();
 		pq.pop();
 
-		if (u == target) break;
-		if (dist.count(u) && d > dist[u]) continue;
+		if (u == target) {
+		  break;
+		}
+		if (dist.count(u) && d > dist[u]) {
+		  continue;
+		}
 
 		auto [st, adj] = outAdjacency(u);
-		if (!st.ok) continue;
+		if (!st.ok) {
+		  continue;
+		}
 
 		for (const auto& info : adj) {
 			// Load edge to check temporal validity and weight
 			std::string edgeKey = KeySchema::makeGraphEdgeKey(info.edgeId);
 			auto blob = db_.get(edgeKey);
-			if (!blob) continue;
+			if (!blob) {
+			  continue;
+			}
 
 			BaseEntity edge = BaseEntity::deserialize(info.edgeId, *blob);
 			
@@ -1732,7 +1914,7 @@ GraphIndexManager::dijkstraAtTime(std::string_view startPk, std::string_view tar
 	}
 
 	// Reconstruct path
-	PathResult result;
+	PathResult result = {};
 	if (!dist.count(target)) {
 		return {Status::Error("dijkstraAtTime: Kein Pfad gefunden"), result};
 	}
@@ -1741,7 +1923,9 @@ GraphIndexManager::dijkstraAtTime(std::string_view startPk, std::string_view tar
 	std::string curr = target;
 	while (curr != start) {
 		result.path.push_back(curr);
-		if (!prev.count(curr)) break;
+		if (!prev.count(curr)) {
+		  break;
+		}
 		curr = prev[curr];
 	}
 	result.path.push_back(start);
@@ -1767,11 +1951,17 @@ GraphIndexManager::getEdgesInTimeRange(int64_t range_start_ms, int64_t range_end
 		// Parse key: graph:out:<from_pk>:<edge_id>
 		std::string keyStr(key);
 		size_t firstColon = keyStr.find(':');
-		if (firstColon == std::string::npos) return true;
+		if (firstColon == std::string::npos) {
+		  return true;
+		}
 		size_t secondColon = keyStr.find(':', firstColon + 1);
-		if (secondColon == std::string::npos) return true;
+		if (secondColon == std::string::npos) {
+		  return true;
+		}
 		size_t thirdColon = keyStr.find(':', secondColon + 1);
-		if (thirdColon == std::string::npos) return true;
+		if (thirdColon == std::string::npos) {
+		  return true;
+		}
 
 		std::string fromPk = keyStr.substr(secondColon + 1, thirdColon - secondColon - 1);
 		std::string edgeId = keyStr.substr(thirdColon + 1);
@@ -1780,7 +1970,9 @@ GraphIndexManager::getEdgesInTimeRange(int64_t range_start_ms, int64_t range_end
 		// Load edge entity to check temporal fields (edges use "edge:" prefix, not "entity:")
 		std::string edgeKey = "edge:" + edgeId;
 		auto blob = db_.get(edgeKey);
-		if (!blob.has_value()) return true;
+		if (!blob.has_value()) {
+		  return true;
+		}
 
 		BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
 		std::optional<int64_t> valid_from = parseTemporalFieldForEdge(edge, "valid_from", edgeId, "getEdgesInTimeRange");
@@ -1818,7 +2010,9 @@ GraphIndexManager::getOutEdgesInTimeRange(std::string_view fromPk, int64_t range
 		// Parse key: graph:out:<from_pk>:<edge_id>
 		std::string keyStr(key);
 		size_t lastColon = keyStr.rfind(':');
-		if (lastColon == std::string::npos) return true;
+		if (lastColon == std::string::npos) {
+		  return true;
+		}
 		
 		std::string edgeId = keyStr.substr(lastColon + 1);
 		std::string toPk(val);
@@ -1826,7 +2020,9 @@ GraphIndexManager::getOutEdgesInTimeRange(std::string_view fromPk, int64_t range
 		// Load edge entity to check temporal fields (edges use "edge:" prefix, not "entity:")
 		std::string edgeKey = "edge:" + edgeId;
 		auto blob = db_.get(edgeKey);
-		if (!blob.has_value()) return true;
+		if (!blob.has_value()) {
+		  return true;
+		}
 
 		BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
 		std::optional<int64_t> valid_from = parseTemporalFieldForEdge(edge, "valid_from", edgeId, "getOutEdgesInTimeRange");
@@ -1876,11 +2072,17 @@ GraphIndexManager::aggregateEdgePropertyInTimeRange(std::string_view property, A
 			// Removal Target: v2.6.0
 			std::string keyStr(key);
 			size_t firstColon = keyStr.find(':');
-			if (firstColon == std::string::npos) return true;
+			if (firstColon == std::string::npos) {
+			  return true;
+			}
 			size_t secondColon = keyStr.find(':', firstColon + 1);
-			if (secondColon == std::string::npos) return true;
+			if (secondColon == std::string::npos) {
+			  return true;
+			}
 			size_t thirdColon = keyStr.find(':', secondColon + 1);
-			if (thirdColon == std::string::npos) return true;
+			if (thirdColon == std::string::npos) {
+			  return true;
+			}
 
 			fromPk = keyStr.substr(secondColon + 1, thirdColon - secondColon - 1);
 			edgeId = keyStr.substr(thirdColon + 1);
@@ -1896,7 +2098,9 @@ GraphIndexManager::aggregateEdgePropertyInTimeRange(std::string_view property, A
 			// Fallback to edge without graph id
 			std::string edgeKey = std::string("edge:") + edgeId;
 			blob = db_.get(edgeKey);
-			if (!blob.has_value()) return true;
+			if (!blob.has_value()) {
+			  return true;
+			}
 		}
 
 		BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
@@ -1904,12 +2108,16 @@ GraphIndexManager::aggregateEdgePropertyInTimeRange(std::string_view property, A
 		std::optional<int64_t> valid_to = edge.getFieldAsInt("valid_to");
 
 		bool match = require_full_containment ? filter.fullyContains(valid_from, valid_to) : filter.hasOverlap(valid_from, valid_to);
-		if (!match) return true;
+		if (!match) {
+		  return true;
+		}
 
 		// If edge_type provided, check _type
 		if (edge_type.has_value()) {
 			std::string t = getEdgeType_(graphId, edgeId);
-			if (t != std::string(*edge_type)) return true;
+			if (t != std::string(*edge_type)) {
+			  return true;
+			}
 		}
 
 		// COUNT aggregates count of matching edges (regardless of property availability)
@@ -1934,10 +2142,14 @@ GraphIndexManager::aggregateEdgePropertyInTimeRange(std::string_view property, A
 				sum += v;
 				break;
 			case Aggregation::MIN:
-				if (!have_minmax || v < minv) minv = v, have_minmax = true;
+				if (!have_minmax || v < minv) {
+				  minv = v, have_minmax = true;
+				}
 				break;
 			case Aggregation::MAX:
-				if (!have_minmax || v > maxv) maxv = v, have_minmax = true;
+				if (!have_minmax || v > maxv) {
+				  maxv = v, have_minmax = true;
+				}
 				break;
 			default:
 				break;
@@ -1977,14 +2189,18 @@ GraphIndexManager::getTemporalStats(int64_t range_start_ms, int64_t range_end_ms
 		// Parse key: graph:out:<from_pk>:<edge_id>
 		std::string keyStr(key);
 		size_t thirdColon = keyStr.rfind(':');
-		if (thirdColon == std::string::npos) return true;
+		if (thirdColon == std::string::npos) {
+		  return true;
+		}
 
 		std::string edgeId = keyStr.substr(thirdColon + 1);
 
 		// Load edge entity to check temporal fields
 		std::string edgeKey = "edge:" + edgeId;
 		auto blob = db_.get(edgeKey);
-		if (!blob.has_value()) return true;
+		if (!blob.has_value()) {
+		  return true;
+		}
 
 		BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
 		std::optional<int64_t> valid_from = edge.getFieldAsInt("valid_from");
@@ -2082,7 +2298,9 @@ GraphIndexManager::bfsWithConstraints(
 
 			order.push_back(node);
 			
-			if (depth == maxDepth) continue;
+			if (depth == maxDepth) {
+			  continue;
+			}
 
    // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
@@ -2090,19 +2308,31 @@ GraphIndexManager::bfsWithConstraints(
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
 					// Filter by graph and edge type
-					if (!graphFilter.empty() && adj.graphId != graphFilter) continue;
+					if (!graphFilter.empty() && adj.graphId != graphFilter) {
+					  continue;
+					}
 					if (!typeFilter.empty()) {
 						std::string edgeType = getEdgeType_(adj.graphId, adj.edgeId);
-						if (edgeType != typeFilter) continue;
+						if (edgeType != typeFilter) {
+						  continue;
+						}
 					}
 
 					// Check edge constraints
-					if (constraints.forbidden_edges.count(adj.edgeId)) continue;
-					if (constraints.unique_edges && visited_edges.count(adj.edgeId)) continue;
+					if (constraints.forbidden_edges.count(adj.edgeId)) {
+					  continue;
+					}
+					if (constraints.unique_edges && visited_edges.count(adj.edgeId)) {
+					  continue;
+					}
 					
 					// Check vertex constraints
-					if (constraints.forbidden_vertices.count(adj.targetPk)) continue;
-					if (constraints.unique_vertices && visited.count(adj.targetPk)) continue;
+					if (constraints.forbidden_vertices.count(adj.targetPk)) {
+					  continue;
+					}
+					if (constraints.unique_vertices && visited.count(adj.targetPk)) {
+					  continue;
+					}
 
 					// Add to visited sets
 					if (constraints.unique_vertices) {
@@ -2129,7 +2359,9 @@ GraphIndexManager::bfsWithConstraints(
 
 			order.push_back(node);
 			
-			if (depth == maxDepth) continue;
+			if (depth == maxDepth) {
+			  continue;
+			}
 
 			if (graphFilter.empty()) {
 				return {Status::Error("bfsWithConstraints: graph_id required for scan without topology"), {}};
@@ -2138,23 +2370,35 @@ GraphIndexManager::bfsWithConstraints(
 			const std::string prefix = std::string("graph:out:") + graphFilter + ":" + std::string(node) + ":";
 			db_.scanPrefix(prefix, [&](std::string_view key, std::string_view val){
 				std::string gid, from, edgeId;
-				if (!parseOutKey_(key, gid, from, edgeId)) return true;
+				if (!parseOutKey_(key, gid, from, edgeId)) {
+				  return true;
+				}
 
 				// Filter by edge type
 				if (!typeFilter.empty()) {
 					std::string edgeType = getEdgeType_(gid, edgeId);
-					if (edgeType != typeFilter) return true;
+					if (edgeType != typeFilter) {
+					  return true;
+					}
 				}
 
 				// Check edge constraints
-				if (constraints.forbidden_edges.count(edgeId)) return true;
-				if (constraints.unique_edges && visited_edges.count(edgeId)) return true;
+				if (constraints.forbidden_edges.count(edgeId)) {
+				  return true;
+				}
+				if (constraints.unique_edges && visited_edges.count(edgeId)) {
+				  return true;
+				}
 
 				std::string neigh(val);
 				
 				// Check vertex constraints
-				if (constraints.forbidden_vertices.count(neigh)) return true;
-				if (constraints.unique_vertices && visited.count(neigh)) return true;
+				if (constraints.forbidden_vertices.count(neigh)) {
+				  return true;
+				}
+				if (constraints.unique_vertices && visited.count(neigh)) {
+				  return true;
+				}
 
 				// Add to visited sets
 				if (constraints.unique_vertices) {
@@ -2172,7 +2416,8 @@ GraphIndexManager::bfsWithConstraints(
 
 	// Check min_edge_count constraint
 	if (constraints.min_edge_count > 0) {
-		std::vector<std::string> filtered;
+		std::vector<std::string> filtered = {};
+
 		for (const auto& vertex : order) {
 			// In BFS, we need to track the depth/edge count for each vertex
 			// This is a simplified check - for exact min_edge_count we'd need path tracking
@@ -2220,7 +2465,7 @@ GraphIndexManager::dijkstraWithConstraints(
 
 	struct NodeState {
 		std::string node;
-		double cost;
+		double cost = {};
 		int edge_count;
 		std::vector<std::string> path;
 		std::unordered_set<std::string> visited_edges;
@@ -2286,7 +2531,8 @@ GraphIndexManager::dijkstraWithConstraints(
 		}
 
 		// Get neighbors
-		std::vector<AdjacencyInfo> neighbors;
+		std::vector<AdjacencyInfo> neighbors = {};
+
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
    // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
@@ -2302,7 +2548,9 @@ GraphIndexManager::dijkstraWithConstraints(
 			const std::string prefix = std::string("graph:out:") + graphFilter + ":" + current.node + ":";
 			db_.scanPrefix(prefix, [&](std::string_view key, std::string_view val){
 				std::string gid, from, edgeId;
-				if (!parseOutKey_(key, gid, from, edgeId)) return true;
+				if (!parseOutKey_(key, gid, from, edgeId)) {
+				  return true;
+				}
 				AdjacencyInfo info;
 				info.edgeId = edgeId;
 				info.targetPk = std::string(val);
@@ -2315,18 +2563,28 @@ GraphIndexManager::dijkstraWithConstraints(
 		// Process neighbors
 		for (const auto& adj : neighbors) {
 			// Filter by graph and edge type
-			if (!graphFilter.empty() && adj.graphId != graphFilter) continue;
+			if (!graphFilter.empty() && adj.graphId != graphFilter) {
+			  continue;
+			}
 			if (!typeFilter.empty()) {
 				std::string edgeType = getEdgeType_(adj.graphId, adj.edgeId);
-				if (edgeType != typeFilter) continue;
+				if (edgeType != typeFilter) {
+				  continue;
+				}
 			}
 
 			// Check edge constraints
-			if (constraints.forbidden_edges.count(adj.edgeId)) continue;
-			if (constraints.unique_edges && current.visited_edges.count(adj.edgeId)) continue;
+			if (constraints.forbidden_edges.count(adj.edgeId)) {
+			  continue;
+			}
+			if (constraints.unique_edges && current.visited_edges.count(adj.edgeId)) {
+			  continue;
+			}
 
 			// Check vertex constraints
-			if (constraints.forbidden_vertices.count(adj.targetPk)) continue;
+			if (constraints.forbidden_vertices.count(adj.targetPk)) {
+			  continue;
+			}
 			if (constraints.unique_vertices) {
 				if (std::find(current.path.begin(), current.path.end(), adj.targetPk) != current.path.end()) {
 					continue; // Already visited in this path

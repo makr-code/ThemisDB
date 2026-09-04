@@ -37,7 +37,7 @@ nlohmann::json ReviewRequest::toJson() const {
 }
 
 ReviewRequest ReviewRequest::fromJson(const nlohmann::json &j) {
-    ReviewRequest r;
+    ReviewRequest r = {};
     if (j.contains("review_id")) {
         r.review_id = j["review_id"].get<std::string>();
     }
@@ -81,7 +81,7 @@ nlohmann::json ReviewSchedule::toJson() const {
 }
 
 ReviewSchedule ReviewSchedule::fromJson(const nlohmann::json &j) {
-    ReviewSchedule s;
+    ReviewSchedule s = {};
     if (j.contains("rule_id")) {
         s.rule_id = j["rule_id"].get<std::string>();
     }
@@ -298,7 +298,7 @@ bool ReviewScheduler::importReviews(const nlohmann::json &j) {
 
 std::string ReviewScheduler::generateReviewId() const {
     auto now = std::chrono::system_clock::now().time_since_epoch().count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "review_" << now;
     return oss.str();
 }

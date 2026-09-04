@@ -37,7 +37,7 @@ namespace fs = std::filesystem;
 
 class PluginManagerTest : public ::testing::Test {
 protected:
-    std::string test_dir_;
+    std::string test_dir_ = {};
     PluginManager* manager_;
 
     void SetUp() override {

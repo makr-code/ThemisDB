@@ -30,7 +30,9 @@ protected:
     }
 
     void TearDown() override {
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
     }
 
     // Insert a row into table `table_name` with key `row_id`
@@ -528,7 +530,9 @@ TEST_F(StatisticsCollectorTest, EquiHeightHistogramSkewedData) {
 
     // Total frequency = 20
     size_t total = 0;
-    for (const auto& b : buckets) total += b.frequency;
+    for (const auto& b : buckets) {
+      total += b.frequency;
+    }
     EXPECT_EQ(total, 20u);
 
     // Equi-height cannot split identical values: all 15 zeros must end up in a
@@ -537,7 +541,9 @@ TEST_F(StatisticsCollectorTest, EquiHeightHistogramSkewedData) {
     // large bucket but with a different bucket width; here we verify the
     // grouping-of-equals property of the equi-height implementation.)
     size_t max_freq = 0;
-    for (const auto& b : buckets) max_freq = std::max(max_freq, b.frequency);
+    for (const auto& b : buckets) {
+      max_freq = std::max(max_freq, b.frequency);
+    }
     EXPECT_EQ(max_freq, 15u)
         << "All 15 identical zeros must be grouped into a single bucket";
 }
@@ -605,7 +611,9 @@ struct RecordingHook : public StatisticsCollector::IMetricsHook {
     std::atomic<int> error_count{0};
 
     void onCollect(std::string_view, double, size_t, bool success) override {
-        if (success) ++collect_ok; else ++collect_fail;
+        if (success) {
+          ++collect_ok; else ++collect_fail;
+        }
     }
     void onCacheHit(std::string_view) override  { ++cache_hit;    }
     void onCacheMiss(std::string_view) override { ++cache_miss;   }

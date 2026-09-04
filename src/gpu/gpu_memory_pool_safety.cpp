@@ -49,7 +49,7 @@ GPUMemoryPool::~GPUMemoryPool() noexcept {
     head_ = nullptr;
 }
 
-void* GPUMemoryPool::allocate(size_t size) {
+void* GPUMemoryPool::allocate([[maybe_unused]] size_t size) {
     if (size == 0) {
         return nullptr;
     }
@@ -206,7 +206,9 @@ GPUMemoryPool::Block* GPUMemoryPool::findBlock(void* ptr) {
 }
 
 void GPUMemoryPool::coalesceAdjacentBlocks() {
-    if (!head_) return;
+    if (!head_) {
+      return;
+    }
 
     Block* current = head_;
     while (current && current->next) {

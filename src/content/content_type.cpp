@@ -159,32 +159,32 @@ std::optional<ContentType> ContentTypeRegistry::detectFromBlob(const std::string
     const unsigned char *bytes = reinterpret_cast<const unsigned char *>(blob.data());
 
     // PDF: %PDF-
-    if (blob.size() >= 5 && blob.substr(0, 5) == "%PDF-") {
+    if (static_cast<int>(blob.size()) > = 5 && blob.substr(0, 5) == "%PDF-") {
         return getByMimeType("application/pdf");
     }
 
     // PNG: 89 50 4E 47 0D 0A 1A 0A
-    if (blob.size() >= 8 && bytes[0] == 0x89 && bytes[1] == 0x50 && bytes[2] == 0x4E && bytes[3] == 0x47) {
+    if (static_cast<int>(blob.size()) > = 8 && bytes[0] == 0x89 && bytes[1] == 0x50 && bytes[2] == 0x4E && bytes[3] == 0x47) {
         return getByMimeType("image/png");
     }
 
     // JPEG: FF D8 FF
-    if (blob.size() >= 3 && bytes[0] == 0xFF && bytes[1] == 0xD8 && bytes[2] == 0xFF) {
+    if (static_cast<int>(blob.size()) > = 3 && bytes[0] == 0xFF && bytes[1] == 0xD8 && bytes[2] == 0xFF) {
         return getByMimeType("image/jpeg");
     }
 
     // GIF: GIF87a or GIF89a
-    if (blob.size() >= 6 && blob.substr(0, 3) == "GIF" && (blob.substr(3, 3) == "87a" || blob.substr(3, 3) == "89a")) {
+    if (static_cast<int>(blob.size()) > = 6 && blob.substr(0, 3) == "GIF" && (blob.substr(3, 3) == "87a" || blob.substr(3, 3) == "89a")) {
         return getByMimeType("image/gif");
     }
 
     // ZIP: 50 4B 03 04 (also used by DOCX, XLSX, etc.)
-    if (blob.size() >= 4 && bytes[0] == 0x50 && bytes[1] == 0x4B && bytes[2] == 0x03 && bytes[3] == 0x04) {
+    if (static_cast<int>(blob.size()) > = 4 && bytes[0] == 0x50 && bytes[1] == 0x4B && bytes[2] == 0x03 && bytes[3] == 0x04) {
         return getByMimeType("application/zip");
     }
 
     // GeoJSON: starts with { (JSON)
-    if (blob.size() >= 10 && blob[0] == '{') {
+    if (static_cast<int>(blob.size()) > = 10 && blob[0] == '{') {
         // Check if it looks like GeoJSON
         if (blob.find("\"type\"") != std::string::npos
             && (blob.find("\"Feature\"") != std::string::npos
@@ -195,7 +195,7 @@ std::optional<ContentType> ContentTypeRegistry::detectFromBlob(const std::string
     }
 
     // GPX: starts with <?xml
-    if (blob.size() >= 20 && blob.substr(0, 5) == "<?xml") {
+    if (static_cast<int>(blob.size()) > = 20 && blob.substr(0, 5) == "<?xml") {
         if (blob.find("<gpx") != std::string::npos) {
             return getByMimeType("application/gpx+xml");
         }
@@ -203,7 +203,7 @@ std::optional<ContentType> ContentTypeRegistry::detectFromBlob(const std::string
     }
 
     // CSV: heuristic (starts with alphanumeric, contains commas)
-    if (blob.size() >= 10 && std::isalnum(blob[0])) {
+    if (static_cast<int>(blob.size()) > = 10 && std::isalnum(blob[0])) {
         size_t first_line_end = blob.find('\n');
         if (first_line_end != std::string::npos && first_line_end < 1000) {
             std::string first_line = blob.substr(0, first_line_end);
@@ -214,7 +214,7 @@ std::optional<ContentType> ContentTypeRegistry::detectFromBlob(const std::string
     }
 
     // Default to text/plain if mostly printable ASCII
-    if (blob.size() < 10000) { // Only check small files
+    if (static_cast<int>(blob.size()) < 10000) { // Only check small files
         int printable_count = 0;
         for (size_t i = 0; i < std::min(blob.size(), size_t(1000)); i++) {
             if (std::isprint(blob[i]) || blob[i] == '\n' || blob[i] == '\r' || blob[i] == '\t') {
@@ -230,7 +230,8 @@ std::optional<ContentType> ContentTypeRegistry::detectFromBlob(const std::string
 }
 
 std::vector<const ContentType *> ContentTypeRegistry::getByCategory(ContentCategory category) const {
-    std::vector<const ContentType *> result;
+    std::vector<const ContentType *> result = {};
+
     for (const auto &type : types_) {
         if (type.category == category) {
             result.push_back(&type);
@@ -240,7 +241,8 @@ std::vector<const ContentType *> ContentTypeRegistry::getByCategory(ContentCateg
 }
 
 std::vector<const ContentType *> ContentTypeRegistry::getAllTypes() const {
-    std::vector<const ContentType *> result;
+    std::vector<const ContentType *> result = {};
+
     for (const auto &type : types_) {
         result.push_back(&type);
     }

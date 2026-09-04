@@ -213,8 +213,8 @@ DiffEngine::DiffResult DiffEngine::computeDiff(uint64_t from_sequence, uint64_t 
         std::condition_variable &cv;
         std::unordered_set<CacheKey, CacheKeyHash> &keys;
         CacheKey key;
-        bool enabled;
-        bool armed;
+        bool enabled = {};
+        bool armed = {};
         ~InflightGuard() noexcept {
             if (enabled && armed) {
                 {
@@ -238,7 +238,7 @@ DiffEngine::DiffResult DiffEngine::computeDiff(uint64_t from_sequence, uint64_t 
 
     auto events = changefeed_.listEvents(list_opts);
 
-    spdlog::debug("Found {} events in range [{}, {}]", events.size(), from_sequence, to_sequence);
+    spdlog::debug("Found {} events in range [{}, {}]",static_cast<int>(events.size()), from_sequence, to_sequence);
 
     // Process events
     DiffResult result    = processEvents(events, options, from_sequence);
@@ -254,7 +254,7 @@ DiffEngine::DiffResult DiffEngine::computeDiff(uint64_t from_sequence, uint64_t 
         bool need_evict = false;
         {
             std::lock_guard<std::mutex> lock(cache_mutex_);
-            need_evict = (diff_cache_.size() >= MAX_CACHE_SIZE);
+            need_evict = (static_cast<int>(diff_cache_.size()) >= MAX_CACHE_SIZE);
             if (need_evict) {
                 // Find the oldest entry — O(N) scan kept brief; only the key is copied.
                 auto oldest = diff_cache_.begin();
@@ -426,7 +426,7 @@ DiffEngine::DiffResult DiffEngine::processEvents(const std::vector<Changefeed::C
                 // Key was added or modified
                 change.new_value = last_event.value;
 
-                if (key_event_list.size() == 1) {
+                if (static_cast<int>(key_event_list.size()) == 1) {
                     // Single PUT event in range
                     // Check if this is the first event for this key by querying before from_sequence
                     // For now, we check if from_sequence is 0 to determine if it's truly ADDED
@@ -484,10 +484,10 @@ DiffEngine::DiffResult DiffEngine::processEvents(const std::vector<Changefeed::C
                   [](const Change &a, const Change &b) { return a.sequence < b.sequence; });
 
         // Apply offset and limit
-        size_t start = std::min(options.offset, all_changes.size());
-        size_t end   = all_changes.size();
+        size_t start = std::min(options.offset,static_cast<int>(all_changes.size()));
+        size_t end = all_changes.size();
         if (options.limit > 0) {
-            end = std::min(start + options.limit, all_changes.size());
+            end = std::min(start + options.limit,static_cast<int>(all_changes.size()));
         }
 
         // Rebuild categorized results

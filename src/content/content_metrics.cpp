@@ -28,7 +28,7 @@ void ContentMetrics::recordIngestion(const std::string& mime_type, uint64_t size
     mime_type_counts_[mime_type]++;
 }
 
-void ContentMetrics::recordValidation(bool success) {
+void ContentMetrics::recordValidation([[maybe_unused]] bool success) {
     total_validations_++;
     if (success) {
         successful_validations_++;
@@ -46,7 +46,7 @@ void ContentMetrics::recordProcessing(const std::string& /*mime_type*/, bool suc
     }
 }
 
-void ContentMetrics::recordExtraction(bool success) {
+void ContentMetrics::recordExtraction([[maybe_unused]] bool success) {
     total_extractions_++;
     if (success) {
         successful_extractions_++;
@@ -55,11 +55,11 @@ void ContentMetrics::recordExtraction(bool success) {
     }
 }
 
-void ContentMetrics::recordChunking(uint64_t chunk_count) {
+void ContentMetrics::recordChunking([[maybe_unused]] uint64_t chunk_count) {
     total_chunks_ += chunk_count;
 }
 
-void ContentMetrics::recordEmbedding(uint64_t count) {
+void ContentMetrics::recordEmbedding([[maybe_unused]] uint64_t count) {
     total_embeddings_ += count;
 }
 
@@ -141,9 +141,11 @@ std::map<std::string, double> ContentMetrics::getLatencyPercentiles(const std::s
 }
 
 double ContentMetrics::calculatePercentile(const std::vector<double>& sorted_samples, double percentile) const {
-    if (sorted_samples.empty()) return 0.0;
+    if (sorted_samples.empty()) {
+      return 0.0;
+    }
     
-    double index = percentile * (sorted_samples.size() - 1);
+    double index = percentile * (static_cast<int>(sorted_samples.size()) - 1);
     size_t lower = static_cast<size_t>(std::floor(index));
     size_t upper = static_cast<size_t>(std::ceil(index));
     
@@ -159,7 +161,7 @@ double ContentMetrics::calculatePercentile(const std::vector<double>& sorted_sam
 // Error Metrics
 // ============================================================================
 
-void ContentMetrics::recordError(int error_code) {
+void ContentMetrics::recordError([[maybe_unused]] int error_code) {
     total_errors_++;
     
     std::lock_guard<std::mutex> lock(error_mutex_);
@@ -204,7 +206,9 @@ double ContentMetrics::getCacheHitRate() const {
     uint64_t misses = cache_misses_.load();
     uint64_t total = hits + misses;
     
-    if (total == 0) return 0.0;
+    if (total == 0) {
+      return 0.0;
+    }
     return (static_cast<double>(hits) / total) * 100.0;
 }
 
@@ -229,7 +233,9 @@ std::map<std::string, uint64_t> ContentMetrics::getMimeTypeCounts() const {
 
 double ContentMetrics::getValidationSuccessRate() const {
     uint64_t total = total_validations_.load();
-    if (total == 0) return 100.0;
+    if (total == 0) {
+      return 100.0;
+    }
     
     uint64_t successful = successful_validations_.load();
     return (static_cast<double>(successful) / total) * 100.0;
@@ -237,7 +243,9 @@ double ContentMetrics::getValidationSuccessRate() const {
 
 double ContentMetrics::getProcessingSuccessRate() const {
     uint64_t total = total_processing_.load();
-    if (total == 0) return 100.0;
+    if (total == 0) {
+      return 100.0;
+    }
     
     uint64_t successful = successful_processing_.load();
     return (static_cast<double>(successful) / total) * 100.0;
@@ -333,7 +341,7 @@ json ContentMetrics::toJson() const {
 }
 
 std::string ContentMetrics::toPrometheusFormat() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Throughput metrics
     oss << "# HELP content_ingestions_total Total number of content items ingested\n";
@@ -452,7 +460,9 @@ std::string ContentMetrics::toPrometheusFormat() const {
     {
         std::lock_guard<std::mutex> lock(latency_mutex_);
         for (const auto& [operation, stats] : latency_stats_) {
-            if (stats.samples.empty()) continue;
+            if (stats.samples.empty()) {
+              continue;
+            }
             
             auto sorted = stats.samples;
             std::sort(sorted.begin(), sorted.end());

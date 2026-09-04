@@ -43,9 +43,9 @@ namespace themis { namespace server {
 /// RAII wrapper that sets an environment variable for the duration of a test
 /// and restores the previous value (or clears it) on destruction.
 struct ScopedEnv {
-    std::string name_;
-    std::string old_value_;
-    bool        had_old_;
+    std::string name_ = {};
+    std::string old_value_ = {};
+    bool        had_old_ = {};
 
     ScopedEnv(const char* name, const char* value)
         : name_(name)

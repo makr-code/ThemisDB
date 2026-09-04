@@ -64,39 +64,43 @@ public:
         , attach_profile_(attach_profile)
         , start_time_(std::chrono::system_clock::now())
     {
-        if (active_count_) ++(*active_count_);
-        if (total_count_)  ++(*total_count_);
+        if (active_count_) {
+          ++(*active_count_);
+        }
+        if (total_count_) {
+          ++(*total_count_);
+        }
     }
 
     ~ObservabilitySpan() override {
         endSpan();
     }
 
-    void setAttribute(const std::string& key, const std::string& value) override {
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] key, cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] value) override {
         std::lock_guard<std::mutex> lk(attr_mu_);
         attributes_[key] = value;
     }
 
-    void setAttribute(const std::string& key, int64_t value) override {
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] key, int64_[[maybe_unused]] t valu[[maybe_unused]] e) override {
         setAttribute(key, std::to_string(value));
     }
 
-    void setAttribute(const std::string& key, double value) override {
-        std::ostringstream oss;
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] key, doubl[[maybe_unused]] e valu[[maybe_unused]] e) override {
+        std::ostringstream oss = {};
         oss << value;
         setAttribute(key, oss.str());
     }
 
-    void setAttribute(const std::string& key, bool value) override {
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] key, boo[[maybe_unused]] l valu[[maybe_unused]] e) override {
         setAttribute(key, std::string(value ? "true" : "false"));
     }
 
-    void recordError(const std::string& errorMessage) override {
+    void recordError(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] errorMessage) override {
         setStatus(false, errorMessage);
         setAttribute("error.message", errorMessage);
     }
 
-    void setStatus(bool ok, const std::string& description = "") override {
+    void setStatus(boo[[maybe_unused]] l o[[maybe_unused]] k, cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] description = "") override {
         ok_ = ok;
         status_description_ = description;
     }
@@ -117,7 +121,9 @@ private:
         if (ended_.exchange(true)) return;  // idempotent
 
         auto end_time = std::chrono::system_clock::now();
-        if (active_count_) --(*active_count_);
+        if (active_count_) {
+          --(*active_count_);
+        }
 
         if (ring_buf_ && ring_mu_ && max_retained_ > 0) {
             SpanRecord rec;
@@ -183,12 +189,12 @@ private:
 /** @brief Dropped span — returned when sampling decides not to record. */
 class DroppedSpan : public core::concerns::ITracer::ISpan {
 public:
-    void setAttribute(const std::string&, const std::string&) override {}
-    void setAttribute(const std::string&, int64_t) override {}
-    void setAttribute(const std::string&, double) override {}
-    void setAttribute(const std::string&, bool) override {}
-    void recordError(const std::string&) override {}
-    void setStatus(bool, const std::string& = "") override {}
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::strin[[maybe_unused]] g&, cons[[maybe_unused]] t st[[maybe_unused]] d::strin[[maybe_unused]] g&) override {}
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::strin[[maybe_unused]] g&, int64_[[maybe_unused]] t) override {}
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::strin[[maybe_unused]] g&, doubl[[maybe_unused]] e) override {}
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::strin[[maybe_unused]] g&, boo[[maybe_unused]] l) override {}
+    void recordError(cons[[maybe_unused]] t st[[maybe_unused]] d::strin[[maybe_unused]] g&) override {}
+    void setStatus(boo[[maybe_unused]] l, cons[[maybe_unused]] t st[[maybe_unused]] d::strin[[maybe_unused]] g& = "") override {}
     void end() override {}
     bool isValid() const override { return false; }
 };
@@ -215,8 +221,8 @@ public:
 
     // Last active span context for injectContext()
     mutable std::mutex        ctx_mu_;
-    std::string               last_trace_id_;
-    std::string               last_span_id_;
+    std::string               last_trace_id_ = {};
+    std::string               last_span_id_ = {};
 
     std::unique_ptr<ISpan> makeSpan(const std::string& name,
                                     const std::string& trace_id,
@@ -253,7 +259,9 @@ public:
     }
 
     void publishMetrics() const {
-        if (!config_.publish_metrics) return;
+        if (!config_.publish_metrics) {
+          return;
+        }
         auto& mc = MetricsCollector::getInstance();
         mc.setGauge("themis_tracer_spans_total",
                     static_cast<double>(total_spans_.load()));

@@ -30,7 +30,7 @@ static ModelDownloadResult attemptPull(const std::string& url) {
     cfg.timeout_seconds = 1;   // 1 s — will fail fast if URL slips through
     cfg.use_cache       = false;
 
-    ModelDownloader dl;
+    ModelDownloader dl = {};
     return dl.downloadFromOllama(cfg);
 }
 
@@ -43,7 +43,7 @@ static ModelDownloadResult attemptPullInsecure(const std::string& url) {
     cfg.use_cache            = false;
     cfg.allow_insecure_http  = true;  // explicit opt-in for testing
 
-    ModelDownloader dl;
+    ModelDownloader dl = {};
     return dl.downloadFromOllama(cfg);
 }
 

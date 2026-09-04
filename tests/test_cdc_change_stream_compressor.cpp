@@ -336,7 +336,9 @@ TEST(ChangeStreamCompressorTest, StatsDecompressErrorsCounted) {
         GTEST_SKIP() << "ZSTD not available in this build";
     }
     // Corrupt payload
-    for (auto& b : batch.payload) b ^= 0xFF;
+    for (auto& b : batch.payload) {
+      b ^= 0xFF;
+    }
 
     EXPECT_THROW(c.decompress(batch), std::runtime_error);
     EXPECT_EQ(c.getStats().decompress_errors, 1u);

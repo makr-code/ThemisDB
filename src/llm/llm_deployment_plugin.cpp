@@ -37,7 +37,7 @@ namespace {
 // Convert time_point to ISO 8601 string
 std::string timeToISO8601(const std::chrono::system_clock::time_point& tp) {
     auto time_t_val = std::chrono::system_clock::to_time_t(tp);
-    std::tm tm_val;
+    std::tm tm_val = {};
     #ifdef _WIN32
         gmtime_s(&tm_val, &time_t_val);
     #else
@@ -65,7 +65,7 @@ std::chrono::system_clock::time_point iso8601ToTime(const std::string& iso) {
     }
 
     // Strip the trailing 'Z' before parsing
-    std::string datetime_part = iso.substr(0, iso.size() - 1);
+    std::string datetime_part = iso.substr(0, static_cast<int>(iso.size()) - 1);
 
     std::tm tm_val = {};
     std::istringstream ss(datetime_part);
@@ -102,8 +102,8 @@ std::chrono::system_clock::time_point iso8601ToTime(const std::string& iso) {
 
 namespace {
 struct TLSRequestContext {
-    std::string user_id;
-    std::string client_ip;
+    std::string user_id = {};
+    std::string client_ip = {};
     bool is_set = false;
 };
 static thread_local TLSRequestContext tls_deploy_ctx;
@@ -306,7 +306,7 @@ std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& m
         
         // Update registry (filesystem fallback)
         auto it = std::find_if(model_registry_.begin(), model_registry_.end(),
-                               [&](const ModelStatus& s) { return s.model_id == model_id; });
+                               [&]([[maybe_unused]] const ModelStatus& s) { return s.model_id == model_id; });
         
         if (it != model_registry_.end()) {
             *it = status;
@@ -348,7 +348,7 @@ ModelDownloadResult LLMDeploymentPlugin::downloadModel(const std::string& model_
         return result;
     }
     
-    ModelDownloadResult result;
+    ModelDownloadResult result = {};
     
     if (source->type == "ollama") {
         // Download from Ollama - use the source's location (Ollama endpoint)
@@ -436,7 +436,7 @@ bool LLMDeploymentPlugin::loadModel(const std::string& model_id, ILLMPlugin* llm
     if (llm_plugin->loadModel(status->model_path, config)) {
         // Update status
         auto it = std::find_if(model_registry_.begin(), model_registry_.end(),
-                               [&](const ModelStatus& s) { return s.model_id == model_id; });
+                               [&]([[maybe_unused]] const ModelStatus& s) { return s.model_id == model_id; });
         if (it != model_registry_.end()) {
             it->is_loaded = true;
             it->last_used_at = std::chrono::system_clock::now();
@@ -476,7 +476,7 @@ std::vector<ModelStatus> LLMDeploymentPlugin::listCachedModels() {
 
 std::optional<ModelStatus> LLMDeploymentPlugin::getModelStatus(const std::string& model_id) {
     auto it = std::find_if(model_registry_.begin(), model_registry_.end(),
-                           [&](const ModelStatus& s) { return s.model_id == model_id; });
+                           [&]([[maybe_unused]] const ModelStatus& s) { return s.model_id == model_id; });
     
     if (it != model_registry_.end()) {
         return *it;
@@ -565,7 +565,7 @@ bool LLMDeploymentPlugin::removeModel(const std::string& model_id, bool force) {
         // Remove from registry
         model_registry_.erase(
             std::remove_if(model_registry_.begin(), model_registry_.end(),
-                          [&](const ModelStatus& s) { return s.model_id == model_id; }),
+                          [&]([[maybe_unused]] const ModelStatus& s) { return s.model_id == model_id; }),
             model_registry_.end()
         );
         
@@ -638,7 +638,9 @@ int LLMDeploymentPlugin::cleanupOldModels() {
                   });
         
         for (const auto& status : sorted_models) {
-            if (status.is_loaded) continue;
+            if (status.is_loaded) {
+              continue;
+            }
             
             if (removeModel(status.model_id, false)) {
                 removed_count++;
@@ -674,7 +676,9 @@ json LLMDeploymentPlugin::getCacheStats() const {
     
     int loaded_count = 0;
     for (const auto& status : model_registry_) {
-        if (status.is_loaded) loaded_count++;
+        if (status.is_loaded) {
+          loaded_count++;
+        }
     }
     stats["loaded_models"] = loaded_count;
     
@@ -686,14 +690,15 @@ void LLMDeploymentPlugin::updateConfig(const DeploymentConfig& config) {
     LOG_INFO("Deployment configuration updated");
 }
 
-std::vector<AuditEntry> LLMDeploymentPlugin::getAuditLog(size_t limit) const {
+std::vector<AuditEntry> LLMDeploymentPlugin::getAuditLog([[maybe_unused]] size_t limit) const {
     if (limit == 0 || limit >= audit_log_.size()) {
         return audit_log_;
     }
     
     // Return most recent entries
-    std::vector<AuditEntry> result;
-    size_t start = audit_log_.size() - limit;
+    std::vector<AuditEntry> result = {};
+
+    size_t start = static_cast<int>(audit_log_.size()) - limit;
     result.insert(result.end(), audit_log_.begin() + start, audit_log_.end());
     
     return result;
@@ -703,7 +708,7 @@ std::optional<DeploymentConfig> LLMDeploymentPlugin::loadConfigFromYAML(const st
     try {
         YAML::Node config = YAML::LoadFile(config_path);
         
-        DeploymentConfig deployment_config;
+        DeploymentConfig deployment_config = {};
         
         if (config["deployment"]) {
             YAML::Node dep = config["deployment"];
@@ -909,7 +914,7 @@ void LLMDeploymentPlugin::loadModelRegistry() {
             model_registry_.push_back(status);
         }
         
-        LOG_INFO("Loaded {} models from registry", model_registry_.size());
+        LOG_INFO("Loaded {} models from registry",static_cast<int>(model_registry_.size()));
         
     } catch (const std::exception& e) {
         LOG_ERROR("Failed to load model registry: {}", e.what());
@@ -969,7 +974,7 @@ std::optional<ModelSource> LLMDeploymentPlugin::findBestSource(const std::string
         return src;
     }
 
-    LOG_ERROR("No source contains model '{}'; checked {} source(s)", model_id, sorted_sources.size());
+    LOG_ERROR("No source contains model '{}'; checked {} source(s)", model_id,static_cast<int>(sorted_sources.size()));
     return std::nullopt;
 }
 
@@ -999,7 +1004,7 @@ std::string LLMDeploymentPlugin::getModelPath(const std::string& model_id) const
 bool LLMDeploymentPlugin::verifyChecksum(const std::string& file_path,
                                           const std::string& expected_checksum,
                                           const std::string& checksum_type) {
-    std::string calculated_checksum;
+    std::string calculated_checksum = {};
 
     if (checksum_type == "sha256") {
         calculated_checksum = utils::calculateSHA256(file_path);

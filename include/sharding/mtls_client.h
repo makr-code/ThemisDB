@@ -93,7 +93,7 @@ public:
      * HTTP request result
      */
     struct Response {
-        int status_code;                // HTTP status code (200, 404, 500, etc.)
+        int status_code = 0;                // HTTP status code (200, 404, 500, etc.)
         std::string status_message;     // HTTP status message
         nlohmann::json body;            // Response body (JSON)
         std::string raw_body;           // Raw response body

@@ -143,7 +143,9 @@ TEST_F(MetricAggregatorTest, HistogramAggregation_P99) {
     // 100 evenly-spaced values [1..100].
     std::vector<double> vals;
     vals.reserve(100);
-    for (int i = 1; i <= 100; ++i) vals.push_back(static_cast<double>(i));
+    for (int i = 1; i <= 100; ++i) {
+      vals.push_back(static_cast<double>(i));
+    }
 
     HistogramSnapshot s{"latency_ms", {}, std::move(vals)};
     agg_.addHistogramSnapshot(s);
@@ -467,7 +469,9 @@ TEST_F(MetricAggregatorTest, ConcurrentSnapshotAdds_ThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Should not throw; all observations from distinct (thread, i) combinations.
     EXPECT_NO_THROW(
@@ -490,7 +494,9 @@ TEST_F(MetricAggregatorTest, ConcurrentRateSamples_ThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Must not crash; exact rate value is non-deterministic in this test.
     for (int t = 0; t < kThreads; ++t) {
@@ -549,7 +555,9 @@ TEST_F(MetricAggregatorTest, AggregateShardMetrics_P99AcrossShards) {
     shard1.shard_id = "s1";
     std::vector<double> vals;
     vals.reserve(100);
-    for (int i = 1; i <= 100; ++i) vals.push_back(static_cast<double>(i));
+    for (int i = 1; i <= 100; ++i) {
+      vals.push_back(static_cast<double>(i));
+    }
     shard1.metrics["latency_ms"] = vals;
 
     auto snap = agg_.aggregateShardMetrics({shard1});
@@ -602,7 +610,8 @@ TEST_F(MetricAggregatorTest, AggregateShardMetrics_GroupByLabel) {
     ASSERT_EQ(2u, snap.metrics.size());
 
     // Collect region label values from results.
-    std::vector<std::string> regions;
+    std::vector<std::string> regions = {};
+
     for (const auto& m : snap.metrics) {
         auto it = m.labels.find("region");
         ASSERT_NE(it, m.labels.end()) << "Expected 'region' label in result";

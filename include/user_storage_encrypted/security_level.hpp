@@ -52,10 +52,18 @@ inline std::string securityLevelToString(SecurityLevel level) {
  * @brief Parse SecurityLevel from string
  */
 inline SecurityLevel stringToSecurityLevel(const std::string& str) {
-    if (str == "offen") return SecurityLevel::OFFEN;
-    if (str == "vs-nfd") return SecurityLevel::VS_NFD;
-    if (str == "geheim") return SecurityLevel::GEHEIM;
-    if (str == "streng-geheim") return SecurityLevel::STRENG_GEHEIM;
+    if (str == "offen") {
+      return SecurityLevel::OFFEN;
+    }
+    if (str == "vs-nfd") {
+      return SecurityLevel::VS_NFD;
+    }
+    if (str == "geheim") {
+      return SecurityLevel::GEHEIM;
+    }
+    if (str == "streng-geheim") {
+      return SecurityLevel::STRENG_GEHEIM;
+    }
     throw std::invalid_argument("Invalid security level: " + str);
 }
 

@@ -1714,7 +1714,9 @@ modes:
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(call_count.load(), kThreads * 10);
 }

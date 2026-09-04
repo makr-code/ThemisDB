@@ -43,7 +43,9 @@ protected:
         std::chrono::milliseconds total_time_ms{0};
 
         double ops_per_sec() const {
-            if (total_time_ms.count() == 0) return 0.0;
+            if (total_time_ms.count() == 0) {
+              return 0.0;
+            }
             return (static_cast<double>(total_operations) / total_time_ms.count()) * 1000.0;
         }
     };
@@ -55,7 +57,7 @@ protected:
 
 TEST_F(StressChurnTest, S01_HighVolumeLinkCreationSustained) {
     std::vector<ProcessLink> links;
-    std::mutex links_mutex;
+    std::mutex links_mutex = {};
 
     auto start = std::chrono::high_resolution_clock::now();
 
@@ -132,7 +134,8 @@ TEST_F(StressChurnTest, S03_RepeatedModelValidationCycles) {
         int64_t last_validated_ms{0};
     };
 
-    std::vector<ModelState> models;
+    std::vector<ModelState> models = {};
+
     for (int32_t i = 0; i < 100; ++i) {
         models.push_back(ModelState{0, false, 0});
     }
@@ -159,7 +162,7 @@ TEST_F(StressChurnTest, S03_RepeatedModelValidationCycles) {
 
 TEST_F(StressChurnTest, S04_ConcurrentLinkCreationUnderLockContention) {
     std::vector<ProcessLink> all_links;
-    std::mutex links_mutex;
+    std::mutex links_mutex = {};
     std::atomic<int64_t> total_created{0};
 
     auto creator = [&all_links, &links_mutex, &total_created](int32_t thread_id) {
@@ -181,7 +184,8 @@ TEST_F(StressChurnTest, S04_ConcurrentLinkCreationUnderLockContention) {
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreadsForStress; ++i) {
         threads.emplace_back(creator, i);
     }
@@ -202,7 +206,8 @@ TEST_F(StressChurnTest, S04_ConcurrentLinkCreationUnderLockContention) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(StressChurnTest, S05_ErrorCodeCycleUnderHighStress) {
-    std::vector<ProcError> error_sequence;
+    std::vector<ProcError> error_sequence = {};
+
     std::vector<ProcError> error_types = {
         ProcError::kUnsupportedElement,
         ProcError::kInvalidTransition,
@@ -278,7 +283,8 @@ TEST_F(StressChurnTest, S07_MemoryStabilityUnderAllocationCycles) {
 
     for (int32_t cycle = 0; cycle < 100; ++cycle) {
         // Allocate many small objects
-        std::vector<std::string> temp_strings;
+        std::vector<std::string> temp_strings = {};
+
         for (int32_t i = 0; i < kStressRounds / 100; ++i) {
             temp_strings.push_back("temp_string_" + std::to_string(cycle * 1000 + i));
         }
@@ -368,7 +374,8 @@ TEST_F(StressChurnTest, S09_EmptyGraphQueryStress) {
         EXPECT_EQ(context.size(), 0);
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumEmptyQueries; ++i) {
         threads.emplace_back(run_empty_query, i);
     }
@@ -418,7 +425,8 @@ TEST_F(StressChurnTest, S10_LargeContextSizeStress) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumLargeContextQueries; ++i) {
         threads.emplace_back(run_large_context_query, i);
     }
@@ -433,7 +441,9 @@ TEST_F(StressChurnTest, S10_LargeContextSizeStress) {
     // At least some queries should trigger truncation
     int32_t truncation_count = 0;
     for (bool was_truncated : truncation_occurred) {
-        if (was_truncated) truncation_count++;
+        if (was_truncated) {
+          truncation_count++;
+        }
     }
     EXPECT_GT(truncation_count, 0) << "Expected some queries to trigger truncation";
 }
@@ -448,7 +458,7 @@ TEST_F(StressChurnTest, S11_CommunityDetectionTimeoutStress) {
     static constexpr int64_t kMaxRetrievalTimeMs = 5000;
 
     std::vector<bool> timeouts_handled;
-    std::mutex timeout_mutex;
+    std::mutex timeout_mutex = {};
 
     auto run_with_simulated_delay = [&](int32_t query_id) {
         // Simulate varying retrieval times
@@ -470,7 +480,8 @@ TEST_F(StressChurnTest, S11_CommunityDetectionTimeoutStress) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumTimeoutQueries; ++i) {
         threads.emplace_back(run_with_simulated_delay, i);
     }
@@ -525,7 +536,8 @@ TEST_F(StressChurnTest, S12_ConcurrentQueryChurnStress) {
 
     auto start_all = std::chrono::high_resolution_clock::now();
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumConcurrentQueries; ++i) {
         threads.emplace_back(run_concurrent_query, i);
     }

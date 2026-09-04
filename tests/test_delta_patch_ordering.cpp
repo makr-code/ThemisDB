@@ -34,9 +34,9 @@ using namespace themis::updates;
 
 class DeltaPatchOrderingTest : public ::testing::Test {
 protected:
-    std::string tmp_dir_;
-    std::string install_dir_;
-    std::string download_dir_;
+    std::string tmp_dir_ = {};
+    std::string install_dir_ = {};
+    std::string download_dir_ = {};
 
     void SetUp() override {
         auto ts = std::chrono::steady_clock::now().time_since_epoch().count();

@@ -133,7 +133,7 @@ protected:
         // Actually httplib::Match wraps std::smatch – we need to use a workaround.
         // We'll inject the key via a private request header that extractKey checks.
         // Simplest: just construct the regex match properly.
-        std::smatch m;
+        std::smatch m = {};
         std::string path = "/api/v1/mvcc/keys/" + key;
         std::regex re(R"(/api/v1/mvcc/keys/([^/]+))");
         std::regex_search(path, m, re);
@@ -149,7 +149,7 @@ protected:
     ) {
         auto req = makeRequest(method,
             "/api/v1/mvcc/keys/" + key + "/versions", body);
-        std::smatch m;
+        std::smatch m = {};
         std::string path = "/api/v1/mvcc/keys/" + key + "/versions";
         std::regex re(R"(/api/v1/mvcc/keys/([^/]+)/versions)");
         std::regex_search(path, m, re);
@@ -265,7 +265,7 @@ TEST_F(MvccApiHandlerTest, Put_EmptyKey_Returns400) {
     httplib::Request req;
     req.method = "POST";
     req.body = R"({"value":"v"})";
-    std::smatch m;
+    std::smatch m = {};
     std::string path = "/api/v1/mvcc/keys/";
     // matches[1] will be empty string – we simulate by clearing the body key capture
     // Use the "no match" branch: matches.size() < 2

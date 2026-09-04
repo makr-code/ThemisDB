@@ -33,7 +33,9 @@ protected:
     }
 
     void TearDown() override {
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
     }
 
     void insertRow(const std::string& table, const std::string& id,
@@ -85,8 +87,11 @@ TEST_F(InformationSchemaTest, GetTablesMultiple) {
 
     EXPECT_EQ(tables.size(), 3u);
 
-    std::set<std::string> names;
-    for (const auto& t : tables) names.insert(t.table_name);
+    std::set<std::string> names = {};
+
+    for (const auto& t : tables) {
+      names.insert(t.table_name);
+    }
     EXPECT_TRUE(names.count("users"));
     EXPECT_TRUE(names.count("orders"));
     EXPECT_TRUE(names.count("items"));
@@ -143,7 +148,8 @@ TEST_F(InformationSchemaTest, GetColumnsDataTypeMapping) {
     auto cols = is.getColumns(std::string_view("types_test"));
     EXPECT_FALSE(cols.empty());
 
-    std::map<std::string, std::string> type_map;
+    std::map<std::string, std::string> type_map = {};
+
     for (const auto& col : cols) {
         type_map[col.column_name] = col.data_type;
     }
@@ -163,7 +169,8 @@ TEST_F(InformationSchemaTest, GetColumnsOrdinalPosition) {
     ASSERT_GE(cols.size(), 2u);
 
     // All ordinals should be >= 1 and unique
-    std::set<uint32_t> positions;
+    std::set<uint32_t> positions = {};
+
     for (const auto& col : cols) {
         EXPECT_GE(col.ordinal_position, 1u);
         positions.insert(col.ordinal_position);

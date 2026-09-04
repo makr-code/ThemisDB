@@ -263,8 +263,8 @@ TEST_F(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_FailClosedBehavior) {
     // Each invalid edge returns error without partial persistence
     
     struct TestCase {
-        std::string from;
-        std::string to;
+        std::string from = {};
+        std::string to = {};
         bool should_succeed;
     };
     

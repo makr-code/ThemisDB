@@ -273,7 +273,9 @@ TEST_F(ArgumentStoreStandaloneTest, ConcurrentStoreIsThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     auto r = store_->getArgumentsByPhilosophy("kant", {}, 1000);
     ASSERT_TRUE(std::holds_alternative<std::vector<EthicalArgument>>(r));

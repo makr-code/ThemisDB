@@ -35,12 +35,18 @@ struct VecUtil {
     static std::vector<float> randomVec(int dim, std::mt19937& rng) {
         std::uniform_real_distribution<float> dist(0.0f, 1.0f);
         std::vector<float> v(dim);
-        for (int i = 0; i < dim; ++i) v[i] = dist(rng);
+        for (int i = 0; i < dim; ++i) {
+          v[i] = dist(rng);
+        }
         // L2-Normalize for stable COSINE values
         float s = 0.0f; 
-        for (float x : v) s += x * x; 
+        for (float x : v) {
+          s += x * x;
+        }
         s = std::sqrt(std::max(s, 1e-12f));
-        for (float& x : v) x /= s;
+        for (float& x : v) {
+          x /= s;
+        }
         return v;
     }
     
@@ -67,7 +73,9 @@ struct RadiusSearchEnv {
     }
 
     void initOnce(size_t dataset_size, VectorIndexManager::Metric m = VectorIndexManager::Metric::COSINE) {
-        if (ready && N == dataset_size && metric == m) return;
+        if (ready && N == dataset_size && metric == m) {
+          return;
+        }
         
         // Clean state if reinitializing
         if (ready) {

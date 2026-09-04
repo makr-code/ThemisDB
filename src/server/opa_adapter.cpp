@@ -68,9 +68,13 @@ OpaAdapter::~OpaAdapter() = default;
 std::string OpaAdapter::buildUrl() const {
     // Ensure exactly one '/' between endpoint and path
     std::string url = config_.endpoint_url;
-    if (!url.empty() && url.back() == '/') url.pop_back();
+    if (!url.empty() && url.back() == '/') {
+      url.pop_back();
+    }
     std::string path = config_.policy_path;
-    if (!path.empty() && path.front() == '/') path.erase(path.begin());
+    if (!path.empty() && path.front() == '/') {
+      path.erase(path.begin());
+    }
     return url + "/v1/data/" + path;
 }
 
@@ -85,8 +89,12 @@ std::string OpaAdapter::buildRequestBody(
     input["user"]     = user_id;
     input["action"]   = action;
     input["resource"] = resource_path;
-    if (client_ip)  input["client_ip"]  = *client_ip;
-    if (user_agent) input["user_agent"] = *user_agent;
+    if (client_ip) {
+      input["client_ip"]  = *client_ip;
+    }
+    if (user_agent) {
+      input["user_agent"] = *user_agent;
+    }
 
     nlohmann::json body;
     body["input"] = std::move(input);
@@ -96,14 +104,20 @@ std::string OpaAdapter::buildRequestBody(
 std::optional<bool> OpaAdapter::parseOpaResponse(const std::string& response_body) {
     try {
         auto j = nlohmann::json::parse(response_body);
-        if (!j.contains("result")) return std::nullopt;
+        if (!j.contains("result")) {
+          return std::nullopt;
+        }
         const auto& result = j["result"];
-        if (result.is_boolean()) return result.get<bool>();
+        if (result.is_boolean()) {
+          return result.get<bool>();
+        }
         // A non-null, non-empty OPA result object means the rule evaluated to
         // a defined value (e.g. a partial rule or set comprehension that is
         // non-empty).  Treat this as "allow" consistent with OPA's convention
         // where undefined / empty results indicate denial.
-        if (result.is_object() && !result.empty()) return true;
+        if (result.is_object() && !result.empty()) {
+          return true;
+        }
     } catch (...) {
         THEMIS_WARN("opa_adapter: unhandled exception caught");
         // Parse failure → treat as unavailable
@@ -123,7 +137,9 @@ std::optional<PolicyEngine::Decision> OpaAdapter::evaluate(
         user_id, action, resource_path, client_ip, user_agent);
 
     CURL* curl = curl_easy_init();
-    if (!curl) return std::nullopt;
+    if (!curl) {
+      return std::nullopt;
+    }
 
     std::string response_body;
     long http_code = 0;
@@ -157,7 +173,9 @@ std::optional<PolicyEngine::Decision> OpaAdapter::evaluate(
     }
 
     auto allowed = parseOpaResponse(response_body);
-    if (!allowed.has_value()) return std::nullopt;
+    if (!allowed.has_value()) {
+      return std::nullopt;
+    }
 
     PolicyEngine::Decision d;
     d.allowed   = *allowed;

@@ -154,8 +154,12 @@ public:
                     if (!callback(k, v)) { stop = true; return false; }
                     return true;
                 });
-            if (!res.has_value()) return res;
-            if (stop) break;
+            if (!res.has_value()) {
+              return res;
+            }
+            if (stop) {
+              break;
+            }
         }
         return OkVoid();
     }

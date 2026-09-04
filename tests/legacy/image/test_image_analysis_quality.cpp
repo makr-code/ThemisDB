@@ -220,7 +220,8 @@ public:
     std::vector<EmbeddingResult> generateEmbeddingBatch(
         const std::vector<std::vector<uint8_t>>& images
     ) override {
-        std::vector<EmbeddingResult> results;
+        std::vector<EmbeddingResult> results = {};
+
         for (const auto& img : images) {
             results.push_back(generateEmbedding(img, nullptr));
         }
@@ -346,7 +347,8 @@ TEST_F(ImageAnalysisQualityTest, EmbeddingDimensionConsistency) {
     images.push_back(generate_pattern_image(384, 384, "checkerboard"));
     images.push_back(generate_pattern_image(512, 512, "solid"));
     
-    std::vector<int> dimensions;
+    std::vector<int> dimensions = {};
+
     for (const auto& img : images) {
         auto result = plugin_->generateEmbedding(img, nullptr);
         ASSERT_TRUE(result.success);

@@ -43,10 +43,14 @@ static NUMATopologyInfo detect_topology() noexcept {
     for (int i = 0; i < 64; ++i) {
         char path[64];
         snprintf(path, sizeof(path), "/sys/devices/system/node/node%d", i);
-        if (access(path, F_OK) == 0) n = static_cast<size_t>(i + 1);
+        if (access(path, F_OK) == 0) {
+          n = static_cast<size_t>(i + 1);
+        }
         else break;
     }
-    if (n == 0) n = 1;
+    if (n == 0) {
+      n = 1;
+    }
     topo.num_nodes = n;
     topo.node_memory_mb.resize(n, 0);
     topo.node_distances.resize(n, std::vector<size_t>(n, 10));
@@ -88,19 +92,23 @@ NUMAMemoryManager::NUMAMemoryManager()
 {
     // Initialise per-node atomics to zero (atomic default-ctor already does this,
     // but be explicit for clarity).
-    for (size_t i = 0; i < num_nodes_; ++i) per_node_bytes_[i].store(0);
+    for (size_t i = 0; i < num_nodes_; ++i) {
+      per_node_bytes_[i].store(0);
+    }
 }
 
 NUMAMemoryManager::~NUMAMemoryManager() = default;
 
-int NUMAMemoryManager::resolve_node(int hint_node) const noexcept {
+int NUMAMemoryManager::resolve_node([[maybe_unused]] int hint_node) const noexcept {
     if (hint_node >= 0 && static_cast<size_t>(hint_node) < topology_.num_nodes)
-        return hint_node;
+        return hint_node = {};
     return get_current_node();
 }
 
 void* NUMAMemoryManager::do_allocate(size_t size, [[maybe_unused]] int node, bool /*use_huge_pages*/) {
-    if (size == 0) return nullptr;
+    if (size == 0) {
+      return nullptr;
+    }
     void* ptr = nullptr;
 #ifdef __linux__
     // Use posix_memalign for cache-line alignment; NUMA binding via mbind
@@ -142,8 +150,12 @@ bool NUMAMemoryManager::untrack_alloc(void* ptr, int* out_node, size_t* out_size
     if (it == map.end()) {
         return false;
     }
-    if (out_node)  *out_node  = it->second.node;
-    if (out_size)  *out_size  = it->second.size;
+    if (out_node) {
+      *out_node  = it->second.node;
+    }
+    if (out_size) {
+      *out_size  = it->second.size;
+    }
     map.erase(it);
     return true;
 }
@@ -156,7 +168,7 @@ void* NUMAMemoryManager::allocate_on_node(size_t size, int node) {
     return ptr;
 }
 
-void* NUMAMemoryManager::allocate_local(size_t size) {
+void* NUMAMemoryManager::allocate_local([[maybe_unused]] size_t size) {
     return allocate_on_node(size, get_current_node());
 }
 
@@ -169,7 +181,9 @@ void* NUMAMemoryManager::allocate(size_t size, const AllocationHint& hint) {
 }
 
 void NUMAMemoryManager::deallocate(void* ptr, size_t size) noexcept {
-    if (!ptr) return;
+    if (!ptr) {
+      return;
+    }
     int node = 0;
     size_t tracked_size = size;
     if (untrack_alloc(ptr, &node, &tracked_size)) {
@@ -195,7 +209,9 @@ void NUMAMemoryManager::deallocate(void* ptr, size_t size) noexcept {
 }
 
 void NUMAMemoryManager::migrate_to_node(void* ptr, size_t size, int target_node) {
-    if (!ptr || size == 0) return;
+    if (!ptr || size == 0) {
+      return;
+    }
     // Advisory: update tracking to reflect target node
     int old_node = 0;
     size_t old_size = size;
@@ -227,7 +243,9 @@ int NUMAMemoryManager::get_current_node() const noexcept {
         return static_cast<int>(node_num % topology_.num_nodes);
 #  endif
     int c = sched_getcpu();
-    if (c >= 0) return c % static_cast<int>(topology_.num_nodes);
+    if (c >= 0) {
+      return c % static_cast<int>(topology_.num_nodes);
+    }
 #endif
     return 0;
 }
@@ -252,7 +270,7 @@ NUMAStats NUMAMemoryManager::get_stats() const {
     s.per_node_allocations.resize(num_nodes_, 0);
     for (size_t i = 0; i < num_nodes_; ++i) {
         int64_t bytes = per_node_bytes_[i].load(std::memory_order_relaxed);
-        s.per_node_allocations[i] = (bytes > 0) ? static_cast<uint64_t>(bytes) : 0u;
+        s.per_node_allocations[i] = (bytes > 0) ? static_cast<uint64_t>(bytes) : 0;
     }
     return s;
 }

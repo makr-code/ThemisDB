@@ -138,7 +138,7 @@ TEST_F(GovContractTest, GOV13_MultipleResultsAreIndependent) {
 // GOV-14: Regulation enum is suitable for switch dispatch
 TEST_F(GovContractTest, GOV14_RegulationSwitchDispatch) {
     Regulation reg = Regulation::kHIPAA;
-    std::string name;
+    std::string name = {};
     switch (reg) {
         case Regulation::kGDPR:  name = "GDPR";  break;
         case Regulation::kCCPA:  name = "CCPA";  break;

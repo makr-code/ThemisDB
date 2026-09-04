@@ -408,7 +408,8 @@ TEST_F(SessionWindowTest, MultiplePartitionsAreIndependent) {
 
     ASSERT_EQ(results.size(), 2u);
     // Each partition has its own session
-    std::map<std::string, uint64_t> counts;
+    std::map<std::string, uint64_t> counts = {};
+
     for (const auto& r : results) {
         counts[r.partition_key] = r.record_count;
     }

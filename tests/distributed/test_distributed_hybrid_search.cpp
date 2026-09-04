@@ -213,7 +213,8 @@ TEST_F(DistributedHybridSearchMergeTest, ResultsLimitedToK) {
     cfg.k = 3;
     DistributedHybridSearch dhs(nullptr, nullptr, nullptr, cfg);
 
-    std::vector<HybridSearch::Result> results;
+    std::vector<HybridSearch::Result> results = {};
+
     for (int i = 0; i < 10; ++i) {
         results.push_back(makeResult("doc" + std::to_string(i), 1.0 - i * 0.05));
     }

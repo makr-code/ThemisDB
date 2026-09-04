@@ -63,7 +63,7 @@ class StubInferenceEngine {
 public:
     struct Result {
         LlmErrorCode code{LlmErrorCode::OK};
-        std::string output;
+        std::string output = {};
     };
 
     bool model_loaded{false};
@@ -83,7 +83,8 @@ public:
         if (prompts.size() > kMaxBatchSize) {
             return {{LlmErrorCode::BATCH_SIZE_EXCEEDED, ""}};
         }
-        std::vector<Result> results;
+        std::vector<Result> results = {};
+
         results.reserve(prompts.size());
         for (const auto& p : prompts) {
             results.push_back({LlmErrorCode::OK, "batch:" + p});
@@ -95,10 +96,14 @@ public:
     LlmErrorCode generateStream(const std::string& prompt,
                                  std::function<void(const std::string&)> callback,
                                  StubCancellationToken* cancel = nullptr) {
-        if (!model_loaded) return LlmErrorCode::MODEL_NOT_LOADED;
+        if (!model_loaded) {
+          return LlmErrorCode::MODEL_NOT_LOADED;
+        }
         // Simulate token-by-token delivery
         for (char c : prompt) {
-            if (cancel && cancel->isCancelled()) return LlmErrorCode::STREAM_ABORTED;
+            if (cancel && cancel->isCancelled()) {
+              return LlmErrorCode::STREAM_ABORTED;
+            }
             try {
                 callback(std::string(1, c));
             } catch (...) {
@@ -118,11 +123,15 @@ public:
     bool model_loaded{true};
 
     std::vector<float> embed(const std::string& text) {
-        if (text.empty()) return std::vector<float>(kDim, 0.0f);
+        if (text.empty()) {
+          return std::vector<float>(kDim, 0.0f);
+        }
         // Produce a deterministic vector from text, then L2-normalize
         std::vector<float> v(kDim);
         std::mt19937 rng(kLlmContractSeed);
-        for (auto& x : v) x = static_cast<float>(rng() % 100 + 1);
+        for (auto& x : v) {
+          x = static_cast<float>(rng() % 100 + 1);
+        }
         // Vary slightly by text length so different inputs give different vectors
         v[0] += static_cast<float>(text.size() % 10);
         normalizeL2(v);
@@ -132,21 +141,29 @@ public:
     std::vector<std::vector<float>> embedBatch(const std::vector<std::string>& texts) {
         std::vector<std::vector<float>> results;
         results.reserve(texts.size());
-        for (const auto& t : texts) results.push_back(embed(t));
+        for (const auto& t : texts) {
+          results.push_back(embed(t));
+        }
         return results;
     }
 
     static float l2norm(const std::vector<float>& v) {
         float sum = 0.f;
-        for (float x : v) sum += x * x;
+        for (float x : v) {
+          sum += x * x;
+        }
         return std::sqrt(sum);
     }
 
 private:
     static void normalizeL2(std::vector<float>& v) {
         float norm = l2norm(v);
-        if (norm < 1e-9f) return;
-        for (auto& x : v) x /= norm;
+        if (norm < 1e-9f) {
+          return;
+        }
+        for (auto& x : v) {
+          x /= norm;
+        }
     }
 };
 
@@ -157,7 +174,9 @@ public:
     bool double_unload_safe_called{false};
 
     LlmErrorCode load() {
-        if (loaded) return LlmErrorCode::OK;
+        if (loaded) {
+          return LlmErrorCode::OK;
+        }
         loaded = true;
         return LlmErrorCode::OK;
     }
@@ -175,7 +194,9 @@ public:
 
 /// Null plugin check helper.
 LlmErrorCode callWithNullPlugin(StubPlugin* plugin) {
-    if (!plugin) return LlmErrorCode::PLUGIN_NULL_HANDLE;
+    if (!plugin) {
+      return LlmErrorCode::PLUGIN_NULL_HANDLE;
+    }
     return plugin->load();
 }
 
@@ -369,7 +390,9 @@ TEST(LlmContractEmbed, LAC17_L2NormApproxOne) {
 TEST(LlmContractEmbed, LAC18_EmptyStringReturnsZeroVector) {
     StubEmbeddingEngine engine;
     auto v = engine.embed("");
-    for (float x : v) EXPECT_FLOAT_EQ(x, 0.f);
+    for (float x : v) {
+      EXPECT_FLOAT_EQ(x, 0.f);
+    }
 }
 
 TEST(LlmContractEmbed, LAC19_BatchConsistentWithSingle) {

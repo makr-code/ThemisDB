@@ -406,7 +406,8 @@ TEST_F(TensorDeltaLogTest, DeltaLogEntryIsValidChecksRequiredFields) {
 
 // TDL-A1: Multiple windows can be extracted from the same log
 TEST_F(TensorDeltaLogTest, MultipleWindowsExtractedFromSameLog) {
-  std::vector<uint64_t> sequences;
+  std::vector<uint64_t> sequences = {};
+
   for (int i = 0; i < 10; ++i) {
     uint64_t seq = log_.appendDelta(
         DeltaMutationType::INSERT, "entity-" + std::to_string(i),

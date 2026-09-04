@@ -45,7 +45,7 @@ struct LogMetrics {
     std::atomic<uint64_t> total_count{0};
 
     struct Snapshot {
-        uint64_t trace_count;
+        uint64_t trace_count = 0;
         uint64_t debug_count;
         uint64_t info_count;
         uint64_t warn_count;

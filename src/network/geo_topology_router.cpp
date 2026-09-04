@@ -25,7 +25,7 @@ namespace {
 /// Latency (ms) assigned to regions without an explicit hint in
 /// LOWEST_LATENCY mode.  High enough to deprioritise unspecified regions
 /// while keeping them reachable if every hinted region is unavailable.
-constexpr uint32_t kUnhintedRegionLatencyMs = 999999u;
+constexpr uint32_t kUnhintedRegionLatencyMs = 999999;
 }  // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -72,7 +72,9 @@ int GeoTopologyRouter::localityScore(const sharding::ShardInfo& shard) const {
 const sharding::ShardInfo* GeoTopologyRouter::selectPreferLocal(
     const std::vector<sharding::ShardInfo>& healthy) const
 {
-    if (healthy.empty()) return nullptr;
+    if (healthy.empty()) {
+      return nullptr;
+    }
 
     const sharding::ShardInfo* best       = nullptr;
     int                        best_score = -1;
@@ -90,7 +92,9 @@ const sharding::ShardInfo* GeoTopologyRouter::selectPreferLocal(
 const sharding::ShardInfo* GeoTopologyRouter::selectLowestLatency(
     const std::vector<sharding::ShardInfo>& healthy) const
 {
-    if (healthy.empty()) return nullptr;
+    if (healthy.empty()) {
+      return nullptr;
+    }
 
     // Fall back to PREFER_LOCAL when no latency hints are available.
     if (config_.region_latency_hints.empty()) {
@@ -116,11 +120,13 @@ const sharding::ShardInfo* GeoTopologyRouter::selectLowestLatency(
 const sharding::ShardInfo* GeoTopologyRouter::selectRoundRobin(
     const std::vector<sharding::ShardInfo>& healthy) const
 {
-    if (healthy.empty()) return nullptr;
+    if (healthy.empty()) {
+      return nullptr;
+    }
 
     const uint64_t idx =
         round_robin_counter_.fetch_add(1, std::memory_order_relaxed);
-    return &healthy[static_cast<std::size_t>(idx % healthy.size())];
+    return static_cast<bool>(&healthy[static_cast<std::size_t < static_cast<int>((idx % healthy.size())))];
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -221,7 +227,7 @@ std::string GeoTopologyRouter::selectEndpointInRegion(
     const sharding::ShardInfo* best       = &shards[0];
     int                        best_score = localityScore(shards[0]);
 
-    for (std::size_t i = 1; i < shards.size(); ++i) {
+    for (std::size_t i = 1; i <static_cast<int>(shards.size()); ++i) {
         const int score = localityScore(shards[i]);
         if (score > best_score) {
             best_score = score;

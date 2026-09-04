@@ -103,10 +103,18 @@ enum class LLMReproducibilityMode : uint8_t {
 [[nodiscard]] inline LLMReproducibilityMode parseReproducibilityMode(
     const std::string& name) noexcept
 {
-    if (name == "deterministic") return LLMReproducibilityMode::Deterministic;
-    if (name == "audit")         return LLMReproducibilityMode::Audit;
-    if (name == "balanced")      return LLMReproducibilityMode::Balanced;
-    if (name == "creative")      return LLMReproducibilityMode::Creative;
+    if (name == "deterministic") {
+      return LLMReproducibilityMode::Deterministic;
+    }
+    if (name == "audit") {
+      return LLMReproducibilityMode::Audit;
+    }
+    if (name == "balanced") {
+      return LLMReproducibilityMode::Balanced;
+    }
+    if (name == "creative") {
+      return LLMReproducibilityMode::Creative;
+    }
     return LLMReproducibilityMode::Custom;
 }
 

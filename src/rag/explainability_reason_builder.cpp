@@ -251,7 +251,7 @@ ExplainabilityReasonBuilder::build(const AIDecisionRecord& record) const
 
     // Build analysis — substitute confidence
     {
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << tmpl.analysis_tmpl;
         if (record.confidence > 0.0) {
             ss << " (confidence=" << record.confidence << ")";
@@ -262,7 +262,7 @@ ExplainabilityReasonBuilder::build(const AIDecisionRecord& record) const
     // Build decision — include key parameters when present
     chain.decision = tmpl.decision_tmpl;
     if (!record.parameters.empty()) {
-        std::ostringstream pss;
+        std::ostringstream pss = {};
         pss << " [";
         bool first = true;
         for (const auto& kv : record.parameters) {
@@ -291,7 +291,7 @@ ExplainabilityReasonBuilder::toNaturalLanguage(const CausalChain& chain) const
         }
     }
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     out << "Decision type: " << chain.decision_type << ".\n\n";
 
@@ -349,7 +349,8 @@ void FederatedAIDecisionAuditor::addShard(
 std::vector<AIDecisionRecord>
 FederatedAIDecisionAuditor::mergeTimeline() const
 {
-    std::vector<AIDecisionRecord> merged;
+    std::vector<AIDecisionRecord> merged = {};
+
     for (const auto& [shard_id, records] : shard_records_) {
         for (auto rec : records) {
             rec.shard_id = shard_id; // ensure shard_id is stamped

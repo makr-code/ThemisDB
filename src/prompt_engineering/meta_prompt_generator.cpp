@@ -32,7 +32,7 @@ MetaPromptResult MetaPromptGenerator::generateImprovementPrompt(
 ) const {
     MetaPromptResult result;
     
-    std::ostringstream meta_prompt;
+    std::ostringstream meta_prompt = {};
     
     // Header
     meta_prompt << "# Prompt Improvement Task\n\n";
@@ -85,7 +85,7 @@ MetaPromptResult MetaPromptGenerator::generateImprovementPrompt(
                 result.improvement_suggestion = llm_response;
                 result.metadata["llm_provider"] = llm_provider_->name();
                 result.metadata["llm_generated"] = true;
-                THEMIS_DEBUG("LLM provider returned {} chars", llm_response.size());
+                THEMIS_DEBUG("LLM provider returned {} chars",static_cast<int>(llm_response.size()));
                 // key_insights remain from the template-based path below
             } else {
                 THEMIS_WARN("LLM provider '{}' returned empty response – falling back to template",
@@ -140,7 +140,7 @@ std::string MetaPromptGenerator::generateAnalysisPrompt(
     const std::string& prompt,
     const std::vector<std::pair<std::string, std::string>>& examples
 ) const {
-    std::ostringstream analysis;
+    std::ostringstream analysis = {};
     
     analysis << "# Prompt Quality Analysis\n\n";
     
@@ -148,7 +148,7 @@ std::string MetaPromptGenerator::generateAnalysisPrompt(
     analysis << "```\n" << prompt << "\n```\n\n";
     
     analysis << "## Test Examples\n";
-    for (size_t i = 0; i < examples.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(examples.size()); ++i) {
         analysis << "### Example " << (i + 1) << "\n";
         analysis << "**Input**: " << examples[i].first << "\n";
         analysis << "**Expected Output**: " << examples[i].second << "\n\n";
@@ -281,7 +281,7 @@ std::string MetaPromptGenerator::buildImprovementInstructions(
     const std::string& /*feedback*/,
     double /*score*/
 ) const {
-    std::ostringstream instructions;
+    std::ostringstream instructions = {};
     
     instructions << "## Improvement Instructions\n";
     
@@ -309,7 +309,7 @@ std::string MetaPromptGenerator::buildImprovementInstructions(
 }
 
 std::string MetaPromptGenerator::buildConstraints() const {
-    std::ostringstream constraints;
+    std::ostringstream constraints = {};
     
     constraints << "## Constraints\n";
     constraints << "- Keep the improved prompt focused and concise\n";
@@ -328,7 +328,7 @@ std::string MetaPromptGenerator::buildConstraints() const {
 std::string MetaPromptGenerator::buildExampleSection(
     const std::string& /*original_prompt*/
 ) const {
-    std::ostringstream examples;
+    std::ostringstream examples = {};
     
     examples << "## Example Improvements\n";
     examples << "### Pattern 1: Adding Structure\n";
@@ -353,10 +353,12 @@ nlohmann::json MetaPromptGenerator::analyzePromptStructure(const std::string& pr
         std::string lower_prompt = prompt;
         std::transform(lower_prompt.begin(), lower_prompt.end(), lower_prompt.begin(), ::tolower);
         size_t pos = lower_prompt.find(word);
-        if (pos == std::string::npos) return false;
+        if (pos == std::string::npos) {
+          return false;
+        }
         
         // Check boundaries
-        bool start_ok = (pos == 0 || !std::isalnum(lower_prompt[pos - 1]));
+        bool start_ok = (pos == 0 || !std::isalnum(lower_prompt[static_cast<int>(pos - 1)]));
         bool end_ok = (pos + word.length() >= lower_prompt.length() || 
                       !std::isalnum(lower_prompt[pos + word.length()]));
         return start_ok && end_ok;

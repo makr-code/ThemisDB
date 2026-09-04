@@ -38,7 +38,7 @@ void RAGPromptBuilder::setConfig(const RAGPromptConfig& config) {
 
 std::string RAGPromptBuilder::formatChunk(const RetrievedChunk& chunk,
                                           size_t index) const {
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     if (config_.include_source_citations && !chunk.source.empty()) {
         out << "[Source " << (index + 1) << ": " << chunk.source << "]\n";
@@ -57,7 +57,8 @@ std::vector<RetrievedChunk> RAGPromptBuilder::selectChunks(
     size_t max_total_length) const {
 
     // Optionally sort by relevance descending
-    std::vector<const RetrievedChunk*> ordered;
+    std::vector<const RetrievedChunk*> ordered = {};
+
     ordered.reserve(candidates.size());
     for (const auto& c : candidates) {
         ordered.push_back(&c);
@@ -73,10 +74,10 @@ std::vector<RetrievedChunk> RAGPromptBuilder::selectChunks(
     std::vector<RetrievedChunk> selected;
     size_t total = 0;
 
-    for (size_t i = 0; i < ordered.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(ordered.size()); ++i) {
         const auto& chunk = *ordered[i];
-        std::string formatted = formatChunk(chunk, selected.size());
-        size_t chunk_len = formatted.size() + config_.chunk_separator.size();
+        std::string formatted = formatChunk(chunk,static_cast<int>(selected.size()));
+        size_t chunk_len = static_cast<int>(formatted.size()) + static_cast<int>(config_.chunk_separator.size()) ;
 
         if (total + chunk_len > max_total_length && !selected.empty()) {
             break; // budget exhausted
@@ -99,13 +100,13 @@ std::string RAGPromptBuilder::buildContextSection(
         return {};
     }
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     if (!config_.context_header.empty()) {
         out << config_.context_header << "\n";
     }
 
-    for (size_t i = 0; i < chunks.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(chunks.size()); ++i) {
         if (i > 0) {
             out << config_.chunk_separator;
         }
@@ -136,14 +137,14 @@ std::string RAGPromptBuilder::build(
     // Replace context placeholder
     auto pos = result.find(config_.template_placeholder);
     if (pos != std::string::npos) {
-        result.replace(pos, config_.template_placeholder.size(), context_block);
+        result.replace(pos,static_cast<int>(config_.template_placeholder.size()), context_block);
     }
 
     // Replace {query} placeholder
     const std::string query_placeholder = "{query}";
     pos = result.find(query_placeholder);
     if (pos != std::string::npos) {
-        result.replace(pos, query_placeholder.size(), query);
+        result.replace(pos,static_cast<int>(query_placeholder.size()), query);
     }
 
     return result;
@@ -161,7 +162,7 @@ std::string RAGPromptBuilder::buildFullPrompt(
     auto selected = selectChunks(chunks, config_.max_context_length);
     std::string context_block = buildContextSection(selected);
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     if (!system_instruction.empty()) {
         out << system_instruction << "\n\n";

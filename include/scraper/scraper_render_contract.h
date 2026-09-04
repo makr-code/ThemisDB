@@ -80,8 +80,12 @@ namespace detail {
 /// Case-insensitive substring search.
 inline bool containsIgnoreCase(const std::string& haystack,
                                 const std::string& needle) noexcept {
-    if (needle.empty()) return true;
-    if (haystack.size() < needle.size()) return false;
+    if (needle.empty()) {
+      return true;
+    }
+    if (haystack.size() < needle.size()) {
+      return false;
+    }
 
     auto it = std::search(
         haystack.begin(), haystack.end(),

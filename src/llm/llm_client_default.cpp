@@ -53,7 +53,7 @@ public:
         const std::string& prompt,
         const GenerationOptions& options) override
     {
-        GenerationResult result;
+        GenerationResult result = {};
 
         if (!ready_) {
             result.success = false;
@@ -126,7 +126,7 @@ public:
         const GenerationOptions& options) override
     {
         spdlog::debug("LLM generating AQL for NL: '{}' (schema_context: {} chars)",
-                      nl_query, schema_context.size());
+                      nl_query,static_cast<int>(schema_context.size()));
         
         // Construct prompt from NL query + schema context
         std::string prompt = "Generate a ThemisDB AQL query for: " + nl_query;
@@ -137,9 +137,9 @@ public:
         return generate(prompt, options);
     }
     
-    size_t estimateTokens(const std::string& text) const override {
+    size_t estimateTokens(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] text) const override {
         // Rough heuristic: ~4 characters per token
-        return (text.size() + 3) / 4;
+        return (static_cast<int>(text.size()) + 3) / 4;
     }
     
     std::string getProviderName() const override {

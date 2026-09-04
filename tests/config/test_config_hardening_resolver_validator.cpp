@@ -56,7 +56,7 @@ TEST_F(ConfigResolverHardeningTest, CFG02_MissingPathNoFallback) {
 
 /// CFG-03: Resolver handles empty paths gracefully
 TEST_F(ConfigResolverHardeningTest, CFG03_EmptyPath) {
-    std::string empty_path;
+    std::string empty_path = {};
 
     // Empty path must be rejected
     auto result = ConfigPathResolver::tryResolve(empty_path);

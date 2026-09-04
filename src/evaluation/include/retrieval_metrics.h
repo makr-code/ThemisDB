@@ -147,7 +147,7 @@ struct RetrievalQualityMetrics {
  *                    rejected with `MetricErrorKind::DuplicateEntries`.
  * @param ground_truth Set of relevant document ids for this query.
  *                    Must not be empty (`MetricErrorKind::EmptyGroundTruth`).
- * @param k           Cutoff depth. Must be in [1, ranked.size()];
+ * @param k           Cutoff depth. Must be in [1,static_cast<int>(ranked.size())];
  *                    `MetricErrorKind::InvalidK` otherwise.
  * @param total_candidates Total candidate pool size before ranking (used to
  *                    compute `candidate_reduction_ratio`). Pass 0 to skip.

@@ -59,7 +59,9 @@ nlohmann::json ResultFieldAnnotation::toJson() const {
 
 const ResultFieldAnnotation* QueryResultSchema::find(const std::string& n) const {
     for (const auto& f : fields) {
-        if (f.name == n) return &f;
+        if (f.name == n) {
+          return &f;
+        }
     }
     return nullptr;
 }
@@ -77,13 +79,23 @@ nlohmann::json QueryResultSchema::toJson() const {
 // ---------------------------------------------------------------------------
 
 ResultFieldType inferFieldType(const nlohmann::json& value) {
-    if (value.is_null())    return ResultFieldType::NULL_TYPE;
-    if (value.is_boolean()) return ResultFieldType::BOOL;
-    if (value.is_string())  return ResultFieldType::STRING;
-    if (value.is_object())  return ResultFieldType::OBJECT;
+    if (value.is_null()) {
+      return ResultFieldType::NULL_TYPE;
+    }
+    if (value.is_boolean()) {
+      return ResultFieldType::BOOL;
+    }
+    if (value.is_string()) {
+      return ResultFieldType::STRING;
+    }
+    if (value.is_object()) {
+      return ResultFieldType::OBJECT;
+    }
 
     if (value.is_number()) {
-        if (value.is_number_integer()) return ResultFieldType::INT;
+        if (value.is_number_integer()) {
+          return ResultFieldType::INT;
+        }
         // Floating-point: classify as INT when the fractional part is zero
         double d = value.get<double>();
         if (std::isfinite(d) && d == std::floor(d) &&
@@ -97,12 +109,14 @@ ResultFieldType inferFieldType(const nlohmann::json& value) {
 
     if (value.is_array()) {
         // A homogeneous numeric array with >1 elements is a VECTOR (embedding)
-        if (!value.empty() && value.size() > 1) {
+        if (!value.empty() && static_cast<int>(value.size()) > 1) {
             bool all_numeric = true;
             for (const auto& elem : value) {
                 if (!elem.is_number()) { all_numeric = false; break; }
             }
-            if (all_numeric) return ResultFieldType::VECTOR;
+            if (all_numeric) {
+              return ResultFieldType::VECTOR;
+            }
         }
         return ResultFieldType::ARRAY;
     }
@@ -126,18 +140,28 @@ namespace {
  *   - different non-null types → UNKNOWN (mixed type)
  */
 ResultFieldType promoteType(ResultFieldType a, ResultFieldType b) {
-    if (a == b)                         return a;
-    if (a == ResultFieldType::UNKNOWN)  return b;
-    if (b == ResultFieldType::UNKNOWN)  return a;
-    if (a == ResultFieldType::NULL_TYPE) return b;
-    if (b == ResultFieldType::NULL_TYPE) return a;
+    if (a == b) {
+      return a;
+    }
+    if (a == ResultFieldType::UNKNOWN) {
+      return b;
+    }
+    if (b == ResultFieldType::UNKNOWN) {
+      return a;
+    }
+    if (a == ResultFieldType::NULL_TYPE) {
+      return b;
+    }
+    if (b == ResultFieldType::NULL_TYPE) {
+      return a;
+    }
     // INT + FLOAT → FLOAT
-    if ((a == ResultFieldType::INT  && b == ResultFieldType::FLOAT) ||
-        (a == ResultFieldType::FLOAT && b == ResultFieldType::INT))
+    if (((a == ResultFieldType::INT  && b == ResultFieldType::FLOAT) ||
+        (a == ResultFieldType::FLOAT && b == ResultFieldType::INT)))
         return ResultFieldType::FLOAT;
     // ARRAY + VECTOR → VECTOR
-    if ((a == ResultFieldType::ARRAY  && b == ResultFieldType::VECTOR) ||
-        (a == ResultFieldType::VECTOR && b == ResultFieldType::ARRAY))
+    if (((a == ResultFieldType::ARRAY  && b == ResultFieldType::VECTOR) ||
+        (a == ResultFieldType::VECTOR && b == ResultFieldType::ARRAY)))
         return ResultFieldType::VECTOR;
     // Incompatible → fall back to UNKNOWN
     return ResultFieldType::UNKNOWN;
@@ -149,9 +173,13 @@ ResultFieldType promoteType(ResultFieldType a, ResultFieldType b) {
  */
 ResultFieldType inferElementType(const nlohmann::json& rows, const std::string& field) {
     for (const auto& row : rows) {
-        if (!row.is_object()) continue;
+        if (!row.is_object()) {
+          continue;
+        }
         auto it = row.find(field);
-        if (it == row.end() || !it->is_array() || it->empty()) continue;
+        if (it == row.end() || !it->is_array() || it->empty()) {
+          continue;
+        }
         return inferFieldType((*it)[0]);
     }
     return ResultFieldType::UNKNOWN;
@@ -180,7 +208,9 @@ QueryResultSchema inferResultSchema(const nlohmann::json& rows,
     std::unordered_set<std::string>                  seen_fields;
 
     for (const auto& row : rows) {
-        if (!row.is_object()) continue;
+        if (!row.is_object()) {
+          continue;
+        }
 
         for (auto it = row.begin(); it != row.end(); ++it) {
             const std::string& fname = it.key();
@@ -201,7 +231,9 @@ QueryResultSchema inferResultSchema(const nlohmann::json& rows,
 
     // Pass 2: mark fields that are absent in some rows as nullable
     for (const auto& row : rows) {
-        if (!row.is_object()) continue;
+        if (!row.is_object()) {
+          continue;
+        }
         for (const auto& fname : field_order) {
             if (row.find(fname) == row.end()) {
                 nullable_fields.insert(fname);

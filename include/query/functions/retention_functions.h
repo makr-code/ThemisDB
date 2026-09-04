@@ -426,12 +426,24 @@ public:
         
         // Parse resolutions to seconds
         auto parseResolution = [](const std::string& res) -> int64_t {
-            if (res == "1s") return 1;
-            if (res == "1m") return 60;
-            if (res == "5m") return 300;
-            if (res == "15m") return 900;
-            if (res == "1h") return 3600;
-            if (res == "1d") return 86400;
+            if (res == "1s") {
+              return 1;
+            }
+            if (res == "1m") {
+              return 60;
+            }
+            if (res == "5m") {
+              return 300;
+            }
+            if (res == "15m") {
+              return 900;
+            }
+            if (res == "1h") {
+              return 3600;
+            }
+            if (res == "1d") {
+              return 86400;
+            }
             return 1;
         };
         

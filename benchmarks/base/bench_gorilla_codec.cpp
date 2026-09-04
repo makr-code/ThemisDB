@@ -45,7 +45,9 @@ static std::vector<std::pair<int64_t, double>> makeRandomSeries(int n, uint64_t 
 
 static std::vector<uint8_t> encode(const std::vector<std::pair<int64_t, double>>& s) {
     GorillaEncoder enc;
-    for (const auto& p : s) enc.add(p.first, p.second);
+    for (const auto& p : s) {
+      enc.add(p.first, p.second);
+    }
     return enc.finish();
 }
 
@@ -56,7 +58,9 @@ static void BM_GorillaEncode_Constant(benchmark::State& state) {
     auto series = makeConstantSeries(n);
     for (auto _ : state) {
         GorillaEncoder enc;
-        for (const auto& p : series) enc.add(p.first, p.second);
+        for (const auto& p : series) {
+          enc.add(p.first, p.second);
+        }
         auto bytes = enc.finish();
         benchmark::DoNotOptimize(bytes);
     }
@@ -74,7 +78,9 @@ static void BM_GorillaEncode_Sine(benchmark::State& state) {
     auto series = makeSineSeries(n);
     for (auto _ : state) {
         GorillaEncoder enc;
-        for (const auto& p : series) enc.add(p.first, p.second);
+        for (const auto& p : series) {
+          enc.add(p.first, p.second);
+        }
         auto bytes = enc.finish();
         benchmark::DoNotOptimize(bytes);
     }
@@ -92,7 +98,9 @@ static void BM_GorillaEncode_Random(benchmark::State& state) {
     auto series = makeRandomSeries(n);
     for (auto _ : state) {
         GorillaEncoder enc;
-        for (const auto& p : series) enc.add(p.first, p.second);
+        for (const auto& p : series) {
+          enc.add(p.first, p.second);
+        }
         auto bytes = enc.finish();
         benchmark::DoNotOptimize(bytes);
     }
@@ -114,7 +122,9 @@ static void BM_GorillaDecode_Constant(benchmark::State& state) {
         GorillaDecoder dec(compressed);
         std::vector<std::pair<int64_t, double>> out;
         out.reserve(n);
-        while (auto p = dec.next()) out.push_back(*p);
+        while (auto p = dec.next()) {
+          out.push_back(*p);
+        }
         benchmark::DoNotOptimize(out);
     }
     state.counters["points_per_sec"] = benchmark::Counter(
@@ -129,7 +139,9 @@ static void BM_GorillaDecode_Sine(benchmark::State& state) {
         GorillaDecoder dec(compressed);
         std::vector<std::pair<int64_t, double>> out;
         out.reserve(n);
-        while (auto p = dec.next()) out.push_back(*p);
+        while (auto p = dec.next()) {
+          out.push_back(*p);
+        }
         benchmark::DoNotOptimize(out);
     }
     state.counters["points_per_sec"] = benchmark::Counter(
@@ -148,7 +160,9 @@ static void BM_GorillaDecode_Truncated(benchmark::State& state) {
     for (auto _ : state) {
         GorillaDecoder dec(truncated);
         int count = 0;
-        while (dec.next()) ++count;
+        while (dec.next()) {
+          ++count;
+        }
         benchmark::DoNotOptimize(count);
     }
     state.counters["points_per_sec"] = benchmark::Counter(
@@ -174,7 +188,9 @@ static void BM_GorillaCompressionRatio(benchmark::State& state) {
     const size_t raw_bytes = n * (sizeof(int64_t) + sizeof(double));
     for (auto _ : state) {
         GorillaEncoder enc;
-        for (const auto& p : series) enc.add(p.first, p.second);
+        for (const auto& p : series) {
+          enc.add(p.first, p.second);
+        }
         auto bytes = enc.finish();
         benchmark::DoNotOptimize(bytes);
     }

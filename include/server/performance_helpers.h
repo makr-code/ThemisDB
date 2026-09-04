@@ -128,7 +128,9 @@ public:
      * Impact: Enables connection reuse without reallocation
      */
     void release(std::unique_ptr<Connection> conn) {
-        if (!conn) return;
+        if (!conn) {
+          return;
+        }
         
         std::lock_guard<std::mutex> lock(pool_mutex_);
         
@@ -268,13 +270,17 @@ public:
      * Impact: Avoids repeated reallocation through exponential growth
      */
     void append(const void* data, size_t len) {
-        if (!data || len == 0) return;
+        if (!data || len == 0) {
+          return;
+        }
         
         // Ensure capacity with exponential growth
         size_t required = buffer_.size() + len;
         if (required > buffer_.capacity()) {
             size_t new_capacity = buffer_.capacity();
-            if (new_capacity == 0) new_capacity = INITIAL_CAPACITY;
+            if (new_capacity == 0) {
+              new_capacity = INITIAL_CAPACITY;
+            }
             
             while (new_capacity < required) {
                 new_capacity = static_cast<size_t>(new_capacity * GROWTH_FACTOR);
@@ -368,7 +374,9 @@ public:
      * Impact: Reduces reallocation frequency through exponential growth
      */
     void append(const uint8_t* data, size_t len) {
-        if (!data || len == 0) return;
+        if (!data || len == 0) {
+          return;
+        }
         
         // Update last access time for timeout tracking
         last_access_time_ = std::chrono::high_resolution_clock::now();
@@ -377,7 +385,9 @@ public:
         size_t required = buffer_.size() + len;
         if (required > buffer_.capacity()) {
             size_t new_capacity = buffer_.capacity();
-            if (new_capacity == 0) new_capacity = INITIAL_CAPACITY;
+            if (new_capacity == 0) {
+              new_capacity = INITIAL_CAPACITY;
+            }
             
             while (new_capacity < required) {
                 new_capacity = static_cast<size_t>(new_capacity * GROWTH_FACTOR);
@@ -403,7 +413,9 @@ public:
         size_t required = buffer_.size() + frame_size;
         if (required > buffer_.capacity()) {
             size_t new_capacity = buffer_.capacity();
-            if (new_capacity == 0) new_capacity = INITIAL_CAPACITY;
+            if (new_capacity == 0) {
+              new_capacity = INITIAL_CAPACITY;
+            }
             
             while (new_capacity < required) {
                 new_capacity = static_cast<size_t>(new_capacity * GROWTH_FACTOR);
@@ -505,7 +517,9 @@ public:
      * Impact: Prevents buffer exhaustion during large exports
      */
     bool write(const uint8_t* data, size_t len) {
-        if (!data || len == 0) return true;
+        if (!data || len == 0) {
+          return true;
+        }
         
         std::lock_guard<std::mutex> lock(buffer_mutex_);
         
@@ -547,7 +561,9 @@ public:
 
 private:
     bool flushLocked() {
-        if (buffer_.empty()) return true;
+        if (buffer_.empty()) {
+          return true;
+        }
         
         if (write_fn_) {
             bool success = write_fn_(buffer_);

@@ -121,7 +121,9 @@ struct HttpRequest {
     /// Returns the value of a header (case-sensitive key lookup) or empty string.
     std::string_view header(std::string_view name) const noexcept {
         auto it = headers.find(std::string(name));
-        if (it != headers.end()) return it->second;
+        if (it != headers.end()) {
+          return it->second;
+        }
         return {};
     }
 };
@@ -144,7 +146,7 @@ struct HttpResponse {
     std::unordered_map<std::string, std::string> headers;
 
     /// Response body bytes.
-    std::string body;
+    std::string body = {};
 
     // ---- Convenience factories ----
 
@@ -310,7 +312,9 @@ public:
     bool requiresAuthentication() const noexcept override {
         // Require auth if ANY link in the chain requires it.
         for (const auto& link : links_) {
-            if (link->requiresAuthentication()) return true;
+            if (link->requiresAuthentication()) {
+              return true;
+            }
         }
         return false;
     }

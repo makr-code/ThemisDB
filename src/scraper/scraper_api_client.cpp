@@ -44,7 +44,7 @@ HttpScraperApiClient::HttpScraperApiClient(HttpFetchFn fetch_fn)
 
 namespace {
 std::string urlEncodeComponent(const std::string& s) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     for (unsigned char c : s) {
         if (std::isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
             out << c;
@@ -66,7 +66,7 @@ std::string applyTemplate(const std::string& tmpl,
     auto replace = [&](const std::string& key, const std::string& val) {
         std::size_t pos = 0;
         while ((pos = out.find(key, pos)) != std::string::npos) {
-            out.replace(pos, key.size(), val);
+            out.replace(pos,static_cast<int>(key.size()), val);
             pos += val.size();
         }
     };
@@ -82,7 +82,7 @@ std::string HttpScraperApiClient::buildGetUrl(
         const std::string& query,
         int page, int offset,
         const std::string& cursor) const {
-    std::ostringstream url;
+    std::ostringstream url = {};
     url << cfg.url;
     bool first = (cfg.url.find('?') == std::string::npos);
     auto app = [&](const std::string& k, const std::string& v) {
@@ -111,10 +111,16 @@ std::string HttpScraperApiClient::buildBody(
     if (!cfg.body_template.empty())
         return applyTemplate(cfg.body_template, query, page, cursor);
     // Default: JSON body with query
-    json body;
-    if (!query.empty())     body["query"] = query;
-    if (page > 1)           body["page"]  = page;
-    if (!cursor.empty())    body["cursor"] = cursor;
+    json body = {};
+    if (!query.empty()) {
+      body["query"] = query;
+    }
+    if (page > 1) {
+      body["page"]  = page;
+    }
+    if (!cursor.empty()) {
+      body["cursor"] = cursor;
+    }
     return body.dump();
 }
 
@@ -125,8 +131,8 @@ std::string HttpScraperApiClient::buildBody(
 /*static*/ std::string HttpScraperApiClient::flattenJson(const std::string& json_text) {
     try {
         const json j = json::parse(json_text);
-        std::ostringstream out;
-        std::function<void(const json&)> walk = [&](const json& v) {
+        std::ostringstream out = {};
+        std::function<void(const json&)> walk = [&]([[maybe_unused]] const json& v) {
             if (v.is_string()) { out << v.get<std::string>() << ' '; }
             else if (v.is_number()) { out << v.dump() << ' '; }
             else if (v.is_array()) { for (const auto& e : v) walk(e); }
@@ -152,7 +158,9 @@ std::string HttpScraperApiClient::buildBody(
         else if (root.is_array())
             arr = &root;
 
-        if (!arr || !arr->is_array()) return out;
+        if (!arr || !arr->is_array()) {
+          return out;
+        }
         for (const auto& item : *arr) {
             ApiResult r;
             r.url        = source_url;
@@ -177,7 +185,9 @@ std::string HttpScraperApiClient::buildBody(
             // Collect all string fields
             if (item.is_object()) {
                 for (const auto& [k, v] : item.items()) {
-                    if (v.is_string()) r.fields[k] = v.get<std::string>();
+                    if (v.is_string()) {
+                      r.fields[k] = v.get<std::string>();
+                    }
                 }
             }
             out.push_back(std::move(r));
@@ -196,7 +206,7 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
     std::vector<ApiResult> all;
     int  page   = 1;
     int  offset = 0;
-    std::string cursor;
+    std::string cursor = {};
     const int max_pages = cfg.max_pages > 0 ? cfg.max_pages : 20;
 
     for (int pg = 0; pg < max_pages; ++pg) {
@@ -208,17 +218,21 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
             ? buildBody(cfg, query, page, cursor)
             : std::string{};
 
-        std::string response;
+        std::string response = {};
         try {
             response = fetch_fn_(url, cfg.method, cfg.headers, body);
         } catch (const std::exception& e) {
             // Network error: stop pagination
             break;
         }
-        if (response.empty()) break;
+        if (response.empty()) {
+          break;
+        }
 
         auto batch = parseResultsArray(response, cfg.results_field, url);
-        if (batch.empty()) break;
+        if (batch.empty()) {
+          break;
+        }
         all.insert(all.end(), batch.begin(), batch.end());
 
         // Advance pagination
@@ -235,7 +249,9 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
                 } else if (!cfg.next_url_field.empty() && root.contains(cfg.next_url_field)) {
                     const auto& nv = root[cfg.next_url_field];
                     const std::string next = nv.is_string() ? nv.get<std::string>() : std::string{};
-                    if (next.empty()) break;
+                    if (next.empty()) {
+                      break;
+                    }
                     // Replace the URL for next iteration
                     // (use const_cast-friendly approach via local copy)
                     ApiEndpointConfig next_cfg = cfg;
@@ -247,7 +263,9 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
                     break; // no cursor returned
                 }
             } catch (...) { break; }
-            if (cursor.empty()) break;
+            if (cursor.empty()) {
+              break;
+            }
         } else {
             break; // "none"
         }
@@ -257,7 +275,9 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
             const json root = json::parse(response);
             if (!cfg.total_field.empty() && root.contains(cfg.total_field)) {
                 const int total = root[cfg.total_field].get<int>();
-                if (static_cast<int>(all.size()) >= total) break;
+                if (static_cast<int>(all.size()) >= total) {
+                  break;
+                }
             }
         } catch (...) {}
     }
@@ -272,7 +292,7 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
 #ifdef THEMIS_ENABLE_CURL
 namespace {
 struct CurlWriteBuffer {
-    std::string data;
+    std::string data = {};
     static std::size_t write(char* ptr, std::size_t size,
                              std::size_t nmemb, void* userdata) {
         auto* buf = static_cast<CurlWriteBuffer*>(userdata);
@@ -290,7 +310,9 @@ struct CurlWriteBuffer {
         const std::string& body) {
 #ifdef THEMIS_ENABLE_CURL
     CURL* curl = curl_easy_init();
-    if (!curl) throw std::runtime_error("curl_easy_init failed");
+    if (!curl) {
+      throw std::runtime_error("curl_easy_init failed");
+    }
 
     CurlWriteBuffer buf;
     curl_easy_setopt(curl, CURLOPT_URL,            url.c_str());
@@ -304,7 +326,9 @@ struct CurlWriteBuffer {
     curl_slist* hlist = nullptr;
     for (const auto& kv : headers)
         hlist = curl_slist_append(hlist, (kv.first + ": " + kv.second).c_str());
-    if (hlist) curl_easy_setopt(curl, CURLOPT_HTTPHEADER, hlist);
+    if (hlist) {
+      curl_easy_setopt(curl, CURLOPT_HTTPHEADER, hlist);
+    }
 
     if (method == "POST") {
         curl_easy_setopt(curl, CURLOPT_POST,       1L);
@@ -314,7 +338,9 @@ struct CurlWriteBuffer {
     }
 
     const CURLcode rc = curl_easy_perform(curl);
-    if (hlist) curl_slist_free_all(hlist);
+    if (hlist) {
+      curl_slist_free_all(hlist);
+    }
     curl_easy_cleanup(curl);
 
     if (rc != CURLE_OK)

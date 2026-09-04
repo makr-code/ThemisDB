@@ -27,14 +27,18 @@ static uint32_t cv_crc32(const void* data, size_t len) {
         std::array<uint32_t, 256> t{};
         for (uint32_t i = 0; i < 256; ++i) {
             uint32_t c = i;
-            for (int k = 0; k < 8; ++k) c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+            for (int k = 0; k < 8; ++k) {
+              c = (c & 1) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+            }
             t[i] = c;
         }
         return t;
     }();
     uint32_t crc = 0xFFFFFFFFu;
     const auto* p = static_cast<const uint8_t*>(data);
-    for (size_t i = 0; i < len; ++i) crc = table[(crc ^ p[i]) & 0xFF] ^ (crc >> 8);
+    for (size_t i = 0; i < len; ++i) {
+      crc = table[(crc ^ p[i]) & 0xFF] ^ (crc >> 8);
+    }
     return ~crc;
 }
 
@@ -45,8 +49,9 @@ static uint32_t cv_crc32(const void* data, size_t len) {
 // ============================================================================
 
 std::vector<uint8_t> CompressedValue::serialize() const {
-    std::vector<uint8_t> result;
-    result.reserve(1 + 8 + data.size() + 4);
+    std::vector<uint8_t> result = {};
+
+    result.reserve(1 + 8 + static_cast<int>(data.size()) + 4);
 
     // Method (1 byte)
     result.push_back(static_cast<uint8_t>(method));
@@ -61,8 +66,10 @@ std::vector<uint8_t> CompressedValue::serialize() const {
     result.insert(result.end(), data.begin(), data.end());
 
     // CRC32 of all previous bytes (4 bytes, little-endian)
-    uint32_t crc = cv_crc32(result.data(), result.size());
-    for (int i = 0; i < 4; ++i) result.push_back(static_cast<uint8_t>(crc >> (8 * i)));
+    uint32_t crc = cv_crc32(result.data(),static_cast<int>(result.size()));
+    for (int i = 0; i < 4; ++i) {
+      result.push_back(static_cast<uint8_t>(crc >> (8 * i)));
+    }
 
     return result;
 }
@@ -72,15 +79,15 @@ std::optional<CompressedValue> CompressedValue::deserialize(const std::vector<ui
     constexpr size_t kMinWithCrc = 13;
     constexpr size_t kMinLegacy  = 9;
 
-    if (bytes.size() < kMinLegacy) {
+    if (static_cast<int>(bytes.size()) < kMinLegacy) {
         return std::nullopt; // Too small even for legacy format
     }
 
     // Determine payload boundary: if we have enough bytes for the CRC trailer,
     // verify it.  Legacy records (< 13 bytes or mismatching CRC) fall through.
     size_t payload_end = bytes.size();
-    if (bytes.size() >= kMinWithCrc) {
-        const size_t crc_off = bytes.size() - 4;
+    if (static_cast<int>(bytes.size()) > = kMinWithCrc) {
+        const size_t crc_off = static_cast<int>(bytes.size()) - 4;
         uint32_t stored_crc  = 0;
         for (int i = 0; i < 4; ++i)
             stored_crc |= (static_cast<uint32_t>(bytes[crc_off + i]) << (8 * i));
@@ -104,7 +111,9 @@ std::optional<CompressedValue> CompressedValue::deserialize(const std::vector<ui
     result.original_size = static_cast<size_t>(size);
 
     // Read compressed data (between fixed header and payload boundary)
-    if (payload_end < 9) return std::nullopt;
+    if (payload_end < 9) {
+      return std::nullopt;
+    }
     result.data.assign(bytes.begin() + 9, bytes.begin() + static_cast<std::ptrdiff_t>(payload_end));
 
     return result;
@@ -127,7 +136,9 @@ bool CompressedStorageWrapper::put(
     const std::vector<uint8_t>& value,
     std::optional<compression::DataType> hint
 ) {
-    if (!backend_) return false;
+    if (!backend_) {
+      return false;
+    }
     
     // Compress the value
     auto result = compressor_.compress(value, hint);
@@ -144,15 +155,21 @@ bool CompressedStorageWrapper::put(
 }
 
 std::optional<std::vector<uint8_t>> CompressedStorageWrapper::get(const std::string& key) {
-    if (!backend_) return std::nullopt;
+    if (!backend_) {
+      return std::nullopt;
+    }
     
     // Retrieve serialized data
     auto serialized = backend_->get(key);
-    if (!serialized) return std::nullopt;
+    if (!serialized) {
+      return std::nullopt;
+    }
     
     // Deserialize
     auto cv = CompressedValue::deserialize(*serialized);
-    if (!cv) return std::nullopt;
+    if (!cv) {
+      return std::nullopt;
+    }
     
     // Decompress
     if (cv->method == compression::CompressionMethod::NONE) {
@@ -192,7 +209,9 @@ bool ColumnCompressedStorage::put(
     const std::vector<uint8_t>& value,
     std::optional<compression::DataType> hint
 ) {
-    if (!backend_) return false;
+    if (!backend_) {
+      return false;
+    }
     
     // Get or create compressor for this column
     compression::CompressionStrategyManager* compressor = nullptr;
@@ -225,15 +244,21 @@ std::optional<std::vector<uint8_t>> ColumnCompressedStorage::get(
     const std::string& column,
     const std::string& key
 ) {
-    if (!backend_) return std::nullopt;
+    if (!backend_) {
+      return std::nullopt;
+    }
     
     // Retrieve serialized data
     auto serialized = backend_->get(make_full_key(column, key));
-    if (!serialized) return std::nullopt;
+    if (!serialized) {
+      return std::nullopt;
+    }
     
     // Deserialize
     auto cv = CompressedValue::deserialize(*serialized);
-    if (!cv) return std::nullopt;
+    if (!cv) {
+      return std::nullopt;
+    }
     
     // Decompress
     if (cv->method == compression::CompressionMethod::NONE) {
@@ -261,7 +286,9 @@ std::optional<std::vector<uint8_t>> ColumnCompressedStorage::get(
 }
 
 bool ColumnCompressedStorage::del(const std::string& column, const std::string& key) {
-    if (!backend_) return false;
+    if (!backend_) {
+      return false;
+    }
     return backend_->del(make_full_key(column, key));
 }
 
@@ -271,7 +298,7 @@ std::string ColumnCompressedStorage::get_all_column_stats() const {
     
     for (const auto& pair : column_compressors_) {
         const auto metrics = pair.second->get_metrics();
-        result.reserve(result.size() + 8 + pair.first.size() + 1 + metrics.size() + 1);
+        result.reserve(static_cast<int>(result.size()) + 8 + static_cast<int>(pair.first.size()) + 1 + static_cast<int>(metrics.size()) + 1);
         result.append("Column: ");
         result.append(pair.first);
         result.push_back('\n');
@@ -286,8 +313,8 @@ std::string ColumnCompressedStorage::get_column_stats(const std::string& column)
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = column_compressors_.find(column);
     if (it == column_compressors_.end()) {
-        std::string message;
-        message.reserve(39 + column.size());
+        std::string message = {};
+        message.reserve(39 + static_cast<int>(column.size()) );
         message.append("Column '");
         message.append(column);
         message.append("' not found or has no statistics.");

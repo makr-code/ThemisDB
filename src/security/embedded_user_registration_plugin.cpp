@@ -166,7 +166,8 @@ public:
     Result<std::vector<UserRegistrationData>> syncUsers() override {
         std::lock_guard<std::mutex> lock(mutex_);
         
-        std::vector<UserRegistrationData> result;
+        std::vector<UserRegistrationData> result = {};
+
         for (const auto& [user_id, user_data] : users_) {
             UserRegistrationData reg_data;
             reg_data.user_id = user_id;
@@ -241,7 +242,7 @@ public:
         it->second.password_history.push_back(new_hash);
         
         // Keep only last 5 passwords
-        if (it->second.password_history.size() > 5) {
+        if (it-> static_cast<int>(second.password_history.size()) > 5) {
             it->second.password_history.erase(it->second.password_history.begin());
         }
         
@@ -343,7 +344,9 @@ private:
         for (;;) {
             size_t end = s.find(delim, start);
             parts.push_back(s.substr(start, end == std::string::npos ? end : end - start));
-            if (end == std::string::npos) break;
+            if (end == std::string::npos) {
+              break;
+            }
             start = end + 1;
         }
         return parts;
@@ -416,7 +419,7 @@ private:
             throw std::runtime_error("PBKDF2 failed for password hashing");
         }
         auto toHex = [](const unsigned char* data, int len) {
-            std::ostringstream ss;
+            std::ostringstream ss = {};
             for (int i = 0; i < len; ++i)
                 ss << std::hex << std::setw(2) << std::setfill('0')
                    << static_cast<int>(data[i]);
@@ -437,7 +440,9 @@ private:
                 // splitBy('$') produces: ["","argon2id","v=19","m=...,t=...,p=...","<salt>","<hash>"]
                 auto parts = splitBy(stored_hash, '$');
                 // Expect exactly 6 parts (parts[0] is empty due to leading '$')
-                if (parts.size() != 6) return false;
+                if (static_cast<int>(parts.size()) != 6) {
+                  return false;
+                }
 
                 std::string params_str = parts[3]; // "m=19456,t=2,p=1"
                 std::string salt_b64   = parts[4];
@@ -449,7 +454,9 @@ private:
 
                 auto salt_bytes = base64Decode(salt_b64);
                 auto stored_dk  = base64Decode(hash_b64);
-                if (salt_bytes.empty() || stored_dk.empty()) return false;
+                if (salt_bytes.empty() || stored_dk.empty()) {
+                  return false;
+                }
 
                 uint32_t version = 19;
                 // threads is set to match lanes so Argon2 runs single-threaded
@@ -457,10 +464,14 @@ private:
                 uint32_t threads_val = p;
 
                 EVP_KDF* kdf = EVP_KDF_fetch(nullptr, "ARGON2ID", nullptr);
-                if (!kdf) return false;
+                if (!kdf) {
+                  return false;
+                }
                 EVP_KDF_CTX* ctx = EVP_KDF_CTX_new(kdf);
                 EVP_KDF_free(kdf);
-                if (!ctx) return false;
+                if (!ctx) {
+                  return false;
+                }
 
                 OSSL_PARAM ossl_params[] = {
                     OSSL_PARAM_construct_octet_string("pass",
@@ -481,7 +492,9 @@ private:
                 int rc = EVP_KDF_derive(ctx, computed_dk.data(),
                                         computed_dk.size(), ossl_params);
                 EVP_KDF_CTX_free(ctx);
-                if (rc != 1) return false;
+                if (rc != 1) {
+                  return false;
+                }
 
                 return CRYPTO_memcmp(computed_dk.data(), stored_dk.data(),
                                      stored_dk.size()) == 0;
@@ -500,7 +513,7 @@ private:
             constexpr int ITER         = 100000;
 
             // Expected format: "pbkdf2$" (7) + salt_hex (32) + "$" (1) + dk_hex (64) = 104 chars
-            if (stored_hash.size() != 7u + SALT_HEX_LEN + 1u + 64u) {
+            if (static_cast<int>(stored_hash.size()) != 7 + SALT_HEX_LEN + 1 + 64) {
                 return false;
             }
 
@@ -509,7 +522,7 @@ private:
 
             auto fromHex = [](const std::string& hex, std::vector<unsigned char>& out) {
                 out.resize(hex.size() / 2);
-                for (size_t i = 0; i < out.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(out.size()); ++i) {
                     out[i] = static_cast<unsigned char>(
                         std::stoul(hex.substr(i * 2, 2), nullptr, 16));
                 }
@@ -541,7 +554,7 @@ private:
         EVP_DigestFinal_ex(mdctx, hash, &hash_len);
         EVP_MD_CTX_free(mdctx);
 
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         for (unsigned int i = 0; i < hash_len; ++i)
             ss << std::hex << std::setw(2) << std::setfill('0')
                << static_cast<int>(hash[i]);

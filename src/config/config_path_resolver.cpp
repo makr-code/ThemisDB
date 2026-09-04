@@ -59,7 +59,8 @@ public:
      */
     std::vector<ConfigPathResolver::DeprecationEntry> getReport() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::vector<ConfigPathResolver::DeprecationEntry> report;
+        std::vector<ConfigPathResolver::DeprecationEntry> report = {};
+
         report.reserve(usage_counts_.size());
 
         for (const auto& [path, count] : usage_counts_) {
@@ -100,7 +101,7 @@ public:
      *
      * @param interval_seconds How often to emit the aggregated report (default 300 s).
      */
-    void start(int interval_seconds = DEFAULT_INTERVAL_SECONDS) {
+    void start([[maybe_unused]] int interval_seconds = DEFAULT_INTERVAL_SECONDS) {
         std::lock_guard<std::mutex> tlock(thread_mutex_);
         if (running_.load()) {
             return;  // Already running
@@ -156,7 +157,7 @@ private:
                 auto y = static_cast<int>(ymd.year());
                 auto m = static_cast<unsigned>(ymd.month());
                 auto d = static_cast<unsigned>(ymd.day());
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << y
                     << '-' << (m < 10 ? "0" : "") << m
                     << '-' << (d < 10 ? "0" : "") << d;
@@ -1295,7 +1296,7 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
 
     // Build env-prefixed cache key to prevent cross-environment cache poisoning
     std::string cache_key = envToString(env) + ":" + normalized;
-    std::string resolved_path;
+    std::string resolved_path = {};
     bool was_legacy_fallback = false;
     bool from_cache = false;
 
@@ -1508,8 +1509,8 @@ void ConfigPathResolver::validatePath(const std::string& path) {
         // Accept paths that contain "/config/" as a component, or end with "/config"
         constexpr std::string_view kConfigSuffix = "/config";
         const bool ends_with_config =
-            str.size() >= kConfigSuffix.size() &&
-            str.compare(str.size() - kConfigSuffix.size(),
+            static_cast<int>(str.size()) >= kConfigSuffix.size() &&
+            str.compare(static_cast<int>(str.size()) - static_cast<int>(kConfigSuffix.size()) ,
                         kConfigSuffix.size(), kConfigSuffix) == 0;
         if (str.find("/config/") == std::string::npos && !ends_with_config) {
             throw InvalidPathException(path, "absolute path outside config directory");
@@ -1517,7 +1518,7 @@ void ConfigPathResolver::validatePath(const std::string& path) {
     }
 
     // Reject symlinks that resolve outside the config root (prevents symlink escapes)
-    std::error_code ec;
+    std::error_code ec = {};
     if (std::filesystem::is_symlink(fs_path, ec) && !ec) {
         auto canonical = std::filesystem::canonical(fs_path, ec);
         if (!ec) {
@@ -1607,7 +1608,8 @@ std::vector<std::pair<std::string, uint64_t>> ConfigPathResolver::legacyFallback
 
 std::vector<std::string> ConfigPathResolver::legacyFallbackCategories() {
     initLegacyFallbackCategoryCounters();
-    std::vector<std::string> categories;
+    std::vector<std::string> categories = {};
+
     categories.reserve(legacy_fallbacks_by_category_.size());
     for (const auto& entry : legacy_fallbacks_by_category_) {
         categories.push_back(entry.first);
@@ -1615,7 +1617,7 @@ std::vector<std::string> ConfigPathResolver::legacyFallbackCategories() {
     return categories;
 }
 
-void ConfigPathResolver::setCachingEnabled(bool enabled) {
+void ConfigPathResolver::setCachingEnabled([[maybe_unused]] bool enabled) {
     caching_enabled_.store(enabled);
     if (!enabled) {
         cache_.clear();
@@ -1635,10 +1637,14 @@ void ConfigPathResolver::setAggregationEnabled(bool enabled, int interval_second
     }
 }
 
-void ConfigPathResolver::setLegacyFallbackRateThreshold(double threshold) {
+void ConfigPathResolver::setLegacyFallbackRateThreshold([[maybe_unused]] double threshold) {
     // Clamp to [0.0, 1.0]
-    if (threshold < 0.0) threshold = 0.0;
-    if (threshold > 1.0) threshold = 1.0;
+    if (threshold < 0.0) {
+      threshold = 0.0;
+    }
+    if (threshold > 1.0) {
+      threshold = 1.0;
+    }
     legacy_fallback_threshold_.store(threshold, std::memory_order_relaxed);
 }
 
@@ -1682,7 +1688,7 @@ std::string ConfigPathResolver::envToString(ConfigEnvironment env) {
         case ConfigEnvironment::STAGING:
             return "staging";
         case ConfigEnvironment::PROD:
-        default:
+        [[fallthrough]];\n        default:
             return "prod";
     }
 }
@@ -1729,7 +1735,7 @@ ConfigEnvironment ConfigPathResolver::getEnvironment() {
     return current_env_.load();
 }
 
-void ConfigPathResolver::setAuditLogEnabled(bool enabled) {
+void ConfigPathResolver::setAuditLogEnabled([[maybe_unused]] bool enabled) {
     if (enabled) {
         audit_log_.enable();
     } else {
@@ -1753,7 +1759,7 @@ void ConfigPathResolver::setAuditLogMaxEntries(std::size_t max) {
 // ═══════════════════════════════════════════════════════════
 
 // Static signal handler – must be async-signal-safe; only sets a flag.
-void ConfigPathResolver::handleSighup(int /*sig*/) {
+void ConfigPathResolver::handleSighup([[maybe_unused]] int /*sig*/) {
     sighup_pending_ = 1;
 }
 
@@ -1767,7 +1773,7 @@ void ConfigPathResolver::registerSighupHandler() {
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = SA_RESTART;
     if (sigaction(SIGHUP, &sa, nullptr) != 0) {
-        spdlog::warn("ConfigPathResolver: Failed to register SIGHUP handler");
+        spdlog::warn([[maybe_unused]] "ConfigPathResolver: Failed to register SIGHUP handler");
     } else {
         spdlog::info("ConfigPathResolver: SIGHUP hot-reload registered – "
                      "send SIGHUP to flush the resolved path cache at runtime");

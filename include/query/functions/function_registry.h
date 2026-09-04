@@ -197,7 +197,9 @@ public:
     using DocumentLoader = std::function<nlohmann::json(const std::string&, const std::string&)>;
     void setDocumentLoader(DocumentLoader loader) { doc_loader_ = std::move(loader); }
     nlohmann::json loadDocument(const std::string& collection, const std::string& key) const {
-        if (doc_loader_) return doc_loader_(collection, key);
+        if (doc_loader_) {
+          return doc_loader_(collection, key);
+        }
         throw std::runtime_error("Document loader not configured");
     }
     
@@ -230,7 +232,9 @@ public:
         const std::string& collection,
         const std::function<bool(const nlohmann::json&)>& predicate) const
     {
-        if (collection_scanner_) return collection_scanner_(collection, predicate);
+        if (collection_scanner_) {
+          return collection_scanner_(collection, predicate);
+        }
         return {};
     }
 
@@ -379,7 +383,9 @@ public:
         // Check required argument count
         size_t requiredCount = 0;
         for (const auto& arg : sig.arguments) {
-            if (arg.required) requiredCount++;
+            if (arg.required) {
+              requiredCount++;
+            }
         }
         
         if (args.size() < requiredCount) {
@@ -433,40 +439,64 @@ protected:
     
     /// Check if value is a GeoJSON geometry
     static bool isGeometry(const nlohmann::json& val) {
-        if (!val.is_object()) return false;
+        if (!val.is_object()) {
+          return false;
+        }
         return val.contains("type") && val.contains("coordinates");
     }
     
     /// Check if value is a numeric vector
     static bool isVector(const nlohmann::json& val) {
-        if (!val.is_array()) return false;
+        if (!val.is_array()) {
+          return false;
+        }
         for (const auto& elem : val) {
-            if (!elem.is_number()) return false;
+            if (!elem.is_number()) {
+              return false;
+            }
         }
         return true;
     }
     
     /// Convert to number helper
     static double toNumber(const nlohmann::json& val) {
-        if (val.is_number()) return val.get<double>();
-        if (val.is_string()) return std::stod(val.get<std::string>());
-        if (val.is_boolean()) return val.get<bool>() ? 1.0 : 0.0;
+        if (val.is_number()) {
+          return val.get<double>();
+        }
+        if (val.is_string()) {
+          return std::stod(val.get<std::string>());
+        }
+        if (val.is_boolean()) {
+          return val.get<bool>() ? 1.0 : 0.0;
+        }
         throw std::runtime_error("Cannot convert value to number");
     }
     
     /// Convert to string helper
     static std::string toString(const nlohmann::json& val) {
-        if (val.is_string()) return val.get<std::string>();
+        if (val.is_string()) {
+          return val.get<std::string>();
+        }
         return val.dump();
     }
     
     /// Convert to bool helper
     static bool toBool(const nlohmann::json& val) {
-        if (val.is_boolean()) return val.get<bool>();
-        if (val.is_null()) return false;
-        if (val.is_number()) return val.get<double>() != 0;
-        if (val.is_string()) return !val.get<std::string>().empty();
-        if (val.is_array() || val.is_object()) return !val.empty();
+        if (val.is_boolean()) {
+          return val.get<bool>();
+        }
+        if (val.is_null()) {
+          return false;
+        }
+        if (val.is_number()) {
+          return val.get<double>() != 0;
+        }
+        if (val.is_string()) {
+          return !val.get<std::string>().empty();
+        }
+        if (val.is_array() || val.is_object()) {
+          return !val.empty();
+        }
         return true;
     }
 };
@@ -523,7 +553,8 @@ public:
     
     /// Get all function signatures (for documentation)
     std::vector<FunctionSignature> getAllSignatures() const {
-        std::vector<FunctionSignature> sigs;
+        std::vector<FunctionSignature> sigs = {};
+
         for (const auto& [name, func] : functions_) {
             sigs.push_back(func->signature());
         }
@@ -532,7 +563,8 @@ public:
     
     /// Get functions by category
     std::vector<FunctionSignature> getByCategory(const std::string& category) const {
-        std::vector<FunctionSignature> sigs;
+        std::vector<FunctionSignature> sigs = {};
+
         for (const auto& [name, func] : functions_) {
             auto sig = func->signature();
             if (sig.category == category) {
@@ -544,11 +576,13 @@ public:
     
     /// List all categories
     std::vector<std::string> getCategories() const {
-        std::unordered_map<std::string, bool> cats;
+        std::unordered_map<std::string, bool> cats = {};
+
         for (const auto& [name, func] : functions_) {
             cats[func->signature().category] = true;
         }
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         for (const auto& [cat, _] : cats) {
             result.push_back(cat);
         }

@@ -74,7 +74,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
 
     // --- Validate registration under lock --------------------------------
     ModuleLoader *loader_ptr = nullptr;
-    std::string prior_path;
+    std::string prior_path = {};
     ModuleVersion prior_version;
     uint64_t registration_id = 0;
     {
@@ -103,11 +103,11 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
     result.previousVersion = prior_version.toString();
 
     // --- Save state before unloading (optional) ---------------------------
-    std::string saved_state;
+    std::string saved_state = {};
     if (config_.preserveState) {
         saved_state = saveState(module_name);
         if (!saved_state.empty()) {
-            spdlog::debug("HotReloadManager: saved state for '{}' ({} bytes)", module_name, saved_state.size());
+            spdlog::debug("HotReloadManager: saved state for '{}' ({} bytes)", module_name,static_cast<int>(saved_state.size()));
         }
     }
 
@@ -177,7 +177,8 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
     // --- Launch sandbox for the new module (if configured) ---------------
     // Replacing slot.sandbox drops the old sandbox, calling ~ModuleSandbox()
     // which invokes shutdown() automatically.
-    std::unique_ptr<ModuleSandbox> new_sandbox;
+    std::unique_ptr<ModuleSandbox> new_sandbox = {};
+
     if (config_.sandboxConfig) {
         new_sandbox = std::make_unique<ModuleSandbox>(*config_.sandboxConfig);
         if (!new_sandbox->launch(module_name)) {
@@ -262,7 +263,7 @@ HotReloadResult HotReloadManager::rollback(const std::string &module_name) {
 
     // Validate registration and extract backup info under lock.
     ModuleLoader *loader_ptr = nullptr;
-    std::string backup_path;
+    std::string backup_path = {};
     ModuleVersion backup_version;
     {
         std::unique_lock<std::shared_mutex> lock(mutex_);
@@ -306,7 +307,8 @@ HotReloadResult HotReloadManager::rollback(const std::string &module_name) {
 
     // Launch sandbox for the restored module (if configured).
     // Created outside the lock (same pattern as reloadModule) for consistency.
-    std::unique_ptr<ModuleSandbox> rollback_sandbox;
+    std::unique_ptr<ModuleSandbox> rollback_sandbox = {};
+
     if (config_.sandboxConfig) {
         rollback_sandbox = std::make_unique<ModuleSandbox>(*config_.sandboxConfig);
         if (!rollback_sandbox->launch(module_name)) {
@@ -380,7 +382,8 @@ bool HotReloadManager::isRollbackAvailable(const std::string &module_name) const
 std::vector<std::string> HotReloadManager::registeredModules() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(slots_.size());
     for (const auto &[name, _] : slots_) {
         names.push_back(name);
@@ -403,17 +406,17 @@ std::optional<SandboxStats> HotReloadManager::getSandboxStats(const std::string 
 // Callbacks
 // =============================================================================
 
-void HotReloadManager::setStateSaveCallback(StateSaveCallback cb) {
+void HotReloadManager::setStateSaveCallback([[maybe_unused]] StateSaveCallback cb) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     state_save_cb_ = std::move(cb);
 }
 
-void HotReloadManager::setStateRestoreCallback(StateRestoreCallback cb) {
+void HotReloadManager::setStateRestoreCallback([[maybe_unused]] StateRestoreCallback cb) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     state_restore_cb_ = std::move(cb);
 }
 
-void HotReloadManager::addReloadCallback(ReloadCallback cb) {
+void HotReloadManager::addReloadCallback([[maybe_unused]] ReloadCallback cb) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     reload_cbs_.push_back(std::move(cb));
 }
@@ -455,9 +458,9 @@ void HotReloadManager::notify(const std::string &name, ReloadPhase phase) {
         } catch (const std::exception &ex) {
             spdlog::warn("HotReloadManager: reload callback threw: {}", ex.what());
         } catch (const std::string &) {
-            spdlog::warn("HotReloadManager: reload callback threw unknown exception");
+            spdlog::warn([[maybe_unused]] "HotReloadManager: reload callback threw unknown exception");
         } catch (const char *) {
-            spdlog::warn("HotReloadManager: reload callback threw unknown exception");
+            spdlog::warn([[maybe_unused]] "HotReloadManager: reload callback threw unknown exception");
         }
     }
 }

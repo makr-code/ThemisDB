@@ -75,7 +75,9 @@ std::vector<float> makeWeights(size_t n, float scale, unsigned int seed) {
     std::mt19937 rng(seed);
     std::uniform_real_distribution<float> dist(-scale, scale);
     std::vector<float> v(n);
-    for (float& x : v) x = dist(rng);
+    for (float& x : v) {
+      x = dist(rng);
+    }
     return v;
 }
 

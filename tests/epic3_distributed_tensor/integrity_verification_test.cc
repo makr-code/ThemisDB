@@ -37,7 +37,7 @@ protected:
 
     // Helper to create test artifact payload
     std::string createTestPayload(size_t size = 1024) {
-        std::string payload;
+        std::string payload = {};
         payload.reserve(size);
         for (size_t i = 0; i < size; ++i) {
             payload.push_back(static_cast<char>(i % 256));
@@ -495,7 +495,8 @@ TEST_F(IntegrityVerificationTest, Integration_FullVerificationWorkflow) {
 
 TEST_F(IntegrityVerificationTest, Integration_MultipleFragmentVerification) {
     // Create multiple fragments
-    std::vector<std::string> fragments;
+    std::vector<std::string> fragments = {};
+
     for (int i = 0; i < 4; ++i) {
         fragments.push_back("fragment" + std::to_string(i));
     }

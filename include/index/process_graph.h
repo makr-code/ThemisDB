@@ -777,7 +777,7 @@ public:
     struct SimilarProcess {
         std::string process_id;
         std::string name;
-        float similarity;
+        float similarity = {};
     };
     std::pair<Status, std::vector<SimilarProcess>> findSimilarProcesses(
         const std::vector<float>& query_embedding,

@@ -23,7 +23,7 @@ namespace phase3 {
 
 // Task queue for compaction work
 struct CompactionTask {
-    int level;
+    int level = 0;
     std::function<void()> fn;
 };
 
@@ -60,7 +60,7 @@ public:
     
     size_t size() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        return tasks_.size();
+        return static_cast<int>(tasks_.size());
     }
 
 private:
@@ -80,7 +80,7 @@ static std::atomic<double> g_total_compaction_time_ms{0.0};
 
 // ==================== ConcurrentCompactor Implementation ====================
 
-ConcurrentCompactor::ConcurrentCompactor(size_t num_threads)
+ConcurrentCompactor::ConcurrentCompactor([[maybe_unused]] size_t num_threads)
     : num_threads_(num_threads) {
 }
 
@@ -145,7 +145,7 @@ ConcurrentCompactor::Stats ConcurrentCompactor::get_stats() const {
 
 void ConcurrentCompactor::worker_loop() {
     while (running_.load(std::memory_order_relaxed)) {
-        CompactionTask task;
+        CompactionTask task = {};
         
         if (!g_task_queue.pop(task, true)) {
             continue;  // Shutdown or no tasks

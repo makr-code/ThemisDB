@@ -146,7 +146,9 @@ TEST(RAGPipelineIntegrationTest, HybridRetrieverDeduplicates) {
     // Duplicate id should appear at most once
     size_t dup_count = 0;
     for (const auto& doc : result.documents) {
-        if (doc.id == "dup") ++dup_count;
+        if (doc.id == "dup") {
+          ++dup_count;
+        }
     }
     EXPECT_LE(dup_count, 1u);
 }
@@ -208,7 +210,8 @@ TEST(RAGPipelineIntegrationTest, FullPipelineRetrieveThenEvaluate) {
     // Step 2: Create mock BM25 and vector candidate lists from chunks
     //         (simulate a retrieval system by converting chunks to RetrievedDocuments)
     std::vector<RetrievedDocument> bm25_candidates;
-    std::vector<RetrievedDocument> vec_candidates;
+    std::vector<RetrievedDocument> vec_candidates = {};
+
     for (size_t i = 0; i < chunks.size(); ++i) {
         double score = 1.0 - static_cast<double>(i) * 0.05;
         bm25_candidates.push_back(makeDoc("c" + std::to_string(i), chunks[i].text, score));
@@ -305,7 +308,8 @@ TEST(RAGPipelineIntegrationTest, BatchEvaluatorPipelineConsistency) {
         makeDoc("d2", "The Eiffel Tower stands in Paris.", 0.80),
     };
 
-    std::vector<EvaluationInput> inputs;
+    std::vector<EvaluationInput> inputs = {};
+
     for (int i = 0; i < 4; ++i) {
         EvaluationInput in;
         in.query            = "What is the capital of France?";

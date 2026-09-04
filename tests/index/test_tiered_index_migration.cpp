@@ -242,7 +242,7 @@ TEST(TieredIndexManager, ImportCallbackCalledOnPromotion) {
     auto mgr = makeManager();
     mgr.registerIndex("idx_imp", Tier::WARM, "/warm/idx_imp");
 
-    std::string imported_name;
+    std::string imported_name = {};
     mgr.setImportFn([&](const std::string& n, const std::string&) {
         imported_name = n;
         return true;

@@ -232,10 +232,11 @@ http::response<http::string_body> EthicsApiHandler::handleGetArguments(
         }
         
         // Parse types (comma-separated)
-        std::vector<std::string> types;
+        std::vector<std::string> types = {};
+
         if (!types_str.empty()) {
             std::stringstream ss(types_str);
-            std::string type;
+            std::string type = {};
             while (std::getline(ss, type, ',')) {
                 types.push_back(type);
             }
@@ -406,7 +407,9 @@ http::response<http::string_body> EthicsApiHandler::handleGetMetrics(
         // Extract query parameter for format
         std::string target = std::string(req.target());
         std::string format = extractQueryParam(target, "format");
-        if (format.empty()) format = "json";
+        if (format.empty()) {
+          format = "json";
+        }
         
         // Execute AQL function via QueryEngine
         std::string aql = "RETURN ETHICS_METRICS()";
@@ -418,7 +421,7 @@ http::response<http::string_body> EthicsApiHandler::handleGetMetrics(
             // result is a JSON object; each key becomes a Prometheus metric.
             // Nested objects are flattened with underscore separators.
             // Non-numeric leaves are skipped.
-            std::string prom;
+            std::string prom = {};
             std::function<void(const nlohmann::json&, const std::string&)> flatten =
                 [&](const nlohmann::json& node, const std::string& prefix) {
                     if (node.is_object()) {
@@ -511,11 +514,11 @@ nlohmann::json EthicsApiHandler::executeAQL(
     std::string resolved_query = aql_query;
     for (auto it = bind_vars.begin(); it != bind_vars.end(); ++it) {
         const std::string placeholder = "@" + it.key();
-        std::string replacement;
+        std::string replacement = {};
         if (it.value().is_string()) {
             // Escape embedded single quotes to prevent AQL injection
             std::string raw = it.value().get<std::string>();
-            std::string escaped;
+            std::string escaped = {};
             escaped.reserve(raw.size());
             for (char c : raw) {
                 if (c == '\'') { escaped += "''"; } else { escaped += c; }
@@ -527,7 +530,7 @@ nlohmann::json EthicsApiHandler::executeAQL(
         // Replace all occurrences, advancing past each replacement to avoid re-substitution
         size_t pos = 0;
         while ((pos = resolved_query.find(placeholder, pos)) != std::string::npos) {
-            resolved_query.replace(pos, placeholder.size(), replacement);
+            resolved_query.replace(pos,static_cast<int>(placeholder.size()), replacement);
             pos += replacement.size(); // skip over newly inserted replacement text
         }
     }
@@ -564,7 +567,7 @@ nlohmann::json EthicsApiHandler::executeAQL(
         }
     }
 
-    return nlohmann::json{{"results", rows}, {"count", rows.size()}};
+    return nlohmann::json{{"results", rows}, {"count",static_cast<int>(rows.size())}};
 }
 
 std::string EthicsApiHandler::extractQueryParam(

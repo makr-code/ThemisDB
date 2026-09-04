@@ -59,12 +59,12 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
  public:
   GPUErrorHandlerImpl() = default;
 
-  void logError(cudaError_t cuda_err, const std::string& context) noexcept override {
+  void logError(cudaError_[[maybe_unused]] t cuda_er[[maybe_unused]] r, cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] context) noexcept override {
     std::lock_guard<std::mutex> lock(mutex_);
     logErrorNoLock(cuda_err, context);
   }
 
-  void logError(hipError_t hip_err, const std::string& context) noexcept override {
+  void logError(hipError_[[maybe_unused]] t hip_er[[maybe_unused]] r, cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] context) noexcept override {
     std::lock_guard<std::mutex> lock(mutex_);
     logErrorNoLock(hip_err, context);
   }
@@ -99,7 +99,7 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
     applyRecoveryPolicy(error_class, recovery_policy, context);
   }
 
-  GPUErrorClass classifyError(cudaError_t cuda_err) const noexcept override {
+  GPUErrorClass classifyError(cudaError_[[maybe_unused]] t cuda_er[[maybe_unused]] r) const noexcept override {
 #if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
     switch (cuda_err) {
       case cudaSuccess:
@@ -111,16 +111,16 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
 
       // Backend/driver errors
       case cudaErrorInsufficientDriver:
-      case cudaErrorNotSupported:
-      case cudaErrorNoDevice:
-      case cudaErrorDeviceAlreadyInUse:
+      [[fallthrough]];\n      case cudaErrorNotSupported:
+      [[fallthrough]];\n      case cudaErrorNoDevice:
+      [[fallthrough]];\n      case cudaErrorDeviceAlreadyInUse:
         return GPUErrorClass::kBackendUnavailable;
 
       // Memory communication errors
       case cudaErrorInvalidValue:
-      case cudaErrorInvalidHostPointer:
-      case cudaErrorInvalidDevicePointer:
-      case cudaErrorInvalidMemcpyDirection:
+      [[fallthrough]];\n      case cudaErrorInvalidHostPointer:
+      [[fallthrough]];\n      case cudaErrorInvalidDevicePointer:
+      [[fallthrough]];\n      case cudaErrorInvalidMemcpyDirection:
         return GPUErrorClass::kMemoryCommunication;
 
       // Kernel timeout (synthetic; not a native CUDA error)
@@ -136,7 +136,7 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
 #endif
   }
 
-  GPUErrorClass classifyError(hipError_t hip_err) const noexcept override {
+  GPUErrorClass classifyError(hipError_[[maybe_unused]] t hip_er[[maybe_unused]] r) const noexcept override {
 #if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
     // HIP error codes map similarly to CUDA
     // Note: Actual values differ; we use string comparison or numeric mapping
@@ -150,14 +150,14 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
 
       // Backend/driver errors
       case hipErrorInsufficientDriver:
-      case hipErrorNotSupported:
-      case hipErrorNoDevice:
+      [[fallthrough]];\n      case hipErrorNotSupported:
+      [[fallthrough]];\n      case hipErrorNoDevice:
         return GPUErrorClass::kBackendUnavailable;
 
       // Memory communication errors
       case hipErrorInvalidValue:
-      case hipErrorInvalidDevicePointer:
-      case hipErrorInvalidMemcpyDirection:
+      [[fallthrough]];\n      case hipErrorInvalidDevicePointer:
+      [[fallthrough]];\n      case hipErrorInvalidMemcpyDirection:
         return GPUErrorClass::kMemoryCommunication;
 
       default:
@@ -169,7 +169,7 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
 #endif
   }
 
-  ErrorRecoveryPolicy defaultPolicy(GPUErrorClass error_class) const noexcept override {
+  ErrorRecoveryPolicy defaultPolicy(GPUErrorClas[[maybe_unused]] s error_clas[[maybe_unused]] s) const noexcept override {
     switch (error_class) {
       case GPUErrorClass::kQuotaExceeded:
         return ErrorRecoveryPolicy::kFallbackCPU;
@@ -188,7 +188,7 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
     }
   }
 
-  std::string errorClassName(GPUErrorClass error_class) const noexcept override {
+  std::string errorClassName(GPUErrorClas[[maybe_unused]] s error_clas[[maybe_unused]] s) const noexcept override {
     switch (error_class) {
       case GPUErrorClass::kQuotaExceeded:
         return "kQuotaExceeded";
@@ -209,7 +209,7 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
     }
   }
 
-  std::string cudaErrorName(cudaError_t cuda_err) const noexcept override {
+  std::string cudaErrorName(cudaError_[[maybe_unused]] t cuda_er[[maybe_unused]] r) const noexcept override {
 #if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
     return ::cudaGetErrorName(cuda_err);
 #else
@@ -217,7 +217,7 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
 #endif
   }
 
-  std::string hipErrorName(hipError_t hip_err) const noexcept override {
+  std::string hipErrorName(hipError_[[maybe_unused]] t hip_er[[maybe_unused]] r) const noexcept override {
 #if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
     return ::hipGetErrorName(hip_err);
 #else
@@ -226,7 +226,7 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
   }
 
  private:
-  std::mutex mutex_;
+  std::mutex mutex_ = {};
 
   /// Log a CUDA error without acquiring the mutex (caller must hold it).
   void logErrorNoLock(cudaError_t cuda_err, const std::string& context) noexcept {

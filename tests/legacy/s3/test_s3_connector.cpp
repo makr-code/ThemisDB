@@ -55,7 +55,9 @@ static SourceConfig makeS3Cfg(const std::string& bucket = "test-bucket",
     cfg.type                 = SourceType::OBJECT_STORAGE;
     cfg.location             = bucket;
     cfg.options["provider"]  = "s3";
-    if (!prefix.empty()) cfg.options["prefix"] = prefix;
+    if (!prefix.empty()) {
+      cfg.options["prefix"] = prefix;
+    }
     return cfg;
 }
 
@@ -151,7 +153,9 @@ TEST(S3ConnectorTest, IngestPlainTextObjects) {
     const std::vector<std::string> keys = {"a.txt", "b.txt", "c.txt"};
     int call = 0;
     conn.setObjectListForTesting([&](const std::string&) -> std::vector<std::string> {
-        if (call++ == 0) return keys;
+        if (call++ == 0) {
+          return keys;
+        }
         return {};
     });
     conn.setObjectFetchForTesting([](const std::string& k) {
@@ -229,7 +233,7 @@ TEST(S3ConnectorTest, IngestJsonObjectExtractsTextField) {
     });
 
     // Capture the extracted text via the document-write hook.
-    std::string captured_text;
+    std::string captured_text = {};
     conn.setDocumentWriteForTesting([&](const std::string& /*key*/,
                                         const std::string& text) {
         captured_text = text;
@@ -319,13 +323,16 @@ TEST(S3ConnectorTest, ConcurrentDownloadsProcessMultipleObjects) {
     cfg.options["max_concurrent_downloads"] = "4";
     conn.initialize(cfg);
 
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     for (int i = 0; i < 10; ++i) {
         keys.push_back("obj_" + std::to_string(i) + ".txt");
     }
     int call = 0;
     conn.setObjectListForTesting([&](const std::string&) -> std::vector<std::string> {
-        if (call++ == 0) return keys;
+        if (call++ == 0) {
+          return keys;
+        }
         return {};
     });
     conn.setObjectFetchForTesting([](const std::string& k) {
@@ -463,7 +470,7 @@ TEST(S3ConnectorTest, StartAfterFromConfigSkipsEarlierKeys) {
     cfg.options["start_after"] = "key_005";
     conn.initialize(cfg);
 
-    std::string received_start_after;
+    std::string received_start_after = {};
     conn.setObjectListForTesting([&](const std::string& sa)
                                     -> std::vector<std::string> {
         received_start_after = sa;
@@ -494,7 +501,7 @@ TEST(S3ConnectorTest, CheckpointCursorUsedAsStartAfterOnResume) {
     conn.initialize(makeS3Cfg());
     conn.setCheckpointStore(store);
 
-    std::string received_start_after;
+    std::string received_start_after = {};
     conn.setObjectListForTesting([&](const std::string& sa)
                                     -> std::vector<std::string> {
         received_start_after = sa;
@@ -659,13 +666,16 @@ TEST(S3ConnectorTest, LargeBatchProcessedConcurrently) {
     conn.initialize(cfg);
 
     // 20 objects → 5 batches of 4 each
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     for (int i = 0; i < 20; ++i) {
         keys.push_back("obj_" + std::to_string(i) + ".txt");
     }
     int call = 0;
     conn.setObjectListForTesting([&](const std::string&) -> std::vector<std::string> {
-        if (call++ == 0) return keys;
+        if (call++ == 0) {
+          return keys;
+        }
         return {};
     });
     conn.setObjectFetchForTesting([](const std::string& k) {

@@ -25,7 +25,7 @@ namespace {
 
 [[nodiscard]] bool hasPngSignature(const std::vector<uint8_t>& png) {
     static constexpr uint8_t kSig[8] = {0x89u, 'P', 'N', 'G', '\r', '\n', 0x1Au, '\n'};
-    return png.size() >= 8u && std::memcmp(png.data(), kSig, 8u) == 0;
+    return static_cast<int>(png.size()) >= 8 && std::memcmp(png.data(), kSig, 8) == 0;
 }
 
 } // namespace
@@ -68,7 +68,7 @@ TEST(SDPluginRealBackendE2ETests, E2E_Text2ImgAndImg2Img_WithModelSha256Gate) {
     Img2ImgConfig i2i_cfg;
     i2i_cfg.input_width = 64;
     i2i_cfg.input_height = 64;
-    i2i_cfg.input_image_rgb.assign(static_cast<size_t>(64 * 64 * 3), 120u);
+    i2i_cfg.input_image_rgb.assign(static_cast<size_t>(64 * 64 * 3), 120);
     i2i_cfg.width = 64;
     i2i_cfg.height = 64;
     i2i_cfg.steps = 2;

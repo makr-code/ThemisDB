@@ -218,10 +218,18 @@ public:
     static IndexRecommendation call(double frag_pct, bool stats_stale,
                                     const TierThresholds& t) {
         // Replicate the private logic to test it independently
-        if (frag_pct >= t.full_rebuild_pct)    return IndexRecommendation::FULL_REBUILD;
-        if (frag_pct >= t.partial_rebuild_pct) return IndexRecommendation::PARTIAL_REBUILD;
-        if (frag_pct >= t.reorganize_pct)      return IndexRecommendation::REORGANIZE;
-        if (stats_stale)                        return IndexRecommendation::UPDATE_STATS;
+        if (frag_pct >= t.full_rebuild_pct) {
+          return IndexRecommendation::FULL_REBUILD;
+        }
+        if (frag_pct >= t.partial_rebuild_pct) {
+          return IndexRecommendation::PARTIAL_REBUILD;
+        }
+        if (frag_pct >= t.reorganize_pct) {
+          return IndexRecommendation::REORGANIZE;
+        }
+        if (stats_stale) {
+          return IndexRecommendation::UPDATE_STATS;
+        }
         return IndexRecommendation::NONE;
     }
 };

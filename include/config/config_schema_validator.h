@@ -68,7 +68,7 @@ public:
         }
 
         std::string formatErrors() const {
-            std::string result;
+            std::string result = {};
             for (const auto& e : errors) {
                 result += "ERROR: " + e + "\n";
             }

@@ -63,7 +63,7 @@ GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
     const double* polygon_coords,
     int           numPolygonVertices
 ) {
-    ContainmentResult res;
+    ContainmentResult res = {};
 
     if (!dispatch_table_.launchContainment || numPoints <= 0 ||
             numPolygonVertices < 3 ||
@@ -82,7 +82,7 @@ GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
     HipTypedBuffer<uint8_t> d_res;
 
     // Allocate device buffers — any failure aborts and returns error_code.
-    hipError_t e;
+    hipError_t e = {};
     if ((e = hipMalloc(&d_lats.ptr, pts_sz))  != hipSuccess ||
         (e = hipMalloc(&d_lons.ptr, pts_sz))  != hipSuccess ||
         (e = hipMalloc(&d_poly.ptr, poly_sz)) != hipSuccess ||
@@ -140,7 +140,7 @@ GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
     int           count,
     themis::acceleration::GeoDistanceFormula formula
 ) {
-    DistanceResult res;
+    DistanceResult res = {};
 
     if (!dispatch_table_.launchDistance || count <= 0 ||
             !lats1 || !lons1 || !lats2 || !lons2) {
@@ -156,7 +156,7 @@ GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
     HipTypedBuffer<double> d_lats1, d_lons1, d_lats2, d_lons2;
     HipTypedBuffer<float>  d_out;
 
-    hipError_t e;
+    hipError_t e = {};
     if ((e = hipMalloc(&d_lats1.ptr, coord_sz)) != hipSuccess ||
         (e = hipMalloc(&d_lons1.ptr, coord_sz)) != hipSuccess ||
         (e = hipMalloc(&d_lats2.ptr, coord_sz)) != hipSuccess ||

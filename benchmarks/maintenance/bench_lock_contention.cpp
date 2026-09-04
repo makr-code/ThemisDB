@@ -62,8 +62,12 @@ void runContentionBench(benchmark::State& state, bool overlapping_keys) {
                 }
             });
         }
-        for (auto& w : workers) w.join();
-        if (failed.load()) state.SkipWithError("Thread failed");
+        for (auto& w : workers) {
+          w.join();
+        }
+        if (failed.load()) {
+          state.SkipWithError("Thread failed");
+        }
     }
 
     state.SetItemsProcessed(state.iterations() * threads * 64);

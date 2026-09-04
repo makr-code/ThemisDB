@@ -117,7 +117,8 @@ TEST_F(TransactionBatchA6Test, IteratorSafetyWithReleaseAllLocks) {
     const int keys_per_txn = 10;
     
     // Acquire multiple locks per transaction
-    std::vector<uint64_t> txn_ids;
+    std::vector<uint64_t> txn_ids = {};
+
     for (int i = 0; i < num_txns; ++i) {
         uint64_t txn_id = 1000 + i;
         txn_ids.push_back(txn_id);
@@ -230,7 +231,7 @@ TEST_F(TransactionBatchA6Test, SAGACompensationOrder) {
     
     std::vector<std::string> execution_order;
     std::vector<std::string> compensation_order;
-    std::mutex order_mutex;
+    std::mutex order_mutex = {};
     
     // Create a simple SAGA with 3 steps
     SAGADefinition saga;
@@ -276,7 +277,7 @@ TEST_F(TransactionBatchA6Test, SAGACompensationOnFailure) {
     SAGAOrchestrator orchestrator(saga_config);
     
     std::vector<std::string> compensated_steps;
-    std::mutex steps_mutex;
+    std::mutex steps_mutex = {};
     
     // Create a SAGA that fails on step 2
     SAGADefinition saga;

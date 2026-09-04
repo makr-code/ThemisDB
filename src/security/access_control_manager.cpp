@@ -75,7 +75,7 @@ bool AccessControlManager::initialize() {
         
         // Load ABAC policies if configured
         if (config_.enable_abac && !config_.abac_policy_path.empty()) {
-            std::string err;
+            std::string err = {};
             if (!policy_engine_.loadFromFile(config_.abac_policy_path, &err)) {
                 THEMIS_WARN("Failed to load ABAC policies from {}: {}", 
                     config_.abac_policy_path, err);
@@ -166,7 +166,7 @@ std::optional<SecurityContext> AccessControlManager::authenticate(
         
         metrics_.authentication_success++;
         THEMIS_DEBUG("Authentication successful for user '{}' with {} roles", 
-            context.user_id, context.roles.size());
+            context.user_id,static_cast<int>(context.roles.size()));
         if (config_.enable_audit_logging) {
             nlohmann::json audit_entry = {
                 {"event_type", "authentication"},
@@ -208,7 +208,7 @@ AccessDecision AccessControlManager::authorize(
         // Step 2: Check RBAC permissions
         bool has_permission = rbac_->checkPermission(context.roles, resource, action);
         
-        AccessDecision decision;
+        AccessDecision decision = {};
         if (has_permission) {
             // Step 3: If RBAC grants access and ABAC is enabled, evaluate ABAC policies
             if (config_.enable_abac) {
@@ -424,7 +424,7 @@ bool AccessControlManager::reloadConfiguration() {
         
         // Reload ABAC policies if configured
         if (config_.enable_abac && !config_.abac_policy_path.empty()) {
-            std::string err;
+            std::string err = {};
             if (!policy_engine_.loadFromFile(config_.abac_policy_path, &err)) {
                 THEMIS_ERROR("Failed to reload ABAC policies from {}: {}",
                     config_.abac_policy_path, err);

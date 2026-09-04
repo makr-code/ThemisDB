@@ -209,7 +209,8 @@ TEST_F(BranchManagerIntegrationTest, MultipleTagsAndBranches) {
 // Integration test: Concurrent branch operations
 TEST_F(BranchManagerIntegrationTest, ConcurrentBranchCreation) {
     // Create multiple branches rapidly
-    std::vector<std::string> branch_names;
+    std::vector<std::string> branch_names = {};
+
     for (int i = 0; i < 10; i++) {
         std::string name = "feature/concurrent-" + std::to_string(i);
         branch_names.push_back(name);

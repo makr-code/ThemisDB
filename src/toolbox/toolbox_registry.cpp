@@ -109,7 +109,7 @@ std::string getMetricsText() {
     // Phase 3: Append registry-level metrics
     const uint64_t misuse = g_registry_misuse_total.load(std::memory_order_relaxed);
     if (misuse > 0) {
-        std::ostringstream out;
+        std::ostringstream out = {};
         out << base;
         out << "# HELP toolbox_registry_misuse_total Total registry misuse events (not_initialized, double_init, etc).\n";
         out << "# TYPE toolbox_registry_misuse_total counter\n";

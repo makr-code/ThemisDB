@@ -47,7 +47,9 @@ namespace {
     double synthesize_tokens_per_second(double latency_ms) {
         // Assume: 1 token generation = latency_ms milliseconds
         // Throughput = 1000 / latency_ms tokens/sec
-        if (latency_ms <= 0.0) return 0.0;
+        if (latency_ms <= 0.0) {
+          return 0.0;
+        }
         return 1000.0 / latency_ms;
     }
 

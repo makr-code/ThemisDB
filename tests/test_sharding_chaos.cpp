@@ -140,8 +140,12 @@ TEST(ShardingChaosTest, NetworkPartitionScenario) {
     int partition_b_success = 0;
     
     for (int i = 0; i < 10; ++i) {
-        if (shards[0].processRequest("test")) partition_a_success++;
-        if (shards[3].processRequest("test")) partition_b_success++;
+        if (shards[0].processRequest("test")) {
+          partition_a_success++;
+        }
+        if (shards[3].processRequest("test")) {
+          partition_b_success++;
+        }
     }
     
     // Partition A should work, B should fail
@@ -156,7 +160,9 @@ TEST(ShardingChaosTest, NetworkPartitionScenario) {
     // Operations should start working again
     partition_b_success = 0;
     for (int i = 0; i < 20; ++i) {
-        if (shards[3].processRequest("test")) partition_b_success++;
+        if (shards[3].processRequest("test")) {
+          partition_b_success++;
+        }
     }
     EXPECT_GT(partition_b_success, 0);
 }
@@ -175,7 +181,9 @@ TEST(ShardingChaosTest, CascadingFailureHandling) {
     // Initial state: all healthy
     int initial_success = 0;
     for (auto& shard : shards) {
-        if (shard.processRequest("test")) initial_success++;
+        if (shard.processRequest("test")) {
+          initial_success++;
+        }
     }
     EXPECT_EQ(initial_success, NUM_SHARDS);
     
@@ -197,7 +205,9 @@ TEST(ShardingChaosTest, CascadingFailureHandling) {
         if (healthy_count >= NUM_SHARDS / 2) {
             int success_count = 0;
             for (auto& shard : shards) {
-                if (shard.processRequest("test")) success_count++;
+                if (shard.processRequest("test")) {
+                  success_count++;
+                }
             }
             EXPECT_GT(success_count, 0);
         }
@@ -212,12 +222,13 @@ TEST(ShardingChaosTest, RandomFailureInjection) {
     constexpr int NUM_ITERATIONS = 50;
     constexpr double FAILURE_PROBABILITY = 0.2;
     
-    std::vector<ChaosShard> shards;
+    std::vector<ChaosShard> shards = {};
+
     for (int i = 0; i < NUM_SHARDS; ++i) {
         shards.emplace_back(i);
     }
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::bernoulli_distribution failure_dis(FAILURE_PROBABILITY);
     
@@ -399,7 +410,8 @@ TEST(ShardingChaosTest, ByzantineFaultTolerance) {
         }
     };
     
-    std::vector<ByzantineShard> shards;
+    std::vector<ByzantineShard> shards = {};
+
     for (int i = 0; i < NUM_SHARDS; ++i) {
         shards.emplace_back(i);
     }
@@ -409,7 +421,8 @@ TEST(ShardingChaosTest, ByzantineFaultTolerance) {
     shards[5].is_byzantine = true;
     
     // Collect responses
-    std::vector<bool> responses;
+    std::vector<bool> responses = {};
+
     for (auto& shard : shards) {
         responses.push_back(shard.processRequestWithVerification("test"));
     }
@@ -418,7 +431,9 @@ TEST(ShardingChaosTest, ByzantineFaultTolerance) {
     int true_count = 0;
     int false_count = 0;
     for (bool resp : responses) {
-        if (resp) true_count++;
+        if (resp) {
+          true_count++;
+        }
         else false_count++;
     }
     
@@ -440,7 +455,8 @@ TEST(ShardingChaosTest, PartialNetworkConnectivity) {
         explicit ConnectedShard(int id) : shard(id), can_reach(NUM_SHARDS, true) {}
     };
     
-    std::vector<ConnectedShard> shards;
+    std::vector<ConnectedShard> shards = {};
+
     for (int i = 0; i < NUM_SHARDS; ++i) {
         shards.emplace_back(i);
     }

@@ -68,8 +68,10 @@ namespace phase4 {
 // ZeroCopyBuffer
 // ===========================================================================
 
-ZeroCopyBuffer::ZeroCopyBuffer(size_t size) : size_(size) {
-    if (size == 0) return;
+ZeroCopyBuffer::ZeroCopyBuffer([[maybe_unused]] size_t size) : size_(size) {
+    if (size == 0) {
+      return;
+    }
 #ifdef __linux__
     // Allocate page-aligned memory so the kernel can pin it without splitting
     void* p = ::mmap(nullptr, size,
@@ -83,7 +85,9 @@ ZeroCopyBuffer::ZeroCopyBuffer(size_t size) : size_(size) {
 }
 
 ZeroCopyBuffer::~ZeroCopyBuffer() noexcept {
-    if (!data_) return;
+    if (!data_) {
+      return;
+    }
 #ifdef __linux__
     ::munmap(data_, size_);
 #else
@@ -293,11 +297,21 @@ void IoUringZeroCopyIO::teardown_ring() noexcept {
 #ifdef __linux__
     std::lock_guard<std::mutex> lock(ring_mutex_);
     
-    if (!ring_) return;
-    if (ring_->cq_ptr)  ::munmap(ring_->cq_ptr,  ring_->cq_mmap_size);
-    if (ring_->sqe_ptr) ::munmap(ring_->sqe_ptr, ring_->sqe_mmap_size);
-    if (ring_->sq_ptr)  ::munmap(ring_->sq_ptr,  ring_->sq_mmap_size);
-    if (ring_->ring_fd >= 0) ::close(ring_->ring_fd);
+    if (!ring_) {
+      return;
+    }
+    if (ring_->cq_ptr) {
+      ::munmap(ring_->cq_ptr,  ring_->cq_mmap_size);
+    }
+    if (ring_->sqe_ptr) {
+      ::munmap(ring_->sqe_ptr, ring_->sqe_mmap_size);
+    }
+    if (ring_->sq_ptr) {
+      ::munmap(ring_->sq_ptr,  ring_->sq_mmap_size);
+    }
+    if (ring_->ring_fd >= 0) {
+      ::close(ring_->ring_fd);
+    }
     ring_->ring_fd  = -1;
     ring_->sq_ptr   = nullptr;
     ring_->sqe_ptr  = nullptr;
@@ -310,10 +324,12 @@ bool IoUringZeroCopyIO::register_buffers() noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
     // Note: called from setup_ring() which already holds ring_mutex_
-    if (ring_->ring_fd < 0 || buffers_.empty()) return false;
+    if (ring_->ring_fd < 0 || buffers_.empty()) {
+      return false;
+    }
 
     std::vector<struct iovec> iovecs(buffers_.size());
-    for (size_t i = 0; i < buffers_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(buffers_.size()); ++i) {
         iovecs[i].iov_base = buffers_[i].data();
         iovecs[i].iov_len  = buffers_[i].size();
     }
@@ -335,17 +351,19 @@ bool IoUringZeroCopyIO::register_buffers() noexcept {
 // Public API
 // ===========================================================================
 
-bool IoUringZeroCopyIO::register_fd(int fd) noexcept {
+bool IoUringZeroCopyIO::register_fd([[maybe_unused]] int fd) noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
     std::lock_guard<std::mutex> lock(ring_mutex_);
     
-    if (!available_ || !config_.fixed_files) return false;
+    if (!available_ || !config_.fixed_files) {
+      return false;
+    }
     ring_->registered_fds.push_back(fd);
     int ret = io_uring_register(ring_->ring_fd,
                                 IORING_REGISTER_FILES,
                                 ring_->registered_fds.data(),
-                                static_cast<unsigned>(ring_->registered_fds.size()));
+                                static_cast<unsigned>(ring_-> static_cast<int>(registered_fds.size())));
     if (ret != 0) {
         ring_->registered_fds.pop_back();
         return false;
@@ -357,7 +375,9 @@ bool IoUringZeroCopyIO::register_fd(int fd) noexcept {
 }
 
 int IoUringZeroCopyIO::send_zerocopy(int fd, uint32_t buf_index, size_t len) noexcept {
-    if (buf_index >= buffers_.size()) return -EINVAL;
+    if (buf_index >= static_cast<int>(buffers_.size())) {
+      return -EINVAL;
+    }
 
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
@@ -406,14 +426,18 @@ int IoUringZeroCopyIO::send_zerocopy(int fd, uint32_t buf_index, size_t len) noe
                          0
 #endif
                          );
-    if (ret < 0) return -errno;
+    if (ret < 0) {
+      return -errno;
+    }
     fallback_sends_.fetch_add(1, std::memory_order_relaxed);
     bytes_sent_.fetch_add(static_cast<uint64_t>(ret), std::memory_order_relaxed);
     return 0;
 }
 
 int IoUringZeroCopyIO::recv_zerocopy(int fd, uint32_t buf_index, size_t max_len) noexcept {
-    if (buf_index >= buffers_.size()) return -EINVAL;
+    if (buf_index >= static_cast<int>(buffers_.size())) {
+      return -EINVAL;
+    }
 
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
@@ -452,24 +476,30 @@ int IoUringZeroCopyIO::recv_zerocopy(int fd, uint32_t buf_index, size_t max_len)
 
     // Fallback: standard blocking recv()
     ssize_t ret = ::recv(fd, buffers_[buf_index].data(), max_len, 0);
-    if (ret < 0) return -errno;
+    if (ret < 0) {
+      return -errno;
+    }
     fallback_recvs_.fetch_add(1, std::memory_order_relaxed);
     bytes_received_.fetch_add(static_cast<uint64_t>(ret), std::memory_order_relaxed);
     return static_cast<int>(ret);
 }
 
-uint32_t IoUringZeroCopyIO::wait_completions(uint32_t min_completions) noexcept {
+uint32_t IoUringZeroCopyIO::wait_completions([[maybe_unused]] uint32_t min_completions) noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
     {
         std::lock_guard<std::mutex> lock(ring_mutex_);
         
-        if (!available_ || ring_->ring_fd < 0) return 0;
+        if (!available_ || ring_->ring_fd < 0) {
+          return 0;
+        }
 
         // Call io_uring_enter with IORING_ENTER_GETEVENTS to wait
         int ret = io_uring_enter(ring_->ring_fd, 0, min_completions,
                                  IORING_ENTER_GETEVENTS, nullptr);
-        if (ret < 0) return 0;
+        if (ret < 0) {
+          return 0;
+        }
 
         uint32_t count = 0;
         unsigned head = *ring_->cq_head;
@@ -499,7 +529,9 @@ int IoUringZeroCopyIO::submit_sqes() noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
     // Must be called with ring_mutex_ already held by caller
-    if (ring_->ring_fd < 0) return -1;
+    if (ring_->ring_fd < 0) {
+      return -1;
+    }
     // SQ-poll mode: kernel drains the SQ automatically – no need to call enter
     if (config_.sq_poll) {
         // Signal the SQ poll thread if it has gone idle
@@ -515,11 +547,11 @@ int IoUringZeroCopyIO::submit_sqes() noexcept {
     return -1;
 }
 
-ZeroCopyBuffer& IoUringZeroCopyIO::get_buffer(uint32_t index) {
+ZeroCopyBuffer& IoUringZeroCopyIO::get_buffer([[maybe_unused]] uint32_t index) {
     return buffers_.at(index);
 }
 
-const ZeroCopyBuffer& IoUringZeroCopyIO::get_buffer(uint32_t index) const {
+const ZeroCopyBuffer& IoUringZeroCopyIO::get_buffer([[maybe_unused]] uint32_t index) const {
     return buffers_.at(index);
 }
 
@@ -561,17 +593,19 @@ ScopedIoUringTimer::ScopedIoUringTimer(uint64_t* output_ns) noexcept
 #ifdef __linux__
     struct timespec ts{};
     ::clock_gettime(CLOCK_MONOTONIC, &ts);
-    start_ns_ = static_cast<uint64_t>(ts.tv_sec) * 1'000'000'000ULL +
+    start_ns_ = static_cast<uint64_t>(ts.tv_sec) * 1'000'000'000 +
                 static_cast<uint64_t>(ts.tv_nsec);
 #endif
 }
 
 ScopedIoUringTimer::~ScopedIoUringTimer() noexcept {
-    if (!output_ns_) return;
+    if (!output_ns_) {
+      return;
+    }
 #ifdef __linux__
     struct timespec ts{};
     ::clock_gettime(CLOCK_MONOTONIC, &ts);
-    uint64_t end_ns = static_cast<uint64_t>(ts.tv_sec) * 1'000'000'000ULL +
+    uint64_t end_ns = static_cast<uint64_t>(ts.tv_sec) * 1'000'000'000 +
                       static_cast<uint64_t>(ts.tv_nsec);
     *output_ns_ = (end_ns >= start_ns_) ? (end_ns - start_ns_) : 0;
 #else

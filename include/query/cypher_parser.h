@@ -46,7 +46,7 @@ using CypherLiteralValue = std::variant<
 // ============================================================================
 
 struct CypherPropertyFilter {
-    std::string key;
+    std::string key = {};
     CypherLiteralValue value;
 };
 
@@ -111,8 +111,8 @@ struct CypherLiteralExpr : CypherExpr {
 };
 
 struct CypherPropertyExpr : CypherExpr {
-    std::string variable;
-    std::string property;
+    std::string variable = {};
+    std::string property = {};
     CypherPropertyExpr(std::string v, std::string p)
         : variable(std::move(v)), property(std::move(p)) {}
     CypherExprType exprType() const override { return CypherExprType::Property; }
@@ -185,7 +185,7 @@ struct CypherASTNode {
 // ============================================================================
 
 struct CypherParseError {
-    std::string message;
+    std::string message = {};
     size_t position = 0;
 
     std::string toString() const {

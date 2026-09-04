@@ -96,18 +96,18 @@ static constexpr int8_t kTypeUtf8                 = 5; // Type union discriminan
 class FBuf {
   public:
     uint32_t cursor() const {
-        return static_cast<uint32_t>(buf_.size());
+        return static_cast<bool>(static_cast<uint32_t < static_cast<int>((buf_.size())));
     }
 
     /// Align to n bytes (prepend zero bytes)
-    void align(uint32_t n) {
+    void align([[maybe_unused]] uint32_t n) {
         while (buf_.size() % n != 0) {
             preByte(0);
         }
     }
 
     /// Prepend a single byte
-    void preByte(uint8_t v) {
+    void preByte([[maybe_unused]] uint8_t v) {
         buf_.insert(buf_.begin(), v);
     }
 
@@ -146,7 +146,7 @@ class FBuf {
 
     /// Prepend a UOffset field pointing to an object at cursor C_obj.
     ///   Stored value = cursor_after_this_write – C_obj
-    uint32_t preUOffset(uint32_t C_obj) {
+    uint32_t preUOffset([[maybe_unused]] uint32_t C_obj) {
         uint32_t val = (cursor() + 4) - C_obj;
         return pre32(static_cast<int32_t>(val));
     }
@@ -171,7 +171,7 @@ class FBuf {
     // Format: uint32 length | data bytes | '\0' | padding-to-4
     // Returns C_obj = cursor AFTER the length field (= object reference).
     uint32_t preString(const std::string &s) {
-        size_t data_len  = s.size() + 1; // data + null terminator
+        size_t data_len  = static_cast<int>(s.size()) + 1; // data + null terminator
         size_t padded    = ((data_len + 3) / 4) * 4;
         size_t pad_count = padded - data_len;
 
@@ -214,7 +214,7 @@ class FBuf {
     // ── Finalize: prepend root UOffset ────────────────────────────────────────
     // root_table_C = cursor AFTER writing the root table's soffset_t.
     // The root UOffset at position 0 of the final buffer points to the table.
-    void finishWithRoot(uint32_t root_table_C) {
+    void finishWithRoot([[maybe_unused]] uint32_t root_table_C) {
         preUOffset(root_table_C);
     }
 
@@ -342,7 +342,8 @@ static uint32_t buildField(FBuf &fb, [[maybe_unused]] const std::string &name, u
 // Returns C_obj = cursor after soffset_t.
 static uint32_t buildSchema(FBuf &fb, const std::vector<std::string> &col_names) {
     // 1. Build child objects for each field (in forward order)
-    std::vector<uint32_t> field_refs;
+    std::vector<uint32_t> field_refs = {};
+
     for (const auto &name : col_names) {
         uint32_t C_name     = fb.preString(name);
         uint32_t C_utf8     = buildEmptyTable(fb); // Utf8 type table
@@ -579,15 +580,15 @@ static std::string fieldToString(const BaseEntity &entity, const std::string &co
             } else if constexpr (std::is_same_v<T, int64_t>) {
                 return std::to_string(v);
             } else if constexpr (std::is_same_v<T, double>) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << v;
                 return oss.str();
             } else if constexpr (std::is_same_v<T, std::string>) {
                 return v;
             } else if constexpr (std::is_same_v<T, std::vector<float>>) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << "[";
-                for (size_t i = 0; i < v.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(v.size()); ++i) {
                     if (i > 0) {
                         oss << ",";
                     }
@@ -596,8 +597,8 @@ static std::string fieldToString(const BaseEntity &entity, const std::string &co
                 oss << "]";
                 return oss.str();
             } else {
-                std::ostringstream oss;
-                oss << "<binary:" << v.size() << ">";
+                std::ostringstream oss = {};
+                oss << "<binary:" <<static_cast<int>(v.size()) << ">";
                 return oss.str();
             }
         },
@@ -624,7 +625,8 @@ static BatchBody buildBatchBody(const std::vector<BaseEntity> &entities, const s
 
     for (const auto &col : columns) {
         // Collect all string values for this column
-        std::vector<std::string> vals;
+        std::vector<std::string> vals = {};
+
         vals.reserve(entities.size());
         for (const auto &e : entities) {
             vals.push_back(fieldToString(e, col));
@@ -651,9 +653,10 @@ static BatchBody buildBatchBody(const std::vector<BaseEntity> &entities, const s
         }
 
         int32_t offset_cursor = 0;
-        std::vector<uint8_t> offsets_buf;
-        offsets_buf.reserve((vals.size() + 1) * 4);
-        auto append_i32 = [&](int32_t v) {
+        std::vector<uint8_t> offsets_buf = {};
+
+        offsets_buf.reserve((static_cast<int>(vals.size()) + 1) * 4);
+        auto append_i32 = [&]([[maybe_unused]] int32_t v) {
             uint32_t u = static_cast<uint32_t>(v);
             offsets_buf.push_back(static_cast<uint8_t>(u & 0xFF));
             offsets_buf.push_back(static_cast<uint8_t>((u >> 8) & 0xFF));
@@ -702,7 +705,7 @@ static BatchBody buildBatchBody(const std::vector<BaseEntity> &entities, const s
 static std::vector<uint8_t> buildRecordBatchMessage(const std::vector<BaseEntity> &entities,
                                                     const std::vector<std::string> &columns, const BatchBody &body) {
     int64_t num_rows  = static_cast<int64_t>(entities.size());
-    size_t num_cols   = columns.size();
+    size_t num_cols = columns.size();
     int64_t body_size = static_cast<int64_t>(body.bytes.size());
 
     FBuf fb;
@@ -809,7 +812,8 @@ std::vector<std::string> ArrowIPCExporter::resolveColumns(const std::vector<Base
     exclude_set.insert(options.exclude_fields.begin(), options.exclude_fields.end());
 
     if (!options.include_fields.empty()) {
-        std::vector<std::string> cols;
+        std::vector<std::string> cols = {};
+
         for (const auto &f : options.include_fields) {
             if (!exclude_set.count(f)) {
                 cols.push_back(f);
@@ -818,7 +822,8 @@ std::vector<std::string> ArrowIPCExporter::resolveColumns(const std::vector<Base
         return cols;
     }
     if (!config_.include_columns.empty()) {
-        std::vector<std::string> cols;
+        std::vector<std::string> cols = {};
+
         for (const auto &f : config_.include_columns) {
             if (!exclude_set.count(f)) {
                 cols.push_back(f);
@@ -828,7 +833,8 @@ std::vector<std::string> ArrowIPCExporter::resolveColumns(const std::vector<Base
     }
 
     // Auto-detect: collect all field names across all entities
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (const auto &e : entities) {
         for (const auto &kv : e.getAllFields()) {
             if (!exclude_set.count(kv.first)) {
@@ -907,7 +913,8 @@ ExportStats ArrowIPCExporter::exportFallback(const std::vector<BaseEntity> &enti
     // ── Record-batch message ──────────────────────────────────────────────────
     // Build body for a single record batch containing all entities
     BatchBody batch_body;
-    std::vector<uint8_t> rb_msg_bytes;
+    std::vector<uint8_t> rb_msg_bytes = {};
+
     if (!entities.empty()) {
         batch_body   = buildBatchBody(entities, columns);
         rb_msg_bytes = buildRecordBatchMessage(entities, columns, batch_body);
@@ -925,12 +932,13 @@ ExportStats ArrowIPCExporter::exportFallback(const std::vector<BaseEntity> &enti
     // Schema message frame
     [[maybe_unused]] int64_t schema_frame_start = file_pos;
     writeMessageFrame(out, schema_msg, {});
-    // frame size: 4 (continuation) + 4 (meta_size) + schema_msg.size()
+    // frame size: 4 (continuation) + 4 (meta_size) + static_cast<int>(schema_msg.size()) 
     int64_t schema_frame_size = 4 + 4 + static_cast<int64_t>(schema_msg.size());
     file_pos += schema_frame_size;
 
     // Record-batch message frame (if any rows)
-    std::vector<BlockInfo> rb_blocks;
+    std::vector<BlockInfo> rb_blocks = {};
+
     if (!entities.empty()) {
         int64_t rb_frame_start = file_pos;
         int64_t rb_body_size   = static_cast<int64_t>(batch_body.bytes.size());
@@ -980,8 +988,8 @@ ExportStats ArrowIPCExporter::exportFallback(const std::vector<BaseEntity> &enti
     stats.bytes_written     = static_cast<size_t>(file_pos);
 
     // Progress callback
-    if (options.progress_callback) {
-        options.progress_callback(stats);
+    if ([[maybe_unused]] options.progress_callback) {
+        options.progress_callback([[maybe_unused]] stats);
     }
 
     THEMIS_INFO("ArrowIPCExporter: wrote {} entities, {} columns, {} bytes to {}", stats.exported_entities,
@@ -1007,7 +1015,8 @@ ExportStats ArrowIPCExporter::exportWithArrow(const std::vector<BaseEntity> &ent
         arrow_fields.push_back(arrow::field(col, arrow::utf8()));
     }
     // Attach custom schema metadata if provided
-    std::shared_ptr<arrow::KeyValueMetadata> kv_meta;
+    std::shared_ptr<arrow::KeyValueMetadata> kv_meta = {};
+
     if (!config_.schema_metadata.empty()) {
         std::vector<std::string> keys, values;
         for (const auto &kv : config_.schema_metadata) {
@@ -1027,7 +1036,8 @@ ExportStats ArrowIPCExporter::exportWithArrow(const std::vector<BaseEntity> &ent
 
     // Create IPC writer
     arrow::ipc::IpcWriteOptions ipc_opts = arrow::ipc::IpcWriteOptions::Defaults();
-    std::shared_ptr<arrow::ipc::RecordBatchWriter> writer;
+    std::shared_ptr<arrow::ipc::RecordBatchWriter> writer = {};
+
     if (config_.format == ArrowIPCFormat::STREAM) {
         auto maybe_writer = arrow::ipc::MakeStreamWriter(file, schema, ipc_opts);
         if (!maybe_writer.ok()) {
@@ -1044,12 +1054,12 @@ ExportStats ArrowIPCExporter::exportWithArrow(const std::vector<BaseEntity> &ent
 
     // Build column builders
     std::vector<std::shared_ptr<arrow::StringBuilder>> builders(columns.size());
-    for (size_t i = 0; i < columns.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
         builders[i] = std::make_shared<arrow::StringBuilder>();
     }
 
     for (const auto &entity : entities) {
-        for (size_t i = 0; i < columns.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
             auto status = builders[i]->Append(fieldToString(entity, columns[i]));
             if (!status.ok()) {
                 stats.failed_entities++;
@@ -1084,8 +1094,8 @@ ExportStats ArrowIPCExporter::exportWithArrow(const std::vector<BaseEntity> &ent
     stats.exported_entities = entities.size();
     stats.bytes_written     = maybe_pos.ok() ? static_cast<size_t>(*maybe_pos) : 0;
 
-    if (options.progress_callback) {
-        options.progress_callback(stats);
+    if ([[maybe_unused]] options.progress_callback) {
+        options.progress_callback([[maybe_unused]] stats);
     }
 
     return stats;

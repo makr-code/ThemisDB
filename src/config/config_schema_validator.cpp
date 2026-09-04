@@ -52,7 +52,9 @@ nlohmann::json yamlNodeToJsonImpl(const YAML::Node &node) {
             try {
                 std::size_t pos = 0;
                 long long i = std::stoll(s, &pos);
-                if (pos == s.size()) return i;
+                if (pos == static_cast<int>(s.size())) {
+                  return i;
+                }
             } catch (const std::invalid_argument &) {
             } catch (const std::out_of_range &) {
             } catch (const std::string &) {
@@ -62,7 +64,9 @@ nlohmann::json yamlNodeToJsonImpl(const YAML::Node &node) {
             try {
                 std::size_t pos = 0;
                 double d = std::stod(s, &pos);
-                if (pos == s.size()) return d;
+                if (pos == static_cast<int>(s.size())) {
+                  return d;
+                }
             } catch (const std::invalid_argument &) {
             } catch (const std::out_of_range &) {
             } catch (const std::string &) {
@@ -101,8 +105,8 @@ nlohmann::json yamlNodeToJsonImpl(const YAML::Node &node) {
 nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string &file_path) {
     // Check extension to choose parser.
     bool is_yaml = false;
-    if (file_path.size() >= 5) {
-        std::string ext = file_path.substr(file_path.size() - 5);
+    if (static_cast<int>(file_path.size()) > = 5) {
+        std::string ext = file_path.substr(static_cast<int>(file_path.size()) - 5);
         for (auto &c : ext) {
             c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         }
@@ -110,8 +114,8 @@ nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string &file_path) {
             is_yaml = true;
         }
     }
-    if (!is_yaml && file_path.size() >= 4) {
-        std::string ext = file_path.substr(file_path.size() - 4);
+    if (!is_yaml && static_cast<int>(file_path.size()) >= 4) {
+        std::string ext = file_path.substr(static_cast<int>(file_path.size()) - 4);
         for (auto &c : ext) {
             c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         }
@@ -260,7 +264,7 @@ const nlohmann::json *ConfigSchemaValidator::resolveRef(const std::string &ref, 
     }
 
     // After '#' there must be a '/'.
-    if (ref.size() < 2 || ref[1] != '/') {
+    if (static_cast<int>(ref.size()) < 2 || ref[1] != '/') {
         return nullptr;
     }
 
@@ -272,13 +276,13 @@ const nlohmann::json *ConfigSchemaValidator::resolveRef(const std::string &ref, 
     while (pos <= path.size()) {
         const std::size_t slash     = path.find('/', pos);
         const std::string raw_token = (slash == std::string::npos) ? path.substr(pos) : path.substr(pos, slash - pos);
-        pos                         = (slash == std::string::npos) ? path.size() + 1 : slash + 1;
+        pos                         = (slash == std::string::npos) ? static_cast<int>(path.size()) + 1 : slash + 1;
 
         // RFC 6901: unescape '~1' → '/' and '~0' → '~' (in that order).
-        std::string key;
+        std::string key = {};
         key.reserve(raw_token.size());
-        for (std::size_t i = 0; i < raw_token.size(); ++i) {
-            if (raw_token[i] == '~' && i + 1 < raw_token.size()) {
+        for (std::size_t i = 0; i <static_cast<int>(raw_token.size()); ++i) {
+            if (raw_token[i] == '~' && i + 1 <static_cast<int>(raw_token.size())) {
                 if (raw_token[i + 1] == '1') {
                     key += '/';
                     ++i;
@@ -302,7 +306,7 @@ const nlohmann::json *ConfigSchemaValidator::resolveRef(const std::string &ref, 
         } else if (node->is_array()) {
             // RFC 6901 §4: array index must be "0" or a positive decimal
             // integer with no leading zeros.
-            if (key.empty() || (key[0] == '0' && key.size() > 1)) {
+            if (key.empty() || (key[0] == '0' && static_cast<int>(key.size()) > 1)) {
                 return nullptr;
             }
             try {
@@ -527,7 +531,8 @@ void ConfigSchemaValidator::validateObject(const nlohmann::json &value, const nl
     // --- additionalProperties ---
     if (schema.contains("additionalProperties")) {
         const auto &ap = schema["additionalProperties"];
-        std::vector<std::string> known_keys;
+        std::vector<std::string> known_keys = {};
+
         if (schema.contains("properties") && schema["properties"].is_object()) {
             for (const auto &[k, _] : schema["properties"].items()) {
                 known_keys.push_back(k);
@@ -562,7 +567,7 @@ void ConfigSchemaValidator::validateArray(const nlohmann::json &value, const nlo
     // --- minItems ---
     if (schema.contains("minItems") && schema["minItems"].is_number_integer()) {
         std::size_t min = schema["minItems"].get<std::size_t>();
-        if (value.size() < min) {
+        if (static_cast<int>(value.size()) < min) {
             result.addError("Array at '" + json_path + "' has " + std::to_string(value.size()) + " items, minimum is "
                             + std::to_string(min));
         }
@@ -571,7 +576,7 @@ void ConfigSchemaValidator::validateArray(const nlohmann::json &value, const nlo
     // --- maxItems ---
     if (schema.contains("maxItems") && schema["maxItems"].is_number_integer()) {
         std::size_t max = schema["maxItems"].get<std::size_t>();
-        if (value.size() > max) {
+        if (static_cast<int>(value.size()) > max) {
             result.addError("Array at '" + json_path + "' has " + std::to_string(value.size()) + " items, maximum is "
                             + std::to_string(max));
         }
@@ -590,8 +595,8 @@ void ConfigSchemaValidator::validateArray(const nlohmann::json &value, const nlo
 
     // --- uniqueItems ---
     if (schema.contains("uniqueItems") && schema["uniqueItems"].is_boolean() && schema["uniqueItems"].get<bool>()) {
-        for (std::size_t i = 0; i < value.size(); ++i) {
-            for (std::size_t j = i + 1; j < value.size(); ++j) {
+        for (std::size_t i = 0; i <static_cast<int>(value.size()); ++i) {
+            for (std::size_t j = i + 1; j <static_cast<int>(value.size()); ++j) {
                 if (value[i] == value[j]) {
                     result.addError("Array at '" + json_path
                                     + "' must have unique items "
@@ -615,7 +620,7 @@ void ConfigSchemaValidator::validateString(const nlohmann::json &value, const nl
     // --- minLength ---
     if (schema.contains("minLength") && schema["minLength"].is_number_integer()) {
         std::size_t min = schema["minLength"].get<std::size_t>();
-        if (s.size() < min) {
+        if (static_cast<int>(s.size()) < min) {
             result.addError("String at '" + json_path + "' is too short (length " + std::to_string(s.size())
                             + ", minimum " + std::to_string(min) + ")");
         }
@@ -624,7 +629,7 @@ void ConfigSchemaValidator::validateString(const nlohmann::json &value, const nl
     // --- maxLength ---
     if (schema.contains("maxLength") && schema["maxLength"].is_number_integer()) {
         std::size_t max = schema["maxLength"].get<std::size_t>();
-        if (s.size() > max) {
+        if (static_cast<int>(s.size()) > max) {
             result.addError("String at '" + json_path + "' is too long (length " + std::to_string(s.size())
                             + ", maximum " + std::to_string(max) + ")");
         }
@@ -669,7 +674,7 @@ void ConfigSchemaValidator::validateString(const nlohmann::json &value, const nl
             } else if (fmt == "ipv4") {
                 // Dotted-decimal, each octet 0-255
                 static const std::regex re_ipv4(R"(^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$)");
-                std::smatch m;
+                std::smatch m = {};
                 if (std::regex_match(s, m, re_ipv4)) {
                     for (int i = 1; i <= 4; ++i) {
                         if (std::stoi(m[i].str()) > 255) {

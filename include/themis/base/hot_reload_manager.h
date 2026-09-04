@@ -58,7 +58,9 @@ struct ModuleVersion {
 
     /// @return "major.minor.patch" or version string, whichever is available.
     std::string toString() const {
-        if (!version.empty()) return version;
+        if (!version.empty()) {
+          return version;
+        }
         return std::to_string(major) + "." + std::to_string(minor) + "." +
                std::to_string(patch);
     }

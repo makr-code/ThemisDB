@@ -15,7 +15,7 @@
 namespace {
 
 struct SearchResult {
-    std::string document_id;
+    std::string document_id = {};
     double score = 0.0;
 };
 

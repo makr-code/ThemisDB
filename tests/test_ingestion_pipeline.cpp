@@ -31,7 +31,7 @@ TEST(IngestionPipelineTest, SingleIngestAndReadback) {
     }
 
     for (int i = 0; i < kCount; ++i) {
-        std::string value;
+        std::string value = {};
         std::string key = "doc_" + std::to_string(i);
         ASSERT_TRUE(db.get(key, value));
         ASSERT_EQ(value, "payload_" + std::to_string(i));
@@ -71,7 +71,7 @@ TEST(IngestionPipelineTest, BatchIngestThroughputGuardrail) {
 
     // Spot-check a few keys
     for (int i = 0; i < 10; ++i) {
-        std::string val;
+        std::string val = {};
         ASSERT_TRUE(db.get(keys[i], val));
         ASSERT_EQ(val.size(), 256u);
     }

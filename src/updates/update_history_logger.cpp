@@ -81,12 +81,12 @@ void UpdateHistoryLogger::record(const UpdateHistoryEntry& entry) {
              entry.who, entry.from_version, entry.to_version, entry.success);
 }
 
-std::vector<UpdateHistoryEntry> UpdateHistoryLogger::getHistory(size_t limit) const {
+std::vector<UpdateHistoryEntry> UpdateHistoryLogger::getHistory([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto entries = loadEntries();
     // Newest first
     std::reverse(entries.begin(), entries.end());
-    if (limit > 0 && entries.size() > limit) {
+    if (limit > 0 && static_cast<int>(entries.size()) > limit) {
         entries.resize(limit);
     }
     return entries;
@@ -107,7 +107,8 @@ const std::string& UpdateHistoryLogger::logFilePath() const {
 // ============================================================================
 
 std::vector<UpdateHistoryEntry> UpdateHistoryLogger::loadEntries() const {
-    std::vector<UpdateHistoryEntry> entries;
+    std::vector<UpdateHistoryEntry> entries = {};
+
     if (!fs::exists(log_file_path_)) {
         return entries;
     }

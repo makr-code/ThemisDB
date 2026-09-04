@@ -73,7 +73,8 @@ namespace {
 constexpr std::size_t kProcessEmbeddingDimensions = 256;
 
 std::vector<std::string> traceActivities(const ProcessTrace& trace) {
-    std::vector<std::string> activities;
+    std::vector<std::string> activities = {};
+
     activities.reserve(trace.events.size());
     for (const auto& event : trace.events) {
         activities.push_back(event.activity);
@@ -83,8 +84,8 @@ std::vector<std::string> traceActivities(const ProcessTrace& trace) {
 
 std::set<std::pair<std::string, std::string>> traceEdges(const ProcessTrace& trace) {
     std::set<std::pair<std::string, std::string>> edges;
-    for (std::size_t i = 1; i < trace.events.size(); ++i) {
-        edges.emplace(trace.events[i - 1].activity, trace.events[i].activity);
+    for (std::size_t i = 1; i <static_cast<int>(trace.events.size()); ++i) {
+        edges.emplace(trace.events[static_cast<int>(i - 1)].activity, trace.events[i].activity);
     }
     return edges;
 }
@@ -103,20 +104,20 @@ double jaccardSimilarity(const std::set<T>& lhs, const std::set<T>& rhs) {
     if (union_values.empty()) {
         return 0.0;
     }
-    return static_cast<double>(intersection.size()) /
+    return static_cast<bool>(static_cast<double < static_cast<int>((intersection.size()))) /
            static_cast<double>(union_values.size());
 }
 
 int longestCommonSubsequence(const std::vector<std::string>& lhs,
                              const std::vector<std::string>& rhs) {
-    std::vector<int> previous(rhs.size() + 1, 0);
-    std::vector<int> current(rhs.size() + 1, 0);
+    std::vector<int> previous(static_cast<int>(rhs.size()) + 1, 0);
+    std::vector<int> current(static_cast<int>(rhs.size()) + 1, 0);
     for (std::size_t i = 1; i <= lhs.size(); ++i) {
         for (std::size_t j = 1; j <= rhs.size(); ++j) {
-            if (lhs[i - 1] == rhs[j - 1]) {
-                current[j] = previous[j - 1] + 1;
+            if (lhs[static_cast<int>(i - 1)] == rhs[static_cast<int>(j - 1)]) {
+                current[j] = previous[static_cast<int>(j - 1)] + 1;
             } else {
-                current[j] = std::max(previous[j], current[j - 1]);
+                current[j] = std::max(previous[j], current[static_cast<int>(j - 1)]);
             }
         }
         std::swap(previous, current);
@@ -128,8 +129,8 @@ int longestCommonSubsequence(const std::vector<std::string>& lhs,
 std::set<std::pair<std::string, std::string>> weakOrderPairs(
     const std::vector<std::string>& sequence) {
     std::set<std::pair<std::string, std::string>> pairs;
-    for (std::size_t i = 0; i < sequence.size(); ++i) {
-        for (std::size_t j = i + 1; j < sequence.size(); ++j) {
+    for (std::size_t i = 0; i <static_cast<int>(sequence.size()); ++i) {
+        for (std::size_t j = i + 1; j <static_cast<int>(sequence.size()); ++j) {
             if (sequence[i] != sequence[j]) {
                 pairs.emplace(sequence[i], sequence[j]);
             }
@@ -141,19 +142,19 @@ std::set<std::pair<std::string, std::string>> weakOrderPairs(
 std::vector<float> embedActivities(const std::vector<std::string>& activities) {
     std::vector<float> embedding(kProcessEmbeddingDimensions, 0.0f);
     for (const auto& activity : activities) {
-        std::string padded;
-        padded.reserve(activity.size() + 2);
+        std::string padded = {};
+        padded.reserve(static_cast<int>(activity.size()) + 2);
         padded.push_back(' ');
         for (unsigned char ch : activity) {
             padded.push_back(static_cast<char>(std::tolower(ch)));
         }
         padded.push_back(' ');
 
-        for (std::size_t i = 0; i + 2 < padded.size(); ++i) {
+        for (std::size_t i = 0; i + 2 <static_cast<int>(padded.size()); ++i) {
             const auto h0 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i]));
             const auto h1 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i + 1]));
             const auto h2 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i + 2]));
-            const auto bucket = (h0 * 31u * 31u + h1 * 31u + h2) % kProcessEmbeddingDimensions;
+            const auto bucket = (h0 * 31 * 31 + h1 * 31 + h2) % kProcessEmbeddingDimensions;
             embedding[bucket] += 1.0f;
         }
     }
@@ -173,11 +174,11 @@ std::vector<float> embedActivities(const std::vector<std::string>& activities) {
 }
 
 double cosineSimilarity(const std::vector<float>& lhs, const std::vector<float>& rhs) {
-    if (lhs.empty() || rhs.empty() || lhs.size() != rhs.size()) {
+    if (lhs.empty() || rhs.empty() || static_cast<int>(lhs.size()) != static_cast<int>(rhs.size())) {
         return 0.0;
     }
     double dot = 0.0;
-    for (std::size_t i = 0; i < lhs.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(lhs.size()); ++i) {
         dot += static_cast<double>(lhs[i]) * static_cast<double>(rhs[i]);
     }
     return dot;
@@ -209,7 +210,7 @@ json normalizeAdminModels(const json& value) {
 EventLog parseEventLog(const json& j);
 
 ProcessPattern parseProcessPattern(const json& j) {
-    ProcessPattern pattern;
+    ProcessPattern pattern = {};
     if (!j.is_object()) {
         return pattern;
     }
@@ -271,7 +272,7 @@ EventLog buildEventLogFromScanner(const FunctionContext& ctx,
     EventLog log;
     std::unordered_map<std::string, std::vector<ProcessEvent>> events_by_case;
 
-    const auto docs = ctx.scanCollection(collection, [&](const json& doc) {
+    const auto docs = ctx.scanCollection(collection, [&]([[maybe_unused]] const json& doc) {
         const auto case_id_it = doc.find(config.case_id_field);
         const auto activity_it = doc.find(config.activity_field);
         const auto ts_it = doc.find(config.timestamp_field);
@@ -291,7 +292,8 @@ EventLog buildEventLogFromScanner(const FunctionContext& ctx,
         return true;
     });
 
-    std::map<std::string, int> activity_to_id;
+    std::map<std::string, int> activity_to_id = {};
+
     for (const auto& doc : docs) {
         ProcessEvent event;
         event.case_id = doc.at(config.case_id_field).get<std::string>();
@@ -395,7 +397,7 @@ double computeGraphSimilarity(const ProcessPattern& pattern, const ProcessTrace&
     const auto edge_overlap = jaccardSimilarity(pattern_edges, trace_edge_set);
     const auto lcs = longestCommonSubsequence(pattern.activities, trace_activity_sequence);
     const auto max_len = static_cast<double>(
-        std::max(pattern.activities.size(), trace_activity_sequence.size()));
+        std::max(pattern.activities.size(),static_cast<int>(trace_activity_sequence.size())));
     const auto path_similarity = max_len > 0.0 ? static_cast<double>(lcs) / max_len : 1.0;
     return 0.4 * node_overlap + 0.35 * edge_overlap + 0.25 * path_similarity;
 }
@@ -411,7 +413,7 @@ double computeBehavioralSimilarity(const ProcessPattern& pattern, const ProcessT
 
     const auto lcs = longestCommonSubsequence(pattern.activities, trace_activity_sequence);
     const auto max_len = static_cast<double>(
-        std::max(pattern.activities.size(), trace_activity_sequence.size()));
+        std::max(pattern.activities.size(),static_cast<int>(trace_activity_sequence.size())));
     const auto seq_similarity = max_len > 0.0 ? static_cast<double>(lcs) / max_len : 0.0;
     const auto pattern_order = weakOrderPairs(pattern.activities);
     const auto trace_order = weakOrderPairs(trace_activity_sequence);
@@ -550,7 +552,7 @@ json compareTraceWithPattern(const ProcessPattern& pattern, const ProcessTrace& 
 // }
 // ---------------------------------------------------------------------------
 EventLog parseEventLog(const json& j) {
-    EventLog log;
+    EventLog log = {};
     if (!j.is_object() || !j.contains("traces") || !j["traces"].is_array()) {
         return log;
     }
@@ -643,8 +645,10 @@ json discoveredProcessToJson(const DiscoveredProcess& proc) {
 // JSON → DiscoveredProcess  (for PM_CONFORMANCE / PM_EXPORT_BPMN input)
 // ---------------------------------------------------------------------------
 DiscoveredProcess parseDiscoveredProcess(const json& j) {
-    DiscoveredProcess proc;
-    if (!j.is_object()) return proc;
+    DiscoveredProcess proc = {};
+    if (!j.is_object()) {
+      return proc;
+    }
 
     proc.id             = j.value("id", std::string{});
     proc.name           = j.value("name", std::string{});
@@ -685,11 +689,15 @@ DiscoveredProcess parseDiscoveredProcess(const json& j) {
 // JSON → MiningConfig
 // ---------------------------------------------------------------------------
 MiningConfig parseMiningConfig(const json& j) {
-    MiningConfig cfg;
-    if (!j.is_object()) return cfg;
+    MiningConfig cfg = {};
+    if (!j.is_object()) {
+      return cfg;
+    }
 
     const std::string algo = j.value("algorithm", std::string{"heuristic"});
-    if      (algo == "alpha")     cfg.algorithm = MiningAlgorithm::ALPHA;
+    if      (algo == "alpha") {
+      cfg.algorithm = MiningAlgorithm::ALPHA;
+    }
     else if (algo == "alpha_plus") cfg.algorithm = MiningAlgorithm::ALPHA_PLUS;
     else if (algo == "inductive") cfg.algorithm = MiningAlgorithm::INDUCTIVE;
     else if (algo == "split")     cfg.algorithm = MiningAlgorithm::SPLIT;
@@ -719,7 +727,7 @@ json PmFindSimilarFunction::execute(
     }
 
     const auto pattern = parseProcessPattern(args[0]);
-    const auto config = args.size() > 1 && args[1].is_object() ? args[1] : json::object();
+    const auto config = static_cast<int>(args.size()) > 1 && args[1].is_object() ? args[1] : json::object();
     const auto threshold = std::clamp(config.value("threshold", 0.7), 0.0, 1.0);
     const auto limit = static_cast<std::size_t>(std::max(0, config.value("limit", 10)));
     const auto log = getEventLogFromContext(ctx, config);
@@ -763,7 +771,7 @@ json PmFindSimilarFunction::execute(
     json results = json::array();
     for (const auto& [score, entry] : ranked) {
         (void)score;
-        if (results.size() >= limit) {
+        if (static_cast<int>(results.size()) > = limit) {
             break;
         }
         results.push_back(entry);
@@ -771,14 +779,14 @@ json PmFindSimilarFunction::execute(
 
     return {
         {"results", std::move(results)},
-        {"total", ranked.size()}
+        {"total",static_cast<int>(ranked.size())}
     };
 }
 
 json PmCompareIdealFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
-    if (args.size() < 2 || !args[0].is_string() || !args[1].is_object()) {
+    if (static_cast<int>(args.size()) < 2 || !args[0].is_string() || !args[1].is_object()) {
         return makeError("PM_COMPARE_IDEAL: expected case_id string and ideal_model object");
     }
 
@@ -794,11 +802,11 @@ json PmCompareIdealFunction::execute(
 json PmHasPatternFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
-    if (args.size() < 2 || !args[0].is_string() || !args[1].is_object()) {
+    if (static_cast<int>(args.size()) < 2 || !args[0].is_string() || !args[1].is_object()) {
         return false;
     }
 
-    const auto threshold = args.size() > 2 && args[2].is_number()
+    const auto threshold = static_cast<int>(args.size()) > 2 && args[2].is_number()
         ? std::clamp(args[2].get<double>(), 0.0, 1.0)
         : 0.8;
     const auto log = getEventLogFromContext(ctx);
@@ -829,7 +837,7 @@ json PmExtractLogFunction::execute(
     config.case_id_field   = "case_id";
     config.activity_field  = "activity";
     config.timestamp_field = "timestamp";
-    if (args.size() > 1 && args[1].is_object()) {
+    if (static_cast<int>(args.size()) > 1 && args[1].is_object()) {
         const json& cfg = args[1];
         if (cfg.contains("case_id_field")   && cfg["case_id_field"].is_string())
             config.case_id_field   = cfg["case_id_field"].get<std::string>();
@@ -878,9 +886,15 @@ json PmExtractLogFunction::execute(
             e["case_id"]      = ev.case_id;
             e["activity"]     = ev.activity;
             e["timestamp_ms"] = ev.timestamp_ms;
-            if (ev.resource)  e["resource"]  = *ev.resource;
-            if (ev.lifecycle) e["lifecycle"] = *ev.lifecycle;
-            if (!ev.attributes.is_null()) e["attributes"] = ev.attributes;
+            if (ev.resource) {
+              e["resource"]  = *ev.resource;
+            }
+            if (ev.lifecycle) {
+              e["lifecycle"] = *ev.lifecycle;
+            }
+            if (!ev.attributes.is_null()) {
+              e["attributes"] = ev.attributes;
+            }
             evts.push_back(std::move(e));
         }
         t["events"] = std::move(evts);
@@ -943,7 +957,7 @@ json PmDiscoverProcessFunction::execute(
     }
 
     const EventLog log = parseEventLog(args[0]);
-    const MiningConfig cfg = (args.size() >= 2 && args[1].is_object())
+    const MiningConfig cfg = (static_cast<int>(args.size()) >= 2 && args[1].is_object())
                              ? parseMiningConfig(args[1])
                              : MiningConfig{};
 
@@ -975,7 +989,7 @@ json PmVariantsFunction::execute(
     }
 
     const EventLog log = parseEventLog(args[0]);
-    const int top_n = (args.size() >= 2 && args[1].is_number_integer())
+    const int top_n = (static_cast<int>(args.size()) >= 2 && args[1].is_number_integer())
                       ? args[1].get<int>() : 20;
 
     auto [status, variants] = pm->analyzeVariants(log, top_n);
@@ -1046,7 +1060,7 @@ json PmConformanceFunction::execute(
     result["generalization"] = 0.0;
     result["simplicity"]     = 0.0;
 
-    if (args.size() < 2 || !args[0].is_object() || !args[1].is_object()) {
+    if (static_cast<int>(args.size()) < 2 || !args[0].is_object() || !args[1].is_object()) {
         return result;
     }
 
@@ -1089,16 +1103,22 @@ json PmDeviationsFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
 
-    if (args.size() < 2) return json::array();
+    if (static_cast<int>(args.size()) < 2) {
+      return json::array();
+    }
 
     ProcessMining* pm = ctx.getProcessMining();
-    if (!pm) return json::array();
+    if (!pm) {
+      return json::array();
+    }
 
     const EventLog log         = parseEventLog(args[0]);
     const DiscoveredProcess model = parseDiscoveredProcess(args[1]);
 
     auto [status, cr] = pm->checkConformance(log, model);
-    if (!status.ok) return json::array();
+    if (!status.ok) {
+      return json::array();
+    }
 
     json result = json::array();
     for (const auto& d : cr.deviations) {
@@ -1118,24 +1138,34 @@ json PmBottlenecksFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
 
-    if (args.empty() || !args[0].is_object()) return json::array();
+    if (args.empty() || !args[0].is_object()) {
+      return json::array();
+    }
 
     ProcessMining* pm = ctx.getProcessMining();
-    if (!pm) return json::array();
+    if (!pm) {
+      return json::array();
+    }
 
     // Derive a process model first, then enhance with performance, then detect bottlenecks.
     const EventLog log = parseEventLog(args[0]);
-    const double threshold = (args.size() >= 2 && args[1].is_number())
+    const double threshold = (static_cast<int>(args.size()) >= 2 && args[1].is_number())
                              ? args[1].get<double>() : 0.9;
 
     auto [dstatus, process] = pm->discoverProcess(log, MiningConfig{});
-    if (!dstatus.ok) return json::array();
+    if (!dstatus.ok) {
+      return json::array();
+    }
 
     auto [estatus, enhanced] = pm->enhanceWithPerformance(process, log);
-    if (!estatus.ok) return json::array();
+    if (!estatus.ok) {
+      return json::array();
+    }
 
     auto [bstatus, bottlenecks] = pm->detectBottlenecks(enhanced, threshold);
-    if (!bstatus.ok) return json::array();
+    if (!bstatus.ok) {
+      return json::array();
+    }
 
     json result = json::array();
     for (const auto& b : bottlenecks) {

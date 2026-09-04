@@ -421,14 +421,18 @@ TEST(HtmlProcessorTest, GenerateEmbedding_NonZeroForNonEmpty) {
     HtmlProcessor proc;
     auto emb = proc.generateEmbedding("some text here");
     float norm = 0.0f;
-    for (float v : emb) norm += v * v;
+    for (float v : emb) {
+      norm += v * v;
+    }
     EXPECT_GT(norm, 0.0f);
 }
 
 TEST(HtmlProcessorTest, GenerateEmbedding_ZeroForEmpty) {
     HtmlProcessor proc;
     auto emb = proc.generateEmbedding("");
-    for (float v : emb) EXPECT_EQ(v, 0.0f);
+    for (float v : emb) {
+      EXPECT_EQ(v, 0.0f);
+    }
 }
 
 TEST(HtmlProcessorTest, GenerateEmbedding_Deterministic) {

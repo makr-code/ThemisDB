@@ -185,8 +185,8 @@ class CausalWritePipeline {
 public:
     struct Write {
         uint64_t    seq{0};
-        std::string key;
-        std::string value;
+        std::string key = {};
+        std::string value = {};
     };
 
     [[nodiscard]] uint64_t Append(const std::string& key, const std::string& value) {

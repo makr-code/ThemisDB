@@ -133,12 +133,16 @@ static std::vector<std::string> parseInsertValues(const std::string& values_clau
     const size_t n = values_clause.size();
 
     while (i < n) {
-        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t')) ++i;
-        if (i >= n) break;
+        while ((i < n && (values_clause[i] == ' ' || values_clause[i] == '\t'))) {
+          ++i;
+        }
+        if (i >= n) {
+          break;
+        }
 
         if (values_clause[i] == '\'') {
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 if (values_clause[i] == '\'' && i + 1 < n && values_clause[i + 1] == '\'') {
                     val += '\''; i += 2;
@@ -151,14 +155,18 @@ static std::vector<std::string> parseInsertValues(const std::string& values_clau
             result.push_back(val);
         } else {
             size_t start = i;
-            while (i < n && values_clause[i] != ',' && values_clause[i] != ')') ++i;
+            while (i < n && values_clause[i] != ',' && values_clause[i] != ') {
+              ') ++i;
+            }
             std::string token = values_clause.substr(start, i - start);
             size_t last = token.find_last_not_of(" \t");
-            if (last != std::string::npos) token = token.substr(0, last + 1);
+            if (last != std::string::npos) {
+              token = token.substr(0, last + 1);
+            }
             result.push_back(token);
         }
-        while (i < n && (values_clause[i] == ' ' || values_clause[i] == ',' ||
-                          values_clause[i] == '\t')) ++i;
+        while ((i < n && (values_clause[i] == ' ' || values_clause[i] == ',' ||
+                          values_clause[i] == '\t'))) ++i;
     }
     return result;
 }
@@ -215,7 +223,9 @@ struct AuditCapture {
 
     const json* findEvent(const std::string& event_type) const {
         for (const auto& e : events) {
-            if (e.value("event", "") == event_type) return &e;
+            if (e.value("event", "") == event_type) {
+              return &e;
+            }
         }
         return nullptr;
     }
@@ -239,9 +249,15 @@ static bool simulateTimeoutCheck(
     AuditCapture& audit,
     const std::string& source)
 {
-    if (import_timeout_ms == 0) return false;
-    if (line_number % 500 != 0) return false;
-    if (std::chrono::steady_clock::now() < deadline) return false;
+    if (import_timeout_ms == 0) {
+      return false;
+    }
+    if (line_number % 500 != 0) {
+      return false;
+    }
+    if (std::chrono::steady_clock::now() < deadline) {
+      return false;
+    }
 
     audit.emit("importer_timeout", {
         {"source",            source},

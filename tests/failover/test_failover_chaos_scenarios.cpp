@@ -267,7 +267,7 @@ TEST(FailoverChaosScenarios, EventCallbacksReceiveNodeFailureEvents) {
     cfg.max_concurrent_failovers = 10;
     AutoFailoverManager mgr(cfg, nullptr, nullptr, nullptr, nullptr);
 
-    std::mutex cb_mutex;
+    std::mutex cb_mutex = {};
     std::vector<FailoverEventType> received;
     mgr.registerEventCallback(
         [&](FailoverEventType t, const std::string&, const std::string&) {
@@ -376,7 +376,9 @@ TEST(FailoverChaosScenarios, ConcurrentTriggersSafe) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     std::this_thread::sleep_for(300ms);
     ASSERT_TRUE(mgr.stop());

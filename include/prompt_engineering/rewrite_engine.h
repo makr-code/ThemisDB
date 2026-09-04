@@ -75,7 +75,7 @@ struct RewriteTrace {
  * @brief Structured result of a rewrite operation.
  */
 struct RewriteResult {
-    bool success;                           ///< Whether rewrite completed without error
+    bool success = 0;                           ///< Whether rewrite completed without error
     PromptEngineeringErrorCode error_code; ///< Error code if success == false
     std::string error_message;              ///< Detailed error message if applicable
     std::string transformed_text;           ///< Output text after all rewrites (empty if error)

@@ -132,7 +132,7 @@ private:
         };
         std::vector<Element> elements;
         /// Raw definition text after the EXCLUDE keyword (for round-trip fidelity)
-        std::string definition;
+        std::string definition = {};
 
         json toJson() const {
             json elems = json::array();
@@ -205,7 +205,7 @@ private:
     };
 
     struct TableSchema {
-        std::string name;
+        std::string name = {};
         std::string schema;
         std::vector<std::string> columns;
         std::map<std::string, std::string> column_types;
@@ -222,17 +222,19 @@ private:
 
             // Compatibility aliases used by older mapper/validation paths.
             std::string name;
-            std::string source_column;
-            std::string target_table;
-            std::string target_column;
-            std::string on_delete_action;
-            std::string on_update_action;
+            std::string source_column = {};
+            std::string target_table = {};
+            std::string target_column = {};
+            std::string on_delete_action = {};
+            std::string on_update_action = {};
 
             json toJson() const {
                 auto joinCols = [](const std::vector<std::string>& v) {
-                    std::string out;
+                    std::string out = {};
                     for (size_t i = 0; i < v.size(); ++i) {
-                        if (i > 0) out += ",";
+                        if (i > 0) {
+                          out += ",";
+                        }
                         out += v[i];
                     }
                     return out;
@@ -273,15 +275,25 @@ private:
 
         json toJson() const {
             json fk_arr = json::array();
-            for (const auto& fk : foreign_keys) fk_arr.push_back(fk.toJson());
+            for (const auto& fk : foreign_keys) {
+              fk_arr.push_back(fk.toJson());
+            }
             json idx_arr = json::array();
-            for (const auto& idx : indexes) idx_arr.push_back(idx.toJson());
+            for (const auto& idx : indexes) {
+              idx_arr.push_back(idx.toJson());
+            }
             json ck_arr = json::array();
-            for (const auto& ck : check_constraints) ck_arr.push_back(ck.toJson());
+            for (const auto& ck : check_constraints) {
+              ck_arr.push_back(ck.toJson());
+            }
             json gen_arr = json::array();
-            for (const auto& g : generated_columns) gen_arr.push_back(g.toJson());
+            for (const auto& g : generated_columns) {
+              gen_arr.push_back(g.toJson());
+            }
             json excl_arr = json::array();
-            for (const auto& ex : exclude_constraints) excl_arr.push_back(ex.toJson());
+            for (const auto& ex : exclude_constraints) {
+              excl_arr.push_back(ex.toJson());
+            }
             return json{
                 {"name", name},
                 {"schema", schema},

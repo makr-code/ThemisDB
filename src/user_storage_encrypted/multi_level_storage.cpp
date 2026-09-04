@@ -46,7 +46,7 @@ struct MultiLevelEncryptedStorage::Impl {
     std::map<SecurityLevel, std::shared_ptr<EncryptionBackendInterface>> backends;
     std::map<std::string, std::shared_ptr<KeyProvider>> key_providers;
     std::mutex mutex;
-    bool initialized;
+    bool initialized = {};
     StorageMetrics metrics;
 
     Impl() : initialized(false) {}
@@ -77,7 +77,8 @@ bool MultiLevelEncryptedStorage::initialize(const char* config_json) {
         reconcileStaleMounts();
 
         // Reconcile stale mounts from a prior crash before bringing up new mounts.
-        std::set<std::string> base_paths;
+        std::set<std::string> base_paths = {};
+
         for (const auto& pair : impl_->level_configs) {
             const auto& cfg = pair.second;
             if (cfg.encrypted && !cfg.mount_point.empty()) {
@@ -123,7 +124,8 @@ void MultiLevelEncryptedStorage::reconcileStaleMounts(const std::string& base_pa
     }
 
     // Build set of mount points that belong to this instance so we can skip them.
-    std::set<std::string> configured_mounts;
+    std::set<std::string> configured_mounts = {};
+
     for (const auto& pair : impl_->level_configs) {
         if (pair.second.encrypted && !pair.second.mount_point.empty()) {
             configured_mounts.insert(pair.second.mount_point);
@@ -137,17 +139,19 @@ void MultiLevelEncryptedStorage::reconcileStaleMounts(const std::string& base_pa
 
 #if defined(__linux__)
     std::ifstream mounts("/proc/mounts");
-    std::string line;
+    std::string line = {};
     while (std::getline(mounts, line)) {
         // /proc/mounts: <device> <mountpoint> <fstype> <options> <dump> <pass>
         std::istringstream iss(line);
         std::string device, mount_point;
         iss >> device >> mount_point;
-        if (mount_point.empty()) continue;
+        if (mount_point.empty()) {
+          continue;
+        }
 
         const std::string prefix = base_path + "/";
-        if (mount_point.size() > prefix.size() &&
-            mount_point.compare(0, prefix.size(), prefix) == 0) {
+        if (static_cast<int>(mount_point.size()) > static_cast<int>(prefix.size()) &&
+            mount_point.compare(0,static_cast<int>(prefix.size()), prefix) == 0) {
             if (configured_mounts.find(mount_point) == configured_mounts.end()) {
                 stale.push_back(mount_point);
             }
@@ -328,7 +332,7 @@ Result<void> MultiLevelEncryptedStorage::initializeLevel(const LevelConfig& conf
         }
     } else {
         // For unencrypted level, just ensure directory exists
-        std::error_code ec;
+        std::error_code ec = {};
         if (!std::filesystem::exists(config.base_path, ec)) {
             std::filesystem::create_directories(config.base_path, ec);
             if (ec) {
@@ -570,7 +574,7 @@ Result<void> MultiLevelEncryptedStorage::rotateKey(SecurityLevel level) {
     auto mount_new = backend->mountContainer(new_encrypted_dir, new_mount_point, new_key);
     if (mount_new.isError()) {
         // Best-effort cleanup
-        std::error_code cleanup_ec;
+        std::error_code cleanup_ec = {};
         std::filesystem::remove_all(new_encrypted_dir, cleanup_ec);
         return Result<void>::error("Key rotation failed – cannot mount new container: " +
                                    mount_new.error());
@@ -617,7 +621,7 @@ Result<void> MultiLevelEncryptedStorage::rotateKey(SecurityLevel level) {
     }
 
     // Step 6: remove the backup container securely.
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(backup_encrypted_dir, ec);
     if (ec) {
         spdlog::warn("Key rotation: could not remove backup container '{}': {}",
@@ -646,7 +650,7 @@ std::string MultiLevelEncryptedStorage::getBasePath(SecurityLevel level) {
 // ── Prometheus metrics ────────────────────────────────────────────────────
 
 std::string MultiLevelEncryptedStorage::getMetricsText() const {
-    std::string out;
+    std::string out = {};
     out.reserve(512);
 
     // user_storage_mounts_active
@@ -713,7 +717,7 @@ Result<void> MultiLevelEncryptedStorage::writeUserFile(const std::string& path, 
         // Ensure parent directory exists
         const auto parent = std::filesystem::path(path).parent_path();
         if (!parent.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::create_directories(parent, ec);
             if (ec) {
                 return Result<void>::error(
@@ -773,7 +777,7 @@ Result<void> MultiLevelEncryptedStorage::writeGroupFile(const std::string& path,
         // Ensure parent directory exists
         const auto parent = std::filesystem::path(path).parent_path();
         if (!parent.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::create_directories(parent, ec);
             if (ec) {
                 return Result<void>::error(
@@ -861,12 +865,13 @@ Result<std::vector<User>> MultiLevelEncryptedStorage::listUsers(SecurityLevel le
     }
 
     const auto users_dir = std::filesystem::path(base) / "users";
-    std::error_code ec;
+    std::error_code ec = {};
     if (!std::filesystem::exists(users_dir, ec) || !std::filesystem::is_directory(users_dir, ec)) {
         return Result<std::vector<User>>(std::vector<User>{});
     }
 
-    std::vector<User> users;
+    std::vector<User> users = {};
+
     for (const auto& entry : std::filesystem::directory_iterator(users_dir, ec)) {
         if (ec) {
             break;
@@ -928,12 +933,13 @@ Result<std::vector<Group>> MultiLevelEncryptedStorage::listGroups(SecurityLevel 
     }
 
     const auto groups_dir = std::filesystem::path(base) / "groups";
-    std::error_code ec;
+    std::error_code ec = {};
     if (!std::filesystem::exists(groups_dir, ec) || !std::filesystem::is_directory(groups_dir, ec)) {
         return Result<std::vector<Group>>(std::vector<Group>{});
     }
 
-    std::vector<Group> groups;
+    std::vector<Group> groups = {};
+
     for (const auto& entry : std::filesystem::directory_iterator(groups_dir, ec)) {
         if (ec) {
             break;
@@ -1019,7 +1025,8 @@ Result<HealthStatus> MultiLevelEncryptedStorage::checkLevelHealth(SecurityLevel 
 
 void MultiLevelEncryptedStorage::reconcileStaleMounts() {
     // Collect known mount points from configuration
-    std::vector<std::string> known_mount_points;
+    std::vector<std::string> known_mount_points = {};
+
     for (const auto& pair : impl_->level_configs) {
         const auto& cfg = pair.second;
         if (cfg.encrypted && !cfg.mount_point.empty()) {
@@ -1035,7 +1042,7 @@ void MultiLevelEncryptedStorage::reconcileStaleMounts() {
     }
 
     std::vector<std::string> stale_mounts;
-    std::string line;
+    std::string line = {};
     while (std::getline(mounts_file, line)) {
         // /proc/mounts columns: device mountpoint fstype options dump pass
         std::istringstream iss(line);
@@ -1065,7 +1072,8 @@ void MultiLevelEncryptedStorage::reconcileStaleMounts() {
         {
             pid_t pid = fork();
             if (pid == 0) {
-                std::vector<char*> c_args;
+                std::vector<char*> c_args = {};
+
                 for (const auto& a : args_fuse) {
                     c_args.push_back(const_cast<char*>(a.c_str()));
                 }
@@ -1085,7 +1093,8 @@ void MultiLevelEncryptedStorage::reconcileStaleMounts() {
         {
             pid_t pid = fork();
             if (pid == 0) {
-                std::vector<char*> c_args;
+                std::vector<char*> c_args = {};
+
                 for (const auto& a : args_umount) {
                     c_args.push_back(const_cast<char*>(a.c_str()));
                 }

@@ -22,7 +22,7 @@ namespace themis::rag::learning {
  * @brief Parameter bounds for optimization
  */
 struct ParameterBounds {
-    double min_value;
+    double min_value = 0;
     double max_value;
 };
 

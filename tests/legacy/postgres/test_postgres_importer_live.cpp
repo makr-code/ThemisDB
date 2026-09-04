@@ -86,40 +86,78 @@ struct LiveImportOptions {
 static std::string liveMapType(const std::string& pg,
                                 const std::map<std::string,std::string>& ov = {}) {
     auto it = ov.find(pg);
-    if (it != ov.end()) return it->second;
+    if (it != ov.end()) {
+      return it->second;
+    }
     std::string t = pg;
     std::transform(t.begin(), t.end(), t.begin(), ::tolower);
     it = ov.find(t);
-    if (it != ov.end()) return it->second;
-    if (t.back() == ']' || t.find("[]") != std::string::npos) return "array";
-    if (t == "bigserial" || t == "bigint" || t == "int8")           return "long";
-    if (t == "smallint"  || t == "int2"   || t == "smallserial")    return "integer";
-    if (t == "integer"   || t == "int"    || t == "int4" || t == "serial") return "integer";
-    if (t == "real"      || t == "float4")                          return "float";
-    if (t == "double precision" || t == "float8")                   return "double";
-    if (t == "boolean"   || t == "bool")                            return "boolean";
-    if (t == "bytea")                                               return "binary";
-    if (t == "json"      || t == "jsonb")                           return "json";
-    if (t == "point" || t == "polygon" || t == "circle" || t == "line") return "geo";
-    if (t == "oid" || t == "xid" || t == "cid")                    return "integer";
+    if (it != ov.end()) {
+      return it->second;
+    }
+    if (t.back() == ']' || t.find("[]") != std::string::npos) {
+      return "array";
+    }
+    if (t == "bigserial" || t == "bigint" || t == "int8") {
+      return "long";
+    }
+    if (t == "smallint"  || t == "int2"   || t == "smallserial") {
+      return "integer";
+    }
+    if (t == "integer"   || t == "int"    || t == "int4" || t == "serial") {
+      return "integer";
+    }
+    if (t == "real"      || t == "float4") {
+      return "float";
+    }
+    if (t == "double precision" || t == "float8") {
+      return "double";
+    }
+    if (t == "boolean"   || t == "bool") {
+      return "boolean";
+    }
+    if (t == "bytea") {
+      return "binary";
+    }
+    if (t == "json"      || t == "jsonb") {
+      return "json";
+    }
+    if (t == "point" || t == "polygon" || t == "circle" || t == "line") {
+      return "geo";
+    }
+    if (t == "oid" || t == "xid" || t == "cid") {
+      return "integer";
+    }
     // Parameterised numeric types: numeric(p,s), decimal(p,s), money
     if (t == "numeric" || t == "decimal" || t == "money" ||
         t.find("numeric(") == 0 || t.find("decimal(") == 0)        return "double";
     // character varying(n), varchar(n), char(n)
     if (t.find("char") != std::string::npos ||
         t.find("varchar") != std::string::npos)                     return "string";
-    if (t.find("timestamp") != std::string::npos)                   return "datetime";
-    if (t.find("date")      != std::string::npos)                   return "date";
-    if (t.find("time")      != std::string::npos)                   return "time";
-    if (t.find("json")      != std::string::npos)                   return "json";
-    if (t.find("int")       != std::string::npos)                   return "integer";
+    if (t.find("timestamp") != std::string::npos) {
+      return "datetime";
+    }
+    if (t.find("date")      != std::string::npos) {
+      return "date";
+    }
+    if (t.find("time")      != std::string::npos) {
+      return "time";
+    }
+    if (t.find("json")      != std::string::npos) {
+      return "json";
+    }
+    if (t.find("int")       != std::string::npos) {
+      return "integer";
+    }
     // inet, cidr, macaddr, xml, tsvector, interval, uuid, name, text -> string
     return "string";
 }
 
 static std::string liveUnescapeCopy(const std::string& val) {
-    if (val == "\\N") return "";
-    std::string out;
+    if (val == "\\N") {
+      return "";
+    }
+    std::string out = {};
     for (size_t i = 0; i < val.size(); ++i) {
         if (val[i] == '\\' && i + 1 < val.size()) {
             char nx = val[++i];
@@ -152,29 +190,37 @@ static std::vector<std::string> liveParseCopyRow(const std::string& line) {
 
 static bool liveParseCreateTable(const std::string& sql, LiveTableSchema& schema) {
     std::regex re(R"(CREATE TABLE\s+(?:(\w+)\.)?(\w+)\s*\()");
-    std::smatch m;
-    if (!std::regex_search(sql, m, re)) return false;
+    std::smatch m = {};
+    if (!std::regex_search(sql, m, re)) {
+      return false;
+    }
     schema.schema_name = m[1].str();
     schema.name        = m[2].str();
-    if (schema.name.empty()) return false;
+    if (schema.name.empty()) {
+      return false;
+    }
 
     size_t start = sql.find('(');
     size_t end   = sql.find_last_of(')');
-    if (start == std::string::npos || end == std::string::npos) return false;
+    if (start == std::string::npos || end == std::string::npos) {
+      return false;
+    }
     std::string cols = sql.substr(start + 1, end - start - 1);
     std::stringstream ss(cols);
-    std::string col_def;
+    std::string col_def = {};
     while (std::getline(ss, col_def, ',')) {
         col_def.erase(0, col_def.find_first_not_of(" \t\n\r"));
         col_def.erase(col_def.find_last_not_of(" \t\n\r") + 1);
-        if (col_def.empty()) continue;
+        if (col_def.empty()) {
+          continue;
+        }
         if (col_def.find("CONSTRAINT") != std::string::npos ||
             col_def.find("PRIMARY KEY") != std::string::npos ||
             col_def.find("FOREIGN KEY") != std::string::npos ||
             col_def.find("UNIQUE")      != std::string::npos ||
             col_def.find("CHECK")       != std::string::npos) continue;
         std::istringstream css(col_def);
-        std::string word;
+        std::string word = {};
         std::string cname, ctype;
         // Keywords that end the type name and start a column constraint
         static const std::vector<std::string> kStopWords = {
@@ -193,8 +239,12 @@ static bool liveParseCreateTable(const std::string& sql, LiveTableSchema& schema
             for (const auto& sw : kStopWords) {
                 if (wu == sw) { stop = true; break; }
             }
-            if (stop) break;
-            if (!ctype.empty()) ctype += " ";
+            if (stop) {
+              break;
+            }
+            if (!ctype.empty()) {
+              ctype += " ";
+            }
             ctype += word;
         }
         if (!cname.empty() && !ctype.empty()) {
@@ -214,7 +264,7 @@ struct LiveMiniImporter {
     bool validateSource(const std::string& path, std::vector<std::string>& errors) {
         std::ifstream f(path);
         if (!f) { errors.push_back("failed to open file for validation: " + path); return false; }
-        std::string line;
+        std::string line = {};
         int checked = 0;
         while (std::getline(f, line) && checked < 100) {
             if (line.find("PostgreSQL database dump") != std::string::npos ||
@@ -231,7 +281,7 @@ struct LiveMiniImporter {
     // e.g. "15.3" or "" if not found.
     std::string extractServerVersion(const std::string& path) {
         std::ifstream f(path);
-        std::string line;
+        std::string line = {};
         int checked = 0;
         while (std::getline(f, line) && checked < 20) {
             // Matches: "-- Dumped from database version 15.3"
@@ -251,18 +301,25 @@ struct LiveMiniImporter {
         std::ifstream f(path);
         std::string line, current;
         while (std::getline(f, line)) {
-            if (line.empty() || line[0] == '-') continue;
+            if (line.empty() || line[0] == '-') {
+              continue;
+            }
             current += line + " ";
             if (line.find(';') != std::string::npos) {
                 if (current.find("CREATE TABLE") != std::string::npos) {
-                    LiveTableSchema s;
-                    if (liveParseCreateTable(current, s)) schemas[s.name] = s;
+                    LiveTableSchema s = {};
+                    if (liveParseCreateTable(current, s)) {
+                      schemas[s.name] = s;
+                    }
                 }
                 current.clear();
             }
         }
-        std::vector<LiveTableSchema> result;
-        for (auto& [n, s] : schemas) result.push_back(s);
+        std::vector<LiveTableSchema> result = {};
+
+        for (auto& [n, s] : schemas) {
+          result.push_back(s);
+        }
         return result;
     }
 
@@ -283,7 +340,7 @@ struct LiveMiniImporter {
             if (line.find(';') != std::string::npos) {
                 if (current.find("CREATE TABLE")  != std::string::npos ||
                     current.find("CREATE SCHEMA") != std::string::npos) {
-                    LiveTableSchema s;
+                    LiveTableSchema s = {};
                     if (liveParseCreateTable(current, s)) {
                         bool include = opts.include_tables.empty() ||
                             std::find(opts.include_tables.begin(),
@@ -302,7 +359,7 @@ struct LiveMiniImporter {
                     std::regex re(
                         R"(COPY\s+(?:\w+\.)?(\w+)\s*(?:\(([^)]*)\))?\s+FROM\s+stdin)",
                         std::regex_constants::icase);
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_search(current, m, re)) {
                         std::string tname = m[1].str();
                         bool include = opts.include_tables.empty() ||
@@ -313,7 +370,7 @@ struct LiveMiniImporter {
                             std::find(opts.exclude_tables.begin(),
                                       opts.exclude_tables.end(), tname)
                                 != opts.exclude_tables.end();
-                        std::string data_line;
+                        std::string data_line = {};
                         while (std::getline(f, data_line)) {
                             if (data_line == "\\." ||
                                 data_line.rfind("\\.", 0) == 0) break;
@@ -330,7 +387,9 @@ struct LiveMiniImporter {
                                 e.location = "table " + tname;
                                 stats.structured_errors.push_back(e);
                                 stats.failed_records++;
-                                if (!opts.continue_on_error) return stats;
+                                if (!opts.continue_on_error) {
+                                  return stats;
+                                }
                                 continue;
                             }
                             stats.total_records++;
@@ -352,14 +411,16 @@ struct LiveMiniImporter {
 static std::string liveDumpPath() {
     if (const char* env = std::getenv("THEMISDB_PG_LIVE_DUMP")) {
         std::ifstream f(env);
-        if (f) return env;
+        if (f) {
+          return env;
+        }
     }
     return "";
 }
 
 static std::string liveConnStr() {
     if (const char* env = std::getenv("THEMISDB_PG_CONNSTR"))
-        return env;
+        return env = {};
     return "";
 }
 
@@ -413,8 +474,11 @@ TEST_F(PostgresLiveIntegrationTest, LiveSchemaContainsThreeTables) {
     LiveMiniImporter imp;
     auto schemas = imp.getSourceSchema(dump_path_);
     EXPECT_EQ(schemas.size(), 3u);
-    std::vector<std::string> names;
-    for (auto& s : schemas) names.push_back(s.name);
+    std::vector<std::string> names = {};
+
+    for (auto& s : schemas) {
+      names.push_back(s.name);
+    }
     EXPECT_NE(std::find(names.begin(), names.end(), "users"),    names.end());
     EXPECT_NE(std::find(names.begin(), names.end(), "products"), names.end());
     EXPECT_NE(std::find(names.begin(), names.end(), "orders"),   names.end());

@@ -302,11 +302,21 @@ public:
     explicit ModularRAGPipeline(ModularRAGPipelineConfig config)
         : config_(std::move(config))
     {
-        if (!config_.retrieve_fn) throw std::invalid_argument("retrieve_fn must not be null");
-        if (!config_.rerank_fn)   throw std::invalid_argument("rerank_fn must not be null");
-        if (!config_.validate_fn) throw std::invalid_argument("validate_fn must not be null");
-        if (!config_.assemble_fn) throw std::invalid_argument("assemble_fn must not be null");
-        if (!config_.generate_fn) throw std::invalid_argument("generate_fn must not be null");
+        if (!config_.retrieve_fn) {
+          throw std::invalid_argument("retrieve_fn must not be null");
+        }
+        if (!config_.rerank_fn) {
+          throw std::invalid_argument("rerank_fn must not be null");
+        }
+        if (!config_.validate_fn) {
+          throw std::invalid_argument("validate_fn must not be null");
+        }
+        if (!config_.assemble_fn) {
+          throw std::invalid_argument("assemble_fn must not be null");
+        }
+        if (!config_.generate_fn) {
+          throw std::invalid_argument("generate_fn must not be null");
+        }
     }
 
     ModularRAGPipeline(const ModularRAGPipeline&) = delete;

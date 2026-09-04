@@ -48,7 +48,7 @@ enum class StopReason {
  * @brief Snapshot of a single iteration of the agentic loop.
  */
 struct IterationRecord {
-    size_t iteration;                               ///< 0-based iteration index
+    size_t iteration = 0;                               ///< 0-based iteration index
     std::string query_used;                         ///< Query string used this round
     std::vector<judge::RetrievedDocument> documents;///< Documents retrieved this round
     judge::EvaluationResult evaluation;             ///< Judge result for this round

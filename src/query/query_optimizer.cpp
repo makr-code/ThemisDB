@@ -164,16 +164,20 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 	// Sortiere Prädikate nach (capped? maxProbe : count) aufsteigend
 	std::vector<size_t> idx(q.predicates.size());
 	std::iota(idx.begin(), idx.end(), 0);
-	std::sort(idx.begin(), idx.end(), [&](size_t a, size_t b){
+	std::sort([[maybe_unused]] idx.begin(), idx.end(), [&](size_t a, size_t b){
 		auto va = plan.details[a];
 		auto vb = plan.details[b];
 		auto ea = va.capped ? maxProbePerPred : va.estimatedCount;
 		auto eb = vb.capped ? maxProbePerPred : vb.estimatedCount;
-		if (ea != eb) return ea < eb;
+		if (ea != eb) {
+		  return ea < eb;
+		}
 		return va.pred.column < vb.pred.column; // stabile Ordnung
 	});
 
-	for (auto i : idx) plan.orderedPredicates.push_back(plan.details[i].pred);
+	for (auto i : idx) {
+	  plan.orderedPredicates.push_back(plan.details[i].pred);
+	}
 
 	// Emit plan-selection metrics for Prometheus / observability.
 	if (metrics_collector_) {
@@ -202,7 +206,7 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 		    ? static_cast<size_t>(table_stats_ptr->avg_row_size_bytes > 0.0
 		                              ? table_stats_ptr->avg_row_size_bytes
 		                              : 256.0)
-		    : 256u;
+		    : 256;
 		const auto   gpu       = probeGpu();
 		const auto   workload  = inferWorkloadType(q);
 		// THREAD-SAFE: Acquire read lock when accessing advisor_cost_model_
@@ -270,7 +274,7 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQueryWithNLP(
             : (plan.details.empty() ? 0 : plan.details[0].estimatedCount);
         const size_t avg_bytes = tsp
             ? static_cast<size_t>(tsp->avg_row_size_bytes > 0.0 ? tsp->avg_row_size_bytes : 256.0)
-            : 256u;
+            : 256;
 
         const auto gpu = probeGpu();
         OptimizerCostModel advisor;
@@ -285,7 +289,7 @@ Result<std::vector<std::string>>
 QueryOptimizer::executeOptimizedKeys(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
 	auto result = engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
 	if (!result.has_value()) {
-		const size_t estimated_rows = plan.details.empty() ? 0u : plan.details.front().estimatedCount;
+		const size_t estimated_rows = plan.details.empty() ? 0 : plan.details.front().estimatedCount;
 		std::string diagMsg = "Optimized key execution failed for table '" + q.table + "'";
 		if (!plan.orderedPredicates.empty()) {
 			diagMsg += "; predicates: " + std::to_string(plan.orderedPredicates.size());
@@ -303,7 +307,7 @@ Result<std::vector<BaseEntity>>
 QueryOptimizer::executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
 	auto result = engine.executeAndEntitiesSequential(q.table, plan.orderedPredicates);
 	if (!result.has_value()) {
-		const size_t estimated_rows = plan.details.empty() ? 0u : plan.details.front().estimatedCount;
+		const size_t estimated_rows = plan.details.empty() ? 0 : plan.details.front().estimatedCount;
 		const double plan_cost = static_cast<double>(estimated_rows);
 		std::string diagMsg = "Optimized entity execution failed for table '" + q.table + "'";
 		if (!plan.orderedPredicates.empty()) {
@@ -324,7 +328,7 @@ QueryOptimizer::executeOptimizedCount(QueryEngine& engine, const ConjunctiveQuer
 	auto result = engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
 	if (!result.has_value()) {
 		const double cost_estimate =
-			static_cast<double>(plan.details.empty() ? 0u : plan.details.front().estimatedCount);
+			static_cast<double>(plan.details.empty() ? 0 : plan.details.front().estimatedCount);
 		std::string diagMsg = "Optimized count execution failed for table '" + q.table + "'";
 		if (!plan.orderedPredicates.empty()) {
 			diagMsg += "; predicates: " + std::to_string(plan.orderedPredicates.size());
@@ -448,10 +452,14 @@ QueryOptimizer::VectorGeoCostResult QueryOptimizer::chooseVectorGeoPlan(const Ve
 	double dimScale = static_cast<double>(safeDim) / 128.0;
 	double C_vec = C_vec_base * dimScale;
 	std::size_t universe = in.spatialIndexEntries ? in.spatialIndexEntries : 100000; // fallback
-	if (in.prefilterSize > 0 && in.prefilterSize < universe) universe = in.prefilterSize;
+	if (in.prefilterSize > 0 && in.prefilterSize < universe) {
+	  universe = in.prefilterSize;
+	}
 
 	std::size_t spatialCandidates = static_cast<std::size_t>(universe * in.bboxRatio);
-	if (spatialCandidates == 0) spatialCandidates = 1;
+	if (spatialCandidates == 0) {
+	  spatialCandidates = 1;
+	}
 
 	// Spatial-first cost
 	double spatialPhaseCost = in.hasSpatialIndex ? spatialCandidates * C_index_spatial : universe * C_spatial_eval;
@@ -459,7 +467,7 @@ QueryOptimizer::VectorGeoCostResult QueryOptimizer::chooseVectorGeoPlan(const Ve
 	double costSpatialFirst = spatialPhaseCost + vectorPhaseCostSpatialFirst;
 
 	// Vector-first cost
-	double vectorSearchCost;
+	double vectorSearchCost = 0;
 	if (in.hasVectorIndex) {
 		vectorSearchCost = std::log(static_cast<double>(universe) + 1.0) * dimScale; // ANN approximation
 	} else {
@@ -487,7 +495,9 @@ QueryOptimizer::ContentGeoCostResult QueryOptimizer::estimateContentGeo(const Co
 	const double smallBBoxBoost = 0.7;       // discount when bboxRatio very small (<1%)
 
 	std::size_t hits = in.fulltextHits ? in.fulltextHits : in.limit; // fallback
-	if (hits == 0) hits = 1;
+	if (hits == 0) {
+	  hits = 1;
+	}
 
 	// Fulltext-first plan cost: FT scan + spatial evaluation of hits
 	double ftPhase = C_fulltext_base * std::log(static_cast<double>(hits) + 5.0);
@@ -536,7 +546,7 @@ QueryOptimizer::GraphPathCostResult QueryOptimizer::estimateGraphPath(const Grap
 
 // ---------------- Adaptive & Distributed Optimization ----------------
 
-void QueryOptimizer::enableAdaptiveOptimization(bool enable) {
+void QueryOptimizer::enableAdaptiveOptimization([[maybe_unused]] bool enable) {
 	adaptive_enabled_ = enable;
 	
 	if (enable && !adaptive_stats_) {
@@ -601,7 +611,8 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 	}
 	
 	// Build shard info for cost estimation
-	std::vector<DistributedQueryCostModel::ShardInfo> shard_infos;
+	std::vector<DistributedQueryCostModel::ShardInfo> shard_infos = {};
+
 	for (const auto& shard_id : available_shards) {
 		DistributedQueryCostModel::ShardInfo info;
 		info.shard_id = shard_id;
@@ -620,13 +631,14 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 	
 	// Partition pruning
 	if (enable_partition_pruning) {
-		std::vector<std::string> pruned_shards;
+		std::vector<std::string> pruned_shards = {};
+
 		for (const auto& info : shard_infos) {
 			// v1.5.x Production Integration: Calculate predicate-based selectivity
 			double selectivity = distributed_model_->calculatePredicateSelectivity(
 				q.predicates, q.table);
 			
-			if (!distributed_model_->shouldPrunePartition(info, available_shards.size(), selectivity)) {
+			if (!distributed_model_->shouldPrunePartition(info,static_cast<int>(available_shards.size()), selectivity)) {
 				pruned_shards.push_back(info.shard_id);
 			}
 		}
@@ -635,7 +647,7 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 			plan.shard_ids = pruned_shards;
 			plan.use_partition_pruning = true;
 			spdlog::info("QueryOptimizer: Partition pruning reduced shards from {} to {}", 
-						 available_shards.size(), pruned_shards.size());
+						 available_shards.size(),static_cast<int>(pruned_shards.size()));
 		}
 	}
 	
@@ -645,7 +657,7 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 		shard_infos, available_threads);
 	
 	// Enable NUMA awareness for large distributed queries
-	if (plan.shard_ids.size() >= 4 && available_threads >= 8) {
+	if (static_cast<int>(plan.shard_ids.size()) >= 4 && available_threads >= 8) {
 		plan.enable_numa_awareness = true;
 		
 		if (NumaAwareOptimizer::isNumaAvailable()) {
@@ -662,7 +674,7 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 	}
 	
 	// Determine join strategy for multi-shard queries
-	if (plan.shard_ids.size() > 1) {
+	if (static_cast<int>(plan.shard_ids.size()) > 1) {
 		size_t estimated_results = 1000;
 		plan.join_strategy = estimated_results < 10000 ? "broadcast" : "repartition";
 	}
@@ -784,7 +796,7 @@ double QueryOptimizer::DistributedQueryCostModel::measureShardLatency(
     const std::string& shard_id) const {
     
     // Determine latency based on shard naming convention (network-latency proxy).
-    double latency_ms;
+    double latency_ms = 0;
     try {
         if (shard_id.find("local") != std::string::npos || 
             shard_id.find("0") == 0) {
@@ -835,7 +847,7 @@ double QueryOptimizer::DistributedQueryCostModel::calculatePredicateSelectivity(
     double combined_selectivity = 1.0;
     
     for (const auto& pred : predicates) {
-        double pred_selectivity;
+        double pred_selectivity = 0;
 
         // Use real statistics when available.
         if (table_stats_ptr) {

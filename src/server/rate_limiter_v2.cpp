@@ -224,7 +224,7 @@ void TokenBucketRateLimiter::reset() {
 
 std::string TokenBucketRateLimiter::redisKey(const std::string& bucket_id,
                                               Priority prio) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << config_.redis.key_prefix << ":" << bucket_id
         << ":" << static_cast<int>(prio);
     return oss.str();
@@ -242,7 +242,7 @@ bool TokenBucketRateLimiter::redisConnect() {
     tv.tv_usec = (config_.redis.timeout_ms % 1000) * 1000;
 
     // Helper: connect one slot, load Lua script, return true on success.
-    auto connectSlot = [&](RedisConnectionPool::Slot& slot) -> bool {
+    auto connectSlot = [&]([[maybe_unused]] RedisConnectionPool::Slot& slot) -> bool {
         if (slot.ctx && !slot.ctx->err) return true;  // Already healthy.
         if (slot.ctx) { redisFree(slot.ctx); slot.ctx = nullptr; }
 
@@ -260,7 +260,9 @@ bool TokenBucketRateLimiter::redisConnect() {
             redisReply* r = static_cast<redisReply*>(
                 redisCommand(slot.ctx, "AUTH %s", config_.redis.auth.c_str()));
             bool ok = r && r->type != REDIS_REPLY_ERROR;
-            if (r) freeReplyObject(r);
+            if (r) {
+              freeReplyObject(r);
+            }
             if (!ok) {
                 THEMIS_WARN("TokenBucketRateLimiter: Redis AUTH failed");
                 redisFree(slot.ctx); slot.ctx = nullptr;
@@ -272,7 +274,9 @@ bool TokenBucketRateLimiter::redisConnect() {
             redisCommand(slot.ctx, "SCRIPT LOAD %s", kTokenBucketLua));
         if (!r || r->type != REDIS_REPLY_STRING) {
             THEMIS_WARN("TokenBucketRateLimiter: SCRIPT LOAD failed on pool slot");
-            if (r) freeReplyObject(r);
+            if (r) {
+              freeReplyObject(r);
+            }
             redisFree(slot.ctx); slot.ctx = nullptr;
             return false;
         }
@@ -317,7 +321,7 @@ int TokenBucketRateLimiter::redisEvalBucket([[maybe_unused]] Priority prio,
                                              [[maybe_unused]] size_t consume_count) {
 #ifdef THEMIS_ENABLE_REDIS
     // F-008: borrow a pool connection (blocks if all are in use).
-    size_t slot_idx;
+    size_t slot_idx = {};
     {
         std::unique_lock<std::mutex> lk(redis_pool_.pool_mu);
         redis_pool_.pool_cv.wait(lk, [this]() {
@@ -345,7 +349,9 @@ int TokenBucketRateLimiter::redisEvalBucket([[maybe_unused]] Priority prio,
             redisReply* r = static_cast<redisReply*>(
                 redisCommand(slot.ctx, "AUTH %s", config_.redis.auth.c_str()));
             if (!r || r->type == REDIS_REPLY_ERROR) {
-                if (r) freeReplyObject(r);
+                if (r) {
+                  freeReplyObject(r);
+                }
                 redisFree(slot.ctx); slot.ctx = nullptr;
             } else {
                 freeReplyObject(r);
@@ -359,7 +365,9 @@ int TokenBucketRateLimiter::redisEvalBucket([[maybe_unused]] Priority prio,
                 slot.script_loaded = true;
                 freeReplyObject(r);
             } else {
-                if (r) freeReplyObject(r);
+                if (r) {
+                  freeReplyObject(r);
+                }
                 redisFree(slot.ctx); slot.ctx = nullptr;
             }
         }
@@ -392,7 +400,9 @@ int TokenBucketRateLimiter::redisExecEvalsha(
     size_t capacity,
     size_t refill_rate,
     size_t consume_count) {
-    if (!slot.ctx || slot.ctx->err || !slot.script_loaded) return -1;
+    if (!slot.ctx || slot.ctx->err || !slot.script_loaded) {
+      return -1;
+    }
 
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                       std::chrono::system_clock::now().time_since_epoch())
@@ -412,7 +422,9 @@ int TokenBucketRateLimiter::redisExecEvalsha(
     if (!reply || slot.ctx->err) {
         THEMIS_WARN("TokenBucketRateLimiter: EVALSHA failed on pool slot: {}",
                     slot.ctx ? slot.ctx->errstr : "null context");
-        if (reply) freeReplyObject(reply);
+        if (reply) {
+          freeReplyObject(reply);
+        }
         if (slot.ctx) { redisFree(slot.ctx); slot.ctx = nullptr; }
         slot.script_loaded = false;
         markRedisError();
@@ -439,8 +451,12 @@ void TokenBucketRateLimiter::markRedisError() {
 
 void TokenBucketRateLimiter::tryRedisRecover() {
 #ifdef THEMIS_ENABLE_REDIS
-    if (config_.backend != Backend::REDIS) return;
-    if (redis_healthy_.load(std::memory_order_acquire)) return;
+    if (config_.backend != Backend::REDIS) {
+      return;
+    }
+    if (redis_healthy_.load(std::memory_order_acquire)) {
+      return;
+    }
 
     THEMIS_INFO("TokenBucketRateLimiter: attempting Redis pool recovery");
     redisConnect(); // Rebuilds healthy slots; sets redis_healthy_ if any succeed.
@@ -471,7 +487,7 @@ void TokenBucketRateLimiter::Bucket::refill() {
     }
 }
 
-bool TokenBucketRateLimiter::Bucket::consume(size_t count) {
+bool TokenBucketRateLimiter::Bucket::consume([[maybe_unused]] size_t count) {
     // Atomic decrement if sufficient tokens available
     size_t current = tokens.load(std::memory_order_acquire);
 
@@ -517,7 +533,7 @@ bool PerClientRateLimiter::allowRequest(
     auto it = client_buckets_.find(client_id);
     if (it == client_buckets_.end()) {
         // Enforce max clients limit
-        if (client_buckets_.size() >= config_.max_clients) {
+        if (static_cast<int>(client_buckets_.size()) > = config_.max_clients) {
             THEMIS_WARN("PerClientRateLimiter: Max clients ({}) reached, rejecting new client: {}",
                         config_.max_clients, client_id);
             return false;
@@ -572,7 +588,7 @@ PerClientRateLimiter::getClientMetrics(const std::string& client_id) const {
 
 size_t PerClientRateLimiter::getActiveClients() const {
     std::lock_guard<std::mutex> lock(clients_mutex_);
-    return client_buckets_.size();
+    return static_cast<int>(client_buckets_.size());
 }
 
 void PerClientRateLimiter::cleanupIdleClients() {
@@ -606,7 +622,7 @@ bool TokenBucketRateLimiter::isHealthy() const {
 
 std::string TokenBucketRateLimiter::getHealthStatus() const {
     // OP-HEALTH-002: Return detailed readiness status (thread-safe atomic reads)
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{"
         << "\"status\": \"" << (isHealthy() ? "healthy" : "unhealthy") << "\", "
         << "\"total_requests\": " << total_requests_.load(std::memory_order_relaxed) << ", "

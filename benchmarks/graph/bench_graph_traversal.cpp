@@ -108,7 +108,7 @@ protected:
     std::unique_ptr<GraphIndexManager> graph_mgr_;
     std::unique_ptr<GraphAnalytics> analytics_;
     std::vector<std::string> node_ids_;
-    int graph_size_;
+    int graph_size_ = {};
 };
 
 // ============================================================================
@@ -597,8 +597,8 @@ protected:
     std::unique_ptr<GraphIndexManager> graph_mgr_;
     std::unique_ptr<QueryEngine> query_engine_;
     std::vector<std::string> node_ids_;
-    int graph_size_;
-    int avg_degree_;
+    int graph_size_ = {};
+    int avg_degree_ = {};
 };
 
 // Benchmark: General Traversal - OUTBOUND direction

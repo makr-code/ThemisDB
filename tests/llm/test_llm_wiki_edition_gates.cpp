@@ -401,7 +401,7 @@ TEST_F(EditionGateTest, MultiEditionGatingMatrix_LWP_GATE_11) {
     for (const auto& op : operations) {
         Status status = enforcePluginGate(op.c_str());
         
-        std::string expected;
+        std::string expected = {};
         if (current_edition == Edition::Community || current_edition == Edition::Minimal) {
             expected = "PermissionDenied";
             EXPECT_EQ(status.code, Status::Code::PermissionDenied)

@@ -122,7 +122,7 @@ TEST_F(BaggageTest, ExtractIgnoresUnknownHeaders) {
 TEST_F(BaggageTest, ThreadLocalIsolation) {
     Baggage::set("main-key", "main-value");
 
-    std::string other_value;
+    std::string other_value = {};
     std::thread t([&]() {
         other_value = Baggage::get("main-key"); // Should be empty in another thread
     });
@@ -171,7 +171,9 @@ TEST_F(SamplingStrategyTest, ProbabilityHalfIsRoughlyHalf) {
     int sampled = 0;
     constexpr int kTrials = 10000;
     for (int i = 0; i < kTrials; ++i) {
-        if (s.shouldSample()) ++sampled;
+        if (s.shouldSample()) {
+          ++sampled;
+        }
     }
     // With p=0.5, expect roughly 50% – allow ±15% tolerance
     double ratio = static_cast<double>(sampled) / kTrials;

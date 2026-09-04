@@ -71,7 +71,7 @@ nlohmann::json KeysApiHandler::listKeys() {
             items.push_back(key_obj);
         }
         
-        THEMIS_INFO("Keys API: Listed {} keys", items.size());
+        THEMIS_INFO("Keys API: Listed {} keys",static_cast<int>(items.size()));
         
         return {
             {"items", items},

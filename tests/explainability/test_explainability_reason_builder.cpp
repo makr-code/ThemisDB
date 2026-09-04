@@ -32,7 +32,7 @@ static size_t wordCount(const std::string& text)
 {
     std::istringstream iss(text);
     size_t n = 0;
-    std::string tok;
+    std::string tok = {};
     while (iss >> tok) ++n;
     return n;
 }

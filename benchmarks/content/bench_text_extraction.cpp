@@ -11,9 +11,9 @@
 class TextExtractor {
 public:
     struct ExtractionResult {
-        std::string text;
-        size_t character_count;
-        double quality_score;
+        std::string text = {};
+        size_t character_count = {};
+        double quality_score = {};
     };
     
     ExtractionResult extract_from_pdf(const std::string& pdf_data) {
@@ -54,7 +54,7 @@ public:
 private:
     std::string simulate_pdf_parsing(const std::string& data) {
         // Simulate PDF parsing overhead
-        std::string result;
+        std::string result = {};
         result.reserve(data.size());
         for (size_t i = 0; i < data.size(); ++i) {
             if (data[i] >= 32 && data[i] <= 126) {
@@ -66,11 +66,13 @@ private:
     
     std::string simulate_docx_parsing(const std::string& data) {
         // Simulate XML parsing from DOCX
-        std::string result;
+        std::string result = {};
         result.reserve(data.size() / 2);
         bool in_tag = false;
         for (char c : data) {
-            if (c == '<') in_tag = true;
+            if (c == '<') {
+              in_tag = true;
+            }
             else if (c == '>') in_tag = false;
             else if (!in_tag && c >= 32 && c <= 126) {
                 result += c;

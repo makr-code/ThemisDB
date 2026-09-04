@@ -36,7 +36,7 @@ struct RubricEvaluator::Impl {
         const std::vector<std::pair<std::string, std::string>>& documents,
         const DimensionRubric& dimension_rubric
     ) {
-        std::ostringstream prompt;
+        std::ostringstream prompt = {};
         
         prompt << "Evaluate the following answer using this rubric for " 
                << dimension_rubric.dimension_name << ":\n\n";
@@ -162,7 +162,7 @@ bool RubricEvaluator::loadRubricFromFile(const std::string& filepath) {
         return false;
     }
     
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     
     return loadRubricFromYAML(buffer.str());
@@ -232,7 +232,7 @@ RubricEvaluationResult RubricEvaluator::evaluate(
     result.overall_score = total_weight > 0 ? total_weighted_score / total_weight : 0.5;
     
     // Generate overall reasoning
-    std::ostringstream reasoning;
+    std::ostringstream reasoning = {};
     reasoning << "Rubric: " << impl_->active_rubric.name << "\n";
     reasoning << "Overall Score: " << result.overall_score << "\n";
     reasoning << "Dimension Scores:\n";
@@ -375,7 +375,7 @@ bool RubricEvaluator::validateRubric(const EvaluationRubric& rubric) {
     return true;
 }
 
-double RubricEvaluator::normalizeScore(int level_score) {
+double RubricEvaluator::normalizeScore([[maybe_unused]] int level_score) {
     // Convert 1-5 to 0-1 scale
     return (level_score - 1.0) / 4.0;
 }

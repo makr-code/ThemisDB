@@ -64,7 +64,9 @@ public:
     std::optional<std::string> get(const std::string& key) override {
         std::lock_guard<std::mutex> lk(mu_);
         auto it = store_.find(key);
-        if (it != store_.end()) return it->second;
+        if (it != store_.end()) {
+          return it->second;
+        }
         return std::nullopt;
     }
 
@@ -88,7 +90,9 @@ public:
     std::optional<std::string> stored(const std::string& key) const {
         std::lock_guard<std::mutex> lk(mu_);
         auto it = store_.find(key);
-        if (it != store_.end()) return it->second;
+        if (it != store_.end()) {
+          return it->second;
+        }
         return std::nullopt;
     }
 

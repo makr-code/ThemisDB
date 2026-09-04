@@ -96,7 +96,7 @@ static std::string derive_fallback_cert_serial(const std::string& cert_pem,
     }
 
     unsigned char digest[SHA256_DIGEST_LENGTH] = {0};
-    if (!SHA256(reinterpret_cast<const unsigned char*>(seed.data()), seed.size(), digest)) {
+    if (!SHA256(reinterpret_cast<const unsigned char*>(seed.data()),static_cast<int>(seed.size()), digest)) {
         return {};
     }
 
@@ -107,7 +107,9 @@ static std::string derive_fallback_cert_serial(const std::string& cert_pem,
 // Get OpenSSL error string for diagnostics
 static std::string ossl_error() {
     unsigned long code = ERR_peek_last_error();
-    if (!code) return "Unknown OpenSSL error";
+    if (!code) {
+      return "Unknown OpenSSL error";
+    }
     char buf[256] = {0};
     ERR_error_string_n(code, buf, sizeof(buf));
     ERR_clear_error();
@@ -116,7 +118,7 @@ static std::string ossl_error() {
 
 // AES-256-GCM encrypt: returns iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& data) {
-    if (key.size() != 32) {
+    if (static_cast<int>(key.size()) != 32) {
         throw std::runtime_error("AES-256-GCM encryption: invalid key size (expected 32 bytes, got " + 
                                 std::to_string(key.size()) + ")");
     }
@@ -128,7 +130,7 @@ static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, co
     if (!ctx) {
         throw std::runtime_error("AES-256-GCM encryption: EVP_CIPHER_CTX_new failed: " + ossl_error());
     }
-    std::vector<uint8_t> ciphertext(data.size() + 16);
+    std::vector<uint8_t> ciphertext(static_cast<int>(data.size()) + 16);
     std::vector<uint8_t> tag(16);
     int len = 0, ct_len = 0;
     bool ok =
@@ -137,9 +139,13 @@ static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, co
         EVP_EncryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv.data()) == 1 &&
         EVP_EncryptUpdate(ctx.get(), ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
     ct_len = len;
-    if (ok) ok = EVP_EncryptFinal_ex(ctx.get(), ciphertext.data() + len, &len) == 1;
+    if (ok) {
+      ok = EVP_EncryptFinal_ex(ctx.get(), ciphertext.data() + len, &len) == 1;
+    }
     ct_len += len;
-    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
+    if (ok) {
+      ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
+    }
     if (!ok) {
         throw std::runtime_error("AES-256-GCM encryption failed: " + ossl_error());
     }
@@ -153,17 +159,17 @@ static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, co
 
 // AES-256-GCM decrypt: expects iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
-    if (key.size() != 32) {
+    if (static_cast<int>(key.size()) != 32) {
         throw std::runtime_error("AES-256-GCM decryption: invalid key size (expected 32 bytes, got " +
                                 std::to_string(key.size()) + ")");
     }
-    if (encrypted.size() < 12 + 16) {
+    if (static_cast<int>(encrypted.size()) < 12 + 16) {
         throw std::runtime_error("AES-256-GCM decryption: encrypted data too short (expected at least " +
                                 std::to_string(12 + 16) + " bytes, got " + 
                                 std::to_string(encrypted.size()) + ")");
     }
     const uint8_t* iv  = encrypted.data();
-    size_t ct_len      = encrypted.size() - 12 - 16;
+    size_t ct_len      = static_cast<int>(encrypted.size()) - 12 - 16;
     const uint8_t* ct  = encrypted.data() + 12;
     const uint8_t* tag = encrypted.data() + 12 + ct_len;
     EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
@@ -178,8 +184,12 @@ static std::vector<uint8_t> stub_aes_decrypt(const std::vector<uint8_t>& key, co
         EVP_DecryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv) == 1 &&
         EVP_DecryptUpdate(ctx.get(), plaintext.data(), &len, ct, (int)ct_len) == 1;
     pt_len = len;
-    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
-    if (ok) ok = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len) > 0;
+    if (ok) {
+      ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
+    }
+    if (ok) {
+      ok = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len) > 0;
+    }
     if (!ok) {
         throw std::runtime_error("AES-256-GCM decryption failed (possible tag mismatch): " + ossl_error());
     }
@@ -195,10 +205,12 @@ HSMProvider::HSMProvider(HSMProvider&&) noexcept = default;
 HSMProvider& HSMProvider::operator=(HSMProvider&&) noexcept = default;
 
 bool HSMProvider::initialize() {
-    if (initialized_) return true;
+    if (initialized_) {
+      return true;
+    }
 
     // Runtime license gate: HSM is an Enterprise/Hyperscaler feature.
-    std::string license_error;
+    std::string license_error = {};
     if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("hsm", license_error)) {
         last_error_ = "HSM unavailable: " + license_error;
         THEMIS_ERROR("{}", last_error_);
@@ -288,10 +300,12 @@ HSMSignatureResult HSMProvider::sign(const std::vector<uint8_t>& data, const std
 
 HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const std::string& key_label) {
     auto startTime = std::chrono::high_resolution_clock::now();
-    HSMSignatureResult r;
+    HSMSignatureResult r = {};
     if (!initialized_ || !impl_) {
         r.error_message = "HSM stub not initialized";
-        if (impl_) impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+        if (impl_) {
+          impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+        }
         return r;
     }
 
@@ -315,7 +329,7 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
             impl_->total_sign_time_us.fetch_add(static_cast<uint64_t>(elapsed), std::memory_order_relaxed);
             return result;
         } catch (const std::exception& e) {
-            r.error_message = std::string("signHash callback failed: ") + e.what();
+            r.error_message = std::string([[maybe_unused]] "signHash callback failed: ") + e.what();
             impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
             return r;
         } catch (...) {
@@ -360,7 +374,9 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
     }
     THEMIS_DEBUG("HSMProvider stub verify key='{}' ok={}", key_label.empty()?config_.key_label:key_label, ok);
     if (impl_) {
-        if (ok) impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+        if (ok) {
+          impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+        }
         else impl_->verify_errors.fetch_add(1, std::memory_order_relaxed);
         auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - startTime).count();
@@ -393,7 +409,7 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
         try {
             return fn(data, key_label.empty() ? config_.key_label : key_label);
         } catch (const std::exception& e) {
-            last_error_ = std::string("encryptData callback failed: ") + e.what();
+            last_error_ = std::string([[maybe_unused]] "encryptData callback failed: ") + e.what();
             return {};
         } catch (...) {
             last_error_ = "encryptData callback failed: unknown exception";
@@ -421,7 +437,7 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
         try {
             return fn(encrypted, key_label.empty() ? config_.key_label : key_label);
         } catch (const std::exception& e) {
-            last_error_ = std::string("decryptData callback failed: ") + e.what();
+            last_error_ = std::string([[maybe_unused]] "decryptData callback failed: ") + e.what();
             return {};
         } catch (...) {
             last_error_ = "decryptData callback failed: unknown exception";
@@ -460,7 +476,7 @@ bool HSMProvider::generateKeyPair(const std::string& label, [[maybe_unused]] uin
         try {
             return fn(label, key_size, extractable);
         } catch (const std::exception& e) {
-            last_error_ = std::string("generateKeyPair callback failed: ") + e.what();
+            last_error_ = std::string([[maybe_unused]] "generateKeyPair callback failed: ") + e.what();
             THEMIS_ERROR("{}", last_error_);
             return false;
         } catch (...) {
@@ -484,7 +500,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, [[maybe_unused
         try {
             return fn(key_label, cert_pem);
         } catch (const std::exception& e) {
-            last_error_ = std::string("importCertificate callback failed: ") + e.what();
+            last_error_ = std::string([[maybe_unused]] "importCertificate callback failed: ") + e.what();
             THEMIS_ERROR("{}", last_error_);
             return false;
         } catch (...) {
@@ -508,7 +524,7 @@ std::optional<std::string> HSMProvider::getCertificate([[maybe_unused]] const st
         try {
             return fn(key_label);
         } catch (const std::exception& e) {
-            last_error_ = std::string("getCertificate callback failed: ") + e.what();
+            last_error_ = std::string([[maybe_unused]] "getCertificate callback failed: ") + e.what();
             THEMIS_ERROR("{}", last_error_);
             return std::nullopt;
         } catch (...) {
@@ -560,7 +576,9 @@ HSMPerformanceStats HSMProvider::getStats() const {
 }
 
 void HSMProvider::resetStats() {
-    if (!impl_) return;
+    if (!impl_) {
+      return;
+    }
     impl_->sign_count.store(0, std::memory_order_relaxed);
     impl_->verify_count.store(0, std::memory_order_relaxed);
     impl_->sign_errors.store(0, std::memory_order_relaxed);
@@ -575,7 +593,9 @@ bool HSMProvider::isStubProvider() const {
 }
 
 void HSMProvider::periodicSecurityCheck() {
-    if (!initialized_) return;
+    if (!initialized_) {
+      return;
+    }
     
     // Log ERROR-level warning for production monitoring
     THEMIS_ERROR("⚠️  HSM SECURITY WARNING: Using stub provider in production!");

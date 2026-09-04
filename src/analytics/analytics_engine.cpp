@@ -27,7 +27,7 @@ namespace analytics {
 // In production, this would be a real connection pool implementation
 class ConnectionPool {
 public:
-    explicit ConnectionPool(int size = 10) : available_(size), total_(size) {}
+    explicit ConnectionPool([[maybe_unused]] int size = 10) : available_(size), total_(size) {}
 
     /**
      * Acquire a connection from the pool.
@@ -48,7 +48,7 @@ public:
     /**
      * Release a connection back to the pool.
      */
-    void release(int connection_id) noexcept {
+    void release([[maybe_unused]] int connection_id) noexcept {
         if (connection_id > 0) {
             available_++;
             used_--;
@@ -126,7 +126,7 @@ QueryResult AnalyticsEngine::ExecuteQuery(const QueryConfig& config) {
 // Gap A-2-06, A-2-07: Retry logic with fresh connection
 // ========================================================================
 QueryResult AnalyticsEngine::ExecuteWithRetry(const QueryConfig& config, int retry_count) {
-    QueryResult result;
+    QueryResult result = {};
     
     if (retry_count >= max_retries_) {
         spdlog::error("Query execution exceeded max retries ({})", max_retries_);
@@ -249,7 +249,7 @@ QueryResult AnalyticsEngine::RunAggregation(const AggregationBatch& batch) {
         ConnectionGuard guard(conn_id, release_fn);
         
         spdlog::info("Running aggregation with {} group keys and {} agg columns",
-                   batch.group_keys.size(), batch.agg_columns.size());
+                   batch.group_keys.size(),static_cast<int>(batch.agg_columns.size()));
         
         result.success = true;
         result.row_count = batch.group_keys.size();
@@ -274,7 +274,8 @@ QueryResult AnalyticsEngine::RunAggregation(const AggregationBatch& batch) {
 std::vector<QueryResult> AnalyticsEngine::ProcessBatch(
     const std::vector<QueryConfig>& queries) {
     
-    std::vector<QueryResult> results;
+    std::vector<QueryResult> results = {};
+
     results.reserve(queries.size());
     
     for (const auto& query : queries) {
@@ -287,7 +288,7 @@ std::vector<QueryResult> AnalyticsEngine::ProcessBatch(
 // ========================================================================
 // Gap A-2-08: Timeout configuration
 // ========================================================================
-void AnalyticsEngine::SetPoolSize(int size) {
+void AnalyticsEngine::SetPoolSize([[maybe_unused]] int size) {
     if (size <= 0) {
         throw std::invalid_argument("Pool size must be positive");
     }

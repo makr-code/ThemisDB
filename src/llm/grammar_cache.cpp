@@ -57,14 +57,14 @@ bool GrammarCache::put(const std::string& name, std::shared_ptr<Grammar> grammar
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Check if cache is full
-    if (cache_.size() >= config_.max_cached_grammars && cache_.find(name) == cache_.end()) {
+    if (static_cast<int>(cache_.size()) > = config_.max_cached_grammars && cache_.find(name) == cache_.end()) {
         spdlog::warn("Grammar cache is full ({}), cannot add '{}'", 
                      config_.max_cached_grammars, name);
         return false;
     }
     
     cache_[name] = grammar;
-    spdlog::debug("Cached grammar '{}' (cache size: {})", name, cache_.size());
+    spdlog::debug("Cached grammar '{}' (cache size: {})", name,static_cast<int>(cache_.size()));
     return true;
 }
 
@@ -76,7 +76,7 @@ void GrammarCache::clear() {
 
 size_t GrammarCache::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return cache_.size();
+    return static_cast<int>(cache_.size());
 }
 
 bool GrammarCache::contains(const std::string& name) const {

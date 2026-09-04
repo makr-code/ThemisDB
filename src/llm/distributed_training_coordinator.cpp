@@ -60,7 +60,7 @@ json DistributedTrainingConfig::toJSON() const {
 }
 
 DistributedTrainingConfig DistributedTrainingConfig::fromJSON(const json& j) {
-    DistributedTrainingConfig config;
+    DistributedTrainingConfig config = {};
     if (j.contains("sync_strategy")) 
         config.sync_strategy = static_cast<SyncStrategy>(j["sync_strategy"].get<int>());
     if (j.contains("compression")) 
@@ -125,7 +125,9 @@ void GradientTensor::compress(GradientCompressionType type) {
             
         case GradientCompressionType::QUANTIZATION_8BIT: {
             // Simple 8-bit quantization: map float32 to uint8
-            if (data.empty()) break;
+            if (data.empty()) {
+              break;
+            }
             
             // Find min/max for scaling
             float min_val = *std::min_element(data.begin(), data.end());
@@ -133,8 +135,9 @@ void GradientTensor::compress(GradientCompressionType type) {
             float scale = (max_val - min_val) / 255.0f;
             
             // Store scale and min as metadata (first 8 bytes)
-            std::vector<uint8_t> compressed;
-            compressed.reserve(data.size() + 8);
+            std::vector<uint8_t> compressed = {};
+
+            compressed.reserve(static_cast<int>(data.size()) + 8);
             
             // Store scale and min
             uint32_t scale_bits, min_bits;
@@ -162,14 +165,17 @@ void GradientTensor::compress(GradientCompressionType type) {
         
         case GradientCompressionType::QUANTIZATION_4BIT: {
             // 4-bit quantization: pack two values per byte
-            if (data.empty()) break;
+            if (data.empty()) {
+              break;
+            }
             
             float min_val = *std::min_element(data.begin(), data.end());
             float max_val = *std::max_element(data.begin(), data.end());
             float scale = (max_val - min_val) / 15.0f;
             
-            std::vector<uint8_t> compressed;
-            compressed.reserve((data.size() + 1) / 2 + 8);
+            std::vector<uint8_t> compressed = {};
+
+            compressed.reserve((static_cast<int>(data.size()) + 1) / 2 + 8);
             
             // Store metadata
             uint32_t scale_bits, min_bits;
@@ -185,10 +191,10 @@ void GradientTensor::compress(GradientCompressionType type) {
             compressed.push_back(min_bits & 0xFF);
             
             // Quantize and pack
-            for (size_t i = 0; i < data.size(); i += 2) {
+            for (size_t i = 0; i <static_cast<int>(data.size()); i += 2) {
                 uint8_t val1 = scale > 0 ? 
                     static_cast<uint8_t>(std::round((data[i] - min_val) / scale)) & 0x0F : 0;
-                uint8_t val2 = (i + 1 < data.size() && scale > 0) ? 
+                uint8_t val2 = (i + 1 <static_cast<int>(data.size()) && scale > 0) ? 
                     static_cast<uint8_t>(std::round((data[i+1] - min_val) / scale)) & 0x0F : 0;
                 compressed.push_back((val1 << 4) | val2);
             }
@@ -199,14 +205,16 @@ void GradientTensor::compress(GradientCompressionType type) {
         
         case GradientCompressionType::SPARSE_TOPK: {
             // Keep only top 10% of gradients by magnitude
-            if (data.empty()) break;
+            if (data.empty()) {
+              break;
+            }
             
-            size_t k = std::max(size_t(1), data.size() / 10);
+            size_t k = std::max(size_t(1),static_cast<int>(data.size()) / 10);
             
             // Create indices sorted by absolute value
             std::vector<std::pair<size_t, float>> indexed_vals;
             indexed_vals.reserve(data.size());
-            for (size_t i = 0; i < data.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
                 indexed_vals.push_back({i, std::abs(data[i])});
             }
             std::partial_sort(indexed_vals.begin(), indexed_vals.begin() + k, 
@@ -226,7 +234,7 @@ void GradientTensor::compress(GradientCompressionType type) {
             for (size_t i = 0; i < k; ++i) {
                 uint32_t idx = static_cast<uint32_t>(indexed_vals[i].first);
                 float val = data[idx];
-                uint32_t val_bits;
+                uint32_t val_bits = {};
                 memcpy(&val_bits, &val, sizeof(float));
                 
                 compressed.push_back((idx >> 24) & 0xFF);
@@ -247,6 +255,7 @@ void GradientTensor::compress(GradientCompressionType type) {
             // For now, same as no compression (error feedback requires stateful tracking)
             compressed_data.reset();
             break;
+        default: break;
     }
 }
 
@@ -259,7 +268,9 @@ void GradientTensor::decompress() {
     
     switch (compression_type) {
         case GradientCompressionType::QUANTIZATION_8BIT: {
-            if (compressed.size() < 8) break;
+            if (static_cast<int>(compressed.size()) < 8) {
+              break;
+            }
             
             // Extract scale and min
             uint32_t scale_bits = (compressed[0] << 24) | (compressed[1] << 16) | 
@@ -272,15 +283,17 @@ void GradientTensor::decompress() {
             
             // Dequantize
             data.clear();
-            data.reserve(compressed.size() - 8);
-            for (size_t i = 8; i < compressed.size(); ++i) {
+            data.reserve(static_cast<int>(compressed.size()) - 8);
+            for (size_t i = 8; i <static_cast<int>(compressed.size()); ++i) {
                 data.push_back(compressed[i] * scale + min_val);
             }
             break;
         }
         
         case GradientCompressionType::QUANTIZATION_4BIT: {
-            if (compressed.size() < 8) break;
+            if (static_cast<int>(compressed.size()) < 8) {
+              break;
+            }
             
             // Extract metadata
             uint32_t scale_bits = (compressed[0] << 24) | (compressed[1] << 16) | 
@@ -293,8 +306,8 @@ void GradientTensor::decompress() {
             
             // Dequantize
             data.clear();
-            data.reserve((compressed.size() - 8) * 2);
-            for (size_t i = 8; i < compressed.size(); ++i) {
+            data.reserve((static_cast<int>(compressed.size()) - 8) * 2);
+            for (size_t i = 8; i <static_cast<int>(compressed.size()); ++i) {
                 uint8_t packed = compressed[i];
                 uint8_t val1 = (packed >> 4) & 0x0F;
                 uint8_t val2 = packed & 0x0F;
@@ -305,14 +318,16 @@ void GradientTensor::decompress() {
         }
         
         case GradientCompressionType::SPARSE_TOPK: {
-            if (compressed.size() < 4) break;
+            if (static_cast<int>(compressed.size()) < 4) {
+              break;
+            }
             
             // Extract count
             uint32_t count = (compressed[0] << 24) | (compressed[1] << 16) | 
                             (compressed[2] << 8) | compressed[3];
             
             // Initialize to zeros
-            data.assign(shape[0] * (shape.size() > 1 ? shape[1] : 1), 0.0f);
+            data.assign(shape[0] * (static_cast<int>(shape.size()) > 1 ? shape[1] : 1), 0.0f);
             
             // Fill in sparse values
             size_t pos = 4;
@@ -321,10 +336,10 @@ void GradientTensor::decompress() {
                               (compressed[pos+2] << 8) | compressed[pos+3];
                 uint32_t val_bits = (compressed[pos+4] << 24) | (compressed[pos+5] << 16) | 
                                    (compressed[pos+6] << 8) | compressed[pos+7];
-                float val;
+                float val = {};
                 memcpy(&val, &val_bits, sizeof(float));
                 
-                if (idx < data.size()) {
+                if (static_cast<int>(data.size()) > idx) {
                     data[idx] = val;
                 }
                 pos += 8;
@@ -359,12 +374,22 @@ json GradientTensor::toJSON() const {
 }
 
 GradientTensor GradientTensor::fromJSON(const json& j) {
-    GradientTensor tensor;
-    if (j.contains("layer_name")) tensor.layer_name = j["layer_name"].get<std::string>();
-    if (j.contains("shape")) tensor.shape = j["shape"].get<std::vector<int>>();
-    if (j.contains("source_shard")) tensor.source_shard = j["source_shard"].get<std::string>();
-    if (j.contains("timestamp_ms")) tensor.timestamp_ms = j["timestamp_ms"].get<int64_t>();
-    if (j.contains("step_number")) tensor.step_number = j["step_number"].get<int>();
+    GradientTensor tensor = {};
+    if (j.contains("layer_name")) {
+      tensor.layer_name = j["layer_name"].get<std::string>();
+    }
+    if (j.contains("shape")) {
+      tensor.shape = j["shape"].get<std::vector<int>>();
+    }
+    if (j.contains("source_shard")) {
+      tensor.source_shard = j["source_shard"].get<std::string>();
+    }
+    if (j.contains("timestamp_ms")) {
+      tensor.timestamp_ms = j["timestamp_ms"].get<int64_t>();
+    }
+    if (j.contains("step_number")) {
+      tensor.step_number = j["step_number"].get<int>();
+    }
     if (j.contains("compression_type")) 
         tensor.compression_type = static_cast<GradientCompressionType>(j["compression_type"].get<int>());
     
@@ -410,16 +435,30 @@ json GradientExchangeMessage::toJSON() const {
 }
 
 GradientExchangeMessage GradientExchangeMessage::fromJSON(const json& j) {
-    GradientExchangeMessage msg;
-    if (j.contains("message_id")) msg.message_id = j["message_id"].get<std::string>();
-    if (j.contains("source_shard")) msg.source_shard = j["source_shard"].get<std::string>();
-    if (j.contains("destination_shard")) msg.destination_shard = j["destination_shard"].get<std::string>();
-    if (j.contains("iteration_number")) msg.iteration_number = j["iteration_number"].get<int>();
-    if (j.contains("total_participants")) msg.total_participants = j["total_participants"].get<int>();
+    GradientExchangeMessage msg = {};
+    if (j.contains("message_id")) {
+      msg.message_id = j["message_id"].get<std::string>();
+    }
+    if (j.contains("source_shard")) {
+      msg.source_shard = j["source_shard"].get<std::string>();
+    }
+    if (j.contains("destination_shard")) {
+      msg.destination_shard = j["destination_shard"].get<std::string>();
+    }
+    if (j.contains("iteration_number")) {
+      msg.iteration_number = j["iteration_number"].get<int>();
+    }
+    if (j.contains("total_participants")) {
+      msg.total_participants = j["total_participants"].get<int>();
+    }
     if (j.contains("participants_seen")) 
         msg.participants_seen = j["participants_seen"].get<std::vector<std::string>>();
-    if (j.contains("sent_timestamp_ms")) msg.sent_timestamp_ms = j["sent_timestamp_ms"].get<int64_t>();
-    if (j.contains("received_timestamp_ms")) msg.received_timestamp_ms = j["received_timestamp_ms"].get<int64_t>();
+    if (j.contains("sent_timestamp_ms")) {
+      msg.sent_timestamp_ms = j["sent_timestamp_ms"].get<int64_t>();
+    }
+    if (j.contains("received_timestamp_ms")) {
+      msg.received_timestamp_ms = j["received_timestamp_ms"].get<int64_t>();
+    }
     
     if (j.contains("gradients")) {
         for (const auto& grad_json : j["gradients"]) {
@@ -464,20 +503,46 @@ json ShardTrainingState::toJSON() const {
 }
 
 ShardTrainingState ShardTrainingState::fromJSON(const json& j) {
-    ShardTrainingState state;
-    if (j.contains("shard_id")) state.shard_id = j["shard_id"].get<std::string>();
-    if (j.contains("current_epoch")) state.current_epoch = j["current_epoch"].get<int>();
-    if (j.contains("current_step")) state.current_step = j["current_step"].get<int>();
-    if (j.contains("total_steps")) state.total_steps = j["total_steps"].get<int>();
-    if (j.contains("current_loss")) state.current_loss = j["current_loss"].get<float>();
-    if (j.contains("avg_grad_norm")) state.avg_grad_norm = j["avg_grad_norm"].get<float>();
-    if (j.contains("samples_processed")) state.samples_processed = j["samples_processed"].get<int>();
-    if (j.contains("is_active")) state.is_active = j["is_active"].get<bool>();
-    if (j.contains("is_synchronized")) state.is_synchronized = j["is_synchronized"].get<bool>();
-    if (j.contains("last_heartbeat_ms")) state.last_heartbeat_ms = j["last_heartbeat_ms"].get<int64_t>();
-    if (j.contains("consecutive_failures")) state.consecutive_failures = j["consecutive_failures"].get<int>();
-    if (j.contains("gpu_utilization")) state.gpu_utilization = j["gpu_utilization"].get<float>();
-    if (j.contains("memory_usage_gb")) state.memory_usage_gb = j["memory_usage_gb"].get<float>();
+    ShardTrainingState state = {};
+    if (j.contains("shard_id")) {
+      state.shard_id = j["shard_id"].get<std::string>();
+    }
+    if (j.contains("current_epoch")) {
+      state.current_epoch = j["current_epoch"].get<int>();
+    }
+    if (j.contains("current_step")) {
+      state.current_step = j["current_step"].get<int>();
+    }
+    if (j.contains("total_steps")) {
+      state.total_steps = j["total_steps"].get<int>();
+    }
+    if (j.contains("current_loss")) {
+      state.current_loss = j["current_loss"].get<float>();
+    }
+    if (j.contains("avg_grad_norm")) {
+      state.avg_grad_norm = j["avg_grad_norm"].get<float>();
+    }
+    if (j.contains("samples_processed")) {
+      state.samples_processed = j["samples_processed"].get<int>();
+    }
+    if (j.contains("is_active")) {
+      state.is_active = j["is_active"].get<bool>();
+    }
+    if (j.contains("is_synchronized")) {
+      state.is_synchronized = j["is_synchronized"].get<bool>();
+    }
+    if (j.contains("last_heartbeat_ms")) {
+      state.last_heartbeat_ms = j["last_heartbeat_ms"].get<int64_t>();
+    }
+    if (j.contains("consecutive_failures")) {
+      state.consecutive_failures = j["consecutive_failures"].get<int>();
+    }
+    if (j.contains("gpu_utilization")) {
+      state.gpu_utilization = j["gpu_utilization"].get<float>();
+    }
+    if (j.contains("memory_usage_gb")) {
+      state.memory_usage_gb = j["memory_usage_gb"].get<float>();
+    }
     return state;
 }
 
@@ -521,11 +586,12 @@ std::vector<GradientTensor> AllReduceAggregator::aggregate(
     
     // Use first shard's gradients as template
     const auto& template_grads = shard_gradients[0];
-    std::vector<GradientTensor> aggregated;
+    std::vector<GradientTensor> aggregated = {};
+
     aggregated.reserve(template_grads.size());
     
     // For each layer
-    for (size_t layer_idx = 0; layer_idx < template_grads.size(); ++layer_idx) {
+    for (size_t layer_idx = 0; layer_idx <static_cast<int>(template_grads.size()); ++layer_idx) {
         GradientTensor agg_tensor;
         agg_tensor.layer_name = template_grads[layer_idx].layer_name;
         agg_tensor.shape = template_grads[layer_idx].shape;
@@ -540,12 +606,14 @@ std::vector<GradientTensor> AllReduceAggregator::aggregate(
         // Sum gradients from all shards
         int valid_shards = 0;
         for (const auto& shard_grad_list : shard_gradients) {
-            if (layer_idx >= shard_grad_list.size()) continue;
+            if (layer_idx >= static_cast<int>(shard_grad_list.size())) {
+              continue;
+            }
             
             const auto& grad = shard_grad_list[layer_idx];
-            if (grad.data.size() != tensor_size) {
+            if (static_cast<int>(grad.data.size()) != tensor_size) {
                 spdlog::warn("Gradient size mismatch for layer {}: expected {}, got {}", 
-                           grad.layer_name, tensor_size, grad.data.size());
+                           grad.layer_name, tensor_size,static_cast<int>(grad.data.size()));
                 continue;
             }
             
@@ -581,7 +649,8 @@ std::vector<GradientTensor> ParameterServerAggregator::aggregate(
     }
     
     const auto& template_grads = shard_gradients[0];
-    std::vector<GradientTensor> aggregated;
+    std::vector<GradientTensor> aggregated = {};
+
     aggregated.reserve(template_grads.size());
     
     // Calculate total weight
@@ -592,12 +661,12 @@ std::vector<GradientTensor> ParameterServerAggregator::aggregate(
     
     if (total_weight <= 0.0f) {
         // Fall back to simple averaging
-        AllReduceAggregator fallback;
+        AllReduceAggregator fallback = {};
         return fallback.aggregate(shard_gradients);
     }
     
     // For each layer
-    for (size_t layer_idx = 0; layer_idx < template_grads.size(); ++layer_idx) {
+    for (size_t layer_idx = 0; layer_idx <static_cast<int>(template_grads.size()); ++layer_idx) {
         GradientTensor agg_tensor;
         agg_tensor.layer_name = template_grads[layer_idx].layer_name;
         agg_tensor.shape = template_grads[layer_idx].shape;
@@ -609,15 +678,19 @@ std::vector<GradientTensor> ParameterServerAggregator::aggregate(
         agg_tensor.data.resize(tensor_size, 0.0f);
         
         // Weighted sum
-        for (size_t shard_idx = 0; shard_idx < shard_gradients.size(); ++shard_idx) {
+        for (size_t shard_idx = 0; shard_idx <static_cast<int>(shard_gradients.size()); ++shard_idx) {
             const auto& shard_grad_list = shard_gradients[shard_idx];
-            if (layer_idx >= shard_grad_list.size()) continue;
+            if (layer_idx >= static_cast<int>(shard_grad_list.size())) {
+              continue;
+            }
             
             const auto& grad = shard_grad_list[layer_idx];
-            if (grad.data.size() != tensor_size) continue;
+            if (static_cast<int>(grad.data.size()) != tensor_size) {
+              continue;
+            }
             
             // Get weight for this shard
-            float weight = 1.0f / shard_gradients.size();  // Default weight
+            float weight = 1.0f / static_cast<float>(shard_gradients.size());  // Default weight
             auto it = shard_weights_.find(grad.source_shard);
             if (it != shard_weights_.end()) {
                 weight = it->second / total_weight;
@@ -640,7 +713,7 @@ std::vector<GradientTensor> ParameterServerAggregator::aggregate(
 
 void RingAllReduceAggregator::setRingTopology(const std::vector<std::string>& ring_order) {
     ring_order_ = ring_order;
-    spdlog::info("Ring topology set with {} nodes", ring_order.size());
+    spdlog::info("Ring topology set with {} nodes",static_cast<int>(ring_order.size()));
 }
 
 std::vector<GradientTensor> RingAllReduceAggregator::aggregate(
@@ -652,7 +725,7 @@ std::vector<GradientTensor> RingAllReduceAggregator::aggregate(
     spdlog::info("Ring-AllReduce using simplified all-reduce for {} shards", 
                shard_gradients.size());
     
-    AllReduceAggregator fallback;
+    AllReduceAggregator fallback = {};
     return fallback.aggregate(shard_gradients);
 }
 
@@ -673,7 +746,7 @@ DistributedTrainingCoordinator::DistributedTrainingCoordinator(
     
     spdlog::info("DistributedTrainingCoordinator created");
     spdlog::info("  Coordinator shard: {}", config_.coordinator_shard);
-    spdlog::info("  Participant shards: {}", config_.participant_shards.size());
+    spdlog::info("  Participant shards: {}",static_cast<int>(config_.participant_shards.size()));
     spdlog::info("  Sync strategy: {}", static_cast<int>(config_.sync_strategy));
 }
 
@@ -815,7 +888,7 @@ DistributedTrainingCoordinator::StepResult DistributedTrainingCoordinator::execu
     result.total_time_ms = std::chrono::duration<float, std::milli>(step_end - step_start).count();
     
     // 7. Call progress callback
-    if (progress_callback_) {
+    if ([[maybe_unused]] progress_callback_) {
         progress_callback_(current_step_, result);
     }
     
@@ -852,7 +925,7 @@ void DistributedTrainingCoordinator::stop() {
 }
 
 std::map<std::string, std::vector<GradientTensor>> 
-DistributedTrainingCoordinator::collectGradients(int step_number) {
+DistributedTrainingCoordinator::collectGradients([[maybe_unused]] int step_number) {
     std::map<std::string, std::vector<GradientTensor>> collected;
     
     spdlog::debug("Collecting gradients from {} shards for step {}", 
@@ -883,7 +956,8 @@ DistributedTrainingCoordinator::collectGradients(int step_number) {
             json response = shard_router_->executeQuery(rpc_query);
             
             // Parse response into gradient tensors
-            std::vector<GradientTensor> shard_grads;
+            std::vector<GradientTensor> shard_grads = {};
+
             if (response.contains("gradients") && response["gradients"].is_array()) {
                 for (const auto& grad_json : response["gradients"]) {
                     try {
@@ -897,7 +971,7 @@ DistributedTrainingCoordinator::collectGradients(int step_number) {
             
             if (!shard_grads.empty()) {
                 collected[shard_id] = shard_grads;
-                spdlog::debug("Collected {} gradients from {}", shard_grads.size(), shard_id);
+                spdlog::debug("Collected {} gradients from {}",static_cast<int>(shard_grads.size()), shard_id);
             } else {
                 spdlog::warn("No gradients received from {}", shard_id);
             }
@@ -973,6 +1047,7 @@ std::vector<GradientTensor> DistributedTrainingCoordinator::aggregateGradients(
                         throw std::runtime_error(
                             fmt::format("Byzantine shards detected ({}), shutting down training",
                                       fmt::join(detection_result.suspected_shards, ", ")));
+                    default: break;
                 }
             }
         } catch (const std::exception& e) {
@@ -1067,7 +1142,7 @@ bool DistributedTrainingCoordinator::broadcastGradients(
     int step_number
 ) {
     spdlog::debug("Broadcasting {} gradient tensors to {} shards",
-                 gradients.size(), active_shards_.size());
+                 gradients.size(),static_cast<int>(active_shards_.size()));
     
     if (!shard_router_) {
         spdlog::error("No ShardRouter available; distributed gradient broadcast is disabled");
@@ -1244,11 +1319,11 @@ bool DistributedTrainingCoordinator::handleShardFailure(const std::string& faile
         return false;
     }
     
-    spdlog::info("Continuing with {} active shards", active_shards_.size());
+    spdlog::info("Continuing with {} active shards",static_cast<int>(active_shards_.size()));
     return true;
 }
 
-bool DistributedTrainingCoordinator::saveCheckpoint(int step_number) {
+bool DistributedTrainingCoordinator::saveCheckpoint([[maybe_unused]] int step_number) {
     if (config_.checkpoint_path.empty()) {
         spdlog::warn("Checkpoint path not configured");
         return false;
@@ -1304,8 +1379,12 @@ bool DistributedTrainingCoordinator::resumeFromCheckpoint(const std::string& che
         file.close();
         
         // Restore state
-        if (checkpoint.contains("adapter_id")) adapter_id_ = checkpoint["adapter_id"];
-        if (checkpoint.contains("step_number")) current_step_ = checkpoint["step_number"];
+        if (checkpoint.contains("adapter_id")) {
+          adapter_id_ = checkpoint["adapter_id"];
+        }
+        if (checkpoint.contains("step_number")) {
+          current_step_ = checkpoint["step_number"];
+        }
         if (checkpoint.contains("stats")) {
             // Restore statistics (partial)
             auto stats_json = checkpoint["stats"];
@@ -1368,7 +1447,7 @@ float DistributedTrainingCoordinator::estimateRemainingTime() const {
     return 0.0f;
 }
 
-void DistributedTrainingCoordinator::setProgressCallback(ProgressCallback callback) {
+void DistributedTrainingCoordinator::setProgressCallback([[maybe_unused]] ProgressCallback callback) {
     progress_callback_ = callback;
 }
 
@@ -1390,8 +1469,9 @@ void DistributedTrainingCoordinator::initializeAggregator() {
             
         case SyncStrategy::PARAMETER_SERVER: {
             // Create equal weights for all shards
-            std::map<std::string, float> weights;
-            float weight = 1.0f / config_.participant_shards.size();
+            std::map<std::string, float> weights = {};
+
+            float weight = 1.0f / static_cast<float>(config_.participant_shards.size());
             for (const auto& shard : config_.participant_shards) {
                 weights[shard] = weight;
             }
@@ -1409,11 +1489,12 @@ void DistributedTrainingCoordinator::initializeAggregator() {
         }
         
         case SyncStrategy::HIERARCHICAL:
-        case SyncStrategy::ASYNC_SGD:
+        [[fallthrough]];\n        case SyncStrategy::ASYNC_SGD:
             // Fall back to AllReduce for now
             aggregator_ = std::make_unique<AllReduceAggregator>();
             spdlog::warn("Strategy not fully implemented, using AllReduce");
             break;
+        default: break;
     }
 }
 
@@ -1499,7 +1580,8 @@ bool DistributedTrainingCoordinator::validateShardParticipation() {
     auto available_shards = shard_topology_->getHealthyShards();
     
     // Create set of available shard IDs for fast lookup
-    std::set<std::string> available_shard_ids;
+    std::set<std::string> available_shard_ids = {};
+
     for (const auto& shard_info : available_shards) {
         available_shard_ids.insert(shard_info.shard_id);
     }
@@ -1550,7 +1632,8 @@ void DistributedTrainingCoordinator::updateStatistics(const StepResult& /*result
 std::vector<GradientTensor> DistributedTrainingCoordinator::compressGradients(
     const std::vector<GradientTensor>& gradients
 ) {
-    std::vector<GradientTensor> compressed;
+    std::vector<GradientTensor> compressed = {};
+
     compressed.reserve(gradients.size());
     
     for (auto grad : gradients) {
@@ -1566,7 +1649,8 @@ std::vector<GradientTensor> DistributedTrainingCoordinator::compressGradients(
 std::vector<GradientTensor> DistributedTrainingCoordinator::decompressGradients(
     const std::vector<GradientTensor>& gradients
 ) {
-    std::vector<GradientTensor> decompressed;
+    std::vector<GradientTensor> decompressed = {};
+
     decompressed.reserve(gradients.size());
     
     for (auto grad : gradients) {

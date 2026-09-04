@@ -30,7 +30,7 @@ URLComponents parseURL(const std::string& url) {
     
     // Regex: (https?)://([^:/]+)(?::(\d+))?(/.*)?
     std::regex url_regex(R"((https?)://([^:/]+)(?::(\d+))?(/.*)?)", std::regex::icase);
-    std::smatch matches;
+    std::smatch matches = {};
     
     if (!std::regex_match(url, matches, url_regex)) {
         throw std::invalid_argument("Invalid URL format: " + url);
@@ -341,7 +341,7 @@ size_t HTTPClientPool::getStripeIndex() const {
     return round_robin_.fetch_add(1, std::memory_order_relaxed) % stripes_.size();
 }
 
-void HTTPClientPool::warmup(size_t num_connections) {
+void HTTPClientPool::warmup([[maybe_unused]] size_t num_connections) {
     if (shutdown_.load()) {
         return;
     }
@@ -353,12 +353,12 @@ void HTTPClientPool::warmup(size_t num_connections) {
     size_t connections_per_stripe = num_connections / stripes_.size();
     size_t remainder = num_connections % stripes_.size();
     
-    for (size_t i = 0; i < stripes_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(stripes_.size()); ++i) {
         auto& stripe = stripes_[i];
         std::lock_guard<std::mutex> lock(stripe->mutex);
         
         size_t target_count = connections_per_stripe + (i < remainder ? 1 : 0);
-        size_t current_count = stripe->connections.size();
+        size_t current_count = stripe-> static_cast<int>(connections.size());
         
         // Create additional connections up to target
         for (size_t j = current_count; j < target_count; ++j) {
@@ -442,7 +442,7 @@ HTTPResponse BeastHTTPClient::execute(
         tcp::resolver resolver(*ioc_);
         auto const results = resolver.resolve(components.host, components.port);
         
-        HTTPResponse response;
+        HTTPResponse response = {};
         
         if (components.is_https()) {
             // HTTPS request with SSL

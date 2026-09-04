@@ -165,7 +165,8 @@ TEST_F(NUMAMemoryManagerTest, ResetStatsZeroesCounters) {
 
 TEST_F(NUMAMemoryManagerTest, ConcurrentAllocationsThreadSafe) {
     constexpr int kThreads = 4, kAllocs = 32;
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([this]() {
             for (int i = 0; i < kAllocs; ++i) {
@@ -175,7 +176,9 @@ TEST_F(NUMAMemoryManagerTest, ConcurrentAllocationsThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 }
 
 } // namespace

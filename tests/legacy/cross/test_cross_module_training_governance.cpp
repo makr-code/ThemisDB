@@ -193,7 +193,8 @@ TEST_F(TrainingGovernanceTest, A3_ThreeStepChain_CorrectParentLinks) {
     ASSERT_EQ(record.events.size(), 3u);
 
     // Build event_id → parent map
-    std::unordered_map<std::string, std::string> parent_of;
+    std::unordered_map<std::string, std::string> parent_of = {};
+
     for (const auto& ev : record.events) {
         parent_of[ev.event_id] = ev.parent_event_id;
     }

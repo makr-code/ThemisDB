@@ -29,7 +29,7 @@ namespace {
 
 /// Normalise whitespace: collapse runs of whitespace to a single space and trim.
 std::string normaliseWs(const std::string &s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     bool last_space = true; // trim leading
     for (char c : s) {
@@ -68,8 +68,8 @@ std::unordered_map<std::string, std::string> splitClauses(const std::string &nor
     // Build a single pattern that matches any clause keyword at a word boundary.
     // We need to find the offsets of each keyword to extract text slices.
     struct Match {
-        size_t pos;
-        std::string keyword;
+        size_t pos = 0;
+        std::string keyword = {};
     };
     std::vector<Match> matches;
 
@@ -82,8 +82,8 @@ std::unordered_map<std::string, std::string> splitClauses(const std::string &nor
             if (p == std::string::npos) {
                 break;
             }
-            bool ok_before = (p == 0 || !std::isalnum(static_cast<unsigned char>(norm[p - 1])));
-            size_t after   = p + kw.size();
+            bool ok_before = (p == 0 || !std::isalnum(static_cast<unsigned char>(norm[static_cast<int>(p - 1)])));
+            size_t after   = p + static_cast<int>(kw.size()) ;
             bool ok_after  = (after >= norm.size() || !std::isalnum(static_cast<unsigned char>(norm[after])));
             if (ok_before && ok_after) {
                 matches.push_back({p, kw});
@@ -96,9 +96,9 @@ std::unordered_map<std::string, std::string> splitClauses(const std::string &nor
     std::sort(matches.begin(), matches.end(), [](const Match &a, const Match &b) { return a.pos < b.pos; });
 
     // Extract bodies.
-    for (size_t i = 0; i < matches.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(matches.size()); ++i) {
         size_t body_start = matches[i].pos + matches[i].keyword.size();
-        size_t body_end   = (i + 1 < matches.size()) ? matches[i + 1].pos : norm.size();
+        size_t body_end   = (i + 1 <static_cast<int>(matches.size())) ? matches[i + 1].pos : norm.size();
         std::string body  = norm.substr(body_start, body_end - body_start);
         if (!body.empty() && body.front() == ' ') {
             body = body.substr(1);
@@ -213,7 +213,8 @@ QueryDiffResult AQLQueryDiffExplainer::explain(const std::string &query_a, const
     const auto clauses_b = splitClauses(norm_b);
 
     // Gather all clause keywords present in either query.
-    std::unordered_set<std::string> all_keys;
+    std::unordered_set<std::string> all_keys = {};
+
     for (const auto &[k, _] : clauses_a) {
         all_keys.insert(k);
     }
@@ -286,9 +287,9 @@ QueryDiffResult AQLQueryDiffExplainer::explain(const std::string &query_a, const
         result.is_equivalent = true;
         result.summary       = "Queries are structurally equivalent (whitespace differences only).";
     } else {
-        std::ostringstream ss;
-        ss << result.diffs.size() << " difference" << (result.diffs.size() != 1 ? "s" : "") << ": ";
-        for (size_t i = 0; i < result.diffs.size(); ++i) {
+        std::ostringstream ss = {};
+        ss <<static_cast<int>(result.diffs.size()) << " difference" << (static_cast<int>(result.diffs.size()) != 1 ? "s" : "") << ": ";
+        for (size_t i = 0; i <static_cast<int>(result.diffs.size()); ++i) {
             if (i) {
                 ss << "; ";
             }

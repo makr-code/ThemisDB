@@ -39,7 +39,7 @@ namespace fs = std::filesystem;
 namespace {
 
 fs::path resolveSnapshotRootDir() {
-    std::error_code ec;
+    std::error_code ec = {};
     auto base_dir = fs::temp_directory_path(ec);
     if (ec || base_dir.empty()) {
         ec.clear();
@@ -61,7 +61,7 @@ fs::path resolveDefaultDbDataDir() {
         return fs::path(env_path);
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     auto cwd = fs::current_path(ec);
     if (ec || cwd.empty()) {
         return fs::path("data") / "rocksdb";
@@ -134,13 +134,14 @@ public:
         return SnapshotStatus::OK;
     }
     
-    SnapshotStatus StreamChunks(ChunkCallback callback) {
+    SnapshotStatus StreamChunks([[maybe_unused]] ChunkCallback callback) {
         if (snapshot_dir_.empty()) {
             return SnapshotStatus::ERROR_SNAPSHOT_NOT_FOUND;
         }
         
         // Iterate through all files in snapshot directory
-        std::vector<fs::path> files;
+        std::vector<fs::path> files = {};
+
         for (const auto& entry : fs::recursive_directory_iterator(snapshot_dir_)) {
             if (entry.is_regular_file()) {
                 files.push_back(entry.path());
@@ -166,7 +167,7 @@ public:
             // Read file in chunks
             std::vector<char> buffer(config_.chunk_size_mb * 1024 * 1024);
             
-            while (file.read(buffer.data(), buffer.size()) || file.gcount() > 0) {
+            while (file.read(buffer.data(),static_cast<int>(buffer.size())) || file.gcount() > 0) {
                 size_t bytes_read = file.gcount();
                 
                 // Create chunk message
@@ -182,7 +183,7 @@ public:
                 chunk.set_file_offset(file_offset);
                 
                 // Compress data
-                std::string compressed_data;
+                std::string compressed_data = {};
                 SnapshotStatus status = CompressData(
                     std::string(buffer.data(), bytes_read),
                     &compressed_data
@@ -213,7 +214,7 @@ public:
                 }
                 
                 // Send chunk
-                callback(chunk);
+                callback([[maybe_unused]] chunk);
                 
                 transferred_bytes_ += bytes_read;
                 transferred_chunks_++;
@@ -235,7 +236,7 @@ public:
             final_chunk.set_checksum(snapshot_hash);
             final_chunk.set_checksum_type(themis::sharding::CHECKSUM_SHA256);
             
-            callback(final_chunk);
+            callback([[maybe_unused]] final_chunk);
         }
         
         return SnapshotStatus::OK;
@@ -276,14 +277,14 @@ public:
         }
         
         // Decompress data
-        std::string decompressed_data;
+        std::string decompressed_data = {};
         SnapshotStatus status = DecompressData(chunk.data(), &decompressed_data);
         if (status != SnapshotStatus::OK) {
             return status;
         }
         
         // Verify decompressed size
-        if (decompressed_data.size() != chunk.uncompressed_size()) {
+        if (static_cast<int>(decompressed_data.size()) != chunk.uncompressed_size()) {
             return SnapshotStatus::ERROR_COMPRESSION_FAILED;
         }
         
@@ -378,7 +379,7 @@ public:
             return SnapshotStatus::ERROR_ROCKSDB_ERROR;
         }
         
-        file.write(decompressed_data.data(), decompressed_data.size());
+        file.write(decompressed_data.data(),static_cast<int>(decompressed_data.size()));
         
         transferred_bytes_ += decompressed_data.size();
         transferred_chunks_++;
@@ -394,7 +395,7 @@ public:
 
         // Determine the RocksDB data directory from the db_ handle when available,
         // otherwise fall back to the well-known ThemisDB data path.
-        std::string db_data_dir;
+        std::string db_data_dir = {};
         if (db_) {
             db_data_dir = db_->GetName();
         } else {
@@ -406,7 +407,7 @@ public:
 
         fs::path dest_dir(db_data_dir);
         if (!fs::exists(dest_dir)) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::create_directories(dest_dir, ec);
             if (ec) {
                 spdlog::error("FinalizeSnapshot: cannot create destination dir '{}': {}",
@@ -422,12 +423,14 @@ public:
         bool any_error = false;
         try {
         for (const auto& entry : fs::recursive_directory_iterator(snapshot_dir_)) {
-            if (!entry.is_regular_file()) continue;
+            if (!entry.is_regular_file()) {
+              continue;
+            }
 
             fs::path rel    = fs::relative(entry.path(), snapshot_dir_);
             fs::path target = dest_dir / rel;
 
-            std::error_code ec;
+            std::error_code ec = {};
             fs::create_directories(target.parent_path(), ec);
             if (ec) {
                 spdlog::error("FinalizeSnapshot: mkdir '{}': {}", target.parent_path().string(), ec.message());
@@ -536,8 +539,8 @@ private:
                 
             case themis::sharding::COMPRESSION_LZ4: {
                 // Validate input size before compression
-                if (input.size() > themis::utils::compression::MAX_INPUT_SIZE) {
-                    THEMIS_ERROR("LZ4: Input too large for compression: {} bytes", input.size());
+                if (static_cast<int>(input.size()) > themis::utils::compression::MAX_INPUT_SIZE) {
+                    THEMIS_ERROR("LZ4: Input too large for compression: {} bytes",static_cast<int>(input.size()));
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
                 
@@ -584,14 +587,14 @@ private:
                 
                 // Convert vector<uint8_t> to string
                 const auto& compressed = *result;
-                output->assign(reinterpret_cast<const char*>(compressed.data()), compressed.size());
+                output->assign(reinterpret_cast<const char*>(compressed.data()),static_cast<int>(compressed.size()));
                 return SnapshotStatus::OK;
             }
             
             case themis::sharding::COMPRESSION_SNAPPY: {
                 // Validate input size before compression
-                if (input.size() > themis::utils::compression::MAX_INPUT_SIZE) {
-                    THEMIS_ERROR("Snappy: Input too large for compression: {} bytes", input.size());
+                if (static_cast<int>(input.size()) > themis::utils::compression::MAX_INPUT_SIZE) {
+                    THEMIS_ERROR("Snappy: Input too large for compression: {} bytes",static_cast<int>(input.size()));
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
                 
@@ -610,7 +613,7 @@ private:
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
                 
-                snappy::RawCompress(input.data(), input.size(),
+                snappy::RawCompress(input.data(),static_cast<int>(input.size()),
                                    &(*output)[0], &compressed_size);
                 output->resize(compressed_size);
                 return SnapshotStatus::OK;
@@ -629,8 +632,8 @@ private:
                 
             case themis::sharding::COMPRESSION_LZ4: {
                 // Validate compressed input size
-                if (input.size() > themis::utils::compression::MAX_DECOMPRESSED_SIZE) {
-                    THEMIS_ERROR("LZ4: Compressed data too large: {} bytes", input.size());
+                if (static_cast<int>(input.size()) > themis::utils::compression::MAX_DECOMPRESSED_SIZE) {
+                    THEMIS_ERROR("LZ4: Compressed data too large: {} bytes",static_cast<int>(input.size()));
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
                 
@@ -674,18 +677,18 @@ private:
                 
                 // Convert vector<uint8_t> to string
                 const auto& decompressed = *result;
-                output->assign(reinterpret_cast<const char*>(decompressed.data()), decompressed.size());
+                output->assign(reinterpret_cast<const char*>(decompressed.data()),static_cast<int>(decompressed.size()));
                 return SnapshotStatus::OK;
             }
             
             case themis::sharding::COMPRESSION_SNAPPY: {
                 // Validate compressed input size
-                if (input.size() > themis::utils::compression::MAX_DECOMPRESSED_SIZE) {
-                    THEMIS_ERROR("Snappy: Compressed data too large: {} bytes", input.size());
+                if (static_cast<int>(input.size()) > themis::utils::compression::MAX_DECOMPRESSED_SIZE) {
+                    THEMIS_ERROR("Snappy: Compressed data too large: {} bytes",static_cast<int>(input.size()));
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
                 
-                if (!snappy::Uncompress(input.data(), input.size(), output)) {
+                if (!snappy::Uncompress(input.data(),static_cast<int>(input.size()), output)) {
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
                 return SnapshotStatus::OK;
@@ -699,7 +702,7 @@ private:
     std::string CalculateChecksum(const std::string& data) {
         switch (config_.checksum_type) {
             case themis::sharding::CHECKSUM_CRC32: {
-                uint32_t crc = crc32c::Crc32c(data.data(), data.size());
+                uint32_t crc = crc32c::Crc32c(data.data(),static_cast<int>(data.size()));
                 return std::to_string(crc);
             }
             
@@ -707,7 +710,7 @@ private:
                 unsigned char hash[SHA256_DIGEST_LENGTH];
                 SHA256(reinterpret_cast<const unsigned char*>(data.data()),
                       data.size(), hash);
-                std::stringstream ss;
+                std::stringstream ss = {};
                 for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
                     ss << std::hex << std::setw(2) << std::setfill('0')
                        << static_cast<int>(hash[i]);
@@ -716,8 +719,8 @@ private:
             }
             
             case themis::sharding::CHECKSUM_XXH64: {
-                XXH64_hash_t h = XXH64(data.data(), data.size(), 0);
-                std::ostringstream ss;
+                XXH64_hash_t h = XXH64(data.data(),static_cast<int>(data.size()), 0);
+                std::ostringstream ss = {};
                 ss << std::hex << std::setw(16) << std::setfill('0') << h;
                 return ss.str();
             }
@@ -732,7 +735,8 @@ private:
         SHA256_CTX sha256;
         SHA256_Init(&sha256);
         
-        std::vector<fs::path> files;
+        std::vector<fs::path> files = {};
+
         for (const auto& entry : fs::recursive_directory_iterator(snapshot_dir_)) {
             if (entry.is_regular_file()) {
                 files.push_back(entry.path());
@@ -744,7 +748,7 @@ private:
             std::ifstream file(file_path, std::ios::binary);
             std::vector<char> buffer(1024 * 1024);  // 1 MB buffer
             
-            while (file.read(buffer.data(), buffer.size()) || file.gcount() > 0) {
+            while (file.read(buffer.data(),static_cast<int>(buffer.size())) || file.gcount() > 0) {
                 SHA256_Update(&sha256, buffer.data(), file.gcount());
             }
         }
@@ -752,7 +756,7 @@ private:
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256_Final(hash, &sha256);
         
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0')
                << static_cast<int>(hash[i]);
@@ -775,7 +779,7 @@ private:
     /// @brief RAII ownership of the RocksDB Checkpoint object.
     /// Replaces the previous raw pointer + manual delete in destructor.
     std::unique_ptr<rocksdb::Checkpoint> checkpoint_;
-    std::string snapshot_dir_;
+    std::string snapshot_dir_ = {};
 
     // Allow external injection of the RocksDB instance (e.g. from the shard server).
     void SetDB(rocksdb::DB* db) {
@@ -802,15 +806,15 @@ SnapshotTransferHandler::SnapshotTransferHandler()
 
 SnapshotTransferHandler::~SnapshotTransferHandler() = default;
 
-SnapshotStatus SnapshotTransferHandler::CreateSnapshot(const SnapshotConfig& config) {
+SnapshotStatus SnapshotTransferHandler::CreateSnapshot([[maybe_unused]] const SnapshotConfig& config) {
     return impl_->CreateSnapshot(config);
 }
 
-SnapshotStatus SnapshotTransferHandler::StreamChunks(ChunkCallback callback) {
-    return impl_->StreamChunks(callback);
+SnapshotStatus SnapshotTransferHandler::StreamChunks([[maybe_unused]] ChunkCallback callback) {
+    return impl_->StreamChunks([[maybe_unused]] callback);
 }
 
-SnapshotStatus SnapshotTransferHandler::VerifySnapshot(const std::string& expected_hash) {
+SnapshotStatus SnapshotTransferHandler::VerifySnapshot([[maybe_unused]] const std::string& expected_hash) {
     return impl_->VerifySnapshot(expected_hash);
 }
 
@@ -831,7 +835,7 @@ void SnapshotTransferHandler::Cancel() {
     impl_->Cancel();
 }
 
-void SnapshotTransferHandler::SetDB(rocksdb::DB* db) {
+void SnapshotTransferHandler::SetDB([[maybe_unused]] rocksdb::DB* db) {
     impl_->SetDB(db);
 }
 

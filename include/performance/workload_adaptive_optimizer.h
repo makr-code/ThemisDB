@@ -214,7 +214,7 @@ private:
     static constexpr size_t kWindowSize = 512;
 
     struct QueryObs {
-        bool     is_write;
+        bool     is_write = 0;
         double   complexity;
         size_t   result_rows;
         uint64_t latency_us;

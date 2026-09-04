@@ -24,21 +24,21 @@ namespace themis::llm {
 // VisionResourceUsage Implementation
 // =====================================================
 
-double VisionResourceUsage::getMemoryUtilization(size_t limit_mb) const {
+double VisionResourceUsage::getMemoryUtilization([[maybe_unused]] size_t limit_mb) const {
     if (limit_mb == 0) {
         return 0.0;
     }
     return (static_cast<double>(current_memory_mb) / static_cast<double>(limit_mb)) * 100.0;
 }
 
-double VisionResourceUsage::getVRAMUtilization(size_t limit_mb) const {
+double VisionResourceUsage::getVRAMUtilization([[maybe_unused]] size_t limit_mb) const {
     if (limit_mb == 0) {
         return 0.0;
     }
     return (static_cast<double>(current_vram_mb) / static_cast<double>(limit_mb)) * 100.0;
 }
 
-double VisionResourceUsage::getRequestUtilization(size_t limit) const {
+double VisionResourceUsage::getRequestUtilization([[maybe_unused]] size_t limit) const {
     if (limit == 0) {
         return 0.0;
     }
@@ -76,7 +76,7 @@ size_t RateLimiter::availableTokens() const {
     auto now = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_refill_);
     if (elapsed.count() > 0) {
-        auto tokens_to_add = (refill_rate_ * elapsed.count()) / 60000;
+        auto tokens_to_add = static_cast<size_t>((refill_rate_ * elapsed.count()) / 60000);
         if (tokens_to_add > 0) {
             size_t current = tokens_.load(std::memory_order_relaxed);
             size_t new_tokens = std::min(capacity_, current + tokens_to_add);
@@ -116,7 +116,7 @@ void RateLimiter::refillTokens() {
     
     if (elapsed.count() > 0) {
         // Calculate tokens to add based on elapsed time
-        auto tokens_to_add = (refill_rate_ * elapsed.count()) / 60000; // 60000ms = 1 minute
+        auto tokens_to_add = static_cast<size_t>((refill_rate_ * elapsed.count()) / 60000); // 60000ms = 1 minute
         
         if (tokens_to_add > 0) {
             size_t current = tokens_.load();
@@ -459,13 +459,13 @@ void VisionResourceMonitor::rejectRequest(const std::string& user_id, const std:
     logAuditEvent("request_rejected", user_id, "", reason, false);
 }
 
-void VisionResourceMonitor::updateMemoryUsage(size_t memory_mb) {
+void VisionResourceMonitor::updateMemoryUsage([[maybe_unused]] size_t memory_mb) {
     std::scoped_lock<std::mutex> lock(usage_mutex_);
     usage_.current_memory_mb = memory_mb;
     usage_.peak_memory_mb = std::max(usage_.peak_memory_mb, memory_mb);
 }
 
-void VisionResourceMonitor::updateVRAMUsage(size_t vram_mb) {
+void VisionResourceMonitor::updateVRAMUsage([[maybe_unused]] size_t vram_mb) {
     std::scoped_lock<std::mutex> lock(usage_mutex_);
     usage_.current_vram_mb = vram_mb;
     usage_.peak_vram_mb = std::max(usage_.peak_vram_mb, vram_mb);
@@ -565,8 +565,8 @@ QuotaTracker::QuotaRemaining VisionResourceMonitor::getUserQuota(const std::stri
 }
 
 std::string VisionResourceMonitor::exportMetrics() const {
-    std::stringstream ss;
-    constexpr uint64_t kBytesPerMb = 1024ULL * 1024ULL;
+    std::stringstream ss = {};
+    constexpr uint64_t kBytesPerMb = 1024 * 1024;
     
     auto usage = getResourceUsage();
     // Prometheus format
@@ -606,13 +606,13 @@ std::string VisionResourceMonitor::exportMetrics() const {
     return ss.str();
 }
 
-std::vector<VisionResourceMonitor::AuditEntry> VisionResourceMonitor::getAuditLog(size_t max_entries) const {
+std::vector<VisionResourceMonitor::AuditEntry> VisionResourceMonitor::getAuditLog([[maybe_unused]] size_t max_entries) const {
     std::scoped_lock<std::mutex> lock(audit_mutex_);
     
     std::vector<AuditEntry> entries;
     auto q = audit_log_;
     
-    while (!q.empty() && entries.size() < max_entries) {
+    while (!q.empty() && static_cast<int>(entries.size()) < max_entries) {
         entries.push_back(q.front());
         q.pop();
     }
@@ -741,7 +741,7 @@ void VisionResourceMonitor::logAuditEvent(const std::string& event_type, const s
     audit_log_.push(entry);
     
     // Limit audit log size
-    while (audit_log_.size() > MAX_AUDIT_ENTRIES) {
+    while (static_cast<int>(audit_log_.size()) > MAX_AUDIT_ENTRIES) {
         audit_log_.pop();
     }
     

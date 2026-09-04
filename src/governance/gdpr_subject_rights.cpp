@@ -38,7 +38,7 @@ std::unordered_map<std::string, std::string> ErasureReport::toSummaryMap() const
         }
     }
     m["stores_ok"]     = std::to_string(ok);
-    m["stores_failed"] = std::to_string(store_results.size() - ok);
+    m["stores_failed"] = std::to_string(static_cast<int>(store_results.size()) - ok);
     return m;
 }
 
@@ -61,7 +61,7 @@ void GdprSubjectRightsManager::registerEraseTarget(std::shared_ptr<IGdprEraseTar
 
 size_t GdprSubjectRightsManager::targetCount() const {
     std::lock_guard<std::mutex> lock(targets_mutex_);
-    return targets_.size();
+    return static_cast<int>(targets_.size());
 }
 
 std::mutex &GdprSubjectRightsManager::getSubjectMutex(const std::string &subject_id) {
@@ -140,7 +140,7 @@ PortabilityPackage GdprSubjectRightsManager::requestPortability(const std::strin
     THEMIS_INFO("GdprSubjectRights: PORTABILITY request subject='{}' format='{}'", subject_id, format);
 
     // Collect and concatenate exports from all targets
-    std::string combined;
+    std::string combined = {};
     if (format == "json") {
         combined   = "[";
         bool first = true;

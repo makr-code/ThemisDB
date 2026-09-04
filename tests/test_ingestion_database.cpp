@@ -43,16 +43,24 @@ static SourceConfig makeDbConfig(
     cfg.source_id        = "test_db";
     cfg.type             = SourceType::DATABASE;
     cfg.location         = jdbc_url;
-    if (!table.empty())    cfg.options["table"]        = table;
-    if (!query.empty())    cfg.options["query"]        = query;
-    if (!text_cols.empty()) cfg.options["text_columns"] = text_cols;
+    if (!table.empty()) {
+      cfg.options["table"]        = table;
+    }
+    if (!query.empty()) {
+      cfg.options["query"]        = query;
+    }
+    if (!text_cols.empty()) {
+      cfg.options["text_columns"] = text_cols;
+    }
     return cfg;
 }
 
 static DatabaseConnector::DbRow makeRow(
         std::initializer_list<std::pair<std::string, std::string>> cols) {
     DatabaseConnector::DbRow row;
-    for (auto& kv : cols) row[kv.first] = kv.second;
+    for (auto& kv : cols) {
+      row[kv.first] = kv.second;
+    }
     return row;
 }
 

@@ -36,7 +36,9 @@ static std::vector<std::vector<float>> make_random_vectors(
     std::uniform_real_distribution<float> dist(-1.f, 1.f);
     std::vector<std::vector<float>> vecs(n, std::vector<float>(dim));
     for (auto& v : vecs)
-        for (auto& x : v) x = dist(rng);
+        for (auto& x : v) {
+          x = dist(rng);
+        }
     return vecs;
 }
 
@@ -68,11 +70,15 @@ static std::vector<size_t> brute_force_knn(
 // recall@k: fraction of true top-k in returned results
 static float recall_at_k(const std::vector<size_t>& expected,
                           const std::vector<AnnSearchResult>& got) {
-    if (expected.empty()) return 1.f;
+    if (expected.empty()) {
+      return 1.f;
+    }
     std::set<size_t> expected_set(expected.begin(), expected.end());
     size_t hits = 0;
     for (auto& r : got) {
-        if (expected_set.count(static_cast<size_t>(r.id))) ++hits;
+        if (expected_set.count(static_cast<size_t>(r.id))) {
+          ++hits;
+        }
     }
     return static_cast<float>(hits) / static_cast<float>(expected.size());
 }
@@ -97,7 +103,8 @@ public:
     }
 
     std::vector<AnnSearchResult> search(const float* query, size_t dim, int k) const override {
-        std::vector<AnnSearchResult> out;
+        std::vector<AnnSearchResult> out = {};
+
         out.reserve(data_.size());
         for (const auto& [id, vec] : data_) {
             float d = 0.f;
@@ -109,7 +116,9 @@ public:
             out.push_back({id, d});
         }
         std::sort(out.begin(), out.end(), [](const AnnSearchResult& a, const AnnSearchResult& b) {
-            if (a.distance != b.distance) return a.distance < b.distance;
+            if (a.distance != b.distance) {
+              return a.distance < b.distance;
+            }
             return a.id < b.id;
         });
         if (k < static_cast<int>(out.size())) {
@@ -267,7 +276,8 @@ TEST(DistributedVectorIndexLifecycle, ReInsertDoesNotProduceDuplicateIds) {
     // Search should return at most 1 result for k1.
     auto results = idx.search(v, 10);
     // All returned IDs should be unique.
-    std::set<int64_t> seen_ids;
+    std::set<int64_t> seen_ids = {};
+
     for (const auto& r : results) {
         EXPECT_EQ(seen_ids.count(r.id), 0u) << "Duplicate ID in search results";
         seen_ids.insert(r.id);
@@ -374,7 +384,9 @@ TEST(DistributedVectorIndexRouting, HashDistributesAcrossShards) {
         size_t s = idx.shardFor("key_" + std::to_string(i));
         counts[s]++;
     }
-    for (size_t c : counts) EXPECT_GT(c, 0u);
+    for (size_t c : counts) {
+      EXPECT_GT(c, 0u);
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -456,7 +468,9 @@ TEST_F(DistributedVectorIndexTest, ShardStatsCount) {
     auto stats = idx.getShardStats();
     ASSERT_EQ(stats.size(), 4u);
     size_t total = 0;
-    for (const auto& s : stats) total += s.vector_count;
+    for (const auto& s : stats) {
+      total += s.vector_count;
+    }
     EXPECT_EQ(total, N);
 }
 
@@ -543,7 +557,8 @@ TEST(DistributedVectorIndexEdge, MoveConstructPreservesGlobalIdState) {
     ASSERT_TRUE(idx2.insert("plain", std::vector<float>{1.f, 0.f, 0.f, 0.f}));
 
     auto results = idx2.search(std::vector<float>{0.f, 0.f, 0.f, 0.f}, 10);
-    std::set<int64_t> ids;
+    std::set<int64_t> ids = {};
+
     for (const auto& r : results) {
         ids.insert(r.id);
     }

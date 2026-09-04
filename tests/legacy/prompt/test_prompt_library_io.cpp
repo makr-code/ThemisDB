@@ -106,7 +106,7 @@ TEST(PromptLibraryIOTest, ChecksumEmptyTemplates) {
     const auto cs = PromptLibraryIO::computeChecksum(b);
     EXPECT_EQ(cs.size(), 16u);
     for (char c : cs) {
-        EXPECT_TRUE((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'));
+        EXPECT_TRUE((c >= ('0' && c <= '9') || (c >= 'a' && c <= 'f')));
     }
 }
 

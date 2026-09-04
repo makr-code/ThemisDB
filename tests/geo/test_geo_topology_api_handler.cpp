@@ -210,7 +210,9 @@ TEST_F(GeoTopologyApiHandlerTest, HealthGet_FullRegionFailure) {
 
     bool found_eu_west = false;
     for (const auto& fr : j["failed_regions"]) {
-        if (fr.get<std::string>() == "eu-west") found_eu_west = true;
+        if (fr.get<std::string>() == "eu-west") {
+          found_eu_west = true;
+        }
     }
     EXPECT_TRUE(found_eu_west);
 }

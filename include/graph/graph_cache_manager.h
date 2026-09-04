@@ -293,7 +293,9 @@ private:
 
     // Trim a tier to at most `capacity` entries by evicting LRU entries.
     void trimTier(Tier& tier, size_t capacity) {
-        if (capacity == 0) return;
+        if (capacity == 0) {
+          return;
+        }
         while (tier.map.size() > capacity) {
             const K& victim = tier.lru.back();
             tier.map.erase(victim);

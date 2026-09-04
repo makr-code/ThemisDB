@@ -42,7 +42,7 @@ namespace {
 #ifdef THEMIS_ENABLE_YAML
 
 static GapContext parseGapContext(const YAML::Node &n) {
-    GapContext g;
+    GapContext g = {};
     if (n["gap_id"])
         g.gap_id = n["gap_id"].as<std::string>();
     if (n["description"])
@@ -55,7 +55,7 @@ static GapContext parseGapContext(const YAML::Node &n) {
 }
 
 static CrawlOptions parseCrawlOptions(const YAML::Node &n) {
-    CrawlOptions o;
+    CrawlOptions o = {};
     if (n["max_depth"])
         o.max_depth = n["max_depth"].as<int>();
     if (n["max_pages"])
@@ -87,7 +87,7 @@ static CrawlOptions parseCrawlOptions(const YAML::Node &n) {
 }
 
 static SearchOptions parseSearchOptions(const YAML::Node &n) {
-    SearchOptions o;
+    SearchOptions o = {};
     if (n["enabled"])
         o.enabled = n["enabled"].as<bool>();
     if (n["max_result_pages"])
@@ -104,7 +104,7 @@ static SearchOptions parseSearchOptions(const YAML::Node &n) {
 }
 
 static ApiOptions parseApiOptions(const YAML::Node &n) {
-    ApiOptions o;
+    ApiOptions o = {};
     if (n["pagination_mode"])
         o.pagination_mode = n["pagination_mode"].as<std::string>();
     if (n["page_param"])
@@ -125,7 +125,7 @@ static ApiOptions parseApiOptions(const YAML::Node &n) {
 }
 
 static LlmOptions parseLlmOptions(const YAML::Node &n) {
-    LlmOptions o;
+    LlmOptions o = {};
     if (n["quality_threshold"])
         o.quality_threshold = n["quality_threshold"].as<double>();
     if (n["model_path"])
@@ -136,7 +136,7 @@ static LlmOptions parseLlmOptions(const YAML::Node &n) {
 }
 
 static GovSourcesOptions parseGovSources(const YAML::Node &n) {
-    GovSourcesOptions o;
+    GovSourcesOptions o = {};
     if (n["bund_enabled"])
         o.bund_enabled = n["bund_enabled"].as<bool>();
     if (n["bundeslaender_enabled"])
@@ -153,7 +153,7 @@ static GovSourcesOptions parseGovSources(const YAML::Node &n) {
 }
 
 static ScraperConfig parseNode(const YAML::Node &root) {
-    ScraperConfig cfg;
+    ScraperConfig cfg = {};
     if (root["gap_context"])
         cfg.gap_context = parseGapContext(root["gap_context"]);
     if (root["crawl_options"])
@@ -240,7 +240,7 @@ UrlPolicy::UrlPolicy(const std::vector<std::string> &whitelist, const std::vecto
     if (pattern.front() == '*') {
         const std::string suffix = pattern.substr(1);
         if (url.size() >= suffix.size() && url.compare(url.size() - suffix.size(), suffix.size(), suffix) == 0)
-            return true;
+            return true = {};
         return false;
     }
     // Glob prefix: "https://example.com/*" treated as prefix match without '*'

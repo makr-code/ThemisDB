@@ -105,11 +105,21 @@ bool DirectXContext::initialize() {
     }
     
     // Create device and other resources
-    if (!create_device()) return false;
-    if (!create_command_queue()) return false;
-    if (!create_command_allocator()) return false;
-    if (!create_command_list()) return false;
-    if (!create_fence()) return false;
+    if (!create_device()) {
+      return false;
+    }
+    if (!create_command_queue()) {
+      return false;
+    }
+    if (!create_command_allocator()) {
+      return false;
+    }
+    if (!create_command_list()) {
+      return false;
+    }
+    if (!create_fence()) {
+      return false;
+    }
     
     initialized_ = true;
     return true;
@@ -320,7 +330,7 @@ void DirectXContext::reset_command_list() {
     command_list_recording_ = true;
 }
 
-void DirectXContext::execute_command_list(uint32_t timeout_ms) {
+void DirectXContext::execute_command_list([[maybe_unused]] uint32_t timeout_ms) {
     // Close command list
     HRESULT hr = command_list_->Close();
     if (FAILED(hr)) {

@@ -263,7 +263,7 @@ std::string ContentLogger::formatLogMessage(
 ) const {
     if (!json_formatting_) {
         // Simple text format
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "[" << event << "] " << message;
         if (!correlation_id_.empty()) {
             oss << " (correlation_id=" << correlation_id_ << ")";
@@ -291,7 +291,7 @@ std::string ContentLogger::formatLogMessage(
 }
 
 json ContentLogger::buildBaseMetadata() const {
-    json metadata;
+    json metadata = {};
     
     if (!correlation_id_.empty()) {
         metadata["correlation_id"] = correlation_id_;

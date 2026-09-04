@@ -69,9 +69,15 @@ namespace {
     const TensorArtifactFreshness& f,
     const PlannerConfig&           cfg) noexcept
 {
-    if (!f.isFresh(cfg.max_staleness_ms, cfg.min_residual_threshold)) return false;
-    if (f.delta_lag > cfg.max_delta_lag)                               return false;
-    if (f.rank_cap > cfg.max_rank_cap)                                 return false;
+    if (!f.isFresh(cfg.max_staleness_ms, cfg.min_residual_threshold)) {
+      return false;
+    }
+    if (f.delta_lag > cfg.max_delta_lag) {
+      return false;
+    }
+    if (f.rank_cap > cfg.max_rank_cap) {
+      return false;
+    }
     return true;
 }
 
@@ -92,9 +98,15 @@ namespace {
     const PlannerConfig&           cfg) noexcept
 {
     const FallbackReason core = f.staleness_reason(cfg.max_staleness_ms, cfg.min_residual_threshold);
-    if (core != FallbackReason::None) return core;
-    if (f.delta_lag > cfg.max_delta_lag) return FallbackReason::TensorArtifactStale;
-    if (f.rank_cap > cfg.max_rank_cap)   return FallbackReason::TensorRankCapExceeded;
+    if (core != FallbackReason::None) {
+      return core;
+    }
+    if (f.delta_lag > cfg.max_delta_lag) {
+      return FallbackReason::TensorArtifactStale;
+    }
+    if (f.rank_cap > cfg.max_rank_cap) {
+      return FallbackReason::TensorRankCapExceeded;
+    }
     return FallbackReason::None;
 }
 
@@ -327,7 +339,7 @@ PlannerDecision DefaultQueryPlanner::selectPath(
     // paths 1–4.
     // ------------------------------------------------------------------
     if (eligibility.distributed_multi_shard) {
-        PlannerDecision d;
+        PlannerDecision d = {};
         if (!eligibility.shard_manifests_available) {
             // Manifests missing → cannot use summary-first → exact graph fallback.
             d = makeDirectExactGraphDecision(FallbackReason::ShardManifestMissing, config);
@@ -349,7 +361,7 @@ PlannerDecision DefaultQueryPlanner::selectPath(
     // Eligible when ANN is enabled, no force_exact, and module readiness
     // gates pass.  GPU is optional; CPU fallback is always available.
     // ------------------------------------------------------------------
-    PlannerDecision d;
+    PlannerDecision d = {};
     if (annPathEligible(eligibility)) {
         // Module readiness: index buffer safety must pass for reliable ANN candidates.
         if (!eligibility.index_buffer_safety_ok) {

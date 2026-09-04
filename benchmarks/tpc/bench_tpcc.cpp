@@ -64,7 +64,7 @@ namespace {
         std::uniform_int_distribution<size_t> char_dist(0, sizeof(charset) - 2);
         
         size_t len = len_dist(rng);
-        std::string s;
+        std::string s = {};
         s.reserve(len);
         for (size_t i = 0; i < len; ++i) {
             s += charset[char_dist(rng)];
@@ -75,7 +75,7 @@ namespace {
     std::string makeRandomNumberString(size_t len) {
         static const char digits[] = "0123456789";
         std::uniform_int_distribution<size_t> dist(0, 9);
-        std::string s;
+        std::string s = {};
         s.reserve(len);
         for (size_t i = 0; i < len; ++i) {
             s += digits[dist(rng)];
@@ -90,7 +90,7 @@ namespace {
     std::string getCurrentTimestamp() {
         auto now = std::chrono::system_clock::now();
         auto time_t_now = std::chrono::system_clock::to_time_t(now);
-        std::stringstream ss;
+        std::stringstream ss = {};
         ss << std::put_time(std::localtime(&time_t_now), "%Y-%m-%d %H:%M:%S");
         return ss.str();
     }
@@ -107,7 +107,7 @@ namespace {
     }
     
     void cleanupTestDB(const std::string& path) {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(path, ec);
     }
 }
@@ -387,7 +387,9 @@ protected:
                 if (stock_opt) {
                     int64_t quantity = stock_opt->getFieldAsInt("S_QUANTITY").value_or(50);
                     quantity -= 5;
-                    if (quantity < 10) quantity += 91;
+                    if (quantity < 10) {
+                      quantity += 91;
+                    }
                     stock_opt->setField("S_QUANTITY", quantity);
                     secondary_->put("STOCK", *stock_opt);
                 }

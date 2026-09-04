@@ -259,7 +259,7 @@ private:
             throw MetadataEncryptionException(
                 field_name, "Encryption key must not be empty");
         }
-        std::string result;
+        std::string result = {};
         result.resize(data.size());
         for (size_t i = 0; i < data.size(); ++i) {
             result[i] = static_cast<char>(

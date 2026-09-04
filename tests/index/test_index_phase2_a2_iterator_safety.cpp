@@ -144,7 +144,8 @@ TEST(IndexPhase2A2PartitionManager, CompactInvalidatesIterators) {
     PartitionManager pm;
     
     // Create partitions
-    std::vector<PartitionHandle> handles;
+    std::vector<PartitionHandle> handles = {};
+
     for (int i = 0; i < 5; i++) {
         handles.push_back(pm.AddPartition("p" + std::to_string(i)));
     }
@@ -153,7 +154,8 @@ TEST(IndexPhase2A2PartitionManager, CompactInvalidatesIterators) {
     EXPECT_EQ(initial_count, 5);
     
     // Store epochs
-    std::vector<uint64_t> original_epochs;
+    std::vector<uint64_t> original_epochs = {};
+
     for (const auto& h : handles) {
         original_epochs.push_back(pm.CurrentEpoch(h.id()));
     }
@@ -377,7 +379,8 @@ TEST(IndexPhase2A2PartitionManager, ConcurrentHandles) {
     PartitionManager pm;
     
     // Create multiple handles
-    std::vector<PartitionHandle> handles;
+    std::vector<PartitionHandle> handles = {};
+
     for (int i = 0; i < 10; i++) {
         handles.push_back(pm.AddPartition("p" + std::to_string(i)));
     }

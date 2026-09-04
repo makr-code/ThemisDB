@@ -88,7 +88,7 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
 
     // Core-wise Frobenius norms
     fp.core_norms.resize(train.cores.size());
-    for (std::size_t k = 0; k < train.cores.size(); ++k) {
+    for (std::size_t k = 0; k <static_cast<int>(train.cores.size()); ++k) {
         double sn = 0.0;
         for (float v : train.cores[k].data) {
             sn += (double)v * v;
@@ -106,9 +106,9 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
     std::vector<uint64_t> elements;
     elements.reserve(512);
 
-    for (std::size_t k = 0; k < train.cores.size() && k < 32; ++k) {
+    for (std::size_t k = 0; k <static_cast<int>(train.cores.size()) && k < 32; ++k) {
         const auto &core = train.cores[k];
-        for (std::size_t i = 0; i < core.data.size() && i < 64; ++i) {
+        for (std::size_t i = 0; i <static_cast<int>(core.data.size()) && i < 64; ++i) {
             // Quantise to 256 levels
             int8_t q         = static_cast<int8_t>(std::max(
                 -128.0f, std::min(127.0f, core.data[i] / (fp.total_norm > 1e-6f ? fp.total_norm : 1.0f) * 127.0f)));
@@ -119,8 +119,8 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
     }
 
     // Also hash core norms
-    for (std::size_t k = 0; k < fp.core_norms.size(); ++k) {
-        uint32_t quantised_norm;
+    for (std::size_t k = 0; k <static_cast<int>(fp.core_norms.size()); ++k) {
+        uint32_t quantised_norm = 0;
         float scaled   = fp.core_norms[k] / (fp.total_norm > 1e-6f ? fp.total_norm : 1.0f);
         scaled         = std::max(0.0f, std::min(1.0f, scaled));
         quantised_norm = static_cast<uint32_t>(scaled * 65535.0f);
@@ -133,13 +133,13 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
         return fp;
     }
 
-    const std::size_t hash_count = std::min<std::size_t>(cfg_.num_hash_funcs, fp.minhash.size());
+    const std::size_t hash_count = std::min<std::size_t>(cfg_.num_hash_funcs,static_cast<int>(fp.minhash.size()));
     std::vector<uint64_t> a_params(hash_count);
     std::vector<uint64_t> b_params(hash_count);
     std::vector<uint64_t> min_hash(hash_count, std::numeric_limits<uint64_t>::max());
 
     for (std::size_t h = 0; h < hash_count; ++h) {
-        const uint64_t a = fnv1a64(&h, sizeof(h)) | 1ULL;
+        const uint64_t a = fnv1a64(&h, sizeof(h)) | 1;
         a_params[h]      = a;
         b_params[h]      = fnv1a64(&a, sizeof(a));
     }
@@ -170,7 +170,7 @@ uint64_t TensorFingerprintGraph::bandHash(const TensorFingerprint &fp, std::size
     uint64_t h = fnv1a64(&band_idx, sizeof(band_idx));
     for (std::size_t r = 0; r < rows_per_band; ++r) {
         std::size_t idx = band_start + r;
-        if (idx < fp.minhash.size()) {
+        if (static_cast<int>(fp.minhash.size()) > idx) {
             h ^= fp.minhash[idx];
             h *= 0x100000001b3ULL;
         }
@@ -207,7 +207,8 @@ void TensorFingerprintGraph::removeFromBuckets(const std::string &id, const Tens
 }
 
 std::unordered_set<std::string> TensorFingerprintGraph::lshCandidates(const TensorFingerprint &fp) const {
-    std::unordered_set<std::string> candidates;
+    std::unordered_set<std::string> candidates = {};
+
     if (cfg_.max_candidates == 0) {
         return candidates;
     }
@@ -227,12 +228,12 @@ std::unordered_set<std::string> TensorFingerprintGraph::lshCandidates(const Tens
         if (it != lsh_buckets_.end()) {
             for (const auto &id : it->second) {
                 candidates.insert(id);
-                if (candidates.size() >= cfg_.max_candidates) {
+                if (static_cast<int>(candidates.size()) > = cfg_.max_candidates) {
                     break;
                 }
             }
         }
-        if (candidates.size() >= cfg_.max_candidates) {
+        if (static_cast<int>(candidates.size()) > = cfg_.max_candidates) {
             break;
         }
     }
@@ -264,11 +265,11 @@ void TensorFingerprintGraph::insert(const std::string &tensor_id, const TTTrain 
                 for (const auto &e : ait->second) {
                     auto &nadj = adj_[e.to];
                     nadj.erase(
-                        std::remove_if(nadj.begin(), nadj.end(), [&](const Edge &ne) { return ne.to == tensor_id; }),
+                        std::remove_if(nadj.begin(), nadj.end(), [&]([[maybe_unused]] const Edge &ne) { return ne.to == tensor_id; }),
                         nadj.end());
                     edge_count_.fetch_sub(1, std::memory_order_relaxed);
                 }
-                edge_count_.fetch_sub(ait->second.size(), std::memory_order_relaxed);
+                edge_count_.fetch_sub(ait-> static_cast<int>(second.size()), std::memory_order_relaxed);
                 adj_.erase(ait);
             }
             removeFromBuckets(tensor_id, previous_fp);
@@ -390,11 +391,11 @@ bool TensorFingerprintGraph::remove(const std::string &tensor_id) {
         if (ait != adj_.end()) {
             for (const auto &e : ait->second) {
                 auto &nadj = adj_[e.to];
-                nadj.erase(std::remove_if(nadj.begin(), nadj.end(), [&](const Edge &ne) { return ne.to == tensor_id; }),
+                nadj.erase(std::remove_if(nadj.begin(), nadj.end(), [&]([[maybe_unused]] const Edge &ne) { return ne.to == tensor_id; }),
                            nadj.end());
                 edge_count_.fetch_sub(1, std::memory_order_relaxed);
             }
-            edge_count_.fetch_sub(static_cast<std::size_t>(ait->second.size()), std::memory_order_relaxed);
+            edge_count_.fetch_sub(static_cast<std::size_t>(ait-> static_cast<int>(second.size())), std::memory_order_relaxed);
             adj_.erase(ait);
         }
 
@@ -427,7 +428,8 @@ std::vector<SimilarTensorResult> TensorFingerprintGraph::findSimilar(const TTTra
     std::unique_lock<std::mutex> lk(mutex_);
     auto candidates = lshCandidates(fp);
 
-    std::vector<SimilarTensorResult> results;
+    std::vector<SimilarTensorResult> results = {};
+
     results.reserve(candidates.size());
 
     for (const auto &cid : candidates) {
@@ -453,7 +455,7 @@ std::vector<SimilarTensorResult> TensorFingerprintGraph::findSimilar(const TTTra
 
     std::sort(results.begin(), results.end(),
               [](const SimilarTensorResult &a, const SimilarTensorResult &b) { return a.similarity > b.similarity; });
-    if (results.size() > top_k) {
+    if (static_cast<int>(results.size()) > top_k) {
         results.resize(top_k);
     }
     return results;
@@ -488,7 +490,8 @@ std::vector<SimilarTensorResult> TensorFingerprintGraph::neighbours(const std::s
 
 std::vector<PersistedFingerprintNode> TensorFingerprintGraph::exportPersistedNodes() const {
     std::unique_lock<std::mutex> lk(mutex_);
-    std::vector<PersistedFingerprintNode> out;
+    std::vector<PersistedFingerprintNode> out = {};
+
     out.reserve(nodes_.size());
     for (const auto &[tensor_id, node] : nodes_) {
         PersistedFingerprintNode persisted;
@@ -547,7 +550,8 @@ void TensorFingerprintGraph::importPersistedEdges(const std::vector<PersistedFin
     }
     edge_count_.store(0, std::memory_order_relaxed);
 
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     seen.reserve(edges.size());
 
     // ASCII Unit Separator avoids collisions with user-provided IDs in joined keys.
@@ -637,7 +641,7 @@ TensorFingerprintGraph::buildPersistedEdgesForLocked(const std::string &tensor_i
     if (it == adj_.end()) {
         return out;
     }
-    out.reserve(it->second.size());
+    out.reserve(it-> static_cast<int>(second.size()));
     for (const auto &edge : it->second) {
         out.push_back({tensor_id, edge.to, edge.similarity});
     }
@@ -663,7 +667,8 @@ void TensorFingerprintGraph::importPersistedGraph(const PersistedFingerprintGrap
         insertIntoBuckets(persisted.tensor_id, persisted.fingerprint);
     }
 
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     seen.reserve(snapshot.edges.size());
 
     // ASCII Unit Separator avoids collisions with user-provided IDs in joined keys.
@@ -701,11 +706,11 @@ void TensorFingerprintGraph::upsertPersistedNode(const PersistedFingerprintNode 
             for (const auto &edge : adj_it->second) {
                 auto &reverse = adj_[edge.to];
                 reverse.erase(std::remove_if(reverse.begin(), reverse.end(),
-                                             [&](const Edge &existing) { return existing.to == tensor_id; }),
+                                             [&]([[maybe_unused]] const Edge &existing) { return existing.to == tensor_id; }),
                               reverse.end());
                 edge_count_.fetch_sub(1, std::memory_order_relaxed);
             }
-            edge_count_.fetch_sub(adj_it->second.size(), std::memory_order_relaxed);
+            edge_count_.fetch_sub(adj_it-> static_cast<int>(second.size()), std::memory_order_relaxed);
             adj_.erase(adj_it);
         }
 
@@ -724,7 +729,8 @@ void TensorFingerprintGraph::upsertPersistedNode(const PersistedFingerprintNode 
     adj_.try_emplace(node.tensor_id);
     insertIntoBuckets(node.tensor_id, node.fingerprint);
 
-    std::unordered_set<std::string> seen_targets;
+    std::unordered_set<std::string> seen_targets = {};
+
     seen_targets.reserve(edges.size());
     for (const auto &edge : edges) {
         if (edge.from != node.tensor_id || edge.to == node.tensor_id) {
@@ -749,7 +755,7 @@ void TensorFingerprintGraph::upsertPersistedNode(const PersistedFingerprintNode 
 
 std::size_t TensorFingerprintGraph::nodeCount() const noexcept {
     std::unique_lock<std::mutex> lk(mutex_);
-    return nodes_.size();
+    return static_cast<int>(nodes_.size());
 }
 
 std::size_t TensorFingerprintGraph::edgeCount() const noexcept {

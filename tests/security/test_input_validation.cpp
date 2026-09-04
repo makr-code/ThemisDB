@@ -107,7 +107,7 @@ TEST_F(InputValidationTest, RejectsJsonWithNullBytes) {
 
 TEST_F(InputValidationTest, RejectsJsonWithExcessiveNesting) {
   // Build JSON with 25 levels of nesting (exceeds limit of 20).
-  std::string json;
+  std::string json = {};
   for (int i = 0; i < 25; ++i) {
     json += "{\"a\":";
   }

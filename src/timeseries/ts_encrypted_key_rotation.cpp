@@ -90,7 +90,9 @@ void TsEncryptedKeyRotation::rotationLoop()
             std::unique_lock<std::mutex> lk(cv_mu_);
             bool stopped = cv_.wait_for(lk, config_.check_interval,
                                         [this] { return stop_flag_; });
-            if (stopped) break;
+            if (stopped) {
+              break;
+            }
         }
 
         try {
@@ -135,7 +137,9 @@ size_t TsEncryptedKeyRotation::runOnce()
 
     while (it->Valid()) {
         std::string key = it->key().ToString();
-        if (key >= end_marker || key.compare(0, prefix.size(), prefix) != 0) break;
+        if (key >= end_marker || key.compare(0,static_cast<int>(prefix.size()), prefix) != 0) {
+          break;
+        }
 
         try {
             nlohmann::json chunk_meta = nlohmann::json::parse(it->value().ToString());
@@ -177,7 +181,8 @@ size_t TsEncryptedKeyRotation::runOnce()
                                     + "," + key.substr(pos4 + 1) + "]";
 
             // Decrypt with old key.
-            std::vector<uint8_t> encrypted_data;
+            std::vector<uint8_t> encrypted_data = {};
+
             if (chunk_meta.contains("data") && chunk_meta["data"].is_binary()) {
                 encrypted_data = chunk_meta["data"].get<std::vector<uint8_t>>();
             } else if (chunk_meta.contains("data") && chunk_meta["data"].is_array()) {

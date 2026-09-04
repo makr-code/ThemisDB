@@ -208,7 +208,7 @@ TierConfig MultiTierReplicationManager::getDefaultTierConfig(
 // Auto-tiering
 // ============================================================================
 
-void MultiTierReplicationManager::enableAutoTiering(bool enabled)
+void MultiTierReplicationManager::enableAutoTiering([[maybe_unused]] bool enabled)
 {
     // Only update the atomic flag; config_ fields are immutable after construction
     // to avoid data races with concurrent readers.
@@ -330,7 +330,8 @@ std::vector<CollectionAccessStats>
 MultiTierReplicationManager::getCollectionStats() const
 {
     std::shared_lock<std::shared_mutex> lk(stats_mutex_);
-    std::vector<CollectionAccessStats> result;
+    std::vector<CollectionAccessStats> result = {};
+
     result.reserve(access_stats_.size());
     for (const auto& [col, stats] : access_stats_) {
         result.push_back(stats);
@@ -342,7 +343,8 @@ std::vector<std::string>
 MultiTierReplicationManager::getCollectionsForTier(ReplicationTier tier) const
 {
     std::shared_lock<std::shared_mutex> lk(assignments_mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& [col, t] : tier_assignments_) {
         if (t == tier) {
             result.push_back(col);

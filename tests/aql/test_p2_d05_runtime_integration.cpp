@@ -42,7 +42,7 @@ public:
         result->timestamp_ms = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
         
         // Create compressed summary
-        std::ostringstream summary;
+        std::ostringstream summary = {};
         summary << "[Compressed History]\n";
         for (const auto& [role, content] : history) {
             if (role == "system") {

@@ -370,7 +370,8 @@ std::vector<MaintenanceJobStatus> IndexMaintenanceManager::listActiveJobs() cons
     // positive.
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<MaintenanceJobStatus> jobs;
+    std::vector<MaintenanceJobStatus> jobs = {};
+
     for (const auto& [job_id, status] : active_jobs_) {
         if (status.is_running) {
             jobs.push_back(status);
@@ -522,7 +523,7 @@ Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
         // avoids contradictory recommendations from the two subsystems.
 
         // ── L0 file count ───────────────────────────────────────────────────
-        std::string file_count_str;
+        std::string file_count_str = {};
         if (db->GetProperty("rocksdb.num-files-at-level0", &file_count_str)) {
             try {
                 metrics.file_count = std::stoull(file_count_str);
@@ -549,7 +550,7 @@ Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
         // ── Pending compaction bytes provide an additional signal ─────────────
         uint64_t pending_compact_bytes = 0;
         db->GetIntProperty("rocksdb.estimate-pending-compaction-bytes", &pending_compact_bytes);
-        static constexpr uint64_t kBytesPerMB = 1024ULL * 1024ULL;
+        static constexpr uint64_t kBytesPerMB = 1024 * 1024;
         static constexpr double kFragPctPerPendingMB = 0.1;
         const double pending_mb = static_cast<double>(pending_compact_bytes) / static_cast<double>(kBytesPerMB);
         frag_pct = std::min(100.0, frag_pct + pending_mb * kFragPctPerPendingMB);
@@ -576,7 +577,7 @@ Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
             metrics.statistics_staleness_ms =
                 (last_metrics_update_ms_ > 0 && now_ms >= last_metrics_update_ms_)
                 ? now_ms - last_metrics_update_ms_
-                : 0u;
+                : 0;
         }
         
         return metrics;
@@ -846,12 +847,12 @@ std::string IndexMaintenanceManager::generateJobId() {
     auto counter = job_counter_++;
     auto now = std::chrono::system_clock::now().time_since_epoch().count();
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "job_" << now << "_" << counter;
     return oss.str();
 }
 
-FragmentationLevel IndexMaintenanceManager::classifyFragmentation(double percentage) const {
+FragmentationLevel IndexMaintenanceManager::classifyFragmentation([[maybe_unused]] double percentage) const {
     if (percentage <= 10.0) {
         return FragmentationLevel::LOW;
     } else if (percentage <= 30.0) {
@@ -920,13 +921,15 @@ Result<MaintenanceJobStatus> IndexMaintenanceManager::vectorIncrementalReindex(
     }
 
     // Embed stats summary in the result_summary field (dedicated non-error info field)
-    std::ostringstream msg;
+    std::ostringstream msg = {};
     msg << "incremental_reindex: added=" << stats.added
         << " removed="   << stats.removed
         << " updated="   << stats.updated
         << " unchanged=" << stats.unchanged
         << " scanned="   << stats.total_scanned;
-    if (stats.full_rebuild_triggered) msg << " [full rebuild triggered]";
+    if (stats.full_rebuild_triggered) {
+      msg << " [full rebuild triggered]";
+    }
     status.result_summary = msg.str();
 
     THEMIS_INFO("vectorIncrementalReindex: job {} completed – {}", status.job_id, status.result_summary);

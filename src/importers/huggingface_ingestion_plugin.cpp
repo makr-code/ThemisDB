@@ -60,24 +60,46 @@ json HuggingFaceIngestionPlugin::Config::toJson() const {
 }
 
 HuggingFaceIngestionPlugin::Config HuggingFaceIngestionPlugin::Config::fromJson(const json& j) {
-    Config config;
-    if (j.contains("dataset_name")) config.dataset_name = j["dataset_name"];
-    if (j.contains("split")) config.split = j["split"];
-    if (j.contains("streaming")) config.streaming = j["streaming"];
-    if (j.contains("chunk_size")) config.chunk_size = j["chunk_size"];
-    if (j.contains("auth_token")) config.auth_token = j["auth_token"];
-    if (j.contains("text_field")) config.text_field = j["text_field"];
-    if (j.contains("label_field")) config.label_field = j["label_field"];
+    Config config = {};
+    if (j.contains("dataset_name")) {
+      config.dataset_name = j["dataset_name"];
+    }
+    if (j.contains("split")) {
+      config.split = j["split"];
+    }
+    if (j.contains("streaming")) {
+      config.streaming = j["streaming"];
+    }
+    if (j.contains("chunk_size")) {
+      config.chunk_size = j["chunk_size"];
+    }
+    if (j.contains("auth_token")) {
+      config.auth_token = j["auth_token"];
+    }
+    if (j.contains("text_field")) {
+      config.text_field = j["text_field"];
+    }
+    if (j.contains("label_field")) {
+      config.label_field = j["label_field"];
+    }
     if (j.contains("custom_fields")) {
         config.custom_fields = j["custom_fields"].get<std::map<std::string, std::string>>();
     }
-    if (j.contains("cache_dir")) config.cache_dir = j["cache_dir"];
-    if (j.contains("use_cache")) config.use_cache = j["use_cache"];
+    if (j.contains("cache_dir")) {
+      config.cache_dir = j["cache_dir"];
+    }
+    if (j.contains("use_cache")) {
+      config.use_cache = j["use_cache"];
+    }
     if (j.contains("max_requests_per_second")) {
         config.max_requests_per_second = j["max_requests_per_second"];
     }
-    if (j.contains("max_retries")) config.max_retries = j["max_retries"];
-    if (j.contains("retry_delay_ms")) config.retry_delay_ms = j["retry_delay_ms"];
+    if (j.contains("max_retries")) {
+      config.max_retries = j["max_retries"];
+    }
+    if (j.contains("retry_delay_ms")) {
+      config.retry_delay_ms = j["retry_delay_ms"];
+    }
     return config;
 }
 
@@ -160,10 +182,10 @@ std::string HuggingFaceIngestionPlugin::submitDatasetJob(
     content::IngestionJob job;
     
     // Generate job ID with better randomness
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 rng(rd());
     auto u64 = rng();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "hf_job_" << std::hex << std::setw(16) << std::setfill('0') << u64;
     job.job_id = oss.str();
     
@@ -260,7 +282,7 @@ size_t HuggingFaceIngestionPlugin::estimateDatasetSize(const std::string& datase
 std::string HuggingFaceIngestionPlugin::httpGet(const std::string& url) {
     waitForRateLimit();
     
-    std::string response_body;
+    std::string response_body = {};
     
     for (size_t attempt = 0; attempt < config_.max_retries; ++attempt) {
         response_body.clear();
@@ -296,7 +318,7 @@ std::string HuggingFaceIngestionPlugin::httpGet(const std::string& url) {
                 THEMIS_WARN("Rate limited on HF API (attempt {}/{}), waiting...", 
                     attempt + 1, config_.max_retries);
                 std::this_thread::sleep_for(
-                    std::chrono::milliseconds(config_.retry_delay_ms * (1ULL << attempt))
+                    std::chrono::milliseconds(config_.retry_delay_ms * (1 << attempt))
                 );
                 continue;
             } else {
@@ -310,7 +332,7 @@ std::string HuggingFaceIngestionPlugin::httpGet(const std::string& url) {
             
             if (attempt < config_.max_retries - 1) {
                 std::this_thread::sleep_for(
-                    std::chrono::milliseconds(config_.retry_delay_ms * (1ULL << attempt))
+                    std::chrono::milliseconds(config_.retry_delay_ms * (1 << attempt))
                 );
             }
         }
@@ -336,7 +358,7 @@ HuggingFaceIngestionPlugin::FetchResult HuggingFaceIngestionPlugin::fetchBatch(
     size_t limit
 ) {
     // Construct API URL for rows endpoint
-    std::ostringstream url_stream;
+    std::ostringstream url_stream = {};
     url_stream << HF_API_BASE << "/rows"
                << "?dataset=" << dataset_name
                << "&config=default"
@@ -364,10 +386,10 @@ HuggingFaceIngestionPlugin::FetchResult HuggingFaceIngestionPlugin::fetchBatch(
         // Check if there are more rows
         if (response.contains("features") && response.contains("num_rows_total")) {
             size_t total = response["num_rows_total"].get<size_t>();
-            result.has_more = (offset + result.documents.size()) < total;
+            result.has_more = (offset + static_cast<int>(result.documents.size()) ) < total;
         } else {
             // Assume more if we got a full batch
-            result.has_more = (result.documents.size() >= limit);
+            result.has_more = (static_cast<int>(result.documents.size()) >= limit);
         }
         
     } catch (const std::exception& e) {
@@ -422,7 +444,7 @@ bool HuggingFaceIngestionPlugin::loadFromCache(
                 docs.push_back(doc);
             }
             
-            THEMIS_INFO("Loaded {} documents from cache: {}", docs.size(), cache_file);
+            THEMIS_INFO("Loaded {} documents from cache: {}",static_cast<int>(docs.size()), cache_file);
             return true;
         }
         
@@ -453,7 +475,7 @@ void HuggingFaceIngestionPlugin::saveToCache(
         std::ofstream file(cache_file);
         file << cache_data.dump();  // Compact format to save space
         
-        THEMIS_INFO("Saved {} documents to cache: {}", docs.size(), cache_file);
+        THEMIS_INFO("Saved {} documents to cache: {}",static_cast<int>(docs.size()), cache_file);
         
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to save cache {}: {}", cache_file, e.what());
@@ -529,8 +551,8 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
             // Note: For production use, remove or make this limit configurable
             // This 10k limit is for demonstration/testing to avoid excessive API usage
             size_t max_docs_limit = plugin->config_.chunk_size * 10;  // ~10 batches
-            if (!result.has_more || documents.size() >= max_docs_limit) {
-                if (documents.size() >= max_docs_limit) {
+            if (!result.has_more || static_cast<int>(documents.size()) >= max_docs_limit) {
+                if (static_cast<int>(documents.size()) > = max_docs_limit) {
                     THEMIS_INFO("Reached document limit of {} (configurable in future versions)", 
                         max_docs_limit);
                 }
@@ -547,7 +569,7 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
     job.total_items = static_cast<int>(documents.size());
     
     // Ingest documents into ContentManager
-    for (size_t i = 0; i < documents.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(documents.size()); ++i) {
         try {
             json content_spec = plugin->documentToContentSpec(documents[i], dataset_name, i);
             
@@ -577,7 +599,7 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
     job.result_metadata["from_cache"] = from_cache;
     
     THEMIS_INFO("HuggingFace job {} completed: {} documents ingested", 
-        job.job_id, job.content_ids.size());
+        job.job_id,static_cast<int>(job.content_ids.size()));
 }
 
 json HuggingFaceIngestionPlugin::documentToContentSpec(
@@ -588,7 +610,7 @@ json HuggingFaceIngestionPlugin::documentToContentSpec(
     json spec;
     
     // Generate unique ID
-    std::ostringstream id_stream;
+    std::ostringstream id_stream = {};
     id_stream << "hf_" << dataset_name << "_" << index;
     std::string content_id = id_stream.str();
     
@@ -617,7 +639,7 @@ json HuggingFaceIngestionPlugin::documentToContentSpec(
     };
     
     // Extract text content
-    std::string text_content;
+    std::string text_content = {};
     if (doc.contains(config_.text_field)) {
         text_content = doc[config_.text_field].get<std::string>();
     } else if (doc.contains("text")) {

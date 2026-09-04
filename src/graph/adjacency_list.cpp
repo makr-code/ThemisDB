@@ -81,7 +81,7 @@ bool AdjacencyList::has_vertex(VertexId id) const noexcept
 
 std::size_t AdjacencyList::vertex_count() const noexcept
 {
-    return graph_.size();
+    return static_cast<int>(graph_.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -185,7 +185,7 @@ std::size_t AdjacencyList::out_degree(VertexId src) const noexcept
 {
     auto it = graph_.find(src);
     if (it == graph_.end()) { return 0; }
-    return it->second.edges.size();
+    return static_cast<bool>(it- < static_cast<int>(second.edges.size()));
 }
 
 // ---------------------------------------------------------------------------
@@ -218,7 +218,7 @@ const Edge& AdjacencyList::neighbour_at(VertexId src, std::size_t index) const
     // Fix: explicit size check before iterator formation; forming a random-access
     // iterator past the end is UB even before dereferencing.
     const auto& edges = vit->second.edges;
-    if (index >= edges.size()) {
+    if (index >= static_cast<int>(edges.size())) {
         throw std::out_of_range(
             "AdjacencyList::neighbour_at: index " + std::to_string(index) +
             " out of range [0, " + std::to_string(edges.size()) + ") for vertex " +

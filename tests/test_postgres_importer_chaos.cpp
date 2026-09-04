@@ -38,17 +38,31 @@ static bool isValidUtf8(const std::string& s) {
         else if ((c & 0xF0) == 0xE0)    { extra = 2; cp = c & 0x0F; }
         else if ((c & 0xF8) == 0xF0)    { extra = 3; cp = c & 0x07; }
         else return false;
-        if (i + extra >= len) return false;
+        if (i + extra >= len) {
+          return false;
+        }
         for (size_t j = 1; j <= extra; ++j) {
             unsigned char cc = bytes[i + j];
-            if ((cc & 0xC0) != 0x80) return false;
+            if ((cc & 0xC0) != 0x80) {
+              return false;
+            }
             cp = (cp << 6) | (cc & 0x3F);
         }
-        if (extra == 1 && cp < 0x80)    return false;
-        if (extra == 2 && cp < 0x800)   return false;
-        if (extra == 3 && cp < 0x10000) return false;
-        if (cp >= 0xD800 && cp <= 0xDFFF) return false;
-        if (cp > 0x10FFFF) return false;
+        if (extra == 1 && cp < 0x80) {
+          return false;
+        }
+        if (extra == 2 && cp < 0x800) {
+          return false;
+        }
+        if (extra == 3 && cp < 0x10000) {
+          return false;
+        }
+        if (cp >= 0xD800 && cp <= 0xDFFF) {
+          return false;
+        }
+        if (cp > 0x10FFFF) {
+          return false;
+        }
         i += 1 + extra;
     }
     return true;
@@ -101,15 +115,17 @@ struct ImportOptions {
 };
 
 struct TableSchema {
-    std::string name;
+    std::string name = {};
     std::vector<std::string> columns;
     std::map<std::string,std::string> column_types;
 };
 
 // COPY row parser
 static std::string unescapeCopy(const std::string& val) {
-    if (val == "\\N") return "";
-    std::string out;
+    if (val == "\\N") {
+      return "";
+    }
+    std::string out = {};
     for (size_t i = 0; i < val.size(); ++i) {
         if (val[i] == '\\' && i+1 < val.size()) {
             char nx = val[++i];
@@ -142,18 +158,24 @@ static std::vector<std::string> parseCopyRow(const std::string& line) {
 // CREATE TABLE parser
 static bool parseCreateTable(const std::string& sql, TableSchema& s) {
     std::regex re(R"(CREATE TABLE\s+(?:\w+\.)?(\w+)\s*\()");
-    std::smatch m;
-    if (!std::regex_search(sql, m, re)) return false;
+    std::smatch m = {};
+    if (!std::regex_search(sql, m, re)) {
+      return false;
+    }
     s.name = m[1].str();
     size_t start = sql.find('('), end = sql.find_last_of(')');
-    if (start == std::string::npos || end == std::string::npos) return false;
+    if (start == std::string::npos || end == std::string::npos) {
+      return false;
+    }
     std::string cols = sql.substr(start+1, end-start-1);
     std::stringstream ss(cols);
-    std::string col_def;
+    std::string col_def = {};
     while (std::getline(ss, col_def, ',')) {
         col_def.erase(0, col_def.find_first_not_of(" \t\n\r"));
         col_def.erase(col_def.find_last_not_of(" \t\n\r")+1);
-        if (col_def.empty()) continue;
+        if (col_def.empty()) {
+          continue;
+        }
         if (col_def.find("CONSTRAINT") != std::string::npos ||
             col_def.find("PRIMARY KEY") != std::string::npos ||
             col_def.find("FOREIGN KEY") != std::string::npos) continue;
@@ -173,7 +195,9 @@ struct StringImporter {
         std::istringstream in(dump);
         std::string line, current;
         while (std::getline(in, line)) {
-            if (line.empty() || (line.size()>=2 && line[0]=='-' && line[1]=='-')) continue;
+            if (line.empty() || (line.size()>=2 && line[0]=='-' && line[1]=='-')) {
+              continue;
+            }
             current += line + " ";
             if (current.size() > 0 && opts.max_statement_size_bytes > 0 &&
                 current.size() > opts.max_statement_size_bytes) {
@@ -184,12 +208,14 @@ struct StringImporter {
                 stats.structured_errors.push_back(e);
                 stats.warnings.push_back(e.message);
                 current.clear();
-                if (!opts.continue_on_error) return stats;
+                if (!opts.continue_on_error) {
+                  return stats;
+                }
                 continue;
             }
             if (line.find(';') != std::string::npos) {
                 if (current.find("CREATE TABLE") != std::string::npos) {
-                    TableSchema s;
+                    TableSchema s = {};
                     if (parseCreateTable(current, s)) {
                         schemas[s.name] = s;
                         stats.tables_processed++;
@@ -204,7 +230,7 @@ struct StringImporter {
                 } else if (current.find("COPY ") != std::string::npos) {
                     std::regex re(R"(COPY\s+(?:\w+\.)?(\w+)\s*(?:\(([^)]*)\))?\s+FROM\s+stdin)",
                                   std::regex_constants::icase);
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_search(current, m, re)) {
                         std::string tname = m[1].str();
                         bool skip = std::find(opts.exclude_tables.begin(),
@@ -213,9 +239,11 @@ struct StringImporter {
                             std::find(opts.include_tables.begin(),
                                       opts.include_tables.end(), tname) != opts.include_tables.end();
                         // Read COPY data until \. or EOF
-                        std::string data_line;
+                        std::string data_line = {};
                         while (std::getline(in, data_line)) {
-                            if (data_line == "\\." || data_line.rfind("\\.",0)==0) break;
+                            if (data_line == "\\." || data_line.rfind("\\.",0)==0) {
+                              break;
+                            }
                             if (skip || !include) { stats.skipped_records++; continue; }
                             stats.total_records++;
                             // size guard
@@ -228,7 +256,9 @@ struct StringImporter {
                                 e.location = "table " + tname;
                                 stats.structured_errors.push_back(e);
                                 stats.failed_records++;
-                                if (!opts.continue_on_error) return stats;
+                                if (!opts.continue_on_error) {
+                                  return stats;
+                                }
                                 continue;
                             }
                             // UTF-8 guard
@@ -240,10 +270,14 @@ struct StringImporter {
                                 e.location = "table " + tname;
                                 stats.structured_errors.push_back(e);
                                 stats.failed_records++;
-                                if (!opts.continue_on_error) return stats;
+                                if (!opts.continue_on_error) {
+                                  return stats;
+                                }
                                 continue;
                             }
-                            if (!opts.dry_run) stats.imported_records++;
+                            if (!opts.dry_run) {
+                              stats.imported_records++;
+                            }
                         }
                     }
                 }
@@ -268,7 +302,9 @@ static std::string fixtureDir() {
     };
     for (auto& b : bases) {
         std::ifstream f(b + "sample_pg15.sql");
-        if (f) return b;
+        if (f) {
+          return b;
+        }
     }
     return "";
 }
@@ -427,7 +463,9 @@ TEST(ChaosTest, StatementSizeGuardSkipsOversizedStatement) {
     // Some statement(s) should have been flagged as too large
     bool has_too_large = false;
     for (auto& e : stats.structured_errors) {
-        if (e.code == ImportErrorCode::STATEMENT_TOO_LARGE) has_too_large = true;
+        if (e.code == ImportErrorCode::STATEMENT_TOO_LARGE) {
+          has_too_large = true;
+        }
     }
     EXPECT_TRUE(has_too_large);
 }
@@ -687,8 +725,12 @@ static std::vector<std::string> parseInsertValues(const std::string& values_clau
     size_t i = 0;
     const size_t n = values_clause.size();
     while (i < n) {
-        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t')) ++i;
-        if (i >= n) break;
+        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t')) {
+          ++i;
+        }
+        if (i >= n) {
+          break;
+        }
         if (values_clause[i] == ')') {
             // Defensive progress guard for malformed/random input.
             ++i;
@@ -696,7 +738,7 @@ static std::vector<std::string> parseInsertValues(const std::string& values_clau
         }
         if (values_clause[i] == '\'') {
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 if (values_clause[i] == '\'' && i + 1 < n && values_clause[i+1] == '\'') {
                     val += '\''; i += 2;
@@ -709,7 +751,9 @@ static std::vector<std::string> parseInsertValues(const std::string& values_clau
             result.push_back(val);
         } else {
             size_t start = i;
-            while (i < n && values_clause[i] != ',' && values_clause[i] != ')') ++i;
+            while (i < n && values_clause[i] != ',' && values_clause[i] != ') {
+              ') ++i;
+            }
             std::string token = values_clause.substr(start, i - start);
             token.erase(token.find_last_not_of(" \t") + 1);
             result.push_back(token);
@@ -737,27 +781,33 @@ static char randPrintable() {
 // Build a random string of printable ASCII of length [0..max_len]
 static std::string randPrintableString(size_t max_len) {
     size_t len = lcg_next() % (max_len + 1);
-    std::string s;
+    std::string s = {};
     s.reserve(len);
-    for (size_t i = 0; i < len; ++i) s += randPrintable();
+    for (size_t i = 0; i < len; ++i) {
+      s += randPrintable();
+    }
     return s;
 }
 
 // Build a random binary string of length [0..max_len]
 static std::string randBinaryString(size_t max_len) {
     size_t len = lcg_next() % (max_len + 1);
-    std::string s;
+    std::string s = {};
     s.reserve(len);
-    for (size_t i = 0; i < len; ++i) s += randChar();
+    for (size_t i = 0; i < len; ++i) {
+      s += randChar();
+    }
     return s;
 }
 
 // Build a pseudo-random COPY row (TAB-separated, random number of columns)
 static std::string randCopyRow(size_t max_cols = 10, size_t max_field_len = 20) {
     size_t cols = 1 + (lcg_next() % max_cols);
-    std::string row;
+    std::string row = {};
     for (size_t c = 0; c < cols; ++c) {
-        if (c > 0) row += '\t';
+        if (c > 0) {
+          row += '\t';
+        }
         if (lcg_next() % 8 == 0) {
             row += "\\N";  // NULL
         } else {
@@ -770,9 +820,11 @@ static std::string randCopyRow(size_t max_cols = 10, size_t max_field_len = 20) 
 // Build a pseudo-random VALUES clause for INSERT
 static std::string randValuesClause(size_t max_cols = 8) {
     size_t cols = 1 + (lcg_next() % max_cols);
-    std::string clause;
+    std::string clause = {};
     for (size_t c = 0; c < cols; ++c) {
-        if (c > 0) clause += ", ";
+        if (c > 0) {
+          clause += ", ";
+        }
         int kind = lcg_next() % 4;
         if (kind == 0) {
             clause += std::to_string(static_cast<int>(lcg_next() % 10000));
@@ -834,12 +886,16 @@ TEST(FuzzStyleTest, CopyRowNullCountConsistentWithRawInput) {
         for (size_t j = 0; j <= row.size(); ++j) {
             if (j == row.size() || row[j] == '\t') {
                 std::string raw = row.substr(start, j - start);
-                if (raw == "\\N" || raw.empty()) ++null_count;
+                if (raw == "\\N" || raw.empty()) {
+                  ++null_count;
+                }
                 start = j + 1;
             }
         }
         size_t parsed_nulls = 0;
-        for (auto& f : fields) if (f.empty()) ++parsed_nulls;
+        for (auto& f : fields) {
+          if (f.empty()) ++parsed_nulls;
+        }
         EXPECT_EQ(parsed_nulls, null_count);
     }
 }
@@ -918,8 +974,10 @@ TEST(FuzzStyleTest, InsertValuesAllWhitespaceReturnsEmpty) {
 // Minimal parseCreateTable mirror for standalone testing
 static bool parseCreateTableFuzz(const std::string& sql, std::string& out_name) {
     std::regex re(R"(CREATE TABLE\s+(?:\w+\.)?(\w+)\s*\()");
-    std::smatch m;
-    if (!std::regex_search(sql, m, re)) return false;
+    std::smatch m = {};
+    if (!std::regex_search(sql, m, re)) {
+      return false;
+    }
     out_name = m[1].str();
     return !out_name.empty();
 }
@@ -930,7 +988,7 @@ TEST(FuzzStyleTest, CreateTableNeverCrashesOnRandomInput) {
         std::string sql = "CREATE TABLE " + randPrintableString(20) + " (" +
                           randPrintableString(100) + ");";
         EXPECT_NO_THROW({
-            std::string name;
+            std::string name = {};
             (void)parseCreateTableFuzz(sql, name);
         });
     }
@@ -941,7 +999,7 @@ TEST(FuzzStyleTest, CreateTableNeverCrashesOnBinaryInput) {
     for (int i = 0; i < 300; ++i) {
         std::string sql = randBinaryString(200);
         EXPECT_NO_THROW({
-            std::string name;
+            std::string name = {};
             (void)parseCreateTableFuzz(sql, name);
         });
     }
@@ -965,9 +1023,11 @@ TEST(FuzzStyleTest, Utf8ValidatorAllAsciiIsValid) {
     // Any string of pure ASCII must be valid UTF-8
     lcg_state = 0xAAAAAAAAAAAAAAAAULL;
     for (int i = 0; i < 500; ++i) {
-        std::string s;
+        std::string s = {};
         size_t len = lcg_next() % 100;
-        for (size_t j = 0; j < len; ++j) s += static_cast<char>(lcg_next() & 0x7F);
+        for (size_t j = 0; j < len; ++j) {
+          s += static_cast<char>(lcg_next() & 0x7F);
+        }
         EXPECT_TRUE(isValidUtf8(s));
     }
 }
@@ -1031,7 +1091,9 @@ static bool streamReadLine(std::istream& file,
     truncated = false;
     line.clear();
     if (max_bytes == 0) {
-        if (!std::getline(file, line)) return false;
+        if (!std::getline(file, line)) {
+          return false;
+        }
         return true;
     }
     char c = '\0';
@@ -1039,7 +1101,9 @@ static bool streamReadLine(std::istream& file,
     bool got_any = false;
     while (file.get(c)) {
         got_any = true;
-        if (c == '\n') break;
+        if (c == '\n') {
+          break;
+        }
         if (count < max_bytes) {
             line += c;
             ++count;
@@ -1133,7 +1197,8 @@ TEST(StreamReadLineTest, NoTrailingNewline) {
 TEST(StreamReadLineTest, MultipleShortLinesReadCorrectly) {
     std::istringstream in("a\nb\nc\n");
     std::string line; bool trunc;
-    std::vector<std::string> lines;
+    std::vector<std::string> lines = {};
+
     while (streamReadLine(in, line, 100, trunc)) {
         lines.push_back(line);
     }

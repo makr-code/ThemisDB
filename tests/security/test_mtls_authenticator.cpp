@@ -18,7 +18,7 @@ namespace {
 std::string loadFile(const std::string& path) {
     std::ifstream f(path);
     if (!f.is_open()) return {};
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << f.rdbuf();
     return ss.str();
 }
@@ -63,7 +63,9 @@ TEST(MTLSAuthenticatorTest, Construction_NoCARaisesNoThrowWhenVerifyChainFalse) 
 
 TEST(MTLSAuthenticatorTest, Construction_ValidCACertSucceeds) {
     const std::string ca = caCertPEM();
-    if (ca.empty()) GTEST_SKIP() << "CA cert not found; skipping";
+    if (ca.empty()) {
+      GTEST_SKIP() << "CA cert not found; skipping";
+    }
 
     MTLSAuthenticator::Config cfg;
     cfg.ca_cert_pem = ca;
@@ -83,7 +85,9 @@ TEST(MTLSAuthenticatorTest, Construction_InvalidCAThrows) {
 TEST(MTLSAuthenticatorTest, Authenticate_ValidChain_ReturnsClaims) {
     const std::string ca  = caCertPEM();
     const std::string cli = clientCertPEM();
-    if (ca.empty() || cli.empty()) GTEST_SKIP() << "Test certs not found; skipping";
+    if (ca.empty() || cli.empty()) {
+      GTEST_SKIP() << "Test certs not found; skipping";
+    }
 
     MTLSAuthenticator::Config cfg;
     cfg.ca_cert_pem  = ca;
@@ -104,7 +108,9 @@ TEST(MTLSAuthenticatorTest, Authenticate_ValidChain_ReturnsClaims) {
 
 TEST(MTLSAuthenticatorTest, Authenticate_NoChainVerify_ParsesIdentity) {
     const std::string cli = clientCertPEM();
-    if (cli.empty()) GTEST_SKIP() << "Client cert not found; skipping";
+    if (cli.empty()) {
+      GTEST_SKIP() << "Client cert not found; skipping";
+    }
 
     MTLSAuthenticator::Config cfg;
     cfg.verify_chain = false;
@@ -140,7 +146,9 @@ TEST(MTLSAuthenticatorTest, Authenticate_GarbagePEM_Throws) {
 
 TEST(MTLSAuthenticatorTest, Authenticate_RevokedSerial_Throws) {
     const std::string cli = clientCertPEM();
-    if (cli.empty()) GTEST_SKIP() << "Client cert not found; skipping";
+    if (cli.empty()) {
+      GTEST_SKIP() << "Client cert not found; skipping";
+    }
 
     MTLSAuthenticator::Config cfg;
     cfg.verify_chain     = false;
@@ -153,7 +161,9 @@ TEST(MTLSAuthenticatorTest, Authenticate_RevokedSerial_Throws) {
 
 TEST(MTLSAuthenticatorTest, Authenticate_UnrevokedSerial_Succeeds) {
     const std::string cli = clientCertPEM();
-    if (cli.empty()) GTEST_SKIP() << "Client cert not found; skipping";
+    if (cli.empty()) {
+      GTEST_SKIP() << "Client cert not found; skipping";
+    }
 
     MTLSAuthenticator::Config cfg;
     cfg.verify_chain     = false;
@@ -169,7 +179,9 @@ TEST(MTLSAuthenticatorTest, Authenticate_UnrevokedSerial_Succeeds) {
 
 TEST(MTLSAuthenticatorTest, Authenticate_RevocationDisabled_DoesNotCheck) {
     const std::string cli = clientCertPEM();
-    if (cli.empty()) GTEST_SKIP() << "Client cert not found; skipping";
+    if (cli.empty()) {
+      GTEST_SKIP() << "Client cert not found; skipping";
+    }
 
     MTLSAuthenticator::Config cfg;
     cfg.verify_chain     = false;
@@ -244,9 +256,11 @@ TEST(MTLSAuthenticatorTest, Revocation_DuplicateAddIsNoop) {
 
 TEST(MTLSAuthenticatorTest, CertFingerprint_ValidCert_Returns64HexChars) {
     const std::string pem = clientCertPEM();
-    if (pem.empty()) GTEST_SKIP() << "Client cert not found; skipping";
+    if (pem.empty()) {
+      GTEST_SKIP() << "Client cert not found; skipping";
+    }
 
-    std::string fp;
+    std::string fp = {};
     ASSERT_NO_THROW(fp = MTLSAuthenticator::certFingerprint(pem));
     EXPECT_EQ(fp.size(), 64u);
     // Should be lowercase hex
@@ -258,7 +272,9 @@ TEST(MTLSAuthenticatorTest, CertFingerprint_ValidCert_Returns64HexChars) {
 
 TEST(MTLSAuthenticatorTest, CertFingerprint_Deterministic) {
     const std::string pem = clientCertPEM();
-    if (pem.empty()) GTEST_SKIP() << "Client cert not found; skipping";
+    if (pem.empty()) {
+      GTEST_SKIP() << "Client cert not found; skipping";
+    }
 
     const std::string fp1 = MTLSAuthenticator::certFingerprint(pem);
     const std::string fp2 = MTLSAuthenticator::certFingerprint(pem);
@@ -275,9 +291,11 @@ TEST(MTLSAuthenticatorTest, CertFingerprint_InvalidPEM_Throws) {
 
 TEST(MTLSAuthenticatorTest, ExtractSubjectCN_ReturnsTestClient) {
     const std::string pem = clientCertPEM();
-    if (pem.empty()) GTEST_SKIP() << "Client cert not found; skipping";
+    if (pem.empty()) {
+      GTEST_SKIP() << "Client cert not found; skipping";
+    }
 
-    std::string cn;
+    std::string cn = {};
     ASSERT_NO_THROW(cn = MTLSAuthenticator::extractSubjectCN(pem));
     EXPECT_EQ(cn, "test-client");
 }
@@ -292,7 +310,9 @@ TEST(MTLSAuthenticatorTest, ExtractSubjectCN_InvalidPEM_Throws) {
 
 TEST(MTLSAuthenticatorTest, AuthenticateDER_ValidCert_ReturnsClaims) {
     const std::string pem = clientCertPEM();
-    if (pem.empty()) GTEST_SKIP() << "Client cert not found; skipping";
+    if (pem.empty()) {
+      GTEST_SKIP() << "Client cert not found; skipping";
+    }
 
     // Convert PEM to DER via openssl BIO (just read the DER file if available,
     // or convert here using standard base64 decode).  For simplicity, re-use
@@ -305,7 +325,9 @@ TEST(MTLSAuthenticatorTest, AuthenticateDER_ValidCert_ReturnsClaims) {
     // (we use the file path directly since it is simpler in test context)
     std::string der_path = certPath("client-cert.pem");
     std::ifstream f(der_path, std::ios::binary);
-    if (!f.is_open()) GTEST_SKIP() << "Client cert file not accessible; skipping";
+    if (!f.is_open()) {
+      GTEST_SKIP() << "Client cert file not accessible; skipping";
+    }
 
     // Use the PEM authenticate to verify the DER authenticate gives same principal
     MTLSClaims pem_claims;
@@ -329,7 +351,9 @@ TEST(MTLSAuthenticatorTest, AuthenticateDER_EmptyBytes_Throws) {
 
 TEST(MTLSClaimsTest, IsExpired_NotExpiredCert) {
     const std::string pem = clientCertPEM();
-    if (pem.empty()) GTEST_SKIP() << "Client cert not found; skipping";
+    if (pem.empty()) {
+      GTEST_SKIP() << "Client cert not found; skipping";
+    }
 
     MTLSAuthenticator::Config cfg;
     cfg.verify_chain = false;

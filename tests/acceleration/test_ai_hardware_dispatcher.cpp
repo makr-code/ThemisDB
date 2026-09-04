@@ -383,7 +383,9 @@ TEST(AiHardwareDispatcherFocusedTests, AH_30_HasNPU_ConsistentWithCapabilities) 
 
     bool any_npu_cap = false;
     for (const auto& c : caps) {
-        if (!c.available) continue;
+        if (!c.available) {
+          continue;
+        }
         if (c.type == BackendType::NPU_APPLE   ||
             c.type == BackendType::NPU_INTEL    ||
             c.type == BackendType::NPU_QUALCOMM ||

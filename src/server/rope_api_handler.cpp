@@ -30,7 +30,7 @@ using json = nlohmann::json;
 // AuthorizeFn + StatsQueryFn bridges (stubs #280, #307)
 // ============================================================================
 
-void RopeApiHandler::setAuthorizeFn(AuthorizeFn fn) {
+void RopeApiHandler::setAuthorizeFn([[maybe_unused]] AuthorizeFn fn) {
     authorizeFn_ = std::move(fn);
 }
 
@@ -38,7 +38,7 @@ void RopeApiHandler::clearAuthorizeFn() {
     authorizeFn_ = nullptr;
 }
 
-void RopeApiHandler::setStatsQueryFn(StatsQueryFn fn) {
+void RopeApiHandler::setStatsQueryFn([[maybe_unused]] StatsQueryFn fn) {
     statsQueryFn_ = std::move(fn);
 }
 
@@ -63,11 +63,15 @@ http::response<http::string_body> RopeApiHandler::handleConfigPost(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "vector:write", "rope.config", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "vector:write", "rope.config", path_only)) {
+          return *resp;
+        }
     }
     
-    auto span = Tracer::startSpan("handleRopeConfigPost");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeConfigPost");
     span.setAttribute("http.method", "POST");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -142,7 +146,7 @@ http::response<http::string_body> RopeApiHandler::handleConfigPost(
                 {"num_rotation_pairs", config.num_rotation_pairs},
                 {"base_theta", config.base_theta},
                 {"normalize_after", config.normalize_after},
-                {"theta_cache_size", config.theta_cache.size()}
+                {"theta_cache_size",static_cast<int>(config.theta_cache.size())}
             }}
         };
         
@@ -166,11 +170,15 @@ http::response<http::string_body> RopeApiHandler::handleConfigGet(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "vector:read", "rope.config", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "vector:read", "rope.config", path_only)) {
+          return *resp;
+        }
     }
     
-    auto span = Tracer::startSpan("handleRopeConfigGet");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeConfigGet");
     span.setAttribute("http.method", "GET");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -210,7 +218,7 @@ http::response<http::string_body> RopeApiHandler::handleConfigGet(
                 {"num_rotation_pairs", config.num_rotation_pairs},
                 {"base_theta", config.base_theta},
                 {"normalize_after", config.normalize_after},
-                {"theta_cache_size", config.theta_cache.size()}
+                {"theta_cache_size",static_cast<int>(config.theta_cache.size())}
             }}
         };
         
@@ -230,11 +238,15 @@ http::response<http::string_body> RopeApiHandler::handleConfigDelete(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "vector:write", "rope.config", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "vector:write", "rope.config", path_only)) {
+          return *resp;
+        }
     }
     
-    auto span = Tracer::startSpan("handleRopeConfigDelete");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeConfigDelete");
     span.setAttribute("http.method", "DELETE");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -285,11 +297,15 @@ http::response<http::string_body> RopeApiHandler::handleAddPost(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "rope.add", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:write", "rope.add", path_only)) {
+          return *resp;
+        }
     }
     
-    auto span = Tracer::startSpan("handleRopeAddPost");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeAddPost");
     span.setAttribute("http.method", "POST");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -361,7 +377,8 @@ http::response<http::string_body> RopeApiHandler::handleAddPost(
                 entity.setField(key, val.get<bool>());
             } else if (val.is_array() && !val.empty() && val[0].is_number()) {
                 // Assume numeric array is the embedding vector
-                std::vector<float> vec;
+                std::vector<float> vec = {};
+
                 for (const auto& v : val) {
                     if (!v.is_number()) {
                         span.setStatus(false, "Invalid vector element");
@@ -410,11 +427,15 @@ http::response<http::string_body> RopeApiHandler::handleAddRelationalPost(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "rope.add_relational", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:write", "rope.add_relational", path_only)) {
+          return *resp;
+        }
     }
     
-    auto span = Tracer::startSpan("handleRopeAddRelationalPost");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeAddRelationalPost");
     span.setAttribute("http.method", "POST");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -485,7 +506,8 @@ http::response<http::string_body> RopeApiHandler::handleAddRelationalPost(
             } else if (val.is_boolean()) {
                 entity.setField(key, val.get<bool>());
             } else if (val.is_array() && !val.empty() && val[0].is_number()) {
-                std::vector<float> vec;
+                std::vector<float> vec = {};
+
                 for (const auto& v : val) {
                     if (!v.is_number()) {
                         span.setStatus(false, "Invalid vector element");
@@ -534,11 +556,15 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:read", "rope.search", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:read", "rope.search", path_only)) {
+          return *resp;
+        }
     }
     
-    auto span = Tracer::startSpan("handleRopeSearchPost");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeSearchPost");
     span.setAttribute("http.method", "POST");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -576,7 +602,8 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
         }
         
         // Parse query vector
-        std::vector<float> query_vector;
+        std::vector<float> query_vector = {};
+
         for (const auto& val : body_json["query"]) {
             if (!val.is_number()) {
                 span.setStatus(false, "Invalid query element");
@@ -624,7 +651,7 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
             {"query_time_ms", duration_ms},
             {"rotation_enabled", true},
             {"k", k},
-            {"count", results.size()}
+            {"count",static_cast<int>(results.size())}
         };
         
         span.setAttribute("rope.results_count", static_cast<int64_t>(results.size()));
@@ -648,11 +675,15 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "rope.batch_add", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:write", "rope.batch_add", path_only)) {
+          return *resp;
+        }
     }
     
-    auto span = Tracer::startSpan("handleRopeBatchAddPost");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeBatchAddPost");
     span.setAttribute("http.method", "POST");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -717,7 +748,9 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
                     const std::string& key = it.key();
                     const auto& val = it.value();
                     
-                    if (key == "id") continue;
+                    if (key == "id") {
+                      continue;
+                    }
                     
                     if (val.is_string()) {
                         entity.setField(key, val.get<std::string>());
@@ -728,7 +761,8 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
                     } else if (val.is_boolean()) {
                         entity.setField(key, val.get<bool>());
                     } else if (val.is_array() && !val.empty() && val[0].is_number()) {
-                        std::vector<float> vec;
+                        std::vector<float> vec = {};
+
                         for (const auto& v : val) {
                             if (!v.is_number()) {
                                 vec.clear();
@@ -752,7 +786,7 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
                 }
                 
             } catch (...) {
-                THEMIS_WARN("rope_api_handler: unhandled exception caught");
+                THEMIS_WARN([[maybe_unused]] "rope_api_handler: unhandled exception caught");
                 ++errors;
             }
         }
@@ -787,11 +821,15 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "vector:read", "rope.stats", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "vector:read", "rope.stats", path_only)) {
+          return *resp;
+        }
     }
     
-    auto span = Tracer::startSpan("handleRopeStatsGet");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeStatsGet");
     span.setAttribute("http.method", "GET");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -924,7 +962,7 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     }
 
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     if (!token) {
         return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
@@ -957,7 +995,7 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     return std::nullopt;  // null = access allowed
 }
 
-std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& path) {
+std::optional<std::string> RopeApiHandler::extractIndexName([[maybe_unused]] const std::string& path) {
     // Expected format: /api/v1/vector-index/{index_name}/rope/...
     const std::string prefix = "/api/v1/vector-index/";
     const std::string suffix = "/rope/";

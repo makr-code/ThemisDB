@@ -93,11 +93,21 @@ static std::string kindToString(ColumnConstraint::Kind kind) {
 }
 
 static ColumnConstraint::Kind kindFromString(const std::string& s) {
-    if (s == "NOT_NULL")    return ColumnConstraint::Kind::NOT_NULL;
-    if (s == "UNIQUE")      return ColumnConstraint::Kind::UNIQUE;
-    if (s == "CHECK")       return ColumnConstraint::Kind::CHECK;
-    if (s == "DEFAULT")     return ColumnConstraint::Kind::DEFAULT;
-    if (s == "FOREIGN_KEY") return ColumnConstraint::Kind::FOREIGN_KEY;
+    if (s == "NOT_NULL") {
+      return ColumnConstraint::Kind::NOT_NULL;
+    }
+    if (s == "UNIQUE") {
+      return ColumnConstraint::Kind::UNIQUE;
+    }
+    if (s == "CHECK") {
+      return ColumnConstraint::Kind::CHECK;
+    }
+    if (s == "DEFAULT") {
+      return ColumnConstraint::Kind::DEFAULT;
+    }
+    if (s == "FOREIGN_KEY") {
+      return ColumnConstraint::Kind::FOREIGN_KEY;
+    }
     throw std::runtime_error("Unknown constraint kind: " + s);
 }
 
@@ -155,7 +165,9 @@ void SchemaConstraints::removeColumnConstraints(
     std::string_view column_name)
 {
     auto t_it = constraints_.find(std::string(table_name));
-    if (t_it == constraints_.end()) return;
+    if (t_it == constraints_.end()) {
+      return;
+    }
     t_it->second.erase(std::string(column_name));
     if (t_it->second.empty()) {
         constraints_.erase(t_it);
@@ -182,7 +194,9 @@ std::vector<ColumnConstraint> SchemaConstraints::getTableConstraints(
 {
     std::vector<ColumnConstraint> result;
     auto t_it = constraints_.find(std::string(table_name));
-    if (t_it == constraints_.end()) return result;
+    if (t_it == constraints_.end()) {
+      return result;
+    }
     for (const auto& [col, vec] : t_it->second) {
         for (const auto& c : vec) {
             result.push_back(c);
@@ -228,12 +242,16 @@ std::vector<ConstraintViolation> SchemaConstraints::enforce(
             switch (c.kind) {
                 case ColumnConstraint::Kind::NOT_NULL: {
                     auto v = checkNotNull(table_name, col_name, c, *val_ptr);
-                    if (v.has_value()) violations.push_back(std::move(*v));
+                    if (v.has_value()) {
+                      violations.push_back(std::move(*v));
+                    }
                     break;
                 }
                 case ColumnConstraint::Kind::CHECK: {
                     auto v = checkCheck(table_name, col_name, c, *val_ptr);
-                    if (v.has_value()) violations.push_back(std::move(*v));
+                    if (v.has_value()) {
+                      violations.push_back(std::move(*v));
+                    }
                     break;
                 }
                 case ColumnConstraint::Kind::UNIQUE:
@@ -264,7 +282,9 @@ std::map<std::string, ColumnValue> SchemaConstraints::applyDefaults(
     std::map<std::string, ColumnValue> row) const
 {
     auto t_it = constraints_.find(std::string(table_name));
-    if (t_it == constraints_.end()) return row;
+    if (t_it == constraints_.end()) {
+      return row;
+    }
 
     for (const auto& [col_name, constraints] : t_it->second) {
         // Only apply default if the column is absent or NULL
@@ -313,9 +333,13 @@ SchemaConstraints SchemaConstraints::fromJSON(const json& j) {
     SchemaConstraints sc;
 
     for (const auto& [table, t_obj] : j.items()) {
-        if (!t_obj.is_object()) continue;
+        if (!t_obj.is_object()) {
+          continue;
+        }
         for (const auto& [col, c_arr] : t_obj.items()) {
-            if (!c_arr.is_array()) continue;
+            if (!c_arr.is_array()) {
+              continue;
+            }
             for (const auto& cj : c_arr) {
                 ColumnConstraint c;
                 c.kind = kindFromString(cj.value("kind", std::string("NOT_NULL")));
@@ -403,9 +427,11 @@ std::optional<ConstraintViolation> SchemaConstraints::checkCheck(
     static const std::vector<std::string> ops = {">=", "<=", ">", "<", "="};
     for (const auto& op : ops) {
         auto pos = expr.find(op);
-        if (pos == std::string::npos) continue;
+        if (pos == std::string::npos) {
+          continue;
+        }
         std::string lhs = strip(expr.substr(0, pos));
-        std::string rhs = strip(expr.substr(pos + op.size()));
+        std::string rhs = strip(expr.substr(pos + static_cast<int>(op.size()) ));
 
         if (lhs != std::string(column_name)) continue;  // Different column, skip
 
@@ -416,12 +442,14 @@ std::optional<ConstraintViolation> SchemaConstraints::checkCheck(
             rhs_num = std::stod(rhs);
             rhs_ok = true;
         } catch (...) {}
-        if (!rhs_ok) continue;
+        if (!rhs_ok) {
+          continue;
+        }
 
         // Try to get a numeric value from the column value
         double val_num = 0.0;
         bool val_ok = false;
-        std::visit([&](const auto& v) {
+        std::visit([&]([[maybe_unused]] const auto& v) {
             using T = std::decay_t<decltype(v)>;
             if constexpr (std::is_same_v<T, int64_t>) {
                 val_num = static_cast<double>(v);
@@ -431,14 +459,26 @@ std::optional<ConstraintViolation> SchemaConstraints::checkCheck(
                 val_ok  = true;
             }
         }, value);
-        if (!val_ok) continue;
+        if (!val_ok) {
+          continue;
+        }
 
         bool passes = false;
-        if (op == ">")  passes = val_num >  rhs_num;
-        if (op == ">=") passes = val_num >= rhs_num;
-        if (op == "<")  passes = val_num <  rhs_num;
-        if (op == "<=") passes = val_num <= rhs_num;
-        if (op == "=")  passes = val_num == rhs_num;
+        if (op == ">") {
+          passes = val_num >  rhs_num;
+        }
+        if (op == ">=") {
+          passes = val_num >= rhs_num;
+        }
+        if (op == "<") {
+          passes = val_num <  rhs_num;
+        }
+        if (op == "<=") {
+          passes = val_num <= rhs_num;
+        }
+        if (op == "=") {
+          passes = val_num == rhs_num;
+        }
 
         if (!passes) {
             ConstraintViolation v;
@@ -528,7 +568,9 @@ size_t SchemaConstraints::loadFrom(RocksDBWrapper& db) {
 
         while (it->Valid()) {
             std::string key = it->key().ToString();
-            if (key.rfind(prefix, 0) != 0) break;
+            if (key.rfind(prefix, 0) != 0) {
+              break;
+            }
 
             std::string table_name = key.substr(prefix.size());
             if (loadTableFrom(db, table_name)) {
@@ -561,10 +603,14 @@ bool SchemaConstraints::loadTableFrom(RocksDBWrapper& db,
         std::string raw(result->begin(), result->end());
         json t_obj = json::parse(raw);
 
-        if (!t_obj.is_object()) return false;
+        if (!t_obj.is_object()) {
+          return false;
+        }
 
         for (const auto& [col, c_arr] : t_obj.items()) {
-            if (!c_arr.is_array()) continue;
+            if (!c_arr.is_array()) {
+              continue;
+            }
             for (const auto& cj : c_arr) {
                 ColumnConstraint c;
                 try {

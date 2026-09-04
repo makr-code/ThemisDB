@@ -664,7 +664,9 @@ TEST(HardwareAcceleratorFocusedTests, ConcurrentExecuteIsSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     auto s = accel.getStats();
     EXPECT_EQ(s.total_executions, n_threads * ops_per_thread);

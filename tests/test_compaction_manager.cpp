@@ -50,7 +50,7 @@ protected:
             mgr_.reset();
         }
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(db_path_, ec);
     }
 

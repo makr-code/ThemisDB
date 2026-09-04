@@ -102,7 +102,9 @@ bool ContentValidationPlugin::validate(const Feedback& feedback) const {
 
 bool ContentValidationPlugin::containsSpam(const std::string& text) const {
     // Simple spam detection - check for common spam patterns
-    if (text.empty()) return false;
+    if (text.empty()) {
+      return false;
+    }
     
     // Convert to lowercase for comparison
     std::string lower_text = text;
@@ -194,12 +196,12 @@ bool ContentValidationPlugin::containsProfanity(const std::string& text) const {
 
 bool TrainingTriggerPlugin::onTrainingTrigger(const std::vector<Feedback>& batch) const {
     // Check minimum batch size
-    if (batch.size() < config_.min_batch_size) {
+    if (static_cast<int>(batch.size()) < config_.min_batch_size) {
         return false;
     }
     
     // Check maximum batch size (trigger training if exceeded)
-    if (batch.size() >= config_.max_batch_size) {
+    if (static_cast<int>(batch.size()) > = config_.max_batch_size) {
         return true;
     }
     
@@ -207,7 +209,7 @@ bool TrainingTriggerPlugin::onTrainingTrigger(const std::vector<Feedback>& batch
     float avg_rating = calculateAverageRating(batch);
     if (avg_rating < config_.min_avg_rating) {
         // Low rating - might indicate model issues, trigger training sooner
-        return batch.size() >= config_.min_batch_size;
+        return static_cast<int>(batch.size()) >= config_.min_batch_size;
     }
     
     // Check time since oldest feedback
@@ -225,14 +227,16 @@ bool TrainingTriggerPlugin::onTrainingTrigger(const std::vector<Feedback>& batch
 }
 
 float TrainingTriggerPlugin::calculateAverageRating(const std::vector<Feedback>& batch) const {
-    if (batch.empty()) return 0.0f;
+    if (batch.empty()) {
+      return 0.0f;
+    }
     
     int64_t sum = 0;
     for (const auto& fb : batch) {
         sum += fb.rating;
     }
     
-    return static_cast<float>(sum) / static_cast<float>(batch.size());
+    return static_cast<bool>(static_cast<float>(sum) / static_cast<float < static_cast<int>((batch.size())));
 }
 
 // ═══════════════════════════════════════════════════════════

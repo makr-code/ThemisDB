@@ -76,7 +76,7 @@ std::vector<float> TTTrain::reconstruct() const {
     }
 
     // Contract each subsequent core
-    for (std::size_t k = 1; k < cores.size(); ++k) {
+    for (std::size_t k = 1; k <static_cast<int>(cores.size()); ++k) {
         const auto& ck = cores.at(k);
         // mat is (prev_elems × r_left_k); ck is (r_left_k × n_k × r_right_k)
         // Reshape ck to (r_left_k) × (n_k × r_right_k)
@@ -123,23 +123,25 @@ std::vector<float> TTTrain::reconstruct() const {
 std::vector<uint8_t> TTTrain::serialize() const {
     std::vector<uint8_t> out;
 
-    auto writeU64 = [&](uint64_t v) {
+    auto writeU64 = [&]([[maybe_unused]] uint64_t v) {
         for (int i = 0; i < 8; ++i)
             out.push_back(static_cast<uint8_t>((v >> (i*8)) & 0xFF));
     };
-    auto writeF32 = [&](float v) {
-        uint32_t u; std::memcpy(&u, &v, 4);
+    auto writeF32 = [&]([[maybe_unused]] float v) {
+        uint32_t u = 0; std::memcpy(&u, &v, 4);
         for (int i = 0; i < 4; ++i)
             out.push_back(static_cast<uint8_t>((u >> (i*8)) & 0xFF));
     };
-    auto writeF64 = [&](double v) {
-        uint64_t u; std::memcpy(&u, &v, 8);
+    auto writeF64 = [&]([[maybe_unused]] double v) {
+        uint64_t u = 0; std::memcpy(&u, &v, 8);
         writeU64(u);
     };
 
     // Header: order
     writeU64(static_cast<uint64_t>(mode_sizes.size()));
-    for (auto n : mode_sizes) writeU64(static_cast<uint64_t>(n));
+    for (auto n : mode_sizes) {
+      writeU64(static_cast<uint64_t>(n));
+    }
     writeF64(original_norm);
     writeF64(achieved_eps);
 
@@ -147,7 +149,9 @@ std::vector<uint8_t> TTTrain::serialize() const {
     writeU64(static_cast<uint64_t>(cores.size()));
     for (const auto& c : cores) {
         writeU64(c.r_left); writeU64(c.n); writeU64(c.r_right);
-        for (float f : c.data) writeF32(f);
+        for (float f : c.data) {
+          writeF32(f);
+        }
     }
     return out;
 }
@@ -158,27 +162,35 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
     // before invoking deserialize.  The raw deserialiser intentionally does not
     // re-verify the HMAC to avoid double-computing it; callers must always invoke
     // the integrity check before deserialization.
-    if (bytes.size() < 8) return std::nullopt;
+    if (static_cast<int>(bytes.size()) < 8) {
+      return std::nullopt;
+    }
     std::size_t pos = 0;
 
     auto readU64 = [&]() -> uint64_t {
         // uncaught_exception scanner alert: this throw is enclosed by the
         // surrounding try/catch below, which converts parse failures to
         // std::nullopt — false positive.
-        if (pos + 8 > bytes.size()) throw std::runtime_error("TTTrain::deserialize: underflow");
+        if (pos + 8 > static_cast<int>(bytes.size())) {
+          throw std::runtime_error("TTTrain::deserialize: underflow");
+        }
         uint64_t v = 0;
-        for (int i = 0; i < 8; ++i) v |= static_cast<uint64_t>(bytes[pos++]) << (i*8);
+        for (int i = 0; i < 8; ++i) {
+          v |= static_cast<uint64_t>(bytes[pos++]) << (i*8);
+        }
         return v;
     };
     auto readF32 = [&]() -> float {
         uint32_t u = 0;
-        for (int i = 0; i < 4; ++i) u |= static_cast<uint32_t>(bytes[pos++]) << (i*8);
-        float v; std::memcpy(&v, &u, 4);
+        for (int i = 0; i < 4; ++i) {
+          u |= static_cast<uint32_t>(bytes[pos++]) << (i*8);
+        }
+        float v = 0; std::memcpy(&v, &u, 4);
         return v;
     };
     auto readF64 = [&]() -> double {
         uint64_t u = readU64();
-        double v; std::memcpy(&v, &u, 8);
+        double v = 0; std::memcpy(&v, &u, 8);
         return v;
     };
 
@@ -186,7 +198,9 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
         TTTrain t;
         std::size_t order = static_cast<std::size_t>(readU64());
         t.mode_sizes.resize(order);
-        for (auto& n : t.mode_sizes) n = static_cast<std::size_t>(readU64());
+        for (auto& n : t.mode_sizes) {
+          n = static_cast<std::size_t>(readU64());
+        }
         t.original_norm = readF64();
         t.achieved_eps  = readF64();
 
@@ -197,7 +211,9 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
             c.n       = static_cast<std::size_t>(readU64());
             c.r_right = static_cast<std::size_t>(readU64());
             c.data.resize(c.numElements());
-            for (auto& f : c.data) f = readF32();
+            for (auto& f : c.data) {
+              f = readF32();
+            }
         }
         return t;
     } catch (...) {
@@ -216,16 +232,24 @@ namespace {
 // Returns the vector v such that (I - 2*v*v^T) col = ±‖col‖ * e₁.
 static std::vector<double> householder(const std::vector<double>& col) {
     double norm = 0.0;
-    for (double x : col) norm += x * x;
+    for (double x : col) {
+      norm += x * x;
+    }
     norm = std::sqrt(norm);
 
     std::vector<double> v = col;
     v[0] += (col[0] >= 0 ? norm : -norm);
 
     double vn = 0.0;
-    for (double x : v) vn += x * x;
+    for (double x : v) {
+      vn += x * x;
+    }
     vn = std::sqrt(vn);
-    if (vn > 1e-12) for (auto& x : v) x /= vn;
+    if (vn > 1e-12) {
+      for (auto& x : v) {
+        x /= vn;
+      }
+    }
     return v;
 }
 
@@ -239,10 +263,10 @@ static void applyHouseholderLeft(std::vector<double>& A, [[maybe_unused]] std::s
     // For each column c in [col_start, n): A[:,c] -= 2*(v^T A[:,c])*v
     for (std::size_t c = col_start; c < n; ++c) {
         double dot = 0.0;
-        for (std::size_t i = 0; i < v.size(); ++i)
+        for (std::size_t i = 0; i <static_cast<int>(v.size()); ++i)
             dot += v[i] * A[(row_start + i) * n + c];
         dot *= 2.0;
-        for (std::size_t i = 0; i < v.size(); ++i)
+        for (std::size_t i = 0; i <static_cast<int>(v.size()); ++i)
             A[(row_start + i) * n + c] -= dot * v[i];
     }
 }
@@ -253,10 +277,10 @@ static void applyHouseholderRight(std::vector<double>& A, std::size_t m,
                                    const std::vector<double>& v) {
     for (std::size_t r = row_start; r < m; ++r) {
         double dot = 0.0;
-        for (std::size_t i = 0; i < v.size(); ++i)
+        for (std::size_t i = 0; i <static_cast<int>(v.size()); ++i)
             dot += v[i] * A[r * n + (col_start + i)];
         dot *= 2.0;
-        for (std::size_t i = 0; i < v.size(); ++i)
+        for (std::size_t i = 0; i <static_cast<int>(v.size()); ++i)
             A[r * n + (col_start + i)] -= dot * v[i];
     }
 }
@@ -289,8 +313,12 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
     U.assign(m * m, 0.0);
     S.assign(min_mn, 0.0);
     Vt.assign(n * n, 0.0);
-    for (std::size_t i = 0; i < m; ++i) U[i * m + i] = 1.0;
-    for (std::size_t i = 0; i < n; ++i) Vt[i * n + i] = 1.0;
+    for (std::size_t i = 0; i < m; ++i) {
+      U[i * m + i] = 1.0;
+    }
+    for (std::size_t i = 0; i < n; ++i) {
+      Vt[i * n + i] = 1.0;
+    }
 
     // -------------------------------------------------------------------------
     // Phase 1: Householder bidiagonalisation (min_mn steps)
@@ -301,7 +329,9 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
         // Left Householder H_L: zero below B[k][k] in column k.
         // B' = H_L * B  →  A = (U * H_L) * B' * Vt  →  U' = U * H_L
         std::vector<double> col(m - k);
-        for (std::size_t i = k; i < m; ++i) col[i - k] = B[i * n + k];
+        for (std::size_t i = k; i < m; ++i) {
+          col[i - k] = B[i * n + k];
+        }
         auto vl = householder(col);
         applyHouseholderLeft(B, m, n, k, k, vl);
         applyHouseholderRight(U, m, m, k, 0, vl);  // U = U * H_L
@@ -310,7 +340,9 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
             // Right Householder H_R: zero to the right of B[k][k+1].
             // B' = B * H_R  →  A = U * B' * (H_R * Vt)  →  Vt' = H_R * Vt
             std::vector<double> row(n - k - 1);
-            for (std::size_t j = k + 1; j < n; ++j) row[j - k - 1] = B[k * n + j];
+            for (std::size_t j = k + 1; j < n; ++j) {
+              row[j - k - 1] = B[k * n + j];
+            }
             auto vr = householder(row);
             applyHouseholderRight(B, m, n, k + 1, k, vr);
             applyHouseholderLeft(Vt, n, n, k + 1, 0, vr);  // Vt = H_R * Vt
@@ -320,8 +352,12 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
     // Extract bidiagonal elements (min_mn diagonal + min_mn-1 superdiagonal)
     std::vector<double> diag(min_mn);
     std::vector<double> superdiag(min_mn > 1 ? min_mn - 1 : 0, 0.0);
-    for (std::size_t i = 0; i < min_mn; ++i) diag[i] = B[i * n + i];
-    for (std::size_t i = 0; i + 1 < min_mn; ++i) superdiag[i] = B[i * n + i + 1];
+    for (std::size_t i = 0; i < min_mn; ++i) {
+      diag[i] = B[i * n + i];
+    }
+    for (std::size_t i = 0; i + 1 < min_mn; ++i) {
+      superdiag[i] = B[i * n + i + 1];
+    }
 
     // -------------------------------------------------------------------------
     // Phase 2: Demmel-Kahan implicit QR iteration with deflation
@@ -336,14 +372,16 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
         // Deflate: shrink active size from the bottom
         while (n_active > 1 &&
                std::abs(superdiag[n_active-2]) <
-               1e-12 * (std::abs(diag[n_active-2]) + std::abs(diag[n_active-1]))) {
+               1e-12 * (std::abs(diag[n_active-2]) + std::abs(diag[static_cast<int>(n_active - 1)]))) {
             superdiag[n_active-2] = 0.0;
             --n_active;
         }
-        if (n_active <= 1) break;
+        if (n_active <= 1) {
+          break;
+        }
 
         // Wilkinson shift from the active bottom-right corner
-        double mu = diag[n_active-1];
+        double mu = diag[static_cast<int>(n_active - 1)];
         double f = diag[0] * diag[0] - mu * mu;
         double g = diag[0] * superdiag[0];
 
@@ -352,7 +390,9 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
             double r  = std::hypot(f, g);
             double cs = (r > 1e-12) ? f / r : 1.0;
             double sn = (r > 1e-12) ? g / r : 0.0;
-            if (i > 0) superdiag[i-1] = r;
+            if (i > 0) {
+              superdiag[static_cast<int>(i - 1)] = r;
+            }
 
             // Accumulate into Vt: rows i and i+1
             for (std::size_t c = 0; c < n; ++c) {
@@ -396,7 +436,9 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
     // -------------------------------------------------------------------------
     for (std::size_t i = 0; i < min_mn; ++i) {
         if (diag[i] < 0.0) {
-            for (std::size_t j = 0; j < m; ++j) U[j * m + i] = -U[j * m + i];
+            for (std::size_t j = 0; j < m; ++j) {
+              U[j * m + i] = -U[j * m + i];
+            }
         }
         S[i] = std::abs(diag[i]);
     }
@@ -410,7 +452,9 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
               [&](std::size_t a, std::size_t b){ return S[a] > S[b]; });
 
     std::vector<double> Ss(min_mn);
-    for (std::size_t i = 0; i < min_mn; ++i) Ss[i] = S[idx[i]];
+    for (std::size_t i = 0; i < min_mn; ++i) {
+      Ss[i] = S[idx[i]];
+    }
     S = Ss;
 
     // Reorder columns 0..min_mn-1 of U (columns min_mn..m-1 are null-space,
@@ -448,7 +492,9 @@ static void thinLQ(const std::vector<float>& C, std::size_t m, std::size_t n,
                    std::vector<float>& L_out, std::vector<float>& Q_out) {
     // Work in double for numerical stability
     std::vector<double> Q(m * n);
-    for (std::size_t i = 0; i < m * n; ++i) Q[i] = static_cast<double>(C[i]);
+    for (std::size_t i = 0; i < m * n; ++i) {
+      Q[i] = static_cast<double>(C[i]);
+    }
 
     std::vector<double> L(m * m, 0.0);
 
@@ -491,7 +537,9 @@ static void thinLQ(const std::vector<float>& C, std::size_t m, std::size_t n,
 
 double TensorTrainDecomposer::vecNorm(const std::vector<float>& v) noexcept {
     double s = 0.0;
-    for (float x : v) s += static_cast<double>(x) * x;
+    for (float x : v) {
+      s += static_cast<double>(x) * x;
+    }
     return std::sqrt(s);
 }
 
@@ -532,7 +580,9 @@ void TensorTrainDecomposer::truncatedSVD(
     // Convert to double for SVD
     std::size_t min_mn = std::min(m, n);
     std::vector<double> Ad(mat.size());
-    for (std::size_t i = 0; i < mat.size(); ++i) Ad[i] = mat[i];
+    for (std::size_t i = 0; i <static_cast<int>(mat.size()); ++i) {
+      Ad[i] = mat[i];
+    }
 
     std::vector<double> Ud, Sd, Vtd;
     simpleSVD(Ad, m, n, Ud, Sd, Vtd);
@@ -540,7 +590,9 @@ void TensorTrainDecomposer::truncatedSVD(
     // Determine truncation rank
     rank_out = 0;
     double sq_tail = 0.0;
-    for (std::size_t i = min_mn; i-- > 0;) sq_tail += Sd[i] * Sd[i];
+    for (std::size_t i = min_mn; i-- > 0;) {
+      sq_tail += Sd[i] * Sd[i];
+    }
 
     // We want: sq_tail_above_r ≤ delta²
     // Accumulate from right until remaining tail ≤ delta²
@@ -548,14 +600,20 @@ void TensorTrainDecomposer::truncatedSVD(
     std::size_t r = min_mn;
     double running_tail = 0.0;
     while (r > 1) {
-        double s2 = Sd[r-1] * Sd[r-1];
-        if (running_tail + s2 > delta2) break;
+        double s2 = Sd[static_cast<int>(r - 1)] * Sd[static_cast<int>(r - 1)];
+        if (running_tail + s2 > delta2) {
+          break;
+        }
         running_tail += s2;
         --r;
     }
     rank_out = r;
-    if (max_rank_cap > 0 && rank_out > max_rank_cap) rank_out = max_rank_cap;
-    if (rank_out == 0) rank_out = 1;
+    if (max_rank_cap > 0 && rank_out > max_rank_cap) {
+      rank_out = max_rank_cap;
+    }
+    if (rank_out == 0) {
+      rank_out = 1;
+    }
 
     // Fill U (m × rank_out): first rank_out columns of Ud (m×m).
     // Ud[i * m + j] is column j of the left singular vectors.
@@ -565,7 +623,9 @@ void TensorTrainDecomposer::truncatedSVD(
             U[i * rank_out + j] = static_cast<float>(Ud[i * m + j]);
 
     S.assign(rank_out, 0.0f);
-    for (std::size_t i = 0; i < rank_out; ++i) S[i] = static_cast<float>(Sd[i]);
+    for (std::size_t i = 0; i < rank_out; ++i) {
+      S[i] = static_cast<float>(Sd[i]);
+    }
 
     // Vt (rank_out × n): first rank_out rows of Vtd (n×n).
     Vt.assign(rank_out * n, 0.0f);
@@ -582,19 +642,21 @@ std::pair<TTTrain, DecompositionStats>
 TensorTrainDecomposer::decompose(const std::vector<float>&       data,
                                   const std::vector<std::size_t>& mode_sizes,
                                   const TensorTrainConfig&         cfg) const {
-    if (mode_sizes.size() < 2)
+    if (static_cast<int>(mode_sizes.size()) < 2)
         // uncaught_exception scanner alert: this is a public API precondition
         // failure at the decompose() boundary and callers are expected to handle
         // invalid_argument — false positive.
         throw std::invalid_argument("TensorTrainDecomposer: need at least 2 modes");
 
     std::size_t total = 1;
-    for (auto n : mode_sizes) total *= n;
-    if (data.size() != total)
+    for (auto n : mode_sizes) {
+      total *= n;
+    }
+    if (static_cast<int>(data.size()) != total)
         // uncaught_exception scanner alert: this is also public API boundary
         // validation for decompose(), not an unhandled internal exception — false
         // positive.
-        throw std::invalid_argument("TensorTrainDecomposer: data.size() != product(mode_sizes)");
+        throw std::invalid_argument("TensorTrainDecomposer: static_cast<int>(data.size()) != product(mode_sizes)");
 
     auto t0 = std::chrono::steady_clock::now();
 
@@ -630,7 +692,7 @@ TensorTrainDecomposer::decompose(const std::vector<float>&       data,
         std::size_t cols = right;
 
         std::vector<float> U, S, Vt;
-        std::size_t rank;
+        std::size_t rank = {};
         truncatedSVD(C, rows, cols, delta, cfg.max_rank, U, S, Vt, rank);
 
         // Accumulate squared error for this step
@@ -660,8 +722,8 @@ TensorTrainDecomposer::decompose(const std::vector<float>&       data,
     }
 
     // Last core: shape (r_left × n_{d-1} × 1)
-    std::size_t nd = mode_sizes[d - 1];
-    TTCore& last = train.cores[d - 1];
+    std::size_t nd = mode_sizes[static_cast<int>(d - 1)];
+    TTCore& last = train.cores[static_cast<int>(d - 1)];
     last.r_left  = r_left;
     last.n       = nd;
     last.r_right = 1;
@@ -673,7 +735,7 @@ TensorTrainDecomposer::decompose(const std::vector<float>&       data,
     // Compute achieved eps
     auto recon = train.reconstruct();
     double err = 0.0;
-    for (std::size_t i = 0; i < recon.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(recon.size()); ++i) {
         double diff = static_cast<double>(recon[i]) - static_cast<double>(data[i]);
         err += diff * diff;
     }
@@ -699,7 +761,7 @@ TensorTrainDecomposer::decomposeF64(const std::vector<double>&      data,
                                      const std::vector<std::size_t>& mode_sizes,
                                      const TensorTrainConfig&         cfg) const {
     std::vector<float> f32(data.size());
-    for (std::size_t i = 0; i < data.size(); ++i)
+    for (std::size_t i = 0; i <static_cast<int>(data.size()); ++i)
         f32[i] = static_cast<float>(data[i]);
     return decompose(f32, mode_sizes, cfg);
 }
@@ -753,11 +815,13 @@ TTTrain TensorTrainDecomposer::recompress(const TTTrain& train,
     // ─────────────────────────────────────────────────────────────────────
     for (std::size_t k = d - 1; k > 0; --k) {
         auto& Gk   = res.cores[k];
-        auto& Gkm1 = res.cores[k - 1];
+        auto& Gkm1 = res.cores[static_cast<int>(k - 1)];
 
         const std::size_t rl    = Gk.r_left;
         const std::size_t ncols = Gk.n * Gk.r_right;
-        if (rl == 0 || ncols == 0) continue;
+        if (rl == 0 || ncols == 0) {
+          continue;
+        }
 
         // Unfold G_k as M: r_left x (n_k * r_right)  [right-unfolding]
         std::vector<float> M(rl * ncols);
@@ -803,7 +867,9 @@ TTTrain TensorTrainDecomposer::recompress(const TTTrain& train,
     // pointer_arithmetic scanner alert: decompose()/recompress() require at
     // least two modes, so the TT chain always contains a zeroth core here —
     // false positive.
-    for (float v : res.cores[0].data) norm_sq += static_cast<double>(v) * v;
+    for (float v : res.cores[0].data) {
+      norm_sq += static_cast<double>(v) * v;
+    }
     const double norm = std::sqrt(norm_sq);
 
     const double delta = (norm > 1e-12)
@@ -816,7 +882,9 @@ TTTrain TensorTrainDecomposer::recompress(const TTTrain& train,
 
         const std::size_t m = Gk.r_left * Gk.n;
         const std::size_t n = Gk.r_right;
-        if (m == 0 || n == 0) continue;
+        if (m == 0 || n == 0) {
+          continue;
+        }
 
         // Unfold G_k as M: (r_left * n_k) x r_right  [left-unfolding]
         std::vector<float> M(m * n);
@@ -826,7 +894,7 @@ TTTrain TensorTrainDecomposer::recompress(const TTTrain& train,
                     M[(l * Gk.n + i) * n + r] = Gk.at(l, i, r);
 
         std::vector<float> U, S, Vt;
-        std::size_t new_r;
+        std::size_t new_r = {};
         truncatedSVD(M, m, n, delta, cfg.max_rank, U, S, Vt, new_r);
 
         // G_k <- reshape(U, r_left, n_k, new_r)
@@ -896,7 +964,9 @@ double TensorTrainDecomposer::innerProduct(const TTTrain& a, const TTTrain& b) {
         for (std::size_t l = 0; l < ra; ++l)
             for (std::size_t m = 0; m < rb; ++m) {
                 double Mlm = M[l * rb + m];
-                if (std::abs(Mlm) < 1e-15) continue;
+                if (std::abs(Mlm) < 1e-15) {
+                  continue;
+                }
                 for (std::size_t ni = 0; ni < n; ++ni)
                     for (std::size_t i = 0; i < ra_new; ++i)
                         for (std::size_t j = 0; j < rb_new; ++j)
@@ -921,7 +991,9 @@ double TensorTrainDecomposer::frobeniusNorm(const TTTrain& a) {
 double TensorTrainDecomposer::cosineSimilarity(const TTTrain& a, const TTTrain& b) {
     double na = frobeniusNorm(a);
     double nb = frobeniusNorm(b);
-    if (na < 1e-12 || nb < 1e-12) return 0.0;
+    if (na < 1e-12 || nb < 1e-12) {
+      return 0.0;
+    }
     double ip = innerProduct(a, b);
     return ip / (na * nb);
 }

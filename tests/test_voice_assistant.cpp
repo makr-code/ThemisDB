@@ -357,8 +357,8 @@ TEST(VoiceBiometricAuth, AuthAuditCounterAndCallbackCoverFailureAndSuccess) {
     VoiceBiometricAuthenticator auth;
 
     int callback_count = 0;
-    std::string last_claimed_user;
-    std::string last_reason;
+    std::string last_claimed_user = {};
+    std::string last_reason = {};
     auth.setAuthAuditCallback(
         [&](const std::string& claimed_user_id, const VoiceAuthResult& result) {
             ++callback_count;
@@ -722,7 +722,9 @@ TEST(WakeWordDetector, CallbackIsInvokedOnDetection) {
 
     std::atomic<int> callback_count{0};
     detector.setDetectionCallback([&](const WakeWordDetectionResult& r) {
-        if (r.detected) ++callback_count;
+        if (r.detected) {
+          ++callback_count;
+        }
     });
 
     // Feed enough audio that VAD passes; detection depends on scoring.
@@ -812,7 +814,9 @@ TEST(VoiceAssistantWakeWord, SetCallbackIsForwarded) {
 
     std::atomic<int> fired{0};
     va.setWakeWordCallback([&](const themis::voice::WakeWordDetectionResult& r) {
-        if (r.detected) ++fired;
+        if (r.detected) {
+          ++fired;
+        }
     });
 
     // Feed voiced audio; detection depends on scoring but callback must be wired.
@@ -1522,7 +1526,7 @@ TEST(VoiceAssistantAudioConvert, VA_CAF_02_InjectedFnReturnValueUsed) {
     themis::voice::VoiceAssistant va(cfg);
 
     const std::vector<uint8_t> fake_encoded = {0xAA, 0xBB, 0xCC};
-    std::string captured_format;
+    std::string captured_format = {};
 
     va.setAudioConvertFn([&](const std::vector<uint8_t>& /*audio*/,
                               const std::string& fmt) -> std::vector<uint8_t> {

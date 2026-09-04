@@ -121,7 +121,9 @@ struct ShardMetrics {
      */
     double getAverageLatencyUs() const {
         uint64_t total_reqs = total_requests.load();
-        if (total_reqs == 0) return 0.0;
+        if (total_reqs == 0) {
+          return 0.0;
+        }
         return static_cast<double>(total_latency_us.load()) / total_reqs;
     }
     
@@ -130,7 +132,9 @@ struct ShardMetrics {
      */
     double getSuccessRate() const {
         uint64_t total_reqs = total_requests.load();
-        if (total_reqs == 0) return 1.0;
+        if (total_reqs == 0) {
+          return 1.0;
+        }
         return static_cast<double>(successful_requests.load()) / total_reqs;
     }
     

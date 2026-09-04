@@ -530,7 +530,8 @@ TEST_F(RPCServiceIntegrationTest, ConnectionPooling) {
     }
     
     // Step 3: Verify batch operations using the correct keys parameter format
-    std::vector<json> batch_keys;
+    std::vector<json> batch_keys = {};
+
     for (int i = 0; i < 5; ++i) {
         batch_keys.push_back({
             {"model", "pool_test"},
@@ -570,7 +571,7 @@ TEST_F(RPCServiceIntegrationTest, HealthCheckWithUptime) {
         << "Health check should return result";
     
     // Extract result
-    json result1;
+    json result1 = {};
     if (health_response1.contains("result")) {
         result1 = health_response1["result"];
     } else if (health_response1.contains("success") && health_response1["success"].get<bool>()) {
@@ -593,7 +594,7 @@ TEST_F(RPCServiceIntegrationTest, HealthCheckWithUptime) {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     
     json health_response2 = rpc_service_->handleHealthCheck(health_params);
-    json result2;
+    json result2 = {};
     if (health_response2.contains("result")) {
         result2 = health_response2["result"];
     } else if (health_response2.contains("success") && health_response2["success"].get<bool>()) {
@@ -871,7 +872,8 @@ TEST_F(RPCServiceIntegrationTest, IndexManagementRoundTrip) {
 TEST_F(RPCServiceIntegrationTest, TimeSeriesQueryRealScan) {
     // Step 1: Insert 5 documents via RPC so _timestamp_ns comes from server.
     // Capture effective timestamps for robust query windows.
-    std::vector<uint64_t> timestamps;
+    std::vector<uint64_t> timestamps = {};
+
     for (int i = 0; i < 5; ++i) {
         json put_params = {
             {"model", "metric"},
@@ -1891,7 +1893,8 @@ TEST_F(RPCServiceIntegrationTest, ListCollectionsOperation) {
     ASSERT_TRUE(collections.is_array());
 
     // Build a map from collection name to document_count
-    std::unordered_map<std::string, int> col_counts;
+    std::unordered_map<std::string, int> col_counts = {};
+
     for (const auto& col : collections) {
         col_counts[col["name"].get<std::string>()] = col["document_count"].get<int>();
     }
@@ -1950,7 +1953,8 @@ TEST_F(RPCServiceIntegrationTest, CollectionMetadata) {
     ASSERT_TRUE(result.contains("models") && result["models"].is_array())
         << "Result should contain a models array";
 
-    std::unordered_map<std::string, int> model_counts;
+    std::unordered_map<std::string, int> model_counts = {};
+
     for (const auto& m : result["models"]) {
         model_counts[m["model"].get<std::string>()] = m["count"].get<int>();
     }

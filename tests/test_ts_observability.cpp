@@ -93,7 +93,9 @@ TEST_F(TimeSeriesObservabilityTest, RecordOptimizerHit) {
 }
 
 TEST_F(TimeSeriesObservabilityTest, OptimizerMissCountCorrect) {
-    for (int i = 0; i < 7; ++i) metrics->recordOptimizerResult(false);
+    for (int i = 0; i < 7; ++i) {
+      metrics->recordOptimizerResult(false);
+    }
     EXPECT_EQ(metrics->getOptimizerMisses(), 7u);
     EXPECT_EQ(metrics->getOptimizerHits(), 0u);
 }
@@ -175,9 +177,11 @@ TEST_F(TimeSeriesObservabilityTest, PrometheusExportIsValidText) {
     std::string output = metrics->exportPrometheus();
     // Valid Prometheus format: each line should be either comment (#), metric, or empty
     std::istringstream ss(output);
-    std::string line;
+    std::string line = {};
     while (std::getline(ss, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         EXPECT_TRUE(line[0] == '#' || std::isalpha(line[0]) || std::isdigit(line[0]))
             << "Invalid Prometheus line: " << line;
     }
@@ -220,7 +224,8 @@ TEST_F(TimeSeriesObservabilityTest, ResetClearsAllCounters) {
 TEST_F(TimeSeriesObservabilityTest, ConcurrentWritesThreadSafe) {
     constexpr int threads = 4;
     constexpr int per_thread = 100;
-    std::vector<std::thread> ts;
+    std::vector<std::thread> ts = {};
+
     for (int i = 0; i < threads; ++i) {
         ts.emplace_back([this]() {
             for (int j = 0; j < per_thread; ++j) {
@@ -228,6 +233,8 @@ TEST_F(TimeSeriesObservabilityTest, ConcurrentWritesThreadSafe) {
             }
         });
     }
-    for (auto& t : ts) t.join();
+    for (auto& t : ts) {
+      t.join();
+    }
     EXPECT_EQ(metrics->getTotalDataPointsWritten(), static_cast<uint64_t>(threads * per_thread));
 }

@@ -254,7 +254,7 @@ namespace {
 
 /// RAII temp dir that removes itself on destruction.
 struct TmpDir {
-    std::string path;
+    std::string path = {};
     explicit TmpDir() {
         auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
         path = "/tmp/themis_ckpt_test_" + std::to_string(ts);
@@ -262,7 +262,7 @@ struct TmpDir {
         fs::create_directories(path);
     }
     ~TmpDir() {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(path, ec);
     }
 };
@@ -293,7 +293,7 @@ TEST(KVCacheCheckpoint, CKP01_SaveWritesToRocksDB) {
     rocksdb::Status s = db->Put(rocksdb::WriteOptions(), key, value);
     ASSERT_TRUE(s.ok()) << s.ToString();
 
-    std::string readback;
+    std::string readback = {};
     s = db->Get(rocksdb::ReadOptions(), key, &readback);
     EXPECT_TRUE(s.ok()) << s.ToString();
     EXPECT_EQ(readback, value);
@@ -309,7 +309,7 @@ TEST(KVCacheCheckpoint, CKP02_LoadReadsFromRocksDB) {
     const std::string value = R"({"current_epoch":2,"current_step":20})";
     ASSERT_TRUE(db->Put(rocksdb::WriteOptions(), key, value).ok());
 
-    std::string result;
+    std::string result = {};
     rocksdb::Status s = db->Get(rocksdb::ReadOptions(), key, &result);
     EXPECT_TRUE(s.ok());
     EXPECT_EQ(result, value);
@@ -321,7 +321,7 @@ TEST(KVCacheCheckpoint, CKP03_FallbackWhenKeyAbsent) {
     std::unique_ptr<rocksdb::DB> db(openTempRocksDB(tmp.path));
     ASSERT_NE(db, nullptr);
 
-    std::string result;
+    std::string result = {};
     rocksdb::Status s = db->Get(rocksdb::ReadOptions(), "nonexistent", &result);
     EXPECT_TRUE(s.IsNotFound()) << "absent key must return NotFound";
 
@@ -358,7 +358,7 @@ TEST(KVCacheCheckpoint, CKP04_DualWriteBothPaths) {
     ofs.close();
 
     // Verify both
-    std::string db_val;
+    std::string db_val = {};
     EXPECT_TRUE(db->Get(rocksdb::ReadOptions(), key, &db_val).ok());
     EXPECT_EQ(db_val, value) << "RocksDB must hold the checkpoint value";
 

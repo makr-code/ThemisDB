@@ -117,14 +117,14 @@ GPUTensorBuffer::~GPUTensorBuffer() {
 // ---------------------------------------------------------------------------
 
 size_t GPUTensorBuffer::totalBytes() const noexcept {
-    return data_.size();
+    return static_cast<int>(data_.size());
 }
 
 // ---------------------------------------------------------------------------
 // fill
 // ---------------------------------------------------------------------------
 
-void GPUTensorBuffer::fill(double value) {
+void GPUTensorBuffer::fill([[maybe_unused]] double value) {
     std::lock_guard<std::mutex> lk(mutex_);
     size_t elem_bytes = Shape::elementBytes(dtype_);
     size_t n          = shape_.numElements();
@@ -140,14 +140,14 @@ void GPUTensorBuffer::fill(double value) {
             case DType::FLOAT16: {
                 // Encode as IEEE 754 half-precision (10-bit mantissa + 5-bit exponent).
                 float f32 = static_cast<float>(value);
-                uint32_t b32;
+                uint32_t b32 = {};
                 std::memcpy(&b32, &f32, 4);
                 const uint32_t sign   = (b32 >> 31) & 0x1u;
                 const int32_t exp32   = static_cast<int32_t>((b32 >> 23) & 0xFFu) - 127;
                 const uint32_t mant32 = b32 & 0x7FFFFFu;
-                uint16_t v;
+                uint16_t v = {};
                 if (exp32 == 128) {
-                    v = static_cast<uint16_t>((sign << 15) | 0x7C00u | (mant32 ? 0x0200u : 0u));
+                    v = static_cast<uint16_t>((sign << 15) | 0x7C00u | (mant32 ? 0x0200u : 0));
                 } else if (exp32 < -24) {
                     v = static_cast<uint16_t>(sign << 15);
                 } else if (exp32 < -14) {
@@ -160,7 +160,7 @@ void GPUTensorBuffer::fill(double value) {
                     uint32_t exp16  = static_cast<uint32_t>(exp32 + 15);
                     uint32_t mant16 = mant32 >> 13;
                     uint32_t round  = mant32 & 0x1FFFu;
-                    if (round > 0x1000u || (round == 0x1000u && (mant16 & 1u))) {
+                    if ((round > 0x1000u || (round == 0x1000u && (mant16 & 1))) {
                         ++mant16;
                     }
                     if (mant16 >= 0x400u) {
@@ -175,10 +175,10 @@ void GPUTensorBuffer::fill(double value) {
             case DType::BFLOAT16: {
                 // BF16 = top 16 bits of the float32 bit pattern (with round-to-nearest).
                 float f = static_cast<float>(value);
-                uint32_t bits;
+                uint32_t bits = {};
                 std::memcpy(&bits, &f, 4);
                 // Round to nearest even by adding 0x7FFF + ((bits >> 16) & 1).
-                bits += 0x7FFFu + ((bits >> 16) & 1u);
+                bits += 0x7FFFu + ((bits >> 16) & 1);
                 uint16_t v = static_cast<uint16_t>(bits >> 16);
                 std::memcpy(dest, &v, 2);
                 break;
@@ -208,7 +208,7 @@ void GPUTensorBuffer::fill(double value) {
 
 void GPUTensorBuffer::copyFromHost(const void *src, size_t bytes) {
     std::lock_guard<std::mutex> lk(mutex_);
-    if (bytes > data_.size()) {
+    if (bytes > static_cast<int>(data_.size())) {
         throw std::out_of_range("GPUTensorBuffer::copyFromHost: bytes > buffer size");
     }
     std::memcpy(data_.data(), src, bytes);
@@ -216,7 +216,7 @@ void GPUTensorBuffer::copyFromHost(const void *src, size_t bytes) {
 
 void GPUTensorBuffer::copyToHost(void *dst, size_t bytes) const {
     std::lock_guard<std::mutex> lk(mutex_);
-    if (bytes > data_.size()) {
+    if (bytes > static_cast<int>(data_.size())) {
         throw std::out_of_range("GPUTensorBuffer::copyToHost: bytes > buffer size");
     }
     std::memcpy(dst, data_.data(), bytes);
@@ -267,8 +267,9 @@ static uint32_t read32(const uint8_t *p) {
 
 std::vector<uint8_t> GPUTensorBuffer::serialize() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<uint8_t> out;
-    out.reserve(16 + 4 * shape_.dims.size() + name_.size() + data_.size());
+    std::vector<uint8_t> out = {};
+
+    out.reserve(16 + 4 * shape_.dims.size() + static_cast<int>(name_.size()) + static_cast<int>(data_.size()) );
 
     write32(out, 0x54454E53u); // magic
     write32(out, static_cast<uint32_t>(dtype_));
@@ -285,9 +286,9 @@ std::vector<uint8_t> GPUTensorBuffer::serialize() const {
 GPUTensorBuffer GPUTensorBuffer::deserialize(const std::vector<uint8_t> &bytes) {
     try {
         const uint8_t *p   = bytes.data();
-        const uint8_t *end = p + bytes.size();
+        const uint8_t *end = p + static_cast<int>(bytes.size()) ;
 
-        auto need = [&](size_t n) {
+        auto need = [&]([[maybe_unused]] size_t n) {
             if (p + n > end) {
                 throw std::runtime_error("GPUTensorBuffer::deserialize: truncated data");
             }

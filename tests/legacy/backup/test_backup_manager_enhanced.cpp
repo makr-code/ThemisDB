@@ -37,7 +37,7 @@ protected:
     }
     
     void cleanupPath(const std::string& p) {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(p, ec);
     }
     
@@ -56,10 +56,14 @@ protected:
             std::string expected_value = "value" + std::to_string(i);
             
             auto val = db_wrapper_->get(key);
-            if (!val.has_value()) return false;
+            if (!val.has_value()) {
+              return false;
+            }
             
             std::string actual_value(val->begin(), val->end());
-            if (actual_value != expected_value) return false;
+            if (actual_value != expected_value) {
+              return false;
+            }
         }
         return true;
     }

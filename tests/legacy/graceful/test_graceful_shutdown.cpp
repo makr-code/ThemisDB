@@ -75,7 +75,9 @@ TEST(ActiveRequestCounter, ConcurrentIncrements) {
             active.fetch_add(1, std::memory_order_acquire);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(active.load(), static_cast<uint64_t>(N));
 }
@@ -93,7 +95,9 @@ TEST(ActiveRequestCounter, ConcurrentIncrementsAndDecrements) {
             active.fetch_sub(1, std::memory_order_release);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(active.load(), 0u);
 }

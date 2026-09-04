@@ -94,7 +94,7 @@ protected:
                 "./data/themis_cdc_fanin_orders",
                 "./data/themis_cdc_fanin_inventory",
                 "./data/themis_cdc_fanin_users"}) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove_all(p, ec);
         }
     }

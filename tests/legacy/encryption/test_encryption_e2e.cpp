@@ -68,7 +68,7 @@ protected:
     }
     
     void cleanupTestDB() {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(test_db_path_, ec);
     }
     
@@ -298,7 +298,9 @@ TEST_F(EncryptionE2ETest, ComplexType_VectorFloat_Embedding) {
     
     // Serialize to JSON
     json j_arr = json::array();
-    for (float val : embedding) j_arr.push_back(val);
+    for (float val : embedding) {
+      j_arr.push_back(val);
+    }
     std::string json_str = j_arr.dump();
     
     // Encrypt

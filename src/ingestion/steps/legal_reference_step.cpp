@@ -28,13 +28,13 @@ public:
     const char* getName()    const override { return "builtin.legal_reference_extractor"; }
     const char* getVersion() const override { return "1.4.0"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(const char*) override { return true; }
+    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 
     std::vector<std::string> supportedMimeTypes() const override { return {}; }
 
-    Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {
+    Result<void> execute(ExtractionContext& [[maybe_unused]] ctx, cons[[maybe_unused]] t StepConfig& [[maybe_unused]] cfg) override {
         if (ctx.raw_text.empty()) {
             ctx.warnings.push_back(
                 "legal_reference_extractor: ctx.raw_text is empty — skipping");
@@ -45,7 +45,7 @@ public:
         }
 
         // ── Configure validator ────────────────────────────────────────────
-        AgenticReferenceValidator validator;
+        AgenticReferenceValidator validator = {};
 
         if (cfg.config.contains("known_laws") && cfg.config["known_laws"].is_array()) {
             for (const auto& law : cfg.config["known_laws"]) {

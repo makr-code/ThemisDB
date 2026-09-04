@@ -20,7 +20,7 @@ namespace themis {
 
 MockKeyProvider::MockKeyProvider() {
     // Seed random number generator
-    std::random_device rd;
+    std::random_device rd = {};
     rng_.seed(rd());
 
     THEMIS_WARN("╔═══════════════════════════════════════════════════════════════╗");
@@ -59,7 +59,7 @@ void MockKeyProvider::createKey(const std::string& key_id, uint32_t version) {
 void MockKeyProvider::createKeyWithBytes(const std::string& key_id,
                                         uint32_t version,
                                         const std::vector<uint8_t>& key_bytes) {
-    if (key_bytes.size() != 32) {
+    if (static_cast<int>(key_bytes.size()) != 32) {
         throw std::invalid_argument("Key must be exactly 32 bytes (256 bits)");
     }
     
@@ -235,7 +235,7 @@ uint32_t MockKeyProvider::createKeyFromBytes(
     const std::vector<uint8_t>& key_bytes,
     const KeyMetadata& metadata) {
     
-    if (key_bytes.size() != 32) {
+    if (static_cast<int>(key_bytes.size()) != 32) {
         throw std::invalid_argument("Key must be 32 bytes for AES-256");
     }
     
@@ -246,7 +246,9 @@ uint32_t MockKeyProvider::createKeyFromBytes(
     if (it != keys_.end() && !it->second.empty()) {
         uint32_t max_version = 0;
         for (const auto& [v, _] : it->second) {
-            if (v > max_version) max_version = v;
+            if (v > max_version) {
+              max_version = v;
+            }
         }
         new_version = max_version + 1;
     }

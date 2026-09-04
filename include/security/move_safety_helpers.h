@@ -189,7 +189,7 @@ struct TransactionHandle {
  * Allows safe queries by coordinator ID after move
  */
 struct CoordinatorStateSnapshot {
-    std::string coordinator_id;
+    std::string coordinator_id = {};
     std::vector<std::string> participants;  // Shard IDs in 2PC
     std::string phase;                      // PREPARE, COMMIT, ABORT
     std::string decision;                   // COMMIT or ABORT
@@ -207,7 +207,7 @@ struct CoordinatorStateSnapshot {
  * Allows safe queries by decision ID after move
  */
 struct PlacementHandle {
-    std::string decision_id;
+    std::string decision_id = {};
     std::vector<std::string> assigned_shards;  // Target shards
     std::map<std::string, double> shard_load;   // Load per shard
     double total_cost = 0.0;
@@ -225,8 +225,8 @@ struct PlacementHandle {
  * Uses shared_ptr for shared ownership across stages
  */
 struct ModelPipelineState {
-    std::string model_id;
-    std::string model_name;
+    std::string model_id = {};
+    std::string model_name = {};
     size_t parameter_count = 0;
     std::string device = "cpu";
     bool is_loaded = false;

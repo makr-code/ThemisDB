@@ -170,7 +170,7 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
             continue; // will retry on next attempt
         }
         redisReply *reply = static_cast<redisReply *>(
-            redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(), payload.size()));
+            redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(),static_cast<int>(payload.size())));
 
         if (reply == nullptr || pub_ctx_->err) {
             THEMIS_WARN("RedisCacheCoordinator::publishEntry: PUBLISH failed: {}",
@@ -260,7 +260,7 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
             continue; // will retry on next attempt
         }
         redisReply *reply = static_cast<redisReply *>(
-            redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(), payload.size()));
+            redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(),static_cast<int>(payload.size())));
 
         if (reply == nullptr || pub_ctx_->err) {
             THEMIS_WARN("RedisCacheCoordinator::publishInvalidation: PUBLISH failed: {}",
@@ -321,14 +321,14 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
 #endif
 }
 
-void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
+void RedisCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
     std::lock_guard<std::mutex> lk(cb_mutex_);
-    entry_cb_ = std::move(callback);
+    entry_cb_ = std::move([[maybe_unused]] callback);
 }
 
-void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
+void RedisCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
     std::lock_guard<std::mutex> lk(cb_mutex_);
-    invalidation_cb_ = std::move(callback);
+    invalidation_cb_ = std::move([[maybe_unused]] callback);
 }
 
 // ============================================================================
@@ -527,7 +527,7 @@ void RedisCacheCoordinator::subscribeLoop() {
 
             if (rc != REDIS_OK) {
                 // EAGAIN / EWOULDBLOCK = read timeout; check running_ and retry
-                if (sub_ctx_ && sub_ctx_->err == REDIS_ERR_IO && (errno == EAGAIN || errno == EWOULDBLOCK)) {
+                if ((sub_ctx_ && sub_ctx_->err == REDIS_ERR_IO && (errno == EAGAIN || errno == EWOULDBLOCK)) {
                     reply = nullptr;
                     continue;
                 }
@@ -636,7 +636,7 @@ void RedisCacheCoordinator::handleMessage(const std::string &payload) {
         }
 
         std::string type_str = j.value("type", "");
-        ReplicationMessage msg;
+        ReplicationMessage msg = {};
         if (type_str == "ENTRY_PUT") {
             msg.type = ReplicationMessage::Type::ENTRY_PUT;
         } else if (type_str == "INVALIDATE") {
@@ -698,7 +698,7 @@ std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const
     }
 
     // Guard against pathological sizes that would truncate in the cast to int.
-    if (config_.hmac_secret.size() > static_cast<size_t>(INT_MAX) || payload.size() > static_cast<size_t>(INT_MAX)) {
+    if (static_cast<int>(config_.hmac_secret.size()) > static_cast<size_t>(INT_MAX) || static_cast<int>(payload.size()) > static_cast<size_t>(INT_MAX)) {
         THEMIS_WARN("RedisCacheCoordinator: HMAC input exceeds INT_MAX – aborting");
         return {};
     }
@@ -712,7 +712,7 @@ std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const
         return {};
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned int i = 0; i < md_len; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(md[i]);
     }
@@ -747,11 +747,11 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {
         }
 
         // Constant-time comparison via CRYPTO_memcmp to prevent timing side-channels.
-        if (received_sig.size() != expected_sig.size()) {
+        if (static_cast<int>(received_sig.size()) != static_cast<int>(expected_sig.size())) {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed (size mismatch)");
             return false;
         }
-        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(), expected_sig.size()) != 0) {
+        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(),static_cast<int>(expected_sig.size())) != 0) {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed");
             return false;
         }
@@ -876,22 +876,26 @@ public:
     bool set(const std::string& key,
              const std::string& value,
              int                ttl_secs = 0) noexcept {
-        if (!ctx_) return false;
-        redisReply* r;
+        if (!ctx_) {
+          return false;
+        }
+        redisReply* r = nullptr;
         if (ttl_secs > 0) {
             r = static_cast<redisReply*>(
                 redisCommand(ctx_, "SET %b %b EX %d",
-                             key.data(),   key.size(),
-                             value.data(), value.size(),
+                             key.data(),static_cast<int>(key.size()),
+                             value.data(),static_cast<int>(value.size()),
                              ttl_secs));
         } else {
             r = static_cast<redisReply*>(
                 redisCommand(ctx_, "SET %b %b",
-                             key.data(),   key.size(),
-                             value.data(), value.size()));
+                             key.data(),static_cast<int>(key.size()),
+                             value.data(),static_cast<int>(value.size())));
         }
         const bool ok = r && r->type != REDIS_REPLY_ERROR;
-        if (r) freeReplyObject(r);
+        if (r) {
+          freeReplyObject(r);
+        }
         return ok;
     }
 
@@ -902,11 +906,16 @@ public:
      * @return Value string, or std::nullopt if key missing or error.
      */
     [[nodiscard]] std::optional<std::string> get(const std::string& key) noexcept {
-        if (!ctx_) return std::nullopt;
+        if (!ctx_) {
+          return std::nullopt;
+        }
         redisReply* r = static_cast<redisReply*>(
-            redisCommand(ctx_, "GET %b", key.data(), key.size()));
-        if (!r) return std::nullopt;
-        std::optional<std::string> result;
+            redisCommand(ctx_, "GET %b", key.data(),static_cast<int>(key.size())));
+        if (!r) {
+          return std::nullopt;
+        }
+        std::optional<std::string> result = {};
+
         if (r->type == REDIS_REPLY_STRING)
             result = std::string(r->str, r->len);
         freeReplyObject(r);
@@ -920,12 +929,16 @@ public:
      * @return Number of keys deleted (1 or 0), or -1 on error.
      */
     int del(const std::string& key) noexcept {
-        if (!ctx_) return -1;
+        if (!ctx_) {
+          return -1;
+        }
         redisReply* r = static_cast<redisReply*>(
-            redisCommand(ctx_, "DEL %b", key.data(), key.size()));
+            redisCommand(ctx_, "DEL %b", key.data(),static_cast<int>(key.size())));
         const int n = (r && r->type == REDIS_REPLY_INTEGER)
                           ? static_cast<int>(r->integer) : -1;
-        if (r) freeReplyObject(r);
+        if (r) {
+          freeReplyObject(r);
+        }
         return n;
     }
 
@@ -937,12 +950,16 @@ public:
      * @return 1 if TTL set, 0 if key does not exist, -1 on error.
      */
     int expire(const std::string& key, int seconds) noexcept {
-        if (!ctx_) return -1;
+        if (!ctx_) {
+          return -1;
+        }
         redisReply* r = static_cast<redisReply*>(
-            redisCommand(ctx_, "EXPIRE %b %d", key.data(), key.size(), seconds));
+            redisCommand(ctx_, "EXPIRE %b %d", key.data(),static_cast<int>(key.size()), seconds));
         const int n = (r && r->type == REDIS_REPLY_INTEGER)
                           ? static_cast<int>(r->integer) : -1;
-        if (r) freeReplyObject(r);
+        if (r) {
+          freeReplyObject(r);
+        }
         return n;
     }
 

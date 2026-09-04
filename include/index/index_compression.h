@@ -195,7 +195,7 @@ public:
 /// Consecutive equal values are stored as (value, count) pairs.
 struct RunLengthBlock {
     struct Run {
-        std::string value;
+        std::string value = {};
         uint32_t    count{1};
     };
     std::vector<Run> runs;

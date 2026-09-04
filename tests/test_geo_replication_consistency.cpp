@@ -326,23 +326,30 @@ TEST(GeoReplicationConsistencyTest, ConcurrentWritesDoNotRace) {
     std::atomic<int> successes{0};
     for (int i = 0; i < N; ++i) {
         threads.emplace_back([&mgr, &successes] {
-            if (mgr.write("k", "v", ConsistencyLevel::EVENTUAL)) ++successes;
+            if (mgr.write("k", "v", ConsistencyLevel::EVENTUAL)) {
+              ++successes;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(successes.load(), N);
 }
 
 TEST(GeoReplicationConsistencyTest, ConcurrentReadsDoNotRace) {
     GeoReplicationManager mgr(makeGeoConfig());
     const int N = 100;
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < N; ++i) {
         threads.emplace_back([&mgr] {
             mgr.read("k", ConsistencyLevel::EVENTUAL);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     // Must not crash
 }
 

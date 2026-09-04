@@ -107,8 +107,8 @@ QualityCheckResult QualityControlPipeline::runQualityControl(
             result.failure_reasons.emplace_back("Failed fast screening stage");
             impl_->stats.failed++;
             
-            if (impl_->failure_callback) {
-                impl_->failure_callback(result);
+            if ([[maybe_unused]] impl_->failure_callback) {
+                impl_->failure_callback([[maybe_unused]] result);
             }
             
             return result;
@@ -396,7 +396,8 @@ QualityCheckResult QualityControlPipeline::runThoroughStage(
     
     // Citation coverage check (map answer sentences to source chunks)
     if (impl_->config.enable_citation_check && !documents.empty()) {
-        std::vector<SourceChunk> source_chunks;
+        std::vector<SourceChunk> source_chunks = {};
+
         source_chunks.reserve(documents.size());
         size_t chunk_idx = 0;
         for (const auto& doc : documents) {
@@ -440,7 +441,7 @@ void QualityControlPipeline::sendLearningFeedback(
     
     THEMIS_DEBUG("Sending feedback to learning system");
     
-    if (impl_->learning_callback) {
+    if ([[maybe_unused]] impl_->learning_callback) {
         impl_->learning_callback(query, result);
     }
     

@@ -64,7 +64,7 @@ void PerQueryCostModel::pushRecord(QueryCostRecord record) noexcept {
     
     std::lock_guard<std::mutex> lock(mutex_);
 
-    if (records_.size() < MAX_RECORDS) {
+    if (static_cast<int>(records_.size()) < MAX_RECORDS) {
         records_.push_back(std::move(record));
     } else {
         // Rolling overwrite: wrap-around ring
@@ -87,21 +87,21 @@ void PerQueryCostModel::reset() noexcept {
 // -----------------------------------------------------------------
 
 std::vector<QueryCostRecord>
-PerQueryCostModel::getRecentRecords(size_t limit) const {
+PerQueryCostModel::getRecentRecords([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (records_.empty()) {
         return {};
     }
 
-    size_t count = std::min(limit, records_.size());
+    size_t count = std::min(limit,static_cast<int>(records_.size()));
 
     // Has the ring buffer rolled over?
     bool has_rolled = total_queries_.load(std::memory_order_relaxed) > MAX_RECORDS;
 
     if (!has_rolled) {
         // Not yet wrapped: vector is in insertion order; return the tail.
-        size_t start = records_.size() > count ? records_.size() - count : 0;
+        size_t start = static_cast<int>(records_.size()) > count ? static_cast<int>(records_.size()) - count : 0;
         return std::vector<QueryCostRecord>(
             records_.begin() + static_cast<std::ptrdiff_t>(start),
             records_.end());
@@ -159,7 +159,9 @@ PerQueryCostModel::getCalibrationFactors(
 
     for (const auto& r : records_) {
         // Validate record: execution_time_ms must be positive
-        if (r.execution_time_ms <= 0.0) continue;
+        if (r.execution_time_ms <= 0.0) {
+          continue;
+        }
         
         if (r.rows_processed > 0) {
             double time_ms = ms_per_cycle > 0.0
@@ -283,7 +285,8 @@ PerQueryCostModel::Stats PerQueryCostModel::getStats() const {
         return s;
     }
 
-    std::vector<double> times_ms;
+    std::vector<double> times_ms = {};
+
     times_ms.reserve(records_.size());
 
     std::unordered_map<std::string, double> type_time_sum;
@@ -294,7 +297,9 @@ PerQueryCostModel::Stats PerQueryCostModel::getStats() const {
 
     for (const auto& r : records_) {
         // Validate execution time
-        if (r.execution_time_ms < 0.0) continue;
+        if (r.execution_time_ms < 0.0) {
+          continue;
+        }
         
         times_ms.push_back(r.execution_time_ms);
         type_time_sum[r.query_type] += r.execution_time_ms;
@@ -320,9 +325,11 @@ PerQueryCostModel::Stats PerQueryCostModel::getStats() const {
 
     // Percentiles
     std::sort(times_ms.begin(), times_ms.end());
-    auto percentile = [&](double pct) -> double {
-        if (times_ms.empty()) return 0.0;
-        size_t idx = static_cast<size_t>(pct * static_cast<double>(times_ms.size() - 1));
+    auto percentile = [&]([[maybe_unused]] double pct) -> double {
+        if (times_ms.empty()) {
+          return 0.0;
+        }
+        size_t idx = static_cast<size_t>(pct * static_cast<double>(static_cast<int>(times_ms.size()) - 1));
         return times_ms[idx];
     };
     s.p50_execution_time_ms = percentile(0.50);

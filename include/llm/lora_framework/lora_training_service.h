@@ -53,10 +53,16 @@ struct TrainingDataSample {
     }
     
     static TrainingDataSample fromJSON(const json& j) {
-        TrainingDataSample sample;
-        if (j.contains("input")) sample.input = j["input"];
-        if (j.contains("output")) sample.output = j["output"];
-        if (j.contains("metadata")) sample.metadata = j["metadata"];
+        TrainingDataSample sample = {};
+        if (j.contains("input")) {
+          sample.input = j["input"];
+        }
+        if (j.contains("output")) {
+          sample.output = j["output"];
+        }
+        if (j.contains("metadata")) {
+          sample.metadata = j["metadata"];
+        }
         return sample;
     }
 };
@@ -66,7 +72,7 @@ struct TrainingDataSample {
  */
 struct TrainingData {
     std::vector<TrainingDataSample> samples;
-    std::string dataset_name;
+    std::string dataset_name = {};
     json metadata;
     
     size_t size() const { return samples.size(); }
@@ -83,9 +89,13 @@ struct TrainingData {
     }
     
     static TrainingData fromJSON(const json& j) {
-        TrainingData data;
-        if (j.contains("dataset_name")) data.dataset_name = j["dataset_name"];
-        if (j.contains("metadata")) data.metadata = j["metadata"];
+        TrainingData data = {};
+        if (j.contains("dataset_name")) {
+          data.dataset_name = j["dataset_name"];
+        }
+        if (j.contains("metadata")) {
+          data.metadata = j["metadata"];
+        }
         if (j.contains("samples")) {
             for (const auto& sample_json : j["samples"]) {
                 data.samples.push_back(TrainingDataSample::fromJSON(sample_json));

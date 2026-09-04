@@ -294,7 +294,7 @@ private:
 // ---------------------------------------------------------------------------
 
 inline std::string LLMGenerateOperator::toExplainString() const {
-    std::string fb;
+    std::string fb = {};
     switch (fallback_policy_) {
         case LLMFallbackPolicy::ReturnEmpty:          fb = "ReturnEmpty";          break;
         case LLMFallbackPolicy::ReturnRetrievalOnly:  fb = "ReturnRetrievalOnly";  break;

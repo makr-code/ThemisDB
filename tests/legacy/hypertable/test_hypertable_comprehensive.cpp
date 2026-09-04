@@ -17,7 +17,7 @@ static std::string makeHyperTempPath(const std::string& tag) {
 }
 
 struct HypertableFixture : ::testing::Test {
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<RocksDBWrapper> db;
 
     void SetUp() override {

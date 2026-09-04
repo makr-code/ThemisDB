@@ -158,7 +158,8 @@ TEST_F(ConfigMigrationScannerTest, ScanFileMultipleLegacyPathsInOneFile) {
 
     auto matches = cms::scanFile(f);
 
-    std::set<std::string> found_paths;
+    std::set<std::string> found_paths = {};
+
     for (const auto& m : matches) {
         found_paths.insert(m.legacy_path);
     }
@@ -228,7 +229,7 @@ TEST_F(ConfigMigrationScannerTest, FixFileDryRunPrintsWouldUpdateMessage) {
     ASSERT_FALSE(matches.empty());
 
     // Capture stdout to verify the [dry-run] message is printed
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     std::streambuf* old = std::cout.rdbuf(oss.rdbuf());
     bool ok = cms::fixFile(f, matches, /*dry_run=*/true);
     std::cout.rdbuf(old);
@@ -383,11 +384,16 @@ TEST_F(ConfigMigrationScannerTest, RecursiveScanFindsMatchesInSubdirectories) {
     writeFile(sub / "clean.yaml", "key: value\n");
 
     // Collect matches from all yaml files in test_dir_
-    std::vector<cms::ScanMatch> all_matches;
+    std::vector<cms::ScanMatch> all_matches = {};
+
     for (const auto& entry : fs::recursive_directory_iterator(test_dir_,
             fs::directory_options::skip_permission_denied)) {
-        if (!entry.is_regular_file()) continue;
-        if (!cms::shouldScanFile(entry.path())) continue;
+        if (!entry.is_regular_file()) {
+          continue;
+        }
+        if (!cms::shouldScanFile(entry.path())) {
+          continue;
+        }
         auto file_matches = cms::scanFile(entry.path());
         all_matches.insert(all_matches.end(),
                            std::make_move_iterator(file_matches.begin()),
@@ -407,11 +413,16 @@ TEST_F(ConfigMigrationScannerTest, NonScanableFilesAreSkipped) {
     writeFile(test_dir_ / "source.cpp", "// config/lora_training_config.yaml\n");
     writeFile(test_dir_ / "readme.md", "config/lora_training_config.yaml\n");
 
-    std::vector<cms::ScanMatch> all_matches;
+    std::vector<cms::ScanMatch> all_matches = {};
+
     for (const auto& entry : fs::recursive_directory_iterator(test_dir_,
             fs::directory_options::skip_permission_denied)) {
-        if (!entry.is_regular_file()) continue;
-        if (!cms::shouldScanFile(entry.path())) continue;
+        if (!entry.is_regular_file()) {
+          continue;
+        }
+        if (!cms::shouldScanFile(entry.path())) {
+          continue;
+        }
         auto file_matches = cms::scanFile(entry.path());
         all_matches.insert(all_matches.end(),
                            std::make_move_iterator(file_matches.begin()),
@@ -462,7 +473,7 @@ TEST(FormatTimePointTest, SingleDigitMonthAndDayArePadded) {
 // Helper: captures std::cout output for a callable.
 template <typename Fn>
 static std::string captureStdout(Fn fn) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     std::streambuf* old = std::cout.rdbuf(oss.rdbuf());
     fn();
     std::cout.rdbuf(old);

@@ -72,7 +72,7 @@ using json = nlohmann::json;
 namespace {
 
 struct RevocationCacheEntry {
-    bool is_revoked;
+    bool is_revoked = 0;
     std::chrono::system_clock::time_point expires_at;
 };
 
@@ -191,7 +191,7 @@ static bool decodeHexString(const std::string &hexStr, std::vector<uint8_t> &out
     outBytes.reserve(hexStr.size() / 2);
 
     try {
-        for (size_t i = 0; i < hexStr.size(); i += 2) {
+        for (size_t i = 0; i <static_cast<int>(hexStr.size()); i += 2) {
             std::string byteStr = hexStr.substr(i, 2);
             uint8_t byte        = static_cast<uint8_t>(std::stoi(byteStr, nullptr, 16));
             outBytes.push_back(byte);
@@ -234,7 +234,7 @@ bool PluginSecurityVerifier::validatePluginPath(const std::string &path, std::st
     }
 
     // Reject paths with null bytes (check using size vs c_str length)
-    if (path.size() != std::strlen(path.c_str())) {
+    if (static_cast<int>(path.size()) != std::strlen(path.c_str())) {
         errorMessage = "Plugin path contains null byte";
         return false;
     }
@@ -250,7 +250,7 @@ bool PluginSecurityVerifier::validatePluginPath(const std::string &path, std::st
 
     // Resolve to canonical form and verify the resolved path matches the
     // canonical path (catches symlinks that escape the intended directory).
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::path canonical = std::filesystem::weakly_canonical(path, ec);
     if (ec) {
         errorMessage = "Failed to resolve plugin path: " + ec.message();
@@ -300,7 +300,7 @@ std::string PluginSecurityVerifier::calculateFileHash(const std::string &filePat
     }
     EVP_MD_CTX_free(mdctx);
 
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (unsigned int i = 0; i < hashLen; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }
@@ -327,7 +327,7 @@ std::optional<PluginMetadata> PluginSecurityVerifier::loadMetadata(const std::st
         json j;
         file >> j;
 
-        PluginMetadata metadata;
+        PluginMetadata metadata = {};
 
         if (j.contains("plugin")) {
             auto &plugin         = j["plugin"];
@@ -344,7 +344,7 @@ std::optional<PluginMetadata> PluginSecurityVerifier::loadMetadata(const std::st
                 metadata.signature.signingCertificate = sig.value("certificate", "");
                 metadata.signature.issuer             = sig.value("issuer", "");
                 metadata.signature.subject            = sig.value("subject", "");
-                metadata.signature.timestamp          = sig.value("timestamp", 0ULL);
+                metadata.signature.timestamp          = sig.value("timestamp", 0);
             }
 
             if (plugin.contains("permissions")) {
@@ -415,7 +415,7 @@ bool PluginSecurityVerifier::verifyPlugin(const std::string &pluginPath, std::st
     }
 
     // Step 2: Calculate file hash
-    std::string fileHash;
+    std::string fileHash = {};
     if (policy_.verifyFileHash) {
         fileHash = calculateFileHash(pluginPath);
         if (fileHash.empty()) {
@@ -549,7 +549,8 @@ bool PluginSecurityVerifier::verifySignature(const std::string &filePath, const 
     }
 
     // Step 5: Decode signature from hex
-    std::vector<uint8_t> sigBytes;
+    std::vector<uint8_t> sigBytes = {};
+
     if (!decodeHexString(signature.signature, sigBytes)) {
         EVP_PKEY_free(pubKey);
         X509_free(cert);
@@ -569,10 +570,11 @@ bool PluginSecurityVerifier::verifySignature(const std::string &filePath, const 
     // Initialize verification context
     if (EVP_DigestVerifyInit(mdctx, nullptr, EVP_sha256(), nullptr, pubKey) == 1) {
         // Convert file hash from hex string to bytes
-        std::vector<uint8_t> hashBytes;
+        std::vector<uint8_t> hashBytes = {};
+
         if (decodeHexString(fileHash, hashBytes)) {
             // Verify signature
-            int result = EVP_DigestVerify(mdctx, sigBytes.data(), sigBytes.size(), hashBytes.data(), hashBytes.size());
+            int result = EVP_DigestVerify(mdctx, sigBytes.data(),static_cast<int>(sigBytes.size()), hashBytes.data(),static_cast<int>(hashBytes.size()));
             verified   = (result == 1);
         }
     }
@@ -1068,32 +1070,33 @@ PluginSecurityAuditor &PluginSecurityAuditor::instance() {
     return instance;
 }
 
-void PluginSecurityAuditor::logEvent(const PluginSecurityEvent &event) {
+void PluginSecurityAuditor::logEvent([[maybe_unused]] const PluginSecurityEvent &event) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        events_.push_back(event);
+        events_.push_back([[maybe_unused]] event);
     }
 
     // Forward to the ThemisDB system logger
     const std::string msg
         = "[PluginSecurity] " + event.message + " | plugin=" + event.pluginPath + " | hash=" + event.pluginHash;
-    if (event.severity == "CRITICAL") {
+    if ([[maybe_unused]] event.severity == "CRITICAL") {
         THEMIS_CRITICAL("{}", msg);
-    } else if (event.severity == "ERROR") {
+    } else if ([[maybe_unused]] event.severity == "ERROR") {
         THEMIS_ERROR("{}", msg);
-    } else if (event.severity == "WARNING") {
+    } else if ([[maybe_unused]] event.severity == "WARNING") {
         THEMIS_WARN("{}", msg);
     } else {
         THEMIS_INFO("{}", msg);
     }
 }
 
-std::vector<PluginSecurityEvent> PluginSecurityAuditor::getEventsForPlugin(const std::string &pluginPath) const {
+std::vector<PluginSecurityEvent> PluginSecurityAuditor::getEventsForPlugin([[maybe_unused]] const std::string &pluginPath) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<PluginSecurityEvent> result;
-    for (const auto &event : events_) {
-        if (event.pluginPath == pluginPath) {
-            result.push_back(event);
+    std::vector<PluginSecurityEvent> result = {};
+
+    for ([[maybe_unused]] const auto &event : events_) {
+        if ([[maybe_unused]] event.pluginPath == pluginPath) {
+            result.push_back([[maybe_unused]] event);
         }
     }
     return result;
@@ -1109,7 +1112,7 @@ void PluginSecurityAuditor::clearEvents() {
     events_.clear();
 }
 
-bool PluginSecurityAuditor::exportEvents(const std::string &outputPath) const {
+bool PluginSecurityAuditor::exportEvents([[maybe_unused]] const std::string &outputPath) const {
     // Validate output path against traversal and injection (CWE-22/23/24).
     if (outputPath.empty()) {
         return false;
@@ -1117,11 +1120,11 @@ bool PluginSecurityAuditor::exportEvents(const std::string &outputPath) const {
     if (outputPath.find("..") != std::string::npos) {
         return false;
     }
-    if (outputPath.size() != std::strlen(outputPath.c_str())) {
+    if (static_cast<int>(outputPath.size()) != std::strlen(outputPath.c_str())) {
         return false;
     }
     {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::path canonical = std::filesystem::weakly_canonical(outputPath, ec);
         if (ec || !canonical.is_absolute()) {
             return false;
@@ -1167,16 +1170,16 @@ bool PluginSecurityAuditor::exportEvents(const std::string &outputPath) const {
         json j;
         j["events"] = json::array();
 
-        for (const auto &event : snapshot) {
+        for ([[maybe_unused]] const auto &event : snapshot) {
             json eventJson;
-            eventJson["type"]       = typeToString(event.type);
+            eventJson["type"]       = typeToString([[maybe_unused]] event.type);
             eventJson["pluginPath"] = event.pluginPath;
             eventJson["pluginHash"] = event.pluginHash;
             eventJson["message"]    = event.message;
             eventJson["timestamp"]  = event.timestamp;
             eventJson["severity"]   = event.severity;
 
-            j["events"].push_back(eventJson);
+            j["events"].push_back([[maybe_unused]] eventJson);
         }
 
         std::ofstream file(outputPath);
@@ -1484,7 +1487,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
         // 4 bytes NumberOfSymbols, 2 bytes SizeOfOptionalHeader,
         // 2 bytes Characteristics  → total 20 bytes after pe_sig.
         // Optional header starts at pe_offset + 4 (sig) + 20 (file hdr) = +24.
-        uint64_t opt_hdr_offset = static_cast<uint64_t>(pe_offset) + 24u;
+        uint64_t opt_hdr_offset = static_cast<uint64_t>(pe_offset) + 24;
 
         // Optional header magic: 0x10B = PE32, 0x20B = PE32+
         file.seekg(static_cast<std::streamoff>(opt_hdr_offset));
@@ -1497,18 +1500,18 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
         // Data directories start offset within the optional header:
         //   PE32  (0x10B): +96 from start of optional header
         //   PE32+ (0x20B): +112 from start of optional header
-        uint64_t data_dir_start;
+        uint64_t data_dir_start = 0;
         if (opt_magic == 0x010Bu) {
-            data_dir_start = opt_hdr_offset + 96u;
+            data_dir_start = opt_hdr_offset + 96;
         } else if (opt_magic == 0x020Bu) {
-            data_dir_start = opt_hdr_offset + 112u;
+            data_dir_start = opt_hdr_offset + 112;
         } else {
             return std::nullopt;
         }
 
         // IMAGE_DIRECTORY_ENTRY_SECURITY = index 4; each entry is 8 bytes
         // (4-byte VirtualAddress + 4-byte Size).
-        uint64_t security_dir_offset = data_dir_start + 4u * 8u;
+        uint64_t security_dir_offset = data_dir_start + 4 * 8;
         file.seekg(static_cast<std::streamoff>(security_dir_offset));
         uint32_t sec_rva = 0, sec_size = 0;
         file.read(reinterpret_cast<char *>(&sec_rva), sizeof(sec_rva));
@@ -1532,7 +1535,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
         uint32_t tbl_pos       = sec_rva;
         const uint32_t tbl_end = sec_rva + sec_size;
 
-        while (tbl_pos + 8u <= tbl_end) {
+        while (tbl_pos + 8 <= tbl_end) {
             file.seekg(static_cast<std::streamoff>(tbl_pos));
             uint32_t win_cert_len  = 0;
             uint16_t win_cert_rev  = 0;
@@ -1541,12 +1544,12 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             file.read(reinterpret_cast<char *>(&win_cert_rev), sizeof(win_cert_rev));
             file.read(reinterpret_cast<char *>(&win_cert_type), sizeof(win_cert_type));
 
-            if (!file.good() || win_cert_len < 8u || win_cert_len > (tbl_end - tbl_pos)) {
+            if (!file.good() || win_cert_len < 8 || win_cert_len > (tbl_end - tbl_pos)) {
                 break;
             }
 
             if (win_cert_type == 0x0002u) {
-                uint32_t data_len = win_cert_len - 8u;
+                uint32_t data_len = win_cert_len - 8;
                 std::vector<uint8_t> blob(data_len);
                 file.read(reinterpret_cast<char *>(blob.data()), static_cast<std::streamsize>(data_len));
                 if (static_cast<uint32_t>(file.gcount()) == data_len) {
@@ -1559,7 +1562,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             if (win_cert_len > 0xFFFFFFF8u) {
                 break;
             }
-            const uint32_t padded = (win_cert_len + 7u) & ~7u;
+            const uint32_t padded = (win_cert_len + 7) & ~7;
             tbl_pos += padded;
         }
 
@@ -1567,7 +1570,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             return std::nullopt;
         }
 
-        if (pkcs7_blobs.size() > 1u) {
+        if (static_cast<int>(pkcs7_blobs.size()) > 1) {
             THEMIS_WARN("extractEmbeddedCertificate: {} PKCS#7 certificates found "
                         "in PE certificate table; using the first one.",
                         pkcs7_blobs.size());
@@ -1582,8 +1585,8 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
     else if (header[0] == 0x7F && header[1] == 'E' && header[2] == 'L' && header[3] == 'F') {
         // ELF class (e_ident[4]): 1 = 32-bit, 2 = 64-bit
         // ELF data encoding (e_ident[5]): 1 = LE, 2 = BE
-        const bool elf64 = (header[4] == 2u);
-        const bool le    = (header[5] == 1u);
+        const bool elf64 = (header[4] == 2);
+        const bool le    = (header[5] == 1);
 
         if (le && header_bytes >= static_cast<std::streamsize>(elf64 ? 64 : 52)) {
             // Helper lambdas: read little-endian integers from a byte buffer.
@@ -1622,8 +1625,8 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
                 shstrndx  = readLE16(header.data() + 50);
             }
 
-            constexpr uint32_t kMaxSections = 4096u;
-            constexpr uint64_t kMaxSigSize  = 64u * 1024u;
+            constexpr uint32_t kMaxSections = 4096;
+            constexpr uint64_t kMaxSigSize  = 64 * 1024;
 
             if (shoff > 0 && shentsize > 0 && shnum > 0 && shnum <= kMaxSections && shstrndx < shnum) {
                 // Locate the section-name string table (shstrndx).
@@ -1652,9 +1655,9 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
                     }
                 }
 
-                if (strtab_off > 0 && strtab_size > 0 && strtab_size <= 65536u) {
+                if (strtab_off > 0 && strtab_size > 0 && strtab_size <= 65536) {
                     // Load the section-name string table.
-                    std::vector<char> strtab(strtab_size + 1u, '\0');
+                    std::vector<char> strtab(strtab_size + 1, '\0');
                     file.seekg(static_cast<std::streamoff>(strtab_off));
                     file.read(strtab.data(), static_cast<std::streamsize>(strtab_size));
                     if (file.gcount() == static_cast<std::streamsize>(strtab_size)) {
@@ -1740,7 +1743,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
     //   uint32_t dataoff;   // file offset of signature blob
     //   uint32_t datasize;  // byte size of signature blob
     // -----------------------------------------------------------------------
-    else if ((header[0] == 0xFE && header[1] == 0xED && header[2] == 0xFA && (header[3] == 0xCE || header[3] == 0xCF))
+    else if (((header[0] == 0xFE && header[1] == 0xED && header[2] == 0xFA && (header[3] == 0xCE || header[3] == 0xCF)))
              || (header[0] == 0xCF && header[1] == 0xFA && header[2] == 0xED && header[3] == 0xFE)
              || (header[0] == 0xCE && header[1] == 0xFA && header[2] == 0xED && header[3] == 0xFE)) {
         // Determine byte order and bitness from magic bytes.
@@ -1756,16 +1759,16 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             return static_cast<uint32_t>(p[0]) | (static_cast<uint32_t>(p[1]) << 8)
                    | (static_cast<uint32_t>(p[2]) << 16) | (static_cast<uint32_t>(p[3]) << 24);
         };
-        auto readU32 = [&](const uint8_t *p) -> uint32_t { return macho_be ? readU32be(p) : readU32le(p); };
+        auto readU32 = [&]([[maybe_unused]] const uint8_t *p) -> uint32_t { return macho_be ? readU32be(p) : readU32le(p); };
 
         // mach_header layout (32-bit): magic(4)+cputype(4)+cpusubtype(4)+
         //   filetype(4)+ncmds(4)+sizeofcmds(4)+flags(4) = 28 bytes.
         // mach_header_64 adds reserved(4) = 32 bytes total.
-        constexpr uint32_t kMachHeader32Size = 28u;
-        constexpr uint32_t kMachHeader64Size = 32u;
+        constexpr uint32_t kMachHeader32Size = 28;
+        constexpr uint32_t kMachHeader64Size = 32;
         constexpr uint32_t kLcCodeSignature  = 0x0000001Du;
-        constexpr uint32_t kMaxSigSizeMacho  = 64u * 1024u * 1024u; // 64 MiB
-        constexpr uint32_t kMinLoadCmdSize   = 8u;
+        constexpr uint32_t kMaxSigSizeMacho  = 64 * 1024 * 1024; // 64 MiB
+        constexpr uint32_t kMinLoadCmdSize   = 8;
 
         const uint32_t hdr_size = macho_64 ? kMachHeader64Size : kMachHeader32Size;
 
@@ -1781,7 +1784,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             const uint32_t sizeofcmds = readU32(hdr_buf.data() + 20);
 
             // Sanity-cap: refuse unreasonably large load-command regions.
-            constexpr uint32_t kMaxLoadCmdsSize = 16u * 1024u * 1024u;
+            constexpr uint32_t kMaxLoadCmdsSize = 16 * 1024 * 1024;
             if (ncmds > 0 && sizeofcmds >= kMinLoadCmdSize && sizeofcmds <= kMaxLoadCmdsSize) {
                 // Load all load commands into memory.
                 std::vector<uint8_t> lc_buf(sizeofcmds);
@@ -1799,7 +1802,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
                             break;
                         }
 
-                        if (cmd == kLcCodeSignature && cmdsize >= 16u) {
+                        if (cmd == kLcCodeSignature && cmdsize >= 16) {
                             // linkedit_data_command:
                             //   cmd(4) + cmdsize(4) + dataoff(4) + datasize(4)
                             const uint32_t dataoff  = readU32(lc + 8);
@@ -1837,7 +1840,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedSignature(const std::string &plug
 
     // Read file header to determine format
     std::vector<uint8_t> header(64);
-    file.read(reinterpret_cast<char *>(header.data()), header.size());
+    file.read(reinterpret_cast<char *>(header.data()),static_cast<int>(header.size()));
 
     if (file.gcount() < 4) {
         return std::nullopt;
@@ -1885,7 +1888,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedSignature(const std::string &plug
         }
     }
     // Check for Mach-O format (macOS dylib)
-    else if ((header[0] == 0xFE && header[1] == 0xED && header[2] == 0xFA && (header[3] == 0xCE || header[3] == 0xCF))
+    else if (((header[0] == 0xFE && header[1] == 0xED && header[2] == 0xFA && (header[3] == 0xCE || header[3] == 0xCF)))
              || (header[0] == 0xCF && header[1] == 0xFA && header[2] == 0xED && header[3] == 0xFE)
              || (header[0] == 0xCE && header[1] == 0xFA && header[2] == 0xED && header[3] == 0xFE)) {
         // Mach-O format (macOS): LC_CODE_SIGNATURE parsing not supported on this platform.
@@ -2016,7 +2019,7 @@ bool EnhancedPluginSecurityVerifier::verifyMacOSCodeSignature(const std::string 
 bool EnhancedPluginSecurityVerifier::verifyGPGSignature(const std::string &plugin_path, VerificationResult &result) {
     // Check for GPG signature file (.sig, .asc, or .gpg)
     std::vector<std::string> sig_extensions = {".sig", ".asc", ".gpg"};
-    std::string sig_file;
+    std::string sig_file = {};
 
     for (const auto &ext : sig_extensions) {
         std::string candidate = plugin_path + ext;
@@ -2061,7 +2064,7 @@ bool EnhancedPluginSecurityVerifier::verifyGPGSignature(const std::string &plugi
 
     // Read combined stdout/stderr from the pipe
     char buf[256];
-    std::string output;
+    std::string output = {};
     ssize_t n;
     while ((n = read(pipefd[0], buf, sizeof(buf) - 1)) > 0) {
         buf[n] = '\0';
@@ -2101,7 +2104,7 @@ std::vector<uint8_t> EnhancedPluginSecurityVerifier::calculateHashExcludingSigna
 
     // Read file header to determine format
     std::vector<uint8_t> header(64);
-    file.read(reinterpret_cast<char *>(header.data()), header.size());
+    file.read(reinterpret_cast<char *>(header.data()),static_cast<int>(header.size()));
 
     if (file.gcount() < 4) {
         return {};
@@ -2163,7 +2166,7 @@ bool EnhancedPluginSecurityVerifier::verifyRSASignature(const std::vector<uint8_
     // Initialize verification context
     if (EVP_DigestVerifyInit(mdctx, nullptr, EVP_sha256(), nullptr, pubkey) == 1) {
         // Verify signature
-        int result = EVP_DigestVerify(mdctx, signature.data(), signature.size(), data.data(), data.size());
+        int result = EVP_DigestVerify(mdctx, signature.data(),static_cast<int>(signature.size()), data.data(),static_cast<int>(data.size()));
         verified   = (result == 1);
     }
 

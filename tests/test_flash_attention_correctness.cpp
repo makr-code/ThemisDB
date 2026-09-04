@@ -332,7 +332,9 @@ std::vector<float> referenceAttention(
                 dot += Q[i * head_dim + d] * K[j * head_dim + d];
             }
             scores[j] = scale * dot;
-            if (scores[j] > max_s) max_s = scores[j];
+            if (scores[j] > max_s) {
+              max_s = scores[j];
+            }
         }
         // Softmax
         float sum = 0.0f;
@@ -341,7 +343,9 @@ std::vector<float> referenceAttention(
             sum += scores[j];
         }
         if (sum > 0.0f) {
-            for (int j = 0; j < seq_len; ++j) scores[j] /= sum;
+            for (int j = 0; j < seq_len; ++j) {
+              scores[j] /= sum;
+            }
         }
         // Weighted sum of V
         for (int d = 0; d < head_dim; ++d) {
@@ -524,9 +528,15 @@ TEST(FlashAttentionCPU, BackwardReturnsSuccessAndWritesGradients) {
     // All gradient tensors must have received non-zero updates.
     bool dq_nonzero = false, dk_nonzero = false, dv_nonzero = false;
     for (size_t i = 0; i < total; ++i) {
-        if (std::abs(dQ.data[i]) > 1e-7f) dq_nonzero = true;
-        if (std::abs(dK.data[i]) > 1e-7f) dk_nonzero = true;
-        if (std::abs(dV.data[i]) > 1e-7f) dv_nonzero = true;
+        if (std::abs(dQ.data[i]) > 1e-7f) {
+          dq_nonzero = true;
+        }
+        if (std::abs(dK.data[i]) > 1e-7f) {
+          dk_nonzero = true;
+        }
+        if (std::abs(dV.data[i]) > 1e-7f) {
+          dv_nonzero = true;
+        }
     }
     EXPECT_TRUE(dq_nonzero) << "dQ should have non-zero gradients";
     EXPECT_TRUE(dk_nonzero) << "dK should have non-zero gradients";

@@ -160,7 +160,7 @@ void validateTokenArray(const std::vector<llama_token>& tokens, size_t min_size,
         throw std::invalid_argument(error_msg);
     }
     
-    if (tokens.size() < min_size) {
+    if (static_cast<int>(tokens.size()) < min_size) {
         const std::string error_msg = "LlamaWrapper: Token array size (" + std::to_string(tokens.size()) + 
                                       ") is below minimum (" + std::to_string(min_size) + ") in " + context_name;
         spdlog::error("{}", error_msg);
@@ -377,7 +377,7 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     //
     // A mismatch means the linked library was built from a different commit than
     // the one this code was compiled against.  This can happen when:
-    //  - A system-level llama.cpp package (e.g. from a distro or conda) overrides
+    //  - A system-level llama.cpp package (e.g. fro[[maybe_unused]] m a distr[[maybe_unused]] o o[[maybe_unused]] r cond[[maybe_unused]] a) overrides
     //    the FetchContent build.
     //  - A developer manually replaces the library file without rebuilding.
     //
@@ -448,7 +448,7 @@ bool LlamaWrapper::verifyModelIntegrity(
         return true;
     }
     
-    std::string calculated_checksum;
+    std::string calculated_checksum = {};
     
     if (checksum_type == "sha256") {
         calculated_checksum = ::themis::utils::calculateSHA256(file_path);
@@ -581,6 +581,9 @@ bool LlamaWrapper::loadModel(
             case RopeScalingMethod::DYNAMIC:
                 load_config["rope_scaling_method"] = "dynamic";
                 break;
+            default:
+                load_config["rope_scaling_method"] = "linear";  // Default to LINEAR
+                break;
         }
         
         // Pass scaling parameters
@@ -707,7 +710,7 @@ bool LlamaWrapper::loadModelFromThemisDB(
         }
         
         model_data = *blob_data_opt;
-        spdlog::info("✓ Model blob retrieved: {} bytes", model_data.size());
+        spdlog::info("✓ Model blob retrieved: {} bytes",static_cast<int>(model_data.size()));
         
         // Step 3: Decryption is already handled by loadModelBlob()
         // The data returned from loadModelBlob() is already decrypted if encryption was enabled
@@ -828,7 +831,7 @@ bool LlamaWrapper::loadModelFromThemisDB(
         
         // Verify file size
         auto file_size = std::filesystem::file_size(temp_model_path);
-        if (file_size != model_data.size()) {
+        if (file_size != static_cast<int>(model_data.size())) {
             spdlog::error("File size mismatch: expected {}, got {}", 
                          model_data.size(), file_size);
             std::filesystem::remove(temp_model_path);
@@ -932,7 +935,7 @@ void LlamaWrapper::unloadModel() {
     spdlog::info("Model unloaded");
 }
 
-size_t LlamaWrapper::cleanupTempModels(int days_old) {
+size_t LlamaWrapper::cleanupTempModels([[maybe_unused]] int days_old) {
     std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "themisdb_models";
     
     if (!std::filesystem::exists(temp_dir)) {
@@ -1037,7 +1040,7 @@ std::vector<LoRAInfo> LlamaWrapper::listLoRAs() const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto* lora_manager = lora_manager_.get();
     if (!lora_manager) {
-        return {};
+        return std::vector<LoRAInfo>();
     }
     return lora_manager->listLoRAs();
 }
@@ -1051,8 +1054,8 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
 
     InferenceRequest effective_request = request;
     {
-        std::string blocked_rule;
-        std::string blocked_reason;
+        std::string blocked_rule = {};
+        std::string blocked_reason = {};
         if (!sanitizePromptText(request.prompt,
                                 effective_request.prompt,
                                 &blocked_rule,
@@ -1066,7 +1069,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                 "Inference prompt blocked by policy rule '" + blocked_rule + "': " + blocked_reason);
         }
         if (request.system_prompt) {
-            std::string sanitized_system_prompt;
+            std::string sanitized_system_prompt = {};
             if (!sanitizePromptText(*request.system_prompt,
                                     sanitized_system_prompt,
                                     &blocked_rule,
@@ -1161,7 +1164,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     // which passed through sanitizePromptText() above; image paths validated in generateVision()
     if (!safe_request.image_paths.empty() && vision_enabled_) {
         try {
-            VisionRequest vision_req;
+            VisionRequest vision_req = VisionRequest();
             vision_req.text_prompt = safe_request.prompt;  // Already sanitized
             vision_req.image_paths = safe_request.image_paths;
             vision_req.max_tokens  = safe_request.max_tokens;
@@ -1175,7 +1178,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                         ? "Vision inference failed"
                         : vision_resp.error_message);
             }
-            InferenceResponse resp;
+            InferenceResponse resp = InferenceResponse();
             resp.request_id       = safe_request.request_id;
             resp.model_id         = current_model_id_;
             resp.text             = vision_resp.text;
@@ -1188,7 +1191,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         }
     }
 #endif
-    // Check response cache first (if enabled); key includes model_id to prevent cross-tenant leakage
+    // Check response cache first ([[maybe_unused]] if enabled); key includes model_id to prevent cross-tenant leakage
     {
         std::lock_guard<std::mutex> cache_lock(mutex_);  // W1-L04: Data race fix - protect response_cache access
         auto* const response_cache_ptr = response_cache_.get();
@@ -1261,7 +1264,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     
     try {
         // 1. Apply LoRA adapter if specified (Auto-Binding with Context Switch Detection)
-        std::string prev_adapter;
+        std::string prev_adapter = {};
         bool context_changed = (last_context_ptr_ != lctx);
         
         if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
@@ -1331,7 +1334,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         // BATCH 1.1: Validate tokenization result
         validateTokenArray(prompt_tokens, 1, "generateRegular() -> tokenizeInternal()");
         
-        InferenceResponse response;
+        InferenceResponse response = InferenceResponse();
         response.request_id = request.request_id;
         response.trace_id   = request.trace_id;
         response.span_id    = request.span_id;
@@ -1384,7 +1387,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         // Phase 2: Collect token probabilities for knowledge gap detection
         std::vector<float> token_probabilities;
-        token_probabilities.reserve(max_tokens);
+        token_probabilities.reserve(static_cast<size_t>(std::max(0, max_tokens)));
         
         for (int i = 0; i < max_tokens; ++i) {
             // Get logits for last token
@@ -1424,11 +1427,11 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             // **Streaming support**: Call callback if provided
             // Note: Callback is called while holding mutex_. Ensure callback
             // is non-blocking to avoid performance issues.
-            if (request.stream_callback) {
+            if ([[maybe_unused]] request.stream_callback) {
                 try {
                     // Detokenize this single token for streaming
                     std::string token_text = detokenizeInternal(lctx, {next_token});
-                    request.stream_callback(token_text);
+                    request.stream_callback([[maybe_unused]] token_text);
                 } catch (const std::exception& e) {
                     spdlog::warn("Streaming callback error: {}", e.what());
                     // Continue generation even if streaming fails
@@ -1540,7 +1543,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                 spdlog::debug("Tool calling: model output could not be parsed as a tool call "
                               "(expected one of {} tool(s), output snippet: '{}')",
                               request.tools.size(),
-                              response.text.substr(0, std::min<std::size_t>(80, response.text.size())));
+                              response.text.substr(0, std::min<std::size_t>(80,static_cast<int>(response.text.size()))));
             }
         }
         
@@ -1750,14 +1753,14 @@ std::vector<std::vector<float>> LlamaWrapper::computeTargetLogitsForTokens(
         }
 
         std::vector<float> row(static_cast<size_t>(n_vocab), 0.0f);
-        for (size_t i = 0; i < row.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(row.size()); ++i) {
             row[i] = logits_ptr[i];
         }
         return row;
     };
 
     std::vector<std::vector<float>> target_logits;
-    target_logits.reserve(draft_token_ids.size() + 1);
+    target_logits.reserve(static_cast<int>(draft_token_ids.size()) + 1);
     target_logits.push_back(copy_last_logits());
 
     for (const int token_id : draft_token_ids) {
@@ -1811,7 +1814,8 @@ std::vector<int> LlamaWrapper::tokenizeForBridge(
     }
 
     const auto llama_tokens = tokenizeInternal(lmodel, text, add_bos);
-    std::vector<int> result;
+    std::vector<int> result = {};
+
     result.reserve(llama_tokens.size());
     for (const llama_token token : llama_tokens) {
         result.push_back(static_cast<int>(token));
@@ -1935,7 +1939,7 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
 // ═══════════════════════════════════════════════════════════
 
 LLMCapabilities LlamaWrapper::getCapabilities() const {
-    LLMCapabilities caps;
+    LLMCapabilities caps = LLMCapabilities();
     
     caps.supports_instruct = true;
     caps.supports_chat = true;
@@ -2041,7 +2045,7 @@ std::vector<uint8_t> LlamaWrapper::exportLoRA(const std::string& lora_id) {
     auto* lora_manager = lora_manager_.get();
     if (!lora_manager) {
         spdlog::warn("LlamaWrapper::exportLoRA: LoRA manager is not initialized, cannot export '{}'", lora_id);
-        return {};
+        return std::vector<uint8_t>();
     }
     // Delegate to multi-LoRA manager
     return lora_manager->exportLoRA(lora_id);
@@ -2065,7 +2069,7 @@ bool LlamaWrapper::importLoRA(
     }
     
     spdlog::info("Importing LoRA from remote shard: {} ({} bytes)",
-                 lora_id, data.size());
+                 lora_id,static_cast<int>(data.size()));
     
     // Delegate to multi-LoRA manager
     return lora_manager->importLoRA(lora_id, data, current_model_id_);
@@ -2080,11 +2084,11 @@ std::string LlamaWrapper::formatPromptForRAG(
     const InferenceRequest& request
 ) {
     // Build RAG prompt using template
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Add system prompt if provided
     if (request.system_prompt) {
-        std::string sanitized_system_prompt;
+        std::string sanitized_system_prompt = {};
         if (!sanitizePromptText(*request.system_prompt, sanitized_system_prompt, nullptr, nullptr)) {
             throw std::invalid_argument("RAG system prompt blocked by prompt policy");
         }
@@ -2093,9 +2097,9 @@ std::string LlamaWrapper::formatPromptForRAG(
     
     // Add context documents
     oss << "Context:\n";
-    for (size_t i = 0; i < rag_context.documents.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(rag_context.documents.size()); ++i) {
         const auto& doc = rag_context.documents[i];
-        std::string sanitized_content;
+        std::string sanitized_content = {};
         if (!sanitizePromptText(doc.content, sanitized_content, nullptr, nullptr)) {
             sanitized_content = "[BLOCKED_CONTEXT]";
         }
@@ -2104,7 +2108,7 @@ std::string LlamaWrapper::formatPromptForRAG(
     }
     
     // Add user query
-    std::string sanitized_query;
+    std::string sanitized_query = {};
     if (!sanitizePromptText(rag_context.query, sanitized_query, nullptr, nullptr)) {
         throw std::invalid_argument("RAG query blocked by prompt policy");
     }
@@ -2151,7 +2155,7 @@ std::string LlamaWrapper::formatChatMessages(
 std::string LlamaWrapper::formatChatML(const std::vector<ChatMessage>& messages) {
     // ChatML format used by Mistral, Llama-3, etc.
     // <|im_start|>system\ncontent<|im_end|>
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     for (const auto& msg : messages) {
         oss << "<|im_start|>" << msg.role << "\n";
@@ -2168,10 +2172,10 @@ std::string LlamaWrapper::formatChatML(const std::vector<ChatMessage>& messages)
 std::string LlamaWrapper::formatLlama2(const std::vector<ChatMessage>& messages) {
     // Llama-2 chat format
     // <s>[INST] <<SYS>>\nsystem_message\n<</SYS>>\n\nuser_message [/INST]
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     bool first_user = true;
-    std::string system_msg;
+    std::string system_msg = {};
     
     for (const auto& msg : messages) {
         if (msg.role == "system") {
@@ -2199,7 +2203,7 @@ std::string LlamaWrapper::formatVicuna(const std::vector<ChatMessage>& messages)
     // Vicuna format
     // A chat between a curious user and an artificial intelligence assistant...
     // USER: message\nASSISTANT:
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Optional system message
     bool has_system = false;
@@ -2233,7 +2237,7 @@ std::string LlamaWrapper::formatVicuna(const std::vector<ChatMessage>& messages)
 std::string LlamaWrapper::formatAlpaca(const std::vector<ChatMessage>& messages) {
     // Alpaca format
     // Below is an instruction... ### Instruction:\nuser_message\n\n### Response:
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     std::string system_msg = "Below is an instruction that describes a task. "
                             "Write a response that appropriately completes the request.";
@@ -2283,7 +2287,7 @@ std::vector<llama_token> LlamaWrapper::tokenizeInternal(
     }
     
     // Allocate buffer for tokens (estimate: text length + special tokens)
-    const std::size_t estimated_tokens = text.size() + (add_bos ? 1u : 0u) + 8u;
+    const std::size_t estimated_tokens = static_cast<int>(text.size()) + (add_bos ? 1 : 0) + 8;
     if (estimated_tokens > static_cast<std::size_t>(std::numeric_limits<int32_t>::max())) {
         throw std::runtime_error("Input too large for llama_tokenize");
     }
@@ -2342,7 +2346,7 @@ std::string LlamaWrapper::detokenizeInternal(
         throw std::runtime_error("Failed to get model vocabulary");
     }
     
-    std::string result;
+    std::string result = {};
     result.reserve(tokens.size() * 4);  // Rough estimate
     
     for (llama_token token : tokens) {
@@ -2649,6 +2653,11 @@ bool LlamaWrapper::loadDraftModel(const std::string& draft_path) {
                 draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_LINEAR;
                 draft_ctx_params.rope_freq_scale = scale_factor;
                 break;
+            default:
+                // Default to LINEAR scaling
+                draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_LINEAR;
+                draft_ctx_params.rope_freq_scale = scale_factor;
+                break;
         }
         
         spdlog::info("RoPE scaling applied to draft model: {} → {} tokens",
@@ -2807,7 +2816,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         // 1. Tokenize prompt (same for both models)
         std::vector<llama_token> prompt_tokens = tokenizeInternal(target_model, request.prompt, true);
         
-        InferenceResponse response;
+        InferenceResponse response = InferenceResponse();
         response.request_id = request.request_id;
         response.trace_id   = request.trace_id;
         response.span_id    = request.span_id;
@@ -2850,14 +2859,15 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         
         // Phase 2: Collect token probabilities for knowledge gap detection
         std::vector<float> token_probabilities;
-        token_probabilities.reserve(max_tokens);
+        token_probabilities.reserve(static_cast<size_t>(std::max(0, max_tokens)));
         
         size_t total_speculations = 0;
         size_t total_accepted = 0;
         
-        while (generated_tokens.size() < static_cast<size_t>(max_tokens)) {
+        while ( static_cast<int>(generated_tokens.size()) < static_cast<size_t>(max_tokens)) {
             // 3a. Draft model generates N candidate tokens
-            std::vector<llama_token> draft_tokens;
+            std::vector<llama_token> draft_tokens = {};
+
             for (int i = 0; i < config_.speculative_tokens; ++i) {
                 float* draft_logits = llama_get_logits_ith(draft_context_, -1);
                 if (!draft_logits) {
@@ -2899,7 +2909,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
             
             // 3c. Check which tokens are accepted
             int accepted = 0;
-            for (size_t i = 0; i < draft_tokens.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(draft_tokens.size()); ++i) {
                 float* target_logits = llama_get_logits_ith(target_context, static_cast<int32_t>(i));
                 if (!target_logits) {
                     spdlog::error("llama_get_logits_ith returned null for target context at validation step {}", i);
@@ -2918,10 +2928,10 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
                     accepted++;
                     
                     // Stream token if callback provided
-                    if (request.stream_callback) {
+                    if ([[maybe_unused]] request.stream_callback) {
                         try {
                             std::string token_text = detokenizeInternal(target_context, {draft_tokens[i]});
-                            request.stream_callback(token_text);
+                            request.stream_callback([[maybe_unused]] token_text);
                         } catch (const std::exception& e) {
                             spdlog::warn("Streaming callback error: {}", e.what());
                         }
@@ -2941,10 +2951,10 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
                     accepted++;
                     
                     // Stream corrected token
-                    if (request.stream_callback) {
+                    if ([[maybe_unused]] request.stream_callback) {
                         try {
                             std::string token_text = detokenizeInternal(target_context, {corrected_token});
-                            request.stream_callback(token_text);
+                            request.stream_callback([[maybe_unused]] token_text);
                         } catch (const std::exception& e) {
                             spdlog::warn("Streaming callback error: {}", e.what());
                         }
@@ -3082,7 +3092,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         
         std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
         
-        InferenceResponse response;
+        InferenceResponse response = InferenceResponse();
         response.request_id = request.request_id;
         response.trace_id   = request.trace_id;
         response.span_id    = request.span_id;
@@ -3132,7 +3142,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         
         // Phase 2: Collect token probabilities for knowledge gap detection
         std::vector<float> token_probabilities;
-        token_probabilities.reserve(max_tokens);
+        token_probabilities.reserve(static_cast<size_t>(std::max(0, max_tokens)));
         
         for (int i = 0; i < max_tokens; ++i) {
             float* logits = llama_get_logits_ith(lctx, -1);
@@ -3154,10 +3164,10 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             
             generated_tokens.push_back(next_token);
             
-            if (request.stream_callback) {
+            if ([[maybe_unused]] request.stream_callback) {
                 try {
                     std::string token_text = detokenizeInternal(lctx, {next_token});
-                    request.stream_callback(token_text);
+                    request.stream_callback([[maybe_unused]] token_text);
                 } catch (const std::exception& e) {
                     spdlog::warn("Streaming callback error: {}", e.what());
                 }
@@ -3355,7 +3365,7 @@ void LlamaWrapper::initializeBuiltinGrammars() {
     builtin_grammars_["csv"] = loadGrammarFile(grammars_path + "csv.gbnf");
     builtin_grammars_["react_agent"] = loadGrammarFile(grammars_path + "react_agent.gbnf");
     
-    spdlog::debug("Loaded {} built-in grammars from {}", builtin_grammars_.size(), grammars_path);
+    spdlog::debug("Loaded {} built-in grammars from {}",static_cast<int>(builtin_grammars_.size()), grammars_path);
 }
 
 std::string LlamaWrapper::loadGrammarFile(const std::string& grammar_path) {
@@ -3366,7 +3376,7 @@ std::string LlamaWrapper::loadGrammarFile(const std::string& grammar_path) {
             return "";
         }
         
-        std::stringstream buffer;
+        std::stringstream buffer = {};
         buffer << file.rdbuf();
         return buffer.str();
         
@@ -3392,8 +3402,8 @@ std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest
         return nullptr;
     }
     
-    std::string grammar_key;
-    std::string ebnf_text;
+    std::string grammar_key = {};
+    std::string ebnf_text = {};
     
     // Custom EBNF grammar takes precedence
     if (request.grammar_ebnf.has_value()) {
@@ -3538,7 +3548,7 @@ std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
     // Build multi-modal prompt in LLaVA format
     // Format: <image>\nUSER: {question}\nASSISTANT:
     
-    std::string prompt;
+    std::string prompt = {};
     
     // Count number of images
     size_t num_images = 0;
@@ -3551,7 +3561,7 @@ std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
     // Add image tokens
     if (request.use_image_start_end) {
         // Sanitize image_token to prevent prompt injection
-        std::string sanitized_image_token;
+        std::string sanitized_image_token = {};
         if (!sanitizePromptText(request.image_token, sanitized_image_token, nullptr, nullptr)) {
             spdlog::warn("[SECURITY] buildVisionPrompt: image_token blocked, using default");
             sanitized_image_token = "<image>";
@@ -3562,9 +3572,9 @@ std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
     }
     
     // Add text prompt in chat format — sanitize before embedding into the prompt
-    std::string sanitized_text_prompt;
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string sanitized_text_prompt = {};
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
     if (!sanitizePromptText(request.text_prompt, sanitized_text_prompt, &blocked_rule, &blocked_reason)) {
         spdlog::warn("[SECURITY] buildVisionPrompt: text_prompt blocked by rule '{}': {}", blocked_rule, blocked_reason);
         sanitized_text_prompt = "[BLOCKED]";
@@ -3575,7 +3585,7 @@ std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
 }
 
 VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request) {
-    VisionResponse response;
+    VisionResponse response = VisionResponse();
     
     // Check if vision is enabled
     if (!vision_enabled_ || !vision_encoder_) {
@@ -3595,7 +3605,8 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
     
     try {
         // Collect image paths
-        std::vector<std::string> image_paths;
+        std::vector<std::string> image_paths = {};
+
         if (!vision_request.image_path.empty()) {
             image_paths.push_back(vision_request.image_path);
         } else if (!vision_request.image_paths.empty()) {
@@ -3632,7 +3643,7 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
         std::string prompt = buildVisionPrompt(vision_request);
         
         // Create inference request for the text part of the prompt.
-        InferenceRequest inference_request;
+        InferenceRequest inference_request = InferenceRequest();
         inference_request.prompt = prompt;
         inference_request.max_tokens = vision_request.max_tokens;
         inference_request.temperature = vision_request.temperature;
@@ -3680,7 +3691,9 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
                         int n_batch_size = static_cast<int>(vision_request.max_tokens > 0
                                                              ? vision_request.max_tokens : 512);
                         for (auto& emb_vec : image_embeddings) {
-                            if (emb_vec.empty()) continue;
+                            if (emb_vec.empty()) {
+                              continue;
+                            }
                             int n_patches = vision_encoder->getNumPatches();
                             if (n_patches <= 0) {
                                 n_patches = static_cast<int>(emb_vec.size()) /
@@ -3786,7 +3799,7 @@ void LlamaWrapper::transitionToState(WrapperState new_state, const std::string& 
     state_history_.push_back(transition);
     
     // Limit history size to prevent unbounded memory growth
-    if (state_history_.size() > MAX_STATE_HISTORY) {
+    if (static_cast<int>(state_history_.size()) > MAX_STATE_HISTORY) {
         state_history_.erase(state_history_.begin());
     }
     

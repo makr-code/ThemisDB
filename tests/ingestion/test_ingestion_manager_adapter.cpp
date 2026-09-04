@@ -413,7 +413,7 @@ TEST(IngestionManagerAdapterTest, DISABLED_SubmitSourceJob_Success) {
     source.priority = 5;
     source.config = json{{"split", "train"}};
     
-    std::string job_id;
+    std::string job_id = {};
     EXPECT_NO_THROW(job_id = worker.submitSourceJob(source));
     EXPECT_FALSE(job_id.empty());
     EXPECT_TRUE(plugin->wasEstimateCalled());
@@ -503,7 +503,8 @@ TEST(IngestionManagerAdapterTest, DISABLED_ProcessPluginJob_MultipleJobs) {
     worker.registerPlugin(plugin);
     worker.start();
     
-    std::vector<std::string> job_ids;
+    std::vector<std::string> job_ids = {};
+
     for (int i = 0; i < 5; ++i) {
         IngestionSource source;
         source.source_id = "batch_" + std::to_string(i);

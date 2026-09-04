@@ -18,7 +18,9 @@ class ConsistentHashDistributionTest : public ::testing::Test {
 protected:
     // Helper to calculate standard deviation
     double calculateStdDev(const std::vector<int>& values) {
-        if (values.empty()) return 0.0;
+        if (values.empty()) {
+          return 0.0;
+        }
         
         double sum = 0.0;
         for (int v : values) {
@@ -54,7 +56,8 @@ TEST_F(ConsistentHashDistributionTest, UniformDistribution) {
     }
     
     // Distribute keys
-    std::map<std::string, int> key_counts;
+    std::map<std::string, int> key_counts = {};
+
     for (int i = 0; i < num_keys; i++) {
         std::string key = "key_" + std::to_string(i);
         auto shard_info = hash.getNode(key);
@@ -66,7 +69,8 @@ TEST_F(ConsistentHashDistributionTest, UniformDistribution) {
     // Check distribution
     EXPECT_EQ(key_counts.size(), num_shards);
     
-    std::vector<int> counts;
+    std::vector<int> counts = {};
+
     for (const auto& [shard, count] : key_counts) {
         counts.push_back(count);
     }
@@ -104,14 +108,16 @@ TEST_F(ConsistentHashDistributionTest, VirtualNodesImproveDistribution) {
             hash.addNode(shard_id, endpoint, virtual_nodes);
         }
         
-        std::map<std::string, int> key_counts;
+        std::map<std::string, int> key_counts = {};
+
         for (int i = 0; i < num_keys; i++) {
             std::string key = "key_" + std::to_string(i);
             auto shard_info = hash.getNode(key);
             key_counts[shard_info->shard_id]++;
         }
         
-        std::vector<int> counts;
+        std::vector<int> counts = {};
+
         for (const auto& [shard, count] : key_counts) {
             counts.push_back(count);
         }
@@ -155,7 +161,8 @@ TEST_F(ConsistentHashDistributionTest, MinimalKeyMigrationOnNodeAddition) {
     }
     
     // Record initial distribution
-    std::map<std::string, std::string> initial_mapping;
+    std::map<std::string, std::string> initial_mapping = {};
+
     for (int i = 0; i < num_keys; i++) {
         std::string key = "key_" + std::to_string(i);
         auto shard_info = hash.getNode(key);
@@ -254,7 +261,8 @@ TEST_F(ConsistentHashDistributionTest, MinimalKeyMigrationOnNodeRemoval) {
     EXPECT_EQ(new_distribution.count(removed_shard), 0);
     
     // Remaining shards should have relatively balanced distribution
-    std::vector<int> counts;
+    std::vector<int> counts = {};
+
     for (const auto& [shard, count] : new_distribution) {
         counts.push_back(count);
     }
@@ -315,14 +323,16 @@ TEST_F(ConsistentHashDistributionTest, BalancedLoadAcrossDifferentShardCounts) {
             hash.addNode(shard_id, endpoint, virtual_nodes);
         }
         
-        std::map<std::string, int> key_counts;
+        std::map<std::string, int> key_counts = {};
+
         for (int i = 0; i < num_keys; i++) {
             std::string key = "key_" + std::to_string(i);
             auto shard_info = hash.getNode(key);
             key_counts[shard_info->shard_id]++;
         }
         
-        std::vector<int> counts;
+        std::vector<int> counts = {};
+
         for (const auto& [shard, count] : key_counts) {
             counts.push_back(count);
         }
@@ -352,14 +362,16 @@ TEST_F(ConsistentHashDistributionTest, SequentialKeysDistribution) {
     }
     
     // Sequential keys (common pattern)
-    std::map<std::string, int> key_counts;
+    std::map<std::string, int> key_counts = {};
+
     for (int i = 0; i < num_keys; i++) {
         std::string key = std::to_string(i); // Just numbers
         auto shard_info = hash.getNode(key);
         key_counts[shard_info->shard_id]++;
     }
     
-    std::vector<int> counts;
+    std::vector<int> counts = {};
+
     for (const auto& [shard, count] : key_counts) {
         counts.push_back(count);
     }
@@ -388,7 +400,8 @@ TEST_F(ConsistentHashDistributionTest, PrefixedKeysDistribution) {
     }
     
     // Keys with common prefixes
-    std::map<std::string, int> key_counts;
+    std::map<std::string, int> key_counts = {};
+
     for (int p = 0; p < num_prefixes; p++) {
         std::string prefix = "prefix_" + std::to_string(p) + "_";
         
@@ -399,7 +412,8 @@ TEST_F(ConsistentHashDistributionTest, PrefixedKeysDistribution) {
         }
     }
     
-    std::vector<int> counts;
+    std::vector<int> counts = {};
+
     for (const auto& [shard, count] : key_counts) {
         counts.push_back(count);
     }

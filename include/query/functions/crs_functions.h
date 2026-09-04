@@ -75,7 +75,7 @@ namespace crs {
  * @brief Ellipsoid parameters
  */
 struct Ellipsoid {
-    std::string name;
+    std::string name = {};
     double a;      // Semi-major axis (meters)
     double b;      // Semi-minor axis (meters)
     double f;      // Flattening = (a-b)/a
@@ -101,7 +101,7 @@ inline const Ellipsoid BESSEL_ELLIPSOID("Bessel 1841", 6377397.155, 299.1528128)
  * @brief UTM Zone parameters
  */
 struct UTMZone {
-    int zone;          // 1-60
+    int zone = 0;          // 1-60
     bool isNorth;      // Northern or Southern hemisphere
     double lon0;       // Central meridian in degrees
     double k0;         // Scale factor (0.9996 for UTM)
@@ -631,7 +631,7 @@ private:
             if (fromSrid == 3857) {
                 // Web Mercator
                 std::tie(lat, lon) = crs::webMercatorToGeographic(x, y);
-            } else if (fromDef.utmZone > 0 || fromSrid >= 31466 && fromSrid <= 31469) {
+            } else if ((fromDef.utmZone > 0 || (fromSrid >= 31466 && fromSrid <= 31469))) {
                 // UTM or Gauß-Krüger
                 crs::UTMZone zone(fromDef.utmZone > 0 ? fromDef.utmZone : 0, fromDef.utmNorth);
                 zone.lon0 = fromDef.centralMeridian;
@@ -664,7 +664,7 @@ private:
             }
             // TODO: Add more datum transformations as needed
             
-            double h;
+            double h = {};
             std::tie(lat, lon, h) = crs::cartesianToGeographic(cx, cy, cz, toDef.ellipsoid);
         }
         

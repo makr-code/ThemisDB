@@ -154,7 +154,9 @@ TEST_F(RateLimitingMiddlewareTest, HeadersSentOnSuccess) {
 
 TEST_F(RateLimitingMiddlewareTest, HeadersSentOnRejection) {
     RateLimitingMiddleware mw(config_);
-    for (int i = 0; i < 10; ++i) mw.check("c1", "/api");
+    for (int i = 0; i < 10; ++i) {
+      mw.check("c1", "/api");
+    }
 
     auto result = mw.check("c1", "/api");
     EXPECT_FALSE(result.allowed);
@@ -189,7 +191,9 @@ TEST_F(RateLimitingMiddlewareTest, LimitHeaderReflectsCapacity) {
 TEST_F(RateLimitingMiddlewareTest, StatsTrackRequests) {
     RateLimitingMiddleware mw(config_);
 
-    for (int i = 0; i < 10; ++i) mw.check("c1", "/api");
+    for (int i = 0; i < 10; ++i) {
+      mw.check("c1", "/api");
+    }
     for (int i = 0; i < 5; ++i)  mw.check("c1", "/api");  // these are rejected
 
     auto stats = mw.getStats();
@@ -200,7 +204,9 @@ TEST_F(RateLimitingMiddlewareTest, StatsTrackRequests) {
 
 TEST_F(RateLimitingMiddlewareTest, StatsResetOnReset) {
     RateLimitingMiddleware mw(config_);
-    for (int i = 0; i < 5; ++i) mw.check("c1", "/api");
+    for (int i = 0; i < 5; ++i) {
+      mw.check("c1", "/api");
+    }
 
     mw.reset();
 
@@ -218,7 +224,9 @@ TEST_F(RateLimitingMiddlewareTest, UpdateConfigAppliesNewLimits) {
     RateLimitingMiddleware mw(config_);
 
     // Exhaust initial capacity (10)
-    for (int i = 0; i < 10; ++i) mw.check("c1", "/api");
+    for (int i = 0; i < 10; ++i) {
+      mw.check("c1", "/api");
+    }
     EXPECT_FALSE(mw.check("c1", "/api").allowed);
 
     // Increase capacity via updateConfig
@@ -242,7 +250,9 @@ TEST_F(RateLimitingMiddlewareTest, TokensRefillOverTime) {
     RateLimitingMiddleware mw(config_);
 
     // Drain the bucket
-    for (int i = 0; i < 5; ++i) mw.check("c1", "/api");
+    for (int i = 0; i < 5; ++i) {
+      mw.check("c1", "/api");
+    }
     EXPECT_FALSE(mw.check("c1", "/api").allowed);
 
     // Wait for at least 1 token to refill (~200 ms)
@@ -264,14 +274,21 @@ TEST_F(RateLimitingMiddlewareTest, ConcurrentAccessIsSafe) {
 
     auto worker = [&]() {
         for (int i = 0; i < 20; ++i) {
-            if (mw.check("shared_client", "/api").allowed) ++allowed;
+            if (mw.check("shared_client", "/api").allowed) {
+              ++allowed;
+            }
             else ++rejected;
         }
     };
 
-    std::vector<std::thread> threads;
-    for (int t = 0; t < 5; ++t) threads.emplace_back(worker);
-    for (auto& th : threads) th.join();
+    std::vector<std::thread> threads = {};
+
+    for (int t = 0; t < 5; ++t) {
+      threads.emplace_back(worker);
+    }
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(allowed.load() + rejected.load(), 100);
     // Exactly 50 should be allowed (token bucket capacity)

@@ -120,7 +120,7 @@ ReloadResult BlueGreenDeployment::deployToStandby(const std::string& version) {
 
 bool BlueGreenDeployment::promote() {
     PromotionCallback cb;
-    std::string promoted_version;
+    std::string promoted_version = {};
     DeploymentSlot new_active;
 
     {
@@ -171,7 +171,7 @@ bool BlueGreenDeployment::promote() {
 }
 
 bool BlueGreenDeployment::rollback(const std::string& reason) {
-    std::string rid;
+    std::string rid = {};
     RollbackCallback cb;
 
     {
@@ -224,7 +224,7 @@ void BlueGreenDeployment::reportSuccess() {
 
 void BlueGreenDeployment::reportError() {
     bool trigger_rollback = false;
-    std::string reason;
+    std::string reason = {};
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -319,12 +319,12 @@ std::string BlueGreenDeployment::slotVersion(DeploymentSlot slot) const {
 // Callbacks
 // ---------------------------------------------------------------------------
 
-void BlueGreenDeployment::setPromotionCallback(PromotionCallback cb) {
+void BlueGreenDeployment::setPromotionCallback([[maybe_unused]] PromotionCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     promotion_cb_ = std::move(cb);
 }
 
-void BlueGreenDeployment::setRollbackCallback(RollbackCallback cb) {
+void BlueGreenDeployment::setRollbackCallback([[maybe_unused]] RollbackCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_cb_ = std::move(cb);
 }

@@ -48,7 +48,7 @@ namespace voice {
  * @brief Voice liveness challenge descriptor
  */
 struct Challenge {
-    uint64_t id;                ///< Unique challenge ID
+    uint64_t id = 0;                ///< Unique challenge ID
     std::string text;           ///< Random phrase to echo (e.g., "echo seven thousand two hundred")
     int64_t issued_at_ms;       ///< Timestamp when challenge was issued
     bool verified = false;      ///< Whether this challenge passed verification

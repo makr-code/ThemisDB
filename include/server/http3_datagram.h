@@ -88,7 +88,7 @@ using DatagramHandler = std::function<void(uint64_t context_id,
  * @brief A registered HTTP/3 datagram context (one per logical stream / flow).
  */
 struct Http3DatagramContext {
-    uint64_t        context_id;  ///< Quarter Stream ID (stream_id / 4)
+    uint64_t        context_id = 0;  ///< Quarter Stream ID (stream_id / 4)
     DatagramHandler handler;     ///< Called on each incoming datagram
     bool            active = true;
 };

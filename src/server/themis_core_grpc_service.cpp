@@ -281,7 +281,9 @@ private:
             }
             int created = 0;
             for (const auto& doc : req->documents()) {
-                if (doc.collection().empty() || doc.key().empty()) continue;
+                if (doc.collection().empty() || doc.key().empty()) {
+                  continue;
+                }
                 const std::string skey = storageKey(doc.collection().empty()
                     ? req->collection() : doc.collection(), doc.key());
                 const std::string data(doc.data().begin(), doc.data().end());
@@ -327,11 +329,15 @@ private:
             }
             int updated = 0;
             for (const auto& doc : req->documents()) {
-                if (doc.key().empty()) continue;
+                if (doc.key().empty()) {
+                  continue;
+                }
                 const std::string col = doc.collection().empty() ? req->collection() : doc.collection();
                 const std::string skey = storageKey(col, doc.key());
                 const std::string data(doc.data().begin(), doc.data().end());
-                if (db_->put(skey, data)) ++updated;
+                if (db_->put(skey, data)) {
+                  ++updated;
+                }
             }
             resp->set_success(updated > 0 || req->documents().empty());
             resp->set_updated_count(updated);
@@ -349,7 +355,9 @@ private:
             int deleted = 0;
             for (const auto& key : req->keys()) {
                 const std::string skey = storageKey(req->collection(), key);
-                if (db_->del(skey)) ++deleted;
+                if (db_->del(skey)) {
+                  ++deleted;
+                }
             }
             resp->set_success(deleted > 0 || req->keys().empty());
             resp->set_deleted_count(deleted);
@@ -378,8 +386,8 @@ private:
                     case BeginTransactionRequest::REPEATABLE_READ:
                         iso = themis::IsolationLevel::REPEATABLE_READ; break;
                     case BeginTransactionRequest::READ_UNCOMMITTED:
-                    case BeginTransactionRequest::READ_COMMITTED:
-                    default:
+                    [[fallthrough]];\n                    case BeginTransactionRequest::READ_COMMITTED:
+                    [[fallthrough]];\n                    default:
                         iso = themis::IsolationLevel::ReadCommitted; break;
                 }
                 const auto tid = txn_mgr_->beginTransaction(iso);
@@ -569,7 +577,7 @@ private:
             db_->scanPrefix(prefix, [&](std::string_view raw_key, std::string_view value) -> bool {
                 if (ctx->IsCancelled()) { cancelled = true; return false; }
                 // Strip prefix to recover doc key.
-                const std::string doc_key(raw_key.size() > prefix.size()
+                const std::string doc_key(static_cast<int>(raw_key.size()) > static_cast<int>(prefix.size())
                     ? raw_key.substr(prefix.size())
                     : raw_key);
 
@@ -577,7 +585,7 @@ private:
                 auto* doc = sr.mutable_document();
                 doc->set_collection(req->collection());
                 doc->set_key(doc_key);
-                doc->set_data(value.data(), value.size());
+                doc->set_data(value.data(),static_cast<int>(value.size()));
                 sr.set_has_more(true);
                 writer->Write(sr);
                 return true; // continue
@@ -626,10 +634,10 @@ ThemisCoreServiceImpl::ThemisCoreServiceImpl(
         service_ptr_ = fn();
     } catch (const std::exception& e) {
         THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: {}", e.what());
-        throw std::runtime_error("ThemisCoreServiceImpl service callback threw an exception");
+        throw std::runtime_error([[maybe_unused]] "ThemisCoreServiceImpl service callback threw an exception");
     } catch (...) {
-        THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: unknown error");
-        throw std::runtime_error("ThemisCoreServiceImpl service callback threw an unknown exception");
+        THEMIS_ERROR([[maybe_unused]] "ThemisCoreServiceImpl: service-instance callback failed: unknown error");
+        throw std::runtime_error([[maybe_unused]] "ThemisCoreServiceImpl service callback threw an unknown exception");
     }
     if (!service_ptr_) {
         const std::string error =

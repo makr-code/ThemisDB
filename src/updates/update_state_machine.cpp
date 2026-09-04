@@ -45,12 +45,24 @@ static std::string stateToString(UpdateState s) {
 }
 
 static UpdateState stateFromString(const std::string& s) {
-    if (s == "idle")         return UpdateState::IDLE;
-    if (s == "downloading")  return UpdateState::DOWNLOADING;
-    if (s == "verifying")    return UpdateState::VERIFYING;
-    if (s == "applying")     return UpdateState::APPLYING;
-    if (s == "rolling_back") return UpdateState::ROLLING_BACK;
-    if (s == "failed")       return UpdateState::FAILED;
+    if (s == "idle") {
+      return UpdateState::IDLE;
+    }
+    if (s == "downloading") {
+      return UpdateState::DOWNLOADING;
+    }
+    if (s == "verifying") {
+      return UpdateState::VERIFYING;
+    }
+    if (s == "applying") {
+      return UpdateState::APPLYING;
+    }
+    if (s == "rolling_back") {
+      return UpdateState::ROLLING_BACK;
+    }
+    if (s == "failed") {
+      return UpdateState::FAILED;
+    }
     return UpdateState::IDLE;
 }
 
@@ -216,7 +228,7 @@ bool UpdateStateMachine::transition(UpdateState to,
     // currentVersion() (both of which also acquire mutex_).
     std::vector<StateChangeCallback> callbacks_copy;
     UpdateState from;
-    std::string notify_version;
+    std::string notify_version = {};
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -260,7 +272,7 @@ bool UpdateStateMachine::transition(UpdateState to,
         callbacks_copy   = callbacks_;  // shallow copy of function wrappers
     }  // lock released here
 
-    for (auto& cb : callbacks_copy) {
+    for ([[maybe_unused]] auto& cb : callbacks_copy) {
         try {
             cb(from, to, notify_version);
         } catch (...) {
@@ -299,20 +311,20 @@ void UpdateStateMachine::reset() {
         callbacks_copy = callbacks_;
     }  // lock released here
 
-    for (auto& cb : callbacks_copy) {
+    for ([[maybe_unused]] auto& cb : callbacks_copy) {
         try {
             cb(from, UpdateState::IDLE, "");
         } catch (...) {
             // Error Code: 7490 - Never let callbacks crash the state machine
             // Log and silently ignore to ensure state integrity is maintained
-            LOG_WARN("UpdateStateMachine: state change callback threw exception; silently caught");
+            LOG_WARN([[maybe_unused]] "UpdateStateMachine: state change callback threw exception; silently caught");
         }
     }
 }
 
-void UpdateStateMachine::addStateChangeCallback(StateChangeCallback cb) {
+void UpdateStateMachine::addStateChangeCallback([[maybe_unused]] StateChangeCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
-    callbacks_.push_back(std::move(cb));
+    callbacks_.push_back([[maybe_unused]] std::move(cb));
 }
 
 bool UpdateStateMachine::hasInFlightUpdate() const {
@@ -353,9 +365,11 @@ void UpdateStateMachine::loadPersistedState() {
             return;  // No log yet – clean start
         }
 
-        std::string line;
+        std::string line = {};
         while (std::getline(f, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             try {
                 auto j = json::parse(line);
                 auto entry = UpdateTransactionEntry::fromJson(j);
@@ -421,11 +435,13 @@ void UpdateStateMachine::loadCheckpoints() {
             return;  // No checkpoints log yet – clean start
         }
 
-        std::string line;
+        std::string line = {};
         uint64_t max_id = 0;
         
         while (std::getline(f, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             try {
                 auto j = json::parse(line);
                 auto cp = Checkpoint::fromJson(j);
@@ -469,7 +485,7 @@ void UpdateStateMachine::setHistoryLogger(UpdateHistoryLogger* logger) {
 
 CheckpointId UpdateStateMachine::createCheckpoint(const std::string& description) {
     CheckpointId assigned_id = 0;
-    std::string  snap_version;
+    std::string  snap_version = {};
     UpdateState  snap_state;
     Checkpoint   cp_to_persist;
 
@@ -523,7 +539,7 @@ bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
     std::vector<StateChangeCallback> callbacks_copy;
     UpdateState from_state;
     UpdateState to_state;
-    std::string notify_version;
+    std::string notify_version = {};
     bool found = false;
 
     {
@@ -619,7 +635,7 @@ bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
     }
 
     // Notify callbacks outside the lock
-    for (auto& cb : callbacks_copy) {
+    for ([[maybe_unused]] auto& cb : callbacks_copy) {
         try {
             cb(from_state, to_state, notify_version);
         } catch (...) {}
@@ -659,9 +675,9 @@ void UpdateStateMachine::clearCheckpoints() {
 // Partial and coordinated rollback enhancements (v1.8.1 – Q3 2026)
 // ============================================================================
 
-void UpdateStateMachine::setRollbackCallback(RollbackCallback callback) {
+void UpdateStateMachine::setRollbackCallback([[maybe_unused]] RollbackCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    rollback_callback_ = std::move(callback);
+    rollback_callback_ = std::move([[maybe_unused]] callback);
 }
 
 bool UpdateStateMachine::rollbackToLatestCheckpoint() {
@@ -714,7 +730,7 @@ bool UpdateStateMachine::rollbackToCheckpointWithFallback(
 
 size_t UpdateStateMachine::checkpointCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return checkpoints_.size();
+    return static_cast<int>(checkpoints_.size());
 }
 
 bool UpdateStateMachine::hasPendingRollback() const {
@@ -735,7 +751,7 @@ void UpdateStateMachine::emitRollbackDiagnostic(CheckpointId checkpoint_id,
     
     // Invoke registered callback if set
     std::lock_guard<std::mutex> lock(mutex_);
-    if (rollback_callback_) {
+    if ([[maybe_unused]] rollback_callback_) {
         try {
             rollback_callback_(checkpoint_id, success, 
                              success ? "" : reason);

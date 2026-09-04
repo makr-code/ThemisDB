@@ -274,7 +274,7 @@ bool GPUP2PTransferManager::isPeerAccessEnabled(int src_device, int dst_device) 
 
 GPUP2PTransferManager::TransferResult GPUP2PTransferManager::transfer(const TransferRequest &req,
                                                                       const std::vector<DeviceInfo> &devices) {
-    TransferResult result;
+    TransferResult result = {};
 
     if (!GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::PEER_TO_PEER)) {
         result.error_message = "PEER_TO_PEER feature is disabled";

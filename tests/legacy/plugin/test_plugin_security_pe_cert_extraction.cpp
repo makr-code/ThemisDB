@@ -63,7 +63,9 @@ static std::vector<uint8_t> buildMinimalPE32(
         writeLE16(cert_table, before + 6, type);
         std::copy(data.begin(), data.end(), cert_table.begin() + before + 8);
         // Pad to 8-byte boundary
-        while (cert_table.size() % 8u != 0) cert_table.push_back(0u);
+        while (cert_table.size() % 8u != 0) {
+          cert_table.push_back(0u);
+        }
     };
 
     if (non_pkcs7_first) {
@@ -246,7 +248,9 @@ TEST_F(PECertExtractionTest, PE_PE32Plus_ExtractedCorrectly) {
     writeLE16(cert_rec, 6, 0x0002u);
     std::copy(blob.begin(), blob.end(), cert_rec.begin() + 8);
     // Pad to 8-byte boundary
-    while (cert_rec.size() % 8u) cert_rec.push_back(0u);
+    while (cert_rec.size() % 8u) {
+      cert_rec.push_back(0u);
+    }
 
     uint32_t file_size = cert_tbl64 + static_cast<uint32_t>(cert_rec.size());
     std::vector<uint8_t> pe(file_size, 0u);
@@ -339,7 +343,7 @@ TEST_F(PECertExtractionTest, ELF_NoteGnuSignatureSection_Extracted) {
     uint64_t sig_size = sig_payload.size();
 
     // Build .shstrtab: "\0.note.gnu.signature\0"
-    std::string shstrtab_str;
+    std::string shstrtab_str = {};
     shstrtab_str.push_back('\0');            // index 0: empty name for SHT_NULL
     uint32_t sig_name_idx = 1u;              // index of ".note.gnu.signature"
     shstrtab_str += ".note.gnu.signature";
@@ -351,11 +355,15 @@ TEST_F(PECertExtractionTest, ELF_NoteGnuSignatureSection_Extracted) {
 
     uint64_t shstrtab_offset = sig_offset + sig_size;
     // Align to 8 bytes
-    while (shstrtab_offset % 8u) ++shstrtab_offset;
+    while (shstrtab_offset % 8u) {
+      ++shstrtab_offset;
+    }
     uint64_t shstrtab_size = shstrtab_str.size();
 
     uint64_t shoff = shstrtab_offset + shstrtab_size;
-    while (shoff % 8u) ++shoff;
+    while (shoff % 8u) {
+      ++shoff;
+    }
 
     // 3 section headers (SHT_NULL, .note.gnu.signature, .shstrtab)
     constexpr uint16_t shnum     = 3u;

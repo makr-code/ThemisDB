@@ -221,8 +221,8 @@ InferenceHandle AsyncInferenceEngine::submit(
                 try {
                     auto response = processRequest(*async_req, submit_time);
                     stats_.total_completed.fetch_add(1, std::memory_order_relaxed);
-                    if (async_req->callback) {
-                        async_req->callback(response);
+                    if ([[maybe_unused]] async_req->callback) {
+                        async_req->callback([[maybe_unused]] response);
                     }
                     try { promise->set_value(response); } catch (...) { /* Promise already satisfied; ignore. */ }
                 } catch (...) {
@@ -251,7 +251,7 @@ InferenceHandle AsyncInferenceEngine::submit(
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
         // Check queue size and handle backpressure
-        if (request_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(request_queue_.size()) > = config_.max_queue_size) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
                 std::lock_guard<std::mutex> tl(tracking_mutex_);
@@ -327,8 +327,8 @@ std::string AsyncInferenceEngine::submitAsync(
                 try {
                     auto response = processRequest(*async_req, submit_time);
                     stats_.total_completed.fetch_add(1, std::memory_order_relaxed);
-                    if (async_req->callback) {
-                        async_req->callback(response);
+                    if ([[maybe_unused]] async_req->callback) {
+                        async_req->callback([[maybe_unused]] response);
                     }
                 } catch (const std::exception& e) {
                     spdlog::error("Async callback request {} failed: {}",
@@ -354,7 +354,7 @@ std::string AsyncInferenceEngine::submitAsync(
 
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
-        if (request_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(request_queue_.size()) > = config_.max_queue_size) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected++;
                 std::lock_guard<std::mutex> tl(tracking_mutex_);
@@ -414,7 +414,7 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
     // is fired exactly once regardless of whether the stream ends normally
     // or via cancellation.
     auto fired_final    = std::make_shared<std::atomic<bool>>(false);
-    auto cb             = std::make_shared<TokenCallback>(std::move(callback));
+    auto cb             = std::make_shared<TokenCallback>([[maybe_unused]] std::move(callback));
 
     async_req->request.stream_callback =
         [cb, cancel_token = async_req->cancel_token, fired_final](const std::string& token) {
@@ -457,8 +457,8 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
         bool queued = shared_pool_->submit(
             [this, async_req, promise, submit_time]() {
                 if (async_req->cancel_token->load(std::memory_order_acquire)) {
-                    if (async_req->callback) {
-                        async_req->callback(InferenceResponse{});
+                    if ([[maybe_unused]] async_req->callback) {
+                        async_req->callback([[maybe_unused]] InferenceResponse{});
                     }
                     try {
                         promise->set_exception(std::make_exception_ptr(
@@ -471,7 +471,9 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
                 try {
                     auto response = processRequest(*async_req, submit_time);
                     stats_.total_completed++;
-                    if (async_req->callback) async_req->callback(response);
+                    if ([[maybe_unused]] async_req->callback) {
+                      async_req->callback(response);
+                    }
                     try { promise->set_value(response); } catch (...) {}
                 } catch (...) {
                     THEMIS_WARN("async_inference_engine: unhandled exception caught");
@@ -496,7 +498,7 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
         future = local_promise->get_future().share();
 
         std::unique_lock<std::mutex> lock(queue_mutex_);
-        if (request_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(request_queue_.size()) > = config_.max_queue_size) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
                 std::lock_guard<std::mutex> tl(tracking_mutex_);
@@ -553,7 +555,7 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
 
     // Build structured prompt: use context_template when provided, otherwise
     // fall back to XML-tag format that most instruction-tuned models handle well.
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     const bool use_custom_template = !rag_context.context_template.empty();
 
     if (!use_custom_template) {
@@ -581,19 +583,23 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
         // Custom template: substitute {{CONTEXT}} and {{QUERY}} placeholders.
         std::string tmpl = rag_context.context_template;
 
-        std::ostringstream context_block;
-        for (size_t i = 0; i < rag_context.documents.size(); ++i) {
+        std::ostringstream context_block = {};
+        for (size_t i = 0; i <static_cast<int>(rag_context.documents.size()); ++i) {
             const auto& doc = rag_context.documents[i];
             context_block << "[" << (i + 1) << "] ";
-            if (!doc.source.empty()) context_block << "(" << doc.source << ") ";
+            if (!doc.source.empty()) {
+              context_block << "(" << doc.source << ") ";
+            }
             context_block << doc.content;
-            if (i + 1 < rag_context.documents.size()) context_block << "\n\n";
+            if (i + 1 <static_cast<int>(rag_context.documents.size())) {
+              context_block << "\n\n";
+            }
         }
 
         auto replaceAll = [](std::string s, const std::string& from, const std::string& to) {
             size_t pos = 0;
             while ((pos = s.find(from, pos)) != std::string::npos) {
-                s.replace(pos, from.size(), to);
+                s.replace(pos,static_cast<int>(from.size()), to);
                 pos += to.size();
             }
             return s;
@@ -664,7 +670,7 @@ json AsyncInferenceEngine::getWorkerStats() const {
     // tokens/sec: total tokens generated divided by elapsed wall-clock time.
     // THREAD-SAFETY: Protect engine_start_time_ read with mutex to prevent data race
     stats["total_tokens_generated"] = stats_.total_tokens_generated.load();
-    double elapsed_s;
+    double elapsed_s = {};
     {
         std::lock_guard<std::mutex> lock(stats_time_mutex_);
         elapsed_s = std::chrono::duration<double>(
@@ -683,7 +689,7 @@ json AsyncInferenceEngine::getWorkerStats() const {
             std::sort(sorted.begin(), sorted.end());
             size_t p99_idx = static_cast<size_t>(sorted.size() * 0.99);
             stats["p99_latency_ms"] =
-                sorted[std::min(p99_idx, sorted.size() - 1)];
+                sorted[std::min(p99_idx, static_cast<int>(sorted.size()) - 1)];
         }
     }
     
@@ -739,7 +745,7 @@ void AsyncInferenceEngine::shutdown() {
 // Private Methods
 // ═══════════════════════════════════════════════════════════
 
-void AsyncInferenceEngine::workerLoop(size_t worker_id) {
+void AsyncInferenceEngine::workerLoop([[maybe_unused]] size_t worker_id) {
     spdlog::info("Inference worker {} started", worker_id);
     
     while (running_.load(std::memory_order_acquire)) {
@@ -780,8 +786,8 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             // Fire the completion callback so that streaming requests
             // receive the is_final=true sentinel even when the request is
             // cancelled while still queued (never dispatched to a plugin).
-            if (item.request->callback) {
-                try { item.request->callback(InferenceResponse{}); } catch (...) {}
+            if ([[maybe_unused]] item.request->callback) {
+                try { item.request->callback([[maybe_unused]] InferenceResponse{}); } catch (...) {}
             }
 
             // Set exception in promise — guard against double-resolve (timeout
@@ -817,9 +823,9 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             stats_.total_completed.fetch_add(1, std::memory_order_relaxed);
             
             // Deliver result
-            if (item.request->callback) {
+            if ([[maybe_unused]] item.request->callback) {
                 // Call callback on worker thread
-                item.request->callback(response);
+                item.request->callback([[maybe_unused]] response);
             }
             // Guard against double-resolve: timeout monitor may have already
             // resolved the promise while the plugin was still running.
@@ -867,7 +873,7 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     // cancellation (and deadline expiry) are checked at every token boundary.
     InferenceRequest effective_request = request.request;
     auto deadline = request.deadline;
-    const bool streaming_mode = static_cast<bool>(effective_request.stream_callback);
+    const bool streaming_mode = static_cast<bool>([[maybe_unused]] effective_request.stream_callback);
 
     if (streaming_mode) {
         spdlog::info(
@@ -877,9 +883,9 @@ InferenceResponse AsyncInferenceEngine::processRequest(
             request.priority);
     }
 
-    if (effective_request.stream_callback) {
+    if ([[maybe_unused]] effective_request.stream_callback) {
         // Wrap the original callback: stop streaming when cancelled/timed-out.
-        auto original_cb = std::move(effective_request.stream_callback);
+        auto original_cb = std::move([[maybe_unused]] effective_request.stream_callback);
         effective_request.stream_callback = [original_cb, 
             cancel_token = request.cancel_token,  // Direct capture to extend lifetime
             deadline]
@@ -899,7 +905,7 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     }
 
     // Check deduplication cache (skip for streaming requests as they cannot be cached)
-    if (dedup_cache_ && !effective_request.stream_callback) {
+    if ([[maybe_unused]] dedup_cache_ && !effective_request.stream_callback) {
         auto cached = dedup_cache_->get(effective_request.prompt);
         if (cached.has_value()) {
             stats_.total_dedup_cache_hits.fetch_add(1, std::memory_order_relaxed);
@@ -979,7 +985,7 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     }
     
     // Store in deduplication cache (skip for streaming requests)
-    if (dedup_cache_ && !effective_request.stream_callback) {
+    if ([[maybe_unused]] dedup_cache_ && !effective_request.stream_callback) {
         dedup_cache_->put(effective_request.prompt, response);
     }
     
@@ -998,7 +1004,7 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     if (response.inference_time_ms > 0.0) {
         std::lock_guard<std::mutex> lock(latency_mutex_);
         latency_samples_.push_back(response.inference_time_ms);
-        if (latency_samples_.size() > 10000) {
+        if (static_cast<int>(latency_samples_.size()) > 10000) {
             latency_samples_.pop_front();  // O(1) removal via deque
         }
     }
@@ -1045,7 +1051,7 @@ std::string AsyncInferenceEngine::generateRequestId() {
     
     uint64_t id = counter.fetch_add(1);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "inf_" << timestamp << "_" << id;
     return oss.str();
 }
@@ -1060,7 +1066,7 @@ bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock
                 using namespace std::chrono_literals;
                 const auto timeout = std::chrono::seconds(30); // 30 second timeout
                 if (!queue_cv_.wait_for(lock, timeout, [this] {
-                    return request_queue_.size() < config_.max_queue_size ||
+                    return static_cast<int>(request_queue_.size()) < config_.max_queue_size ||
                            !running_.load();
                 })) {
                     spdlog::warn("Backpressure BLOCK: timeout waiting for queue space");
@@ -1148,8 +1154,12 @@ void AsyncInferenceEngine::checkAndHandleTimeouts() {
     std::lock_guard<std::mutex> lock(tracking_mutex_);
     for (auto& [id, req] : active_requests_) {
         // Skip requests with no deadline or already cancelled
-        if (req->deadline == zero_tp) continue;
-        if (req->cancel_token->load(std::memory_order_acquire)) continue;
+        if (req->deadline == zero_tp) {
+          continue;
+        }
+        if (req->cancel_token->load(std::memory_order_acquire)) {
+          continue;
+        }
 
         if (now >= req->deadline) {
             spdlog::warn("Request {} exceeded per-request timeout, marking cancelled", id);

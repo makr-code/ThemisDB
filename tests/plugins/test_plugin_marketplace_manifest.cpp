@@ -176,8 +176,10 @@ TEST(ManifestSchemaValidator, AcceptsFullMarketplaceFields) {
 
     auto result = ManifestSchemaValidator::validate(j);
     EXPECT_TRUE(result.valid) << [&]() {
-        std::string msg;
-        for (const auto& e : result.errors) msg += e + "\n";
+        std::string msg = {};
+        for (const auto& e : result.errors) {
+          msg += e + "\n";
+        }
         return msg;
     }();
 }

@@ -90,7 +90,9 @@ static inline float avx512_l2_sq(const float* a, const float* b, std::size_t dim
     __m512 acc = _mm512_add_ps(_mm512_add_ps(acc0, acc1), _mm512_add_ps(acc2, acc3));
     float res = _mm512_reduce_add_ps(acc);
     // Scalar tail for elements not covered by 16-wide SIMD
-    if (i < dim) res += scalar_l2_sq(a + i, b + i, dim - i);
+    if (i < dim) {
+      res += scalar_l2_sq(a + i, b + i, dim - i);
+    }
     return res;
 }
 
@@ -117,7 +119,9 @@ static inline float avx512_inner_product(const float* a, const float* b, std::si
     }
     __m512 acc = _mm512_add_ps(_mm512_add_ps(acc0, acc1), _mm512_add_ps(acc2, acc3));
     float res = _mm512_reduce_add_ps(acc);
-    for (; i < dim; ++i) res += a[i] * b[i];
+    for (; i < dim; ++i) {
+      res += a[i] * b[i];
+    }
     return res;
 }
 
@@ -139,7 +143,9 @@ static inline float avx512_norm_sq(const float* a, std::size_t dim) {
     }
     __m512 acc = _mm512_add_ps(acc0, acc1);
     float res = _mm512_reduce_add_ps(acc);
-    for (; i < dim; ++i) res += a[i] * a[i];
+    for (; i < dim; ++i) {
+      res += a[i] * a[i];
+    }
     return res;
 }
 #elif defined(__AVX2__)
@@ -157,8 +163,12 @@ static inline float avx2_inner_product(const float* a, const float* b, std::size
     alignas(32) float tmp[8];
     _mm256_store_ps(tmp, acc);
     float res = 0.0f;
-    for (int k = 0; k < 8; ++k) res += tmp[k];
-    for (; i < dim; ++i) res += a[i] * b[i];
+    for (int k = 0; k < 8; ++k) {
+      res += tmp[k];
+    }
+    for (; i < dim; ++i) {
+      res += a[i] * b[i];
+    }
     return res;
 }
 
@@ -178,8 +188,12 @@ static inline float avx2_norm_sq(const float* a, std::size_t dim) {
     alignas(32) float tmp[8];
     _mm256_store_ps(tmp, acc);
     float res = 0.0f;
-    for (int k = 0; k < 8; ++k) res += tmp[k];
-    for (; i < dim; ++i) res += a[i] * a[i];
+    for (int k = 0; k < 8; ++k) {
+      res += tmp[k];
+    }
+    for (; i < dim; ++i) {
+      res += a[i] * a[i];
+    }
     return res;
 }
 
@@ -212,8 +226,12 @@ static inline float avx2_l2_sq(const float* a, const float* b, std::size_t dim) 
     alignas(32) float tmp[8];
     _mm256_store_ps(tmp, acc);
     float res = 0.0f;
-    for (int k = 0; k < 8; ++k) res += tmp[k];
-    if (i < dim) res += scalar_l2_sq(a + i, b + i, dim - i);
+    for (int k = 0; k < 8; ++k) {
+      res += tmp[k];
+    }
+    if (i < dim) {
+      res += scalar_l2_sq(a + i, b + i, dim - i);
+    }
     return res;
 }
 #elif defined(__ARM_NEON) || defined(__aarch64__)
@@ -301,7 +319,9 @@ static inline float neon_inner_product(const float* a, const float* b, std::size
     float32x2_t sum2 = vadd_f32(vget_low_f32(acc), vget_high_f32(acc));
     float32x2_t sum1 = vpadd_f32(sum2, sum2);
     float res = vget_lane_f32(sum1, 0);
-    for (; i < dim; ++i) res += a[i] * b[i];
+    for (; i < dim; ++i) {
+      res += a[i] * b[i];
+    }
     return res;
 }
 
@@ -326,20 +346,26 @@ static inline float neon_norm_sq(const float* a, std::size_t dim) {
     float32x2_t sum2 = vadd_f32(vget_low_f32(acc), vget_high_f32(acc));
     float32x2_t sum1 = vpadd_f32(sum2, sum2);
     float res = vget_lane_f32(sum1, 0);
-    for (; i < dim; ++i) res += a[i] * a[i];
+    for (; i < dim; ++i) {
+      res += a[i] * a[i];
+    }
     return res;
 }
 #endif // __ARM_NEON || __aarch64__
 
 static inline float scalar_inner_product(const float* a, const float* b, std::size_t dim) {
     float acc = 0.0f;
-    for (std::size_t i = 0; i < dim; ++i) acc += a[i] * b[i];
+    for (std::size_t i = 0; i < dim; ++i) {
+      acc += a[i] * b[i];
+    }
     return acc;
 }
 
 static inline float scalar_norm_sq(const float* a, std::size_t dim) {
     float acc = 0.0f;
-    for (std::size_t i = 0; i < dim; ++i) acc += a[i] * a[i];
+    for (std::size_t i = 0; i < dim; ++i) {
+      acc += a[i] * a[i];
+    }
     return acc;
 }
 
@@ -422,8 +448,12 @@ float cosine_distance(const float* a, const float* b, std::size_t dim) {
     if (denom < 1e-10f) return 1.0f; // treat zero-norm vectors as maximally distant
     float cosine_sim = dot / denom;
     // Clamp to [-1, 1] to guard against floating-point rounding errors
-    if (cosine_sim > 1.0f) cosine_sim = 1.0f;
-    if (cosine_sim < -1.0f) cosine_sim = -1.0f;
+    if (cosine_sim > 1.0f) {
+      cosine_sim = 1.0f;
+    }
+    if (cosine_sim < -1.0f) {
+      cosine_sim = -1.0f;
+    }
     return 1.0f - cosine_sim;
 }
 

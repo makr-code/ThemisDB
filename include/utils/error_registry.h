@@ -452,7 +452,7 @@ void logError(ErrorCode code, Args&&... args) {
     auto metadata = registry.getError(code);
     
     // Use fmt::format with fmt::runtime() to avoid constexpr issues
-    std::string formatted;
+    std::string formatted = {};
     try {
         formatted = fmt::vformat(metadata.message_template, 
                                 fmt::make_format_args(args...));

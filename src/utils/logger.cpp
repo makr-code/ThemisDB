@@ -43,8 +43,8 @@ namespace {
 /// Only escapes characters that would break JSON: backslash and double-quote.
 /// Control characters (< 0x20) are replaced with their \uXXXX representation.
 std::string jsonEscapeTraceId(const std::string& s) {
-    std::string out;
-    out.reserve(s.size() + 4);
+    std::string out = {};
+    out.reserve(static_cast<int>(s.size()) + 4);
     for (unsigned char c : s) {
         if (c == '"') {
             out += "\\\"";
@@ -292,13 +292,27 @@ void Logger::resetMetrics() {
 
 Logger::Level Logger::levelFromString(const std::string& lvl) {
     std::string s = lvl;
-    for (auto& c : s) c = static_cast<char>(::tolower(static_cast<unsigned char>(c)));
-    if (s == "trace")                       return Level::TRACE;
-    if (s == "debug")                       return Level::DEBUG;
-    if (s == "info")                        return Level::INFO;
-    if (s == "warn" || s == "warning")      return Level::WARN;
-    if (s == "error" || s == "err")         return Level::ERROR;
-    if (s == "critical" || s == "crit")     return Level::CRITICAL;
+    for (auto& c : s) {
+      c = static_cast<char>(::tolower(static_cast<unsigned char>(c)));
+    }
+    if (s == "trace") {
+      return Level::TRACE;
+    }
+    if (s == "debug") {
+      return Level::DEBUG;
+    }
+    if (s == "info") {
+      return Level::INFO;
+    }
+    if (s == "warn" || s == "warning") {
+      return Level::WARN;
+    }
+    if (s == "error" || s == "err") {
+      return Level::ERROR;
+    }
+    if (s == "critical" || s == "crit") {
+      return Level::CRITICAL;
+    }
     return Level::INFO;
 }
 

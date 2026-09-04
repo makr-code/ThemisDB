@@ -158,8 +158,12 @@ TEST(IngestionNerDe, NE06_ExtractsFromChunks) {
     // Expect entities from both chunks
     bool found_law = false, found_date = false;
     for (const auto& e : ctx.entities) {
-        if (e.properties.count("ner_type") && e.properties.at("ner_type") == "LAW") found_law = true;
-        if (e.properties.count("ner_type") && e.properties.at("ner_type") == "DATE") found_date = true;
+        if (e.properties.count("ner_type") && e.properties.at("ner_type") == "LAW") {
+          found_law = true;
+        }
+        if (e.properties.count("ner_type") && e.properties.at("ner_type") == "DATE") {
+          found_date = true;
+        }
     }
     EXPECT_TRUE(found_law);
     EXPECT_TRUE(found_date);
@@ -261,8 +265,12 @@ TEST(IngestionLlmExtract, LE05_OutputEntities_JsonResponse_EntitiesAppended) {
 
     bool found_org = false, found_law = false;
     for (const auto& e : ctx.entities) {
-        if (e.entity_type == EntityType::ORGANIZATION) found_org = true;
-        if (e.entity_type == EntityType::LEGAL_NORM_REFERENCE) found_law = true;
+        if (e.entity_type == EntityType::ORGANIZATION) {
+          found_org = true;
+        }
+        if (e.entity_type == EntityType::LEGAL_NORM_REFERENCE) {
+          found_law = true;
+        }
     }
     EXPECT_TRUE(found_org);
     EXPECT_TRUE(found_law);

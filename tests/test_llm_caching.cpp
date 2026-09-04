@@ -81,7 +81,8 @@ TEST(ModelMetadataCacheTest, ConcurrentAccess) {
     }
     
     // Concurrent reads (lock-free)
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 10; t++) {
         threads.emplace_back([&cache]() {
             for (int i = 0; i < 100; i++) {

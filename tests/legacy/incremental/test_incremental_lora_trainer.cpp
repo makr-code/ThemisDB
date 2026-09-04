@@ -133,7 +133,7 @@ class TestRouter final : public ILLMRouter {
 public:
     bool available = true;
     bool accept_weight = true;
-    std::string last_version;
+    std::string last_version = {};
     float last_weight = -1.0f;
 
     bool setAdapterWeight(const std::string& version, float weight) override {
@@ -157,7 +157,7 @@ public:
     bool throw_on_set_weight = false;
     int is_available_calls = 0;
     int set_weight_calls = 0;
-    std::string last_version;
+    std::string last_version = {};
 
     bool setAdapterWeight(const std::string& version, float) override {
         ++set_weight_calls;

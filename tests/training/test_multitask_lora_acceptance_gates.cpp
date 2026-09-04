@@ -77,7 +77,8 @@ protected:
         const std::vector<std::string>& task_ids,
         size_t samples_per_task = 50,
         size_t input_dim = 32) {
-        std::vector<MTLSample> all_samples;
+        std::vector<MTLSample> all_samples = {};
+
         for (size_t i = 0; i < task_ids.size(); ++i) {
             auto task_samples = createSimpleSamples(task_ids[i], samples_per_task, input_dim, 42 + i);
             all_samples.insert(all_samples.end(), task_samples.begin(), task_samples.end());

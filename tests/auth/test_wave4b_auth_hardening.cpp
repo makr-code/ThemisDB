@@ -58,9 +58,11 @@ AuditLoggerConfig makeTestConfig(const std::filesystem::path &log_path) {
 size_t countLogLines(const std::filesystem::path &path) {
     std::ifstream f(path);
     size_t n = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line))
-        if (!line.empty()) ++n;
+        if (!line.empty()) {
+          ++n;
+        }
     return n;
 }
 
@@ -98,7 +100,7 @@ TEST_F(Wave4BPasskeyAuditTest, A1_FailureOnChallengeNotFound) {
     resp.client_data_json_b64      = "";
     resp.signature_b64             = "";
 
-    std::string uid;
+    std::string uid = {};
     const auto result = auth_->completeAuthentication("nonexistent-challenge-id", resp, uid);
     EXPECT_EQ(result, PasskeyVerifyResult::INVALID_CHALLENGE);
 
@@ -400,13 +402,15 @@ std::string buildCborCoseKey(int64_t kty, int64_t alg, int64_t crv,
         return {'\x39', static_cast<char>(n >> 8), static_cast<char>(n & 0xFF)};
     };
     auto encBytes = [](const std::vector<uint8_t> &b) -> std::string {
-        std::string r;
-        if (b.size() <= 23)       r += static_cast<char>(0x40 | b.size());
+        std::string r = {};
+        if (b.size() <= 23) {
+          r += static_cast<char>(0x40 | b.size());
+        }
         else if (b.size() <= 255) { r += '\x58'; r += static_cast<char>(b.size()); }
         r.append(reinterpret_cast<const char *>(b.data()), b.size());
         return r;
     };
-    std::string out;
+    std::string out = {};
     out += '\xa5';  // map(5)
     // key 1: kty
     out += encUint(1);
@@ -453,7 +457,7 @@ TEST(Wave4BCoseAlg, C1_EC2WithDisallowedAlgRejected) {
     resp.client_data_json_b64   = "";
     resp.signature_b64          = "";
 
-    std::string uid;
+    std::string uid = {};
     // completeAuthentication will try to parse the COSE key when verifying;
     // the alg check fires, returning INVALID_SIGNATURE
     const auto result = auth.completeAuthentication(auth_challenge.challenge_id, resp, uid);
@@ -485,7 +489,7 @@ TEST(Wave4BCoseAlg, C1_RSAWithDisallowedAlgRejected) {
     resp.client_data_json_b64   = "";
     resp.signature_b64          = "";
 
-    std::string uid;
+    std::string uid = {};
     const auto result = auth.completeAuthentication(auth_challenge.challenge_id, resp, uid);
     EXPECT_NE(result, PasskeyVerifyResult::SUCCESS);
 }
@@ -567,7 +571,7 @@ TEST(Wave4BCoseAlg, C3_RSAKeyTooShortRejected) {
     resp.client_data_json_b64   = "";
     resp.signature_b64          = "";
 
-    std::string uid;
+    std::string uid = {};
     // The RSA key-size check fires when EVP_PKEY is built — returns failure
     const auto result = auth.completeAuthentication(auth_challenge.challenge_id, resp, uid);
     EXPECT_NE(result, PasskeyVerifyResult::SUCCESS);

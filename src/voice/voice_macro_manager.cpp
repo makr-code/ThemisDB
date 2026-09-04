@@ -31,14 +31,16 @@ namespace {
 
 /** Normalise text for trigger matching: lower-case, strip leading/trailing whitespace. */
 std::string normalise(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s) {
         out.push_back(static_cast<char>(std::tolower(c)));
     }
     // strip leading/trailing spaces
     size_t start = out.find_first_not_of(' ');
-    if (start == std::string::npos) return "";
+    if (start == std::string::npos) {
+      return "";
+    }
     size_t end = out.find_last_not_of(' ');
     return out.substr(start, end - start + 1);
 }
@@ -46,7 +48,7 @@ std::string normalise(const std::string& s) {
 /** Generate a simple time-based unique ID. */
 std::string generateID() {
     auto now = std::chrono::system_clock::now().time_since_epoch().count();
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "macro:" << std::hex << now;
     return ss.str();
 }
@@ -181,7 +183,7 @@ StepResult executeStep(int index,
                     std::string token = "@" + kv.first;
                     size_t pos = 0;
                     while ((pos = aql.find(token, pos)) != std::string::npos) {
-                        aql.replace(pos, token.size(), kv.second);
+                        aql.replace(pos,static_cast<int>(token.size()), kv.second);
                         pos += kv.second.size();
                     }
                 }
@@ -226,8 +228,8 @@ StepResult executeStep(int index,
             break;
         }
         case StepType::CONDITION:
-        case StepType::LOOP:
-        default:
+        [[fallthrough]];\n        case StepType::LOOP:
+        [[fallthrough]];\n        default:
             result.output  = "Step type not yet supported: " + std::to_string(static_cast<int>(step.type));
             result.success = false;
             result.error_message = result.output;
@@ -291,7 +293,9 @@ MacroID VoiceMacroManager::createMacro(
 std::optional<MacroInfo> VoiceMacroManager::getMacro(const MacroID& macro_id) const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     auto it = impl_->macros.find(macro_id);
-    if (it == impl_->macros.end()) return std::nullopt;
+    if (it == impl_->macros.end()) {
+      return std::nullopt;
+    }
     return it->second;   // return a copy while the lock is held
 }
 
@@ -300,8 +304,9 @@ std::vector<MacroInfo> VoiceMacroManager::listMacros(
     const std::vector<std::string>& tags) const
 {
     std::lock_guard<std::mutex> lock(impl_->mutex);
-    std::vector<MacroInfo> result;
-    result.reserve(impl_->macros.size());
+    std::vector<MacroInfo> result = {};
+
+    result.reserve(impl_-> static_cast<int>(macros.size()));
 
     for (const auto& kv : impl_->macros) {
         if (tags.empty()) {
@@ -317,7 +322,9 @@ std::vector<MacroInfo> VoiceMacroManager::listMacros(
                 break;
             }
         }
-        if (matched) result.push_back(kv.second);
+        if (matched) {
+          result.push_back(kv.second);
+        }
     }
     return result;
 }
@@ -331,7 +338,9 @@ bool VoiceMacroManager::setMacroMeta(
 {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     auto it = impl_->macros.find(macro_id);
-    if (it == impl_->macros.end()) return false;
+    if (it == impl_->macros.end()) {
+      return false;
+    }
     it->second.name        = name;
     it->second.description = description;
     it->second.tags        = tags;
@@ -346,7 +355,9 @@ bool VoiceMacroManager::updateMacro(
 {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     auto it = impl_->macros.find(macro_id);
-    if (it == impl_->macros.end()) return false;
+    if (it == impl_->macros.end()) {
+      return false;
+    }
     it->second.steps   = steps;
     it->second.options = options;
     return true;
@@ -383,12 +394,14 @@ MacroResult VoiceMacroManager::executeMacro(
 
     auto t0 = std::chrono::steady_clock::now();
 
-    std::string combined_output;
+    std::string combined_output = {};
     bool all_ok = true;
 
-    for (int i = 0; i < static_cast<int>(info.steps.size()); ++i) {
+    for (size_t i = 0; i < static_cast<int>(info.steps.size()); ++i) {
         auto sr = executeStep(i, info.steps[static_cast<size_t>(i)], parameters);
-        if (!combined_output.empty()) combined_output += '\n';
+        if (!combined_output.empty()) {
+          combined_output += '\n';
+        }
         combined_output += sr.output;
         if (!sr.success) {
             all_ok = false;
@@ -424,7 +437,9 @@ MacroID VoiceMacroManager::matchTrigger(const std::string& utterance) const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     for (const auto& kv : impl_->macros) {
         const MacroInfo& m = kv.second;
-        if (!m.enabled) continue;
+        if (!m.enabled) {
+          continue;
+        }
         if (norm_utt.find(m.trigger_phrase) != std::string::npos) {
             return m.macro_id;   // return a copy of the ID while the lock is held
         }
@@ -467,13 +482,17 @@ std::vector<MacroID> VoiceMacroManager::importMacros(const std::string& json_str
         return imported_ids;
     }
 
-    if (!arr.is_array()) return imported_ids;
+    if (!arr.is_array()) {
+      return imported_ids;
+    }
 
     std::lock_guard<std::mutex> lock(impl_->mutex);
     for (const auto& item : arr) {
         try {
             MacroInfo m = macroInfoFromJson(item);
-            if (m.trigger_phrase.empty()) continue;
+            if (m.trigger_phrase.empty()) {
+              continue;
+            }
             if (m.macro_id.empty()) {
                 m.macro_id = generateID();
             }
@@ -497,11 +516,13 @@ std::vector<MacroID> VoiceMacroManager::importMacros(const std::string& json_str
 json VoiceMacroManager::getStatistics() const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     json stats;
-    stats["total_macros"]     = impl_->macros.size();
+    stats["total_macros"]     = impl_-> static_cast<int>(macros.size());
     stats["total_executions"] = impl_->total_executions;
     size_t enabled_count = 0;
     for (const auto& kv : impl_->macros) {
-        if (kv.second.enabled) ++enabled_count;
+        if (kv.second.enabled) {
+          ++enabled_count;
+        }
     }
     stats["enabled_macros"] = enabled_count;
     return stats;

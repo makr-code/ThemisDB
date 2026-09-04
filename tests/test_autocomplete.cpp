@@ -72,8 +72,12 @@ TEST(AutocompletePopular, NullAnalyticsReturnsEmpty) {
 TEST(AutocompletePopular, PopularQueriesMatchedByPrefix) {
     SearchAnalytics analytics;
     // Record several queries
-    for (int i = 0; i < 5; ++i) analytics.record("database query", 3, 10.0);
-    for (int i = 0; i < 3; ++i) analytics.record("data migration", 2, 8.0);
+    for (int i = 0; i < 5; ++i) {
+      analytics.record("database query", 3, 10.0);
+    }
+    for (int i = 0; i < 3; ++i) {
+      analytics.record("data migration", 2, 8.0);
+    }
     analytics.record("graph search", 1, 5.0);
 
     AutocompleteEngine ac(nullptr, &analytics);
@@ -89,8 +93,12 @@ TEST(AutocompletePopular, PopularQueriesMatchedByPrefix) {
 
 TEST(AutocompletePopular, MostFrequentQueryRankedFirst) {
     SearchAnalytics analytics;
-    for (int i = 0; i < 10; ++i) analytics.record("database index", 5, 5.0);
-    for (int i = 0; i < 2; ++i)  analytics.record("data warehouse", 3, 8.0);
+    for (int i = 0; i < 10; ++i) {
+      analytics.record("database index", 5, 5.0);
+    }
+    for (int i = 0; i < 2; ++i) {
+      analytics.record("data warehouse", 3, 8.0);
+    }
 
     AutocompleteEngine ac(nullptr, &analytics);
     auto suggestions = ac.suggestPopular("data", 10);
@@ -102,7 +110,9 @@ TEST(AutocompletePopular, MostFrequentQueryRankedFirst) {
 
 TEST(AutocompletePopular, MaxLimitHonored) {
     SearchAnalytics analytics;
-    for (int i = 0; i < 10; ++i) analytics.record("data" + std::to_string(i), 1, 1.0);
+    for (int i = 0; i < 10; ++i) {
+      analytics.record("data" + std::to_string(i), 1, 1.0);
+    }
 
     AutocompleteEngine ac(nullptr, &analytics);
     auto suggestions = ac.suggestPopular("data", 3);
@@ -137,7 +147,9 @@ TEST(AutocompleteByPrefix, EmptyTableReturnsEmpty) {
 
 TEST(AutocompleteSuggest, CombinesPopularAndPrefix) {
     SearchAnalytics analytics;
-    for (int i = 0; i < 3; ++i) analytics.record("dataset analysis", 4, 6.0);
+    for (int i = 0; i < 3; ++i) {
+      analytics.record("dataset analysis", 4, 6.0);
+    }
 
     AutocompleteEngine::Config cfg;
     cfg.include_prefix = false; // disable prefix scan (no index)
@@ -161,14 +173,18 @@ TEST(AutocompleteSuggest, DeduplicatesResults) {
     auto suggestions = ac.suggest("data");
     size_t count = 0;
     for (const auto& s : suggestions) {
-        if (s.text == "database") ++count;
+        if (s.text == "database") {
+          ++count;
+        }
     }
     EXPECT_LE(count, 1u);
 }
 
 TEST(AutocompleteSuggest, MaxSuggestionsHonored) {
     SearchAnalytics analytics;
-    for (int i = 0; i < 20; ++i) analytics.record("data" + std::to_string(i), 1, 1.0);
+    for (int i = 0; i < 20; ++i) {
+      analytics.record("data" + std::to_string(i), 1, 1.0);
+    }
 
     AutocompleteEngine::Config cfg;
     cfg.max_suggestions = 5;

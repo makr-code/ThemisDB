@@ -290,7 +290,8 @@ static void BM_DPRVectorizer_PassageBatch(benchmark::State& state) {
     }
     
     // Create batch of passages
-    std::vector<std::string> passages;
+    std::vector<std::string> passages = {};
+
     for (int i = 0; i < batch_size; ++i) {
         passages.push_back("This is a sample passage number " + std::to_string(i) + 
                           " for benchmarking the DPR vectorizer batch encoding.");
@@ -411,7 +412,8 @@ static void BM_FairnessDetector_BatchDetection(benchmark::State& state) {
     }
     
     // Create batch of documents
-    std::vector<std::string> documents;
+    std::vector<std::string> documents = {};
+
     for (int i = 0; i < batch_size; ++i) {
         documents.push_back(
             "The nurse and the doctor discussed the patient's condition. "

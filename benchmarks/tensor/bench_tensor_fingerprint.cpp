@@ -29,7 +29,9 @@ static std::vector<float> makeRandVec(std::size_t n, unsigned seed = 42) {
     std::mt19937 rng(seed);
     std::normal_distribution<float> dist(0.0f, 1.0f);
     std::vector<float> v(n);
-    for (auto& x : v) x = dist(rng);
+    for (auto& x : v) {
+      x = dist(rng);
+    }
     return v;
 }
 
@@ -38,7 +40,9 @@ static std::vector<float> makeSharedVec(std::size_t n, unsigned base_seed,
     auto v = makeRandVec(n, base_seed);
     std::mt19937 rng(base_seed ^ 0xDEADBEEFU);
     std::normal_distribution<float> noise(0.0f, noise_scale);
-    for (auto& x : v) x += noise(rng);
+    for (auto& x : v) {
+      x += noise(rng);
+    }
     return v;
 }
 
@@ -82,7 +86,9 @@ public:
         const auto mode_n = static_cast<std::size_t>(state.range(0));
         const std::vector<std::size_t> shape(mode_n, 2U);
         std::size_t total_elems = 1U;
-        for (std::size_t i = 0; i < mode_n; ++i) total_elems *= 2U;
+        for (std::size_t i = 0; i < mode_n; ++i) {
+          total_elems *= 2U;
+        }
         trains_.reserve(kBatchSize);
         for (std::size_t i = 0; i < kBatchSize; ++i) {
             auto data = makeRandVec(total_elems, static_cast<unsigned>(i));

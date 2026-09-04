@@ -52,9 +52,11 @@ namespace {
 
 /// Convert query to uppercase for case-insensitive matching.
 std::string toUpperAscii(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
-    for (auto c : s) out.push_back(static_cast<char>(std::toupper(static_cast<unsigned char>(c))));
+    for (auto c : s) {
+      out.push_back(static_cast<char>(std::toupper(static_cast<unsigned char>(c))));
+    }
     return out;
 }
 
@@ -155,7 +157,7 @@ double scoreFeatures(const std::string& upperQuery, const Feature (&features)[N]
 }
 
 /// Logistic function (sigmoid).
-double sigmoid(double x) {
+double sigmoid([[maybe_unused]] double x) {
     return 1.0 / (1.0 + std::exp(-x));
 }
 
@@ -291,7 +293,7 @@ double IntentClassifier::riskDelta(IntentType t) noexcept {
         case IntentType::DATA_DESTRUCTION:    return 0.90;
         case IntentType::SCHEMA_MUTATION:     return 0.75;
         case IntentType::LEGITIMATE:
-        default:                              return 0.0;
+        [[fallthrough]];\n        default:                              return 0.0;
     }
 }
 
@@ -333,10 +335,14 @@ std::vector<float> IntentClassifier::buildEmbedding(
 
     // L2-normalise.
     float norm = 0.0f;
-    for (auto v : emb) norm += v * v;
+    for (auto v : emb) {
+      norm += v * v;
+    }
     norm = std::sqrt(norm);
     if (norm > 1e-6f) {
-        for (auto& v : emb) v /= norm;
+        for (auto& v : emb) {
+          v /= norm;
+        }
     }
     return emb;
 }
@@ -389,12 +395,24 @@ static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* user
 
 /// Map a JSON intent string returned by the endpoint to IntentType.
 static IntentClassifier::IntentType intentFromString(const std::string& s) noexcept {
-    if (s == "SQL_INJECTION")        return IntentClassifier::IntentType::SQL_INJECTION;
-    if (s == "DATA_EXFILTRATION")    return IntentClassifier::IntentType::DATA_EXFILTRATION;
-    if (s == "PRIVILEGE_ESCALATION") return IntentClassifier::IntentType::PRIVILEGE_ESCALATION;
-    if (s == "ANOMALOUS_PATTERN")    return IntentClassifier::IntentType::ANOMALOUS_PATTERN;
-    if (s == "DATA_DESTRUCTION")     return IntentClassifier::IntentType::DATA_DESTRUCTION;
-    if (s == "SCHEMA_MUTATION")      return IntentClassifier::IntentType::SCHEMA_MUTATION;
+    if (s == "SQL_INJECTION") {
+      return IntentClassifier::IntentType::SQL_INJECTION;
+    }
+    if (s == "DATA_EXFILTRATION") {
+      return IntentClassifier::IntentType::DATA_EXFILTRATION;
+    }
+    if (s == "PRIVILEGE_ESCALATION") {
+      return IntentClassifier::IntentType::PRIVILEGE_ESCALATION;
+    }
+    if (s == "ANOMALOUS_PATTERN") {
+      return IntentClassifier::IntentType::ANOMALOUS_PATTERN;
+    }
+    if (s == "DATA_DESTRUCTION") {
+      return IntentClassifier::IntentType::DATA_DESTRUCTION;
+    }
+    if (s == "SCHEMA_MUTATION") {
+      return IntentClassifier::IntentType::SCHEMA_MUTATION;
+    }
     return IntentClassifier::IntentType::LEGITIMATE;
 }
 
@@ -452,7 +470,7 @@ bool IntentClassifier::configureLoraEndpoint(
             return {IntentType::LEGITIMATE, 0.0, "lora_curl_init_failed"};
         }
 
-        std::string response_buf;
+        std::string response_buf = {};
         struct curl_slist* headers = nullptr;
         headers = curl_slist_append(headers, "Content-Type: application/json");
         if (!key.empty()) {

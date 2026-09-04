@@ -351,7 +351,8 @@ TEST_F(PromptVersionControlTest, ListBranches) {
     EXPECT_EQ(branches.size(), 3);  // main, dev, staging
     
     // Verify all branches are listed
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     for (const auto& branch : branches) {
         names.push_back(branch.name);
         EXPECT_GT(branch.commit_count, 0);

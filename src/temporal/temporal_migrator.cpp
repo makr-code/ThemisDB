@@ -42,12 +42,24 @@ std::string TemporalMigrator::statusName(MigrationStatus s) {
 }
 
 std::string TemporalMigrator::inferType(const nlohmann::json& value) {
-    if (value.is_null())    return "null";
-    if (value.is_boolean()) return "boolean";
-    if (value.is_number())  return "number";
-    if (value.is_string())  return "string";
-    if (value.is_array())   return "array";
-    if (value.is_object())  return "object";
+    if (value.is_null()) {
+      return "null";
+    }
+    if (value.is_boolean()) {
+      return "boolean";
+    }
+    if (value.is_number()) {
+      return "number";
+    }
+    if (value.is_string()) {
+      return "string";
+    }
+    if (value.is_array()) {
+      return "array";
+    }
+    if (value.is_object()) {
+      return "object";
+    }
     return "unknown";
 }
 
@@ -62,7 +74,9 @@ std::vector<ColumnInfo> TemporalMigrator::inferColumns(
     std::unordered_map<std::string, FieldStats> field_map;
 
     for (const auto& [key, doc] : docs) {
-        if (!doc.is_object()) continue;
+        if (!doc.is_object()) {
+          continue;
+        }
         for (const auto& [field, val] : doc.items()) {
             auto& fs = field_map[field];
             fs.present_count++;
@@ -71,7 +85,8 @@ std::vector<ColumnInfo> TemporalMigrator::inferColumns(
     }
 
     const size_t total = docs.size();
-    std::vector<ColumnInfo> columns;
+    std::vector<ColumnInfo> columns = {};
+
     columns.reserve(field_map.size());
 
     for (auto& [name, fs] : field_map) {
@@ -80,7 +95,7 @@ std::vector<ColumnInfo> TemporalMigrator::inferColumns(
         ci.nullable = (fs.present_count < total);
 
         // Dominant type = type with the highest occurrence count
-        std::string dominant;
+        std::string dominant = {};
         size_t      max_count = 0;
         for (const auto& [type, cnt] : fs.type_counts) {
             if (cnt > max_count) { max_count = cnt; dominant = type; }
@@ -165,7 +180,7 @@ void TemporalMigrator::setStatus(MigrationStatus s, const std::string& msg) {
     }
 }
 
-void TemporalMigrator::setProgressCallback(ProgressCallback cb) {
+void TemporalMigrator::setProgressCallback([[maybe_unused]] ProgressCallback cb) {
     progress_cb_ = std::move(cb);
 }
 
@@ -362,8 +377,8 @@ MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& ta
 
         for (const auto& key : table.getAllKeys()) {
             auto history = table.getHistory(key);
-            for (size_t i = 1; i < history.size(); ++i) {
-                if (history[i].sys_time.start < history[i - 1].sys_time.start) {
+            for (size_t i = 1; i <static_cast<int>(history.size()); ++i) {
+                if (history[i].sys_time.start < history[static_cast<int>(i - 1)].sys_time.start) {
                     r.passed = false;
                     r.detail = "Key '" + key + "': versions out of order at index "
                              + std::to_string(i);
@@ -371,9 +386,13 @@ MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& ta
                     break;
                 }
             }
-            if (!r.passed) break;
+            if (!r.passed) {
+              break;
+            }
         }
-        if (r.passed) r.detail = "all versions in ascending sys_start order";
+        if (r.passed) {
+          r.detail = "all versions in ascending sys_start order";
+        }
         report.checks.push_back(r);
     }
 
@@ -385,8 +404,8 @@ MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& ta
 
         for (const auto& key : table.getAllKeys()) {
             auto history = table.getHistory(key);
-            for (size_t i = 1; i < history.size(); ++i) {
-                if (history[i].sys_time.start < history[i - 1].sys_time.end) {
+            for (size_t i = 1; i <static_cast<int>(history.size()); ++i) {
+                if (history[i].sys_time.start < history[static_cast<int>(i - 1)].sys_time.end) {
                     r.passed = false;
                     r.detail = "Key '" + key + "': overlapping versions at index "
                              + std::to_string(i);
@@ -394,9 +413,13 @@ MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& ta
                     break;
                 }
             }
-            if (!r.passed) break;
+            if (!r.passed) {
+              break;
+            }
         }
-        if (r.passed) r.detail = "no overlapping version periods detected";
+        if (r.passed) {
+          r.detail = "no overlapping version periods detected";
+        }
         report.checks.push_back(r);
     }
 
@@ -415,7 +438,9 @@ MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& ta
                 break;
             }
         }
-        if (r.passed) r.detail = "all current versions have open sys_time.end";
+        if (r.passed) {
+          r.detail = "all current versions have open sys_time.end";
+        }
         report.checks.push_back(r);
     }
 
@@ -429,7 +454,7 @@ MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& ta
         for (const auto& key : table.getAllKeys()) {
             auto history = table.getHistory(key);
             // Expect closed version[i].sys_end == next version[i+1].sys_start
-            for (size_t i = 0; i + 1 < history.size(); ++i) {
+            for (size_t i = 0; i + 1 <static_cast<int>(history.size()); ++i) {
                 if (!history[i].isCurrent() &&
                     history[i].sys_time.end != history[i + 1].sys_time.start) {
                     ++gaps;

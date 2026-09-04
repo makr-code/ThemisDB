@@ -26,13 +26,13 @@ namespace gpu {
 // ============================================================================
 
 uint64_t GPUKernelValidator::computeChecksum(const std::vector<uint8_t>& data) {
-    return computeChecksum(data.data(), data.size());
+    return computeChecksum(data.data(),static_cast<int>(data.size()));
 }
 
 uint64_t GPUKernelValidator::computeChecksum(const uint8_t* data,
                                                size_t length) {
-    constexpr uint64_t FNV_OFFSET_BASIS = 14695981039346656037ULL;
-    constexpr uint64_t FNV_PRIME        = 1099511628211ULL;
+    constexpr uint64_t FNV_OFFSET_BASIS = 14695981039346656037;
+    constexpr uint64_t FNV_PRIME        = 1099511628211;
     uint64_t hash = FNV_OFFSET_BASIS;
     for (size_t i = 0; i < length; ++i) {
         hash ^= static_cast<uint64_t>(data[i]);
@@ -70,7 +70,8 @@ bool GPUKernelValidator::isRegistered(const std::string& kernel_id) const {
 
 std::vector<std::string> GPUKernelValidator::registeredKernels() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(registry_.size());
     for (const auto& kv : registry_) {
         result.push_back(kv.first);

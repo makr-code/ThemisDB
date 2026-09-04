@@ -463,7 +463,8 @@ TEST_F(WorkloadCacheStrategyTest, ThreadSafety_ConcurrentRecording) {
     WorkloadCacheStrategy strategy(config_);
     
     // Record queries from multiple threads
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&strategy, t]() {
             for (int i = 0; i < 10; ++i) {

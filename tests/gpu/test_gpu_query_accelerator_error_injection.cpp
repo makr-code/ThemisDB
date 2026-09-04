@@ -49,8 +49,10 @@ protected:
 
     /// Helper to extract the float payload as a double
     static double payloadVal(const Row& r) {
-        if (r.data.size() < sizeof(float)) return 0.0;
-        float v;
+        if (r.data.size() < sizeof(float)) {
+          return 0.0;
+        }
+        float v = {};
         std::memcpy(&v, r.data.data(), sizeof(float));
         return static_cast<double>(v);
     }
@@ -250,7 +252,8 @@ TEST_F(GPUQueryAcceleratorErrorInjectionTest, ForceCPU_HashJoin_NoMatches) {
     GPUQueryAccelerator acc(cpuOnlyConfig());
 
     // Create two sets with non-overlapping IDs
-    std::vector<Row> left;
+    std::vector<Row> left = {};
+
     for (size_t i = 0; i < 10; ++i) {
         Row r;
         r.id = i;
@@ -260,7 +263,8 @@ TEST_F(GPUQueryAcceleratorErrorInjectionTest, ForceCPU_HashJoin_NoMatches) {
         left.push_back(r);
     }
 
-    std::vector<Row> right;
+    std::vector<Row> right = {};
+
     for (size_t i = 10; i < 20; ++i) {
         Row r;
         r.id = i;

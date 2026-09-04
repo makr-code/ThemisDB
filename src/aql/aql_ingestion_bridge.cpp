@@ -104,7 +104,7 @@ std::string AQLIngestionBridge::buildEntityContext(
         return {};
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Extracted entities:";
     bool first = true;
     for (const auto& e : entities) {

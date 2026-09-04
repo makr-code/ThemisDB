@@ -127,7 +127,9 @@ struct StubJwtValidator {
     bool validate(const std::string& token) const noexcept {
         // Structural: must have exactly 2 dots
         int dots = 0;
-        for (char c : token) if (c == '.') ++dots;
+        for (char c : token) {
+          if (c == '.') ++dots;
+        }
         return dots == 2 && token.size() <= kServerMaxJwtTokenBytes;
     }
 };
@@ -169,7 +171,9 @@ static void drainConnections(int count) {
             }
         });
     }
-    for (auto& t : workers) t.join();
+    for (auto& t : workers) {
+      t.join();
+    }
 }
 
 // ===========================================================================

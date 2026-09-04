@@ -94,7 +94,7 @@ private:
     std::mt19937 rng_;
 
     /// Model architecture fingerprint
-    std::string fingerprint_;
+    std::string fingerprint_ = {};
 };
 
 }  // namespace themis::llm
@@ -113,7 +113,9 @@ inline bool SyntheticSSMStub::initialize() {
 }
 
 inline bool SyntheticSSMStub::updateState(const std::vector<int32_t>& tokens) {
-    if (!initialized_) return false;
+    if (!initialized_) {
+      return false;
+    }
     for (auto t : tokens) {
         if (t < 0 || t > 1000000) return false; // simple validation
         size_t idx = static_cast<size_t>(token_count_ % HIDDEN_DIM);
@@ -129,14 +131,22 @@ inline SSMStateSnapshot SyntheticSSMStub::getStateSnapshot(core::HLCTimestamp sn
     snap.sequence_counter = token_count_;
     snap.state_fingerprint = fingerprint_;
     snap.state_data.resize(HIDDEN_DIM);
-    for (int i = 0; i < HIDDEN_DIM; ++i) snap.state_data[i] = static_cast<uint8_t>(hidden_state_[i] * 255.0f);
+    for (int i = 0; i < HIDDEN_DIM; ++i) {
+      snap.state_data[i] = static_cast<uint8_t>(hidden_state_[i] * 255.0f);
+    }
     return snap;
 }
 
 inline bool SyntheticSSMStub::restoreState(const SSMStateSnapshot& snapshot) {
-    if (snapshot.state_fingerprint != fingerprint_) return false;
-    if (snapshot.state_data.size() < static_cast<size_t>(HIDDEN_DIM)) return false;
-    for (int i = 0; i < HIDDEN_DIM; ++i) hidden_state_[i] = static_cast<float>(snapshot.state_data[i]) / 255.0f;
+    if (snapshot.state_fingerprint != fingerprint_) {
+      return false;
+    }
+    if (snapshot.state_data.size() < static_cast<size_t>(HIDDEN_DIM)) {
+      return false;
+    }
+    for (int i = 0; i < HIDDEN_DIM; ++i) {
+      hidden_state_[i] = static_cast<float>(snapshot.state_data[i]) / 255.0f;
+    }
     token_count_ = snapshot.sequence_counter;
     return true;
 }

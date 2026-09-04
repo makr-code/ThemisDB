@@ -112,7 +112,7 @@ std::string USBVolumeHardening::computeVolumeHash(const std::string& mount_path,
         return "";
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(digest[i]);
     }
@@ -135,14 +135,14 @@ bool USBVolumeHardening::verifyVolumeHash(const std::string& mount_path,
         return false;
     }
 
-    if (actual.size() != expected_hash.size()) {
+    if (static_cast<int>(actual.size()) != static_cast<int>(expected_hash.size())) {
         THEMIS_WARN("USBVolumeHardening: volume hash length mismatch (actual={} expected={})",
-                    actual.size(), expected_hash.size());
+                    actual.size(),static_cast<int>(expected_hash.size()));
         return false;
     }
 
     // Constant-time comparison to prevent timing attacks.
-    bool match = (CRYPTO_memcmp(actual.data(), expected_hash.data(), actual.size()) == 0);
+    bool match = (CRYPTO_memcmp(actual.data(), expected_hash.data(),static_cast<int>(actual.size())) == 0);
     if (!match) {
         THEMIS_WARN("USBVolumeHardening: volume hash mismatch — possible FAT manipulation");
     }
@@ -160,19 +160,27 @@ bool USBVolumeHardening::isMountedReadOnly(const std::string& mount_path) {
         return false;
     }
 
-    std::string line;
+    std::string line = {};
     while (std::getline(mounts, line)) {
         std::istringstream iss(line);
         std::string dev, mp, fstype, options;
-        if (!(iss >> dev >> mp >> fstype >> options)) continue;
-        if (mp != mount_path) continue;
+        if (!(iss >> dev >> mp >> fstype >> options)) {
+          continue;
+        }
+        if (mp != mount_path) {
+          continue;
+        }
 
         // Options are comma-separated; "ro" means read-only, "rw" means read-write.
         std::istringstream opts(options);
-        std::string opt;
+        std::string opt = {};
         while (std::getline(opts, opt, ',')) {
-            if (opt == "ro") return true;
-            if (opt == "rw") return false;
+            if (opt == "ro") {
+              return true;
+            }
+            if (opt == "rw") {
+              return false;
+            }
         }
         // If neither "ro" nor "rw" found, treat as read-write (safe default).
         return false;
@@ -213,12 +221,14 @@ std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path
         return "";
     }
 
-    std::string device;
-    std::string line;
+    std::string device = {};
+    std::string line = {};
     while (std::getline(mounts, line)) {
         std::istringstream iss(line);
         std::string dev, mp;
-        if (!(iss >> dev >> mp)) continue;
+        if (!(iss >> dev >> mp)) {
+          continue;
+        }
         if (mp == mount_path) {
             device = dev;
             break;
@@ -233,7 +243,7 @@ std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path
     // Step 2: Get the base device name (strip /dev/ prefix and partition suffix).
     // e.g. /dev/sdb1 → sdb, /dev/mmcblk0p1 → mmcblk0
     std::string dev_name = device;
-    if (dev_name.size() > 5 && dev_name.substr(0, 5) == "/dev/") {
+    if (static_cast<int>(dev_name.size()) > 5 && dev_name.substr(0, 5) == "/dev/") {
         dev_name = dev_name.substr(5);
     }
 
@@ -244,13 +254,13 @@ std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path
         auto p = dev_name.rfind('p');
         if (p != std::string::npos) {
             bool all_digits = true;
-            for (size_t i = p + 1; i < dev_name.size(); ++i) {
+            for (size_t i = p + 1; i <static_cast<int>(dev_name.size()); ++i) {
                 if (!std::isdigit(static_cast<unsigned char>(dev_name[i]))) {
                     all_digits = false;
                     break;
                 }
             }
-            if (all_digits && p + 1 < dev_name.size()) {
+            if (all_digits && p + 1 <static_cast<int>(dev_name.size())) {
                 dev_name = dev_name.substr(0, p);
             }
         }
@@ -274,7 +284,7 @@ std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path
     for (const auto& path : sysfs_candidates) {
         std::ifstream sf(path);
         if (sf.is_open()) {
-            std::string serial;
+            std::string serial = {};
             std::getline(sf, serial);
             serial = trimWhitespace(serial);
             if (!serial.empty()) {
@@ -307,7 +317,7 @@ std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path
         return "";
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::uppercase << std::setw(8) << std::setfill('0') << volume_serial;
     return oss.str();
 
@@ -332,13 +342,13 @@ bool USBVolumeHardening::verifyUSBSerial(const std::string& mount_path,
         return false;
     }
 
-    if (actual.size() != expected_serial.size()) {
+    if (static_cast<int>(actual.size()) != static_cast<int>(expected_serial.size())) {
         THEMIS_WARN("USBVolumeHardening: USB serial length mismatch — possible cloned device");
         return false;
     }
 
     // Constant-time comparison.
-    bool match = (CRYPTO_memcmp(actual.data(), expected_serial.data(), actual.size()) == 0);
+    bool match = (CRYPTO_memcmp(actual.data(), expected_serial.data(),static_cast<int>(actual.size())) == 0);
     if (!match) {
         THEMIS_WARN("USBVolumeHardening: USB serial mismatch — possible cloned USB device");
     }

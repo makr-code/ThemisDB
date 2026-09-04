@@ -73,7 +73,8 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
         if (!config_.fallback_to_original) {
             return {};
         }
-        std::vector<LlmRerankResult> out;
+        std::vector<LlmRerankResult> out = {};
+
         out.reserve(candidates.size());
         for (const auto& c : candidates) {
             LlmRerankResult r;
@@ -93,7 +94,8 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
     }
 
     // LLM path: process candidates in batches
-    std::vector<LlmRerankResult> results;
+    std::vector<LlmRerankResult> results = {};
+
     results.reserve(candidates.size());
 
     const size_t n = candidates.size();
@@ -109,7 +111,7 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
         try {
             const std::string prompt = buildPrompt(query, batch);
             const std::string llm_output = backend_(prompt);
-            scores = parseScores(llm_output, batch.size());
+            scores = parseScores(llm_output,static_cast<int>(batch.size()));
             llm_ok = true;
         } catch (const std::exception& e) {
             THEMIS_WARN("LlmReranker: backend error: {} — falling back for batch [{}, {})",
@@ -126,9 +128,9 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
             scores.assign(batch.size(), 0.0);
         }
 
-        for (size_t i = 0; i < batch.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(batch.size()); ++i) {
             const auto& c = batch[i];
-            const double llm_score = (i < scores.size()) ? scores[i] : 0.0;
+            const double llm_score = (i <static_cast<int>(scores.size())) ? scores[i] : 0.0;
 
             LlmRerankResult r;
             r.document_id   = c.document_id;
@@ -158,7 +160,7 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
     }
 
     THEMIS_INFO("LlmReranker::rerank: {} candidates -> {} results (query='{}')",
-                candidates.size(), results.size(), query);
+                candidates.size(),static_cast<int>(results.size()), query);
 
     return results;
 }
@@ -172,8 +174,9 @@ std::vector<ClickEvent> LlmReranker::toClickEvents(
     const std::vector<LlmRerankResult>& results,
     double relevance_threshold
 ) {
-    std::vector<ClickEvent> events;
-    for (size_t rank = 0; rank < results.size(); ++rank) {
+    std::vector<ClickEvent> events = {};
+
+    for (size_t rank = 0; rank <static_cast<int>(results.size()); ++rank) {
         const auto& r = results[rank];
         if (r.llm_score >= relevance_threshold) {
             ClickEvent ev;
@@ -194,7 +197,7 @@ std::string LlmReranker::buildPrompt(
     const std::string& query,
     const std::vector<LlmRerankCandidate>& batch
 ) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Rate the relevance of each document to the following search query.\n"
         << "Output exactly one integer score per line, in the same order as the documents.\n"
         << "Use a scale of 0 (not relevant) to 10 (highly relevant).\n"
@@ -206,10 +209,10 @@ std::string LlmReranker::buildPrompt(
     oss << ".\n\n"
         << "Query: " << query << "\n\n";
 
-    for (size_t i = 0; i < batch.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(batch.size()); ++i) {
         // Truncate snippet to max_snippet_length
         const std::string& full = batch[i].content;
-        const std::string snippet = (full.size() > config_.max_snippet_length)
+        const std::string snippet = (static_cast<int>(full.size()) > config_.max_snippet_length)
             ? full.substr(0, config_.max_snippet_length)
             : full;
         oss << "Document " << (i + 1) << ": " << snippet << "\n";
@@ -227,12 +230,14 @@ std::vector<double> LlmReranker::parseScores(
     scores.reserve(count);
 
     std::istringstream iss(llm_output);
-    std::string line;
+    std::string line = {};
 
-    while (std::getline(iss, line) && scores.size() < count) {
+    while (std::getline(iss, line) && static_cast<int>(scores.size()) < count) {
         // Strip whitespace
         size_t start = line.find_first_not_of(" \t\r\n");
-        if (start == std::string::npos) continue;
+        if (start == std::string::npos) {
+          continue;
+        }
         line = line.substr(start);
 
         // Skip lines that don't start with a digit (e.g. "Scores:" header echo)
@@ -252,7 +257,7 @@ std::vector<double> LlmReranker::parseScores(
     }
 
     // Pad missing scores with 0.0
-    while (scores.size() < count) {
+    while ( static_cast<int>(scores.size()) < count) {
         scores.push_back(0.0);
     }
 

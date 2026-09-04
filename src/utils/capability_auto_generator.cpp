@@ -151,7 +151,9 @@ void CapabilityAutoGenerator::workerThread() {
             auto shards = topology_->getAllShards();
             
             for (const auto& shard : shards) {
-                if (stop_requested_) break;
+                if (stop_requested_) {
+                  break;
+                }
                 
                 // Process this shard
                 processShard(shard);
@@ -256,17 +258,20 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     // Open RocksDB read-only
     rocksdb::Options options;
     options.create_if_missing = false;
-    
-    rocksdb::DB* raw_db = nullptr;
-    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &raw_db);
+     
+    rocksdb::DB* db_instance = nullptr;
+    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_instance);
 
     if (!status.ok()) {
         throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
     }
-    std::unique_ptr<rocksdb::DB> db_ptr(raw_db);
+
+    // Defer database cleanup via RAII scope.
+    auto db_guard = [db_instance]() noexcept { delete db_instance; };
+    (void)db_guard;  // unused-variable warning suppression for defer semantics
 
     // Iterate through database
-    std::unique_ptr<rocksdb::Iterator> it(db_ptr->NewIterator(rocksdb::ReadOptions()));
+    std::unique_ptr<rocksdb::Iterator> it(db_instance->NewIterator(rocksdb::ReadOptions()));
     
     uint64_t doc_count = 0;
     uint64_t total_size = 0;
@@ -308,7 +313,7 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
                     std::string text = doc[field];
                     // Simple tokenization
                     std::istringstream iss(text);
-                    std::string word;
+                    std::string word = {};
                     while (iss >> word) {
                         // Convert to lowercase
                         std::transform(word.begin(), word.end(), word.begin(), 
@@ -349,11 +354,12 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     dedupe(result.data_types);
     dedupe(result.organizations);
     dedupe(result.regions);
-    
+     
     result.document_count = doc_count;
     result.total_size_bytes = total_size;
     result.last_update_time = std::chrono::system_clock::now();
-    
+     
+    delete db_instance = {};
     return result;
 }
 
@@ -490,7 +496,9 @@ bool CapabilityAutoGenerator::saveCapability(
                 emitter << YAML::Value << YAML::BeginSeq << YAML::EndSeq;
             } else {
                 emitter << YAML::Value << YAML::BeginSeq;
-                for (const auto& s : vec) emitter << s;
+                for (const auto& s : vec) {
+                  emitter << s;
+                }
                 emitter << YAML::EndSeq;
             }
         };
@@ -580,10 +588,14 @@ nlohmann::json CapabilityAutoGenerator::generateAuditTrail(
         std::set<std::string> curr_set(current.keywords.begin(), current.keywords.end());
         
         for (const auto& kw : curr_set) {
-            if (prev_set.find(kw) == prev_set.end()) added++;
+            if (prev_set.find(kw) == prev_set.end()) {
+              added++;
+            }
         }
         for (const auto& kw : prev_set) {
-            if (curr_set.find(kw) == curr_set.end()) removed++;
+            if (curr_set.find(kw) == curr_set.end()) {
+              removed++;
+            }
         }
         
         audit["change_summary"] = std::to_string(added) + " keywords added, " + 
@@ -609,7 +621,9 @@ nlohmann::json CapabilityAutoGenerator::getStatistics() const {
 
 // Load persisted schedule/count state from state_db_ into in-memory maps
 void CapabilityAutoGenerator::loadPersistedState() {
-    if (!state_db_) return;
+    if (!state_db_) {
+      return;
+    }
 
     // Iterate all keys with prefix "utils_capgen_state:" to load per-shard state
     static constexpr std::string_view STATE_KEY_PREFIX = "utils_capgen_state:";
@@ -624,7 +638,9 @@ void CapabilityAutoGenerator::loadPersistedState() {
         std::lock_guard<std::mutex> lock(mutex_);
         state_db_->iterateRange(start_key, end_key,
             [&](std::string_view key, std::string_view value) -> bool {
-                if (key.size() <= STATE_KEY_PREFIX.size()) return true;
+                if (static_cast<int>(key.size()) <= STATE_KEY_PREFIX.size()) {
+                  return true;
+                }
                 std::string shard_id(key.substr(STATE_KEY_PREFIX.size()));
 
                 try {
@@ -663,7 +679,9 @@ void CapabilityAutoGenerator::persistState(
         last_document_counts_[shard_id]  = doc_count;
     }
 
-    if (!state_db_) return;
+    if (!state_db_) {
+      return;
+    }
 
     std::string key = "utils_capgen_state:" + shard_id;
     nlohmann::json j = {

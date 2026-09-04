@@ -119,7 +119,8 @@ void MultiPrimaryCoordinator::updateHeartbeat(const std::string& node_id, const 
 std::vector<PrimaryNodeInfo> MultiPrimaryCoordinator::getActivePrimaries() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<PrimaryNodeInfo> result;
+    std::vector<PrimaryNodeInfo> result = {};
+
     for (const auto& [node_id, info] : primaries_) {
         if (info.state == PrimaryState::ACTIVE) {
             result.push_back(info);
@@ -175,7 +176,7 @@ void MultiPrimaryCoordinator::recordWrite(const LSN& lsn) {
 std::optional<std::string> MultiPrimaryCoordinator::getMostCurrentPrimary() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::string best_primary;
+    std::string best_primary = {};
     LSN max_lsn(0, 0);
     
     for (const auto& [node_id, info] : primaries_) {

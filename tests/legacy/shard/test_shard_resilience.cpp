@@ -366,7 +366,8 @@ TEST_F(ShardResilienceTest, CombinedPartitionAndQuorum) {
     
     // Get reachable nodes
     auto connectivity = detector.getNodeConnectivity();
-    std::vector<std::string> reachable_nodes;
+    std::vector<std::string> reachable_nodes = {};
+
     for (const auto& conn : connectivity) {
         if (conn.reachable) {
             reachable_nodes.push_back(conn.node_id);

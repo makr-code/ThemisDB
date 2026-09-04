@@ -81,13 +81,13 @@ typedef uint32_t CK_OBJECT_CLASS;
 typedef uint32_t CK_CERTIFICATE_TYPE;
 
 typedef struct CK_MECHANISM {
-    uint32_t mechanism; // Mechanism type
+    uint32_t mechanism = 0; // Mechanism type
     void*    pParameter;
     size_t   ulParameterLen;
 } CK_MECHANISM;
 
 typedef struct CK_ATTRIBUTE {
-    uint32_t type;       // Attribute type (e.g. CKA_CLASS)
+    uint32_t type = 0;       // Attribute type (e.g. CKA_CLASS)
     void*    pValue;     // Pointer to value buffer
     size_t   ulValueLen; // Value length (in/out)
 } CK_ATTRIBUTE; 
@@ -114,7 +114,7 @@ typedef uint32_t CK_RSA_PKCS_OAEP_SOURCE_TYPE;
 
 // RSA-OAEP mechanism parameters (PKCS#11 v2.20 §12.1.7)
 typedef struct CK_RSA_PKCS_OAEP_PARAMS {
-    uint32_t               hashAlg;       // Hash algorithm (e.g. CKM_SHA256)
+    uint32_t               hashAlg = 0;       // Hash algorithm (e.g. CKM_SHA256)
     CK_RSA_PKCS_MGF_TYPE   mgf;           // Mask generation function
     CK_RSA_PKCS_OAEP_SOURCE_TYPE source;  // Source of encoding parameter
     void*                  pSourceData;   // Encoding parameter (NULL for CKZ_DATA_SPECIFIED with no label)

@@ -70,7 +70,7 @@ static bool runProcess(const std::vector<const char*>& argv_vec) {
 
 static void collectPaths(const std::string& dir,
                           std::vector<std::string>& out) {
-    std::error_code ec;
+    std::error_code ec = {};
     for (const auto& entry : fs::recursive_directory_iterator(dir,
             fs::directory_options::skip_permission_denied, ec)) {
         if (entry.is_regular_file(ec)) {
@@ -90,7 +90,7 @@ public:
     const char* getName()    const override { return "builtin.decompress"; }
     const char* getVersion() const override { return "1.4.0"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(const char*) override { return true; }
+    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 
@@ -106,7 +106,7 @@ public:
         };
     }
 
-    Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {
+    Result<void> execute(ExtractionContext& [[maybe_unused]] ctx, cons[[maybe_unused]] t StepConfig& [[maybe_unused]] cfg) override {
         const std::string& source = ctx.manifest.original_path;
         if (source.empty()) {
             ctx.warnings.push_back("decompress: manifest.original_path is empty — skipping");
@@ -141,18 +141,18 @@ public:
         }
 
         // ── Resolve output directory ───────────────────────────────────────
-        std::string output_dir;
+        std::string output_dir = {};
         if (cfg.config.contains("output_dir") &&
             cfg.config["output_dir"].is_string()) {
             output_dir = cfg.config["output_dir"].get<std::string>();
-            std::error_code ec;
+            std::error_code ec = {};
             fs::create_directories(output_dir, ec);
         } else {
             const auto base = fs::temp_directory_path();
             const auto unique = "themis_decompress_"
                 + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
             output_dir = (base / unique).string();
-            std::error_code ec;
+            std::error_code ec = {};
             fs::create_directories(output_dir, ec);
             if (ec) {
                 return ErrVoid(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,

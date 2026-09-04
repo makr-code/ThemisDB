@@ -75,7 +75,7 @@ public:
      * @brief Ethical scenario representation
      */
     struct EthicalScenario {
-        std::string id;
+        std::string id = {};
         std::string description;
         std::string domain;  // medical, legal, autonomous_systems, etc.
         std::map<std::string, int> stakeholders;  // stakeholder type -> count

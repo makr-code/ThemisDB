@@ -178,7 +178,8 @@ TEST_F(LLMGrafanaMetricsTest, MetricsThreadSafety) {
     const int num_threads = 4;
     const int requests_per_thread = 3;
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < num_threads; ++t) {
         threads.emplace_back([this, t, requests_per_thread]() {
             for (int i = 0; i < requests_per_thread; ++i) {
@@ -490,7 +491,7 @@ TEST_F(MetricsServerHTTPTest, AdminDeleteSession_NoCallback_ReturnsNotImplemente
 }
 
 TEST_F(MetricsServerHTTPTest, AdminDeleteSession_WithCallback_InvokesCallbackWithId) {
-    std::string captured_id;
+    std::string captured_id = {};
     server->setSessionDeleteCallback([&](const std::string& id) {
         captured_id = id;
         return R"({"status":"deleted","session_id":")" + id + "\"}";

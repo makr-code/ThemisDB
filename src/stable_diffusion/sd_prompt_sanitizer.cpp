@@ -33,7 +33,9 @@ SDPromptSanitizer::SDPromptSanitizer(const std::vector<std::string>& keywords) {
     blocked_keywords_.reserve(keywords.size());
     for (const auto& kw : keywords) {
         const std::string lower = toLower(kw);
-        if (!lower.empty()) blocked_keywords_.push_back(lower);
+        if (!lower.empty()) {
+          blocked_keywords_.push_back(lower);
+        }
     }
 }
 
@@ -43,13 +45,17 @@ SDPromptSanitizer SDPromptSanitizer::fromFile(const std::string& path) {
         throw std::runtime_error("SDPromptSanitizer: cannot open '" + path + "'");
     }
     std::vector<std::string> kws;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         // trim whitespace
         const auto start = line.find_first_not_of(" \t\r\n");
-        if (start == std::string::npos) continue;
+        if (start == std::string::npos) {
+          continue;
+        }
         line = line.substr(start);
-        if (line.empty() || line[0] == '#') continue;
+        if (line.empty() || line[0] == '#') {
+          continue;
+        }
         kws.push_back(line);
     }
     return SDPromptSanitizer(kws);
@@ -60,7 +66,9 @@ SDPromptSanitizer SDPromptSanitizer::fromFile(const std::string& path) {
 bool SDPromptSanitizer::isAllowed(const std::string& prompt) const {
     const std::string lower = toLower(prompt);
     for (const auto& kw : blocked_keywords_) {
-        if (lower.find(kw) != std::string::npos) return false;
+        if (lower.find(kw) != std::string::npos) {
+          return false;
+        }
     }
     return true;
 }
@@ -68,7 +76,9 @@ bool SDPromptSanitizer::isAllowed(const std::string& prompt) const {
 // ── sanitize ──────────────────────────────────────────────────────────────────
 
 std::string SDPromptSanitizer::sanitize(const std::string& prompt) const {
-    if (blocked_keywords_.empty()) return prompt;
+    if (blocked_keywords_.empty()) {
+      return prompt;
+    }
     std::string result = prompt;
     const std::string lower_result = toLower(result);
     // For each blocked keyword, remove all case-insensitive occurrences
@@ -76,8 +86,8 @@ std::string SDPromptSanitizer::sanitize(const std::string& prompt) const {
         std::string::size_type pos = 0;
         std::string lower_r = toLower(result);
         while ((pos = lower_r.find(kw, pos)) != std::string::npos) {
-            result.erase(pos, kw.size());
-            lower_r.erase(pos, kw.size());
+            result.erase(pos,static_cast<int>(kw.size()));
+            lower_r.erase(pos,static_cast<int>(kw.size()));
         }
     }
     return result;

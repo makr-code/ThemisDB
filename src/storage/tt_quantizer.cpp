@@ -29,12 +29,16 @@ namespace storage {
 
 std::vector<uint8_t> QuantizedCore::serialize() const {
     std::vector<uint8_t> out;
-    auto writeU64 = [&](uint64_t v) {
-        for (int i = 0; i < 8; ++i) out.push_back((v >> (i*8)) & 0xFF);
+    auto writeU64 = [&]([[maybe_unused]] uint64_t v) {
+        for (int i = 0; i < 8; ++i) {
+          out.push_back((v >> (i*8)) & 0xFF);
+        }
     };
-    auto writeF32 = [&](float v) {
-        uint32_t u; std::memcpy(&u, &v, 4);
-        for (int i = 0; i < 4; ++i) out.push_back((u >> (i*8)) & 0xFF);
+    auto writeF32 = [&]([[maybe_unused]] float v) {
+        uint32_t u = 0; std::memcpy(&u, &v, 4);
+        for (int i = 0; i < 4; ++i) {
+          out.push_back((u >> (i*8)) & 0xFF);
+        }
     };
 
     writeU64(r_left); writeU64(n); writeU64(r_right);
@@ -50,17 +54,23 @@ std::optional<QuantizedCore> QuantizedCore::deserialize(const std::vector<uint8_
     // validate the sub-buffer length before calling here; the minimum-size
     // check and try/catch below guard against malformed data.  Higher-level
     // integrity (WAL CRC, RocksDB checksums) is enforced by the storage layer.
-    if (bytes.size() < 33) return std::nullopt;
+    if (static_cast<int>(bytes.size()) < 33) {
+      return std::nullopt;
+    }
     std::size_t pos = 0;
 
     auto readU64 = [&]() -> uint64_t {
         uint64_t v = 0;
-        for (int i = 0; i < 8; ++i) v |= static_cast<uint64_t>(bytes[pos++]) << (i*8);
+        for (int i = 0; i < 8; ++i) {
+          v |= static_cast<uint64_t>(bytes[pos++]) << (i*8);
+        }
         return v;
     };
     auto readF32 = [&]() -> float {
         uint32_t u = 0;
-        for (int i = 0; i < 4; ++i) u |= static_cast<uint32_t>(bytes[pos++]) << (i*8);
+        for (int i = 0; i < 4; ++i) {
+          u |= static_cast<uint32_t>(bytes[pos++]) << (i*8);
+        }
         float v; std::memcpy(&v, &u, 4); return v;
     };
 
@@ -73,7 +83,9 @@ std::optional<QuantizedCore> QuantizedCore::deserialize(const std::vector<uint8_
         qc.scale  = readF32();
         qc.mean   = readF32();
         std::size_t dlen = static_cast<std::size_t>(readU64());
-        if (pos + dlen > bytes.size()) return std::nullopt;
+        if (pos + dlen > static_cast<int>(bytes.size())) {
+          return std::nullopt;
+        }
         qc.data.assign(bytes.begin() + pos, bytes.begin() + pos + dlen);
         return qc;
     } catch (...) {
@@ -88,30 +100,42 @@ std::optional<QuantizedCore> QuantizedCore::deserialize(const std::vector<uint8_
 
 std::size_t QuantizedTrain::totalBytes() const noexcept {
     std::size_t total = 0;
-    for (const auto& c : cores) total += c.data.size();
+    for (const auto& c : cores) {
+      total += c.data.size();
+    }
     return total;
 }
 
 double QuantizedTrain::compressionRatio() const noexcept {
     std::size_t dense = 1;
-    for (auto n : mode_sizes) dense *= n;
+    for (auto n : mode_sizes) {
+      dense *= n;
+    }
     std::size_t stored = totalBytes();
-    if (stored == 0) return 1.0;
+    if (stored == 0) {
+      return 1.0;
+    }
     return static_cast<double>(dense * 4) / static_cast<double>(stored);
 }
 
 std::vector<uint8_t> QuantizedTrain::serialize() const {
     std::vector<uint8_t> out;
-    auto writeU64 = [&](uint64_t v) {
-        for (int i = 0; i < 8; ++i) out.push_back((v >> (i*8)) & 0xFF);
+    auto writeU64 = [&]([[maybe_unused]] uint64_t v) {
+        for (int i = 0; i < 8; ++i) {
+          out.push_back((v >> (i*8)) & 0xFF);
+        }
     };
-    auto writeF64 = [&](double v) {
-        uint64_t u; std::memcpy(&u, &v, 8);
-        for (int i = 0; i < 8; ++i) out.push_back((u >> (i*8)) & 0xFF);
+    auto writeF64 = [&]([[maybe_unused]] double v) {
+        uint64_t u = 0; std::memcpy(&u, &v, 8);
+        for (int i = 0; i < 8; ++i) {
+          out.push_back((u >> (i*8)) & 0xFF);
+        }
     };
 
     writeU64(mode_sizes.size());
-    for (auto n : mode_sizes) writeU64(n);
+    for (auto n : mode_sizes) {
+      writeU64(n);
+    }
     out.push_back(static_cast<uint8_t>(quant_type));
     writeF64(original_norm);
     writeF64(achieved_eps);
@@ -126,20 +150,26 @@ std::vector<uint8_t> QuantizedTrain::serialize() const {
 
 std::optional<QuantizedTrain> QuantizedTrain::deserialize(const std::vector<uint8_t>& bytes) {
     // model_integrity_gap scanner alert: size guard and bounds-checked sub-buffer
-    // slicing (pos + clen > bytes.size()) prevent over-read; blob integrity is
+    // slicing (pos + clen > static_cast<int>(bytes.size())) prevent over-read; blob integrity is
     // guaranteed by the storage layer (WAL CRC / RocksDB checksums) before
     // reaching this point — false positive at the deserializer level.
-    if (bytes.size() < 9) return std::nullopt;
+    if (static_cast<int>(bytes.size()) < 9) {
+      return std::nullopt;
+    }
     std::size_t pos = 0;
 
     auto readU64 = [&]() -> uint64_t {
         uint64_t v = 0;
-        for (int i = 0; i < 8; ++i) v |= static_cast<uint64_t>(bytes[pos++]) << (i*8);
+        for (int i = 0; i < 8; ++i) {
+          v |= static_cast<uint64_t>(bytes[pos++]) << (i*8);
+        }
         return v;
     };
     auto readF64 = [&]() -> double {
         uint64_t u = 0;
-        for (int i = 0; i < 8; ++i) u |= static_cast<uint64_t>(bytes[pos++]) << (i*8);
+        for (int i = 0; i < 8; ++i) {
+          u |= static_cast<uint64_t>(bytes[pos++]) << (i*8);
+        }
         double v; std::memcpy(&v, &u, 8); return v;
     };
 
@@ -147,7 +177,9 @@ std::optional<QuantizedTrain> QuantizedTrain::deserialize(const std::vector<uint
         QuantizedTrain qt;
         std::size_t order = static_cast<std::size_t>(readU64());
         qt.mode_sizes.resize(order);
-        for (auto& n : qt.mode_sizes) n = static_cast<std::size_t>(readU64());
+        for (auto& n : qt.mode_sizes) {
+          n = static_cast<std::size_t>(readU64());
+        }
         qt.quant_type = static_cast<QuantizationType>(bytes[pos++]);
         qt.original_norm = readF64();
         qt.achieved_eps  = readF64();
@@ -155,13 +187,17 @@ std::optional<QuantizedTrain> QuantizedTrain::deserialize(const std::vector<uint
         qt.cores.resize(nc);
         for (auto& c : qt.cores) {
             std::size_t clen = static_cast<std::size_t>(readU64());
-            if (pos + clen > bytes.size()) return std::nullopt;
+            if (pos + clen > static_cast<int>(bytes.size())) {
+              return std::nullopt;
+            }
             std::vector<uint8_t> cb(bytes.begin() + pos, bytes.begin() + pos + clen);
             // model_integrity_gap scanner alert: sub-buffer is bounds-checked
             // above; QuantizedCore::deserialize validates its own minimum size
             // and returns nullopt on parse failure — false positive.
             auto oc = QuantizedCore::deserialize(cb);
-            if (!oc) return std::nullopt;
+            if (!oc) {
+              return std::nullopt;
+            }
             c = std::move(*oc);
             pos += clen;
         }
@@ -176,7 +212,7 @@ std::optional<QuantizedTrain> QuantizedTrain::deserialize(const std::vector<uint
 // TTQuantizer — quantization helpers
 // ============================================================================
 
-uint8_t TTQuantizer::findNF4Index(float v) noexcept {
+uint8_t TTQuantizer::findNF4Index([[maybe_unused]] float v) noexcept {
     // array_bounds scanner alert: kNF4Table has exactly 16 entries (indices
     // 0..15); the loop bound is < 16 — no out-of-bounds access; false positive.
     // Linear scan over the 16-entry NF4 lookup table
@@ -203,10 +239,14 @@ QuantizedCore TTQuantizer::quantizeINT8(const TTCore& core) const {
     qc.quant_type = QuantizationType::INT8;
 
     std::size_t nelems = core.numElements();
-    if (nelems == 0) return qc;
+    if (nelems == 0) {
+      return qc;
+    }
 
     float absmax = 0.0f;
-    for (float v : core.data) absmax = std::max(absmax, std::abs(v));
+    for (float v : core.data) {
+      absmax = std::max(absmax, std::abs(v));
+    }
 
     qc.scale = (absmax > 1e-12f) ? absmax / 127.0f : 1.0f;
     qc.mean  = 0.0f;
@@ -229,7 +269,9 @@ QuantizedCore TTQuantizer::quantizeNF4(const TTCore& core) const {
     qc.quant_type = QuantizationType::NF4;
 
     std::size_t nelems = core.numElements();
-    if (nelems == 0) return qc;
+    if (nelems == 0) {
+      return qc;
+    }
 
     // Compute mean and centered absmax for normalisation.
     // NF4 lookup values are centered around zero, so scale should be derived
@@ -303,6 +345,7 @@ std::string TTQuantizer::typeName(QuantizationType t) noexcept {
         case QuantizationType::NONE: return "none";
         case QuantizationType::INT8: return "int8";
         case QuantizationType::NF4:  return "nf4";
+        default: break;
     }
     return "unknown";
 }
@@ -312,6 +355,7 @@ double TTQuantizer::bytesPerElement(QuantizationType t) noexcept {
         case QuantizationType::NONE: return 4.0;
         case QuantizationType::INT8: return 1.0;
         case QuantizationType::NF4:  return 0.5;
+        default: break;
     }
     return 4.0;
 }
@@ -340,7 +384,7 @@ QuantizedTrain TTQuantizer::quantize(const TTTrain& train,
                 qc.mean    = 0.0f;
                 qc.data.resize(core.numElements() * 4);
                 for (std::size_t i = 0; i < core.numElements(); ++i) {
-                    uint32_t u; std::memcpy(&u, &core.data[i], 4);
+                    uint32_t u = 0; std::memcpy(&u, &core.data[i], 4);
                     for (int j = 0; j < 4; ++j)
                         qc.data[i*4+j] = static_cast<uint8_t>((u >> (j*8)) & 0xFF);
                 }
@@ -353,6 +397,7 @@ QuantizedTrain TTQuantizer::quantize(const TTTrain& train,
             case QuantizationType::NF4:
                 qt.cores.push_back(quantizeNF4(core));
                 break;
+            default: break;
         }
     }
     return qt;
@@ -389,6 +434,7 @@ TTTrain TTQuantizer::dequantize(const QuantizedTrain& qtrain) const {
             case QuantizationType::NF4:
                 train.cores.push_back(dequantizeNF4(qc));
                 break;
+            default: break;
         }
     }
     return train;

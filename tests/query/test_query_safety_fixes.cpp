@@ -268,7 +268,8 @@ TEST_F(QueryCancellerTest, UnregisterQueryTimeout) {
 
 /// Test concurrent cancellation doesn't cause deadlock.
 TEST_F(QueryCancellerTest, ConcurrentCancellationNoDeadlock) {
-    std::vector<std::string> request_ids;
+    std::vector<std::string> request_ids = {};
+
     for (int i = 0; i < 10; ++i) {
         request_ids.push_back("request-" + std::to_string(i));
         canceller_.registerQuery(request_ids.back());

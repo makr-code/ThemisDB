@@ -38,7 +38,7 @@ LatencyHistogram::LatencyHistogram(size_t num_buckets, uint64_t max_latency_us)
     buckets_.resize(num_buckets + 1, 0);  // +1 for overflow bucket
 }
 
-void LatencyHistogram::record(uint64_t latency_us) {
+void LatencyHistogram::record([[maybe_unused]] uint64_t latency_us) {
     // Record a latency observation
     size_t bucket_idx = std::min(
         num_buckets_,
@@ -51,7 +51,7 @@ void LatencyHistogram::record(uint64_t latency_us) {
     max_observed_latency_us_ = std::max(max_observed_latency_us_, latency_us);
 }
 
-uint64_t LatencyHistogram::percentile(double p) const {
+uint64_t LatencyHistogram::percentile([[maybe_unused]] double p) const {
     // Calculate pth percentile (e.g., p=50 for median, p=95 for 95th percentile)
     if (count_ == 0) {
         return 0;
@@ -63,7 +63,7 @@ uint64_t LatencyHistogram::percentile(double p) const {
     }
 
     uint64_t cumulative = 0;
-    for (size_t i = 0; i < buckets_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(buckets_.size()); ++i) {
         cumulative += buckets_[i];
         if (cumulative >= target_count) {
             return i * bucket_width_us_;
@@ -89,7 +89,7 @@ double LatencyHistogram::stdDev() const {
     double variance = 0.0;
 
     // Recalculate to compute variance (approximation from buckets)
-    for (size_t i = 0; i < buckets_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(buckets_.size()); ++i) {
         if (buckets_[i] == 0) {
             continue;
         }
@@ -121,7 +121,7 @@ std::string LatencyHistogram::describe() const {
 // § 2  Access Metrics (Per-Key / Per-Tier)
 // ============================================================================
 
-void AccessMetrics::recordAccess(uint64_t latency_us) {
+void AccessMetrics::recordAccess([[maybe_unused]] uint64_t latency_us) {
     access_count++;
     last_access_time = std::chrono::system_clock::now();
 
@@ -177,15 +177,15 @@ AccessModelMetrics::AccessModelMetrics()
 {
 }
 
-void AccessModelMetrics::recordEventProcessingLatency(uint64_t latency_us) {
+void AccessModelMetrics::recordEventProcessingLatency([[maybe_unused]] uint64_t latency_us) {
     event_processing_latency_us_.record(latency_us);
 }
 
-void AccessModelMetrics::recordTierPromotionLatency(uint64_t latency_us) {
+void AccessModelMetrics::recordTierPromotionLatency([[maybe_unused]] uint64_t latency_us) {
     tier_promotion_latency_us_.record(latency_us);
 }
 
-void AccessModelMetrics::recordPolicyDecisionLatency(uint64_t latency_us) {
+void AccessModelMetrics::recordPolicyDecisionLatency([[maybe_unused]] uint64_t latency_us) {
     policy_decision_latency_us_.record(latency_us);
 }
 
@@ -232,7 +232,7 @@ std::string AccessModelMetrics::describe() const {
 }
 
 std::string AccessModelMetrics::detailedReport() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "=== Access Model Detailed Metrics Report ===\n\n"
         << "### Event Processing Latency\n"
         << event_processing_latency_us_.describe() << "\n\n"

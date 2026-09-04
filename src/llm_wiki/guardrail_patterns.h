@@ -107,7 +107,7 @@ static constexpr std::string_view kControlFlowPatterns[] = {
  * @return      Normalized copy (lowercase, runs of whitespace → single space).
  */
 inline std::string normalizeForGuardrailCheck(std::string_view text) {
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
     
     bool in_space = true;  // treat leading whitespace as "in space"

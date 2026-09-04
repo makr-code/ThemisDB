@@ -51,7 +51,9 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
+        if (server_) {
+          server_->stop();
+        }
         storage_->close();
         std::filesystem::remove_all("data/themis_http_content_test");
     }
@@ -101,7 +103,9 @@ protected:
 
         if (outContentType) {
             auto ct = res.base().find(http::field::content_type);
-            if (ct != res.base().end()) *outContentType = std::string(ct->value());
+            if (ct != res.base().end()) {
+              *outContentType = std::string(ct->value());
+            }
         }
 
         beast::error_code ec;
@@ -175,7 +179,7 @@ TEST_F(HttpContentApiTest, GetBlob_ReturnsRawWithMimeType) {
     };
     (void)httpPost("/content/import", req);
 
-    std::string ct;
+    std::string ct = {};
     auto blobResp = httpGet("/content/doc-blob/blob", &ct);
     ASSERT_TRUE(blobResp.contains("blob"));
     EXPECT_EQ(blobResp["blob"], "BLOB-TEST");
@@ -239,7 +243,8 @@ TEST_F(HttpContentApiTest, HybridSearch_ExpandsOverEdges) {
     auto items = hresp["results"];
     ASSERT_GE(items.size(), 1);
     // Sammle PKs
-    std::vector<std::string> pks;
+    std::vector<std::string> pks = {};
+
     for (auto& it : items) { if (it.contains("pk")) pks.push_back(it["pk"].get<std::string>()); }
     // Erwartung: Basistreffer vorhanden
     EXPECT_NE(std::find(pks.begin(), pks.end(), std::string("chunks:ha")), pks.end());
@@ -293,7 +298,7 @@ TEST_F(HttpContentApiTest, BlobEncryption_StoresEncrypted_DecryptsOnRetrieval) {
     }
 
     // GET /content/secret-doc/blob should decrypt (using same user_context)
-    std::string contentType;
+    std::string contentType = {};
     auto blobResp = httpGet("/content/secret-doc/blob", &contentType);
     
     // httpGet returns JSON with {"blob": "..."} if response is not parseable JSON

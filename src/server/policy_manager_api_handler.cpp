@@ -56,7 +56,7 @@ PolicyManagerApiHandler::PolicyManagerApiHandler(
     , auth_(std::move(auth))
 {
     if (!policy_manager_) {
-        THEMIS_WARN("PolicyManagerApiHandler created with null PolicyManager");
+        THEMIS_WARN([[maybe_unused]] "PolicyManagerApiHandler created with null PolicyManager");
     }
 }
 
@@ -82,7 +82,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleListRules(
         
         nlohmann::json response = {
             {"rules", json_array},
-            {"count", rules.size()}
+            {"count",static_cast<int>(rules.size())}
         };
         
         return makeResponse(http::status::ok, response.dump(2), req);
@@ -450,7 +450,7 @@ bool PolicyManagerApiHandler::checkAuth(
     
     // Extract Bearer token
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     
     if (!token) {

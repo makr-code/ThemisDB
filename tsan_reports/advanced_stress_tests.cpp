@@ -13,7 +13,7 @@
 
 // ===== Transaction Module Mock =====
 class TransactionManagerMock {
-    std::mutex lock_;
+    std::mutex lock_ = {};
     std::atomic<int> transactions_active_{0};
     
 public:

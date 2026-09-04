@@ -74,8 +74,8 @@ class MockConnection {
 public:
     static int instance_count;
 
-    int connection_id;
-    bool is_open;
+    int connection_id = {};
+    bool is_open = {};
 
     explicit MockConnection(int id = 0) : connection_id(id), is_open(true) {
         instance_count++;
@@ -99,7 +99,9 @@ public:
 
     MockConnection& operator=(MockConnection&& other) noexcept {
         if (this != &other) {
-            if (is_open) close();
+            if (is_open) {
+              close();
+            }
             connection_id = other.connection_id;
             is_open = other.is_open;
             other.is_open = false;
@@ -246,7 +248,9 @@ TEST_F(ResourcePoolingTest, RP_02_ExceptionSafeRelease) {
 
     // Note: In real code, would use RAII wrapper. Manually release here:
     auto [err, conn] = pool.acquire();
-    if (conn) pool.release(std::move(conn));
+    if (conn) {
+      pool.release(std::move(conn));
+    }
 
     // Verify: Pool state remains consistent
     EXPECT_GE(pool.getTotalCreated(), 1);
@@ -571,7 +575,8 @@ TEST_F(ResourcePoolingTest, RP_15_ConcurrentExhaustionNoCorruption) {
     std::atomic<int> failed(0);
 
     // Action: Multiple threads try to acquire concurrently
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 20; ++i) {
         threads.emplace_back([&]() {
             auto [err, conn] = pool.acquire();

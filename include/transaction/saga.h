@@ -40,7 +40,7 @@ public:
     using CompensatingAction = std::function<void()>;
     
     struct Step {
-        std::string operation_name;
+        std::string operation_name = {};
         CompensatingAction compensate;
         std::chrono::system_clock::time_point executed_at;
         bool compensated = false;

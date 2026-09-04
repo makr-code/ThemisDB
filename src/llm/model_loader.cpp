@@ -34,7 +34,7 @@ namespace llm {
 namespace {
 
 struct LlamaLoadLogCaptureState {
-    std::string pending_line;
+    std::string pending_line = {};
     bool assigned_cpu = false;
     bool assigned_non_cpu = false;
     bool backend_cpu_only_hint = false;
@@ -50,7 +50,7 @@ static void llamaLoadLogCaptureCallback(ggml_log_level level, const char* text, 
     auto* state = static_cast<LlamaLoadLogCaptureState*>(user_data);
 
     // Preserve pre-existing llama.cpp logging behavior so diagnostics are not hidden.
-    if (state->passthrough_callback != nullptr && state->passthrough_callback != llamaLoadLogCaptureCallback) {
+    if ([[maybe_unused]] state->passthrough_callback != nullptr && state->passthrough_callback != llamaLoadLogCaptureCallback) {
         state->passthrough_callback(level, text, state->passthrough_user_data);
     }
 
@@ -321,7 +321,7 @@ CachedModel* LazyModelLoader::getOrLoadModel(
     cache_misses_.fetch_add(1, std::memory_order_relaxed);
     
     // Check if we need to evict
-    if (models_.size() >= config_.max_models) {
+    if (static_cast<int>(models_.size()) > = config_.max_models) {
         spdlog::info("Model cache full, evicting LRU");
         evictLRUUnlocked();
     }
@@ -432,7 +432,9 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
             progress.phase_progress = 0.0;
             progress.overall_percent = 0.0;
             progress.status_msg = "Parsing GGUF file...";
-            if (progress_cb) progress_cb(progress);
+            if (progress_cb) {
+              progress_cb(progress);
+            }
             
             // Check cancellation
             if (cancel_token.is_cancelled()) {
@@ -443,14 +445,18 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
             // Report parsing phase progress
             progress.phase_progress = 1.0;
             progress.overall_percent = 20.0;
-            if (progress_cb) progress_cb(progress);
+            if (progress_cb) {
+              progress_cb(progress);
+            }
             
             // Phase 2: ALLOCATING (20-70%)
             progress.phase = LoadPhase::ALLOCATING;
             progress.phase_progress = 0.0;
             progress.overall_percent = 20.0;
             progress.status_msg = "Allocating model weights...";
-            if (progress_cb) progress_cb(progress);
+            if (progress_cb) {
+              progress_cb(progress);
+            }
             
             // Acquire lock for actual loading
             std::unique_lock<std::mutex> load_lock(mutex_);
@@ -488,21 +494,27 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
             // Report allocation phase complete
             progress.phase_progress = 1.0;
             progress.overall_percent = 70.0;
-            if (progress_cb) progress_cb(progress);
+            if (progress_cb) {
+              progress_cb(progress);
+            }
             
             // Phase 3: INITIALIZING (70-100%)
             progress.phase = LoadPhase::INITIALIZING;
             progress.phase_progress = 0.0;
             progress.overall_percent = 70.0;
             progress.status_msg = "Initializing context...";
-            if (progress_cb) progress_cb(progress);
+            if (progress_cb) {
+              progress_cb(progress);
+            }
             
             // Complete
             progress.phase = LoadPhase::INITIALIZING;
             progress.phase_progress = 1.0;
             progress.overall_percent = 100.0;
             progress.status_msg = "Model load complete";
-            if (progress_cb) progress_cb(progress);
+            if (progress_cb) {
+              progress_cb(progress);
+            }
             
             if (model) {
                 spdlog::info("Async model load completed successfully: {}", model_id);
@@ -589,7 +601,8 @@ std::optional<ModelInfo> LazyModelLoader::getModelInfo(const std::string& model_
 std::vector<std::string> LazyModelLoader::listLoadedModels() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(models_.size());
     
     for (const auto& [id, _] : models_) {
@@ -599,12 +612,12 @@ std::vector<std::string> LazyModelLoader::listLoadedModels() const {
     return result;
 }
 
-size_t LazyModelLoader::evictLRU(size_t /*target_vram_mb*/) {
+size_t LazyModelLoader::evictLRU([[maybe_unused]] size_t /*target_vram_mb*/) {
     std::lock_guard<std::mutex> lock(mutex_);
     return evictLRUUnlocked();
 }
 
-size_t LazyModelLoader::evictLRUUnlocked(size_t target_vram_mb) {
+size_t LazyModelLoader::evictLRUUnlocked([[maybe_unused]] size_t target_vram_mb) {
     if (models_.empty()) {
         return 0;
     }
@@ -614,7 +627,7 @@ size_t LazyModelLoader::evictLRUUnlocked(size_t target_vram_mb) {
 
     while (!models_.empty() && (target_vram_mb == 0 || total_freed_vram < target_vram_mb)) {
         CachedModel* lru_model = nullptr;
-        std::string lru_id;
+        std::string lru_id = {};
         auto oldest_time = std::chrono::system_clock::now();
 
         for (auto& [id, model] : models_) {
@@ -843,8 +856,9 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     bool custom_loader_success = false;
     std::vector<int> attempted_gpu_layers;
 
-    auto loadModelWithGpuFallback = [&](const char* stage) -> llama_model* {
-        std::vector<int> candidates;
+    auto loadModelWithGpuFallback = [&]([[maybe_unused]] const char* stage) -> llama_model* {
+        std::vector<int> candidates = {};
+
         if (requested_gpu_layers > 0) {
             candidates.push_back(requested_gpu_layers);
             int probe = requested_gpu_layers;
@@ -900,7 +914,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
                 // Get metadata for validation
                 const auto& metadata = gguf_loader.getMetadata();
                 spdlog::info("  Model metadata: architecture={}, version={}, tensors={}",
-                            metadata.architecture, metadata.version, metadata.tensors.size());
+                            metadata.architecture, metadata.version,static_cast<int>(metadata.tensors.size()));
                 
                 // After parsing with custom loader, still use llama.cpp's native loader
                 // for actual model initialization (custom loader validated the file)
@@ -934,8 +948,8 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     if (!lmodel) {
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         spdlog::error("Failed to load model with both custom and native loaders");
-        std::ostringstream attempts;
-        for (size_t i = 0; i < attempted_gpu_layers.size(); ++i) {
+        std::ostringstream attempts = {};
+        for (size_t i = 0; i <static_cast<int>(attempted_gpu_layers.size()); ++i) {
             if (i > 0) {
                 attempts << ',';
             }
@@ -1103,7 +1117,7 @@ bool LazyModelLoader::hasCapacity(size_t vram_mb, size_t ram_mb) const {
     // Respect both memory budgets and max_models when set (0 means unlimited)
     const bool vram_ok = (config_.max_vram_mb == 0) || (total_vram_mb_ + vram_mb <= config_.max_vram_mb);
     const bool ram_ok = (config_.max_ram_mb == 0) || (total_ram_mb_ + ram_mb <= config_.max_ram_mb);
-    const bool count_ok = models_.size() + 1 <= config_.max_models;
+    const bool count_ok = static_cast<int>(models_.size()) + 1 <= config_.max_models;
     return vram_ok && ram_ok && count_ok;
 }
 

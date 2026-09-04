@@ -50,8 +50,8 @@ bool PredictivePrefetcher::useToDWeighting(const std::string &tenant_id) const {
 
 uint64_t PredictivePrefetcher::fnv1aHash(const std::string &s) {
     // FNV-1a 64-bit – portable, stable across all platforms and compiler versions.
-    constexpr uint64_t kFNVOffsetBasis = 14695981039346656037ULL;
-    constexpr uint64_t kFNVPrime       = 1099511628211ULL;
+    constexpr uint64_t kFNVOffsetBasis = 14695981039346656037;
+    constexpr uint64_t kFNVPrime       = 1099511628211;
     uint64_t hash                      = kFNVOffsetBasis;
     for (unsigned char c : s) {
         hash ^= static_cast<uint64_t>(c);
@@ -113,7 +113,7 @@ void PredictivePrefetcher::recordQueryAccess(const std::string &fingerprint, con
 
         // Ensure source key exists; evict oldest if at capacity
         if (transitions_.find(from) == transitions_.end()) {
-            if (ordered_keys_.size() >= config_.max_tracked_keys) {
+            if (static_cast<int>(ordered_keys_.size()) > = config_.max_tracked_keys) {
                 // Evict the oldest tracked source key
                 const std::string &oldest = ordered_keys_.front();
                 transitions_.erase(oldest);
@@ -127,7 +127,7 @@ void PredictivePrefetcher::recordQueryAccess(const std::string &fingerprint, con
         auto &successors = transitions_[from];
 
         // Limit successors per key
-        if (successors.size() < config_.max_successors_per_key || successors.find(fingerprint) != successors.end()) {
+        if (static_cast<int>(successors.size()) < config_.max_successors_per_key || successors.find(fingerprint) != successors.end()) {
             successors[fingerprint]++;
             total_transitions_recorded_++;
 
@@ -211,7 +211,8 @@ std::vector<std::string> PredictivePrefetcher::getPrefetchCandidates(const std::
     // Sort descending by score
     std::sort(candidates.begin(), candidates.end(), [](const auto &a, const auto &b) { return a.first > b.first; });
 
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     const size_t limit = std::min(candidates.size(), config_.max_predictions);
     result.reserve(limit);
     for (size_t i = 0; i < limit; ++i) {
@@ -253,7 +254,7 @@ void PredictivePrefetcher::recordCandidatesGenerated(size_t count, const std::st
     emitMetrics();
 }
 
-void PredictivePrefetcher::recordOverheadBytes(uint64_t bytes) {
+void PredictivePrefetcher::recordOverheadBytes([[maybe_unused]] uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     overhead_bytes_ += bytes;
     emitMetrics();
@@ -420,7 +421,7 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
 
         // Ensure source key entry exists (no FIFO eviction during load)
         if (transitions_.find(from) == transitions_.end()) {
-            if (ordered_keys_.size() < config_.max_tracked_keys) {
+            if (static_cast<int>(ordered_keys_.size()) < config_.max_tracked_keys) {
                 ordered_keys_.push_back(from);
                 transitions_[from] = {};
             } else {
@@ -429,7 +430,7 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
         }
 
         auto& successors = transitions_[from];
-        if (successors.size() < config_.max_successors_per_key || successors.find(to) != successors.end()) {
+        if (static_cast<int>(successors.size()) < config_.max_successors_per_key || successors.find(to) != successors.end()) {
             // Merge: take the max of persisted vs. in-memory count and
             // update total_transitions_recorded_ only by the delta so that
             // repeated loadModel() calls don't inflate the counter.

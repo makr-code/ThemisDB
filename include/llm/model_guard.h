@@ -219,7 +219,9 @@ private:
      */
     bool ValidateModel() const noexcept {
         // Check basic validity: model exists and has expected size
-        if (!model_) return false;
+        if (!model_) {
+          return false;
+        }
         // Additional validation can be overridden in specializations
         return true;
     }

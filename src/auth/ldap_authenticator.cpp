@@ -68,7 +68,7 @@ void validateLDAPCredentialsOrThrow(themis::utils::AuditLogger* audit_logger,
             "LDAP: username must not be empty"
         ));
     }
-    if (username.size() > MAX_LDAP_USERNAME_LENGTH) {
+    if (static_cast<int>(username.size()) > MAX_LDAP_USERNAME_LENGTH) {
         auditLDAPValidationFailure(audit_logger, username, "username_too_long");
         throw AuthException(AuthError(
             AuthErrorCode::AUTH_INVALID_CREDENTIALS,
@@ -84,7 +84,7 @@ void validateLDAPCredentialsOrThrow(themis::utils::AuditLogger* audit_logger,
             "LDAP: password must not be empty (anonymous bind not permitted)"
         ));
     }
-    if (password.size() > MAX_LDAP_PASSWORD_LENGTH) {
+    if (static_cast<int>(password.size()) > MAX_LDAP_PASSWORD_LENGTH) {
         auditLDAPValidationFailure(audit_logger, username, "password_too_long");
         throw AuthException(AuthError(
             AuthErrorCode::AUTH_INVALID_CREDENTIALS,
@@ -128,10 +128,10 @@ std::string escapeLDAPDNComponent(const std::string& value)
         return value;
     }
 
-    std::string out;
+    std::string out = {};
     out.reserve(value.size() * 2);
 
-    for (std::size_t i = 0; i < value.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(value.size()); ++i) {
         const unsigned char c = static_cast<unsigned char>(value[i]);
 
         // Leading '#' must be escaped
@@ -141,7 +141,7 @@ std::string escapeLDAPDNComponent(const std::string& value)
         }
 
         // Leading or trailing space must be escaped
-        if (c == ' ' && (i == 0 || i == value.size() - 1)) {
+        if ((c == ' ' && (i == 0 || i == static_cast<int>(value.size()) - 1)) {
             out += "\\ ";
             continue;
         }
@@ -173,7 +173,7 @@ std::string escapeLDAPDNComponent(const std::string& value)
  */
 std::string escapeLDAPFilterValue(const std::string& value)
 {
-    std::string out;
+    std::string out = {};
     out.reserve(value.size() * 3);
 
     for (const unsigned char c : value) {
@@ -212,7 +212,7 @@ void substitutePreEscapedPlaceholderValue(std::string& target,
     // escaped for the target LDAP context (RFC 4514 for DN, RFC 4515 for filter).
     std::size_t pos = 0;
     while ((pos = target.find(placeholder, pos)) != std::string::npos) {
-        target.replace(pos, placeholder.size(), value);
+        target.replace(pos,static_cast<int>(placeholder.size()), value);
         pos += value.size();
     }
 }
@@ -349,7 +349,7 @@ LDAPAuthResult LDAPAuthenticator::authenticate(const std::string& username,
     }
 
     const std::string dn = buildUserDN(username);
-    if (dn.size() > MAX_LDAP_DN_LENGTH) {
+    if (static_cast<int>(dn.size()) > MAX_LDAP_DN_LENGTH) {
         AuthAuditLogger audit(audit_logger_);
         audit.logLDAPFailure(username, "dn_too_long");
         return LDAPAuthResult::Failed("Constructed DN exceeds maximum length");
@@ -493,7 +493,8 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     }
 
     // Optional group search
-    std::vector<std::string> groups;
+    std::vector<std::string> groups = {};
+
     if (config_.enable_group_search && !config_.group_search_filter.empty()) {
         // Build group filter with placeholders substituted and RFC 4515-escaped.
         const std::string filter = buildGroupSearchFilter(dn, username);
@@ -664,7 +665,8 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     // Optional group search
     // -----------------------------------------------------------------------
 
-    std::vector<std::string> groups;
+    std::vector<std::string> groups = {};
+
     if (config_.enable_group_search && !config_.group_search_filter.empty()) {
         const std::string filter = buildGroupSearchFilter(dn, username);
 

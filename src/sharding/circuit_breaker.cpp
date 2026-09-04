@@ -43,6 +43,7 @@ bool CircuitBreaker::allowRequest() {
         case State::HALF_OPEN:
             // Allow limited requests for recovery testing
             return true;
+        default: break;
     }
     
     return false;
@@ -131,6 +132,7 @@ std::string CircuitBreaker::stateToString(State state) {
         case State::CLOSED: return "CLOSED";
         case State::OPEN: return "OPEN";
         case State::HALF_OPEN: return "HALF_OPEN";
+        default: break;
     }
     return "UNKNOWN";
 }
@@ -174,7 +176,7 @@ void CircuitBreaker::cleanupOldFailures() {
 }
 
 size_t CircuitBreaker::getCurrentFailureCount() const {
-    return failure_timestamps_.size();
+    return static_cast<int>(failure_timestamps_.size());
 }
 
 // ============================================================================
@@ -219,7 +221,8 @@ void CircuitBreakerManager::resetAll() {
 
 std::vector<std::string> CircuitBreakerManager::getAllShardIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> shard_ids;
+    std::vector<std::string> shard_ids = {};
+
     shard_ids.reserve(circuit_breakers_.size());
     
     for (const auto& [shard_id, _] : circuit_breakers_) {
@@ -244,6 +247,7 @@ CircuitBreakerManager::StateCount CircuitBreakerManager::getStateCount() const {
             case CircuitBreaker::State::HALF_OPEN:
                 count.half_open++;
                 break;
+            default: break;
         }
     }
     

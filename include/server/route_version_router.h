@@ -60,7 +60,7 @@ class RouteVersionRouter {
 public:
     /// Result of path normalization: API major version (1, 2, …) and canonical path.
     struct NormalizedPath {
-        int     version;        ///< Extracted major version, or 0 if unversioned.
+        int     version = 0;        ///< Extracted major version, or 0 if unversioned.
         std::string path;       ///< Canonical path (prefix stripped; never empty).
     };
 
@@ -151,12 +151,16 @@ inline bool RouteVersionRouter::isVersioned(std::string_view path) noexcept {
     if (path.size() >= 3 && path[0] == '/' && path[1] == 'v' &&
         path[2] >= '1' && path[2] <= '9') {
         // Must be followed by '/' or end of string
-        if (path.size() == 3 || path[3] == '/' || path[3] == '?') return true;
+        if (path.size() == 3 || path[3] == '/' || path[3] == '?') {
+          return true;
+        }
     }
     // /api/v1/... /api/v2/...
     if (path.rfind("/api/v", 0) == 0 && path.size() > 6) {
         char c = path[6];
-        if (c >= '1' && c <= '9') return true;
+        if (c >= '1' && c <= '9') {
+          return true;
+        }
     }
     return false;
 }
@@ -202,7 +206,9 @@ inline bool RouteVersionRouter::isExemptFromRedirect(
     std::string_view path) noexcept
 {
     // Already versioned
-    if (isVersioned(path)) return true;
+    if (isVersioned(path)) {
+      return true;
+    }
 
     // Well-known paths that must NOT be redirected
     static constexpr std::string_view exempt[] = {
@@ -240,11 +246,15 @@ inline bool RouteVersionRouter::isExemptFromRedirect(
         "/timeseries/",
     };
     for (auto& ex : exempt) {
-        if (path == ex || path.rfind(ex, 0) == 0) return true;
+        if (path == ex || path.rfind(ex, 0) == 0) {
+          return true;
+        }
     }
 
     // WebSocket upgrade targets
-    if (path.rfind("/v2/", 0) == 0) return true;
+    if (path.rfind("/v2/", 0) == 0) {
+      return true;
+    }
 
     return false;
 }
@@ -270,18 +280,22 @@ RouteVersionRouter::normalize(std::string_view path) const
 inline std::optional<std::string>
 RouteVersionRouter::getRedirectTarget(std::string_view path) const
 {
-    if (isExemptFromRedirect(path)) return std::nullopt;
+    if (isExemptFromRedirect(path)) {
+      return std::nullopt;
+    }
 
     // Strip query string before computing the redirect target; re-append after.
     std::string_view path_only = path;
-    std::string_view query;
+    std::string_view query = {};
     auto qpos = path.find('?');
     if (qpos != std::string_view::npos) {
         path_only = path.substr(0, qpos);
         query     = path.substr(qpos);
     }
 
-    if (path_only.empty() || path_only == "/") return std::nullopt;
+    if (path_only.empty() || path_only == "/") {
+      return std::nullopt;
+    }
 
     return "/v1" + std::string(path_only) + std::string(query);
 }

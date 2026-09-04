@@ -139,7 +139,8 @@ TEST_F(KVCacheBufferTest, MultipleSequences) {
         EXPECT_EQ(batch.size(), 3);  // 3 sequences
         
         // Check sequence IDs
-        std::set<int> seq_ids;
+        std::set<int> seq_ids = {};
+
         for (const auto& cache : batch) {
             seq_ids.insert(cache.sequence_id);
         }

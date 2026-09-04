@@ -26,7 +26,7 @@ public:
 
     std::string generateHex(std::size_t bytes) {
         std::uniform_int_distribution<> dis(0, 15);
-        std::string result;
+        std::string result = {};
         result.reserve(bytes * 2);
         for (std::size_t i = 0; i < bytes; ++i) {
             int val = dis(gen_);
@@ -48,7 +48,9 @@ std::string toLower(const std::string& str) {
 }
 
 bool isValidHexString(const std::string& str) {
-    if (str.empty()) return false;
+    if (str.empty()) {
+      return false;
+    }
     for (char c : str) {
         if (!std::isxdigit(static_cast<unsigned char>(c))) {
             return false;
@@ -167,7 +169,7 @@ std::shared_ptr<DistributedTraceContext> DistributedTraceContext::fromHttpHeader
                     if (bg_it != headers.end()) {
                         // Simple baggage parsing: comma-separated key=value pairs
                         std::istringstream iss(bg_it->second);
-                        std::string item;
+                        std::string item = {};
                         while (std::getline(iss, item, ',')) {
                             size_t eq = item.find('=');
                             if (eq != std::string::npos) {
@@ -257,9 +259,11 @@ std::map<std::string, std::string> DistributedTraceContext::toHttpHeaders(
 
             // Build jaeger-baggage
             if (!baggage_.empty()) {
-                std::string baggage_str;
-                for (size_t i = 0; i < baggage_.size(); ++i) {
-                    if (i > 0) baggage_str += ",";
+                std::string baggage_str = {};
+                for (size_t i = 0; i <static_cast<int>(baggage_.size()); ++i) {
+                    if (i > 0) {
+                      baggage_str += ",";
+                    }
                     baggage_str += baggage_[i].key + "=" + baggage_[i].value;
                 }
                 headers["jaeger-baggage"] = baggage_str;
@@ -298,7 +302,7 @@ std::shared_ptr<DistributedTraceContext> DistributedTraceContext::withBaggage(
     ctx->created_at_ = created_at_;
 
     // Add new baggage item
-    if (ctx->baggage_.size() >= kMaxBaggageItems) {
+    if (ctx-> static_cast<int>(baggage_.size()) >= kMaxBaggageItems) {
         // Remove oldest inherited baggage item to make room
         auto it = std::find_if(ctx->baggage_.begin(), ctx->baggage_.end(),
                               [](const BaggageItem& b) { return b.inherited; });
@@ -348,7 +352,7 @@ std::map<std::string, std::string> DistributedTracingSDK::propagateContextToHead
 DistributedTraceResult DistributedTracingSDK::validateTraceContext(
     const std::shared_ptr<DistributedTraceContext>& context) {
 
-    DistributedTraceResult result;
+    DistributedTraceResult result = {};
 
     if (!context) {
         result.success = false;

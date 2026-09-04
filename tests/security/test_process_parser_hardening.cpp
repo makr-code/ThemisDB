@@ -23,7 +23,7 @@ using namespace themis::process;
 // Helper: build deeply-nested BPMN XML
 // ---------------------------------------------------------------------------
 static std::string buildDeeplyNestedBpmn(int depth) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << R"(<?xml version="1.0" encoding="UTF-8"?>)"
        << R"(<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">)"
        << R"(<bpmn:process id="p1" name="test">)";
@@ -87,7 +87,7 @@ TEST(ProcessParserHardening, BpmnBillionLaughs_OversizedInputRejected) {
     // Build a string that mimics entity expansion with repeated patterns
     // The size guard (kMaxBpmnXmlBytes = 10 MiB) should reject this
     const size_t kTargetSize = 11u * 1024u * 1024u; // 11 MiB > limit
-    std::string large_xml;
+    std::string large_xml = {};
     large_xml.reserve(kTargetSize + 256);
     large_xml += R"(<?xml version="1.0"?><bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"><bpmn:process id="p1" name="t">)";
     // Pad with valid but meaningless content to exceed the size limit
@@ -107,7 +107,7 @@ TEST(ProcessParserHardening, BpmnBillionLaughs_OversizedInputRejected) {
 // ---------------------------------------------------------------------------
 TEST(ProcessParserHardening, BpmnOversizedInput_ReturnsFalse) {
     const size_t kOneMib = 1u * 1024u * 1024u;
-    std::string xml;
+    std::string xml = {};
     xml.reserve(kOneMib + 256);
     xml += R"(<?xml version="1.0"?><bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"><bpmn:process id="p1" name="t">)";
     while (xml.size() < kOneMib) {
@@ -174,7 +174,7 @@ TEST(ProcessParserHardening, EpkValidText_ParsedCorrectly) {
 // ---------------------------------------------------------------------------
 TEST(ProcessParserHardening, EpkOversizedInput_Rejected) {
     const size_t kLargeSize = 2u * 1024u * 1024u; // 2 MiB
-    std::string large_epk;
+    std::string large_epk = {};
     large_epk.reserve(kLargeSize + 64);
     while (large_epk.size() < kLargeSize) {
         large_epk += "EVENT: \"padding event\"\n";

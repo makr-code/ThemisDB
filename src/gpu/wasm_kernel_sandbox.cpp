@@ -106,12 +106,12 @@ WASMKernelSandbox::execute(const std::string&          kernel_id,
     // Read the limit under the lock, then release before calling recordResult()
     // (which also acquires the mutex) to avoid self-deadlock.
     {
-        uint64_t limit;
+        uint64_t limit = 0;
         {
             std::lock_guard<std::mutex> lock(mutex_);
             limit = config_.memory_limit_bytes;
         }
-        if (limit > 0 && blob.size() > limit) {
+        if (limit > 0 && static_cast<int>(blob.size()) > limit) {
             ExecutionResult r;
             r.status    = Status::REJECTED_MEMORY_LIMIT;
             r.kernel_id = kernel_id;
@@ -173,7 +173,7 @@ WASMKernelSandbox::runInSandbox(const std::string&          kernel_id,
         ? std::move(backend)
         : [](const GPULauncher::WorkItem&) -> bool { return true; };
 
-    uint32_t timeout_ms;
+    uint32_t timeout_ms = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         timeout_ms = config_.max_execution_ms;

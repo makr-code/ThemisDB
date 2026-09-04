@@ -29,7 +29,7 @@ static std::vector<std::string> splitTopLevelCommas(const std::string& s) {
     std::vector<std::string> result;
     int   depth     = 0;
     bool  in_string = false;
-    std::string current;
+    std::string current = {};
     for (size_t i = 0; i < s.size(); ++i) {
         char c = s[i];
         if (in_string) {
@@ -57,7 +57,9 @@ static std::vector<std::string> splitTopLevelCommas(const std::string& s) {
             current += c;
         }
     }
-    if (!current.empty()) result.push_back(current);
+    if (!current.empty()) {
+      result.push_back(current);
+    }
     return result;
 }
 
@@ -84,7 +86,9 @@ static size_t findMatchingParen(const std::string& sql, size_t open_pos) {
             ++depth;
         } else if (c == ')') {
             --depth;
-            if (depth == 0) return k;
+            if (depth == 0) {
+              return k;
+            }
         }
     }
     return std::string::npos;
@@ -266,7 +270,9 @@ TEST_F(SpanCallbackTest, DurationIsNonNegative) {
 // Helper: read a file into a string
 static std::string readFile(const std::string& path) {
     std::ifstream f(path);
-    if (!f) return "";
+    if (!f) {
+      return "";
+    }
     return std::string((std::istreambuf_iterator<char>(f)),
                         std::istreambuf_iterator<char>());
 }
@@ -281,14 +287,16 @@ static std::string fixturePath(const std::string& name) {
     };
     for (const auto& b : bases) {
         std::ifstream f(b + name);
-        if (f) return b + name;
+        if (f) {
+          return b + name;
+        }
     }
     return "tests/fixtures/importers/" + name;
 }
 
 class Pg16FixtureTest : public ::testing::Test {
 protected:
-    std::string sql_;
+    std::string sql_ = {};
     void SetUp() override {
         sql_ = readFile(fixturePath("sample_pg16.sql"));
     }
@@ -331,17 +339,23 @@ TEST_F(Pg16FixtureTest, CustomerRowCount) {
     size_t count = 0;
     size_t pos = 0;
     while ((pos = data.find('\n', pos)) != std::string::npos) {
-        if (pos > 0 && data[pos - 1] != '\n') ++count;
+        if (pos > 0 && data[pos - 1] != '\n') {
+          ++count;
+        }
         ++pos;
     }
     // Trim empty trailing line
-    if (!data.empty() && data.back() == '\n') --count;
+    if (!data.empty() && data.back() == '\n') {
+      --count;
+    }
     // Actually just count non-empty lines
     count = 0;
     std::istringstream iss(data);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
-        if (!line.empty()) ++count;
+        if (!line.empty()) {
+          ++count;
+        }
     }
     EXPECT_EQ(3u, count) << "customers COPY block should have 3 data rows";
 }
@@ -353,9 +367,11 @@ TEST_F(Pg16FixtureTest, OrderItemsRowCount) {
     std::string data  = sql_.substr(data_start, data_end - data_start);
     size_t count = 0;
     std::istringstream iss(data);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
-        if (!line.empty()) ++count;
+        if (!line.empty()) {
+          ++count;
+        }
     }
     EXPECT_EQ(4u, count) << "order_items COPY block should have 4 data rows";
 }

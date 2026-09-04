@@ -143,8 +143,12 @@ TEST_F(ProcessMiningTest, PM2_02_CreateDFG_Activities_Present) {
     // A→B and B→C should appear
     bool ab = false, bc = false;
     for (const auto& e : dfg.edges) {
-        if (e.from == "A" && e.to == "B") ab = true;
-        if (e.from == "B" && e.to == "C") bc = true;
+        if (e.from == "A" && e.to == "B") {
+          ab = true;
+        }
+        if (e.from == "B" && e.to == "C") {
+          bc = true;
+        }
     }
     EXPECT_TRUE(ab) << "A→B edge missing from DFG";
     EXPECT_TRUE(bc) << "B→C edge missing from DFG";
@@ -226,7 +230,9 @@ TEST_F(ProcessMiningTest, PM2_07_AnalyzeVariants_TwoVariants) {
     EXPECT_GE(variants.size(), 2u) << "Expected at least 2 variants";
     // Frequencies should sum to total cases
     int total = 0;
-    for (const auto& v : variants) total += v.frequency;
+    for (const auto& v : variants) {
+      total += v.frequency;
+    }
     EXPECT_EQ(total, static_cast<int>(log.unique_cases));
 }
 

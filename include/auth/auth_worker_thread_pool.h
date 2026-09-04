@@ -140,12 +140,16 @@ public:
     void shutdown() noexcept {
         {
             std::lock_guard<std::mutex> lock(queue_mutex_);
-            if (stop_) return;
+            if (stop_) {
+              return;
+            }
             stop_ = true;
         }
         cv_.notify_all();
         for (auto& t : workers_) {
-            if (t.joinable()) t.join();
+            if (t.joinable()) {
+              t.join();
+            }
         }
         workers_.clear();
     }
@@ -163,7 +167,7 @@ private:
     std::vector<std::thread>        workers_;
     std::queue<std::function<void()>> tasks_;
     mutable std::mutex              queue_mutex_;
-    std::condition_variable         cv_;
+    std::condition_variable         cv_ = {};
 
     // Spawn one new worker thread. Must be called with queue_mutex_ held.
     void spawnWorker() {
@@ -175,7 +179,9 @@ private:
                     ++idle_count_;
                     cv_.wait(lock, [this] { return stop_ || !tasks_.empty(); });
                     --idle_count_;
-                    if (stop_ && tasks_.empty()) return;
+                    if (stop_ && tasks_.empty()) {
+                      return;
+                    }
                     task = std::move(tasks_.front());
                     tasks_.pop();
                 }

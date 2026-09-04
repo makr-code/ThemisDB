@@ -27,7 +27,7 @@ namespace themis {
 /// Based on: Su, J., et al. (2021). "RoFormer: Enhanced Transformer with Rotary Position Embedding"
 /// arXiv preprint arXiv:2104.09864
 struct RotationConfig {
-    size_t hidden_dim;              // Embedding dimension (must be even)
+    size_t hidden_dim = 0;              // Embedding dimension (must be even)
     size_t num_rotation_pairs;      // Number of 2D rotation pairs (must be <= hidden_dim/2)
     double base_theta = 10000.0;    // Base frequency (from RoPE paper)
     bool normalize_after = false;   // L2 normalize after rotation

@@ -83,7 +83,9 @@ TEST_F(ShaderIntegrityTest, NormalisesToLowerCase) {
     // Compute real hash (lower-case) and convert to upper-case
     std::string lower = ShaderIntegrityVerifier::sha256Hex(spv);
     std::string upper = lower;
-    for (char& c : upper) if (c >= 'a' && c <= 'f') c = static_cast<char>(c - 'a' + 'A');
+    for (char& c : upper) {
+      if (c >= 'a' && c <= 'f') c = static_cast<char>(c - 'a' + 'A');
+    }
     // Register the upper-case version; verify should still match after normalisation
     v.registerExpectedHash("upper.spv", upper);
     auto r = v.verify("upper.spv", spv);

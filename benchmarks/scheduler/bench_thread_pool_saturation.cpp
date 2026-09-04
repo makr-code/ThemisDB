@@ -169,11 +169,15 @@ BENCHMARK_F(ThreadPoolSaturationFixture, ConcurrentProducers)(benchmark::State& 
                         ThreadPoolManager::PoolType::IO,
                         []() { /* no-op payload */ },
                         "prod_" + std::to_string(p));
-                    if (ok) total_submitted.fetch_add(1, std::memory_order_relaxed);
+                    if (ok) {
+                      total_submitted.fetch_add(1, std::memory_order_relaxed);
+                    }
                 }
             });
         }
-        for (auto& th : producers) th.join();
+        for (auto& th : producers) {
+          th.join();
+        }
 
         benchmark::DoNotOptimize(total_submitted.load());
     }
@@ -210,7 +214,9 @@ static void BM_ShutdownLatency(benchmark::State& state) {
                 ThreadPoolManager::PoolType::BLOCKING,
                 []() { /* instant task */ },
                 "inflight");
-            if (ok) ++submitted;
+            if (ok) {
+              ++submitted;
+            }
         }
         state.ResumeTiming();
 

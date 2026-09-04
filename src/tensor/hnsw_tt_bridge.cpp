@@ -67,8 +67,10 @@ struct HnswTTBridge::HnswLayer {
 
     /// Lazy initialisation — called on the first insert() once dim is known.
     /// Exception-safe: cleans up space_ on HierarchicalNSW ctor failure.
-    void ensureInit(size_t dim) {
-        if (appr_) return;
+    void ensureInit([[maybe_unused]] size_t dim) {
+        if (appr_) {
+          return;
+        }
         auto* sp = new hnswlib::L2Space(dim);
         try {
             appr_ = new hnswlib::HierarchicalNSW<float>(
@@ -141,7 +143,9 @@ struct HnswTTBridge::HnswLayer {
                 } catch (...) {}
                 label_to_id_.erase(it->second);
                 id_to_label_.erase(it);
-                if (active_count_ > 0) --active_count_;
+                if (active_count_ > 0) {
+                  --active_count_;
+                }
             }
             return;
         }
@@ -163,7 +167,8 @@ struct HnswTTBridge::HnswLayer {
                 const size_t k = std::min(ef, active_count_);
                 // hnswlib returns a max-heap keyed by distance (top = worst).
                 auto pq = appr_->searchKnn(query.data(), k, nullptr);
-                std::vector<int64_t> ids;
+                std::vector<int64_t> ids = {};
+
                 ids.reserve(pq.size());
                 while (!pq.empty()) {
                     const auto label = static_cast<size_t>(pq.top().second);
@@ -184,14 +189,14 @@ struct HnswTTBridge::HnswLayer {
         dist_ids.reserve(sketches.size());
         for (const auto& [id, sk] : sketches) {
             float d = 0.0f;
-            const size_t dim = std::min(query.size(), sk.size());
+            const size_t dim = std::min(query.size(),static_cast<int>(sk.size()));
             for (size_t i = 0; i < dim; ++i) {
                 const float diff = query[i] - sk[i];
                 d += diff * diff;
             }
             dist_ids.emplace_back(d, id);
         }
-        const size_t take = std::min(ef, dist_ids.size());
+        const size_t take = std::min(ef,static_cast<int>(dist_ids.size()));
         std::partial_sort(dist_ids.begin(), dist_ids.begin() + take,
                           dist_ids.end());
         std::vector<int64_t> ids;
@@ -203,9 +208,11 @@ struct HnswTTBridge::HnswLayer {
 
     size_t size() const {
 #ifdef THEMIS_HNSW_ENABLED
-        if (appr_) return active_count_;
+        if (appr_) {
+          return active_count_;
+        }
 #endif
-        return sketches.size();
+        return static_cast<int>(sketches.size());
     }
 };
 
@@ -217,7 +224,9 @@ struct HnswTTBridge::TTStore {
     std::unordered_map<int64_t, storage::TTTrain> trains;
 
     bool insert(int64_t id, storage::TTTrain t) {
-        if (trains.count(id)) return false;
+        if (trains.count(id)) {
+          return false;
+        }
         trains.emplace(id, std::move(t));
         return true;
     }
@@ -226,7 +235,7 @@ struct HnswTTBridge::TTStore {
         auto it = trains.find(id);
         return (it != trains.end()) ? &it->second : nullptr;
     }
-    size_t size() const { return trains.size(); }
+    size_t size() const { return static_cast<int>(trains.size()); }
 };
 
 // ============================================================================
@@ -255,10 +264,14 @@ bool HnswTTBridge::add(int64_t id,
 
     stats_.num_vectors++;
     size_t b = 0;
-    for (const auto& c : train.cores) b += c.data.size() * sizeof(float);
+    for (const auto& c : train.cores) {
+      b += c.data.size() * sizeof(float);
+    }
     stats_.storage_bytes += b;
 
-    if (dim_ == 0 && !train.cores.empty()) dim_ = train.cores.front().n;
+    if (dim_ == 0 && !train.cores.empty()) {
+      dim_ = train.cores.front().n;
+    }
     return true;
 }
 
@@ -287,7 +300,9 @@ bool HnswTTBridge::addFlat(int64_t id,
 
 bool HnswTTBridge::remove(int64_t id) {
     std::unique_lock lock(rw_mutex_);
-    if (!tt_store_->remove(id)) return false;
+    if (!tt_store_->remove(id)) {
+      return false;
+    }
     hnsw_->remove(id);
     stats_.num_vectors = (stats_.num_vectors > 0) ? stats_.num_vectors - 1 : 0;
     return true;
@@ -308,12 +323,15 @@ HnswTTBridge::search(const storage::TTTrain& query, int k) const {
 
     // Step 2: TT re-rank
     float q_norm = ttNormFromTrain(query);
-    std::vector<TensorSearchResult> results;
+    std::vector<TensorSearchResult> results = {};
+
     results.reserve(candidates.size());
 
     for (int64_t cid : candidates) {
         const storage::TTTrain* t = tt_store_->get(cid);
-        if (!t) continue;
+        if (!t) {
+          continue;
+        }
         float ip  = ttInnerProductFromTrains(query, *t);
         float tn  = ttNormFromTrain(*t);
         float sim = (q_norm < 1e-12f || tn < 1e-12f)
@@ -361,14 +379,18 @@ HnswTTBridge::innerProduct(int64_t id_a, int64_t id_b) const {
     std::shared_lock lock(rw_mutex_);
     const auto* a = tt_store_->get(id_a);
     const auto* b = tt_store_->get(id_b);
-    if (!a || !b) return std::nullopt;
+    if (!a || !b) {
+      return std::nullopt;
+    }
     return ttInnerProductFromTrains(*a, *b);
 }
 
 std::optional<float> HnswTTBridge::norm(int64_t id) const {
     std::shared_lock lock(rw_mutex_);
     const auto* t = tt_store_->get(id);
-    if (!t) return std::nullopt;
+    if (!t) {
+      return std::nullopt;
+    }
     return ttNormFromTrain(*t);
 }
 
@@ -408,7 +430,9 @@ constexpr uint8_t kHtbVersion = 1;
 bool HnswTTBridge::save(const std::string& path) const {
     std::shared_lock lock(rw_mutex_);
     std::ofstream out(path, std::ios::binary | std::ios::trunc);
-    if (!out) return false;
+    if (!out) {
+      return false;
+    }
 
     out.write(kHtbMagic, 11);
     out.write(reinterpret_cast<const char*>(&kHtbVersion), 1);
@@ -450,19 +474,27 @@ bool HnswTTBridge::save(const std::string& path) const {
 
 bool HnswTTBridge::load(const std::string& path) {
     std::ifstream in(path, std::ios::binary);
-    if (!in) return false;
+    if (!in) {
+      return false;
+    }
 
     char magic[11];
     in.read(magic, 11);
-    if (in.fail() || std::memcmp(magic, kHtbMagic, 10) != 0) return false;
+    if (in.fail() || std::memcmp(magic, kHtbMagic, 10) != 0) {
+      return false;
+    }
 
     uint8_t version;
     in.read(reinterpret_cast<char*>(&version), 1);
-    if (in.fail() || version != kHtbVersion) return false;
+    if (in.fail() || version != kHtbVersion) {
+      return false;
+    }
 
-    uint64_t n;
+    uint64_t n = {};
     in.read(reinterpret_cast<char*>(&n), sizeof(n));
-    if (in.fail()) return false;
+    if (in.fail()) {
+      return false;
+    }
 
     // Build into local structures; apply atomically on complete success.
     auto new_hnsw = std::make_unique<HnswLayer>(cfg_.M, cfg_.ef_construction);
@@ -472,14 +504,16 @@ bool HnswTTBridge::load(const std::string& path) {
         int64_t id;
         in.read(reinterpret_cast<char*>(&id), sizeof(id));
 
-        uint32_t nm;
+        uint32_t nm = {};
         in.read(reinterpret_cast<char*>(&nm), sizeof(nm));
-        if (in.fail()) return false;
+        if (in.fail()) {
+          return false;
+        }
 
         storage::TTTrain train;
         train.mode_sizes.resize(nm);
         for (uint32_t j = 0; j < nm; ++j) {
-            uint64_t v;
+            uint64_t v = 0;
             in.read(reinterpret_cast<char*>(&v), sizeof(v));
             train.mode_sizes[j] = static_cast<std::size_t>(v);
         }
@@ -487,9 +521,11 @@ bool HnswTTBridge::load(const std::string& path) {
         in.read(reinterpret_cast<char*>(&train.original_norm), sizeof(double));
         in.read(reinterpret_cast<char*>(&train.achieved_eps),  sizeof(double));
 
-        uint32_t nc;
+        uint32_t nc = {};
         in.read(reinterpret_cast<char*>(&nc), sizeof(nc));
-        if (in.fail()) return false;
+        if (in.fail()) {
+          return false;
+        }
 
         train.cores.resize(nc);
         for (uint32_t k = 0; k < nc; ++k) {
@@ -498,7 +534,9 @@ bool HnswTTBridge::load(const std::string& path) {
             in.read(reinterpret_cast<char*>(&nn), sizeof(nn));
             in.read(reinterpret_cast<char*>(&rr), sizeof(rr));
             in.read(reinterpret_cast<char*>(&nf), sizeof(nf));
-            if (in.fail()) return false;
+            if (in.fail()) {
+              return false;
+            }
 
             auto& core = train.cores[k];
             core.r_left  = static_cast<std::size_t>(rl);
@@ -507,7 +545,9 @@ bool HnswTTBridge::load(const std::string& path) {
             core.data.resize(static_cast<std::size_t>(nf));
             in.read(reinterpret_cast<char*>(core.data.data()),
                     static_cast<std::streamsize>(nf * sizeof(float)));
-            if (in.fail()) return false;
+            if (in.fail()) {
+              return false;
+            }
         }
 
         // Re-derive HNSW sketch from loaded train
@@ -516,7 +556,9 @@ bool HnswTTBridge::load(const std::string& path) {
         new_tt->insert(id, std::move(train));
     }
 
-    if (in.fail()) return false;
+    if (in.fail()) {
+      return false;
+    }
 
     // Atomically swap in restored state
     std::unique_lock lock(rw_mutex_);
@@ -528,9 +570,13 @@ bool HnswTTBridge::load(const std::string& path) {
     for (const auto& [id, t] : tt_store_->trains) {
         stats_.num_vectors++;
         size_t b = 0;
-        for (const auto& c : t.cores) b += c.data.size() * sizeof(float);
+        for (const auto& c : t.cores) {
+          b += c.data.size() * sizeof(float);
+        }
         stats_.storage_bytes += b;
-        if (dim_ == 0 && !t.cores.empty()) dim_ = t.cores.front().n;
+        if (dim_ == 0 && !t.cores.empty()) {
+          dim_ = t.cores.front().n;
+        }
     }
     return true;
 }
@@ -587,7 +633,9 @@ float HnswTTBridge::ttCosineSimilarity(const storage::TTTrain& a,
     float ip = ttInnerProductFromTrains(a, b);
     float na = ttNormFromTrain(a);
     float nb = ttNormFromTrain(b);
-    if (na < 1e-12f || nb < 1e-12f) return 0.0f;
+    if (na < 1e-12f || nb < 1e-12f) {
+      return 0.0f;
+    }
     return ip / (na * nb);
 }
 
@@ -595,7 +643,9 @@ float HnswTTBridge::ttCosineSimilarity(const storage::TTTrain& a,
 float HnswTTBridge::ttInnerProductFromTrains(const storage::TTTrain& A,
                                               const storage::TTTrain& B) {
     const size_t d = A.cores.size();
-    if (d == 0 || d != B.cores.size()) return 0.0f;
+    if (d == 0 || d != static_cast<int>(B.cores.size())) {
+      return 0.0f;
+    }
 
     std::vector<float> T = { 1.0f };
 
@@ -614,7 +664,9 @@ float HnswTTBridge::ttInnerProductFromTrains(const storage::TTTrain& A,
                     for (size_t s = 0; s < rAl; ++s) {
                         for (size_t t = 0; t < rBl; ++t) {
                             size_t tIdx = s * rBl + t;
-                            if (tIdx >= T.size()) continue;
+                            if (tIdx >= static_cast<int>(T.size())) {
+                              continue;
+                            }
                             acc += T[tIdx]
                                  * gA.data[s * n * rAr + i * rAr + a]
                                  * gB.data[t * n * rBr + i * rBr + b];

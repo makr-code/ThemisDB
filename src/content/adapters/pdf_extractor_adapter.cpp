@@ -34,7 +34,7 @@ public:
         ingestion::FormatExtractResult out;
         try {
             // Convert span to string blob (PDFProcessor expects std::string)
-            std::string blob(reinterpret_cast<const char*>(data.data()), data.size());
+            std::string blob(reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()));
 
             ContentType ct;
             ct.mime_type = "application/pdf";

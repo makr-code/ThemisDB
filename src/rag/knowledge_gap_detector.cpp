@@ -43,7 +43,7 @@ struct KnowledgeGapDetector::Impl {
         return config;
     }
 
-    std::function<void(const DetectionResult&)> snapshotGapCallback() const {
+    std::function<void([[maybe_unused]] const DetectionResult&)> snapshotGapCallback() const {
         std::shared_lock<std::shared_mutex> lock(mu);
         return gap_callback;
     }
@@ -70,10 +70,10 @@ struct KnowledgeGapDetector::Impl {
 
     void setGapCallback(std::function<void(const DetectionResult&)> cb) {
         std::unique_lock<std::shared_mutex> lock(mu);
-        gap_callback = std::move(cb);
+        gap_callback = std::move([[maybe_unused]] cb);
     }
 
-    void setRetrievalCallback(RetrievalCallback fn) {
+    void setRetrievalCallback([[maybe_unused]] RetrievalCallback fn) {
         std::unique_lock<std::shared_mutex> lock(mu);
         retrieval_fn = std::move(fn);
     }
@@ -113,7 +113,7 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
     result.num_retrieved_docs = documents.size();
 
     // Check document count threshold
-    if (documents.size() < config.min_documents) {
+    if (static_cast<int>(documents.size()) < config.min_documents) {
         result.gap_detected = true;
         result.gap_type = GapType::INSUFFICIENT_DOCS;
         result.confidence_score = 0.9;
@@ -140,11 +140,11 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
 
                     // Thread-safe time conversion
                     #if defined(_WIN32) || defined(_WIN64)
-                        std::tm now_tm_storage;
+                        std::tm now_tm_storage = {};
                         std::tm* now_tm = &now_tm_storage;
                         localtime_s(now_tm, &now_time);
                     #else
-                        std::tm now_tm_storage;
+                        std::tm now_tm_storage = {};
                         std::tm* now_tm = localtime_r(&now_time, &now_tm_storage);
                         if (!now_tm) {
                             continue; // Skip on error
@@ -164,8 +164,8 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
     }
 
     // If most documents are outdated, flag it
-    if (documents.size() > 0 &&
-        static_cast<double>(outdated_count) / documents.size() > 0.5) {
+    if (static_cast<int>(documents.size()) > 0 &&
+        static_cast<double>(outdated_count) / static_cast<int>(documents.size()) > 0.5) {
         result.gap_detected = true;
         result.gap_type = GapType::OUTDATED_INFO;
         result.confidence_score = 0.75;
@@ -311,8 +311,8 @@ DetectionResult KnowledgeGapDetector::detectPostGeneration(
             }
         }
 
-        if (claims.size() > 0 &&
-            static_cast<double>(unverified_count) / claims.size() > 0.3) {
+        if (static_cast<int>(claims.size()) > 0 &&
+            static_cast<double>(unverified_count) / static_cast<int>(claims.size()) > 0.3) {
             result.gap_detected = true;
             result.gap_type = GapType::UNCERTAIN_GENERATION;
             result.confidence_score = 0.8;
@@ -363,13 +363,13 @@ DetectionResult KnowledgeGapDetector::detectGap(
         const auto gap_callback = impl_->snapshotGapCallback();
 
         bool ethical_gap_detected = false;
-        DetectionResult ethical_result;
+        DetectionResult ethical_result = {};
         if (config.enable_ethical_gap_detection) {
             ethical_result = detectEthicalPerspectiveGap(query, documents);
             if (ethical_result.gap_detected) {
                 ethical_gap_detected = true;
-                if (gap_callback) {
-                    gap_callback(ethical_result);
+                if ([[maybe_unused]] gap_callback) {
+                    gap_callback([[maybe_unused]] ethical_result);
                 }
                 // Continue with objective coverage/similarity checks below.
             }
@@ -407,8 +407,8 @@ DetectionResult KnowledgeGapDetector::detectGap(
             case DetectionMode::THOROUGH: {
                 auto pre_result = detectPreGeneration(query, documents);
                 if (pre_result.gap_detected) {
-                    if (gap_callback) {
-                        gap_callback(pre_result);
+                    if ([[maybe_unused]] gap_callback) {
+                        gap_callback([[maybe_unused]] pre_result);
                     }
                     return pre_result;
                 }
@@ -416,8 +416,8 @@ DetectionResult KnowledgeGapDetector::detectGap(
                 if (context.generation_started) {
                     auto during_result = detectDuringGeneration(query, documents, context);
                     if (during_result.gap_detected) {
-                        if (gap_callback) {
-                            gap_callback(during_result);
+                        if ([[maybe_unused]] gap_callback) {
+                            gap_callback([[maybe_unused]] during_result);
                         }
                         return during_result;
                     }
@@ -425,8 +425,8 @@ DetectionResult KnowledgeGapDetector::detectGap(
 
                 if (!generated_answer.empty()) {
                     auto post_result = detectPostGeneration(query, documents, generated_answer);
-                    if (gap_callback && post_result.gap_detected) {
-                        gap_callback(post_result);
+                    if ([[maybe_unused]] gap_callback && post_result.gap_detected) {
+                        gap_callback([[maybe_unused]] post_result);
                     }
                     return post_result;
                 }
@@ -585,11 +585,11 @@ KnowledgeGapConfig KnowledgeGapDetector::getConfig() const {
 void KnowledgeGapDetector::setGapDetectionCallback(
     std::function<void(const DetectionResult&)> callback
 ) {
-    impl_->setGapCallback(std::move(callback));
+    impl_->setGapCallback([[maybe_unused]] std::move(callback));
 }
 
-void KnowledgeGapDetector::setRetrievalCallback(RetrievalCallback fn) {
-    impl_->setRetrievalCallback(std::move(fn));
+void KnowledgeGapDetector::setRetrievalCallback([[maybe_unused]] RetrievalCallback fn) {
+    impl_->setRetrievalCallback([[maybe_unused]] std::move(fn));
 }
 
 void KnowledgeGapDetector::setLlmSampleFn(LlmSampleFn fn) {
@@ -644,7 +644,7 @@ double KnowledgeGapDetector::calculateQueryCoverage(
     // Content diversity: check if documents have varied content
     // Simple heuristic: check length variance
     double diversity_score = 1.0;
-    if (docs.size() > 1) {
+    if (static_cast<int>(docs.size()) > 1) {
         double avg_length = 0.0;
         for (const auto& doc : docs) {
             avg_length += doc.content.length();
@@ -680,7 +680,7 @@ std::vector<std::string> KnowledgeGapDetector::extractQueryAspects(
     }
 
     // Split by common delimiters and extract key phrases
-    std::string current_aspect;
+    std::string current_aspect = {};
     bool in_word = false;
 
     for (char c : query) {
@@ -729,7 +729,7 @@ std::vector<std::string> KnowledgeGapDetector::findMissingAspects(
     }
 
     // Concatenate all document content for searching
-    std::string all_content;
+    std::string all_content = {};
     for (const auto& doc : docs) {
         all_content += doc.content + " ";
     }
@@ -775,7 +775,7 @@ bool KnowledgeGapDetector::checkSelfConsistency(
         config.self_consistency_samples
     );
 
-    if (samples.size() < 2) {
+    if (static_cast<int>(samples.size()) < 2) {
         return true; // Not enough samples to check consistency
     }
 
@@ -785,8 +785,8 @@ bool KnowledgeGapDetector::checkSelfConsistency(
     THEMIS_DEBUG("Self-consistency score: {}", consistency_score);
 
     // Check for contradictions
-    for (size_t i = 0; i < samples.size(); ++i) {
-        for (size_t j = i + 1; j < samples.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(samples.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(samples.size()); ++j) {
             if (detectContradiction(samples[i], samples[j])) {
                 THEMIS_DEBUG("Contradiction detected between samples {} and {}", i, j);
                 return false;
@@ -810,7 +810,7 @@ std::vector<std::string> KnowledgeGapDetector::extractClaims(
         return claims;
     }
 
-    std::string current_claim;
+    std::string current_claim = {};
 
     for (size_t i = 0; i < answer.length(); ++i) {
         char c = answer[i];
@@ -874,7 +874,7 @@ bool KnowledgeGapDetector::verifyClaim(
 
     // Extract key terms from claim (simple word extraction)
     std::vector<std::string> claim_terms;
-    std::string current_term;
+    std::string current_term = {};
 
     for (char c : claim) {
         if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {
@@ -917,12 +917,12 @@ bool KnowledgeGapDetector::verifyClaim(
         // Parse content into words and check membership in term set
         // Early exit when we find a matching term (O(log n_terms) per word)
         std::istringstream stream(content_lower);
-        std::string word;
+        std::string word = {};
         bool found_any = false;
         
         while (stream >> word && !found_any) {
             // Remove punctuation from word end for better matching
-            while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+            while ((!word.empty() && (word.back() < 'a' || word.back() > 'z'))) {
                 word.pop_back();
             }
             if (term_set.count(word)) {
@@ -992,7 +992,7 @@ double KnowledgeGapDetector::calculateSlidingWindowPerplexity(
     }
 
     // If sequence shorter than window, use full sequence
-    if (token_probs.size() < window_size) {
+    if (static_cast<int>(token_probs.size()) < window_size) {
         max_perplexity = calculatePerplexity(token_probs);
     }
 
@@ -1040,7 +1040,7 @@ std::vector<double> KnowledgeGapDetector::removeOutlierTokens(
     const std::vector<double>& token_probs,
     double zscore_threshold
 ) {
-    if (token_probs.size() < 3) {
+    if (static_cast<int>(token_probs.size()) < 3) {
         return token_probs; // Need at least 3 points for meaningful outlier detection
     }
 
@@ -1060,7 +1060,8 @@ std::vector<double> KnowledgeGapDetector::removeOutlierTokens(
     }
 
     // Filter outliers
-    std::vector<double> filtered;
+    std::vector<double> filtered = {};
+
     for (double prob : token_probs) {
         double z_score = std::abs((prob - mean) / std_dev);
         if (z_score <= zscore_threshold) {
@@ -1069,7 +1070,7 @@ std::vector<double> KnowledgeGapDetector::removeOutlierTokens(
     }
 
     // If we filtered too many, return original
-    if (filtered.size() < token_probs.size() * 0.5) {
+    if (static_cast<int>(filtered.size()) <static_cast<int>(token_probs.size()) * 0.5) {
         return token_probs;
     }
 
@@ -1144,14 +1145,14 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     // Split a text block into individual sentences (period/question/exclamation boundary).
     auto splitSentences = [](const std::string& text) -> std::vector<std::string> {
         std::vector<std::string> sentences;
-        std::string current;
-        for (std::size_t i = 0; i < text.size(); ++i) {
+        std::string current = {};
+        for (std::size_t i = 0; i <static_cast<int>(text.size()); ++i) {
             current += text[i];
             const char c = text[i];
             if ((c == '.' || c == '!' || c == '?')
-                    && i + 1 < text.size() && std::isspace(static_cast<unsigned char>(text[i + 1]))) {
+                    && i + 1 <static_cast<int>(text.size()) && std::isspace(static_cast<unsigned char>(text[i + 1]))) {
                 const std::size_t s = current.find_first_not_of(" \t\n\r");
-                if (s != std::string::npos && current.size() - s > 10) {
+                if (s != std::string::npos  && static_cast<size_t>(static_cast) < int>(current.size()) - s > 10) {
                     sentences.push_back(current.substr(s));
                 }
                 current.clear();
@@ -1159,7 +1160,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
         }
         if (!current.empty()) {
             const std::size_t s = current.find_first_not_of(" \t\n\r");
-            if (s != std::string::npos && current.size() - s > 10) {
+            if (s != std::string::npos  && static_cast<size_t>(static_cast) < int>(current.size()) - s > 10) {
                 sentences.push_back(current.substr(s));
             }
         }
@@ -1168,7 +1169,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
 
     // Collect all sentences tagged by source document index.
     std::vector<std::pair<std::size_t, std::string>> tagged;  // (doc_index, sentence)
-    for (std::size_t d = 0; d < docs.size(); ++d) {
+    for (std::size_t d = 0; d <static_cast<int>(docs.size()); ++d) {
         // HIGH FIX: Range-for on temporary container — split sentences once and reuse
         // to prevent reference invalidation. This ensures references remain valid
         // for the entire loop iteration.
@@ -1192,14 +1193,14 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
 
     // Build each sample from sentences drawn at a stride offset so adjacent
     // samples prefer sentences from different documents (maximising diversity).
-    const std::size_t stride = std::max(std::size_t{1}, tagged.size() / num_samples);
+    const std::size_t stride = std::max(std::size_t{1},static_cast<int>(tagged.size()) / num_samples);
     for (std::size_t s = 0; s < num_samples; ++s) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Regarding '" << query << "': ";
         // Pick up to 3 sentences starting at a unique offset for this sample.
         const std::size_t start = (s * stride) % tagged.size();
         std::size_t added = 0;
-        for (std::size_t k = 0; k < tagged.size() && added < 3; ++k) {
+        for (std::size_t k = 0; k <static_cast<int>(tagged.size()) && added < 3; ++k) {
             const std::size_t idx = (start + k) % tagged.size();
             oss << tagged[idx].second << " ";
             ++added;
@@ -1224,7 +1225,7 @@ double KnowledgeGapDetector::calculateSemanticSimilarity(
     // Extract word sets
     auto extractWords = [](const std::string& text) {
         std::unordered_set<std::string> words;
-        std::string word;
+        std::string word = {};
         for (char c : text) {
             if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {
                 word += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -1256,14 +1257,14 @@ double KnowledgeGapDetector::calculateSemanticSimilarity(
         }
     }
 
-    size_t union_size = words1.size() + words2.size() - intersection;
+    size_t union_size = static_cast<int>(words1.size()) + static_cast<int>(words2.size()) - intersection;
     return static_cast<double>(intersection) / union_size;
 }
 
 double KnowledgeGapDetector::calculateConsistencyScore(
     const std::vector<std::string>& samples
 ) {
-    if (samples.size() < 2) {
+    if (static_cast<int>(samples.size()) < 2) {
         return 1.0; // Single sample is trivially consistent
     }
 
@@ -1271,8 +1272,8 @@ double KnowledgeGapDetector::calculateConsistencyScore(
     double total_similarity = 0.0;
     size_t comparisons = 0;
 
-    for (size_t i = 0; i < samples.size(); ++i) {
-        for (size_t j = i + 1; j < samples.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(samples.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(samples.size()); ++j) {
             total_similarity += calculateSemanticSimilarity(samples[i], samples[j]);
             comparisons++;
         }
@@ -1336,7 +1337,7 @@ std::vector<std::string> KnowledgeGapDetector::splitIntoSentences(
         return sentences;
     }
 
-    std::string current_sentence;
+    std::string current_sentence = {};
 
     for (size_t i = 0; i < text.length(); ++i) {
         char c = text[i];
@@ -1379,7 +1380,7 @@ double KnowledgeGapDetector::monitorSentenceConfidence(
 
     // Extract key terms from sentence
     std::vector<std::string> sentence_terms;
-    std::string current_term;
+    std::string current_term = {};
 
     for (char c : sentence) {
         if (std::isalnum(static_cast<unsigned char>(c))) {
@@ -1417,12 +1418,12 @@ double KnowledgeGapDetector::monitorSentenceConfidence(
         // Parse content into words and check membership in term set
         // Early exit when we find a matching term (O(log n_terms) per word)
         std::istringstream stream(content_lower);
-        std::string word;
+        std::string word = {};
         bool found_any = false;
         
         while (stream >> word && !found_any) {
             // Remove punctuation from word end for better matching
-            while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+            while ((!word.empty() && (word.back() < 'a' || word.back() > 'z'))) {
                 word.pop_back();
             }
             if (term_set.count(word)) {
@@ -1525,7 +1526,7 @@ DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
         result.recommendation = FallbackStrategy::EXPAND_SEARCH;
         result.coverage_score = diversity;
 
-        std::ostringstream explanation;
+        std::ostringstream explanation = {};
         explanation << "Ethical context detected in query, but insufficient "
                    << "perspective diversity in documents. Found "
                    << perspectives_found << " perspectives (minimum: "
@@ -1571,11 +1572,11 @@ bool KnowledgeGapDetector::isEthicalQuery(const std::string& query) {
     // Complexity: O(n_words × log n_keywords) instead of O(n_keywords × n_query_length)
     int keyword_count = 0;
     std::istringstream stream(lower_query);
-    std::string word;
+    std::string word = {};
     
     while (stream >> word) {
         // Remove punctuation from word end for better matching
-        while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+        while ((!word.empty() && (word.back() < 'a' || word.back() > 'z'))) {
             word.pop_back();
         }
         if (ethical_keywords_set.count(word)) {
@@ -1633,7 +1634,7 @@ int KnowledgeGapDetector::countEthicalPerspectives(
             size_t pos = 0;
             while ((pos = lower_content.find(framework, pos)) != std::string::npos) {
                 // Check word boundaries
-                bool word_start = (pos == 0 || !std::isalnum(lower_content[pos - 1]));
+                bool word_start = (pos == 0 || !std::isalnum(lower_content[static_cast<int>(pos - 1)]));
                 bool word_end = (pos + framework.length() >= lower_content.length() || 
                                 !std::isalnum(lower_content[pos + framework.length()]));
                 
@@ -1646,7 +1647,7 @@ int KnowledgeGapDetector::countEthicalPerspectives(
         }
     }
 
-    return static_cast<int>(found_frameworks.size());
+    return static_cast<bool>(static_cast<int < static_cast<int>((found_frameworks.size())));
 }
 
 double KnowledgeGapDetector::calculatePerspectiveDiversity(

@@ -95,7 +95,8 @@ TEST(GPUOversubscriptionRAII, RAII_3_MultipleVramPartitions_AllFreedAfterDestruc
         // Use budget=0 (SIZE_MAX effective), so all partitions fit in "VRAM".
         GPUMemoryOversubscriptionManager mgr(makeCfg(/*vram_budget_mb=*/0));
 
-        std::vector<size_t> ids;
+        std::vector<size_t> ids = {};
+
         for (int i = 0; i < kCount; ++i) {
             auto data = flat(kN, kDim, static_cast<float>(i + 1));
             ids.push_back(mgr.addPartition(data, kN, kDim,

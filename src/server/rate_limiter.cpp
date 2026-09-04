@@ -39,7 +39,7 @@ void TokenBucket::refill() {
     }
 }
 
-bool TokenBucket::tryConsume(size_t tokens) {
+bool TokenBucket::tryConsume([[maybe_unused]] size_t tokens) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     refill();
     
@@ -91,9 +91,9 @@ bool RateLimiter::isWhitelisted(const std::string& ip) const {
                      config_.whitelist_ips.end(), ip) != config_.whitelist_ips.end();
 }
 
-void RateLimiter::setAnomalyCallback(AnomalyCallback callback) {
-    std::unique_lock<std::shared_mutex> lock(callback_mutex_);
-    anomaly_callback_ = std::move(callback);
+void RateLimiter::setAnomalyCallback([[maybe_unused]] AnomalyCallback callback) {
+    std::unique_lock<std::shared_mutex> lock([[maybe_unused]] callback_mutex_);
+    anomaly_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void RateLimiter::fireAnomaly(AnomalyEvent::Type type,
@@ -102,7 +102,7 @@ void RateLimiter::fireAnomaly(AnomalyEvent::Type type,
     // Use a separate mutex so this is safe to call while mutex_ is held.
     AnomalyCallback cb;
     {
-        std::shared_lock<std::shared_mutex> lock(callback_mutex_);
+        std::shared_lock<std::shared_mutex> lock([[maybe_unused]] callback_mutex_);
         cb = anomaly_callback_;
     }
     if (cb) {
@@ -134,14 +134,20 @@ bool RateLimiter::isBlacklisted(const std::string& ip) const {
 bool RateLimiter::isAdaptivelyThrottled(const std::string& ip) const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = adaptive_state_.find(ip);
-    if (it == adaptive_state_.end()) return false;
-    if (!it->second.under_penalty) return false;
+    if (it == adaptive_state_.end()) {
+      return false;
+    }
+    if (!it->second.under_penalty) {
+      return false;
+    }
     return std::chrono::steady_clock::now() < it->second.penalty_until;
 }
 
 void RateLimiter::recordRejectionForAdaptive(const std::string& ip) {
     // Called with mutex_ held
-    if (!config_.adaptive_throttling_enabled) return;
+    if (!config_.adaptive_throttling_enabled) {
+      return;
+    }
     auto now = std::chrono::steady_clock::now();
     auto& entry = adaptive_state_[ip];
 
@@ -149,18 +155,18 @@ void RateLimiter::recordRejectionForAdaptive(const std::string& ip) {
     auto window = std::chrono::seconds(config_.adaptive_window_seconds);
     entry.rejection_times.erase(
         std::remove_if(entry.rejection_times.begin(), entry.rejection_times.end(),
-                       [&](const auto& t){ return (now - t) > window; }),
+                       [&]([[maybe_unused]] const auto& t){ return (now - t) > window; }),
         entry.rejection_times.end());
 
     entry.rejection_times.push_back(now);
 
     if (!entry.under_penalty &&
-        entry.rejection_times.size() >= config_.adaptive_rejection_threshold) {
+        static_cast<int>(entry.rejection_times.size()) >= config_.adaptive_rejection_threshold) {
         entry.under_penalty = true;
         entry.penalty_until = now + std::chrono::seconds(
             config_.adaptive_penalty_duration_seconds);
         THEMIS_WARN("Adaptive throttle penalty applied to IP: {} ({} rejections in {}s)",
-                    ip, entry.rejection_times.size(),
+                    ip,static_cast<int>(entry.rejection_times.size()),
                     config_.adaptive_window_seconds);
         // Fire anomaly callback while mutex_ is held; callback_mutex_ is separate.
         fireAnomaly(AnomalyEvent::Type::ADAPTIVE_THROTTLE_TRIGGERED, ip,
@@ -331,7 +337,9 @@ RateLimiter::Statistics RateLimiter::getStatistics() const {
     auto now = std::chrono::steady_clock::now();
     size_t penalised = 0;
     for (const auto& [ip, entry] : adaptive_state_) {
-        if (entry.under_penalty && now < entry.penalty_until) penalised++;
+        if (entry.under_penalty && now < entry.penalty_until) {
+          penalised++;
+        }
     }
     stats.adaptive_throttle_penalties = penalised;
     

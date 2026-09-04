@@ -89,7 +89,7 @@ public:
     
     // Get merge cost estimation
     struct MergeCost {
-        double read_amplification;
+        double read_amplification = 0;
         double write_amplification;
         double space_amplification;
     };

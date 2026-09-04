@@ -159,7 +159,9 @@ public:
     double get_abort_rate() const {
         uint64_t aborts = abort_count_.load(std::memory_order_relaxed);
         uint64_t commits = commit_count_.load(std::memory_order_relaxed);
-        if (commits + aborts == 0) return 0.0;
+        if (commits + aborts == 0) {
+          return 0.0;
+        }
         return static_cast<double>(aborts) / (commits + aborts);
     }
     

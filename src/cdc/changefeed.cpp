@@ -55,7 +55,7 @@ class SequenceIncrementOperator : public rocksdb::AssociativeMergeOperator {
         // without additional locking.
         uint64_t base = 0;
         if (existing_value != nullptr && !existing_value->empty()) {
-            if (existing_value->size() == sizeof(uint64_t)) {
+            if ([[maybe_unused]] existing_value->size() == sizeof(uint64_t)) {
                 // Binary little-endian uint64 (new format)
                 memcpy(&base, existing_value->data(), sizeof(uint64_t));
             } else {
@@ -74,7 +74,7 @@ class SequenceIncrementOperator : public rocksdb::AssociativeMergeOperator {
         }
 
         uint64_t delta = 0;
-        if (value.size() == sizeof(uint64_t)) {
+        if ([[maybe_unused]] static_cast<int>(value.size()) == sizeof(uint64_t)) {
             memcpy(&delta, value.data(), sizeof(uint64_t));
         }
 
@@ -138,7 +138,7 @@ nlohmann::json Changefeed::ChangeEvent::toJson() const {
     return j;
 }
 
-Changefeed::ChangeEvent Changefeed::ChangeEvent::fromJson(const nlohmann::json &j) {
+Changefeed::ChangeEvent Changefeed::ChangeEvent::fromJson([[maybe_unused]] const nlohmann::json &j) {
     ChangeEvent event;
     event.sequence = j.value("sequence", uint64_t(0));
 
@@ -189,7 +189,7 @@ std::shared_ptr<rocksdb::MergeOperator> Changefeed::makeSequenceMergeOperator() 
 }
 
 uint64_t Changefeed::loadInitialSequence() const {
-    std::string seq_value;
+    std::string seq_value = {};
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
 
@@ -201,8 +201,8 @@ uint64_t Changefeed::loadInitialSequence() const {
 
     if (s.ok() && !seq_value.empty()) {
         // Binary little-endian uint64 format (new)
-        if (seq_value.size() == sizeof(uint64_t)) {
-            uint64_t val;
+        if ([[maybe_unused]] static_cast<int>(seq_value.size()) == sizeof(uint64_t)) {
+            uint64_t val = 0;
             memcpy(&val, seq_value.data(), sizeof(val));
             return val;
         }
@@ -221,7 +221,7 @@ uint64_t Changefeed::loadInitialSequence() const {
     // Get failed (possibly due to unresolved Merge operands when the merge
     // operator was not registered at DB open time).  Fall back to scanning
     // stored events for the highest sequence number.
-    THEMIS_WARN("Changefeed: Get(SEQUENCE_KEY) failed ({}); scanning events for max sequence", s.ToString());
+    THEMIS_WARN([[maybe_unused]] "Changefeed: Get(SEQUENCE_KEY) failed ({}); scanning events for max sequence", s.ToString());
     return scanMaxSequence();
 }
 
@@ -229,7 +229,8 @@ uint64_t Changefeed::scanMaxSequence() const {
     uint64_t max_seq = 0;
 
     rocksdb::ReadOptions read_opts;
-    std::unique_ptr<rocksdb::Iterator> it;
+    std::unique_ptr<rocksdb::Iterator> it = {};
+
     if (cf_) {
         it.reset(db_->NewIterator(read_opts, cf_));
     } else {
@@ -313,7 +314,7 @@ Changefeed::~Changefeed() noexcept {
     stopRetentionCleanup();
 }
 
-std::string Changefeed::makeKey(uint64_t sequence) const {
+std::string Changefeed::makeKey([[maybe_unused]] uint64_t sequence) const {
     // Zero-pad sequence for lexicographic ordering
     char buf[128];
     snprintf(buf, sizeof(buf), "%s%020llu", KEY_PREFIX, static_cast<unsigned long long>(sequence));
@@ -385,19 +386,19 @@ uint64_t Changefeed::nextSequence() {
     return seq;
 }
 
-Changefeed::ChangeEvent Changefeed::recordEvent(ChangeEvent event) {
+Changefeed::ChangeEvent Changefeed::recordEvent([[maybe_unused]] ChangeEvent event) {
     // Assign sequence number
     event.sequence = nextSequence();
 
     // Set timestamp if not set
-    if (event.timestamp_ms == 0) {
+    if ([[maybe_unused]] event.timestamp_ms == 0) {
         auto now           = std::chrono::system_clock::now().time_since_epoch();
-        event.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
+        event.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>([[maybe_unused]] now).count();
     }
 
     // Serialize to JSON
     std::string value = event.toJson().dump();
-    std::string key   = makeKey(event.sequence);
+    std::string key   = makeKey([[maybe_unused]] event.sequence);
 
     // Store in RocksDB
     rocksdb::WriteOptions write_opts;
@@ -411,17 +412,17 @@ Changefeed::ChangeEvent Changefeed::recordEvent(ChangeEvent event) {
 
     if (!s.ok()) {
         THEMIS_ERROR("Failed to record change event {}: {}", event.sequence, s.ToString());
-        throw error::eventRecordFailed(s.ToString());
+        throw error::eventRecordFailed([[maybe_unused]] s.ToString());
     }
 
     THEMIS_DEBUG("Recorded change event {} (type={}, key={})", event.sequence, static_cast<int>(event.type), event.key);
 
-    notifySubscribers(event);
+    notifySubscribers([[maybe_unused]] event);
 
     return event;
 }
 
-std::vector<Changefeed::ChangeEvent> Changefeed::listEvents(const ListOptions &options) const {
+std::vector<Changefeed::ChangeEvent> Changefeed::listEvents([[maybe_unused]] const ListOptions &options) const {
     std::vector<ChangeEvent> results;
 
     // Long-poll support: wait for events if none available
@@ -474,26 +475,26 @@ std::vector<Changefeed::ChangeEvent> Changefeed::listEvents(const ListOptions &o
 
         try {
             nlohmann::json j  = nlohmann::json::parse(it->value().ToString());
-            ChangeEvent event = ChangeEvent::fromJson(j);
+            ChangeEvent event = ChangeEvent::fromJson([[maybe_unused]] j);
 
             // Apply filters
             bool matches = true;
 
-            if (options.key_prefix.has_value() && event.key.find(*options.key_prefix) != 0) {
+            if ([[maybe_unused]] options.key_prefix.has_value() && event.key.find(*options.key_prefix) != 0) {
                 matches = false;
             }
 
             // Multi-type filter takes precedence; fall back to legacy single-type filter
-            if (!options.event_types.empty()) {
-                if (options.event_types.find(event.type) == options.event_types.end()) {
+            if ([[maybe_unused]] !options.event_types.empty()) {
+                if ([[maybe_unused]] options.event_types.find(event.type) == options.event_types.end()) {
                     matches = false;
                 }
-            } else if (options.event_type.has_value() && event.type != *options.event_type) {
+            } else if ([[maybe_unused]] options.event_type.has_value() && event.type != *options.event_type) {
                 matches = false;
             }
 
             if (matches) {
-                results.push_back(event);
+                results.push_back([[maybe_unused]] event);
                 count++;
             }
         } catch (const std::exception &e) {
@@ -507,7 +508,7 @@ std::vector<Changefeed::ChangeEvent> Changefeed::listEvents(const ListOptions &o
 }
 
 std::vector<Changefeed::ChangeEvent> Changefeed::listEvents() const {
-    return listEvents(ListOptions{});
+    return listEvents([[maybe_unused]] ListOptions{});
 }
 
 uint64_t Changefeed::getLatestSequence() const {
@@ -614,9 +615,9 @@ void Changefeed::clear() {
     THEMIS_INFO("Cleared {} change events", count);
 }
 
-Changefeed::ChangeEvent Changefeed::getEvent(uint64_t sequence) const {
+Changefeed::ChangeEvent Changefeed::getEvent([[maybe_unused]] uint64_t sequence) const {
     std::string key = makeKey(sequence);
-    std::string value;
+    std::string value = {};
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
 
@@ -631,7 +632,7 @@ Changefeed::ChangeEvent Changefeed::getEvent(uint64_t sequence) const {
     }
 
     nlohmann::json j = nlohmann::json::parse(value);
-    return ChangeEvent::fromJson(j);
+    return ChangeEvent::fromJson([[maybe_unused]] j);
 }
 
 Changefeed::CompactionResult Changefeed::compactByKey() {
@@ -646,7 +647,8 @@ Changefeed::CompactionResult Changefeed::compactByKey() {
     std::unordered_map<std::string, uint64_t> latest_seq_per_doc_key;
 
     {
-        std::unique_ptr<rocksdb::Iterator> it;
+        std::unique_ptr<rocksdb::Iterator> it = {};
+
         if (cf_) {
             it.reset(db_->NewIterator(read_opts, cf_));
         } else {
@@ -663,7 +665,7 @@ Changefeed::CompactionResult Changefeed::compactByKey() {
             result.events_scanned++;
             try {
                 nlohmann::json j = nlohmann::json::parse(it->value().ToString());
-                ChangeEvent ev   = ChangeEvent::fromJson(j);
+                ChangeEvent ev   = ChangeEvent::fromJson([[maybe_unused]] j);
                 // Always overwrite: later iterations have higher sequence numbers
                 // because we iterate in key (sequence) order.
                 latest_seq_per_doc_key[ev.key] = ev.sequence;
@@ -676,7 +678,8 @@ Changefeed::CompactionResult Changefeed::compactByKey() {
     // Phase 2: Re-scan and delete any event that is NOT the latest for its key,
     // unless it is a DELETE event (tombstone must be preserved for consumers).
     {
-        std::unique_ptr<rocksdb::Iterator> it;
+        std::unique_ptr<rocksdb::Iterator> it = {};
+
         if (cf_) {
             it.reset(db_->NewIterator(read_opts, cf_));
         } else {
@@ -694,7 +697,7 @@ Changefeed::CompactionResult Changefeed::compactByKey() {
 
             try {
                 nlohmann::json j = nlohmann::json::parse(it->value().ToString());
-                ChangeEvent ev   = ChangeEvent::fromJson(j);
+                ChangeEvent ev   = ChangeEvent::fromJson([[maybe_unused]] j);
 
                 auto it_latest = latest_seq_per_doc_key.find(ev.key);
                 if (it_latest == latest_seq_per_doc_key.end()) {
@@ -708,7 +711,7 @@ Changefeed::CompactionResult Changefeed::compactByKey() {
                 }
 
                 bool is_latest = (ev.sequence == it_latest->second);
-                bool is_delete = (ev.type == ChangeEventType::EVENT_DELETE);
+                bool is_delete = ([[maybe_unused]] ev.type == ChangeEventType::EVENT_DELETE);
 
                 if (!is_latest && !is_delete) {
                     // Superseded — remove it
@@ -775,15 +778,15 @@ Changefeed::RedactionResult Changefeed::redactByKeyPrefix(const std::string &key
 
         try {
             nlohmann::json j  = nlohmann::json::parse(it->value().ToString());
-            ChangeEvent event = ChangeEvent::fromJson(j);
+            ChangeEvent event = ChangeEvent::fromJson([[maybe_unused]] j);
 
             // Skip events whose key does not start with key_prefix
-            if (event.key.compare(0, key_prefix.size(), key_prefix) != 0) {
+            if (event.key.compare(0,static_cast<int>(key_prefix.size()), key_prefix) != 0) {
                 continue;
             }
 
             // Skip events that are already redacted
-            if (event.redacted) {
+            if ([[maybe_unused]] event.redacted) {
                 continue;
             }
 
@@ -820,7 +823,7 @@ Changefeed::RedactionResult Changefeed::redactByKeyPrefix(const std::string &key
     return result;
 }
 
-size_t Changefeed::deleteOldEvents(uint64_t before_sequence) {
+size_t Changefeed::deleteOldEvents([[maybe_unused]] uint64_t before_sequence) {
     rocksdb::ReadOptions read_opts;
     rocksdb::WriteOptions write_opts;
     std::unique_ptr<rocksdb::Iterator> it;
@@ -843,9 +846,9 @@ size_t Changefeed::deleteOldEvents(uint64_t before_sequence) {
 
         try {
             nlohmann::json j  = nlohmann::json::parse(it->value().ToString());
-            ChangeEvent event = ChangeEvent::fromJson(j);
+            ChangeEvent event = ChangeEvent::fromJson([[maybe_unused]] j);
 
-            if (event.sequence < before_sequence) {
+            if ([[maybe_unused]] event.sequence < before_sequence) {
                 rocksdb::Status s;
                 if (cf_) {
                     s = db_->Delete(write_opts, cf_, key);
@@ -863,7 +866,7 @@ size_t Changefeed::deleteOldEvents(uint64_t before_sequence) {
         }
     }
 
-    THEMIS_INFO("Deleted {} old change events (before sequence {})", count, before_sequence);
+    THEMIS_INFO([[maybe_unused]] "Deleted {} old change events (before sequence {})", count, before_sequence);
     return count;
 }
 
@@ -890,7 +893,7 @@ Changefeed::Watermarks Changefeed::getWatermarks() const {
         if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) == 0) {
             try {
                 nlohmann::json j       = nlohmann::json::parse(it->value().ToString());
-                ChangeEvent event      = ChangeEvent::fromJson(j);
+                ChangeEvent event      = ChangeEvent::fromJson([[maybe_unused]] j);
                 wm.low_watermark       = event.sequence;
                 wm.oldest_timestamp_ms = event.timestamp_ms;
             } catch (const std::exception &e) {
@@ -906,7 +909,7 @@ Changefeed::Watermarks Changefeed::getWatermarks() const {
         if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) == 0) {
             try {
                 nlohmann::json j       = nlohmann::json::parse(it->value().ToString());
-                ChangeEvent event      = ChangeEvent::fromJson(j);
+                ChangeEvent event      = ChangeEvent::fromJson([[maybe_unused]] j);
                 wm.high_watermark      = event.sequence;
                 wm.newest_timestamp_ms = event.timestamp_ms;
                 break;
@@ -922,7 +925,7 @@ Changefeed::Watermarks Changefeed::getWatermarks() const {
     return wm;
 }
 
-size_t Changefeed::deleteOldEventsByTimestamp(int64_t before_timestamp_ms) {
+size_t Changefeed::deleteOldEventsByTimestamp([[maybe_unused]] int64_t before_timestamp_ms) {
     rocksdb::ReadOptions read_opts;
     rocksdb::WriteOptions write_opts;
     std::unique_ptr<rocksdb::Iterator> it;
@@ -945,9 +948,9 @@ size_t Changefeed::deleteOldEventsByTimestamp(int64_t before_timestamp_ms) {
 
         try {
             nlohmann::json j  = nlohmann::json::parse(it->value().ToString());
-            ChangeEvent event = ChangeEvent::fromJson(j);
+            ChangeEvent event = ChangeEvent::fromJson([[maybe_unused]] j);
 
-            if (event.timestamp_ms < before_timestamp_ms) {
+            if ([[maybe_unused]] event.timestamp_ms < before_timestamp_ms) {
                 rocksdb::Status s;
                 if (cf_) {
                     s = db_->Delete(write_opts, cf_, key);
@@ -965,7 +968,7 @@ size_t Changefeed::deleteOldEventsByTimestamp(int64_t before_timestamp_ms) {
         }
     }
 
-    THEMIS_INFO("Deleted {} old change events (before timestamp {})", count, before_timestamp_ms);
+    THEMIS_INFO([[maybe_unused]] "Deleted {} old change events (before timestamp {})", count, before_timestamp_ms);
     return count;
 }
 
@@ -994,18 +997,18 @@ size_t Changefeed::applyRetentionPolicy() {
         auto now_ms    = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
         auto cutoff_ms = now_ms - std::chrono::duration_cast<std::chrono::milliseconds>(policy.max_age_hours).count();
 
-        size_t deleted_by_time = deleteOldEventsByTimestamp(cutoff_ms);
+        size_t deleted_by_time = deleteOldEventsByTimestamp([[maybe_unused]] cutoff_ms);
         total_deleted += deleted_by_time;
         THEMIS_DEBUG("Retention: deleted {} events older than {}ms", deleted_by_time, cutoff_ms);
     }
 
     // Apply count-based retention
-    if (stats.total_events > policy.max_event_count) {
+    if ([[maybe_unused]] stats.total_events > policy.max_event_count) {
         // Delete oldest events to get under the limit
         size_t to_delete         = stats.total_events - policy.max_event_count;
         uint64_t cutoff_sequence = wm.low_watermark + to_delete;
 
-        size_t deleted_by_count = deleteOldEvents(cutoff_sequence);
+        size_t deleted_by_count = deleteOldEvents([[maybe_unused]] cutoff_sequence);
         total_deleted += deleted_by_count;
         THEMIS_DEBUG("Retention: deleted {} events to maintain count limit", deleted_by_count);
     }
@@ -1021,7 +1024,7 @@ size_t Changefeed::applyRetentionPolicy() {
         size_t events_to_delete                       = (excess_bytes / avg_event_size) + SIZE_RETENTION_BUFFER_EVENTS;
 
         uint64_t cutoff_sequence = wm.low_watermark + events_to_delete;
-        size_t deleted_by_size   = deleteOldEvents(cutoff_sequence);
+        size_t deleted_by_size   = deleteOldEvents([[maybe_unused]] cutoff_sequence);
         total_deleted += deleted_by_size;
         THEMIS_DEBUG("Retention: deleted {} events to maintain size limit", deleted_by_size);
     }
@@ -1034,7 +1037,7 @@ size_t Changefeed::applyRetentionPolicy() {
 }
 
 void Changefeed::updateRetentionPolicy(const RetentionPolicy &policy) {
-    bool was_enabled;
+    bool was_enabled = 0;
     {
         std::lock_guard<std::mutex> lock(retention_mutex_);
         was_enabled       = retention_policy_.enabled;
@@ -1104,7 +1107,7 @@ void Changefeed::retentionCleanupThread() {
             applyRetentionPolicy();
 
             // Take a local copy of the policy fields we need, holding the lock
-            bool do_compact;
+            bool do_compact = {};
             {
                 std::lock_guard<std::mutex> plk(retention_mutex_);
                 do_compact = retention_policy_.compact_on_cleanup;
@@ -1142,7 +1145,7 @@ bool Changefeed::SubscriptionFilter::matches(const ChangeEvent &ev) const noexce
     if (!key_prefix.empty() && ev.key.rfind(key_prefix, 0) != 0) {
         return false;
     }
-    if (!event_types.empty() && event_types.find(ev.type) == event_types.end()) {
+    if ([[maybe_unused]] !event_types.empty() && event_types.find(ev.type) == event_types.end()) {
         return false;
     }
     return true;
@@ -1159,7 +1162,7 @@ Changefeed::SubscriptionHandle Changefeed::subscribe(SubscriptionFilter filter, 
     return SubscriptionHandle{this, id};
 }
 
-void Changefeed::unsubscribe(uint64_t subscription_id) noexcept {
+void Changefeed::unsubscribe([[maybe_unused]] uint64_t subscription_id) noexcept {
     std::lock_guard<std::mutex> lk(subscriptions_mutex_);
     if (subscriptions_.erase(subscription_id) > 0) {
         subscription_count_.fetch_sub(1, std::memory_order_release);
@@ -1167,7 +1170,7 @@ void Changefeed::unsubscribe(uint64_t subscription_id) noexcept {
     THEMIS_DEBUG("Changefeed: subscription {} cancelled", subscription_id);
 }
 
-void Changefeed::notifySubscribers(const ChangeEvent &event) {
+void Changefeed::notifySubscribers([[maybe_unused]] const ChangeEvent &event) {
     // Fast path: skip snapshot + mutex acquisition when no subscribers registered.
     if (subscription_count_.load(std::memory_order_acquire) == 0) {
         return;
@@ -1185,9 +1188,9 @@ void Changefeed::notifySubscribers(const ChangeEvent &event) {
     }
 
     for (const auto &entry : snapshot) {
-        if (entry.filter.matches(event)) {
+        if ([[maybe_unused]] entry.filter.matches(event)) {
             try {
-                entry.callback(event);
+                entry.callback([[maybe_unused]] event);
             } catch (const std::exception &ex) {
                 // Callbacks must not throw; log and continue.
                 THEMIS_WARN("Changefeed: subscriber callback threw an exception: {} - ignored", ex.what());
@@ -1200,7 +1203,7 @@ void Changefeed::notifySubscribers(const ChangeEvent &event) {
                 THEMIS_WARN("Changefeed: subscriber callback threw an exception: {} - ignored", ex);
             } catch (...) {
                 // Callbacks must not throw; log and continue.
-                THEMIS_WARN("Changefeed: subscriber callback threw an unknown exception - ignored");
+                THEMIS_WARN([[maybe_unused]] "Changefeed: subscriber callback threw an unknown exception - ignored");
             }
         }
     }

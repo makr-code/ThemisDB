@@ -123,7 +123,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_queries(
                  return a->total_duration > b->total_duration;
              });
     
-    if (profiles.size() > static_cast<size_t>(limit)) {
+    if (static_cast<int>(profiles.size()) > static_cast<size_t>(limit)) {
         profiles.resize(limit);
     }
     
@@ -271,7 +271,9 @@ http::response<http::string_body> ProfilingApiHandler::handle_set_config(
             auto config = query_profiler_->get_config();
             auto qp = body["query_profiler"];
             
-            if (qp.contains("enabled")) config.enabled = qp["enabled"];
+            if (qp.contains("enabled")) {
+              config.enabled = qp["enabled"];
+            }
             if (qp.contains("profile_all_queries")) 
                 config.profile_all_queries = qp["profile_all_queries"];
             if (qp.contains("slow_query_threshold_ms")) {
@@ -291,7 +293,9 @@ http::response<http::string_body> ProfilingApiHandler::handle_set_config(
             auto config = storage_profiler_->get_config();
             auto sp = body["storage_profiler"];
             
-            if (sp.contains("enabled")) config.enabled = sp["enabled"];
+            if (sp.contains("enabled")) {
+              config.enabled = sp["enabled"];
+            }
             if (sp.contains("slow_op_threshold_ms")) {
                 const auto threshold_ms = sp["slow_op_threshold_ms"].get<int>();
                 if (threshold_ms < 0) {
@@ -378,11 +382,11 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
     const std::string query = target.substr(query_pos + 1);
     size_t pos = 0;
     bool found = false;
-    std::string value_str;
+    std::string value_str = {};
 
     while (pos <= query.size()) {
         const size_t amp = query.find('&', pos);
-        const size_t token_end = (amp == std::string::npos) ? query.size() : amp;
+        const size_t token_end = (amp == std::string::npos) ?static_cast<int>(query.size()) : amp;
         if (token_end > pos) {
             const std::string token = query.substr(pos, token_end - pos);
             const size_t eq = token.find('=');
@@ -407,7 +411,7 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
         value = std::stoi(value_str);
         return true;
     } catch (...) {
-        THEMIS_WARN("profiling_api_handler: unhandled exception caught");
+        THEMIS_WARN([[maybe_unused]] "profiling_api_handler: unhandled exception caught");
         value = default_value;
         return false;
     }

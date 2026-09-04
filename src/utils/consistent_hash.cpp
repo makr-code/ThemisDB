@@ -20,7 +20,7 @@
 namespace themis {
 namespace utils {
 
-static uint64_t mix64(uint64_t x) {
+static uint64_t mix64([[maybe_unused]] uint64_t x) {
     x ^= x >> 33;
     x *= 0xff51afd7ed558ccdULL;
     x ^= x >> 33;
@@ -55,7 +55,9 @@ ConsistentHashRing::ConsistentHashRing(size_t virtual_nodes)
 
 void ConsistentHashRing::addNode(const std::string& node) {
     std::unique_lock lock(mutex_);
-    if (nodes_.count(node)) return;
+    if (nodes_.count(node)) {
+      return;
+    }
     nodes_.insert(node);
     for (size_t i = 0; i < virtual_nodes_; ++i) {
         ring_.emplace(virtualKey(node, i), node);
@@ -64,7 +66,9 @@ void ConsistentHashRing::addNode(const std::string& node) {
 
 void ConsistentHashRing::removeNode(const std::string& node) {
     std::unique_lock lock(mutex_);
-    if (!nodes_.count(node)) return;
+    if (!nodes_.count(node)) {
+      return;
+    }
     nodes_.erase(node);
     for (size_t i = 0; i < virtual_nodes_; ++i) {
         ring_.erase(virtualKey(node, i));
@@ -93,17 +97,22 @@ std::vector<std::string> ConsistentHashRing::getNodes(const std::string& key, si
 
     uint64_t h = fnv1a64(key);
     auto it = ring_.lower_bound(h);
-    if (it == ring_.end()) it = ring_.begin();
+    if (it == ring_.end()) {
+      it = ring_.begin();
+    }
 
-    std::vector<std::string> result;
-    result.reserve(std::min(n, nodes_.size()));
+    std::vector<std::string> result = {};
+
+    result.reserve(std::min(n,static_cast<int>(nodes_.size())));
 
     // Walk the ring for at most ring_.size() steps to avoid infinite loop.
     // This guarantees we visit every virtual slot at most once regardless of
     // where the start iterator falls relative to ring_.begin().
     size_t steps = ring_.size();
-    for (size_t i = 0; i < steps && result.size() < n; ++i, ++it) {
-        if (it == ring_.end()) it = ring_.begin();
+    for (size_t i = 0; i < steps && static_cast<int>(result.size()) < n; ++i, ++it) {
+        if (it == ring_.end()) {
+          it = ring_.begin();
+        }
 
         const std::string& node = it->second;
         bool already_seen = false;
@@ -123,7 +132,7 @@ std::vector<std::string> ConsistentHashRing::getNodes(const std::string& key, si
 
 size_t ConsistentHashRing::nodeCount() const {
     std::shared_lock lock(mutex_);
-    return nodes_.size();
+    return static_cast<int>(nodes_.size());
 }
 
 bool ConsistentHashRing::empty() const {

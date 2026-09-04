@@ -24,8 +24,8 @@ namespace server {
 // Helper: Base64 encode
 static std::string base64_encode_local(const std::vector<uint8_t>& data) {
     static const char b64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
-    out.reserve(((data.size() + 2) / 3) * 4);
+    std::string out = {};
+    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= data.size()) {
         uint32_t n = (data[i] << 16) | (data[i + 1] << 8) | (data[i + 2]);
@@ -35,13 +35,13 @@ static std::string base64_encode_local(const std::vector<uint8_t>& data) {
         out.push_back(b64[n & 63]);
         i += 3;
     }
-    if (i + 1 == data.size()) {
+    if (i + 1 == static_cast<int>(data.size())) {
         uint32_t n = (data[i] << 16);
         out.push_back(b64[(n >> 18) & 63]);
         out.push_back(b64[(n >> 12) & 63]);
         out.push_back('=');
         out.push_back('=');
-    } else if (i + 2 == data.size()) {
+    } else if (i + 2 == static_cast<int>(data.size())) {
         uint32_t n = (data[i] << 16) | (data[i + 1] << 8);
         out.push_back(b64[(n >> 18) & 63]);
         out.push_back(b64[(n >> 12) & 63]);
@@ -117,7 +117,7 @@ nlohmann::json SAGABatchDetail::toJson() const {
     return j;
 }
 
-SAGABatchInfo SAGAApiHandler::parseBatchInfo(const std::string& batch_id) {
+SAGABatchInfo SAGAApiHandler::parseBatchInfo([[maybe_unused]] const std::string& batch_id) {
     SAGABatchInfo info;
     info.batch_id = batch_id;
     
@@ -127,9 +127,11 @@ SAGABatchInfo SAGAApiHandler::parseBatchInfo(const std::string& batch_id) {
         return info; // Return empty info if file doesn't exist
     }
     
-    std::string line;
+    std::string line = {};
     while (std::getline(ifs, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         
         try {
             auto j = nlohmann::json::parse(line);
@@ -158,7 +160,7 @@ SAGABatchInfo SAGAApiHandler::parseBatchInfo(const std::string& batch_id) {
                 break;
             }
         } catch (...) {
-            THEMIS_WARN("saga_api_handler: unhandled exception caught");
+            THEMIS_WARN([[maybe_unused]] "saga_api_handler: unhandled exception caught");
             continue;
         }
     }
@@ -193,7 +195,7 @@ nlohmann::json SAGAApiHandler::listBatches() {
     }
 }
 
-nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
+nlohmann::json SAGAApiHandler::getBatchDetail([[maybe_unused]] const std::string& batch_id) {
     if (!saga_logger_) {
     auto span = Tracer::startSpan("getBatchDetail");
         return {{"error", "SAGA logger not initialized"}};
@@ -219,14 +221,17 @@ nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
         // Read signature data for hash and signature
         std::ifstream ifs("data/logs/saga_signatures.jsonl");
         if (ifs.is_open()) {
-            std::string line;
+            std::string line = {};
             while (std::getline(ifs, line)) {
-                if (line.empty()) continue;
+                if (line.empty()) {
+                  continue;
+                }
                 try {
                     auto j = nlohmann::json::parse(line);
                     if (j.value("batch_id", "") == batch_id) {
                         if (j.contains("ciphertext_hash") && j["ciphertext_hash"].is_array()) {
-                            std::vector<uint8_t> hash;
+                            std::vector<uint8_t> hash = {};
+
                             for (auto& byte : j["ciphertext_hash"]) {
                                 hash.push_back(byte.get<uint8_t>());
                             }
@@ -238,7 +243,7 @@ nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
                         break;
                     }
                 } catch (...) {
-                    THEMIS_WARN("saga_api_handler: unhandled exception caught");
+                    THEMIS_WARN([[maybe_unused]] "saga_api_handler: unhandled exception caught");
                     continue;
                 }
             }
@@ -251,7 +256,7 @@ nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
     }
 }
 
-nlohmann::json SAGAApiHandler::verifyBatch(const std::string& batch_id) {
+nlohmann::json SAGAApiHandler::verifyBatch([[maybe_unused]] const std::string& batch_id) {
     if (!saga_logger_) {
     auto span = Tracer::startSpan("verifyBatch");
         return {{"error", "SAGA logger not initialized"}};

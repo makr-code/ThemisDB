@@ -60,7 +60,7 @@ static std::string dateOffsetDays(int delta_days) {
     gmtime_r(&t, &tm_val);
 #endif
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm_val, "%Y-%m-%d");
     return oss.str();
 }

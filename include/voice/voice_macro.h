@@ -56,7 +56,7 @@ struct MacroStep {
      *  For NOTIFY it is the message text.
      *  For COMMAND it is the command identifier.
      */
-    std::string action;
+    std::string action = {};
     /** Named parameters bound into @p action (e.g. AQL bind variables). */
     std::map<std::string, std::string> parameters;
     /** Nested steps used by CONDITION and LOOP types. */

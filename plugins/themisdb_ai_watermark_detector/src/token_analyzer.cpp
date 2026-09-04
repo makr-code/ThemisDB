@@ -22,13 +22,16 @@ TokenDistributionAnalyzer::TokenDistributionAnalyzer(uint32_t vocab_size,
 
 TokenStats TokenDistributionAnalyzer::analyze_tokens(
     const std::vector<uint32_t>& token_ids) {
-  TokenStats stats;
-  if (token_ids.empty()) return stats;
+  TokenStats stats = {};
+  if (token_ids.empty()) {
+    return stats;
+  }
 
   stats.total_tokens = token_ids.size();
 
   // Compute frequency distribution
-  std::unordered_map<uint32_t, uint64_t> frequencies;
+  std::unordered_map<uint32_t, uint64_t> frequencies = {};
+
   for (uint32_t token : token_ids) {
     frequencies[token]++;
   }
@@ -40,7 +43,8 @@ TokenStats TokenDistributionAnalyzer::analyze_tokens(
   stats.normalized_entropy = (max_entropy > 0) ? (stats.entropy / max_entropy) : 0.0;
 
   // Compute frequency statistics
-  std::vector<uint64_t> freq_values;
+  std::vector<uint64_t> freq_values = {};
+
   for (const auto& [token, freq] : frequencies) {
     freq_values.push_back(freq);
   }
@@ -61,7 +65,9 @@ TokenStats TokenDistributionAnalyzer::analyze_tokens(
 float TokenDistributionAnalyzer::estimate_claude_watermark(
     const std::vector<uint32_t>& token_ids,
     uint64_t text_length_chars) {
-  if (token_ids.empty()) return 0.5f;
+  if (token_ids.empty()) {
+    return 0.5f;
+  }
 
   // Count green tokens
   uint64_t green_count = 0;
@@ -80,7 +86,9 @@ float TokenDistributionAnalyzer::estimate_claude_watermark(
   double std_dev = std::sqrt(token_ids.size() * green_list_fraction_ *
                               (1.0 - green_list_fraction_));
 
-  if (std_dev < 1e-6) return 0.5f;
+  if (std_dev < 1e-6) {
+    return 0.5f;
+  }
   double z_score = deviation / std_dev;
 
   // Convert z-score to confidence [0.0, 1.0]
@@ -103,14 +111,16 @@ float TokenDistributionAnalyzer::estimate_claude_watermark(
 float TokenDistributionAnalyzer::compute_ngram_entrenchment(
     const std::vector<uint32_t>& token_ids,
     uint32_t n) {
-  if (token_ids.size() < n) return 0.5f;
+  if (token_ids.size() < n) {
+    return 0.5f;
+  }
 
   // Extract n-grams
   std::unordered_map<size_t, uint64_t> ngram_counts;
   std::hash<std::string> hasher;
 
   for (size_t i = 0; i <= token_ids.size() - n; ++i) {
-    std::string ngram_str;
+    std::string ngram_str = {};
     for (uint32_t j = 0; j < n; ++j) {
       ngram_str += std::to_string(token_ids[i + j]) + ",";
     }
@@ -118,7 +128,8 @@ float TokenDistributionAnalyzer::compute_ngram_entrenchment(
   }
 
   // Entropy of n-gram distribution
-  std::unordered_map<uint32_t, uint64_t> dummy_freqs;
+  std::unordered_map<uint32_t, uint64_t> dummy_freqs = {};
+
   for (const auto& [hash, count] : ngram_counts) {
     dummy_freqs[hash] = count;
   }
@@ -138,7 +149,9 @@ float TokenDistributionAnalyzer::compute_ngram_entrenchment(
 float TokenDistributionAnalyzer::compute_kl_divergence(
     const std::vector<uint32_t>& token_ids,
     const std::vector<uint32_t>& reference_token_ids) {
-  if (token_ids.empty()) return 0.0f;
+  if (token_ids.empty()) {
+    return 0.0f;
+  }
 
   // Compute probability distributions
   std::unordered_map<uint32_t, uint64_t> p_counts, q_counts;
@@ -225,7 +238,9 @@ float TokenDistributionAnalyzer::get_green_list_fraction() const {
 
 double TokenDistributionAnalyzer::compute_entropy(
     const std::unordered_map<uint32_t, uint64_t>& frequencies) const {
-  if (frequencies.empty()) return 0.0;
+  if (frequencies.empty()) {
+    return 0.0;
+  }
 
   uint64_t total = 0;
   for (const auto& [token, freq] : frequencies) {
@@ -255,7 +270,7 @@ uint32_t TokenDistributionAnalyzer::compute_green_list_bit(uint32_t token_id) co
 }
 
 std::string TokenStats::to_string() const {
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << "TokenStats{total=" << total_tokens << ", unique=" << unique_tokens
       << ", entropy=" << entropy << ", normalized_entropy=" << normalized_entropy
       << ", avg_freq=" << avg_token_freq << ", max_freq=" << max_token_freq

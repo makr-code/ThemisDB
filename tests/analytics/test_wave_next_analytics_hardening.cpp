@@ -53,7 +53,7 @@ public:
     int fail_for_n_calls = 0;
 
     /// When non-empty the error message is thrown (used to inject "permanent" errors).
-    std::string error_message;
+    std::string error_message = {};
 
     themis::analytics::OLAPResult execute(
         const std::string& /*shard_id*/,

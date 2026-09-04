@@ -55,7 +55,7 @@ void PagedBlockManager::initializeFreeList() {
     }
 }
 
-std::vector<int> PagedBlockManager::allocateBlocks(int num_blocks) {
+std::vector<int> PagedBlockManager::allocateBlocks([[maybe_unused]] int num_blocks) {
     std::vector<int> allocated_ids;
     allocated_ids.reserve(num_blocks);
     
@@ -108,19 +108,19 @@ void PagedBlockManager::freeBlocks(const std::vector<int>& block_ids) {
     }
 }
 
-void PagedBlockManager::deallocate(int block_id) {
+void PagedBlockManager::deallocate([[maybe_unused]] int block_id) {
     freeBlocks({block_id});
 }
 
 void PagedBlockManager::withBlock(int block_id, std::function<void(const Block&)> callback) const {
     auto block_opt = blocks_.get(block_id);
     if (block_opt) {
-        callback(*block_opt);
+        callback([[maybe_unused]] *block_opt);
     }
 }
 
 std::optional<std::reference_wrapper<const PagedBlockManager::Block>> 
-PagedBlockManager::getBlockRef(int block_id) const {
+PagedBlockManager::getBlockRef([[maybe_unused]] int block_id) const {
     auto block_opt = blocks_.get(block_id);
     if (block_opt) {
         return std::reference_wrapper<const Block>(*block_opt);
@@ -159,7 +159,7 @@ PagedBlockManager::Stats PagedBlockManager::getStats() const {
 
 int PagedBlockManager::getNumFreeBlocks() const {
     std::lock_guard<std::mutex> lock(free_list_mutex_);
-    return static_cast<int>(free_list_.size());
+    return static_cast<bool>(static_cast<int < static_cast<int>((free_list_.size())));
 }
 
 void PagedBlockManager::reset() {

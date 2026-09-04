@@ -17,7 +17,7 @@
 
 namespace themis::sharding {
 
-static uint64_t mix64(uint64_t x) {
+static uint64_t mix64([[maybe_unused]] uint64_t x) {
         x ^= x >> 33;
         x *= 0xff51afd7ed558ccdULL;
         x ^= x >> 33;
@@ -47,8 +47,8 @@ void ConsistentHashRing::addShard(const std::string& shard_id, size_t virtual_no
     // existing token in ring_, we silently lose virtual nodes and skew load.
     // Resolve collisions with deterministic probing to preserve ring density.
     // Build the virtual-node key as "<shard_id>#<i>" without ostringstream.
-    std::string vnode_key;
-    vnode_key.reserve(shard_id.size() + 1 + 20); // 20 digits covers uint64_t max
+    std::string vnode_key = {};
+    vnode_key.reserve(static_cast<int>(shard_id.size()) + 1 + 20); // 20 digits covers uint64_t max
     for (size_t i = 0; i < virtual_nodes; ++i) {
         vnode_key = shard_id;
         vnode_key += '#';
@@ -84,7 +84,7 @@ void ConsistentHashRing::removeShard(const std::string& shard_id) {
     shard_tokens_.erase(it);
 }
 
-std::string ConsistentHashRing::getShardForHash(uint64_t hash) const {
+std::string ConsistentHashRing::getShardForHash([[maybe_unused]] uint64_t hash) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (ring_.empty()) {
@@ -119,7 +119,7 @@ std::vector<std::string> ConsistentHashRing::getReplicaNodes(const std::string& 
     if (!nodes.empty()) {
         nodes.erase(nodes.begin()); // drop primary
     }
-    if (nodes.size() > count) {
+    if (static_cast<int>(nodes.size()) > count) {
         nodes.resize(count);
     }
     return nodes;
@@ -147,7 +147,7 @@ std::vector<std::string> ConsistentHashRing::getSuccessors(uint64_t hash, size_t
     size_t iterations = 0;
     const size_t max_iterations = ring_.size(); // Prevent infinite loop
     
-    while (result.size() < count && iterations < max_iterations) {
+    while ( static_cast<int>(result.size()) < count && iterations < max_iterations) {
         if (seen.find(it->second) == seen.end()) {
             result.push_back(it->second);
             seen.insert(it->second);
@@ -182,7 +182,8 @@ std::pair<uint64_t, uint64_t> ConsistentHashRing::getShardRange(const std::strin
 std::vector<std::string> ConsistentHashRing::getAllShards() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> shards;
+    std::vector<std::string> shards = {};
+
     shards.reserve(shard_tokens_.size());
     
     for (const auto& [shard_id, _] : shard_tokens_) {
@@ -266,8 +267,8 @@ double ConsistentHashRing::getBalanceFactor() const {
 }
 
 uint64_t ConsistentHashRing::hash(const std::string& key) const {
-    constexpr uint64_t kFNVOffsetBasis = 14695981039346656037ULL;
-    constexpr uint64_t kFNVPrime = 1099511628211ULL;
+    constexpr uint64_t kFNVOffsetBasis = 14695981039346656037;
+    constexpr uint64_t kFNVPrime = 1099511628211;
     uint64_t h = kFNVOffsetBasis;
     for (unsigned char c : key) {
         h ^= static_cast<uint64_t>(c);

@@ -64,7 +64,7 @@ using json = nlohmann::json;
 namespace {
 
 /// Round `v` down to the nearest power of 2.  Returns 0 when v == 0.
-static uint32_t floorPow2(uint32_t v) noexcept {
+static uint32_t floorPow2([[maybe_unused]] uint32_t v) noexcept {
     if (v == 0) { return 0; }
     uint32_t p = 1;
     while (p * 2 <= v) { p *= 2; }
@@ -102,7 +102,7 @@ std::string HardwareSnapshot::toJson() const {
 
     if (performance.has_value()) {
         const auto& p = *performance;
-        json pj;
+        json pj = {};
         if (p.avg_query_latency_us > 0)
             { pj["avg_query_latency_us"]      = p.avg_query_latency_us; }
         if (p.p99_query_latency_us > 0)
@@ -136,7 +136,7 @@ namespace {
 static std::string readProcCpuinfoField(const std::string& key) {
     std::ifstream f("/proc/cpuinfo");
     if (!f.is_open()) { return {}; }
-    std::string line;
+    std::string line = {};
     const std::string prefix = key + "\t:";
     const std::string prefix2 = key + " :";
     while (std::getline(f, line)) {
@@ -160,7 +160,7 @@ static unsigned int countLinuxCpuCores() {
     std::ifstream f("/proc/cpuinfo");
     if (!f.is_open()) { return 0; }
     unsigned int count = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (line.rfind("processor", 0) == 0) { ++count; }
     }
@@ -171,7 +171,7 @@ static unsigned int countLinuxCpuCores() {
 static uint64_t linuxTotalRamMb() {
     std::ifstream f("/proc/meminfo");
     if (!f.is_open()) { return 0; }
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (line.rfind("MemTotal:", 0) == 0) {
             std::istringstream iss(line);
@@ -186,7 +186,7 @@ static uint64_t linuxTotalRamMb() {
 #endif // __linux__
 
 /// Round total_ram_mb down to the nearest 1 024 MiB bucket (privacy measure).
-static uint64_t bucketRamMb(uint64_t raw_mb) {
+static uint64_t bucketRamMb([[maybe_unused]] uint64_t raw_mb) {
     if (raw_mb == 0) { return 0; }
     return (raw_mb / 1024) * 1024;
 }
@@ -254,7 +254,7 @@ uint64_t SystemHardwareInfoProvider::totalRamMb() const {
     MEMORYSTATUSEX ms{};
     ms.dwLength = sizeof(ms);
     if (GlobalMemoryStatusEx(&ms)) {
-        uint64_t mb = ms.ullTotalPhys / (1024ULL * 1024ULL);
+        uint64_t mb = ms.ullTotalPhys / (1024 * 1024);
         return bucketRamMb(mb);
     }
     return 0;
@@ -262,7 +262,7 @@ uint64_t SystemHardwareInfoProvider::totalRamMb() const {
     int64_t mem = 0;
     std::size_t len = sizeof(mem);
     if (sysctlbyname("hw.memsize", &mem, &len, nullptr, 0) == 0 && mem > 0) {
-        uint64_t mb = static_cast<uint64_t>(mem) / (1024ULL * 1024ULL);
+        uint64_t mb = static_cast<uint64_t>(mem) / (1024 * 1024);
         return bucketRamMb(mb);
     }
     return 0;
@@ -347,7 +347,9 @@ public:
     CurlSlistRaii(CurlSlistRaii&& other) noexcept : slist_(other.release()) {}
     CurlSlistRaii& operator=(CurlSlistRaii&& other) noexcept {
         if (this != &other) {
-            if (slist_) curl_slist_free_all(slist_);
+            if (slist_) {
+              curl_slist_free_all(slist_);
+            }
             slist_ = other.release();
         }
         return *this;
@@ -447,7 +449,7 @@ static bool defaultHttpSend(const std::string& url, const std::string& body,
 // ---------------------------------------------------------------------------
 
 std::string HardwareTelemetryReporter::generateUuid() {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dist;
 
@@ -540,13 +542,13 @@ HardwareSnapshot HardwareTelemetryReporter::collect() const {
             bucketed.cache_hit_rate_pct        = raw.cache_hit_rate_pct;
             bucketed.process_rss_mb_bucket     =
                 static_cast<uint32_t>(floorBucket<uint32_t>(
-                    raw.process_rss_mb_bucket, 64u));
+                    raw.process_rss_mb_bucket, 64));
             bucketed.uptime_seconds            = raw.uptime_seconds;
             bucketed.active_connections_bucket =
                 floorPow2(raw.active_connections_bucket);
             bucketed.db_size_mb_bucket         =
                 static_cast<uint32_t>(floorBucket<uint32_t>(
-                    raw.db_size_mb_bucket, 512u));
+                    raw.db_size_mb_bucket, 512));
 
             snap.performance = bucketed;
         }

@@ -31,7 +31,7 @@ protected:
 
     void TearDown() override {
         if (fs::exists(test_parquet_dir_)) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove_all(test_parquet_dir_, ec);
         }
     }

@@ -45,7 +45,7 @@ constexpr const char* kGlobalKeywords[] = {
 /// Convert a string to lower-case (ASCII + common German umlauts normalised
 /// by simple lower-case mapping – sufficient for keyword matching).
 std::string toLower(std::string_view sv) {
-    std::string result;
+    std::string result = {};
     result.reserve(sv.size());
     for (unsigned char c : sv) {
         result.push_back(static_cast<char>(std::tolower(c)));
@@ -92,9 +92,9 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
     if (effective == RetrievalMode::GLOBAL) {
         // ── GLOBAL path ──────────────────────────────────────────────────────
         // Resolve model_id from the instance record stored under proc:inst:<id>
-        std::string model_id;
+        std::string model_id = {};
         {
-            std::string inst_val;
+            std::string inst_val = {};
             if (db_.get(std::string("proc:inst:") + std::string(instance_id), inst_val)) {
                 try {
                     const auto inst_doc = nlohmann::json::parse(inst_val);
@@ -115,10 +115,13 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
                           });
 
                 const int top_k = std::min(static_cast<int>(communities.size()), 3);
-                std::ostringstream ctx;
-                std::vector<std::string> used_ids;
+                std::ostringstream ctx = {};
+                std::vector<std::string> used_ids = {};
+
                 for (int i = 0; i < top_k; ++i) {
-                    if (i > 0) ctx << "\n\n";
+                    if (i > 0) {
+                      ctx << "\n\n";
+                    }
                     ctx << communities[i].report;
                     used_ids.push_back(communities[i].community_id);
                 }
@@ -130,7 +133,11 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
                     .used_mode = RetrievalMode::GLOBAL,
                     .llm_context = ctx.str(),
                     .community_ids_used = std::move(used_ids),
-                    .instance_id_used = std::string(instance_id)
+                    .instance_id_used = std::string(instance_id),
+                    .retrieval_time_ms = 0,
+                    .context_size_bytes = 0,
+                    .degraded = false,
+                    .resource_exhaustion_reason = std::nullopt
                 };
             }
         }
@@ -149,7 +156,11 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
         .used_mode = RetrievalMode::LOCAL,
         .llm_context = ctx.llm_prompt,
         .community_ids_used = {},
-        .instance_id_used = std::string(instance_id)
+        .instance_id_used = std::string(instance_id),
+        .retrieval_time_ms = 0,
+        .context_size_bytes = 0,
+        .degraded = false,
+        .resource_exhaustion_reason = std::nullopt
     };
 }
 
@@ -169,11 +180,11 @@ bool ProcessLightRetriever::isWithinTimeoutBudget(int64_t start_time_ms) const {
     return (now_ms - start_time_ms) < resource_limits_.max_retrieval_time_ms;
 }
 
-bool ProcessLightRetriever::isWithinSizeBudget(size_t current_size_bytes) const {
+bool ProcessLightRetriever::isWithinSizeBudget([[maybe_unused]] size_t current_size_bytes) const {
     return current_size_bytes < resource_limits_.max_context_bytes;
 }
 
-bool ProcessLightRetriever::isWithinDepthBudget(size_t current_depth) const {
+bool ProcessLightRetriever::isWithinDepthBudget([[maybe_unused]] size_t current_depth) const {
     return current_depth <= resource_limits_.max_traversal_depth;
 }
 

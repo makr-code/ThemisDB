@@ -125,7 +125,9 @@ public:
     
 private:
     void evictLRU() {
-        if (cache_.empty()) return;
+        if (cache_.empty()) {
+          return;
+        }
         
         auto lru = cache_.begin();
         uint64_t oldest_time = lru->second.last_access_time;

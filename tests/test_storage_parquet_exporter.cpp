@@ -72,7 +72,7 @@ static bool endWithPAR1(const std::vector<uint8_t>& buf) {
 class StorageParquetExporterFocusedTests : public ::testing::Test {
 protected:
     StorageParquetExporter exporter;
-    std::string test_dir;
+    std::string test_dir = {};
 
     void SetUp() override {
         auto tmp = std::filesystem::temp_directory_path();

@@ -214,10 +214,12 @@ public:
 /// Build a response string that encodes a given score for all dimensions.
 std::string buildScoredResponse(double score,
                                 const std::string& extra_sections = "") {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "SCORE: " << score << "\n"
         << "RATIONALE: Synthetic test response.\n";
-    if (!extra_sections.empty()) oss << extra_sections;
+    if (!extra_sections.empty()) {
+      oss << extra_sections;
+    }
     return oss.str();
 }
 

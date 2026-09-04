@@ -69,9 +69,11 @@ protected:
     std::vector<std::string> readLines(const std::string& path) {
         std::vector<std::string> lines;
         std::ifstream f(path);
-        std::string line;
+        std::string line = {};
         while (std::getline(f, line)) {
-            if (!line.empty()) lines.push_back(line);
+            if (!line.empty()) {
+              lines.push_back(line);
+            }
         }
         return lines;
     }
@@ -291,7 +293,8 @@ TEST_F(IncrementalExporterTest, EntitiesWithoutSequenceFieldAreExportedByDefault
         wf << wj.dump(2) << '\n';
     }
 
-    std::vector<BaseEntity> entities_no_seq;
+    std::vector<BaseEntity> entities_no_seq = {};
+
     for (int i = 0; i < 3; i++) {
         BaseEntity e;
         e.setPrimaryKey("no_seq_" + std::to_string(i));
@@ -325,7 +328,8 @@ TEST_F(IncrementalExporterTest, EntitiesWithoutSequenceFieldSkippedWhenFailClose
         wf << wj.dump(2) << '\n';
     }
 
-    std::vector<BaseEntity> entities_no_seq;
+    std::vector<BaseEntity> entities_no_seq = {};
+
     for (int i = 0; i < 3; i++) {
         BaseEntity e;
         e.setPrimaryKey("no_seq_" + std::to_string(i));
@@ -404,7 +408,8 @@ TEST_F(IncrementalExporterTest, FloatingPointSequenceFieldRespected) {
     }
 
     // Build entities whose _seq is stored as double
-    std::vector<BaseEntity> entities;
+    std::vector<BaseEntity> entities = {};
+
     for (int i = 1; i <= 10; i++) {
         BaseEntity e;
         e.setPrimaryKey("dbl_" + std::to_string(i));

@@ -81,7 +81,7 @@ struct DocumentChunk {
     size_t index = 0;
 
     /// Text content of this chunk.
-    std::string text;
+    std::string text = {};
 
     /// Source document identifier (passed in by the caller).
     std::string document_id;

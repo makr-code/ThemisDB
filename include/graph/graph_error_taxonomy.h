@@ -195,9 +195,15 @@ getErrorCategory(GraphErrorCode code) noexcept {
     const auto c = static_cast<uint32_t>(code);
     // Error code layout: 0xMMCCSSSS (MM=module, CC=category, SSSS=sequence)
     const auto category_byte = (c >> 16) & 0xFF;
-    if (category_byte == 0x02) return ErrorCategory::FALLBACK;
-    if (category_byte == 0x03) return ErrorCategory::REASONING_CONFLICT;
-    if (category_byte == 0x01) return ErrorCategory::DENIAL;
+    if (category_byte == 0x02) {
+      return ErrorCategory::FALLBACK;
+    }
+    if (category_byte == 0x03) {
+      return ErrorCategory::REASONING_CONFLICT;
+    }
+    if (category_byte == 0x01) {
+      return ErrorCategory::DENIAL;
+    }
     return ErrorCategory::DENIAL; // Default to DENIAL for unknown codes
 }
 

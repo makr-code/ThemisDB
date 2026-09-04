@@ -51,19 +51,21 @@ using json = nlohmann::json;
 namespace {
 
 /// Maximum BPMN XML document size accepted (10 MiB security guard).
-static constexpr size_t kMaxBpmnXmlBytes = 10u * 1024u * 1024u;
+static constexpr size_t kMaxBpmnXmlBytes = 10 * 1024 * 1024;
 
 /// Strip XML character entities and leading/trailing whitespace.
 std::string unescapeXml(std::string_view s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
-    for (size_t i = 0; i < s.size(); ) {
+    for (size_t i = 0; i <static_cast<int>(s.size()); ) {
         if (s[i] != '&') { out += s[i++]; continue; }
         // entity reference
         size_t semi = s.find(';', i + 1);
         if (semi == std::string_view::npos) { out += s[i++]; continue; }
         std::string_view ent = s.substr(i, semi - i + 1);
-        if      (ent == "&amp;")  out += '&';
+        if      (ent == "&amp;") {
+          out += '&';
+        }
         else if (ent == "<")   out += '<';
         else if (ent == ">")   out += '>';
         else if (ent == "&quot;") out += '"';
@@ -101,34 +103,50 @@ void parseAttrs(std::string_view src,
     const size_t n = src.size();
     while (i < n) {
         // skip whitespace
-        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) ++i;
-        if (i >= n || src[i] == '/' || src[i] == '>') break;
+        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) {
+          ++i;
+        }
+        if (i >= n || src[i] == '/' || src[i] == '>') {
+          break;
+        }
 
         // attribute name
         size_t ns = i;
         while (i < n && src[i] != '=' && src[i] != '/' && src[i] != '>' &&
                !std::isspace(static_cast<unsigned char>(src[i]))) ++i;
-        if (i <= ns) break;
+        if (i <= ns) {
+          break;
+        }
         std::string attr_name = std::string(stripNs(src.substr(ns, i - ns)));
 
         // skip whitespace
-        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) ++i;
+        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) {
+          ++i;
+        }
         if (i >= n || src[i] != '=') {
             // valueless attribute (e.g., isExecutable without value)
-            if (!attr_name.empty()) out.emplace(std::move(attr_name), "true");
+            if (!attr_name.empty()) {
+              out.emplace(std::move(attr_name), "true");
+            }
             continue;
         }
         ++i; // skip '='
 
         // skip whitespace
-        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) ++i;
-        if (i >= n) break;
+        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) {
+          ++i;
+        }
+        if (i >= n) {
+          break;
+        }
 
-        std::string attr_val;
+        std::string attr_val = {};
         if (src[i] == '"' || src[i] == '\'') {
             char q = src[i++];
             size_t vs = i;
-            while (i < n && src[i] != q) ++i;
+            while (i < n && src[i] != q) {
+              ++i;
+            }
             attr_val = unescapeXml(src.substr(vs, i - vs));
             if (i < n) ++i; // skip closing quote
         } else {
@@ -137,7 +155,9 @@ void parseAttrs(std::string_view src,
                    src[i] != '>' && src[i] != '/') ++i;
             attr_val = std::string(src.substr(vs, i - vs));
         }
-        if (!attr_name.empty()) out.emplace(std::move(attr_name), std::move(attr_val));
+        if (!attr_name.empty()) {
+          out.emplace(std::move(attr_name), std::move(attr_val));
+        }
     }
 }
 
@@ -147,7 +167,9 @@ void parseAttrs(std::string_view src,
 template<typename TagCb, typename TextCb>
 bool tokenizeXml(std::string_view xml, TagCb tag_cb, TextCb text_cb)
 {
-    if (xml.size() > kMaxBpmnXmlBytes) return false;
+    if (static_cast<int>(xml.size()) > kMaxBpmnXmlBytes) {
+      return false;
+    }
 
     size_t i = 0;
     const size_t n = xml.size();
@@ -155,20 +177,30 @@ bool tokenizeXml(std::string_view xml, TagCb tag_cb, TextCb text_cb)
     while (i < n) {
         // text node
         size_t ts = i;
-        while (i < n && xml[i] != '<') ++i;
-        if (i > ts) text_cb(xml.substr(ts, i - ts));
-        if (i >= n) break;
+        while (i < n && xml[i] != '<') {
+          ++i;
+        }
+        if (i > ts) {
+          text_cb(xml.substr(ts, i - ts));
+        }
+        if (i >= n) {
+          break;
+        }
 
         // '<' found
         ++i;
-        if (i >= n) break;
+        if (i >= n) {
+          break;
+        }
 
         // <!-- comment -->
         if (i + 2 < n && xml[i] == '!' && xml[i+1] == '-' && xml[i+2] == '-') {
             i += 3;
             while (i + 2 < n &&
                    !(xml[i] == '-' && xml[i+1] == '-' && xml[i+2] == '>')) ++i;
-            if (i + 2 < n) i += 3;
+            if (i + 2 < n) {
+              i += 3;
+            }
             continue;
         }
         // <![CDATA[...]]>
@@ -178,20 +210,28 @@ bool tokenizeXml(std::string_view xml, TagCb tag_cb, TextCb text_cb)
             while (i + 2 < n &&
                    !(xml[i] == ']' && xml[i+1] == ']' && xml[i+2] == '>')) ++i;
             text_cb(xml.substr(cs, i - cs));
-            if (i + 2 < n) i += 3;
+            if (i + 2 < n) {
+              i += 3;
+            }
             continue;
         }
         // <? PI ?>
         if (xml[i] == '?') {
-            while (i + 1 < n && !(xml[i] == '?' && xml[i+1] == '>')) ++i;
-            if (i + 1 < n) i += 2;
+            while (i + 1 < n && !(xml[i] == '?' && xml[i+1] == '>')) {
+              ++i;
+            }
+            if (i + 1 < n) {
+              i += 2;
+            }
             continue;
         }
         // <!DOCTYPE …> or other <! constructs (non-recursive depth tracking)
         if (xml[i] == '!') {
             int depth = 1; ++i;
             while (i < n && depth > 0) {
-                if (xml[i] == '<') ++depth;
+                if (xml[i] == '<') {
+                  ++depth;
+                }
                 else if (xml[i] == '>') --depth;
                 ++i;
             }
@@ -207,16 +247,24 @@ bool tokenizeXml(std::string_view xml, TagCb tag_cb, TextCb text_cb)
         while (i < n && xml[i] != '>' && xml[i] != '/' &&
                !std::isspace(static_cast<unsigned char>(xml[i]))) ++i;
         if (i <= name_s) {
-            while (i < n && xml[i] != '>') ++i;
-            if (i < n) ++i;
+            while (i < n && xml[i] != '>') {
+              ++i;
+            }
+            if (i < n) {
+              ++i;
+            }
             continue;
         }
         std::string local_name =
             std::string(stripNs(xml.substr(name_s, i - name_s)));
 
         if (is_close) {
-            while (i < n && xml[i] != '>') ++i;
-            if (i < n) ++i;
+            while (i < n && xml[i] != '>') {
+              ++i;
+            }
+            if (i < n) {
+              ++i;
+            }
             XmlTag t; t.name = std::move(local_name); t.is_close = true;
             tag_cb(t);
             continue;
@@ -259,7 +307,7 @@ bool tokenizeXml(std::string_view xml, TagCb tag_cb, TextCb text_cb)
 // ---------------------------------------------------------------------------
 
 std::string BpmnSerializer::escapeXml_(std::string_view s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (char c : s) {
         switch (c) {
@@ -307,24 +355,56 @@ std::string BpmnSerializer::nodeTypeToXmlTag_(BPMNNodeType t) {
 // ---------------------------------------------------------------------------
 
 BPMNNodeType BpmnSerializer::xmlTagToNodeType_(std::string_view tag) {
-    if (tag == "startEvent")              return BPMNNodeType::START_EVENT;
-    if (tag == "endEvent")                return BPMNNodeType::END_EVENT;
+    if (tag == "startEvent") {
+      return BPMNNodeType::START_EVENT;
+    }
+    if (tag == "endEvent") {
+      return BPMNNodeType::END_EVENT;
+    }
     if (tag == "intermediateCatchEvent" ||
         tag == "intermediateThrowEvent") return BPMNNodeType::INTERMEDIATE_EVENT;
-    if (tag == "boundaryEvent")          return BPMNNodeType::BOUNDARY_EVENT;
-    if (tag == "subProcess")             return BPMNNodeType::SUBPROCESS;
-    if (tag == "callActivity")           return BPMNNodeType::CALL_ACTIVITY;
-    if (tag == "exclusiveGateway")       return BPMNNodeType::EXCLUSIVE_GATEWAY;
-    if (tag == "parallelGateway")        return BPMNNodeType::PARALLEL_GATEWAY;
-    if (tag == "inclusiveGateway")       return BPMNNodeType::INCLUSIVE_GATEWAY;
-    if (tag == "eventBasedGateway")      return BPMNNodeType::EVENT_BASED_GATEWAY;
-    if (tag == "complexGateway")         return BPMNNodeType::COMPLEX_GATEWAY;
-    if (tag == "participant")            return BPMNNodeType::POOL;
-    if (tag == "lane")                   return BPMNNodeType::LANE;
-    if (tag == "dataObjectReference")    return BPMNNodeType::DATA_OBJECT;
-    if (tag == "dataStoreReference")     return BPMNNodeType::DATA_STORE;
-    if (tag == "group")                  return BPMNNodeType::GROUP;
-    if (tag == "textAnnotation")         return BPMNNodeType::ANNOTATION;
+    if (tag == "boundaryEvent") {
+      return BPMNNodeType::BOUNDARY_EVENT;
+    }
+    if (tag == "subProcess") {
+      return BPMNNodeType::SUBPROCESS;
+    }
+    if (tag == "callActivity") {
+      return BPMNNodeType::CALL_ACTIVITY;
+    }
+    if (tag == "exclusiveGateway") {
+      return BPMNNodeType::EXCLUSIVE_GATEWAY;
+    }
+    if (tag == "parallelGateway") {
+      return BPMNNodeType::PARALLEL_GATEWAY;
+    }
+    if (tag == "inclusiveGateway") {
+      return BPMNNodeType::INCLUSIVE_GATEWAY;
+    }
+    if (tag == "eventBasedGateway") {
+      return BPMNNodeType::EVENT_BASED_GATEWAY;
+    }
+    if (tag == "complexGateway") {
+      return BPMNNodeType::COMPLEX_GATEWAY;
+    }
+    if (tag == "participant") {
+      return BPMNNodeType::POOL;
+    }
+    if (tag == "lane") {
+      return BPMNNodeType::LANE;
+    }
+    if (tag == "dataObjectReference") {
+      return BPMNNodeType::DATA_OBJECT;
+    }
+    if (tag == "dataStoreReference") {
+      return BPMNNodeType::DATA_STORE;
+    }
+    if (tag == "group") {
+      return BPMNNodeType::GROUP;
+    }
+    if (tag == "textAnnotation") {
+      return BPMNNodeType::ANNOTATION;
+    }
     // All task variants → TASK
     if (tag.find("Task") != std::string_view::npos ||
         tag == "task")                   return BPMNNodeType::TASK;
@@ -388,7 +468,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
     }
 
     // Security guard: reject oversized documents before any parsing work.
-    if (bpmn_xml.size() > kMaxBpmnXmlBytes) {
+    if (static_cast<int>(bpmn_xml.size()) > kMaxBpmnXmlBytes) {
         return ImportResult::failure(
             ProcessErrorCode::INPUT_TOO_LARGE,
             "import BPMN from XML",
@@ -440,7 +520,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
     bool        in_extension_elements{false};
     std::map<std::string, ProcessNodeInfo::DsgvoAnnotation> dsgvo_map;
 
-    auto tag_cb = [&](const XmlTag& t) {
+    auto tag_cb = [&]([[maybe_unused]] const XmlTag& t) {
         // Phase 3: Check timeout before processing tag
         if (parser_tracker.hasTimedOut()) {
             SPDLOG_WARN("[bpmn_serializer] Timeout during BPMN parsing at tag: {}", t.name);
@@ -448,7 +528,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
         }
 
         // Helper lambda for resource limit checks before adding edges
-        auto checkAndAddEdge = [&](const ProcessEdgeInfo& edge) {
+        auto checkAndAddEdge = [&]([[maybe_unused]] const ProcessEdgeInfo& edge) {
             if (!edge.from_node.empty() && !edge.to_node.empty()) {
                 if (!parser_tracker.recordElement()) {
                     SPDLOG_WARN("[bpmn_serializer] Element limit exceeded while adding edge '{}'", edge.edge_id);
@@ -478,9 +558,13 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
                 in_cond_expr = false;
                 cond_text.clear();
             }
-            if (tn == "conditionExpression") in_cond_expr = false;
+            if (tn == "conditionExpression") {
+              in_cond_expr = false;
+            }
             // ── BPMNDI closing tags ───────────────────────────────────────
-            if (tn == "BPMNDiagram" || tn == "BPMNPlane") in_bpmndi = false;
+            if (tn == "BPMNDiagram" || tn == "BPMNPlane") {
+              in_bpmndi = false;
+            }
             if (tn == "BPMNShape") { in_shape = false; shape_elem_ref.clear(); }
             // ── BPMN-S closing tags ───────────────────────────────────────
             if (tn == "extensionElements") { in_extension_elements = false; return; }
@@ -522,12 +606,14 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
         }
 
         // <dc:Bounds x="…" y="…" width="…" height="…" /> inside BPMNShape
-        if (in_shape && (tn == "Bounds" || tn == "bounds") &&
+        if ((in_shape && (tn == "Bounds" || tn == "bounds") &&
             !shape_elem_ref.empty()) {
             BpmnBounds b;
-            auto parseAttr = [&](const char* key) -> float {
+            auto parseAttr = [&]([[maybe_unused]] const char* key) -> float {
                 auto it = t.attrs.find(key);
-                if (it == t.attrs.end()) return 0.f;
+                if (it == t.attrs.end()) {
+                  return 0.f;
+                }
                 try { return std::stof(it->second); } catch (...) { return 0.f; }
             };
             b.x      = parseAttr("x");
@@ -551,11 +637,13 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
 
         // ── extensionElements / BPMN-S SecurityAnnotation ─────────────────
         if (tn == "extensionElements" && !current_flow_node_id.empty()) {
-            if (!t.self_closing) in_extension_elements = true;
+            if (!t.self_closing) {
+              in_extension_elements = true;
+            }
             return;
         }
         if (in_extension_elements && tn == "SecurityAnnotation") {
-            auto get = [&](const char* k) -> std::string {
+            auto get = [&]([[maybe_unused]] const char* k) -> std::string {
                 auto it = t.attrs.find(k);
                 return (it != t.attrs.end()) ? it->second : std::string{};
             };
@@ -573,7 +661,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
 
         // ── sequenceFlow ──────────────────────────────────────────────────
         if (tn == "sequenceFlow") {
-            auto get = [&](const char* k) -> std::string {
+            auto get = [&]([[maybe_unused]] const char* k) -> std::string {
                 auto it = t.attrs.find(k);
                 return (it != t.attrs.end()) ? it->second : std::string{};
             };
@@ -584,7 +672,9 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
                 edge.to_node   = get("targetRef");
                 edge.edge_type = ProcessEdgeType::SEQUENCE_FLOW;
                 std::string cond = get("name");
-                if (!cond.empty()) edge.condition_expression = cond;
+                if (!cond.empty()) {
+                  edge.condition_expression = cond;
+                }
                 checkAndAddEdge(edge);
             } else {
                 in_seq_flow = true;
@@ -599,7 +689,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
 
         // ── messageFlow ───────────────────────────────────────────────────
         if (tn == "messageFlow") {
-            auto get = [&](const char* k) -> std::string {
+            auto get = [&]([[maybe_unused]] const char* k) -> std::string {
                 auto it = t.attrs.find(k);
                 return (it != t.attrs.end()) ? it->second : std::string{};
             };
@@ -615,7 +705,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
         // ── association / dataInputAssociation ────────────────────────────
         if (tn == "association" || tn == "dataInputAssociation" ||
             tn == "dataOutputAssociation") {
-            auto get = [&](const char* k) -> std::string {
+            auto get = [&]([[maybe_unused]] const char* k) -> std::string {
                 auto it = t.attrs.find(k);
                 return (it != t.attrs.end()) ? it->second : std::string{};
             };
@@ -633,7 +723,9 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
         // ── Flow nodes ────────────────────────────────────────────────────
         if (kFlowNodeTags.count(tn)) {
             auto it_id = t.attrs.find("id");
-            if (it_id == t.attrs.end() || it_id->second.empty()) return;
+            if (it_id == t.attrs.end() || it_id->second.empty()) {
+              return;
+            }
             const std::string& nid = it_id->second;
             if (!seen_node_ids.insert(nid).second) return; // duplicate
 
@@ -645,7 +737,9 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
                              ? it_nm->second : nid;
             node.node_type = xmlTagToNodeType_(tn);
 
-            if      (tn == "userTask")          node.subtype = "USER_TASK";
+            if      (tn == "userTask") {
+              node.subtype = "USER_TASK";
+            }
             else if (tn == "serviceTask")       node.subtype = "SERVICE_TASK";
             else if (tn == "scriptTask")        node.subtype = "SCRIPT_TASK";
             else if (tn == "sendTask")          node.subtype = "SEND_TASK";
@@ -715,18 +809,24 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
         }
     };
 
-    auto text_cb = [&](std::string_view txt) {
-        if (in_cond_expr) cond_text += std::string(txt);
+    auto text_cb = [&]([[maybe_unused]] std::string_view txt) {
+        if (in_cond_expr) {
+          cond_text += std::string(txt);
+        }
     };
 
     // Post-pass: apply BPMNDI layout hints after parsing is complete.
     // (shape_bounds is populated by the BPMNDI callbacks above before nodes
     //  are pushed; this lambda runs after tokenizeXml returns.)
     auto applyBpmndiLayout = [&]() {
-        if (shape_bounds.empty()) return;
+        if (shape_bounds.empty()) {
+          return;
+        }
         for (auto& node : result.nodes) {
             auto it = shape_bounds.find(node.node_id);
-            if (it == shape_bounds.end()) continue;
+            if (it == shape_bounds.end()) {
+              continue;
+            }
             const auto& b = it->second;
             nlohmann::json layout;
             layout["x"]      = b.x;
@@ -752,7 +852,9 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
     // so the annotation survives serialisation to the normalized graph in RocksDB.
     for (auto& node : result.nodes) {
         auto it = dsgvo_map.find(node.node_id);
-        if (it == dsgvo_map.end()) continue;
+        if (it == dsgvo_map.end()) {
+          continue;
+        }
         node.dsgvo_annotation = it->second;
         nlohmann::json ann_json;
         ann_json["data_category"]    = it->second.data_category;
@@ -824,7 +926,7 @@ std::string BpmnSerializer::exportXml(
     const std::vector<ProcessNodeInfo>& nodes,
     const std::vector<ProcessEdgeInfo>& edges)
 {
-    std::ostringstream xml;
+    std::ostringstream xml = {};
 
     xml << R"(<?xml version="1.0" encoding="UTF-8"?>)" << "\n";
     xml << R"(<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL")" << "\n";
@@ -846,7 +948,9 @@ std::string BpmnSerializer::exportXml(
         // Determine actual tag (subtype overrides for tasks)
         std::string tag = nodeTypeToXmlTag_(btype);
         if (btype == BPMNNodeType::TASK && !n.subtype.empty()) {
-            if      (n.subtype == "USER_TASK")         tag = "userTask";
+            if      (n.subtype == "USER_TASK") {
+              tag = "userTask";
+            }
             else if (n.subtype == "SERVICE_TASK")      tag = "serviceTask";
             else if (n.subtype == "SCRIPT_TASK")       tag = "scriptTask";
             else if (n.subtype == "SEND_TASK")         tag = "sendTask";
@@ -884,7 +988,7 @@ std::string BpmnSerializer::exportXml(
 
     // Edges
     for (const auto& e : edges) {
-        std::string tag;
+        std::string tag = {};
         switch (e.edge_type) {
             case ProcessEdgeType::MESSAGE_FLOW:    tag = "messageFlow";    break;
             case ProcessEdgeType::ASSOCIATION:     tag = "association";    break;
@@ -942,7 +1046,9 @@ std::string BpmnSerializer::exportFromJson(const json& g) {
             e.from_node = je.value("from", "");
             e.to_node   = je.value("to",   "");
             std::string cond = je.value("condition", "");
-            if (!cond.empty()) e.condition_expression = cond;
+            if (!cond.empty()) {
+              e.condition_expression = cond;
+            }
             e.edge_type = ProcessEdgeType::SEQUENCE_FLOW;
             edges.push_back(std::move(e));
         }
@@ -964,19 +1070,20 @@ std::string BpmnSerializer::validateStructure(
     constexpr size_t MAX_EDGES = 50000;
 
     // 1. Check node count bounds
-    if (nodes.size() > MAX_NODES) {
+    if (static_cast<int>(nodes.size()) > MAX_NODES) {
         return "Node count (" + std::to_string(nodes.size()) +
                ") exceeds maximum (" + std::to_string(MAX_NODES) + ")";
     }
 
     // 2. Check edge count bounds
-    if (edges.size() > MAX_EDGES) {
+    if (static_cast<int>(edges.size()) > MAX_EDGES) {
         return "Edge count (" + std::to_string(edges.size()) +
                ") exceeds maximum (" + std::to_string(MAX_EDGES) + ")";
     }
 
     // 3. Build set of node IDs for validation
-    std::set<std::string> node_ids;
+    std::set<std::string> node_ids = {};
+
     for (const auto& node : nodes) {
         if (node.node_id.empty()) {
             return "Node with empty id encountered";
@@ -1007,9 +1114,9 @@ std::string BpmnSerializer::validateStructure(
             self_loop_count++;
         }
     }
-    if (self_loop_count > nodes.size() / 10) {
+    if (self_loop_count > static_cast<int>(nodes.size()) / 10) {
         // More than 10% self-loops is suspicious, but not necessarily invalid
-        SPDLOG_WARN("[bpmn] High self-loop ratio: {}/{}", self_loop_count, edges.size());
+        SPDLOG_WARN("[bpmn] High self-loop ratio: {}/{}", self_loop_count,static_cast<int>(edges.size()));
     }
 
     // 6. Validate node names are reasonable length

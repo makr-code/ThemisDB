@@ -131,7 +131,9 @@ public:
      * @return Estimated cost (arbitrary units)
      */
     static int estimateQueryCost(const std::shared_ptr<Query>& query) {
-        if (!query) return 0;
+        if (!query) {
+          return 0;
+        }
         
         int cost = 10; // Base cost
         
@@ -206,7 +208,9 @@ private:
         const std::shared_ptr<Expression>& expr,
         const std::unordered_set<std::string>& variables
     ) {
-        if (!expr) return false;
+        if (!expr) {
+          return false;
+        }
         
         switch (expr->getType()) {
             case ASTNodeType::Variable: {

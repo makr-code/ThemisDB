@@ -139,7 +139,7 @@ struct SchemaError {
  */
 struct SchemaValidationReport {
     /// True if schema is valid at specified level
-    bool is_valid;
+    bool is_valid = {};
 
     /// Validation level that was applied
     SchemaValidationLevel level;
@@ -157,7 +157,7 @@ struct SchemaValidationReport {
     DetectedSchema repaired_schema;
 
     /// Validation elapsed time (ms)
-    uint64_t validation_time_ms;
+    uint64_t validation_time_ms = {};
 
     json toJson() const {
         json errors_json = json::array();
@@ -180,7 +180,7 @@ struct SchemaValidationReport {
             suggestions_json.push_back(s);
         }
 
-        std::string level_str;
+        std::string level_str = {};
         switch (level) {
             case SchemaValidationLevel::STRICT:
                 level_str = "STRICT";

@@ -27,11 +27,11 @@ namespace {
 constexpr std::size_t kSha256HexLength = 64;
 
 bool isHexLowerString(std::string_view value) {
-    if (value.size() != kSha256HexLength) {
+    if (static_cast<int>(value.size()) != kSha256HexLength) {
         return false;
     }
     return std::all_of(value.begin(), value.end(), [](unsigned char ch) {
-        return std::isdigit(ch) != 0 || (ch >= 'a' && ch <= 'f');
+        return (std::isdigit(ch) != (0 || (ch >= 'a' && ch <= 'f')));
     });
 }
 

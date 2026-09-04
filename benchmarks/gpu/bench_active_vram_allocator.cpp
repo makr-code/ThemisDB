@@ -46,7 +46,9 @@ static void BM_VRAM_Allocate_4KB(benchmark::State& state) {
     for (auto _ : state) {
         auto h = alloc.allocate(4096, "bench_model");
         benchmark::DoNotOptimize(h);
-        if (h) alloc.free(*h);
+        if (h) {
+          alloc.free(*h);
+        }
     }
     state.SetBytesProcessed(state.iterations() * 4096);
 }
@@ -57,7 +59,9 @@ static void BM_VRAM_Allocate_1MB(benchmark::State& state) {
     for (auto _ : state) {
         auto h = alloc.allocate(1ULL * 1024 * 1024, "bench_model");
         benchmark::DoNotOptimize(h);
-        if (h) alloc.free(*h);
+        if (h) {
+          alloc.free(*h);
+        }
     }
     state.SetBytesProcessed(state.iterations() * 1024 * 1024);
 }
@@ -68,7 +72,9 @@ static void BM_VRAM_Allocate_64MB(benchmark::State& state) {
     for (auto _ : state) {
         auto h = alloc.allocate(64ULL * 1024 * 1024, "bench_model");
         benchmark::DoNotOptimize(h);
-        if (h) alloc.free(*h);
+        if (h) {
+          alloc.free(*h);
+        }
     }
     state.SetBytesProcessed(state.iterations() * 64 * 1024 * 1024);
 }
@@ -81,7 +87,9 @@ static void BM_VRAM_Allocate_Parametric(benchmark::State& state) {
     for (auto _ : state) {
         auto h = alloc.allocate(bytes, "bench_param");
         benchmark::DoNotOptimize(h);
-        if (h) alloc.free(*h);
+        if (h) {
+          alloc.free(*h);
+        }
     }
     state.SetBytesProcessed(state.iterations() * static_cast<int64_t>(bytes));
 }
@@ -105,11 +113,15 @@ static void BM_VRAM_BatchAllocate(benchmark::State& state) {
 
         for (int i = 0; i < kBatch; ++i) {
             auto h = alloc.allocate(4096, "batch_" + std::to_string(i));
-            if (h) handles.push_back(*h);
+            if (h) {
+              handles.push_back(*h);
+            }
         }
         benchmark::DoNotOptimize(handles);
 
-        for (auto& h : handles) alloc.free(h);
+        for (auto& h : handles) {
+          alloc.free(h);
+        }
     }
     state.SetItemsProcessed(state.iterations() * kBatch);
 }
@@ -128,7 +140,9 @@ static void BM_VRAM_EvictLRU(benchmark::State& state) {
     live.reserve(kPrealloc);
     for (int i = 0; i < kPrealloc; ++i) {
         auto h = alloc.allocate(4096, "evict_pool_" + std::to_string(i));
-        if (h) live.push_back(*h);
+        if (h) {
+          live.push_back(*h);
+        }
     }
 
     for (auto _ : state) {
@@ -137,7 +151,9 @@ static void BM_VRAM_EvictLRU(benchmark::State& state) {
         benchmark::DoNotOptimize(freed);
 
         auto h = alloc.allocate(4096, "refill");
-        if (h) live.push_back(*h);
+        if (h) {
+          live.push_back(*h);
+        }
 
         // Keep pool size stable
         if (live.size() > static_cast<size_t>(kPrealloc) + 1) {
@@ -145,7 +161,9 @@ static void BM_VRAM_EvictLRU(benchmark::State& state) {
         }
     }
 
-    for (auto& h : live) alloc.free(h);
+    for (auto& h : live) {
+      alloc.free(h);
+    }
 }
 BENCHMARK(BM_VRAM_EvictLRU);
 
@@ -157,10 +175,13 @@ static void BM_VRAM_Defragment(benchmark::State& state) {
     ActiveVRAMAllocator alloc(benchConfig());
 
     // Create some fragmentation first
-    std::vector<ActiveVRAMAllocator::AllocationHandle> handles;
+    std::vector<ActiveVRAMAllocator::AllocationHandle> handles = {};
+
     for (int i = 0; i < 32; ++i) {
         auto h = alloc.allocate(4096, "frag_" + std::to_string(i));
-        if (h) handles.push_back(*h);
+        if (h) {
+          handles.push_back(*h);
+        }
     }
     // Free every other one to create holes
     for (size_t i = 0; i < handles.size(); i += 2) {
@@ -211,10 +232,13 @@ static void BM_VRAM_GetStats(benchmark::State& state) {
     ActiveVRAMAllocator alloc(benchConfig());
 
     // Some live allocations to make stats non-trivial
-    std::vector<ActiveVRAMAllocator::AllocationHandle> handles;
+    std::vector<ActiveVRAMAllocator::AllocationHandle> handles = {};
+
     for (int i = 0; i < 8; ++i) {
         auto h = alloc.allocate(4096, "stats_" + std::to_string(i));
-        if (h) handles.push_back(*h);
+        if (h) {
+          handles.push_back(*h);
+        }
     }
 
     for (auto _ : state) {
@@ -222,7 +246,9 @@ static void BM_VRAM_GetStats(benchmark::State& state) {
         benchmark::DoNotOptimize(stats);
     }
 
-    for (auto& h : handles) alloc.free(h);
+    for (auto& h : handles) {
+      alloc.free(h);
+    }
 }
 BENCHMARK(BM_VRAM_GetStats);
 
@@ -252,7 +278,9 @@ static void BM_VRAM_AllocateOrRecover_NoOOM(benchmark::State& state) {
     for (auto _ : state) {
         auto h = alloc.allocateOrRecover(4096, "recover_bench");
         benchmark::DoNotOptimize(h);
-        if (h) alloc.free(*h);
+        if (h) {
+          alloc.free(*h);
+        }
     }
 }
 BENCHMARK(BM_VRAM_AllocateOrRecover_NoOOM);

@@ -41,7 +41,7 @@ enum class DepthLevel {
  * @brief Completeness evaluation result
  */
 struct CompletenessResult {
-    double completeness_score;     ///< Overall score 0-1
+    double completeness_score = 0;     ///< Overall score 0-1
     std::vector<QueryAspect> aspects;
     size_t covered_aspects_count;
     size_t total_aspects_count;

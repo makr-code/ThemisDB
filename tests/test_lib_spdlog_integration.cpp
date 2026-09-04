@@ -35,17 +35,19 @@ protected:
         
         // Clean up test logs
         if (fs::exists(test_log_dir_)) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove_all(test_log_dir_, ec);
         }
     }
 
-    std::string test_log_dir_;
+    std::string test_log_dir_ = {};
     
     // Helper to read log file content
     std::string readLogFile(const std::string& path) {
         std::ifstream ifs(path);
-        if (!ifs) return "";
+        if (!ifs) {
+          return "";
+        }
         return std::string((std::istreambuf_iterator<char>(ifs)),
                           std::istreambuf_iterator<char>());
     }
@@ -259,7 +261,8 @@ TEST_F(SpdlogLibIntegrationTest, ThreadSafety) {
     const int num_threads = 4;
     const int messages_per_thread = 25;
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < num_threads; ++t) {
         threads.emplace_back([&logger, t, messages_per_thread]() {
             for (int i = 0; i < messages_per_thread; ++i) {
@@ -390,7 +393,8 @@ TEST_F(SpdlogLibIntegrationTest, ConcurrentLoggingRaceConditions) {
     const int messages_per_thread = 100;
     std::atomic<int> completed_threads{0};
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < num_threads; ++t) {
         threads.emplace_back([&logger, t, messages_per_thread, &completed_threads]() {
             for (int i = 0; i < messages_per_thread; ++i) {
@@ -434,7 +438,8 @@ TEST_F(SpdlogLibIntegrationTest, AsyncHighConcurrency) {
     
     auto start = std::chrono::high_resolution_clock::now();
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < num_threads; ++t) {
         threads.emplace_back([&logger, t, messages_per_thread]() {
             for (int i = 0; i < messages_per_thread; ++i) {
@@ -718,7 +723,8 @@ TEST_F(SpdlogLibIntegrationTest, LoggerLifecycleCleanup) {
 // Test 29: Multiple logger cleanup
 TEST_F(SpdlogLibIntegrationTest, MultipleLoggerCleanup) {
     // Create multiple loggers
-    std::vector<std::string> logger_names;
+    std::vector<std::string> logger_names = {};
+
     for (int i = 0; i < 5; ++i) {
         std::string name = "cleanup_logger_" + std::to_string(i);
         logger_names.push_back(name);
@@ -748,7 +754,7 @@ TEST_F(SpdlogLibIntegrationTest, FileHandleRelease) {
     }
     
     // Should be able to delete file after logger is dropped
-    std::error_code ec;
+    std::error_code ec = {};
     bool removed = fs::remove(log_path, ec);
     EXPECT_TRUE(removed || !fs::exists(log_path)) 
         << "Could not remove log file, file handle might not be released. Error: " << ec.message();

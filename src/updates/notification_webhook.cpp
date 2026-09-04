@@ -148,7 +148,7 @@ void NotificationWebhook::setHttpSender(HttpSendFunc fn) {
 // Dispatch
 // ---------------------------------------------------------------------------
 
-bool NotificationWebhook::notify(const UpdateEventPayload& payload) {
+bool NotificationWebhook::notify([[maybe_unused]] const UpdateEventPayload& payload) {
     if (!slack_enabled_ && !pagerduty_enabled_) {
         LOG_WARN("NotificationWebhook::notify: no channels configured");
         return false;
@@ -175,8 +175,8 @@ bool NotificationWebhook::notify(const UpdateEventPayload& payload) {
 std::string NotificationWebhook::buildSlackPayload(
     const UpdateEventPayload& payload) const
 {
-    const std::string color  = slackColor(payload.event);
-    const std::string label  = eventLabel(payload.event);
+    const std::string color  = slackColor([[maybe_unused]] payload.event);
+    const std::string label  = eventLabel([[maybe_unused]] payload.event);
 
     json fields = json::array();
     fields.push_back({{"title", "Version"}, {"value", payload.version},
@@ -196,10 +196,12 @@ std::string NotificationWebhook::buildSlackPayload(
     }
     if (!payload.files_updated.empty()) {
         // Use ostringstream for efficient string concatenation (Error Code: 7471)
-        std::ostringstream files_stream;
+        std::ostringstream files_stream = {};
         bool first = true;
         for (const auto& f : payload.files_updated) {
-            if (!first) files_stream << "\n";
+            if (!first) {
+              files_stream << "\n";
+            }
             files_stream << f;
             first = false;
         }
@@ -230,10 +232,10 @@ std::string NotificationWebhook::buildSlackPayload(
     return body.dump();
 }
 
-bool NotificationWebhook::sendSlack(const UpdateEventPayload& payload) {
+bool NotificationWebhook::sendSlack([[maybe_unused]] const UpdateEventPayload& payload) {
     const std::string body = buildSlackPayload(payload);
     LOG_DEBUG("NotificationWebhook: sending Slack notification (event={}, "
-              "version={})", eventLabel(payload.event), payload.version);
+              "version={})", eventLabel([[maybe_unused]] payload.event), payload.version);
     if (!http_sender_(slack_cfg_.webhook_url, body)) {
         LOG_ERROR("NotificationWebhook: Slack POST failed");
         return false;
@@ -250,9 +252,9 @@ bool NotificationWebhook::sendSlack(const UpdateEventPayload& payload) {
 std::string NotificationWebhook::buildPagerDutyPayload(
     const UpdateEventPayload& payload) const
 {
-    const std::string action   = pagerDutyAction(payload.event);
-    const std::string severity = pagerDutySeverity(payload.event);
-    const std::string label    = eventLabel(payload.event);
+    const std::string action   = pagerDutyAction([[maybe_unused]] payload.event);
+    const std::string severity = pagerDutySeverity([[maybe_unused]] payload.event);
+    const std::string label    = eventLabel([[maybe_unused]] payload.event);
     const std::string ts_str   = toISO8601(payload.timestamp);
     // Stable dedup key so that a "resolve" event closes the matching alert.
     const std::string dedup_key =
@@ -292,10 +294,10 @@ std::string NotificationWebhook::buildPagerDutyPayload(
     return body.dump();
 }
 
-bool NotificationWebhook::sendPagerDuty(const UpdateEventPayload& payload) {
+bool NotificationWebhook::sendPagerDuty([[maybe_unused]] const UpdateEventPayload& payload) {
     const std::string body = buildPagerDutyPayload(payload);
     LOG_DEBUG("NotificationWebhook: sending PagerDuty notification (event={}, "
-              "version={})", eventLabel(payload.event), payload.version);
+              "version={})", eventLabel([[maybe_unused]] payload.event), payload.version);
     if (!http_sender_(pagerduty_cfg_.events_api_url, body)) {
         LOG_ERROR("NotificationWebhook: PagerDuty POST failed");
         return false;
@@ -309,42 +311,46 @@ bool NotificationWebhook::sendPagerDuty(const UpdateEventPayload& payload) {
 // Helpers
 // ---------------------------------------------------------------------------
 
-std::string NotificationWebhook::eventLabel(UpdateEvent event) const {
-    switch (event) {
+std::string NotificationWebhook::eventLabel([[maybe_unused]] UpdateEvent event) const {
+    switch ([[maybe_unused]] event) {
         case UpdateEvent::UPDATE_SUCCESS:   return "Update Successful";
         case UpdateEvent::UPDATE_FAILED:    return "Update Failed";
         case UpdateEvent::ROLLBACK_SUCCESS: return "Rollback Successful";
         case UpdateEvent::ROLLBACK_FAILED:  return "Rollback Failed";
+        default: break;
     }
     return "Unknown Event";
 }
 
-std::string NotificationWebhook::slackColor(UpdateEvent event) const {
-    switch (event) {
+std::string NotificationWebhook::slackColor([[maybe_unused]] UpdateEvent event) const {
+    switch ([[maybe_unused]] event) {
         case UpdateEvent::UPDATE_SUCCESS:   return "good";
         case UpdateEvent::UPDATE_FAILED:    return "danger";
         case UpdateEvent::ROLLBACK_SUCCESS: return "warning";
         case UpdateEvent::ROLLBACK_FAILED:  return "danger";
+        default: break;
     }
     return "warning";
 }
 
-std::string NotificationWebhook::pagerDutyAction(UpdateEvent event) const {
-    switch (event) {
+std::string NotificationWebhook::pagerDutyAction([[maybe_unused]] UpdateEvent event) const {
+    switch ([[maybe_unused]] event) {
         case UpdateEvent::UPDATE_SUCCESS:   return "resolve";
         case UpdateEvent::ROLLBACK_SUCCESS: return "resolve";
         case UpdateEvent::UPDATE_FAILED:    return "trigger";
         case UpdateEvent::ROLLBACK_FAILED:  return "trigger";
+        default: break;
     }
     return "trigger";
 }
 
-std::string NotificationWebhook::pagerDutySeverity(UpdateEvent event) const {
-    switch (event) {
+std::string NotificationWebhook::pagerDutySeverity([[maybe_unused]] UpdateEvent event) const {
+    switch ([[maybe_unused]] event) {
         case UpdateEvent::UPDATE_SUCCESS:   return "info";
         case UpdateEvent::UPDATE_FAILED:    return "critical";
         case UpdateEvent::ROLLBACK_SUCCESS: return "warning";
         case UpdateEvent::ROLLBACK_FAILED:  return "critical";
+        default: break;
     }
     return "error";
 }
@@ -354,7 +360,7 @@ std::string NotificationWebhook::toISO8601(
     std::chrono::system_clock::time_point tp)
 {
     const std::time_t tt = std::chrono::system_clock::to_time_t(tp);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(std::gmtime(&tt), "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }

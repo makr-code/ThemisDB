@@ -72,7 +72,9 @@ bool PostgreSQLImporter::isValidUtf8(const std::string& s) {
     while (p < end) {
         unsigned char b = *p++;
         int extra = 0;
-        if      (b < 0x80u)  extra = 0;
+        if      (b < 0x80u) {
+          extra = 0;
+        }
         else if (b < 0xC0u)  return false;           // unexpected continuation
         else if (b < 0xE0u)  extra = 1;
         else if (b < 0xF0u)  extra = 2;
@@ -100,7 +102,7 @@ bool PostgreSQLImporter::isValidUtf8(const std::string& s) {
 std::string PostgreSQLImporter::unescapeCopyValue(const std::string& val) const {
     if (val == "\\N") return "";   // NULL marker — caller should check separately
 
-    std::string out;
+    std::string out = {};
     out.reserve(val.size());
     for (size_t i = 0; i < val.size(); ++i) {
         if (val[i] != '\\' || i + 1 >= val.size()) {
@@ -147,10 +149,13 @@ std::string PostgreSQLImporter::unescapeCopyValue(const std::string& val) const 
  */
 std::vector<std::string> PostgreSQLImporter::parseCopyRow(
         const std::string& line) const {
-    std::vector<std::string> fields;
-    if (line == "\\." || line.empty()) return fields;
+    std::vector<std::string> fields = {};
 
-    std::string current;
+    if (line == "\\." || line.empty()) {
+      return fields;
+    }
+
+    std::string current = {};
     for (size_t i = 0; i < line.size(); ++i) {
         char c = line[i];
         if (c == '\t') {
@@ -182,7 +187,7 @@ std::vector<std::string> PostgreSQLImporter::parseCopyRow(
 std::vector<std::string> PostgreSQLImporter::parseInsertValues(
         const std::string& clause) const {
     std::vector<std::string> values;
-    std::string current;
+    std::string current = {};
     int  depth    = 0;
     bool in_str   = false;
     bool in_quote = false;   // double-quoted identifier
@@ -203,7 +208,9 @@ std::vector<std::string> PostgreSQLImporter::parseInsertValues(
             continue;
         }
         if (in_quote) {
-            if (c == '"') in_quote = false;
+            if (c == '"') {
+              in_quote = false;
+            }
             current += c;
             continue;
         }
@@ -254,7 +261,9 @@ namespace {
 
 /** @brief Return an ASCII-lowercased copy of @p s. */
 inline std::string to_lower(std::string s) {
-    for (char& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    for (char& c : s) {
+      c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    }
     return s;
 }
 
@@ -291,9 +300,13 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql,
     // Locate the table name: CREATE [UNLOGGED|TEMPORARY|…] TABLE [IF NOT EXISTS] <name>
     std::string sql_lower = to_lower(sql);
     size_t tbl_pos = sql_lower.find("table");
-    if (tbl_pos == std::string::npos) return false;
+    if (tbl_pos == std::string::npos) {
+      return false;
+    }
     size_t name_start = sql.find_first_not_of(" \t\r\n", tbl_pos + 5);
-    if (name_start == std::string::npos) return false;
+    if (name_start == std::string::npos) {
+      return false;
+    }
 
     // Skip "IF NOT EXISTS"
     {
@@ -304,7 +317,9 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql,
                 name_start = sql.find_first_not_of(" \t\r\n", np + 6);
         }
     }
-    if (name_start == std::string::npos) return false;
+    if (name_start == std::string::npos) {
+      return false;
+    }
 
     // Extract table name (stops at whitespace or '(')
     size_t name_end = name_start;
@@ -312,7 +327,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql,
     while (name_end < sql.size()) {
         char c = sql[name_end];
         if (c == '"')   { in_dq = !in_dq; ++name_end; continue; }
-        if (!in_dq && (c == '(' || std::isspace(static_cast<unsigned char>(c)))) break;
+        if ((!in_dq && (c == ('(' || std::isspace(static_cast<unsigned char>(c)))) break);
         ++name_end;
     }
     std::string raw_name = sql.substr(name_start, name_end - name_start);
@@ -324,11 +339,15 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql,
     } else {
         schema.name = unquote_ident(raw_name);
     }
-    if (schema.name.empty()) return false;
+    if (schema.name.empty()) {
+      return false;
+    }
 
     // Find the outer parentheses
     size_t open  = sql.find('(', name_end);
-    if (open == std::string::npos) return false;
+    if (open == std::string::npos) {
+      return false;
+    }
     // Find matching closing paren
     int  depth   = 1;
     size_t close = open + 1;
@@ -349,7 +368,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql,
 
     // Split body into top-level comma-separated clauses
     std::vector<std::string> clauses;
-    std::string cur;
+    std::string cur = {};
     int   pd   = 0;
     bool  istr = false;
     for (size_t i = 0; i < body.size(); ++i) {
@@ -363,14 +382,18 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql,
         if (!istr && c == ')')  { --pd; cur += c; continue; }
         if (!istr && pd == 0 && c == ',') {
             trim_inplace(cur);
-            if (!cur.empty()) clauses.push_back(cur);
+            if (!cur.empty()) {
+              clauses.push_back(cur);
+            }
             cur.clear();
             continue;
         }
         cur += c;
     }
     trim_inplace(cur);
-    if (!cur.empty()) clauses.push_back(cur);
+    if (!cur.empty()) {
+      clauses.push_back(cur);
+    }
 
     // Process each clause
     for (const auto& clause : clauses) {
@@ -389,16 +412,20 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql,
         while (tok_end < clause.size()) {
             char c = clause[tok_end];
             if (c == '"') { dq = !dq; ++tok_end; continue; }
-            if (!dq && std::isspace(static_cast<unsigned char>(c))) break;
+            if (!dq && std::isspace(static_cast<unsigned char>(c))) {
+              break;
+            }
             ++tok_end;
         }
         std::string col_raw  = clause.substr(0, tok_end);
         std::string col_name = unquote_ident(col_raw);
-        if (col_name.empty()) continue;
+        if (col_name.empty()) {
+          continue;
+        }
 
         // Second token (after whitespace) = type
         size_t type_start = clause.find_first_not_of(" \t\r\n", tok_end);
-        std::string col_type;
+        std::string col_type = {};
         if (type_start != std::string::npos) {
             size_t type_end = type_start;
             // Type ends at whitespace, opening paren, or comma
@@ -427,37 +454,51 @@ bool PostgreSQLImporter::parseInsert(const std::string& sql,
     // Expected: INSERT INTO table (cols) VALUES (vals), (vals), ...;
     std::string lo = to_lower(sql);
     size_t into  = lo.find("into");
-    if (into == std::string::npos) return false;
+    if (into == std::string::npos) {
+      return false;
+    }
     size_t ts    = sql.find_first_not_of(" \t\r\n", into + 4);
-    if (ts == std::string::npos) return false;
+    if (ts == std::string::npos) {
+      return false;
+    }
     // Find the column list opening paren (before VALUES)
     size_t col_open = sql.find('(', ts);
     size_t val_pos  = lo.find("values", ts);
-    if (col_open == std::string::npos || val_pos == std::string::npos) return false;
+    if (col_open == std::string::npos || val_pos == std::string::npos) {
+      return false;
+    }
     // Column names
     size_t col_close = sql.find(')', col_open);
-    if (col_close == std::string::npos) return false;
+    if (col_close == std::string::npos) {
+      return false;
+    }
     std::string col_str = sql.substr(col_open + 1, col_close - col_open - 1);
     std::vector<std::string> cols;
     std::istringstream css(col_str);
-    std::string c;
+    std::string c = {};
     while (std::getline(css, c, ',')) {
         trim_inplace(c);
         c = unquote_ident(c);
-        if (!c.empty()) cols.push_back(c);
+        if (!c.empty()) {
+          cols.push_back(c);
+        }
     }
 
     // VALUES clause(s): scan for each (…) group
     size_t pos = val_pos + 6;
     while (pos < sql.size()) {
         size_t vopen = sql.find('(', pos);
-        if (vopen == std::string::npos) break;
+        if (vopen == std::string::npos) {
+          break;
+        }
         int    depth = 1;
         size_t vclose = vopen + 1;
         bool   istr   = false;
         while (vclose < sql.size() && depth > 0) {
             char ch = sql[vclose];
-            if (!istr && ch == '\'') istr = true;
+            if (!istr && ch == '\'') {
+              istr = true;
+            }
             else if (istr && ch == '\'' && vclose + 1 < sql.size() && sql[vclose+1] == '\'')
                 ++vclose;
             else if (istr && ch == '\'') istr = false;
@@ -465,13 +506,17 @@ bool PostgreSQLImporter::parseInsert(const std::string& sql,
             else if (!istr && ch == ')') --depth;
             ++vclose;
         }
-        if (depth != 0) break;
+        if (depth != 0) {
+          break;
+        }
         std::string val_str = sql.substr(vopen + 1, vclose - vopen - 2);
         auto vals = parseInsertValues(val_str);
 
             (void)opts;
         ++stats.total_records;
-        if (!vals.empty()) ++stats.imported_records;
+        if (!vals.empty()) {
+          ++stats.imported_records;
+        }
 
         pos = vclose;
     }
@@ -492,7 +537,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file,
     const size_t row_limit = (opts.max_row_size_bytes > 0)
                                  ? opts.max_row_size_bytes
                                  : kMaxRowBytes;
-    std::string line;
+    std::string line = {};
     while (std::getline(file, line)) {
         if (line == "\\.") break;  // COPY terminator
 
@@ -512,7 +557,9 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file,
 
         auto fields = parseCopyRow(line);
         ++stats.total_records;
-        if (!fields.empty()) ++stats.imported_records;
+        if (!fields.empty()) {
+          ++stats.imported_records;
+        }
     }
     return true;
 }
@@ -538,12 +585,14 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path,
                                   ? opts.max_statement_size_bytes
                                   : kMaxStmtBytes;
 
-    std::string accumulated;
-    std::string line;
+    std::string accumulated = {};
+    std::string line = {};
     size_t line_no = 0;
 
     auto flush_stmt = [&]() {
-        if (accumulated.empty()) return;
+        if (accumulated.empty()) {
+          return;
+        }
         trim_inplace(accumulated);
         if (accumulated.empty()) { accumulated.clear(); return; }
         if (accumulated.size() > stmt_limit) {
@@ -555,7 +604,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path,
         }
         std::string lo = to_lower(accumulated);
         if (lo.substr(0, 12) == "create table") {
-            TableSchema schema;
+            TableSchema schema = {};
             if (parseCreateTable(accumulated, schema)) {
                 ++stats.tables_processed;
                 schemas_[schema.name] = schema;
@@ -570,7 +619,9 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path,
 
     while (std::getline(ifs, line)) {
         ++line_no;
-        if (cancelled_) break;
+        if (cancelled_) {
+          break;
+        }
 
         // Skip pure comment lines
         if (line.size() >= 2 && line[0] == '-' && line[1] == '-') {
@@ -587,20 +638,22 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path,
                 if (from_pos != std::string::npos) {
                     flush_stmt();
                     // Extract table name and columns
-                    std::string table_name;
+                    std::string table_name = {};
                     std::vector<std::string> copy_cols;
                     size_t tn_start = copy_pos + 5;
                     tn_start = line.find_first_not_of(" \t", tn_start);
                     if (tn_start != std::string::npos) {
                         size_t tn_end = line.find_first_of(" \t(", tn_start);
-                        if (tn_end == std::string::npos) tn_end = line.size();
+                        if (tn_end == std::string::npos) {
+                          tn_end = line.size();
+                        }
                         table_name = unquote_ident(line.substr(tn_start, tn_end - tn_start));
                         size_t col_open  = line.find('(', tn_end);
                         size_t col_close = line.find(')', col_open != std::string::npos ? col_open : line.size());
                         if (col_open != std::string::npos && col_close != std::string::npos) {
                             std::string col_s = line.substr(col_open + 1, col_close - col_open - 1);
                             std::istringstream cis(col_s);
-                            std::string ci;
+                            std::string ci = {};
                             while (std::getline(cis, ci, ',')) {
                                 trim_inplace(ci);
                                 copy_cols.push_back(unquote_ident(ci));
@@ -620,11 +673,15 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path,
         bool in_s = false;
         bool has_semi = false;
         for (char ch : line) {
-            if (!in_s && ch == '\'') in_s = true;
+            if (!in_s && ch == '\'') {
+              in_s = true;
+            }
             else if (in_s && ch == '\'') in_s = false;
             else if (!in_s && ch == ';') { has_semi = true; break; }
         }
-        if (has_semi) flush_stmt();
+        if (has_semi) {
+          flush_stmt();
+        }
     }
     flush_stmt();
 
@@ -822,7 +879,9 @@ void PostgreSQLImporter::reportProgress(ProgressCallback& callback,
                                         const std::string& stage,
                                         size_t current,
                                         size_t total) {
-    if (callback) callback(stage, current, total);
+    if (callback) {
+      callback(stage, current, total);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

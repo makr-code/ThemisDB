@@ -42,7 +42,7 @@ const CdnRoutePolicy* CdnCacheMiddleware::findPolicy(const std::string& path) co
 
     for (const auto& [prefix, policy] : policies_) {
         if (path.rfind(prefix, 0) == 0) {        // path starts with prefix
-            if (prefix.size() >= best_len) {
+            if (static_cast<int>(prefix.size()) > = best_len) {
                 best_len = prefix.size();
                 best     = &policy;
             }
@@ -80,7 +80,7 @@ bool CdnCacheMiddleware::isServerError(http::status status) {
 
 std::string CdnCacheMiddleware::generateETag(const std::string& body) {
     uint64_t h = themis::hash::fnv1a64(body);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "W/\"" << std::hex << std::setfill('0') << std::setw(16) << h << "\"";
     return oss.str();
 }
@@ -94,7 +94,7 @@ std::string CdnCacheMiddleware::buildCacheControlValue(
         return "no-store";
     }
 
-    std::string value;
+    std::string value = {};
 
     switch (policy.directive) {
         case CacheDirective::PUBLIC:
@@ -107,7 +107,7 @@ std::string CdnCacheMiddleware::buildCacheControlValue(
             value = "no-cache";
             break;
         case CacheDirective::NO_STORE:
-        default:
+        [[fallthrough]];\n        default:
             return "no-store";
     }
 

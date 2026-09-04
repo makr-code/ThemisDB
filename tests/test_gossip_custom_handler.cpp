@@ -68,7 +68,7 @@ protected:
 // ---------------------------------------------------------------------------
 TEST_F(GossipCustomHandlerTest, GP_CUSTOM_01_DispatchesForMatchingType) {
     std::atomic<int> call_count{0};
-    std::string received_type;
+    std::string received_type = {};
 
     protocol->registerCustomHandler("adapter_capability",
         [&](const GossipMessage& msg) {

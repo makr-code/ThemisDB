@@ -48,7 +48,9 @@ Tensor::Tensor(const std::vector<size_t>& shape, float value)
 
 size_t Tensor::size() const {
     size_t s = 1;
-    for (auto dim : shape_) s *= dim;
+    for (auto dim : shape_) {
+      s *= dim;
+    }
     return s;
 }
 
@@ -58,7 +60,7 @@ Tensor Tensor::operator+(const Tensor& other) const {
     }
     
     Tensor result(shape_);
-    for (size_t i = 0; i < data_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(data_.size()); ++i) {
         result.data_[i] = data_[i] + other.data_[i];
     }
     return result;
@@ -70,15 +72,15 @@ Tensor Tensor::operator-(const Tensor& other) const {
     }
     
     Tensor result(shape_);
-    for (size_t i = 0; i < data_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(data_.size()); ++i) {
         result.data_[i] = data_[i] - other.data_[i];
     }
     return result;
 }
 
-Tensor Tensor::operator*(float scalar) const {
+Tensor Tensor::operator*([[maybe_unused]] float scalar) const {
     Tensor result(shape_);
-    for (size_t i = 0; i < data_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(data_.size()); ++i) {
         result.data_[i] = data_[i] * scalar;
     }
     return result;
@@ -86,7 +88,7 @@ Tensor Tensor::operator*(float scalar) const {
 
 Tensor Tensor::matmul(const Tensor& other) const {
     // Supports (M, K) @ (K, N) -> (M, N)
-    if (shape_.size() != 2 || other.shape_.size() != 2) {
+    if (static_cast<int>(shape_.size()) != 2 || static_cast<int>(other.shape_.size()) != 2) {
         throw std::invalid_argument("matmul only supports 2D tensors");
     }
     
@@ -116,7 +118,7 @@ Tensor Tensor::matmul(const Tensor& other) const {
 }
 
 Tensor Tensor::transpose() const {
-    if (shape_.size() != 2) {
+    if (static_cast<int>(shape_.size()) != 2) {
         throw std::invalid_argument("transpose only supports 2D tensors");
     }
     
@@ -134,7 +136,7 @@ Tensor Tensor::transpose() const {
     return result;
 }
 
-void Tensor::fill(float value) {
+void Tensor::fill([[maybe_unused]] float value) {
     std::fill(data_.begin(), data_.end(), value);
 }
 
@@ -166,7 +168,7 @@ Tensor randn(const std::vector<size_t>& shape, float mean, float std) {
 }
 
 Tensor xavier_uniform(const std::vector<size_t>& shape) {
-    if (shape.size() != 2) {
+    if (static_cast<int>(shape.size()) != 2) {
         throw std::invalid_argument("xavier_uniform only supports 2D tensors");
     }
     
@@ -178,7 +180,7 @@ Tensor xavier_uniform(const std::vector<size_t>& shape) {
 }
 
 Tensor kaiming_uniform(const std::vector<size_t>& shape, float a) {
-    if (shape.size() != 2) {
+    if (static_cast<int>(shape.size()) != 2) {
         throw std::invalid_argument("kaiming_uniform only supports 2D tensors");
     }
     
@@ -420,16 +422,24 @@ std::vector<Tensor*> AttentionLoRA::parameters() {
         params.insert(params.end(), o_params.begin(), o_params.end());
     }
     
-    spdlog::debug("AttentionLoRA: Collected {} parameters", params.size());
+    spdlog::debug("AttentionLoRA: Collected {} parameters",static_cast<int>(params.size()));
     return params;
 }
 
 size_t AttentionLoRA::parameter_count() const {
     size_t count = 0;
-    if (apply_to_q_) count += (dim_ * rank_) + (rank_ * dim_);
-    if (apply_to_k_) count += (dim_ * rank_) + (rank_ * dim_);
-    if (apply_to_v_) count += (dim_ * rank_) + (rank_ * dim_);
-    if (apply_to_o_) count += (dim_ * rank_) + (rank_ * dim_);
+    if (apply_to_q_) {
+      count += (dim_ * rank_) + (rank_ * dim_);
+    }
+    if (apply_to_k_) {
+      count += (dim_ * rank_) + (rank_ * dim_);
+    }
+    if (apply_to_v_) {
+      count += (dim_ * rank_) + (rank_ * dim_);
+    }
+    if (apply_to_o_) {
+      count += (dim_ * rank_) + (rank_ * dim_);
+    }
     return count;
 }
 
@@ -445,7 +455,7 @@ void Sequential::add(std::unique_ptr<ITrainableLayer> layer) {
 }
 
 Tensor Sequential::forward(const Tensor& input) {
-    spdlog::debug("Sequential: forward through {} layers", layers_.size());
+    spdlog::debug("Sequential: forward through {} layers",static_cast<int>(layers_.size()));
     
     Tensor output = input.clone();
     for (auto& layer : layers_) {
@@ -456,7 +466,7 @@ Tensor Sequential::forward(const Tensor& input) {
 }
 
 Tensor Sequential::backward(const Tensor& grad_output) {
-    spdlog::debug("Sequential: backward through {} layers", layers_.size());
+    spdlog::debug("Sequential: backward through {} layers",static_cast<int>(layers_.size()));
     
     Tensor grad = grad_output.clone();
     for (auto it = layers_.rbegin(); it != layers_.rend(); ++it) {
@@ -467,15 +477,16 @@ Tensor Sequential::backward(const Tensor& grad_output) {
 }
 
 std::vector<Tensor*> Sequential::parameters() {
-    spdlog::debug("Sequential: collecting parameters from {} layers", layers_.size());
+    spdlog::debug("Sequential: collecting parameters from {} layers",static_cast<int>(layers_.size()));
     
-    std::vector<Tensor*> params;
+    std::vector<Tensor*> params = {};
+
     for (auto& layer : layers_) {
         auto layer_params = layer->parameters();
         params.insert(params.end(), layer_params.begin(), layer_params.end());
     }
     
-    spdlog::debug("Sequential: Collected {} total parameters", params.size());
+    spdlog::debug("Sequential: Collected {} total parameters",static_cast<int>(params.size()));
     return params;
 }
 
@@ -508,7 +519,7 @@ SGDOptimizer::SGDOptimizer(float learning_rate, float momentum, float weight_dec
 void SGDOptimizer::add_parameters(const std::vector<Tensor*>& params) {
     parameters_.insert(parameters_.end(), params.begin(), params.end());
     spdlog::debug("SGDOptimizer: Added {} parameters, total={}", 
-                  params.size(), parameters_.size());
+                  params.size(),static_cast<int>(parameters_.size()));
 }
 
 void SGDOptimizer::step() {
@@ -548,7 +559,7 @@ void SGDOptimizer::step() {
         }
     }
     
-    spdlog::debug("SGDOptimizer: Updated {} parameters", parameters_.size());
+    spdlog::debug("SGDOptimizer: Updated {} parameters",static_cast<int>(parameters_.size()));
 }
 
 void SGDOptimizer::zero_grad() {
@@ -557,7 +568,7 @@ void SGDOptimizer::zero_grad() {
             param->grad->zero();
         }
     }
-    spdlog::debug("SGDOptimizer: Zeroed gradients for {} parameters", parameters_.size());
+    spdlog::debug("SGDOptimizer: Zeroed gradients for {} parameters",static_cast<int>(parameters_.size()));
 }
 
 // ===== Adam Optimizer =====
@@ -576,7 +587,7 @@ AdamOptimizer::AdamOptimizer(float learning_rate, float beta1, float beta2, floa
 void AdamOptimizer::add_parameters(const std::vector<Tensor*>& params) {
     parameters_.insert(parameters_.end(), params.begin(), params.end());
     spdlog::debug("AdamOptimizer: Added {} parameters, total={}",
-                  params.size(), parameters_.size());
+                  params.size(),static_cast<int>(parameters_.size()));
 }
 
 void AdamOptimizer::step() {
@@ -635,7 +646,7 @@ void AdamOptimizer::step() {
         }
     }
     
-    spdlog::debug("AdamOptimizer: Updated {} parameters at step {}", parameters_.size(), step_count_);
+    spdlog::debug("AdamOptimizer: Updated {} parameters at step {}",static_cast<int>(parameters_.size()), step_count_);
 }
 
 void AdamOptimizer::zero_grad() {
@@ -646,7 +657,7 @@ void AdamOptimizer::zero_grad() {
             }
         }
     }
-    spdlog::debug("AdamOptimizer: Zeroed gradients for {} parameters", parameters_.size());
+    spdlog::debug("AdamOptimizer: Zeroed gradients for {} parameters",static_cast<int>(parameters_.size()));
 }
 
 // ===== AdamW Optimizer =====
@@ -665,7 +676,7 @@ AdamWOptimizer::AdamWOptimizer(float learning_rate, float beta1, float beta2, fl
 void AdamWOptimizer::add_parameters(const std::vector<Tensor*>& params) {
     parameters_.insert(parameters_.end(), params.begin(), params.end());
     spdlog::debug("AdamWOptimizer: Added {} parameters, total={}",
-                  params.size(), parameters_.size());
+                  params.size(),static_cast<int>(parameters_.size()));
 }
 
 void AdamWOptimizer::step() {
@@ -720,7 +731,7 @@ void AdamWOptimizer::step() {
         }
     }
     
-    spdlog::debug("AdamWOptimizer: Updated {} parameters at step {}", parameters_.size(), step_count_);
+    spdlog::debug("AdamWOptimizer: Updated {} parameters at step {}",static_cast<int>(parameters_.size()), step_count_);
 }
 
 void AdamWOptimizer::zero_grad() {
@@ -729,7 +740,7 @@ void AdamWOptimizer::zero_grad() {
             param->grad->zero();
         }
     }
-    spdlog::debug("AdamWOptimizer: Zeroed gradients for {} parameters", parameters_.size());
+    spdlog::debug("AdamWOptimizer: Zeroed gradients for {} parameters",static_cast<int>(parameters_.size()));
 }
 
 } // namespace lora

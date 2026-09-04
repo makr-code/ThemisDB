@@ -114,7 +114,9 @@ TEST(KafkaConnectorTest, IngestJsonMessages) {
     };
     size_t call_count = 0;
     conn.setMessageFetchForTesting([&]() -> std::vector<std::string> {
-        if (call_count++ == 0) return messages;
+        if (call_count++ == 0) {
+          return messages;
+        }
         return {};
     });
 
@@ -281,7 +283,7 @@ TEST(KafkaConnectorTest, AvroMagicByteStripped) {
     conn.initialize(cfg);
 
     // Construct a minimal Avro-framed message: 0x00 + 4-byte schema ID + payload
-    std::string avro_msg;
+    std::string avro_msg = {};
     avro_msg += '\x00';       // magic byte
     avro_msg += '\x00'; avro_msg += '\x00'; avro_msg += '\x00'; avro_msg += '\x01'; // schema ID = 1
     avro_msg += "avro_payload";
@@ -537,7 +539,9 @@ TEST(KafkaConnectorTest, ThroughputAtLeast100kMessagesPerSec) {
     std::vector<std::string> batch(kMessageCount, payload);
 
     conn.setMessageFetchForTesting([&, call = 0]() mutable -> std::vector<std::string> {
-        if (call++ == 0) return batch;
+        if (call++ == 0) {
+          return batch;
+        }
         return {};
     });
 

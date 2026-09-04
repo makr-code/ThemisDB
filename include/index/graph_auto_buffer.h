@@ -236,7 +236,7 @@ private:
     struct BufferedOp {
         OpType type;
         BaseEntity entity;
-        std::string graph_id;
+        std::string graph_id = {};
         std::chrono::steady_clock::time_point timestamp;
         size_t memory_bytes = 0;
         

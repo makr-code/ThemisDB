@@ -35,7 +35,9 @@ static bool hasIssueContaining(const std::vector<MigrationIssue>& issues,
 /// Case-insensitive search helper for test assertions.
 static std::size_t findCI(const std::string& haystack, const std::string& needle,
                            std::size_t pos = 0) {
-    if (needle.empty()) return pos;
+    if (needle.empty()) {
+      return pos;
+    }
     auto it = std::search(
         haystack.begin() + static_cast<std::string::difference_type>(pos),
         haystack.end(),
@@ -43,7 +45,9 @@ static std::size_t findCI(const std::string& haystack, const std::string& needle
         [](unsigned char a, unsigned char b) {
             return std::tolower(a) == std::tolower(b);
         });
-    if (it == haystack.end()) return std::string::npos;
+    if (it == haystack.end()) {
+      return std::string::npos;
+    }
     return static_cast<std::size_t>(it - haystack.begin());
 }
 

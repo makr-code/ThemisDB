@@ -348,7 +348,7 @@ TEST_F(WasmModuleInfoTest, DefaultIsInvalid) {
 /// summary() is callable on a default-constructed (invalid) info without crashing.
 TEST_F(WasmModuleInfoTest, SummaryCallableOnInvalidInfo) {
     WasmModuleInfo info;
-    std::string s;
+    std::string s = {};
     EXPECT_NO_THROW({ s = info.summary(); });
     // Result can be anything; we just ensure no throw.
     (void)s;

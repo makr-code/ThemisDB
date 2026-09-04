@@ -52,13 +52,13 @@ size_t write_callback(void* ptr, size_t size, size_t nmemb, void* userdata) {
 
 // CURL progress callback
 int progress_callback_wrapper(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t /*ultotal*/, curl_off_t /*ulnow*/) {
-    auto* callback = static_cast<DownloadProgressCallback*>(clientp);
-    if (callback && *callback) {
+    auto* callback = static_cast<DownloadProgressCallback*>([[maybe_unused]] clientp);
+    if ([[maybe_unused]] callback && *callback) {
         std::string status = "downloading";
         if (dlnow == dltotal && dltotal > 0) {
             status = "completed";
         }
-        (*callback)(static_cast<size_t>(dlnow), static_cast<size_t>(dltotal), status);
+        ([[maybe_unused]] *callback)(static_cast<size_t>(dlnow), static_cast<size_t>(dltotal), status);
     }
     return 0;
 }
@@ -190,7 +190,7 @@ ModelDownloadResult ModelDownloader::downloadFromOllama(const ModelDownloadConfi
 
     // [W3-SEC-02] Validate model_name before it is embedded in any filesystem path.
     {
-        std::string name_error;
+        std::string name_error = {};
         if (!sanitizeModelName(config.model_name, name_error)) {
             result.success = false;
             result.error_message = "Invalid model_name: " + name_error;
@@ -250,7 +250,7 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
     // [W3-SEC-02] Re-validate model_name here since pullFromOllama is part of the
     // public-facing protected API and may be called independently of downloadFromOllama.
     {
-        std::string name_error;
+        std::string name_error = {};
         if (!sanitizeModelName(config.model_name, name_error)) {
             result.success = false;
             result.error_message = "Invalid model_name: " + name_error;
@@ -285,7 +285,7 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     
     // Response buffer
-    std::string response_buffer;
+    std::string response_buffer = {};
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, +[](void* ptr, size_t size, size_t nmemb, void* userdata) -> size_t {
         auto* buffer = static_cast<std::string*>(userdata);
         size_t total_size = size * nmemb;
@@ -385,7 +385,7 @@ bool ModelDownloader::exportOllamaModel(
     // and a "digest" top-level field like "sha256:<hex>".
     try {
         auto j = json::parse(resp_buf);
-        std::string digest;
+        std::string digest = {};
         if (j.contains("digest") && j["digest"].is_string()) {
             digest = j["digest"].get<std::string>();
         } else if (j.contains("details") && j["details"].contains("digest")) {
@@ -424,7 +424,7 @@ bool ModelDownloader::exportOllamaModel(
         }
 
         // Prefer a hard-link (same filesystem, zero copy); fall back to copy.
-        std::error_code ec;
+        std::error_code ec = {};
         fs::create_hard_link(blob_path, out, ec);
         if (ec) {
             fs::copy_file(blob_path, out,
@@ -483,7 +483,7 @@ ModelDownloadResult ModelDownloader::downloadFromURL(
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &output_file);
         
         // Enable progress tracking if callback provided
-        if (progress_callback) {
+        if ([[maybe_unused]] progress_callback) {
             curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, progress_callback_wrapper);
             curl_easy_setopt(curl, CURLOPT_XFERINFODATA, &progress_callback);
             curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
@@ -583,7 +583,7 @@ std::optional<json> ModelDownloader::getOllamaManifest(
         headers = curl_slist_append(headers, "Content-Type: application/json");
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
-        std::string response_buffer;
+        std::string response_buffer = {};
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, +[](void* ptr, size_t size, size_t nmemb, void* userdata) -> size_t {
             auto* buffer = static_cast<std::string*>(userdata);
             size_t total_size = size * nmemb;
@@ -624,7 +624,7 @@ std::vector<std::string> ModelDownloader::listOllamaModels(const std::string& ol
         std::string list_url = ollama_url + "/api/tags";
         curl_easy_setopt(curl, CURLOPT_URL, list_url.c_str());
         
-        std::string response_buffer;
+        std::string response_buffer = {};
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, +[](void* ptr, size_t size, size_t nmemb, void* userdata) -> size_t {
             auto* buffer = static_cast<std::string*>(userdata);
             size_t total_size = size * nmemb;
@@ -674,7 +674,7 @@ std::optional<ModelDownloadConfig> loadModelConfigFromYAML(
             return std::nullopt;
         }
 
-        auto apply_model_node = [&](const YAML::Node& model) -> std::optional<ModelDownloadConfig> {
+        auto apply_model_node = [&]([[maybe_unused]] const YAML::Node& model) -> std::optional<ModelDownloadConfig> {
             if (!model || !model.IsMap()) {
                 return std::nullopt;
             }

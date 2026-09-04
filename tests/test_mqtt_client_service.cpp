@@ -51,8 +51,8 @@ using namespace themis::server;
 class RecordingHandler : public IMqttMessageHandler {
 public:
     struct Record {
-        std::string topic;
-        std::string payload;
+        std::string topic = {};
+        std::string payload = {};
         uint8_t     qos{0};
     };
 
@@ -208,7 +208,9 @@ TEST(MqttClientStatsFocusedTests, AtomicIncrementIsThreadSafe) {
     threads.reserve(N);
     for (int i = 0; i < N; ++i)
         threads.emplace_back([&s] { ++s.messages_published; });
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(s.messages_published.load(), static_cast<uint64_t>(N));
 }
 
@@ -707,7 +709,7 @@ TEST(MqttClientTlsRuntimeTests, EmptyTlsCaPathLogsVerifyNoneFallback) {
     auto previous_logger = spdlog::default_logger();
     auto previous_level = spdlog::get_level();
 
-    std::ostringstream capture;
+    std::ostringstream capture = {};
     auto sink = std::make_shared<spdlog::sinks::ostream_sink_mt>(capture);
     auto logger = std::make_shared<spdlog::logger>("mqtt_tls_verify_none_test", sink);
     logger->set_pattern("%v");

@@ -91,7 +91,7 @@ struct SentimentResult {
  * @brief Text complexity metrics
  */
 struct ComplexityMetrics {
-    size_t word_count;          ///< Total words
+    size_t word_count = 0;          ///< Total words
     size_t sentence_count;      ///< Total sentences
     size_t unique_words;        ///< Unique word count
     double avg_word_length;     ///< Average word length
@@ -339,7 +339,7 @@ private:
     
     // Named entity patterns (simple regex-based)
     struct EntityPattern {
-        std::string pattern;
+        std::string pattern = {};
         std::string type;
     };
     std::vector<EntityPattern> entity_patterns_;

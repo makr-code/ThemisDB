@@ -224,7 +224,7 @@ TEST(ChaosConcurrencyHardeningTest, CCH04_CallbackFiresOncePerInject) {
 TEST(ChaosConcurrencyHardeningTest, CCH05_MultipleCallbacksFIFOOrder) {
     FaultInjector fi{"cch05"};
     std::vector<int> order;
-    std::mutex       order_mu;
+    std::mutex       order_mu = {};
 
     for (int id = 0; id < 4; ++id) {
         fi.registerEventCallback([id, &order, &order_mu](const FaultSpec& /*spec*/, bool injected) {

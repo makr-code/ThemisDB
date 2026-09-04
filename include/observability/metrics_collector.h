@@ -44,7 +44,7 @@ class LatencyTracker;
  */
 struct Exemplar {
     /// W3C-compatible trace ID string (e.g. 16-hex-char span ID or 32-hex-char trace ID).
-    std::string trace_id;
+    std::string trace_id = {};
     /// The observed metric value that this exemplar is associated with.
     double value{0.0};
     /// Wall-clock timestamp of the observation.

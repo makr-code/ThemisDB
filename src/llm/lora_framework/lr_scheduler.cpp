@@ -32,7 +32,7 @@ namespace lora {
 // LinearLR Implementation
 // ============================================================================
 
-float LinearLR::get_lr(int step) const {
+float LinearLR::get_lr([[maybe_unused]] int step) const {
     if (step >= total_steps_) {
         return end_lr_;
     }
@@ -54,7 +54,7 @@ LRSchedulerConfig LinearLR::config() const {
 // CosineAnnealingLR Implementation
 // ============================================================================
 
-float CosineAnnealingLR::get_lr(int step) const {
+float CosineAnnealingLR::get_lr([[maybe_unused]] int step) const {
     if (step >= total_steps_) {
         return min_lr_;
     }
@@ -77,7 +77,7 @@ LRSchedulerConfig CosineAnnealingLR::config() const {
 // CosineAnnealingWarmRestartsLR Implementation
 // ============================================================================
 
-float CosineAnnealingWarmRestartsLR::get_lr(int step) const {
+float CosineAnnealingWarmRestartsLR::get_lr([[maybe_unused]] int step) const {
     // Find which cycle we're in
     int cycle = step / period_;
     if (cycle >= num_cycles_) {
@@ -106,7 +106,7 @@ LRSchedulerConfig CosineAnnealingWarmRestartsLR::config() const {
 // PolynomialLR Implementation
 // ============================================================================
 
-float PolynomialLR::get_lr(int step) const {
+float PolynomialLR::get_lr([[maybe_unused]] int step) const {
     if (step >= total_steps_) {
         return end_lr_;
     }
@@ -130,7 +130,7 @@ LRSchedulerConfig PolynomialLR::config() const {
 // StepLR Implementation
 // ============================================================================
 
-float StepLR::get_lr(int step) const {
+float StepLR::get_lr([[maybe_unused]] int step) const {
     int num_steps = step / step_size_;
     return static_cast<float>(initial_lr_ * std::pow(safe_double_to_float(gamma_, true), num_steps));
 }
@@ -148,7 +148,7 @@ LRSchedulerConfig StepLR::config() const {
 // ExponentialLR Implementation
 // ============================================================================
 
-float ExponentialLR::get_lr(int step) const {
+float ExponentialLR::get_lr([[maybe_unused]] int step) const {
     return static_cast<float>(initial_lr_ * std::pow(safe_double_to_float(gamma_, true), step));
 }
 
@@ -164,7 +164,7 @@ LRSchedulerConfig ExponentialLR::config() const {
 // WarmupConstantLR Implementation
 // ============================================================================
 
-float WarmupConstantLR::get_lr(int step) const {
+float WarmupConstantLR::get_lr([[maybe_unused]] int step) const {
     if (step >= warmup_steps_) {
         return target_lr_;
     }
@@ -186,7 +186,7 @@ LRSchedulerConfig WarmupConstantLR::config() const {
 // WarmupCosineLR Implementation
 // ============================================================================
 
-float WarmupCosineLR::get_lr(int step) const {
+float WarmupCosineLR::get_lr([[maybe_unused]] int step) const {
     // Warmup phase
     if (step < warmup_steps_) {
         float progress = static_cast<float>(step) / static_cast<float>(warmup_steps_);
@@ -220,7 +220,7 @@ LRSchedulerConfig WarmupCosineLR::config() const {
 // WarmupLinearLR Implementation
 // ============================================================================
 
-float WarmupLinearLR::get_lr(int step) const {
+float WarmupLinearLR::get_lr([[maybe_unused]] int step) const {
     // Warmup phase
     if (step < warmup_steps_) {
         float progress = static_cast<float>(step) / static_cast<float>(warmup_steps_);
@@ -253,7 +253,7 @@ LRSchedulerConfig WarmupLinearLR::config() const {
 // CyclicLR Implementation (Triangular)
 // ============================================================================
 
-float CyclicLR::get_lr(int step) const {
+float CyclicLR::get_lr([[maybe_unused]] int step) const {
     int cycle_length = step_size_up_ + step_size_down_;
     if (cycle_length <= 0) {
         return base_lr_;
@@ -284,11 +284,13 @@ LRSchedulerConfig CyclicLR::config() const {
 // OneCycleLR Implementation
 // ============================================================================
 
-float OneCycleLR::get_lr(int step) const {
+float OneCycleLR::get_lr([[maybe_unused]] int step) const {
     int warmup_steps = static_cast<int>(pct_start_ * total_steps_);
     warmup_steps = std::max(1, warmup_steps);
     int decay_steps = total_steps_ - warmup_steps;
-    if (decay_steps < 1) decay_steps = 1;
+    if (decay_steps < 1) {
+      decay_steps = 1;
+    }
 
     if (step < warmup_steps) {
         float progress = static_cast<float>(step) / static_cast<float>(warmup_steps);
@@ -385,7 +387,7 @@ std::unique_ptr<LRScheduler> LRSchedulerFactory::create(const LRSchedulerConfig&
     }
 }
 
-std::unique_ptr<LRScheduler> LRSchedulerFactory::createConstant(float lr) {
+std::unique_ptr<LRScheduler> LRSchedulerFactory::createConstant([[maybe_unused]] float lr) {
     return std::make_unique<ConstantLR>(lr);
 }
 

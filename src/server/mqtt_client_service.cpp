@@ -43,12 +43,14 @@ namespace server {
 namespace detail {
 
 // Encode a variable-length integer (MQTT remaining-length encoding).
-static std::vector<uint8_t> encodeVarLen(uint32_t value) {
+static std::vector<uint8_t> encodeVarLen([[maybe_unused]] uint32_t value) {
     std::vector<uint8_t> out;
     do {
         uint8_t byte = static_cast<uint8_t>(value & 0x7F);
         value >>= 7;
-        if (value > 0) byte |= 0x80;
+        if (value > 0) {
+          byte |= 0x80;
+        }
         out.push_back(byte);
     } while (value > 0);
     return out;
@@ -105,9 +107,15 @@ static std::vector<uint8_t> buildConnect(const MqttClientConfig& cfg,
 
     // Connect Flags
     uint8_t flags = 0;
-    if (cfg.clean_session) flags |= 0x02;
-    if (!cfg.username.empty()) flags |= 0x80;
-    if (!cfg.password.empty()) flags |= 0x40;
+    if (cfg.clean_session) {
+      flags |= 0x02;
+    }
+    if (!cfg.username.empty()) {
+      flags |= 0x80;
+    }
+    if (!cfg.password.empty()) {
+      flags |= 0x40;
+    }
     payload.push_back(flags);
 
     // Keep Alive
@@ -115,8 +123,12 @@ static std::vector<uint8_t> buildConnect(const MqttClientConfig& cfg,
 
     // Payload: client_id
     writeStr(payload, client_id);
-    if (!cfg.username.empty()) writeStr(payload, cfg.username);
-    if (!cfg.password.empty()) writeStr(payload, cfg.password);
+    if (!cfg.username.empty()) {
+      writeStr(payload, cfg.username);
+    }
+    if (!cfg.password.empty()) {
+      writeStr(payload, cfg.password);
+    }
 
     // Assemble packet
     std::vector<uint8_t> pkt;
@@ -133,11 +145,15 @@ static std::vector<uint8_t> buildPublish(const std::string& topic,
                                          uint16_t packet_id) {
     std::vector<uint8_t> vheader;
     writeStr(vheader, topic);
-    if (qos > 0) write16(vheader, packet_id);
+    if (qos > 0) {
+      write16(vheader, packet_id);
+    }
     vheader.insert(vheader.end(), payload.begin(), payload.end());
 
     uint8_t flags = static_cast<uint8_t>((qos & 0x03) << 1);
-    if (retain) flags |= 0x01;
+    if (retain) {
+      flags |= 0x01;
+    }
 
     std::vector<uint8_t> pkt;
     pkt.push_back(static_cast<uint8_t>(0x30 | flags));
@@ -183,7 +199,7 @@ static std::vector<uint8_t> buildUnsubscribe(
 
 static std::vector<uint8_t> buildPingReq()    { return {0xC0, 0x00}; }
 static std::vector<uint8_t> buildDisconnect() { return {0xE0, 0x00}; }
-static std::vector<uint8_t> buildPubAck(uint16_t id) {
+static std::vector<uint8_t> buildPubAck([[maybe_unused]] uint16_t id) {
     return {0x40, 0x02,
             static_cast<uint8_t>(id >> 8),
             static_cast<uint8_t>(id & 0xFF)};
@@ -217,10 +233,10 @@ struct MqttClientService::AsioImpl {
 // ── MqttClientService ─────────────────────────────────────────────────────────
 
 static std::string generateClientIdImpl() {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937       gen(rd());
     std::uniform_int_distribution<uint32_t> dist(0, 0xFFFFFFFF);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "themisdb-" << std::hex << std::setw(8) << std::setfill('0')
         << dist(gen);
     return oss.str();
@@ -241,7 +257,9 @@ MqttClientService::~MqttClientService() {
 
 void MqttClientService::start() {
     bool expected = false;
-    if (!running_.compare_exchange_strong(expected, true)) return;
+    if (!running_.compare_exchange_strong(expected, true)) {
+      return;
+    }
 
     asio::post(asio_->io_ctx, [this] { doConnect(); });
     io_thread_ = std::thread([this] { ioThreadEntry(); });
@@ -249,7 +267,9 @@ void MqttClientService::start() {
 
 void MqttClientService::stop() {
     bool expected = true;
-    if (!running_.compare_exchange_strong(expected, false)) return;
+    if (!running_.compare_exchange_strong(expected, false)) {
+      return;
+    }
 
     asio::post(asio_->io_ctx, [this] {
         asio_->keepalive_timer.cancel();
@@ -325,7 +345,9 @@ bool MqttClientService::publish(const std::string& topic,
         // Generate packet ID under the outbound_mutex_
         std::lock_guard<std::mutex> lk(outbound_mutex_);
         pid = ++next_packet_id_;
-        if (next_packet_id_ == 0) next_packet_id_ = 1;
+        if (next_packet_id_ == 0) {
+          next_packet_id_ = 1;
+        }
     }
     auto pkt = detail::buildPublish(topic, payload, qos, retain, pid);
     enqueuePacket(std::move(pkt));
@@ -342,7 +364,9 @@ bool MqttClientService::subscribe(const std::string& topic_filter, uint8_t qos) 
             {
                 std::lock_guard<std::mutex> lk(outbound_mutex_);
                 pid = ++next_packet_id_;
-                if (next_packet_id_ == 0) next_packet_id_ = 1;
+                if (next_packet_id_ == 0) {
+                  next_packet_id_ = 1;
+                }
             }
             auto pkt = detail::buildSubscribe(
                 pid, {{topic_filter, qos}});
@@ -361,7 +385,9 @@ bool MqttClientService::unsubscribe(const std::string& topic_filter) {
             {
                 std::lock_guard<std::mutex> lk(outbound_mutex_);
                 pid = ++next_packet_id_;
-                if (next_packet_id_ == 0) next_packet_id_ = 1;
+                if (next_packet_id_ == 0) {
+                  next_packet_id_ = 1;
+                }
             }
             auto pkt = detail::buildUnsubscribe(pid, {topic_filter});
             enqueuePacket(std::move(pkt));
@@ -372,8 +398,8 @@ bool MqttClientService::unsubscribe(const std::string& topic_filter) {
 
 void MqttClientService::setMessageHandler(
         std::shared_ptr<IMqttMessageHandler> handler) {
-    std::lock_guard<std::mutex> lk(handler_mutex_);
-    handler_ = std::move(handler);
+    std::lock_guard<std::mutex> lk([[maybe_unused]] handler_mutex_);
+    handler_ = std::move([[maybe_unused]] handler);
 }
 
 void MqttClientService::registerWithServiceRegistry(
@@ -397,7 +423,9 @@ void MqttClientService::ioThreadEntry() {
 }
 
 void MqttClientService::doConnect() {
-    if (!running_.load()) return;
+    if (!running_.load()) {
+      return;
+    }
 
     boost::system::error_code ec;
 #ifdef THEMIS_ENABLE_MQTT_TLS
@@ -443,7 +471,7 @@ void MqttClientService::doConnect() {
     asio_->connect_timer.async_wait([this, connected](boost::system::error_code ec3) {
         if (!ec3 && !connected->load()) {
             boost::system::error_code ce;
-            asio_->socket.close(ce); // triggers the async_connect error handler
+            asio_->socket.close([[maybe_unused]] ce); // triggers the async_connect error handler
         }
     });
 }
@@ -477,7 +505,9 @@ void MqttClientService::sendMqttConnect() {
 }
 
 void MqttClientService::doRead() {
-    if (!running_.load()) return;
+    if (!running_.load()) {
+      return;
+    }
 
 #ifdef THEMIS_ENABLE_MQTT_TLS
     if (config_.tls_enabled && asio_->tls_ready && asio_->ssl_stream) {
@@ -509,30 +539,34 @@ void MqttClientService::doRead() {
 }
 
 void MqttClientService::processBuffer() {
-    while (packet_buf_.size() >= 2) {
+    while (static_cast<int>(packet_buf_.size()) >= 2) {
         // Fixed header: type byte
         uint8_t type_flags = packet_buf_[0];
 
         // Decode remaining length
         auto [rem_len, hdr_extra] = detail::decodeVarLen(
             packet_buf_.data() + 1,
-            packet_buf_.size() - 1);
+            static_cast<int>(packet_buf_.size()) - 1);
         if (hdr_extra == 0) break; // incomplete length
 
         size_t total = 1 + hdr_extra + rem_len;
-        if (packet_buf_.size() < total) break; // incomplete payload
+        if (static_cast<int>(packet_buf_.size()) < total) break; // incomplete payload
 
         const uint8_t* payload = packet_buf_.data() + 1 + hdr_extra;
         uint8_t type = type_flags >> 4;
 
         switch (type) {
         case 2: { // CONNACK
-            if (rem_len >= 2) onConnAck(payload[0], payload[1]);
+            if (rem_len >= 2) {
+              onConnAck(payload[0], payload[1]);
+            }
             break;
         }
         case 3: { // PUBLISH
             auto [topic, tlen] = detail::readStr(payload, rem_len);
-            if (tlen == 0) break;
+            if (tlen == 0) {
+              break;
+            }
             uint8_t qos = (type_flags >> 1) & 0x03;
             size_t  off = tlen;
             uint16_t pid = 0;
@@ -544,12 +578,14 @@ void MqttClientService::processBuffer() {
                 reinterpret_cast<const char*>(payload + off),
                 rem_len - off);
             onPublishReceived(topic, msg_payload, qos);
-            if (qos == 1) enqueuePacket(detail::buildPubAck(pid));
+            if (qos == 1) {
+              enqueuePacket(detail::buildPubAck(pid));
+            }
             break;
         }
         case 9:  // SUBACK — accepted, nothing extra to do
-        case 11: // UNSUBACK
-        case 13: // PINGRESP
+        [[fallthrough]];\n        case 11: // UNSUBACK
+        [[fallthrough]];\n        case 13: // PINGRESP
             break;
         case 14: // DISCONNECT from broker
             handleDisconnect("broker sent DISCONNECT");
@@ -578,7 +614,7 @@ void MqttClientService::onConnAck(uint8_t /*flags*/, uint8_t return_code) {
     std::string cid = effective_client_id_;
     std::shared_ptr<IMqttMessageHandler> h;
     {
-        std::lock_guard<std::mutex> lk(handler_mutex_);
+        std::lock_guard<std::mutex> lk([[maybe_unused]] handler_mutex_);
         h = handler_;
     }
     if (h) {
@@ -594,7 +630,7 @@ void MqttClientService::onPublishReceived(const std::string& topic,
     ++stats_.messages_received;
     std::shared_ptr<IMqttMessageHandler> h;
     {
-        std::lock_guard<std::mutex> lk(handler_mutex_);
+        std::lock_guard<std::mutex> lk([[maybe_unused]] handler_mutex_);
         h = handler_;
     }
     if (h) {
@@ -605,7 +641,7 @@ void MqttClientService::onPublishReceived(const std::string& topic,
 void MqttClientService::enqueuePacket(std::vector<uint8_t> packet) {
     {
         std::lock_guard<std::mutex> lk(outbound_mutex_);
-        if (outbound_queue_.size() >= config_.max_outbound_queue) {
+        if (static_cast<int>(outbound_queue_.size()) > = config_.max_outbound_queue) {
             ++stats_.publish_errors;
             return;
         }
@@ -615,11 +651,15 @@ void MqttClientService::enqueuePacket(std::vector<uint8_t> packet) {
 }
 
 void MqttClientService::doWrite() {
-    if (writing_) return;
+    if (writing_) {
+      return;
+    }
     std::vector<uint8_t> pkt;
     {
         std::lock_guard<std::mutex> lk(outbound_mutex_);
-        if (outbound_queue_.empty()) return;
+        if (outbound_queue_.empty()) {
+          return;
+        }
         pkt = std::move(outbound_queue_.front());
         outbound_queue_.pop_front();
     }
@@ -651,14 +691,18 @@ void MqttClientService::doWrite() {
 }
 
 void MqttClientService::sendSubscriptions() {
-    if (subscriptions_.empty()) return;
+    if (subscriptions_.empty()) {
+      return;
+    }
     std::vector<std::pair<std::string, uint8_t>> topics(
         subscriptions_.begin(), subscriptions_.end());
     uint16_t pid;
     {
         std::lock_guard<std::mutex> lk(outbound_mutex_);
         pid = ++next_packet_id_;
-        if (next_packet_id_ == 0) next_packet_id_ = 1;
+        if (next_packet_id_ == 0) {
+          next_packet_id_ = 1;
+        }
     }
     auto pkt = detail::buildSubscribe(pid, topics);
     enqueuePacket(std::move(pkt));
@@ -666,11 +710,15 @@ void MqttClientService::sendSubscriptions() {
 }
 
 void MqttClientService::startKeepalive() {
-    if (config_.keepalive_seconds == 0) return;
+    if (config_.keepalive_seconds == 0) {
+      return;
+    }
     asio_->keepalive_timer.expires_after(
         std::chrono::seconds(config_.keepalive_seconds));
     asio_->keepalive_timer.async_wait([this](boost::system::error_code ec) {
-        if (ec) return;
+        if (ec) {
+          return;
+        }
         if (stats_.is_connected.load())
             enqueuePacket(detail::buildPingReq());
         startKeepalive();
@@ -678,13 +726,17 @@ void MqttClientService::startKeepalive() {
 }
 
 void MqttClientService::scheduleReconnect() {
-    if (!running_.load()) return;
+    if (!running_.load()) {
+      return;
+    }
 
     ++reconnect_attempt_;
     ++stats_.reconnect_count;
 
     const MqttRetryConfig& r = config_.retry;
-    if (r.maxRetries > 0 && reconnect_attempt_ > r.maxRetries) return;
+    if (r.maxRetries > 0 && reconnect_attempt_ > r.maxRetries) {
+      return;
+    }
 
     uint32_t delay_ms = r.initialRetryDelayMs;
     if (r.exponentialBackoff && reconnect_attempt_ > 1) {
@@ -699,7 +751,9 @@ void MqttClientService::scheduleReconnect() {
 
     asio_->reconnect_timer.expires_after(std::chrono::milliseconds(delay_ms));
     asio_->reconnect_timer.async_wait([this](boost::system::error_code ec) {
-        if (!ec && running_.load()) doConnect();
+        if (!ec && running_.load()) {
+          doConnect();
+        }
     });
 }
 
@@ -722,7 +776,7 @@ void MqttClientService::handleDisconnect(const std::string& reason) {
     if (was_connected) {
         std::shared_ptr<IMqttMessageHandler> h;
         {
-            std::lock_guard<std::mutex> lk(handler_mutex_);
+            std::lock_guard<std::mutex> lk([[maybe_unused]] handler_mutex_);
             h = handler_;
         }
         if (h) {
@@ -730,7 +784,9 @@ void MqttClientService::handleDisconnect(const std::string& reason) {
         }
     }
 
-    if (running_.load()) scheduleReconnect();
+    if (running_.load()) {
+      scheduleReconnect();
+    }
 }
 
 std::string MqttClientService::generateClientId() {
@@ -845,11 +901,11 @@ void MqttCDCTransport::stop() {
     service_.stop();
 }
 
-bool MqttCDCTransport::publish(const Changefeed::ChangeEvent& event) {
+bool MqttCDCTransport::publish([[maybe_unused]] const Changefeed::ChangeEvent& event) {
     try {
         nlohmann::json j = event.toJson();
         std::string    payload = j.dump();
-        std::string    topic   = topicForEvent(event);
+        std::string    topic   = topicForEvent([[maybe_unused]] event);
         return service_.publish(topic, payload, qos_, false);
     } catch (...) {
         THEMIS_WARN("mqtt_client_service::service_: unhandled exception caught");
@@ -860,8 +916,8 @@ bool MqttCDCTransport::publish(const Changefeed::ChangeEvent& event) {
 std::string MqttCDCTransport::topicForEvent(
         const Changefeed::ChangeEvent& event) const {
     using ET = Changefeed::ChangeEventType;
-    std::string type_str;
-    switch (event.type) {
+    std::string type_str = {};
+    switch ([[maybe_unused]] event.type) {
     case ET::EVENT_PUT:                  type_str = "PUT";                  break;
     case ET::EVENT_DELETE:               type_str = "DELETE";               break;
     case ET::EVENT_TRANSACTION_COMMIT:   type_str = "TRANSACTION_COMMIT";   break;
@@ -883,7 +939,7 @@ void MqttCDCTransport::setTopicPrefix(const std::string& prefix) {
     topic_prefix_ = prefix;
 }
 
-void MqttCDCTransport::setQos(uint8_t qos) {
+void MqttCDCTransport::setQos([[maybe_unused]] uint8_t qos) {
     qos_ = qos;
 }
 

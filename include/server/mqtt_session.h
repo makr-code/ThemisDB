@@ -73,7 +73,9 @@ struct MqttMetrics {
         , startTime(other.startTime) {}
 
     MqttMetrics& operator=(const MqttMetrics& other) {
-        if (this == &other) return *this;
+        if (this == &other) {
+          return *this;
+        }
         messagesReceived.store(other.messagesReceived.load());
         messagesSent.store(other.messagesSent.load());
         bytesReceived.store(other.bytesReceived.load());
@@ -132,7 +134,7 @@ enum class Qos2State {
 
 struct Qos2Message {
     uint16_t packetId;
-    std::string topic;
+    std::string topic = {};
     std::string payload;
     Qos2State state;
     std::chrono::steady_clock::time_point timestamp;

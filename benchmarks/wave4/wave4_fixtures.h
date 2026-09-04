@@ -110,7 +110,9 @@ public:
      * @param state  The active Google Benchmark state object.
      */
     void publishCounters(::benchmark::State& state) {
-        if (samples_.size() < 2) return;
+        if (samples_.size() < 2) {
+          return;
+        }
 
         std::vector<double> sorted = samples_;
         std::sort(sorted.begin(), sorted.end());
@@ -126,7 +128,9 @@ public:
         const double mean = std::accumulate(sorted.begin(), sorted.end(), 0.0) /
                             static_cast<double>(n);
         double sq_sum = 0.0;
-        for (double v : sorted) sq_sum += (v - mean) * (v - mean);
+        for (double v : sorted) {
+          sq_sum += (v - mean) * (v - mean);
+        }
         const double stddev = std::sqrt(sq_sum / static_cast<double>(n));
         const double cv = (mean > 0.0) ? (stddev / mean) : 0.0;
 
@@ -286,8 +290,12 @@ public:
      * duration.  If backpressure is active, blocks until a token is available.
      */
     void applyDegradation() {
-        if (injector_)     injector_->sleep();
-        if (backpressure_) backpressure_->acquire();
+        if (injector_) {
+          injector_->sleep();
+        }
+        if (backpressure_) {
+          backpressure_->acquire();
+        }
     }
 
 protected:

@@ -177,7 +177,8 @@ protected:
         auto batchResults = plugin.generateEmbeddingBatch(images);
 
         // Generate sequential results
-        std::vector<EmbeddingResult> sequentialResults;
+        std::vector<EmbeddingResult> sequentialResults = {};
+
         for (uint32_t seed : imageSeeds) {
             auto imageBytes = makeImageBytes(kDefaultImageSize, seed);
             sequentialResults.push_back(plugin.generateEmbedding(imageBytes));
@@ -237,7 +238,7 @@ protected:
 
         std::vector<ThreadResult> results(threadCount);
         std::vector<std::thread> threads;
-        std::mutex resultsMutex;
+        std::mutex resultsMutex = {};
 
         // Lambda to run concurrent inference
         auto workerThread = [&, this](int threadId) {
@@ -743,7 +744,8 @@ TEST_F(OnnxClipGoldenEmbeddingsTest, OCP_IT_10_BatchOf16VsSequentialEquivalence)
         << "OCP-IT-10: Plugin initialization must succeed";
 
     // Test batch of 16
-    std::vector<uint32_t> seeds;
+    std::vector<uint32_t> seeds = {};
+
     for (int i = 0; i < 16; ++i) {
         seeds.push_back(kClipGoldenSeed + i);
     }

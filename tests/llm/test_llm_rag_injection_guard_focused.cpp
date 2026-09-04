@@ -45,7 +45,7 @@ namespace {
  * detector can scan the composed text.
  */
 std::string buildRagContext(const std::vector<std::string>& chunks) {
-    std::string ctx;
+    std::string ctx = {};
     for (const auto& c : chunks) {
         ctx += c;
         ctx += "\n---\n";
@@ -233,7 +233,9 @@ public:
     bool isSafeToForward() const {
         PromptInjectionDetector detector;
         const auto scan = detector.scan(history_);
-        if (scan.is_blocked()) return false;
+        if (scan.is_blocked()) {
+          return false;
+        }
 
         SafetyClassifier classifier;
         const auto cls = classifier.classify(history_);

@@ -391,13 +391,27 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         const auto& val = args[0];
-        if (val.is_null()) return "null";
-        if (val.is_boolean()) return "bool";
-        if (val.is_number_integer()) return "int";
-        if (val.is_number_float()) return "number";
-        if (val.is_string()) return "string";
-        if (val.is_array()) return "array";
-        if (val.is_object()) return "object";
+        if (val.is_null()) {
+          return "null";
+        }
+        if (val.is_boolean()) {
+          return "bool";
+        }
+        if (val.is_number_integer()) {
+          return "int";
+        }
+        if (val.is_number_float()) {
+          return "number";
+        }
+        if (val.is_string()) {
+          return "string";
+        }
+        if (val.is_array()) {
+          return "array";
+        }
+        if (val.is_object()) {
+          return "object";
+        }
         return "unknown";
     }
 };
@@ -626,8 +640,12 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         const auto& val = args[0];
-        if (val.is_array()) return val;
-        if (val.is_null()) return nlohmann::json::array();
+        if (val.is_array()) {
+          return val;
+        }
+        if (val.is_null()) {
+          return nlohmann::json::array();
+        }
         return nlohmann::json::array({val});
     }
 };

@@ -174,7 +174,8 @@ TEST_F(FullPipelineIntegrationTest, EvaluateDecisionScoresInRange) {
     // Fetch arguments that were stored during makeDecision
     auto args_result = store_->getArgumentsByPhilosophy(
         "utilitarianism", {}, 50);
-    std::vector<EthicalArgument> args;
+    std::vector<EthicalArgument> args = {};
+
     if (std::holds_alternative<std::vector<EthicalArgument>>(args_result)) {
         args = std::get<std::vector<EthicalArgument>>(args_result);
     }

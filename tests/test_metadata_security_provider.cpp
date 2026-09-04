@@ -229,7 +229,9 @@ TEST(InMemoryRbacMetadataSecurityProviderTest, ConcurrentGrantAndCheck) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // No crash; allowed + denied == kThreads * kIter
     EXPECT_EQ(allowed.load() + denied.load(), kThreads * kIter);

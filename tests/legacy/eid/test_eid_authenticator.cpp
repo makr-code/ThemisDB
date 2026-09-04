@@ -341,7 +341,9 @@ TEST_F(EIDAuthenticatorTest, ConcurrentCompleteIsThreadSafe) {
     }
     int success_count = 0;
     for (auto& f : futs) {
-        if (f.get().success) ++success_count;
+        if (f.get().success) {
+          ++success_count;
+        }
     }
     EXPECT_EQ(success_count, N);
 }

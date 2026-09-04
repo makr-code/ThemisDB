@@ -53,11 +53,19 @@ static bool validateTxnTableName(std::string_view table) {
 static IsolationLevel parseIsolationLevel(const json& body, bool* valid,
                                            std::string* error_msg) {
     *valid = true;
-    if (!body.contains("isolation")) return IsolationLevel::ReadCommitted;
+    if (!body.contains("isolation")) {
+      return IsolationLevel::ReadCommitted;
+    }
     const std::string iso_str = body["isolation"].get<std::string>();
-    if (iso_str == "read_committed")  return IsolationLevel::ReadCommitted;
-    if (iso_str == "snapshot")        return IsolationLevel::Snapshot;
-    if (iso_str == "serializable")    return IsolationLevel::SERIALIZABLE;
+    if (iso_str == "read_committed") {
+      return IsolationLevel::ReadCommitted;
+    }
+    if (iso_str == "snapshot") {
+      return IsolationLevel::Snapshot;
+    }
+    if (iso_str == "serializable") {
+      return IsolationLevel::SERIALIZABLE;
+    }
     *valid = false;
     *error_msg = INVALID_ISOLATION_MSG;
     return IsolationLevel::ReadCommitted;
@@ -121,7 +129,7 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
 
         // --- Parse isolation level ---
         bool iso_valid = true;
-        std::string iso_error;
+        std::string iso_error = {};
         IsolationLevel isolation = parseIsolationLevel(body, &iso_valid, &iso_error);
         if (!iso_valid) {
             span.setStatus(false, iso_error);
@@ -151,7 +159,7 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
         int applied = 0;
         json errors_array = json::array();
 
-        for (size_t i = 0; i < ops.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(ops.size()); ++i) {
             const json& op = ops[i];
 
             if (!op.contains("type") || !op["type"].is_string()) {
@@ -283,7 +291,7 @@ http::response<http::string_body> TransactionApiHandler::handleBegin(
             }
             json body = json::parse(req.body());
             bool iso_valid = true;
-            std::string iso_error;
+            std::string iso_error = {};
             isolation = parseIsolationLevel(body, &iso_valid, &iso_error);
             if (!iso_valid) {
                 span.setStatus(false, iso_error);
@@ -538,7 +546,7 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
 
         const std::string prefix = "/transaction/";
         const std::string suffix = "/explain";
-        if (target.size() < prefix.size() + suffix.size()) {
+        if (static_cast<int>(target.size()) < static_cast<int>(prefix.size()) + static_cast<int>(suffix.size()) ) {
             span.setStatus(false, "Invalid path");
             return makeErrorResponse(http::status::bad_request,
                 "Invalid path: expected /transaction/{id}/explain", req);
@@ -557,7 +565,7 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
         try {
             txn_id = std::stoull(id_str);
         } catch (...) {
-            THEMIS_WARN("transaction_api_handler: unhandled exception caught");
+            THEMIS_WARN([[maybe_unused]] "transaction_api_handler: unhandled exception caught");
             span.setStatus(false, "Invalid transaction ID");
             return makeErrorResponse(http::status::bad_request,
                 "Invalid transaction ID: '" + id_str + "'", req);

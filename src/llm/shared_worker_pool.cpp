@@ -63,7 +63,7 @@ SharedWorkerPool::~SharedWorkerPool() {
 bool SharedWorkerPool::submit(std::function<void()> task, int priority) {
     {
         std::lock_guard<std::mutex> lock(global_queue_mutex_);
-        if (global_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(global_queue_.size()) > = config_.max_queue_size) {
             spdlog::warn("SharedWorkerPool: queue full ({} tasks), dropping task",
                          config_.max_queue_size);
             return false;
@@ -79,7 +79,7 @@ size_t SharedWorkerPool::queueDepth() const {
     size_t depth = global_queue_.size();
     for (const auto& q : thread_queues_) {
         std::lock_guard<std::mutex> tlock(q->mutex);
-        depth += q->tasks.size();
+        depth += q-> static_cast<int>(tasks.size());
     }
     return depth;
 }
@@ -130,7 +130,7 @@ bool SharedWorkerPool::isRunning() const {
 // Private — Worker Thread
 // ═══════════════════════════════════════════════════════════
 
-void SharedWorkerPool::workerLoop(size_t thread_id) {
+void SharedWorkerPool::workerLoop([[maybe_unused]] size_t thread_id) {
     spdlog::debug("SharedWorkerPool worker {} started", thread_id);
 
     auto& local_q = *thread_queues_[thread_id];
@@ -163,7 +163,7 @@ void SharedWorkerPool::workerLoop(size_t thread_id) {
                 {
                     std::lock_guard<std::mutex> llock(local_q.mutex);
                     while (!global_queue_.empty() &&
-                           local_q.tasks.size() < 16) {
+                           static_cast<int>(local_q.tasks.size()) < 16) {
                         local_q.tasks.push_back(global_queue_.top());
                         global_queue_.pop();
                     }

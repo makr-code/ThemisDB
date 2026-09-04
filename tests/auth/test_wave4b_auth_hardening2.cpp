@@ -66,28 +66,36 @@ AuditLoggerConfig makeTestAuditConfig(const std::filesystem::path &path) {
 size_t countLogLines(const std::filesystem::path &path) {
     std::ifstream f(path);
     size_t n = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line))
-        if (!line.empty()) ++n;
+        if (!line.empty()) {
+          ++n;
+        }
     return n;
 }
 
 // Minimal CBOR helpers (mirrors buildCborCoseKey in the first hardening test)
 static std::string encUint(uint64_t v) {
-    if (v <= 23) return std::string(1, static_cast<char>(v));
+    if (v <= 23) {
+      return std::string(1, static_cast<char>(v));
+    }
     if (v <= 0xFF) return std::string({'\x18', static_cast<char>(v)});
     return std::string({'\x19', static_cast<char>(v >> 8), static_cast<char>(v & 0xFF)});
 }
 static std::string encNegInt(int64_t v) {
     uint64_t u = static_cast<uint64_t>(-1 - v);
-    if (u <= 23) return std::string(1, static_cast<char>(0x20 | u));
+    if (u <= 23) {
+      return std::string(1, static_cast<char>(0x20 | u));
+    }
     if (u <= 0xFF) return std::string({'\x38', static_cast<char>(u)});
     return std::string({'\x39', static_cast<char>(u >> 8), static_cast<char>(u & 0xFF)});
 }
 static std::string encBytes(const std::string &b) {
-    std::string h;
+    std::string h = {};
     size_t len = b.size();
-    if (len <= 23) h = std::string(1, static_cast<char>(0x40 | len));
+    if (len <= 23) {
+      h = std::string(1, static_cast<char>(0x40 | len));
+    }
     else if (len <= 0xFF) h = std::string({'\x58', static_cast<char>(len)});
     else h = std::string({'\x59', static_cast<char>(len >> 8), static_cast<char>(len & 0xFF)});
     return h + b;
@@ -95,7 +103,7 @@ static std::string encBytes(const std::string &b) {
 // Build a CBOR COSE key map {1:kty, 3:alg, -1:crv, -2:x, -3:y}
 static std::string buildTestCoseKey(int64_t kty, int64_t alg, int64_t crv,
                                      const std::string &neg2, const std::string &neg3) {
-    std::string out;
+    std::string out = {};
     out += '\xa5'; // map(5)
     out += '\x01'; out += (kty >= 0 ? encUint(static_cast<uint64_t>(kty)) : encNegInt(kty));
     out += '\x03'; out += (alg >= 0 ? encUint(static_cast<uint64_t>(alg)) : encNegInt(alg));
@@ -240,7 +248,7 @@ TEST_F(Wave4B2PasskeyVerifyAuditTest, A1b_CompleteAuthChallengeNotFoundEmitsFail
     resp.client_data_json_b64   = "";
     resp.signature_b64          = "";
 
-    std::string uid;
+    std::string uid = {};
     const auto result = auth_.completeAuthentication("non-existent-challenge", resp, uid);
     EXPECT_EQ(result, PasskeyVerifyResult::INVALID_CHALLENGE);
     ul_->flush();
@@ -480,7 +488,7 @@ TEST_F(Wave4B2COSEAlgTest, C1_RSAWithPS256AlgRejected) {
     // kty=3 (RSA), alg=-37 (PS256 — not -257/RS256)
     const std::string dummy256(256, '\x01');
     const std::string dummy4(4,    '\x01');
-    std::string out;
+    std::string out = {};
     out += '\xa5'; // map(5)
     out += '\x01'; out += '\x03'; // kty=3
     out += '\x03'; out += '\x38'; out += static_cast<char>(36); // alg=-37 (negint 36)
@@ -545,7 +553,7 @@ TEST(Wave4B2RSAKeySize, C3_1024BitRSAKeyRejected) {
     // kty=3 (RSA), alg=-257 (RS256 — allowed), but 128-byte (1024-bit) modulus
     const std::string mod128(128, '\x01');
     const std::string exp4(4, '\x01');
-    std::string out;
+    std::string out = {};
     out += '\xa5'; // map(5)
     out += '\x01'; out += '\x03'; // kty=3
     out += '\x03'; out += '\x39'; out += '\x01'; out += '\x00'; // alg=-257

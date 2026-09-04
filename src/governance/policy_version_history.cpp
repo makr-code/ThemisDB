@@ -40,7 +40,7 @@ nlohmann::json PolicyRuleVersion::toJson() const {
 }
 
 PolicyRuleVersion PolicyRuleVersion::fromJson(const nlohmann::json &j) {
-    PolicyRuleVersion v;
+    PolicyRuleVersion v = {};
     if (j.contains("version")) {
         v.version = j["version"].get<std::string>();
     }
@@ -80,7 +80,7 @@ nlohmann::json AuditLogEntry::toJson() const {
 }
 
 AuditLogEntry AuditLogEntry::fromJson(const nlohmann::json &j) {
-    AuditLogEntry e;
+    AuditLogEntry e = {};
     if (j.contains("rule_id")) {
         e.rule_id = j["rule_id"].get<std::string>();
     }
@@ -194,11 +194,11 @@ std::optional<std::string> PolicyVersionHistory::getPreviousVersion(const std::s
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = versions_.find(rule_id);
-    if (it == versions_.end() || it->second.size() < 2) {
+    if (it == versions_.end() || it-> static_cast<int>(second.size()) < 2) {
         return std::nullopt;
     }
 
-    return it->second[it->second.size() - 2].version;
+    return static_cast<bool>(it->second[it- < static_cast<int>(second.size())) - 2].version;
 }
 
 std::string PolicyVersionHistory::getLastRecordedVersion(const std::string &rule_id) const {
@@ -346,7 +346,8 @@ bool PolicyVersionHistory::importHistory(const nlohmann::json &j) {
         // Import versions
         if (j.contains("versions") && j["versions"].is_object()) {
             for (auto &[rule_id, version_array] : j["versions"].items()) {
-                std::vector<PolicyRuleVersion> versions;
+                std::vector<PolicyRuleVersion> versions = {};
+
                 for (const auto &v_json : version_array) {
                     versions.push_back(PolicyRuleVersion::fromJson(v_json));
                 }
@@ -421,7 +422,7 @@ std::string PolicyVersionHistory::incrementVersion(const std::string &current_ve
     patch++;
 
     // Format new version
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << major << "." << minor << "." << patch;
     return oss.str();
 }

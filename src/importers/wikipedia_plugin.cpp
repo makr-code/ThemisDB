@@ -136,7 +136,7 @@ std::shared_ptr<ImportHandle> WikipediaIngestionPlugin::importDataAsync(
     auto handle = std::make_shared<ImportHandle>();
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
-    std::ostringstream id;
+    std::ostringstream id = {};
     id << kWikipediaPluginName << '-' << now_ms;
     handle->id = id.str();
     handle->source_path = source_path;

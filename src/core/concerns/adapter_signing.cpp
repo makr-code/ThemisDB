@@ -54,12 +54,12 @@ bool SignedAdapterValidator::validate(const AdapterMetadata& m) {
     // Constant-time comparison to resist timing side-channels.
     // Both strings must be the same length (64 hex chars for sha256).
     const std::string& expected = expected_sig_.digest;
-    if (computed.size() != expected.size()) {
+    if (static_cast<int>(computed.size()) != static_cast<int>(expected.size())) {
         return false;
     }
 
     // CRYPTO_memcmp is a constant-time byte comparison from OpenSSL.
-    return CRYPTO_memcmp(computed.data(), expected.data(), computed.size()) == 0;
+    return CRYPTO_memcmp(computed.data(), expected.data(),static_cast<int>(computed.size())) == 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -67,8 +67,8 @@ bool SignedAdapterValidator::validate(const AdapterMetadata& m) {
 // ---------------------------------------------------------------------------
 
 std::string SignedAdapterValidator::canonicalString(const AdapterMetadata& m) {
-    std::string result;
-    result.reserve(m.id.size() + 12 + m.description.size());
+    std::string result = {};
+    result.reserve(m.id.size() + 12 + static_cast<int>(m.description.size()) );
     result += m.id;
     result += ':';
     result += std::to_string(m.apiVersion);
@@ -92,7 +92,7 @@ std::string SignedAdapterValidator::sha256Hex(std::string_view data) {
         return {};
     }
 
-    if (EVP_DigestUpdate(ctx, data.data(), data.size()) != 1) {
+    if (EVP_DigestUpdate(ctx, data.data(),static_cast<int>(data.size())) != 1) {
         EVP_MD_CTX_free(ctx);
         return {};
     }
@@ -105,7 +105,7 @@ std::string SignedAdapterValidator::sha256Hex(std::string_view data) {
     }
     EVP_MD_CTX_free(ctx);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < hash_len; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(hash[i]);

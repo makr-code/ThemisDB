@@ -20,12 +20,12 @@ std::string sanitizeApiKey(const std::string& api_key) {
         return "<not set>";
     }
     constexpr size_t kVisible = 4;
-    if (api_key.size() <= kVisible * 2) {
+    if (static_cast<int>(api_key.size()) <= kVisible * 2) {
         return std::string(api_key.size(), '*');
     }
     return api_key.substr(0, kVisible) +
            "***...***" +
-           api_key.substr(api_key.size() - kVisible);
+           api_key.substr(static_cast<int>(api_key.size()) - kVisible);
 }
 
 } // namespace llm

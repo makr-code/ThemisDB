@@ -42,8 +42,9 @@ bool isValidSessionTransition(SessionState current, SessionState next) {
             return false;
         case SessionState::CLOSING:
             return next == SessionState::TERMINATED;
+        default:
+            return false;
     }
-    return false;
 }
 
 void finalizeSessionTeardownLocked(
@@ -104,7 +105,9 @@ bool InMemorySessionBackend::save(const VoiceSessionData& session) {
 std::optional<VoiceSessionData> InMemorySessionBackend::load(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = store_.find(session_id);
-    if (it == store_.end()) return std::nullopt;
+    if (it == store_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -115,7 +118,8 @@ bool InMemorySessionBackend::remove(const std::string& session_id) {
 
 std::vector<std::string> InMemorySessionBackend::listActiveSessions() {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(store_.size());
     for (const auto& [id, _] : store_) {
         ids.push_back(id);
@@ -125,7 +129,7 @@ std::vector<std::string> InMemorySessionBackend::listActiveSessions() {
 
 size_t InMemorySessionBackend::count() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return store_.size();
+    return static_cast<int>(store_.size());
 }
 
 // ---- VoiceSessionManager ----
@@ -155,14 +159,20 @@ int64_t VoiceSessionManager::nowMs() const {
 }
 
 bool VoiceSessionManager::isExpired(const VoiceSessionData& session) const {
-    if (!timeout_config_.auto_expire) return false;
+    if (!timeout_config_.auto_expire) {
+      return false;
+    }
     int64_t now = nowMs();
 
     // Check max session duration
-    if (now - session.created_at_ms > timeout_config_.max_session_duration_ms) return true;
+    if (now - session.created_at_ms > timeout_config_.max_session_duration_ms) {
+      return true;
+    }
 
     // Check idle timeout
-    if (now - session.last_activity_ms > timeout_config_.idle_timeout_ms) return true;
+    if (now - session.last_activity_ms > timeout_config_.idle_timeout_ms) {
+      return true;
+    }
 
     return false;
 }
@@ -178,7 +188,7 @@ std::string VoiceSessionManager::generateSessionId() {
     uint16_t rnd = dist(rng);
     uint64_t suffix = seq.fetch_add(1, std::memory_order_relaxed) & 0xFFFF;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "sess_" << std::hex << std::setw(12) << std::setfill('0') << now_ms
         << std::setw(4) << std::setfill('0') << (rnd ^ static_cast<uint16_t>(suffix));
     return oss.str();
@@ -198,7 +208,7 @@ VoiceSessionData VoiceSessionManager::createSession(
     // Error code 6604: Resource limit exceeded
     {
         std::lock_guard<std::mutex> lock(manager_mutex_);
-        if (active_cache_.size() >= kMaxConcurrentSessions) {
+        if (static_cast<int>(active_cache_.size()) > = kMaxConcurrentSessions) {
             spdlog::error("VoiceSessionManager::createSession: max concurrent sessions ({}) exceeded (error 6604)",
                          kMaxConcurrentSessions);
             return VoiceSessionData{};  // Fail-closed: reject over-limit session
@@ -296,7 +306,9 @@ bool VoiceSessionManager::updateSession(
 {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
-    if (it == active_cache_.end()) return false;
+    if (it == active_cache_.end()) {
+      return false;
+    }
     if (isExpired(it->second)) {
         it->second.state = SessionState::EXPIRED;
         finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
@@ -372,7 +384,7 @@ bool VoiceSessionManager::addConversationTurn(
 
     // TASK 2.1: Bounded transcript size enforcement
     // Calculate approximate size before adding (each turn ~= user_msg + assistant_msg)
-    size_t turn_size = user_msg.size() + assistant_msg.size() + 20;  // +20 for markers
+    size_t turn_size = static_cast<int>(user_msg.size()) + static_cast<int>(assistant_msg.size()) + 20;  // +20 for markers
     size_t current_transcript_size = 0;
     for (const auto& line : it->second.conversation_history) {
         current_transcript_size += line.size();
@@ -403,7 +415,9 @@ bool VoiceSessionManager::addConversationTurn(
 bool VoiceSessionManager::touchSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
-    if (it == active_cache_.end()) return false;
+    if (it == active_cache_.end()) {
+      return false;
+    }
     if (isExpired(it->second)) {
         it->second.state = SessionState::EXPIRED;
         finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
@@ -429,7 +443,9 @@ bool VoiceSessionManager::updatePreferredLanguage(
 {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
-    if (it == active_cache_.end()) return false;
+    if (it == active_cache_.end()) {
+      return false;
+    }
     if (isExpired(it->second)) {
         it->second.state = SessionState::EXPIRED;
         finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
@@ -512,7 +528,7 @@ size_t VoiceSessionManager::expireOldSessions() {
         const int64_t current_ms = nowMs();
         if (current_ms > teardown_deadline_ms) {
             THEMIS_WARN("VoiceSessionManager::expireOldSessions: teardown budget exceeded, force-closing remaining {} sessions",
-                       expired_ids.size() - std::distance(expired_ids.begin(), 
+                       static_cast<int>(expired_ids.size()) - std::distance(expired_ids.begin(), 
                        std::find(expired_ids.begin(), expired_ids.end(), session_id)));
             break;
         }
@@ -536,7 +552,8 @@ size_t VoiceSessionManager::expireOldSessions() {
 
 std::vector<VoiceSessionData> VoiceSessionManager::getSessionsForUser(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
-    std::vector<VoiceSessionData> result;
+    std::vector<VoiceSessionData> result = {};
+
     for (const auto& [id, session] : active_cache_) {
         if (session.user_id == user_id &&
             session.state != SessionState::TERMINATED &&
@@ -590,7 +607,9 @@ bool VoiceSessionManager::isSessionActive(const std::string& session_id) {
 SessionState VoiceSessionManager::getSessionState(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
-    if (it == active_cache_.end()) return SessionState::TERMINATED;
+    if (it == active_cache_.end()) {
+      return SessionState::TERMINATED;
+    }
     return it->second.state;
 }
 
@@ -603,7 +622,9 @@ bool VoiceSessionManager::validateStateTransition(
 {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
-    if (it == active_cache_.end()) return false;
+    if (it == active_cache_.end()) {
+      return false;
+    }
     
     const SessionState current = it->second.state;
     
@@ -652,11 +673,15 @@ bool VoiceSessionManager::isUseAfterFreeAttempt(const std::string& session_id) {
 }
 
 bool VoiceSessionManager::sessionIdExists(const std::string& session_id) {
-    if (session_id.empty()) return false;
+    if (session_id.empty()) {
+      return false;
+    }
     
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
-    if (it != active_cache_.end()) return true;
+    if (it != active_cache_.end()) {
+      return true;
+    }
     
     // Check backend
     auto loaded = backend_->load(session_id);
@@ -752,7 +777,8 @@ size_t VoiceSessionManager::terminateAllSessions(int64_t timeout_ms) {
         std::lock_guard<std::mutex> lock(manager_mutex_);
         
         // Collect session IDs (to avoid iterator invalidation)
-        std::vector<std::string> session_ids;
+        std::vector<std::string> session_ids = {};
+
         for (const auto& [id, session] : active_cache_) {
             if (session.state != SessionState::TERMINATED && 
                 session.state != SessionState::CLOSING) {

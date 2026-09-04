@@ -63,7 +63,7 @@ public:
      * @brief Result of a quorum-enforced WAL write.
      */
     struct WriteResult {
-        bool success;               ///< True when quorum commit succeeded.
+        bool success = 0;               ///< True when quorum commit succeeded.
         LSN lsn;                    ///< Assigned WAL LSN, even on quorum failure when append succeeded.
         std::string error_message;  ///< Failure reason when success is false.
     };
@@ -121,7 +121,7 @@ private:
     // Track pending writes for quorum
     /** @brief Pending quorum-tracked write keyed by Raft log index. */
     struct PendingWrite {
-        uint64_t log_index;                    ///< Raft log index associated with write.
+        uint64_t log_index = 0;                    ///< Raft log index associated with write.
         LSN wal_lsn;                           ///< WAL LSN assigned to entry.
         std::set<std::string> acknowledgments; ///< Node IDs that acknowledged replication.
         bool committed;                        ///< True once quorum was reached.

@@ -152,7 +152,7 @@ public:
     
     std::string buildDocumentationPrompt(const std::string& question) {
         // Build a prompt template for documentation Q&A
-        std::ostringstream prompt;
+        std::ostringstream prompt = {};
         prompt << "### System:\n"
                << "You are a helpful ThemisDB documentation assistant. Provide accurate, "
                << "concise answers based on ThemisDB documentation. Include code examples "
@@ -177,7 +177,7 @@ public:
                     // Resolve model path: prefer the injected ModelPathProviderFn
                     // (LLMModelStorage::resolveGGUFPath), fall back to the
                     // relative convention only when no provider is wired.
-                    std::string model_path;
+                    std::string model_path = {};
                     if (config.model_path_provider) {
                         model_path = config.model_path_provider(config.base_model_id);
                         if (model_path.empty()) {
@@ -210,7 +210,7 @@ public:
             }
             
             // Generate response using LLM
-            std::string response;
+            std::string response = {};
             if (llama_wrapper && llama_wrapper->isModelLoaded()) {
                 // Build prompt for documentation Q&A
                 std::string prompt = buildDocumentationPrompt(question);
@@ -369,7 +369,7 @@ bool ThemisHelpLoRA::trainFromFeedback() {
         return false;
     }
 
-    spdlog::info("Starting training from {} feedback items", impl_->feedback_buffer.size());
+    spdlog::info("Starting training from {} feedback items", impl_-> static_cast<int>(feedback_buffer.size()));
 
     auto start = std::chrono::system_clock::now();
 
@@ -378,7 +378,7 @@ bool ThemisHelpLoRA::trainFromFeedback() {
         impl_->lora_audit->logTraining(
             lora::LoRAAuditEventType::TRAINING_STARTED,
             impl_->config.adapter_id,
-            static_cast<int>(impl_->feedback_buffer.size()),
+            static_cast<int>(impl_-> static_cast<int>(feedback_buffer.size())),
             0.0f,
             0.0f,
             {{"source", "user_feedback"}}
@@ -409,7 +409,7 @@ bool ThemisHelpLoRA::trainFromFeedback() {
         impl_->version_history.push_back(impl_->current_adapter_version);
         impl_->is_trained = true;
 
-        size_t num_samples = impl_->feedback_buffer.size();
+        size_t num_samples = impl_-> static_cast<int>(feedback_buffer.size());
 
         // Clear feedback buffer
         impl_->feedback_buffer.clear();
@@ -453,7 +453,7 @@ bool ThemisHelpLoRA::trainFromFeedback() {
         impl_->lora_audit->logTraining(
             lora::LoRAAuditEventType::TRAINING_FAILED,
             impl_->config.adapter_id,
-            static_cast<int>(impl_->feedback_buffer.size()),
+            static_cast<int>(impl_-> static_cast<int>(feedback_buffer.size())),
             0.0f,
             0.0f,
             {
@@ -570,7 +570,7 @@ PerformanceMetrics ThemisHelpLoRA::getMetrics() const {
 FeedbackStats ThemisHelpLoRA::getFeedbackStats() const {
     std::lock_guard<std::mutex> lock(impl_->feedback_mutex);
     
-    size_t total = impl_->feedback_buffer.size();
+    size_t total = impl_-> static_cast<int>(feedback_buffer.size());
     size_t positive = 0;
     size_t negative = 0;
     
@@ -633,7 +633,7 @@ bool ThemisHelpLoRA::rollbackToPreviousVersion() {
             // Use version history to restore the real predecessor version.
             // If multiple training passes have been performed the history holds every
             // published version in order; pop the current one and restore the previous.
-            if (impl_->version_history.size() > 1) {
+            if (impl_-> static_cast<int>(version_history.size()) > 1) {
                 impl_->version_history.pop_back();
                 impl_->current_adapter_version = impl_->version_history.back();
             } else {

@@ -54,8 +54,12 @@ static void injectRequests(SloReporter& reporter,
                             size_t good, size_t bad,
                             std::chrono::seconds age_offset = 0s) {
     auto ts = std::chrono::system_clock::now() - age_offset;
-    for (size_t i = 0; i < good; ++i) reporter.record(slo_name, true,  ts);
-    for (size_t i = 0; i < bad;  ++i) reporter.record(slo_name, false, ts);
+    for (size_t i = 0; i < good; ++i) {
+      reporter.record(slo_name, true,  ts);
+    }
+    for (size_t i = 0; i < bad;  ++i) {
+      reporter.record(slo_name, false, ts);
+    }
 }
 
 // ---------------------------------------------------------------------------

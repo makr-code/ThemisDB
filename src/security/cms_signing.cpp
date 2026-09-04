@@ -52,7 +52,9 @@ SigningResult CMSSigningService::sign(const std::vector<uint8_t>& data, const st
     res.algorithm = "CMS/DETACHED+SHA256";
 
     CMS_BIO_ptr in(BIO_new_mem_buf(data.data(), static_cast<int>(data.size())));
-    if (!in) throw std::runtime_error("BIO_new_mem_buf failed");
+    if (!in) {
+      throw std::runtime_error("BIO_new_mem_buf failed");
+    }
 
     CMS_ContentInfo_ptr cms(CMS_sign(cert_.get(), pkey_.get(), nullptr, in.get(), CMS_DETACHED | CMS_BINARY));
     if (!cms) {
@@ -81,16 +83,24 @@ bool CMSSigningService::verify(const std::vector<uint8_t>& data,
                                 const std::vector<uint8_t>& signature,
                                 const std::string& /*key_id*/) {
     CMS_BIO_ptr sig_bio(BIO_new_mem_buf(signature.data(), static_cast<int>(signature.size())));
-    if (!sig_bio) return false;
+    if (!sig_bio) {
+      return false;
+    }
 
     CMS_ContentInfo_ptr cms(d2i_CMS_bio(sig_bio.get(), nullptr));
-    if (!cms) return false;
+    if (!cms) {
+      return false;
+    }
 
     CMS_BIO_ptr in(BIO_new_mem_buf(data.data(), static_cast<int>(data.size())));
-    if (!in) return false;
+    if (!in) {
+      return false;
+    }
 
     CMS_X509_STORE_ptr store(X509_STORE_new());
-    if (!store) return false;
+    if (!store) {
+      return false;
+    }
 
     // Add our cert as trusted for verification (self-signed test use-case)
     if (X509_STORE_add_cert(store.get(), cert_.get()) != 1) {

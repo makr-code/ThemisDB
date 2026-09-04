@@ -75,7 +75,7 @@ TEST(SagaPluginBridgeFocusedTest, BindsSagaOrchestratorFromRuntimePluginDirector
 
     const fs::path stage_dir =
         fs::temp_directory_path() / "themis_saga_plugin_bridge_stage";
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(stage_dir, ec);
     fs::create_directories(stage_dir, ec);
     ASSERT_FALSE(ec) << "Failed to create stage directory: " << stage_dir.string();
@@ -148,7 +148,7 @@ TEST(SagaPluginBridgeFocusedTest, ReturnsErrorWhenPluginBinaryIsMissing) {
     manager.clearReloadListeners();
 
     const fs::path temp_dir = fs::temp_directory_path() / "themis_saga_plugin_bridge_missing_bin";
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(temp_dir, ec);
     fs::create_directories(temp_dir, ec);
     ASSERT_FALSE(ec) << "Failed to create temporary plugin directory: " << temp_dir.string();

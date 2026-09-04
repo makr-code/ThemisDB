@@ -73,7 +73,7 @@ std::string sha256FileHex(const std::string& path) {
     }
     EVP_MD_CTX_free(ctx);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < hash_len; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(hash[i]);
@@ -121,7 +121,7 @@ AdapterRegistry::~AdapterRegistry() {
 
 size_t AdapterRegistry::count() const {
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
-    return registry_.size();
+    return static_cast<int>(registry_.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -156,7 +156,7 @@ bool AdapterRegistry::loadFromPlugin(const std::string& path,
 
     // ---- 2. File existence check -----
     {
-        std::error_code ec;
+        std::error_code ec = {};
         if (!std::filesystem::exists(path, ec) || ec) {
             std::cerr << "[AdapterRegistry] loadFromPlugin: file not found: "
                       << path << '\n';
@@ -183,7 +183,7 @@ bool AdapterRegistry::loadFromPlugin(const std::string& path,
             }
 
             // Signature file format: single line containing the SHA-256 hex digest
-            std::string expected_digest;
+            std::string expected_digest = {};
             std::getline(sig_file, expected_digest);
             // Trim trailing whitespace / CR
             while (!expected_digest.empty() &&

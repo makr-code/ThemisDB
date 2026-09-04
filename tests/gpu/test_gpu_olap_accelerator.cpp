@@ -169,7 +169,8 @@ protected:
     // Build GPUQueryAccelerator rows from a vector of double values.
     static std::vector<themis::gpu::GPUQueryAccelerator::Row>
     makeRows(const std::vector<double>& values) {
-        std::vector<themis::gpu::GPUQueryAccelerator::Row> rows;
+        std::vector<themis::gpu::GPUQueryAccelerator::Row> rows = {};
+
         rows.reserve(values.size());
         for (size_t i = 0; i < values.size(); ++i) {
             themis::gpu::GPUQueryAccelerator::Row row;
@@ -183,8 +184,10 @@ protected:
 
     // Extract the double payload stored in a Row.
     static double extractValue(const themis::gpu::GPUQueryAccelerator::Row& r) {
-        if (r.data.size() < sizeof(double)) return 0.0;
-        double v;
+        if (r.data.size() < sizeof(double)) {
+          return 0.0;
+        }
+        double v = 0;
         std::memcpy(&v, r.data.data(), sizeof(double));
         return v;
     }

@@ -347,7 +347,9 @@ TEST(LLMExceptionSafety, EmptyLLMEmbedReturnsValue) {
     EXPECT_FALSE(result.empty());
     // Check rough normalisation (norm ≈ 1.0)
     float norm = 0.0f;
-    for (float v : result) norm += v * v;
+    for (float v : result) {
+      norm += v * v;
+    }
     EXPECT_NEAR(std::sqrt(norm), 1.0f, 0.01f);
 }
 
@@ -485,7 +487,9 @@ TEST(LLMExceptionSafety, ConcurrentEmbedCallsDoNotCorruptState) {
                                          "-call-" + std::to_string(c);
                 try {
                     auto emb = llm.embed(text);
-                    if (emb.empty()) ++errors;
+                    if (emb.empty()) {
+                      ++errors;
+                    }
                 } catch (...) {
                     ++errors;
                 }
@@ -493,7 +497,9 @@ TEST(LLMExceptionSafety, ConcurrentEmbedCallsDoNotCorruptState) {
         });
     }
 
-    for (auto& w : workers) w.join();
+    for (auto& w : workers) {
+      w.join();
+    }
 
     EXPECT_EQ(errors.load(), 0)
         << "concurrent embed() calls must all return non-empty results without throwing";

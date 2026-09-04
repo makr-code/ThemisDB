@@ -144,12 +144,12 @@ std::string cacheKey(const std::string& tenant, const std::string& adapter_name)
 
 struct AdaLoraTTBridge::Impl {
     std::shared_ptr<storage::TensorNetworkStorageEngine> engine;
-    AdaLoraTTBridgeConfig cfg;
+    AdaLoraTTBridgeConfig cfg = AdaLoraTTBridgeConfig();
     mutable BridgeStats stats_data{};
     mutable graph::TensorFingerprintGraph fingerprint_graph{};
     mutable std::mutex fingerprint_graph_mutex; ///< Guards fingerprint_graph
 
-    MapAdapterFn map_adapter_fn;
+    MapAdapterFn map_adapter_fn = MapAdapterFn();
     mutable std::mutex map_adapter_mutex;
 
     mutable std::mutex cache_mutex;
@@ -192,7 +192,7 @@ AdaLoraTTLayerExport AdaLoraTTBridge::exportLayer(const AdaLoRAAdapter& adapter,
                                                    const std::string& layer_name) const {
     const auto all_stats = adapter.getLayerStats();
     const auto it = std::find_if(all_stats.begin(), all_stats.end(),
-                                 [&](const AdaLoRALayerStats& s) {
+                                 [&]([[maybe_unused]] const AdaLoRALayerStats& s) {
                                      return s.layer_name == layer_name;
                                  });
     if (it == all_stats.end()) {
@@ -210,7 +210,7 @@ AdaLoraTTLayerExport AdaLoraTTBridge::exportLayer(const AdaLoRAAdapter& adapter,
     if (impl_->cfg.max_tt_rank > 0 && max_rank > impl_->cfg.max_tt_rank) {
         throw std::invalid_argument("Layer rank exceeds max_tt_rank: " + layer_name);
     }
-    if (B.size() % max_rank != 0 || A.size() % max_rank != 0) {
+    if (B.size() % max_rank != 0 || static_cast<int>(A.size()) % max_rank != 0) {
         throw std::invalid_argument("Invalid matrix shape for layer: " + layer_name);
     }
 
@@ -241,7 +241,7 @@ AdaLoraTTLayerExport AdaLoraTTBridge::exportLayer(const AdaLoRAAdapter& adapter,
 
     ++impl_->stats_data.exports_total;
 
-    AdaLoraTTLayerExport out;
+    AdaLoraTTLayerExport out = AdaLoraTTLayerExport();
     out.layer_name = layer_name;
     out.train = std::move(train);
     out.active_rank = active_rank;
@@ -253,7 +253,7 @@ AdaLoraTTLayerExport AdaLoraTTBridge::exportLayer(const AdaLoRAAdapter& adapter,
 AdaLoraTTExport AdaLoraTTBridge::exportToTT(const AdaLoRAAdapter& adapter,
                                              const std::string& adapter_name,
                                              const std::string& tenant) const {
-    AdaLoraTTExport out;
+    AdaLoraTTExport out = AdaLoraTTExport();
     out.adapter_name = adapter_name;
     out.tenant = tenant;
 
@@ -286,7 +286,7 @@ AdaLoRAAdapter AdaLoraTTBridge::importFromTT(const AdaLoraTTExport& exp) const {
     AdaLoRAAdapter adapter(max_rank, 8.0f, std::max<std::size_t>(1, total_budget));
 
     for (const auto& layer : exp.layers) {
-        if (layer.train.cores.size() != 2) {
+        if (static_cast<int>(layer.train.cores.size()) != 2) {
             continue;
         }
 
@@ -347,7 +347,7 @@ std::optional<AdaLoRAAdapter> AdaLoraTTBridge::loadAdapter(const std::string& te
 }
 
 std::size_t AdaLoraTTBridge::roundAndReallocate(AdaLoraTTExport& exp, double eps) const {
-    TrainingStepFn step_fn;
+    TrainingStepFn step_fn = TrainingStepFn();
     {
         std::lock_guard<std::mutex> lk(trainingStepFnMutex());
         step_fn = trainingStepFnStorage();
@@ -400,7 +400,8 @@ AdaLoraTTBridge::findSimilarAdapters(const AdaLoraTTExport& query_exp,
         }
     }
 
-    std::vector<SimilarAdapter> out;
+    std::vector<SimilarAdapter> out = {};
+
     out.reserve(best_by_adapter.size());
     for (const auto& kv : best_by_adapter) {
         out.push_back(kv.second);
@@ -409,7 +410,7 @@ AdaLoraTTBridge::findSimilarAdapters(const AdaLoraTTExport& query_exp,
     std::sort(out.begin(), out.end(), [](const SimilarAdapter& a, const SimilarAdapter& b) {
         return a.similarity > b.similarity;
     });
-    if (out.size() > top_k) {
+    if (static_cast<int>(out.size()) > top_k) {
         out.resize(top_k);
     }
     return out;
@@ -434,7 +435,7 @@ void AdaLoraTTBridge::clearMapAdapterFn() {
 }
 
 bool AdaLoraTTBridge::mapAdapter(const AdaLoraTTExport& exp) const {
-    MapAdapterFn fn_copy;
+    MapAdapterFn fn_copy = MapAdapterFn();
     {
         std::lock_guard<std::mutex> lk(impl_->map_adapter_mutex);
         fn_copy = impl_->map_adapter_fn;

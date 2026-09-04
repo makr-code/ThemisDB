@@ -40,7 +40,7 @@ VoiceStreamValidator::VoiceStreamValidator(const std::string& session_id,
     }
 }
 
-void VoiceStreamValidator::validate_size(size_t chunk_size) {
+void VoiceStreamValidator::validate_size([[maybe_unused]] size_t chunk_size) {
     if (chunk_size == 0) {
         throw StreamValidationError("Chunk size cannot be zero", chunk_size, __LINE__);
     }
@@ -49,7 +49,7 @@ void VoiceStreamValidator::validate_size(size_t chunk_size) {
     }
 }
 
-void VoiceStreamValidator::validate_sequence(uint32_t sequence_num) {
+void VoiceStreamValidator::validate_sequence([[maybe_unused]] uint32_t sequence_num) {
     if (chunks_validated_ > 0 && sequence_num != last_sequence_num_ + 1) {
         throw StreamValidationError(
             "Non-sequential chunk: expected " + std::to_string(last_sequence_num_ + 1) +
@@ -58,7 +58,7 @@ void VoiceStreamValidator::validate_sequence(uint32_t sequence_num) {
     }
 }
 
-void VoiceStreamValidator::validate_duration(uint64_t timestamp_ms) {
+void VoiceStreamValidator::validate_duration([[maybe_unused]] uint64_t timestamp_ms) {
     if (timestamp_ms / 1000 > StreamValidationPolicy::MAX_STREAM_DURATION_SECONDS) {
         throw StreamValidationError(
             "Stream duration exceeds maximum",

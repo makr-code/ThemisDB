@@ -540,8 +540,12 @@ class GPUCPUParityTest : public ::testing::Test {
   
   // Check result parity with tolerance
   static bool results_match(float a, float b, float tolerance = 1e-5) {
-    if (std::isnan(a) && std::isnan(b)) return true;
-    if (std::isinf(a) && std::isinf(b)) return true;
+    if (std::isnan(a) && std::isnan(b)) {
+      return true;
+    }
+    if (std::isinf(a) && std::isinf(b)) {
+      return true;
+    }
     float abs_diff = std::abs(a - b);
     float rel_error = (b != 0.0f) ? abs_diff / std::abs(b) : abs_diff;
     return rel_error <= tolerance;

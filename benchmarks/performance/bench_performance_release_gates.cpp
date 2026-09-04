@@ -106,7 +106,9 @@ static void BM_PoolAcquireResult_Batch(benchmark::State& state) {
     const int N = static_cast<int>(state.range(0));
     for (auto _ : state) {
         std::vector<PoolAcquireResult> v(static_cast<size_t>(N));
-        for (auto& r : v) r.acquired = true;
+        for (auto& r : v) {
+          r.acquired = true;
+        }
         benchmark::DoNotOptimize(v.data());
     }
     state.SetItemsProcessed(state.iterations() * N);

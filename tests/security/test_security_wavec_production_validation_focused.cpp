@@ -75,8 +75,8 @@ public:
     }
 
 private:
-    std::string name_;
-    std::string previous_;
+    std::string name_ = {};
+    std::string previous_ = {};
     bool had_previous_{false};
 };
 
@@ -385,7 +385,7 @@ TEST(SecurityWaveCPhase3Validation, ConcurrentPolicyUpdatesRemainAtomicForReader
 TEST(SecurityWaveCExitValidation, SustainedLoadIntegrityHasNoLostAuditEvents) {
     std::atomic<std::uint64_t> next_sequence{1};
     std::vector<std::uint64_t> sequences;
-    std::mutex sequence_mutex;
+    std::mutex sequence_mutex = {};
 
     constexpr int kThreads = 8;
     constexpr int kEventsPerThread = 4000;

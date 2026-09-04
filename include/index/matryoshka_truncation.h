@@ -194,7 +194,9 @@ public:
     {
         // Empty dataset: treat as a successful no-op to keep semantics consistent
         // across backends (some, e.g. ScaNN, return false for count == 0).
-        if (count == 0) return true;
+        if (count == 0) {
+          return true;
+        }
 
         // Materialise the truncated flat array once and hand it to the backend.
         const size_t td = trunc_.trunc_dim();

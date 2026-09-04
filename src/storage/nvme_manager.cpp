@@ -69,7 +69,7 @@ static int themis_io_uring_enter(int fd, unsigned to_submit, unsigned min_comple
 #    define BLKREPORTZONE _IOWR(0x12, 130, struct blk_zone_report)
 struct blk_zone_range { uint64_t sector; uint64_t nr_sectors; };
 struct blk_zone {
-    uint64_t start; uint64_t len; uint64_t wp;
+    uint64_t start = 0; uint64_t len; uint64_t wp;
     uint8_t  type;  uint8_t  cond; uint8_t  non_seq; uint8_t reserved[36];
 };
 #pragma GCC diagnostic push
@@ -148,7 +148,7 @@ bool NVMeManager::initialize() {
     bool enable_zns = false;
     bool direct_io_requested = false;
     uint32_t io_uring_queue_depth = 0;
-    std::string device_path;
+    std::string device_path = {};
     {
         std::lock_guard<std::mutex> state_lock(state_mutex_);
         enable_io_uring = config_.enable_io_uring;
@@ -279,7 +279,7 @@ NVMeCapabilities NVMeManager::detectCapabilities() const {
             std::string zoned_path = "/sys/block/" + dev_name + "/queue/zoned";
             std::ifstream zoned_file(zoned_path);
             if (zoned_file.is_open()) {
-                std::string zoned_val;
+                std::string zoned_val = {};
                 zoned_file >> zoned_val;
                 caps.zns_available = (zoned_val == "host-managed" ||
                                        zoned_val == "host-aware");
@@ -516,7 +516,7 @@ int NVMeManager::pollCompletions(std::vector<NVMeIOResult>& results,
 // ZNS zone management
 // ─────────────────────────────────────────────────────────────────────────────
 
-bool NVMeManager::resetZone(uint64_t zone_offset) {
+bool NVMeManager::resetZone([[maybe_unused]] uint64_t zone_offset) {
     if (!config_.enable_zns || config_.device_path.empty()) {
         return false;
     }
@@ -549,7 +549,7 @@ bool NVMeManager::resetZone(uint64_t zone_offset) {
 #endif
 }
 
-bool NVMeManager::finishZone(uint64_t zone_offset) {
+bool NVMeManager::finishZone([[maybe_unused]] uint64_t zone_offset) {
     if (!config_.enable_zns || config_.device_path.empty()) {
         return false;
     }
@@ -582,7 +582,7 @@ bool NVMeManager::finishZone(uint64_t zone_offset) {
 #endif
 }
 
-uint64_t NVMeManager::getZoneWritePointer(uint64_t zone_offset) const {
+uint64_t NVMeManager::getZoneWritePointer([[maybe_unused]] uint64_t zone_offset) const {
     if (!config_.enable_zns || config_.device_path.empty()) {
         return UINT64_MAX;
     }
@@ -638,9 +638,9 @@ std::pair<bool, bool> NVMeManager::recommendedDirectIOFlags() const {
 uint32_t NVMeManager::recommendedBackgroundThreads() const {
     auto caps = detectCapabilities();
     // Heuristic: 2× hardware queues, bounded to [2, 16]
-    uint32_t threads = caps.hw_queue_count * 2u;
-    threads = std::max(threads, 2u);
-    threads = std::min(threads, 16u);
+    uint32_t threads = caps.hw_queue_count * 2;
+    threads = std::max(threads, 2);
+    threads = std::min(threads, 16);
     return threads;
 }
 
@@ -670,21 +670,25 @@ uint32_t NVMeManager::readHwQueueCount() const {
     if (!config_.device_path.empty()) {
         std::string dev_name = config_.device_path;
         auto pos = dev_name.rfind('/');
-        if (pos != std::string::npos) dev_name = dev_name.substr(pos + 1);
+        if (pos != std::string::npos) {
+          dev_name = dev_name.substr(pos + 1);
+        }
 
         std::string sysfs_path = "/sys/block/" + dev_name + "/queue/nr_hw_queues";
         std::ifstream f(sysfs_path);
         if (f.is_open()) {
             uint32_t count = 1;
             f >> count;
-            if (count > 0) return count;
+            if (count > 0) {
+              return count;
+            }
         }
     }
     // Fallback: use nproc as a conservative estimate
     long nproc = ::sysconf(_SC_NPROCESSORS_ONLN);
-    return nproc > 0 ? static_cast<uint32_t>(nproc) : 1u;
+    return nproc > 0 ? static_cast<uint32_t>(nproc) : 1;
 #else
-    return 1u;
+    return 1;
 #endif
 }
 

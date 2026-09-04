@@ -74,7 +74,9 @@ class StreamingResultCollector {
                           std::chrono::milliseconds recovery_time) {
     std::lock_guard<std::mutex> lock(mu_);
     faults_injected_++;
-    if (recovery_success) faults_recovered_++;
+    if (recovery_success) {
+      faults_recovered_++;
+    }
     recovery_latency_sum_ms_ += recovery_time.count();
   }
   
@@ -85,7 +87,9 @@ class StreamingResultCollector {
   }
   
   void FlushToFile() {
-    if (!output_file_.is_open()) return;
+    if (!output_file_.is_open()) {
+      return;
+    }
     
     auto now = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
@@ -156,7 +160,7 @@ static void BenchmarkTelemetrySoak24h(benchmark::State& state) {
       "wave9-soak-metrics");
   
   // Network fault injector
-  std::random_device rd;
+  std::random_device rd = {};
   std::mt19937 gen(42);  // Fixed seed for reproducibility
   std::uniform_real_distribution<> fault_prob(0.0, 1.0);
   

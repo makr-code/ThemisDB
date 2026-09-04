@@ -43,7 +43,7 @@ std::vector<std::vector<float>> generateRandomVectors(size_t count, size_t dimen
     std::vector<std::vector<float>> vectors;
     vectors.reserve(count);
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dis(-1.0f, 1.0f);
     
@@ -106,7 +106,8 @@ int main() {
         std::cout << "3. Adding vectors to index...\n";
         auto startAdd = std::chrono::high_resolution_clock::now();
         
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         for (size_t i = 0; i < NUM_VECTORS; ++i) {
             ids.push_back("vec_" + std::to_string(i));
         }

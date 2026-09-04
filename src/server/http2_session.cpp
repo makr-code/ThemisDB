@@ -44,13 +44,13 @@ static int alpn_select_callback(SSL* ssl, const unsigned char** out,
     return SSL_TLSEXT_ERR_NOACK;
 }
 
-void Http2Handler::configureAlpn(boost::asio::ssl::context& ssl_ctx) {
+void Http2Handler::configureAlpn([[maybe_unused]] boost::asio::ssl::context& ssl_ctx) {
     SSL_CTX* native_ctx = ssl_ctx.native_handle();
     SSL_CTX_set_alpn_select_cb(native_ctx, alpn_select_callback, nullptr);
     THEMIS_INFO("HTTP/2 ALPN configured (h2, http/1.1)");
 }
 
-bool Http2Handler::isHttp2Negotiated(SSL* ssl) {
+bool Http2Handler::isHttp2Negotiated([[maybe_unused]] SSL* ssl) {
     const unsigned char* alpn = nullptr;
     unsigned int alpn_len = 0;
     SSL_get0_alpn_selected(ssl, &alpn, &alpn_len);
@@ -136,14 +136,14 @@ void Http2Session::onHandshake(boost::system::error_code ec) {
     }
     
     // Check if HTTP/2 was negotiated
-    if (!Http2Handler::isHttp2Negotiated(stream_.native_handle())) {
+    if ([[maybe_unused]] !Http2Handler::isHttp2Negotiated(stream_.native_handle())) {
         THEMIS_WARN("HTTP/2 not negotiated, this session should use HTTP/1.1 handler");
         return;
     }
     
     // Initialize nghttp2 session
     nghttp2_session_callbacks* callbacks;
-    nghttp2_session_callbacks_new(&callbacks);
+    nghttp2_session_callbacks_new([[maybe_unused]] &callbacks);
     
     nghttp2_session_callbacks_set_send_callback(callbacks, sendCallback);
     nghttp2_session_callbacks_set_on_frame_recv_callback(callbacks, onFrameRecvCallback);
@@ -157,7 +157,7 @@ void Http2Session::onHandshake(boost::system::error_code ec) {
     
     int rv = nghttp2_session_server_new2(&ng2_session_, callbacks, this, option);
     
-    nghttp2_session_callbacks_del(callbacks);
+    nghttp2_session_callbacks_del([[maybe_unused]] callbacks);
     nghttp2_option_del(option);
     
     if (rv != 0) {
@@ -249,7 +249,9 @@ void Http2Session::onWrite(boost::system::error_code ec, std::size_t bytes_trans
 
 void Http2Session::armReadTimer() {
     const uint32_t timeout_ms = server_->hot_request_timeout_ms_.load(std::memory_order_acquire);
-    if (timeout_ms == 0) return;
+    if (timeout_ms == 0) {
+      return;
+    }
     read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
     const std::weak_ptr<Http2Session> weak_self = weak_from_this();
     read_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
@@ -279,7 +281,9 @@ void Http2Session::cancelReadTimer() {
 
 void Http2Session::armWriteTimer() {
     const uint32_t timeout_ms = server_->hot_request_timeout_ms_.load(std::memory_order_acquire);
-    if (timeout_ms == 0) return;
+    if (timeout_ms == 0) {
+      return;
+    }
     write_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
     const std::weak_ptr<Http2Session> weak_self = weak_from_this();
     write_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
@@ -383,7 +387,7 @@ ssize_t Http2Session::responseDataReadCallback(nghttp2_session* /*session*/, int
         return 0;
     }
 
-    const size_t remaining = buffer->data.size() - buffer->offset;
+    const size_t remaining = buffer-> static_cast<int>(data.size()) - buffer->offset;
     const size_t to_copy = std::min(length, remaining);
 
     if (to_copy > 0) {
@@ -391,7 +395,7 @@ ssize_t Http2Session::responseDataReadCallback(nghttp2_session* /*session*/, int
         buffer->offset += to_copy;
     }
 
-    if (buffer->offset >= buffer->data.size()) {
+    if (buffer->offset >= buffer-> static_cast<int>(data.size())) {
         *data_flags |= NGHTTP2_DATA_FLAG_EOF;
         std::lock_guard<std::mutex> lock(self->response_mutex_);
         self->response_buffers_.erase(stream_id);
@@ -531,7 +535,8 @@ void Http2Session::processStream(int32_t stream_id) {
         "transfer-encoding", "connection", "keep-alive", "upgrade",
         "proxy-connection", "te"
     };
-    std::unordered_map<std::string, std::string> response_headers;
+    std::unordered_map<std::string, std::string> response_headers = {};
+
     for (const auto& header : response) {
         bool skip = false;
         for (const auto& hop : kHopByHop) {
@@ -582,7 +587,7 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
     data_prd.source.ptr = nullptr;
     data_prd.read_callback = responseDataReadCallback;
     
-    int rv = nghttp2_submit_response(ng2_session_, stream_id, nva.data(), nva.size(), &data_prd);
+    int rv = nghttp2_submit_response(ng2_session_, stream_id, nva.data(),static_cast<int>(nva.size()), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response failed: {}", nghttp2_strerror(rv));
         std::lock_guard<std::mutex> lock(response_mutex_);
@@ -640,7 +645,7 @@ void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_pat
     // Submit push promise
     int32_t promised_stream_id = -1;
     int rv = nghttp2_submit_push_promise(ng2_session_, NGHTTP2_FLAG_NONE, stream_id,
-                                         nva.data(), nva.size(), &promised_stream_id);
+                                         nva.data(),static_cast<int>(nva.size()), &promised_stream_id);
     
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_push_promise failed: {}", nghttp2_strerror(rv));
@@ -722,7 +727,7 @@ void Http2Session::subscribeToCDC(int32_t stream_id) {
     THEMIS_INFO("HTTP/2 stream {} subscribed to CDC with Server Push", stream_id);
 }
 
-void Http2Session::broadcastCDCEvent(const std::string& event_data) {
+void Http2Session::broadcastCDCEvent([[maybe_unused]] const std::string& event_data) {
     std::lock_guard<std::mutex> lock(push_mutex_);
     
     // Push to all subscribed streams
@@ -733,7 +738,7 @@ void Http2Session::broadcastCDCEvent(const std::string& event_data) {
             it->second.cdc_last_sequence++;
             
             // Create unique push path for each CDC event
-            std::string push_path = "/cdc/event/" + std::to_string(it->second.cdc_last_sequence);
+            std::string push_path = "/cdc/event/" + std::to_string([[maybe_unused]] it->second.cdc_last_sequence);
             
             // Send Server Push with CDC event data
             sendServerPush(stream_id, push_path, event_data, 

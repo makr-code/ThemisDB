@@ -62,7 +62,9 @@ static void BM_VerificationResult_BatchAlloc(benchmark::State& state) {
     const int N = static_cast<int>(state.range(0));
     for (auto _ : state) {
         std::vector<VerificationResult> v(static_cast<size_t>(N));
-        for (auto& r : v) r.valid = true;
+        for (auto& r : v) {
+          r.valid = true;
+        }
         benchmark::DoNotOptimize(v.data());
     }
     state.SetItemsProcessed(state.iterations() * N);

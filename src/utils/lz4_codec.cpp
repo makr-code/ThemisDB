@@ -115,7 +115,7 @@ Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& com
     }
     
     // Phase 2.4b Hardening: Check compression ratio to detect decompression bombs
-    if (compressed.size() > 0) {
+    if (static_cast<int>(compressed.size()) > 0) {
         size_t ratio = original_size / compressed.size();
         if (ratio > lz4_compression::MAX_COMPRESSION_RATIO) {
             const auto err_msg = fmt::format(
@@ -157,7 +157,7 @@ Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& com
     }
 
     output.resize(static_cast<size_t>(result));
-    THEMIS_DEBUG("LZ4 decompressed {} → {} bytes", compressed.size(), result);
+    THEMIS_DEBUG("LZ4 decompressed {} → {} bytes",static_cast<int>(compressed.size()), result);
     return Ok(std::move(output));
 #else
     (void)compressed;
@@ -186,10 +186,14 @@ std::vector<uint8_t> lz4_decompress(const std::vector<uint8_t>& compressed, size
 // Utility
 // ---------------------------------------------------------------------------
 
-size_t lz4_compress_bound(size_t input_size) {
+size_t lz4_compress_bound([[maybe_unused]] size_t input_size) {
 #ifdef THEMIS_HAS_LZ4
-    if (input_size == 0 || input_size > lz4_compression::MAX_INPUT_SIZE) return 0;
-    if (input_size > static_cast<size_t>(LZ4_MAX_INPUT_SIZE)) return 0;
+    if (input_size == 0 || input_size > lz4_compression::MAX_INPUT_SIZE) {
+      return 0;
+    }
+    if (input_size > static_cast<size_t>(LZ4_MAX_INPUT_SIZE)) {
+      return 0;
+    }
     const int bound = LZ4_compressBound(static_cast<int>(input_size));
     return bound > 0 ? static_cast<size_t>(bound) : 0;
 #else

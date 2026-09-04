@@ -75,7 +75,7 @@ void PolicyFileWatcher::run() {
     bool pending_reload = false;
 
     if (!watched_path.empty()) {
-        std::error_code ec;
+        std::error_code ec = {};
         last_observed_mtime = fs::last_write_time(watched_path, ec);
         has_baseline = !ec;
     }
@@ -102,7 +102,7 @@ void PolicyFileWatcher::run() {
         }
 
         // Read the current mtime
-        std::error_code ec;
+        std::error_code ec = {};
         fs::file_time_type current_mtime = fs::last_write_time(watched_path, ec);
         if (ec) {
             // File temporarily unavailable (e.g. being replaced atomically)
@@ -132,7 +132,7 @@ void PolicyFileWatcher::run() {
                 std::chrono::steady_clock::now() - change_detected_at;
             if (elapsed >= config_.debounce) {
                 // Debounce window expired – trigger reload
-                std::string err;
+                std::string err = {};
                 const bool ok = engine_.reloadIfChanged(&err);
                 if (ok) {
                     reload_success_count_.fetch_add(1, std::memory_order_relaxed);

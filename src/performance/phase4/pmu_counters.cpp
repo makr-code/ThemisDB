@@ -113,7 +113,9 @@ void PmuCounter::disable() noexcept {
 }
 
 uint64_t PmuCounter::read() const noexcept {
-    if (fd_ < 0) return 0;
+    if (fd_ < 0) {
+      return 0;
+    }
     uint64_t value = 0;
     ssize_t bytes_read = ::read(fd_, &value, sizeof(value));
     if (bytes_read != static_cast<ssize_t>(sizeof(value))) {
@@ -163,15 +165,19 @@ CacheMissAnalyzer::CacheMissAnalyzer() noexcept {
 }
 
 void CacheMissAnalyzer::start() noexcept {
-    if (!available_) return;
+    if (!available_) {
+      return;
+    }
     l1d_misses_.enable();
     llc_misses_.enable();
     branch_mispredict_.enable();
 }
 
 CacheMissMetrics CacheMissAnalyzer::stop() noexcept {
-    CacheMissMetrics m;
-    if (!available_) return m;
+    CacheMissMetrics m = {};
+    if (!available_) {
+      return m;
+    }
 
     l1d_misses_.disable();
     llc_misses_.disable();
@@ -226,7 +232,7 @@ namespace {
 
 // ---- kpc API type definitions ----
 
-constexpr uint32_t kKpcClassConfigurable = 1u << 1;  // configurable PMC slots
+constexpr uint32_t kKpcClassConfigurable = 1 << 1;  // configurable PMC slots
 
 using kpc_get_counter_count_fn_t   = uint32_t (*)(uint32_t);
 using kpc_set_counting_fn_t        = int (*)(uint32_t);
@@ -266,7 +272,9 @@ struct KpcApi {
     }
 
     bool init() noexcept {
-        if (loaded) return true;
+        if (loaded) {
+          return true;
+        }
         
         try {
             const char* candidates[] = {
@@ -276,9 +284,13 @@ struct KpcApi {
             };
             for (auto* path : candidates) {
                 lib = ::dlopen(path, RTLD_LAZY | RTLD_LOCAL);
-                if (lib) break;
+                if (lib) {
+                  break;
+                }
             }
-            if (!lib) return false;
+            if (!lib) {
+              return false;
+            }
 
 #define KPC_LOAD(name) \
             name = reinterpret_cast<decltype(name)>(::dlsym(lib, #name)); \
@@ -321,7 +333,7 @@ static inline uint64_t read_platform_cycles() noexcept {
     return (static_cast<uint64_t>(hi) << 32) | lo;
 #elif defined(__aarch64__)
     // Virtual counter register — same as CycleMetrics::cpu_cycles() on ARM64
-    uint64_t val;
+    uint64_t val = 0;
     __asm__ __volatile__("mrs %0, cntvct_el0" : "=r"(val));
     return val;
 #else
@@ -341,7 +353,9 @@ static std::atomic<int>      s_fallback_slot_seq{0};
 static bool setup_kpc_counters() noexcept {
     try {
         auto& api = KpcApi::instance();
-        if (!api.init()) return false;
+        if (!api.init()) {
+          return false;
+        }
 
         if (api.set_counting(kKpcClassConfigurable) != 0) {
             return false;
@@ -351,7 +365,9 @@ static bool setup_kpc_counters() noexcept {
         }
 
         uint32_t n = api.get_counter_count(kKpcClassConfigurable);
-        if (n < 3) return false;
+        if (n < 3) {
+          return false;
+        }
 
         uint64_t configs[kKpcCounterSlots] = {};
 #if defined(__aarch64__)
@@ -401,7 +417,9 @@ bool PmuCounter::open(uint32_t /*type*/, uint64_t /*config*/) noexcept {
 }
 
 void PmuCounter::enable() noexcept {
-    if (fd_ < 0) return;
+    if (fd_ < 0) {
+      return;
+    }
     tl_fallback_starts[fd_] = read_platform_cycles();
 }
 
@@ -410,7 +428,9 @@ void PmuCounter::disable() noexcept {
 }
 
 uint64_t PmuCounter::read() const noexcept {
-    if (fd_ < 0) return 0;
+    if (fd_ < 0) {
+      return 0;
+    }
     uint64_t current = read_platform_cycles();
     uint64_t start   = tl_fallback_starts[fd_];
     return (current >= start) ? (current - start) : 0;
@@ -441,7 +461,9 @@ CacheMissAnalyzer::CacheMissAnalyzer() noexcept : available_(false) {
 }
 
 void CacheMissAnalyzer::start() noexcept {
-    if (!available_) return;
+    if (!available_) {
+      return;
+    }
     auto& api = KpcApi::instance();
     if (api.loaded) {
         // Snapshot current kpc counter values as the measurement baseline.
@@ -454,8 +476,10 @@ void CacheMissAnalyzer::start() noexcept {
 }
 
 CacheMissMetrics CacheMissAnalyzer::stop() noexcept {
-    CacheMissMetrics m;
-    if (!available_) return m;
+    CacheMissMetrics m = {};
+    if (!available_) {
+      return m;
+    }
 
     try {
         auto& api = KpcApi::instance();
@@ -579,7 +603,9 @@ bool PmuCounter::open(uint32_t /*type*/, uint64_t /*config*/) noexcept {
 }
 
 void PmuCounter::enable() noexcept {
-    if (fd_ < 0) return;
+    if (fd_ < 0) {
+      return;
+    }
     tl_win_starts[fd_] = read_platform_cycles();
 }
 
@@ -588,7 +614,9 @@ void PmuCounter::disable() noexcept {
 }
 
 uint64_t PmuCounter::read() const noexcept {
-    if (fd_ < 0) return 0;
+    if (fd_ < 0) {
+      return 0;
+    }
     uint64_t current = read_platform_cycles();
     uint64_t start   = tl_win_starts[fd_];
     return (current >= start) ? (current - start) : 0;
@@ -612,15 +640,19 @@ CacheMissAnalyzer::CacheMissAnalyzer() noexcept : available_(false) {
 }
 
 void CacheMissAnalyzer::start() noexcept {
-    if (!available_) return;
+    if (!available_) {
+      return;
+    }
     l1d_misses_.enable();
     llc_misses_.enable();
     branch_mispredict_.enable();
 }
 
 CacheMissMetrics CacheMissAnalyzer::stop() noexcept {
-    CacheMissMetrics m;
-    if (!available_) return m;
+    CacheMissMetrics m = {};
+    if (!available_) {
+      return m;
+    }
 
     l1d_misses_.disable();
     llc_misses_.disable();
@@ -673,13 +705,13 @@ static inline uint64_t read_platform_cycles() noexcept {
     __asm__ __volatile__("rdtsc" : "=a"(lo), "=d"(hi));
     return (static_cast<uint64_t>(hi) << 32) | lo;
 #elif defined(__aarch64__)
-    uint64_t val;
+    uint64_t val = 0;
     __asm__ __volatile__("mrs %0, cntvct_el0" : "=r"(val));
     return val;
 #else
     struct timespec ts{};
     ::clock_gettime(CLOCK_MONOTONIC, &ts);
-    return static_cast<uint64_t>(ts.tv_sec) * 1'000'000'000ULL
+    return static_cast<uint64_t>(ts.tv_sec) * 1'000'000'000
          + static_cast<uint64_t>(ts.tv_nsec);
 #endif
 }
@@ -710,14 +742,18 @@ bool PmuCounter::open(uint32_t /*type*/, uint64_t /*config*/) noexcept {
 }
 
 void PmuCounter::enable() noexcept {
-    if (fd_ < 0) return;
+    if (fd_ < 0) {
+      return;
+    }
     tl_rdtsc_starts[fd_] = read_platform_cycles();
 }
 
 void PmuCounter::disable() noexcept {}
 
 uint64_t PmuCounter::read() const noexcept {
-    if (fd_ < 0) return 0;
+    if (fd_ < 0) {
+      return 0;
+    }
     uint64_t current = read_platform_cycles();
     uint64_t start   = tl_rdtsc_starts[fd_];
     return (current >= start) ? (current - start) : 0;
@@ -741,15 +777,19 @@ CacheMissAnalyzer::CacheMissAnalyzer() noexcept : available_(false) {
 }
 
 void CacheMissAnalyzer::start() noexcept {
-    if (!available_) return;
+    if (!available_) {
+      return;
+    }
     l1d_misses_.enable();
     llc_misses_.enable();
     branch_mispredict_.enable();
 }
 
 CacheMissMetrics CacheMissAnalyzer::stop() noexcept {
-    CacheMissMetrics m;
-    if (!available_) return m;
+    CacheMissMetrics m = {};
+    if (!available_) {
+      return m;
+    }
 
     l1d_misses_.disable();
     llc_misses_.disable();

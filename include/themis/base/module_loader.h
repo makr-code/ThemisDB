@@ -62,8 +62,8 @@ enum class LoadStage {
  */
 struct HealthCheckResult {
     bool passed = false;
-    std::string checkName;
-    std::string message;
+    std::string checkName = {};
+    std::string message = {};
     uint64_t checkDurationMs = 0;
     
     static HealthCheckResult success(const std::string& name, const std::string& msg = "") {
@@ -939,7 +939,7 @@ public:
      * visualisation purposes.
      */
     struct RegisteredModuleInfo {
-        std::string name;
+        std::string name = {};
         std::string version;
         std::vector<ModuleDependency> deps;
     };

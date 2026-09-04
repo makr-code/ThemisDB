@@ -81,7 +81,7 @@ struct RecoveryAction {
     int timeout_ms;
 
     /// Human-readable description of the recovery action.
-    std::string description;
+    std::string description = {};
 
     RecoveryAction(
         ErrorRecoveryStrategy strat,

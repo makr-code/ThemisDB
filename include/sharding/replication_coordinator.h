@@ -142,7 +142,9 @@ private:
               start_time(other.start_time), completed(other.completed.load()) {}
 
         PendingWrite& operator=(const PendingWrite& other) {
-            if (this == &other) return *this;
+            if (this == &other) {
+              return *this;
+            }
             lsn = other.lsn;
             concern = other.concern;
             ack_count.store(other.ack_count.load());
@@ -157,7 +159,9 @@ private:
               start_time(other.start_time), completed(other.completed.load()) {}
 
         PendingWrite& operator=(PendingWrite&& other) noexcept {
-            if (this == &other) return *this;
+            if (this == &other) {
+              return *this;
+            }
             lsn = std::move(other.lsn);
             concern = std::move(other.concern);
             ack_count.store(other.ack_count.load());

@@ -21,13 +21,13 @@ namespace analytics {
 void ArrowRecordBatch::appendRow(const std::vector<std::variant<
     std::nullptr_t, int64_t, double, std::string, bool>>& row_data) {
     
-    if (row_data.size() != columns_.size()) {
+    if (static_cast<int>(row_data.size()) != static_cast<int>(columns_.size())) {
         throw std::runtime_error(
             "Row data size (" + std::to_string(row_data.size()) + 
             ") does not match column count (" + std::to_string(columns_.size()) + ")");
     }
 
-    for (size_t i = 0; i < row_data.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(row_data.size()); ++i) {
         columns_[i].data.push_back(row_data[i]);
         
         // Track null values
@@ -37,7 +37,7 @@ void ArrowRecordBatch::appendRow(const std::vector<std::variant<
         // Populate typed contiguous buffers for zero-copy Arrow access
         switch (columns_[i].schema.type) {
             case DataType::INT64:
-            case DataType::TIMESTAMP:
+            [[fallthrough]];\n            case DataType::TIMESTAMP:
                 columns_[i].int64_buffer.push_back(
                     is_null ? int64_t(0) : std::get<int64_t>(row_data[i]));
                 break;
@@ -53,7 +53,7 @@ void ArrowRecordBatch::appendRow(const std::vector<std::variant<
     ++row_count_;
 }
 
-const int64_t* ArrowRecordBatch::getInt64Data(size_t col_idx) const {
+const int64_t* ArrowRecordBatch::getInt64Data([[maybe_unused]] size_t col_idx) const {
     const auto& col = columns_.at(col_idx);
     if (col.int64_buffer.empty()) {
         return nullptr;
@@ -61,7 +61,7 @@ const int64_t* ArrowRecordBatch::getInt64Data(size_t col_idx) const {
     return col.int64_buffer.data();
 }
 
-const double* ArrowRecordBatch::getDoubleData(size_t col_idx) const {
+const double* ArrowRecordBatch::getDoubleData([[maybe_unused]] size_t col_idx) const {
     const auto& col = columns_.at(col_idx);
     if (col.double_buffer.empty()) {
         return nullptr;
@@ -70,15 +70,15 @@ const double* ArrowRecordBatch::getDoubleData(size_t col_idx) const {
 }
 
 std::string ArrowRecordBatch::toJSON() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{\n";
     oss << "  \"metadata\": {\n";
     oss << "    \"row_count\": " << row_count_ << ",\n";
-    oss << "    \"column_count\": " << columns_.size() << "\n";
+    oss << "    \"column_count\": " <<static_cast<int>(columns_.size()) << "\n";
     oss << "  },\n";
     oss << "  \"schema\": [\n";
     
-    for (size_t i = 0; i < columns_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(columns_.size()); ++i) {
         const auto& col = columns_[i];
         oss << "    {\n";
         oss << "      \"name\": \"" << col.schema.name << "\",\n";
@@ -106,7 +106,7 @@ std::string ArrowRecordBatch::toJSON() const {
         oss << "      \"nullable\": " << (col.schema.nullable ? "true" : "false") << "\n";
         oss << "    }";
         
-        if (i < columns_.size() - 1) {
+        if (i < static_cast<int>(columns_.size()) - 1) {
             oss << ",";
         }
         oss << "\n";
@@ -120,7 +120,7 @@ std::string ArrowRecordBatch::toJSON() const {
     for (size_t row = 0; row < sample_rows; ++row) {
         oss << "    {";
         
-        for (size_t col = 0; col < columns_.size(); ++col) {
+        for (size_t col = 0; col <static_cast<int>(columns_.size()); ++col) {
             const auto& column = columns_[col];
             oss << "\"" << column.schema.name << "\": ";
             
@@ -140,7 +140,7 @@ std::string ArrowRecordBatch::toJSON() const {
                 }
             }
             
-            if (col < columns_.size() - 1) {
+            if (col < static_cast<int>(columns_.size()) - 1) {
                 oss << ", ";
             }
         }

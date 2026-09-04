@@ -101,7 +101,9 @@ public:
      */
     void initialize() {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (initialized_) return;
+        if (initialized_) {
+          return;
+        }
         
         registerBuiltinCalendars();
         initialized_ = true;
@@ -171,7 +173,8 @@ public:
             initialized_ = true;
         }
         
-        std::vector<std::string> names;
+        std::vector<std::string> names = {};
+
         names.reserve(calendars_.size());
         
         for (const auto& [name, cal] : calendars_) {
@@ -250,7 +253,7 @@ public:
             throw std::runtime_error("Cannot open calendar file: " + filePath);
         }
         
-        std::stringstream buffer;
+        std::stringstream buffer = {};
         buffer << file.rdbuf();
         std::string content = buffer.str();
         file.close();

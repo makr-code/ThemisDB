@@ -121,7 +121,9 @@ TEST(LoggerProduction, MetricsThreadSafe) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     auto snap = Logger::getMetrics().snapshot();
     EXPECT_GE(snap.info_count, static_cast<uint64_t>(kThreads * kMsgsPerThread));

@@ -41,7 +41,9 @@ public:
 
     std::optional<std::vector<uint8_t>> get(const std::string& key) override {
         auto it = store_.find(key);
-        if (it == store_.end()) return std::nullopt;
+        if (it == store_.end()) {
+          return std::nullopt;
+        }
         return it->second;
     }
 

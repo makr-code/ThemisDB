@@ -56,7 +56,7 @@ bool CostBasedRateLimiter::allowRequest(const std::string& client_id,
 
     auto it = clients_.find(client_id);
     if (it == clients_.end()) {
-        if (clients_.size() >= config_.max_clients) {
+        if (static_cast<int>(clients_.size()) > = config_.max_clients) {
             THEMIS_WARN("CostBasedRateLimiter: max_clients ({}) reached; "
                         "rejecting new client '{}'",
                         config_.max_clients, client_id);
@@ -99,7 +99,7 @@ size_t CostBasedRateLimiter::getRemainingBudget(
 size_t CostBasedRateLimiter::getActiveClients() const
 {
     std::lock_guard<std::mutex> lock(clients_mutex_);
-    return clients_.size();
+    return static_cast<int>(clients_.size());
 }
 
 void CostBasedRateLimiter::cleanupExpired()

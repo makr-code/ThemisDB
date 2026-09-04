@@ -81,7 +81,7 @@ TEST(DisasterRecoveryEdgeDRE01, EmptyPlanIdRejected) {
     DisasterRecoveryPlan plan = makeMinimalDryRunPlan();
     plan.plan_id = "";
 
-    std::string error;
+    std::string error = {};
     EXPECT_FALSE(mgr.validatePlan(plan, error));
     EXPECT_FALSE(error.empty()) << "Error message must be populated on rejection";
 }
@@ -96,7 +96,7 @@ TEST(DisasterRecoveryEdgeDRE02, EmptyPrimarySiteRejected) {
     DisasterRecoveryPlan plan = makeMinimalDryRunPlan();
     plan.primary_site = "";
 
-    std::string error;
+    std::string error = {};
     EXPECT_FALSE(mgr.validatePlan(plan, error));
     EXPECT_FALSE(error.empty());
 }
@@ -111,7 +111,7 @@ TEST(DisasterRecoveryEdgeDRE03, EmptyRecoverySiteRejected) {
     DisasterRecoveryPlan plan = makeMinimalDryRunPlan();
     plan.recovery_site = "";
 
-    std::string error;
+    std::string error = {};
     EXPECT_FALSE(mgr.validatePlan(plan, error));
     EXPECT_FALSE(error.empty());
 }
@@ -127,7 +127,7 @@ TEST(DisasterRecoveryEdgeDRE04, MissingSnapshotIdRejectedForNonDryRun) {
     plan.dry_run      = false;
     plan.snapshot_id  = "";  // missing
 
-    std::string error;
+    std::string error = {};
     EXPECT_FALSE(mgr.validatePlan(plan, error));
     EXPECT_FALSE(error.empty());
 }
@@ -143,7 +143,7 @@ TEST(DisasterRecoveryEdgeDRE05, DryRunAcceptedWithoutSnapshotId) {
     plan.dry_run     = true;
     plan.snapshot_id = "";  // allowed in dry-run
 
-    std::string error;
+    std::string error = {};
     EXPECT_TRUE(mgr.validatePlan(plan, error))
         << "Dry-run must be accepted without snapshot_id; error: " << error;
 }

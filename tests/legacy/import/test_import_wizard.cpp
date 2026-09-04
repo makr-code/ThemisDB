@@ -15,7 +15,7 @@
 // ===========================================================================
 class ImportWizardHtmlTest : public ::testing::Test {
 protected:
-    std::string html_;
+    std::string html_ = {};
     void SetUp() override {
         html_ = themis::server::buildImportWizardHtml();
     }

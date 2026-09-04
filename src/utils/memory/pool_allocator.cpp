@@ -32,13 +32,15 @@ constexpr int PEAK_UPDATE_MAX_RETRIES = 10;  // Max retries for atomic peak memo
 constexpr size_t STACK_ALLOC_RESERVE_RATIO = 256;  // Reserve 1/256th of capacity for tracking
 
 // Helper function to check if a number is a power of 2
-static inline bool isPowerOfTwo(size_t n) {
+static inline bool isPowerOfTwo([[maybe_unused]] size_t n) {
     return n > 0 && (n & (n - 1)) == 0;
 }
 
 // Helper function to get next power of 2
-static inline size_t nextPowerOfTwo(size_t n) {
-    if (n == 0) return 1;
+static inline size_t nextPowerOfTwo([[maybe_unused]] size_t n) {
+    if (n == 0) {
+      return 1;
+    }
     n--;
     n |= n >> 1;
     n |= n >> 2;
@@ -59,7 +61,7 @@ static inline size_t alignSize(size_t size, size_t alignment) {
 // ============================================================================
 
 struct BuddyAllocator::Block {
-    size_t size;
+    size_t size = 0;
     bool is_free;
     uintptr_t next;  // Address of next free block (0 if none)
 };
@@ -77,7 +79,7 @@ struct BuddyAllocator::Impl {
     // Block metadata (address -> block info) - use std::map for stable pointers
     std::map<uintptr_t, Block> blocks;
     
-    std::mutex mutex;
+    std::mutex mutex = {};
     
     Impl(size_t total, size_t min_block)
         : total_size(total), min_block_size(min_block) {
@@ -118,7 +120,7 @@ struct BuddyAllocator::Impl {
     
     ~Impl() noexcept = default;
     
-    size_t getOrder(size_t size) {
+    size_t getOrder([[maybe_unused]] size_t size) {
         size_t order = 0;
         size_t block_size = min_block_size;
         while (block_size < size && order < max_order) {
@@ -128,14 +130,16 @@ struct BuddyAllocator::Impl {
         return order;
     }
     
-    void* allocateBlock(size_t order) {
+    void* allocateBlock([[maybe_unused]] size_t order) {
         // Find a free block at this order or higher
         for (size_t i = order; i <= max_order; ++i) {
             if (free_list_heads[i] == 0) continue;  // No free block at this order
             
             uintptr_t block_addr = free_list_heads[i];
             auto it = blocks.find(block_addr);
-            if (it == blocks.end()) return nullptr;
+            if (it == blocks.end()) {
+              return nullptr;
+            }
             
             Block& block = it->second;
             free_list_heads[i] = block.next;  // Update head to next block
@@ -321,11 +325,13 @@ double BuddyAllocator::getFragmentation() const {
     size_t free_blocks = 0;
     size_t total_free_space = 0;
     
-    for (size_t i = 0; i < impl_->free_list_heads.size(); ++i) {
+    for (size_t i = 0; i < impl_-> static_cast<int>(free_list_heads.size()); ++i) {
         uintptr_t block_addr = impl_->free_list_heads[i];
         while (block_addr != 0) {
             auto it = impl_->blocks.find(block_addr);
-            if (it == impl_->blocks.end()) break;
+            if (it == impl_->blocks.end()) {
+              break;
+            }
             free_blocks++;
             total_free_space += it->second.size;
             block_addr = it->second.next;
@@ -354,10 +360,10 @@ double BuddyAllocator::getFragmentation() const {
 
 struct SlabAllocator::Slab {
     std::unique_ptr<uint8_t[]> memory;
-    size_t object_size;
-    size_t object_count;
+    size_t object_size = {};
+    size_t object_count = {};
     std::vector<bool> free_map;
-    size_t free_count;
+    size_t free_count = {};
     std::unique_ptr<Slab> next;
     
     Slab(size_t obj_size, size_t obj_count)
@@ -416,14 +422,14 @@ struct SlabAllocator::Slab {
 };
 
 struct SlabAllocator::Impl {
-    size_t object_size;
-    size_t objects_per_slab;
-    size_t max_slabs;
+    size_t object_size = 0;
+    size_t objects_per_slab = {};
+    size_t max_slabs = {};
     
     std::unique_ptr<Slab> head_slab;
-    size_t slab_count;
+    size_t slab_count = {};
     
-    std::mutex mutex;
+    std::mutex mutex = {};
     
     Impl(size_t obj_size, size_t objs_per_slab, size_t max)
         : object_size(obj_size), objects_per_slab(objs_per_slab),
@@ -576,15 +582,15 @@ double SlabAllocator::getUtilization() const {
 
 struct StackAllocator::Impl {
     uint8_t* memory;
-    size_t capacity;
-    size_t offset;
+    size_t capacity = {};
+    size_t offset = {};
     
     std::mutex mutex;
     
     // Track allocations for validation - store pairs of (address, size)
     std::vector<std::pair<uintptr_t, size_t>> allocation_stack;
     
-    Impl(size_t cap) : capacity(cap), offset(0) {
+    Impl([[maybe_unused]] size_t cap) : capacity(cap), offset(0) {
         memory = new uint8_t[capacity];
         std::memset(memory, 0, capacity);
         // Reserve space for allocation tracking to reduce reallocations
@@ -598,7 +604,7 @@ struct StackAllocator::Impl {
     ~Impl() noexcept = default;
 };
 
-StackAllocator::StackAllocator(size_t capacity)
+StackAllocator::StackAllocator([[maybe_unused]] size_t capacity)
     : impl_(std::make_unique<Impl>(capacity)) {
 }
 
@@ -701,7 +707,7 @@ size_t StackAllocator::savePosition() const {
     return impl_->offset;
 }
 
-Result<void> StackAllocator::restorePosition(size_t position) {
+Result<void> StackAllocator::restorePosition([[maybe_unused]] size_t position) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
     if (position > impl_->offset) {
@@ -740,7 +746,7 @@ struct PoolAllocator::Impl {
     
     // Track which allocator owns each pointer
     std::unordered_map<uintptr_t, IAllocator*> ownership;
-    std::mutex ownership_mutex;
+    std::mutex ownership_mutex = {};
     
     Impl(const Config& cfg) : config(cfg) {
         // Initialize buddy allocator
@@ -858,7 +864,7 @@ const AllocationStats& PoolAllocator::getBuddyStats() const {
     return impl_->buddy->getStats();
 }
 
-const AllocationStats& PoolAllocator::getSlabStats(size_t size) const {
+const AllocationStats& PoolAllocator::getSlabStats([[maybe_unused]] size_t size) const {
     auto it = impl_->slabs.find(size);
     if (it != impl_->slabs.end()) {
         return it->second->getStats();

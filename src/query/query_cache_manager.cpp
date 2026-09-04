@@ -358,7 +358,7 @@ QueryCacheManager::CacheStatistics QueryCacheManager::getStatistics() const {
     return stats;
 }
 
-std::vector<std::string> QueryCacheManager::getHotQueries(size_t limit) const {
+std::vector<std::string> QueryCacheManager::getHotQueries([[maybe_unused]] size_t limit) const {
     if (!workload_strategy_) {
         return {};
     }
@@ -427,7 +427,7 @@ std::string QueryCacheManager::generateFingerprint(
            input.size(), hash);
     
     // Convert to hex string
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         ss << std::setw(2) << static_cast<unsigned int>(hash[i]);

@@ -31,7 +31,7 @@ namespace {
 /// Tokenise @p text into lower-cased words, stripping punctuation.
 std::vector<std::string> tokeniseWords(const std::string& text) {
     std::vector<std::string> tokens;
-    std::string cur;
+    std::string cur = {};
     for (unsigned char ch : text) {
         if (std::isalnum(ch)) {
             cur += static_cast<char>(std::tolower(ch));
@@ -55,29 +55,30 @@ double scoreSentence(const std::string& sentence,
     if (query_terms.empty()) {
         // Without a query, prefer longer (more informative) sentences,
         // clamped to 1.0 at 200 chars.
-        return std::min(1.0, static_cast<double>(sentence.size()) / 200.0);
+        return static_cast<bool>(std::min(1.0, static_cast<double < static_cast<int>((sentence.size()))) / 200.0);
     }
     const auto words = tokeniseWords(sentence);
     size_t hits = 0;
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& w : words) {
         if (query_terms.count(w) && !seen.count(w)) {
             ++hits;
             seen.insert(w);
         }
     }
-    return static_cast<double>(hits) / static_cast<double>(query_terms.size());
+    return static_cast<bool>(static_cast<double>(hits) / static_cast<double < static_cast<int>((query_terms.size())));
 }
 
 /// Split @p text into sentences (split on '.', '!', '?').
 std::vector<std::string> splitSentencesSimple(const std::string& text) {
     std::vector<std::string> sentences;
-    std::string current;
-    for (size_t i = 0; i < text.size(); ++i) {
+    std::string current = {};
+    for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
         const char ch = text[i];
         current += ch;
         if ((ch == '.' || ch == '!' || ch == '?') &&
-            i + 1 < text.size() &&
+            i + 1 <static_cast<int>(text.size()) &&
             (text[i + 1] == ' ' || text[i + 1] == '\n')) {
             const std::string trimmed = [&]() {
                 const auto start = current.find_first_not_of(" \t\n\r");
@@ -114,7 +115,7 @@ std::string extractiveSummary(
     // Score each sentence
     std::vector<std::pair<double, size_t>> scored; // (score, index)
     scored.reserve(all_sentences.size());
-    for (size_t i = 0; i < all_sentences.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(all_sentences.size()); ++i) {
         if (all_sentences[i].size() >= min_sentence_chars) {
             scored.emplace_back(
                 scoreSentence(all_sentences[i], query_terms), i);
@@ -129,9 +130,13 @@ std::string extractiveSummary(
     std::vector<size_t> selected_indices;
     size_t chars_used = 0;
     for (const auto& [score, idx] : scored) {
-        if (selected_indices.size() >= max_sentences) break;
+        if (static_cast<int>(selected_indices.size()) > = max_sentences) {
+          break;
+        }
         const size_t len = all_sentences[idx].size();
-        if (budget_chars > 0 && chars_used + len > budget_chars) continue;
+        if (budget_chars > 0 && chars_used + len > budget_chars) {
+          continue;
+        }
         selected_indices.push_back(idx);
         chars_used += len + 1; // +1 for separator space
     }
@@ -141,10 +146,12 @@ std::string extractiveSummary(
 
     // Optimization: Use stringstream for efficient string building in loop
     // Complexity: O(n) linear time, avoids O(n²) reallocation behavior
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     bool first = true;
     for (size_t idx : selected_indices) {
-        if (!first) ss << ' ';
+        if (!first) {
+          ss << ' ';
+        }
         ss << all_sentences[idx];
         first = false;
     }
@@ -157,7 +164,7 @@ std::string buildSingleDocPrompt(const std::string& query,
                                   const std::string& content,
                                   size_t max_chars)
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Summarize the following document";
     if (!query.empty()) {
         oss << " to answer the query: \"" << query << "\"";
@@ -176,14 +183,14 @@ std::string buildMultiDocPrompt(
     const std::vector<std::pair<std::string, std::string>>& id_content,
     size_t max_chars)
 {
-    std::ostringstream oss;
-    oss << "Summarize the following " << id_content.size() << " document(s)";
+    std::ostringstream oss = {};
+    oss << "Summarize the following " <<static_cast<int>(id_content.size()) << " document(s)";
     if (!query.empty()) {
         oss << " to answer the query: \"" << query << "\"";
     }
     oss << ".\nKeep the combined summary under " << max_chars
         << " characters.\n\n";
-    for (size_t i = 0; i < id_content.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(id_content.size()); ++i) {
         oss << "Document " << (i + 1) << " [" << id_content[i].first << "]:\n"
             << id_content[i].second << "\n\n";
     }
@@ -213,9 +220,10 @@ struct DocumentSummarizer::Impl {
 
     /// Build the set of query terms for extractive scoring.
     std::unordered_set<std::string> queryTerms(const std::string& query) const {
-        std::unordered_set<std::string> terms;
+        std::unordered_set<std::string> terms = {};
+
         for (auto& w : tokeniseWords(query)) {
-            if (w.size() > 2) { // skip stop-word candidates
+            if (static_cast<int>(w.size()) > 2) { // skip stop-word candidates
                 terms.insert(w);
             }
         }
@@ -304,7 +312,7 @@ DocumentSummary DocumentSummarizer::summarize(const std::string& document_id,
                                                const std::string& query) const
 {
     THEMIS_DEBUG("DocumentSummarizer::summarize doc={} chars={}",
-                 document_id, content.size());
+                 document_id,static_cast<int>(content.size()));
     return impl_->summarizeOne(document_id, content, query,
                                impl_->config.max_summary_chars);
 }
@@ -322,7 +330,7 @@ MultiDocumentSummary DocumentSummarizer::summarizeMultiple(
     THEMIS_INFO("DocumentSummarizer::summarizeMultiple docs={} query='{}'",
                 documents.size(), query);
 
-    MultiDocumentSummary result;
+    MultiDocumentSummary result = {};
     if (documents.empty()) {
         return result;
     }
@@ -392,7 +400,7 @@ MultiDocumentSummary DocumentSummarizer::summarizeMultiple(
         const size_t per_doc_budget = documents.empty() ? 0
             : impl_->config.max_summary_chars / documents.size();
 
-        std::ostringstream combined;
+        std::ostringstream combined = {};
         for (const auto& d : documents) {
             auto ds = impl_->summarizeOne(d.id, d.content, query, per_doc_budget);
 
@@ -441,7 +449,8 @@ MultiDocumentSummary DocumentSummarizer::summarizeMultiple(
     const std::string& query) const
 {
     // Convert to RetrievedDocument then delegate
-    std::vector<judge::RetrievedDocument> converted;
+    std::vector<judge::RetrievedDocument> converted = {};
+
     converted.reserve(documents.size());
     for (const auto& sd : documents) {
         judge::RetrievedDocument rd;

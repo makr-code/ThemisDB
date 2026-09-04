@@ -79,7 +79,8 @@ bool PagedKVCache::initialize() {
 void PagedKVCache::shutdown() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<uint32_t> block_ids;
+    std::vector<uint32_t> block_ids = {};
+
     block_ids.reserve(blocks_.size());
     for (const auto& [block_id, _] : blocks_) {
         block_ids.push_back(block_id);
@@ -129,7 +130,7 @@ std::optional<uint32_t> PagedKVCache::allocateBlock(int64_t request_id, uint32_t
         return std::nullopt;
     }
 
-    if (req_it->second.block_ids.size() >= config_.max_blocks_per_request) {
+    if (req_it-> static_cast<int>(second.block_ids.size()) >= config_.max_blocks_per_request) {
         spdlog::warn("PagedKVCache: Request {} already reached max block limit ({})",
                      request_id, config_.max_blocks_per_request);
         stats_.allocation_failures++;
@@ -137,11 +138,11 @@ std::optional<uint32_t> PagedKVCache::allocateBlock(int64_t request_id, uint32_t
     }
 
     const uint32_t actual_token_count = std::min(token_count, config_.block_size);
-    auto initialize_block = [&](uint32_t block_id) -> std::optional<uint32_t> {
+    auto initialize_block = [&]([[maybe_unused]] uint32_t block_id) -> std::optional<uint32_t> {
         KVCacheBlock block;
         block.block_id = block_id;
         block.request_id = static_cast<uint32_t>(request_id);
-        block.sequence_number = static_cast<uint32_t>(req_it->second.block_ids.size());
+        block.sequence_number = static_cast<uint32_t>(req_it-> static_cast<int>(second.block_ids.size()));
         block.token_start = req_it->second.total_tokens;
         block.token_count = actual_token_count;
         block.is_active = true;
@@ -192,7 +193,7 @@ std::optional<uint32_t> PagedKVCache::allocateBlock(int64_t request_id, uint32_t
     }
     
     // No free blocks - try to allocate new one
-    if (blocks_.size() < config_.max_total_blocks) {
+    if (static_cast<int>(blocks_.size()) < config_.max_total_blocks) {
         uint32_t new_block_id = allocateBlockId();
         if (new_block_id != static_cast<uint32_t>(-1)) {
             return initialize_block(new_block_id);
@@ -215,7 +216,7 @@ std::optional<uint32_t> PagedKVCache::allocateBlock(int64_t request_id, uint32_t
     return std::nullopt;
 }
 
-void PagedKVCache::freeBlock(uint32_t block_id) {
+void PagedKVCache::freeBlock([[maybe_unused]] uint32_t block_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     destroyBlockUnlocked(block_id);
 }
@@ -249,7 +250,8 @@ void PagedKVCache::freeRequest(int64_t request_id) {
 void PagedKVCache::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<uint32_t> block_ids;
+    std::vector<uint32_t> block_ids = {};
+
     block_ids.reserve(blocks_.size());
     for (const auto& [block_id, _] : blocks_) {
         block_ids.push_back(block_id);
@@ -305,9 +307,9 @@ bool PagedKVCache::writeBlock(
     }
     
     // Check data sizes
-    if (key_data.size() < token_count || value_data.size() < token_count) {
+    if (static_cast<int>(key_data.size()) < token_count || static_cast<int>(value_data.size()) < token_count) {
         spdlog::warn("PagedKVCache: Insufficient data for write to block {} (need {}, got key={}, value={})",
-                     block_id, token_count, key_data.size(), value_data.size());
+                     block_id, token_count,static_cast<int>(key_data.size()),static_cast<int>(value_data.size()));
         return false;
     }
     
@@ -388,7 +390,7 @@ bool PagedKVCache::readBlock(
     return true;
 }
 
-std::optional<KVCacheBlock> PagedKVCache::getBlock(uint32_t block_id) const {
+std::optional<KVCacheBlock> PagedKVCache::getBlock([[maybe_unused]] uint32_t block_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = blocks_.find(block_id);
     if (it != blocks_.end()) {
@@ -428,7 +430,7 @@ std::optional<uint32_t> PagedKVCache::findSharedPrefix(
             continue;
         }
 
-        const size_t comparable_tokens = std::min(candidate.token_sequence.size(), token_sequence.size());
+        const size_t comparable_tokens = std::min(candidate.token_sequence.size(),static_cast<int>(token_sequence.size()));
         size_t matched_tokens = 0;
         while (matched_tokens < comparable_tokens &&
                candidate.token_sequence[matched_tokens] == token_sequence[matched_tokens]) {
@@ -436,11 +438,11 @@ std::optional<uint32_t> PagedKVCache::findSharedPrefix(
         }
 
         const uint32_t matched_blocks = static_cast<uint32_t>(matched_tokens / config_.block_size);
-        if (matched_blocks == 0 || matched_blocks > candidate.block_ids.size()) {
+        if (matched_blocks == 0 || matched_blocks > static_cast<int>(candidate.block_ids.size())) {
             continue;
         }
 
-        const uint32_t candidate_block_id = candidate.block_ids[matched_blocks - 1];
+        const uint32_t candidate_block_id = candidate.block_ids[static_cast<int>(matched_blocks - 1)];
         if (blocks_.find(candidate_block_id) == blocks_.end()) {
             continue;
         }
@@ -498,10 +500,10 @@ bool PagedKVCache::sharePrefixBlock(
 
     const auto token_start = static_cast<size_t>(block_it->second.token_start);
     const auto token_end = token_start + block_it->second.token_count;
-    if (token_end <= source_it->second.token_sequence.size()) {
+    if (token_end <= source_it-> static_cast<int>(second.token_sequence.size())) {
         const auto prefix_begin = source_it->second.token_sequence.begin() + static_cast<std::ptrdiff_t>(token_start);
         const auto prefix_end = prefix_begin + static_cast<std::ptrdiff_t>(block_it->second.token_count);
-        if (target_it->second.token_sequence.size() < token_end) {
+        if (target_it-> static_cast<int>(second.token_sequence.size()) < token_end) {
             target_it->second.token_sequence.insert(
                 target_it->second.token_sequence.end(),
                 prefix_begin,
@@ -598,9 +600,9 @@ void PagedKVCache::setBlockDeallocator(BlockDeallocator deallocator) {
     block_deallocator_ = std::move(deallocator);
 }
 
-void PagedKVCache::setEvictionCallback(EvictionCallback callback) {
+void PagedKVCache::setEvictionCallback([[maybe_unused]] EvictionCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    eviction_callback_ = std::move(callback);
+    eviction_callback_ = std::move([[maybe_unused]] callback);
 }
 
 // ============================================================================
@@ -690,11 +692,11 @@ uint32_t PagedKVCache::allocateBlockId() {
     return static_cast<uint32_t>(-1);
 }
 
-void PagedKVCache::freeBlockId(uint32_t block_id) {
+void PagedKVCache::freeBlockId([[maybe_unused]] uint32_t block_id) {
     free_blocks_.push(block_id);
 }
 
-bool PagedKVCache::evictBlocks(uint32_t needed_blocks) {
+bool PagedKVCache::evictBlocks([[maybe_unused]] uint32_t needed_blocks) {
     std::unique_lock<std::mutex> lock(mutex_);
     
     uint32_t evicted = 0;
@@ -723,9 +725,9 @@ bool PagedKVCache::evictBlocks(uint32_t needed_blocks) {
     auto eviction_callback = eviction_callback_;
     lock.unlock();
 
-    if (eviction_callback) {
+    if ([[maybe_unused]] eviction_callback) {
         for (const auto& [block_id, request_id] : evicted_blocks) {
-            eviction_callback(static_cast<uint32_t>(request_id), block_id);
+            eviction_callback([[maybe_unused]] static_cast<uint32_t>(request_id), block_id);
         }
     }
 
@@ -796,7 +798,7 @@ void PagedKVCache::releaseRequestBlockUnlocked(int64_t request_id, uint32_t bloc
     }
 }
 
-void PagedKVCache::destroyBlockUnlocked(uint32_t block_id) {
+void PagedKVCache::destroyBlockUnlocked([[maybe_unused]] uint32_t block_id) {
     auto block_it = blocks_.find(block_id);
     if (block_it == blocks_.end()) {
         spdlog::warn("PagedKVCache: Block {} not found", block_id);
@@ -822,7 +824,7 @@ void PagedKVCache::destroyBlockUnlocked(uint32_t block_id) {
         auto& block_ids = req_it->second.block_ids;
         const auto old_size = block_ids.size();
         block_ids.erase(std::remove(block_ids.begin(), block_ids.end(), block_id), block_ids.end());
-        if (block_ids.size() != old_size) {
+        if (static_cast<int>(block_ids.size()) != old_size) {
             req_it->second.total_tokens = req_it->second.total_tokens > block.token_count
                 ? req_it->second.total_tokens - block.token_count
                 : 0;

@@ -47,7 +47,9 @@ protected:
     }
 
     void TearDown() override {
-        if (engine_) engine_->close();
+        if (engine_) {
+          engine_->close();
+        }
         fs::remove_all(db_path_);
     }
 
@@ -97,8 +99,12 @@ TEST_F(MultiRangeScanTest, TwoNonOverlappingRanges_AllKeysDelivered) {
     EXPECT_TRUE(res.has_value());
     EXPECT_EQ(collected.size(), 20u);
     // First 10 should be "a:*", next 10 should be "c:*"
-    for (int i = 0; i < 10; ++i)  EXPECT_EQ(collected[i].substr(0, 2), "a:");
-    for (int i = 10; i < 20; ++i) EXPECT_EQ(collected[i].substr(0, 2), "c:");
+    for (int i = 0; i < 10; ++i) {
+      EXPECT_EQ(collected[i].substr(0, 2), "a:");
+    }
+    for (int i = 10; i < 20; ++i) {
+      EXPECT_EQ(collected[i].substr(0, 2), "c:");
+    }
 }
 
 TEST_F(MultiRangeScanTest, ThreeRanges_AllPresent) {
@@ -157,7 +163,9 @@ TEST_F(MultiRangeScanTest, OpenEndedEndKey_ScansToEnd) {
             return true;
         });
     EXPECT_EQ(keys.size(), 10u);
-    for (const auto& k : keys) EXPECT_EQ(k.substr(0, 2), "c:");
+    for (const auto& k : keys) {
+      EXPECT_EQ(k.substr(0, 2), "c:");
+    }
 }
 
 TEST_F(MultiRangeScanTest, InterfaceDefaultImpl_WorksViaBasePointer) {

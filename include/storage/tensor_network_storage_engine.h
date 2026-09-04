@@ -39,9 +39,9 @@ namespace storage {
  * @brief Logical address of a tensor stored in the engine.
  */
 struct TensorFieldKey {
-    std::string tenant;
-    std::string collection;
-    std::string field;
+    std::string tenant = {};
+    std::string collection = {};
+    std::string field = {};
 
     bool operator==(const TensorFieldKey& o) const noexcept {
         return tenant == o.tenant && collection == o.collection && field == o.field;

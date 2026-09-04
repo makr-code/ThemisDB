@@ -43,9 +43,9 @@ ProTeGiGradient HeuristicProTeGiProvider::computeGradient(
                           : static_cast<double>(num_errors) / static_cast<double>(errors.size());
 
     // Build a heuristic critique based on prompt characteristics
-    std::ostringstream critique;
+    std::ostringstream critique = {};
     critique << "The prompt produced errors on "
-             << num_errors << "/" << errors.size() << " examples (rate="
+             << num_errors << "/" <<static_cast<int>(errors.size()) << " examples (rate="
              << gradient.error_rate << "). ";
 
     if (gradient.error_rate > 0.5) {
@@ -78,7 +78,7 @@ std::vector<std::string> HeuristicProTeGiProvider::generateCandidates(
 
     // Candidate 0: append critique as additional instruction
     {
-        std::ostringstream c;
+        std::ostringstream c = {};
         c << prompt << "\n\n"
           << "## Improvement Note\n"
           << gradient.critique;
@@ -87,7 +87,7 @@ std::vector<std::string> HeuristicProTeGiProvider::generateCandidates(
 
     // Candidate 1: restructure with explicit output format
     if (k >= 2) {
-        std::ostringstream c;
+        std::ostringstream c = {};
         c << "Task: " << prompt << "\n\n"
           << "Instructions:\n"
           << "- Read the input carefully.\n"
@@ -98,7 +98,7 @@ std::vector<std::string> HeuristicProTeGiProvider::generateCandidates(
 
     // Candidate 2: prepend role instruction
     if (k >= 3) {
-        std::ostringstream c;
+        std::ostringstream c = {};
         c << "You are a precise assistant. " << prompt << "\n\n"
           << "Note: " << gradient.critique;
         candidates.push_back(c.str());
@@ -106,7 +106,7 @@ std::vector<std::string> HeuristicProTeGiProvider::generateCandidates(
 
     // Remaining candidates: numbered variants
     for (size_t i = candidates.size(); i < k; ++i) {
-        std::ostringstream c;
+        std::ostringstream c = {};
         c << prompt << "\n[Variant " << (i + 1)
           << " – addressing: " << gradient.critique.substr(0, 60) << "]";
         candidates.push_back(c.str());
@@ -226,7 +226,7 @@ ProTeGiResult ProTeGiOptimizer::optimize(
 
         // Clamp beam_width to at least 1 to prevent UB on empty scored vector
         std::size_t effective_beam_width = config_.beam_width >= 1
-            ? static_cast<std::size_t>(config_.beam_width) : 1u;
+            ? static_cast<std::size_t>(config_.beam_width) : 1;
         if (config_.beam_width < 1) {
             THEMIS_INFO(
                 "ProTeGi optimizer: invalid beam_width={} configured; clamping to 1.",
@@ -234,7 +234,7 @@ ProTeGiResult ProTeGiOptimizer::optimize(
         }
 
         // Trim to effective_beam_width
-        if (scored.size() > effective_beam_width) {
+        if (static_cast<int>(scored.size()) > effective_beam_width) {
             scored.resize(effective_beam_width);
         }
 
@@ -293,12 +293,12 @@ std::string ProTeGiOptimizer::buildGradientPrompt(
     const std::string& prompt,
     const std::vector<std::string>& errors)
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "You are a prompt engineering expert.\n\n";
     out << "The following prompt was evaluated on a batch of examples:\n\n";
     out << "--- PROMPT START ---\n" << prompt << "\n--- PROMPT END ---\n\n";
     out << "The following errors were observed:\n";
-    for (size_t i = 0; i < errors.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(errors.size()); ++i) {
         if (!errors[i].empty()) {
             out << "  " << (i + 1) << ". " << errors[i] << "\n";
         }
@@ -313,7 +313,7 @@ std::string ProTeGiOptimizer::buildCandidatePrompt(
     const ProTeGiGradient& gradient,
     size_t k)
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "You are a prompt engineering expert.\n\n";
     out << "Current prompt:\n--- PROMPT START ---\n"
         << prompt << "\n--- PROMPT END ---\n\n";
@@ -332,14 +332,14 @@ std::vector<TestCase> ProTeGiOptimizer::sampleMiniBatch(
     const std::vector<TestCase>& test_cases,
     size_t n) const
 {
-    if (n >= test_cases.size()) {
+    if (n >= static_cast<int>(test_cases.size())) {
         return test_cases;
     }
 
     // Deterministic shuffle seeded on test_cases size to remain reproducible
     std::vector<size_t> indices(test_cases.size());
     std::iota(indices.begin(), indices.end(), 0);
-    std::mt19937 rng(static_cast<unsigned>(test_cases.size() * 31337u));
+    std::mt19937 rng(static_cast<unsigned>(test_cases.size() * 31337));
     std::shuffle(indices.begin(), indices.end(), rng);
 
     std::vector<TestCase> batch;
@@ -356,11 +356,12 @@ std::vector<std::string> ProTeGiOptimizer::defaultErrorFn(
 {
     // Very lightweight heuristic: flag cases where the expected output is
     // longer than the prompt (proxy for "insufficient guidance").
-    std::vector<std::string> errors;
+    std::vector<std::string> errors = {};
+
     errors.reserve(mini_batch.size());
 
     for (const auto& tc : mini_batch) {
-        if (tc.expected_output.size() > prompt.size()) {
+        if (static_cast<int>(tc.expected_output.size()) > static_cast<int>(prompt.size())) {
             errors.push_back("Expected output longer than prompt; prompt may lack detail.");
         } else {
             errors.push_back("");  // no error

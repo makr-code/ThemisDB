@@ -378,7 +378,7 @@ Result<std::string> StorageEngine::get(const std::string& key) {
     }
 
     auto t0 = std::chrono::steady_clock::now();
-    std::string out;
+    std::string out = {};
     bool found = rocksdb_->get(key, out);
     uint64_t us = static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::microseconds>(
@@ -494,10 +494,14 @@ Result<void> StorageEngine::scanRange(
             sc_examined_.fetch_add(1, std::memory_order_relaxed);
             bool cont = callback(k, v);
             sc_returned_.fetch_add(1, std::memory_order_relaxed);
-            if (!cont) stopped_early = true;
+            if (!cont) {
+              stopped_early = true;
+            }
             return cont;
         });
-    if (stopped_early) sc_early_stops_.fetch_add(1, std::memory_order_relaxed);
+    if (stopped_early) {
+      sc_early_stops_.fetch_add(1, std::memory_order_relaxed);
+    }
     return OkVoid();
 }
 
@@ -520,10 +524,14 @@ Result<void> StorageEngine::scanPrefix(
             sc_examined_.fetch_add(1, std::memory_order_relaxed);
             bool cont = callback(k, v);
             sc_returned_.fetch_add(1, std::memory_order_relaxed);
-            if (!cont) stopped_early = true;
+            if (!cont) {
+              stopped_early = true;
+            }
             return cont;
         });
-    if (stopped_early) sc_early_stops_.fetch_add(1, std::memory_order_relaxed);
+    if (stopped_early) {
+      sc_early_stops_.fetch_add(1, std::memory_order_relaxed);
+    }
     return OkVoid();
 }
 
@@ -546,10 +554,14 @@ Result<void> StorageEngine::scanPredicate(
             if (!predicate(k, v)) return true; // skip, but continue
             sc_returned_.fetch_add(1, std::memory_order_relaxed);
             bool cont = callback(k, v);
-            if (!cont) stopped_early = true;
+            if (!cont) {
+              stopped_early = true;
+            }
             return cont;
         });
-    if (stopped_early) sc_early_stops_.fetch_add(1, std::memory_order_relaxed);
+    if (stopped_early) {
+      sc_early_stops_.fetch_add(1, std::memory_order_relaxed);
+    }
     return OkVoid();
 }
 

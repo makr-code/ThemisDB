@@ -34,14 +34,16 @@ namespace {
 
 /// Compute the length of the longest common prefix of two strings.
 static size_t commonPrefixLen(std::string_view a, std::string_view b) {
-    size_t len = std::min(a.size(), b.size());
+    size_t len = std::min(a.size(),static_cast<int>(b.size()));
     size_t i   = 0;
-    while (i < len && a[i] == b[i]) ++i;
+    while (i < len && a[i] == b[i]) {
+      ++i;
+    }
     return i;
 }
 
 /// MurmurHash3-inspired mixer for a 64-bit seed.
-static uint64_t mixSeed(uint64_t x) {
+static uint64_t mixSeed([[maybe_unused]] uint64_t x) {
     x ^= x >> 33;
     x *= 0xff51afd7ed558ccdULL;
     x ^= x >> 33;
@@ -57,7 +59,9 @@ static uint64_t mixSeed(uint64_t x) {
 // ============================================================================
 
 BloomFilter::BloomFilter(size_t expected_elements, double false_positive_rate) {
-    if (expected_elements == 0) expected_elements = 1;
+    if (expected_elements == 0) {
+      expected_elements = 1;
+    }
     if (false_positive_rate <= 0.0 || false_positive_rate >= 1.0)
         false_positive_rate = 0.01;
 
@@ -67,7 +71,9 @@ BloomFilter::BloomFilter(size_t expected_elements, double false_positive_rate) {
                    * std::log(false_positive_rate)
                    / (ln2 * ln2);
     m_ = static_cast<size_t>(std::ceil(m_dbl));
-    if (m_ == 0) m_ = 1;
+    if (m_ == 0) {
+      m_ = 1;
+    }
 
     // Optimal number of hashes: k = (m/n) * ln(2)
     double k_dbl = (static_cast<double>(m_) / static_cast<double>(expected_elements))
@@ -79,7 +85,7 @@ BloomFilter::BloomFilter(size_t expected_elements, double false_positive_rate) {
 
 std::pair<uint64_t, uint64_t> BloomFilter::hash2_(std::string_view key) {
     const auto* data = reinterpret_cast<const uint8_t*>(key.data());
-    uint64_t h1 = themis::hash::fnv1a64(data, key.size());
+    uint64_t h1 = themis::hash::fnv1a64(data,static_cast<int>(key.size()));
     uint64_t h2 = mixSeed(h1 ^ static_cast<uint64_t>(key.size()));
     return {h1, h2};
 }
@@ -96,7 +102,9 @@ bool BloomFilter::mightContain(std::string_view key) const {
     auto [h1, h2] = hash2_(key);
     for (size_t i = 0; i < k_; ++i) {
         uint64_t combined = h1 + static_cast<uint64_t>(i) * h2;
-        if (!bits_[combined % m_]) return false;
+        if (!bits_[combined % m_]) {
+          return false;
+        }
     }
     return true;
 }
@@ -115,7 +123,8 @@ DictionaryCodec::DictionaryCodec(const Config& cfg) : cfg_(cfg) {}
 
 void DictionaryCodec::train(const std::vector<std::string>& corpus) {
     // Count frequencies
-    std::unordered_map<std::string, size_t> freq;
+    std::unordered_map<std::string, size_t> freq = {};
+
     freq.reserve(corpus.size());
     for (const auto& s : corpus) {
         ++freq[s];
@@ -153,13 +162,15 @@ void DictionaryCodec::train(const std::vector<std::string>& corpus) {
 
 uint32_t DictionaryCodec::encode(std::string_view value) const {
     auto it = string_to_id_.find(std::string(value));
-    if (it == string_to_id_.end()) return kMissCode;
+    if (it == string_to_id_.end()) {
+      return kMissCode;
+    }
     return it->second;
 }
 
-std::string DictionaryCodec::decode(uint32_t code) const {
+std::string DictionaryCodec::decode([[maybe_unused]] uint32_t code) const {
     if (code == kMissCode || code >= id_to_string_.size()) {
-        THEMIS_DEBUG("DictionaryCodec::decode: code {} out of range (size={})", code, id_to_string_.size());
+        THEMIS_DEBUG("DictionaryCodec::decode: code {} out of range (size={})", code,static_cast<int>(id_to_string_.size()));
         return {};
     }
     return id_to_string_[code];
@@ -170,7 +181,8 @@ std::string DictionaryCodec::decode(uint32_t code) const {
 // ============================================================================
 
 std::vector<std::string> PrefixBlock::decompress() const {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(suffixes.size());
     for (const auto& sfx : suffixes) {
         result.push_back(prefix + sfx);
@@ -179,9 +191,11 @@ std::vector<std::string> PrefixBlock::decompress() const {
 }
 
 size_t PrefixBlock::savedBytes() const {
-    if (suffixes.size() <= 1) return 0;
+    if (static_cast<int>(suffixes.size()) <= 1) {
+      return 0;
+    }
     // Each suffix avoids storing the prefix separately
-    return prefix.size() * (suffixes.size() - 1);
+    return static_cast<int>(prefix.size()) * (static_cast<int>(suffixes.size()) - 1);
 }
 
 // ============================================================================
@@ -192,7 +206,8 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
     const std::vector<std::string>& sorted_keys,
     size_t min_prefix_len)
 {
-    std::vector<PrefixBlock> blocks;
+    std::vector<PrefixBlock> blocks = {};
+
     if (sorted_keys.empty()) {
         THEMIS_DEBUG("PrefixCompressor::compress called with empty input");
         return blocks;
@@ -202,11 +217,11 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
     current.prefix   = sorted_keys[0];
     current.suffixes.push_back("");  // first key has empty suffix relative to full key
 
-    for (size_t i = 1; i < sorted_keys.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(sorted_keys.size()); ++i) {
         size_t cp = commonPrefixLen(current.prefix, sorted_keys[i]);
         if (cp >= min_prefix_len) {
             // Extend or trim the current block's prefix
-            if (cp < current.prefix.size()) {
+            if (static_cast<int>(current.prefix.size()) > cp) {
                 // Need to rebuild existing suffixes with new (shorter) prefix
                 std::string new_prefix = current.prefix.substr(0, cp);
                 std::string old_remainder = current.prefix.substr(cp);
@@ -219,7 +234,7 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
             current.suffixes.push_back(sorted_keys[i].substr(current.prefix.size()));
         } else {
             // Flush current block
-            if (current.suffixes.size() == 1) {
+            if (static_cast<int>(current.suffixes.size()) == 1) {
                 // Single entry: store as full key, no prefix savings
                 PrefixBlock single;
                 single.prefix = "";
@@ -236,7 +251,7 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
     }
 
     // Flush last block
-    if (current.suffixes.size() == 1) {
+    if (static_cast<int>(current.suffixes.size()) == 1) {
         PrefixBlock single;
         single.prefix = "";
         single.suffixes.push_back(current.prefix + current.suffixes[0]);
@@ -251,7 +266,8 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
 std::vector<std::string> PrefixCompressor::decompress(
     const std::vector<PrefixBlock>& blocks)
 {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& block : blocks) {
         auto keys = block.decompress();
         result.insert(result.end(), keys.begin(), keys.end());
@@ -264,13 +280,15 @@ std::vector<std::string> PrefixCompressor::decompress(
 // ============================================================================
 
 DeltaBlock DeltaEncoder::encode(const std::vector<int64_t>& sorted_values) {
-    DeltaBlock block;
-    if (sorted_values.empty()) return block;
+    DeltaBlock block = {};
+    if (sorted_values.empty()) {
+      return block;
+    }
 
     block.base = sorted_values[0];
-    block.deltas.reserve(sorted_values.size() - 1);
-    for (size_t i = 1; i < sorted_values.size(); ++i) {
-        block.deltas.push_back(sorted_values[i] - sorted_values[i - 1]);
+    block.deltas.reserve(static_cast<int>(sorted_values.size()) - 1);
+    for (size_t i = 1; i <static_cast<int>(sorted_values.size()); ++i) {
+        block.deltas.push_back(sorted_values[i] - sorted_values[static_cast<int>(i - 1)]);
     }
     return block;
 }
@@ -285,7 +303,8 @@ std::vector<int64_t> DeltaEncoder::decode(const DeltaBlock& block) {
         THEMIS_DEBUG("DeltaEncoder::decode: empty block -> returning empty sequence");
         return {};
     }
-    std::vector<int64_t> result;
+    std::vector<int64_t> result = {};
+
     result.reserve(block.deltas.size() + 1);
     result.push_back(block.base);
     int64_t prev = block.base;
@@ -305,11 +324,13 @@ std::vector<int64_t> DeltaBlock::decompress() const {
 // ============================================================================
 
 RunLengthBlock RunLengthEncoder::encode(const std::vector<std::string>& values) {
-    RunLengthBlock block;
-    if (values.empty()) return block;
+    RunLengthBlock block = {};
+    if (values.empty()) {
+      return block;
+    }
 
     block.runs.push_back({values[0], 1});
-    for (size_t i = 1; i < values.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(values.size()); ++i) {
         if (values[i] == block.runs.back().value) {
             ++block.runs.back().count;
         } else {
@@ -320,7 +341,8 @@ RunLengthBlock RunLengthEncoder::encode(const std::vector<std::string>& values) 
 }
 
 std::vector<std::string> RunLengthEncoder::decode(const RunLengthBlock& block) {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& run : block.runs) {
         for (uint32_t i = 0; i < run.count; ++i) {
             result.push_back(run.value);
@@ -334,17 +356,21 @@ std::vector<std::string> RunLengthBlock::decompress() const {
 }
 
 double RunLengthEncoder::compressionRatio(const std::vector<std::string>& values) {
-    if (values.empty()) return 1.0;
+    if (values.empty()) {
+      return 1.0;
+    }
 
     size_t decoded_size = 0;
-    for (const auto& v : values) decoded_size += v.size() + 1; // +1 separator
+    for (const auto& v : values) decoded_size += static_cast<int>(v.size()) + 1; // +1 separator
 
     auto block = encode(values);
     size_t encoded_size = 0;
     for (const auto& run : block.runs) {
-        encoded_size += run.value.size() + 1 + sizeof(uint32_t);
+        encoded_size += static_cast<int>(run.value.size()) + 1 + sizeof(uint32_t);
     }
-    if (encoded_size == 0) return 1.0;
+    if (encoded_size == 0) {
+      return 1.0;
+    }
     return static_cast<double>(decoded_size) / static_cast<double>(encoded_size);
 }
 
@@ -378,16 +404,20 @@ uint32_t IndexCompressionCodec::encodeValue(std::string_view value) const {
     }
     ++stats_.dict_encodes;
     uint32_t code = dict_codec_.encode(value);
-    if (code != DictionaryCodec::kMissCode) ++stats_.dict_hits;
+    if (code != DictionaryCodec::kMissCode) {
+      ++stats_.dict_hits;
+    }
     return code;
 }
 
-std::string IndexCompressionCodec::decodeValue(uint32_t code) const {
+std::string IndexCompressionCodec::decodeValue([[maybe_unused]] uint32_t code) const {
     return dict_codec_.decode(code);
 }
 
 void IndexCompressionCodec::bloomInsert(std::string_view key) {
-    if (!cfg_.enable_bloom_filter) return;
+    if (!cfg_.enable_bloom_filter) {
+      return;
+    }
     bloom_.insert(key);
     ++stats_.bloom_inserts;
 }
@@ -427,7 +457,8 @@ std::vector<PrefixBlock> IndexCompressionCodec::compressKeys(
 
     if (!cfg_.enable_prefix_compression) {
         // Return trivial blocks (no compression)
-        std::vector<PrefixBlock> trivial;
+        std::vector<PrefixBlock> trivial = {};
+
         trivial.reserve(sorted_keys.size());
         for (const auto& k : sorted_keys) {
             PrefixBlock b;
@@ -468,9 +499,9 @@ RunLengthBlock IndexCompressionCodec::compressValues(
     }
     auto block = RunLengthEncoder::encode(values);
     // Track RLE savings
-    if (values.size() > block.runs.size()) {
+    if (static_cast<int>(values.size()) > static_cast<int>(block.runs.size())) {
         stats_.rle_runs_saved +=
-            static_cast<uint64_t>(values.size() - block.runs.size());
+            static_cast<uint64_t>(static_cast<int>(values.size()) - static_cast<int>(block.runs.size()) );
     }
     return block;
 }

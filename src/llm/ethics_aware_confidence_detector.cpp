@@ -135,7 +135,7 @@ ConfidenceResult EthicsAwareConfidenceDetector::detectConfidence(
     // Check cache
     if (impl_->config.cache_results) {
         std::string cache_key = generateCacheKey(text);
-        ConfidenceResult cached;
+        ConfidenceResult cached = {};
         if (getCachedResult(cache_key, cached)) {
             impl_->stats.cache_hits++;
             return cached;
@@ -289,7 +289,7 @@ float EthicsAwareConfidenceDetector::evaluateAutonomyRespect(
     auto imperatives = detectImperatives(text);
     
     // Count total violations
-    const auto violations = static_cast<int>(patronizing.size() + imperatives.size());
+    const auto violations = static_cast<int>(patronizing.size() + static_cast<int>(imperatives.size()) );
     
     // Check if human choice is preserved
     bool preserves_choice = checkChoicePreservation(text);
@@ -333,7 +333,7 @@ float EthicsAwareConfidenceDetector::evaluateTransparency(const std::string& tex
     float score = 0.5f; // Base score
     
     // Add for hedge words (up to 0.3)
-    score += std::min(0.3f, hedge_words.size() * 0.05f);
+    score += std::min(0.3f, static_cast<float>(hedge_words.size()) * 0.05f);
     
     // Add for limitation acknowledgments (up to 0.2)
     score += std::min(0.2f, limitation_count * 0.1f);
@@ -517,7 +517,9 @@ std::string EthicsAwareConfidenceDetector::toLowerCase(const std::string& text) 
 float EthicsAwareConfidenceDetector::calculateTokenEntropy(
     const std::vector<TokenConfidence>& tokens
 ) {
-    if (tokens.empty()) return 0.0f;
+    if (tokens.empty()) {
+      return 0.0f;
+    }
     
     float entropy = 0.0f;
     for (const auto& token : tokens) {
@@ -531,7 +533,9 @@ float EthicsAwareConfidenceDetector::calculateTokenEntropy(
 float EthicsAwareConfidenceDetector::calculatePerplexity(
     const std::vector<TokenConfidence>& tokens
 ) {
-    if (tokens.empty()) return 1.0f;
+    if (tokens.empty()) {
+      return 1.0f;
+    }
     
     float log_prob_sum = 0.0f;
     for (const auto& token : tokens) {
@@ -554,7 +558,7 @@ float EthicsAwareConfidenceDetector::combineScores(
 }
 
 std::string EthicsAwareConfidenceDetector::generateReasoning(const ConfidenceResult& result) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "Confidence Analysis: ";
     
@@ -567,7 +571,7 @@ std::string EthicsAwareConfidenceDetector::generateReasoning(const ConfidenceRes
     }
     
     if (result.has_patronizing_language) {
-        oss << "Detected patronizing language (" << result.patronizing_phrases.size() 
+        oss << "Detected patronizing language (" <<static_cast<int>(result.patronizing_phrases.size()) 
             << " instances). ";
     }
     
@@ -609,7 +613,7 @@ void EthicsAwareConfidenceDetector::cacheResult(
     const ConfidenceResult& result
 ) {
     // Simple cache size management
-    if (impl_->cache.size() >= impl_->config.max_cache_size) {
+    if (impl_-> static_cast<int>(cache.size()) >= impl_->config.max_cache_size) {
         // Remove oldest entry (simplified - could use LRU)
         impl_->cache.erase(impl_->cache.begin());
     }

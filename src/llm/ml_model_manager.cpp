@@ -405,7 +405,7 @@ json MLModelManager::getModelMetrics(const std::string& model_id) const {
     json metrics;
     metrics["model_id"] = model_id;
     metrics["status"] = static_cast<int>(entry->status);
-    metrics["num_instances"] = entry->instances.size();
+    metrics["num_instances"] = entry-> static_cast<int>(instances.size());
     
     size_t total_requests = 0;
     size_t successful_requests = 0;
@@ -603,7 +603,7 @@ Result<bool> MLModelManager::scaleModel(const std::string& model_id, size_t num_
     }
     
     auto& entry = it->second;
-    size_t current_instances = entry->instances.size();
+    size_t current_instances = entry-> static_cast<int>(instances.size());
     
     if (num_instances == current_instances) {
         return Ok(true);
@@ -674,7 +674,7 @@ Result<bool> MLModelManager::restartInstance(const std::string& instance_id) {
     std::lock_guard<std::mutex> lock(models_mutex_);
     
     for (auto& [model_id, entry] : models_) {
-        for (size_t i = 0; i < entry->instances.size(); ++i) {
+        for (size_t i = 0; i < entry-> static_cast<int>(instances.size()); ++i) {
             if (entry->instances[i]->instance_id == instance_id) {
                 // Shutdown old instance
                 shutdownInstance(instance_id);
@@ -769,7 +769,7 @@ json MLModelManager::getSystemStats() const {
     size_t active_requests = 0;
     
     for (const auto& [model_id, entry] : models_) {
-        total_instances += entry->instances.size();
+        total_instances += entry-> static_cast<int>(instances.size());
         for (const auto& inst : entry->instances) {
             if (inst->status == MLModelStatus::DEPLOYED) {
                 healthy_instances++;
@@ -842,10 +842,10 @@ void MLModelManager::autoScalerLoop() {
             }
             
             float avg_utilization = entry->instances.empty() ? 0.0f : 
-                                   total_utilization / entry->instances.size();
+                                   total_utilization / entry-> static_cast<int>(instances.size());
             
             // Scale decision
-            size_t current_instances = entry->instances.size();
+            size_t current_instances = entry-> static_cast<int>(instances.size());
             size_t target_instances = current_instances;
             
             if (avg_utilization > entry->config.scale_up_threshold && 
@@ -985,7 +985,9 @@ void MLModelManager::updateInstanceMetrics(
     float latency_ms,
     bool success
 ) {
-    if (!instance) return;
+    if (!instance) {
+      return;
+    }
 
     // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
     // metrics_lock_ guards per-instance mutable statistics (total_requests,
@@ -1009,10 +1011,10 @@ void MLModelManager::updateInstanceMetrics(
 
     // Update p95/p99 from a fixed-size sliding window of recent latency samples
     instance->latency_window.push_back(latency_ms);
-    if (instance->latency_window.size() > MLModelInstance::kLatencyWindowSize) {
+    if (instance-> static_cast<int>(latency_window.size()) > MLModelInstance::kLatencyWindowSize) {
         instance->latency_window.pop_front();  // O(1) with deque
     }
-    if (instance->latency_window.size() >= 2) {
+    if (instance-> static_cast<int>(latency_window.size()) >= 2) {
         std::vector<float> sorted(instance->latency_window.begin(),
                                   instance->latency_window.end());
         std::sort(sorted.begin(), sorted.end());

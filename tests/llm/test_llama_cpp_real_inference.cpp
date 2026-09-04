@@ -85,7 +85,9 @@ protected:
                         break;
                     }
                 }
-                if (model_available_) break;
+                if (model_available_) {
+                  break;
+                }
             }
         }
         if (!model_available_) {
@@ -123,7 +125,9 @@ protected:
 
     /** Compute L2 distance between two float vectors of equal size. */
     static double l2Distance(const std::vector<float>& a, const std::vector<float>& b) {
-        if (a.size() != b.size() || a.empty()) return 0.0;
+        if (a.size() != b.size() || a.empty()) {
+          return 0.0;
+        }
         double sum = 0.0;
         for (size_t i = 0; i < a.size(); ++i) {
             double diff = static_cast<double>(a[i] - b[i]);
@@ -331,7 +335,7 @@ TEST_F(LlamaCppRealInferenceTest, C2_Streaming_ConcatenatedTokensMatchText) {
     LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
 
-    std::string streamed;
+    std::string streamed = {};
     auto req = makeReq("The answer is", 12, 0.0f);
     req.stream_callback = [&streamed](const std::string& token) {
         streamed += token;
@@ -356,7 +360,7 @@ TEST_F(LlamaCppRealInferenceTest, C3_GenerateStream_ConvenienceMethod) {
     LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
 
-    std::string streamed;
+    std::string streamed = {};
     std::function<void(const std::string&)> cb = [&streamed](const std::string& token) {
         streamed += token;
     };

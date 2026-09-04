@@ -720,7 +720,8 @@ TEST_F(NLIVerifierTest, Performance_SingleClaim) {
 TEST_F(NLIVerifierTest, Performance_BatchClaims) {
     NLIFaithfulnessVerifier verifier(config_);
     
-    std::vector<std::string> claims;
+    std::vector<std::string> claims = {};
+
     for (int i = 0; i < 10; i++) {
         claims.push_back("Claim number " + std::to_string(i));
     }

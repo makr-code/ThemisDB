@@ -17,7 +17,7 @@
 namespace themis {
 
 std::string TemporalStats::toString() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Temporal Statistics:\n";
     oss << "  Total edges: " << edge_count << "\n";
     oss << "  Fully contained: " << fully_contained_count << "\n";

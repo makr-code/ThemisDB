@@ -54,11 +54,11 @@ namespace {
     constexpr bool is_gpu_backend(acceleration::BackendType backend) noexcept {
         switch (backend) {
             case acceleration::BackendType::CUDA:
-            case acceleration::BackendType::HIP:
-            case acceleration::BackendType::VULKAN:
-            case acceleration::BackendType::DIRECTX:
-            case acceleration::BackendType::ROCM:
-            case acceleration::BackendType::ZLUDA:
+            [[fallthrough]];\n            case acceleration::BackendType::HIP:
+            [[fallthrough]];\n            case acceleration::BackendType::VULKAN:
+            [[fallthrough]];\n            case acceleration::BackendType::DIRECTX:
+            [[fallthrough]];\n            case acceleration::BackendType::ROCM:
+            [[fallthrough]];\n            case acceleration::BackendType::ZLUDA:
                 return true;
             default:
                 return false;
@@ -98,7 +98,7 @@ namespace {
             VkPhysicalDeviceMemoryProperties mem_props{};
             vkGetPhysicalDeviceMemoryProperties(physical_device, &mem_props);
             for (uint32_t i = 0; i < mem_props.memoryTypeCount; ++i) {
-                if ((type_bits & (1u << i)) &&
+                if ((type_bits & (1 << i)) &&
                     (mem_props.memoryTypes[i].propertyFlags & props) == props) {
                     return i;
                 }
@@ -306,13 +306,23 @@ namespace {
     static void vk_shutdown(VulkanAllocContext* ctx) {
         // Unmap and free any remaining allocations.
         for (auto& e : ctx->entries) {
-            if (e.mapped) vkUnmapMemory(ctx->device, e.memory);
-            if (e.memory != VK_NULL_HANDLE) vkFreeMemory(ctx->device, e.memory, nullptr);
-            if (e.buffer != VK_NULL_HANDLE) vkDestroyBuffer(ctx->device, e.buffer, nullptr);
+            if (e.mapped) {
+              vkUnmapMemory(ctx->device, e.memory);
+            }
+            if (e.memory != VK_NULL_HANDLE) {
+              vkFreeMemory(ctx->device, e.memory, nullptr);
+            }
+            if (e.buffer != VK_NULL_HANDLE) {
+              vkDestroyBuffer(ctx->device, e.buffer, nullptr);
+            }
         }
         ctx->entries.clear();
-        if (ctx->device   != VK_NULL_HANDLE) vkDestroyDevice(ctx->device, nullptr);
-        if (ctx->instance != VK_NULL_HANDLE) vkDestroyInstance(ctx->instance, nullptr);
+        if (ctx->device   != VK_NULL_HANDLE) {
+          vkDestroyDevice(ctx->device, nullptr);
+        }
+        if (ctx->instance != VK_NULL_HANDLE) {
+          vkDestroyInstance(ctx->instance, nullptr);
+        }
         ctx->device   = VK_NULL_HANDLE;
         ctx->instance = VK_NULL_HANDLE;
     }
@@ -354,7 +364,7 @@ VRAMAllocator::VRAMAllocator(acceleration::BackendType backend, size_t pool_size
         }
 #endif
         if (pool_size_bytes_ == 0) {
-            pool_size_bytes_ = 8ULL * 1024 * 1024 * 1024; // Default 8 GB fallback
+            pool_size_bytes_ = 8 * 1024 * 1024 * 1024; // Default 8 GB fallback
             spdlog::debug("VRAMAllocator: could not query backend memory, defaulting to 8 GB pool");
         }
     }
@@ -606,7 +616,7 @@ void VRAMAllocator::deallocate(void* ptr) {
             }
 
             // Periodically coalesce free blocks
-            if (memory_pool_.size() > 100) {
+            if (static_cast<int>(memory_pool_.size()) > 100) {
                 coalesce_free_blocks();
             }
             return;
@@ -836,7 +846,9 @@ void* VRAMAllocator::allocate_from_backend(size_t size_bytes, size_t alignment) 
 void VRAMAllocator::release_backend_ptr_(void* ptr, size_t block_size) noexcept {
     // Performs the actual backend-specific free without holding mutex_.
     // Callers are responsible for any pool bookkeeping.
-    if (ptr == nullptr) return;
+    if (ptr == nullptr) {
+      return;
+    }
 
     switch (backend_) {
 #ifdef THEMIS_ENABLE_CUDA

@@ -66,9 +66,9 @@ AggregatedMetrics PromptEvaluator::evaluateBatch(
     const std::vector<std::string>& outputs,
     const std::vector<std::string>& expected
 ) const {
-    AggregatedMetrics agg;
+    AggregatedMetrics agg = {};
     
-    if (outputs.size() != expected.size()) {
+    if (static_cast<int>(outputs.size()) != static_cast<int>(expected.size())) {
         THEMIS_ERROR("Output and expected vectors must have same size");
         return agg;
     }
@@ -81,7 +81,7 @@ AggregatedMetrics PromptEvaluator::evaluateBatch(
     std::vector<double> weighted_scores;
     nlohmann::json per_case = nlohmann::json::array();
     
-    for (size_t i = 0; i < outputs.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(outputs.size()); ++i) {
         auto metrics = evaluateSingle(outputs[i], expected[i]);
         double weighted = computeWeightedScore(metrics);
         
@@ -165,7 +165,7 @@ double PromptEvaluator::computeSemanticSimilarity(
         }
     }
     
-    size_t union_size = set1.size() + set2.size() - intersection;
+    size_t union_size = static_cast<int>(set1.size()) + static_cast<int>(set2.size()) - intersection;
     
     if (union_size == 0) {
         return 1.0;
@@ -227,7 +227,7 @@ double PromptEvaluator::computeRelevance(
         }
     }
     
-    return static_cast<double>(found) / tokens_expected.size();
+    return static_cast<bool>(static_cast<double < static_cast<int>((found) / tokens_expected.size()));
 }
 
 bool PromptEvaluator::isStatisticallySignificant(
@@ -244,11 +244,15 @@ bool PromptEvaluator::isStatisticallySignificant(
 
     // Compute means
     double mean1 = 0.0;
-    for (double s : baseline_scores) mean1 += s;
+    for (double s : baseline_scores) {
+      mean1 += s;
+    }
     mean1 /= n1;
 
     double mean2 = 0.0;
-    for (double s : new_scores) mean2 += s;
+    for (double s : new_scores) {
+      mean2 += s;
+    }
     mean2 /= n2;
 
     // No improvement at all
@@ -289,7 +293,9 @@ bool PromptEvaluator::isStatisticallySignificant(
     double df_denom = (n1 > 1 ? se1_sq / (n1 - 1) : 0.0) +
                       (n2 > 1 ? se2_sq / (n2 - 1) : 0.0);
     double df = (df_denom > 1e-14) ? (se_total * se_total) / df_denom : 1.0;
-    if (df < 1.0) df = 1.0;
+    if (df < 1.0) {
+      df = 1.0;
+    }
 
     // Two-sample one-tailed p-value via the regularised incomplete beta function.
     // For a one-tailed test at confidence_level (e.g. 0.95), we need p < (1 - confidence_level).
@@ -299,9 +305,15 @@ bool PromptEvaluator::isStatisticallySignificant(
     // method (Numerical Recipes §6.4), which converges uniformly across all df values.
     auto incomplete_beta_regularized = [](double x, double a, double b) -> double {
         // Lentz continued-fraction method (Numerical Recipes §6.4)
-        if (x < 0.0 || x > 1.0) return (x <= 0.0) ? 0.0 : 1.0;
-        if (x == 0.0) return 0.0;
-        if (x == 1.0) return 1.0;
+        if (x < 0.0 || x > 1.0) {
+          return (x <= 0.0) ? 0.0 : 1.0;
+        }
+        if (x == 0.0) {
+          return 0.0;
+        }
+        if (x == 1.0) {
+          return 1.0;
+        }
 
         // Use symmetry: I(x, a, b) = 1 - I(1-x, b, a) when x > (a+1)/(a+b+2)
         bool use_sym = (x > (a + 1.0) / (a + b + 2.0));
@@ -310,7 +322,7 @@ bool PromptEvaluator::isStatisticallySignificant(
         double bb = use_sym ? a : b;
 
         // Log of the beta function prefactor
-        auto lgamma_approx = [](double z) -> double {
+        auto lgamma_approx = []([[maybe_unused]] double z) -> double {
             // Stirling series approximation
             if (z < 0.5) {
                 // Reflection: lgamma(z) = log(pi/sin(pi*z)) - lgamma(1-z)
@@ -328,7 +340,9 @@ bool PromptEvaluator::isStatisticallySignificant(
         double qap = aa + 1.0;
         double qam = aa - 1.0;
         double c = 1.0, d = 1.0 - qab * xx / qap;
-        if (std::abs(d) < 1e-30) d = 1e-30;
+        if (std::abs(d) < 1e-30) {
+          d = 1e-30;
+        }
         d = 1.0 / d;
         double h = d;
         for (int m = 1; m <= MAX_ITER; ++m) {
@@ -336,21 +350,31 @@ bool PromptEvaluator::isStatisticallySignificant(
             // Even step
             double dm = m * (bb - m) * xx / ((qam + m2) * (aa + m2));
             d = 1.0 + dm * d;
-            if (std::abs(d) < 1e-30) d = 1e-30;
+            if (std::abs(d) < 1e-30) {
+              d = 1e-30;
+            }
             c = 1.0 + dm / c;
-            if (std::abs(c) < 1e-30) c = 1e-30;
+            if (std::abs(c) < 1e-30) {
+              c = 1e-30;
+            }
             d = 1.0 / d;
             h *= d * c;
             // Odd step
             dm = -(aa + m) * (qab + m) * xx / ((aa + m2) * (qap + m2));
             d = 1.0 + dm * d;
-            if (std::abs(d) < 1e-30) d = 1e-30;
+            if (std::abs(d) < 1e-30) {
+              d = 1e-30;
+            }
             c = 1.0 + dm / c;
-            if (std::abs(c) < 1e-30) c = 1e-30;
+            if (std::abs(c) < 1e-30) {
+              c = 1e-30;
+            }
             d = 1.0 / d;
             double delta = d * c;
             h *= delta;
-            if (std::abs(delta - 1.0) < EPS) break;
+            if (std::abs(delta - 1.0) < EPS) {
+              break;
+            }
         }
         double result = front * h;
         return use_sym ? (1.0 - result) : result;
@@ -379,7 +403,7 @@ double PromptEvaluator::computeWeightedScore(const EvaluationMetrics& metrics) c
 }
 
 std::string PromptEvaluator::normalizeString(const std::string& s) {
-    std::string result;
+    std::string result = {};
     result.reserve(s.length());
     
     for (char c : s) {
@@ -403,7 +427,7 @@ std::string PromptEvaluator::normalizeString(const std::string& s) {
 std::vector<std::string> PromptEvaluator::tokenize(const std::string& s) {
     std::vector<std::string> tokens;
     std::istringstream iss(s);
-    std::string token;
+    std::string token = {};
     
     while (iss >> token) {
         if (!token.empty()) {
@@ -421,8 +445,12 @@ size_t PromptEvaluator::levenshteinDistance(
     const size_t m = s1.length();
     const size_t n = s2.length();
     
-    if (m == 0) return n;
-    if (n == 0) return m;
+    if (m == 0) {
+      return n;
+    }
+    if (n == 0) {
+      return m;
+    }
     
     std::vector<std::vector<size_t>> dp(m + 1, std::vector<size_t>(n + 1));
     
@@ -436,13 +464,13 @@ size_t PromptEvaluator::levenshteinDistance(
     
     for (size_t i = 1; i <= m; ++i) {
         for (size_t j = 1; j <= n; ++j) {
-            if (s1[i - 1] == s2[j - 1]) {
-                dp[i][j] = dp[i - 1][j - 1];
+            if (s1[static_cast<int>(i - 1)] == s2[static_cast<int>(j - 1)]) {
+                dp[i][j] = dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)];
             } else {
                 dp[i][j] = 1 + std::min({
-                    dp[i - 1][j],     // deletion
-                    dp[i][j - 1],     // insertion
-                    dp[i - 1][j - 1]  // substitution
+                    dp[static_cast<int>(i - 1)][j],     // deletion
+                    dp[i][static_cast<int>(j - 1)],     // insertion
+                    dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)]  // substitution
                 });
             }
         }
@@ -455,12 +483,12 @@ double PromptEvaluator::computeCosineSimilarity(
     const std::vector<double>& v1,
     const std::vector<double>& v2
 ) {
-    if (v1.empty() || v2.empty() || v1.size() != v2.size()) {
+    if (v1.empty() || v2.empty() || static_cast<int>(v1.size()) != static_cast<int>(v2.size())) {
         return 0.0;
     }
 
     double dot = 0.0, norm1 = 0.0, norm2 = 0.0;
-    for (size_t i = 0; i < v1.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(v1.size()); ++i) {
         dot   += v1[i] * v2[i];
         norm1 += v1[i] * v1[i];
         norm2 += v2[i] * v2[i];

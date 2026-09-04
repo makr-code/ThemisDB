@@ -235,7 +235,9 @@ TEST(ClassifyBridgeIntegrationTest, BridgeReturnedScoresSumToApproximatelyOne) {
     double total = 0.0;
     for (const auto& c : cats) {
         auto it = result.scores.find(c);
-        if (it != result.scores.end()) total += it->second;
+        if (it != result.scores.end()) {
+          total += it->second;
+        }
     }
     EXPECT_NEAR(total, 1.0, kSoftmaxSumTolerance) << "Softmax scores should sum to ~1";
 }

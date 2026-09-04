@@ -95,7 +95,7 @@ TEST_F(PolicyHotReloadTest, ReloadIfChanged_FileModified_ReloadsNewContent) {
         policy_path_,
         std::filesystem::file_time_type::clock::now());
 
-    std::string err;
+    std::string err = {};
     EXPECT_TRUE(pe.reloadIfChanged(&err)) << err;
     EXPECT_EQ(pe.listPolicies().size(), 2u);
 }
@@ -177,7 +177,7 @@ TEST_F(PolicyHotReloadTest, ReloadIfChanged_InvalidPath_ReturnsFalse) {
     std::string bad_path = (tmp_dir_ / "gone.json").string();
     // Manually trigger: just confirm the filesystem check fails gracefully
     // We exercise it via a direct std::filesystem::last_write_time exception
-    std::string err;
+    std::string err = {};
     bool ok = pe.reloadIfChanged(&err);
     // Either returns true (file unchanged check worked) or false with an error
     // The important thing is it does not throw.

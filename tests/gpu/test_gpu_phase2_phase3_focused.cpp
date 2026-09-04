@@ -84,7 +84,8 @@ TEST_F(GPUPhase23HardeningTest, P23_02_SelectDeviceBoundedLatency) {
     // Create a load balancer with a small device list
     GPULoadBalancer balancer(GPULoadBalancer::Strategy::ROUND_ROBIN);
     
-    std::vector<DeviceInfo> devices;
+    std::vector<DeviceInfo> devices = {};
+
     for (int i = 0; i < 4; ++i) {
         DeviceInfo info;
         info.index = i;

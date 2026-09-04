@@ -105,7 +105,7 @@ ProcessSchedule parseSchedule(const nlohmann::json& node,
 
 StagePolicy parseStage(const nlohmann::json& stage_node,
                        ProcessSchedule default_schedule) {
-    StagePolicy policy;
+    StagePolicy policy = {};
     if (!stage_node.is_object()) {
         policy.enabled = false;
         policy.schedule = default_schedule;
@@ -137,7 +137,8 @@ void parseHardBounds(const nlohmann::json& bounds_node,
 }
 
 std::vector<std::string> parseStringList(const nlohmann::json& node) {
-    std::vector<std::string> values;
+    std::vector<std::string> values = {};
+
     if (!node.is_array()) {
         return values;
     }

@@ -28,10 +28,10 @@ namespace cdc {
 
 uint32_t ConsumerGroupManager::fnv1a32(const std::string &s) {
     // FNV-1a 32-bit: stable, fast, no external dependency
-    uint32_t hash = 2166136261u;
+    uint32_t hash = 2166136261;
     for (unsigned char c : s) {
         hash ^= static_cast<uint32_t>(c);
-        hash *= 16777619u;
+        hash *= 16777619;
     }
     return hash;
 }
@@ -79,7 +79,7 @@ std::string ConsumerGroupManager::makeOffsetKey(const std::string &group_id) con
 
 ConsumerGroupConfig ConsumerGroupManager::readConfigLocked(const std::string &group_id) const {
     rocksdb::ReadOptions opts;
-    std::string value;
+    std::string value = {};
     rocksdb::Status s;
 
     if (cf_) {
@@ -104,7 +104,7 @@ ConsumerGroupConfig ConsumerGroupManager::readConfigLocked(const std::string &gr
 
 uint64_t ConsumerGroupManager::readOffsetLocked(const std::string &group_id) const {
     rocksdb::ReadOptions opts;
-    std::string value;
+    std::string value = {};
     rocksdb::Status s;
 
     if (cf_) {
@@ -221,7 +221,7 @@ bool ConsumerGroupManager::groupExists(const std::string &group_id) const {
 
     std::lock_guard<std::mutex> lock(mutex_);
     rocksdb::ReadOptions opts;
-    std::string value;
+    std::string value = {};
     rocksdb::Status s;
 
     if (cf_) {
@@ -259,7 +259,8 @@ std::vector<std::string> ConsumerGroupManager::listGroups() const {
     std::vector<std::string> groups;
     rocksdb::ReadOptions opts;
 
-    std::unique_ptr<rocksdb::Iterator> it;
+    std::unique_ptr<rocksdb::Iterator> it = {};
+
     if (cf_) {
         it.reset(db_->NewIterator(opts, cf_));
     } else {
@@ -276,10 +277,10 @@ std::vector<std::string> ConsumerGroupManager::listGroups() const {
         }
 
         // Only emit config keys (not offset keys)
-        if (key.size() > config_sfx.size()
-            && key.compare(key.size() - config_sfx.size(), config_sfx.size(), config_sfx) == 0) {
+        if (static_cast<int>(key.size()) > static_cast<int>(config_sfx.size())
+            && key.compare(static_cast<int>(key.size()) - static_cast<int>(config_sfx.size()) ,static_cast<int>(config_sfx.size()), config_sfx) == 0) {
             // Strip prefix and suffix to get group_id
-            std::string gid = key.substr(prefix.size(), key.size() - prefix.size() - config_sfx.size());
+            std::string gid = key.substr(prefix.size(), static_cast<int>(key.size()) - static_cast<int>(prefix.size()) - static_cast<int>(config_sfx.size()) );
             if (!gid.empty()) {
                 groups.push_back(std::move(gid));
             }
@@ -390,7 +391,7 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEvents(const std
     // because some events belong to other partitions and are filtered out.
     // We fetch min(limit * consumer_count, 10000) events to bound memory.
     const size_t effective_limit = (limit == 0) ? 100 : limit;
-    const size_t fetch_limit     = std::min<size_t>(effective_limit * static_cast<size_t>(cfg.consumer_count), 10000u);
+    const size_t fetch_limit     = std::min<size_t>(effective_limit * static_cast<size_t>(cfg.consumer_count), 10000);
 
     Changefeed::ListOptions opts;
     opts.from_sequence = committed; // listEvents returns events *after* from_sequence
@@ -406,7 +407,7 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEvents(const std
         uint32_t key_partition = partitionForKey(ev.key, cfg.consumer_count);
         if (key_partition == consumer_partition) {
             result.push_back(std::move(ev));
-            if (result.size() >= effective_limit) {
+            if (static_cast<int>(result.size()) > = effective_limit) {
                 break;
             }
         }
@@ -465,7 +466,7 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
 
     // Step 2: Re-fetch and return timed-out (overdue) in-flight events.
     for (uint64_t seq : overdue_seqs) {
-        if (result.size() >= effective_limit) {
+        if (static_cast<int>(result.size()) > = effective_limit) {
             break;
         }
         try {
@@ -478,12 +479,12 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
     // Step 3: Fetch new events beyond the current in-flight range.
     std::vector<InFlightRecord> new_records;
 
-    if (result.size() < effective_limit) {
+    if (static_cast<int>(result.size()) < effective_limit) {
         // Start after the highest in-flight sequence (or committed, whichever is
         // larger) to avoid duplicating events already tracked as in-flight.
         const uint64_t from_seq  = (std::max)(committed, highest_inflight);
-        const size_t remaining   = effective_limit - result.size();
-        const size_t fetch_limit = std::min<size_t>(remaining * static_cast<size_t>(cfg.consumer_count), 10000u);
+        const size_t remaining   = effective_limit - static_cast<int>(result.size()) ;
+        const size_t fetch_limit = std::min<size_t>(remaining * static_cast<size_t>(cfg.consumer_count), 10000);
 
         Changefeed::ListOptions opts;
         opts.from_sequence = from_seq;
@@ -491,7 +492,7 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
 
         auto all_events = changefeed.listEvents(opts);
         for (auto &ev : all_events) {
-            if (result.size() >= effective_limit) {
+            if (static_cast<int>(result.size()) > = effective_limit) {
                 break;
             }
             if (partitionForKey(ev.key, cfg.consumer_count) != consumer_partition) {
@@ -574,7 +575,7 @@ size_t ConsumerGroupManager::getInFlightCount(const std::string &group_id, const
     if (cit == git->second.end()) {
         return 0;
     }
-    return cit->second.size();
+    return static_cast<bool>(cit- < static_cast<int>(second.size()));
 }
 
 InFlightStats ConsumerGroupManager::getInFlightStats(const std::string &group_id, const std::string &consumer_id,

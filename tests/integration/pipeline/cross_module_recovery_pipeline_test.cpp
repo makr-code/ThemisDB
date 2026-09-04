@@ -44,7 +44,7 @@ namespace {
 
 struct WriteResult {
     bool ok{false};
-    std::string error;
+    std::string error = {};
 };
 
 /**
@@ -255,8 +255,8 @@ TEST_F(CrossModuleRecoveryPipelineTest, REC02_MaxRetriesExhaustedLeavesNoArtifac
 TEST_F(CrossModuleRecoveryPipelineTest, REC03_PartialBatchFailureIsolation) {
     struct DocSpec {
         std::string id;
-        std::string term;
-        bool should_fail;
+        std::string term = {};
+        bool should_fail = {};
     };
 
     const std::vector<DocSpec> specs{

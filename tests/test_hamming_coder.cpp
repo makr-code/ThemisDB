@@ -77,7 +77,7 @@ static std::vector<uint8_t> stripPadding(
     std::size_t                 original_size)
 {
     if (recovered.size() <= original_size)
-        return recovered;
+        return recovered = {};
     return std::vector<uint8_t>(recovered.begin(),
                                 recovered.begin() +
                                 static_cast<std::ptrdiff_t>(original_size));
@@ -211,8 +211,11 @@ TEST_F(HammingCoderTest, HC_07_AllParityMissingDataPresent) {
     auto data = makeData(400);
     auto chunks = coder_.encode(data, k, r);
 
-    std::vector<uint32_t> drop;
-    for (uint32_t i = k; i < k + r; ++i) drop.push_back(i);
+    std::vector<uint32_t> drop = {};
+
+    for (uint32_t i = k; i < k + r; ++i) {
+      drop.push_back(i);
+    }
     auto dr = dropShards(chunks, drop);
 
     auto recovered_raw = coder_.decode(dr.available, dr.missing, k, r);

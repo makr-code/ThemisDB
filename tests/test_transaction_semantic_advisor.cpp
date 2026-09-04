@@ -128,9 +128,13 @@ TEST(TransactionSemanticAdvisorTest, MixedBatch)
     // tx-C should not appear in any hint because it shares no entity with A or B
     bool c_in_hint = false;
     for (const auto& h : hints) {
-        if (h.primary_tx_id == "tx-C") c_in_hint = true;
+        if (h.primary_tx_id == "tx-C") {
+          c_in_hint = true;
+        }
         for (const auto& id : h.affine_tx_ids) {
-            if (id == "tx-C") c_in_hint = true;
+            if (id == "tx-C") {
+              c_in_hint = true;
+            }
         }
     }
     EXPECT_FALSE(c_in_hint);
@@ -140,7 +144,9 @@ TEST(TransactionSemanticAdvisorTest, MixedBatch)
     for (const auto& h : hints) {
         if (h.primary_tx_id == "tx-A") {
             for (const auto& id : h.affine_tx_ids) {
-                if (id == "tx-B") ab_grouped = true;
+                if (id == "tx-B") {
+                  ab_grouped = true;
+                }
             }
         }
     }

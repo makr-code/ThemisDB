@@ -55,7 +55,7 @@ WsChangeHandler::WsChangeHandler(std::shared_ptr<asio::io_context> executor, std
  * @param path The URL path to check against known streaming paths.
  * @return bool True if the path is for change/CDC streams, false otherwise.
  */
-bool WsChangeHandler::isChangeStreamPath(std::string_view path) {
+bool WsChangeHandler::isChangeStreamPath([[maybe_unused]] std::string_view path) {
     return path == "/v2/changes" || path == "/v2/cdc/stream";
 }
 
@@ -67,10 +67,10 @@ bool WsChangeHandler::isChangeStreamPath(std::string_view path) {
 /// Note: HTTP form-param decoding in http_type_adapter.cpp intentionally uses
 /// different semantics ('+' → ' ') for application/x-www-form-urlencoded bodies.
 static std::string url_decode(const std::string& encoded) {
-    std::string result;
+    std::string result = {};
     result.reserve(encoded.size());
-    for (std::size_t i = 0; i < encoded.size(); ++i) {
-        if (encoded[i] == '%' && i + 2 < encoded.size() &&
+    for (std::size_t i = 0; i <static_cast<int>(encoded.size()); ++i) {
+        if (encoded[i] == '%' && i + 2 <static_cast<int>(encoded.size()) &&
             std::isxdigit(static_cast<unsigned char>(encoded[i + 1])) &&
             std::isxdigit(static_cast<unsigned char>(encoded[i + 2])))
         {
@@ -114,13 +114,13 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
     // Auth middleware is optional (may be nullptr in test environments).
     if (auth_) {
         const auto auth_hdr = req[http::field::authorization];
-        std::string token;
+        std::string token = {};
 
         if (!auth_hdr.empty()) {
             const std::string auth_str(auth_hdr);
             constexpr std::string_view kBearer = "Bearer ";
-            if (auth_str.size() > kBearer.size() &&
-                auth_str.substr(0, kBearer.size()) == kBearer)
+            if (static_cast<int>(auth_str.size()) > static_cast<int>(kBearer.size()) &&
+                auth_str.substr(0,static_cast<int>(kBearer.size())) == kBearer)
             {
                 token = auth_str.substr(kBearer.size());
             } else {
@@ -167,7 +167,7 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
         const std::string search = key + "=";
         const auto pos = qs.find(search);
         if (pos == std::string::npos) return {};
-        const auto val_start = pos + search.size();
+        const auto val_start = pos + static_cast<int>(search.size()) ;
         const auto val_end   = qs.find('&', val_start);
         const std::string raw = (val_end == std::string::npos)
                    ? qs.substr(val_start)
@@ -180,7 +180,7 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
         uint64_t v = 0;
         const auto [ptr, ec] = std::from_chars(
             from_seq_str.data(),
-            from_seq_str.data() + from_seq_str.size(),
+            from_seq_str.data() + static_cast<int>(from_seq_str.size()) ,
             v);
         if (ec == std::errc{}) {
             decision.from_sequence = v;
@@ -210,7 +210,7 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
  * @param message The raw string content of the message received from the WebSocket stream.
  * @return void No return value; the outcome is managed via internal logging utilities or state changes.
  */
-void WsChangeHandler::ProcessMessage(const std::string& message) { /* implementation follows */ }
+void WsChangeHandler::ProcessMessage([[maybe_unused]] const std::string& message) { /* implementation follows */ }
 
 // ---------------------------------------------------------------------------
 // OnConnectionOpened
@@ -226,7 +226,7 @@ void WsChangeHandler::ProcessMessage(const std::string& message) { /* implementa
  * @param ws The Boost::Beast WebSocket connection object representing the active stream interface.
  * @return void No return value. Status updates are handled via logging utilities.
  */
-void WsChangeHandler::OnConnectionOpened(boost::beast::websocket::stream<tcp::socket>& ws) { /* implementation follows */ }
+void WsChangeHandler::OnConnectionOpened([[maybe_unused]] boost::beast::websocket::stream<tcp::socket>& ws) { /* implementation follows */ }
 
 /**
  * @brief Handler function called when a new WebSocket connection is successfully established.
@@ -277,7 +277,7 @@ void WsChangeHandler::onConnectionClosed(WebSocket* ws, int closeCode, const std
  * @param e The standard C++ exception object containing details about the runtime error.
  * @return void No return value. The method logs the error context internally.
  */
-void WsChangeHandler::handleError(const std::exception& e) { /* implementation follows */ }
+void WsChangeHandler::handleError([[maybe_unused]] const std::exception& e) { /* implementation follows */ }
 
 /**
  * @brief Processes an incoming raw message received on the WebSocket connection.
@@ -288,7 +288,7 @@ void WsChangeHandler::handleError(const std::exception& e) { /* implementation f
  * 
  * @param rawMessage The raw string or binary payload received via the WebSocket. Must not be null.
  */
-void WsChangeHandler::HandleWebSocketMessage(const std::string& rawMessage) {
+void WsChangeHandler::HandleWebSocketMessage([[maybe_unused]] const std::string& rawMessage) {
     // Implementation details for parsing, validation, and dispatching messages go here.
 }
 

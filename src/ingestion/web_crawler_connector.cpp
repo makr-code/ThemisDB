@@ -59,8 +59,12 @@ static std::string urlOrigin(const std::string& url) {
 /// Returns true if the URL scheme is http or https (the only schemes this
 /// crawler is permitted to fetch, preventing SSRF via file://, ftp://, etc.).
 static bool isAllowedScheme(const std::string& url) {
-    if (url.find("http://") == 0)  return true;
-    if (url.find("https://") == 0) return true;
+    if (url.find("http://") == 0) {
+      return true;
+    }
+    if (url.find("https://") == 0) {
+      return true;
+    }
     return false;
 }
 
@@ -80,7 +84,7 @@ static std::string resolveUrl(const std::string& base,
     }
 
     // Protocol-relative
-    if (href.size() >= 2 && href[0] == '/' && href[1] == '/') {
+    if (static_cast<int>(href.size()) > = 2 && href[0] == '/' && href[1] == '/') {
         auto colon = base.find(':');
         if (colon == std::string::npos) return {};
         std::string resolved = base.substr(0, colon + 1) + href;
@@ -98,7 +102,7 @@ static std::string resolveUrl(const std::string& base,
     auto q = base.find('?');
     std::string base_path = (q != std::string::npos) ? base.substr(0, q) : base;
     auto slash = base_path.rfind('/');
-    if (slash == std::string::npos || slash < origin.size()) {
+    if (slash == std::string::npos  || static_cast<size_t>(slash) <static_cast<int>(origin.size())) {
         return origin + '/' + href;
     }
     return base_path.substr(0, slash + 1) + href;
@@ -113,7 +117,7 @@ static std::string normaliseUrl(const std::string& url) {
 /// Extracts plain text from an HTML body by stripping tags.
 /// Handles basic entity decoding for &amp; < > &quot; &apos;
 static std::string htmlToText(const std::string& html) {
-    std::string text;
+    std::string text = {};
     text.reserve(html.size() / 2);
     bool in_tag    = false;
     bool in_script = false;
@@ -121,7 +125,9 @@ static std::string htmlToText(const std::string& html) {
 
     auto startsWithCI = [&](size_t pos, const char* needle) {
         size_t n = std::strlen(needle);
-        if (pos + n > html.size()) return false;
+        if (pos + n > static_cast<int>(html.size())) {
+          return false;
+        }
         for (size_t i = 0; i < n; ++i) {
             if (std::tolower(static_cast<unsigned char>(html[pos + i])) !=
                 std::tolower(static_cast<unsigned char>(needle[i])))
@@ -130,12 +136,14 @@ static std::string htmlToText(const std::string& html) {
         return true;
     };
 
-    for (size_t i = 0; i < html.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(html.size()); ++i) {
         char c = html[i];
         if (c == '<') {
             // Check for <script or <style blocks to skip entirely
             if (!in_tag) {
-                if (startsWithCI(i + 1, "script")) in_script = true;
+                if (startsWithCI(i + 1, "script")) {
+                  in_script = true;
+                }
                 else if (startsWithCI(i + 1, "/script")) in_script = false;
                 else if (startsWithCI(i + 1, "style")) in_style = true;
                 else if (startsWithCI(i + 1, "/style")) in_style = false;
@@ -146,25 +154,29 @@ static std::string htmlToText(const std::string& html) {
         if (c == '>') {
             in_tag = false;
             // Insert a space between tags to avoid word-merging
-            if (!text.empty() && text.back() != ' ') text += ' ';
+            if (!text.empty() && text.back() != ' ') {
+              text += ' ';
+            }
             continue;
         }
-        if (in_tag || in_script || in_style) continue;
+        if (in_tag || in_script || in_style) {
+          continue;
+        }
 
         // Basic entity decoding
         if (c == '&') {
-            if (i + 4 < html.size() && html.substr(i, 5) == "&amp;")  { text += '&'; i += 4; continue; }
-            if (i + 3 < html.size() && html.substr(i, 4) == "<")   { text += '<'; i += 3; continue; }
-            if (i + 3 < html.size() && html.substr(i, 4) == ">")   { text += '>'; i += 3; continue; }
-            if (i + 5 < html.size() && html.substr(i, 6) == "&quot;") { text += '"'; i += 5; continue; }
-            if (i + 5 < html.size() && html.substr(i, 6) == "&apos;") { text += '\''; i += 5; continue; }
+            if (i + 4 <static_cast<int>(html.size()) && html.substr(i, 5) == "&amp;")  { text += '&'; i += 4; continue; }
+            if (i + 3 <static_cast<int>(html.size()) && html.substr(i, 4) == "<")   { text += '<'; i += 3; continue; }
+            if (i + 3 <static_cast<int>(html.size()) && html.substr(i, 4) == ">")   { text += '>'; i += 3; continue; }
+            if (i + 5 <static_cast<int>(html.size()) && html.substr(i, 6) == "&quot;") { text += '"'; i += 5; continue; }
+            if (i + 5 <static_cast<int>(html.size()) && html.substr(i, 6) == "&apos;") { text += '\''; i += 5; continue; }
         }
 
         text += c;
     }
 
     // Collapse runs of whitespace
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
     bool prev_space = true; // skip leading whitespace
     for (char ch : text) {
@@ -177,7 +189,9 @@ static std::string htmlToText(const std::string& html) {
         }
     }
     // Trim trailing space
-    if (!result.empty() && result.back() == ' ') result.pop_back();
+    if (!result.empty() && result.back() == ' ') {
+      result.pop_back();
+    }
     return result;
 }
 
@@ -185,19 +199,23 @@ static std::string htmlToText(const std::string& html) {
 static std::vector<std::string> extractHrefs(const std::string& html) {
     std::vector<std::string> hrefs;
     size_t pos = 0;
-    while (pos < html.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(html.size())) {
         // Find <a (case-insensitive)
         auto a_pos = html.find('<', pos);
-        if (a_pos == std::string::npos) break;
+        if (a_pos == std::string::npos) {
+          break;
+        }
         // Check "a " or "a\t" or "a>"
         size_t tag_start = a_pos + 1;
         // Skip whitespace after <
-        while (tag_start < html.size() && html[tag_start] == ' ') ++tag_start;
-        if (tag_start >= html.size()) { pos = a_pos + 1; continue; }
+        while (tag_start <static_cast<int>(html.size()) && html[tag_start] == ' ') {
+          ++tag_start;
+        }
+        if (tag_start >= static_cast<int>(html.size())) { pos = a_pos + 1; continue; }
         char t0 = static_cast<char>(std::tolower(static_cast<unsigned char>(html[tag_start])));
         if (t0 != 'a') { pos = a_pos + 1; continue; }
         size_t after_a = tag_start + 1;
-        if (after_a >= html.size()) { pos = a_pos + 1; continue; }
+        if (after_a >= static_cast<int>(html.size())) { pos = a_pos + 1; continue; }
         char delim = html[after_a];
         if (delim != ' ' && delim != '\t' && delim != '\n' && delim != '\r' && delim != '>') {
             pos = a_pos + 1;
@@ -206,7 +224,9 @@ static std::vector<std::string> extractHrefs(const std::string& html) {
 
         // Find end of this tag
         auto tag_end = html.find('>', a_pos);
-        if (tag_end == std::string::npos) break;
+        if (tag_end == std::string::npos) {
+          break;
+        }
         std::string tag = html.substr(a_pos, tag_end - a_pos + 1);
 
         // Find href= in the tag (case-insensitive)
@@ -217,7 +237,7 @@ static std::vector<std::string> extractHrefs(const std::string& html) {
         auto href_pos = tag_lc.find("href=");
         if (href_pos != std::string::npos) {
             size_t val_start = href_pos + 5;
-            if (val_start < tag.size()) {
+            if (static_cast<int>(tag.size()) > val_start) {
                 char quote = tag[val_start];
                 if (quote == '"' || quote == '\'') {
                     ++val_start;
@@ -228,7 +248,7 @@ static std::vector<std::string> extractHrefs(const std::string& html) {
                 } else {
                     // Unquoted
                     auto val_end = val_start;
-                    while (val_end < tag.size() && tag[val_end] != ' ' &&
+                    while (val_end <static_cast<int>(tag.size()) && tag[val_end] != ' ' &&
                            tag[val_end] != '>' && tag[val_end] != '\t')
                         ++val_end;
                     hrefs.push_back(tag.substr(val_start, val_end - val_start));
@@ -247,18 +267,28 @@ static std::vector<std::string> extractSitemapLocs(const std::string& xml) {
     size_t pos = 0;
     const std::string open  = "<loc>";
     const std::string close = "</loc>";
-    while (pos < xml.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(xml.size())) {
         auto start = xml.find(open, pos);
-        if (start == std::string::npos) break;
-        auto val_start = start + open.size();
+        if (start == std::string::npos) {
+          break;
+        }
+        auto val_start = start + static_cast<int>(open.size()) ;
         auto end = xml.find(close, val_start);
-        if (end == std::string::npos) break;
+        if (end == std::string::npos) {
+          break;
+        }
         std::string loc = xml.substr(val_start, end - val_start);
         // Trim whitespace
-        while (!loc.empty() && std::isspace(static_cast<unsigned char>(loc.front()))) loc.erase(loc.begin());
-        while (!loc.empty() && std::isspace(static_cast<unsigned char>(loc.back())))  loc.pop_back();
-        if (!loc.empty()) locs.push_back(loc);
-        pos = end + close.size();
+        while (!loc.empty() && std::isspace(static_cast<unsigned char>(loc.front()))) {
+          loc.erase(loc.begin());
+        }
+        while (!loc.empty() && std::isspace(static_cast<unsigned char>(loc.back()))) {
+          loc.pop_back();
+        }
+        if (!loc.empty()) {
+          locs.push_back(loc);
+        }
+        pos = end + static_cast<int>(close.size()) ;
     }
     return locs;
 }
@@ -286,11 +316,17 @@ static std::vector<std::string> parseRobotsTxt(const std::string& body,
 
     while (std::getline(ss, line)) {
         // Strip carriage return and comments
-        if (!line.empty() && line.back() == '\r') line.pop_back();
+        if (!line.empty() && line.back() == '\r') {
+          line.pop_back();
+        }
         auto hash = line.find('#');
-        if (hash != std::string::npos) line = line.substr(0, hash);
+        if (hash != std::string::npos) {
+          line = line.substr(0, hash);
+        }
         // Trim trailing space
-        while (!line.empty() && std::isspace(static_cast<unsigned char>(line.back()))) line.pop_back();
+        while (!line.empty() && std::isspace(static_cast<unsigned char>(line.back()))) {
+          line.pop_back();
+        }
         if (line.empty()) {
             in_matching_agent = false;
             in_wildcard_agent = false;
@@ -299,12 +335,18 @@ static std::vector<std::string> parseRobotsTxt(const std::string& body,
 
         // Parse "Key: value"
         auto colon = line.find(':');
-        if (colon == std::string::npos) continue;
+        if (colon == std::string::npos) {
+          continue;
+        }
         std::string key = line.substr(0, colon);
         std::string val = line.substr(colon + 1);
         // Trim key and value
-        while (!key.empty() && std::isspace(static_cast<unsigned char>(key.back()))) key.pop_back();
-        while (!val.empty() && std::isspace(static_cast<unsigned char>(val.front()))) val.erase(val.begin());
+        while (!key.empty() && std::isspace(static_cast<unsigned char>(key.back()))) {
+          key.pop_back();
+        }
+        while (!val.empty() && std::isspace(static_cast<unsigned char>(val.front()))) {
+          val.erase(val.begin());
+        }
 
         std::string key_lc = key;
         std::transform(key_lc.begin(), key_lc.end(), key_lc.begin(),
@@ -317,8 +359,12 @@ static std::vector<std::string> parseRobotsTxt(const std::string& body,
             in_matching_agent = (agent_lc == ua_lc || agent_lc.find(ua_lc) != std::string::npos);
             in_wildcard_agent = (agent_lc == "*");
         } else if (key_lc == "disallow") {
-            if (in_matching_agent && !val.empty()) disallowed_specific.push_back(val);
-            if (in_wildcard_agent && !val.empty()) disallowed_wildcard.push_back(val);
+            if (in_matching_agent && !val.empty()) {
+              disallowed_specific.push_back(val);
+            }
+            if (in_wildcard_agent && !val.empty()) {
+              disallowed_wildcard.push_back(val);
+            }
         }
     }
 
@@ -331,7 +377,7 @@ static std::vector<std::string> parseRobotsTxt(const std::string& body,
 static bool isDisallowedByRobots(const std::string& url,
                                   const std::vector<std::string>& disallow_rules) {
     // Extract the path from the URL
-    std::string path;
+    std::string path = {};
     auto scheme_end = url.find("://");
     if (scheme_end != std::string::npos) {
         auto path_start = url.find('/', scheme_end + 3);
@@ -345,7 +391,9 @@ static bool isDisallowedByRobots(const std::string& url,
     }
 
     for (const auto& rule : disallow_rules) {
-        if (path.find(rule) == 0) return true;
+        if (path.find(rule) == 0) {
+          return true;
+        }
     }
     return false;
 }
@@ -371,10 +419,16 @@ public:
     Impl() = default;
 
     bool initialize(const SourceConfig& config) {
-        if (config.type != SourceType::WEB_CRAWLER) return false;
-        if (config.location.empty()) return false;
+        if (config.type != SourceType::WEB_CRAWLER) {
+          return false;
+        }
+        if (config.location.empty()) {
+          return false;
+        }
         // Only allow http/https seed URLs to prevent SSRF
-        if (!isAllowedScheme(config.location)) return false;
+        if (!isAllowedScheme(config.location)) {
+          return false;
+        }
         config_   = config;
         seed_url_ = config.location;
 
@@ -398,7 +452,9 @@ public:
     }
 
     bool isAvailable() const {
-        if (!initialized_ || seed_url_.empty()) return false;
+        if (!initialized_ || seed_url_.empty()) {
+          return false;
+        }
         // Quick reachability check
         auto [status, body] = fetchUrl(seed_url_);
         return (status >= 200 && status < 400);
@@ -410,7 +466,7 @@ public:
 
     IngestionStats ingest(const std::string& /*target_collection*/,
                           ProgressCallback progress_callback) {
-        IngestionStats stats;
+        IngestionStats stats = {};
         if (!initialized_) {
             stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
                            IngestionErrorSeverity::ERROR,
@@ -421,7 +477,8 @@ public:
         std::string origin = urlOrigin(seed_url_);
 
         // ----- Step 1: load robots.txt -----
-        std::vector<std::string> disallow_rules;
+        std::vector<std::string> disallow_rules = {};
+
         if (respect_robots_ && !origin.empty()) {
             auto [rcode, rbody] = fetchUrl(origin + "/robots.txt");
             if (rcode == 200) {
@@ -436,12 +493,20 @@ public:
 
         auto enqueue = [&](const std::string& url, int depth) {
             std::string norm = normaliseUrl(url);
-            if (norm.empty()) return;
-            if (visited.count(norm)) return;
+            if (norm.empty()) {
+              return;
+            }
+            if (visited.count(norm)) {
+              return;
+            }
             if (same_domain_only_ && !origin.empty() &&
                 urlOrigin(norm) != origin) return;
-            if (respect_robots_ && isDisallowedByRobots(norm, disallow_rules)) return;
-            if (max_pages_ > 0 && visited.size() + queue.size() >= max_pages_) return;
+            if (respect_robots_ && isDisallowedByRobots(norm, disallow_rules)) {
+              return;
+            }
+            if (max_pages_ > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) + static_cast<int>(queue.size()) >= max_pages_) {
+              return;
+            }
             visited.insert(norm);
             queue.push({norm, depth});
         };
@@ -457,7 +522,9 @@ public:
                 std::string smap_url = sitemap_queue.front();
                 sitemap_queue.pop();
                 auto [scode, sbody] = fetchUrl(smap_url);
-                if (scode != 200) continue;
+                if (scode != 200) {
+                  continue;
+                }
 
                 if (isSitemapIndex(sbody)) {
                     // Nested sitemaps
@@ -481,7 +548,9 @@ public:
         auto start_time = std::chrono::steady_clock::now();
 
         while (!queue.empty()) {
-            if (max_pages_ > 0 && stats.documents_processed >= max_pages_) break;
+            if (max_pages_ > 0 && stats.documents_processed >= max_pages_) {
+              break;
+            }
 
             auto [url, depth] = queue.front();
             queue.pop();
@@ -528,7 +597,7 @@ public:
             std::string text = htmlToText(body);
             if (!text.empty()) {
                 ++stats.documents_processed;
-                if (progress_callback) {
+                if ([[maybe_unused]] progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0 /* total unknown */,
@@ -570,13 +639,15 @@ public:
 private:
     std::pair<int, std::string> fetchUrl(const std::string& url) const {
         // Use mock if injected
-        if (mock_fetch_) return mock_fetch_(url);
+        if (mock_fetch_) {
+          return mock_fetch_(url);
+        }
 
 #ifdef THEMIS_ENABLE_CURL
         CURL* curl = curl_easy_init();
         if (!curl) return {0, {}};
 
-        std::string response_body;
+        std::string response_body = {};
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_USERAGENT, user_agent_.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, webCrawlerWriteCallback);

@@ -185,7 +185,7 @@ TEST_F(InjectorFixture, WasmPluginLoaderBridgeIsUsed) {
             return std::unique_ptr<IThemisPlugin>{};
         });
 
-    std::string error;
+    std::string error = {};
     auto plugin = themis::plugins::loadWasmPlugin(
         "ignored.wasm", "", WasmPluginRuntime::NONE, "bridge-module", error);
     ASSERT_NE(plugin, nullptr);

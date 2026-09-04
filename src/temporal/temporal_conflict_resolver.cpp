@@ -121,6 +121,7 @@ TemporalSnapshot TemporalConflictResolver::resolve(
                 unresolved_conflicts_[record.conflict_id] = record;
             }
             return local;  // Keep local until manual resolution
+        default: break;
     }
     
     {
@@ -203,7 +204,8 @@ TemporalSnapshot TemporalConflictResolver::resolveCRDT(
 
 std::vector<ConflictRecord> TemporalConflictResolver::getUnresolvedConflicts() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<ConflictRecord> result;
+    std::vector<ConflictRecord> result = {};
+
     result.reserve(unresolved_conflicts_.size());
     for (const auto& [id, record] : unresolved_conflicts_) {
         result.push_back(record);
@@ -245,11 +247,12 @@ nlohmann::json TemporalConflictResolver::exportAuditLog() const {
             case ConflictPolicy::NODE_PRIORITY:    return "NODE_PRIORITY";
             case ConflictPolicy::MANUAL:           return "MANUAL";
             case ConflictPolicy::CRDT_MERGE:       return "CRDT_MERGE";
+            default: break;
         }
         return "UNKNOWN";
     };
 
-    auto appendEntry = [&](const ConflictRecord& r) {
+    auto appendEntry = [&]([[maybe_unused]] const ConflictRecord& r) {
         auto detected_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                                r.detected_at.time_since_epoch())
                                .count();
@@ -280,7 +283,7 @@ nlohmann::json TemporalConflictResolver::getStatistics() const {
         {"fww_resolutions", fww_resolutions_.load()},
         {"manual_resolutions", manual_resolutions_.load()},
         {"crdt_merges", crdt_merges_.load()},
-        {"unresolved_conflicts", unresolved_conflicts_.size()}
+        {"unresolved_conflicts",static_cast<int>(unresolved_conflicts_.size())}
     };
 }
 
@@ -290,11 +293,11 @@ std::string TemporalConflictResolver::generateConflictId() const {
         now.time_since_epoch()
     ).count();
 
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<uint32_t> dist;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "conflict_" << now_ms << "_" << dist(gen);
     return oss.str();
 }
@@ -381,7 +384,8 @@ bool TemporalConflictDetector::queueForManualResolution(const std::string& table
 
 std::vector<Conflict> TemporalConflictDetector::getQueuedConflicts() const {
     std::lock_guard<std::mutex> lock(queue_mutex_);
-    std::vector<Conflict> result;
+    std::vector<Conflict> result = {};
+
     result.reserve(manual_queue_.size());
     for (const auto& [k, v] : manual_queue_) {
         result.push_back(v);
@@ -402,12 +406,13 @@ std::string TemporalConflictDetector::makeQueueKey(
     const std::string& table_name,
     const Conflict& conflict
 ) {
-    std::string type_str;
+    std::string type_str = {};
     switch (conflict.type) {
         case ConflictType::CONCURRENT_UPDATE:     type_str = "CONCURRENT_UPDATE";     break;
         case ConflictType::OVERLAPPING_PERIODS:   type_str = "OVERLAPPING_PERIODS";   break;
         case ConflictType::REFERENTIAL_INTEGRITY: type_str = "REFERENTIAL_INTEGRITY"; break;
         case ConflictType::UNIQUENESS_VIOLATION:  type_str = "UNIQUENESS_VIOLATION";  break;
+        default: break;
     }
     return table_name + "|" + conflict.entity_id + "|" + type_str
          + "|" + conflict.local_version.snapshot_id
@@ -446,7 +451,8 @@ std::optional<Conflict> TemporalConflictDetector::detectConcurrentUpdate(
     }
 
     // Collect differing data keys as affected columns.
-    std::vector<std::string> affected;
+    std::vector<std::string> affected = {};
+
     if (local.data.is_object() && remote.data.is_object()) {
         for (auto& [key, val] : local.data.items()) {
             if (remote.data.contains(key) && remote.data[key] != val) {
@@ -563,7 +569,8 @@ std::optional<Conflict> TemporalConflictDetector::detectUniquenessViolation(
     // Collect affected columns as the symmetric difference of diverging keys:
     // - Keys present in both but with different values
     // - Keys present in only one snapshot
-    std::vector<std::string> affected;
+    std::vector<std::string> affected = {};
+
     if (local.data.is_object() && remote.data.is_object()) {
         // Keys in local: diverging or missing in remote
         for (auto& [key, val] : local.data.items()) {

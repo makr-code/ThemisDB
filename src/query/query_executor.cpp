@@ -37,8 +37,8 @@ const Row& ResultSet::at(std::size_t index) const
 {
     // Gap B002: previously used rows[index] without bounds guard.
     // Fix: explicit size check before iterator formation prevents UB when
-    // index > rows.size() (forming an out-of-range iterator is itself UB).
-    if (index >= rows.size()) {
+    // index > static_cast<int>(rows.size()) (forming an out-of-range iterator is itself UB).
+    if (index >= static_cast<int>(rows.size())) {
         throw std::out_of_range(
             "ResultSet::at: index " + std::to_string(index) +
             " out of range [0, " + std::to_string(rows.size()) + ")");
@@ -78,7 +78,8 @@ std::vector<Row> ResultSet::page(std::size_t offset, std::size_t limit) const
     // Gap B008: previously iterated [it, it_end) without RangeValidator.
     RangeValidator<std::vector<Row>::const_iterator> sub_range(it, it_end);
 
-    std::vector<Row> result;
+    std::vector<Row> result = {};
+
     result.reserve(sub_range.size());
     for (auto pos = sub_range.begin(); pos != sub_range.end(); ++pos) {
         BoundsChecker::check_dereference(pos, it, it_end);
@@ -104,7 +105,7 @@ Row QueryExecutor::build_row(
     const std::unordered_map<std::string, ColumnValue>& src) const
 {
     Row row;
-    row.reserve(plan_->column_names.size());
+    row.reserve(plan_-> static_cast<int>(column_names.size()));
 
     // Iterate column_names with RangeValidator to guard sub-range.
     RangeValidator<std::vector<std::string>::const_iterator>
@@ -163,12 +164,12 @@ ResultSet QueryExecutor::execute()
             const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - execution_start_).count();
             THEMIS_WARN("QueryExecutor::execute: timeout exceeded after {}ms, "
-                        "processed {} rows", elapsed_ms, rs.rows.size());
+                        "processed {} rows", elapsed_ms,static_cast<int>(rs.rows.size()));
             throw std::runtime_error(
                 fmt::format("Query execution timeout ({}ms exceeded after {} rows)",
-                            context_->timeout_ms, rs.rows.size()));
+                            context_->timeout_ms,static_cast<int>(rs.rows.size())));
         }
-        if (context_->row_limit > 0 && rs.rows.size() >= context_->row_limit) {
+        if (context_->row_limit > 0 && static_cast<int>(rs.rows.size()) >= context_->row_limit) {
             throw std::length_error(
                 "QueryExecutor: result exceeds row_limit=" +
                 std::to_string(context_->row_limit));
@@ -187,7 +188,7 @@ ResultSet QueryExecutor::execute()
         } catch (...) {
             throw std::runtime_error(
                 fmt::format("QueryExecutor::execute: row build raised unknown exception "
-                            "at index {}", rs.rows.size()));
+                            "at index {}",static_cast<int>(rs.rows.size())));
         }
     }
 
@@ -201,7 +202,7 @@ ResultSet QueryExecutor::execute()
 std::size_t QueryExecutor::execute_streaming(RowCallback cb)
 {
     if (!cb) {
-        throw std::invalid_argument("QueryExecutor::execute_streaming: null callback");
+        throw std::invalid_argument([[maybe_unused]] "QueryExecutor::execute_streaming: null callback");
     }
 
     const auto& source = plan_->source_rows;

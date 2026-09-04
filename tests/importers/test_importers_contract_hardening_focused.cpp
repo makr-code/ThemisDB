@@ -62,7 +62,7 @@ static constexpr uint64_t kImportersContractSeed = 42;
 // Mock row
 // ---------------------------------------------------------------------------
 struct MockRow {
-    int                                    index;
+    int                                    index = 0;
     std::map<std::string, std::string>     fields;
     bool                                   valid = true;
 };
@@ -99,7 +99,8 @@ struct MockImportCoordinator {
         }
 
         // Process rows (pre-commit — not visible yet)
-        std::vector<MockRow> staging;
+        std::vector<MockRow> staging = {};
+
         for (auto& row : rows) {
             if (!row.valid) {
                 ++result.bad_row_count;
@@ -134,14 +135,20 @@ static SchemaChangeKind classifySchemaChange(
     for (auto& ec : existing.columns) {
         auto it = std::find_if(incoming.columns.begin(), incoming.columns.end(),
                                [&](const MockColumn& ic){ return ic.name == ec.name; });
-        if (it == incoming.columns.end() && ec.required) return SchemaChangeKind::Breaking;
-        if (it != incoming.columns.end() && it->type != ec.type) return SchemaChangeKind::Breaking;
+        if (it == incoming.columns.end() && ec.required) {
+          return SchemaChangeKind::Breaking;
+        }
+        if (it != incoming.columns.end() && it->type != ec.type) {
+          return SchemaChangeKind::Breaking;
+        }
     }
     // Check for new nullable columns (additive)
     for (auto& ic : incoming.columns) {
         auto it = std::find_if(existing.columns.begin(), existing.columns.end(),
                                [&](const MockColumn& ec){ return ec.name == ic.name; });
-        if (it == existing.columns.end() && !ic.required) return SchemaChangeKind::Additive;
+        if (it == existing.columns.end() && !ic.required) {
+          return SchemaChangeKind::Additive;
+        }
     }
     return SchemaChangeKind::NoChange;
 }
@@ -202,7 +209,8 @@ TEST(ImportersContractHardeningIMCH03, DifferentImportIdAccepted) {
 
 TEST(ImportersContractHardeningIMCH04, CommittedRowCountMatchesSource) {
     MockImportCoordinator coord;
-    std::vector<MockRow> rows;
+    std::vector<MockRow> rows = {};
+
     for (int i = 0; i < 10; ++i) rows.push_back({i, {{"i", std::to_string(i)}}, true});
 
     auto r = coord.run("id-04", rows, BadRowDisposition::Skip);
@@ -325,7 +333,8 @@ TEST(ImportersContractHardeningIMCH11, PartialImportNotVisiblePreCommit) {
 
 TEST(ImportersContractHardeningIMCH12, ErrorResponseIncludesBadRowCount) {
     MockImportCoordinator coord;
-    std::vector<MockRow> rows;
+    std::vector<MockRow> rows = {};
+
     for (int i = 0; i < 10; ++i)
         rows.push_back({i, {}, i % 3 == 0 ? false : true}); // rows 0,3,6,9 bad
 
@@ -340,7 +349,8 @@ TEST(ImportersContractHardeningIMCH12, ErrorResponseIncludesBadRowCount) {
 
 TEST(ImportersContractHardeningIMCH13, RowOrderingPreserved) {
     MockImportCoordinator coord;
-    std::vector<MockRow> rows;
+    std::vector<MockRow> rows = {};
+
     for (int i = 0; i < 20; ++i)
         rows.push_back({i, {{"seq", std::to_string(i)}}, true});
 
@@ -358,7 +368,8 @@ TEST(ImportersContractHardeningIMCH13, RowOrderingPreserved) {
 
 TEST(ImportersContractHardeningIMCH14, QuotaExceededSurfaced) {
     MockImportCoordinator coord;
-    std::vector<MockRow> rows;
+    std::vector<MockRow> rows = {};
+
     for (int i = 0; i < 10; ++i) rows.push_back({i, {{"k","v"}}, true});
 
     auto r = coord.run("id-14", rows, BadRowDisposition::Skip, /*row_quota=*/5u);
@@ -373,7 +384,8 @@ TEST(ImportersContractHardeningIMCH14, QuotaExceededSurfaced) {
 TEST(ImportersContractHardeningIMCH15, AtomicCommitAllOrNothing) {
     MockImportCoordinator coord;
     // All valid rows
-    std::vector<MockRow> valid_rows;
+    std::vector<MockRow> valid_rows = {};
+
     for (int i = 0; i < 5; ++i) valid_rows.push_back({i, {{"k","v"}}, true});
 
     auto r_ok = coord.run("id-15a", valid_rows, BadRowDisposition::Fail);

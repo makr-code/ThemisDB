@@ -77,7 +77,7 @@ void MqttSession::stop() {
     }
 }
 
-bool MqttSession::checkRateLimit(size_t messageSize) {
+bool MqttSession::checkRateLimit([[maybe_unused]] size_t messageSize) {
     if (!rateLimitConfig_.enabled) {
         return true;
     }
@@ -127,7 +127,7 @@ void MqttSession::handleConnect() {
     // Check for existing session
     bool sessionPresent = false;
     if (!sessionState_.cleanSession) {
-        MqttSessionState existingState;
+        MqttSessionState existingState = {};
         if (MqttBroker::getInstance().loadSession(sessionState_.clientId, existingState)) {
             sessionPresent = true;
             restoreSession(existingState);
@@ -153,13 +153,13 @@ void MqttSession::handlePublish(const std::string& topic, const std::string& pay
     }
     
     // Rate limiting
-    if (!checkRateLimit(topic.size() + payload.size() + 16)) {
+    if (!checkRateLimit(static_cast<int>(topic.size()) + static_cast<int>(payload.size()) + 16)) {
         return; // Drop message if rate limit exceeded
     }
     
     // Update metrics
     metrics_.messagesReceived++;
-    metrics_.bytesReceived += topic.size() + payload.size();
+    metrics_.bytesReceived += static_cast<int>(topic.size()) + static_cast<int>(payload.size()) ;
     metrics_.publishCount++;
     
     switch (qos) {
@@ -198,7 +198,7 @@ void MqttSession::handlePublish(const std::string& topic, const std::string& pay
     }
 }
 
-void MqttSession::handlePubRec(uint16_t packetId) {
+void MqttSession::handlePubRec([[maybe_unused]] uint16_t packetId) {
     // QoS 2 step 2: Received PUBREC, send PUBREL
     auto it = outgoingQos2_.find(packetId);
     if (it != outgoingQos2_.end()) {
@@ -208,7 +208,7 @@ void MqttSession::handlePubRec(uint16_t packetId) {
     }
 }
 
-void MqttSession::handlePubRel(uint16_t packetId) {
+void MqttSession::handlePubRel([[maybe_unused]] uint16_t packetId) {
     // QoS 2 step 3: Received PUBREL, publish message and send PUBCOMP
     auto it = incomingQos2_.find(packetId);
     if (it != incomingQos2_.end()) {
@@ -219,7 +219,7 @@ void MqttSession::handlePubRel(uint16_t packetId) {
     }
 }
 
-void MqttSession::handlePubComp(uint16_t packetId) {
+void MqttSession::handlePubComp([[maybe_unused]] uint16_t packetId) {
     // QoS 2 step 4: Received PUBCOMP, complete delivery
     outgoingQos2_.erase(packetId);
 }
@@ -230,7 +230,7 @@ void MqttSession::handleSubscribe(const std::string& topic, uint8_t qos, uint16_
         return;
     }
     
-    if (!checkRateLimit(topic.size() + 8)) {
+    if (!checkRateLimit(static_cast<int>(topic.size()) + 8)) {
         return;
     }
     
@@ -321,13 +321,13 @@ void MqttSession::sendConnAck(bool sessionPresent, uint8_t returnCode) {
     
     if (protocolVersion_ == 5) {
         // MQTT 5.0: Add properties length (0 for now)
-        packet.push_back(static_cast<uint8_t>(3u));    // Remaining length
-        packet.push_back(static_cast<uint8_t>(sessionPresent ? 1u : 0u));
+        packet.push_back(static_cast<uint8_t>(3));    // Remaining length
+        packet.push_back(static_cast<uint8_t>(sessionPresent ? 1 : 0));
         packet.push_back(returnCode);
-        packet.push_back(static_cast<uint8_t>(0u));    // Properties length
+        packet.push_back(static_cast<uint8_t>(0));    // Properties length
     } else {
-        packet.push_back(static_cast<uint8_t>(2u));    // Remaining length
-        packet.push_back(static_cast<uint8_t>(sessionPresent ? 1u : 0u));
+        packet.push_back(static_cast<uint8_t>(2));    // Remaining length
+        packet.push_back(static_cast<uint8_t>(sessionPresent ? 1 : 0));
         packet.push_back(returnCode);
     }
     
@@ -345,7 +345,7 @@ void MqttSession::sendPublish(const std::string& topic, const std::string& paylo
     
     // OPTIMIZATION: Pre-allocate packet size
     // Estimate: 1 (type) + 4 (var-length) + 2 (topic len) + topic + [2 (packet id)] + payload
-    size_t estimated_size = 1 + 4 + 2 + topic.size() + payload.size() + (qos > 0 ? 2 : 0);
+    size_t estimated_size = 1 + 4 + 2 + static_cast<int>(topic.size()) + static_cast<int>(payload.size()) + (qos > 0 ? 2 : 0);
     packet.reserve(estimated_size);
     
     packet.push_back(static_cast<uint8_t>(0x30u | flags)); // PUBLISH with QoS and retain
@@ -377,10 +377,10 @@ void MqttSession::sendPublish(const std::string& topic, const std::string& paylo
     
     // Encode remaining length (variable length)
     while (true) {
-        uint8_t encodedByte = static_cast<uint8_t>(remainingLength % 128u);
-        remainingLength = remainingLength / 128u;
+        uint8_t encodedByte = static_cast<uint8_t>(remainingLength % 128);
+        remainingLength = remainingLength / 128;
         if (remainingLength > 0) {
-            encodedByte = static_cast<uint8_t>(encodedByte | 128u);
+            encodedByte = static_cast<uint8_t>(encodedByte | 128);
         }
         packet.push_back(encodedByte);
         if (remainingLength == 0) {
@@ -412,7 +412,7 @@ void MqttSession::sendPublish(const std::string& topic, const std::string& paylo
     doWrite();
 }
 
-void MqttSession::sendPubAck(uint16_t packetId) {
+void MqttSession::sendPubAck([[maybe_unused]] uint16_t packetId) {
     // Build MQTT PUBACK packet (QoS 1 acknowledgment)
     std::vector<uint8_t> packet = {0x40, 0x02};
     packet.push_back(static_cast<uint8_t>((packetId >> 8) & 0xFFu));
@@ -421,7 +421,7 @@ void MqttSession::sendPubAck(uint16_t packetId) {
     doWrite();
 }
 
-void MqttSession::sendPubRec(uint16_t packetId) {
+void MqttSession::sendPubRec([[maybe_unused]] uint16_t packetId) {
     // Build MQTT PUBREC packet (QoS 2 step 1)
     std::vector<uint8_t> packet = {0x50, 0x02};
     packet.push_back(static_cast<uint8_t>((packetId >> 8) & 0xFFu));
@@ -430,7 +430,7 @@ void MqttSession::sendPubRec(uint16_t packetId) {
     doWrite();
 }
 
-void MqttSession::sendPubRel(uint16_t packetId) {
+void MqttSession::sendPubRel([[maybe_unused]] uint16_t packetId) {
     // Build MQTT PUBREL packet (QoS 2 step 2)
     std::vector<uint8_t> packet = {0x62, 0x02}; // QoS 1 for PUBREL
     packet.push_back(static_cast<uint8_t>((packetId >> 8) & 0xFFu));
@@ -439,7 +439,7 @@ void MqttSession::sendPubRel(uint16_t packetId) {
     doWrite();
 }
 
-void MqttSession::sendPubComp(uint16_t packetId) {
+void MqttSession::sendPubComp([[maybe_unused]] uint16_t packetId) {
     // Build MQTT PUBCOMP packet (QoS 2 step 3)
     std::vector<uint8_t> packet = {0x70, 0x02};
     packet.push_back(static_cast<uint8_t>((packetId >> 8) & 0xFFu));
@@ -452,11 +452,12 @@ void MqttSession::sendSubAck(uint16_t packetId, const std::vector<uint8_t>& retu
     // Build MQTT SUBACK packet
     // Format: [Type(0x90), RemainingLength, PacketId(2), ReturnCodes...]
     std::vector<uint8_t> packet;
-    std::vector<uint8_t> packet;
-    packet.reserve(4 + returnCodes.size());
+    std::vector<uint8_t> packet = {};
+
+    packet.reserve(4 + static_cast<int>(returnCodes.size()) );
     
     packet.push_back(0x90); // SUBACK packet type
-    const size_t remaining_suback = 2 + returnCodes.size();
+    const size_t remaining_suback = 2 + static_cast<int>(returnCodes.size()) ;
     if (remaining_suback > static_cast<size_t>(std::numeric_limits<uint8_t>::max())) {
         return;
     }
@@ -552,7 +553,7 @@ void MqttSession::doRead() {
                             payloadOffset += 2;
                         }
 
-                        const size_t payload_prefix = 2 + topicLen + (qos > 0 ? 2u : 0u);
+                        const size_t payload_prefix = 2 + topicLen + (qos > 0 ? 2 : 0);
                         if (remainingLength < payload_prefix) {
                             doRead();
                             return;
@@ -766,16 +767,16 @@ bool MqttBroker::topicMatches(const std::string& filter, const std::string& topi
     
     size_t filterPos = 0, topicPos = 0;
     
-    while (filterPos < filter.size() && topicPos < topic.size()) {
+    while (filterPos <static_cast<int>(filter.size())  && static_cast<size_t>(topicPos) <static_cast<int>(topic.size())) {
         if (filter[filterPos] == '+') {
             // Single-level wildcard: match until next '/' or end
-            while (topicPos < topic.size() && topic[topicPos] != '/') {
+            while (topicPos <static_cast<int>(topic.size()) && topic[topicPos] != '/') {
                 topicPos++;
             }
             filterPos++;
         } else if (filter[filterPos] == '#') {
             // Multi-level wildcard: matches rest of topic
-            return filterPos == filter.size() - 1; // # must be last char
+            return filterPos == static_cast<int>(filter.size()) - 1; // # must be last char
         } else if (filter[filterPos] == topic[topicPos]) {
             filterPos++;
             topicPos++;
@@ -784,7 +785,7 @@ bool MqttBroker::topicMatches(const std::string& filter, const std::string& topi
         }
     }
     
-    return filterPos == filter.size() && topicPos == topic.size();
+    return filterPos == static_cast<int>(filter.size()) && topicPos == static_cast<int>(topic.size());
 }
 
 void MqttBroker::publish(const std::string& topic, const std::string& payload, uint8_t qos, bool retain) {
@@ -830,11 +831,14 @@ MqttMetrics MqttBroker::getAggregatedMetrics() {
     // their per-session counters.  The same MqttSession object may appear in
     // multiple subscription lists (one entry per topic), so we deduplicate by
     // raw pointer before summing.
-    std::unordered_set<MqttSession*> seen;
+    std::unordered_set<MqttSession*> seen = {};
+
     for (auto& [topic, session_vec] : subscriptions_) {
         for (auto& weak_session : session_vec) {
             auto session = weak_session.lock();
-            if (!session) continue;
+            if (!session) {
+              continue;
+            }
             if (!seen.insert(session.get()).second) continue;  // already counted
 
             const auto& m = session->getMetrics();

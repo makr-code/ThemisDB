@@ -107,7 +107,9 @@ public:
 class DWithinFilter final : public ISpatialJoinFilter {
 public:
     explicit DWithinFilter(double radius_m) : radius_m_(radius_m) {
-        if (radius_m < 0.0) throw std::invalid_argument("DWithinFilter: radius_m must be >= 0");
+        if (radius_m < 0.0) {
+          throw std::invalid_argument("DWithinFilter: radius_m must be >= 0");
+        }
     }
 
     [[nodiscard]] double radiusM() const noexcept { return radius_m_; }

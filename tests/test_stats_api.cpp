@@ -25,7 +25,9 @@ public:
     }
     
     void startServer() {
-        if (server_running_) return;
+        if (server_running_) {
+          return;
+        }
         // If there's already a server running (manually started), reuse it
         try {
             if (checkServerHealth()) {
@@ -105,7 +107,9 @@ public:
     }
     
     void stopServer() {
-        if (!server_running_) return;
+        if (!server_running_) {
+          return;
+        }
         
         #ifdef _WIN32
         int stop_rc = std::system("powershell -NoProfile -Command \"Get-Process themis_server -ErrorAction SilentlyContinue | Stop-Process -Force\"");

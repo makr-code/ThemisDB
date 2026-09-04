@@ -50,11 +50,11 @@ std::vector<std::pair<std::string, double>> fuseRRF(
     std::unordered_map<std::string, double> scores;
     std::unordered_map<std::string, std::string> best_modality;
 
-    for (size_t li = 0; li < ranked_lists.size(); ++li) {
+    for (size_t li = 0; li <static_cast<int>(ranked_lists.size()); ++li) {
         const auto& list   = ranked_lists[li];
-        const double w     = (li < weights.size()) ? weights[li] : 1.0;
+        const double w     = (li <static_cast<int>(weights.size())) ? weights[li] : 1.0;
 
-        for (size_t rank = 0; rank < list.size(); ++rank) {
+        for (size_t rank = 0; rank <static_cast<int>(list.size()); ++rank) {
             const auto& [doc_id, raw_score] = list[rank];
             scores[doc_id] += w / (rrf_k + static_cast<double>(rank + 1));
         }
@@ -64,7 +64,7 @@ std::vector<std::pair<std::string, double>> fuseRRF(
     std::stable_sort(result.begin(), result.end(),
                      [](const auto& a, const auto& b) { return a.second > b.second; });
 
-    if (result.size() > max_results) {
+    if (static_cast<int>(result.size()) > max_results) {
         result.resize(max_results);
     }
     return result;
@@ -139,15 +139,19 @@ MultiModalRAGResult MultiModalRAG::query(const MultiModalQuery& mq) const {
     const size_t top_k = (mq.top_k > 0) ? mq.top_k : cfg.top_k;
 
     THEMIS_INFO("MultiModalRAG::query text='{}', modalities={}, top_k={}",
-                mq.text, mq.modalities.size(), top_k);
+                mq.text,static_cast<int>(mq.modalities.size()), top_k);
 
     // Determine which modalities are active for this query.
     bool want_text  = false;
     bool want_image = false;
 
     for (const Modality m : mq.modalities) {
-        if (m == Modality::TEXT)  want_text  = true;
-        if (m == Modality::IMAGE) want_image = true;
+        if (m == Modality::TEXT) {
+          want_text  = true;
+        }
+        if (m == Modality::IMAGE) {
+          want_image = true;
+        }
     }
 
     // ── Step 1: Text retrieval ────────────────────────────────────────────────
@@ -159,9 +163,9 @@ MultiModalRAGResult MultiModalRAG::query(const MultiModalQuery& mq) const {
     if (want_text && impl_->text_retriever && !mq.text.empty()) {
         auto text_docs = impl_->text_retriever(mq.text, top_k);
 
-        THEMIS_DEBUG("MultiModalRAG text retrieval: {} docs", text_docs.size());
+        THEMIS_DEBUG("MultiModalRAG text retrieval: {} docs",static_cast<int>(text_docs.size()));
 
-        for (size_t i = 0; i < text_docs.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(text_docs.size()); ++i) {
             const auto& doc = text_docs[i];
             text_ranked.emplace_back(doc.id, doc.similarity_score);
             text_doc_map[doc.id] = doc;
@@ -178,7 +182,7 @@ MultiModalRAGResult MultiModalRAG::query(const MultiModalQuery& mq) const {
     {
         auto image_docs = impl_->image_retriever(mq.image_embedding, top_k);
 
-        THEMIS_DEBUG("MultiModalRAG image retrieval: {} docs", image_docs.size());
+        THEMIS_DEBUG("MultiModalRAG image retrieval: {} docs",static_cast<int>(image_docs.size()));
 
         for (const auto& img : image_docs) {
             image_ranked.emplace_back(img.id, img.relevance_score);
@@ -204,10 +208,10 @@ MultiModalRAGResult MultiModalRAG::query(const MultiModalQuery& mq) const {
 
     if (all_lists.empty()) {
         THEMIS_WARN("MultiModalRAG::query: no retrieval results (no backends set or empty query)");
-    } else if (all_lists.size() == 1) {
+    } else if (static_cast<int>(all_lists.size()) == 1) {
         // Single-modality: no fusion needed, use raw ranked list directly.
         fused = all_lists[0];
-        if (fused.size() > cfg.max_sources) {
+        if (static_cast<int>(fused.size()) > cfg.max_sources) {
             fused.resize(cfg.max_sources);
         }
     } else {
@@ -223,7 +227,9 @@ MultiModalRAGResult MultiModalRAG::query(const MultiModalQuery& mq) const {
     std::unordered_set<std::string> used_ids;
 
     for (const auto& [doc_id, rrf_score] : fused) {
-        if (used_ids.count(doc_id)) continue;
+        if (used_ids.count(doc_id)) {
+          continue;
+        }
         used_ids.insert(doc_id);
 
         // Prefer image source if available (image modality was requested and
@@ -292,7 +298,7 @@ std::string MultiModalRAG::buildContext(
     const std::vector<MultiModalSource>& sources,
     const std::string&                   question) const
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Partition sources by modality.
     std::vector<const MultiModalSource*> text_sources;
@@ -300,7 +306,9 @@ std::string MultiModalRAG::buildContext(
     std::vector<const MultiModalSource*> table_sources;
 
     for (const auto& src : sources) {
-        if      (src.modality == Modality::TEXT)  text_sources.push_back(&src);
+        if      (src.modality == Modality::TEXT) {
+          text_sources.push_back(&src);
+        }
         else if (src.modality == Modality::IMAGE) image_sources.push_back(&src);
         else if (src.modality == Modality::TABLE) table_sources.push_back(&src);
     }
@@ -308,7 +316,7 @@ std::string MultiModalRAG::buildContext(
     // Text passages
     if (!text_sources.empty()) {
         oss << "Text passages:\n";
-        for (size_t i = 0; i < text_sources.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(text_sources.size()); ++i) {
             oss << "[" << (i + 1) << "] (score="
                 << std::fixed << std::setprecision(2)
                 << text_sources[i]->relevance_score << ") "
@@ -320,7 +328,7 @@ std::string MultiModalRAG::buildContext(
     // Table data
     if (!table_sources.empty()) {
         oss << "Tables:\n";
-        for (size_t i = 0; i < table_sources.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(table_sources.size()); ++i) {
             oss << "[" << (i + 1) << "] (score="
                 << std::fixed << std::setprecision(2)
                 << table_sources[i]->relevance_score << ")\n"
@@ -332,7 +340,7 @@ std::string MultiModalRAG::buildContext(
     // Image captions
     if (!image_sources.empty()) {
         oss << "Image captions:\n";
-        for (size_t i = 0; i < image_sources.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(image_sources.size()); ++i) {
             oss << "[" << (i + 1) << "] (score="
                 << std::fixed << std::setprecision(2)
                 << image_sources[i]->relevance_score << ") ";

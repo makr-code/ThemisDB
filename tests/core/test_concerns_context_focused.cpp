@@ -257,12 +257,16 @@ TEST(ConcernsContextTest, CCT_17_ConcurrentResolvesNoCrash) {
         threads.emplace_back([&] {
             for (int i = 0; i < kCalls; ++i) {
                 auto p = ctx->resolve<ILogger>();
-                if (p) ++ok_count;
+                if (p) {
+                  ++ok_count;
+                }
             }
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(ok_count.load(), kThreads * kCalls);
 }
@@ -301,7 +305,9 @@ TEST(ConcernsContextTest, CCT_18_ConcurrentReplaceAndReadNoCrash) {
     }
     done.store(true, std::memory_order_release);
 
-    for (auto& th : readers) th.join();
+    for (auto& th : readers) {
+      th.join();
+    }
 
     EXPECT_EQ(null_resolve_count.load(), 0);
     SUCCEED();

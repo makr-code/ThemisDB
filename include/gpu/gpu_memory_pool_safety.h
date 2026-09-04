@@ -102,7 +102,7 @@ public:
 private:
     struct Block {
         void* ptr;
-        size_t size;
+        size_t size = {};
         bool in_use;
         Block* next;
         int64_t allocation_id;

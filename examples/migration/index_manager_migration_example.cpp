@@ -55,7 +55,7 @@ class IndexManager_Old {
 private:
     std::shared_ptr<SecondaryIndexManager> secondary_manager_;
     std::unordered_map<std::string, ISecondaryIndex*> secondary_indices_;
-    std::mutex registry_mutex_;
+    std::mutex registry_mutex_ = {};
     
 public:
     ISecondaryIndex* createSecondaryIndex(

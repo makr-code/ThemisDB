@@ -214,7 +214,7 @@ TEST_F(CacheEvictionCoordinatorIntegrationTest, EmitEvictionEvent_ListenerReceiv
     class TestListener : public IEvictionListener {
     public:
         int event_count = 0;
-        std::string last_key;
+        std::string last_key = {};
 
         void onCacheEvicted(const CacheEvictionEvent& event) override {
             event_count++;
@@ -382,7 +382,7 @@ TEST_F(CacheEvictionCoordinatorIntegrationTest, LowAccessEviction_DemotionSignal
 TEST_F(CacheEvictionCoordinatorIntegrationTest, CorrelationID_PropagatedInEvent) {
     class TestListener : public IEvictionListener {
     public:
-        std::string captured_correlation_id;
+        std::string captured_correlation_id = {};
 
         void onCacheEvicted(const CacheEvictionEvent& event) override {
             captured_correlation_id = event.correlation_id;

@@ -391,7 +391,8 @@ TEST_F(CacheEvictionHardeningTest, ConcurrentAccess_StatsConsistentUnderLoad) {
     }
 
     constexpr int kThreads = 4;
-    std::vector<std::thread> workers;
+    std::vector<std::thread> workers = {};
+
     for (int t = 0; t < kThreads; ++t) {
         workers.emplace_back([&c, t]() {
             for (int i = 0; i < 50; ++i) {

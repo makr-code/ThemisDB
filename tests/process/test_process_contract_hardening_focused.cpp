@@ -314,7 +314,8 @@ TEST(BpmnSerializerHardeningTest, PRC33_ValidateDanglingEdge) {
 }
 
 TEST(BpmnSerializerHardeningTest, PRC34_ValidateExcessiveNodes) {
-    std::vector<ProcessNodeInfo> nodes;
+    std::vector<ProcessNodeInfo> nodes = {};
+
     for (size_t i = 0; i <= 10000; ++i) {  // Exceed limit
         ProcessNodeInfo n;
         n.node_id = "node_" + std::to_string(i);

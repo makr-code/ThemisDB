@@ -49,27 +49,37 @@ namespace {
 /// Cosine similarity between two float vectors; returns 0.0 when either is
 /// empty or the norms are zero.
 float cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b) {
-    if (a.empty() || b.empty() || a.size() != b.size()) return 0.f;
+    if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+      return 0.f;
+    }
     float dot = 0.f, na = 0.f, nb = 0.f;
-    for (size_t i = 0; i < a.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         dot += a[i] * b[i];
         na  += a[i] * a[i];
         nb  += b[i] * b[i];
     }
-    if (na == 0.f || nb == 0.f) return 0.f;
+    if (na == 0.f || nb == 0.f) {
+      return 0.f;
+    }
     return dot / (std::sqrt(na) * std::sqrt(nb));
 }
 
 /// Jaccard similarity between two sets of strings.
 float jaccardSimilarity(const std::set<std::string>& a,
                         const std::set<std::string>& b) {
-    if (a.empty() && b.empty()) return 1.f;
+    if (a.empty() && b.empty()) {
+      return 1.f;
+    }
     size_t intersection = 0;
     for (const auto& s : a) {
-        if (b.count(s)) ++intersection;
+        if (b.count(s)) {
+          ++intersection;
+        }
     }
-    const size_t union_size = a.size() + b.size() - intersection;
-    if (union_size == 0) return 0.f;
+    const size_t union_size = static_cast<int>(a.size()) + static_cast<int>(b.size()) - intersection;
+    if (union_size == 0) {
+      return 0.f;
+    }
     return static_cast<float>(intersection) / static_cast<float>(union_size);
 }
 
@@ -88,7 +98,9 @@ std::string instanceStateStr(ProcessInstance::State s) {
 
 /// Check whether @p needle appears (case-insensitive) in @p haystack.
 bool containsInsensitive(const std::string& haystack, const std::string& needle) {
-    if (needle.empty()) return true;
+    if (needle.empty()) {
+      return true;
+    }
     auto it = std::search(haystack.begin(), haystack.end(),
                           needle.begin(), needle.end(),
                           [](char a, char b) {
@@ -180,7 +192,7 @@ ProcessGraphRag::buildKnowledgeGraph(std::string_view model_id) const {
     }
 
     SPDLOG_INFO("[process_graph_rag] built KG for model '{}': {} nodes, {} edges",
-                model_id, kg.nodes.size(), kg.edges.size());
+                model_id,static_cast<int>(kg.nodes.size()),static_cast<int>(kg.edges.size()));
     return kg;
 }
 
@@ -320,7 +332,9 @@ json ProcessGraphRag::extractSubgraph(std::string_view                model_id,
     while (!bfs_queue.empty()) {
         auto [node_id, depth] = bfs_queue.front();
         bfs_queue.pop();
-        if (depth >= max_depth) continue;
+        if (depth >= max_depth) {
+          continue;
+        }
         for (const auto& [neighbor, edge_doc] : adj[node_id]) {
             std::string eid = edge_doc.value("edge_id", node_id + "->" + neighbor);
             if (!visited_nodes.count(neighbor)) {
@@ -367,17 +381,22 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
     }
 
     // Build ordered node index
-    std::vector<std::string> node_ids;
+    std::vector<std::string> node_ids = {};
+
     for (const auto& n : normalized_graph["nodes"]) {
         std::string nid = n.value("id", "");
-        if (!nid.empty()) node_ids.push_back(nid);
+        if (!nid.empty()) {
+          node_ids.push_back(nid);
+        }
     }
     const int N = static_cast<int>(node_ids.size());
     if (N == 0) return {};
 
     std::unordered_map<std::string, int> node_index;
     node_index.reserve(N);
-    for (int i = 0; i < N; ++i) node_index[node_ids[i]] = i;
+    for (int i = 0; i < N; ++i) {
+      node_index[node_ids[i]] = i;
+    }
 
     // Build column-stochastic transition matrix stored as sparse out-degree lists
     // transition[from] = [(to, weight)]  (uniform weight over out-edges)
@@ -388,11 +407,15 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
         // Extract indices immediately to avoid iterator invalidation
         // Use direct value extraction to prevent holding stale iterators
         auto fi = node_index.find(from);
-        if (fi == node_index.end()) continue;
+        if (fi == node_index.end()) {
+          continue;
+        }
         int from_idx = fi->second;  // Extract value immediately
          
         auto ti = node_index.find(to);
-        if (ti == node_index.end()) continue;
+        if (ti == node_index.end()) {
+          continue;
+        }
         int to_idx = ti->second;    // Extract value immediately
          
         out_neighbors[from_idx].push_back(to_idx);
@@ -410,13 +433,19 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
         }
     }
     float psum = 0.f;
-    for (float v : personal) psum += v;
+    for (float v : personal) {
+      psum += v;
+    }
     if (psum > 0.f) {
-        for (float& v : personal) v /= psum;
+        for (float& v : personal) {
+          v /= psum;
+        }
     } else {
         // Fallback: uniform
         const float uni = 1.f / static_cast<float>(N);
-        for (float& v : personal) v = uni;
+        for (float& v : personal) {
+          v = uni;
+        }
     }
 
     // Power iteration: r = α * A^T * r + (1-α) * p
@@ -430,10 +459,14 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
             if (out_neighbors[i].empty()) {
                 // Dangling node: redistribute uniformly
                 const float contrib = r[i] / static_cast<float>(N);
-                for (int j = 0; j < N; ++j) r_new[j] += contrib;
+                for (int j = 0; j < N; ++j) {
+                  r_new[j] += contrib;
+                }
             } else {
                 const float contrib = r[i] / static_cast<float>(out_neighbors[i].size());
-                for (int j : out_neighbors[i]) r_new[j] += contrib;
+                for (int j : out_neighbors[i]) {
+                  r_new[j] += contrib;
+                }
             }
         }
 
@@ -444,7 +477,9 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
             l1_diff += std::abs(r_new[j] - r[j]);
         }
         r = r_new;
-        if (l1_diff < cfg.convergence_epsilon) break;
+        if (l1_diff < cfg.convergence_epsilon) {
+          break;
+        }
     }
 
     // Collect top-k by PPR score
@@ -482,8 +517,12 @@ float ProcessGraphRag::scoreNodeRelevance_(
     // Keyword overlap with name and description
     std::string name = node_doc.value("name", "");
     std::string desc = node_doc.value("description", "");
-    if (containsInsensitive(name, qstr)) score += 0.3f;
-    if (containsInsensitive(desc, qstr)) score += 0.2f;
+    if (containsInsensitive(name, qstr)) {
+      score += 0.3f;
+    }
+    if (containsInsensitive(desc, qstr)) {
+      score += 0.2f;
+    }
 
     return std::min(score, 1.f);
 }
@@ -506,7 +545,7 @@ ProcessRagContext ProcessGraphRag::retrieve(std::string_view        instance_id,
         
         // Create diagnostic incident for retrieval failure
         DiagnosticContext ctx_diag;
-        ctx_diag.recordResourceMetric("instance_id_length", instance_id.size());
+        ctx_diag.recordResourceMetric("instance_id_length",static_cast<int>(instance_id.size()));
         ctx_diag.recordResourceMetric("query_length", query.length());
         ctx_diag.setRemediationSuggestion(
             "Requested process instance '" + std::string(instance_id) + "' not found in storage. "
@@ -559,7 +598,8 @@ ProcessRagContext ProcessGraphRag::retrieve(std::string_view        instance_id,
             auto ranked = computePpr(model_opt->normalized, ctx.active_nodes, ppr_cfg);
 
             // Build subgraph from top-k nodes
-            std::set<std::string> top_set;
+            std::set<std::string> top_set = {};
+
             for (const auto& [nid, score] : ranked) {
                 top_set.insert(nid);
                 ctx.node_scores[nid] = score;
@@ -568,7 +608,9 @@ ProcessRagContext ProcessGraphRag::retrieve(std::string_view        instance_id,
             json ppr_nodes = json::array();
             json ppr_edges = json::array();
             for (const auto& n : model_opt->normalized["nodes"]) {
-                if (top_set.count(n.value("id", ""))) ppr_nodes.push_back(n);
+                if (top_set.count(n.value("id", ""))) {
+                  ppr_nodes.push_back(n);
+                }
             }
             for (const auto& e : model_opt->normalized["edges"]) {
                 if (top_set.count(e.value("from", "")) &&
@@ -599,7 +641,9 @@ ProcessRagContext ProcessGraphRag::retrieve(std::string_view        instance_id,
     }
     if (!ctx.node_scores.empty()) {
         float total = 0.f;
-        for (const auto& [nid, s] : ctx.node_scores) total += s;
+        for (const auto& [nid, s] : ctx.node_scores) {
+          total += s;
+        }
         ctx.overall_relevance = total / static_cast<float>(ctx.node_scores.size());
     }
 
@@ -710,14 +754,18 @@ json ProcessGraphRag::summarizeVerwaltungsvorgang(std::string_view instance_id) 
     summary["current_tasks"] = current_tasks;
 
     // Progress: count of unique visited nodes relative to model total
-    std::set<std::string> all_visited;
+    std::set<std::string> all_visited = {};
+
     for (const auto& tok : inst.tokens) {
-        for (const auto& vn : tok.visited_nodes) all_visited.insert(vn);
+        for (const auto& vn : tok.visited_nodes) {
+          all_visited.insert(vn);
+        }
     }
 
     auto model_opt = models_.load(inst.process_definition_id);
     size_t total_nodes = 1;
-    std::vector<std::string> compliance_tags;
+    std::vector<std::string> compliance_tags = {};
+
     if (model_opt.has_value()) {
         const json& norm = model_opt->normalized;
         if (norm.contains("nodes") && norm["nodes"].is_array()) {
@@ -735,7 +783,9 @@ json ProcessGraphRag::summarizeVerwaltungsvorgang(std::string_view instance_id) 
     for (const auto& tok : inst.tokens) {
         auto ms = linker_.getMissingDocuments(
             instance_id, tok.current_node, inst.process_definition_id);
-        for (auto& m : ms) missing.push_back(m);
+        for (auto& m : ms) {
+          missing.push_back(m);
+        }
     }
     summary["missing_documents"] = missing;
 
@@ -745,7 +795,9 @@ json ProcessGraphRag::summarizeVerwaltungsvorgang(std::string_view instance_id) 
     summary["compliance_score"]  = comp.compliance_score;
     if (!comp.violations.empty()) {
         json viol = json::array();
-        for (const auto& v : comp.violations) viol.push_back(v);
+        for (const auto& v : comp.violations) {
+          viol.push_back(v);
+        }
         summary["violations"] = viol;
     }
 
@@ -770,7 +822,9 @@ json ProcessGraphRag::summarizeVerwaltungsvorgang(std::string_view instance_id) 
 
     // Compliance tags
     json ctags = json::array();
-    for (const auto& t : compliance_tags) ctags.push_back(t);
+    for (const auto& t : compliance_tags) {
+      ctags.push_back(t);
+    }
     summary["compliance_tags"] = ctags;
 
     return summary;
@@ -834,7 +888,9 @@ ProcessGraphRag::checkCompliance(std::string_view instance_id) const {
             }
         }
     }
-    if (sla_ok) ++passed;
+    if (sla_ok) {
+      ++passed;
+    }
 
     // Check 3: Process instance not stuck in FAILED state
     ++checks;
@@ -851,9 +907,13 @@ ProcessGraphRag::checkCompliance(std::string_view instance_id) const {
         const json& norm = model_opt->normalized;
         if (norm.contains("nodes") && norm["nodes"].is_array()) {
             for (const auto& jn : norm["nodes"]) {
-                if (!jn.contains("metadata")) continue;
+                if (!jn.contains("metadata")) {
+                  continue;
+                }
                 const auto& meta = jn["metadata"];
-                if (!meta.contains("dsgvo_annotation")) continue;
+                if (!meta.contains("dsgvo_annotation")) {
+                  continue;
+                }
                 const auto& ann = meta["dsgvo_annotation"];
                 std::string node_name = jn.value("name", jn.value("id", "unknown"));
                 std::string cat       = ann.value("data_category", "");
@@ -876,7 +936,9 @@ ProcessGraphRag::checkCompliance(std::string_view instance_id) const {
                         "Node '" + node_name +
                         "' requires consent but legal_basis does not cite Art. 6(1)(a)");
                 }
-                if (node_ok) ++passed;
+                if (node_ok) {
+                  ++passed;
+                }
             }
         }
     }
@@ -922,8 +984,9 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
 
     // Try to load reference embedding
     std::string ref_emb_key = "proc:inst_emb:" + std::string(instance_id);
-    std::string ref_emb_val;
-    std::vector<float> ref_embedding;
+    std::string ref_emb_val = {};
+    std::vector<float> ref_embedding = {};
+
     if (db_.get(ref_emb_key, ref_emb_val)) {
         try {
             auto emb_json = json::parse(ref_emb_val);
@@ -939,7 +1002,8 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
     }
 
     // Build reference variable key set for Jaccard fallback
-    std::set<std::string> ref_var_keys;
+    std::set<std::string> ref_var_keys = {};
+
     if (ref_inst.variables.is_object()) {
         for (auto& [var_key, v] : ref_inst.variables.items()) {
             ref_var_keys.insert(var_key);
@@ -960,9 +1024,12 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
             try {
                 auto emb_json = json::parse(value);
                 if (emb_json.is_array()) {
-                    std::vector<float> other_emb;
+                    std::vector<float> other_emb = {};
+
                     other_emb.reserve(emb_json.size());
-                    for (const auto& v : emb_json) other_emb.push_back(v.get<float>());
+                    for (const auto& v : emb_json) {
+                      other_emb.push_back(v.get<float>());
+                    }
                     sim = cosineSimilarity(ref_embedding, other_emb);
                 }
             } catch (...) {}
@@ -981,7 +1048,9 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
                 // Store top-5 variables as key context
                 int cnt = 0;
                 for (auto& [vk, vv] : other_inst.variables.items()) {
-                    if (cnt++ >= 5) break;
+                    if (cnt++ >= 5) {
+                      break;
+                    }
                     sc.key_variables[vk] = vv;
                 }
             }
@@ -995,18 +1064,23 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
         const std::string inst_prefix = "proc:inst:";
         db_.scanPrefix(inst_prefix, [&](std::string_view key, std::string_view value) -> bool {
             std::string scan_iid = std::string(key).substr(inst_prefix.size());
-            if (scan_iid == std::string(instance_id)) return true;
+            if (scan_iid == std::string(instance_id)) {
+              return true;
+            }
 
             try {
                 auto doc = json::parse(value);
-                if (doc.value("deleted", false)) return true;
+                if (doc.value("deleted", false)) {
+                  return true;
+                }
 
                 // Only compare instances from the same process definition
                 if (doc.value("process_definition_id", "") != ref_inst.process_definition_id) {
                     return true;
                 }
 
-                std::set<std::string> other_var_keys;
+                std::set<std::string> other_var_keys = {};
+
                 if (doc.contains("variables") && doc["variables"].is_object()) {
                     for (auto& [vk, vv] : doc["variables"].items()) {
                         other_var_keys.insert(vk);
@@ -1024,7 +1098,9 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
                     int cnt = 0;
                     if (doc.contains("variables") && doc["variables"].is_object()) {
                         for (auto& [vk, vv] : doc["variables"].items()) {
-                            if (cnt++ >= 5) break;
+                            if (cnt++ >= 5) {
+                              break;
+                            }
                             sc.key_variables[vk] = vv;
                         }
                     }
@@ -1053,7 +1129,7 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
 
 std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
                                               const ProcessRagConfig&  config) const {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     const bool de = (config.language != "en");
 
     if (de) {
@@ -1066,8 +1142,10 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
         if (ctx.active_nodes.empty()) {
             ss << "(keine)";
         } else {
-            for (size_t i = 0; i < ctx.active_nodes.size(); ++i) {
-                if (i > 0) ss << ", ";
+            for (size_t i = 0; i <static_cast<int>(ctx.active_nodes.size()); ++i) {
+                if (i > 0) {
+                  ss << ", ";
+                }
                 ss << ctx.active_nodes[i];
             }
         }
@@ -1075,8 +1153,10 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
 
         if (!ctx.visited_nodes.empty()) {
             ss << "Verlauf: ";
-            for (size_t i = 0; i < ctx.visited_nodes.size(); ++i) {
-                if (i > 0) ss << " → ";
+            for (size_t i = 0; i <static_cast<int>(ctx.visited_nodes.size()); ++i) {
+                if (i > 0) {
+                  ss << " → ";
+                }
                 ss << ctx.visited_nodes[i];
             }
             ss << "\n";
@@ -1109,8 +1189,10 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
 
         if (!ctx.compliance_tags.empty()) {
             ss << "\nCompliance: ";
-            for (size_t i = 0; i < ctx.compliance_tags.size(); ++i) {
-                if (i > 0) ss << ", ";
+            for (size_t i = 0; i <static_cast<int>(ctx.compliance_tags.size()); ++i) {
+                if (i > 0) {
+                  ss << ", ";
+                }
                 ss << ctx.compliance_tags[i];
             }
             ss << "\n";
@@ -1123,11 +1205,17 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
                 std::string nm  = n.value("name", nid);
                 float score = 0.f;
                 auto it = ctx.node_scores.find(nid);
-                if (it != ctx.node_scores.end()) score = it->second;
+                if (it != ctx.node_scores.end()) {
+                  score = it->second;
+                }
                 ss << "  [" << nm << "] (" << nid << ")";
-                if (score > 0.f) ss << " relevanz=" << static_cast<int>(score * 100) << "%";
+                if (score > 0.f) {
+                  ss << " relevanz=" << static_cast<int>(score * 100) << "%";
+                }
                 std::string desc = n.value("description", "");
-                if (!desc.empty()) ss << " – " << desc;
+                if (!desc.empty()) {
+                  ss << " – " << desc;
+                }
                 ss << "\n";
             }
         } else {
@@ -1158,8 +1246,10 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
         if (ctx.active_nodes.empty()) {
             ss << "(none)";
         } else {
-            for (size_t i = 0; i < ctx.active_nodes.size(); ++i) {
-                if (i > 0) ss << ", ";
+            for (size_t i = 0; i <static_cast<int>(ctx.active_nodes.size()); ++i) {
+                if (i > 0) {
+                  ss << ", ";
+                }
                 ss << ctx.active_nodes[i];
             }
         }
@@ -1180,14 +1270,18 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
         if (ctx.missing_documents.empty()) {
             ss << "(none)";
         } else {
-            for (const auto& m : ctx.missing_documents) ss << "\n  - " << m;
+            for (const auto& m : ctx.missing_documents) {
+              ss << "\n  - " << m;
+            }
         }
         ss << "\n";
 
         if (!ctx.compliance_tags.empty()) {
             ss << "\nCompliance: ";
-            for (size_t i = 0; i < ctx.compliance_tags.size(); ++i) {
-                if (i > 0) ss << ", ";
+            for (size_t i = 0; i <static_cast<int>(ctx.compliance_tags.size()); ++i) {
+                if (i > 0) {
+                  ss << ", ";
+                }
                 ss << ctx.compliance_tags[i];
             }
             ss << "\n";
@@ -1229,7 +1323,7 @@ std::string ProcessGraphRag::buildAdminProcessingPrompt(const ProcessRagContext&
 }
 
 std::string ProcessGraphRag::buildQueryPrompt(const ProcessRagContext& ctx) const {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << ctx.llm_prompt;
     if (!ctx.query.empty()) {
         ss << "\n---\nFrage: " << ctx.query << "\n";
@@ -1248,7 +1342,9 @@ void ProcessGraphRag::registerSlaRule(
     themisdb::analytics::CEPEngine&   cep,
     SlaAlertCallback                  on_alert)
 {
-    if (!cep.isInitialized() || sla_ms <= 0) return;
+    if (!cep.isInitialized() || sla_ms <= 0) {
+      return;
+    }
 
     const std::string inst_id{instance_id};
     const std::string proc_name{process_name};
@@ -1335,7 +1431,9 @@ void ProcessGraphRag::deregisterSlaRule(
     {
         std::lock_guard<std::mutex> lock(sla_rules_mutex_);
         auto it = sla_rules_.find(inst_id);
-        if (it == sla_rules_.end()) return;
+        if (it == sla_rules_.end()) {
+          return;
+        }
         entry = std::move(it->second);
         sla_rules_.erase(it);
     }
@@ -1357,9 +1455,9 @@ void ProcessGraphRag::fireSlaAlert_(
     SlaAlert alert{instance_id, process_name, sla_ms, elapsed_ms, status};
     std::lock_guard<std::mutex> lock(sla_rules_mutex_);
     auto it = sla_rules_.find(instance_id);
-    if (it != sla_rules_.end() && it->second.callback) {
+    if ([[maybe_unused]] it != sla_rules_.end() && it->second.callback) {
         try {
-            it->second.callback(alert);
+            it->second.callback([[maybe_unused]] alert);
         } catch (const std::exception& ex) {
             SPDLOG_WARN("ProcessGraphRag: SLA alert callback threw: {}", ex.what());
         }
@@ -1382,7 +1480,7 @@ void ProcessGraphRag::recordNodeCompletion(
     // Load existing aggregate
     json agg = json::object();
     {
-        std::string val;
+        std::string val = {};
         if (db_.get(key, val) && !val.empty()) {
             try { agg = json::parse(val); }
             catch (...) { agg = json::object(); }
@@ -1400,7 +1498,7 @@ void ProcessGraphRag::recordNodeCompletion(
     samples.push_back(static_cast<double>(dwell_ms));
 
     constexpr size_t kMaxSamples = 200;
-    if (samples.size() > kMaxSamples)
+    if (static_cast<int>(samples.size()) > kMaxSamples)
         samples.erase(samples.begin());
 
     agg["node_name"]  = std::string(node_name);
@@ -1429,7 +1527,9 @@ std::vector<ProcessGraphRag::NodeDwellStats> ProcessGraphRag::analyzeBottlenecks
             catch (...) { return true; }
 
             int64_t count  = agg.value("count", int64_t{0});
-            if (count <= 0) return true;
+            if (count <= 0) {
+              return true;
+            }
 
             double sum_ms = agg.value("sum_ms", 0.0);
             auto   samples = agg.value("samples", std::vector<double>{});
@@ -1440,7 +1540,7 @@ std::vector<ProcessGraphRag::NodeDwellStats> ProcessGraphRag::analyzeBottlenecks
                 std::vector<double> sorted_samples = samples;
                 std::sort(sorted_samples.begin(), sorted_samples.end());
                 size_t idx = static_cast<size_t>(
-                    static_cast<double>(sorted_samples.size() - 1) * 0.95);
+                    static_cast<double>(static_cast<int>(sorted_samples.size()) - 1) * 0.95);
                 p95 = sorted_samples[idx];
             }
 

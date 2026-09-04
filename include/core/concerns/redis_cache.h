@@ -394,7 +394,7 @@ private:
 
     /// Node connection state (one per physical Redis node).
     struct NodeConn {
-        std::string host;
+        std::string host = {};
         uint16_t    port = 6379;
         mutable std::mutex  mutex;
         mutable SocketFd    fd       = kInvalidSocket;

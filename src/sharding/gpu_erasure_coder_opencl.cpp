@@ -72,17 +72,23 @@ static void build_gf_tables() {
         if (carry) x ^= 0x1D;   // reduce mod 0x11D
     }
     gf_exp[255] = gf_exp[0];
-    for (int i = 256; i < 512; ++i) gf_exp[i] = gf_exp[i - 255];
+    for (int i = 256; i < 512; ++i) {
+      gf_exp[i] = gf_exp[i - 255];
+    }
     gf_log[0] = 0;  // undefined, but set to 0 to avoid UB
 }
 
 static uint8_t gf_mul(uint8_t a, uint8_t b) {
-    if (a == 0 || b == 0) return 0;
+    if (a == 0 || b == 0) {
+      return 0;
+    }
     return gf_exp[static_cast<int>(gf_log[a]) + static_cast<int>(gf_log[b])];
 }
 
-static uint8_t gf_inv(uint8_t a) {
-    if (a == 0) throw std::runtime_error("GF division by zero");
+static uint8_t gf_inv([[maybe_unused]] uint8_t a) {
+    if (a == 0) {
+      throw std::runtime_error("GF division by zero");
+    }
     return gf_exp[255 - static_cast<int>(gf_log[a])];
 }
 
@@ -109,7 +115,9 @@ static void gf_gaussian_elimination(std::vector<uint8_t>& mat,
     for (uint32_t pivot_row = 0; pivot_row < rows; ++pivot_row) {
         // Find pivot
         uint32_t pivot = pivot_row;
-        while (pivot < rows && mat[pivot * cols + pivot_row] == 0) ++pivot;
+        while (pivot < rows && mat[pivot * cols + pivot_row] == 0) {
+          ++pivot;
+        }
         if (pivot == rows)
             throw std::runtime_error("Singular matrix during Gaussian elimination");
 
@@ -125,9 +133,13 @@ static void gf_gaussian_elimination(std::vector<uint8_t>& mat,
 
         // Eliminate all other rows
         for (uint32_t r = 0; r < rows; ++r) {
-            if (r == pivot_row) continue;
+            if (r == pivot_row) {
+              continue;
+            }
             uint8_t factor = mat[r * cols + pivot_row];
-            if (factor == 0) continue;
+            if (factor == 0) {
+              continue;
+            }
             for (uint32_t c = 0; c < cols; ++c)
                 mat[r * cols + c] ^= gf_mul(factor, mat[pivot_row * cols + c]);
         }
@@ -141,7 +153,9 @@ static const char* kParityKernelSrc = R"CL(
 uchar gf_mul_cl(__constant uchar* gf_exp,
                 __constant uchar* gf_log,
                 uchar a, uchar b) {
-    if (a == 0 || b == 0) return 0;
+    if (a == 0 || b == 0) {
+      return 0;
+    }
     return gf_exp[(int)gf_log[a] + (int)gf_log[b]];
 }
 
@@ -162,7 +176,9 @@ __kernel void encode_parity(
     uint parity_shards)
 {
     uint pos = get_global_id(0);
-    if (pos >= chunk_size) return;
+    if (pos >= chunk_size) {
+      return;
+    }
 
     for (uint p = 0; p < parity_shards; ++p) {
         uchar acc = 0;
@@ -226,7 +242,9 @@ public:
                     break;
                 }
             }
-            if (chosen_device) break;
+            if (chosen_device) {
+              break;
+            }
         }
         if (!chosen_device) {
             spdlog::warn("OpenCL: no device found on any platform, "
@@ -323,15 +341,15 @@ public:
         uint32_t parity_shards
     ) override {
         const size_t chunk_size =
-            (data.size() + data_shards - 1) / data_shards;
+            (static_cast<int>(data.size()) + data_shards - 1) / data_shards;
 
         // Build padded data chunks
         std::vector<std::vector<uint8_t>> data_chunks(data_shards,
             std::vector<uint8_t>(chunk_size, 0));
         for (uint32_t i = 0; i < data_shards; ++i) {
             size_t off = static_cast<size_t>(i) * chunk_size;
-            size_t sz  = (off < data.size())
-                ? std::min(chunk_size, data.size() - off) : 0;
+            size_t sz  = (off <static_cast<int>(data.size()))
+                ? std::min(chunk_size, static_cast<int>(data.size()) - off) : 0;
             if (sz > 0)
                 std::memcpy(data_chunks[i].data(), data.data() + off, sz);
         }
@@ -351,8 +369,12 @@ public:
         // Assemble result: data chunks first, then parity chunks
         std::vector<std::vector<uint8_t>> result;
         result.reserve(data_shards + parity_shards);
-        for (auto& c : data_chunks)   result.push_back(std::move(c));
-        for (auto& c : parity_chunks) result.push_back(std::move(c));
+        for (auto& c : data_chunks) {
+          result.push_back(std::move(c));
+        }
+        for (auto& c : parity_chunks) {
+          result.push_back(std::move(c));
+        }
         return result;
     }
 
@@ -369,19 +391,22 @@ public:
         if (available_chunks.empty())
             throw std::runtime_error("OpenCL decode: no chunks available");
 
-        const size_t chunk_size = available_chunks.begin()->second.size();
+        const size_t chunk_size = available_chunks.begin()-> static_cast<int>(second.size());
         const uint32_t total_shards = data_shards + parity_shards;
 
         // Collect the indices of available chunks (up to data_shards needed)
         std::set<uint32_t> missing_set(missing_indices.begin(),
                                        missing_indices.end());
-        std::vector<uint32_t> present_indices;
+        std::vector<uint32_t> present_indices = {};
+
         for (uint32_t i = 0; i < total_shards; ++i) {
             if (!missing_set.count(i) && available_chunks.count(i))
                 present_indices.push_back(i);
-            if (present_indices.size() == data_shards) break;
+            if (static_cast<int>(present_indices.size()) == data_shards) {
+              break;
+            }
         }
-        if (present_indices.size() < data_shards)
+        if (static_cast<int>(present_indices.size()) < data_shards)
             throw std::runtime_error(
                 "OpenCL decode: insufficient chunks to recover data");
 
@@ -449,7 +474,7 @@ public:
         // all stripes can be laid out in a flat buffer with the same stride.
         size_t max_block = 0;
         for (const auto& b : data_blocks)
-            max_block = std::max(max_block, b.size());
+            max_block = std::max(max_block,static_cast<int>(b.size()));
         const size_t chunk_size = (max_block + data_shards - 1) / data_shards;
         const size_t stripe_data_bytes =
             static_cast<size_t>(data_shards) * chunk_size;
@@ -468,8 +493,8 @@ public:
             for (uint32_t d = 0; d < data_shards; ++d) {
                 size_t off = d * chunk_size;
                 size_t src_off = off;
-                size_t sz = (src_off < block.size())
-                    ? std::min(chunk_size, block.size() - src_off) : 0;
+                size_t sz = (src_off <static_cast<int>(block.size()))
+                    ? std::min(chunk_size, static_cast<int>(block.size()) - src_off) : 0;
                 if (sz > 0)
                     std::memcpy(flat_data.data()
                                 + s * stripe_data_bytes + d * chunk_size,
@@ -497,9 +522,15 @@ public:
             spdlog::warn("OpenCL batchEncode: buffer allocation failed "
                          "(data={}, parity={}, matrix={}), falling back to CPU",
                          data_err, parity_err, matrix_err);
-            if (buf_data)   clReleaseMemObject(buf_data);
-            if (buf_parity) clReleaseMemObject(buf_parity);
-            if (buf_matrix) clReleaseMemObject(buf_matrix);
+            if (buf_data) {
+              clReleaseMemObject(buf_data);
+            }
+            if (buf_parity) {
+              clReleaseMemObject(buf_parity);
+            }
+            if (buf_matrix) {
+              clReleaseMemObject(buf_matrix);
+            }
             for (const auto& block : data_blocks)
                 results.push_back(encode(block, data_shards, parity_shards));
             return results;
@@ -531,8 +562,12 @@ public:
                 &parity_reg, &sub_parity_err);
 
             if (sub_data_err != CL_SUCCESS || sub_parity_err != CL_SUCCESS) {
-                if (sub_data)   clReleaseMemObject(sub_data);
-                if (sub_parity) clReleaseMemObject(sub_parity);
+                if (sub_data) {
+                  clReleaseMemObject(sub_data);
+                }
+                if (sub_parity) {
+                  clReleaseMemObject(sub_parity);
+                }
                 gpu_ok = false;
                 break;
             }
@@ -573,8 +608,8 @@ public:
                 for (uint32_t d = 0; d < data_shards; ++d) {
                     std::vector<uint8_t> chunk(chunk_size, 0);
                     size_t off = d * chunk_size;
-                    size_t sz  = (off < block.size())
-                        ? std::min(chunk_size, block.size() - off) : 0;
+                    size_t sz  = (off <static_cast<int>(block.size()))
+                        ? std::min(chunk_size, static_cast<int>(block.size()) - off) : 0;
                     if (sz > 0)
                         std::memcpy(chunk.data(), block.data() + off, sz);
                     stripe_chunks.push_back(std::move(chunk));
@@ -659,9 +694,15 @@ private:
             spdlog::warn("OpenCL encode: buffer alloc failed "
                          "(data={}, parity={}, matrix={}), using CPU path",
                          data_err, parity_err, matrix_err);
-            if (buf_data)   clReleaseMemObject(buf_data);
-            if (buf_parity) clReleaseMemObject(buf_parity);
-            if (buf_matrix) clReleaseMemObject(buf_matrix);
+            if (buf_data) {
+              clReleaseMemObject(buf_data);
+            }
+            if (buf_parity) {
+              clReleaseMemObject(buf_parity);
+            }
+            if (buf_matrix) {
+              clReleaseMemObject(buf_matrix);
+            }
             encode_cpu(data_chunks, chunk_size, data_shards,
                        parity_shards, enc_matrix, parity_chunks);
             return;

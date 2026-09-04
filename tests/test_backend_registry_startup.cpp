@@ -258,10 +258,14 @@ TEST(BackendRegistryStartup, ConcurrentGetBestVectorBackend_NoCrash) {
     for (int i = 0; i < kThreads; ++i) {
         threads.emplace_back([&ok]() {
             auto* b = BackendRegistry::instance().getBestVectorBackend();
-            if (b != nullptr) ++ok;
+            if (b != nullptr) {
+              ++ok;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // CPU backend is always registered, so at least 1 should have succeeded.
     EXPECT_GT(ok.load(), 0);
@@ -295,7 +299,9 @@ TEST(BackendRegistryStartup, ConcurrentReadersAndAvailableBackends_NoCrash) {
     });
 
     writer.join();
-    for (auto& t : readers) t.join();
+    for (auto& t : readers) {
+      t.join();
+    }
     SUCCEED();
 }
 
@@ -310,10 +316,14 @@ TEST(BackendRegistryStartup, IsRuntimeInitialized_ThreadSafe) {
 
     for (int i = 0; i < kThreads; ++i) {
         threads.emplace_back([&true_count]() {
-            if (BackendRegistry::instance().isRuntimeInitialized()) ++true_count;
+            if (BackendRegistry::instance().isRuntimeInitialized()) {
+              ++true_count;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(true_count.load(), kThreads);
 }

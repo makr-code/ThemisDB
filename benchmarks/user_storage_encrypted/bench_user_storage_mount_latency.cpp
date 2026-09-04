@@ -40,7 +40,9 @@ using namespace themis::plugins::user_storage;
 
 static std::vector<uint8_t> makeKey(size_t len = 32) {
     std::vector<uint8_t> key(len);
-    for (size_t i = 0; i < len; ++i) key[i] = static_cast<uint8_t>(i & 0xFF);
+    for (size_t i = 0; i < len; ++i) {
+      key[i] = static_cast<uint8_t>(i & 0xFF);
+    }
     return key;
 }
 

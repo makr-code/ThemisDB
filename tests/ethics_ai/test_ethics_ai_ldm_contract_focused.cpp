@@ -64,7 +64,9 @@ public:
 
     bool hasProfile(const std::string& school_id) const override {
         for (const auto& m : schools_) {
-            if (m.school_id == school_id) return true;
+            if (m.school_id == school_id) {
+              return true;
+            }
         }
         return false;
     }
@@ -236,7 +238,8 @@ TEST(EthicsAiLdmContract, EAL04_MetaVerdict_AllAbstain_ProducesDissent) {
         "kant", "rawls", "utilitarianism", "islamische_ethik"
     };
 
-    std::vector<DiscourseRoundOutput> results;
+    std::vector<DiscourseRoundOutput> results = {};
+
     for (const auto& sid : school_ids) {
         DiscourseRoundOutput out;
         out.school_id   = sid;
@@ -353,7 +356,8 @@ TEST(EthicsAiLdmContract, EAL06_CrossCulturalFlag_MultiRegionConsensus) {
 
 TEST(EthicsAiLdmContract, EAL07_MirrorSchool_PresentInMinorityDissent_EvenForClearConsensus) {
     // Set up CLEAR_CONSENSUS main schools.
-    std::vector<DiscourseRoundOutput> main_results;
+    std::vector<DiscourseRoundOutput> main_results = {};
+
     const std::vector<std::string> school_ids = {
         "kant", "rawls", "contractualism", "rationalism", "socratic"
     };

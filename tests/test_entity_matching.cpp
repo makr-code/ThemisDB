@@ -225,7 +225,8 @@ TEST_F(SemanticMatcherTest, VectorSimilarityOrthogonal) {
 }
 
 TEST_F(SemanticMatcherTest, VectorSimilarityEmptyVectors) {
-    std::vector<float> empty;
+    std::vector<float> empty = {};
+
     std::vector<float> v = {1.0f};
     EXPECT_DOUBLE_EQ(ti::SemanticMatcher::vectorSimilarity(empty, empty), 0.0);
     EXPECT_DOUBLE_EQ(ti::SemanticMatcher::vectorSimilarity(v, empty), 0.0);

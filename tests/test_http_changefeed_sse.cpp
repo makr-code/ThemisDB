@@ -55,7 +55,9 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
+        if (server_) {
+          server_->stop();
+        }
         storage_->close();
         std::filesystem::remove_all("data/themis_http_changefeed_sse_test");
     }
@@ -138,9 +140,9 @@ protected:
         std::vector<uint64_t> ids;
         std::regex idre("^id: ([0-9]+)\r?$");
         std::istringstream iss(body);
-        std::string line;
+        std::string line = {};
         while (std::getline(iss, line)) {
-            std::smatch m;
+            std::smatch m = {};
             if (std::regex_match(line, m, idre)) {
                 ids.push_back(static_cast<uint64_t>(std::stoull(m[1].str())));
             }
@@ -203,7 +205,7 @@ TEST_F(HttpChangefeedSseTest, SseStream_ReturnsEventsInSseFormat) {
     // Parse events from SSE stream
     std::vector<std::string> lines;
     std::istringstream iss(sseBody);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
         if (!line.empty() && line.rfind("data: ", 0) == 0) {
             std::string jsonStr = line.substr(6); // skip "data: "
@@ -260,7 +262,7 @@ TEST_F(HttpChangefeedSseTest, SseStream_KeepAlive_ReceivesIncrementalEvents) {
     // Extract data lines
     std::vector<json> events;
     std::istringstream iss(sseBody);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
         if (!line.empty() && line.rfind("data: ", 0) == 0) {
             events.push_back(json::parse(line.substr(6)));
@@ -272,8 +274,12 @@ TEST_F(HttpChangefeedSseTest, SseStream_KeepAlive_ReceivesIncrementalEvents) {
     for (const auto& ev : events) {
         if (ev.contains("key")) {
             std::string key = ev["key"].get<std::string>();
-            if (key == "live:1") found1 = true;
-            if (key == "live:2") found2 = true;
+            if (key == "live:1") {
+              found1 = true;
+            }
+            if (key == "live:2") {
+              found2 = true;
+            }
         }
     }
     ASSERT_TRUE(found1);
@@ -290,7 +296,7 @@ TEST_F(HttpChangefeedSseTest, SseStream_KeepAlive_ReceivesIncrementalEvents) {
 static std::vector<json> parseSseEvents(const std::string& body) {
     std::vector<json> result;
     std::istringstream iss(body);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
         if (!line.empty() && line.rfind("data: ", 0) == 0) {
             try {

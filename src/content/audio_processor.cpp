@@ -261,7 +261,7 @@ std::vector<ContentChunk> AudioProcessor::chunk(const ContentExtractionResult &r
     // For audio, chunk by sentences from transcription
     auto sentences = splitSentences(result.text);
 
-    std::string current_chunk;
+    std::string current_chunk = {};
     int sequence = 0;
 
     for (const auto &sentence : sentences) {
@@ -341,7 +341,7 @@ static uint32_t readBE32(const std::vector<uint8_t> &blob, size_t offset) {
 // Parse WAV/RIFF header to extract audio metadata
 static void parseWavMetadata(const std::vector<uint8_t> &blob, MediaExtractionData &data) {
     // WAV header minimum size: 44 bytes (RIFF + WAVE + fmt chunk + data chunk)
-    if (blob.size() < 44) {
+    if (static_cast<int>(blob.size()) < 44) {
         return;
     }
     // Verify "WAVE" marker at offset 8
@@ -355,7 +355,7 @@ static void parseWavMetadata(const std::vector<uint8_t> &blob, MediaExtractionDa
     while (pos + 8 <= blob.size()) {
         if (blob[pos] == 'f' && blob[pos + 1] == 'm' && blob[pos + 2] == 't' && blob[pos + 3] == ' ') {
             uint32_t chunk_size = readLE32(blob, pos + 4);
-            if (chunk_size >= 16 && static_cast<size_t>(chunk_size) <= blob.size() - pos - 8) {
+            if (chunk_size >= 16 && static_cast<size_t>(chunk_size) <= static_cast<int>(blob.size()) - pos - 8) {
                 // audio_format at pos+8: 1=PCM, 3=IEEE float, 6=alaw, 7=ulaw
                 uint16_t num_channels    = readLE16(blob, pos + 10);
                 uint32_t sample_rate     = readLE32(blob, pos + 12);
@@ -387,11 +387,11 @@ static void parseWavMetadata(const std::vector<uint8_t> &blob, MediaExtractionDa
             break;
         } else {
             // Skip unknown chunk
-            if (pos + 8 > blob.size()) {
+            if (pos + 8 > static_cast<int>(blob.size())) {
                 break;
             }
             uint32_t chunk_size = readLE32(blob, pos + 4);
-            if (static_cast<size_t>(chunk_size) > blob.size() - pos - 8) {
+            if (static_cast<size_t>(chunk_size) > static_cast<int>(blob.size()) - pos - 8) {
                 break; // guard overflow
             }
             pos += 8 + static_cast<size_t>(chunk_size);
@@ -406,7 +406,7 @@ static void parseWavMetadata(const std::vector<uint8_t> &blob, MediaExtractionDa
 static void parseFlacMetadata(const std::vector<uint8_t> &blob, MediaExtractionData &data) {
     // FLAC file starts with "fLaC" (4 bytes), then metadata blocks
     // Minimum STREAMINFO block: 4 (marker) + 4 (block header) + 34 (STREAMINFO) = 42 bytes
-    if (blob.size() < 42) {
+    if (static_cast<int>(blob.size()) < 42) {
         return;
     }
 
@@ -421,7 +421,7 @@ static void parseFlacMetadata(const std::vector<uint8_t> &blob, MediaExtractionD
     // Bytes 5-7: block data length (24-bit big-endian)
     uint32_t block_len = (static_cast<uint32_t>(blob[5]) << 16) | (static_cast<uint32_t>(blob[6]) << 8)
                          | static_cast<uint32_t>(blob[7]);
-    if (block_len < 34 || blob.size() < 8 + block_len) {
+    if (block_len < 34 || static_cast<int>(blob.size()) < 8 + block_len) {
         return;
     }
 
@@ -487,7 +487,7 @@ static void parseMp3FrameHeader(const std::vector<uint8_t> &blob, MediaExtractio
 
     // Skip ID3v2 header if present
     size_t search_start = 0;
-    if (blob.size() >= 10 && blob[0] == 'I' && blob[1] == 'D' && blob[2] == '3') {
+    if (static_cast<int>(blob.size()) > = 10 && blob[0] == 'I' && blob[1] == 'D' && blob[2] == '3') {
         // ID3v2 size is stored as syncsafe integer in bytes 6-9
         uint32_t id3_size = ((uint32_t)(blob[6] & 0x7F) << 21) | ((uint32_t)(blob[7] & 0x7F) << 14)
                             | ((uint32_t)(blob[8] & 0x7F) << 7) | (uint32_t)(blob[9] & 0x7F);
@@ -553,7 +553,7 @@ static void parseMp3FrameHeader(const std::vector<uint8_t> &blob, MediaExtractio
         // Estimate duration from file size and bitrate
         if (bitrate > 0) {
             // Approximate: subtract ID3 header size from content length
-            size_t audio_bytes = (blob.size() > search_start) ? blob.size() - search_start : blob.size();
+            size_t audio_bytes = (static_cast<int>(blob.size()) > search_start) ? static_cast<int>(blob.size()) - search_start : blob.size();
             data.duration_ms   = static_cast<int64_t>(audio_bytes) * 8 * 1000 / (bitrate * 1000);
         }
         return;
@@ -573,12 +573,12 @@ static void parseOggVorbisMetadata(const std::vector<uint8_t> &blob, MediaExtrac
     //   Byte  26:    page_segments (number of entries in segment table)
     //   Bytes 27+:   segment_table[page_segments]
     //   Bytes 27+page_segments: page body (Vorbis identification packet)
-    if (blob.size() < 58) {
+    if (static_cast<int>(blob.size()) < 58) {
         return;
     }
 
     uint8_t num_segments = blob[26]; // page_segments count at byte 26
-    if (27 + static_cast<size_t>(num_segments) > blob.size()) {
+    if (27 + static_cast<size_t>(num_segments) > static_cast<int>(blob.size())) {
         return;
     }
 
@@ -586,7 +586,7 @@ static void parseOggVorbisMetadata(const std::vector<uint8_t> &blob, MediaExtrac
 
     // Vorbis ID header: packet type (1 byte) + "vorbis" (6 bytes) + version (4) + channels (1) + sample_rate (4) ...
     // Minimum: 1+6+4+1+4+4+4+4 = 28 bytes; we need at least 24 for channels+sample_rate+bitrates
-    if (vorbis_id_offset + 24 > blob.size()) {
+    if (vorbis_id_offset + 24 > static_cast<int>(blob.size())) {
         return;
     }
 
@@ -618,9 +618,9 @@ static void parseOggVorbisMetadata(const std::vector<uint8_t> &blob, MediaExtrac
 }
 
 MediaExtractionData AudioProcessor::extractMetadata(const std::vector<uint8_t> &blob) {
-    MediaExtractionData data;
+    MediaExtractionData data = {};
 
-    if (blob.size() < 4) {
+    if (static_cast<int>(blob.size()) < 4) {
         return data;
     }
 
@@ -648,7 +648,7 @@ MediaExtractionData AudioProcessor::extractMetadata(const std::vector<uint8_t> &
 
 // Helper: decode a UTF-16LE string to UTF-8 (basic BMP-only conversion)
 static std::string decodeUtf16Le(const uint8_t *data, size_t len) {
-    std::string result;
+    std::string result = {};
     for (size_t i = 0; i + 1 < len; i += 2) {
         uint16_t cp = static_cast<uint16_t>(data[i]) | (static_cast<uint16_t>(data[i + 1]) << 8);
         if (cp == 0) {
@@ -670,7 +670,7 @@ static std::string decodeUtf16Le(const uint8_t *data, size_t len) {
 
 // Helper: strip leading BOM and null bytes from a text string
 static std::string stripBom(const std::string &s) {
-    if (s.size() >= 3 && static_cast<uint8_t>(s[0]) == 0xEF && static_cast<uint8_t>(s[1]) == 0xBB
+    if (static_cast<int>(s.size()) > = 3 && static_cast<uint8_t>(s[0]) == 0xEF && static_cast<uint8_t>(s[1]) == 0xBB
         && static_cast<uint8_t>(s[2]) == 0xBF) {
         return s.substr(3);
     }
@@ -720,7 +720,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t> &blob) {
     // -----------------------------------------------------------------------
     // ID3v2 tag parsing (used by MP3 and some other formats)
     // -----------------------------------------------------------------------
-    if (blob.size() >= 10 && blob[0] == 'I' && blob[1] == 'D' && blob[2] == '3') {
+    if (static_cast<int>(blob.size()) > = 10 && blob[0] == 'I' && blob[1] == 'D' && blob[2] == '3') {
         uint8_t id3_major = blob[3]; // version: 3 = ID3v2.3, 4 = ID3v2.4
         // Byte 5: flags; byte 5 bit 6 = extended header present
         bool has_extended = (blob[5] & 0x40) != 0;
@@ -740,7 +740,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t> &blob) {
         }
 
         size_t tag_end = 10 + id3_size;
-        if (tag_end > blob.size())
+        if (tag_end > static_cast<int>(blob.size()))
             tag_end = blob.size();
 
         size_t pos = frames_start;
@@ -751,11 +751,11 @@ json AudioProcessor::extractTags(const std::vector<uint8_t> &blob) {
             }
 
             std::string frame_id(reinterpret_cast<const char *>(&blob[pos]), 4);
-            uint32_t frame_size;
+            uint32_t frame_size = 0;
             if (id3_major == 4) {
                 // ID3v2.4: syncsafe integer size
                 frame_size = ((uint32_t)(blob[pos + 4] & 0x7F) << 21) | ((uint32_t)(blob[pos + 5] & 0x7F) << 14)
-                             | ((uint32_t)(blob[pos + 6] & 0x7F) << 7) | (uint32_t)(blob[pos + 7] & 0x7F);
+                             | ([[maybe_unused]] (uint32_t)(blob[pos + 6] & 0x7F) << 7) | (uint32_t)(blob[pos + 7] & 0x7F);
             } else {
                 // ID3v2.3: big-endian 32-bit integer
                 frame_size = readBE32(blob, pos + 4);
@@ -769,7 +769,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t> &blob) {
             const char *tag_name = id3FrameToTagName(frame_id);
             if (tag_name != nullptr && frame_size >= 1) {
                 uint8_t encoding = blob[pos]; // 0=ISO-8859-1, 1=UTF-16, 2=UTF-16BE, 3=UTF-8
-                std::string value;
+                std::string value = {};
 
                 if (encoding == 1 && frame_size >= 3) {
                     // UTF-16 with BOM
@@ -802,7 +802,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t> &blob) {
     // Vorbis comment parsing (used by FLAC and Ogg Vorbis files)
     // -----------------------------------------------------------------------
     // FLAC: second metadata block may be VORBIS_COMMENT (type 4)
-    if (blob.size() >= 8 && blob[0] == 'f' && blob[1] == 'L' && blob[2] == 'a' && blob[3] == 'C') {
+    if (static_cast<int>(blob.size()) > = 8 && blob[0] == 'f' && blob[1] == 'L' && blob[2] == 'a' && blob[3] == 'C') {
         size_t pos      = 4;
         bool last_block = false;
         while (!last_block && pos + 4 <= blob.size()) {

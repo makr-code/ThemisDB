@@ -84,7 +84,7 @@ namespace query {
 namespace {
 
 // Convert a 64-bit integer to a 16-char lowercase hex string.
-static std::string toHex16(uint64_t v) {
+static std::string toHex16([[maybe_unused]] uint64_t v) {
     static const char kHex[] = "0123456789abcdef";
     std::string out(16, '0');
     for (int i = 15; i >= 0; --i, v >>= 4) {
@@ -142,7 +142,7 @@ public:
         auto it = entries_.find(key);
         if (it == entries_.end()) {
             // Enforce capacity limit: drop the oldest (first) entry when full.
-            if (entries_.size() >= config_.max_cache_entries && !entries_.empty()) {
+            if (static_cast<int>(entries_.size()) > = config_.max_cache_entries && !entries_.empty()) {
                 auto oldest = entries_.begin();
                 THEMIS_DEBUG("QueryCompiler: cache full ({}), evicting key={}",
                              config_.max_cache_entries, oldest->first);
@@ -300,7 +300,7 @@ public:
             e.call_count        = 0;
             e.compilation_time_us = 0;
         }
-        THEMIS_DEBUG("QueryCompiler: all entries invalidated ({})", entries_.size());
+        THEMIS_DEBUG("QueryCompiler: all entries invalidated ({})",static_cast<int>(entries_.size()));
     }
 
     // -----------------------------------------------------------------------
@@ -391,7 +391,7 @@ private:
             }
 
             const auto compilation_elapsed_us = elapsedUs(t0);
-            const auto compilation_deadline_us = config_.compilation_timeout_ms * 1000ULL;
+            const auto compilation_deadline_us = config_.compilation_timeout_ms * 1000;
 
             // Check if compilation exceeded the timeout deadline.
             if (compilation_elapsed_us > compilation_deadline_us) {

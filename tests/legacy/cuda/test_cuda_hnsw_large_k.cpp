@@ -34,7 +34,9 @@ static themis::HnswLayerGraph makeFullGraph(uint32_t num_nodes) {
     g.offsets[0] = 0;
     for (uint32_t i = 0; i < num_nodes; ++i) {
         for (uint32_t j = 0; j < num_nodes; ++j) {
-            if (j != i) g.neighbours.push_back(static_cast<int32_t>(j));
+            if (j != i) {
+              g.neighbours.push_back(static_cast<int32_t>(j));
+            }
         }
         g.offsets[i + 1u] = static_cast<int32_t>(g.neighbours.size());
     }
@@ -183,7 +185,9 @@ TEST(CudaHnswLargeK, K512_ResultsSortedByScore) {
     CUDAVectorBackend backend;
     // Vectors at positions 0, 1, 2, ..., N-1
     std::vector<float> vecs(N);
-    for (uint32_t i = 0; i < N; ++i) vecs[i] = static_cast<float>(i);
+    for (uint32_t i = 0; i < N; ++i) {
+      vecs[i] = static_cast<float>(i);
+    }
 
     auto g = makeFullGraph(N);
     ASSERT_TRUE(backend.buildHnswAnnIndex({g}, vecs.data(), N, DIM));
@@ -211,7 +215,8 @@ TEST(CudaHnswLargeK, K257_MultipleQueriesAllReturnK) {
     constexpr uint32_t NQ  = 4u;
 
     CUDAVectorBackend backend;
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i) {
         vecs.push_back(static_cast<float>(i) * 0.01f);
         vecs.push_back(static_cast<float>(i) * 0.01f);

@@ -323,7 +323,9 @@ TEST(RequestCoalescingTest, ConcurrentDuplicateRequestsCoalesced) {
     }
     go.store(true, std::memory_order_release);
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // All responses must be OK.
     for (int i = 0; i < kClients; ++i) {
@@ -694,7 +696,9 @@ TEST(SmartRoutingTest, ConcurrentLatencyRecordingNoDataRace) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // If we reach here without a crash/sanitizer error, the test passes.
     SUCCEED();
@@ -772,15 +776,21 @@ TEST(RequestCoalescingTest, HeadRequestIsCoalesced) {
         threads.emplace_back([&, i] {
             auto req = makeReq(http::verb::head, "/api/v1/entities/head-resource");
             ready.fetch_add(1, std::memory_order_relaxed);
-            while (!go.load(std::memory_order_acquire)) std::this_thread::yield();
+            while (!go.load(std::memory_order_acquire)) {
+              std::this_thread::yield();
+            }
             responses[i] = mgr.handle(req, handler);
         });
     }
 
-    while (ready.load() < kClients) std::this_thread::yield();
+    while (ready.load() < kClients) {
+      std::this_thread::yield();
+    }
     go.store(true, std::memory_order_release);
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     for (int i = 0; i < kClients; ++i) {
         EXPECT_EQ(responses[i].result(), http::status::ok)

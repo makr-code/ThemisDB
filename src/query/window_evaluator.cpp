@@ -31,7 +31,9 @@ nlohmann::json WindowEvalSpec::toJSON() const {
     
     nlohmann::json partBy = nlohmann::json::array();
     for (const auto& expr : partitionBy) {
-        if (expr) partBy.push_back(expr->toJSON());
+        if (expr) {
+          partBy.push_back(expr->toJSON());
+        }
     }
     j["partition_by"] = partBy;
     
@@ -47,7 +49,7 @@ nlohmann::json WindowEvalSpec::toJSON() const {
 nlohmann::json WindowFunctionCall::toJSON() const {
     nlohmann::json j;
     
-    std::string funcName;
+    std::string funcName = {};
     switch (funcType) {
         case WindowFunctionType::ROW_NUMBER: funcName = "ROW_NUMBER"; break;
         case WindowFunctionType::RANK: funcName = "RANK"; break;
@@ -60,9 +62,15 @@ nlohmann::json WindowFunctionCall::toJSON() const {
     }
     j["function"] = funcName;
     
-    if (argument) j["argument"] = argument->toJSON();
-    if (offset != 1) j["offset"] = offset;
-    if (defaultValue) j["default_value"] = defaultValue->toJSON();
+    if (argument) {
+      j["argument"] = argument->toJSON();
+    }
+    if (offset != 1) {
+      j["offset"] = offset;
+    }
+    if (defaultValue) {
+      j["default_value"] = defaultValue->toJSON();
+    }
     j["window"] = windowName;
     
     return j;
@@ -123,7 +131,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluate(
                 break;
         }
 
-        for (size_t i = 0; i < sortedIndices.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(sortedIndices.size()); ++i) {
             const size_t originalIdx = sortedIndices[i];
             results[originalIdx] = partitionResults[i];
         }
@@ -144,7 +152,7 @@ std::vector<std::vector<size_t>> WindowEvaluator::partitionRows(
     if (partitionBy.empty()) {
         // Keine Partitionierung → alle Rows in einer Partition
         std::vector<size_t> allIndices(rows.size());
-        for (size_t i = 0; i < rows.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(rows.size()); ++i) {
             allIndices[i] = i;
         }
         return {allIndices};
@@ -153,7 +161,7 @@ std::vector<std::vector<size_t>> WindowEvaluator::partitionRows(
     // Gruppiere nach Partition-Key
     std::map<std::string, std::vector<size_t>> partitionMap;
     
-    for (size_t i = 0; i < rows.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(rows.size()); ++i) {
         std::string key = makePartitionKey(rows[i], partitionBy, forVariable);
         partitionMap[key].push_back(i);
     }
@@ -174,10 +182,12 @@ std::string WindowEvaluator::makePartitionKey(
     const std::vector<std::shared_ptr<Expression>>& partitionBy,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
-    for (size_t i = 0; i < partitionBy.size(); ++i) {
-        if (i > 0) oss << "|";
+    for (size_t i = 0; i <static_cast<int>(partitionBy.size()); ++i) {
+        if (i > 0) {
+          oss << "|";
+        }
         
         auto val = evaluateExpression(partitionBy[i], row, forVariable);
         oss << val.dump();
@@ -204,7 +214,7 @@ std::vector<size_t> WindowEvaluator::sortPartition(
     }
     
     // Sortiere basierend auf ORDER BY
-    std::sort(sorted.begin(), sorted.end(), [&](size_t idxA, size_t idxB) {
+    std::sort([[maybe_unused]] sorted.begin(), sorted.end(), [&](size_t idxA, size_t idxB) {
         const auto& rowA = rows[idxA];
         const auto& rowB = rows[idxB];
         
@@ -237,7 +247,9 @@ int WindowEvaluator::compareRows(
         } else if (val1.is_number() && val2.is_number()) {
             double d1 = val1.get<double>();
             double d2 = val2.get<double>();
-            if (d1 < d2) cmp = -1;
+            if (d1 < d2) {
+              cmp = -1;
+            }
             else if (d1 > d2) cmp = 1;
             else cmp = 0;
         } else if (val1.is_string() && val2.is_string()) {
@@ -247,7 +259,9 @@ int WindowEvaluator::compareRows(
         } else if (val1.is_boolean() && val2.is_boolean()) {
             bool b1 = val1.get<bool>();
             bool b2 = val2.get<bool>();
-            if (b1 == b2) cmp = 0;
+            if (b1 == b2) {
+              cmp = 0;
+            }
             else if (b1 < b2) cmp = -1;
             else cmp = 1;
         } else {
@@ -269,7 +283,7 @@ int WindowEvaluator::compareRows(
 // Window Function Evaluations
 // ============================================================================
 
-std::vector<nlohmann::json> WindowEvaluator::evaluateRowNumber(size_t partitionSize) {
+std::vector<nlohmann::json> WindowEvaluator::evaluateRowNumber([[maybe_unused]] size_t partitionSize) {
     std::vector<nlohmann::json> results;
     results.reserve(partitionSize);
     
@@ -286,18 +300,21 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateRank(
     const std::vector<SortSpec>& orderBy,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    std::vector<nlohmann::json> results;
+    std::vector<nlohmann::json> results = {};
+
     results.reserve(sortedIndices.size());
     
-    if (sortedIndices.empty()) return results;
+    if (sortedIndices.empty()) {
+      return results;
+    }
     
     int64_t currentRank = 1;
     int64_t rowNumber = 1;
     
-    for (size_t i = 0; i < sortedIndices.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(sortedIndices.size()); ++i) {
         if (i > 0) {
             // Vergleiche mit vorheriger Row
-            const auto& prevRow = rows[sortedIndices[i - 1]];
+            const auto& prevRow = rows[sortedIndices[static_cast<int>(i - 1)]];
             const auto& currRow = rows[sortedIndices[i]];
             
             int cmp = compareRows(prevRow, currRow, orderBy, forVariable);
@@ -322,17 +339,20 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateDenseRank(
     const std::vector<SortSpec>& orderBy,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    std::vector<nlohmann::json> results;
+    std::vector<nlohmann::json> results = {};
+
     results.reserve(sortedIndices.size());
     
-    if (sortedIndices.empty()) return results;
+    if (sortedIndices.empty()) {
+      return results;
+    }
     
     int64_t currentDenseRank = 1;
     
-    for (size_t i = 0; i < sortedIndices.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(sortedIndices.size()); ++i) {
         if (i > 0) {
             // Vergleiche mit vorheriger Row
-            const auto& prevRow = rows[sortedIndices[i - 1]];
+            const auto& prevRow = rows[sortedIndices[static_cast<int>(i - 1)]];
             const auto& currRow = rows[sortedIndices[i]];
             
             int cmp = compareRows(prevRow, currRow, orderBy, forVariable);
@@ -357,7 +377,8 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLag(
     const std::shared_ptr<Expression>& defaultValue,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    std::vector<nlohmann::json> results;
+    std::vector<nlohmann::json> results = {};
+
     results.reserve(sortedIndices.size());
     
     nlohmann::json defaultVal = nullptr;
@@ -367,7 +388,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLag(
         defaultVal = evaluator.evaluateExpression(defaultValue, nlohmann::json());
     }
     
-    for (size_t i = 0; i < sortedIndices.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(sortedIndices.size()); ++i) {
         int64_t lagIdx = static_cast<int64_t>(i) - offset;
         
         if (lagIdx < 0) {
@@ -398,7 +419,8 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLead(
     const std::shared_ptr<Expression>& defaultValue,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    std::vector<nlohmann::json> results;
+    std::vector<nlohmann::json> results = {};
+
     results.reserve(sortedIndices.size());
     
     nlohmann::json defaultVal = nullptr;
@@ -407,7 +429,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLead(
         defaultVal = evaluator.evaluateExpression(defaultValue, nlohmann::json());
     }
     
-    for (size_t i = 0; i < sortedIndices.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(sortedIndices.size()); ++i) {
         int64_t leadIdx = static_cast<int64_t>(i) + offset;
         
         if (leadIdx < 0 || leadIdx >= static_cast<int64_t>(sortedIndices.size())) {
@@ -436,10 +458,13 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateFirstValue(
     const std::shared_ptr<Expression>& argument,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    std::vector<nlohmann::json> results;
+    std::vector<nlohmann::json> results = {};
+
     results.reserve(sortedIndices.size());
     
-    if (sortedIndices.empty()) return results;
+    if (sortedIndices.empty()) {
+      return results;
+    }
     
     // FIRST_VALUE ist der Wert der ersten Row in der Partition
     size_t firstRowIdx = sortedIndices[0];
@@ -451,7 +476,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateFirstValue(
     }
     
     // Alle Rows bekommen den gleichen Wert
-    for (size_t i = 0; i < sortedIndices.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(sortedIndices.size()); ++i) {
         results.push_back(firstVal);
     }
     
@@ -465,17 +490,20 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLastValue(
     const WindowFrame& frame,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    std::vector<nlohmann::json> results;
+    std::vector<nlohmann::json> results = {};
+
     results.reserve(sortedIndices.size());
     
-    if (sortedIndices.empty()) return results;
+    if (sortedIndices.empty()) {
+      return results;
+    }
     
     // LAST_VALUE hängt von Frame ab
     // Default Frame: RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
     // → LAST_VALUE ist der Wert der aktuellen Row (nicht der letzten Row der Partition!)
     
-    for (size_t i = 0; i < sortedIndices.size(); ++i) {
-        size_t lastRowIdx;
+    for (size_t i = 0; i <static_cast<int>(sortedIndices.size()); ++i) {
+        size_t lastRowIdx = 0;
         
         // Frame-End bestimmen
         if (frame.end.type == WindowFrameBound::BoundType::CURRENT_ROW) {
@@ -520,7 +548,9 @@ nlohmann::json WindowEvaluator::evaluateExpression(
     const nlohmann::json& row,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    if (!expr) return nullptr;
+    if (!expr) {
+      return nullptr;
+    }
     
     // Nutze LetEvaluator für Expression-Evaluation
     // (LetEvaluator kann bereits Expressions evaluieren)

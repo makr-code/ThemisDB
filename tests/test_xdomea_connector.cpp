@@ -348,7 +348,9 @@ TEST_F(XDOMEAConnectorTest, ConcurrentStoreIsThreadSafe) {
             } catch (...) {}
         }));
     }
-    for (auto& f : futs) f.get();
+    for (auto& f : futs) {
+      f.get();
+    }
     EXPECT_LE(conn_.count(), static_cast<std::size_t>(N));
 }
 

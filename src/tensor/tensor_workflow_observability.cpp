@@ -47,7 +47,7 @@ void TensorWorkflowObservability::recordTrainingTransition(TrainingState state) 
     }
 }
 
-void TensorWorkflowObservability::recordTrainingLatency(double latency_ms) {
+void TensorWorkflowObservability::recordTrainingLatency([[maybe_unused]] double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     training_latency_ms_.push_back(latency_ms);
 }
@@ -65,12 +65,12 @@ void TensorWorkflowObservability::recordGpuDispatch(bool used_gpu, bool used_fal
     }
 }
 
-void TensorWorkflowObservability::recordCompressionLatency(double latency_ms) {
+void TensorWorkflowObservability::recordCompressionLatency([[maybe_unused]] double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     compression_latency_ms_.push_back(latency_ms);
 }
 
-void TensorWorkflowObservability::recordRoutingLatency(double latency_ms) {
+void TensorWorkflowObservability::recordRoutingLatency([[maybe_unused]] double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     routing_latency_ms_.push_back(latency_ms);
 }
@@ -199,7 +199,7 @@ double TensorWorkflowObservability::percentile95(std::vector<double> values) {
     }
 
     std::sort(values.begin(), values.end());
-    const std::size_t idx = static_cast<std::size_t>(std::floor(0.95 * static_cast<double>(values.size() - 1)));
+    const std::size_t idx = static_cast<std::size_t>(std::floor(0.95 * static_cast<double>(static_cast<int>(values.size()) - 1)));
     return values[idx];
 }
 

@@ -21,16 +21,22 @@ Status InfiniAttentionCUDA::initialize() {
 }
 
 Status InfiniAttentionCUDA::forward(const Tensor& Q, const Tensor& K, const Tensor& V, Tensor& O, const KVCacheManager*) {
-    if (!initialized_) return Status::ERROR_NOT_IMPLEMENTED;
+    if (!initialized_) {
+      return Status::ERROR_NOT_IMPLEMENTED;
+    }
     if (!Q.isValid() || !K.isValid() || !V.isValid() || !O.isValid()) {
         return Status::ERROR_INVALID_TENSOR;
     }
-    if (O.data && O.size > 0) O.data[0] = 1.0f;
+    if (O.data && O.size > 0) {
+      O.data[0] = 1.0f;
+    }
     return Status::SUCCESS;
 }
 
 Status InfiniAttentionCUDA::backward(const Tensor& dO, Tensor& dQ, Tensor& dK, Tensor& dV) {
-    if (!initialized_) return Status::ERROR_NOT_IMPLEMENTED;
+    if (!initialized_) {
+      return Status::ERROR_NOT_IMPLEMENTED;
+    }
     return Status::SUCCESS;
 }
 

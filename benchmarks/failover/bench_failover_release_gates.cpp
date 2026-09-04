@@ -77,7 +77,7 @@ static constexpr int      kWarmupIterations      = 100;
 // ---------------------------------------------------------------------------
 
 struct HeartbeatMsg {
-    std::uint64_t epoch;
+    std::uint64_t epoch = {};
     std::uint64_t sender_id;
     std::uint64_t timestamp_ms;
     char          padding[8];  // fill to 32 bytes
@@ -97,7 +97,9 @@ static std::uint64_t runMockElection(std::uint64_t current_epoch, std::uint64_t 
     // Models the decision computation, not network.
     std::uint64_t winner = 0;
     for (std::uint64_t i = 1; i < n_nodes; ++i) {
-        if (i < winner) winner = i;
+        if (i < winner) {
+          winner = i;
+        }
     }
     return current_epoch + 1u;
 }
@@ -107,7 +109,7 @@ static std::uint64_t runMockElection(std::uint64_t current_epoch, std::uint64_t 
 // ---------------------------------------------------------------------------
 
 struct StateSyncMsg {
-    std::uint64_t epoch;
+    std::uint64_t epoch = {};
     std::uint64_t offset;   // log offset
     char          data[64]; // fixed 64-byte payload
 };
@@ -125,9 +127,9 @@ static StateSyncMsg makeStateSync(std::uint64_t epoch, std::uint64_t offset) noe
 // ---------------------------------------------------------------------------
 
 struct NodeHealthState {
-    std::uint64_t last_hb_ms;
-    std::uint64_t timeout_ms;
-    bool          alive;
+    std::uint64_t last_hb_ms = {};
+    std::uint64_t timeout_ms = {};
+    bool          alive = {};
 };
 
 [[nodiscard]] static bool evaluateHealth(const NodeHealthState& s,

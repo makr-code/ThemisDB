@@ -99,9 +99,9 @@ public:
     /// Operation context (e.g., "deserialize_bpmn", "link_process_instance")
     std::string operation;
     /// Input identifier (e.g., filename, model ID, instance ID)
-    std::string input_identifier;
+    std::string input_identifier = {};
     /// Actionable message describing the failure and remediation steps
-    std::string actionable_message;
+    std::string actionable_message = {};
 
     /**
      * @brief Construct a diagnostic record.

@@ -72,12 +72,12 @@ HTTPResponse HTTPMetricsClient::sendMetricsBatch(const std::vector<QualityMetric
     }
     
     // Split into batches if needed
-    if (metrics.size() > static_cast<size_t>(config_.max_batch_size)) {
-        THEMIS_WARN("Batch size {} exceeds max {}, splitting", metrics.size(), config_.max_batch_size);
+    if (static_cast<int>(metrics.size()) > static_cast<size_t>(config_.max_batch_size)) {
+        THEMIS_WARN("Batch size {} exceeds max {}, splitting",static_cast<int>(metrics.size()), config_.max_batch_size);
         
         HTTPResponse last_response;
-        for (size_t i = 0; i < metrics.size(); i += config_.max_batch_size) {
-            size_t end = std::min(i + config_.max_batch_size, metrics.size());
+        for (size_t i = 0; i <static_cast<int>(metrics.size()); i += config_.max_batch_size) {
+            size_t end = std::min(i + config_.max_batch_size,static_cast<int>(metrics.size()));
             std::vector<QualityMetricPayload> batch(metrics.begin() + i, metrics.begin() + end);
             last_response = sendMetricsBatch(batch);
             
@@ -90,7 +90,7 @@ HTTPResponse HTTPMetricsClient::sendMetricsBatch(const std::vector<QualityMetric
     
     std::string json_payload = serializeMetricsBatch(metrics);
     auto response = sendRawPayload(json_payload);
-    updateStatistics(response, metrics.size());
+    updateStatistics(response,static_cast<int>(metrics.size()));
     return response;
 }
 
@@ -123,7 +123,7 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
     const themis::utils::RetryConfig retry_cfg{
         /* max_attempts       */ static_cast<uint32_t>(config_.max_retries + 1),
         /* initial_backoff_ms */ static_cast<uint32_t>(config_.retry_backoff_ms),
-        /* max_backoff_ms     */ 30'000u,
+        /* max_backoff_ms     */ 30'000,
         /* multiplier         */ 2.0,
         /* jitter_fraction    */ 0.0,
     };
@@ -216,8 +216,8 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
     }
 
     // Call callback if set
-    if (request_callback_) {
-        std::string method_str;
+    if ([[maybe_unused]] request_callback_) {
+        std::string method_str = {};
         switch (method) {
             case HTTPMethod::GET:    method_str = "GET";    break;
             case HTTPMethod::POST:   method_str = "POST";   break;
@@ -227,8 +227,8 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
         
         // Safely access callback with mutex protection
         {
-            std::lock_guard<std::mutex> lock(callback_mutex_);
-            if (request_callback_) {  // Double-check pattern
+            std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+            if ([[maybe_unused]] request_callback_) {  // Double-check pattern
                 request_callback_(method_str, path, response.status_code, response.latency.count());
             }
         }
@@ -253,9 +253,9 @@ void HTTPMetricsClient::resetStatistics() {
     stats_ = Statistics();
 }
 
-void HTTPMetricsClient::setRequestCallback(RequestCallback callback) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
-    request_callback_ = std::move(callback);
+void HTTPMetricsClient::setRequestCallback([[maybe_unused]] RequestCallback callback) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+    request_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void HTTPMetricsClient::updateStatistics(const HTTPResponse& response, size_t metrics_count) {

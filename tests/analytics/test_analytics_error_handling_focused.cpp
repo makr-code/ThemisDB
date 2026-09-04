@@ -101,7 +101,7 @@ struct ErrorContext {
     int line_number = 0;
 
     std::string toJSON() const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "{\"code\":" << static_cast<int>(code)
             << ",\"message\":\"" << message
             << "\",\"module\":\"" << module
@@ -318,7 +318,7 @@ TEST_F(ErrorHandlingTest, EH_06_SpecificVsGenericCatch) {
 TEST_F(ErrorHandlingTest, EH_07_MultipleCatchBlocks) {
     // Gap: exception handling (multiple exception types)
     
-    std::string caught_type;
+    std::string caught_type = {};
 
     try {
         throw StreamException(makeErrorContext(
@@ -790,7 +790,7 @@ TEST_F(ErrorHandlingTest, EH_25_ConsistentClassificationAcrossModule) {
     // Verify that same error always has same code/message
     struct ErrorDef {
         AnalyticsErrorCode code;
-        std::string message;
+        std::string message = {};
     };
 
     auto define_error = [](const std::string& name) -> ErrorDef {

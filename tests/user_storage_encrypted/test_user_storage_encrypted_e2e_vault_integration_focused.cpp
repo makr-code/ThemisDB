@@ -204,10 +204,14 @@ TEST_F(E2EIntegrationTest, E2E_03_KeyRotationConcurrentLoad) {
     stop_writing = true;
     
     for (auto& t : writers) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     for (auto& t : readers) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     EXPECT_GT(write_count, 0);

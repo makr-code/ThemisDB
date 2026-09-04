@@ -142,7 +142,8 @@ public:
         }
         
         // Find all nodes with no dependencies (in-degree = 0)
-        std::queue<std::string> ready;
+        std::queue<std::string> ready = {};
+
         for (const auto& [name, degree] : in_degree) {
             if (degree == 0) {
                 ready.push(name);

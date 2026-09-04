@@ -37,10 +37,10 @@ namespace {
 
 /// Simple FNV-1a 32-bit hash for stable ID generation.
 uint32_t fnv1a32(const std::string& s) {
-    uint32_t h = 2166136261u;
+    uint32_t h = 2166136261;
     for (auto c : s) {
         h ^= static_cast<uint8_t>(c);
-        h *= 16777619u;
+        h *= 16777619;
     }
     return h;
 }
@@ -101,14 +101,18 @@ std::string parseGermanMonth(const std::string& month) {
     }};
     const auto lo = toLower(month);
     for (const auto& [name, num] : months) {
-        if (lo == name || lo.substr(0, strlen(name)) == name) return num;
+        if (lo == name || lo.substr(0, strlen(name)) == name) {
+          return num;
+        }
     }
     return "";
 }
 
 /// Zero-pad a 1-2 digit number string to 2 digits.
 std::string pad2(const std::string& s) {
-    if (s.size() == 1) return "0" + s;
+    if (static_cast<int>(s.size()) == 1) {
+      return "0" + s;
+    }
     return s;
 }
 
@@ -170,7 +174,7 @@ Result<GesetzHierarchy> GesetzParser::parse(
     hier.root.number  = norm_abbreviation;
 
     // Extract full title from first matching line
-    std::smatch tm;
+    std::smatch tm = {};
     if (std::regex_search(text, tm, RE_TITLE)) {
         hier.full_title = themis::utils::trim(tm[0].str());
         hier.root.heading = hier.full_title;
@@ -246,7 +250,7 @@ std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsW
         }
 
         std::size_t end = pos;
-        while (end < trimmed.size() &&
+        while (end <static_cast<int>(trimmed.size()) &&
                (std::isalnum(static_cast<unsigned char>(trimmed[end])) || trimmed[end] == '.')) {
             ++end;
         }
@@ -284,16 +288,16 @@ std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsW
     };
 
     std::istringstream input(text);
-    std::string line;
-    std::string current_number;
-    std::string current_heading;
-    std::string current_body;
+    std::string line = {};
+    std::string current_number = {};
+    std::string current_heading = {};
+    std::string current_body = {};
     std::size_t current_offset = 0;
     std::size_t line_offset = 0;
 
     while (std::getline(input, line)) {
-        std::string parsed_number;
-        std::string parsed_heading;
+        std::string parsed_number = {};
+        std::string parsed_heading = {};
         if (parseParagraphHeader(line, parsed_number, parsed_heading)) {
             finalizeParagraph(current_offset, current_number, current_heading, current_body);
             current_offset = line_offset;
@@ -306,7 +310,7 @@ std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsW
             current_body += line;
         }
 
-        line_offset += line.size() + 1;
+        line_offset += static_cast<int>(line.size()) + 1;
     }
 
     finalizeParagraph(current_offset, current_number, current_heading, current_body);
@@ -318,7 +322,8 @@ std::vector<GesetzNode> GesetzParser::extractParagraphs(
     const std::string& text) const
 {
     auto positioned = extractParagraphsWithOffsets(text);
-    std::vector<GesetzNode> result;
+    std::vector<GesetzNode> result = {};
+
     result.reserve(positioned.size());
     for (auto& [offset, node] : positioned) {
         (void)offset;
@@ -340,9 +345,13 @@ std::vector<BaseEntity> GesetzParser::toEntities(
             // Strip "§" prefix and whitespace
             std::string n = raw_num;
             const auto pos = n.find_first_of("0123456789");
-            if (pos != std::string::npos) n = n.substr(pos);
+            if (pos != std::string::npos) {
+              n = n.substr(pos);
+            }
             const auto end = n.find_first_not_of("0123456789abcdefghijklmnopqrstuvwxyz");
-            if (end != std::string::npos) n = n.substr(0, end);
+            if (end != std::string::npos) {
+              n = n.substr(0, end);
+            }
 
             BaseEntity e;
             e.id         = "law:" + norm + ":§" + n;
@@ -391,7 +400,7 @@ std::string TemporalExtractor::normaliseDate(const std::string& raw) {
 
     // Numeric: DD.MM.YYYY
     static const std::regex re_dmy(R"((\d{1,2})\.(\d{1,2})\.(\d{4}))");
-    std::smatch m;
+    std::smatch m = {};
     if (std::regex_search(s, m, re_dmy)) {
         return m[3].str() + "-" + pad2(m[2].str()) + "-" + pad2(m[1].str());
     }
@@ -428,14 +437,16 @@ TemporalValidity TemporalExtractor::extract(const std::string& text) const {
         R"((?:außer Kraft (?:getreten|tretend) am|aufgehoben(?:\s+mit Wirkung)? (?:vom?|am)|befristet bis(?:\s+zum?)?)\s+(\d{1,2}[.\s]\w+[.\s]\d{4}|\d{4}-\d{2}-\d{2}))",
         std::regex::icase);
 
-    std::smatch m;
+    std::smatch m = {};
     if (std::regex_search(text, m, re_from)) {
         tv.effective_from = normaliseDate(m[1].str());
         tv.source_hint    = m[0].str();
     }
     if (std::regex_search(text, m, re_to)) {
         tv.effective_to   = normaliseDate(m[1].str());
-        if (tv.source_hint.empty()) tv.source_hint = m[0].str();
+        if (tv.source_hint.empty()) {
+          tv.source_hint = m[0].str();
+        }
     }
 
     return tv;
@@ -515,16 +526,22 @@ std::optional<std::string> BehoerdenMapper::lookupAuthority(
 {
     // Custom overrides first
     auto it = custom_.find(norm);
-    if (it != custom_.end()) return it->second;
+    if (it != custom_.end()) {
+      return it->second;
+    }
 
     // Built-in
     it = builtin_.find(norm);
-    if (it != builtin_.end()) return it->second;
+    if (it != builtin_.end()) {
+      return it->second;
+    }
 
     // Fallback function
     if (fallback_) {
         const std::string r = fallback_(norm);
-        if (!r.empty()) return r;
+        if (!r.empty()) {
+          return r;
+        }
     }
 
     return std::nullopt;
@@ -541,7 +558,7 @@ void BehoerdenMapper::setFallback(
 }
 
 std::size_t BehoerdenMapper::mappingCount() const {
-    return builtin_.size() + custom_.size();
+    return static_cast<int>(builtin_.size()) + static_cast<int>(custom_.size()) ;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -578,13 +595,19 @@ BescheidEntity BescheidExtractor::extract(const std::string& text) const {
         R"((?:^|\n)\s*Nebenbestimmung[:\s]+([^\n]{5,200}))",
         std::regex::icase);
 
-    std::smatch m;
+    std::smatch m = {};
 
-    if (std::regex_search(text, m, re_az))  be.aktenzeichen  = themis::utils::trim(m[1].str());
-    if (std::regex_search(text, m, re_ant)) be.antragsteller = themis::utils::trim(m[1].str());
+    if (std::regex_search(text, m, re_az)) {
+      be.aktenzeichen  = themis::utils::trim(m[1].str());
+    }
+    if (std::regex_search(text, m, re_ant)) {
+      be.antragsteller = themis::utils::trim(m[1].str());
+    }
     if (std::regex_search(text, m, re_dat))
         be.bescheid_datum = TemporalExtractor::normaliseDate(m[1].str());
-    if (std::regex_search(text, m, re_beh)) be.behoerde = themis::utils::trim(m[1].str());
+    if (std::regex_search(text, m, re_beh)) {
+      be.behoerde = themis::utils::trim(m[1].str());
+    }
 
     // Extract Auflagen section
     if (std::regex_search(text, m, re_aufl_header)) {
@@ -594,7 +617,9 @@ BescheidEntity BescheidExtractor::extract(const std::string& text) const {
         auto ai = std::sregex_iterator(section.begin(), section.end(), re_aufl_item);
         for (auto ae = std::sregex_iterator(); ai != ae; ++ai) {
             const std::string item = themis::utils::trim((*ai)[1].str());
-            if (!item.empty()) be.auflagen.push_back(item);
+            if (!item.empty()) {
+              be.auflagen.push_back(item);
+            }
         }
     }
 
@@ -602,7 +627,9 @@ BescheidEntity BescheidExtractor::extract(const std::string& text) const {
     auto ni = std::sregex_iterator(text.begin(), text.end(), re_neben);
     for (auto ne = std::sregex_iterator(); ni != ne; ++ni) {
         const std::string nb = themis::utils::trim((*ni)[1].str());
-        if (!nb.empty()) be.nebenbestimmungen.push_back(nb);
+        if (!nb.empty()) {
+          be.nebenbestimmungen.push_back(nb);
+        }
     }
 
     return be;
@@ -611,7 +638,7 @@ BescheidEntity BescheidExtractor::extract(const std::string& text) const {
 BaseEntity BescheidExtractor::toEntity(const BescheidEntity& be,
                                         const std::string& source_doc) const
 {
-    BaseEntity e;
+    BaseEntity e = {};
     if (!be.aktenzeichen.empty()) {
         e.id = "bescheid:" + be.aktenzeichen;
     } else {
@@ -627,9 +654,11 @@ BaseEntity BescheidExtractor::toEntity(const BescheidEntity& be,
     e.properties["behoerde"]       = be.behoerde;
     if (!be.auflagen.empty()) {
         // Serialize auflagen list as a semicolon-delimited string
-        std::string auflagen_str;
-        for (std::size_t i = 0; i < be.auflagen.size(); ++i) {
-            if (i > 0) auflagen_str += "; ";
+        std::string auflagen_str = {};
+        for (std::size_t i = 0; i <static_cast<int>(be.auflagen.size()); ++i) {
+            if (i > 0) {
+              auflagen_str += "; ";
+            }
             auflagen_str += be.auflagen[i];
         }
         e.properties["auflagen"] = auflagen_str;
@@ -647,7 +676,9 @@ namespace {
 std::string normId(const std::string& id) {
     std::string s = toLower(themis::utils::trim(id));
     // Remove trailing colon
-    while (!s.empty() && s.back() == ':') s.pop_back();
+    while (!s.empty() && s.back() == ':') {
+      s.pop_back();
+    }
     return s;
 }
 
@@ -664,7 +695,8 @@ std::vector<EntityRelation> CrossDocumentLinker::linkDocuments(
     const std::string src2 = ctx2.manifest.original_path;
 
     // Build ID set for ctx2 entities
-    std::unordered_map<std::string, const BaseEntity*> id_map;
+    std::unordered_map<std::string, const BaseEntity*> id_map = {};
+
     for (const auto& e : entities2) {
         id_map[normId(e.id)] = &e;
     }
@@ -690,7 +722,9 @@ std::vector<EntityRelation> CrossDocumentLinker::linkDocuments(
 
         // Secondary: match by label suffix
         for (const auto& e2 : entities2) {
-            if (normId(e2.id) == normId(e1.id)) continue;
+            if (normId(e2.id) == normId(e1.id)) {
+              continue;
+            }
             const auto label2 = toLower(entityDisplayLabel(e2));
             const auto id1    = normId(e1.id);
             const auto colon  = id1.rfind(':');
@@ -717,7 +751,8 @@ std::vector<EntityRelation> CrossDocumentLinker::linkDocumentBatch(
     const ExtractionContext&              source,
     const std::vector<ExtractionContext>& targets) const
 {
-    std::vector<EntityRelation> all;
+    std::vector<EntityRelation> all = {};
+
     for (const auto& tgt : targets) {
         auto edges = linkDocuments(source, tgt);
         all.insert(all.end(),
@@ -735,7 +770,7 @@ std::string LegalEntityExport::escapeIriComponent(const std::string& s) {
     // Percent-encode characters that are unsafe in IRI path components
     static const std::string safe =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:@!$&'()*+,;=";
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() * 3);
     for (const unsigned char c : s) {
         if (safe.find(static_cast<char>(c)) != std::string::npos) {
@@ -750,8 +785,8 @@ std::string LegalEntityExport::escapeIriComponent(const std::string& s) {
 }
 
 std::string LegalEntityExport::escapeTurtleLiteral(const std::string& s) {
-    std::string out;
-    out.reserve(s.size() + 16);
+    std::string out = {};
+    out.reserve(static_cast<int>(s.size()) + 16);
     for (char c : s) {
         switch (c) {
         case '"':  out += "\\\""; break;
@@ -832,7 +867,7 @@ nlohmann::json LegalEntityExport::exportJsonLd(
 std::string LegalEntityExport::buildTurtle(
     const BaseEntitySet& es, const std::string& base) const
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "@base <" << base << "> .\n";
     out << "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n";
     out << "@prefix dc:   <http://purl.org/dc/elements/1.1/> .\n";
@@ -877,7 +912,7 @@ std::string LegalEntityExport::buildTurtle(
 std::string LegalEntityExport::buildNTriples(
     const BaseEntitySet& es, const std::string& base) const
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
     const std::string p_label  = "<http://www.w3.org/2000/01/rdf-schema#label>";
     const std::string p_type   = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>";
     const std::string p_source = "<http://purl.org/dc/elements/1.1/source>";
@@ -919,8 +954,12 @@ std::string LegalEntityExport::exportRdf(
     const BaseEntitySet& es, RdfFormat format,
     const std::string& base_iri) const
 {
-    if (format == RdfFormat::TURTLE)   return buildTurtle(es, base_iri);
-    if (format == RdfFormat::N_TRIPLES) return buildNTriples(es, base_iri);
+    if (format == RdfFormat::TURTLE) {
+      return buildTurtle(es, base_iri);
+    }
+    if (format == RdfFormat::N_TRIPLES) {
+      return buildNTriples(es, base_iri);
+    }
     return {};
 }
 

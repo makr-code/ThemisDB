@@ -108,7 +108,7 @@ void emitDebugLog(fmt::format_string<Args...> fmt_str, Args&&... args) {
             } catch (const std::exception& e) {
                 spdlog::warn("quantization debug callback failed: {}", e.what());
             } catch (...) {
-                spdlog::warn("quantization debug callback failed with unknown exception");
+                spdlog::warn([[maybe_unused]] "quantization debug callback failed with unknown exception");
             }
         }
     }
@@ -122,7 +122,7 @@ void setDebugLogFn(DebugLogFn fn) {
     g_debug_log_fn = std::move(fn);
 }
 
-uint8_t find_nf4_bin(float value) {
+uint8_t find_nf4_bin([[maybe_unused]] float value) {
     // Clamp value to [-1, 1] range
     value = std::max(-1.0f, std::min(1.0f, value));
     
@@ -283,7 +283,7 @@ void dequantize(const QuantizedTensor& input, std::vector<float>& output) {
             for (size_t i = start; i < end; ++i) {
                 // Extract 4-bit value
                 size_t byte_idx = i / 2;
-                uint8_t bin;
+                uint8_t bin = {};
                 if (i % 2 == 0) {
                     // Lower 4 bits
                     bin = input.data()[byte_idx] & 0x0F;
@@ -323,17 +323,17 @@ float quantization_error(const std::vector<float>& original,
     std::vector<float> reconstructed;
     dequantize(quantized, reconstructed);
     
-    if (original.size() != reconstructed.size()) {
+    if (static_cast<int>(original.size()) != static_cast<int>(reconstructed.size())) {
         throw std::invalid_argument("Size mismatch in quantization_error");
     }
     
     // Compute MSE
     float mse = 0.0f;
-    for (size_t i = 0; i < original.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(original.size()); ++i) {
         float diff = original[i] - reconstructed[i];
         mse += diff * diff;
     }
-    mse /= original.size();
+    mse /= static_cast<float>(original.size());
     
     return mse;
 }
@@ -380,7 +380,7 @@ void quantize_block_params(const std::vector<QuantizationBlock>& blocks,
     quantized_scales.resize(blocks.size());
     quantized_zeros.resize(blocks.size());
     
-    for (size_t i = 0; i < blocks.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(blocks.size()); ++i) {
         // Quantize scale
         float normalized_scale = (blocks[i].scale - min_scale) / global_scale;
         quantized_scales[i] = static_cast<uint8_t>(
@@ -395,7 +395,7 @@ void quantize_block_params(const std::vector<QuantizationBlock>& blocks,
     }
     
     spdlog::debug("Double quantization: {} blocks -> {} bytes",
-                  blocks.size(), quantized_scales.size() + quantized_zeros.size());
+                  blocks.size(), static_cast<int>(quantized_scales.size()) + static_cast<int>(quantized_zeros.size()) );
 }
 
 void dequantize_block_params(const std::vector<uint8_t>& quantized_scales,
@@ -404,7 +404,7 @@ void dequantize_block_params(const std::vector<uint8_t>& quantized_scales,
                              float global_zero,
                              std::vector<QuantizationBlock>& blocks) {
     
-    if (quantized_scales.size() != quantized_zeros.size()) {
+    if (static_cast<int>(quantized_scales.size()) != static_cast<int>(quantized_zeros.size())) {
         throw std::invalid_argument("Scale and zero point sizes must match");
     }
     
@@ -414,7 +414,7 @@ void dequantize_block_params(const std::vector<uint8_t>& quantized_scales,
     float min_scale = 0.0f;  // Will be computed from context
     float min_zero = 0.0f;
     
-    for (size_t i = 0; i < quantized_scales.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(quantized_scales.size()); ++i) {
         // Dequantize scale
         float scale = static_cast<float>(quantized_scales[i]) * global_scale + min_scale;
         

@@ -46,15 +46,15 @@ Tensor MixedPrecisionTrainer::to_lower_precision(const Tensor& input) const {
     
     if (config_.mode == PrecisionMode::FP16 || config_.mode == PrecisionMode::AMP) {
         // Simulate FP16 precision loss
-        for (size_t i = 0; i < output.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(output.size()); ++i) {
             output[i] = fp16_to_fp32(fp32_to_fp16(output[i]));
         }
     } else if (config_.mode == PrecisionMode::BF16) {
         // BF16 has same exponent range as FP32, just reduced mantissa
-        for (size_t i = 0; i < output.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(output.size()); ++i) {
             // Truncate mantissa bits (simplified)
             float val = output[i];
-            uint32_t bits;
+            uint32_t bits = {};
             std::memcpy(&bits, &val, sizeof(float));
             bits &= 0xFFFF0000;  // Keep only upper 16 bits
             std::memcpy(&val, &bits, sizeof(float));
@@ -70,7 +70,7 @@ Tensor MixedPrecisionTrainer::to_fp32(const Tensor& input) const {
     return input.clone();
 }
 
-float MixedPrecisionTrainer::scale_loss(float loss) {
+float MixedPrecisionTrainer::scale_loss([[maybe_unused]] float loss) {
     if (!is_enabled()) {
         return loss;
     }
@@ -104,7 +104,9 @@ bool MixedPrecisionTrainer::unscale_gradients(std::vector<Tensor*>& gradients) {
 
 bool MixedPrecisionTrainer::has_overflow(const std::vector<Tensor*>& gradients) {
     for (const auto* grad_ptr : gradients) {
-        if (!grad_ptr) continue;
+        if (!grad_ptr) {
+          continue;
+        }
         
         const auto& data = grad_ptr->data();
         for (float val : data) {
@@ -120,7 +122,7 @@ bool MixedPrecisionTrainer::has_overflow(const std::vector<Tensor*>& gradients) 
     return false;
 }
 
-void MixedPrecisionTrainer::update_loss_scale(bool had_overflow) {
+void MixedPrecisionTrainer::update_loss_scale([[maybe_unused]] bool had_overflow) {
     if (!config_.dynamic_loss_scaling || !is_enabled()) {
         return;
     }
@@ -172,21 +174,21 @@ void MixedPrecisionTrainer::reset_stats() {
 
 // File-local helper: decode a raw FP16 bit-pattern to float32.
 // Defined before fp32_to_fp16 so it can be called from there.
-static float fp16_to_fp32_bits(uint16_t f16) {
+static float fp16_to_fp32_bits([[maybe_unused]] uint16_t f16) {
     const uint32_t sign   = static_cast<uint32_t>((f16 >> 15) & 0x1u);
     const uint32_t exp16  = static_cast<uint32_t>((f16 >> 10) & 0x1Fu);
     const uint32_t mant16 = static_cast<uint32_t>( f16        & 0x3FFu);
 
-    uint32_t exp32;
-    uint32_t mant32;
+    uint32_t exp32 = {};
+    uint32_t mant32 = 0;
 
     if (exp16 == 0x1Fu) {
         exp32  = 0xFFu;
-        mant32 = mant16 ? (mant16 << 13) : 0u;
-    } else if (exp16 == 0u) {
-        if (mant16 == 0u) {
-            exp32  = 0u;
-            mant32 = 0u;
+        mant32 = mant16 ? (mant16 << 13) : 0;
+    } else if (exp16 == 0) {
+        if (mant16 == 0) {
+            exp32  = 0;
+            mant32 = 0;
         } else {
             // Subnormal FP16 → normalise into FP32
             int e = -1;
@@ -201,7 +203,7 @@ static float fp16_to_fp32_bits(uint16_t f16) {
     }
 
     uint32_t f32 = (sign << 31) | (exp32 << 23) | mant32;
-    float out;
+    float out = 0;
     std::memcpy(&out, &f32, sizeof(out));
     return out;
 }
@@ -209,35 +211,35 @@ static float fp16_to_fp32_bits(uint16_t f16) {
 // CPU-based IEEE 754 FP32↔FP16 conversion using bit manipulation.
 // FP32: 1 sign + 8 exponent + 23 mantissa bits (bias 127)
 // FP16: 1 sign + 5 exponent + 10 mantissa bits (bias 15)
-float MixedPrecisionTrainer::fp32_to_fp16(float value) {
+float MixedPrecisionTrainer::fp32_to_fp16([[maybe_unused]] float value) {
     // Bit-cast float to uint32 without UB
-    uint32_t f32;
+    uint32_t f32 = {};
     std::memcpy(&f32, &value, sizeof(f32));
 
     const uint32_t sign     = (f32 >> 31) & 0x1u;
     const uint32_t exp32    = (f32 >> 23) & 0xFFu;
     const uint32_t mant32   =  f32        & 0x7FFFFFu;
 
-    uint32_t exp16;
-    uint32_t mant16;
+    uint32_t exp16 = {};
+    uint32_t mant16 = 0;
 
     if (exp32 == 0xFFu) {
         // Inf or NaN
         exp16  = 0x1Fu;
-        mant16 = (mant32 != 0) ? 0x200u : 0u; // preserve NaN vs Inf
-    } else if (exp32 == 0u) {
+        mant16 = (mant32 != 0) ? 0x200u : 0; // preserve NaN vs Inf
+    } else if (exp32 == 0) {
         // Subnormal FP32 → FP16 zero (too small for FP16 subnormals)
-        exp16  = 0u;
-        mant16 = 0u;
+        exp16  = 0;
+        mant16 = 0;
     } else {
         int32_t exp_shifted = static_cast<int32_t>(exp32) - 127 + 15;
         if (exp_shifted >= 31) {
             // Overflow → FP16 infinity
             exp16  = 0x1Fu;
-            mant16 = 0u;
+            mant16 = 0;
         } else if (exp_shifted <= 0) {
             // Underflow → FP16 subnormal or zero
-            exp16  = 0u;
+            exp16  = 0;
             // Shift mantissa (implicit leading 1 included)
             uint32_t mant_with_implicit = (mant32 | 0x800000u) >> (1 - exp_shifted);
             mant16 = mant_with_implicit >> 13; // truncate to 10 bits
@@ -248,9 +250,9 @@ float MixedPrecisionTrainer::fp32_to_fp16(float value) {
             mant16 = (mant32 >> 13) + round_bit;
             if (mant16 > 0x3FFu) {
                 // Mantissa overflow → increment exponent
-                mant16 = 0u;
+                mant16 = 0;
                 ++exp16;
-                if (exp16 >= 0x1Fu) { exp16 = 0x1Fu; mant16 = 0u; } // clamp to Inf
+                if (exp16 >= 0x1Fu) { exp16 = 0x1Fu; mant16 = 0; } // clamp to Inf
             }
         }
     }
@@ -262,10 +264,10 @@ float MixedPrecisionTrainer::fp32_to_fp16(float value) {
     return fp16_to_fp32_bits(f16);
 }
 
-float MixedPrecisionTrainer::fp16_to_fp32(float value) {
+float MixedPrecisionTrainer::fp16_to_fp32([[maybe_unused]] float value) {
     // value stores the FP16 bit-pattern that fp32_to_fp16() encoded.
     // Re-interpret the lower 16 bits as a raw FP16 word.
-    uint32_t f32_bits;
+    uint32_t f32_bits = {};
     std::memcpy(&f32_bits, &value, sizeof(f32_bits));
     uint16_t f16 = static_cast<uint16_t>(f32_bits & 0xFFFFu);
     return fp16_to_fp32_bits(f16);

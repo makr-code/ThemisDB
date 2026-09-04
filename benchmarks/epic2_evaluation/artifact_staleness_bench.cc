@@ -135,7 +135,8 @@ BENCHMARK_F(ArtifactStalenessFixture, BM_CompleteRebuildSuccess)
 
 BENCHMARK_F(ArtifactStalenessFixture, BM_ComputeStatesBatch_100Artifacts)
 (benchmark::State& state) {
-    std::vector<LifecycleMetadata> batch;
+    std::vector<LifecycleMetadata> batch = {};
+
     for (int i = 0; i < 100; ++i) {
         batch.push_back(createMetadata("artifact_" + std::to_string(i)));
     }
@@ -151,7 +152,8 @@ BENCHMARK_F(ArtifactStalenessFixture, BM_ComputeStatesBatch_100Artifacts)
 
 BENCHMARK_F(ArtifactStalenessFixture, BM_ComputeStatesBatch_1000Artifacts)
 (benchmark::State& state) {
-    std::vector<LifecycleMetadata> batch;
+    std::vector<LifecycleMetadata> batch = {};
+
     for (int i = 0; i < 1000; ++i) {
         batch.push_back(createMetadata("artifact_" + std::to_string(i)));
     }
@@ -167,7 +169,8 @@ BENCHMARK_F(ArtifactStalenessFixture, BM_ComputeStatesBatch_1000Artifacts)
 
 BENCHMARK_F(ArtifactStalenessFixture, BM_FilterUsableArtifacts_100Artifacts)
 (benchmark::State& state) {
-    std::vector<LifecycleMetadata> batch;
+    std::vector<LifecycleMetadata> batch = {};
+
     for (int i = 0; i < 100; ++i) {
         auto meta = createMetadata("artifact_" + std::to_string(i));
         if (i % 3 == 0) {
@@ -188,7 +191,8 @@ BENCHMARK_F(ArtifactStalenessFixture, BM_FilterUsableArtifacts_100Artifacts)
 
 BENCHMARK_F(ArtifactStalenessFixture, BM_FilterUsableArtifacts_1000Artifacts)
 (benchmark::State& state) {
-    std::vector<LifecycleMetadata> batch;
+    std::vector<LifecycleMetadata> batch = {};
+
     for (int i = 0; i < 1000; ++i) {
         auto meta = createMetadata("artifact_" + std::to_string(i));
         if (i % 3 == 0) {
@@ -209,7 +213,8 @@ BENCHMARK_F(ArtifactStalenessFixture, BM_FilterUsableArtifacts_1000Artifacts)
 
 BENCHMARK_F(ArtifactStalenessFixture, BM_IdentifyRebuildCandidates_100Artifacts)
 (benchmark::State& state) {
-    std::vector<LifecycleMetadata> batch;
+    std::vector<LifecycleMetadata> batch = {};
+
     for (int i = 0; i < 100; ++i) {
         auto meta = createMetadata("artifact_" + std::to_string(i));
         if (i % 5 == 0) {
@@ -228,7 +233,8 @@ BENCHMARK_F(ArtifactStalenessFixture, BM_IdentifyRebuildCandidates_100Artifacts)
 
 BENCHMARK_F(ArtifactStalenessFixture, BM_IdentifyRebuildCandidates_1000Artifacts)
 (benchmark::State& state) {
-    std::vector<LifecycleMetadata> batch;
+    std::vector<LifecycleMetadata> batch = {};
+
     for (int i = 0; i < 1000; ++i) {
         auto meta = createMetadata("artifact_" + std::to_string(i));
         if (i % 5 == 0) {
@@ -252,7 +258,8 @@ BENCHMARK_F(ArtifactStalenessFixture, BM_IdentifyRebuildCandidates_1000Artifacts
 BENCHMARK_F(ArtifactStalenessFixture,
              BM_StalenessDetectionWorkload_RealisticMix_100Artifacts)
 (benchmark::State& state) {
-    std::vector<LifecycleMetadata> batch;
+    std::vector<LifecycleMetadata> batch = {};
+
     for (int i = 0; i < 100; ++i) {
         auto meta = createMetadata("artifact_" + std::to_string(i));
         // Realistic mix: 70% READY, 20% STALE, 5% INVALIDATED, 5% FAILED
@@ -293,7 +300,8 @@ BENCHMARK_F(ArtifactStalenessFixture,
 BENCHMARK_F(ArtifactStalenessFixture,
              BM_StalenessDetectionWorkload_RealisticMix_1000Artifacts)
 (benchmark::State& state) {
-    std::vector<LifecycleMetadata> batch;
+    std::vector<LifecycleMetadata> batch = {};
+
     for (int i = 0; i < 1000; ++i) {
         auto meta = createMetadata("artifact_" + std::to_string(i));
         // Realistic mix

@@ -282,7 +282,8 @@ BENCHMARK(BSF07_ConsensusLatency)
 
 void BSF08_RefreshThroughput(benchmark::State& state) {
     auto c = makeCoordinator(64, /*refreshed=*/false);
-    std::unordered_map<std::string, ShardSummary> summaries;
+    std::unordered_map<std::string, ShardSummary> summaries = {};
+
     for (int i = 0; i < 64; ++i) {
         ShardSummary s;
         s.shard_id = "shard-" + std::to_string(i);
@@ -315,7 +316,8 @@ void BSF09_EscalationMetrics(benchmark::State& state) {
     auto fetcher = std::make_shared<BenchStubFetcher>();
     ShardSummaryCoordinator c(fetcher);
 
-    std::vector<ShardSummary> summaries;
+    std::vector<ShardSummary> summaries = {};
+
     for (int i = 0; i < n; ++i) {
         ShardSummary s;
         s.shard_id = "shard-" + std::to_string(i);
@@ -350,7 +352,8 @@ void BSF10_FetchBatch(benchmark::State& state) {
     auto fetcher = std::make_shared<BenchStubFetcher>();
     ShardSummaryCoordinator c(fetcher);
 
-    std::vector<RoutingDecision> decisions;
+    std::vector<RoutingDecision> decisions = {};
+
     for (int i = 0; i < 8; ++i) {
         decisions.push_back({
             .shard_id = "shard-" + std::to_string(i),
@@ -409,7 +412,8 @@ void BSF12_PlannerLatencyP99(benchmark::State& state) {
     auto c = makeCoordinator(n, /*refreshed=*/true);
 
     std::vector<ShardSummary> summaries = makeSummaryVec(n, /*fresh=*/true);
-    std::vector<std::string> shard_ids;
+    std::vector<std::string> shard_ids = {};
+
     for (int i = 0; i < n; ++i) {
         shard_ids.push_back("shard-" + std::to_string(i));
     }

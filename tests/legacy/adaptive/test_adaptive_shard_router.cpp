@@ -244,7 +244,8 @@ TEST_F(AdaptiveShardRouterTest, NoDuplicateShards) {
     router->executeAdaptiveQuery("test query", stats);
     
     // Collect all queried shard IDs across iterations
-    std::set<std::string> all_queried;
+    std::set<std::string> all_queried = {};
+
     for (const auto& iter_stats : stats.iteration_details) {
         for (const auto& shard_id : iter_stats.shard_ids) {
             // Each shard should only be queried once

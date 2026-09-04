@@ -23,7 +23,7 @@ std::string checksumFile(const std::string& path) {
     if (!input.is_open()) {
         return {};
     }
-    std::ostringstream buffer;
+    std::ostringstream buffer = {};
     buffer << input.rdbuf();
     return WikipediaTransform::checksumHex(buffer.str());
 }
@@ -38,7 +38,8 @@ WikipediaValidationReport WikipediaIngestionPipeline::validateUnlocked() const {
     WikipediaValidationReport report;
     report.dead_letters = snapshot_.dead_letters.size();
 
-    std::map<std::string, uint64_t> titles;
+    std::map<std::string, uint64_t> titles = {};
+
     for (const auto& [page_id, page] : snapshot_.pages) {
         titles[WikipediaTransform::normalizeTitle(page.title)] = page_id;
     }
@@ -92,16 +93,16 @@ WikipediaManifest WikipediaIngestionPipeline::exportPortable(
     manifest.importer_version = config_.importer_version;
     manifest.generated_at = nowIso8601();
     manifest.row_counts = {
-        {"wiki_page", snapshot_.pages.size()},
-        {"wiki_revision", snapshot_.revisions.size()},
-        {"wiki_link", snapshot_.links.size()},
-        {"wiki_category", snapshot_.categories.size()},
-        {"wiki_redirect", snapshot_.redirects.size()},
-        {"wiki_dead_letter", snapshot_.dead_letters.size()},
-        {"wiki_graph_edge", snapshot_.graph_edges.size()},
-        {"wiki_vector", snapshot_.vector_records.size()},
-        {"wiki_process_event", snapshot_.process_events.size()},
-        {"wiki_timeseries", snapshot_.timeseries_metrics.size()}
+        {"wiki_page",static_cast<int>(snapshot_.pages.size())},
+        {"wiki_revision",static_cast<int>(snapshot_.revisions.size())},
+        {"wiki_link",static_cast<int>(snapshot_.links.size())},
+        {"wiki_category",static_cast<int>(snapshot_.categories.size())},
+        {"wiki_redirect",static_cast<int>(snapshot_.redirects.size())},
+        {"wiki_dead_letter",static_cast<int>(snapshot_.dead_letters.size())},
+        {"wiki_graph_edge",static_cast<int>(snapshot_.graph_edges.size())},
+        {"wiki_vector",static_cast<int>(snapshot_.vector_records.size())},
+        {"wiki_process_event",static_cast<int>(snapshot_.process_events.size())},
+        {"wiki_timeseries",static_cast<int>(snapshot_.timeseries_metrics.size())}
     };
     manifest.checksums = {
         {"wikipedia.db", checksumFile(database_path)},

@@ -131,7 +131,7 @@ private:
 
     // Pending iov arrays — kept alive until submitAndWait() returns.
     struct PendingEntry {
-        int                   fd;
+        int                   fd = 0;
         std::vector<::iovec>  iovs;
     };
     std::vector<PendingEntry> pending_;

@@ -85,7 +85,9 @@ public:
             "abcdefghijklmnopqrstuvwxyz0123456789";
         std::uniform_int_distribution<std::size_t> d(0, kC.size() - 1);
         std::string s(len, ' ');
-        for (auto& c : s) c = kC[d(eng_)];
+        for (auto& c : s) {
+          c = kC[d(eng_)];
+        }
         return s;
     }
     int64_t integer(int64_t lo, int64_t hi) {
@@ -96,7 +98,9 @@ public:
     std::vector<std::string> sequence(int n, int len = 12) {
         std::vector<std::string> v;
         v.reserve(n);
-        for (int i = 0; i < n; ++i) v.push_back(key(len));
+        for (int i = 0; i < n; ++i) {
+          v.push_back(key(len));
+        }
         return v;
     }
 
@@ -116,7 +120,9 @@ static Stats computeStats(const std::vector<double>& samples) {
     const double n = static_cast<double>(samples.size());
     const double mean = std::accumulate(samples.begin(), samples.end(), 0.0) / n;
     double var = 0.0;
-    for (double x : samples) var += (x - mean) * (x - mean);
+    for (double x : samples) {
+      var += (x - mean) * (x - mean);
+    }
     var /= n;
     const double stddev = std::sqrt(var);
     const double cv = mean > 0.0 ? stddev / mean : 0.0;
@@ -124,7 +130,7 @@ static Stats computeStats(const std::vector<double>& samples) {
 }
 
 static std::string fmtStats(const Stats& s) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "mean=" << static_cast<int>(s.mean)
         << " sd="  << static_cast<int>(s.stddev)
         << " cv="  << static_cast<int>(s.cv * 100) << "%";
@@ -198,7 +204,7 @@ public:
         idx_.reset();
         db_->close();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(dbPath_, ec);
     }
 
@@ -314,7 +320,8 @@ static void BM_W5C_WarmupConvergence(benchmark::State& state) {
     idx.createIndex("wc", "t", false);
 
     w5c::Rng rng(kW5CSeed + 7);
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     for (int i = 0; i < kW5CCorpus; ++i) {
         const std::string k = "wc_" + std::to_string(i);
         keys.push_back(k);
@@ -344,7 +351,7 @@ static void BM_W5C_WarmupConvergence(benchmark::State& state) {
     state.SetLabel(phaseName[phase < 3 ? phase : 2]);
 
     db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(dbPath, ec);
 }
 BENCHMARK(BM_W5C_WarmupConvergence)
@@ -479,7 +486,7 @@ static void BM_W5C_CanonicalWarmup_Throughput(benchmark::State& state) {
     state.SetLabel("canonical 3-phase warmup; steady-state read");
 
     db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(dbPath, ec);
 }
 BENCHMARK(BM_W5C_CanonicalWarmup_Throughput)

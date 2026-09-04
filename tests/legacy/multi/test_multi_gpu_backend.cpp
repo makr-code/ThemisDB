@@ -54,7 +54,7 @@ protected:
 
     int   dim;
     int   numVectors;
-    int   k;
+    int   k = {};
     std::vector<float> vectors;
     std::vector<float> query;
 };

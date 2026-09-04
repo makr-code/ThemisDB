@@ -37,7 +37,7 @@ namespace storage {
 // the scanner could not locate an actual code site); no genuine issue present.
 // size_assumption alert at buildInt64Page (raw.data() + n * sizeof(int64_t)):
 // sizeof(int64_t) == 8 is guaranteed by the C++ standard (ISO/IEC 14882);
-// rawData() contract ensures raw.size() == n * element_size, so no UB.
+// rawData() contract ensures static_cast<int>(raw.size()) == n * element_size, so no UB.
 
 // ============================================================================
 // Internal Thrift / Parquet v2 binary helpers (portable fallback)
@@ -262,7 +262,8 @@ buildInt32Page(const ColumnSegment& seg) {
     // on big-endian hosts byte-swapping would be required here.
     std::vector<uint8_t> values(raw.data(),
                                 raw.data() + n * sizeof(int32_t));
-    std::vector<uint8_t> hdr;
+    std::vector<uint8_t> hdr = {};
+
     encodePageHdr(hdr, static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(n));
@@ -275,7 +276,8 @@ buildInt64Page(const ColumnSegment& seg) {
     size_t n = seg.metadata().row_count;
     std::vector<uint8_t> values(raw.data(),
                                 raw.data() + n * sizeof(int64_t));
-    std::vector<uint8_t> hdr;
+    std::vector<uint8_t> hdr = {};
+
     encodePageHdr(hdr, static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(n));
@@ -288,7 +290,8 @@ buildFloatPage(const ColumnSegment& seg) {
     size_t n = seg.metadata().row_count;
     std::vector<uint8_t> values(raw.data(),
                                 raw.data() + n * sizeof(float));
-    std::vector<uint8_t> hdr;
+    std::vector<uint8_t> hdr = {};
+
     encodePageHdr(hdr, static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(n));
@@ -301,7 +304,8 @@ buildDoublePage(const ColumnSegment& seg) {
     size_t n = seg.metadata().row_count;
     std::vector<uint8_t> values(raw.data(),
                                 raw.data() + n * sizeof(double));
-    std::vector<uint8_t> hdr;
+    std::vector<uint8_t> hdr = {};
+
     encodePageHdr(hdr, static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(n));
@@ -311,19 +315,20 @@ buildDoublePage(const ColumnSegment& seg) {
 static std::pair<std::vector<uint8_t>, std::vector<uint8_t>>
 buildBoolPage(const ColumnSegment& seg) {
     // BOOLEAN: 1 byte per value in rawData (0 = false, non-zero = true).
-    // ColumnSegment stores element_size=1 for BOOL, so raw.size() == n.
+    // ColumnSegment stores element_size=1 for BOOL, so static_cast<int>(raw.size()) == n.
     // Parquet PLAIN boolean packs 8 booleans into 1 byte (LSB first).
     const auto& raw = seg.rawData();
     size_t n = seg.metadata().row_count;
-    // rawData() invariant: raw.size() == n * element_size (1 for BOOL).
+    // rawData() invariant: static_cast<int>(raw.size()) == n * element_size (1 for BOOL).
     size_t packed_bytes = (n + 7) / 8;
     std::vector<uint8_t> values(packed_bytes, 0);
     for (size_t i = 0; i < n; ++i) {
-        if (i < raw.size() && raw[i]) {
-            values[i / 8] |= static_cast<uint8_t>(1u << (i % 8));
+        if (i <static_cast<int>(raw.size()) && raw[i]) {
+            values[i / 8] |= static_cast<uint8_t>(1 << (i % 8));
         }
     }
-    std::vector<uint8_t> hdr;
+    std::vector<uint8_t> hdr = {};
+
     encodePageHdr(hdr, static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(n));
@@ -339,7 +344,8 @@ buildStringPage(const ColumnSegment& seg) {
 
     // rawData() layout for STRING: packed as-is (same as BYTE_ARRAY PLAIN)
     std::vector<uint8_t> values(raw.begin(), raw.end());
-    std::vector<uint8_t> hdr;
+    std::vector<uint8_t> hdr = {};
+
     encodePageHdr(hdr, static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(values.size()),
                        static_cast<int32_t>(n));
@@ -362,7 +368,7 @@ Result<std::vector<uint8_t>> StorageParquetExporter::buildParquet(
             errors::ErrorCode::ERR_EXPORT_CONFIG_INVALID,
             "ParquetExportConfig.columns is empty"));
     }
-    if (column_segments.size() != ncols) {
+    if (static_cast<int>(column_segments.size()) != ncols) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_EXPORT_CONFIG_INVALID,
             "column_segments size (" + std::to_string(column_segments.size()) +
@@ -396,7 +402,8 @@ Result<std::vector<uint8_t>> StorageParquetExporter::buildParquet(
     //   4 bytes  metadata_length (LE)
     //   4 bytes  "PAR1" magic
 
-    std::vector<uint8_t> file;
+    std::vector<uint8_t> file = {};
+
     static const uint8_t MAGIC[4] = {'P', 'A', 'R', '1'};
     file.insert(file.end(), MAGIC, MAGIC + 4);
 
@@ -416,7 +423,9 @@ Result<std::vector<uint8_t>> StorageParquetExporter::buildParquet(
         bool first_page = true;
         for (const auto& seg : column_segments[c]) {
             size_t n = seg.metadata().row_count;
-            if (n == 0) continue;
+            if (n == 0) {
+              continue;
+            }
 
             std::pair<std::vector<uint8_t>, std::vector<uint8_t>> page;
             switch (ct) {
@@ -436,7 +445,7 @@ Result<std::vector<uint8_t>> StorageParquetExporter::buildParquet(
             file.insert(file.end(), page.first.begin(), page.first.end());
             file.insert(file.end(), page.second.begin(), page.second.end());
             col_data_size  += static_cast<int64_t>(
-                page.first.size() + page.second.size());
+                page.first.size() + static_cast<int>(page.second.size()) );
             col_num_values += static_cast<int64_t>(n);
         }
 
@@ -491,7 +500,9 @@ Result<std::vector<uint8_t>> StorageParquetExporter::exportToBuffer(
 #endif
 
     auto result = buildParquet(column_segments, config);
-    if (!result) return result;
+    if (!result) {
+      return result;
+    }
 
     auto t1 = std::chrono::steady_clock::now();
     stats_.bytes_written = (*result).size();

@@ -177,7 +177,7 @@ public:
     ComPtr<ID3D12PipelineState>       l2Pipeline_;
     ComPtr<ID3D12PipelineState>       cosinePipeline_;
 
-    std::string adapterName_;
+    std::string adapterName_ = {};
 
     ~DirectXVectorBackendImpl() {
         if (fenceEvent_) {
@@ -210,7 +210,9 @@ public:
         for (UINT i = 0; factory->EnumAdapters1(i, &adapter) != DXGI_ERROR_NOT_FOUND; ++i) {
             DXGI_ADAPTER_DESC1 desc;
             adapter->GetDesc1(&desc);
-            if (desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE) continue;
+            if (desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE) {
+              continue;
+            }
             if (SUCCEEDED(D3D12CreateDevice(adapter.Get(), D3D_FEATURE_LEVEL_11_0,
                                             __uuidof(ID3D12Device), nullptr))) {
                 if (desc.DedicatedVideoMemory >= bestMem) {
@@ -252,10 +254,16 @@ public:
         DX_CHECK(device_->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_)));
         fenceValue_ = 1;
         fenceEvent_ = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-        if (!fenceEvent_) return false;
+        if (!fenceEvent_) {
+          return false;
+        }
 
-        if (!createRootSignature())    return false;
-        if (!createComputePipelines()) return false;
+        if (!createRootSignature()) {
+          return false;
+        }
+        if (!createComputePipelines()) {
+          return false;
+        }
 
         return true;
     }
@@ -343,7 +351,7 @@ public:
             static_cast<UINT>(numQueries),
             static_cast<UINT>(numVectors),
             static_cast<UINT>(dim),
-            0u
+            0
         };
         commandList_->SetComputeRoot32BitConstants(3, 4, constants, 0);
 
@@ -392,7 +400,7 @@ public:
             queries, numQueries, dim, vectors, numVectors, useL2);
 
         // Guard against an unexpectedly sized result from computeDistances
-        if (distances.size() != numQueries * numVectors) {
+        if (static_cast<int>(distances.size()) != numQueries * numVectors) {
             throw std::runtime_error(
                 "[DirectX] batchKnnSearch: computeDistances returned unexpected size "
                 "(expected " + std::to_string(numQueries * numVectors) +
@@ -407,16 +415,19 @@ public:
 
             // Max-heap of size k: (distance, index)
             using Pair = std::pair<float, uint32_t>;
-            std::priority_queue<Pair> heap;
+            std::priority_queue<Pair> heap = {};
+
             for (size_t v = 0; v < numVectors; ++v) {
                 heap.push({ row[v], static_cast<uint32_t>(v) });
-                if (heap.size() > actualK) heap.pop();
+                if (static_cast<int>(heap.size()) > actualK) {
+                  heap.pop();
+                }
             }
 
             // Drain heap in ascending distance order
             results[q].resize(heap.size());
             for (size_t i = heap.size(); i > 0; --i) {
-                results[q][i - 1] = { heap.top().second, heap.top().first };
+                results[q][static_cast<int>(i - 1)] = { heap.top().second, heap.top().first };
                 heap.pop();
             }
         }
@@ -476,7 +487,7 @@ private:
 #else
             flags = D3DCOMPILE_OPTIMIZATION_LEVEL3;
 #endif
-            HRESULT hr = D3DCompile(hlsl.c_str(), hlsl.size(), debugName,
+            HRESULT hr = D3DCompile(hlsl.c_str(),static_cast<int>(hlsl.size()), debugName,
                                     nullptr, nullptr, "CSMain", "cs_5_0",
                                     flags, 0, &shaderBlob, &errorBlob);
             if (FAILED(hr)) {
@@ -536,8 +547,12 @@ private:
             return compilePipelineFromSource(src, stem, pso);
         };
 
-        if (!loadPipeline("l2_distance",     l2Pipeline_))     return false;
-        if (!loadPipeline("cosine_distance", cosinePipeline_)) return false;
+        if (!loadPipeline("l2_distance",     l2Pipeline_)) {
+          return false;
+        }
+        if (!loadPipeline("cosine_distance", cosinePipeline_)) {
+          return false;
+        }
         return true;
     }
 
@@ -640,7 +655,9 @@ private:
 
     // Signal the fence and wait until the GPU reaches it
     void waitForGPU() {
-        if (!commandQueue_ || !fence_ || !fenceEvent_) return;
+        if (!commandQueue_ || !fence_ || !fenceEvent_) {
+          return;
+        }
         const UINT64 val = fenceValue_++;
         commandQueue_->Signal(fence_.Get(), val);
         if (fence_->GetCompletedValue() < val) {
@@ -665,13 +682,17 @@ bool DirectXVectorBackend::isAvailable() const noexcept {
     // Probe availability by enumerating DXGI adapters and calling
     // D3D12CreateDevice without actually creating a device (nullptr device).
     ComPtr<IDXGIFactory1> factory;
-    if (FAILED(CreateDXGIFactory1(IID_PPV_ARGS(&factory)))) return false;
+    if (FAILED(CreateDXGIFactory1(IID_PPV_ARGS(&factory)))) {
+      return false;
+    }
 
     ComPtr<IDXGIAdapter1> adapter;
     for (UINT i = 0; factory->EnumAdapters1(i, &adapter) != DXGI_ERROR_NOT_FOUND; ++i) {
         DXGI_ADAPTER_DESC1 desc;
         adapter->GetDesc1(&desc);
-        if (desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE) continue;
+        if (desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE) {
+          continue;
+        }
         if (SUCCEEDED(D3D12CreateDevice(adapter.Get(), D3D_FEATURE_LEVEL_11_0,
                                         __uuidof(ID3D12Device), nullptr))) {
             return true;
@@ -693,8 +714,12 @@ BackendCapabilities DirectXVectorBackend::getCapabilities() const {
 }
 
 bool DirectXVectorBackend::initialize() {
-    if (initialized_) return true;
-    if (!impl_) impl_ = std::make_unique<DirectXVectorBackendImpl>();
+    if (initialized_) {
+      return true;
+    }
+    if (!impl_) {
+      impl_ = std::make_unique<DirectXVectorBackendImpl>();
+    }
     if (!impl_->initialize()) {
         std::cerr << "[DirectX] Initialization failed" << std::endl;
         return false;

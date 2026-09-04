@@ -42,7 +42,9 @@ protected:
     }
 
     void TearDown() override {
-        if (engine_) engine_->close();
+        if (engine_) {
+          engine_->close();
+        }
         fs::remove_all(db_path_);
     }
 
@@ -180,7 +182,8 @@ TEST_F(IOMetricsTest, Concurrent_PutOpsAccumulate) {
     constexpr int kThreads = 4;
     constexpr int kOps     = 50;
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&, t] {
             for (int i = 0; i < kOps; ++i) {
@@ -188,7 +191,9 @@ TEST_F(IOMetricsTest, Concurrent_PutOpsAccumulate) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(engine_->ioMetrics().put_ops, static_cast<uint64_t>(kThreads * kOps));
 }

@@ -38,7 +38,7 @@ std::string utcNowIso8601() {
 #else
     gmtime_r(&time_t, &tm_buf);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm_buf, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -201,7 +201,8 @@ HardwareMigrationManager::replaceEndpoint(
     result.old_endpoint = maybe_shard->primary_endpoint;
 
     // ── 2. Optional ring-stability pre-check ─────────────────────────────────
-    std::map<std::string, size_t> before_vnodes;
+    std::map<std::string, size_t> before_vnodes = {};
+
     if (config_.verify_ring_stability && ring_) {
         before_vnodes = captureRingSnapshotLocked();
     }
@@ -248,7 +249,8 @@ HardwareMigrationManager::captureRingSnapshot() const {
 std::map<std::string, size_t>
 HardwareMigrationManager::captureRingSnapshotLocked() const {
     // mutex_ must already be held by caller when invoked from replaceEndpoint().
-    std::map<std::string, size_t> snapshot;
+    std::map<std::string, size_t> snapshot = {};
+
     if (!ring_) {
         return snapshot;
     }

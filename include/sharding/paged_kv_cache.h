@@ -81,7 +81,7 @@ struct KVCacheConfig {
  * @brief KV Cache block header
  */
 struct KVCacheBlock {
-    uint32_t block_id;
+    uint32_t block_id = 0;
     uint32_t request_id;
     uint32_t sequence_number;  // Sequence number within the request
     uint32_t token_start;       // Start token index

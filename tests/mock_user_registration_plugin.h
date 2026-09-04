@@ -82,7 +82,7 @@ private:
         EVP_DigestFinal_ex(mdctx, hash, &hash_len);
         EVP_MD_CTX_free(mdctx);
         
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (unsigned int i = 0; i < hash_len; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
         }

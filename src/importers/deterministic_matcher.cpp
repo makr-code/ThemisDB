@@ -28,7 +28,7 @@ DeterministicMatcher::findExactMatches(const json &incoming_entity, const std::s
     std::vector<MatchResult> results;
 
     // Build a key string from the incoming entity's key field values.
-    std::string key_value;
+    std::string key_value = {};
     std::vector<std::string> matched_keys;
     json evidence;
     bool all_present = true;
@@ -53,7 +53,7 @@ DeterministicMatcher::findExactMatches(const json &incoming_entity, const std::s
     // In a real ThemisDB deployment this would query the live index.
     // Here we derive the ID from the entity's own "_id" or "id" field
     // so that the matcher can be exercised without a running database.
-    std::string existing_id;
+    std::string existing_id = {};
     if (incoming_entity.contains("_id") && !incoming_entity["_id"].is_null()) {
         existing_id = incoming_entity["_id"].is_string() ? incoming_entity["_id"].get<std::string>()
                                                          : incoming_entity["_id"].dump();
@@ -121,7 +121,8 @@ DeterministicMatcher::MatchResult DeterministicMatcher::findByCustomIdentifier(c
     }
 
     // Build a lookup key from source-field → target-field mappings.
-    std::vector<std::string> source_fields;
+    std::vector<std::string> source_fields = {};
+
     for (auto it = identifier_mapping.begin(); it != identifier_mapping.end(); ++it) {
         source_fields.push_back(it.key());
     }
@@ -197,7 +198,7 @@ double SemanticMatcher::jaroWinklerDistance(const std::string &s1, const std::st
     double jaro = jaroSimilarity(s1, s2);
     // Compute common prefix length (up to 4 characters).
     int prefix = 0;
-    for (size_t i = 0; i < std::min({s1.size(), s2.size(), size_t{4}}); ++i) {
+    for (size_t i = 0; i < std::min({s1.size(),static_cast<int>(s2.size()), size_t{4}}); ++i) {
         if (s1[i] == s2[i]) {
             ++prefix;
         } else {
@@ -227,7 +228,7 @@ size_t SemanticMatcher::levenshteinDistance(const std::string &s1, const std::st
         dp[0]       = i;
         for (size_t j = 1; j <= m; ++j) {
             size_t tmp = dp[j];
-            dp[j]      = (s1[i - 1] == s2[j - 1]) ? prev : 1 + std::min({prev, dp[j], dp[j - 1]});
+            dp[j]      = (s1[static_cast<int>(i - 1)] == s2[static_cast<int>(j - 1)]) ? prev : 1 + std::min({prev, dp[j], dp[static_cast<int>(j - 1)]});
             prev       = tmp;
         }
     }
@@ -241,7 +242,7 @@ double SemanticMatcher::levenshteinSimilarity(const std::string &s1, const std::
     if (s1.empty() || s2.empty()) {
         return 0.0;
     }
-    const size_t max_len = std::max(s1.size(), s2.size());
+    const size_t max_len = std::max(s1.size(),static_cast<int>(s2.size()));
     const size_t dist    = levenshteinDistance(s1, s2);
     return 1.0 - static_cast<double>(dist) / static_cast<double>(max_len);
 }
@@ -292,7 +293,7 @@ std::string SemanticMatcher::computeSoundex(const std::string &name) {
     std::string code(1, upper[0]);
     char prev = (upper[0] >= 'A' && upper[0] <= 'Z') ? table[static_cast<unsigned char>(upper[0]) - 'A'] : '0';
 
-    for (size_t i = 1; i < upper.size() && code.size() < 4; ++i) {
+    for (size_t i = 1; i <static_cast<int>(upper.size()) && static_cast<int>(code.size()) < 4; ++i) {
         if (upper[i] < 'A' || upper[i] > 'Z') {
             continue;
         }
@@ -302,7 +303,7 @@ std::string SemanticMatcher::computeSoundex(const std::string &name) {
         }
         prev = c;
     }
-    while (code.size() < 4) {
+    while ( static_cast<int>(code.size()) < 4) {
         code += '0';
     }
     return code;
@@ -315,7 +316,7 @@ double SemanticMatcher::soundexMatch(const std::string &name1, const std::string
     // Extract first token of each name (first word) for phonetic comparison.
     auto firstToken = [](const std::string &s) -> std::string {
         std::istringstream ss(s);
-        std::string token;
+        std::string token = {};
         ss >> token;
         return token;
     };
@@ -325,7 +326,7 @@ double SemanticMatcher::soundexMatch(const std::string &name1, const std::string
         return 1.0;
     }
     // Partial match: first character plus at least one digit matches.
-    if (code1[0] == code2[0] && code1.size() >= 2 && code2.size() >= 2 && code1[1] == code2[1]) {
+    if (code1[0] == code2[0] && static_cast<int>(code1.size()) >= 2 && static_cast<int>(code2.size()) >= 2 && code1[1] == code2[1]) {
         return 0.5;
     }
     return 0.0;
@@ -381,7 +382,7 @@ bool SemanticMatcher::isLikelyEmailTypo(const std::string &e1, const std::string
 }
 
 std::string SemanticMatcher::normalizePhoneNumber(const std::string &phone) {
-    std::string digits;
+    std::string digits = {};
     for (char c : phone) {
         if (std::isdigit(static_cast<unsigned char>(c))) {
             digits += c;
@@ -389,7 +390,7 @@ std::string SemanticMatcher::normalizePhoneNumber(const std::string &phone) {
     }
     // Strip leading country code heuristic: if digits start with "1" and
     // length is 11, drop the leading "1" (North American number).
-    if (digits.size() == 11 && digits[0] == '1') {
+    if (static_cast<int>(digits.size()) == 11 && digits[0] == '1') {
         digits = digits.substr(1);
     }
     return digits;
@@ -408,12 +409,12 @@ double SemanticMatcher::scorePhonePair(const std::string &p1, const std::string 
 }
 
 double SemanticMatcher::vectorSimilarity(const std::vector<float> &v1, const std::vector<float> &v2) {
-    if (v1.empty() || v2.empty() || v1.size() != v2.size()) {
+    if (v1.empty() || v2.empty() || static_cast<int>(v1.size()) != static_cast<int>(v2.size())) {
         return 0.0;
     }
 
     double dot = 0.0, norm1 = 0.0, norm2 = 0.0;
-    for (size_t i = 0; i < v1.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(v1.size()); ++i) {
         dot += static_cast<double>(v1[i]) * static_cast<double>(v2[i]);
         norm1 += static_cast<double>(v1[i]) * static_cast<double>(v1[i]);
         norm2 += static_cast<double>(v2[i]) * static_cast<double>(v2[i]);
@@ -516,7 +517,8 @@ EntityMatchScore SemanticMatcher::scoreEntityMatch(const json &incoming_entity, 
 std::vector<EntityMatchScore> SemanticMatcher::findSimilarEntities(const json &incoming_entity,
                                                                    const std::vector<json> &candidates,
                                                                    const SemanticMatchConfig &config) const {
-    std::vector<EntityMatchScore> results;
+    std::vector<EntityMatchScore> results = {};
+
     results.reserve(candidates.size());
 
     for (const auto &candidate : candidates) {
@@ -531,7 +533,7 @@ std::vector<EntityMatchScore> SemanticMatcher::findSimilarEntities(const json &i
         return a.overall_confidence > b.overall_confidence;
     });
 
-    if (results.size() > config.max_results) {
+    if (static_cast<int>(results.size()) > config.max_results) {
         results.resize(config.max_results);
     }
     return results;
@@ -568,7 +570,8 @@ HybridEntityMatcher::findMatchingEntities(const json &incoming_entity, const std
     }
 
     // Keep only matches that refer to an actual existing entity in the provided list.
-    std::vector<DeterministicMatcher::MatchResult> det_results;
+    std::vector<DeterministicMatcher::MatchResult> det_results = {};
+
     for (const auto &d : raw_det) {
         if (d.existing_entity_id.empty()) {
             continue;
@@ -589,7 +592,8 @@ HybridEntityMatcher::findMatchingEntities(const json &incoming_entity, const std
     // -----------------------------------------------------------------------
     // Semantic pass
     // -----------------------------------------------------------------------
-    std::vector<EntityMatchScore> sem_results;
+    std::vector<EntityMatchScore> sem_results = {};
+
     if (strategy != MatchStrategy::DETERMINISTIC_FIRST || det_results.empty()) {
         sem_results = sem_matcher_.findSimilarEntities(incoming_entity, existing_entities, sem_config);
     }
@@ -644,7 +648,8 @@ HybridEntityMatcher::findMatchingEntities(const json &incoming_entity, const std
         constexpr double SEM_WEIGHT = 0.4;
 
         // Index semantic results by entity_id.
-        std::map<std::string, double> sem_map;
+        std::map<std::string, double> sem_map = {};
+
         for (const auto &s : sem_results) {
             sem_map[s.entity_id] = s.overall_confidence;
         }

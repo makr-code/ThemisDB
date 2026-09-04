@@ -177,7 +177,7 @@ EdgeCaseResult UpdatesEdgeCaseHandler::detectAndHandle(
 // classifyEdgeCase
 // ============================================================================
 
-std::string_view UpdatesEdgeCaseHandler::classifyEdgeCase(DiagnosticErrorCode code) {
+std::string_view UpdatesEdgeCaseHandler::classifyEdgeCase([[maybe_unused]] DiagnosticErrorCode code) {
     switch (code) {
         case DiagnosticErrorCode::STATE_INVALID_TRANSITION:       return "InvalidTransition";
         case DiagnosticErrorCode::STATE_ALREADY_IN_PROGRESS:     return "ConcurrentCollision";
@@ -213,13 +213,13 @@ std::string_view UpdatesEdgeCaseHandler::classifyEdgeCase(DiagnosticErrorCode co
 // isFatal
 // ============================================================================
 
-bool UpdatesEdgeCaseHandler::isFatal(DiagnosticErrorCode code) {
+bool UpdatesEdgeCaseHandler::isFatal([[maybe_unused]] DiagnosticErrorCode code) {
     switch (code) {
         case DiagnosticErrorCode::STATE_FAILED_LOCKED:
-        case DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED:
-        case DiagnosticErrorCode::NETWORK_PARTITION:
-        case DiagnosticErrorCode::DATA_LOSS_RISK:
-        case DiagnosticErrorCode::CASCADE_DETECTED:
+        [[fallthrough]];\n        case DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED:
+        [[fallthrough]];\n        case DiagnosticErrorCode::NETWORK_PARTITION:
+        [[fallthrough]];\n        case DiagnosticErrorCode::DATA_LOSS_RISK:
+        [[fallthrough]];\n        case DiagnosticErrorCode::CASCADE_DETECTED:
             return true;
         default:
             return false;
@@ -230,12 +230,12 @@ bool UpdatesEdgeCaseHandler::isFatal(DiagnosticErrorCode code) {
 // requiresIsolation
 // ============================================================================
 
-bool UpdatesEdgeCaseHandler::requiresIsolation(DiagnosticErrorCode code) {
+bool UpdatesEdgeCaseHandler::requiresIsolation([[maybe_unused]] DiagnosticErrorCode code) {
     switch (code) {
         case DiagnosticErrorCode::STATE_ALREADY_IN_PROGRESS:
-        case DiagnosticErrorCode::STATE_FAILED_LOCKED:
-        case DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED:
-        case DiagnosticErrorCode::ROLLBACK_ISOLATION_ACTIVE:
+        [[fallthrough]];\n        case DiagnosticErrorCode::STATE_FAILED_LOCKED:
+        [[fallthrough]];\n        case DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED:
+        [[fallthrough]];\n        case DiagnosticErrorCode::ROLLBACK_ISOLATION_ACTIVE:
             return true;
         default:
             return false;
@@ -262,8 +262,12 @@ EdgeCaseResult UpdatesEdgeCaseHandler::makeResult(DiagnosticErrorCode code,
     {
         std::lock_guard<std::mutex> lock(stats_mutex_);
         ++stats_.total_detected;
-        if (fatal)            ++stats_.total_fatal;
-        if (requires_rollback) ++stats_.total_rollback_triggered;
+        if (fatal) {
+          ++stats_.total_fatal;
+        }
+        if (requires_rollback) {
+          ++stats_.total_rollback_triggered;
+        }
     }
 
     EdgeCaseResult result;

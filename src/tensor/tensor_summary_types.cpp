@@ -19,7 +19,7 @@ namespace tensor {
 static std::string getCurrentTimestamp() {
     auto now = std::chrono::system_clock::now();
     auto time_t_now = std::chrono::system_clock::to_time_t(now);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(std::gmtime(&time_t_now), "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -143,7 +143,7 @@ bool ShardSummary::isStale([[maybe_unused]] const std::string& now_timestamp) co
     }
 }
 
-void ShardSummary::markAsFresh(bool update_timestamp) noexcept {
+void ShardSummary::markAsFresh([[maybe_unused]] bool update_timestamp) noexcept {
     freshness_state = SummaryFreshnessState::FRESH;
     if (update_timestamp) {
         created_at = getCurrentTimestamp();

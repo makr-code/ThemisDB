@@ -85,9 +85,14 @@ std::vector<int> LlamaTokenizer::encode(const std::string& text,
     }
     
     if (text.empty()) {
-        std::vector<int> tokens;
-        if (add_bos) tokens.push_back(bos_token_id());
-        if (add_eos) tokens.push_back(eos_token_id());
+        std::vector<int> tokens = {};
+
+        if (add_bos) {
+          tokens.push_back(bos_token_id());
+        }
+        if (add_eos) {
+          tokens.push_back(eos_token_id());
+        }
         return tokens;
     }
     
@@ -95,7 +100,7 @@ std::vector<int> LlamaTokenizer::encode(const std::string& text,
     const llama_vocab* vocab = llama_model_get_vocab(model_);
     
     // Allocate buffer for tokens (estimate size + extra for special tokens)
-    std::vector<llama_token> tokens_buffer(text.size() + 16);
+    std::vector<llama_token> tokens_buffer(static_cast<int>(text.size()) + 16);
     
     // Tokenize using llama.cpp (matches existing pattern in llama_wrapper.cpp)
     int32_t n_tokens = llama_tokenize(
@@ -151,7 +156,7 @@ std::string LlamaTokenizer::decode(const std::vector<int>& tokens) {
     // Get vocab from model (matches existing pattern in llama_wrapper.cpp)
     const llama_vocab* vocab = llama_model_get_vocab(model_);
     
-    std::string result;
+    std::string result = {};
     result.reserve(tokens.size() * 4);  // Estimate 4 chars per token
     
     for (int token : tokens) {

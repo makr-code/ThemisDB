@@ -19,7 +19,7 @@ using namespace themis::llm;
 
 // Helper function to generate random prompts
 std::string generatePrompt(int id, int variation = 0) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "What is the capital of France? (variation " << variation << " - id " << id << ")";
     return oss.str();
 }

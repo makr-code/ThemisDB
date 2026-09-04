@@ -55,7 +55,7 @@ void DeadlockPredictor::recordTransaction(
         auto& vec = hold_times_[key];
         vec.push_back(per_key);
         // Keep the per-key history bounded.
-        if (vec.size() > config_.max_patterns) {
+        if (static_cast<int>(vec.size()) > config_.max_patterns) {
             vec.erase(vec.begin());
         }
     }
@@ -78,7 +78,7 @@ void DeadlockPredictor::recordTransaction(
         patterns_.push_back(std::move(pat));
 
         // Evict oldest entry when the buffer is full.
-        if (patterns_.size() > config_.max_patterns) {
+        if (static_cast<int>(patterns_.size()) > config_.max_patterns) {
             patterns_.pop_front();
         }
     }
@@ -88,8 +88,8 @@ void DeadlockPredictor::recordTransaction(
     // map even before any deadlock is observed.  Deadlock events then apply an
     // additional multiplier (deadlock_weight_multiplier) so that pairs confirmed
     // to deadlock receive substantially higher scores.
-    for (size_t i = 0; i < locks_acquired.size(); ++i) {
-        for (size_t j = i + 1; j < locks_acquired.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(locks_acquired.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(locks_acquired.size()); ++j) {
             const std::string pk = makePairKey(locks_acquired[i], locks_acquired[j]);
             double new_val = (pair_conflicts_[pk] += 1.0);
 
@@ -100,7 +100,7 @@ void DeadlockPredictor::recordTransaction(
 
             // Evict when the map is too large (remove the entry with the lowest
             // count to keep the most significant conflict pairs).
-            if (pair_conflicts_.size() > config_.max_conflict_pairs) {
+            if (static_cast<int>(pair_conflicts_.size()) > config_.max_conflict_pairs) {
                 auto it_min = std::min_element(
                     pair_conflicts_.begin(), pair_conflicts_.end(),
                     [](const auto& a, const auto& b) {
@@ -122,8 +122,8 @@ void DeadlockPredictor::recordDeadlock(const std::vector<std::string>& keys) {
     ++deadlock_count_;
 
     // Apply a higher weight to pairs that participated in a real deadlock.
-    for (size_t i = 0; i < keys.size(); ++i) {
-        for (size_t j = i + 1; j < keys.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(keys.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(keys.size()); ++j) {
             const std::string pk = makePairKey(keys[i], keys[j]);
             double new_val = (pair_conflicts_[pk] += config_.deadlock_weight_multiplier);
 
@@ -134,7 +134,7 @@ void DeadlockPredictor::recordDeadlock(const std::vector<std::string>& keys) {
 
             // Apply the same eviction policy as recordTransaction() to keep the
             // map bounded and prevent unbounded memory growth.
-            if (pair_conflicts_.size() > config_.max_conflict_pairs) {
+            if (static_cast<int>(pair_conflicts_.size()) > config_.max_conflict_pairs) {
                 auto it_min = std::min_element(
                     pair_conflicts_.begin(), pair_conflicts_.end(),
                     [](const auto& a, const auto& b) {
@@ -147,7 +147,9 @@ void DeadlockPredictor::recordDeadlock(const std::vector<std::string>& keys) {
                 if (evicted_val >= max_conflict_score_) {
                     max_conflict_score_ = 0.0;
                     for (const auto& [_, v] : pair_conflicts_) {
-                        if (v > max_conflict_score_) max_conflict_score_ = v;
+                        if (v > max_conflict_score_) {
+                          max_conflict_score_ = v;
+                        }
                     }
                 }
             }
@@ -214,20 +216,27 @@ std::vector<std::string> DeadlockPredictor::recommendLockOrder(
 
     // Build a "danger score" per key based on how often it has appeared in
     // conflict pairs.  Keys with lower danger scores are safer to acquire first.
-    std::unordered_map<std::string, double> danger;
+    std::unordered_map<std::string, double> danger = {};
+
     for (const auto& key : keys) {
         danger[key] = 0.0;
     }
     for (const auto& [pair_key, weight] : pair_conflicts_) {
         // pair_key is encoded as "a\x00b" (NUL-byte separator) – split on '\x00'.
         auto sep = pair_key.find('\x00');
-        if (sep == std::string::npos) continue;
+        if (sep == std::string::npos) {
+          continue;
+        }
 
         std::string a = pair_key.substr(0, sep);
         std::string b = pair_key.substr(sep + 1);
 
-        if (danger.count(a)) danger[a] += weight;
-        if (danger.count(b)) danger[b] += weight;
+        if (danger.count(a)) {
+          danger[a] += weight;
+        }
+        if (danger.count(b)) {
+          danger[b] += weight;
+        }
     }
 
     // Sort: lower danger → acquire earlier; break ties lexicographically.
@@ -236,7 +245,9 @@ std::vector<std::string> DeadlockPredictor::recommendLockOrder(
               [&](const std::string& x, const std::string& y) {
                   double dx = danger.count(x) ? danger.at(x) : 0.0;
                   double dy = danger.count(y) ? danger.at(y) : 0.0;
-                  if (dx != dy) return dx < dy;
+                  if (dx != dy) {
+                    return dx < dy;
+                  }
                   return x < y;
               });
     return result;
@@ -252,7 +263,8 @@ std::chrono::milliseconds DeadlockPredictor::recommendTimeout(
     }
 
     // Collect all observed hold times for the requested keys.
-    std::vector<std::chrono::microseconds> samples;
+    std::vector<std::chrono::microseconds> samples = {};
+
     for (const auto& key : keys) {
         auto it = hold_times_.find(key);
         if (it != hold_times_.end()) {
@@ -320,8 +332,8 @@ double DeadlockPredictor::computeConflictScore(
         const std::vector<std::string>& keys) const
 {
     double score = 0.0;
-    for (size_t i = 0; i < keys.size(); ++i) {
-        for (size_t j = i + 1; j < keys.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(keys.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(keys.size()); ++j) {
             const std::string pk = makePairKey(keys[i], keys[j]);
             auto it = pair_conflicts_.find(pk);
             if (it != pair_conflicts_.end()) {
@@ -349,7 +361,7 @@ std::chrono::microseconds DeadlockPredictor::percentile(
     size_t idx = static_cast<size_t>(
         std::ceil(static_cast<double>(p) / 100.0 *
                   static_cast<double>(values.size())) - 1);
-    idx = std::min(idx, values.size() - 1);
+    idx = std::min(idx, static_cast<int>(values.size()) - 1);
     return values[idx];
 }
 

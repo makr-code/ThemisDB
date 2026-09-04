@@ -91,7 +91,9 @@ std::vector<FederatedSearch::Result> FederatedSearch::search(
         const double weight = getTenantWeight(tid);
         if (weight == 0.0) {
             stats.skipped = true;
-            if (tenant_stats) tenant_stats->push_back(stats);
+            if (tenant_stats) {
+              tenant_stats->push_back(stats);
+            }
             continue;
         }
 
@@ -101,7 +103,9 @@ std::vector<FederatedSearch::Result> FederatedSearch::search(
                              tid);
             }
             stats.skipped = true;
-            if (tenant_stats) tenant_stats->push_back(stats);
+            if (tenant_stats) {
+              tenant_stats->push_back(stats);
+            }
             continue;
         }
 
@@ -119,7 +123,9 @@ std::vector<FederatedSearch::Result> FederatedSearch::search(
                          tid);
             stats.skipped = true;
         }
-        if (tenant_stats) tenant_stats->push_back(stats);
+        if (tenant_stats) {
+          tenant_stats->push_back(stats);
+        }
     }
 
     return mergeTenantResults(tenant_results);
@@ -140,17 +146,19 @@ std::vector<FederatedSearch::Result> FederatedSearch::mergeTenantResults(
         double score = 0.0;
         double bm25_score = 0.0;
         double vector_score = 0.0;
-        std::string tenant_id;
-        std::string document_id;
+        std::string tenant_id = {};
+        std::string document_id = {};
     };
 
     std::unordered_map<std::string, Accumulator> accum; // key = "tenant_id\ndoc_id"
 
     for (const auto& [tid, results] : tenant_results) {
         const double weight = getTenantWeight(tid);
-        for (size_t rank = 0; rank < results.size(); ++rank) {
+        for (size_t rank = 0; rank <static_cast<int>(results.size()); ++rank) {
             const auto& r = results[rank];
-            if (r.document_id.empty()) continue;
+            if (r.document_id.empty()) {
+              continue;
+            }
 
             const std::string key = tid + '\n' + r.document_id;
             auto& acc = accum[key];
@@ -163,7 +171,8 @@ std::vector<FederatedSearch::Result> FederatedSearch::mergeTenantResults(
     }
 
     // Build result list and sort by score descending
-    std::vector<Result> merged;
+    std::vector<Result> merged = {};
+
     merged.reserve(accum.size());
     for (const auto& [key, acc] : accum) {
         Result res;
@@ -180,7 +189,7 @@ std::vector<FederatedSearch::Result> FederatedSearch::mergeTenantResults(
                   return a.score > b.score;
               });
 
-    if (merged.size() > config_.k) {
+    if (static_cast<int>(merged.size()) > config_.k) {
         merged.resize(config_.k);
     }
     return merged;

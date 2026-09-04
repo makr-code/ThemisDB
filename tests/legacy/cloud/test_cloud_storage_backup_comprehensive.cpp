@@ -93,7 +93,7 @@ protected:
         db_.reset();
         
         // Remove test directory
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_dir_, ec);
         // Ignore errors during cleanup
     }
@@ -125,13 +125,19 @@ protected:
      */
     bool isCloudProviderAvailable([[maybe_unused]] const std::string& provider) {
 #ifdef THEMIS_HAS_AWS_SDK
-        if (provider == "aws" || provider == "s3") return true;
+        if (provider == "aws" || provider == "s3") {
+          return true;
+        }
 #endif
 #ifdef THEMIS_HAS_AZURE_STORAGE
-        if (provider == "azure") return true;
+        if (provider == "azure") {
+          return true;
+        }
 #endif
 #ifdef THEMIS_HAS_GCS_SDK
-        if (provider == "gcs" || provider == "google") return true;
+        if (provider == "gcs" || provider == "google") {
+          return true;
+        }
 #endif
         return false;
     }
@@ -588,7 +594,9 @@ TEST_F(CloudStorageBackupTest, MultiCloudRedundantBackup) {
         s3_options.storage = StorageBackend::S3;
         auto result = backup_mgr_->uploadBackupToCloud(
             local_backup, "s3://test/backup", s3_options);
-        if (result.has_value()) successful_uploads++;
+        if (result.has_value()) {
+          successful_uploads++;
+        }
     }
     
     // Try Azure Blob
@@ -598,7 +606,9 @@ TEST_F(CloudStorageBackupTest, MultiCloudRedundantBackup) {
         azure_options.storage = StorageBackend::AZURE;
         auto result = backup_mgr_->uploadBackupToCloud(
             local_backup, "azure://test/backup", azure_options);
-        if (result.has_value()) successful_uploads++;
+        if (result.has_value()) {
+          successful_uploads++;
+        }
     }
     
     // Try GCS
@@ -608,7 +618,9 @@ TEST_F(CloudStorageBackupTest, MultiCloudRedundantBackup) {
         gcs_options.storage = StorageBackend::GCS;
         auto result = backup_mgr_->uploadBackupToCloud(
             local_backup, "gs://test/backup", gcs_options);
-        if (result.has_value()) successful_uploads++;
+        if (result.has_value()) {
+          successful_uploads++;
+        }
     }
     
     if (available_providers == 0) {
@@ -802,7 +814,8 @@ TEST_F(CloudStorageBackupTest, CompressionPerformance) {
  */
 TEST_F(CloudStorageBackupTest, ConcurrentUploads) {
     // Create multiple local backups
-    std::vector<std::string> backups;
+    std::vector<std::string> backups = {};
+
     for (int i = 0; i < 3; ++i) {
         // Insert unique data for each backup
         for (int j = 0; j < 10; ++j) {

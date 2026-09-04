@@ -88,7 +88,9 @@ struct ColumnMetadata {
 
     // Compression ratio
     double compressionRatio() const {
-        if (compressed_size == 0) return 0.0;
+        if (compressed_size == 0) {
+          return 0.0;
+        }
         return static_cast<double>(uncompressed_size) / compressed_size;
     }
 };

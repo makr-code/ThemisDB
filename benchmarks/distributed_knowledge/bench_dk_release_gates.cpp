@@ -79,9 +79,9 @@ static constexpr int      kWarmupIterations = 100;
 // ---------------------------------------------------------------------------
 
 struct BenchEntity {
-    std::string  id;
+    std::string  id = {};
     std::int64_t timestamp_us;
-    std::string  node_id;
+    std::string  node_id = {};
     char         payload[128];
 };
 
@@ -122,11 +122,14 @@ static std::vector<std::string> getNeighbours(const BenchGraph& g,
 
 static std::set<std::string> bfsDepth3(const BenchGraph& g,
                                         const std::string& start) {
-    std::set<std::string> visited;
+    std::set<std::string> visited = {};
+
     std::vector<std::pair<std::string, int>> q = {{start, 0}};
     for (std::size_t i = 0; i < q.size(); ++i) {
         auto [node, depth] = q[i];
-        if (!visited.insert(node).second) continue;
+        if (!visited.insert(node).second) {
+          continue;
+        }
         if (depth < 3) {
             auto nb = getNeighbours(g, node);
             for (auto& n : nb) q.push_back({n, depth + 1});
@@ -264,8 +267,12 @@ BENCHMARK(BM_DKRG04_EntityMergeLww)
  */
 static void BM_DKRG05_FederationResultUnion(benchmark::State& state) {
     std::vector<std::string> node_a, node_b;
-    for (int i = 0; i < 100; ++i) node_a.push_back("e" + std::to_string(i));
-    for (int i = 50; i < 150; ++i) node_b.push_back("e" + std::to_string(i));
+    for (int i = 0; i < 100; ++i) {
+      node_a.push_back("e" + std::to_string(i));
+    }
+    for (int i = 50; i < 150; ++i) {
+      node_b.push_back("e" + std::to_string(i));
+    }
 
     for (int i = 0; i < kWarmupIterations; ++i)
         benchmark::DoNotOptimize(federationUnion(node_a, node_b));
@@ -292,7 +299,7 @@ static void BM_DKRG06_EntitySerialization(benchmark::State& state) {
     BenchEntity e = makeEntity(42, "node-A");
 
     auto serialize = [&]() -> std::string {
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << "{\"id\":\"" << e.id
            << "\",\"ts\":" << e.timestamp_us
            << ",\"node\":\"" << e.node_id

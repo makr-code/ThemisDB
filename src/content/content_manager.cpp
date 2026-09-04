@@ -70,7 +70,9 @@ bool executeWithRetry(Fn&& fn, int max_retries, int retry_delay_ms,
         }
         ++attempts_out;
         error_out.clear();
-        if (fn(error_out)) return true;
+        if (fn(error_out)) {
+          return true;
+        }
     }
     return false;
 }
@@ -79,7 +81,7 @@ bool executeWithRetry(Fn&& fn, int max_retries, int retry_delay_ms,
 
 [[maybe_unused]] static std::string toHex(const std::string& in) {
     static const char* hex = "0123456789abcdef";
-    std::string out;
+    std::string out = {};
     out.reserve(in.size() * 2);
     for (unsigned char c : in) {
         out.push_back(hex[c >> 4]);
@@ -93,13 +95,13 @@ static std::string computeImageDedupHash(const std::string& blob) {
         return {};
     }
 
-    uint64_t hash = 1469598103934665603ULL;
+    uint64_t hash = 1469598103934665603;
     for (unsigned char byte : blob) {
         hash ^= static_cast<uint64_t>(byte);
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::nouppercase << std::setfill('0') << std::setw(16) << hash;
     return oss.str();
 }
@@ -108,13 +110,27 @@ static std::string computeImageDedupHash(const std::string& blob) {
 static std::optional<ContentCategory> parseCategory(const std::string& s) {
     std::string up = s;
     std::transform(up.begin(), up.end(), up.begin(), ::toupper);
-    if (up == "TEXT") return ContentCategory::TEXT;
-    if (up == "IMAGE") return ContentCategory::IMAGE;
-    if (up == "GEO") return ContentCategory::GEO;
-    if (up == "CAD") return ContentCategory::CAD;
-    if (up == "AUDIO") return ContentCategory::AUDIO;
-    if (up == "STRUCTURED") return ContentCategory::STRUCTURED;
-    if (up == "BINARY") return ContentCategory::BINARY;
+    if (up == "TEXT") {
+      return ContentCategory::TEXT;
+    }
+    if (up == "IMAGE") {
+      return ContentCategory::IMAGE;
+    }
+    if (up == "GEO") {
+      return ContentCategory::GEO;
+    }
+    if (up == "CAD") {
+      return ContentCategory::CAD;
+    }
+    if (up == "AUDIO") {
+      return ContentCategory::AUDIO;
+    }
+    if (up == "STRUCTURED") {
+      return ContentCategory::STRUCTURED;
+    }
+    if (up == "BINARY") {
+      return ContentCategory::BINARY;
+    }
     return std::nullopt;
 }
 
@@ -165,9 +181,13 @@ static const json* jsonPathRef(const json& j, const std::string& path) {
     while (start <= path.size()) {
         size_t dot = path.find('.', start);
         std::string key = dot == std::string::npos ? path.substr(start) : path.substr(start, dot - start);
-        if (!cur->is_object() || !cur->contains(key)) return nullptr;
+        if (!cur->is_object() || !cur->contains(key)) {
+          return nullptr;
+        }
         cur = &((*cur)[key]);
-        if (dot == std::string::npos) break;
+        if (dot == std::string::npos) {
+          break;
+        }
         start = dot + 1;
     }
     return cur;
@@ -323,7 +343,9 @@ static std::vector<std::string> buildChunkWhitelist(
             json sc = json::parse(s);
             if (sc.contains("field_map") && sc["field_map"].is_object()) {
                 for (auto it = sc["field_map"].begin(); it != sc["field_map"].end(); ++it) {
-                    if (it.value().is_string()) fieldMap[it.key()] = it.value().get<std::string>();
+                    if (it.value().is_string()) {
+                      fieldMap[it.key()] = it.value().get<std::string>();
+                    }
                 }
             }
         }
@@ -335,7 +357,9 @@ static std::vector<std::string> buildChunkWhitelist(
 
     auto jsonPathEq = [](const json& j, const std::string& path, const json& expected) -> bool {
         auto cur = jsonPathRef(j, path);
-        if (!cur) return false;
+        if (!cur) {
+          return false;
+        }
         try {
             return cur->dump() == expected.dump();
         } catch (const json::exception&) {
@@ -352,17 +376,29 @@ static std::vector<std::string> buildChunkWhitelist(
         try {
             std::string s(val);
             json j = json::parse(s);
-            if (!j.is_object()) return true;
+            if (!j.is_object()) {
+              return true;
+            }
             // It is a meta object if it has mime_type/size_bytes etc.
             bool looksMeta = j.contains("mime_type") && j.contains("size_bytes");
-            if (!looksMeta) return true;
+            if (!looksMeta) {
+              return true;
+            }
             ContentMeta m = ContentMeta::fromJson(j);
-            if (dateFrom.has_value() && m.created_at < *dateFrom) return true;
-            if (dateTo.has_value() && m.created_at > *dateTo) return true;
+            if (dateFrom.has_value() && m.created_at < *dateFrom) {
+              return true;
+            }
+            if (dateTo.has_value() && m.created_at > *dateTo) {
+              return true;
+            }
             // category filter
-            if (!allowedCats.empty() && allowedCats.count(m.category) == 0) return true;
+            if (!allowedCats.empty() && allowedCats.count(m.category) == 0) {
+              return true;
+            }
             // mime filter
-            if (!allowedMimes.empty() && allowedMimes.count(m.mime_type) == 0) return true;
+            if (!allowedMimes.empty() && allowedMimes.count(m.mime_type) == 0) {
+              return true;
+            }
             // metadata filter: only top-level user_metadata exact matches
             if (!wantedMeta.empty()) {
                 bool allMatch = true;
@@ -384,13 +420,17 @@ static std::vector<std::string> buildChunkWhitelist(
                         if (v.dump() != kv.second.dump()) { allMatch = false; break; }
                     }
                 }
-                if (!allMatch) return true;
+                if (!allMatch) {
+                  return true;
+                }
             }
             // tags filter: any match
             if (!wantedTags.empty()) {
                 bool any = false;
                 for (const auto& t : m.tags) { if (wantedTags.count(t)) { any = true; break; } }
-                if (!any) return true;
+                if (!any) {
+                  return true;
+                }
             }
             // custom filters via schema mapping: for any key present in filters but not reserved
             for (auto it = filters.begin(); it != filters.end(); ++it) {
@@ -411,7 +451,7 @@ static std::vector<std::string> buildChunkWhitelist(
                         for (const auto& c : cond) {
                             if (vptr->dump() == c.dump()) { match = true; break; }
                         }
-                    } else if (cond.is_object() && (cond.contains("min") || cond.contains("max"))) {
+                    } else if ((cond.is_object() && (cond.contains("min") || cond.contains("max")))) {
                         // RANGE semantics (numeric). Convert vptr to number if possible.
                         double numeric_val = 0.0; bool ok = false;
                         if (vptr->is_number()) { numeric_val = vptr->get<double>(); ok = true; }
@@ -429,7 +469,9 @@ static std::vector<std::string> buildChunkWhitelist(
                             double vmin = -std::numeric_limits<double>::infinity();
                             double vmax =  std::numeric_limits<double>::infinity();
                             if (cond.contains("min")) {
-                                if (cond["min"].is_number()) vmin = cond["min"].get<double>();
+                                if (cond["min"].is_number()) {
+                                  vmin = cond["min"].get<double>();
+                                }
                                 else if (cond["min"].is_string()) {
                                     try {
                                         vmin = std::stod(cond["min"].get<std::string>());
@@ -441,7 +483,9 @@ static std::vector<std::string> buildChunkWhitelist(
                                 }
                             }
                             if (cond.contains("max")) {
-                                if (cond["max"].is_number()) vmax = cond["max"].get<double>();
+                                if (cond["max"].is_number()) {
+                                  vmax = cond["max"].get<double>();
+                                }
                                 else if (cond["max"].is_string()) {
                                     try {
                                         vmax = std::stod(cond["max"].get<std::string>());
@@ -477,7 +521,9 @@ static std::vector<std::string> buildChunkWhitelist(
                     json lj = json::parse(ls);
                     if (lj.contains("ids") && lj["ids"].is_array()) {
                         for (const auto& cid : lj["ids"]) {
-                            if (cid.is_string()) whitelist.push_back(std::string("chunks:") + cid.get<std::string>());
+                            if (cid.is_string()) {
+                              whitelist.push_back(std::string("chunks:") + cid.get<std::string>());
+                            }
                         }
                     }
                 } catch (const json::exception&) {
@@ -534,16 +580,36 @@ ContentMeta ContentMeta::fromJson(const json& j) {
             std::string category = value.get<std::string>();
             std::transform(category.begin(), category.end(), category.begin(),
                            [](unsigned char ch) { return static_cast<char>(std::toupper(ch)); });
-            if (category == "TEXT") return ContentCategory::TEXT;
-            if (category == "IMAGE") return ContentCategory::IMAGE;
-            if (category == "AUDIO") return ContentCategory::AUDIO;
-            if (category == "VIDEO") return ContentCategory::VIDEO;
-            if (category == "GEO") return ContentCategory::GEO;
-            if (category == "CAD") return ContentCategory::CAD;
-            if (category == "ARCHIVE") return ContentCategory::ARCHIVE;
-            if (category == "STRUCTURED") return ContentCategory::STRUCTURED;
-            if (category == "BINARY") return ContentCategory::BINARY;
-            if (category == "UNKNOWN") return ContentCategory::UNKNOWN;
+            if (category == "TEXT") {
+              return ContentCategory::TEXT;
+            }
+            if (category == "IMAGE") {
+              return ContentCategory::IMAGE;
+            }
+            if (category == "AUDIO") {
+              return ContentCategory::AUDIO;
+            }
+            if (category == "VIDEO") {
+              return ContentCategory::VIDEO;
+            }
+            if (category == "GEO") {
+              return ContentCategory::GEO;
+            }
+            if (category == "CAD") {
+              return ContentCategory::CAD;
+            }
+            if (category == "ARCHIVE") {
+              return ContentCategory::ARCHIVE;
+            }
+            if (category == "STRUCTURED") {
+              return ContentCategory::STRUCTURED;
+            }
+            if (category == "BINARY") {
+              return ContentCategory::BINARY;
+            }
+            if (category == "UNKNOWN") {
+              return ContentCategory::UNKNOWN;
+            }
         }
         return ContentCategory::UNKNOWN;
     };
@@ -652,9 +718,13 @@ const ProcessorChainConfig& ContentManager::getProcessorChainConfig() const {
 }
 
 void ContentManager::registerProcessor(std::unique_ptr<IContentProcessor> processor) {
-    if (!processor) return;
+    if (!processor) {
+      return;
+    }
     auto cats = processor->getSupportedCategories();
-    if (cats.empty()) return;
+    if (cats.empty()) {
+      return;
+    }
     // Insert for the first supported category (current processors use single category)
     processors_[cats.front()] = std::move(processor);
 }
@@ -662,21 +732,23 @@ void ContentManager::registerProcessor(std::unique_ptr<IContentProcessor> proces
 std::string ContentManager::generateUuid() {
     static thread_local std::mt19937_64 rng{static_cast<uint64_t>(steady_clock::now().time_since_epoch().count()) ^ 0x9e3779b97f4a7c15ULL};
     auto u64 = rng();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(16) << std::setfill('0') << u64
         << std::hex << std::setw(16) << std::setfill('0') << rng();
     return oss.str();
 }
 
 std::string ContentManager::normalizeId(const std::string& id, const std::string& prefix) {
-    if (id.rfind(prefix, 0) == 0) return id.substr(prefix.size());
+    if (id.rfind(prefix, 0) == 0) {
+      return id.substr(prefix.size());
+    }
     return id;
 }
 
 std::string ContentManager::computeSHA256(const std::string& blob) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(blob.data()), blob.size(), digest);
-    std::ostringstream oss;
+    SHA256(reinterpret_cast<const unsigned char*>(blob.data()),static_cast<int>(blob.size()), digest);
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(digest[i]);
@@ -688,7 +760,9 @@ std::optional<std::string> ContentManager::checkDuplicateByHash(const std::strin
     // Simple secondary lookup: store mapping hash -> content_id list (first only)
     std::string key = std::string("content_hash:") + hash;
     auto v = storage_->get(key);
-    if (!v) return std::nullopt;
+    if (!v) {
+      return std::nullopt;
+    }
     try {
         std::string s(v->begin(), v->end());
         json j = json::parse(s);
@@ -703,14 +777,18 @@ std::optional<std::string> ContentManager::checkDuplicateByHash(const std::strin
 
 [[maybe_unused]] static ContentCategory detectCategory(const std::string& mime, const std::string& blob) {
     auto& reg = ContentTypeRegistry::instance();
-    ContentType ct;
+    ContentType ct = {};
     if (!mime.empty()) {
         auto t = reg.getByMimeType(mime);
-        if (t) ct = *t;
+        if (t) {
+          ct = *t;
+        }
     }
     if (ct.mime_type.empty()) {
         auto t = reg.detectFromBlob(blob);
-        if (t) ct = *t;
+        if (t) {
+          ct = *t;
+        }
     }
     return ct.mime_type.empty() ? ContentCategory::UNKNOWN : ct.category;
 }
@@ -731,7 +809,9 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         }
         ContentMeta meta = ContentMeta::fromJson(spec["content"]);
         // ID vergeben falls nicht vorhanden
-        if (meta.id.empty()) meta.id = generateUuid();
+        if (meta.id.empty()) {
+          meta.id = generateUuid();
+        }
         
         // Malware scan before storing blob (Audit Compliance: BSI C5 OPS-12, ISO 27001 A.12.2.1)
         if (blob.has_value() && malware_filter_) {
@@ -779,16 +859,20 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     zstd_level = cj.value("compression_level", 19);
                     if (cj.contains("skip_compressed_mimes") && cj["skip_compressed_mimes"].is_array()) {
                         skip_mimes.clear();
-                        for (const auto& mv : cj["skip_compressed_mimes"]) if (mv.is_string()) skip_mimes.push_back(mv.get<std::string>());
+                        for (const auto& mv : cj["skip_compressed_mimes"]) {
+                          if (mv.is_string()) skip_mimes.push_back(mv.get<std::string>());
+                        }
                     }
                 }
             } catch (const json::exception&) {
             } catch (...) {
             }
 
-            std::string matched_skip_prefix;
+            std::string matched_skip_prefix = {};
             auto should_compress = [&](const std::string& mime, size_t size) -> bool {
-                if (!compress) return false;
+                if (!compress) {
+                  return false;
+                }
                 if (size <= 4096) return false; // Skip small blobs (<4KB)
                 // Skip if MIME starts with any of the skip prefixes
                 for (const auto& p : skip_mimes) {
@@ -806,16 +890,17 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 return true;
             };
 
-            std::vector<uint8_t> to_store;
+            std::vector<uint8_t> to_store = {};
+
             size_t original_size = bb.size();
             [[maybe_unused]] size_t compressed_size = original_size;
             [[maybe_unused]] float compression_ratio = 1.0f;
             
-            if (should_compress(meta.mime_type, bb.size())) {
+            if (should_compress(meta.mime_type,static_cast<int>(bb.size()))) {
 #ifdef THEMIS_HAS_ZSTD
-                auto comp = utils::zstd_compress(reinterpret_cast<const uint8_t*>(bb.data()), bb.size(), zstd_level);
+                auto comp = utils::zstd_compress(reinterpret_cast<const uint8_t*>(bb.data()),static_cast<int>(bb.size()), zstd_level);
                 // Only use compressed version if it actually reduces size (avoid decompression overhead for incompressible data)
-                if (!comp.empty() && comp.size() < bb.size()) {
+                if (!comp.empty() && static_cast<int>(comp.size()) <static_cast<int>(bb.size())) {
                     to_store = std::move(comp);
                     compressed_size = to_store.size();
                     compression_ratio = static_cast<float>(original_size) / static_cast<float>(compressed_size);
@@ -831,7 +916,9 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     metrics_.comp_ratio_sum_milli.fetch_add(ratio_milli);
                     metrics_.comp_ratio_count.fetch_add(1);
                     // place into per-bucket (non-cumulative)
-                    if (compression_ratio <= 1.0f) metrics_.comp_ratio_le_1.fetch_add(1);
+                    if (compression_ratio <= 1.0f) {
+                      metrics_.comp_ratio_le_1.fetch_add(1);
+                    }
                     else if (compression_ratio <= 1.5f) metrics_.comp_ratio_le_1_5.fetch_add(1);
                     else if (compression_ratio <= 2.0f) metrics_.comp_ratio_le_2.fetch_add(1);
                     else if (compression_ratio <= 3.0f) metrics_.comp_ratio_le_3.fetch_add(1);
@@ -846,7 +933,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     meta.compression_type.clear();
                     if (!comp.empty()) {
                         THEMIS_INFO("Content blob {} skipped compression (would increase size: {}B -> {}B)", 
-                                   meta.id, original_size, comp.size());
+                                   meta.id, original_size,static_cast<int>(comp.size()));
                     }
                 }
 #else
@@ -862,7 +949,9 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 // If compression was enabled but skipped due to MIME prefix, record skip metrics
                 if (compress && !matched_skip_prefix.empty()) {
                     metrics_.compression_skipped_total.fetch_add(1);
-                    if (matched_skip_prefix == "image/" || matched_skip_prefix.rfind("image/",0)==0) metrics_.compression_skipped_image_total.fetch_add(1);
+                    if (matched_skip_prefix == "image/" || matched_skip_prefix.rfind("image/",0)==0) {
+                      metrics_.compression_skipped_image_total.fetch_add(1);
+                    }
                     else if (matched_skip_prefix == "video/" || matched_skip_prefix.rfind("video/",0)==0) metrics_.compression_skipped_video_total.fetch_add(1);
                     else if (matched_skip_prefix == "application/zip" || matched_skip_prefix == "application/gzip") metrics_.compression_skipped_zip_total.fetch_add(1);
                 }
@@ -870,7 +959,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
 
             // Optional encryption of blob based on config:content_encryption_schema and user_context
             bool encrypt_blob = false;
-            std::string encryption_key_id;
+            std::string encryption_key_id = {};
             try {
                 if (auto encv = storage_->get("config:content_encryption_schema")) {
                     std::string es(encv->begin(), encv->end());
@@ -892,7 +981,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     auto meta_info = kp->getKeyMetadata(encryption_key_id, 0);
                     // HKDF ableiten (info = "content_blob")
                     std::vector<uint8_t> salt(ctx.begin(), ctx.end());
-                    auto derived_key = themis::utils::HKDFCache::threadLocal().derive_cached(key_bytes, salt, "content_blob", key_bytes.size());
+                    auto derived_key = themis::utils::HKDFCache::threadLocal().derive_cached(key_bytes, salt, "content_blob",static_cast<int>(key_bytes.size()));
                     auto blobEnc = field_encryption_->encryptWithKey(std::string(to_store.begin(), to_store.end()), encryption_key_id, meta_info.version, derived_key);
                     json bjson = blobEnc.toJson();
                     std::string benc = bjson.dump();
@@ -910,7 +999,9 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
             // If compression was not applied but compression enabled, still record uncompressed bytes total
             if (compress) {
                 // Only add uncompressed total if we didn't already add it for compressed path
-                if (!meta.compressed) metrics_.uncompressed_bytes_total.fetch_add(static_cast<uint64_t>(original_size));
+                if (!meta.compressed) {
+                  metrics_.uncompressed_bytes_total.fetch_add(static_cast<uint64_t>(original_size));
+                }
             }
         }
         // Chunks verarbeiten
@@ -936,7 +1027,9 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     fulltext_config.normalize_umlauts = ftcfg.value("normalize_umlauts", false);
                     if (ftcfg.contains("stopwords") && ftcfg["stopwords"].is_array()) {
                         for (const auto& sw : ftcfg["stopwords"]) {
-                            if (sw.is_string()) fulltext_config.stopwords.push_back(sw.get<std::string>());
+                            if (sw.is_string()) {
+                              fulltext_config.stopwords.push_back(sw.get<std::string>());
+                            }
                         }
                     }
                 }
@@ -964,9 +1057,15 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
             int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
             for (const auto& jc : spec["chunks"]) {
                 ChunkMeta c = ChunkMeta::fromJson(jc);
-                if (c.id.empty()) c.id = generateUuid();
-                if (c.content_id.empty()) c.content_id = meta.id;
-                if (c.created_at == 0) c.created_at = now;
+                if (c.id.empty()) {
+                  c.id = generateUuid();
+                }
+                if (c.content_id.empty()) {
+                  c.content_id = meta.id;
+                }
+                if (c.created_at == 0) {
+                  c.created_at = now;
+                }
 
                 // EmbeddingStage: generate embedding for text chunks that do
                 // not yet carry one, when the pipeline is attached and enabled.
@@ -1046,13 +1145,16 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         // Optionale Verschlüsselung von Metadaten-Feldern (vector metadata encryption)
         try {
             bool meta_encrypt_enabled = false;
-            std::vector<std::string> meta_fields;
+            std::vector<std::string> meta_fields = {};
+
             if (auto mev = storage_->get("config:vector_metadata_encryption")) {
                 std::string ms(mev->begin(), mev->end());
                 auto mcfg = json::parse(ms);
                 meta_encrypt_enabled = mcfg.value("enabled", false);
                 if (meta_encrypt_enabled && mcfg.contains("fields") && mcfg["fields"].is_array()) {
-                    for (const auto& f : mcfg["fields"]) if (f.is_string()) meta_fields.push_back(f.get<std::string>());
+                    for (const auto& f : mcfg["fields"]) {
+                      if (f.is_string()) meta_fields.push_back(f.get<std::string>());
+                    }
                 }
             }
             if (meta_encrypt_enabled && field_encryption_) {
@@ -1071,17 +1173,22 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     // the previous raw-new / manual-delete pattern (CWE-401 / RAII).
                     std::unique_ptr<nlohmann::json> tags_json_owner;
                     nlohmann::json* target = nullptr;
-                    std::optional<nlohmann::json> tags_json_holder;
-                    if (f == "extracted_metadata") target = &meta.extracted_metadata;
+                    std::optional<nlohmann::json> tags_json_holder = {};
+
+                    if (f == "extracted_metadata") {
+                      target = &meta.extracted_metadata;
+                    }
                     else if (f == "user_metadata") target = &meta.user_metadata;
                     else if (f == "tags") {
                         // tags als Array -> JSON konvertieren
                         tags_json_holder = nlohmann::json(meta.tags);
                         target = &(*tags_json_holder);
                     }
-                    if (!target) continue;
+                    if (!target) {
+                      continue;
+                    }
                     try {
-                        if (target->is_null() || (target->is_object() && target->empty()) || (target->is_array() && target->empty())) {
+                        if ((target->is_null() || (target->is_object() && target->empty()) || (target->is_array() && target->empty()))) {
                             continue; // nichts zu verschlüsseln
                         }
                         std::string plain = target->dump();
@@ -1089,7 +1196,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         auto dek = kp->getKey("dek");
                         auto meta_info = kp->getKeyMetadata("dek", 0);
                         std::string info = std::string("vector_meta:") + f;
-                        auto derived = themis::utils::HKDFCache::threadLocal().derive_cached(dek, salt, info, dek.size());
+                        auto derived = themis::utils::HKDFCache::threadLocal().derive_cached(dek, salt, info,static_cast<int>(dek.size()));
                         auto blobEnc = field_encryption_->encryptWithKey(plain, std::string("dek"), meta_info.version, derived);
                         std::string enc_b64 = blobEnc.toBase64();
                         // Metadaten ersetzen: <f>_encrypted + <f>_enc Flag, Original entfernen/neutralisieren
@@ -1123,9 +1230,13 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
     // Content-Meta aktualisieren/speichern (verschlüsselte Felder markiert)
         meta.chunk_count = static_cast<int>(chunk_ids.size());
         meta.chunked = meta.chunk_count > 0;
-        if (meta.created_at == 0) meta.created_at = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+        if (meta.created_at == 0) {
+          meta.created_at = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+        }
         meta.modified_at = meta.created_at;
-        if (meta.embedding_dim == 0) meta.embedding_dim = embedding_dim;
+        if (meta.embedding_dim == 0) {
+          meta.embedding_dim = embedding_dim;
+        }
         std::string mkey = std::string("content:") + meta.id;
         std::string mjson = meta.toJson().dump();
         if (!storage_->put(mkey, std::vector<uint8_t>(mjson.begin(), mjson.end()))) {
@@ -1149,12 +1260,16 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         // Optionale Kanten übernehmen
         if (spec.contains("edges") && spec["edges"].is_array() && graph_index_) {
             for (const auto& je : spec["edges"]) {
-                if (!je.is_object()) continue;
+                if (!je.is_object()) {
+                  continue;
+                }
                 BaseEntity::FieldMap fm;
                 for (auto it = je.begin(); it != je.end(); ++it) {
                     const std::string key = it.key();
                     const auto& val = it.value();
-                    if (val.is_string()) fm[key] = val.get<std::string>();
+                    if (val.is_string()) {
+                      fm[key] = val.get<std::string>();
+                    }
                     else if (val.is_number_integer()) fm[key] = static_cast<int64_t>(val.get<int64_t>());
                     else if (val.is_number_float()) fm[key] = val.get<double>();
                     else if (val.is_boolean()) fm[key] = val.get<bool>();
@@ -1174,7 +1289,9 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
     std::string id = normalizeId(content_id, "content:");
     std::string key = std::string("content:") + id;
     auto v = storage_->get(key);
-    if (!v) return std::nullopt;
+    if (!v) {
+      return std::nullopt;
+    }
     try {
         std::string s(v->begin(), v->end());
         json j = json::parse(s);
@@ -1188,7 +1305,9 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
                     auto mcfg = json::parse(cfgs);
                     meta_encrypt_enabled = mcfg.value("enabled", false);
                     if (meta_encrypt_enabled && mcfg.contains("fields") && mcfg["fields"].is_array()) {
-                        for (const auto& f : mcfg["fields"]) if (f.is_string()) meta_fields.push_back(f.get<std::string>());
+                        for (const auto& f : mcfg["fields"]) {
+                          if (f.is_string()) meta_fields.push_back(f.get<std::string>());
+                        }
                     }
                 }
             } catch (const json::exception&) {
@@ -1204,12 +1323,14 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
                 auto dek = kp->getKey("dek");
                 for (const auto& f : meta_fields) {
                     std::string enc_key = f + std::string("_encrypted");
-                    if (!enc_section.contains(enc_key)) continue;
+                    if (!enc_section.contains(enc_key)) {
+                      continue;
+                    }
                     try {
                         std::string b64 = enc_section[enc_key].get<std::string>();
                         auto blob = EncryptedBlob::fromBase64(b64);
                         std::string info = std::string("vector_meta:") + f;
-                        auto derived = themis::utils::HKDFCache::threadLocal().derive_cached(dek, salt, info, dek.size());
+                        auto derived = themis::utils::HKDFCache::threadLocal().derive_cached(dek, salt, info,static_cast<int>(dek.size()));
                         std::string plain = field_encryption_->decryptWithKey(blob, derived);
                         auto pj = json::parse(plain);
                         j[f] = pj; // wiederherstellen
@@ -1231,7 +1352,9 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
     std::string id = normalizeId(content_id, "content:");
     std::string key = std::string("content_blob:") + id;
     auto v = storage_->get(key);
-    if (!v) return std::nullopt;
+    if (!v) {
+      return std::nullopt;
+    }
     // Inspect meta for compression
     auto m = getContentMeta(id);
     if (m && m->encrypted && field_encryption_) {
@@ -1246,7 +1369,7 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
             auto kp = field_encryption_->getKeyProvider();
             auto key_bytes = kp->getKey(blob.key_id, blob.key_version);
             std::vector<uint8_t> salt(ctx.begin(), ctx.end());
-            auto derived_key = themis::utils::HKDFCache::threadLocal().derive_cached(key_bytes, salt, "content_blob", key_bytes.size());
+            auto derived_key = themis::utils::HKDFCache::threadLocal().derive_cached(key_bytes, salt, "content_blob",static_cast<int>(key_bytes.size()));
             std::string plain = field_encryption_->decryptWithKey(blob, derived_key);
             
             // Lazy Re-Encryption: Check if blob uses outdated key version
@@ -1268,7 +1391,7 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
                 try {
                     // Re-encrypt with latest key version
                     auto latest_key = kp->getKey(blob.key_id); // no version arg -> latest
-                    auto latest_derived = themis::utils::HKDFCache::threadLocal().derive_cached(latest_key, salt, "content_blob", latest_key.size());
+                    auto latest_derived = themis::utils::HKDFCache::threadLocal().derive_cached(latest_key, salt, "content_blob",static_cast<int>(latest_key.size()));
                     auto new_blob = field_encryption_->encryptWithKey(plain, blob.key_id, latest_version, latest_derived);
                     json new_bj = new_blob.toJson();
                     std::string new_raw = new_bj.dump();
@@ -1290,7 +1413,9 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
                 // Stored was compressed before encryption; decrypt returns compressed bytes now
                 std::vector<uint8_t> tmp(plain.begin(), plain.end());
                 auto decomp = utils::zstd_decompress(tmp);
-                if (!decomp.empty()) return std::string(decomp.begin(), decomp.end());
+                if (!decomp.empty()) {
+                  return std::string(decomp.begin(), decomp.end());
+                }
 #endif
             }
             return plain;
@@ -1301,7 +1426,9 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
     if (m && m->compressed && m->compression_type == "zstd") {
 #ifdef THEMIS_HAS_ZSTD
         auto decomp = utils::zstd_decompress(*v);
-        if (!decomp.empty()) return std::string(decomp.begin(), decomp.end());
+        if (!decomp.empty()) {
+          return std::string(decomp.begin(), decomp.end());
+        }
         // Fallback on failure: return raw
         return std::string(v->begin(), v->end());
 #else
@@ -1317,12 +1444,16 @@ std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& conte
     std::string id = normalizeId(content_id, "content:");
     std::string lkey = std::string("content_chunks:") + id;
     auto lv = storage_->get(lkey);
-    if (!lv) return out;
+    if (!lv) {
+      return out;
+    }
     std::vector<std::string> ids;
     try {
         std::string s(lv->begin(), lv->end());
         json j = json::parse(s);
-        if (j.contains("ids")) ids = j["ids"].get<std::vector<std::string>>();
+        if (j.contains("ids")) {
+          ids = j["ids"].get<std::vector<std::string>>();
+        }
     } catch (const json::exception&) {
         return out;
     } catch (...) {
@@ -1330,7 +1461,9 @@ std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& conte
     }
     for (const auto& cid : ids) {
         auto v = storage_->get(std::string("chunk:") + cid);
-        if (!v) continue;
+        if (!v) {
+          continue;
+        }
         try {
             std::string s(v->begin(), v->end());
             json j = json::parse(s);
@@ -1348,7 +1481,9 @@ std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& conte
 std::optional<ChunkMeta> ContentManager::getChunk(const std::string& chunk_id) {
     std::string id = normalizeId(chunk_id, "chunk:");
     auto v = storage_->get(std::string("chunk:") + id);
-    if (!v) return std::nullopt;
+    if (!v) {
+      return std::nullopt;
+    }
     try {
         std::string s(v->begin(), v->end());
         json j = json::parse(s);
@@ -1362,7 +1497,7 @@ std::optional<ChunkMeta> ContentManager::getChunk(const std::string& chunk_id) {
 
 // ===================== Content Assembly & Navigation =====================
 
-std::optional<ChunkMeta> ContentAssembly::getChunkBySeqNum(int seq_num) const {
+std::optional<ChunkMeta> ContentAssembly::getChunkBySeqNum([[maybe_unused]] int seq_num) const {
     for (const auto& chunk : chunks) {
         if (chunk.seq_num == seq_num) {
             return chunk;
@@ -1394,7 +1529,7 @@ std::optional<ContentAssembly> ContentManager::assembleContent(const std::string
     
     // Optionally assemble full text
     if (include_text && !chunks.empty()) {
-        std::string full_text;
+        std::string full_text = {};
         full_text.reserve(assembly.total_size_bytes);
         
         for (const auto& chunk : chunks) {
@@ -1479,11 +1614,15 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContent(
     const std::string& query_text, int k, const json& filters
 ) {
     std::vector<std::pair<std::string, float>> res;
-    if (!vector_index_ || vector_index_->getDimension() <= 0) return res;
+    if (!vector_index_ || vector_index_->getDimension() <= 0) {
+      return res;
+    }
 
     // Simple text embedding via TextProcessor if available
     auto it = processors_.find(ContentCategory::TEXT);
-    if (it == processors_.end()) return res;
+    if (it == processors_.end()) {
+      return res;
+    }
     std::vector<float> q = it->second->generateEmbedding(query_text);
     // Optional: Build whitelist from filters to pre-filter vector search
     std::vector<std::string> whitelist = buildChunkWhitelist(*storage_, filters);
@@ -1492,7 +1631,9 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContent(
     }
     const std::vector<std::string>* wptr = whitelist.empty() ? nullptr : &whitelist;
     auto [st, results] = vector_index_->searchKnn(q, static_cast<size_t>(k), wptr);
-    if (!st.ok) return res;
+    if (!st.ok) {
+      return res;
+    }
     for (const auto& r : results) {
         res.emplace_back(r.pk, r.distance);
     }
@@ -1606,7 +1747,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContentHybrid(
     std::sort(result.begin(), result.end(), 
         [](const auto& a, const auto& b) { return a.second > b.second; });
     
-    if (result.size() > static_cast<size_t>(k)) {
+    if (static_cast<int>(result.size()) > static_cast<size_t>(k)) {
         result.resize(k);
     }
     
@@ -1618,7 +1759,9 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
 ) {
     // 1) Basissuche (Vector Top-K)
     auto base = searchContent(query_text, k, filters);
-    if (base.empty()) return base;
+    if (base.empty()) {
+      return base;
+    }
 
     // Scoring-Parameter (optional aus filters.scoring)
     double alpha = 1.0; // Gewicht für Vektor-Ähnlichkeit
@@ -1627,9 +1770,15 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
     try {
         if (filters.contains("scoring")) {
             const auto& sc = filters["scoring"];
-            if (sc.contains("alpha")) alpha = sc["alpha"].get<double>();
-            if (sc.contains("beta")) beta = sc["beta"].get<double>();
-            if (sc.contains("gamma")) gamma = sc["gamma"].get<double>();
+            if (sc.contains("alpha")) {
+              alpha = sc["alpha"].get<double>();
+            }
+            if (sc.contains("beta")) {
+              beta = sc["beta"].get<double>();
+            }
+            if (sc.contains("gamma")) {
+              gamma = sc["gamma"].get<double>();
+            }
         }
     } catch (const nlohmann::json::exception&) {
     } catch (...) {
@@ -1642,8 +1791,10 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
 
     // Metrik beachten: COSINE liefert distance = 1 - cosine → similarity = 1 - d
     auto metric = vector_index_ ? vector_index_->getMetric() : VectorIndexManager::Metric::COSINE;
-    auto toSim = [&](float distance) -> double {
-        if (metric == VectorIndexManager::Metric::COSINE) return 1.0 - static_cast<double>(distance);
+    auto toSim = [&]([[maybe_unused]] float distance) -> double {
+        if (metric == VectorIndexManager::Metric::COSINE) {
+          return 1.0 - static_cast<double>(distance);
+        }
         // L2: invertiert, grob normalisiert
         return -static_cast<double>(distance);
     };
@@ -1652,18 +1803,25 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
         double sim = toSim(dist);
         double score = alpha * sim; // basis ohne Graphanteil
         auto it = bestScore.find(pk);
-        if (it == bestScore.end() || score > it->second) bestScore[pk] = score;
+        if (it == bestScore.end() || score > it->second) {
+          bestScore[pk] = score;
+        }
         if (expansion_hops > 0) q.push(QItem{pk, pk, 0});
     }
 
     // 2) Graph-Expansion (BFS bis expansion_hops)
     if (graph_index_ && expansion_hops > 0) {
-        std::unordered_set<std::string> seen;
+        std::unordered_set<std::string> seen = {};
+
         while (!q.empty()) {
             QItem qi = q.front(); q.pop();
-            if (qi.hop >= expansion_hops) continue;
+            if (qi.hop >= expansion_hops) {
+              continue;
+            }
             auto [st, neigh] = graph_index_->outNeighbors(qi.node);
-            if (!st.ok) continue;
+            if (!st.ok) {
+              continue;
+            }
             int nextHop = qi.hop + 1;
             for (const auto& nb : neigh) {
                 // optional: allow revisits if better path from different origin
@@ -1671,13 +1829,17 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
                 double distCost = 0.0;
                 if (beta != 0.0) {
                     auto pr = graph_index_->dijkstra(qi.origin, nb);
-                    if (pr.first.ok) distCost = pr.second.totalCost; else distCost = static_cast<double>(nextHop);
+                    if (pr.first.ok) {
+                      distCost = pr.second.totalCost; else distCost = static_cast<double>(nextHop);
+                    }
                 } else {
                     distCost = static_cast<double>(nextHop);
                 }
                 double expandedScore = - gamma * static_cast<double>(nextHop) - beta * distCost;
                 auto it2 = bestScore.find(nb);
-                if (it2 == bestScore.end() || expandedScore > it2->second) bestScore[nb] = expandedScore;
+                if (it2 == bestScore.end() || expandedScore > it2->second) {
+                  bestScore[nb] = expandedScore;
+                }
                 q.push(QItem{qi.origin, nb, nextHop});
             }
         }
@@ -1694,13 +1856,15 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
         std::vector<std::string> allow = buildChunkWhitelist(*storage_, filters);
         if (!allow.empty()) {
             std::unordered_set<std::string> allowed(allow.begin(), allow.end());
-            out.erase(std::remove_if(out.begin(), out.end(), [&](const auto& p){ return allowed.find(p.first) == allowed.end(); }), out.end());
+            out.erase(std::remove_if(out.begin(), out.end(), [&]([[maybe_unused]] const auto& p){ return allowed.find(p.first) == allowed.end(); }), out.end());
         }
     } catch (...) {
     }
 
     std::sort(out.begin(), out.end(), [](const auto& a, const auto& b){ return a.second > b.second; });
-    if (out.size() > static_cast<size_t>(k)) out.resize(static_cast<size_t>(k));
+    if (static_cast<int>(out.size()) > static_cast<size_t>(k)) {
+      out.resize(static_cast<size_t>(k));
+    }
     return out;
 }
 
@@ -1730,13 +1894,15 @@ Status ContentManager::deleteContent(const std::string& content_id) {
 
 IContentProcessor* ContentManager::getProcessor(ContentCategory category) {
     auto it = processors_.find(category);
-    if (it == processors_.end()) return nullptr;
+    if (it == processors_.end()) {
+      return nullptr;
+    }
     return it->second.get();
 }
 
 // ===================== Virtual Filesystem =====================
 
-std::optional<std::string> ContentManager::resolvePath(const std::string& virtual_path) {
+std::optional<std::string> ContentManager::resolvePath(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] virtual_path) {
     std::optional<std::string> result;
     
     // Normalize path (remove trailing slash, ensure leading slash)
@@ -1752,10 +1918,10 @@ std::optional<std::string> ContentManager::resolvePath(const std::string& virtua
     storage_->scanPrefix("content:", [&](std::string_view key, std::string_view value) {
         try {
             json j = json::parse(value);
-            if (j.contains("virtual_path") && j["virtual_path"].get<std::string>() == normalized) {
+            if (j.contain[[maybe_unused]] s("virtual_pat[[maybe_unused]] h") && j["virtual_path"].get<std::string>() == normalized) {
                 // Extract content ID from key "content:<uuid>"
                 std::string key_str(key);
-                if (key_str.size() > 8) {
+                if (static_cast<int>(key_str.size()) > 8) {
                     result = key_str.substr(8); // Skip "content:"
                 }
                 return false; // Stop scanning
@@ -1769,7 +1935,7 @@ std::optional<std::string> ContentManager::resolvePath(const std::string& virtua
     return result;
 }
 
-std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtual_path) {
+std::vector<ContentMeta> ContentManager::listDirectory(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] virtual_path) {
     std::vector<ContentMeta> results;
     
     // Normalize directory path
@@ -1801,15 +1967,17 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
     } else {
         // If directory doesn't exist, list items directly under this path
         std::string prefix = dir_path;
-        if (prefix != "/") prefix += "/";
+        if (prefix != "/") {
+          prefix += "/";
+        }
         
         storage_->scanPrefix("content:", [&](std::string_view /*key*/, std::string_view value) {
             try {
                 json j = json::parse(value);
-                if (j.contains("virtual_path")) {
+                if (j.contain[[maybe_unused]] s("virtual_pat[[maybe_unused]] h")) {
                     std::string vpath = j["virtual_path"].get<std::string>();
                     // Check if this is a direct child
-                    if (vpath.size() > prefix.size() && vpath.rfind(prefix, 0) == 0) {
+                    if (static_cast<int>(vpath.size()) > static_cast<int>(prefix.size()) && vpath.rfind(prefix, 0) == 0) {
                         std::string remainder = vpath.substr(prefix.size());
                         // Direct child if no more slashes
                         if (remainder.find('/') == std::string::npos) {
@@ -1827,7 +1995,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
     return results;
 }
 
-Status ContentManager::createDirectory(const std::string& virtual_path, bool recursive) {
+Status ContentManager::createDirectory(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] virtual_path, boo[[maybe_unused]] l recursiv[[maybe_unused]] e) {
     // Normalize path
     std::string normalized = virtual_path;
     if (!normalized.empty() && normalized.back() == '/') {
@@ -1892,7 +2060,7 @@ Status ContentManager::createDirectory(const std::string& virtual_path, bool rec
     return Status::OK();
 }
 
-Status ContentManager::registerPath(const std::string& content_id, const std::string& virtual_path) {
+Status ContentManager::registerPath(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] content_id, cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] virtual_path) {
     // Normalize path
     std::string normalized = virtual_path;
     if (!normalized.empty() && normalized.back() == '/') {
@@ -1973,7 +2141,9 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
             if (ext_pos != std::string::npos) {
                 std::string ext = filename.substr(ext_pos);
                 type = registry.getByExtension(ext);
-                if (type) detected_mime = type->mime_type;
+                if (type) {
+                  detected_mime = type->mime_type;
+                }
             }
         }
     }
@@ -2124,7 +2294,9 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                 
                 // Read extracted file
                 std::ifstream file(path_str, std::ios::binary);
-                if (!file) continue;
+                if (!file) {
+                  continue;
+                }
                 
                 std::string file_blob(
                     (std::istreambuf_iterator<char>(file)),
@@ -2258,13 +2430,14 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         config.value("enable_deduplication", false) && stage_cfg.deduplication.enabled;
     const bool dedup_is_image = (category == ContentCategory::IMAGE);
     const bool dedup_is_text  = (category == ContentCategory::TEXT);
-    std::string cached_phash;
+    std::string cached_phash = {};
     std::vector<uint32_t> cached_minhash;
 
-    if (dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+    if ((dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text))) {
         metrics_.dedup_checks_total.fetch_add(1);
 
-        std::optional<DuplicateOf> dup;
+        std::optional<DuplicateOf> dup = {};
+
         if (dedup_is_image) {
             cached_phash = computeImageDedupHash(blob);
             if (!cached_phash.empty()) {
@@ -2307,7 +2480,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                 std::string extraction_error;
                 int extraction_attempts = 0;
                 bool extraction_ok = executeWithRetry(
-                    [&](std::string& err) -> bool {
+                    [&]([[maybe_unused]] std::string& err) -> bool {
                         chunks_json = json::array();
                         HtmlProcessor retry_html_proc;
                         ContentType retry_ct;
@@ -2386,7 +2559,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                 std::string extraction_error;
                 int extraction_attempts = 0;
                 bool extraction_ok = executeWithRetry(
-                    [&](std::string& err) -> bool {
+                    [&]([[maybe_unused]] std::string& err) -> bool {
                         chunks_json = json::array();
                         MarkdownProcessor retry_md_proc;
                         ContentType retry_ct;
@@ -2500,7 +2673,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
             }
 
             THEMIS_INFO("OCR extraction: {} chars, {} chunks from '{}' ({})",
-                        ocr_text.size(), chunks_json.size(), filename, detected_mime);
+                        ocr_text.size(),static_cast<int>(chunks_json.size()), filename, detected_mime);
         } else {
             THEMIS_INFO("OCR extraction returned no text for '{}' ({})",
                         filename, detected_mime);
@@ -2535,10 +2708,10 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
 
     // Storage stage: importContent with per-stage retry.
     {
-        std::string storage_error;
+        std::string storage_error = {};
         int storage_attempts = 0;
         bool stored = executeWithRetry(
-            [&](std::string& err) -> bool {
+            [&]([[maybe_unused]] std::string& err) -> bool {
                 auto status = importContent(spec, blob, user_context);
                 if (!status.ok) { err = status.message; return false; }
                 return true;
@@ -2568,7 +2741,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
 
     // Register with the deduplication index after successful storage.
     // Reuse cached_phash / cached_minhash computed above (no redundant DCT/hash).
-    if (dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+    if ((dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text))) {
         if (dedup_is_image && !cached_phash.empty()) {
             dedup_checker_->registerImage(content_id, cached_phash);
             meta.extracted_metadata["phash_hex"] = cached_phash;
@@ -2615,7 +2788,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
     const int    text_chunk_chars  = config.value("chunk_size", 512);
 
     // --- Read header for MIME type detection ---
-    std::string header_buf;
+    std::string header_buf = {};
     header_buf.resize(std::min(kHeaderSize, chunk_size_bytes));
     stream.read(header_buf.data(), static_cast<std::streamsize>(header_buf.size()));
     size_t header_read = static_cast<size_t>(stream.gcount());
@@ -2638,7 +2811,9 @@ ContentManager::IngestResult ContentManager::ingestStream(
             if (ext_pos != std::string::npos) {
                 std::string ext = filename.substr(ext_pos);
                 type = registry.getByExtension(ext);
-                if (type) detected_mime = type->mime_type;
+                if (type) {
+                  detected_mime = type->mime_type;
+                }
             }
         }
     }
@@ -2692,8 +2867,10 @@ ContentManager::IngestResult ContentManager::ingestStream(
         while (stream.good()) {
             stream.read(read_buf.data(), static_cast<std::streamsize>(chunk_size_bytes));
             size_t n = static_cast<size_t>(stream.gcount());
-            if (n == 0) break;
-            if (buffer.size() + n > max_buffered_bytes) {
+            if (n == 0) {
+              break;
+            }
+            if (static_cast<int>(buffer.size()) + n > max_buffered_bytes) {
                 result.error_message =
                     "File exceeds max_buffered_bytes (" + std::to_string(max_buffered_bytes) +
                     ") for non-streaming content type '" + detected_mime + "'";
@@ -2746,7 +2923,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
             THEMIS_WARN("ingestStream: EVP_DigestInit_ex failed; SHA-256 dedup disabled for '{}'", filename);
             sha256_ctx.reset();
         } else {
-            EVP_DigestUpdate(sha256_ctx.get(), header_buf.data(), header_buf.size());
+            EVP_DigestUpdate(sha256_ctx.get(), header_buf.data(),static_cast<int>(header_buf.size()));
         }
     } else {
         THEMIS_WARN("ingestStream: EVP_MD_CTX_new failed; SHA-256 dedup disabled for '{}'", filename);
@@ -2772,7 +2949,9 @@ ContentManager::IngestResult ContentManager::ingestStream(
                 fulltext_config.normalize_umlauts  = ftcfg.value("normalize_umlauts", false);
                 if (ftcfg.contains("stopwords") && ftcfg["stopwords"].is_array()) {
                     for (const auto& sw : ftcfg["stopwords"])
-                        if (sw.is_string()) fulltext_config.stopwords.push_back(sw.get<std::string>());
+                        if (sw.is_string()) {
+                          fulltext_config.stopwords.push_back(sw.get<std::string>());
+                        }
                 }
             }
         }
@@ -2786,10 +2965,14 @@ ContentManager::IngestResult ContentManager::ingestStream(
     }
 
     // --- Helper: store one text segment as a chunk ---
-    auto storeTextChunk = [&](const std::string& text) {
-        if (text.empty()) return;
+    auto storeTextChunk = [&]([[maybe_unused]] const std::string& text) {
+        if (text.empty()) {
+          return;
+        }
         updateHash(text);
-        if (!stream_stage_cfg.chunking.enabled) return;
+        if (!stream_stage_cfg.chunking.enabled) {
+          return;
+        }
         ChunkMeta cm;
         cm.id         = generateUuid();
         cm.content_id = content_id;
@@ -2800,7 +2983,9 @@ ContentManager::IngestResult ContentManager::ingestStream(
 
         if (stream_embedding_active && embedding_pipeline_ && embedding_pipeline_->isEnabled()) {
             auto emb = embedding_pipeline_->generateEmbedding(text);
-            if (!emb.empty()) cm.embedding = std::move(emb);
+            if (!emb.empty()) {
+              cm.embedding = std::move(emb);
+            }
         }
 
         std::string ckey = std::string("chunk:") + cm.id;
@@ -2843,15 +3028,15 @@ ContentManager::IngestResult ContentManager::ingestStream(
 
     // --- Helper: split carry buffer into text segments ---
     std::string carry;  // incomplete segment carried over between read iterations
-    auto flushCarry = [&](bool force) {
+    auto flushCarry = [&]([[maybe_unused]] bool force) {
         size_t pos = 0;
-        while (pos < carry.size()) {
-            size_t remaining = carry.size() - pos;
+        while (static_cast<size_t>(pos) <static_cast<int>(carry.size())) {
+            size_t remaining = static_cast<int>(carry.size()) - pos;
             if (!force && remaining < static_cast<size_t>(text_chunk_chars))
                 break;  // wait for more data
             size_t end = pos + std::min(static_cast<size_t>(text_chunk_chars), remaining);
             // Prefer to split on newline boundary when close
-            if (end < carry.size()) {
+            if (static_cast<int>(carry.size()) > end) {
                 size_t nl = carry.find('\n', end > 0 ? end - 1 : 0);
                 if (nl != std::string::npos && nl < pos + static_cast<size_t>(text_chunk_chars) * 2)
                     end = nl + 1;
@@ -2871,7 +3056,9 @@ ContentManager::IngestResult ContentManager::ingestStream(
     while (stream.good()) {
         stream.read(read_buf.data(), static_cast<std::streamsize>(chunk_size_bytes));
         size_t n = static_cast<size_t>(stream.gcount());
-        if (n == 0) break;
+        if (n == 0) {
+          break;
+        }
         total_bytes += static_cast<int64_t>(n);
         if (sha256_ctx) {
             if (EVP_DigestUpdate(sha256_ctx.get(), read_buf.data(), n) != 1) {
@@ -2901,7 +3088,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
         int ok = EVP_DigestFinal_ex(sha256_ctx.get(), digest, &digest_len);
         sha256_ctx.reset();
         if (!ok) return {};
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << std::setfill('0');
         for (unsigned int i = 0; i < digest_len; ++i)
             oss << std::setw(2) << static_cast<unsigned int>(digest[i]);
@@ -2938,7 +3125,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
     }
 
     THEMIS_INFO("Streaming ingestion completed: {} bytes, {} text chunks, file '{}'",
-                total_bytes, chunk_ids.size(), filename);
+                total_bytes,static_cast<int>(chunk_ids.size()), filename);
 
     result.success            = true;
     result.primary_content_id = content_id;
@@ -2964,7 +3151,9 @@ ContentManager::Stats ContentManager::getStats() {
     storage_->scanPrefix("content:", [&](std::string_view, std::string_view){ s.total_content_items++; return true; });
     storage_->scanPrefix("chunk:", [&](std::string_view, std::string_view){ s.total_chunks++; return true; });
     // embeddings equal vector_index count if initialized
-    if (vector_index_) s.total_embeddings = static_cast<int>(vector_index_->getVectorCount());
+    if (vector_index_) {
+      s.total_embeddings = static_cast<int>(vector_index_->getVectorCount());
+    }
     return s;
 }
 

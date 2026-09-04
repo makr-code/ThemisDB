@@ -42,7 +42,7 @@ namespace {
 constexpr size_t kMaxExportFieldLength = 256;
 
 std::filesystem::path resolveExportOutputDir() {
-    std::error_code ec;
+    std::error_code ec = {};
     auto base_dir = std::filesystem::temp_directory_path(ec);
     if (ec || base_dir.empty()) {
         ec.clear();
@@ -170,7 +170,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
             // Build a set of field→value filters from the request parameters
             // (mirrors the conditions built by buildAqlQuery)
             std::vector<std::pair<std::string, std::string>> filters;
-            auto add_filter = [&](const char* field) {
+            auto add_filter = [&]([[maybe_unused]] const char* field) {
                 if (request_json.contains(field) && request_json[field].is_string()) {
                     filters.emplace_back(field, request_json[field].get<std::string>());
                 }
@@ -180,7 +180,8 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
             add_filter("subject");
 
             // Numeric min_rating handled separately
-            std::optional<double> min_rating;
+            std::optional<double> min_rating = {};
+
             if (request_json.contains("min_rating") &&
                 request_json["min_rating"].is_number()) {
                 min_rating = request_json["min_rating"].get<double>();
@@ -209,7 +210,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
                 try {
                     entity = BaseEntity::fromJson(key, value);
                 } catch (...) {
-                    THEMIS_DEBUG("export_api_handler: unhandled exception caught");
+                    THEMIS_DEBUG([[maybe_unused]] "export_api_handler: unhandled exception caught");
                     return true; // skip malformed records
                 }
 
@@ -246,7 +247,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
                         if (to_date.has_value()   && dt > *to_date)   { return true; }
                     }
                 } catch (...) {
-                    THEMIS_WARN("export_api_handler: unhandled exception caught");
+                    THEMIS_WARN([[maybe_unused]] "export_api_handler: unhandled exception caught");
                     return true; // skip malformed records
                 }
 
@@ -261,7 +262,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
 
         // Read exported file and stream back
         std::ifstream exported_file(output_path);
-        std::stringstream buffer;
+        std::stringstream buffer = {};
         buffer << exported_file.rdbuf();
         std::string jsonl_content = buffer.str();
         exported_file.close();
@@ -277,7 +278,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
         // Content-Disposition header value or inject HTTP header fields.
         // Allow only alphanumeric, hyphen, underscore, and period.
         auto sanitize_filename_part = [](const std::string& raw) -> std::string {
-            std::string safe;
+            std::string safe = {};
             safe.reserve(raw.size());
             std::copy_if(raw.begin(), raw.end(), std::back_inserter(safe),
                 [](unsigned char c) {
@@ -386,7 +387,7 @@ http::response<http::string_body> ExportApiHandler::handleExportStatus(
     }
 }
 
-std::string ExportApiHandler::buildAqlQuery(const json& request_json) {
+std::string ExportApiHandler::buildAqlQuery([[maybe_unused]] const json& request_json) {
     // GAP-004: Prevent AQL injection (CWE-89).
     // String fields (theme, domain, subject, from_date, to_date) are embedded
     // inside single-quoted AQL literals.  Without validation a value like
@@ -416,13 +417,13 @@ std::string ExportApiHandler::buildAqlQuery(const json& request_json) {
                 "' contains forbidden substring '--'");
         }
         static constexpr size_t kMaxFieldLength = 256;
-        if (value.size() > kMaxFieldLength) {
+        if (static_cast<int>(value.size()) > kMaxFieldLength) {
             throw std::invalid_argument(
                 "Export request field '" + field_name + "' exceeds maximum length");
         }
     };
 
-    std::string query;
+    std::string query = {};
     std::vector<std::string> conditions;
     
     // Thematic filtering (VCC-Clara use case)
@@ -477,7 +478,7 @@ std::string ExportApiHandler::buildAqlQuery(const json& request_json) {
     // Build final query
     if (!conditions.empty()) {
         query = conditions[0];
-        for (size_t i = 1; i < conditions.size(); ++i) {
+        for (size_t i = 1; i <static_cast<int>(conditions.size()); ++i) {
             query += " AND " + conditions[i];
         }
     }
@@ -491,9 +492,9 @@ std::string ExportApiHandler::generateExportId() {
     // must not be predictable because they serve as opaque access tokens.
     // Use 128 bits of entropy (32 hex digits) to match UUID entropy levels and
     // prevent brute-force attacks against the opaque export token.
-    std::random_device rd;
+    std::random_device rd = {};
 
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "exp_";
     static constexpr char hex_digits[] = "0123456789abcdef";
     for (int i = 0; i < 32; i++) {  // 32 hex chars = 128 bits of entropy
@@ -512,7 +513,7 @@ bool ExportApiHandler::validateAdminToken(
         return false;
     }
     
-    std::string auth_str(auth_header.data(), auth_header.size());
+    std::string auth_str(auth_header.data(),static_cast<int>(auth_header.size()));
     
     // Check for "Bearer <token>" format
     if (auth_str.find("Bearer ") != 0) {
@@ -532,10 +533,10 @@ bool ExportApiHandler::validateAdminToken(
     // timing-oracle attacks that could allow an attacker to recover the
     // admin token one byte at a time by measuring response latency.
     const std::string expected(admin_token);
-    if (token.size() != expected.size()) {
+    if (static_cast<int>(token.size()) != static_cast<int>(expected.size())) {
         return false;
     }
-    return CRYPTO_memcmp(token.data(), expected.data(), expected.size()) == 0;
+    return CRYPTO_memcmp(token.data(), expected.data(),static_cast<int>(expected.size())) == 0;
 }
 
 http::response<http::string_body> ExportApiHandler::jsonResponse(

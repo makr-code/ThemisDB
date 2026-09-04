@@ -41,7 +41,7 @@ enum class QuorumType {
  * @brief Result of a quorum operation
  */
 struct QuorumResult {
-    bool success;                                 ///< True when required quorum was reached.
+    bool success = 0;                                 ///< True when required quorum was reached.
     size_t acks_received;                        ///< Number of successful acknowledgments.
     size_t acks_required;                        ///< Required acknowledgments for success.
     std::vector<std::string> successful_nodes;   ///< Nodes that completed the operation successfully.

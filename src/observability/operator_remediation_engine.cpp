@@ -44,7 +44,7 @@ std::string generateHintId() {
     static thread_local std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, 15);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (int i = 0; i < 8; ++i) {
         ss << std::hex << dis(gen);
     }
@@ -71,7 +71,7 @@ std::string generateHintId() {
 
 // Check if a metric value is valid (not NaN, not infinite, within reasonable bounds)
 // Returns true if valid, false if malformed
-inline bool isValidMetricValue(double value) {
+inline bool isValidMetricValue([[maybe_unused]] double value) {
     return std::isfinite(value) && value >= 0.0;
 }
 
@@ -363,10 +363,10 @@ private:
     /// Clean up expired weak_ptr references to released listeners.
     /// This prevents the listeners_ vector from growing unboundedly.
     void cleanupExpiredListeners() {
-        std::unique_lock<std::shared_mutex> lock(listeners_mutex_);
+        std::unique_lock<std::shared_mutex> lock([[maybe_unused]] listeners_mutex_);
         listeners_.erase(
             std::remove_if(listeners_.begin(), listeners_.end(),
-                          [](const std::weak_ptr<IRemediationHintListener>& weak) {
+                          []([[maybe_unused]] const std::weak_ptr<IRemediationHintListener>& weak) {
                               return weak.expired();
                           }),
             listeners_.end()
@@ -374,8 +374,8 @@ private:
     }
 
 public:
-    bool addListener(const std::shared_ptr<IRemediationHintListener>& listener) override {
-        if (!listener) {
+    bool addListener([[maybe_unused]] const std::shared_ptr<IRemediationHintListener>& listener) override {
+        if ([[maybe_unused]] !listener) {
             return false;
         }
 
@@ -385,22 +385,22 @@ public:
             cleanupExpiredListeners();
         }
 
-        std::unique_lock<std::shared_mutex> lock(listeners_mutex_);
-        listeners_.push_back(listener);
+        std::unique_lock<std::shared_mutex> lock([[maybe_unused]] listeners_mutex_);
+        listeners_.push_back([[maybe_unused]] listener);
         return true;
     }
 
-    bool removeListener(const std::shared_ptr<IRemediationHintListener>& listener) override {
-        if (!listener) {
+    bool removeListener([[maybe_unused]] const std::shared_ptr<IRemediationHintListener>& listener) override {
+        if ([[maybe_unused]] !listener) {
             return false;
         }
 
-        std::unique_lock<std::shared_mutex> lock(listeners_mutex_);
+        std::unique_lock<std::shared_mutex> lock([[maybe_unused]] listeners_mutex_);
         
         // Use custom comparison: lock weak_ptr and compare with incoming listener
         auto it = std::find_if(
             listeners_.begin(), listeners_.end(),
-            [&listener](const std::weak_ptr<IRemediationHintListener>& weak) {
+            [&listener]([[maybe_unused]] const std::weak_ptr<IRemediationHintListener>& weak) {
                 auto shared = weak.lock();
                 if (!shared) {
                     return false;  // Listener already expired
@@ -409,15 +409,15 @@ public:
             }
         );
         
-        if (it != listeners_.end()) {
-            listeners_.erase(it);
+        if ([[maybe_unused]] it != listeners_.end()) {
+            listeners_.erase([[maybe_unused]] it);
             return true;
         }
         
         return false;
     }
 
-    bool registerPattern(std::unique_ptr<RemediationPattern> pattern) override {
+    bool registerPattern(st[[maybe_unused]] d::unique_pt[[maybe_unused]] r<RemediationPatter[[maybe_unused]] n> patter[[maybe_unused]] n) override {
         if (!pattern) {
             return false;
         }
@@ -433,7 +433,7 @@ public:
         return true;
     }
 
-    bool unregisterPattern(const std::string& pattern_name) override {
+    bool unregisterPattern(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] pattern_name) override {
         std::unique_lock<std::shared_mutex> lock(patterns_mutex_);
         auto it = patterns_.find(pattern_name);
         if (it != patterns_.end()) {
@@ -488,17 +488,17 @@ public:
                         active_hints_.push_back(hint);
 
                         // Limit active hints
-                        while (active_hints_.size() > kMaxActiveRemediationHints) {
+                        while (static_cast<int>(active_hints_.size()) > kMaxActiveRemediationHints) {
                             active_hints_.erase(active_hints_.begin());
                         }
                     }
 
                     // Notify listeners
-                    std::shared_lock<std::shared_mutex> listeners_lock(listeners_mutex_);
-                    for (const auto& listener : listeners_) {
+                    std::shared_lock<std::shared_mutex> listeners_lock([[maybe_unused]] listeners_mutex_);
+                    for ([[maybe_unused]] const auto& listener : listeners_) {
                         auto listener_shared = listener.lock();
-                        if (listener_shared) {
-                            listener_shared->onNewHint(hint);
+                        if ([[maybe_unused]] listener_shared) {
+                            listener_shared->onNewHint([[maybe_unused]] hint);
                         }
                     }
                 }
@@ -513,7 +513,7 @@ public:
         return active_hints_;
     }
 
-    std::shared_ptr<RemediationHint> getHintById(const std::string& hint_id) override {
+    std::shared_ptr<RemediationHint> getHintById(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] hint_id) override {
         std::shared_lock<std::shared_mutex> lock(hints_mutex_);
         for (const auto& hint : active_hints_) {
             if (hint->hintId() == hint_id) {
@@ -523,10 +523,10 @@ public:
         return nullptr;
     }
 
-    bool resolveHint(const std::string& hint_id) override {
+    bool resolveHint(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] hint_id) override {
         std::unique_lock<std::shared_mutex> lock(hints_mutex_);
         auto it = std::find_if(active_hints_.begin(), active_hints_.end(),
-                              [&](const std::shared_ptr<RemediationHint>& h) {
+                              [&]([[maybe_unused]] const std::shared_ptr<RemediationHint>& h) {
                                   return h->hintId() == hint_id;
                               });
 
@@ -534,11 +534,11 @@ public:
             active_hints_.erase(it);
 
             // Notify listeners
-            std::shared_lock<std::shared_mutex> listeners_lock(listeners_mutex_);
-            for (const auto& listener : listeners_) {
+            std::shared_lock<std::shared_mutex> listeners_lock([[maybe_unused]] listeners_mutex_);
+            for ([[maybe_unused]] const auto& listener : listeners_) {
                 auto listener_shared = listener.lock();
-                if (listener_shared) {
-                    listener_shared->onHintResolved(hint_id);
+                if ([[maybe_unused]] listener_shared) {
+                    listener_shared->onHintResolved([[maybe_unused]] hint_id);
                 }
             }
 
@@ -578,7 +578,7 @@ public:
         return result;
     }
 
-    void setHintGenerationEnabled(bool enabled) override {
+    void setHintGenerationEnabled(boo[[maybe_unused]] l enable[[maybe_unused]] d) override {
         std::unique_lock<std::shared_mutex> lock(config_mutex_);
         hint_generation_enabled_ = enabled;
     }
@@ -588,7 +588,7 @@ public:
         return hint_generation_enabled_;
     }
 
-    void setDeduplicationWindow(std::chrono::seconds window) override {
+    void setDeduplicationWindow(st[[maybe_unused]] d::chron[[maybe_unused]] o::second[[maybe_unused]] s windo[[maybe_unused]] w) override {
         std::unique_lock<std::shared_mutex> lock(config_mutex_);
         deduplication_window_ = window;
     }

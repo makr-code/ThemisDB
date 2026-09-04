@@ -38,7 +38,8 @@ FacetedSearch::computeFacet(const std::string& table,
 
     const bool has_filter = !candidate_pks.empty();
 
-    std::vector<std::string> all_pks;
+    std::vector<std::string> all_pks = {};
+
     if (!has_filter) {
         // No filter — enumerate all PKs from the range index.
         constexpr size_t kScanLimit = 10'000;
@@ -64,10 +65,12 @@ FacetedSearch::computeFacet(const std::string& table,
 
         // Fetch the entity by its primary key to read the column value
         auto [es, entities] = index_->scanEntitiesEqual(table, "id", pk);
-        if (!es.ok || entities.empty()) continue;
+        if (!es.ok || entities.empty()) {
+          continue;
+        }
 
         const auto& entity = entities[0];
-        std::string field_value;
+        std::string field_value = {};
         auto str_opt = entity.getFieldAsString(column);
         if (str_opt.has_value()) {
             field_value = str_opt.value();
@@ -82,11 +85,13 @@ FacetedSearch::computeFacet(const std::string& table,
 
         result.value_counts[field_value]++;
         result.total_docs++;
-        if (max_values > 0 && result.value_counts.size() >= max_values) break;
+        if (max_values > 0 && static_cast<int>(result.value_counts.size()) >= max_values) {
+          break;
+        }
     }
 
     THEMIS_DEBUG("FacetedSearch::computeFacet({}.{}): {} distinct values, {} docs",
-                 table, column, result.value_counts.size(), result.total_docs);
+                 table, column,static_cast<int>(result.value_counts.size()), result.total_docs);
     return {SecondaryIndexManager::Status::OK(), result};
 }
 
@@ -94,7 +99,8 @@ std::pair<SecondaryIndexManager::Status, std::vector<FacetResult>>
 FacetedSearch::computeFacets(const std::string& table,
                                const std::vector<std::string>& columns,
                                const std::vector<std::string>& candidate_pks) const {
-    std::vector<FacetResult> facets;
+    std::vector<FacetResult> facets = {};
+
     for (const auto& col : columns) {
         auto [st, facet] = computeFacet(table, col, candidate_pks);
         if (!st.ok) return {st, {}};
@@ -118,7 +124,9 @@ FacetedSearch::computeRangeFacet(const std::string& table,
 
     FacetResult result;
     result.field = column;
-    for (const auto& b : buckets) result.value_counts[b.label] = 0;
+    for (const auto& b : buckets) {
+      result.value_counts[b.label] = 0;
+    }
 
     const std::unordered_set<std::string> pk_filter(candidate_pks.begin(), candidate_pks.end());
     const bool has_filter = !candidate_pks.empty();
@@ -129,10 +137,14 @@ FacetedSearch::computeRangeFacet(const std::string& table,
 
         auto [st, pks] = index_->scanKeysRange(
             table, column, low_str, high_str, true, false, 10'000);
-        if (!st.ok) continue;
+        if (!st.ok) {
+          continue;
+        }
 
         for (const auto& pk : pks) {
-            if (has_filter && !pk_filter.count(pk)) continue;
+            if (has_filter && !pk_filter.count(pk)) {
+              continue;
+            }
             result.value_counts[bucket.label]++;
             result.total_docs++;
         }
@@ -161,12 +173,17 @@ FacetedSearch::applyFacetFilters(const std::string& table,
             continue;
         }
         const std::unordered_set<std::string> matching_set(matching_pks.begin(), matching_pks.end());
-        std::unordered_set<std::string> intersected;
+        std::unordered_set<std::string> intersected = {};
+
         for (const auto& pk : remaining) {
-            if (matching_set.count(pk)) intersected.insert(pk);
+            if (matching_set.count(pk)) {
+              intersected.insert(pk);
+            }
         }
         remaining = std::move(intersected);
-        if (remaining.empty()) break;
+        if (remaining.empty()) {
+          break;
+        }
     }
 
     return {SecondaryIndexManager::Status::OK(),
@@ -184,7 +201,8 @@ FacetedSearch::discoverFacetableColumns(const std::string& table) const {
     }
 
     auto all_stats = index_->getAllIndexStats(table);
-    std::vector<std::string> columns;
+    std::vector<std::string> columns = {};
+
     columns.reserve(all_stats.size());
     for (const auto& stats : all_stats) {
         // Only regular, range, and sparse indexes produce meaningful categorical
@@ -195,7 +213,7 @@ FacetedSearch::discoverFacetableColumns(const std::string& table) const {
     }
 
     THEMIS_DEBUG("FacetedSearch::discoverFacetableColumns({}): {} facetable columns",
-                 table, columns.size());
+                 table,static_cast<int>(columns.size()));
     return {SecondaryIndexManager::Status::OK(), std::move(columns)};
 }
 
@@ -206,7 +224,8 @@ FacetedSearch::computeDynamicFacets(const std::string& table,
     auto [st, columns] = discoverFacetableColumns(table);
     if (!st.ok) return {st, {}};
 
-    std::vector<FacetResult> facets;
+    std::vector<FacetResult> facets = {};
+
     facets.reserve(columns.size());
     for (const auto& col : columns) {
         auto [fst, facet] = computeFacet(table, col, candidate_pks, max_values);
@@ -215,7 +234,7 @@ FacetedSearch::computeDynamicFacets(const std::string& table,
     }
 
     THEMIS_DEBUG("FacetedSearch::computeDynamicFacets({}): {} facets computed",
-                 table, facets.size());
+                 table,static_cast<int>(facets.size()));
     return {SecondaryIndexManager::Status::OK(), std::move(facets)};
 }
 

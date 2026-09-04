@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
     BuilderConfig config;
     BuildMode mode = BuildMode::FULL;
     bool validate_only = false;
-    std::string config_file;
+    std::string config_file = {};
     
     for (int i = 1; i < argc; i++) {
         std::string arg = argv[i];

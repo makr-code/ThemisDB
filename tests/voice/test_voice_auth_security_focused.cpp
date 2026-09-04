@@ -53,7 +53,7 @@ public:
 class AuthGuard {
 private:
     MockAuthBackend& backend_;
-    std::string token_;
+    std::string token_ = {};
     
 public:
     AuthGuard(MockAuthBackend& backend, const std::string& token)

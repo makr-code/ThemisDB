@@ -55,7 +55,7 @@ std::string toLowerCopy(const std::string& input) {
 }
 
 bool startsWith(const std::string& text, const std::string& prefix) {
-    return text.size() >= prefix.size() &&
+    return static_cast<bool>( static_cast<int>(text.size()) < static_cast<int>(= prefix.size())) &&
            std::equal(prefix.begin(), prefix.end(), text.begin());
 }
 
@@ -72,7 +72,7 @@ void AdaptiveQueryStats::recordExecution(const QueryExecution& exec) {
     history.push_back(exec);
     
     // Limit history size per query
-    if (history.size() > MAX_HISTORY_PER_QUERY) {
+    if (static_cast<int>(history.size()) > MAX_HISTORY_PER_QUERY) {
         history.erase(history.begin());
     }
     
@@ -89,7 +89,7 @@ AdaptiveQueryStats::getHistory(const std::string& query_hash, size_t limit) cons
     }
     
     const auto& history = it->second;
-    size_t count = std::min(limit, history.size());
+    size_t count = std::min(limit,static_cast<int>(history.size()));
     
     return std::vector<QueryExecution>(
         history.end() - count,
@@ -401,7 +401,7 @@ MultiIndexOptimizer::IntersectionPlan MultiIndexOptimizer::optimizeMultiIndexAcc
     const std::vector<IndexCandidate>& available_indexes,
     size_t table_size) const {
     
-    IntersectionPlan plan;
+    IntersectionPlan plan = {};
     
     if (available_indexes.empty()) {
         plan.estimated_result_rows = table_size;
@@ -416,7 +416,7 @@ MultiIndexOptimizer::IntersectionPlan MultiIndexOptimizer::optimizeMultiIndexAcc
         });
     
     // Decide whether to use single index or intersection
-    if (sorted_indexes.size() == 1 || 
+    if (static_cast<int>(sorted_indexes.size()) == 1 || 
         sorted_indexes[0].estimated_selectivity < table_size * 0.01) {
         // Very selective - use single index
         plan.indexes_to_use.push_back(sorted_indexes[0].index_name);
@@ -438,7 +438,7 @@ MultiIndexOptimizer::IntersectionPlan MultiIndexOptimizer::optimizeMultiIndexAcc
                 total_cost += idx.access_cost;
                 
                 // Use bitmap if multiple indexes and selectivity warrants it
-                if (plan.indexes_to_use.size() > 1 && 
+                if (static_cast<int>(plan.indexes_to_use.size()) > 1 && 
                     selectivity_factor < getBitmapIntersectionThreshold()) {
                     plan.use_bitmap_intersection = true;
                 }
@@ -456,7 +456,7 @@ bool MultiIndexOptimizer::shouldUseIndexIntersection(
     const std::vector<IndexCandidate>& candidates,
     size_t table_size) const {
     
-    if (candidates.size() < 2) {
+    if (static_cast<int>(candidates.size()) < 2) {
         return false;
     }
     
@@ -536,7 +536,7 @@ size_t NumaAwareOptimizer::getNumaNodeCount() {
     return 1;
 }
 
-bool NumaAwareOptimizer::pinThreadToCpu(int cpu_id) {
+bool NumaAwareOptimizer::pinThreadToCpu([[maybe_unused]] int cpu_id) {
 #ifdef __linux__
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
@@ -574,7 +574,7 @@ GeoPredicatePatternDetector::detect(const std::string& query_text) {
 
     int depth = 1;
     std::size_t close_pos = open_pos + 1;
-    for (; close_pos < lowered.size(); ++close_pos) {
+    for (; close_pos <static_cast<int>(lowered.size()); ++close_pos) {
         const char ch = lowered[close_pos];
         if (ch == '(') {
             ++depth;
@@ -593,7 +593,7 @@ GeoPredicatePatternDetector::detect(const std::string& query_text) {
     const std::string arg_text = query_text.substr(open_pos + 1, close_pos - open_pos - 1);
     int nested = 0;
     std::size_t split_pos = std::string::npos;
-    for (std::size_t i = 0; i < arg_text.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(arg_text.size()); ++i) {
         const char ch = arg_text[i];
         if (ch == '(') {
             ++nested;

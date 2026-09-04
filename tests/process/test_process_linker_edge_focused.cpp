@@ -197,7 +197,8 @@ TEST_F(LinkerEdgeTest, L04_PartialLinkStateRecovery) {
     std::vector<std::string> known_processes = {"proc_1", "proc_2", "proc_3"};
 
     // Find orphaned links
-    std::vector<ProcessLink> orphaned;
+    std::vector<ProcessLink> orphaned = {};
+
     for (const auto& link : all_links) {
         bool src_exists = std::find(known_processes.begin(), known_processes.end(), 
                                     link.source_id) != known_processes.end();
@@ -340,7 +341,8 @@ TEST_F(LinkerEdgeTest, L08_MultipleTypedLinksBetweenEntities) {
     EXPECT_EQ(count_ab, 3);
 
     // Verify all are different types
-    std::set<ProcessLinkType> types;
+    std::set<ProcessLinkType> types = {};
+
     for (const auto& link : links) {
         if (link.source_id == "A" && link.target_id == "B") {
             types.insert(link.link_type);
